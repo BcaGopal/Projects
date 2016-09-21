@@ -1,0 +1,283 @@
+﻿using System.Collections.Generic;
+using System.Linq;
+using Data;
+using Data.Infrastructure;
+using Model.Models;
+
+using Core.Common;
+using System;
+using Model;
+using System.Threading.Tasks;
+using Data.Models;
+using Model.ViewModel;
+using System.Data.Entity.SqlServer;
+
+namespace Service
+{
+    public interface IJobInvoiceReturnHeaderService : IDisposable
+    {
+        JobInvoiceReturnHeader Create(JobInvoiceReturnHeader pt);
+        void Delete(int id);
+        void Delete(JobInvoiceReturnHeader pt);
+        JobInvoiceReturnHeader Find(string Name);
+        JobInvoiceReturnHeader Find(int id);
+        void Update(JobInvoiceReturnHeader pt);
+        JobInvoiceReturnHeaderViewModel GetJobInvoiceReturnHeader(int id);//HeadeRId
+        IQueryable<JobInvoiceReturnHeaderViewModel> GetJobInvoiceReturnHeaderList(int id, string Uname);
+        IQueryable<JobInvoiceReturnHeaderViewModel> GetJobInvoiceReturnPendingToSubmit(int id, string Uname);
+        IQueryable<JobInvoiceReturnHeaderViewModel> GetJobInvoiceReturnPendingToReview(int id, string Uname);
+        Task<IEquatable<JobInvoiceReturnHeader>> GetAsync();
+        Task<JobInvoiceReturnHeader> FindAsync(int id);
+        int NextId(int id);
+        int PrevId(int id);
+    }
+
+    public class JobInvoiceReturnHeaderService : IJobInvoiceReturnHeaderService
+    {
+        private ApplicationDbContext db;
+        public JobInvoiceReturnHeaderService(ApplicationDbContext db)
+        {
+            this.db = db;          
+        }
+
+        public JobInvoiceReturnHeader Find(string Name)
+        {
+            return db.JobInvoiceReturnHeader.Where(i => i.DocNo == Name).FirstOrDefault();
+        }
+
+
+        public JobInvoiceReturnHeader Find(int id)
+        {
+            return db.JobInvoiceReturnHeader.Find(id);
+        }
+
+        public JobInvoiceReturnHeader Create(JobInvoiceReturnHeader pt)
+        {
+            pt.ObjectState = ObjectState.Added;
+            db.JobInvoiceReturnHeader.Add(pt);
+            return pt;
+        }
+
+        public void Delete(int id)
+        {
+            var temp = db.JobInvoiceReturnHeader.Find(id);
+            temp.ObjectState = Model.ObjectState.Deleted;
+            db.JobInvoiceReturnHeader.Remove(temp);
+        }
+
+        public void Delete(JobInvoiceReturnHeader pt)
+        {
+            db.JobInvoiceReturnHeader.Remove(pt);
+        }
+
+        public void Update(JobInvoiceReturnHeader pt)
+        {
+            pt.ObjectState = ObjectState.Modified;
+            db.JobInvoiceReturnHeader.Add(pt);
+        }
+        public JobInvoiceReturnHeaderViewModel GetJobInvoiceReturnHeader(int id)
+        {
+            return (from p in db.JobInvoiceReturnHeader
+                    join t in db.JobReturnHeader on p.JobReturnHeaderId equals t.JobReturnHeaderId
+                    where p.JobInvoiceReturnHeaderId == id
+                    select new JobInvoiceReturnHeaderViewModel
+                    {
+                        JobInvoiceReturnHeaderId = p.JobInvoiceReturnHeaderId,
+                        DivisionId = p.DivisionId,
+                        DocNo = p.DocNo,
+                        DocDate = p.DocDate,
+                        DocTypeId = p.DocTypeId,
+                        Remark = p.Remark,
+                        SiteId = p.SiteId,
+                        JobReturnHeaderId = t.JobReturnHeaderId,
+                        Status = p.Status,
+                        ProcessId=p.ProcessId,
+                        JobWorkerId = p.JobWorkerId,
+                        OrderById=t.OrderById,                        
+                        ReasonId = p.ReasonId,
+                        ModifiedBy = p.ModifiedBy,
+                        GatePassHeaderId = t.GatePassHeaderId,
+                        GatePassDocNo = t.GatePassHeader.DocNo,
+                        GatePassStatus = (t.GatePassHeader == null ? 0 : t.GatePassHeader.Status),
+                        GatePassDocDate = t.GatePassHeader.DocDate,
+                        CreatedDate = p.CreatedDate,
+                        LockReason = p.LockReason,
+                    }
+
+                        ).FirstOrDefault();
+        }
+        public IQueryable<JobInvoiceReturnHeaderViewModel> GetJobInvoiceReturnHeaderList(int id, string Uname)
+        {
+
+            var DivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
+            var SiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
+            List<string> UserRoles = (List<string>)System.Web.HttpContext.Current.Session["Roles"];
+
+            var pt = (from p in db.JobInvoiceReturnHeader
+                      join t3 in db._Users on p.ModifiedBy equals t3.UserName into table3
+                      from tab3 in table3.DefaultIfEmpty()
+                      join t in db.DocumentType on p.DocTypeId equals t.DocumentTypeId into table
+                      from tab in table.DefaultIfEmpty()
+                      join t1 in db.Persons on p.JobWorkerId equals t1.PersonID into table2
+                      from tab2 in table2.DefaultIfEmpty()
+                      orderby p.DocDate descending, p.DocNo descending
+                      where p.SiteId == SiteId && p.DivisionId == DivisionId && p.DocTypeId == id
+                      select new JobInvoiceReturnHeaderViewModel
+                      {
+                          DocDate = p.DocDate,
+                          DocNo = p.DocNo,
+                          DocTypeName = tab.DocumentTypeName,
+                          JobInvoiceReturnHeaderId = p.JobInvoiceReturnHeaderId,
+                          Remark = p.Remark,
+                          Status = p.Status,
+                          JobWorkerName = tab2.Name,
+                          ModifiedBy = p.ModifiedBy,
+                          FirstName = tab3.FirstName,
+                          ReviewCount = p.ReviewCount,
+                          ReviewBy = p.ReviewBy,
+                          Reviewed = (SqlFunctions.CharIndex(Uname, p.ReviewBy) > 0),
+                          GatePassDocNo = p.JobReturnHeader.GatePassHeader.DocNo,
+                          GatePassHeaderId = p.JobReturnHeader.GatePassHeaderId,
+                          GatePassDocDate = p.JobReturnHeader.GatePassHeader.DocDate,
+                          GatePassStatus = (p.JobReturnHeader.GatePassHeaderId != null ? p.JobReturnHeader.GatePassHeader.Status : 0),
+                      }
+                         );
+            return pt;
+        }        
+
+        public int NextId(int id)
+        {
+            int temp = 0;
+            if (id != 0)
+            {
+                temp = (from p in db.JobInvoiceReturnHeader
+                        orderby p.DocDate descending, p.DocNo descending
+                        select p.JobInvoiceReturnHeaderId).AsEnumerable().SkipWhile(p => p != id).Skip(1).FirstOrDefault();
+            }
+            else
+            {
+                temp = (from p in db.JobInvoiceReturnHeader
+                        orderby p.DocDate descending, p.DocNo descending
+                        select p.JobInvoiceReturnHeaderId).FirstOrDefault();
+            }
+            if (temp != 0)
+                return temp;
+            else
+                return id;
+        }
+
+        public int PrevId(int id)
+        {
+
+            int temp = 0;
+            if (id != 0)
+            {
+
+                temp = (from p in db.JobInvoiceReturnHeader
+                        orderby p.DocDate descending, p.DocNo descending
+                        select p.JobInvoiceReturnHeaderId).AsEnumerable().TakeWhile(p => p != id).LastOrDefault();
+            }
+            else
+            {
+                temp = (from p in db.JobInvoiceReturnHeader
+                        orderby p.DocDate descending, p.DocNo descending
+                        select p.JobInvoiceReturnHeaderId).AsEnumerable().LastOrDefault();
+            }
+            if (temp != 0)
+                return temp;
+            else
+                return id;
+        }
+
+        public IQueryable<JobInvoiceReturnHeaderViewModel> GetJobInvoiceReturnPendingToSubmit(int id, string Uname)
+        {
+
+            List<string> UserRoles = (List<string>)System.Web.HttpContext.Current.Session["Roles"];
+            var JobInvoiceReturnHeader = GetJobInvoiceReturnHeaderList(id, Uname).AsQueryable();
+
+            var PendingToSubmit = from p in JobInvoiceReturnHeader
+                                  where p.Status == (int)StatusConstants.Drafted || p.Status == (int)StatusConstants.Modified && (p.ModifiedBy == Uname || UserRoles.Contains("Admin"))
+                                  select p;
+            return PendingToSubmit;
+
+        }
+
+        public IQueryable<JobInvoiceReturnHeaderViewModel> GetJobInvoiceReturnPendingToReview(int id, string Uname)
+        {
+
+            List<string> UserRoles = (List<string>)System.Web.HttpContext.Current.Session["Roles"];
+            var JobInvoiceReturnHeader = GetJobInvoiceReturnHeaderList(id, Uname).AsQueryable();
+
+            var PendingToReview = from p in JobInvoiceReturnHeader
+                                  where p.Status == (int)StatusConstants.Submitted && (SqlFunctions.CharIndex(Uname, (p.ReviewBy ?? "")) == 0)
+                                  select p;
+            return PendingToReview;
+
+        }
+
+        public IEnumerable<JobInvoiceListViewModel> GetPendingInvoices(int JobInvoiceReturnHeaderId, string term, int Limit)
+        {
+
+            var JobInvoiceReturnHeader = Find(JobInvoiceReturnHeaderId);
+
+            var settings = db.JobInvoiceSettings
+            .Where(m=>m.DocTypeId==JobInvoiceReturnHeader.DocTypeId && m.DivisionId==JobInvoiceReturnHeader.DivisionId && m.SiteId==JobInvoiceReturnHeader.SiteId).FirstOrDefault();
+
+            string[] contraDocTypes = null;
+            if (!string.IsNullOrEmpty(settings.filterContraDocTypes)) { contraDocTypes = settings.filterContraDocTypes.Split(",".ToCharArray()); }
+            else { contraDocTypes = new string[] { "NA" }; }
+
+            string[] contraSites = null;
+            if (!string.IsNullOrEmpty(settings.filterContraSites)) { contraSites = settings.filterContraSites.Split(",".ToCharArray()); }
+            else { contraSites = new string[] { "NA" }; }
+
+            string[] contraDivisions = null;
+            if (!string.IsNullOrEmpty(settings.filterContraDivisions)) { contraDivisions = settings.filterContraDivisions.Split(",".ToCharArray()); }
+            else { contraDivisions = new string[] { "NA" }; }
+
+            int CurrentSiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
+            int CurrentDivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
+
+
+            return (from p in db.ViewJobInvoiceBalance
+                    join t in db.JobInvoiceHeader on p.JobInvoiceHeaderId equals t.JobInvoiceHeaderId into table
+                    from tab in table.DefaultIfEmpty()
+                    join t1 in db.JobReceiveLine on p.JobReceiveLineId equals t1.JobReceiveLineId into table1
+                    from tab1 in table1.DefaultIfEmpty()
+                    join prod in db.Product on p.ProductId equals prod.ProductId
+                    join jo in db.JobOrderLine on tab1.JobOrderLineId equals jo.JobOrderLineId
+                    where tab.JobWorkerId == JobInvoiceReturnHeader.JobWorkerId && p.BalanceQty > 0
+                    && (string.IsNullOrEmpty(term) ? 1 == 1 : tab.DocNo.Contains(term))
+                     && (string.IsNullOrEmpty(settings.filterContraSites) ? p.SiteId == CurrentSiteId : contraSites.Contains(p.SiteId.ToString()))
+                    && (string.IsNullOrEmpty(settings.filterContraDivisions) ? p.DivisionId == CurrentDivisionId : contraDivisions.Contains(p.DivisionId.ToString()))
+                    select new JobInvoiceListViewModel
+                    {
+                        ProductId=p.ProductId,
+                        ProductName=prod.ProductName,
+                        JobInvoiceLineId = p.JobInvoiceLineId,
+                        JobInvoiceHeaderId = p.JobInvoiceHeaderId,
+                        DocNo = tab.DocNo,
+                        ReceiveDocNo = p.JobReceiveNo,
+                        Dimension1Name = jo.Dimension1.Dimension1Name,
+                        Dimension2Name = jo.Dimension2.Dimension2Name,
+                        BalanceQty = p.BalanceQty,
+                    }
+                        ).Take(Limit);
+        }
+
+        public void Dispose()
+        {
+        }
+
+
+        public Task<IEquatable<JobInvoiceReturnHeader>> GetAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<JobInvoiceReturnHeader> FindAsync(int id)
+        {
+            throw new NotImplementedException();
+        }
+    }
+}

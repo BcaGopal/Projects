@@ -1,0 +1,156 @@
+﻿
+@model Model.ViewModel.MaterialPlanCancelLineViewModel
+@using Core.Common
+
+<div class="modal-content">
+    <div class="modal-header" style="border-bottom: 1px solid #8E8888">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"> <span class="glyphicon glyphicon-remove"></span></button>
+        <h3>
+            <span style="font-family: Calibri,sans-serif,Verdana;font-weight:bold" class="black"><span class="glyphicon glyphicon-file black"></span> Products</span>
+        </h3>
+    </div>
+    <div>
+        @using (Html.BeginForm("_CreatePost", "MaterialPlanCancelLine", FormMethod.Post, new { enctype = "multipart/form-data", id = "modform" }))
+        {
+            @Html.AntiForgeryToken()
+
+            @Html.HiddenFor(model => model.MaterialPlanCancelHeaderId)
+            @Html.HiddenFor(m => m.MaterialPlanCancelLineId)
+
+            <div class="form-horizontal modal-body">
+
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.ProductId, "Product", new { @class = "control-label col-xs-4" })
+                            <div class="col-xs-7">
+                                @Html.TextBoxFor(model => model.ProductId, new { @class = "form-control required", @readonly = true })
+                                @Html.ValidationMessageFor(model => model.ProductId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.MaterialPlanDocNo, "Plan No", new { @class = "control-label col-xs-4" })
+                            <div class="col-xs-7">
+                                @Html.TextBoxFor(model => model.MaterialPlanDocNo, new { @class = "form-control required", @readonly = true })
+                                @Html.ValidationMessageFor(model => model.MaterialPlanDocNo, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6" style="display:@(Model.MaterialPlanSettings.isVisibleDimension1 ? "" : "none")">
+                        @Html.HiddenFor(m => m.MaterialPlanSettings.isVisibleDimension1)
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Dimension1Name, "Dimension1", new { @class = "control-label col-xs-4" })
+                            <div class="col-xs-7">
+                                @Html.TextBoxFor(model => model.Dimension1Name, new { @class = "form-control col-xs-7 required", @readonly = true })
+                                @Html.ValidationMessageFor(model => model.Dimension1Name, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6" style="display:@(Model.MaterialPlanSettings.isVisibleDimension2 ? "" : "none")">
+                        @Html.HiddenFor(m => m.MaterialPlanSettings.isVisibleDimension2)
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Dimension2Name, "Dimension2", new { @class = "control-label col-xs-4" })
+                            <div class="col-xs-7">
+                                @Html.TextBoxFor(model => model.Dimension2Name, new { @class = "form-control col-xs-7 required", @readonly = true })
+                                @Html.ValidationMessageFor(model => model.Dimension2Name, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Specification, "Specification", new { @class = "control-label col-xs-4" })
+                            <div class="col-xs-7">
+                                @Html.TextBoxFor(model => model.Specification, new { @class = "form-control required", @readonly = true })
+                                @Html.ValidationMessageFor(model => model.Specification, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Qty, "Cancel Qty", new { @class = "control-label col-xs-4" })
+                            <div class="col-xs-4">
+                                @Html.TextBoxFor(model => model.Qty, new { @class = "form-control col-xs-7 required" })
+                                @Html.ValidationMessageFor(model => model.Qty, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-xs-3" style="padding-left:0px">
+                                @Html.TextBoxFor(m => m.UnitId, new { @class = "form-control col-xs-2", @readonly = "true" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.ProcessId, "Process", new { @class = "control-label col-xs-4" })
+                            <div class="col-xs-7">
+                                @Html.TextAreaFor(m => m.ProcessId, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.ProcessId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Remark, "Remark", new { @class = "control-label col-xs-4" })
+                            <div class="col-xs-7">
+                                @Html.TextAreaFor(m => m.Remark, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.Remark, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer " style="padding: 19px 20px 0 20px; border-top:1px solid #8E8888">
+                    @if (ViewBag.LineMode == "Edit" || ViewBag.LineMode == "Create")
+                    {
+                        <button class="btn custom left" name="Command:Edit" type="submit" id="submit"><h2 style="margin:0px"><span class="glyphicon glyphicon-floppy-disk black"></span> </h2></button>}
+                    @if (ViewBag.LineMode == "Delete")
+                    {
+                        <button class="btn custom" name="Command:Delete" id="delete" type="submit"><h2 style="margin:0px"><span class="glyphicon glyphicon-trash black"></span> </h2></button>}
+
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+
+<script type="text/javascript">
+
+
+    $(document).ready(function () {
+        var id=@Model.MaterialPlanCancelLineId;
+
+        CustomSelectFunction($("#ProductId"), '/ComboHelpList/GetProducts', '/ComboHelpList/SetSingleProducts', 'Enter Product Name', false, 3);
+        CustomSelectFunction($("#Dimension1Id"), '/ComboHelpList/GetProducts', '/ComboHelpList/SetSingleProducts', 'Enter Product Name', false, 3);
+        CustomSelectFunction($("#Dimension2Id"), '/ComboHelpList/GetProducts', '/ComboHelpList/SetSingleProducts', 'Enter Product Name', false, 3);
+        CustomSelectFunction($("#ProcessId"), '/ComboHelpList/GetProcess', '/ComboHelpList/SetSingleProcess', 'Enter Process Name', false, 3);
+
+        $("#ProductId").select2("focus");
+
+        var id=@Model.MaterialPlanCancelLineId;
+        $('#delete','.modal-content').click(function (e) {
+            if(id>0)
+            {
+                var url = '/MaterialPlanCancelLine/DeletePost';
+                $('form#modform').attr('action',url);
+                return;
+            }
+            else
+            {
+                return false;
+            }
+        })
+    });
+
+</script>

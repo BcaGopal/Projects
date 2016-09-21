@@ -1,0 +1,704 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Microsoft.AI.ServerTelemetryChannel.2.1.0.0.Fakes</name>
+    </assembly>
+    <members>
+        <member name="T:Microsoft.ApplicationInsights.Extensibility.Fakes.ShimTelemetryProcessorChainBuilderExtensions">
+            <summary>Shim type of Microsoft.ApplicationInsights.Extensibility.TelemetryProcessorChainBuilderExtensions</summary>
+        </member>
+        <member name="M:Microsoft.ApplicationInsights.Extensibility.Fakes.ShimTelemetryProcessorChainBuilderExtensions.#ctor">
+            <summary>Initializes a new shim instance</summary>
+        </member>
+        <member name="M:Microsoft.ApplicationInsights.Extensibility.Fakes.ShimTelemetryProcessorChainBuilderExtensions.BehaveAsCurrent">
+            <summary>Assigns the &apos;Current&apos; behavior for all methods of the shimmed type</summary>
+        </member>
+        <member name="M:Microsoft.ApplicationInsights.Extensibility.Fakes.ShimTelemetryProcessorChainBuilderExtensions.BehaveAsNotImplemented">
+            <summary>Assigns the &apos;NotImplemented&apos; behavior for all methods of the shimmed type</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.Extensibility.Fakes.ShimTelemetryProcessorChainBuilderExtensions.Behavior">
+            <summary>Assigns the behavior for all methods of the shimmed type</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.Extensibility.Fakes.ShimTelemetryProcessorChainBuilderExtensions.UseAdaptiveSamplingTelemetryProcessorChainBuilder">
+            <summary>Sets the shim of TelemetryProcessorChainBuilderExtensions.UseAdaptiveSampling(TelemetryProcessorChainBuilder builder)</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.Extensibility.Fakes.ShimTelemetryProcessorChainBuilderExtensions.UseAdaptiveSamplingTelemetryProcessorChainBuilderDouble">
+            <summary>Sets the shim of TelemetryProcessorChainBuilderExtensions.UseAdaptiveSampling(TelemetryProcessorChainBuilder builder, Double maxTelemetryItemsPerSecond)</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.Extensibility.Fakes.ShimTelemetryProcessorChainBuilderExtensions.UseAdaptiveSamplingTelemetryProcessorChainBuilderSamplingPercentageEstimatorSettingsAdaptiveSamplingPercentageEvaluatedCallback">
+            <summary>Sets the shim of TelemetryProcessorChainBuilderExtensions.UseAdaptiveSampling(TelemetryProcessorChainBuilder builder, SamplingPercentageEstimatorSettings settings, AdaptiveSamplingPercentageEvaluatedCallback callback)</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.Extensibility.Fakes.ShimTelemetryProcessorChainBuilderExtensions.UseSamplingTelemetryProcessorChainBuilderDouble">
+            <summary>Sets the shim of TelemetryProcessorChainBuilderExtensions.UseSampling(TelemetryProcessorChainBuilder builder, Double samplingPercentage)</summary>
+        </member>
+        <member name="T:Microsoft.ApplicationInsights.WindowsServer.Channel.Implementation.Fakes.ShimSamplingPercentageEstimatorSettings">
+            <summary>Shim type of Microsoft.ApplicationInsights.WindowsServer.Channel.Implementation.SamplingPercentageEstimatorSettings</summary>
+        </member>
+        <member name="M:Microsoft.ApplicationInsights.WindowsServer.Channel.Implementation.Fakes.ShimSamplingPercentageEstimatorSettings.#ctor">
+            <summary>Initializes a new shim instance</summary>
+        </member>
+        <member name="M:Microsoft.ApplicationInsights.WindowsServer.Channel.Implementation.Fakes.ShimSamplingPercentageEstimatorSettings.#ctor(Microsoft.ApplicationInsights.WindowsServer.Channel.Implementation.SamplingPercentageEstimatorSettings)">
+            <summary>Initializes a new shim for the given instance</summary>
+        </member>
+        <member name="M:Microsoft.ApplicationInsights.WindowsServer.Channel.Implementation.Fakes.ShimSamplingPercentageEstimatorSettings.BehaveAsCurrent">
+            <summary>Assigns the &apos;Current&apos; behavior for all methods of the shimmed type</summary>
+        </member>
+        <member name="M:Microsoft.ApplicationInsights.WindowsServer.Channel.Implementation.Fakes.ShimSamplingPercentageEstimatorSettings.BehaveAsNotImplemented">
+            <summary>Assigns the &apos;NotImplemented&apos; behavior for all methods of the shimmed type</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.Channel.Implementation.Fakes.ShimSamplingPercentageEstimatorSettings.AdjustSamplingPercentageDouble">
+            <summary>Sets the shim of SamplingPercentageEstimatorSettings.AdjustSamplingPercentage(Double samplingPercentage)</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.Channel.Implementation.Fakes.ShimSamplingPercentageEstimatorSettings.Behavior">
+            <summary>Assigns the behavior for all methods of the shimmed type</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.Channel.Implementation.Fakes.ShimSamplingPercentageEstimatorSettings.Constructor">
+            <summary>Sets the shim of SamplingPercentageEstimatorSettings.SamplingPercentageEstimatorSettings()</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.Channel.Implementation.Fakes.ShimSamplingPercentageEstimatorSettings.EffectiveEvaluationIntervalGet">
+            <summary>Sets the shim of SamplingPercentageEstimatorSettings.get_EffectiveEvaluationInterval()</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.Channel.Implementation.Fakes.ShimSamplingPercentageEstimatorSettings.EffectiveInitialSamplingRateGet">
+            <summary>Sets the shim of SamplingPercentageEstimatorSettings.get_EffectiveInitialSamplingRate()</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.Channel.Implementation.Fakes.ShimSamplingPercentageEstimatorSettings.EffectiveMaxSamplingRateGet">
+            <summary>Sets the shim of SamplingPercentageEstimatorSettings.get_EffectiveMaxSamplingRate()</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.Channel.Implementation.Fakes.ShimSamplingPercentageEstimatorSettings.EffectiveMaxTelemetryItemsPerSecondGet">
+            <summary>Sets the shim of SamplingPercentageEstimatorSettings.get_EffectiveMaxTelemetryItemsPerSecond()</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.Channel.Implementation.Fakes.ShimSamplingPercentageEstimatorSettings.EffectiveMinSamplingRateGet">
+            <summary>Sets the shim of SamplingPercentageEstimatorSettings.get_EffectiveMinSamplingRate()</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.Channel.Implementation.Fakes.ShimSamplingPercentageEstimatorSettings.EffectiveMovingAverageRatioGet">
+            <summary>Sets the shim of SamplingPercentageEstimatorSettings.get_EffectiveMovingAverageRatio()</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.Channel.Implementation.Fakes.ShimSamplingPercentageEstimatorSettings.EffectiveSamplingPercentageDecreaseTimeoutGet">
+            <summary>Sets the shim of SamplingPercentageEstimatorSettings.get_EffectiveSamplingPercentageDecreaseTimeout()</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.Channel.Implementation.Fakes.ShimSamplingPercentageEstimatorSettings.EffectiveSamplingPercentageIncreaseTimeoutGet">
+            <summary>Sets the shim of SamplingPercentageEstimatorSettings.get_EffectiveSamplingPercentageIncreaseTimeout()</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.Channel.Implementation.Fakes.ShimSamplingPercentageEstimatorSettings.EvaluationIntervalGet">
+            <summary>Sets the shim of SamplingPercentageEstimatorSettings.get_EvaluationInterval()</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.Channel.Implementation.Fakes.ShimSamplingPercentageEstimatorSettings.EvaluationIntervalSetTimeSpan">
+            <summary>Sets the shim of SamplingPercentageEstimatorSettings.set_EvaluationInterval(TimeSpan value)</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.Channel.Implementation.Fakes.ShimSamplingPercentageEstimatorSettings.InitialSamplingPercentageGet">
+            <summary>Sets the shim of SamplingPercentageEstimatorSettings.get_InitialSamplingPercentage()</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.Channel.Implementation.Fakes.ShimSamplingPercentageEstimatorSettings.InitialSamplingPercentageSetDouble">
+            <summary>Sets the shim of SamplingPercentageEstimatorSettings.set_InitialSamplingPercentage(Double value)</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.Channel.Implementation.Fakes.ShimSamplingPercentageEstimatorSettings.MaxSamplingPercentageGet">
+            <summary>Sets the shim of SamplingPercentageEstimatorSettings.get_MaxSamplingPercentage()</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.Channel.Implementation.Fakes.ShimSamplingPercentageEstimatorSettings.MaxSamplingPercentageSetDouble">
+            <summary>Sets the shim of SamplingPercentageEstimatorSettings.set_MaxSamplingPercentage(Double value)</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.Channel.Implementation.Fakes.ShimSamplingPercentageEstimatorSettings.MaxTelemetryItemsPerSecondGet">
+            <summary>Sets the shim of SamplingPercentageEstimatorSettings.get_MaxTelemetryItemsPerSecond()</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.Channel.Implementation.Fakes.ShimSamplingPercentageEstimatorSettings.MaxTelemetryItemsPerSecondSetDouble">
+            <summary>Sets the shim of SamplingPercentageEstimatorSettings.set_MaxTelemetryItemsPerSecond(Double value)</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.Channel.Implementation.Fakes.ShimSamplingPercentageEstimatorSettings.MinSamplingPercentageGet">
+            <summary>Sets the shim of SamplingPercentageEstimatorSettings.get_MinSamplingPercentage()</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.Channel.Implementation.Fakes.ShimSamplingPercentageEstimatorSettings.MinSamplingPercentageSetDouble">
+            <summary>Sets the shim of SamplingPercentageEstimatorSettings.set_MinSamplingPercentage(Double value)</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.Channel.Implementation.Fakes.ShimSamplingPercentageEstimatorSettings.MovingAverageRatioGet">
+            <summary>Sets the shim of SamplingPercentageEstimatorSettings.get_MovingAverageRatio()</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.Channel.Implementation.Fakes.ShimSamplingPercentageEstimatorSettings.MovingAverageRatioSetDouble">
+            <summary>Sets the shim of SamplingPercentageEstimatorSettings.set_MovingAverageRatio(Double value)</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.Channel.Implementation.Fakes.ShimSamplingPercentageEstimatorSettings.SamplingPercentageDecreaseTimeoutGet">
+            <summary>Sets the shim of SamplingPercentageEstimatorSettings.get_SamplingPercentageDecreaseTimeout()</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.Channel.Implementation.Fakes.ShimSamplingPercentageEstimatorSettings.SamplingPercentageDecreaseTimeoutSetTimeSpan">
+            <summary>Sets the shim of SamplingPercentageEstimatorSettings.set_SamplingPercentageDecreaseTimeout(TimeSpan value)</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.Channel.Implementation.Fakes.ShimSamplingPercentageEstimatorSettings.SamplingPercentageIncreaseTimeoutGet">
+            <summary>Sets the shim of SamplingPercentageEstimatorSettings.get_SamplingPercentageIncreaseTimeout()</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.Channel.Implementation.Fakes.ShimSamplingPercentageEstimatorSettings.SamplingPercentageIncreaseTimeoutSetTimeSpan">
+            <summary>Sets the shim of SamplingPercentageEstimatorSettings.set_SamplingPercentageIncreaseTimeout(TimeSpan value)</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.Channel.Implementation.Fakes.ShimSamplingPercentageEstimatorSettings.StaticConstructor">
+            <summary>Sets the shim of SamplingPercentageEstimatorSettings.SamplingPercentageEstimatorSettings()</summary>
+        </member>
+        <member name="T:Microsoft.ApplicationInsights.WindowsServer.Channel.Implementation.Fakes.ShimSamplingPercentageEstimatorSettings.AllInstances">
+            <summary>Define shims for all instances members</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.Channel.Implementation.Fakes.ShimSamplingPercentageEstimatorSettings.AllInstances.EffectiveEvaluationIntervalGet">
+            <summary>Sets the shim of SamplingPercentageEstimatorSettings.get_EffectiveEvaluationInterval()</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.Channel.Implementation.Fakes.ShimSamplingPercentageEstimatorSettings.AllInstances.EffectiveInitialSamplingRateGet">
+            <summary>Sets the shim of SamplingPercentageEstimatorSettings.get_EffectiveInitialSamplingRate()</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.Channel.Implementation.Fakes.ShimSamplingPercentageEstimatorSettings.AllInstances.EffectiveMaxSamplingRateGet">
+            <summary>Sets the shim of SamplingPercentageEstimatorSettings.get_EffectiveMaxSamplingRate()</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.Channel.Implementation.Fakes.ShimSamplingPercentageEstimatorSettings.AllInstances.EffectiveMaxTelemetryItemsPerSecondGet">
+            <summary>Sets the shim of SamplingPercentageEstimatorSettings.get_EffectiveMaxTelemetryItemsPerSecond()</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.Channel.Implementation.Fakes.ShimSamplingPercentageEstimatorSettings.AllInstances.EffectiveMinSamplingRateGet">
+            <summary>Sets the shim of SamplingPercentageEstimatorSettings.get_EffectiveMinSamplingRate()</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.Channel.Implementation.Fakes.ShimSamplingPercentageEstimatorSettings.AllInstances.EffectiveMovingAverageRatioGet">
+            <summary>Sets the shim of SamplingPercentageEstimatorSettings.get_EffectiveMovingAverageRatio()</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.Channel.Implementation.Fakes.ShimSamplingPercentageEstimatorSettings.AllInstances.EffectiveSamplingPercentageDecreaseTimeoutGet">
+            <summary>Sets the shim of SamplingPercentageEstimatorSettings.get_EffectiveSamplingPercentageDecreaseTimeout()</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.Channel.Implementation.Fakes.ShimSamplingPercentageEstimatorSettings.AllInstances.EffectiveSamplingPercentageIncreaseTimeoutGet">
+            <summary>Sets the shim of SamplingPercentageEstimatorSettings.get_EffectiveSamplingPercentageIncreaseTimeout()</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.Channel.Implementation.Fakes.ShimSamplingPercentageEstimatorSettings.AllInstances.EvaluationIntervalGet">
+            <summary>Sets the shim of SamplingPercentageEstimatorSettings.get_EvaluationInterval()</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.Channel.Implementation.Fakes.ShimSamplingPercentageEstimatorSettings.AllInstances.EvaluationIntervalSetTimeSpan">
+            <summary>Sets the shim of SamplingPercentageEstimatorSettings.set_EvaluationInterval(TimeSpan value)</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.Channel.Implementation.Fakes.ShimSamplingPercentageEstimatorSettings.AllInstances.InitialSamplingPercentageGet">
+            <summary>Sets the shim of SamplingPercentageEstimatorSettings.get_InitialSamplingPercentage()</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.Channel.Implementation.Fakes.ShimSamplingPercentageEstimatorSettings.AllInstances.InitialSamplingPercentageSetDouble">
+            <summary>Sets the shim of SamplingPercentageEstimatorSettings.set_InitialSamplingPercentage(Double value)</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.Channel.Implementation.Fakes.ShimSamplingPercentageEstimatorSettings.AllInstances.MaxSamplingPercentageGet">
+            <summary>Sets the shim of SamplingPercentageEstimatorSettings.get_MaxSamplingPercentage()</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.Channel.Implementation.Fakes.ShimSamplingPercentageEstimatorSettings.AllInstances.MaxSamplingPercentageSetDouble">
+            <summary>Sets the shim of SamplingPercentageEstimatorSettings.set_MaxSamplingPercentage(Double value)</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.Channel.Implementation.Fakes.ShimSamplingPercentageEstimatorSettings.AllInstances.MaxTelemetryItemsPerSecondGet">
+            <summary>Sets the shim of SamplingPercentageEstimatorSettings.get_MaxTelemetryItemsPerSecond()</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.Channel.Implementation.Fakes.ShimSamplingPercentageEstimatorSettings.AllInstances.MaxTelemetryItemsPerSecondSetDouble">
+            <summary>Sets the shim of SamplingPercentageEstimatorSettings.set_MaxTelemetryItemsPerSecond(Double value)</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.Channel.Implementation.Fakes.ShimSamplingPercentageEstimatorSettings.AllInstances.MinSamplingPercentageGet">
+            <summary>Sets the shim of SamplingPercentageEstimatorSettings.get_MinSamplingPercentage()</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.Channel.Implementation.Fakes.ShimSamplingPercentageEstimatorSettings.AllInstances.MinSamplingPercentageSetDouble">
+            <summary>Sets the shim of SamplingPercentageEstimatorSettings.set_MinSamplingPercentage(Double value)</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.Channel.Implementation.Fakes.ShimSamplingPercentageEstimatorSettings.AllInstances.MovingAverageRatioGet">
+            <summary>Sets the shim of SamplingPercentageEstimatorSettings.get_MovingAverageRatio()</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.Channel.Implementation.Fakes.ShimSamplingPercentageEstimatorSettings.AllInstances.MovingAverageRatioSetDouble">
+            <summary>Sets the shim of SamplingPercentageEstimatorSettings.set_MovingAverageRatio(Double value)</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.Channel.Implementation.Fakes.ShimSamplingPercentageEstimatorSettings.AllInstances.SamplingPercentageDecreaseTimeoutGet">
+            <summary>Sets the shim of SamplingPercentageEstimatorSettings.get_SamplingPercentageDecreaseTimeout()</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.Channel.Implementation.Fakes.ShimSamplingPercentageEstimatorSettings.AllInstances.SamplingPercentageDecreaseTimeoutSetTimeSpan">
+            <summary>Sets the shim of SamplingPercentageEstimatorSettings.set_SamplingPercentageDecreaseTimeout(TimeSpan value)</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.Channel.Implementation.Fakes.ShimSamplingPercentageEstimatorSettings.AllInstances.SamplingPercentageIncreaseTimeoutGet">
+            <summary>Sets the shim of SamplingPercentageEstimatorSettings.get_SamplingPercentageIncreaseTimeout()</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.Channel.Implementation.Fakes.ShimSamplingPercentageEstimatorSettings.AllInstances.SamplingPercentageIncreaseTimeoutSetTimeSpan">
+            <summary>Sets the shim of SamplingPercentageEstimatorSettings.set_SamplingPercentageIncreaseTimeout(TimeSpan value)</summary>
+        </member>
+        <member name="T:Microsoft.ApplicationInsights.WindowsServer.Channel.Implementation.Fakes.StubSamplingPercentageEstimatorSettings">
+            <summary>Stub type of Microsoft.ApplicationInsights.WindowsServer.Channel.Implementation.SamplingPercentageEstimatorSettings</summary>
+        </member>
+        <member name="M:Microsoft.ApplicationInsights.WindowsServer.Channel.Implementation.Fakes.StubSamplingPercentageEstimatorSettings.#ctor">
+            <summary>Initializes a new instance</summary>
+        </member>
+        <member name="M:Microsoft.ApplicationInsights.WindowsServer.Channel.Implementation.Fakes.StubSamplingPercentageEstimatorSettings.InitializeStub">
+            <summary>Initializes a new instance of type StubSamplingPercentageEstimatorSettings</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.Channel.Implementation.Fakes.StubSamplingPercentageEstimatorSettings.CallBase">
+            <summary>Gets or sets a value that indicates if the base method should be called instead of the fallback behavior</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.Channel.Implementation.Fakes.StubSamplingPercentageEstimatorSettings.InstanceBehavior">
+            <summary>Gets or sets the instance behavior.</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.Channel.Implementation.Fakes.StubSamplingPercentageEstimatorSettings.InstanceObserver">
+            <summary>Gets or sets the instance observer.</summary>
+        </member>
+        <member name="T:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Fakes.ShimAdaptiveSamplingTelemetryProcessor">
+            <summary>Shim type of Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.AdaptiveSamplingTelemetryProcessor</summary>
+        </member>
+        <member name="M:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Fakes.ShimAdaptiveSamplingTelemetryProcessor.#ctor">
+            <summary>Initializes a new shim instance</summary>
+        </member>
+        <member name="M:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Fakes.ShimAdaptiveSamplingTelemetryProcessor.#ctor(Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.AdaptiveSamplingTelemetryProcessor)">
+            <summary>Initializes a new shim for the given instance</summary>
+        </member>
+        <member name="M:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Fakes.ShimAdaptiveSamplingTelemetryProcessor.BehaveAsCurrent">
+            <summary>Assigns the &apos;Current&apos; behavior for all methods of the shimmed type</summary>
+        </member>
+        <member name="M:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Fakes.ShimAdaptiveSamplingTelemetryProcessor.BehaveAsNotImplemented">
+            <summary>Assigns the &apos;NotImplemented&apos; behavior for all methods of the shimmed type</summary>
+        </member>
+        <member name="M:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Fakes.ShimAdaptiveSamplingTelemetryProcessor.Bind(Microsoft.ApplicationInsights.Extensibility.ITelemetryProcessor)">
+            <summary>Binds the members of the interface to the shim.</summary>
+        </member>
+        <member name="M:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Fakes.ShimAdaptiveSamplingTelemetryProcessor.Bind(System.IDisposable)">
+            <summary>Binds the members of the interface to the shim.</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Fakes.ShimAdaptiveSamplingTelemetryProcessor.Behavior">
+            <summary>Assigns the behavior for all methods of the shimmed type</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Fakes.ShimAdaptiveSamplingTelemetryProcessor.ConstructorITelemetryProcessor">
+            <summary>Sets the shim of AdaptiveSamplingTelemetryProcessor.AdaptiveSamplingTelemetryProcessor(ITelemetryProcessor next)</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Fakes.ShimAdaptiveSamplingTelemetryProcessor.ConstructorSamplingPercentageEstimatorSettingsAdaptiveSamplingPercentageEvaluatedCallbackITelemetryProcessor">
+            <summary>Sets the shim of AdaptiveSamplingTelemetryProcessor.AdaptiveSamplingTelemetryProcessor(SamplingPercentageEstimatorSettings settings, AdaptiveSamplingPercentageEvaluatedCallback callback, ITelemetryProcessor next)</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Fakes.ShimAdaptiveSamplingTelemetryProcessor.Dispose">
+            <summary>Sets the shim of AdaptiveSamplingTelemetryProcessor.Dispose()</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Fakes.ShimAdaptiveSamplingTelemetryProcessor.DisposeBoolean">
+            <summary>Sets the shim of AdaptiveSamplingTelemetryProcessor.Dispose(Boolean disposing)</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Fakes.ShimAdaptiveSamplingTelemetryProcessor.EvaluationIntervalGet">
+            <summary>Sets the shim of AdaptiveSamplingTelemetryProcessor.get_EvaluationInterval()</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Fakes.ShimAdaptiveSamplingTelemetryProcessor.EvaluationIntervalSetTimeSpan">
+            <summary>Sets the shim of AdaptiveSamplingTelemetryProcessor.set_EvaluationInterval(TimeSpan value)</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Fakes.ShimAdaptiveSamplingTelemetryProcessor.InitialSamplingPercentageGet">
+            <summary>Sets the shim of AdaptiveSamplingTelemetryProcessor.get_InitialSamplingPercentage()</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Fakes.ShimAdaptiveSamplingTelemetryProcessor.InitialSamplingPercentageSetDouble">
+            <summary>Sets the shim of AdaptiveSamplingTelemetryProcessor.set_InitialSamplingPercentage(Double value)</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Fakes.ShimAdaptiveSamplingTelemetryProcessor.MaxSamplingPercentageGet">
+            <summary>Sets the shim of AdaptiveSamplingTelemetryProcessor.get_MaxSamplingPercentage()</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Fakes.ShimAdaptiveSamplingTelemetryProcessor.MaxSamplingPercentageSetDouble">
+            <summary>Sets the shim of AdaptiveSamplingTelemetryProcessor.set_MaxSamplingPercentage(Double value)</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Fakes.ShimAdaptiveSamplingTelemetryProcessor.MaxTelemetryItemsPerSecondGet">
+            <summary>Sets the shim of AdaptiveSamplingTelemetryProcessor.get_MaxTelemetryItemsPerSecond()</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Fakes.ShimAdaptiveSamplingTelemetryProcessor.MaxTelemetryItemsPerSecondSetDouble">
+            <summary>Sets the shim of AdaptiveSamplingTelemetryProcessor.set_MaxTelemetryItemsPerSecond(Double value)</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Fakes.ShimAdaptiveSamplingTelemetryProcessor.MinSamplingPercentageGet">
+            <summary>Sets the shim of AdaptiveSamplingTelemetryProcessor.get_MinSamplingPercentage()</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Fakes.ShimAdaptiveSamplingTelemetryProcessor.MinSamplingPercentageSetDouble">
+            <summary>Sets the shim of AdaptiveSamplingTelemetryProcessor.set_MinSamplingPercentage(Double value)</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Fakes.ShimAdaptiveSamplingTelemetryProcessor.MovingAverageRatioGet">
+            <summary>Sets the shim of AdaptiveSamplingTelemetryProcessor.get_MovingAverageRatio()</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Fakes.ShimAdaptiveSamplingTelemetryProcessor.MovingAverageRatioSetDouble">
+            <summary>Sets the shim of AdaptiveSamplingTelemetryProcessor.set_MovingAverageRatio(Double value)</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Fakes.ShimAdaptiveSamplingTelemetryProcessor.ProcessITelemetry">
+            <summary>Sets the shim of AdaptiveSamplingTelemetryProcessor.Process(ITelemetry item)</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Fakes.ShimAdaptiveSamplingTelemetryProcessor.SamplingPercentageChangedDoubleDoubleDoubleBooleanSamplingPercentageEstimatorSettings">
+            <summary>Sets the shim of AdaptiveSamplingTelemetryProcessor.SamplingPercentageChanged(Double afterSamplingTelemetryItemRatePerSecond, Double currentSamplingPercentage, Double newSamplingPercentage, Boolean isSamplingPercentageChanged, SamplingPercentageEstimatorSettings settings)</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Fakes.ShimAdaptiveSamplingTelemetryProcessor.SamplingPercentageDecreaseTimeoutGet">
+            <summary>Sets the shim of AdaptiveSamplingTelemetryProcessor.get_SamplingPercentageDecreaseTimeout()</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Fakes.ShimAdaptiveSamplingTelemetryProcessor.SamplingPercentageDecreaseTimeoutSetTimeSpan">
+            <summary>Sets the shim of AdaptiveSamplingTelemetryProcessor.set_SamplingPercentageDecreaseTimeout(TimeSpan value)</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Fakes.ShimAdaptiveSamplingTelemetryProcessor.SamplingPercentageIncreaseTimeoutGet">
+            <summary>Sets the shim of AdaptiveSamplingTelemetryProcessor.get_SamplingPercentageIncreaseTimeout()</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Fakes.ShimAdaptiveSamplingTelemetryProcessor.SamplingPercentageIncreaseTimeoutSetTimeSpan">
+            <summary>Sets the shim of AdaptiveSamplingTelemetryProcessor.set_SamplingPercentageIncreaseTimeout(TimeSpan value)</summary>
+        </member>
+        <member name="T:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Fakes.ShimAdaptiveSamplingTelemetryProcessor.AllInstances">
+            <summary>Define shims for all instances members</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Fakes.ShimAdaptiveSamplingTelemetryProcessor.AllInstances.Dispose">
+            <summary>Sets the shim of AdaptiveSamplingTelemetryProcessor.Dispose()</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Fakes.ShimAdaptiveSamplingTelemetryProcessor.AllInstances.DisposeBoolean">
+            <summary>Sets the shim of AdaptiveSamplingTelemetryProcessor.Dispose(Boolean disposing)</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Fakes.ShimAdaptiveSamplingTelemetryProcessor.AllInstances.EvaluationIntervalGet">
+            <summary>Sets the shim of AdaptiveSamplingTelemetryProcessor.get_EvaluationInterval()</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Fakes.ShimAdaptiveSamplingTelemetryProcessor.AllInstances.EvaluationIntervalSetTimeSpan">
+            <summary>Sets the shim of AdaptiveSamplingTelemetryProcessor.set_EvaluationInterval(TimeSpan value)</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Fakes.ShimAdaptiveSamplingTelemetryProcessor.AllInstances.InitialSamplingPercentageGet">
+            <summary>Sets the shim of AdaptiveSamplingTelemetryProcessor.get_InitialSamplingPercentage()</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Fakes.ShimAdaptiveSamplingTelemetryProcessor.AllInstances.InitialSamplingPercentageSetDouble">
+            <summary>Sets the shim of AdaptiveSamplingTelemetryProcessor.set_InitialSamplingPercentage(Double value)</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Fakes.ShimAdaptiveSamplingTelemetryProcessor.AllInstances.MaxSamplingPercentageGet">
+            <summary>Sets the shim of AdaptiveSamplingTelemetryProcessor.get_MaxSamplingPercentage()</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Fakes.ShimAdaptiveSamplingTelemetryProcessor.AllInstances.MaxSamplingPercentageSetDouble">
+            <summary>Sets the shim of AdaptiveSamplingTelemetryProcessor.set_MaxSamplingPercentage(Double value)</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Fakes.ShimAdaptiveSamplingTelemetryProcessor.AllInstances.MaxTelemetryItemsPerSecondGet">
+            <summary>Sets the shim of AdaptiveSamplingTelemetryProcessor.get_MaxTelemetryItemsPerSecond()</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Fakes.ShimAdaptiveSamplingTelemetryProcessor.AllInstances.MaxTelemetryItemsPerSecondSetDouble">
+            <summary>Sets the shim of AdaptiveSamplingTelemetryProcessor.set_MaxTelemetryItemsPerSecond(Double value)</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Fakes.ShimAdaptiveSamplingTelemetryProcessor.AllInstances.MinSamplingPercentageGet">
+            <summary>Sets the shim of AdaptiveSamplingTelemetryProcessor.get_MinSamplingPercentage()</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Fakes.ShimAdaptiveSamplingTelemetryProcessor.AllInstances.MinSamplingPercentageSetDouble">
+            <summary>Sets the shim of AdaptiveSamplingTelemetryProcessor.set_MinSamplingPercentage(Double value)</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Fakes.ShimAdaptiveSamplingTelemetryProcessor.AllInstances.MovingAverageRatioGet">
+            <summary>Sets the shim of AdaptiveSamplingTelemetryProcessor.get_MovingAverageRatio()</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Fakes.ShimAdaptiveSamplingTelemetryProcessor.AllInstances.MovingAverageRatioSetDouble">
+            <summary>Sets the shim of AdaptiveSamplingTelemetryProcessor.set_MovingAverageRatio(Double value)</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Fakes.ShimAdaptiveSamplingTelemetryProcessor.AllInstances.ProcessITelemetry">
+            <summary>Sets the shim of AdaptiveSamplingTelemetryProcessor.Process(ITelemetry item)</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Fakes.ShimAdaptiveSamplingTelemetryProcessor.AllInstances.SamplingPercentageChangedDoubleDoubleDoubleBooleanSamplingPercentageEstimatorSettings">
+            <summary>Sets the shim of AdaptiveSamplingTelemetryProcessor.SamplingPercentageChanged(Double afterSamplingTelemetryItemRatePerSecond, Double currentSamplingPercentage, Double newSamplingPercentage, Boolean isSamplingPercentageChanged, SamplingPercentageEstimatorSettings settings)</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Fakes.ShimAdaptiveSamplingTelemetryProcessor.AllInstances.SamplingPercentageDecreaseTimeoutGet">
+            <summary>Sets the shim of AdaptiveSamplingTelemetryProcessor.get_SamplingPercentageDecreaseTimeout()</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Fakes.ShimAdaptiveSamplingTelemetryProcessor.AllInstances.SamplingPercentageDecreaseTimeoutSetTimeSpan">
+            <summary>Sets the shim of AdaptiveSamplingTelemetryProcessor.set_SamplingPercentageDecreaseTimeout(TimeSpan value)</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Fakes.ShimAdaptiveSamplingTelemetryProcessor.AllInstances.SamplingPercentageIncreaseTimeoutGet">
+            <summary>Sets the shim of AdaptiveSamplingTelemetryProcessor.get_SamplingPercentageIncreaseTimeout()</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Fakes.ShimAdaptiveSamplingTelemetryProcessor.AllInstances.SamplingPercentageIncreaseTimeoutSetTimeSpan">
+            <summary>Sets the shim of AdaptiveSamplingTelemetryProcessor.set_SamplingPercentageIncreaseTimeout(TimeSpan value)</summary>
+        </member>
+        <member name="T:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Fakes.ShimSamplingTelemetryProcessor">
+            <summary>Shim type of Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.SamplingTelemetryProcessor</summary>
+        </member>
+        <member name="M:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Fakes.ShimSamplingTelemetryProcessor.#ctor">
+            <summary>Initializes a new shim instance</summary>
+        </member>
+        <member name="M:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Fakes.ShimSamplingTelemetryProcessor.#ctor(Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.SamplingTelemetryProcessor)">
+            <summary>Initializes a new shim for the given instance</summary>
+        </member>
+        <member name="M:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Fakes.ShimSamplingTelemetryProcessor.BehaveAsCurrent">
+            <summary>Assigns the &apos;Current&apos; behavior for all methods of the shimmed type</summary>
+        </member>
+        <member name="M:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Fakes.ShimSamplingTelemetryProcessor.BehaveAsNotImplemented">
+            <summary>Assigns the &apos;NotImplemented&apos; behavior for all methods of the shimmed type</summary>
+        </member>
+        <member name="M:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Fakes.ShimSamplingTelemetryProcessor.Bind(Microsoft.ApplicationInsights.Extensibility.ITelemetryProcessor)">
+            <summary>Binds the members of the interface to the shim.</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Fakes.ShimSamplingTelemetryProcessor.Behavior">
+            <summary>Assigns the behavior for all methods of the shimmed type</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Fakes.ShimSamplingTelemetryProcessor.ConstructorITelemetryProcessor">
+            <summary>Sets the shim of SamplingTelemetryProcessor.SamplingTelemetryProcessor(ITelemetryProcessor next)</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Fakes.ShimSamplingTelemetryProcessor.IsSampledInITelemetry">
+            <summary>Sets the shim of SamplingTelemetryProcessor.IsSampledIn(ITelemetry telemetry)</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Fakes.ShimSamplingTelemetryProcessor.NextGet">
+            <summary>Sets the shim of SamplingTelemetryProcessor.get_Next()</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Fakes.ShimSamplingTelemetryProcessor.NextSetITelemetryProcessor">
+            <summary>Sets the shim of SamplingTelemetryProcessor.set_Next(ITelemetryProcessor value)</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Fakes.ShimSamplingTelemetryProcessor.ProcessITelemetry">
+            <summary>Sets the shim of SamplingTelemetryProcessor.Process(ITelemetry item)</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Fakes.ShimSamplingTelemetryProcessor.SamplingPercentageGet">
+            <summary>Sets the shim of SamplingTelemetryProcessor.get_SamplingPercentage()</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Fakes.ShimSamplingTelemetryProcessor.SamplingPercentageSetDouble">
+            <summary>Sets the shim of SamplingTelemetryProcessor.set_SamplingPercentage(Double value)</summary>
+        </member>
+        <member name="T:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Fakes.ShimSamplingTelemetryProcessor.AllInstances">
+            <summary>Define shims for all instances members</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Fakes.ShimSamplingTelemetryProcessor.AllInstances.IsSampledInITelemetry">
+            <summary>Sets the shim of SamplingTelemetryProcessor.IsSampledIn(ITelemetry telemetry)</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Fakes.ShimSamplingTelemetryProcessor.AllInstances.NextGet">
+            <summary>Sets the shim of SamplingTelemetryProcessor.get_Next()</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Fakes.ShimSamplingTelemetryProcessor.AllInstances.NextSetITelemetryProcessor">
+            <summary>Sets the shim of SamplingTelemetryProcessor.set_Next(ITelemetryProcessor value)</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Fakes.ShimSamplingTelemetryProcessor.AllInstances.ProcessITelemetry">
+            <summary>Sets the shim of SamplingTelemetryProcessor.Process(ITelemetry item)</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Fakes.ShimSamplingTelemetryProcessor.AllInstances.SamplingPercentageGet">
+            <summary>Sets the shim of SamplingTelemetryProcessor.get_SamplingPercentage()</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Fakes.ShimSamplingTelemetryProcessor.AllInstances.SamplingPercentageSetDouble">
+            <summary>Sets the shim of SamplingTelemetryProcessor.set_SamplingPercentage(Double value)</summary>
+        </member>
+        <member name="T:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Fakes.ShimServerTelemetryChannel">
+            <summary>Shim type of Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.ServerTelemetryChannel</summary>
+        </member>
+        <member name="M:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Fakes.ShimServerTelemetryChannel.#ctor">
+            <summary>Initializes a new shim instance</summary>
+        </member>
+        <member name="M:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Fakes.ShimServerTelemetryChannel.#ctor(Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.ServerTelemetryChannel)">
+            <summary>Initializes a new shim for the given instance</summary>
+        </member>
+        <member name="M:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Fakes.ShimServerTelemetryChannel.BehaveAsCurrent">
+            <summary>Assigns the &apos;Current&apos; behavior for all methods of the shimmed type</summary>
+        </member>
+        <member name="M:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Fakes.ShimServerTelemetryChannel.BehaveAsNotImplemented">
+            <summary>Assigns the &apos;NotImplemented&apos; behavior for all methods of the shimmed type</summary>
+        </member>
+        <member name="M:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Fakes.ShimServerTelemetryChannel.Bind(Microsoft.ApplicationInsights.Channel.ITelemetryChannel)">
+            <summary>Binds the members of the interface to the shim.</summary>
+        </member>
+        <member name="M:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Fakes.ShimServerTelemetryChannel.Bind(Microsoft.ApplicationInsights.Extensibility.ITelemetryModule)">
+            <summary>Binds the members of the interface to the shim.</summary>
+        </member>
+        <member name="M:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Fakes.ShimServerTelemetryChannel.Bind(System.IDisposable)">
+            <summary>Binds the members of the interface to the shim.</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Fakes.ShimServerTelemetryChannel.Behavior">
+            <summary>Assigns the behavior for all methods of the shimmed type</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Fakes.ShimServerTelemetryChannel.Constructor">
+            <summary>Sets the shim of ServerTelemetryChannel.ServerTelemetryChannel()</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Fakes.ShimServerTelemetryChannel.DeveloperModeGet">
+            <summary>Sets the shim of ServerTelemetryChannel.get_DeveloperMode()</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Fakes.ShimServerTelemetryChannel.DeveloperModeSetNullableOfBoolean">
+            <summary>Sets the shim of ServerTelemetryChannel.set_DeveloperMode(Nullable`1&lt;Boolean&gt; value)</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Fakes.ShimServerTelemetryChannel.Dispose">
+            <summary>Sets the shim of ServerTelemetryChannel.Dispose()</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Fakes.ShimServerTelemetryChannel.EndpointAddressGet">
+            <summary>Sets the shim of ServerTelemetryChannel.get_EndpointAddress()</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Fakes.ShimServerTelemetryChannel.EndpointAddressSetString">
+            <summary>Sets the shim of ServerTelemetryChannel.set_EndpointAddress(String value)</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Fakes.ShimServerTelemetryChannel.Flush">
+            <summary>Sets the shim of ServerTelemetryChannel.Flush()</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Fakes.ShimServerTelemetryChannel.InitializeTelemetryConfiguration">
+            <summary>Sets the shim of ServerTelemetryChannel.Initialize(TelemetryConfiguration configuration)</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Fakes.ShimServerTelemetryChannel.MaxTelemetryBufferCapacityGet">
+            <summary>Sets the shim of ServerTelemetryChannel.get_MaxTelemetryBufferCapacity()</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Fakes.ShimServerTelemetryChannel.MaxTelemetryBufferCapacitySetInt32">
+            <summary>Sets the shim of ServerTelemetryChannel.set_MaxTelemetryBufferCapacity(Int32 value)</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Fakes.ShimServerTelemetryChannel.MaxTelemetryBufferDelayGet">
+            <summary>Sets the shim of ServerTelemetryChannel.get_MaxTelemetryBufferDelay()</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Fakes.ShimServerTelemetryChannel.MaxTelemetryBufferDelaySetTimeSpan">
+            <summary>Sets the shim of ServerTelemetryChannel.set_MaxTelemetryBufferDelay(TimeSpan value)</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Fakes.ShimServerTelemetryChannel.MaxTransmissionBufferCapacityGet">
+            <summary>Sets the shim of ServerTelemetryChannel.get_MaxTransmissionBufferCapacity()</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Fakes.ShimServerTelemetryChannel.MaxTransmissionBufferCapacitySetInt32">
+            <summary>Sets the shim of ServerTelemetryChannel.set_MaxTransmissionBufferCapacity(Int32 value)</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Fakes.ShimServerTelemetryChannel.MaxTransmissionSenderCapacityGet">
+            <summary>Sets the shim of ServerTelemetryChannel.get_MaxTransmissionSenderCapacity()</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Fakes.ShimServerTelemetryChannel.MaxTransmissionSenderCapacitySetInt32">
+            <summary>Sets the shim of ServerTelemetryChannel.set_MaxTransmissionSenderCapacity(Int32 value)</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Fakes.ShimServerTelemetryChannel.MaxTransmissionStorageCapacityGet">
+            <summary>Sets the shim of ServerTelemetryChannel.get_MaxTransmissionStorageCapacity()</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Fakes.ShimServerTelemetryChannel.MaxTransmissionStorageCapacitySetInt64">
+            <summary>Sets the shim of ServerTelemetryChannel.set_MaxTransmissionStorageCapacity(Int64 value)</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Fakes.ShimServerTelemetryChannel.SendITelemetry">
+            <summary>Sets the shim of ServerTelemetryChannel.Send(ITelemetry item)</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Fakes.ShimServerTelemetryChannel.StorageFolderGet">
+            <summary>Sets the shim of ServerTelemetryChannel.get_StorageFolder()</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Fakes.ShimServerTelemetryChannel.StorageFolderSetString">
+            <summary>Sets the shim of ServerTelemetryChannel.set_StorageFolder(String value)</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Fakes.ShimServerTelemetryChannel.TelemetryProcessorGet">
+            <summary>Sets the shim of ServerTelemetryChannel.get_TelemetryProcessor()</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Fakes.ShimServerTelemetryChannel.TelemetryProcessorSetITelemetryProcessor">
+            <summary>Sets the shim of ServerTelemetryChannel.set_TelemetryProcessor(ITelemetryProcessor value)</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Fakes.ShimServerTelemetryChannel._Initializeb__39_0">
+            <summary>Sets the shim of ServerTelemetryChannel.&lt;Initialize&gt;b__39_0()</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Fakes.ShimServerTelemetryChannel._Initializeb__39_1">
+            <summary>Sets the shim of ServerTelemetryChannel.&lt;Initialize&gt;b__39_1()</summary>
+        </member>
+        <member name="T:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Fakes.ShimServerTelemetryChannel.AllInstances">
+            <summary>Define shims for all instances members</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Fakes.ShimServerTelemetryChannel.AllInstances.DeveloperModeGet">
+            <summary>Sets the shim of ServerTelemetryChannel.get_DeveloperMode()</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Fakes.ShimServerTelemetryChannel.AllInstances.DeveloperModeSetNullableOfBoolean">
+            <summary>Sets the shim of ServerTelemetryChannel.set_DeveloperMode(Nullable`1&lt;Boolean&gt; value)</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Fakes.ShimServerTelemetryChannel.AllInstances.Dispose">
+            <summary>Sets the shim of ServerTelemetryChannel.Dispose()</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Fakes.ShimServerTelemetryChannel.AllInstances.EndpointAddressGet">
+            <summary>Sets the shim of ServerTelemetryChannel.get_EndpointAddress()</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Fakes.ShimServerTelemetryChannel.AllInstances.EndpointAddressSetString">
+            <summary>Sets the shim of ServerTelemetryChannel.set_EndpointAddress(String value)</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Fakes.ShimServerTelemetryChannel.AllInstances.Flush">
+            <summary>Sets the shim of ServerTelemetryChannel.Flush()</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Fakes.ShimServerTelemetryChannel.AllInstances.InitializeTelemetryConfiguration">
+            <summary>Sets the shim of ServerTelemetryChannel.Initialize(TelemetryConfiguration configuration)</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Fakes.ShimServerTelemetryChannel.AllInstances.MaxTelemetryBufferCapacityGet">
+            <summary>Sets the shim of ServerTelemetryChannel.get_MaxTelemetryBufferCapacity()</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Fakes.ShimServerTelemetryChannel.AllInstances.MaxTelemetryBufferCapacitySetInt32">
+            <summary>Sets the shim of ServerTelemetryChannel.set_MaxTelemetryBufferCapacity(Int32 value)</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Fakes.ShimServerTelemetryChannel.AllInstances.MaxTelemetryBufferDelayGet">
+            <summary>Sets the shim of ServerTelemetryChannel.get_MaxTelemetryBufferDelay()</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Fakes.ShimServerTelemetryChannel.AllInstances.MaxTelemetryBufferDelaySetTimeSpan">
+            <summary>Sets the shim of ServerTelemetryChannel.set_MaxTelemetryBufferDelay(TimeSpan value)</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Fakes.ShimServerTelemetryChannel.AllInstances.MaxTransmissionBufferCapacityGet">
+            <summary>Sets the shim of ServerTelemetryChannel.get_MaxTransmissionBufferCapacity()</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Fakes.ShimServerTelemetryChannel.AllInstances.MaxTransmissionBufferCapacitySetInt32">
+            <summary>Sets the shim of ServerTelemetryChannel.set_MaxTransmissionBufferCapacity(Int32 value)</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Fakes.ShimServerTelemetryChannel.AllInstances.MaxTransmissionSenderCapacityGet">
+            <summary>Sets the shim of ServerTelemetryChannel.get_MaxTransmissionSenderCapacity()</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Fakes.ShimServerTelemetryChannel.AllInstances.MaxTransmissionSenderCapacitySetInt32">
+            <summary>Sets the shim of ServerTelemetryChannel.set_MaxTransmissionSenderCapacity(Int32 value)</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Fakes.ShimServerTelemetryChannel.AllInstances.MaxTransmissionStorageCapacityGet">
+            <summary>Sets the shim of ServerTelemetryChannel.get_MaxTransmissionStorageCapacity()</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Fakes.ShimServerTelemetryChannel.AllInstances.MaxTransmissionStorageCapacitySetInt64">
+            <summary>Sets the shim of ServerTelemetryChannel.set_MaxTransmissionStorageCapacity(Int64 value)</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Fakes.ShimServerTelemetryChannel.AllInstances.SendITelemetry">
+            <summary>Sets the shim of ServerTelemetryChannel.Send(ITelemetry item)</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Fakes.ShimServerTelemetryChannel.AllInstances.StorageFolderGet">
+            <summary>Sets the shim of ServerTelemetryChannel.get_StorageFolder()</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Fakes.ShimServerTelemetryChannel.AllInstances.StorageFolderSetString">
+            <summary>Sets the shim of ServerTelemetryChannel.set_StorageFolder(String value)</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Fakes.ShimServerTelemetryChannel.AllInstances.TelemetryProcessorGet">
+            <summary>Sets the shim of ServerTelemetryChannel.get_TelemetryProcessor()</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Fakes.ShimServerTelemetryChannel.AllInstances.TelemetryProcessorSetITelemetryProcessor">
+            <summary>Sets the shim of ServerTelemetryChannel.set_TelemetryProcessor(ITelemetryProcessor value)</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Fakes.ShimServerTelemetryChannel.AllInstances._Initializeb__39_0">
+            <summary>Sets the shim of ServerTelemetryChannel.&lt;Initialize&gt;b__39_0()</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Fakes.ShimServerTelemetryChannel.AllInstances._Initializeb__39_1">
+            <summary>Sets the shim of ServerTelemetryChannel.&lt;Initialize&gt;b__39_1()</summary>
+        </member>
+        <member name="T:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Fakes.StubAdaptiveSamplingTelemetryProcessor">
+            <summary>Stub type of Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.AdaptiveSamplingTelemetryProcessor</summary>
+        </member>
+        <member name="M:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Fakes.StubAdaptiveSamplingTelemetryProcessor.#ctor(Microsoft.ApplicationInsights.Extensibility.ITelemetryProcessor)">
+            <summary>Initializes a new instance</summary>
+        </member>
+        <member name="M:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Fakes.StubAdaptiveSamplingTelemetryProcessor.#ctor(Microsoft.ApplicationInsights.WindowsServer.Channel.Implementation.SamplingPercentageEstimatorSettings,Microsoft.ApplicationInsights.WindowsServer.Channel.Implementation.AdaptiveSamplingPercentageEvaluatedCallback,Microsoft.ApplicationInsights.Extensibility.ITelemetryProcessor)">
+            <summary>Initializes a new instance</summary>
+        </member>
+        <member name="M:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Fakes.StubAdaptiveSamplingTelemetryProcessor.Dispose(System.Boolean)">
+            <summary>Sets the stub of AdaptiveSamplingTelemetryProcessor.Dispose(Boolean disposing)</summary>
+        </member>
+        <member name="F:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Fakes.StubAdaptiveSamplingTelemetryProcessor.DisposeBoolean">
+            <summary>Sets the stub of AdaptiveSamplingTelemetryProcessor.Dispose(Boolean disposing)</summary>
+        </member>
+        <member name="M:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Fakes.StubAdaptiveSamplingTelemetryProcessor.InitializeStub">
+            <summary>Initializes a new instance of type StubAdaptiveSamplingTelemetryProcessor</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Fakes.StubAdaptiveSamplingTelemetryProcessor.CallBase">
+            <summary>Gets or sets a value that indicates if the base method should be called instead of the fallback behavior</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Fakes.StubAdaptiveSamplingTelemetryProcessor.InstanceBehavior">
+            <summary>Gets or sets the instance behavior.</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Fakes.StubAdaptiveSamplingTelemetryProcessor.InstanceObserver">
+            <summary>Gets or sets the instance observer.</summary>
+        </member>
+        <member name="T:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Implementation.Fakes.ShimApplicationStoppingEventArgs">
+            <summary>Shim type of Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Implementation.ApplicationStoppingEventArgs</summary>
+        </member>
+        <member name="M:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Implementation.Fakes.ShimApplicationStoppingEventArgs.#ctor">
+            <summary>Initializes a new shim instance</summary>
+        </member>
+        <member name="M:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Implementation.Fakes.ShimApplicationStoppingEventArgs.#ctor(Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Implementation.ApplicationStoppingEventArgs)">
+            <summary>Initializes a new shim for the given instance</summary>
+        </member>
+        <member name="M:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Implementation.Fakes.ShimApplicationStoppingEventArgs.BehaveAsCurrent">
+            <summary>Assigns the &apos;Current&apos; behavior for all methods of the shimmed type</summary>
+        </member>
+        <member name="M:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Implementation.Fakes.ShimApplicationStoppingEventArgs.BehaveAsNotImplemented">
+            <summary>Assigns the &apos;NotImplemented&apos; behavior for all methods of the shimmed type</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Implementation.Fakes.ShimApplicationStoppingEventArgs.Behavior">
+            <summary>Assigns the behavior for all methods of the shimmed type</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Implementation.Fakes.ShimApplicationStoppingEventArgs.ConstructorFuncOfFuncOfTaskTask">
+            <summary>Sets the shim of ApplicationStoppingEventArgs.ApplicationStoppingEventArgs(Func`2&lt;Func`1&lt;Task&gt;,Task&gt; asyncMethodRunner)</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Implementation.Fakes.ShimApplicationStoppingEventArgs.RunFuncOfTask">
+            <summary>Sets the shim of ApplicationStoppingEventArgs.Run(Func`1&lt;Task&gt; asyncMethod)</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Implementation.Fakes.ShimApplicationStoppingEventArgs.StaticConstructor">
+            <summary>Sets the shim of ApplicationStoppingEventArgs.ApplicationStoppingEventArgs()</summary>
+        </member>
+        <member name="T:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Implementation.Fakes.ShimApplicationStoppingEventArgs.AllInstances">
+            <summary>Define shims for all instances members</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Implementation.Fakes.ShimApplicationStoppingEventArgs.AllInstances.RunFuncOfTask">
+            <summary>Sets the shim of ApplicationStoppingEventArgs.Run(Func`1&lt;Task&gt; asyncMethod)</summary>
+        </member>
+        <member name="T:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Implementation.Fakes.StubApplicationStoppingEventArgs">
+            <summary>Stub type of Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Implementation.ApplicationStoppingEventArgs</summary>
+        </member>
+        <member name="M:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Implementation.Fakes.StubApplicationStoppingEventArgs.#ctor(System.Func{System.Func{System.Threading.Tasks.Task},System.Threading.Tasks.Task})">
+            <summary>Initializes a new instance</summary>
+        </member>
+        <member name="M:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Implementation.Fakes.StubApplicationStoppingEventArgs.InitializeStub">
+            <summary>Initializes a new instance of type StubApplicationStoppingEventArgs</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Implementation.Fakes.StubApplicationStoppingEventArgs.CallBase">
+            <summary>Gets or sets a value that indicates if the base method should be called instead of the fallback behavior</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Implementation.Fakes.StubApplicationStoppingEventArgs.InstanceBehavior">
+            <summary>Gets or sets the instance behavior.</summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Implementation.Fakes.StubApplicationStoppingEventArgs.InstanceObserver">
+            <summary>Gets or sets the instance observer.</summary>
+        </member>
+        <member name="T:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Implementation.Fakes.StubIApplicationLifecycle">
+            <summary>Stub type of Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Implementation.IApplicationLifecycle</summary>
+        </member>
+        <member name="M:Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.Implementation.Fakes.StubIApplicationLifecycle.#ctor">
+            <summary>Initializes a new instance of type StubIApplicationLifecycle</summary>
+        </member>
+    </members>
+</doc>

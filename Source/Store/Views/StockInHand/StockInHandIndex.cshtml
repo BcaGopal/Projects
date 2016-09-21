@@ -1,0 +1,449 @@
+﻿@{
+    ViewBag.Title = "Trial Balance";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@*<style type="text/css">
+        .DTHidden {
+            display: none;
+        }
+
+        .TextRight {
+            text-align: right;
+        }
+
+        .dataTables_scroll {
+            font-size: 13px !important;
+            line-height: 1;
+        }
+
+        table.dataTable tbody td {
+            padding: 2px 10px;
+        }
+    </style>
+
+    <link href="~/Content/DataTables/css/dataTables.bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/DataTables/css/scroller.dataTables.min.css" rel="stylesheet" />
+    <script src="~/Scripts/DataTables/jquery.dataTables.min.js"></script>
+    <script src="~/Scripts/DataTables/dataTables.scroller.min.js"></script>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3>
+                <span style="font-family: Calibri,sans-serif,Verdana;font-weight:bold" class="black"><span class="glyphicon glyphicon-list black"></span> Stock In Hand </span>
+            </h3>
+            <hr style="margin-top:0px;margin-bottom:0px" />
+
+            <div class="panel-info">
+                <h4 style="padding:5px 0 0 0;margin:0px">
+                    @Html.ActionLink(" ", " ", " ", null, new { @class = "glyphicon glyphicon-refresh toolbar small", @title = "Refresh Page", @data_toggle = "tooltip", @id = "RefreshPage" })
+                    @Html.ActionLink(" ", "Create", "StockInHandSetting", new { ProductTypeId = @ViewBag.id }, new { @class = "glyphicon glyphicon-cog toolbar right small", @title = "List", @data_toggle = "tooltip" })
+                    @Html.ActionLink(" ", "ProductTypeIndex", "StockInHand", null, new { @class = "glyphicon glyphicon-list toolbar right small", @title = "List", @data_toggle = "tooltip" })
+                </h4>
+            </div>
+        </div>
+
+        <div class="panel-info tab" style="padding-left:5px;padding-top:20px">
+            <table id="StockInHand" class="table table-striped" cellspacing="0" width="100%">
+                <thead style="background: #428bca;color:white">
+                    <tr>
+                        <th class="string">Product</th>
+                        <th class="string">Dim1</th>
+                        <th class="string">Dim2</th>
+                        <th class="string">Process</th>
+                        <th class="string">LotNo</th>
+                        <th class="string">Godown</th>
+                        <th>Opening</th>
+                        <th>Rec Qty</th>
+                        <th>Iss Qty</th>
+                        <th>Bal</th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+
+
+    <script type="text/javascript">
+
+        var GroupOn = '@ViewBag.GroupOn';
+        var GroupOnGodown = GroupOn.indexOf(StockInHandGroupOnConstants.Godown);
+        var GroupOnProcess = GroupOn.indexOf(StockInHandGroupOnConstants.Process);
+        var GroupOnProduct = GroupOn.indexOf(StockInHandGroupOnConstants.Product);
+        var GroupOnDimension1 = GroupOn.indexOf(StockInHandGroupOnConstants.Dimension1);
+        var GroupOnDimension2 = GroupOn.indexOf(StockInHandGroupOnConstants.Dimension2);
+        var GroupOnLotNo = GroupOn.indexOf(StockInHandGroupOnConstants.LotNo);
+        if (!GroupOn.length)
+            GroupOnProduct = 1;
+        $(document).ready(function () {
+            var url = '@Url.Action("GetStockInHandJson", "StockInHand", new { id = @ViewBag.id })';
+            $('#StockInHand').dataTable({
+                ajax: url,
+                columns: [
+
+                    { "data": "ProductName", className: (GroupOnProduct <= -1 ? "DTHidden" : "  "), "searchable": (GroupOnProduct <= -1 ? false : true) },
+                    { "data": "Dimension1Name", className: (GroupOnDimension1 <= -1 ? "DTHidden" : "  "), "searchable": (GroupOnDimension1 <= -1 ? false : true) },
+                    { "data": "Dimension2Name", className: (GroupOnDimension2 <= -1 ? "DTHidden" : "  "), "searchable": (GroupOnDimension2 <= -1 ? false : true) },
+                    { "data": "ProcessName", className: (GroupOnProcess <= -1 ? "DTHidden" : "  "), "searchable": (GroupOnProcess <= -1 ? false : true) },
+                    { "data": "LotNo", className: "LotNo", className: (GroupOnLotNo <= -1 ? "DTHidden" : "  "), "searchable": (GroupOnLotNo <= -1 ? false : true) },
+                    { "data": "GodownName", className: "GodownName", className: (GroupOnGodown <= -1 ? "DTHidden" : "  "), "searchable": (GroupOnGodown <= -1 ? false : true) },
+                    { "data": "Opening", className: "TextRight" },
+                    { "data": "RecQty", className: "TextRight" },
+                    { "data": "IssQty", className: "TextRight" },
+                    { "data": "BalQty", className: "TextRight" },
+                    { "data": "ProductId", "searchable": false, className: "DTHidden ProductId" },
+                    { "data": "GodownId", "searchable": false, className: "DTHidden GodownId" },
+                    { "data": "ProcessId", "searchable": false, className: "DTHidden ProcessId" },
+                    { "data": "Dimension1Id", "searchable": false, className: "DTHidden Dimension1Id" },
+                    { "data": "Dimension2Id", "searchable": false, className: "DTHidden Dimension2Id" },
+                    { "data": "ProductGroupName", "visible": false },
+                ],
+                columnDefs: [
+                //{ "targets": 3, "searchable": false, className: "DTHidden Id", },
+                //{ "targets": 1, className: (DrCr == CreditDebitConstants.Credit ? "TextRight DTHidden" : " TextRight "), "searchable": (DrCr == CreditDebitConstants.Credit ? false : true) },
+                //{ "targets": 2, className: (DrCr == CreditDebitConstants.Debit ? "DTHidden TextRight" : "TextRight"), "searchable": (DrCr == CreditDebitConstants.Debit ? false : true) },
+                ],
+                scrollY: "290px",
+                bScrollCollapse: true,
+                dom: '<"clear">frtiS',
+                TableTools: {
+                    "sRowSelect": "os",
+                },
+                drawCallback: function (settings) {
+                    var api = this.api();
+                    var rows = api.rows().nodes();
+                    var last = null;
+
+                    api.column(15).data().each(function (group, i) {
+                        if (last !== group) {
+                            $(rows).eq(i).before(
+                                '<tr class="group "style="background-color: #E2DDDD"><td colspan="10">' + group + '</td></tr>'
+                            );
+
+                            last = group;
+                        }
+                    });
+                }
+
+            });
+
+            //new $.fn.dataTable.KeyTable($('#StockInHand'));
+
+            $('#StockInHand tbody').on('dblclick', 'tr', function () {
+                var ProductId = parseInt($(this).find("td.ProductId:first").html());
+                var GodownId = parseInt($(this).find("td.GodownId:first").html());
+                var ProcessId = parseInt($(this).find("td.ProcessId:first").html());
+                var Dimension1Id = parseInt($(this).find("td.Dimension1Id:first").html());
+                var Dimension2Id = parseInt($(this).find("td.Dimension2Id:first").html());
+                var LotNo = ($(this).find("td.LotNo:first").html());
+                window.location.href = '/StockInHand/GetStockLedger/?ProductId=' + ProductId + '&Godown=' + GodownId + '&Process=' + ProcessId + '&Dim1=' + Dimension1Id + '&Dim2=' + Dimension2Id + '&LotNo=' + LotNo;
+            });
+
+            $('#StockInHand tbody').on('click', 'tr', function () {
+                $(this).closest('tbody').find('tr.selected').removeClass('selected');
+                $(this).toggleClass('selected');
+            })
+
+
+        });
+
+    </script>*@
+
+
+
+
+
+
+
+
+
+<link href="~/Content/Slick/slick.grid.css" rel="stylesheet" />
+<link href="~/Content/Slick/css/smoothness/jquery-ui-1.8.16.custom.css" rel="stylesheet" />
+<link href="~/Content/Slick/slick-default-theme.css" rel="stylesheet" />
+
+<style type="text/css">
+    .slick-header-column.ui-state-default {
+        background-color: #428bca;
+        color: white;
+        height: 35px;
+        line-height: 35px;
+    }
+
+    .slick-row.ui-widget-content, .slick-cell {
+        height: 30px;
+        line-height: 30px;
+    }
+
+    #myGrid * {
+        box-sizing: content-box !important;
+    }
+
+    .hidden {
+        display: none;
+    }
+
+    .Total {
+        color: black !important;
+        background-color: #ffffff !important;
+    }
+</style>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3>
+            <span style="font-family: Calibri,sans-serif,Verdana;font-weight:bold" class="black"><span class="glyphicon glyphicon-list black"></span> Stock In Hand </span>
+        </h3>
+        <hr style="margin-top:0px;margin-bottom:0px" />
+        <div class="panel-info">
+            <h4 style="padding:5px 0 0 0;margin:0px">
+                @Html.ActionLink(" ", " ", " ", null, new { @class = "glyphicon glyphicon-refresh toolbar small", @title = "Refresh Page", @data_toggle = "tooltip", @id = "RefreshPage" })
+                @Html.ActionLink(" ", "Create", "StockInHandSetting", new { ProductTypeId = @ViewBag.id }, new { @class = "glyphicon glyphicon-cog toolbar right small", @title = "List", @data_toggle = "tooltip" })
+                @Html.ActionLink(" ", "ProductTypeIndex", "StockInHand", null, new { @class = "glyphicon glyphicon-list toolbar right small", @title = "List", @data_toggle = "tooltip" })
+                <input type="text" id="txtSearch2" class="right toolbar small" placeholder="Search" style="height:25px;max-width:20%">
+            </h4>
+        </div>
+    </div>
+
+    <div class="panel-info tab" style="padding-left:0px">
+        <div style="width: 100%;">
+            <div id="myGrid" style="width: 100%; height: 450px; font-size: 11px; "></div>
+        </div>
+    </div>
+</div>
+
+<script src="~/Scripts/Slick/lib/jquery.event.drag-2.2.js"></script>
+<script src="~/Scripts/Slick/slick.core.js"></script>
+<script src="~/Scripts/Slick/slick.grid.js"></script>
+<script src="~/Scripts/Slick/slick.dataview.js"></script>
+<script src="~/Scripts/Slick/slick.rowselectionmodel.js"></script>
+
+<script>
+
+    var GroupOn = '@ViewBag.GroupOn';
+    var GroupOnGodown = GroupOn.indexOf(StockInHandGroupOnConstants.Godown);
+    var GroupOnProcess = GroupOn.indexOf(StockInHandGroupOnConstants.Process);
+    var GroupOnProduct = GroupOn.indexOf(StockInHandGroupOnConstants.Product);
+    var GroupOnDimension1 = GroupOn.indexOf(StockInHandGroupOnConstants.Dimension1);
+    var GroupOnDimension2 = GroupOn.indexOf(StockInHandGroupOnConstants.Dimension2);
+    var GroupOnLotNo = GroupOn.indexOf(StockInHandGroupOnConstants.LotNo);
+    if (!GroupOn.length)
+        GroupOnProduct = 1;
+    var data;
+    var options;
+    var grid;
+
+
+    //Columns Specification
+    var columns=[];
+    if (GroupOnProduct > -1)
+        columns.push({ id: "ProductName", name: "Product", field: "ProductName", minWidth: 150 })
+
+    if (GroupOnDimension1 > -1)
+        columns.push({ id: "Dimension1Name", name: "Dim1", field: "Dimension1Name", minWidth: 70 })
+
+    if (GroupOnDimension2 > -1)
+        columns.push({ id: "Dimension2Name", name: "Dim2", field: "Dimension2Name", minWidth: 70 })
+
+    if (GroupOnProcess > -1)
+        columns.push({ id: "ProcessName", name: "Process", field: "ProcessName", minWidth: 100 })
+
+    if (GroupOnLotNo > -1)
+        columns.push({ id: "LotNo", name: "LotNo", field: "LotNo", minWidth: 70 })
+
+    if (GroupOnGodown > -1)
+        columns.push({ id: "GodownName", name: "Godown", field: "GodownName", minWidth: 100 })
+
+    columns.push({
+        id: "Opening", name: "Opening", field: "Opening", minWidth: 70, hasTotal: true
+    }, {
+        id: "RecQty", name: "Rec Qty", field: "RecQty", minWidth: 70, hasTotal: true
+    }, {
+        id: "IssQty", name: "Iss Qty", field: "IssQty", minWidth: 70, hasTotal: true
+    }, {
+        id: "BalQty", name: "Bal", field: "BalQty", minWidth: 70, hasTotal: true
+    });
+
+    //if (DrCr == CreditDebitConstants.Credit) {
+    //    columns = [
+    //  { id: "LedgerAccGName", name: "Ledger A/C Group", field: "LedgerAccountGroupName", width: 800, minWidth: 150, hasTotalName: true },
+    //  { id: "ACr", name: "Amount Cr", field: "AmtCr", cssClass: "text-right", headerCssClass: "text-right", width: 200, minWidth: 100, hasTotal: true },
+    //    ];
+    //}
+    //else if (DrCr == CreditDebitConstants.Debit) {
+    //    columns = [
+    //  { id: "LedgerAccGName", name: "Ledger A/C Group", field: "LedgerAccountGroupName", width: 800, minWidth: 150, hasTotalName: true },
+    //  { id: "ADr", name: "Amount Dr", field: "AmtDr", cssClass: "text-right", headerCssClass: "text-right", width: 200, minWidth: 100, hasTotal: true }
+    //    ];
+    //}
+    //else {
+    //    columns = [
+    //   { id: "LedgerAccGName", name: "Ledger A/C Group", field: "LedgerAccountGroupName", width: 600, minWidth: 150, hasTotalName: true },
+    //   { id: "ADr", name: "Amount Dr", field: "AmtDr", cssClass: "text-right", headerCssClass: "text-right", width: 200, minWidth: 100, hasTotal: true },
+    //   { id: "ACr", name: "Amount Cr", field: "AmtCr", cssClass: "text-right", headerCssClass: "text-right", width: 200, minWidth: 100, hasTotal: true }
+    //    ];
+    //}
+
+
+    //Options Initialization
+    options = {
+        editable: false,
+        enableCellNavigation: true,
+        enableColumnReorder: false,
+        forceFitColumns: true,
+        showFooterRow: true,
+        explicitInitialization: true
+    };
+
+    //Creating Custom FilterFunction that can be passed to slickgrid for search
+    var searchString = "";
+    function myFilter(item, args) {
+        if (args.searchString != "" && (item["ProductName"]).toLowerCase().indexOf(args.searchString.toLowerCase()) == -1) {
+            return false;
+        }
+        return true;
+    }
+
+    //Instantiating the Grid
+    var dataView = new Slick.Data.DataView({ inlineFilters: true });
+    grid = new Slick.Grid("#myGrid", dataView, columns, options);
+
+    //Adding Grid functionalities
+    grid.setSelectionModel(new Slick.RowSelectionModel());
+
+
+    //Functionality for adding Totals on cell render
+    grid.onFooterRowCellRendered.subscribe(function (e, args) {
+        if (args.column.hasTotal) {
+            $(args.node).empty();
+            $("<span></span>").text((getColumnTotal(args.column.field, grid.getData())).toFixed(2))
+               .appendTo(args.node);
+            $(args.node).addClass(args.column.headerCssClass);
+        }
+        else if (args.column.hasTotalName) {
+            $(args.node).empty();
+            $("<span></span>").text("Total")
+               .appendTo(args.node);
+            $(args.node).addClass(args.column.headerCssClass);
+        }
+    });
+
+    //Functionality for Enter key navigation
+    grid.onKeyDown.subscribe(function (e) {
+        if (e.which == 13) {
+            var row = grid.getDataItem(grid.getSelectedRows());
+            var ProductId = row.ProductId;
+            var GodownId = row.GodownId;
+            var ProcessId = row.ProcessId;
+            var Dimension1Id = row.Dimension1Id;
+            var Dimension2Id = row.Dimension2Id;
+            var LotNo = row.LotNo;
+            window.location.href = '/StockInHand/GetStockLedger/?ProductId=' + ProductId + '&Godown=' + GodownId + '&Process=' + ProcessId + '&Dim1=' + Dimension1Id + '&Dim2=' + Dimension2Id + '&LotNo=' + LotNo;
+        }
+    });
+
+
+    //Functionality for search events
+    $("#txtSearch,#txtSearch2").keyup(function (e) {
+        Slick.GlobalEditorLock.cancelCurrentEdit();
+        // clear on Esc
+        if (e.which == 27) {
+            this.value = "";
+        }
+        searchString = this.value;
+        updateFilter();
+    });
+    function updateFilter() {
+        dataView.setFilterArgs({
+            searchString: searchString
+        });
+        dataView.refresh();
+    }
+
+    // wire up model events to drive the grid
+    dataView.onRowCountChanged.subscribe(function (e, args) {
+        grid.updateRowCount();
+        grid.render();
+    });
+
+    dataView.onRowsChanged.subscribe(function (e, args) {
+        grid.invalidateRows(args.rows);
+        grid.render();
+    });
+
+
+    //Data Fetching
+    var url = '@Url.Action("GetStockInHandJson", "StockInHand", new { id = @ViewBag.id })';
+
+    $(document).ready(function () {
+        $.ajax({
+            url: url,
+            async: true,
+            success: function (rest) {
+                data = rest.data;
+                InitializeGrid();
+            },
+            error: function () {
+                onError(fromPage, toPage)
+            }
+        });
+    })
+
+    //Initializing the Grid
+    function InitializeGrid() {
+        // initialize the model after all the events have been hooked up
+        dataView.beginUpdate();
+        dataView.setItems(data,"Id");
+        dataView.setFilterArgs({
+            searchString: searchString
+        });
+        dataView.setFilter(myFilter);
+        dataView.endUpdate();
+
+        // if you don't want the items that are not visible (due to being filtered out
+        // or being on a different page) to stay selected, pass 'false' to the second arg
+        dataView.syncGridSelection(grid, true);
+
+        grid.init();
+    }
+
+    $('#myGrid').on('dblclick', '.ui-widget-content.slick-row', function () {
+        var row = grid.getDataItem(grid.getSelectedRows());
+        var ProductId = row.ProductId;
+        var GodownId = row.GodownId;
+        var ProcessId = row.ProcessId;
+        var Dimension1Id = row.Dimension1Id;
+        var Dimension2Id = row.Dimension2Id;
+        var LotNo = row.LotNo;
+        window.location.href = '/StockInHand/GetStockLedger/?ProductId=' + ProductId + '&Godown=' + GodownId + '&Process=' + ProcessId + '&Dim1=' + Dimension1Id + '&Dim2=' + Dimension2Id + '&LotNo=' + LotNo;
+    });
+
+    $(window).resize(function (e) {
+        grid.resizeCanvas();
+    })
+
+</script>

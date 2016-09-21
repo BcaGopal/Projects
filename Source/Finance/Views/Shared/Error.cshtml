@@ -1,0 +1,83 @@
+﻿@model System.Web.Mvc.HandleErrorInfo
+
+@{
+    ViewBag.Title = "Error";
+       // Layout=null;
+}
+
+<div class="panel panel-warning">
+
+    <div class="panel panel-heading" style="padding:15px">
+
+        <h3>
+            <span style="font-family: Calibri,sans-serif,Verdana">We'ar sorry...</span>
+        </h3>
+        @if (((System.Uri)ViewBag.RetUrl) != null)
+        {
+            <hr style="margin-top:0px;margin-bottom:0px" />
+
+            <div class="panel-info">
+                <h4 style="padding:5px 0 0 0;margin:0px">
+                    @Html.ActionLink(" ", " ", " ", null, new { @class = "glyphicon glyphicon-refresh toolbar", @title = "Refresh Page", @data_toggle = "tooltip", @id = "RefreshPage" })
+                    <a href="@ViewBag.RetUrl" class="glyphicon glyphicon-list toolbar right"></a>
+                </h4>
+            </div>
+        }
+    </div>
+
+
+
+
+    <div class="panel panel-danger" style="padding:15px">
+
+        @if (Model!=null && Model.Exception.InnerException != null)
+        {
+            if (Model.Exception.InnerException.Message.Contains("Mailbox unavailable. The server response was:"))
+            {
+                <h3>"Email Error-Not sent to all recipients"</h3>
+            }
+            else if (Model.Exception.InnerException.InnerException.Message.Contains("Cannot insert duplicate key row in object"))
+            {
+                <h3>"Duplicate record found with the key value"</h3>
+            }
+            else if (Model.Exception.InnerException.InnerException.Message.Contains("The DELETE statement conflicted with the REFERENCE constraint"))
+            {
+                <h3>"Corresponding record exists. Can't delete data."</h3>
+            }
+        }
+        else if (Model != null && Model.Exception.InnerException != null)
+        {
+            <h2>An error occurred while processing your request.</h2>
+            <h3><span style="font-family: Calibri,sans-serif,Verdana">@Model.Exception.InnerException.Message</span></h3>
+        }
+        else if (Model != null && Model.Exception != null)
+        {
+            <h2>An error occurred while processing your request.</h2>
+            <h3><span style="font-family: Calibri,sans-serif,Verdana">@Model.Exception.Message</span></h3>
+        }
+        else
+        {
+            <h4> <span style="font-family: Calibri,sans-serif,Verdana"> An error occurred while processing your request. Please try after sometime.</span></h4>
+
+        }
+
+    </div>
+    <hr />
+    <div class="form-group">
+        @*<div class="col-md-offset-2">
+                <input type="submit" value="Create" class="btn-primary" />
+
+                @Html.ActionLink("Back to List", "Index")
+
+            </div>*@
+    </div>
+</div>
+
+
+
+
+
+   
+
+
+

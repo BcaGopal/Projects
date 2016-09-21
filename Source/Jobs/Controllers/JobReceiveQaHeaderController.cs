@@ -1,0 +1,1275 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Web.Mvc;
+using Model.Models;
+using Data.Models;
+using Service;
+using Data.Infrastructure;
+using Presentation.ViewModels;
+using Presentation;
+using Core.Common;
+using Model.ViewModel;
+using AutoMapper;
+using Presentation.Helper;
+using System.Configuration;
+using System.Xml.Linq;
+using DocumentEvents;
+using CustomEventArgs;
+using JobReceiveQADocumentEvents;
+using Reports.Reports;
+using Model.ViewModels;
+using Reports.Controllers;
+
+namespace Web
+{
+    [Authorize]
+    public class JobReceiveQAHeaderController : System.Web.Mvc.Controller
+    {
+        private ApplicationDbContext db = new ApplicationDbContext();
+
+        List<string> UserRoles = new List<string>();
+        ActiivtyLogViewModel LogVm = new ActiivtyLogViewModel();
+
+        private bool EventException = false;
+
+        bool TimePlanValidation = true;
+        string ExceptionMsg = "";
+        bool Continue = true;
+
+        IUnitOfWork _unitOfWork;
+        IJobReceiveQAHeaderService _JobReceiveQAHeaderService;
+        IExceptionHandlingService _exception;
+        public JobReceiveQAHeaderController(IExceptionHandlingService exec, IUnitOfWork uow)
+        {
+            _unitOfWork = uow;
+            _JobReceiveQAHeaderService = new JobReceiveQAHeaderService(db);
+            _exception = exec;
+            if (!JobReceiveQAEvents.Initialized)
+            {
+                JobReceiveQAEvents Obj = new JobReceiveQAEvents();
+            }
+
+            UserRoles = (List<string>)System.Web.HttpContext.Current.Session["Roles"];
+
+            //Log Initialization
+            LogVm.SessionId = 0;
+            LogVm.ControllerName = System.Web.HttpContext.Current.Request.RequestContext.RouteData.GetRequiredString("controller");
+            LogVm.ActionName = System.Web.HttpContext.Current.Request.RequestContext.RouteData.GetRequiredString("action");
+            LogVm.User = System.Web.HttpContext.Current.Request.RequestContext.HttpContext.User.Identity.Name;
+        }
+
+        public ActionResult DocumentTypeIndex(int id)//DocumentCategoryId
+        {
+            var p = _JobReceiveQAHeaderService.FindByDocumentCategory(id).ToList();
+
+            if (p != null)
+            {
+                if (p.Count == 1)
+                    return RedirectToAction("Index", new { id = p.FirstOrDefault().DocumentTypeId });
+            }
+
+            return View("DocumentTypeList", p);
+        }
+
+        public void PrepareViewBag(int id)
+        {
+            ViewBag.Name = db.DocumentType.Find(id).DocumentTypeName;
+            ViewBag.id = id;
+        }
+
+        // GET: /JobReceiveQAHeaderMaster/
+
+        public ActionResult Index(int id, string IndexType)//DocumentTypeId
+        {
+            if (IndexType == "PTS")
+            {
+                return RedirectToAction("Index_PendingToSubmit", new { id });
+            }
+            else if (IndexType == "PTR")
+            {
+                return RedirectToAction("Index_PendingToReview", new { id });
+            }
+            var JobReceiveQAHeader = _JobReceiveQAHeaderService.GetJobReceiveQAHeaderList(id, User.Identity.Name);
+            ViewBag.Name = db.DocumentType.Find(id).DocumentTypeName;
+            ViewBag.id = id;
+            ViewBag.PendingToSubmit = PendingToSubmitCount(id);
+            ViewBag.PendingToReview = PendingToReviewCount(id);
+            ViewBag.IndexStatus = "All";
+            return View(JobReceiveQAHeader);
+        }
+
+        public ActionResult Index_PendingToSubmit(int id)
+        {
+            IQueryable<JobReceiveQAHeaderViewModel> p = _JobReceiveQAHeaderService.GetJobReceiveQAHeaderListPendingToSubmit(id, User.Identity.Name);
+
+            PrepareViewBag(id);
+            ViewBag.PendingToSubmit = PendingToSubmitCount(id);
+            ViewBag.PendingToReview = PendingToReviewCount(id);
+            ViewBag.IndexStatus = "PTS";
+            return View("Index", p);
+        }
+        public ActionResult Index_PendingToReview(int id)
+        {
+            IQueryable<JobReceiveQAHeaderViewModel> p = _JobReceiveQAHeaderService.GetJobReceiveQAHeaderListPendingToReview(id, User.Identity.Name);
+            PrepareViewBag(id);
+            ViewBag.PendingToSubmit = PendingToSubmitCount(id);
+            ViewBag.PendingToReview = PendingToReviewCount(id);
+            ViewBag.IndexStatus = "PTR";
+            return View("Index", p);
+        }
+        // GET: /JobReceiveQAHeaderMaster/Create
+
+        public ActionResult Create(int id)//DocumentTypeId
+        {
+            JobReceiveQAHeaderViewModel vm = new JobReceiveQAHeaderViewModel();
+            vm.DivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
+            vm.SiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
+            vm.CreatedDate = DateTime.Now;
+
+            //Getting Settings
+            var settings = new JobReceiveQASettingsService(db).GetJobReceiveQASettingsForDocument(id, vm.DivisionId, vm.SiteId);
+
+            if (settings == null && UserRoles.Contains("Admin"))
+            {
+                return RedirectToAction("Create", "JobReceiveQASettings", new { id = id }).Warning("Please create job Inspection settings");
+            }
+            else if (settings == null && !UserRoles.Contains("Admin"))
+            {
+                return View("~/Views/Shared/InValidSettings.cshtml");
+            }
+            vm.JobReceiveQASettings = Mapper.Map<JobReceiveQASettings, JobReceiveQASettingsViewModel>(settings);
+
+            vm.ProcessId = settings.ProcessId;
+            vm.DocDate = DateTime.Now;
+            vm.DocTypeId = id;
+            vm.DocNo = _JobReceiveQAHeaderService.FGetNewDocNo("DocNo", ConfigurationManager.AppSettings["DataBaseSchema"] + ".JobReceiveQAHeaders", vm.DocTypeId, vm.DocDate, vm.DivisionId, vm.SiteId);
+            PrepareViewBag(id);
+            ViewBag.Mode = "Add";
+            return View("Create", vm);
+        }
+
+        // POST: /ProductMaster/Create
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Post(JobReceiveQAHeaderViewModel vm)
+        {
+            #region BeforeSave
+            bool BeforeSave = true;
+            try
+            {
+
+                if (vm.JobReceiveQAHeaderId <= 0)
+                    BeforeSave = JobReceiveQADocEvents.beforeHeaderSaveEvent(this, new JobEventArgs(vm.JobReceiveQAHeaderId, EventModeConstants.Add), ref db);
+                else
+                    BeforeSave = JobReceiveQADocEvents.beforeHeaderSaveEvent(this, new JobEventArgs(vm.JobReceiveQAHeaderId, EventModeConstants.Edit), ref db);
+            }
+            catch (Exception ex)
+            {
+                string message = _exception.HandleException(ex);
+                TempData["CSEXC"] += message;
+                EventException = true;
+            }
+
+            if (!BeforeSave)
+                TempData["CSEXC"] += "Failed validation before save";
+            #endregion
+
+            #region DocTypeTimeLineValidation
+
+            try
+            {
+
+                if (vm.JobReceiveQAHeaderId <= 0)
+                    TimePlanValidation = DocumentValidation.ValidateDocument(Mapper.Map<DocumentUniqueId>(vm), DocumentTimePlanTypeConstants.Create, User.Identity.Name, out ExceptionMsg, out Continue);
+                else
+                    TimePlanValidation = DocumentValidation.ValidateDocument(Mapper.Map<DocumentUniqueId>(vm), DocumentTimePlanTypeConstants.Modify, User.Identity.Name, out ExceptionMsg, out Continue);
+
+            }
+            catch (Exception ex)
+            {
+                string message = _exception.HandleException(ex);
+                TempData["CSEXC"] += message;
+                TimePlanValidation = false;
+            }
+
+            if (!TimePlanValidation)
+                TempData["CSEXC"] += ExceptionMsg;
+
+            #endregion
+
+            if (ModelState.IsValid && BeforeSave && !EventException && (TimePlanValidation || Continue))
+            {
+
+                #region CreateRecord
+                if (vm.JobReceiveQAHeaderId <= 0)
+                {
+
+                    JobReceiveQAHeader header = new JobReceiveQAHeader();
+                    header = Mapper.Map<JobReceiveQAHeaderViewModel, JobReceiveQAHeader>(vm);
+
+                    _JobReceiveQAHeaderService.Create(header, User.Identity.Name);
+
+                    try
+                    {
+                        JobReceiveQADocEvents.onHeaderSaveEvent(this, new JobEventArgs(header.JobReceiveQAHeaderId, EventModeConstants.Add), ref db);
+                    }
+                    catch (Exception ex)
+                    {
+                        string message = _exception.HandleException(ex);
+                        TempData["CSEXC"] += message;
+                        EventException = true;
+                    }
+
+                    try
+                    {
+                        if (EventException)
+                        { throw new Exception(); }
+                        db.SaveChanges();
+                    }
+
+                    catch (Exception ex)
+                    {
+                        string message = _exception.HandleException(ex);
+                        TempData["CSEXC"] += message;
+                        PrepareViewBag(vm.DocTypeId);
+                        ViewBag.Mode = "Add";
+                        return View("Create", vm);
+                    }
+
+                    try
+                    {
+                        JobReceiveQADocEvents.afterHeaderSaveEvent(this, new JobEventArgs(header.JobReceiveQAHeaderId, EventModeConstants.Add), ref db);
+                    }
+                    catch (Exception ex)
+                    {
+                        string message = _exception.HandleException(ex);
+                        TempData["CSEXC"] += message;
+                    }
+
+                    LogActivity.LogActivityDetail(LogVm.Map(new ActiivtyLogViewModel
+                    {
+                        DocTypeId = header.DocTypeId,
+                        DocId = header.JobReceiveQAHeaderId,
+                        ActivityType = (int)ActivityTypeContants.Added,
+                        DocDate = header.DocDate,
+                        DocNo = header.DocNo,
+                        DocStatus = header.Status,
+                    }));
+
+
+                    return RedirectToAction("Modify", new { id = header.JobReceiveQAHeaderId }).Success("Data saved successfully");
+                }
+                #endregion
+
+                #region EditRecord
+                else
+                {
+                    List<LogTypeViewModel> LogList = new List<LogTypeViewModel>();
+
+                    JobReceiveQAHeader temp = _JobReceiveQAHeaderService.Find(vm.JobReceiveQAHeaderId);
+
+                    JobReceiveQAHeader ExRec = new JobReceiveQAHeader();
+                    ExRec = Mapper.Map<JobReceiveQAHeader>(temp);
+
+
+                    int status = temp.Status;
+
+                    if (temp.Status != (int)StatusConstants.Drafted)
+                        temp.Status = (int)StatusConstants.Modified;
+
+                    temp.DocDate = vm.DocDate;
+                    temp.DocNo = vm.DocNo;
+                    temp.JobWorkerId = vm.JobWorkerId;
+                    temp.QAById = vm.QAById;
+                    temp.Remark = vm.Remark;
+
+                    _JobReceiveQAHeaderService.Update(temp, User.Identity.Name);
+
+                    LogList.Add(new LogTypeViewModel
+                    {
+                        ExObj = ExRec,
+                        Obj = temp,
+                    });
+
+                    XElement Modifications = new ModificationsCheckService().CheckChanges(LogList);
+
+                    try
+                    {
+                        JobReceiveQADocEvents.onHeaderSaveEvent(this, new JobEventArgs(temp.JobReceiveQAHeaderId, EventModeConstants.Edit), ref db);
+                    }
+                    catch (Exception ex)
+                    {
+                        string message = _exception.HandleException(ex);
+                        TempData["CSEXC"] += message;
+                        EventException = true;
+                    }
+
+                    try
+                    {
+                        if (EventException)
+                        { throw new Exception(); }
+                        db.SaveChanges();
+                    }
+
+                    catch (Exception ex)
+                    {
+                        string message = _exception.HandleException(ex);
+                        TempData["CSEXC"] += message;
+                        PrepareViewBag(temp.DocTypeId);
+                        ViewBag.Mode = "Edit";
+                        return View("Create", vm);
+                    }
+
+                    try
+                    {
+                        JobReceiveQADocEvents.afterHeaderSaveEvent(this, new JobEventArgs(temp.JobReceiveQAHeaderId, EventModeConstants.Edit), ref db);
+                    }
+                    catch (Exception ex)
+                    {
+                        string message = _exception.HandleException(ex);
+                        TempData["CSEXC"] += message;
+                    }
+
+                    LogActivity.LogActivityDetail(LogVm.Map(new ActiivtyLogViewModel
+                    {
+                        DocTypeId = temp.DocTypeId,
+                        DocId = temp.JobReceiveQAHeaderId,
+                        ActivityType = (int)ActivityTypeContants.Modified,
+                        DocNo = temp.DocNo,
+                        DocDate = temp.DocDate,
+                        xEModifications = Modifications,
+                        DocStatus = temp.Status,
+                    }));
+
+                    return RedirectToAction("Index", new { id = temp.DocTypeId }).Success("Data saved successfully");
+
+                }
+                #endregion
+
+            }
+            PrepareViewBag(vm.DocTypeId);
+            ViewBag.Mode = "Add";
+            return View("Create", vm);
+        }
+
+
+        [HttpGet]
+        public ActionResult Modify(int id, string IndexType)
+        {
+            JobReceiveQAHeader header = _JobReceiveQAHeaderService.Find(id);
+            if (header.Status == (int)StatusConstants.Drafted)
+                return Edit(id, IndexType);
+            else
+                return HttpNotFound();
+        }
+
+        [HttpGet]
+        public ActionResult ModifyAfter_Submit(int id, string IndexType)
+        {
+            JobReceiveQAHeader header = _JobReceiveQAHeaderService.Find(id);
+            if (header.Status == (int)StatusConstants.Submitted || header.Status == (int)StatusConstants.Modified)
+                return Edit(id, IndexType);
+            else
+                return HttpNotFound();
+        }
+
+
+        [HttpGet]
+        public ActionResult Delete(int id)
+        {
+            JobReceiveQAHeader header = _JobReceiveQAHeaderService.Find(id);
+            if (header.Status == (int)StatusConstants.Drafted)
+                return Remove(id);
+            else
+                return HttpNotFound();
+        }
+
+        [HttpGet]
+        public ActionResult DeleteAfter_Submit(int id)
+        {
+            JobReceiveQAHeader header = _JobReceiveQAHeaderService.Find(id);
+            if (header.Status == (int)StatusConstants.Submitted || header.Status == (int)StatusConstants.Modified)
+                return Remove(id);
+            else
+                return HttpNotFound();
+        }
+
+        [HttpGet]
+        public ActionResult DetailInformation(int id, int? DocLineId)
+        {
+            return RedirectToAction("Detail", new { id = id, transactionType = "detail", DocLineId = DocLineId });
+        }
+
+
+
+        // GET: /ProductMaster/Edit/5
+        private ActionResult Edit(int id, string IndexType)
+        {
+            ViewBag.IndexStatus = IndexType;
+            JobReceiveQAHeaderViewModel pt = _JobReceiveQAHeaderService.GetJobReceiveQAHeader(id);
+
+            if (pt == null)
+            {
+                return HttpNotFound();
+            }
+
+            #region DocTypeTimeLineValidation
+            try
+            {
+
+                TimePlanValidation = DocumentValidation.ValidateDocument(Mapper.Map<DocumentUniqueId>(pt), DocumentTimePlanTypeConstants.Modify, User.Identity.Name, out ExceptionMsg, out Continue);
+
+            }
+            catch (Exception ex)
+            {
+                string message = _exception.HandleException(ex);
+                TempData["CSEXC"] += message;
+                TimePlanValidation = false;
+            }
+
+            if (!TimePlanValidation)
+                TempData["CSEXC"] += ExceptionMsg;
+            #endregion
+
+            if ((!TimePlanValidation && !Continue))
+            {
+                return RedirectToAction("DetailInformation", new { id = id, IndexType = IndexType });
+            }
+            //Job Inspection Settings
+            var settings = new JobReceiveQASettingsService(db).GetJobReceiveQASettingsForDocument(pt.DocTypeId, pt.DivisionId, pt.SiteId);
+
+            if (settings == null && UserRoles.Contains("Admin"))
+            {
+                return RedirectToAction("Create", "JobReceiveQASettings", new { id = pt.DocTypeId }).Warning("Please create job Inspection settings");
+            }
+            else if (settings == null && !UserRoles.Contains("Admin"))
+            {
+                return View("~/Views/Shared/InValidSettings.cshtml");
+            }
+
+            pt.JobReceiveQASettings = Mapper.Map<JobReceiveQASettings, JobReceiveQASettingsViewModel>(settings);
+
+            PrepareViewBag(pt.DocTypeId);
+
+            ViewBag.Mode = "Edit";
+            if ((System.Web.HttpContext.Current.Request.UrlReferrer.PathAndQuery).Contains("Create"))
+                LogActivity.LogActivityDetail(LogVm.Map(new ActiivtyLogViewModel
+                {
+                    DocTypeId = pt.DocTypeId,
+                    DocId = pt.JobReceiveQAHeaderId,
+                    ActivityType = (int)ActivityTypeContants.Detail,
+                    DocNo = pt.DocNo,
+                    DocDate = pt.DocDate,
+                    DocStatus = pt.Status,
+                }));
+
+            return View("Create", pt);
+        }
+
+
+
+        [Authorize]
+        public ActionResult Detail(int id, string IndexType, string transactionType, int? DocLineId)
+        {
+            if (DocLineId.HasValue)
+                ViewBag.DocLineId = DocLineId;
+
+            ViewBag.transactionType = transactionType;
+            ViewBag.IndexStatus = IndexType;
+
+            JobReceiveQAHeaderViewModel pt = _JobReceiveQAHeaderService.GetJobReceiveQAHeader(id);
+
+            //Job Inspection Settings
+            var settings = new JobReceiveQASettingsService(db).GetJobReceiveQASettingsForDocument(pt.DocTypeId, pt.DivisionId, pt.SiteId);
+
+            if (settings == null && UserRoles.Contains("Admin"))
+            {
+                return RedirectToAction("Create", "JobReceiveQASettings", new { id = pt.DocTypeId }).Warning("Please create job Inspection settings");
+            }
+            else if (settings == null && !UserRoles.Contains("Admin"))
+            {
+                return View("~/Views/Shared/InValidSettings.cshtml");
+            }
+
+            pt.JobReceiveQASettings = Mapper.Map<JobReceiveQASettings, JobReceiveQASettingsViewModel>(settings);
+
+            PrepareViewBag(pt.DocTypeId);
+            if (pt == null)
+            {
+                return HttpNotFound();
+            }
+            if (String.IsNullOrEmpty(transactionType) || transactionType == "detail")
+                LogActivity.LogActivityDetail(LogVm.Map(new ActiivtyLogViewModel
+                {
+                    DocTypeId = pt.DocTypeId,
+                    DocId = pt.JobReceiveQAHeaderId,
+                    ActivityType = (int)ActivityTypeContants.Detail,
+                    DocNo = pt.DocNo,
+                    DocDate = pt.DocDate,
+                    DocStatus = pt.Status,
+                }));
+
+            return View("Create", pt);
+        }
+
+
+
+        // GET: /ProductMaster/Delete/5
+
+        private ActionResult Remove(int id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            JobReceiveQAHeader JobReceiveQAHeader = _JobReceiveQAHeaderService.Find(id);
+
+            if (JobReceiveQAHeader == null)
+            {
+                return HttpNotFound();
+            }
+
+            #region DocTypeTimeLineValidation
+            try
+            {
+                TimePlanValidation = DocumentValidation.ValidateDocument(Mapper.Map<DocumentUniqueId>(JobReceiveQAHeader), DocumentTimePlanTypeConstants.Delete, User.Identity.Name, out ExceptionMsg, out Continue);
+                TempData["CSEXC"] += ExceptionMsg;
+            }
+            catch (Exception ex)
+            {
+                string message = _exception.HandleException(ex);
+                TempData["CSEXC"] += message;
+                TimePlanValidation = false;
+            }
+
+            if (!TimePlanValidation && !Continue)
+            {
+                return PartialView("AjaxError");
+            }
+            #endregion
+
+            ReasonViewModel vm = new ReasonViewModel()
+            {
+                id = id,
+            };
+
+            return PartialView("_Reason", vm);
+        }
+
+        // POST: /ProductMaster/Delete/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteConfirmed(ReasonViewModel vm)
+        {
+            #region BeforeSave
+            bool BeforeSave = true;
+            try
+            {
+                BeforeSave = JobReceiveQADocEvents.beforeHeaderDeleteEvent(this, new JobEventArgs(vm.id), ref db);
+            }
+            catch (Exception ex)
+            {
+                string message = _exception.HandleException(ex);
+                TempData["CSEXC"] += message;
+                EventException = true;
+            }
+
+            if (!BeforeSave)
+                TempData["CSEXC"] += "Failed validation before delete";
+            #endregion
+
+            if (ModelState.IsValid && BeforeSave && !EventException)
+            {
+                List<LogTypeViewModel> LogList = new List<LogTypeViewModel>();
+
+                var temp = (from p in db.JobReceiveQAHeader
+                            where p.JobReceiveQAHeaderId == vm.id
+                            select p).FirstOrDefault();
+
+
+                try
+                {
+                    JobReceiveQADocEvents.onHeaderDeleteEvent(this, new JobEventArgs(vm.id), ref db);
+                }
+                catch (Exception ex)
+                {
+                    string message = _exception.HandleException(ex);
+                    TempData["CSEXC"] += message;
+                    EventException = true;
+                }
+
+                LogList.Add(new LogTypeViewModel
+                {
+                    ExObj = Mapper.Map<JobReceiveQAHeader>(temp),
+                });
+
+
+                //var line = new JobReceiveQALineService(_unitOfWork).GetLineListForIndex(vm.id);
+                var line = (from p in db.JobReceiveQALine
+                            where p.JobReceiveQAHeaderId == vm.id
+                            select p).ToList();
+
+                new JobReceiveLineStatusService(_unitOfWork).DeleteJobReceiveQtyOnQAMultiple(temp.JobReceiveQAHeaderId, ref db);
+
+                foreach (var item in line)
+                {
+                    LogList.Add(new LogTypeViewModel
+                    {
+                        ExObj = Mapper.Map<JobReceiveQALine>(item),
+                    });
+
+                    new JobReceiveQALineService(db,_unitOfWork).Delete(item);
+                }
+
+
+                _JobReceiveQAHeaderService.Delete(temp);
+
+                //temp.ObjectState = Model.ObjectState.Deleted;
+                //db.JobReceiveQAHeader.Remove(temp);
+                ////_JobReceiveQAHeaderService.Delete(vm.id);               
+
+                XElement Modifications = new ModificationsCheckService().CheckChanges(LogList);
+
+                try
+                {
+                    if (EventException)
+                    { throw new Exception(); }
+                    db.SaveChanges();
+                }
+
+                catch (Exception ex)
+                {
+                    string message = _exception.HandleException(ex);
+                    TempData["CSEXC"] += message;
+                    return PartialView("_Reason", vm);
+                }
+
+                try
+                {
+                    JobReceiveQADocEvents.afterHeaderDeleteEvent(this, new JobEventArgs(vm.id), ref db);
+                }
+                catch (Exception ex)
+                {
+                    string message = _exception.HandleException(ex);
+                    TempData["CSEXC"] += message;
+                }
+
+                LogActivity.LogActivityDetail(LogVm.Map(new ActiivtyLogViewModel
+                {
+                    DocTypeId = temp.DocTypeId,
+                    DocId = temp.JobReceiveQAHeaderId,
+                    ActivityType = (int)ActivityTypeContants.Deleted,
+                    DocDate = temp.DocDate,
+                    DocNo = temp.DocNo,
+                    DocStatus = temp.Status,
+                }));
+
+
+                return Json(new { success = true });
+
+            }
+            return PartialView("_Reason", vm);
+        }
+
+
+
+        public ActionResult Submit(int id, string IndexType, string TransactionType)
+        {
+            #region DocTypeTimeLineValidation
+
+            JobReceiveQAHeader s = db.JobReceiveQAHeader.Find(id);
+
+            try
+            {
+                TimePlanValidation = DocumentValidation.ValidateDocument(Mapper.Map<DocumentUniqueId>(s), DocumentTimePlanTypeConstants.Submit, User.Identity.Name, out ExceptionMsg, out Continue);
+                TempData["CSEXC"] += ExceptionMsg;
+            }
+            catch (Exception ex)
+            {
+                string message = _exception.HandleException(ex);
+                TempData["CSEXC"] += message;
+                TimePlanValidation = false;
+            }
+
+            if (!TimePlanValidation && !Continue)
+            {
+                return RedirectToAction("Index", new { id = s.DocTypeId, IndexType = IndexType });
+            }
+            #endregion
+
+            return RedirectToAction("Detail", new { id = id, IndexType = IndexType, transactionType = string.IsNullOrEmpty(TransactionType) ? "submit" : TransactionType });
+        }
+
+
+        [HttpPost, ActionName("Detail")]
+        [MultipleButton(Name = "Command", Argument = "Submit")]
+        public ActionResult Submitted(int Id, string IndexType, string UserRemark, string IsContinue)
+        {
+
+            #region BeforeSave
+            bool BeforeSave = true;
+            try
+            {
+                BeforeSave = JobReceiveQADocEvents.beforeHeaderSubmitEvent(this, new JobEventArgs(Id), ref db);
+            }
+            catch (Exception ex)
+            {
+                string message = _exception.HandleException(ex);
+                TempData["CSEXC"] += message;
+                EventException = true;
+            }
+
+            if (!BeforeSave)
+                TempData["CSEXC"] += "Falied validation before submit.";
+            #endregion
+
+            if (ModelState.IsValid && BeforeSave && !EventException)
+            {
+
+                JobReceiveQAHeader pd = _JobReceiveQAHeaderService.Find(Id);
+                int ActivityType;
+                if (User.Identity.Name == pd.ModifiedBy || UserRoles.Contains("Admin"))
+                {
+
+                    IEnumerable<Stock> StockList = (from L in db.Stock
+                                                    where L.StockHeaderId == pd.StockHeaderId
+                                                    select L).ToList();
+
+                    foreach (var stockdet in StockList)
+                    {
+                        new StockService(_unitOfWork).Delete(stockdet, db);
+                    }
+
+
+                    pd.Status = (int)StatusConstants.Submitted;
+                    ActivityType = (int)ActivityTypeContants.Submitted;
+
+                    pd.ReviewBy = null;
+                    
+                    
+
+                    int? StockHeaderId = new JobReceiveQALineService(db,_unitOfWork).StockPost(Id);
+
+                    pd.StockHeaderId = StockHeaderId;
+                    pd.ObjectState = Model.ObjectState.Modified;
+                    db.JobReceiveQAHeader.Add(pd);
+
+
+                    try
+                    {
+                        JobReceiveQADocEvents.onHeaderSubmitEvent(this, new JobEventArgs(Id), ref db);
+                    }
+                    catch (Exception ex)
+                    {
+                        string message = _exception.HandleException(ex);
+                        TempData["CSEXC"] += message;
+                        EventException = true;
+                    }
+
+
+                    try
+                    {
+                        if (EventException)
+                        { throw new Exception(); }
+
+                        db.SaveChanges();
+                    }
+
+                    catch (Exception ex)
+                    {
+                        string message = _exception.HandleException(ex);
+                        TempData["CSEXC"] += message;
+                        return RedirectToAction("Index", new { id = pd.DocTypeId });
+                    }
+
+                    try
+                    {
+                        JobReceiveQADocEvents.afterHeaderSubmitEvent(this, new JobEventArgs(Id), ref db);
+                    }
+                    catch (Exception ex)
+                    {
+                        string message = _exception.HandleException(ex);
+                        TempData["CSEXC"] += message;
+                    }
+
+                    LogActivity.LogActivityDetail(LogVm.Map(new ActiivtyLogViewModel
+                    {
+                        DocTypeId = pd.DocTypeId,
+                        DocId = pd.JobReceiveQAHeaderId,
+                        ActivityType = ActivityType,
+                        UserRemark = UserRemark,
+                        DocDate = pd.DocDate,
+                        DocNo = pd.DocNo,
+                        DocStatus = pd.Status,
+                    }));
+
+                    string ReturnUrl = System.Configuration.ConfigurationManager.AppSettings["CurrentDomain"] + "/" + "JobReceiveQAHeader" + "/" + "Index" + "/" + pd.DocTypeId + "?IndexType=" + IndexType;
+                    if (!string.IsNullOrEmpty(IsContinue) && IsContinue == "True")
+                    {
+
+                        int nextId = new NextPrevIdService(_unitOfWork).GetNextPrevId(Id, pd.DocTypeId, User.Identity.Name, ForActionConstants.PendingToSubmit, "Web.JobReceiveQAHeaders", "JobReceiveQAHeaderId", PrevNextConstants.Next);
+
+                        if (nextId == 0)
+                        {
+                            var PendingtoSubmitCount = PendingToSubmitCount(pd.DocTypeId);
+                            if (PendingtoSubmitCount > 0)
+                                //return RedirectToAction("Index_PendingToSubmit", new { id = pd.DocTypeId });
+                                ReturnUrl = System.Configuration.ConfigurationManager.AppSettings["CurrentDomain"] + "/" + "JobReceiveQAHeader" + "/" + "Index_PendingToSubmit" + "/" + pd.DocTypeId + "?IndexType=" + IndexType;
+                            else
+                                //return RedirectToAction("Index", new { id = pd.DocTypeId });
+                                ReturnUrl = System.Configuration.ConfigurationManager.AppSettings["CurrentDomain"] + "/" + "JobReceiveQAHeader" + "/" + "Index" + "/" + pd.DocTypeId + "?IndexType=" + IndexType;
+
+                        }
+                        ReturnUrl = System.Configuration.ConfigurationManager.AppSettings["CurrentDomain"] + "/" + "JobReceiveQAHeader" + "/" + "Submit" + "/" + nextId + "?TransactionType=submitContinue&IndexType=" + IndexType;
+                    }
+                    else
+                    {
+                        ReturnUrl = System.Configuration.ConfigurationManager.AppSettings["CurrentDomain"] + "/" + "JobReceiveQAHeader" + "/" + "Index" + "/" + pd.DocTypeId + "?IndexType=" + IndexType;
+                    }
+                    return Redirect(ReturnUrl).Success("Record Submitted Successfully");
+                }
+                else
+                {
+                    return RedirectToAction("Index", new { id = pd.DocTypeId, IndexType = IndexType }).Warning("Record can be submitted by user " + pd.ModifiedBy + " only.");
+                }
+            }
+
+            return View();
+        }
+
+
+
+        public ActionResult Review(int id, string IndexType, string TransactionType)
+        {
+            return RedirectToAction("Detail", new { id = id, IndexType = IndexType, transactionType = string.IsNullOrEmpty(TransactionType) ? "review" : TransactionType });
+        }
+
+
+        [HttpPost, ActionName("Detail")]
+        [MultipleButton(Name = "Command", Argument = "Review")]
+        public ActionResult Reviewed(int Id, string IndexType, string UserRemark, string IsContinue)
+        {
+            bool BeforeSave = true;
+            try
+            {
+                BeforeSave = JobReceiveQADocEvents.beforeHeaderReviewEvent(this, new JobEventArgs(Id), ref db);
+            }
+            catch (Exception ex)
+            {
+                string message = _exception.HandleException(ex);
+                TempData["CSEXC"] += message;
+            }
+
+            if (!BeforeSave)
+                TempData["CSEXC"] += "Falied validation before review.";
+
+            if (ModelState.IsValid && BeforeSave)
+            {
+                JobReceiveQAHeader pd = _JobReceiveQAHeaderService.Find(Id);
+
+                pd.ReviewCount = (pd.ReviewCount ?? 0) + 1;
+                pd.ReviewBy += User.Identity.Name + ", ";
+
+                pd.ObjectState = Model.ObjectState.Modified;
+                db.JobReceiveQAHeader.Add(pd);
+
+
+                //_JobReceiveQAHeaderService.Update(pd);
+
+                try
+                {
+                    JobReceiveQADocEvents.onHeaderReviewEvent(this, new JobEventArgs(Id), ref db);
+                }
+                catch (Exception ex)
+                {
+                    string message = _exception.HandleException(ex);
+                    TempData["CSEXC"] += message;
+                }
+
+
+                db.SaveChanges();
+                //_unitOfWork.Save();
+
+                try
+                {
+                    JobReceiveQADocEvents.afterHeaderReviewEvent(this, new JobEventArgs(Id), ref db);
+                }
+                catch (Exception ex)
+                {
+                    string message = _exception.HandleException(ex);
+                    TempData["CSEXC"] += message;
+                }
+
+
+                LogActivity.LogActivityDetail(LogVm.Map(new ActiivtyLogViewModel
+                {
+                    DocTypeId = pd.DocTypeId,
+                    DocId = pd.JobReceiveQAHeaderId,
+                    ActivityType = (int)ActivityTypeContants.Reviewed,
+                    UserRemark = UserRemark,
+                    DocDate = pd.DocDate,
+                    DocNo = pd.DocNo,
+                    DocStatus = pd.Status,
+                }));
+
+                if (!string.IsNullOrEmpty(IsContinue) && IsContinue == "True")
+                {
+                    JobReceiveQAHeader HEader = _JobReceiveQAHeaderService.Find(Id);
+
+                    int nextId = new NextPrevIdService(_unitOfWork).GetNextPrevId(Id, HEader.DocTypeId, User.Identity.Name, ForActionConstants.PendingToReview, "Web.JobReceiveQAHeaders", "JobReceiveQAHeaderId", PrevNextConstants.Next);
+                    if (nextId == 0)
+                    {
+                        var PendingtoSubmitCount = PendingToReviewCount(HEader.DocTypeId);
+                        if (PendingtoSubmitCount > 0)
+                            return RedirectToAction("Index_PendingToReview", new { id = HEader.DocTypeId });
+                        else
+                            return RedirectToAction("Index", new { id = HEader.DocTypeId, IndexType = IndexType });
+
+                    }
+
+                    return RedirectToAction("Detail", new { id = nextId, transactionType = "ReviewContinue", IndexType = IndexType });
+                }
+
+
+                else
+                    return RedirectToAction("Index", new { id = pd.DocTypeId, IndexType = IndexType }).Success(pd.DocNo + " Reviewed Successfully.");
+            }
+
+            return View();
+        }
+
+
+
+
+
+
+
+        [HttpGet]
+        public ActionResult NextPage(int DocId, int DocTypeId)//CurrentHeaderId
+        {
+            var nextId = new NextPrevIdService(_unitOfWork).GetNextPrevId(DocId, DocTypeId, User.Identity.Name, "", "Web.JobReceiveQAHeaders", "JobReceiveQAHeaderId", PrevNextConstants.Next);
+            return Edit(nextId, "");
+        }
+        [HttpGet]
+        public ActionResult PrevPage(int DocId, int DocTypeId)//CurrentHeaderId
+        {
+            var PrevId = new NextPrevIdService(_unitOfWork).GetNextPrevId(DocId, DocTypeId, User.Identity.Name, "", "Web.JobReceiveQAHeaders", "JobReceiveQAHeaderId", PrevNextConstants.Prev);
+            return Edit(PrevId, "");
+        }
+
+        [HttpGet]
+        public ActionResult History()
+        {
+            //To Be Implemented
+            return View("~/Views/Shared/UnderImplementation.cshtml");
+        }
+
+        [HttpGet]
+        public ActionResult Email()
+        {
+            //To Be Implemented
+            return View("~/Views/Shared/UnderImplementation.cshtml");
+        }
+
+
+        [HttpGet]
+        private ActionResult PrintOut(int id, string SqlProcForPrint)
+        {
+            String query = SqlProcForPrint;
+            return Redirect((string)System.Configuration.ConfigurationManager.AppSettings["CustomizeDomain"] + "/Report_DocumentPrint/DocumentPrint/?DocumentId=" + id + "&queryString=" + query);
+        }
+
+        [HttpGet]
+        public ActionResult Print(int id)
+        {
+            JobReceiveQAHeader header = _JobReceiveQAHeaderService.Find(id);
+            if (header.Status == (int)StatusConstants.Drafted)
+            {
+                var SEttings = new JobReceiveQASettingsService(db).GetJobReceiveQASettingsForDocument(header.DocTypeId, header.DivisionId, header.SiteId);
+                if (string.IsNullOrEmpty(""))
+                    throw new Exception("Document Print Not Configured");
+                else
+                    return PrintOut(id, "");
+            }
+            else
+                return HttpNotFound();
+
+        }
+
+        [HttpGet]
+        public ActionResult PrintAfter_Submit(int id)
+        {
+            JobReceiveQAHeader header = _JobReceiveQAHeaderService.Find(id);
+            if (header.Status == (int)StatusConstants.Submitted || header.Status == (int)StatusConstants.Modified)
+            {
+                var SEttings = new JobReceiveQASettingsService(db).GetJobReceiveQASettingsForDocument(header.DocTypeId, header.DivisionId, header.SiteId);
+                if (string.IsNullOrEmpty(""))
+                    throw new Exception("Document Print Not Configured");
+                else
+                    return PrintOut(id, "");
+            }
+            else
+                return HttpNotFound();
+        }
+
+
+        [HttpGet]
+        public ActionResult PrintAfter_Approve(int id)
+        {
+            JobReceiveQAHeader header = _JobReceiveQAHeaderService.Find(id);
+            if (header.Status == (int)StatusConstants.Approved)
+            {
+                var SEttings = new JobReceiveQASettingsService(db).GetJobReceiveQASettingsForDocument(header.DocTypeId, header.DivisionId, header.SiteId);
+                if (string.IsNullOrEmpty(""))
+                    throw new Exception("Document Print Not Configured");
+                else
+                    return PrintOut(id, "");
+            }
+            else
+                return HttpNotFound();
+        }
+
+
+        [HttpGet]
+        public ActionResult Report(int id)
+        {
+            DocumentType Dt = new DocumentType();
+            Dt = db.DocumentType.Find(id);
+
+            JobReceiveQASettings SEttings = new JobReceiveQASettingsService(db).GetJobReceiveQASettingsForDocument(Dt.DocumentTypeId, (int)System.Web.HttpContext.Current.Session["DivisionId"], (int)System.Web.HttpContext.Current.Session["SiteId"]);
+
+            Dictionary<int, string> DefaultValue = new Dictionary<int, string>();
+
+            if (!Dt.ReportMenuId.HasValue)
+                throw new Exception("Report Menu not configured in document types");
+
+            Model.Models.Menu menu = new MenuService(_unitOfWork).Find(Dt.ReportMenuId ?? 0);
+
+            if (menu != null)
+            {
+                ReportHeader header = new ReportHeaderService(_unitOfWork).GetReportHeaderByName(menu.MenuName);
+
+                ReportLine Line = new ReportLineService(_unitOfWork).GetReportLineByName("DocumentType", header.ReportHeaderId);
+                if (Line != null)
+                    DefaultValue.Add(Line.ReportLineId, id.ToString());
+                ReportLine Site = new ReportLineService(_unitOfWork).GetReportLineByName("Site", header.ReportHeaderId);
+                if (Site != null)
+                    DefaultValue.Add(Site.ReportLineId, ((int)System.Web.HttpContext.Current.Session["SiteId"]).ToString());
+                ReportLine Division = new ReportLineService(_unitOfWork).GetReportLineByName("Division", header.ReportHeaderId);
+                if (Division != null)
+                    DefaultValue.Add(Division.ReportLineId, ((int)System.Web.HttpContext.Current.Session["DivisionId"]).ToString());
+                //ReportLine Process = new ReportLineService(_unitOfWork).GetReportLineByName("Process", header.ReportHeaderId);
+                //if (Process != null)
+                //    DefaultValue.Add(Process.ReportLineId, ((int)SEttings.ProcessId).ToString());
+            }
+
+            TempData["ReportLayoutDefaultValues"] = DefaultValue;
+
+            return Redirect((string)System.Configuration.ConfigurationManager.AppSettings["CustomizeDomain"] + "/Report_ReportPrint/ReportPrint/?MenuId=" + Dt.ReportMenuId);
+
+        }
+
+
+        public int PendingToSubmitCount(int id)
+        {
+            return (_JobReceiveQAHeaderService.GetJobReceiveQAHeaderListPendingToSubmit(id, User.Identity.Name)).Count();
+        }
+
+        public int PendingToReviewCount(int id)
+        {
+            return (_JobReceiveQAHeaderService.GetJobReceiveQAHeaderListPendingToReview(id, User.Identity.Name)).Count();
+        }
+
+        public ActionResult Import(int id)//Document Type Id
+        {
+            //ControllerAction ca = new ControllerActionService(_unitOfWork).Find(id);
+            JobReceiveQAHeaderViewModel vm = new JobReceiveQAHeaderViewModel();
+
+            vm.DivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
+            vm.SiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
+
+            var settings = new JobReceiveQASettingsService(db).GetJobReceiveQASettingsForDocument(id, vm.DivisionId, vm.SiteId);
+
+            if (settings != null)
+            {
+                if (settings.ImportMenuId != null)
+                {
+                    MenuViewModel menuviewmodel = new MenuService(_unitOfWork).GetMenu((int)settings.ImportMenuId);
+
+                    if (menuviewmodel == null)
+                    {
+                        return View("~/Views/Shared/UnderImplementation.cshtml");
+                    }
+                    else if (!string.IsNullOrEmpty(menuviewmodel.URL))
+                    {
+                        return Redirect(System.Configuration.ConfigurationManager.AppSettings[menuviewmodel.URL] + "/" + menuviewmodel.ControllerName + "/" + menuviewmodel.ActionName + "/" + id + "?MenuId=" + menuviewmodel.MenuId);
+                    }
+                    else
+                    {
+                        return RedirectToAction(menuviewmodel.ActionName, menuviewmodel.ControllerName, new { MenuId = menuviewmodel.MenuId, id = id });
+                    }
+                }
+            }
+            return RedirectToAction("Index", new { id = id });
+        }
+
+        public ActionResult Action_Menu(int Id, int MenuId, string ReturnUrl)
+        {
+            MenuViewModel menuviewmodel = new MenuService(_unitOfWork).GetMenu(MenuId);
+
+            if (menuviewmodel != null)
+            {
+                if (!string.IsNullOrEmpty(menuviewmodel.URL))
+                {
+                    return Redirect(System.Configuration.ConfigurationManager.AppSettings[menuviewmodel.URL] + "/" + menuviewmodel.ControllerName + "/" + menuviewmodel.ActionName + "/" + Id + "?ReturnUrl=" + ReturnUrl);
+                }
+                else
+                {
+                    return RedirectToAction(menuviewmodel.ActionName, menuviewmodel.ControllerName, new { id = Id, ReturnUrl = ReturnUrl });
+                }
+            }
+            return null;
+        }
+
+
+
+        public ActionResult GeneratePrints(string Ids, int DocTypeId)
+        {
+
+            if (!string.IsNullOrEmpty(Ids))
+            {
+                int SiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
+                int DivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
+
+                var Settings = new JobReceiveQASettingsService(db).GetJobReceiveQASettingsForDocument(DocTypeId, DivisionId, SiteId);
+
+                string ReportSql = "";
+
+                if (!string.IsNullOrEmpty(Settings.DocumentPrint))
+                    ReportSql = db.ReportHeader.Where((m) => m.ReportName == Settings.DocumentPrint).FirstOrDefault().ReportSQL;
+
+                try
+                {
+
+                    List<byte[]> PdfStream = new List<byte[]>();
+                    foreach (var item in Ids.Split(',').Select(Int32.Parse))
+                    {
+
+                        DirectReportPrint drp = new DirectReportPrint();
+
+                        var pd = db.JobReceiveQAHeader.Find(item);
+
+                        LogActivity.LogActivityDetail(LogVm.Map(new ActiivtyLogViewModel
+                        {
+                            DocTypeId = pd.DocTypeId,
+                            DocId = pd.JobReceiveQAHeaderId,
+                            ActivityType = (int)ActivityTypeContants.Print,
+                            DocNo = pd.DocNo,
+                            DocDate = pd.DocDate,
+                            DocStatus = pd.Status,
+                        }));
+
+                        byte[] Pdf;
+
+                        if (!string.IsNullOrEmpty(ReportSql))
+                        {
+                            Pdf = drp.rsDirectDocumentPrint(ReportSql, User.Identity.Name, item);
+                            PdfStream.Add(Pdf);
+                        }
+                        else
+                        {
+                            if (pd.Status == (int)StatusConstants.Drafted || pd.Status == (int)StatusConstants.Modified)
+                            {
+                                //LogAct(item.ToString());
+                                Pdf = drp.DirectDocumentPrint(Settings.SqlProcDocumentPrint, User.Identity.Name, item);
+
+                                PdfStream.Add(Pdf);
+                            }
+                            else if (pd.Status == (int)StatusConstants.Submitted || pd.Status == (int)StatusConstants.ModificationSubmitted)
+                            {
+                                Pdf = drp.DirectDocumentPrint(Settings.SqlProcDocumentPrint_AfterSubmit, User.Identity.Name, item);
+
+                                PdfStream.Add(Pdf);
+                            }
+                            else if (pd.Status == (int)StatusConstants.Approved)
+                            {
+                                Pdf = drp.DirectDocumentPrint(Settings.SqlProcDocumentPrint_AfterApprove, User.Identity.Name, item);
+                                PdfStream.Add(Pdf);
+                            }
+                        }
+                    }
+
+                    PdfMerger pm = new PdfMerger();
+
+                    byte[] Merge = pm.MergeFiles(PdfStream);
+
+                    if (Merge != null)
+                        return File(Merge, "application/pdf");
+
+                }
+
+                catch (Exception ex)
+                {
+                    string message = _exception.HandleException(ex);
+                    return Json(new { success = "Error", data = message }, JsonRequestBehavior.AllowGet);
+                }
+
+                return Json(new { success = "Success" }, JsonRequestBehavior.AllowGet);
+
+            }
+            return Json(new { success = "Error", data = "No Records Selected." }, JsonRequestBehavior.AllowGet);
+
+        }
+
+        public ActionResult Wizard(int id)//Document Type Id
+        {
+            //ControllerAction ca = new ControllerActionService(_unitOfWork).Find(id);
+            int DivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
+            int SiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
+
+            var settings = new JobReceiveQASettingsService(db).GetJobReceiveQASettingsForDocument(id, DivisionId, SiteId);
+
+            if (settings != null)
+            {
+                if (settings.WizardMenuId != null)
+                {
+                    MenuViewModel menuviewmodel = new MenuService(_unitOfWork).GetMenu((int)settings.WizardMenuId);
+
+                    if (menuviewmodel == null)
+                    {
+                        return View("~/Views/Shared/UnderImplementation.cshtml");
+                    }
+                    else if (!string.IsNullOrEmpty(menuviewmodel.URL))
+                    {
+                        return Redirect(System.Configuration.ConfigurationManager.AppSettings[menuviewmodel.URL] + "/" + menuviewmodel.ControllerName + "/" + menuviewmodel.ActionName + "/" + menuviewmodel.RouteId + "?MenuId=" + menuviewmodel.MenuId);
+                    }
+                    else
+                    {
+                        return RedirectToAction(menuviewmodel.ActionName, menuviewmodel.ControllerName, new { MenuId = menuviewmodel.MenuId, id = menuviewmodel.RouteId });
+                    }
+                }
+            }
+            return RedirectToAction("Index", new { id = id });
+        }
+
+
+
+        protected override void Dispose(bool disposing)
+        {
+            if (!string.IsNullOrEmpty((string)TempData["CSEXC"]))
+            {
+                CookieGenerator.CreateNotificationCookie(NotificationTypeConstants.Danger, (string)TempData["CSEXC"]);
+                TempData.Remove("CSEXC");
+            }
+            if (disposing)
+            {
+                db.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+    }
+}

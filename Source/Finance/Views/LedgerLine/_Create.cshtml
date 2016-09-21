@@ -1,0 +1,477 @@
+﻿@model Model.ViewModels.LedgersViewModel
+@using Core.Common
+
+<style type="text/css">
+    .cusleftnormal {
+        border-bottom-left-radius: 0pc !important;
+        border-top-left-radius: 0px !important;
+    }
+
+    .cusrightnormal {
+        border-bottom-right-radius: 0px !important;
+        border-top-right-radius: 0px !important;
+    }
+
+    .ui-autocomplete {
+        max-height: 250px;
+        overflow-y: auto;
+        /* prevent horizontal scrollbar */
+        overflow-x: hidden;
+    }
+</style>
+
+<div class="modal-content">
+    <div class="modal-header" style="border-bottom: 1px solid #8E8888">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"> <span class="glyphicon glyphicon-remove"></span></button>
+        <h3>
+            <span style="font-family: Calibri,sans-serif,Verdana;font-weight:bold" class="black"><span class="glyphicon glyphicon-file black"></span> Line Detail @ViewBag.LedgerAccountName</span>
+        </h3>
+    </div>
+    <div>
+        @using (Html.BeginForm("_CreatePost", "LedgerLine", FormMethod.Post, new { enctype = "multipart/form-data", id = "modform" }))
+        { @Html.ValidationLog((string)TempData["CSEXCL"])
+            <div class="form-horizontal modal-body">
+
+                @Html.AntiForgeryToken()
+
+                @Html.HiddenFor(m => m.ContraLedgerAccountId)
+                @Html.HiddenFor(m => m.LedgerHeaderId)
+                @Html.HiddenFor(m => m.LedgerId)
+                @Html.HiddenFor(m => m.LedgerLineId)
+                @Html.HiddenFor(m => m.ReferenceId)
+                @Html.HiddenFor(m => m.DocumentCategoryId)
+
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+
+                <div class="row">
+
+                    <div class="col-md-6" style="display:@(Model.LedgerSetting.isVisibleLineCostCenter?"":"none")">
+                        @Html.HiddenFor(m => m.LedgerSetting.isVisibleLineCostCenter)
+                        @Html.HiddenFor(m => m.LedgerSetting.isMandatoryLineCostCenter)
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.CostCenterId, "Cost Center", new { @class = "control-label col-xs-4" })
+                            <div class="col-xs-7">
+                                @Html.TextBoxFor(m => m.CostCenterId, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.CostCenterId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.LedgerAccountId, "Ledger Account", new { @class = "control-label col-xs-4 " })
+                            <div class="col-xs-7">
+                                @Html.TextBoxFor(model => model.LedgerAccountId, new { @class = "form-control col-xs-7 required" })
+                                @Html.ValidationMessageFor(model => model.LedgerAccountId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-6" style="display:@(!string.IsNullOrEmpty(Model.LedgerSetting.BaseValueText)?"":"none")">
+                        @Html.HiddenFor(m => m.LedgerSetting.BaseValueText)
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.BaseValue, Model.LedgerSetting.BaseValueText, new { @class = "control-label col-xs-4" })
+                            <div class="col-xs-7">
+                                @Html.TextBoxFor(m => m.BaseValue, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.BaseValue, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6" style="display:@(!string.IsNullOrEmpty(Model.LedgerSetting.BaseRateText)?"":"none")">
+                        @Html.HiddenFor(m => m.LedgerSetting.BaseRateText)
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.BaseRate, Model.LedgerSetting.BaseRateText, new { @class = "control-label col-xs-4" })
+                            <div class="col-xs-7">
+                                @Html.TextBoxFor(m => m.BaseRate, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.BaseRate, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Amount, (((string)ViewBag.Nature).ToUpper() == "CR" ? "Amount Dr" : "Amount Cr"), new { @class = "control-label col-xs-4" })
+                            <div class="col-xs-7">
+                                @Html.TextBoxFor(model => model.Amount, new { @class = "form-control col-xs-7 required" })
+                                @Html.ValidationMessageFor(model => model.Amount, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6" style="display:@(Model.LedgerSetting.isVisibleRefNo?"":"none")">
+                        @Html.HiddenFor(m => m.LedgerSetting.isVisibleRefNo)
+                        @Html.HiddenFor(m => m.LedgerSetting.isMandatoryRefNo)
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.ReferenceId, "Reference No.", new { @class = "control-label col-xs-4" })
+                            <div class="col-xs-7">
+                                @Html.TextBox(" ", "", new { @class = "form-control", @id = "autocompleteorder" })
+                                @Html.ValidationMessageFor(model => model.ReferenceId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+
+                    @if (ViewBag.LedgerAccountNature == LedgerAccountTypeConstants.Bank)
+                    {
+
+                        <div class="col-md-6" style="display:@(Model.LedgerSetting.isVisibleChqNo?"":"none")">
+                            @Html.HiddenFor(m => m.LedgerSetting.isVisibleChqNo)
+                            @Html.HiddenFor(m => m.LedgerSetting.isMandatoryChqNo)
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.ChqNo, "Chq No", new { @class = "control-label col-xs-4 " })
+                                <div class="col-xs-7">
+                                    @Html.TextBoxFor(model => model.ChqNo, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.ChqNo, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.DueDate, "Due Date", new { @class = "control-label col-xs-4" })
+                                <div class="col-xs-7">
+                                    @Html.TextBoxFor(model => model.DueDate, "{0:dd/MMMM/yyyy}", new { @class = "datepicker form-control col-xs-7" })
+                                    @Html.ValidationMessageFor(model => model.DueDate, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Remark, "Remark", new { @class = "control-label col-xs-4 " })
+                            <div class="col-xs-7">
+                                @Html.TextAreaFor(model => model.Remark, new { @class = "form-control col-xs-7 required" })
+                                @Html.ValidationMessageFor(model => model.Remark, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+                <div class="modal-footer " style="padding: 19px 20px 0 20px; border-top:1px solid #8E8888">
+                    @if (ViewBag.LineMode == "Edit" || ViewBag.LineMode == "Create")
+                    {
+                        <button class="btn custom left" name="Command:Edit" type="submit" id="submit"><h2 style="margin:0px"><span class="glyphicon glyphicon-floppy-disk black"></span> </h2></button>}
+                    <small style="text-align:center;font-weight:bold">@ViewBag.LedgerLastTransaction</small>
+                    @if (ViewBag.LineMode == "Delete")
+                    {
+                        <button class="btn custom" name="Command:Delete" id="delete" type="submit"><h2 style="margin:0px"><span class="glyphicon glyphicon-trash black"></span> </h2></button>}
+                </div>
+
+            </div>
+        }
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    //var cachearray={};
+    var PTAID='@ViewBag.TAID';
+    var TChqNo=parseInt($('#ChqNo').val());
+
+    $(document).ready(function () {
+        CustomSelectFunction($("#LedgerAccountId"), '/LedgerLine/GetLedgerAccount', '/ComboHelpList/SetSingleAccount', 'Enter Account', false, 1,$('#LedgerHeaderId','.modal-body').val());
+        CustomSelectFunction($("#CostCenterId"), '/LedgerLine/GetCostCenters', '/ComboHelpList/SetSingleCostCenter', 'Cost Center', false, 1,$('#LedgerHeaderId','.modal-body').val());
+
+
+        $('.datepicker').datepicker({
+            format: 'dd/MM/yyyy',
+            "setDate": new Date(),
+            "autoclose": true
+        })
+
+        var id=@Model.LedgerLineId;
+
+        if(id>0)
+        {
+            var tex='@Model.ReferenceDocNo';
+            $("#autocompleteorder").val(tex).attr('disabled', 'disabled');
+        }
+
+        $('#BaseRate,#BaseValue').change(function(){
+            if( parseFloat($('#BaseValue').val()) > 0 && parseFloat($('#BaseRate').val()) > 0 )
+            {
+                var Base=parseFloat($('#BaseValue').val());
+                var Rate=parseFloat($('#BaseRate').val());
+                $('#Amount').val((Base *( Rate/100)).toFixed(0))
+            }
+
+        })
+
+        $('#CostCenterId').change(function(){
+
+            $.ajax({
+                cache: false,
+                type: "POST",
+                url: "@(Url.Action("GetLedgerAcc"))",
+                data: { CostCenterId:$('#CostCenterId','.modal-body').val() },
+                success: function (data) {
+                    if(data.Success){
+                        $('#LedgerAccountId').select2("data",{id:data.Id,text:data.Name}).attr('readonly','true').trigger('change');
+                        if($('#BaseValue').is(':hidden'))
+                            $('#Amount').focus();
+                        else if($('#BaseValue').is(':visible'))
+                            $('#BaseValue').focus();
+
+                        IncrChqNo(data.Id);
+                    }
+                    else if(!data.Success){
+                        $('#LedgerAccountId').removeAttr('readonly');
+                    }
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert('Failed to retrieve Ledger Accounts.' + thrownError);
+                }
+
+            });
+
+        })
+
+        $("#LedgerAccountId").change(function(){
+            IncrChqNo($(this).val());
+            FetchRate($(this).val());
+
+        })
+
+        function FetchRate(Id)
+        {
+            if(Id)
+            {
+                $.ajax({
+                    cache: false,
+                    type: "POST",
+                    url: "@(Url.Action("FetchRate"))",
+                    data: { PersonId:Id },
+                    success: function (data) {
+                        if(data.Success){
+                            if(!$('#BaseRate').is(':hidden'))
+                                $('#BaseRate').val(data.Rate);
+                        }
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        alert('Failed to retrieve Ledger Accounts.' + thrownError);
+                    }
+
+                });
+            }
+        }
+
+
+        function IncrChqNo(id)
+        {
+            if(PTAID && !isNaN(PTAID) && TChqNo && !isNaN(TChqNo))
+            {
+                if(PTAID!=id)
+                {
+                    var TC = TChqNo + 1;
+                    $('#ChqNo').val(TC);
+                }
+                else
+                {
+                    $('#ChqNo').val(TChqNo);
+                }
+            }
+        }
+
+        $('#delete','.modal-content').click(function (e) {
+            if(id>0)
+            {
+                var url = '/LedgerLine/DeletePost';
+                $('form#modform').attr('action',url);
+                return;
+            }
+            else
+            {
+                return false;
+            }
+        })
+
+        var IsSaved=false;
+        var ValidationCount=0;
+
+        $('#modform').bind('submit',function(event){
+
+            if(!IsSaved)
+            {
+                if(!ValidateData())
+                {
+                    return false;
+                }
+                IsSaved=true;
+                $('button:submit').attr('disabled','disabled');
+                return IsSaved;
+            }
+            else
+            {
+                return false;
+            }
+
+
+        });
+
+        function ValidateData() {
+            var ValidationMessage = "";
+
+            //Client Side Validaion.....
+
+            return  (ValidationMessage=="");
+
+        }
+
+
+    });
+
+
+    //$("#Narration").autocomplete({
+    //    source: function(request,response){
+    //        $.ajax({
+    //            cache: false,
+    //            type: "POST",
+    //            url: "/LedgerHeader/GetNarrationList",
+    //            success: function (data) {
+
+    //                var matcher = new RegExp( $.ui.autocomplete.escapeRegex( request.term ), "i" );
+    //                response( $.grep( data, function( value ) {
+
+    //                    value = value.label || value.value || value;
+    //                    return matcher.test( value );
+
+    //                }) );
+    //                //response(data);
+    //            },
+    //            error: function (xhr, ajaxOptions, thrownError) {
+    //                alert('Failed to retrieve Narrations.' + thrownError);
+    //            }
+    //        });
+    //    },
+    //    appendTo : $(".modal-content"),
+
+    //})
+
+
+    $('#submit').click(function(){
+        if($('#Amount').val()<=0)
+        {
+            if($(this).closest('.modal-body').find('#cerr').length==0){
+                $(this).closest('.modal-body').find('.row:first').before('<div id="cerr" class="alert alert-danger text-center"> <span>Amount is mandatory </span> </div>');}
+
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+    })
+
+
+</script>
+
+@if (Model.LedgerSetting.isVisibleLineCostCenter)
+{
+    <script type="text/javascript">
+        $("#CostCenterId",".modal-body").select2("focus");
+    </script>
+}
+else
+{
+    <script type="text/javascript">
+        $("#LedgerAccountId",".modal-body").select2("focus");
+    </script>
+}
+
+<script type="text/javascript">
+    //alert( ($("#LedgerAccountId").attr('visibility'));
+
+    var referencetype = ""
+    if ( '@(((string)ViewBag.Nature).ToUpper())' == "CR" )
+    {
+        referencetype = "Credit"
+    }
+    else{
+        referencetype = "Debit"
+    }
+
+
+    $( "#autocompleteorder" ).focusout( function( ) {
+        if (!$(this).val()) {
+            $("#autocompleteorder").val("");
+            $('#ReferenceId').val("");
+        }
+
+        if($("#autocompleteorder").val()=="")
+        {
+            $('#ReferenceId').val("");
+        }
+
+
+    }
+        );
+
+    $(function() {
+        $("#autocompleteorder").autocomplete({
+            delay: 500,
+            minLength: 3,
+            source: function(request,response){
+
+                $.ajax({
+                    cache: false,
+                    type: "POST",
+                    url: "@(Url.Action("GetPersonPendingBills"))",
+                    data: { LedgerHeaderId:$('#LedgerHeaderId','.modal-body').val(), LedgerAccountId:$("#LedgerAccountId").val(),ReferenceType:referencetype,term:request.term,Limit:20 },
+                    success: function (data) {
+                        if(data.length>0){
+                            var cachearray = data.error ? [] : $.map(data, function(m) {
+
+                                return {
+                                    value: m.LedgerDocNo,
+                                    key: m.LedgerId,
+                                };
+                            });
+                            response(cachearray);
+                        }
+                        else
+                        {
+                            var dimensions = { width: 10};
+                            var cachearray=$.map(dimensions,function(value,key){
+                                return{
+                                    value:"No Record Found!",
+                                    key:null
+                                }
+                            })
+                            response(cachearray);
+                        }
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        $('.ui-autocomplete-loading').removeClass("ui-autocomplete-loading");
+                        alert('Failed to retrieve Pending Orders.' + thrownError);
+                    }
+
+                });
+            },
+            appendTo : $("#myModalContent"),
+            select: function(event, ui) {
+                // prevent autocomplete from updating the textbox
+                // navigate to the selected item's url
+                if($("#autocompleteorder").val()=="")
+                {
+                    $('#ReferenceId').val("");
+                }
+                else
+                {
+                    $("#ReferenceId").val(ui.item.key);
+                }
+
+
+            },
+
+        })
+    });
+
+    $("#autocompleteorder").on("focus",function(){
+        $(this).keydown();
+    });
+
+</script>

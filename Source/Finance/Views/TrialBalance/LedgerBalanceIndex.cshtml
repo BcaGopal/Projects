@@ -1,0 +1,399 @@
+﻿@{
+    ViewBag.Title = "Ledger Balance";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@*<style type="text/css">
+        .DTHidden {
+            display: none;
+        }
+
+        .TextRight {
+            text-align: right;
+        }
+
+        .dataTables_scroll {
+            font-size: 13px !important;
+            line-height: 1;
+        }
+
+        table.dataTable tbody td {
+            padding: 2px 10px;
+        }
+    </style>
+    <link href="~/Content/DataTables/css/dataTables.bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/DataTables/css/scroller.dataTables.min.css" rel="stylesheet" />
+
+    <script src="~/Scripts/DataTables/jquery.dataTables.min.js"></script>
+    <script src="~/Scripts/DataTables/dataTables.scroller.min.js"></script>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3>
+                <span style="font-family: Calibri,sans-serif,Verdana;font-weight:bold" class="black"><span class="glyphicon glyphicon-list black"></span> @ViewBag.Name </span>
+                @Html.ActionLink(" ", " ", " ", null, new { @class = "glyphicon glyphicon-refresh toolbar right small", @title = "Refresh Page", @data_toggle = "tooltip", @id = "RefreshPage", @style = "padding:10px 5px;" })
+                @Html.ActionLink(" ", "Create", "TrialBalanceSetting", null, new { @class = "glyphicon glyphicon-cog toolbar right small", @title = "List", @data_toggle = "tooltip", @style = "padding:10px 5px;" })
+            </h3>
+        </div>
+
+        <div class="panel-info tab" style="padding-left:5px;padding-top:20px">
+            <table id="LedgerBal" class="table table-striped" cellspacing="0" width="100%">
+                <thead style="background: #428bca;color:white">
+                    <tr>
+                        <th>DocDate</th>
+                        <th>Doc.Type</th>
+                        <th>Doc.No</th>
+                        <th>Narration</th>
+                        <th>Amount Dr</th>
+                        <th>Amount Cr</th>
+                        <th>Balance</th>
+                        <th></th>
+                        <th>DocTypeId</th>
+                        <th>DocHeaderId</th>
+
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var url = '@Url.Action("GetLedgerBal", "TrialBalance", new { id = @ViewBag.id })';
+            $('#LedgerBal').dataTable({
+                "ajax": url,
+                "ordering": false,
+                "columns": [
+                    { "data": "DocDate", "width": "10%" },
+                    { "data": "DocumentTypeShortName", "width": "8%" },
+                    { "data": "DocNo", "width": "12%" },
+                    { "data": "Narration", "width": "20%" },
+                    { "data": "AmtDr", "width": "15%" },
+                    { "data": "AmtCr", "width": "15%" },
+                    { "data": "Balance", "width": "17%" },
+                    { "data": "BalanceType", "width": "3%" },
+                    { "data": "DocTypeId" },
+                    { "data": "DocHeaderId" }
+                ],
+                "columnDefs": [
+                { "targets": 8, "searchable": false, className: "DTHidden DocTypeId", },
+                { "targets": 9, "searchable": false, className: "DTHidden DocHeaderId", },
+                { "targets": 4, className: "TextRight", },
+                { "targets": 5, className: "TextRight", },
+                { "targets": 6, className: "TextRight", },
+                ],
+                "scrollY": "290",
+                "bScrollCollapse":true,
+                "dom": '<"clear">frtiS',
+                "deferRender": true,
+                TableTools: {
+                    "sRowSelect": "os",
+                },
+                footerCallback: function (row, data, start, end, display) {
+                    var api = this.api();
+                    // Remove the formatting to get integer data for summation
+                    var intVal = function (i) {
+                        return typeof i === 'string' ?
+                            i.replace(/[\$,]/g, '') * 1 :
+                            typeof i === 'number' ?
+                            i : 0;
+                    };
+
+                    // Total over all pages
+                    var totalCr = api
+                        .column(5)
+                        .data()
+                        .reduce(function (a, b) {
+                            return intVal(a) + intVal(b);
+                        }, 0);
+
+                    // Total over all pages
+                    var totalDr = api
+                        .column(4)
+                        .data()
+                        .reduce(function (a, b) {
+                            return intVal(a) + intVal(b);
+                        }, 0);
+
+                    // Total over this page
+                    var pageTotalCr = api
+                        .column(5, { page: 'current' })
+                        .data()
+                        .reduce(function (a, b) {
+                            return intVal(a) + intVal(b);
+                        }, 0);
+
+                    // Total over this page
+                    var pageTotalDr = api
+                        .column(4, { page: 'current' })
+                        .data()
+                        .reduce(function (a, b) {
+                            return intVal(a) + intVal(b);
+                        }, 0);
+
+                    // Update footer
+                    $(api.column(5).footer()).html(
+                        totalCr.toFixed(2)
+                    );
+                    // Update footer
+                    $(api.column(4).footer()).html(
+                         totalDr.toFixed(2)
+                    );
+
+                    var NetBalance = (totalDr - totalCr).toFixed(2);
+
+                    $(api.column(6).footer()).html(
+                       NetBalance > 0 ? NetBalance : -(NetBalance)
+                   );
+                    $(api.column(7).footer()).html(
+                     NetBalance > 0 ? "Dr" : "Cr"
+                 );
+                    // Update footer
+                    $(api.column(1).footer()).html(
+                         "Total"
+                    ).wrap("strong");
+
+                },
+
+            });
+
+            //var tab = $('#LedgerBal').DataTable();
+
+            //new $.fn.dataTable.KeyTable($('#LedgerBal'));
+
+            $('#LedgerBal tbody').on('dblclick', 'tr', function () {
+                var DocTypeId = parseInt($(this).find("td.DocTypeId:first").html());
+                var DocId = parseInt($(this).find("td.DocHeaderId:first").html());
+                if (DocTypeId != 0 && DocId != 0)
+                    window.location.href = '/TrialBalance/DocumentMenu/?DocTypeId=' + DocTypeId + '&DocId=' + DocId;
+
+            });
+
+            $('#LedgerBal tbody').on('click', 'tr', function () {
+                $(this).closest('tbody').find('tr.selected').removeClass('selected');
+                $(this).toggleClass('selected');
+            })
+
+        });
+
+    </script>*@
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="~/Content/Slick/slick.grid.css" rel="stylesheet" />
+<link href="~/Content/Slick/css/smoothness/jquery-ui-1.8.16.custom.css" rel="stylesheet" />
+<link href="~/Content/Slick/slick-default-theme.css" rel="stylesheet" />
+
+<style type="text/css">
+    .slick-header-column.ui-state-default {
+        background-color: #428bca;
+        color: white;
+        height: 35px;
+        line-height: 35px;
+    }
+
+    .slick-row.ui-widget-content, .slick-cell {
+        height: 30px;
+        line-height: 30px;
+    }
+
+    #myGrid * {
+        box-sizing: content-box !important;
+    }
+
+    .hidden {
+        display: none;
+    }
+</style>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3>
+            <span style="font-family: Calibri,sans-serif,Verdana;font-weight:bold" class="black"><span class="glyphicon glyphicon-list black"></span> @ViewBag.Name</span>
+            @Html.ActionLink(" ", " ", " ", null, new { @class = "glyphicon glyphicon-refresh toolbar right small", @title = "Refresh Page", @data_toggle = "tooltip", @id = "RefreshPage", @style = "padding:10px 5px;" })
+            @Html.ActionLink(" ", "Create", "TrialBalanceSetting", null, new { @class = "glyphicon glyphicon-cog toolbar right small", @title = "List", @data_toggle = "tooltip", @style = "padding:10px 5px;" })
+            <input type="text" id="txtSearch2" class="right toolbar small" placeholder="Search" style="height:25px;max-width:20%">
+        </h3>
+    </div>
+
+    <div class="panel-info tab" style="padding-left:0px">
+        <div style="width: 100%;">
+
+            <div id="myGrid" style="width: 100%; height: 450px; font-size: 11px; "></div>
+        </div>
+    </div>
+</div>
+
+<script src="~/Scripts/Slick/lib/jquery.event.drag-2.2.js"></script>
+<script src="~/Scripts/Slick/slick.core.js"></script>
+<script src="~/Scripts/Slick/slick.grid.js"></script>
+<script src="~/Scripts/Slick/slick.dataview.js"></script>
+<script src="~/Scripts/Slick/slick.rowselectionmodel.js"></script>
+
+<script>
+
+    var grid;
+    var columns;
+    var data;
+
+    //Columns Specification
+        columns = [
+       { id: "DocDate", name: "DocDate", field: "DocDate", width: 200, minWidth: 100, hasTotalName: true },
+       { id: "DocType", name: "Doc.Type", field: "DocumentTypeShortName", width: 50, minWidth: 50 },
+       { id: "DocNo", name: "Doc.No", field: "DocNo", width: 200, minWidth: 100 },
+       { id: "Narration", name: "Narration", field: "Narration", width: 300, minWidth: 150 },
+       { id: "AmDr", name: "Amount Dr", field: "AmtDr", cssClass: "text-right", headerCssClass: "text-right", width: 150, minWidth: 100, hasTotal:true },
+       { id: "AmCr", name: "Amount Cr", field: "AmtCr", cssClass: "text-right", headerCssClass: "text-right", width: 150, minWidth: 100, hasTotal: true },
+       { id: "Balance", name: "Balance", field: "Balance", cssClass: "text-right", headerCssClass: "text-right", width: 150, minWidth: 100, hasTotal: true },
+       { id: "BalType", name: "", field: "BalanceType", width: 30, minWidth: 30 },
+        ];
+
+    //Options Initialization
+    var options = {
+        editable: false,
+        enableCellNavigation: true,
+        enableColumnReorder: false,
+        forceFitColumns: true,
+        showFooterRow: true,
+        explicitInitialization: true
+    };
+
+
+    //Creating Custom FilterFunction that can be passed to slickgrid for search
+    var searchString = "";
+    function myFilter(item, args) {
+        if (args.searchString != "" && (item["DocNo"]).toLowerCase().indexOf(args.searchString.toLowerCase()) == -1) {
+            return false;
+        }
+        return true;
+    }
+
+    //Instantiating the Grid
+    var dataView = new Slick.Data.DataView({ inlineFilters: true });
+    grid = new Slick.Grid("#myGrid", dataView, columns, options);
+
+    //Adding Grid functionalities
+    grid.setSelectionModel(new Slick.RowSelectionModel());
+
+    //Functionality for adding Totals on cell render
+    grid.onFooterRowCellRendered.subscribe(function (e, args) {
+        if (args.column.hasTotal) {
+            $(args.node).empty();
+            $("<span></span>").text((getColumnTotal(args.column.field, grid.getData())).toFixed(2))
+               .appendTo(args.node);
+            $(args.node).addClass(args.column.headerCssClass);
+        }
+        else if (args.column.hasTotalName) {
+            $(args.node).empty();
+            $("<span></span>").text("Total")
+               .appendTo(args.node);
+            $(args.node).addClass(args.column.headerCssClass);
+        }
+    });
+
+    //Functionality for Enter key navigation
+    grid.onKeyDown.subscribe(function (e) {
+        if (e.which == 13) {
+            var DocTypeId = parseInt(grid.getDataItem(grid.getSelectedRows()).DocTypeId);
+            var DocId = parseInt(grid.getDataItem(grid.getSelectedRows()).DocHeaderId);
+            if (DocTypeId != 0 && DocId != 0)
+                window.location.href = '/TrialBalance/DocumentMenu/?DocTypeId=' + DocTypeId + '&DocId=' + DocId;
+        }
+    });
+
+
+    //Functionality for search events
+    $("#txtSearch,#txtSearch2").keyup(function (e) {
+        Slick.GlobalEditorLock.cancelCurrentEdit();
+        // clear on Esc
+        if (e.which == 27) {
+            this.value = "";
+        }
+        searchString = this.value;
+        updateFilter();
+    });
+    function updateFilter() {
+        dataView.setFilterArgs({
+            searchString: searchString
+        });
+        dataView.refresh();
+    }
+
+    // wire up model events to drive the grid
+    dataView.onRowCountChanged.subscribe(function (e, args) {
+        grid.updateRowCount();
+        grid.render();
+    });
+
+    dataView.onRowsChanged.subscribe(function (e, args) {
+        grid.invalidateRows(args.rows);
+        grid.render();
+    });
+
+
+    //Data Fetching
+    var url = '@Url.Action("GetLedgerBal", "TrialBalance", new { id = @ViewBag.id })';
+    $.ajax({
+        url: url,
+        async: true,
+        success: function (rest) {
+            data = rest.data;
+            InitializeGrid();
+        },
+        error: function () {
+            onError(fromPage, toPage)
+        }
+    });
+
+    function InitializeGrid() {
+        // initialize the model after all the events have been hooked up
+        dataView.beginUpdate();
+        dataView.setItems(data, "LedgerId");
+        dataView.setFilterArgs({
+            searchString: searchString
+        });
+        dataView.setFilter(myFilter);
+        dataView.endUpdate();
+
+        // if you don't want the items that are not visible (due to being filtered out
+        // or being on a different page) to stay selected, pass 'false' to the second arg
+        dataView.syncGridSelection(grid, true);
+
+        grid.init();
+    }
+
+    $('#myGrid').on('dblclick', '.ui-widget-content.slick-row', function () {
+        var DocTypeId = parseInt(grid.getDataItem(grid.getSelectedRows()).DocTypeId);
+        var DocId = parseInt(grid.getDataItem(grid.getSelectedRows()).DocHeaderId);
+        if (DocTypeId != 0 && DocId != 0)
+            window.location.href = '/TrialBalance/DocumentMenu/?DocTypeId=' + DocTypeId + '&DocId=' + DocId;
+    });
+
+    $(window).resize(function (e) {
+        grid.resizeCanvas();
+    })
+
+</script>
