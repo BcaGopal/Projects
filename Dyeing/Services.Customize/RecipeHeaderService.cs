@@ -375,7 +375,7 @@ namespace Services.Customize
             StockViewModel.PersonId = s.JobWorkerId;
             StockViewModel.ProductId = vmRecipeHeader.ProductId;
             StockViewModel.HeaderFromGodownId = null;
-            StockViewModel.HeaderGodownId = null;
+            StockViewModel.HeaderGodownId = vmRecipeHeader.GodownId;
             StockViewModel.GodownId = vmRecipeHeader.GodownId;
             StockViewModel.ProcessId = null;
             StockViewModel.LotNo = vmRecipeHeader.LotNo;

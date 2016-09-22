@@ -14,7 +14,6 @@ using System.Data.SqlClient;
 using Model.ViewModels;
 using System.Configuration;
 using System.Data;
-
 namespace Service
 {
     public interface IMaterialPlanForSaleOrderLineService : IDisposable
@@ -138,6 +137,10 @@ namespace Service
                             SaleOrderDocNo = p.SaleOrderNo,
                             ProductId = p.ProductId,
                             ProductName = p.ProductName,
+                            Dimension1Id = p.Dimension1Id,
+                            Dimension1Name = p.Dimension1Name,
+                            Dimension2Id = p.Dimension2Id,
+                            Dimension2Name = p.Dimension2Name,
                             MaterialPlanHeaderId = svm.MaterialPlanHeaderId,
                             SaleOrderLineId = p.SaleOrderLineId,  
                             Specification=p.Specification,
@@ -225,7 +228,6 @@ namespace Service
             var DocTypeIds = StockAvailableForPacking.Select(m => m.DocTypeId).ToArray();
 
             return temp2;
-
         }
         public IEnumerable<MaterialPlanLineViewModel> GetMaterialPlanSummaryFromProcedure(MaterialPlanLineListViewModel vm, string ConnectionString, string ProcName)
         {
@@ -311,6 +313,8 @@ namespace Service
             return temp;
 
         }
+
+
         public void Delete(int id)
         {
             _unitOfWork.Repository<MaterialPlanForSaleOrderLine>().Delete(id);

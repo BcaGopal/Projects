@@ -91,6 +91,10 @@
                                                 @Html.HiddenFor(m => m.MaterialPlanLineViewModel[i].SaleOrderLineId)
                                                 @Html.HiddenFor(m => m.MaterialPlanLineViewModel[i].ProductName)
                                                 @Html.HiddenFor(m => m.MaterialPlanLineViewModel[i].ProductId)
+                                                @Html.HiddenFor(m => m.MaterialPlanLineViewModel[i].Dimension1Name)
+                                                @Html.HiddenFor(m => m.MaterialPlanLineViewModel[i].Dimension1Id)
+                                                @Html.HiddenFor(m => m.MaterialPlanLineViewModel[i].Dimension2Name)
+                                                @Html.HiddenFor(m => m.MaterialPlanLineViewModel[i].Dimension2Id)
                                                 @Html.HiddenFor(m=>m.MaterialPlanLineViewModel[i].BalanceQtyForPlan)
                                                 @Html.HiddenFor(m=>m.MaterialPlanLineViewModel[i].UnitName)
                                                 @Html.HiddenFor(m => m.MaterialPlanLineViewModel[i].Specification)
@@ -102,11 +106,12 @@
 
                                                     <div class='block' style='width:35%'>
                                                         <strong> @Model.MaterialPlanLineViewModel[i].ProductName</strong>
+                                                        <br />
                                                         <p style="margin-bottom:0px">
                                                             @{
                                         var Dim1 = (string.IsNullOrEmpty(Model.MaterialPlanLineViewModel[i].Dimension1Name) || Model.MaterialPlanSettings.isVisibleDimension1 == false) ? "" : Model.MaterialPlanLineViewModel[i].Dimension1Name + ",";
                                         var Dim2 = (string.IsNullOrEmpty(Model.MaterialPlanLineViewModel[i].Dimension2Name) || Model.MaterialPlanSettings.isVisibleDimension2 == false) ? "" : Model.MaterialPlanLineViewModel[i].Dimension2Name;
-                                        var Spec = (string.IsNullOrEmpty(Model.MaterialPlanLineViewModel[i].Specification) ) ? "" : Model.MaterialPlanLineViewModel[i].Specification;
+                                        var Spec = (string.IsNullOrEmpty(Model.MaterialPlanLineViewModel[i].Specification)) ? "" : Model.MaterialPlanLineViewModel[i].Specification;
                                         var Processname = (string.IsNullOrEmpty(Model.MaterialPlanLineViewModel[i].ProcessName) || Model.MaterialPlanSettings.isMandatoryProcessLine == false) ? "" : Model.MaterialPlanLineViewModel[i].ProcessName;
                                                             }
 
@@ -116,6 +121,7 @@
                                                         <p style="margin-bottom:0px">
                                                             @Processname
                                                         </p>
+
                                                     </div>
                                                     <div>
                                                         <div class='block' style='width:25%'>

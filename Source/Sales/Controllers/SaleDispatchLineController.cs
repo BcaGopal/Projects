@@ -1287,5 +1287,25 @@ namespace Web
             return Json(StockInJson);
         }
 
+        public JsonResult GetStockInDetailJson(int StockInId)
+        {
+            var temp = (from L in db.ViewStockInBalance
+                        where L.StockInId == StockInId
+                        select new
+                        {
+                            BalanceQty = L.BalanceQty,
+                            LotNo = L.LotNo
+                        }).FirstOrDefault();
+
+            if (temp != null)
+            {
+                return Json(temp);
+            }
+            else
+            {
+                return null;
+            }
+        }
+
     }
 }

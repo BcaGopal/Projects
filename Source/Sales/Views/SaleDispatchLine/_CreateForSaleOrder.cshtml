@@ -39,6 +39,7 @@
                 @Html.HiddenFor(m => m.ProductUidId)
                 @Html.HiddenFor(m => m.ProductId)
                 @Html.HiddenFor(m => m.BalanceQty)
+                @Html.HiddenFor(m => m.StockInBalanceQty)
 
 
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
@@ -469,6 +470,10 @@
             Validate_SaleOrderLine();
         });
 
+        $("#StockInId").change(function(){
+            Validate_StockIn();
+        });
+
 
 
 
@@ -518,6 +523,44 @@
             else {
                 $("#Qty").val(0);
                 $("#Rate").val(0);
+            }
+        }
+
+        function Validate_StockIn() {
+            var ProcessProgress = $("#Sale Order detail loading progress");
+            ProcessProgress.show();
+            if ($("#StockInId").val() != "")
+            {
+                $.ajax({
+                    cache: false,
+                    type: "POST",
+                    url: "@(Url.Action("GetStockInDetailJson"))",
+                    data: { StockInId: $("#StockInId").val()},
+                    success: function (data) {
+                        if (data != null)
+                        {
+                            $("#StockInBalanceQty").val(data.BalanceQty);
+                            $("#Qty").val(data.BalanceQty);
+                            $("#LotNo").val(data.LotNo);
+                            Calculation();
+                        }
+                        else{
+                            $("#Qty").val(0);
+                            $("#StockInBalanceQty").val(0);
+                            $("#LotNo").val("");
+                        }
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        alert('Failed to retrieve Stock In details.' + thrownError);
+                        ProcessProgress.hide();
+                    }
+                });
+
+            }
+            else {
+                $("#Qty").val(0);
+                $("#StockInBalanceQty").val(0);
+                $("#LotNo").val("");
             }
         }
 
@@ -591,7 +634,7 @@
             else{
                 $('#PassQty').val($('#Qty').val());
             }
-            
+
 
 
             //$('#Amount').val(($('#DealQty').val() * $('#Rate').val()).toFixed(2));

@@ -25,6 +25,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Logger", "..\..\Components\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PermissionValidator", "..\..\Components\PermissionValidator\PermissionValidator.csproj", "{88E00732-E1C4-44C3-8920-C46F9A6B8E95}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Web.Login", "..\Login\Source\Web.Login\Web.Login.csproj", "{8D762011-DDD5-441F-891E-E10A28CB964B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -71,6 +73,10 @@ Global
 		{88E00732-E1C4-44C3-8920-C46F9A6B8E95}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{88E00732-E1C4-44C3-8920-C46F9A6B8E95}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{88E00732-E1C4-44C3-8920-C46F9A6B8E95}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8D762011-DDD5-441F-891E-E10A28CB964B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8D762011-DDD5-441F-891E-E10A28CB964B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8D762011-DDD5-441F-891E-E10A28CB964B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8D762011-DDD5-441F-891E-E10A28CB964B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -85,5 +91,6 @@ Global
 		{E7B6F2DD-5845-431D-B065-7CA2C51C698A} = {F62020BF-2A30-4C73-93EE-BA3303798130}
 		{A68B18D0-67D6-414F-B38D-D4C7EDEB3907} = {F62020BF-2A30-4C73-93EE-BA3303798130}
 		{88E00732-E1C4-44C3-8920-C46F9A6B8E95} = {F62020BF-2A30-4C73-93EE-BA3303798130}
+		{8D762011-DDD5-441F-891E-E10A28CB964B} = {F62020BF-2A30-4C73-93EE-BA3303798130}
 	EndGlobalSection
 EndGlobal

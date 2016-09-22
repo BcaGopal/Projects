@@ -483,13 +483,46 @@ namespace Service
         public JobReceiveQALineViewModel GetLineDetailForQA(int RecId, int ReceiveQAId)
         {
 
+            var temp = from p in db.ViewJobReceiveBalanceForQA
+                       join t1 in db.JobReceiveLine on p.JobReceiveLineId equals t1.JobReceiveLineId into JobReceiveLineTable
+                       from JobReceiveLineTab in JobReceiveLineTable.DefaultIfEmpty()
+                       join t2 in db.Product on p.ProductId equals t2.ProductId into ProductTable
+                       from ProductTab in ProductTable.DefaultIfEmpty()
+                       join jol in db.JobOrderLine on JobReceiveLineTab.JobOrderLineId equals jol.JobOrderLineId into JobOrderLineTable
+                       from JobOrderLineTab in JobOrderLineTable.DefaultIfEmpty()
+                       join t3 in db.Dimension1 on JobOrderLineTab.Dimension1Id equals t3.Dimension1Id into table3
+                       from tab3 in table3.DefaultIfEmpty()
+                       join t4 in db.Dimension2 on JobOrderLineTab.Dimension2Id equals t4.Dimension2Id into table4
+                       from tab4 in table4.DefaultIfEmpty()
+                       where p.JobReceiveLineId == RecId
+                       select new JobReceiveQALineViewModel
+                       {
+                           Dimension1Name = tab3.Dimension1Name,
+                           Dimension2Name = tab4.Dimension2Name,
+                           Qty = p.BalanceQty,
+                           Specification = JobOrderLineTab.Specification,
+                           UnitId = ProductTab.UnitId,
+                           DealUnitId = JobOrderLineTab.DealUnitId,
+                           DealQty = p.BalanceQty * JobOrderLineTab.UnitConversionMultiplier,
+                           UnitConversionMultiplier = JobOrderLineTab.UnitConversionMultiplier,
+                           UnitName = ProductTab.Unit.UnitName,
+                           DealUnitName = JobOrderLineTab.DealUnit.UnitName,
+                           ProductId = p.ProductId,
+                           ProductName = JobOrderLineTab.Product.ProductName,
+                           UnitDecimalPlaces = ProductTab.Unit.DecimalPlaces,
+                           DealUnitDecimalPlaces = JobOrderLineTab.DealUnit.DecimalPlaces,
+                       };
+
             return (from p in db.ViewJobReceiveBalanceForQA
-                    join t1 in db.JobReceiveLine on p.JobReceiveLineId equals t1.JobReceiveLineId
-                    join t2 in db.Product on p.ProductId equals t2.ProductId
-                    join jol in db.JobOrderLine on t1.JobOrderLineId equals jol.JobOrderLineId
-                    join t3 in db.Dimension1 on jol.Dimension1Id equals t3.Dimension1Id into table3
+                    join t1 in db.JobReceiveLine on p.JobReceiveLineId equals t1.JobReceiveLineId into JobReceiveLineTable
+                    from JobReceiveLineTab in JobReceiveLineTable.DefaultIfEmpty()
+                    join t2 in db.Product on p.ProductId equals t2.ProductId into ProductTable
+                    from ProductTab in ProductTable.DefaultIfEmpty()
+                    join jol in db.JobOrderLine on JobReceiveLineTab.JobOrderLineId equals jol.JobOrderLineId into JobOrderLineTable
+                    from JobOrderLineTab in JobOrderLineTable.DefaultIfEmpty()
+                    join t3 in db.Dimension1 on JobOrderLineTab.Dimension1Id equals t3.Dimension1Id into table3
                     from tab3 in table3.DefaultIfEmpty()
-                    join t4 in db.Dimension2 on jol.Dimension2Id equals t4.Dimension2Id into table4
+                    join t4 in db.Dimension2 on JobOrderLineTab.Dimension2Id equals t4.Dimension2Id into table4
                     from tab4 in table4.DefaultIfEmpty()
                     where p.JobReceiveLineId == RecId
                     select new JobReceiveQALineViewModel
@@ -497,17 +530,17 @@ namespace Service
                         Dimension1Name = tab3.Dimension1Name,
                         Dimension2Name = tab4.Dimension2Name,
                         Qty = p.BalanceQty,
-                        Specification = jol.Specification,
-                        UnitId = t2.UnitId,
-                        DealUnitId = jol.DealUnitId,
-                        DealQty = p.BalanceQty * jol.UnitConversionMultiplier,
-                        UnitConversionMultiplier = jol.UnitConversionMultiplier,
-                        UnitName = t2.Unit.UnitName,
-                        DealUnitName = jol.DealUnit.UnitName,
+                        Specification = JobOrderLineTab.Specification,
+                        UnitId = ProductTab.UnitId,
+                        DealUnitId = JobOrderLineTab.DealUnitId,
+                        DealQty = p.BalanceQty * JobOrderLineTab.UnitConversionMultiplier,
+                        UnitConversionMultiplier = JobOrderLineTab.UnitConversionMultiplier,
+                        UnitName = ProductTab.Unit.UnitName,
+                        DealUnitName = JobOrderLineTab.DealUnit.UnitName,
                         ProductId = p.ProductId,
-                        ProductName = jol.Product.ProductName,
-                        UnitDecimalPlaces = t2.Unit.DecimalPlaces,
-                        DealUnitDecimalPlaces = jol.DealUnit.DecimalPlaces,
+                        ProductName = JobOrderLineTab.Product.ProductName,
+                        UnitDecimalPlaces = ProductTab.Unit.DecimalPlaces,
+                        DealUnitDecimalPlaces = JobOrderLineTab.DealUnit.DecimalPlaces,
                     }
                   ).FirstOrDefault();
 
@@ -1121,7 +1154,7 @@ namespace Service
                     StockViewModel StockViewModel_RecPassedQty = new StockViewModel();
 
                     StockViewModel_RecPassedQty.StockId = -3;
-                    StockViewModel_RecPassedQty.StockHeaderId = Header.StockHeaderId ?? -2;
+                    StockViewModel_RecPassedQty.StockHeaderId = Header.StockHeaderId ?? -1;
                     StockViewModel_RecPassedQty.DocHeaderId = Header.JobReceiveQAHeaderId;
                     StockViewModel_RecPassedQty.DocLineId = item.JobReceiveLineId;
                     StockViewModel_RecPassedQty.DocTypeId = Header.DocTypeId;

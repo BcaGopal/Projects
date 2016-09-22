@@ -140,6 +140,10 @@ namespace Service
                                                                               from tab3 in table3.DefaultIfEmpty()
                                                                               join u in db.Units on PackingLineTab.DealUnitId equals u.UnitId into DealUnitTable
                                                                               from DealUnitTab in DealUnitTable.DefaultIfEmpty()
+                                                                              join Si in db.Stock on l.StockId equals Si.StockId into StockInTable
+                                                                              from StockInTab in StockInTable.DefaultIfEmpty()
+                                                                              join Sih in db.StockHeader on StockInTab.StockHeaderId equals Sih.StockHeaderId into StockHeaderTable
+                                                                              from StockHeaderTab in StockHeaderTable.DefaultIfEmpty()
                                                                                 where l.SaleDispatchHeaderId == SaleDispatchHeaderId
                                                                               orderby l.SaleDispatchLineId
                                                                                 select new SaleDispatchLineViewModel
@@ -157,6 +161,8 @@ namespace Service
                                                                                   DealQty = PackingLineTab.DealQty,
                                                                                   DealUnitId = DealUnitTab.UnitName,
                                                                                   DealUnitDecimalPlaces = DealUnitTab.DecimalPlaces,
+                                                                                  StockInId = StockInTab.StockId,
+                                                                                  StockInNo = StockHeaderTab.DocNo,
                                                                                   Remark = l.Remark,
                                                                               }).Take(2000).ToList();
 
