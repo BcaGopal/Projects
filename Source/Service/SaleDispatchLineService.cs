@@ -216,6 +216,8 @@ namespace Service
                             SaleOrderHeaderDocNo = tab.DocNo,
                             ProductName = tab2.ProductName,
                             ProductId = p.ProductId,
+                            Dimension1Id = p.Dimension1Id,
+                            Dimension2Id = p.Dimension2Id,
                             SaleDispatchHeaderId = vm.SaleDispatchHeaderId,
                             SaleOrderLineId = p.SaleOrderLineId,
                             UnitId = tab2.UnitId,

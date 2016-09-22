@@ -1180,7 +1180,8 @@ namespace Services.Customize
                             Dimension2Id = L.Dimension2Id,
                             Dimension2Name = L.Dimension2.Dimension2Name,
                             Qty = L.BalanceQty,
-                            BalanceQty = L.BalanceQty
+                            BalanceQty = L.BalanceQty,
+                            UnitId = ProdOrderLineTab.Product.UnitId
                         }).FirstOrDefault();
 
             return temp;
@@ -1245,6 +1246,7 @@ namespace Services.Customize
         public string Dimension2Name { get; set; }
         public Decimal? Qty { get; set; }
         public Decimal? BalanceQty { get; set; }
+        public string UnitId { get; set; }
     }
 }
 

@@ -315,7 +315,7 @@ namespace Presentation
                         prodOrderHeader.DivisionId = header.DivisionId;
                         prodOrderHeader.DocDate = header.DocDate;
                         prodOrderHeader.DocNo = header.DocNo;
-                        prodOrderHeader.DocTypeId = Settings.DocTypeProductionOrderId;
+                        prodOrderHeader.DocTypeId = Settings.DocTypeProductionOrderId.Value;
                         prodOrderHeader.DueDate = header.DueDate;
                         prodOrderHeader.MaterialPlanHeaderId = header.MaterialPlanHeaderId;
                         prodOrderHeader.ModifiedBy = User.Identity.Name;
@@ -417,7 +417,7 @@ namespace Presentation
                         indentHeader.DivisionId = header.DivisionId;
                         indentHeader.DocDate = header.DocDate;
                         indentHeader.DocNo = header.DocNo;
-                        indentHeader.DocTypeId = Settings.DocTypePurchaseIndentId;
+                        indentHeader.DocTypeId = Settings.DocTypePurchaseIndentId.Value;
                         indentHeader.ModifiedBy = User.Identity.Name;
                         indentHeader.MaterialPlanHeaderId = header.MaterialPlanHeaderId;
                         indentHeader.ModifiedDate = DateTime.Now;
@@ -1005,7 +1005,7 @@ namespace Presentation
                         prodOrderHeader.DivisionId = temp.DivisionId;
                         prodOrderHeader.DocDate = temp.DocDate;
                         prodOrderHeader.DocNo = temp.DocNo;
-                        prodOrderHeader.DocTypeId = Settings.DocTypeProductionOrderId;
+                        prodOrderHeader.DocTypeId = Settings.DocTypeProductionOrderId.Value;
                         prodOrderHeader.DueDate = temp.DueDate;
                         prodOrderHeader.MaterialPlanHeaderId = temp.MaterialPlanHeaderId;
                         prodOrderHeader.ModifiedBy = User.Identity.Name;
@@ -1104,7 +1104,7 @@ namespace Presentation
                         indentHeader.DivisionId = temp.DivisionId;
                         indentHeader.DocDate = temp.DocDate;
                         indentHeader.DocNo = temp.DocNo;
-                        indentHeader.DocTypeId = Settings.DocTypePurchaseIndentId;
+                        indentHeader.DocTypeId = Settings.DocTypePurchaseIndentId.Value;
                         indentHeader.MaterialPlanHeaderId = header.MaterialPlanHeaderId;
                         indentHeader.ModifiedBy = User.Identity.Name;
                         indentHeader.ModifiedDate = DateTime.Now;

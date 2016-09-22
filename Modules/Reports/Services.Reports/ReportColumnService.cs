@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Model.Models;
 using System;
 using Model;
+using Models.Reports.Models;
+using Models.Reports.ViewModels;
+using Infrastructure.IO;
 
 namespace Service
 {
@@ -22,12 +24,10 @@ namespace Service
 
     public class ReportColumnService : IReportColumnService
     {
-        private ApplicationDbContext db;
         private readonly IUnitOfWorkForService _unitOfWork;
 
         public ReportColumnService(IUnitOfWorkForService unitOfWork)
         {
-            this.db = new ApplicationDbContext();
             _unitOfWork = unitOfWork;
         }
         public ReportColumn Find(int id)
@@ -43,14 +43,14 @@ namespace Service
         }
         public ReportColumn GetReportColumn(int id)
         {
-            return ((from p in db.ReportColumn
+            return ((from p in _unitOfWork.Repository<ReportColumn>().Instance
                      where p.ReportColumnId == id
                      select p).FirstOrDefault()
                         );
         }
         public ReportColumn GetReportColumnByName(string Name, int HeaderID)
         {
-            return (from p in db.ReportColumn
+            return (from p in _unitOfWork.Repository<ReportColumn>().Instance
                     where p.ReportHeaderId == HeaderID && p.FieldName == Name
                     select p
                         ).FirstOrDefault();

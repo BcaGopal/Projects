@@ -30,6 +30,7 @@
     @Html.HiddenFor(m => m.Dimension1Id)
     @Html.HiddenFor(m => m.BalanceQty)
     @Html.HiddenFor(m => m.StockHeaderId)
+    @Html.HiddenFor(m => m.UnitId)
 
     <div class="panel panel-default">
         <div class="panel-heading">
@@ -639,6 +640,7 @@
                         $("#Dimension2Id").select2("data", { id: data.Dimension2Id, text: data.Dimension2Name });
                         $("#Qty").val(data.BalanceQty);
                         $("#BalanceQty").val(data.BalanceQty);
+                        $("#UnitId").val(data.UnitId);
                     }
                     else{
                         $("#ProdOrderNo").val("");
@@ -647,6 +649,7 @@
                         $("#Dimension2Id").val("");
                         $("#Qty").val(0);
                         $("#BalanceQty").val(0);
+                        $("#UnitId").val("");
                     }
                 },
                 error: function (xhr, ajaxOptions, thrownError) {
@@ -662,6 +665,7 @@
             $("#Dimension2Id").val("");
             $("#Qty").val(0);
             $("#BalanceQty").val(0);
+            $("#UnitId").val("");
         }
     }
 

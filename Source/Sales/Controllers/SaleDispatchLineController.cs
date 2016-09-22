@@ -93,9 +93,10 @@ namespace Web
 
             SaleDispatchHeader Dh = new SaleDispatchHeaderService(_unitOfWork).Find(vm.SaleDispatchLineViewModel.FirstOrDefault().SaleDispatchHeaderId);
 
-            SaleDispatchLine LastRecord = _SaleDispatchLineService.GetSaleDispatchLineList(Dh.SaleDispatchHeaderId).OrderByDescending(m => m.SaleDispatchLineId).FirstOrDefault();
+            SaleDispatchSetting Settings = new SaleDispatchSettingService(_unitOfWork).GetSaleDispatchSettingForDocument(Dh.DocTypeId, Dh.DivisionId, Dh.SiteId);
 
-            if (LastRecord == null)
+            SaleDispatchLine LastRecord = _SaleDispatchLineService.GetSaleDispatchLineList(Dh.SaleDispatchHeaderId).OrderByDescending(m => m.SaleDispatchLineId).FirstOrDefault();
+            if (LastRecord == null && Settings.GodownId == null)
             {
                 TempData["CSEXCL"] += "Please insert a record before creating from multiple";
                 return PartialView("_Results", vm);
@@ -110,7 +111,7 @@ namespace Web
 
             //SaleDispatchHeader Header = new SaleDispatchHeaderService(_unitOfWork).Find(vm.SaleDispatchLineViewModel.FirstOrDefault().SaleDispatchHeaderId);
 
-            SaleDispatchSetting Settings = new SaleDispatchSettingService(_unitOfWork).GetSaleDispatchSettingForDocument(Dh.DocTypeId, Dh.DivisionId, Dh.SiteId);
+            
 
 
             List<LineDetailListViewModel> LineList = new List<LineDetailListViewModel>();
@@ -161,7 +162,14 @@ namespace Web
                         StockViewModel.HeaderFromGodownId = null;
                         StockViewModel.HeaderGodownId = null;
                         StockViewModel.HeaderProcessId = null;
-                        StockViewModel.GodownId = (int)LastRecord.GodownId;
+                        if (LastRecord != null)
+                        {
+                            StockViewModel.GodownId = LastRecord.GodownId;
+                        }
+                        else
+                        {
+                            StockViewModel.GodownId = Settings.GodownId;
+                        }
                         StockViewModel.Remark = Dh.Remark;
                         StockViewModel.Status = Dh.Status;
                         //StockViewModel.ProcessId = Dh.ProcessId;
@@ -239,7 +247,16 @@ namespace Web
                         Dl.ModifiedBy = User.Identity.Name;
                         Dl.CreatedDate = DateTime.Now;
                         Dl.ModifiedDate = DateTime.Now;
-                        Dl.GodownId = LastRecord.GodownId;
+
+                        if (LastRecord != null)
+                        {
+                            Dl.GodownId = LastRecord.GodownId;
+                        }
+                        else
+                        {
+                            Dl.GodownId = Settings.GodownId;
+                        }
+
                         Dl.PackingLineId = Pl.PackingLineId;
                         Dl.Remark = item.Remark;
                         Dl.SaleDispatchHeaderId = Dh.SaleDispatchHeaderId;

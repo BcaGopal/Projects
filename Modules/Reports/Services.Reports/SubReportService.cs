@@ -1,11 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Data.Infrastructure;
-using Model.Models;
 using System;
 using Model;
-using Data.Models;
-using Model.ViewModel;
+using Models.Reports.Models;
+using Models.Reports.ViewModels;
+using Infrastructure.IO;
 
 namespace Service
 {
@@ -23,12 +22,11 @@ namespace Service
 
     public class SubReportService : ISubReportService
     {
-        private ApplicationDbContext db;
         private readonly IUnitOfWorkForService _unitOfWork;
 
         public SubReportService(IUnitOfWorkForService unitOfWork)
         {
-            this.db = new ApplicationDbContext();
+            
             _unitOfWork = unitOfWork;
         }
         public SubReport Find(int id)
@@ -44,7 +42,7 @@ namespace Service
         }
         public SubReport GetSubReport(int id)
         {
-            return ((from p in db.SubReport
+            return ((from p in _unitOfWork.Repository<SubReport>().Instance
                      where p.SubReportId == id
                      select p).FirstOrDefault()
                         );
