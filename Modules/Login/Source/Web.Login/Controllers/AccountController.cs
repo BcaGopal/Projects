@@ -28,6 +28,7 @@ namespace Login.Controllers
 
         public AccountController()
         {
+            //Comment
         }
 
         public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
