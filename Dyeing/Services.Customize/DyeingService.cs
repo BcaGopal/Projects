@@ -382,6 +382,7 @@ namespace Services.Customize
             line.JobReceiveHeaderId = s.JobReceiveHeaderId;
             line.JobOrderLineId = vmDyeing.JobOrderLineId;
             line.Qty = vmDyeing.Qty;
+            line.PassQty = vmDyeing.Qty;
             line.Sr = 1;
             line.LotNo = vmDyeing.LotNo;
             line.LossQty = 0;

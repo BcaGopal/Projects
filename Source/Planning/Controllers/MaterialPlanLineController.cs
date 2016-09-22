@@ -152,62 +152,73 @@ namespace Presentation
             string sessionmaterialplanline = header.DocTypeId + "_" + header.MaterialPlanHeaderId + "_materialplanline";
 
             System.Web.HttpContext.Current.Session[sessionmaterialplanline] = vm.MaterialPlanLineViewModel.ToList();
-
             MaterialPlanSettings Setting = new MaterialPlanSettingsService(_unitOfWork).GetMaterialPlanSettingsForDocument(header.DocTypeId, header.DivisionId, header.SiteId);
-
             if (ModelState.IsValid)
             {
 
                 var ProductIds = vm.MaterialPlanLineViewModel.Select(m => m.ProductId).ToArray();
 
                 List<MaterialPlanLineViewModel> Line = new List<MaterialPlanLineViewModel>();
-
-
-
                 if (Setting.SqlProcConsumptionSummary != null)
                 {
                     Line = new MaterialPlanForSaleOrderLineService(_unitOfWork).GetMaterialPlanSummaryFromProcedure(vm, (string)System.Web.HttpContext.Current.Session["DefaultConnectionString"], Setting.SqlProcConsumptionSummary).ToList();
                 }
                 else
                 {
-                    var summary = (from p in db.Product.Where(p => ProductIds.Contains(p.ProductId)).AsEnumerable()
-                                   join t in vm.MaterialPlanLineViewModel on p.ProductId equals t.ProductId
-                                   where t.Qty > 0
-                                   group t by new { t.ProductId, p.ProductName, t.Specification } into g
-                                   join p1 in db.Product.Where(p => ProductIds.Contains(p.ProductId)).AsEnumerable() on g.Key.ProductId equals p1.ProductId
-                                   join u1 in db.Units on p1.UnitId equals u1.UnitId
-                                   select new
-                                   {
-                                       id = g.Key.ProductId,
-                                       QtySum = g.Sum(m => m.Qty),
-                                       //GroupedItems = g,
-                                       name = g.Key.ProductName,
-                                       unitname = u1.UnitName,
-                                       Specification = g.Key.Specification,
-                                       Fractionunits = u1.DecimalPlaces
-                                   }).ToList();
+                var summary = (from p in db.Product.Where(p => ProductIds.Contains(p.ProductId)).AsEnumerable()
+                               join t in vm.MaterialPlanLineViewModel on p.ProductId equals t.ProductId
+                               where t.Qty > 0
+                               group t by new { t.ProductId, p.ProductName, t.Dimension1Id, t.Dimension2Id, t.Specification } into g
+                               join p1 in db.Product.Where(p => ProductIds.Contains(p.ProductId)).AsEnumerable() on g.Key.ProductId equals p1.ProductId
+                               join u1 in db.Units on p1.UnitId equals u1.UnitId
+                               select new
+                               {
+                                   id = g.Key.ProductId,
+                                   QtySum = g.Sum(m => m.Qty),
+                                   GroupedItems = g,
+                                   name = g.Key.ProductName,
+                                   unitname = u1.UnitName,
+                                   Dimension1Id = g.Key.Dimension1Id,
+                                   Dimension1Name = g.Max(i => i.Dimension1Name),
+                                   Dimension2Id = g.Key.Dimension2Id,
+                                   Dimension2Name = g.Max(i => i.Dimension2Name),
+                                   Specification = g.Key.Specification,
+                                   Fractionunits = u1.DecimalPlaces
+                               }).ToList();
 
-                    int j = 0;
-                    foreach (var item in summary)
-                    {
-                        MaterialPlanLineViewModel planline = new MaterialPlanLineViewModel();
-                        planline.ProductName = item.name;
-                        planline.RequiredQty = item.QtySum;
-                        planline.ExcessStockQty = 0;
-                        planline.Specification = item.Specification;
-                        planline.MaterialPlanHeaderId = vm.MaterialPlanLineViewModel.FirstOrDefault().MaterialPlanHeaderId;
-                        planline.ProductId = item.id;
-                        planline.ProdPlanQty = item.QtySum;
-                        planline.UnitName = item.unitname;
-                        planline.unitDecimalPlaces = item.Fractionunits;
-                        planline.GeneratedFor = MaterialPlanConstants.SaleOrder;
-                        Line.Add(planline);
+                int j = 0;
+                foreach (var item in summary)
+                {
+                    MaterialPlanLineViewModel planline = new MaterialPlanLineViewModel();
+                    planline.ProductName = item.name;
+                    planline.RequiredQty = item.QtySum;
+                    planline.Dimension1Name = item.Dimension1Name;
+                    planline.Dimension2Name = item.Dimension2Name;
+                    //using (SqlConnection sqlConnection = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString.ToString()))
+                    //{
+                    //    sqlConnection.Open();
 
-                        j++;
-                    }
+                    //    int ProductCode = item.id;
+
+                    //    SqlCommand Totalf = new SqlCommand("SELECT dbo.FGetExcessStock( " + ProductCode + ", " + header.DocTypeId + ")", sqlConnection);
+
+                    //    planline.ExcessStockQty = Convert.ToDecimal(Totalf.ExecuteScalar() == DBNull.Value ? 0 : Totalf.ExecuteScalar());
+                    //}
+                    planline.ExcessStockQty = 0;
+                    planline.Specification = item.Specification;
+                    planline.MaterialPlanHeaderId = vm.MaterialPlanLineViewModel.FirstOrDefault().MaterialPlanHeaderId;
+                    planline.ProductId = item.id;
+                    planline.Dimension1Id = item.Dimension1Id;
+                    planline.Dimension2Id = item.Dimension2Id;
+                    planline.ProdPlanQty = item.QtySum;
+                    planline.UnitName = item.unitname;
+                    planline.unitDecimalPlaces = item.Fractionunits;
+                    planline.GeneratedFor = MaterialPlanConstants.SaleOrder;
+                    Line.Add(planline);
+
+                    j++;
                 }
-
-                
+            }
 
                 MaterialPlanSummaryViewModel Summary = new MaterialPlanSummaryViewModel();
 
@@ -256,6 +267,8 @@ namespace Presentation
                         planLine.ExcessStockQty = item.ExcessStockQty;
                         planLine.MaterialPlanHeaderId = item.MaterialPlanHeaderId;
                         planLine.ProductId = item.ProductId;
+                        planLine.Dimension1Id = item.Dimension1Id;
+                        planLine.Dimension2Id = item.Dimension2Id;
                         planLine.ProdPlanQty = item.ProdPlanQty;
                         planLine.CreatedBy = User.Identity.Name;
                         planLine.CreatedDate = DateTime.Now;
@@ -302,7 +315,7 @@ namespace Presentation
                         prodOrderHeader.DivisionId = header.DivisionId;
                         prodOrderHeader.DocDate = header.DocDate;
                         prodOrderHeader.DocNo = header.DocNo;
-                        prodOrderHeader.DocTypeId = Settings.DocTypeProductionOrderId.Value;
+                        prodOrderHeader.DocTypeId = Settings.DocTypeProductionOrderId;
                         prodOrderHeader.DueDate = header.DueDate;
                         prodOrderHeader.MaterialPlanHeaderId = header.MaterialPlanHeaderId;
                         prodOrderHeader.ModifiedBy = User.Identity.Name;
@@ -333,6 +346,8 @@ namespace Presentation
                             prodOrderLine.ProdOrderHeaderId = prodOrderHeader.ProdOrderHeaderId;
                             prodOrderLine.Specification = item.Specification;
                             prodOrderLine.ProductId = item.ProductId;
+                            prodOrderLine.Dimension1Id = item.Dimension1Id;
+                            prodOrderLine.Dimension2Id = item.Dimension2Id;
                             prodOrderLine.Sr = ProdORderSerial++;
                             prodOrderLine.Qty = item.ProdPlanQty;
                             prodOrderLine.Remark = item.Remark;
@@ -365,6 +380,8 @@ namespace Presentation
                             prodOrderLine.ModifiedDate = DateTime.Now;
                             prodOrderLine.ProdOrderHeaderId = ExistingProdOrder.ProdOrderHeaderId;
                             prodOrderLine.ProductId = item.ProductId;
+                            prodOrderLine.Dimension1Id = item.Dimension1Id;
+                            prodOrderLine.Dimension2Id = item.Dimension2Id;
                             prodOrderLine.Specification = item.Specification;
                             prodOrderLine.Qty = item.ProdPlanQty;
                             prodOrderLine.Sr = ProdORderSerial++;
@@ -400,7 +417,7 @@ namespace Presentation
                         indentHeader.DivisionId = header.DivisionId;
                         indentHeader.DocDate = header.DocDate;
                         indentHeader.DocNo = header.DocNo;
-                        indentHeader.DocTypeId = Settings.DocTypePurchaseIndentId.Value;
+                        indentHeader.DocTypeId = Settings.DocTypePurchaseIndentId;
                         indentHeader.ModifiedBy = User.Identity.Name;
                         indentHeader.MaterialPlanHeaderId = header.MaterialPlanHeaderId;
                         indentHeader.ModifiedDate = DateTime.Now;
@@ -420,6 +437,8 @@ namespace Presentation
                             indentLine.ModifiedBy = User.Identity.Name;
                             indentLine.ModifiedDate = DateTime.Now;
                             indentLine.ProductId = item.ProductId;
+                            indentLine.Dimension1Id = item.Dimension1Id;
+                            indentLine.Dimension2Id = item.Dimension2Id;
                             indentLine.Specification = item.Specification;
                             indentLine.PurchaseIndentHeaderId = indentHeader.PurchaseIndentHeaderId;
                             indentLine.Qty = item.PurchPlanQty;
@@ -443,6 +462,8 @@ namespace Presentation
                             indentLine.Specification = item.Specification;
                             indentLine.ModifiedDate = DateTime.Now;
                             indentLine.ProductId = item.ProductId;
+                            indentLine.Dimension1Id = item.Dimension1Id;
+                            indentLine.Dimension2Id = item.Dimension2Id;
                             indentLine.Sr = PurchaseIndentSr++;
                             indentLine.PurchaseIndentHeaderId = ExistingIndent.PurchaseIndentHeaderId;
                             indentLine.Qty = item.PurchPlanQty;
@@ -811,6 +832,11 @@ namespace Presentation
                                        GroupedItems = g,
                                    }).ToList();
 
+
+
+
+
+
                     int j = 0;
 
                     List<MaterialPlanLineViewModel> Line = new List<MaterialPlanLineViewModel>();
@@ -979,7 +1005,7 @@ namespace Presentation
                         prodOrderHeader.DivisionId = temp.DivisionId;
                         prodOrderHeader.DocDate = temp.DocDate;
                         prodOrderHeader.DocNo = temp.DocNo;
-                        prodOrderHeader.DocTypeId = Settings.DocTypeProductionOrderId.Value;
+                        prodOrderHeader.DocTypeId = Settings.DocTypeProductionOrderId;
                         prodOrderHeader.DueDate = temp.DueDate;
                         prodOrderHeader.MaterialPlanHeaderId = temp.MaterialPlanHeaderId;
                         prodOrderHeader.ModifiedBy = User.Identity.Name;
@@ -1078,7 +1104,7 @@ namespace Presentation
                         indentHeader.DivisionId = temp.DivisionId;
                         indentHeader.DocDate = temp.DocDate;
                         indentHeader.DocNo = temp.DocNo;
-                        indentHeader.DocTypeId = Settings.DocTypePurchaseIndentId.Value;
+                        indentHeader.DocTypeId = Settings.DocTypePurchaseIndentId;
                         indentHeader.MaterialPlanHeaderId = header.MaterialPlanHeaderId;
                         indentHeader.ModifiedBy = User.Identity.Name;
                         indentHeader.ModifiedDate = DateTime.Now;

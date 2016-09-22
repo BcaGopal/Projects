@@ -113,6 +113,7 @@ namespace Model.ViewModels
 
 
         public Decimal BalanceQty { get; set; }
+        public Decimal StockInBalanceQty { get; set; }
 
         public Decimal? Rate { get; set; }
 

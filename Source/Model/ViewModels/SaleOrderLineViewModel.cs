@@ -103,7 +103,6 @@ namespace Model.ViewModels
         public string SaleOrderNo { get; set; }
         public int ProductId { get; set; }
         public int BuyerId { get; set; }
-        public string BuyerName { get; set; }
         public DateTime OrderDate { get; set; }
         public string ProductName { get; set; }
         public int ProductGroupId { get; set; }
@@ -115,10 +114,13 @@ namespace Model.ViewModels
         public int? Dimension1Id { get; set; }
         public virtual Dimension1 Dimension1 { get; set; }
 
+        public string Dimension1Name { get; set; }
+
         [Display(Name = "Dimension2")]
         [ForeignKey("Dimension2")]
         public int? Dimension2Id { get; set; }
         public virtual Dimension2 Dimension2 { get; set; }
+        public string Dimension2Name { get; set; }
 
     }
 }

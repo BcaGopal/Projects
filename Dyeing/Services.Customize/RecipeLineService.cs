@@ -260,7 +260,7 @@ namespace Services.Customize
             StockViewModel.PersonId = temp.PersonId;
             StockViewModel.ProductId = s.ProductId;
             StockViewModel.HeaderFromGodownId = null;
-            StockViewModel.HeaderGodownId = temp.GodownId ?? 0;
+            StockViewModel.HeaderGodownId = temp.GodownId;
             StockViewModel.GodownId = temp.GodownId ?? 0;
             StockViewModel.ProcessId = s.FromProcessId;
             StockViewModel.LotNo = s.LotNo;
