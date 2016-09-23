@@ -276,27 +276,29 @@ namespace Service
                                   select new { LineId = p.PurchaseOrderLineId, HeaderId = t.PurchaseOrderHeaderId }).FirstOrDefault();
 
 
-            var Charges = (from p in db.PurchaseOrderLineCharge
-                           where p.LineTableId == PurchaseOrderLineId.LineId
-                           join t in db.Charge on p.ChargeId equals t.ChargeId
-                           select new LineCharges
-                           {
-                               ChargeCode = t.ChargeCode,
-                               Rate = p.Rate,
-                           }).ToList();
+            if (PurchaseOrderLineId != null)
+            { 
+                var Charges = (from p in db.PurchaseOrderLineCharge
+                               where p.LineTableId == PurchaseOrderLineId.LineId
+                               join t in db.Charge on p.ChargeId equals t.ChargeId
+                               select new LineCharges
+                               {
+                                   ChargeCode = t.ChargeCode,
+                                   Rate = p.Rate,
+                               }).ToList();
 
-            var HeaderCharges = (from p in db.PurchaseOrderHeaderCharges
-                                 where p.HeaderTableId == PurchaseOrderLineId.HeaderId
-                                 join t in db.Charge on p.ChargeId equals t.ChargeId
-                                 select new HeaderCharges
-                                 {
-                                     ChargeCode = t.ChargeCode,
-                                     Rate = p.Rate,
-                                 }).ToList();
+                var HeaderCharges = (from p in db.PurchaseOrderHeaderCharges
+                                     where p.HeaderTableId == PurchaseOrderLineId.HeaderId
+                                     join t in db.Charge on p.ChargeId equals t.ChargeId
+                                     select new HeaderCharges
+                                     {
+                                         ChargeCode = t.ChargeCode,
+                                         Rate = p.Rate,
+                                     }).ToList();
 
-            temp.RHeaderCharges = HeaderCharges;
-            temp.RLineCharges= Charges;
-
+                temp.RHeaderCharges = HeaderCharges;
+                temp.RLineCharges= Charges;
+            }
             return temp;
         }
 

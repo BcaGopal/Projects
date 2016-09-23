@@ -78,6 +78,7 @@ namespace Service
         public IEnumerable<MenuModouleViewModel> GetModuleList()
         {
             var pt = (from p in _ModuleRepository.Instance
+                      where p.IsActive == true
                       orderby p.Srl
                       select new MenuModouleViewModel
                       {
@@ -142,6 +143,7 @@ namespace Service
             else if (UserRoles.Contains("Admin"))
             {
                 var pt = (from p in _ModuleRepository.Instance
+                          where p.IsActive == true
                           orderby p.Srl
                           select new MenuModouleViewModel
                           {
