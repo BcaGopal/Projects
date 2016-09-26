@@ -167,6 +167,7 @@
     <Compile Include="ExcessMaterialLineService.cs" />
     <Compile Include="ExcessMaterialSettingsService.cs" />
     <Compile Include="SaleDispatchSettingsService.cs" />
+    <Compile Include="StockAdjService.cs" />
     <Compile Include="SubReportService.cs" />
     <Compile Include="UpdatePurchaseExpiryService.cs" />
     <Compile Include="UpdateJobExpiryService.cs" />

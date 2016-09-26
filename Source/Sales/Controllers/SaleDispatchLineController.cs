@@ -492,6 +492,16 @@ namespace Web
 
 
 
+                    if (svm.StockInId != null)
+                    {
+                        StockAdj Adj_IssQty = new StockAdj();
+                        Adj_IssQty.StockInId = (int)svm.StockInId;
+                        Adj_IssQty.StockOutId = (int)Dl.StockId;
+                        Adj_IssQty.DivisionId = Dh.DivisionId;
+                        Adj_IssQty.SiteId = Dh.SiteId;
+                        Adj_IssQty.AdjustedQty = Pl.Qty;
+                        new StockAdjService(_unitOfWork).Create(Adj_IssQty);
+                    }
 
 
 
@@ -506,6 +516,7 @@ namespace Web
 
                     Dl.SaleDispatchHeaderId = Dh.SaleDispatchHeaderId;
                     Dl.PackingLineId = Pl.PackingLineId;
+                    Dl.StockInId = svm.StockInId;
                     Dl.CreatedBy = User.Identity.Name;
                     Dl.CreatedDate = DateTime.Now;
                     Dl.ModifiedBy = User.Identity.Name;
@@ -623,7 +634,25 @@ namespace Web
                     }
 
 
+                    StockAdj Adj = (from L in db.StockAdj
+                                    where L.StockOutId == Dl.StockId
+                                    select L).FirstOrDefault();
 
+                    if (Adj != null)
+                    {
+                        new StockAdjService(_unitOfWork).Delete(Adj);
+                    }
+
+                    if (svm.StockInId != null)
+                    {
+                        StockAdj Adj_IssQty = new StockAdj();
+                        Adj_IssQty.StockInId = (int)svm.StockInId;
+                        Adj_IssQty.StockOutId = (int)Dl.StockId;
+                        Adj_IssQty.DivisionId = Dh.DivisionId;
+                        Adj_IssQty.SiteId = Dh.SiteId;
+                        Adj_IssQty.AdjustedQty = Pl.Qty;
+                        new StockAdjService(_unitOfWork).Create(Adj_IssQty);
+                    }
 
 
 

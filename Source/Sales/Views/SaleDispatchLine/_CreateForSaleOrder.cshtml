@@ -362,6 +362,7 @@
         var SaleToBuyerId = $('#SaleToBuyerId').val();
         CustomSelectFunctionForSaleOrder($("#SaleOrderLineId"), '/SaleDispatchLine/GetSaleOrderForProduct', '/SaleDispatchLine/SetSingleSaleOrderLine', ' ', false, 0, SaleToBuyerId);
         //CustomSelectFunctionForStockIn($("#StockInId"), '/SaleDispatchLine/GetStockInForProduct', '/SaleDispatchLine/SetSingleStockIn', ' ', false, 0,SaleDispatchHeaderId,ProductId,Dimension1Id,Dimension1Id);
+        CustomSelectFunctionForStockIn($("#StockInId"), '/SaleDispatchLine/GetStockInForProduct', '/SaleDispatchLine/SetSingleStockIn', ' ', false, 0,$("#SaleDispatchHeaderId").val(),$("#ProductId").val(),$("#Dimension1Id").val(),$("#Dimension2Id").val());
 
 
 

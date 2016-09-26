@@ -741,6 +741,14 @@ namespace Web
 
                     foreach (var stockdet in StockList)
                     {
+                        StockAdj Adj = (from L in db.StockAdj
+                                        where L.StockOutId == stockdet.StockId
+                                        select L).FirstOrDefault();
+                        
+                        if (Adj!= null)
+                        {
+                            new StockAdjService(_unitOfWork).Delete(Adj);
+                        }
                         new StockService(_unitOfWork).Delete(stockdet, db);
                     }
 
