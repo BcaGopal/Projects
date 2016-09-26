@@ -924,6 +924,15 @@ namespace Web
 
             if (StockId != null)
             {
+                StockAdj Adj = (from L in db.StockAdj
+                                where L.StockOutId == StockId
+                                select L).FirstOrDefault();
+
+                if (Adj != null)
+                {
+                    new StockAdjService(_unitOfWork).Delete(Adj);
+                }
+
                 new StockService(_unitOfWork).DeleteStock((int)StockId);
             }
 
