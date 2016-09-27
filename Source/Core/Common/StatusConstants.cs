@@ -29,6 +29,13 @@ namespace Core.Common
         High = 10
     }
 
+    public enum SaleEnquiryPriority
+    {
+        Low = -10,
+        Normal = 0,
+        High = 10
+    }
+
     public enum TasksPriority
     {
         Low = -10,

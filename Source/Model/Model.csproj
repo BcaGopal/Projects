@@ -92,6 +92,7 @@
   <ItemGroup>
     <Compile Include="DatabaseViews\MaterialPlanViewModel.cs" />
     <Compile Include="DatabaseViews\SaleDeliveryOrderViewModels.cs" />
+    <Compile Include="DatabaseViews\SaleEnquiryViewModels.cs" />
     <Compile Include="DatabaseViews\ViewStockInBalance.cs" />
     <Compile Include="DatabaseViews\_Users.cs" />
     <Compile Include="DatabaseViews\ViewMaterialRequestViewModels.cs" />
@@ -105,6 +106,7 @@
     <Compile Include="Models\ApplicationUser.cs" />
     <Compile Include="Models\ActivityType.cs" />
     <Compile Include="Models\BusinessSession.cs" />
+    <Compile Include="Models\SaleEnquiryLineExtended.cs" />
     <Compile Include="Models\JobOrderHeaderExtended.cs" />
     <Compile Include="Models\MaterialPlanCancelHeader.cs" />
     <Compile Include="Models\MaterialPlanCancelLine.cs" />
@@ -159,6 +161,10 @@
     <Compile Include="Models\ExcessMaterialLine.cs" />
     <Compile Include="Models\ExcessMaterialSetting.cs" />
     <Compile Include="Models\SaleDispatchSetting.cs" />
+    <Compile Include="Models\SaleEnquiryHeader.cs" />
+    <Compile Include="Models\SaleEnquiryLine.cs" />
+    <Compile Include="Models\SaleEnquirySettings.cs" />
+    <Compile Include="Models\SaleEnquiryLineStatus.cs" />
     <Compile Include="Models\SubReport.cs" />
     <Compile Include="ViewModels\MaterialPlanCancelHeaderViewModel.cs" />
     <Compile Include="ViewModels\MaterialPlanCancelLineViewModel.cs" />
@@ -172,6 +178,10 @@
     <Compile Include="ViewModels\SaleDispatchLineViewModel.cs" />
     <Compile Include="ViewModels\SaleDispatchSettingsViewModel.cs" />
     <Compile Include="ViewModels\SaleEventArgs.cs" />
+    <Compile Include="ViewModels\SaleEnquiryHeaderViewModels.cs" />
+    <Compile Include="ViewModels\SaleEnquiryLineViewModel.cs" />
+    <Compile Include="ViewModels\SaleEnquirySettingsViewModel.cs" />
+    <Compile Include="ViewModels\SaleEnquiryPrintViewModel.cs" />
     <Compile Include="ViewModels\SaleOrderSettingsViewModel.cs" />
     <Compile Include="Models\StockInOut.cs" />
     <Compile Include="Models\UserPerson.cs" />
