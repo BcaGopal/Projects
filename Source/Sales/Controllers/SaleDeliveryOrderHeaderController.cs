@@ -563,7 +563,7 @@ namespace Web
 
                     LogList.Add(new LogTypeViewModel
                     {
-                        ExObj = SaleDeliveryOrderLine,
+                        ExObj = item,
                     });
                     new SaleDeliveryOrderLineService(_unitOfWork).Delete(item.SaleDeliveryOrderLineId);
                 }

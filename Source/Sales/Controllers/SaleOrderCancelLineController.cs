@@ -640,9 +640,11 @@ namespace Web
         public JsonResult GetPendingSaleOrders(string searchTerm, int pageSize, int pageNum, int filter)//Order Header ID
         {
 
-            var temp = _SaleOrderCancelLineService.GetPendingSaleOrderHelpList(filter, searchTerm).Skip(pageSize * (pageNum - 1)).Take(pageSize).ToList();
+            var Query=_SaleOrderCancelLineService.GetPendingSaleOrderHelpList(filter, searchTerm);
 
-            var count = _SaleOrderCancelLineService.GetPendingSaleOrderHelpList(filter, searchTerm).Count();
+            var temp = Query.Skip(pageSize * (pageNum - 1)).Take(pageSize).ToList();
+
+            var count = Query.Count();
 
             ComboBoxPagedResult Data = new ComboBoxPagedResult();
             Data.Results = temp;

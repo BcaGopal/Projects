@@ -23,7 +23,10 @@
     @Html.HiddenFor(m=>m.CreatedDate)
     <div class="panel panel-default">
         <div class="panel-heading">
-            @if (ViewBag.transactionType == "submit")
+          
+            @CustomHelpers.RenderHeaderInfo(ViewBag.transactionType, (int?)ViewBag.PendingToSubmit, (int?)ViewBag.PendingToReview, ViewBag.Name)
+
+              @*@if (ViewBag.transactionType == "submit")
             {<h3>
                 <span style="font-family: Calibri,sans-serif,Verdana;font-weight:bold" class="black"> <span class="glyphicon glyphicon-file black"></span>Submit @ViewBag.Name</span>
                 <input type="submit" value="Submit" name="Command:Submit" class="btn btn-primary right" style="width: 90px; background-color: #2980b9" />
@@ -47,9 +50,11 @@
                 <h3>
                     <span style="font-family: Calibri,sans-serif,Verdana;font-weight:bold" class="black"> <span class="glyphicon glyphicon-file black"></span>@ViewBag.Name</span>
                     <input type="submit" value="Save" class="btn btn-primary right" id="submit" style="width: 90px; background-color: #2980b9" />
-                </h3>
-                @Html.ActionLink("For Order", "_CreateMultiple", "SaleOrderCancelLine", new { id = @Model.SaleOrderCancelHeaderId, bid = @Model.BuyerId }, new { data_modal = "", id = "btnCreateF", @class = "btn btn-primary borderradii", @title = "For SaleOrder", @data_toggle = "tooltip" })
-            }
+                </h3>                
+            }*@
+
+            @Html.ActionLink("For Order", "_CreateMultiple", "SaleOrderCancelLine", new { id = @Model.SaleOrderCancelHeaderId, bid = @Model.BuyerId }, new { data_modal = "", id = "btnCreateF", @class = "btn btn-primary borderradii", @title = "For SaleOrder", @data_toggle = "tooltip", @data_detailDeleted = "true" })
+
             <hr style="margin-top:0px;margin-bottom:0px" />
 
             <div class="panel-info">
@@ -150,7 +155,7 @@
                         else if (Model.Status == (int)StatusConstants.Submitted || Model.Status == (int)StatusConstants.Modified)
                         { Action = "CreateLineAfter_Submit"; }
                         }
-                        @Html.ActionLink("Add New ", Action, "SaleOrderCancelLine", new { id = @Model.SaleOrderCancelHeaderId, bid = @Model.BuyerId }, new { data_modal = "", id = "btnCreate", @class = "toolbar", @title = "Add New", @data_toggle = "tooltip" })
+                        @Html.ActionLink("Add New ", Action, "SaleOrderCancelLine", new { id = @Model.SaleOrderCancelHeaderId, bid = @Model.BuyerId }, new { data_modal = "", id = "btnCreate", @class = "toolbar", @title = "Add New", @data_toggle = "tooltip", @data_detailDisabled = "true" })
                     </h5>
                 </div>
                 <div style="padding-right:15px">
@@ -245,6 +250,10 @@
             });
 
         }
+
+        $(document).ready(function(){
+            enableModalTransitions();
+        })
 
 
     </script>
