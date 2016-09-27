@@ -316,6 +316,12 @@ namespace Services.Customize
         {
             JobReceiveHeader s = Mapper.Map<DyeingViewModel, JobReceiveHeader>(vmDyeing);
 
+            int? PersonId = (from L in _unitOfWork.Repository<JobOrderLine>().Instance
+                        join He in _unitOfWork.Repository<JobOrderHeaderExtended>().Instance on L.JobOrderHeaderId equals He.JobOrderHeaderId
+                        where L.JobOrderLineId == vmDyeing.JobOrderLineId
+                        select He).FirstOrDefault().PersonId;
+
+
             s.CreatedDate = DateTime.Now;
             s.ModifiedDate = DateTime.Now;
             s.CreatedBy = UserName;
@@ -338,7 +344,7 @@ namespace Services.Customize
             StockViewModel.SiteId = s.SiteId;
             StockViewModel.CurrencyId = null;
             StockViewModel.HeaderProcessId = null;
-            StockViewModel.PersonId = s.JobWorkerId;
+            StockViewModel.PersonId = PersonId;
             StockViewModel.ProductId = vmDyeing.ProductId;
             StockViewModel.HeaderFromGodownId = null;
             StockViewModel.HeaderGodownId = null;
@@ -963,7 +969,8 @@ namespace Services.Customize
                             MachineName = JobOrderHeaderTab.Machine.ProductName,
                             Qty = L.BalanceQty,
                             BalanceQty = L.BalanceQty,
-                            LotNo = JobOrderLineTab.LotNo
+                            LotNo = JobOrderLineTab.LotNo,
+                            UnitId = JobOrderLineTab.UnitId
                         }).FirstOrDefault();
 
             return temp;
@@ -984,6 +991,8 @@ namespace Services.Customize
         public string LotNo { get; set; }
         public Decimal? Qty { get; set; }
         public Decimal? BalanceQty { get; set; }
+        public string UnitId { get; set; }
+
     }
 }
 

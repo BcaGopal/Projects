@@ -243,6 +243,10 @@ namespace Service
                     from Pl in table2.DefaultIfEmpty()
                     join t3 in db.ViewSaleOrderBalance on Pl.SaleOrderLineId equals t3.SaleOrderLineId into table3
                     from tab3 in table3.DefaultIfEmpty()
+                    join Si in db.Stock on p.StockInId equals Si.StockId into StockInTable
+                    from StockInTab in StockInTable.DefaultIfEmpty()
+                    join Sih in db.StockHeader on StockInTab.StockHeaderId equals Sih.StockHeaderId into StockHeaderTable
+                    from StockHeaderTab in StockHeaderTable.DefaultIfEmpty()
                     where p.SaleDispatchLineId == id
                     select new SaleDispatchLineViewModel
                     {
@@ -273,7 +277,9 @@ namespace Service
                         SaleDispatchLineId = p.SaleDispatchLineId,
                         PackingLineId = Pl.PackingLineId,
                         SaleOrderLineId = Pl.SaleOrderLineId,
-                        Weight = Pl.NetWeight
+                        Weight = Pl.NetWeight,
+                        StockInId = p.StockInId,
+                        StockInNo = StockHeaderTab.DocNo
                     }
                         ).FirstOrDefault();
 

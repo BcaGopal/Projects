@@ -103,6 +103,10 @@
     <Compile Include="Migrations\201609171008348_DBInit.Designer.cs">
       <DependentUpon>201609171008348_DBInit.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201609270430081_SaleEnqquiry.cs" />
+    <Compile Include="Migrations\201609270430081_SaleEnqquiry.Designer.cs">
+      <DependentUpon>201609270430081_SaleEnqquiry.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="NotificationApplicationDbContext.cs" />
     <Compile Include="LoginApplicationDbContext.cs" />
@@ -157,6 +161,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201609171008348_DBInit.resx">
       <DependentUpon>201609171008348_DBInit.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201609270430081_SaleEnqquiry.resx">
+      <DependentUpon>201609270430081_SaleEnqquiry.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

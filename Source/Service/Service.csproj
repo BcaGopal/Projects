@@ -167,6 +167,12 @@
     <Compile Include="ExcessMaterialLineService.cs" />
     <Compile Include="ExcessMaterialSettingsService.cs" />
     <Compile Include="SaleDispatchSettingsService.cs" />
+    <Compile Include="SaleEnquiryHeaderService.cs" />
+    <Compile Include="SaleEnquiryLineService.cs" />
+    <Compile Include="SaleEnquiryLineExtendedService.cs" />
+    <Compile Include="SaleEnquirySettingsService.cs" />
+    <Compile Include="SaleEnquiryLineStatusService.cs" />
+    <Compile Include="StockAdjService.cs" />
     <Compile Include="SubReportService.cs" />
     <Compile Include="UpdatePurchaseExpiryService.cs" />
     <Compile Include="UpdateJobExpiryService.cs" />

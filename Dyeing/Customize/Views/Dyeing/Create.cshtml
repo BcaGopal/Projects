@@ -31,6 +31,7 @@
     @Html.HiddenFor(m => m.CreatedDate)
     @Html.HiddenFor(m => m.BalanceQty)
     @Html.HiddenFor(m => m.StockHeaderId)
+    @Html.HiddenFor(m => m.UnitId)
 
     <div class="panel panel-default">
         <div class="panel-heading">
@@ -512,6 +513,7 @@
                         $("#Qty").val(data.BalanceQty);
                         $("#BalanceQty").val(data.BalanceQty);
                         $("#LotNo").val(data.LotNo);
+                        $("#UnitId").val(data.UnitId);
                     }
                     else{
                         $("#JobOrderNo").val("");
@@ -522,6 +524,7 @@
                         $("#Qty").val(0);
                         $("#BalanceQty").val(0);
                         $("#LotNo").val("");
+                        $("#UnitId").val("");
                     }
                 },
                 error: function (xhr, ajaxOptions, thrownError) {
@@ -539,6 +542,7 @@
             $("#Qty").val(0);
             $("#BalanceQty").val(0);
             $("#LotNo").val("");
+            $("#UnitId").val("");
         }
     }
 </script>
