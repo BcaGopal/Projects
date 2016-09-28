@@ -13,7 +13,7 @@ namespace Model.Models
         [Key]
         [ForeignKey("SaleEnquiryLine")]
         public int SaleEnquiryLineId { get; set; }
-        public JobOrderHeader SaleEnquiryLine { get; set; }
+        public SaleEnquiryLine SaleEnquiryLine { get; set; }
         public string ProductGroup { get; set; }
         public string Size { get; set; }
         public string ProductQuality { get; set; }

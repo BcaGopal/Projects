@@ -15,14 +15,14 @@ namespace Model.ViewModels
         [Key]
         public int SaleEnquiryHeaderId { get; set; }
 
-        [ForeignKey("DocType"), Display(Name = "Order Type"),Required(ErrorMessage="Please select a Document type")]
+        [ForeignKey("DocType"), Display(Name = "Enquiry Type"),Required(ErrorMessage="Please select a Document type")]
         public int DocTypeId { get; set; }
         public virtual DocumentType DocType { get; set; }
 
-        [Display(Name = "Order Date"), DisplayFormat(DataFormatString = "{0:dd/MMM/yyyy}"),Required(ErrorMessage="Please select Order Date")]
+        [Display(Name = "Enquiry Date"), DisplayFormat(DataFormatString = "{0:dd/MMM/yyyy}"), Required(ErrorMessage = "Please select Enquiry Date")]
         public DateTime DocDate { get; set; }
 
-        [Display(Name = "Order No"), MaxLength(20, ErrorMessage = "Order No. can not exceed 20 characters"), Required(ErrorMessage = "The OrderNo Field is Required")]
+        [Display(Name = "Enquiry No"), MaxLength(20, ErrorMessage = "Enquiry No. can not exceed 20 characters"), Required(ErrorMessage = "The EnquiryNo Field is Required")]
         public string DocNo { get; set; }
 
         [ForeignKey("Division"), Display(Name = "Division")]
@@ -33,8 +33,8 @@ namespace Model.ViewModels
         public int SiteId { get; set; }
         public virtual Site Site { get; set; }
 
-        [MaxLength(20), Display(Name = "Buyer Order Number")]
-        public string BuyerOrderNo { get; set; }
+        [MaxLength(20), Display(Name = "Buyer Enquiry Number")]
+        public string BuyerEnquiryNo { get; set; }
 
         [DisplayFormat(DataFormatString = "{0:dd/MMM/yyyy}"),Required(ErrorMessage="Please select Due Date")]
         public DateTime DueDate { get; set; }

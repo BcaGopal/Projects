@@ -14,6 +14,7 @@ using Model.ViewModel;
 using System.Xml.Linq;
 using Reports.Controllers;
 using Presentation.Helper;
+using Model.DatabaseViews;
 
 namespace Web
 {
@@ -80,6 +81,7 @@ namespace Web
             SaleEnquiryHeader H = new SaleEnquiryHeaderService(_unitOfWork).GetSaleEnquiryHeader(Id);
             SaleEnquiryLineViewModel s = new SaleEnquiryLineViewModel();
             s.SaleEnquiryHeaderId = H.SaleEnquiryHeaderId;
+            s.UnitId = "PCS";
             ViewBag.DocNo = H.DocNo;
             ViewBag.Status = H.Status;
             ViewBag.LineMode = "Create";
@@ -145,7 +147,7 @@ namespace Web
                     Extended.Colour = svm.Colour;
                     new SaleEnquiryLineExtendedService(_unitOfWork).Create(Extended);
 
-                    new SaleEnquiryLineStatusService(_unitOfWork).CreateLineStatus(s.SaleEnquiryLineId);
+                    //new SaleEnquiryLineStatusService(_unitOfWork).CreateLineStatus(s.SaleEnquiryLineId);
 
                     SaleEnquiryHeader header = new SaleEnquiryHeaderService(_unitOfWork).Find(s.SaleEnquiryHeaderId);
                     if (header.Status != (int)StatusConstants.Drafted && header.Status != (int)StatusConstants.Import)
@@ -205,6 +207,7 @@ namespace Web
                     temp1.Dimension1Id = svm.Dimension1Id;
                     temp1.Dimension2Id = svm.Dimension2Id;
                     temp1.Qty = svm.Qty ?? 0;
+                    temp1.UnitId = svm.UnitId;
                     temp1.DealQty = svm.DealQty ?? 0;
                     temp1.DealUnitId = svm.DealUnitId;
                     temp1.UnitConversionMultiplier = svm.UnitConversionMultiplier;
@@ -331,13 +334,13 @@ namespace Web
             s.ProductGroup = Extended.ProductGroup;
             s.Size = Extended.Size;
             s.ProductQuality = Extended.ProductQuality;
+            s.Colour = Extended.Colour;
 
 
 
             var settings = new SaleEnquirySettingsService(_unitOfWork).GetSaleEnquirySettings(H.DocTypeId, H.DivisionId, H.SiteId);
             s.SaleEnquirySettings = Mapper.Map<SaleEnquirySettings, SaleEnquirySettingsViewModel>(settings);
 
-            s.UnitId = new ProductService(_unitOfWork).Find(temp.ProductId).UnitId;
             PrepareViewBag(H);
 
             return PartialView("_Create", s);
@@ -359,6 +362,7 @@ namespace Web
         private ActionResult _Delete(int id)
         {
             SaleEnquiryLine temp = _SaleEnquiryLineService.GetSaleEnquiryLine(id);
+            SaleEnquiryLineExtended Extended = new SaleEnquiryLineExtendedService(_unitOfWork).Find(id);
 
             if (temp == null)
             {
@@ -391,7 +395,11 @@ namespace Web
 
 
             SaleEnquiryLineViewModel s = Mapper.Map<SaleEnquiryLine, SaleEnquiryLineViewModel>(temp);
-            s.UnitId = new ProductService(_unitOfWork).Find(temp.ProductId).UnitId;
+
+            s.ProductGroup = Extended.ProductGroup;
+            s.Size = Extended.Size;
+            s.ProductQuality = Extended.ProductQuality;
+            s.Colour = Extended.Colour;
 
             var settings = new SaleEnquirySettingsService(_unitOfWork).GetSaleEnquirySettings(H.DocTypeId, H.DivisionId, H.SiteId);
             s.SaleEnquirySettings = Mapper.Map<SaleEnquirySettings, SaleEnquirySettingsViewModel>(settings);
@@ -415,7 +423,6 @@ namespace Web
             SaleEnquiryHeader H = new SaleEnquiryHeaderService(_unitOfWork).GetSaleEnquiryHeader(temp.SaleEnquiryHeaderId);
             ViewBag.DocNo = H.DocNo;
             SaleEnquiryLineViewModel s = Mapper.Map<SaleEnquiryLine, SaleEnquiryLineViewModel>(temp);
-            s.UnitId = new ProductService(_unitOfWork).Find(temp.ProductId).UnitId;
             PrepareViewBag(H);
 
             return PartialView("_Create", s);
@@ -427,9 +434,10 @@ namespace Web
         public ActionResult DeletePost(SaleEnquiryLineViewModel vm)
         {
             List<LogTypeViewModel> LogList = new List<LogTypeViewModel>();
+            new SaleEnquiryLineExtendedService(_unitOfWork).Delete(vm.SaleEnquiryLineId);
 
             SaleEnquiryLine SaleEnquiryLine = _SaleEnquiryLineService.Find(vm.SaleEnquiryLineId);
-            new SaleEnquiryLineStatusService(_unitOfWork).Delete(vm.SaleEnquiryLineId);
+            //new SaleEnquiryLineStatusService(_unitOfWork).Delete(vm.SaleEnquiryLineId);
             _SaleEnquiryLineService.Delete(vm.SaleEnquiryLineId);
             SaleEnquiryHeader header = new SaleEnquiryHeaderService(_unitOfWork).Find(SaleEnquiryLine.SaleEnquiryHeaderId);
 
@@ -534,6 +542,35 @@ namespace Web
             return Json(ProductJson);
         }
 
+        public JsonResult GetProductCustomDetailJson(int ProductId, int SaleEnquiryHeaderId)
+        {
+            SaleEnquiryHeader Header = new SaleEnquiryHeaderService(_unitOfWork).Find(SaleEnquiryHeaderId);
+
+            ProductCustomDetailViewModel ProductCustomDetail = (from P in db.ViewProductBuyer
+                                                                where P.ProductId == ProductId && P.BuyerId == Header.SaleToBuyerId
+                                                                select new ProductCustomDetailViewModel
+                                                                {
+                                                                    ProductGroup = P.ProductGroup,
+                                                                    Size = P.Size,
+                                                                    ProductQuality = P.ProductQuality,
+                                                                    Colour = P.Colour
+                                                                }).FirstOrDefault();
+
+
+
+            List<ProductCustomDetailViewModel> ProductCustomDetailJson = new List<ProductCustomDetailViewModel>();
+
+            ProductCustomDetailJson.Add(new ProductCustomDetailViewModel()
+            {
+                ProductGroup = ProductCustomDetail.ProductGroup,
+                Size = ProductCustomDetail.Size,
+                ProductQuality = ProductCustomDetail.ProductQuality,
+                Colour = ProductCustomDetail.Colour
+            });
+
+            return Json(ProductCustomDetailJson);
+        }
+
         public JsonResult CheckForValidationinEdit(int ProductId, int SaleEnquiryHeaderId, int SaleEnquiryLineId)
         {
             var temp = (_SaleEnquiryLineService.CheckForProductExists(ProductId, SaleEnquiryHeaderId, SaleEnquiryLineId));
@@ -573,7 +610,29 @@ namespace Web
             };
         }
 
+        public JsonResult SetSingleBuyerProduct(int Ids)
+        {
+            ComboBoxResult ProductJson = new ComboBoxResult();
+
+            IEnumerable<ViewProductBuyer> prod = from p in db.ViewProductBuyer
+                                        where p.ProductId == Ids
+                                        select p;
+
+            ProductJson.id = prod.FirstOrDefault().ProductId.ToString();
+            ProductJson.text = prod.FirstOrDefault().ProductName;
+
+            return Json(ProductJson);
+        }
 
 
+
+    }
+    public class ProductCustomDetailViewModel
+    {
+        public int ProductId { get; set; }
+        public string ProductGroup { get; set; }
+        public string Size { get; set; }
+        public string ProductQuality { get; set; }
+        public string Colour { get; set; }
     }
 }

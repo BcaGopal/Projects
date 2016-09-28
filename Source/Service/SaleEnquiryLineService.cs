@@ -158,22 +158,27 @@ namespace Service
         {
 
             var temp = from p in db.SaleEnquiryLine
+                       join Pe in db.SaleEnquiryLineExtended on p.SaleEnquiryLineId equals Pe.SaleEnquiryLineId into SaleEnquiryLineTable from SaleEnquiryLineTab in SaleEnquiryLineTable.DefaultIfEmpty()
                        join t in db.ViewSaleEnquiryBalance on p.SaleEnquiryLineId equals t.SaleEnquiryLineId into table from svb in table.DefaultIfEmpty()
                        join t1 in db.SaleEnquiryHeader on p.SaleEnquiryHeaderId equals t1.SaleEnquiryHeaderId into table1 from tab1 in table1.DefaultIfEmpty()
-                       join pb in db.ProductBuyer on new { p.ProductId, BuyerId = tab1.SaleToBuyerId } equals new { pb.ProductId, BuyerId = pb.BuyerId } into table2
+                       join pb in db.ViewProductBuyer on new { p.ProductId, BuyerId = tab1.SaleToBuyerId } equals new { pb.ProductId, BuyerId = pb.BuyerId } into table2
                        from tab2 in table2.DefaultIfEmpty()
                        orderby p.SaleEnquiryLineId
                        where p.SaleEnquiryHeaderId==SaleEnquiryHeaderId
                        select new SaleEnquiryLineIndexViewModel
                        {
-                           BuyerSku=tab2.BuyerSku,
+                           BuyerSku=tab2.ProductName,
                            DealQty = p.DealQty,
                            DealUnitId=p.DealUnitId,
                            Specification=p.Specification,
                            Rate=p.Rate,
                            Amount = p.Amount,
                            DueDate = p.DueDate,
-                           ProductName = p.Product.ProductName,
+                           ProductName = tab2.ProductName,
+                           ProductGroup = SaleEnquiryLineTab.ProductGroup,
+                           Size = SaleEnquiryLineTab.Size,
+                           Colour = SaleEnquiryLineTab.Colour,
+                           ProductQuality = SaleEnquiryLineTab.ProductQuality,
                            Dimension1Name = p.Dimension1.Dimension1Name,
                            Dimension2Name = p.Dimension2.Dimension2Name,
                            Qty = p.Qty,
@@ -181,8 +186,8 @@ namespace Service
                            SaleEnquiryLineId = p.SaleEnquiryLineId,
                            Remark=p.Remark,
                            ProgressPerc = (p.Qty == 0 ? 0 : (int)((((p.Qty - ((decimal?)svb.BalanceQty ?? (decimal)0)) / p.Qty) * 100))),
-                           unitDecimalPlaces=p.Product.Unit.DecimalPlaces,
-                           UnitId=p.Product.UnitId,
+                           unitDecimalPlaces=p.Unit.DecimalPlaces,
+                           UnitId=p.UnitId,
                        };
             return temp;
         }
@@ -324,16 +329,22 @@ namespace Service
             if (!string.IsNullOrEmpty(settings.filterProductGroups)) { ProductGroups = settings.filterProductGroups.Split(",".ToCharArray()); }
             else { ProductGroups = new string[] { "NA" }; }
 
-            return (from p in db.Product
-                    where (string.IsNullOrEmpty(settings.filterProductTypes) ? 1 == 1 : ProductTypes.Contains(p.ProductGroup.ProductTypeId.ToString()))
-                    && (string.IsNullOrEmpty(settings.filterProducts) ? 1 == 1 : Products.Contains(p.ProductId.ToString()))
-                    && (string.IsNullOrEmpty(settings.filterProductGroups) ? 1 == 1 : ProductGroups.Contains(p.ProductGroupId.ToString()))
-                    && (string.IsNullOrEmpty(term) ? 1 == 1 : p.ProductName.ToLower().Contains(term.ToLower()))
-                    orderby p.ProductName
+            return (from pb in db.ViewProductBuyer
+                    join Pt in db.Product on pb.ProductId equals Pt.ProductId into ProductTable from ProductTab in ProductTable.DefaultIfEmpty()
+                    where (string.IsNullOrEmpty(settings.filterProductTypes) ? 1 == 1 : ProductTypes.Contains(ProductTab.ProductGroup.ProductTypeId.ToString()))
+                    && (string.IsNullOrEmpty(settings.filterProducts) ? 1 == 1 : Products.Contains(ProductTab.ProductId.ToString()))
+                    && (string.IsNullOrEmpty(settings.filterProductGroups) ? 1 == 1 : ProductGroups.Contains(ProductTab.ProductGroupId.ToString()))
+                    && (string.IsNullOrEmpty(term) ? 1 == 1 : pb.ProductName.ToLower().Contains(term.ToLower()))
+                    && pb.BuyerId == SaleEnquiry.SaleToBuyerId
+                    orderby pb.ProductName
                     select new ComboBoxResult
                     {
-                        id = p.ProductId.ToString(),
-                        text = p.ProductName,
+                        id = pb.ProductId.ToString(),
+                        text = pb.ProductName,
+                        AProp1 = "Design : " + pb.ProductGroup,
+                        AProp2 = "Size : " + pb.Size,
+                        TextProp1 = "Colour : " + pb.Colour,
+                        TextProp2 = "Quality : " + pb.ProductQuality
                     });
         }
 

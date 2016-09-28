@@ -140,7 +140,7 @@ namespace Service
                                                   {
                                                       DocTypeId = p.DocTypeId,
                                                       BillToBuyerName = tab2.Name,
-                                                      BuyerOrderNo = p.BuyerEnquiryNo,
+                                                      BuyerEnquiryNo = p.BuyerEnquiryNo,
                                                       CreatedBy = p.CreatedBy,
                                                       CreatedDate = p.CreatedDate,
                                                       DivisionName = p.Division.DivisionName,

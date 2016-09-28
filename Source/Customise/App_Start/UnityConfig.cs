@@ -109,7 +109,7 @@ namespace Customise.App_Start
             container.RegisterType<IRepository<PersonProcess>, Repository<PersonProcess>>();
             container.RegisterType<IPersonProcessService, PersonProcessService>(new PerRequestLifetimeManager());
 
-            
+
 
             container.RegisterType<IRepository<PersonRegistration>, Repository<PersonRegistration>>();
             container.RegisterType<IPersonRegistrationService, PersonRegistrationService>(new PerRequestLifetimeManager());
@@ -197,6 +197,12 @@ namespace Customise.App_Start
             container.RegisterType<IRepository<SaleOrderLine>, Repository<SaleOrderLine>>();
             container.RegisterType<Service.ISaleOrderLineService, Service.SaleOrderLineService>(new PerRequestLifetimeManager());
 
+            container.RegisterType<IRepository<SaleEnquiryHeader>, Repository<SaleEnquiryHeader>>();
+            container.RegisterType<Service.ISaleEnquiryHeaderService, Service.SaleEnquiryHeaderService>(new PerRequestLifetimeManager());
+
+            container.RegisterType<IRepository<SaleEnquiryLine>, Repository<SaleEnquiryLine>>();
+            container.RegisterType<Service.ISaleEnquiryLineService, Service.SaleEnquiryLineService>(new PerRequestLifetimeManager());
+
             container.RegisterType<IRepository<SalesTaxGroupProduct>, Repository<SalesTaxGroupProduct>>();
             container.RegisterType<ISalesTaxGroupProductService, SalesTaxGroupProductService>(new PerRequestLifetimeManager());
 
@@ -226,6 +232,8 @@ namespace Customise.App_Start
             container.RegisterType<IJobOrderHeaderService, JobOrderHeaderService>(new PerRequestLifetimeManager());
 
             container.RegisterType<ITrialBalanceService, TrialBalanceService>(new PerRequestLifetimeManager());
+
+            container.RegisterType<ISaleEnquirySettingsService, SaleEnquirySettingsService>(new PerRequestLifetimeManager());
 
             container.RegisterType<ITrialBalanceSettingService, TrialBalanceSettingService>(new PerRequestLifetimeManager());
 
@@ -278,6 +286,20 @@ namespace Customise.App_Start
 
             Mapper.CreateMap<SaleOrderHeaderIndexViewModelForEdit, SaleOrderHeaderIndexViewModel>();
             Mapper.CreateMap<SaleOrderHeaderIndexViewModel, SaleOrderHeaderIndexViewModelForEdit>();
+
+
+            Mapper.CreateMap<SaleEnquiryLine, SaleEnquiryLineViewModel>();
+            Mapper.CreateMap<SaleEnquiryLineViewModel, SaleEnquiryLine>();
+
+            Mapper.CreateMap<SaleEnquiryHeader, SaleEnquiryHeaderIndexViewModel>();
+            Mapper.CreateMap<SaleEnquiryHeaderIndexViewModel, SaleEnquiryHeader>();
+
+            Mapper.CreateMap<SaleEnquiryHeaderIndexViewModelForEdit, SaleEnquiryHeaderIndexViewModel>();
+            Mapper.CreateMap<SaleEnquiryHeaderIndexViewModel, SaleEnquiryHeaderIndexViewModelForEdit>();
+
+            Mapper.CreateMap<SaleEnquiryHeader, DocumentUniqueId>();
+            Mapper.CreateMap<SaleEnquiryHeaderIndexViewModel, DocumentUniqueId>();
+
 
             Mapper.CreateMap<DirectSaleInvoiceHeaderViewModel, SaleInvoiceHeader>();
             Mapper.CreateMap<SaleInvoiceHeader, DirectSaleInvoiceHeaderViewModel>();
@@ -387,6 +409,9 @@ namespace Customise.App_Start
 
             Mapper.CreateMap<JobOrderSettings, JobOrderSettingsViewModel>();
             Mapper.CreateMap<JobOrderSettingsViewModel, JobOrderSettings>();
+
+            Mapper.CreateMap<SaleEnquirySettings, SaleEnquirySettingsViewModel>();
+            Mapper.CreateMap<SaleEnquirySettingsViewModel, SaleEnquirySettings>();
 
             Mapper.CreateMap<JobOrderHeader, JobOrderHeaderViewModel>();
             Mapper.CreateMap<JobOrderHeaderViewModel, JobOrderHeader>();

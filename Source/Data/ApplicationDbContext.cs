@@ -335,6 +335,7 @@ namespace Data.Models
         public DbSet<SaleDeliveryOrderCancelHeader> SaleDeliveryOrderCancelHeader { get; set; }
         public DbSet<SaleDeliveryOrderCancelLine> SaleDeliveryOrderCancelLine { get; set; }
         public DbSet<SaleOrderSettings> SaleOrderSettings { get; set; }
+        public DbSet<SaleEnquirySettings> SaleEnquirySettings { get; set; }
         public DbSet<SaleDeliveryOrderSettings> SaleDeliveryOrderSettings { get; set; }
         public DbSet<JobReceiveQASettings> JobReceiveQASettings { get; set; }
         public DbSet<SaleOrderCancelHeader> SaleOrderCancelHeader { get; set; }
@@ -552,6 +553,7 @@ namespace Data.Models
         public DbSet<ViewSaleEnquiryBalance> ViewSaleEnquiryBalance { get; set; }
 
         public DbSet<ViewStockInBalance> ViewStockInBalance { get; set; }
+        public DbSet<ViewProductBuyer> ViewProductBuyer { get; set; }
         public DbSet<ViewSaleOrderBalanceForCancellation> ViewSaleOrderBalanceForCancellation { get; set; }
 
 
