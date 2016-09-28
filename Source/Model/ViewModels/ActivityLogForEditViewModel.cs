@@ -65,6 +65,7 @@ namespace Model.ViewModel
             this.DocDate = nvm.DocDate;
             this.DocStatus = nvm.DocStatus;
             this.xEModifications = nvm.xEModifications;
+            this.UserRemark = nvm.UserRemark;
 
             return this;
         }

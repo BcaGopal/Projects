@@ -264,18 +264,27 @@ $(document).ready(function () {
 
     }
 
+    $(document).on("click", "a[data-modalDelete]", function (e) {
+
+        if (this.href)
+            $('#myModalContent').load(this.href, function () {
+                $('#myModal').modal({
+                    backdrop: 'static',
+                    keyboard: true
+                }, 'show');
+                bindForm(this);
+            });
+
+        return false;
+    });
+
     //Modal MAster
-
-
-    $(function () {
+    enableModalTransitions = function () {
 
         $.ajaxSetup({ cache: false });
 
-        $("a[data-modal]").on("click", function (e) {
-            // hide dropdown if any
-            //alert('data-modal');
-            $(e.target).closest('.btn-group').children('.dropdown-toggle').dropdown('toggle');
-            //alert(' Script');
+        $(document).on("click", "a[data-modal]", function (e) {
+
             if (this.href)
                 $('#myModalContent').load(this.href, function () {
                     $('#myModal').modal({
@@ -287,24 +296,37 @@ $(document).ready(function () {
 
             return false;
         });
-    });
+
+        $(document).on("dblclick", "#gbody .grid-body,#gbodycharges .grid-body,.grid-content .grid-body", function (e) {
+            var editurl = $(this).find('a[edit]').attr('href');
+            if (editurl)
+                $('#myModalContent').load(editurl, function () {
+                    $('#myModal').modal({
+                        backdrop: 'static',
+                        keyboard: true
+                    }, 'show');
+                    bindForm(this);
+                });
+
+            return false;
+        });
+
+    };
 
     function bindForm(dialog) {
-        //alert('binding Script');
-        $('#modform', dialog).submit(function () {
-            //alert('inside script');
-            //alert(this.action);
-            //alert(this.method);
+        $('form#modform', dialog).submit(function () {
+            var form = this;
             $.ajax({
                 url: this.action,
                 type: this.method,
                 data: $(this).serialize(),
                 success: function (result) {
                     if (result.success) {
+                        $('#myModalContent').html("");
                         $('#myModal').modal('hide');
                         //Refresh
-                        // alert('this.action');
-                        location.reload();
+                        if ($(form).attr("data-pageReload") == "true")
+                        { location.reload(); }
                     } else {
                         $('#myModalContent').html(result);
                         InitializeFocus();
@@ -318,15 +340,11 @@ $(document).ready(function () {
 
 
         $('a#AddToExisting ').click(function () {
-            //alert('inside script');
-            //alert(this.href);
-            //alert(this.method);
             $.ajax({
                 url: this.href,
-
-
                 success: function (result) {
                     if (result.success) {
+                        $('#myModalContent').html("");
                         $('#myModal').modal('hide');
                         //Refresh
                         location.reload();
@@ -339,8 +357,123 @@ $(document).ready(function () {
             });
             return false;
         });
-    }
+    };
 
+    DisablePageNavigation = function () {
+        //Disabling input fields
+        $(':input:not(:submit,#IsContinue,.transactional)').attr('disabled', 'disabled');
+
+        //Removing Add New Row ActionLink
+        $('a[data-detailDisabled=\'true\']').removeAttr("href");
+        $('a[data-detailDeleted=\'true\']').remove();
+
+        $(document).on('click', 'a[data-detailDisabled=\'true\'],a[data-detailDeleted=\'true\']', function (e) {
+            return false;
+        })
+
+        //Removing the action link from the form so that the request will be redirected to the Submit function in the controller instead of the hardcoded path
+        $('form:last').prop('action', '');
+    };
+
+    enableActivityLogReason = function (gatepassProc, gatepassHeaderId, transactionType) {
+        var href = '/ActivityLog/LogEditReason'
+        var $btnClicked;
+        var proc = gatepassProc;
+        var Headid = gatepassHeaderId;
+        var transType = transactionType;
+
+        $(':submit').bind('click', function () {
+            $btnClicked = $(this);
+            $('#myModalContent').load(href, function () {
+
+                $('#myModal').modal({
+                    backdrop: 'static',
+                    keyboard: true
+                }, 'show');
+
+                bindLogReasonForm(this, $btnClicked, proc, Headid, transType);
+            });
+
+            return false;
+        })
+    };
+
+    function bindLogReasonForm(dialog, btn, gatepassProc, gatepassHeaderId, transactionType) {
+
+        $('#modformr', dialog).submit(function () {
+
+            $.ajax({
+                url: this.action,
+                type: this.method,
+                data: $(this).serialize(),
+                success: function (result) {
+                    if (result.success) {
+                        $('#myModal').modal('hide');
+
+                        $(':submit').unbind();
+
+                        $('input[name="UserRemark"]').val(result.UserRemark);
+                        if (gatepassProc && !gatepassHeaderId && (transactionType == "submit" || transactionType == "submitContinue")) {
+                            alertify.confirm('Generate GatePass ?').set({
+                                'closable': false, 'onok': function (onok) {
+
+                                    $('input[name="GenGatePass"]').val('true');
+                                    btn.trigger('click');
+
+                                }, 'oncancel': function (oncancel) {
+
+                                    $('input[name="GenGatePass"]').val('false');
+                                    btn.trigger('click');
+
+                                }
+                            }).setting('labels', { 'ok': 'Yes', 'cancel': 'No' });
+                        }
+                        else {
+                            btn.trigger('click');
+                        }
+                    } else {
+                        $('#myModalContent').html(result);
+                        bindLogReasonForm(dialog, btn, gatepassProc, gatepassHeaderId, transactionType);
+                    }
+                }
+            });
+            return false;
+        });
+    };
+
+    prompGatePassGeneration = function () {
+        $(':submit', 'form .panel.panel-default').one('click', function () {
+            $btnClicked = $(this);
+            var uChoice = false;
+            alertify.confirm('Generate GatePass ?').set({
+                'closable': false, 'onok': function (onok) {
+
+                    $('input[name="GenGatePass"]').val('true');
+                    $btnClicked.trigger('click');
+                    uChoice = true;
+
+                }, 'oncancel': function (oncancel) {
+
+                    $('input[name="GenGatePass"]').val('false');
+                    $btnClicked.trigger('click');
+                    uChoice = true;
+                }
+            }).setting('labels', { 'ok': 'Yes', 'cancel': 'No' });
+            return uChoice;
+        })
+    };
+
+    CreateTrasitionEffect = function () {
+        $('body').find('form').filter(":last").wrapInner("<div class='animsition' data-animsition-in='fade-in-right-lg' data-animsition-out='fade-out-left-lg' style='animation-duration: 1.5s; -webkit-animation-duration: 1.5s; opacity: 0;'> </div>");
+
+        var script = document.createElement('script');
+
+        script.setAttribute('type', 'text/javascript');
+
+        script.text = " $(document).ready(function () {$('.animsition').animsition().one('animsition.start', function () {}).one('animsition.end', function () {$(this).find('.animsition-child').addClass('zoom-in').css({'opacity': 1});})});";
+
+        $('body').append(script);
+    };
 
 
 
@@ -592,11 +725,9 @@ $.fn.addCommas = function () {
 
 
 function AddFields() {
-    $('form:last').append($("<input type='hidden' name='UserRemark'></input>"))
-    $('form:last').append($("<input type='hidden' name='GenGatePass'></input>"))
+    $('form:last').append($("<input type='hidden' class='transactional' name='UserRemark'></input>"))
+    $('form:last').append($("<input type='hidden' class='transactional' name='GenGatePass'></input>"))
 }
-
-
 
 
 function DisablePage() {
@@ -1276,7 +1407,6 @@ function InitializeFocus() {
             Input.focus();
     }
 }
-
 //$(document).bind("keyup keydown", function (e) {
 //    if (e.ctrlKey && e.keyCode == 80) {
 //        alert('print match');

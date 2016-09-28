@@ -148,7 +148,7 @@ namespace Web
                     temp.DocTypePurchaseIndentId = pt.DocTypePurchaseIndentId;
                     temp.isVisibleDimension1 = pt.isVisibleDimension1;
                     temp.isVisibleDimension2 = pt.isVisibleDimension2;
-                  
+                    temp.PlanType = pt.PlanType;
                     temp.ModifiedDate = DateTime.Now;
                     temp.ModifiedBy = User.Identity.Name;
                     temp.ObjectState = Model.ObjectState.Modified;
@@ -284,7 +284,7 @@ namespace Web
                     temp.DocTypePurchaseIndentId = pt.DocTypePurchaseIndentId;
                     temp.isVisibleDimension1 = pt.isVisibleDimension1;
                     temp.isVisibleDimension2 = pt.isVisibleDimension2;
-
+                    temp.PlanType = pt.PlanType;
                     temp.ModifiedDate = DateTime.Now;
                     temp.ModifiedBy = User.Identity.Name;
                     temp.ObjectState = Model.ObjectState.Modified;

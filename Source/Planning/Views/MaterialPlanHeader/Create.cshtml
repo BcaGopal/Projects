@@ -54,11 +54,11 @@
                     <span style="font-family: Calibri,sans-serif,Verdana;font-weight:bold" class="black"><span class="glyphicon glyphicon-file black"></span> @ViewBag.Name</span>
                     <input type="submit" value="Save" class="btn btn-primary right" id="submit" style="width: 90px; background-color: #2980b9" />
                 </h3>
-                if ((string)System.Web.HttpContext.Current.Session["MaterialPlanType"] == MaterialPlanTypeConstants.SaleOrder)
+                if ( Model.MaterialPlanSettings.PlanType == MaterialPlanTypeConstants.SaleOrder)
                 {
                     @Html.ActionLink("For Sale Order", "_ForSaleOrder", "MaterialPlanLine", new { id = @Model.MaterialPlanHeaderId }, new { data_modal = "", id = "btnCreateF", @class = "btn btn-primary borderradii", @title = "For Indent", @data_toggle = "tooltip", @style = "background-color:#2980b9" })
                 }
-                if ((string)System.Web.HttpContext.Current.Session["MaterialPlanType"] == MaterialPlanTypeConstants.ProdOrder)
+                if (Model.MaterialPlanSettings.PlanType == MaterialPlanTypeConstants.ProdOrder)
                 {
                     @Html.ActionLink("For Prod Order", "_ForProdOrder", "MaterialPlanLine", new { id = @Model.MaterialPlanHeaderId }, new { data_modal = "", id = "btnCreateP", @class = "btn btn-primary borderradii", @title = "For Indent", @data_toggle = "tooltip", @style = "background-color:#2980b9" })
                 }

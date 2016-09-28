@@ -966,7 +966,7 @@ namespace Web
             return Json(new SaleInvoiceHeaderService(_unitOfWork).GetPendingInvoices(ProductId, SaleInvoiceReturnHeaderId).ToList());
         }
 
-        public JsonResult GetPendingInvoices(int ProductId, int SaleInvoiceReturnHeaderId, string term)
+        public JsonResult GetPendingInvoicesWithterm(int ProductId, int SaleInvoiceReturnHeaderId, string term)
         {
             return Json(new SaleInvoiceHeaderService(_unitOfWork).GetPendingInvoicesWithterm(ProductId, SaleInvoiceReturnHeaderId, term).ToList());
         }

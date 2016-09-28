@@ -55,11 +55,11 @@
                     <input type="submit" value="Save" class="btn btn-primary right" id="submit" style="width: 90px; background-color: #2980b9" />
                 </h3>
                               
-                if ((string)System.Web.HttpContext.Current.Session["MaterialPlanCancelType"] == MaterialPlanTypeConstants.SaleOrder)
+                if ( Model.MaterialPlanSettings.PlanType == MaterialPlanTypeConstants.SaleOrder)
                 {
                     @Html.ActionLink("For Planning", "_ForSaleOrder", "MaterialPlanCancelLine", new { id = @Model.MaterialPlanCancelHeaderId }, new { data_modal = "", id = "btnCreateF", @class = "btn btn-primary borderradii", @title = "For Indent", @data_toggle = "tooltip", @style = "background-color:#2980b9" })
                 }
-                if ((string)System.Web.HttpContext.Current.Session["MaterialPlanCancelType"] == MaterialPlanTypeConstants.ProdOrder)
+                else if (Model.MaterialPlanSettings.PlanType == MaterialPlanTypeConstants.ProdOrder)
                 {
                     @Html.ActionLink("For Planning", "_ForProdOrder", "MaterialPlanCancelLine", new { id = @Model.MaterialPlanCancelHeaderId }, new { data_modal = "", id = "btnCreateP", @class = "btn btn-primary borderradii", @title = "For Indent", @data_toggle = "tooltip", @style = "background-color:#2980b9" })
                 }

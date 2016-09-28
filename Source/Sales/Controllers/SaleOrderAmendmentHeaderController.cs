@@ -231,7 +231,6 @@ namespace Web
                     temp.ReasonId = pt.ReasonId;
                     temp.BuyerId = pt.BuyerId;
                     temp.Remark = pt.Remark;
-                    temp.Status = pt.Status;
                     temp.ModifiedDate = DateTime.Now;
                     temp.ModifiedBy = User.Identity.Name;
                     temp.ObjectState = Model.ObjectState.Modified;

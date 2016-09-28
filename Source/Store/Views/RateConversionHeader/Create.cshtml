@@ -29,7 +29,9 @@
 
     <div class="panel panel-default">
         <div class="panel-heading">
-            @if (ViewBag.transactionType == "submit")
+            @CustomHelpers.RenderHeaderInfo(ViewBag.transactionType, (int?)ViewBag.PendingToSubmit, (int?)ViewBag.PendingToReview, ViewBag.Name)
+
+            @*@if (ViewBag.transactionType == "submit")
             {<h3 style="border-bottom:0px solid #e1dada;padding-bottom:0px;">
                 <span style="font-family: Calibri,sans-serif,Verdana;font-weight:bold" class="black"> <span class="glyphicon glyphicon-file black"></span>Submit @ViewBag.Name</span>
                 <input type="submit" value="Submit" name="Command:Submit" class="btn btn-primary right" style="width: 90px; background-color: #2980b9" />
@@ -52,8 +54,11 @@
                     <span style="font-family: Calibri,sans-serif,Verdana;font-weight:bold" class="black"> <span class="glyphicon glyphicon-file black"></span> @ViewBag.Name</span>
                     <input type="submit" value="Save" class="btn btn-primary right" id="submit" style="width: 90px; background-color: #2980b9" />
                 </h3>
-                @Html.ActionLink("Add New Row", "_Multi", "RateConversionLine", new { id = @Model.StockHeaderId, @sid = Model.PersonId, @CosCenteId = Model.CostCenterId, @ProcId = Model.ProcessId }, new { data_modal = "", id = "btnCreate", @class = "btn btn-primary borderradii", @title = "For Indent", @data_toggle = "tooltip" })
-            }
+                
+            }*@
+
+            @Html.ActionLink("Add New Row", "_Multi", "RateConversionLine", new { id = @Model.StockHeaderId, @sid = Model.PersonId, @CosCenteId = Model.CostCenterId, @ProcId = Model.ProcessId }, new { data_modal = "", id = "btnCreate", @class = "btn btn-primary borderradii", @title = "For Indent", @data_toggle = "tooltip", @data_detailDeleted = "true" })
+
             <hr style="margin-top:0px;margin-bottom:0px" />
 
             <div class="panel-info">
@@ -261,72 +266,75 @@
             LoadProducts();
         });
 
+        $(document).ready(function(){
+            enableModalTransitions();
+        })
 
-        //To focus on the first element on modal load
-        $('#myModal').on('shown.bs.modal', function () {
-            $("#ProductId").select2("focus");
-        });
-
-
-        //For Populating Modal PopUp on DoubleClick Of Row
-        $('#gbody').on("dblclick",'.grid-body',function(){
-            var editurl=$(this).find('a[edit]').attr('href');
-            $('#myModalContent').load(editurl, function () {
-                //alert('2');
-                $('#myModal').modal({
-                    backdrop: 'static',
-                    keyboard: true
-                }, 'show');
-
-                bindForm1(this);
-            });
-        });
-
-        //For Handling Modal PopUp on Clicking Delete Icon
-        $('#gbody').on("click",'a[delete]', function (e) {
-            $('#myModalContent').load(this.href, function () {
-                //alert('2');
-                $('#myModal').modal({
-                    backdrop: 'static',
-                    keyboard: true
-                }, 'show');
-
-                bindForm1(this);
-            });
-            return false;
-        });
+        ////To focus on the first element on modal load
+        //$('#myModal').on('shown.bs.modal', function () {
+        //    $("#ProductId").select2("focus");
+        //});
 
 
-        //For posting the data through ajax and render the contents sent back from the server
-        function bindForm1(dialog) {
-            //alert("binding");
-            $('form#modform', dialog).submit(function () {
-                //alert(this.action);
-                $.ajax({
-                    url: this.action,
-                    type: this.method,
-                    data: $(this).serialize(),
-                    success: function (result) {
-                        if (result.success) {
-                            $('#myModal').modal('hide');
-                            //Refresh
-                            //location.reload();
-                            //alert('Data Saved');
-                        }else if(!result.success)
-                        {
-                            $('#myModalContent').html(result);
-                            bindForm1();
-                        }
-                        else {
-                            $('#myModalContent').html(result);
-                            bindForm1();
-                        }
-                    }
-                });
-                return false;
-            });
+        ////For Populating Modal PopUp on DoubleClick Of Row
+        //$('#gbody').on("dblclick",'.grid-body',function(){
+        //    var editurl=$(this).find('a[edit]').attr('href');
+        //    $('#myModalContent').load(editurl, function () {
+        //        //alert('2');
+        //        $('#myModal').modal({
+        //            backdrop: 'static',
+        //            keyboard: true
+        //        }, 'show');
 
-        }
+        //        bindForm1(this);
+        //    });
+        //});
+
+        ////For Handling Modal PopUp on Clicking Delete Icon
+        //$('#gbody').on("click",'a[delete]', function (e) {
+        //    $('#myModalContent').load(this.href, function () {
+        //        //alert('2');
+        //        $('#myModal').modal({
+        //            backdrop: 'static',
+        //            keyboard: true
+        //        }, 'show');
+
+        //        bindForm1(this);
+        //    });
+        //    return false;
+        //});
+
+
+        ////For posting the data through ajax and render the contents sent back from the server
+        //function bindForm1(dialog) {
+        //    //alert("binding");
+        //    $('form#modform', dialog).submit(function () {
+        //        //alert(this.action);
+        //        $.ajax({
+        //            url: this.action,
+        //            type: this.method,
+        //            data: $(this).serialize(),
+        //            success: function (result) {
+        //                if (result.success) {
+        //                    $('#myModal').modal('hide');
+        //                    //Refresh
+        //                    //location.reload();
+        //                    //alert('Data Saved');
+        //                }else if(!result.success)
+        //                {
+        //                    $('#myModalContent').html(result);
+        //                    bindForm1();
+        //                }
+        //                else {
+        //                    $('#myModalContent').html(result);
+        //                    bindForm1();
+        //                }
+        //            }
+        //        });
+        //        return false;
+        //    });
+
+        //}
 
 
 
@@ -356,13 +364,7 @@
         AddFields();
 
     });
-
-
-
-    function AddFields() {
-        $('form:last').append($("<input type='hidden' name='UserRemark'></input>"))
-    }
-
+  
     function LoadProducts() {
         var groupId=@Model.StockHeaderId;
         var status='@Model.Status';
@@ -427,7 +429,7 @@
                             +"                   </div>"
                             +"              </div>"
                             +"          </div>"
-                            +"      <div class='block'  style='width:5%'><a class='glyphicon glyphicon-trash icon-Cus-Size' delete='' href='"+LineDeleteUrl+item.StockLineId+"'></a>"
+                            +"      <div class='block'  style='width:5%'><a class='glyphicon glyphicon-trash icon-Cus-Size' data-modal='' data-detailDisabled='true' delete='' href='"+LineDeleteUrl+item.StockLineId+"'></a>"
                             +"          <a  edit='' href='"+LineEditUrl+item.StockLineId+"'></a>"
                             +"      </div>"
                             +"  </div>"
@@ -489,27 +491,31 @@
 {
     <script type="text/javascript">
 
-        RemoveFields();
+        $(document).ready(function(){
+            DisablePageNavigation();
+        })
 
-        function RemoveFields(){
-            //Disabling input fields
-            $(':input:not(:submit)').attr('disabled','disabled');
+        //RemoveFields();
 
-            //Removing all the events from the newly created lines
-            $('#gbody').unbind();
+        //function RemoveFields(){
+        //    //Disabling input fields
+        //    $(':input:not(:submit)').attr('disabled','disabled');
 
-            //Removing Add New Row ActionLink
-            if($('a#btnCreate').parents('h5')[0])
-                $('a#btnCreate').parents('h5')[0].remove();
+        //    //Removing all the events from the newly created lines
+        //    $('#gbody').unbind();
+
+        //    //Removing Add New Row ActionLink
+        //    if($('a#btnCreate').parents('h5')[0])
+        //        $('a#btnCreate').parents('h5')[0].remove();
 
 
-            //Preventing the click event on newly created elements
-            $(document).on('click','#gbody a',function(event){
-                event.preventDefault();
-            })
-            //Removing the action link from the form so that the request will be redirected to the Submit function in the controller instead of the hardcoded path
-            $('form:last').prop('action','');
-        }
+        //    //Preventing the click event on newly created elements
+        //    $(document).on('click','#gbody a',function(event){
+        //        event.preventDefault();
+        //    })
+        //    //Removing the action link from the form so that the request will be redirected to the Submit function in the controller instead of the hardcoded path
+        //    $('form:last').prop('action','');
+        //}
 
 
     </script>
@@ -520,53 +526,57 @@
 {
     <script type="text/javascript">
 
-        var href = '/ActivityLog/LogEditReason'
-
-        var $btnClicked;
-
-        $(':submit').bind('click', function () {
-            $btnClicked=$(this);
-            $('#myModalContent').load(href, function () {
-
-                $('#myModal').modal({
-                    backdrop: 'static',
-                    keyboard: true
-                }, 'show');
-
-                bindForm1(this);
-            });
-
-            return false;
+        $(document).ready(function(){
+            enableActivityLogReason();
         })
 
-        function bindForm1(dialog) {
+        //var href = '/ActivityLog/LogEditReason'
 
-            $('#modformr', dialog).submit(function () {
+        //var $btnClicked;
 
-                $.ajax({
-                    url: this.action,
-                    type: this.method,
-                    data: $(this).serialize(),
-                    success: function (result) {
-                        if (result.success) {
-                            $('#myModal').modal('hide');
+        //$(':submit').bind('click', function () {
+        //    $btnClicked=$(this);
+        //    $('#myModalContent').load(href, function () {
 
-                            $(':submit').unbind();
+        //        $('#myModal').modal({
+        //            backdrop: 'static',
+        //            keyboard: true
+        //        }, 'show');
 
-                            $('input[name="UserRemark"]').val(result.UserRemark);
+        //        bindForm1(this);
+        //    });
 
-                            $btnClicked.trigger('click');
+        //    return false;
+        //})
 
-                        } else {
-                            $('#myModalContent').html(result);
-                            bindForm1();
-                        }
-                    }
-                });
-                return false;
-            });
+        //function bindForm1(dialog) {
 
-        }
+        //    $('#modformr', dialog).submit(function () {
+
+        //        $.ajax({
+        //            url: this.action,
+        //            type: this.method,
+        //            data: $(this).serialize(),
+        //            success: function (result) {
+        //                if (result.success) {
+        //                    $('#myModal').modal('hide');
+
+        //                    $(':submit').unbind();
+
+        //                    $('input[name="UserRemark"]').val(result.UserRemark);
+
+        //                    $btnClicked.trigger('click');
+
+        //                } else {
+        //                    $('#myModalContent').html(result);
+        //                    bindForm1();
+        //                }
+        //            }
+        //        });
+        //        return false;
+        //    });
+
+        //}
 
     </script>
 }

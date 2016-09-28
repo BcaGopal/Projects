@@ -24,7 +24,7 @@
                 @Html.ActionLink(" ", " ", " ", null, new { @class = "glyphicon glyphicon-refresh toolbar", @title = "Refresh Page", @data_toggle = "tooltip", @id = "RefreshPage" })
                 @Html.ActionLink(" ", "Create", "Dimension1", new { id = @ViewBag.id }, new { @class = "glyphicon glyphicon-plus toolbar", @title = "Add New", @data_toggle = "tooltip" })
                 @Html.ActionLink(" ", "Print", "Dimension1", null, new { @class = "glyphicon glyphicon-print toolbar", @title = "Print", @data_toggle = "tooltip" })
-                @Html.ActionLink(" ", "Delete", "Dimension1", null, new { @class = "glyphicon glyphicon-trash toolbar", @title = "Delete", @data_toggle = "tooltip", @id = "DeleteRecord" , @data_modal="" })
+                @Html.ActionLink(" ", "Delete", "Dimension1", null, new { @class = "glyphicon glyphicon-trash toolbar", @title = "Delete", @data_toggle = "tooltip", @id = "DeleteRecord", @data_modalDelete = "" })
                 @Html.ActionLink(" ", "Report", "Dimension1", null, new { @class = "glyphicon glyphicon-stats toolbar right", @title = "Report", @data_toggle = "tooltip", target = "_blank" })
                 @Html.ActionLink(" ", "ProductTypeIndex", "Dimension1", null, new { @class = "glyphicon glyphicon-list toolbar right", @title = "List", @data_toggle = "tooltip" })                
                 @Html.ActionLink(" ", "", "", null, new { @class = "glyphicon glyphicon-export toolbar right", @title = "Export", @data_toggle = "tooltip" })
@@ -54,19 +54,19 @@
 
     });
 
-    $('a#DeleteRecord').click(function (e) {
+    $('a#deleterecord').click(function (e) {
        
-        var tes = DeleteValidation();
+        var tes = deletevalidation();
         if (!tes) {
-            e.stopImmediatePropagation();
+            e.stopimmediatepropagation();
             return false;
         }
-        var editiiid = $('table.grid-table .grid-row.grid-row-selected').find('[data-name="Dimension1Id"]').text();
+        var editiiid = $('table.grid-table .grid-row.grid-row-selected').find('[data-name="dimension1id"]').text();
 
 
-        var url = '/Dimension1/Delete/' + editiiid;
+        var url = '/dimension1/delete/' + editiiid;
         $(this).attr('href', url);
-        return;
+       
     });
     $('#myModal').on('shown.bs.modal', function () {
         $("#Reason").focus();

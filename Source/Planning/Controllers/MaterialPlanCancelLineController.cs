@@ -105,7 +105,7 @@ namespace Presentation
 
                 var mPlanLineIds = vm.MaterialPlanCancelLineViewModel.Where(m => m.Qty > 0 && m.Qty == m.BalanceQty).Select(m => m.MaterialPlanLineId).ToList();
 
-                var mPlanRecords = db.ViewMaterialPlanForSaleOrderBalance.Where(m => mPlanLineIds.Contains(m.MaterialPlanLineId.Value)).ToList();
+                var mPlanRecords = db.ViewMaterialPlanForSaleOrderBalance.AsNoTracking().Where(m => mPlanLineIds.Contains(m.MaterialPlanLineId.Value)).ToList();
 
 
                 foreach (var item in vm.MaterialPlanCancelLineViewModel.Where(m => m.Qty > 0 && m.Qty == m.BalanceQty))

@@ -49,30 +49,30 @@ namespace Presentation
             LogVm.User = System.Web.HttpContext.Current.Request.RequestContext.HttpContext.User.Identity.Name;
         }
 
-        public ActionResult DocumentTypeIndexPO(int id)//DocumentCategoryId
+        public ActionResult DocumentTypeIndex(int id)//DocumentCategoryId
         {
             var p = new DocumentTypeService(_unitOfWork).FindByDocumentCategory(id).ToList();
-            System.Web.HttpContext.Current.Session["MaterialPlanCancelType"] = MaterialPlanTypeConstants.ProdOrder;
+            //System.Web.HttpContext.Current.Session["MaterialPlanCancelType"] = MaterialPlanTypeConstants.ProdOrder;
             if (p != null)
             {
                 if (p.Count == 1)
                     return RedirectToAction("Index", new { id = p.FirstOrDefault().DocumentTypeId });
             }
 
-            return View("DocumentTypeListPO", p);
+            return View("DocumentTypeList", p);
         }
-        public ActionResult DocumentTypeIndexSO(int id)//DocumentCategoryId
-        {
-            var p = new DocumentTypeService(_unitOfWork).FindByDocumentCategory(id).ToList();
-            System.Web.HttpContext.Current.Session["MaterialPlanCancelType"] = MaterialPlanTypeConstants.SaleOrder;
-            if (p != null)
-            {
-                if (p.Count == 1)
-                    return RedirectToAction("Index", new { id = p.FirstOrDefault().DocumentTypeId });
-            }
+        //public ActionResult DocumentTypeIndexSO(int id)//DocumentCategoryId
+        //{
+        //    var p = new DocumentTypeService(_unitOfWork).FindByDocumentCategory(id).ToList();
+        //    System.Web.HttpContext.Current.Session["MaterialPlanCancelType"] = MaterialPlanTypeConstants.SaleOrder;
+        //    if (p != null)
+        //    {
+        //        if (p.Count == 1)
+        //            return RedirectToAction("Index", new { id = p.FirstOrDefault().DocumentTypeId });
+        //    }
 
-            return View("DocumentTypeListSO", p);
-        }
+        //    return View("DocumentTypeListSO", p);
+        //}
 
         private void PrepareViewBag(int id)
         {
@@ -145,6 +145,9 @@ namespace Presentation
                 return View("~/Views/Shared/InValidSettings.cshtml");
             }
             vm.MaterialPlanSettings = Mapper.Map<MaterialPlanSettings, MaterialPlanSettingsViewModel>(settings);
+
+            if(string.IsNullOrEmpty(vm.MaterialPlanSettings.PlanType))
+                TempData["CSEXC"] += "Please configure PlanType";
 
             vm.DocDate = DateTime.Now;
             vm.DueDate = DateTime.Now;
@@ -366,6 +369,9 @@ namespace Presentation
             ViewBag.Mode = "Edit";
             ViewBag.Name = new DocumentTypeService(_unitOfWork).Find(pt.DocTypeId).DocumentTypeName;
             ViewBag.id = pt.DocTypeId;
+
+            if (string.IsNullOrEmpty(vm.MaterialPlanSettings.PlanType))
+                TempData["CSEXC"] += "Please configure PlanType";
 
             if (!(System.Web.HttpContext.Current.Request.UrlReferrer.PathAndQuery).Contains("Create"))
                 LogActivity.LogActivityDetail(LogVm.Map(new ActiivtyLogViewModel

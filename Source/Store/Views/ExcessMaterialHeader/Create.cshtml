@@ -29,7 +29,10 @@
 
     <div class="panel panel-default">
         <div class="panel-heading">
-            @if (ViewBag.transactionType == "submit")
+
+            @CustomHelpers.RenderHeaderInfo(ViewBag.transactionType, (int?)ViewBag.PendingToSubmit, (int?)ViewBag.PendingToReview, ViewBag.Name)
+
+            @*@if (ViewBag.transactionType == "submit")
             {<h3 style="border-bottom:0px solid #e1dada;padding-bottom:0px;">
                 <span style="font-family: Calibri,sans-serif,Verdana;font-weight:bold" class="black"> <span class="glyphicon glyphicon-file black"></span>Submit @ViewBag.Name</span>
                 <input type="submit" value="Submit" name="Command:Submit" class="btn btn-primary right" style="width: 90px; background-color: #2980b9" />
@@ -37,7 +40,7 @@
             else if (ViewBag.transactionType == "review" || ViewBag.transactionType == "ReviewContinue")
             {<h3 style="border-bottom:0px solid #e1dada;padding-bottom:0px;">
                 <span style="font-family: Calibri,sans-serif,Verdana;font-weight:bold" class="black"> <span class="glyphicon glyphicon-file black"></span> Review @ViewBag.Name</span>
-                @*<button type="submit" name="Command:Review" class="btn btn-primary right" style="margin-left:5px" id="ReviewContinue">Review & Next<span class='badge'>@(ViewBag.PendingToReview != 0 ? ViewBag.PendingToReview : "")</span></button>*@
+               <button type="submit" name="Command:Review" class="btn btn-primary right" style="margin-left:5px" id="ReviewContinue">Review & Next<span class='badge'>@(ViewBag.PendingToReview != 0 ? ViewBag.PendingToReview : "")</span></button>
                 <button type="submit" class="btn btn-primary right" name="Command:Review">Review</button>
                 <input type="hidden" id="IsContinue" name="IsContinue" value="" />
             </h3>}
@@ -53,7 +56,7 @@
                     <span style="font-family: Calibri,sans-serif,Verdana;font-weight:bold" class="black"> <span class="glyphicon glyphicon-file black"></span> @ViewBag.Name</span>
                     <input type="submit" value="Save" class="btn btn-primary right" id="submit" style="width: 90px; background-color: #2980b9" />
                 </h3>
-            }
+            }*@
             <hr style="margin-top:0px;margin-bottom:0px" />
 
             <div class="panel-info">
@@ -62,10 +65,6 @@
                     @Html.ActionLink(" ", "Create", "ExcessMaterialHeader", new { @id = ViewBag.id }, new { @class = "glyphicon glyphicon-plus toolbar", @title = "Add New", @data_toggle = "tooltip" })
                     @Html.ActionLink(" ", "GetHistory", "LogHistory", new { Ids = Model.ExcessMaterialHeaderId, DocTypeId = Model.DocTypeId }, new { @class = "glyphicon glyphicon-user toolbar", @title = "History", @data_toggle = "tooltip", @id = "DocHistory", @data_modal = "" })
                     @Html.ActionLink(" ", "GeneratePrints", "ExcessMaterialHeader", new { Ids = Model.ExcessMaterialHeaderId, DocTypeId = Model.DocTypeId }, new { @class = "glyphicon glyphicon-print toolbar", @title = "Print", @data_toggle = "tooltip", id = "PrintRecordC" })
-                    @*@if (Model.Status == (int)StatusConstants.Submitted && !Model.GatePassHeaderId.HasValue)
-                        {
-                            @Html.ActionLink(" ", "GenerateGatePass", "ExcessMaterialHeader", new { Ids = @Model.ExcessMaterialHeaderId, DocTypeId = Model.DocTypeId }, new { @class = "glyphicon glyphicon-log-out toolbar", @title = "GatePass", @data_toggle = "tooltip", @id = "GenGatePassC" })
-                        }*@
                     @Html.ActionLink(" ", "Email", "ExcessMaterialHeader", null, new { @class = "glyphicon glyphicon-envelope toolbar", @title = "Email", @data_toggle = "tooltip" })
                     @Html.ActionLink(" ", "PrevPage", "ExcessMaterialHeader", new { DocId = @Model.ExcessMaterialHeaderId, DocTypeId = ViewBag.id }, new { @class = "glyphicon glyphicon-arrow-left toolbar", @title = "Prev Record", @data_toggle = "tooltip" })
                     @Html.ActionLink(" ", "NextPage", "ExcessMaterialHeader", new { DocId = @Model.ExcessMaterialHeaderId, DocTypeId = ViewBag.id }, new { @class = "glyphicon glyphicon-arrow-right toolbar", @title = "Next Record", @data_toggle = "tooltip" })
@@ -86,14 +85,6 @@
                     <h4 class="col-md-12 black">
                         <span class="glyphicon glyphicon-align-justify"></span>
                         1.Document Details
-                        @*@if (Model.GatePassHeaderId.HasValue)
-                            {
-                                <span class="label label-danger right">
-                                    <span class="glyphicon glyphicon-log-out"></span>
-                                    GPNo:@Model.GatePassDocNo,GPDate:@Model.GatePassDocDate.Value.ToString("dd/MMM/yyyy")
-                                    @Html.ActionLink(" ", "DeleteGatePass", "ExcessMaterialHeader", new { Id = @Model.ExcessMaterialHeaderId }, new { @class = "glyphicon glyphicon-remove", @title = "GatePass", @data_toggle = "tooltip", @id = "GenGatePassD", @style = "color:white;opacity:0.4" })
-                                </span>
-                            }*@
                     </h4>
                     <div>
                         <div class="row">
@@ -173,12 +164,10 @@
                         else if (Model.Status == (int)StatusConstants.Submitted || Model.Status == (int)StatusConstants.Modified)
                         { Action = "CreateLineAfter_Submit"; }
                         }
-                        @Html.ActionLink("Add New Row", Action, "ExcessMaterialLine", new { id = @Model.ExcessMaterialHeaderId }, new { data_modal = "", id = "btnCreate", @class = "toolbar", @title = "Add New", @data_toggle = "tooltip" })
+                        @Html.ActionLink("Add New Row", Action, "ExcessMaterialLine", new { id = @Model.ExcessMaterialHeaderId }, new { data_modal = "", id = "btnCreate", @class = "toolbar", @title = "Add New", @data_toggle = "tooltip",@data_detailDisabled = "true", })
                     </h5>
                 </div>
                 <div style="padding-right:15px">
-
-
 
                     <div class="panel panel-default" id="grid">
 
@@ -254,73 +243,77 @@
             LoadProducts();
         });
 
-
-        //To focus on the first element on modal load
-        $('#myModal').on('shown.bs.modal', function () {
-            //$("#ProductId").select2("focus");
-            $('input:not(:hidden,disabled,readonly,visible):first','.modal-body').focus();
-        });
+        $(document).ready(function(){
+            enableModalTransitions();
+        })
 
 
-        //For Populating Modal PopUp on DoubleClick Of Row
-        $('#gbody').on("dblclick",'.grid-body',function(){
-            var editurl=$(this).find('a[edit]').attr('href');
-            $('#myModalContent').load(editurl, function () {
-                //alert('2');
-                $('#myModal').modal({
-                    backdrop: 'static',
-                    keyboard: true
-                }, 'show');
-
-                bindForm1(this);
-            });
-        });
-
-        //For Handling Modal PopUp on Clicking Delete Icon
-        $('#gbody').on("click",'a[delete]', function (e) {
-            $('#myModalContent').load(this.href, function () {
-                //alert('2');
-                $('#myModal').modal({
-                    backdrop: 'static',
-                    keyboard: true
-                }, 'show');
-
-                bindForm1(this);
-            });
-            return false;
-        });
+        ////To focus on the first element on modal load
+        //$('#myModal').on('shown.bs.modal', function () {
+        //    //$("#ProductId").select2("focus");
+        //    $('input:not(:hidden,disabled,readonly,visible):first','.modal-body').focus();
+        //});
 
 
-        //For posting the data through ajax and render the contents sent back from the server
-        function bindForm1(dialog) {
-            //alert("binding");
-            $('form#modform', dialog).submit(function () {
-                //alert(this.action);
-                $.ajax({
-                    url: this.action,
-                    type: this.method,
-                    data: $(this).serialize(),
-                    success: function (result) {
-                        if (result.success) {
-                            $('#myModal').modal('hide');
-                            //Refresh
-                            //location.reload();
-                            //alert('Data Saved');
-                        }else if(!result.success)
-                        {
-                            $('#myModalContent').html(result);
-                            bindForm1();
-                        }
-                        else {
-                            $('#myModalContent').html(result);
-                            bindForm1();
-                        }
-                    }
-                });
-                return false;
-            });
+        ////For Populating Modal PopUp on DoubleClick Of Row
+        //$('#gbody').on("dblclick",'.grid-body',function(){
+        //    var editurl=$(this).find('a[edit]').attr('href');
+        //    $('#myModalContent').load(editurl, function () {
+        //        //alert('2');
+        //        $('#myModal').modal({
+        //            backdrop: 'static',
+        //            keyboard: true
+        //        }, 'show');
 
-        }
+        //        bindForm1(this);
+        //    });
+        //});
+
+        ////For Handling Modal PopUp on Clicking Delete Icon
+        //$('#gbody').on("click",'a[delete]', function (e) {
+        //    $('#myModalContent').load(this.href, function () {
+        //        //alert('2');
+        //        $('#myModal').modal({
+        //            backdrop: 'static',
+        //            keyboard: true
+        //        }, 'show');
+
+        //        bindForm1(this);
+        //    });
+        //    return false;
+        //});
+
+
+        ////For posting the data through ajax and render the contents sent back from the server
+        //function bindForm1(dialog) {
+        //    //alert("binding");
+        //    $('form#modform', dialog).submit(function () {
+        //        //alert(this.action);
+        //        $.ajax({
+        //            url: this.action,
+        //            type: this.method,
+        //            data: $(this).serialize(),
+        //            success: function (result) {
+        //                if (result.success) {
+        //                    $('#myModal').modal('hide');
+        //                    //Refresh
+        //                    //location.reload();
+        //                    //alert('Data Saved');
+        //                }else if(!result.success)
+        //                {
+        //                    $('#myModalContent').html(result);
+        //                    bindForm1();
+        //                }
+        //                else {
+        //                    $('#myModalContent').html(result);
+        //                    bindForm1();
+        //                }
+        //            }
+        //        });
+        //        return false;
+        //    });
+
+        //}
 
 
 
@@ -352,13 +345,6 @@
         AddFields();
 
     });
-
-
-
-    function AddFields() {
-        $('form:last').append($("<input type='hidden' name='UserRemark'></input>"))
-        $('form:last').append($("<input type='hidden' name='GenGatePass'></input>"))
-    }
 
     function LoadProducts() {
         var groupId='@Model.ExcessMaterialHeaderId';
@@ -415,7 +401,7 @@
                             +"                   </div>"
                             +"              </div>"
                             +"          </div>"
-                            +"      <div class='block'  style='width:5%'><a class='glyphicon glyphicon-trash icon-Cus-Size' delete='' href='"+LineDeleteUrl+item.ExcessMaterialLineId+"'></a>"
+                            +"      <div class='block'  style='width:5%'><a class='glyphicon glyphicon-trash icon-Cus-Size' data-modal='' data-detailDisabled='true' delete='' href='"+LineDeleteUrl+item.ExcessMaterialLineId+"'></a>"
                             +"          <a  edit='' href='"+LineEditUrl+item.ExcessMaterialLineId+"'></a>"
                             +"      </div>"
                             +"  </div>"
@@ -470,26 +456,30 @@
 {
     <script type="text/javascript">
 
-        RemoveFields();
+        $(document).ready(function(){
+            DisablePageNavigation();
+        })
 
-        function RemoveFields(){
-            //Disabling input fields
-            $(':input:not(:submit)').attr('disabled','disabled');
+        //RemoveFields();
 
-            //Removing all the events from the newly created lines
-            $('#gbody').unbind();
+        //function RemoveFields(){
+        //    //Disabling input fields
+        //    $(':input:not(:submit)').attr('disabled','disabled');
 
-            //Removing Add New Row ActionLink
-            $('a#btnCreate').parents('h5')[0].remove();
+        //    //Removing all the events from the newly created lines
+        //    $('#gbody').unbind();
+
+        //    //Removing Add New Row ActionLink
+        //    $('a#btnCreate').parents('h5')[0].remove();
 
 
-            //Preventing the click event on newly created elements
-            $(document).on('click','#gbody a',function(event){
-                event.preventDefault();
-            })
-            //Removing the action link from the form so that the request will be redirected to the Submit function in the controller instead of the hardcoded path
-            $('form:last').prop('action','');
-        }
+        //    //Preventing the click event on newly created elements
+        //    $(document).on('click','#gbody a',function(event){
+        //        event.preventDefault();
+        //    })
+        //    //Removing the action link from the form so that the request will be redirected to the Submit function in the controller instead of the hardcoded path
+        //    $('form:last').prop('action','');
+        //}
 
 
     </script>
@@ -500,7 +490,11 @@
 {
     <script type="text/javascript">
 
-        var TrancType='@ViewBag.transactionType'
+        $(document).ready(function(){
+            enableActivityLogReason();
+        })
+
+        @*var TrancType='@ViewBag.transactionType'
 
         var href = '/ActivityLog/LogEditReason';
 
@@ -550,7 +544,7 @@
                 return false;
             });
 
-        }
+        }*@
 
     </script>
 }
