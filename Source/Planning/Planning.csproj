@@ -459,7 +459,7 @@
     <Content Include="Views\ProdOrderLine\_Create.cshtml" />
     <Content Include="Views\MaterialPlanHeader\_Reason.cshtml" />
     <Content Include="Views\MaterialPlanHeader\Create.cshtml" />
-    <Content Include="Views\MaterialPlanHeader\DocumentTypeListPO.cshtml" />
+    <Content Include="Views\MaterialPlanHeader\DocumentTypeList.cshtml" />
     <Content Include="Views\MaterialPlanHeader\DocumentTypeListSO.cshtml" />
     <Content Include="Views\MaterialPlanHeader\Index.cshtml" />
     <Content Include="Views\MaterialPlanLine\_Create.cshtml" />
@@ -491,7 +491,7 @@
     <Content Include="Views\MaterialPlanningWizard\Create.cshtml" />
     <Content Include="Views\MaterialPlanCancelHeader\_Reason.cshtml" />
     <Content Include="Views\MaterialPlanCancelHeader\Create.cshtml" />
-    <Content Include="Views\MaterialPlanCancelHeader\DocumentTypeListPO.cshtml" />
+    <Content Include="Views\MaterialPlanCancelHeader\DocumentTypeList.cshtml" />
     <Content Include="Views\MaterialPlanCancelHeader\DocumentTypeListSO.cshtml" />
     <Content Include="Views\MaterialPlanCancelHeader\Index.cshtml" />
     <Content Include="Views\MaterialPlanCancelLine\_Create.cshtml" />
@@ -501,6 +501,7 @@
     <Content Include="Views\MaterialPlanCancelLine\_Results.cshtml" />
     <Content Include="Views\MaterialPlanCancelLine\_ResultsProduction.cshtml" />
     <Content Include="Views\MaterialPlanSettings\CreateForCancel.cshtml" />
+    <Content Include="Views\MaterialPlanningWizard\DocumentTypeList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -571,7 +572,6 @@
       </FlavorProperties>
     </VisualStudio>
   </ProjectExtensions>
-
   <Import Project="..\packages\AutoMapper.3.3.1\tools\AutoMapper.targets" Condition="Exists('..\packages\AutoMapper.3.3.1\tools\AutoMapper.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.

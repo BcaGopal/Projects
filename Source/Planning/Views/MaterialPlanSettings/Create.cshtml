@@ -1,5 +1,5 @@
 ﻿@model Model.ViewModel.MaterialPlanSettingsViewModel
-
+@using Core.Common
 @{
     ViewBag.Title = "Create";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -189,6 +189,19 @@
                                     <div class="col-xs-6">
                                         @Html.TextBoxFor(m => m.PendingProdOrderList, new { @class = "form-control col-xs-6" })
                                         @Html.ValidationMessageFor(m => m.PendingProdOrderList, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.PlanType, "PlanType", new { @class = "control-label col-xs-4" })
+                                    <div class="col-xs-6">
+                                        @Html.DropDownListFor(m => m.PlanType, new List<SelectListItem>() {
+                                        new SelectListItem{Text=MaterialPlanTypeConstants.SaleOrder,Value=MaterialPlanTypeConstants.SaleOrder},
+                                   new SelectListItem{Text=MaterialPlanTypeConstants.ProdOrder,Value=MaterialPlanTypeConstants.ProdOrder}
+                                  
+                                   }, new { @class = "form-control col-xs-6 required" })
+                                        @Html.ValidationMessageFor(m => m.PlanType, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
                             </div>

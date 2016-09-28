@@ -50,6 +50,18 @@ namespace Web
             LogVm.User = System.Web.HttpContext.Current.Request.RequestContext.HttpContext.User.Identity.Name;
         }
 
+        public ActionResult DocumentTypeIndex(int id)//DocumentCategoryId
+        {
+            var p = new DocumentTypeService(_unitOfWork).FindByDocumentCategory(id).ToList();           
+            if (p != null)
+            {
+                if (p.Count == 1)
+                    return RedirectToAction("Index", new { id = p.FirstOrDefault().DocumentTypeId });
+            }
+
+            return View("DocumentTypeList", p);
+        }
+
         public ActionResult Index(int Id)
         {
             int SiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
