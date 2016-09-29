@@ -1,0 +1,340 @@
+
+/*@import url(https://fonts.googleapis.com/css?family=Lato:300,400,700|Ruthie);*/
+/*@font-face {
+	font-weight: normal;
+	font-style: normal;
+	font-family: 'codropsicons';
+	src:url('../fonts/codropsicons/codropsicons.eot');
+	src:url('../fonts/codropsicons/codropsicons.eot?#iefix') format('embedded-opentype'),
+		url('../fonts/codropsicons/codropsicons.woff') format('woff'),
+		url('../fonts/codropsicons/codropsicons.ttf') format('truetype'),
+		url('../fonts/codropsicons/codropsicons.svg#codropsicons') format('svg');
+}*/
+
+
+
+/* latin-ext */
+@font-face {
+  font-family: 'Lato';
+  font-style: normal;
+  font-weight: 300;
+  src: local('Lato Light'), local('Lato-Light'), url('../fonts/Lato-Light.woff2') format('woff2');
+  unicode-range: U+0100-024F, U+1E00-1EFF, U+20A0-20AB, U+20AD-20CF, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Lato';
+  font-style: normal;
+  font-weight: 300;
+  src: local('Lato Light'), local('Lato-Light'), url('../fonts/Lato-Light2.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Lato';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Lato Regular'), local('Lato-Regular'), url('../fonts/Lato-Regular.woff2') format('woff2');
+  unicode-range: U+0100-024F, U+1E00-1EFF, U+20A0-20AB, U+20AD-20CF, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Lato';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Lato Regular'), local('Lato-Regular'), url('../fonts/Lato-Regular2.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Lato';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Lato Bold'), local('Lato-Bold'), url('../fonts/Lato-Bold.woff2') format('woff2');
+  unicode-range: U+0100-024F, U+1E00-1EFF, U+20A0-20AB, U+20AD-20CF, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Lato';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Lato Bold'), local('Lato-Bold'), url('../fonts/Lato-Bold2.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+@font-face {
+  font-family: 'Ruthie';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Ruthie'), local('Ruthie-Regular'), url('../fonts/Ruthie-Regular2.woff2') format('woff2');
+  unicode-range: U+0100-024F, U+1E00-1EFF, U+20A0-20AB, U+20AD-20CF, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Ruthie';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Ruthie'), local('Ruthie-Regular'), url('../fonts/Ruthie-Regular.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+
+
+section {
+	padding: 4em 2em;
+	text-align: center;
+}
+
+section h2 {
+	font-weight: 300;
+	font-size: 2em;
+	padding: 1em 0;
+}
+
+.box {
+	width: 300px;
+	height: 260px;
+	position: relative;
+	background: rgba(255,255,255,1);
+	display: inline-block;
+	margin: 0 10px;
+	cursor: pointer;
+	color: #2c3e50;
+	box-shadow: inset 0 0 0 3px #2c3e50;
+	-webkit-transition: background 0.4s 0.5s;
+	transition: background 0.4s 0.5s;
+}
+
+.box a{
+    color:white;
+    text-decoration:none;
+}
+
+.box:hover {
+	background: rgba(255,255,255,0);
+	-webkit-transition-delay: 0s;
+	transition-delay: 0s;
+}
+
+.box h3 {
+	font-family: "Ruthie", cursive;
+	font-size: 130px;
+	/*line-height: 210px;*/
+    line-height: 240px;
+	margin: 0;
+	font-weight: 400;
+	width: 100%;
+}
+
+.box span {
+	display: block;
+	font-weight: 400;
+	text-transform: uppercase;
+	letter-spacing: 1px;
+	font-size: 30px;
+	padding: 5px;
+    bottom:0px;
+    position:absolute;
+    left:0;
+    right:0;
+}
+
+.box h3,
+.box span {
+	-webkit-transition: color 0.4s 0.5s;
+	transition: color 0.4s 0.5s;
+}
+
+.box:hover h3,
+.box:hover span {
+	color: #fff;
+	-webkit-transition-delay: 0s;
+	transition-delay: 0s;
+}
+
+.box svg {
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+
+.box svg line {
+	stroke-width: 3;
+	stroke: #ecf0f1;
+	fill: none;
+	-webkit-transition: all .8s ease-in-out;
+	transition: all .8s ease-in-out;
+}
+
+.box:hover svg line {
+	-webkit-transition-delay: 0.1s;
+	transition-delay: 0.1s;
+}
+
+.box svg line.top,
+.box svg line.bottom {
+	stroke-dasharray: 330 240; 
+}
+
+.box svg line.left,
+.box svg line.right {
+	stroke-dasharray: 290 200;
+}
+
+.box:hover svg line.top {
+	-webkit-transform: translateX(-600px);
+	transform: translateX(-600px);
+}
+
+.box:hover svg line.bottom {
+	-webkit-transform: translateX(600px);
+	transform: translateX(600px);
+}
+
+.box:hover svg line.left {
+	-webkit-transform: translateY(920px);
+	transform: translateY(920px);
+}
+
+.box:hover svg line.right {
+	-webkit-transform: translateY(-920px);
+	transform: translateY(-920px);
+}
+
+/* Alternatives */
+
+/* Color */
+.demo-2 .box {
+	box-shadow: inset 0 0 0 10px #2c3e50;
+}
+
+.demo-2 .box:hover h3,
+.demo-2 .box:hover span {
+	color: #fe6f83;
+}
+
+.demo-2 .box svg line {
+	stroke-width: 8;
+}
+
+.demo-2 .box:hover svg line {
+	stroke: #fe6f83;
+}
+
+/* Frame */
+.demo-3 .box {
+	background: rgba(0,0,0,0);
+	color: #fff;
+	box-shadow: none;
+	-webkit-transition: background 0.3s;
+	transition: background 0.3s;
+}
+
+.demo-3 .box:hover {
+	background: rgba(0,0,0,0.4);
+}
+
+.demo-3 .box h3,
+.demo-3 .box span {
+	-webkit-transition: none;
+	transition: none;
+}
+
+.demo-3 .box svg line {
+	-webkit-transition: all .5s;
+	transition: all .5s;
+}
+
+.demo-3 .box:hover svg line {
+	stroke-width: 10;
+	-webkit-transition-delay: 0s;
+	transition-delay: 0s;
+}
+
+.demo-3 .box:hover svg line.top {
+	-webkit-transform: translateX(-300px);
+	transform: translateX(-300px);
+}
+
+.demo-3 .box:hover svg line.bottom {
+	-webkit-transform: translateX(300px);
+	transform: translateX(300px);
+}
+
+.demo-3 .box:hover svg line.left {
+	-webkit-transform: translateY(260px);
+	transform: translateY(260px);
+}
+
+.demo-3 .box:hover svg line.right {
+	-webkit-transform: translateY(-260px);
+	transform: translateY(-260px);
+}
+
+/* Spin */
+.demo-4 .box {
+	box-shadow: none;
+	background: rgba(0,0,0,0.4);
+	-webkit-transition: none;
+	transition: none;
+	color: #fff;
+}
+
+.demo-4 .box h3,
+.demo-4 .box span {
+	-webkit-transform: scale(0.9);
+	transform: scale(0.9);
+	-webkit-backface-visibility: hidden;
+	backface-visibility: hidden;
+	-webkit-transition: -webkit-transform 0.5s;
+	transition: transform 0.5s;
+}
+
+.demo-4 .box:hover h3,
+.demo-4 .box:hover span {
+	-webkit-transform: scale(1);
+	transform: scale(1);
+}
+
+.demo-4 .box svg line {
+	stroke-width: 30;
+	-webkit-transition: all .4s;
+	transition: all .4s;
+}
+
+.demo-4 .box:hover svg line {
+	-webkit-transition-delay: 0s;
+	transition-delay: 0s;
+}
+
+.demo-4 .box:hover svg line {
+	stroke-width: 0;
+}
+
+.demo-4 .box svg line.top,
+.demo-4 .box svg line.bottom {
+	stroke-dasharray: 300; 
+}
+
+.demo-4 .box svg line.left,
+.demo-4 .box svg line.right {
+	stroke-dasharray: 460;
+}
+
+.demo-4 .box:hover svg line.top {
+	-webkit-transform: translateX(-300px);
+	transform: translateX(-300px);
+}
+
+.demo-4 .box:hover svg line.bottom {
+	-webkit-transform: translateX(300px);
+	transform: translateX(300px);
+}
+
+.demo-4 .box:hover svg line.left {
+	-webkit-transform: translateY(460px);
+	transform: translateY(460px);
+}
+
+.demo-4 .box:hover svg line.right {
+	-webkit-transform: translateY(-460px);
+	transform: translateY(-460px);
+}
