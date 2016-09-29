@@ -21,7 +21,7 @@ namespace Model.ViewModels
         public virtual SaleEnquiryHeader SaleEnquiryHeader { get; set; }
         public string SaleEnquiryDocNo { get; set; }
 
-        [ForeignKey("Product"), Display(Name = "Product"),Required(ErrorMessage="Please select a Product")]
+        [ForeignKey("Product"), Display(Name = "Product")]
         public int ? ProductId { get; set; }
         public virtual Product Product { get; set; }
         public string ProductName { get; set; }
@@ -33,6 +33,7 @@ namespace Model.ViewModels
 
         [Display(Name = "Due Date"),DisplayFormat(DataFormatString="{0:dd/MMM/yyyy}")]
         public DateTime ? DueDate { get; set; }
+
 
         [ForeignKey("DeliveryUnit"), Display(Name = "Delivery Unit")]
         public string DealUnitId { get; set; }

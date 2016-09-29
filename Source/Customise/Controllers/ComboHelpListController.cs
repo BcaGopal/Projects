@@ -7993,5 +7993,22 @@ namespace Web
 
             return Json(ProductJson);
         }
+
+        public JsonResult GetPersonWithProcess(string searchTerm, int pageSize, int pageNum, int? filter)//filter:PersonId
+        {
+            var temp = cbl.GetPersonHelpListWithProcessFilter(filter, searchTerm).Skip(pageSize * (pageNum - 1)).Take(pageSize).ToList();
+
+            var count = cbl.GetPersonHelpListWithProcessFilter(filter, searchTerm).Count();
+
+            ComboBoxPagedResult Data = new ComboBoxPagedResult();
+            Data.Results = temp;
+            Data.Total = count;
+
+            return new JsonpResult
+            {
+                Data = Data,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
     }
 }

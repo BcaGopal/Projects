@@ -107,6 +107,10 @@
     <Compile Include="Migrations\201609270430081_SaleEnqquiry.Designer.cs">
       <DependentUpon>201609270430081_SaleEnqquiry.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201609270658286_SaleEnqquirySettings.cs" />
+    <Compile Include="Migrations\201609270658286_SaleEnqquirySettings.Designer.cs">
+      <DependentUpon>201609270658286_SaleEnqquirySettings.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="NotificationApplicationDbContext.cs" />
     <Compile Include="LoginApplicationDbContext.cs" />
@@ -164,6 +168,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201609270430081_SaleEnqquiry.resx">
       <DependentUpon>201609270430081_SaleEnqquiry.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201609270658286_SaleEnqquirySettings.resx">
+      <DependentUpon>201609270658286_SaleEnqquirySettings.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

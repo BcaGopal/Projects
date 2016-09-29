@@ -24,7 +24,7 @@ namespace Model.Models
 
         [ForeignKey("Product"),Display(Name="Product")]
         [Index("IX_SaleEnquiryLine_SaleOrdeHeaderProductDueDate", IsUnique = true, Order = 2)]
-        public int ProductId { get; set; }
+        public int? ProductId { get; set; }
         public virtual Product Product { get; set; }
 
         [Display(Name = "Dimension1")]
@@ -45,6 +45,12 @@ namespace Model.Models
         [Display (Name ="Due Date")]
         [Index("IX_SaleEnquiryLine_SaleOrdeHeaderProductDueDate", IsUnique = true, Order = 3)]
         public DateTime ? DueDate { get; set; }
+
+
+        [ForeignKey("Unit"), Display(Name = "Unit")]
+        public string UnitId { get; set; }
+        public virtual Unit Unit { get; set; }
+
 
         [ForeignKey("DealUnit"), Display(Name = "Delivery Unit")]
         public string DealUnitId { get; set; }

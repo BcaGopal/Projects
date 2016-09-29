@@ -93,6 +93,7 @@
     <Compile Include="DatabaseViews\MaterialPlanViewModel.cs" />
     <Compile Include="DatabaseViews\SaleDeliveryOrderViewModels.cs" />
     <Compile Include="DatabaseViews\SaleEnquiryViewModels.cs" />
+    <Compile Include="DatabaseViews\ViewProductBuyer.cs" />
     <Compile Include="DatabaseViews\ViewStockInBalance.cs" />
     <Compile Include="DatabaseViews\_Users.cs" />
     <Compile Include="DatabaseViews\ViewMaterialRequestViewModels.cs" />
@@ -164,7 +165,7 @@
     <Compile Include="Models\SaleEnquiryHeader.cs" />
     <Compile Include="Models\SaleEnquiryLine.cs" />
     <Compile Include="Models\SaleEnquirySettings.cs" />
-    <Compile Include="Models\SaleEnquiryLineStatus.cs" />
+    <Compile Include="Models\CarpetSkuSettings.cs" />
     <Compile Include="Models\SubReport.cs" />
     <Compile Include="ViewModels\MaterialPlanCancelHeaderViewModel.cs" />
     <Compile Include="ViewModels\MaterialPlanCancelLineViewModel.cs" />

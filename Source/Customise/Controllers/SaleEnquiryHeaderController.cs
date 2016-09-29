@@ -252,7 +252,7 @@ namespace Web
             }
             else
             {
-                return RedirectToAction("Edit", "SaleEnquirySettings", new { id = id }).Warning("Please create sale order settings");
+                return RedirectToAction("Create", "SaleEnquirySettings", new { id = id }).Warning("Please create sale enquiry settings");
             }
 
             p.SaleEnquirySettings = Mapper.Map<SaleEnquirySettings, SaleEnquirySettingsViewModel>(temp);
@@ -630,8 +630,8 @@ namespace Web
                         ExObj = item,
                     });
 
-                    new SaleEnquiryLineStatusService(_unitOfWork).Delete(item.SaleEnquiryLineId);
-
+                    //new SaleEnquiryLineStatusService(_unitOfWork).Delete(item.SaleEnquiryLineId);
+                    new SaleEnquiryLineExtendedService(_unitOfWork).Delete(item.SaleEnquiryLineId);
                     new SaleEnquiryLineService(_unitOfWork).Delete(item.SaleEnquiryLineId);
                 }
 
