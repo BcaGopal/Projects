@@ -4,6 +4,7 @@ using System.Web;
 using System.Web.Mvc;
 using Microsoft.Owin.Security;
 using System.Web.Security;
+using ProjLib.Constants;
 namespace AdminSetup.Controllers
 {
     [Authorize]
@@ -15,7 +16,7 @@ namespace AdminSetup.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult LogOff()
         {
-            string HomeUrl = System.Configuration.ConfigurationManager.AppSettings["LoginDomain"];
+            string HomeUrl = (string)System.Web.HttpContext.Current.Session[SessionNameConstants.LoginDomain];
 
             if (string.IsNullOrEmpty(HomeUrl))
             {

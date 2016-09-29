@@ -8,6 +8,7 @@ using Microsoft.Owin.Security;
 using Purchase.Models;
 using System.Web.Security;
 using Data.Models;
+using Core.Common;
 
 namespace Purchase.Controllers
 {
@@ -31,7 +32,7 @@ namespace Purchase.Controllers
         public ActionResult LogOff()
         {
 
-            string HomeUrl = System.Configuration.ConfigurationManager.AppSettings["LoginDomain"];
+            string HomeUrl = (string)System.Web.HttpContext.Current.Session[SessionNameConstants.LoginDomain];
 
             if (string.IsNullOrEmpty(HomeUrl))
             {

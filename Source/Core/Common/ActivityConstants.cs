@@ -23,6 +23,8 @@ namespace Core.Common
         public const string LoginSiteId = "LoginSiteId";
         public const string LoginDivisionId = "LoginDivisionId";
         public const string UserNotificationCount = "uNotifiCount";
+        public const string LoginDomain = "_loginDomain";
+        public const string MenuDomain = "_menuDomain";
     }
 
     public class DocumentStatusConstants

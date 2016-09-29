@@ -11,6 +11,7 @@ using Microsoft.Owin.Security;
 using Jobs.Models;
 using System.Web.Security;
 using Data.Models;
+using Core.Common;
 
 namespace Jobs.Controllers
 {
@@ -34,7 +35,7 @@ namespace Jobs.Controllers
         public ActionResult LogOff()
         {
 
-            string HomeUrl = System.Configuration.ConfigurationManager.AppSettings["LoginDomain"];
+            string HomeUrl = (string)System.Web.HttpContext.Current.Session[SessionNameConstants.LoginDomain];
 
             if (string.IsNullOrEmpty(HomeUrl))
             {
