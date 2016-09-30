@@ -6,7 +6,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <TimeStampOfAssociatedLegacyPublishXmlFile />
-    <_PublishTargetUrl>D:\Publish\Module Publish Folder</_PublishTargetUrl>
+    <_PublishTargetUrl>D:\Publish\Module2 Publish Folder</_PublishTargetUrl>
   </PropertyGroup>
   <ItemGroup>
     <File Include="App_Readme/NProgressjs_LICENSE">
@@ -33,14 +33,8 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="bin/EntityFramework.SqlServer.dll">
       <publishTime>09/23/2016 10:28:21</publishTime>
     </File>
-    <File Include="bin/GridMvc.dll">
-      <publishTime>12/18/2015 10:08:24</publishTime>
-    </File>
     <File Include="bin/Infrastructure.dll">
       <publishTime>09/26/2016 15:39:42</publishTime>
-    </File>
-    <File Include="bin/log4net.dll">
-      <publishTime>12/18/2015 10:12:15</publishTime>
     </File>
     <File Include="bin/Logger.dll">
       <publishTime>09/26/2016 15:39:44</publishTime>
@@ -108,11 +102,8 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="bin/Models.BasicSetup.dll">
       <publishTime>09/26/2016 15:39:42</publishTime>
     </File>
-    <File Include="bin/Models.Company.dll">
-      <publishTime>07/20/2016 17:02:43</publishTime>
-    </File>
     <File Include="bin/Module.dll">
-      <publishTime>09/30/2016 11:36:04</publishTime>
+      <publishTime>09/30/2016 11:37:27</publishTime>
     </File>
     <File Include="bin/Newtonsoft.Json.dll">
       <publishTime>09/23/2016 10:28:29</publishTime>
@@ -129,23 +120,8 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="bin/ProjLib.dll">
       <publishTime>09/29/2016 14:07:14</publishTime>
     </File>
-    <File Include="bin/Remotion.Data.Linq.dll">
-      <publishTime>12/18/2015 10:12:16</publishTime>
-    </File>
     <File Include="bin/Services.AdminSetup.dll">
       <publishTime>09/30/2016 11:36:02</publishTime>
-    </File>
-    <File Include="bin/Surya.Planning.Core.dll">
-      <publishTime>06/22/2016 18:24:59</publishTime>
-    </File>
-    <File Include="bin/Surya.Planning.Data.dll">
-      <publishTime>06/25/2016 12:18:31</publishTime>
-    </File>
-    <File Include="bin/Surya.Planning.Model.dll">
-      <publishTime>06/25/2016 12:18:29</publishTime>
-    </File>
-    <File Include="bin/Surya.Planning.Service.dll">
-      <publishTime>06/25/2016 12:18:46</publishTime>
     </File>
     <File Include="bin/System.Web.Helpers.dll">
       <publishTime>09/23/2016 10:28:41</publishTime>
@@ -354,9 +330,6 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="Global.asax">
       <publishTime>09/23/2016 10:03:05</publishTime>
     </File>
-    <File Include="Grid.mvc.readme">
-      <publishTime>12/18/2015 10:04:30</publishTime>
-    </File>
     <File Include="Icon.png">
       <publishTime>09/23/2016 10:03:05</publishTime>
     </File>
@@ -383,15 +356,6 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     </File>
     <File Include="Scripts/FunctionForMultiSelect.js">
       <publishTime>09/23/2016 10:03:05</publishTime>
-    </File>
-    <File Include="Scripts/gridmvc.js">
-      <publishTime>12/18/2015 10:04:32</publishTime>
-    </File>
-    <File Include="Scripts/gridmvc.lang.ru.js">
-      <publishTime>12/18/2015 10:04:32</publishTime>
-    </File>
-    <File Include="Scripts/gridmvc.min.js">
-      <publishTime>12/18/2015 10:04:32</publishTime>
     </File>
     <File Include="Scripts/jquery-2.1.4.js">
       <publishTime>09/23/2016 10:03:05</publishTime>
@@ -523,7 +487,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/23/2016 10:03:06</publishTime>
     </File>
     <File Include="Views/Menu/Module.cshtml">
-      <publishTime>09/23/2016 10:03:06</publishTime>
+      <publishTime>09/29/2016 11:47:34</publishTime>
     </File>
     <File Include="Views/Menu/SubModule.cshtml">
       <publishTime>09/23/2016 10:03:06</publishTime>
@@ -561,14 +525,8 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="Views/Shared/Notifications.cshtml">
       <publishTime>09/23/2016 10:03:06</publishTime>
     </File>
-    <File Include="Views/Shared/_Grid.cshtml">
-      <publishTime>12/18/2015 10:04:29</publishTime>
-    </File>
-    <File Include="Views/Shared/_GridPager.cshtml">
-      <publishTime>12/18/2015 10:04:29</publishTime>
-    </File>
     <File Include="Views/Shared/_Layout.cshtml">
-      <publishTime>09/29/2016 14:34:52</publishTime>
+      <publishTime>09/23/2016 10:03:06</publishTime>
     </File>
     <File Include="Views/Shared/_LoginPartial.cshtml">
       <publishTime>09/23/2016 10:03:06</publishTime>
@@ -625,7 +583,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/23/2016 10:03:06</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>09/30/2016 11:36:04</publishTime>
+      <publishTime>09/30/2016 11:37:27</publishTime>
     </File>
   </ItemGroup>
 </Project>

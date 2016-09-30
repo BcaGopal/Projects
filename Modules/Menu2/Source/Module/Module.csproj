@@ -246,6 +246,8 @@
     <Content Include="Content\IconGrid\default.css" />
     <Content Include="Content\IconGrid\SiteDiv.css" />
     <Content Include="Content\jquery.ui.theme.css" />
+    <Content Include="Content\Menu\css\component.css" />
+    <Content Include="Content\Menu\css\normalize.css" />
     <Content Include="Content\Notification.css" />
     <Content Include="Content\nprogress.css" />
     <Content Include="Content\ProjLib.css" />
@@ -301,8 +303,17 @@
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="App_Readme\NProgressjs_README.md" />
     <Content Include="App_Readme\NProgressjs_LICENSE" />
-    <None Include="Properties\PublishProfiles\Module.pubxml" />
     <Content Include="Scripts\FunctionForMultiSelect.js" />
+    <Content Include="Content\Menu\fonts\H2DMvhDLycM56KNuAtbJYA.woff2" />
+    <Content Include="Content\Menu\fonts\Lato-Bold.woff2" />
+    <Content Include="Content\Menu\fonts\Lato-Bold2.woff2" />
+    <Content Include="Content\Menu\fonts\Lato-Light.woff2" />
+    <Content Include="Content\Menu\fonts\Lato-Light2.woff2" />
+    <Content Include="Content\Menu\fonts\Lato-Regular.woff2" />
+    <Content Include="Content\Menu\fonts\Lato-Regular2.woff2" />
+    <Content Include="Content\Menu\fonts\Ruthie-Regular.woff2" />
+    <Content Include="Content\Menu\fonts\Ruthie-Regular2.woff2" />
+    <None Include="Properties\PublishProfiles\Module2.pubxml" />
     <None Include="Scripts\jquery-2.1.4.intellisense.js" />
     <Content Include="Scripts\jquery-2.1.4.js" />
     <Content Include="Scripts\jquery-2.1.4.min.js" />
