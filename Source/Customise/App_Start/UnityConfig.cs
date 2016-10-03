@@ -233,6 +233,8 @@ namespace Customise.App_Start
 
             container.RegisterType<ITrialBalanceService, TrialBalanceService>(new PerRequestLifetimeManager());
 
+            container.RegisterType<ICarpetSkuSettingsService, CarpetSkuSettingsService>(new PerRequestLifetimeManager());
+
             container.RegisterType<ISaleEnquirySettingsService, SaleEnquirySettingsService>(new PerRequestLifetimeManager());
 
             container.RegisterType<ITrialBalanceSettingService, TrialBalanceSettingService>(new PerRequestLifetimeManager());
@@ -412,6 +414,9 @@ namespace Customise.App_Start
 
             Mapper.CreateMap<SaleEnquirySettings, SaleEnquirySettingsViewModel>();
             Mapper.CreateMap<SaleEnquirySettingsViewModel, SaleEnquirySettings>();
+
+            Mapper.CreateMap<CarpetSkuSettings, CarpetSkuSettingsViewModel>();
+            Mapper.CreateMap<CarpetSkuSettingsViewModel, CarpetSkuSettings>();
 
             Mapper.CreateMap<JobOrderHeader, JobOrderHeaderViewModel>();
             Mapper.CreateMap<JobOrderHeaderViewModel, JobOrderHeader>();

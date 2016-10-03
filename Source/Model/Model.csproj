@@ -178,6 +178,7 @@
     <Compile Include="ViewModels\PurchaseQuotationSettingsViewModel.cs" />
     <Compile Include="ViewModels\SaleDispatchLineViewModel.cs" />
     <Compile Include="ViewModels\SaleDispatchSettingsViewModel.cs" />
+    <Compile Include="ViewModels\CarpetSkuSettingsViewModel.cs" />
     <Compile Include="ViewModels\SaleEventArgs.cs" />
     <Compile Include="ViewModels\SaleEnquiryHeaderViewModels.cs" />
     <Compile Include="ViewModels\SaleEnquiryLineViewModel.cs" />

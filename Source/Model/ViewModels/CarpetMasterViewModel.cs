@@ -7,6 +7,7 @@ using Model.Models;
 using System;
 using Microsoft.AspNet.Identity;
 using System.ComponentModel.DataAnnotations.Schema;
+using Model.ViewModel;
 
 namespace Model.ViewModels
 {
@@ -160,6 +161,7 @@ namespace Model.ViewModels
         public decimal? MaximumOrderQty { get; set; }
         public decimal? Cost { get; set; }
         public Decimal? CBM { get; set; }
+        public CarpetSkuSettingsViewModel CarpetSkuSettings { get; set; }
 
     }
 
