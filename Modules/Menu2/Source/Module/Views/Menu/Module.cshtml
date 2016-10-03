@@ -1,0 +1,110 @@
+﻿@model AdminSetup.Models.ViewModels.MenuModuleViewModelList
+@{
+    ViewBag.Title = "Modules";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="~/Content/Menu/css/component.css" rel="stylesheet" />
+<link href="~/Content/Menu/css/normalize.css" rel="stylesheet" />
+
+@if (Model.RoleModification.HasValue && Model.RoleModification == true)
+{
+    <style type="text/css">
+
+            body {
+                color: @(!string.IsNullOrEmpty((string)System.Web.HttpContext.Current.Session["UserPermissionSiteColour"]) ?  (string)System.Web.HttpContext.Current.Session["UserPermissionSiteColour"] : "#0ed3a9");
+            }
+            body{
+                background: @(!string.IsNullOrEmpty((string)System.Web.HttpContext.Current.Session["UserPermissionSiteColour"]) ?  (string)System.Web.HttpContext.Current.Session["UserPermissionSiteColour"] : "#0ed3a9");
+            }
+
+    </style>
+}
+else
+{
+    <style type="text/css">
+    body {
+        background-color: #2c5c8e ! important;
+    }
+</style>
+}
+
+@*@Styles.Render("~/Content/icongridcss")
+
+    @if (Model.RoleModification.HasValue && Model.RoleModification == true)
+    {
+        <style type="text/css">
+
+            .cbp-ig-grid li > a {
+                color: @(!string.IsNullOrEmpty((string)System.Web.HttpContext.Current.Session["UserPermissionSiteColour"]) ?  (string)System.Web.HttpContext.Current.Session["UserPermissionSiteColour"] : "#0ed3a9");
+            }
+            .cbp-ig-grid .cbp-ig-title:before ,.cbp-ig-grid li > a:hover{
+                background: @(!string.IsNullOrEmpty((string)System.Web.HttpContext.Current.Session["UserPermissionSiteColour"]) ?  (string)System.Web.HttpContext.Current.Session["UserPermissionSiteColour"] : "#0ed3a9");
+            }
+
+        </style>
+    }
+
+
+    <div class="container">
+        <div class="main">
+            <ul class="cbp-ig-grid" style="margin-top:50px">
+
+                @foreach (var item in Model.MenuModule)
+                {
+                    <li>
+                        <a href="/Menu/SubModule/@item.ModuleId@(Model.RoleModification.HasValue&&Model.RoleModification==true?"?RolePerm=true":"")" style="text-decoration:none">
+                            <span class="@item.IconName" style="font-size:5em;padding:10px 0 0 0"></span>
+                            <h3 class="cbp-ig-title">@item.ModuleName</h3>
+                            <span class="cbp-ig-category">Module</span>
+                        </a>
+                    </li>
+                }
+
+            </ul>
+        </div>
+    </div>*@
+
+<div class="container">
+    <section class="demo-3">
+        <div class="grid">
+            @foreach (var item in Model.MenuModule)
+            {
+                <div class="box">
+                    <a href="/Menu/SubModule/@item.ModuleId@(Model.RoleModification.HasValue&&Model.RoleModification==true?"?RolePerm=true":"")">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+                            <line class="top" x1="0" y1="0" x2="900" y2="0" />
+                            <line class="left" x1="0" y1="260" x2="0" y2="-900" />
+                            <line class="bottom" x1="300" y1="260" x2="-600" y2="260" />
+                            <line class="right" x1="300" y1="0" x2="300" y2="1380" />
+                        </svg>
+                        <h3>@item.ModuleName.Substring(0, 1)</h3>
+                        <span>@item.ModuleName</span>
+                    </a>
+                </div>
+            }
+            @*<div class="box">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+                        <line class="top" x1="0" y1="0" x2="900" y2="0" />
+                        <line class="left" x1="0" y1="460" x2="0" y2="-920" />
+                        <line class="bottom" x1="300" y1="460" x2="-600" y2="460" />
+                        <line class="right" x1="300" y1="0" x2="300" y2="1380" />
+                    </svg>
+                    <h3><i class="glyphicon glyphicon-list-alt"></i></h3>
+                    <span>2013</span>
+                    <span>Arugula, Chickweed</span>
+                </div>
+                <div class="box">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+                        <line class="top" x1="0" y1="0" x2="900" y2="0" />
+                        <line class="left" x1="0" y1="460" x2="0" y2="-920" />
+                        <line class="bottom" x1="300" y1="460" x2="-600" y2="460" />
+                        <line class="right" x1="300" y1="0" x2="300" y2="1380" />
+                    </svg>
+                    <h3><i class="glyphicon glyphicon-shopping-cart"></i></h3>
+                    <span>2014</span>
+                    <span>Strawberry, Lemon</span>
+                </div>*@
+        </div><!-- /grid -->
+    </section>
+</div>
