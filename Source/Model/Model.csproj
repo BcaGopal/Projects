@@ -107,6 +107,8 @@
     <Compile Include="Models\ApplicationUser.cs" />
     <Compile Include="Models\ActivityType.cs" />
     <Compile Include="Models\BusinessSession.cs" />
+    <Compile Include="Models\OverTimeApplicationLine.cs" />
+    <Compile Include="Models\OverTimeApplicationHeader.cs" />
     <Compile Include="Models\SaleEnquiryLineExtended.cs" />
     <Compile Include="Models\JobOrderHeaderExtended.cs" />
     <Compile Include="Models\MaterialPlanCancelHeader.cs" />
