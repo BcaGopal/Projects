@@ -3,4 +3,7 @@
   <PropertyGroup>
     <ProjectView>ProjectFiles</ProjectView>
   </PropertyGroup>
+  <PropertyGroup>
+    <ReferencePath>D:\SuryaIndia Git3\3rdPartyLib\</ReferencePath>
+  </PropertyGroup>
 </Project>

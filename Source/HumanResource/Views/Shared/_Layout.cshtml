@@ -44,7 +44,7 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     @{
-                        string Defaultdomain = (@System.Configuration.ConfigurationManager.AppSettings["MenuDomain"]);
+                        string Defaultdomain = (string)System.Web.HttpContext.Current.Session[SessionNameConstants.MenuDomain];
                         if (string.IsNullOrEmpty(Defaultdomain))
                         {
                             throw new Exception("Menu Domain not configured in Modules Project");

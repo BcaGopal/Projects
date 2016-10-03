@@ -46,7 +46,10 @@
     @Html.HiddenFor(m => m.Status)
     <div class="panel panel-default">
         <div class="panel-heading">
-            @if (ViewBag.transactionType == "submit" || ViewBag.transactionType == "submitContinue")
+
+            @CustomHelpers.RenderHeaderInfo(ViewBag.transactionType, (int?)ViewBag.PendingToSubmit, (int?)ViewBag.PendingToReview, ViewBag.Name)
+
+            @*@if (ViewBag.transactionType == "submit" || ViewBag.transactionType == "submitContinue")
             {<h3 style="border-bottom:1px solid #e1dada;padding-bottom:10px;">
                 <span style="font-family: Calibri,sans-serif,Verdana;font-weight:bold" class="black"> <span class="glyphicon glyphicon-file black"></span>Submit @ViewBag.Name</span>
                 <button type="submit" name="Command:Submit" class="btn btn-primary right" id="SubmitContinue" style="margin-left:5px;">Submit & Next<span class='badge'>@(ViewBag.PendingToSubmit != 0 ? ViewBag.PendingToSubmit : "")</span></button>
@@ -72,12 +75,11 @@
                     <span style="font-family: Calibri,sans-serif,Verdana;font-weight:bold" class="black"> <span class="glyphicon glyphicon-file black"></span> @ViewBag.Name</span>
                     <input type="submit" value="Save" class="btn btn-primary right" id="submit" style="width: 90px; background-color: #2980b9" />
                 </h3>
-                @Html.ActionLink("For Invoice", "_ForInvoice", "PurchaseInvoiceReturnLine", new { id = @Model.PurchaseInvoiceReturnHeaderId, sid = @Model.SupplierId }, new { data_modal = "", id = "btnCreateF", @class = "btn btn-primary borderradii", @title = "For Indent", @data_toggle = "tooltip" })
-                @Html.ActionLink("For Receipt", "_ForReceipt", "PurchaseInvoiceReturnLine", new { id = @Model.PurchaseInvoiceReturnHeaderId, sid = @Model.SupplierId }, new { data_modal = "", id = "btnCreateFP", @class = "btn btn-primary borderradii", @title = "For Order", @data_toggle = "tooltip" })
                 <hr style="margin-top:10px;margin-bottom:0px" />
-            }
+            }*@
 
-
+            @Html.ActionLink("For Invoice", "_ForInvoice", "PurchaseInvoiceReturnLine", new { id = @Model.PurchaseInvoiceReturnHeaderId, sid = @Model.SupplierId }, new { data_modal = "", id = "btnCreateF", @class = "btn btn-primary borderradii", @title = "For Indent", @data_toggle = "tooltip", @data_detailDeleted = "true" })
+            @Html.ActionLink("For Receipt", "_ForReceipt", "PurchaseInvoiceReturnLine", new { id = @Model.PurchaseInvoiceReturnHeaderId, sid = @Model.SupplierId }, new { data_modal = "", id = "btnCreateFP", @class = "btn btn-primary borderradii", @title = "For Order", @data_toggle = "tooltip", @data_detailDeleted = "true" })
 
 
             <div class="panel-info">
@@ -222,7 +224,7 @@
                         else if (Model.Status == (int)StatusConstants.Submitted || Model.Status == (int)StatusConstants.Modified)
                         { Action = "CreateLineAfter_Submit"; }
                         }
-                        @Html.ActionLink("Add New Row ", "_Create", "PurchaseInvoiceReturnLine", new { id = @Model.PurchaseInvoiceReturnHeaderId, sid = @Model.SupplierId }, new { data_modalCustom = "", id = "btnCreate", @class = "toolbar", @title = "Add New", @data_toggle = "tooltip" })
+                        @Html.ActionLink("Add New Row ", "_Create", "PurchaseInvoiceReturnLine", new { id = @Model.PurchaseInvoiceReturnHeaderId, sid = @Model.SupplierId }, new { data_modal = "", id = "btnCreate", @class = "toolbar", @title = "Add New", @data_toggle = "tooltip", @data_detailDisabled = "true" })
                     </h5>
                 </div>
                 <div style="padding-right:15px">
@@ -334,235 +336,239 @@
 
     <script type="text/javascript">
 
-        //For Populating Modal PopUp on DoubleClick Of Row
-        $('#gbody').on("dblclick",'.grid-body',function(){
-            var text = $(this).find(".id").val();
-            var editurl=$(this).find('a[edit]').attr('href');
-            $('#myModalContent').load(editurl, function () {
-                //alert('2');
-                $('#myModal').modal({
-                    backdrop: 'static',
-                    keyboard: true
-                }, 'show');
-
-                bindForm1(this);
-            });
-        });
-
-        //For Populating Modal PopUp on DoubleClick Of Row
-        $('#gbodycharges').on("dblclick",'.grid-body',function(){
-            var text = $(this).find(".id").val();
-            var editurl="/TaxCalculation/GetPIRHeaderChargeForEdit/";
-            $('#myModalContent').load(editurl,{id:text,HeaderTable:"Web.PurchaseInvoiceReturnHeaderCharges",LineTable:"Web.PurchaseInvoiceReturnLineCharges"}, function () {
-                //alert('2');
-                $('#myModal').modal({
-                    backdrop: 'static',
-                    keyboard: true
-                }, 'show');
-
-                bindForm1(this);
-            });
-        });
-
-        //For Handling Modal PopUp on Clicking Delete Icon
-        $('#gbody').on("click",'a[Detail]', function (e) {
-            $('#myModalContent').load(this.href, function (response, status, xhr) {
-                //alert('2');
-                if ( status == "error" ) {
-                    var msg = "Sorry but there was an error: ";
-                }
-                else
-                {
-                    $('#myModal').modal({
-                        backdrop: 'static',
-                        keyboard: true
-                    }, 'show');
-
-                    bindForm1(this);}
-            });
-            return false;
-        });
-
-
-        //For Handling Modal PopUp on Clicking Delete Icon
-        $('#gbody').on("click",'a[delete]', function (e) {
-            $('#myModalContent').load(this.href, function () {
-                //alert('2');
-                $('#myModal').modal({
-                    backdrop: 'static',
-                    keyboard: true
-                }, 'show');
-
-                bindForm1(this);
-            });
-            return false;
-        });
-
-
         var id=@Model.PurchaseInvoiceReturnHeaderId;
         if(id==null||id==0)
         {
             $(document).find('a#btnCreate').removeAttr('href').removeAttr('data-modal');
             $("#btnCreateF").attr('disabled','disabled');
             $("#btnCreateFP").attr('disabled','disabled');
-
         }
-
-        //To focus on the first element on modal load
-        $('#myModal').on('shown.bs.modal', function () {
-            $("#ProductId").select2("focus");
-        });
-
 
         //Reloading the table contents on modal hide
         $('#myModal').on('hidden.bs.modal', function () {
             LoadProducts();
             var id=@Model.PurchaseInvoiceReturnHeaderId;
-            LoadCharges(id,"Web.PurchaseInvoiceReturnHeaderCharges","Web.PurchaseInvoiceReturnLineCharges");
+            LoadCharges(id,"Web.PurchaseInvoiceReturnHeaderCharges","Web.PurchaseInvoiceReturnLineCharges","/TaxCalculation/GetPIRHeaderChargeForEdit/");
         });
 
+        $(document).ready(function(){
+            enableModalTransitions();
+        })
+
+        ////For Populating Modal PopUp on DoubleClick Of Row
+        //$('#gbody').on("dblclick",'.grid-body',function(){
+        //    var text = $(this).find(".id").val();
+        //    var editurl=$(this).find('a[edit]').attr('href');
+        //    $('#myModalContent').load(editurl, function () {
+        //        //alert('2');
+        //        $('#myModal').modal({
+        //            backdrop: 'static',
+        //            keyboard: true
+        //        }, 'show');
+
+        //        bindForm1(this);
+        //    });
+        //});
+
+        ////For Populating Modal PopUp on DoubleClick Of Row
+        //$('#gbodycharges').on("dblclick",'.grid-body',function(){
+        //    var text = $(this).find(".id").val();
+        //    var editurl="/TaxCalculation/GetPIRHeaderChargeForEdit/";
+        //    $('#myModalContent').load(editurl,{id:text,HeaderTable:"Web.PurchaseInvoiceReturnHeaderCharges",LineTable:"Web.PurchaseInvoiceReturnLineCharges"}, function () {
+        //        //alert('2');
+        //        $('#myModal').modal({
+        //            backdrop: 'static',
+        //            keyboard: true
+        //        }, 'show');
+
+        //        bindForm1(this);
+        //    });
+        //});
+
+        ////For Handling Modal PopUp on Clicking Delete Icon
+        //$('#gbody').on("click",'a[Detail]', function (e) {
+        //    $('#myModalContent').load(this.href, function (response, status, xhr) {
+        //        //alert('2');
+        //        if ( status == "error" ) {
+        //            var msg = "Sorry but there was an error: ";
+        //        }
+        //        else
+        //        {
+        //            $('#myModal').modal({
+        //                backdrop: 'static',
+        //                keyboard: true
+        //            }, 'show');
+
+        //            bindForm1(this);}
+        //    });
+        //    return false;
+        //});
+
+
+        ////For Handling Modal PopUp on Clicking Delete Icon
+        //$('#gbody').on("click",'a[delete]', function (e) {
+        //    $('#myModalContent').load(this.href, function () {
+        //        //alert('2');
+        //        $('#myModal').modal({
+        //            backdrop: 'static',
+        //            keyboard: true
+        //        }, 'show');
+
+        //        bindForm1(this);
+        //    });
+        //    return false;
+        //});
+
+
+       
+
+        ////To focus on the first element on modal load
+        //$('#myModal').on('shown.bs.modal', function () {
+        //    $("#ProductId").select2("focus");
+        //});       
 
 
 
-        function PurchaseInvoiceReturnChargeModel() {
-            var self = this;
-            self.PurchaseInvoiceReturnHeaderId = $("#PurchaseInvoiceReturnHeaderId").val();
-            self.PurchaseInvoiceReturnLineId = $("#PurchaseInvoiceReturnLineId").val();
-            self.PurchaseInvoiceLineId = $("#PurchaseInvoiceLineId").val();
-            self.SupplierId = $("#SupplierId").val();
-            self.InvoiceBalQty = $("#InvoiceBalQty").val();
-            self.ProductId = $("#ProductId").val();
-            self.Specification = $("#Specification").val();
-            self.Dimension1Name = $("#Dimension1Name").val();
-            self.Dimension2Name = $("#Dimension2Name").val();
-            self.LotNo = $("#LotNo").val();
-            self.Qty = $("#Qty").val();
-            self.UnitId = $("#UnitId").val();
-            self.Rate = $("#Rate").val();
-            self.DiscountPer = $("#DiscountPer").val();
-            self.DealUnitId = $("#DealUnitId").val();
-            self.UnitConversionMultiplier = $("#UnitConversionMultiplier").val();
-            self.DealQty = $("#DealQty").val();
-            self.Amount = $("#Amount").val();
-            self.Remark = $("#Remark").val();
 
-            self.__RequestVerificationToken= $('[name=__RequestVerificationToken]').val();
-            var settings=new SettingsViewModel();
-            self.PurchInvoiceSettings=settings;
+        //function PurchaseInvoiceReturnChargeModel() {
+        //    var self = this;
+        //    self.PurchaseInvoiceReturnHeaderId = $("#PurchaseInvoiceReturnHeaderId").val();
+        //    self.PurchaseInvoiceReturnLineId = $("#PurchaseInvoiceReturnLineId").val();
+        //    self.PurchaseInvoiceLineId = $("#PurchaseInvoiceLineId").val();
+        //    self.SupplierId = $("#SupplierId").val();
+        //    self.InvoiceBalQty = $("#InvoiceBalQty").val();
+        //    self.ProductId = $("#ProductId").val();
+        //    self.Specification = $("#Specification").val();
+        //    self.Dimension1Name = $("#Dimension1Name").val();
+        //    self.Dimension2Name = $("#Dimension2Name").val();
+        //    self.LotNo = $("#LotNo").val();
+        //    self.Qty = $("#Qty").val();
+        //    self.UnitId = $("#UnitId").val();
+        //    self.Rate = $("#Rate").val();
+        //    self.DiscountPer = $("#DiscountPer").val();
+        //    self.DealUnitId = $("#DealUnitId").val();
+        //    self.UnitConversionMultiplier = $("#UnitConversionMultiplier").val();
+        //    self.DealQty = $("#DealQty").val();
+        //    self.Amount = $("#Amount").val();
+        //    self.Remark = $("#Remark").val();
 
-            self.linecharges =charges;
-            self.footercharges=footercharges;
-        }
+        //    self.__RequestVerificationToken= $('[name=__RequestVerificationToken]').val();
+        //    var settings=new SettingsViewModel();
+        //    self.PurchInvoiceSettings=settings;
 
-        var charges;
-        var footercharges;
+        //    self.linecharges =charges;
+        //    self.footercharges=footercharges;
+        //}
 
-        function SettingsViewModel(){
-            var self=this;
-            var settings;
+        //var charges;
+        //var footercharges;
 
-            self.CalculationId=$("#PurchInvoiceSettings_CalculationId").val();
-            self.isVisibleDimension1=$("#PurchInvoiceSettings_isVisibleDimension1").val();
-            self.isVisibleDimension2=$("#PurchInvoiceSettings_isVisibleDimension2").val();
-            self.isVisibleLotNo=$("#PurchInvoiceSettings_isVisibleLotNo").val();
+        //function SettingsViewModel(){
+        //    var self=this;
+        //    var settings;
 
-        }
+        //    self.CalculationId=$("#PurchInvoiceSettings_CalculationId").val();
+        //    self.isVisibleDimension1=$("#PurchInvoiceSettings_isVisibleDimension1").val();
+        //    self.isVisibleDimension2=$("#PurchInvoiceSettings_isVisibleDimension2").val();
+        //    self.isVisibleLotNo=$("#PurchInvoiceSettings_isVisibleLotNo").val();
 
-
-        //For posting the data through ajax and render the contents sent back from the server
-        function bindForm1(dialog) {
-            //alert("binding1");
-            $('form#modform', dialog).submit(function () {
-
-                charges= AssignValuesToCharges();
-                footercharges=AssignValuesToFooter();
-
-                //alert(charges.length);
-                //alert(footercharges.length);
-                var request = new PurchaseInvoiceReturnChargeModel();
-
-                $.ajax({
-                    contentType:'application/json',
-                    //headers: headers,
-                    url: this.action,
-                    type: this.method,
-                    data:JSON.stringify(request),
-                    success: function (result) {
-                        if (result.success) {
-                            $('#myModal').modal('hide');
-                            //Refresh
-                            //location.reload();
-                            //alert('Data Saved');
-                        }else if(!result.success)
-                        {
-                            $('#myModalContent').html(result);
-                            bindForm1();
-                        }
-                        else {
-                            $('#myModalContent').html(result);
-                            bindForm1();
-                        }
-                    }
-                });
-                return false;
-            });
-
-            $('form#modformcharges', dialog).submit(function () {
-                //alert('charges');
-
-                footercharges=AssignValuesToFooter();
-
-                $.ajax({
-                    contentType:'application/json',
-                    url: this.action,
-                    type: this.method,
-                    data:JSON.stringify(footercharges),
-                    success: function (result) {
-                        if (result.success) {
-                            $('#myModal').modal('hide');
-                            //Refresh
-                            //location.reload();
-                            //alert('Data Saved');
-                        }else if(!result.success)
-                        {
-                            $('#myModalContent').html(result);
-                            bindForm1();
-                        }
-                        else {
-                            $('#myModalContent').html(result);
-                            bindForm1();
-                        }
-                    }
-                });
-                return false;
-            });
-
-        }
+        //}
 
 
-        $(function () {
+        ////For posting the data through ajax and render the contents sent back from the server
+        //function bindForm1(dialog) {
+        //    //alert("binding1");
+        //    $('form#modform', dialog).submit(function () {
 
-            $.ajaxSetup({ cache: false });
+        //        charges= AssignValuesToCharges();
+        //        footercharges=AssignValuesToFooter();
 
-            $("a[data-modalCustom]").on("click", function (e) {
-                // hide dropdown if any
-                if(this.href=="")
-                {
-                    return false;
-                }
-                //alert(' Script');
-                $('#myModalContent').load(this.href, function () {
-                    $('#myModal').modal({
-                        backdrop: 'static',
-                        keyboard: true
-                    }, 'show');
+        //        //alert(charges.length);
+        //        //alert(footercharges.length);
+        //        var request = new PurchaseInvoiceReturnChargeModel();
 
-                    bindForm1(this);
-                });
+        //        $.ajax({
+        //            contentType:'application/json',
+        //            //headers: headers,
+        //            url: this.action,
+        //            type: this.method,
+        //            data:JSON.stringify(request),
+        //            success: function (result) {
+        //                if (result.success) {
+        //                    $('#myModal').modal('hide');
+        //                    //Refresh
+        //                    //location.reload();
+        //                    //alert('Data Saved');
+        //                }else if(!result.success)
+        //                {
+        //                    $('#myModalContent').html(result);
+        //                    bindForm1();
+        //                }
+        //                else {
+        //                    $('#myModalContent').html(result);
+        //                    bindForm1();
+        //                }
+        //            }
+        //        });
+        //        return false;
+        //    });
 
-                return false;
-            });
-        });
+        //    $('form#modformcharges', dialog).submit(function () {
+        //        //alert('charges');
+
+        //        footercharges=AssignValuesToFooter();
+
+        //        $.ajax({
+        //            contentType:'application/json',
+        //            url: this.action,
+        //            type: this.method,
+        //            data:JSON.stringify(footercharges),
+        //            success: function (result) {
+        //                if (result.success) {
+        //                    $('#myModal').modal('hide');
+        //                    //Refresh
+        //                    //location.reload();
+        //                    //alert('Data Saved');
+        //                }else if(!result.success)
+        //                {
+        //                    $('#myModalContent').html(result);
+        //                    bindForm1();
+        //                }
+        //                else {
+        //                    $('#myModalContent').html(result);
+        //                    bindForm1();
+        //                }
+        //            }
+        //        });
+        //        return false;
+        //    });
+
+        //}
+
+
+        //$(function () {
+
+        //    $.ajaxSetup({ cache: false });
+
+        //    $("a[data-modalCustom]").on("click", function (e) {
+        //        // hide dropdown if any
+        //        if(this.href=="")
+        //        {
+        //            return false;
+        //        }
+        //        //alert(' Script');
+        //        $('#myModalContent').load(this.href, function () {
+        //            $('#myModal').modal({
+        //                backdrop: 'static',
+        //                keyboard: true
+        //            }, 'show');
+
+        //            bindForm1(this);
+        //        });
+
+        //        return false;
+        //    });
+        //});
 
 
 
@@ -605,7 +611,7 @@
         //Adding Charges on Doc Load
         var id=@Model.PurchaseInvoiceReturnHeaderId;
 
-        LoadCharges(id,"Web.PurchaseInvoiceReturnHeaderCharges","Web.PurchaseInvoiceReturnLineCharges");
+        LoadCharges(id,"Web.PurchaseInvoiceReturnHeaderCharges","Web.PurchaseInvoiceReturnLineCharges","/TaxCalculation/GetPIRHeaderChargeForEdit/");
     });
 
 
@@ -686,7 +692,7 @@
                             +"                   </div>"
                             +"              </div>"
                             +"          </div>"
-                            +"      <div class='block'  style='width:5%'><a class='glyphicon glyphicon-trash icon-Cus-Size' delete='' href='"+LineDeleteUrl+item.PurchaseInvoiceReturnLineId+"'></a><a  edit='' href='"+LineEditUrl+item.PurchaseInvoiceReturnLineId+"'></a>"
+                            +"      <div class='block'  style='width:5%'><a class='glyphicon glyphicon-trash icon-Cus-Size' data-modal='' data-detailDisabled='true' delete='' href='"+LineDeleteUrl+item.PurchaseInvoiceReturnLineId+"'></a><a  edit='' href='"+LineEditUrl+item.PurchaseInvoiceReturnLineId+"'></a>"
                             +"      </div>"
                             +"  </div>"
                             +"<hr style='margin-top:0px;margin-bottom:0px'/>";
@@ -761,26 +767,30 @@
 {
     <script type="text/javascript">
 
-        RemoveFields();
+        $(document).ready(function(){
+            DisablePageNavigation();
+        })
 
-        function RemoveFields(){
-            //Disabling input fields
-            $(':input:not(:submit,#IsContinue)').attr('disabled','disabled');
+        //RemoveFields();
 
-            //Removing all the events from the newly created lines
-            $('#gbody').unbind();
+        //function RemoveFields(){
+        //    //Disabling input fields
+        //    $(':input:not(:submit,#IsContinue)').attr('disabled','disabled');
 
-            //Removing Add New Row ActionLink
-            $('a#btnCreate').parents('h5')[0].remove();
+        //    //Removing all the events from the newly created lines
+        //    $('#gbody').unbind();
+
+        //    //Removing Add New Row ActionLink
+        //    $('a#btnCreate').parents('h5')[0].remove();
 
 
-            //Preventing the click event on newly created elements
-            $(document).on('click','#gbody a',function(event){
-                event.preventDefault();
-            })
-            //Removing the action link from the form so that the request will be redirected to the Submit function in the controller instead of the hardcoded path
-            $('form:last').prop('action','');
-        }
+        //    //Preventing the click event on newly created elements
+        //    $(document).on('click','#gbody a',function(event){
+        //        event.preventDefault();
+        //    })
+        //    //Removing the action link from the form so that the request will be redirected to the Submit function in the controller instead of the hardcoded path
+        //    $('form:last').prop('action','');
+        //}
 
 
     </script>
@@ -795,72 +805,77 @@
         var GatePassId='@Model.GatePassHeaderId'
         var TrancType='@ViewBag.transactionType'
 
-        var href = '/ActivityLog/LogEditReason';
-
-        var $btnClicked;
-
-        $(':submit').bind('click', function () {
-            $btnClicked=$(this);
-            $('#myModalContent').load(href, function () {
-
-                $('#myModal').modal({
-                    backdrop: 'static',
-                    keyboard: true
-                }, 'show');
-
-                bindForm1(this);
-            });
-
-            return false;
+        $(document).ready(function(){
+            enableActivityLogReason(GatePassGen,GatePassId,TrancType);
         })
 
-        function bindForm1(dialog) {
 
-            $('#modformr', dialog).submit(function () {
+        //var href = '/ActivityLog/LogEditReason';
 
-                $.ajax({
-                    url: this.action,
-                    type: this.method,
-                    data: $(this).serialize(),
-                    success: function (result) {
-                        if (result.success) {
-                            $('#myModal').modal('hide');
+        //var $btnClicked;
 
-                            $(':submit').unbind();
+        //$(':submit').bind('click', function () {
+        //    $btnClicked=$(this);
+        //    $('#myModalContent').load(href, function () {
 
-                            $('input[name="UserRemark"]').val(result.UserRemark);
+        //        $('#myModal').modal({
+        //            backdrop: 'static',
+        //            keyboard: true
+        //        }, 'show');
 
-                            if(GatePassGen && !GatePassId && (TrancType=="submit"||TrancType=="submitContinue"))
-                            {
-                                alertify.confirm('Generate GatePass ?').set({
-                                    'closable': false, 'onok': function (onok) {
+        //        bindForm1(this);
+        //    });
 
-                                        $('input[name="GenGatePass"]').val('true');
-                                        $btnClicked.trigger('click');
+        //    return false;
+        //})
 
-                                    }, 'oncancel': function (oncancel) {
+        //function bindForm1(dialog) {
 
-                                        $('input[name="GenGatePass"]').val('false');
-                                        $btnClicked.trigger('click');
+        //    $('#modformr', dialog).submit(function () {
 
-                                    }
-                                }).setting('labels',{'ok':'Yes', 'cancel': 'No'});
-                            }
-                            else
-                            {
-                                $btnClicked.trigger('click');
-                            }
+        //        $.ajax({
+        //            url: this.action,
+        //            type: this.method,
+        //            data: $(this).serialize(),
+        //            success: function (result) {
+        //                if (result.success) {
+        //                    $('#myModal').modal('hide');
 
-                        } else {
-                            $('#myModalContent').html(result);
-                            bindForm1();
-                        }
-                    }
-                });
-                return false;
-            });
+        //                    $(':submit').unbind();
 
-        }
+        //                    $('input[name="UserRemark"]').val(result.UserRemark);
+
+        //                    if(GatePassGen && !GatePassId && (TrancType=="submit"||TrancType=="submitContinue"))
+        //                    {
+        //                        alertify.confirm('Generate GatePass ?').set({
+        //                            'closable': false, 'onok': function (onok) {
+
+        //                                $('input[name="GenGatePass"]').val('true');
+        //                                $btnClicked.trigger('click');
+
+        //                            }, 'oncancel': function (oncancel) {
+
+        //                                $('input[name="GenGatePass"]').val('false');
+        //                                $btnClicked.trigger('click');
+
+        //                            }
+        //                        }).setting('labels',{'ok':'Yes', 'cancel': 'No'});
+        //                    }
+        //                    else
+        //                    {
+        //                        $btnClicked.trigger('click');
+        //                    }
+
+        //                } else {
+        //                    $('#myModalContent').html(result);
+        //                    bindForm1();
+        //                }
+        //            }
+        //        });
+        //        return false;
+        //    });
+
+        //}
 
     </script>
 }
@@ -868,31 +883,35 @@ else if (Model.GatePassHeaderId == null && (ViewBag.transactionType == "submit" 
 {
     <script type="text/javascript">
 
-        $(':submit','form .panel.panel-default').one('click', function () {
-            $btnClicked=$(this);
-            var uChoice=false;
-            alertify.confirm('Generate GatePass ?').set({
-                'closable': false, 'onok': function (onok) {
-
-                    $('input[name="GenGatePass"]').val('true');
-                    $btnClicked.trigger('click');
-                    uChoice=true;
-
-                }, 'oncancel': function (oncancel) {
-
-                    $('input[name="GenGatePass"]').val('false');
-                    $btnClicked.trigger('click');
-                    uChoice=true;
-                }
-            }).setting('labels',{'ok':'Yes', 'cancel': 'No'});
-            return uChoice;
+        $(document).ready(function(){
+            prompGatePassGeneration();
         })
+        
+        //$(':submit','form .panel.panel-default').one('click', function () {
+        //    $btnClicked=$(this);
+        //    var uChoice=false;
+        //    alertify.confirm('Generate GatePass ?').set({
+        //        'closable': false, 'onok': function (onok) {
+
+        //            $('input[name="GenGatePass"]').val('true');
+        //            $btnClicked.trigger('click');
+        //            uChoice=true;
+
+        //        }, 'oncancel': function (oncancel) {
+
+        //            $('input[name="GenGatePass"]').val('false');
+        //            $btnClicked.trigger('click');
+        //            uChoice=true;
+        //        }
+        //    }).setting('labels',{'ok':'Yes', 'cancel': 'No'});
+        //    return uChoice;
+        //})
 
 
     </script>
 }
 
-<script type="text/javascript">
+@*<script type="text/javascript">
     $('a#PrintRecord').click(function (e) {
 
         var editiiid = $('#PurchaseInvoiceReturnHeaderId').val();
@@ -912,26 +931,31 @@ else if (Model.GatePassHeaderId == null && (ViewBag.transactionType == "submit" 
         $(this).attr('href', url);
         return;
     })
-</script>
+</script>*@
 @if (ViewBag.transactionType != null && (ViewBag.transactionType == "submitContinue" || ViewBag.transactionType == "ReviewContinue"))
 {
     <script type="text/javascript">
-        CreateTrasitionEffectForSubmit();
 
-        function CreateTrasitionEffectForSubmit(){
+        $(document).ready(function(){
+            CreateTrasitionEffect();
+        })
 
-            //$('body').find('.container.body-content > div.row ').wrap("<div class='animsition' data-animsition-in='fade-in-right-lg' data-animsition-out='fade-out-left-lg' style='animation-duration: 1.5s; -webkit-animation-duration: 1.5s; opacity: 0;'> </div>");
+        //CreateTrasitionEffectForSubmit();
 
-            $('body').find('form').filter(":last").wrapInner("<div class='animsition' data-animsition-in='fade-in-right-lg' data-animsition-out='fade-out-left-lg' style='animation-duration: 1.5s; -webkit-animation-duration: 1.5s; opacity: 0;'> </div>");
+        //function CreateTrasitionEffectForSubmit(){
 
-            var script=document.createElement('script');
+        //    //$('body').find('.container.body-content > div.row ').wrap("<div class='animsition' data-animsition-in='fade-in-right-lg' data-animsition-out='fade-out-left-lg' style='animation-duration: 1.5s; -webkit-animation-duration: 1.5s; opacity: 0;'> </div>");
 
-            script.setAttribute('type','text/javascript');
+        //    $('body').find('form').filter(":last").wrapInner("<div class='animsition' data-animsition-in='fade-in-right-lg' data-animsition-out='fade-out-left-lg' style='animation-duration: 1.5s; -webkit-animation-duration: 1.5s; opacity: 0;'> </div>");
 
-            script.text=" $(document).ready(function () {$('.animsition').animsition().one('animsition.start', function () {}).one('animsition.end', function () {$(this).find('.animsition-child').addClass('zoom-in').css({'opacity': 1});})});";
+        //    var script=document.createElement('script');
 
-            $('body').append(script);
+        //    script.setAttribute('type','text/javascript');
 
-        }
+        //    script.text=" $(document).ready(function () {$('.animsition').animsition().one('animsition.start', function () {}).one('animsition.end', function () {$(this).find('.animsition-child').addClass('zoom-in').css({'opacity': 1});})});";
+
+        //    $('body').append(script);
+
+        //}
     </script>
 }

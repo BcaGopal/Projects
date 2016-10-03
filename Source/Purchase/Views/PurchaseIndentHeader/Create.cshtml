@@ -28,7 +28,10 @@
 
     <div class="panel panel-default">
         <div class="panel-heading">
-            @if (ViewBag.transactionType == "submit" || ViewBag.transactionType == "submitContinue")
+
+            @CustomHelpers.RenderHeaderInfo(ViewBag.transactionType, (int?)ViewBag.PendingToSubmit, (int?)ViewBag.PendingToReview, ViewBag.Name)
+
+            @*@if (ViewBag.transactionType == "submit" || ViewBag.transactionType == "submitContinue")
             {<h3>
                  <button type="submit" name="Command:Submit" class="btn btn-primary right" id="SubmitContinue" style="margin-left:5px;">Submit & Next<span class='badge'>@(ViewBag.PendingToSubmit != 0 ? ViewBag.PendingToSubmit : "")</span></button>
                 <span style="font-family: Calibri,sans-serif,Verdana;font-weight:bold" class="black"> <span class="glyphicon glyphicon-file black"></span>Submit @ViewBag.Name</span>
@@ -54,8 +57,10 @@
                     <span style="font-family: Calibri,sans-serif,Verdana;font-weight:bold" class="black"> <span class="glyphicon glyphicon-file black"></span> @ViewBag.Name</span>
                     <input type="submit" value="Save" class="btn btn-primary right" id="submit" style="width: 90px; background-color: #2980b9" />
                 </h3>
-                @Html.ActionLink("For Material Plan", "_ForMaterialPlan", "PurchaseIndentLine", new { id = @Model.PurchaseIndentHeaderId }, new { data_modal = "", id = "btnCreateF", @class = "btn btn-primary borderradii", @title = "For MaterialPlan", @data_toggle = "tooltip" })
-            }
+            }*@
+
+            @Html.ActionLink("For Material Plan", "_ForMaterialPlan", "PurchaseIndentLine", new { id = @Model.PurchaseIndentHeaderId }, new { data_modal = "", id = "btnCreateF", @class = "btn btn-primary borderradii", @title = "For MaterialPlan", @data_toggle = "tooltip", @data_detailDeleted = "true" })
+
             <hr style="margin-top:0px;margin-bottom:0px" />
 
             <div class="panel-info">
@@ -170,7 +175,7 @@
                         else if (Model.Status == (int)StatusConstants.Approved)
                         { Action = "CreateLineAfter_Approve"; }
                         }
-                        @Html.ActionLink("Add New Row ", Action, "PurchaseIndentLine", new { id = @Model.PurchaseIndentHeaderId }, new { data_modal = "", id = "btnCreate", @class = "toolbar", @title = "Add New", @data_toggle = "tooltip" })
+                        @Html.ActionLink("Add New Row ", Action, "PurchaseIndentLine", new { id = @Model.PurchaseIndentHeaderId }, new { data_modal = "", id = "btnCreate", @class = "toolbar", @title = "Add New", @data_toggle = "tooltip", @data_detailDisabled = "true" })
                     </h5>
                 </div>
                 <div style="padding-right:15px">
@@ -253,91 +258,94 @@
         LoadProducts();
     });
 
+    $(document).ready(function(){
+        enableModalTransitions();
+    })
 
-    //To focus on the first element on modal load
-    $('#myModal').on('shown.bs.modal', function () {
-        $("#ProductId").select2("focus");
-    });
-
-
-    //For Populating Modal PopUp on DoubleClick Of Row
-    $('#gbody').on("dblclick",'.grid-body',function(){
-        var editurl=$(this).find('a[edit]').attr('href');
-        $('#myModalContent').load(editurl, function () {
-            //alert('2');
-            $('#myModal').modal({
-                backdrop: 'static',
-                keyboard: true
-            }, 'show');
-
-            bindForm1(this);
-        });
-    });
-
-    //For Handling Modal PopUp on Clicking Delete Icon
-    $('#gbody').on("click",'a[Detail]', function (e) {
-        $('#myModalContent').load(this.href, function (response, status, xhr) {
-            //alert('2');
-            if ( status == "error" ) {
-                var msg = "Sorry but there was an error: ";                                
-            }
-            else
-            {
-                $('#myModal').modal({
-                    backdrop: 'static',
-                    keyboard: true
-                }, 'show');
-
-                bindForm1(this);}
-        });
-        return false;
-    });
-
-    //For Handling Modal PopUp on Clicking Delete Icon
-    $('#gbody').on("click",'a[delete]', function (e) {
-        $('#myModalContent').load(this.href, function () {
-            //alert('2');
-            $('#myModal').modal({
-                backdrop: 'static',
-                keyboard: true
-            }, 'show');
-
-            bindForm1(this);
-        });
-        return false;
-    });
+    ////To focus on the first element on modal load
+    //$('#myModal').on('shown.bs.modal', function () {
+    //    $("#ProductId").select2("focus");
+    //});
 
 
-    //For posting the data through ajax and render the contents sent back from the server
-    function bindForm1(dialog) {
-        //alert("binding");
-        $('form#modform', dialog).submit(function () {
-            //alert(this.action);
-            $.ajax({
-                url: this.action,
-                type: this.method,
-                data: $(this).serialize(),
-                success: function (result) {
-                    if (result.success) {
-                        $('#myModal').modal('hide');
-                        //Refresh
-                        //location.reload();
-                        //alert('Data Saved');
-                    }else if(!result.success)
-                    {
-                        $('#myModalContent').html(result);
-                        bindForm1();
-                    }
-                    else {
-                        $('#myModalContent').html(result);
-                        bindForm1();
-                    }
-                }
-            });
-            return false;
-        });
+    ////For Populating Modal PopUp on DoubleClick Of Row
+    //$('#gbody').on("dblclick",'.grid-body',function(){
+    //    var editurl=$(this).find('a[edit]').attr('href');
+    //    $('#myModalContent').load(editurl, function () {
+    //        //alert('2');
+    //        $('#myModal').modal({
+    //            backdrop: 'static',
+    //            keyboard: true
+    //        }, 'show');
 
-    }
+    //        bindForm1(this);
+    //    });
+    //});
+
+    ////For Handling Modal PopUp on Clicking Delete Icon
+    //$('#gbody').on("click",'a[Detail]', function (e) {
+    //    $('#myModalContent').load(this.href, function (response, status, xhr) {
+    //        //alert('2');
+    //        if ( status == "error" ) {
+    //            var msg = "Sorry but there was an error: ";                                
+    //        }
+    //        else
+    //        {
+    //            $('#myModal').modal({
+    //                backdrop: 'static',
+    //                keyboard: true
+    //            }, 'show');
+
+    //            bindForm1(this);}
+    //    });
+    //    return false;
+    //});
+
+    ////For Handling Modal PopUp on Clicking Delete Icon
+    //$('#gbody').on("click",'a[delete]', function (e) {
+    //    $('#myModalContent').load(this.href, function () {
+    //        //alert('2');
+    //        $('#myModal').modal({
+    //            backdrop: 'static',
+    //            keyboard: true
+    //        }, 'show');
+
+    //        bindForm1(this);
+    //    });
+    //    return false;
+    //});
+
+
+    ////For posting the data through ajax and render the contents sent back from the server
+    //function bindForm1(dialog) {
+    //    //alert("binding");
+    //    $('form#modform', dialog).submit(function () {
+    //        //alert(this.action);
+    //        $.ajax({
+    //            url: this.action,
+    //            type: this.method,
+    //            data: $(this).serialize(),
+    //            success: function (result) {
+    //                if (result.success) {
+    //                    $('#myModal').modal('hide');
+    //                    //Refresh
+    //                    //location.reload();
+    //                    //alert('Data Saved');
+    //                }else if(!result.success)
+    //                {
+    //                    $('#myModalContent').html(result);
+    //                    bindForm1();
+    //                }
+    //                else {
+    //                    $('#myModalContent').html(result);
+    //                    bindForm1();
+    //                }
+    //            }
+    //        });
+    //        return false;
+    //    });
+
+    //}
 
 
 
@@ -348,7 +356,7 @@
 
 <script type="text/javascript">
 
-    $('a#PrintRecord').click(function (e) {
+    @*$('a#PrintRecord').click(function (e) {
         
         var editiiid = $('#PurchaseIndentHeaderId').val();     
        
@@ -366,7 +374,7 @@
         }       
         $(this).attr('href', url);
         return;
-    })
+    })*@
 
     $(document).ready(function () {
         var id=@Model.PurchaseIndentHeaderId;
@@ -382,13 +390,7 @@
         //Adding Hidden Input Fields
         AddFields();
 
-    });
-
-
-    
-    function AddFields() {
-        $('form:last').append($("<input type='hidden' name='UserRemark'></input>"))
-    }
+    });     
 
     function LoadProducts() {
         var DomainName='@System.Configuration.ConfigurationManager.AppSettings["AdminSetupDomain"]';
@@ -428,7 +430,7 @@
                     $.each(data, function (index, item) {
                         var PlanUrl=DomainName+"/Redirect/RedirectToDocument?DocTypeId="+item.PlanDocTypeId+"&DocId="+item.PlanHeaderId+"&DocLineId="+item.MaterialPlanLineId;
 
-                        row += " <div class='row crow grid-body' style='margin-left:0px;margin-right:0px' id='"+item.PurchaseIndentLineId+"'><div class='col-xs-1 row-index'><a Detail='' href='/PurchaseIndentLine/_Detail/"+item.PurchaseIndentLineId+"'>"+srno+"</a><input type='hidden' class='id' value='"+item.PurchaseIndentLineId+"' /></div><div class='col-xs-10'><div class='row'><div class='col-sm-3'>"+(item.ProductName==null?" ":"<strong>"+item.ProductName+"</strong>")+"<br />"+(item.Specification==null?" ":item.Specification)+"</div> <div class='col-sm-2'>"+(item.MaterialPlanHeaderDocNo==null?" ":" <a href='"+PlanUrl+"' style='color:black'> <span class='small' style='font-weight:bold'>"+item.MaterialPlanHeaderDocNo+"</span> </a>")+"</div> <div class='col-sm-1'>"+"<div>"+((item.DueDate==null)?" ":"<span title='DueDate' class='label label-danger' style='font-weight:bold'>"+formatDate('d/m/Y',new Date(parseInt(item.DueDate.substr(6))))+"</span>")+"</div></div><div class='col-sm-2 text-right'>"+(item.Qty==null?" ":item.Qty)+" <small>"+(item.UnitId==null?" ":item.UnitId)+"</small> <div style='width:80%;float:right'> </div>  </div> <div class='col-sm-4'>"+(item.Remark==null?" ":item.Remark+"<br />")+"</div></div></div><div class='col-xs-1'><a class='glyphicon glyphicon-trash icon-Cus-Size' delete='' href='"+LineDeleteUrl+item.PurchaseIndentLineId+"'></a><a  edit='' href='"+LineEditUrl+item.PurchaseIndentLineId+"'></a></div></div><hr style='margin-top:0px;margin-bottom:0px'/></div>";
+                        row += " <div class='row crow grid-body' style='margin-left:0px;margin-right:0px' id='"+item.PurchaseIndentLineId+"'><div class='col-xs-1 row-index'><a Detail='' href='/PurchaseIndentLine/_Detail/"+item.PurchaseIndentLineId+"'>"+srno+"</a><input type='hidden' class='id' value='"+item.PurchaseIndentLineId+"' /></div><div class='col-xs-10'><div class='row'><div class='col-sm-3'>"+(item.ProductName==null?" ":"<strong>"+item.ProductName+"</strong>")+"<br />"+(item.Specification==null?" ":item.Specification)+"</div> <div class='col-sm-2'>"+(item.MaterialPlanHeaderDocNo==null?" ":" <a href='"+PlanUrl+"' style='color:black'> <span class='small' style='font-weight:bold'>"+item.MaterialPlanHeaderDocNo+"</span> </a>")+"</div> <div class='col-sm-1'>"+"<div>"+((item.DueDate==null)?" ":"<span title='DueDate' class='label label-danger' style='font-weight:bold'>"+formatDate('d/m/Y',new Date(parseInt(item.DueDate.substr(6))))+"</span>")+"</div></div><div class='col-sm-2 text-right'>"+(item.Qty==null?" ":item.Qty)+" <small>"+(item.UnitId==null?" ":item.UnitId)+"</small> <div style='width:80%;float:right'> </div>  </div> <div class='col-sm-4'>"+(item.Remark==null?" ":item.Remark+"<br />")+"</div></div></div><div class='col-xs-1'><a class='glyphicon glyphicon-trash icon-Cus-Size' data-modal='' data-detailDisabled='true' delete='' href='"+LineDeleteUrl+item.PurchaseIndentLineId+"'></a><a  edit='' href='"+LineEditUrl+item.PurchaseIndentLineId+"'></a></div></div><hr style='margin-top:0px;margin-bottom:0px'/></div>";
                         QtyCount+=item.Qty;
                         if(srno!=1)
                         {
@@ -466,26 +468,31 @@
 {
     <script type="text/javascript">
 
-        RemoveFields();
 
-        function RemoveFields(){
-            //Disabling input fields
-            $(':input:not(:submit,#IsContinue)').attr('disabled','disabled');
+        $(document).ready(function(){
+            DisablePageNavigation();
+        })
 
-            //Removing all the events from the newly created lines
-            $('#gbody').unbind();
+        //RemoveFields();
 
-            //Removing Add New Row ActionLink
-            $('a#btnCreate').parents('h5')[0].remove();
+        //function RemoveFields(){
+        //    //Disabling input fields
+        //    $(':input:not(:submit,#IsContinue)').attr('disabled','disabled');
+
+        //    //Removing all the events from the newly created lines
+        //    $('#gbody').unbind();
+
+        //    //Removing Add New Row ActionLink
+        //    $('a#btnCreate').parents('h5')[0].remove();
 
 
-            //Preventing the click event on newly created elements
-            $(document).on('click','#gbody a',function(event){
-                event.preventDefault();
-            })
-            //Removing the action link from the form so that the request will be redirected to the Submit function in the controller instead of the hardcoded path
-            $('form:last').prop('action','');
-        }
+        //    //Preventing the click event on newly created elements
+        //    $(document).on('click','#gbody a',function(event){
+        //        event.preventDefault();
+        //    })
+        //    //Removing the action link from the form so that the request will be redirected to the Submit function in the controller instead of the hardcoded path
+        //    $('form:last').prop('action','');
+        //}
 
 
     </script>
@@ -496,73 +503,82 @@
 {
     <script type="text/javascript">
 
-        var href = '/ActivityLog/LogEditReason'
-
-        $(':submit').bind('click', function () {
-            var Button=$(this);
-            $('#myModalContent').load(href, function () {
-
-                $('#myModal').modal({
-                    backdrop: 'static',
-                    keyboard: true
-                }, 'show');
-
-                bindForm1(this,Button);
-            });
-
-            return false;
+        $(document).ready(function(){
+            enableActivityLogReason();
         })
 
-        function bindForm1(dialog,Button) {
+        //var href = '/ActivityLog/LogEditReason'
 
-            $('#modformr', dialog).submit(function () {
+        //$(':submit').bind('click', function () {
+        //    var Button=$(this);
+        //    $('#myModalContent').load(href, function () {
 
-                $.ajax({
-                    url: this.action,
-                    type: this.method,
-                    data: $(this).serialize(),
-                    success: function (result) {
-                        if (result.success) {
-                            $('#myModal').modal('hide');
+        //        $('#myModal').modal({
+        //            backdrop: 'static',
+        //            keyboard: true
+        //        }, 'show');
 
-                            $(':submit').unbind();
+        //        bindForm1(this,Button);
+        //    });
 
-                            $('input[name="UserRemark"]').val(result.UserRemark);
+        //    return false;
+        //})
 
-                            $(Button).trigger('click');
+        //function bindForm1(dialog,Button) {
 
-                        } else {
-                            $('#myModalContent').html(result);
-                            bindForm1();
-                        }
-                    }
-                });
-                return false;
-            });
+        //    $('#modformr', dialog).submit(function () {
 
-        }
+        //        $.ajax({
+        //            url: this.action,
+        //            type: this.method,
+        //            data: $(this).serialize(),
+        //            success: function (result) {
+        //                if (result.success) {
+        //                    $('#myModal').modal('hide');
+
+        //                    $(':submit').unbind();
+
+        //                    $('input[name="UserRemark"]').val(result.UserRemark);
+
+        //                    $(Button).trigger('click');
+
+        //                } else {
+        //                    $('#myModalContent').html(result);
+        //                    bindForm1();
+        //                }
+        //            }
+        //        });
+        //        return false;
+        //    });
+
+        //}
 
     </script>
 }
 @if (ViewBag.transactionType != null && (ViewBag.transactionType == "submitContinue" || ViewBag.transactionType == "ReviewContinue"))
 {
     <script type="text/javascript">
-        CreateTrasitionEffectForSubmit();
 
-        function CreateTrasitionEffectForSubmit(){
+        $(document).ready(function(){
+            CreateTrasitionEffect();
+        })
 
-            //$('body').find('.container.body-content > div.row ').wrap("<div class='animsition' data-animsition-in='fade-in-right-lg' data-animsition-out='fade-out-left-lg' style='animation-duration: 1.5s; -webkit-animation-duration: 1.5s; opacity: 0;'> </div>");
+        //CreateTrasitionEffectForSubmit();
 
-            $('body').find('form').filter(":last").wrapInner("<div class='animsition' data-animsition-in='fade-in-right-lg' data-animsition-out='fade-out-left-lg' style='animation-duration: 1.5s; -webkit-animation-duration: 1.5s; opacity: 0;'> </div>");
+        //function CreateTrasitionEffectForSubmit(){
 
-            var script=document.createElement('script');
+        //    //$('body').find('.container.body-content > div.row ').wrap("<div class='animsition' data-animsition-in='fade-in-right-lg' data-animsition-out='fade-out-left-lg' style='animation-duration: 1.5s; -webkit-animation-duration: 1.5s; opacity: 0;'> </div>");
 
-            script.setAttribute('type','text/javascript');
+        //    $('body').find('form').filter(":last").wrapInner("<div class='animsition' data-animsition-in='fade-in-right-lg' data-animsition-out='fade-out-left-lg' style='animation-duration: 1.5s; -webkit-animation-duration: 1.5s; opacity: 0;'> </div>");
 
-            script.text=" $(document).ready(function () {$('.animsition').animsition().one('animsition.start', function () {}).one('animsition.end', function () {$(this).find('.animsition-child').addClass('zoom-in').css({'opacity': 1});})});";
+        //    var script=document.createElement('script');
 
-            $('body').append(script);
+        //    script.setAttribute('type','text/javascript');
 
-        }
+        //    script.text=" $(document).ready(function () {$('.animsition').animsition().one('animsition.start', function () {}).one('animsition.end', function () {$(this).find('.animsition-child').addClass('zoom-in').css({'opacity': 1});})});";
+
+        //    $('body').append(script);
+
+        //}
     </script>
 }

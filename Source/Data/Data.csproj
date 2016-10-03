@@ -111,6 +111,14 @@
     <Compile Include="Migrations\201609270658286_SaleEnqquirySettings.Designer.cs">
       <DependentUpon>201609270658286_SaleEnqquirySettings.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201609280934192_CarpetSkuSetting.cs" />
+    <Compile Include="Migrations\201609280934192_CarpetSkuSetting.Designer.cs">
+      <DependentUpon>201609280934192_CarpetSkuSetting.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201609290602519_CarpetSkuSettingCorrection.cs" />
+    <Compile Include="Migrations\201609290602519_CarpetSkuSettingCorrection.Designer.cs">
+      <DependentUpon>201609290602519_CarpetSkuSettingCorrection.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="NotificationApplicationDbContext.cs" />
     <Compile Include="LoginApplicationDbContext.cs" />
@@ -171,6 +179,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201609270658286_SaleEnqquirySettings.resx">
       <DependentUpon>201609270658286_SaleEnqquirySettings.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201609280934192_CarpetSkuSetting.resx">
+      <DependentUpon>201609280934192_CarpetSkuSetting.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201609290602519_CarpetSkuSettingCorrection.resx">
+      <DependentUpon>201609290602519_CarpetSkuSettingCorrection.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

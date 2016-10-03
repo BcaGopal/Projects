@@ -38,7 +38,7 @@ namespace Model.ViewModel
         public bool CalculateDiscountOnRate { get; set; }
 
         [Display(Name = "Ship Method")]
-        public int ShipMethodId { get; set; }
+        public int ? ShipMethodId { get; set; }
         public string ShipMethodName { get; set; }
 
         [Display(Name = "Delivery Terms")]
@@ -53,7 +53,7 @@ namespace Model.ViewModel
 
         [Display(Name = "Remark")]
         public string Remark { get; set; }
-        public int CurrencyId { get; set; }
+        public int ? CurrencyId { get; set; }
         public string CurrencyName { get; set; }
         
         public int? SalesTaxGroupPersonId { get; set; }

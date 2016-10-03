@@ -10,6 +10,8 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Owin.Security;
 using Planning.Models;
 using Data.Models;
+using Core.Common;
+using System.Web.Security;
 
 namespace Planning.Controllers
 {
@@ -32,8 +34,18 @@ namespace Planning.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult LogOff()
         {
+            string HomeUrl = (string)System.Web.HttpContext.Current.Session[SessionNameConstants.LoginDomain];
+
+            if (string.IsNullOrEmpty(HomeUrl))
+            {
+                throw new Exception("Login Domain is not set in Modules Project");
+            }
+
             AuthenticationManager.SignOut();
-            return RedirectToAction("Index", "Home");
+            FormsAuthentication.SignOut();
+
+            Session.Abandon();
+            return Redirect(HomeUrl);
         }
 
         protected override void Dispose(bool disposing)
