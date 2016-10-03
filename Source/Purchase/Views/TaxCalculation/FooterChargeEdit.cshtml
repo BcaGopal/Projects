@@ -21,7 +21,7 @@
         </h3>
     </div>
     <div>
-        @using (Html.BeginForm("PostCalculationFields", "PurchaseOrderHeaderCharge", FormMethod.Post, new { enctype = "multipart/form-data", id = "modformcharges" }))
+        @using (Html.BeginForm("", "", FormMethod.Post, new { enctype = "multipart/form-data", id = "modform" }))
         {
             @Html.AntiForgeryToken()
 
@@ -31,18 +31,22 @@
 
 
 
-                <div class="row">
 
-                    @foreach (var item in Model)
+                <div class="row">
+                    @{var temp = Model.ToList();}
+                    @for (int i = 0; i < Model.Count(); i++)
                     {
-                        <input type="hidden" value="@item.HeaderTableId" />
-                        <input type="hidden" value="@item.Id" />
-                        if (item.RateType == (byte)RateTypeEnum.Na)
+                        @Html.HiddenFor(m => temp[i].HeaderTableId)
+                        @Html.HiddenFor(m => temp[i].Id)
+                        @*<input type="hidden" value="@temp[i].HeaderTableId" />
+                <input type="hidden" value="@temp[i].Id" />*@
+                        if (temp[i].RateType == (byte)RateTypeEnum.Na)
                         {
                             <div class='col-md-6'>
                                 <div class='form-group'>
                                     @*<input type="text" value=i />*@
-                                    <label class='control-label col-xs-4'>@item.ChargeName</label> <div class='col-xs-7'><input class='form-control Calculation' id='CALH_@item.ChargeCode' name='CALH_ @item.ChargeCode' type='text' value='@item.Amount' @(item.ProductChargeId!=null?("readonly='true'"):(""))></div>
+                                    @*<label class='control-label col-xs-4'>@item.ChargeName</label> <div class='col-xs-7'><input class='form-control Calculation' id='CALH_@item.ChargeCode' name='CALH_ @item.ChargeCode' type='text' value='@item.Amount' @(item.ProductChargeId!=null?("readonly='true'"):(""))></div>*@
+                                    <label class='control-label col-xs-4'>@temp[i].ChargeName</label> <div class='col-xs-7'><input class='form-control Calculation' id='CALH_@temp[i].ChargeCode' name='temp[@i].Amount' type='text' value='@temp[i].Amount' @(temp[i].ProductChargeId != null ? ("readonly='true'") : (""))></div>
                                 </div>
                             </div>
 
@@ -51,13 +55,14 @@
                         {
                             <div class='col-md-6'>
                                 <div class='form-group'>
-                                    <label class='control-label col-xs-4'> @item.ChargeName</label>
+                                    <label class='control-label col-xs-4'> @temp[i].ChargeName</label>
                                     <div class='col-xs-2' style='padding-right:0px;'>
-                                        <input class='form-control cusrightnormal Calculation' id='CALH_@(item.ChargeCode+"RATE")' name='CALH_@(item.ChargeCode+"RATE")' type='text' value='@item.Rate' />
+                                        @*<input class='form-control cusrightnormal Calculation' id='CALH_@(temp[i].ChargeCode + "RATE")' name='CALH_@(temp[i].ChargeCode + "RATE")' type='text' value='@temp[i].Rate' />*@
+                                        <input class='form-control cusrightnormal Calculation' id='CALH_@(temp[i].ChargeCode + "RATE")' name='temp[@i].Rate' type='text' value='@temp[i].Rate' />
                                     </div>
-                                    <div></div>
                                     <div class='col-xs-5' style='padding-left:0px'>
-                                        <input class='form-control cusleftnormal Calculation' id='CALH_@item.ChargeCode' name='CALH_@item.ChargeCode' type='text' value='@item.Amount' />
+                                        @*<input class='form-control cusleftnormal Calculation' id='CALH_@temp[i].ChargeCode' name='CALH_@temp[i].ChargeCode' type='text' value='@temp[i].Amount' />*@
+                                        <input class='form-control cusleftnormal Calculation' id='CALH_@temp[i].ChargeCode' name='temp[@i].Amount' type='text' value='@temp[i].Amount' />
                                     </div>
                                 </div>
                             </div>
@@ -99,7 +104,7 @@
 
     $(function(){
         var url = '/TaxCalculation/PostPOCalculationFields';
-        $('form#modformcharges').attr('action',url);
+        $('form#modform').attr('action',url);
     })
 
 </script>
@@ -121,7 +126,7 @@
 
     $(function(){
         var url = '/TaxCalculation/PostPICalculationFields';
-        $('form#modformcharges').attr('action',url);
+        $('form#modform').attr('action',url);
     })
 
     </script>
@@ -143,7 +148,7 @@
 
     $(function(){
         var url = '/TaxCalculation/PostPIRCalculationFields';
-        $('form#modformcharges').attr('action',url);
+        $('form#modform').attr('action',url);
     })
 
     </script>
@@ -165,7 +170,7 @@
 
     $(function(){
         var url = '/TaxCalculation/PostPOACalculationFields';
-        $('form#modformcharges').attr('action',url);
+        $('form#modform').attr('action',url);
     })
 
     </script>
@@ -187,7 +192,7 @@
 
     $(function(){
         var url = '/TaxCalculation/PostPQCalculationFields';
-        $('form#modformcharges').attr('action',url);
+        $('form#modform').attr('action',url);
     })
 
     </script>

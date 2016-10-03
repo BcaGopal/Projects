@@ -176,7 +176,7 @@
                         <div class="form-group">
                             @Html.LabelFor(model => model.Remark, "Remark", new { @class = "control-label col-xs-4" })
                             <div class="col-xs-7">
-                                @Html.TextBoxFor(model => model.Remark, new { @class = "form-control col-xs-7 required" })
+                                @Html.TextAreaFor(model => model.Remark, new { @class = "form-control col-xs-7 required" })
                                 @Html.ValidationMessageFor(model => model.Remark, "", new { @class = "text-danger" })
                             </div>
                         </div>

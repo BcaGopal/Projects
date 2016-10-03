@@ -804,8 +804,8 @@ namespace Web
                     LedgerHeaderViewModel.ModifiedBy = pd.ModifiedBy;
                     LedgerHeaderViewModel.ModifiedDate = DateTime.Now.Date;
 
-                    IEnumerable<PurchaseInvoiceHeaderCharge> PurchaseInvoiceHeaderCharges = from H in db.PurchaseInvoiceHeaderCharge where H.HeaderTableId == Id select H;
-                    IEnumerable<PurchaseInvoiceLineCharge> PurchaseInvoiceLineCharges = from L in db.PurchaseInvoiceLineCharge where L.HeaderTableId == Id select L;
+                    IEnumerable<PurchaseInvoiceHeaderCharge> PurchaseInvoiceHeaderCharges = (from H in db.PurchaseInvoiceHeaderCharge where H.HeaderTableId == Id select H);
+                    IEnumerable<PurchaseInvoiceLineCharge> PurchaseInvoiceLineCharges = (from L in db.PurchaseInvoiceLineCharge where L.HeaderTableId == Id select L);
 
                     try
                     {

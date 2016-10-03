@@ -156,6 +156,11 @@ namespace Module
 
             #endregion
 
+            #region Menu&LoginDomains
+            System.Web.HttpContext.Current.Session[SessionNameConstants.LoginDomain] = (string)System.Configuration.ConfigurationManager.AppSettings["LoginDomain"];
+            System.Web.HttpContext.Current.Session[SessionNameConstants.MenuDomain] = (string)System.Configuration.ConfigurationManager.AppSettings["CurrentDomain"];
+            #endregion
+
         }
 
         [ValidateAntiForgeryToken]

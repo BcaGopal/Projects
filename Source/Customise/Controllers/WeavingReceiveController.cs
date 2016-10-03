@@ -193,6 +193,8 @@ namespace Web
                             ExRec = Mapper.Map<JobReceiveLine>(item2);
 
                             item2.Weight = IndividualWeight * item2.PassQty + (i == 0 ? WeightShortage : 0);
+                            item2.ModifiedBy = User.Identity.Name;
+                            item2.ModifiedDate = DateTime.Now;
                             item2.ObjectState = Model.ObjectState.Modified;
 
                             LogList.Add(new LogTypeViewModel
@@ -221,7 +223,7 @@ namespace Web
                 Header.ModifiedBy = User.Identity.Name;
             }
 
-
+            Header.ModifiedDate = DateTime.Now;
             Header.ObjectState = Model.ObjectState.Modified;
             new JobReceiveHeaderService(_unitOfWork).Update(Header);
 
@@ -333,6 +335,8 @@ namespace Web
                     ReceiveLine.PenaltyAmt = item.PenalityAmt;
                     ReceiveLine.IncentiveAmt = item.IncentiveAmt;
                     ReceiveLine.Remark = item.Remark;
+                    ReceiveLine.ModifiedBy = User.Identity.Name;
+                    ReceiveLine.ModifiedDate = DateTime.Now;
                     ReceiveLine.ObjectState = Model.ObjectState.Modified;
 
                     LogList.Add(new LogTypeViewModel
