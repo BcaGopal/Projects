@@ -54,7 +54,10 @@
     
     <div class="panel panel-default">
         <div class="panel-heading">
-            @if (ViewBag.transactionType == "submit" || ViewBag.transactionType == "submitContinue")
+
+            @CustomHelpers.RenderHeaderInfo(ViewBag.transactionType, (int?)ViewBag.PendingToSubmit, (int?)ViewBag.PendingToReview, ViewBag.Name)
+
+            @*@if (ViewBag.transactionType == "submit" || ViewBag.transactionType == "submitContinue")
             {<h3>
                  <button type="submit" name="Command:Submit" class="btn btn-primary right" id="SubmitContinue" style="margin-left:5px;">Submit & Next<span class='badge'>@(ViewBag.PendingToSubmit != 0 ? ViewBag.PendingToSubmit : "")</span></button>
                 <button type="submit"  name="Command:Submit" class="btn btn-primary right">Submit</button>
@@ -80,10 +83,10 @@
                 <h3>
                     <span style="font-family: Calibri,sans-serif,Verdana;font-weight:bold" class="black"> <span class="glyphicon glyphicon-file black"></span>@ViewBag.Name</span>
                     <input type="submit" value="Save" class="btn btn-primary right" id="submit" style="width: 90px; background-color: #2980b9" />
-                </h3>
-                @Html.ActionLink("For Indent", "_ForIndent", "PurchaseOrderLine", new { id = @Model.PurchaseOrderHeaderId, sid = @Model.SupplierId }, new { data_modal = "", id = "btnCreateF", @class = "btn btn-primary borderradii", @title = "For Indent", @data_toggle = "tooltip" })
-            }
+                </h3>                
+            }*@
 
+            @Html.ActionLink("For Indent", "_ForIndent", "PurchaseOrderLine", new { id = @Model.PurchaseOrderHeaderId, sid = @Model.SupplierId }, new { data_modal = "", id = "btnCreateF", @class = "btn btn-primary borderradii", @title = "For Indent", @data_toggle = "tooltip", @data_detailDeleted = "true" })
 
             <hr style="margin-top:0px;margin-bottom:0px" />
 
@@ -275,7 +278,7 @@
                         else if (Model.Status == (int)StatusConstants.Approved)
                         { Action = "CreateLineAfter_Approve"; }
                         }
-                        @Html.ActionLink("Add New Row ", Action, "PurchaseOrderLine", new { id = @Model.PurchaseOrderHeaderId, sid = @Model.SupplierId }, new { data_modalCustom = "", id = "btnCreate", @class = "toolbar", @title = "Add New", @data_toggle = "tooltip" })
+                        @Html.ActionLink("Add New Row ", Action, "PurchaseOrderLine", new { id = @Model.PurchaseOrderHeaderId, sid = @Model.SupplierId }, new { data_modal = "", id = "btnCreate", @class = "toolbar", @title = "Add New", @data_toggle = "tooltip", @data_detailDisabled = "true" })
                     </h5>
                 </div>
                 <div style="padding-right:15px">
@@ -393,91 +396,7 @@
             $("#DocNo").on("change", function () {
                 $(this).DuplicateCheckForCreate({ name: 'PurchaseOrderHeader', value: $(this).val(), doctype: $("#DocTypeId").val() });
             });
-
         });
-
-        //For Populating Modal PopUp on DoubleClick Of Row
-        $('#gbody').on("dblclick",'.grid-body',function(){
-            var text = $(this).find(".id").val();
-            var editurl=$(this).find('a[edit]').attr('href');
-            $('#myModalContent').load(editurl, function ( response, status, xhr) {
-                //alert('2');
-
-                if ( status == "error" ) {
-                }
-                else
-                {
-                    $('#myModal').modal({
-                        backdrop: 'static',
-                        keyboard: true
-                    }, 'show');
-
-                    bindForm1(this);
-                }
-            });
-        });
-
-        //For Populating Modal PopUp on DoubleClick Of Row
-        $('#gbodycharges').on("dblclick",'.grid-body',function(){
-            var text = $(this).find(".id").val();
-
-            var editurl="/TaxCalculation/GetPOHeaderChargeForEdit/";
-            $('#myModalContent').load(editurl,{Id:text,HeaderTable:"Web.PurchaseOrderHeaderCharges",LineTable:"Web.PurchaseOrderLineCharges"}, function ( response, status, xhr) {
-                //alert('2');
-                if ( status == "error" ) {
-                    var msg = "Sorry but there was an error: ";
-
-                }
-                else
-                {
-                    $('#myModal').modal({
-                        backdrop: 'static',
-                        keyboard: true
-                    }, 'show');
-
-                    bindForm1(this);}
-            });
-        });
-
-        //For Handling Modal PopUp on Clicking Delete Icon
-        $('#gbody').on("click",'a[Detail]', function (e) {
-            $('#myModalContent').load(this.href, function (response, status, xhr) {
-                //alert('2');
-                if ( status == "error" ) {
-                    var msg = "Sorry but there was an error: ";
-                }
-                else
-                {
-                    $('#myModal').modal({
-                        backdrop: 'static',
-                        keyboard: true
-                    }, 'show');
-
-                    bindForm1(this);}
-            });
-            return false;
-        });
-
-
-        //For Handling Modal PopUp on Clicking Delete Icon
-        $('#gbody').on("click",'a[delete]', function (e) {
-            $('#myModalContent').load(this.href, function (response, status, xhr) {
-                //alert('2');
-                if ( status == "error" ) {
-                    var msg = "Sorry but there was an error: ";
-                }
-                else
-                {
-                    $('#myModal').modal({
-                        backdrop: 'static',
-                        keyboard: true
-                    }, 'show');
-
-                    bindForm1(this);}
-            });
-            return false;
-        });
-
 
         var id=@Model.PurchaseOrderHeaderId;
         if(id==null||id==0)
@@ -493,14 +412,99 @@
         $('#myModal').on('hidden.bs.modal', function () {
             LoadProducts();
             var id=@Model.PurchaseOrderHeaderId;
-            LoadCharges(id,"Web.PurchaseOrderHeaderCharges","Web.PurchaseOrderLineCharges");
+            LoadCharges(id,"Web.PurchaseOrderHeaderCharges","Web.PurchaseOrderLineCharges","/TaxCalculation/GetPOHeaderChargeForEdit/");
         });
 
+        $(document).ready(function(){
+            enableModalTransitions();
+        })
+
+        ////For Populating Modal PopUp on DoubleClick Of Row
+        //$('#gbody').on("dblclick",'.grid-body',function(){
+        //    var text = $(this).find(".id").val();
+        //    var editurl=$(this).find('a[edit]').attr('href');
+        //    $('#myModalContent').load(editurl, function ( response, status, xhr) {
+        //        //alert('2');
+
+        //        if ( status == "error" ) {
+        //        }
+        //        else
+        //        {
+        //            $('#myModal').modal({
+        //                backdrop: 'static',
+        //                keyboard: true
+        //            }, 'show');
+
+        //            bindForm1(this);
+        //        }
+        //    });
+        //});
+
+        ////For Populating Modal PopUp on DoubleClick Of Row
+        //$('#gbodycharges').on("dblclick",'.grid-body',function(){
+        //    var text = $(this).find(".id").val();
+
+        //    var editurl="/TaxCalculation/GetPOHeaderChargeForEdit/";
+        //    $('#myModalContent').load(editurl,{Id:text,HeaderTable:"Web.PurchaseOrderHeaderCharges",LineTable:"Web.PurchaseOrderLineCharges"}, function ( response, status, xhr) {
+        //        //alert('2');
+        //        if ( status == "error" ) {
+        //            var msg = "Sorry but there was an error: ";
+
+        //        }
+        //        else
+        //        {
+        //            $('#myModal').modal({
+        //                backdrop: 'static',
+        //                keyboard: true
+        //            }, 'show');
+
+        //            bindForm1(this);}
+        //    });
+        //});
+
+        ////For Handling Modal PopUp on Clicking Delete Icon
+        //$('#gbody').on("click",'a[Detail]', function (e) {
+        //    $('#myModalContent').load(this.href, function (response, status, xhr) {
+        //        //alert('2');
+        //        if ( status == "error" ) {
+        //            var msg = "Sorry but there was an error: ";
+        //        }
+        //        else
+        //        {
+        //            $('#myModal').modal({
+        //                backdrop: 'static',
+        //                keyboard: true
+        //            }, 'show');
+
+        //            bindForm1(this);}
+        //    });
+        //    return false;
+        //});
+
+
+        ////For Handling Modal PopUp on Clicking Delete Icon
+        //$('#gbody').on("click",'a[delete]', function (e) {
+        //    $('#myModalContent').load(this.href, function (response, status, xhr) {
+        //        //alert('2');
+        //        if ( status == "error" ) {
+        //            var msg = "Sorry but there was an error: ";
+        //        }
+        //        else
+        //        {
+        //            $('#myModal').modal({
+        //                backdrop: 'static',
+        //                keyboard: true
+        //            }, 'show');
+
+        //            bindForm1(this);}
+        //    });
+        //    return false;
+        //});      
 
         //To focus on the first element on modal load
-        $('#myModal').on('shown.bs.modal', function () {
-            $("#ProductId").select2("focus");
-        });
+        //$('#myModal').on('shown.bs.modal', function () {
+        //    $("#ProductId").select2("focus");
+        //});
 
 
 
@@ -509,158 +513,158 @@
 
 
 
-        function PurchaseOrderChargeModel() {
-            var self = this;
-            self.PurchaseOrderLineId = $("#PurchaseOrderLineId").val();
-            self.PurchaseOrderHeaderId = $("#PurchaseOrderHeaderId").val();
-            self.PurchaseIndentLineId = $("#PurchaseIndentLineId").val();
-            self.ProductId = $("#ProductId").val();
-            self.PurchaseIndentDocNo = $("#PurchaseIndentDocNo").val();
-            self.ProductName = $("#ProductName").val();
-            self.Dimension1Id = $("#Dimension1Id").val();
-            self.Dimension2Id = $("#Dimension2Id").val();
-            self.Specification = $("#Specification").val();
-            self.SupplierId = $("#SupplierId").val();
-            self.ShipDate = $("#ShipDate").val();
-            self.LotNo = $("#LotNo").val();
-            self.DueDate = $("#DueDate").val();
-            self.DealUnitId = $("#DealUnitId").val();
-            self.DealQty = $("#DealQty").val();
-            self.Rate = $("#Rate").val();
-            self.DiscountPer = $("#DiscountPer").val();
-            self.Amount = $("#Amount").val();
-            self.Remark = $("#Remark").val();
-            self.UnitConversionMultiplier = $("#UnitConversionMultiplier").val();
-            self.UnitId = $("#UnitId").val();
-            self.Qty = $("#Qty").val();
-            self.__RequestVerificationToken= $('[name=__RequestVerificationToken]').val();
-            var settings=new SettingsViewModel();
-            self.PurchOrderSettings=settings;
+        //function PurchaseOrderChargeModel() {
+        //    var self = this;
+        //    self.PurchaseOrderLineId = $("#PurchaseOrderLineId").val();
+        //    self.PurchaseOrderHeaderId = $("#PurchaseOrderHeaderId").val();
+        //    self.PurchaseIndentLineId = $("#PurchaseIndentLineId").val();
+        //    self.ProductId = $("#ProductId").val();
+        //    self.PurchaseIndentDocNo = $("#PurchaseIndentDocNo").val();
+        //    self.ProductName = $("#ProductName").val();
+        //    self.Dimension1Id = $("#Dimension1Id").val();
+        //    self.Dimension2Id = $("#Dimension2Id").val();
+        //    self.Specification = $("#Specification").val();
+        //    self.SupplierId = $("#SupplierId").val();
+        //    self.ShipDate = $("#ShipDate").val();
+        //    self.LotNo = $("#LotNo").val();
+        //    self.DueDate = $("#DueDate").val();
+        //    self.DealUnitId = $("#DealUnitId").val();
+        //    self.DealQty = $("#DealQty").val();
+        //    self.Rate = $("#Rate").val();
+        //    self.DiscountPer = $("#DiscountPer").val();
+        //    self.Amount = $("#Amount").val();
+        //    self.Remark = $("#Remark").val();
+        //    self.UnitConversionMultiplier = $("#UnitConversionMultiplier").val();
+        //    self.UnitId = $("#UnitId").val();
+        //    self.Qty = $("#Qty").val();
+        //    self.__RequestVerificationToken= $('[name=__RequestVerificationToken]').val();
+        //    var settings=new SettingsViewModel();
+        //    self.PurchOrderSettings=settings;
 
-            self.linecharges =charges;
-            self.footercharges=footercharges;
-        }
-        var charges;
-        var footercharges;
+        //    self.linecharges =charges;
+        //    self.footercharges=footercharges;
+        //}
+        //var charges;
+        //var footercharges;
 
-        function SettingsViewModel(){
-            var self=this;
-            var settings;
+        //function SettingsViewModel(){
+        //    var self=this;
+        //    var settings;
 
-            self.isPostedInStockVirtual=$("#PurchOrderSettings_isPostedInStockVirtual").val();
-            self.CalculationId=$("#PurchOrderSettings_CalculationId").val();
-            self.isVisibleDimension1=$("#PurchOrderSettings_isVisibleDimension1").val();
-            self.isVisibleDimension2=$("#PurchOrderSettings_isVisibleDimension2").val();
-            self.isVisibleLotNo=$("#PurchOrderSettings_isVisibleLotNo").val();
-            self.isMandatoryRate=$("#PurchOrderSettings_isMandatoryRate").val();
-            self.isEditableRate=$("#PurchOrderSettings_isEditableRate").val();
+        //    self.isPostedInStockVirtual=$("#PurchOrderSettings_isPostedInStockVirtual").val();
+        //    self.CalculationId=$("#PurchOrderSettings_CalculationId").val();
+        //    self.isVisibleDimension1=$("#PurchOrderSettings_isVisibleDimension1").val();
+        //    self.isVisibleDimension2=$("#PurchOrderSettings_isVisibleDimension2").val();
+        //    self.isVisibleLotNo=$("#PurchOrderSettings_isVisibleLotNo").val();
+        //    self.isMandatoryRate=$("#PurchOrderSettings_isMandatoryRate").val();
+        //    self.isEditableRate=$("#PurchOrderSettings_isEditableRate").val();
 
-        }
-
-
-        //For posting the data through ajax and render the contents sent back from the server
-        function bindForm1(dialog) {
-            //alert("binding1");
-            $('form#modform', dialog).submit(function () {
-                //alert(this.action);
-                charges= AssignValuesToCharges();
-                footercharges=AssignValuesToFooter();
-
-                var request = new PurchaseOrderChargeModel();
-                //var token=$('input[name="__RequestVerificationToken"]', 'form').val();
-                //var headers = {};
-                // other headers omitted
-                //headers['__RequestVerificationToken'] = token;
-
-                $.ajax({
-                    contentType:'application/json',
-                    //headers: headers,
-                    url: this.action,
-                    type: this.method,
-                    data:JSON.stringify(request),
-                    success: function (result) {
-                        if (result.success) {
-                            $('#myModal').modal('hide');
-                            //Refresh
-                            //location.reload();
-                            //alert('Data Saved');
-                        }else if(!result.success)
-                        {
-                            $('#myModalContent').html(result);
-                            bindForm1();
-                        }
-                        else {
-                            $('#myModalContent').html(result);
-                            bindForm1();
-                        }
-                    },
-                });
-                return false;
-            });
+        //}
 
 
-            $('form#modformcharges', dialog).submit(function () {
-                //alert(this.action);
+        ////For posting the data through ajax and render the contents sent back from the server
+        //function bindForm1(dialog) {
+        //    //alert("binding1");
+        //    $('form#modform', dialog).submit(function () {
+        //        //alert(this.action);
+        //        charges= AssignValuesToCharges();
+        //        footercharges=AssignValuesToFooter();
 
-                footercharges=AssignValuesToFooter();
+        //        var request = new PurchaseOrderChargeModel();
+        //        //var token=$('input[name="__RequestVerificationToken"]', 'form').val();
+        //        //var headers = {};
+        //        // other headers omitted
+        //        //headers['__RequestVerificationToken'] = token;
 
-                $.ajax({
-                    contentType:'application/json',
-                    url: this.action,
-                    type: this.method,
-                    data:JSON.stringify(footercharges),
-                    success: function (result) {
-                        if (result.success) {
-                            $('#myModal').modal('hide');
-                            //Refresh
-                            //location.reload();
-                            //alert('Data Saved');
-                        }else if(!result.success)
-                        {
-                            $('#myModalContent').html(result);
-                            bindForm1();
-                        }
-                        else {
-                            $('#myModalContent').html(result);
-                            bindForm1();
-                        }
-                    }
-                });
-                return false;
-            });
+        //        $.ajax({
+        //            contentType:'application/json',
+        //            //headers: headers,
+        //            url: this.action,
+        //            type: this.method,
+        //            data:JSON.stringify(request),
+        //            success: function (result) {
+        //                if (result.success) {
+        //                    $('#myModal').modal('hide');
+        //                    //Refresh
+        //                    //location.reload();
+        //                    //alert('Data Saved');
+        //                }else if(!result.success)
+        //                {
+        //                    $('#myModalContent').html(result);
+        //                    bindForm1();
+        //                }
+        //                else {
+        //                    $('#myModalContent').html(result);
+        //                    bindForm1();
+        //                }
+        //            },
+        //        });
+        //        return false;
+        //    });
 
-        }
 
-        $(function () {
+        //    $('form#modformcharges', dialog).submit(function () {
+        //        //alert(this.action);
 
-            $.ajaxSetup({ cache: false });
+        //        footercharges=AssignValuesToFooter();
 
-            $("a[data-modalCustom]").on("click", function (e) {
-                // hide dropdown if any
-                if(this.href=="")
-                {
-                    return false;
-                }
-                //alert(' Script');
-                $('#myModalContent').load(this.href, function () {
-                    $('#myModal').modal({
-                        backdrop: 'static',
-                        keyboard: true
-                    }, 'show');
+        //        $.ajax({
+        //            contentType:'application/json',
+        //            url: this.action,
+        //            type: this.method,
+        //            data:JSON.stringify(footercharges),
+        //            success: function (result) {
+        //                if (result.success) {
+        //                    $('#myModal').modal('hide');
+        //                    //Refresh
+        //                    //location.reload();
+        //                    //alert('Data Saved');
+        //                }else if(!result.success)
+        //                {
+        //                    $('#myModalContent').html(result);
+        //                    bindForm1();
+        //                }
+        //                else {
+        //                    $('#myModalContent').html(result);
+        //                    bindForm1();
+        //                }
+        //            }
+        //        });
+        //        return false;
+        //    });
 
-                    bindForm1(this);
-                });
+        //}
 
-                return false;
-            });
-        });
+        //$(function () {
+
+        //    $.ajaxSetup({ cache: false });
+
+        //    $("a[data-modalCustom]").on("click", function (e) {
+        //        // hide dropdown if any
+        //        if(this.href=="")
+        //        {
+        //            return false;
+        //        }
+        //        //alert(' Script');
+        //        $('#myModalContent').load(this.href, function () {
+        //            $('#myModal').modal({
+        //                backdrop: 'static',
+        //                keyboard: true
+        //            }, 'show');
+
+        //            bindForm1(this);
+        //        });
+
+        //        return false;
+        //    });
+        //});
 
     </script>
 
 }
 <script type="text/javascript">
 
-    $('a#PrintRecord').click(function (e) {
+    @*$('a#PrintRecord').click(function (e) {
 
         var editiiid = $('#PurchaseOrderHeaderId').val();
 
@@ -678,7 +682,7 @@
         }
         $(this).attr('href', url);
         return;
-    })  
+    })*@  
 
 
     CustomSelectFunction($("#SupplierId"), '/ComboHelpList/GetSuppliers', '/ComboHelpList/SetSingleSupplier', ' ', false, 1);
@@ -694,14 +698,8 @@
 
         var id=@Model.PurchaseOrderHeaderId;
 
-        LoadCharges(id,"Web.PurchaseOrderHeaderCharges","Web.PurchaseOrderLineCharges");
+        LoadCharges(id,"Web.PurchaseOrderHeaderCharges","Web.PurchaseOrderLineCharges","/TaxCalculation/GetPOHeaderChargeForEdit/");
     });
-
-
-    function AddFields(){
-        $('form:last').append($("<input type='hidden' name='UserRemark'></input>"))
-    }
-
 
     function LoadProducts() {
         var DomainName='@System.Configuration.ConfigurationManager.AppSettings["AdminSetupDomain"]';
@@ -785,7 +783,7 @@
                             +"          </div>"
                             +"      </div>"
                             +"      <div class='block' style='width:5%'>"
-                            +"          <a class='glyphicon glyphicon-trash icon-Cus-Size' delete='' href='"+LineDeleteUrl+item.PurchaseOrderLineId+"'></a>"
+                            +"          <a class='glyphicon glyphicon-trash icon-Cus-Size' data-modal='' data-detailDisabled='true' delete='' href='"+LineDeleteUrl+item.PurchaseOrderLineId+"'></a>"
                             +"          <a  edit='' href='"+LineEditUrl+item.PurchaseOrderLineId+"'></a>"
                             +"      </div>"
                             +"</div>"
@@ -856,26 +854,30 @@
 {
     <script type="text/javascript">
 
-        RemoveFields();
+        $(document).ready(function(){
+            DisablePageNavigation();
+        })
 
-        function RemoveFields(){
-            //Disabling input fields
-            $(':input:not(:submit,#IsContinue)').attr('disabled','disabled');
+        //RemoveFields();
 
-            //Removing all the events from the newly created lines
-            $('#gbody').unbind();
+        //function RemoveFields(){
+        //    //Disabling input fields
+        //    $(':input:not(:submit,#IsContinue)').attr('disabled','disabled');
 
-            //Removing Add New Row ActionLink
-            $('a#btnCreate').parents('h5')[0].remove();
+        //    //Removing all the events from the newly created lines
+        //    $('#gbody').unbind();
+
+        //    //Removing Add New Row ActionLink
+        //    $('a#btnCreate').parents('h5')[0].remove();
 
 
-            //Preventing the click event on newly created elements
-            $(document).on('click','#gbody a:not(:has([Detail]))',function(event){
-                event.preventDefault();
-            })
-            //Removing the action link from the form so that the request will be redirected to the Submit function in the controller instead of the hardcoded path
-            $('form:last').prop('action','');
-        }
+        //    //Preventing the click event on newly created elements
+        //    $(document).on('click','#gbody a:not(:has([Detail]))',function(event){
+        //        event.preventDefault();
+        //    })
+        //    //Removing the action link from the form so that the request will be redirected to the Submit function in the controller instead of the hardcoded path
+        //    $('form:last').prop('action','');
+        //}
 
 
     </script>
@@ -886,53 +888,57 @@
 {
     <script type="text/javascript">
 
-        var href = '/ActivityLog/LogEditReason';
-
-        var $btnClicked;
-
-        $(':submit').bind('click', function () {
-            $btnClicked=$(this);            
-            $('#myModalContent').load(href, function () {
-                
-                $('#myModal').modal({
-                    backdrop: 'static',
-                    keyboard: true
-                }, 'show');
-
-                bindForm1(this);
-            });
-
-            return false;
+        $(document).ready(function(){
+            enableActivityLogReason();
         })
 
-        function bindForm1(dialog) {
+        //var href = '/ActivityLog/LogEditReason';
 
-            $('#modformr', dialog).submit(function () {
+        //var $btnClicked;
 
-                $.ajax({
-                    url: this.action,
-                    type: this.method,
-                    data: $(this).serialize(),
-                    success: function (result) {
-                        if (result.success) {
-                            $('#myModal').modal('hide');
+        //$(':submit').bind('click', function () {
+        //    $btnClicked=$(this);            
+        //    $('#myModalContent').load(href, function () {
+                
+        //        $('#myModal').modal({
+        //            backdrop: 'static',
+        //            keyboard: true
+        //        }, 'show');
 
-                            $(':submit').unbind();
+        //        bindForm1(this);
+        //    });
 
-                            $('input[name="UserRemark"]').val(result.UserRemark);
+        //    return false;
+        //})
 
-                            $btnClicked.trigger('click');
+        //function bindForm1(dialog) {
 
-                        } else {
-                            $('#myModalContent').html(result);
-                            bindForm1();
-                        }
-                    }
-                });
-                return false;
-            });
+        //    $('#modformr', dialog).submit(function () {
 
-        }
+        //        $.ajax({
+        //            url: this.action,
+        //            type: this.method,
+        //            data: $(this).serialize(),
+        //            success: function (result) {
+        //                if (result.success) {
+        //                    $('#myModal').modal('hide');
+
+        //                    $(':submit').unbind();
+
+        //                    $('input[name="UserRemark"]').val(result.UserRemark);
+
+        //                    $btnClicked.trigger('click');
+
+        //                } else {
+        //                    $('#myModalContent').html(result);
+        //                    bindForm1();
+        //                }
+        //            }
+        //        });
+        //        return false;
+        //    });
+
+        //}
 
     </script>
 }
@@ -940,22 +946,27 @@
 @if (ViewBag.transactionType != null && (ViewBag.transactionType == "submitContinue" || ViewBag.transactionType == "ReviewContinue"))
 {
     <script type="text/javascript">
-        CreateTrasitionEffectForSubmit();    
+
+        $(document).ready(function(){
+            CreateTrasitionEffect();
+        })
+
+        //CreateTrasitionEffectForSubmit();    
         
-        function CreateTrasitionEffectForSubmit() {
+        //function CreateTrasitionEffectForSubmit() {
 
-            //$('body').find('.container.body-content > div.row ').wrap("<div class='animsition' data-animsition-in='fade-in-right-lg' data-animsition-out='fade-out-left-lg' style='animation-duration: 1.5s; -webkit-animation-duration: 1.5s; opacity: 0;'> </div>");
+        //    //$('body').find('.container.body-content > div.row ').wrap("<div class='animsition' data-animsition-in='fade-in-right-lg' data-animsition-out='fade-out-left-lg' style='animation-duration: 1.5s; -webkit-animation-duration: 1.5s; opacity: 0;'> </div>");
 
-            $('body').find('form').filter(":last").wrapInner("<div class='animsition' data-animsition-in='fade-in-right-lg' data-animsition-out='fade-out-left-lg' style='animation-duration: 1.5s; -webkit-animation-duration: 1.5s; opacity: 0;'> </div>");
+        //    $('body').find('form').filter(":last").wrapInner("<div class='animsition' data-animsition-in='fade-in-right-lg' data-animsition-out='fade-out-left-lg' style='animation-duration: 1.5s; -webkit-animation-duration: 1.5s; opacity: 0;'> </div>");
 
-            var script = document.createElement('script');
+        //    var script = document.createElement('script');
 
-            script.setAttribute('type', 'text/javascript');
+        //    script.setAttribute('type', 'text/javascript');
 
-            script.text = " $(document).ready(function () {$('.animsition').animsition().one('animsition.start', function () {}).one('animsition.end', function () {$(this).find('.animsition-child').addClass('zoom-in').css({'opacity': 1});})});";
+        //    script.text = " $(document).ready(function () {$('.animsition').animsition().one('animsition.start', function () {}).one('animsition.end', function () {$(this).find('.animsition-child').addClass('zoom-in').css({'opacity': 1});})});";
 
-            $('body').append(script);
+        //    $('body').append(script);
 
-        }
+        //}
     </script>
 }

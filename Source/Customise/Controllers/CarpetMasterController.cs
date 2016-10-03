@@ -17,6 +17,7 @@ using System.IO;
 using ImageResizer;
 using System.Data.SqlClient;
 using Model.ViewModel;
+using AutoMapper;
 
 namespace Web
 {
@@ -389,6 +390,11 @@ namespace Web
             vm.DivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
             vm.SiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
             vm.IsActive = true;
+            CarpetSkuSettings temp = new CarpetSkuSettingsService(_unitOfWork).GetCarpetSkuSettings(vm.DivisionId, vm.SiteId);
+            vm.CarpetSkuSettings = Mapper.Map<CarpetSkuSettings, CarpetSkuSettingsViewModel>(temp);
+            //For Setting Default Values because these fields are mandatory
+            vm.ProductDesignId = temp.ProductDesignId;
+            vm.OriginCountryId = temp.OriginCountryId;
             PrepareViewBag(null);
             return View(vm);
         }
@@ -464,6 +470,9 @@ namespace Web
                 //vm.ProductTypeAttributes 
                 vm.ProductTypeAttributes = new ProductTypeAttributeService(_unitOfWork).GetAttributeForProduct(product.ProductId).ToList();
                 System.Web.HttpContext.Current.Session["list"] = vm.ProductTypeAttributes.ToList();
+                int SiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
+                CarpetSkuSettings Stng = new CarpetSkuSettingsService(_unitOfWork).GetCarpetSkuSettings(vm.DivisionId, SiteId);
+                vm.CarpetSkuSettings = Mapper.Map<CarpetSkuSettings, CarpetSkuSettingsViewModel>(Stng);
                 PrepareDivisionViewBag();
                 PrepareViewBag(vm);
                 return View("Create", vm);
@@ -482,6 +491,9 @@ namespace Web
                 ViewBag.Sample = sample;
                 ViewBag.SampleId = ((sample == false) ? 0 : 1);
                 vm.IsSample = sample;
+                int SiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
+                CarpetSkuSettings Stng = new CarpetSkuSettingsService(_unitOfWork).GetCarpetSkuSettings(vm.DivisionId, SiteId);
+                vm.CarpetSkuSettings = Mapper.Map<CarpetSkuSettings, CarpetSkuSettingsViewModel>(Stng);
                 PrepareViewBag(vm);
                 PrepareDivisionViewBag();
                 int producttypeid = new ProductTypeService(_unitOfWork).GetProductTypeByName(ProductTypeConstants.Rug).ProductTypeId;
@@ -1398,6 +1410,11 @@ namespace Web
             vm.ProductTypeAttributes = (List<ProductTypeAttributeViewModel>)System.Web.HttpContext.Current.Session["list"];
             vm.ProductShapeId = (int)ProductShapeConstants.Rectangle;
 
+            int DivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
+            int SiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
+            CarpetSkuSettings Stng = new CarpetSkuSettingsService(_unitOfWork).GetCarpetSkuSettings(DivisionId, SiteId);
+            vm.CarpetSkuSettings = Mapper.Map<CarpetSkuSettings, CarpetSkuSettingsViewModel>(Stng);
+
             return PartialView("EditSize", vm);
         }
         [HttpGet]
@@ -1433,6 +1450,11 @@ namespace Web
             vm.MapType = temp.MapType;
             vm.MapScale = temp.MapScale;
             vm.CBM = temp.CBM;
+
+
+            int SiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
+            CarpetSkuSettings Stng = new CarpetSkuSettingsService(_unitOfWork).GetCarpetSkuSettings(vm.DivisionId, SiteId);
+            vm.CarpetSkuSettings = Mapper.Map<CarpetSkuSettings, CarpetSkuSettingsViewModel>(Stng);
 
             ////Setting ProductSupplier Details
             //var ProductSupplier = new ProductSupplierService(_unitOfWork).GetDefaultSupplier(vm.ProductId);

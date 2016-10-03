@@ -109,6 +109,8 @@
     <Compile Include="Models\AttendanceHeader.cs" />
     <Compile Include="Models\AttendanceLine.cs" />
     <Compile Include="Models\BusinessSession.cs" />
+    <Compile Include="Models\OverTimeApplicationLine.cs" />
+    <Compile Include="Models\OverTimeApplicationHeader.cs" />
     <Compile Include="Models\SaleEnquiryLineExtended.cs" />
     <Compile Include="Models\JobOrderHeaderExtended.cs" />
     <Compile Include="Models\MaterialPlanCancelHeader.cs" />
@@ -183,6 +185,7 @@
     <Compile Include="ViewModels\PurchaseQuotationSettingsViewModel.cs" />
     <Compile Include="ViewModels\SaleDispatchLineViewModel.cs" />
     <Compile Include="ViewModels\SaleDispatchSettingsViewModel.cs" />
+    <Compile Include="ViewModels\CarpetSkuSettingsViewModel.cs" />
     <Compile Include="ViewModels\SaleEventArgs.cs" />
     <Compile Include="ViewModels\SaleEnquiryHeaderViewModels.cs" />
     <Compile Include="ViewModels\SaleEnquiryLineViewModel.cs" />

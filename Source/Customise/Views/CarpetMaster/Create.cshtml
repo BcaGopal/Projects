@@ -62,7 +62,7 @@
                 <div class="row">
                     <h4 class="col-md-12 black" style="margin-top:15px">
                         <span class="glyphicon glyphicon-align-justify"></span>
-                        1.Basic Detail
+                        Basic Detail
                     </h4>
                     <div>
                         <div class="row">
@@ -134,7 +134,7 @@
                 <div class="row">
                     <h4 class="col-md-12 black" style="margin-top:15px">
                         <span class="glyphicon glyphicon-align-justify"></span>
-                        2.Specification
+                        Specification
                     </h4>
                     <div>
                         <div class="row">
@@ -160,7 +160,8 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-md-6" style="display:@(Model.CarpetSkuSettings.isVisibleProductDesign ? "" : "none")">
+                                @Html.HiddenFor(m => m.CarpetSkuSettings.isVisibleProductDesign)
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.ProductDesignId, "Colour Ways", new { @class = "control-label col-xs-4" })
                                     <div class="col-xs-6">
@@ -169,7 +170,8 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-6" style="display:@(Model.CarpetSkuSettings.isVisibleProductStyle ? "" : "none")">
+                                @Html.HiddenFor(m => m.CarpetSkuSettings.isVisibleProductStyle)
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.ProductStyleId, "Style", new { @class = "control-label col-xs-4" })
                                     <div class="col-xs-6">
@@ -180,7 +182,8 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-md-6" style="display:@(Model.CarpetSkuSettings.isVisibleColour ? "" : "none")">
+                                @Html.HiddenFor(m => m.CarpetSkuSettings.isVisibleColour)
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.ColourId, "Colour", new { @class = "control-label col-xs-4" })
                                     <div class="col-xs-6">
@@ -189,7 +192,8 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-6" style="display:@(Model.CarpetSkuSettings.isVisibleProductManufacturer ? "" : "none")">
+                                @Html.HiddenFor(m => m.CarpetSkuSettings.isVisibleProductManufacturer)
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.ProductManufacturerId, "Designer", new { @class = "control-label col-xs-4" })
                                     <div class="col-xs-6">
@@ -208,7 +212,7 @@
                 <div class="row">
                     <h4 class="col-md-12 black" style="margin-top:15px">
                         <span class="glyphicon glyphicon-align-justify"></span>
-                        3.Production Detail
+                        Production Detail
                     </h4>
                     <div>
                         <div class="row">
@@ -221,7 +225,8 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-6" style="display:@(Model.CarpetSkuSettings.isVisibleProductDesignPattern ? "" : "none")">
+                                @Html.HiddenFor(m => m.CarpetSkuSettings.isVisibleProductDesignPattern)
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.ProductDesignPatternId, "Design Pattern", new { @class = "control-label col-xs-4" })
                                     <div class="col-xs-6">
@@ -232,7 +237,8 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-md-6" style="display:@(Model.CarpetSkuSettings.isVisibleContent ? "" : "none")">
+                                @Html.HiddenFor(m => m.CarpetSkuSettings.isVisibleContent)
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.ContentId, "Content", new { @class = "control-label col-xs-4" })
                                     <div class="col-xs-6">
@@ -266,14 +272,15 @@
                 </div>
 
                 <hr style="margin-top:0px;margin-bottom:0px;" />
-                <div class="row">
+                <div class="row" style="display:@(Model.CarpetSkuSettings.isVisibleOriginCountry || Model.CarpetSkuSettings.isVisibleInvoiceGroup ? "" : "none")">
                     <h4 class="col-md-12 black" style="margin-top:15px">
                         <span class="glyphicon glyphicon-align-justify"></span>
-                        4.Shipping Detail
+                        Shipping Detail
                     </h4>
                     <div>
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-md-6" style="display:@(Model.CarpetSkuSettings.isVisibleOriginCountry ? "" : "none")">
+                                @Html.HiddenFor(m => m.CarpetSkuSettings.isVisibleOriginCountry)
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.OriginCountryId, "Origin", new { @class = "control-label col-xs-4" })
                                     <div class="col-xs-6">
@@ -282,7 +289,8 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-6" style="display:@(Model.CarpetSkuSettings.isVisibleInvoiceGroup ? "" : "none")">
+                                @Html.HiddenFor(m => m.CarpetSkuSettings.isVisibleInvoiceGroup)
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.ProductInvoiceGroupId, "Invoice Group", new { @class = "control-label col-xs-4" })
                                     <div class="col-xs-6">
@@ -293,7 +301,8 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-md-6" style="display:@(Model.CarpetSkuSettings.isVisibleDrawbackTarrif ? "" : "none")">
+                                @Html.HiddenFor(m => m.CarpetSkuSettings.isVisibleDrawbackTarrif)
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.DrawBackTariffHeadId, "Drawback Tariff", new { @class = "control-label col-xs-4" })
                                     <div class="col-xs-6">
@@ -302,7 +311,8 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-6" style="display:@(Model.CarpetSkuSettings.isVisibleStandardCost ? "" : "none")">
+                                @Html.HiddenFor(m => m.CarpetSkuSettings.isVisibleStandardCost)
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.StandardCost, "Standard Cost", new { @class = "control-label col-xs-4" })
                                     <div class="col-xs-6">
@@ -313,7 +323,8 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-md-6" style="display:@(Model.CarpetSkuSettings.isVisibleStandardWeight ? "" : "none")">
+                                @Html.HiddenFor(m => m.CarpetSkuSettings.isVisibleStandardWeight)
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.StandardWeight, "Finished Weight(PSF)", new { @class = "control-label col-xs-4" })
                                     <div class="col-xs-6">
@@ -328,10 +339,10 @@
 
 
                 <hr style="margin-top:0px;margin-bottom:0px;" />
-                <div class="row">
+                <div class="row" style="display:@(Model.CarpetSkuSettings.isVisibleSupplierDetail ? "" : "none")">
                     <h4 class="col-md-12 black" style="margin-top:15px">
                         <span class="glyphicon glyphicon-align-justify"></span>
-                        5.Default Supplier Details
+                        Default Supplier Details
                     </h4>
                     <div>
                         <div class="row">
@@ -394,11 +405,12 @@
                 <div class="row">
                     <h4 class="col-md-12 black" style="margin-top:15px">
                         <span class="glyphicon glyphicon-align-justify"></span>
-                        6.Other Detail
+                        Other Detail
                     </h4>
                     <div>
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-md-6" style="display:@(Model.CarpetSkuSettings.isVisibleSample ? "" : "none")">
+                                @Html.HiddenFor(m => m.CarpetSkuSettings.isVisibleSample)
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.SampleId, "Sample", new { @class = "control-label col-xs-4 " })
                                     <div class="col-xs-6">
@@ -407,7 +419,8 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-6" style="display:@(Model.CarpetSkuSettings.isVisibleCounterNo ? "" : "none")">
+                                @Html.HiddenFor(m => m.CarpetSkuSettings.isVisibleCounterNo)
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.CounterNo, "Counter No", new { @class = "control-label col-xs-4 " })
                                     <div class="col-xs-6">
@@ -418,7 +431,8 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-md-6" style="display:@(Model.CarpetSkuSettings.isVisibleTags ? "" : "none")">
+                                @Html.HiddenFor(m => m.CarpetSkuSettings.isVisibleTags)
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.Tags, "Tags", new { @class = "control-label col-xs-4" })
                                     <div class="col-xs-6">
@@ -427,7 +441,8 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-6" style="display:@(Model.CarpetSkuSettings.isVisibleDivision ? "" : "none")">
+                                @Html.HiddenFor(m => m.CarpetSkuSettings.isVisibleDivision)
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.DivisionId, "Division", new { @class = "control-label col-xs-4" })
                                     <div class="col-xs-6">
@@ -521,7 +536,7 @@
                 <div class="row">
                     <h4 class="col-md-12 black" style="margin-top:15px">
                         <span class="glyphicon glyphicon-align-justify"></span>
-                        7.Carpet Sizes
+                        Carpet Sizes
                     </h4>
                 </div>
 
@@ -544,7 +559,7 @@
                 <div class="row">
                     <h4 class="col-md-12 black" style="margin-top:15px">
                         <span class="glyphicon glyphicon-align-justify"></span>
-                        8.Product Processes
+                        Product Processes
                     </h4>
                 </div>
                 <div style="padding-right:15px">

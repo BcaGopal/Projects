@@ -11,6 +11,7 @@ using Microsoft.Owin.Security;
 using HumanResource.Models;
 using System.Web.Security;
 using Data.Models;
+using Core.Common;
 
 namespace HumanResource.Controllers
 {
@@ -34,7 +35,7 @@ namespace HumanResource.Controllers
         public ActionResult LogOff()
         {
 
-            string HomeUrl = System.Configuration.ConfigurationManager.AppSettings["LoginDomain"];
+            string HomeUrl = (string)System.Web.HttpContext.Current.Session[SessionNameConstants.LoginDomain];
 
             if (string.IsNullOrEmpty(HomeUrl))
             {

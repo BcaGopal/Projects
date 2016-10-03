@@ -705,6 +705,9 @@ namespace Web
                     //    EventException = true;
                     //}
 
+                    pd.ObjectState = Model.ObjectState.Modified;
+
+                    db.PurchaseQuotationHeader.Add(pd);
 
                     try
                     {
