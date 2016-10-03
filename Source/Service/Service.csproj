@@ -110,6 +110,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AccountService.cs" />
+    <Compile Include="AttendanceHeaderService.cs" />
     <Compile Include="CostCenterStatusService.cs" />
     <Compile Include="MaterialPlanCancelHeaderService.cs" />
     <Compile Include="MaterialPlanCancelLineService.cs" />

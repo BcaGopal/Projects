@@ -106,6 +106,8 @@
     <Compile Include="Models\Agent.cs" />
     <Compile Include="Models\ApplicationUser.cs" />
     <Compile Include="Models\ActivityType.cs" />
+    <Compile Include="Models\AttendanceHeader.cs" />
+    <Compile Include="Models\AttendanceLine.cs" />
     <Compile Include="Models\BusinessSession.cs" />
     <Compile Include="Models\SaleEnquiryLineExtended.cs" />
     <Compile Include="Models\JobOrderHeaderExtended.cs" />
@@ -166,7 +168,10 @@
     <Compile Include="Models\SaleEnquiryLine.cs" />
     <Compile Include="Models\SaleEnquirySettings.cs" />
     <Compile Include="Models\CarpetSkuSettings.cs" />
+    <Compile Include="Models\Shift.cs" />
     <Compile Include="Models\SubReport.cs" />
+    <Compile Include="ViewModels\AttendanceHeaderViewModel.cs" />
+    <Compile Include="ViewModels\AttendanceLinesViewModel.cs" />
     <Compile Include="ViewModels\MaterialPlanCancelHeaderViewModel.cs" />
     <Compile Include="ViewModels\MaterialPlanCancelLineViewModel.cs" />
     <Compile Include="ViewModels\MaterialPlanCancelForSaleOrderViewModel.cs" />

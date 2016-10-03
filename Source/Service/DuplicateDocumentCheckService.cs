@@ -170,6 +170,16 @@ namespace Service
                         else
                             return true;
                     }
+                case "AttendanceHeader":
+                    {
+                        var temp = (from p in db.AttendanceHeader
+                                    where p.DocNo == docno && ((doctypeId == null) ? 1 == 1 : p.DocTypeId == doctypeId) && p.SiteId == SiteId
+                                    select p).FirstOrDefault();
+                        if (temp == null)
+                            return false;
+                        else
+                            return true;
+                    }
 
                 case "DispatchWaybillHeader":
                     {
