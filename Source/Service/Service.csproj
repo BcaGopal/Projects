@@ -170,6 +170,7 @@
     <Compile Include="SaleEnquiryHeaderService.cs" />
     <Compile Include="SaleEnquiryLineService.cs" />
     <Compile Include="SaleEnquiryLineExtendedService.cs" />
+    <Compile Include="CarpetSkuSettingsService.cs" />
     <Compile Include="SaleEnquirySettingsService.cs" />
     <Compile Include="StockAdjService.cs" />
     <Compile Include="SubReportService.cs" />

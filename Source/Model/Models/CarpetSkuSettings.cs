@@ -16,24 +16,38 @@ namespace Model.Models
 
         [Key]
         public int CarpetSkuSettingsId { get; set; }
-        public bool? isVisibleColourWays { get; set; }
-        public bool? isVisibleStyle { get; set; }
-        public bool? isVisibleDesigner { get; set; }
-        public bool? isVisibleDesignPattern { get; set; }
+        public int SiteId { get; set; }
+        public virtual Site Site { get; set; }
+        public int DivisionId { get; set; }
+        public virtual Division Division { get; set; }
+
+
+        public bool? isVisibleProductDesign { get; set; }
+        public bool? isVisibleProductStyle { get; set; }
+        public bool? isVisibleProductManufacturer { get; set; }
+        public bool? isVisibleProductDesignPattern { get; set; }
         public bool? isVisibleContent { get; set; }
-        public bool? isVisibleOrigin { get; set; }
+        public bool? isVisibleOriginCountry { get; set; }
         public bool? isVisibleInvoiceGroup { get; set; }
         public bool? isVisibleDrawbackTarrif { get; set; }
         public bool? isVisibleStandardCost { get; set; }
-        public bool? isVisibleFinishedWeight { get; set; }
+        public bool? isVisibleStandardWeight { get; set; }
         public bool? isVisibleSupplierDetail { get; set; }
-        public bool? isVisibleLeadTime { get; set; }
-        public bool? isVisibleMinQty { get; set; }
-        public bool? isVisibleMaxQty { get; set; }
         public bool? isVisibleSample { get; set; }
         public bool? isVisibleCounterNo { get; set; }
         public bool? isVisibleTags { get; set; }
         public bool? isVisibleDivision { get; set; }
+        public bool? isVisibleColour { get; set; }
+
+
+
+        [ForeignKey("ProductDesign")]
+        public int? ProductDesignId { get; set; }
+        public virtual ProductDesign ProductDesign { get; set; }
+
+        [ForeignKey("OriginCountry")]
+        public int? OriginCountryId { get; set; }
+        public virtual Country OriginCountry { get; set; }
 
 
 
