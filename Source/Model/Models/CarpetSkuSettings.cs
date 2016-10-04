@@ -39,6 +39,8 @@ namespace Model.Models
         public bool? isVisibleDivision { get; set; }
         public bool? isVisibleColour { get; set; }
 
+        public bool? AddColourInProductName { get; set; }
+
 
 
         [ForeignKey("ProductDesign")]

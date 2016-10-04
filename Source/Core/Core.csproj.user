@@ -3,4 +3,7 @@
   <PropertyGroup>
     <ProjectView>ProjectFiles</ProjectView>
   </PropertyGroup>
+  <PropertyGroup>
+    <ReferencePath>D:\Active Projects\Projects\3rdPartyLib\</ReferencePath>
+  </PropertyGroup>
 </Project>

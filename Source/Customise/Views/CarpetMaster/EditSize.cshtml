@@ -344,6 +344,24 @@
         }
     })
 
+    
+    function CreateProductName()
+    {
+        var ProductCode = $("#ProductCode").val();
+        var data = $("#ColourId").select2("data"); 
+        var ColourName = data.text;
+        var NewProductCode = ProductCode + '-' + ColourName;
+        $("#ProductCode").val(NewProductCode);
+    }
+
+    var IsAddColourInProductName=@Model.CarpetSkuSettings.AddColourInProductName;
+    $("#ColourId").change(function () {
+        if (IsAddColourInProductName != null && IsAddColourInProductName != 0 && $("#ColourId").val() != 0 && $("#ColourId").val() != null)
+        {
+            CreateProductName();
+        }
+    });
+
 
     $("#StandardSizeId").change(function () {
         if ($("#StandardSizeId").val() == null || $("#StandardSizeId").val() == 0)

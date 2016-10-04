@@ -190,13 +190,13 @@ namespace Service
         public IEnumerable<ProductProcessViewModel> GetMaxProductProcessListForDesign(int Id)
         {
             var Temp = (from p in db.Product
-                        join t in db.ProductProcess on p.ProductId equals t.ProductId
+                        join t in db.ProductProcess on p.ProductId equals t.ProductId into ProductProcessTable from ProductProcessTab in ProductProcessTable.DefaultIfEmpty()
                         where p.ProductGroupId == Id
-                        group new { p, t } by t.ProductId into g
-                        orderby g.Select(m=>m.t).Count() descending
+                        group new { p, ProductProcessTab } by ProductProcessTab.ProductId into g
+                        orderby g.Select(m => m.ProductProcessTab).Count() descending
                         select new{
                         
-                            List=(from p in g.Select(m=>m.t)
+                            List=(from p in g.Select(m=>m.ProductProcessTab)
                                  orderby p.Sr
                                  select new ProductProcessViewModel{
                                      ProcessName=p.Process.ProcessName,

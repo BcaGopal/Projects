@@ -35,7 +35,7 @@
                 @Html.ActionLink(" ", "AttachDocument", "DocumentAttachment", null, new { @class = "glyphicon glyphicon-paperclip toolbar", @title = "Attach", @data_toggle = "tooltip", @id = "AttachDocument", @data_modaltrigger = "DocumentAttachment" })
                 @Html.ActionLink(" ", "Report", "SaleOrderHeader", new { @id = @ViewBag.id }, new { @class = "glyphicon glyphicon-stats toolbar right", @title = "Report", @data_toggle = "tooltip", @id = "ReportRecord", target = "_blank" })
                 @Html.ActionLink(" ", "Create", "SaleOrderSettings", new { @id = @ViewBag.id }, new { @class = "glyphicon glyphicon-cog toolbar right", @title = "Default Settings", @data_toggle = "tooltip" })
-                @Html.ActionLink(" ", "Index", "SaleOrderExcelImport", new { @id = @ViewBag.id }, new { @class = "glyphicon glyphicon-import toolbar right", @title = "Import", @data_toggle = "tooltip" })
+                @Html.ActionLink(" ", "Import", "SaleOrderHeader", new { @id = @ViewBag.id }, new { @class = "glyphicon glyphicon-import toolbar right", @title = "Import", @data_toggle = "tooltip" })
                 @Html.ActionLink(" ", "", "", null, new { @class = "glyphicon glyphicon-export toolbar right", @title = "Export", @data_toggle = "tooltip" })
             </h4>
         </div>
