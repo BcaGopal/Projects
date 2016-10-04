@@ -3,7 +3,7 @@ namespace Data.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class CarpetSkuSetting : DbMigration
+    public partial class CarpetSkuSetting : DbMigration                                    
     {
         public override void Up()
         {

@@ -163,9 +163,9 @@ namespace Web
             }
 
             else
-            { return View("Close"); }
-
-
+            {
+                return View("Close");
+            }
         }
 
         public DataTable FGetDataForSCILabelPrint(DataTable DtTemp, SqlConnection con)

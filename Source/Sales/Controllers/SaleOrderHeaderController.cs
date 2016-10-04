@@ -898,7 +898,7 @@ namespace Web
 
 
 
-        public ActionResult GeneratePrints(string Ids, int DocTypeId)
+     /*   public ActionResult GeneratePrints(string Ids, int DocTypeId)
         {
 
             if (!string.IsNullOrEmpty(Ids))
@@ -973,9 +973,85 @@ namespace Web
             }
             return Json(new { success = "Error", data = "No Records Selected." }, JsonRequestBehavior.AllowGet);
 
-        }
+        }*/
+     public ActionResult GeneratePrints(string Ids, int DocTypeId)
+         {
+
+             if (!string.IsNullOrEmpty(Ids))
+             {
+                 int SiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
+                 int DivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
+
+                
+                var Settings = new SaleOrderSettingsService(_unitOfWork).GetSaleOrderSettingsForDocument(DocTypeId, DivisionId, SiteId);
+                try
+                 {
+
+                     List<byte[]> PdfStream = new List<byte[]>();
+                     foreach (var item in Ids.Split(',').Select(Int32.Parse))
+                     {
+
+                         DirectReportPrint drp = new DirectReportPrint();
+
+                         var pd = context.SaleOrderHeader.Find(item);
+
+                         LogActivity.LogActivityDetail(LogVm.Map(new ActiivtyLogViewModel
+                         {
+                             DocTypeId = pd.DocTypeId,
+                             DocId = pd.SaleOrderHeaderId,
+                             ActivityType = (int)ActivityTypeContants.Print,
+                             DocNo = pd.DocNo,
+                             DocDate = pd.DocDate,
+                             DocStatus = pd.Status,
+                         }));
+
+                         byte[] Pdf;
+
+                         if (pd.Status == (int)StatusConstants.Drafted || pd.Status == (int)StatusConstants.Import || pd.Status == (int)StatusConstants.Modified)
+                         {
+                             //LogAct(item.ToString());
+                             Pdf = drp.DirectDocumentPrint(Settings.SqlProcDocumentPrint, User.Identity.Name, item);
+
+                             PdfStream.Add(Pdf);
+                         }
+                         else if (pd.Status == (int)StatusConstants.Submitted || pd.Status == (int)StatusConstants.ModificationSubmitted)
+                         {
+                             Pdf = drp.DirectDocumentPrint(Settings.SqlProcDocumentPrint_AfterSubmit, User.Identity.Name, item);
+
+                             PdfStream.Add(Pdf);
+                         }
+                         else
+                         {
+                             Pdf = drp.DirectDocumentPrint(Settings.SqlProcDocumentPrint_AfterApprove, User.Identity.Name, item);
+                             PdfStream.Add(Pdf);
+                         }
+
+                     }
+
+                     PdfMerger pm = new PdfMerger();
+
+                     byte[] Merge = pm.MergeFiles(PdfStream);
+
+                     if (Merge != null)
+                         return File(Merge, "application/pdf");
+
+                 }
+
+                 catch (Exception ex)
+                 {
+                     string message = _exception.HandleException(ex);
+                     return Json(new { success = "Error", data = message }, JsonRequestBehavior.AllowGet);
+                 }
 
 
+                 return Json(new { success = "Success" }, JsonRequestBehavior.AllowGet);
+
+             }
+             return Json(new { success = "Error", data = "No Records Selected." }, JsonRequestBehavior.AllowGet);
+
+         }
+        
+         
         public ActionResult Import(int id)//Document Type Id
         {
             int DivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];

@@ -79,7 +79,7 @@ namespace HumanResource.App_Start
             container.RegisterType<IDuplicateDocumentCheckService, DuplicateDocumentCheckService>(new PerRequestLifetimeManager());
 
             container.RegisterType<ILeaveTypeServices, LeaveTypeServices>(new PerRequestLifetimeManager());
-
+            container.RegisterType<IAttendanceHeaderService, AttendanceHeaderService>(new PerRequestLifetimeManager());
 
 
             //Registering Mappers::
@@ -114,6 +114,13 @@ namespace HumanResource.App_Start
             Mapper.CreateMap<LeaveType, LeaveType>();
             Mapper.CreateMap<Person, Person>();
             Mapper.CreateMap<PersonContact, PersonContact>();
+
+
+            Mapper.CreateMap<AttendanceHeaderViewModel, AttendanceHeader>();
+
+            Mapper.CreateMap<AttendanceHeaderViewModel, DocumentUniqueId>();
+            Mapper.CreateMap<AttendanceHeader, DocumentUniqueId>();
+            Mapper.CreateMap<AttendanceHeader, AttendanceHeader>();
         }
     }
 }
