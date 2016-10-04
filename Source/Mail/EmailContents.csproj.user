@@ -3,4 +3,7 @@
   <PropertyGroup>
     <ProjectView>ProjectFiles</ProjectView>
   </PropertyGroup>
+  <PropertyGroup>
+    <ReferencePath>E:\Gopal Active Project\Projects\3rdPartyLib\</ReferencePath>
+  </PropertyGroup>
 </Project>

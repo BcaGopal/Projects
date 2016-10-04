@@ -576,6 +576,9 @@ namespace Data.Models
         public DbSet<AttendanceHeader> AttendanceHeader { get; set; }
         public DbSet<AttendanceLine> AttendanceLine { get; set; }
 
+        public DbSet<OverTimeApplicationHeader> OverTimeApplicationHeader { get; set; }
+        public DbSet<OverTimeApplicationLine> OverTimeApplicationLine { get; set; }
+
         public DbSet<Shift> Shift { get; set; }
 
 

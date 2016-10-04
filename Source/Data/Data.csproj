@@ -119,6 +119,10 @@
     <Compile Include="Migrations\201609290602519_CarpetSkuSettingCorrection.Designer.cs">
       <DependentUpon>201609290602519_CarpetSkuSettingCorrection.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201610040335319_OverTimeApplication.cs" />
+    <Compile Include="Migrations\201610040335319_OverTimeApplication.Designer.cs">
+      <DependentUpon>201610040335319_OverTimeApplication.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="NotificationApplicationDbContext.cs" />
     <Compile Include="LoginApplicationDbContext.cs" />
@@ -185,6 +189,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201609290602519_CarpetSkuSettingCorrection.resx">
       <DependentUpon>201609290602519_CarpetSkuSettingCorrection.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201610040335319_OverTimeApplication.resx">
+      <DependentUpon>201610040335319_OverTimeApplication.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
