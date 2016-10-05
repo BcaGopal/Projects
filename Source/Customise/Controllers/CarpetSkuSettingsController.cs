@@ -151,7 +151,6 @@ namespace Web
                     temp.isVisibleProductionRemark = vm.isVisibleProductionRemark;
                     temp.ProductDesignId = pt.ProductDesignId;
                     temp.OriginCountryId = pt.OriginCountryId;
-                    temp.AddColourInProductName = pt.AddColourInProductName;
                     temp.ModifiedDate = DateTime.Now;
                     temp.ModifiedBy = User.Identity.Name;
                     temp.ObjectState = Model.ObjectState.Modified;

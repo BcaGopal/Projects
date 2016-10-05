@@ -19,6 +19,9 @@ namespace Service
         void Delete(int id);
         void Delete(SaleEnquiryLine s);
         SaleEnquiryLine GetSaleEnquiryLine(int id);
+
+        IEnumerable<SaleEnquiryLine> GetSaleEnquiryLineListForHeader(int HeaderId);
+
         SaleEnquiryLineViewModel GetSaleEnquiryLineModel(int id);
         SaleEnquiryLine Find(int id);
         void Update(SaleEnquiryLine s);
@@ -100,6 +103,14 @@ namespace Service
 
             //            ).FirstOrDefault();
         }
+
+
+
+        public IEnumerable<SaleEnquiryLine> GetSaleEnquiryLineListForHeader(int HeaderId)
+        {
+            return _unitOfWork.Repository<SaleEnquiryLine>().Query().Get().Where(m => m.SaleEnquiryHeaderId == HeaderId).ToList();
+        }
+
         public SaleEnquiryLineViewModel GetSaleEnquiryLineModel(int id)
         {
             //return _unitOfWork.Repository<SaleEnquiryLine>().Query().Get().Where(m => m.SaleEnquiryLineId == id).FirstOrDefault();
@@ -146,6 +157,7 @@ namespace Service
                         DealUnitId = p.DealUnitId,
                         DueDate = p.DueDate,
                         ProductName = p.Product.ProductName,
+                        ProductId = p.ProductId,
                         Qty = p.Qty,
                         Rate = p.Rate,
                         SaleEnquiryHeaderId = p.SaleEnquiryHeaderId,
