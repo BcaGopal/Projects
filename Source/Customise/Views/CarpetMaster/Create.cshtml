@@ -258,7 +258,8 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-md-6" style="display:@(Model.CarpetSkuSettings.isVisibleProductionRemark ? "" : "none")">
+                                @Html.HiddenFor(m => m.CarpetSkuSettings.isVisibleProductionRemark)
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.ProductionRemark, "Remark", new { @class = "control-label col-xs-4" })
                                     <div class="col-xs-6">

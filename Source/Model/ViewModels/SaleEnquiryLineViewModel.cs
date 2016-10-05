@@ -21,6 +21,9 @@ namespace Model.ViewModels
         public virtual SaleEnquiryHeader SaleEnquiryHeader { get; set; }
         public string SaleEnquiryDocNo { get; set; }
 
+        public int? SaleToBuyerId { get; set; }
+        public string SaleToBuyerName { get; set; }
+
         [ForeignKey("Product"), Display(Name = "Product")]
         public int ? ProductId { get; set; }
         public virtual Product Product { get; set; }
@@ -28,7 +31,6 @@ namespace Model.ViewModels
 
         [MaxLength(50)]
         public string Specification { get; set; }
-        [Required]
         public decimal ? Qty { get; set; }
 
         [Display(Name = "Due Date"),DisplayFormat(DataFormatString="{0:dd/MMM/yyyy}")]
@@ -40,11 +42,9 @@ namespace Model.ViewModels
         
         public virtual Unit DealUnit { get; set; }
 
-        [Display(Name = "Delivery Qty"),Required]
+        [Display(Name = "Delivery Qty")]
         public decimal ? DealQty { get; set; }
-        [Required]
         public decimal ? Rate { get; set; }
-        [Required]
         public decimal ? Amount { get; set; }
 
         [Display(Name = "Remark")]

@@ -252,6 +252,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminSetupController.cs" />
     <Compile Include="Controllers\CarpetMasterController.cs" />
+    <Compile Include="Controllers\SaleEnquiryProductMapping.cs" />
     <Compile Include="Controllers\ColourController.cs" />
     <Compile Include="Controllers\ComboHelpListController.cs" />
     <Compile Include="Controllers\DyeingInvoiceExcelImportController.cs" />
@@ -1140,6 +1141,8 @@
     <Content Include="Views\SaleEnquiryLine\_Create.cshtml" />
     <Content Include="Views\SaleEnquirySettings\Create.cshtml" />
     <Content Include="Views\CarpetSkuSettings\Create.cshtml" />
+    <Content Include="Views\SaleEnquiryProductMapping\Create.cshtml" />
+    <Content Include="Views\SaleEnquiryProductMapping\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -163,6 +163,7 @@ namespace Core.Common
         public const string Packing = "Packing";
         public const string PackingReceive = "Packing Receive";
 
+        public const string SaleEnquiry = "Sale Enquiry";
         public const string SaleInvoice = "Sale Invoice";
         public const string SaleChallan = "Sale Challan";
         public const string DispatchWaybill = "Dispatch Waybill";

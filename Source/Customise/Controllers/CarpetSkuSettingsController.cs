@@ -147,6 +147,8 @@ namespace Web
                     temp.isVisibleCounterNo = vm.isVisibleCounterNo;
                     temp.isVisibleTags = vm.isVisibleTags;
                     temp.isVisibleDivision = vm.isVisibleDivision;
+                    temp.isVisibleColour = vm.isVisibleColour;
+                    temp.isVisibleProductionRemark = vm.isVisibleProductionRemark;
                     temp.ProductDesignId = pt.ProductDesignId;
                     temp.OriginCountryId = pt.OriginCountryId;
                     temp.AddColourInProductName = pt.AddColourInProductName;

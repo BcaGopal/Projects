@@ -49,7 +49,7 @@ namespace Customize.Controllers
             string ErrorText = "";
 
 
-            string DyeingConnectionString = "Persist Security Info=False;User ID='sa';Initial Catalog=Rug;Data Source=192.168.2.17";
+            string DyeingConnectionString = "Persist Security Info=False;User ID='sa';Initial Catalog=Rug;Data Source=192.168.2.25";
 
 
             DataSet DyeingOrder = new DataSet();

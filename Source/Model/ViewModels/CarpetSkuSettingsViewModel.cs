@@ -34,7 +34,7 @@ namespace Model.ViewModel
         public bool isVisibleTags { get; set; }
         public bool isVisibleDivision { get; set; }
         public bool isVisibleColour { get; set; }
-
+        public bool isVisibleProductionRemark { get; set; }
         public bool AddColourInProductName { get; set; }
 
 
