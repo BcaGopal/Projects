@@ -111,9 +111,12 @@ namespace Web
                         return View("Create", vm);
                     }
 
+                    int DocTypeId = new DocumentTypeService(_unitOfWork).Find(MasterDocTypeConstants.Carpet).DocumentTypeId;
+
                     LogActivity.LogActivityDetail(LogVm.Map(new ActiivtyLogViewModel
                     {
                         DocId = pt.CarpetSkuSettingsId,
+                        DocTypeId = DocTypeId,
                         ActivityType = (int)ActivityTypeContants.SettingsAdded,
                     }));
 
@@ -144,8 +147,11 @@ namespace Web
                     temp.isVisibleCounterNo = vm.isVisibleCounterNo;
                     temp.isVisibleTags = vm.isVisibleTags;
                     temp.isVisibleDivision = vm.isVisibleDivision;
+                    temp.isVisibleColour = vm.isVisibleColour;
+                    temp.isVisibleProductionRemark = vm.isVisibleProductionRemark;
                     temp.ProductDesignId = pt.ProductDesignId;
                     temp.OriginCountryId = pt.OriginCountryId;
+                    temp.AddColourInProductName = pt.AddColourInProductName;
                     temp.ModifiedDate = DateTime.Now;
                     temp.ModifiedBy = User.Identity.Name;
                     temp.ObjectState = Model.ObjectState.Modified;
@@ -172,10 +178,13 @@ namespace Web
                         return View("Create", pt);
                     }
 
+                    int DocTypeId = new DocumentTypeService(_unitOfWork).Find(MasterDocTypeConstants.Carpet).DocumentTypeId;
+
                     LogActivity.LogActivityDetail(LogVm.Map(new ActiivtyLogViewModel
                     {
                         DocId = temp.CarpetSkuSettingsId,
                         ActivityType = (int)ActivityTypeContants.SettingsModified,
+                        DocTypeId = DocTypeId,
                         xEModifications = Modifications,
                     }));
 

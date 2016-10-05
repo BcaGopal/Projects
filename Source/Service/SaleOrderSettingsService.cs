@@ -29,9 +29,13 @@ namespace Service
     {
         ApplicationDbContext db = new ApplicationDbContext();
         private readonly IUnitOfWorkForService _unitOfWork;
+        private readonly Repository<SaleOrderSettings> _SaleOrderSettingsRepository;
+        RepositoryQuery<SaleOrderSettings> SaleOrderSettingsRepository;
         public SaleOrderSettingsService(IUnitOfWorkForService unitOfWork)
         {
             _unitOfWork = unitOfWork;
+            _SaleOrderSettingsRepository = new Repository<SaleOrderSettings>(db);
+            SaleOrderSettingsRepository = new RepositoryQuery<SaleOrderSettings>(_SaleOrderSettingsRepository);
         }
 
         public SaleOrderSettings Find(int id)
@@ -80,7 +84,16 @@ namespace Service
             return pt;
         }
 
-      
+        //new added
+        public SaleOrderSettings GetSaleOrderSettingsForDocument(int DocTypeId, int DivisionId, int SiteId)
+        {
+            return (from p in db.SaleOrderSettings
+                    where p.DocTypeId == DocTypeId && p.DivisionId == DivisionId && p.SiteId == SiteId
+                    select p
+                        ).FirstOrDefault();
+
+
+        }
 
         public void Dispose()
         {

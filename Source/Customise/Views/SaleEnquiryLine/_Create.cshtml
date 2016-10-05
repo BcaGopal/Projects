@@ -176,7 +176,7 @@
                         <div class="form-group">
                             @Html.LabelFor(model => model.Rate, "Rate", new { @class = "control-label col-xs-4" })
                             <div class="col-xs-7">
-                                @Html.TextBoxFor(model => model.Rate, new { @class = "form-control col-xs-7 required" })
+                                @Html.TextBoxFor(model => model.Rate, new { @class = "form-control col-xs-7 " })
                                 @Html.ValidationMessageFor(model => model.Rate, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -199,7 +199,7 @@
                         <div class="form-group">
                             @Html.LabelFor(model => model.Amount, "Amount", new { @class = "control-label col-xs-4" })
                             <div class="col-xs-7">
-                                @Html.TextBoxFor(model => model.Amount, new { @class = "form-control col-xs-7 required" })
+                                @Html.TextBoxFor(model => model.Amount, new { @class = "form-control col-xs-7 " })
                                 @Html.ValidationMessageFor(model => model.Amount, "", new { @class = "text-danger" })
                             </div>
                         </div>

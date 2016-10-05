@@ -106,14 +106,7 @@ namespace Web
             {
                 ModelState.AddModelError("Qty", "Please Check Qty");
             }
-            else if (svm.Rate <= 0)
-            {
-                ModelState.AddModelError("Rate", "Please Check Rate");
-            }
-            else if (svm.Amount <= 0)
-            {
-                ModelState.AddModelError("Amount", "Please Check Amount");
-            }
+
             if (svm.DueDate < temp.DocDate)
             {
                 ModelState.AddModelError("DueDate", "DueDate greater than DocDate");

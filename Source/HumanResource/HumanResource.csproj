@@ -22,6 +22,7 @@
     <IISExpressUseClassicPipelineMode />
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
+    <UseGlobalApplicationHostFile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -233,6 +234,7 @@
     <Compile Include="App_Start\UnityMvcActivator.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminSetupController.cs" />
+    <Compile Include="Controllers\AttendanceHeaderController.cs" />
     <Compile Include="Controllers\ComboHelpListController.cs" />
     <Compile Include="Controllers\DepartmentController.cs" />
     <Compile Include="Controllers\DesignationController.cs" />
@@ -241,6 +243,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LeaveTypeController.cs" />
     <Compile Include="Controllers\LogActivity.cs" />
+    <Compile Include="Controllers\LogHistoryControllerController.cs" />
     <Compile Include="Controllers\MultipleButtonHelper.cs" />
     <Compile Include="Controllers\NotificationController.cs" />
     <Compile Include="Controllers\PersonBankAccountController.cs" />
@@ -253,6 +256,7 @@
     <Compile Include="Helpers\AuthFilter.cs" />
     <Compile Include="Helpers\AutoCompleteComboBoxRepositoryAndHelper.cs" />
     <Compile Include="Helpers\BootStrapExtensions.cs" />
+    <Compile Include="Helpers\CustomHelpers.cs" />
     <Compile Include="Helpers\FlashMessageExtensions.cs" />
     <Compile Include="Helpers\JsonpResult.cs" />
     <Compile Include="Helpers\ListExtensions.cs" />
@@ -277,6 +281,8 @@
     <Content Include="Content\animsition.min.css" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
+    <Content Include="Content\bootstrap-timepicker.css" />
+    <Content Include="Content\bootstrap-timepicker.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\css\select2-spinner.gif" />
@@ -291,6 +297,22 @@
     <Content Include="Content\Notification.css" />
     <Content Include="Content\nprogress.css" />
     <Content Include="Content\ProjLib.css" />
+    <Content Include="Content\Slick\css\smoothness\images\ui-bg_flat_0_aaaaaa_40x100.png" />
+    <Content Include="Content\Slick\css\smoothness\images\ui-bg_flat_75_ffffff_40x100.png" />
+    <Content Include="Content\Slick\css\smoothness\images\ui-bg_glass_55_fbf9ee_1x400.png" />
+    <Content Include="Content\Slick\css\smoothness\images\ui-bg_glass_65_ffffff_1x400.png" />
+    <Content Include="Content\Slick\css\smoothness\images\ui-bg_glass_75_dadada_1x400.png" />
+    <Content Include="Content\Slick\css\smoothness\images\ui-bg_glass_75_e6e6e6_1x400.png" />
+    <Content Include="Content\Slick\css\smoothness\images\ui-bg_glass_95_fef1ec_1x400.png" />
+    <Content Include="Content\Slick\css\smoothness\images\ui-bg_highlight-soft_75_cccccc_1x100.png" />
+    <Content Include="Content\Slick\css\smoothness\images\ui-icons_222222_256x240.png" />
+    <Content Include="Content\Slick\css\smoothness\images\ui-icons_2e83ff_256x240.png" />
+    <Content Include="Content\Slick\css\smoothness\images\ui-icons_454545_256x240.png" />
+    <Content Include="Content\Slick\css\smoothness\images\ui-icons_888888_256x240.png" />
+    <Content Include="Content\Slick\css\smoothness\images\ui-icons_cd0a0a_256x240.png" />
+    <Content Include="Content\Slick\css\smoothness\jquery-ui-1.8.16.custom.css" />
+    <Content Include="Content\Slick\slick-default-theme.css" />
+    <Content Include="Content\Slick\slick.grid.css" />
     <Content Include="Content\themes\base\accordion.css" />
     <Content Include="Content\themes\base\all.css" />
     <Content Include="Content\themes\base\autocomplete.css" />
@@ -332,9 +354,13 @@
     <Content Include="Images\ajax-loader %282%29.gif" />
     <Content Include="Images\DefaultUser.png" />
     <Content Include="Images\ui-bg_flat_75_ffffff_40x100.png" />
+    <Content Include="Scripts\alertify.js" />
+    <Content Include="Scripts\alertify.min.js" />
     <Content Include="Scripts\bootstrap-datepicker.js" />
     <Content Include="Scripts\bootstrap-notify.js" />
     <Content Include="Scripts\bootstrap-notify.min.js" />
+    <Content Include="Scripts\bootstrap-timepicker.js" />
+    <Content Include="Scripts\bootstrap-timepicker.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\ChargeCalculation.js" />
@@ -353,6 +379,7 @@
     <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Content\jasny\jasny-bootstrap.css.map" />
+    <Content Include="App_Code\CustomHelpers.cshtml" />
     <None Include="Properties\PublishProfiles\Purchase.pubxml" />
     <None Include="Scripts\jquery-2.1.4.intellisense.js" />
     <Content Include="Scripts\Jasny\jasny-bootstrap.js" />
@@ -386,6 +413,22 @@
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\select2.js" />
     <Content Include="Scripts\select2.min.js" />
+    <Content Include="Scripts\Slick\lib\firebugx.js" />
+    <Content Include="Scripts\Slick\lib\jquery-1.7.min.js" />
+    <Content Include="Scripts\Slick\lib\jquery-ui-1.8.16.custom.min.js" />
+    <Content Include="Scripts\Slick\lib\jquery.event.drag-2.2.js" />
+    <Content Include="Scripts\Slick\lib\jquery.event.drop-2.2.js" />
+    <Content Include="Scripts\Slick\lib\jquery.jsonp-2.4.min.js" />
+    <Content Include="Scripts\Slick\lib\jquery.simulate.js" />
+    <Content Include="Scripts\Slick\lib\jquery.sparkline.min.js" />
+    <Content Include="Scripts\Slick\lib\qunit.css" />
+    <Content Include="Scripts\Slick\lib\qunit.js" />
+    <Content Include="Scripts\Slick\slick.core.js" />
+    <Content Include="Scripts\Slick\slick.dataview.js" />
+    <Content Include="Scripts\Slick\slick.editors.js" />
+    <Content Include="Scripts\Slick\slick.grid.js" />
+    <Content Include="Scripts\Slick\slick.remotemodel.js" />
+    <Content Include="Scripts\Slick\slick.rowselectionmodel.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -441,6 +484,13 @@
     <Content Include="Views\LeaveType\Create.cshtml" />
     <Content Include="Views\LeaveType\Index.cshtml" />
     <Content Include="Views\LeaveType\Print.cshtml" />
+    <Content Include="Views\AttendanceHeader\Create.cshtml" />
+    <Content Include="Views\AttendanceHeader\Delete.cshtml" />
+    <Content Include="Views\AttendanceHeader\Detail.cshtml" />
+    <Content Include="Views\AttendanceHeader\DocumentTypeList.cshtml" />
+    <Content Include="Views\AttendanceHeader\Index.cshtml" />
+    <Content Include="Views\AttendanceHeader\_Reason.cshtml" />
+    <Content Include="Views\LogHistory\_LogHistory.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

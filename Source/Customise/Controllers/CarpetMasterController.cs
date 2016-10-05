@@ -3258,6 +3258,18 @@ namespace Web
             return PartialView("EditProductProcess", vm);
         }
 
+        public JsonResult GetCustomProductName(string ProductGroupName, string StandardSizeName, string ColourName)
+        {
+
+            SqlParameter SqlParameterProductGroupName = new SqlParameter("@ProductGroupName", ProductGroupName);
+            SqlParameter SqlParameterStandardSizeName = new SqlParameter("@StandardSizeName", StandardSizeName);
+            SqlParameter SqlParameterColourName = new SqlParameter("@ColourName", ColourName);
+
+            FirstProductName CustomProductName = db.Database.SqlQuery<FirstProductName>("" + ConfigurationManager.AppSettings["DataBaseSchema"] + ".sp_GetCustomCarpetSkuName @ProductGroupName, @StandardSizeName, @ColourName", SqlParameterProductGroupName, SqlParameterStandardSizeName, SqlParameterColourName).FirstOrDefault();
+
+            return Json(CustomProductName);
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)

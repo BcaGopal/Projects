@@ -25,14 +25,10 @@ namespace AdminSetup.Models.Models
         public bool FullHeaderPermission { get; set; }
         public bool FullLinePermission { get; set; }
 
-        [Display(Name = "Division"), Required]
-        [ForeignKey("Division")]
-        [Index("IX_PurchaseOrderHeader_DocID", IsUnique = true, Order = 3)]
+
         public int DivisionId { get; set; }
         public virtual Division Division { get; set; }
 
-        [ForeignKey("Site"), Display(Name = "Site")]
-        [Index("IX_PurchaseOrderHeader_DocID", IsUnique = true, Order = 4)]
         public int SiteId { get; set; }
         public virtual Site Site { get; set; }
 
