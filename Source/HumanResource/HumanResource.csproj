@@ -234,6 +234,7 @@
     <Compile Include="App_Start\UnityMvcActivator.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminSetupController.cs" />
+    <Compile Include="Controllers\OverTimeApplicationHeaderController.cs" />
     <Compile Include="Controllers\AttendanceHeaderController.cs" />
     <Compile Include="Controllers\ComboHelpListController.cs" />
     <Compile Include="Controllers\DepartmentController.cs" />
@@ -491,6 +492,12 @@
     <Content Include="Views\AttendanceHeader\Index.cshtml" />
     <Content Include="Views\AttendanceHeader\_Reason.cshtml" />
     <Content Include="Views\LogHistory\_LogHistory.cshtml" />
+    <Content Include="Views\OverTimeApplicationHeader\_Reason.cshtml" />
+    <Content Include="Views\OverTimeApplicationHeader\Create.cshtml" />
+    <Content Include="Views\OverTimeApplicationHeader\Delete.cshtml" />
+    <Content Include="Views\OverTimeApplicationHeader\Detail.cshtml" />
+    <Content Include="Views\OverTimeApplicationHeader\DocumentTypeList.cshtml" />
+    <Content Include="Views\OverTimeApplicationHeader\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

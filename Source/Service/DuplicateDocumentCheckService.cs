@@ -180,7 +180,16 @@ namespace Service
                         else
                             return true;
                     }
-
+                case "OverTimeApplicationHeader":
+                    {
+                        var temp = (from p in db.OverTimeApplicationHeader
+                                    where p.DocNo == docno && ((doctypeId == null) ? 1 == 1 : p.DocTypeId == doctypeId) && p.SiteId == SiteId
+                                    select p).FirstOrDefault();
+                        if (temp == null)
+                            return false;
+                        else
+                            return true;
+                    }
                 case "DispatchWaybillHeader":
                     {
                         var temp = (from p in db.DispatchWaybillHeader
