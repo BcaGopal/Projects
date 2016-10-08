@@ -1,4 +1,4 @@
-﻿using Core.Common;
+using Core.Common;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Xml;
@@ -60,7 +60,7 @@ namespace System.Web.Mvc.Html
                     for (int i = 0; i < Parent.ChildNodes.Count; i++)
                     {
                         var ParentTable = Parent.ChildNodes[i];
-                        Temp += "<tr><td  colspan='3' align='center'>"+ParentTable.Name+"</td></tr>";
+                        Temp += "<tr><td  colspan='3' align='center'>" + ParentTable.Name + "</td></tr>";
                         for (int j = 0; j < ParentTable.ChildNodes.Count; j++)
                         {
                             var ParentField = ParentTable.ChildNodes[j];

@@ -257,7 +257,7 @@
     <Compile Include="Helpers\AuthFilter.cs" />
     <Compile Include="Helpers\AutoCompleteComboBoxRepositoryAndHelper.cs" />
     <Compile Include="Helpers\BootStrapExtensions.cs" />
-    <Compile Include="Helpers\CustomHelpers.cs" />
+    <Content Include="Helpers\CustomHelpers.cs" />
     <Compile Include="Helpers\FlashMessageExtensions.cs" />
     <Compile Include="Helpers\JsonpResult.cs" />
     <Compile Include="Helpers\ListExtensions.cs" />

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
@@ -21,7 +21,7 @@ namespace HumanResource.Controllers
         [Authorize]
         public ActionResult GetHistory(string Ids, int DocTypeId)
         {
-            
+
             using (ApplicationDbContext con = new ApplicationDbContext())
             {
                 List<ActiivtyLogViewModel> temp = new List<ActiivtyLogViewModel>();

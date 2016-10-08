@@ -391,7 +391,7 @@ namespace Web
                         if (EventException)
                         { throw new Exception(); }
 
-                      int i=db.SaveChanges();
+                        int i = db.SaveChanges();
                         //_unitOfWork.Save();
                     }
 
@@ -596,7 +596,7 @@ namespace Web
 
         public ActionResult Submit(int id, string IndexType, string TransactionType)
         {
-            #region DocTypeTimeLineValidation            
+            #region DocTypeTimeLineValidation
 
             AttendanceHeader s = db.AttendanceHeader.Find(id);
 

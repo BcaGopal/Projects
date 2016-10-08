@@ -3,5 +3,4 @@ bin
 obj
 Uploads
 packages
-*.suo
-*.config
+/Source/Store/Properties/PublishProfiles

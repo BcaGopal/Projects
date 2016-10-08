@@ -20,7 +20,7 @@ using Notifier.Core;
 namespace Login.Controllers
 {
     [Authorize]
-    [RequireHttps]
+    //[RequireHttps]
     public class AccountController : Controller
     {
         private ApplicationSignInManager _signInManager;
@@ -131,21 +131,54 @@ namespace Login.Controllers
                                              select p).FirstOrDefault();
                             }
 
-
-                            System.Web.HttpContext.Current.Session["DefaultConnectionString"] = AppRecord.ConnectionString;
-                            
-
-                            if (AppRecord.ApplicationDefaultPage != null)
+                            if (AppRecord != null)
                             {
-                                return Redirect(AppRecord.ApplicationDefaultPage);
+
+                                System.Web.HttpContext.Current.Session["DefaultConnectionString"] = AppRecord.ConnectionString;
+
+
+                                if (AppRecord != null && AppRecord.ApplicationDefaultPage != null)
+                                {
+                                    return Redirect(AppRecord.ApplicationDefaultPage);
+                                }
+                                else
+                                    throw new Exception("Application Default Page is not set in Login Project");
                             }
                             else
-                                throw new Exception("Application Default Page is not set in Login Project");
+                                throw new Exception("Default domain not found");
                         }
-
+                        //else
+                        //    return RedirectToAction("ApplicationSelection", "Application");
                         else
-                            return RedirectToAction("ApplicationSelection", "Application");
+                        {
 
+                            returnUrl = System.Web.HttpContext.Current.Request.UrlReferrer.ToString();
+
+                            Application AppRecord = new Application();
+
+                            using (ApplicationDbContext db = new ApplicationDbContext())
+                            {
+                                AppRecord = (from p in db.Application
+                                             where p.ApplicationURL.ToUpper().Trim() == returnUrl.ToUpper().Trim()
+                                             select p).FirstOrDefault();
+                            }
+
+
+                            if (AppRecord != null)
+                            {
+                                System.Web.HttpContext.Current.Session["DefaultConnectionString"] = AppRecord.ConnectionString;
+
+                                if (AppRecord.ApplicationDefaultPage != null)
+                                    return Redirect(AppRecord.ApplicationDefaultPage);
+                                else
+                                    throw new Exception("Application Default Page is not set in Login Project");
+                            }
+                            else
+                                throw new Exception("Default domain not found");
+
+
+                            //return RedirectToAction("ApplicationSelection", "Application");
+                        }
 
                     }
                 case SignInStatus.LockedOut:
@@ -611,7 +644,7 @@ namespace Login.Controllers
             message.Subject = "New user registered";
             string temp = (ConfigurationManager.AppSettings["SalesManager"]);
             string domain = ConfigurationManager.AppSettings["CurrentDomain"];
-            message.To = "madhankumar191@gmail.com";            
+            message.To = "madhankumar191@gmail.com";
 
             using (ApplicationDbContext context = new ApplicationDbContext())
             {
