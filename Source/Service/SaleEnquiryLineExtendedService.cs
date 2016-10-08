@@ -27,6 +27,7 @@ namespace Service
         Task<IEquatable<SaleEnquiryLineExtended>> GetAsync();
         Task<SaleEnquiryLineExtended> FindAsync(int id);
         void CreateLineStatus(int id);
+
     }
 
     public class SaleEnquiryLineExtendedService : ISaleEnquiryLineExtendedService
@@ -106,6 +107,8 @@ namespace Service
             SaleEnquiryLineExtended Stat = Find(id);
             Delete(Stat);
         }
+
+
 
             
         public void Dispose()

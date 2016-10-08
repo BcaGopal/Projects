@@ -298,7 +298,7 @@
     CustomSelectFunction($("#FinishingSizeId"), '/ComboHelpList/GetSize', '/ComboHelpList/SetSingleSize', ' ', false, 0);
     CustomSelectFunction($("#StencilSizeId"), '/ComboHelpList/GetSize', '/ComboHelpList/SetSingleSize', ' ', false, 0);
     CustomSelectFunction($("#MapSizeId"), '/ComboHelpList/GetSize', '/ComboHelpList/SetSingleSize', ' ', false, 0);
-    CustomSelectFunction($("#ColourId"), '/ComboHelpList/GetColours', '/ComboHelpList/SetSingleColour', ' ', false, 1);
+    CustomSelectFunction($("#ColourId"), '/ComboHelpList/GetColours', '/ComboHelpList/SetSingleColour', ' ', false, 0);
 
     //GetProductShapeShortName();
 
@@ -344,6 +344,43 @@
         }
     })
 
+    
+
+
+
+    function CreateCustomProductName()
+    {
+        var ProductGroupNameText = $("#ProductGroupName").val();
+
+        var StandardSizeData = $("#StandardSizeId").select2("data"); 
+        var StandardSizeNameText = StandardSizeData.text;
+
+        var ColourData = $("#ColourId").select2("data"); 
+        var ColourNameText = ColourData.text;
+
+        $.ajax({
+            url: "/CarpetMaster/GetCustomProductName",
+            type: "POST",
+            data: { ProductGroupName : ProductGroupNameText, StandardSizeName : StandardSizeNameText, ColourName: ColourNameText },
+            dataType: "json",
+            success: function (data) {
+                $("#ProductCode").val(data.ProductName);
+                $("#ProductName").val(data.ProductName);
+            },
+            error: function (result) {
+                alert("No Records Found");
+            },
+            results: function (data, page) {
+                return { results: data };
+            }
+        });
+    }
+
+
+    $("#ColourId").change(function () {
+        //CreateProductName();
+        CreateCustomProductName();
+    });
 
     $("#StandardSizeId").change(function () {
         if ($("#StandardSizeId").val() == null || $("#StandardSizeId").val() == 0)
@@ -352,14 +389,16 @@
         }
         else
         {
-            var GroupName = $("#ProductGroupName").val();
-            var data = $("#StandardSizeId").select2("data"); delete data.element;
-            var Size2 = data.text;
-            //var code = GroupName.replace(/\-/g, '').replace(/\ /g, '') + "-" + Size2.replace(/\ /g, '').replace(/\./g, '').replace(/\X/g, '').replace(/\`/g, '').replace(/\"/g, '');
-            var code = GroupName.replace(/\-/g, '').replace(/\ /g, '') + "-" + Size2.replace(/\ /g, '').replace(/\./g, '').replace(/\X/g, '').replace(/\`/g, '').replace(/\"/g, '') ;
+            //var GroupName = $("#ProductGroupName").val();
+            //var data = $("#StandardSizeId").select2("data"); delete data.element;
+            //var Size2 = data.text;
+            ////var code = GroupName.replace(/\-/g, '').replace(/\ /g, '') + "-" + Size2.replace(/\ /g, '').replace(/\./g, '').replace(/\X/g, '').replace(/\`/g, '').replace(/\"/g, '');
+            //var code = GroupName.replace(/\-/g, '').replace(/\ /g, '') + "-" + Size2.replace(/\ /g, '').replace(/\./g, '').replace(/\X/g, '').replace(/\`/g, '').replace(/\"/g, '').replace(/\'/g, '')  ;
 
-            $("#ProductCode").val(code);
-            $("#ProductName").val(code);
+            //$("#ProductCode").val(code);
+            //$("#ProductName").val(code);
+            //CreateProductName();
+            CreateCustomProductName();
         }
 
         var data = $("#StandardSizeId").select2("data"); delete data.element;

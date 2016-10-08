@@ -149,6 +149,14 @@
       <HintPath>..\packages\Unity.3.5.1404.0\lib\net45\Microsoft.Practices.Unity.RegistrationByConvention.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Microsoft.ReportViewer.Common, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Report.Viewer.10.0.0.0\lib\net\Microsoft.ReportViewer.Common.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.ProcessingObjectModel, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Report.Viewer.10.0.0.0\lib\net\Microsoft.ReportViewer.ProcessingObjectModel.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.ReportViewer.WebForms, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
       <HintPath>..\packages\MicosoftReportViewerWebForms_v11.1.0.1\lib\Microsoft.ReportViewer.WebForms.DLL</HintPath>
       <Private>True</Private>
@@ -244,12 +252,14 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminSetupController.cs" />
     <Compile Include="Controllers\CarpetMasterController.cs" />
+    <Compile Include="Controllers\SaleEnquiryProductMapping.cs" />
     <Compile Include="Controllers\ColourController.cs" />
     <Compile Include="Controllers\ComboHelpListController.cs" />
     <Compile Include="Controllers\DyeingInvoiceExcelImportController.cs" />
     <Compile Include="Controllers\ExcessInventoryAnalysis.cs" />
     <Compile Include="Controllers\FinishingInvoiceReturnTextImportController.cs" />
     <Compile Include="Controllers\FinishingOrderCancelTextImportController.cs" />
+    <Compile Include="Controllers\CarpetSkuSettingsController.cs" />
     <Compile Include="Controllers\SaleOrderExcelImportController.cs" />
     <Compile Include="Controllers\LogHistoryController.cs" />
     <Compile Include="Controllers\PersonMerging.cs" />
@@ -258,6 +268,9 @@
     <Compile Include="Controllers\PackingBarcodeImportController.cs" />
     <Compile Include="Controllers\PhysicalStcokTextImport.cs" />
     <Compile Include="Controllers\DyeingReceiveExcelImportController.cs" />
+    <Compile Include="Controllers\SaleEnquiryHeaderController.cs" />
+    <Compile Include="Controllers\SaleEnquiryLineController.cs" />
+    <Compile Include="Controllers\SaleEnquirySettingsController.cs" />
     <Compile Include="Controllers\WeavingOrderWizardHandloomController.cs" />
     <Compile Include="Controllers\YearClosingController.cs" />
     <Compile Include="Controllers\CustomDetailController.cs" />
@@ -692,6 +705,7 @@
     <Content Include="fonts\fontawesome-webfont.svg" />
     <Content Include="fonts\fontawesome-webfont.eot" />
     <Content Include="fonts\FontAwesome.otf" />
+    <None Include="Properties\PublishProfiles\Customizr.pubxml" />
     <None Include="Properties\PublishProfiles\Purchase.pubxml" />
     <None Include="Scripts\jquery-2.1.4.intellisense.js" />
     <Content Include="Scripts\Jasny\jasny-bootstrap.js" />
@@ -1114,6 +1128,21 @@
     <Content Include="Views\LogHistory\_LogHistory.cshtml" />
     <Content Include="Views\Posting_ProcedureExecute\Error.cshtml" />
     <Content Include="Views\Report_ReportPrint\GridReport.cshtml" />
+    <Content Include="Views\SaleEnquiryHeader\_Reason.cshtml" />
+    <Content Include="Views\SaleEnquiryHeader\Create.cshtml" />
+    <Content Include="Views\SaleEnquiryHeader\Delete.cshtml" />
+    <Content Include="Views\SaleEnquiryHeader\Detail.cshtml" />
+    <Content Include="Views\SaleEnquiryHeader\DocumentTypeList.cshtml" />
+    <Content Include="Views\SaleEnquiryHeader\Edit.cshtml" />
+    <Content Include="Views\SaleEnquiryHeader\Index.cshtml" />
+    <Content Include="Views\SaleEnquiryHeader\MultipleDocumentPrint.cshtml" />
+    <Content Include="Views\SaleEnquiryHeader\PendingToApprove.cshtml" />
+    <Content Include="Views\SaleEnquiryHeader\PendingToSubmit.cshtml" />
+    <Content Include="Views\SaleEnquiryLine\_Create.cshtml" />
+    <Content Include="Views\SaleEnquirySettings\Create.cshtml" />
+    <Content Include="Views\CarpetSkuSettings\Create.cshtml" />
+    <Content Include="Views\SaleEnquiryProductMapping\Create.cshtml" />
+    <Content Include="Views\SaleEnquiryProductMapping\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -97,8 +97,6 @@ namespace Model.Models
         [Display(Name = "Modified Date"), DisplayFormat(DataFormatString = "{0:dd/MMM/yyyy}")]
         public DateTime ModifiedDate { get; set; }
 
-        public ICollection<PackingLine> PackingLine { get; set; }
-
         [MaxLength(50)]
         public string OMSId { get; set; }
     }

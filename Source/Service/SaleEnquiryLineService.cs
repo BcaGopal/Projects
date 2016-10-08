@@ -19,12 +19,17 @@ namespace Service
         void Delete(int id);
         void Delete(SaleEnquiryLine s);
         SaleEnquiryLine GetSaleEnquiryLine(int id);
+
+        IEnumerable<SaleEnquiryLine> GetSaleEnquiryLineListForHeader(int HeaderId);
+
         SaleEnquiryLineViewModel GetSaleEnquiryLineModel(int id);
         SaleEnquiryLine Find(int id);
         void Update(SaleEnquiryLine s);
         IEnumerable<SaleEnquiryLineIndexViewModel> GetSaleEnquiryLineList(int SaleEnquiryHeaderId);
 
         IQueryable<SaleEnquiryLineIndexViewModel> GetSaleEnquiryLineListForIndex(int SaleEnquiryHeaderId);
+
+        IQueryable<SaleEnquiryLineIndexViewModel> GetSaleEnquiryLineListForIndex();
         IEnumerable<SaleEnquiryLineBalance> GetSaleEnquiryForProduct(int ProductId,int BuyerId);
         bool CheckForProductExists(int ProductId, int SaleEnquiryHEaderId, int SaleEnquiryLineId);
         bool CheckForProductExists(int ProductId, int SaleEnquiryHEaderId);
@@ -33,6 +38,9 @@ namespace Service
         SaleEnquiryLineViewModel GetSaleEnquiryDetailForInvoice(int id);
 
         IQueryable<ComboBoxResult> GetCustomProducts(int Id, string term);
+
+        int NextId(int id);
+        int PrevId(int id);
     }
 
     public class SaleEnquiryLineService : ISaleEnquiryLineService
@@ -95,6 +103,14 @@ namespace Service
 
             //            ).FirstOrDefault();
         }
+
+
+
+        public IEnumerable<SaleEnquiryLine> GetSaleEnquiryLineListForHeader(int HeaderId)
+        {
+            return _unitOfWork.Repository<SaleEnquiryLine>().Query().Get().Where(m => m.SaleEnquiryHeaderId == HeaderId).ToList();
+        }
+
         public SaleEnquiryLineViewModel GetSaleEnquiryLineModel(int id)
         {
             //return _unitOfWork.Repository<SaleEnquiryLine>().Query().Get().Where(m => m.SaleEnquiryLineId == id).FirstOrDefault();
@@ -141,6 +157,7 @@ namespace Service
                         DealUnitId = p.DealUnitId,
                         DueDate = p.DueDate,
                         ProductName = p.Product.ProductName,
+                        ProductId = p.ProductId,
                         Qty = p.Qty,
                         Rate = p.Rate,
                         SaleEnquiryHeaderId = p.SaleEnquiryHeaderId,
@@ -346,6 +363,74 @@ namespace Service
                         TextProp1 = "Colour : " + pb.Colour,
                         TextProp2 = "Quality : " + pb.ProductQuality
                     });
+        }
+
+        public IQueryable<SaleEnquiryLineIndexViewModel> GetSaleEnquiryLineListForIndex()
+        {
+
+            var temp = from p in db.SaleEnquiryLine
+                       join Pe in db.SaleEnquiryLineExtended on p.SaleEnquiryLineId equals Pe.SaleEnquiryLineId into SaleEnquiryLineTable
+                       from SaleEnquiryLineTab in SaleEnquiryLineTable.DefaultIfEmpty()
+                       join t1 in db.SaleEnquiryHeader on p.SaleEnquiryHeaderId equals t1.SaleEnquiryHeaderId into table1
+                       from tab1 in table1.DefaultIfEmpty()
+                       where p.ProductId == null
+                       orderby p.SaleEnquiryLineId
+                       select new SaleEnquiryLineIndexViewModel
+                       {
+                           SaleEnquiryLineId = p.SaleEnquiryLineId,
+                           SaleEnquiryHeaderDocNo = tab1.DocNo,
+                           SaleToBuyerId = tab1.SaleToBuyerId,
+                           SaleToBuyerName = tab1.SaleToBuyer.Name,
+                           ProductGroup = SaleEnquiryLineTab.ProductGroup,
+                           Size = SaleEnquiryLineTab.Size,
+                           Colour = SaleEnquiryLineTab.Colour,
+                           ProductQuality = SaleEnquiryLineTab.ProductQuality,
+                       };
+            return temp;
+        }
+
+        public int NextId(int id)
+        {
+            int temp = 0;
+            if (id != 0)
+            {
+                temp = (from p in db.SaleEnquiryLine
+                        orderby p.SaleEnquiryLineId
+                        select p.SaleEnquiryLineId).AsEnumerable().SkipWhile(p => p != id).Skip(1).FirstOrDefault();
+            }
+            else
+            {
+                temp = (from p in db.SaleEnquiryLine
+                        orderby p.SaleEnquiryLineId
+                        select p.SaleEnquiryLineId).FirstOrDefault();
+            }
+            if (temp != 0)
+                return temp;
+            else
+                return id;
+        }
+
+        public int PrevId(int id)
+        {
+
+            int temp = 0;
+            if (id != 0)
+            {
+
+                temp = (from p in db.SaleEnquiryLine
+                        orderby p.SaleEnquiryLineId
+                        select p.SaleEnquiryLineId).AsEnumerable().TakeWhile(p => p != id).LastOrDefault();
+            }
+            else
+            {
+                temp = (from p in db.SaleEnquiryLine
+                        orderby p.SaleEnquiryLineId
+                        select p.SaleEnquiryLineId).AsEnumerable().LastOrDefault();
+            }
+            if (temp != 0)
+                return temp;
+            else
+                return id;
         }
 
         public void Dispose()

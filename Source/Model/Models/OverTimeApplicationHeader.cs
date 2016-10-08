@@ -73,7 +73,6 @@ namespace Model.Models
         public int? ReferenceDocId { get; set; }
 
         public string ReferenceDocNo { get; set; }
-        public ICollection<GatePassLine> GatePassLines { get; set; }
 
         [MaxLength(50)]
         public string OMSId { get; set; }
