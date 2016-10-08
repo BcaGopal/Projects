@@ -40,7 +40,6 @@ namespace Model.Models
         public bool? isVisibleColour { get; set; }
         public bool? isVisibleProductionRemark { get; set; }
 
-        public bool? AddColourInProductName { get; set; }
 
 
 

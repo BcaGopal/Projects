@@ -184,6 +184,7 @@ namespace Web
                     temp.isVisiblePriority = pt.isVisiblePriority;
                     temp.isVisibleUnitConversionFor = pt.isVisibleUnitConversionFor;
                     temp.CurrencyId = pt.CurrencyId;
+                    temp.SaleOrderDocTypeId = pt.SaleOrderDocTypeId;
                     temp.DeliveryTermsId = pt.DeliveryTermsId;
                     temp.ShipMethodId = pt.ShipMethodId;
                     temp.Priority = pt.Priority;

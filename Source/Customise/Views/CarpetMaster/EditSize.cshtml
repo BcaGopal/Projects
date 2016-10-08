@@ -165,7 +165,6 @@
                 <div class="row">
                     <div class="col-md-6" style="display:@(Model.CarpetSkuSettings.isVisibleColour ? "none" : "")">
                         @Html.HiddenFor(m => m.CarpetSkuSettings.isVisibleColour)
-                        @Html.HiddenFor(m => m.CarpetSkuSettings.AddColourInProductName)
                         <div class="form-group">
                             @Html.LabelFor(model => model.ColourId, "Colour", new { @class = "control-label col-xs-5" })
                             <div class="col-xs-6">

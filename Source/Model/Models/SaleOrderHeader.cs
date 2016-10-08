@@ -114,6 +114,13 @@ namespace Model.Models
 
         public ICollection<SaleOrderLine> SaleOrderLines { get; set; }
 
+        [ForeignKey("ReferenceDocType"), Display(Name = "ReferenceDocType")]
+        public int? ReferenceDocTypeId { get; set; }
+        public virtual DocumentType ReferenceDocType { get; set; }
+
+        public int? ReferenceDocId { get; set; }
+
+
         [MaxLength(50)]
         public string OMSId { get; set; }
     }

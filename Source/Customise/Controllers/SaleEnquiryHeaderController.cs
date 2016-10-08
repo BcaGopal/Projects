@@ -695,6 +695,17 @@ namespace Web
                 return RedirectToAction("Index", new { id = s.DocTypeId, IndexType = IndexType });
             }
             #endregion
+
+
+            var SaleEnquiryLine = new SaleEnquiryLineService(_unitOfWork).GetSaleEnquiryLineList(id).Where(i => i.ProductId == null).ToList();
+
+            if (SaleEnquiryLine.Count > 0)
+            {
+                string message = "Enquiry has some unmapped products.You have to map them before submit.";
+                TempData["CSEXC"] += message;
+                return RedirectToAction("Index", new { id = s.DocTypeId, IndexType = IndexType });
+            }
+
             return RedirectToAction("Detail", new { id = id, IndexType = IndexType, transactionType = string.IsNullOrEmpty(TransactionType) ? "submit" : TransactionType });
         }
 
@@ -721,6 +732,7 @@ namespace Web
 
                     _SaleEnquiryHeaderService.Update(pd);
 
+                    CreateSaleOrder(Id);
 
                     _unitOfWork.Save();
 
@@ -1006,5 +1018,70 @@ namespace Web
         }
 
 
+        public void CreateSaleOrder(int SaleEnquiryHeaderId)
+        {
+            SaleEnquiryHeader EnquiryHeader = _SaleEnquiryHeaderService.Find(SaleEnquiryHeaderId);
+            SaleEnquirySettings Settings = new SaleEnquirySettingsService(_unitOfWork).GetSaleEnquirySettings(EnquiryHeader.DocTypeId, EnquiryHeader.DivisionId, EnquiryHeader.SiteId);
+
+            SaleOrderHeader OrderHeader = new SaleOrderHeader();
+
+            OrderHeader.DocTypeId = (int) Settings.SaleOrderDocTypeId;
+            OrderHeader.DocDate = EnquiryHeader.DocDate;
+            OrderHeader.DocNo = EnquiryHeader.DocNo;
+            OrderHeader.DivisionId = EnquiryHeader.DivisionId;
+            OrderHeader.SiteId = EnquiryHeader.SiteId;
+            OrderHeader.BuyerOrderNo = EnquiryHeader.BuyerEnquiryNo;
+            OrderHeader.SaleToBuyerId = EnquiryHeader.SaleToBuyerId;
+            OrderHeader.BillToBuyerId = EnquiryHeader.BillToBuyerId;
+            OrderHeader.CurrencyId = EnquiryHeader.CurrencyId;
+            OrderHeader.Priority = EnquiryHeader.Priority;
+            OrderHeader.UnitConversionForId = EnquiryHeader.UnitConversionForId;
+            OrderHeader.ShipMethodId = EnquiryHeader.ShipMethodId;
+            OrderHeader.ShipAddress = EnquiryHeader.ShipAddress;
+            OrderHeader.DeliveryTermsId = EnquiryHeader.DeliveryTermsId;
+            OrderHeader.Remark = EnquiryHeader.Remark;
+            OrderHeader.DueDate = EnquiryHeader.DueDate;
+            OrderHeader.ActualDueDate = EnquiryHeader.ActualDueDate;
+            OrderHeader.Advance = EnquiryHeader.Advance;
+            OrderHeader.ReferenceDocId = EnquiryHeader.SaleEnquiryHeaderId;
+            OrderHeader.ReferenceDocTypeId = EnquiryHeader.DocTypeId;
+            OrderHeader.CreatedDate = DateTime.Now;
+            OrderHeader.ModifiedDate = DateTime.Now;
+            OrderHeader.ModifiedDate = DateTime.Now;
+            OrderHeader.ModifiedBy = User.Identity.Name;
+            OrderHeader.Status = (int)StatusConstants.Drafted;
+            new SaleOrderHeaderService(_unitOfWork).Create(OrderHeader);
+
+
+            IEnumerable<SaleEnquiryLine> LineList = new SaleEnquiryLineService(_unitOfWork).GetSaleEnquiryLineListForHeader(SaleEnquiryHeaderId);
+            int i = 0;
+            foreach(SaleEnquiryLine Line in LineList)
+            {
+                SaleOrderLine OrderLine = new SaleOrderLine();
+                OrderLine.SaleOrderLineId = i;
+                i = i - 1;
+                OrderLine.DueDate = Line.DueDate;
+                OrderLine.ProductId = Line.ProductId ?? 0;
+                OrderLine.Specification = Line.Specification;
+                OrderLine.Dimension1Id = Line.Dimension1Id;
+                OrderLine.Dimension2Id = Line.Dimension2Id;
+                OrderLine.Qty = Line.Qty ;
+                OrderLine.DealQty = Line.DealQty ;
+                OrderLine.DealUnitId = Line.DealUnitId;
+                OrderLine.UnitConversionMultiplier = Line.UnitConversionMultiplier;
+                OrderLine.Rate = Line.Rate;
+                OrderLine.Amount = Line.Amount;
+                OrderLine.Remark = Line.Remark;
+                OrderLine.ReferenceDocTypeId = EnquiryHeader.DocTypeId;
+                OrderLine.ReferenceDocLineId = Line.SaleEnquiryLineId;
+                OrderLine.CreatedDate = DateTime.Now;
+                OrderLine.ModifiedDate = DateTime.Now;
+                OrderLine.CreatedBy = User.Identity.Name;
+                OrderLine.ModifiedBy = User.Identity.Name;
+                new SaleOrderLineService(_unitOfWork).Create(OrderLine);
+
+                new SaleOrderLineStatusService(_unitOfWork).CreateLineStatus(OrderLine.SaleOrderLineId);
+            }
+        }
     }
 }

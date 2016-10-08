@@ -101,6 +101,9 @@ namespace Model.Models
 
 
 
+        [ForeignKey("SaleOrderDocType"), Display(Name = "Sale Order Type")]
+        public int? SaleOrderDocTypeId { get; set; }
+        public virtual DocumentType SaleOrderDocType { get; set; }
 
 
         [Display(Name = "Created By")]

@@ -50,6 +50,8 @@ namespace Model.ViewModel
         public bool isVisibleAdvance { get; set; }
 
 
+        public int SaleOrderDocTypeId { get; set; }
+
         public string filterLedgerAccountGroups { get; set; }
         public string filterLedgerAccounts { get; set; }
         public string filterProductTypes { get; set; }
