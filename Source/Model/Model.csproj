@@ -172,6 +172,7 @@
     <Compile Include="Models\CarpetSkuSettings.cs" />
     <Compile Include="Models\Shift.cs" />
     <Compile Include="Models\SubReport.cs" />
+    <Compile Include="ViewModels\OverTimeApplicationHeaderViewModel.cs" />
     <Compile Include="ViewModels\AttendanceHeaderViewModel.cs" />
     <Compile Include="ViewModels\AttendanceLinesViewModel.cs" />
     <Compile Include="ViewModels\MaterialPlanCancelHeaderViewModel.cs" />

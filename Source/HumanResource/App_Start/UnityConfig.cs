@@ -80,7 +80,7 @@ namespace HumanResource.App_Start
 
             container.RegisterType<ILeaveTypeServices, LeaveTypeServices>(new PerRequestLifetimeManager());
             container.RegisterType<IAttendanceHeaderService, AttendanceHeaderService>(new PerRequestLifetimeManager());
-
+            container.RegisterType<IOverTimeApplicationHeaderService, OverTimeApplicationHeaderService>(new PerRequestLifetimeManager());
 
             //Registering Mappers::
 
@@ -121,6 +121,11 @@ namespace HumanResource.App_Start
             Mapper.CreateMap<AttendanceHeaderViewModel, DocumentUniqueId>();
             Mapper.CreateMap<AttendanceHeader, DocumentUniqueId>();
             Mapper.CreateMap<AttendanceHeader, AttendanceHeader>();
+
+            Mapper.CreateMap<OverTimeApplicationHeaderViewModel, OverTimeApplicationHeader>();
+            Mapper.CreateMap<OverTimeApplicationHeader, DocumentUniqueId>();
+            Mapper.CreateMap<OverTimeApplicationHeaderViewModel, DocumentUniqueId>();
+            Mapper.CreateMap<OverTimeApplicationHeader, OverTimeApplicationHeader>();
         }
     }
 }
