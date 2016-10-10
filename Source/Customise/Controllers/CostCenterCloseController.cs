@@ -155,7 +155,7 @@ namespace Web
                     Header.DocTypeId = PurjaAmountTransferDocTypeId;
                     Header.CostCenterId = item.CostCenterId;
                     // Header.DocHeaderId = StokHeader.StockHeaderId;
-                    DocNo = new DocumentTypeService(_unitOfWork).FGetNewDocNo("DocNo", ConfigurationManager.AppSettings["DataBaseSchema"] + ".LedgerHeaders", Header.DocTypeId, Header.DocDate, Header.DivisionId, Header.SiteId); ;
+                    DocNo = new DocumentTypeService(_unitOfWork).FGetNewDocNo("DocNo", ConfigurationManager.AppSettings["DataBaseSchema"] + ".LedgerHeaders", Header.DocTypeId, Header.DocDate, Header.DivisionId, Header.SiteId); 
 
 
                     TempDocNo = DocNo.Substring(0, 2) + "-" + (Convert.ToInt32(DocNo.Substring(DocNo.IndexOf("-") + 1)) + itemcount - 1).ToString().PadLeft(4, '0').ToString();
@@ -214,12 +214,9 @@ namespace Web
 
                         //Postingcontra LedgerRecord;;
                         Ledger ContraLedger = new Ledger();
-
                         ContraLedger.AmtCr = Amount;
-
                         ContraLedger.AmtDr = Amount < 0 ? 0 : Math.Abs(Amount);
                         ContraLedger.AmtCr = Amount < 0 ? Math.Abs(Amount) : 0;
-
                         ContraLedger.LedgerHeaderId = Header.LedgerHeaderId;
                         ContraLedger.LedgerAccountId = LedgerAccountId;
                         ContraLedger.CostCenterId = item.RetensionCostCenter;
@@ -269,6 +266,7 @@ namespace Web
                         ROLHeader.Remark = "On Cost Center Closing";
                         ROLHeader.Status = (int)StatusConstants.Locked;
                         ROLHeader.ObjectState = Model.ObjectState.Added;
+
                         db.LedgerHeader.Add(ROLHeader);
 
 

@@ -341,11 +341,11 @@ namespace Web
                     temp.ObjectState = Model.ObjectState.Modified;
                     db.LedgerHeader.Add(temp);
 
-                    if (UpdateLedgerPosting)
+                    if (UpdateLedgerPosting && temp.LedgerAccountId != LedgerAccountId)
                     {
                         string Nature = new DocumentTypeService(_unitOfWork).Find(temp.DocTypeId).Nature;
                         var Ledgers = (from p in db.Ledger
-                                       where p.LedgerAccountId == LedgerAccountId || p.ContraLedgerAccountId == LedgerAccountId
+                                       where (p.LedgerAccountId == LedgerAccountId || p.ContraLedgerAccountId == LedgerAccountId) && p.LedgerHeaderId == temp.LedgerHeaderId
                                        select p).ToList();
 
                         //UpdatingLedgerPosting::
