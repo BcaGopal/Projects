@@ -191,7 +191,7 @@
         dataView.syncGridSelection(grid, true);
 
         grid.init();
-
+        Calculation();
     }
 
 
@@ -228,9 +228,12 @@
     });
 
 
+
+
     function Calculation() {
         var RowCount = grid.getDataLength();
         var i = 0;
+        var DocQty = 0;
 
         for (i = 0; i < RowCount; i++) {
             var mTestingQty = grid.getDataItem(i).TestingQty / (500 * 1000)
@@ -240,14 +243,20 @@
             {
                 if (grid.getDataItem(i).DyeingRatio != 0) 
                 {
-                    grid.getDataItem(i).DocQty = (((mTestingQty / HeaderTestingQty) * HeaderQty) * grid.getDataItem(i).DyeingRatio / 100).toFixed(4);
+                    //grid.getDataItem(i).DocQty = (((mTestingQty / HeaderTestingQty) * HeaderQty) * grid.getDataItem(i).DyeingRatio / 100).toFixed(4);
+                    DocQty = (((mTestingQty / HeaderTestingQty) * HeaderQty) * grid.getDataItem(i).DyeingRatio / 100);
                 }
                 else
                 {
-                    grid.getDataItem(i).DocQty = ((mTestingQty / HeaderTestingQty) * HeaderQty).toFixed(4);
+                    //grid.getDataItem(i).DocQty = ((mTestingQty / HeaderTestingQty) * HeaderQty).toFixed(4);
+                    DocQty = ((mTestingQty / HeaderTestingQty) * HeaderQty);
                 }
             }
+            
+            grid.getDataItem(i).DocQty = Math.max( Math.round(DocQty * 1000) / 1000).toFixed(4);
 
+            //$('#Qty').val(($('#DocQty').val() + mExcessQtyInKg));
+            grid.getDataItem(i).Qty = grid.getDataItem(i).DocQty + mExcessQtyInKg;
             grid.getDataItem(i).Amount = (grid.getDataItem(i).Qty * grid.getDataItem(i).Rate).toFixed(2);
             grid.updateRow(i);
         }

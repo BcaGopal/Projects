@@ -262,30 +262,46 @@
             }
 
 
-            //function Calculation() {
-            //    $('#Amount').val(($('#Qty').val() * $('#Rate').val()).toFixed(2));
-            //}
+
 
             function Calculation() {
                 
                 var mTestingQty = $('#TestingQty').val() / (500 * 1000)
                 var mExcessQtyInKg = $('#ExcessQty').val();
 
+                if (mExcessQtyInKg == "" || mExcessQtyInKg == null)
+                {
+                    mExcessQtyInKg = 0;
+                }
 
+                var DocQty = 0;
+                
                 if ($('#HeaderTestingQty').val() != 0 && mTestingQty != 0) 
                 {
                     if ($('#DyeingRatio').val() != 0) 
                     {
-                        $('#DocQty').val((((mTestingQty / $('#HeaderTestingQty').val()) *  $('#HeaderQty').val()) * $('#DyeingRatio').val() / 100).toFixed(4));
+                        
+                        //$('#DocQty').val((((mTestingQty / $('#HeaderTestingQty').val()) *  $('#HeaderQty').val()) * $('#DyeingRatio').val() / 100).toFixed(4));
+                        DocQty = (((mTestingQty / $('#HeaderTestingQty').val()) *  $('#HeaderQty').val()) * $('#DyeingRatio').val() / 100);
+                        
                     }
                     else
                     {
-                        $('#DocQty').val(((mTestingQty / $('#HeaderTestingQty').val()) * $('#HeaderQty').val()).toFixed(4));
+                        //$('#DocQty').val(((mTestingQty / $('#HeaderTestingQty').val()) * $('#HeaderQty').val()).toFixed(4));
+                        DocQty = ((mTestingQty / $('#HeaderTestingQty').val()) * $('#HeaderQty').val());
                     }
                 }
 
-                $('#Qty').val(($('#DocQty').val() + mExcessQtyInKg).toFixed(4)));
+                $('#DocQty').val(Math.max( Math.round(DocQty * 1000) / 1000).toFixed(4));
+
+
+                //$('#Qty').val(($('#DocQty').val() + mExcessQtyInKg).toFixed(4));
+
+                $('#Qty').val(($('#DocQty').val() + mExcessQtyInKg));
                 $('#Amount').val(($('#Qty').val() * $('#Rate').val()).toFixed(2));
+
+                
+               
             }
         })
     </script>

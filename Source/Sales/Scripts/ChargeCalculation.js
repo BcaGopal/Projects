@@ -190,9 +190,9 @@ function DrawFooterFields(DebugMode) {
                + "     </div>"
             }
         }
-        temp += "<input type='hidden' id='CALH_" + FooterFields[i].ChargeCode + "ACCR' value='" + (FooterFields[i].LedgerAccountCrId == null ? "" : FooterFields[i].LedgerAccountCrId) + "' />"
-        temp += "<input type='hidden' id='CALH_" + FooterFields[i].ChargeCode + "ACDR' value='" + (FooterFields[i].LedgerAccountDrId == null ? "" : FooterFields[i].LedgerAccountDrId) + "' />"
-        temp += "<input type='hidden' id='CALH_" + FooterFields[i].ChargeCode + "CLAC' value='" + (FooterFields[i].ContraLedgerAccountId == null ? "" : FooterFields[i].ContraLedgerAccountId) + "' />"
+        temp += "<input type='hidden' id='CALH_" + FooterFields[i].ChargeCode + "ACCR' value='" + (FooterFields[i].LedgerAccountCrId == null ? "" : FooterFields[i].LedgerAccountCrId) + "' name='footercharges[" + i + "].LedgerAccountCrId' />"
+        temp += "<input type='hidden' id='CALH_" + FooterFields[i].ChargeCode + "ACDR' value='" + (FooterFields[i].LedgerAccountDrId == null ? "" : FooterFields[i].LedgerAccountDrId) + "' name='footercharges[" + i + "].LedgerAccountDrId' />"
+        temp += "<input type='hidden' id='CALH_" + FooterFields[i].ChargeCode + "CLAC' value='" + (FooterFields[i].ContraLedgerAccountId == null ? "" : FooterFields[i].ContraLedgerAccountId) + "' name='footercharges[" + i + "].ContraLedgerAccountId' />"
         temp += "<input type='hidden' value='" + (FooterFields[i].AddDeduct == null ? "" : FooterFields[i].AddDeduct) + "' name='footercharges[" + i + "].AddDeduct' />"
         temp += "<input type='hidden' value='" + (FooterFields[i].AffectCost == null ? "" : FooterFields[i].AffectCost) + "' name='footercharges[" + i + "].AffectCost' />"
         temp += "<input type='hidden' value='" + (FooterFields[i].CalculateOnId == null ? "" : FooterFields[i].CalculateOnId) + "' name='footercharges[" + i + "].CalculateOnId' />"

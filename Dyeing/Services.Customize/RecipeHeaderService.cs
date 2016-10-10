@@ -597,6 +597,10 @@ namespace Services.Customize
             _JobOrderLineService.Update(line);
 
 
+
+
+
+
             if (line.StockId != null)
             {
                 StockViewModel StockViewModel = new StockViewModel();

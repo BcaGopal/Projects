@@ -602,19 +602,33 @@ namespace Web
 
                 var SaleDispatchLine = (from L in db.SaleDispatchLine where L.SaleDispatchHeaderId == vm.id select L).ToList();
 
+                var PackingLine = (from L in db.PackingLine where L.PackingHeaderId == vm.id select L).ToList();
+
 
                 int cnt = 0;
                 foreach (var item in SaleDispatchLine)
                 {
-
                     cnt = cnt + 1;
-
-                    
                     try
                     {
                         item.ObjectState = Model.ObjectState.Deleted;
                         db.SaleDispatchLine.Attach(item);
                         db.SaleDispatchLine.Remove(item);
+                    }
+                    catch (Exception e)
+                    {
+                        string str = e.Message;
+                    }
+
+                }
+
+                foreach (var item in PackingLine)
+                {
+                    try
+                    {
+                        item.ObjectState = Model.ObjectState.Deleted;
+                        db.PackingLine.Attach(item);
+                        db.PackingLine.Remove(item);
                     }
                     catch (Exception e)
                     {

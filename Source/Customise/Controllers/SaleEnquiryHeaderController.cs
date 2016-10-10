@@ -706,6 +706,17 @@ namespace Web
                 return RedirectToAction("Index", new { id = s.DocTypeId, IndexType = IndexType });
             }
 
+            var SaleOrderHeader = (from H in context.SaleOrderHeader
+                                   where H.ReferenceDocId == s.SaleEnquiryHeaderId && H.ReferenceDocTypeId == s.DocTypeId
+                                   select H).FirstOrDefault();
+
+            if (SaleOrderHeader != null)
+            {
+                string message = "Sale Order is created for this enquiry.It can not be submit now.You can delete sale order and then submit this enquiry.";
+                TempData["CSEXC"] += message;
+                return RedirectToAction("Index", new { id = s.DocTypeId, IndexType = IndexType });
+            }
+
             return RedirectToAction("Detail", new { id = id, IndexType = IndexType, transactionType = string.IsNullOrEmpty(TransactionType) ? "submit" : TransactionType });
         }
 

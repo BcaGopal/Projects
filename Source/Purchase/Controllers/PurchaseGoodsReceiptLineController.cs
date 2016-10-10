@@ -101,7 +101,7 @@ namespace Web
 
             if (ModelState.IsValid && BeforeSave && !EventException)
             {
-                int ProcessId = new ProcessService(_unitOfWork).Find(ProcessConstants.FullFinishing).ProcessId;
+                int ProcessId = new ProcessService(_unitOfWork).Find(ProcessConstants.Purchase).ProcessId;
                 PurchaseGoodsReceiptHeader Header = new PurchaseGoodsReceiptHeaderService(_unitOfWork).Find(vm.PurchaseGoodsReceiptLineViewModel.FirstOrDefault().PurchaseGoodsReceiptHeaderId);
 
                 var PurchaseOrderLineIds = vm.PurchaseGoodsReceiptLineViewModel.Select(m => m.PurchaseOrderLineId).ToArray();
@@ -431,7 +431,7 @@ namespace Web
 
             if (ModelState.IsValid && BeforeSave && !EventException)
             {
-                int ProcessId = new ProcessService(_unitOfWork).Find(ProcessConstants.FullFinishing).ProcessId;
+                int ProcessId = new ProcessService(_unitOfWork).Find(ProcessConstants.Purchase).ProcessId;
                 if (svm.PurchaseGoodsReceiptLineId <= 0)
                 {
                     StockViewModel StockViewModel = new StockViewModel();
@@ -619,7 +619,7 @@ namespace Web
                     StockViewModel.HeaderFromGodownId = null;
                     StockViewModel.HeaderGodownId = null;
                     StockViewModel.GodownId = temp.GodownId;
-                    StockViewModel.ProcessId = new ProcessService(_unitOfWork).Find(ProcessConstants.FullFinishing).ProcessId;
+                    StockViewModel.ProcessId = new ProcessService(_unitOfWork).Find(ProcessConstants.Purchase).ProcessId;
                     StockViewModel.LotNo = null;
                     StockViewModel.CostCenterId = null;
                     StockViewModel.Qty_Iss = 0;

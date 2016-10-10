@@ -87,13 +87,7 @@ namespace Web
             SaleInvoiceHeader Sh = new SaleInvoiceHeaderService(_unitOfWork).FindDirectSaleInvoice(vm.DirectSaleInvoiceLineViewModel.FirstOrDefault().SaleInvoiceHeaderId);
 
 
-            SaleInvoiceLine LastRecord = _SaleInvoiceLineService.GetSaleInvoiceLineList(Sh.SaleInvoiceHeaderId).OrderByDescending(m => m.SaleInvoiceLineId).FirstOrDefault();
 
-            if (LastRecord == null)
-            {
-                TempData["CSEXCL"] += "Please insert a record before creating from multiple";
-                return PartialView("_Results", vm);
-            }
 
             List<HeaderChargeViewModel> HeaderCharges = new List<HeaderChargeViewModel>();
             List<LineChargeViewModel> LineCharges = new List<LineChargeViewModel>();
@@ -147,6 +141,7 @@ namespace Web
                         line.SaleInvoiceLineId = pk;
                         line.Dimension1Id = item.Dimension1Id;
                         line.Dimension2Id = item.Dimension2Id;
+                        line.SaleOrderLineId = item.SaleOrderLineId;
                         line.DiscountPer = item.DiscountPer;
                         line.ProductId = item.ProductId;
                         line.Qty = item.Qty;
@@ -872,6 +867,7 @@ namespace Web
                             Dimension1Name = Dimension1Tab.Dimension1Name,
                             Dimension2Id = L.Dimension2Id,
                             Dimension2Name = Dimension2Tab.Dimension2Name,
+                            SaleOrderLineId = L.SaleOrderLineId,
                             Rate = L.Rate,
                             BalanceQty = L.BalanceQty
                         }).FirstOrDefault();

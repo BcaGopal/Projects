@@ -322,6 +322,10 @@ namespace Sales.App_Start
             Mapper.CreateMap<HeaderChargeViewModel, SaleInvoiceReturnHeaderCharge>().ForMember(m => m.Id, x => x.Ignore());
             Mapper.CreateMap<SaleInvoiceReturnHeaderCharge, HeaderChargeViewModel>().ForMember(m => m.Id, x => x.Ignore());
 
+            Mapper.CreateMap<HeaderChargeViewModel, SaleInvoiceHeaderCharge>();
+            Mapper.CreateMap<SaleInvoiceHeaderCharge, HeaderChargeViewModel>();
+
+
             Mapper.CreateMap<CalculationFooterViewModel, HeaderChargeViewModel>();
             Mapper.CreateMap<CalculationProductViewModel, LineChargeViewModel>();
 
