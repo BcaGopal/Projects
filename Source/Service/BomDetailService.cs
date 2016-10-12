@@ -247,8 +247,22 @@ namespace Service
             {
                 Weight = Temp.Weight;            
             }
-            
 
+            if (Weight == 0)
+            {
+                var BomDetailForWeight = (from b in db.BomDetail
+                                 where b.BaseProductId == BaseProductId
+                                 group new { b } by new { b.BaseProductId } into Result
+                                 select new
+                                 {
+                                     TotalWeight = Result.Sum(i => i.b.Qty)
+                                 }).FirstOrDefault();
+
+                if (BomDetailForWeight != null)
+                {
+                    Weight = BomDetailForWeight.TotalWeight;
+                }
+            }
 
             IEnumerable<DesignConsumptionLineViewModel> svm = (from b in db.BomDetail
                                                                join d in db.Dimension1 on b.Dimension1Id equals d.Dimension1Id into Dimension1Table
@@ -303,6 +317,9 @@ namespace Service
             {
                 Weight = Temp.Weight;
             }
+
+
+
 
             IEnumerable<ProductConsumptionLineViewModel> svm = (from b in db.BomDetail
                                                                 join d in db.Dimension1 on b.Dimension1Id equals d.Dimension1Id into Dimension1Table
@@ -360,6 +377,23 @@ namespace Service
             if (Temp != null)
             {
                 Weight = Temp.Weight;
+            }
+
+
+            if (Weight == 0)
+            {
+                var BomDetailForWeight = (from b in db.BomDetail
+                                 where b.BaseProductId == BaseProductId
+                                 group new { b } by new { b.BaseProductId } into Result
+                                 select new
+                                 {
+                                     TotalWeight = Result.Sum(i => i.b.Qty)
+                                 }).FirstOrDefault();
+
+                if (BomDetailForWeight != null)
+                {
+                    Weight = BomDetailForWeight.TotalWeight;
+                }
             }
 
             IEnumerable<DesignConsumptionLineViewModel> svm = (from b in db.BomDetail
@@ -486,6 +520,21 @@ namespace Service
                 Weight = Temp.Weight;
             }
 
+            if (Weight == 0)
+            {
+                var BomDetailForWeight = (from b in db.BomDetail
+                                          where b.BaseProductId == BomDetail.BaseProductId
+                                          group new { b } by new { b.BaseProductId } into Result
+                                          select new
+                                          {
+                                              TotalWeight = Result.Sum(i => i.b.Qty)
+                                          }).FirstOrDefault();
+
+                if (BomDetailForWeight != null)
+                {
+                    Weight = BomDetailForWeight.TotalWeight;
+                }
+            }
 
             DesignConsumptionLineViewModel svm = (from b in db.BomDetail
                                                   join p in db.Product on b.ProductId equals p.ProductId into ProductTable

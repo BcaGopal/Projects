@@ -44,7 +44,7 @@
 
                     <div class="col-md-12">
                         <div class="form-group">
-                            @Html.LabelFor(model => model.ColourId, "To Design", new { @class = "control-label col-xs-4 " })
+                            @Html.LabelFor(model => model.ColourId, "To Colour", new { @class = "control-label col-xs-4 " })
                             <div class="col-xs-6">
                                 @Html.TextBoxFor(m => m.ColourId, null, new { @class = "form-control col-xs-6 required" })
                                 @Html.ValidationMessageFor(m => m.ColourId, "", new { @class = "text-danger" })
@@ -64,7 +64,7 @@
 <script type="text/javascript">
     CustomSelectFunction($("#ProductId"), '/ComboHelpList/GetBom', '/ComboHelpList/SetSingleProduct', ' ', false, 0);
     CustomSelectFunction($("#ProductGroupId"), '/ComboHelpList/GetProductGroupForRug', '/ComboHelpList/SetSingleProductGroup', ' ', false, 0);
-    CustomSelectFunction($("#ProductGroupId"), '/ComboHelpList/GetColours', '/ComboHelpList/SetSingleColour', ' ', false, 0);
+    CustomSelectFunction($("#ColourId"), '/ComboHelpList/GetColours', '/ComboHelpList/SetSingleColour', ' ', false, 0);
 
 
 

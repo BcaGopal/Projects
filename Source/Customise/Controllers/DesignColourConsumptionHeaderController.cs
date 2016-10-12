@@ -146,7 +146,7 @@ namespace Web.Controllers
 
                     FinishedProduct product = new FinishedProduct();
 
-                    string ConsumptionProductName = svm.ProductGroupName + "-" + svm.ColourName + "-Bom";
+                    string ConsumptionProductName = svm.ProductGroupName.ToString().Trim() + "-" + svm.ColourName.ToString().Trim() + "-Bom";
 
                     product.ProductCode = ConsumptionProductName;
                     product.ProductName = ConsumptionProductName;
@@ -229,7 +229,7 @@ namespace Web.Controllers
 
                     Product ExRec = Mapper.Map<Product>(product);
 
-                    string ConsumptionProductName = svm.ProductGroupName + "-" + svm.ColourName + "-Bom";
+                    string ConsumptionProductName = svm.ProductGroupName.ToString().Trim() + "-" + svm.ColourName.ToString().Trim() + "-Bom";
 
                     product.ProductCode = ConsumptionProductName;
                     product.ProductName = ConsumptionProductName;
@@ -421,12 +421,20 @@ namespace Web.Controllers
             {
                 Product OldProduct = _ProductService.Find(vm.ProductId);
 
-                Product NewProduct = new Product();
+                FinishedProduct NewProduct = new FinishedProduct();
                 ProductGroup productgroup = new ProductGroupService(_unitOfWork).Find(vm.ProductGroupId);
                 Colour Colour = new ColourService(_unitOfWork).Find(vm.ColourId);
 
 
-                string ConsumptionProductName = productgroup.ProductGroupName + "-" + Colour.ColourName + "-Bom";
+                string ConsumptionProductName = productgroup.ProductGroupName.ToString().Trim() + "-" + Colour.ColourName.ToString().Trim() + "-Bom";
+
+                var FirstProductQuality = (from p in db.FinishedProduct
+                            where p.ProductGroupId == productgroup.ProductGroupId && p.ColourId == Colour.ColourId
+                            select new
+                            {
+                                ProductQualityId = p.ProductQualityId
+                            }).FirstOrDefault();
+
 
                 NewProduct.ProductCode = ConsumptionProductName;
                 NewProduct.ProductName = ConsumptionProductName;
@@ -439,6 +447,11 @@ namespace Web.Controllers
                 NewProduct.ModifiedBy = User.Identity.Name;
                 NewProduct.ReferenceDocTypeId = new DocumentTypeService(_unitOfWork).FindByName(MasterDocTypeConstants.ProductGroup).DocumentTypeId;
                 NewProduct.ReferenceDocId = productgroup.ProductGroupId;
+                NewProduct.IsSample = false;
+                if (FirstProductQuality != null)
+                {
+                    NewProduct.ProductQualityId = FirstProductQuality.ProductQualityId;
+                }
                 NewProduct.ObjectState = Model.ObjectState.Added;
                 _ProductService.Create(NewProduct);
 
@@ -446,11 +459,11 @@ namespace Web.Controllers
 
 
                 var ProductList = (from p in db.FinishedProduct
-                                   where p.ProductGroupId == productgroup.ProductGroupId && p.ColourId == Colour.ColourId
-                                   select new
-                                   {
-                                       ProductId = p.ProductId
-                                   }).ToList();
+                                    where p.ProductGroupId == productgroup.ProductGroupId && p.ColourId == Colour.ColourId
+                                    select new
+                                    {
+                                        ProductId = p.ProductId
+                                    }).ToList();
 
                 foreach (var item in ProductList)
                 {
