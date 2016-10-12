@@ -252,6 +252,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminSetupController.cs" />
     <Compile Include="Controllers\CarpetMasterController.cs" />
+    <Compile Include="Controllers\DesignColourConsumptionHeaderController.cs" />
     <Compile Include="Controllers\SaleEnquiryProductMapping.cs" />
     <Compile Include="Controllers\ColourController.cs" />
     <Compile Include="Controllers\ComboHelpListController.cs" />
@@ -1143,6 +1144,11 @@
     <Content Include="Views\CarpetSkuSettings\Create.cshtml" />
     <Content Include="Views\SaleEnquiryProductMapping\Create.cshtml" />
     <Content Include="Views\SaleEnquiryProductMapping\Index.cshtml" />
+    <Content Include="Views\DesignColourConsumptionHeader\_Reason.cshtml" />
+    <Content Include="Views\DesignColourConsumptionHeader\ChooseType.cshtml" />
+    <Content Include="Views\DesignColourConsumptionHeader\CopyFromExisting.cshtml" />
+    <Content Include="Views\DesignColourConsumptionHeader\Create.cshtml" />
+    <Content Include="Views\DesignColourConsumptionHeader\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

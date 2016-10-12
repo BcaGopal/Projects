@@ -161,6 +161,7 @@ namespace Service
                                                                                   DealQty = PackingLineTab.DealQty,
                                                                                   DealUnitId = DealUnitTab.UnitName,
                                                                                   DealUnitDecimalPlaces = DealUnitTab.DecimalPlaces,
+                                                                                  unitDecimalPlaces = PackingLineTab.Product.Unit.DecimalPlaces,
                                                                                   StockInId = StockInTab.StockId,
                                                                                   StockInNo = StockHeaderTab.DocNo,
                                                                                   Remark = l.Remark,
@@ -259,7 +260,7 @@ namespace Service
                         LossQty = Pl.LossQty,
                         PassQty = Pl.PassQty,
                         Qty = Pl.Qty,
-                        BalanceQty = (tab3 == null ? Pl.Qty : tab3.BalanceQty + Pl.Qty),
+                        BalanceQty = (tab3 == null ? (decimal)Pl.PassQty : tab3.BalanceQty + (decimal)Pl.PassQty),
                         BaleNo = Pl.BaleNo,
                         UnitId = Pl.Product.UnitId,
                         UnitName = Pl.Product.Unit.UnitName,
@@ -512,9 +513,7 @@ namespace Service
             return (from p in db.ViewStockInBalance
                     where p.BalanceQty > 0
                     && p.PersonId == SaleDispatchHeader.SaleToBuyerId
-                    && p.ProductId == ProductId
                     && p.Dimension1Id == Dimension1Id
-                    && p.Dimension2Id == Dimension2Id
                     && (string.IsNullOrEmpty(settings.filterContraSites) ? p.SiteId == CurrentSiteId : contraSites.Contains(p.SiteId.ToString()))
                     && (string.IsNullOrEmpty(settings.filterContraDivisions) ? p.DivisionId == CurrentDivisionId : contraDivisions.Contains(p.DivisionId.ToString()))
                     && (string.IsNullOrEmpty(term) ? 1 == 1 : p.StockInNo.ToLower().Contains(term.ToLower()))

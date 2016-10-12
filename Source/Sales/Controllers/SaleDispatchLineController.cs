@@ -422,6 +422,10 @@ namespace Web
             if (svm.Qty <= 0)
                 ModelState.AddModelError("Qty", "The Qty field is required");
 
+
+            if (svm.StockInId == 0 || svm.StockInId == null)
+                ModelState.AddModelError("StockInId", "Stock In field is required");
+
             if (svm.GodownId <= 0)
                 ModelState.AddModelError("GodownId", "The Godown field is required");
 
@@ -659,6 +663,7 @@ namespace Web
                     Pl.ProductUidId = svm.ProductUidId;
                     Pl.ProductId = svm.ProductId;
                     Pl.SaleOrderLineId = svm.SaleOrderLineId;
+                    Pl.PassQty = svm.PassQty;
                     Pl.Qty = svm.Qty;
                     Pl.BaleNo = svm.BaleNo;
                     Pl.DealUnitId = svm.DealUnitId;

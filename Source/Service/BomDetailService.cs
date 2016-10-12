@@ -32,6 +32,7 @@ namespace Service
 
         //For Design Consumption
         DesignConsumptionHeaderViewModel GetDesignConsumptionHeaderViewModel(int ProductId);
+        DesignColourConsumptionHeaderViewModel GetDesignColourConsumptionHeaderViewModel(int ProductId);
         ProductConsumptionHeaderViewModel GetDesignConsumptionHeaderViewModelForProduct(int ProductId);
         IEnumerable<DesignConsumptionLineViewModel> GetDesignConsumptionFaceContentForIndex(int BaseProductId);
         IEnumerable<ProductConsumptionLineViewModel> GetDesignConsumptionFaceContentForIndexForProduct(int BaseProductId);
@@ -40,6 +41,7 @@ namespace Service
         DesignConsumptionLineViewModel GetDesignConsumptionLineForEdit(int BomDetailId);
         ProductConsumptionLineViewModel GetDesignConsumptionLineForEditForProduct(int BomDetailId);
         IQueryable<DesignConsumptionHeaderViewModel> GetDesignConsumptionHeaderViewModelForIndex();
+        IQueryable<DesignColourConsumptionHeaderViewModel> GetDesignColourConsumptionHeaderViewModelForIndex();
         IQueryable<ProductConsumptionHeaderViewModel> GetDesignConsumptionHeaderViewModelForIndexForProduct();
         bool CheckForProductShadeExists(int ProductId, int? Dimension1Id, int BaseProductId, int BomDetailId);
         bool CheckForProductShadeExists(int ProductId, int? Dimension1Id, int BaseProductId);
@@ -225,7 +227,7 @@ namespace Service
         public IEnumerable<DesignConsumptionLineViewModel> GetDesignConsumptionFaceContentForIndex(int BaseProductId)
         {
             var ProductFaceContentGroups = from p in db.Product
-                                           join pg in db.ProductGroups on p.ProductName equals pg.ProductGroupName into ProductGroupTable
+                                           join pg in db.ProductGroups on p.ReferenceDocId equals pg.ProductGroupId into ProductGroupTable
                                            from ProductGroupTab in ProductGroupTable.DefaultIfEmpty()
                                            join fp in db.FinishedProduct on ProductGroupTab.ProductGroupId equals fp.ProductGroupId into FinishedProductTable
                                            from FinishedProductTab in FinishedProductTable.DefaultIfEmpty()
@@ -339,7 +341,7 @@ namespace Service
         public IEnumerable<DesignConsumptionLineViewModel> GetDesignConsumptionOtherContentForIndex(int BaseProductId)
         {
             var ProductFaceContentGroups = from p in db.Product
-                                           join pg in db.ProductGroups on p.ProductName equals pg.ProductGroupName into ProductGroupTable
+                                           join pg in db.ProductGroups on p.ReferenceDocId equals pg.ProductGroupId into ProductGroupTable
                                            from ProductGroupTab in ProductGroupTable.DefaultIfEmpty()
                                            join fp in db.FinishedProduct on ProductGroupTab.ProductGroupId equals fp.ProductGroupId into FinishedProductTable
                                            from FinishedProductTab in FinishedProductTable.DefaultIfEmpty()
@@ -569,7 +571,7 @@ namespace Service
         public DesignConsumptionHeaderViewModel GetDesignConsumptionHeaderViewModel(int ProductId)
         {
             DesignConsumptionHeaderViewModel svm = (from p in db.Product
-                                                    join Ig in db.ProductGroups on p.ProductName equals Ig.ProductGroupName into ProductGroupTable
+                                                    join Pg in db.ProductGroups on p.ReferenceDocId equals Pg.ProductGroupId into ProductGroupTable
                                                     from ProductGroupTab in ProductGroupTable.DefaultIfEmpty()
                                                     where p.ProductId == ProductId
                                                     select new DesignConsumptionHeaderViewModel
@@ -577,6 +579,32 @@ namespace Service
                                                         BaseProductId = p.ProductId,
                                                         ProductGroupId = ProductGroupTab.ProductGroupId,
                                                         ProductGroupName = ProductGroupTab.ProductGroupName
+                                                    }).FirstOrDefault();
+
+            if (svm != null)
+            {
+                var p = new ProductGroupService(_unitOfWork).GetProductGroupQuality(svm.ProductGroupId);
+
+                if (p != null)
+                {
+                    svm.ProductQualityName = p.ProductQualityName;
+                }
+            }
+
+            return svm;
+        }
+
+        public DesignColourConsumptionHeaderViewModel GetDesignColourConsumptionHeaderViewModel(int ProductId)
+        {
+            DesignColourConsumptionHeaderViewModel svm = (from p in db.ViewDesignColourConsumption
+                                                          where p.BomProductId == ProductId
+                                                          select new DesignColourConsumptionHeaderViewModel
+                                                    {
+                                                        BaseProductId =  p.BomProductId,
+                                                        ProductGroupId = p.ProductGroupId,
+                                                        ProductGroupName = p.ProductGroupName,
+                                                        ColourId = p.ColourId,
+                                                        ColourName = p.ColourName
                                                     }).FirstOrDefault();
 
             if (svm != null)
@@ -637,6 +665,25 @@ namespace Service
                                                                {
                                                                    BaseProductId = p.ProductId,
                                                                    BaseProductName = p.ProductName,
+                                                               };
+
+            return svm;
+        }
+
+        public IQueryable<DesignColourConsumptionHeaderViewModel> GetDesignColourConsumptionHeaderViewModelForIndex()
+        {
+
+            var RefDocTypeId = new DocumentTypeService(_unitOfWork).FindByName(MasterDocTypeConstants.ProductGroup).DocumentTypeId;
+
+            IQueryable<DesignColourConsumptionHeaderViewModel> svm = from p in db.ViewDesignColourConsumption
+                                                               orderby p.ProductGroupName
+                                                                     select new DesignColourConsumptionHeaderViewModel
+                                                               {
+                                                                   BaseProductId = p.BomProductId,
+                                                                   ProductGroupId = p.ProductGroupId,
+                                                                   ProductGroupName = p.ProductGroupName,
+                                                                   ColourId = p.ColourId,
+                                                                   ColourName = p.ColourName
                                                                };
 
             return svm;
@@ -743,7 +790,7 @@ namespace Service
         public DesignConsumptionLineViewModel GetBaseProductDetail(int BaseProductId)
         {
             var temp = from p in db.Product
-                       join pg in db.ProductGroups on p.ProductName equals pg.ProductGroupName into ProductGroupTable
+                       join pg in db.ProductGroups on p.ReferenceDocId equals pg.ProductGroupId into ProductGroupTable
                        from ProductGroupTab in ProductGroupTable.DefaultIfEmpty()
                        join f in db.FinishedProduct on ProductGroupTab.ProductGroupId equals f.ProductGroupId into FinishedProductTable
                        from FinishedProductTab in FinishedProductTable.DefaultIfEmpty()

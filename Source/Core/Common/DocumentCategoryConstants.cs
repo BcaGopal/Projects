@@ -499,6 +499,7 @@ namespace Core.Common
         public const string Division = "Division";
         public const string Designation = "Designation";
         public const string DesignConsumption = "Design Consumption";
+        public const string DesignColourConsumption = "Design Colour Consumption";
         public const string DescriptionOfGoods = "Description Of Goods";
         public const string Department = "Department";
         public const string DeliveryTerms = "DeliveryTerms";
