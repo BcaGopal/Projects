@@ -42,8 +42,8 @@
 
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                 <div class="row">
-                    <div class="col-md-6" style="display:@(Model.SaleDispatchSettings.isVisibleProductUid ? "" : "none")">
-                        @Html.HiddenFor(m => m.SaleDispatchSettings.isVisibleProductUid)
+                    <div class="col-md-6" style="display:@(Model.SaleDispatchSettings.isVisibleProductUID ? "" : "none")">
+                        @Html.HiddenFor(m => m.SaleDispatchSettings.isVisibleProductUID)
                         <div class="form-group">
                             @Html.LabelFor(model => model.ProductUidName, "Product Uid", new { @class = "control-label col-xs-4 " })
                             <div class="col-xs-7">

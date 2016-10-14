@@ -34,6 +34,7 @@
                 @Html.ActionLink(" ", "GeneratePrints", "JobReceiveHeader", null, new { @class = "glyphicon glyphicon-print toolbar", @title = "Print", @data_toggle = "tooltip", @id = "PrintRecordI", target = "_blank" })
                 @Html.ActionLink(" ", "Remove", "JobReceiveHeader", null, new { @class = "glyphicon glyphicon-trash toolbar", @title = "Delete", @data_toggle = "tooltip", @id = "DeleteRecord", @data_modalDelete = "" })
                 @Html.ActionLink(" ", "Report", "JobReceiveHeader", new { @ViewBag.id }, new { @class = "glyphicon glyphicon-stats toolbar right", @title = "Report", @data_toggle = "tooltip", @id = "ReportRecord", target = "_blank" })
+                @Html.ActionLink(" ", "Wizard", "JobReceiveHeader", new { @id = @ViewBag.id }, new { @class = "glyphicon glyphicon-import toolbar right", @title = "Wizard", @data_toggle = "tooltip" })
                 @Html.ActionLink(" ", "Import", "JobReceiveHeader", new { @id = @ViewBag.id }, new { @class = "glyphicon glyphicon-import toolbar right", @title = "Import", @data_toggle = "tooltip" })
                 @Html.ActionLink(" ", "", "", null, new { @class = "glyphicon glyphicon-export toolbar right", @title = "Export", @data_toggle = "tooltip" })
                 @Html.ActionLink(" ", "Create", "JobReceiveSettings", new { @id = @ViewBag.id }, new { @class = "glyphicon glyphicon-cog toolbar right", @title = "Default Settings", @data_toggle = "tooltip" })

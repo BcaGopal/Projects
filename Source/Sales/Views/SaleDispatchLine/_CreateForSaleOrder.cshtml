@@ -64,7 +64,8 @@
                         </div>
                     </div>
 
-                    <div class="col-md-6">
+                    <div class="col-md-6" style="display:@(Model.SaleDispatchSettings.isVisibleStockIn ? "" : "none")">
+                        @Html.HiddenFor(m => m.SaleDispatchSettings.isVisibleStockIn)
                         <div class="form-group">
                             @Html.LabelFor(model => model.StockInId, "Stock In", new { @class = "control-label col-xs-4" })
                             <div class="col-xs-7">
@@ -146,7 +147,7 @@
                                 @Html.ValidationMessageFor(model => model.Qty, "", new { @class = "text-danger" })
                             </div>
                             <div class="col-xs-3" style="padding-left:0px">
-                                @Html.TextBoxFor(m => m.UnitName, new { @class = "form-control col-xs-2 cusleftnormal", @readonly = "true" })
+                                @Html.TextBoxFor(m => m.UnitName, new { @class = "form-control col-xs-2 cusleftnormal", @readonly = "true"})
                             </div>
                         </div>
                     </div>
@@ -369,6 +370,7 @@
 
 
 
+
         var IsSaved=false;
         var ValidationCount=0;
 
@@ -546,14 +548,19 @@
                         if (data != null)
                         {
                             $("#StockInBalanceQty").val(data.BalanceQty);
-                            $("#Qty").val(data.BalanceQty);
-                            $("#PassQty").val(data.BalanceQty);
+
+                            if ($("#BalanceQty").val() > $("#StockInBalanceQty").val())
+                            {
+                                $("#Qty").val(data.BalanceQty);
+                                $("#PassQty").val(data.BalanceQty);
+                            }
+
                             $("#LotNo").val(data.LotNo);
                             Calculation();
                         }
                         else{
-                            $("#Qty").val(0);
-                            $("#PassQty").val(0);
+                            //$("#Qty").val(0);
+                            //$("#PassQty").val(0);
                             $("#StockInBalanceQty").val(0);
                             $("#LotNo").val("");
                         }
@@ -566,8 +573,8 @@
 
             }
             else {
-                $("#Qty").val(0);
-                $("#PassQty").val(0);
+                //$("#Qty").val(0);
+                //$("#PassQty").val(0);
                 $("#StockInBalanceQty").val(0);
                 $("#LotNo").val("");
             }
@@ -633,7 +640,7 @@
             }
 
             if ($('#UnitConversionMultiplier').val() != 0) {
-                $('#DealQty').val(($('#Qty').val() * $('#UnitConversionMultiplier').val()).toFixed(2))
+                $('#DealQty').val(($('#Qty').val() * $('#UnitConversionMultiplier').val()).toFixed(3))
             }
 
             //if ($('#LossQty').val() != null && $('#LossQty').val() != "")
@@ -644,8 +651,8 @@
             //    $('#PassQty').val($('#Qty').val());
             //}
 
-            $('#LossQty').val(parseFloat($('#PassQty').val()) - parseFloat($('#Qty').val()).toFixed(2));
-
+            $('#LossQty').val(parseFloat($('#PassQty').val() - $('#Qty').val()).toFixed(2));
+            //alert($('#LossQty').val());
 
 
             //$('#Amount').val(($('#DealQty').val() * $('#Rate').val()).toFixed(2));

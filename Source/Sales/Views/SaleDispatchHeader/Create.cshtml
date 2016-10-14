@@ -226,24 +226,11 @@
                                 <div class="block" style="width: 90%; ">
                                     <div class="row">
                                         @*ProductInfo*@
-                                        <div class="block" style="width: 20%; ">
+                                        <div class="block" style="width: 60%; ">
                                             Product Name
                                         </div>
-                                        @*Bale No*@
-                                        <div class="block" style="width: 10%;">
-                                            Bale No
-                                        </div>
-                                        @*Invoice Group*@
-                                        <div class="block" style="width: 25%; ">
-                                            Invoice Group
-                                        </div>
-                                        @*Qty*@
                                         <div class="block text-right" style="width: 10%; ">
                                             Qty
-                                        </div>
-                                        @*Rate*@
-                                        <div class="block text-right" style="width: 10%; ">
-                                            Deal Qty
                                         </div>
                                     </div>
                                 </div>
@@ -588,6 +575,11 @@
         //Adding Hidden Input Fields
         AddFields();
 
+
+
+
+
+
         //Calling the function to load the table data/ Line information
         LoadProducts();
         var id=@Model.SaleDispatchHeaderId;
@@ -662,7 +654,7 @@
                 if(data.length!=0)
                 {
                     $.each(data, function (index, item) {
-                        row += " <div class='row crow grid-body' style='margin-left:0px;margin-right:0px'><div class='row-index block'  style='width:5%'>"+srno+"<input type='hidden' class='id' value='"+item.SaleDispatchLineId+"' /></div><div class='block' style='width: 90%; '><div class='row'><div class='block' style='width: 20%; '>"+(item.ProductName==null?" ":"<strong>"+item.ProductName+"</strong>")+"<br />"+(item.Specification==null?" ":item.Specification)+" <div>"+(item.Dimension1Name==null?" ":item.Dimension1Name+",")+(item.Dimension2Name==null?" ":item.Dimension2Name)+"</div><div>"+((item.SaleOrderHeaderDocNo==null)?" ":"<h4><span title='SaleOrder' class='label label-danger' style='font-weight:bold'>"+item.SaleOrderHeaderDocNo+"</span></h4>")+"<br />"+(item.ProductUidName==null?" ":"<strong>"+item.ProductUidName+"</strong>")+"</div></div> <div class='block' style='width: 10%; '>"+(item.BaleNo==null?" ":item.BaleNo)+"</div>   <div class='block' style='width: 25%; '>"+(item.ProductInvoiceGroupName==null?" ":item.ProductInvoiceGroupName)+"</div>     <div class='block text-right' style='width: 10%; '>"+(item.Qty==null?" ":item.Qty.toFixed(item.unitDecimalPlaces))+"<br /> <div><small>"+(item.UnitId==null?" ":item.UnitId)+"</small></div>  </div>  <div class='block text-right' style='width: 10%; '>"+(item.DealQty==null?" ":item.DealQty.toFixed(item.DealUnitDecimalPlaces))+"<br /> <div><small>"+(item.DealUnitId==null?" ":item.DealUnitId)+"</small></div>  </div> </div></div><div class='block' style='width: 5%; '><a class='glyphicon glyphicon-trash icon-Cus-Size' data-modal='' data-detailDisabled='true' delete='' href='"+LineDeleteUrl+item.SaleDispatchLineId+"'></a><a  edit='' href='"+LineEditUrl+item.SaleDispatchLineId+"'></a></div></div><hr style='margin-top:0px;margin-bottom:0px'/></div>";
+                        row += " <div class='row crow grid-body' style='margin-left:0px;margin-right:0px'><div class='row-index block'  style='width:5%'>"+srno+"<input type='hidden' class='id' value='"+item.SaleDispatchLineId+"' /></div><div class='block' style='width: 90%; '><div class='row'><div class='block' style='width: 60%; '>"+(item.ProductName==null?" ":"<strong>"+item.ProductName+"</strong>")+"<br />"+(item.Specification==null?" ":item.Specification)+" <div>"+(item.Dimension1Name==null?" ":item.Dimension1Name+",")+(item.Dimension2Name==null?" ":item.Dimension2Name)+"</div><div>"+((item.SaleOrderHeaderDocNo==null)?" ":"<h4><span title='SaleOrder' class='label label-danger' style='font-weight:bold'>"+item.SaleOrderHeaderDocNo+"</span></h4>")+"<br />"+(item.ProductUidName==null?" ":"<strong>"+item.ProductUidName+"</strong>")+"</div></div> <div class='block text-right' style='width: 10%; '>"+(item.Qty==null?" ":item.Qty.toFixed(item.unitDecimalPlaces))+"<br /> <div><small>"+(item.UnitId==null?" ":item.UnitId)+"</small></div>  </div>  </div></div><div class='block' style='width: 5%; '><a class='glyphicon glyphicon-trash icon-Cus-Size' data-modal='' data-detailDisabled='true' delete='' href='"+LineDeleteUrl+item.SaleDispatchLineId+"'></a><a  edit='' href='"+LineEditUrl+item.SaleDispatchLineId+"'></a></div></div><hr style='margin-top:0px;margin-bottom:0px'/></div>";
                         QtyCount+=item.Qty;
                         DealQtyCount+=item.DealQty;
                         AmountCount+=item.Amount;
@@ -685,7 +677,7 @@
                         prevunit=item.UnitId;
                         prevdealunit=item.DealUnitId;
                     });
-                    row+="<div class='row tfooter' style='padding-top:10px;margin-left:0px;margin-right:0px'><div class='block'  style='width:5%'></div><div class='block'  style='width:90%'><div class='row'>  <div class='block'  style='width:20%'><strong>Total</strong></div><div class='block'  style='width:10%'></div><div class='block'  style='width:25%'></div><div class='block text-right'  style='width:10%'><strong>"+ ((unit==true)?QtyCount.toFixed(decimal)+"<br /><small>"+prevunit+"</small>":QtyCount.toFixed(decimal))+"</strong></div><div class='block text-right'  style='width:10%'><strong>"+ ((unit==true)?DealQtyCount.toFixed(dealdecimal)+"<br /><small>"+prevdealunit+"</small>":DealQtyCount.toFixed(dealdecimal))+"</strong></div></div></div><div class='block'  style='width:5%'></div></div>"
+                    row+="<div class='row tfooter' style='padding-top:10px;margin-left:0px;margin-right:0px'><div class='block'  style='width:5%'></div><div class='block'  style='width:90%'><div class='row'>  <div class='block'  style='width:60%'><strong>Total</strong></div><div class='block'  style='width:10%'></div><div class='block'  style='width:25%'></div><div class='block text-right'  style='width:10%'><strong>"+ ((unit==true)?QtyCount.toFixed(decimal)+"<br /><small>"+prevunit+"</small>":QtyCount.toFixed(decimal))+"</strong></div></div></div><div class='block'  style='width:5%'></div></div>"
 
                     $('#DocNo').attr('readonly','true');
                 }

@@ -51,8 +51,14 @@ namespace Web.Controllers
         // GET: /Order/
         public ActionResult Index()
         {
-            var Boms = _BomDetailService.GetDesignColourConsumptionHeaderViewModelForIndex().Where(i => i.BaseProductId != 0);
+            var Boms = _BomDetailService.GetDesignColourConsumptionHeaderViewModelForIndex();
             return View(Boms);
+        }
+
+        public ActionResult Index_Pending()
+        {
+            var Boms = _BomDetailService.GetDesignColourConsumptionHeaderViewModelForIndex().Where(i => i.BaseProductId == 0);
+            return View("Index",Boms);
         }
 
         [HttpGet]
@@ -126,9 +132,16 @@ namespace Web.Controllers
         }
 
 
-        public ActionResult Create()
+        public ActionResult Create(int? id, int? ColourId, string ProductQualityName)
         {
             DesignColourConsumptionHeaderViewModel p = new DesignColourConsumptionHeaderViewModel();
+            if (id != null)
+            {
+                p.ProductGroupId = (int)id;
+                p.ColourId = (int)ColourId;
+                p.ProductQualityName = ProductQualityName;
+
+            }
             PrepareViewBag();
             return View("Create", p);
         }
@@ -155,7 +168,7 @@ namespace Web.Controllers
                     product.IsActive = true;
                     product.ReferenceDocTypeId = new DocumentTypeService(_unitOfWork).FindByName(MasterDocTypeConstants.ProductGroup).DocumentTypeId;
                     product.ReferenceDocId = svm.ProductGroupId;
-
+                    product.StandardWeight = svm.Weight;
                     product.CreatedDate = DateTime.Now;
                     product.ModifiedDate = DateTime.Now;
                     product.CreatedBy = User.Identity.Name;
@@ -237,6 +250,7 @@ namespace Web.Controllers
                     product.ReferenceDocId = svm.ProductGroupId;
                     product.ModifiedBy = User.Identity.Name;
                     product.ModifiedDate = DateTime.Now;
+                    product.StandardWeight = svm.Weight;
 
                     StringBuilder logstring = new StringBuilder();
 
@@ -277,9 +291,15 @@ namespace Web.Controllers
         }
 
 
-        public ActionResult Edit(int id)
+        public ActionResult Edit(int? id)
         {
-            DesignColourConsumptionHeaderViewModel bvm = _BomDetailService.GetDesignColourConsumptionHeaderViewModel(id);
+            DesignColourConsumptionHeaderViewModel bvm = new DesignColourConsumptionHeaderViewModel();
+            if (id != null && id != 0)
+            {
+                bvm = _BomDetailService.GetDesignColourConsumptionHeaderViewModel((int)id);
+            }
+
+            
             PrepareViewBag();
             if (bvm == null)
             {

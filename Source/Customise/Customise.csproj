@@ -272,6 +272,7 @@
     <Compile Include="Controllers\SaleEnquiryHeaderController.cs" />
     <Compile Include="Controllers\SaleEnquiryLineController.cs" />
     <Compile Include="Controllers\SaleEnquirySettingsController.cs" />
+    <Compile Include="Controllers\WeavingReceiveWizardController.cs" />
     <Compile Include="Controllers\WeavingOrderWizardHandloomController.cs" />
     <Compile Include="Controllers\YearClosingController.cs" />
     <Compile Include="Controllers\CustomDetailController.cs" />
@@ -1149,6 +1150,8 @@
     <Content Include="Views\DesignColourConsumptionHeader\CopyFromExisting.cshtml" />
     <Content Include="Views\DesignColourConsumptionHeader\Create.cshtml" />
     <Content Include="Views\DesignColourConsumptionHeader\Index.cshtml" />
+    <Content Include="Views\WeavingReceiveWizard\Create.cshtml" />
+    <Content Include="Views\WeavingReceiveWizard\CreateWeavingReceive.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -1030,6 +1030,13 @@ $(function () {
         else
             Input.focus();
 
+
+        $(function () {
+            $('input[readonly]').each(function () {
+                $(this).attr('tabindex', '-1');
+            });
+        });
+
     });
 
 })

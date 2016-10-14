@@ -1318,6 +1318,11 @@ $(function () {
 
         InitializeFocus();
 
+        $(function () {
+            $('input[readonly]').each(function () {
+                $(this).attr('tabindex', '-1');
+            });
+        });
     });
 
 })

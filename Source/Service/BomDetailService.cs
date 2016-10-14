@@ -653,7 +653,8 @@ namespace Service
                                                         ProductGroupId = p.ProductGroupId,
                                                         ProductGroupName = p.ProductGroupName,
                                                         ColourId = p.ColourId,
-                                                        ColourName = p.ColourName
+                                                        ColourName = p.ColourName,
+                                                        Weight = p.Weight
                                                     }).FirstOrDefault();
 
             if (svm != null)
@@ -732,7 +733,8 @@ namespace Service
                                                                    ProductGroupId = p.ProductGroupId,
                                                                    ProductGroupName = p.ProductGroupName,
                                                                    ColourId = p.ColourId,
-                                                                   ColourName = p.ColourName
+                                                                   ColourName = p.ColourName,
+                                                                   ProductQualityName = p.ProductQualityName,
                                                                };
 
             return svm;
@@ -851,7 +853,7 @@ namespace Service
                             BaseProductId = p.ProductId,
                             DesignName = ProductGroupTab.ProductGroupName,
                             QualityName = QualityTab.ProductQualityName,
-                            Weight = QualityTab.Weight
+                            Weight = (QualityTab.Weight > 0 ? QualityTab.Weight : (p.StandardWeight ?? 0))
                         };
 
 
