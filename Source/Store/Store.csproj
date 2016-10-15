@@ -591,6 +591,7 @@
     <Content Include="Content\DataTables\css\common.scss" />
     <Content Include="App_Code\CustomHelpers.cshtml" />
     <None Include="Properties\PublishProfiles\Purchase.pubxml" />
+    <None Include="Properties\PublishProfiles\Store.kanpurconsultants.com - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\Store.pubxml" />
     <None Include="Scripts\jquery-2.1.4.intellisense.js" />
     <Content Include="Scripts\Jasny\jasny-bootstrap.js" />
