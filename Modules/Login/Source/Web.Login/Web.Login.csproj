@@ -214,6 +214,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\UserApplicationController.cs" />
     <Compile Include="Controllers\ApplicationController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -230,6 +231,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\AdminLTE-Login.css" />
+    <Content Include="Content\AdminLTE.css" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -312,6 +314,9 @@
     <Content Include="Views\Account\LoginNew.cshtml" />
     <Content Include="Views\Application\ApplicationSelection.cshtml" />
     <Content Include="Views\Shared\Info.cshtml" />
+    <Content Include="Views\Account\InviteOnly.cshtml" />
+    <Content Include="Views\UserApplication\UserApplicationSelection.cshtml" />
+    <Content Include="Views\Account\UserPermissionError.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

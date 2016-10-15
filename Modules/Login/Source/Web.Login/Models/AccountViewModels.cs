@@ -66,13 +66,13 @@ namespace Login.Models
         [Required]
         public string UserType { get; set; }
 
-        [Required(ErrorMessage = "* First name is required."), MaxLength(25, ErrorMessage = "* First name cannot exceed 25 characters")]
+        [Required(ErrorMessage = "* Full name is required."), MaxLength(25, ErrorMessage = "* Full name cannot exceed 25 characters")]
         public string FirstName { get; set; }
-        [Required(ErrorMessage = "* Last name is required."), MaxLength(25, ErrorMessage = "* Last name cannot exceed 25 characters")]
+        //[Required(ErrorMessage = "* Last name is required."), MaxLength(25, ErrorMessage = "* Last name cannot exceed 25 characters")]
         public string LastName { get; set; }
 
         public string Company { get; set; }
-        [Required(ErrorMessage = "* City is required.")]
+        //[Required(ErrorMessage = "* City is required.")]
         public string City { get; set; }
         [Required(ErrorMessage = "* Mobile number is required."),
         StringLength(10, MinimumLength = 10, ErrorMessage = "* Mobile number should contain 10 digits.")
@@ -97,6 +97,12 @@ namespace Login.Models
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
         public string RetUrl { get; set; }
+
+
+        //Invite Referals fields
+        public string ReferralId { get; set; }
+        public string RefereeId { get; set; }
+        public int ApplicationId { get; set; }
     }
 
     public class ResetPasswordViewModel
