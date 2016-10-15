@@ -36,6 +36,8 @@ namespace Service
         bool CheckForDocNoExists(string DocNo);
         int NextId(int id);
         int PrevId(int id);
+
+        PurchaseIndentCancelHeader GetPurchaseIndentCancelForMaterialPlan(int id);
     }
 
     public class PurchaseIndentCancelHeaderService : IPurchaseIndentCancelHeaderService
@@ -243,6 +245,14 @@ namespace Service
                 return temp;
             else
                 return id;
+        }
+
+        public PurchaseIndentCancelHeader GetPurchaseIndentCancelForMaterialPlan(int id)
+        {
+            return (from p in db.PurchaseIndentCancelHeader
+                    where p.MaterialPlanCancelHeaderId == id
+                    select p
+                        ).FirstOrDefault();
         }
     }
 }

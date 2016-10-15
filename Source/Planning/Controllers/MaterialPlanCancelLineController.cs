@@ -143,6 +143,95 @@ namespace Presentation
                         cso.ObjectState = Model.ObjectState.Added;
                         db.MaterialPlanCancelForSaleOrder.Add(cso);
                     }
+
+
+                    var MaterialPlanLine = new MaterialPlanLineService(_unitOfWork).Find(item.MaterialPlanLineId);
+                    int ProdOrderCancelHeaderId = 0;
+                    if (MaterialPlanLine.ProdPlanQty > 0)
+                    {
+                        ProdOrderCancelHeader ExistingProdOrderCancel = new ProdOrderCancelHeaderService(_unitOfWork).GetProdOrderCancelForMaterialPlan(header.MaterialPlanCancelHeaderId);
+
+                        if (ExistingProdOrderCancel == null)
+                        {
+                            ProdOrderCancelHeader ProdOrderCancelHeader = new ProdOrderCancelHeader();
+
+                            ProdOrderCancelHeader.CreatedBy = User.Identity.Name;
+                            ProdOrderCancelHeader.CreatedDate = DateTime.Now;
+                            ProdOrderCancelHeader.DivisionId = header.DivisionId;
+                            ProdOrderCancelHeader.DocDate = header.DocDate;
+                            ProdOrderCancelHeader.DocNo = header.DocNo;
+                            ProdOrderCancelHeader.DocTypeId = Setting.DocTypeProductionOrderId.Value;
+                            ProdOrderCancelHeader.MaterialPlanCancelHeaderId = header.MaterialPlanCancelHeaderId;
+                            ProdOrderCancelHeader.ModifiedBy = User.Identity.Name;
+                            ProdOrderCancelHeader.ModifiedDate = DateTime.Now;
+                            ProdOrderCancelHeader.Remark = header.Remark;
+                            ProdOrderCancelHeader.SiteId = header.SiteId;
+                            ProdOrderCancelHeader.Status = (int)StatusConstants.System;
+                            ProdOrderCancelHeader.ObjectState = Model.ObjectState.Added;
+                            db.ProdOrderCancelHeader.Add(ProdOrderCancelHeader);
+                            ProdOrderCancelHeaderId = ProdOrderCancelHeader.ProdOrderCancelHeaderId;
+                        }
+                        else
+                        {
+                            ProdOrderCancelHeaderId = ExistingProdOrderCancel.ProdOrderCancelHeaderId;
+                        }
+
+
+                        var ProdOrderLine = new ProdOrderLineService(_unitOfWork).GetProdOrderLineForMaterialPlan(item.MaterialPlanLineId);
+                        int ProdOrderCancelLineKey = 0;
+                        ProdOrderCancelLine ProdOrderCancelLine = new ProdOrderCancelLine();
+                        ProdOrderCancelLine.CreatedBy = User.Identity.Name;
+                        ProdOrderCancelLine.CreatedDate = DateTime.Now;
+                        ProdOrderCancelLine.ProdOrderLineId = ProdOrderLine.FirstOrDefault().ProdOrderLineId;
+                        ProdOrderCancelLine.ModifiedBy = User.Identity.Name;
+                        ProdOrderCancelLine.ModifiedDate = DateTime.Now;
+                        ProdOrderCancelLine.ProdOrderCancelHeaderId = ProdOrderCancelHeaderId;
+                        ProdOrderCancelLine.Qty = item.Qty;
+                        ProdOrderCancelLine.ProdOrderCancelLineId = ProdOrderCancelLineKey--;
+                        ProdOrderCancelLine.ObjectState = Model.ObjectState.Added;
+                        db.ProdOrderCancelLine.Add(ProdOrderCancelLine);
+                    }
+
+
+                    if (MaterialPlanLine.PurchPlanQty > 0)
+                    {
+                        PurchaseIndentCancelHeader ExistingPurchaseIndentCancel = new PurchaseIndentCancelHeaderService(_unitOfWork).GetPurchaseIndentCancelForMaterialPlan(header.MaterialPlanCancelHeaderId);
+
+                        if (ExistingPurchaseIndentCancel == null)
+                        {
+                            PurchaseIndentCancelHeader PurchaseIndentCancelHeader = new PurchaseIndentCancelHeader();
+
+                            PurchaseIndentCancelHeader.CreatedBy = User.Identity.Name;
+                            PurchaseIndentCancelHeader.CreatedDate = DateTime.Now;
+                            PurchaseIndentCancelHeader.DivisionId = header.DivisionId;
+                            PurchaseIndentCancelHeader.DocDate = header.DocDate;
+                            PurchaseIndentCancelHeader.DocNo = header.DocNo;
+                            PurchaseIndentCancelHeader.DocTypeId = Setting.DocTypeProductionOrderId.Value;
+                            PurchaseIndentCancelHeader.MaterialPlanCancelHeaderId = header.MaterialPlanCancelHeaderId;
+                            PurchaseIndentCancelHeader.ModifiedBy = User.Identity.Name;
+                            PurchaseIndentCancelHeader.ModifiedDate = DateTime.Now;
+                            PurchaseIndentCancelHeader.Remark = header.Remark;
+                            PurchaseIndentCancelHeader.SiteId = header.SiteId;
+                            PurchaseIndentCancelHeader.Status = (int)StatusConstants.System;
+                            PurchaseIndentCancelHeader.ObjectState = Model.ObjectState.Added;
+                            db.PurchaseIndentCancelHeader.Add(PurchaseIndentCancelHeader);
+                        }
+
+
+                        var PurchaseIndentLine = new PurchaseIndentLineService(_unitOfWork).GetPurchaseIndentLineForMaterialPlan(item.MaterialPlanLineId);
+                        int PurchaseIndentCancelLineKey = 0;
+                        PurchaseIndentCancelLine PurchaseIndentCancelLine = new PurchaseIndentCancelLine();
+                        PurchaseIndentCancelLine.CreatedBy = User.Identity.Name;
+                        PurchaseIndentCancelLine.CreatedDate = DateTime.Now;
+                        PurchaseIndentCancelLine.PurchaseIndentLineId = PurchaseIndentLine.FirstOrDefault().PurchaseIndentLineId;
+                        PurchaseIndentCancelLine.ModifiedBy = User.Identity.Name;
+                        PurchaseIndentCancelLine.ModifiedDate = DateTime.Now;
+                        PurchaseIndentCancelLine.PurchaseIndentCancelHeaderId = ExistingPurchaseIndentCancel.PurchaseIndentCancelHeaderId;
+                        PurchaseIndentCancelLine.Qty = item.Qty;
+                        PurchaseIndentCancelLine.PurchaseIndentCancelLineId = PurchaseIndentCancelLineKey--;
+                        PurchaseIndentCancelLine.ObjectState = Model.ObjectState.Added;
+                        db.PurchaseIndentCancelLine.Add(PurchaseIndentCancelLine);
+                    }
                 }
 
                 try
@@ -272,6 +361,94 @@ namespace Presentation
                         cso.ObjectState = Model.ObjectState.Added;
                         db.MaterialPlanCancelForProdOrderLine.Add(cso);
                     }
+
+
+                    var MaterialPlanLine = new MaterialPlanLineService(_unitOfWork).Find(item.MaterialPlanLineId);
+
+                    if (MaterialPlanLine.ProdPlanQty > 0)
+                    {
+                        ProdOrderCancelHeader ExistingProdOrderCancel = new ProdOrderCancelHeaderService(_unitOfWork).GetProdOrderCancelForMaterialPlan(header.MaterialPlanCancelHeaderId);
+
+                        if (ExistingProdOrderCancel == null)
+                        {
+                            ProdOrderCancelHeader ProdOrderCancelHeader = new ProdOrderCancelHeader();
+
+                            ProdOrderCancelHeader.CreatedBy = User.Identity.Name;
+                            ProdOrderCancelHeader.CreatedDate = DateTime.Now;
+                            ProdOrderCancelHeader.DivisionId = header.DivisionId;
+                            ProdOrderCancelHeader.DocDate = header.DocDate;
+                            ProdOrderCancelHeader.DocNo = header.DocNo;
+                            ProdOrderCancelHeader.DocTypeId = Setting.DocTypeProductionOrderId.Value;
+                            ProdOrderCancelHeader.MaterialPlanCancelHeaderId = header.MaterialPlanCancelHeaderId;
+                            ProdOrderCancelHeader.ModifiedBy = User.Identity.Name;
+                            ProdOrderCancelHeader.ModifiedDate = DateTime.Now;
+                            ProdOrderCancelHeader.Remark = header.Remark;
+                            ProdOrderCancelHeader.SiteId = header.SiteId;
+                            ProdOrderCancelHeader.Status = (int)StatusConstants.System;
+                            ProdOrderCancelHeader.ObjectState = Model.ObjectState.Added;
+                            db.ProdOrderCancelHeader.Add(ProdOrderCancelHeader);
+                        }
+
+
+                        var ProdOrderLine = new ProdOrderLineService(_unitOfWork).GetProdOrderLineForMaterialPlan(item.MaterialPlanLineId);
+                        int ProdOrderCancelLineKey = 0;
+                        ProdOrderCancelLine ProdOrderCancelLine = new ProdOrderCancelLine();
+                        ProdOrderCancelLine.CreatedBy = User.Identity.Name;
+                        ProdOrderCancelLine.CreatedDate = DateTime.Now;
+                        ProdOrderCancelLine.ProdOrderLineId = ProdOrderLine.FirstOrDefault().ProdOrderLineId;
+                        ProdOrderCancelLine.ModifiedBy = User.Identity.Name;
+                        ProdOrderCancelLine.ModifiedDate = DateTime.Now;
+                        ProdOrderCancelLine.ProdOrderCancelHeaderId = ExistingProdOrderCancel.ProdOrderCancelHeaderId;
+                        ProdOrderCancelLine.Qty = item.Qty;
+                        ProdOrderCancelLine.ProdOrderCancelLineId = ProdOrderCancelLineKey--;
+                        ProdOrderCancelLine.ObjectState = Model.ObjectState.Added;
+                        db.ProdOrderCancelLine.Add(ProdOrderCancelLine);
+                    }
+
+
+                    if (MaterialPlanLine.PurchPlanQty > 0)
+                    {
+                        PurchaseIndentCancelHeader ExistingPurchaseIndentCancel = new PurchaseIndentCancelHeaderService(_unitOfWork).GetPurchaseIndentCancelForMaterialPlan(header.MaterialPlanCancelHeaderId);
+
+                        if (ExistingPurchaseIndentCancel == null)
+                        {
+                            PurchaseIndentCancelHeader PurchaseIndentCancelHeader = new PurchaseIndentCancelHeader();
+
+                            PurchaseIndentCancelHeader.CreatedBy = User.Identity.Name;
+                            PurchaseIndentCancelHeader.CreatedDate = DateTime.Now;
+                            PurchaseIndentCancelHeader.DivisionId = header.DivisionId;
+                            PurchaseIndentCancelHeader.DocDate = header.DocDate;
+                            PurchaseIndentCancelHeader.DocNo = header.DocNo;
+                            PurchaseIndentCancelHeader.DocTypeId = Setting.DocTypeProductionOrderId.Value;
+                            PurchaseIndentCancelHeader.MaterialPlanCancelHeaderId = header.MaterialPlanCancelHeaderId;
+                            PurchaseIndentCancelHeader.ModifiedBy = User.Identity.Name;
+                            PurchaseIndentCancelHeader.ModifiedDate = DateTime.Now;
+                            PurchaseIndentCancelHeader.Remark = header.Remark;
+                            PurchaseIndentCancelHeader.SiteId = header.SiteId;
+                            PurchaseIndentCancelHeader.Status = (int)StatusConstants.System;
+                            PurchaseIndentCancelHeader.ObjectState = Model.ObjectState.Added;
+                            db.PurchaseIndentCancelHeader.Add(PurchaseIndentCancelHeader);
+                        }
+
+
+                        var PurchaseIndentLine = new PurchaseIndentLineService(_unitOfWork).GetPurchaseIndentLineForMaterialPlan(item.MaterialPlanLineId);
+                        int PurchaseIndentCancelLineKey = 0;
+                        PurchaseIndentCancelLine PurchaseIndentCancelLine = new PurchaseIndentCancelLine();
+                        PurchaseIndentCancelLine.CreatedBy = User.Identity.Name;
+                        PurchaseIndentCancelLine.CreatedDate = DateTime.Now;
+                        PurchaseIndentCancelLine.PurchaseIndentLineId = PurchaseIndentLine.FirstOrDefault().PurchaseIndentLineId;
+                        PurchaseIndentCancelLine.ModifiedBy = User.Identity.Name;
+                        PurchaseIndentCancelLine.ModifiedDate = DateTime.Now;
+                        PurchaseIndentCancelLine.PurchaseIndentCancelHeaderId = ExistingPurchaseIndentCancel.PurchaseIndentCancelHeaderId;
+                        PurchaseIndentCancelLine.Qty = item.Qty;
+                        PurchaseIndentCancelLine.PurchaseIndentCancelLineId = PurchaseIndentCancelLineKey--;
+                        PurchaseIndentCancelLine.ObjectState = Model.ObjectState.Added;
+                        db.PurchaseIndentCancelLine.Add(PurchaseIndentCancelLine);
+                    }
+
+
+
+
                 }
 
                 try

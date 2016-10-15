@@ -514,6 +514,8 @@ namespace Data.Models
         //For Databse Views
         public DbSet<StockUid> StockUid { get; set; }
         public DbSet<StockVirtual> StockVirtual { get; set; }
+
+        public DbSet<ViewDesignColourConsumption> ViewDesignColourConsumption { get; set; }
         public DbSet<CostCenterStatus> CostCenterStatus { get; set; }
         public DbSet<CostCenterStatusExtended> CostCenterStatusExtended { get; set; }
         public DbSet<ViewProdOrderHeader> ViewProdOrderHeader { get; set; }

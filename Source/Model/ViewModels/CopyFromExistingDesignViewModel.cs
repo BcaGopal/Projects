@@ -39,4 +39,15 @@ namespace Model.ViewModels
         [Required(ErrorMessage = "Product field is required")]
         public int ToProductId { get; set; }
     }
+
+    public class CopyFromExistingDesignColourConsumptionViewModel
+    {
+        [Required, Range(1, int.MaxValue, ErrorMessage = "Design field is required")]
+        public int ProductId { get; set; }
+        [Required(ErrorMessage = "Design field is required")]
+        public int ProductGroupId { get; set; }
+
+        [Required(ErrorMessage = "Design field is required")]
+        public int ColourId { get; set; }
+    }
 }

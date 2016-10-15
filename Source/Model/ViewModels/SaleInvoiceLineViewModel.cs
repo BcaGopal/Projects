@@ -23,6 +23,8 @@ namespace Model.ViewModels
         public int SaleDispatchLineId { get; set; }
 
         public int SaleDispatchHeaderId { get; set; }
+
+        public string SaleDispatchDocNo { get; set; }
         public string ProductUidIdName { get; set; }
 
         public int? ProductUidId { get; set; }

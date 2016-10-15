@@ -49,6 +49,11 @@ namespace Model.Models
         public virtual DocumentType ReferenceDocType { get; set; }
         public int? ReferenceDocId { get; set; }
 
+        [ForeignKey("MaterialPlanCancelHeader")]
+        public int? MaterialPlanCancelHeaderId { get; set; }
+        public virtual MaterialPlanCancelHeader MaterialPlanCancelHeader { get; set; }
+
+
         [Display(Name = "Remark")]
         public string Remark { get; set; }
 

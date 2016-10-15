@@ -49,8 +49,8 @@ namespace Customize.Controllers
             string ErrorText = "";
 
 
-            string DyeingConnectionString = "Persist Security Info=False;User ID='sa';Initial Catalog=Rug;Data Source=192.168.2.25";
-
+            //string DyeingConnectionString = "Persist Security Info=False;User ID='sa'pwd=P@ssw0rd!;Initial Catalog=Rug;Data Source=192.168.2.25";
+            string DyeingConnectionString = "Data Source=192.168.2.25;Initial Catalog=Rug;Integrated Security=false; User Id=sa; pwd=P@ssw0rd!";
 
             DataSet DyeingOrder = new DataSet();
             using (SqlConnection sqlConnection = new SqlConnection(DyeingConnectionString))

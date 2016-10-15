@@ -44,6 +44,10 @@ namespace Model.Models
         public int SiteId { get; set; }
         public virtual Site Site { get; set; }
 
+        [ForeignKey("MaterialPlanCancelHeader")]
+        public int? MaterialPlanCancelHeaderId { get; set; }
+        public virtual MaterialPlanCancelHeader MaterialPlanCancelHeader { get; set; }
+
         [Display(Name = "Remark")]
         public string Remark { get; set; }
 

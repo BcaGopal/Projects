@@ -12,6 +12,7 @@ using Data.Models;
 using Model.ViewModels;
 using Model.ViewModel;
 using System.Data.Entity.SqlServer;
+using System.Data.SqlClient;
 
 namespace Service
 {
@@ -36,8 +37,7 @@ namespace Service
         int NextId(int id);
         int PrevId(int id);
         string GetMaxDocNo();
-
-
+        IEnumerable<WeavingReceiveWizardViewModel> GetJobOrdersForWeavingReceiveWizard(int DocTypeId);
     }
 
     public class JobReceiveHeaderService : IJobReceiveHeaderService
@@ -287,6 +287,22 @@ namespace Service
             return PendingToReview;
 
         }
+
+
+        public IEnumerable<WeavingReceiveWizardViewModel> GetJobOrdersForWeavingReceiveWizard(int DocTypeId)//DocTypeId
+        {
+            int SiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
+            int DivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
+
+            SqlParameter SqlParameterSiteId = new SqlParameter("@SiteId", SiteId);
+            SqlParameter SqlParameterDivisionId = new SqlParameter("@DivisionId", DivisionId);
+            SqlParameter SqlParameterDocTypeId = new SqlParameter("@DocumentTypeId", DocTypeId);
+
+            IEnumerable<WeavingReceiveWizardViewModel> temp = db.Database.SqlQuery<WeavingReceiveWizardViewModel>("Web.ProcWeavingReceiveWizard @SiteId, @DivisionId, @DocumentTypeId", SqlParameterSiteId, SqlParameterDivisionId, SqlParameterDocTypeId).ToList();
+
+            return temp;
+        }
+
         public void Dispose()
         {
         }

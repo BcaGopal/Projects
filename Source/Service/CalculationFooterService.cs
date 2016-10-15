@@ -159,7 +159,6 @@ namespace Service
         }
         public IEnumerable<CalculationFooterViewModel> GetCalculationFooterList(int CalculationID, int DocumentTypeId, int SiteId, int DivisionId)
         {
-            
             return (from p in db.CalculationFooter
                     join t in db.CalculationHeaderLedgerAccount.Where(m=>m.DocTypeId==DocumentTypeId && m.SiteId==SiteId && m.DivisionId==DivisionId) on p.CalculationFooterLineId equals t.CalculationFooterId into table1 from tab1 in table1.DefaultIfEmpty()
                    where p.CalculationId==CalculationID

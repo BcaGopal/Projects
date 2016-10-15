@@ -161,6 +161,7 @@ namespace Service
                                                                                   DealQty = PackingLineTab.DealQty,
                                                                                   DealUnitId = DealUnitTab.UnitName,
                                                                                   DealUnitDecimalPlaces = DealUnitTab.DecimalPlaces,
+                                                                                  unitDecimalPlaces = PackingLineTab.Product.Unit.DecimalPlaces,
                                                                                   StockInId = StockInTab.StockId,
                                                                                   StockInNo = StockHeaderTab.DocNo,
                                                                                   Remark = l.Remark,
@@ -259,7 +260,7 @@ namespace Service
                         LossQty = Pl.LossQty,
                         PassQty = Pl.PassQty,
                         Qty = Pl.Qty,
-                        BalanceQty = (tab3 == null ? Pl.Qty : tab3.BalanceQty + Pl.Qty),
+                        BalanceQty = (tab3 == null ? (decimal)Pl.PassQty : tab3.BalanceQty + (decimal)Pl.PassQty),
                         BaleNo = Pl.BaleNo,
                         UnitId = Pl.Product.UnitId,
                         UnitName = Pl.Product.Unit.UnitName,
@@ -375,7 +376,10 @@ namespace Service
                         join D2 in db.Dimension2 on p.Dimension2Id equals D2.Dimension2Id into Dimension2Table
                         from Dimension2Tab in Dimension2Table.DefaultIfEmpty()
                         where p.BuyerId == PersonId
-                        && (string.IsNullOrEmpty(term) ? 1 == 1 : p.SaleOrderNo.ToLower().Contains(term.ToLower()))
+                        && ((string.IsNullOrEmpty(term) ? 1 == 1 : p.SaleOrderNo.ToLower().Contains(term.ToLower()))
+                        || (string.IsNullOrEmpty(term) ? 1 == 1 : ProductTab.ProductName.ToLower().Contains(term.ToLower()))
+                        || (string.IsNullOrEmpty(term) ? 1 == 1 : Dimension1Tab.Dimension1Name.ToLower().Contains(term.ToLower()))
+                        || (string.IsNullOrEmpty(term) ? 1 == 1 : Dimension2Tab.Dimension2Name.ToLower().Contains(term.ToLower())))
                         && p.SiteId == CurrentSiteId
                         && p.DivisionId == CurrentDivisionId
                         orderby t.DocDate, t.DocNo
@@ -509,9 +513,7 @@ namespace Service
             return (from p in db.ViewStockInBalance
                     where p.BalanceQty > 0
                     && p.PersonId == SaleDispatchHeader.SaleToBuyerId
-                    && p.ProductId == ProductId
                     && p.Dimension1Id == Dimension1Id
-                    && p.Dimension2Id == Dimension2Id
                     && (string.IsNullOrEmpty(settings.filterContraSites) ? p.SiteId == CurrentSiteId : contraSites.Contains(p.SiteId.ToString()))
                     && (string.IsNullOrEmpty(settings.filterContraDivisions) ? p.DivisionId == CurrentDivisionId : contraDivisions.Contains(p.DivisionId.ToString()))
                     && (string.IsNullOrEmpty(term) ? 1 == 1 : p.StockInNo.ToLower().Contains(term.ToLower()))
