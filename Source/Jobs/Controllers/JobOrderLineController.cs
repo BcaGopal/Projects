@@ -535,8 +535,17 @@ namespace Web
         {
             var p = _JobOrderLineService.GetJobOrderLineListForIndex(id).ToList();
             return Json(p, JsonRequestBehavior.AllowGet);
-
         }
+
+        [HttpGet]
+        public ActionResult _Index(int id, int Status)
+        {
+            ViewBag.Status = Status;
+            ViewBag.JobOrderHeaderId = id;
+            var p = _JobOrderLineService.GetJobOrderLineListForIndex(id).ToList();
+            return PartialView(p);
+        }
+
 
         [HttpGet]
         public JsonResult ConsumptionIndex(int id)

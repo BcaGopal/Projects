@@ -258,6 +258,8 @@
     <Compile Include="Helpers\AuthFilter.cs" />
     <Compile Include="Helpers\AutoCompleteComboBoxRepositoryAndHelper.cs" />
     <Compile Include="Helpers\BootStrapExtensions.cs" />
+    <Content Include="Content\AdminLTE.css" />
+    <Content Include="Content\IconCss.css" />
     <Content Include="Helpers\CustomHelpers.cs" />
     <Compile Include="Helpers\FlashMessageExtensions.cs" />
     <Compile Include="Helpers\JsonpResult.cs" />
@@ -403,6 +405,7 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\mobile-navigation.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\Notification.js" />
     <Content Include="Scripts\npm.js" />
