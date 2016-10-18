@@ -145,6 +145,8 @@ namespace Model.DatabaseViews
         public int SiteId { get; set; }
         public int DivisionId { get; set; }
         public Decimal? Rate { get; set; }
+
+        public int? Sr { get; set; }
     }
 
     [Table("ViewSaleInvoiceBalance")]

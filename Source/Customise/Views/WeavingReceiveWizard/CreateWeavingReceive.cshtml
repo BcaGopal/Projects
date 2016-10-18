@@ -36,6 +36,9 @@
                 <h4 class="modal-title" id="exampleModalLabel">Summary</h4>
             </div>
             <div class="modal-body" id="SelectedSummary">
+
+                <span id="Validation"></span>
+
                 <div class="row" style="margin-left:0px;margin-right:0px;margin-bottom:7px">
                     <div class='row-index block' style='width:5%'>  <strong>Sr</strong>  </div>
                     <div class='block' style='width:93%'>
@@ -118,6 +121,8 @@
                     <th>Qty(PCS)</th>
                     <th>JobOrderLineId</th>
                     <th>BalanceQty</th>
+                    <th>From Carpet Id</th>
+                    <th>To Carpet Id</th>
                 </tr>
             </thead>
             <tfoot>
@@ -153,9 +158,13 @@
                 { "data": "Qty", "width": "5%", className: "TextRight", },
                 { "data": "JobOrderLineId" },
                 { "data": "BalanceQty" },
+                { "data": "FromProductUidName", "width": "5%"},
+                { "data": "ToProductUidName", "width": "5%" },
             ],
             columnDefs: [
     { "targets": 7, "searchable": false, className: "DTHidden", }, { "targets": 6, "render": function (data, type, row) { return '<input style="width:100%;text-align:right" class="Qty"  type="text" name="Qty' + row.JobOrderLineId + '" id="Qty' + row.JobOrderLineId + '" value="' + data + '"/>'; }, },
+    { "targets": 8, "searchable": false, className: "DTHidden", }, { "targets": 9, "render": function (data, type, row) { return '<input style="width:100%;text-align:right" type="text" name="FromProductUidName' + row.JobOrderLineId + '" id="FromProductUidName' + row.JobOrderLineId + '" value="' + data + '"/>'; }, },
+    { "targets": 10, "render": function (data, type, row) { return '<input style="width:100%;text-align:right" type="text" name="ToProductUidName' + row.JobOrderLineId + '" id="ToProductUidName' + row.JobOrderLineId + '" value="' + data + '"/>'; }, },
             ],
             dom: 'T<"clear">lfrti',
             TableTools: {
@@ -200,7 +209,7 @@
             var List = "";
             var test34 = table.$('input, select').serialize();
             $.each(test, function (index, value) {
-                arr.push({ JobOrderLineId: value.JobOrderLineId, Qty: value.Qty, BalanceQty: value.BalanceQty, DesignName: value.DesignName, Size: value.Size, Rate: value.Rate, Incentive: value.Incentive });
+                arr.push({ JobOrderLineId: value.JobOrderLineId, Qty: value.Qty, BalanceQty: value.BalanceQty, DesignName: value.DesignName, Size: value.Size, FromProductUidName: value.FromProductUidName, ToProductUidName: value.ToProductUidName, JobWorkerId: value.JobWorkerId });
             })
 
             //alert($(this).attr('href'));
@@ -221,6 +230,7 @@
                     else { }
                 },
             });
+
 
             return false;
 

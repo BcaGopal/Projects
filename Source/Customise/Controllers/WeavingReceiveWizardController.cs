@@ -86,6 +86,7 @@ namespace Web
         public ActionResult ConfirmJobOrderList(List<WeavingReceiveWizardViewModel> Selected)
         {
             System.Web.HttpContext.Current.Session["BarCodesWeavingWizardJobOrder"] = Selected;
+
             return Json(new { Success = "URL", Data = "/WeavingReceiveWizard/Create" }, JsonRequestBehavior.AllowGet);
         }
 
@@ -120,7 +121,7 @@ namespace Web
             p.SiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
             List<string> UserRoles = (List<string>)System.Web.HttpContext.Current.Session["Roles"];
 
-            int DocTypeId = new DocumentTypeService(_unitOfWork).Find(TransactionDoctypeConstants.WeavingReceive).DocumentTypeId;
+            int DocTypeId = new DocumentTypeService(_unitOfWork).Find(TransactionDoctypeConstants.WeavingBazar).DocumentTypeId;
 
             //Getting Settings
             var settings = new JobReceiveSettingsService(_unitOfWork).GetJobReceiveSettingsForDocument(DocTypeId, p.DivisionId, p.SiteId);
@@ -146,7 +147,8 @@ namespace Web
             PrepareViewBag();
             p.DocTypeId = DocTypeId;
             p.DocNo = new DocumentTypeService(_unitOfWork).FGetNewDocNo("DocNo", ConfigurationManager.AppSettings["DataBaseSchema"] + ".JobReceiveHeaders", p.DocTypeId, p.DocDate, p.DivisionId, p.SiteId);
-
+            List<WeavingReceiveWizardViewModel> JobOrdersAndQtys = (List<WeavingReceiveWizardViewModel>)System.Web.HttpContext.Current.Session["BarCodesWeavingWizardJobOrder"];
+            p.JobWorkerId = JobOrdersAndQtys.FirstOrDefault().JobWorkerId;
             
 
             return View(p);
@@ -169,6 +171,21 @@ namespace Web
             if (JobOrdersAndQtys.Count() <= 0)
                 ModelState.AddModelError("", "No Records Selected");
 
+            int JobWorkerCnt = (from l in JobOrdersAndQtys
+                                group l by l.JobWorkerId into g
+                                select new
+                                {
+                                    JobWorkerId = g.Key,
+                                }).Distinct().Count();
+
+            if (JobWorkerCnt > 1)
+                ModelState.AddModelError("", "Select any one Job Worker Orders.");
+
+
+
+
+            s.JobWorkerId = JobOrdersAndQtys.FirstOrDefault().JobWorkerId;
+            svm.JobWorkerId = JobOrdersAndQtys.FirstOrDefault().JobWorkerId;
 
 
             #region DocTypeTimeLineValidation
@@ -235,6 +252,17 @@ namespace Web
                             {
                                 if (SelectedJobOrderLine.JobOrderLineId > 0)
                                 {
+                                    if (SelectedJobOrderLine.Qty  != (Convert.ToInt32(SelectedJobOrderLine.ToProductUidName) - Convert.ToInt32(SelectedJobOrderLine.FromProductUidName) + 1))
+                                    {
+                                        string Msg = "";
+                                        Msg = "Qty and Barcode series does not match.";
+                                        ModelState.AddModelError("", Msg);
+                                        PrepareViewBag();
+                                        ViewBag.Mode = "Add";
+                                        return View("Create", svm);
+                                    }
+
+
                                     var JobOrderLine = new JobOrderLineService(_unitOfWork).Find((SelectedJobOrderLine.JobOrderLineId));
                                     var Product = new ProductService(_unitOfWork).Find(JobOrderLine.ProductId);
 
@@ -242,14 +270,61 @@ namespace Web
 
                                     if (SelectedJobOrderLine.Qty <= bal.BalQty)
                                     {
-                                        JobReceiveLine line = new JobReceiveLine();
-
-                                        StockViewModel StockViewModel = new StockViewModel();
-
-
-
                                         for (int i = 0; i <= SelectedJobOrderLine.Qty - 1;i ++ )
                                         {
+                                            ProductUidHeader ProdUidHeader = new ProductUidHeader();
+
+                                            ProdUidHeader.ProductUidHeaderId = Cnt;
+                                            ProdUidHeader.ProductId = JobOrderLine.ProductId;
+                                            ProdUidHeader.Dimension1Id = JobOrderLine.Dimension1Id;
+                                            ProdUidHeader.Dimension2Id = JobOrderLine.Dimension2Id;
+                                            ProdUidHeader.GenDocId = s.JobReceiveHeaderId;
+                                            ProdUidHeader.GenDocNo = s.DocNo;
+                                            ProdUidHeader.GenDocTypeId = s.DocTypeId;
+                                            ProdUidHeader.GenDocDate = s.DocDate;
+                                            ProdUidHeader.GenPersonId = s.JobWorkerId;
+                                            ProdUidHeader.CreatedBy = User.Identity.Name;
+                                            ProdUidHeader.CreatedDate = DateTime.Now;
+                                            ProdUidHeader.ModifiedBy = User.Identity.Name;
+                                            ProdUidHeader.ModifiedDate = DateTime.Now;
+                                            ProdUidHeader.ObjectState = Model.ObjectState.Added;
+                                            new ProductUidHeaderService(_unitOfWork).Create(ProdUidHeader);
+
+
+                                            string ProductUidName =  (Convert.ToInt32(SelectedJobOrderLine.FromProductUidName) + pk).ToString();
+
+                                            ProductUid ProdUid = new ProductUid();
+                                            ProdUid.ProductUidHeaderId = ProdUidHeader.ProductUidHeaderId;
+                                            ProdUid.ProductUidName = ProductUidName;
+                                            ProdUid.ProductId = JobOrderLine.ProductId;
+                                            ProdUid.IsActive = true;
+                                            ProdUid.CreatedBy = User.Identity.Name;
+                                            ProdUid.CreatedDate = DateTime.Now;
+                                            ProdUid.ModifiedBy = User.Identity.Name;
+                                            ProdUid.ModifiedDate = DateTime.Now;
+                                            ProdUid.GenLineId = null;
+                                            ProdUid.GenDocId = s.JobReceiveHeaderId;
+                                            ProdUid.GenDocNo = s.DocNo;
+                                            ProdUid.GenDocTypeId = s.DocTypeId;
+                                            ProdUid.GenDocDate = s.DocDate;
+                                            ProdUid.GenPersonId = s.JobWorkerId;
+                                            ProdUid.Dimension1Id = JobOrderLine.Dimension1Id;
+                                            ProdUid.Dimension2Id = JobOrderLine.Dimension2Id;
+                                            ProdUid.CurrenctProcessId = s.ProcessId;
+                                            ProdUid.CurrenctGodownId = s.GodownId;
+                                            ProdUid.Status = "Receive";
+                                            ProdUid.LastTransactionDocId = s.JobReceiveHeaderId;
+                                            ProdUid.LastTransactionDocNo = s.DocNo;
+                                            ProdUid.LastTransactionDocTypeId = s.DocTypeId;
+                                            ProdUid.LastTransactionDocDate = s.DocDate;
+                                            ProdUid.LastTransactionPersonId = s.JobWorkerId;
+                                            ProdUid.LastTransactionLineId = null;
+                                            ProdUid.ProductUIDId = pk;
+                                            new ProductUidService(_unitOfWork).Create(ProdUid);
+
+
+
+                                            StockViewModel StockViewModel = new StockViewModel();
                                             if (Cnt == 0)
                                             {
                                                 StockViewModel.StockHeaderId = s.StockHeaderId ?? 0;
@@ -268,7 +343,7 @@ namespace Web
 
                                             StockViewModel.StockId = -Cnt;
                                             StockViewModel.DocHeaderId = s.JobReceiveHeaderId;
-                                            StockViewModel.DocLineId = line.JobReceiveLineId;
+                                            StockViewModel.DocLineId = null;
                                             StockViewModel.DocTypeId = s.DocTypeId;
                                             StockViewModel.StockHeaderDocDate = s.DocDate;
                                             StockViewModel.StockDocDate = DateTime.Now.Date;
@@ -278,6 +353,7 @@ namespace Web
                                             StockViewModel.CurrencyId = null;
                                             StockViewModel.PersonId = s.JobWorkerId;
                                             StockViewModel.ProductId = JobOrderLine.ProductId;
+                                            StockViewModel.ProductUidId = ProdUid.ProductUIDId;
                                             StockViewModel.HeaderFromGodownId = null;
                                             StockViewModel.HeaderGodownId = s.GodownId;
                                             StockViewModel.HeaderProcessId = s.ProcessId;
@@ -313,61 +389,10 @@ namespace Web
                                             {
                                                 s.StockHeaderId = StockViewModel.StockHeaderId;
                                             }
+
+
+                                            JobReceiveLine line = new JobReceiveLine();
                                             line.StockId = StockViewModel.StockId;
-
-
-
-
-                                            ProductUidHeader ProdUidHeader = new ProductUidHeader();
-
-                                            ProdUidHeader.ProductUidHeaderId = Cnt;
-                                            ProdUidHeader.ProductId = JobOrderLine.ProductId;
-                                            ProdUidHeader.Dimension1Id = JobOrderLine.Dimension1Id;
-                                            ProdUidHeader.Dimension2Id = JobOrderLine.Dimension2Id;
-                                            ProdUidHeader.GenDocId = s.JobReceiveHeaderId;
-                                            ProdUidHeader.GenDocNo = s.DocNo;
-                                            ProdUidHeader.GenDocTypeId = s.DocTypeId;
-                                            ProdUidHeader.GenDocDate = s.DocDate;
-                                            ProdUidHeader.GenPersonId = s.JobWorkerId;
-                                            ProdUidHeader.CreatedBy = User.Identity.Name;
-                                            ProdUidHeader.CreatedDate = DateTime.Now;
-                                            ProdUidHeader.ModifiedBy = User.Identity.Name;
-                                            ProdUidHeader.ModifiedDate = DateTime.Now;
-                                            ProdUidHeader.ObjectState = Model.ObjectState.Added;
-                                            new ProductUidHeaderService(_unitOfWork).Create(ProdUidHeader);
-
-
-                                            string ProductUidName =  (Convert.ToInt32(SelectedJobOrderLine.FromProductUidName) + pk).ToString();
-
-                                            ProductUid ProdUid = new ProductUid();
-                                            ProdUid.ProductUidHeaderId = ProdUidHeader.ProductUidHeaderId;
-                                            ProdUid.ProductUidName = ProductUidName;
-                                            ProdUid.ProductId = JobOrderLine.ProductId;
-                                            ProdUid.IsActive = true;
-                                            ProdUid.CreatedBy = User.Identity.Name;
-                                            ProdUid.CreatedDate = DateTime.Now;
-                                            ProdUid.ModifiedBy = User.Identity.Name;
-                                            ProdUid.ModifiedDate = DateTime.Now;
-                                            ProdUid.GenLineId = line.JobReceiveLineId;
-                                            ProdUid.GenDocId = s.JobReceiveHeaderId;
-                                            ProdUid.GenDocNo = s.DocNo;
-                                            ProdUid.GenDocTypeId = s.DocTypeId;
-                                            ProdUid.GenDocDate = s.DocDate;
-                                            ProdUid.GenPersonId = s.JobWorkerId;
-                                            ProdUid.Dimension1Id = JobOrderLine.Dimension1Id;
-                                            ProdUid.Dimension2Id = JobOrderLine.Dimension2Id;
-                                            ProdUid.CurrenctProcessId = s.ProcessId;
-                                            ProdUid.Status = "Receive";
-                                            ProdUid.LastTransactionDocId = s.JobReceiveHeaderId;
-                                            ProdUid.LastTransactionDocNo = s.DocNo;
-                                            ProdUid.LastTransactionDocTypeId = s.DocTypeId;
-                                            ProdUid.LastTransactionDocDate = s.DocDate;
-                                            ProdUid.LastTransactionPersonId = s.JobWorkerId;
-                                            ProdUid.LastTransactionLineId = line.JobReceiveLineId;
-                                            ProdUid.ProductUIDId = pk;
-                                            new ProductUidService(_unitOfWork).Create(ProdUid);
-                                            
-
                                             line.ProductUidHeaderId = ProdUidHeader.ProductUidHeaderId;
                                             line.ProductUidId = ProdUid.ProductUIDId;
                                             line.JobReceiveHeaderId = s.JobReceiveHeaderId;
@@ -414,7 +439,35 @@ namespace Web
 
 
 
-                        
+                        IEnumerable<JobReceiveLine> JobReceiveLineList = new JobReceiveLineService(_unitOfWork).GetJobReceiveLineList(s.JobReceiveHeaderId);
+
+                        foreach(JobReceiveLine Line in JobReceiveLineList)
+                        {
+                            if (Line.ProductUidId != null)
+                            {
+                                ProductUid ProductUid = new ProductUidService(_unitOfWork).Find((int)Line.ProductUidId);
+                                ProductUid.GenDocId = Line.JobReceiveHeaderId;
+                                ProductUid.LastTransactionDocId = Line.JobReceiveHeaderId;
+                                ProductUid.GenLineId = Line.JobReceiveLineId;
+                                ProductUid.LastTransactionLineId = Line.JobReceiveLineId;
+                                new ProductUidService(_unitOfWork).Update(ProductUid);
+                            }
+                        }
+
+                        try
+                        {
+                            _unitOfWork.Save();
+                        }
+
+                        catch (Exception ex)
+                        {
+                            Errormessage = _exception.HandleException(ex);
+                            ModelState.AddModelError("", Errormessage);
+                            PrepareViewBag();
+                            ViewBag.Mode = "Add";
+                            return View("Create", svm);
+
+                        }
 
                         LogActivity.LogActivityDetail(LogVm.Map(new ActiivtyLogViewModel
                         {

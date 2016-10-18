@@ -813,7 +813,7 @@ namespace Service
                         && (string.IsNullOrEmpty(vm.SaleDispatchHeaderId) ? 1 == 1 : SaleOrderIdArr.Contains(p.SaleDispatchHeaderId.ToString()))
                         && (string.IsNullOrEmpty(vm.ProductGroupId) ? 1 == 1 : ProductGroupIdArr.Contains(tab2.ProductGroupId.ToString()))
                         && p.BalanceQty > 0
-                        orderby p.SaleDispatchLineId
+                        orderby p.SaleDispatchNo, p.Sr
                         select new DirectSaleInvoiceLineViewModel
                         {
                             Dimension1Name = PackingLineTab.Dimension1.Dimension1Name,
@@ -975,6 +975,7 @@ namespace Service
                     join t in db.SaleDispatchHeader on p.SaleDispatchHeaderId equals t.SaleDispatchHeaderId into table
                     from tab in table.DefaultIfEmpty()
                     where p.BalanceQty > 0
+                    && p.BuyerId == SaleInvoiceHeader.SaleToBuyerId
                     && (string.IsNullOrEmpty(settings.filterContraDocTypes) ? 1 == 1 : contraDocTypes.Contains(tab.DocTypeId.ToString()))
                     && (string.IsNullOrEmpty(settings.filterContraSites) ? tab.SiteId == CurrentSiteId : contraSites.Contains(tab.SiteId.ToString()))
                     && (string.IsNullOrEmpty(settings.filterContraDivisions) ? tab.DivisionId == CurrentDivisionId : contraDivisions.Contains(tab.DivisionId.ToString()))

@@ -13,11 +13,11 @@ namespace Model.ViewModel
     {
         public string DocNo { get; set; }
         public string Date { get; set; }
-        public int ? JobWorkerIdId { get; set; }
+        public int  JobWorkerId { get; set; }
         public int? CostCenterId { get; set; }
         public string JobWorkerName { get; set; }
         public string DesignName { get; set; }
-        public string ColourName { get; set; }
+        public string Colour { get; set; }
         public string Size { get; set; }
         public decimal BalanceQty { get; set; }
         public decimal Qty { get; set; }

@@ -25,6 +25,7 @@ namespace Service
         void Update(JobReceiveLine pt);
         JobReceiveLine Add(JobReceiveLine pt);
         IEnumerable<JobReceiveLine> GetJobReceiveLineList();
+        IEnumerable<JobReceiveLine> GetJobReceiveLineList(int JobReceiveHeaderId);
         IEnumerable<JobReceiveLineViewModel> GetLineListForIndex(int headerId);//HeaderId
         Task<IEquatable<JobReceiveLine>> GetAsync();
         Task<JobReceiveLine> FindAsync(int id);
@@ -264,6 +265,13 @@ namespace Service
         public IEnumerable<JobReceiveLine> GetJobReceiveLineList()
         {
             var pt = _unitOfWork.Repository<JobReceiveLine>().Query().Get();
+
+            return pt;
+        }
+
+        public IEnumerable<JobReceiveLine> GetJobReceiveLineList(int JobReceiveHeaderId)
+        {
+            var pt = _unitOfWork.Repository<JobReceiveLine>().Query().Get().Where(i => i.JobReceiveHeaderId == JobReceiveHeaderId);
 
             return pt;
         }
