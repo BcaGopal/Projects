@@ -18,6 +18,7 @@ namespace Model.ViewModels
         public string DepartmentName { get; set; }
         public int? SiteId { get; set; }
         public int PersonId { get; set; }
+        public string[] PersonId1 { get; set; }
         public string Name { get; set; }
         
         public int? GodownId { get; set; }

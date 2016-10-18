@@ -40,6 +40,8 @@ namespace Service
         AttendanceLine LineCreate(AttendanceLine pt);
         IQueryable<OverTimeApplicationHeaderViewModel> GetOverTimeApplicationHeaderPendingToSubmit(int id, string Uname);
         IQueryable<OverTimeApplicationHeaderViewModel> GetOverTimeApplicationHeaderPendingToReview(int id, string Uname);
+
+        IEnumerable<PersonViewModel> GetListEmpName(int DepartmentID);
     }
 
     public class OverTimeApplicationHeaderService : IOverTimeApplicationHeaderService
@@ -97,8 +99,18 @@ namespace Service
         }
 
 
-
      
+
+      
+
+        public IEnumerable<PersonViewModel> GetListEmpName(int DepartmentID)
+        {
+            return (from E in db.Employee
+                          join P in db.Persons on E.PersonID equals P.PersonID
+                          where E.DepartmentID == DepartmentID
+                          select new PersonViewModel { Name = P.Name, PersonID = P.PersonID }
+                          );
+        }
         public AttendanceLine LineCreate(AttendanceLine pt)
         {
             pt.ObjectState = ObjectState.Added;
