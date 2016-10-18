@@ -128,6 +128,14 @@ namespace Web
             return Json(new PurchaseOrderHeaderChargeService(_unitOfWork).GetCalculationFooterListSProc(HeaderId, HeaderTable, LineTable).ToList(), JsonRequestBehavior.AllowGet);
         }
 
+        public ActionResult _GetHeaderCharge(int HeaderId, string HeaderTable, string LineTable, string EditUrl)
+        {
+            ViewBag.HeaderTable = HeaderTable;
+            ViewBag.LineTable = LineTable;
+            ViewBag.EditUrl = EditUrl;
+            return PartialView(new PurchaseOrderHeaderChargeService(_unitOfWork).GetCalculationFooterListSProc(HeaderId, HeaderTable, LineTable).ToList());
+        }
+
         public ActionResult GetHeaderChargeForEdit(int Id, string HeaderTable, string LineTable)//PurchaseOrderHeader Id
         {
 

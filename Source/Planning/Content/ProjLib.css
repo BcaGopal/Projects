@@ -45,12 +45,12 @@
     box-shadow: 1px 1px 8px 0px rgba(72,173,57,1) !important;
 }
 
-select,
+/*select,
 input, textarea {
     -webkit-border-radius: 4px !important;
     -moz-border-radius: 4px !important;
     border-radius: 4px !important;
-}
+}*/
 
 .modal-dialog {
     right: auto !important;
@@ -100,6 +100,14 @@ select {
 
 label, h4 {
     font-weight: bold !important;
+}
+
+.panel h3 {
+    margin-top: 0px;
+}
+
+.panel h3 {
+    margin-top: 0px;
 }
 
 .ui-autocomplete-loading {
@@ -384,4 +392,101 @@ table.grid-table .ui-selecting {
     -webkit-transform: rotate(359deg);
     transform: rotate(359deg);
   }
+}
+
+
+/* For Removing Arrows from <input type='number'/>*/
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+
+
+@-webkit-keyframes button-gradient-explosion {
+    0% {
+        opacity: 1;
+        -webkit-transform: scale(1, 1);
+    }
+
+    100% {
+        -webkit-transform: scale(1.5, 1.5);
+    }
+}
+
+@-moz-keyframes button-gradient-explosion {
+    0% {
+        opacity: 1;
+        -moz-transform: scale(1, 1);
+    }
+
+    100% {
+        -moz-transform: scale(1.5, 1.5);
+    }
+}
+
+@keyframes button-gradient-explosion {
+    0% {
+        opacity: 1;
+        -webkit-transform: scale(1, 1);
+        -moz-transform: scale(1, 1);
+        -ms-transform: scale(1, 1);
+        -o-transform: scale(1, 1);
+        transform: scale(1, 1);
+    }
+
+    100% {
+        opacity: 0.1;
+        -webkit-transform: scale(1.5, 1.5);
+        -moz-transform: scale(1.5, 1.5);
+        -ms-transform: scale(1.5, 1.5);
+        -o-transform: scale(1.5, 1.5);
+        transform: scale(1.5, 1.5);
+    }
+}
+
+
+@-webkit-keyframes hold-opacity {
+    0% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+@-moz-keyframes hold-opacity {
+    0% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes hold-opacity {
+    0% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+@media(max-width:950px) {
+
+    #grid,#gridcharges {
+        overflow-x: scroll;
+    }
+}
+
+@media(max-width:550px) {
+
+    #gridcharges {
+        overflow-x:initial;
+    }
 }

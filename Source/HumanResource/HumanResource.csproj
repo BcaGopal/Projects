@@ -234,6 +234,7 @@
     <Compile Include="App_Start\UnityMvcActivator.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminSetupController.cs" />
+    <Compile Include="Controllers\UserInvitationController.cs" />
     <Compile Include="Controllers\OverTimeApplicationHeaderController.cs" />
     <Compile Include="Controllers\AttendanceHeaderController.cs" />
     <Compile Include="Controllers\ComboHelpListController.cs" />
@@ -244,7 +245,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LeaveTypeController.cs" />
     <Compile Include="Controllers\LogActivity.cs" />
-    <Compile Include="Controllers\LogHistoryControllerController.cs" />
+    <Compile Include="Controllers\LogHistoryController.cs" />
     <Compile Include="Controllers\MultipleButtonHelper.cs" />
     <Compile Include="Controllers\NotificationController.cs" />
     <Compile Include="Controllers\PersonBankAccountController.cs" />
@@ -257,6 +258,8 @@
     <Compile Include="Helpers\AuthFilter.cs" />
     <Compile Include="Helpers\AutoCompleteComboBoxRepositoryAndHelper.cs" />
     <Compile Include="Helpers\BootStrapExtensions.cs" />
+    <Content Include="Content\AdminLTE.css" />
+    <Content Include="Content\IconCss.css" />
     <Content Include="Helpers\CustomHelpers.cs" />
     <Compile Include="Helpers\FlashMessageExtensions.cs" />
     <Compile Include="Helpers\JsonpResult.cs" />
@@ -402,6 +405,7 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\mobile-navigation.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\Notification.js" />
     <Content Include="Scripts\npm.js" />
@@ -424,9 +428,9 @@
     <Content Include="Scripts\Slick\lib\jquery.sparkline.min.js" />
     <Content Include="Scripts\Slick\lib\qunit.css" />
     <Content Include="Scripts\Slick\lib\qunit.js" />
+    <Content Include="Scripts\Slick\slick.editors.js" />
     <Content Include="Scripts\Slick\slick.core.js" />
     <Content Include="Scripts\Slick\slick.dataview.js" />
-    <Content Include="Scripts\Slick\slick.editors.js" />
     <Content Include="Scripts\Slick\slick.grid.js" />
     <Content Include="Scripts\Slick\slick.remotemodel.js" />
     <Content Include="Scripts\Slick\slick.rowselectionmodel.js" />
@@ -498,6 +502,7 @@
     <Content Include="Views\OverTimeApplicationHeader\Detail.cshtml" />
     <Content Include="Views\OverTimeApplicationHeader\DocumentTypeList.cshtml" />
     <Content Include="Views\OverTimeApplicationHeader\Index.cshtml" />
+    <Content Include="Views\UserInvitation\SendInvites.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -507,6 +512,10 @@
     <None Include="Project_Readme.html" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Mail\EmailContents.csproj">
+      <Project>{969b0e26-d3cc-4884-9974-45ac6c5b172b}</Project>
+      <Name>EmailContents</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Models.Login\Models.Login.csproj">
       <Project>{6daf1185-1fde-48f4-98f7-6dfc20acf4c5}</Project>
       <Name>Models.Login</Name>

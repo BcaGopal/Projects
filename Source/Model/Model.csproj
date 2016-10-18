@@ -104,6 +104,7 @@
     <Compile Include="DatabaseViews\SaleInvoiceViewModels.cs" />
     <Compile Include="DatabaseViews\StockVirtual.cs" />
     <Compile Include="Models\ActivityLog.cs" />
+    <Compile Include="Models\UserReferral.cs" />
     <Compile Include="Models\Agent.cs" />
     <Compile Include="Models\ApplicationUser.cs" />
     <Compile Include="Models\ActivityType.cs" />

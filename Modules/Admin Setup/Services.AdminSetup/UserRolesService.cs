@@ -22,17 +22,20 @@ namespace Service
         IEnumerable<UserRoleViewModel> GetUserTempRoles(string UserId);
         void DeleteTempUserRoles(DateTime ExpiryDate, string UserId);
         IEnumerable<string> GetUserRolesForSession(string UserId);
+        bool TryInsertUserRole(string UserId, string RoleId);
     }
 
     public class UserRolesService : IUserRolesService
     {
         private readonly IDataContext _context;
         private readonly ILogger _logger;
+        private readonly IUsersService _userService;
         ActiivtyLogViewModel LogVm = new ActiivtyLogViewModel();
-        public UserRolesService(IDataContext Con, ILogger log)
+        public UserRolesService(IDataContext Con, ILogger log, IUsersService userServ)
         {
             _context = Con;
             _logger = log;
+            _userService = userServ;
 
             //Log Initialization
             LogVm.SessionId = 0;
@@ -87,6 +90,41 @@ namespace Service
                                                select p.RoleId).ToList()));
 
             return vm;
+        }
+
+        public bool TryInsertUserRole(string UserId, string RoleId)
+        {
+
+            _userService.Syncs();
+
+            bool SuccessFlag = false;
+            string[] RoleIdArr = null;
+            if (!string.IsNullOrEmpty(RoleId)) { RoleIdArr = RoleId.Split(",".ToCharArray()); }
+            else { RoleIdArr = new string[] { "NA" }; }
+
+            var RolesList = (from p in ((ApplicationDbContext)_context).UserRole
+                             join t in ((ApplicationDbContext)_context).Roles on p.RoleId equals t.Id
+                             where p.UserId == UserId && p.ExpiryDate == null && RoleIdArr.Contains(p.RoleId)
+                             select p.RoleId).ToList();
+          
+            if(RolesList.Count() <= 0 && RolesList.Count <= 0)
+            {
+                foreach (var item in RoleId.Split(',').ToList())
+                {
+                    UserRole pt = new UserRole();
+                    pt.UserId = UserId;
+                    pt.RoleId = item;
+                    pt.ObjectState = Model.ObjectState.Added;
+                    ((ApplicationDbContext)_context).UserRole.Add(pt);
+                }
+
+                ((ApplicationDbContext)_context).SaveChanges();
+
+                SuccessFlag = true;
+            }
+
+            return SuccessFlag;
+
         }
 
         public void UpdateUserRoles(UserRoleViewModel vm)

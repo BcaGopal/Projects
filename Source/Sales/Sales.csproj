@@ -1176,6 +1176,7 @@
     <Content Include="AdminLTE\plugins\timepicker\bootstrap-timepicker.js" />
     <Content Include="AdminLTE\plugins\timepicker\bootstrap-timepicker.min.css" />
     <Content Include="AdminLTE\plugins\timepicker\bootstrap-timepicker.min.js" />
+    <Content Include="Content\AdminLTE.css" />
     <Content Include="Content\alertifyjs\alertify.css" />
     <Content Include="Content\alertifyjs\alertify.min.css" />
     <Content Include="Content\alertifyjs\alertify.rtl.css" />
@@ -1302,6 +1303,7 @@
     <Content Include="Content\font-awesome.min.css" />
     <Content Include="Content\Gridmvc.css" />
     <Content Include="Content\gridmvc.datepicker.css" />
+    <Content Include="Content\IconCss.css" />
     <Content Include="Content\jasny\jasny-bootstrap.css" />
     <Content Include="Content\jasny\jasny-bootstrap.min.css" />
     <Content Include="Content\jquery.ui.theme.css" />
@@ -1490,6 +1492,7 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\mobile-navigation.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\Notification.js" />
     <Content Include="Scripts\npm.js" />
@@ -1709,6 +1712,7 @@
     <Content Include="Views\PromoCode\Create.cshtml" />
     <Content Include="Views\PromoCode\Index.cshtml" />
     <Content Include="Views\SaleOrderSettings\CreateForCancel.cshtml" />
+    <Content Include="Views\TaxCalculation\_GetHeaderCharge.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

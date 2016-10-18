@@ -40,9 +40,11 @@ namespace Service
             IEnumerable<ApplicationUser> FromList;
             IEnumerable<ApplicationUser> ToList;
 
+            int AppId = (int)System.Web.HttpContext.Current.Session["ApplicationId"];
+
             using (LoginApplicationDbContext dbContext = new LoginApplicationDbContext())
             {
-                FromList = dbContext.Database.SqlQuery<ApplicationUser>(" SELECT * FROM AspNetUsers ").ToList();
+                FromList = dbContext.Database.SqlQuery<ApplicationUser>(" SELECT A.* FROM AspNetUsers A JOIN UserApplications UA ON A.Id = UA.UserId WHERE UA.ApplicationId=" + AppId).ToList();
             }
 
 
@@ -73,5 +75,5 @@ namespace Service
         {
             _context.Dispose();
         }
-    }  
+    }
 }

@@ -1054,3 +1054,9 @@ function getColumnTotal(columns, data) {
     }
     return total;
 }
+
+$(function () {
+    $('.cbtn').click(function () {
+        $(this).addClass('clicked');
+    })
+});

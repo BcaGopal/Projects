@@ -1351,4 +1351,10 @@ function InitializeFocus() {
 //    }
 
 
-//})  
+//})
+
+$(function () {
+    $('.cbtn').click(function () {
+        $(this).addClass('clicked');
+    })
+});

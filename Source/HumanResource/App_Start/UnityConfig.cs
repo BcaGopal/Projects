@@ -81,6 +81,7 @@ namespace HumanResource.App_Start
             container.RegisterType<ILeaveTypeServices, LeaveTypeServices>(new PerRequestLifetimeManager());
             container.RegisterType<IAttendanceHeaderService, AttendanceHeaderService>(new PerRequestLifetimeManager());
             container.RegisterType<IOverTimeApplicationHeaderService, OverTimeApplicationHeaderService>(new PerRequestLifetimeManager());
+            container.RegisterType<IUserReferralService, UserReferralService>(new PerRequestLifetimeManager());
 
             //Registering Mappers::
 

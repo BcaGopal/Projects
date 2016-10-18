@@ -16,10 +16,8 @@ namespace Login.Models
         public string UserType { get; set; }
         [Required]
         public string FirstName { get; set; }
-        [Required]
         public string LastName { get; set; }
         public string Company { get; set; }
-        [Required]
         public string City { get; set; }
 
         [ForeignKey("Application")]
@@ -54,6 +52,8 @@ namespace Login.Models
 
         public DbSet<Application> Application { get; set; }
         public DbSet<UserType> UserType { get; set; }   
-        public System.Data.Entity.DbSet<Login.Models.Person> People { get; set; }
+        public DbSet<Person> People { get; set; }
+        public DbSet<UserReferral> UserReferral { get; set; }
+        public DbSet<UserApplication> UserApplication { get; set; }
     }
 }
