@@ -45,7 +45,7 @@
                     </h3>
                     <div>
                         <div class="row">
-                            
+
 
                             <div class="col-md-6">
                                 <div class="form-group" style="margin-top:15px">
@@ -82,26 +82,26 @@
                             </div>
                         </div>
 
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        @Html.LabelFor(model => model.isVisibleDimension1, "Dimension 1", new { @class = "control-label col-xs-6" })
-                                        <div class="col-xs-4" style=" padding-top:4px">
-                                            @Html.CheckBoxFor(m => m.isVisibleDimension1, new { @class = "checkbox col-xs-2" })
-                                            @Html.ValidationMessageFor(model => model.isVisibleDimension1)
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        @Html.LabelFor(model => model.isVisibleDimension2, "Dimension 2", new { @class = "control-label col-xs-6" })
-                                        <div class="col-xs-4" style=" padding-top:4px">
-                                            @Html.CheckBoxFor(m => m.isVisibleDimension2, new { @class = "checkbox col-xs-2" })
-                                            @Html.ValidationMessageFor(model => model.isVisibleDimension2)
-                                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.isVisibleDimension1, "Dimension 1", new { @class = "control-label col-xs-6" })
+                                    <div class="col-xs-4" style=" padding-top:4px">
+                                        @Html.CheckBoxFor(m => m.isVisibleDimension1, new { @class = "checkbox col-xs-2" })
+                                        @Html.ValidationMessageFor(model => model.isVisibleDimension1)
                                     </div>
                                 </div>
                             </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.isVisibleDimension2, "Dimension 2", new { @class = "control-label col-xs-6" })
+                                    <div class="col-xs-4" style=" padding-top:4px">
+                                        @Html.CheckBoxFor(m => m.isVisibleDimension2, new { @class = "checkbox col-xs-2" })
+                                        @Html.ValidationMessageFor(model => model.isVisibleDimension2)
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
 
                         <div class="row">
@@ -126,27 +126,27 @@
                             </div>
                         </div>
 
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        @Html.LabelFor(model => model.isVisibleDealUnit, "Deal Unit", new { @class = "control-label col-xs-6" })
-                                        <div class="col-xs-4" style=" padding-top:4px">
-                                            @Html.CheckBoxFor(m => m.isVisibleDealUnit, new { @class = "checkbox col-xs-2" })
-                                            @Html.ValidationMessageFor(model => model.isVisibleDealUnit)
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        @Html.LabelFor(model => model.isVisibleShipMethod, "Ship Method", new { @class = "control-label col-xs-6" })
-                                        <div class="col-xs-4" style=" padding-top:4px">
-                                            @Html.CheckBoxFor(m => m.isVisibleShipMethod, new { @class = "checkbox col-xs-2" })
-                                            @Html.ValidationMessageFor(model => model.isVisibleShipMethod)
-                                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.isVisibleDealUnit, "Deal Unit", new { @class = "control-label col-xs-6" })
+                                    <div class="col-xs-4" style=" padding-top:4px">
+                                        @Html.CheckBoxFor(m => m.isVisibleDealUnit, new { @class = "checkbox col-xs-2" })
+                                        @Html.ValidationMessageFor(model => model.isVisibleDealUnit)
                                     </div>
                                 </div>
                             </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.isVisibleShipMethod, "Ship Method", new { @class = "control-label col-xs-6" })
+                                    <div class="col-xs-4" style=" padding-top:4px">
+                                        @Html.CheckBoxFor(m => m.isVisibleShipMethod, new { @class = "checkbox col-xs-2" })
+                                        @Html.ValidationMessageFor(model => model.isVisibleShipMethod)
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
 
                         <div class="row">
@@ -169,17 +169,29 @@
                                     </div>
                                 </div>
                             </div>
-                        </div> 
-
-
-
-
                         </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.isVisibleStockIn, "Stock In", new { @class = "control-label col-xs-6" })
+                                    <div class="col-xs-4" style=" padding-top:4px">
+                                        @Html.CheckBoxFor(m => m.isVisibleStockIn, new { @class = "checkbox col-xs-2" })
+                                        @Html.ValidationMessageFor(model => model.isVisibleStockIn)
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+
+                    </div>
                 </div>
 
-                
 
-                
+
+
 
 
                 <hr style="margin-bottom:0px" />
@@ -211,7 +223,7 @@
                         </div>
 
                         <div class="row">
- 
+
                             <div class="col-md-6">
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.filterProductGroups, "Product Groups", new { @class = "control-label col-xs-4" })
@@ -282,151 +294,173 @@
                 <div class="row">
                     <h3 class="col-md-12 black">
                         <span class="glyphicon glyphicon-align-justify"></span>
-                        3.Other Settings
+                        3.Mandatory Settings
                     </h3>
                     <div>
-
                         <div class="row">
-                            
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.UnitConversionForId, "Unit Conversion For", new { @class = "control-label col-xs-4" })
-                                    <div class="col-xs-6">
-                                        @Html.DropDownListFor(m => m.UnitConversionForId, new SelectList(ViewBag.UnitConvForList as System.Collections.IEnumerable, "UnitConversionForId", "UnitConversionForName"), new { @class = "form-control height" })
-                                        @Html.ValidationMessageFor(m => m.UnitConversionForId, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
-                            </div>
-                            
-                        </div>
-
-                        <div class="row">
-
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    @Html.LabelFor(model => model.SqlProcDocumentPrint, "SQL Proc DocumentPrint", new { @class = "control-label col-xs-4" })
-                                    <div class="col-xs-6">
-                                        @Html.TextBoxFor(m => m.SqlProcDocumentPrint, new { @class = "form-control col-xs-6" })
-                                        @Html.ValidationMessageFor(m => m.SqlProcDocumentPrint, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    @Html.LabelFor(model => model.SqlProcDocumentPrint_AfterApprove, "SQL Proc DocumentPrint After Approve", new { @class = "control-label col-xs-4" })
-                                    <div class="col-xs-6">
-                                        @Html.TextBoxFor(m => m.SqlProcDocumentPrint_AfterApprove, new { @class = "form-control col-xs-6" })
-                                        @Html.ValidationMessageFor(m => m.SqlProcDocumentPrint_AfterApprove, "", new { @class = "text-danger" })
+                                    @Html.LabelFor(model => model.IsMandatoryStockIn, "Stock In", new { @class = "control-label col-xs-6" })
+                                    <div class="col-xs-4" style=" padding-top:4px">
+                                        @Html.CheckBoxFor(m => m.IsMandatoryStockIn, new { @class = "checkbox col-xs-2" })
+                                        @Html.ValidationMessageFor(model => model.IsMandatoryStockIn)
                                     </div>
                                 </div>
                             </div>
                         </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        @Html.LabelFor(model => model.SqlProcDocumentPrint_AfterSubmit, "SQL Proc DocumentPrint After Submit", new { @class = "control-label col-xs-4" })
-                                        <div class="col-xs-6">
-                                            @Html.TextBoxFor(m => m.SqlProcDocumentPrint_AfterSubmit, new { @class = "form-control col-xs-6" })
-                                            @Html.ValidationMessageFor(m => m.SqlProcDocumentPrint_AfterSubmit, "", new { @class = "text-danger" })
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        @Html.LabelFor(model => model.SqlProcGatePass, "SQL Proc GatePass", new { @class = "control-label col-xs-4" })
-                                        <div class="col-xs-6">
-                                            @Html.TextBoxFor(m => m.SqlProcGatePass, new { @class = "form-control col-xs-6" })
-                                            @Html.ValidationMessageFor(m => m.SqlProcGatePass, "", new { @class = "text-danger" })
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    @Html.LabelFor(model => model.ShipMethodId, "Ship Method", new { @class = "control-label col-xs-4" })
-                                    <div class="col-xs-6">
-                                        @Html.DropDownListFor(m => m.ShipMethodId, new SelectList(ViewBag.ShipMethodList as System.Collections.IEnumerable, "ShipMethodId", "ShipMethodName"), new { @class = "form-control col-xs-6" })
-                                        @Html.ValidationMessageFor(m => m.ShipMethodId, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    @Html.LabelFor(model => model.GodownId, "Godown", new { @class = "control-label col-xs-4" })
-                                    <div class="col-xs-6">
-                                        @Html.DropDownListFor(m => m.GodownId, new SelectList(ViewBag.GodownList as System.Collections.IEnumerable, "GodownId", "GodownName"), new { @class = "form-control col-xs-6" })
-                                        @Html.ValidationMessageFor(m => m.GodownId, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    @Html.LabelFor(model => model.ProcessId, "Process", new { @class = "control-label col-xs-4" })
-                                    <div class="col-xs-6">
-                                        @Html.TextBoxFor(m => m.ProcessId, new { @class = "form-control col-xs-6" })
-                                        @Html.ValidationMessageFor(m => m.ProcessId, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    @Html.LabelFor(model => model.DeliveryTermsId, "Delivery Terms", new { @class = "control-label col-xs-4" })
-                                    <div class="col-xs-6">
-                                        @Html.DropDownListFor(m => m.DeliveryTermsId, new SelectList(ViewBag.DeliveryTermsList as System.Collections.IEnumerable, "DeliveryTermsId", "DeliveryTermsName"), new { @class = "form-control col-xs-6" })
-                                        @Html.ValidationMessageFor(m => m.DeliveryTermsId, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-
-                          
-                        
                     </div>
                 </div>
 
 
-               
+                            <hr style="margin-bottom:0px" />
+                            <div class="row">
+                                <h3 class="col-md-12 black">
+                                    <span class="glyphicon glyphicon-align-justify"></span>
+                                    4.Other Settings
+                                </h3>
+                                <div>
 
-            </div>
-        </div>
-    </div>
-}
-<script type="text/javascript">
+                                    <div class="row">
 
-    $(function () {
-        CustomSelectFunction($("#filterLedgerAccountGroups"), '/ComboHelpList/GetLedgerAccountGroups', '/ComboHelpList/SetLedgerAccountGroups', ' ', true, 1);
-        CustomSelectFunction($("#filterLedgerAccounts"), '/ComboHelpList/GetAccount', '/ComboHelpList/SetAccount', ' ', true, 1);
-        CustomSelectFunction($("#filterProductGroups"), '/ComboHelpList/GetProductGroup', '/ComboHelpList/SetProductGroup', ' ', true, 1);
-        CustomSelectFunction($("#filterProducts"), '/ComboHelpList/GetProducts', '/ComboHelpList/SetProducts', ' ', true, 1);
-        CustomSelectFunction($("#filterProductTypes"), '/ComboHelpList/GetProductType', '/ComboHelpList/SetProductType', ' ', true, 1);
-        CustomSelectFunction($("#filterContraDocTypes"), '/ComboHelpList/GetDocumentType', '/ComboHelpList/SetSingleDocumentType', ' ', true, 1);
-        CustomSelectFunction($("#filterContraDivisions"), '/ComboHelpList/GetDivision', '/ComboHelpList/SetDivision', ' ', true, 1);
-        CustomSelectFunction($("#filterContraSites"), '/ComboHelpList/GetSite', '/ComboHelpList/SetSite', ' ', true, 1);
-        CustomSelectFunction($("#ProcessId"), '/ComboHelpList/GetProcess', '/ComboHelpList/SetSingleProcess', ' ', false, 1);
-    });
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.UnitConversionForId, "Unit Conversion For", new { @class = "control-label col-xs-4" })
+                                                <div class="col-xs-6">
+                                                    @Html.DropDownListFor(m => m.UnitConversionForId, new SelectList(ViewBag.UnitConvForList as System.Collections.IEnumerable, "UnitConversionForId", "UnitConversionForName"), new { @class = "form-control height" })
+                                                    @Html.ValidationMessageFor(m => m.UnitConversionForId, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="row">
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.SqlProcDocumentPrint, "SQL Proc DocumentPrint", new { @class = "control-label col-xs-4" })
+                                                <div class="col-xs-6">
+                                                    @Html.TextBoxFor(m => m.SqlProcDocumentPrint, new { @class = "form-control col-xs-6" })
+                                                    @Html.ValidationMessageFor(m => m.SqlProcDocumentPrint, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.SqlProcDocumentPrint_AfterApprove, "SQL Proc DocumentPrint After Approve", new { @class = "control-label col-xs-4" })
+                                                <div class="col-xs-6">
+                                                    @Html.TextBoxFor(m => m.SqlProcDocumentPrint_AfterApprove, new { @class = "form-control col-xs-6" })
+                                                    @Html.ValidationMessageFor(m => m.SqlProcDocumentPrint_AfterApprove, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.SqlProcDocumentPrint_AfterSubmit, "SQL Proc DocumentPrint After Submit", new { @class = "control-label col-xs-4" })
+                                                <div class="col-xs-6">
+                                                    @Html.TextBoxFor(m => m.SqlProcDocumentPrint_AfterSubmit, new { @class = "form-control col-xs-6" })
+                                                    @Html.ValidationMessageFor(m => m.SqlProcDocumentPrint_AfterSubmit, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.SqlProcGatePass, "SQL Proc GatePass", new { @class = "control-label col-xs-4" })
+                                                <div class="col-xs-6">
+                                                    @Html.TextBoxFor(m => m.SqlProcGatePass, new { @class = "form-control col-xs-6" })
+                                                    @Html.ValidationMessageFor(m => m.SqlProcGatePass, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.ShipMethodId, "Ship Method", new { @class = "control-label col-xs-4" })
+                                                <div class="col-xs-6">
+                                                    @Html.DropDownListFor(m => m.ShipMethodId, new SelectList(ViewBag.ShipMethodList as System.Collections.IEnumerable, "ShipMethodId", "ShipMethodName"), new { @class = "form-control col-xs-6" })
+                                                    @Html.ValidationMessageFor(m => m.ShipMethodId, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.GodownId, "Godown", new { @class = "control-label col-xs-4" })
+                                                <div class="col-xs-6">
+                                                    @Html.DropDownListFor(m => m.GodownId, new SelectList(ViewBag.GodownList as System.Collections.IEnumerable, "GodownId", "GodownName"), new { @class = "form-control col-xs-6" })
+                                                    @Html.ValidationMessageFor(m => m.GodownId, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.ProcessId, "Process", new { @class = "control-label col-xs-4" })
+                                                <div class="col-xs-6">
+                                                    @Html.TextBoxFor(m => m.ProcessId, new { @class = "form-control col-xs-6" })
+                                                    @Html.ValidationMessageFor(m => m.ProcessId, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.DeliveryTermsId, "Delivery Terms", new { @class = "control-label col-xs-4" })
+                                                <div class="col-xs-6">
+                                                    @Html.DropDownListFor(m => m.DeliveryTermsId, new SelectList(ViewBag.DeliveryTermsList as System.Collections.IEnumerable, "DeliveryTermsId", "DeliveryTermsName"), new { @class = "form-control col-xs-6" })
+                                                    @Html.ValidationMessageFor(m => m.DeliveryTermsId, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
 
 
-    var IsSaved = false;
-    var ValidationCount = 0;
 
-    $('form').submit(function (event) {
 
-        if (!IsSaved) {
-            IsSaved = true;
-            return IsSaved;
-        }
-        else {
-            return false;
-        }
-    });
+                                </div>
+                            </div>
 
-</script>
+
+
+
+                        </div>
+                    </div>
+                </div>
+                }
+                <script type="text/javascript">
+
+                    $(function () {
+                        CustomSelectFunction($("#filterLedgerAccountGroups"), '/ComboHelpList/GetLedgerAccountGroups', '/ComboHelpList/SetLedgerAccountGroups', ' ', true, 1);
+                        CustomSelectFunction($("#filterLedgerAccounts"), '/ComboHelpList/GetAccount', '/ComboHelpList/SetAccount', ' ', true, 1);
+                        CustomSelectFunction($("#filterProductGroups"), '/ComboHelpList/GetProductGroup', '/ComboHelpList/SetProductGroup', ' ', true, 1);
+                        CustomSelectFunction($("#filterProducts"), '/ComboHelpList/GetProducts', '/ComboHelpList/SetProducts', ' ', true, 1);
+                        CustomSelectFunction($("#filterProductTypes"), '/ComboHelpList/GetProductType', '/ComboHelpList/SetProductType', ' ', true, 1);
+                        CustomSelectFunction($("#filterContraDocTypes"), '/ComboHelpList/GetDocumentType', '/ComboHelpList/SetSingleDocumentType', ' ', true, 1);
+                        CustomSelectFunction($("#filterContraDivisions"), '/ComboHelpList/GetDivision', '/ComboHelpList/SetDivision', ' ', true, 1);
+                        CustomSelectFunction($("#filterContraSites"), '/ComboHelpList/GetSite', '/ComboHelpList/SetSite', ' ', true, 1);
+                        CustomSelectFunction($("#ProcessId"), '/ComboHelpList/GetProcess', '/ComboHelpList/SetSingleProcess', ' ', false, 1);
+                    });
+
+
+                    var IsSaved = false;
+                    var ValidationCount = 0;
+
+                    $('form').submit(function (event) {
+
+                        if (!IsSaved) {
+                            IsSaved = true;
+                            return IsSaved;
+                        }
+                        else {
+                            return false;
+                        }
+                    });
+
+                </script>
 

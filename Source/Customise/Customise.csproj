@@ -252,6 +252,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminSetupController.cs" />
     <Compile Include="Controllers\CarpetMasterController.cs" />
+    <Compile Include="Controllers\DesignColourConsumptionHeaderController.cs" />
     <Compile Include="Controllers\SaleEnquiryProductMapping.cs" />
     <Compile Include="Controllers\ColourController.cs" />
     <Compile Include="Controllers\ComboHelpListController.cs" />
@@ -271,6 +272,7 @@
     <Compile Include="Controllers\SaleEnquiryHeaderController.cs" />
     <Compile Include="Controllers\SaleEnquiryLineController.cs" />
     <Compile Include="Controllers\SaleEnquirySettingsController.cs" />
+    <Compile Include="Controllers\WeavingReceiveWizardController.cs" />
     <Compile Include="Controllers\WeavingOrderWizardHandloomController.cs" />
     <Compile Include="Controllers\YearClosingController.cs" />
     <Compile Include="Controllers\CustomDetailController.cs" />
@@ -387,6 +389,7 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\AdminLTE.css" />
     <Content Include="Content\alertifyjs\alertify.css" />
     <Content Include="Content\alertifyjs\alertify.min.css" />
     <Content Include="Content\alertifyjs\alertify.rtl.css" />
@@ -514,6 +517,7 @@
     <Content Include="Content\font-awesome.min.css" />
     <Content Include="Content\Gridmvc.css" />
     <Content Include="Content\gridmvc.datepicker.css" />
+    <Content Include="Content\IconCss.css" />
     <Content Include="Content\jasny\jasny-bootstrap.css" />
     <Content Include="Content\jasny\jasny-bootstrap.min.css" />
     <Content Include="Content\jquery.ui.theme.css" />
@@ -727,6 +731,7 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\mobile-navigation.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\Notification.js" />
     <Content Include="Scripts\npm.js" />
@@ -1143,6 +1148,14 @@
     <Content Include="Views\CarpetSkuSettings\Create.cshtml" />
     <Content Include="Views\SaleEnquiryProductMapping\Create.cshtml" />
     <Content Include="Views\SaleEnquiryProductMapping\Index.cshtml" />
+    <Content Include="Views\DesignColourConsumptionHeader\_Reason.cshtml" />
+    <Content Include="Views\DesignColourConsumptionHeader\ChooseType.cshtml" />
+    <Content Include="Views\DesignColourConsumptionHeader\CopyFromExisting.cshtml" />
+    <Content Include="Views\DesignColourConsumptionHeader\Create.cshtml" />
+    <Content Include="Views\DesignColourConsumptionHeader\Index.cshtml" />
+    <Content Include="Views\WeavingReceiveWizard\Create.cshtml" />
+    <Content Include="Views\WeavingReceiveWizard\CreateWeavingReceive.cshtml" />
+    <Content Include="Views\TaxCalculation\_GetHeaderCharge.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

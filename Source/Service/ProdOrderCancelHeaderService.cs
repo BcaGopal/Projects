@@ -36,6 +36,8 @@ namespace Service
         bool CheckForDocNoExists(string DocNo);
         int NextId(int id);
         int PrevId(int id);
+
+        ProdOrderCancelHeader GetProdOrderCancelForMaterialPlan(int id);
     }
 
     public class ProdOrderCancelHeaderService : IProdOrderCancelHeaderService
@@ -236,6 +238,14 @@ namespace Service
                 return temp;
             else
                 return id;
+        }
+
+        public ProdOrderCancelHeader GetProdOrderCancelForMaterialPlan(int id)
+        {
+            return (from p in db.ProdOrderCancelHeader
+                    where p.MaterialPlanCancelHeaderId == id
+                    select p
+                        ).FirstOrDefault();
         }
     }
 }

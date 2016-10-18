@@ -400,7 +400,7 @@ namespace Web
         //[ValidateAntiForgeryToken]
         public ActionResult _CreatePost(SaleDispatchLineViewModel svm)
         {
-
+            SaleDispatchSetting Settings = new SaleDispatchSettingService(_unitOfWork).Find(svm.DocTypeId);
             SaleDispatchHeader Dh = new SaleDispatchHeaderService(_unitOfWork).Find(svm.SaleDispatchHeaderId);
 
             PackingHeader Ph = new PackingHeaderService(_unitOfWork).Find(Dh.PackingHeaderId.Value);
@@ -421,6 +421,14 @@ namespace Web
 
             if (svm.Qty <= 0)
                 ModelState.AddModelError("Qty", "The Qty field is required");
+
+
+
+            if (Settings.IsMandatoryStockIn == true)
+            {
+                if (svm.StockInId == 0 || svm.StockInId == null)
+                    ModelState.AddModelError("StockInId", "Stock In field is required");
+            }
 
             if (svm.GodownId <= 0)
                 ModelState.AddModelError("GodownId", "The Godown field is required");
@@ -499,7 +507,7 @@ namespace Web
                         Adj_IssQty.StockOutId = (int)Dl.StockId;
                         Adj_IssQty.DivisionId = Dh.DivisionId;
                         Adj_IssQty.SiteId = Dh.SiteId;
-                        Adj_IssQty.AdjustedQty = Pl.Qty;
+                        Adj_IssQty.AdjustedQty = Pl.Qty + (Pl.LossQty ?? 0);
                         new StockAdjService(_unitOfWork).Create(Adj_IssQty);
                     }
 
@@ -650,7 +658,7 @@ namespace Web
                         Adj_IssQty.StockOutId = (int)Dl.StockId;
                         Adj_IssQty.DivisionId = Dh.DivisionId;
                         Adj_IssQty.SiteId = Dh.SiteId;
-                        Adj_IssQty.AdjustedQty = Pl.Qty;
+                        Adj_IssQty.AdjustedQty = +(Pl.LossQty ?? 0);
                         new StockAdjService(_unitOfWork).Create(Adj_IssQty);
                     }
 
@@ -659,6 +667,7 @@ namespace Web
                     Pl.ProductUidId = svm.ProductUidId;
                     Pl.ProductId = svm.ProductId;
                     Pl.SaleOrderLineId = svm.SaleOrderLineId;
+                    Pl.PassQty = svm.PassQty;
                     Pl.Qty = svm.Qty;
                     Pl.BaleNo = svm.BaleNo;
                     Pl.DealUnitId = svm.DealUnitId;

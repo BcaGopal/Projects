@@ -18,10 +18,8 @@
             @Html.HiddenFor(m => m.ProductCustomGroupLineId)
 
             <div class="form-horizontal modal-body">
-
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                 <div class="row">
-
                     <div class="col-md-10">
                         <div class="form-group">
                             @Html.LabelFor(model => model.ProductId, "Product", new { @class = "control-label col-xs-4 " })
@@ -30,9 +28,8 @@
                                 @Html.ValidationMessageFor(model => model.ProductId, "", new { @class = "text-danger" })
                             </div>
                         </div>
-
                     </div>
-                    </div>
+                </div>
                 <div class="row">
                     <div class="col-md-10">
                         <div class="form-group">
@@ -48,14 +45,9 @@
              
                 <div class="modal-footer " style="padding: 19px 20px 0 20px; border-top:1px solid #8E8888">
                     <button class="btn custom left" name="Command:Edit" type="submit"><h2 style="margin:0px" id="submit"><span class="glyphicon glyphicon-floppy-disk black"></span> </h2></button>
-
                     <button class="btn custom" name="Command:Delete" id="delete" type="submit"><h2 style="margin:0px"><span class="glyphicon glyphicon-trash black"></span> </h2></button>
-
-
                 </div>
-
             </div>
-
         }
     </div>
 </div>

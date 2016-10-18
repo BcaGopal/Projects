@@ -60,6 +60,7 @@ namespace Module.App_Start
             container.RegisterType<ISiteSelectionService, SiteSelectionService>(new PerRequestLifetimeManager());
             container.RegisterType<IUserRolesService, UserRolesService>(new PerRequestLifetimeManager());
             container.RegisterType<IRolesControllerActionService, RolesControllerActionService>(new PerRequestLifetimeManager());
+            container.RegisterType<IUsersService, UsersService>(new PerRequestLifetimeManager());
             container.RegisterType<ILogger, LogActivity>(new PerRequestLifetimeManager());
 
             container.RegisterType<IRepository<MenuModule>, Repository<MenuModule>>();

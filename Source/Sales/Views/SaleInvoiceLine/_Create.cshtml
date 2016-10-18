@@ -39,6 +39,7 @@
                 @Html.HiddenFor(m => m.DivisionId)
                 @Html.HiddenFor(m => m.ProductUidId)
                 @Html.HiddenFor(m => m.ProductId)
+                @Html.HiddenFor(m => m.SaleOrderLineId)
                 @Html.HiddenFor(m => m.BalanceQty)
 
 
@@ -424,6 +425,7 @@ else
                             $("#BalanceQty").val(data.BalanceQty);
                             $("#Rate").val(data.Rate);
                             $("#UnitId").val(data.UnitId);
+                            $("#SaleOrderLineId").val(data.SaleOrderLineId);
                             $("#DealUnitId").val(data.DealUnitId);
                             $("#UnitConversionMultiplier").val(data.UnitConversionMultiplier);
                             $("#UnitName").val(data.UnitName);

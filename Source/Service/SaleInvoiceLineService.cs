@@ -208,6 +208,7 @@ namespace Service
                                                                               from tab4 in table4.DefaultIfEmpty()
                                                                               join u in db.Units on l.DealUnitId equals u.UnitId into DealUnitTable
                                                                               from DealUnitTab in DealUnitTable.DefaultIfEmpty()
+                                                                              join Sil in db.SaleInvoiceLine on l.SaleInvoiceLineId equals Sil.SaleInvoiceLineId into SaleInvoiceLineTable from SaleInvoiceLineTab in SaleInvoiceLineTable.DefaultIfEmpty()
                                                                               where l.SaleInvoiceHeaderId == SaleInvoiceHeaderId
                                                                               orderby l.Sr
                                                                               select new SaleInvoiceLineViewModel
@@ -227,6 +228,7 @@ namespace Service
                                                                                   DealUnitId = DealUnitTab.UnitName,
                                                                                   DealUnitDecimalPlaces = DealUnitTab.DecimalPlaces,
                                                                                   Rate = l.Rate,
+                                                                                  SaleDispatchDocNo = SaleInvoiceLineTab.SaleDispatchLine.SaleDispatchHeader.DocNo,
                                                                                   Amount = l.Amount,
                                                                                   Remark = l.Remark,
                                                                               }).Take(2000).ToList();
@@ -799,7 +801,8 @@ namespace Service
             var temp = (from p in db.ViewSaleDispatchBalance
                         join l in db.SaleDispatchLine on p.SaleDispatchLineId equals l.SaleDispatchLineId into linetable
                         from linetab in linetable.DefaultIfEmpty()
-                        join t3 in db.SaleInvoiceLine on linetab.SaleDispatchLineId equals t3.SaleDispatchLineId
+                        join t3 in db.PackingLine on linetab.PackingLineId equals t3.PackingLineId into PackingLineTable
+                        from PackingLineTab in PackingLineTable.DefaultIfEmpty()                                                                                                                                       
                         join t in db.SaleDispatchHeader on p.SaleDispatchHeaderId equals t.SaleDispatchHeaderId into table
                         from tab in table.DefaultIfEmpty()
                         join product in db.Product on p.ProductId equals product.ProductId into table2
@@ -810,24 +813,29 @@ namespace Service
                         && (string.IsNullOrEmpty(vm.SaleDispatchHeaderId) ? 1 == 1 : SaleOrderIdArr.Contains(p.SaleDispatchHeaderId.ToString()))
                         && (string.IsNullOrEmpty(vm.ProductGroupId) ? 1 == 1 : ProductGroupIdArr.Contains(tab2.ProductGroupId.ToString()))
                         && p.BalanceQty > 0
+                        orderby p.SaleDispatchLineId
                         select new DirectSaleInvoiceLineViewModel
                         {
-                            Dimension1Name = t3.Dimension1.Dimension1Name,
-                            Dimension2Name = t3.Dimension2.Dimension2Name,
+                            Dimension1Name = PackingLineTab.Dimension1.Dimension1Name,
+                            Dimension2Name = PackingLineTab.Dimension2.Dimension2Name,
                             BalanceQty = p.BalanceQty,
                             Qty = p.BalanceQty,
                             SaleDispatchHeaderDocNo = tab.DocNo,
+                            SaleOrderHeaderDocNo = p.SaleOrderNo,
                             ProductName = tab2.ProductName,
                             ProductId = p.ProductId,
                             SaleInvoiceHeaderId = vm.SaleInvoiceHeaderId,
                             SaleDispatchLineId = p.SaleDispatchLineId,
                             UnitId = tab2.UnitId,
                             UnitName = tab2.Unit.UnitName,
-                            UnitConversionMultiplier = t3.UnitConversionMultiplier ?? 0,
-                            DealUnitId = t3.DealUnitId,
-                            DealUnitName = t3.DealUnit.UnitName,
+                            UnitConversionMultiplier = PackingLineTab.UnitConversionMultiplier,
+                            DealUnitId = PackingLineTab.DealUnitId,
+                            DealUnitName = PackingLineTab.DealUnit.UnitName,
                             unitDecimalPlaces = tab2.Unit.DecimalPlaces,
-                            DealunitDecimalPlaces = t3.DealUnit.DecimalPlaces,
+                            DealunitDecimalPlaces = PackingLineTab.DealUnit.DecimalPlaces,
+                            Dimension1Id = p.Dimension1Id,
+                            Dimension2Id = p.Dimension2Id,
+                            SaleOrderLineId = p.SaleOrderLineId
                         }
 
                         );

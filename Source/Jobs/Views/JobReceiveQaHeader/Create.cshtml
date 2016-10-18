@@ -471,6 +471,7 @@
         var link="/JobReceiveQALine/Index/"+groupId;
         var QtyCount=0;
         var InspectedQtyCount=0;
+        var PenaltyCount=0;
         var unit=true;
         var prevunit;
         var decimal=0;
@@ -521,6 +522,7 @@
                             +"<hr style='margin-top:0px;margin-bottom:0px'/>";
                         QtyCount+=item.Qty;                        
                         InspectedQtyCount+=item.InspectedQty;
+                        PenaltyCount+=item.PenaltyAmt;
                         
                         DealQty+=item.PassQty*item.UnitConversionMultiplier;
                         if(srno!=1)
@@ -553,7 +555,7 @@
                         +"          </div>"
                         +"          <div class='block text-right' style='width:10%'><strong>"+(InspectedQtyCount.toFixed(decimal))
                         +"          </strong></div>"
-                        +"          <div class='block text-right' style='width:10%'><strong>"
+                        +"          <div class='block text-right' style='width:10%'><strong>"+(PenaltyCount.toFixed(2))
                         +"          </strong></div>"
                         +"          <div class='block text-right' style='width:10%'><strong>"
                         +"          </strong></div>"

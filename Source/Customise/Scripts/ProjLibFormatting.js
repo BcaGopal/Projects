@@ -1030,6 +1030,13 @@ $(function () {
         else
             Input.focus();
 
+
+        $(function () {
+            $('input[readonly]').each(function () {
+                $(this).attr('tabindex', '-1');
+            });
+        });
+
     });
 
 })
@@ -1047,3 +1054,9 @@ function getColumnTotal(columns, data) {
     }
     return total;
 }
+
+$(function () {
+    $('.cbtn').click(function () {
+        $(this).addClass('clicked');
+    })
+});

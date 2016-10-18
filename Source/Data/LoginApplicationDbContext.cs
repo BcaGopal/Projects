@@ -4,6 +4,7 @@ using Model.Tasks.Models;
 using Models.Login.Infrastructure;
 using Models.Login.Models;
 using Model.DatabaseViews;
+using Model.Models;
 
 namespace Data.Models
 {
@@ -24,6 +25,8 @@ namespace Data.Models
         public DbSet<DAR> DAR { get; set; }
         public DbSet<Project> Project { get; set; }
         public DbSet<UserTeam> UserTeam { get; set; }
+        public DbSet<UserReferral> UserReferral { get; set; }
         public DbSet<_Users> _Users { get; set; }
+        public DbSet<UserType> UserType { get; set; }
     }
 }

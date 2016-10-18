@@ -14,10 +14,10 @@ namespace Module
 
             //Scripts bundles
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
-                        "~/Scripts/jquery-{version}.js"                        
+                        "~/Scripts/jquery-{version}.js"
                         , "~/Scripts/jquery.signalR-{version}.js"));
 
-            bundles.Add(new ScriptBundle("~/bundles/jqueryui").Include(                        
+            bundles.Add(new ScriptBundle("~/bundles/jqueryui").Include(
                         "~/Scripts/jquery-ui-{version}.js"
                         , "~/Scripts/jquery.cookie.js"));
 
@@ -52,7 +52,10 @@ namespace Module
                      , "~/Content/Gridmvc.css"
                      , "~/Content/Notification.css"
                      , "~/Content/gridmvc.datepicker.css"
-                      , "~/Content/ProjLib.css"));
+                      , "~/Content/ProjLib.css"
+                      , "~/Content/AdminLTE.css"
+                      , "~/Content/IconCss.css"
+                     ));
 
             bundles.Add(new StyleBundle("~/Content/icongridcss").Include(
                       "~/Content/IconGrid/component.css"

@@ -45,12 +45,12 @@
     box-shadow: 1px 1px 8px 0px rgba(72,173,57,1) !important;
 }
 
-select,
+/*select,
 input, textarea {
     -webkit-border-radius: 4px !important;
     -moz-border-radius: 4px !important;
     border-radius: 4px !important;
-}
+}*/
 
 .modal-dialog {
     right: auto !important;
@@ -100,6 +100,10 @@ select {
 
 label, h4 {
     font-weight: bold !important;
+}
+
+.panel h3 {
+    margin-top: 0px;
 }
 
 .ui-autocomplete-loading {

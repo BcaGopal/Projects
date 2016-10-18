@@ -24,6 +24,7 @@ namespace Model.ViewModel
 
         public bool isVisibleProductUID { get; set; }
         public bool isVisibleLotNo { get; set; }
+        public bool isVisibleStockIn { get; set; }
         public bool CalculateDiscountOnRate { get; set; }
         public string filterLedgerAccountGroups { get; set; }
         public string filterLedgerAccounts { get; set; }
@@ -53,6 +54,8 @@ namespace Model.ViewModel
         public bool isVisibleDiscountPer { get; set; }
         public bool isVisibleForSaleOrder { get; set; }
         public bool isVisibleWeight { get; set; }
+
+        public bool IsMandatoryStockIn { get; set; }
 
 
 

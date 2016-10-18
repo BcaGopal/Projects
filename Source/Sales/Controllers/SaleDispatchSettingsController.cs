@@ -145,6 +145,9 @@ namespace Web
                     temp.isVisibleShipMethod = pt.isVisibleShipMethod;
                     temp.isVisibleForSaleOrder = pt.isVisibleForSaleOrder;
                     temp.isVisibleWeight = pt.isVisibleWeight;
+                    temp.isVisibleStockIn = pt.isVisibleStockIn;
+
+                    temp.IsMandatoryStockIn = pt.IsMandatoryStockIn;
                     
 
                     temp.filterLedgerAccountGroups = pt.filterLedgerAccountGroups;

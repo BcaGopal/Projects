@@ -68,6 +68,7 @@
                                         @Html.HiddenFor(m => Model.DirectSaleInvoiceLineViewModel[i].SaleDispatchLineId)
                                         @Html.HiddenFor(m => Model.DirectSaleInvoiceLineViewModel[i].SaleInvoiceHeaderId)
                                         @Html.HiddenFor(m => Model.DirectSaleInvoiceLineViewModel[i].SaleDispatchHeaderDocNo)
+                                        @Html.HiddenFor(m => Model.DirectSaleInvoiceLineViewModel[i].SaleOrderLineId)
                                         @Html.HiddenFor(m => Model.DirectSaleInvoiceLineViewModel[i].BalanceQty)
                                         @Html.HiddenFor(m => Model.DirectSaleInvoiceLineViewModel[i].UnitId)
                                         @Html.HiddenFor(m => Model.DirectSaleInvoiceLineViewModel[i].DealUnitId)
@@ -97,9 +98,10 @@
                                                         @{
                                         var Dim1 = (string.IsNullOrEmpty(Model.DirectSaleInvoiceLineViewModel[i].Dimension1Name)) ? "" : Model.DirectSaleInvoiceLineViewModel[i].Dimension1Name + ",";
                                         var Dim2 = (string.IsNullOrEmpty(Model.DirectSaleInvoiceLineViewModel[i].Dimension2Name)) ? "" : Model.DirectSaleInvoiceLineViewModel[i].Dimension2Name;
+                                        var SaleOrder = (string.IsNullOrEmpty(Model.DirectSaleInvoiceLineViewModel[i].SaleOrderHeaderDocNo)) ? "" : Model.DirectSaleInvoiceLineViewModel[i].SaleOrderHeaderDocNo;
                                                         }
 
-                                                        @Dim1 @Dim2
+                                                        @Dim1 @Dim2,@SaleOrder
                                                         <div>
                                                         </div>
                                                     </div>
@@ -121,8 +123,8 @@
                                                         @Html.TextBoxFor(m => Model.DirectSaleInvoiceLineViewModel[i].Rate, new { @class = "form-control text-right", @style = "display:inline;margin-bottom:3px" })
                                                         @Html.ValidationMessageFor(m => Model.DirectSaleInvoiceLineViewModel[i].Rate, "", new { @class = "text-danger" })
                                                         <br />
-                                                        @Html.TextBoxFor(m => Model.DirectSaleInvoiceLineViewModel[i].DiscountPer, new { @class = "form-control text-right", @style = "display:inline" })
-                                                        @Html.ValidationMessageFor(m => Model.DirectSaleInvoiceLineViewModel[i].DiscountPer, "", new { @class = "text-danger" })
+                                                        @*@Html.TextBoxFor(m => Model.DirectSaleInvoiceLineViewModel[i].DiscountPer, new { @class = "form-control text-right", @style = "display:inline" })
+                                                        @Html.ValidationMessageFor(m => Model.DirectSaleInvoiceLineViewModel[i].DiscountPer, "", new { @class = "text-danger" })*@
                                                     </div>
                                                 </div>
                                             </div>

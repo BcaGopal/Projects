@@ -107,6 +107,12 @@
     </h4>
 }
 
+@helper RenderIconStatusFilters(decimal PendingToSubmit, decimal PendingToReview, string ControllerName, int DocTypeId, string IndexStatus)
+{
+    <a class="cbtn btn-circle glyphicon glyphicon-thumbs-up @(IndexStatus == "PTR" ? "cbtn-selected" : "")" href="/@ControllerName/@(IndexStatus == "PTR" ? "Index" : "Index_PendingToReview")/@DocTypeId" id="PTR"></a>
+    <a class="cbtn btn-circle glyphicon glyphicon-floppy-open @(IndexStatus == "PTS" ? "cbtn-selected" : "")" href="/@ControllerName/@(IndexStatus == "PTS" ? "Index" : "Index_PendingToSubmit")/@DocTypeId" id="PTS"><span class='badge' style="position:absolute;top:-10px">@(PendingToSubmit != 0 ? (PendingToSubmit > 9 ? "9+" : PendingToSubmit.ToString()) : "")</span> </a>
+}
+
 
 @*To Add Hidden Edit ActionLink in Index*@
 @helper RenderHEDActionLink(string ControllerName, int DocId, int Status, string IndexStatus)
@@ -125,5 +131,62 @@
     {
         <a href="/@(ControllerName)/DetailInformation/@(DocId)?IndexType=@IndexStatus" hidden class="RecEditurl"></a>
     }
+}
 
-}  
+@helper RenderResHeaderInfo(string TransactionType, int? PendingToSubmit, int? PendingToReview, string Title)
+{
+    if (TransactionType == "submit" || TransactionType == "submitContinue")
+    {
+
+        <div class="row">
+            <div class="col-sm-7 col-xs-10">
+                <h3 style="border-bottom:0px solid #e1dada;padding-bottom:0px;">
+                    <span style="font-family: Calibri,sans-serif,Verdana;font-weight:bold" class="black"> <span class="glyphicon glyphicon-file black"></span>Submit @Title</span>
+                </h3>
+            </div>
+            <div class="col-sm-5 col-xs-2">
+                <button type="submit" name="Command:Submit" class="hidden-xs btn btn-primary right" style="margin-left:5px" id="SubmitContinue">Submit & Next<span class='badge'>@((PendingToSubmit != 0 && PendingToSubmit.HasValue) ? PendingToSubmit.ToString() : "")</span></button>
+                <button type="submit" class="hidden-xs btn btn-primary right" name="Command:Submit">Submit</button>
+                <button type="submit" name="Command:Submit" class="hidden-lg hidden-md hidden-sm right" id="SubmitContinue"><span class="glyphicon glyphicon-floppy-open black"></span> </button>
+                <input type="hidden" id="IsContinue" name="IsContinue" value="" />
+            </div>
+        </div>
+    }
+    else if (TransactionType == "review" || TransactionType == "ReviewContinue")
+    {
+
+        <div class="row">
+            <div class="col-sm-7 col-xs-10">
+                <h3 style="border-bottom:0px solid #e1dada;padding-bottom:0px;">
+                    <span style="font-family: Calibri,sans-serif,Verdana;font-weight:bold" class="black"> <span class="glyphicon glyphicon-file black"></span>Review @Title</span>
+                </h3>
+            </div>
+            <div class="col-sm-5 col-xs-2">
+                <button type="submit" name="Command:Review" class="hidden-xs btn btn-primary right" style="margin-left:5px" id="ReviewContinue">Review & Next<span class='badge'>@((PendingToReview != 0 && PendingToSubmit.HasValue) ? PendingToReview.ToString() : "")</span></button>
+                <button type="submit" class="hidden-xs btn btn-primary right" name="Command:Review">Review</button>
+                <button type="submit" name="Command:Review" class="hidden-lg hidden-md hidden-sm right" id="ReviewContinue"><span class="glyphicon glyphicon-thumbs-up black"></span> </button>
+                <input type="hidden" id="IsContinue" name="IsContinue" value="" />
+            </div>
+        </div>
+    }
+    else if (TransactionType == "detail")
+    {
+        <h3>
+            <span style="font-family: Calibri,sans-serif,Verdana;font-weight:bold" class="black"> <span class="glyphicon glyphicon-file black"></span>@Title</span>
+        </h3>
+    }
+    else
+    {
+        <div class="row">
+            <div class="col-xs-10">
+                <h3 style="border-bottom:0px solid #e1dada;padding-bottom:0px;">
+                    <span style="font-family: Calibri,sans-serif,Verdana;font-weight:bold" class="black"> <span class="glyphicon glyphicon-file black"></span>@Title</span>
+                </h3>
+            </div>
+            <div class="col-xs-2">
+                <input type="submit" value="Save" class="hidden-xs btn btn-primary right" id="submit" style="width: 90px; background-color: #2980b9" />
+                <button class="hidden-lg hidden-md hidden-sm right" name="" type="submit" id="submit"><span class="glyphicon glyphicon-floppy-disk black"></span> </button>
+            </div>
+        </div>
+    }
+}

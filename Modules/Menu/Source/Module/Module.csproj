@@ -232,6 +232,8 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\AdminLTE.css" />
+    <Content Include="Content\AdminLTEBoxContainer.css" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -242,6 +244,7 @@
     <Content Include="Content\css\select2x2.png" />
     <Content Include="Content\Gridmvc.css" />
     <Content Include="Content\gridmvc.datepicker.css" />
+    <Content Include="Content\IconCss.css" />
     <Content Include="Content\IconGrid\component.css" />
     <Content Include="Content\IconGrid\default.css" />
     <Content Include="Content\IconGrid\SiteDiv.css" />
