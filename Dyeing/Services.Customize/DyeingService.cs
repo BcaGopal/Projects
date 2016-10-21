@@ -591,7 +591,7 @@ namespace Services.Customize
 
             var JobReceiveLineStatusRecords = _unitOfWork.Repository<JobReceiveLineStatus>().Query().Get().Where(m => JOLineIds.Contains(m.JobReceiveLineId ?? 0)).ToList();
 
-            var JobReceiveHeaderExtendedRecords = _unitOfWork.Repository<JobReceiveHeaderExtended>().Query().Get().Where(m => JOLineIds.Contains(m.JobReceiveHeaderId)).ToList();
+            var JobReceiveHeaderExtendedRecords = _unitOfWork.Repository<JobReceiveHeaderExtended>().Query().Get().Where(m => m.JobReceiveHeaderId == JobReceiveHeader.JobReceiveHeaderId).ToList();
 
 
             List<int> StockIdList = new List<int>();

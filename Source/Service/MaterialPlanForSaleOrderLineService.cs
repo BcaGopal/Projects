@@ -104,6 +104,15 @@ namespace Service
             if (!string.IsNullOrEmpty(svm.ProductGroupId)) { ProductGroupIdArr = svm.ProductGroupId.Split(",".ToCharArray()); }
             else { ProductGroupIdArr = new string[] { "NA" }; }
 
+            string[] Dimension1IdArr = null;
+            if (!string.IsNullOrEmpty(svm.Dimension1Id)) { Dimension1IdArr = svm.Dimension1Id.Split(",".ToCharArray()); }
+            else { Dimension1IdArr = new string[] { "NA" }; }
+
+            string[] Dimension2IdArr = null;
+            if (!string.IsNullOrEmpty(svm.Dimension2Id)) { Dimension2IdArr = svm.Dimension2Id.Split(",".ToCharArray()); }
+            else { Dimension2IdArr = new string[] { "NA" }; }
+
+
             var Header = new MaterialPlanHeaderService(_unitOfWork).Find(svm.MaterialPlanHeaderId);            
 
             var settings= new MaterialPlanSettingsService(_unitOfWork).GetMaterialPlanSettingsForDocument(Header.DocTypeId, Header.DivisionId, Header.SiteId);
@@ -129,6 +138,8 @@ namespace Service
                         where (string.IsNullOrEmpty(svm.ProductId) ? 1 == 1 : ProductIdArr.Contains(p.ProductId.ToString()))
                                && (string.IsNullOrEmpty(svm.SaleOrderHeaderId) ? 1 == 1 : SaleOrderIdArr.Contains(p.SaleOrderHeaderId.ToString()))
                                && (string.IsNullOrEmpty(svm.ProductGroupId) ? 1 == 1 : ProductGroupIdArr.Contains(p.ProductGroupId.ToString()))
+                               && (string.IsNullOrEmpty(svm.Dimension1Id) ? 1 == 1 : Dimension1IdArr.Contains(p.Dimension1Id.ToString()))
+                               && (string.IsNullOrEmpty(svm.Dimension2Id) ? 1 == 1 : Dimension2IdArr.Contains(p.Dimension2Id.ToString()))
                                && p.BalanceQty > 0
                         select new MaterialPlanForSaleOrderViewModel
                         {

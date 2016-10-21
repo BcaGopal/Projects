@@ -736,17 +736,35 @@ namespace Services.Customize
             //var JobOrderLine = new JobOrderLineService(_unitOfWork).GetJobOrderLineforDelete(vm.id);
             var ProdOrderHeader = (_unitOfWork.Repository<ProdOrderHeader>().Query().Get().Where(m => m.ReferenceDocId == JobOrderHeader.JobOrderHeaderId && m.ReferenceDocTypeId == JobOrderHeader.DocTypeId)).FirstOrDefault();
 
-            var ProdOrderLine = (_unitOfWork.Repository<ProdOrderLine>().Query().Get().Where(m => m.ProdOrderHeaderId == ProdOrderHeader.ProdOrderHeaderId)).ToList();
+            if (ProdOrderHeader != null)
+            {
+                var ProdOrderLine = (_unitOfWork.Repository<ProdOrderLine>().Query().Get().Where(m => m.ProdOrderHeaderId == ProdOrderHeader.ProdOrderHeaderId)).ToList();
+
+                foreach (var item in ProdOrderLine)
+                {
+                    item.ObjectState = Model.ObjectState.Deleted;
+                    _unitOfWork.Repository<ProdOrderLine>().Delete(item);
+                }
+
+                ProdOrderHeader.ObjectState = Model.ObjectState.Deleted;
+                _unitOfWork.Repository<ProdOrderHeader>().Delete(ProdOrderHeader);
+            }
 
             var Stock = (_unitOfWork.Repository<Stock>().Query().Get().Where(m => m.StockHeaderId == StockHeaderId)).ToList();
 
             var StockLine = (_unitOfWork.Repository<StockLine>().Query().Get().Where(m => m.StockHeaderId == StockHeaderId)).ToList();
+
+            var StockLineIds = StockLine.Select(m => m.StockLineId).ToArray();
+
+            var StockLineExtendedRecords = _unitOfWork.Repository<StockLineExtended>().Query().Get().Where(m => StockLineIds.Contains(m.StockLineId)).ToList();
 
             var StockProcess = (_unitOfWork.Repository<StockProcess>().Query().Get().Where(m => m.StockHeaderId == StockHeaderId)).ToList();
 
             var JobOrderLine = (_unitOfWork.Repository<JobOrderLine>().Query().Get().Where(m => m.JobOrderHeaderId == vm.id)).ToList();
 
             var JOLineIds = JobOrderLine.Select(m => m.JobOrderLineId).ToArray();
+
+            var JobOrderHeaderExtendedRecords = _unitOfWork.Repository<JobOrderHeaderExtended>().Query().Get().Where(m => m.JobOrderHeaderId == JobOrderHeader.JobOrderHeaderId).ToList();
 
             var JobOrderLineStatusRecords = _unitOfWork.Repository<JobOrderLineStatus>().Query().Get().Where(m => JOLineIds.Contains(m.JobOrderLineId ?? 0)).ToList();
 
@@ -758,14 +776,7 @@ namespace Services.Customize
 
             DeleteProdQtyOnRecipeMultiple(JobOrderHeader.JobOrderHeaderId);
 
-            foreach (var item in ProdOrderLine)
-            {
-                item.ObjectState = Model.ObjectState.Deleted;
-                _unitOfWork.Repository<ProdOrderLine>().Delete(item);
-            }
 
-            ProdOrderHeader.ObjectState = Model.ObjectState.Deleted;
-            _unitOfWork.Repository<ProdOrderHeader>().Delete(ProdOrderHeader);
             
             foreach (var item in JobOrderLineStatusRecords)
             {
@@ -777,6 +788,12 @@ namespace Services.Customize
             {
                 item.ObjectState = Model.ObjectState.Deleted;
                 _unitOfWork.Repository<JobOrderLineExtended>().Delete(item);
+            }
+
+            foreach (var item in JobOrderHeaderExtendedRecords)
+            {
+                item.ObjectState = Model.ObjectState.Deleted;
+                _unitOfWork.Repository<JobOrderHeaderExtended>().Delete(item);
             }
 
 
@@ -793,6 +810,12 @@ namespace Services.Customize
                 item.ObjectState = Model.ObjectState.Deleted;
                 _unitOfWork.Repository<JobOrderLine>().Delete(item);
 
+            }
+
+            foreach (var item in StockLineExtendedRecords)
+            {
+                item.ObjectState = Model.ObjectState.Deleted;
+                _unitOfWork.Repository<StockLineExtended>().Delete(item);
             }
 
             foreach (var item in StockLine)
