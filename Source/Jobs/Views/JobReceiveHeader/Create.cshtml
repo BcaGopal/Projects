@@ -28,7 +28,7 @@
     <div class="panel panel-default">
         <div class="panel-heading">
            
-            @CustomHelpers.RenderHeaderInfo(ViewBag.transactionType, (int ?)ViewBag.PendingToSubmit, (int ?)ViewBag.PendingToReview, ViewBag.Name)
+            @CustomHelpers.RenderResHeaderInfo(ViewBag.transactionType, (int ?)ViewBag.PendingToSubmit, (int ?)ViewBag.PendingToReview, ViewBag.Name)
 
             @*@if (ViewBag.transactionType == "submit" || ViewBag.transactionType == "submitContinue")
             {<h3 style="border-bottom:0px solid #e1dada;padding-bottom:0px;">
@@ -58,43 +58,76 @@
                 </h3>
             }*@
 
-            @if (Model.JobReceiveSettings.IsVisibleForOrderMultiple)
+            @*@if (Model.JobReceiveSettings.IsVisibleForOrderMultiple)
             {
             @Html.ActionLink("For Order", "_ForOrder", "JobReceiveLine", new { id = @Model.JobReceiveHeaderId, sid = @Model.JobWorkerId }, new { data_modal = "", id = "btnCreateF", @class = "btn btn-primary borderradii", @data_detailDeleted = "true", @title = "For Order", @data_toggle = "tooltip", @style = "background-color:#2980b9" })
+            }*@
+            <hr style="margin-top: 5px; margin-bottom: 5px; border-top: 1px solid #d8d5d5" />
+
+            @{
+                string EditAction = "";
+                if (Model.Status == (int)StatusConstants.Drafted || Model.Status == (int)StatusConstants.Import)
+                {
+                    EditAction = "Modify";
+                }
+                else if ((Model.Status == (int)StatusConstants.Submitted || Model.Status == (int)StatusConstants.Modified))
+                {
+                    EditAction = "ModifyAfter_Submit";
+                }
+                else
+                {
+                    EditAction = "DetailInformation";
+                }
             }
 
-            <hr style="margin-top:10px;margin-bottom:0px" />
-
             <div class="panel-info">
-                <h4 style="padding:5px 0 0 0;margin:0px">
+                @*<h4 style="padding:5px 0 0 0;margin:0px">
                     @Html.ActionLink(" ", " ", " ", null, new { @class = "glyphicon glyphicon-refresh toolbar", @title = "Refresh Page", @data_toggle = "tooltip", @id = "RefreshPage" })
-                    @Html.ActionLink(" ", "Create", "JobReceiveHeader", new { @id = ViewBag.id }, new { @class = "glyphicon glyphicon-plus toolbar", @title = "Add New", @data_toggle = "tooltip" })
-                    @Html.ActionLink(" ", "GetHistory", "LogHistory", new { Ids = Model.JobReceiveHeaderId, DocTypeId = Model.DocTypeId }, new { @class = "glyphicon glyphicon-user toolbar", @title = "History", @data_toggle = "tooltip", @id = "DocHistory", @data_modal = "" })
-                    @Html.ActionLink(" ", "GeneratePrints", "JobReceiveHeader", new { Ids = Model.JobReceiveHeaderId, DocTypeId = Model.DocTypeId }, new { @class = "glyphicon glyphicon-print toolbar", @title = "Print", @data_toggle = "tooltip", @id = "PrintRecordC", target = "_blank" })
-                    @Html.ActionLink(" ", "Email", "JobReceiveHeader", null, new { @class = "glyphicon glyphicon-envelope toolbar", @title = "Email", @data_toggle = "tooltip" })
-                    @Html.ActionLink(" ", "PrevPage", "JobReceiveHeader", new { DocId = @Model.JobReceiveHeaderId, DocTypeId = Model.DocTypeId }, new { @class = "glyphicon glyphicon-arrow-left toolbar", @title = "Prev Record", @data_toggle = "tooltip" })
-                    @Html.ActionLink(" ", "NextPage", "JobReceiveHeader", new { DocId = @Model.JobReceiveHeaderId, DocTypeId = Model.DocTypeId }, new { @class = "glyphicon glyphicon-arrow-right toolbar", @title = "Next Record", @data_toggle = "tooltip" })
+                     @Html.ActionLink(" ", "Create", "JobReceiveHeader", new { @id = ViewBag.id }, new { @class = "glyphicon glyphicon-plus toolbar", @title = "Add New", @data_toggle = "tooltip" })
+                     @Html.ActionLink(" ", "GetHistory", "LogHistory", new { Ids = Model.JobReceiveHeaderId, DocTypeId = Model.DocTypeId }, new { @class = "glyphicon glyphicon-user toolbar", @title = "History", @data_toggle = "tooltip", @id = "DocHistory", @data_modal = "" })
+                     @Html.ActionLink(" ", "GeneratePrints", "JobReceiveHeader", new { Ids = Model.JobReceiveHeaderId, DocTypeId = Model.DocTypeId }, new { @class = "glyphicon glyphicon-print toolbar", @title = "Print", @data_toggle = "tooltip", @id = "PrintRecordC", target = "_blank" })
+                     @Html.ActionLink(" ", "Email", "JobReceiveHeader", null, new { @class = "glyphicon glyphicon-envelope toolbar", @title = "Email", @data_toggle = "tooltip" })
+                     @Html.ActionLink(" ", "PrevPage", "JobReceiveHeader", new { DocId = @Model.JobReceiveHeaderId, DocTypeId = Model.DocTypeId }, new { @class = "glyphicon glyphicon-arrow-left toolbar", @title = "Prev Record", @data_toggle = "tooltip" })
+                     @Html.ActionLink(" ", "NextPage", "JobReceiveHeader", new { DocId = @Model.JobReceiveHeaderId, DocTypeId = Model.DocTypeId }, new { @class = "glyphicon glyphicon-arrow-right toolbar", @title = "Next Record", @data_toggle = "tooltip" })*@
                     @*@Html.ActionLink(" ", " ", " ", null, new { @class = "glyphicon glyphicon-trash toolbar", @title = "Delete", @data_toggle = "tooltip" })*@
-                    @Html.ActionLink(" ", "Index", "JobReceiveHeader", new { @id = ViewBag.id, IndexType = ViewBag.IndexStatus }, new { @class = "glyphicon glyphicon-list toolbar right", @title = "List", @data_toggle = "tooltip" })
+                    @*@Html.ActionLink(" ", "Index", "JobReceiveHeader", new { @id = ViewBag.id, IndexType = ViewBag.IndexStatus }, new { @class = "glyphicon glyphicon-list toolbar right", @title = "List", @data_toggle = "tooltip" })
                     @Html.ActionLink(" ", "Report", "JobReceiveHeader", null, new { @class = "glyphicon glyphicon-th toolbar right", @title = "Report", @data_toggle = "tooltip" })
-                </h4>
+                </h4>*@
+                <div class="btn-group">
+                    @Html.ActionLink(" ", "Create", "JobReceiveHeader", new { @id = ViewBag.id }, new { @class = "cbtn btn-circle glyphicon glyphicon-plus toolbar", @title = "Add New", @data_toggle = "tooltip" })
+                    @Html.ActionLink(" ", EditAction, "JobReceiveHeader", new { @id = Model.JobReceiveHeaderId, IndexType = ViewBag.IndexStatus }, new { @class = "cbtn btn-circle glyphicon glyphicon-edit", @title = "Edit", @data_toggle = "tooltip" })
+                    @Html.ActionLink(" ", "GeneratePrints", "JobReceiveHeader", new { Ids = Model.JobReceiveHeaderId, DocTypeId = Model.DocTypeId }, new { @class = "cbtn btn-circle glyphicon glyphicon-print toolbar", @title = "Print", @data_toggle = "tooltip", @id = "PrintRecordC", target = "_blank" })
+                    @Html.ActionLink(" ", "PrevPage", "JobReceiveHeader", new { DocId = @Model.JobReceiveHeaderId, DocTypeId = Model.DocTypeId }, new { @class = "cbtn btn-circle glyphicon glyphicon-arrow-left toolbar", @title = "Prev Record", @data_toggle = "tooltip" })
+                    @Html.ActionLink(" ", "NextPage", "JobReceiveHeader", new { DocId = @Model.JobReceiveHeaderId, DocTypeId = Model.DocTypeId }, new { @class = "cbtn btn-circle glyphicon glyphicon-arrow-right toolbar", @title = "Next Record", @data_toggle = "tooltip" })
+                    @Html.ActionLink(" ", "Index", "JobReceiveHeader", new { @id = ViewBag.id, IndexType = ViewBag.IndexStatus }, new { @class = "cbtn btn-circle glyphicon glyphicon-list", @title = "List", @data_toggle = "tooltip" })
+                </div>
+                <div class="btn-group">
+                    <a class="cbtn btn-circle glyphicon glyphicon-option-horizontal dropdown-toggle" aria-expanded="false" style="padding-top: 6px;padding-bottom: 6px;" href="#" data-toggle="dropdown" id="dropdownMenu1">
+                    </a>
+                    <ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu1">                       
+                        <li><a id="DocHistory" data-modal="" href="@Url.Action("GetHistory", "LogHistory", new { Ids = Model.JobReceiveHeaderId, DocTypeId = Model.DocTypeId })"><span class="glyphicon glyphicon-user"> </span> History</a></li>
+                        <li><a href="@Url.Action("Email", "JobReceiveHeader")"><span class="glyphicon glyphicon-envelope"> </span> Email</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="@Url.Action("Report", "JobReceiveHeader")"><span class="glyphicon glyphicon-th"> </span> Report</a></li>
+                    </ul>
+                </div>
             </div>
         </div>
         <div class="panel-info" style="padding-left:15px">
             <div class="form-horizontal">
                 @Html.ValidationSummary(true)
 
-                <div class="row">
+                <div>
                     <h4 class="col-md-12 black">
                         <span class="glyphicon glyphicon-align-justify"></span>
                         1.Document Details
                     </h4>
                     <div>
-                        <div class="row">
+                        <div>
                             <div class="col-md-6">
                                 <div class="form-group" style="margin-top:15px">
-                                    @Html.LabelFor(model => model.DocDate, "Receipt Date", new { @class = "control-label col-xs-4" })
-                                    <div class="col-xs-6">
+                                    @Html.LabelFor(model => model.DocDate, "Receipt Date", new { @class = "control-label col-md-4 col-sm-2" })
+                                    <div class="col-md-7 col-sm-10">
                                         @Html.TextBoxFor(m => m.DocDate, "{0:dd/MMMM/yyyy}", new { @class = "datepickerWithNFD form-control required" })
                                         @Html.ValidationMessageFor(model => model.DocDate, "", new { @class = "text-danger" })
                                     </div>
@@ -102,8 +135,8 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group" style="margin-top:15px">
-                                    @Html.LabelFor(model => model.DocNo, "Receipt No", new { @class = "control-label col-xs-4" })
-                                    <div class="col-xs-6">
+                                    @Html.LabelFor(model => model.DocNo, "Receipt No", new { @class = "control-label col-md-4 col-sm-2" })
+                                    <div class="col-md-7 col-sm-10">
                                         @Html.TextBoxFor(m => m.DocNo, null, new { @class = "form-control required" })
                                         @Html.ValidationMessageFor(m => m.DocNo, "", new { @class = "text-danger" })
                                     </div>
@@ -111,13 +144,13 @@
                             </div>
 
                         </div>
-                        <div class="row">
+                        <div>
 
 
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.JobWorkerId, "Job Worker", new { @class = "control-label col-xs-4" })
-                                    <div class="col-xs-6">
+                                    @Html.LabelFor(model => model.JobWorkerId, "Job Worker", new { @class = "control-label col-md-4 col-sm-2" })
+                                    <div class="col-md-7 col-sm-10">
                                         @Html.TextBoxFor(m => m.JobWorkerId, new { @class = "form-control required" })
                                         @Html.ValidationMessageFor(m => m.JobWorkerId, "", new { @class = "text-danger" })
                                     </div>
@@ -126,8 +159,8 @@
 
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.JobWorkerDocNo, "JobWorker DocNo", new { @class = "control-label col-xs-4" })
-                                    <div class="col-xs-6">
+                                    @Html.LabelFor(model => model.JobWorkerDocNo, "JobWorker DocNo", new { @class = "control-label col-md-4 col-sm-2" })
+                                    <div class="col-md-7 col-sm-10">
                                         @Html.TextBoxFor(m => m.JobWorkerDocNo, null, new { @class = "form-control" })
                                         @Html.ValidationMessageFor(m => m.JobWorkerDocNo, "", new { @class = "text-danger" })
                                     </div>
@@ -136,11 +169,11 @@
 
                         </div>
 
-                        <div class="row">
+                        <div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.JobReceiveById, "Job Received By", new { @class = "control-label col-xs-4" })
-                                    <div class="col-xs-6">
+                                    @Html.LabelFor(model => model.JobReceiveById, "Job Received By", new { @class = "control-label col-md-4 col-sm-2" })
+                                    <div class="col-md-7 col-sm-10">
                                         @Html.TextBoxFor(m => m.JobReceiveById, new { @class = "form-control required" })
                                         @Html.ValidationMessageFor(m => m.JobReceiveById, "", new { @class = "text-danger" })
                                     </div>
@@ -148,8 +181,8 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.GodownId, "Godown", new { @class = "control-label col-xs-4" })
-                                    <div class="col-xs-6">
+                                    @Html.LabelFor(model => model.GodownId, "Godown", new { @class = "control-label col-md-4 col-sm-2" })
+                                    <div class="col-md-7 col-sm-10">
                                         @Html.TextBoxFor(m => m.GodownId, new { @class = "form-control required" })
                                         @Html.ValidationMessageFor(m => m.GodownId, "", new { @class = "text-danger" })
                                     </div>
@@ -158,13 +191,13 @@
                         </div>
 
 
-                        <div class="row">
+                        <div>
 
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.Remark, "Remark", new { @class = "control-label col-xs-4" })
-                                    <div class="col-xs-6">
-                                        @Html.TextAreaFor(m => m.Remark, new { @class = "form-control col-xs-6" })
+                                    @Html.LabelFor(model => model.Remark, "Remark", new { @class = "control-label col-md-4 col-sm-2" })
+                                    <div class="col-md-7 col-sm-10">
+                                        @Html.TextAreaFor(m => m.Remark, new { @class = "form-control" })
                                         @Html.ValidationMessageFor(m => m.Remark, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
@@ -183,220 +216,243 @@
                     </h4>
                 </div>
 
-                <div class="panel-info">
-                    <h5 style="padding:5px 0 3px 0;margin:0px;font-weight:bold">
+              
+
+                @*<div class="panel-info">
+                <h5 style="padding:5px 0 3px 0;margin:0px;font-weight:bold">
+                    <span class="glyphicon glyphicon-plus-sign"></span>
+                    @{string Action = "";
+                    if (Model.Status == (int)StatusConstants.Drafted || Model.Status == (int)StatusConstants.Import)
+                    { Action = "CreateLine"; }
+                    else if (Model.Status == (int)StatusConstants.Submitted || Model.Status == (int)StatusConstants.Modified || Model.Status == (int)StatusConstants.ModificationSubmitted)
+                    { Action = "CreateLineAfter_Submit"; }
+                    }
+                    @Html.ActionLink("Add New Row ", Action, "JobReceiveLine", new { id = @Model.JobReceiveHeaderId, JobWorkerId = @Model.JobWorkerId }, new { data_modal = "", id = "btnCreate", @class = "toolbar", @data_detailDisabled = "true", @title = "Add New", @data_toggle = "tooltip" })/
+                    @Html.ActionLink("Summary", "GetSummary", "JobReceiveHeader", new { id = @Model.JobReceiveHeaderId }, new { @class = "toolbar", @data_toggle = "tooltip", @data_detailDisabled = "true" })/
+                    @Html.ActionLink("Incentive:Penality", "GetBarCodesForIAP", "JobReceiveHeader", new { id = @Model.JobReceiveHeaderId }, new { @class = "toolbar", @data_toggle = "tooltip", @data_detailDisabled = "true" })
+                </h5>
+            </div>*@
+
+                <div class="panel-info" style="height:40px">
+                    <div class="btn-group" style="padding:5px 0 3px 0;margin:0px;font-weight:bold">
                         <span class="glyphicon glyphicon-plus-sign"></span>
                         @{string Action = "";
-                        if (Model.Status == (int)StatusConstants.Drafted || Model.Status == (int)StatusConstants.Import)
-                        { Action = "CreateLine"; }
-                        else if (Model.Status == (int)StatusConstants.Submitted || Model.Status == (int)StatusConstants.Modified || Model.Status == (int)StatusConstants.ModificationSubmitted)
-                        { Action = "CreateLineAfter_Submit"; }
+                            if (Model.Status == (int)StatusConstants.Drafted || Model.Status == (int)StatusConstants.Import)
+                            { Action = "CreateLine"; }
+                            else if (Model.Status == (int)StatusConstants.Submitted || Model.Status == (int)StatusConstants.Modified || Model.Status == (int)StatusConstants.ModificationSubmitted)
+                            { Action = "CreateLineAfter_Submit"; }
                         }
                         @Html.ActionLink("Add New Row ", Action, "JobReceiveLine", new { id = @Model.JobReceiveHeaderId, JobWorkerId = @Model.JobWorkerId }, new { data_modal = "", id = "btnCreate", @class = "toolbar", @data_detailDisabled = "true", @title = "Add New", @data_toggle = "tooltip" })/
                         @Html.ActionLink("Summary", "GetSummary", "JobReceiveHeader", new { id = @Model.JobReceiveHeaderId }, new { @class = "toolbar", @data_toggle = "tooltip", @data_detailDisabled = "true" })/
                         @Html.ActionLink("Incentive:Penality", "GetBarCodesForIAP", "JobReceiveHeader", new { id = @Model.JobReceiveHeaderId }, new { @class = "toolbar", @data_toggle = "tooltip", @data_detailDisabled = "true" })
-                    </h5>
-                </div>
-                <div style="padding-right:15px" class="grid-content">
+                        </div>
+                    <div class="btn-group right" style="padding-right:15px">
+                        @if (Model.JobReceiveSettings.IsVisibleForOrderMultiple)
+                         {
+                            @Html.ActionLink(" ", "_ForOrder", "JobReceiveLine", new { id = @Model.JobReceiveHeaderId, sid = @Model.JobWorkerId }, new { data_modal = "", id = "btnCreateF", @class = "cbtn btn-circle glyphicon glyphicon-link toolbar right", @data_detailDeleted = "true", @title = "For Order", @data_toggle = "tooltip" })
+                        }
+                        </div>
+                    </div>
+                        <div style="padding-right:15px" class="grid-content">
 
-                    @*<table class="table table-hover ctable">
+                            @*<table class="table table-hover ctable">
                             <thead id="header">
                             </thead>
 
                             <tbody id="Result"></tbody>
                         </table>*@
 
-                    <div class="panel panel-default" id="grid">
-                        <div class="panel-heading headrow">
-                            <div class="row grid-head">
-                                <div class="block" style="width:5%">
-                                    Srl.
-                                </div>
-                                <div class="block" style="width:90%">
-                                    <div class="row">
-                                        @*ProductInfo*@
-                                        <div class="block" style="width:25%">
-                                            Product Name
+                            <div class="panel panel-default" id="grid">
+                                <div class="panel-heading headrow">
+                                    <div class="row grid-head">
+                                        <div class="block" style="width:5%">
+                                            Srl.
+                                        </div>
+                                        <div class="block" style="width:90%">
+                                            <div class="row">
+                                                @*ProductInfo*@
+                                                <div class="block" style="width:25%">
+                                                    Product Name
 
+                                                </div>
+                                                @*PopContext*@
+                                                <div class="block" style="width:15%">
+                                                    Order No
+                                                </div>
+                                                @*Qty*@
+                                                <div class="block text-right" style="width:10%">
+                                                    Qty
+                                                </div>
+                                                <div class="block" style="width:10%">
+                                                    Unit
+                                                </div>
+                                                <div class="block text-right" style="width:10%">
+                                                    Receive <br /> Qty
+                                                </div>
+                                                <div class="block text-right" style="width:10%">
+                                                    Pass<br /> Qty
+                                                </div>
+                                                <div class="block text-right" style="width:10%">
+                                                    Loss<br /> Qty
+                                                </div>
+                                                <div class="block text-right" style="width:10%">
+                                                    Penality<br /> Amt
+                                                </div>
+                                            </div>
                                         </div>
-                                        @*PopContext*@
-                                        <div class="block" style="width:15%">
-                                            Order No
-                                        </div>
-                                        @*Qty*@
-                                        <div class="block text-right" style="width:10%">
-                                            Qty
-                                        </div>
-                                        <div class="block" style="width:10%">
-                                            Unit
-                                        </div>
-                                        <div class="block text-right" style="width:10%">
-                                            Receive <br /> Qty
-                                        </div>
-                                        <div class="block text-right" style="width:10%">
-                                            Pass<br /> Qty
-                                        </div>
-                                        <div class="block text-right" style="width:10%">
-                                            Loss<br /> Qty
-                                        </div>
-                                        <div class="block text-right" style="width:10%">
-                                            Penality<br /> Amt
+                                        <div class="block" style="width:5%">
+
                                         </div>
                                     </div>
-                                </div>
-                                <div class="block" style="width:5%">
 
                                 </div>
+                                <div class="panel-info" id="gbody">
+
+
+                                </div>
+                            </div>
+
+
+
+                            <div class="row">
+                                <h4 class="col-md-12 black" style="margin-top:15px">
+                                    <span class="glyphicon glyphicon-shopping-cart"></span>
+                                    3.Consumption
+                                </h4>
+                            </div>
+
+                            <div class="panel-info">
+                                <h5 style="padding:5px 0 3px 0;margin:0px;font-weight:bold">
+                                    <span class="glyphicon glyphicon-plus-sign"></span>
+                                    @Html.ActionLink("Add New Row ", "Consumption", "JobReceiveLine", new { id = @Model.JobReceiveHeaderId }, new { data_modal = "", id = "btnCreatePO", @class = "toolbar", @data_detailDisabled = "true", @title = "Add New", @data_toggle = "tooltip" })
+                                </h5>
+                            </div>
+                            <div style="padding-right:15px">
+
+
+
+                                <div class="panel panel-default" id="grid">
+
+                                    <div class="panel-heading headrow">
+                                        <div class="row grid-head">
+                                            <div class="text-left block" style="width: 5%; ">
+                                                Srl.
+                                            </div>
+                                            <div class="block" style="width: 90%;">
+                                                <div class="row">
+                                                    @*ProductInfo*@
+                                                    <div class="block" style="width: 20%; ">
+                                                        CostCenter
+                                                    </div>
+                                                    <div class="block" style="width: 25%; ">
+                                                        Product Name
+                                                    </div>
+                                                    <div class="block" style="width: 15%;">
+                                                        Dimension1
+                                                    </div>
+                                                    <div class="block" style="width: 15%;">
+                                                        Dimension2
+                                                    </div>
+                                                    @*Qty*@
+                                                    <div class="text-right block" style="width: 10%;">
+                                                        Qty
+                                                    </div>
+                                                    @*Rate*@
+                                                    <div class="block" style="width: 15%; ">
+                                                        Unit
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="" style="width:5%">
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+
+                                    <div class="panel-info" id="gbodyconsumption">
+
+
+                                    </div>
+                                </div>
+
+                            </div>
+
+
+
+
+
+                            <div class="row">
+                                <h4 class="col-md-12 black" style="margin-top:15px">
+                                    <span class="glyphicon glyphicon-shopping-cart"></span>
+                                    4.By Products
+                                </h4>
+                            </div>
+
+                            <div class="panel-info">
+                                <h5 style="padding:5px 0 3px 0;margin:0px;font-weight:bold">
+                                    <span class="glyphicon glyphicon-plus-sign"></span>
+                                    @Html.ActionLink("Add New Row ", "ByProduct", "JobReceiveLine", new { id = @Model.JobReceiveHeaderId }, new { data_modal = "", id = "btnCreateBYP", @class = "toolbar", @data_detailDisabled = "true", @title = "Add New", @data_toggle = "tooltip" })
+                                </h5>
+                            </div>
+                            <div style="padding-right:15px">
+
+
+
+                                <div class="panel panel-default" id="grid">
+
+                                    <div class="panel-heading headrow">
+                                        <div class="row grid-head">
+                                            <div class="text-left block" style="width: 5%; ">
+                                                Srl.
+                                            </div>
+                                            <div class="block" style="width: 90%;">
+                                                <div class="row">
+                                                    @*ProductInfo*@
+                                                    <div class="block" style="width: 30%; ">
+                                                        Product Name
+                                                    </div>
+                                                    <div class="block" style="width: 20%;">
+                                                        Dimension1
+                                                    </div>
+                                                    <div class="block" style="width: 20%;">
+                                                        Dimension2
+                                                    </div>
+                                                    @*Qty*@
+                                                    <div class="text-right block" style="width: 15%;">
+                                                        Qty
+                                                    </div>
+                                                    @*Rate*@
+                                                    <div class="block" style="width: 15%; ">
+                                                        Unit
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="" style="width:5%">
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+
+                                    <div class="panel-info" id="gbodybyproducts">
+
+
+                                    </div>
+                                </div>
+
                             </div>
 
                         </div>
-                        <div class="panel-info" id="gbody">
-
-
-                        </div>
                     </div>
-
-
-
-                    <div class="row">
-                        <h4 class="col-md-12 black" style="margin-top:15px">
-                            <span class="glyphicon glyphicon-shopping-cart"></span>
-                            3.Consumption
-                        </h4>
-                    </div>
-
-                    <div class="panel-info">
-                        <h5 style="padding:5px 0 3px 0;margin:0px;font-weight:bold">
-                            <span class="glyphicon glyphicon-plus-sign"></span>
-                            @Html.ActionLink("Add New Row ", "Consumption", "JobReceiveLine", new { id = @Model.JobReceiveHeaderId }, new { data_modal = "", id = "btnCreatePO", @class = "toolbar", @data_detailDisabled = "true", @title = "Add New", @data_toggle = "tooltip" })
-                        </h5>
-                    </div>
-                    <div style="padding-right:15px">
-
-
-
-                        <div class="panel panel-default" id="grid">
-
-                            <div class="panel-heading headrow">
-                                <div class="row grid-head">
-                                    <div class="text-left block" style="width: 5%; ">
-                                        Srl.
-                                    </div>
-                                    <div class="block" style="width: 90%;">
-                                        <div class="row">
-                                            @*ProductInfo*@
-                                            <div class="block" style="width: 20%; ">
-                                                CostCenter
-                                            </div>
-                                            <div class="block" style="width: 25%; ">
-                                                Product Name
-                                            </div>
-                                            <div class="block" style="width: 15%;">
-                                                Dimension1
-                                            </div>
-                                            <div class="block" style="width: 15%;">
-                                                Dimension2
-                                            </div>
-                                            @*Qty*@
-                                            <div class="text-right block" style="width: 10%;">
-                                                Qty
-                                            </div>
-                                            @*Rate*@
-                                            <div class="block" style="width: 15%; ">
-                                                Unit
-                                            </div>
-                                        </div>
-                                    </div>
-
-
-                                    <div class="" style="width:5%">
-
-                                    </div>
-                                </div>
-
-                            </div>
-
-
-                            <div class="panel-info" id="gbodyconsumption">
-
-
-                            </div>
-                        </div>
-
-                    </div>
-
-
-
-
-
-                    <div class="row">
-                        <h4 class="col-md-12 black" style="margin-top:15px">
-                            <span class="glyphicon glyphicon-shopping-cart"></span>
-                            4.By Products
-                        </h4>
-                    </div>
-
-                    <div class="panel-info">
-                        <h5 style="padding:5px 0 3px 0;margin:0px;font-weight:bold">
-                            <span class="glyphicon glyphicon-plus-sign"></span>
-                            @Html.ActionLink("Add New Row ", "ByProduct", "JobReceiveLine", new { id = @Model.JobReceiveHeaderId }, new { data_modal = "", id = "btnCreateBYP", @class = "toolbar", @data_detailDisabled = "true", @title = "Add New", @data_toggle = "tooltip" })
-                        </h5>
-                    </div>
-                    <div style="padding-right:15px">
-
-
-
-                        <div class="panel panel-default" id="grid">
-
-                            <div class="panel-heading headrow">
-                                <div class="row grid-head">
-                                    <div class="text-left block" style="width: 5%; ">
-                                        Srl.
-                                    </div>
-                                    <div class="block" style="width: 90%;">
-                                        <div class="row">
-                                            @*ProductInfo*@
-                                            <div class="block" style="width: 30%; ">
-                                                Product Name
-                                            </div>
-                                            <div class="block" style="width: 20%;">
-                                                Dimension1
-                                            </div>
-                                            <div class="block" style="width: 20%;">
-                                                Dimension2
-                                            </div>
-                                            @*Qty*@
-                                            <div class="text-right block" style="width: 15%;">
-                                                Qty
-                                            </div>
-                                            @*Rate*@
-                                            <div class="block" style="width: 15%; ">
-                                                Unit
-                                            </div>
-                                        </div>
-                                    </div>
-
-
-                                    <div class="" style="width:5%">
-
-                                    </div>
-                                </div>
-
-                            </div>
-
-
-                            <div class="panel-info" id="gbodybyproducts">
-
-
-                            </div>
-                        </div>
-
-                    </div>
-
                 </div>
             </div>
-        </div>
-    </div>
 }
 
 
@@ -502,6 +558,7 @@
     if(id==null||id==0)
     {
         $(document).find('a#btnCreate').removeAttr('href').removeAttr('data-modal');
+        $(document).find('a#btnCreateF').removeAttr('href').removeAttr('data-modal');
         $("#btnCreateF").attr('disabled','disabled');
     }
     $("#JobWorkerId").select2('focus');

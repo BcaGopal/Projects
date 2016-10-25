@@ -4,77 +4,9 @@
     ViewBag.Title = "Create";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<link href="~/Content/bootstrap-timepicker.min.css" rel="stylesheet" />
-<script src="~/Scripts/bootstrap-timepicker.min.js"></script>
 
 
-<style type="text/css">
-    .slick-header-column.ui-state-default {
-        background-color: #428bca;
-        color: white;
-        height: 20px;
-        line-height: 20px;
-    }
 
-    .slick-row.ui-widget-content, .slick-cell {
-        height: 15px;
-        line-height: 15px;
-    }
-
-    #myGrid * {
-        box-sizing: content-box !important;
-    }
-
-    .hidden {
-        display: none;
-    }
-
-    .sml {
-        width: 10% !important;
-    }
-
-    .md {
-        width: 15% !important;
-    }
-    /* Slick.Editors.Text, Slick.Editors.Date */
-    input.editor-text {
-        width: 100%;
-        height: 100%;
-        border: 0;
-        margin: 0;
-        background: transparent;
-        outline: 0;
-        padding: 0;
-    }
-
-
-    .bootstrap-timepicker input {
-        width: 120px;
-        height: 20px;
-        border: 0;
-        margin: 0;
-        background: transparent;
-        outline: 0;
-        padding: 0;
-    }
-
-    select.editor-Select {
-        width: 100%;
-        height: 100% !important;
-        border: 0;
-        margin: 0;
-        background: transparent;
-        outline: 0;
-        padding: 0;
-    }
-
-    .bootstrap-timepicker span {
-        padding-left: 9px;
-        padding-bottom: 2px;
-        padding-top: 2px;
-        padding-right: 8px;
-    }
-</style>
 <style type="text/css">
     .ui-autocomplete .m-name {
         display: block;
@@ -150,7 +82,7 @@
                     <span style="font-family: Calibri,sans-serif,Verdana;font-weight:bold" class="black"> <span class="glyphicon glyphicon-file black"></span>@ViewBag.Name</span>
                     <input type="submit" value="Save" class="btn btn-primary right" id="submit" style="width: 90px; background-color: #2980b9" />
                 </h3>
-                @*@Html.ActionLink("For Indent", "_ForIndent", "PurchaseOrderLine", new { id = @Model.AttendanceHeaderId, sid = @Model.PersonId }, new { data_modal = "", id = "btnCreateF", @class = "btn btn-primary borderradii", @title = "For Indent", @data_toggle = "tooltip" })*@
+              
             }
 
 
@@ -194,7 +126,7 @@
                             </div>
                             <div class="col-md-6" style="margin-top:15px">
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.DocDate, "Application No", new { @class = "control-label col-xs-4" })
+                                    @Html.LabelFor(model => model.DocNo, "Application No", new { @class = "control-label col-xs-4" })
                                     <div class="col-xs-6">
                                         @Html.TextBoxFor(m => m.DocNo, null, new { @class = "form-control col-xs-6 required" })
                                         @Html.ValidationMessageFor(m => m.DocNo, "", new { @class = "text-danger" })
@@ -510,161 +442,3 @@
 
 
 
-<script>
-
-    $(window).resize(function() {
-        grid.setColumns(grid.getColumns());
-        grid.resizeCanvas();
-        grid.invalidate();
-        grid.render();
-        grid.autosizeColumns();
-    });
-
-    var grid;
-    var columns;
-    var data;
-
-    //Columns Specification { id: "Time", name: "Time", field: "DocTime", width: 200, minWidth: 150, hasTotalName: false,editor: Slick.Editors.Date },
-    columns = [
-       { id: "EmployeeId", name: "Employee Name", field: "Name", width: 300, minWidth: 150,hasTotalName: false },
-        { id: "DocTime", name: "Doc Time", field: "DocTime", width: 60, minWidth: 95, hasTotalName: false,editor: Slick.Editors.TextTime},
-       { id: "AttendanceCategory", name: "Attendance Category", field: "AttendanceCategory",options:[{val:'P',text:'P'},{val:'A',text:'A'}], width:50, minWidth: 95, hasTotalName: false,editor: Slick.Editors.DropDown,cssClass: "text-left", headerCssClass: "text-left" },
-       { id: "Remark", name: "Remark", field: "Remark", width: 300, minWidth: 150, hasTotalName: false,editor: Slick.Editors.Text },
-      // { id: "t", name: "t", field: "DocTime", width: 300, minWidth: 150, hasTotalName: false,editor: Slick.Editors.TextTime },
-    ];
-
-
-
-    //Options Initialization
-    var options = {
-        editable: true,
-        enableCellNavigation: true,
-        enableColumnReorder: false,
-        forceFitColumns: true,
-        showFooterRow: false,
-        explicitInitialization: false,
-        autoEdit:false
-    };
-
-    //Creating Custom FilterFunction that can be passed to slickgrid for search
-    var searchString = "";
-    function myFilter(item, args) {
-        if (args.searchString != "" && (item["Name"]).toLowerCase().indexOf(args.searchString.toLowerCase()) == -1) {
-            return false;
-        }
-        return true;
-    }
-
-    //Instantiating the Grid
-    var dataView = new Slick.Data.DataView({ inlineFilters: true });
-    grid = new Slick.Grid("#myGrid", dataView, columns, options);
-
-    //Adding Grid functionalities
-    grid.setSelectionModel(new Slick.RowSelectionModel());
-
-
-    //Functionality for adding Totals on cell render
-    /*grid.onFooterRowCellRendered.subscribe(function (e, args) {
-        if (args.column.hasTotal) {
-            $(args.node).empty();
-            $("<span></span>").text((getColumnTotal(args.column.field, grid.getData())).toFixed(2))
-               .appendTo(args.node);
-            $(args.node).addClass(args.column.headerCssClass);
-        }
-        else if (args.column.hasTotalName) {
-            $(args.node).empty();
-            $("<span></span>").text("Total")
-               .appendTo(args.node);
-            $(args.node).addClass(args.column.headerCssClass);
-        }
-    });*/
-
-    //Functionality for Enter key navigation
-
-
-    //Functionality for search events
-    $("#txtSearch,#txtSearch2").keyup(function (e) {
-        Slick.GlobalEditorLock.cancelCurrentEdit();
-        // clear on Esc
-        if (e.which == 27) {
-            this.value = "";
-        }
-        searchString = this.value;
-        updateFilter();
-    });
-    function updateFilter() {
-        dataView.setFilterArgs({
-            searchString: searchString
-        });
-        dataView.refresh();
-    }
-
-    // wire up model events to drive the grid
-    dataView.onRowCountChanged.subscribe(function (e, args) {
-        grid.updateRowCount();
-        grid.render();
-    });
-
-    dataView.onRowsChanged.subscribe(function (e, args) {
-        grid.invalidateRows(args.rows);
-        grid.render();
-    });
-
-    var OverTimeApplicationIdVal =@Model.OverTimeApplicationId;
-    //Data Fetching
-    $.ajax({
-        url: "/AttendanceHeader/ListLine",
-        data: { Id: OverTimeApplicationIdVal },
-        async: true,
-        success: function (rest) {
-            data = rest;
-            InitializeGrid();
-        },
-        error: function () {
-            onError(fromPage, toPage)
-        }
-    });
-
-
-    //Initializing the Grid
-    function InitializeGrid() {
-        // initialize the model after all the events have been hooked up
-        dataView.beginUpdate();
-        dataView.setItems(data, "AttendanceLineId");
-        dataView.setFilterArgs({
-            searchString: searchString
-        });
-        dataView.setFilter(myFilter);
-        dataView.endUpdate();
-
-        // if you don't want the items that are not visible (due to being filtered out
-        // or being on a different page) to stay selected, pass 'false' to the second arg
-        dataView.syncGridSelection(grid, true);
-
-        grid.init();
-
-    }
-    grid.onCellChange.subscribe(function (e,args)
-    {
-        console.log('Change');
-        $.ajax({
-            type:'Post',
-            async: true,
-            url: '/AttendanceHeader/LinePost',
-            data:{pt:args.item},
-
-        });
-    });
-
-
-
-
-    $(window).resize(function (e) {
-        grid.resizeCanvas();
-    })
-
-
-    //
-
-
-</script>

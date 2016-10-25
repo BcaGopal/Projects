@@ -36,7 +36,7 @@ namespace Service
         string GetMaxDocNo();
 
        
-        IQueryable<ComboBoxResult> GetListEmpId(int DepartmentID);
+        
         AttendanceLine LineCreate(AttendanceLine pt);
         IQueryable<OverTimeApplicationHeaderViewModel> GetOverTimeApplicationHeaderPendingToSubmit(int id, string Uname);
         IQueryable<OverTimeApplicationHeaderViewModel> GetOverTimeApplicationHeaderPendingToReview(int id, string Uname);
@@ -83,20 +83,7 @@ namespace Service
                      select new AttendanceLinesViewModel { OverTimeApplicationHeaderId = L.OverTimeApplicationHeaderId, AttendanceLineId = L.AttendanceLineId, DocTime = L.DocTime, Name = p.Name, AttendanceCategory = L.AttendanceCategory, Remark = L.Remark }
                      );
          }*/
-        public IQueryable<ComboBoxResult> GetListEmpId(int DepartmentID)
-        {
-            var Result = (from E in db.Employee
-                          join P in db.Persons on E.PersonID equals P.PersonID into table
-                          from tab in table.DefaultIfEmpty()
-                          where E.DepartmentID == DepartmentID
-                          select new ComboBoxResult
-                          { id=E.PersonID.ToString(),text= tab.Name});
-          
-
-
-           
-            return Result;
-        }
+    
 
 
      
@@ -130,6 +117,8 @@ namespace Service
         }
         public OverTimeApplicationHeaderViewModel GetOverTimeApplicationHeader(int id)
         {
+           
+
             return (from p in db.OverTimeApplicationHeader
                     where p.OverTimeApplicationId == id
                     select new OverTimeApplicationHeaderViewModel
@@ -146,8 +135,8 @@ namespace Service
                         ModifiedDate = p.ModifiedDate,
                         ModifiedBy = p.ModifiedBy,
                         CreatedBy = p.CreatedBy,
-                    }
-                        ).FirstOrDefault();
+        }
+                    ).FirstOrDefault();
         }
 
       
