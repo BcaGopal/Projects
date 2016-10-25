@@ -105,8 +105,10 @@ namespace Presentation
 
                 var mPlanLineIds = vm.MaterialPlanCancelLineViewModel.Where(m => m.Qty > 0 && m.Qty == m.BalanceQty).Select(m => m.MaterialPlanLineId).ToList();
 
-                var mPlanRecords = db.ViewMaterialPlanForSaleOrderBalance.AsNoTracking().Where(m => mPlanLineIds.Contains(m.MaterialPlanLineId.Value)).ToList();
 
+                //var mPlanRecords = db.ViewMaterialPlanForSaleOrderBalance.AsNoTracking().Where(m => mPlanLineIds.Contains(m.MaterialPlanLineId.Value)).ToList();
+                //Changed because ViewMaterialPlanForSaleOrderBalance is not required.
+                var mPlanRecords = db.MaterialPlanForSaleOrder.AsNoTracking().Where(m => mPlanLineIds.Contains(m.MaterialPlanLineId.Value)).ToList();
 
                 foreach (var item in vm.MaterialPlanCancelLineViewModel.Where(m => m.Qty > 0 && m.Qty == m.BalanceQty))
                 {
@@ -138,7 +140,7 @@ namespace Presentation
                         cso.MaterialPlanCancelHeaderId = header.MaterialPlanCancelHeaderId;
                         cso.MaterialPlanCancelLineId = cline.MaterialPlanCancelLineId;
                         cso.MaterialPlanForSaleOrderId = detailSo.MaterialPlanForSaleOrderId;
-                        cso.Qty = detailSo.BalanceQty;
+                        cso.Qty = detailSo.Qty;
                         cso.Sr = si++;
                         cso.ObjectState = Model.ObjectState.Added;
                         db.MaterialPlanCancelForSaleOrder.Add(cso);

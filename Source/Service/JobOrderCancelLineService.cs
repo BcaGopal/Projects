@@ -437,6 +437,9 @@ namespace Service
 
                 //p.Status != ProductUidStatusConstants.Return &&
 
+
+
+
                 var Temp = (from p in context.ProductUid
                             join t in context.JobReceiveLine on p.ProductUIDId equals t.ProductUidId into table
                             from tab in table.DefaultIfEmpty()

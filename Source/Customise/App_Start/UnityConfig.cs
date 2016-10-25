@@ -245,8 +245,14 @@ namespace Customise.App_Start
 
             container.RegisterType<ISaleInvoiceLineChargeService, SaleInvoiceLineChargeService>(new PerRequestLifetimeManager());
 
+            container.RegisterType<IRepository<JobReceiveLine>, Repository<JobReceiveLine>>();
             container.RegisterType<IJobReceiveLineService, JobReceiveLineService>(new PerRequestLifetimeManager());
 
+            container.RegisterType<IRepository<JobReceiveSettings>, Repository<JobReceiveSettings>>();
+            container.RegisterType<IJobReceiveSettingsService, JobReceiveSettingsService>(new PerRequestLifetimeManager());
+
+
+            container.RegisterType<IRepository<JobReceiveHeader>, Repository<JobReceiveHeader>>();
             container.RegisterType<IJobReceiveHeaderService, JobReceiveHeaderService>(new PerRequestLifetimeManager());
 
             container.RegisterType<ISaleInvoiceReturnHeaderService, SaleInvoiceReturnHeaderService>(new PerRequestLifetimeManager());
@@ -359,7 +365,14 @@ namespace Customise.App_Start
             Mapper.CreateMap<PackingHeaderViewModel, PackingHeaderViewModelWithLog>();
 
             Mapper.CreateMap<PackingLine, PackingLineViewModel>();
-            Mapper.CreateMap<PackingLineViewModel, PackingLine>();           
+            Mapper.CreateMap<PackingLineViewModel, PackingLine>();
+
+            Mapper.CreateMap<JobReceiveSettings, JobReceiveSettingsViewModel>();
+            Mapper.CreateMap<JobReceiveSettingsViewModel, JobReceiveSettings>();
+
+            Mapper.CreateMap<JobReceiveHeader, JobReceiveHeaderViewModel>();
+            Mapper.CreateMap<JobReceiveHeaderViewModel, JobReceiveHeader>();
+
 
 
             Mapper.CreateMap<FinishedProductViewModel, FinishedProduct>().ForMember(m => m.CreatedDate, x => x.Ignore())
@@ -481,11 +494,18 @@ namespace Customise.App_Start
             Mapper.CreateMap<JobOrderHeaderViewModel, DocumentUniqueId>();
             Mapper.CreateMap<JobOrderHeader, DocumentUniqueId>();
 
+            Mapper.CreateMap<JobReceiveHeaderViewModel, DocumentUniqueId>();
+            Mapper.CreateMap<JobReceiveHeader, DocumentUniqueId>();
+
             Mapper.CreateMap<PackingHeaderViewModel, DocumentUniqueId>();
             Mapper.CreateMap<PackingHeader, DocumentUniqueId>();
 
             Mapper.CreateMap<SaleInvoiceReturnHeaderViewModel, DocumentUniqueId>();
             Mapper.CreateMap<SaleInvoiceReturnHeader, DocumentUniqueId>();
+
+            Mapper.CreateMap<JobReceiveLine, JobReceiveLineViewModel>();
+            Mapper.CreateMap<JobReceiveLineViewModel, JobReceiveLine>();
+
 
             Mapper.CreateMap<SaleInvoiceReturnHeader, SaleInvoiceReturnHeader>();
             Mapper.CreateMap<SaleDispatchReturnHeader, SaleDispatchReturnHeader>();

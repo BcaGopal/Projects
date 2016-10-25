@@ -2430,6 +2430,7 @@ namespace Web
                     FinishedProductTemp.ProductName = vm.ProductName;
                     FinishedProductTemp.ProductDescription = vm.ProductDescription;
                     FinishedProductTemp.CBM = vm.CBM;
+                    FinishedProductTemp.ColourId = vm.ColourId;
 
                     //Code For Saving Product Specification
                     string StandardSize = "";

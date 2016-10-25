@@ -17,6 +17,17 @@
         line-height: 35px;
     }
 
+    input.editor-text {
+        width: 100%;
+        height: 100%;
+        border: 0;
+        margin: 0;
+        background: transparent;
+        outline: 0;
+        padding: 0;
+        text-align: right;
+    }
+
     .slick-row.ui-widget-content, .slick-cell {
         height: 30px;
         line-height: 30px;
@@ -245,18 +256,21 @@
                 {
                     //grid.getDataItem(i).DocQty = (((mTestingQty / HeaderTestingQty) * HeaderQty) * grid.getDataItem(i).DyeingRatio / 100).toFixed(4);
                     DocQty = (((mTestingQty / HeaderTestingQty) * HeaderQty) * grid.getDataItem(i).DyeingRatio / 100);
+                    grid.getDataItem(i).DocQty = Math.max( Math.round(DocQty * 1000) / 1000).toFixed(4);
+
                 }
                 else
                 {
                     //grid.getDataItem(i).DocQty = ((mTestingQty / HeaderTestingQty) * HeaderQty).toFixed(4);
                     DocQty = ((mTestingQty / HeaderTestingQty) * HeaderQty);
+                    grid.getDataItem(i).DocQty = Math.max( Math.round(DocQty * 1000) / 1000).toFixed(4);
                 }
             }
             
-            grid.getDataItem(i).DocQty = Math.max( Math.round(DocQty * 1000) / 1000).toFixed(4);
+            
 
             //$('#Qty').val(($('#DocQty').val() + mExcessQtyInKg));
-            grid.getDataItem(i).Qty = grid.getDataItem(i).DocQty + mExcessQtyInKg;
+            grid.getDataItem(i).Qty = grid.getDataItem(i).DocQty + parseFloat(mExcessQtyInKg);
             grid.getDataItem(i).Amount = (grid.getDataItem(i).Qty * grid.getDataItem(i).Rate).toFixed(2);
             grid.updateRow(i);
         }
