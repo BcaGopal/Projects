@@ -39,11 +39,9 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>
-                  =First(Fields!CompanyAddress.Value, "DsMain") + System.Environment.NewLine
-                  +First(Fields!CompanyCity.Value, "DsMain")  + System.Environment.NewLine
-                  +First(Fields!CompanyPhoneNo.Value, "DsMain")
-                </Value>
+                <Value>=First(Fields!CompanyAddress.Value, "DsMain") + System.Environment.NewLine
+                                    +First(Fields!CompanyCity.Value, "DsMain")  +"-"+ First(Fields!CompanyPinNo.Value, "DsMain") + System.Environment.NewLine
+                  +First(Fields!CompanyPhoneNo.Value, "DsMain")</Value>
                 <Style>
                   <FontFamily>Tahoma</FontFamily>
                 </Style>
@@ -71,20 +69,6 @@
           <PaddingBottom>2pt</PaddingBottom>
         </Style>
       </Textbox>
-      <Image Name="SuryaLogo">
-        <Source>Embedded</Source>
-        <Value>SuryaLogo</Value>
-        <Sizing>FitProportional</Sizing>
-        <Top>0.0625in</Top>
-        <Height>0.8in</Height>
-        <Width>0.8in</Width>
-        <ZIndex>2</ZIndex>
-        <Style>
-          <Border>
-            <Style>None</Style>
-          </Border>
-        </Style>
-      </Image>
       <Textbox Name="CompanyTinNo2">
         <KeepTogether>true</KeepTogether>
         <Paragraphs>
@@ -111,7 +95,7 @@
         <Left>7.58792in</Left>
         <Height>0.75278in</Height>
         <Width>2.83333in</Width>
-        <ZIndex>3</ZIndex>
+        <ZIndex>2</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -119,6 +103,20 @@
           <VerticalAlign>Top</VerticalAlign>
         </Style>
       </Textbox>
+      <Image Name="SuryaLogo">
+        <Source>External</Source>
+        <Value>="file:"+ Fields!CompanyLogoPath.Value</Value>
+        <Sizing>FitProportional</Sizing>
+        <Top>0.0625in</Top>
+        <Height>0.8in</Height>
+        <Width>0.8in</Width>
+        <ZIndex>3</ZIndex>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+        </Style>
+      </Image>
     </ReportItems>
     <Height>0.88542in</Height>
     <Style />
@@ -134,7 +132,7 @@
     <DataSource Name="Purchase">
       <ConnectionProperties>
         <DataProvider>SQL</DataProvider>
-        <ConnectString>=IIF(IsNothing(Parameters!DatabaseConnectionString.Value),"Data Source=192.168.2.25;Initial Catalog=RUG;Integrated Security=False;User Id=sa; pwd=P@ssw0rd!", Parameters!DatabaseConnectionString.Value)</ConnectString>
+        <ConnectString>=Parameters!DatabaseConnectionString.Value</ConnectString>
       </ConnectionProperties>
       <rd:SecurityType>None</rd:SecurityType>
       <rd:DataSourceID>727bb65e-cc51-4d28-a097-a8ea7d087931</rd:DataSourceID>
@@ -180,6 +178,10 @@
           <DataField>CompanyPhoneNo</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
+        <Field Name="CompanyPinNo">
+          <DataField>CompanyPinNo</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
         <Field Name="CompanyTinNo">
           <DataField>CompanyTinNo</DataField>
           <rd:TypeName>System.String</rd:TypeName>
@@ -190,6 +192,14 @@
         </Field>
         <Field Name="CompanyFaxNo">
           <DataField>CompanyFaxNo</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CompanyCountry">
+          <DataField>CompanyCountry</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CompanyLogoPath">
+          <DataField>CompanyLogoPath</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
       </Fields>

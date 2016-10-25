@@ -168,7 +168,8 @@ namespace Core.Common
         public const string SaleChallan = "Sale Challan";
         public const string DispatchWaybill = "Dispatch Waybill";
         public const string CustomDetail = "Custom Detail";
-
+        public const string SaleEnquiryProductMapping = "Sale Enquiry Product Mapping";
+        
 
 
         //---------------------  Store 
