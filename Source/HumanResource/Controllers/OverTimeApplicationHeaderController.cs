@@ -80,56 +80,63 @@ namespace Web
             ViewBag.Name = new DocumentTypeService(_unitOfWork).Find(id).DocumentTypeName;
             ViewBag.id = id;
             ViewBag.DepartmentList = new DepartmentService(_unitOfWork).GetDepartmentList().ToList();
+           
 
             // var EmpIds = new List<int>(_OverTimeApplicationHeaderService.GetListEmpId(vm.DepartmentId)).ToList();
             //ComboBoxResult pt = _OverTimeApplicationHeaderService.GetListEmpId(2);
             ViewBag.PersonList = new PersonService(_unitOfWork).GetPersonList().ToList();
         }
 
-
-       /* public ActionResult ListLine(int Id)
+        public JsonResult GetEmployeeList(int id)
         {
-            var AttendanceLine = _OverTimeApplicationHeaderService.GetAttendanceLineView(Id).ToList();
+                    return Json(_OverTimeApplicationHeaderService.GetListEmpName(id).ToList());
+        }
 
-            var List = AttendanceLine.Select((m, i) => new
-            {
-                AttendanceCategory = m.AttendanceCategory,
-                OverTimeApplicationHeaderId = m.OverTimeApplicationHeaderId,
-                AttendanceLineId = m.AttendanceLineId,
-                DocTime = Convert.ToDateTime(m.DocTime).ToString("hh:mm tt"),
-                EmployeeId = m.EmployeeId,
-                Name = m.Name,
-                Remark = m.Remark,
-                id = i,
-            }).ToList();
 
-            return Json(List, JsonRequestBehavior.AllowGet);
-        }*/
-       /* public ActionResult LinePost(AttendanceLinesViewModel pt)
-        {
-            AttendanceLine ah = _OverTimeApplicationHeaderService.FindLine(pt.AttendanceLineId);
-            ah.DocTime = pt.DocTime;
-            ah.Remark = pt.Remark;
-            ah.AttendanceCategory = pt.AttendanceCategory;
-            ah.ModifiedBy = User.Identity.Name;
-            ah.ModifiedDate = DateTime.Now;
-            ah.ObjectState = Model.ObjectState.Modified;
-            db.AttendanceLine.Add(ah);
 
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (Exception ex)
-            {
-                string message = _exception.HandleException(ex);
-                ModelState.AddModelError("", message);
+        /* public ActionResult ListLine(int Id)
+         {
+             var AttendanceLine = _OverTimeApplicationHeaderService.GetAttendanceLineView(Id).ToList();
 
-            }
+             var List = AttendanceLine.Select((m, i) => new
+             {
+                 AttendanceCategory = m.AttendanceCategory,
+                 OverTimeApplicationHeaderId = m.OverTimeApplicationHeaderId,
+                 AttendanceLineId = m.AttendanceLineId,
+                 DocTime = Convert.ToDateTime(m.DocTime).ToString("hh:mm tt"),
+                 EmployeeId = m.EmployeeId,
+                 Name = m.Name,
+                 Remark = m.Remark,
+                 id = i,
+             }).ToList();
 
-            return Json(new { success = true });
+             return Json(List, JsonRequestBehavior.AllowGet);
+         }*/
+        /* public ActionResult LinePost(AttendanceLinesViewModel pt)
+         {
+             AttendanceLine ah = _OverTimeApplicationHeaderService.FindLine(pt.AttendanceLineId);
+             ah.DocTime = pt.DocTime;
+             ah.Remark = pt.Remark;
+             ah.AttendanceCategory = pt.AttendanceCategory;
+             ah.ModifiedBy = User.Identity.Name;
+             ah.ModifiedDate = DateTime.Now;
+             ah.ObjectState = Model.ObjectState.Modified;
+             db.AttendanceLine.Add(ah);
 
-        }*/
+             try
+             {
+                 db.SaveChanges();
+             }
+             catch (Exception ex)
+             {
+                 string message = _exception.HandleException(ex);
+                 ModelState.AddModelError("", message);
+
+             }
+
+             return Json(new { success = true });
+
+         }*/
         public ActionResult Index(int id, string IndexType)//DocumentTypeId
         {
             if (IndexType == "PTS")
@@ -209,7 +216,7 @@ namespace Web
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Post(OverTimeApplicationHeaderViewModel vm)
-        {
+        {            
             /* #region BeforeSave
               bool BeforeSave = true;
               try
@@ -268,25 +275,21 @@ namespace Web
                     header.ModifiedDate = DateTime.Now;
                     header.ObjectState = Model.ObjectState.Added;
                     db.OverTimeApplicationHeader.Add(header);
-
-                    //var EmpIds = new List<int>(_OverTimeApplicationHeaderService.GetListEmpId(vm.DepartmentId)).ToList();
-
-                   /* DateTime Time = _OverTimeApplicationHeaderService.GetShiftTime(vm.ShiftId);
-                    foreach (var EmpId in EmpIds)
+                  foreach (string EmpId in vm.PersonId1)
                     {
-                        AttendanceLine line = new AttendanceLine();
-                        line.OverTimeApplicationHeaderId = header.OverTimeApplicationHeaderId;
-                        line.EmployeeId = EmpId;
-                        line.DocTime = Time;
-                        line.CreatedBy = User.Identity.Name;
-                        line.ModifiedBy = User.Identity.Name;
-                        line.AttendanceCategory = "P";
-                        line.CreatedDate = DateTime.Now;
-                        line.ModifiedDate = DateTime.Now;
-                        line.ObjectState = Model.ObjectState.Added;
-                        db.AttendanceLine.Add(line);
-                        //_OverTimeApplicationHeaderService.LineCreate(line);
-                    }*/
+                        OverTimeApplicationLine Line = new OverTimeApplicationLine();
+                        Line.OverTimeApplicationHeaderId = header.OverTimeApplicationId;
+                        Line.EmployeeId = Convert.ToInt16(EmpId);
+                        Line.Status = 0;
+                        Line.CreatedBy = User.Identity.Name;
+                        Line.ModifiedBy = User.Identity.Name;
+                        Line.CreatedDate = DateTime.Now;
+                        Line.ModifiedDate = DateTime.Now;
+                        Line.ObjectState = Model.ObjectState.Added;
+                        db.OverTimeApplicationLine.Add(Line);
+                    }
+                  
+
                     try
                     {
                         if (EventException)
@@ -1362,7 +1365,7 @@ namespace Web
             return (_OverTimeApplicationHeaderService.GetOverTimeApplicationHeaderPendingToReview(id, User.Identity.Name)).Count();
         }
 
-
+       
         protected override void Dispose(bool disposing)
         {
             if (!string.IsNullOrEmpty((string)TempData["CSEXC"]))

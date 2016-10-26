@@ -58,6 +58,7 @@ namespace Data.Customize
         public DbSet<JobOrderHeaderExtended> JobOrderHeaderExtended { get; set; }
         public DbSet<JobOrderPerk> JobOrderPerk { get; set; }
         public DbSet<JobOrderSettings> JobOrderSettings { get; set; }
+        public DbSet<JobReceiveSettings> JobReceiveSettings { get; set; }
         public DbSet<JobOrderLine> JobOrderLine { get; set; }
         public DbSet<JobOrderLineStatus> JobOrderLineStatus { get; set; }
         public DbSet<JobOrderLineExtended> JobOrderLinExtended { get; set; }

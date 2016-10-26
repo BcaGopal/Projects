@@ -25,7 +25,7 @@
         <hr style="margin-top:0px;margin-bottom:0px" />
         <input type="hidden" class="DocType_Id" value="@ViewBag.id">
         <div class="panel-info">
-            <h4 style="padding:5px 0 0 0;margin:0px">
+            @*<h4 style="padding:5px 0 0 0;margin:0px">
                 @Html.ActionLink(" ", " ", " ", null, new { @class = "glyphicon glyphicon-refresh toolbar", @title = "Refresh Page", @data_toggle = "tooltip", @id = "RefreshPage" })
                 @Html.ActionLink(" ", "Create", "JobOrderCancelHeader", new { @id = @ViewBag.id }, new { @class = "glyphicon glyphicon-plus toolbar", @title = "Add New", @data_toggle = "tooltip" })
                 @Html.ActionLink(" ", "GetHistory", "LogHistory", null, new { @class = "glyphicon glyphicon-user toolbar", @title = "History", @data_toggle = "tooltip", @id = "DocHistoryI" })
@@ -35,11 +35,30 @@
                 @Html.ActionLink(" ", "", "", null, new { @class = "glyphicon glyphicon-export toolbar right", @title = "Export", @data_toggle = "tooltip" })
                 @Html.ActionLink(" ", "CreateJobOrderCancel", "JobOrderSettings", new { @id = @ViewBag.id }, new { @class = "glyphicon glyphicon-cog toolbar right", @title = "Default Settings", @data_toggle = "tooltip" })
                 @Html.ActionLink(" ", "Import", "JobOrderCancelHeader", new { @id = @ViewBag.id }, new { @class = "glyphicon glyphicon-import toolbar right", @title = "Import", @data_toggle = "tooltip" })
-            </h4>
+            </h4>*@
+            <div class="btn-group">
+                @Html.ActionLink(" ", "Create", "JobOrderCancelHeader", new { @id = @ViewBag.id }, new { @class = "cbtn btn-circle glyphicon glyphicon-plus toolbar", @title = "Add New", @data_toggle = "tooltip" })
+                @*@Html.ActionLink(" ", "GetHistory", "LogHistory", null, new { @class = "cbtn btn-circle glyphicon glyphicon-user toolbar", @title = "History", @data_toggle = "tooltip", @id = "DocHistoryI" })*@
+                @Html.ActionLink(" ", "GeneratePrints", "JobOrderCancelHeader", null, new { @class = "cbtn btn-circle glyphicon glyphicon-print toolbar", @title = "Print", @data_toggle = "tooltip", @id = "PrintRecordI", target = "_blank" })
+                @Html.ActionLink(" ", "Remove", "JobOrderCancelHeader", null, new { @class = "cbtn btn-circle glyphicon glyphicon-trash toolbar", @title = "Delete", @data_toggle = "tooltip", @id = "DeleteRecord", @data_modalDelete = "" })
+            </div>
+            <div class="btn-group">
+                <a class="cbtn btn-circle glyphicon glyphicon-option-horizontal dropdown-toggle" aria-expanded="false" style="padding-top: 6px;padding-bottom: 6px;" href="#" data-toggle="dropdown" id="dropdownMenu1">
+                </a>
+                <ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu1">
+                    <li><a href="@Url.Action("Import", "JobOrderCancelHeader", new { @id = @ViewBag.id })"><span class="glyphicon glyphicon-import"> </span> Import</a></li>
+                    <li><a href="@Url.Action("CreateJobOrderCancel", "JobOrderSettings", new { @id = @ViewBag.id })"><span class="glyphicon glyphicon-cog"> </span> Settings</a></li>
+                    <li role="separator" class="divider"></li>
+                    <li><a href="@Url.Action("Report", "JobOrderCancelHeader", new { @ViewBag.id })"><span class="glyphicon glyphicon-stats"> </span> Report</a></li>
+                </ul>
+            </div>
+            <div class="btn-group right">
+                @CustomHelpers.RenderIconStatusFilters(ViewBag.PendingToSubmit, ViewBag.PendingToReview, ControllerName, ViewBag.id, ViewBag.IndexStatus)
+            </div>
         </div>
-        <hr style="margin-top: 5px; margin-bottom: 5px; border-top: 1px solid #706f6f; " />
-
-        @CustomHelpers.RenderStatusFilters(ViewBag.PendingToSubmit, ViewBag.PendingToReview, ControllerName, ViewBag.id, ViewBag.IndexStatus)
+        @*
+    <hr style="margin-top: 5px; margin-bottom: 5px; border-top: 1px solid #706f6f; " />
+    @CustomHelpers.RenderStatusFilters(ViewBag.PendingToSubmit, ViewBag.PendingToReview, ControllerName, ViewBag.id, ViewBag.IndexStatus)*@
 
     </div>
     <div class="panel-info" style="padding-left:5px;padding-top:2px">

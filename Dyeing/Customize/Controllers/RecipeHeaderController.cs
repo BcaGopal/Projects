@@ -653,7 +653,7 @@ namespace Customize.Controllers
         }
 
 
-
+     
         public ActionResult GeneratePrints(string Ids, int DocTypeId)
         {
 
