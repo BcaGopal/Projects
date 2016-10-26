@@ -48,6 +48,8 @@ namespace Services.Customize
         ComboBoxResult GetJobOrderLine(int Ids);
         JobOrderDetail GetJobOrderDetail(int JobOrderLineId);
 
+        LastValues GetLastValues(int DocTypeId);
+
         #region Helper Methods
         IQueryable<UnitConversionFor> GetUnitConversionForList();
         void LogDetailInfo(DyeingViewModel vm);
@@ -975,6 +977,21 @@ namespace Services.Customize
 
             return temp;
         }
+
+        public LastValues GetLastValues(int DocTypeId)
+        {
+            var temp = (from H in _unitOfWork.Repository<JobReceiveHeader>().Instance
+                        where H.DocTypeId == DocTypeId
+                        orderby H.JobReceiveHeaderId descending
+                        select new LastValues
+                        {
+                            GodownId = H.GodownId,
+                            JobWorkerId = H.JobWorkerId,
+                            JobReceiveById = H.JobReceiveById
+                        }).FirstOrDefault();
+
+            return temp;
+        }
     }
 
     public class JobOrderDetail
@@ -992,6 +1009,19 @@ namespace Services.Customize
         public Decimal? Qty { get; set; }
         public Decimal? BalanceQty { get; set; }
         public string UnitId { get; set; }
+
+    }
+
+    public class LastValues
+    {
+        public int? JobWorkerId { get; set; }
+        public int? GodownId { get; set; }
+        public int? JobReceiveById { get; set; }
+
+        public int? OrderById { get; set; }
+        public Decimal? TestingQty { get; set; }
+
+        public Decimal? DyeingRatio { get; set; }
 
     }
 }

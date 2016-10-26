@@ -238,6 +238,14 @@ namespace Model.ViewModels
         public string ProductId { get; set; }
         [Display(Name = "Product Group")]
         public string ProductGroupId { get; set; }
+
+        public string Dimension1Id { get; set; }
+
+        public string Dimension2Id { get; set; }
+
+        public DateTime UpToDate { get; set; }
+
+        public SaleInvoiceSettingsViewModel SaleInvoiceSettings { get; set; }
                 
     }
 

@@ -575,7 +575,6 @@ namespace Web
                 PackingHeader Ph = (from H in db.PackingHeader where H.PackingHeaderId == Sd.PackingHeaderId select H).FirstOrDefault();
 
 
-                new StockService(_unitOfWork).DeleteStockForDocHeader(Sd.SaleDispatchHeaderId, Sd.DocTypeId, Sd.SiteId, Sd.DivisionId, db);
 
 
                 var GatePassHEader = (from p in db.GatePassHeader
@@ -602,7 +601,7 @@ namespace Web
 
                 var SaleDispatchLine = (from L in db.SaleDispatchLine where L.SaleDispatchHeaderId == vm.id select L).ToList();
 
-                var PackingLine = (from L in db.PackingLine where L.PackingHeaderId == vm.id select L).ToList();
+                var PackingLine = (from L in db.PackingLine where L.PackingHeaderId == Ph.PackingHeaderId select L).ToList();
 
 
                 int cnt = 0;
@@ -645,6 +644,25 @@ namespace Web
                 Ph.ObjectState = Model.ObjectState.Deleted;
                 db.PackingHeader.Attach(Ph);
                 db.PackingHeader.Remove(Ph);
+
+
+                foreach (var item in SaleDispatchLine)
+                {
+                    if (item.StockId != null)
+                    {
+                        StockAdj Adj = (from L in db.StockAdj
+                                        where L.StockOutId == item.StockId
+                                        select L).FirstOrDefault();
+
+                        if (Adj != null)
+                        {
+                            new StockAdjService(_unitOfWork).Delete(Adj);
+                        }
+
+                        new StockService(_unitOfWork).DeleteStock((int)item.StockId);
+                    }
+                }
+                
 
 
                 //Commit the DB

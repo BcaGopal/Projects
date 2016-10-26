@@ -1313,9 +1313,8 @@ $(function () {
 
 //Comman Function To focus on the first element on modal load
 $(function () {
-
+    
     $('#myModal').on('shown.bs.modal', function () {
-
         InitializeFocus();
         $(function () {
             $('input[readonly]').each(function () {

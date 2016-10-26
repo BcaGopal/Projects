@@ -13,6 +13,7 @@ using ProjLib.ViewModels;
 using Models.Company.Models;
 using Models.BasicSetup.ViewModels;
 using System;
+using System.IO;
 
 namespace Module
 {
@@ -50,6 +51,14 @@ namespace Module
             //var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(db));
 
             string UserId = User.Identity.GetUserId();
+            //string UserName = User.Identity.GetUserName();
+
+            //using (StreamWriter writer = new StreamWriter(Server.MapPath("/release_notification_emails.txt"), true))
+            //{
+            //    writer.WriteLine("Tracking STart");
+            //    writer.WriteLine("User Id : " + UserId);
+            //    writer.WriteLine("User Name : " + UserName);
+            //}
 
             var userInRoles = _userRolesService.GetUserRolesList(UserId);
 
@@ -62,6 +71,8 @@ namespace Module
                 Session.Abandon();
                 return View("NoRoles");
             }
+
+
 
             Session.Remove("LoginUserRole");
 

@@ -122,5 +122,7 @@ namespace Model.ViewModels
 
         public string Dimension2Name { get; set; }
 
+        public int? Sr { get; set; }
+
     }
 }

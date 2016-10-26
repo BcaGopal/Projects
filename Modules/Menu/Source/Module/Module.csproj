@@ -138,6 +138,10 @@
       <HintPath>..\..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Services.AdminSetup, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Admin Setup\Source\Module\bin\Services.AdminSetup.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -420,10 +424,6 @@
     <ProjectReference Include="..\..\..\Admin Setup\Data\Data.csproj">
       <Project>{db254004-ebd5-470d-ba5b-f339a3cc1faa}</Project>
       <Name>Data</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\Admin Setup\Services.AdminSetup\Services.AdminSetup.csproj">
-      <Project>{3a56d162-54df-4bbc-876e-93cb30952593}</Project>
-      <Name>Services.AdminSetup</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\Basic Setup\Models.BasicSetup\Models.BasicSetup.csproj">
       <Project>{e7b6f2dd-5845-431d-b065-7ca2c51c698a}</Project>

@@ -12,6 +12,7 @@ using Data.Models;
 using Model.ViewModel;
 using Model.ViewModels;
 using System.Data.SqlClient;
+using System.Configuration;
 
 namespace Service
 {
@@ -438,29 +439,36 @@ namespace Service
                 //p.Status != ProductUidStatusConstants.Return &&
 
 
+                SqlParameter SQLProductUidHeaderId = new SqlParameter("@ProductUidHeaderId", JobOrderline.ProductUidHeaderId);
+                SqlParameter SQLSiteId = new SqlParameter("@SiteId", JobOrderHeader.SiteId);
+                SqlParameter SQLDivisionId = new SqlParameter("@DivisionId", JobOrderHeader.DivisionId);
+                SqlParameter SQLProcessId = new SqlParameter("@ProcessId", JobOrderHeader.ProcessId);
 
 
-                var Temp = (from p in context.ProductUid
-                            join t in context.JobReceiveLine on p.ProductUIDId equals t.ProductUidId into table
-                            from tab in table.DefaultIfEmpty()
-                            join t3 in context.JobReceiveHeader.Where(m => m.SiteId == JobOrderHeader.SiteId && m.DivisionId == JobOrderHeader.DivisionId) on tab.JobReceiveHeaderId equals t3.JobReceiveHeaderId into table5
-                            from JRH in table5.DefaultIfEmpty()
-                            join t2 in context.JobOrderLine on p.ProductUidHeaderId equals t2.ProductUidHeaderId
-                            join JOH in context.JobOrderHeader.Where(m => m.SiteId == JobOrderHeader.SiteId && m.DivisionId == JobOrderHeader.DivisionId) on t2.JobOrderHeaderId equals JOH.JobOrderHeaderId
-                            join RecLineStatus in context.JobReceiveLineStatus on tab.JobReceiveLineId equals RecLineStatus.JobReceiveLineId into RecLineStatTab
-                            from RecLineStat in RecLineStatTab.DefaultIfEmpty()
-                            where p.ProductUidHeaderId == JobOrderline.ProductUidHeaderId && (JRH == null || ((tab.Qty - (RecLineStat.ReturnQty ?? 0)) == 0)) && 
-                            p.Status != ProductUidStatusConstants.Cancel && ((p.GenPersonId == p.LastTransactionPersonId) || p.CurrenctGodownId != null)
-                            && JOH.ProcessId == JobOrderHeader.ProcessId
-                            orderby p.ProductUIDId
-                            select new { Id = p.ProductUIDId, Name = p.ProductUidName }).ToList();
+                var Temp = db.Database.SqlQuery<ProductUidList>("" + ConfigurationManager.AppSettings["DataBaseSchema"] + ".sp_GetProductUidListForWeavingOrderCancel @ProductUidHeaderId, @SiteId,	@DivisionId, @ProcessId", SQLProductUidHeaderId, SQLSiteId, SQLDivisionId, SQLProcessId).ToList();
+
+
+                //var Temp = (from p in context.ProductUid
+                //            join t in context.JobReceiveLine on p.ProductUIDId equals t.ProductUidId into table
+                //            from tab in table.DefaultIfEmpty()
+                //            join t3 in context.JobReceiveHeader.Where(m => m.SiteId == JobOrderHeader.SiteId && m.DivisionId == JobOrderHeader.DivisionId) on tab.JobReceiveHeaderId equals t3.JobReceiveHeaderId into table5
+                //            from JRH in table5.DefaultIfEmpty()
+                //            join t2 in context.JobOrderLine on p.ProductUidHeaderId equals t2.ProductUidHeaderId
+                //            join JOH in context.JobOrderHeader.Where(m => m.SiteId == JobOrderHeader.SiteId && m.DivisionId == JobOrderHeader.DivisionId) on t2.JobOrderHeaderId equals JOH.JobOrderHeaderId
+                //            join RecLineStatus in context.JobReceiveLineStatus on tab.JobReceiveLineId equals RecLineStatus.JobReceiveLineId into RecLineStatTab
+                //            from RecLineStat in RecLineStatTab.DefaultIfEmpty()
+                //            where p.ProductUidHeaderId == JobOrderline.ProductUidHeaderId && (JRH == null || ((tab.Qty - (RecLineStat.ReturnQty ?? 0)) == 0)) && 
+                //            p.Status != ProductUidStatusConstants.Cancel && ((p.GenPersonId == p.LastTransactionPersonId) || p.CurrenctGodownId != null)
+                //            && JOH.ProcessId == JobOrderHeader.ProcessId
+                //            orderby p.ProductUIDId
+                //            select new { Id = p.ProductUIDId, Name = p.ProductUidName }).ToList();
 
                 foreach (var item in Temp)
                 {
                     Barcodes.Add(new ComboBoxList
                     {
-                        Id = item.Id,
-                        PropFirst = item.Name,
+                        Id = item.ProductUidId,
+                        PropFirst = item.ProductUidName,
                     });
                 }
             }
@@ -582,5 +590,12 @@ namespace Service
         {
             throw new NotImplementedException();
         }
+    }
+
+    public class ProductUidList
+    {
+        public int ProductUidId { get; set; }
+
+        public string ProductUidName { get; set; }
     }
 }

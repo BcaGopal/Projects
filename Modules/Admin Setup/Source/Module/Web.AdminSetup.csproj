@@ -312,6 +312,7 @@
     <Content Include="App_Readme\NProgressjs_README.md" />
     <Content Include="App_Readme\NProgressjs_LICENSE" />
     <Content Include="Grid.mvc.readme" />
+    <None Include="Properties\PublishProfiles\AdminSetup.pubxml" />
     <None Include="Properties\PublishProfiles\Module.pubxml">
       <SubType>Designer</SubType>
     </None>

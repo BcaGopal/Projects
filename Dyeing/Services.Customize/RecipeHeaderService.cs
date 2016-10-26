@@ -49,6 +49,10 @@ namespace Services.Customize
         ComboBoxResult GetProdOrderLine(int Ids);
         ProdOrderDetail GetProdOrderDetail(int ProdOrderLineId);
 
+        LastValues GetLastValues(int DocTypeId);
+
+        void CreateProdOrder(int RecipeHeaderId, string UserName, Decimal? SubRecipeQty);
+
         #region Helper Methods
         IQueryable<UnitConversionFor> GetUnitConversionForList();
         void LogDetailInfo(RecipeHeaderViewModel vm);
@@ -908,7 +912,7 @@ namespace Services.Customize
             RecipeHeaderViewModel vmRecipeHeader = GetRecipeHeader(Id);
             if (vmRecipeHeader.SubRecipeQty > 0)
             {
-                CreateProdOrder(Id, UserName);
+                CreateProdOrder(Id, UserName, vmRecipeHeader.SubRecipeQty);
             }
 
             
@@ -1214,13 +1218,15 @@ namespace Services.Customize
             return temp;
         }
 
-        public void CreateProdOrder(int RecipeHeaderId, string UserName)
+        public void CreateProdOrder(int RecipeHeaderId, string UserName, Decimal? SubRecipeQty)
         {
             RecipeHeaderViewModel vmRecipeHeader = GetRecipeHeader(RecipeHeaderId);
             var JobOrderLine = (_unitOfWork.Repository<JobOrderLine>().Query().Get().Where(m => m.JobOrderHeaderId == vmRecipeHeader.JobOrderHeaderId)).FirstOrDefault();
 
+            JobOrderSettings Settings = new JobOrderSettingsService(_unitOfWork).GetJobOrderSettingsForDocument(vmRecipeHeader.DocTypeId, vmRecipeHeader.DivisionId, vmRecipeHeader.SiteId);
+
             ProdOrderHeader ProdOrderHeader = new ProdOrderHeader();
-            ProdOrderHeader.DocTypeId = vmRecipeHeader.DocTypeId;
+            ProdOrderHeader.DocTypeId = (int)Settings.DocTypeProductionOrderId;
             ProdOrderHeader.DocDate = vmRecipeHeader.DocDate;
             ProdOrderHeader.DocNo = vmRecipeHeader.DocNo;
             ProdOrderHeader.DivisionId = vmRecipeHeader.DivisionId;
@@ -1250,7 +1256,7 @@ namespace Services.Customize
             ProdOrderLine.ReferenceDocTypeId = vmRecipeHeader.DocTypeId;
             ProdOrderLine.ReferenceDocLineId = JobOrderLine.JobOrderLineId;
             ProdOrderLine.Sr = 1;
-            ProdOrderLine.Qty = vmRecipeHeader.SubRecipeQty ?? 0;
+            ProdOrderLine.Qty = SubRecipeQty ?? 0;
             ProdOrderLine.Remark = vmRecipeHeader.Remark;
             ProdOrderLine.CreatedBy = UserName;
             ProdOrderLine.ModifiedBy = UserName;
@@ -1259,6 +1265,30 @@ namespace Services.Customize
             ProdOrderLine.LockReason = "Prod order automatically generated from recipe.";
             ProdOrderLine.ObjectState = Model.ObjectState.Added;
             _unitOfWork.Repository<ProdOrderLine>().Add(ProdOrderLine);
+
+            ProdOrderLineStatus ProdOrderLineStatus = new ProdOrderLineStatus();
+            ProdOrderLineStatus.ProdOrderLineId = ProdOrderLine.ProdOrderLineId;
+            _unitOfWork.Repository<ProdOrderLineStatus>().Add(ProdOrderLineStatus);
+        }
+
+        public LastValues GetLastValues(int DocTypeId)
+        {
+            var temp = (from H in _unitOfWork.Repository<JobOrderHeader>().Instance
+                        join L in _unitOfWork.Repository<JobOrderLine>().Instance on H.JobOrderHeaderId equals L.JobOrderHeaderId into JobOrderLineTable
+                        from JobOrderLineTab in JobOrderLineTable.DefaultIfEmpty()
+                        join Le in _unitOfWork.Repository<JobOrderLineExtended>().Instance  on JobOrderLineTab.JobOrderLineId equals Le.JobOrderLineId into JobOrderLineExtendedTable
+                        from JobOrderLineExtendedTab in JobOrderLineExtendedTable.DefaultIfEmpty()
+                        where H.DocTypeId == DocTypeId
+                        orderby H.JobOrderHeaderId descending
+                        select new LastValues
+                        {
+                            GodownId = H.GodownId,
+                            JobWorkerId = H.JobWorkerId,
+                            OrderById = H.OrderById,
+                            TestingQty = JobOrderLineExtendedTab.TestingQty
+                        }).FirstOrDefault();
+
+            return temp;
         }
     }
 

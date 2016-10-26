@@ -141,6 +141,7 @@ namespace Service
                                && (string.IsNullOrEmpty(svm.Dimension1Id) ? 1 == 1 : Dimension1IdArr.Contains(p.Dimension1Id.ToString()))
                                && (string.IsNullOrEmpty(svm.Dimension2Id) ? 1 == 1 : Dimension2IdArr.Contains(p.Dimension2Id.ToString()))
                                && p.BalanceQty > 0
+                               orderby p.Sr
                         select new MaterialPlanForSaleOrderViewModel
                         {
                             BalanceQtyForPlan = p.BalanceQty,

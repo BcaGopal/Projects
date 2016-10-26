@@ -797,6 +797,16 @@ namespace Service
             string[] ProductGroupIdArr = null;
             if (!string.IsNullOrEmpty(vm.ProductGroupId)) { ProductGroupIdArr = vm.ProductGroupId.Split(",".ToCharArray()); }
             else { ProductGroupIdArr = new string[] { "NA" }; }
+
+            string[] Dimension1IdArr = null;
+            if (!string.IsNullOrEmpty(vm.Dimension1Id)) { Dimension1IdArr = vm.Dimension1Id.Split(",".ToCharArray()); }
+            else { Dimension1IdArr = new string[] { "NA" }; }
+
+            string[] Dimension2IdArr = null;
+            if (!string.IsNullOrEmpty(vm.Dimension2Id)) { Dimension2IdArr = vm.Dimension2Id.Split(",".ToCharArray()); }
+            else { Dimension2IdArr = new string[] { "NA" }; }
+
+
             //ToChange View to get Saleorders instead of goodsreceipts
             var temp = (from p in db.ViewSaleDispatchBalance
                         join l in db.SaleDispatchLine on p.SaleDispatchLineId equals l.SaleDispatchLineId into linetable
@@ -812,6 +822,9 @@ namespace Service
                         where (string.IsNullOrEmpty(vm.ProductId) ? 1 == 1 : ProductIdArr.Contains(p.ProductId.ToString()))
                         && (string.IsNullOrEmpty(vm.SaleDispatchHeaderId) ? 1 == 1 : SaleOrderIdArr.Contains(p.SaleDispatchHeaderId.ToString()))
                         && (string.IsNullOrEmpty(vm.ProductGroupId) ? 1 == 1 : ProductGroupIdArr.Contains(tab2.ProductGroupId.ToString()))
+                        && (string.IsNullOrEmpty(vm.Dimension1Id) ? 1 == 1 : Dimension1IdArr.Contains(p.Dimension1Id.ToString()))
+                        && (string.IsNullOrEmpty(vm.Dimension2Id) ? 1 == 1 : Dimension2IdArr.Contains(p.Dimension2Id.ToString()))
+                        && (vm.UpToDate == null) ? 1 == 1 : tab.DocDate <= vm.UpToDate
                         && p.BalanceQty > 0
                         orderby p.SaleDispatchNo, p.Sr
                         select new DirectSaleInvoiceLineViewModel
