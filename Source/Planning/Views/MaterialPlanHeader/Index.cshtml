@@ -52,6 +52,7 @@
                columns.Add().Encoded(false).Sanitized(false).SetWidth("5%").RenderValueAs(m => CustomHelpers.RenderCheckBox());
                columns.Add(foo => foo.DocNo).Sortable(true).Titled("DocNo").Filterable(true);
                columns.Add(foo => foo.DocDate).Sortable(true).Titled("Date").Filterable(true).Format("{0:dd/MMMM/yyyy}");
+               columns.Add(foo => foo.BuyerName).Sortable(true).Titled("Buyer").Filterable(true);
                columns.Add(foo => foo.Remark).Sortable(true).Titled("Remark").Filterable(true);
                columns.Add().Sanitized(false).Encoded(false).RenderValueAs(m => CustomHelpers.RenderStatus(m.Status)).Titled("Status");
                columns.Add().Titled("").Encoded(false).Sanitized(false).RenderValueAs(m => CustomHelpers.RenderUserImage(m.ModifiedBy)).Titled("User").SetWidth("5%").Css("UserImageIndex");

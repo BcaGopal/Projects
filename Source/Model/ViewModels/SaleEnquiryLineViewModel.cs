@@ -31,7 +31,7 @@ namespace Model.ViewModels
 
         [MaxLength(50)]
         public string Specification { get; set; }
-        public decimal ? Qty { get; set; }
+        public decimal Qty { get; set; }
 
         [Display(Name = "Due Date"),DisplayFormat(DataFormatString="{0:dd/MMM/yyyy}")]
         public DateTime ? DueDate { get; set; }

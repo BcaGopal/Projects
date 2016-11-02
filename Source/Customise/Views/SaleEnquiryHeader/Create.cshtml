@@ -376,6 +376,15 @@
 @if ((ViewBag.Mode == "Add") || (ViewBag.Mode == "Edit"))
 {
     <script type="text/javascript">
+
+        $('#SaleToBuyerId').change(function () {
+
+            var cid = $("#SaleToBuyerId").val();
+            var cdata = $('#SaleToBuyerId').select2('data').text;
+            $("#BillToBuyerId").select2('data', { id: cid, text: cdata });
+        });
+
+
         $(function(){
             $('#DocTypeId').focus();
         })

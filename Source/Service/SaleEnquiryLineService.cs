@@ -24,6 +24,7 @@ namespace Service
 
         SaleEnquiryLineViewModel GetSaleEnquiryLineModel(int id);
         SaleEnquiryLine Find(int id);
+        SaleEnquiryLine Find_WithLineDetail(int SaleEnquiryHeaderId, string ProductQuality, string ProductGroup, string Colour, string Size);
         void Update(SaleEnquiryLine s);
         IEnumerable<SaleEnquiryLineIndexViewModel> GetSaleEnquiryLineList(int SaleEnquiryHeaderId);
 
@@ -142,6 +143,18 @@ namespace Service
         public SaleEnquiryLine Find(int id)
         {
             return _unitOfWork.Repository<SaleEnquiryLine>().Find(id);
+        }
+
+        public SaleEnquiryLine Find_WithLineDetail(int SaleEnquiryHeaderId, string ProductQuality, string ProductGroup, string Colour, string Size)
+        {
+            //return _unitOfWork.Repository<SaleEnquiryLine>().Find(id);
+
+            return (from p in db.SaleEnquiryLine
+                    join t in db.SaleEnquiryLineExtended  on p.SaleEnquiryLineId equals t.SaleEnquiryLineId into table
+                    from tab in table.DefaultIfEmpty()
+                    where (p.SaleEnquiryHeaderId  == SaleEnquiryHeaderId) &&  (tab.ProductQuality == ProductQuality) && (tab.ProductGroup == ProductGroup) && (tab.Colour  == Colour) && (tab.Size == Size)
+                    select p
+            ).FirstOrDefault();
         }
 
         public IEnumerable<SaleEnquiryLineIndexViewModel> GetSaleEnquiryLineList(int SaleEnquiryHeaderId)

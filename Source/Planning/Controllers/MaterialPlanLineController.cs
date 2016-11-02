@@ -9,6 +9,8 @@ using Data.Infrastructure;
 using Core.Common;
 using AutoMapper;
 using Model.ViewModel;
+using System.Data.SqlClient;
+using System.Configuration;
 
 namespace Presentation
 {
@@ -194,17 +196,19 @@ namespace Presentation
                     planline.RequiredQty = item.QtySum;
                     planline.Dimension1Name = item.Dimension1Name;
                     planline.Dimension2Name = item.Dimension2Name;
-                    //using (SqlConnection sqlConnection = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString.ToString()))
-                    //{
-                    //    sqlConnection.Open();
 
-                    //    int ProductCode = item.id;
+                        using (SqlConnection sqlConnection = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString.ToString()))
+                        {
+                            sqlConnection.Open();
 
-                    //    SqlCommand Totalf = new SqlCommand("SELECT dbo.FGetExcessStock( " + ProductCode + ", " + header.DocTypeId + ")", sqlConnection);
+                            int ProductCode = item.id;
 
-                    //    planline.ExcessStockQty = Convert.ToDecimal(Totalf.ExecuteScalar() == DBNull.Value ? 0 : Totalf.ExecuteScalar());
-                    //}
-                    planline.ExcessStockQty = 0;
+                            SqlCommand Totalf = new SqlCommand("SELECT dbo.FGetExcessStock( " + ProductCode + ", " + header.DocTypeId + ")", sqlConnection);
+
+                            planline.ExcessStockQty = Convert.ToDecimal(Totalf.ExecuteScalar() == DBNull.Value ? 0 : Totalf.ExecuteScalar());
+                        }
+
+                        
                     planline.Specification = item.Specification;
                     planline.MaterialPlanHeaderId = vm.MaterialPlanLineViewModel.FirstOrDefault().MaterialPlanHeaderId;
                     planline.ProductId = item.id;
@@ -853,19 +857,20 @@ namespace Presentation
                         planline.Dimension1Name = item.dim1Name;
                         planline.Dimension2Name = item.dim2Name;
                         planline.ProcessName = item.procName;
-                        //using (SqlConnection sqlConnection = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString.ToString()))
-                        //{
-                        //    sqlConnection.Open();
 
-                        //    int ProductCode = item.id;
+                        using (SqlConnection sqlConnection = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString.ToString()))
+                        {
+                            sqlConnection.Open();
 
-                        //    SqlCommand Totalf = new SqlCommand("SELECT dbo.FGetExcessStock( " + ProductCode + ", " + header.DocTypeId + ")", sqlConnection);
+                            int ProductCode = item.id;
 
-                        //    planline.ExcessStockQty = Convert.ToDecimal(Totalf.ExecuteScalar()==DBNull.Value?0:Totalf.ExecuteScalar());
-                        //}
+                            SqlCommand Totalf = new SqlCommand("SELECT dbo.FGetExcessStock_WithDimension( " + ProductCode + ", " + header.DocTypeId + ", " + item.dim1Id + ") ", sqlConnection);
+
+                            planline.ExcessStockQty = Convert.ToDecimal(Totalf.ExecuteScalar() == DBNull.Value ? 0 : Totalf.ExecuteScalar()); 
+                        }
 
 
-                        planline.ExcessStockQty = 0;
+                       // planline.ExcessStockQty = 10;
                         planline.MaterialPlanHeaderId = vm.MaterialPlanLineViewModel.FirstOrDefault().MaterialPlanHeaderId;
                         planline.ProductId = item.id;
                         //planline.ProdPlanQty = item.QtySum;
