@@ -53,6 +53,11 @@ namespace Model.Models
         public int ? ReferenceDocId { get; set; }
         public int ? ReferenceDocLineId { get; set; }
         public Decimal Amount { get; set; }
+
+        [ForeignKey("ProductUid"), Display(Name = "ProductUid")]
+        public int? ProductUidId { get; set; }
+        public virtual ProductUid ProductUid { get; set; }
+
         
         [Display(Name = "Remark")]
         public string Remark { get; set; }

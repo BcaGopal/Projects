@@ -188,7 +188,7 @@ namespace Web
                     line.Specification = dr["Specification"] == System.DBNull.Value ? null : dr["Specification"].ToString();
                     line.UnitName = dr["UnitName"] == System.DBNull.Value ? null : dr["UnitName"].ToString();
                     line.unitDecimalPlaces = dr["DecimalPlaces"] == System.DBNull.Value ? 0 : Convert.ToInt32(dr["DecimalPlaces"].ToString());
-                    line.RequiredQty = dr["Qty"] == System.DBNull.Value ? 0 : Convert.ToInt32(dr["Qty"].ToString());
+                    line.RequiredQty = dr["Qty"] == System.DBNull.Value ? 0 : Convert.ToDecimal(dr["Qty"].ToString());
                     line.Dimension1Name = dr["Dimension1Name"] == System.DBNull.Value ? null : dr["Dimension1Name"].ToString();
                     line.Dimension2Name = dr["Dimension2Name"] == System.DBNull.Value ? null : dr["Dimension2Name"].ToString();
                     line.ProcessName = dr["ProcessName"] == System.DBNull.Value ? null : dr["ProcessName"].ToString();
@@ -198,8 +198,8 @@ namespace Web
                     line.MaterialPlanHeaderId = 0;
 
 
-                    line.ProdPlanQty = (dr["PurchProd"].ToString() == "Purchase") ? 0 : Convert.ToInt32(dr["Qty"].ToString());
-                    line.PurchPlanQty = (dr["PurchProd"].ToString() == "Purchase") ? Convert.ToInt32(dr["Qty"].ToString()) : 0;
+                    line.ProdPlanQty = (dr["PurchProd"].ToString() == "Purchase") ? 0 : Convert.ToDecimal(dr["Qty"].ToString());
+                    line.PurchPlanQty = (dr["PurchProd"].ToString() == "Purchase") ? Convert.ToDecimal(dr["Qty"].ToString()) : 0;
 
                     line.GeneratedFor = MaterialPlanConstants.SaleOrder;
 

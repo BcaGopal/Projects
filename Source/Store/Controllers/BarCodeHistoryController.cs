@@ -66,6 +66,15 @@ namespace Web
         }
 
 
+        public class DataTableLedgerData
+        {
+            public int draw { get; set; }
+            public int recordsTotal { get; set; }
+            public int recordsFiltered { get; set; }
+            public List<ProductUidLedgerInfo> data { get; set; }
+        }
+
+
         // here we simulate SQL search, sorting and paging operations
         private List<StockViewModel> FilterData(ref int recordFiltered, ref int recordTotal, int start, int length, string search, int sortColumn, string sortDirection, string ProductUid)
         {
@@ -155,6 +164,38 @@ namespace Web
             return Redirect(RedirectUrl);
         }
 
+        public JsonResult AjaxGetLedgerData(int draw, int start, int length, string ProductUid)
+        {
+            string search = Request.Form["search[value]"];
+            int sortColumn = -1;
+            string sortDirection = "asc";
+            if (length == -1)
+            {
+                length = TOTAL_ROWS;
+            }
+
+            DataTableLedgerData dataTableData = new DataTableLedgerData();
+            dataTableData.draw = draw;
+            int recordsFiltered = 0;
+            dataTableData.data = FilterLedgerData(ref recordsFiltered, ref TOTAL_ROWS, start, length, search, sortColumn, sortDirection, ProductUid);
+            dataTableData.recordsTotal = TOTAL_ROWS;
+            dataTableData.recordsFiltered = recordsFiltered;
+
+            return Json(dataTableData, JsonRequestBehavior.AllowGet);
+        }
+
+
+        private List<ProductUidLedgerInfo> FilterLedgerData(ref int recordFiltered, ref int recordTotal, int start, int length, string search, int sortColumn, string sortDirection, string ProductUid)
+        {
+            List<ProductUidLedgerInfo> _data = db.Database.SqlQuery<ProductUidLedgerInfo>("EXECUTE Web.GetBarLedgerCodeHistory @p0", new SqlParameter("@p0", ProductUid)).ToList();
+
+            recordTotal = _data.Count();
+
+            recordFiltered = _data.Count();
+
+            return _data;
+        }
+
 
         protected override void Dispose(bool disposing)
         {
@@ -164,5 +205,17 @@ namespace Web
             }
             base.Dispose(disposing);
         }
+    }
+
+
+    public class ProductUidLedgerInfo
+    {
+        public string DocTypeName { get; set; }
+        public string DocNo { get; set; }
+        public string sDocDate { get; set; }
+        public string ProcessName { get; set; }
+        public string PersonName { get; set; }
+        public string Remark { get; set; }
+        public int LedgerId { get; set; }
     }
 }

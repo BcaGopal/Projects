@@ -114,16 +114,16 @@ namespace Web
 
 
         [HttpGet]
-        public ActionResult NextPage(int id, string name)//CurrentHeaderId
+        public ActionResult NextPage(int DocId, int DocTypeId)//CurrentHeaderId
         {
-            var nextId = _SaleOrderHeaderService.NextId(id);
-            return RedirectToAction("Edit", new { id = nextId });
+            var nextId = new NextPrevIdService(_unitOfWork).GetNextPrevId(DocId, DocTypeId, User.Identity.Name, "", "Web.SaleOrderHeaders", "SaleOrderHeaderId", PrevNextConstants.Next);
+            return Edit(nextId, "");
         }
         [HttpGet]
-        public ActionResult PrevPage(int id, string name)//CurrentHeaderId
+        public ActionResult PrevPage(int DocId, int DocTypeId)//CurrentHeaderId
         {
-            var nextId = _SaleOrderHeaderService.PrevId(id);
-            return RedirectToAction("Edit", new { id = nextId });
+            var PrevId = new NextPrevIdService(_unitOfWork).GetNextPrevId(DocId, DocTypeId, User.Identity.Name, "", "Web.SaleOrderHeaders", "SaleOrderHeaderId", PrevNextConstants.Prev);
+            return Edit(PrevId, "");
         }
 
         [HttpGet]

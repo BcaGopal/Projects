@@ -308,11 +308,13 @@ namespace Web
                 else
                 {
                     bool GodownChanged = false;
+                    bool DocDateChanged = false;
                     List<LogTypeViewModel> LogList = new List<LogTypeViewModel>();
 
                     StockHeader temp = _StockHeaderService.Find(s.StockHeaderId);
 
                     GodownChanged = (temp.GodownId == s.GodownId) ? false : true;
+                    DocDateChanged = (temp.DocDate == s.DocDate) ? false : true;
 
                     StockHeader ExRec = new StockHeader();
                     ExRec = Mapper.Map<StockHeader>(temp);
@@ -338,8 +340,49 @@ namespace Web
                     context.StockHeader.Add(temp);
                     //_StockHeaderService.Update(temp);
 
-                    if (GodownChanged)
-                        new StockService(_unitOfWork).UpdateStockGodownId(temp.StockHeaderId, temp.GodownId, context);
+                    //if (GodownChanged)
+                    //    new StockService(_unitOfWork).UpdateStockGodownId(temp.StockHeaderId, temp.GodownId, context);
+
+
+                    IEnumerable<Stock> stocklist = new StockService(_unitOfWork).GetStockForStockHeaderId(temp.StockHeaderId);
+
+                    foreach (Stock item in stocklist)
+                    {
+                        Stock Stock = new StockService(_unitOfWork).Find(item.StockId);
+
+
+                        if (GodownChanged == true)
+                        {
+                            Stock.GodownId = (int)temp.GodownId;
+                        }
+
+                        if (DocDateChanged == true)
+                        {
+                            Stock.DocDate = temp.DocDate;
+                        }
+
+                        Stock.ObjectState = Model.ObjectState.Modified;
+                        context.Stock.Add(Stock);
+
+
+                        if (item.ProductUidId != null && item.ProductUidId != 0)
+                        {
+                            ProductUid ProductUid = new ProductUidService(_unitOfWork).Find((int)item.ProductUidId);
+
+                            if (DocDateChanged == true)
+                            {
+                                ProductUid.LastTransactionDocDate = temp.DocDate;
+                            }
+
+                            if (GodownChanged == true)
+                            {
+                                ProductUid.CurrenctGodownId = temp.GodownId;
+                            }
+
+                            ProductUid.ObjectState = Model.ObjectState.Modified;
+                            context.ProductUid.Add(ProductUid);
+                        }
+                    }
 
                     LogList.Add(new LogTypeViewModel
                     {

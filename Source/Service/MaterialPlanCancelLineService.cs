@@ -330,6 +330,7 @@ namespace Service
         {
             var Line = (from p in db.MaterialPlanCancelLine
                        join t in db.MaterialPlanLine on p.MaterialPlanLineId equals t.MaterialPlanLineId
+                       where p.MaterialPlanCancelLineId == Id
                        select new MaterialPlanCancelLineViewModel
                        {
                            Qty = p.Qty,

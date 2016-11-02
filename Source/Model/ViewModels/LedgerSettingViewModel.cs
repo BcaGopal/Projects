@@ -29,6 +29,7 @@ namespace Model.ViewModel
         public bool isMandatoryProcess { get; set; }
         public bool isVisibleGodown { get; set; }
         public bool isMandatoryGodown { get; set; }
+        public bool isVisibleProductUid { get; set; }        
         public string filterLedgerAccountGroupHeaders { get; set; }
         public string filterLedgerAccountGroupLines { get; set; }
         public string filterPersonProcessHeaders { get; set; }

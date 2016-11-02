@@ -1004,6 +1004,39 @@ namespace Presentation
             return (_MaterialPlanHeaderService.GetMaterialPlanHeaderListPendingToReview(id, User.Identity.Name)).Count();
         }
 
+        public ActionResult Wizard(int id)//Document Type Id
+        {
+            //ControllerAction ca = new ControllerActionService(_unitOfWork).Find(id);
+            MaterialPlanHeaderViewModel vm = new MaterialPlanHeaderViewModel();
+
+            vm.DivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
+            vm.SiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
+
+            var settings = new MaterialPlanSettingsService(_unitOfWork).GetMaterialPlanSettingsForDocument(id, vm.DivisionId, vm.SiteId);
+
+            if (settings != null)
+            {
+                if (settings.WizardMenuId != null)
+                {
+                    MenuViewModel menuviewmodel = new MenuService(_unitOfWork).GetMenu((int)settings.WizardMenuId);
+
+                    if (menuviewmodel == null)
+                    {
+                        return View("~/Views/Shared/UnderImplementation.cshtml");
+                    }
+                    else if (!string.IsNullOrEmpty(menuviewmodel.URL))
+                    {
+                        return Redirect(System.Configuration.ConfigurationManager.AppSettings[menuviewmodel.URL] + "/" + menuviewmodel.ControllerName + "/" + menuviewmodel.ActionName + "/" + menuviewmodel.RouteId + "?MenuId=" + menuviewmodel.MenuId);
+                    }
+                    else
+                    {
+                        return RedirectToAction(menuviewmodel.ActionName, menuviewmodel.ControllerName, new { MenuId = menuviewmodel.MenuId, id = menuviewmodel.RouteId });
+                    }
+                }
+            }
+            return RedirectToAction("Index", new { id = id });
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (!string.IsNullOrEmpty((string)TempData["CSEXC"]))
