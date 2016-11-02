@@ -71,12 +71,13 @@ namespace Login.Controllers
             if (!string.IsNullOrEmpty(returnUrl))
                 ViewBag.ReturnUrl = returnUrl;
             else
-                ViewBag.ReturnUrl = (string)System.Configuration.ConfigurationManager.AppSettings["Defaultdomain"];
+                ViewBag.ReturnUrl = (string)ConfigurationManager.AppSettings["Defaultdomain"];
 
-            if (!string.IsNullOrEmpty((string)System.Web.HttpContext.Current.Session["DefaultConnectionString"]) && User.Identity.IsAuthenticated)
-            {
-                return Redirect((string)System.Configuration.ConfigurationManager.AppSettings["MenuDomain"] + "/Menu/Module");
-            }
+            string RedirectUrl = ComputeRedirectUrl();
+
+            if (!string.IsNullOrEmpty(RedirectUrl))
+                return Redirect(RedirectUrl);
+
             LoginViewModel model = new LoginViewModel();
             return View("LoginNew", model);
         }
@@ -467,22 +468,23 @@ namespace Login.Controllers
 
             bool Valid = false;
 
-            using (ApplicationDbContext db = new ApplicationDbContext())
-            {
-                var Application = db.Application.Find(ApplicationId);
-
-                var UserTyp = db.UserType.Find(UserType);
-
-                var UserReferral = db.UserReferral.Find(Guid.Parse(UserReferralId));
-
-                var UserRefree = db.Users.Find(UserRefreeId);
-
-                if (Application != null && UserRefree != null && UserReferral != null && UserTyp != null && (UserReferral.IsActive == true && UserReferral.CreatedDate.AddHours(3) > DateTime.Now) && UserReferral.ToUser == UserId)
+            if (!string.IsNullOrEmpty(UserReferralId) && !string.IsNullOrEmpty(UserRefreeId) && !string.IsNullOrEmpty(UserType) && !string.IsNullOrEmpty(UserId))
+                using (ApplicationDbContext db = new ApplicationDbContext())
                 {
-                    Valid = true;
-                }
+                    var Application = db.Application.Find(ApplicationId);
 
-            }
+                    var UserTyp = db.UserType.Find(UserType);
+
+                    var UserReferral = db.UserReferral.Find(Guid.Parse(UserReferralId));
+
+                    var UserRefree = db.Users.Find(UserRefreeId);
+
+                    if (Application != null && UserRefree != null && UserReferral != null && UserTyp != null && (UserReferral.IsActive == true && UserReferral.CreatedDate.AddHours(3) > DateTime.Now) && UserReferral.ToUser == UserId)
+                    {
+                        Valid = true;
+                    }
+
+                }
 
             return Valid;
         }
@@ -828,7 +830,7 @@ namespace Login.Controllers
             }
             else
             {
-                string Domain = (string)System.Configuration.ConfigurationManager.AppSettings["Defaultdomain"];
+                string Domain = (string)ConfigurationManager.AppSettings["Defaultdomain"];
 
                 Application AppRecord = new Application();
 
@@ -849,6 +851,23 @@ namespace Login.Controllers
 
         }
 
+        private string ComputeRedirectUrl()
+        {
+            string RedirectUrl = "";
 
+            if (!string.IsNullOrEmpty((string)System.Web.HttpContext.Current.Session["DefaultConnectionString"]) && User.Identity.IsAuthenticated)
+            {
+                if (System.Web.HttpContext.Current.Session["SiteId"] != null && System.Web.HttpContext.Current.Session["DivisionId"] != null)
+                {
+                    RedirectUrl = ((string)ConfigurationManager.AppSettings["MenuDomain"] + "/Menu/Module");
+                }
+                else
+                {
+                    RedirectUrl = ((string)ConfigurationManager.AppSettings["MenuDomain"] + "/SiteSelection/SiteSelection");
+                }
+            }
+
+            return RedirectUrl;
+        }
     }
 }
