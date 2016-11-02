@@ -64,16 +64,16 @@
         <TablixBody>
           <TablixColumns>
             <TablixColumn>
-              <Width>1.09105in</Width>
+              <Width>0.96684in</Width>
             </TablixColumn>
             <TablixColumn>
               <Width>0.33119in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>2.02473in</Width>
+              <Width>2.37492in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>1.48208in</Width>
+              <Width>1.25491in</Width>
             </TablixColumn>
             <TablixColumn>
               <Width>0.29571in</Width>
@@ -165,7 +165,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!DocNo.Value</Value>
+                              <Value>=Fields!DocumentTypeShortName.Value +"-"+Fields!DocNo.Value</Value>
                               <Style>
                                 <FontFamily>tahoma</FontFamily>
                                 <FontSize>9pt</FontSize>
@@ -188,6 +188,7 @@
                         <PaddingBottom>2pt</PaddingBottom>
                       </Style>
                     </Textbox>
+                    <rd:Selected>true</rd:Selected>
                   </CellContents>
                 </TablixCell>
                 <TablixCell>
@@ -751,7 +752,7 @@
         <Top>0.66979in</Top>
         <Left>0.04255in</Left>
         <Height>0.61042in</Height>
-        <Width>7.45228in</Width>
+        <Width>7.45109in</Width>
         <ZIndex>2</ZIndex>
         <Style>
           <Border>

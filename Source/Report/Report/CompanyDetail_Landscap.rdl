@@ -105,7 +105,7 @@
       </Textbox>
       <Image Name="SuryaLogo">
         <Source>External</Source>
-        <Value>="file:"+ Fields!CompanyLogoPath.Value</Value>
+        <Value>="file:"+ Fields!CompanyLogoPath.Value + ".jpg"</Value>
         <Sizing>FitProportional</Sizing>
         <Top>0.0625in</Top>
         <Height>0.8in</Height>
