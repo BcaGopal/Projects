@@ -139,6 +139,10 @@ namespace Model.ViewModels
         public string Remark { get; set; }
         public LedgerSettingViewModel LedgerSetting { get; set; }
 
+        public int? ProductUidId { get; set; }
+
+        public string ProductUidName { get; set; }
+
         public decimal BaseValue { get; set; }
         public decimal BaseRate { get; set; }
         public string LockReason { get; set; }

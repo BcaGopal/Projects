@@ -7,6 +7,7 @@
 <link href="~/Content/Slick/css/smoothness/jquery-ui-1.8.16.custom.css" rel="stylesheet" />
 <link href="~/Content/Slick/slick-default-theme.css" rel="stylesheet" />
 
+
 <style type="text/css">
     .slick-header-column.ui-state-default {
         background-color: #428bca;
@@ -47,7 +48,7 @@
 <div class="panel panel-default">
     <div class="panel-heading">
         <h3>
-            <span style="font-family: Calibri,sans-serif,Verdana;font-weight:bold" class="black"><span class="glyphicon glyphicon-list black"></span> Sale Order Planning </span>
+            <span style="font-family: Calibri,sans-serif,Verdana;font-weight:bold" class="black"><span class="glyphicon glyphicon-list black"></span> Order Planning </span>
         </h3>
         <hr style="margin-top:0px;margin-bottom:0px" />
         <div class="panel-info">
@@ -89,8 +90,8 @@
          { id: "Dimension2Name", name: "Dimension2", field: "Dimension2Name", width: 150 },
          { id: "UnitName", name: "Unit", field: "UnitName", width: 150 },
          { id: "Specification", name: "Specification", field: "Specification", width: 150 },
-         { id: "BalanceQtyForPlan", name: "BalanceQty", field: "BalanceQtyForPlan", headerCssClass: 'text-right', width: 100, cssClass: 'text-right' },
-         { id: "Qty", name: "Qty", field: "Qty", width: 100, headerCssClass: 'text-right', editor: Slick.Editors.Text, cssClass: 'text-right' },
+         { id: "BalanceQtyForPlan", name: "BalanceQty", hasTotal: true, field: "BalanceQtyForPlan", headerCssClass: 'text-right', width: 100, cssClass: 'text-right' },
+         { id: "Qty", name: "Qty", field: "Qty", hasTotal: true, width: 100, headerCssClass: 'text-right', editor: Slick.Editors.Text, cssClass: 'text-right' },
     ];
 
     var summaryCol = [
@@ -104,6 +105,18 @@
      { id: "ProdPlanQty", name: "ProdPlanQty", hasTotal: true, field: "ProdPlanQty", sortable: true, width: 100, headerCssClass: "text-right", editor: Slick.Editors.Text, cssClass: "text-right" },
      { id: "PurchPlanQty", name: "PurchPlanQty", hasTotal: true, field: "PurchPlanQty", sortable: true, width: 100, headerCssClass: "text-right", editor: Slick.Editors.Text, cssClass: "text-right" }
     ];
+
+    //var summaryCol = [
+    // { id: "SaleOrderDocNo", name: "SaleOrderDocNo", field: "SaleOrderDocNo", sortable: true, width: 150 },
+    // { id: "SaleOrderDocDate", name: "SaleOrderDocDate", field: "SaleOrderDocDate", sortable: true, width: 150 },
+    // { id: "ProductName", name: "ProductName", field: "ProductName", sortable: true, width: 100 },
+    // { id: "Dimension1Name", name: "Dimension1Name", field: "Dimension1Name", sortable: true, width: 100 },
+    // { id: "Dimension2Name", name: "Dimension2Name", field: "Dimension2Name", sortable: true, width: 100 },
+    // { id: "UnitName", name: "UnitName", field: "UnitName", sortable: true, width: 100 },
+    // { id: "Specification", name: "Specification", hasTotal: true, field: "Specification", sortable: true, width: 100, headerCssClass: "text-right", editor: Slick.Editors.Text, cssClass: "text-right" },
+    // { id: "BalanceQtyForPlan", name: "BalanceQtyForPlan", hasTotal: true, field: "BalanceQtyForPlan", sortable: true, width: 100, headerCssClass: "text-right", editor: Slick.Editors.Text, cssClass: "text-right" },
+    // { id: "Qty", name: "Qty", hasTotal: true, field: "Qty", sortable: true, width: 100, headerCssClass: "text-right", editor: Slick.Editors.Text, cssClass: "text-right" }
+    //];
 
     //Options Initialization
     options = {
@@ -147,7 +160,7 @@
     grid.onFooterRowCellRendered.subscribe(function (e, args) {
         if (args.column.hasTotal) {
             $(args.node).empty();
-            $("<span></span>").text((getColumnTotal(args.column.field, grid.getData())).toFixed(2))
+            $("<span id='Total'></span>").text((getColumnTotal(args.column.field, grid.getData())).toFixed(2))
                .appendTo(args.node);
             $(args.node).addClass(args.column.headerCssClass);
         }
@@ -248,6 +261,7 @@
         var row = grid.getDataItem(grid.getSelectedRows());
         var selectedRec = [];
 
+
         var cart = this;
 
         $(cart).unbind().attr('id', 'save');
@@ -323,5 +337,38 @@
     $(document).on("change", "input", function () {
         Slick.GlobalEditorLock.commitCurrentEdit();
     })
+
+    grid.onSelectedRowsChanged.subscribe(function (e, args) {
+        updateCartSum()
+    });
+
+    //function updateCartSum() {
+    //    var total = 0;
+    //    var selectedData = [], selectedIndexes;;
+
+    //    selectedIndexes = grid.getSelectedRows();
+    //    jQuery.each(selectedIndexes, function (index, value) {
+    //        var row = grid.getDataItem(value);
+    //        var field = grid.getColumns()[8].field
+    //        total = parseFloat(total) + parseFloat(row[field]);
+    //    });
+    //    $(grid.getFooterRow()).find('span#Total').text(total);
+    //    $("#cartSum").text(total);
+    //}
+
+
+    function updateCartSum() {
+        var total = 0;
+        var selectedData = [], selectedIndexes;;
+
+        selectedIndexes = grid.getSelectedRows();
+        jQuery.each(selectedIndexes, function (index, value) {
+            var row = grid.getDataItem(value);
+            var field = grid.getColumns()[8].field
+            total = parseFloat(total) + parseFloat(row[field]);
+        });
+        $(grid.getFooterRow()).find('span#Total').text(total);
+        $("#cartSum").text(total);
+    }
 
 </script>

@@ -36,6 +36,8 @@ namespace Model.ViewModel
         public int ? DocTypeProductionOrderId { get; set; }
         public string DocTypeProductOrderName { get; set; }
 
+        public int? WizardMenuId { get; set; }
+
         [Required]
         public string PlanType { get; set; }
     }

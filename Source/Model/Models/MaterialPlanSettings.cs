@@ -53,6 +53,11 @@ namespace Model.Models
         [Required]
         public string PlanType { get; set; }
 
+        [ForeignKey("WizardMenu")]
+        [Display(Name = "WizardMenu")]
+        public int? WizardMenuId { get; set; }
+        public virtual Menu WizardMenu { get; set; }
+
         [Display(Name = "Created By")]
         public string CreatedBy { get; set; }
 

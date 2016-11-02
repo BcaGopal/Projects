@@ -62,11 +62,28 @@ namespace Web
         
         public ActionResult Create(int ProductId)
         {
+            int DivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
+            int SiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
+            ProductBuyerSettings Settings = new ProductBuyerSettingsService(_unitOfWork).GetProductBuyerSettings(DivisionId, SiteId);
+
+            List<string> UserRoles = new List<string>();
+            UserRoles = (List<string>)System.Web.HttpContext.Current.Session["Roles"];
+
+            if (Settings == null && UserRoles.Contains("Admin"))
+            {
+                return RedirectToAction("Create", "ProductBuyerSettings").Warning("Please create Product Buyer settings");
+            }
+            else if (Settings == null && !UserRoles.Contains("Admin"))
+            {
+                return View("~/Views/Shared/InValidSettings.cshtml");
+            }
+
             ProductBuyerViewModel vm = new ProductBuyerViewModel();
             Product temp = new ProductService(_unitOfWork).Find(ProductId);
             ViewBag.Name = temp.ProductName;
             ViewBag.Id = ProductId;
             vm.ProductId = ProductId;
+            vm.ProductBuyerSettings = Mapper.Map<ProductBuyerSettings, ProductBuyerSettingsViewModel>(Settings); ;
             return View("Create", vm);
         }
 
@@ -123,6 +140,7 @@ namespace Web
 
                     temp.BuyerId = pt.BuyerId;
                     temp.BuyerSku = pt.BuyerSku;
+                    temp.BuyerProductCode = pt.BuyerProductCode;
                     temp.BuyerSpecification = pt.BuyerSpecification;
                     temp.BuyerSpecification1 = pt.BuyerSpecification1;
                     temp.BuyerSpecification2 = pt.BuyerSpecification2;
@@ -176,6 +194,22 @@ namespace Web
         
         public ActionResult Edit(int id)//ProductBuyerId
         {
+            int DivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
+            int SiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
+            ProductBuyerSettings Settings = new ProductBuyerSettingsService(_unitOfWork).GetProductBuyerSettings(DivisionId, SiteId);
+
+            List<string> UserRoles = new List<string>();
+            UserRoles = (List<string>)System.Web.HttpContext.Current.Session["Roles"];
+
+            if (Settings == null && UserRoles.Contains("Admin"))
+            {
+                return RedirectToAction("Create", "ProductBuyerSettings").Warning("Please create Product Buyer settings");
+            }
+            else if (Settings == null && !UserRoles.Contains("Admin"))
+            {
+                return View("~/Views/Shared/InValidSettings.cshtml");
+            }
+
             ProductBuyer pt = _ProductBuyerService.Find(id);
             ProductBuyerViewModel vm = AutoMapper.Mapper.Map<ProductBuyer, ProductBuyerViewModel>(pt);
             if (pt == null)
@@ -185,6 +219,7 @@ namespace Web
             Product temp = new ProductService(_unitOfWork).Find(pt.ProductId);
             ViewBag.Name = temp.ProductName;
             ViewBag.Id = pt.ProductId;
+            vm.ProductBuyerSettings = Mapper.Map<ProductBuyerSettings, ProductBuyerSettingsViewModel>(Settings); ;
             return View("Create", vm);
         }
 

@@ -27,6 +27,7 @@ namespace Service
         int NextId(int id);
         int PrevId(int id);
         IEnumerable<MaterialPlanForProdOrder> GetMAterialPlanForProdORderForMaterialPlan(int MaterialPlanHeaderId);
+        IEnumerable<MaterialPlanForProdOrderLine> GetPlanProdOrderForMaterialPlanLine(int MaterialPlanLineId);
         int GetMaxSr(int id);
     }
 
@@ -160,6 +161,14 @@ namespace Service
         }
         public void Dispose()
         {
+        }
+
+        public IEnumerable<MaterialPlanForProdOrderLine> GetPlanProdOrderForMaterialPlanLine(int MaterialPlanLineId)
+        {
+            return (from p in db.MaterialPlanForProdOrderLine
+                    where p.MaterialPlanLineId == MaterialPlanLineId
+                    select p
+                        ).ToList();
         }
 
 
