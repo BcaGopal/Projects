@@ -39,6 +39,7 @@
                 @Html.HiddenFor(m => m.LedgerId)
                 @Html.HiddenFor(m => m.LedgerLineId)
                 @Html.HiddenFor(m => m.ReferenceId)
+                @Html.HiddenFor(m => m.ProductUidId)
                 @Html.HiddenFor(m => m.DocumentCategoryId)
 
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
@@ -136,6 +137,17 @@
                             </div>
                         </div>
                     }
+                    
+                    <div class="col-md-6" style="display:@(Model.LedgerSetting.isVisibleProductUid?"":"none")">
+                        @Html.HiddenFor(m => m.LedgerSetting.isVisibleProductUid)
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.ProductUidId, "Product Uid", new { @class = "control-label col-xs-4 " })
+                            <div class="col-xs-7">
+                                @Html.TextBoxFor(model => model.ProductUidName, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.ProductUidId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
 
                     <div class="col-md-6">
                         <div class="form-group">
@@ -235,6 +247,19 @@
             FetchRate($(this).val());
 
         })
+
+        $('#ProductUidName').on('change',function(e){
+            if ($('#ProductUidName') != null && $('#ProductUidName') != "")
+            {
+                InitializePopover(this,$("#ProductUidName").val());
+                $(this).popover('show');
+                setTimeout(function() {$('#ProductUidName').popover('destroy')},10000);
+            }
+        })
+
+
+       
+
 
         function FetchRate(Id)
         {
@@ -473,5 +498,67 @@ else
     $("#autocompleteorder").on("focus",function(){
         $(this).keydown();
     });
+
+
+
+
+    function InitializePopover(element, ProdUid) {
+
+        $(element).popover('destroy');
+
+        var DataArray;
+        var status;
+        var url = "/LedgerLine/GetProductUidValidation";
+        $.ajax({
+            async: false,
+            url: url,
+            data: { ProductUID: ProdUid },
+            success: function (data) {
+                DataArray = data;
+            }
+        })
+
+        if (DataArray.ErrorType == "InvalidID") {
+            $(element)
+             .popover({
+                 trigger: 'manual',
+                 container: '.modal-body',
+                 'delay': { "hide": "1000" },
+                 html: true,
+                 content: "<ul class='list-group'>  <li class='list-group-item active'> Validation Detail </li>    <li class='list-group-item'>Message:" + DataArray.ErrorMessage + "</li>   </ul>"
+             });
+            ResetFields();
+            status = false;
+        }
+
+        else if (DataArray.ErrorType == "Success") {
+            var $page = $(element).closest('.modal-body').get(0);
+            $($page).find('#ProductUidId').val(DataArray.ProductUIDId);
+            status = true;
+        }
+
+
+
+
+
+        function ResetFields() {
+            var $page = $(element).closest('.modal-body').get(0);
+            $($page).find('#ProductUidId').val(0);
+        }
+
+
+        function Result() {
+            var self = this;
+            self.status = status;
+            self.data = DataArray;
+
+        }
+
+        var temp = new Result();   
+
+        return temp;
+
+
+    }
 
 </script>

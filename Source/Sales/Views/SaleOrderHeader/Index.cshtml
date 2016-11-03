@@ -55,6 +55,7 @@
                columns.Add(m => m.DocNo).Sortable(true).Titled("Order No.").Filterable(true).Sortable(true);
                columns.Add(m => m.SaleToBuyerName).Titled("Buyer").Filterable(true).Sortable(true);
                columns.Add(foo => foo.DueDate).Sortable(true).Titled("Due Date").Format("{0:dd/MMM/yyyy}").Filterable(true);
+               columns.Add(m => m.BuyerOrderNo).Sortable(true).Titled("Party Order No.").Filterable(true).Sortable(true);
                columns.Add(m => m.Remark).Sortable(true).Filterable(true).Titled("Remark");
                columns.Add().Sanitized(false).Encoded(false).RenderValueAs(m => CustomHelpers.RenderStatus(m.Status)).Titled("Status");
                columns.Add().Titled("").Encoded(false).Sanitized(false).RenderValueAs(m => CustomHelpers.RenderUserImage(m.ModifiedBy)).Titled("User").SetWidth("5%").Css("UserImageIndex");

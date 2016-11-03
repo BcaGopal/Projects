@@ -104,6 +104,7 @@
     <Compile Include="DatabaseViews\SaleInvoiceViewModels.cs" />
     <Compile Include="DatabaseViews\StockVirtual.cs" />
     <Compile Include="Models\ActivityLog.cs" />
+    <Compile Include="Models\ProductBuyerSettings.cs" />
     <Compile Include="Models\UserReferral.cs" />
     <Compile Include="Models\Agent.cs" />
     <Compile Include="Models\ApplicationUser.cs" />
@@ -174,6 +175,7 @@
     <Compile Include="Models\CarpetSkuSettings.cs" />
     <Compile Include="Models\Shift.cs" />
     <Compile Include="Models\SubReport.cs" />
+    <Compile Include="ViewModels\ProductBuyerSettingsViewModel.cs" />
     <Compile Include="ViewModels\DesignColourConsumptionViewModel.cs" />
     <Compile Include="ViewModels\WeavingReceiveWizardViewModel.cs" />
     <Compile Include="ViewModels\OverTimeApplicationHeaderViewModel.cs" />

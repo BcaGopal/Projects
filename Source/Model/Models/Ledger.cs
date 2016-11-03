@@ -58,6 +58,11 @@ namespace Model.Models
         [Display(Name = "DueDate")]
         public DateTime ? DueDate { get; set; }
 
+        [ForeignKey("ProductUid"), Display(Name = "ProductUid")]
+        public int? ProductUidId { get; set; }
+        public virtual ProductUid ProductUid { get; set; }
+
+
         [MaxLength(50)]
         public string OMSId { get; set; }
 

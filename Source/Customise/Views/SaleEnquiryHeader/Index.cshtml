@@ -31,7 +31,7 @@
                 @Html.ActionLink(" ", "Create", "SaleEnquiryHeader", new { @id = @ViewBag.id }, new { @class = "glyphicon glyphicon-plus toolbar", @title = "Add New", @data_toggle = "tooltip" })
                 @Html.ActionLink(" ", "GetHistory", "LogHistory", null, new { @class = "glyphicon glyphicon-user toolbar", @title = "History", @data_toggle = "tooltip", @id = "DocHistoryI" })
                 @Html.ActionLink(" ", "GeneratePrints", "SaleEnquiryHeader", null, new { @class = "glyphicon glyphicon-print toolbar", @title = "Print", @data_toggle = "tooltip", @id = "PrintRecordI", target = "_blank" })
-                @Html.ActionLink(" ", "Remove", "SaleEnquiryHeader", null, new { @class = "glyphicon glyphicon-trash toolbar", @title = "Delete", @data_toggle = "tooltip", @id = "DeleteRecord", @data_modal = "" })
+                @Html.ActionLink(" ", "Remove", "SaleEnquiryHeader", null, new { @class = "glyphicon glyphicon-trash toolbar", @title = "Delete", @data_toggle = "tooltip", @id = "DeleteRecord", @data_modalDelete = "", onclick = "" })
                 @Html.ActionLink(" ", "AttachDocument", "DocumentAttachment", null, new { @class = "glyphicon glyphicon-paperclip toolbar", @title = "Attach", @data_toggle = "tooltip", @id = "AttachDocument", @data_modaltrigger = "DocumentAttachment" })
                 @Html.ActionLink(" ", "Report", "SaleEnquiryHeader", new { @id = @ViewBag.id }, new { @class = "glyphicon glyphicon-stats toolbar right", @title = "Report", @data_toggle = "tooltip", @id = "ReportRecord", target = "_blank" })
                 @Html.ActionLink(" ", "Create", "SaleEnquirySettings", new { @id = @ViewBag.id }, new { @class = "glyphicon glyphicon-cog toolbar right", @title = "Default Settings", @data_toggle = "tooltip" })

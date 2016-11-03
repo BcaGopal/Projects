@@ -114,16 +114,16 @@ namespace Web
 
 
         [HttpGet]
-        public ActionResult NextPage(int id, string name)//CurrentHeaderId
+        public ActionResult NextPage(int DocId, int DocTypeId)//CurrentHeaderId
         {
-            var nextId = _SaleOrderHeaderService.NextId(id);
-            return RedirectToAction("Edit", new { id = nextId });
+            var nextId = new NextPrevIdService(_unitOfWork).GetNextPrevId(DocId, DocTypeId, User.Identity.Name, "", "Web.SaleOrderHeaders", "SaleOrderHeaderId", PrevNextConstants.Next);
+            return Edit(nextId, "");
         }
         [HttpGet]
-        public ActionResult PrevPage(int id, string name)//CurrentHeaderId
+        public ActionResult PrevPage(int DocId, int DocTypeId)//CurrentHeaderId
         {
-            var nextId = _SaleOrderHeaderService.PrevId(id);
-            return RedirectToAction("Edit", new { id = nextId });
+            var PrevId = new NextPrevIdService(_unitOfWork).GetNextPrevId(DocId, DocTypeId, User.Identity.Name, "", "Web.SaleOrderHeaders", "SaleOrderHeaderId", PrevNextConstants.Prev);
+            return Edit(PrevId, "");
         }
 
         [HttpGet]
@@ -890,90 +890,7 @@ namespace Web
             base.Dispose(disposing);
         }
 
-        public ActionResult Print(int id)
-        {
-            String query = "Web.ProcSaleOrderPrint ";
-            return Redirect((string)System.Configuration.ConfigurationManager.AppSettings["CustomizeDomain"] + "/Report_DocumentPrint/DocumentPrint/?DocumentId=" + id + "&queryString=" + query);
-        }
 
-
-
-     /*   public ActionResult GeneratePrints(string Ids, int DocTypeId)
-        {
-
-            if (!string.IsNullOrEmpty(Ids))
-            {
-                int SiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
-                int DivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
-
-                //var Settings = new JobOrderSettingsService(_unitOfWork).GetJobOrderSettingsForDocument(DocTypeId, DivisionId, SiteId);
-
-                try
-                {
-
-                    List<byte[]> PdfStream = new List<byte[]>();
-                    foreach (var item in Ids.Split(',').Select(Int32.Parse))
-                    {
-
-                        DirectReportPrint drp = new DirectReportPrint();
-
-                        var pd = context.SaleOrderHeader.Find(item);
-
-                        LogActivity.LogActivityDetail(LogVm.Map(new ActiivtyLogViewModel
-                        {
-                            DocTypeId = pd.DocTypeId,
-                            DocId = pd.SaleOrderHeaderId,
-                            ActivityType = (int)ActivityTypeContants.Print,
-                            DocNo = pd.DocNo,
-                            DocDate = pd.DocDate,
-                            DocStatus = pd.Status,
-                        }));
-
-                        byte[] Pdf;
-
-                        if (pd.Status == (int)StatusConstants.Drafted || pd.Status == (int)StatusConstants.Import || pd.Status == (int)StatusConstants.Modified)
-                        {
-                            //LogAct(item.ToString());
-                            Pdf = drp.DirectDocumentPrint("Web.ProcSaleOrderPrint ", User.Identity.Name, item);
-
-                            PdfStream.Add(Pdf);
-                        }
-                        else if (pd.Status == (int)StatusConstants.Submitted || pd.Status == (int)StatusConstants.ModificationSubmitted)
-                        {
-                            Pdf = drp.DirectDocumentPrint("Web.ProcSaleOrderPrint ", User.Identity.Name, item);
-
-                            PdfStream.Add(Pdf);
-                        }
-                        else
-                        {
-                            Pdf = drp.DirectDocumentPrint("Web.ProcSaleOrderPrint ", User.Identity.Name, item);
-                            PdfStream.Add(Pdf);
-                        }
-
-                    }
-
-                    PdfMerger pm = new PdfMerger();
-
-                    byte[] Merge = pm.MergeFiles(PdfStream);
-
-                    if (Merge != null)
-                        return File(Merge, "application/pdf");
-
-                }
-
-                catch (Exception ex)
-                {
-                    string message = _exception.HandleException(ex);
-                    return Json(new { success = "Error", data = message }, JsonRequestBehavior.AllowGet);
-                }
-
-
-                return Json(new { success = "Success" }, JsonRequestBehavior.AllowGet);
-
-            }
-            return Json(new { success = "Error", data = "No Records Selected." }, JsonRequestBehavior.AllowGet);
-
-        }*/
      public ActionResult GeneratePrints(string Ids, int DocTypeId)
          {
 

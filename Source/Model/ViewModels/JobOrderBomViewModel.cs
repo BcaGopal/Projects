@@ -16,6 +16,7 @@ namespace Model.ViewModel
         public int? CostCenterId { get; set; }
         public int ProcessId { get; set; }
         public decimal Qty { get; set; }
+        public decimal? BOMQty { get; set; }
 
 
     }

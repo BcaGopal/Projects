@@ -51,7 +51,7 @@ namespace Web
 
         public ActionResult ProductTypeIndex()
         {
-            var producttype = new ProductTypeService(_unitOfWork).GetProductTypeList().ToList();
+            var producttype = new ProductTypeService(_unitOfWork).GetProductTypeList().Where(m=>m.IsActive!=false ).ToList();
             return View("ProductTypeIndex", producttype);
         }
 

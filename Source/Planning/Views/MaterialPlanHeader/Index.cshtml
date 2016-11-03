@@ -33,6 +33,7 @@
                 @Html.ActionLink(" ", "GetHistory", "LogHistory", null, new { @class = "glyphicon glyphicon-user toolbar", @title = "History", @data_toggle = "tooltip", @id = "DocHistoryI" })
                 @Html.ActionLink(" ", "GeneratePrints", "MaterialPlanHeader", null, new { @class = "glyphicon glyphicon-print toolbar", @title = "Print", @data_toggle = "tooltip", @id = "PrintRecordI", target = "_blank" })
                 @Html.ActionLink(" ", "Delete", "MaterialPlanHeader", null, new { @class = "glyphicon glyphicon-trash toolbar", @title = "Delete", @data_toggle = "tooltip", @id = "DeleteRecord", @data_modal = "" })
+                @Html.ActionLink(" ", "Wizard", "MaterialPlanHeader", new { @id = @ViewBag.id }, new { @class = "glyphicon glyphicon-import toolbar right", @title = "Wizard", @data_toggle = "tooltip", target = "_blank" })
                 @Html.ActionLink(" ", "Report", "MaterialPlanHeader", new { @id = @ViewBag.id }, new { @class = "glyphicon glyphicon-stats toolbar right", @title = "Report", @data_toggle = "tooltip", target = "_blank" })
                 @Html.ActionLink(" ", "Create", "MaterialPlanSettings", new { @id = @ViewBag.id }, new { @class = "glyphicon glyphicon-cog toolbar right", @title = "Default Settings", @data_toggle = "tooltip" })
                 @Html.ActionLink(" ", "Index", "MaterialPlanHeader", new { @id = ViewBag.id }, new { @class = "glyphicon glyphicon-list toolbar right", @title = "List", @data_toggle = "tooltip" })
@@ -52,6 +53,7 @@
                columns.Add().Encoded(false).Sanitized(false).SetWidth("5%").RenderValueAs(m => CustomHelpers.RenderCheckBox());
                columns.Add(foo => foo.DocNo).Sortable(true).Titled("DocNo").Filterable(true);
                columns.Add(foo => foo.DocDate).Sortable(true).Titled("Date").Filterable(true).Format("{0:dd/MMMM/yyyy}");
+               columns.Add(foo => foo.BuyerName).Sortable(true).Titled("Buyer").Filterable(true);
                columns.Add(foo => foo.Remark).Sortable(true).Titled("Remark").Filterable(true);
                columns.Add().Sanitized(false).Encoded(false).RenderValueAs(m => CustomHelpers.RenderStatus(m.Status)).Titled("Status");
                columns.Add().Titled("").Encoded(false).Sanitized(false).RenderValueAs(m => CustomHelpers.RenderUserImage(m.ModifiedBy)).Titled("User").SetWidth("5%").Css("UserImageIndex");

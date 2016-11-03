@@ -5188,6 +5188,73 @@ namespace Planning.Controllers
             return Json(PersonJson);
         }
 
+        public ActionResult GetMenus(string searchTerm, int pageSize, int pageNum)
+        {
+            //Get the paged results and the total count of the results for this query. ProductCacheKeyHint
+            var productCacheKeyHint = ConfigurationManager.AppSettings["MenuCacheKeyHint"];
+
+            //THis statement has been changed because GetProductHelpList was calling again and again. 
+
+            AutoCompleteComboBoxRepositoryAndHelper ar = new AutoCompleteComboBoxRepositoryAndHelper(cbl.GetMenuHelpList(), productCacheKeyHint, RefreshData.RefreshProductData);
+            //AutoCompleteComboBoxRepositoryAndHelper ar = new AutoCompleteComboBoxRepositoryAndHelper(null, productCacheKeyHint);
+
+            if (RefreshData.RefreshProductData == true) { RefreshData.RefreshProductData = false; }
+
+            List<ComboBoxList> prodLst = ar.GetListForComboBox(searchTerm, pageSize, pageNum);
+            int prodCount = ar.GetCountForComboBox(searchTerm, pageSize, pageNum);
+
+            //Translate the attendees into a format the select2 dropdown expects
+            ComboBoxPagedResult pagedAttendees = ar.TranslateToComboBoxFormat(prodLst, prodCount);
+
+            //Return the data as a jsonp result
+            return new JsonpResult
+            {
+                Data = pagedAttendees,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        public JsonResult SetMenus(string Ids)
+        {
+            string[] subStr = Ids.Split(',');
+            List<ComboBoxResult> ProductJson = new List<ComboBoxResult>();
+            for (int i = 0; i < subStr.Length; i++)
+            {
+                int temp = Convert.ToInt32(subStr[i]);
+                IEnumerable<Menu> prod = (from b in db.Menu
+                                          where b.MenuId == temp
+                                          select new Menu
+                                          {
+                                              MenuId = b.MenuId,
+                                              MenuName = b.MenuName
+                                          });
+                ProductJson.Add(new ComboBoxResult()
+                {
+                    id = prod.FirstOrDefault().MenuId.ToString(),
+                    text = prod.FirstOrDefault().MenuName
+                });
+            }
+            return Json(ProductJson);
+        }
+
+        public JsonResult SetSingleMenu(int Ids)
+        {
+            ComboBoxResult MenuJson = new ComboBoxResult();
+
+            var person = (from b in db.Menu
+                          where b.MenuId == Ids
+                          select new
+                          {
+                              MenuId = b.MenuId,
+                              MenuName = b.MenuName
+                          }).FirstOrDefault();
+
+            MenuJson.id = person.MenuId.ToString();
+            MenuJson.text = person.MenuName;
+
+            return Json(MenuJson);
+        }
+
 
     }
 }

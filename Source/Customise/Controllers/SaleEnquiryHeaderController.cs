@@ -928,8 +928,8 @@ namespace Web
                 int SiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
                 int DivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
 
-                //var Settings = new JobOrderSettingsService(_unitOfWork).GetJobOrderSettingsForDocument(DocTypeId, DivisionId, SiteId);
 
+                var Settings = new SaleEnquirySettingsService (_unitOfWork).GetSaleEnquirySettings(DocTypeId, DivisionId, SiteId);
                 try
                 {
 
@@ -956,19 +956,19 @@ namespace Web
                         if (pd.Status == (int)StatusConstants.Drafted || pd.Status == (int)StatusConstants.Import || pd.Status == (int)StatusConstants.Modified)
                         {
                             //LogAct(item.ToString());
-                            Pdf = drp.DirectDocumentPrint("Web.ProcSaleEnquiryPrint ", User.Identity.Name, item);
+                            Pdf = drp.DirectDocumentPrint(Settings.SqlProcDocumentPrint, User.Identity.Name, item);
 
                             PdfStream.Add(Pdf);
                         }
                         else if (pd.Status == (int)StatusConstants.Submitted || pd.Status == (int)StatusConstants.ModificationSubmitted)
                         {
-                            Pdf = drp.DirectDocumentPrint("Web.ProcSaleEnquiryPrint ", User.Identity.Name, item);
+                            Pdf = drp.DirectDocumentPrint(Settings.SqlProcDocumentPrint_AfterSubmit, User.Identity.Name, item);
 
                             PdfStream.Add(Pdf);
                         }
                         else
                         {
-                            Pdf = drp.DirectDocumentPrint("Web.ProcSaleEnquiryPrint ", User.Identity.Name, item);
+                            Pdf = drp.DirectDocumentPrint(Settings.SqlProcDocumentPrint_AfterApprove, User.Identity.Name, item);
                             PdfStream.Add(Pdf);
                         }
 

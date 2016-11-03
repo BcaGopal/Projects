@@ -143,6 +143,7 @@ namespace Web
                     temp.filterPersonProcessLines = pt.filterPersonProcessLines;
                     temp.isVisibleLineCostCenter = pt.isVisibleLineCostCenter;
                     temp.isVisibleRefNo = pt.isVisibleRefNo;
+                    temp.isVisibleProductUid = pt.isVisibleProductUid;
                     temp.SqlProcDocumentPrint = pt.SqlProcDocumentPrint;
                     temp.SqlProcDocumentPrint_AfterApprove = pt.SqlProcDocumentPrint_AfterApprove;
                     temp.SqlProcDocumentPrint_AfterSubmit = pt.SqlProcDocumentPrint_AfterSubmit;                    
@@ -272,6 +273,7 @@ namespace Web
                     temp.filterPersonProcessLines = pt.filterPersonProcessLines;
                     temp.isVisibleLineCostCenter = pt.isVisibleLineCostCenter;
                     temp.isVisibleRefNo = pt.isVisibleRefNo;
+                    temp.isVisibleProductUid = pt.isVisibleProductUid;
                     temp.SqlProcDocumentPrint = pt.SqlProcDocumentPrint;
                     temp.SqlProcDocumentPrint_AfterApprove = pt.SqlProcDocumentPrint_AfterApprove;
                     temp.SqlProcDocumentPrint_AfterSubmit = pt.SqlProcDocumentPrint_AfterSubmit;

@@ -166,6 +166,8 @@ namespace Service
                         DueDate = p.ChqDate,
                         CostCenterId = p.CostCenterId,
                         Remark=p.Remark,
+                        ProductUidId = p.ProductUidId,
+                        ProductUidName = p.ProductUid.ProductUidName,
                         LockReason=p.LockReason,
 
                     }).FirstOrDefault();

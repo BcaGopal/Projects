@@ -345,7 +345,7 @@ namespace Web
 
         public ActionResult ProductTypeIndex(int id)//NatureId
         {
-            var producttype = new ProductTypeService(_unitOfWork).GetProductTypeListForMaterial(id).ToList();
+            var producttype = new ProductTypeService(_unitOfWork).GetProductTypeListForMaterial(id).Where(m => m.IsActive != false).ToList();
             if (producttype.Count() == 0)
             {
                 ViewBag.PrevLink = Request.UrlReferrer.ToString();

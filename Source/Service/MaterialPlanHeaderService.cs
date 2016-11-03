@@ -92,6 +92,8 @@ namespace Service
             int SiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
 
             return (from p in db.MaterialPlanHeader
+                    join PR in db.Persons on p.BuyerId  equals PR.PersonID  into PRtable
+                    from PRtab in PRtable.DefaultIfEmpty()
                     orderby p.DocDate descending, p.DocNo descending
                     where p.DocTypeId == DocTypeId && p.SiteId == SiteId && p.DivisionId == DivisionId
                     select new MaterialPlanHeaderViewModel
@@ -100,6 +102,7 @@ namespace Service
                         DocNo = p.DocNo,
                         DocTypeName = p.DocType.DocumentTypeName,
                         DueDate = p.DueDate,
+                        BuyerName =PRtab.Name, 
                         MaterialPlanHeaderId = p.MaterialPlanHeaderId,
                         Remark = p.Remark,
                         Status = p.Status,

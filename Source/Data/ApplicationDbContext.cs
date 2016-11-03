@@ -113,6 +113,9 @@ namespace Data.Models
         public DbSet<SaleInvoiceSetting> SaleInvoiceSetting { get; set; }
 
         public DbSet<CarpetSkuSettings> CarpetSkuSettings { get; set; }
+
+        public DbSet<ProductBuyerSettings> ProductBuyerSettings { get; set; }
+
         public DbSet<PurchaseIndentSetting> PurchaseIndentSetting { get; set; }
         public DbSet<StockHeaderSettings> MaterialIssueSettings { get; set; }
         public DbSet<MaterialReceiveSettings> MaterialReceiveSettings { get; set; }

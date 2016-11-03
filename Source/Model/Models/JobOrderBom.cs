@@ -27,6 +27,8 @@ namespace Model.Models
 
         public decimal Qty { get; set; }
 
+        public decimal ? BOMQty { get; set; }
+
         [ForeignKey("Dimension1"), Display(Name = "Dimension1")]
         public int? Dimension1Id { get; set; }
         public virtual Dimension1 Dimension1 { get; set; }

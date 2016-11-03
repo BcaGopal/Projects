@@ -16,44 +16,47 @@ namespace Mailer
         public static void SendEmailMsg(EmailMessage message)
         {
 
-            // Create the email object first, then add the properties.
-            SendGridMessage myMessage = new SendGridMessage();
-            myMessage.AddTo(message.To.Split(',').ToList());
-
-            myMessage.Subject = message.Subject;
-            myMessage.Html = message.Body;
-
-            string username = ConfigurationManager.AppSettings["MailAccount"];
-            string password = ConfigurationManager.AppSettings["Mailpassword"];
-            string FromEmail = ConfigurationManager.AppSettings["EmailUser"];
-            string FromEmailName = ConfigurationManager.AppSettings["EmailUserName"];
-
-            myMessage.From = new MailAddress(FromEmail,FromEmailName);
-
-            // Create credentials, specifying your user name and password.
-            var credentials = new NetworkCredential(username, password);
-
-            // Create an Web transport for sending email.
-            var transportWeb = new Web(credentials);
-
-            // Send the email.
-            // You can also use the **DeliverAsync** method, which returns an awaitable task.
-            try
+            if (message.To != "")
             {
+                // Create the email object first, then add the properties.
+                SendGridMessage myMessage = new SendGridMessage();
+                myMessage.AddTo(message.To.Split(',').ToList());
+
+                myMessage.Subject = message.Subject;
+                myMessage.Html = message.Body;
+
+                string username = ConfigurationManager.AppSettings["MailAccount"];
+                string password = ConfigurationManager.AppSettings["Mailpassword"];
+                string FromEmail = ConfigurationManager.AppSettings["EmailUser"];
+                string FromEmailName = ConfigurationManager.AppSettings["EmailUserName"];
+
+                myMessage.From = new MailAddress(FromEmail, FromEmailName);
+
+                // Create credentials, specifying your user name and password.
+                var credentials = new NetworkCredential(username, password);
+
+                // Create an Web transport for sending email.
+                var transportWeb = new Web(credentials);
+
                 // Send the email.
-                if (transportWeb != null)
+                // You can also use the **DeliverAsync** method, which returns an awaitable task.
+                try
                 {
-                    transportWeb.DeliverAsync(myMessage);
+                    // Send the email.
+                    if (transportWeb != null)
+                    {
+                        transportWeb.DeliverAsync(myMessage);
+                    }
+                    else
+                    {
+                        Trace.TraceError("Failed to create Web transport.");
+                        Task.FromResult(0);
+                    }
                 }
-                else
+                catch (Exception ex)
                 {
-                    Trace.TraceError("Failed to create Web transport.");
-                    Task.FromResult(0);
+                    Trace.TraceError(ex.Message + " SendGrid probably not configured correctly.");
                 }
-            }
-            catch (Exception ex)
-            {
-                Trace.TraceError(ex.Message + " SendGrid probably not configured correctly.");
             }
 
         }

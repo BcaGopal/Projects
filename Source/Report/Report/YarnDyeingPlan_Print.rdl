@@ -1197,7 +1197,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>="Quality : " + FormatNumber(Max(Fields!DesignQuality.Value),3)</Value>
+                              <Value>="Quality : " + Max(Fields!DesignQuality.Value)</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>9pt</FontSize>
@@ -1222,6 +1222,7 @@
                       </Style>
                     </Textbox>
                     <ColSpan>2</ColSpan>
+                    <rd:Selected>true</rd:Selected>
                   </CellContents>
                 </TablixCell>
                 <TablixCell />

@@ -197,6 +197,7 @@ namespace Service
                            DocNo = p.DocNo,
                            DueDate = p.DueDate,
                            SaleToBuyerName = t.Name,
+                           BuyerOrderNo = p.BuyerOrderNo,
                            Status = p.Status,
                            ModifiedBy = p.ModifiedBy,
                            ReviewCount = p.ReviewCount,

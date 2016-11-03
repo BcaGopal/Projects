@@ -27,6 +27,9 @@ namespace Model.Models
         [MaxLength(50)]
         public string BuyerSku { get; set; }
 
+        [MaxLength(50)]
+        public string BuyerProductCode { get; set; }
+
         [MaxLength(20)]
         public string BuyerUpcCode { get; set; }
 

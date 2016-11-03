@@ -370,6 +370,7 @@ namespace Web
                                 BomPost.ModifiedDate = DateTime.Now;
                                 BomPost.ProductId = Bomitem.ProductId;
                                 BomPost.Qty = Convert.ToDecimal(Bomitem.Qty);
+                                BomPost.BOMQty = Convert.ToDecimal(Bomitem.BOMQty);
                                 BomPost.ObjectState = Model.ObjectState.Added;
                                 db.JobOrderBom.Add(BomPost);
                                 //new JobOrderBomService(_unitOfWork).Create(BomPost);

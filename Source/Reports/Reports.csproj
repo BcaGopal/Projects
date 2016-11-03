@@ -221,12 +221,14 @@
     </Compile>
     <Compile Include="Reports\dsLocalReport.cs">
       <DependentUpon>dsLocalReport.xsd</DependentUpon>
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="Reports\dsLocalReport.Designer.cs">
       <DependentUpon>dsLocalReport.cs</DependentUpon>
     </Compile>
     <Compile Include="Reports\dsReport.cs">
       <DependentUpon>dsReport.xsd</DependentUpon>
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="Reports\dsReport.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -245,6 +247,7 @@
     </Compile>
     <Compile Include="Reports\SalesReports.cs">
       <DependentUpon>SalesReports.xsd</DependentUpon>
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="Reports\SalesReports.Designer.cs">
       <AutoGen>True</AutoGen>
