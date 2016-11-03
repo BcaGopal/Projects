@@ -264,7 +264,7 @@ $(document).ready(function () {
 
     }
 
-    $(document).on("click", "a[data-modalDelete]", function (e) {
+    $(document).on("click", "a[data-modalDelete],a[data-modalCopy]", function (e) {
 
         if (this.href)
             $('#myModalContent').load(this.href, function () {
@@ -1318,6 +1318,11 @@ $(function () {
 
         InitializeFocus();
 
+        $(function () {
+            $('input[readonly]').each(function () {
+                $(this).attr('tabindex', '-1');
+            });
+        });
     });
 
 })

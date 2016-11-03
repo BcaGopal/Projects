@@ -63,6 +63,10 @@ namespace Web
         {
             SaleInvoiceFilterViewModel vm = new SaleInvoiceFilterViewModel();
             vm.SaleInvoiceHeaderId = id;
+            vm.UpToDate = DateTime.Today.Date;
+            SaleInvoiceHeader H = new SaleInvoiceHeaderService(_unitOfWork).FindDirectSaleInvoice(id);
+            var settings = new SaleInvoiceSettingService(_unitOfWork).GetSaleInvoiceSettingForDocument(H.DocTypeId, H.DivisionId, H.SiteId);
+            vm.SaleInvoiceSettings = Mapper.Map<SaleInvoiceSetting, SaleInvoiceSettingsViewModel>(settings);
             return PartialView("_DispatchFilters", vm);
         }
 

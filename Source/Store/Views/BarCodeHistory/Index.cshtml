@@ -135,8 +135,12 @@
 
 
 
-            <hr style="margin-top:0px;margin-bottom:0px" />
-
+            @*<hr style="margin-top:0px;margin-bottom:0px" />*@
+            <hr style="margin-bottom:0px" />
+            <h3 class="col-md-12 black">
+                <span class="glyphicon glyphicon-align-justify"></span>
+                3.Issue/Receive Detail
+            </h3>
             <div style="margin:20px;">
                 <table id="example" class="table table-striped" cellspacing="0" width="100%">
                     <thead style="background: #428bca;color:white">
@@ -166,9 +170,43 @@
                 </table>
             </div>
 
+
+
+
+
+            <hr style="margin-bottom:0px" />
+            <h3 class="col-md-12 black">
+                <span class="glyphicon glyphicon-align-justify"></span>
+                4.Financial Detail
+            </h3>
+            <div style="margin:20px;">
+                <table id="Ledger" class="table table-striped" cellspacing="0" width="100%">
+                    <thead style="background: #428bca;color:white">
+                        <tr>
+                            <th>DocType</th>
+                            <th>DocNo</th>
+                            <th>DocDate</th>
+                            <th>Person</th>
+                            <th>Process</th>
+                            <th>Remark</th>
+                            <th>LedgerId</th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
         </div>
-
-
     </div>
 </div>
 <script type="text/javascript">
@@ -211,9 +249,22 @@
         $('#BarCode').on('change', function () {
             var table = $('#example').DataTable();
             table.ajax.url("/BarCodeHistory/AjaxGetJsonData/?ProductUid=" + $(this).val()).load();
+
+
+            var Ledgertable = $('#Ledger').DataTable();
+            Ledgertable.ajax.url("/BarCodeHistory/AjaxGetLedgerData/?ProductUid=" + $(this).val()).load();
+
             FetGenData($(this).val());
           
         })
+
+
+
+
+
+
+
+
 
         function FetGenData(val)
         {
@@ -243,6 +294,46 @@
             var id = parseInt($(this).find("td.Id:first").html());
             window.location.href = '/BarCodeHistory/RecordMenu/' + id;
         });
+
+
+
+
+
+
+
+
+        var Ledgertab = $('#Ledger').DataTable({
+            serverSide: true,
+            ordering: false,
+            searching: false,
+            searchDelay: 1000,
+            ajax: {
+                "url": "/BarCodeHistory/AjaxLedgerData/?ProductUid=" + ($('#BarCode').val()),
+                "type": "POST"
+            },
+            columns: [
+              { "data": "DocTypeName", "width": "15%", "sortable": false },
+                 { "data": "DocNo", "width": "10%", "sortable": false },
+                 { "data": "sDocDate", "width": "10%", "sortable": false },
+                 { "data": "PersonName", "width": "20%", "sortable": false },
+                 { "data": "ProcessName", "width": "15%", "sortable": false },
+                 { "data": "Remark", "width": "30%", "sortable": false },
+                 { "data": "LedgerId" },
+            ],
+            columnDefs: [
+   { "targets": 6, "searchable": false, className: "DTHidden Id", },
+            ],
+            scrollY: "600px",
+            dom: 'tirp',
+            scroller: {
+                loadingIndicator: true
+            },
+            language: {
+                "loadingRecords": "Please wait - loading..."
+            },
+            scrollCollapse: true,
+        });
+
 
     });
 </script>

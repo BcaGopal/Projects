@@ -1127,18 +1127,15 @@ namespace Service
 
         public void UpdateStockGodownId(int? StockHeaderId, int? NewGodownId, ApplicationDbContext db)
         {
-
             if (StockHeaderId.HasValue && NewGodownId.HasValue)
             {
                 var StockList = db.Stock.Where(m => m.StockHeaderId == StockHeaderId).ToList();
 
                 foreach (var item in StockList)
                 {
-
                     item.GodownId = NewGodownId.Value;
                     item.ObjectState = Model.ObjectState.Modified;
                     db.Stock.Add(item);
-
                 }
             }
         }

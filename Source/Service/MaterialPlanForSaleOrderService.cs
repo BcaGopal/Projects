@@ -27,6 +27,7 @@ namespace Service
         int NextId(int id);
         int PrevId(int id);
         IEnumerable<MaterialPlanForSaleOrder> GetPlanSaleOrderForMaterialPlanLine(int MaterialPlanLineId);
+        
         IEnumerable<MaterialPlanForSaleOrder> GetMaterialPlanForSaleOrderForMaterialPlanline(int MaterialPlanLineId);
         int GetMaxSr(int id);
     }
@@ -73,6 +74,9 @@ namespace Service
                     select p
                         ).ToList();
         }
+
+        
+
         public void Update(MaterialPlanForSaleOrder pt)
         {
             pt.ObjectState = ObjectState.Modified;

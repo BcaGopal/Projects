@@ -326,6 +326,7 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\AdminLTE.css" />
     <Content Include="Content\alertifyjs\alertify.css" />
     <Content Include="Content\alertifyjs\alertify.min.css" />
     <Content Include="Content\alertifyjs\alertify.rtl.css" />
@@ -481,6 +482,7 @@
     <Content Include="Content\flat\_all.css" />
     <Content Include="Content\Gridmvc.css" />
     <Content Include="Content\gridmvc.datepicker.css" />
+    <Content Include="Content\IconCss.css" />
     <Content Include="Content\jasny\jasny-bootstrap.css" />
     <Content Include="Content\jasny\jasny-bootstrap.min.css" />
     <Content Include="Content\jquery.ui.theme.css" />
@@ -652,6 +654,7 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\mobile-navigation.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\Notification.js" />
     <Content Include="Scripts\npm.js" />
@@ -987,6 +990,7 @@
     <Content Include="Views\PurchaseQuotationLine\_CreateForIndent.cshtml" />
     <Content Include="Views\PurchaseQuotationLine\_IndentFilters.cshtml" />
     <Content Include="Views\PurchaseQuotationLine\_IndentResults.cshtml" />
+    <Content Include="Views\TaxCalculation\_GetHeaderCharge.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

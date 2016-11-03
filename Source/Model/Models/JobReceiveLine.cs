@@ -90,6 +90,11 @@ namespace Model.Models
         public int? ReferenceDocLineId { get; set; }
 
 
+        [Display(Name = "Product UID Header")]
+        [ForeignKey("ProductUidHeader")]
+        public int? ProductUidHeaderId { get; set; }
+        public virtual ProductUidHeader ProductUidHeader { get; set; }
+
 
         [Display(Name = "StockProcess")]
         [ForeignKey("StockProcess")]

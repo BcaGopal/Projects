@@ -1612,7 +1612,6 @@ namespace Web
                     }
 
 
-
                     //Saving StardardUnitConversionData-FT2
 
 
@@ -1626,6 +1625,19 @@ namespace Web
                     else if (ModeFT2 == "Edit")
                     {
                         new UnitConversionService(_unitOfWork).Update(StandardUnitFT2);
+                    }
+
+
+                    UnitConversion StandardUnitCms;
+                    string ModeCms;
+                    CreateUnitConversion((byte)UnitConversionFors.Standard, vm.StandardSizeId, pro.ProductId, UnitConstants.SqCms, out StandardUnitCms, out ModeCms);
+                    if (ModeCms == "Create")
+                    {
+                        new UnitConversionService(_unitOfWork).Create(StandardUnitCms);
+                    }
+                    else if (ModeCms == "Edit")
+                    {
+                        new UnitConversionService(_unitOfWork).Update(StandardUnitCms);
                     }
 
 
@@ -1657,6 +1669,21 @@ namespace Web
                         new UnitConversionService(_unitOfWork).Update(ManufacturingUnit);
                     }
 
+
+                    UnitConversion ManufacturingUnitCms;
+                    string MModeCms;
+                    CreateUnitConversion((byte)UnitConversionFors.Manufacturing, vm.ManufacturingSizeId, pro.ProductId, UnitConstants.SqCms, out ManufacturingUnitCms, out MModeCms);
+                    if (MModeCms == "Create")
+                    {
+                        new UnitConversionService(_unitOfWork).Create(ManufacturingUnitCms);
+                    }
+                    else if (MModeCms == "Edit")
+                    {
+                        new UnitConversionService(_unitOfWork).Update(ManufacturingUnitCms);
+                    }
+
+
+
                     //Finishing Size Data
                     ProductSize Finishingsize = new ProductSize();
                     //Finishingsize.ProductSizeTypeId = (int)(ProductSizeTypeConstants.FinishingSize);
@@ -1684,6 +1711,19 @@ namespace Web
                     else if (MMode == "Edit")
                     {
                         new UnitConversionService(_unitOfWork).Update(FinishingUnit);
+                    }
+
+
+                    UnitConversion FinishingUnitCms;
+                    string FModeCms;
+                    CreateUnitConversion((byte)UnitConversionFors.Finishing, vm.FinishingSizeId, pro.ProductId, UnitConstants.SqCms, out FinishingUnitCms, out FModeCms);
+                    if (FModeCms == "Create")
+                    {
+                        new UnitConversionService(_unitOfWork).Create(FinishingUnitCms);
+                    }
+                    else if (FModeCms == "Edit")
+                    {
+                        new UnitConversionService(_unitOfWork).Update(FinishingUnitCms);
                     }
 
 
@@ -2430,6 +2470,7 @@ namespace Web
                     FinishedProductTemp.ProductName = vm.ProductName;
                     FinishedProductTemp.ProductDescription = vm.ProductDescription;
                     FinishedProductTemp.CBM = vm.CBM;
+                    FinishedProductTemp.ColourId = vm.ColourId;
 
                     //Code For Saving Product Specification
                     string StandardSize = "";
@@ -2754,6 +2795,17 @@ namespace Web
                         SizeExist.ToQty = Convert.ToDecimal(Totalf.ExecuteScalar() == DBNull.Value ? 0 : Totalf.ExecuteScalar());
                     }
                 }
+                else if (ToUnit == UnitConstants.SqCms)
+                {
+                    using (SqlConnection sqlConnection = new SqlConnection((string)System.Web.HttpContext.Current.Session["DefaultConnectionString"]))
+                    {
+                        sqlConnection.Open();
+
+                        SqlCommand Totalf = new SqlCommand("SELECT * FROM Web.FuncConvertSqFeetToSqCms( " + SizeId + ")", sqlConnection);
+
+                        SizeExist.ToQty = Convert.ToDecimal(Totalf.ExecuteScalar() == DBNull.Value ? 0 : Totalf.ExecuteScalar());
+                    }
+                }
                 else if (ToUnit == UnitConstants.SqFeet)
                 {
                     SizeExist.ToQty = AreaFT2;
@@ -2784,6 +2836,17 @@ namespace Web
                         sqlConnection.Open();
 
                         SqlCommand Totalf = new SqlCommand("SELECT * FROM Web.FuncConvertSqFeetToSqYard( " + AreaFT2 + ")", sqlConnection);
+
+                        UnitConv.ToQty = Convert.ToDecimal(Totalf.ExecuteScalar() == DBNull.Value ? 0 : Totalf.ExecuteScalar());
+                    }
+                }
+                else if (ToUnit == UnitConstants.SqCms)
+                {
+                    using (SqlConnection sqlConnection = new SqlConnection((string)System.Web.HttpContext.Current.Session["DefaultConnectionString"]))
+                    {
+                        sqlConnection.Open();
+
+                        SqlCommand Totalf = new SqlCommand("SELECT * FROM Web.FuncConvertSqFeetToSqCms( " + SizeId + ")", sqlConnection);
 
                         UnitConv.ToQty = Convert.ToDecimal(Totalf.ExecuteScalar() == DBNull.Value ? 0 : Totalf.ExecuteScalar());
                     }

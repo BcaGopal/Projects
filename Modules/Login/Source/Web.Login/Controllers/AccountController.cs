@@ -71,12 +71,13 @@ namespace Login.Controllers
             if (!string.IsNullOrEmpty(returnUrl))
                 ViewBag.ReturnUrl = returnUrl;
             else
-                ViewBag.ReturnUrl = (string)System.Configuration.ConfigurationManager.AppSettings["Defaultdomain"];
+                ViewBag.ReturnUrl = (string)ConfigurationManager.AppSettings["Defaultdomain"];
 
-            if (!string.IsNullOrEmpty((string)System.Web.HttpContext.Current.Session["DefaultConnectionString"]) && User.Identity.IsAuthenticated)
-            {
-                return Redirect((string)System.Configuration.ConfigurationManager.AppSettings["MenuDomain"] + "/Menu/Module");
-            }
+            string RedirectUrl = ComputeRedirectUrl();
+
+            if (!string.IsNullOrEmpty(RedirectUrl))
+                return Redirect(RedirectUrl);
+
             LoginViewModel model = new LoginViewModel();
             return View("LoginNew", model);
         }
@@ -135,7 +136,7 @@ namespace Login.Controllers
                             {
 
                                 System.Web.HttpContext.Current.Session["DefaultConnectionString"] = AppRecord.ConnectionString;
-
+                                System.Web.HttpContext.Current.Session["ApplicationId"] = AppRecord.ApplicationId;
 
                                 if (AppRecord != null && AppRecord.ApplicationDefaultPage != null)
                                 {
@@ -152,21 +153,52 @@ namespace Login.Controllers
                         else
                         {
 
-                            returnUrl = System.Web.HttpContext.Current.Request.UrlReferrer.ToString();
+                            //returnUrl = System.Web.HttpContext.Current.Request.UrlReferrer.ToString();
 
                             Application AppRecord = new Application();
+                            string RoleId = "";
 
                             using (ApplicationDbContext db = new ApplicationDbContext())
                             {
-                                AppRecord = (from p in db.Application
-                                             where p.ApplicationURL.ToUpper().Trim() == returnUrl.ToUpper().Trim()
-                                             select p).FirstOrDefault();
+
+                                var userId = user.Id;
+                                var UserAppList = db.UserApplication.Where(m => m.UserId == userId).Select(m => new
+                                {
+
+                                    ApplicationId = m.ApplicationId,
+                                    ApplicationDescription = m.Application.ApplicationDescription
+
+                                }).ToList();
+
+                                if (UserAppList.Count() == 0)
+                                {
+                                    AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+                                    FormsAuthentication.SignOut();
+                                    Session.Abandon();
+                                    return View("UserPermissionError");
+                                }
+
+                                var UserRef = db.UserReferral.Where(m => m.ToUser == user.Email).ToList().LastOrDefault();
+                                if (UserRef != null)
+                                    RoleId = UserRef.RoleId;
+
+                                System.Web.HttpContext.Current.Session["LoginUserRole"] = RoleId;
+
+                                if (UserAppList.Count() == 1)
+                                {
+                                    AppRecord = db.Application.Find(UserAppList.FirstOrDefault().ApplicationId);
+                                }
+
+                                if (UserAppList.Count() > 1)
+                                    return RedirectToAction("UserApplicationSelection", "UserApplication");
+
                             }
 
 
                             if (AppRecord != null)
                             {
                                 System.Web.HttpContext.Current.Session["DefaultConnectionString"] = AppRecord.ConnectionString;
+                                System.Web.HttpContext.Current.Session["ApplicationId"] = AppRecord.ApplicationId;
 
                                 if (AppRecord.ApplicationDefaultPage != null)
                                     return Redirect(AppRecord.ApplicationDefaultPage);
@@ -241,15 +273,36 @@ namespace Login.Controllers
         //
         // GET: /Account/Register
         [AllowAnonymous]
-        public ActionResult Register(string RetUrl)
+        public async Task<ActionResult> Register(string RetUrl, int aid = 0, string uid = "", string rflid = "", string rfeid = "", string utype = "")
         {
+
+            if (!ValidateInviteParameters(aid, rflid, rfeid, utype, uid))
+            {
+                return View("InviteOnly");
+            }
+
+            var existingUser = UserManager.FindByEmail(uid);
+
+            if (existingUser != null)
+            {
+                await UpdateUserApplication(aid, existingUser.Id, rflid, rfeid);
+                return RedirectToAction("Login");
+            }
+
             using (ApplicationDbContext db = new ApplicationDbContext())
             {
                 ViewBag.UserTypeList = db.UserType.ToList();
+
+                RegisterViewModel model = new RegisterViewModel();
+                model.ApplicationId = aid;
+                model.Email = uid;
+                model.ReferralId = rflid;
+                model.RefereeId = rfeid;
+                model.RetUrl = RetUrl;
+                model.UserType = utype;
+                return View(model);
             }
-            RegisterViewModel model = new RegisterViewModel();
-            model.RetUrl = RetUrl;
-            return View();
+
         }
 
         //
@@ -259,7 +312,9 @@ namespace Login.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
-            if (ModelState.IsValid)
+            bool InviteValidation = ValidateInviteParameters(model.ApplicationId, model.ReferralId, model.RefereeId, model.UserType, model.Email);
+
+            if (ModelState.IsValid && InviteValidation)
             {
 
                 int AppId = GetApplicationId(model.RetUrl);
@@ -269,16 +324,20 @@ namespace Login.Controllers
                     UserName = model.UserName,
                     Email = model.Email,
                     FirstName = model.FirstName,
-                    LastName = model.LastName,
+                    //LastName = model.LastName,
                     UserType = model.UserType,
-                    City = model.City,
-                    Company = model.Company,
+                    City = "",
+                    EmailConfirmed = true,
+                    //Company = model.Company,
                     PhoneNumber = model.PhoneNumber,
-                    ApplicationId = AppId,
+                    ApplicationId = model.ApplicationId,
                 };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
+
+                    await UpdateUserApplication(model.ApplicationId, user.Id, model.ReferralId, model.RefereeId);
+
                     //await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
 
                     // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
@@ -287,23 +346,79 @@ namespace Login.Controllers
                     //var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     //await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
 
-                    SendRegistrationEmailNotification(user.Id);
-                    SendRegistrationSiteNotification(user.Id);
 
-                    string callbackUrl = await SendEmailConfirmationTokenAsync(user.Id, "Confirm your account");
+                    #region AutoLogin
 
-                    ViewBag.Message = "Please check your email and confirm your account, you must be confirmed "
-                                   + "before you can log in.";
+                    // This doesn't count login failures towards account lockout
+                    // To enable password failures to trigger account lockout, change to shouldLockout: true
+                    var Loginresult = await SignInManager.PasswordSignInAsync(model.UserName, model.Password, false, shouldLockout: true);
 
-                    //return RedirectToAction("Index", "Home");
-                    return View("Info");
+                    if (Loginresult == SignInStatus.Success)
+                    {
+                        var Loginuser = await UserManager.FindAsync(model.UserName, model.Password);
+
+                        FormsAuthentication.SetAuthCookie(model.UserName, true);
+
+                        var sessionCookieKey = Response.Cookies.AllKeys.SingleOrDefault(c => c.ToLower() == "asp.net_sessionid");
+                        var ReqsessionCookieKey = Request.Cookies.AllKeys.SingleOrDefault(c => c.ToLower() == "asp.net_sessionid");
+                        var sessionCookie = Response.Cookies.Get(sessionCookieKey);
+                        var ReqsessionCookie = Request.Cookies.Get(ReqsessionCookieKey);
+                        if (sessionCookie != null && sessionCookieKey != null && sessionCookie.Expires <= DateTime.Now)
+                        {
+                            sessionCookie.Expires = DateTime.Now.AddDays(7);
+                        }
+                        else if (ReqsessionCookie != null && ReqsessionCookieKey != null && ReqsessionCookie.Expires <= DateTime.Now)
+                        {
+                            ReqsessionCookie.Expires = DateTime.Now.AddDays(7);
+                        }
+
+                        Application AppRecord = new Application();
+                        string Roles = "";
+
+                        using (ApplicationDbContext db = new ApplicationDbContext())
+                        {
+
+                            AppRecord = db.Application.Find(user.ApplicationId);
+                            var guid = Guid.Parse(model.ReferralId);
+                            var UserRef = db.UserReferral.Where(m => m.ToUser == Loginuser.Email).ToList().LastOrDefault();
+                            if (UserRef != null)
+                                Roles = UserRef.RoleId;
+                        }
+
+                        if (AppRecord != null)
+                        {
+                            System.Web.HttpContext.Current.Session["DefaultConnectionString"] = AppRecord.ConnectionString;
+                            System.Web.HttpContext.Current.Session["ApplicationId"] = AppRecord.ApplicationId;
+                            System.Web.HttpContext.Current.Session["LoginUserRole"] = Roles;
+
+                            if (AppRecord.ApplicationDefaultPage != null)
+                                return Redirect(AppRecord.ApplicationDefaultPage);
+                            else
+                                throw new Exception("Application Default Page is not set in Application Project");
+                        }
+                    }
+
+                    #endregion
+
+                    //string callbackUrl = await SendEmailConfirmationTokenAsync(user.Id, "Confirm your account");
+
+                    //ViewBag.Message = "Please check your email and confirm your account, you must be confirmed "
+                    //               + "before you can log in.";
+
+                    return RedirectToAction("Login");
+                    //return View("Info");
                 }
                 AddErrors(result);
             }
+
             using (ApplicationDbContext db = new ApplicationDbContext())
             {
                 ViewBag.UserTypeList = db.UserType.ToList();
             }
+
+            if (InviteValidation)
+                ModelState.AddModelError("", "Invite Validatoin failed");
+
             // If we got this far, something failed, redisplay form
             return View(model);
         }
@@ -319,6 +434,59 @@ namespace Login.Controllers
             }
             var result = await UserManager.ConfirmEmailAsync(userId, code);
             return View(result.Succeeded ? "ConfirmEmail" : "Error");
+        }
+
+        private async Task UpdateUserApplication(int ApplicationId, string UserId, string UserReferralId, string UserRefreeId)
+        {
+            using (ApplicationDbContext db = new ApplicationDbContext())
+            {
+
+                UserApplication AlreadyExist = db.UserApplication.Where(m => m.ApplicationId == ApplicationId && m.UserId == UserId).FirstOrDefault();
+
+                if (AlreadyExist == null)
+                {
+                    UserApplication uap = new UserApplication();
+
+                    uap.ApplicationId = ApplicationId;
+                    uap.UserId = UserId;
+                    uap.ReferralId = Guid.Parse(UserReferralId);
+                    uap.RefereeId = UserRefreeId;
+
+                    db.Entry<UserApplication>(uap).State = System.Data.Entity.EntityState.Added;
+
+                    UserReferral uref = db.UserReferral.Find(Guid.Parse(UserReferralId));
+                    uref.IsActive = false;
+                    db.Entry<UserReferral>(uref).State = System.Data.Entity.EntityState.Modified;
+
+                    await db.SaveChangesAsync();
+                }
+            }
+        }
+
+        private bool ValidateInviteParameters(int ApplicationId, string UserReferralId, string UserRefreeId, string UserType, string UserId)
+        {
+
+            bool Valid = false;
+
+            if (!string.IsNullOrEmpty(UserReferralId) && !string.IsNullOrEmpty(UserRefreeId) && !string.IsNullOrEmpty(UserType) && !string.IsNullOrEmpty(UserId))
+                using (ApplicationDbContext db = new ApplicationDbContext())
+                {
+                    var Application = db.Application.Find(ApplicationId);
+
+                    var UserTyp = db.UserType.Find(UserType);
+
+                    var UserReferral = db.UserReferral.Find(Guid.Parse(UserReferralId));
+
+                    var UserRefree = db.Users.Find(UserRefreeId);
+
+                    if (Application != null && UserRefree != null && UserReferral != null && UserTyp != null && (UserReferral.IsActive == true && UserReferral.CreatedDate.AddHours(3) > DateTime.Now) && UserReferral.ToUser == UserId)
+                    {
+                        Valid = true;
+                    }
+
+                }
+
+            return Valid;
         }
 
         //
@@ -638,54 +806,6 @@ namespace Login.Controllers
             return callbackUrl;
         }
 
-        private async Task SendRegistrationEmailNotification(string userID)
-        {
-            EmailMessage message = new EmailMessage();
-            message.Subject = "New user registered";
-            string temp = (ConfigurationManager.AppSettings["SalesManager"]);
-            string domain = ConfigurationManager.AppSettings["CurrentDomain"];
-            message.To = "madhankumar191@gmail.com";
-
-            using (ApplicationDbContext context = new ApplicationDbContext())
-            {
-                var RegUser = (from p in context.Users
-                               where p.Id == userID
-                               select p).FirstOrDefault();
-
-                message.Body += "New user " + RegUser.UserName + " registered";
-
-            }
-            SendEmail se = new SendEmail();
-            await se.configSendGridasync(message);
-        }
-
-        private async Task SendRegistrationSiteNotification(string userID)
-        {
-            Notification NN = new Notification();
-
-            ApplicationUser user = new ApplicationUser(); ;
-
-            using (ApplicationDbContext db = new ApplicationDbContext())
-            {
-                user = (from p in db.Users
-                        where p.Id == userID
-                        select p).FirstOrDefault();
-            }
-
-            NN.NotificationSubjectId = (int)NotificationSubjectConstants.UserRegistered;
-            NN.CreatedBy = "System";
-            NN.CreatedDate = DateTime.Now;
-            NN.ExpiryDate = DateTime.Now.AddDays(7);
-            NN.IsActive = true;
-            NN.ModifiedBy = "System";
-            NN.ModifiedDate = DateTime.Now;
-            NN.NotificationText = "New user " + user.UserName + " registered";
-
-            NotificationSave ns = new NotificationSave();
-            await ns.SaveNotificationAsync(NN, "madhan");
-        }
-
-
         private int GetApplicationId(string RetUrl)
         {
 
@@ -710,7 +830,7 @@ namespace Login.Controllers
             }
             else
             {
-                string Domain = (string)System.Configuration.ConfigurationManager.AppSettings["Defaultdomain"];
+                string Domain = (string)ConfigurationManager.AppSettings["Defaultdomain"];
 
                 Application AppRecord = new Application();
 
@@ -731,6 +851,23 @@ namespace Login.Controllers
 
         }
 
+        private string ComputeRedirectUrl()
+        {
+            string RedirectUrl = "";
 
+            if (!string.IsNullOrEmpty((string)System.Web.HttpContext.Current.Session["DefaultConnectionString"]) && User.Identity.IsAuthenticated)
+            {
+                if (System.Web.HttpContext.Current.Session["SiteId"] != null && System.Web.HttpContext.Current.Session["DivisionId"] != null)
+                {
+                    RedirectUrl = ((string)ConfigurationManager.AppSettings["MenuDomain"] + "/Menu/Module");
+                }
+                else
+                {
+                    RedirectUrl = ((string)ConfigurationManager.AppSettings["MenuDomain"] + "/SiteSelection/SiteSelection");
+                }
+            }
+
+            return RedirectUrl;
+        }
     }
 }

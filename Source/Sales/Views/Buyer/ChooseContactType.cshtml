@@ -15,13 +15,6 @@
             @Html.AntiForgeryToken()
 
             <div class="modal-body" style="height:250px">
-                @*<div class="row">
-                    @Html.ActionLink("Create New Contact", "Create", "Buyer", null, new { @class = "btn btn-primary left col-md-12 ", @title = "Create New", @data_toggle = "tooltip" })
-                </div>
-
-                <div class="row">
-                    @Html.ActionLink("Add To Existing", "AddToExisting", "  ", null, new { @class = "btn btn-primary left col-md-12 ", @title = "Create New", @data_toggle = "tooltip", @data_modal = "", @id = "AddToExisting" })
-                </div>*@
                 <div class="col-xs-6 text-center" style="border-right:1px solid grey">
                     <a href="@Url.Action("Create", "Buyer")">
                         <h1>

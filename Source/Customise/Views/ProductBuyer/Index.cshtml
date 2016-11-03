@@ -30,6 +30,7 @@
                 @Html.ActionLink(" ", "Delete", "ProductBuyer", null, new { @class = "glyphicon glyphicon-trash toolbar", @title = "Delete", @data_toggle = "tooltip", @id = "DeleteRecord" , @data_modal="" })                            
                 @Html.ActionLink(" ", "Report", "ProductBuyer", null, new { @class = "glyphicon glyphicon-stats toolbar right", @title = "Report", @data_toggle = "tooltip", target = "_blank" })
                 @Html.ActionLink(" ", "ProductIndex", "ProductBuyer", new { id = @ViewBag.Id }, new { @class = "glyphicon glyphicon-list toolbar right", @title = "List", @data_toggle = "tooltip" })
+                @Html.ActionLink(" ", "Create", "ProductBuyerSettings", new { @id = @ViewBag.id }, new { @class = "glyphicon glyphicon-cog toolbar right", @title = "Default Settings", @data_toggle = "tooltip" })
                 @Html.ActionLink(" ", "Export", "ProductBuyer", null, new { @class = "glyphicon glyphicon-export toolbar right", @title = "Export", @data_toggle = "tooltip" })
             </h4>
         </div>

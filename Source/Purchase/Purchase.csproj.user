@@ -7,7 +7,7 @@
     <IISExpressSSLPort>44303</IISExpressSSLPort>
   </PropertyGroup>
   <PropertyGroup>
-    <ReferencePath>D:\SuryaIndia Git3\3rdPartyLib\;D:\Active Projects\Projects\3rdPartyLib\</ReferencePath>
+    <ReferencePath>D:\SuryaIndia Git3\3rdPartyLib\;E:\Gopal Active Project\Projects\3rdPartyLib\</ReferencePath>
   </PropertyGroup>
   <ProjectExtensions>
     <VisualStudio>

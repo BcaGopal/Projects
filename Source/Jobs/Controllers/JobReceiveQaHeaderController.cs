@@ -735,36 +735,42 @@ namespace Web
                 if (User.Identity.Name == pd.ModifiedBy || UserRoles.Contains("Admin"))
                 {
 
-                    IEnumerable<Stock> StockList = (from L in db.Stock
-                                                    where L.StockHeaderId == pd.StockHeaderId
-                                                    select L).ToList();
+                    JobReceiveQASettings Settings = new JobReceiveQASettingsService(db).GetJobReceiveQASettingsForDocument(pd.DocTypeId, pd.DivisionId, pd.SiteId);
 
-                    foreach (var stockdet in StockList)
+                    if (Settings.isPostedInStock == true)
                     {
-                        StockAdj Adj = (from L in db.StockAdj
-                                        where L.StockOutId == stockdet.StockId
-                                        select L).FirstOrDefault();
-                        
-                        if (Adj!= null)
-                        {
-                            new StockAdjService(_unitOfWork).Delete(Adj);
-                        }
-                        new StockService(_unitOfWork).Delete(stockdet, db);
-                    }
+                        IEnumerable<Stock> StockList = (from L in db.Stock
+                                                        where L.StockHeaderId == pd.StockHeaderId
+                                                        select L).ToList();
 
+                        foreach (var stockdet in StockList)
+                        {
+                            StockAdj Adj = (from L in db.StockAdj
+                                            where L.StockOutId == stockdet.StockId
+                                            select L).FirstOrDefault();
+                        
+                            if (Adj!= null)
+                            {
+                                new StockAdjService(_unitOfWork).Delete(Adj);
+                            }
+                            new StockService(_unitOfWork).Delete(stockdet, db);
+                        }
+                        int? StockHeaderId = new JobReceiveQALineService(db, _unitOfWork).StockPost(Id);
+                        pd.StockHeaderId = StockHeaderId;
+                    }
 
                     pd.Status = (int)StatusConstants.Submitted;
                     ActivityType = (int)ActivityTypeContants.Submitted;
-
                     pd.ReviewBy = null;
-                    
-                    
-
-                    int? StockHeaderId = new JobReceiveQALineService(db,_unitOfWork).StockPost(Id);
-
-                    pd.StockHeaderId = StockHeaderId;
                     pd.ObjectState = Model.ObjectState.Modified;
                     db.JobReceiveQAHeader.Add(pd);
+
+
+                    
+                    if (Settings.DocTypeProductionOrderId != null)
+                    {
+                        CreateProdOrder(pd.JobReceiveQAHeaderId, (int) Settings.DocTypeProductionOrderId);
+                    }
 
 
                     try
@@ -1262,6 +1268,109 @@ namespace Web
                 }
             }
             return RedirectToAction("Index", new { id = id });
+        }
+
+        public void CreateProdOrder(int JobReceiveQAHeaderId, int ProdOrderDocTypeId)
+        {
+            Decimal FailedQty = (from L in db.JobReceiveQALine
+                                 where L.JobReceiveQAHeaderId == JobReceiveQAHeaderId
+                                 select new { FailQty = L.FailQty }).FirstOrDefault().FailQty;
+
+            var Header = (from H in db.JobReceiveQAHeader
+                          where H.JobReceiveQAHeaderId == JobReceiveQAHeaderId
+                          select new
+                          {
+                              JobReceiveQAHeaderId = H.JobReceiveQAHeaderId,
+                              DocTypeId = H.DocTypeId,
+                              DocDate = H.DocDate,
+                              DocNo = H.DocNo,
+                              DivisionId = H.DivisionId,
+                              SiteId = H.SiteId,
+                              ProcessId = H.ProcessId,
+                              Status = H.Status,
+                              Remark = H.Remark,
+                              CreatedBy = H.CreatedBy,
+                              ModifiedBy = H.ModifiedBy
+                          }).FirstOrDefault();
+
+
+            int DyeingProcessId = (from P in db.Process
+                                   where P.ProcessName == ProcessConstants.Dyeing
+                                   select new { ProcessId = P.ProcessId }).FirstOrDefault().ProcessId;
+
+            if (FailedQty > 0)
+            {
+                int PersonId = (from L in db.JobReceiveQALine
+                                join Rl in db.JobReceiveLine on L.JobReceiveLineId equals Rl.JobReceiveLineId
+                                join Jol in db.JobOrderLine on Rl.JobOrderLineId equals Jol.JobOrderLineId
+                                join Joh in db.JobOrderHeaderExtended on Jol.JobOrderHeaderId equals Joh.JobOrderHeaderId
+                                where L.JobReceiveQAHeaderId == JobReceiveQAHeaderId
+                                select new { PersonId = Joh.PersonId }).FirstOrDefault().PersonId;
+
+
+                ProdOrderHeader ProdOrderHeader = new ProdOrderHeader();
+                ProdOrderHeader.ProdOrderHeaderId = -1;
+                ProdOrderHeader.DocTypeId = ProdOrderDocTypeId;
+                ProdOrderHeader.DocDate = Header.DocDate;
+                ProdOrderHeader.DocNo = Header.DocNo;
+                ProdOrderHeader.DivisionId = Header.DivisionId;
+                ProdOrderHeader.SiteId = Header.SiteId;
+                ProdOrderHeader.DueDate = Header.DocDate;
+                ProdOrderHeader.ReferenceDocTypeId = Header.DocTypeId;
+                ProdOrderHeader.ReferenceDocId = Header.JobReceiveQAHeaderId;
+                ProdOrderHeader.Status = Header.Status;
+                ProdOrderHeader.Remark = Header.Remark;
+                ProdOrderHeader.BuyerId = PersonId;
+                ProdOrderHeader.CreatedBy = Header.CreatedBy;
+                ProdOrderHeader.CreatedDate = DateTime.Now;
+                ProdOrderHeader.ModifiedBy = Header.ModifiedBy;
+                ProdOrderHeader.ModifiedDate = DateTime.Now;
+                ProdOrderHeader.LockReason = "Prod order automatically generated from Job QA.";
+                ProdOrderHeader.ObjectState = Model.ObjectState.Added;
+                db.ProdOrderHeader.Add(ProdOrderHeader);
+
+
+                IEnumerable<JobReceiveQALineViewModel> Line = (from L in db.JobReceiveQALine
+                                                               where L.JobReceiveQAHeaderId == JobReceiveQAHeaderId
+                                                               select new JobReceiveQALineViewModel
+                                                               {
+                                                                   ProductId = L.JobReceiveLine.JobOrderLine.ProductId,
+                                                                   Dimension1Id = L.JobReceiveLine.JobOrderLine.Dimension1Id,
+                                                                   Dimension2Id = L.JobReceiveLine.JobOrderLine.Dimension2Id,
+                                                                   JobReceiveQALineId = L.JobReceiveQALineId,
+                                                                   FailQty = L.FailQty
+                                                               }).ToList();
+
+
+                foreach (var item in Line)
+                {
+                    ProdOrderLine ProdOrderLine = new ProdOrderLine();
+                    ProdOrderLine.ProdOrderLineId = -2;
+                    ProdOrderLine.ProdOrderHeaderId = ProdOrderHeader.ProdOrderHeaderId;
+                    ProdOrderLine.ProductId = item.ProductId;
+                    ProdOrderLine.Dimension1Id = item.Dimension1Id;
+                    ProdOrderLine.Dimension2Id = item.Dimension2Id;
+                    ProdOrderLine.Specification = null;
+                    ProdOrderLine.ProcessId = Header.ProcessId;
+                    ProdOrderLine.ReferenceDocTypeId = ProdOrderHeader.DocTypeId;
+                    ProdOrderLine.ReferenceDocLineId = item.JobReceiveLineId;
+                    ProdOrderLine.Sr = item.Sr;
+                    ProdOrderLine.Qty = item.FailQty;
+                    ProdOrderLine.Remark = item.Remark;
+                    ProdOrderLine.CreatedBy = ProdOrderHeader.CreatedBy;
+                    ProdOrderLine.ModifiedBy = ProdOrderHeader.ModifiedBy;
+                    ProdOrderLine.CreatedDate = DateTime.Now;
+                    ProdOrderLine.ModifiedDate = DateTime.Now;
+                    ProdOrderLine.LockReason = "Prod order automatically generated from recipe.";
+                    ProdOrderLine.ObjectState = Model.ObjectState.Added;
+                    db.ProdOrderLine.Add(ProdOrderLine);
+
+
+                    ProdOrderLineStatus ProdOrderLineStatus = new ProdOrderLineStatus();
+                    ProdOrderLineStatus.ProdOrderLineId = ProdOrderLine.ProdOrderLineId;
+                    _unitOfWork.Repository<ProdOrderLineStatus>().Add(ProdOrderLineStatus);
+                }
+            }
         }
 
 

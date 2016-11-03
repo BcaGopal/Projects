@@ -39,6 +39,7 @@ namespace Service
         ProductUidDetail FGetProductUidDetail(string ProductUidNo);
         ProductUidDetail FGetProductUidLastValues(int ProductUidId, string OMSId);
         UIDValidationViewModel ValidateUID(string ProductUID, bool PostedInStock, int? GodownId);
+        UIDValidationViewModel ValidateUID(string ProductUID);
         List<ProductUid> GetBCForProductUidHeaderId(int id);
     }
 
@@ -927,6 +928,34 @@ namespace Service
 
 
             return temp;
+        }
+
+        public UIDValidationViewModel ValidateUID(string ProductUID)
+        {
+
+            UIDValidationViewModel temp = new UIDValidationViewModel();
+            var UID = (from p in db.ProductUid
+                       where p.ProductUidName == ProductUID
+                       select new UIDValidationViewModel
+                       {
+                           ProductUIDId = p.ProductUIDId,
+                           ProductUidName = p.ProductUidName,
+                       }).FirstOrDefault();
+
+            if (UID == null)
+            {
+                UID = new UIDValidationViewModel();
+                UID.ErrorType = "InvalidID";
+                UID.ErrorMessage = "Invalid ProductUID";
+            }
+            else
+            {
+                UID.ErrorType = "Success";
+            }
+
+
+
+            return UID;
         }
 
         public bool IsProcessDone(int ProductUidId, int ProcessId)

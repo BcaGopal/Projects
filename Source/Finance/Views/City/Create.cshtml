@@ -114,7 +114,7 @@
         $.ajax({
             cache: false,
             type: "POST",
-            url: "@(Url.Action("GetStateList"))",
+            url: "@(Url.Action("/OverTimeApplicationHeader/GetStateList/"))",
             data: { id: selectedcountry },
         success: function (data) {
             ddlstates.html('');

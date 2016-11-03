@@ -503,150 +503,150 @@ namespace Reports
         }
 
 
-        public ActionResult ReportGrid(FormCollection form)
-        {
-            var SubReportDataList = new List<DataTable>();
-            var SubReportNameList = new List<string>();
-            DataTable ReportData = new DataTable();
-            Dictionary<string, string> ReportFilters = new Dictionary<string, string>();
-            StringBuilder queryString = new StringBuilder();
+        //public ActionResult ReportGrid(FormCollection form)
+        //{
+        //    var SubReportDataList = new List<DataTable>();
+        //    var SubReportNameList = new List<string>();
+        //    DataTable ReportData = new DataTable();
+        //    Dictionary<string, string> ReportFilters = new Dictionary<string, string>();
+        //    StringBuilder queryString = new StringBuilder();
 
-            string ReportHeaderId = (form["ReportHeaderId"].ToString());
+        //    string ReportHeaderId = (form["ReportHeaderId"].ToString());
 
-            ReportHeader header = new ReportHeaderService(_unitOfWork).GetReportHeader(Convert.ToInt32(ReportHeaderId));
-            List<ReportLine> lines = _ReportLineService.GetReportLineList(header.ReportHeaderId).ToList();
+        //    ReportHeader header = new ReportHeaderService(_unitOfWork).GetReportHeader(Convert.ToInt32(ReportHeaderId));
+        //    List<ReportLine> lines = _ReportLineService.GetReportLineList(header.ReportHeaderId).ToList();
 
-            Dictionary<string, string> ReportFilters2 = new Dictionary<string, string>();
+        //    Dictionary<string, string> ReportFilters2 = new Dictionary<string, string>();
 
-            List<string> SubReportProcList = new List<string>();
+        //    List<string> SubReportProcList = new List<string>();
 
-            ApplicationDbContext Db = new ApplicationDbContext();
-            queryString.Append(db.strSchemaName + "." + header.SqlProc);
-
-
-            using (SqlConnection sqlConnection = new SqlConnection(connectionString))
-            {
-                SqlCommand cmd = new SqlCommand(queryString.ToString(), sqlConnection);
-
-                foreach (var item in lines)
-                {
+        //    ApplicationDbContext Db = new ApplicationDbContext();
+        //    queryString.Append(db.strSchemaName + "." + header.SqlProc);
 
 
-                    if (item.SqlParameter != "" && item.SqlParameter != null)
-                    {
-                        if (item.SqlParameter == "@LoginSite" || item.SqlParameter == "@LoginDivision")
-                        {
-                            if (item.SqlParameter == "@LoginSite")
-                                cmd.Parameters.AddWithValue(item.SqlParameter, (int)System.Web.HttpContext.Current.Session[SessionNameConstants.LoginSiteId]);
-                            //cmd.Parameters.AddWithValue(item.SqlParameter, 17);
-                            else if (item.SqlParameter == "@LoginDivision")
-                                cmd.Parameters.AddWithValue(item.SqlParameter, (int)System.Web.HttpContext.Current.Session[SessionNameConstants.LoginDivisionId]);
-                        }
-                        else if (item.FieldName == "Site" && form[item.FieldName].ToString() == "")
-                        {
-                            cmd.Parameters.AddWithValue(item.SqlParameter, (int)System.Web.HttpContext.Current.Session[SessionNameConstants.LoginSiteId]);
-                        }
+        //    using (SqlConnection sqlConnection = new SqlConnection(connectionString))
+        //    {
+        //        SqlCommand cmd = new SqlCommand(queryString.ToString(), sqlConnection);
 
-                        else if (item.FieldName == "Division" && form[item.FieldName].ToString() == "")
-                        {
-                            cmd.Parameters.AddWithValue(item.SqlParameter, (int)System.Web.HttpContext.Current.Session[SessionNameConstants.LoginDivisionId]);
-                        }
-
-                        else
-                        {
-                            if (form[item.FieldName].ToString() != "")
-                            {
-                                if (item.DataType == "Date")
-                                {
-                                    cmd.Parameters.AddWithValue(item.SqlParameter, (form[item.FieldName].ToString() != "" ? String.Format("{0:MMMM dd yyyy}", form[item.FieldName].ToString()) : "Null"));
-
-                                }
-                                else
-                                {
-                                    cmd.Parameters.AddWithValue(item.SqlParameter, (form[item.FieldName].ToString() != "" ? form[item.FieldName].ToString() : "Null"));
-
-                                }
-                            }
-                        }
-
-                        if (cmd.Parameters.Contains(item.SqlParameter))
-                            ReportFilters2.Add(item.SqlParameter, cmd.Parameters[item.SqlParameter].Value.ToString());
-
-                    }
-                }
+        //        foreach (var item in lines)
+        //        {
 
 
-                cmd.CommandTimeout = 200;
-                SqlDataAdapter sqlDataAapter = new SqlDataAdapter(cmd);
-                sqlDataAapter.SelectCommand.CommandType = CommandType.StoredProcedure;
-                dsRep.EnforceConstraints = false;
-                DataSet ds = new DataSet();
-                sqlDataAapter.Fill(ds);
-                AddIncrement(ds);
+        //            if (item.SqlParameter != "" && item.SqlParameter != null)
+        //            {
+        //                if (item.SqlParameter == "@LoginSite" || item.SqlParameter == "@LoginDivision")
+        //                {
+        //                    if (item.SqlParameter == "@LoginSite")
+        //                        cmd.Parameters.AddWithValue(item.SqlParameter, (int)System.Web.HttpContext.Current.Session[SessionNameConstants.LoginSiteId]);
+        //                    //cmd.Parameters.AddWithValue(item.SqlParameter, 17);
+        //                    else if (item.SqlParameter == "@LoginDivision")
+        //                        cmd.Parameters.AddWithValue(item.SqlParameter, (int)System.Web.HttpContext.Current.Session[SessionNameConstants.LoginDivisionId]);
+        //                }
+        //                else if (item.FieldName == "Site" && form[item.FieldName].ToString() == "")
+        //                {
+        //                    cmd.Parameters.AddWithValue(item.SqlParameter, (int)System.Web.HttpContext.Current.Session[SessionNameConstants.LoginSiteId]);
+        //                }
 
-                TempData["TestTemp"] = ReportFilters2;
+        //                else if (item.FieldName == "Division" && form[item.FieldName].ToString() == "")
+        //                {
+        //                    cmd.Parameters.AddWithValue(item.SqlParameter, (int)System.Web.HttpContext.Current.Session[SessionNameConstants.LoginDivisionId]);
+        //                }
 
-                var tem = JsonConvert.SerializeObject(ds.Tables[0]);
-                var ColNames = GetColumnNames(header.ReportHeaderId, cmd.Parameters["@ReportType"].Value.ToString());
-                var ReportTypes = new SubReportService(_unitOfWork).GetSubReportList(header.ReportHeaderId);
-                ViewBag.ReportTypes = ReportTypes.Select(m => new SubReportViewModel { SubReportName = m.SubReportName }).ToList();
-                ViewBag.SelectedReportType = cmd.Parameters["@ReportType"].Value.ToString();
-                ViewBag.ReportDate = tem;
-                ViewBag.Id = ReportTypes.Where(m => m.ReportHeaderId == header.ReportHeaderId && m.SubReportName == cmd.Parameters["@ReportType"].Value.ToString()).FirstOrDefault().SubReportId;
-                ViewBag.ColumnNames = JsonConvert.SerializeObject(ColNames);
+        //                else
+        //                {
+        //                    if (form[item.FieldName].ToString() != "")
+        //                    {
+        //                        if (item.DataType == "Date")
+        //                        {
+        //                            cmd.Parameters.AddWithValue(item.SqlParameter, (form[item.FieldName].ToString() != "" ? String.Format("{0:MMMM dd yyyy}", form[item.FieldName].ToString()) : "Null"));
 
-                var Paralist = new List<Tuple<string, string, Dictionary<string, string>, bool>>();
+        //                        }
+        //                        else
+        //                        {
+        //                            cmd.Parameters.AddWithValue(item.SqlParameter, (form[item.FieldName].ToString() != "" ? form[item.FieldName].ToString() : "Null"));
 
-                foreach (var item in lines)
-                {
-                    if (item.SqlParameter == "@LoginSite" || item.SqlParameter == "@LoginDivision")
-                    {
-                    }
-                    else if (item.Type == "2.Filter")
-                    {
-                        if (item.SqlParameter != "" && item.SqlParameter != null && form[item.FieldName].ToString() != "")
-                        {
-                            if (item.DataType == "Date")
-                            {
-                                if (!string.IsNullOrEmpty(form[item.FieldName].ToString())) { Paralist.Add(new Tuple<string, string, Dictionary<string, string>, bool>(item.DisplayName, item.SqlParameter, new Dictionary<string, string>() { { form[item.FieldName].ToString(), form[item.FieldName].ToString() }}, item.IsMandatory)); ReportFilters.Add(item.DisplayName, form[item.FieldName].ToString()); }
-                            }
-                            else if (item.DataType == "Single Select")
-                            {
-                                if (!string.IsNullOrEmpty(item.ListItem))
-                                { Paralist.Add(new Tuple<string, string, Dictionary<string, string>, bool>(item.DisplayName, item.SqlParameter, new Dictionary<string, string>() { { form[item.FieldName].ToString(), form[item.FieldName].ToString() }}, item.IsMandatory)); }
-                                else if (!string.IsNullOrEmpty(form[item.FieldName].ToString())) { Paralist.Add(new Tuple<string, string, Dictionary<string, string>, bool>(item.DisplayName, item.SqlParameter, new Dictionary<string, string>() { { form[item.FieldName].ToString(), form[item.FieldName + "Names"].ToString() }}, item.IsMandatory)); ReportFilters.Add(item.DisplayName, form[item.FieldName + "Names"].ToString()); }
+        //                        }
+        //                    }
+        //                }
 
-                            }
-                            else if (item.DataType == "Multi Select")
-                            {
-                                Dictionary<string, string> kevval = new Dictionary<string, string>();
+        //                if (cmd.Parameters.Contains(item.SqlParameter))
+        //                    ReportFilters2.Add(item.SqlParameter, cmd.Parameters[item.SqlParameter].Value.ToString());
 
-                                var Count = form[item.FieldName].Split(',').Count();
-                                for (int i = 0; i < Count; i++)
-                                {
-                                    var temp = form[item.FieldName + "dic[" + i + "].Key"];
-                                    var tempVal = form[item.FieldName + "dic[" + i + "].Value"];
+        //            }
+        //        }
 
-                                    if (!string.IsNullOrEmpty(temp) && !string.IsNullOrEmpty(tempVal))
-                                        kevval.Add(temp, tempVal);
-                                }
 
-                                if (form[item.FieldName].ToString() != "") { Paralist.Add(new Tuple<string, string, Dictionary<string, string>, bool>(item.DisplayName, item.SqlParameter, kevval, item.IsMandatory)); ReportFilters.Add(item.DisplayName, form[item.FieldName + "Names"].ToString()); }
-                            }
-                            else
-                            {
-                                if (form[item.FieldName].ToString() != "") { Paralist.Add(new Tuple<string, string, Dictionary<string, string>, bool>(item.DisplayName, item.SqlParameter, new Dictionary<string, string>() { { form[item.FieldName].ToString(), form[item.FieldName].ToString() }}, item.IsMandatory)); ReportFilters.Add(item.DisplayName, form[item.FieldName].ToString()); }
-                            }
-                        }
-                    }
-                }
+        //        cmd.CommandTimeout = 200;
+        //        SqlDataAdapter sqlDataAapter = new SqlDataAdapter(cmd);
+        //        sqlDataAapter.SelectCommand.CommandType = CommandType.StoredProcedure;
+        //        dsRep.EnforceConstraints = false;
+        //        DataSet ds = new DataSet();
+        //        sqlDataAapter.Fill(ds);
+        //        AddIncrement(ds);
 
-                ViewBag.ReportFilters = Paralist;
-                ViewBag.ReportName = header.ReportName;
+        //        TempData["TestTemp"] = ReportFilters2;
 
-                return View("GridReport");
-            }
-        }
+        //        var tem = JsonConvert.SerializeObject(ds.Tables[0]);
+        //        var ColNames = GetColumnNames(header.ReportHeaderId, cmd.Parameters["@ReportType"].Value.ToString());
+        //        var ReportTypes = new SubReportService(_unitOfWork).GetSubReportList(header.ReportHeaderId);
+        //        ViewBag.ReportTypes = ReportTypes.Select(m => new SubReportViewModel { SubReportName = m.SubReportName }).ToList();
+        //        ViewBag.SelectedReportType = cmd.Parameters["@ReportType"].Value.ToString();
+        //        ViewBag.ReportDate = tem;
+        //        ViewBag.Id = ReportTypes.Where(m => m.ReportHeaderId == header.ReportHeaderId && m.SubReportName == cmd.Parameters["@ReportType"].Value.ToString()).FirstOrDefault().SubReportId;
+        //        ViewBag.ColumnNames = JsonConvert.SerializeObject(ColNames);
+
+        //        var Paralist = new List<Tuple<string, string, Dictionary<string, string>, bool>>();
+
+        //        foreach (var item in lines)
+        //        {
+        //            if (item.SqlParameter == "@LoginSite" || item.SqlParameter == "@LoginDivision")
+        //            {
+        //            }
+        //            else if (item.Type == "2.Filter")
+        //            {
+        //                if (item.SqlParameter != "" && item.SqlParameter != null && form[item.FieldName].ToString() != "")
+        //                {
+        //                    if (item.DataType == "Date")
+        //                    {
+        //                        if (!string.IsNullOrEmpty(form[item.FieldName].ToString())) { Paralist.Add(new Tuple<string, string, Dictionary<string, string>, bool>(item.DisplayName, item.SqlParameter, new Dictionary<string, string>() { { form[item.FieldName].ToString(), form[item.FieldName].ToString() }}, item.IsMandatory)); ReportFilters.Add(item.DisplayName, form[item.FieldName].ToString()); }
+        //                    }
+        //                    else if (item.DataType == "Single Select")
+        //                    {
+        //                        if (!string.IsNullOrEmpty(item.ListItem))
+        //                        { Paralist.Add(new Tuple<string, string, Dictionary<string, string>, bool>(item.DisplayName, item.SqlParameter, new Dictionary<string, string>() { { form[item.FieldName].ToString(), form[item.FieldName].ToString() }}, item.IsMandatory)); }
+        //                        else if (!string.IsNullOrEmpty(form[item.FieldName].ToString())) { Paralist.Add(new Tuple<string, string, Dictionary<string, string>, bool>(item.DisplayName, item.SqlParameter, new Dictionary<string, string>() { { form[item.FieldName].ToString(), form[item.FieldName + "Names"].ToString() }}, item.IsMandatory)); ReportFilters.Add(item.DisplayName, form[item.FieldName + "Names"].ToString()); }
+
+        //                    }
+        //                    else if (item.DataType == "Multi Select")
+        //                    {
+        //                        Dictionary<string, string> kevval = new Dictionary<string, string>();
+
+        //                        var Count = form[item.FieldName].Split(',').Count();
+        //                        for (int i = 0; i < Count; i++)
+        //                        {
+        //                            var temp = form[item.FieldName + "dic[" + i + "].Key"];
+        //                            var tempVal = form[item.FieldName + "dic[" + i + "].Value"];
+
+        //                            if (!string.IsNullOrEmpty(temp) && !string.IsNullOrEmpty(tempVal))
+        //                                kevval.Add(temp, tempVal);
+        //                        }
+
+        //                        if (form[item.FieldName].ToString() != "") { Paralist.Add(new Tuple<string, string, Dictionary<string, string>, bool>(item.DisplayName, item.SqlParameter, kevval, item.IsMandatory)); ReportFilters.Add(item.DisplayName, form[item.FieldName + "Names"].ToString()); }
+        //                    }
+        //                    else
+        //                    {
+        //                        if (form[item.FieldName].ToString() != "") { Paralist.Add(new Tuple<string, string, Dictionary<string, string>, bool>(item.DisplayName, item.SqlParameter, new Dictionary<string, string>() { { form[item.FieldName].ToString(), form[item.FieldName].ToString() }}, item.IsMandatory)); ReportFilters.Add(item.DisplayName, form[item.FieldName].ToString()); }
+        //                    }
+        //                }
+        //            }
+        //        }
+
+        //        ViewBag.ReportFilters = Paralist;
+        //        ViewBag.ReportName = header.ReportName;
+
+        //        return View("GridReport");
+        //    }
+        //}
 
         private static void AddIncrement(DataSet ds)
         {
@@ -666,109 +666,109 @@ namespace Reports
         }
 
 
-        public ActionResult FetchReport(int ID, string ReportType, Dictionary<string, string> nameValuePairs, int? ReportColumnId)
-        {
+        //public ActionResult FetchReport(int ID, string ReportType, Dictionary<string, string> nameValuePairs, int? ReportColumnId)
+        //{
 
-            int SubReportId = ID;
+        //    int SubReportId = ID;
 
-            SubReport sr = new SubReportService(_unitOfWork).Find(ID);
+        //    SubReport sr = new SubReportService(_unitOfWork).Find(ID);
 
-            ReportHeader header = new ReportHeaderService(_unitOfWork).GetReportHeader(sr.ReportHeaderId);
-            List<ReportLine> lines = _ReportLineService.GetReportLineList(header.ReportHeaderId).ToList();
+        //    ReportHeader header = new ReportHeaderService(_unitOfWork).GetReportHeader(sr.ReportHeaderId);
+        //    List<ReportLine> lines = _ReportLineService.GetReportLineList(header.ReportHeaderId).ToList();
 
-            using (SqlConnection sqlConnection = new SqlConnection(connectionString))
-            {
-                SqlCommand cmd = new SqlCommand();
+        //    using (SqlConnection sqlConnection = new SqlConnection(connectionString))
+        //    {
+        //        SqlCommand cmd = new SqlCommand();
 
-                var Filters = (Dictionary<string, string>)TempData["TestTemp"];
+        //        var Filters = (Dictionary<string, string>)TempData["TestTemp"];
 
-                foreach (var item in lines.Where(m => m.Type == "2.Filter"))
-                {
-                    string value = "";
+        //        foreach (var item in lines.Where(m => m.Type == "2.Filter"))
+        //        {
+        //            string value = "";
 
-                    bool Success = Filters.TryGetValue(item.SqlParameter, out value);
+        //            bool Success = Filters.TryGetValue(item.SqlParameter, out value);
 
-                    if (Success)
-                        cmd.Parameters.AddWithValue(item.SqlParameter, value);
-                }
-                if (!string.IsNullOrEmpty(ReportType))
-                    cmd.Parameters.AddWithValue("ReportType", ReportType);
-                else
-                    cmd.Parameters.AddWithValue("ReportType", sr.SubReportName);
+        //            if (Success)
+        //                cmd.Parameters.AddWithValue(item.SqlParameter, value);
+        //        }
+        //        if (!string.IsNullOrEmpty(ReportType))
+        //            cmd.Parameters.AddWithValue("ReportType", ReportType);
+        //        else
+        //            cmd.Parameters.AddWithValue("ReportType", sr.SubReportName);
 
-                DataTable dt = new DataTable();
-                dt.Clear();
-                dt.Columns.Add("Name");
-                dt.Columns.Add("Value");
+        //        DataTable dt = new DataTable();
+        //        dt.Clear();
+        //        dt.Columns.Add("Name");
+        //        dt.Columns.Add("Value");
 
-                if (ReportColumnId.HasValue && ReportColumnId.Value > 0)
-                {
-                    var rc = new ReportColumnService(_unitOfWork).Find(ReportColumnId.Value);
-                    var rcList = new ReportColumnService(_unitOfWork).GetREportColumnListFromReportColumn(ReportColumnId.Value);
+        //        if (ReportColumnId.HasValue && ReportColumnId.Value > 0)
+        //        {
+        //            var rc = new ReportColumnService(_unitOfWork).Find(ReportColumnId.Value);
+        //            var rcList = new ReportColumnService(_unitOfWork).GetREportColumnListFromReportColumn(ReportColumnId.Value);
 
-                    var Records = (from p in nameValuePairs
-                                   join t in rcList on p.Key equals t.FieldName
-                                   select new
-                                   {
-                                       key = t.ReportColumnId,
-                                       val = p.Value,
-                                   }).ToDictionary(m => m.key, m => m.val);
+        //            var Records = (from p in nameValuePairs
+        //                           join t in rcList on p.Key equals t.FieldName
+        //                           select new
+        //                           {
+        //                               key = t.ReportColumnId,
+        //                               val = p.Value,
+        //                           }).ToDictionary(m => m.key, m => m.val);
 
-                    if (Records.Count > 0)
-                    {
-                        foreach (var item in Records)
-                        {
-                            DataRow dr = dt.NewRow();
-                            dr["Name"] = item.Key;
-                            dr["Value"] = item.Value;
-                            dt.Rows.Add(dr);
-                        }
-                    }
+        //            if (Records.Count > 0)
+        //            {
+        //                foreach (var item in Records)
+        //                {
+        //                    DataRow dr = dt.NewRow();
+        //                    dr["Name"] = item.Key;
+        //                    dr["Value"] = item.Value;
+        //                    dt.Rows.Add(dr);
+        //                }
+        //            }
 
-                    DataRow SubReportTypeRow = dt.NewRow();
-                    SubReportTypeRow["Name"] = "SubReportId";
-                    SubReportTypeRow["Value"] = rc.SubReportId;
-                    dt.Rows.Add(SubReportTypeRow);
+        //            DataRow SubReportTypeRow = dt.NewRow();
+        //            SubReportTypeRow["Name"] = "SubReportId";
+        //            SubReportTypeRow["Value"] = rc.SubReportId;
+        //            dt.Rows.Add(SubReportTypeRow);
 
-                }
+        //        }
 
-                DataRow ReportHeaderIdRow = dt.NewRow();
-                ReportHeaderIdRow["Name"] = "ReportColumnId";
-                ReportHeaderIdRow["Value"] = ReportColumnId;
-                dt.Rows.Add(ReportHeaderIdRow);
+        //        DataRow ReportHeaderIdRow = dt.NewRow();
+        //        ReportHeaderIdRow["Name"] = "ReportColumnId";
+        //        ReportHeaderIdRow["Value"] = ReportColumnId;
+        //        dt.Rows.Add(ReportHeaderIdRow);
 
-                DataRow SubReportHeaderId = dt.NewRow();
-                SubReportHeaderId["Name"] = "NextSubReportId";
-                SubReportHeaderId["Value"] = ID;
-                dt.Rows.Add(SubReportHeaderId);
+        //        DataRow SubReportHeaderId = dt.NewRow();
+        //        SubReportHeaderId["Name"] = "NextSubReportId";
+        //        SubReportHeaderId["Value"] = ID;
+        //        dt.Rows.Add(SubReportHeaderId);
 
 
-                cmd.Parameters.AddWithValue("ReportColumnDictionary", dt);
+        //        cmd.Parameters.AddWithValue("ReportColumnDictionary", dt);
 
-                cmd.CommandText = db.strSchemaName + "." + header.SqlProc;
-                cmd.Connection = sqlConnection;
-                cmd.CommandTimeout = 180;
-                SqlDataAdapter sqlDataAapter = new SqlDataAdapter(cmd);
-                sqlDataAapter.SelectCommand.CommandType = CommandType.StoredProcedure;
-                dsRep.EnforceConstraints = false;
-                DataSet ds = new DataSet();
-                sqlDataAapter.Fill(ds);
+        //        cmd.CommandText = db.strSchemaName + "." + header.SqlProc;
+        //        cmd.Connection = sqlConnection;
+        //        cmd.CommandTimeout = 180;
+        //        SqlDataAdapter sqlDataAapter = new SqlDataAdapter(cmd);
+        //        sqlDataAapter.SelectCommand.CommandType = CommandType.StoredProcedure;
+        //        dsRep.EnforceConstraints = false;
+        //        DataSet ds = new DataSet();
+        //        sqlDataAapter.Fill(ds);
 
-                TempData.Keep("TestTemp");
+        //        TempData.Keep("TestTemp");
 
-                AddIncrement(ds);
+        //        AddIncrement(ds);
 
-                var tem = JsonConvert.SerializeObject(ds.Tables[0]);
-                var ColNames = GetColumnNames(header.ReportHeaderId, string.IsNullOrEmpty(ReportType) ? sr.SubReportName : ReportType);
+        //        var tem = JsonConvert.SerializeObject(ds.Tables[0]);
+        //        var ColNames = GetColumnNames(header.ReportHeaderId, string.IsNullOrEmpty(ReportType) ? sr.SubReportName : ReportType);
 
-                var ReportTypes = new SubReportService(_unitOfWork).GetSubReportList(header.ReportHeaderId);
+        //        var ReportTypes = new SubReportService(_unitOfWork).GetSubReportList(header.ReportHeaderId);
 
-                return Json(new { success = true, data = tem, columns = ColNames, reportType = ReportTypes.Select(m => m.SubReportName).ToList(), selectedReportType = string.IsNullOrEmpty(ReportType) ? sr.SubReportName : ReportType, ReportName = header.ReportName });
+        //        return Json(new { success = true, data = tem, columns = ColNames, reportType = ReportTypes.Select(m => m.SubReportName).ToList(), selectedReportType = string.IsNullOrEmpty(ReportType) ? sr.SubReportName : ReportType, ReportName = header.ReportName });
 
-                //return View("GridReport");
+        //        //return View("GridReport");
 
-            }
-        }
+        //    }
+        //}
 
 
 
@@ -788,12 +788,12 @@ namespace Reports
             return ReportPrint(form, ReportFileTypeConstants.Excel);
         }
 
-        [HttpPost]
-        [MultipleButton(Name = "Print", Argument = "Grid")]
-        public ActionResult PrintToGrid(FormCollection form)
-        {
-            return ReportGrid(form);
-        }
+        //[HttpPost]
+        //[MultipleButton(Name = "Print", Argument = "Grid")]
+        //public ActionResult PrintToGrid(FormCollection form)
+        //{
+        //    return ReportGrid(form);
+        //}
 
         protected override void Dispose(bool disposing)
         {
@@ -804,12 +804,12 @@ namespace Reports
             base.Dispose(disposing);
         }
 
-        IEnumerable<ReportColumnViewModel> GetColumnNames(int ReportHeaderId, string ReportType)
-        {
+        //IEnumerable<ReportColumnViewModel> GetColumnNames(int ReportHeaderId, string ReportType)
+        //{
 
-            return new ReportColumnService(_unitOfWork).GetReportColumnList(ReportHeaderId, ReportType);
+        //    return new ReportColumnService(_unitOfWork).GetReportColumnList(ReportHeaderId, ReportType);
 
-        }
+        //}
 
         public JsonResult DeleteFilter(string Filter, string iFilter)
         {

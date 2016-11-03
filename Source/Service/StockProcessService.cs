@@ -27,6 +27,8 @@ namespace Service
 
         void DeleteStockProcess(int StockProcessId);
         void DeleteStockProcessDB(int StockProcessId, ref ApplicationDbContext Context, bool IsDBbased);
+
+        IEnumerable<StockProcess> GetStockProcessForStockHeaderId(int StockHeaderId);
     }
 
     public class StockProcessService : IStockProcessService
@@ -1196,6 +1198,15 @@ namespace Service
                 new StockProcessService(_unitOfWork).Delete(StockProcessId);
 
 
+        }
+
+        public IEnumerable<StockProcess> GetStockProcessForStockHeaderId(int StockHeaderId)
+        {
+            var temp = (from L in db.StockProcess
+                        where L.StockHeaderId == StockHeaderId
+                        select L).ToList();
+
+            return temp;
         }
 
         public void DeleteStockProcessDBMultiple(List<int> StockProcessId, ref ApplicationDbContext Context, bool IsDBbased)

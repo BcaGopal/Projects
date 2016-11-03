@@ -26,5 +26,7 @@ namespace Model.ViewModels
         [Display(Name = "Quality")]
         public int ProductQualityId { get; set; }
         public string ProductQualityName { get; set; }
+
+        public Decimal? Weight { get; set; }
     }
 }

@@ -12,6 +12,8 @@ using ProjLib.Constants;
 using ProjLib.ViewModels;
 using Models.Company.Models;
 using Models.BasicSetup.ViewModels;
+using System;
+using System.IO;
 
 namespace Module
 {
@@ -41,6 +43,7 @@ namespace Module
                 return HttpContext.GetOwinContext().Authentication;
             }
         }
+
         [Authorize]
         [HttpGet]
         public ActionResult SiteSelection()
@@ -48,16 +51,30 @@ namespace Module
             //var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(db));
 
             string UserId = User.Identity.GetUserId();
+            //string UserName = User.Identity.GetUserName();
 
-            var userInRoles = _userRolesService.GetUserRolesList(UserId);           
+            //using (StreamWriter writer = new StreamWriter(Server.MapPath("/release_notification_emails.txt"), true))
+            //{
+            //    writer.WriteLine("Tracking STart");
+            //    writer.WriteLine("User Id : " + UserId);
+            //    writer.WriteLine("User Name : " + UserName);
+            //}
 
-            if (userInRoles.Count() <= 0)
+            var userInRoles = _userRolesService.GetUserRolesList(UserId);
+
+            string URoles = (string)System.Web.HttpContext.Current.Session["LoginUserRole"];
+
+            if (userInRoles.Count() <= 0 && !(_userRolesService.TryInsertUserRole(UserId, URoles)))
             {
                 AuthenticationManager.SignOut();
                 FormsAuthentication.SignOut();
                 Session.Abandon();
                 return View("NoRoles");
             }
+
+
+
+            Session.Remove("LoginUserRole");
 
             SiteSelectionViewModel vm = new SiteSelectionViewModel();
 
@@ -77,8 +94,17 @@ namespace Module
             if (UserRoles.Contains("Admin"))
             {
 
-                ViewBag.SiteList = _siteSelectionService.GetSiteList().ToList();
-                ViewBag.DivisionList = _siteSelectionService.GetDivisionList().ToList();
+                var SiteList = _siteSelectionService.GetSiteList().ToList();
+                ViewBag.SiteList = SiteList;
+                var DivList = _siteSelectionService.GetDivisionList().ToList();
+                ViewBag.DivisionList = DivList;
+
+                if (SiteList.Count == 1 && DivList.Count == 1)
+                {
+                    AssignSiteDivModuleSession(SiteList.FirstOrDefault().SiteId, DivList.FirstOrDefault().DivisionId);
+
+                    return RedirectToAction("DefaultGodownSelection");
+                }
             }
             else
             {
@@ -89,6 +115,12 @@ namespace Module
                 if (SiteList.Count == 0 || DivList.Count == 0)
                 {
                     return RedirectToAction("AccessDenied", "Account");
+                }
+                else if (SiteList.Count == 1 && DivList.Count == 1)
+                {
+                    AssignSiteDivModuleSession(SiteList.FirstOrDefault().SiteId, DivList.FirstOrDefault().DivisionId);
+
+                    return RedirectToAction("DefaultGodownSelection");
                 }
             }
             if (System.Web.HttpContext.Current.Session["DivisionId"] != null && System.Web.HttpContext.Current.Session["SiteId"] != null)
@@ -167,32 +199,7 @@ namespace Module
         [HttpPost]
         public ActionResult SiteSelection(SiteSelectionViewModel vm)
         {
-            System.Web.HttpContext.Current.Session["DivisionId"] = vm.DivisionId;
-            System.Web.HttpContext.Current.Session["SiteId"] = vm.SiteId;
-
-            Site S = _siteSelectionService.GetSite(vm.SiteId);
-            Division D = _siteSelectionService.GetDivision(vm.DivisionId);
-
-            System.Web.HttpContext.Current.Session[SessionNameConstants.LoginDivisionId] = vm.DivisionId;
-            System.Web.HttpContext.Current.Session[SessionNameConstants.LoginSiteId] = vm.SiteId;
-            System.Web.HttpContext.Current.Session[SessionNameConstants.CompanyName] = S.SiteName;
-            System.Web.HttpContext.Current.Session[SessionNameConstants.SiteName] = S.SiteName;
-            System.Web.HttpContext.Current.Session[SessionNameConstants.SiteShortName] = S.SiteCode;
-            System.Web.HttpContext.Current.Session[SessionNameConstants.SiteAddress] = S.Address;
-            System.Web.HttpContext.Current.Session[SessionNameConstants.SiteCityName] = S.City.CityName;
-            System.Web.HttpContext.Current.Session[SessionNameConstants.DivisionName] = D.DivisionName;
-
-            List<string> UserRoles = (List<string>)System.Web.HttpContext.Current.Session["Roles"];
-
-            if (UserRoles.Contains("Admin"))
-            {
-                System.Web.HttpContext.Current.Session["UserModuleList"] = _moduleService.GetModuleList().ToList();
-            }
-            else
-            {
-                System.Web.HttpContext.Current.Session["UserModuleList"] = _moduleService.GetModuleListForUser(UserRoles.ToList(), vm.SiteId, vm.DivisionId).ToList();
-            }
-
+            AssignSiteDivModuleSession(vm.SiteId, vm.DivisionId);
 
             return RedirectToAction("DefaultGodownSelection");
         }
@@ -203,7 +210,17 @@ namespace Module
 
             int SiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
 
-            ViewBag.GodownList = _siteSelectionService.GetGodownList(SiteId);
+            var GodownList = _siteSelectionService.GetGodownList(SiteId);
+
+            if (GodownList.Count() == 1 || GodownList.Count() == 0)
+            {
+                if (GodownList.Count() == 1)
+                    System.Web.HttpContext.Current.Session["DefaultGodownId"] = GodownList.FirstOrDefault().GodownId;
+
+                return RedirectToAction("Module", "Menu");
+            }
+
+            ViewBag.GodownList = GodownList;
             ViewBag.GodownId = (int?)System.Web.HttpContext.Current.Session["DefaultGodownId"];
 
             return View();
@@ -224,6 +241,37 @@ namespace Module
                 _siteSelectionService.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+
+        private void AssignSiteDivModuleSession(int SiteId, int DivisionId)
+        {
+            System.Web.HttpContext.Current.Session["DivisionId"] = DivisionId;
+            System.Web.HttpContext.Current.Session["SiteId"] = SiteId;
+
+            Site S = _siteSelectionService.GetSite(SiteId);
+            Division D = _siteSelectionService.GetDivision(DivisionId);
+
+            System.Web.HttpContext.Current.Session[SessionNameConstants.LoginDivisionId] = DivisionId;
+            System.Web.HttpContext.Current.Session[SessionNameConstants.LoginSiteId] = SiteId;
+            System.Web.HttpContext.Current.Session[SessionNameConstants.CompanyName] = S.SiteName;
+            System.Web.HttpContext.Current.Session[SessionNameConstants.SiteName] = S.SiteName;
+            System.Web.HttpContext.Current.Session[SessionNameConstants.SiteShortName] = S.SiteCode;
+            System.Web.HttpContext.Current.Session[SessionNameConstants.SiteAddress] = S.Address;
+            System.Web.HttpContext.Current.Session[SessionNameConstants.SiteCityName] = S.City.CityName;
+            System.Web.HttpContext.Current.Session[SessionNameConstants.DivisionName] = D.DivisionName;
+
+            List<string> UserRoles = (List<string>)System.Web.HttpContext.Current.Session["Roles"];
+
+            if (UserRoles.Contains("Admin"))
+            {
+                System.Web.HttpContext.Current.Session["UserModuleList"] = _moduleService.GetModuleList().ToList();
+            }
+            else
+            {
+                System.Web.HttpContext.Current.Session["UserModuleList"] = _moduleService.GetModuleListForUser(UserRoles.ToList(), SiteId, DivisionId).ToList();
+            }
+
         }
     }
 

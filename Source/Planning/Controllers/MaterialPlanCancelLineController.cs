@@ -102,11 +102,14 @@ namespace Presentation
                 int i = 0;
                 int si = 0;
                 int linePk = 0;
+                int Cnt = 0;
 
                 var mPlanLineIds = vm.MaterialPlanCancelLineViewModel.Where(m => m.Qty > 0 && m.Qty == m.BalanceQty).Select(m => m.MaterialPlanLineId).ToList();
 
-                var mPlanRecords = db.ViewMaterialPlanForSaleOrderBalance.AsNoTracking().Where(m => mPlanLineIds.Contains(m.MaterialPlanLineId.Value)).ToList();
 
+                //var mPlanRecords = db.ViewMaterialPlanForSaleOrderBalance.AsNoTracking().Where(m => mPlanLineIds.Contains(m.MaterialPlanLineId.Value)).ToList();
+                //Changed because ViewMaterialPlanForSaleOrderBalance is not required.
+                var mPlanRecords = db.MaterialPlanForSaleOrder.AsNoTracking().Where(m => mPlanLineIds.Contains(m.MaterialPlanLineId.Value)).ToList();
 
                 foreach (var item in vm.MaterialPlanCancelLineViewModel.Where(m => m.Qty > 0 && m.Qty == m.BalanceQty))
                 {
@@ -138,7 +141,7 @@ namespace Presentation
                         cso.MaterialPlanCancelHeaderId = header.MaterialPlanCancelHeaderId;
                         cso.MaterialPlanCancelLineId = cline.MaterialPlanCancelLineId;
                         cso.MaterialPlanForSaleOrderId = detailSo.MaterialPlanForSaleOrderId;
-                        cso.Qty = detailSo.BalanceQty;
+                        cso.Qty = detailSo.Qty;
                         cso.Sr = si++;
                         cso.ObjectState = Model.ObjectState.Added;
                         db.MaterialPlanCancelForSaleOrder.Add(cso);
@@ -150,11 +153,10 @@ namespace Presentation
                     if (MaterialPlanLine.ProdPlanQty > 0)
                     {
                         ProdOrderCancelHeader ExistingProdOrderCancel = new ProdOrderCancelHeaderService(_unitOfWork).GetProdOrderCancelForMaterialPlan(header.MaterialPlanCancelHeaderId);
+                        ProdOrderCancelHeader ProdOrderCancelHeader = new ProdOrderCancelHeader();
 
-                        if (ExistingProdOrderCancel == null)
+                        if (ExistingProdOrderCancel == null && Cnt == 0)
                         {
-                            ProdOrderCancelHeader ProdOrderCancelHeader = new ProdOrderCancelHeader();
-
                             ProdOrderCancelHeader.CreatedBy = User.Identity.Name;
                             ProdOrderCancelHeader.CreatedDate = DateTime.Now;
                             ProdOrderCancelHeader.DivisionId = header.DivisionId;
@@ -170,16 +172,26 @@ namespace Presentation
                             ProdOrderCancelHeader.ObjectState = Model.ObjectState.Added;
                             db.ProdOrderCancelHeader.Add(ProdOrderCancelHeader);
                             ProdOrderCancelHeaderId = ProdOrderCancelHeader.ProdOrderCancelHeaderId;
+
+                            Cnt = Cnt + 1;
                         }
                         else
                         {
-                            ProdOrderCancelHeaderId = ExistingProdOrderCancel.ProdOrderCancelHeaderId;
+                            if (ExistingProdOrderCancel == null)
+                            {
+                                ProdOrderCancelHeaderId = ProdOrderCancelHeader.ProdOrderCancelHeaderId;
+                            }
+                            else
+                            {
+                                ProdOrderCancelHeaderId = ExistingProdOrderCancel.ProdOrderCancelHeaderId;
+                            }
                         }
 
 
                         var ProdOrderLine = new ProdOrderLineService(_unitOfWork).GetProdOrderLineForMaterialPlan(item.MaterialPlanLineId);
                         int ProdOrderCancelLineKey = 0;
                         ProdOrderCancelLine ProdOrderCancelLine = new ProdOrderCancelLine();
+                        ProdOrderCancelLine.ProdOrderCancelLineId = linePk++;
                         ProdOrderCancelLine.CreatedBy = User.Identity.Name;
                         ProdOrderCancelLine.CreatedDate = DateTime.Now;
                         ProdOrderCancelLine.ProdOrderLineId = ProdOrderLine.FirstOrDefault().ProdOrderLineId;

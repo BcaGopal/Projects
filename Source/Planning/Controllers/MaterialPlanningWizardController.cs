@@ -110,6 +110,10 @@ namespace Web
                 Specification = m.Specification,
                 ProductId = m.ProductId,
                 ProductName = m.ProductName,
+                Dimension1Id = m.Dimension1Id,
+                Dimension1Name = m.Dimension1Name,
+                Dimension2Id = m.Dimension2Id,
+                Dimension2Name = m.Dimension2Name,
                 SaleOrderLineId = m.SaleOrderLineId,
                 UnitName = m.UnitName,
                 Id = i,
@@ -184,7 +188,7 @@ namespace Web
                     line.Specification = dr["Specification"] == System.DBNull.Value ? null : dr["Specification"].ToString();
                     line.UnitName = dr["UnitName"] == System.DBNull.Value ? null : dr["UnitName"].ToString();
                     line.unitDecimalPlaces = dr["DecimalPlaces"] == System.DBNull.Value ? 0 : Convert.ToInt32(dr["DecimalPlaces"].ToString());
-                    line.RequiredQty = dr["Qty"] == System.DBNull.Value ? 0 : Convert.ToInt32(dr["Qty"].ToString());
+                    line.RequiredQty = dr["Qty"] == System.DBNull.Value ? 0 : Convert.ToDecimal(dr["Qty"].ToString());
                     line.Dimension1Name = dr["Dimension1Name"] == System.DBNull.Value ? null : dr["Dimension1Name"].ToString();
                     line.Dimension2Name = dr["Dimension2Name"] == System.DBNull.Value ? null : dr["Dimension2Name"].ToString();
                     line.ProcessName = dr["ProcessName"] == System.DBNull.Value ? null : dr["ProcessName"].ToString();
@@ -194,8 +198,8 @@ namespace Web
                     line.MaterialPlanHeaderId = 0;
 
 
-                    line.ProdPlanQty = (dr["PurchProd"].ToString() == "Purchase") ? 0 : Convert.ToInt32(dr["Qty"].ToString());
-                    line.PurchPlanQty = (dr["PurchProd"].ToString() == "Purchase") ? Convert.ToInt32(dr["Qty"].ToString()) : 0;
+                    line.ProdPlanQty = (dr["PurchProd"].ToString() == "Purchase") ? 0 : Convert.ToDecimal(dr["Qty"].ToString());
+                    line.PurchPlanQty = (dr["PurchProd"].ToString() == "Purchase") ? Convert.ToDecimal(dr["Qty"].ToString()) : 0;
 
                     line.GeneratedFor = MaterialPlanConstants.SaleOrder;
 
@@ -206,19 +210,44 @@ namespace Web
             }
             else
             {
-                var summary = (from p in db.Product.Where(p => ProductIds.Contains(p.ProductId)).AsEnumerable()
-                               join t in selectedRec on p.ProductId equals t.ProductId
+                //var summary = (from p in db.Product.Where(p => ProductIds.Contains(p.ProductId)).AsEnumerable()
+                //               join t in selectedRec on p.ProductId equals t.ProductId
+                //               where t.Qty > 0
+                //               group t by new { t.ProductId, p.ProductName, t.Specification } into g
+                //               join p1 in db.Product.Where(p => ProductIds.Contains(p.ProductId)).AsEnumerable() on g.Key.ProductId equals p1.ProductId
+                //               join u1 in db.Units on p1.UnitId equals u1.UnitId
+                //               select new
+                //               {
+                //                   id = g.Key.ProductId,
+                //                   QtySum = g.Sum(m => m.Qty),
+                //                   //GroupedItems = g,
+                //                   name = g.Key.ProductName,
+                //                   unitname = u1.UnitName,
+                //                   Specification = g.Key.Specification,
+                //                   Fractionunits = u1.DecimalPlaces
+                //               }).ToList();
+
+
+                var summary = (from t in selectedRec 
+                               join p in db.Product on t.ProductId equals p.ProductId into ProductTable from ProductTab in ProductTable.DefaultIfEmpty()
+                               join d1 in db.Dimension1 on t.Dimension1Id equals d1.Dimension1Id into Dimension1Table from Dimension1Tab in Dimension1Table.DefaultIfEmpty()
+                               join d2 in db.Dimension2 on t.Dimension2Id equals d2.Dimension2Id into Dimension2Table
+                               from Dimension2Tab in Dimension2Table.DefaultIfEmpty()
                                where t.Qty > 0
-                               group t by new { t.ProductId, p.ProductName, t.Specification } into g
+                               group t by new { t.ProductId, t.Dimension1Id, t.Dimension2Id, t.Specification } into g
                                join p1 in db.Product.Where(p => ProductIds.Contains(p.ProductId)).AsEnumerable() on g.Key.ProductId equals p1.ProductId
                                join u1 in db.Units on p1.UnitId equals u1.UnitId
                                select new
                                {
                                    id = g.Key.ProductId,
+                                   Dimension1Id = g.Key.Dimension1Id,
+                                   Dimension2Id = g.Key.Dimension2Id,
                                    QtySum = g.Sum(m => m.Qty),
                                    //GroupedItems = g,
-                                   name = g.Key.ProductName,
+                                   name = g.Max(m => m.ProductName),
                                    unitname = u1.UnitName,
+                                   Dimension1Name = g.Max(m => m.Dimension1Name),
+                                   Dimension2Name = g.Max(m => m.Dimension2Name),
                                    Specification = g.Key.Specification,
                                    Fractionunits = u1.DecimalPlaces
                                }).ToList();
@@ -228,6 +257,10 @@ namespace Web
                 {
                     MaterialPlanLineViewModel planline = new MaterialPlanLineViewModel();
                     planline.ProductName = item.name;
+                    planline.Dimension1Name = item.Dimension1Name;
+                    planline.Dimension2Name = item.Dimension2Name;
+                    planline.Dimension1Id = item.Dimension1Id;
+                    planline.Dimension2Id = item.Dimension2Id;
                     planline.RequiredQty = item.QtySum;
                     planline.ExcessStockQty = 0;
                     planline.Specification = item.Specification;
@@ -381,6 +414,8 @@ namespace Web
                                 planLine.ExcessStockQty = item.ExcessStockQty;
                                 planLine.MaterialPlanHeaderId = item.MaterialPlanHeaderId;
                                 planLine.ProductId = item.ProductId;
+                                planLine.Dimension1Id = item.Dimension1Id;
+                                planLine.Dimension2Id = item.Dimension2Id;
                                 planLine.ProdPlanQty = item.ProdPlanQty;
                                 planLine.CreatedBy = User.Identity.Name;
                                 planLine.CreatedDate = DateTime.Now;
@@ -458,6 +493,8 @@ namespace Web
                                     prodOrderLine.ProdOrderHeaderId = prodOrderHeader.ProdOrderHeaderId;
                                     prodOrderLine.Specification = item.Specification;
                                     prodOrderLine.ProductId = item.ProductId;
+                                    prodOrderLine.Dimension1Id = item.Dimension1Id;
+                                    prodOrderLine.Dimension2Id = item.Dimension2Id;
                                     prodOrderLine.Sr = ProdORderSerial++;
                                     prodOrderLine.Qty = item.ProdPlanQty;
                                     prodOrderLine.Remark = item.Remark;
@@ -490,6 +527,8 @@ namespace Web
                                     prodOrderLine.ModifiedDate = DateTime.Now;
                                     prodOrderLine.ProdOrderHeaderId = ExistingProdOrder.ProdOrderHeaderId;
                                     prodOrderLine.ProductId = item.ProductId;
+                                    prodOrderLine.Dimension1Id = item.Dimension1Id;
+                                    prodOrderLine.Dimension2Id = item.Dimension2Id;
                                     prodOrderLine.Specification = item.Specification;
                                     prodOrderLine.Qty = item.ProdPlanQty;
                                     prodOrderLine.Sr = ProdORderSerial++;
@@ -545,6 +584,8 @@ namespace Web
                                     indentLine.ModifiedBy = User.Identity.Name;
                                     indentLine.ModifiedDate = DateTime.Now;
                                     indentLine.ProductId = item.ProductId;
+                                    indentLine.Dimension1Id = item.Dimension1Id;
+                                    indentLine.Dimension2Id = item.Dimension2Id;
                                     indentLine.Specification = item.Specification;
                                     indentLine.PurchaseIndentHeaderId = indentHeader.PurchaseIndentHeaderId;
                                     indentLine.Qty = item.PurchPlanQty;
@@ -568,6 +609,8 @@ namespace Web
                                     indentLine.Specification = item.Specification;
                                     indentLine.ModifiedDate = DateTime.Now;
                                     indentLine.ProductId = item.ProductId;
+                                    indentLine.Dimension1Id = item.Dimension1Id;
+                                    indentLine.Dimension2Id = item.Dimension2Id;
                                     indentLine.Sr = PurchaseIndentSr++;
                                     indentLine.PurchaseIndentHeaderId = ExistingIndent.PurchaseIndentHeaderId;
                                     indentLine.Qty = item.PurchPlanQty;
@@ -634,7 +677,7 @@ namespace Web
                         //    DocStatus = pt.Status,
                         //}));
 
-                        return RedirectToAction("Index", "MaterialPlanningHeader", new { id = pt.DocTypeId });
+                        return RedirectToAction("Index", "MaterialPlanHeader", new { id = pt.DocTypeId });
                     }
                 }
                 #endregion

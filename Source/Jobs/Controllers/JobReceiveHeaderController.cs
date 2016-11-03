@@ -682,6 +682,29 @@ namespace Web
                     db.JobReceiveLineStatus.Remove(item);
                 }
 
+                if (StockHeaderId != null)
+                {
+                    var Stocks = new StockService(_unitOfWork).GetStockForStockHeaderId((int)StockHeaderId);
+                    foreach (var item in Stocks)
+                    {
+                        if (item.StockId != null)
+                        {
+                            StockIdList.Add((int)item.StockId);
+                        }
+                    }
+
+                    var StockProcesses = new StockProcessService(_unitOfWork).GetStockProcessForStockHeaderId((int)StockHeaderId);
+                    foreach (var item in StockProcesses)
+                    {
+                        if (item.StockProcessId != null)
+                        {
+                            StockProcessIdList.Add((int)item.StockProcessId);
+                        }
+                    }
+                }
+
+                
+
                 foreach (var item in line)
                 {
                     LogList.Add(new LogTypeViewModel
@@ -689,15 +712,16 @@ namespace Web
                         ExObj = Mapper.Map<JobReceiveLine>(item),
                     });
 
-                    if (item.StockId != null)
-                    {
-                        StockIdList.Add((int)item.StockId);
-                    }
+                    //if (item.StockId != null)
+                    //{
+                    //    StockIdList.Add((int)item.StockId);
+                    //}
 
-                    if (item.StockProcessId != null)
-                    {
-                        StockProcessIdList.Add((int)item.StockProcessId);
-                    }
+
+                    //if (item.StockProcessId != null)
+                    //{
+                    //    StockProcessIdList.Add((int)item.StockProcessId);
+                    //}
 
 
                     var Productuid = item.ProductUidId;
@@ -764,31 +788,25 @@ namespace Web
                             where p.JobReceiveHeaderId == temp.JobReceiveHeaderId
                             select p).ToList();
 
-                var StockProcessIds = Boms.Select(m => m.StockProcessId).ToArray();
+                //var StockProcessIds = Boms.Select(m => m.StockProcessId).ToArray();
 
-                var StockProcessRecords = (from p in db.StockProcess
-                                           where StockProcessIds.Contains(p.StockProcessId)
-                                           select p).ToList();
+                //var StockProcessRecords = (from p in db.StockProcess
+                //                           where StockProcessIds.Contains(p.StockProcessId)
+                //                           select p).ToList();
 
                 foreach (var item2 in Boms)
                 {
-                    if (item2.StockProcessId != null)
-                    {
-                        var StockProcessRec = StockProcessRecords.Where(m => m.StockProcessId == item2.StockProcessId).FirstOrDefault();
-                        StockProcessRec.ObjectState = Model.ObjectState.Deleted;
-                        db.StockProcess.Remove(StockProcessRec);
-                    }
+                    //if (item2.StockProcessId != null)
+                    //{
+                    //    var StockProcessRec = StockProcessRecords.Where(m => m.StockProcessId == item2.StockProcessId).FirstOrDefault();
+                    //    StockProcessRec.ObjectState = Model.ObjectState.Deleted;
+                    //    db.StockProcess.Remove(StockProcessRec);
+                    //}
                     item2.ObjectState = Model.ObjectState.Deleted;
                     db.JobReceiveBom.Remove(item2);
                 }
 
                 new StockService(_unitOfWork).DeleteStockDBMultiple(StockIdList, ref db, true);
-
-                //foreach (var item in StockProcessIdList)
-                //{
-                //    new StockProcessService(_unitOfWork).DeleteStockProcessDB(item, ref db, true);
-                //}
-
                 new StockProcessService(_unitOfWork).DeleteStockProcessDBMultiple(StockProcessIdList, ref db, true);
 
                 temp.ObjectState = Model.ObjectState.Deleted;
@@ -1271,6 +1289,39 @@ namespace Web
             return Redirect(System.Configuration.ConfigurationManager.AppSettings["CustomizeDomain"] + "/WeavingReceive/GetBarCodesForIAP/" + id);
         }
 
+
+        public ActionResult Wizard(int id)//Document Type Id
+        {
+            //ControllerAction ca = new ControllerActionService(_unitOfWork).Find(id);
+            JobReceiveHeaderViewModel vm = new JobReceiveHeaderViewModel();
+
+            vm.DivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
+            vm.SiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
+
+            var settings = new JobReceiveSettingsService(_unitOfWork).GetJobReceiveSettingsForDocument(id, vm.DivisionId, vm.SiteId);
+
+            if (settings != null)
+            {
+                if (settings.WizardMenuId != null)
+                {
+                    MenuViewModel menuviewmodel = new MenuService(_unitOfWork).GetMenu((int)settings.WizardMenuId);
+
+                    if (menuviewmodel == null)
+                    {
+                        return View("~/Views/Shared/UnderImplementation.cshtml");
+                    }
+                    else if (!string.IsNullOrEmpty(menuviewmodel.URL))
+                    {
+                        return Redirect(System.Configuration.ConfigurationManager.AppSettings[menuviewmodel.URL] + "/" + menuviewmodel.ControllerName + "/" + menuviewmodel.ActionName + "/" + menuviewmodel.RouteId + "?MenuId=" + menuviewmodel.MenuId);
+                    }
+                    else
+                    {
+                        return RedirectToAction(menuviewmodel.ActionName, menuviewmodel.ControllerName, new { MenuId = menuviewmodel.MenuId, id = menuviewmodel.RouteId });
+                    }
+                }
+            }
+            return RedirectToAction("Index", new { id = id });
+        }
 
         public ActionResult Import(int id)//Document Type Id
         {

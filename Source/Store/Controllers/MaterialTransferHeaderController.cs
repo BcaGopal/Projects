@@ -219,6 +219,10 @@ namespace Web
             if (!svm.GodownId.HasValue)
                 ModelState.AddModelError("GodownId", "The To Godown field is required.");
 
+            if (svm.GodownId == svm.FromGodownId)
+                ModelState.AddModelError("GodownId", "From Godown and To Godown can't be same.");
+
+
             if (ModelState.IsValid && BeforeSave && !EventException && (TimePlanValidation || Continue))
             {
 
@@ -292,11 +296,15 @@ namespace Web
                 else
                 {
                     bool GodownChanged = false;
+                    bool FromGodownChanged = false;
+                    bool DocDateChanged = false;
                     List<LogTypeViewModel> LogList = new List<LogTypeViewModel>();
 
                     StockHeader temp = _StockHeaderService.Find(s.StockHeaderId);
 
                     GodownChanged = (temp.GodownId == s.GodownId) ? false : true;
+                    FromGodownChanged = (temp.FromGodownId == s.FromGodownId) ? false : true;
+                    DocDateChanged = (temp.DocDate == s.DocDate) ? false : true;
 
                     StockHeader ExRec = new StockHeader();
                     ExRec = Mapper.Map<StockHeader>(temp);
@@ -322,8 +330,6 @@ namespace Web
                     temp.ObjectState = Model.ObjectState.Modified;
                     db.StockHeader.Add(temp);
 
-                    if (GodownChanged)
-                        new StockService(_unitOfWork).UpdateStockGodownId(temp.StockHeaderId, temp.GodownId, db);
 
                     LogList.Add(new LogTypeViewModel
                     {
@@ -336,13 +342,27 @@ namespace Web
                     foreach (Stock item in stocklist)
                     {
                         Stock Stock = new StockService(_unitOfWork).Find(item.StockId);
-                        if (item.Qty_Iss > 0)
+
+
+                        if (GodownChanged == true)
                         {
-                            Stock.GodownId = (int)temp.FromGodownId;
+                            if (item.Qty_Rec > 0)
+                            {
+                                Stock.GodownId = (int)temp.GodownId;
+                            }
                         }
-                        else
+
+                        if (FromGodownChanged == true)
                         {
-                            Stock.GodownId = (int)temp.GodownId;
+                            if (item.Qty_Iss > 0)
+                            {
+                                Stock.GodownId = (int)temp.FromGodownId;
+                            }
+                        }
+
+                        if (DocDateChanged == true)
+                        {
+                            Stock.DocDate = temp.DocDate;
                         }
 
                         Stock.ObjectState = Model.ObjectState.Modified;
@@ -352,8 +372,17 @@ namespace Web
                         if (item.Qty_Rec > 0 && item.ProductUidId != null && item.ProductUidId != 0)
                         {
                             ProductUid ProductUid = new ProductUidService(_unitOfWork).Find((int)item.ProductUidId);
-                            ProductUid.CurrenctGodownId = temp.GodownId;
-                            ProductUid.LastTransactionDocNo = temp.DocNo;
+
+                            if (GodownChanged == true)
+                            {
+                                ProductUid.CurrenctGodownId = temp.GodownId;
+                            }
+
+                            if (DocDateChanged == true)
+                            {
+                                ProductUid.LastTransactionDocDate = temp.DocDate;
+                            }
+
 
                             ProductUid.ObjectState = Model.ObjectState.Modified;
                             db.ProductUid.Add(ProductUid);

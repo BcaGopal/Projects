@@ -33,6 +33,7 @@
                 @Html.ActionLink(" ", "GetHistory", "LogHistory", null, new { @class = "glyphicon glyphicon-user toolbar", @title = "History", @data_toggle = "tooltip", @id = "DocHistoryI" })
                 @Html.ActionLink(" ", "GeneratePrints", "MaterialPlanHeader", null, new { @class = "glyphicon glyphicon-print toolbar", @title = "Print", @data_toggle = "tooltip", @id = "PrintRecordI", target = "_blank" })
                 @Html.ActionLink(" ", "Delete", "MaterialPlanHeader", null, new { @class = "glyphicon glyphicon-trash toolbar", @title = "Delete", @data_toggle = "tooltip", @id = "DeleteRecord", @data_modal = "" })
+                @Html.ActionLink(" ", "Wizard", "MaterialPlanHeader", new { @id = @ViewBag.id }, new { @class = "glyphicon glyphicon-import toolbar right", @title = "Wizard", @data_toggle = "tooltip", target = "_blank" })
                 @Html.ActionLink(" ", "Report", "MaterialPlanHeader", new { @id = @ViewBag.id }, new { @class = "glyphicon glyphicon-stats toolbar right", @title = "Report", @data_toggle = "tooltip", target = "_blank" })
                 @Html.ActionLink(" ", "Create", "MaterialPlanSettings", new { @id = @ViewBag.id }, new { @class = "glyphicon glyphicon-cog toolbar right", @title = "Default Settings", @data_toggle = "tooltip" })
                 @Html.ActionLink(" ", "Index", "MaterialPlanHeader", new { @id = ViewBag.id }, new { @class = "glyphicon glyphicon-list toolbar right", @title = "List", @data_toggle = "tooltip" })

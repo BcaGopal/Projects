@@ -24,19 +24,19 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/22/2016 16:20:37</publishTime>
     </File>
     <File Include="bin/Components.dll">
-      <publishTime>10/04/2016 11:28:25</publishTime>
+      <publishTime>10/22/2016 14:16:43</publishTime>
     </File>
     <File Include="bin/CookieNotifier.dll">
       <publishTime>10/04/2016 11:28:47</publishTime>
     </File>
     <File Include="bin/Customize.dll">
-      <publishTime>10/10/2016 17:38:16</publishTime>
+      <publishTime>10/25/2016 17:04:19</publishTime>
     </File>
     <File Include="bin/Data.dll">
       <publishTime>09/22/2016 17:13:25</publishTime>
     </File>
     <File Include="bin/DocumentPrint.dll">
-      <publishTime>10/04/2016 11:28:45</publishTime>
+      <publishTime>10/25/2016 17:04:16</publishTime>
     </File>
     <File Include="bin/EntityFramework.dll">
       <publishTime>09/22/2016 16:20:39</publishTime>
@@ -51,13 +51,13 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/22/2016 16:20:39</publishTime>
     </File>
     <File Include="bin/Infrastructure.dll">
-      <publishTime>10/04/2016 11:28:25</publishTime>
+      <publishTime>10/22/2016 14:16:43</publishTime>
     </File>
     <File Include="bin/itextsharp.dll">
       <publishTime>09/22/2016 17:07:07</publishTime>
     </File>
     <File Include="bin/Logger.dll">
-      <publishTime>10/04/2016 11:28:28</publishTime>
+      <publishTime>10/22/2016 14:16:45</publishTime>
     </File>
     <File Include="bin/Microsoft.AspNet.Identity.Core.dll">
       <publishTime>09/22/2016 16:20:42</publishTime>
@@ -126,10 +126,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/22/2016 16:20:46</publishTime>
     </File>
     <File Include="bin/Models.BasicSetup.dll">
-      <publishTime>10/04/2016 11:28:42</publishTime>
+      <publishTime>10/22/2016 14:16:43</publishTime>
     </File>
     <File Include="bin/Models.Customize.dll">
-      <publishTime>10/04/2016 11:28:43</publishTime>
+      <publishTime>10/25/2016 17:04:13</publishTime>
     </File>
     <File Include="bin/Models.Reports.dll">
       <publishTime>09/22/2016 17:13:23</publishTime>
@@ -138,25 +138,25 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/22/2016 16:20:47</publishTime>
     </File>
     <File Include="bin/Notifier.dll">
-      <publishTime>10/04/2016 11:28:48</publishTime>
+      <publishTime>10/22/2016 14:16:44</publishTime>
     </File>
     <File Include="bin/Owin.dll">
       <publishTime>09/22/2016 16:20:47</publishTime>
     </File>
     <File Include="bin/ProjLib.dll">
-      <publishTime>10/04/2016 11:28:27</publishTime>
+      <publishTime>10/22/2016 14:16:45</publishTime>
     </File>
     <File Include="bin/Services.BasicSetup.dll">
-      <publishTime>10/04/2016 11:28:44</publishTime>
+      <publishTime>10/22/2016 14:16:46</publishTime>
     </File>
     <File Include="bin/Services.Customize.dll">
-      <publishTime>10/10/2016 17:38:15</publishTime>
+      <publishTime>10/25/2016 17:04:18</publishTime>
     </File>
     <File Include="bin/Services.Reports.dll">
       <publishTime>09/22/2016 17:13:25</publishTime>
     </File>
     <File Include="bin/Surya.Planning.Data.dll">
-      <publishTime>10/04/2016 11:28:48</publishTime>
+      <publishTime>10/25/2016 17:04:15</publishTime>
     </File>
     <File Include="bin/System.Web.Helpers.dll">
       <publishTime>09/22/2016 16:20:45</publishTime>
@@ -180,7 +180,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/22/2016 16:20:45</publishTime>
     </File>
     <File Include="bin/TimePlanValidator.dll">
-      <publishTime>10/04/2016 11:28:43</publishTime>
+      <publishTime>10/25/2016 17:04:14</publishTime>
     </File>
     <File Include="bin/WebActivatorEx.dll">
       <publishTime>09/22/2016 16:20:48</publishTime>
@@ -1386,7 +1386,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/22/2016 10:54:22</publishTime>
     </File>
     <File Include="Views/Dyeing/Create.cshtml">
-      <publishTime>10/07/2016 13:22:06</publishTime>
+      <publishTime>10/24/2016 19:42:44</publishTime>
     </File>
     <File Include="Views/Dyeing/DocumentTypeList.cshtml">
       <publishTime>09/22/2016 10:54:23</publishTime>
@@ -1470,7 +1470,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/22/2016 10:54:23</publishTime>
     </File>
     <File Include="Views/RecipeHeader/Create.cshtml">
-      <publishTime>10/07/2016 14:06:45</publishTime>
+      <publishTime>10/25/2016 10:23:45</publishTime>
     </File>
     <File Include="Views/RecipeHeader/DocumentTypeList.cshtml">
       <publishTime>09/22/2016 10:54:23</publishTime>
@@ -1485,10 +1485,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/22/2016 10:54:23</publishTime>
     </File>
     <File Include="Views/RecipeLine/_Create.cshtml">
-      <publishTime>10/07/2016 15:15:29</publishTime>
+      <publishTime>10/18/2016 12:09:46</publishTime>
     </File>
     <File Include="Views/RecipeLine/_RecipeDetail.cshtml">
-      <publishTime>10/07/2016 15:28:23</publishTime>
+      <publishTime>10/25/2016 11:18:46</publishTime>
     </File>
     <File Include="Views/Shared/AjaxError.cshtml">
       <publishTime>09/22/2016 10:54:23</publishTime>
@@ -1519,6 +1519,9 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     </File>
     <File Include="Views/Shared/_Reason.cshtml">
       <publishTime>09/22/2016 10:54:23</publishTime>
+    </File>
+    <File Include="Views/SubRecipe/Create.cshtml">
+      <publishTime>10/25/2016 16:43:58</publishTime>
     </File>
     <File Include="Views/TaxCalculation/FooterChargeEdit.cshtml">
       <publishTime>09/22/2016 10:54:23</publishTime>

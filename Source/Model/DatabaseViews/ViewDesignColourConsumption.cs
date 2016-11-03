@@ -16,6 +16,9 @@ namespace Model.DatabaseViews
         public string ProductGroupName { get; set; }
         public int ColourId { get; set; }
         public string ColourName { get; set; }
+        public int ProductQualityId { get; set; }
+        public string ProductQualityName { get; set; }
+        public Decimal? Weight { get; set; }
         public int BomProductId { get; set; }
 
     }

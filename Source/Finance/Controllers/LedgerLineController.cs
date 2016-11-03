@@ -195,6 +195,7 @@ namespace Web
                     LedgerLine.BaseRate = svm.BaseRate;
                     LedgerLine.BaseValue = svm.BaseValue;
                     LedgerLine.ReferenceId = svm.ReferenceId;
+                    LedgerLine.ProductUidId = svm.ProductUidId;
                     LedgerLine.CreatedDate = DateTime.Now;
                     LedgerLine.ModifiedDate = DateTime.Now;
                     LedgerLine.CreatedBy = User.Identity.Name;
@@ -398,6 +399,7 @@ namespace Web
                     LedgerLine.BaseRate = svm.BaseRate;
                     LedgerLine.BaseValue = svm.BaseValue;
                     LedgerLine.ReferenceId = svm.ReferenceId;
+                    LedgerLine.ProductUidId = svm.ProductUidId;
                     LedgerLine.ModifiedDate = DateTime.Now;
                     LedgerLine.ModifiedBy = User.Identity.Name;
                     LedgerLine.ObjectState = Model.ObjectState.Modified;
@@ -481,6 +483,7 @@ namespace Web
                     Ledger.LedgerHeaderId = LedgerLine.LedgerHeaderId;
                     Ledger.LedgerLineId = LedgerLine.LedgerLineId;
                     Ledger.Narration = header.Narration + LedgerLine.Remark;
+                    Ledger.ProductUidId = LedgerLine.ProductUidId;
                     Ledger.ObjectState = Model.ObjectState.Modified;
                     db.Ledger.Add(Ledger);
 
@@ -1032,6 +1035,11 @@ namespace Web
                 Data = Data,
                 JsonRequestBehavior = JsonRequestBehavior.AllowGet
             };
+        }
+
+        public JsonResult GetProductUidValidation(string ProductUID)
+        {
+            return Json(new ProductUidService(_unitOfWork).ValidateUID(ProductUID), JsonRequestBehavior.AllowGet);
         }
 
     }
