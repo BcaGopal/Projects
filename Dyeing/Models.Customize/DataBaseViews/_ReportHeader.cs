@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Models.Customize.DataBaseViews
 {
-    [Table("_ReportHeader")]
+    [Table("_ReportHeaders")]
     public class _ReportHeader : EntityBase
     {
         [Key]

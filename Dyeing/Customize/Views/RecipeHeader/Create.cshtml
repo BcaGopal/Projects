@@ -282,9 +282,6 @@
                         @Html.ActionLink("Add New Row ", Action, "RecipeLine", new { id = @Model.JobOrderHeaderId, IsProdBased = false }, new { data_modalCustom = "", id = "btnCreatePO", @class = "toolbar", @title = "Add New", @data_toggle = "tooltip" })
                         /
                         @Html.ActionLink("Copy Recipe", "CopyRecipes", "RecipeLine", new { JobOrderHeaderId = @Model.JobOrderHeaderId, Dimension1Id = @Model.Dimension1Id, HeaderTestingQty = (@Model.TestingQty ?? 0), HeaderQty = @Model.Qty  }, new { id = "CopyRecipe", @class = "toolbar", @title = "Copy Recipe", @data_toggle = "tooltip" })
-                        /
-                        @Html.ActionLink("Edit Recipe", "RecipeDetail", "RecipeLine", new { JobOrderHeaderId = @Model.JobOrderHeaderId, CopyFromRecipeId = @Model.JobOrderHeaderId, HeaderTestingQty = (@Model.TestingQty ?? 0), HeaderQty = @Model.Qty }, new { id = "CopyRecipe", @class = "toolbar", @title = "Copy Recipe", @data_toggle = "tooltip" })
-
                     </h5>
                 </div>
                 <div style="padding-right:15px">

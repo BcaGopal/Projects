@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Models.Customize.DataBaseViews
 {
-    [Table("_ReportLine")]
+    [Table("_ReportLines")]
     public class _ReportLine : EntityBase
     {
         [Key]

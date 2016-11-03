@@ -40,8 +40,6 @@ namespace Services.Customize
         IEnumerable<Dimension1RecipeViewModel> GetRecipes(int Dimension1Id);
         IEnumerable<RecipeDetailViewModel> GetRecipeDetail(int JobOrderHeaderId);
 
-        LastValues GetLastValues(int JobOrderHeaderId);
-
         #region Helper Methods
         ProductViewModel GetProduct(int ProductId);
 
@@ -655,23 +653,6 @@ namespace Services.Customize
             IEnumerable<RecipeDetailViewModel> RecipeDetail = _unitOfWork.SqlQuery<RecipeDetailViewModel>("" + ConfigurationManager.AppSettings["DataBaseSchema"] + ".sp_GetRecipeDetail @JobOrderHeaderId", SqlParameterJobOrderHeaderId).ToList();
 
             return RecipeDetail;
-        }
-
-        public LastValues GetLastValues(int JobOrderHeaderId)
-        {
-            var temp = (from H in _unitOfWork.Repository<JobOrderHeader>().Instance
-                        join L in _unitOfWork.Repository<StockLine>().Instance on H.StockHeaderId equals L.StockHeaderId into StockLineTable
-                        from StockLineTab in StockLineTable.DefaultIfEmpty()
-                        join Le in _unitOfWork.Repository<StockLineExtended>().Instance on StockLineTab.StockLineId equals Le.StockLineId into StockLineExtendedTable
-                        from StockLineExtendedTab in StockLineExtendedTable.DefaultIfEmpty()
-                        where H.JobOrderHeaderId == JobOrderHeaderId
-                        orderby StockLineExtendedTab.StockLineId descending
-                        select new LastValues
-                        {
-                            DyeingRatio = StockLineExtendedTab.DyeingRatio
-                        }).FirstOrDefault();
-
-            return temp;
         }
     }
 
