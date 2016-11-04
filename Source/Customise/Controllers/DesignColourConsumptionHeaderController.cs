@@ -132,7 +132,7 @@ namespace Web.Controllers
         }
 
 
-        public ActionResult Create(int? id, int? ColourId, string ProductQualityName)
+        public ActionResult Create(int? id, int? ColourId, string ProductQualityName, Decimal? Weight)
         {
             DesignColourConsumptionHeaderViewModel p = new DesignColourConsumptionHeaderViewModel();
             if (id != null)
@@ -140,7 +140,7 @@ namespace Web.Controllers
                 p.ProductGroupId = (int)id;
                 p.ColourId = (int)ColourId;
                 p.ProductQualityName = ProductQualityName;
-
+                p.Weight = Weight;
             }
             PrepareViewBag();
             return View("Create", p);
@@ -360,9 +360,9 @@ namespace Web.Controllers
                 }
 
 
-                var temp = (from L in db.BomDetail
+                IEnumerable<BomDetail> temp = (from L in db.BomDetail
                             where L.ProductId == vm.id
-                            select new { BomDetailId = L.BomDetailId }).ToList();
+                                               select L).ToList();
 
 
                 foreach (var item in temp)
@@ -422,11 +422,15 @@ namespace Web.Controllers
             ProductGroupQualityJson.Add(new ProductGroupQuality()
             {
                 ProductGroupName = productgroupquality.ProductGroupName,
-                ProductQualityName = productgroupquality.ProductQualityName
+                ProductQualityName = productgroupquality.ProductQualityName,
+                GrossWeight = productgroupquality.GrossWeight
             });
 
             return Json(ProductGroupQualityJson);
         }
+
+
+
 
         
 

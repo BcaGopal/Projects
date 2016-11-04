@@ -406,6 +406,7 @@
                 success: function (data) {
                     $("#ProductGroupName").val(data[0].ProductGroupName);
                     $("#ProductQualityName").val(data[0].ProductQualityName);
+                    $("#Weight").val(data[0].GrossWeight);
                 },
                 error: function (xhr, ajaxOptions, thrownError) {
                     alert('Failed to retrieve Design details.' + thrownError);

@@ -34,6 +34,8 @@ namespace Service
         Task<IEquatable<JobReceiveHeader>> GetAsync();
         Task<JobReceiveHeader> FindAsync(int id);
         JobReceiveHeader GetJobReceiveHeaderByName(string terms);
+
+        void UpdateProdUidJobWorkers(ref ApplicationDbContext context, JobReceiveHeader Header);
         int NextId(int id);
         int PrevId(int id);
         string GetMaxDocNo();
@@ -301,6 +303,39 @@ namespace Service
             IEnumerable<WeavingReceiveWizardViewModel> temp = db.Database.SqlQuery<WeavingReceiveWizardViewModel>("Web.ProcWeavingReceiveWizard @SiteId, @DivisionId, @DocumentTypeId", SqlParameterSiteId, SqlParameterDivisionId, SqlParameterDocTypeId).ToList();
 
             return temp;
+        }
+
+        public void UpdateProdUidJobWorkers(ref ApplicationDbContext context, JobReceiveHeader Header)
+        {
+            var Lines = (from p in context.JobReceiveLine
+                         where p.JobReceiveHeaderId == Header.JobReceiveHeaderId
+                         select p).ToList();
+
+            if (Lines.Count() > 0)
+            {
+                if (Lines.Where(m => m.ProductUidId != null).Count() > 0)
+                {
+                    var ProductUids = Lines.Select(m => m.ProductUidId).ToArray();
+
+                    var ProductUidRecords = (from p in context.ProductUid
+                                             where ProductUids.Contains(p.ProductUIDId)
+                                             && p.LastTransactionDocId == Header.JobReceiveHeaderId
+                                             select p).ToList();
+
+                    foreach (var item in ProductUidRecords)
+                    {
+                        item.LastTransactionPersonId = Header.JobWorkerId;
+                        item.LastTransactionDocNo = Header.DocNo;
+                        item.LastTransactionDocDate = Header.DocDate;
+                        item.CurrenctGodownId = Header.GodownId;
+                        item.ObjectState = Model.ObjectState.Modified;
+
+                        context.ProductUid.Add(item);
+                    }
+
+                }
+            }
+
         }
 
         public void Dispose()

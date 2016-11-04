@@ -735,6 +735,7 @@ namespace Service
                                                                    ColourId = p.ColourId,
                                                                    ColourName = p.ColourName,
                                                                    ProductQualityName = p.ProductQualityName,
+                                                                   Weight = p.Weight
                                                                };
 
             return svm;

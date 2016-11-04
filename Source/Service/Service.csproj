@@ -110,6 +110,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AccountService.cs" />
+    <Compile Include="FeetConversionToCmsService.cs" />
     <Compile Include="ProductBuyerSettingsService.cs" />
     <Compile Include="UserReferralService.cs" />
     <Compile Include="OverTimeApplicationHeaderService.cs" />

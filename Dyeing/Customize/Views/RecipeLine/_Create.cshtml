@@ -266,7 +266,7 @@
 
             function Calculation() {
                 
-                var mTestingQty = $('#TestingQty').val() / (500 * 1000)
+                var mTestingQty = parseFloat($('#TestingQty').val()) / (500 * 1000)
                 var mExcessQtyInKg = $('#ExcessQty').val();
 
                 if (mExcessQtyInKg == "" || mExcessQtyInKg == null)
@@ -281,7 +281,7 @@
                     if ($('#DyeingRatio').val() != 0) 
                     {
                         //$('#DocQty').val((((mTestingQty / $('#HeaderTestingQty').val()) *  $('#HeaderQty').val()) * $('#DyeingRatio').val() / 100).toFixed(4));
-                        DocQty = (((mTestingQty / $('#HeaderTestingQty').val()) *  $('#HeaderQty').val()) * $('#DyeingRatio').val() / 100);
+                        DocQty = (((parseFloat(mTestingQty) / $('#HeaderTestingQty').val()) *  $('#HeaderQty').val()) * $('#DyeingRatio').val() / 100);
                         $('#DocQty').val(Math.max( Math.round(DocQty * 1000) / 1000).toFixed(4));
                         
                     }
@@ -299,7 +299,7 @@
 
                 //$('#Qty').val(($('#DocQty').val() + mExcessQtyInKg).toFixed(4));
 
-                $('#Qty').val(($('#DocQty').val() + parseFloat(mExcessQtyInKg)));
+                $('#Qty').val((parseFloat($('#DocQty').val()) + parseFloat(mExcessQtyInKg)).toFixed(4));
                 $('#Amount').val(($('#Qty').val() * $('#Rate').val()).toFixed(2));
 
                 

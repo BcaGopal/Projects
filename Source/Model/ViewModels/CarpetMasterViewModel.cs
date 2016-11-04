@@ -119,6 +119,7 @@ namespace Model.ViewModels
         public virtual ProductType ProductShape { get; set; }
 
 
+        public decimal? GrossWeight { get; set; }
         public decimal ? StandardWeight { get; set; }
         public decimal? StandardCost { get; set; }
         [ForeignKey("DescriptionOfGoods"),Display(Name="Description of Goods")]

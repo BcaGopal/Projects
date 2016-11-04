@@ -61,7 +61,34 @@ namespace Web
 
         private void PrepareViewBag(DesignConsumptionLineViewModel svm)
         {
+            var ProductFaceContentGroups = from p in db.Product
+                                           join pg in db.ProductGroups on p.ReferenceDocId equals pg.ProductGroupId into ProductGroupTable
+                                           from ProductGroupTab in ProductGroupTable.DefaultIfEmpty()
+                                           join fp in db.FinishedProduct on ProductGroupTab.ProductGroupId equals fp.ProductGroupId into FinishedProductTable
+                                           from FinishedProductTab in FinishedProductTable.DefaultIfEmpty()
+                                           join pcl in db.ProductContentLine on FinishedProductTab.FaceContentId equals pcl.ProductContentHeaderId into ProductContentLineTable
+                                           from ProductContentLineTab in ProductContentLineTable.DefaultIfEmpty()
+                                           where p.ProductId == svm.BaseProductId && ((int?)ProductContentLineTab.ProductGroupId ?? 0) != 0
+                                           group new { ProductContentLineTab } by new { ProductContentLineTab.ProductGroupId } into Result
+                                           select new
+                                           {
+                                               ProductGroupId = Result.Key.ProductGroupId
+                                           };
 
+            var LastTrRec = (from L in db.BomDetail
+                             join P in db.Product on L.ProductId equals P.ProductId into ProductTable
+                             from ProductTab in ProductTable.DefaultIfEmpty()
+                             join pcon in ProductFaceContentGroups on ProductTab.ProductGroupId equals pcon.ProductGroupId into ProductFaceContentTable
+                             from ProductFaceContentTab in ProductFaceContentTable.DefaultIfEmpty()
+                             where L.BaseProductId == svm.BaseProductId && ((int?)ProductFaceContentTab.ProductGroupId ?? 0) != 0
+                             group new { L } by new { L.BaseProductId } into Result
+                             select new
+                             {
+                                 TotalPercentage = Result.Sum(i => i.L.ConsumptionPer)
+                             }).FirstOrDefault();
+
+            if (LastTrRec != null)
+                ViewBag.LastTransaction = LastTrRec.TotalPercentage + "% Consumption filled, " + (100 - LastTrRec.TotalPercentage) + " remaining.";
         }
 
         public ActionResult _Create(int Id) //Id ==>Sale Order Header Id
@@ -74,6 +101,9 @@ namespace Web
             s.DesignName = temp.DesignName;
             s.QualityName = temp.QualityName;
             s.Weight = temp.Weight;
+
+
+
 
             PrepareViewBag(s);
             return PartialView("_Create", s);
@@ -419,5 +449,84 @@ namespace Web
             var temp = (_BomDetailService.CheckForProductShadeExists(ProductId, Dimension1Id, BaseProductId));
             return Json(new { returnvalue = temp });
         }
+
+        public JsonResult GetConsumptionTotalQty(int BaseProductId, Decimal TotalWeight, Decimal BomQty, int BomDetailId)
+        {
+            var ProductFaceContentGroups = from p in db.Product
+                                           join pg in db.ProductGroups on p.ReferenceDocId equals pg.ProductGroupId into ProductGroupTable
+                                           from ProductGroupTab in ProductGroupTable.DefaultIfEmpty()
+                                           join fp in db.FinishedProduct on ProductGroupTab.ProductGroupId equals fp.ProductGroupId into FinishedProductTable
+                                           from FinishedProductTab in FinishedProductTable.DefaultIfEmpty()
+                                           join pcl in db.ProductContentLine on FinishedProductTab.FaceContentId equals pcl.ProductContentHeaderId into ProductContentLineTable
+                                           from ProductContentLineTab in ProductContentLineTable.DefaultIfEmpty()
+                                           where p.ProductId == BaseProductId && ((int?)ProductContentLineTab.ProductGroupId ?? 0) != 0
+                                           group new { ProductContentLineTab } by new { ProductContentLineTab.ProductGroupId } into Result
+                                           select new
+                                           {
+                                               ProductGroupId = Result.Key.ProductGroupId
+                                           };
+
+
+            Decimal TotalFillQty = 0;
+            var temp = (from L in db.BomDetail
+                        join p in db.Product on L.ProductId equals p.ProductId into ProductTable
+                        from ProductTab in ProductTable.DefaultIfEmpty()
+                        join pcon in ProductFaceContentGroups on ProductTab.ProductGroupId equals pcon.ProductGroupId into ProductFaceContentTable
+                        from ProductFaceContentTab in ProductFaceContentTable.DefaultIfEmpty()
+                        where L.BaseProductId == BaseProductId && L.BomDetailId != BomDetailId && ((int?)ProductFaceContentTab.ProductGroupId ?? 0) != 0
+                                    group (L) by (L.BaseProductId) into Result
+                                    select new
+                                    {
+                                        TotalQty = Result.Sum(i => i.Qty)
+                                    }).FirstOrDefault();
+
+            if (temp != null)
+            {
+                TotalFillQty  = temp.TotalQty;
+            }
+
+            return Json(TotalFillQty);
+        }
+
+        public JsonResult IsProductContent(int BaseProductId, int ProductId)
+        {
+            bool IsContent = true;
+            var ProductFaceContentGroups = from p in db.Product
+                                           join pg in db.ProductGroups on p.ReferenceDocId equals pg.ProductGroupId into ProductGroupTable
+                                           from ProductGroupTab in ProductGroupTable.DefaultIfEmpty()
+                                           join fp in db.FinishedProduct on ProductGroupTab.ProductGroupId equals fp.ProductGroupId into FinishedProductTable
+                                           from FinishedProductTab in FinishedProductTable.DefaultIfEmpty()
+                                           join pcl in db.ProductContentLine on FinishedProductTab.FaceContentId equals pcl.ProductContentHeaderId into ProductContentLineTable
+                                           from ProductContentLineTab in ProductContentLineTable.DefaultIfEmpty()
+                                           where p.ProductId == BaseProductId && ((int?)ProductContentLineTab.ProductGroupId ?? 0) != 0
+                                           group new { ProductContentLineTab } by new { ProductContentLineTab.ProductGroupId } into Result
+                                           select new
+                                           {
+                                               ProductGroupId = Result.Key.ProductGroupId
+                                           };
+
+
+            var temp = (from p in db.Product 
+                        join pcon in ProductFaceContentGroups on p.ProductGroupId equals pcon.ProductGroupId into ProductFaceContentTable
+                        from ProductFaceContentTab in ProductFaceContentTable.DefaultIfEmpty()
+                        where p.ProductId == ProductId && ((int?)ProductFaceContentTab.ProductGroupId ?? 0) != 0
+                        select new
+                        {
+                            ProductId = p.ProductId
+                        }).FirstOrDefault();
+
+            if (temp != null)
+            {
+                IsContent = true;
+            }
+            else
+            {
+                IsContent = false;
+            }
+
+            return Json(IsContent);
+        }
+
+        
     }
 }

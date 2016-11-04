@@ -959,7 +959,7 @@ namespace Services.Customize
 
         public int NextPrevId(int DocId, int DocTypeId, string UserName, string PrevNext)
         {
-            return new NextPrevIdService(_unitOfWork).GetNextPrevId(DocId, DocTypeId, UserName, "", "Web.RecipeHeaders", "JobOrderHeaderId", PrevNext);
+            return new NextPrevIdService(_unitOfWork).GetNextPrevId(DocId, DocTypeId, UserName, "", "Web.JobOrderHeaders", "JobOrderHeaderId", PrevNext);
         }
 
         public byte[] GetReport(string Ids, int DocTypeId, string UserName)

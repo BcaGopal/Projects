@@ -215,6 +215,7 @@ namespace Web
         public string sDocDate { get; set; }
         public string ProcessName { get; set; }
         public string PersonName { get; set; }
+        public decimal Amount { get; set; }
         public string Remark { get; set; }
         public int LedgerId { get; set; }
     }

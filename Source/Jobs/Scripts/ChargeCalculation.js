@@ -118,6 +118,8 @@ function DrawProductFields(DebugMode) {
                 + "     </div>"
                 + " </div>"
 
+
+
         temp += "<input type='hidden' id='CALL_" + ProductFields[i].ChargeCode + "ACCR' value='" + (ProductFields[i].LedgerAccountCrId == null ? "" : ProductFields[i].LedgerAccountCrId) + "'  name='linecharges[" + i + "].LedgerAccountCrId' />"
         temp += "<input type='hidden' id='CALL_" + ProductFields[i].ChargeCode + "ACDR' value='" + (ProductFields[i].LedgerAccountDrId == null ? "" : ProductFields[i].LedgerAccountDrId) + "' name='linecharges[" + i + "].LedgerAccountDrId'  />"
         temp += "<input type='hidden' id='CALL_" + ProductFields[i].ChargeCode + "CLAC' value='" + (ProductFields[i].ContraLedgerAccountId == null ? "" : ProductFields[i].ContraLedgerAccountId) + "' name='linecharges[" + i + "].ContraLedgerAccountId' />"
@@ -139,6 +141,10 @@ function DrawProductFields(DebugMode) {
 
     temp += "  <input type='hidden' value='" + varXAmount + "' id='xAmount' class='form-control col-xs-7 required text-right' />  "
     //temp += "<hr/>"
+
+    //alert(temp);
+    //prompt("Copy to clipboard: Ctrl+C, Enter", temp);
+    //temp = "<label>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</label>"
     $(temp).appendTo('.modal-body .row:last');
 }
 //"+(DebugMode?"text":"hidden")+"
@@ -214,6 +220,8 @@ function DrawFooterFields(DebugMode) {
 
     }
     temp += "</div>"
+
+    
     $(temp).appendTo('.modal-body');
 }
 

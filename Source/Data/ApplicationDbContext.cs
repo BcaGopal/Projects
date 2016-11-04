@@ -233,6 +233,7 @@ namespace Data.Models
         //Cusomize Models
         public DbSet<UrgentList> UrgentList { get; set; }
         public DbSet<WeavingRetension> WeavingRetension { get; set; }
+        public DbSet<FeetConversionToCms> FeetConversionToCms { get; set; }
 
 
         //Person Models

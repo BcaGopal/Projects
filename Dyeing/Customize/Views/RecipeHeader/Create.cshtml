@@ -579,7 +579,7 @@
         CustomSelectFunction($("#OrderById"), '/ComboHelpList/GetEmployee', '/ComboHelpList/SetSingleEmployee', ' ', false, 0);
         CustomSelectFunction($("#GodownId"), '/ComboHelpList/GetGodown', '/ComboHelpList/SetSingleGodown', ' ', false, 0);
 
-        CustomSelectFunction($("#Dimension2Id"), '/ComboHelpList/GetDimension2', '/ComboHelpList/SetSingleDimension2', 'Enter Dimension2', false, 0);
+        CustomSelectFunction($("#Dimension2Id"), '/ComboHelpList/GetDimension2', '/ComboHelpList/SetSingleDimension2', ' ', false, 0);
         CustomSelectFunction($("#ProductId"), '/ComboHelpList/GetProduct', '/ComboHelpList/SetSingleProduct', ' ', false, 0);
 
 
@@ -640,7 +640,10 @@
                         $("#ProdOrderNo").val(data.ProdOrderHeaderDocNo);
                         $("#Dimension1Id").val(data.Dimension1Id);
                         $("#ProductId").select2("data", { id: data.ProductId, text: data.ProductName });
-                        $("#Dimension2Id").select2("data", { id: data.Dimension2Id, text: data.Dimension2Name });
+                        if (data.Dimension2Id != null && data.Dimension2Id != 0)
+                        {
+                            $("#Dimension2Id").select2("data", { id: data.Dimension2Id, text: data.Dimension2Name });
+                        }
                         $("#Qty").val(data.BalanceQty);
                         $("#BalanceQty").val(data.BalanceQty);
                         $("#UnitId").val(data.UnitId);

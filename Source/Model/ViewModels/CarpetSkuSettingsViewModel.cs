@@ -28,6 +28,7 @@ namespace Model.ViewModel
         public bool isVisibleDrawbackTarrif { get; set; }
         public bool isVisibleStandardCost { get; set; }
         public bool isVisibleStandardWeight { get; set; }
+        public bool isVisibleGrossWeight { get; set; }
         public bool isVisibleSupplierDetail { get; set; }
         public bool isVisibleSample { get; set; }
         public bool isVisibleCounterNo { get; set; }

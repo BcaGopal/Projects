@@ -262,6 +262,14 @@ namespace Service
             if (!string.IsNullOrEmpty(vm.ProductGroupId)) { ProductGroupIdArr = vm.ProductGroupId.Split(",".ToCharArray()); }
             else { ProductGroupIdArr = new string[] { "NA" }; }
 
+            string[] Dimension1IdArr = null;
+            if (!string.IsNullOrEmpty(vm.Dimension1Id)) { Dimension1IdArr = vm.Dimension1Id.Split(",".ToCharArray()); }
+            else { Dimension1IdArr = new string[] { "NA" }; }
+
+            string[] Dimension2IdArr = null;
+            if (!string.IsNullOrEmpty(vm.Dimension2Id)) { Dimension2IdArr = vm.Dimension2Id.Split(",".ToCharArray()); }
+            else { Dimension2IdArr = new string[] { "NA" }; }
+
             var Query = db.ViewMaterialPlanBalance.AsQueryable()
                 .Join(db.MaterialPlanLine,
                 m => m.MaterialPlanLineId,
@@ -290,6 +298,8 @@ namespace Service
                    MaterialPlanDocNo = m.m.MaterialPlanNo,
                    UnitName = j.Unit.UnitName,
                    BuyerId = m.p.MaterialPlanHeader.BuyerId,
+                   Dimension1Id = m.p.Dimension1Id,
+                   Dimension2Id = m.p.Dimension2Id
                });
 
             if (!string.IsNullOrEmpty(Settings.filterContraDocTypes))
@@ -303,6 +313,12 @@ namespace Service
 
             if (!string.IsNullOrEmpty(vm.ProductGroupId))
                 Query = Query.Where(m => ProductGroupIdArr.Contains(m.ProductGroupId.ToString()));
+
+            if (!string.IsNullOrEmpty(vm.Dimension1Id))
+                Query = Query.Where(m => Dimension1IdArr.Contains(m.Dimension1Id.ToString()));
+
+            if (!string.IsNullOrEmpty(vm.Dimension2Id))
+                Query = Query.Where(m => Dimension2IdArr.Contains(m.Dimension2Id.ToString()));
 
             var Result = Query.Where(m => m.BuyerId == Header.BuyerId).Select(m => new MaterialPlanCancelLineViewModel
             {
@@ -336,6 +352,8 @@ namespace Service
                            Qty = p.Qty,
                            Dimension1Id = t.Dimension1Id,
                            Dimension2Id = t.Dimension2Id,
+                           Dimension1Name = t.Dimension1.Dimension1Name,
+                           Dimension2Name = t.Dimension2.Dimension2Name,
                            MaterialPlanCancelHeaderId = p.MaterialPlanCancelHeaderId,
                            MaterialPlanCancelLineId = p.MaterialPlanCancelLineId,
                            MaterialPlanDocNo = t.MaterialPlanHeader.DocNo,

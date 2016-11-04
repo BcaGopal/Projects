@@ -276,6 +276,7 @@ namespace Web
                     Ledger.LedgerAccountId = LedgerLine.LedgerAccountId;
                     Ledger.LedgerHeaderId = LedgerLine.LedgerHeaderId;
                     Ledger.LedgerLineId = LedgerLine.LedgerLineId;
+                    Ledger.ProductUidId = LedgerLine.ProductUidId;
                     Ledger.Narration = header.Narration + LedgerLine.Remark;
                     Ledger.ObjectState = Model.ObjectState.Added;
                     Ledger.LedgerId = 1;

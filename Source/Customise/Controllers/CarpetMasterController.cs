@@ -143,6 +143,7 @@ namespace Web
                     fp.ProductSpecification = item.ProductSpecification;
                     fp.StandardCost = item.StandardCost;
                     fp.StandardWeight = item.StandardWeight;
+                    fp.GrossWeight = item.GrossWeight;
                     //fp.ImageFileName = item.ImageFileName;
                     //fp.ImageFolderName = item.ImageFolderName;
                     fp.ProductShapeId = item.ProductShapeId;
@@ -441,6 +442,7 @@ namespace Web
                     Tags = productInfo.Tags,
                     StandardCost = productInfo.StandardCost,
                     StandardWeight = productInfo.StandardWeight,
+                    GrossWeight = productInfo.GrossWeight,
                     OriginCountryId = productInfo.OriginCountryId,
                     ImageFileName = productGroup.ImageFileName,
                     ImageFolderName = productGroup.ImageFolderName,
@@ -760,6 +762,7 @@ namespace Web
                             prod.StandardCost = vm.StandardCost;
                             prod.FaceContentId = vm.FaceContentId;
                             prod.StandardWeight = vm.StandardWeight;
+                            prod.GrossWeight = vm.GrossWeight;
                             prod.SampleId = vm.SampleId;
                             prod.CounterNo = vm.CounterNo;
                             prod.Tags = vm.Tags;
@@ -1536,6 +1539,7 @@ namespace Web
                     pro.DescriptionOfGoodsId = vm.DescriptionOfGoodsId;
                     pro.StandardCost = vm.StandardCost;
                     pro.StandardWeight = vm.StandardWeight;
+                    pro.GrossWeight = vm.GrossWeight;
                     pro.ProductStyleId = vm.ProductStyleId;
                     pro.ProductManufacturerId = vm.ProductManufacturerId;
                     pro.DrawBackTariffHeadId = vm.DrawBackTariffHeadId;
@@ -1630,7 +1634,7 @@ namespace Web
 
                     UnitConversion StandardUnitCms;
                     string ModeCms;
-                    CreateUnitConversion((byte)UnitConversionFors.Standard, vm.StandardSizeId, pro.ProductId, UnitConstants.SqCms, out StandardUnitCms, out ModeCms);
+                    CreateUnitConversion((byte)UnitConversionFors.Standard, vm.StandardSizeId, pro.ProductId, UnitConstants.SqMeter, out StandardUnitCms, out ModeCms);
                     if (ModeCms == "Create")
                     {
                         new UnitConversionService(_unitOfWork).Create(StandardUnitCms);
@@ -1672,7 +1676,7 @@ namespace Web
 
                     UnitConversion ManufacturingUnitCms;
                     string MModeCms;
-                    CreateUnitConversion((byte)UnitConversionFors.Manufacturing, vm.ManufacturingSizeId, pro.ProductId, UnitConstants.SqCms, out ManufacturingUnitCms, out MModeCms);
+                    CreateUnitConversion((byte)UnitConversionFors.Manufacturing, vm.ManufacturingSizeId, pro.ProductId, UnitConstants.SqMeter, out ManufacturingUnitCms, out MModeCms);
                     if (MModeCms == "Create")
                     {
                         new UnitConversionService(_unitOfWork).Create(ManufacturingUnitCms);
@@ -1716,7 +1720,7 @@ namespace Web
 
                     UnitConversion FinishingUnitCms;
                     string FModeCms;
-                    CreateUnitConversion((byte)UnitConversionFors.Finishing, vm.FinishingSizeId, pro.ProductId, UnitConstants.SqCms, out FinishingUnitCms, out FModeCms);
+                    CreateUnitConversion((byte)UnitConversionFors.Finishing, vm.FinishingSizeId, pro.ProductId, UnitConstants.SqMeter, out FinishingUnitCms, out FModeCms);
                     if (FModeCms == "Create")
                     {
                         new UnitConversionService(_unitOfWork).Create(FinishingUnitCms);
@@ -2057,6 +2061,7 @@ namespace Web
                     temp.DescriptionOfGoodsId = vm.DescriptionOfGoodsId;
                     temp.StandardCost = vm.StandardCost;
                     temp.StandardWeight = vm.StandardWeight;
+                    temp.GrossWeight = vm.GrossWeight;
                     temp.DivisionId = vm.DivisionId;
                     temp.OriginCountryId = vm.OriginCountryId;
                     temp.Tags = vm.Tags;
@@ -2790,13 +2795,13 @@ namespace Web
                         SizeExist.ToQty = Convert.ToDecimal(Totalf.ExecuteScalar() == DBNull.Value ? 0 : Totalf.ExecuteScalar());
                     }
                 }
-                else if (ToUnit == UnitConstants.SqCms)
+                else if (ToUnit == UnitConstants.SqMeter)
                 {
                     using (SqlConnection sqlConnection = new SqlConnection((string)System.Web.HttpContext.Current.Session["DefaultConnectionString"]))
                     {
                         sqlConnection.Open();
 
-                        SqlCommand Totalf = new SqlCommand("SELECT * FROM Web.FuncConvertSqFeetToSqCms( " + SizeId + ")", sqlConnection);
+                        SqlCommand Totalf = new SqlCommand("SELECT * FROM Web.FuncConvertSqFeetToSqMeter( " + SizeId + ")", sqlConnection);
 
                         SizeExist.ToQty = Convert.ToDecimal(Totalf.ExecuteScalar() == DBNull.Value ? 0 : Totalf.ExecuteScalar());
                     }
@@ -2835,13 +2840,13 @@ namespace Web
                         UnitConv.ToQty = Convert.ToDecimal(Totalf.ExecuteScalar() == DBNull.Value ? 0 : Totalf.ExecuteScalar());
                     }
                 }
-                else if (ToUnit == UnitConstants.SqCms)
+                else if (ToUnit == UnitConstants.SqMeter)
                 {
                     using (SqlConnection sqlConnection = new SqlConnection((string)System.Web.HttpContext.Current.Session["DefaultConnectionString"]))
                     {
                         sqlConnection.Open();
 
-                        SqlCommand Totalf = new SqlCommand("SELECT * FROM Web.FuncConvertSqFeetToSqCms( " + SizeId + ")", sqlConnection);
+                        SqlCommand Totalf = new SqlCommand("SELECT * FROM Web.FuncConvertSqFeetToSqMeter( " + SizeId + ")", sqlConnection);
 
                         UnitConv.ToQty = Convert.ToDecimal(Totalf.ExecuteScalar() == DBNull.Value ? 0 : Totalf.ExecuteScalar());
                     }

@@ -329,6 +329,11 @@ namespace Web
                     if (GodownChanged)
                         new StockService(_unitOfWork).UpdateStockGodownId(temp.StockHeaderId, temp.GodownId, db);
 
+                    if (temp.JobWorkerId != ExRec.JobWorkerId || temp.DocNo != ExRec.DocNo || temp.DocDate != ExRec.DocDate)
+                    {
+                        _JobReceiveHeaderService.UpdateProdUidJobWorkers(ref db, temp);
+                    }
+
                     LogList.Add(new LogTypeViewModel
                     {
                         ExObj = ExRec,

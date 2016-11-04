@@ -58,6 +58,7 @@
                columns.Add(m => m.ProductQualityName, true);
                columns.Add(m => m.ProductGroupName).Sortable(true).Titled("Design").Filterable(true).Sortable(true);
                columns.Add(m => m.ColourName).Sortable(true).Titled("Colour").Filterable(true).Sortable(true);
+               columns.Add(m => m.Weight).Sortable(true).Titled("Weight").Filterable(true).Sortable(true);
            }).WithPaging(25).EmptyText("No records found.").Sortable().Filterable().WithMultipleFilters()
     </div>
 </div>
@@ -71,13 +72,14 @@
         var ProductGroupId = row.find('[data-name="ProductGroupId"]').text();
         var ColourId = row.find('[data-name="ColourId"]').text();
         var ProductQualityName = row.find('[data-name="ProductQualityName"]').text();
+        var Weight = row.find('[data-name="Weight"]').text();
         var url = "";
         if (editid != 0)
         {
             url = '@Url.Action("Edit", "DesignColourConsumptionHeader")' + "/" + editid;
         }
         else {
-            url = '@Url.Action("Create", "DesignColourConsumptionHeader")' + "/" + ProductGroupId + "?ColourId=" + ColourId + "&ProductQualityName=" + ProductQualityName;
+            url = '@Url.Action("Create", "DesignColourConsumptionHeader")' + "/" + ProductGroupId + "?ColourId=" + ColourId + "&ProductQualityName=" + ProductQualityName + "&Weight=" + Weight;
         }
         
         window.location.href = url;
