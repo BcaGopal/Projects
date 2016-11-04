@@ -102,6 +102,21 @@ namespace Web
             SaleEnquiryHeader temp = new SaleEnquiryHeaderService(_unitOfWork).Find(s.SaleEnquiryHeaderId);
             //if (Command == "Submit" && (s.ProductId == 0))
             //    return RedirectToAction("Submit", "SaleEnquiryHeader", new { id = s.SaleEnquiryHeaderId }).Success("Data saved successfully");
+
+            SaleEnquiryLine es = new SaleEnquiryLineService(_unitOfWork).Find_WithLineDetail(svm.SaleEnquiryHeaderId, svm.ProductQuality, svm.ProductGroup,  svm.Colour, svm.Size );
+             
+            if (es != null )
+            {
+                if (es != null && es.SaleEnquiryLineId != svm.SaleEnquiryLineId)
+                {
+                    ModelState.AddModelError("ProductId", "This Detail is already Added !");
+                }
+                    
+            }
+
+
+
+
             if (svm.Qty <= 0)
             {
                 ModelState.AddModelError("Qty", "Please Check Qty");
@@ -195,11 +210,11 @@ namespace Web
                     //End of Tracking the Modifications::
 
                     temp1.DueDate = svm.DueDate;
-                    temp1.ProductId = svm.ProductId ?? 0;
+                    temp1.ProductId = svm.ProductId;
                     temp1.Specification = svm.Specification;
                     temp1.Dimension1Id = svm.Dimension1Id;
                     temp1.Dimension2Id = svm.Dimension2Id;
-                    temp1.Qty = svm.Qty ?? 0;
+                    temp1.Qty = svm.Qty;
                     temp1.UnitId = svm.UnitId;
                     temp1.DealQty = svm.DealQty ?? 0;
                     temp1.DealUnitId = svm.DealUnitId;

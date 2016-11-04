@@ -1,5 +1,5 @@
 ﻿@model Model.ViewModels.JobWorkerViewModel
-
+@using Core.Common
 @{
     ViewBag.Title = "Create";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -40,19 +40,19 @@
 
             <hr style="margin-top: 5px; margin-bottom: 5px; border-top: 1px solid #d8d5d5" />
             @{
-                string EditAction = "";
-                if (Model.Status == (int)StatusConstants.Drafted || Model.Status == (int)StatusConstants.Import)
-                {
-                    EditAction = "Modify";
-                }
-                else if ((Model.Status == (int)StatusConstants.Submitted || Model.Status == (int)StatusConstants.Modified))
-                {
-                    EditAction = "ModifyAfter_Submit";
-                }
-                else
-                {
-                    EditAction = "DetailInformation";
-                }
+//string EditAction = "";
+//if (Model.Status == (int)StatusConstants.Drafted || Model.Status == (int)StatusConstants.Import)
+//{
+//    EditAction = "Modify";
+//}
+//else if ((Model.Status == (int)StatusConstants.Submitted || Model.Status == (int)StatusConstants.Modified))
+//{
+//    EditAction = "ModifyAfter_Submit";
+//}
+//else
+//{
+//    EditAction = "DetailInformation";
+//}
             }
             <div class="panel-info">
                 @*<h4 style="padding:5px 0 0 0;margin:0px">
@@ -69,7 +69,7 @@
                 </h4>*@
                 <div class="btn-group">
                     @Html.ActionLink(" ", "Create", "JobWorker", null, new { @class = "cbtn btn-circle glyphicon glyphicon-plus toolbar", @title = "Add New", @data_toggle = "tooltip" })
-                    @Html.ActionLink(" ", EditAction, "JobOrderHeader", new { @id = Model.PersonId, IndexType = ViewBag.IndexStatus }, new { @class = "cbtn btn-circle glyphicon glyphicon-edit", @title = "Edit", @data_toggle = "tooltip" })
+                    @*@Html.ActionLink(" ", EditAction, "JobOrderHeader", new { @id = Model.PersonId, IndexType = ViewBag.IndexStatus }, new { @class = "cbtn btn-circle glyphicon glyphicon-edit", @title = "Edit", @data_toggle = "tooltip" })*@
                     @Html.ActionLink(" ", "Print", "JobWorker", null, new { @class = "cbtn btn-circle glyphicon glyphicon-print toolbar", @title = "Print", @data_toggle = "tooltip" })
                     @Html.ActionLink(" ", "PrevPage", "JobWorker", new { id = @Model.PersonId }, new { @class = "cbtn btn-circle glyphicon glyphicon-arrow-left toolbar", @title = "Prev Record", @data_toggle = "tooltip" })
                     @Html.ActionLink(" ", "NextPage", "JobWorker", new { id = @Model.PersonId }, new { @class = "cbtn btn-circle glyphicon glyphicon-arrow-right toolbar", @title = "Next Record", @data_toggle = "tooltip" })

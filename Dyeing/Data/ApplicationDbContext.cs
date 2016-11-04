@@ -58,7 +58,6 @@ namespace Data.Customize
         public DbSet<JobOrderHeaderExtended> JobOrderHeaderExtended { get; set; }
         public DbSet<JobOrderPerk> JobOrderPerk { get; set; }
         public DbSet<JobOrderSettings> JobOrderSettings { get; set; }
-        public DbSet<JobReceiveSettings> JobReceiveSettings { get; set; }
         public DbSet<JobOrderLine> JobOrderLine { get; set; }
         public DbSet<JobOrderLineStatus> JobOrderLineStatus { get; set; }
         public DbSet<JobOrderLineExtended> JobOrderLinExtended { get; set; }
@@ -88,7 +87,6 @@ namespace Data.Customize
         public DbSet<UnitConversionFor> UnitConversionFor { get; set; }
         public DbSet<ViewJobOrderBalance> ViewJobOrderBalance { get; set; }
         public DbSet<ViewProdOrderBalance> ViewProdOrderBalance { get; set; }
-        public DbSet<ViewRecipeBalanceForSubRecipe> ViewRecipeBalanceForSubRecipe { get; set; }
         public DbSet<Dimension1> Dimension1 { get; set; }
         public DbSet<Dimension2> Dimension2 { get; set; }
         public DbSet<JobWorker> JobWorker { get; set; }

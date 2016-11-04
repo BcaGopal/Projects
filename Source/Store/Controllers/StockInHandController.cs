@@ -38,7 +38,7 @@ namespace Web
         public ActionResult ProductTypeIndex()
         {
 
-            var pt = new ProductTypeService(_unitOfWork).GetRawAndOtherMaterialProductTypes().ToList();
+            var pt = new ProductTypeService(_unitOfWork).GetRawAndOtherMaterialProductTypes().Where(m => m.IsActive != false).ToList();
 
             return View("ProductTypeIndex", pt);
         }

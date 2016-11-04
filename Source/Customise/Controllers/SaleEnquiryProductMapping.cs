@@ -74,23 +74,28 @@ namespace Web
                 temp.ObjectState = Model.ObjectState.Modified;
                 _SaleEnquiryLineService.Update(temp);
 
+                ProductBuyer PB = new ProductBuyerService(_unitOfWork).Find((int)vm.SaleToBuyerId, (int)vm.ProductId);
+                if (PB == null)
+                {
 
-                string BuyerSku = vm.ProductGroup.Replace("-", "") + "-" + vm.Size + "-" + vm.Colour;
 
-                ProductBuyer ProdBuyer = new ProductBuyer();
-                ProdBuyer.BuyerId = (int)vm.SaleToBuyerId;
-                ProdBuyer.ProductId = (int)vm.ProductId;
-                ProdBuyer.BuyerSku = BuyerSku;
-                ProdBuyer.BuyerSpecification = vm.ProductGroup;
-                ProdBuyer.BuyerSpecification1 = vm.Size;
-                ProdBuyer.BuyerSpecification2 = vm.Colour;
-                ProdBuyer.BuyerSpecification3 = vm.ProductQuality;
-                ProdBuyer.CreatedDate = DateTime.Now;
-                ProdBuyer.CreatedBy = User.Identity.Name;
-                ProdBuyer.ModifiedDate = DateTime.Now;
-                ProdBuyer.ModifiedBy = User.Identity.Name;
-                ProdBuyer.ObjectState = Model.ObjectState.Added;
-                new ProductBuyerService(_unitOfWork).Create(ProdBuyer);
+                    string BuyerSku = vm.ProductGroup.Replace("-", "") + "-" + vm.Size + "-" + vm.Colour;
+
+                    ProductBuyer ProdBuyer = new ProductBuyer();
+                    ProdBuyer.BuyerId = (int)vm.SaleToBuyerId;
+                    ProdBuyer.ProductId = (int)vm.ProductId;
+                    ProdBuyer.BuyerSku = BuyerSku;
+                    ProdBuyer.BuyerSpecification = vm.ProductGroup;
+                    ProdBuyer.BuyerSpecification1 = vm.Size;
+                    ProdBuyer.BuyerSpecification2 = vm.Colour;
+                    ProdBuyer.BuyerSpecification3 = vm.ProductQuality;
+                    ProdBuyer.CreatedDate = DateTime.Now;
+                    ProdBuyer.CreatedBy = User.Identity.Name;
+                    ProdBuyer.ModifiedDate = DateTime.Now;
+                    ProdBuyer.ModifiedBy = User.Identity.Name;
+                    ProdBuyer.ObjectState = Model.ObjectState.Added;
+                    new ProductBuyerService(_unitOfWork).Create(ProdBuyer);
+                }
 
                 LogList.Add(new LogTypeViewModel
                 {
@@ -113,7 +118,7 @@ namespace Web
 
                 LogActivity.LogActivityDetail(LogVm.Map(new ActiivtyLogViewModel
                 {
-                    DocTypeId = new DocumentTypeService(_unitOfWork).FindByName(TransactionDoctypeConstants.SaleEnquiry).DocumentTypeId,
+                    DocTypeId = new DocumentTypeService(_unitOfWork).FindByName(TransactionDoctypeConstants.SaleEnquiryProductMapping).DocumentTypeId,
                     DocId = temp.SaleEnquiryLineId,
                     ActivityType = (int)ActivityTypeContants.Modified,
                     xEModifications = Modifications,

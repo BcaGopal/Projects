@@ -40,7 +40,7 @@
             <TextRuns>
               <TextRun>
                 <Value>=First(Fields!CompanyAddress.Value, "DsMain") + System.Environment.NewLine
-                  +First(Fields!CompanyCity.Value, "DsMain")  + System.Environment.NewLine
+                  +First(Fields!CompanyCity.Value, "DsMain")  +"-"+ First(Fields!CompanyPinNo.Value, "DsMain") + System.Environment.NewLine
                   +First(Fields!CompanyPhoneNo.Value, "DsMain")</Value>
                 <Style>
                   <FontFamily>Tahoma</FontFamily>
@@ -70,8 +70,8 @@
         </Style>
       </Textbox>
       <Image Name="SuryaLogo">
-        <Source>Embedded</Source>
-        <Value>SuryaLogo</Value>
+        <Source>External</Source>
+        <Value>="file:"+ Fields!CompanyLogoPath.Value + ".jpg"</Value>
         <Sizing>FitProportional</Sizing>
         <Top>0.0625in</Top>
         <Height>0.8in</Height>
@@ -132,7 +132,7 @@
     <DataSource Name="Purchase">
       <ConnectionProperties>
         <DataProvider>SQL</DataProvider>
-        <ConnectString>=IIF(IsNothing(Parameters!DatabaseConnectionString.Value),"Data Source=192.168.2.25;Initial Catalog=RUG;Integrated Security=False;User Id=sa; pwd=P@ssw0rd!", Parameters!DatabaseConnectionString.Value)</ConnectString>
+        <ConnectString>=Parameters!DatabaseConnectionString.Value</ConnectString>
       </ConnectionProperties>
       <rd:SecurityType>None</rd:SecurityType>
       <rd:DataSourceID>727bb65e-cc51-4d28-a097-a8ea7d087931</rd:DataSourceID>
@@ -178,6 +178,10 @@
           <DataField>CompanyPhoneNo</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
+        <Field Name="CompanyPinNo">
+          <DataField>CompanyPinNo</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
         <Field Name="CompanyTinNo">
           <DataField>CompanyTinNo</DataField>
           <rd:TypeName>System.String</rd:TypeName>
@@ -188,6 +192,14 @@
         </Field>
         <Field Name="CompanyFaxNo">
           <DataField>CompanyFaxNo</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CompanyCountry">
+          <DataField>CompanyCountry</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CompanyLogoPath">
+          <DataField>CompanyLogoPath</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
       </Fields>

@@ -6991,7 +6991,7 @@
                                           <Paragraph>
                                             <TextRuns>
                                               <TextRun>
-                                                <Value />
+                                                <Value>="file:"+ Parameters!ImagePath.Value + Fields!ImagePath.Value</Value>
                                                 <Style>
                                                   <FontFamily>Tahoma</FontFamily>
                                                   <FontSize>9pt</FontSize>
@@ -7617,7 +7617,11 @@
         </TablixColumnHierarchy>
         <TablixRowHierarchy>
           <TablixMembers>
-            <TablixMember />
+            <TablixMember>
+              <Visibility>
+                <Hidden>=iif(Max(Fields!PerkCount.Value)=0,true,false)</Hidden>
+              </Visibility>
+            </TablixMember>
             <TablixMember />
             <TablixMember />
             <TablixMember />
@@ -8564,7 +8568,11 @@
         </TablixColumnHierarchy>
         <TablixRowHierarchy>
           <TablixMembers>
-            <TablixMember />
+            <TablixMember>
+              <Visibility>
+                <Hidden>=iif(Max(Fields!PerkCount.Value)=0,true,false)</Hidden>
+              </Visibility>
+            </TablixMember>
             <TablixMember />
             <TablixMember />
             <TablixMember />
@@ -8789,7 +8797,7 @@
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
     <DataSource Name="Purchase">
-      <DataSourceReference>DataSourceMain</DataSourceReference>
+      <DataSourceReference>DSKCBC</DataSourceReference>
       <rd:SecurityType>None</rd:SecurityType>
       <rd:DataSourceID>727bb65e-cc51-4d28-a097-a8ea7d087931</rd:DataSourceID>
     </DataSource>
@@ -8811,8 +8819,16 @@
           <DataField>SiteId</DataField>
           <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
+        <Field Name="Requisition">
+          <DataField>Requisition</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
         <Field Name="JobOrderHeaderId">
           <DataField>JobOrderHeaderId</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="PerkCount">
+          <DataField>PerkCount</DataField>
           <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
         <Field Name="DivisionId">
@@ -8885,19 +8901,19 @@
         </Field>
         <Field Name="TimeIncentive">
           <DataField>TimeIncentive</DataField>
-          <rd:TypeName>System.Decimal</rd:TypeName>
+          <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
         <Field Name="TimePenalty">
           <DataField>TimePenalty</DataField>
-          <rd:TypeName>System.Decimal</rd:TypeName>
+          <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
         <Field Name="SmallChunksPenaltyRate">
           <DataField>SmallChunksPenaltyRate</DataField>
-          <rd:TypeName>System.Decimal</rd:TypeName>
+          <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
         <Field Name="SmallChunksPenaltyCount">
           <DataField>SmallChunksPenaltyCount</DataField>
-          <rd:TypeName>System.Decimal</rd:TypeName>
+          <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
         <Field Name="JobOrderLineId">
           <DataField>JobOrderLineId</DataField>

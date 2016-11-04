@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Models.Customize.DataBaseViews
 {
-    [Table("_Menu")]
+    [Table("_Menus")]
     public class _Menu : EntityBase
     {
         [Key]

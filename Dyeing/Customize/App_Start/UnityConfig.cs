@@ -77,8 +77,6 @@ namespace Customize.App_Start
 
             container.RegisterType<IRecipeHeaderService, RecipeHeaderService>(new PerRequestLifetimeManager());
 
-            container.RegisterType<ISubRecipeService, SubRecipeService>(new PerRequestLifetimeManager());
-
             container.RegisterType<IDyeingService, DyeingService>(new PerRequestLifetimeManager());
 
             container.RegisterType<IRepository<StockLine>, Repository<StockLine>>();

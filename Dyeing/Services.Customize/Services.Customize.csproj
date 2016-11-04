@@ -63,7 +63,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CustomizeComboHelpListService.cs" />
-    <Compile Include="SubRecipeService.cs" />
     <Compile Include="JobOrderHeaderChargeService.cs" />
     <Compile Include="DyeingService.cs" />
     <Compile Include="JobReceiveLineStatusService.cs" />
