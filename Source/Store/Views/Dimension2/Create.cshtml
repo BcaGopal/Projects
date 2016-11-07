@@ -83,3 +83,15 @@
     </div>
 
 }
+
+<script type="text/javascript">
+    $(function()
+    {
+        var TitleCase= '@Session["TitleCase"]';
+        //alert(TitleCase);
+        $('#Dimension2Name').keyup(function () {
+            if (TitleCase=="UpperCase")
+            this.value = this.value.toUpperCase() ;
+    });
+    });
+</script>

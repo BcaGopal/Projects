@@ -102,6 +102,19 @@
     </div>
 
 }
+
+<script type="text/javascript">
+    $(function()
+    {
+        var TitleCase= '@Session["TitleCase"]';
+        //alert(TitleCase);
+        $('#ProductCollectionName').keyup(function() {
+            if (TitleCase=="UpperCase")
+            this.value = this.value.toUpperCase() ;
+    });
+    });
+</script>
+
 <script type="text/javascript">
   var IsSaved=false;
     var ValidationCount=0;

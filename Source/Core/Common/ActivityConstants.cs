@@ -25,6 +25,7 @@ namespace Core.Common
         public const string UserNotificationCount = "uNotifiCount";
         public const string LoginDomain = "_loginDomain";
         public const string MenuDomain = "_menuDomain";
+        public const string TitleCase = "TitleCase";
     }
 
     public class DocumentStatusConstants
@@ -76,6 +77,13 @@ namespace Core.Common
         public const string Bom = "Bom";
         public const string Trace = "Trace";
         public const string Map = "Map";
+    }
+
+    public class TitleCaseConstants
+    {
+        public const string UpperCase = "UpperCase";
+        public const string LowerCase = "LowerCase";
+        public const string TitleCase = "TitleCase";
     }
 
 

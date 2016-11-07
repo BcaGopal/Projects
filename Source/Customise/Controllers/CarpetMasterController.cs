@@ -3189,13 +3189,13 @@ namespace Web
                 Product ProductMap = new Product();
                 ProductMap.ProductId = MapProductId;
                 ProductMap.ProductName = MapName;
-                if (MapName.Length <= 20)
+                if (MapName.Length <= 50)
                 {
                     ProductMap.ProductCode = MapName;
                 }
                 else
                 {
-                    ProductMap.ProductCode = MapName.Substring(0, 20);
+                    ProductMap.ProductCode = MapName.Substring(0, 50);
                 }
                 ProductMap.ProductGroupId = new ProductGroupService(_unitOfWork).Find(ProductGroupConstants.Map).ProductGroupId;
                 ProductMap.UnitId = UnitConstants.Pieces;

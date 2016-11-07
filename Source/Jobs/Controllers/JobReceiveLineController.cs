@@ -2024,6 +2024,7 @@ namespace Web
                     s.PassQty = svm.PassQty;
                     s.DealUnitId = svm.DealUnitId;
                     s.DealQty = svm.DealQty;
+                    s.LotNo  = svm.LotNo;
                     s.UnitConversionMultiplier = svm.UnitConversionMultiplier;
                     s.IncentiveAmt = svm.IncentiveAmt;
                     s.IncentiveRate = svm.IncentiveRate;
@@ -2401,6 +2402,7 @@ namespace Web
                     RecLine.PenaltyAmt = svm.PenaltyAmt;
                     RecLine.PenaltyRate = svm.PenaltyRate;
                     RecLine.Remark = svm.Remark;
+                    RecLine.LotNo = svm.LotNo;
                     RecLine.Qty = svm.ReceiveQty;
                     RecLine.LossQty = svm.LossQty;
                     RecLine.PassQty = svm.PassQty;
@@ -2435,7 +2437,8 @@ namespace Web
                         StockViewModel.HeaderGodownId = temp.GodownId;
                         StockViewModel.GodownId = temp.GodownId;
                         StockViewModel.ProcessId = temp.ProcessId;
-                        StockViewModel.LotNo = JobOrderLine.LotNo;
+                        //StockViewModel.LotNo = JobOrderLine.LotNo;
+                        StockViewModel.LotNo = svm.LotNo;
                         StockViewModel.CostCenterId = JobOrderHeader.CostCenterId;
                         StockViewModel.Qty_Iss = 0;
                         StockViewModel.Qty_Rec = SettingsStockQty;

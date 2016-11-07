@@ -84,6 +84,18 @@
     </div>
 }
 <script type="text/javascript">
+    $(function()
+    {
+        var TitleCase= '@Session["TitleCase"]';
+        //alert(TitleCase);
+        $('#ReasonName').keyup(function () {
+            if (TitleCase=="UpperCase")
+            this.value = this.value.toUpperCase() ;
+    });
+    });
+</script>
+
+<script type="text/javascript">
 
      $(":submit").on("click", function () {
          var mpoid=@Model.ReasonId;

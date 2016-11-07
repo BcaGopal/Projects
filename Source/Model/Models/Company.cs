@@ -50,6 +50,10 @@ namespace Model.Models
         [Display(Name = "Fax")]
         public string Fax { get; set; }
 
+        [MaxLength(20, ErrorMessage = "{0} can't exceed {1} characters")]
+        [Display(Name = "TitleCase")]
+        public string TitleCase { get; set; }
+
         [Display(Name = "Currency")]
         [ForeignKey("Currency")]
         public int CurrencyId { get; set; }
