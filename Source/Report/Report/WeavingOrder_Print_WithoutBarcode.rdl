@@ -1443,29 +1443,15 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox143">
+                    <Textbox Name="DealUnit">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Area</Value>
-                              <Style>
-                                <FontFamily>Tahoma</FontFamily>
-                                <FontSize>9pt</FontSize>
-                                <FontWeight>Bold</FontWeight>
-                              </Style>
-                            </TextRun>
-                          </TextRuns>
-                          <Style>
-                            <TextAlign>Right</TextAlign>
-                          </Style>
-                        </Paragraph>
-                        <Paragraph>
-                          <TextRuns>
-                            <TextRun>
-                              <Value>(Sq. Yard)</Value>
+                              <Value>="Area" + System.Environment.NewLine + 
+Fields!DealUnit.Value</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>9pt</FontSize>
@@ -1478,7 +1464,7 @@
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox143</rd:DefaultName>
+                      <rd:DefaultName>DealUnit</rd:DefaultName>
                       <Style>
                         <Border>
                           <Style>None</Style>
@@ -2865,7 +2851,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Wool Lagat :</Value>
+                              <Value>=IIf(Max(Fields!WoolLagat.Value)=0,"","Wool Lagat :")</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>9pt</FontSize>
@@ -2904,7 +2890,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=FormatNumber(Max(Fields!WoolLagat.Value),3)</Value>
+                              <Value>=IIf(Max(Fields!WoolLagat.Value)=0,"",Max(Fields!WoolLagat.Value))</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>9pt</FontSize>
@@ -3025,7 +3011,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Loss :</Value>
+                              <Value>=IIf(Max(Fields!LossQty.Value)=0,"","Loss : ")</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>9pt</FontSize>
@@ -3064,7 +3050,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Microsoft.VisualBasic.Strings.FormatNumber(Max(Fields!LossQty.Value), 3)</Value>
+                              <Value>=IIf(Max(Fields!LossQty.Value)=0,"",Max(Fields!LossQty.Value))</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>9pt</FontSize>
@@ -4735,29 +4721,15 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox145">
+                    <Textbox Name="Textbox7">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Area</Value>
-                              <Style>
-                                <FontFamily>Tahoma</FontFamily>
-                                <FontSize>9pt</FontSize>
-                                <FontWeight>Bold</FontWeight>
-                              </Style>
-                            </TextRun>
-                          </TextRuns>
-                          <Style>
-                            <TextAlign>Right</TextAlign>
-                          </Style>
-                        </Paragraph>
-                        <Paragraph>
-                          <TextRuns>
-                            <TextRun>
-                              <Value>(Sq. Yard)</Value>
+                              <Value>="Area" + System.Environment.NewLine + 
+Fields!DealUnit.Value</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>9pt</FontSize>
@@ -4770,7 +4742,7 @@
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox143</rd:DefaultName>
+                      <rd:DefaultName>Textbox7</rd:DefaultName>
                       <Style>
                         <Border>
                           <Style>None</Style>
@@ -6115,14 +6087,14 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox205">
+                    <Textbox Name="Textbox207">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Wool Lagat :</Value>
+                              <Value>=Microsoft.VisualBasic.Interaction.IIf(Max(Fields!WoolLagat.Value) = 0, "", "Wool Lagat :")</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>9pt</FontSize>
@@ -6150,18 +6122,19 @@
                         <PaddingBottom>2pt</PaddingBottom>
                       </Style>
                     </Textbox>
+                    <rd:Selected>true</rd:Selected>
                   </CellContents>
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="WoolLagat2">
+                    <Textbox Name="WoolLagat5">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Microsoft.VisualBasic.Strings.FormatNumber(Max(Fields!WoolLagat.Value), 3)</Value>
+                              <Value>=Microsoft.VisualBasic.Interaction.IIf(Max(Fields!WoolLagat.Value) = 0, "", Max(Fields!WoolLagat.Value))</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>9pt</FontSize>
@@ -6190,11 +6163,12 @@
                         <PaddingBottom>2pt</PaddingBottom>
                       </Style>
                     </Textbox>
+                    <rd:Selected>true</rd:Selected>
                   </CellContents>
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox67">
+                    <Textbox Name="Textbox82">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
@@ -6229,11 +6203,12 @@
                         <PaddingBottom>2pt</PaddingBottom>
                       </Style>
                     </Textbox>
+                    <rd:Selected>true</rd:Selected>
                   </CellContents>
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="WoolLagat8">
+                    <Textbox Name="WoolLagat7">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
@@ -6270,19 +6245,20 @@
                       </Style>
                     </Textbox>
                     <ColSpan>2</ColSpan>
+                    <rd:Selected>true</rd:Selected>
                   </CellContents>
                 </TablixCell>
                 <TablixCell />
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox218">
+                    <Textbox Name="Textbox219">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Loss :</Value>
+                              <Value>=Microsoft.VisualBasic.Interaction.IIf(Max(Fields!LossQty.Value) = 0, "", "Loss : ")</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>9pt</FontSize>
@@ -6310,18 +6286,19 @@
                         <PaddingBottom>2pt</PaddingBottom>
                       </Style>
                     </Textbox>
+                    <rd:Selected>true</rd:Selected>
                   </CellContents>
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="WoolLagat6">
+                    <Textbox Name="WoolLagat9">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Microsoft.VisualBasic.Strings.FormatNumber(Max(Fields!LossQty.Value), 3)</Value>
+                              <Value>=Microsoft.VisualBasic.Interaction.IIf(Max(Fields!LossQty.Value) = 0, "", Max(Fields!LossQty.Value))</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>9pt</FontSize>
@@ -6351,13 +6328,14 @@
                       </Style>
                     </Textbox>
                     <ColSpan>3</ColSpan>
+                    <rd:Selected>true</rd:Selected>
                   </CellContents>
                 </TablixCell>
                 <TablixCell />
                 <TablixCell />
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox152">
+                    <Textbox Name="Textbox169">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
@@ -6392,6 +6370,7 @@
                         <PaddingBottom>2pt</PaddingBottom>
                       </Style>
                     </Textbox>
+                    <rd:Selected>true</rd:Selected>
                   </CellContents>
                 </TablixCell>
               </TablixCells>
@@ -6721,7 +6700,7 @@
                                 <CellContents>
                                   <Image Name="Image3">
                                     <Source>External</Source>
-                                    <Value>="file:"+ Parameters!ImagePath.Value + Fields!ImagePath.Value</Value>
+                                    <Value>="file:" +"C:\inetpub\wwwroot\CommonProjects\Customize Publish Folder\"+ Fields!ImagePath.Value</Value>
                                     <Sizing>FitProportional</Sizing>
                                     <Style>
                                       <Border>
@@ -6984,7 +6963,7 @@
                                   </TablixCell>
                                   <TablixCell>
                                     <CellContents>
-                                      <Textbox Name="Textbox123">
+                                      <Textbox Name="Textbox5">
                                         <CanGrow>true</CanGrow>
                                         <KeepTogether>true</KeepTogether>
                                         <Paragraphs>
@@ -7003,7 +6982,7 @@
                                             </Style>
                                           </Paragraph>
                                         </Paragraphs>
-                                        <rd:DefaultName>Textbox123</rd:DefaultName>
+                                        <rd:DefaultName>Textbox5</rd:DefaultName>
                                         <Style>
                                           <Border>
                                             <Color>LightGrey</Color>
@@ -7091,7 +7070,7 @@
                                   </TablixCell>
                                   <TablixCell>
                                     <CellContents>
-                                      <Textbox Name="Textbox179">
+                                      <Textbox Name="Textbox6">
                                         <CanGrow>true</CanGrow>
                                         <KeepTogether>true</KeepTogether>
                                         <Paragraphs>
@@ -7108,7 +7087,7 @@
                                             <Style />
                                           </Paragraph>
                                         </Paragraphs>
-                                        <rd:DefaultName>Textbox179</rd:DefaultName>
+                                        <rd:DefaultName>Textbox6</rd:DefaultName>
                                         <Style>
                                           <Border>
                                             <Style>None</Style>
@@ -7764,7 +7743,7 @@
                                 <CellContents>
                                   <Image Name="Image4">
                                     <Source>External</Source>
-                                    <Value>="file:"+ Parameters!ImagePath.Value + Fields!ImagePath.Value</Value>
+                                    <Value>="file:" +"C:\inetpub\wwwroot\CommonProjects\Customize Publish Folder\"+ Fields!ImagePath.Value</Value>
                                     <Sizing>FitProportional</Sizing>
                                     <Style>
                                       <Border>
@@ -8929,6 +8908,10 @@
         </Field>
         <Field Name="ImagePath">
           <DataField>ImagePath</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="DealUnit">
+          <DataField>DealUnit</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="LineRemark">

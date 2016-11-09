@@ -878,7 +878,7 @@ namespace Presentation
 
                             int ProductCode = item.id;
 
-                            SqlCommand Totalf = new SqlCommand("SELECT dbo.FGetExcessStock_WithDimension( " + ProductCode + ", " + header.DocTypeId + ", " + item.dim1Id + ") ", sqlConnection);
+                            SqlCommand Totalf = new SqlCommand("SELECT Web.FGetExcessStock_WithDimension( " + ProductCode + ", " + header.DocTypeId + ", " + item.dim1Id + ") ", sqlConnection);
 
                             planline.ExcessStockQty = Convert.ToDecimal(Totalf.ExecuteScalar() == DBNull.Value ? 0 : Totalf.ExecuteScalar()); 
                         }
