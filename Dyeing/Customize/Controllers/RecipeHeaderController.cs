@@ -149,6 +149,28 @@ namespace Customize.Controllers
 
             PrepareViewBag(id);
 
+            LastValues LastValues = _RecipeHeaderService.GetLastValues(p.DocTypeId);
+
+            if (LastValues != null)
+            {
+                if (LastValues.JobWorkerId != null)
+                {
+                    p.JobWorkerId = (int)LastValues.JobWorkerId;
+                }
+                if (LastValues.GodownId != null)
+                {
+                    p.GodownId = (int)LastValues.GodownId;
+                }
+                if (LastValues.OrderById != null)
+                {
+                    p.OrderById = (int)LastValues.OrderById;
+                }
+                if (LastValues.TestingQty != null)
+                {
+                    p.TestingQty = LastValues.TestingQty;
+                }
+            }
+
 
             p.DueDate = DateTime.Now;
             p.DocNo = _documentTypeService.FGetNewDocNo("DocNo", ConfigurationManager.AppSettings["DataBaseSchema"] + ".JobOrderHeaders", p.DocTypeId, p.DocDate, p.DivisionId, p.SiteId);

@@ -993,7 +993,7 @@ namespace Web
                 return ValidationMsg;
             }
 
-            if (svm.UnitConversionMultiplier > (Decimal)0.25 && svm.Qty > 1 && svm.DealUnitId != UnitConstants.Pieces)
+            if (svm.UnitConversionMultiplier > (Decimal)0.25 && svm.Qty > 1 && svm.DealUnitId != UnitConstants.Pieces && svm.DealUnitId != UnitConstants.Kgs)
             {
                 ValidationMsg = "Packed Qty can not be greater then 1.";
                 return ValidationMsg;

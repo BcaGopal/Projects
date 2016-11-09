@@ -49,6 +49,11 @@ namespace Services.Customize
         ComboBoxResult GetProdOrderLine(int Ids);
         ProdOrderDetail GetProdOrderDetail(int ProdOrderLineId);
 
+        LastValues GetLastValues(int DocTypeId);
+
+        void CreateProdOrder(int RecipeHeaderId, string UserName, Decimal? SubRecipeQty);
+
+
         #region Helper Methods
         IQueryable<UnitConversionFor> GetUnitConversionForList();
         void LogDetailInfo(RecipeHeaderViewModel vm);
@@ -722,7 +727,7 @@ namespace Services.Customize
             List<LogTypeViewModel> LogList = new List<LogTypeViewModel>();
 
             var JobOrderHeader = Find(vm.id);
-            
+
             int? StockHeaderId = 0;
 
             LogList.Add(new LogTypeViewModel
@@ -736,17 +741,35 @@ namespace Services.Customize
             //var JobOrderLine = new JobOrderLineService(_unitOfWork).GetJobOrderLineforDelete(vm.id);
             var ProdOrderHeader = (_unitOfWork.Repository<ProdOrderHeader>().Query().Get().Where(m => m.ReferenceDocId == JobOrderHeader.JobOrderHeaderId && m.ReferenceDocTypeId == JobOrderHeader.DocTypeId)).FirstOrDefault();
 
-            var ProdOrderLine = (_unitOfWork.Repository<ProdOrderLine>().Query().Get().Where(m => m.ProdOrderHeaderId == ProdOrderHeader.ProdOrderHeaderId)).ToList();
+            if (ProdOrderHeader != null)
+            {
+                var ProdOrderLine = (_unitOfWork.Repository<ProdOrderLine>().Query().Get().Where(m => m.ProdOrderHeaderId == ProdOrderHeader.ProdOrderHeaderId)).ToList();
+
+                foreach (var item in ProdOrderLine)
+                {
+                    item.ObjectState = Model.ObjectState.Deleted;
+                    _unitOfWork.Repository<ProdOrderLine>().Delete(item);
+                }
+
+                ProdOrderHeader.ObjectState = Model.ObjectState.Deleted;
+                _unitOfWork.Repository<ProdOrderHeader>().Delete(ProdOrderHeader);
+            }
 
             var Stock = (_unitOfWork.Repository<Stock>().Query().Get().Where(m => m.StockHeaderId == StockHeaderId)).ToList();
 
             var StockLine = (_unitOfWork.Repository<StockLine>().Query().Get().Where(m => m.StockHeaderId == StockHeaderId)).ToList();
+
+            var StockLineIds = StockLine.Select(m => m.StockLineId).ToArray();
+
+            var StockLineExtendedRecords = _unitOfWork.Repository<StockLineExtended>().Query().Get().Where(m => StockLineIds.Contains(m.StockLineId)).ToList();
 
             var StockProcess = (_unitOfWork.Repository<StockProcess>().Query().Get().Where(m => m.StockHeaderId == StockHeaderId)).ToList();
 
             var JobOrderLine = (_unitOfWork.Repository<JobOrderLine>().Query().Get().Where(m => m.JobOrderHeaderId == vm.id)).ToList();
 
             var JOLineIds = JobOrderLine.Select(m => m.JobOrderLineId).ToArray();
+
+            var JobOrderHeaderExtendedRecords = _unitOfWork.Repository<JobOrderHeaderExtended>().Query().Get().Where(m => m.JobOrderHeaderId == JobOrderHeader.JobOrderHeaderId).ToList();
 
             var JobOrderLineStatusRecords = _unitOfWork.Repository<JobOrderLineStatus>().Query().Get().Where(m => JOLineIds.Contains(m.JobOrderLineId ?? 0)).ToList();
 
@@ -758,15 +781,8 @@ namespace Services.Customize
 
             DeleteProdQtyOnRecipeMultiple(JobOrderHeader.JobOrderHeaderId);
 
-            foreach (var item in ProdOrderLine)
-            {
-                item.ObjectState = Model.ObjectState.Deleted;
-                _unitOfWork.Repository<ProdOrderLine>().Delete(item);
-            }
 
-            ProdOrderHeader.ObjectState = Model.ObjectState.Deleted;
-            _unitOfWork.Repository<ProdOrderHeader>().Delete(ProdOrderHeader);
-            
+
             foreach (var item in JobOrderLineStatusRecords)
             {
                 item.ObjectState = Model.ObjectState.Deleted;
@@ -777,6 +793,12 @@ namespace Services.Customize
             {
                 item.ObjectState = Model.ObjectState.Deleted;
                 _unitOfWork.Repository<JobOrderLineExtended>().Delete(item);
+            }
+
+            foreach (var item in JobOrderHeaderExtendedRecords)
+            {
+                item.ObjectState = Model.ObjectState.Deleted;
+                _unitOfWork.Repository<JobOrderHeaderExtended>().Delete(item);
             }
 
 
@@ -793,6 +815,12 @@ namespace Services.Customize
                 item.ObjectState = Model.ObjectState.Deleted;
                 _unitOfWork.Repository<JobOrderLine>().Delete(item);
 
+            }
+
+            foreach (var item in StockLineExtendedRecords)
+            {
+                item.ObjectState = Model.ObjectState.Deleted;
+                _unitOfWork.Repository<StockLineExtended>().Delete(item);
             }
 
             foreach (var item in StockLine)
@@ -821,7 +849,7 @@ namespace Services.Customize
             _stockProcessService.DeleteStockProcessDBMultiple(StockProcessIdList);
 
 
-                        
+
             var JobOrderHeaderStatus = _unitOfWork.Repository<JobOrderHeaderStatus>().Find(vm.id);
 
             JobOrderHeaderStatus.ObjectState = Model.ObjectState.Deleted;
@@ -839,7 +867,7 @@ namespace Services.Customize
 
 
 
-            
+
 
             if (StockHeaderId != null)
             {
@@ -855,16 +883,16 @@ namespace Services.Customize
 
 
             _logger.LogActivityDetail(logVm.Map(new ActiivtyLogViewModel
-                {
-                    DocTypeId = JobOrderHeader.DocTypeId,
-                    DocId = JobOrderHeader.JobOrderHeaderId,
-                    ActivityType = (int)ActivityTypeContants.Deleted,
-                    UserRemark = vm.Reason,
-                    DocNo = JobOrderHeader.DocNo,
-                    xEModifications = Modifications,
-                    DocDate = JobOrderHeader.DocDate,
-                    DocStatus = JobOrderHeader.Status,
-                }));
+            {
+                DocTypeId = JobOrderHeader.DocTypeId,
+                DocId = JobOrderHeader.JobOrderHeaderId,
+                ActivityType = (int)ActivityTypeContants.Deleted,
+                UserRemark = vm.Reason,
+                DocNo = JobOrderHeader.DocNo,
+                xEModifications = Modifications,
+                DocDate = JobOrderHeader.DocDate,
+                DocStatus = JobOrderHeader.Status,
+            }));
 
         }
 
@@ -885,7 +913,7 @@ namespace Services.Customize
             RecipeHeaderViewModel vmRecipeHeader = GetRecipeHeader(Id);
             if (vmRecipeHeader.SubRecipeQty > 0)
             {
-                CreateProdOrder(Id, UserName);
+                CreateProdOrder(Id, UserName, vmRecipeHeader.SubRecipeQty);
             }
 
             
@@ -1191,13 +1219,15 @@ namespace Services.Customize
             return temp;
         }
 
-        public void CreateProdOrder(int RecipeHeaderId, string UserName)
+        public void CreateProdOrder(int RecipeHeaderId, string UserName, Decimal? SubRecipeQty)
         {
             RecipeHeaderViewModel vmRecipeHeader = GetRecipeHeader(RecipeHeaderId);
             var JobOrderLine = (_unitOfWork.Repository<JobOrderLine>().Query().Get().Where(m => m.JobOrderHeaderId == vmRecipeHeader.JobOrderHeaderId)).FirstOrDefault();
 
+            JobOrderSettings Settings = new JobOrderSettingsService(_unitOfWork).GetJobOrderSettingsForDocument(vmRecipeHeader.DocTypeId, vmRecipeHeader.DivisionId, vmRecipeHeader.SiteId);
+
             ProdOrderHeader ProdOrderHeader = new ProdOrderHeader();
-            ProdOrderHeader.DocTypeId = vmRecipeHeader.DocTypeId;
+            ProdOrderHeader.DocTypeId = (int)Settings.DocTypeProductionOrderId;
             ProdOrderHeader.DocDate = vmRecipeHeader.DocDate;
             ProdOrderHeader.DocNo = vmRecipeHeader.DocNo;
             ProdOrderHeader.DivisionId = vmRecipeHeader.DivisionId;
@@ -1227,7 +1257,7 @@ namespace Services.Customize
             ProdOrderLine.ReferenceDocTypeId = vmRecipeHeader.DocTypeId;
             ProdOrderLine.ReferenceDocLineId = JobOrderLine.JobOrderLineId;
             ProdOrderLine.Sr = 1;
-            ProdOrderLine.Qty = vmRecipeHeader.SubRecipeQty ?? 0;
+            ProdOrderLine.Qty = SubRecipeQty ?? 0;
             ProdOrderLine.Remark = vmRecipeHeader.Remark;
             ProdOrderLine.CreatedBy = UserName;
             ProdOrderLine.ModifiedBy = UserName;
@@ -1236,6 +1266,30 @@ namespace Services.Customize
             ProdOrderLine.LockReason = "Prod order automatically generated from recipe.";
             ProdOrderLine.ObjectState = Model.ObjectState.Added;
             _unitOfWork.Repository<ProdOrderLine>().Add(ProdOrderLine);
+
+            ProdOrderLineStatus ProdOrderLineStatus = new ProdOrderLineStatus();
+            ProdOrderLineStatus.ProdOrderLineId = ProdOrderLine.ProdOrderLineId;
+            _unitOfWork.Repository<ProdOrderLineStatus>().Add(ProdOrderLineStatus);
+        }
+
+        public LastValues GetLastValues(int DocTypeId)
+        {
+            var temp = (from H in _unitOfWork.Repository<JobOrderHeader>().Instance
+                        join L in _unitOfWork.Repository<JobOrderLine>().Instance on H.JobOrderHeaderId equals L.JobOrderHeaderId into JobOrderLineTable
+                        from JobOrderLineTab in JobOrderLineTable.DefaultIfEmpty()
+                        join Le in _unitOfWork.Repository<JobOrderLineExtended>().Instance  on JobOrderLineTab.JobOrderLineId equals Le.JobOrderLineId into JobOrderLineExtendedTable
+                        from JobOrderLineExtendedTab in JobOrderLineExtendedTable.DefaultIfEmpty()
+                        where H.DocTypeId == DocTypeId
+                        orderby H.JobOrderHeaderId descending
+                        select new LastValues
+                        {
+                            GodownId = H.GodownId,
+                            JobWorkerId = H.JobWorkerId,
+                            OrderById = H.OrderById,
+                            TestingQty = JobOrderLineExtendedTab.TestingQty
+                        }).FirstOrDefault();
+
+            return temp;
         }
     }
 

@@ -135,6 +135,7 @@ namespace Web.Controllers
         public ActionResult Create(int? id, int? ColourId, string ProductQualityName, Decimal? Weight)
         {
             DesignColourConsumptionHeaderViewModel p = new DesignColourConsumptionHeaderViewModel();
+            p.EntryMode = "Add";
             if (id != null)
             {
                 p.ProductGroupId = (int)id;
@@ -294,6 +295,7 @@ namespace Web.Controllers
         public ActionResult Edit(int? id)
         {
             DesignColourConsumptionHeaderViewModel bvm = new DesignColourConsumptionHeaderViewModel();
+            bvm.EntryMode = "Edit";
             if (id != null && id != 0)
             {
                 bvm = _BomDetailService.GetDesignColourConsumptionHeaderViewModel((int)id);
@@ -552,6 +554,33 @@ namespace Web.Controllers
 
             return PartialView("CopyFromExisting", vm);
 
+        }
+
+        public JsonResult GetBaseProductId(int ProductGroupId, int ColourId)
+        {
+            ProductGroup ProductGroup = new ProductGroupService(_unitOfWork).Find(ProductGroupId);
+            Colour Colour = new ColourService(_unitOfWork).Find(ColourId);
+
+            if (ProductGroup != null && Colour != null)
+            {
+                string ConsumptionProductName = ProductGroup.ProductGroupName.ToString().Trim() + "-" + Colour.ColourName.ToString().Trim() + "-Bom";
+
+                var Product = new ProductService(_unitOfWork).Find(ConsumptionProductName);
+
+                if (Product != null)
+                {
+                    return Json(Product.ProductId);
+                }
+                else
+                {
+                    return Json(0);
+                }
+            }
+            else
+            {
+                return Json(0);
+            }
+            
         }
     }
 }

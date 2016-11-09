@@ -13,6 +13,7 @@ using Model.ViewModel;
 using System.Xml.Linq;
 using System
 .Linq;
+using Reports.Presentation.Helper;
 
 namespace Web
 {
@@ -91,19 +92,76 @@ namespace Web
                 ViewBag.LastTransaction = LastTrRec.TotalPercentage + "% Consumption filled, " + (100 - LastTrRec.TotalPercentage) + " remaining.";
         }
 
-        public ActionResult _Create(int Id) //Id ==>Sale Order Header Id
+        //public ActionResult _Create(int Id) //Id ==>Design Content Header Id
+        //{
+        //    DesignConsumptionLineViewModel s = new DesignConsumptionLineViewModel();
+        //    s.BaseProductId = Id;
+        //    s.ContentType = "Contents";
+        //    DesignConsumptionLineViewModel temp = _BomDetailService.GetBaseProductDetail(Id);
+
+        //    s.DesignName = temp.DesignName;
+        //    s.QualityName = temp.QualityName;
+        //    s.Weight = temp.Weight;
+
+        //    PrepareViewBag(s);
+        //    return PartialView("_Create", s);
+        //}
+
+        public ActionResult _CreateMainContentForBaseProduct(int Id) //Id ==>Design Content Header Id
         {
             DesignConsumptionLineViewModel s = new DesignConsumptionLineViewModel();
             s.BaseProductId = Id;
-
+            s.ContentType = "Main Contents";
             DesignConsumptionLineViewModel temp = _BomDetailService.GetBaseProductDetail(Id);
 
             s.DesignName = temp.DesignName;
+            s.DesignId = temp.DesignId;
             s.QualityName = temp.QualityName;
             s.Weight = temp.Weight;
 
+            PrepareViewBag(s);
+            return PartialView("_Create", s);
+        }
 
+        public ActionResult _CreateOtherContentForBaseProduct(int Id) //Id ==>Design Content Header Id
+        {
+            DesignConsumptionLineViewModel s = new DesignConsumptionLineViewModel();
+            s.BaseProductId = Id;
+            s.ContentType = "Other Contents";
+            DesignConsumptionLineViewModel temp = _BomDetailService.GetBaseProductDetail(Id);
 
+            s.DesignName = temp.DesignName;
+            s.DesignId = temp.DesignId;
+            s.QualityName = temp.QualityName;
+            s.Weight = temp.Weight;
+
+            PrepareViewBag(s);
+            return PartialView("_Create", s);
+        }
+
+        public ActionResult _CreateMainContent(int ProductGroupId, string QualityName, int ColourId, Decimal? Weight) //Id ==>Design Content Header Id
+        {
+            DesignConsumptionLineViewModel s = new DesignConsumptionLineViewModel();
+            s.ContentType = "Main Contents";
+            s.DesignName = new ProductGroupService(_unitOfWork).Find(ProductGroupId).ProductGroupName;
+            s.DesignId = ProductGroupId;
+            s.QualityName = QualityName;
+            s.ColourName = new ColourService(_unitOfWork).Find(ColourId).ColourName;
+            s.Weight = Weight ?? 0;
+
+            PrepareViewBag(s);
+            return PartialView("_Create", s);
+        }
+
+        public ActionResult _CreateOtherContent(int ProductGroupId, string QualityName, int ColourId, Decimal? Weight) //Id ==>Design Content Header Id
+        {
+            DesignConsumptionLineViewModel s = new DesignConsumptionLineViewModel();
+            s.ContentType = "Other Contents";
+            s.DesignName = new ProductGroupService(_unitOfWork).Find(ProductGroupId).ProductGroupName;
+            s.DesignId = ProductGroupId;
+            s.QualityName = QualityName;
+            s.ColourName = new ColourService(_unitOfWork).Find(ColourId).ColourName;
+            s.Weight = Weight ?? 0;
 
             PrepareViewBag(s);
             return PartialView("_Create", s);
@@ -115,6 +173,89 @@ namespace Web
         {
             if (ModelState.IsValid)
             {
+                FinishedProduct product = new FinishedProduct();
+                if (svm.BaseProductId == 0)
+                {
+                    ProductQuality Quality = new ProductQualityService(_unitOfWork).Find(svm.QualityName);
+
+                    string ConsumptionProductName = "";
+                    if (svm.ColourName != "" && svm.ColourName != null)
+                    {
+                        ConsumptionProductName = svm.DesignName.ToString().Trim() + "-" + svm.ColourName.ToString().Trim() + "-Bom";
+                    }
+                    else
+                    {
+                        ConsumptionProductName = svm.DesignName.ToString().Trim() + "-Bom";
+                    }
+
+
+                    int ProductGroupId = new ProductGroupService(_unitOfWork).Find(svm.DesignName).ProductGroupId;
+
+                    product.ProductCode = ConsumptionProductName;
+                    product.ProductName = ConsumptionProductName;
+                    product.ProductGroupId = new ProductGroupService(_unitOfWork).Find(ProductGroupConstants.Bom).ProductGroupId;
+                    product.DivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
+                    product.IsActive = true;
+                    product.ReferenceDocTypeId = new DocumentTypeService(_unitOfWork).FindByName(MasterDocTypeConstants.ProductGroup).DocumentTypeId;
+                    product.ReferenceDocId = ProductGroupId;
+                    product.StandardWeight = svm.Weight;
+                    product.CreatedDate = DateTime.Now;
+                    product.ModifiedDate = DateTime.Now;
+                    product.CreatedBy = User.Identity.Name;
+                    product.ModifiedBy = User.Identity.Name;
+                    product.ObjectState = Model.ObjectState.Added;
+
+                    product.IsSample = false;
+                    product.ProductQualityId = Quality.ProductQualityId;
+                    new ProductService(_unitOfWork).Create(product);
+
+
+                    ProductGroup ProductGroup = new ProductGroupService(_unitOfWork).Find(svm.DesignName);
+                    Colour Colour = new ColourService(_unitOfWork).Find(svm.ColourName);
+                    if (ProductGroup != null && Colour != null)
+                    {
+                        var ProductList = (from p in db.FinishedProduct
+                                           where p.ProductGroupId == ProductGroup.ProductGroupId && p.ColourId == Colour.ColourId
+                                           select new
+                                           {
+                                               ProductId = p.ProductId
+                                           }).ToList();
+
+                        foreach (var item in ProductList)
+                        {
+                            BomDetail bomdetail = new BomDetail();
+
+                            bomdetail.BaseProductId = item.ProductId;
+                            bomdetail.BatchQty = 1;
+                            bomdetail.ConsumptionPer = 100;
+                            bomdetail.ProcessId = new ProcessService(_unitOfWork).Find(ProcessConstants.Weaving).ProcessId;
+                            bomdetail.ProductId = product.ProductId;
+                            bomdetail.Qty = 1;
+
+                            bomdetail.CreatedDate = DateTime.Now;
+                            bomdetail.ModifiedDate = DateTime.Now;
+                            bomdetail.CreatedBy = User.Identity.Name;
+                            bomdetail.ModifiedBy = User.Identity.Name;
+                            bomdetail.ObjectState = Model.ObjectState.Added;
+                            _BomDetailService.Create(bomdetail);
+                        }
+                    }
+
+
+                    LogActivity.LogActivityDetail(LogVm.Map(new ActiivtyLogViewModel
+                    {
+                        DocTypeId = new DocumentTypeService(_unitOfWork).Find(MasterDocTypeConstants.DesignColourConsumption).DocumentTypeId,
+                        DocId = product.ProductId,
+                        ActivityType = (int)ActivityTypeContants.Added,
+                    }));
+
+
+                }
+                else
+                {
+                    product = new FinishedProductService(_unitOfWork).Find(svm.BaseProductId);
+                }
+
                 if (svm.BomDetailId == 0)
                 {
                     BomDetail bomdetail = new BomDetail();
@@ -160,7 +301,14 @@ namespace Web
                         ActivityType = (int)ActivityTypeContants.Added,
                     }));
 
-                    return RedirectToAction("_Create", new { id = svm.BaseProductId });
+                    if (svm.ContentType == "Main Contents")
+                    {
+                        return RedirectToAction("_CreateMainContentForBaseProduct", new { id = product.ProductId });
+                    }
+                    else
+                    {
+                        return RedirectToAction("_CreateOtherContentForBaseProduct", new { id = product.ProductId });
+                    }
                 }
                 else
                 {
@@ -225,6 +373,7 @@ namespace Web
             DesignConsumptionLineViewModel temp = _BomDetailService.GetBaseProductDetail(s.BaseProductId);
 
             s.DesignName = temp.DesignName;
+            s.DesignId = temp.DesignId;
             s.QualityName = temp.QualityName;
             s.Weight = temp.Weight;
 
@@ -526,6 +675,49 @@ namespace Web
 
             return Json(IsContent);
         }
+
+        public JsonResult GetFaceContentProducts(string searchTerm, int pageSize, int pageNum, int filter)//DocTypeId
+        {
+
+            var Query = _BomDetailService.GetFaceContentProductList(filter, searchTerm);
+
+            var temp = Query.Skip(pageSize * (pageNum - 1)).Take(pageSize).ToList();
+
+            var count = Query.Count();
+
+            ComboBoxPagedResult Data = new ComboBoxPagedResult();
+            Data.Results = temp;
+            Data.Total = count;
+
+            return new JsonpResult
+            {
+                Data = Data,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        public JsonResult GetOtherContentProducts(string searchTerm, int pageSize, int pageNum, int filter)//DocTypeId
+        {
+
+            var Query = _BomDetailService.GetOtherContentProductList(filter, searchTerm);
+
+            var temp = Query.Skip(pageSize * (pageNum - 1)).Take(pageSize).ToList();
+
+            var count = Query.Count();
+
+            ComboBoxPagedResult Data = new ComboBoxPagedResult();
+            Data.Results = temp;
+            Data.Total = count;
+
+            return new JsonpResult
+            {
+                Data = Data,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+
+
 
         
     }

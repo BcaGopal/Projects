@@ -1632,16 +1632,16 @@ namespace Web
                     }
 
 
-                    UnitConversion StandardUnitCms;
-                    string ModeCms;
-                    CreateUnitConversion((byte)UnitConversionFors.Standard, vm.StandardSizeId, pro.ProductId, UnitConstants.SqMeter, out StandardUnitCms, out ModeCms);
-                    if (ModeCms == "Create")
+                    UnitConversion StandardUnitSqMeter;
+                    string ModeSqMeter;
+                    CreateUnitConversion((byte)UnitConversionFors.Standard, vm.StandardSizeId, pro.ProductId, UnitConstants.SqMeter, out StandardUnitSqMeter, out ModeSqMeter);
+                    if (ModeSqMeter == "Create")
                     {
-                        new UnitConversionService(_unitOfWork).Create(StandardUnitCms);
+                        new UnitConversionService(_unitOfWork).Create(StandardUnitSqMeter);
                     }
-                    else if (ModeCms == "Edit")
+                    else if (ModeSqMeter == "Edit")
                     {
-                        new UnitConversionService(_unitOfWork).Update(StandardUnitCms);
+                        new UnitConversionService(_unitOfWork).Update(StandardUnitSqMeter);
                     }
 
 
@@ -1674,16 +1674,16 @@ namespace Web
                     }
 
 
-                    UnitConversion ManufacturingUnitCms;
-                    string MModeCms;
-                    CreateUnitConversion((byte)UnitConversionFors.Manufacturing, vm.ManufacturingSizeId, pro.ProductId, UnitConstants.SqMeter, out ManufacturingUnitCms, out MModeCms);
-                    if (MModeCms == "Create")
+                    UnitConversion ManufacturingUnitSqMeter;
+                    string MModeSqMeter;
+                    CreateUnitConversion((byte)UnitConversionFors.Manufacturing, vm.ManufacturingSizeId, pro.ProductId, UnitConstants.SqMeter, out ManufacturingUnitSqMeter, out MModeSqMeter);
+                    if (MModeSqMeter == "Create")
                     {
-                        new UnitConversionService(_unitOfWork).Create(ManufacturingUnitCms);
+                        new UnitConversionService(_unitOfWork).Create(ManufacturingUnitSqMeter);
                     }
-                    else if (MModeCms == "Edit")
+                    else if (MModeSqMeter == "Edit")
                     {
-                        new UnitConversionService(_unitOfWork).Update(ManufacturingUnitCms);
+                        new UnitConversionService(_unitOfWork).Update(ManufacturingUnitSqMeter);
                     }
 
 
@@ -1718,16 +1718,16 @@ namespace Web
                     }
 
 
-                    UnitConversion FinishingUnitCms;
-                    string FModeCms;
-                    CreateUnitConversion((byte)UnitConversionFors.Finishing, vm.FinishingSizeId, pro.ProductId, UnitConstants.SqMeter, out FinishingUnitCms, out FModeCms);
-                    if (FModeCms == "Create")
+                    UnitConversion FinishingUnitSqMeter;
+                    string FModeSqMeter;
+                    CreateUnitConversion((byte)UnitConversionFors.Finishing, vm.FinishingSizeId, pro.ProductId, UnitConstants.SqMeter, out FinishingUnitSqMeter, out FModeSqMeter);
+                    if (FModeSqMeter == "Create")
                     {
-                        new UnitConversionService(_unitOfWork).Create(FinishingUnitCms);
+                        new UnitConversionService(_unitOfWork).Create(FinishingUnitSqMeter);
                     }
-                    else if (FModeCms == "Edit")
+                    else if (FModeSqMeter == "Edit")
                     {
-                        new UnitConversionService(_unitOfWork).Update(FinishingUnitCms);
+                        new UnitConversionService(_unitOfWork).Update(FinishingUnitSqMeter);
                     }
 
 

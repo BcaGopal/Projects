@@ -265,8 +265,8 @@
 
 
             function Calculation() {
-                
-                var mTestingQty = parseFloat($('#TestingQty').val()) / (500 * 1000)
+
+                var mTestingQty = $('#TestingQty').val() / (500 * 1000)
                 var mExcessQtyInKg = $('#ExcessQty').val();
 
                 if (mExcessQtyInKg == "" || mExcessQtyInKg == null)
@@ -275,15 +275,14 @@
                 }
 
                 var DocQty = 0;
-                
-                if ($('#HeaderTestingQty').val() != 0 && mTestingQty != 0) 
+
+                if ($('#HeaderTestingQty').val() != 0 && mTestingQty != 0)
                 {
-                    if ($('#DyeingRatio').val() != 0) 
+                    if ($('#DyeingRatio').val() != 0)
                     {
                         //$('#DocQty').val((((mTestingQty / $('#HeaderTestingQty').val()) *  $('#HeaderQty').val()) * $('#DyeingRatio').val() / 100).toFixed(4));
-                        DocQty = (((parseFloat(mTestingQty) / $('#HeaderTestingQty').val()) *  $('#HeaderQty').val()) * $('#DyeingRatio').val() / 100);
-                        $('#DocQty').val(Math.max( Math.round(DocQty * 1000) / 1000).toFixed(4));
-                        
+                        DocQty = (((mTestingQty / $('#HeaderTestingQty').val()) *  $('#HeaderQty').val()) * $('#DyeingRatio').val() / 100);
+                        $('#DocQty').val(Math.max( Math.round(DocQty * 1000) / 1000).toFixed(3));
                     }
                     else
                     {
@@ -294,16 +293,16 @@
                     }
                 }
 
-                
+
 
 
                 //$('#Qty').val(($('#DocQty').val() + mExcessQtyInKg).toFixed(4));
 
-                $('#Qty').val((parseFloat($('#DocQty').val()) + parseFloat(mExcessQtyInKg)).toFixed(4));
+                $('#Qty').val((parseFloat($('#DocQty').val()) + parseFloat(mExcessQtyInKg)));
                 $('#Amount').val(($('#Qty').val() * $('#Rate').val()).toFixed(2));
 
-                
-               
+
+
             }
         })
     </script>

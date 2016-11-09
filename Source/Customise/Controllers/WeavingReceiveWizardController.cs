@@ -122,6 +122,7 @@ namespace Web
             List<string> UserRoles = (List<string>)System.Web.HttpContext.Current.Session["Roles"];
 
             int DocTypeId = new DocumentTypeService(_unitOfWork).Find(TransactionDoctypeConstants.WeavingBazar).DocumentTypeId;
+            p.DocTypeId = DocTypeId;
 
             //Getting Settings
             var settings = new JobReceiveSettingsService(_unitOfWork).GetJobReceiveSettingsForDocument(DocTypeId, p.DivisionId, p.SiteId);
@@ -232,6 +233,7 @@ namespace Web
 
                         JobReceiveSettings Settings = new JobReceiveSettingsService(_unitOfWork).GetJobReceiveSettingsForDocument(s.DocTypeId, s.DivisionId, s.SiteId);
 
+                        int ProductUidCountForJobOrderLine = 0;
                         int pk = 0;
 
                         var JobOrderLineIds = JobOrdersAndQtys.Select(m => m.JobOrderLineId).ToArray();
@@ -263,6 +265,7 @@ namespace Web
                                     }
 
 
+                                    ProductUidCountForJobOrderLine = 0;
                                     var JobOrderLine = new JobOrderLineService(_unitOfWork).Find((SelectedJobOrderLine.JobOrderLineId));
                                     var Product = new ProductService(_unitOfWork).Find(JobOrderLine.ProductId);
 
@@ -291,7 +294,7 @@ namespace Web
                                             new ProductUidHeaderService(_unitOfWork).Create(ProdUidHeader);
 
 
-                                            string ProductUidName =  (Convert.ToInt32(SelectedJobOrderLine.FromProductUidName) + pk).ToString();
+                                            string ProductUidName = (Convert.ToInt32(SelectedJobOrderLine.FromProductUidName) + ProductUidCountForJobOrderLine).ToString();
 
                                             ProductUid ProdUid = new ProductUid();
                                             ProdUid.ProductUidHeaderId = ProdUidHeader.ProductUidHeaderId;
@@ -416,6 +419,7 @@ namespace Web
 
                                             pk++;
                                             Cnt = Cnt + 1;
+                                            ProductUidCountForJobOrderLine++;
                                         }
                                     }
                                 }

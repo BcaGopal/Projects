@@ -49,6 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataBaseViews\JobOrderBalance.cs" />
+    <Compile Include="DataBaseViews\ViewRecipeBalanceForSubRecipe.cs" />
     <Compile Include="DataBaseViews\ProdOrderBalance.cs" />
     <Compile Include="DataBaseViews\_Menu.cs" />
     <Compile Include="DataBaseViews\_ReportHeader.cs" />
@@ -62,6 +63,7 @@
     <Compile Include="Models\PerkDocumentType.cs" />
     <Compile Include="Models\ProdOrderLineStatus.cs" />
     <Compile Include="ViewModels\DyeingViewModel.cs" />
+    <Compile Include="ViewModels\SubRecipeViewModel.cs" />
     <Compile Include="ViewModels\RecipeViewModel.cs" />
     <Compile Include="ViewModels\JobWorkerViewModel.cs" />
     <Compile Include="ViewModels\PerkDocumentTypeViewModel.cs" />

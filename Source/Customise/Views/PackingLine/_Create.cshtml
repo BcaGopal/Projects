@@ -257,7 +257,7 @@
 
 <script>
     $(document).ready(function () {
-
+        //CustomSelectFunction($("#ProductId"), '/ComboHelpList/GetProducts', '/ComboHelpList/SetSingleProducts', ' ', false, 3);
         CustomSelectFunction($("#ProductId"), '/ComboHelpList/GetFinishedMaterialDivisionWise', '/ComboHelpList/SetSingleProducts', ' ', false, 3);
         CustomSelectFunction($("#ProductInvoiceGroupId"), '/ComboHelpList/GetProductInvoiceGroupsDivisionWise', '/ComboHelpList/SetSingleProductInvoiceGroup', ' ', false, 0);
 
@@ -835,7 +835,7 @@
 
     function QtyValidation()
     {
-        if ($('#UnitConversionMultiplier').val() > 0.25 && $('#Qty').val() > 1 && $('#DealUnitId').val() != 'PCS')
+        if ($('#UnitConversionMultiplier').val() > 0.25 && $('#Qty').val() > 1 && $('#DealUnitId').val() != 'PCS' && $('#DealUnitId').val() != 'KG')
         {
             $("#QtyValidation").text("Packed Qty can not be greater then 1 for "+ $("#ProductId").select2('data').text +".");
             //alert($('#UnitConversionMultiplier').val());
