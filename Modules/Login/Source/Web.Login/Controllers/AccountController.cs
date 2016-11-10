@@ -138,6 +138,8 @@ namespace Login.Controllers
                                 System.Web.HttpContext.Current.Session["DefaultConnectionString"] = AppRecord.ConnectionString;
                                 System.Web.HttpContext.Current.Session["ApplicationId"] = AppRecord.ApplicationId;
 
+                                System.Web.HttpContext.Current.Session["TitleCase"] = "UpperCase";
+
                                 if (AppRecord != null && AppRecord.ApplicationDefaultPage != null)
                                 {
                                     return Redirect(AppRecord.ApplicationDefaultPage);

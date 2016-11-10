@@ -55,7 +55,7 @@ namespace Models.Customize.ViewModels
         public int Dimension1Id { get; set; }
         public string Dimension1Name { get; set; }
 
-        public int Dimension2Id { get; set; }
+        public int? Dimension2Id { get; set; }
         public string Dimension2Name { get; set; }
 
         public int ProductId { get; set; }

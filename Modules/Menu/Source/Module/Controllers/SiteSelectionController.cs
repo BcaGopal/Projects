@@ -14,6 +14,7 @@ using Models.Company.Models;
 using Models.BasicSetup.ViewModels;
 using System;
 using System.IO;
+using System.Data;
 
 namespace Module
 {
@@ -91,6 +92,7 @@ namespace Module
                                            select p.Id.ToString());
             //End
 
+
             if (UserRoles.Contains("Admin"))
             {
 
@@ -147,6 +149,8 @@ namespace Module
             #region CompanyDetails
             System.Web.HttpContext.Current.Session["CompanyId"] = 1;
             System.Web.HttpContext.Current.Session["CompanyName"] = "SURYA CARPET PVT. LTD.";
+
+
             #endregion
 
             #region BookMarks
@@ -251,6 +255,7 @@ namespace Module
 
             Site S = _siteSelectionService.GetSite(SiteId);
             Division D = _siteSelectionService.GetDivision(DivisionId);
+            
 
             System.Web.HttpContext.Current.Session[SessionNameConstants.LoginDivisionId] = DivisionId;
             System.Web.HttpContext.Current.Session[SessionNameConstants.LoginSiteId] = SiteId;
@@ -260,6 +265,8 @@ namespace Module
             System.Web.HttpContext.Current.Session[SessionNameConstants.SiteAddress] = S.Address;
             System.Web.HttpContext.Current.Session[SessionNameConstants.SiteCityName] = S.City.CityName;
             System.Web.HttpContext.Current.Session[SessionNameConstants.DivisionName] = D.DivisionName;
+
+            System.Web.HttpContext.Current.Session["TitleCase"] = "UpperCase";
 
             List<string> UserRoles = (List<string>)System.Web.HttpContext.Current.Session["Roles"];
 

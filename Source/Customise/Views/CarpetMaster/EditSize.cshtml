@@ -29,6 +29,7 @@
             @Html.HiddenFor(m=>m.SampleId)
             @Html.HiddenFor(m=>m.StandardCost)
             @Html.HiddenFor(m=>m.StandardWeight)
+            @Html.HiddenFor(m=>m.GrossWeight)
             @Html.HiddenFor(m=>m.Tags)
             @Html.HiddenFor(m => m.SiteId)
             @Html.HiddenFor(m => m.DivisionId)
@@ -289,6 +290,19 @@
         }
     </div>
 </div>
+
+<script type="text/javascript">
+    $(function()
+    {
+        var TitleCase= '@Session["TitleCase"]';
+        //alert(TitleCase);
+        $('#ProductName').keyup(function() {
+            if (TitleCase=="UpperCase")
+            this.value = this.value.toUpperCase() ;
+    });
+    });
+</script>
+
 <script type="text/javascript">
 
     var ProductShapeShortName = "";

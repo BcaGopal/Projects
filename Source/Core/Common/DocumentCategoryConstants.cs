@@ -508,6 +508,7 @@ namespace Core.Common
         public const string Courier = "Courier";
         public const string CostCenter = "Cost Center";
         public const string Agent = "Agent";
+        public const string FeetConversionToCms = "FeetConversionToCms";
 
         public const string Dimension1 = "Dimension1";
         public const string Dimension2 = "Dimension2";

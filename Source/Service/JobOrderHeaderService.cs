@@ -425,6 +425,7 @@ namespace Service
                     {
                         item.LastTransactionPersonId = Header.JobWorkerId;
                         item.LastTransactionDocNo = Header.DocNo;
+                        item.LastTransactionDocDate = Header.DocDate;
                         item.ObjectState = Model.ObjectState.Modified;
 
                         context.ProductUid.Add(item);

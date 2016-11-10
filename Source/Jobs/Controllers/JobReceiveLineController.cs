@@ -2024,6 +2024,7 @@ namespace Web
                     s.PassQty = svm.PassQty;
                     s.DealUnitId = svm.DealUnitId;
                     s.DealQty = svm.DealQty;
+                    s.LotNo  = svm.LotNo;
                     s.UnitConversionMultiplier = svm.UnitConversionMultiplier;
                     s.IncentiveAmt = svm.IncentiveAmt;
                     s.IncentiveRate = svm.IncentiveRate;
@@ -2401,6 +2402,7 @@ namespace Web
                     RecLine.PenaltyAmt = svm.PenaltyAmt;
                     RecLine.PenaltyRate = svm.PenaltyRate;
                     RecLine.Remark = svm.Remark;
+                    RecLine.LotNo = svm.LotNo;
                     RecLine.Qty = svm.ReceiveQty;
                     RecLine.LossQty = svm.LossQty;
                     RecLine.PassQty = svm.PassQty;
@@ -2435,7 +2437,8 @@ namespace Web
                         StockViewModel.HeaderGodownId = temp.GodownId;
                         StockViewModel.GodownId = temp.GodownId;
                         StockViewModel.ProcessId = temp.ProcessId;
-                        StockViewModel.LotNo = JobOrderLine.LotNo;
+                        //StockViewModel.LotNo = JobOrderLine.LotNo;
+                        StockViewModel.LotNo = svm.LotNo;
                         StockViewModel.CostCenterId = JobOrderHeader.CostCenterId;
                         StockViewModel.Qty_Iss = 0;
                         StockViewModel.Qty_Rec = SettingsStockQty;
@@ -2858,6 +2861,9 @@ namespace Web
         public ActionResult DeletePost(JobReceiveLineViewModel vm)
         {
             bool BeforeSave = true;
+            bool IsProductUidGeneratedFromReceive = false;
+            int MainSiteId = (from S in db.Site where S.SiteCode == "MAIN" select S).FirstOrDefault().SiteId;
+
             try
             {
                 BeforeSave = JobReceiveDocEvents.beforeLineDeleteEvent(this, new JobEventArgs(vm.JobReceiveHeaderId, vm.JobReceiveLineId), ref db);
@@ -2902,13 +2908,13 @@ namespace Web
                 db.JobReceiveLineStatus.Remove(LineStatus);
 
 
+                ProductUid ProductUid = (from p in db.ProductUid
+                                         where p.ProductUIDId == vm.ProductUidId
+                                         select p).FirstOrDefault();
+
                 if (vm.ProductUidId != null && vm.ProductUidId != 0)
                 {
-                    ProductUid ProductUid = (from p in db.ProductUid
-                                             where p.ProductUIDId == vm.ProductUidId
-                                             select p).FirstOrDefault();
-
-                    if (!(JobReceiveLine.ProductUidLastTransactionDocNo == ProductUid.LastTransactionDocNo && JobReceiveLine.ProductUidLastTransactionDocTypeId == ProductUid.LastTransactionDocTypeId) || header.SiteId == 17)
+                    if (!(JobReceiveLine.ProductUidLastTransactionDocNo == ProductUid.LastTransactionDocNo && JobReceiveLine.ProductUidLastTransactionDocTypeId == ProductUid.LastTransactionDocTypeId) || header.SiteId == MainSiteId)
                     {
 
 
@@ -2919,21 +2925,22 @@ namespace Web
                             return PartialView("_Create", vm);
                         }
 
+                        if (JobReceiveLine.ProductUidHeaderId == null || JobReceiveLine.ProductUidHeaderId == 0)
+                        {
+                            ProductUid.LastTransactionDocDate = JobReceiveLine.ProductUidLastTransactionDocDate;
+                            ProductUid.LastTransactionDocId = JobReceiveLine.ProductUidLastTransactionDocId;
+                            ProductUid.LastTransactionDocNo = JobReceiveLine.ProductUidLastTransactionDocNo;
+                            ProductUid.LastTransactionDocTypeId = JobReceiveLine.ProductUidLastTransactionDocTypeId;
+                            ProductUid.LastTransactionPersonId = JobReceiveLine.ProductUidLastTransactionPersonId;
+                            ProductUid.CurrenctGodownId = JobReceiveLine.ProductUidCurrentGodownId;
+                            ProductUid.CurrenctProcessId = JobReceiveLine.ProductUidCurrentProcessId;
+                            ProductUid.Status = JobReceiveLine.ProductUidStatus;
 
-                        ProductUid.LastTransactionDocDate = JobReceiveLine.ProductUidLastTransactionDocDate;
-                        ProductUid.LastTransactionDocId = JobReceiveLine.ProductUidLastTransactionDocId;
-                        ProductUid.LastTransactionDocNo = JobReceiveLine.ProductUidLastTransactionDocNo;
-                        ProductUid.LastTransactionDocTypeId = JobReceiveLine.ProductUidLastTransactionDocTypeId;
-                        ProductUid.LastTransactionPersonId = JobReceiveLine.ProductUidLastTransactionPersonId;
-                        ProductUid.CurrenctGodownId = JobReceiveLine.ProductUidCurrentGodownId;
-                        ProductUid.CurrenctProcessId = JobReceiveLine.ProductUidCurrentProcessId;
-                        ProductUid.Status = JobReceiveLine.ProductUidStatus;
+                            ProductUid.ObjectState = Model.ObjectState.Modified;
+                            db.ProductUid.Add(ProductUid);
 
-                        ProductUid.ObjectState = Model.ObjectState.Modified;
-                        db.ProductUid.Add(ProductUid);
-
-                        new StockUidService(_unitOfWork).DeleteStockUidForDocLineDB(vm.JobReceiveHeaderId, header.DocTypeId, header.SiteId, header.DivisionId, ref db);
-
+                            new StockUidService(_unitOfWork).DeleteStockUidForDocLineDB(vm.JobReceiveHeaderId, header.DocTypeId, header.SiteId, header.DivisionId, ref db);
+                        }
                     }
                     else
                     {
@@ -2954,8 +2961,15 @@ namespace Web
                 }
 
 
+                if (JobReceiveLine.ProductUidHeaderId != null && JobReceiveLine.ProductUidHeaderId != 0)
+                {
+                    IsProductUidGeneratedFromReceive = true;
+                }
+
                 JobReceiveLine.ObjectState = Model.ObjectState.Deleted;
                 db.JobReceiveLine.Remove(JobReceiveLine);
+
+
 
 
                 if (StockId != null)
@@ -2998,6 +3012,14 @@ namespace Web
                     item.ObjectState = Model.ObjectState.Deleted;
                     db.JobReceiveBom.Remove(item);
                 }
+
+                if (IsProductUidGeneratedFromReceive == true)
+                {
+                    ProductUid.ObjectState = Model.ObjectState.Deleted;
+                    db.ProductUid.Remove(ProductUid);
+                }
+
+
 
                 XElement Modifications = new ModificationsCheckService().CheckChanges(LogList);
 

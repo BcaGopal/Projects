@@ -7,8 +7,8 @@ Infrastructure
 Components
 Basic Setup
 Login
-Modules
 Admin Setup
+Modules
 Reports
 Rug
 Dyeing

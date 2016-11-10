@@ -60,6 +60,10 @@ namespace Service
 
         BomDetail GetExistingBaseProduct(int id);
 
+        IQueryable<ComboBoxResult> GetFaceContentProductList(int ProductGroupId, string term);
+
+        IQueryable<ComboBoxResult> GetOtherContentProductList(int ProductGroupId, string term);
+
     }
 
     public class BomDetailService : IBomDetailService
@@ -735,6 +739,7 @@ namespace Service
                                                                    ColourId = p.ColourId,
                                                                    ColourName = p.ColourName,
                                                                    ProductQualityName = p.ProductQualityName,
+                                                                   Weight = p.Weight
                                                                };
 
             return svm;
@@ -852,6 +857,7 @@ namespace Service
                         {
                             BaseProductId = p.ProductId,
                             DesignName = ProductGroupTab.ProductGroupName,
+                            DesignId = ProductGroupTab.ProductGroupId,
                             QualityName = QualityTab.ProductQualityName,
                             Weight = (QualityTab.Weight > 0 ? QualityTab.Weight : (p.StandardWeight ?? 0))
                         };
@@ -887,6 +893,77 @@ namespace Service
                     where p.BaseProductId == id
                     select p).FirstOrDefault();
 
+        }
+
+        public IQueryable<ComboBoxResult> GetFaceContentProductList(int ProductGroupId, string term)
+        {
+            var ProductFaceContentGroups = from pg in db.ProductGroups
+                                           join fp in db.FinishedProduct on pg.ProductGroupId equals fp.ProductGroupId into FinishedProductTable
+                                           from FinishedProductTab in FinishedProductTable.DefaultIfEmpty()
+                                           join pcl in db.ProductContentLine on FinishedProductTab.FaceContentId equals pcl.ProductContentHeaderId into ProductContentLineTable
+                                           from ProductContentLineTab in ProductContentLineTable.DefaultIfEmpty()
+                                           where pg.ProductGroupId == ProductGroupId && ((int?)ProductContentLineTab.ProductGroupId ?? 0) != 0
+                                           group new { ProductContentLineTab } by new { ProductContentLineTab.ProductGroupId } into Result
+                                           select new
+                                           {
+                                               ProductGroupId = Result.Key.ProductGroupId
+                                           };
+
+
+            return (from p in db.Product
+                    join t in ProductFaceContentGroups on p.ProductGroupId equals t.ProductGroupId into ContentTable
+                    from ContentTab in ContentTable.DefaultIfEmpty()
+                    where ((int?)ContentTab.ProductGroupId ?? 0) != 0
+                     && (string.IsNullOrEmpty(term) ? 1 == 1 : p.ProductName.ToLower().Contains(term.ToLower()))
+                     && p.IsActive == true
+                    orderby p.ProductName ascending
+                    select new ComboBoxResult
+                    {
+                        id = p.ProductId.ToString(),
+                        text = p.ProductName,
+
+                    });
+        }
+
+        public IQueryable<ComboBoxResult> GetOtherContentProductList(int ProductGroupId, string term)
+        {
+            var ProductFaceContentGroups = from pg in db.ProductGroups
+                                           join fp in db.FinishedProduct on pg.ProductGroupId equals fp.ProductGroupId into FinishedProductTable
+                                           from FinishedProductTab in FinishedProductTable.DefaultIfEmpty()
+                                           join pcl in db.ProductContentLine on FinishedProductTab.FaceContentId equals pcl.ProductContentHeaderId into ProductContentLineTable
+                                           from ProductContentLineTab in ProductContentLineTable.DefaultIfEmpty()
+                                           where pg.ProductGroupId == ProductGroupId && ((int?)ProductContentLineTab.ProductGroupId ?? 0) != 0
+                                           group new { ProductContentLineTab } by new { ProductContentLineTab.ProductGroupId } into Result
+                                           select new
+                                           {
+                                               ProductGroupId = Result.Key.ProductGroupId
+                                           };
+
+
+            return (from p in db.Product
+                    join t in ProductFaceContentGroups on p.ProductGroupId equals t.ProductGroupId into ContentTable
+                    from ContentTab in ContentTable.DefaultIfEmpty()
+                    join Pg in db.ProductGroups on p.ProductGroupId equals Pg.ProductGroupId into ProductGroupTable
+                    from ProductGroupTab in ProductGroupTable.DefaultIfEmpty()
+                    join Pt in db.ProductTypes on ProductGroupTab.ProductTypeId equals Pt.ProductTypeId into ProductTypeTable
+                    from ProductTypeTab in ProductTypeTable.DefaultIfEmpty()
+                    join pn in db.ProductNature on ProductTypeTab.ProductNatureId equals pn.ProductNatureId into ProductNatureTable
+                    from ProductNatureTab in ProductNatureTable.DefaultIfEmpty()
+                    where ((int?)ContentTab.ProductGroupId ?? 0) == 0
+                     && (string.IsNullOrEmpty(term) ? 1 == 1 : p.ProductName.ToLower().Contains(term.ToLower()))
+                     && ProductNatureTab.ProductNatureName == ProductNatureConstants.Rawmaterial
+                     && ProductTypeTab.ProductTypeName != ProductTypeConstants.Trace 
+                     && ProductTypeTab.ProductTypeName != ProductTypeConstants.Map
+                     && ProductTypeTab.ProductTypeName != ProductTypeConstants.OtherMaterial
+                     && ProductTypeTab.ProductTypeName != ProductTypeConstants.Bom
+                     && p.IsActive == true
+                    orderby p.ProductName ascending
+                    select new ComboBoxResult
+                    {
+                        id = p.ProductId.ToString(),
+                        text = p.ProductName,
+
+                    });
         }
     }
 

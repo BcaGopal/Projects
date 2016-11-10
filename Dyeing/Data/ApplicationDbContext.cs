@@ -87,6 +87,7 @@ namespace Data.Customize
         public DbSet<UnitConversionFor> UnitConversionFor { get; set; }
         public DbSet<ViewJobOrderBalance> ViewJobOrderBalance { get; set; }
         public DbSet<ViewProdOrderBalance> ViewProdOrderBalance { get; set; }
+        public DbSet<ViewRecipeBalanceForSubRecipe> ViewRecipeBalanceForSubRecipe { get; set; }
         public DbSet<Dimension1> Dimension1 { get; set; }
         public DbSet<Dimension2> Dimension2 { get; set; }
         public DbSet<JobWorker> JobWorker { get; set; }

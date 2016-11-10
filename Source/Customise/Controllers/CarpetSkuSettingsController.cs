@@ -142,6 +142,7 @@ namespace Web
                     temp.isVisibleDrawbackTarrif = vm.isVisibleDrawbackTarrif;
                     temp.isVisibleStandardCost = vm.isVisibleStandardCost;
                     temp.isVisibleStandardWeight = vm.isVisibleStandardWeight;
+                    temp.isVisibleGrossWeight = vm.isVisibleGrossWeight;
                     temp.isVisibleSupplierDetail = vm.isVisibleSupplierDetail;
                     temp.isVisibleSample = vm.isVisibleSample;
                     temp.isVisibleCounterNo = vm.isVisibleCounterNo;

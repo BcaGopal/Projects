@@ -142,7 +142,7 @@ namespace Web.Controllers
             {
                 if (svm.BaseProductId == 0)
                 {
-                    Product product = new Product();
+                    FinishedProduct product = new FinishedProduct();
 
                     if (svm.ProductGroupName.Length > 20)
                     {
@@ -159,6 +159,9 @@ namespace Web.Controllers
                     product.IsActive = true;
                     product.ReferenceDocTypeId = new DocumentTypeService(_unitOfWork).FindByName(MasterDocTypeConstants.ProductGroup).DocumentTypeId;
                     product.ReferenceDocId = svm.ProductGroupId;
+
+
+                    product.IsSample = false;
 
                     product.CreatedDate = DateTime.Now;
                     product.ModifiedDate = DateTime.Now;
@@ -426,7 +429,7 @@ namespace Web.Controllers
             {
                 Product OldProduct = _ProductService.Find(vm.ProductId);
 
-                Product NewProduct = new Product();
+                FinishedProduct NewProduct = new FinishedProduct();
                 ProductGroup productgroup = new ProductGroupService(_unitOfWork).Find(vm.ProductGroupId);
 
                 if (productgroup.ProductGroupName.Length > 20)
@@ -448,6 +451,7 @@ namespace Web.Controllers
                 NewProduct.ModifiedBy = User.Identity.Name;
                 NewProduct.ReferenceDocTypeId = new DocumentTypeService(_unitOfWork).FindByName(MasterDocTypeConstants.ProductGroup).DocumentTypeId;
                 NewProduct.ReferenceDocId = productgroup.ProductGroupId;
+                NewProduct.IsSample = false;
                 NewProduct.ObjectState = Model.ObjectState.Added;
                 _ProductService.Create(NewProduct);
 

@@ -90,6 +90,7 @@ namespace Model.Models
         [MaxLength(100)]
         public string ImageFileName { get; set; }
 
+        public Decimal? GrossWeight { get; set; }
         public Decimal? StandardWeight { get; set; }
         public string Tags { get; set; }
 

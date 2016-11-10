@@ -203,6 +203,9 @@ namespace Customise.App_Start
             container.RegisterType<IRepository<SaleEnquiryLine>, Repository<SaleEnquiryLine>>();
             container.RegisterType<Service.ISaleEnquiryLineService, Service.SaleEnquiryLineService>(new PerRequestLifetimeManager());
 
+            container.RegisterType<IRepository<FeetConversionToCms>, Repository<FeetConversionToCms>>();
+            container.RegisterType<IFeetConversionToCmsService, FeetConversionToCmsService>(new PerRequestLifetimeManager());           
+
             container.RegisterType<IRepository<SalesTaxGroupProduct>, Repository<SalesTaxGroupProduct>>();
             container.RegisterType<ISalesTaxGroupProductService, SalesTaxGroupProductService>(new PerRequestLifetimeManager());
 

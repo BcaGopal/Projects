@@ -570,7 +570,7 @@ namespace Web
                     context.JobOrderHeader.Add(temp);
                     //_JobOrderHeaderService.Update(temp);
 
-                    if (temp.JobWorkerId != ExRec.JobWorkerId || temp.DocNo != ExRec.DocNo)
+                    if (temp.JobWorkerId != ExRec.JobWorkerId || temp.DocNo != ExRec.DocNo || temp.DocDate != ExRec.DocDate)
                     {
                         _JobOrderHeaderService.UpdateProdUidJobWorkers(ref context, temp);
                     }

@@ -27,6 +27,10 @@ namespace Model.ViewModels
         public int ProductQualityId { get; set; }
         public string ProductQualityName { get; set; }
 
+        public string EntryMode { get; set; }
+
         public Decimal? Weight { get; set; }
     }
+
+    
 }

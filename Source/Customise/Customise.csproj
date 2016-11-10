@@ -252,6 +252,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminSetupController.cs" />
     <Compile Include="Controllers\CarpetMasterController.cs" />
+    <Compile Include="Controllers\FeetConversionToCmsController .cs" />
     <Compile Include="Controllers\ProductBuyerSettingsController.cs" />
     <Compile Include="Controllers\DesignColourConsumptionHeaderController.cs" />
     <Compile Include="Controllers\SaleEnquiryProductMapping.cs" />
@@ -1158,6 +1159,9 @@
     <Content Include="Views\WeavingReceiveWizard\CreateWeavingReceive.cshtml" />
     <Content Include="Views\TaxCalculation\_GetHeaderCharge.cshtml" />
     <Content Include="Views\ProductBuyerSettings\Create.cshtml" />
+    <Content Include="Views\FeetConversionToCms\_Reason.cshtml" />
+    <Content Include="Views\FeetConversionToCms\Create.cshtml" />
+    <Content Include="Views\FeetConversionToCms\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

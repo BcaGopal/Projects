@@ -92,6 +92,21 @@ namespace Customize.Controllers
             s.HeaderQty = H.Qty;
             ViewBag.Status = H.Status;
 
+            LastValues LastValues = _RecipeLineService.GetLastValues(Id);
+
+            if (LastValues != null)
+            {
+                if (LastValues.DyeingRatio != null)
+                {
+                    s.DyeingRatio = LastValues.DyeingRatio;
+                }
+                else
+                {
+                    s.DyeingRatio = 100;
+                }
+            }
+
+
             PrepareViewBag(s);
             ViewBag.LineMode = "Create";
 

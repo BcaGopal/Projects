@@ -228,6 +228,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ComboHelpListController.cs" />
     <Compile Include="Controllers\DyeingController.cs" />
+    <Compile Include="Controllers\SubRecipeController.cs" />
     <Compile Include="Controllers\RecipeLineController.cs" />
     <Compile Include="Controllers\RecipeHeaderController.cs" />
     <Compile Include="Controllers\JobOrderHeaderController.cs" />
@@ -719,6 +720,7 @@
     <Content Include="Views\WorkOrderImport\Error.cshtml" />
     <Content Include="Views\WorkOrderImport\Index.cshtml" />
     <Content Include="Views\WorkOrderImport\Sucess.cshtml" />
+    <Content Include="Views\SubRecipe\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -58,7 +58,13 @@ namespace Model.ViewModels
         public string UnitName { get; set; }
 
         public string DesignName { get; set; }
+
+        public int? DesignId { get; set; }
         public string QualityName { get; set; }
+
+        public string ColourName { get; set; }
+
+        public string ContentType { get; set; }
         public Decimal Weight  { get; set; }
         public List<SKUBomViewModel> SKUs { get; set; }
     }

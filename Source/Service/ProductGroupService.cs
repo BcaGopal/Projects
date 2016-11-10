@@ -367,7 +367,8 @@ namespace Service
                                      select new ProductGroupQuality
                                      {
                                          ProductGroupName = ProductGroupTab.ProductGroupName,
-                                         ProductQualityName = ProductQualityTab.ProductQualityName
+                                         ProductQualityName = ProductQualityTab.ProductQualityName,
+                                         GrossWeight = fp.GrossWeight
                                      }).FirstOrDefault();
 
             return p;
@@ -381,5 +382,7 @@ namespace Service
     {
         public string ProductGroupName { get; set; }
         public string ProductQualityName { get; set; }
+
+        public Decimal? GrossWeight { get; set; }
     }
 }

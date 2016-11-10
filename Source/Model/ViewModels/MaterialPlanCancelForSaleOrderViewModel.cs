@@ -53,6 +53,13 @@ namespace Model.ViewModel
         public string ProductId { get; set; }
         [Display(Name = "Product Group")]
         public string ProductGroupId { get; set; }
+
+        [Display(Name = "Dimension1")]
+        public string Dimension1Id { get; set; }
+
+        [Display(Name = "Dimension2")]
+        public string Dimension2Id { get; set; }
+
     }
     public class MaterialPlanCancelLineListViewModel
     {

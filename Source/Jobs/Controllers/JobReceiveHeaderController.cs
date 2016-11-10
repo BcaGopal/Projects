@@ -329,6 +329,11 @@ namespace Web
                     if (GodownChanged)
                         new StockService(_unitOfWork).UpdateStockGodownId(temp.StockHeaderId, temp.GodownId, db);
 
+                    if (temp.JobWorkerId != ExRec.JobWorkerId || temp.DocNo != ExRec.DocNo || temp.DocDate != ExRec.DocDate)
+                    {
+                        _JobReceiveHeaderService.UpdateProdUidJobWorkers(ref db, temp);
+                    }
+
                     LogList.Add(new LogTypeViewModel
                     {
                         ExObj = ExRec,
@@ -610,6 +615,9 @@ namespace Web
         public ActionResult DeleteConfirmed(ReasonViewModel vm)
         {
             bool BeforeSave = true;
+
+            int MainSiteId = (from S in db.Site where S.SiteCode == "MAIN" select S).FirstOrDefault().SiteId;
+
             try
             {
                 BeforeSave = JobReceiveDocEvents.beforeHeaderDeleteEvent(this, new JobEventArgs(vm.id), ref db);
@@ -659,6 +667,12 @@ namespace Web
                 var BarCodeRecords = (from p in db.ProductUid
                                       where ProductUids.Contains(p.ProductUIDId)
                                       select p).ToList();
+
+                var GeneratedBarCodeRecords = (from L in db.JobReceiveLine
+                                               join P in db.ProductUid on L.ProductUidId equals P.ProductUIDId
+                                      where L.JobReceiveHeaderId == vm.id && L.ProductUidHeaderId != null && L.ProductUidId != null
+                                      select P).ToList();
+
 
                 List<int> StockIdList = new List<int>();
                 List<int> StockProcessIdList = new List<int>();
@@ -734,7 +748,7 @@ namespace Web
 
                         ProductUid ProductUid = BarCodeRecords.Where(m => m.ProductUIDId == Productuid).FirstOrDefault();
 
-                        if (!(item.ProductUidLastTransactionDocNo == ProductUid.LastTransactionDocNo && item.ProductUidLastTransactionDocTypeId == ProductUid.LastTransactionDocTypeId) || temp.SiteId == 17)
+                        if (!(item.ProductUidLastTransactionDocNo == ProductUid.LastTransactionDocNo && item.ProductUidLastTransactionDocTypeId == ProductUid.LastTransactionDocTypeId) || temp.SiteId == MainSiteId)
                         {
 
                             if ((temp.DocNo != ProductUid.LastTransactionDocNo || temp.DocTypeId != ProductUid.LastTransactionDocTypeId))
@@ -743,21 +757,24 @@ namespace Web
                                 return PartialView("_Reason", vm);
                             }
 
-                            ProductUid.LastTransactionDocDate = item.ProductUidLastTransactionDocDate;
-                            ProductUid.LastTransactionDocId = item.ProductUidLastTransactionDocId;
-                            ProductUid.LastTransactionDocNo = item.ProductUidLastTransactionDocNo;
-                            ProductUid.LastTransactionDocTypeId = item.ProductUidLastTransactionDocTypeId;
-                            ProductUid.LastTransactionPersonId = item.ProductUidLastTransactionPersonId;
-                            ProductUid.CurrenctGodownId = item.ProductUidCurrentGodownId;
-                            ProductUid.CurrenctProcessId = item.ProductUidCurrentProcessId;
-                            ProductUid.Status = item.ProductUidStatus;
-                            if (!string.IsNullOrEmpty(ProductUid.ProcessesDone))
-                                ProductUid.ProcessesDone = ProductUid.ProcessesDone.Replace("|" + temp.ProcessId.ToString() + "|", "");
-                            ProductUid.ModifiedBy = User.Identity.Name;
-                            ProductUid.ModifiedDate = DateTime.Now;
+                            if (item.ProductUidHeaderId == null || item.ProductUidHeaderId == 0)
+                            {
+                                ProductUid.LastTransactionDocDate = item.ProductUidLastTransactionDocDate;
+                                ProductUid.LastTransactionDocId = item.ProductUidLastTransactionDocId;
+                                ProductUid.LastTransactionDocNo = item.ProductUidLastTransactionDocNo;
+                                ProductUid.LastTransactionDocTypeId = item.ProductUidLastTransactionDocTypeId;
+                                ProductUid.LastTransactionPersonId = item.ProductUidLastTransactionPersonId;
+                                ProductUid.CurrenctGodownId = item.ProductUidCurrentGodownId;
+                                ProductUid.CurrenctProcessId = item.ProductUidCurrentProcessId;
+                                ProductUid.Status = item.ProductUidStatus;
+                                if (!string.IsNullOrEmpty(ProductUid.ProcessesDone))
+                                    ProductUid.ProcessesDone = ProductUid.ProcessesDone.Replace("|" + temp.ProcessId.ToString() + "|", "");
+                                ProductUid.ModifiedBy = User.Identity.Name;
+                                ProductUid.ModifiedDate = DateTime.Now;
 
-                            ProductUid.ObjectState = Model.ObjectState.Modified;
-                            db.ProductUid.Add(ProductUid);
+                                ProductUid.ObjectState = Model.ObjectState.Modified;
+                                db.ProductUid.Add(ProductUid);
+                            }
 
                             new StockUidService(_unitOfWork).DeleteStockUidForDocLineDB(item.JobReceiveHeaderId, temp.DocTypeId, temp.SiteId, temp.DivisionId, ref db);
 
@@ -820,6 +837,12 @@ namespace Web
 
                     STockHeader.ObjectState = Model.ObjectState.Deleted;
                     db.StockHeader.Remove(STockHeader);
+                }
+
+                foreach(var item in GeneratedBarCodeRecords)
+                {
+                    item.ObjectState = Model.ObjectState.Deleted;
+                    db.ProductUid.Remove(item);
                 }
 
 

@@ -153,6 +153,30 @@ namespace Customize.Controllers
             p.ProcessId = _ProcessService.Find(ProcessConstants.Dyeing).ProcessId;
             p.PersonProcessId = _ProcessService.Find(ProcessConstants.Sales).ProcessId;
 
+
+            LastValues LastValues = _DyeingService.GetLastValues(p.DocTypeId);
+
+            if (LastValues != null)
+            {
+                if (LastValues.JobWorkerId != null)
+                {
+                    p.JobWorkerId = (int)LastValues.JobWorkerId;
+                }
+                if (LastValues.GodownId != null)
+                {
+                    p.GodownId = (int)LastValues.GodownId;
+                }
+                if (LastValues.JobReceiveById != null)
+                {
+                    p.JobReceiveById = (int)LastValues.JobReceiveById;
+                }
+            }
+
+            p.StartDateTime = DateTime.Now;
+            p.CompletedDateTime = DateTime.Now;
+
+
+
             PrepareViewBag(id);
 
 
@@ -223,7 +247,7 @@ namespace Customize.Controllers
                         return View("Create", svm);
                     }
 
-                    return RedirectToAction("Modify", "Dyeing", new { Id = svm.JobReceiveHeaderId }).Success("Data saved successfully");
+                    return RedirectToAction("Create", "Dyeing", new { Id = svm.DocTypeId }).Success("Data saved successfully");
 
                 }
                 #endregion

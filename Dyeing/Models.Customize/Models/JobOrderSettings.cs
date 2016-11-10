@@ -95,6 +95,8 @@ namespace Models.Customize.Models
         public byte UnitConversionForId { get; set; }
         public virtual UnitConversionFor UnitConversionFor { get; set; }
 
+        public int? DocTypeProductionOrderId { get; set; } 
+
         [ForeignKey("Process")]
         public int ProcessId { get; set; }
         public virtual Process Process { get; set; }
