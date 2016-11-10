@@ -20,7 +20,7 @@ namespace Model.ViewModels
         public int PersonId { get; set; }
         public string PersonId1 { get; set; }
         public string Name { get; set; }
-        
+
         public int? GodownId { get; set; }
         public string GodownName { get; set; }
         public string Remark { get; set; }
@@ -33,6 +33,11 @@ namespace Model.ViewModels
         public int? ReferenceDocId { get; set; }
         public string ReferenceDocNo { get; set; }
         public string OMSId { get; set; }
-        
+
+        public int? ReviewCount { get; set; }
+        public string ReviewBy { get; set; }
+        public bool? Reviewed { get; set; }
+
+
     }
 }

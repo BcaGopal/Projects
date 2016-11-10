@@ -271,11 +271,10 @@ namespace Service
                         Name = p.Person.Name,
                         Status = p.Status,
                         ModifiedBy = p.ModifiedBy,
-                       // FirstName = tab.FirstName,
-                       // ReviewCount = p.ReviewCount,
-                       // ReviewBy = p.ReviewBy,
+                        ReviewCount = p.ReviewCount,
+                        ReviewBy = p.ReviewBy,
                         DepartmentName = p.Department.DepartmentName,
-                        //Reviewed = (SqlFunctions.CharIndex(Uname, p.ReviewBy) > 0),
+                        Reviewed = (SqlFunctions.CharIndex(Uname, p.ReviewBy) > 0),
                     }
                 );
         }
