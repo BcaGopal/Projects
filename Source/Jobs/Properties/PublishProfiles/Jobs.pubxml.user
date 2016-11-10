@@ -28,16 +28,16 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/22/2016 11:23:20</publishTime>
     </File>
     <File Include="bin/Core.dll">
-      <publishTime>11/04/2016 17:25:32</publishTime>
+      <publishTime>11/09/2016 19:57:57</publishTime>
     </File>
     <File Include="bin/CustomEventHandlers.dll">
-      <publishTime>11/04/2016 17:25:58</publishTime>
+      <publishTime>11/09/2016 19:58:26</publishTime>
     </File>
     <File Include="bin/Data.dll">
-      <publishTime>11/04/2016 17:25:39</publishTime>
+      <publishTime>11/09/2016 19:58:06</publishTime>
     </File>
     <File Include="bin/DocumentEvents.dll">
-      <publishTime>11/04/2016 17:25:56</publishTime>
+      <publishTime>11/09/2016 19:58:24</publishTime>
     </File>
     <File Include="bin/Elmah.dll">
       <publishTime>09/22/2016 11:24:00</publishTime>
@@ -61,7 +61,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/22/2016 11:23:54</publishTime>
     </File>
     <File Include="bin/Jobs.dll">
-      <publishTime>11/07/2016 20:10:05</publishTime>
+      <publishTime>11/09/2016 19:59:40</publishTime>
     </File>
     <File Include="bin/log4net.dll">
       <publishTime>09/22/2016 11:22:41</publishTime>
@@ -130,19 +130,19 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/22/2016 11:23:54</publishTime>
     </File>
     <File Include="bin/Model.dll">
-      <publishTime>11/04/2016 17:25:35</publishTime>
+      <publishTime>11/09/2016 19:58:01</publishTime>
     </File>
     <File Include="bin/Models.Login.dll">
-      <publishTime>11/04/2016 17:25:34</publishTime>
+      <publishTime>11/09/2016 19:57:58</publishTime>
     </File>
     <File Include="bin/Models.Tasks.dll">
-      <publishTime>11/04/2016 17:25:33</publishTime>
+      <publishTime>11/09/2016 19:57:58</publishTime>
     </File>
     <File Include="bin/Newtonsoft.Json.dll">
       <publishTime>09/22/2016 11:23:06</publishTime>
     </File>
     <File Include="bin/Notifier.dll">
-      <publishTime>11/04/2016 17:25:56</publishTime>
+      <publishTime>11/09/2016 19:58:24</publishTime>
     </File>
     <File Include="bin/Owin.dll">
       <publishTime>09/22/2016 11:22:43</publishTime>
@@ -154,7 +154,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/22/2016 10:54:21</publishTime>
     </File>
     <File Include="bin/Reports.dll">
-      <publishTime>11/07/2016 20:08:36</publishTime>
+      <publishTime>11/09/2016 19:58:30</publishTime>
     </File>
     <File Include="bin/Reports/CompanyDetail.rdlc">
       <publishTime>09/22/2016 10:54:49</publishTime>
@@ -319,7 +319,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/22/2016 10:54:50</publishTime>
     </File>
     <File Include="bin/Service.dll">
-      <publishTime>11/07/2016 20:08:30</publishTime>
+      <publishTime>11/09/2016 19:58:23</publishTime>
     </File>
     <File Include="bin/System.Web.Helpers.dll">
       <publishTime>09/22/2016 11:23:54</publishTime>
@@ -1852,7 +1852,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/22/2016 10:54:38</publishTime>
     </File>
     <File Include="Views/JobWorker/Create.cshtml">
-      <publishTime>11/04/2016 17:20:13</publishTime>
+      <publishTime>11/09/2016 15:01:04</publishTime>
     </File>
     <File Include="Views/JobWorker/Index.cshtml">
       <publishTime>10/26/2016 13:17:36</publishTime>

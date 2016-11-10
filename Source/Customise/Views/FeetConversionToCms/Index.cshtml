@@ -41,9 +41,9 @@
         @Html.Grid(Model).Columns(columns =>
    {
                columns.Add(foo => foo.FeetConversionToCmsId, true);
-               columns.Add(foo => foo.Feet).Sortable(true).Titled("Name").Filterable(true);
-               columns.Add(foo => foo.Inch).Sortable(true).Titled("Name").Filterable(true);
-               columns.Add(foo => foo.Cms).Sortable(true).Titled("Name").Filterable(true);
+               columns.Add(foo => foo.Feet).Sortable(true).Titled("Feet").Filterable(true);
+               columns.Add(foo => foo.Inch).Sortable(true).Titled("Inch").Filterable(true);
+               columns.Add(foo => foo.Cms).Sortable(true).Titled("Cms").Filterable(true);
            }).WithPaging(25).EmptyText("No records found.")
     </div>
 </div>

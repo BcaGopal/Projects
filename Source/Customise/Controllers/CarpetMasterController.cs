@@ -762,7 +762,15 @@ namespace Web
                             prod.StandardCost = vm.StandardCost;
                             prod.FaceContentId = vm.FaceContentId;
                             prod.StandardWeight = vm.StandardWeight;
+
+                            
+
+
+                            
                             prod.GrossWeight = vm.GrossWeight;
+
+
+
                             prod.SampleId = vm.SampleId;
                             prod.CounterNo = vm.CounterNo;
                             prod.Tags = vm.Tags;
@@ -1129,6 +1137,22 @@ namespace Web
                             //}
                             j--;
                             CreateMap(P.ProductName, Sizes.MapSizeId, -j);
+
+
+                            var BomProduct = (from L in db.BomDetail
+                                              join Pt in db.Product on L.ProductId equals Pt.ProductId into ProductTable
+                                              from ProductTab in ProductTable.DefaultIfEmpty()
+                                              where L.BaseProductId == prod.ProductId
+                                              select ProductTab).FirstOrDefault();
+
+                            if (BomProduct != null)
+                            {
+                                if (BomProduct.StandardWeight != vm.GrossWeight)
+                                {
+                                    BomProduct.StandardWeight = vm.GrossWeight;
+                                    _ProductService.Update(BomProduct);
+                                }
+                            }
 
 
                         }
