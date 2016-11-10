@@ -117,7 +117,7 @@ namespace Service
         }
         public OverTimeApplicationHeaderViewModel GetOverTimeApplicationHeader(int id)
         {
-           
+            string empid = string.Join(",", (from l in db.OverTimeApplicationLine where l.OverTimeApplicationHeaderId == id select l.EmployeeId).ToArray());
 
             return (from p in db.OverTimeApplicationHeader
                     where p.OverTimeApplicationId == id
@@ -131,6 +131,7 @@ namespace Service
                         PersonId = p.PersonId,
                         DepartmentId = p.DepartmentId,
                         Remark = p.Remark,
+                        PersonId1= empid.ToString(),
                         Status = p.Status,
                         ModifiedDate = p.ModifiedDate,
                         ModifiedBy = p.ModifiedBy,

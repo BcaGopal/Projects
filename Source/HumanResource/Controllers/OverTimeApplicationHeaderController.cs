@@ -138,7 +138,7 @@ namespace Web
 
          }*/
         public ActionResult Index(int id, string IndexType)//DocumentTypeId
-        {
+       {
             if (IndexType == "PTS")
             {
                 return RedirectToAction("Index_PendingToSubmit", new { id });
@@ -275,7 +275,7 @@ namespace Web
                     header.ModifiedDate = DateTime.Now;
                     header.ObjectState = Model.ObjectState.Added;
                     db.OverTimeApplicationHeader.Add(header);
-                  foreach (string EmpId in vm.PersonId1)
+                  foreach (string EmpId in vm.PersonId1.ToString().Split(',').ToArray())
                     {
                         OverTimeApplicationLine Line = new OverTimeApplicationLine();
                         Line.OverTimeApplicationHeaderId = header.OverTimeApplicationId;
@@ -357,6 +357,40 @@ namespace Web
                     //_PurchaseOrderHeaderService.Update(temp);
                     db.OverTimeApplicationHeader.Add(temp);
 
+                    
+                    #region deleteLine
+                    var line = (from p in db.OverTimeApplicationLine
+                                where p.OverTimeApplicationHeaderId == vm.OverTimeApplicationId
+                                select p).ToList();
+
+                    foreach (var item in line)
+                    {
+
+                        LogList.Add(new LogTypeViewModel
+                        {
+                            ExObj = Mapper.Map<OverTimeApplicationLine>(item),
+                        });
+                        item.ObjectState = Model.ObjectState.Deleted;
+                        db.OverTimeApplicationLine.Remove(item);
+                    }
+                    #endregion
+
+                    #region Update
+                    foreach (string EmpId in vm.PersonId1.ToString().Split(',').ToArray())
+                    {
+                        OverTimeApplicationLine Line = new OverTimeApplicationLine();
+                        Line.OverTimeApplicationHeaderId = vm.OverTimeApplicationId;
+                        Line.EmployeeId = Convert.ToInt16(EmpId);
+                        Line.Status = 0;
+                        Line.CreatedBy = User.Identity.Name;
+                        Line.ModifiedBy = User.Identity.Name;
+                        Line.CreatedDate = DateTime.Now;
+                        Line.ModifiedDate = DateTime.Now;
+                        Line.ObjectState = Model.ObjectState.Added;
+                        db.OverTimeApplicationLine.Add(Line);
+                    }
+                    #endregion Update
+
                     LogList.Add(new LogTypeViewModel
                     {
                         ExObj = ExRec,
@@ -421,6 +455,9 @@ namespace Web
 
         private ActionResult Edit(int id, string IndexType)
         {
+
+           
+
             ViewBag.IndexStatus = IndexType;
             OverTimeApplicationHeaderViewModel pt = _OverTimeApplicationHeaderService.GetOverTimeApplicationHeader(id);
 
@@ -1365,7 +1402,7 @@ namespace Web
             return (_OverTimeApplicationHeaderService.GetOverTimeApplicationHeaderPendingToReview(id, User.Identity.Name)).Count();
         }
 
-       
+ 
         protected override void Dispose(bool disposing)
         {
             if (!string.IsNullOrEmpty((string)TempData["CSEXC"]))

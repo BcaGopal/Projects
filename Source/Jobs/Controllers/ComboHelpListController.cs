@@ -5342,9 +5342,9 @@ namespace Web
             };
         }
 
-        public JsonResult GetEmployeeWithProcess(string searchTerm, int pageSize, int pageNum, int filter)//filter:PersonId
+        public JsonResult GetEmployeeWithDepartMent(string searchTerm, int pageSize, int pageNum, int filter)//filter:DepartmentId
         {
-            var Query=cbl.GetEmployeeHelpListWithProcessFilter(filter, searchTerm);
+            var Query=cbl.GetEmployeeHelpListWithDepartMentFilter(filter, searchTerm);
             var temp = Query.Skip(pageSize * (pageNum - 1)).Take(pageSize).ToList();
 
             var count = Query.Count();

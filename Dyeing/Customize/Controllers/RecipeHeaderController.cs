@@ -138,12 +138,7 @@ namespace Customize.Controllers
             p.CreatedDate = DateTime.Now;
             p.DivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
             p.SiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
-
-
-
             p.DocTypeId = id;
-
-
             p.ProcessId = _ProcessService.Find(ProcessConstants.Dyeing).ProcessId;
             p.PersonProcessId = _ProcessService.Find(ProcessConstants.Sales).ProcessId;
 

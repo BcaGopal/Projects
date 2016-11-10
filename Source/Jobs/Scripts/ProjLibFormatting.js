@@ -714,7 +714,6 @@ function InitializePopover(element, ProdUid, IsPostStock, GodwnId, Type) {
         ResetFields();
         status = false;
     }
-
     else if (DataArray.ErrorType == "GodownNull") {
         $(element)
           .popover({

@@ -1,6 +1,7 @@
 ﻿@using GridMvc.Html;
 @model IQueryable<Model.ViewModels.OverTimeApplicationHeaderViewModel>
 
+
 @{
 
     ViewBag.Title = "Index";
@@ -40,8 +41,8 @@
                 @Html.ActionLink(" ", "Index", "OverTimeApplicationHeader", new { @id = @ViewBag.id }, new { @class = "glyphicon glyphicon-list toolbar right", @title = "Index", @data_toggle = "tooltip" })
             </h4>
         </div>
-        <hr style="margin-top: 5px; margin-bottom: 5px; border-top: 1px solid #706f6f; " />
-    
+        <hr style="margin-top: 5px; margin-bottom: 5px; border-top: 1px solid #706f6f; " />   
+       
         @CustomHelpers.RenderStatusFilters(ViewBag.PendingToSubmit, ViewBag.PendingToReview, ControllerName, ViewBag.id, ViewBag.IndexStatus)
 
     </div>

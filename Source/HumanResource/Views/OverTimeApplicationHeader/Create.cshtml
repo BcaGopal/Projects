@@ -149,7 +149,7 @@
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.PersonId1, "Employee Name", new { @class = "control-label col-xs-4" })
                                     <div class="col-xs-6">
-                                        @Html.DropDownListFor(m => m.PersonId1, Enumerable.Empty<SelectListItem>(), new { @class = "form-control col-xs-6", multiple = "multiple" })
+                                        @Html.TextBoxFor(m => m.PersonId1, null, new { @class = "form-control col-xs-6 required" })
                                         @Html.ValidationMessageFor(m => m.PersonId1, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
@@ -233,74 +233,13 @@
 }
 
 
-
 <script type="text/javascript">
-
-    $(function () {
-
-        var tes = @Model.DepartmentId;
-        if(tes!=0)
-            GetEmpListOnEdit.call();
+    $("#DepartmentId").change(function(){
+        CustomSelectFunction($("#PersonId1"), '/ComboHelpList/GetEmployeeWithDepartMent', '/ComboHelpList/SetEmployees',' ',true, 1,$('#DepartmentId').val());
     });
-
-    $("#DepartmentId").change(GetEmp);
-
-    function GetEmp() {
-
-        var selectedcountry = $("#DepartmentId").val();
-        var ddlEmpName = $("#PersonId1");
-        if (selectedcountry == null||selectedcountry=='')
-        {
-            ddlEmpName.html('');
-            return false;
-        }
-
-        $.ajax({
-            cache: false,
-            type: "POST",
-            url: "@(Url.Action("GetEmployeeList"))",
-            data: { id: selectedcountry },
-            success: function (data) {
-                ddlEmpName.html('');
-                $.each(data, function (id, option) {
-                    ddlEmpName.append($('<option></option>').val(option.PersonID).html(option.Name));
-                });
-                ddlEmpName.select2();
-                //$("#PersonId1 > option").prop("selected","selected");
-               // $("#PersonId1").trigger("change");
-            },
-        })
-    };
-
-    function GetEmpListOnEdit() {
-
-        var tes = @Model.DepartmentId;
-        var selectedcountry = $("#CountryId").val();
-        var ddlEmpName = $("#PersonId1");
-        if (selectedcountry == null||selectedcountry=='') {
-            ddlEmpName.html('');
-            return false;
-        }
-        $.ajax({
-            cache: false,
-            type: "POST",
-            url: "@(Url.Action("GetEmployeeList"))",
-            data: { id: selectedcountry },
-            success: function (data) {
-                ddlEmpName.html('');
-                $.each(data, function (id, option) {
-                    ddlEmpName.append($('<option></option>').val(option.PersonID).html(option.Name));
-                });
-
-                $('#PersonId1').val(tes);
-                //$('select #StateId option[value=tes]').attr("selected",true);
-            },
-        })
-
-    };
-
-
 </script>
+
+
 
 
 <script type="text/javascript">
@@ -308,6 +247,7 @@
 
 
     $(document).ready(function(){
+        CustomSelectFunction($("#PersonId1"), '/ComboHelpList/GetEmployeeWithDepartMent', '/ComboHelpList/SetEmployees',' ',true, 1,$('#DepartmentId').val());
         CustomSelectFunction($("#DepartmentId"), '/ComboHelpList/GetDepartment', '/ComboHelpList/SetSingleDepartment', 'Select a Department', false,1);
         CustomSelectFunction($("#PersonId"), '/ComboHelpList/GetEmployees', '/ComboHelpList/SetSingleEmployee', 'Select a Person', false,1);
     })
