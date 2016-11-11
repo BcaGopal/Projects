@@ -207,4 +207,80 @@ namespace Model.ViewModel
         public string Sample { get; set; }
     }
 
+
+
+
+    public class JobReceiveQAAttributeViewModel
+    {
+        public int JobReceiveQAAttributeId { get; set; }
+        public int JobReceiveQALineId { get; set; }
+        public int JobReceiveQAHeaderId { get; set; }
+
+        public int DocTypeId { get; set; }
+        public DateTime DocDate { get; set; }
+        public string DocNo { get; set; }
+        public int DivisionId { get; set; }
+        public int SiteId { get; set; }
+        public int ProcessId { get; set; }
+        public int JobWorkerId { get; set; }
+        public int QAById { get; set; }
+        public int JobReceiveLineId { get; set; }
+        public int? ProductUidId { get; set; }
+        public decimal QAQty { get; set; }
+        public decimal InspectedQty { get; set; }
+        public decimal Qty { get; set; }
+        public decimal FailQty { get; set; }
+
+        public string DealUnitId { get; set; }
+        public Decimal UnitConversionMultiplier { get; set; }
+        public decimal DealQty { get; set; }
+        public decimal FailDealQty { get; set; }
+        public decimal Weight { get; set; }
+        public decimal PenaltyRate { get; set; }
+        public decimal PenaltyAmt { get; set; }
+        public decimal Marks { get; set; }
+        public string Remark { get; set; }
+        public int Status { get; set; }
+        public string CreatedBy { get; set; }
+        public string ModifiedBy { get; set; }
+        public DateTime CreatedDate { get; set; }
+        public DateTime ModifiedDate { get; set; }
+        public List<QAGroupLineLineViewModel> QAGroupLine { get; set; }
+
+        public JobReceiveQASettingsViewModel JobReceiveQASettings { get; set; }
+        public string OMSId { get; set; }
+
+    }
+
+    public class JobReceiveQAPenaltyViewModel
+    {
+        public int JobReceiveQAPenaltyId { get; set; }
+        public int Sr { get; set; }
+        public int JobReceiveQALineId { get; set; }
+        public int JobReceiveQAHeaderId { get; set; }
+        public int ReasonId { get; set; }
+        public string ReasonIName { get; set; }
+        public decimal Amount { get; set; }
+        public string Remarks { get; set; }
+        public string CreatedBy { get; set; }
+        public string ModifiedBy { get; set; }
+        public DateTime CreatedDate { get; set; }
+        public DateTime ModifiedDate { get; set; }
+        public string LockReason { get; set; }
+        public string OMSId { get; set; }
+    }
+
+    public class JobReceivePendingToQAIndex
+    {
+        public int JobReceiveHeaderId { get; set; }
+        public int JobReceiveLineId { get; set; }
+
+        public int DocTypeId { get; set; }
+        public string DocTypeName { get; set; }
+        public DateTime DocDate { get; set; }
+        public string DocNo { get; set; }
+        public string JobWorkerName { get; set; }
+        public string ProductName { get; set; }
+        public string ProductUidName { get; set; }
+    }
 }

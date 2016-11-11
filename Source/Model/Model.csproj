@@ -105,7 +105,12 @@
     <Compile Include="DatabaseViews\StockVirtual.cs" />
     <Compile Include="Models\ActivityLog.cs" />
     <Compile Include="Models\FeetConversionToCms.cs" />
+    <Compile Include="Models\JobReceiveQaLineDetail.cs" />
+    <Compile Include="Models\JobReceiveQaAttribute.cs" />
+    <Compile Include="Models\JobReceiveQaPenalty.cs" />
     <Compile Include="Models\ProductBuyerSettings.cs" />
+    <Compile Include="Models\QAGroup.cs" />
+    <Compile Include="Models\QAGroupLine.cs" />
     <Compile Include="Models\UserReferral.cs" />
     <Compile Include="Models\Agent.cs" />
     <Compile Include="Models\ApplicationUser.cs" />
@@ -178,6 +183,7 @@
     <Compile Include="Models\SubReport.cs" />
     <Compile Include="ViewModels\ProductBuyerSettingsViewModel.cs" />
     <Compile Include="ViewModels\DesignColourConsumptionViewModel.cs" />
+    <Compile Include="ViewModels\QAGroupLineViewModel.cs" />
     <Compile Include="ViewModels\WeavingReceiveWizardViewModel.cs" />
     <Compile Include="ViewModels\OverTimeApplicationHeaderViewModel.cs" />
     <Compile Include="ViewModels\AttendanceHeaderViewModel.cs" />

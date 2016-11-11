@@ -141,7 +141,7 @@ namespace Web
             }
             vm.JobReceiveQASettings = Mapper.Map<JobReceiveQASettings, JobReceiveQASettingsViewModel>(settings);
 
-            vm.ProcessId = settings.ProcessId;
+            vm.ProcessId = settings.ProcessId;  
             vm.DocDate = DateTime.Now;
             vm.DocTypeId = id;
             vm.DocNo = _JobReceiveQAHeaderService.FGetNewDocNo("DocNo", ConfigurationManager.AppSettings["DataBaseSchema"] + ".JobReceiveQAHeaders", vm.DocTypeId, vm.DocDate, vm.DivisionId, vm.SiteId);
