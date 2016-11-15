@@ -20,11 +20,17 @@ namespace Service
 {
     public interface IJobReceiveQAAttributeService : IDisposable
     {
-        void Create(JobReceiveQAAttributeViewModel pt, string UserName);
+        JobReceiveQALine Create(JobReceiveQAAttributeViewModel pt, string UserName);
+        void Update(JobReceiveQAAttributeViewModel pt, string UserName);
         IQueryable<JobReceivePendingToQAIndex> GetJobReceiveQAAttributeList(int DocTypeId, string Uname);//DocumentTypeId
         List<QAGroupLineLineViewModel> GetJobReceiveQAAttribute(int JobReceiveLineid);//JobReceiveLineId
+        List<QAGroupLineLineViewModel> GetJobReceiveQAAttributeForEdit(int JobReceiveQALineid);
         Task<IEquatable<JobReceiveQAAttribute>> GetAsync();
         Task<JobReceiveQAAttribute> FindAsync(int id);
+        JobReceiveQAAttributeViewModel GetJobReceiveLineDetail(int JobReceiveLineid);
+        JobReceiveQAAttributeViewModel GetJobReceiveQAAttributeDetailForEdit(int JobReceiveQALineid);//JobReceiveQALineId
+
+        LastValues GetLastValues(int DocTypeId);
     }
 
     public class JobReceiveQAAttributeService : IJobReceiveQAAttributeService
@@ -33,11 +39,11 @@ namespace Service
 
         IUnitOfWork _unitOfWork;
         IJobReceiveQAHeaderService _JobReceiveQAHeaderService;
-        IJobReceiveQALineService _JobReceiveQALineService;
         public JobReceiveQAAttributeService(ApplicationDbContext db)
         {
 
             this.db = db;
+            _JobReceiveQAHeaderService = new JobReceiveQAHeaderService(db);
         }
 
         public JobReceiveQAAttributeService(IUnitOfWork uow)
@@ -50,18 +56,26 @@ namespace Service
             return db.JobReceiveQAAttribute.Find(id);
         }
 
-        public void Create(JobReceiveQAAttributeViewModel pt,string UserName)
+        public JobReceiveQALine Create(JobReceiveQAAttributeViewModel pt, string UserName)
         {
             JobReceiveQAHeader header = new JobReceiveQAHeader();
             header = Mapper.Map<JobReceiveQAAttributeViewModel, JobReceiveQAHeader>(pt);
             _JobReceiveQAHeaderService.Create(header, UserName);
 
             JobReceiveQALine Line = Mapper.Map<JobReceiveQAAttributeViewModel, JobReceiveQALine>(pt);
-            Line.Sr = _JobReceiveQALineService.GetMaxSr(Line.JobReceiveQAHeaderId);
+            Line.Sr = new JobReceiveQALineService(db,_unitOfWork).GetMaxSr(Line.JobReceiveQAHeaderId);
             Line.FailQty = Line.QAQty - Line.Qty;
             Line.FailDealQty = Line.FailQty * Line.UnitConversionMultiplier;
             new JobReceiveLineStatusService(_unitOfWork).UpdateJobReceiveQtyOnQA(Mapper.Map<JobReceiveQALineViewModel>(Line), pt.DocDate, ref db);
-            _JobReceiveQALineService.Create(Line, UserName);
+            new JobReceiveQALineService(db, _unitOfWork).Create(Line, UserName);
+
+            JobReceiveQALineDetail LineDetail = new JobReceiveQALineDetail();
+            LineDetail.JobReceiveQALineId = Line.JobReceiveQALineId;
+            LineDetail.Length = pt.Length;
+            LineDetail.Width = pt.Width;
+            LineDetail.Height = pt.Height;
+            LineDetail.ObjectState = ObjectState.Added;
+            db.JobReceiveQALineDetail.Add(LineDetail);
 
 
             List<QAGroupLineLineViewModel> tem = pt.QAGroupLine;
@@ -74,13 +88,80 @@ namespace Service
                     pa.JobReceiveQALineId = Line.JobReceiveQALineId;
                     pa.QAGroupLineId = item.QAGroupLineId;
                     pa.Value = item.Value;
-                    pa.Remarks = item.Remarks;
+                    pa.Remark = item.Remarks;
                     pa.CreatedBy = UserName;
                     pa.ModifiedBy = UserName;
                     pa.CreatedDate = DateTime.Now;
                     pa.ModifiedDate = DateTime.Now;
                     pa.ObjectState = ObjectState.Added;
                     db.JobReceiveQAAttribute.Add(pa);
+                }
+            }
+
+            return Line;
+        }
+
+        public void Update(JobReceiveQAAttributeViewModel pt, string UserName)
+        {
+            JobReceiveQAHeader header = new JobReceiveQAHeaderService(db).Find(pt.JobReceiveQAHeaderId);
+            header.DocDate = pt.DocDate;
+            header.DocNo = pt.DocNo;
+            header.QAById = pt.QAById;
+            header.Remark = pt.Remark;
+            _JobReceiveQAHeaderService.Update(header, UserName);
+
+            JobReceiveQALine Line = new JobReceiveQALineService(db, _unitOfWork).Find(pt.JobReceiveQALineId);
+            Line.Marks = pt.Marks;
+            Line.PenaltyRate = pt.PenaltyRate;
+            Line.PenaltyAmt = pt.PenaltyAmt;
+            Line.Weight = pt.Weight;
+            Line.FailQty = Line.QAQty - Line.Qty;
+            Line.FailDealQty = Line.FailQty * Line.UnitConversionMultiplier;
+            new JobReceiveLineStatusService(_unitOfWork).UpdateJobReceiveQtyOnQA(Mapper.Map<JobReceiveQALineViewModel>(Line), pt.DocDate, ref db);
+            new JobReceiveQALineService(db, _unitOfWork).Update(Line, UserName);
+
+
+            JobReceiveQALineDetail LineDetail = (from Ld in db.JobReceiveQALineDetail where Ld.JobReceiveQALineId == pt.JobReceiveQALineId select Ld).FirstOrDefault();
+            LineDetail.Length = pt.Length;
+            LineDetail.Width = pt.Width;
+            LineDetail.Height = pt.Height;
+            LineDetail.ObjectState = ObjectState.Modified;
+            db.JobReceiveQALineDetail.Add(LineDetail);
+
+
+
+
+            List<QAGroupLineLineViewModel> tem = pt.QAGroupLine;
+
+            if (tem != null)
+            {
+                foreach (var item in tem)
+                {
+                    if (item.JobReceiveQAAttributeId != null && item.JobReceiveQAAttributeId != 0)
+                    {
+                        JobReceiveQAAttribute pa = Find((int)item.JobReceiveQAAttributeId);
+                        pa.QAGroupLineId = item.QAGroupLineId;
+                        pa.Value = item.Value;
+                        pa.Remark = item.Remarks;
+                        pa.ModifiedBy = UserName;
+                        pa.ModifiedDate = DateTime.Now;
+                        pa.ObjectState = ObjectState.Modified;
+                        db.JobReceiveQAAttribute.Add(pa);
+                    }
+                    else
+                    {
+                        JobReceiveQAAttribute pa = new JobReceiveQAAttribute();
+                        pa.JobReceiveQALineId = Line.JobReceiveQALineId;
+                        pa.QAGroupLineId = item.QAGroupLineId;
+                        pa.Value = item.Value;
+                        pa.Remark = item.Remarks;
+                        pa.CreatedBy = UserName;
+                        pa.ModifiedBy = UserName;
+                        pa.CreatedDate = DateTime.Now;
+                        pa.ModifiedDate = DateTime.Now;
+                        pa.ObjectState = ObjectState.Added;
+                        db.JobReceiveQAAttribute.Add(pa);
+                    }
                 }
             }
         }
@@ -102,7 +183,6 @@ namespace Service
             return (from L in db.ViewJobReceiveBalanceForQA
                     join Jrl in db.JobReceiveLine on L.JobReceiveLineId equals Jrl.JobReceiveLineId into JobReceiveLineTable
                     from JobReceiveLineTab in JobReceiveLineTable.DefaultIfEmpty()
-                    join Ql in db.JobReceiveQALine on L.JobReceiveLineId equals Ql.JobReceiveLineId into JobReceiveQaLineTable from JobReceiveQaLineTab in JobReceiveQaLineTable.DefaultIfEmpty()
                     join H in db.JobReceiveHeader on L.JobReceiveHeaderId equals H.JobReceiveHeaderId into JobReceiveHeaderTable from JobReceiveHeaderTab in JobReceiveHeaderTable.DefaultIfEmpty()
                     orderby JobReceiveHeaderTab.DocDate, JobReceiveHeaderTab.DocNo
                     where JobReceiveHeaderTab.SiteId == SiteId && JobReceiveHeaderTab.DivisionId == DivisionId 
@@ -116,8 +196,8 @@ namespace Service
                         DocNo = JobReceiveHeaderTab.DocNo,
                         JobWorkerName = JobReceiveHeaderTab.JobWorker.Person.Name,
                         ProductName = JobReceiveLineTab.JobOrderLine.Product.ProductName,
-                        ProductUidName = JobReceiveLineTab.ProductUid.ProductUidName
-                        
+                        ProductUidName = JobReceiveLineTab.ProductUid.ProductUidName,
+                        DocTypeId = DocTypeId
                     }
                 );
         }
@@ -140,13 +220,130 @@ namespace Service
                                                                         DefaultValue = QAGroupLineTab.DefaultValue,
                                                                         Value = QAGroupLineTab.DefaultValue,
                                                                         Name = QAGroupLineTab.Name,
-
                                                                         DataType = QAGroupLineTab.DataType,
                                                                         ListItem = QAGroupLineTab.ListItem
                                                                     }).ToList();
 
 
             return JobReceiveQAAttribute;
+        }
+
+        public List<QAGroupLineLineViewModel> GetJobReceiveQAAttributeForEdit(int JobReceiveQALineid)
+        {
+
+
+            List<QAGroupLineLineViewModel> JobReceiveQAAttribute = (from L in db.JobReceiveQAAttribute 
+                                                                    where L.JobReceiveQALineId == JobReceiveQALineid
+                                                                    select new QAGroupLineLineViewModel
+                                                                    {
+                                                                        JobReceiveQAAttributeId = L.JobReceiveQAAttributeId,
+                                                                        QAGroupLineId = L.QAGroupLineId,
+                                                                        DefaultValue = L.Value,
+                                                                        Value = L.Value,
+                                                                        Name = L.QAGroupLine.Name,
+                                                                        DataType = L.QAGroupLine.DataType,
+                                                                        ListItem = L.QAGroupLine.ListItem,
+                                                                        Remarks = L.Remark
+                                                                    }).ToList();
+
+
+            return JobReceiveQAAttribute;
+        }
+
+        public JobReceiveQAAttributeViewModel GetJobReceiveLineDetail(int JobReceiveLineid)
+        {
+            JobReceiveQAAttributeViewModel JobReceiveLineDetail = (from L in db.JobReceiveLine
+                                                                   join H in db.JobReceiveHeader on L.JobReceiveHeaderId equals H.JobReceiveHeaderId into JobReceiveHeaderTable
+                                                                   from JobReceiveHeaderTab in JobReceiveHeaderTable.DefaultIfEmpty()
+                                                                   join Jol in db.JobOrderLine on L.JobOrderLineId equals Jol.JobOrderLineId into JobOrderLineTable
+                                                                   from JobOrderLineTab in JobOrderLineTable.DefaultIfEmpty()
+                                                                   where L.JobReceiveLineId == JobReceiveLineid
+                                                                   select new JobReceiveQAAttributeViewModel
+                                                                           {
+                                                                               JobReceiveLineId = L.JobReceiveLineId,
+                                                                               JobWorkerId = JobReceiveHeaderTab.JobWorkerId,
+                                                                               ProductUidId = L.ProductUidId,
+                                                                               ProductUidName = L.ProductUid.ProductUidName,
+                                                                               ProductId = JobOrderLineTab.ProductId,
+                                                                               ProductName = JobOrderLineTab.Product.ProductName,
+                                                                               QAQty = L.Qty,
+                                                                               InspectedQty = L.Qty,
+                                                                               Qty = L.Qty,
+                                                                               DealUnitId = L.DealUnitId,
+                                                                               UnitConversionMultiplier = L.UnitConversionMultiplier,
+                                                                               DealQty = L.DealQty,
+                                                                               Weight = L.Weight,
+                                                                               UnitDecimalPlaces = JobOrderLineTab.Product.Unit.DecimalPlaces,
+                                                                               DealUnitDecimalPlaces = JobOrderLineTab.DealUnit.DecimalPlaces,
+                                                                           }).FirstOrDefault();
+
+            return JobReceiveLineDetail;
+        }
+
+        public JobReceiveQAAttributeViewModel GetJobReceiveQAAttributeDetailForEdit(int JobReceiveQALineid)
+        {
+            JobReceiveQAAttributeViewModel JobReceiveQALineDetail = (from L in db.JobReceiveQALine
+                                                                     join H in db.JobReceiveQAHeader on L.JobReceiveQAHeaderId equals H.JobReceiveQAHeaderId into JobReceiveQAHeaderTable
+                                                                     from JobReceiveQAHeaderTab in JobReceiveQAHeaderTable.DefaultIfEmpty()
+                                                                     join Jrl in db.JobReceiveLine on L.JobReceiveLineId equals Jrl.JobReceiveLineId into JobReceiveLineTable
+                                                                     from JobReceiveLineTab in JobReceiveLineTable.DefaultIfEmpty()
+                                                                     join Jol in db.JobOrderLine on JobReceiveLineTab.JobOrderLineId equals Jol.JobOrderLineId into JobOrderLineTable
+                                                                     from JobOrderLineTab in JobOrderLineTable.DefaultIfEmpty()
+                                                                     join Ld in db.JobReceiveQALineDetail on L.JobReceiveQALineId equals Ld.JobReceiveQALineId into JobReceiveQALineDetailTable
+                                                                     from JobReceiveQALineDetailTab in JobReceiveQALineDetailTable.DefaultIfEmpty()
+                                                                     where L.JobReceiveQALineId == JobReceiveQALineid
+                                                                     select new JobReceiveQAAttributeViewModel
+                                                                     {
+                                                                         JobReceiveQALineId = L.JobReceiveQALineId,
+                                                                         JobReceiveQAHeaderId = L.JobReceiveQAHeaderId,
+                                                                         JobReceiveLineId = L.JobReceiveLineId,
+                                                                         JobWorkerId = JobReceiveQAHeaderTab.JobWorkerId,
+                                                                         ProductUidId = L.ProductUidId,
+                                                                         ProductUidName = L.ProductUid.ProductUidName,
+                                                                         ProductId = JobOrderLineTab.ProductId,
+                                                                         ProductName = JobOrderLineTab.Product.ProductName,
+                                                                         QAQty = L.Qty,
+                                                                         InspectedQty = L.Qty,
+                                                                         Qty = L.Qty,
+                                                                         DealUnitId = JobReceiveLineTab.DealUnitId,
+                                                                         UnitConversionMultiplier = L.UnitConversionMultiplier,
+                                                                         DealQty = L.DealQty,
+                                                                         Weight = L.Weight,
+                                                                         UnitDecimalPlaces = JobOrderLineTab.Product.Unit.DecimalPlaces,
+                                                                         DealUnitDecimalPlaces = JobOrderLineTab.DealUnit.DecimalPlaces,
+                                                                         PenaltyRate = L.PenaltyRate,
+                                                                         PenaltyAmt = L.PenaltyAmt,
+                                                                         DivisionId = JobReceiveQAHeaderTab.DivisionId,
+                                                                         SiteId = JobReceiveQAHeaderTab.SiteId,
+                                                                         ProcessId = JobReceiveQAHeaderTab.ProcessId,
+                                                                         DocDate = JobReceiveQAHeaderTab.DocDate,
+                                                                         DocTypeId = JobReceiveQAHeaderTab.DocTypeId,
+                                                                         DocNo = JobReceiveQAHeaderTab.DocNo,
+                                                                         QAById = JobReceiveQAHeaderTab.QAById,
+                                                                         Remark = JobReceiveQAHeaderTab.Remark,
+                                                                         Length = JobReceiveQALineDetailTab.Length,
+                                                                         Width = JobReceiveQALineDetailTab.Width,
+                                                                         Height = JobReceiveQALineDetailTab.Height
+                                                                     }).FirstOrDefault();
+
+            return JobReceiveQALineDetail;
+        }
+
+        public LastValues GetLastValues(int DocTypeId)
+        {
+            var DivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
+            var SiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
+
+
+            var temp = (from H in db.JobReceiveQAHeader
+                        where H.DocTypeId == DocTypeId && H.SiteId == SiteId && H.DivisionId == DivisionId
+                        orderby H.JobReceiveQAHeaderId descending
+                        select new LastValues
+                        {
+                            QAById = H.QAById
+                        }).FirstOrDefault();
+
+            return temp;
         }
 
  
@@ -165,5 +362,10 @@ namespace Service
         {
             throw new NotImplementedException();
         }
+    }
+
+    public class LastValues
+    {
+        public int? QAById { get; set; }
     }
 }

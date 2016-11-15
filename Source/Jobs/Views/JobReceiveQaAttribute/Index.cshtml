@@ -27,13 +27,12 @@
         </h3>
         <hr style="margin-top:0px;margin-bottom:0px" />
         <input type="hidden" class="DocType_Id" value="@ViewBag.id">
-        <div class="panel-info">
+        @*<div class="panel-info">
             <div class="btn-group">
                 @Html.ActionLink(" ", "Create", "JobReceiveQAHeader", new { @id = @ViewBag.id }, new { @class = "cbtn btn-circle glyphicon glyphicon-plus toolbar", @title = "Add New", @data_toggle = "tooltip" })
                 @Html.ActionLink(" ", "GeneratePrints", "JobReceiveQAHeader", null, new { @class = "cbtn btn-circle glyphicon glyphicon-print toolbar", @title = "Print", @data_toggle = "tooltip", @id = "PrintRecordI", target = "_blank" })
                 @Html.ActionLink(" ", "Remove", "JobReceiveQAHeader", null, new { @class = "cbtn btn-circle glyphicon glyphicon-trash toolbar", @title = "Delete", @data_toggle = "tooltip", @id = "DeleteRecord", @data_modalDelete = "" })
-                @*@Html.ActionLink(" ", "GetHistory", "LogHistory", null, new { @class = "glyphicon glyphicon-user toolbar", @title = "History", @data_toggle = "tooltip", @id = "DocHistoryI" })*@
-               </div>
+            </div>
             <div class="btn-group">
                 <a class="cbtn btn-circle glyphicon glyphicon-option-horizontal dropdown-toggle" aria-expanded="false" style="padding-top: 6px;padding-bottom: 6px;" href="#" data-toggle="dropdown" id="dropdownMenu1">
                 </a>
@@ -45,7 +44,7 @@
                     <li><a href="@Url.Action("Report", "JobReceiveQAHeader", new { @ViewBag.id })"><span class="glyphicon glyphicon-stats"> </span> Report</a></li>
                 </ul>
             </div>
-        </div>
+        </div>*@
         @*<hr style="margin-top: 5px; margin-bottom: 5px; border-top: 1px solid #706f6f; " />
 
         @CustomHelpers.RenderStatusFilters(ViewBag.PendingToSubmit, ViewBag.PendingToReview, ControllerName, ViewBag.id, ViewBag.IndexStatus)*@
@@ -58,8 +57,8 @@
                columns.Add(foo => foo.JobReceiveLineId, true).Css("JobReceiveLineId");
                columns.Add(foo => foo.DocTypeId, true).Css("DocTypeId");
                columns.Add(foo => foo.DocTypeName).Sortable(true).Titled("Doc Type").Filterable(true);
-               columns.Add(foo => foo.DocDate).Sortable(true).Titled("QA Date").Format("{0:dd/MMM/yyyy}").Filterable(true);
-               columns.Add(foo => foo .DocNo).Sortable(true).Titled("QA No.").Filterable(true).Sortable(true);
+               columns.Add(foo => foo.DocDate).Sortable(true).Titled("Receive Date").Format("{0:dd/MMM/yyyy}").Filterable(true);
+               columns.Add(foo => foo.DocNo).Sortable(true).Titled("Receive No.").Filterable(true).Sortable(true);
                columns.Add(foo => foo.JobWorkerName).Sortable(true).Titled("Job Worker").Filterable(true);
                columns.Add(foo => foo.ProductName).Sortable(true).Titled("Product").Filterable(true);
                columns.Add(foo => foo.ProductUidName).Sortable(true).Titled("Product Uid").Filterable(true);
@@ -72,9 +71,12 @@
 
     $('table.grid-table td').dblclick(function () {
         var $this = $(this);
-        var DocTypeId = row.find('[data-name="DocTypeId"]').text();
+        var row = $this.closest("tr");
+        
+        
         var row = $this.closest("tr");
         var editid = row.find('[data-name="JobReceiveLineId"]').text();
+        var DocTypeId = row.find('[data-name="DocTypeId"]').text();
         var url = '@Url.Action("Create", "JobReceiveQAAttribute")' + "/" + editid + "?DocTypeId=" + DocTypeId;
         window.location.href = url;
     });

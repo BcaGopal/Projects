@@ -80,8 +80,11 @@ namespace Web
         {
             JobReceiveQALine L = new JobReceiveQALineService(db, _unitOfWork).Find(Id);
             JobReceiveQAHeader H = new JobReceiveQAHeaderService(db).Find(L.JobReceiveQAHeaderId);
+            DocumentType D = new DocumentTypeService(_unitOfWork).Find(H.DocTypeId);
             JobReceiveQAPenaltyViewModel s = new JobReceiveQAPenaltyViewModel();
 
+            s.DocTypeId = H.DocTypeId;
+            s.JobReceiveQALineId = Id;
             //Getting Settings
             PrepareViewBag();
             if (!string.IsNullOrEmpty((string)TempData["CSEXCL"]))
@@ -90,6 +93,7 @@ namespace Web
                 TempData["CSEXCL"] = null;
             }
             ViewBag.LineMode = "Create";
+            ViewBag.DocNo = D.DocumentTypeName + "-" + H.DocNo;
             return PartialView("_Create", s);
         }
 
@@ -174,7 +178,7 @@ namespace Web
                         DocStatus = temp.Status,
                     }));
 
-                    return RedirectToAction("_Create", new { id = svm.JobReceiveQAPenaltyId});
+                    return RedirectToAction("_Create", new { id = svm.JobReceiveQALineId});
                 }
                 else
                 {
@@ -191,7 +195,7 @@ namespace Web
 
                     temp1.ReasonId = svm.ReasonId;
                     temp1.Amount = svm.Amount;
-                    temp1.Remarks = svm.Remarks;
+                    temp1.Remark = svm.Remark;
 
                     _JobReceiveQAPenaltyService.Update(temp1, User.Identity.Name);
 
@@ -293,6 +297,9 @@ namespace Web
         private ActionResult _Modify(int id)
         {
             JobReceiveQAPenaltyViewModel temp = _JobReceiveQAPenaltyService.GetJobReceiveQAPenaltyForEdit(id);
+            JobReceiveQALine L = new JobReceiveQALineService(db, _unitOfWork).Find(temp.JobReceiveQALineId);
+            JobReceiveQAHeader Header = new JobReceiveQAHeaderService(db).Find(L.JobReceiveQAHeaderId);
+            DocumentType D = new DocumentTypeService(_unitOfWork).Find(Header.DocTypeId);
 
             if (temp == null)
             {
@@ -322,7 +329,7 @@ namespace Web
 
 
             PrepareViewBag();
-
+            ViewBag.DocNo = D.DocumentTypeName + "-" + Header.DocNo;
             return PartialView("_Create", temp);
         }
 

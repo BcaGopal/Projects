@@ -54,6 +54,25 @@ namespace Service
             pt.ObjectState = ObjectState.Added;
             db.JobReceiveQAPenalty.Add(pt);
 
+            List<JobReceiveQAPenalty> PenaltyLines = (from Pl in db.JobReceiveQAPenalty where Pl.JobReceiveQALineId == pt.JobReceiveQALineId select Pl).ToList();
+            Decimal TotalPenalty = 0;
+            if (PenaltyLines != null)
+            {
+                TotalPenalty = PenaltyLines.Sum(i => i.Amount) + pt.Amount;
+            }
+            else 
+            {
+                TotalPenalty = pt.Amount;
+            }
+
+            JobReceiveQALine Line = db.JobReceiveQALine.Find(pt.JobReceiveQALineId);
+            Line.PenaltyAmt = TotalPenalty;
+            Line.ObjectState = ObjectState.Modified;
+            db.JobReceiveQALine.Add(Line);
+
+
+
+
             return pt;
         }
 
@@ -89,7 +108,7 @@ namespace Service
                         JobReceiveQALineId = p.JobReceiveQALineId,
                         ReasonId = p.ReasonId,
                         Amount = p.Amount,
-                        Remarks = p.Remarks,
+                        Remark = p.Remark,
                         CreatedBy = p.CreatedBy,
                         ModifiedBy = p.ModifiedBy,
                         CreatedDate = p.CreatedDate,
@@ -106,9 +125,9 @@ namespace Service
                       select new JobReceiveQAPenaltyViewModel
                       {
                           JobReceiveQAPenaltyId = p.JobReceiveQAPenaltyId,
-                          ReasonIName = p.Reason.ReasonName,
+                          ReasonName = p.Reason.ReasonName,
                           Amount = p.Amount,
-                          Remarks = p.Remarks
+                          Remark = p.Remark
                       });
 
             return pt;

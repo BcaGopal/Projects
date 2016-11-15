@@ -94,18 +94,34 @@ namespace Web
 
         public ActionResult Create(int id, int DocTypeId)//JobReceiveLineId
         {
-            JobReceiveQAAttributeViewModel vm = new JobReceiveQAAttributeViewModel();
+            //JobReceiveQAAttributeViewModel vm = new JobReceiveQAAttributeViewModel();
+            JobReceiveQAAttributeViewModel vm = _JobReceiveQAAttributeService.GetJobReceiveLineDetail(id);
 
             vm.DivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
             vm.SiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
             vm.CreatedDate = DateTime.Now;
 
+            var temp = _JobReceiveQAAttributeService.GetJobReceiveQAAttribute(id);
+            vm.QAGroupLine = temp;
+
+
+            LastValues LastValues = _JobReceiveQAAttributeService.GetLastValues(DocTypeId);
+
+            if (LastValues != null)
+            {
+                if (LastValues.QAById != null)
+                {
+                    vm.QAById = (int)LastValues.QAById;
+                }
+            }
+
+
             //Getting Settings
-            var settings = new JobReceiveQASettingsService(db).GetJobReceiveQASettingsForDocument(id, vm.DivisionId, vm.SiteId);
+            var settings = new JobReceiveQASettingsService(db).GetJobReceiveQASettingsForDocument(DocTypeId, vm.DivisionId, vm.SiteId);
 
             if (settings == null && UserRoles.Contains("Admin"))
             {
-                return RedirectToAction("Create", "JobReceiveQASettings", new { id = id }).Warning("Please create job Inspection settings");
+                return RedirectToAction("Create", "JobReceiveQASettings", new { id = DocTypeId }).Warning("Please create job Inspection settings");
             }
             else if (settings == null && !UserRoles.Contains("Admin"))
             {
@@ -115,7 +131,8 @@ namespace Web
 
             vm.ProcessId = settings.ProcessId;
             vm.DocDate = DateTime.Now;
-            vm.DocTypeId = id;
+            vm.DocTypeId = DocTypeId;
+
             vm.DocNo = new  JobReceiveQAHeaderService(db).FGetNewDocNo("DocNo", ConfigurationManager.AppSettings["DataBaseSchema"] + ".JobReceiveQAHeaders", vm.DocTypeId, vm.DocDate, vm.DivisionId, vm.SiteId);
             PrepareViewBag(DocTypeId);
             ViewBag.Mode = "Add"; 
@@ -132,9 +149,10 @@ namespace Web
             if (ModelState.IsValid)
             {
                 #region CreateRecord
-                if (vm.JobReceiveQAAttributeId <= 0)
+                if (vm.JobReceiveQALineId <= 0)
                 {
-                    _JobReceiveQAAttributeService.Create(vm, User.Identity.Name);
+                    JobReceiveQALine Line = new JobReceiveQALine();
+                    Line = _JobReceiveQAAttributeService.Create(vm, User.Identity.Name);
 
                     try
                     {
@@ -161,11 +179,89 @@ namespace Web
                     }));
 
 
-                    return RedirectToAction("Index", new { id = vm.JobReceiveLineId }).Success("Data saved successfully");
+                    return RedirectToAction("Edit", new { id = Line.JobReceiveQALineId }).Success("Data saved successfully");
                 }
                 #endregion
 
-                
+                #region EditRecord
+                else
+                {
+                    List<LogTypeViewModel> LogList = new List<LogTypeViewModel>();
+
+                    JobReceiveQAHeader temp = new JobReceiveQAHeaderService(db).Find(vm.JobReceiveQAHeaderId);
+
+                    JobReceiveQAHeader ExRec = new JobReceiveQAHeader();
+                    ExRec = Mapper.Map<JobReceiveQAHeader>(temp);
+
+
+                    int status = temp.Status;
+
+                    if (temp.Status != (int)StatusConstants.Drafted)
+                        temp.Status = (int)StatusConstants.Modified;
+
+
+                    _JobReceiveQAAttributeService.Update(vm, User.Identity.Name);
+
+                    LogList.Add(new LogTypeViewModel
+                    {
+                        ExObj = ExRec,
+                        Obj = temp,
+                    });
+
+                    XElement Modifications = new ModificationsCheckService().CheckChanges(LogList);
+
+                    try
+                    {
+                        JobReceiveQADocEvents.onHeaderSaveEvent(this, new JobEventArgs(temp.JobReceiveQAHeaderId, EventModeConstants.Edit), ref db);
+                    }
+                    catch (Exception ex)
+                    {
+                        string message = _exception.HandleException(ex);
+                        TempData["CSEXC"] += message;
+                        EventException = true;
+                    }
+
+                    try
+                    {
+                        if (EventException)
+                        { throw new Exception(); }
+                        db.SaveChanges();
+                    }
+
+                    catch (Exception ex)
+                    {
+                        string message = _exception.HandleException(ex);
+                        TempData["CSEXC"] += message;
+                        PrepareViewBag(temp.DocTypeId);
+                        ViewBag.Mode = "Edit";
+                        return View("Create", vm);
+                    }
+
+                    try
+                    {
+                        JobReceiveQADocEvents.afterHeaderSaveEvent(this, new JobEventArgs(temp.JobReceiveQAHeaderId, EventModeConstants.Edit), ref db);
+                    }
+                    catch (Exception ex)
+                    {
+                        string message = _exception.HandleException(ex);
+                        TempData["CSEXC"] += message;
+                    }
+
+                    LogActivity.LogActivityDetail(LogVm.Map(new ActiivtyLogViewModel
+                    {
+                        DocTypeId = temp.DocTypeId,
+                        DocId = temp.JobReceiveQAHeaderId,
+                        ActivityType = (int)ActivityTypeContants.Modified,
+                        DocNo = temp.DocNo,
+                        DocDate = temp.DocDate,
+                        xEModifications = Modifications,
+                        DocStatus = temp.Status,
+                    }));
+
+                    return RedirectToAction("Index", new { id = temp.DocTypeId }).Success("Data saved successfully");
+
+                }
+                #endregion
 
             }
             PrepareViewBag(vm.DocTypeId);
@@ -173,7 +269,50 @@ namespace Web
             return View("Create", vm);
         }
 
+        public ActionResult Edit(int id)
+        {
+            JobReceiveQAAttributeViewModel pt = _JobReceiveQAAttributeService.GetJobReceiveQAAttributeDetailForEdit(id);
 
+            if (pt == null)
+            {
+                return HttpNotFound();
+            }
+
+
+            var temp = _JobReceiveQAAttributeService.GetJobReceiveQAAttributeForEdit(id);
+            pt.QAGroupLine = temp;
+
+            //Getting Settings
+            var settings = new JobReceiveQASettingsService(db).GetJobReceiveQASettingsForDocument(pt.DocTypeId, pt.DivisionId, pt.SiteId);
+
+            if (settings == null && UserRoles.Contains("Admin"))
+            {
+                return RedirectToAction("Create", "JobReceiveQASettings", new { id = pt.DocTypeId }).Warning("Please create job Inspection settings");
+            }
+            else if (settings == null && !UserRoles.Contains("Admin"))
+            {
+                return View("~/Views/Shared/InValidSettings.cshtml");
+            }
+            pt.JobReceiveQASettings = Mapper.Map<JobReceiveQASettings, JobReceiveQASettingsViewModel>(settings);
+
+
+
+            PrepareViewBag(pt.DocTypeId);
+
+            ViewBag.Mode = "Edit";
+            if ((System.Web.HttpContext.Current.Request.UrlReferrer.PathAndQuery).Contains("Create"))
+                LogActivity.LogActivityDetail(LogVm.Map(new ActiivtyLogViewModel
+                {
+                    DocTypeId = pt.DocTypeId,
+                    DocId = pt.JobReceiveQAHeaderId,
+                    ActivityType = (int)ActivityTypeContants.Detail,
+                    DocNo = pt.DocNo,
+                    DocDate = pt.DocDate,
+                    DocStatus = pt.Status,
+                }));
+
+            return View("Create", pt);
+        }
 
 
 

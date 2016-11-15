@@ -31,7 +31,7 @@ namespace Model.Models
         [Display(Name = "Amount")]
         public decimal  Amount { get; set; }
 
-        public string Remarks { get; set; }
+        public string Remark { get; set; }
 
         [Display(Name = "Created By")]
         public string CreatedBy { get; set; }

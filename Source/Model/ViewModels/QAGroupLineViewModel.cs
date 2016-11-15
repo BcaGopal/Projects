@@ -12,6 +12,8 @@ namespace Model.ViewModel
     {      
         public int QAGroupLineId { get; set; }
 
+        public int? JobReceiveQAAttributeId { get; set; }
+
         public int QAGroupId { get; set; }
         public string Name { get; set; }
 

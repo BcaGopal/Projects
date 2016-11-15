@@ -424,6 +424,10 @@ namespace Jobs.App_Start
             Mapper.CreateMap<JobReceiveQAHeader, JobReceiveQAAttributeViewModel>();
             Mapper.CreateMap<JobReceiveQAAttributeViewModel, JobReceiveQAHeader>();
 
+            Mapper.CreateMap<JobReceiveQAPenalty, JobReceiveQAPenaltyViewModel>();
+            Mapper.CreateMap<JobReceiveQAPenaltyViewModel, JobReceiveQAPenalty>();
+
+
             Mapper.CreateMap<JobOrderInspectionRequestCancelHeaderViewModel, DocumentUniqueId>();
             Mapper.CreateMap<JobOrderInspectionRequestCancelHeader, DocumentUniqueId>();
 
@@ -475,6 +479,7 @@ namespace Jobs.App_Start
             Mapper.CreateMap<JobReceiveQALine, JobReceiveQALineViewModel>();
             Mapper.CreateMap<JobReceiveQALineViewModel, JobReceiveQALine>();
             Mapper.CreateMap<JobReceiveQALine, JobReceiveQAAttributeViewModel>();
+            Mapper.CreateMap<JobReceiveQAAttributeViewModel, JobReceiveQALine>();
 
             Mapper.CreateMap<JobReceiveQAHeader, JobReceiveQAHeader>();
             Mapper.CreateMap<JobReceiveQALine, JobReceiveQALine>();

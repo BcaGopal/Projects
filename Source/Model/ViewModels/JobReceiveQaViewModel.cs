@@ -226,10 +226,17 @@ namespace Model.ViewModel
         public int QAById { get; set; }
         public int JobReceiveLineId { get; set; }
         public int? ProductUidId { get; set; }
+        public string ProductUidName { get; set; }
+        public int ProductId { get; set; }
+        public string ProductName { get; set; }
         public decimal QAQty { get; set; }
         public decimal InspectedQty { get; set; }
         public decimal Qty { get; set; }
         public decimal FailQty { get; set; }
+
+        public byte UnitDecimalPlaces { get; set; }
+        public byte DealUnitDecimalPlaces { get; set; }
+
 
         public string DealUnitId { get; set; }
         public Decimal UnitConversionMultiplier { get; set; }
@@ -248,6 +255,10 @@ namespace Model.ViewModel
         public List<QAGroupLineLineViewModel> QAGroupLine { get; set; }
 
         public JobReceiveQASettingsViewModel JobReceiveQASettings { get; set; }
+
+        public Decimal? Length { get; set; }
+        public Decimal? Width { get; set; }
+        public Decimal? Height { get; set; }
         public string OMSId { get; set; }
 
     }
@@ -256,12 +267,14 @@ namespace Model.ViewModel
     {
         public int JobReceiveQAPenaltyId { get; set; }
         public int Sr { get; set; }
+
+        public int DocTypeId { get; set; }
         public int JobReceiveQALineId { get; set; }
         public int JobReceiveQAHeaderId { get; set; }
         public int ReasonId { get; set; }
-        public string ReasonIName { get; set; }
+        public string ReasonName { get; set; }
         public decimal Amount { get; set; }
-        public string Remarks { get; set; }
+        public string Remark { get; set; }
         public string CreatedBy { get; set; }
         public string ModifiedBy { get; set; }
         public DateTime CreatedDate { get; set; }
