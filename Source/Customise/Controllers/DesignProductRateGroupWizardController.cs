@@ -38,7 +38,7 @@ namespace Web
 
         public ActionResult RateListHeaderIndex(int MenuId)
         {
-            var RateListHeader = new RateListHeaderService(_unitOfWork).GetDesignProductRateGroupHeader(MenuId);
+            var RateListHeader = new RateListHeaderService(_unitOfWork).GetProductRateGroupHeader(MenuId);
             return View(RateListHeader);
         }
 

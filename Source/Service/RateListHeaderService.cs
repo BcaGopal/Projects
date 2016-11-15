@@ -192,7 +192,7 @@ namespace Service
             return pt;
         }
 
-        public IQueryable<RateListHeaderViewModel> GetDesignProductRateGroupHeader(int MenuId)
+        public IQueryable<RateListHeaderViewModel> GetProductRateGroupHeader(int MenuId)
         {
             int SiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
             int DivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
@@ -318,6 +318,7 @@ namespace Service
             return temp;
         
         }
+
 
         public void Dispose()
         {

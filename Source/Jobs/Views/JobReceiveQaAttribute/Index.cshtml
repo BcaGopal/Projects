@@ -56,7 +56,6 @@
            {
                columns.Add(foo => foo.JobReceiveLineId, true).Css("JobReceiveLineId");
                columns.Add(foo => foo.DocTypeId, true).Css("DocTypeId");
-               columns.Add(foo => foo.DocTypeName).Sortable(true).Titled("Doc Type").Filterable(true);
                columns.Add(foo => foo.DocDate).Sortable(true).Titled("Receive Date").Format("{0:dd/MMM/yyyy}").Filterable(true);
                columns.Add(foo => foo.DocNo).Sortable(true).Titled("Receive No.").Filterable(true).Sortable(true);
                columns.Add(foo => foo.JobWorkerName).Sortable(true).Titled("Job Worker").Filterable(true);

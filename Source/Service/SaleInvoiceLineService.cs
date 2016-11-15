@@ -12,6 +12,7 @@ using Data.Models;
 using Model.ViewModel;
 using System.Data.SqlClient;
 using System.Configuration;
+using System.Data;
 
 
 namespace Service
@@ -55,7 +56,7 @@ namespace Service
 
         int GetMaxSr(int id);
 
-        IEnumerable<DirectSaleInvoiceLineViewModel> GetSaleDispatchForFilters(SaleInvoiceFilterViewModel vm);
+        List<DirectSaleInvoiceLineViewModel> GetSaleDispatchForFilters(SaleInvoiceFilterViewModel vm);
 
         DirectSaleInvoiceLineViewModel GetSaleInvoiceLineForEdit(int id);
 
@@ -784,7 +785,7 @@ namespace Service
         }
 
 
-        public IEnumerable<DirectSaleInvoiceLineViewModel> GetSaleDispatchForFilters(SaleInvoiceFilterViewModel vm)
+        public List<DirectSaleInvoiceLineViewModel> GetSaleDispatchForFilters(SaleInvoiceFilterViewModel vm)
         {
             string[] ProductIdArr = null;
             if (!string.IsNullOrEmpty(vm.ProductId)) { ProductIdArr = vm.ProductId.Split(",".ToCharArray()); }
@@ -806,53 +807,53 @@ namespace Service
             if (!string.IsNullOrEmpty(vm.Dimension2Id)) { Dimension2IdArr = vm.Dimension2Id.Split(",".ToCharArray()); }
             else { Dimension2IdArr = new string[] { "NA" }; }
 
+            
 
             //ToChange View to get Saleorders instead of goodsreceipts
-            var temp = (from p in db.ViewSaleDispatchBalance
-                        join l in db.SaleDispatchLine on p.SaleDispatchLineId equals l.SaleDispatchLineId into linetable
-                        from linetab in linetable.DefaultIfEmpty()
-                        join t3 in db.PackingLine on linetab.PackingLineId equals t3.PackingLineId into PackingLineTable
-                        from PackingLineTab in PackingLineTable.DefaultIfEmpty()                                                                                                                                       
-                        join t in db.SaleDispatchHeader on p.SaleDispatchHeaderId equals t.SaleDispatchHeaderId into table
-                        from tab in table.DefaultIfEmpty()
-                        join product in db.Product on p.ProductId equals product.ProductId into table2
-                        from tab2 in table2.DefaultIfEmpty()
-                        join t1 in db.SaleDispatchLine on p.SaleDispatchLineId equals t1.SaleDispatchLineId into table1
-                        from tab1 in table1.DefaultIfEmpty()
-                        where (string.IsNullOrEmpty(vm.ProductId) ? 1 == 1 : ProductIdArr.Contains(p.ProductId.ToString()))
-                        && (string.IsNullOrEmpty(vm.SaleDispatchHeaderId) ? 1 == 1 : SaleOrderIdArr.Contains(p.SaleDispatchHeaderId.ToString()))
-                        && (string.IsNullOrEmpty(vm.ProductGroupId) ? 1 == 1 : ProductGroupIdArr.Contains(tab2.ProductGroupId.ToString()))
-                        && (string.IsNullOrEmpty(vm.Dimension1Id) ? 1 == 1 : Dimension1IdArr.Contains(p.Dimension1Id.ToString()))
-                        && (string.IsNullOrEmpty(vm.Dimension2Id) ? 1 == 1 : Dimension2IdArr.Contains(p.Dimension2Id.ToString()))
-                        && ((vm.UpToDate == null) ? 1 == 1 : tab.DocDate <= vm.UpToDate)
-                        && p.BalanceQty > 0
-                        orderby p.SaleDispatchNo, p.Sr
-                        select new DirectSaleInvoiceLineViewModel
-                        {
-                            Dimension1Name = PackingLineTab.Dimension1.Dimension1Name,
-                            Dimension2Name = PackingLineTab.Dimension2.Dimension2Name,
-                            BalanceQty = p.BalanceQty,
-                            Qty = p.BalanceQty,
-                            SaleDispatchHeaderDocNo = tab.DocNo,
-                            SaleOrderHeaderDocNo = p.SaleOrderNo,
-                            ProductName = tab2.ProductName,
-                            ProductId = p.ProductId,
-                            SaleInvoiceHeaderId = vm.SaleInvoiceHeaderId,
-                            SaleDispatchLineId = p.SaleDispatchLineId,
-                            UnitId = tab2.UnitId,
-                            UnitName = tab2.Unit.UnitName,
-                            UnitConversionMultiplier = PackingLineTab.UnitConversionMultiplier,
-                            DealUnitId = PackingLineTab.DealUnitId,
-                            DealUnitName = PackingLineTab.DealUnit.UnitName,
-                            unitDecimalPlaces = tab2.Unit.DecimalPlaces,
-                            DealunitDecimalPlaces = PackingLineTab.DealUnit.DecimalPlaces,
-                            Dimension1Id = p.Dimension1Id,
-                            Dimension2Id = p.Dimension2Id,
-                            SaleOrderLineId = p.SaleOrderLineId
-                        }
+            List<DirectSaleInvoiceLineViewModel> temp = (from p in db.ViewSaleDispatchBalance
+                                                         join l in db.SaleDispatchLine on p.SaleDispatchLineId equals l.SaleDispatchLineId into linetable
+                                                         from linetab in linetable.DefaultIfEmpty()
+                                                         join t3 in db.PackingLine on linetab.PackingLineId equals t3.PackingLineId into PackingLineTable
+                                                         from PackingLineTab in PackingLineTable.DefaultIfEmpty()
+                                                         join t in db.SaleDispatchHeader on p.SaleDispatchHeaderId equals t.SaleDispatchHeaderId into table
+                                                         from tab in table.DefaultIfEmpty()
+                                                         join product in db.Product on p.ProductId equals product.ProductId into table2
+                                                         from tab2 in table2.DefaultIfEmpty()
+                                                         join t1 in db.SaleDispatchLine on p.SaleDispatchLineId equals t1.SaleDispatchLineId into table1
+                                                         from tab1 in table1.DefaultIfEmpty()
+                                                         where (string.IsNullOrEmpty(vm.ProductId) ? 1 == 1 : ProductIdArr.Contains(p.ProductId.ToString()))
+                                                         && (string.IsNullOrEmpty(vm.SaleDispatchHeaderId) ? 1 == 1 : SaleOrderIdArr.Contains(p.SaleDispatchHeaderId.ToString()))
+                                                         && (string.IsNullOrEmpty(vm.ProductGroupId) ? 1 == 1 : ProductGroupIdArr.Contains(tab2.ProductGroupId.ToString()))
+                                                         && (string.IsNullOrEmpty(vm.Dimension1Id) ? 1 == 1 : Dimension1IdArr.Contains(p.Dimension1Id.ToString()))
+                                                         && (string.IsNullOrEmpty(vm.Dimension2Id) ? 1 == 1 : Dimension2IdArr.Contains(p.Dimension2Id.ToString()))
+                                                         && ((vm.UpToDate == null) ? 1 == 1 : tab.DocDate <= vm.UpToDate)
+                                                         && p.BalanceQty > 0
+                                                         orderby p.SaleDispatchNo, p.Sr
+                                                         select new DirectSaleInvoiceLineViewModel
+                                                         {
+                                                             Dimension1Name = PackingLineTab.Dimension1.Dimension1Name,
+                                                             Dimension2Name = PackingLineTab.Dimension2.Dimension2Name,
+                                                             BalanceQty = p.BalanceQty,
+                                                             Qty = p.BalanceQty,
+                                                             SaleDispatchHeaderDocNo = tab.DocNo,
+                                                             SaleOrderHeaderDocNo = p.SaleOrderNo,
+                                                             ProductName = tab2.ProductName,
+                                                             ProductId = p.ProductId,
+                                                             SaleInvoiceHeaderId = vm.SaleInvoiceHeaderId,
+                                                             SaleDispatchLineId = p.SaleDispatchLineId,
+                                                             UnitId = tab2.UnitId,
+                                                             UnitName = tab2.Unit.UnitName,
+                                                             UnitConversionMultiplier = PackingLineTab.UnitConversionMultiplier,
+                                                             DealUnitId = PackingLineTab.DealUnitId,
+                                                             DealUnitName = PackingLineTab.DealUnit.UnitName,
+                                                             unitDecimalPlaces = tab2.Unit.DecimalPlaces,
+                                                             DealunitDecimalPlaces = PackingLineTab.DealUnit.DecimalPlaces,
+                                                             Dimension1Id = p.Dimension1Id,
+                                                             Dimension2Id = p.Dimension2Id,
+                                                             SaleOrderLineId = p.SaleOrderLineId
+                                                         }).ToList();
 
-                        );
-            return temp;
+            return FGetProductRate(temp);
         }
 
         public IQueryable<ComboBoxResult> GetSaleDispatchHelpListForProduct(int PersonId, string term)
@@ -984,6 +985,8 @@ namespace Service
             int CurrentDivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
 
 
+
+
             return (from p in db.ViewSaleDispatchBalance
                     join t in db.SaleDispatchHeader on p.SaleDispatchHeaderId equals t.SaleDispatchHeaderId into table
                     from tab in table.DefaultIfEmpty()
@@ -1014,6 +1017,88 @@ namespace Service
             return PromoCodeList;
         }
 
+        public List<DirectSaleInvoiceLineViewModel> FGetProductRate(List<DirectSaleInvoiceLineViewModel> SaleInvoiceLineViewModel)
+        {
+            SaleInvoiceHeader Header = new SaleInvoiceHeaderService(_unitOfWork).FindDirectSaleInvoice(SaleInvoiceLineViewModel.FirstOrDefault().SaleInvoiceHeaderId);
+            int ProcessId = new ProcessService(_unitOfWork).Find(ProcessConstants.Sales).ProcessId;
+
+            SqlParameter SqlParameterPersonId = new SqlParameter("@PersonId", Header.SaleToBuyerId);
+            SqlParameter SqlParameterProcessId = new SqlParameter("@ProcessId", ProcessId);
+            SqlParameter SqlParameterDivisionId = new SqlParameter("@DivisionId", Header.DivisionId);
+            SqlParameter SqlParameterSiteId = new SqlParameter("@SiteId", Header.SiteId);
+            SqlParameter SqlParameterDocDate = new SqlParameter("@DocDate", Header.DocDate);
+
+            List<ProductRate> ProductData = (from L in SaleInvoiceLineViewModel
+                                             select new ProductRate
+                                             {
+                                                 ProductId = L.ProductId,
+                                                 Dimension1Id = L.Dimension1Id,
+                                                 Dimension2Id = L.Dimension2Id,
+                                                 Rate = L.Rate,
+                                                 Weightage = L.Qty
+                                             }).ToList();
+
+
+            DataTable dataTable = new DataTable();
+            dataTable.Columns.Add("ProductId");
+            dataTable.Columns.Add("Dimension1Id");
+            dataTable.Columns.Add("Dimension2Id");
+            dataTable.Columns.Add("Rate");
+            dataTable.Columns.Add("Weightage");
+
+
+            foreach (var item in ProductData)
+            {
+                var dr = dataTable.NewRow();
+                dr["ProductId"] = item.ProductId;
+                dr["Dimension1Id"] = item.Dimension1Id;
+                dr["Dimension2Id"] = item.Dimension2Id;
+                dr["Rate"] = 0;
+                dr["Weightage"] = item.Weightage;
+                dataTable.Rows.Add(dr);
+            }
+
+
+
+            SqlParameter SqlParameterProductData = new SqlParameter("@ProductData", dataTable);
+            SqlParameterProductData.TypeName = ConfigurationManager.AppSettings["DataBaseSchema"] + ".TypeProductRate";
+
+
+            IEnumerable<ProductRate> ProductRateList = db.Database.SqlQuery<ProductRate>("" + ConfigurationManager.AppSettings["DataBaseSchema"] + ".sp_GetProductRate @PersonId, @ProcessId, @DivisionId, @SiteId, @DocDate, @ProductData", SqlParameterPersonId, SqlParameterProcessId, SqlParameterDivisionId, SqlParameterSiteId, SqlParameterDocDate, SqlParameterProductData).ToList();
+
+
+            List<DirectSaleInvoiceLineViewModel> SaleInvoiceLineViewModelWithRate = (from L in SaleInvoiceLineViewModel
+                                                                                     join Pl in ProductRateList on new {L.ProductId, L.Dimension1Id, L.Dimension2Id } equals new { Pl.ProductId, Pl.Dimension1Id, Pl.Dimension2Id } into ProductRateListTable
+                                                                                     from ProductRateListTab in ProductRateListTable.DefaultIfEmpty()
+                                                                                     select new DirectSaleInvoiceLineViewModel
+                                                                                     {
+                                                                                         Dimension1Name = L.Dimension1Name,
+                                                                                         Dimension2Name = L.Dimension2Name,
+                                                                                         BalanceQty = L.BalanceQty,
+                                                                                         Qty = L.Qty,
+                                                                                         SaleDispatchHeaderDocNo = L.SaleDispatchHeaderDocNo,
+                                                                                         SaleOrderHeaderDocNo = L.SaleOrderHeaderDocNo,
+                                                                                         ProductName = L.ProductName,
+                                                                                         ProductId = L.ProductId,
+                                                                                         SaleInvoiceHeaderId = L.SaleInvoiceHeaderId,
+                                                                                         SaleDispatchLineId = L.SaleDispatchLineId,
+                                                                                         UnitId = L.UnitId,
+                                                                                         UnitName = L.UnitName,
+                                                                                         UnitConversionMultiplier = L.UnitConversionMultiplier,
+                                                                                         DealUnitId = L.DealUnitId,
+                                                                                         DealUnitName = L.DealUnitName,
+                                                                                         unitDecimalPlaces = L.unitDecimalPlaces,
+                                                                                         DealunitDecimalPlaces = L.DealunitDecimalPlaces,
+                                                                                         Dimension1Id = L.Dimension1Id,
+                                                                                         Dimension2Id = L.Dimension2Id,
+                                                                                         SaleOrderLineId = L.SaleOrderLineId,
+                                                                                         Rate = ProductRateListTab.Rate ?? 0
+                                                                                     }).ToList();
+
+
+            return SaleInvoiceLineViewModelWithRate;
+        }
+
         
         public void Dispose()
         {
@@ -1024,5 +1109,14 @@ namespace Service
     {
         public int PromoCodeId { get; set; }
         public string PromoCodeName { get; set; }
+    }
+
+    public class ProductRate
+    {
+        public int ProductId { get; set; }
+	    public int? Dimension1Id { get; set; }
+	    public int? Dimension2Id { get; set; }
+        public Decimal? Rate { get; set; }
+        public Decimal? Weightage { get; set; }
     }
 }
