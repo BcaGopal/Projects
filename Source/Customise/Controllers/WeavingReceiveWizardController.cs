@@ -401,9 +401,10 @@ namespace Web
                                             line.JobReceiveHeaderId = s.JobReceiveHeaderId;
                                             line.JobOrderLineId = JobOrderLine.JobOrderLineId;
                                             line.Qty = 1;
+                                            line.PassQty = 1;
                                             line.LossQty = 0;
-                                            line.UnitConversionMultiplier = SelectedJobOrderLine.UnitConversionMultiplier;
-                                            line.DealQty = 1 * SelectedJobOrderLine.UnitConversionMultiplier;
+                                            line.UnitConversionMultiplier = JobOrderLine.UnitConversionMultiplier;
+                                            line.DealQty = 1 * JobOrderLine.UnitConversionMultiplier;
                                             line.DealUnitId = JobOrderLine.DealUnitId;
                                             line.Sr = Sr++;
                                             line.CreatedDate = DateTime.Now;

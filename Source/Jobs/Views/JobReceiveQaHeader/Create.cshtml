@@ -489,6 +489,7 @@
         var status='@Model.Status';
         var LineEditUrl;
         var LineDeleteUrl;
+        var LineAttributeUrl = "/JobReceiveQAAttribute/Edit/";
         if(status==StatusContstantsEnum.Drafted)
         {
             LineEditUrl="/JobReceiveQALine/_ModifyLine/";
@@ -549,12 +550,15 @@
                             +"          <a class='glyphicon glyphicon-trash icon-Cus-Size' data-modal data-detailDisabled='true' delete='' href='"+LineDeleteUrl+item.JobReceiveQALineId+"'></a>"
                             +"          <a  edit='' href='"+LineEditUrl+item.JobReceiveQALineId+"'></a>"
                             +"      </div>"
+                            +"      <div class='block'  style='width:5%'>"
+                            +"          <a class='glyphicon glyphicon-road icon-Cus-Size'  target='_blank'  href='"+LineAttributeUrl+item.JobReceiveQALineId+"'></a>"
+                            +"      </div>"
                             +"  </div>"
                             +"<hr style='margin-top:0px;margin-bottom:0px'/>";
-                        QtyCount+=item.Qty;                        
+                        QtyCount+=item.Qty;
                         InspectedQtyCount+=item.InspectedQty;
                         PenaltyCount+=item.PenaltyAmt;
-                        
+
                         DealQty+=item.PassQty*item.UnitConversionMultiplier;
                         if(srno!=1)
                         {

@@ -20,6 +20,7 @@ namespace Model.Models
 
         [Display(Name = "Job Invoice"), Required]
         [ForeignKey("JobInvoiceHeader")]
+        [Index("IX_JobInvoiceLine_Unique", IsUnique = true, Order = 1)]
         public int JobInvoiceHeaderId { get; set; }
         public virtual JobInvoiceHeader JobInvoiceHeader { get; set; }
 
@@ -29,6 +30,7 @@ namespace Model.Models
 
         [Display(Name = "Job Receive"), Required]
         [ForeignKey("JobReceiveLine")]
+        [Index("IX_JobInvoiceLine_Unique", IsUnique = true, Order = 2)]
         public int JobReceiveLineId { get; set; }
         public virtual JobReceiveLine JobReceiveLine { get; set; }
 

@@ -355,46 +355,45 @@
                         <span class="glyphicon glyphicon-align-justify"></span>
                         3.QA Detail
                     </h4>
-                    <div class="row">
+                    <div>
                         @if (Model.QAGroupLine != null)
                         {
                             for (int i = 0; i < Model.QAGroupLine.Count; i++)
                             {
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        @Html.Label(Model.QAGroupLine[i].Name, new { @class = "control-label col-xs-4" })
+                                        @Html.Label(Model.QAGroupLine[i].Name, new { @class = "control-label col-md-4 col-sm-2" })
                                         @Html.HiddenFor(m => m.QAGroupLine[i].JobReceiveQAAttributeId)
                                         @Html.HiddenFor(m => Model.QAGroupLine[i].Name)
                                         @Html.HiddenFor(m => Model.QAGroupLine[i].QAGroupLineId)
-                                        @if (Model.QAGroupLine[i].DataType == "List")
-                                        {
-                                            List<SelectListItem> tem = new List<SelectListItem>();
-                                            foreach (string item in (Model.QAGroupLine[i].ListItem).Split(',').ToList())
+                                            @if (Model.QAGroupLine[i].DataType == "List")
                                             {
-                                                tem.Add(new SelectListItem { Text = item, Value = item, Selected = (Model.QAGroupLine[i].Value == item ? true : false) });
+                                                List<SelectListItem> tem = new List<SelectListItem>();
+                                                foreach (string item in (Model.QAGroupLine[i].ListItem).Split(',').ToList())
+                                                {
+                                                    tem.Add(new SelectListItem { Text = item, Value = item, Selected = (Model.QAGroupLine[i].Value == item ? true : false) });
+                                                }
+
+
+                                                <div class="col-md-7 col-sm-10">
+                                                    @Html.DropDownListFor(m => Model.QAGroupLine[i].Value, new SelectList(tem as System.Collections.IEnumerable, "Value", "Text", Model.QAGroupLine[i].DefaultValue), new { @class = "form-control" })
+                                                    @*<input type="text" name="@(item.Name)s" value=@item.DefaultValue class="form-control col-xs-6" />*@
+                                                </div>
                                             }
-
-
-                                            <div class="col-xs-6">
-                                                @Html.DropDownListFor(m => Model.QAGroupLine[i].Value, new SelectList(tem as System.Collections.IEnumerable, "Value", "Text", Model.QAGroupLine[i].DefaultValue), new { @class = "form-control col-xs-6 height" })
-                                                @*<input type="text" name="@(item.Name)s" value=@item.DefaultValue class="form-control col-xs-6" />*@
-                                            </div>
-                                        }
-                                        else
-                                        {
-                                            <div class="col-xs-6">
-                                                @Html.TextBoxFor(m => Model.QAGroupLine[i].Value, new { @class = "form-control col-xs-6" })
-                                                @*<input type="text" name="@(item.Name)s" value=@item.DefaultValue class="form-control col-xs-6" />*@
-                                            </div>
-                                        }
-
+                                            else
+                                            {
+                                                <div class="col-md-7 col-sm-10">
+                                                    @Html.TextBoxFor(m => Model.QAGroupLine[i].Value, new { @class = "form-control col-xs-6" })
+                                                    @*<input type="text" name="@(item.Name)s" value=@item.DefaultValue class="form-control col-xs-6" />*@
+                                                </div>
+                                            }
                                     </div>
                                 </div>
                             
                                 <div class="col-md-6">
                                         <div class="form-group">
                                             @Html.Label(Model.QAGroupLine[i].Name + " Remark", new { @class = "control-label col-xs-4" })
-                                            <div class="col-xs-6">
+                                            <div class="col-md-7 col-sm-10">
                                                 @Html.TextBoxFor(m => Model.QAGroupLine[i].Remarks, new { @class = "form-control col-xs-6" })
                                             </div>
                                         </div>
