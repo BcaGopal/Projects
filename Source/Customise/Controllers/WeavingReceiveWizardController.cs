@@ -254,15 +254,19 @@ namespace Web
                             {
                                 if (SelectedJobOrderLine.JobOrderLineId > 0)
                                 {
-                                    if (SelectedJobOrderLine.Qty  != (Convert.ToInt32(SelectedJobOrderLine.ToProductUidName) - Convert.ToInt32(SelectedJobOrderLine.FromProductUidName) + 1))
+                                    if (SelectedJobOrderLine.ToProductUidName != "" && SelectedJobOrderLine.ToProductUidName != null && SelectedJobOrderLine.FromProductUidName != "" && SelectedJobOrderLine.FromProductUidName != null)
                                     {
-                                        string Msg = "";
-                                        Msg = "Qty and Barcode series does not match.";
-                                        ModelState.AddModelError("", Msg);
-                                        PrepareViewBag();
-                                        ViewBag.Mode = "Add";
-                                        return View("Create", svm);
+                                        if (SelectedJobOrderLine.Qty != (Convert.ToInt32(SelectedJobOrderLine.ToProductUidName) - Convert.ToInt32(SelectedJobOrderLine.FromProductUidName) + 1))
+                                        {
+                                            string Msg = "";
+                                            Msg = "Qty and Barcode series does not match.";
+                                            ModelState.AddModelError("", Msg);
+                                            PrepareViewBag();
+                                            ViewBag.Mode = "Add";
+                                            return View("Create", svm);
+                                        }
                                     }
+
 
 
                                     ProductUidCountForJobOrderLine = 0;
