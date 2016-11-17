@@ -146,6 +146,8 @@ namespace Web.Controllers
 
             string ConnectionString = (string)System.Web.HttpContext.Current.Session["DefaultConnectionString"];
 
+            JobReceiveSettings  Setting = new JobReceiveSettingsService(_unitOfWork).GetJobReceiveSettingsForDocument(Header.DocTypeId , Header.DivisionId, Header.SiteId);
+            //string ProcConsumption = Setting.SqlProcConsumption.ToString();
 
             try
             {
@@ -155,6 +157,8 @@ namespace Web.Controllers
                     sqlConnection.Open();
 
                     using (SqlCommand cmd = new SqlCommand("" + ConfigurationManager.AppSettings["DataBaseSchema"] + ".sp_PostBomForWeavingReceive"))
+
+                    
                     {
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Connection = sqlConnection;
