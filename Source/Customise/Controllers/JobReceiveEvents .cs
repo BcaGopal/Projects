@@ -147,7 +147,7 @@ namespace Web.Controllers
             string ConnectionString = (string)System.Web.HttpContext.Current.Session["DefaultConnectionString"];
 
             JobReceiveSettings  Setting = new JobReceiveSettingsService(_unitOfWork).GetJobReceiveSettingsForDocument(Header.DocTypeId , Header.DivisionId, Header.SiteId);
-            string ProcConsumption = Setting.SqlProcConsumption.ToString();
+            //string ProcConsumption = Setting.SqlProcConsumption.ToString();
 
             try
             {
