@@ -86,6 +86,7 @@ namespace Model.Models
        
         public string filterProductTypes { get; set; }
         public string filterProductGroups { get; set; }
+        public string filterProductCategories { get; set; }
         public string filterProducts { get; set; }
         public string filterContraDocTypes { get; set; }
         public string filterContraSites { get; set; }

@@ -2419,7 +2419,7 @@
         <Top>2.72196in</Top>
         <Left>0.05493in</Left>
         <Height>0.80304in</Height>
-        <Width>11.26766in</Width>
+        <Width>11.26765in</Width>
         <ZIndex>1</ZIndex>
         <Style>
           <Border>
@@ -3074,7 +3074,11 @@
         </TablixColumnHierarchy>
         <TablixRowHierarchy>
           <TablixMembers>
-            <TablixMember />
+            <TablixMember>
+              <Visibility>
+                <Hidden>true</Hidden>
+              </Visibility>
+            </TablixMember>
             <TablixMember />
             <TablixMember />
             <TablixMember />
