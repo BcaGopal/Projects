@@ -3,10 +3,7 @@
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
     <DataSource Name="Weaving">
-      <ConnectionProperties>
-        <DataProvider>SQL</DataProvider>
-        <ConnectString>=Parameters!DatabaseConnectionString.Value</ConnectString>
-      </ConnectionProperties>
+      <DataSourceReference>DataSourceMain</DataSourceReference>
       <rd:SecurityType>None</rd:SecurityType>
       <rd:DataSourceID>a4701ec2-a2bf-4f00-a373-e0ef6d3046c3</rd:DataSourceID>
     </DataSource>
@@ -29,7 +26,7 @@
             <Value>=Parameters!ToDate.Value</Value>
           </QueryParameter>
           <QueryParameter Name="@JobworkerId">
-            <Value>=Parameters!JobWorkerId.Value</Value>
+            <Value>=Parameters!JobworkerId.Value</Value>
           </QueryParameter>
           <QueryParameter Name="@DocumentType">
             <Value>=Parameters!DocumentType.Value</Value>
@@ -60,9 +57,6 @@
           </QueryParameter>
           <QueryParameter Name="@ProductDivisionId">
             <Value>=Parameters!ProductDivisionId.Value</Value>
-          </QueryParameter>
-          <QueryParameter Name="@ProductCollection">
-            <Value>=Parameters!ProductCollection.Value</Value>
           </QueryParameter>
         </QueryParameters>
         <CommandType>StoredProcedure</CommandType>
@@ -4483,7 +4477,6 @@
                             <PaddingBottom>2pt</PaddingBottom>
                           </Style>
                         </Textbox>
-                        <rd:Selected>true</rd:Selected>
                       </CellContents>
                     </TablixCell>
                     <TablixCell>
@@ -5116,6 +5109,22 @@
               </Border>
             </Style>
           </Tablix>
+          <Subreport Name="Subreport1">
+            <ReportName>CompanyDetail_Landscap</ReportName>
+            <Top>0.0274in</Top>
+            <Left>0.02475in</Left>
+            <Height>0.39999in</Height>
+            <Width>11.16824in</Width>
+            <ZIndex>2</ZIndex>
+            <Visibility>
+              <Hidden>=iif(Globals!RenderFormat.Name &lt;&gt; "PDF",true,false)</Hidden>
+            </Visibility>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+            </Style>
+          </Subreport>
           <Textbox Name="Textbox133">
             <CanGrow>true</CanGrow>
             <KeepTogether>true</KeepTogether>
@@ -5137,11 +5146,11 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox97</rd:DefaultName>
-            <Top>0.44406in</Top>
+            <Top>0.45656in</Top>
             <Left>0.03725in</Left>
             <Height>0.25in</Height>
             <Width>11.15574in</Width>
-            <ZIndex>2</ZIndex>
+            <ZIndex>3</ZIndex>
             <Visibility>
               <Hidden>=iif(Globals!RenderFormat.Name &lt;&gt; "PDF",true,false)</Hidden>
             </Visibility>
@@ -5161,44 +5170,14 @@
               <PaddingBottom>2pt</PaddingBottom>
             </Style>
           </Textbox>
-          <Subreport Name="Subreport1">
-            <ReportName>CompanyDetail_Landscap</ReportName>
-            <Parameters>
-              <Parameter Name="SiteId">
-                <Value>=First(Fields!SiteId.Value, "DsMain")</Value>
-              </Parameter>
-              <Parameter Name="DivisionId">
-                <Value>=First(Fields!DivisionId.Value, "DsMain")</Value>
-              </Parameter>
-              <Parameter Name="DatabaseConnectionString">
-                <Value>=Parameters!DatabaseConnectionString.Value</Value>
-              </Parameter>
-              <Parameter Name="PrintedBy">
-                <Value>=Parameters!PrintedBy.Value</Value>
-              </Parameter>
-            </Parameters>
-            <Top>0.03541in</Top>
-            <Left>0.05292in</Left>
-            <Height>0.375in</Height>
-            <Width>11.14006in</Width>
-            <ZIndex>3</ZIndex>
-            <Visibility>
-              <Hidden>=iif(Globals!RenderFormat.Name &lt;&gt; "PDF",true,false)</Hidden>
-            </Visibility>
-            <Style>
-              <Border>
-                <Style>None</Style>
-              </Border>
-            </Style>
-          </Subreport>
         </ReportItems>
         <Height>5.72916in</Height>
         <Style />
       </Body>
-      <Width>11.22423in</Width>
+      <Width>11.23465in</Width>
       <Page>
         <PageHeader>
-          <Height>0.54042in</Height>
+          <Height>0.29042in</Height>
           <PrintOnFirstPage>true</PrintOnFirstPage>
           <PrintOnLastPage>true</PrintOnLastPage>
           <ReportItems>
@@ -5240,154 +5219,6 @@
                 <BottomBorder>
                   <Style>Solid</Style>
                 </BottomBorder>
-                <PaddingLeft>2pt</PaddingLeft>
-                <PaddingRight>2pt</PaddingRight>
-                <PaddingTop>2pt</PaddingTop>
-                <PaddingBottom>2pt</PaddingBottom>
-              </Style>
-            </Textbox>
-            <Textbox Name="Textbox115">
-              <CanGrow>true</CanGrow>
-              <KeepTogether>true</KeepTogether>
-              <Paragraphs>
-                <Paragraph>
-                  <TextRuns>
-                    <TextRun>
-                      <Value>=Parameters!FilterStr1.Value</Value>
-                      <Style>
-                        <FontFamily>Tahoma</FontFamily>
-                        <FontSize>9pt</FontSize>
-                        <FontWeight>Bold</FontWeight>
-                      </Style>
-                    </TextRun>
-                  </TextRuns>
-                  <Style />
-                </Paragraph>
-              </Paragraphs>
-              <rd:DefaultName>Textbox115</rd:DefaultName>
-              <Top>0.29798in</Top>
-              <Left>0.08101in</Left>
-              <Height>0.1875in</Height>
-              <Width>2.67762in</Width>
-              <ZIndex>1</ZIndex>
-              <Visibility>
-                <Hidden>=iif(Globals!PageNumber=1 or Parameters!FilterStr1.Value = "" or Globals!RenderFormat.Name &lt;&gt; "PDF",True,False)</Hidden>
-              </Visibility>
-              <Style>
-                <Border>
-                  <Style>None</Style>
-                </Border>
-                <PaddingLeft>2pt</PaddingLeft>
-                <PaddingRight>2pt</PaddingRight>
-                <PaddingTop>2pt</PaddingTop>
-                <PaddingBottom>2pt</PaddingBottom>
-              </Style>
-            </Textbox>
-            <Textbox Name="Textbox117">
-              <CanGrow>true</CanGrow>
-              <KeepTogether>true</KeepTogether>
-              <Paragraphs>
-                <Paragraph>
-                  <TextRuns>
-                    <TextRun>
-                      <Value>=Parameters!FilterStr2.Value</Value>
-                      <Style>
-                        <FontFamily>Tahoma</FontFamily>
-                        <FontSize>9pt</FontSize>
-                        <FontWeight>Bold</FontWeight>
-                      </Style>
-                    </TextRun>
-                  </TextRuns>
-                  <Style />
-                </Paragraph>
-              </Paragraphs>
-              <rd:DefaultName>Textbox115</rd:DefaultName>
-              <Top>0.3091in</Top>
-              <Left>2.85864in</Left>
-              <Height>0.1875in</Height>
-              <Width>2.71523in</Width>
-              <ZIndex>2</ZIndex>
-              <Visibility>
-                <Hidden>=iif(Globals!PageNumber=1 or Parameters!FilterStr2.Value = "" or Globals!RenderFormat.Name &lt;&gt; "PDF",True,False)</Hidden>
-              </Visibility>
-              <Style>
-                <Border>
-                  <Style>None</Style>
-                </Border>
-                <PaddingLeft>2pt</PaddingLeft>
-                <PaddingRight>2pt</PaddingRight>
-                <PaddingTop>2pt</PaddingTop>
-                <PaddingBottom>2pt</PaddingBottom>
-              </Style>
-            </Textbox>
-            <Textbox Name="Textbox119">
-              <CanGrow>true</CanGrow>
-              <KeepTogether>true</KeepTogether>
-              <Paragraphs>
-                <Paragraph>
-                  <TextRuns>
-                    <TextRun>
-                      <Value>=Parameters!FilterStr3.Value</Value>
-                      <Style>
-                        <FontFamily>Tahoma</FontFamily>
-                        <FontSize>9pt</FontSize>
-                        <FontWeight>Bold</FontWeight>
-                      </Style>
-                    </TextRun>
-                  </TextRuns>
-                  <Style />
-                </Paragraph>
-              </Paragraphs>
-              <rd:DefaultName>Textbox115</rd:DefaultName>
-              <Top>0.3091in</Top>
-              <Left>5.64331in</Left>
-              <Height>0.1875in</Height>
-              <Width>2.71523in</Width>
-              <ZIndex>3</ZIndex>
-              <Visibility>
-                <Hidden>=iif(Globals!PageNumber=1 or Parameters!FilterStr3.Value = "" or Globals!RenderFormat.Name &lt;&gt; "PDF",True,False)</Hidden>
-              </Visibility>
-              <Style>
-                <Border>
-                  <Style>None</Style>
-                </Border>
-                <PaddingLeft>2pt</PaddingLeft>
-                <PaddingRight>2pt</PaddingRight>
-                <PaddingTop>2pt</PaddingTop>
-                <PaddingBottom>2pt</PaddingBottom>
-              </Style>
-            </Textbox>
-            <Textbox Name="Textbox120">
-              <CanGrow>true</CanGrow>
-              <KeepTogether>true</KeepTogether>
-              <Paragraphs>
-                <Paragraph>
-                  <TextRuns>
-                    <TextRun>
-                      <Value>=Parameters!FilterStr4.Value</Value>
-                      <Style>
-                        <FontFamily>Tahoma</FontFamily>
-                        <FontSize>9pt</FontSize>
-                        <FontWeight>Bold</FontWeight>
-                      </Style>
-                    </TextRun>
-                  </TextRuns>
-                  <Style />
-                </Paragraph>
-              </Paragraphs>
-              <rd:DefaultName>Textbox115</rd:DefaultName>
-              <Top>0.3091in</Top>
-              <Left>8.42798in</Left>
-              <Height>0.1875in</Height>
-              <Width>2.71523in</Width>
-              <ZIndex>4</ZIndex>
-              <Visibility>
-                <Hidden>=iif(Globals!PageNumber=1 or Parameters!FilterStr4.Value = "" or Globals!RenderFormat.Name &lt;&gt; "PDF",True,False)</Hidden>
-              </Visibility>
-              <Style>
-                <Border>
-                  <Style>None</Style>
-                </Border>
                 <PaddingLeft>2pt</PaddingLeft>
                 <PaddingRight>2pt</PaddingRight>
                 <PaddingTop>2pt</PaddingTop>
@@ -5712,11 +5543,11 @@
       <AllowBlank>true</AllowBlank>
       <Prompt>To Date</Prompt>
     </ReportParameter>
-    <ReportParameter Name="JobWorkerId">
+    <ReportParameter Name="JobworkerId">
       <DataType>String</DataType>
       <Nullable>true</Nullable>
       <AllowBlank>true</AllowBlank>
-      <Prompt>JobWorker Id</Prompt>
+      <Prompt>Jobworker Id</Prompt>
     </ReportParameter>
     <ReportParameter Name="DocumentType">
       <DataType>String</DataType>
@@ -5783,18 +5614,6 @@
       <Nullable>true</Nullable>
       <AllowBlank>true</AllowBlank>
       <Prompt>PrintedBy</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="DatabaseConnectionString">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>DatabaseConnectionString</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="ProductCollection">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>Product Collection</Prompt>
     </ReportParameter>
   </ReportParameters>
   <EmbeddedImages>

@@ -3,10 +3,7 @@
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
     <DataSource Name="Purchase">
-      <ConnectionProperties>
-        <DataProvider>SQL</DataProvider>
-        <ConnectString>=Parameters!DatabaseConnectionString.Value</ConnectString>
-      </ConnectionProperties>
+      <DataSourceReference>DataSourceMain</DataSourceReference>
       <rd:SecurityType>None</rd:SecurityType>
       <rd:DataSourceID>a4701ec2-a2bf-4f00-a373-e0ef6d3046c3</rd:DataSourceID>
     </DataSource>
@@ -63,15 +60,6 @@
           </QueryParameter>
           <QueryParameter Name="@ReportType">
             <Value>=Parameters!ReportType.Value</Value>
-          </QueryParameter>
-          <QueryParameter Name="@ProductDivisionId">
-            <Value>=Parameters!ProductDivisionId.Value</Value>
-          </QueryParameter>
-          <QueryParameter Name="@ChargeType">
-            <Value>=Parameters!ChargeType.Value</Value>
-          </QueryParameter>
-          <QueryParameter Name="@Rate">
-            <Value>=Parameters!Rate.Value</Value>
           </QueryParameter>
         </QueryParameters>
         <CommandType>StoredProcedure</CommandType>
@@ -1159,7 +1147,7 @@
                         <rd:DefaultName>Textbox23</rd:DefaultName>
                         <Style>
                           <Border>
-                            <Color>Gray</Color>
+                            <Color>LightGrey</Color>
                             <Style>Solid</Style>
                           </Border>
                           <BackgroundColor>LightGrey</BackgroundColor>
@@ -1170,7 +1158,6 @@
                           <PaddingBottom>2pt</PaddingBottom>
                         </Style>
                       </Textbox>
-                      <RowSpan>2</RowSpan>
                     </CellContents>
                   </TablixCornerCell>
                   <TablixCornerCell>
@@ -1196,7 +1183,7 @@
                         <rd:DefaultName>Textbox6</rd:DefaultName>
                         <Style>
                           <Border>
-                            <Color>Gray</Color>
+                            <Color>LightGrey</Color>
                             <Style>Solid</Style>
                           </Border>
                           <BackgroundColor>LightGrey</BackgroundColor>
@@ -1207,13 +1194,82 @@
                           <PaddingBottom>2pt</PaddingBottom>
                         </Style>
                       </Textbox>
-                      <RowSpan>2</RowSpan>
                     </CellContents>
                   </TablixCornerCell>
                 </TablixCornerRow>
                 <TablixCornerRow>
-                  <TablixCornerCell />
-                  <TablixCornerCell />
+                  <TablixCornerCell>
+                    <CellContents>
+                      <Textbox Name="Textbox44">
+                        <CanGrow>true</CanGrow>
+                        <KeepTogether>true</KeepTogether>
+                        <Paragraphs>
+                          <Paragraph>
+                            <TextRuns>
+                              <TextRun>
+                                <Value />
+                                <Style>
+                                  <FontFamily>Tahoma</FontFamily>
+                                  <FontSize>8pt</FontSize>
+                                  <FontWeight>Bold</FontWeight>
+                                </Style>
+                              </TextRun>
+                            </TextRuns>
+                            <Style />
+                          </Paragraph>
+                        </Paragraphs>
+                        <rd:DefaultName>Textbox44</rd:DefaultName>
+                        <Style>
+                          <Border>
+                            <Color>LightGrey</Color>
+                            <Style>Solid</Style>
+                          </Border>
+                          <BackgroundColor>LightGrey</BackgroundColor>
+                          <VerticalAlign>Middle</VerticalAlign>
+                          <PaddingLeft>2pt</PaddingLeft>
+                          <PaddingRight>2pt</PaddingRight>
+                          <PaddingTop>2pt</PaddingTop>
+                          <PaddingBottom>2pt</PaddingBottom>
+                        </Style>
+                      </Textbox>
+                    </CellContents>
+                  </TablixCornerCell>
+                  <TablixCornerCell>
+                    <CellContents>
+                      <Textbox Name="Textbox45">
+                        <CanGrow>true</CanGrow>
+                        <KeepTogether>true</KeepTogether>
+                        <Paragraphs>
+                          <Paragraph>
+                            <TextRuns>
+                              <TextRun>
+                                <Value />
+                                <Style>
+                                  <FontFamily>Tahoma</FontFamily>
+                                  <FontSize>8pt</FontSize>
+                                  <FontWeight>Bold</FontWeight>
+                                </Style>
+                              </TextRun>
+                            </TextRuns>
+                            <Style />
+                          </Paragraph>
+                        </Paragraphs>
+                        <rd:DefaultName>Textbox45</rd:DefaultName>
+                        <Style>
+                          <Border>
+                            <Color>LightGrey</Color>
+                            <Style>Solid</Style>
+                          </Border>
+                          <BackgroundColor>LightGrey</BackgroundColor>
+                          <VerticalAlign>Middle</VerticalAlign>
+                          <PaddingLeft>2pt</PaddingLeft>
+                          <PaddingRight>2pt</PaddingRight>
+                          <PaddingTop>2pt</PaddingTop>
+                          <PaddingBottom>2pt</PaddingBottom>
+                        </Style>
+                      </Textbox>
+                    </CellContents>
+                  </TablixCornerCell>
                 </TablixCornerRow>
               </TablixCornerRows>
             </TablixCorner>
@@ -1624,15 +1680,13 @@
                                 </Style>
                               </TextRun>
                             </TextRuns>
-                            <Style>
-                              <TextAlign>Center</TextAlign>
-                            </Style>
+                            <Style />
                           </Paragraph>
                         </Paragraphs>
                         <rd:DefaultName>ProductGroupName</rd:DefaultName>
                         <Style>
                           <Border>
-                            <Color>Gray</Color>
+                            <Color>LightGrey</Color>
                             <Style>Solid</Style>
                           </Border>
                           <BackgroundColor>LightGrey</BackgroundColor>
@@ -1672,7 +1726,7 @@
                             <rd:DefaultName>Textbox46</rd:DefaultName>
                             <Style>
                               <Border>
-                                <Color>Gray</Color>
+                                <Color>LightGrey</Color>
                                 <Style>Solid</Style>
                               </Border>
                               <BackgroundColor>LightGrey</BackgroundColor>
@@ -1716,7 +1770,7 @@
                             <rd:DefaultName>Textbox55</rd:DefaultName>
                             <Style>
                               <Border>
-                                <Color>Gray</Color>
+                                <Color>LightGrey</Color>
                                 <Style>Solid</Style>
                               </Border>
                               <BackgroundColor>LightGrey</BackgroundColor>
@@ -1762,7 +1816,7 @@
                         <rd:DefaultName>Textbox1</rd:DefaultName>
                         <Style>
                           <Border>
-                            <Color>Gray</Color>
+                            <Color>LightGrey</Color>
                             <Style>Solid</Style>
                           </Border>
                           <BackgroundColor>LightGrey</BackgroundColor>
@@ -1803,7 +1857,7 @@
                             <rd:DefaultName>Textbox56</rd:DefaultName>
                             <Style>
                               <Border>
-                                <Color>Gray</Color>
+                                <Color>LightGrey</Color>
                                 <Style>Solid</Style>
                               </Border>
                               <BackgroundColor>LightGrey</BackgroundColor>
@@ -1846,7 +1900,7 @@
                             <rd:DefaultName>Textbox57</rd:DefaultName>
                             <Style>
                               <Border>
-                                <Color>Gray</Color>
+                                <Color>LightGrey</Color>
                                 <Style>Solid</Style>
                               </Border>
                               <BackgroundColor>LightGrey</BackgroundColor>
@@ -2094,20 +2148,6 @@
           </Tablix>
           <Subreport Name="Subreport1">
             <ReportName>CompanyDetail_Landscap</ReportName>
-            <Parameters>
-              <Parameter Name="SiteId">
-                <Value>=First(Fields!SiteId.Value, "DsMain")</Value>
-              </Parameter>
-              <Parameter Name="DivisionId">
-                <Value>=First(Fields!DivisionId.Value, "DsMain")</Value>
-              </Parameter>
-              <Parameter Name="DatabaseConnectionString">
-                <Value>=Parameters!DatabaseConnectionString.Value</Value>
-              </Parameter>
-              <Parameter Name="PrintedBy">
-                <Value>=Parameters!PrintedBy.Value</Value>
-              </Parameter>
-            </Parameters>
             <Top>0.02778in</Top>
             <Left>0.03417in</Left>
             <Height>0.28541in</Height>
@@ -2331,9 +2371,7 @@
         </PageFooter>
         <PageHeight>8.27in</PageHeight>
         <PageWidth>11.69in</PageWidth>
-        <LeftMargin>0.3in</LeftMargin>
-        <TopMargin>0.1in</TopMargin>
-        <BottomMargin>0.1in</BottomMargin>
+        <LeftMargin>0.17in</LeftMargin>
         <Style />
       </Page>
     </ReportSection>
@@ -2572,30 +2610,6 @@
       <Nullable>true</Nullable>
       <AllowBlank>true</AllowBlank>
       <Prompt>PrintedBy</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="DatabaseConnectionString">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>DatabaseConnectionString</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="ProductDivisionId">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>Product Division Id</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="ChargeType">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>Charge Type</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="Rate">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>Rate</Prompt>
     </ReportParameter>
   </ReportParameters>
   <EmbeddedImages>

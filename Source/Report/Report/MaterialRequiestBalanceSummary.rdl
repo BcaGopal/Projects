@@ -3,10 +3,7 @@
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
     <DataSource Name="Purchase">
-      <ConnectionProperties>
-        <DataProvider>SQL</DataProvider>
-        <ConnectString>=Parameters!DatabaseConnectionString.Value</ConnectString>
-      </ConnectionProperties>
+      <DataSourceReference>DataSourceMain</DataSourceReference>
       <rd:SecurityType>None</rd:SecurityType>
       <rd:DataSourceID>a4701ec2-a2bf-4f00-a373-e0ef6d3046c3</rd:DataSourceID>
     </DataSource>
@@ -1385,6 +1382,7 @@
                             <PaddingBottom>2pt</PaddingBottom>
                           </Style>
                         </Textbox>
+                        <rd:Selected>true</rd:Selected>
                       </CellContents>
                     </TablixCell>
                     <TablixCell>
@@ -1528,12 +1526,6 @@
               </Parameter>
               <Parameter Name="DivisionId">
                 <Value>=First(Fields!DivisionId.Value, "DsMain")</Value>
-              </Parameter>
-              <Parameter Name="DatabaseConnectionString">
-                <Value>=Parameters!DatabaseConnectionString.Value</Value>
-              </Parameter>
-              <Parameter Name="PrintedBy">
-                <Value>=Parameters!PrintedBy.Value</Value>
               </Parameter>
             </Parameters>
             <Top>0.04306in</Top>
@@ -2061,12 +2053,6 @@
       <Nullable>true</Nullable>
       <AllowBlank>true</AllowBlank>
       <Prompt>PrintedBy</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="DatabaseConnectionString">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>DatabaseConnectionString</Prompt>
     </ReportParameter>
   </ReportParameters>
   <EmbeddedImages>

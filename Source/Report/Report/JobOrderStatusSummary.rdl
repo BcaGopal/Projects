@@ -3,10 +3,7 @@
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
     <DataSource Name="Purchase">
-      <ConnectionProperties>
-        <DataProvider>SQL</DataProvider>
-        <ConnectString>=Parameters!DatabaseConnectionString.Value</ConnectString>
-      </ConnectionProperties>
+      <DataSourceReference>DataSourceMain</DataSourceReference>
       <rd:SecurityType>None</rd:SecurityType>
       <rd:DataSourceID>a4701ec2-a2bf-4f00-a373-e0ef6d3046c3</rd:DataSourceID>
     </DataSource>
@@ -3223,9 +3220,6 @@
                       </SortExpressions>
                       <TablixMembers>
                         <TablixMember>
-                          <Visibility>
-                            <Hidden>true</Hidden>
-                          </Visibility>
                           <KeepWithGroup>After</KeepWithGroup>
                           <RepeatOnNewPage>true</RepeatOnNewPage>
                         </TablixMember>
@@ -3235,28 +3229,12 @@
                             <TablixMember />
                           </TablixMembers>
                         </TablixMember>
-                        <TablixMember>
-                          <Visibility>
-                            <Hidden>true</Hidden>
-                          </Visibility>
-                        </TablixMember>
-                        <TablixMember>
-                          <Visibility>
-                            <Hidden>true</Hidden>
-                          </Visibility>
-                        </TablixMember>
+                        <TablixMember />
+                        <TablixMember />
                       </TablixMembers>
                     </TablixMember>
-                    <TablixMember>
-                      <Visibility>
-                        <Hidden>true</Hidden>
-                      </Visibility>
-                    </TablixMember>
-                    <TablixMember>
-                      <Visibility>
-                        <Hidden>true</Hidden>
-                      </Visibility>
-                    </TablixMember>
+                    <TablixMember />
+                    <TablixMember />
                   </TablixMembers>
                 </TablixMember>
                 <TablixMember />
@@ -4239,20 +4217,6 @@
           </Tablix>
           <Subreport Name="Subreport1">
             <ReportName>CompanyDetail_Landscap</ReportName>
-            <Parameters>
-              <Parameter Name="SiteId">
-                <Value>=First(Fields!SiteId.Value, "DsMain")</Value>
-              </Parameter>
-              <Parameter Name="DivisionId">
-                <Value>=First(Fields!DivisionId.Value, "DsMain")</Value>
-              </Parameter>
-              <Parameter Name="DatabaseConnectionString">
-                <Value>=Parameters!DatabaseConnectionString.Value</Value>
-              </Parameter>
-              <Parameter Name="PrintedBy">
-                <Value>=Parameters!PrintedBy.Value</Value>
-              </Parameter>
-            </Parameters>
             <Top>0.04306in</Top>
             <Left>0.06534in</Left>
             <Height>0.32083in</Height>
@@ -4466,48 +4430,6 @@
               <Height>0.25in</Height>
               <Width>3.3909in</Width>
               <ZIndex>1</ZIndex>
-              <Style>
-                <Border>
-                  <Style>None</Style>
-                </Border>
-                <PaddingLeft>2pt</PaddingLeft>
-                <PaddingRight>2pt</PaddingRight>
-                <PaddingTop>2pt</PaddingTop>
-                <PaddingBottom>2pt</PaddingBottom>
-              </Style>
-            </Textbox>
-            <Textbox Name="Textbox132">
-              <CanGrow>true</CanGrow>
-              <KeepTogether>true</KeepTogether>
-              <Paragraphs>
-                <Paragraph>
-                  <TextRuns>
-                    <TextRun>
-                      <Value>Print By : </Value>
-                      <Style>
-                        <FontFamily>tahoma</FontFamily>
-                        <FontSize>9pt</FontSize>
-                      </Style>
-                    </TextRun>
-                    <TextRun>
-                      <Value>=Parameters!PrintedBy.Value</Value>
-                      <Style>
-                        <FontFamily>tahoma</FontFamily>
-                        <FontSize>9pt</FontSize>
-                      </Style>
-                    </TextRun>
-                  </TextRuns>
-                  <Style>
-                    <TextAlign>Center</TextAlign>
-                  </Style>
-                </Paragraph>
-              </Paragraphs>
-              <rd:DefaultName>Textbox19</rd:DefaultName>
-              <Top>0.06076in</Top>
-              <Left>4.45711in</Left>
-              <Height>0.20833in</Height>
-              <Width>2.05737in</Width>
-              <ZIndex>2</ZIndex>
               <Style>
                 <Border>
                   <Style>None</Style>
@@ -4943,12 +4865,6 @@
       <Nullable>true</Nullable>
       <AllowBlank>true</AllowBlank>
       <Prompt>PrintedBy</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="DatabaseConnectionString">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>DatabaseConnectionString</Prompt>
     </ReportParameter>
   </ReportParameters>
   <EmbeddedImages>

@@ -3,10 +3,7 @@
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
     <DataSource Name="Purchase">
-      <ConnectionProperties>
-        <DataProvider>SQL</DataProvider>
-        <ConnectString>=Parameters!DatabaseConnectionString.Value</ConnectString>
-      </ConnectionProperties>
+      <DataSourceReference>DataSourceMain</DataSourceReference>
       <rd:SecurityType>None</rd:SecurityType>
       <rd:DataSourceID>a4701ec2-a2bf-4f00-a373-e0ef6d3046c3</rd:DataSourceID>
     </DataSource>
@@ -1508,7 +1505,6 @@
                             <PaddingBottom>2pt</PaddingBottom>
                           </Style>
                         </Textbox>
-                        <rd:Selected>true</rd:Selected>
                       </CellContents>
                     </TablixCell>
                     <TablixCell>
@@ -2328,27 +2324,16 @@
               <PaddingBottom>2pt</PaddingBottom>
             </Style>
           </Textbox>
-          <Subreport Name="Subreport3">
+          <Subreport Name="Subreport1">
             <ReportName>CompanyDetail_Landscap</ReportName>
-            <Parameters>
-              <Parameter Name="SiteId">
-                <Value>=First(Fields!SiteId.Value, "DsMain")</Value>
-              </Parameter>
-              <Parameter Name="DivisionId">
-                <Value>=First(Fields!DivisionId.Value, "DsMain")</Value>
-              </Parameter>
-              <Parameter Name="DatabaseConnectionString">
-                <Value>=Parameters!DatabaseConnectionString.Value</Value>
-              </Parameter>
-              <Parameter Name="PrintedBy">
-                <Value>=Parameters!PrintedBy.Value</Value>
-              </Parameter>
-            </Parameters>
-            <Top>0.02703in</Top>
-            <Left>0.05493in</Left>
+            <Top>0.02917in</Top>
+            <Left>0.04243in</Left>
             <Height>0.30208in</Height>
-            <Width>10.80029in</Width>
+            <Width>10.8128in</Width>
             <ZIndex>3</ZIndex>
+            <Visibility>
+              <Hidden>=iif(Globals!RenderFormat.Name &lt;&gt; "PDF",True,False)</Hidden>
+            </Visibility>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -2359,7 +2344,7 @@
         <Height>4.625in</Height>
         <Style />
       </Body>
-      <Width>10.88417in</Width>
+      <Width>10.8969in</Width>
       <Page>
         <PageHeader>
           <Height>0.35291in</Height>
@@ -2569,8 +2554,6 @@
         <PageHeight>8.27in</PageHeight>
         <PageWidth>11.69in</PageWidth>
         <LeftMargin>0.34in</LeftMargin>
-        <TopMargin>0.1in</TopMargin>
-        <BottomMargin>0.1in</BottomMargin>
         <Style />
       </Page>
     </ReportSection>
@@ -2752,6 +2735,8 @@
     </ReportParameter>
     <ReportParameter Name="Site">
       <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
       <Prompt>Site</Prompt>
     </ReportParameter>
     <ReportParameter Name="Division">
@@ -2951,12 +2936,6 @@
       <Nullable>true</Nullable>
       <AllowBlank>true</AllowBlank>
       <Prompt>PrintedBy</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="DatabaseConnectionString">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>DatabaseConnectionString</Prompt>
     </ReportParameter>
   </ReportParameters>
   <EmbeddedImages>

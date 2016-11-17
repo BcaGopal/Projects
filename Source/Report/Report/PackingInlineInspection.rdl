@@ -3,10 +3,7 @@
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
     <DataSource Name="Purchase">
-      <ConnectionProperties>
-        <DataProvider>SQL</DataProvider>
-        <ConnectString>=Parameters!DatabaseConnectionString.Value</ConnectString>
-      </ConnectionProperties>
+      <DataSourceReference>DataSourceMain</DataSourceReference>
       <rd:SecurityType>None</rd:SecurityType>
       <rd:DataSourceID>a4701ec2-a2bf-4f00-a373-e0ef6d3046c3</rd:DataSourceID>
     </DataSource>
@@ -16,14 +13,14 @@
       <Query>
         <DataSourceName>Purchase</DataSourceName>
         <QueryParameters>
-          <QueryParameter Name="@LoginSite">
-            <Value>=Parameters!LoginSite.Value</Value>
+          <QueryParameter Name="@Site">
+            <Value>=Parameters!Site.Value</Value>
           </QueryParameter>
           <QueryParameter Name="@AsOnDate">
             <Value>=Parameters!AsOnDate.Value</Value>
           </QueryParameter>
-          <QueryParameter Name="@LoginDivision">
-            <Value>=Parameters!LoginDivision.Value</Value>
+          <QueryParameter Name="@Division">
+            <Value>=Parameters!Division.Value</Value>
           </QueryParameter>
           <QueryParameter Name="@JobWorker">
             <Value>=Parameters!JobWorker.Value</Value>
@@ -1200,16 +1197,16 @@
             <TablixBody>
               <TablixColumns>
                 <TablixColumn>
-                  <Width>0.5568in</Width>
+                  <Width>0.59847in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.40625in</Width>
+                  <Width>0.625in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.39583in</Width>
+                  <Width>0.58333in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.26041in</Width>
+                  <Width>1.23958in</Width>
                 </TablixColumn>
               </TablixColumns>
               <TablixRows>
@@ -1636,7 +1633,7 @@
                   <TablixMembers>
                     <TablixMember>
                       <TablixHeader>
-                        <Size>0.78125in</Size>
+                        <Size>1in</Size>
                         <CellContents>
                           <Textbox Name="ProductUidName">
                             <CanGrow>true</CanGrow>
@@ -1672,7 +1669,7 @@
                       <TablixMembers>
                         <TablixMember>
                           <TablixHeader>
-                            <Size>0.9375in</Size>
+                            <Size>1in</Size>
                             <CellContents>
                               <Textbox Name="ProductDesignName">
                                 <CanGrow>true</CanGrow>
@@ -1708,7 +1705,7 @@
                           <TablixMembers>
                             <TablixMember>
                               <TablixHeader>
-                                <Size>0.75in</Size>
+                                <Size>1in</Size>
                                 <CellContents>
                                   <Textbox Name="StandardSizeName">
                                     <CanGrow>true</CanGrow>
@@ -1755,7 +1752,7 @@
             <Top>3.85625in</Top>
             <Left>0.05493in</Left>
             <Height>0.75in</Height>
-            <Width>5.08805in</Width>
+            <Width>6.04638in</Width>
             <ZIndex>1</ZIndex>
             <Style>
               <Border>
@@ -1765,20 +1762,6 @@
           </Tablix>
           <Subreport Name="Subreport2">
             <ReportName>CompanyDetail_Landscap</ReportName>
-            <Parameters>
-              <Parameter Name="DatabaseConnectionString">
-                <Value>=Parameters!DatabaseConnectionString.Value</Value>
-              </Parameter>
-              <Parameter Name="PrintedBy">
-                <Value>=Parameters!PrintedBy.Value</Value>
-              </Parameter>
-              <Parameter Name="SiteId">
-                <Value>=Parameters!LoginSite.Value</Value>
-              </Parameter>
-              <Parameter Name="DivisionId">
-                <Value>=Parameters!LoginDivision.Value</Value>
-              </Parameter>
-            </Parameters>
             <Top>0.03334in</Top>
             <Left>0.05493in</Left>
             <Height>0.39583in</Height>
@@ -2053,9 +2036,10 @@
         </PageFooter>
         <PageHeight>8.27in</PageHeight>
         <PageWidth>11.69in</PageWidth>
-        <LeftMargin>0.3in</LeftMargin>
-        <TopMargin>0.15in</TopMargin>
-        <BottomMargin>0.15in</BottomMargin>
+        <LeftMargin>0.5in</LeftMargin>
+        <RightMargin>0.1in</RightMargin>
+        <TopMargin>0.17in</TopMargin>
+        <BottomMargin>0.17in</BottomMargin>
         <Style />
       </Page>
     </ReportSection>
@@ -2235,6 +2219,18 @@
       <AllowBlank>true</AllowBlank>
       <Prompt>ReportParameter1</Prompt>
     </ReportParameter>
+    <ReportParameter Name="Site">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Site</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="Division">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Division</Prompt>
+    </ReportParameter>
     <ReportParameter Name="FromDate">
       <DataType>String</DataType>
       <Nullable>true</Nullable>
@@ -2390,24 +2386,6 @@
       <Nullable>true</Nullable>
       <AllowBlank>true</AllowBlank>
       <Prompt>PrintedBy</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="DatabaseConnectionString">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>DatabaseConnectionString</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="LoginSite">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>Login Site</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="LoginDivision">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>Login Division</Prompt>
     </ReportParameter>
   </ReportParameters>
   <Code>Public Function PageNumber()

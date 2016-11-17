@@ -3,10 +3,7 @@
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
     <DataSource Name="Invoice">
-      <ConnectionProperties>
-        <DataProvider>SQL</DataProvider>
-        <ConnectString>=Parameters!DatabaseConnectionString.Value</ConnectString>
-      </ConnectionProperties>
+      <DataSourceReference>DataSourceMain</DataSourceReference>
       <rd:SecurityType>None</rd:SecurityType>
       <rd:DataSourceID>adf8514c-abaf-4839-a27a-78acbae1d856</rd:DataSourceID>
     </DataSource>
@@ -70,11 +67,8 @@
           <QueryParameter Name="@JobInvoiceHeaderId">
             <Value>=Parameters!JobInvoiceHeaderId.Value</Value>
           </QueryParameter>
-          <QueryParameter Name="@ProcessId">
-            <Value>=Parameters!ProcessId.Value</Value>
-          </QueryParameter>
-          <QueryParameter Name="@ProductDivisionId">
-            <Value>=Parameters!ProductDivisionId.Value</Value>
+          <QueryParameter Name="@Process">
+            <Value>=Parameters!Process.Value</Value>
           </QueryParameter>
         </QueryParameters>
         <CommandType>StoredProcedure</CommandType>
@@ -103,10 +97,6 @@
         </Field>
         <Field Name="DocNo">
           <DataField>DocNo</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="DocumenType">
-          <DataField>DocumenType</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="JobWorkerDocNo">
@@ -161,16 +151,8 @@
           <DataField>Rate</DataField>
           <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
-        <Field Name="PassQty">
-          <DataField>PassQty</DataField>
-          <rd:TypeName>System.Decimal</rd:TypeName>
-        </Field>
         <Field Name="Amount">
           <DataField>Amount</DataField>
-          <rd:TypeName>System.Decimal</rd:TypeName>
-        </Field>
-        <Field Name="LossQty">
-          <DataField>LossQty</DataField>
           <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
         <Field Name="LineRemark">
@@ -237,14 +219,6 @@
           <DataField>Dimension2TypeName</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="Weight">
-          <DataField>Weight</DataField>
-          <rd:TypeName>System.Decimal</rd:TypeName>
-        </Field>
-        <Field Name="JobReceiveHeaderId">
-          <DataField>JobReceiveHeaderId</DataField>
-          <rd:TypeName>System.Int32</rd:TypeName>
-        </Field>
         <Field Name="ReportName">
           <DataField>ReportName</DataField>
           <rd:TypeName>System.String</rd:TypeName>
@@ -252,10 +226,6 @@
         <Field Name="ReportTitle">
           <DataField>ReportTitle</DataField>
           <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="JobOrderHeaderId">
-          <DataField>JobOrderHeaderId</DataField>
-          <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
       </Fields>
       <rd:DataSetInfo>
@@ -3563,20 +3533,6 @@
           </Tablix>
           <Subreport Name="Subreport1">
             <ReportName>CompanyDetail</ReportName>
-            <Parameters>
-              <Parameter Name="SiteId">
-                <Value>=First(Fields!SiteId.Value, "DsMain")</Value>
-              </Parameter>
-              <Parameter Name="DivisionId">
-                <Value>=First(Fields!DivisionId.Value, "DsMain")</Value>
-              </Parameter>
-              <Parameter Name="DatabaseConnectionString">
-                <Value>=Parameters!DatabaseConnectionString.Value</Value>
-              </Parameter>
-              <Parameter Name="PrintedBy">
-                <Value>=Parameters!PrintedBy.Value</Value>
-              </Parameter>
-            </Parameters>
             <Top>0.04444in</Top>
             <Left>0.05493in</Left>
             <Height>0.30473in</Height>
@@ -3749,9 +3705,9 @@
               </Paragraphs>
               <rd:DefaultName>Textbox18</rd:DefaultName>
               <Top>0.01112in</Top>
-              <Left>5.01673in</Left>
+              <Left>4.5584in</Left>
               <Height>0.25in</Height>
-              <Width>2.42834in</Width>
+              <Width>2.88667in</Width>
               <Style>
                 <Border>
                   <Style>None</Style>
@@ -3792,44 +3748,8 @@
               <Top>0.02778in</Top>
               <Left>0.01743in</Left>
               <Height>0.25in</Height>
-              <Width>2.02632in</Width>
+              <Width>3.3909in</Width>
               <ZIndex>1</ZIndex>
-              <Style>
-                <Border>
-                  <Style>None</Style>
-                </Border>
-                <PaddingLeft>2pt</PaddingLeft>
-                <PaddingRight>2pt</PaddingRight>
-                <PaddingTop>2pt</PaddingTop>
-                <PaddingBottom>2pt</PaddingBottom>
-              </Style>
-            </Textbox>
-            <Textbox Name="Textbox25">
-              <CanGrow>true</CanGrow>
-              <KeepTogether>true</KeepTogether>
-              <Paragraphs>
-                <Paragraph>
-                  <TextRuns>
-                    <TextRun>
-                      <Value>="Printed By : " + Parameters!PrintedBy.Value</Value>
-                      <Style>
-                        <FontFamily>tahoma</FontFamily>
-                        <FontSize>9pt</FontSize>
-                        <Format>dd-MMM-yy hh:mm:ss tt</Format>
-                      </Style>
-                    </TextRun>
-                  </TextRuns>
-                  <Style>
-                    <TextAlign>Center</TextAlign>
-                  </Style>
-                </Paragraph>
-              </Paragraphs>
-              <rd:DefaultName>Textbox19</rd:DefaultName>
-              <Top>0.05208in</Top>
-              <Left>2.11073in</Left>
-              <Height>0.19792in</Height>
-              <Width>2.85486in</Width>
-              <ZIndex>2</ZIndex>
               <Style>
                 <Border>
                   <Style>None</Style>
@@ -4031,18 +3951,6 @@
       <AllowBlank>true</AllowBlank>
       <Prompt>ReportParameter1</Prompt>
     </ReportParameter>
-    <ReportParameter Name="DatabaseConnectionString">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>DatabaseConnectionString</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="PrintedBy">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>PrintedBy</Prompt>
-    </ReportParameter>
     <ReportParameter Name="ReportType">
       <DataType>String</DataType>
       <Nullable>true</Nullable>
@@ -4084,6 +3992,12 @@
       <Nullable>true</Nullable>
       <AllowBlank>true</AllowBlank>
       <Prompt>Jobworker Id</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="Currency">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Currency</Prompt>
     </ReportParameter>
     <ReportParameter Name="ProductNature">
       <DataType>String</DataType>
@@ -4151,17 +4065,11 @@
       <AllowBlank>true</AllowBlank>
       <Prompt>Job Invoice Header Id</Prompt>
     </ReportParameter>
-    <ReportParameter Name="ProcessId">
+    <ReportParameter Name="Process">
       <DataType>String</DataType>
       <Nullable>true</Nullable>
       <AllowBlank>true</AllowBlank>
-      <Prompt>Process Id</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="ProductDivisionId">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>Product Division Id</Prompt>
+      <Prompt>Process</Prompt>
     </ReportParameter>
   </ReportParameters>
   <EmbeddedImages>

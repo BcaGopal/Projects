@@ -66,7 +66,7 @@ namespace System.Web.Mvc.Html
                             var ParentField = ParentTable.ChildNodes[j];
 
                             Temp += "<tr> <td>" + ParentField.Name + "</td>" + "<td>" + ParentField["Old"].InnerText + "</td>" + "<td>" + ParentField["New"].InnerText + "</td> </tr>";
-                        }
+                        } 
                     }
 
                     Temp += "</table>";

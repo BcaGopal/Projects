@@ -3,10 +3,7 @@
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
     <DataSource Name="Job">
-      <ConnectionProperties>
-        <DataProvider>SQL</DataProvider>
-        <ConnectString>=Parameters!DatabaseConnectionString.Value</ConnectString>
-      </ConnectionProperties>
+      <DataSourceReference>DataSourceMain</DataSourceReference>
       <rd:SecurityType>None</rd:SecurityType>
       <rd:DataSourceID>a4701ec2-a2bf-4f00-a373-e0ef6d3046c3</rd:DataSourceID>
     </DataSource>
@@ -39,12 +36,6 @@
           </QueryParameter>
           <QueryParameter Name="@LedgerHeaderId">
             <Value>=Parameters!LedgerHeaderId.Value</Value>
-          </QueryParameter>
-          <QueryParameter Name="@CostCenterId">
-            <Value>=Parameters!CostCenterId.Value</Value>
-          </QueryParameter>
-          <QueryParameter Name="@ProcessId">
-            <Value>=Parameters!ProcessId.Value</Value>
           </QueryParameter>
         </QueryParameters>
         <CommandType>StoredProcedure</CommandType>
@@ -121,10 +112,6 @@
         </Field>
         <Field Name="ReportTitle">
           <DataField>ReportTitle</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="ProcessName">
-          <DataField>ProcessName</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
       </Fields>
@@ -1494,20 +1481,6 @@
           </Textbox>
           <Subreport Name="Subreport1">
             <ReportName>CompanyDetail</ReportName>
-            <Parameters>
-              <Parameter Name="SiteId">
-                <Value>=First(Fields!SiteId.Value, "DsMain")</Value>
-              </Parameter>
-              <Parameter Name="DivisionId">
-                <Value>=First(Fields!DivisionId.Value, "DsMain")</Value>
-              </Parameter>
-              <Parameter Name="DatabaseConnectionString">
-                <Value>=Parameters!DatabaseConnectionString.Value</Value>
-              </Parameter>
-              <Parameter Name="PrintedBy">
-                <Value>=Parameters!PrintedBy.Value</Value>
-              </Parameter>
-            </Parameters>
             <Top>0.02292in</Top>
             <Left>0.02375in</Left>
             <Height>0.31666in</Height>
@@ -1631,6 +1604,7 @@
                 </Paragraph>
               </Paragraphs>
               <rd:DefaultName>Textbox18</rd:DefaultName>
+              <Top>0in</Top>
               <Left>4.9834in</Left>
               <Height>0.25in</Height>
               <Width>2.38667in</Width>
@@ -1671,6 +1645,7 @@
                 </Paragraph>
               </Paragraphs>
               <rd:DefaultName>Textbox19</rd:DefaultName>
+              <Top>0in</Top>
               <Left>0.05493in</Left>
               <Height>0.25in</Height>
               <Width>2.0784in</Width>
@@ -1804,18 +1779,6 @@
       <AllowBlank>true</AllowBlank>
       <Prompt>FilterStr10</Prompt>
     </ReportParameter>
-    <ReportParameter Name="PrintedBy">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>PrintedBy</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="DatabaseConnectionString">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>DatabaseConnectionString</Prompt>
-    </ReportParameter>
     <ReportParameter Name="Site">
       <DataType>String</DataType>
       <Nullable>true</Nullable>
@@ -1864,17 +1827,11 @@
       <AllowBlank>true</AllowBlank>
       <Prompt>Ledger Header Id</Prompt>
     </ReportParameter>
-    <ReportParameter Name="CostCenterId">
+    <ReportParameter Name="PrintedBy">
       <DataType>String</DataType>
       <Nullable>true</Nullable>
       <AllowBlank>true</AllowBlank>
-      <Prompt>Cost Center Id</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="ProcessId">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>Process Id</Prompt>
+      <Prompt>PrintedBy</Prompt>
     </ReportParameter>
   </ReportParameters>
   <Code>Public Function PageNumber()

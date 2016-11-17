@@ -3,10 +3,7 @@
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
     <DataSource Name="Invoice">
-      <ConnectionProperties>
-        <DataProvider>SQL</DataProvider>
-        <ConnectString>=Parameters!DatabaseConnectionString.Value</ConnectString>
-      </ConnectionProperties>
+      <DataSourceReference>DataSourceMain</DataSourceReference>
       <rd:SecurityType>None</rd:SecurityType>
       <rd:DataSourceID>adf8514c-abaf-4839-a27a-78acbae1d856</rd:DataSourceID>
     </DataSource>
@@ -73,9 +70,6 @@
           <QueryParameter Name="@ProcessId">
             <Value>=Parameters!ProcessId.Value</Value>
           </QueryParameter>
-          <QueryParameter Name="@ProductDivisionId">
-            <Value>=Parameters!ProductDivisionId.Value</Value>
-          </QueryParameter>
         </QueryParameters>
         <CommandType>StoredProcedure</CommandType>
         <CommandText>Web.spRep_JobInvoiceReport</CommandText>
@@ -103,10 +97,6 @@
         </Field>
         <Field Name="DocNo">
           <DataField>DocNo</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="DocumenType">
-          <DataField>DocumenType</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="JobWorkerDocNo">
@@ -229,21 +219,9 @@
           <DataField>Dimension1TypeName</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="Weight">
-          <DataField>Weight</DataField>
-          <rd:TypeName>System.Decimal</rd:TypeName>
-        </Field>
         <Field Name="RatePerPcs">
           <DataField>RatePerPcs</DataField>
           <rd:TypeName>System.Decimal</rd:TypeName>
-        </Field>
-        <Field Name="JobReceiveHeaderId">
-          <DataField>JobReceiveHeaderId</DataField>
-          <rd:TypeName>System.Int32</rd:TypeName>
-        </Field>
-        <Field Name="JobOrderHeaderId">
-          <DataField>JobOrderHeaderId</DataField>
-          <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
         <Field Name="Dimension2TypeName">
           <DataField>Dimension2TypeName</DataField>
@@ -285,7 +263,7 @@
                   <Width>0.94802in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>2.98212in</Width>
+                  <Width>2.4717in</Width>
                 </TablixColumn>
                 <TablixColumn>
                   <Width>0.82566in</Width>
@@ -294,13 +272,13 @@
                   <Width>0.53076in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.73542in</Width>
+                  <Width>1.07917in</Width>
                 </TablixColumn>
                 <TablixColumn>
                   <Width>1.07917in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.88551in</Width>
+                  <Width>1.08343in</Width>
                 </TablixColumn>
                 <TablixColumn>
                   <Width>0.91146in</Width>
@@ -1631,14 +1609,14 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="JobWorkerDocNo2">
+                        <Textbox Name="Textbox55">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!JobWorkerDocNo.Value</Value>
+                                  <Value />
                                   <Style>
                                     <FontFamily>Tahoma</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -1648,12 +1626,13 @@
                               <Style />
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>JobWorkerDocNo</rd:DefaultName>
+                          <rd:DefaultName>Textbox55</rd:DefaultName>
                           <Style>
                             <Border>
-                              <Color>LightGrey</Color>
+                              <Color>Silver</Color>
                               <Style>Solid</Style>
                             </Border>
+                            <BackgroundColor>=iif(RunningValue(Fields!JobInvoiceHeaderId.Value,CountDistinct, nothing) Mod 2 , "White","WhiteSmoke")</BackgroundColor>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
                             <PaddingTop>2pt</PaddingTop>
@@ -3195,9 +3174,6 @@
                       </SortExpressions>
                       <TablixMembers>
                         <TablixMember>
-                          <Visibility>
-                            <Hidden>true</Hidden>
-                          </Visibility>
                           <KeepWithGroup>After</KeepWithGroup>
                         </TablixMember>
                         <TablixMember>
@@ -3241,18 +3217,11 @@
                           </TablixMembers>
                         </TablixMember>
                         <TablixMember>
-                          <Visibility>
-                            <Hidden>true</Hidden>
-                          </Visibility>
                           <KeepWithGroup>Before</KeepWithGroup>
                         </TablixMember>
                       </TablixMembers>
                     </TablixMember>
-                    <TablixMember>
-                      <Visibility>
-                        <Hidden>true</Hidden>
-                      </Visibility>
-                    </TablixMember>
+                    <TablixMember />
                   </TablixMembers>
                 </TablixMember>
                 <TablixMember />
@@ -3264,7 +3233,7 @@
             <Top>3.50348in</Top>
             <Left>0.0375in</Left>
             <Height>2.3125in</Height>
-            <Width>10.35968in</Width>
+            <Width>10.39093in</Width>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -4277,20 +4246,6 @@
           </Textbox>
           <Subreport Name="Subreport1">
             <ReportName>CompanyDetail_Landscap</ReportName>
-            <Parameters>
-              <Parameter Name="SiteId">
-                <Value>=First(Fields!SiteId.Value, "DsMain")</Value>
-              </Parameter>
-              <Parameter Name="DivisionId">
-                <Value>=First(Fields!DivisionId.Value, "DsMain")</Value>
-              </Parameter>
-              <Parameter Name="DatabaseConnectionString">
-                <Value>=Parameters!DatabaseConnectionString.Value</Value>
-              </Parameter>
-              <Parameter Name="PrintedBy">
-                <Value>=Parameters!PrintedBy.Value</Value>
-              </Parameter>
-            </Parameters>
             <Top>0.02917in</Top>
             <Left>0.05493in</Left>
             <Height>0.29375in</Height>
@@ -4459,42 +4414,6 @@
               <Height>0.25in</Height>
               <Width>3.3909in</Width>
               <ZIndex>1</ZIndex>
-              <Style>
-                <Border>
-                  <Style>None</Style>
-                </Border>
-                <PaddingLeft>2pt</PaddingLeft>
-                <PaddingRight>2pt</PaddingRight>
-                <PaddingTop>2pt</PaddingTop>
-                <PaddingBottom>2pt</PaddingBottom>
-              </Style>
-            </Textbox>
-            <Textbox Name="Textbox25">
-              <CanGrow>true</CanGrow>
-              <KeepTogether>true</KeepTogether>
-              <Paragraphs>
-                <Paragraph>
-                  <TextRuns>
-                    <TextRun>
-                      <Value>="Printed By : " + Parameters!PrintedBy.Value</Value>
-                      <Style>
-                        <FontFamily>tahoma</FontFamily>
-                        <FontSize>9pt</FontSize>
-                        <Format>dd-MMM-yy hh:mm:ss tt</Format>
-                      </Style>
-                    </TextRun>
-                  </TextRuns>
-                  <Style>
-                    <TextAlign>Center</TextAlign>
-                  </Style>
-                </Paragraph>
-              </Paragraphs>
-              <rd:DefaultName>Textbox19</rd:DefaultName>
-              <Top>0.05208in</Top>
-              <Left>3.79928in</Left>
-              <Height>0.21875in</Height>
-              <Width>2.85486in</Width>
-              <ZIndex>2</ZIndex>
               <Style>
                 <Border>
                   <Style>None</Style>
@@ -4738,6 +4657,12 @@
       <AllowBlank>true</AllowBlank>
       <Prompt>Jobworker Id</Prompt>
     </ReportParameter>
+    <ReportParameter Name="Currency">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Currency</Prompt>
+    </ReportParameter>
     <ReportParameter Name="ProductNature">
       <DataType>String</DataType>
       <Nullable>true</Nullable>
@@ -4809,24 +4734,6 @@
       <Nullable>true</Nullable>
       <AllowBlank>true</AllowBlank>
       <Prompt>Process Id</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="ProductDivisionId">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>Product Division Id</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="DatabaseConnectionString">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>DatabaseConnectionString</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="PrintedBy">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>PrintedBy</Prompt>
     </ReportParameter>
   </ReportParameters>
   <EmbeddedImages>

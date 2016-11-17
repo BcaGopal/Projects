@@ -1217,6 +1217,7 @@
                         <PaddingBottom>2pt</PaddingBottom>
                       </Style>
                     </Textbox>
+                    <rd:Selected>true</rd:Selected>
                   </CellContents>
                 </TablixCell>
                 <TablixCell>
@@ -3158,7 +3159,10 @@
         </TablixColumnHierarchy>
         <TablixRowHierarchy>
           <TablixMembers>
-            <TablixMember />
+            <TablixMember>
+              <KeepWithGroup>After</KeepWithGroup>
+              <RepeatOnNewPage>true</RepeatOnNewPage>
+            </TablixMember>
             <TablixMember>
               <Group Name="JobOrderHeaderId">
                 <GroupExpressions>
@@ -6415,7 +6419,10 @@
         </TablixColumnHierarchy>
         <TablixRowHierarchy>
           <TablixMembers>
-            <TablixMember />
+            <TablixMember>
+              <KeepWithGroup>After</KeepWithGroup>
+              <RepeatOnNewPage>true</RepeatOnNewPage>
+            </TablixMember>
             <TablixMember>
               <Group Name="JobOrderHeaderId2">
                 <GroupExpressions>
@@ -6554,7 +6561,7 @@
         <TablixBody>
           <TablixColumns>
             <TablixColumn>
-              <Width>7.05984in</Width>
+              <Width>7.33068in</Width>
             </TablixColumn>
           </TablixColumns>
           <TablixRows>
@@ -6588,9 +6595,9 @@
           </TablixMembers>
         </TablixRowHierarchy>
         <Top>14.39216in</Top>
-        <Left>0.07578in</Left>
+        <Left>0.03828in</Left>
         <Height>0.32292in</Height>
-        <Width>7.05984in</Width>
+        <Width>7.33068in</Width>
         <ZIndex>8</ZIndex>
         <Style>
           <Border>
@@ -6991,7 +6998,7 @@
                                           <Paragraph>
                                             <TextRuns>
                                               <TextRun>
-                                                <Value>="file:"+ Parameters!ImagePath.Value + Fields!ImagePath.Value</Value>
+                                                <Value />
                                                 <Style>
                                                   <FontFamily>Tahoma</FontFamily>
                                                   <FontSize>9pt</FontSize>
@@ -7617,11 +7624,7 @@
         </TablixColumnHierarchy>
         <TablixRowHierarchy>
           <TablixMembers>
-            <TablixMember>
-              <Visibility>
-                <Hidden>=iif(Max(Fields!PerkCount.Value)=0,true,false)</Hidden>
-              </Visibility>
-            </TablixMember>
+            <TablixMember />
             <TablixMember />
             <TablixMember />
             <TablixMember />
@@ -8568,11 +8571,7 @@
         </TablixColumnHierarchy>
         <TablixRowHierarchy>
           <TablixMembers>
-            <TablixMember>
-              <Visibility>
-                <Hidden>=iif(Max(Fields!PerkCount.Value)=0,true,false)</Hidden>
-              </Visibility>
-            </TablixMember>
+            <TablixMember />
             <TablixMember />
             <TablixMember />
             <TablixMember />
@@ -8625,7 +8624,7 @@
         </Style>
       </Subreport>
     </ReportItems>
-    <Height>14.75883in</Height>
+    <Height>14.74841in</Height>
     <Style />
   </Body>
   <Width>7.43973in</Width>
@@ -8797,7 +8796,7 @@
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
     <DataSource Name="Purchase">
-      <DataSourceReference>DSKCBC</DataSourceReference>
+      <DataSourceReference>DataSourceMain</DataSourceReference>
       <rd:SecurityType>None</rd:SecurityType>
       <rd:DataSourceID>727bb65e-cc51-4d28-a097-a8ea7d087931</rd:DataSourceID>
     </DataSource>
@@ -8825,10 +8824,6 @@
         </Field>
         <Field Name="JobOrderHeaderId">
           <DataField>JobOrderHeaderId</DataField>
-          <rd:TypeName>System.Int32</rd:TypeName>
-        </Field>
-        <Field Name="PerkCount">
-          <DataField>PerkCount</DataField>
           <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
         <Field Name="DivisionId">
@@ -8901,19 +8896,19 @@
         </Field>
         <Field Name="TimeIncentive">
           <DataField>TimeIncentive</DataField>
-          <rd:TypeName>System.Int32</rd:TypeName>
+          <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
         <Field Name="TimePenalty">
           <DataField>TimePenalty</DataField>
-          <rd:TypeName>System.Int32</rd:TypeName>
+          <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
         <Field Name="SmallChunksPenaltyRate">
           <DataField>SmallChunksPenaltyRate</DataField>
-          <rd:TypeName>System.Int32</rd:TypeName>
+          <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
         <Field Name="SmallChunksPenaltyCount">
           <DataField>SmallChunksPenaltyCount</DataField>
-          <rd:TypeName>System.Int32</rd:TypeName>
+          <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
         <Field Name="JobOrderLineId">
           <DataField>JobOrderLineId</DataField>

@@ -252,7 +252,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=fields!DATE.Value</Value>
+                                  <Value>=fields!Month.Value</Value>
                                   <Style>
                                     <FontFamily>Tahoma</FontFamily>
                                     <FontSize>9pt</FontSize>
@@ -291,7 +291,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=fields!Month.Value</Value>
+                                  <Value>=fields!DATE.Value</Value>
                                   <Style>
                                     <FontFamily>Tahoma</FontFamily>
                                     <FontSize>9pt</FontSize>
@@ -569,7 +569,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=iif(Fields!TodayQty.Value &lt;&gt; 0, formatnumber(Fields!TodayQty.Value,0) ,"-")</Value>
+                                  <Value>=iif(Fields!MonthQty.Value &lt;&gt; 0, formatnumber(Fields!MonthQty.Value,0) ,"-")</Value>
                                   <Style>
                                     <FontFamily>Tahoma</FontFamily>
                                     <FontSize>9pt</FontSize>
@@ -605,7 +605,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=iif(Fields!TodayArea.Value &lt;&gt; 0, formatnumber(Fields!TodayArea.Value,4) ,"-")</Value>
+                                  <Value>=iif(Fields!MonthArea.Value &lt;&gt; 0, formatnumber(Fields!MonthArea.Value,4) ,"-")</Value>
                                   <Style>
                                     <FontFamily>Tahoma</FontFamily>
                                     <FontSize>9pt</FontSize>
@@ -641,7 +641,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=iif(Fields!MonthQty.Value &lt;&gt; 0, formatnumber(Fields!MonthQty.Value,0) ,"-")</Value>
+                                  <Value>=iif(Fields!TodayQty.Value &lt;&gt; 0, formatnumber(Fields!TodayQty.Value,0) ,"-")</Value>
                                   <Style>
                                     <FontFamily>Tahoma</FontFamily>
                                     <FontSize>9pt</FontSize>
@@ -677,7 +677,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=iif(Fields!MonthArea.Value &lt;&gt; 0, formatnumber(Fields!MonthArea.Value,4) ,"-")</Value>
+                                  <Value>=iif(Fields!TodayArea.Value &lt;&gt; 0, formatnumber(Fields!TodayArea.Value,4) ,"-")</Value>
                                   <Style>
                                     <FontFamily>Tahoma</FontFamily>
                                     <FontSize>9pt</FontSize>
@@ -764,7 +764,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Microsoft.VisualBasic.Interaction.iif(sum(Fields!TodayQty.Value) &lt;&gt; 0, Microsoft.VisualBasic.Strings.formatnumber(sum(Fields!TodayQty.Value), 0), "-")</Value>
+                                  <Value>=Microsoft.VisualBasic.Interaction.iif(sum(Fields!MonthQty.Value) &lt;&gt; 0, Microsoft.VisualBasic.Strings.formatnumber(sum(Fields!MonthQty.Value), 0), "-")</Value>
                                   <Style>
                                     <FontFamily>Tahoma</FontFamily>
                                     <FontSize>9pt</FontSize>
@@ -814,7 +814,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Microsoft.VisualBasic.Interaction.iif(sum(Fields!TodayArea.Value) &lt;&gt; 0, Microsoft.VisualBasic.Strings.formatnumber(sum(Fields!TodayArea.Value), 4), "-")</Value>
+                                  <Value>=Microsoft.VisualBasic.Interaction.iif(sum(Fields!MonthArea.Value) &lt;&gt; 0, Microsoft.VisualBasic.Strings.formatnumber(sum(Fields!MonthArea.Value), 4), "-")</Value>
                                   <Style>
                                     <FontFamily>Tahoma</FontFamily>
                                     <FontSize>9pt</FontSize>
@@ -864,7 +864,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Microsoft.VisualBasic.Interaction.iif(sum(Fields!MonthQty.Value) &lt;&gt; 0, Microsoft.VisualBasic.Strings.formatnumber(sum(Fields!MonthQty.Value), 0), "-")</Value>
+                                  <Value>=Microsoft.VisualBasic.Interaction.iif(sum(Fields!TodayQty.Value) &lt;&gt; 0, Microsoft.VisualBasic.Strings.formatnumber(sum(Fields!TodayQty.Value), 0), "-")</Value>
                                   <Style>
                                     <FontFamily>Tahoma</FontFamily>
                                     <FontSize>9pt</FontSize>
@@ -914,7 +914,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Microsoft.VisualBasic.Interaction.iif(sum(Fields!MonthArea.Value) &lt;&gt; 0, Microsoft.VisualBasic.Strings.formatnumber(sum(Fields!MonthArea.Value), 4), "-")</Value>
+                                  <Value>=Microsoft.VisualBasic.Interaction.iif(sum(Fields!TodayArea.Value) &lt;&gt; 0, Microsoft.VisualBasic.Strings.formatnumber(sum(Fields!TodayArea.Value), 4), "-")</Value>
                                   <Style>
                                     <FontFamily>Tahoma</FontFamily>
                                     <FontSize>9pt</FontSize>
@@ -1909,12 +1909,6 @@
               </Parameter>
               <Parameter Name="DivisionId">
                 <Value>=First(Fields!DivisonId.Value, "DsMain")</Value>
-              </Parameter>
-              <Parameter Name="DatabaseConnectionString">
-                <Value>=Parameters!DatabaseConnectionString.Value</Value>
-              </Parameter>
-              <Parameter Name="PrintedBy">
-                <Value>=Parameters!PrintedBy.Value</Value>
               </Parameter>
             </Parameters>
             <Top>0.02451in</Top>

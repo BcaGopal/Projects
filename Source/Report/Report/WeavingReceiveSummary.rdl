@@ -511,77 +511,6 @@
               </TablixCells>
             </TablixRow>
             <TablixRow>
-              <Height>0.25in</Height>
-              <TablixCells>
-                <TablixCell>
-                  <CellContents>
-                    <Textbox Name="Textbox15">
-                      <CanGrow>true</CanGrow>
-                      <KeepTogether>true</KeepTogether>
-                      <Paragraphs>
-                        <Paragraph>
-                          <TextRuns>
-                            <TextRun>
-                              <Value>=Parameters!FilterStr19.Value</Value>
-                              <Style>
-                                <FontFamily>Tahoma</FontFamily>
-                                <FontSize>9pt</FontSize>
-                                <FontWeight>Bold</FontWeight>
-                              </Style>
-                            </TextRun>
-                          </TextRuns>
-                          <Style />
-                        </Paragraph>
-                      </Paragraphs>
-                      <rd:DefaultName>Textbox15</rd:DefaultName>
-                      <Style>
-                        <Border>
-                          <Style>None</Style>
-                        </Border>
-                        <PaddingLeft>2pt</PaddingLeft>
-                        <PaddingRight>2pt</PaddingRight>
-                        <PaddingTop>2pt</PaddingTop>
-                        <PaddingBottom>2pt</PaddingBottom>
-                      </Style>
-                    </Textbox>
-                  </CellContents>
-                </TablixCell>
-                <TablixCell>
-                  <CellContents>
-                    <Textbox Name="Textbox16">
-                      <CanGrow>true</CanGrow>
-                      <KeepTogether>true</KeepTogether>
-                      <Paragraphs>
-                        <Paragraph>
-                          <TextRuns>
-                            <TextRun>
-                              <Value />
-                              <Style>
-                                <FontFamily>Tahoma</FontFamily>
-                                <FontSize>9pt</FontSize>
-                                <FontWeight>Bold</FontWeight>
-                              </Style>
-                            </TextRun>
-                          </TextRuns>
-                          <Style />
-                        </Paragraph>
-                      </Paragraphs>
-                      <rd:DefaultName>Textbox16</rd:DefaultName>
-                      <Style>
-                        <Border>
-                          <Style>None</Style>
-                        </Border>
-                        <PaddingLeft>2pt</PaddingLeft>
-                        <PaddingRight>2pt</PaddingRight>
-                        <PaddingTop>2pt</PaddingTop>
-                        <PaddingBottom>2pt</PaddingBottom>
-                      </Style>
-                    </Textbox>
-                  </CellContents>
-                </TablixCell>
-              </TablixCells>
-            </TablixRow>
-            <TablixRow>
               <Height>0.03125in</Height>
               <TablixCells>
                 <TablixCell>
@@ -699,9 +628,6 @@
               <KeepWithGroup>After</KeepWithGroup>
             </TablixMember>
             <TablixMember>
-              <KeepWithGroup>After</KeepWithGroup>
-            </TablixMember>
-            <TablixMember>
               <Group Name="Details1" />
               <Visibility>
                 <Hidden>true</Hidden>
@@ -711,7 +637,7 @@
         </TablixRowHierarchy>
         <Top>0.73992in</Top>
         <Left>0.04214in</Left>
-        <Height>1.99653in</Height>
+        <Height>1.74653in</Height>
         <Width>7.72266in</Width>
         <Visibility>
           <Hidden>=iif(Globals!RenderFormat.Name &lt;&gt; "PDF",True,False)</Hidden>
@@ -773,20 +699,6 @@
       </Textbox>
       <Subreport Name="CompanyDetail_Landscap">
         <ReportName>CompanyDetail</ReportName>
-        <Parameters>
-          <Parameter Name="SiteId">
-            <Value>=First(Fields!SiteId.Value, "DsMain")</Value>
-          </Parameter>
-          <Parameter Name="DivisionId">
-            <Value>=First(Fields!DivisionId.Value, "DsMain")</Value>
-          </Parameter>
-          <Parameter Name="DatabaseConnectionString">
-            <Value>=Parameters!DatabaseConnectionString.Value</Value>
-          </Parameter>
-          <Parameter Name="PrintedBy">
-            <Value>=Parameters!PrintedBy.Value</Value>
-          </Parameter>
-        </Parameters>
         <Top>0.03255in</Top>
         <Left>0.041in</Left>
         <Height>0.30912in</Height>
@@ -1086,11 +998,10 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Cdbl(iif(Fields!PCS.Value = Nothing, "-",formatnumber(Fields!PCS.Value, Fields!DecimalPlaces.Value)))</Value>
+                              <Value>=Microsoft.VisualBasic.Interaction.iif(Fields!PCS.Value = Nothing, "-", Microsoft.VisualBasic.Strings.formatnumber(Fields!PCS.Value, Fields!DecimalPlaces.Value))</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>8pt</FontSize>
-                                <Format>0;(0)</Format>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -1123,11 +1034,10 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Cdbl(iif(Fields!Area.Value = Nothing, "-", formatnumber(Fields!Area.Value, 4)))</Value>
+                              <Value>=Microsoft.VisualBasic.Interaction.iif(Fields!Area.Value = Nothing, "-", Microsoft.VisualBasic.Strings.formatnumber(Fields!Area.Value, 4))</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>8pt</FontSize>
-                                <Format>0.0000;(0.0000)</Format>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -1160,11 +1070,10 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Cdbl(iif(Fields!Weight.Value = Nothing, "-",FormatNumber(Fields!Weight.Value, 3)))</Value>
+                              <Value>=Microsoft.VisualBasic.Interaction.iif(Fields!Weight.Value = Nothing, "-", Microsoft.VisualBasic.Strings.FormatNumber(Fields!Weight.Value, 3))</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>8pt</FontSize>
-                                <Format>0.000;(0.000)</Format>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -1197,7 +1106,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=iif(Fields!PenaltyAmt.Value = 0, "-", cdbl(formatnumber(Fields!PenaltyAmt.Value, 2)))</Value>
+                              <Value>=Microsoft.VisualBasic.Interaction.iif(Fields!PenaltyAmt.Value = 0, "-", Microsoft.VisualBasic.Strings.formatnumber(Fields!PenaltyAmt.Value, 2))</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>8pt</FontSize>
@@ -1282,12 +1191,11 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Cdbl(formatnumber(Sum(Fields!PCS.Value), Max(Fields!DecimalPlaces.Value)))</Value>
+                              <Value>=Microsoft.VisualBasic.Strings.formatnumber(Sum(Fields!PCS.Value), Max(Fields!DecimalPlaces.Value))</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>8pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
-                                <Format>0.00;(0.00)</Format>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -1325,12 +1233,11 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Cdbl(formatnumber(Sum(Fields!Area.Value), 4))</Value>
+                              <Value>=Microsoft.VisualBasic.Strings.formatnumber(Sum(Fields!Area.Value), 4)</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>8pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
-                                <Format>0.00;(0.00)</Format>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -1368,12 +1275,11 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Cdbl(formatnumber(Sum(Fields!Weight.Value), 3))</Value>
+                              <Value>=Microsoft.VisualBasic.Strings.formatnumber(Sum(Fields!Weight.Value), 3)</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>8pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
-                                <Format>0.00;(0.00)</Format>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -1411,12 +1317,11 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Cdbl(Formatnumber(Sum(Fields!PenaltyAmt.Value), 2))</Value>
+                              <Value>=Microsoft.VisualBasic.Strings.formatnumber(Sum(Fields!PenaltyAmt.Value), 2)</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>8pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
-                                <Format>0.00;(0.00)</Format>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -1481,10 +1386,10 @@
             <Value>=Fields!GroupOnValue.Value</Value>
           </SortExpression>
         </SortExpressions>
-        <Top>2.78089in</Top>
+        <Top>2.51839in</Top>
         <Left>0.01542in</Left>
         <Height>0.83334in</Height>
-        <Width>7.74939in</Width>
+        <Width>7.74938in</Width>
         <ZIndex>3</ZIndex>
         <Style>
           <Border>
@@ -1493,7 +1398,7 @@
         </Style>
       </Tablix>
     </ReportItems>
-    <Height>3.67543in</Height>
+    <Height>3.38376in</Height>
     <Style />
   </Body>
   <Width>7.80083in</Width>
@@ -1720,7 +1625,7 @@
   </Page>
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
-    <DataSource Name="Test">
+    <DataSource Name="Weaving">
       <DataSourceReference>DataSourceMain</DataSourceReference>
       <rd:SecurityType>None</rd:SecurityType>
       <rd:DataSourceID>dd7af43a-86ea-4bb9-8747-c50ac43bbbc6</rd:DataSourceID>
@@ -1729,7 +1634,7 @@
   <DataSets>
     <DataSet Name="DsMain">
       <Query>
-        <DataSourceName>Test</DataSourceName>
+        <DataSourceName>Weaving</DataSourceName>
         <QueryParameters>
           <QueryParameter Name="@Site">
             <Value>=Parameters!Site.Value</Value>
@@ -2070,18 +1975,6 @@
       <Nullable>true</Nullable>
       <AllowBlank>true</AllowBlank>
       <Prompt>Production Type</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="FilterStr19">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>FilterStr19</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="DatabaseConnectionString">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>DatabaseConnectionString</Prompt>
     </ReportParameter>
   </ReportParameters>
   <Code>

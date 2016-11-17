@@ -37,7 +37,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Incentive No</Value>
+                              <Value>Voucher No </Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>9pt</FontSize>
@@ -487,13 +487,13 @@
               <Width>0.76302in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>0.64507in</Width>
+              <Width>0.96799in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>0.86082in</Width>
+              <Width>0.7254in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>0.6108in</Width>
+              <Width>0.40247in</Width>
             </TablixColumn>
             <TablixColumn>
               <Width>0.61082in</Width>
@@ -505,7 +505,7 @@
               <Width>0.66719in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>0.85723in</Width>
+              <Width>0.86765in</Width>
             </TablixColumn>
           </TablixColumns>
           <TablixRows>
@@ -1238,6 +1238,7 @@
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>9pt</FontSize>
+                                <Format>dd/MMM/yy</Format>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -2170,7 +2171,7 @@
         <Top>1.10209in</Top>
         <Left>0.03912in</Left>
         <Height>1.11458in</Height>
-        <Width>7.92006in</Width>
+        <Width>7.90964in</Width>
         <ZIndex>1</ZIndex>
         <Style>
           <Border>
@@ -2766,7 +2767,7 @@
             <Paragraph>
               <TextRuns>
                 <TextRun>
-                  <Value>= "Incentive No : " +" "+ First(Fields!IncentiveNo.Value, "DsMain")</Value>
+                  <Value>= "Voucher No : " +" "+ First(Fields!IncentiveNo.Value, "DsMain")</Value>
                   <Style>
                     <FontFamily>Tahoma</FontFamily>
                     <FontSize>9pt</FontSize>
@@ -3003,7 +3004,7 @@
     </PageFooter>
     <PageHeight>11.69in</PageHeight>
     <PageWidth>8.27in</PageWidth>
-    <LeftMargin>0.17in</LeftMargin>
+    <LeftMargin>0.15in</LeftMargin>
     <Style />
   </Page>
   <AutoRefresh>0</AutoRefresh>

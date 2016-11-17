@@ -4,20 +4,6 @@
     <ReportItems>
       <Subreport Name="CompanyDetail">
         <ReportName>CompanyDetail</ReportName>
-        <Parameters>
-          <Parameter Name="SiteId">
-            <Value>=First(Fields!SiteId.Value, "DsMain")</Value>
-          </Parameter>
-          <Parameter Name="DivisionId">
-            <Value>=First(Fields!DivisionId.Value, "DsMain")</Value>
-          </Parameter>
-          <Parameter Name="DatabaseConnectionString">
-            <Value>=Parameters!DatabaseConnectionString.Value</Value>
-          </Parameter>
-          <Parameter Name="PrintedBy">
-            <Value>=Parameters!PrintedBy.Value</Value>
-          </Parameter>
-        </Parameters>
         <Top>0.02778in</Top>
         <Left>0.02092in</Left>
         <Height>0.31945in</Height>
@@ -1158,9 +1144,6 @@
                           <Color>LightGrey</Color>
                           <Style>Solid</Style>
                         </Border>
-                        <TopBorder>
-                          <Style>None</Style>
-                        </TopBorder>
                         <BackgroundColor>=iif(RowNumber(nothing) Mod 2 , "White","WhiteSmoke")</BackgroundColor>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
@@ -1201,9 +1184,6 @@
                           <Color>LightGrey</Color>
                           <Style>Solid</Style>
                         </Border>
-                        <TopBorder>
-                          <Style>None</Style>
-                        </TopBorder>
                         <BackgroundColor>=iif(RowNumber(nothing) Mod 2 , "White","WhiteSmoke")</BackgroundColor>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
@@ -1242,9 +1222,6 @@
                           <Color>LightGrey</Color>
                           <Style>Solid</Style>
                         </Border>
-                        <TopBorder>
-                          <Style>None</Style>
-                        </TopBorder>
                         <BackgroundColor>=iif(RowNumber(nothing) Mod 2 , "White","WhiteSmoke")</BackgroundColor>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
@@ -1572,7 +1549,7 @@
               </TablixCells>
             </TablixRow>
             <TablixRow>
-              <Height>0.33333in</Height>
+              <Height>0.25in</Height>
               <TablixCells>
                 <TablixCell>
                   <CellContents>
@@ -2191,7 +2168,7 @@
         <DataSetName>DsMain</DataSetName>
         <Top>1.62916in</Top>
         <Left>0.03833in</Left>
-        <Height>1.66667in</Height>
+        <Height>1.58334in</Height>
         <Width>7.88238in</Width>
         <ZIndex>3</ZIndex>
         <Style>
@@ -2201,7 +2178,7 @@
         </Style>
       </Tablix>
     </ReportItems>
-    <Height>3.32708in</Height>
+    <Height>3.2125in</Height>
     <Style />
   </Body>
   <Width>7.95196in</Width>
@@ -2420,10 +2397,7 @@
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
     <DataSource Name="WeavingReceiptPrint">
-      <ConnectionProperties>
-        <DataProvider>SQL</DataProvider>
-        <ConnectString>=Parameters!DatabaseConnectionString.Value</ConnectString>
-      </ConnectionProperties>
+      <DataSourceReference>DataSourceMain</DataSourceReference>
       <rd:SecurityType>None</rd:SecurityType>
       <rd:DataSourceID>727bb65e-cc51-4d28-a097-a8ea7d087931</rd:DataSourceID>
     </DataSource>
@@ -2728,6 +2702,12 @@
       <AllowBlank>true</AllowBlank>
       <Prompt>Person Custom Group</Prompt>
     </ReportParameter>
+    <ReportParameter Name="JoborderHeaderId">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Joborder Header Id</Prompt>
+    </ReportParameter>
     <ReportParameter Name="ProductDivisionId">
       <DataType>String</DataType>
       <Nullable>true</Nullable>
@@ -2745,18 +2725,6 @@
       <Nullable>true</Nullable>
       <AllowBlank>true</AllowBlank>
       <Prompt>PrintedBy</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="DatabaseConnectionString">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>DatabaseConnectionString</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="JoborderHeaderId">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>Joborder Header Id</Prompt>
     </ReportParameter>
   </ReportParameters>
   <Code>

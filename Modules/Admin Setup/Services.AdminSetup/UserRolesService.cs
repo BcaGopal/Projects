@@ -219,7 +219,7 @@ namespace Service
                              select new
                              {
                                  id = p.RoleId,
-                                 text = t.Name,
+                                 text = t.Name, 
                              }).ToArray();
 
             return RolesList;

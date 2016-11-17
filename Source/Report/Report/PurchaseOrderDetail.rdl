@@ -3,10 +3,7 @@
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
     <DataSource Name="Purchase">
-      <ConnectionProperties>
-        <DataProvider>SQL</DataProvider>
-        <ConnectString>=Parameters!DatabaseConnectionString.Value</ConnectString>
-      </ConnectionProperties>
+      <DataSourceReference>DataSourceMain</DataSourceReference>
       <rd:SecurityType>None</rd:SecurityType>
       <rd:DataSourceID>adf8514c-abaf-4839-a27a-78acbae1d856</rd:DataSourceID>
     </DataSource>
@@ -3574,20 +3571,6 @@
           </Tablix>
           <Subreport Name="CompanyDetail">
             <ReportName>CompanyDetail</ReportName>
-            <Parameters>
-              <Parameter Name="SiteId">
-                <Value>=First(Fields!SiteId.Value, "DsMain")</Value>
-              </Parameter>
-              <Parameter Name="DivisionId">
-                <Value>=First(Fields!DivisionId.Value, "DsMain")</Value>
-              </Parameter>
-              <Parameter Name="DatabaseConnectionString">
-                <Value>=Parameters!DatabaseConnectionString.Value</Value>
-              </Parameter>
-              <Parameter Name="PrintedBy">
-                <Value>=Parameters!PrintedBy.Value</Value>
-              </Parameter>
-            </Parameters>
             <Top>0.04097in</Top>
             <Left>0.06891in</Left>
             <Height>0.31945in</Height>
@@ -4039,18 +4022,6 @@
       <AllowBlank>true</AllowBlank>
       <Prompt>ReportParameter1</Prompt>
     </ReportParameter>
-    <ReportParameter Name="PrintedBy">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>PrintedBy</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="DatabaseConnectionString">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>DatabaseConnectionString</Prompt>
-    </ReportParameter>
     <ReportParameter Name="ReportType">
       <DataType>String</DataType>
       <Nullable>true</Nullable>
@@ -4105,23 +4076,101 @@
       <AllowBlank>true</AllowBlank>
       <Prompt>Product Nature</Prompt>
     </ReportParameter>
+    <ReportParameter Name="ProductCategory">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Product Category</Prompt>
+    </ReportParameter>
     <ReportParameter Name="ProductType">
       <DataType>String</DataType>
       <Nullable>true</Nullable>
       <AllowBlank>true</AllowBlank>
       <Prompt>Product Type</Prompt>
     </ReportParameter>
-    <ReportParameter Name="PersonCustomGroup">
+    <ReportParameter Name="ProductCollection">
       <DataType>String</DataType>
       <Nullable>true</Nullable>
       <AllowBlank>true</AllowBlank>
-      <Prompt>Person Custom Group</Prompt>
+      <Prompt>Product Collection</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="ProductQuality">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Product Quality</Prompt>
     </ReportParameter>
     <ReportParameter Name="ProductGroup">
       <DataType>String</DataType>
       <Nullable>true</Nullable>
       <AllowBlank>true</AllowBlank>
       <Prompt>Product Group</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="ProductStyle">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Product Style</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="ProductDesign">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Product Design</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="ProductShape">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Product Shape</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="ProductSize">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Product Size</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="ProductInvoiceGroup">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Product Invoice Group</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="ProductCustomGroup">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Product Custom Group</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="ProductTag">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Product Tag</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="Product">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Product</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="PurchaseIndent">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Purchase Indent</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="PurchaseOrderHeaderId">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Purchase Order Header Id</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="PersonCustomGroup">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Person Custom Group</Prompt>
     </ReportParameter>
     <ReportParameter Name="Dimension1">
       <DataType>String</DataType>
@@ -4135,35 +4184,23 @@
       <AllowBlank>true</AllowBlank>
       <Prompt>Dimension2</Prompt>
     </ReportParameter>
-    <ReportParameter Name="ProductCustomGroup">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>Product Custom Group</Prompt>
-    </ReportParameter>
     <ReportParameter Name="PurchaseIndentHeaderId">
       <DataType>String</DataType>
       <Nullable>true</Nullable>
       <AllowBlank>true</AllowBlank>
       <Prompt>Purchase Indent Header Id</Prompt>
     </ReportParameter>
-    <ReportParameter Name="Product">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>Product</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="PurchaseOrderHeaderId">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>Purchase Order Header Id</Prompt>
-    </ReportParameter>
     <ReportParameter Name="ProductDivisionId">
       <DataType>String</DataType>
       <Nullable>true</Nullable>
       <AllowBlank>true</AllowBlank>
       <Prompt>Product Division Id</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="PrintedBy">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>PrintedBy</Prompt>
     </ReportParameter>
   </ReportParameters>
   <EmbeddedImages>

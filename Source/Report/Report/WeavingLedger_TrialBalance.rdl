@@ -3,10 +3,7 @@
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
     <DataSource Name="Purchase">
-      <ConnectionProperties>
-        <DataProvider>SQL</DataProvider>
-        <ConnectString>=Parameters!DatabaseConnectionString.Value</ConnectString>
-      </ConnectionProperties>
+      <DataSourceReference>DataSourceMain</DataSourceReference>
       <rd:SecurityType>None</rd:SecurityType>
       <rd:DataSourceID>a4701ec2-a2bf-4f00-a373-e0ef6d3046c3</rd:DataSourceID>
     </DataSource>
@@ -37,14 +34,11 @@
           <QueryParameter Name="@LedgerAccountId">
             <Value>=Parameters!LedgerAccountId.Value</Value>
           </QueryParameter>
-          <QueryParameter Name="@BranchRecord">
-            <Value>=Parameters!BranchRecord.Value</Value>
+          <QueryParameter Name="@ProcessId">
+            <Value>=Parameters!ProcessId.Value</Value>
           </QueryParameter>
           <QueryParameter Name="@CostcenterId">
             <Value>=Parameters!CostcenterId.Value</Value>
-          </QueryParameter>
-          <QueryParameter Name="@CostCenterType">
-            <Value>=Parameters!CostCenterType.Value</Value>
           </QueryParameter>
         </QueryParameters>
         <CommandType>StoredProcedure</CommandType>
@@ -478,7 +472,6 @@
                           <PaddingBottom>2pt</PaddingBottom>
                         </Style>
                       </Textbox>
-                      <rd:Selected>true</rd:Selected>
                     </CellContents>
                   </TablixHeader>
                   <TablixMembers>
@@ -526,8 +519,6 @@
                       </TablixMembers>
                     </TablixMember>
                   </TablixMembers>
-                  <KeepWithGroup>After</KeepWithGroup>
-                  <RepeatOnNewPage>true</RepeatOnNewPage>
                 </TablixMember>
                 <TablixMember>
                   <Group Name="LedgerAccountName">
@@ -823,7 +814,7 @@
             <Top>3.68333in</Top>
             <Left>0.05493in</Left>
             <Height>1.10417in</Height>
-            <Width>7.67529in</Width>
+            <Width>7.6753in</Width>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -1790,14 +1781,6 @@
           </Tablix>
           <Subreport Name="Subreport1">
             <ReportName>CompanyDetail</ReportName>
-            <Parameters>
-              <Parameter Name="SiteId">
-                <Value>=First(Fields!SiteId.Value, "DsMain")</Value>
-              </Parameter>
-              <Parameter Name="DivisionId">
-                <Value>=First(Fields!DivisionId.Value, "DsMain")</Value>
-              </Parameter>
-            </Parameters>
             <Top>0.02778in</Top>
             <Left>0.05493in</Left>
             <Height>0.30208in</Height>
@@ -2060,7 +2043,7 @@
         </PageFooter>
         <PageHeight>11.69in</PageHeight>
         <PageWidth>8.27in</PageWidth>
-        <LeftMargin>0.25in</LeftMargin>
+        <LeftMargin>0.17in</LeftMargin>
         <TopMargin>0.05in</TopMargin>
         <BottomMargin>0.5in</BottomMargin>
         <Style />
@@ -2487,24 +2470,6 @@
       <Nullable>true</Nullable>
       <AllowBlank>true</AllowBlank>
       <Prompt>Costcenter Id</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="DatabaseConnectionString">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>DatabaseConnectionString</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="BranchRecord">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>BranchRecord</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="CostCenterType">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>Cost Center Type</Prompt>
     </ReportParameter>
   </ReportParameters>
   <EmbeddedImages>

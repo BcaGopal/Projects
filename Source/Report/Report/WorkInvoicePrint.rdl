@@ -692,14 +692,6 @@
       </Tablix>
       <Subreport Name="Subreport1">
         <ReportName>CompanyDetail</ReportName>
-        <Parameters>
-          <Parameter Name="SiteId">
-            <Value>=First(Fields!SiteId.Value, "DsMain")</Value>
-          </Parameter>
-          <Parameter Name="DivisionId">
-            <Value>=First(Fields!DivisionId.Value, "DsMain")</Value>
-          </Parameter>
-        </Parameters>
         <Top>0.02778in</Top>
         <Left>0.0477in</Left>
         <Height>0.18056in</Height>
@@ -2959,7 +2951,7 @@
         <Top>1.64792in</Top>
         <Left>0.04181in</Left>
         <Height>0.84375in</Height>
-        <Width>7.82532in</Width>
+        <Width>7.82533in</Width>
         <ZIndex>5</ZIndex>
         <Style>
           <Border>
@@ -3124,7 +3116,7 @@
         <Top>2.55312in</Top>
         <Left>0.0417in</Left>
         <Height>0.2in</Height>
-        <Width>4.2908in</Width>
+        <Width>4.29079in</Width>
         <ZIndex>7</ZIndex>
         <Style>
           <Border>
@@ -3134,14 +3126,6 @@
       </Tablix>
       <Subreport Name="ProvisionalCompanyDetail">
         <ReportName>ProvisionalCompanyDetail</ReportName>
-        <Parameters>
-          <Parameter Name="SiteId">
-            <Value>=First(Fields!SiteId.Value, "DsMain")</Value>
-          </Parameter>
-          <Parameter Name="DivisionId">
-            <Value>=First(Fields!DivisionId.Value, "DsMain")</Value>
-          </Parameter>
-        </Parameters>
         <Top>0.23646in</Top>
         <Left>0.0673in</Left>
         <Height>0.15382in</Height>
@@ -3462,10 +3446,7 @@
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
     <DataSource Name="JobReturn">
-      <ConnectionProperties>
-        <DataProvider>SQL</DataProvider>
-        <ConnectString>Data Source=192.168.2.17;Initial Catalog=DyeingHouse;Integrated Security=False;User Id=sa; pwd=</ConnectString>
-      </ConnectionProperties>
+      <DataSourceReference>DataSourceMain</DataSourceReference>
       <rd:SecurityType>None</rd:SecurityType>
       <rd:DataSourceID>727bb65e-cc51-4d28-a097-a8ea7d087931</rd:DataSourceID>
     </DataSource>

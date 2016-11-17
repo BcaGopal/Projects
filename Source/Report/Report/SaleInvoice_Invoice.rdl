@@ -7051,10 +7051,7 @@ NET WEIGHT - </Value>
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
     <DataSource Name="SalesReports">
-      <ConnectionProperties>
-        <DataProvider>SQL</DataProvider>
-        <ConnectString>=Parameters!DatabaseConnectionString.Value</ConnectString>
-      </ConnectionProperties>
+      <DataSourceReference>DataSourceMain</DataSourceReference>
       <rd:SecurityType>None</rd:SecurityType>
       <rd:DataSourceID>ecc7d78d-35f4-4535-b69a-8676e99d21e4</rd:DataSourceID>
     </DataSource>
@@ -7459,6 +7456,11 @@ NET WEIGHT - </Value>
     <ReportParameter Name="CompanyCountry">
       <DataType>String</DataType>
       <Nullable>true</Nullable>
+      <DefaultValue>
+        <Values>
+          <Value>INDIA</Value>
+        </Values>
+      </DefaultValue>
       <AllowBlank>true</AllowBlank>
       <Prompt>ReportParameter1</Prompt>
     </ReportParameter>
@@ -7521,18 +7523,6 @@ NET WEIGHT - </Value>
       <Nullable>true</Nullable>
       <AllowBlank>true</AllowBlank>
       <Prompt>Id</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="DatabaseConnectionString">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>DatabaseConnectionString</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="PrintedBy">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>PrintedBy</Prompt>
     </ReportParameter>
   </ReportParameters>
   <Code>

@@ -184,6 +184,7 @@ namespace Web
         {
             OverTimeApplicationHeaderViewModel vm = new OverTimeApplicationHeaderViewModel();
             vm.SiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
+            vm.DivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
 
             //Getting Settings
             //var settings = new PurchaseOrderSettingService(_unitOfWork).GetPurchaseOrderSettingForDocument(id, vm.DivisionId, vm.SiteId);
@@ -202,7 +203,7 @@ namespace Web
             vm.DocTypeId = id;
             vm.DocNo = _OverTimeApplicationHeaderService.GetMaxDocNo();
             vm.DocDate = DateTime.Now;
-
+          
             //vm.DocNo = new DocumentTypeService(_unitOfWork).FGetNewDocNo("DocNo", ConfigurationManager.AppSettings["DataBaseSchema"] + ".OverTimeApplicationHeaders", vm.DocTypeId, vm.DocDate, DivisionId, SiteId);
 
             PrepareViewBag(id);
@@ -350,6 +351,7 @@ namespace Web
                     temp.DepartmentId = vm.DepartmentId;
                     temp.PersonId = vm.PersonId;
                     temp.Remark = vm.Remark;
+                    temp.GodownId = vm.GodownId;
                     temp.ModifiedBy = User.Identity.Name;
                     temp.ModifiedDate = DateTime.Now;
                    // temp.ShiftId = vm.ShiftId;
@@ -956,7 +958,7 @@ namespace Web
 
                     LogList.Add(new LogTypeViewModel
                     {
-                        ExObj = Mapper.Map<AttendanceLine>(item),
+                        ExObj = Mapper.Map<OverTimeApplicationLine>(item),
                     });
 
                     //new PurchaseOrderLineStatusService(_unitOfWork).Delete(item.PurchaseOrderLineId);
@@ -1052,13 +1054,13 @@ namespace Web
         [HttpGet]
         public ActionResult NextPage(int DocId, int DocTypeId)//CurrentHeaderId
         {
-            var nextId = new NextPrevIdService(_unitOfWork).GetNextPrevId(DocId, DocTypeId, User.Identity.Name, "", "Web.PurchaseOrderHeaders", "PurchaseOrderHeaderId", PrevNextConstants.Next);
+            var nextId = new NextPrevIdService(_unitOfWork).GetNextPrevId(DocId, DocTypeId, User.Identity.Name, "", "Web.OverTimeApplicationHeaders", "OverTimeApplicationId", PrevNextConstants.Next);
             return Edit(nextId, "");
         }
         [HttpGet]
         public ActionResult PrevPage(int DocId, int DocTypeId)//CurrentHeaderId
         {
-            var PrevId = new NextPrevIdService(_unitOfWork).GetNextPrevId(DocId, DocTypeId, User.Identity.Name, "", "Web.PurchaseOrderHeaders", "PurchaseOrderHeaderId", PrevNextConstants.Prev);
+            var PrevId = new NextPrevIdService(_unitOfWork).GetNextPrevId(DocId, DocTypeId, User.Identity.Name, "", "Web.OverTimeApplicationHeaders", "OverTimeApplicationId", PrevNextConstants.Prev);
             return Edit(PrevId, "");
         }
 

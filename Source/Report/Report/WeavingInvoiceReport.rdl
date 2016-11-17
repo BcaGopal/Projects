@@ -3,10 +3,7 @@
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
     <DataSource Name="Weaving">
-      <ConnectionProperties>
-        <DataProvider>SQL</DataProvider>
-        <ConnectString>=Parameters!DatabaseConnectionString.Value</ConnectString>
-      </ConnectionProperties>
+      <DataSourceReference>DataSourceMain</DataSourceReference>
       <rd:SecurityType>None</rd:SecurityType>
       <rd:DataSourceID>a4701ec2-a2bf-4f00-a373-e0ef6d3046c3</rd:DataSourceID>
     </DataSource>
@@ -164,7 +161,7 @@
             <TablixBody>
               <TablixColumns>
                 <TablixColumn>
-                  <Width>0.57841in</Width>
+                  <Width>0.53674in</Width>
                 </TablixColumn>
                 <TablixColumn>
                   <Width>0.88009in</Width>
@@ -173,7 +170,7 @@
                   <Width>0.48958in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.92198in</Width>
+                  <Width>0.7449in</Width>
                 </TablixColumn>
                 <TablixColumn>
                   <Width>0.55208in</Width>
@@ -182,7 +179,7 @@
                   <Width>0.65625in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.41667in</Width>
+                  <Width>0.46875in</Width>
                 </TablixColumn>
                 <TablixColumn>
                   <Width>1.72917in</Width>
@@ -1413,7 +1410,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=iif(Fields!Penalty.Value = nothing,0,FormatNumber(Fields!Penalty.Value,2))</Value>
+                                  <Value>=iif(Fields!Penalty.Value = nothing,0,Fields!Penalty.Value)</Value>
                                   <Style>
                                     <FontFamily>Tahoma</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -2023,7 +2020,7 @@
             <Top>3.77083in</Top>
             <Left>0.05493in</Left>
             <Height>0.82292in</Height>
-            <Width>10.98182in</Width>
+            <Width>10.81515in</Width>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -2034,10 +2031,10 @@
             <TablixBody>
               <TablixColumns>
                 <TablixColumn>
-                  <Width>5.38049in</Width>
+                  <Width>5.29715in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>5.60133in</Width>
+                  <Width>5.51799in</Width>
                 </TablixColumn>
               </TablixColumns>
               <TablixRows>
@@ -2980,7 +2977,7 @@
             <Top>0.73572in</Top>
             <Left>0.05493in</Left>
             <Height>3in</Height>
-            <Width>10.98182in</Width>
+            <Width>10.81514in</Width>
             <ZIndex>1</ZIndex>
             <Visibility>
               <Hidden>=iif(Globals!RenderFormat.Name &lt;&gt; "PDF",True,False)</Hidden>
@@ -2992,25 +2989,11 @@
             </Style>
           </Tablix>
           <Subreport Name="Subreport1">
-            <ReportName>CompanyDetail</ReportName>
-            <Parameters>
-              <Parameter Name="SiteId">
-                <Value>=First(Fields!SiteId.Value, "DsMain")</Value>
-              </Parameter>
-              <Parameter Name="DivisionId">
-                <Value>=First(Fields!DivisionId.Value, "DsMain")</Value>
-              </Parameter>
-              <Parameter Name="DatabaseConnectionString">
-                <Value>=Parameters!DatabaseConnectionString.Value</Value>
-              </Parameter>
-              <Parameter Name="PrintedBy">
-                <Value>=Parameters!PrintedBy.Value</Value>
-              </Parameter>
-            </Parameters>
+            <ReportName>CompanyDetail_Landscap</ReportName>
             <Top>0.0274in</Top>
             <Left>0.02475in</Left>
             <Height>0.39999in</Height>
-            <Width>11.00156in</Width>
+            <Width>10.84531in</Width>
             <ZIndex>2</ZIndex>
             <Visibility>
               <Hidden>=iif(Globals!RenderFormat.Name &lt;&gt; "PDF",True,False)</Hidden>
@@ -3045,7 +3028,7 @@
             <Top>0.45656in</Top>
             <Left>0.03725in</Left>
             <Height>0.25in</Height>
-            <Width>10.9995in</Width>
+            <Width>10.83281in</Width>
             <ZIndex>3</ZIndex>
             <Visibility>
               <Hidden>=iif(Globals!RenderFormat.Name &lt;&gt; "PDF",True,False)</Hidden>
@@ -3070,7 +3053,7 @@
         <Height>4.625in</Height>
         <Style />
       </Body>
-      <Width>11.07329in</Width>
+      <Width>10.89621in</Width>
       <Page>
         <PageHeader>
           <Height>0.29042in</Height>
@@ -3101,7 +3084,7 @@
               <Top>0.01604in</Top>
               <Left>0.02188in</Left>
               <Height>0.25in</Height>
-              <Width>10.98361in</Width>
+              <Width>10.84819in</Width>
               <Visibility>
                 <Hidden>=iif(Globals!PageNumber=1 or Globals!RenderFormat.Name &lt;&gt; "PDF",True,False)</Hidden>
               </Visibility>
@@ -3275,9 +3258,10 @@
         </PageFooter>
         <PageHeight>8.27in</PageHeight>
         <PageWidth>11.69in</PageWidth>
-        <LeftMargin>0.3in</LeftMargin>
-        <TopMargin>0.1in</TopMargin>
-        <BottomMargin>0.1in</BottomMargin>
+        <LeftMargin>0.5in</LeftMargin>
+        <RightMargin>0.1in</RightMargin>
+        <TopMargin>0.17in</TopMargin>
+        <BottomMargin>0.17in</BottomMargin>
         <Style />
       </Page>
     </ReportSection>
@@ -3516,12 +3500,6 @@
       <Nullable>true</Nullable>
       <AllowBlank>true</AllowBlank>
       <Prompt>PrintedBy</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="DatabaseConnectionString">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>DatabaseConnectionString</Prompt>
     </ReportParameter>
   </ReportParameters>
   <EmbeddedImages>

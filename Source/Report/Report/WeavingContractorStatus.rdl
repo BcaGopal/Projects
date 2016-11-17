@@ -3,10 +3,7 @@
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
     <DataSource Name="Purchase">
-      <ConnectionProperties>
-        <DataProvider>SQL</DataProvider>
-        <ConnectString>=Parameters!DatabaseConnectionString.Value</ConnectString>
-      </ConnectionProperties>
+      <DataSourceReference>DataSourceMain</DataSourceReference>
       <rd:SecurityType>None</rd:SecurityType>
       <rd:DataSourceID>adf8514c-abaf-4839-a27a-78acbae1d856</rd:DataSourceID>
     </DataSource>
@@ -22,14 +19,17 @@
           <QueryParameter Name="@Division">
             <Value>=Parameters!Division.Value</Value>
           </QueryParameter>
+          <QueryParameter Name="@FromDate">
+            <Value>=Parameters!FromDate.Value</Value>
+          </QueryParameter>
           <QueryParameter Name="@ToDate">
             <Value>=Parameters!ToDate.Value</Value>
           </QueryParameter>
           <QueryParameter Name="@BranchRecord">
             <Value>=Parameters!BranchRecord.Value</Value>
           </QueryParameter>
-          <QueryParameter Name="@JobWorker">
-            <Value>=Parameters!JobWorker.Value</Value>
+          <QueryParameter Name="@ProcessId">
+            <Value>=Parameters!ProcessId.Value</Value>
           </QueryParameter>
         </QueryParameters>
         <CommandType>StoredProcedure</CommandType>
@@ -82,7 +82,7 @@
         </Field>
         <Field Name="ReportName">
           <DataField>ReportName</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
+          <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
         <Field Name="ReportTitle">
           <DataField>ReportTitle</DataField>
@@ -1104,20 +1104,6 @@
           </Textbox>
           <Subreport Name="Subreport1">
             <ReportName>CompanyDetail</ReportName>
-            <Parameters>
-              <Parameter Name="SiteId">
-                <Value>=First(Fields!SiteId.Value, "DsMain")</Value>
-              </Parameter>
-              <Parameter Name="DivisionId">
-                <Value>=First(Fields!DivisionId.Value, "DsMain")</Value>
-              </Parameter>
-              <Parameter Name="DatabaseConnectionString">
-                <Value>=Parameters!DatabaseConnectionString.Value</Value>
-              </Parameter>
-              <Parameter Name="PrintedBy">
-                <Value>=Parameters!PrintedBy.Value</Value>
-              </Parameter>
-            </Parameters>
             <Top>0.04167in</Top>
             <Left>0.06542in</Left>
             <Height>0.32014in</Height>
@@ -2855,7 +2841,6 @@
         <PageHeight>11.69in</PageHeight>
         <PageWidth>8.27in</PageWidth>
         <LeftMargin>0.2in</LeftMargin>
-        <TopMargin>0.1in</TopMargin>
         <Style />
       </Page>
     </ReportSection>
@@ -2993,16 +2978,8 @@
       <AllowBlank>true</AllowBlank>
       <Prompt>ReportParameter1</Prompt>
     </ReportParameter>
-    <ReportParameter Name="DatabaseConnectionString">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>DatabaseConnectionString</Prompt>
-    </ReportParameter>
     <ReportParameter Name="Site">
       <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
       <Prompt>Site</Prompt>
     </ReportParameter>
     <ReportParameter Name="Division">
@@ -3010,6 +2987,12 @@
       <Nullable>true</Nullable>
       <AllowBlank>true</AllowBlank>
       <Prompt>Division</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="FromDate">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>From Date</Prompt>
     </ReportParameter>
     <ReportParameter Name="ToDate">
       <DataType>String</DataType>
@@ -3023,11 +3006,11 @@
       <AllowBlank>true</AllowBlank>
       <Prompt>Branch Record</Prompt>
     </ReportParameter>
-    <ReportParameter Name="JobWorker">
+    <ReportParameter Name="ProcessId">
       <DataType>String</DataType>
       <Nullable>true</Nullable>
       <AllowBlank>true</AllowBlank>
-      <Prompt>Job Worker</Prompt>
+      <Prompt>Process Id</Prompt>
     </ReportParameter>
     <ReportParameter Name="PrintedBy">
       <DataType>String</DataType>

@@ -127,6 +127,7 @@ namespace HumanResource.App_Start
             Mapper.CreateMap<OverTimeApplicationHeader, DocumentUniqueId>();
             Mapper.CreateMap<OverTimeApplicationHeaderViewModel, DocumentUniqueId>();
             Mapper.CreateMap<OverTimeApplicationHeader, OverTimeApplicationHeader>();
+            Mapper.CreateMap<OverTimeApplicationLine, OverTimeApplicationLine>();
         }
     }
 }

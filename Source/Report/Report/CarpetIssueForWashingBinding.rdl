@@ -2942,7 +2942,7 @@
           <Top>0.04167in</Top>
           <Left>0.07276in</Left>
           <Height>0.25in</Height>
-          <Width>3.71944in</Width>
+          <Width>2.65694in</Width>
           <Style>
             <Border>
               <Style>None</Style>
@@ -2999,6 +2999,42 @@
           <Height>0.25in</Height>
           <Width>2.37593in</Width>
           <ZIndex>1</ZIndex>
+          <Style>
+            <Border>
+              <Style>None</Style>
+            </Border>
+            <PaddingLeft>2pt</PaddingLeft>
+            <PaddingRight>2pt</PaddingRight>
+            <PaddingTop>2pt</PaddingTop>
+            <PaddingBottom>2pt</PaddingBottom>
+          </Style>
+        </Textbox>
+        <Textbox Name="Textbox154">
+          <CanGrow>true</CanGrow>
+          <KeepTogether>true</KeepTogether>
+          <Paragraphs>
+            <Paragraph>
+              <TextRuns>
+                <TextRun>
+                  <Value>="Printed By : " + Parameters!PrintedBy.Value</Value>
+                  <Style>
+                    <FontFamily>tahoma</FontFamily>
+                    <FontSize>9pt</FontSize>
+                    <Format>dd-MMM-yy hh:mm:ss tt</Format>
+                  </Style>
+                </TextRun>
+              </TextRuns>
+              <Style>
+                <TextAlign>Center</TextAlign>
+              </Style>
+            </Paragraph>
+          </Paragraphs>
+          <rd:DefaultName>Textbox19</rd:DefaultName>
+          <Top>0.05354in</Top>
+          <Left>2.60658in</Left>
+          <Height>0.23804in</Height>
+          <Width>2.69903in</Width>
+          <ZIndex>2</ZIndex>
           <Style>
             <Border>
               <Style>None</Style>
@@ -3234,6 +3270,12 @@
       <DataType>Integer</DataType>
       <Nullable>true</Nullable>
       <Prompt>Id</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="PrintedBy">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>PrintedBy</Prompt>
     </ReportParameter>
   </ReportParameters>
   <Code>

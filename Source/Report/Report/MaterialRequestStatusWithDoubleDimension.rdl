@@ -3,10 +3,7 @@
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
     <DataSource Name="Weaving">
-      <ConnectionProperties>
-        <DataProvider>SQL</DataProvider>
-        <ConnectString>=Parameters!DatabaseConnectionString.Value</ConnectString>
-      </ConnectionProperties>
+      <DataSourceReference>DataSourceMain</DataSourceReference>
       <rd:SecurityType>None</rd:SecurityType>
       <rd:DataSourceID>a4701ec2-a2bf-4f00-a373-e0ef6d3046c3</rd:DataSourceID>
     </DataSource>
@@ -69,9 +66,6 @@
           </QueryParameter>
           <QueryParameter Name="@ReportFor">
             <Value>=Parameters!ReportFor.Value</Value>
-          </QueryParameter>
-          <QueryParameter Name="@ProductDivisionId">
-            <Value>=Parameters!ProductDivisionId.Value</Value>
           </QueryParameter>
         </QueryParameters>
         <CommandType>StoredProcedure</CommandType>
@@ -3242,12 +3236,6 @@
               <Parameter Name="DivisionId">
                 <Value>=First(Fields!DivisionId.Value, "DsMain")</Value>
               </Parameter>
-              <Parameter Name="DatabaseConnectionString">
-                <Value>=Parameters!DatabaseConnectionString.Value</Value>
-              </Parameter>
-              <Parameter Name="PrintedBy">
-                <Value>=Parameters!PrintedBy.Value</Value>
-              </Parameter>
             </Parameters>
             <Top>0.02986in</Top>
             <Left>0.02475in</Left>
@@ -3616,18 +3604,6 @@
       <AllowBlank>true</AllowBlank>
       <Prompt>ReportParameter1</Prompt>
     </ReportParameter>
-    <ReportParameter Name="PrintedBy">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>PrintedBy</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="DatabaseConnectionString">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>DatabaseConnectionString</Prompt>
-    </ReportParameter>
     <ReportParameter Name="Site">
       <DataType>String</DataType>
       <Nullable>true</Nullable>
@@ -3732,15 +3708,13 @@
     </ReportParameter>
     <ReportParameter Name="ReportFor">
       <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
       <Prompt>Report For</Prompt>
     </ReportParameter>
-    <ReportParameter Name="ProductDivisionId">
+    <ReportParameter Name="PrintedBy">
       <DataType>String</DataType>
       <Nullable>true</Nullable>
       <AllowBlank>true</AllowBlank>
-      <Prompt>Product Division Id</Prompt>
+      <Prompt>PrintedBy</Prompt>
     </ReportParameter>
   </ReportParameters>
   <EmbeddedImages>

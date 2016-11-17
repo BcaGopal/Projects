@@ -601,14 +601,6 @@
       </Tablix>
       <Subreport Name="CompanyDetail">
         <ReportName>CompanyDetail</ReportName>
-        <Parameters>
-          <Parameter Name="SiteId">
-            <Value>=First(Fields!SiteId.Value, "DsMain")</Value>
-          </Parameter>
-          <Parameter Name="DivisionId">
-            <Value>=First(Fields!DivisionId.Value, "DsMain")</Value>
-          </Parameter>
-        </Parameters>
         <Top>0.01736in</Top>
         <Left>0.05492in</Left>
         <Height>0.13959in</Height>
@@ -2399,14 +2391,6 @@
       </Tablix>
       <Subreport Name="ProvisionalCompanyDetail">
         <ReportName>ProvisionalCompanyDetail</ReportName>
-        <Parameters>
-          <Parameter Name="SiteId">
-            <Value>=First(Fields!SiteId.Value, "DsMain")</Value>
-          </Parameter>
-          <Parameter Name="DivisionId">
-            <Value>=First(Fields!DivisionId.Value, "DsMain")</Value>
-          </Parameter>
-        </Parameters>
         <Top>0.20312in</Top>
         <Left>0.06354in</Left>
         <Height>0.1125in</Height>
@@ -2727,10 +2711,7 @@
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
     <DataSource Name="WeavingReceiptPrint">
-      <ConnectionProperties>
-        <DataProvider>SQL</DataProvider>
-        <ConnectString>=Parameters!DatabaseConnectionString.Value</ConnectString>
-      </ConnectionProperties>
+      <DataSourceReference>DataSourceMain</DataSourceReference>
       <rd:SecurityType>None</rd:SecurityType>
       <rd:DataSourceID>727bb65e-cc51-4d28-a097-a8ea7d087931</rd:DataSourceID>
     </DataSource>
@@ -2752,17 +2733,9 @@
           <DataField>DocNo</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="SiteId">
-          <DataField>SiteId</DataField>
-          <rd:TypeName>System.Int32</rd:TypeName>
-        </Field>
         <Field Name="Name">
           <DataField>Name</DataField>
           <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="DivisionId">
-          <DataField>DivisionId</DataField>
-          <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
         <Field Name="JobReceiveQAHeaderId">
           <DataField>JobReceiveQAHeaderId</DataField>
@@ -2798,7 +2771,7 @@
         </Field>
         <Field Name="DocDate">
           <DataField>DocDate</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
+          <rd:TypeName>System.DateTime</rd:TypeName>
         </Field>
         <Field Name="LineRemark">
           <DataField>LineRemark</DataField>
@@ -2834,7 +2807,7 @@
         </Field>
         <Field Name="ReportName">
           <DataField>ReportName</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
+          <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
         <Field Name="ReportTitle">
           <DataField>ReportTitle</DataField>
@@ -2924,12 +2897,6 @@
       <DataType>Integer</DataType>
       <Nullable>true</Nullable>
       <Prompt>Id</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="DatabaseConnectionString">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>DatabaseConnectionString</Prompt>
     </ReportParameter>
   </ReportParameters>
   <Code>

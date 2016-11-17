@@ -11,12 +11,6 @@
           <Parameter Name="DivisionId">
             <Value>=First(Fields!DivisionId.Value, "DsMain")</Value>
           </Parameter>
-          <Parameter Name="DatabaseConnectionString">
-            <Value>=Parameters!DatabaseConnectionString.Value</Value>
-          </Parameter>
-          <Parameter Name="PrintedBy">
-            <Value>=Parameters!PrintedBy.Value</Value>
-          </Parameter>
         </Parameters>
         <Top>0.02222in</Top>
         <Left>0.01875in</Left>
@@ -1114,10 +1108,7 @@
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
     <DataSource Name="TrialBalance">
-      <ConnectionProperties>
-        <DataProvider>SQL</DataProvider>
-        <ConnectString>=Parameters!DatabaseConnectionString.Value</ConnectString>
-      </ConnectionProperties>
+      <DataSourceReference>DataSourceMain</DataSourceReference>
       <rd:SecurityType>None</rd:SecurityType>
       <rd:DataSourceID>dd7af43a-86ea-4bb9-8747-c50ac43bbbc6</rd:DataSourceID>
     </DataSource>
@@ -1240,12 +1231,6 @@
       <Nullable>true</Nullable>
       <AllowBlank>true</AllowBlank>
       <Prompt>PrintedBy</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="DatabaseConnectionString">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>DatabaseConnectionString</Prompt>
     </ReportParameter>
   </ReportParameters>
   <Code>

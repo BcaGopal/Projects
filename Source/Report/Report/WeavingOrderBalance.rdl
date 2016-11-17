@@ -3,10 +3,7 @@
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
     <DataSource Name="Weaving">
-      <ConnectionProperties>
-        <DataProvider>SQL</DataProvider>
-        <ConnectString>=Parameters!DatabaseConnectionString.Value</ConnectString>
-      </ConnectionProperties>
+      <DataSourceReference>DataSourceMain</DataSourceReference>
       <rd:SecurityType>None</rd:SecurityType>
       <rd:DataSourceID>a4701ec2-a2bf-4f00-a373-e0ef6d3046c3</rd:DataSourceID>
     </DataSource>
@@ -320,14 +317,14 @@
                   <TablixCells>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="Textbox5">
+                        <Textbox Name="DocumentTypeShortName">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value />
+                                  <Value>="Document Type : " + Fields!DocumentTypeShortName.Value</Value>
                                   <Style>
                                     <FontFamily>Tahoma</FontFamily>
                                     <FontSize>7.5pt</FontSize>
@@ -340,7 +337,7 @@
                               </Style>
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Textbox5</rd:DefaultName>
+                          <rd:DefaultName>DocumentTypeShortName</rd:DefaultName>
                           <Style>
                             <Border>
                               <Color>Silver</Color>
@@ -566,14 +563,14 @@
                     <TablixCell />
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="Textbox25">
+                        <Textbox Name="Textbox6">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value />
+                                  <Value>=iif(Sum(Fields!UrgentPCS.Value) &lt;&gt; 0,formatnumber(Sum(Fields!UrgentPCS.Value), 0), "-")</Value>
                                   <Style>
                                     <FontFamily>Tahoma</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -586,7 +583,7 @@
                               </Style>
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Textbox25</rd:DefaultName>
+                          <rd:DefaultName>Textbox6</rd:DefaultName>
                           <Style>
                             <Border>
                               <Color>Silver</Color>
@@ -666,14 +663,14 @@
                     <TablixCell />
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="Textbox28">
+                        <Textbox Name="Textbox23">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value />
+                                  <Value>=iif(Sum(Fields!UrgentPCS.Value) &lt;&gt; 0,formatnumber(Sum(Fields!UrgentPCS.Value), 0), "-")</Value>
                                   <Style>
                                     <FontFamily>Tahoma</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -686,7 +683,7 @@
                               </Style>
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Textbox28</rd:DefaultName>
+                          <rd:DefaultName>Textbox23</rd:DefaultName>
                           <Style>
                             <Border>
                               <Style>None</Style>
@@ -965,130 +962,57 @@
                   <RepeatOnNewPage>true</RepeatOnNewPage>
                 </TablixMember>
                 <TablixMember>
-                  <Group Name="DocumentTypeShortName">
+                  <Group Name="Sortdate">
                     <GroupExpressions>
-                      <GroupExpression>=Fields!DocumentTypeShortName.Value</GroupExpression>
+                      <GroupExpression>=Fields!Sortdate.Value</GroupExpression>
                     </GroupExpressions>
                   </Group>
                   <SortExpressions>
                     <SortExpression>
-                      <Value>=Fields!DocumentTypeShortName.Value</Value>
+                      <Value>=Fields!Sortdate.Value</Value>
                     </SortExpression>
                   </SortExpressions>
                   <TablixMembers>
                     <TablixMember>
-                      <TablixHeader>
-                        <Size>5.81212in</Size>
-                        <CellContents>
-                          <Textbox Name="Textbox26">
-                            <CanGrow>true</CanGrow>
-                            <KeepTogether>true</KeepTogether>
-                            <Paragraphs>
-                              <Paragraph>
-                                <TextRuns>
-                                  <TextRun>
-                                    <Value>="Document Type : " + Fields!DocumentTypeShortName.Value</Value>
-                                    <Style>
-                                      <FontFamily>Tahoma</FontFamily>
-                                      <FontSize>8pt</FontSize>
-                                      <FontWeight>Bold</FontWeight>
-                                    </Style>
-                                  </TextRun>
-                                </TextRuns>
-                                <Style>
-                                  <TextAlign>Left</TextAlign>
-                                </Style>
-                              </Paragraph>
-                            </Paragraphs>
-                            <rd:DefaultName>Textbox26</rd:DefaultName>
-                            <Style>
-                              <Border>
-                                <Color>Silver</Color>
-                                <Style>Solid</Style>
-                              </Border>
-                              <BackgroundColor>=iif(RowNumber(nothing) Mod 2 , "White","WhiteSmoke")</BackgroundColor>
-                              <PaddingLeft>2pt</PaddingLeft>
-                              <PaddingRight>2pt</PaddingRight>
-                              <PaddingTop>2pt</PaddingTop>
-                              <PaddingBottom>2pt</PaddingBottom>
-                            </Style>
-                          </Textbox>
-                        </CellContents>
-                      </TablixHeader>
-                      <TablixMembers>
-                        <TablixMember />
-                      </TablixMembers>
-                      <KeepWithGroup>After</KeepWithGroup>
-                      <RepeatOnNewPage>true</RepeatOnNewPage>
-                    </TablixMember>
-                    <TablixMember>
-                      <Group Name="JobOrderHeaderId">
+                      <Group Name="DocumentTypeShortName">
                         <GroupExpressions>
-                          <GroupExpression>=Fields!JobOrderHeaderId.Value</GroupExpression>
+                          <GroupExpression>=Fields!DocumentTypeShortName.Value</GroupExpression>
                         </GroupExpressions>
                       </Group>
                       <SortExpressions>
                         <SortExpression>
-                          <Value>=Fields!JobOrderHeaderId.Value</Value>
+                          <Value>=Fields!DocumentTypeShortName.Value</Value>
                         </SortExpression>
                       </SortExpressions>
                       <TablixMembers>
                         <TablixMember>
-                          <TablixHeader>
-                            <Size>0.63945in</Size>
-                            <CellContents>
-                              <Textbox Name="OrderNo1">
-                                <CanGrow>true</CanGrow>
-                                <KeepTogether>true</KeepTogether>
-                                <Paragraphs>
-                                  <Paragraph>
-                                    <TextRuns>
-                                      <TextRun>
-                                        <Value>=Fields!OrderNo.Value</Value>
-                                        <Style>
-                                          <FontFamily>Tahoma</FontFamily>
-                                          <FontSize>8pt</FontSize>
-                                          <Format>dd-MMM-yy</Format>
-                                        </Style>
-                                      </TextRun>
-                                    </TextRuns>
-                                    <Style>
-                                      <TextAlign>Left</TextAlign>
-                                    </Style>
-                                  </Paragraph>
-                                </Paragraphs>
-                                <rd:DefaultName>OrderNo1</rd:DefaultName>
-                                <Style>
-                                  <Border>
-                                    <Color>Silver</Color>
-                                    <Style>Solid</Style>
-                                  </Border>
-                                  <BackgroundColor>=iif(RowNumber(nothing) Mod 2 , "White","WhiteSmoke")</BackgroundColor>
-                                  <PaddingLeft>2pt</PaddingLeft>
-                                  <PaddingRight>2pt</PaddingRight>
-                                  <PaddingTop>2pt</PaddingTop>
-                                  <PaddingBottom>2pt</PaddingBottom>
-                                </Style>
-                              </Textbox>
-                            </CellContents>
-                          </TablixHeader>
+                          <Group Name="textmnonth">
+                            <GroupExpressions>
+                              <GroupExpression>=Fields!textmnonth.Value</GroupExpression>
+                            </GroupExpressions>
+                          </Group>
+                          <SortExpressions>
+                            <SortExpression>
+                              <Value>=Fields!textmnonth.Value</Value>
+                            </SortExpression>
+                          </SortExpressions>
                           <TablixMembers>
                             <TablixMember>
                               <TablixHeader>
-                                <Size>0.66029in</Size>
+                                <Size>2.0017in</Size>
                                 <CellContents>
-                                  <Textbox Name="OrderDate">
+                                  <Textbox Name="Textbox26">
                                     <CanGrow>true</CanGrow>
                                     <KeepTogether>true</KeepTogether>
                                     <Paragraphs>
                                       <Paragraph>
                                         <TextRuns>
                                           <TextRun>
-                                            <Value>=Fields!OrderDate.Value</Value>
+                                            <Value>="For Month  : " + Fields!textmnonth.Value</Value>
                                             <Style>
                                               <FontFamily>Tahoma</FontFamily>
                                               <FontSize>8pt</FontSize>
-                                              <Format>dd/MMM/yy</Format>
+                                              <FontWeight>Bold</FontWeight>
                                             </Style>
                                           </TextRun>
                                         </TextRuns>
@@ -1097,7 +1021,7 @@
                                         </Style>
                                       </Paragraph>
                                     </Paragraphs>
-                                    <rd:DefaultName>OrderDate</rd:DefaultName>
+                                    <rd:DefaultName>Textbox26</rd:DefaultName>
                                     <Style>
                                       <Border>
                                         <Color>Silver</Color>
@@ -1115,20 +1039,20 @@
                               <TablixMembers>
                                 <TablixMember>
                                   <TablixHeader>
-                                    <Size>0.70196in</Size>
+                                    <Size>2.18112in</Size>
                                     <CellContents>
-                                      <Textbox Name="DueDate">
+                                      <Textbox Name="Textbox79">
                                         <CanGrow>true</CanGrow>
                                         <KeepTogether>true</KeepTogether>
                                         <Paragraphs>
                                           <Paragraph>
                                             <TextRuns>
                                               <TextRun>
-                                                <Value>=Fields!DueDate.Value</Value>
+                                                <Value />
                                                 <Style>
                                                   <FontFamily>Tahoma</FontFamily>
                                                   <FontSize>8pt</FontSize>
-                                                  <Format>dd/MMM/yy</Format>
+                                                  <FontWeight>Bold</FontWeight>
                                                 </Style>
                                               </TextRun>
                                             </TextRuns>
@@ -1137,7 +1061,7 @@
                                             </Style>
                                           </Paragraph>
                                         </Paragraphs>
-                                        <rd:DefaultName>DueDate</rd:DefaultName>
+                                        <rd:DefaultName>Textbox79</rd:DefaultName>
                                         <Style>
                                           <Border>
                                             <Color>Silver</Color>
@@ -1155,19 +1079,20 @@
                                   <TablixMembers>
                                     <TablixMember>
                                       <TablixHeader>
-                                        <Size>2.18112in</Size>
+                                        <Size>0.70859in</Size>
                                         <CellContents>
-                                          <Textbox Name="LoomHolder">
+                                          <Textbox Name="Textbox121">
                                             <CanGrow>true</CanGrow>
                                             <KeepTogether>true</KeepTogether>
                                             <Paragraphs>
                                               <Paragraph>
                                                 <TextRuns>
                                                   <TextRun>
-                                                    <Value>=Fields!LoomHolder.Value</Value>
+                                                    <Value />
                                                     <Style>
                                                       <FontFamily>Tahoma</FontFamily>
                                                       <FontSize>8pt</FontSize>
+                                                      <FontWeight>Bold</FontWeight>
                                                     </Style>
                                                   </TextRun>
                                                 </TextRuns>
@@ -1176,7 +1101,7 @@
                                                 </Style>
                                               </Paragraph>
                                             </Paragraphs>
-                                            <rd:DefaultName>LoomHolder</rd:DefaultName>
+                                            <rd:DefaultName>Textbox121</rd:DefaultName>
                                             <Style>
                                               <Border>
                                                 <Color>Silver</Color>
@@ -1193,29 +1118,200 @@
                                       </TablixHeader>
                                       <TablixMembers>
                                         <TablixMember>
-                                          <Group Name="Design">
-                                            <GroupExpressions>
-                                              <GroupExpression>=Fields!Design.Value</GroupExpression>
-                                            </GroupExpressions>
-                                          </Group>
-                                          <SortExpressions>
-                                            <SortExpression>
-                                              <Value>=Fields!Design.Value</Value>
-                                            </SortExpression>
-                                          </SortExpressions>
+                                          <TablixHeader>
+                                            <Size>0.92071in</Size>
+                                            <CellContents>
+                                              <Textbox Name="Textbox112">
+                                                <CanGrow>true</CanGrow>
+                                                <KeepTogether>true</KeepTogether>
+                                                <Paragraphs>
+                                                  <Paragraph>
+                                                    <TextRuns>
+                                                      <TextRun>
+                                                        <Value />
+                                                        <Style>
+                                                          <FontFamily>Tahoma</FontFamily>
+                                                          <FontSize>8pt</FontSize>
+                                                          <FontWeight>Bold</FontWeight>
+                                                        </Style>
+                                                      </TextRun>
+                                                    </TextRuns>
+                                                    <Style>
+                                                      <TextAlign>Left</TextAlign>
+                                                    </Style>
+                                                  </Paragraph>
+                                                </Paragraphs>
+                                                <rd:DefaultName>Textbox112</rd:DefaultName>
+                                                <Style>
+                                                  <Border>
+                                                    <Color>Silver</Color>
+                                                    <Style>Solid</Style>
+                                                  </Border>
+                                                  <BackgroundColor>=iif(RowNumber(nothing) Mod 2 , "White","WhiteSmoke")</BackgroundColor>
+                                                  <PaddingLeft>2pt</PaddingLeft>
+                                                  <PaddingRight>2pt</PaddingRight>
+                                                  <PaddingTop>2pt</PaddingTop>
+                                                  <PaddingBottom>2pt</PaddingBottom>
+                                                </Style>
+                                              </Textbox>
+                                            </CellContents>
+                                          </TablixHeader>
+                                          <TablixMembers>
+                                            <TablixMember />
+                                          </TablixMembers>
+                                        </TablixMember>
+                                      </TablixMembers>
+                                    </TablixMember>
+                                  </TablixMembers>
+                                </TablixMember>
+                              </TablixMembers>
+                              <KeepWithGroup>After</KeepWithGroup>
+                              <RepeatOnNewPage>true</RepeatOnNewPage>
+                            </TablixMember>
+                            <TablixMember>
+                              <Group Name="JobOrderHeaderId">
+                                <GroupExpressions>
+                                  <GroupExpression>=Fields!JobOrderHeaderId.Value</GroupExpression>
+                                </GroupExpressions>
+                              </Group>
+                              <SortExpressions>
+                                <SortExpression>
+                                  <Value>=Fields!JobOrderHeaderId.Value</Value>
+                                </SortExpression>
+                              </SortExpressions>
+                              <TablixMembers>
+                                <TablixMember>
+                                  <TablixHeader>
+                                    <Size>0.63945in</Size>
+                                    <CellContents>
+                                      <Textbox Name="OrderNo1">
+                                        <CanGrow>true</CanGrow>
+                                        <KeepTogether>true</KeepTogether>
+                                        <Paragraphs>
+                                          <Paragraph>
+                                            <TextRuns>
+                                              <TextRun>
+                                                <Value>=Fields!OrderNo.Value</Value>
+                                                <Style>
+                                                  <FontFamily>Tahoma</FontFamily>
+                                                  <FontSize>8pt</FontSize>
+                                                  <Format>dd-MMM-yy</Format>
+                                                </Style>
+                                              </TextRun>
+                                            </TextRuns>
+                                            <Style>
+                                              <TextAlign>Left</TextAlign>
+                                            </Style>
+                                          </Paragraph>
+                                        </Paragraphs>
+                                        <rd:DefaultName>OrderNo1</rd:DefaultName>
+                                        <Style>
+                                          <Border>
+                                            <Color>Silver</Color>
+                                            <Style>Solid</Style>
+                                          </Border>
+                                          <BackgroundColor>=iif(RowNumber(nothing) Mod 2 , "White","WhiteSmoke")</BackgroundColor>
+                                          <PaddingLeft>2pt</PaddingLeft>
+                                          <PaddingRight>2pt</PaddingRight>
+                                          <PaddingTop>2pt</PaddingTop>
+                                          <PaddingBottom>2pt</PaddingBottom>
+                                        </Style>
+                                      </Textbox>
+                                    </CellContents>
+                                  </TablixHeader>
+                                  <TablixMembers>
+                                    <TablixMember>
+                                      <TablixHeader>
+                                        <Size>0.66029in</Size>
+                                        <CellContents>
+                                          <Textbox Name="OrderDate">
+                                            <CanGrow>true</CanGrow>
+                                            <KeepTogether>true</KeepTogether>
+                                            <Paragraphs>
+                                              <Paragraph>
+                                                <TextRuns>
+                                                  <TextRun>
+                                                    <Value>=Fields!OrderDate.Value</Value>
+                                                    <Style>
+                                                      <FontFamily>Tahoma</FontFamily>
+                                                      <FontSize>8pt</FontSize>
+                                                      <Format>dd/MMM/yy</Format>
+                                                    </Style>
+                                                  </TextRun>
+                                                </TextRuns>
+                                                <Style>
+                                                  <TextAlign>Left</TextAlign>
+                                                </Style>
+                                              </Paragraph>
+                                            </Paragraphs>
+                                            <rd:DefaultName>OrderDate</rd:DefaultName>
+                                            <Style>
+                                              <Border>
+                                                <Color>Silver</Color>
+                                                <Style>Solid</Style>
+                                              </Border>
+                                              <BackgroundColor>=iif(RowNumber(nothing) Mod 2 , "White","WhiteSmoke")</BackgroundColor>
+                                              <PaddingLeft>2pt</PaddingLeft>
+                                              <PaddingRight>2pt</PaddingRight>
+                                              <PaddingTop>2pt</PaddingTop>
+                                              <PaddingBottom>2pt</PaddingBottom>
+                                            </Style>
+                                          </Textbox>
+                                        </CellContents>
+                                      </TablixHeader>
+                                      <TablixMembers>
+                                        <TablixMember>
+                                          <TablixHeader>
+                                            <Size>0.70196in</Size>
+                                            <CellContents>
+                                              <Textbox Name="DueDate">
+                                                <CanGrow>true</CanGrow>
+                                                <KeepTogether>true</KeepTogether>
+                                                <Paragraphs>
+                                                  <Paragraph>
+                                                    <TextRuns>
+                                                      <TextRun>
+                                                        <Value>=Fields!DueDate.Value</Value>
+                                                        <Style>
+                                                          <FontFamily>Tahoma</FontFamily>
+                                                          <FontSize>8pt</FontSize>
+                                                          <Format>dd/MMM/yy</Format>
+                                                        </Style>
+                                                      </TextRun>
+                                                    </TextRuns>
+                                                    <Style>
+                                                      <TextAlign>Left</TextAlign>
+                                                    </Style>
+                                                  </Paragraph>
+                                                </Paragraphs>
+                                                <rd:DefaultName>DueDate</rd:DefaultName>
+                                                <Style>
+                                                  <Border>
+                                                    <Color>Silver</Color>
+                                                    <Style>Solid</Style>
+                                                  </Border>
+                                                  <BackgroundColor>=iif(RowNumber(nothing) Mod 2 , "White","WhiteSmoke")</BackgroundColor>
+                                                  <PaddingLeft>2pt</PaddingLeft>
+                                                  <PaddingRight>2pt</PaddingRight>
+                                                  <PaddingTop>2pt</PaddingTop>
+                                                  <PaddingBottom>2pt</PaddingBottom>
+                                                </Style>
+                                              </Textbox>
+                                            </CellContents>
+                                          </TablixHeader>
                                           <TablixMembers>
                                             <TablixMember>
                                               <TablixHeader>
-                                                <Size>0.70859in</Size>
+                                                <Size>2.18112in</Size>
                                                 <CellContents>
-                                                  <Textbox Name="Design">
+                                                  <Textbox Name="LoomHolder">
                                                     <CanGrow>true</CanGrow>
                                                     <KeepTogether>true</KeepTogether>
                                                     <Paragraphs>
                                                       <Paragraph>
                                                         <TextRuns>
                                                           <TextRun>
-                                                            <Value>=Fields!Design.Value</Value>
+                                                            <Value>=Fields!LoomHolder.Value</Value>
                                                             <Style>
                                                               <FontFamily>Tahoma</FontFamily>
                                                               <FontSize>8pt</FontSize>
@@ -1227,7 +1323,7 @@
                                                         </Style>
                                                       </Paragraph>
                                                     </Paragraphs>
-                                                    <rd:DefaultName>Design</rd:DefaultName>
+                                                    <rd:DefaultName>LoomHolder</rd:DefaultName>
                                                     <Style>
                                                       <Border>
                                                         <Color>Silver</Color>
@@ -1244,53 +1340,108 @@
                                               </TablixHeader>
                                               <TablixMembers>
                                                 <TablixMember>
-                                                  <TablixHeader>
-                                                    <Size>0.92071in</Size>
-                                                    <CellContents>
-                                                      <Textbox Name="Colour">
-                                                        <CanGrow>true</CanGrow>
-                                                        <KeepTogether>true</KeepTogether>
-                                                        <Paragraphs>
-                                                          <Paragraph>
-                                                            <TextRuns>
-                                                              <TextRun>
-                                                                <Value>=Fields!Colour.Value</Value>
-                                                                <Style>
-                                                                  <FontFamily>Tahoma</FontFamily>
-                                                                  <FontSize>8pt</FontSize>
-                                                                </Style>
-                                                              </TextRun>
-                                                            </TextRuns>
-                                                            <Style>
-                                                              <TextAlign>Left</TextAlign>
-                                                            </Style>
-                                                          </Paragraph>
-                                                        </Paragraphs>
-                                                        <rd:DefaultName>Colour</rd:DefaultName>
-                                                        <Style>
-                                                          <Border>
-                                                            <Color>Silver</Color>
-                                                            <Style>Solid</Style>
-                                                          </Border>
-                                                          <BackgroundColor>=iif(RowNumber(nothing) Mod 2 , "White","WhiteSmoke")</BackgroundColor>
-                                                          <PaddingLeft>2pt</PaddingLeft>
-                                                          <PaddingRight>2pt</PaddingRight>
-                                                          <PaddingTop>2pt</PaddingTop>
-                                                          <PaddingBottom>2pt</PaddingBottom>
-                                                        </Style>
-                                                      </Textbox>
-                                                    </CellContents>
-                                                  </TablixHeader>
+                                                  <Group Name="Design">
+                                                    <GroupExpressions>
+                                                      <GroupExpression>=Fields!Design.Value</GroupExpression>
+                                                    </GroupExpressions>
+                                                  </Group>
+                                                  <SortExpressions>
+                                                    <SortExpression>
+                                                      <Value>=Fields!Design.Value</Value>
+                                                    </SortExpression>
+                                                  </SortExpressions>
                                                   <TablixMembers>
                                                     <TablixMember>
-                                                      <Group Name="Details" />
-                                                      <SortExpressions>
-                                                        <SortExpression>
-                                                          <Value>=Fields!OrderDate.Value</Value>
-                                                        </SortExpression>
-                                                      </SortExpressions>
+                                                      <TablixHeader>
+                                                        <Size>0.70859in</Size>
+                                                        <CellContents>
+                                                          <Textbox Name="Design">
+                                                            <CanGrow>true</CanGrow>
+                                                            <KeepTogether>true</KeepTogether>
+                                                            <Paragraphs>
+                                                              <Paragraph>
+                                                                <TextRuns>
+                                                                  <TextRun>
+                                                                    <Value>=Fields!Design.Value</Value>
+                                                                    <Style>
+                                                                      <FontFamily>Tahoma</FontFamily>
+                                                                      <FontSize>8pt</FontSize>
+                                                                    </Style>
+                                                                  </TextRun>
+                                                                </TextRuns>
+                                                                <Style>
+                                                                  <TextAlign>Left</TextAlign>
+                                                                </Style>
+                                                              </Paragraph>
+                                                            </Paragraphs>
+                                                            <rd:DefaultName>Design</rd:DefaultName>
+                                                            <Style>
+                                                              <Border>
+                                                                <Color>Silver</Color>
+                                                                <Style>Solid</Style>
+                                                              </Border>
+                                                              <BackgroundColor>=iif(RowNumber(nothing) Mod 2 , "White","WhiteSmoke")</BackgroundColor>
+                                                              <PaddingLeft>2pt</PaddingLeft>
+                                                              <PaddingRight>2pt</PaddingRight>
+                                                              <PaddingTop>2pt</PaddingTop>
+                                                              <PaddingBottom>2pt</PaddingBottom>
+                                                            </Style>
+                                                          </Textbox>
+                                                        </CellContents>
+                                                      </TablixHeader>
                                                       <TablixMembers>
-                                                        <TablixMember />
+                                                        <TablixMember>
+                                                          <TablixHeader>
+                                                            <Size>0.92071in</Size>
+                                                            <CellContents>
+                                                              <Textbox Name="Colour">
+                                                                <CanGrow>true</CanGrow>
+                                                                <KeepTogether>true</KeepTogether>
+                                                                <Paragraphs>
+                                                                  <Paragraph>
+                                                                    <TextRuns>
+                                                                      <TextRun>
+                                                                        <Value>=Fields!Colour.Value</Value>
+                                                                        <Style>
+                                                                          <FontFamily>Tahoma</FontFamily>
+                                                                          <FontSize>8pt</FontSize>
+                                                                        </Style>
+                                                                      </TextRun>
+                                                                    </TextRuns>
+                                                                    <Style>
+                                                                      <TextAlign>Left</TextAlign>
+                                                                    </Style>
+                                                                  </Paragraph>
+                                                                </Paragraphs>
+                                                                <rd:DefaultName>Colour</rd:DefaultName>
+                                                                <Style>
+                                                                  <Border>
+                                                                    <Color>Silver</Color>
+                                                                    <Style>Solid</Style>
+                                                                  </Border>
+                                                                  <BackgroundColor>=iif(RowNumber(nothing) Mod 2 , "White","WhiteSmoke")</BackgroundColor>
+                                                                  <PaddingLeft>2pt</PaddingLeft>
+                                                                  <PaddingRight>2pt</PaddingRight>
+                                                                  <PaddingTop>2pt</PaddingTop>
+                                                                  <PaddingBottom>2pt</PaddingBottom>
+                                                                </Style>
+                                                              </Textbox>
+                                                            </CellContents>
+                                                          </TablixHeader>
+                                                          <TablixMembers>
+                                                            <TablixMember>
+                                                              <Group Name="Details" />
+                                                              <SortExpressions>
+                                                                <SortExpression>
+                                                                  <Value>=Fields!OrderDate.Value</Value>
+                                                                </SortExpression>
+                                                              </SortExpressions>
+                                                              <TablixMembers>
+                                                                <TablixMember />
+                                                              </TablixMembers>
+                                                            </TablixMember>
+                                                          </TablixMembers>
+                                                        </TablixMember>
                                                       </TablixMembers>
                                                     </TablixMember>
                                                   </TablixMembers>
@@ -1305,126 +1456,18 @@
                                 </TablixMember>
                               </TablixMembers>
                             </TablixMember>
-                          </TablixMembers>
-                        </TablixMember>
-                      </TablixMembers>
-                    </TablixMember>
-                    <TablixMember>
-                      <TablixHeader>
-                        <Size>1.29974in</Size>
-                        <CellContents>
-                          <Textbox Name="Textbox30">
-                            <CanGrow>true</CanGrow>
-                            <KeepTogether>true</KeepTogether>
-                            <Paragraphs>
-                              <Paragraph>
-                                <TextRuns>
-                                  <TextRun>
-                                    <Value>="Month Total : "</Value>
-                                    <Style>
-                                      <FontFamily>Tahoma</FontFamily>
-                                      <FontSize>8pt</FontSize>
-                                      <FontWeight>Bold</FontWeight>
-                                    </Style>
-                                  </TextRun>
-                                </TextRuns>
-                                <Style>
-                                  <TextAlign>Left</TextAlign>
-                                </Style>
-                              </Paragraph>
-                            </Paragraphs>
-                            <rd:DefaultName>Textbox30</rd:DefaultName>
-                            <Style>
-                              <Border>
-                                <Color>Silver</Color>
-                                <Style>Solid</Style>
-                              </Border>
-                              <TopBorder>
-                                <Color>Black</Color>
-                              </TopBorder>
-                              <BottomBorder>
-                                <Color>Black</Color>
-                              </BottomBorder>
-                              <LeftBorder>
-                                <Style>None</Style>
-                              </LeftBorder>
-                              <RightBorder>
-                                <Style>None</Style>
-                              </RightBorder>
-                              <BackgroundColor>=iif(RowNumber(nothing) Mod 2 , "White","WhiteSmoke")</BackgroundColor>
-                              <PaddingLeft>2pt</PaddingLeft>
-                              <PaddingRight>2pt</PaddingRight>
-                              <PaddingTop>2pt</PaddingTop>
-                              <PaddingBottom>2pt</PaddingBottom>
-                            </Style>
-                          </Textbox>
-                        </CellContents>
-                      </TablixHeader>
-                      <TablixMembers>
-                        <TablixMember>
-                          <TablixHeader>
-                            <Size>2.88308in</Size>
-                            <CellContents>
-                              <Textbox Name="Textbox74">
-                                <CanGrow>true</CanGrow>
-                                <KeepTogether>true</KeepTogether>
-                                <Paragraphs>
-                                  <Paragraph>
-                                    <TextRuns>
-                                      <TextRun>
-                                        <Value>="  " + iif(Sum(Fields!DealQty.Value) &lt;&gt; 0,formatnumber(Sum(Fields!DealQty.Value), 4), "-") +" Sq. Yards"</Value>
-                                        <Style>
-                                          <FontFamily>Tahoma</FontFamily>
-                                          <FontSize>8pt</FontSize>
-                                          <FontWeight>Bold</FontWeight>
-                                        </Style>
-                                      </TextRun>
-                                    </TextRuns>
-                                    <Style>
-                                      <TextAlign>Right</TextAlign>
-                                    </Style>
-                                  </Paragraph>
-                                </Paragraphs>
-                                <rd:DefaultName>Textbox74</rd:DefaultName>
-                                <Style>
-                                  <Border>
-                                    <Color>Silver</Color>
-                                    <Style>Solid</Style>
-                                  </Border>
-                                  <TopBorder>
-                                    <Color>Black</Color>
-                                  </TopBorder>
-                                  <BottomBorder>
-                                    <Color>Black</Color>
-                                  </BottomBorder>
-                                  <LeftBorder>
-                                    <Style>None</Style>
-                                  </LeftBorder>
-                                  <RightBorder>
-                                    <Style>None</Style>
-                                  </RightBorder>
-                                  <BackgroundColor>=iif(RowNumber(nothing) Mod 2 , "White","WhiteSmoke")</BackgroundColor>
-                                  <PaddingLeft>2pt</PaddingLeft>
-                                  <PaddingRight>2pt</PaddingRight>
-                                  <PaddingTop>2pt</PaddingTop>
-                                  <PaddingBottom>2pt</PaddingBottom>
-                                </Style>
-                              </Textbox>
-                            </CellContents>
-                          </TablixHeader>
-                          <TablixMembers>
                             <TablixMember>
                               <TablixHeader>
-                                <Size>0.70859in</Size>
+                                <Size>1.29974in</Size>
                                 <CellContents>
-                                  <Textbox Name="Textbox123">
+                                  <Textbox Name="Textbox30">
                                     <CanGrow>true</CanGrow>
                                     <KeepTogether>true</KeepTogether>
                                     <Paragraphs>
                                       <Paragraph>
                                         <TextRuns>
                                           <TextRun>
-                                            <Value />
+                                            <Value>="Month Total : "</Value>
                                             <Style>
                                               <FontFamily>Tahoma</FontFamily>
                                               <FontSize>8pt</FontSize>
@@ -1437,7 +1480,7 @@
                                         </Style>
                                       </Paragraph>
                                     </Paragraphs>
-                                    <rd:DefaultName>Textbox123</rd:DefaultName>
+                                    <rd:DefaultName>Textbox30</rd:DefaultName>
                                     <Style>
                                       <Border>
                                         <Color>Silver</Color>
@@ -1467,16 +1510,16 @@
                               <TablixMembers>
                                 <TablixMember>
                                   <TablixHeader>
-                                    <Size>0.92071in</Size>
+                                    <Size>2.88308in</Size>
                                     <CellContents>
-                                      <Textbox Name="Textbox115">
+                                      <Textbox Name="Textbox74">
                                         <CanGrow>true</CanGrow>
                                         <KeepTogether>true</KeepTogether>
                                         <Paragraphs>
                                           <Paragraph>
                                             <TextRuns>
                                               <TextRun>
-                                                <Value />
+                                                <Value>="  " + iif(Sum(Fields!DealQty.Value) &lt;&gt; 0,formatnumber(Sum(Fields!DealQty.Value), 4), "-") +" Sq. Yards"</Value>
                                                 <Style>
                                                   <FontFamily>Tahoma</FontFamily>
                                                   <FontSize>8pt</FontSize>
@@ -1485,11 +1528,11 @@
                                               </TextRun>
                                             </TextRuns>
                                             <Style>
-                                              <TextAlign>Left</TextAlign>
+                                              <TextAlign>Right</TextAlign>
                                             </Style>
                                           </Paragraph>
                                         </Paragraphs>
-                                        <rd:DefaultName>Textbox115</rd:DefaultName>
+                                        <rd:DefaultName>Textbox74</rd:DefaultName>
                                         <Style>
                                           <Border>
                                             <Color>Silver</Color>
@@ -1517,18 +1560,123 @@
                                     </CellContents>
                                   </TablixHeader>
                                   <TablixMembers>
-                                    <TablixMember />
+                                    <TablixMember>
+                                      <TablixHeader>
+                                        <Size>0.70859in</Size>
+                                        <CellContents>
+                                          <Textbox Name="Textbox123">
+                                            <CanGrow>true</CanGrow>
+                                            <KeepTogether>true</KeepTogether>
+                                            <Paragraphs>
+                                              <Paragraph>
+                                                <TextRuns>
+                                                  <TextRun>
+                                                    <Value />
+                                                    <Style>
+                                                      <FontFamily>Tahoma</FontFamily>
+                                                      <FontSize>8pt</FontSize>
+                                                      <FontWeight>Bold</FontWeight>
+                                                    </Style>
+                                                  </TextRun>
+                                                </TextRuns>
+                                                <Style>
+                                                  <TextAlign>Left</TextAlign>
+                                                </Style>
+                                              </Paragraph>
+                                            </Paragraphs>
+                                            <rd:DefaultName>Textbox123</rd:DefaultName>
+                                            <Style>
+                                              <Border>
+                                                <Color>Silver</Color>
+                                                <Style>Solid</Style>
+                                              </Border>
+                                              <TopBorder>
+                                                <Color>Black</Color>
+                                              </TopBorder>
+                                              <BottomBorder>
+                                                <Color>Black</Color>
+                                              </BottomBorder>
+                                              <LeftBorder>
+                                                <Style>None</Style>
+                                              </LeftBorder>
+                                              <RightBorder>
+                                                <Style>None</Style>
+                                              </RightBorder>
+                                              <BackgroundColor>=iif(RowNumber(nothing) Mod 2 , "White","WhiteSmoke")</BackgroundColor>
+                                              <PaddingLeft>2pt</PaddingLeft>
+                                              <PaddingRight>2pt</PaddingRight>
+                                              <PaddingTop>2pt</PaddingTop>
+                                              <PaddingBottom>2pt</PaddingBottom>
+                                            </Style>
+                                          </Textbox>
+                                        </CellContents>
+                                      </TablixHeader>
+                                      <TablixMembers>
+                                        <TablixMember>
+                                          <TablixHeader>
+                                            <Size>0.92071in</Size>
+                                            <CellContents>
+                                              <Textbox Name="Textbox115">
+                                                <CanGrow>true</CanGrow>
+                                                <KeepTogether>true</KeepTogether>
+                                                <Paragraphs>
+                                                  <Paragraph>
+                                                    <TextRuns>
+                                                      <TextRun>
+                                                        <Value />
+                                                        <Style>
+                                                          <FontFamily>Tahoma</FontFamily>
+                                                          <FontSize>8pt</FontSize>
+                                                          <FontWeight>Bold</FontWeight>
+                                                        </Style>
+                                                      </TextRun>
+                                                    </TextRuns>
+                                                    <Style>
+                                                      <TextAlign>Left</TextAlign>
+                                                    </Style>
+                                                  </Paragraph>
+                                                </Paragraphs>
+                                                <rd:DefaultName>Textbox115</rd:DefaultName>
+                                                <Style>
+                                                  <Border>
+                                                    <Color>Silver</Color>
+                                                    <Style>Solid</Style>
+                                                  </Border>
+                                                  <TopBorder>
+                                                    <Color>Black</Color>
+                                                  </TopBorder>
+                                                  <BottomBorder>
+                                                    <Color>Black</Color>
+                                                  </BottomBorder>
+                                                  <LeftBorder>
+                                                    <Style>None</Style>
+                                                  </LeftBorder>
+                                                  <RightBorder>
+                                                    <Style>None</Style>
+                                                  </RightBorder>
+                                                  <BackgroundColor>=iif(RowNumber(nothing) Mod 2 , "White","WhiteSmoke")</BackgroundColor>
+                                                  <PaddingLeft>2pt</PaddingLeft>
+                                                  <PaddingRight>2pt</PaddingRight>
+                                                  <PaddingTop>2pt</PaddingTop>
+                                                  <PaddingBottom>2pt</PaddingBottom>
+                                                </Style>
+                                              </Textbox>
+                                            </CellContents>
+                                          </TablixHeader>
+                                          <TablixMembers>
+                                            <TablixMember />
+                                          </TablixMembers>
+                                        </TablixMember>
+                                      </TablixMembers>
+                                    </TablixMember>
                                   </TablixMembers>
                                 </TablixMember>
                               </TablixMembers>
+                              <KeepWithGroup>Before</KeepWithGroup>
                             </TablixMember>
                           </TablixMembers>
                         </TablixMember>
                       </TablixMembers>
-                      <Visibility>
-                        <Hidden>true</Hidden>
-                      </Visibility>
-                      <KeepWithGroup>Before</KeepWithGroup>
                     </TablixMember>
                   </TablixMembers>
                 </TablixMember>
@@ -2699,20 +2847,6 @@
           </Tablix>
           <Subreport Name="Subreport1">
             <ReportName>CompanyDetail</ReportName>
-            <Parameters>
-              <Parameter Name="SiteId">
-                <Value>=First(Fields!SiteId.Value, "DsMain")</Value>
-              </Parameter>
-              <Parameter Name="DivisionId">
-                <Value>=First(Fields!DivisionId.Value, "DsMain")</Value>
-              </Parameter>
-              <Parameter Name="DatabaseConnectionString">
-                <Value>=Parameters!DatabaseConnectionString.Value</Value>
-              </Parameter>
-              <Parameter Name="PrintedBy">
-                <Value>=Parameters!PrintedBy.Value</Value>
-              </Parameter>
-            </Parameters>
             <Top>0.02778in</Top>
             <Left>0.05493in</Left>
             <Height>0.30208in</Height>
@@ -3258,12 +3392,6 @@
       <Nullable>true</Nullable>
       <AllowBlank>true</AllowBlank>
       <Prompt>PrintedBy</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="DatabaseConnectionString">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>DatabaseConnectionString</Prompt>
     </ReportParameter>
   </ReportParameters>
   <EmbeddedImages>

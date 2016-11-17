@@ -3,10 +3,7 @@
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
     <DataSource Name="Weaving">
-      <ConnectionProperties>
-        <DataProvider>SQL</DataProvider>
-        <ConnectString>=Parameters!DatabaseConnectionString.Value</ConnectString>
-      </ConnectionProperties>
+      <DataSourceReference>DataSourceMain</DataSourceReference>
       <rd:SecurityType>None</rd:SecurityType>
       <rd:DataSourceID>a4701ec2-a2bf-4f00-a373-e0ef6d3046c3</rd:DataSourceID>
     </DataSource>
@@ -501,7 +498,8 @@
                               <Style>Solid</Style>
                             </Border>
                             <TopBorder>
-                              <Style>None</Style>
+                              <Color>Black</Color>
+                              <Style>Solid</Style>
                             </TopBorder>
                             <BackgroundColor>=iif(RowNumber(nothing) Mod 2 , "White","WhiteSmoke")</BackgroundColor>
                             <PaddingLeft>2pt</PaddingLeft>
@@ -540,7 +538,8 @@
                               <Style>Solid</Style>
                             </Border>
                             <TopBorder>
-                              <Style>None</Style>
+                              <Color>Black</Color>
+                              <Style>Solid</Style>
                             </TopBorder>
                             <BackgroundColor>=iif(RowNumber(nothing) Mod 2 , "White","WhiteSmoke")</BackgroundColor>
                             <PaddingLeft>2pt</PaddingLeft>
@@ -576,8 +575,20 @@
                           <Style>
                             <Border>
                               <Color>Silver</Color>
-                              <Style>None</Style>
+                              <Style>Solid</Style>
                             </Border>
+                            <TopBorder>
+                              <Color>Black</Color>
+                            </TopBorder>
+                            <BottomBorder>
+                              <Style>None</Style>
+                            </BottomBorder>
+                            <LeftBorder>
+                              <Style>None</Style>
+                            </LeftBorder>
+                            <RightBorder>
+                              <Style>None</Style>
+                            </RightBorder>
                             <BackgroundColor>=iif(RowNumber(nothing) Mod 2 , "White","WhiteSmoke")</BackgroundColor>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
@@ -615,7 +626,8 @@
                               <Style>Solid</Style>
                             </Border>
                             <TopBorder>
-                              <Style>None</Style>
+                              <Color>Black</Color>
+                              <Style>Solid</Style>
                             </TopBorder>
                             <BackgroundColor>=iif(RowNumber(nothing) Mod 2 , "White","WhiteSmoke")</BackgroundColor>
                             <PaddingLeft>2pt</PaddingLeft>
@@ -651,8 +663,20 @@
                           <Style>
                             <Border>
                               <Color>Silver</Color>
-                              <Style>None</Style>
+                              <Style>Solid</Style>
                             </Border>
+                            <TopBorder>
+                              <Color>Black</Color>
+                            </TopBorder>
+                            <BottomBorder>
+                              <Style>None</Style>
+                            </BottomBorder>
+                            <LeftBorder>
+                              <Style>None</Style>
+                            </LeftBorder>
+                            <RightBorder>
+                              <Style>None</Style>
+                            </RightBorder>
                             <BackgroundColor>=iif(RowNumber(nothing) Mod 2 , "White","WhiteSmoke")</BackgroundColor>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
@@ -695,7 +719,8 @@
                               <Style>Solid</Style>
                             </Border>
                             <TopBorder>
-                              <Style>None</Style>
+                              <Color>Black</Color>
+                              <Style>Solid</Style>
                             </TopBorder>
                             <BackgroundColor>=iif(RowNumber(nothing) Mod 2 , "White","WhiteSmoke")</BackgroundColor>
                             <PaddingLeft>2pt</PaddingLeft>
@@ -734,7 +759,8 @@
                               <Style>Solid</Style>
                             </Border>
                             <TopBorder>
-                              <Style>None</Style>
+                              <Color>Black</Color>
+                              <Style>Solid</Style>
                             </TopBorder>
                             <BackgroundColor>=iif(RowNumber(nothing) Mod 2 , "White","WhiteSmoke")</BackgroundColor>
                             <PaddingLeft>2pt</PaddingLeft>
@@ -770,14 +796,20 @@
                           <Style>
                             <Border>
                               <Color>Silver</Color>
-                              <Style>None</Style>
+                              <Style>Solid</Style>
                             </Border>
                             <TopBorder>
-                              <Style>Solid</Style>
+                              <Color>Black</Color>
                             </TopBorder>
                             <BottomBorder>
-                              <Style>Solid</Style>
+                              <Style>None</Style>
                             </BottomBorder>
+                            <LeftBorder>
+                              <Style>None</Style>
+                            </LeftBorder>
+                            <RightBorder>
+                              <Style>None</Style>
+                            </RightBorder>
                             <BackgroundColor>=iif(RowNumber(nothing) Mod 2 , "White","WhiteSmoke")</BackgroundColor>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
@@ -815,7 +847,8 @@
                               <Style>Solid</Style>
                             </Border>
                             <TopBorder>
-                              <Width>1pt</Width>
+                              <Color>Black</Color>
+                              <Style>Solid</Style>
                             </TopBorder>
                             <BackgroundColor>=iif(RowNumber(nothing) Mod 2 , "White","WhiteSmoke")</BackgroundColor>
                             <PaddingLeft>2pt</PaddingLeft>
@@ -854,7 +887,7 @@
                               <Style>Solid</Style>
                             </Border>
                             <TopBorder>
-                              <Width>1pt</Width>
+                              <Color>Black</Color>
                             </TopBorder>
                             <BottomBorder>
                               <Style>None</Style>
@@ -1819,7 +1852,7 @@
                                 <Style>Solid</Style>
                               </Border>
                               <TopBorder>
-                                <Style>None</Style>
+                                <Color>Black</Color>
                               </TopBorder>
                               <BackgroundColor>=iif(RowNumber(nothing) Mod 2 , "White","WhiteSmoke")</BackgroundColor>
                               <PaddingLeft>2pt</PaddingLeft>
@@ -1862,7 +1895,7 @@
                                     <Style>Solid</Style>
                                   </Border>
                                   <TopBorder>
-                                    <Style>None</Style>
+                                    <Color>Black</Color>
                                   </TopBorder>
                                   <BackgroundColor>=iif(RowNumber(nothing) Mod 2 , "White","WhiteSmoke")</BackgroundColor>
                                   <PaddingLeft>2pt</PaddingLeft>
@@ -1905,7 +1938,7 @@
                                         <Style>Solid</Style>
                                       </Border>
                                       <TopBorder>
-                                        <Style>None</Style>
+                                        <Color>Black</Color>
                                       </TopBorder>
                                       <BackgroundColor>=iif(RowNumber(nothing) Mod 2 , "White","WhiteSmoke")</BackgroundColor>
                                       <PaddingLeft>2pt</PaddingLeft>
@@ -1966,7 +1999,7 @@
                                     <Style>Solid</Style>
                                   </Border>
                                   <TopBorder>
-                                    <Style>None</Style>
+                                    <Color>Black</Color>
                                   </TopBorder>
                                   <BackgroundColor>=iif(RowNumber(nothing) Mod 2 , "White","WhiteSmoke")</BackgroundColor>
                                   <PaddingLeft>2pt</PaddingLeft>
@@ -3703,20 +3736,6 @@
           </Textbox>
           <Subreport Name="Subreport2">
             <ReportName>CompanyDetail</ReportName>
-            <Parameters>
-              <Parameter Name="SiteId">
-                <Value>=First(Fields!SiteId.Value, "DsMain")</Value>
-              </Parameter>
-              <Parameter Name="DivisionId">
-                <Value>=First(Fields!DivisionId.Value, "DsMain")</Value>
-              </Parameter>
-              <Parameter Name="DatabaseConnectionString">
-                <Value>=Parameters!DatabaseConnectionString.Value</Value>
-              </Parameter>
-              <Parameter Name="PrintedBy">
-                <Value>=Parameters!PrintedBy.Value</Value>
-              </Parameter>
-            </Parameters>
             <Top>0.01944in</Top>
             <Left>0.01743in</Left>
             <Height>0.35656in</Height>
@@ -4205,12 +4224,6 @@
       <Nullable>true</Nullable>
       <AllowBlank>true</AllowBlank>
       <Prompt>PrintedBy</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="DatabaseConnectionString">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>DatabaseConnectionString</Prompt>
     </ReportParameter>
   </ReportParameters>
   <EmbeddedImages>

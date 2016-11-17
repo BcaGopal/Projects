@@ -14,6 +14,7 @@ namespace System.Web.Mvc.Html
             else
                 return new MvcHtmlString("");
         }
+
         public static MvcHtmlString NumericBoxFor<TModel, TProperty>(this HtmlHelper<TModel> htmlHelper, Expression<Func<TModel, TProperty>> expression, object htmlAttributes)
         {
 
@@ -100,7 +101,6 @@ namespace System.Web.Mvc.Html
             else
                 return new MvcHtmlString("");
         }
-
 
     }
 }

@@ -17,11 +17,14 @@ namespace Model.ViewModels
         public int DepartmentId { get; set; }
         public string DepartmentName { get; set; }
         public int? SiteId { get; set; }
+        public int DivisionId { get; set; }
         public int PersonId { get; set; }
         public string PersonId1 { get; set; }
         public string Name { get; set; }
 
-        public int? GodownId { get; set; }
+        //public int? GodownId { get; set; }
+        public int GodownId { get; set; }
+        
         public string GodownName { get; set; }
         public string Remark { get; set; }
         public int Status { get; set; }

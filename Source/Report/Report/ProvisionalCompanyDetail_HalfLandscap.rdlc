@@ -22,7 +22,7 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>CompanyName</rd:DefaultName>
-        <Top>0.01458in</Top>
+        <Top>0.0125in</Top>
         <Left>0.74458in</Left>
         <Height>0.16667in</Height>
         <Width>2.01973in</Width>
@@ -55,7 +55,7 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>CompanyAddress</rd:DefaultName>
-        <Top>0.14931in</Top>
+        <Top>0.14723in</Top>
         <Left>0.75139in</Left>
         <Height>0.56527in</Height>
         <Width>2.03375in</Width>
@@ -71,6 +71,20 @@
           <PaddingBottom>2pt</PaddingBottom>
         </Style>
       </Textbox>
+      <Image Name="SuryaLogo">
+        <Source>Embedded</Source>
+        <Value>SuryaLogo</Value>
+        <Sizing>FitProportional</Sizing>
+        <Top>0.0125in</Top>
+        <Height>0.7in</Height>
+        <Width>0.71875in</Width>
+        <ZIndex>2</ZIndex>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+        </Style>
+      </Image>
       <Textbox Name="CompanyTinNo2">
         <KeepTogether>true</KeepTogether>
         <Paragraphs>
@@ -94,11 +108,11 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>CompanyTinNo</rd:DefaultName>
-        <Top>0.01458in</Top>
+        <Top>0.0125in</Top>
         <Left>3.43375in</Left>
         <Height>0.7in</Height>
         <Width>2.01042in</Width>
-        <ZIndex>2</ZIndex>
+        <ZIndex>3</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -106,22 +120,8 @@
           <VerticalAlign>Top</VerticalAlign>
         </Style>
       </Textbox>
-      <Image Name="SuryaLogo">
-        <Source>External</Source>
-        <Value>="file:"+ Fields!CompanyLogoPath.Value + ".jpg"</Value>
-        <Sizing>FitProportional</Sizing>
-        <Top>0.01458in</Top>
-        <Height>0.8in</Height>
-        <Width>0.8in</Width>
-        <ZIndex>3</ZIndex>
-        <Style>
-          <Border>
-            <Style>None</Style>
-          </Border>
-        </Style>
-      </Image>
     </ReportItems>
-    <Height>0.81458in</Height>
+    <Height>0.79584in</Height>
     <Style>
       <Border>
         <Style>None</Style>
@@ -142,10 +142,7 @@
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
     <DataSource Name="Purchase">
-      <ConnectionProperties>
-        <DataProvider>SQL</DataProvider>
-        <ConnectString>=Parameters!DatabaseConnectionString.Value</ConnectString>
-      </ConnectionProperties>
+      <DataSourceReference>DataSourceMain</DataSourceReference>
       <rd:SecurityType>None</rd:SecurityType>
       <rd:DataSourceID>727bb65e-cc51-4d28-a097-a8ea7d087931</rd:DataSourceID>
     </DataSource>
@@ -190,10 +187,6 @@
           <DataField>CompanyPhoneNo</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="CompanyPinNo">
-          <DataField>CompanyPinNo</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
         <Field Name="CompanyTinNo">
           <DataField>CompanyTinNo</DataField>
           <rd:TypeName>System.String</rd:TypeName>
@@ -204,14 +197,6 @@
         </Field>
         <Field Name="CompanyFaxNo">
           <DataField>CompanyFaxNo</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="CompanyCountry">
-          <DataField>CompanyCountry</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="CompanyLogoPath">
-          <DataField>CompanyLogoPath</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
       </Fields>
@@ -255,18 +240,6 @@
       <Nullable>true</Nullable>
       <AllowBlank>true</AllowBlank>
       <Prompt>Division Id</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="DatabaseConnectionString">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>DatabaseConnectionString</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="PrintedBy">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>PrintedBy</Prompt>
     </ReportParameter>
   </ReportParameters>
   <EmbeddedImages>

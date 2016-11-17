@@ -692,16 +692,8 @@
       </Tablix>
       <Subreport Name="Subreport1">
         <ReportName>CompanyDetail</ReportName>
-        <Parameters>
-          <Parameter Name="SiteId">
-            <Value>=First(Fields!SiteId.Value, "DsMain")</Value>
-          </Parameter>
-          <Parameter Name="DivisionId">
-            <Value>=First(Fields!DivisionId.Value, "DsMain")</Value>
-          </Parameter>
-        </Parameters>
         <Top>0.04861in</Top>
-        <Left>0.0727in</Left>
+        <Left>0.07271in</Left>
         <Height>0.12848in</Height>
         <Width>7.82085in</Width>
         <ZIndex>1</ZIndex>
@@ -2537,14 +2529,6 @@
       </Tablix>
       <Subreport Name="ProvisionalCompanyDetail">
         <ReportName>ProvisionalCompanyDetail</ReportName>
-        <Parameters>
-          <Parameter Name="SiteId">
-            <Value>=First(Fields!SiteId.Value, "DsMain")</Value>
-          </Parameter>
-          <Parameter Name="DivisionId">
-            <Value>=First(Fields!DivisionId.Value, "DsMain")</Value>
-          </Parameter>
-        </Parameters>
         <Top>0.22205in</Top>
         <Left>0.05245in</Left>
         <Height>0.15382in</Height>
@@ -2865,10 +2849,7 @@
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
     <DataSource Name="JobReturn">
-      <ConnectionProperties>
-        <DataProvider>SQL</DataProvider>
-        <ConnectString>Data Source=192.168.2.17;Initial Catalog=DyeingHouse;Integrated Security=False;User Id=sa; pwd=</ConnectString>
-      </ConnectionProperties>
+      <DataSourceReference>DataSourceMain</DataSourceReference>
       <rd:SecurityType>None</rd:SecurityType>
       <rd:DataSourceID>727bb65e-cc51-4d28-a097-a8ea7d087931</rd:DataSourceID>
     </DataSource>

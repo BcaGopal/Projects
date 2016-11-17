@@ -2,11 +2,8 @@
 <Report xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner" xmlns:cl="http://schemas.microsoft.com/sqlserver/reporting/2010/01/componentdefinition" xmlns="http://schemas.microsoft.com/sqlserver/reporting/2010/01/reportdefinition">
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
-    <DataSource Name="DsDynamic">
-      <ConnectionProperties>
-        <DataProvider>SQL</DataProvider>
-        <ConnectString>=Parameters!DatabaseConnectionString.Value</ConnectString>
-      </ConnectionProperties>
+    <DataSource Name="Dimension1Status">
+      <DataSourceReference>DataSourceMain</DataSourceReference>
       <rd:SecurityType>None</rd:SecurityType>
       <rd:DataSourceID>a4701ec2-a2bf-4f00-a373-e0ef6d3046c3</rd:DataSourceID>
     </DataSource>
@@ -14,7 +11,7 @@
   <DataSets>
     <DataSet Name="DsMain">
       <Query>
-        <DataSourceName>DsDynamic</DataSourceName>
+        <DataSourceName>Dimension1Status</DataSourceName>
         <QueryParameters>
           <QueryParameter Name="@Site">
             <Value>=Parameters!Site.Value</Value>
@@ -76,7 +73,7 @@
         </Field>
         <Field Name="ReportName">
           <DataField>ReportName</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
+          <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
         <Field Name="LotNO">
           <DataField>LotNO</DataField>
@@ -1629,7 +1626,7 @@
             <Top>1.92083in</Top>
             <Left>0.02993in</Left>
             <Height>1.38543in</Height>
-            <Width>7.91041in</Width>
+            <Width>7.91042in</Width>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -2105,22 +2102,8 @@
           </Textbox>
           <Subreport Name="Subreport2">
             <ReportName>CompanyDetail</ReportName>
-            <Parameters>
-              <Parameter Name="SiteId">
-                <Value>=First(Fields!SiteId.Value, "DsMain")</Value>
-              </Parameter>
-              <Parameter Name="DivisionId">
-                <Value>=First(Fields!DivisionId.Value, "DsMain")</Value>
-              </Parameter>
-              <Parameter Name="DatabaseConnectionString">
-                <Value>=Parameters!DatabaseConnectionString.Value</Value>
-              </Parameter>
-              <Parameter Name="PrintedBy">
-                <Value>=Parameters!PrintedBy.Value</Value>
-              </Parameter>
-            </Parameters>
             <Top>0.03194in</Top>
-            <Left>0.03334in</Left>
+            <Left>0.025in</Left>
             <Height>0.34375in</Height>
             <Width>7.89659in</Width>
             <ZIndex>3</ZIndex>
@@ -2242,9 +2225,9 @@
               </Paragraphs>
               <rd:DefaultName>Textbox18</rd:DefaultName>
               <Top>0.02362in</Top>
-              <Left>5.4959in</Left>
+              <Left>4.9959in</Left>
               <Height>0.25in</Height>
-              <Width>2.38667in</Width>
+              <Width>2.88667in</Width>
               <Style>
                 <Border>
                   <Style>None</Style>
@@ -2285,44 +2268,8 @@
               <Top>0.04028in</Top>
               <Left>0.05493in</Left>
               <Height>0.25in</Height>
-              <Width>2.23465in</Width>
+              <Width>3.3909in</Width>
               <ZIndex>1</ZIndex>
-              <Style>
-                <Border>
-                  <Style>None</Style>
-                </Border>
-                <PaddingLeft>2pt</PaddingLeft>
-                <PaddingRight>2pt</PaddingRight>
-                <PaddingTop>2pt</PaddingTop>
-                <PaddingBottom>2pt</PaddingBottom>
-              </Style>
-            </Textbox>
-            <Textbox Name="Textbox29">
-              <CanGrow>true</CanGrow>
-              <KeepTogether>true</KeepTogether>
-              <Paragraphs>
-                <Paragraph>
-                  <TextRuns>
-                    <TextRun>
-                      <Value>="Printed By : " + Parameters!PrintedBy.Value</Value>
-                      <Style>
-                        <FontFamily>tahoma</FontFamily>
-                        <FontSize>9pt</FontSize>
-                        <Format>dd-MMM-yy hh:mm:ss tt</Format>
-                      </Style>
-                    </TextRun>
-                  </TextRuns>
-                  <Style>
-                    <TextAlign>Center</TextAlign>
-                  </Style>
-                </Paragraph>
-              </Paragraphs>
-              <rd:DefaultName>Textbox19</rd:DefaultName>
-              <Top>0.05035in</Top>
-              <Left>2.5542in</Left>
-              <Height>0.22917in</Height>
-              <Width>2.85486in</Width>
-              <ZIndex>2</ZIndex>
               <Style>
                 <Border>
                   <Style>None</Style>
@@ -2523,16 +2470,6 @@
       <Nullable>true</Nullable>
       <AllowBlank>true</AllowBlank>
       <Prompt>To Godown Id</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="PrintedBy">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>PrintedBy</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="DatabaseConnectionString">
-      <DataType>String</DataType>
-      <Prompt>DatabaseConnectionString</Prompt>
     </ReportParameter>
   </ReportParameters>
   <EmbeddedImages>

@@ -133,6 +133,7 @@ namespace Service
                         Remark = p.Remark,
                         PersonId1= empid.ToString(),
                         Status = p.Status,
+                        GodownId=p.GodownId,
                         ModifiedDate = p.ModifiedDate,
                         ModifiedBy = p.ModifiedBy,
                         CreatedBy = p.CreatedBy,
@@ -274,6 +275,7 @@ namespace Service
                         ReviewCount = p.ReviewCount,
                         ReviewBy = p.ReviewBy,
                         DepartmentName = p.Department.DepartmentName,
+                        GodownId=p.GodownId,
                         Reviewed = (SqlFunctions.CharIndex(Uname, p.ReviewBy) > 0),
                     }
                 );

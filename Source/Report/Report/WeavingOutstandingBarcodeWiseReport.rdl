@@ -699,20 +699,6 @@
       </Textbox>
       <Subreport Name="CompanyDetail_Landscap">
         <ReportName>CompanyDetail_Landscap</ReportName>
-        <Parameters>
-          <Parameter Name="SiteId">
-            <Value>=First(Fields!SiteId.Value, "DsMain")</Value>
-          </Parameter>
-          <Parameter Name="DivisionId">
-            <Value>=First(Fields!DivisionId.Value, "DsMain")</Value>
-          </Parameter>
-          <Parameter Name="DatabaseConnectionString">
-            <Value>=Parameters!DatabaseConnectionString.Value</Value>
-          </Parameter>
-          <Parameter Name="PrintedBy">
-            <Value>=Parameters!PrintedBy.Value</Value>
-          </Parameter>
-        </Parameters>
         <Top>0.03255in</Top>
         <Left>0.041in</Left>
         <Height>0.30912in</Height>
@@ -825,7 +811,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>="Bal"+ System.Environment.NewLine + "Barcode"</Value>
+                              <Value>Barcode</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>9pt</FontSize>
@@ -1713,10 +1699,7 @@
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
     <DataSource Name="Weaving">
-      <ConnectionProperties>
-        <DataProvider>SQL</DataProvider>
-        <ConnectString>=Parameters!DatabaseConnectionString.Value</ConnectString>
-      </ConnectionProperties>
+      <DataSourceReference>DataSourceMain</DataSourceReference>
       <rd:SecurityType>None</rd:SecurityType>
       <rd:DataSourceID>dd7af43a-86ea-4bb9-8747-c50ac43bbbc6</rd:DataSourceID>
     </DataSource>
@@ -1729,14 +1712,20 @@
           <QueryParameter Name="@Site">
             <Value>=Parameters!Site.Value</Value>
           </QueryParameter>
+          <QueryParameter Name="@StatusOnDate">
+            <Value>=Parameters!StatusOnDate.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@FromDate">
+            <Value>=Parameters!FromDate.Value</Value>
+          </QueryParameter>
           <QueryParameter Name="@Division">
             <Value>=Parameters!Division.Value</Value>
           </QueryParameter>
+          <QueryParameter Name="@ToDate">
+            <Value>=Parameters!ToDate.Value</Value>
+          </QueryParameter>
           <QueryParameter Name="@DocumentType">
             <Value>=Parameters!DocumentType.Value</Value>
-          </QueryParameter>
-          <QueryParameter Name="@CostCenterId">
-            <Value>=Parameters!CostCenterId.Value</Value>
           </QueryParameter>
           <QueryParameter Name="@JobWorker">
             <Value>=Parameters!JobWorker.Value</Value>
@@ -1745,31 +1734,33 @@
             <Value>=Parameters!Product.Value</Value>
           </QueryParameter>
           <QueryParameter Name="@JobOrderHeaderId">
-            <Value>=Parameters!JobOrderHeaderId.Value</Value>
+            <Value>=Parameters!JoborderHeaderId.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@Process">
+            <Value>=Parameters!Process.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@ReportFor">
+            <Value>=Parameters!ReportFor.Value</Value>
           </QueryParameter>
         </QueryParameters>
         <CommandType>StoredProcedure</CommandType>
-        <CommandText>Web.spRep_WeavingOrderBarcodeBalance</CommandText>
+        <CommandText>Web.spRep_WashingOutStandingReport</CommandText>
       </Query>
       <Fields>
         <Field Name="Bal">
           <DataField>Bal</DataField>
-          <rd:TypeName>System.Int64</rd:TypeName>
+          <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
         <Field Name="UnitName">
           <DataField>UnitName</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="OrderNo">
-          <DataField>OrderNo</DataField>
+        <Field Name="DATE">
+          <DataField>DATE</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="Orderdate">
           <DataField>Orderdate</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="DATE">
-          <DataField>DATE</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="ReportName">
@@ -1780,17 +1771,21 @@
           <DataField>Product</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
+        <Field Name="OrderNo">
+          <DataField>OrderNo</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
         <Field Name="Name">
           <DataField>Name</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="SubReportProcList">
           <DataField>SubReportProcList</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
+          <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
         <Field Name="SiteId">
           <DataField>SiteId</DataField>
-          <rd:TypeName>System.Int64</rd:TypeName>
+          <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
         <Field Name="ProcessName">
           <DataField>ProcessName</DataField>
@@ -1802,7 +1797,7 @@
         </Field>
         <Field Name="DivisionId">
           <DataField>DivisionId</DataField>
-          <rd:TypeName>System.Int64</rd:TypeName>
+          <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
         <Field Name="Title">
           <DataField>Title</DataField>
@@ -1908,11 +1903,29 @@
       <AllowBlank>true</AllowBlank>
       <Prompt>Site</Prompt>
     </ReportParameter>
+    <ReportParameter Name="StatusOnDate">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Status On Date</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="FromDate">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>From Date</Prompt>
+    </ReportParameter>
     <ReportParameter Name="Division">
       <DataType>String</DataType>
       <Nullable>true</Nullable>
       <AllowBlank>true</AllowBlank>
       <Prompt>Division</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="ToDate">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>To Date</Prompt>
     </ReportParameter>
     <ReportParameter Name="DocumentType">
       <DataType>String</DataType>
@@ -1920,33 +1933,35 @@
       <AllowBlank>true</AllowBlank>
       <Prompt>Document Type</Prompt>
     </ReportParameter>
-    <ReportParameter Name="CostCenterId">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>Cost Center Id</Prompt>
-    </ReportParameter>
     <ReportParameter Name="JobWorker">
       <DataType>String</DataType>
       <Nullable>true</Nullable>
       <AllowBlank>true</AllowBlank>
       <Prompt>Job Worker</Prompt>
     </ReportParameter>
-    <ReportParameter Name="DatabaseConnectionString">
+    <ReportParameter Name="JoborderHeaderId">
       <DataType>String</DataType>
-      <Prompt>DatabaseConnectionString</Prompt>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Job Order Header Id</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="Process">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Process</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="ReportFor">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Report For</Prompt>
     </ReportParameter>
     <ReportParameter Name="PrintedBy">
       <DataType>String</DataType>
       <Nullable>true</Nullable>
       <AllowBlank>true</AllowBlank>
       <Prompt>PrintedBy</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="JobOrderHeaderId">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>JobOrderHeaderId</Prompt>
     </ReportParameter>
   </ReportParameters>
   <Code>

@@ -853,7 +853,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Pcs</Value>
+                              <Value>Qty</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>9pt</FontSize>
@@ -950,7 +950,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Pcs</Value>
+                              <Value>Qty</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>9pt</FontSize>
@@ -1007,7 +1007,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Pcs</Value>
+                              <Value>Qty</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>9pt</FontSize>
@@ -1064,7 +1064,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Pcs</Value>
+                              <Value>Qty</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>9pt</FontSize>

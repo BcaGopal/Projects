@@ -362,7 +362,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>GROUP NO.</Value>
+                              <Value>ROLL NO.</Value>
                               <Style>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
@@ -831,7 +831,7 @@
       </Fields>
       <rd:DataSetInfo>
         <rd:DataSetName>SalesReports</rd:DataSetName>
-        <rd:SchemaPath>E:\Akash\SuryaIndia\SuryaIndia\SuppliorModule_V1\Source\Planning.Reports\Reports\SalesReports.xsd</rd:SchemaPath>
+        <rd:SchemaPath>E:\Akash\SuryaIndia\SuryaIndia\SuppliorModule_V1\Source\Surya.Planning.Reports\Reports\SalesReports.xsd</rd:SchemaPath>
         <rd:TableName>ProcSaleInvoicePrint_ForMasterKey</rd:TableName>
         <rd:TableAdapterFillMethod>Fill</rd:TableAdapterFillMethod>
         <rd:TableAdapterGetDataMethod>GetData</rd:TableAdapterGetDataMethod>

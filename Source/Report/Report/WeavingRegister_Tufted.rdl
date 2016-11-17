@@ -206,9 +206,6 @@
           <DataField>PaymentAmount</DataField>
           <rd:TypeName>System.Double</rd:TypeName>
         </Field>
-        <Field Name="SilkQty">
-          <Value>SilkQty</Value>
-        </Field>
       </Fields>
     </DataSet>
   </DataSets>
@@ -2051,7 +2048,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!YarnQty.Value+Fields!SilkQty.Value</Value>
+                                  <Value>=Fields!YarnQty.Value</Value>
                                   <Style>
                                     <FontFamily>Tahoma</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -2786,7 +2783,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=RunningValue(Fields!YarnQty.Value+Fields!SilkQty.Value, Sum, nothing )</Value>
+                                  <Value>=RunningValue(Fields!YarnQty.Value, Sum, nothing )</Value>
                                   <Style>
                                     <FontFamily>Tahoma</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -3431,7 +3428,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Sum(Fields!YarnQty.Value+Fields!SilkQty.Value)</Value>
+                                  <Value>=Sum(Fields!YarnQty.Value)</Value>
                                   <Style>
                                     <FontFamily>Tahoma</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -6152,12 +6149,6 @@
               </Parameter>
               <Parameter Name="DivisionId">
                 <Value>=First(Fields!DivisionId.Value, "DsMain")</Value>
-              </Parameter>
-              <Parameter Name="DatabaseConnectionString">
-                <Value>=Parameters!DatabaseConnectionString.Value</Value>
-              </Parameter>
-              <Parameter Name="PrintedBy">
-                <Value>=Parameters!PrintedBy.Value</Value>
               </Parameter>
             </Parameters>
             <Top>0.025in</Top>

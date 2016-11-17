@@ -109,6 +109,14 @@
           <DataField>Design</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
+        <Field Name="IssueQty">
+          <DataField>IssueQty</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="ReturnQty">
+          <DataField>ReturnQty</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
       </Fields>
       <rd:DataSetInfo>
         <rd:DataSetName>Purchase</rd:DataSetName>
@@ -2022,23 +2030,26 @@
                                                           <TablixHeader>
                                                             <Size>0.69in</Size>
                                                             <CellContents>
-                                                              <Textbox Name="Textbox675">
+                                                              <Textbox Name="NetReqQty4">
                                                                 <CanGrow>true</CanGrow>
                                                                 <KeepTogether>true</KeepTogether>
                                                                 <Paragraphs>
                                                                   <Paragraph>
                                                                     <TextRuns>
                                                                       <TextRun>
-                                                                        <Value />
+                                                                        <Value>=Sum(Fields!ReturnQty.Value)</Value>
                                                                         <Style>
                                                                           <FontFamily>Tahoma</FontFamily>
+                                                                          <Format>0.000;-0.000;'-'</Format>
                                                                         </Style>
                                                                       </TextRun>
                                                                     </TextRuns>
-                                                                    <Style />
+                                                                    <Style>
+                                                                      <TextAlign>Right</TextAlign>
+                                                                    </Style>
                                                                   </Paragraph>
                                                                 </Paragraphs>
-                                                                <rd:DefaultName>Textbox675</rd:DefaultName>
+                                                                <rd:DefaultName>NetReqQty</rd:DefaultName>
                                                                 <Style>
                                                                   <Border>
                                                                     <Style>Solid</Style>
@@ -2047,7 +2058,7 @@
                                                                   <PaddingRight>2pt</PaddingRight>
                                                                   <PaddingTop>2pt</PaddingTop>
                                                                   <PaddingBottom>2pt</PaddingBottom>
-                                                                  <WritingMode>Vertical</WritingMode>
+                                                                  <WritingMode>Rotate270</WritingMode>
                                                                 </Style>
                                                               </Textbox>
                                                             </CellContents>
@@ -2057,23 +2068,26 @@
                                                               <TablixHeader>
                                                                 <Size>0.69in</Size>
                                                                 <CellContents>
-                                                                  <Textbox Name="Textbox782">
+                                                                  <Textbox Name="NetReqQty3">
                                                                     <CanGrow>true</CanGrow>
                                                                     <KeepTogether>true</KeepTogether>
                                                                     <Paragraphs>
                                                                       <Paragraph>
                                                                         <TextRuns>
                                                                           <TextRun>
-                                                                            <Value />
+                                                                            <Value>=Sum(Fields!IssueQty.Value)</Value>
                                                                             <Style>
                                                                               <FontFamily>Tahoma</FontFamily>
+                                                                              <Format>0.000;-0.000;'-'</Format>
                                                                             </Style>
                                                                           </TextRun>
                                                                         </TextRuns>
-                                                                        <Style />
+                                                                        <Style>
+                                                                          <TextAlign>Right</TextAlign>
+                                                                        </Style>
                                                                       </Paragraph>
                                                                     </Paragraphs>
-                                                                    <rd:DefaultName>Textbox782</rd:DefaultName>
+                                                                    <rd:DefaultName>NetReqQty</rd:DefaultName>
                                                                     <Style>
                                                                       <Border>
                                                                         <Style>Solid</Style>
@@ -2082,7 +2096,7 @@
                                                                       <PaddingRight>2pt</PaddingRight>
                                                                       <PaddingTop>2pt</PaddingTop>
                                                                       <PaddingBottom>2pt</PaddingBottom>
-                                                                      <WritingMode>Vertical</WritingMode>
+                                                                      <WritingMode>Rotate270</WritingMode>
                                                                     </Style>
                                                                   </Textbox>
                                                                 </CellContents>
@@ -2474,24 +2488,27 @@
                                                           <TablixHeader>
                                                             <Size>0.69in</Size>
                                                             <CellContents>
-                                                              <Textbox Name="Textbox673">
+                                                              <Textbox Name="Textbox211">
                                                                 <CanGrow>true</CanGrow>
                                                                 <KeepTogether>true</KeepTogether>
                                                                 <Paragraphs>
                                                                   <Paragraph>
                                                                     <TextRuns>
                                                                       <TextRun>
-                                                                        <Value />
+                                                                        <Value>=Sum(Fields!ReturnQty.Value)</Value>
                                                                         <Style>
                                                                           <FontFamily>Tahoma</FontFamily>
                                                                           <FontWeight>Bold</FontWeight>
+                                                                          <Format>0.000;-0.000;'-'</Format>
                                                                         </Style>
                                                                       </TextRun>
                                                                     </TextRuns>
-                                                                    <Style />
+                                                                    <Style>
+                                                                      <TextAlign>Right</TextAlign>
+                                                                    </Style>
                                                                   </Paragraph>
                                                                 </Paragraphs>
-                                                                <rd:DefaultName>Textbox673</rd:DefaultName>
+                                                                <rd:DefaultName>Textbox207</rd:DefaultName>
                                                                 <Style>
                                                                   <Border>
                                                                     <Style>Solid</Style>
@@ -2500,7 +2517,7 @@
                                                                   <PaddingRight>2pt</PaddingRight>
                                                                   <PaddingTop>2pt</PaddingTop>
                                                                   <PaddingBottom>2pt</PaddingBottom>
-                                                                  <WritingMode>Vertical</WritingMode>
+                                                                  <WritingMode>Rotate270</WritingMode>
                                                                 </Style>
                                                               </Textbox>
                                                             </CellContents>
@@ -2510,24 +2527,27 @@
                                                               <TablixHeader>
                                                                 <Size>0.69in</Size>
                                                                 <CellContents>
-                                                                  <Textbox Name="Textbox780">
+                                                                  <Textbox Name="Textbox210">
                                                                     <CanGrow>true</CanGrow>
                                                                     <KeepTogether>true</KeepTogether>
                                                                     <Paragraphs>
                                                                       <Paragraph>
                                                                         <TextRuns>
                                                                           <TextRun>
-                                                                            <Value />
+                                                                            <Value>=Sum(Fields!IssueQty.Value)</Value>
                                                                             <Style>
                                                                               <FontFamily>Tahoma</FontFamily>
                                                                               <FontWeight>Bold</FontWeight>
+                                                                              <Format>0.000;-0.000;'-'</Format>
                                                                             </Style>
                                                                           </TextRun>
                                                                         </TextRuns>
-                                                                        <Style />
+                                                                        <Style>
+                                                                          <TextAlign>Right</TextAlign>
+                                                                        </Style>
                                                                       </Paragraph>
                                                                     </Paragraphs>
-                                                                    <rd:DefaultName>Textbox780</rd:DefaultName>
+                                                                    <rd:DefaultName>Textbox207</rd:DefaultName>
                                                                     <Style>
                                                                       <Border>
                                                                         <Style>Solid</Style>
@@ -2536,7 +2556,7 @@
                                                                       <PaddingRight>2pt</PaddingRight>
                                                                       <PaddingTop>2pt</PaddingTop>
                                                                       <PaddingBottom>2pt</PaddingBottom>
-                                                                      <WritingMode>Vertical</WritingMode>
+                                                                      <WritingMode>Rotate270</WritingMode>
                                                                     </Style>
                                                                   </Textbox>
                                                                 </CellContents>
@@ -2751,18 +2771,6 @@
                             <CanGrow>true</CanGrow>
                             <KeepTogether>true</KeepTogether>
                             <Paragraphs>
-                              <Paragraph>
-                                <TextRuns>
-                                  <TextRun>
-                                    <Value>Shade/</Value>
-                                    <Style>
-                                      <FontFamily>Tahoma</FontFamily>
-                                      <FontWeight>Bold</FontWeight>
-                                    </Style>
-                                  </TextRun>
-                                </TextRuns>
-                                <Style />
-                              </Paragraph>
                               <Paragraph>
                                 <TextRuns>
                                   <TextRun>
@@ -3450,14 +3458,14 @@
         <Height>10.5575in</Height>
         <Style />
       </Body>
-      <Width>2.90564in</Width>
+      <Width>2.91606in</Width>
       <Page>
-        <PageHeight>8.27in</PageHeight>
-        <PageWidth>11.69in</PageWidth>
-        <LeftMargin>0.3in</LeftMargin>
-        <RightMargin>0.17in</RightMargin>
-        <TopMargin>0.5in</TopMargin>
-        <BottomMargin>0.17in</BottomMargin>
+        <PageHeight>11.69in</PageHeight>
+        <PageWidth>8.27in</PageWidth>
+        <LeftMargin>0.2in</LeftMargin>
+        <RightMargin>0.1in</RightMargin>
+        <TopMargin>0.3in</TopMargin>
+        <BottomMargin>0.1in</BottomMargin>
         <Style />
       </Page>
     </ReportSection>

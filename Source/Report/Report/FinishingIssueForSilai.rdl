@@ -1666,6 +1666,7 @@
                         <PaddingBottom>2pt</PaddingBottom>
                       </Style>
                     </Textbox>
+                    <rd:Selected>true</rd:Selected>
                   </CellContents>
                 </TablixCell>
               </TablixCells>
@@ -1852,20 +1853,6 @@
       </Tablix>
       <Subreport Name="CompanyDetail_HalfLandscap">
         <ReportName>CompanyDetail_HalfLandscap</ReportName>
-        <Parameters>
-          <Parameter Name="SiteId">
-            <Value>=First(Fields!SiteId.Value, "DsMain")</Value>
-          </Parameter>
-          <Parameter Name="DivisionId">
-            <Value>=First(Fields!DivisionId.Value, "DsMain")</Value>
-          </Parameter>
-          <Parameter Name="DatabaseConnectionString">
-            <Value>=Parameters!DatabaseConnectionString.Value</Value>
-          </Parameter>
-          <Parameter Name="PrintedBy">
-            <Value>=Parameters!PrintedBy.Value</Value>
-          </Parameter>
-        </Parameters>
         <Top>0.02778in</Top>
         <Left>0.0567in</Left>
         <Height>0.25833in</Height>
@@ -1879,20 +1866,6 @@
       </Subreport>
       <Subreport Name="CompanyDetail_HalfLandscap2">
         <ReportName>CompanyDetail_HalfLandscap</ReportName>
-        <Parameters>
-          <Parameter Name="SiteId">
-            <Value>=First(Fields!SiteId.Value, "DsMain")</Value>
-          </Parameter>
-          <Parameter Name="DivisionId">
-            <Value>=First(Fields!DivisionId.Value, "DsMain")</Value>
-          </Parameter>
-          <Parameter Name="PrintedBy">
-            <Value>=Parameters!DatabaseConnectionString.Value</Value>
-          </Parameter>
-          <Parameter Name="DatabaseConnectionString">
-            <Value>=Parameters!PrintedBy.Value</Value>
-          </Parameter>
-        </Parameters>
         <Top>0.04028in</Top>
         <Left>5.55427in</Left>
         <Height>0.25833in</Height>
@@ -4591,17 +4564,6 @@
                   <CellContents>
                     <Subreport Name="HalfGatePassPrint">
                       <ReportName>HalfGatePassPrint</ReportName>
-                      <Parameters>
-                        <Parameter Name="Id">
-                          <Value>=Fields!GatePassHeaderId.Value</Value>
-                        </Parameter>
-                        <Parameter Name="DatabaseConnectionString">
-                          <Value>=Parameters!DatabaseConnectionString.Value</Value>
-                        </Parameter>
-                        <Parameter Name="RefDocNo">
-                          <Value>=Fields!SlipNo.Value</Value>
-                        </Parameter>
-                      </Parameters>
                       <Style>
                         <Border>
                           <Style>None</Style>
@@ -5411,78 +5373,6 @@
             <PaddingBottom>2pt</PaddingBottom>
           </Style>
         </Textbox>
-        <Textbox Name="Textbox153">
-          <CanGrow>true</CanGrow>
-          <KeepTogether>true</KeepTogether>
-          <Paragraphs>
-            <Paragraph>
-              <TextRuns>
-                <TextRun>
-                  <Value>="Printed By : " + Parameters!PrintedBy.Value</Value>
-                  <Style>
-                    <FontFamily>tahoma</FontFamily>
-                    <FontSize>9pt</FontSize>
-                    <Format>dd-MMM-yy hh:mm:ss tt</Format>
-                  </Style>
-                </TextRun>
-              </TextRuns>
-              <Style>
-                <TextAlign>Center</TextAlign>
-              </Style>
-            </Paragraph>
-          </Paragraphs>
-          <rd:DefaultName>Textbox19</rd:DefaultName>
-          <Top>0.05363in</Top>
-          <Left>1.56511in</Left>
-          <Height>0.23786in</Height>
-          <Width>1.75343in</Width>
-          <ZIndex>4</ZIndex>
-          <Style>
-            <Border>
-              <Style>None</Style>
-            </Border>
-            <PaddingLeft>2pt</PaddingLeft>
-            <PaddingRight>2pt</PaddingRight>
-            <PaddingTop>2pt</PaddingTop>
-            <PaddingBottom>2pt</PaddingBottom>
-          </Style>
-        </Textbox>
-        <Textbox Name="Textbox154">
-          <CanGrow>true</CanGrow>
-          <KeepTogether>true</KeepTogether>
-          <Paragraphs>
-            <Paragraph>
-              <TextRuns>
-                <TextRun>
-                  <Value>="Printed By : " + Parameters!PrintedBy.Value</Value>
-                  <Style>
-                    <FontFamily>tahoma</FontFamily>
-                    <FontSize>9pt</FontSize>
-                    <Format>dd-MMM-yy hh:mm:ss tt</Format>
-                  </Style>
-                </TextRun>
-              </TextRuns>
-              <Style>
-                <TextAlign>Center</TextAlign>
-              </Style>
-            </Paragraph>
-          </Paragraphs>
-          <rd:DefaultName>Textbox19</rd:DefaultName>
-          <Top>0.05363in</Top>
-          <Left>7.16188in</Left>
-          <Height>0.23786in</Height>
-          <Width>1.75343in</Width>
-          <ZIndex>5</ZIndex>
-          <Style>
-            <Border>
-              <Style>None</Style>
-            </Border>
-            <PaddingLeft>2pt</PaddingLeft>
-            <PaddingRight>2pt</PaddingRight>
-            <PaddingTop>2pt</PaddingTop>
-            <PaddingBottom>2pt</PaddingBottom>
-          </Style>
-        </Textbox>
       </ReportItems>
       <Style>
         <Border>
@@ -5501,10 +5391,7 @@
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
     <DataSource Name="Purchase">
-      <ConnectionProperties>
-        <DataProvider>SQL</DataProvider>
-        <ConnectString>=Parameters!DatabaseConnectionString.Value</ConnectString>
-      </ConnectionProperties>
+      <DataSourceReference>DataSourceMain</DataSourceReference>
       <rd:SecurityType>None</rd:SecurityType>
       <rd:DataSourceID>727bb65e-cc51-4d28-a097-a8ea7d087931</rd:DataSourceID>
     </DataSource>
@@ -5680,18 +5567,6 @@
       <DataType>Integer</DataType>
       <Nullable>true</Nullable>
       <Prompt>Id</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="DatabaseConnectionString">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>DatabaseConnectionString</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="PrintedBy">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>PrintedBy</Prompt>
     </ReportParameter>
   </ReportParameters>
   <Code>

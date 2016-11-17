@@ -3,10 +3,7 @@
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
     <DataSource Name="MaterialIssueToJobOrder">
-      <ConnectionProperties>
-        <DataProvider>SQL</DataProvider>
-        <ConnectString>=Parameters!DatabaseConnectionString.Value</ConnectString>
-      </ConnectionProperties>
+      <DataSourceReference>DataSourceMain</DataSourceReference>
       <rd:SecurityType>None</rd:SecurityType>
       <rd:DataSourceID>a4701ec2-a2bf-4f00-a373-e0ef6d3046c3</rd:DataSourceID>
     </DataSource>
@@ -72,13 +69,17 @@
           <DataField>ReportName</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
+        <Field Name="Cnt">
+          <DataField>Cnt</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
         <Field Name="ReportTitle">
           <DataField>ReportTitle</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="SubReportProcList">
           <DataField>SubReportProcList</DataField>
-          <rd:TypeName>System.Int32</rd:TypeName>
+          <rd:TypeName>System.String</rd:TypeName>
         </Field>
       </Fields>
       <rd:DataSetInfo>
@@ -97,10 +98,10 @@
         <ReportItems>
           <Image Name="Image1">
             <Source>External</Source>
-            <Value>https://192.168.2.110:44309/Uploads/84283ad0-b56b-46d2-9aa2-03d8bb02d3cc/CAE-1001_c2e41481-d5ac-48fb-935d-f62883fd80d5.PNG</Value>
+            <Value>="file:"+First(Fields!ImagePath.Value, "DsMain")</Value>
             <Sizing>Fit</Sizing>
-            <Top>0.10292in</Top>
-            <Left>0.13417in</Left>
+            <Top>0.14979in</Top>
+            <Left>0.12235in</Left>
             <Height>7.40972in</Height>
             <Width>4.88542in</Width>
             <Style>
@@ -1858,10 +1859,13 @@
               </Parameter>
             </Parameters>
             <Top>3.53833in</Top>
-            <Left>5.06333in</Left>
+            <Left>5.13833in</Left>
             <Height>0.3125in</Height>
             <Width>5.35625in</Width>
             <ZIndex>2</ZIndex>
+            <Visibility>
+              <Hidden>=iif(Fields!Cnt.Value="0",True,False)</Hidden>
+            </Visibility>
             <Style>
               <Border>
                 <Style>None</Style>

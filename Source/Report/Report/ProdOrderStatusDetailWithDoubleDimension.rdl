@@ -3,10 +3,7 @@
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
     <DataSource Name="Purchase">
-      <ConnectionProperties>
-        <DataProvider>SQL</DataProvider>
-        <ConnectString>=Parameters!DatabaseConnectionString.Value</ConnectString>
-      </ConnectionProperties>
+      <DataSourceReference>DataSourceMain</DataSourceReference>
       <rd:SecurityType>None</rd:SecurityType>
       <rd:DataSourceID>a4701ec2-a2bf-4f00-a373-e0ef6d3046c3</rd:DataSourceID>
     </DataSource>
@@ -18,9 +15,6 @@
         <QueryParameters>
           <QueryParameter Name="@Site">
             <Value>=Parameters!Site.Value</Value>
-          </QueryParameter>
-          <QueryParameter Name="@ReportType">
-            <Value>=Parameters!ReportType.Value</Value>
           </QueryParameter>
           <QueryParameter Name="@Division">
             <Value>=Parameters!Division.Value</Value>
@@ -67,12 +61,9 @@
           <QueryParameter Name="@ProductDivisionId">
             <Value>=Parameters!ProductDivisionId.Value</Value>
           </QueryParameter>
-          <QueryParameter Name="@ReportFor">
-            <Value>=Parameters!ReportFor.Value</Value>
-          </QueryParameter>
         </QueryParameters>
         <CommandType>StoredProcedure</CommandType>
-        <CommandText>Web.spRep_ProdOrderStatus</CommandText>
+        <CommandText>Web.spRep_ProdOrderStatusDetail</CommandText>
       </Query>
       <Fields>
         <Field Name="OrderDate">
@@ -123,6 +114,10 @@
           <DataField>Dimension2Name</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
+        <Field Name="ReceiveNo">
+          <DataField>ReceiveNo</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
         <Field Name="ProdOrderLineId">
           <DataField>ProdOrderLineId</DataField>
           <rd:TypeName>System.Int32</rd:TypeName>
@@ -131,9 +126,9 @@
           <DataField>BalanceQty</DataField>
           <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
-        <Field Name="ReceiveNo">
-          <DataField>ReceiveNo</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
+        <Field Name="ReceiveDate">
+          <DataField>ReceiveDate</DataField>
+          <rd:TypeName>System.DateTime</rd:TypeName>
         </Field>
         <Field Name="Dimension2TypeName">
           <DataField>Dimension2TypeName</DataField>
@@ -142,10 +137,6 @@
         <Field Name="OrderQty">
           <DataField>OrderQty</DataField>
           <rd:TypeName>System.Decimal</rd:TypeName>
-        </Field>
-        <Field Name="ReceiveDate">
-          <DataField>ReceiveDate</DataField>
-          <rd:TypeName>System.DateTime</rd:TypeName>
         </Field>
         <Field Name="ReceiveQty">
           <DataField>ReceiveQty</DataField>
@@ -549,7 +540,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value EvaluationMode="Constant">Dimension2</Value>
+                                  <Value>Dimension2</Value>
                                   <Style>
                                     <FontFamily>Tahoma</FontFamily>
                                     <FontSize>7pt</FontSize>
@@ -8426,20 +8417,6 @@
           </Tablix>
           <Subreport Name="Subreport1">
             <ReportName>CompanyDetail_Landscap</ReportName>
-            <Parameters>
-              <Parameter Name="SiteId">
-                <Value>=First(Fields!SiteId.Value, "DsMain")</Value>
-              </Parameter>
-              <Parameter Name="DivisionId">
-                <Value>=First(Fields!DivisionId.Value, "DsMain")</Value>
-              </Parameter>
-              <Parameter Name="DatabaseConnectionString">
-                <Value>=Parameters!DatabaseConnectionString.Value</Value>
-              </Parameter>
-              <Parameter Name="PrintedBy">
-                <Value>=Parameters!PrintedBy.Value</Value>
-              </Parameter>
-            </Parameters>
             <Top>0.01944in</Top>
             <Left>0.05105in</Left>
             <Height>0.32083in</Height>
@@ -8891,17 +8868,17 @@
       <AllowBlank>true</AllowBlank>
       <Prompt>FilterStr22</Prompt>
     </ReportParameter>
+    <ReportParameter Name="PrintedBy">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>PrintedBy</Prompt>
+    </ReportParameter>
     <ReportParameter Name="Site">
       <DataType>String</DataType>
       <Nullable>true</Nullable>
       <AllowBlank>true</AllowBlank>
       <Prompt>Site</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="ReportType">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>Report Type</Prompt>
     </ReportParameter>
     <ReportParameter Name="Division">
       <DataType>String</DataType>
@@ -8992,24 +8969,6 @@
       <Nullable>true</Nullable>
       <AllowBlank>true</AllowBlank>
       <Prompt>Product Division Id</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="ReportFor">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>Report For</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="PrintedBy">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>PrintedBy</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="DatabaseConnectionString">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>DatabaseConnectionString</Prompt>
     </ReportParameter>
   </ReportParameters>
   <EmbeddedImages>
