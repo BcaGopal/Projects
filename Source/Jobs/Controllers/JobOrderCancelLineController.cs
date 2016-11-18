@@ -2056,6 +2056,7 @@ namespace Web
 
         public JsonResult GetOrderLineForUid(int UId, int CancelHeaderId)
         {
+            var JobOrderCancelHeader = new JobOrderCancelHeaderService(_unitOfWork).Find(CancelHeaderId);
 
             int SiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
             int DivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
@@ -2065,7 +2066,7 @@ namespace Web
                                join t in db.ProductUidHeader on p.ProductUidHeaderId equals t.ProductUidHeaderId
                                join t2 in db.JobOrderLine on t.ProductUidHeaderId equals t2.ProductUidHeaderId
                                join t3 in db.JobOrderHeader on t2.JobOrderHeaderId equals t3.JobOrderHeaderId
-                               where t3.SiteId == SiteId && t3.DivisionId == DivisionId
+                               where t3.SiteId == SiteId && t3.DivisionId == DivisionId && t3.ProcessId == JobOrderCancelHeader.ProcessId
                                select t2).FirstOrDefault();
 
 

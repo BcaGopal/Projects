@@ -85,11 +85,14 @@ namespace Web
                              group new { L } by new { L.BaseProductId } into Result
                              select new
                              {
-                                 TotalPercentage = Result.Sum(i => i.L.ConsumptionPer)
+                                 TotalQty = Result.Sum(i => i.L.Qty)
                              }).FirstOrDefault();
 
             if (LastTrRec != null)
-                ViewBag.LastTransaction = LastTrRec.TotalPercentage + "% Consumption filled, " + (100 - LastTrRec.TotalPercentage) + " remaining.";
+            {
+                Decimal TotalPercentage = Math.Round(LastTrRec.TotalQty * 100 / svm.Weight,2);
+                ViewBag.LastTransaction = TotalPercentage + "% Consumption filled, " + (100 - TotalPercentage) + " remaining.";
+            }
         }
 
         //public ActionResult _Create(int Id) //Id ==>Design Content Header Id
@@ -253,7 +256,8 @@ namespace Web
                 }
                 else
                 {
-                    product = new FinishedProductService(_unitOfWork).Find(svm.BaseProductId);
+                    //product = new FinishedProductService(_unitOfWork).Find(svm.BaseProductId);
+                    product.ProductId = svm.ProductId;
                 }
 
                 if (svm.BomDetailId == 0)

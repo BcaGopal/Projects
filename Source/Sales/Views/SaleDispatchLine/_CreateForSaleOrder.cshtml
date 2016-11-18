@@ -498,7 +498,10 @@
                             $("#SaleOrderHeaderDocNo").val(data.SaleOrderHeaderDocNo);
                             $("#ProductId").val(data.ProductId);
                             $("#Dimension1Id").select2("data", { id: data.Dimension1Id, text: data.Dimension1Name });
-                            $("#Dimension2Id").select2("data", { id: data.Dimension2Id, text: data.Dimension2Name });
+                            if (data.Dimension2Id != null && data.Dimension2Id != 0)
+                            {
+                                $("#Dimension2Id").select2("data", { id: data.Dimension2Id, text: data.Dimension2Name });
+                            }
                             $("#Qty").val(data.BalanceQty);
                             $("#PassQty").val(data.BalanceQty);
                             $("#BalanceQty").val(data.BalanceQty);
@@ -507,6 +510,7 @@
                             $("#DealUnitId").val(data.DealUnitId);
                             $("#UnitConversionMultiplier").val(data.UnitConversionMultiplier);
                             $("#UnitName").val(data.UnitName);
+                            $("#Specification").val(data.Specification);
                             Calculation();
                             CustomSelectFunctionForStockIn($("#StockInId"), '/SaleDispatchLine/GetStockInForProduct', '/SaleDispatchLine/SetSingleStockIn', ' ', false, 0,$("#SaleDispatchHeaderId").val(),$("#ProductId").val(),$("#Dimension1Id").val(),$("#Dimension2Id").val());
                         }
@@ -518,6 +522,7 @@
                             $("#PassQty").val(0);
                             $("#BalanceQty").val(0);
                             $("#Rate").val(0);
+                            $("#Specification").val("");
                         }
                     },
                     error: function (xhr, ajaxOptions, thrownError) {

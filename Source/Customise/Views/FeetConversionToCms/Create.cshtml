@@ -51,16 +51,19 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-6">
-                                <div class="form-group" style="margin-top:15px">
-                                    @Html.LabelFor(model => model.Inch, "Inch", new { @class = "control-label col-xs-4" })
-                                    <div class="col-xs-6">
-                                        @Html.TextBoxFor(m => m.Inch, null, new { @class = "form-control col-xs-6 required" })
-                                        @Html.ValidationMessageFor(model => model.Inch)
+                        </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group" style="margin-top:15px">
+                                        @Html.LabelFor(model => model.Inch, "Inch", new { @class = "control-label col-xs-4" })
+                                        <div class="col-xs-6">
+                                            @Html.TextBoxFor(m => m.Inch, null, new { @class = "form-control col-xs-6 required" })
+                                            @Html.ValidationMessageFor(model => model.Inch)
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">

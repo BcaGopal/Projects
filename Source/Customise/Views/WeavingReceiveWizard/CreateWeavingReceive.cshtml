@@ -37,7 +37,7 @@
             </div>
             <div class="modal-body" id="SelectedSummary">
 
-                <span id="Validation"></span>
+                
 
                 <div class="row" style="margin-left:0px;margin-right:0px;margin-bottom:7px">
                     <div class='row-index block' style='width:5%'>  <strong>Sr</strong>  </div>
@@ -98,10 +98,11 @@
 <div class="panel panel-default">
     <div class="panel-heading">
         <h3>
-            <span style="font-family: Calibri,sans-serif,Verdana;font-weight:bold" class="black"><span class="glyphicon glyphicon-list black"></span> Weaving Order List</span>
+            <span style="font-family: Calibri,sans-serif,Verdana;font-weight:bold" class="black"><span class="glyphicon glyphicon-list black"></span> Pending Weaving Order List</span>
             @Html.ActionLink(" ", "ConfirmJobOrderList", "WeavingReceiveWizard", null, new { @class = "glyphicon glyphicon-hand-right toolbar right", @title = "Proceed", @data_toggle = "tooltip", @id = "Proceed" })
             <a href="#" class="glyphicon glyphicon-shopping-cart toolbar right" id="CartSum"></a>
         </h3>
+        <span id="Validation" class="danger"></span>
         <hr style="margin-top:0px;margin-bottom:0px" />
     </div>
 
@@ -212,7 +213,48 @@
                 arr.push({ JobOrderLineId: value.JobOrderLineId, Qty: value.Qty, BalanceQty: value.BalanceQty, DesignName: value.DesignName, Size: value.Size, FromProductUidName: value.FromProductUidName, ToProductUidName: value.ToProductUidName, JobWorkerId: value.JobWorkerId });
             })
 
-            //alert($(this).attr('href'));
+            var ValidationMsg = "";
+            var multiplejobworkers = false;
+
+            for (var i = 0; i < test.length; i++) {
+                if (i > 0)
+                {
+                    if (test[i].JobWorkerId != test[i-1].JobWorkerId)
+                    {
+                        ValidationMsg = "More then one job worker can not be selected.";
+                    }
+                }
+
+                if (test[i].FromProductUidName == test[i].ToProductUidName && test[i].Qty > 1)
+                {
+                    ValidationMsg = "From barcode and to bar code are same for design " + test[i].DesignName + ", size " + test[i].Size + " and colour " + test[i].Colour + ".";
+                }
+
+                if (test[i].ToProductUidName == "" && test[i].Qty > 1) {
+                    
+                    ValidationMsg = "To barcode is blank for design " + test[i].DesignName + ", size " + test[i].Size + " and colour " + test[i].Colour + ".";
+                }
+
+                if (test[i].FromProductUidName == "" && test[i].ToProductUidName == "") {
+                    ValidationMsg = "From barcode and to barcode is blank for design " + test[i].DesignName + ", size " + test[i].Size + " and colour " + test[i].Colour + ".";
+                }
+
+                if (test[i].FromProductUidName != "" && test[i].ToProductUidName != "") {
+                    if ((test[i].ToProductUidName - test[i].FromProductUidName) + 1 != test[i].Qty)
+                    {
+                        ValidationMsg = "Qty and barcode series does not match for design " + test[i].DesignName + ", size " + test[i].Size + " and colour " + test[i].Colour + ".";
+                    }
+                }
+            }
+
+            if (ValidationMsg != "")
+            {
+                $("#Validation").text(ValidationMsg);
+                return false;
+            }
+
+
+
 
             $.ajax({
                 url: $(this).attr('href'),
@@ -427,4 +469,6 @@
         $('#AmtTotal').html(0);
     })
 
+    
+   
 </script>

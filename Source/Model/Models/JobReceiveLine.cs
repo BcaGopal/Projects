@@ -20,15 +20,18 @@ namespace Model.Models
 
         [Display(Name = "Job Receive"), Required]
         [ForeignKey("JobReceiveHeader")]
+        [Index("IX_JobReceiveLine_Unique", IsUnique = true, Order = 1)]
         public int JobReceiveHeaderId { get; set; }
         public virtual JobReceiveHeader JobReceiveHeader { get; set; }
 
         [ForeignKey("ProductUid"), Display(Name = "ProductUid")]
+        [Index("IX_JobReceiveLine_Unique", IsUnique = true, Order = 3)]
         public int? ProductUidId { get; set; }
         public virtual ProductUid ProductUid { get; set; }
 
         [Display(Name = "Job Order"), Required]
         [ForeignKey("JobOrderLine")]
+        [Index("IX_JobReceiveLine_Unique", IsUnique = true, Order = 2)]
         public int JobOrderLineId { get; set; }
         public virtual JobOrderLine JobOrderLine { get; set; }
 
@@ -71,6 +74,7 @@ namespace Model.Models
         public Decimal? IncentiveAmt { get; set; }
 
         [Display(Name = "Lot No."), MaxLength(10)]
+        [Index("IX_JobReceiveLine_Unique", IsUnique = true, Order = 4)]
         public string LotNo { get; set; }
 
         [Display(Name = "Remark")]

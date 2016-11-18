@@ -187,6 +187,9 @@ namespace Service
 
         }
 
+
+
+
         public IEnumerable<ProductProcessViewModel> GetMaxProductProcessListForDesign(int Id)
         {
             var Temp = (from p in db.Product
@@ -220,6 +223,51 @@ namespace Service
                     join t in db.ProductProcess on p.ProductId equals t.ProductId
                     where p.ProductGroupId == id
                     select t).ToList();
+
+        }
+
+        public bool UpdateProductRateGroupForProduct(int ProductId, int? Dimension1Id, int? Dimension2Id, int ProductRateGroupId, int RateListHeaderId, string User, out XElement Modifications)
+        {
+            List<LogTypeViewModel> LogList = new List<LogTypeViewModel>();
+
+            var ExistingProducts = (from p in db.ProductProcess
+                                    join t in db.RateListHeader on p.ProcessId equals t.ProcessId
+                                    where t.RateListHeaderId == RateListHeaderId
+                                    && p.ProductId == ProductId && p.Dimension1Id == Dimension1Id && p.Dimension2Id == Dimension2Id
+                                    select p).ToList();
+
+
+            foreach (var item in ExistingProducts)
+            {
+                ProductProcess ExRec = Mapper.Map<ProductProcess>(item);
+                item.ProductRateGroupId = ProductRateGroupId;
+                item.ModifiedBy = User;
+                item.ModifiedDate = DateTime.Now;
+
+                LogList.Add(new LogTypeViewModel
+                {
+                    ExObj = ExRec,
+                    Obj = item,
+                });
+
+
+                item.ObjectState = Model.ObjectState.Modified;
+                db.ProductProcess.Add(item);
+
+            }
+
+            Modifications = new ModificationsCheckService().CheckChanges(LogList);
+
+            try
+            {
+                db.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+
+            return true;
 
         }
 

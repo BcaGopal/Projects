@@ -86,6 +86,13 @@ namespace Jobs.App_Start
             container.RegisterType<IRepository<JobReceiveLine>, Repository<JobReceiveLine>>();
             container.RegisterType<IJobReceiveLineService, JobReceiveLineService>(new PerRequestLifetimeManager());
 
+            container.RegisterType<IRepository<JobReceiveQAAttribute>, Repository<JobReceiveQAAttribute>>();
+            container.RegisterType<IJobReceiveQAAttributeService, JobReceiveQAAttributeService>(new PerRequestLifetimeManager());
+
+            container.RegisterType<IRepository<JobReceiveQAPenalty>, Repository<JobReceiveQAPenalty>>();
+            container.RegisterType<IJobReceiveQAPenaltyService, JobReceiveQAPenaltyService>(new PerRequestLifetimeManager());
+
+
             container.RegisterType<IRepository<JobReturnHeader>, Repository<JobReturnHeader>>();
             container.RegisterType<IJobReturnHeaderService, JobReturnHeaderService>(new PerRequestLifetimeManager());
 
@@ -414,6 +421,12 @@ namespace Jobs.App_Start
 
             Mapper.CreateMap<JobReceiveQAHeaderViewModel, DocumentUniqueId>();
             Mapper.CreateMap<JobReceiveQAHeader, DocumentUniqueId>();
+            Mapper.CreateMap<JobReceiveQAHeader, JobReceiveQAAttributeViewModel>();
+            Mapper.CreateMap<JobReceiveQAAttributeViewModel, JobReceiveQAHeader>();
+
+            Mapper.CreateMap<JobReceiveQAPenalty, JobReceiveQAPenaltyViewModel>();
+            Mapper.CreateMap<JobReceiveQAPenaltyViewModel, JobReceiveQAPenalty>();
+
 
             Mapper.CreateMap<JobOrderInspectionRequestCancelHeaderViewModel, DocumentUniqueId>();
             Mapper.CreateMap<JobOrderInspectionRequestCancelHeader, DocumentUniqueId>();
@@ -465,6 +478,8 @@ namespace Jobs.App_Start
 
             Mapper.CreateMap<JobReceiveQALine, JobReceiveQALineViewModel>();
             Mapper.CreateMap<JobReceiveQALineViewModel, JobReceiveQALine>();
+            Mapper.CreateMap<JobReceiveQALine, JobReceiveQAAttributeViewModel>();
+            Mapper.CreateMap<JobReceiveQAAttributeViewModel, JobReceiveQALine>();
 
             Mapper.CreateMap<JobReceiveQAHeader, JobReceiveQAHeader>();
             Mapper.CreateMap<JobReceiveQALine, JobReceiveQALine>();

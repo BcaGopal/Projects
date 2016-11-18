@@ -400,7 +400,7 @@ namespace Web
         //[ValidateAntiForgeryToken]
         public ActionResult _CreatePost(SaleDispatchLineViewModel svm)
         {
-            SaleDispatchSetting Settings = new SaleDispatchSettingService(_unitOfWork).Find(svm.DocTypeId);
+            SaleDispatchSetting Settings = new SaleDispatchSettingService(_unitOfWork).GetSaleDispatchSettingForDocument(svm.DocTypeId,svm.DivisionId, svm.SiteId);
             SaleDispatchHeader Dh = new SaleDispatchHeaderService(_unitOfWork).Find(svm.SaleDispatchHeaderId);
 
             PackingHeader Ph = new PackingHeaderService(_unitOfWork).Find(Dh.PackingHeaderId.Value);
@@ -658,7 +658,7 @@ namespace Web
                         Adj_IssQty.StockOutId = (int)Dl.StockId;
                         Adj_IssQty.DivisionId = Dh.DivisionId;
                         Adj_IssQty.SiteId = Dh.SiteId;
-                        Adj_IssQty.AdjustedQty = +(Pl.LossQty ?? 0);
+                        Adj_IssQty.AdjustedQty = svm.Qty + (svm.LossQty ?? 0);
                         new StockAdjService(_unitOfWork).Create(Adj_IssQty);
                     }
 
@@ -810,6 +810,10 @@ namespace Web
             var settings = new SaleDispatchSettingService(_unitOfWork).GetSaleDispatchSettingForDocument(H.DocTypeId, H.DivisionId, H.SiteId);
 
             vm.SaleDispatchSettings = Mapper.Map<SaleDispatchSetting, SaleDispatchSettingsViewModel>(settings);
+
+            vm.SiteId = H.SiteId;
+            vm.DivisionId = H.DivisionId;
+            vm.DocTypeId = H.DocTypeId;
 
             if (Pl.SaleOrderLineId.HasValue && Pl.SaleOrderLineId.Value > 0)
             {
@@ -1311,7 +1315,7 @@ namespace Web
             };
         }
 
-        public ActionResult GetStockInForProduct(string searchTerm, int pageSize, int pageNum, int SaleDispatchHeaderId, int ProductId, int Dimension1Id, int Dimension2Id)//DocTypeId
+        public ActionResult GetStockInForProduct(string searchTerm, int pageSize, int pageNum, int SaleDispatchHeaderId, int ProductId, int Dimension1Id, int? Dimension2Id)//DocTypeId
         {
             var Query = _SaleDispatchLineService.GetPendingStockInForDispatch(SaleDispatchHeaderId, ProductId, Dimension1Id, Dimension2Id, searchTerm);
             var temp = Query.Skip(pageSize * (pageNum - 1))

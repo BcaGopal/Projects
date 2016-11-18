@@ -75,7 +75,15 @@ namespace Models.Customize.ViewModels
         public string JobOrderNo { get; set; }
 
         public DateTime? StartDateTime { get; set; }
+
+        public int StartDateTimeHour { get; set; }
+        public int StartDateTimeMinute { get; set; }
+
         public DateTime? CompletedDateTime { get; set; }
+
+        public int CompletedDateTimeHour { get; set; }
+        public int CompletedDateTimeMinute { get; set; }
+
 
 
 

@@ -233,6 +233,7 @@
     <Compile Include="Controllers\AdminSetupController.cs" />
     <Compile Include="Controllers\ComboHelpListController.cs" />
     <Compile Include="Controllers\DataTables.cs" />
+    <Compile Include="Controllers\ProductRateGroupWizardController.cs" />
     <Compile Include="Controllers\DuplicateDocumentCheckController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\JobConsumptionSettingsController.cs" />
@@ -241,6 +242,8 @@
     <Compile Include="Controllers\JobInvoiceLineController.cs" />
     <Compile Include="Controllers\JobInvoiceAmendmentHeaderController.cs" />
     <Compile Include="Controllers\JobOrderAmendmentHeaderController.cs" />
+    <Compile Include="Controllers\JobReceiveQaAttributeController.cs" />
+    <Compile Include="Controllers\JobReceiveQaPenaltyController.cs" />
     <Compile Include="Controllers\JobReceiveQaLineController.cs" />
     <Compile Include="Controllers\JobReceiveQaHeaderController.cs" />
     <Compile Include="Controllers\JobOrderInspectionRequestCancelHeaderController.cs" />
@@ -857,6 +860,14 @@
     <Content Include="Views\JobOrderHeader\_LineProgress.cshtml" />
     <Content Include="Views\JobOrderLine\_Index.cshtml" />
     <Content Include="Views\TaxCalculation\_GetHeaderCharge.cshtml" />
+    <Content Include="Views\JobReceiveQaAttribute\Create.cshtml" />
+    <Content Include="Views\JobReceiveQaAttribute\DocumentTypeList.cshtml" />
+    <Content Include="Views\JobReceiveQaAttribute\Index.cshtml" />
+    <Content Include="Views\JobReceiveQaPenalty\_Create.cshtml" />
+    <Content Include="Views\ProductRateGroupWizard\_Filters.cshtml" />
+    <Content Include="Views\ProductRateGroupWizard\ProductRateGroup.cshtml" />
+    <Content Include="Views\ProductRateGroupWizard\DocumentTypeList.cshtml" />
+    <Content Include="Views\ProductRateGroupWizard\RateListHeaderIndex.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

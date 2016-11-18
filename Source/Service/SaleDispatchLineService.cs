@@ -48,7 +48,7 @@ namespace Service
 
         IEnumerable<ComboBoxResult> GetPendingOrdersForDispatch(int id, string term);
 
-        IEnumerable<ComboBoxResult> GetPendingStockInForDispatch(int id, int ProductId, int Dimension1Id, int Dimension2Id, string term);
+        IEnumerable<ComboBoxResult> GetPendingStockInForDispatch(int id, int ProductId, int Dimension1Id, int? Dimension2Id, string term);
 
 
     }
@@ -490,7 +490,7 @@ namespace Service
                         );
         }
 
-        public IEnumerable<ComboBoxResult> GetPendingStockInForDispatch(int SaleDispatchHeaderId, int ProductId, int Dimension1Id, int Dimension2Id, string term)
+        public IEnumerable<ComboBoxResult> GetPendingStockInForDispatch(int SaleDispatchHeaderId, int ProductId, int Dimension1Id, int? Dimension2Id, string term)
         {
 
             var SaleDispatchHeader = new SaleDispatchHeaderService(_unitOfWork).Find(SaleDispatchHeaderId);

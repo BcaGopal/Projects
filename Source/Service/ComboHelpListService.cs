@@ -164,6 +164,8 @@ namespace Service
         IQueryable<ComboBoxResult> GetUsers(string term);
         IEnumerable<ComboBoxList> GetPersonForSaleHelpList(string term);
 
+        IQueryable<ComboBoxResult> GetReasonHelpListWithDocTypeFilter(int Processid, string term);
+
 
     }
 
@@ -2351,6 +2353,24 @@ namespace Service
                                               }).ToList();
 
 
+
+            return list;
+        }
+
+        public IQueryable<ComboBoxResult> GetReasonHelpListWithDocTypeFilter(int DocTypeId, string term)
+        {
+            var DocumentType = (from D in db.DocumentType where D.DocumentTypeId == DocTypeId select D).FirstOrDefault();
+
+            var list = (from R in db.Reason
+                        where R.DocumentCategoryId == DocumentType.DocumentCategoryId
+                        && (string.IsNullOrEmpty(term) ? 1 == 1 : (R.ReasonName.ToLower().Contains(term.ToLower())))
+                        orderby R.ReasonName
+                        select new ComboBoxResult
+                        {
+                            id = R.ReasonId.ToString(),
+                            text = R.ReasonName
+                        }
+              );
 
             return list;
         }

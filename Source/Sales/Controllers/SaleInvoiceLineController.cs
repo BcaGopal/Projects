@@ -75,7 +75,7 @@ namespace Web
         [ValidateAntiForgeryToken]
         public ActionResult _FilterPostDispatch(SaleInvoiceFilterViewModel vm)
         {
-            List<DirectSaleInvoiceLineViewModel> temp = _SaleInvoiceLineService.GetSaleDispatchForFilters(vm).ToList();
+            List<DirectSaleInvoiceLineViewModel> temp = _SaleInvoiceLineService.GetSaleDispatchForFilters(vm);
             DirectSaleInvoiceListViewModel svm = new DirectSaleInvoiceListViewModel();
             svm.DirectSaleInvoiceLineViewModel = temp;
             return PartialView("_Results", svm);

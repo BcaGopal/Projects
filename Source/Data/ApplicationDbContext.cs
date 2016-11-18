@@ -201,6 +201,8 @@ namespace Data.Models
         public DbSet<Machine> Machine { get; set; }
         public DbSet<Process> Process { get; set; }
         public DbSet<ProcessSettings> ProcessSettings { get; set; }
+        public DbSet<QAGroup> QAGroup { get; set; }
+        public DbSet<QAGroupLine> QAGroupLine { get; set; }
         public DbSet<Reason> Reason { get; set; }
         public DbSet<ShipMethod> ShipMethod { get; set; }
         public DbSet<Site> Site { get; set; }
@@ -302,6 +304,9 @@ namespace Data.Models
         public DbSet<JobOrderInspectionLine> JobOrderInspectionLine { get; set; }
         public DbSet<JobReceiveQAHeader> JobReceiveQAHeader { get; set; }
         public DbSet<JobReceiveQALine> JobReceiveQALine { get; set; }
+        public DbSet<JobReceiveQAAttribute> JobReceiveQAAttribute { get; set; }
+        public DbSet<JobReceiveQAPenalty> JobReceiveQAPenalty { get; set; }
+        public DbSet<JobReceiveQALineDetail> JobReceiveQALineDetail { get; set; }
         public DbSet<InspectionQaAttributes> InspectionQaAttributes { get; set; }
         public DbSet<JobOrderInspectionRequestSettings> JobOrderInspectionRequestSettings { get; set; }
         public DbSet<JobOrderInspectionSettings> JobOrderInspectionSettings { get; set; }

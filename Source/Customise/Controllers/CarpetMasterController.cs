@@ -762,7 +762,15 @@ namespace Web
                             prod.StandardCost = vm.StandardCost;
                             prod.FaceContentId = vm.FaceContentId;
                             prod.StandardWeight = vm.StandardWeight;
+
+                            
+
+
+                            
                             prod.GrossWeight = vm.GrossWeight;
+
+
+
                             prod.SampleId = vm.SampleId;
                             prod.CounterNo = vm.CounterNo;
                             prod.Tags = vm.Tags;
@@ -1131,6 +1139,22 @@ namespace Web
                             CreateMap(P.ProductName, Sizes.MapSizeId, -j);
 
 
+                            var BomProduct = (from L in db.BomDetail
+                                              join Pt in db.Product on L.ProductId equals Pt.ProductId into ProductTable
+                                              from ProductTab in ProductTable.DefaultIfEmpty()
+                                              where L.BaseProductId == prod.ProductId
+                                              select ProductTab).FirstOrDefault();
+
+                            if (BomProduct != null)
+                            {
+                                if (BomProduct.StandardWeight != vm.GrossWeight)
+                                {
+                                    BomProduct.StandardWeight = vm.GrossWeight;
+                                    _ProductService.Update(BomProduct);
+                                }
+                            }
+
+
                         }
 
                         try
@@ -1493,10 +1517,10 @@ namespace Web
             {
                 ModelState.AddModelError("FinishingSizeId", "The Finishing size filed is required");
             }
-            if (vm.StencilSizeId == 0)
-            {
-                ModelState.AddModelError("StencilSizeId", "The Stencil size field is required");
-            }
+            //if (vm.StencilSizeId == 0)
+            //{
+            //    ModelState.AddModelError("StencilSizeId", "The Stencil size field is required");
+            //}
             if (vm.MapSizeId == 0)
             {
                 ModelState.AddModelError("MapSizeId", "The Map size field is required");
@@ -1732,16 +1756,20 @@ namespace Web
 
 
                     //Stencil Size Data
-                    ProductSize Stencilsize = new ProductSize();
-                    Stencilsize.ProductSizeTypeId = (int)(ProductSizeTypeConstants.StencilSize);
-                    Stencilsize.SizeId = vm.StencilSizeId;
-                    Stencilsize.ProductId = pro.ProductId;
-                    Stencilsize.CreatedBy = User.Identity.Name;
-                    Stencilsize.CreatedDate = DateTime.Now;
-                    Stencilsize.ModifiedBy = User.Identity.Name;
-                    Stencilsize.ModifiedDate = DateTime.Now;
-                    Stencilsize.IsActive = true;
-                    _ProductSizeService.Create(Stencilsize);
+                    if (vm.StencilSizeId != 0)
+                    {
+                        ProductSize Stencilsize = new ProductSize();
+                        Stencilsize.ProductSizeTypeId = (int)(ProductSizeTypeConstants.StencilSize);
+                        Stencilsize.SizeId = vm.StencilSizeId;
+                        Stencilsize.ProductId = pro.ProductId;
+                        Stencilsize.CreatedBy = User.Identity.Name;
+                        Stencilsize.CreatedDate = DateTime.Now;
+                        Stencilsize.ModifiedBy = User.Identity.Name;
+                        Stencilsize.ModifiedDate = DateTime.Now;
+                        Stencilsize.IsActive = true;
+                        _ProductSizeService.Create(Stencilsize);
+                    }
+
 
 
                     //Map Size Data
@@ -2249,22 +2277,25 @@ namespace Web
 
                     ProductSize StencilSize = _ProductSizeService.FindProductSize((int)ProductSizeTypeConstants.StencilSize, vm.ProductId);
 
-                    if (StencilSize != null)
+                    if (vm.StencilSizeId != 0)
                     {
-                        StencilSize.SizeId = vm.StencilSizeId;
-                        _ProductSizeService.Update(StencilSize);
-                    }
-                    else
-                    {
-                        ProductSize FinSize = new ProductSize();
-                        FinSize.ProductSizeTypeId = (int)(ProductSizeTypeConstants.StencilSize);
-                        FinSize.SizeId = vm.StencilSizeId;
-                        FinSize.ProductId = vm.ProductId;
-                        FinSize.CreatedBy = User.Identity.Name;
-                        FinSize.CreatedDate = DateTime.Now;
-                        FinSize.ModifiedBy = User.Identity.Name;
-                        FinSize.ModifiedDate = DateTime.Now;
-                        _ProductSizeService.Create(FinSize);
+                        if (StencilSize != null)
+                        {
+                                StencilSize.SizeId = vm.StencilSizeId;
+                                _ProductSizeService.Update(StencilSize);
+                        }
+                        else
+                        {
+                                ProductSize FinSize = new ProductSize();
+                                FinSize.ProductSizeTypeId = (int)(ProductSizeTypeConstants.StencilSize);
+                                FinSize.SizeId = vm.StencilSizeId;
+                                FinSize.ProductId = vm.ProductId;
+                                FinSize.CreatedBy = User.Identity.Name;
+                                FinSize.CreatedDate = DateTime.Now;
+                                FinSize.ModifiedBy = User.Identity.Name;
+                                FinSize.ModifiedDate = DateTime.Now;
+                                _ProductSizeService.Create(FinSize);
+                        }
                     }
 
                     ProductSize MapSize = _ProductSizeService.FindProductSize((int)ProductSizeTypeConstants.MapSize, vm.ProductId);

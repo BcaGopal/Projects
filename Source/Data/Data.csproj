@@ -135,6 +135,10 @@
     <Compile Include="Migrations\201610121028096_UserReferral2.Designer.cs">
       <DependentUpon>201610121028096_UserReferral2.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201611110937468_JobReceiveQA.cs" />
+    <Compile Include="Migrations\201611110937468_JobReceiveQA.Designer.cs">
+      <DependentUpon>201611110937468_JobReceiveQA.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="NotificationApplicationDbContext.cs" />
     <Compile Include="LoginApplicationDbContext.cs" />
@@ -213,6 +217,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201610121028096_UserReferral2.resx">
       <DependentUpon>201610121028096_UserReferral2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611110937468_JobReceiveQA.resx">
+      <DependentUpon>201611110937468_JobReceiveQA.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

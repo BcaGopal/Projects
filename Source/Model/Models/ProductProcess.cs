@@ -38,10 +38,18 @@ namespace Model.Models
 
         public int? Sr { get; set; }
 
+
         [Display(Name = "ProductRateGroup")]
         [ForeignKey("ProductRateGroup")]
         public int? ProductRateGroupId { get; set; }
         public virtual ProductRateGroup ProductRateGroup { get; set; }
+
+
+        [Display(Name = "QA Group")]
+        [ForeignKey("QAGroup")]
+        public int? QAGroupId { get; set; }
+        public virtual QAGroup QAGroup { get; set; }
+
 
         [MaxLength(250)]
         public string Instructions { get; set; }
@@ -57,6 +65,7 @@ namespace Model.Models
 
         [Display(Name = "Modified Date")]
         public DateTime ModifiedDate { get; set; }
+
 
         [MaxLength(50)]
         public string OMSId { get; set; }

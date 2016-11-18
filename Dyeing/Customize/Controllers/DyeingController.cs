@@ -227,6 +227,24 @@ namespace Customize.Controllers
                 return View("Create", svm);
             }
 
+            if (svm.StartDateTimeHour > 24 || svm.CompletedDateTimeHour > 24)
+            {
+                TempData["CSEXC"] += "Hour value can not be greater then 24.";
+                PrepareViewBag(svm.DocTypeId);
+                ViewBag.Mode = "Add";
+                return View("Create", svm);
+            }
+
+            if (svm.StartDateTimeMinute > 59 || svm.CompletedDateTimeMinute > 59)
+            {
+                TempData["CSEXC"] += "Minute value can not be greater then 59.";
+                PrepareViewBag(svm.DocTypeId);
+                ViewBag.Mode = "Add";
+                return View("Create", svm);
+            }
+
+
+
             if (ModelState.IsValid && BeforeSave && (TimePlanValidation || Continue))
             {
                 //CreateLogic
@@ -359,6 +377,12 @@ namespace Customize.Controllers
         {
             ViewBag.IndexStatus = IndexType;
             DyeingViewModel s = _DyeingService.GetDyeing(id);
+
+            s.StartDateTimeHour = s.StartDateTime.Value.Hour;
+            s.StartDateTimeMinute = s.StartDateTime.Value.Minute;
+
+            s.CompletedDateTimeHour = s.CompletedDateTime.Value.Hour;
+            s.CompletedDateTimeMinute = s.CompletedDateTime.Value.Minute;
 
             #region DocTypeTimeLineValidation
             try
