@@ -117,7 +117,7 @@ namespace Service
         }
         public OverTimeApplicationHeaderViewModel GetOverTimeApplicationHeader(int id)
         {
-           
+            string empid = string.Join(",", (from l in db.OverTimeApplicationLine where l.OverTimeApplicationHeaderId == id select l.EmployeeId).ToArray());
 
             return (from p in db.OverTimeApplicationHeader
                     where p.OverTimeApplicationId == id
@@ -131,7 +131,9 @@ namespace Service
                         PersonId = p.PersonId,
                         DepartmentId = p.DepartmentId,
                         Remark = p.Remark,
+                        PersonId1= empid.ToString(),
                         Status = p.Status,
+                        GodownId=p.GodownId,
                         ModifiedDate = p.ModifiedDate,
                         ModifiedBy = p.ModifiedBy,
                         CreatedBy = p.CreatedBy,
@@ -270,11 +272,11 @@ namespace Service
                         Name = p.Person.Name,
                         Status = p.Status,
                         ModifiedBy = p.ModifiedBy,
-                       // FirstName = tab.FirstName,
-                       // ReviewCount = p.ReviewCount,
-                       // ReviewBy = p.ReviewBy,
+                        ReviewCount = p.ReviewCount,
+                        ReviewBy = p.ReviewBy,
                         DepartmentName = p.Department.DepartmentName,
-                        //Reviewed = (SqlFunctions.CharIndex(Uname, p.ReviewBy) > 0),
+                        GodownId=p.GodownId,
+                        Reviewed = (SqlFunctions.CharIndex(Uname, p.ReviewBy) > 0),
                     }
                 );
         }

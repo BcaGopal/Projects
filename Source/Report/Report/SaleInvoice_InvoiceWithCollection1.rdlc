@@ -6,7 +6,7 @@
         <TablixBody>
           <TablixColumns>
             <TablixColumn>
-              <Width>7.45708in</Width>
+              <Width>6.82166in</Width>
             </TablixColumn>
           </TablixColumns>
           <TablixRows>
@@ -44,7 +44,6 @@
                         <PaddingBottom>2pt</PaddingBottom>
                       </Style>
                     </Textbox>
-                    <rd:Selected>true</rd:Selected>
                   </CellContents>
                 </TablixCell>
               </TablixCells>
@@ -68,7 +67,7 @@
         </TablixRowHierarchy>
         <DataSetName>DsMain</DataSetName>
         <Height>0.21in</Height>
-        <Width>7.45708in</Width>
+        <Width>6.82166in</Width>
         <Style>
           <Border>
             <Style>None</Style>
@@ -79,9 +78,9 @@
     <Height>0.21875in</Height>
     <Style />
   </Body>
-  <Width>7.61333in</Width>
+  <Width>6.86333in</Width>
   <Page>
-    <PageHeight>11.69in</PageHeight>
+    <PageHeight>5.69in</PageHeight>
     <PageWidth>8.27in</PageWidth>
     <LeftMargin>0.5in</LeftMargin>
     <RightMargin>0.17in</RightMargin>

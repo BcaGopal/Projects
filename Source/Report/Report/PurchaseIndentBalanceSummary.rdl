@@ -3,10 +3,7 @@
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
     <DataSource Name="Purchase">
-      <ConnectionProperties>
-        <DataProvider>SQL</DataProvider>
-        <ConnectString>=Parameters!DatabaseConnectionString.Value</ConnectString>
-      </ConnectionProperties>
+      <DataSourceReference>DataSourceMain</DataSourceReference>
       <rd:SecurityType>None</rd:SecurityType>
       <rd:DataSourceID>a4701ec2-a2bf-4f00-a373-e0ef6d3046c3</rd:DataSourceID>
     </DataSource>
@@ -932,7 +929,7 @@
             <RepeatColumnHeaders>true</RepeatColumnHeaders>
             <RepeatRowHeaders>true</RepeatRowHeaders>
             <DataSetName>DsMain</DataSetName>
-            <Top>3.73612in</Top>
+            <Top>3.78612in</Top>
             <Left>0.06501in</Left>
             <Height>1.73959in</Height>
             <Width>7.39372in</Width>
@@ -1889,7 +1886,7 @@
                 </TablixMember>
               </TablixMembers>
             </TablixRowHierarchy>
-            <Top>0.67918in</Top>
+            <Top>0.74168in</Top>
             <Left>0.06501in</Left>
             <Height>3in</Height>
             <Width>7.39374in</Width>
@@ -1924,7 +1921,7 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox97</rd:DefaultName>
-            <Top>0.38335in</Top>
+            <Top>0.45835in</Top>
             <Left>0.06501in</Left>
             <Height>0.25in</Height>
             <Width>7.39373in</Width>
@@ -1950,25 +1947,14 @@
           </Textbox>
           <Subreport Name="Subreport1">
             <ReportName>CompanyDetail</ReportName>
-            <Parameters>
-              <Parameter Name="SiteId">
-                <Value>=First(Fields!SiteId.Value, "DsMain")</Value>
-              </Parameter>
-              <Parameter Name="DivisionId">
-                <Value>=First(Fields!DivisionId.Value, "DsMain")</Value>
-              </Parameter>
-              <Parameter Name="DatabaseConnectionString">
-                <Value>=Parameters!DatabaseConnectionString.Value</Value>
-              </Parameter>
-              <Parameter Name="PrintedBy">
-                <Value>=Parameters!PrintedBy.Value</Value>
-              </Parameter>
-            </Parameters>
-            <Top>0.04376in</Top>
-            <Left>0.06501in</Left>
-            <Height>0.29515in</Height>
-            <Width>7.39372in</Width>
+            <Top>0.025in</Top>
+            <Left>0.05251in</Left>
+            <Height>0.38897in</Height>
+            <Width>7.39374in</Width>
             <ZIndex>3</ZIndex>
+            <Visibility>
+              <Hidden>=iif(Globals!RenderFormat.Name &lt;&gt; "PDF",True,False)</Hidden>
+            </Visibility>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -1976,13 +1962,13 @@
             </Style>
           </Subreport>
         </ReportItems>
-        <Height>5.51043in</Height>
+        <Height>5.60418in</Height>
         <Style />
       </Body>
       <Width>7.48833in</Width>
       <Page>
         <PageHeader>
-          <Height>0.31124in</Height>
+          <Height>0.32166in</Height>
           <PrintOnFirstPage>true</PrintOnFirstPage>
           <PrintOnLastPage>true</PrintOnLastPage>
           <ReportItems>
@@ -2425,12 +2411,6 @@
       <Nullable>true</Nullable>
       <AllowBlank>true</AllowBlank>
       <Prompt>PrintedBy</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="DatabaseConnectionString">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>DatabaseConnectionString</Prompt>
     </ReportParameter>
   </ReportParameters>
   <EmbeddedImages>

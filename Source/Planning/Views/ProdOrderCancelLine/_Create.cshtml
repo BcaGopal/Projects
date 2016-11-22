@@ -42,8 +42,8 @@
 
                         <div class="col-md-6">
                             <div class="form-group">
-                                @Html.LabelFor(model => model.ProductId, "Product", new { @class = "control-label col-xs-4" })
-                                <div class="col-xs-7">
+                                @Html.LabelFor(model => model.ProductId, "Product", new { @class = "control-label col-md-4 col-sm-2" })
+                                <div class="col-md-7 col-sm-10">
                                     @Html.TextBox("     ", "", new { @class = "form-control", @id = "autocompleteorder" })
                                     @Html.ValidationMessageFor(model => model.ProductId, "", new { @class = "text-danger" })
                                 </div>
@@ -53,8 +53,8 @@
 
                         <div class="col-md-6">
                             <div class="form-group">
-                                @Html.LabelFor(model => model.ProdOrderNo, "Prod Order", new { @class = "control-label col-xs-4 " })
-                                <div class="col-xs-7">
+                                @Html.LabelFor(model => model.ProdOrderNo, "Prod Order", new { @class = "control-label col-md-4 col-sm-2 " })
+                                <div class="col-md-7 col-sm-10">
                                     @Html.TextBoxFor(model => model.ProdOrderNo, new { @class = "form-control col-xs-7 required", @readonly = "true" })
                                     @Html.ValidationMessageFor(model => model.ProdOrderNo, "", new { @class = "text-danger" })
                                 </div>
@@ -67,8 +67,8 @@
                         @Html.HiddenFor(m => m.ProductId)
                         <div class="col-md-6">
                             <div class="form-group">
-                                @Html.LabelFor(model => model.ProductId, "Product", new { @class = "control-label col-xs-4 " })
-                                <div class="col-xs-7">
+                                @Html.LabelFor(model => model.ProductId, "Product", new { @class = "control-label col-md-4 col-sm-2 " })
+                                <div class="col-md-7 col-sm-10">
                                     @Html.TextBoxFor(model => model.ProductName, new { @class = "form-control col-xs-7 required", @readonly = "true" })
                                     @Html.ValidationMessageFor(model => model.ProductName, "", new { @class = "text-danger" })
                                 </div>
@@ -78,8 +78,8 @@
 
                         <div class="col-md-6">
                             <div class="form-group">
-                                @Html.LabelFor(model => model.ProdOrderNo, "Prod Order", new { @class = "control-label col-xs-4 " })
-                                <div class="col-xs-7">
+                                @Html.LabelFor(model => model.ProdOrderNo, "Prod Order", new { @class = "control-label col-md-4 col-sm-2" })
+                                <div class="col-md-7 col-sm-10">
                                     @Html.TextBoxFor(model => model.ProdOrderNo, new { @class = "form-control col-xs-7 required", @readonly = "true" })
                                     @Html.ValidationMessageFor(model => model.ProdOrderNo, "", new { @class = "text-danger" })
                                 </div>
@@ -93,8 +93,8 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
-                            @Html.LabelFor(model => model.Qty, "Cancel Qty", new { @class = "control-label col-xs-4" })
-                            <div class="col-xs-7">
+                            @Html.LabelFor(model => model.Qty, "Cancel Qty", new { @class = "control-label col-md-4 col-sm-2" })
+                            <div class="col-md-7 col-sm-10">
                                 @Html.TextBoxFor(model => model.Qty, new { @class = "form-control col-xs-7" })
                                 @Html.ValidationMessageFor(model => model.Qty, "", new { @class = "text-danger" })
                             </div>

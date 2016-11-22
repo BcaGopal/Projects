@@ -642,7 +642,7 @@
           </TablixColumns>
           <TablixRows>
             <TablixRow>
-              <Height>0.35514in</Height>
+              <Height>0.38639in</Height>
               <TablixCells>
                 <TablixCell>
                   <CellContents>
@@ -1618,7 +1618,7 @@
         <DataSetName>DsMain</DataSetName>
         <Top>1.88446in</Top>
         <Left>0.05493in</Left>
-        <Height>1.06347in</Height>
+        <Height>1.09472in</Height>
         <Width>7.3866in</Width>
         <ZIndex>1</ZIndex>
         <Style>
@@ -2140,14 +2140,6 @@
       </Tablix>
       <Subreport Name="CompanyDetail">
         <ReportName>CompanyDetail</ReportName>
-        <Parameters>
-          <Parameter Name="SiteId">
-            <Value>=First(Fields!SiteId.Value, "DsMain")</Value>
-          </Parameter>
-          <Parameter Name="DivisionId">
-            <Value>=First(Fields!DivisionId.Value, "DsMain")</Value>
-          </Parameter>
-        </Parameters>
         <Top>0.04028in</Top>
         <Left>0.04659in</Left>
         <Height>0.31945in</Height>
@@ -2573,15 +2565,7 @@
       </Textbox>
       <Subreport Name="Subreport1">
         <ReportName>WeavingOrderCancel_Print1</ReportName>
-        <Parameters>
-          <Parameter Name="Id">
-            <Value>=First(Fields!JobOrderCancelHeaderId.Value, "DsMain")</Value>
-          </Parameter>
-          <Parameter Name="DatabaseConnectionString">
-            <Value>=Parameters!DatabaseConnectionString.Value</Value>
-          </Parameter>
-        </Parameters>
-        <Top>3.28265in</Top>
+        <Top>3.35765in</Top>
         <Left>0.04659in</Left>
         <Height>0.27084in</Height>
         <Width>7.38792in</Width>
@@ -2693,8 +2677,8 @@
           </TablixMembers>
         </TablixRowHierarchy>
         <DataSetName>DsMain</DataSetName>
-        <Top>2.99237in</Top>
-        <Left>0.05842in</Left>
+        <Top>3.04792in</Top>
+        <Left>0.0675in</Left>
         <Height>0.25in</Height>
         <Width>7.375in</Width>
         <ZIndex>7</ZIndex>
@@ -3011,10 +2995,7 @@
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
     <DataSource Name="WeavingReceiptPrint">
-      <ConnectionProperties>
-        <DataProvider>SQL</DataProvider>
-        <ConnectString>=Parameters!DatabaseConnectionString.Value</ConnectString>
-      </ConnectionProperties>
+      <DataSourceReference>DataSourceMain</DataSourceReference>
       <rd:SecurityType>None</rd:SecurityType>
       <rd:DataSourceID>727bb65e-cc51-4d28-a097-a8ea7d087931</rd:DataSourceID>
     </DataSource>
@@ -3205,12 +3186,6 @@
       <Nullable>true</Nullable>
       <AllowBlank>true</AllowBlank>
       <Prompt>PrintedBy</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="DatabaseConnectionString">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>DatabaseConnectionString</Prompt>
     </ReportParameter>
   </ReportParameters>
   <Code>

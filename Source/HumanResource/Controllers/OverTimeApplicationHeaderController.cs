@@ -138,7 +138,7 @@ namespace Web
 
          }*/
         public ActionResult Index(int id, string IndexType)//DocumentTypeId
-        {
+       {
             if (IndexType == "PTS")
             {
                 return RedirectToAction("Index_PendingToSubmit", new { id });
@@ -184,6 +184,7 @@ namespace Web
         {
             OverTimeApplicationHeaderViewModel vm = new OverTimeApplicationHeaderViewModel();
             vm.SiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
+            vm.DivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
 
             //Getting Settings
             //var settings = new PurchaseOrderSettingService(_unitOfWork).GetPurchaseOrderSettingForDocument(id, vm.DivisionId, vm.SiteId);
@@ -202,7 +203,7 @@ namespace Web
             vm.DocTypeId = id;
             vm.DocNo = _OverTimeApplicationHeaderService.GetMaxDocNo();
             vm.DocDate = DateTime.Now;
-
+          
             //vm.DocNo = new DocumentTypeService(_unitOfWork).FGetNewDocNo("DocNo", ConfigurationManager.AppSettings["DataBaseSchema"] + ".OverTimeApplicationHeaders", vm.DocTypeId, vm.DocDate, DivisionId, SiteId);
 
             PrepareViewBag(id);
@@ -275,7 +276,7 @@ namespace Web
                     header.ModifiedDate = DateTime.Now;
                     header.ObjectState = Model.ObjectState.Added;
                     db.OverTimeApplicationHeader.Add(header);
-                  foreach (string EmpId in vm.PersonId1)
+                  foreach (string EmpId in vm.PersonId1.ToString().Split(',').ToArray())
                     {
                         OverTimeApplicationLine Line = new OverTimeApplicationLine();
                         Line.OverTimeApplicationHeaderId = header.OverTimeApplicationId;
@@ -350,12 +351,47 @@ namespace Web
                     temp.DepartmentId = vm.DepartmentId;
                     temp.PersonId = vm.PersonId;
                     temp.Remark = vm.Remark;
+                    temp.GodownId = vm.GodownId;
                     temp.ModifiedBy = User.Identity.Name;
                     temp.ModifiedDate = DateTime.Now;
                    // temp.ShiftId = vm.ShiftId;
                     temp.ObjectState = Model.ObjectState.Modified;
                     //_PurchaseOrderHeaderService.Update(temp);
                     db.OverTimeApplicationHeader.Add(temp);
+
+                    
+                    #region deleteLine
+                    var line = (from p in db.OverTimeApplicationLine
+                                where p.OverTimeApplicationHeaderId == vm.OverTimeApplicationId
+                                select p).ToList();
+
+                    foreach (var item in line)
+                    {
+
+                        LogList.Add(new LogTypeViewModel
+                        {
+                            ExObj = Mapper.Map<OverTimeApplicationLine>(item),
+                        });
+                        item.ObjectState = Model.ObjectState.Deleted;
+                        db.OverTimeApplicationLine.Remove(item);
+                    }
+                    #endregion
+
+                    #region Update
+                    foreach (string EmpId in vm.PersonId1.ToString().Split(',').ToArray())
+                    {
+                        OverTimeApplicationLine Line = new OverTimeApplicationLine();
+                        Line.OverTimeApplicationHeaderId = vm.OverTimeApplicationId;
+                        Line.EmployeeId = Convert.ToInt16(EmpId);
+                        Line.Status = 0;
+                        Line.CreatedBy = User.Identity.Name;
+                        Line.ModifiedBy = User.Identity.Name;
+                        Line.CreatedDate = DateTime.Now;
+                        Line.ModifiedDate = DateTime.Now;
+                        Line.ObjectState = Model.ObjectState.Added;
+                        db.OverTimeApplicationLine.Add(Line);
+                    }
+                    #endregion Update
 
                     LogList.Add(new LogTypeViewModel
                     {
@@ -421,6 +457,9 @@ namespace Web
 
         private ActionResult Edit(int id, string IndexType)
         {
+
+           
+
             ViewBag.IndexStatus = IndexType;
             OverTimeApplicationHeaderViewModel pt = _OverTimeApplicationHeaderService.GetOverTimeApplicationHeader(id);
 
@@ -919,7 +958,7 @@ namespace Web
 
                     LogList.Add(new LogTypeViewModel
                     {
-                        ExObj = Mapper.Map<AttendanceLine>(item),
+                        ExObj = Mapper.Map<OverTimeApplicationLine>(item),
                     });
 
                     //new PurchaseOrderLineStatusService(_unitOfWork).Delete(item.PurchaseOrderLineId);
@@ -1015,13 +1054,13 @@ namespace Web
         [HttpGet]
         public ActionResult NextPage(int DocId, int DocTypeId)//CurrentHeaderId
         {
-            var nextId = new NextPrevIdService(_unitOfWork).GetNextPrevId(DocId, DocTypeId, User.Identity.Name, "", "Web.PurchaseOrderHeaders", "PurchaseOrderHeaderId", PrevNextConstants.Next);
+            var nextId = new NextPrevIdService(_unitOfWork).GetNextPrevId(DocId, DocTypeId, User.Identity.Name, "", "Web.OverTimeApplicationHeaders", "OverTimeApplicationId", PrevNextConstants.Next);
             return Edit(nextId, "");
         }
         [HttpGet]
         public ActionResult PrevPage(int DocId, int DocTypeId)//CurrentHeaderId
         {
-            var PrevId = new NextPrevIdService(_unitOfWork).GetNextPrevId(DocId, DocTypeId, User.Identity.Name, "", "Web.PurchaseOrderHeaders", "PurchaseOrderHeaderId", PrevNextConstants.Prev);
+            var PrevId = new NextPrevIdService(_unitOfWork).GetNextPrevId(DocId, DocTypeId, User.Identity.Name, "", "Web.OverTimeApplicationHeaders", "OverTimeApplicationId", PrevNextConstants.Prev);
             return Edit(PrevId, "");
         }
 
@@ -1365,7 +1404,7 @@ namespace Web
             return (_OverTimeApplicationHeaderService.GetOverTimeApplicationHeaderPendingToReview(id, User.Identity.Name)).Count();
         }
 
-       
+ 
         protected override void Dispose(bool disposing)
         {
             if (!string.IsNullOrEmpty((string)TempData["CSEXC"]))

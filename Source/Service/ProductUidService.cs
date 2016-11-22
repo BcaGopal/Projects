@@ -798,7 +798,16 @@ namespace Service
                              where p.ProductUidName == ProductUID
                              select p.Status).FirstOrDefault();
 
+            int PDDivisionId = (from P in db.ProductUid
+                                where P.ProductUidName == ProductUID
+                                join PD in db.Product on P.ProductId equals PD.ProductId
+                                where PD.DivisionId == DivisionId
+                                select PD.DivisionId
+                           ).FirstOrDefault();
+
             UIDValidationViewModel temp = new UIDValidationViewModel();
+
+
 
             if(UidStatus==ProductUidStatusConstants.Issue)
             { 
@@ -901,6 +910,11 @@ namespace Service
                 temp.ErrorType = "InvalidID";
                 temp.ErrorMessage = "Invalid ProductUID";
             }
+            else if (PDDivisionId != DivisionId)
+            {
+                temp.ErrorType = "InvalidID";
+                temp.ErrorMessage = "Barcode does not exist Current Division";
+            }
             else if (PostedInStock == true)
             {
                 if (temp.CurrenctGodownId != null)
@@ -920,7 +934,6 @@ namespace Service
                     temp.ErrorType = "Success";
                 }
             }
-
             else
             {
                 temp.ErrorType = "Success";

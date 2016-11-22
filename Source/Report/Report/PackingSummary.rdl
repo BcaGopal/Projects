@@ -3,10 +3,7 @@
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
     <DataSource Name="PackingSummary">
-      <ConnectionProperties>
-        <DataProvider>SQL</DataProvider>
-        <ConnectString>=Parameters!DatabaseConnectionString.Value</ConnectString>
-      </ConnectionProperties>
+      <DataSourceReference>DataSourceMain</DataSourceReference>
       <rd:SecurityType>None</rd:SecurityType>
       <rd:DataSourceID>a4701ec2-a2bf-4f00-a373-e0ef6d3046c3</rd:DataSourceID>
     </DataSource>
@@ -31,8 +28,8 @@
           <QueryParameter Name="@DocumentType">
             <Value>=Parameters!DocumentType.Value</Value>
           </QueryParameter>
-          <QueryParameter Name="@PackingHeaderId">
-            <Value>=Parameters!PackingHeaderId.Value</Value>
+          <QueryParameter Name="@PackingHeaderid">
+            <Value>=Parameters!PackingHeaderid.Value</Value>
           </QueryParameter>
           <QueryParameter Name="@JobWorker">
             <Value>=Parameters!JobWorker.Value</Value>
@@ -79,9 +76,6 @@
           <QueryParameter Name="@ProductDivisionId">
             <Value>=Parameters!ProductDivisionId.Value</Value>
           </QueryParameter>
-          <QueryParameter Name="@AreaOnUnit">
-            <Value>=Parameters!AreaOnUnit.Value</Value>
-          </QueryParameter>
         </QueryParameters>
         <CommandType>StoredProcedure</CommandType>
         <CommandText>Web.spRep_PackingSummary</CommandText>
@@ -117,7 +111,7 @@
         </Field>
         <Field Name="AreaPlaces">
           <DataField>AreaPlaces</DataField>
-          <rd:TypeName>System.Int32</rd:TypeName>
+          <rd:TypeName>System.Byte</rd:TypeName>
         </Field>
         <Field Name="Qty">
           <DataField>Qty</DataField>
@@ -2891,20 +2885,6 @@
           </Tablix>
           <Subreport Name="Subreport2">
             <ReportName>CompanyDetail</ReportName>
-            <Parameters>
-              <Parameter Name="SiteId">
-                <Value>=First(Fields!SiteId.Value, "DsMain")</Value>
-              </Parameter>
-              <Parameter Name="DivisionId">
-                <Value>=First(Fields!DivisionId.Value, "DsMain")</Value>
-              </Parameter>
-              <Parameter Name="DatabaseConnectionString">
-                <Value>=Parameters!DatabaseConnectionString.Value</Value>
-              </Parameter>
-              <Parameter Name="PrintedBy">
-                <Value>=Parameters!PrintedBy.Value</Value>
-              </Parameter>
-            </Parameters>
             <Top>0.03194in</Top>
             <Left>0.05493in</Left>
             <Height>0.30208in</Height>
@@ -3350,6 +3330,12 @@
       <AllowBlank>true</AllowBlank>
       <Prompt>Document Type</Prompt>
     </ReportParameter>
+    <ReportParameter Name="PackingHeaderid">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Packing Headerid</Prompt>
+    </ReportParameter>
     <ReportParameter Name="JobWorker">
       <DataType>String</DataType>
       <Nullable>true</Nullable>
@@ -3445,24 +3431,6 @@
       <Nullable>true</Nullable>
       <AllowBlank>true</AllowBlank>
       <Prompt>PrintedBy</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="DatabaseConnectionString">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>DatabaseConnectionString</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="PackingHeaderId">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>Packing Header Id</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="AreaOnUnit">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>Area On Unit</Prompt>
     </ReportParameter>
   </ReportParameters>
   <EmbeddedImages>

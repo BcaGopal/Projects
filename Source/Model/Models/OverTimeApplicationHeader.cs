@@ -35,6 +35,12 @@ namespace Model.Models
         public int DepartmentId { get; set; }
         public virtual  Department  Department {get; set;}
 
+        [Display(Name = "Division"), Required]
+        [ForeignKey("Division")]
+        public int DivisionId { get; set; }
+        public virtual Division Division { get; set; }
+
+
         [ForeignKey("Site"), Display(Name = "Site")]
         public int SiteId { get; set; }
         public virtual Site Site { get; set; }
@@ -76,5 +82,8 @@ namespace Model.Models
 
         [MaxLength(50)]
         public string OMSId { get; set; }
+
+        public int? ReviewCount { get; set; }
+        public string ReviewBy { get; set; }
     }
 }

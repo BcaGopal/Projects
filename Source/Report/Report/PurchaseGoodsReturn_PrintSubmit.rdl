@@ -4418,7 +4418,7 @@
               <Width>2.29879in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>2.07349in</Width>
+              <Width>2.08658in</Width>
             </TablixColumn>
           </TablixColumns>
           <TablixRows>
@@ -4951,6 +4951,45 @@
                 </TablixCell>
               </TablixCells>
             </TablixRow>
+            <TablixRow>
+              <Height>0.3125in</Height>
+              <TablixCells>
+                <TablixCell>
+                  <CellContents>
+                    <Rectangle Name="Rectangle2">
+                      <ReportItems>
+                        <Subreport Name="GatePassPrint">
+                          <ReportName>GatePassPrint</ReportName>
+                          <Top>0.03021in</Top>
+                          <Left>0.05in</Left>
+                          <Height>0.23958in</Height>
+                          <Width>7.33606in</Width>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                            </Border>
+                            <TopBorder>
+                              <Style>Solid</Style>
+                            </TopBorder>
+                          </Style>
+                        </Subreport>
+                      </ReportItems>
+                      <KeepTogether>true</KeepTogether>
+                      <Style>
+                        <Border>
+                          <Style>None</Style>
+                        </Border>
+                      </Style>
+                    </Rectangle>
+                    <ColSpan>5</ColSpan>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell />
+                <TablixCell />
+                <TablixCell />
+                <TablixCell />
+              </TablixCells>
+            </TablixRow>
           </TablixRows>
         </TablixBody>
         <TablixColumnHierarchy>
@@ -4967,13 +5006,14 @@
             <TablixMember />
             <TablixMember />
             <TablixMember />
+            <TablixMember />
           </TablixMembers>
         </TablixRowHierarchy>
         <DataSetName>DsMain</DataSetName>
         <Top>6.18965in</Top>
         <Left>0.04291in</Left>
-        <Height>0.67918in</Height>
-        <Width>7.4032in</Width>
+        <Height>0.99168in</Height>
+        <Width>7.41629in</Width>
         <ZIndex>9</ZIndex>
         <Style>
           <Border>
@@ -5665,24 +5705,8 @@
           <PaddingBottom>2pt</PaddingBottom>
         </Style>
       </Textbox>
-      <Subreport Name="GatePassPrint">
-        <ReportName>GatePassPrint</ReportName>
-        <Top>6.89696in</Top>
-        <Left>0.02318in</Left>
-        <Height>0.30208in</Height>
-        <Width>7.41629in</Width>
-        <ZIndex>14</ZIndex>
-        <Style>
-          <Border>
-            <Style>None</Style>
-          </Border>
-          <TopBorder>
-            <Style>Solid</Style>
-          </TopBorder>
-        </Style>
-      </Subreport>
     </ReportItems>
-    <Height>7.22751in</Height>
+    <Height>7.19626in</Height>
     <Style>
       <Border>
         <Style>None</Style>
@@ -5748,9 +5772,9 @@
           </Paragraphs>
           <rd:DefaultName>Textbox18</rd:DefaultName>
           <Top>0.02778in</Top>
-          <Left>6.31761in</Left>
+          <Left>5.87353in</Left>
           <Height>0.22917in</Height>
-          <Width>1.02802in</Width>
+          <Width>1.4721in</Width>
           <Style>
             <Border>
               <Style>None</Style>
@@ -5791,7 +5815,7 @@
           </Paragraphs>
           <rd:DefaultName>Textbox19</rd:DefaultName>
           <Top>0.02778in</Top>
-          <Left>4.02215in</Left>
+          <Left>3.58465in</Left>
           <Height>0.25in</Height>
           <Width>2.21944in</Width>
           <ZIndex>1</ZIndex>
@@ -5852,7 +5876,7 @@
           <Top>0.0375in</Top>
           <Left>0.05493in</Left>
           <Height>0.25in</Height>
-          <Width>3.98528in</Width>
+          <Width>3.42278in</Width>
           <ZIndex>2</ZIndex>
           <Style>
             <Border>

@@ -70,8 +70,9 @@
         </Style>
       </Subreport>
       <Line Name="Line2">
+        <Top>0.03271in</Top>
         <Left>5.5691in</Left>
-        <Height>3.11695in</Height>
+        <Height>3.08424in</Height>
         <Width>0in</Width>
         <ZIndex>3</ZIndex>
         <Style>

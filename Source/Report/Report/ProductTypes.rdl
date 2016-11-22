@@ -521,17 +521,6 @@
       </Textbox>
       <Subreport Name="Subreport1">
         <ReportName>CompanyDetail</ReportName>
-        <Parameters>
-          <Parameter Name="SiteId">
-            <Value>=First(Fields!SiteId.Value, "DsMain")</Value>
-          </Parameter>
-          <Parameter Name="DivisionId">
-            <Value>=First(Fields!DivisionId.Value, "DsMain")</Value>
-          </Parameter>
-          <Parameter Name="DatabaseConnectionString">
-            <Value>=Parameters!DatabaseConnectionString.Value</Value>
-          </Parameter>
-        </Parameters>
         <Top>0.0125in</Top>
         <Left>0.01875in</Left>
         <Height>0.34375in</Height>
@@ -550,7 +539,7 @@
     <Height>1.74515in</Height>
     <Style />
   </Body>
-  <Width>7.41438in</Width>
+  <Width>7.56021in</Width>
   <Page>
     <PageHeader>
       <Height>0.35041in</Height>
@@ -731,10 +720,7 @@
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
     <DataSource Name="DataSource1">
-      <ConnectionProperties>
-        <DataProvider>SQL</DataProvider>
-        <ConnectString>=Parameters!DatabaseConnectionString.Value</ConnectString>
-      </ConnectionProperties>
+      <DataSourceReference>DataSourceMain</DataSourceReference>
       <rd:SecurityType>None</rd:SecurityType>
       <rd:DataSourceID>dd7af43a-86ea-4bb9-8747-c50ac43bbbc6</rd:DataSourceID>
     </DataSource>
@@ -802,16 +788,6 @@
       <Nullable>true</Nullable>
       <AllowBlank>true</AllowBlank>
       <Prompt>FilterStr4</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="DatabaseConnectionString">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>DatabaseConnectionString</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="ReportParameter1">
-      <DataType>String</DataType>
-      <Prompt>ReportParameter1</Prompt>
     </ReportParameter>
   </ReportParameters>
   <Code>

@@ -674,7 +674,7 @@ namespace Web
                             productcharge.Amount = item.Amount;
                             productcharge.DealQty = temp1.DealQty;
                             productcharge.ObjectState = Model.ObjectState.Modified;
-                            db.JobInvoiceLineCharge.Add(productcharge);
+                             db.JobInvoiceLineCharge.Add(productcharge);
                             //new JobInvoiceLineChargeService(_unitOfWork).Update(productcharge);
 
                             LogList.Add(new LogTypeViewModel

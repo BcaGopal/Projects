@@ -2073,8 +2073,8 @@ namespace Web
             if (JobOrderLin != null && JobOrderLin.ProductUidHeaderId != null)
             {
 
-                //var JOLine = _JobOrderCancelLineService.GetOrderLineForUidMain(UId);
-                var JOLine = _JobOrderCancelLineService.GetOrderLineForUidMain(UId, CancelHeaderId);
+               //var JOLine = _JobOrderCancelLineService.GetOrderLineForUidMain(UId);
+               var JOLine = _JobOrderCancelLineService.GetOrderLineForUidMain(UId, CancelHeaderId);
                 if (JOLine == null)
                     return Json(false, JsonRequestBehavior.AllowGet);
                 else

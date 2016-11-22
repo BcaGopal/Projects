@@ -699,20 +699,6 @@
       </Textbox>
       <Subreport Name="CompanyDetail_Landscap">
         <ReportName>CompanyDetail</ReportName>
-        <Parameters>
-          <Parameter Name="SiteId">
-            <Value>=First(Fields!SiteId.Value, "DsMain")</Value>
-          </Parameter>
-          <Parameter Name="DivisionId">
-            <Value>=First(Fields!DivisionId.Value, "DsMain")</Value>
-          </Parameter>
-          <Parameter Name="DatabaseConnectionString">
-            <Value>=Parameters!DatabaseConnectionString.Value</Value>
-          </Parameter>
-          <Parameter Name="PrintedBy">
-            <Value>=Parameters!PrintedBy.Value</Value>
-          </Parameter>
-        </Parameters>
         <Top>0.03255in</Top>
         <Left>0.041in</Left>
         <Height>0.30912in</Height>
@@ -845,7 +831,6 @@
                         <PaddingBottom>2pt</PaddingBottom>
                       </Style>
                     </Textbox>
-                    <rd:Selected>true</rd:Selected>
                   </CellContents>
                 </TablixCell>
                 <TablixCell>
@@ -922,7 +907,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value />
+                              <Value>(Sq. Yard)</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>9pt</FontSize>
@@ -1042,18 +1027,17 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="AuUnitName">
+                    <Textbox Name="Textbox32">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!AuUnitName.Value</Value>
+                              <Value />
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>9pt</FontSize>
-                                <FontWeight>Bold</FontWeight>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -1062,7 +1046,7 @@
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>AuUnitName</rd:DefaultName>
+                      <rd:DefaultName>Textbox32</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -1091,7 +1075,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=RowNumber("ProcessName")</Value>
+                              <Value>=RowNumber(nothing)</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>9pt</FontSize>
@@ -1159,11 +1143,10 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=cdbl(formatnumber(Fields!Qty.Value, 0))</Value>
+                              <Value>=formatnumber(Fields!Qty.Value, 0)</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>9pt</FontSize>
-                                <Format>0;(0)</Format>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -1196,11 +1179,10 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=cdbl(formatnumber(Fields!DealQty.Value, fields!AUdecimalPlaces.Value))</Value>
+                              <Value>=formatnumber(Fields!DealQty.Value, 4)</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>9pt</FontSize>
-                                <Format>0.0000;(0.0000)</Format>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -1332,12 +1314,11 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Cdbl(formatnumber(sum(Fields!Qty.Value),0))</Value>
+                              <Value>=formatnumber(sum(Fields!Qty.Value),0)</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>9pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
-                                <Format>0.0000;(0.0000)</Format>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -1382,12 +1363,11 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Cdbl(formatnumber(sum(Fields!DealQty.Value),4))</Value>
+                              <Value>=formatnumber(sum(Fields!DealQty.Value),4)</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>9pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
-                                <Format>0.0000;(0.0000)</Format>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -1448,9 +1428,6 @@
                 </GroupExpressions>
               </Group>
               <SortExpressions>
-                <SortExpression>
-                  <Value>=Fields!ProcessSr.Value</Value>
-                </SortExpression>
                 <SortExpression>
                   <Value>=Fields!ProcessName.Value</Value>
                 </SortExpression>
@@ -1703,10 +1680,7 @@
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
     <DataSource Name="Weaving">
-      <ConnectionProperties>
-        <DataProvider>SQL</DataProvider>
-        <ConnectString>=Parameters!DatabaseConnectionString.Value</ConnectString>
-      </ConnectionProperties>
+      <DataSourceReference>DataSourceMain</DataSourceReference>
       <rd:SecurityType>None</rd:SecurityType>
       <rd:DataSourceID>dd7af43a-86ea-4bb9-8747-c50ac43bbbc6</rd:DataSourceID>
     </DataSource>
@@ -1767,12 +1741,6 @@
           <QueryParameter Name="@ProductNature">
             <Value>=Parameters!ProductNature.Value</Value>
           </QueryParameter>
-          <QueryParameter Name="@Godown">
-            <Value>=Parameters!Godown.Value</Value>
-          </QueryParameter>
-          <QueryParameter Name="@ProductCollection">
-            <Value>=Parameters!ProductCollection.Value</Value>
-          </QueryParameter>
         </QueryParameters>
         <CommandType>StoredProcedure</CommandType>
         <CommandText>Web.spRep_WashingOrderSummary</CommandText>
@@ -1792,7 +1760,7 @@
         </Field>
         <Field Name="DealQty">
           <DataField>DealQty</DataField>
-          <rd:TypeName>System.Double</rd:TypeName>
+          <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
         <Field Name="Qty">
           <DataField>Qty</DataField>
@@ -1814,24 +1782,12 @@
           <DataField>ReportName</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="AuUnitName">
-          <DataField>AuUnitName</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="ProcessId">
-          <DataField>ProcessId</DataField>
-          <rd:TypeName>System.Int32</rd:TypeName>
-        </Field>
         <Field Name="ReportTitle">
           <DataField>ReportTitle</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="AUdecimalPlaces">
-          <DataField>AUdecimalPlaces</DataField>
-          <rd:TypeName>System.Byte</rd:TypeName>
-        </Field>
-        <Field Name="ProcessSr">
-          <DataField>ProcessSr</DataField>
+        <Field Name="ProcessId">
+          <DataField>ProcessId</DataField>
           <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
         <Field Name="ProcessName">
@@ -2033,24 +1989,6 @@
       <Nullable>true</Nullable>
       <AllowBlank>true</AllowBlank>
       <Prompt>PrintedBy</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="DatabaseConnectionString">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>DatabaseConnectionString</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="Godown">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>Godown</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="ProductCollection">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>Product Collection</Prompt>
     </ReportParameter>
   </ReportParameters>
   <Code>

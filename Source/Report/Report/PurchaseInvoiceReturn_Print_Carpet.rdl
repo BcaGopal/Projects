@@ -2695,7 +2695,7 @@
           </TablixMembers>
         </TablixRowHierarchy>
         <DataSetName>DsMain</DataSetName>
-        <Top>3.35152in</Top>
+        <Top>3.67652in</Top>
         <Left>0.05493in</Left>
         <Height>1.16252in</Height>
         <Width>7.4032in</Width>
@@ -3414,8 +3414,24 @@
           <PaddingBottom>2pt</PaddingBottom>
         </Style>
       </Textbox>
+      <Subreport Name="GatePassPrint">
+        <ReportName>GatePassPrint</ReportName>
+        <Top>3.32473in</Top>
+        <Left>0.04337in</Left>
+        <Height>0.30208in</Height>
+        <Width>7.41629in</Width>
+        <ZIndex>8</ZIndex>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+          <TopBorder>
+            <Style>Solid</Style>
+          </TopBorder>
+        </Style>
+      </Subreport>
     </ReportItems>
-    <Height>4.55988in</Height>
+    <Height>4.87238in</Height>
     <Style />
   </Body>
   <Width>7.50303in</Width>

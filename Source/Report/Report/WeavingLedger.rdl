@@ -1765,10 +1765,7 @@
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
     <DataSource Name="Ledger">
-      <ConnectionProperties>
-        <DataProvider>SQL</DataProvider>
-        <ConnectString>=Parameters!DatabaseConnectionString.Value</ConnectString>
-      </ConnectionProperties>
+      <DataSourceReference>DataSourceMain</DataSourceReference>
       <rd:SecurityType>None</rd:SecurityType>
       <rd:DataSourceID>dd7af43a-86ea-4bb9-8747-c50ac43bbbc6</rd:DataSourceID>
     </DataSource>
@@ -1799,11 +1796,8 @@
           <QueryParameter Name="@ReportType">
             <Value>=Parameters!ReportType.Value</Value>
           </QueryParameter>
-          <QueryParameter Name="@CostCenterId">
-            <Value>=Parameters!CostCenterId.Value</Value>
-          </QueryParameter>
-          <QueryParameter Name="@BranchRecord">
-            <Value>=Parameters!BranchRecord.Value</Value>
+          <QueryParameter Name="@CostcenterId">
+            <Value>=Parameters!CostcenterId.Value</Value>
           </QueryParameter>
         </QueryParameters>
         <CommandType>StoredProcedure</CommandType>
@@ -1818,52 +1812,60 @@
           <DataField>LedgerHeaderId</DataField>
           <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
+        <Field Name="AmtDr">
+          <DataField>AmtDr</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
         <Field Name="DocHeaderId">
           <DataField>DocHeaderId</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="DocTypeId">
+          <DataField>DocTypeId</DataField>
           <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
         <Field Name="LedgerAccountName">
           <DataField>LedgerAccountName</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="DocTypeId">
-          <DataField>DocTypeId</DataField>
+        <Field Name="AmtCr">
+          <DataField>AmtCr</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="PersonId">
+          <DataField>PersonId</DataField>
           <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
         <Field Name="ReportName">
           <DataField>ReportName</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="SubReportProcList">
-          <DataField>SubReportProcList</DataField>
-          <rd:TypeName>System.Int32</rd:TypeName>
-        </Field>
-        <Field Name="PersonId">
-          <DataField>PersonId</DataField>
-          <rd:TypeName>System.Int32</rd:TypeName>
-        </Field>
-        <Field Name="ReportTitle">
-          <DataField>ReportTitle</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
         <Field Name="ContraLedgerAccountName">
           <DataField>ContraLedgerAccountName</DataField>
           <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="SubReportProcList">
+          <DataField>SubReportProcList</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
         <Field Name="DocNo">
           <DataField>DocNo</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="SiteId">
-          <DataField>SiteId</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="DivisionId">
-          <DataField>DivisionId</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
         <Field Name="DocumentTypeShortName">
           <DataField>DocumentTypeShortName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="ReportTitle">
+          <DataField>ReportTitle</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="DocDate">
+          <DataField>DocDate</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="DivisionText">
+          <DataField>DivisionText</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="Narration">
@@ -1874,21 +1876,21 @@
           <DataField>LedgerId</DataField>
           <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
-        <Field Name="DocDate">
-          <DataField>DocDate</DataField>
+        <Field Name="Sitetext">
+          <DataField>Sitetext</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="AmtDr">
-          <DataField>AmtDr</DataField>
-          <rd:TypeName>System.Decimal</rd:TypeName>
-        </Field>
-        <Field Name="AmtCr">
-          <DataField>AmtCr</DataField>
-          <rd:TypeName>System.Decimal</rd:TypeName>
+        <Field Name="SiteId">
+          <DataField>SiteId</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="Balance">
           <DataField>Balance</DataField>
           <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="DivisionId">
+          <DataField>DivisionId</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="BalanceType">
           <DataField>BalanceType</DataField>
@@ -1904,14 +1906,6 @@
         </Field>
         <Field Name="ToDate">
           <DataField>ToDate</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="Sitetext">
-          <DataField>Sitetext</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="DivisionText">
-          <DataField>DivisionText</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="CostCenterName">
@@ -2042,23 +2036,11 @@
       <AllowBlank>true</AllowBlank>
       <Prompt>Report Type</Prompt>
     </ReportParameter>
-    <ReportParameter Name="CostCenterId">
+    <ReportParameter Name="CostcenterId">
       <DataType>String</DataType>
       <Nullable>true</Nullable>
       <AllowBlank>true</AllowBlank>
-      <Prompt>CostCenter Id</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="DatabaseConnectionString">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>DatabaseConnectionString</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="BranchRecord">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>Branch Record</Prompt>
+      <Prompt>Costcenter Id</Prompt>
     </ReportParameter>
   </ReportParameters>
   <Code>

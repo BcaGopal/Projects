@@ -1144,7 +1144,7 @@
         <Top>0.64341in</Top>
         <Left>2.70869in</Left>
         <Height>0.78132in</Height>
-        <Width>2.73339in</Width>
+        <Width>2.7334in</Width>
         <ZIndex>2</ZIndex>
         <Style>
           <Border>
@@ -1865,20 +1865,6 @@
       </Tablix>
       <Subreport Name="CompanyDetail_HalfLandscap">
         <ReportName>CompanyDetail_HalfLandscap</ReportName>
-        <Parameters>
-          <Parameter Name="SiteId">
-            <Value>=First(Fields!SiteId.Value, "DsMain")</Value>
-          </Parameter>
-          <Parameter Name="DivisionId">
-            <Value>=First(Fields!DivisionId.Value, "DsMain")</Value>
-          </Parameter>
-          <Parameter Name="DatabaseConnectionString">
-            <Value>=Parameters!DatabaseConnectionString.Value</Value>
-          </Parameter>
-          <Parameter Name="PrintedBy">
-            <Value>=Parameters!PrintedBy.Value</Value>
-          </Parameter>
-        </Parameters>
         <Top>0.04167in</Top>
         <Left>0.02522in</Left>
         <Height>0.25833in</Height>
@@ -1892,20 +1878,6 @@
       </Subreport>
       <Subreport Name="CompanyDetail_HalfLandscap3">
         <ReportName>CompanyDetail_HalfLandscap</ReportName>
-        <Parameters>
-          <Parameter Name="SiteId">
-            <Value>=First(Fields!SiteId.Value, "DsMain")</Value>
-          </Parameter>
-          <Parameter Name="DivisionId">
-            <Value>=First(Fields!DivisionId.Value, "DsMain")</Value>
-          </Parameter>
-          <Parameter Name="PrintedBy">
-            <Value>=Parameters!PrintedBy.Value</Value>
-          </Parameter>
-          <Parameter Name="DatabaseConnectionString">
-            <Value>=Parameters!DatabaseConnectionString.Value</Value>
-          </Parameter>
-        </Parameters>
         <Top>0.04105in</Top>
         <Left>5.52119in</Left>
         <Height>0.25833in</Height>
@@ -3521,7 +3493,7 @@
         <Top>2.35933in</Top>
         <Left>0.04249in</Left>
         <Height>0.22292in</Height>
-        <Width>5.3755in</Width>
+        <Width>5.37549in</Width>
         <ZIndex>10</ZIndex>
         <Style>
           <Border>
@@ -5121,7 +5093,7 @@
             </Paragraph>
           </Paragraphs>
           <rd:DefaultName>Textbox19</rd:DefaultName>
-          <Top>0.04167in</Top>
+          <Top>0.05363in</Top>
           <Left>2.05764in</Left>
           <Height>0.23804in</Height>
           <Width>1.69489in</Width>
@@ -5289,10 +5261,7 @@
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
     <DataSource Name="Purchase">
-      <ConnectionProperties>
-        <DataProvider>SQL</DataProvider>
-        <ConnectString>=Parameters!DatabaseConnectionString.Value</ConnectString>
-      </ConnectionProperties>
+      <DataSourceReference>DataSourceMain</DataSourceReference>
       <rd:SecurityType>None</rd:SecurityType>
       <rd:DataSourceID>727bb65e-cc51-4d28-a097-a8ea7d087931</rd:DataSourceID>
     </DataSource>
@@ -5482,12 +5451,6 @@
       <Nullable>true</Nullable>
       <AllowBlank>true</AllowBlank>
       <Prompt>PrintedBy</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="DatabaseConnectionString">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>DatabaseConnectionString</Prompt>
     </ReportParameter>
   </ReportParameters>
   <Code>

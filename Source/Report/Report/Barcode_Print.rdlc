@@ -70,7 +70,7 @@
       </Fields>
       <rd:DataSetInfo>
         <rd:DataSetName>Purchase</rd:DataSetName>
-        <rd:SchemaPath>E:\Satyam\SuryaIndia_30052015\SuryaIndia\SuppliorModule_V1\Source\Surya.Planning.Reports\Reports\Purchase.xsd</rd:SchemaPath>
+        <rd:SchemaPath>E:\Satyam\SuryaIndia_30052015\SuryaIndia\SuppliorModule_V1\Source\Planning.Reports\Reports\Purchase.xsd</rd:SchemaPath>
         <rd:TableName>ProcBarcodePrint</rd:TableName>
         <rd:TableAdapterFillMethod>Fill</rd:TableAdapterFillMethod>
         <rd:TableAdapterGetDataMethod>GetData</rd:TableAdapterGetDataMethod>
@@ -86,24 +86,24 @@
             <TablixBody>
               <TablixColumns>
                 <TablixColumn>
-                  <Width>0.07986in</Width>
+                  <Width>0.05in</Width>
                 </TablixColumn>
                 <TablixColumn>
                   <Width>0.31798in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.41202in</Width>
+                  <Width>0.28202in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.67in</Width>
+                  <Width>1.1in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.07986in</Width>
+                  <Width>0.05in</Width>
                 </TablixColumn>
               </TablixColumns>
               <TablixRows>
                 <TablixRow>
-                  <Height>0.2in</Height>
+                  <Height>0.05in</Height>
                   <TablixCells>
                     <TablixCell>
                       <CellContents>
@@ -258,7 +258,7 @@
                   </TablixCells>
                 </TablixRow>
                 <TablixRow>
-                  <Height>0.1in</Height>
+                  <Height>0.05in</Height>
                   <TablixCells>
                     <TablixCell>
                       <CellContents>
@@ -441,7 +441,7 @@
                   </TablixCells>
                 </TablixRow>
                 <TablixRow>
-                  <Height>0.72844in</Height>
+                  <Height>0.5in</Height>
                   <TablixCells>
                     <TablixCell>
                       <CellContents>
@@ -574,7 +574,7 @@
                   </TablixCells>
                 </TablixRow>
                 <TablixRow>
-                  <Height>0.1in</Height>
+                  <Height>0.05in</Height>
                   <TablixCells>
                     <TablixCell>
                       <CellContents>
@@ -752,7 +752,7 @@
                   </TablixCells>
                 </TablixRow>
                 <TablixRow>
-                  <Height>0.3in</Height>
+                  <Height>0.25in</Height>
                   <TablixCells>
                     <TablixCell>
                       <CellContents>
@@ -806,6 +806,7 @@
                                   <Value>SKU</Value>
                                   <Style>
                                     <FontFamily>Tahoma</FontFamily>
+                                    <FontSize>9pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
                                 </TextRun>
@@ -848,10 +849,10 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!ProductName.Value</Value>
+                                  <Value>=Left(Fields!ProductName.Value,16)</Value>
                                   <Style>
                                     <FontFamily>Tahoma</FontFamily>
-                                    <FontSize>= iif(len(fields!ProductName.Value) &gt; 15,"8pt","10pt")</FontSize>
+                                    <FontSize>= iif(len(fields!ProductName.Value) &gt;= 12,"7pt","9pt")</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
                                 </TextRun>
@@ -883,6 +884,7 @@
                             <PaddingBottom>2pt</PaddingBottom>
                           </Style>
                         </Textbox>
+                        <rd:Selected>true</rd:Selected>
                       </CellContents>
                     </TablixCell>
                     <TablixCell>
@@ -928,7 +930,7 @@
                   </TablixCells>
                 </TablixRow>
                 <TablixRow>
-                  <Height>0.3in</Height>
+                  <Height>0.25in</Height>
                   <TablixCells>
                     <TablixCell>
                       <CellContents>
@@ -981,6 +983,7 @@
                                   <Value>Design</Value>
                                   <Style>
                                     <FontFamily>Tahoma</FontFamily>
+                                    <FontSize>9pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
                                 </TextRun>
@@ -1022,10 +1025,10 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!ProductGroupName.Value</Value>
+                                  <Value>=Left(Fields!ProductGroupName.Value,16)</Value>
                                   <Style>
                                     <FontFamily>Tahoma</FontFamily>
-                                    <FontSize>= iif(len(fields!ProductGroupName.Value) &gt; 15,"8pt","10pt")</FontSize>
+                                    <FontSize>= iif(len(fields!ProductGroupName.Value) &gt;= 12,"7pt","9pt")</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
                                 </TextRun>
@@ -1100,7 +1103,7 @@
                   </TablixCells>
                 </TablixRow>
                 <TablixRow>
-                  <Height>0.3in</Height>
+                  <Height>0.25in</Height>
                   <TablixCells>
                     <TablixCell>
                       <CellContents>
@@ -1154,6 +1157,7 @@
                                   <Value>Colour</Value>
                                   <Style>
                                     <FontFamily>Tahoma</FontFamily>
+                                    <FontSize>9pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
                                 </TextRun>
@@ -1196,10 +1200,10 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!ColourName.Value</Value>
+                                  <Value>=Left(Fields!ColourName.Value,16)</Value>
                                   <Style>
                                     <FontFamily>Tahoma</FontFamily>
-                                    <FontSize>= iif(len(fields!ColourName.Value) &gt; 15,"8pt","10pt")</FontSize>
+                                    <FontSize>= iif(len(fields!ColourName.Value) &gt;= 12,"7pt","9pt")</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
                                 </TextRun>
@@ -1276,7 +1280,7 @@
                   </TablixCells>
                 </TablixRow>
                 <TablixRow>
-                  <Height>0.3in</Height>
+                  <Height>0.25in</Height>
                   <TablixCells>
                     <TablixCell>
                       <CellContents>
@@ -1329,6 +1333,7 @@
                                   <Value>Size</Value>
                                   <Style>
                                     <FontFamily>Tahoma</FontFamily>
+                                    <FontSize>9pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
                                 </TextRun>
@@ -1370,10 +1375,10 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!SizeName.Value</Value>
+                                  <Value>=Left(Fields!SizeName.Value,16)</Value>
                                   <Style>
                                     <FontFamily>Tahoma</FontFamily>
-                                    <FontSize>= iif(len(fields!SizeName.Value) &gt; 15,"8pt","10pt")</FontSize>
+                                    <FontSize>= iif(len(fields!SizeName.Value) &gt;= 12,"7pt","9pt")</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
                                 </TextRun>
@@ -1448,7 +1453,7 @@
                   </TablixCells>
                 </TablixRow>
                 <TablixRow>
-                  <Height>0.3in</Height>
+                  <Height>0.25in</Height>
                   <TablixCells>
                     <TablixCell>
                       <CellContents>
@@ -1502,6 +1507,7 @@
                                   <Value>Quality</Value>
                                   <Style>
                                     <FontFamily>Tahoma</FontFamily>
+                                    <FontSize>9pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
                                 </TextRun>
@@ -1544,10 +1550,10 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!ProductQualityName.Value</Value>
+                                  <Value>=Left(Fields!ProductQualityName.Value,16)</Value>
                                   <Style>
                                     <FontFamily>Tahoma</FontFamily>
-                                    <FontSize>= iif(len(fields!ProductQualityName.Value) &gt; 15,"8pt","10pt")</FontSize>
+                                    <FontSize>= iif(len(fields!ProductQualityName.Value) &gt;= 12,"7pt","9pt")</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
                                 </TextRun>
@@ -1624,7 +1630,7 @@
                   </TablixCells>
                 </TablixRow>
                 <TablixRow>
-                  <Height>0.3in</Height>
+                  <Height>0.25in</Height>
                   <TablixCells>
                     <TablixCell>
                       <CellContents>
@@ -1680,6 +1686,7 @@
                                   <Value>Spl. Note</Value>
                                   <Style>
                                     <FontFamily>Tahoma</FontFamily>
+                                    <FontSize>9pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
                                 </TextRun>
@@ -1724,7 +1731,7 @@
                                   <Value>=Fields!ProductUidSpecial_Marks.Value</Value>
                                   <Style>
                                     <FontFamily>Tahoma</FontFamily>
-                                    <FontSize>14pt</FontSize>
+                                    <FontSize>12pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
                                 </TextRun>
@@ -1801,7 +1808,7 @@
                   </TablixCells>
                 </TablixRow>
                 <TablixRow>
-                  <Height>0.1in</Height>
+                  <Height>0.05in</Height>
                   <TablixCells>
                     <TablixCell>
                       <CellContents>
@@ -1964,7 +1971,7 @@
                   </TablixCells>
                 </TablixRow>
                 <TablixRow>
-                  <Height>0.57287in</Height>
+                  <Height>0.5in</Height>
                   <TablixCells>
                     <TablixCell>
                       <CellContents>
@@ -2219,7 +2226,7 @@
                   </TablixCells>
                 </TablixRow>
                 <TablixRow>
-                  <Height>0.3in</Height>
+                  <Height>0.2in</Height>
                   <TablixCells>
                     <TablixCell>
                       <CellContents>
@@ -2332,7 +2339,7 @@
                   </TablixCells>
                 </TablixRow>
                 <TablixRow>
-                  <Height>0.1in</Height>
+                  <Height>0.05in</Height>
                   <TablixCells>
                     <TablixCell>
                       <CellContents>
@@ -2515,7 +2522,7 @@
                   </TablixCells>
                 </TablixRow>
                 <TablixRow>
-                  <Height>0.1in</Height>
+                  <Height>0.05in</Height>
                   <TablixCells>
                     <TablixCell>
                       <CellContents>
@@ -2732,8 +2739,8 @@
               </TablixMembers>
             </TablixRowHierarchy>
             <DataSetName>DsMain</DataSetName>
-            <Height>4.13256in</Height>
-            <Width>2.55972in</Width>
+            <Height>3.03125in</Height>
+            <Width>1.8in</Width>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -2741,10 +2748,10 @@
             </Style>
           </Tablix>
         </ReportItems>
-        <Height>4.13256in</Height>
+        <Height>3.0375in</Height>
         <Style />
       </Body>
-      <Width>2.55972in</Width>
+      <Width>1.80972in</Width>
       <Page>
         <PageFooter>
           <Height>0.01042in</Height>
@@ -2756,9 +2763,9 @@
             </Border>
           </Style>
         </PageFooter>
-        <PageHeight>4.2in</PageHeight>
-        <PageWidth>2.8in</PageWidth>
-        <LeftMargin>0.1in</LeftMargin>
+        <PageHeight>3.3in</PageHeight>
+        <PageWidth>1.9in</PageWidth>
+        <LeftMargin>0.05in</LeftMargin>
         <ColumnSpacing>0.05in</ColumnSpacing>
         <Style />
       </Page>

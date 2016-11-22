@@ -341,8 +341,7 @@ namespace Web
                 return Json(new { ErrorType = "InvalidID", ErrorMessage = "BarCodeNotFound" });
             }
         }
-
-
+        
         protected override void Dispose(bool disposing)
         {
             if (disposing)

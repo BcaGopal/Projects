@@ -155,6 +155,7 @@ namespace Service
         IEnumerable<ComboBoxList> GetLedgerHeaderHelpList(string TransactionDocTypeConstants, int SiteId, int DivisionId);
         IQueryable<ComboBoxResult> GetJobWorkerHelpListWithProcessFilter(int Processid, string term);
         IQueryable<ComboBoxResult> GetEmployeeHelpListWithProcessFilter(int Processid, string term);
+        IQueryable<ComboBoxResult> GetEmployeeHelpListWithDepartMentFilter(int DepartMentId, string term);
         IQueryable<ComboBoxResult> GetPersonHelpListWithProcessFilter(int? Processid, string term);
         IQueryable<ComboBoxResult> GetPersonRateGroupHelpList(string term, int filter);
         IQueryable<ComboBoxResult> GetProductRateGroupHelpList(string term, int filter);
@@ -2393,6 +2394,22 @@ namespace Service
             return list;
         }
 
+
+        public IQueryable<ComboBoxResult> GetEmployeeHelpListWithDepartMentFilter(int DepartMentId, string term)
+        {
+            var list = (from b in db.Employee
+                        join p in db.Persons on b.PersonID equals p.PersonID
+                        where b.DepartmentID == DepartMentId
+                        orderby p.Name
+                        select new ComboBoxResult
+                        {
+                            id = p.PersonID.ToString(),
+                            text = p.Name + " | " + p.Code
+                        }
+                      );
+
+            return list;
+        }
 
     }
 }
