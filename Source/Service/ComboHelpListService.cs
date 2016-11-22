@@ -161,6 +161,8 @@ namespace Service
         IQueryable<ComboBoxResult> GetControllerActionList(string term);
         IQueryable<ComboBoxResult> GetDocumentCategoryList(string term);
         IQueryable<ComboBoxResult> GetUsers(string term);
+
+        IQueryable<ComboBoxResult> GetUnits(string term);
         IEnumerable<ComboBoxList> GetPersonForSaleHelpList(string term);
 
         IQueryable<ComboBoxResult> GetReasonHelpListWithDocTypeFilter(int Processid, string term);
@@ -2315,6 +2317,23 @@ namespace Service
                         {
                             text = p.UserName,
                             id = p.UserName,
+                        }
+            );
+
+            return list;
+
+        }
+
+        public IQueryable<ComboBoxResult> GetUnits(string term)
+        {
+
+            var list = (from p in db.Units
+                        where (string.IsNullOrEmpty(term) ? 1 == 1 : (p.UnitName.ToLower().Contains(term.ToLower())))
+                        orderby p.UnitName
+                        select new ComboBoxResult
+                        {
+                            text = p.UnitName,
+                            id = p.UnitId,
                         }
             );
 

@@ -535,6 +535,30 @@ namespace Presentation
                     db.MaterialPlanCancelForProdOrder.Remove(item2);
                 }
 
+
+
+
+
+                ProdOrderCancelHeader ProdOrderCancelHeaders = new ProdOrderCancelHeaderService(_unitOfWork).GetProdOrderCancelForMaterialPlan(vm.id);
+
+
+                LogList.Add(new LogTypeViewModel
+                {
+                    ExObj = ProdOrderCancelHeaders,
+                });
+
+                ProdOrderCancelHeaders.ObjectState = Model.ObjectState.Deleted;
+                // new ProdOrderHeaderService(_unitOfWork).Delete(item2.ProdOrderHeaderId);
+                db.ProdOrderCancelHeader.Attach(ProdOrderCancelHeaders);
+                db.ProdOrderCancelHeader.Remove(ProdOrderCancelHeaders);
+
+
+
+
+
+
+
+
                 temp.ObjectState = Model.ObjectState.Deleted;
                 // _MaterialPlanCancelHeaderService.Delete(temp);
                 db.MaterialPlanCancelHeader.Attach(temp);

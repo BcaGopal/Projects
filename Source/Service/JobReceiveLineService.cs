@@ -165,11 +165,23 @@ namespace Service
         }
         public IEnumerable<JobReceiveLineViewModel> GetLineListForIndex(int headerId)
         {
+            var JobReceiveQALine = from L in db.JobReceiveLine
+                                   join Jql in db.JobReceiveQALine on L.JobReceiveLineId equals Jql.JobReceiveLineId into JobReceiveQALineTable
+                                   from JobReceiveQALineTab in JobReceiveQALineTable.DefaultIfEmpty()
+                                   where L.JobReceiveHeaderId == headerId
+                                   group new { L, JobReceiveQALineTab } by new { L.JobReceiveLineId } into Result
+                                   select new
+                                   {
+                                       JobReceiveLineId = Result.Key.JobReceiveLineId,
+                                       JobReceiveQALineId = Result.Max(i => i.JobReceiveQALineTab.JobReceiveQALineId)
+                                   };
+
             var pt = (from p in db.JobReceiveLine
                       where p.JobReceiveHeaderId == headerId
                       join t in db.JobOrderLine on p.JobOrderLineId equals t.JobOrderLineId
-                      into table
-                      from tab in table.DefaultIfEmpty()
+                      into table from tab in table.DefaultIfEmpty()
+                      join Jql in JobReceiveQALine on p.JobReceiveLineId equals Jql.JobReceiveLineId into JobReceiveQALineTable
+                      from JobReceiveQALineTab in JobReceiveQALineTable.DefaultIfEmpty()
                       orderby p.Sr
                       select new JobReceiveLineViewModel
                       {
@@ -199,6 +211,7 @@ namespace Service
                           JobOrderLineId = p.JobOrderLineId,
                           OrderDocTypeId = tab.JobOrderHeader.DocTypeId,
                           OrderHeaderId = tab.JobOrderHeaderId,
+                          JobReceiveQALineId = JobReceiveQALineTab.JobReceiveQALineId
                       }
                         );
 

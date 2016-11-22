@@ -53,6 +53,7 @@ namespace Model.Models
         public virtual Country OriginCountry { get; set; }
 
 
+        public string UnitConversions { get; set; }
 
 
         [Display(Name = "Created By")]

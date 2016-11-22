@@ -315,6 +315,15 @@ namespace Web
         }
 
 
+        public JsonResult GetUnitConversionMultiplier(int ProductId, Decimal Length, Decimal Width, Decimal? Height, string ToUnitId)
+        {
+            ProductViewModel product = new ProductService(_unitOfWork).GetProduct(ProductId);
+
+            Decimal UnitConversionMultiplier = 0;
+            UnitConversionMultiplier = _JobReceiveQAAttributeService.GetUnitConversionMultiplier(product.UnitId, Length, Width, Height, ToUnitId);
+
+            return Json(UnitConversionMultiplier);
+        }
 
 
         protected override void Dispose(bool disposing)
@@ -330,5 +339,7 @@ namespace Web
             }
             base.Dispose(disposing);
         }
+
+
     }
 }

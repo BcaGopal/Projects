@@ -208,6 +208,7 @@
             }
         });
 
+        var id = @ViewBag.id;
         $('a#Proceed').click(function () {
 
             var arr = [];
@@ -225,7 +226,7 @@
             $.ajax({
                 url: $(this).attr('href'),
                 type: "POST",
-                data: { Selected: arr },
+                data: { Selected: arr, id: id },
                 success: function (result) {
                     if (result.Success == true) {
                         UpdateDataTable(result);

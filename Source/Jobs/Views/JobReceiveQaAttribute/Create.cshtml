@@ -746,6 +746,11 @@
         Calculation();
     });
 
+    $('#Length,#Width,#Height').keyup(function(){
+        GetUnitConversionMultiplier();
+        Calculation();
+    });
+
     $('#InspectedQty,#Qty,#QAQty').focusout(function(){
         ValidateData();
     });
@@ -825,4 +830,33 @@
         }
 
     });
+
+
+
+</script>
+
+
+<script type="text/javascript">
+    function GetUnitConversionMultiplier() {
+        if ($("#Length").val() > 0 && $("#Width").val() > 0) {
+            $.ajax({
+                cache: false,
+                type: "POST",
+                async: false,
+                url: "@(Url.Action("GetUnitConversionMultiplier"))",
+                data: { ProductId: $("#ProductId").val(),Length: $("#Length").val(),Width: $("#Width").val(),Height: $("#Height").val(),ToUnitId: $("#DealUnitId").val()},
+                success: function (data) {
+                    if (data) {
+                        $('#UnitConversionMultiplier').val(data);
+                    }
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert('Failed to retrieve product details.' + thrownError);
+                }
+            });
+        }
+        else {
+            $('#UnitConversionMultiplier').val(0);
+        }
+    }
 </script>
