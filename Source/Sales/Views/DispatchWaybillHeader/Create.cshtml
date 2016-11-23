@@ -60,7 +60,7 @@
             <hr style="margin-top:0px;margin-bottom:0px" />
 
             <div class="panel-info">
-                <h4 style="padding:5px 0 0 0;margin:0px">
+                @*<h4 style="padding:5px 0 0 0;margin:0px">
                     @Html.ActionLink(" ", " ", " ", null, new { @class = "glyphicon glyphicon-refresh toolbar", @title = "Refresh Page", @data_toggle = "tooltip", @id = "RefreshPage" })
                     @Html.ActionLink(" ", "Create", "DispatchWaybillHeader", new { DocTypeId = ViewBag.id }, new { @class = "glyphicon glyphicon-plus toolbar", @title = "Add New", @data_toggle = "tooltip" })                    
                     @Html.ActionLink(" ", "History", "DispatchWaybillHeader", null, new { @class = "glyphicon glyphicon-user toolbar", @title = "History", @data_toggle = "tooltip" })
@@ -69,24 +69,39 @@
                     @Html.ActionLink(" ", "PrevPage", "DispatchWaybillHeader", new { id = @Model.DispatchWaybillHeaderId }, new { @class = "glyphicon glyphicon-arrow-left toolbar", @title = "Prev Record", @data_toggle = "tooltip" })
                     @Html.ActionLink(" ", "NextPage", "DispatchWaybillHeader", new { id = @Model.DispatchWaybillHeaderId }, new { @class = "glyphicon glyphicon-arrow-right toolbar", @title = "Next Record", @data_toggle = "tooltip" })
                     @Html.ActionLink(" ", "Index", "DispatchWaybillHeader", new { @id = ViewBag.id, IndexType = ViewBag.IndexStatus }, new { @class = "glyphicon glyphicon-list toolbar right", @title = "List", @data_toggle = "tooltip" })
-                </h4>
+                </h4>*@
+                <div class="btn-group">
+                    @Html.ActionLink(" ", "Create", "DispatchWaybillHeader", new { DocTypeId = ViewBag.id }, new { @class = "cbtn btn-circle glyphicon glyphicon-plus toolbar", @title = "Add New", @data_toggle = "tooltip" })
+                    @Html.ActionLink(" ", "GeneratePrints", "DispatchWaybillHeader", new { Ids = Model.DispatchWaybillHeaderId, DocTypeId = Model.DocTypeId }, new { @class = "cbtn btn-circle glyphicon glyphicon-print toolbar", @title = "Print", @data_toggle = "tooltip", @id = "PrintRecordC", target = "_blank" })
+                    @Html.ActionLink(" ", "PrevPage", "DispatchWaybillHeader", new { id = @Model.DispatchWaybillHeaderId }, new { @class = "cbtn btn-circle glyphicon glyphicon-arrow-left toolbar", @title = "Prev Record", @data_toggle = "tooltip" })
+                    @Html.ActionLink(" ", "NextPage", "DispatchWaybillHeader", new { id = @Model.DispatchWaybillHeaderId }, new { @class = "cbtn btn-circle glyphicon glyphicon-arrow-right toolbar", @title = "Next Record", @data_toggle = "tooltip" })
+                </div>
+                <div class="btn-group">
+                    <a class="cbtn btn-circle glyphicon glyphicon-option-horizontal dropdown-toggle" aria-expanded="false" style="padding-top: 6px;padding-bottom: 6px;" href="#" data-toggle="dropdown" id="dropdownMenu1">
+                    </a>
+                    <ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu1">
+                        <li><a id="DocHistory" data-modal="" href="@Url.Action("GetHistory", "LogHistory", new { Ids = Model.DispatchWaybillHeaderId, DocTypeId = Model.DocTypeId })"><span class="glyphicon glyphicon-user"> </span> History</a></li>
+                        <li><a href="@Url.Action("Email", "DispatchWaybillHeader")"><span class="glyphicon glyphicon-envelope"> </span> Email</a></li>
+                      
+                    </ul>
+              </div>
             </div>
         </div>
 
         <div class="panel-info" style="padding-left:15px">
             <div class="form-horizontal" role="form">
                 @Html.ValidationSummary(true)
-                <div class="row">
+                <div>
                     <h4 class="col-md-12 black">
                         <span class="glyphicon glyphicon-align-justify"></span>
                         1.Document Details
                     </h4>
                     <div>
-                        <div class="row">
+                        <div>
                             <div class="col-md-6">
                                 <div class="form-group" style="margin-top:15px">
-                                    @Html.LabelFor(model => model.DocNo, "Entry No", new { @class = "control-label col-xs-4" })
-                                    <div class="col-xs-6">
+                                    @Html.LabelFor(model => model.DocNo, "Entry No", new { @class = "control-label col-md-4 col-sm-2" })
+                                    <div class="col-md-7 col-sm-10">
                                         @Html.TextBoxFor(m => m.DocNo, null, new { @class = "form-control col-xs-6 required" })
                                         @Html.ValidationMessageFor(model => model.DocNo)
                                     </div>
@@ -94,8 +109,8 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group" style="margin-top:15px">
-                                    @Html.LabelFor(model => model.DocDate, "Entry Date", new { @class = "control-label col-xs-4" })
-                                    <div class="col-xs-6">
+                                    @Html.LabelFor(model => model.DocDate, "Entry Date", new { @class = "control-label col-md-4 col-sm-2" })
+                                    <div class="col-md-7 col-sm-10">
                                         @Html.TextBoxFor(m => m.DocDate, "{0:dd/MMMM/yyyy}", new { @class = "datepickerWithNFD form-control col-xs-6 required" })
                                         @Html.ValidationMessageFor(model => model.DocDate)
                                     </div>
@@ -103,11 +118,11 @@
                             </div>
                         </div>
 
-                        <div class="row">
+                        <div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.WaybillNo, "Waybill No", new { @class = "control-label col-xs-4" })
-                                    <div class="col-xs-6">
+                                    @Html.LabelFor(model => model.WaybillNo, "Waybill No", new { @class = "control-label col-md-4 col-sm-2" })
+                                    <div class="col-md-7 col-sm-10">
                                         @Html.TextBoxFor(m => m.WaybillNo, null, new { @class = "form-control col-xs-6 required" })
                                         @Html.ValidationMessageFor(model => model.WaybillNo)
                                     </div>
@@ -115,8 +130,8 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.WaybillDate, "Waybill Date", new { @class = "control-label col-xs-4" })
-                                    <div class="col-xs-6">
+                                    @Html.LabelFor(model => model.WaybillDate, "Waybill Date", new { @class = "control-label col-md-4 col-sm-2" })
+                                    <div class="col-md-7 col-sm-10">
                                         @Html.TextBoxFor(m => m.WaybillDate, "{0:dd/MMMM/yyyy}", new { @class = "datepicker form-control col-xs-6 required" })
                                         @Html.ValidationMessageFor(model => model.WaybillDate)
                                     </div>
@@ -126,11 +141,11 @@
 
 
 
-                        <div class="row">
+                        <div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.TransporterId, "Transporter", new { @class = "control-label col-xs-4" })
-                                    <div class="col-xs-6">
+                                    @Html.LabelFor(model => model.TransporterId, "Transporter", new { @class = "control-label col-md-4 col-sm-2" })
+                                    <div class="col-md-7 col-sm-10">
                                         @Html.TextBoxFor(m => m.TransporterId, null, new { @class = "form-control col-xs-6 required" })
                                         @Html.ValidationMessageFor(model => model.TransporterId)
                                     </div>
@@ -138,8 +153,8 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.SaleInvoiceHeaderId, "Invoice No", new { @class = "control-label col-xs-4" })
-                                    <div class="col-xs-6">
+                                    @Html.LabelFor(model => model.SaleInvoiceHeaderId, "Invoice No", new { @class = "control-label col-md-4 col-sm-2" })
+                                    <div class="col-md-7 col-sm-10">
                                         @Html.TextBoxFor(m => m.SaleInvoiceHeaderId, null, new { @class = "form-control col-xs-6 required" })
                                         @Html.ValidationMessageFor(model => model.SaleInvoiceHeaderId)
                                     </div>
@@ -147,11 +162,11 @@
                             </div>
                         </div>
 
-                        <div class="row">
+                        <div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.ConsigneeId, "Consignee", new { @class = "control-label col-xs-4" })
-                                    <div class="col-xs-6">
+                                    @Html.LabelFor(model => model.ConsigneeId, "Consignee", new { @class = "control-label col-md-4 col-sm-2" })
+                                    <div class="col-md-7 col-sm-10">
                                         @Html.TextBoxFor(a => a.ConsigneeId, new { @class = "form-control col-xs-6 required" })
                                         @Html.ValidationMessageFor(model => model.ConsigneeId)
                                     </div>
@@ -162,17 +177,17 @@
                 </div>
 
                 <hr />
-                <div class="row">
+                <div>
                     <h4 class="col-md-12 black">
                         <span class="glyphicon glyphicon-shopping-cart"></span>
                         2.Waybill Details
                     </h4>
                     <div>
-                        <div class="row">
+                        <div>
                             <div class="col-md-6">
                                 <div class="form-group" style="margin-top:15px">
-                                    @Html.LabelFor(model => model.ShipMethodId, "Shipment Through", new { @class = "control-label col-xs-4" })
-                                    <div class="col-xs-6">
+                                    @Html.LabelFor(model => model.ShipMethodId, "Shipment Through", new { @class = "control-label col-md-4 col-sm-2" })
+                                    <div class="col-md-7 col-sm-10">
                                         @Html.DropDownListFor(m => m.ShipMethodId, new SelectList(ViewBag.ShipMethodList as System.Collections.IEnumerable, "ShipMethodId", "ShipMethodName"), new { @class = "form-control col-xs-6 height required" })
                                         @Html.ValidationMessageFor(model => model.ShipMethodId)
                                     </div>
@@ -181,8 +196,8 @@
 
                             <div class="col-md-6">
                                 <div class="form-group" style="margin-top:15px">
-                                    @Html.LabelFor(model => model.DeliveryOffice, "Delivery Office", new { @class = "control-label col-xs-4" })
-                                    <div class="col-xs-6">
+                                    @Html.LabelFor(model => model.DeliveryOffice, "Delivery Office", new { @class = "control-label col-md-4 col-sm-2" })
+                                    <div class="col-md-7 col-sm-10">
                                         @Html.TextBoxFor(m => m.DeliveryOffice, null, new { @class = "form-control col-xs-6" })
                                         @Html.ValidationMessageFor(model => model.DeliveryOffice)
                                     </div>
@@ -194,11 +209,11 @@
 
 
 
-                        <div class="row">
+                        <div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.EstimatedDeliveryDate, "Estd.Delivery Date", new { @class = "control-label col-xs-4" })
-                                    <div class="col-xs-6">
+                                    @Html.LabelFor(model => model.EstimatedDeliveryDate, "Estd.Delivery Date", new { @class = "control-label col-md-4 col-sm-2" })
+                                    <div class="col-md-7 col-sm-10">
                                         @Html.TextBoxFor(m => m.EstimatedDeliveryDate, "{0:dd/MMMM/yyyy}", new { @class = "datepicker form-control col-xs-6 required" })
                                         @Html.ValidationMessageFor(model => model.EstimatedDeliveryDate)
                                     </div>
@@ -207,8 +222,8 @@
 
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.PaymentType, "Payment Type", new { @class = "control-label col-xs-4" })
-                                    <div class="col-xs-6">
+                                    @Html.LabelFor(model => model.PaymentType, "Payment Type", new { @class = "control-label col-md-4 col-sm-2" })
+                                    <div class="col-md-7 col-sm-10">
                                         @Html.DropDownList("PaymentType", null, new { @class = "form-control col-xs-6 height" })
                                         @Html.ValidationMessageFor(model => model.PaymentType)
                                     </div>
@@ -220,11 +235,11 @@
 
 
 
-                        <div class="row">
+                        <div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.FromCityId, "From City", new { @class = "control-label col-xs-4" })
-                                    <div class="col-xs-6">
+                                    @Html.LabelFor(model => model.FromCityId, "From City", new { @class = "control-label col-md-4 col-sm-2" })
+                                    <div class="col-md-7 col-sm-10">
                                         @Html.TextBoxFor(m => m.FromCityId, null, new { @class = "form-control col-xs-6 required" })
                                         @Html.ValidationMessageFor(model => model.FromCityId)
                                     </div>
@@ -233,8 +248,8 @@
 
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.ToCityId, "To City", new { @class = "control-label col-xs-4" })
-                                    <div class="col-xs-6">
+                                    @Html.LabelFor(model => model.ToCityId, "To City", new { @class = "control-label col-md-4 col-sm-2" })
+                                    <div class="col-md-7 col-sm-10">
                                         @Html.TextBoxFor(m => m.ToCityId, null, new { @class = "form-control col-xs-6 required" })
                                         @Html.ValidationMessageFor(model => model.ToCityId)
                                     </div>
@@ -245,8 +260,8 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.RouteId, "Route", new { @class = "control-label col-xs-4" })
-                                    <div class="col-xs-6">
+                                    @Html.LabelFor(model => model.RouteId, "Route", new { @class = "control-label col-md-4 col-sm-2" })
+                                    <div class="col-md-7 col-sm-10">
                                         @Html.TextBoxFor(m => m.RouteId, null, new { @class = "form-control col-xs-6 required" })
                                         @Html.ValidationMessageFor(model => model.RouteId)
                                     </div>
@@ -263,8 +278,8 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.ProductDescription, "Product Description", new { @class = "control-label col-xs-4" })
-                                    <div class="col-xs-6">
+                                    @Html.LabelFor(model => model.ProductDescription, "Product Description", new { @class = "control-label col-md-4 col-sm-2" })
+                                    <div class="col-md-7 col-sm-10">
                                         @Html.TextBoxFor(m => m.ProductDescription, null, new { @class = "form-control col-xs-6" })
                                         @Html.ValidationMessageFor(model => model.ProductDescription)
                                     </div>
@@ -273,8 +288,8 @@
 
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.PrivateMark, "Private Mark", new { @class = "control-label col-xs-4" })
-                                    <div class="col-xs-6">
+                                    @Html.LabelFor(model => model.PrivateMark, "Private Mark", new { @class = "control-label col-md-4 col-sm-2" })
+                                    <div class="col-md-7 col-sm-10">
                                         @Html.TextBoxFor(m => m.PrivateMark, null, new { @class = "form-control col-xs-6" })
                                         @Html.ValidationMessageFor(model => model.PrivateMark)
                                     </div>
@@ -289,8 +304,8 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.NoOfPackages, "No.of Packages", new { @class = "control-label col-xs-4" })
-                                    <div class="col-xs-6">
+                                    @Html.LabelFor(model => model.NoOfPackages, "No.of Packages", new { @class = "control-label col-md-4 col-sm-2" })
+                                    <div class="col-md-7 col-sm-10">
                                         @Html.TextBoxFor(m => m.NoOfPackages, null, new { @class = "form-control col-xs-6" })
                                         @Html.ValidationMessageFor(model => model.NoOfPackages)
                                     </div>
@@ -299,8 +314,8 @@
 
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.ActualWeight, "Actual Weight", new { @class = "control-label col-xs-4" })
-                                    <div class="col-xs-6">
+                                    @Html.LabelFor(model => model.ActualWeight, "Actual Weight", new { @class = "control-label col-md-4 col-sm-2" })
+                                    <div class="col-md-7 col-sm-10">
                                         @Html.TextBoxFor(m => m.ActualWeight, null, new { @class = "form-control col-xs-6" })
                                         @Html.ValidationMessageFor(model => model.ActualWeight)
                                     </div>
@@ -316,8 +331,8 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.ChargedWeight, "Charged Weight", new { @class = "control-label col-xs-4" })
-                                    <div class="col-xs-6">
+                                    @Html.LabelFor(model => model.ChargedWeight, "Charged Weight", new { @class = "control-label col-md-4 col-sm-2" })
+                                    <div class="col-md-7 col-sm-10">
                                         @Html.TextBoxFor(m => m.ChargedWeight, null, new { @class = "form-control col-xs-6" })
                                         @Html.ValidationMessageFor(model => model.ChargedWeight)
                                     </div>
@@ -326,8 +341,8 @@
 
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.ContainerNo, "Container No", new { @class = "control-label col-xs-4" })
-                                    <div class="col-xs-6">
+                                    @Html.LabelFor(model => model.ContainerNo, "Container No", new { @class = "control-label col-md-4 col-sm-2" })
+                                    <div class="col-md-7 col-sm-10">
                                         @Html.TextBoxFor(m => m.ContainerNo, null, new { @class = "form-control col-xs-6" })
                                         @Html.ValidationMessageFor(model => model.ContainerNo)
                                     </div>
@@ -338,17 +353,17 @@
                 </div>
 
                 <hr />
-                <div class="row">
+                <div>
                     <h4 class="col-md-12 black">
                         <span class="glyphicon glyphicon-shopping-cart"></span>
                         3.Freight Details
                     </h4>
                     <div>
-                        <div class="row">
+                        <div>
                             <div class="col-md-6">
                                 <div class="form-group" style="margin-top:15px">
-                                    @Html.LabelFor(model => model.Freight, "Freight", new { @class = "control-label col-xs-4" })
-                                    <div class="col-xs-6">
+                                    @Html.LabelFor(model => model.Freight, "Freight", new { @class = "control-label col-md-4 col-sm-2" })
+                                    <div class="col-md-7 col-sm-10">
                                         @Html.TextBoxFor(m => m.Freight, null, new { @class = "form-control col-xs-6" })
                                         @Html.ValidationMessageFor(model => model.Freight)
                                     </div>
@@ -357,8 +372,8 @@
 
                             <div class="col-md-6">
                                 <div class="form-group" style="margin-top:15px">
-                                    @Html.LabelFor(model => model.OtherCharges, "Other Charges", new { @class = "control-label col-xs-4" })
-                                    <div class="col-xs-6">
+                                    @Html.LabelFor(model => model.OtherCharges, "Other Charges", new { @class = "control-label col-md-4 col-sm-2" })
+                                    <div class="col-md-7 col-sm-10">
                                         @Html.TextBoxFor(m => m.OtherCharges, null, new { @class = "form-control col-xs-6" })
                                         @Html.ValidationMessageFor(model => model.OtherCharges)
                                     </div>
@@ -367,20 +382,22 @@
                         </div>
 
 
-                        <div class="row">
+                        <div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.ServiceTaxPer, "Service Tax", new { @class = "control-label col-xs-4" })
-                                    <div class="col-xs-2">
-                                        @Html.TextBoxFor(m => m.ServiceTaxPer, null, new { @class = "form-control col-xs-6" })
-                                        @Html.ValidationMessageFor(model => model.ServiceTaxPer)
-                                    </div>
+                                    @Html.LabelFor(model => model.ServiceTaxPer, "Service Tax", new { @class = "control-label col-md-4 col-sm-2" })
+                                   
+                                    <div class="col-md-7 col-sm-10" style="padding:0px">
+                                        <div class="col-xs-5">
+                                            @Html.TextBoxFor(m => m.ServiceTaxPer, null, new { @class = "form-control col-xs-6" })
+                                            @Html.ValidationMessageFor(model => model.ServiceTaxPer)
+                                        </div>
 
-
-                                    @Html.LabelFor(model => model.ServiceTaxAmount, "%", new { @class = "control-label col-xs-1" })
-                                    <div class="col-xs-3">
-                                        @Html.TextBoxFor(m => m.ServiceTaxAmount, null, new { @class = "form-control col-xs-6" })
-                                        @Html.ValidationMessageFor(model => model.ServiceTaxAmount)
+                                        @Html.LabelFor(model => model.ServiceTaxAmount, "%", new { @class = "control-label col-xs-1" })
+                                        <div class="col-xs-4">
+                                            @Html.TextBoxFor(m => m.ServiceTaxAmount, null, new { @class = "form-control col-xs-6" })
+                                            @Html.ValidationMessageFor(model => model.ServiceTaxAmount)
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -388,8 +405,8 @@
 
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.TotalAmount, "Total Amount", new { @class = "control-label col-xs-4" })
-                                    <div class="col-xs-6">
+                                    @Html.LabelFor(model => model.TotalAmount, "Total Amount", new { @class = "control-label col-md-4 col-sm-2" })
+                                    <div class="col-md-7 col-sm-10"">
                                         @Html.TextBoxFor(m => m.TotalAmount, null, new { @class = "form-control col-xs-6", @readonly = true })
                                         @Html.ValidationMessageFor(model => model.TotalAmount)
                                     </div>
@@ -405,17 +422,17 @@
 
 
                 <hr />
-                <div class="row">
+                <div>
                     <h4 class="col-md-12 black">
                         <span class="glyphicon glyphicon-shopping-cart"></span>
                         4.Other Details
                     </h4>
                     <div>
-                        <div class="row">
+                        <div>
                             <div class="col-md-6">
                                 <div class="form-group" style="margin-top:15px">
-                                    @Html.LabelFor(model => model.Remark, "Remark", new { @class = "control-label col-xs-4" })
-                                    <div class="col-xs-6">
+                                    @Html.LabelFor(model => model.Remark, "Remark", new { @class = "control-label col-md-4 col-sm-2" })
+                                    <div class="col-md-7 col-sm-10"">
                                         @Html.TextBoxFor(m => m.Remark, null, new { @class = "form-control col-xs-6" })
                                         @Html.ValidationMessageFor(model => model.Remark)
                                     </div>
