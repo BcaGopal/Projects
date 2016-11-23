@@ -55,7 +55,7 @@
                         {
 
                             <div class='row crow grid-body' style='margin-left:0px;margin-right:0px'>
-
+                                @Html.HiddenFor(m => m.WeavingOrderWizardViewModel[i].DocTypeId)
                                 @Html.HiddenFor(m => m.WeavingOrderWizardViewModel[i].ProdOrderLineId, new { @class = "LineId" })
                                 @Html.HiddenFor(m => m.WeavingOrderWizardViewModel[i].DesignName)
                                 @Html.HiddenFor(m => m.WeavingOrderWizardViewModel[i].Incentive)

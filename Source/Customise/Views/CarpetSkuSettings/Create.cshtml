@@ -259,6 +259,18 @@
                                 </div>
                             </div>
                         </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group" style="margin-top:15px">
+                                    @Html.LabelFor(model => model.UnitConversions, "Unit Conversions", new { @class = "control-label col-xs-4" })
+                                    <div class="col-xs-6">
+                                        @Html.TextBoxFor(m => m.UnitConversions, new { @class = "form-control col-xs-6" })
+                                        @Html.ValidationMessageFor(m => m.UnitConversions, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -274,6 +286,7 @@
     $(function () {
         CustomSelectFunction($("#ProductDesignId"), '/ComboHelpList/GetColourWays', '/ComboHelpList/SetSingleColourWays', ' ', false, 0);
         CustomSelectFunction($("#OriginCountryId"), '/ComboHelpList/GetCountry', '/ComboHelpList/SetSingleCountry', ' ', false, 0);
+        CustomSelectFunction($("#UnitConversions"), '/ComboHelpList/GetUnits', '/ComboHelpList/SetUnits', ' ', true, 0);
     });
 
     var IsSaved = false;

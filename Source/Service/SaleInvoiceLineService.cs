@@ -787,6 +787,8 @@ namespace Service
 
         public List<DirectSaleInvoiceLineViewModel> GetSaleDispatchForFilters(SaleInvoiceFilterViewModel vm)
         {
+            SaleInvoiceHeader Header = new SaleInvoiceHeaderService(_unitOfWork).Find(vm.SaleInvoiceHeaderId);
+
             string[] ProductIdArr = null;
             if (!string.IsNullOrEmpty(vm.ProductId)) { ProductIdArr = vm.ProductId.Split(",".ToCharArray()); }
             else { ProductIdArr = new string[] { "NA" }; }
@@ -807,7 +809,8 @@ namespace Service
             if (!string.IsNullOrEmpty(vm.Dimension2Id)) { Dimension2IdArr = vm.Dimension2Id.Split(",".ToCharArray()); }
             else { Dimension2IdArr = new string[] { "NA" }; }
 
-            
+
+
 
             //ToChange View to get Saleorders instead of goodsreceipts
             List<DirectSaleInvoiceLineViewModel> temp = (from p in db.ViewSaleDispatchBalance
@@ -819,14 +822,13 @@ namespace Service
                                                          from tab in table.DefaultIfEmpty()
                                                          join product in db.Product on p.ProductId equals product.ProductId into table2
                                                          from tab2 in table2.DefaultIfEmpty()
-                                                         join t1 in db.SaleDispatchLine on p.SaleDispatchLineId equals t1.SaleDispatchLineId into table1
-                                                         from tab1 in table1.DefaultIfEmpty()
                                                          where (string.IsNullOrEmpty(vm.ProductId) ? 1 == 1 : ProductIdArr.Contains(p.ProductId.ToString()))
                                                          && (string.IsNullOrEmpty(vm.SaleDispatchHeaderId) ? 1 == 1 : SaleOrderIdArr.Contains(p.SaleDispatchHeaderId.ToString()))
                                                          && (string.IsNullOrEmpty(vm.ProductGroupId) ? 1 == 1 : ProductGroupIdArr.Contains(tab2.ProductGroupId.ToString()))
                                                          && (string.IsNullOrEmpty(vm.Dimension1Id) ? 1 == 1 : Dimension1IdArr.Contains(p.Dimension1Id.ToString()))
                                                          && (string.IsNullOrEmpty(vm.Dimension2Id) ? 1 == 1 : Dimension2IdArr.Contains(p.Dimension2Id.ToString()))
                                                          && ((vm.UpToDate == null) ? 1 == 1 : tab.DocDate <= vm.UpToDate)
+                                                         && p.BuyerId == Header.SaleToBuyerId
                                                          && p.BalanceQty > 0
                                                          orderby p.SaleDispatchNo, p.Sr
                                                          select new DirectSaleInvoiceLineViewModel

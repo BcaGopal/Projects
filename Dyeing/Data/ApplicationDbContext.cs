@@ -62,6 +62,7 @@ namespace Data.Customize
         public DbSet<JobOrderLineStatus> JobOrderLineStatus { get; set; }
         public DbSet<JobOrderLineExtended> JobOrderLinExtended { get; set; }
         public DbSet<StockLineExtended> StockLineExtended { get; set; }
+        public DbSet<StockAdj> StockAdj { get; set; }
         public DbSet<JobOrderLineCharge> JobOrderLineCharge { get; set; }
         public DbSet<JobOrderBom> JobOrderBom { get; set; }
 

@@ -26,6 +26,7 @@ namespace Model.ViewModel
     [Serializable]
     public class WeavingOrderWizardViewModel
     {
+        public int DocTypeId { get; set; }
         public string DocNo { get; set; }
         //public DateTime DocDate { get; set; }
         public string Date { get; set; }

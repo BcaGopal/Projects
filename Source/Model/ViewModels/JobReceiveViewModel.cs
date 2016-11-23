@@ -223,6 +223,9 @@ namespace Model.ViewModel
         public int JobOrderHeaderId { get; set; }
         public string LockReason { get; set; }
 
+        public int? JobReceiveQALineId { get; set; }
+        public int? JobReceiveQADocTypeId { get; set; }
+
     }
 
     public class HeaderCharges

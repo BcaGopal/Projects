@@ -634,6 +634,19 @@ namespace Services.Customize
                 if (item.StockId != null)
                 {
                     StockIdList.Add((int)item.StockId);
+
+                    IEnumerable<StockAdj> StockAdj = (from L in _unitOfWork.Repository<StockAdj>().Instance
+                                   where L.StockInId == item.StockId 
+                                   select L).ToList();
+
+                    foreach (var StockAdjitem in StockAdj)
+                    {
+                        if (StockAdjitem != null)
+                        {
+                            StockAdjitem.ObjectState = Model.ObjectState.Deleted;
+                            _unitOfWork.Repository<StockAdj>().Delete(StockAdjitem);
+                        }
+                    }
                 }
             }
 

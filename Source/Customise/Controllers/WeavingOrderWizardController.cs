@@ -57,7 +57,7 @@ namespace Web
             List<string> UserRoles = (List<string>)System.Web.HttpContext.Current.Session["Roles"];
             ViewBag.id = id;
 
-            int DocTypeId = new DocumentTypeService(_unitOfWork).Find(id).DocumentTypeId;
+            int DocTypeId = id;
 
             //Getting Settings
             var settings = new JobOrderSettingsService(_unitOfWork).GetJobOrderSettingsForDocument(DocTypeId, DivisionId, SiteId);
@@ -93,15 +93,15 @@ namespace Web
         //    return Json(new { Success = true, Data = FgetProdOrders }, JsonRequestBehavior.AllowGet);
         //}
 
-        public ActionResult ConfirmProdOrderList(List<WeavingOrderWizardViewModel> Selected)
+        public ActionResult ConfirmProdOrderList(List<WeavingOrderWizardViewModel> Selected, int id)
         {
             bool BarCodesBased = Selected.Any(m => m.RefDocLineId.HasValue);
 
             System.Web.HttpContext.Current.Session["BarCodesWeavingWizardProdOrder"] = Selected;
             if (!BarCodesBased)
-                return Json(new { Success = "URL", Data = "/WeavingOrderWizard/Create" }, JsonRequestBehavior.AllowGet);
+                return Json(new { Success = "URL", Data = "/WeavingOrderWizard/Create/" + id.ToString() }, JsonRequestBehavior.AllowGet);
             else
-                return Json(new { Success = "URL", Data = "/WeavingOrderWizard/FirstBarCode" }, JsonRequestBehavior.AllowGet);
+                return Json(new { Success = "URL", Data = "/WeavingOrderWizard/FirstBarCode/" + id.ToString() }, JsonRequestBehavior.AllowGet);
         }
 
         [Serializable]
@@ -120,7 +120,7 @@ namespace Web
         }
 
 
-        public ActionResult FirstBarCode()
+        public ActionResult FirstBarCode(int id)//DocumentTypeId
         {
             List<WeavingOrderWizardViewModel> ProdOrders = (List<WeavingOrderWizardViewModel>)System.Web.HttpContext.Current.Session["BarCodesWeavingWizardProdOrder"];
 
@@ -133,6 +133,7 @@ namespace Web
                     var BarCodes = new JobOrderLineService(_unitOfWork).GetBarCodesForWeavingWizard(item.RefDocLineId.Value, null).FirstOrDefault();
                     if (BarCodes != null)
                         item.FirstBarCode = Convert.ToInt32(BarCodes.id);
+                    item.DocTypeId = id;
                 }
             }
 
@@ -202,14 +203,14 @@ namespace Web
 
             System.Web.HttpContext.Current.Session["BarCodesWeavingWizardProdOrder"] = vm.WeavingOrderWizardViewModel;
 
-            return RedirectToAction("Create");
+            return RedirectToAction("Create", new { id = vm.WeavingOrderWizardViewModel.FirstOrDefault().DocTypeId });
 
         }
 
 
         // GET: /JobOrderHeader/Create
 
-        public ActionResult Create()//DocumentTypeId
+        public ActionResult Create(int id)//DocumentTypeId
         {
             JobOrderHeaderViewModel p = new JobOrderHeaderViewModel();
 
@@ -220,7 +221,7 @@ namespace Web
             p.SiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
             List<string> UserRoles = (List<string>)System.Web.HttpContext.Current.Session["Roles"];
 
-            int DocTypeId = new DocumentTypeService(_unitOfWork).Find(TransactionDoctypeConstants.WeavingOrder).DocumentTypeId;
+            int DocTypeId = id;
 
             //Getting Settings
             var settings = new JobOrderSettingsService(_unitOfWork).GetJobOrderSettingsForDocument(DocTypeId, p.DivisionId, p.SiteId);

@@ -45,7 +45,7 @@ namespace Model.ViewModel
         public string OriginCountryName { get; set; }
 
 
-
+        public string UnitConversions { get; set; }
 
 
         [Display(Name = "Created By")]
