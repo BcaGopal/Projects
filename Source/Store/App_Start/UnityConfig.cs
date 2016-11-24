@@ -113,6 +113,9 @@ namespace Store.App_Start
             container.RegisterType<IRepository<Product>, Repository<Product>>();
             container.RegisterType<IProductService, ProductService>(new PerRequestLifetimeManager());
 
+            container.RegisterType<IRepository<BomDetail>, Repository<BomDetail>>();
+            container.RegisterType<IBomDetailService, BomDetailService>(new PerRequestLifetimeManager());
+
             container.RegisterType<IRepository<FinishedProduct>, Repository<FinishedProduct>>();
             container.RegisterType<IFinishedProductService, FinishedProductService>(new PerRequestLifetimeManager());
 

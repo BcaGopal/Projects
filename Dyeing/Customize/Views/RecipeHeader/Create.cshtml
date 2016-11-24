@@ -66,7 +66,7 @@
             <div class="panel-info">
                 <h4 style="padding:5px 0 0 0;margin:0px">
                     @Html.ActionLink(" ", " ", " ", null, new { @class = "glyphicon glyphicon-refresh toolbar", @title = "Refresh Page", @data_toggle = "tooltip", @id = "RefreshPage" })
-                    @Html.ActionLink(" ", "Create", "RecipeHeader", new { @id = ViewBag.id }, new { @class = "glyphicon glyphicon-plus toolbar", @title = "Add New", @data_toggle = "tooltip", target = "_blank" })
+                    @Html.ActionLink(" ", "Create", "RecipeHeader", new { @id = ViewBag.id }, new { @class = "glyphicon glyphicon-plus toolbar", @title = "Add New", @data_toggle = "tooltip", target = "" })
                     @Html.ActionLink(" ", "GetHistory", "LogHistory", new { Ids = Model.JobOrderHeaderId, DocTypeId = Model.DocTypeId }, new { @class = "glyphicon glyphicon-user toolbar", @title = "History", @data_toggle = "tooltip", @id = "DocHistory", @data_modal = "" })
                     @Html.ActionLink(" ", "GeneratePrints", "RecipeHeader", new { Ids = Model.JobOrderHeaderId, DocTypeId = Model.DocTypeId }, new { @class = "glyphicon glyphicon-print toolbar", @title = "Print", @data_toggle = "tooltip", @id = "PrintRecordC", target = "_blank" })
 
@@ -144,10 +144,10 @@
 
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.PersonId, "Party", new { @class = "control-label col-xs-4" })
+                                    @Html.LabelFor(model => model.ProdOrderLineId, "Dimension1", new { @class = "control-label col-xs-4" })
                                     <div class="col-xs-6">
-                                        @Html.TextBoxFor(m => m.PersonId, new { @class = "form-control col-xs-6 required" })
-                                        @Html.ValidationMessageFor(m => m.PersonId, "", new { @class = "text-danger" })
+                                        @Html.TextBoxFor(m => m.ProdOrderLineId, new { @class = "form-control col-xs-6 required" })
+                                        @Html.ValidationMessageFor(model => model.ProdOrderLineId, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
                             </div>
@@ -162,13 +162,12 @@
                                 </div>
                             </div>
 
-
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.ProdOrderLineId, "Dimension1", new { @class = "control-label col-xs-4" })
+                                    @Html.LabelFor(model => model.PersonId, "Party", new { @class = "control-label col-xs-4" })
                                     <div class="col-xs-6">
-                                        @Html.TextBoxFor(m => m.ProdOrderLineId, new { @class = "form-control col-xs-6 required" })
-                                        @Html.ValidationMessageFor(model => model.ProdOrderLineId, "", new { @class = "text-danger" })
+                                        @Html.TextBoxFor(m => m.PersonId, new { @class = "form-control col-xs-6 ", @readonly = "true" })
+                                        @Html.ValidationMessageFor(m => m.PersonId, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
                             </div>
@@ -619,7 +618,7 @@
         ProcessProgress.show();
         if ($("#SaleOrderLineId").val() != "")
         {
-            CustomSelectFunction($("#ProdOrderLineId"), '/RecipeHeader/GetProdOrderForProduct', '/RecipeHeader/SetSingleProdOrderLine', ' ', false, 0, $('#PersonId').val());
+            CustomSelectFunction($("#ProdOrderLineId"), '/RecipeHeader/GetProdOrderForProduct', '/RecipeHeader/SetSingleProdOrderLine', ' ', false, 0, 0);
         }
     }
 
@@ -647,6 +646,7 @@
                         $("#Qty").val(data.BalanceQty);
                         $("#BalanceQty").val(data.BalanceQty);
                         $("#UnitId").val(data.UnitId);
+                        $("#PersonId").select2("data", { id: data.PersonId, text: data.PersonName });
                     }
                     else{
                         $("#ProdOrderNo").val("");
@@ -656,6 +656,7 @@
                         $("#Qty").val(0);
                         $("#BalanceQty").val(0);
                         $("#UnitId").val("");
+                        $("#PersonId").val("");
                     }
                 },
                 error: function (xhr, ajaxOptions, thrownError) {
@@ -672,6 +673,7 @@
             $("#Qty").val(0);
             $("#BalanceQty").val(0);
             $("#UnitId").val("");
+            $("#PersonId").val("");
         }
     }
 

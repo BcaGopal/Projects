@@ -57,6 +57,7 @@ namespace Model.ViewModel
         public string OtherDealUnitName { get; set; }
         public decimal UnitConversionMultiplier { get; set; }
         public decimal OtherAmount { get; set; }
+        public int? ProductCategoryId { get; set; }
     }
 
     public class WeavingOrderWizardMasterDetailModel

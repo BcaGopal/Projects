@@ -341,12 +341,23 @@ namespace Service
             int SiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
             int DivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
 
+            var settings = new JobOrderSettingsService(_unitOfWork).GetJobOrderSettingsForDocument(DocTypeId, DivisionId, SiteId);
+
+            string[] ProductCategories = null;
+            if (!string.IsNullOrEmpty(settings.filterProductCategories)) { ProductCategories = settings.filterProductCategories.Split(",".ToCharArray()); }
+            else { ProductCategories = new string[] { "NA" }; }
 
             SqlParameter SqlParameterSiteId = new SqlParameter("@SiteId", SiteId);
             SqlParameter SqlParameterDivisionId = new SqlParameter("@DivisionId", DivisionId);
             SqlParameter SqlParameterDocTypeId = new SqlParameter("@DocumentTypeId", DocTypeId);
 
-            IEnumerable<WeavingOrderWizardViewModel> temp = db.Database.SqlQuery<WeavingOrderWizardViewModel>("Web.ProcWeavingOrderWizard @SiteId, @DivisionId, @DocumentTypeId", SqlParameterSiteId, SqlParameterDivisionId, SqlParameterDocTypeId).ToList();
+            IEnumerable<WeavingOrderWizardViewModel> PendingProdOrderList = db.Database.SqlQuery<WeavingOrderWizardViewModel>("Web.ProcWeavingOrderWizard @SiteId, @DivisionId, @DocumentTypeId", SqlParameterSiteId, SqlParameterDivisionId, SqlParameterDocTypeId).ToList();
+
+            IEnumerable<WeavingOrderWizardViewModel> temp = (from p in PendingProdOrderList
+                                                             where (string.IsNullOrEmpty(settings.filterProductCategories) ? 1 == 1 : ProductCategories.Contains(p.ProductCategoryId.ToString()))
+                                                             select p).ToList();
+
+
 
 
             //var settings = new JobOrderSettingsService(_unitOfWork).GetJobOrderSettingsForDocument(DocTypeId, DivisionId, SiteId);
