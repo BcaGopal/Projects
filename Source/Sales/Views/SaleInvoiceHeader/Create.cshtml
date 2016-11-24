@@ -65,40 +65,60 @@
                 </h3>                
             }*@
 
-            @Html.ActionLink("For Dispatch", "_ForDispatch", "SaleInvoiceLine", new { id = @Model.SaleInvoiceHeaderId }, new { data_modal = "", id = "btnCreateFP", @class = "btn btn-primary borderradii", @title = "For Order", @data_toggle = "tooltip", @data_detailDeleted = "true" })
+           
 
-            <hr style="margin-top:0px;margin-bottom:0px" />
+            @*<hr style="margin-top:0px;margin-bottom:0px" />*@
+            @{
+                string EditAction = "";
+                if (Model.Status == (int)StatusConstants.Drafted || Model.Status == (int)StatusConstants.Import)
+                {
+                    EditAction = "Modify";
+                }
+                else if ((Model.Status == (int)StatusConstants.Submitted || Model.Status == (int)StatusConstants.Modified))
+                {
+                    EditAction = "ModifyAfter_Submit";
+                }
+                else
+                {
+                    EditAction = "DetailInformation";
+                }
+            }
 
             <div class="panel-info">
-                <h4 style="padding:5px 0 0 0;margin:0px">
-                    @Html.ActionLink(" ", " ", " ", null, new { @class = "glyphicon glyphicon-refresh toolbar", @title = "Refresh Page", @data_toggle = "tooltip", @id = "RefreshPage" })
-                    @Html.ActionLink(" ", "Create", "SaleInvoiceHeader", new { @id = @ViewBag.id }, new { @class = "glyphicon glyphicon-plus toolbar", @title = "Add New", @data_toggle = "tooltip" })
-                    @Html.ActionLink(" ", "GetHistory", "LogHistory", new { Ids = Model.SaleInvoiceHeaderId, DocTypeId = Model.DocTypeId }, new { @class = "glyphicon glyphicon-user toolbar", @title = "History", @data_toggle = "tooltip", @id = "DocHistory", @data_modal = "" })
-                    @Html.ActionLink(" ", "GeneratePrints", "SaleInvoiceHeader", new { Ids = Model.SaleInvoiceHeaderId, DocTypeId = Model.DocTypeId }, new { @class = "glyphicon glyphicon-print toolbar", @title = "Print", @data_toggle = "tooltip", @id = "PrintRecordC", target = "_blank" })
-                    @Html.ActionLink(" ", "Email", "SaleInvoiceHeader", null, new { @class = "glyphicon glyphicon-envelope toolbar", @title = "Email", @data_toggle = "tooltip" })
-                    @Html.ActionLink(" ", "PrevPage", "SaleInvoiceHeader", new { DocId = @Model.SaleInvoiceHeaderId, DocTypeId = Model.DocTypeId }, new { @class = "glyphicon glyphicon-arrow-left toolbar", @title = "Prev Record", @data_toggle = "tooltip" })
-                    @Html.ActionLink(" ", "NextPage", "SaleInvoiceHeader", new { DocId = @Model.SaleInvoiceHeaderId, DocTypeId = Model.DocTypeId }, new { @class = "glyphicon glyphicon-arrow-right toolbar", @title = "Next Record", @data_toggle = "tooltip" })
-                    @*@Html.ActionLink(" ", " ", " ", null, new { @class = "glyphicon glyphicon-trash toolbar", @title = "Delete", @data_toggle = "tooltip" })*@
-                    @Html.ActionLink(" ", "Index", "SaleInvoiceHeader", new { @id = ViewBag.id, IndexType = ViewBag.IndexStatus }, new { @class = "glyphicon glyphicon-list toolbar right", @title = "List", @data_toggle = "tooltip" })
-                    @Html.ActionLink(" ", "Report", "SaleInvoiceHeader", null, new { @class = "glyphicon glyphicon-th toolbar right", @title = "Report", @data_toggle = "tooltip" })
-                </h4>
+                     <div class="btn-group">
+                    @Html.ActionLink(" ", "Create", "SaleInvoiceHeader", new { @id = @ViewBag.id }, new { @class = "cbtn btn-circle glyphicon glyphicon-plus toolbar", @title = "Add New", @data_toggle = "tooltip" })
+                    @Html.ActionLink(" ", EditAction, "SaleInvoiceHeader", new { @id = Model.SaleInvoiceHeaderId, IndexType = ViewBag.IndexStatus }, new { @class = "cbtn btn-circle glyphicon glyphicon-edit", @title = "Edit", @data_toggle = "tooltip" })
+                    @Html.ActionLink(" ", "GeneratePrints", "SaleInvoiceHeader", new { Ids = Model.SaleInvoiceHeaderId, DocTypeId = Model.DocTypeId }, new { @class = "cbtn btn-circle glyphicon glyphicon-print toolbar", @title = "Print", @data_toggle = "tooltip", @id = "PrintRecordC", target = "_blank" })
+                    @Html.ActionLink(" ", "PrevPage", "SaleInvoiceHeader", new { DocId = @Model.SaleInvoiceHeaderId, DocTypeId = Model.DocTypeId }, new { @class = "cbtn btn-circle glyphicon glyphicon-arrow-left toolbar", @title = "Prev Record", @data_toggle = "tooltip" })
+                    @Html.ActionLink(" ", "NextPage", "SaleInvoiceHeader", new { DocId = @Model.SaleInvoiceHeaderId, DocTypeId = Model.DocTypeId }, new { @class = "cbtn btn-circle glyphicon glyphicon-arrow-right toolbar", @title = "Next Record", @data_toggle = "tooltip" })
+                </div>
+                <div class="btn-group">
+                    <a class="cbtn btn-circle glyphicon glyphicon-option-horizontal dropdown-toggle" aria-expanded="false" style="padding-top: 6px;padding-bottom: 6px;" href="#" data-toggle="dropdown" id="dropdownMenu1">
+                    </a>
+                    <ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu1">
+                        <li><a id="DocHistory" data-modal="" href="@Url.Action("GetHistory", "LogHistory", new { Ids = Model.SaleInvoiceHeaderId, DocTypeId = Model.DocTypeId })"><span class="glyphicon glyphicon-user"> </span> History</a></li>
+                        <li><a href="@Url.Action("Email", "SaleInvoiceHeader")"><span class="glyphicon glyphicon-envelope"> </span> Email</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="@Url.Action("Report", "SaleInvoiceHeader")"><span class="glyphicon glyphicon-th"> </span> Report</a></li>
+                    </ul>
+                </div>
             </div>
         </div>
         <div class="panel-info" style="padding-left:15px">
             <div class="form-horizontal">
                 @Html.ValidationSummary(true)
 
-                <div class="row">
+                <div >
                     <h4 class="col-md-12 black">
                         <span class="glyphicon glyphicon-align-justify"></span>
                         1.Document Details
                     </h4>
                     <div>
-                        <div class="row">
+                        <div >
                             <div class="col-md-6">
                                 <div class="form-group" style="margin-top:15px">
-                                    @Html.LabelFor(model => model.DocDate, "Invoice Date", new { @class = "control-label col-xs-4" })
-                                    <div class="col-xs-6">
+                                    @Html.LabelFor(model => model.DocDate, "Invoice Date", new { @class = "control-label col-md-4 col-sm-2" })
+                                    <div class="col-md-7 col-sm-10">
                                         @Html.TextBoxFor(m => m.DocDate, "{0:dd/MMMM/yyyy}", new { @class = "datepickerWithNFD form-control col-xs-6 required" })
                                         @Html.ValidationMessageFor(model => model.DocDate, "", new { @class = "text-danger" })
                                     </div>
@@ -106,21 +126,21 @@
                             </div>
                             <div class="col-md-6" style="margin-top:15px">
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.DocNo, "Invoice No", new { @class = "control-label col-xs-4" })
-                                    <div class="col-xs-6">
+                                    @Html.LabelFor(model => model.DocNo, "Invoice No", new { @class = "control-label col-md-4 col-sm-2" })
+                                    <div class="col-md-7 col-sm-10">
                                         @Html.TextBoxFor(m => m.DocNo, null, new { @class = "form-control col-xs-6 required" })
                                         @Html.ValidationMessageFor(m => m.DocNo, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
+                        <div >
                             <div class="col-md-6" style="display:@(Model.SaleInvoiceSettings.isVisibleAgent ? "" : "none")">
                                 @Html.HiddenFor(m => m.SaleInvoiceSettings.isVisibleAgent)
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.AgentId, "Agent", new { @class = "control-label col-xs-4" })
-                                    <div class="col-xs-6">
-                                        @Html.TextBoxFor(m => m.AgentId, null, new { @class = "form-control col-xs-6 " })
+                                    <div class="col-md-7 col-sm-10">
+                                        @Html.TextBoxFor(m => m.AgentId, null, new { @class = "form-control col-md-4 col-sm-2 " })
                                         @Html.ValidationMessageFor(m => m.AgentId, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
@@ -129,7 +149,7 @@
                                 @Html.HiddenFor(m => m.SaleInvoiceSettings.isVisibleSalesTaxGroup)
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.SalesTaxGroupId, "Sales Tax Group", new { @class = "control-label col-xs-4" })
-                                    <div class="col-xs-6">
+                                    <div class="col-md-7 col-sm-10">
                                         @Html.DropDownListFor(m => m.SalesTaxGroupId, new SelectList(ViewBag.SalesTaxGroupList as System.Collections.IEnumerable, "ChargeGroupPersonId", "ChargeGroupPersonName"), new { @class = "form-control col-xs-6 " })
                                         @Html.ValidationMessageFor(m => m.SalesTaxGroupId, "", new { @class = "text-danger" })
                                     </div>
@@ -137,15 +157,15 @@
                             </div>
                         </div>
 
-                        <div class="row">
+                        <div >
 
 
                         </div>
-                        <div class="row">
+                        <div >
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.BillToBuyerId, "Bill To", new { @class = "control-label col-xs-4" })
-                                    <div class="col-xs-6">
+                                    @Html.LabelFor(model => model.BillToBuyerId, "Bill To", new { @class = "control-label col-md-4 col-sm-2" })
+                                    <div class="col-md-7 col-sm-10">
                                         @Html.TextAreaFor(m => m.BillToBuyerId, new { @class = "form-control col-xs-6" })
                                         @Html.ValidationMessageFor(m => m.BillToBuyerId, "", new { @class = "text-danger" })
                                         <span title='SaleDispatch' class='label label-danger' id="PersonLedgerBalance" style='font-weight:bold'>0</span>
@@ -157,8 +177,8 @@
 
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.SaleToBuyerId, "Sale To", new { @class = "control-label col-xs-4" })
-                                    <div class="col-xs-6">
+                                    @Html.LabelFor(model => model.SaleToBuyerId, "Sale To", new { @class = "control-label col-md-4 col-sm-2" })
+                                    <div class="col-md-7 col-sm-10">
                                         <div class="input-group">
                                             @Html.TextBoxFor(m => m.SaleToBuyerId, new { @class = "form-control col-xs-6" })
                                             @Html.ValidationMessageFor(m => m.SaleToBuyerId, "", new { @class = "text-danger" })
@@ -171,11 +191,11 @@
                             </div>
                         </div>
 
-                        <div class="row">
+                        <div >
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.CreditDays, "Credit Days", new { @class = "control-label col-xs-4" })
-                                    <div class="col-xs-6">
+                                    @Html.LabelFor(model => model.CreditDays, "Credit Days", new { @class = "control-label col-md-4 col-sm-2" })
+                                    <div class="col-md-7 col-sm-10">
                                         @Html.TextBoxFor(m => m.CreditDays, null, new { @class = "form-control col-xs-6 " })
                                         @Html.ValidationMessageFor(m => m.CreditDays, "", new { @class = "text-danger" })
                                     </div>
@@ -185,8 +205,8 @@
                             <div class="col-md-6" style="display:@(Model.SaleInvoiceSettings.isVisibleCurrency ? "" : "none")">
                                 @Html.HiddenFor(m => m.SaleInvoiceSettings.isVisibleCurrency)
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.CurrencyId, "Currency", new { @class = "control-label col-xs-4" })
-                                    <div class="col-xs-6">
+                                    @Html.LabelFor(model => model.CurrencyId, "Currency", new { @class = "control-label col-md-4 col-sm-2" })
+                                    <div class="col-md-7 col-sm-10">
                                         @Html.DropDownListFor(m => m.CurrencyId, new SelectList(ViewBag.CurrencyList as System.Collections.IEnumerable, "ID", "Name"), new { @class = "height form-control col-xs-6 " })
                                         @Html.ValidationMessageFor(m => m.CurrencyId, "", new { @class = "text-danger" })
                                     </div>
@@ -195,11 +215,11 @@
                         </div>
 
 
-                        <div class="row">
+                        <div >
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.Remark, "Remark", new { @class = "control-label col-xs-4" })
-                                    <div class="col-xs-6">
+                                    @Html.LabelFor(model => model.Remark, "Remark", new { @class = "control-label col-md-4 col-sm-2" })
+                                    <div class="col-md-7 col-sm-10">
                                         @Html.TextAreaFor(m => m.Remark, new { @class = "form-control col-xs-6" })
                                         @Html.ValidationMessageFor(m => m.Remark, "", new { @class = "text-danger" })
                                     </div>
@@ -207,7 +227,7 @@
                             </div>
                         </div>
                         
-                        <div class="row">
+                        <div >
                             
                         </div>
                     </div>
@@ -224,22 +244,24 @@
                     </h4>
                 </div>
 
-                <div class="panel-info">
-                    <h5 style="padding:5px 0 3px 0;margin:0px;font-weight:bold">
+             
+                <div  class="panel-info" style="height:40px;">
+                    <div class="btn-group" style="padding:5px 0 3px 0;margin:0px;font-weight:bold">
                         <span class="glyphicon glyphicon-plus-sign"></span>
                         @{string Action = "";
-                        if (Model.Status == (int) StatusConstants.Drafted)
-                        { Action = "CreateLine"; }
-                        else if (Model.Status == (int)StatusConstants.Submitted || Model.Status == (int)StatusConstants.Modified || Model.Status == (int)StatusConstants.ModificationSubmitted)
-                        { Action = "CreateLineAfter_Submit"; }
-                        else if (Model.Status == (int)StatusConstants.Approved)
-                        { Action = "CreateLineAfter_Approve"; }
+                            if (Model.Status == (int)StatusConstants.Drafted)
+                            { Action = "CreateLine"; }
+                            else if (Model.Status == (int)StatusConstants.Submitted || Model.Status == (int)StatusConstants.Modified || Model.Status == (int)StatusConstants.ModificationSubmitted)
+                            { Action = "CreateLineAfter_Submit"; }
+                            else if (Model.Status == (int)StatusConstants.Approved)
+                            { Action = "CreateLineAfter_Approve"; }
                         }
-
                         @Html.ActionLink("Add New Row ", Action, "SaleInvoiceLine", new { id = @Model.SaleInvoiceHeaderId, IsSaleBased = false }, new { data_modal = "", id = "btnCreate", @class = "toolbar", @title = "Add New", @data_toggle = "tooltip", @data_detailDisabled = "true" })
-                        
-                    </h5>
-                </div>
+                        </div>
+                    <div class="btn-group right" style="padding-right:15px">
+                        @Html.ActionLink(" ", "_ForDispatch", "SaleInvoiceLine", new { id = @Model.SaleInvoiceHeaderId }, new { data_modal = "", id = "btnCreateFP", @class = "cbtn btn-circle glyphicon glyphicon-link toolbar right", @title = "For Dispatch", @data_toggle = "tooltip", @data_detailDeleted = "true" })
+                        </div>
+                    </div>
                 <div style="padding-right:15px">
 
                     <div class="panel panel-default" id="grid">
