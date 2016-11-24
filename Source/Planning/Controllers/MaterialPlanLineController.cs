@@ -203,7 +203,7 @@ namespace Presentation
 
                             int ProductCode = item.id;
 
-                            SqlCommand Totalf = new SqlCommand("SELECT dbo.FGetExcessStock( " + ProductCode + ", " + header.DocTypeId + ")", sqlConnection);
+                            SqlCommand Totalf = new SqlCommand("SELECT Web.FGetExcessStock( " + ProductCode + ", " + header.DocTypeId + ")", sqlConnection);
 
                             planline.ExcessStockQty = Convert.ToDecimal(Totalf.ExecuteScalar() == DBNull.Value ? 0 : Totalf.ExecuteScalar());
                         }

@@ -1656,18 +1656,7 @@ namespace Web
                     }
 
 
-                    UnitConversion StandardUnitSqMeter;
-                    string ModeSqMeter;
-                    CreateUnitConversion((byte)UnitConversionFors.Standard, vm.StandardSizeId, pro.ProductId, UnitConstants.SqMeter, out StandardUnitSqMeter, out ModeSqMeter);
-                    if (ModeSqMeter == "Create")
-                    {
-                        new UnitConversionService(_unitOfWork).Create(StandardUnitSqMeter);
-                    }
-                    else if (ModeSqMeter == "Edit")
-                    {
-                        new UnitConversionService(_unitOfWork).Update(StandardUnitSqMeter);
-                    }
-
+                    
 
                     //Manufacturing Size Data
                     ProductSize Manufacturingsize = new ProductSize();
@@ -1698,17 +1687,17 @@ namespace Web
                     }
 
 
-                    UnitConversion ManufacturingUnitSqMeter;
-                    string MModeSqMeter;
-                    CreateUnitConversion((byte)UnitConversionFors.Manufacturing, vm.ManufacturingSizeId, pro.ProductId, UnitConstants.SqMeter, out ManufacturingUnitSqMeter, out MModeSqMeter);
-                    if (MModeSqMeter == "Create")
-                    {
-                        new UnitConversionService(_unitOfWork).Create(ManufacturingUnitSqMeter);
-                    }
-                    else if (MModeSqMeter == "Edit")
-                    {
-                        new UnitConversionService(_unitOfWork).Update(ManufacturingUnitSqMeter);
-                    }
+                    //UnitConversion ManufacturingUnitSqMeter;
+                    //string MModeSqMeter;
+                    //CreateUnitConversion((byte)UnitConversionFors.Manufacturing, vm.ManufacturingSizeId, pro.ProductId, UnitConstants.SqMeter, out ManufacturingUnitSqMeter, out MModeSqMeter);
+                    //if (MModeSqMeter == "Create")
+                    //{
+                    //    new UnitConversionService(_unitOfWork).Create(ManufacturingUnitSqMeter);
+                    //}
+                    //else if (MModeSqMeter == "Edit")
+                    //{
+                    //    new UnitConversionService(_unitOfWork).Update(ManufacturingUnitSqMeter);
+                    //}
 
 
 
@@ -1742,17 +1731,17 @@ namespace Web
                     }
 
 
-                    UnitConversion FinishingUnitSqMeter;
-                    string FModeSqMeter;
-                    CreateUnitConversion((byte)UnitConversionFors.Finishing, vm.FinishingSizeId, pro.ProductId, UnitConstants.SqMeter, out FinishingUnitSqMeter, out FModeSqMeter);
-                    if (FModeSqMeter == "Create")
-                    {
-                        new UnitConversionService(_unitOfWork).Create(FinishingUnitSqMeter);
-                    }
-                    else if (FModeSqMeter == "Edit")
-                    {
-                        new UnitConversionService(_unitOfWork).Update(FinishingUnitSqMeter);
-                    }
+                    //UnitConversion FinishingUnitSqMeter;
+                    //string FModeSqMeter;
+                    //CreateUnitConversion((byte)UnitConversionFors.Finishing, vm.FinishingSizeId, pro.ProductId, UnitConstants.SqMeter, out FinishingUnitSqMeter, out FModeSqMeter);
+                    //if (FModeSqMeter == "Create")
+                    //{
+                    //    new UnitConversionService(_unitOfWork).Create(FinishingUnitSqMeter);
+                    //}
+                    //else if (FModeSqMeter == "Edit")
+                    //{
+                    //    new UnitConversionService(_unitOfWork).Update(FinishingUnitSqMeter);
+                    //}
 
 
                     //Stencil Size Data
@@ -1783,6 +1772,107 @@ namespace Web
                     Mapsize.ModifiedDate = DateTime.Now;
                     Mapsize.IsActive = true;
                     _ProductSizeService.Create(Mapsize);
+
+
+
+
+
+
+
+
+
+
+
+
+                    #region "Saving Unit Conversions for that units which are defined in Settings."
+                    if (vm.CarpetSkuSettings.UnitConversions != null && vm.CarpetSkuSettings.UnitConversions != "")
+                    {
+                        string[] UnitConversionArr = vm.CarpetSkuSettings.UnitConversions.Split(',');
+
+                        for (int i = 0; i < UnitConversionArr.Length; i++)
+                        {
+                            string ConversionUnit = UnitConversionArr[i];
+                            Unit Unit = new UnitService(_unitOfWork).Find(ConversionUnit);
+
+
+                            UnitConversion StandardUnitConversion_Settings;
+                            string StandardMode_Settings;
+                            CreateUnitConversion((byte)UnitConversionFors.Standard, vm.StandardSizeId, pro.ProductId, ConversionUnit, out StandardUnitConversion_Settings, out StandardMode_Settings);
+
+                            if (StandardUnitConversion_Settings.ToQty == 0 || StandardUnitConversion_Settings.ToQty == null)
+                            {
+                                Size Size = new SizeService(_unitOfWork).Find(vm.StandardSizeId);
+                                string message = "Unable to get unit conversion to " + Unit.UnitName + " for size " + Size.SizeName;
+                                ModelState.AddModelError("", message);
+                                PrepareViewBag(vm);
+                                return PartialView("EditSize", vm);
+                            }
+
+                            if (StandardMode_Settings == "Create")
+                            {
+                                new UnitConversionService(_unitOfWork).Create(StandardUnitConversion_Settings);
+                            }
+                            else if (StandardMode_Settings == "Edit")
+                            {
+                                new UnitConversionService(_unitOfWork).Update(StandardUnitConversion_Settings);
+                            }
+
+
+                            UnitConversion ManufacturingUnitConversion_Settings;
+                            string ManufacturingMode_Settings;
+                            CreateUnitConversion((byte)UnitConversionFors.Manufacturing, vm.ManufacturingSizeId, pro.ProductId, ConversionUnit, out ManufacturingUnitConversion_Settings, out ManufacturingMode_Settings);
+
+
+                            if (ManufacturingUnitConversion_Settings.ToQty == 0 || ManufacturingUnitConversion_Settings.ToQty == null)
+                            {
+                                Size Size = new SizeService(_unitOfWork).Find(vm.ManufacturingSizeId);
+                                string message = "Unable to get unit conversion to " + Unit.UnitName + " for size " + Size.SizeName;
+                                ModelState.AddModelError("", message);
+                                PrepareViewBag(vm);
+                                return PartialView("EditSize", vm);
+                            }
+
+
+                            if (ManufacturingMode_Settings == "Create")
+                            {
+                                new UnitConversionService(_unitOfWork).Create(ManufacturingUnitConversion_Settings);
+                            }
+                            else if (ManufacturingMode_Settings == "Edit")
+                            {
+                                new UnitConversionService(_unitOfWork).Update(ManufacturingUnitConversion_Settings);
+                            }
+
+
+
+
+                            UnitConversion FinishingUnitConversion_Settings;
+                            string FinishingMode_Settings;
+                            CreateUnitConversion((byte)UnitConversionFors.Finishing, vm.FinishingSizeId, pro.ProductId, ConversionUnit, out FinishingUnitConversion_Settings, out FinishingMode_Settings);
+
+
+                            if (FinishingUnitConversion_Settings.ToQty == 0 || FinishingUnitConversion_Settings.ToQty == null)
+                            {
+                                Size Size = new SizeService(_unitOfWork).Find(vm.FinishingSizeId);
+                                string message = "Unable to get unit conversion to " + Unit.UnitName + " for size " + Size.SizeName;
+                                ModelState.AddModelError("", message);
+                                PrepareViewBag(vm);
+                                return PartialView("EditSize", vm);
+
+                            }
+
+
+                            if (FinishingMode_Settings == "Create")
+                            {
+                                new UnitConversionService(_unitOfWork).Create(FinishingUnitConversion_Settings);
+                            }
+                            else if (FinishingMode_Settings == "Edit")
+                            {
+                                new UnitConversionService(_unitOfWork).Update(FinishingUnitConversion_Settings);
+                            }
+                        }
+                    }
+                    #endregion
+
 
 
 
@@ -2274,6 +2364,90 @@ namespace Web
                             new UnitConversionService(_unitOfWork).Update(FinishingUnit);
                         }
                     }
+
+
+
+
+                    #region "Saving Unit Conversions for that units which are defined in Settings."
+                    if (vm.CarpetSkuSettings.UnitConversions != null && vm.CarpetSkuSettings.UnitConversions != "")
+                    {
+                        string[] UnitConversionArr = vm.CarpetSkuSettings.UnitConversions.Split(',');
+
+                        for (int i = 0; i < UnitConversionArr.Length; i++)
+                        {
+                            string ConversionUnit = UnitConversionArr[i];
+                            Unit Unit = new UnitService(_unitOfWork).Find(ConversionUnit);
+
+
+                            UnitConversion StandardUnitConversion_Settings;
+                            string StandardMode_Settings;
+                            CreateUnitConversion((byte)UnitConversionFors.Standard, vm.StandardSizeId, vm.ProductId, ConversionUnit, out StandardUnitConversion_Settings, out StandardMode_Settings);
+
+                            if (StandardUnitConversion_Settings.ToQty == 0 || StandardUnitConversion_Settings.ToQty == null)
+                            {
+                                Size Size = new SizeService(_unitOfWork).Find(vm.StandardSizeId);
+                                ModelState.AddModelError("StandardSizeId", "Unable to get unit conversion to " + Unit.UnitName + " for size " + Size.SizeName);
+                            }
+
+                            if (StandardMode_Settings == "Create")
+                            {
+                                new UnitConversionService(_unitOfWork).Create(StandardUnitConversion_Settings);
+                            }
+                            else if (StandardMode_Settings == "Edit")
+                            {
+                                new UnitConversionService(_unitOfWork).Update(StandardUnitConversion_Settings);
+                            }
+
+
+                            UnitConversion ManufacturingUnitConversion_Settings;
+                            string ManufacturingMode_Settings;
+                            CreateUnitConversion((byte)UnitConversionFors.Manufacturing, vm.ManufacturingSizeId, vm.ProductId, ConversionUnit, out ManufacturingUnitConversion_Settings, out ManufacturingMode_Settings);
+
+
+                            if (ManufacturingUnitConversion_Settings.ToQty == 0 || ManufacturingUnitConversion_Settings.ToQty == null)
+                            {
+                                Size Size = new SizeService(_unitOfWork).Find(vm.ManufacturingSizeId);
+                                ModelState.AddModelError("ManufacturingSizeId", "Unable to get unit conversion to " + Unit.UnitName + " for size " + Size.SizeName);
+                            }
+
+
+                            if (ManufacturingMode_Settings == "Create")
+                            {
+                                new UnitConversionService(_unitOfWork).Create(ManufacturingUnitConversion_Settings);
+                            }
+                            else if (ManufacturingMode_Settings == "Edit")
+                            {
+                                new UnitConversionService(_unitOfWork).Update(ManufacturingUnitConversion_Settings);
+                            }
+
+
+                            UnitConversion FinishingUnitConversion_Settings;
+                            string FinishingMode_Settings;
+                            CreateUnitConversion((byte)UnitConversionFors.Finishing, vm.FinishingSizeId, vm.ProductId, ConversionUnit, out FinishingUnitConversion_Settings, out FinishingMode_Settings);
+
+
+                            if (FinishingUnitConversion_Settings.ToQty == 0 || FinishingUnitConversion_Settings.ToQty == null)
+                            {
+                                Size Size = new SizeService(_unitOfWork).Find(vm.FinishingSizeId);
+                                ModelState.AddModelError("FinishingSizeId", "Unable to get unit conversion to " + Unit.UnitName + " for size " + Size.SizeName);
+                            }
+
+
+                            if (FinishingMode_Settings == "Create")
+                            {
+                                new UnitConversionService(_unitOfWork).Create(FinishingUnitConversion_Settings);
+                            }
+                            else if (FinishingMode_Settings == "Edit")
+                            {
+                                new UnitConversionService(_unitOfWork).Update(FinishingUnitConversion_Settings);
+                            }
+                        }
+                    }
+
+                    #endregion
+
+
+
 
                     ProductSize StencilSize = _ProductSizeService.FindProductSize((int)ProductSizeTypeConstants.StencilSize, vm.ProductId);
 
@@ -2831,20 +3005,19 @@ namespace Web
                         SizeExist.ToQty = Convert.ToDecimal(Totalf.ExecuteScalar() == DBNull.Value ? 0 : Totalf.ExecuteScalar());
                     }
                 }
-                else if (ToUnit == UnitConstants.SqMeter)
-                {
-                    using (SqlConnection sqlConnection = new SqlConnection((string)System.Web.HttpContext.Current.Session["DefaultConnectionString"]))
-                    {
-                        sqlConnection.Open();
-
-                        SqlCommand Totalf = new SqlCommand("SELECT * FROM Web.FuncConvertSqFeetToSqMeter( " + SizeId + ")", sqlConnection);
-
-                        SizeExist.ToQty = Convert.ToDecimal(Totalf.ExecuteScalar() == DBNull.Value ? 0 : Totalf.ExecuteScalar());
-                    }
-                }
                 else if (ToUnit == UnitConstants.SqFeet)
                 {
                     SizeExist.ToQty = AreaFT2;
+                }
+                else 
+                {
+                    SqlParameter SqlParameterSizeId = new SqlParameter("@SizeId", SizeId);
+                    SqlParameter SqlParameterToUnitId = new SqlParameter("@ToUnitId", ToUnit);
+                    SizeArea SizeArea = db.Database.SqlQuery<SizeArea>("" + ConfigurationManager.AppSettings["DataBaseSchema"] + ".sp_GetUnitConversionForSize @SizeId, @ToUnitId", SqlParameterSizeId, SqlParameterToUnitId).FirstOrDefault();
+                    if (SizeArea != null)
+                    {
+                        SizeExist.ToQty = SizeArea.Area ?? 0;
+                    }
                 }
 
                 UnitConvr = SizeExist;
@@ -2876,27 +3049,24 @@ namespace Web
                         UnitConv.ToQty = Convert.ToDecimal(Totalf.ExecuteScalar() == DBNull.Value ? 0 : Totalf.ExecuteScalar());
                     }
                 }
-                else if (ToUnit == UnitConstants.SqMeter)
-                {
-                    using (SqlConnection sqlConnection = new SqlConnection((string)System.Web.HttpContext.Current.Session["DefaultConnectionString"]))
-                    {
-                        sqlConnection.Open();
-
-                        SqlCommand Totalf = new SqlCommand("SELECT * FROM Web.FuncConvertSqFeetToSqMeter( " + SizeId + ")", sqlConnection);
-
-                        UnitConv.ToQty = Convert.ToDecimal(Totalf.ExecuteScalar() == DBNull.Value ? 0 : Totalf.ExecuteScalar());
-                    }
-                }
                 else if (ToUnit == UnitConstants.SqFeet)
                 {
                     UnitConv.ToQty = AreaFT2;
                 }
-
+                else
+                {
+                    SqlParameter SqlParameterSizeId = new SqlParameter("@SizeId", SizeId);
+                    SqlParameter SqlParameterToUnitId = new SqlParameter("@ToUnitId", ToUnit);
+                    SizeArea SizeArea = db.Database.SqlQuery<SizeArea>("" + ConfigurationManager.AppSettings["DataBaseSchema"] + ".sp_GetUnitConversionForSize @SizeId, @ToUnitId", SqlParameterSizeId, SqlParameterToUnitId).FirstOrDefault();
+                    if (SizeArea != null)
+                    {
+                        UnitConv.ToQty = SizeArea.Area ?? 0;
+                    }
+                }
 
                 Mode = "Create";
                 UnitConvr = UnitConv;
             }
-
         }
 
         public JsonResult GetProductShapeShortName(int ProductShapeId)
@@ -3387,5 +3557,10 @@ namespace Web
     public class FirstProductName
     {
         public string ProductName { get; set; }
+    }
+
+    public class SizeArea
+    {
+        public Decimal? Area { get; set; }
     }
 }

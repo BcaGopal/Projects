@@ -1161,8 +1161,7 @@ namespace Services.Customize
                         from Dimension1Tab in Dimension1Table.DefaultIfEmpty()
                         join D2 in _unitOfWork.Repository<Dimension2>().Instance on p.Dimension2Id equals D2.Dimension2Id into Dimension2Table
                         from Dimension2Tab in Dimension2Table.DefaultIfEmpty()
-                        where t.BuyerId == filter
-                        && (string.IsNullOrEmpty(term) ? 1 == 1 : p.ProdOrderNo.ToLower().Contains(term.ToLower())
+                        where (string.IsNullOrEmpty(term) ? 1 == 1 : p.ProdOrderNo.ToLower().Contains(term.ToLower())
                         || string.IsNullOrEmpty(term) ? 1 == 1 : Dimension1Tab.Dimension1Name.ToLower().Contains(term.ToLower())
                         || string.IsNullOrEmpty(term) ? 1 == 1 : Dimension2Tab.Dimension2Name.ToLower().Contains(term.ToLower()))
                         && p.SiteId == CurrentSiteId
@@ -1172,7 +1171,7 @@ namespace Services.Customize
                         {
                             text = Dimension1Tab.Dimension1Name,
                             id = p.ProdOrderLineId.ToString(),
-                            TextProp1 = "Order No: " + p.ProdOrderNo.ToString(),
+                            TextProp1 = "Order No: " + p.ProdOrderNo.ToString() + ", Party: " + t.Buyer.Code,
                             TextProp2 = "BalQty: " + p.BalanceQty.ToString(),
                             AProp1 = ProductTab.ProductName,
                             AProp2 = Dimension2Tab.Dimension2Name
@@ -1213,7 +1212,9 @@ namespace Services.Customize
                             Dimension2Name = L.Dimension2.Dimension2Name,
                             Qty = L.BalanceQty,
                             BalanceQty = L.BalanceQty,
-                            UnitId = ProdOrderLineTab.Product.UnitId
+                            UnitId = ProdOrderLineTab.Product.UnitId,
+                            PersonId = ProdOrderLineTab.ProdOrderHeader.BuyerId,
+                            PersonName = ProdOrderLineTab.ProdOrderHeader.Buyer.Name
                         }).FirstOrDefault();
 
             return temp;
@@ -1305,6 +1306,8 @@ namespace Services.Customize
         public Decimal? Qty { get; set; }
         public Decimal? BalanceQty { get; set; }
         public string UnitId { get; set; }
+        public int? PersonId { get; set; }
+        public string PersonName { get; set; }
     }
 }
 

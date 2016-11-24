@@ -14,6 +14,7 @@ using System.Xml.Linq;
 using System.Data.SqlClient;
 using Model.ViewModels;
 using System.Data;
+using System.Configuration;
 
 
 namespace Web
@@ -326,7 +327,7 @@ namespace Web
             MaterialPlanHeaderViewModel vm = new MaterialPlanHeaderViewModel();
             vm.DivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
             vm.SiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
-            vm.DocNo = new MaterialPlanHeaderService(_unitOfWork).GetMaxDocNo();
+            
             vm.CreatedDate = DateTime.Now;
 
             //Getting Settings
@@ -337,6 +338,7 @@ namespace Web
             vm.DocDate = DateTime.Now;
             vm.DueDate = DateTime.Now;
             vm.DocTypeId = id;
+            vm.DocNo = new DocumentTypeService(_unitOfWork).FGetNewDocNo("DocNo", ConfigurationManager.AppSettings["DataBaseSchema"] + ".MaterialPlanHeaders", vm.DocTypeId, vm.DocDate, vm.DivisionId, vm.SiteId);
             ViewBag.Name = new DocumentTypeService(_unitOfWork).Find(id).DocumentTypeName;
             ViewBag.id = id;
             ViewBag.Mode = "Add";

@@ -349,7 +349,8 @@ namespace Customize.Controllers
             {
                 ProductId = product.ProductId,
                 UnitId = product.UnitId,
-                Specification = product.ProductSpecification
+                Specification = product.ProductSpecification,
+                StandardCost = product.StandardCost
             });
         }
 
@@ -401,7 +402,7 @@ namespace Customize.Controllers
             return Json(new { data = _RecipeLineService.GetRecipeDetail(CopyFromRecipeId) }, JsonRequestBehavior.AllowGet);
         }
 
-        public void _ResultsPost(int JobOrderHeaderId, int ProductId, Decimal DyeingRatio, Decimal TestingQty, Decimal DocQty, Decimal ExcessQty, Decimal Qty, Decimal Rate, Decimal Amount)
+        public void _ResultsPost(int JobOrderHeaderId, int ProductId, Decimal DyeingRatio, Decimal TestingQty, Decimal DocQty, Decimal? ExcessQty, Decimal Qty, Decimal Rate, Decimal Amount)
         {
             RecipeLineViewModel svm = new RecipeLineViewModel();
             JobOrderHeader JobOrderHeader = _RecipeHeaderService.Find(JobOrderHeaderId);

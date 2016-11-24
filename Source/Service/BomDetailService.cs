@@ -50,6 +50,7 @@ namespace Service
         //For Finished Product Consumtion
         IEnumerable<FinishedProductConsumptionLineViewModel> GetFinishedProductConsumptionForIndex(int BaseProductId);
         FinishedProductConsumptionLineViewModel GetFinishedProductConsumptionLineForEdit(int BomDetailId);
+        ProductConsumptionLineViewModel GetProductConsumptionLineForEdit(int BomDetailId);
         bool CheckForProductExists(int ProductId, int BaseProductId, int BomDetailId);
         bool CheckForProductExists(int ProductId, int BaseProductId);
 
@@ -613,6 +614,30 @@ namespace Service
                                                                BomDetailId = b.BomDetailId,
                                                                BaseProductId = b.BaseProductId,
                                                                ProductId = b.ProductId,
+                                                               ProductGroupName = ProductGroupTab.ProductGroupName,
+                                                               Qty = b.Qty,
+                                                               UnitName = UnitTab.UnitName
+                                                           }).FirstOrDefault();
+            return svm;
+        }
+
+        public ProductConsumptionLineViewModel GetProductConsumptionLineForEdit(int BomDetailId)
+        {
+            ProductConsumptionLineViewModel svm = (from b in db.BomDetail
+                                                           join p in db.Product on b.ProductId equals p.ProductId into ProductTable
+                                                           from ProductTab in ProductTable.DefaultIfEmpty()
+                                                           join pg in db.ProductGroups on ProductTab.ProductGroupId equals pg.ProductGroupId into ProductGroupTable
+                                                           from ProductGroupTab in ProductGroupTable.DefaultIfEmpty()
+                                                           join U in db.Units on ProductTab.UnitId equals U.UnitId into UnitTable
+                                                           from UnitTab in UnitTable.DefaultIfEmpty()
+                                                           where b.BomDetailId == BomDetailId
+                                                   select new ProductConsumptionLineViewModel
+                                                           {
+                                                               BomDetailId = b.BomDetailId,
+                                                               BaseProductId = b.BaseProductId,
+                                                               ProductId = b.ProductId,
+                                                               Dimension1Id = b.Dimension1Id,
+                                                               Dimension2Id = b.Dimension2Id,
                                                                ProductGroupName = ProductGroupTab.ProductGroupName,
                                                                Qty = b.Qty,
                                                                UnitName = UnitTab.UnitName

@@ -116,6 +116,8 @@ namespace Service
             Line.PenaltyRate = pt.PenaltyRate;
             Line.PenaltyAmt = pt.PenaltyAmt;
             Line.Weight = pt.Weight;
+            Line.UnitConversionMultiplier = pt.UnitConversionMultiplier;
+            Line.DealQty = pt.DealQty;
             Line.FailQty = Line.QAQty - Line.Qty;
             Line.FailDealQty = Line.FailQty * Line.UnitConversionMultiplier;
             new JobReceiveLineStatusService(_unitOfWork).UpdateJobReceiveQtyOnQA(Mapper.Map<JobReceiveQALineViewModel>(Line), pt.DocDate, ref db);

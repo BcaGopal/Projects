@@ -9,6 +9,17 @@
 <script src="~/Scripts/Jasny/jasny-bootstrap.min.js"></script>
 <link href="~/Content/jasny/jasny-bootstrap.min.css" rel="stylesheet" />
 
+
+<!-- modal placeholder-->
+<div id='myModal' class='modal fade in'>
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div id='myModalContent'></div>
+        </div>
+    </div>
+</div>
+
+
 @using (Html.BeginForm("PostMaterial", "Product", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
@@ -226,17 +237,26 @@
                     
                 </div>
 
-
-                @*<hr />
-
-                    <div class="form-group">
-                        <div class="col-md-offset-2 col-md-8">
-                            <input type="submit" value="Next" class="btn btn-primary btn-sm CurveBorder height" id="submit" style=" border-color: #606264" />
-
-                                @Html.ActionLink("Back", "Index", null, new { @class = "btn btn-primary btn-sm col-md-offset-1 CurveBorder ActionLinkPadding CustomCss height" })
-
-                        </div>
-                    </div>*@
+                <hr />
+                <div class="row">
+                    <h4 class="col-md-12 black" style="margin-top:15px">
+                        <span class="glyphicon glyphicon-shopping-cart"></span>
+                        2.Consumption
+                    </h4>
+                </div>
+                <div class="panel-info">
+                    <h5 style="padding:5px 0 3px 0;margin:0px;font-weight:bold">
+                        <span class="glyphicon glyphicon-plus-sign"></span>
+                        @Html.ActionLink("Add New Row ", "_Create", "ProductConsumptionLine", new { id = @Model.ProductId }, new { data_modal = "", id = "btnCreate", @class = "toolbar", @title = "Add New", @data_toggle = "tooltip" })
+                    </h5>
+                </div>
+                <div style="padding-right:15px">
+                    <table class="table table-hover ctable">
+                        <thead id="OtherContentHeader">
+                        </thead>
+                        <tbody id="OtherContentLine"></tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
@@ -288,5 +308,129 @@
      });
 
 
+
+</script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        //Calling the function to load the table data/ Line information
+        enableModalTransitions();
+
+        LoadOtherContent();
+    });
+
+    var id=@Model.ProductId;
+    if(id==null||id==0)
+    {
+        $(document).find('a#btnCreate').removeAttr('href').removeAttr('data-modal');
+    }
+
+    //Reloading the table contents on modal hide
+    $('#myModal').on('hidden.bs.modal', function () {
+        LoadOtherContent();
+    });
+
+    $('#myModal').on('shown.bs.modal', function () {
+        $("#ProductId").select2("focus");
+    });
+
+    //Loading the Table data or Line Information
+    function LoadOtherContent() {
+        var groupId=@Model.ProductId;
+
+        var link="/ProductConsumptionLine/Index/"+groupId;
+
+        $.ajax({
+            url: link,
+            type: "GET",
+            success: function (data) {
+                var row = ""
+                var srno=1;
+                var head="<tr style='background-color:#428bca'>  <th style='width:10px'><input type='hidden'  /></th> <th style='width:10px'>Serial</th><th class='center' style='width:50px'>Product</th>   <th class='center' style='width:50px'>Product Group</th>       <th class='center' style='width:50px'>Qty</th>        <th class='center' style='width:50px'>Unit</th> <th style='width:10px'></th>       <th style='width:10px'></th>  </tr>"
+                if(data.length!=0)
+                {
+                    $.each(data, function (index, item) {
+                        row += "<tr><td><input type='hidden' class='id' value='" + item.BomDetailId + "'/></td> <td>"+ srno +"</td> <td>" + item.ProductName + "</td>        <td>" + item.ProductGroupName + "</td>                  <td>" + item.Qty + "</td>                  <td>" + item.UnitName + "</td>                  <td><a class='rowEditBlue hidden' Modify href='/ProductConsumptionLine/_Edit/"+item.BomDetailId+"' ></a></td>       <td><a class='glyphicon glyphicon-trash' data-modal='' delete='' href='/ProductConsumptionLine/_Edit/"+item.BomDetailId+"' ></a></td>  </tr>";
+                        srno++;
+                    });
+                }
+                else
+                {
+                    row+="<tr><td>No Items Found.</td></tr>";
+                }
+                $("#OtherContentHeader").html(head);
+                $("#OtherContentLine").html(row);
+            },
+            error: function (BankAccoutDetail) {
+                alert("Error");
+            }
+        });
+    }
+
+    //Loading the table data or ProductBuyer Information
+
+    //For Populating Modal PopUp on DoubleClick Of Row
+    $('#OtherContentLine').on("dblclick",'tr',function(){
+        var text = $(this).find(".id").val();
+        var editurl=$(this).find('a[Modify]').attr('href');
+
+
+        $('#myModalContent').load(editurl, function () {
+            //alert('2');
+            $('#myModal').modal({
+                backdrop: 'static',
+                keyboard: true
+            }, 'show');
+
+            bindForm1(this);
+        });
+    });
+
+
+    //For Handling Modal PopUp on Clicking Delete Icon
+    $('#OtherContentLine').on("click",'a[delete]', function (e) {
+        $('#myModalContent').load(this.href, function () {
+            //alert('2');
+            $('#myModal').modal({
+                backdrop: 'static',
+                keyboard: true
+            }, 'show');
+
+            bindForm1(this);
+        });
+        return false;
+    });
+
+
+
+    //For posting the data through ajax and render the contents sent back from the server
+    function bindForm1(dialog) {
+        //alert("binding");
+        $('form', dialog).submit(function () {
+            //alert(this.action);
+            $.ajax({
+                url: this.action,
+                type: this.method,
+                data: $(this).serialize(),
+                success: function (result) {
+                    if (result.success) {
+                        $('#myModal').modal('hide');
+                        //Refresh
+                        //location.reload();
+                        //alert('Data Saved');
+                    }else if(!result.success)
+                    {
+                        $('#myModalContent').html(result);
+                        bindForm1();
+                    }
+                    else {
+                        $('#myModalContent').html(result);
+                        bindForm1();
+                    }
+                }
+            });
+            return false;
+        });
+    }
 
 </script>

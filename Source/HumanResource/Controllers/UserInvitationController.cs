@@ -67,23 +67,26 @@ namespace Web
             string USerEmail = _UserReferralService.GetUserEmail(RefreeId);
 
             bool error = false;
+            string ErrorMsg = "";
             foreach (var user in UserEmails.Split(','))
             {
 
                 UserReferral uref = _UserReferralService.Create(User.Identity.Name, user, UserRole);
 
+                
                 try
                 {
                     await SendRegisterInvitation(uref, AppId, RefreeId, user, UserType, USerEmail);
                 }
                 catch (Exception ex)
                 {
+                    ErrorMsg = ex.Message;
                     error = true;
                 }
             }
 
             if (error)
-                return Redirect((string)System.Web.HttpContext.Current.Session[SessionNameConstants.MenuDomain] + "/Menu/Module/").Success("Error in sending Invites");
+                return Redirect((string)System.Web.HttpContext.Current.Session[SessionNameConstants.MenuDomain] + "/Menu/Module/").Success(ErrorMsg);
 
             return Redirect((string)System.Web.HttpContext.Current.Session[SessionNameConstants.MenuDomain] + "/Menu/Module/").Success("Invite sent successfully");
         }
