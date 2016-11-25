@@ -107,7 +107,14 @@
     </h4>
 }
 
+@helper RenderIconStatusFilters(decimal PendingToSubmit, decimal PendingToReview, string ControllerName, int DocTypeId, string IndexStatus)
+{
 
+    @*<a class="btn btn-primary right @(IndexStatus == "All" ? "focus" : "")" href="/@ControllerName/Index/@DocTypeId" id="All" style="border-color: #fff"> All </a>*@
+    <a class="cbtn btn-circle glyphicon glyphicon-thumbs-up @(IndexStatus == "PTR" ? "cbtn-selected" : "")" href="/@ControllerName/@(IndexStatus == "PTR" ? "Index" : "Index_PendingToReview")/@DocTypeId" id="PTR"></a>
+    <a class="cbtn btn-circle glyphicon glyphicon-floppy-open @(IndexStatus == "PTS" ? "cbtn-selected" : "")" href="/@ControllerName/@(IndexStatus == "PTS" ? "Index" : "Index_PendingToSubmit")/@DocTypeId" id="PTS"><span class='badge' style="position:absolute;top:-10px">@(PendingToSubmit != 0 ? (PendingToSubmit > 9 ? "9" : PendingToSubmit.ToString()) : "")</span> </a>
+
+}
 @*To Add Hidden Edit ActionLink in Index*@
 @helper RenderHEDActionLink(string ControllerName, int DocId, int Status, string IndexStatus)
 {

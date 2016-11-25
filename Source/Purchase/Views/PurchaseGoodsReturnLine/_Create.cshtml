@@ -44,8 +44,8 @@
                     <div class="col-md-6" style="display:@(Model.PurchGoodsReceiptSettings.isVisibleProductUID ? "" : "none")">
                         @Html.HiddenFor(m => m.PurchGoodsReceiptSettings.isVisibleProductUID)
                         <div class="form-group">
-                            @Html.LabelFor(model => model.ProductUidId, "ProductUId", new { @class = "control-label col-xs-4" })
-                            <div class="col-xs-7">
+                            @Html.LabelFor(model => model.ProductUidId, "ProductUId", new { @class = "control-label col-md-4 col-sm-2" })
+                            <div class="col-md-7 col-sm-10">
                                 @Html.TextBoxFor(model => model.ProductUidName, new { @class = "form-control col-xs-7 required" })
                                 @Html.ValidationMessageFor(model => model.ProductUidId, "", new { @class = "text-danger" })
                             </div>
@@ -55,8 +55,8 @@
 
                     <div class="col-md-6">
                         <div class="form-group">
-                            @Html.LabelFor(model => model.ProductId, "Product", new { @class = "control-label col-xs-4 " })
-                            <div class="col-xs-7">
+                            @Html.LabelFor(model => model.ProductId, "Product", new { @class = "control-label col-md-4 col-sm-2 " })
+                            <div class="col-md-7 col-sm-10">
                                 @Html.TextBoxFor(model => model.ProductId, new { @class = "form-control col-xs-7 required" })
                                 @Html.ValidationMessageFor(model => model.ProductId, "", new { @class = "text-danger" })
                             </div>
@@ -64,8 +64,8 @@
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            @Html.LabelFor(model => model.PurchaseGoodsReceiptLineId, "Purchase Receipt", new { @class = "control-label col-xs-4" })
-                            <div class="col-xs-7">
+                            @Html.LabelFor(model => model.PurchaseGoodsReceiptLineId, "Purchase Receipt", new { @class = "control-label col-md-4 col-sm-2" })
+                            <div class="col-md-7 col-sm-10">
                                 @Html.TextBox(" ", " ", new { @class = "form-control", @id = "acreceipts" })
                                 @Html.ValidationMessageFor(model => model.PurchaseGoodsReceiptLineId, "", new { @class = "text-danger" })
                             </div>
@@ -75,8 +75,8 @@
                     <div class="col-md-6" style="display:@(Model.PurchGoodsReceiptSettings.isVisibleDimension1 ? "" : "none")">
                         @Html.HiddenFor(m => m.PurchGoodsReceiptSettings.isVisibleDimension1)
                         <div class="form-group">
-                            @Html.LabelFor(model => model.Dimension1Name, "Dimension1", new { @class = "control-label col-xs-4" })
-                            <div class="col-xs-7">
+                            @Html.LabelFor(model => model.Dimension1Name, "Dimension1", new { @class = "control-label col-md-4 col-sm-2" })
+                            <div class="col-md-7 col-sm-10">
                                 @Html.TextBoxFor(model => model.Dimension1Name, new { @class = "form-control col-xs-7 required", @readonly = true })
                                 @Html.ValidationMessageFor(model => model.Dimension1Name, "", new { @class = "text-danger" })
                             </div>
@@ -86,7 +86,7 @@
                         @Html.HiddenFor(m => m.PurchGoodsReceiptSettings.isVisibleDimension2)
                         <div class="form-group">
                             @Html.LabelFor(model => model.Dimension2Name, "Dimension2", new { @class = "control-label col-xs-4" })
-                            <div class="col-xs-7">
+                            <div class="col-md-7 col-sm-10">
                                 @Html.TextBoxFor(model => model.Dimension2Name, new { @class = "form-control col-xs-7 required", @readonly = true })
                                 @Html.ValidationMessageFor(model => model.Dimension2Name, "", new { @class = "text-danger" })
                             </div>
@@ -95,8 +95,8 @@
                 
                     <div class="col-md-6">
                         <div class="form-group">
-                            @Html.LabelFor(model => model.Specification, "Specification", new { @class = "control-label col-xs-4 " })
-                            <div class="col-xs-7">
+                            @Html.LabelFor(model => model.Specification, "Specification", new { @class = "control-label col-md-4 col-sm-2 " })
+                            <div class="col-md-7 col-sm-10">
                                 @Html.TextBoxFor(model => model.Specification, new { @class = "form-control col-xs-7 required", @readonly = true })
                                 @Html.ValidationMessageFor(model => model.Specification, "", new { @class = "text-danger" })
                             </div>
@@ -106,26 +106,32 @@
                 
                     <div class="col-md-6">
                         <div class="form-group">
-                            @Html.LabelFor(model => model.Qty, "Qty", new { @class = "control-label col-xs-4" })
-                            <div class="col-xs-4" style="padding-right:0px;">
+                            @Html.LabelFor(model => model.Qty, "Qty", new { @class = "control-label col-md-4 col-sm-2" })
+                            <div class="col-md-7 col-sm-10" style="padding:0px;">
+                                
+                            <div class="col-xs-7" style="padding-right:0px;">
                                 @Html.TextBoxFor(model => model.Qty, new { @class = "form-control required cusrightnormal" })
                                 @Html.ValidationMessageFor(model => model.Qty, "", new { @class = "text-danger" })
                             </div>
-                            <div class="col-xs-3" style="padding-left:0px">
+                            <div class="col-xs-5" style="padding-left:0px">
                                 @Html.TextBoxFor(m => m.UnitName, new { @class = "form-control col-xs-2 cusleftnormal", @readonly = "true" })
                             </div>
+                                </div>
                         </div>
                     </div>
 
                     <div class="col-md-6">
                         <div class="form-group">
-                            @Html.LabelFor(model => model.DealUnitId, "Deal Unit & Multiplier", new { @class = "control-label col-xs-4" })
-                            <div class="col-xs-4" style="padding-right:0px;">
-                                @Html.TextBoxFor(m => m.DealUnitName, new { @class = "form-control col-xs-2 cusleftnormal", @readonly = "true" })
-                                @Html.ValidationMessageFor(model => model.DealUnitId, "", new { @class = "text-danger" })
-                            </div>
-                            <div class="col-xs-3" style="padding-left:0px">
-                                @Html.TextBoxFor(model => model.UnitConversionMultiplier, new { @class = "form-control col-xs-7 required", @readonly = true })
+                            <div ></div>
+                            @Html.LabelFor(model => model.DealUnitId, "Deal Unit & Multiplier", new { @class = "control-label col-md-4 col-sm-2" })
+                            <div class="col-md-7 col-sm-10" style="padding:0px;">
+                                <div class="col-xs-7" style="padding-right:0px;">
+                                    @Html.TextBoxFor(m => m.DealUnitName, new { @class = "form-control col-xs-2 cusleftnormal", @readonly = "true" })
+                                    @Html.ValidationMessageFor(model => model.DealUnitId, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="col-xs-5" style="padding-left:0px">
+                                    @Html.TextBoxFor(model => model.UnitConversionMultiplier, new { @class = "form-control col-xs-7 required", @readonly = true })
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -134,8 +140,8 @@
 
                     <div class="col-md-6">
                         <div class="form-group">
-                            @Html.LabelFor(model => model.DealQty, "Deal Qty", new { @class = "control-label col-xs-4" })
-                            <div class="col-xs-7">
+                            @Html.LabelFor(model => model.DealQty, "Deal Qty", new { @class = "control-label col-md-4 col-sm-2" })
+                            <div class="col-md-7 col-sm-10">
                                 @Html.TextBoxFor(model => model.DealQty, new { @class = "form-control required cusrightnormal", @readonly = true })
                                 @Html.ValidationMessageFor(model => model.DealQty, "", new { @class = "text-danger" })
                             </div>
@@ -143,8 +149,8 @@
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            @Html.LabelFor(model => model.Weight, "Weight", new { @class = "control-label col-xs-4" })
-                            <div class="col-xs-7">
+                            @Html.LabelFor(model => model.Weight, "Weight", new { @class = "control-label col-md-4 col-sm-2" })
+                            <div class="col-md-7 col-sm-10">
                                 @Html.TextBoxFor(model => model.Weight, new { @class = "form-control required cusrightnormal", @readonly = true })
                                 @Html.ValidationMessageFor(model => model.Weight, "", new { @class = "text-danger" })
                             </div>
@@ -153,8 +159,8 @@
                 
                     <div class="col-md-6">
                         <div class="form-group">
-                            @Html.LabelFor(model => model.Remark, "Remark", new { @class = "control-label col-xs-4" })
-                            <div class="col-xs-7">
+                            @Html.LabelFor(model => model.Remark, "Remark", new { @class = "control-label col-md-4 col-sm-2" })
+                            <div class="col-md-7 col-sm-10">
                                 @Html.TextAreaFor(model => model.Remark, new { @class = "form-control col-xs-7 required" })
                                 @Html.ValidationMessageFor(model => model.Remark, "", new { @class = "text-danger" })
                             </div>

@@ -79,34 +79,59 @@
                 <hr style="margin-top:10px;margin-bottom:0px" />
             }*@
 
-            @Html.ActionLink("For Indent", "_ForIndent", "DirectPurchaseInvoiceLine", new { id = @Model.PurchaseInvoiceHeaderId, sid = @Model.SupplierId }, new { data_modal = "", id = "btnCreateFP", @class = "btn btn-primary borderradii", @title = "For Indent", @data_toggle = "tooltip", @data_detailDeleted = "true"})
+            
+
+            @{
+                string EditAction = "";
+                if (Model.Status == (int)StatusConstants.Drafted || Model.Status == (int)StatusConstants.Import)
+                {
+                    EditAction = "Modify";
+                }
+                else if ((Model.Status == (int)StatusConstants.Submitted || Model.Status == (int)StatusConstants.Modified))
+                {
+                    EditAction = "ModifyAfter_Submit";
+                }
+                else
+                {
+                    EditAction = "DetailInformation";
+                }
+            }
+
 
 
             <div class="panel-info">
-                <h4 style="padding:5px 0 0 0;margin:0px">
-                    @Html.ActionLink(" ", " ", " ", null, new { @class = "glyphicon glyphicon-refresh toolbar", @title = "Refresh Page", @data_toggle = "tooltip", @id = "RefreshPage" })
-                    @Html.ActionLink(" ", "Create", "DirectPurchaseInvoiceHeader", new { @id = ViewBag.id }, new { @class = "glyphicon glyphicon-plus toolbar", @title = "Add New", @data_toggle = "tooltip" })
-                    @Html.ActionLink(" ", "History", "DirectPurchaseInvoiceHeader", null, new { @class = "glyphicon glyphicon-user toolbar", @title = "History", @data_toggle = "tooltip" })
-                    @Html.ActionLink(" ", "GeneratePrints", "DirectPurchaseInvoiceHeader", new { Ids = Model.PurchaseInvoiceHeaderId, DocTypeId = Model.DocTypeId }, new { @class = "glyphicon glyphicon-print toolbar", @title = "Print", @data_toggle = "tooltip", @id = "PrintRecordC", target = "_blank" })
-                    @Html.ActionLink(" ", "Email", "DirectPurchaseInvoiceHeader", null, new { @class = "glyphicon glyphicon-envelope toolbar", @title = "Email", @data_toggle = "tooltip" })
-                    @Html.ActionLink(" ", "PrevPage", "DirectPurchaseInvoiceHeader", new { id = @Model.PurchaseInvoiceHeaderId }, new { @class = "glyphicon glyphicon-arrow-left toolbar", @title = "Prev Record", @data_toggle = "tooltip" })
-                    @Html.ActionLink(" ", "NextPage", "DirectPurchaseInvoiceHeader", new { id = @Model.PurchaseInvoiceHeaderId }, new { @class = "glyphicon glyphicon-arrow-right toolbar", @title = "Next Record", @data_toggle = "tooltip" })
-                    @Html.ActionLink(" ", "Index", "DirectPurchaseInvoiceHeader", new { @id = ViewBag.id, IndexType = ViewBag.IndexStatus }, new { @class = "glyphicon glyphicon-list toolbar right", @title = "List", @data_toggle = "tooltip" })
-                    @Html.ActionLink(" ", "Report", "DirectPurchaseInvoiceHeader", null, new { @class = "glyphicon glyphicon-th toolbar right", @title = "Report", @data_toggle = "tooltip" })
-                </h4>
+                <div class="btn-group">
+                    @Html.ActionLink(" ", "Create", "DirectPurchaseInvoiceHeader", new { @id = ViewBag.id }, new { @class = "cbtn btn-circle glyphicon glyphicon-plus toolbar", @title = "Add New", @data_toggle = "tooltip" })
+                    @Html.ActionLink(" ", EditAction, "DirectPurchaseInvoiceHeader", new { @id = Model.PurchaseInvoiceHeaderId, IndexType = ViewBag.IndexStatus }, new { @class = "cbtn btn-circle glyphicon glyphicon-edit", @title = "Edit", @data_toggle = "tooltip" })
+                    @Html.ActionLink(" ", "GeneratePrints", "DirectPurchaseInvoiceHeader", new { Ids = Model.PurchaseInvoiceHeaderId, DocTypeId = Model.DocTypeId }, new { @class = "cbtn btn-circle glyphicon glyphicon-print toolbar", @title = "Print", @data_toggle = "tooltip", @id = "PrintRecordC", target = "_blank" })
+                    @Html.ActionLink(" ", "PrevPage", "DirectPurchaseInvoiceHeader", new { id = @Model.PurchaseInvoiceHeaderId }, new { @class = "cbtn btn-circle glyphicon glyphicon-arrow-left toolbar", @title = "Prev Record", @data_toggle = "tooltip" })
+                    @Html.ActionLink(" ", "NextPage", "DirectPurchaseInvoiceHeader", new { id = @Model.PurchaseInvoiceHeaderId }, new { @class = "cbtn btn-circle glyphicon glyphicon-arrow-right toolbar", @title = "Next Record", @data_toggle = "tooltip" })
+                    @Html.ActionLink(" ", "Index", "DirectPurchaseInvoiceHeader", new { @id = ViewBag.id, IndexType = ViewBag.IndexStatus }, new { @class = "cbtn btn-circle glyphicon glyphicon-list toolbar right", @title = "List", @data_toggle = "tooltip" })
+                </div>
+                <div class="btn-group">
+                    <a class="cbtn btn-circle glyphicon glyphicon-option-horizontal dropdown-toggle" aria-expanded="false" style="padding-top: 6px;padding-bottom: 6px;" href="#" data-toggle="dropdown" id="dropdownMenu1">
+                    </a>
+                    <ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu1">
+                        
+                        <li><a id="DocHistory" data-modal="" href="@Url.Action("GetHistory", "LogHistory", new { Ids = Model.PurchaseInvoiceHeaderId, DocTypeId = Model.DocTypeId })"><span class="glyphicon glyphicon-user"> </span> History</a></li>
+                        <li><a href="@Url.Action("Email", "DirectPurchaseInvoiceHeader")"><span class="glyphicon glyphicon-envelope"> </span> Email</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a target="_blank" href="@Url.Action("Report", "DirectPurchaseInvoiceHeader", new { @ViewBag.id })"><span class="glyphicon glyphicon-stats"> </span> Report</a></li>
+                    </ul>
+                </div>
             </div>
         </div>
         <div class="panel-info" style="padding-left:15px">
             <div class="form-horizontal">
                 @Html.ValidationSummary(true)
 
-                <div class="row">
+                <div>
                     <h4 class="col-md-12 black">
                         <span class="glyphicon glyphicon-align-justify"></span>
                         1.Document Details
                     </h4>
                     <div>
-                        <div class="row">
+                        <div>
                             @*<div class="col-md-6">
                                     <div class="form-group" style="margin-top:15px">
                                         @Html.LabelFor(model => model.DocTypeId, "Entry Type", new { @class = "control-label col-xs-4" })
@@ -117,8 +142,8 @@
                                 </div>*@
                             <div class="col-md-6">
                                 <div class="form-group" style="margin-top:15px">
-                                    @Html.LabelFor(model => model.DocDate, "Invoice Date", new { @class = "control-label col-xs-4" })
-                                    <div class="col-xs-6">
+                                    @Html.LabelFor(model => model.DocDate, "Invoice Date", new { @class = "control-label col-md-4 col-sm-2" })
+                                    <div class="col-md-7 col-sm-10">
                                         @Html.TextBoxFor(m => m.DocDate, "{0:dd/MMMM/yyyy}", new { @class = "datepickerWithNFD form-control col-xs-6 required" })
                                         @Html.ValidationMessageFor(model => model.DocDate, "", new { @class = "text-danger" })
                                     </div>
@@ -126,20 +151,20 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group" style="margin-top:15px">
-                                    @Html.LabelFor(model => model.DocNo, "Invoice No", new { @class = "control-label col-xs-4" })
-                                    <div class="col-xs-6">
+                                    @Html.LabelFor(model => model.DocNo, "Invoice No", new { @class = "control-label col-md-4 col-sm-2" })
+                                    <div class="col-md-7 col-sm-10">
                                         @Html.TextBoxFor(m => m.DocNo, null, new { @class = "form-control col-xs-6 required" })
                                         @Html.ValidationMessageFor(m => m.DocNo, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
+                        <div>
 
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.SupplierId, "Supplier", new { @class = "control-label col-xs-4" })
-                                    <div class="col-xs-6">
+                                    @Html.LabelFor(model => model.SupplierId, "Supplier", new { @class = "control-label col-md-4 col-sm-2" })
+                                    <div class="col-md-7 col-sm-10">
                                         @Html.TextBoxFor(m => m.SupplierId, null, new { @class = "form-control col-xs-6 required" })
                                         @Html.ValidationMessageFor(m => m.SupplierId, "", new { @class = "text-danger" })
                                     </div>
@@ -148,8 +173,8 @@
 
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.BillingAccountId, "Billing Account", new { @class = "control-label col-xs-4" })
-                                    <div class="col-xs-6">
+                                    @Html.LabelFor(model => model.BillingAccountId, "Billing Account", new { @class = "control-label col-md-4 col-sm-2" })
+                                    <div class="col-md-7 col-sm-10">
                                         @Html.TextBoxFor(m => m.BillingAccountId, null, new { @class = "form-control col-xs-6 required" })
                                         @Html.ValidationMessageFor(m => m.BillingAccountId, "", new { @class = "text-danger" })
                                     </div>
@@ -157,11 +182,11 @@
                             </div>
                         </div>
 
-                        <div class="row">
+                        <div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.CurrencyId, "Currency", new { @class = "control-label col-xs-4" })
-                                    <div class="col-xs-6">
+                                    @Html.LabelFor(model => model.CurrencyId, "Currency", new { @class = "control-label col-md-4 col-sm-2" })
+                                    <div class="col-md-7 col-sm-10">
                                         @Html.DropDownListFor(m => m.CurrencyId, new SelectList(ViewBag.CurrencyList as System.Collections.IEnumerable, "ID", "Name"), string.Empty, new { @class = "height form-control col-xs-6 required" })
                                         @Html.ValidationMessageFor(m => m.CurrencyId, "", new { @class = "text-danger" })
                                     </div>
@@ -169,8 +194,8 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.SalesTaxGroupId, "Sales Tax Group", new { @class = "control-label col-xs-4" })
-                                    <div class="col-xs-6">
+                                    @Html.LabelFor(model => model.SalesTaxGroupId, "Sales Tax Group", new { @class = "control-label col-md-4 col-sm-2" })
+                                    <div class="col-md-7 col-sm-10">
                                         @Html.DropDownListFor(m => m.SalesTaxGroupId, new SelectList(ViewBag.SalesTaxGroupList as System.Collections.IEnumerable, "ChargeGroupPersonId", "ChargeGroupPersonName"), string.Empty, new { @class = "height form-control col-xs-6 required" })
                                         @Html.ValidationMessageFor(m => m.SalesTaxGroupId, "", new { @class = "text-danger" })
                                     </div>
@@ -178,11 +203,11 @@
                             </div>
 
                         </div>
-                        <div class="row">
+                        <div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.SupplierDocNo, "Supplier Invoice No", new { @class = "control-label col-xs-4" })
-                                    <div class="col-xs-6">
+                                    @Html.LabelFor(model => model.SupplierDocNo, "Supplier Invoice No", new { @class = "control-label col-md-4 col-sm-2" })
+                                    <div class="col-md-7 col-sm-10">
                                         @Html.TextBoxFor(m => m.SupplierDocNo, new { @class = "form-control col-xs-6 required" })
                                         @Html.ValidationMessageFor(m => m.SupplierDocNo, "", new { @class = "text-danger" })
                                     </div>
@@ -190,8 +215,8 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.SupplierDocDate, "Supplier Invoice Date", new { @class = "control-label col-xs-4" })
-                                    <div class="col-xs-6">
+                                    @Html.LabelFor(model => model.SupplierDocDate, "Supplier Invoice Date", new { @class = "control-label col-md-4 col-sm-2" })
+                                    <div class="col-md-7 col-sm-10">
                                         @Html.TextBoxFor(m => m.SupplierDocDate, "{0:dd/MMMM/yyyy}", new { @class = "datepicker form-control col-xs-6 required" })
                                         @Html.ValidationMessageFor(m => m.SupplierDocDate, "", new { @class = "text-danger" })
                                     </div>
@@ -200,11 +225,11 @@
 
                         </div>
 
-                        <div class="row">
+                        <div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.GodownId, "Godown", new { @class = "control-label col-xs-4" })
-                                    <div class="col-xs-6">
+                                    @Html.LabelFor(model => model.GodownId, "Godown", new { @class = "control-label col-md-4 col-sm-2" })
+                                    <div class="col-md-7 col-sm-10">
                                         @Html.TextBoxFor(m => m.GodownId, new { @class = "form-control required" })
                                         @Html.ValidationMessageFor(m => m.GodownId, "", new { @class = "text-danger" })
                                     </div>
@@ -212,8 +237,8 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.CreditDays, "Credit Days", new { @class = "control-label col-xs-4" })
-                                    <div class="col-xs-6">
+                                    @Html.LabelFor(model => model.CreditDays, "Credit Days", new { @class = "control-label col-md-4 col-sm-2" })
+                                    <div class="col-md-7 col-sm-10">
                                         @Html.TextBoxFor(m => m.CreditDays, null, new { @class = "form-control col-xs-6" })
                                         @Html.ValidationMessageFor(m => m.CreditDays, "", new { @class = "text-danger" })
                                     </div>
@@ -222,12 +247,12 @@
 
 
                         </div>
-                        <div class="row">
+                        <div>
 
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.UnitConversionForId, "Unit Conversion For", new { @class = "control-label col-xs-4" })
-                                    <div class="col-xs-6">
+                                    @Html.LabelFor(model => model.UnitConversionForId, "Unit Conversion For", new { @class = "control-label col-md-4 col-sm-2" })
+                                    <div class="col-md-7 col-sm-10">
                                         @Html.DropDownListFor(m => m.UnitConversionForId, new SelectList(ViewBag.UnitConvForList as System.Collections.IEnumerable, "UnitConversionForId", "UnitConversionForName"), new { @class = "form-control height" })
                                         @Html.ValidationMessageFor(m => m.UnitConversionForId, "", new { @class = "text-danger" })
                                     </div>
@@ -236,8 +261,8 @@
 
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.Remark, "Remark", new { @class = "control-label col-xs-4" })
-                                    <div class="col-xs-6">
+                                    @Html.LabelFor(model => model.Remark, "Remark", new { @class = "control-label col-md-4 col-sm-2" })
+                                    <div class="col-md-7 col-sm-10">
                                         @Html.TextAreaFor(m => m.Remark, new { @class = "form-control col-xs-6" })
                                         @Html.ValidationMessageFor(m => m.Remark, "", new { @class = "text-danger" })
                                     </div>
@@ -246,8 +271,8 @@
 
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.TermsAndConditions, "Terms & Conditions", new { @class = "control-label col-xs-4" })
-                                    <div class="col-xs-6">
+                                    @Html.LabelFor(model => model.TermsAndConditions, "Terms & Conditions", new { @class = "control-label col-md-4 col-sm-2" })
+                                    <div class="col-md-7 col-sm-10">
                                         @Html.TextAreaFor(m => m.TermsAndConditions, new { @class = "form-control col-xs-6" })
                                         @Html.ValidationMessageFor(m => m.TermsAndConditions, "", new { @class = "text-danger" })
                                     </div>
@@ -266,8 +291,8 @@
                     </h4>
                 </div>
 
-                <div class="panel-info">
-                    <h5 style="padding:5px 0 3px 0;margin:0px;font-weight:bold">
+                <div class="panel-info" style="height:40px;">
+                    <div class="btn-group" style="padding:5px 0 3px 0;margin:0px;font-weight:bold">
                         <span class="glyphicon glyphicon-plus-sign"></span>
                         @{string Action = "";
                         if (Model.Status == (int)StatusConstants.Drafted)
@@ -277,7 +302,10 @@
                         }
                         @Html.ActionLink("For Purchase Indent", Action, "DirectPurchaseInvoiceLine", new { id = @Model.PurchaseInvoiceHeaderId, sid = @Model.SupplierId, IsIndentBased = true }, new { data_modal = "", id = "btnCreateF", @class = "toolbar", @title = "Add New", @data_toggle = "tooltip", @data_detailDisabled = "true" })
                         /@Html.ActionLink("Add New Row ", Action, "DirectPurchaseInvoiceLine", new { id = @Model.PurchaseInvoiceHeaderId, sid = @Model.SupplierId, IsIndentBased = false }, new { data_modal = "", id = "btnCreate", @class = "toolbar", @title = "Add New", @data_toggle = "tooltip", @data_detailDisabled = "true" })
-                    </h5>
+                  </div>
+                    <div class="btn-group right" style="padding-right:15px"> 
+                        @Html.ActionLink(" ", "_ForIndent", "DirectPurchaseInvoiceLine", new { id = @Model.PurchaseInvoiceHeaderId, sid = @Model.SupplierId }, new { data_modal = "", id = "btnCreateFP", @class = "cbtn btn-circle glyphicon glyphicon-link toolbar right", @title = "For Indent", @data_toggle = "tooltip", @data_detailDeleted = "true" })
+                    </div>
                 </div>
                 <div style="padding-right:15px">
 
@@ -407,6 +435,8 @@
         if(id==null||id==0)
         {
             $(document).find('a#btnCreate').removeAttr('href').removeAttr('data-modal');
+            $(document).find('a#btnCreateFP').removeAttr('href').removeAttr('data-modal');
+            
             $("#btnCreateF").attr('disabled','disabled');
             $("#btnCreateFP").attr('disabled','disabled');
         }

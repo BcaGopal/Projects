@@ -54,24 +54,46 @@
                     <input type="submit" value="Save" class="btn btn-primary right" id="submit" style="width: 90px; background-color: #2980b9" />
                 </h3>
             }*@
-            <hr style="margin-top:0px;margin-bottom:0px" />
-
+            <hr style="margin-top: 5px; margin-bottom: 5px; border-top: 1px solid #d8d5d5" />
+            @{
+                string EditAction = "";
+                if (Model.Status == (int)StatusConstants.Drafted || Model.Status == (int)StatusConstants.Import)
+                {
+                    EditAction = "Modify";
+                }
+                else if ((Model.Status == (int)StatusConstants.Submitted || Model.Status == (int)StatusConstants.Modified))
+                {
+                    EditAction = "ModifyAfter_Submit";
+                }
+                else
+                {
+                    EditAction = "DetailInformation";
+                }
+            }
+            
             <div class="panel-info">
-                <h4 style="padding:5px 0 0 0;margin:0px">
-                    @Html.ActionLink(" ", " ", " ", null, new { @class = "glyphicon glyphicon-refresh toolbar", @title = "Refresh Page", @data_toggle = "tooltip", @id = "RefreshPage" })
-                    @Html.ActionLink(" ", "Create", "MaterialTransferHeader", new { @id = ViewBag.id }, new { @class = "glyphicon glyphicon-plus toolbar", @title = "Add New", @data_toggle = "tooltip" })
-                    @Html.ActionLink(" ", "GetHistory", "LogHistory", new { Ids = Model.StockHeaderId, DocTypeId = Model.DocTypeId }, new { @class = "glyphicon glyphicon-user toolbar", @title = "History", @data_toggle = "tooltip", @id = "DocHistory", @data_modal = "" })
-                    @Html.ActionLink(" ", "GeneratePrints", "MaterialTransferHeader", new { Ids = Model.StockHeaderId, DocTypeId = Model.DocTypeId }, new { @class = "glyphicon glyphicon-print toolbar", @title = "Print", @data_toggle = "tooltip", id = "PrintRecordC" })
-                    @if (Model.Status == (int)StatusConstants.Submitted && !Model.GatePassHeaderId.HasValue)
-                    {
-                        @Html.ActionLink(" ", "GenerateGatePass", "MaterialTransferHeader", new { Ids = @Model.StockHeaderId, DocTypeId = Model.DocTypeId }, new { @class = "glyphicon glyphicon-log-out toolbar", @title = "GatePass", @data_toggle = "tooltip", @id = "GenGatePassC" })
-                    }
-                    @Html.ActionLink(" ", "Email", "MaterialTransferHeader", null, new { @class = "glyphicon glyphicon-envelope toolbar", @title = "Email", @data_toggle = "tooltip" })
-                    @Html.ActionLink(" ", "PrevPage", "MaterialTransferHeader", new { id = @Model.StockHeaderId }, new { @class = "glyphicon glyphicon-arrow-left toolbar", @title = "Prev Record", @data_toggle = "tooltip" })
-                    @Html.ActionLink(" ", "NextPage", "MaterialTransferHeader", new { id = @Model.StockHeaderId }, new { @class = "glyphicon glyphicon-arrow-right toolbar", @title = "Next Record", @data_toggle = "tooltip" })
-                    @Html.ActionLink(" ", "Index", "MaterialTransferHeader", new { id = ViewBag.id, IndexType = ViewBag.IndexStatus }, new { @class = "glyphicon glyphicon-list toolbar right", @title = "List", @data_toggle = "tooltip" })
-                    @Html.ActionLink(" ", "Report", "MaterialTransferHeader", null, new { @class = "glyphicon glyphicon-th toolbar right", @title = "Report", @data_toggle = "tooltip" })
-                </h4>
+               <div class="btn-group">
+                   @Html.ActionLink(" ", "Create", "MaterialTransferHeader", new { @id = ViewBag.id }, new { @class = "cbtn btn-circle glyphicon glyphicon-plus toolbar", @title = "Add New", @data_toggle = "tooltip" })
+                   @Html.ActionLink(" ", EditAction, "MaterialTransferHeader", new { @id = Model.StockHeaderId, IndexType = ViewBag.IndexStatus }, new { @class = "cbtn btn-circle glyphicon glyphicon-edit", @title = "Edit", @data_toggle = "tooltip" })
+                   @Html.ActionLink(" ", "GeneratePrints", "MaterialTransferHeader", new { Ids = Model.StockHeaderId, DocTypeId = Model.DocTypeId }, new { @class = "cbtn btn-circle glyphicon glyphicon-print toolbar", @title = "Print", @data_toggle = "tooltip", id = "PrintRecordC" })
+                   @if (Model.Status == (int)StatusConstants.Submitted && !Model.GatePassHeaderId.HasValue)
+                   {
+                       @Html.ActionLink(" ", "GenerateGatePass", "MaterialTransferHeader", new { Ids = @Model.StockHeaderId, DocTypeId = Model.DocTypeId }, new { @class = "cbtn btn-circle glyphicon glyphicon-log-out toolbar", @title = "GatePass", @data_toggle = "tooltip", @id = "GenGatePassC" })
+                   }
+                   @Html.ActionLink(" ", "PrevPage", "MaterialTransferHeader", new { id = @Model.StockHeaderId }, new { @class = "cbtn btn-circle glyphicon glyphicon-arrow-left toolbar", @title = "Prev Record", @data_toggle = "tooltip" })
+                   @Html.ActionLink(" ", "NextPage", "MaterialTransferHeader", new { id = @Model.StockHeaderId }, new { @class = "cbtn btn-circle glyphicon glyphicon-arrow-right toolbar", @title = "Next Record", @data_toggle = "tooltip" })
+                   @Html.ActionLink(" ", "Index", "MaterialTransferHeader", new { id = ViewBag.id, IndexType = ViewBag.IndexStatus }, new { @class = "cbtn btn-circle glyphicon glyphicon-list", @title = "List", @data_toggle = "tooltip" })
+               </div>
+                <div class="btn-group">
+                    <a class="cbtn btn-circle glyphicon glyphicon-option-horizontal dropdown-toggle" aria-expanded="false" style="padding-top: 6px;padding-bottom: 6px;" href="#" data-toggle="dropdown" id="dropdownMenu1">
+                    </a>
+                    <ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu1">
+                        <li><a id="DocHistory" data-modal="" href="@Url.Action("GetHistory", "LogHistory", new { Ids = Model.StockHeaderId, DocTypeId = Model.DocTypeId })"><span class="glyphicon glyphicon-user"> </span>&nbsp;&nbsp;History</a></li>
+                        <li><a href="@Url.Action("Email", "MaterialTransferHeader")"><span class="glyphicon glyphicon-envelope"> </span>&nbsp;&nbsp;Email</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="@Url.Action("Report", "MaterialTransferHeader")"><span class="glyphicon glyphicon-stats"> </span>&nbsp;&nbsp;Report</a></li>
+                    </ul>
+                </div>
             </div>
         </div>
 
@@ -79,7 +101,7 @@
         <div class="panel-info" style="padding-left:15px">
             <div class="form-horizontal">
                 @Html.ValidationSummary(true)
-                <div class="row">
+                <div>
                     <h4 class="col-md-12 black">
                         <span class="glyphicon glyphicon-align-justify"></span>
                         1.Document Details
@@ -93,11 +115,11 @@
                         }
                     </h4>
                     <div>
-                        <div class="row">
+                        <div>
                             <div class="col-md-6">
                                 <div class="form-group" style="margin-top:15px">
-                                    @Html.LabelFor(model => model.DocDate, "Transfer Date", new { @class = "control-label col-xs-4" })
-                                    <div class="col-xs-6">
+                                    @Html.LabelFor(model => model.DocDate, "Transfer Date", new { @class = "control-label col-md-4 col-sm-2" })
+                                    <div class="col-md-7 col-sm-10">
                                         @Html.TextBoxFor(m => m.DocDate, "{0:dd/MMMM/yyyy}", new
                                    {
                                        @class = "datepickerWithNFD form-control col-xs-6 required updateDocNo",
@@ -114,8 +136,8 @@
 
                             <div class="col-md-6">
                                 <div class="form-group" style="margin-top:15px">
-                                    @Html.LabelFor(model => model.DocNo, "Transfer No", new { @class = "control-label col-xs-4" })
-                                    <div class="col-xs-6">
+                                    @Html.LabelFor(model => model.DocNo, "Transfer No", new { @class = "control-label col-md-4 col-sm-2" })
+                                    <div class="col-md-7 col-sm-10">
                                         @Html.TextBoxFor(m => m.DocNo, null, new { @class = "form-control col-xs-6 required" })
                                         @Html.ValidationMessageFor(m => m.DocNo, "", new { @class = "text-danger" })
                                     </div>
@@ -126,13 +148,13 @@
                                 <div class="form-group">
                                     @if (Model.StockHeaderSettings.PersonFieldHeading != null)
                                     {
-                                        @Html.LabelFor(model => model.PersonId, Model.StockHeaderSettings.PersonFieldHeading.ToString(), new { @class = "control-label col-xs-4" })
+                                        @Html.LabelFor(model => model.PersonId, Model.StockHeaderSettings.PersonFieldHeading.ToString(), new { @class = "control-label col-md-4 col-sm-2" })
                                     }
                                     else
                                     {
-                                        @Html.LabelFor(model => model.PersonId, "Person", new { @class = "control-label col-xs-4" })
+                                        @Html.LabelFor(model => model.PersonId, "Person", new { @class = "control-label col-md-4 col-sm-2" })
                                     }
-                                    <div class="col-xs-6">
+                                    <div class="col-md-7 col-sm-10">
                                         @Html.TextBoxFor(m => m.PersonId, new { @class = "form-control col-xs-6 required" })
                                         @Html.ValidationMessageFor(m => m.PersonId, "", new { @class = "text-danger" })
                                     </div>
@@ -142,8 +164,8 @@
 
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.FromGodownId, "From Godown", new { @class = "control-label col-xs-4" })
-                                    <div class="col-xs-6">
+                                    @Html.LabelFor(model => model.FromGodownId, "From Godown", new { @class = "control-label col-md-4 col-sm-2" })
+                                    <div class="col-md-7 col-sm-10">
                                         @Html.TextBoxFor(m => m.FromGodownId, new { @class = "form-control col-xs-6" })
                                         @Html.ValidationMessageFor(m => m.FromGodownId, "", new { @class = "text-danger" })
                                     </div>
@@ -152,8 +174,8 @@
 
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.GodownId, "To Godown", new { @class = "control-label col-xs-4" })
-                                    <div class="col-xs-6">
+                                    @Html.LabelFor(model => model.GodownId, "To Godown", new { @class = "control-label col-md-4 col-sm-2" })
+                                    <div class="col-md-7 col-sm-10">
                                         @Html.TextAreaFor(m => m.GodownId, new { @class = "form-control col-xs-6" })
                                         @Html.ValidationMessageFor(m => m.GodownId, "", new { @class = "text-danger" })
                                     </div>
@@ -162,8 +184,8 @@
 
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.Remark, "Remark", new { @class = "control-label col-xs-4" })
-                                    <div class="col-xs-6">
+                                    @Html.LabelFor(model => model.Remark, "Remark", new { @class = "control-label col-md-4 col-sm-2" })
+                                    <div class="col-md-7 col-sm-10">
                                         @Html.TextAreaFor(m => m.Remark, new { @class = "form-control col-xs-6" })
                                         @Html.ValidationMessageFor(m => m.Remark, "", new { @class = "text-danger" })
                                     </div>
@@ -183,19 +205,19 @@
                         2.Products
                     </h4>
                 </div>
-
-                <div class="panel-info">
-                    <h5 style="padding:5px 0 3px 0;margin:0px;font-weight:bold">
+           
+                <div class="panel-info" style="height:40px;">
+                    <div class="btn-group" style="padding:5px 0 3px 0;margin:0px;font-weight:bold">
                         <span class="glyphicon glyphicon-plus-sign"></span>
                         @{string Action = "";
-                        if (Model.Status == (int)StatusConstants.Drafted || Model.Status == (int)StatusConstants.Import)
-                        { Action = "CreateLine"; }
-                        else if (Model.Status == (int)StatusConstants.Submitted || Model.Status == (int)StatusConstants.Modified)
-                        { Action = "CreateLineAfter_Submit"; }
+                            if (Model.Status == (int)StatusConstants.Drafted || Model.Status == (int)StatusConstants.Import)
+                            { Action = "CreateLine"; }
+                            else if (Model.Status == (int)StatusConstants.Submitted || Model.Status == (int)StatusConstants.Modified)
+                            { Action = "CreateLineAfter_Submit"; }
                         }
                         @Html.ActionLink("Add New Row", Action, "MaterialTransferLine", new { id = @Model.StockHeaderId }, new { data_modal = "", id = "btnCreate", @class = "toolbar", @title = "Add New", @data_toggle = "tooltip", @data_detailDisabled = "true" })
-                    </h5>
-                </div>
+                        </div>
+                    </div>
                 <div style="padding-right:15px">
 
                     <div class="panel panel-default" id="grid">

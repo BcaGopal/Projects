@@ -50,7 +50,7 @@ namespace Data.Models
         //}
 
         static ApplicationDbContext()
-        {
+       {
             Database.SetInitializer<ApplicationDbContext>(null); // Existing data, do nothing
             //Database.SetInitializer(new ApplicationDbContextInitializer()); // Create New database
             //Database.SetInitializer(new LoginDbContextInitializer()); // Create New database

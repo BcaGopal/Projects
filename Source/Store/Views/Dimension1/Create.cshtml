@@ -20,31 +20,30 @@
             </h3>
             <hr style="margin-top:0px;margin-bottom:0px" />
 
-            <div class="panel-info">
-                <h4 style="padding:5px 0 0 0;margin:0px">
-                    @Html.ActionLink(" ", " ", " ", null, new { @class = "glyphicon glyphicon-refresh toolbar", @title = "Refresh Page", @data_toggle = "tooltip", @id = "RefreshPage" })
-                    @Html.ActionLink(" ", "Create", "Dimension1", new { id=@ViewBag.id}, new { @class = "glyphicon glyphicon-plus toolbar", @title = "Add New", @data_toggle = "tooltip" })
-                    @Html.ActionLink(" ", "History", "Dimension1", null, new { @class = "glyphicon glyphicon-user toolbar", @title = "History", @data_toggle = "tooltip" })
-                    @Html.ActionLink(" ", "PrevPage", "Dimension1", new { id = @Model.Dimension1Id,ptypeid=@ViewBag.id }, new { @class = "glyphicon glyphicon-arrow-left toolbar", @title = "Prev Record", @data_toggle = "tooltip" })
-                    @Html.ActionLink(" ", "NextPage", "Dimension1", new { id = @Model.Dimension1Id, ptypeid = @ViewBag.id }, new { @class = "glyphicon glyphicon-arrow-right toolbar", @title = "Next Record", @data_toggle = "tooltip" })
-                    @Html.ActionLink(" ", "Index", "Dimension1", new { id=@ViewBag.id}, new { @class = "glyphicon glyphicon-list toolbar right", @title = "List", @data_toggle = "tooltip" })
-                </h4>
+            <div class="panel-info">            
+                <div class="btn-group">
+                    @Html.ActionLink(" ", "Create", "Dimension1", new { id = @ViewBag.id }, new { @class = "cbtn btn-circle glyphicon glyphicon-plus toolbar", @title = "Add New", @data_toggle = "tooltip" })
+                    @Html.ActionLink(" ", "PrevPage", "Dimension1", new { id = @Model.Dimension1Id, ptypeid = @ViewBag.id }, new { @class = "cbtn btn-circle glyphicon glyphicon-arrow-left toolbar", @title = "Prev Record", @data_toggle = "tooltip" })
+                    @Html.ActionLink(" ", "NextPage", "Dimension1", new { id = @Model.Dimension1Id, ptypeid = @ViewBag.id }, new { @class = "cbtn btn-circle glyphicon glyphicon-arrow-right toolbar", @title = "Next Record", @data_toggle = "tooltip" })
+                    @Html.ActionLink(" ", "Index", "Dimension1", new { id = @ViewBag.id }, new { @class = "cbtn btn-circle glyphicon glyphicon-list toolbar right", @title = "List", @data_toggle = "tooltip" })
+                  </div>
             </div>
+
 
         </div>
         <div class="panel-info" style="padding-left:15px">
 
             <div class="form-horizontal">                
 
-                <div class="row">
+                <div>
                     <h4 class="col-md-12 black" style="margin-top:15px">
                         <span class="glyphicon glyphicon-align-justify"></span>
                         @ViewBag.Name-Dimension1
                     </h4> 
                     <div class="col-md-6">
                         <div class="form-group" style="margin-top:15px">
-                            @Html.LabelFor(model => model.Dimension1Name, "Dimension Name", new { @class = "control-label col-xs-4" })
-                            <div class="col-xs-6">
+                            @Html.LabelFor(model => model.Dimension1Name, "Dimension Name", new { @class = "control-label col-md-4 col-sm-2" })
+                            <div class="col-md-7 col-sm-10">
                                 @Html.TextBoxFor(m => m.Dimension1Name, null, new { @class = "form-control col-xs-6 required" })
                                 @Html.ValidationMessageFor(m => m.Dimension1Name, null, new { @class = "has-error" })
                             </div>
@@ -52,26 +51,26 @@
                     </div>
                     <div class="col-md-6">
                         <div class="form-group" style="margin-top:15px">
-                            @Html.LabelFor(model => model.IsActive, "Is Active", new { @class = "control-label col-xs-4" })
-                            <div class="col-xs-6" style=" padding-top:4px">
+                            @Html.LabelFor(model => model.IsActive, "Is Active", new { @class = "control-label col-md-4 col-sm-2" })
+                            <div class="col-md-7 col-sm-10" style=" padding-top:4px">
                                 @Html.CheckBoxFor(m => m.IsActive, new { @class = "checkbox col-xs-1" })
                                 @Html.ValidationMessageFor(model => model.IsActive)
                             </div>
                         </div>
                     </div>                    
                 </div>
-                <div class="row">
+                <div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            @Html.LabelFor(model => model.Description, "Description", new { @class = "control-label col-xs-4" })
-                            <div class="col-xs-6">
+                            @Html.LabelFor(model => model.Description, "Description", new { @class = "control-label col-md-4 col-sm-2" })
+                            <div class="col-md-7 col-sm-10">
                                 @Html.TextBoxFor(m => m.Description, null, new { @class = "form-control col-xs-6 required" })
                                 @Html.ValidationMessageFor(m => m.Description, null, new { @class = "has-error" })
                             </div>
                         </div>
                     </div>
                 </div>
-
+                <div class="row"></div>
                 @*<hr />
                 <div class="form-group">
                     <div class="col-md-offset-2 col-md-10">

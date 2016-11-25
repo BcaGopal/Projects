@@ -15,13 +15,24 @@
         <hr style="margin-top:0px;margin-bottom:0px" />
 
         <div class="panel-info">
-            <h4 style="padding:5px 0 0 0;margin:0px">
+            @*<h4 style="padding:5px 0 0 0;margin:0px">
                 @Html.ActionLink(" ", " ", " ", null, new { @class = "glyphicon glyphicon-refresh toolbar", @title = "Refresh Page", @data_toggle = "tooltip", @id = "RefreshPage" })
                 @Html.ActionLink(" ", "Create", "ProductType", null, new { @class = "glyphicon glyphicon-plus toolbar", @title = "Add New", @data_toggle = "tooltip" })
                 @Html.ActionLink(" ", "Print", "ProductType", null, new { @class = "glyphicon glyphicon-print toolbar", @title = "Print", @data_toggle = "tooltip" })          
                 @Html.ActionLink(" ", "Report", "ProductType", null, new { @class = "glyphicon glyphicon-stats toolbar right", @title = "Report", @data_toggle = "tooltip", target = "_blank" })
                 @Html.ActionLink(" ", "", "", null, new { @class = "glyphicon glyphicon-export toolbar right", @title = "Export", @data_toggle = "tooltip" })                       
-            </h4>
+            </h4>*@
+            <div class="btn-group">
+                @Html.ActionLink(" ", "Create", "ProductType", null, new { @class = "cbtn btn-circle glyphicon glyphicon-plus toolbar", @title = "Add New", @data_toggle = "tooltip" })
+                @Html.ActionLink(" ", "Print", "ProductType", null, new { @class = "cbtn btn-circle glyphicon glyphicon-print toolbar", @title = "Print", @data_toggle = "tooltip" })
+                </div>
+            <div class="btn-group">
+                <a class="cbtn btn-circle glyphicon glyphicon-option-horizontal dropdown-toggle" aria-expanded="false" style="padding-top: 6px;padding-bottom: 6px;" href="#" data-toggle="dropdown" id="dropdownMenu1">
+                </a>
+                <ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu1">                  
+                    <li><a target = "_blank"  href="@Url.Action("Report", "ProductType", new { @ViewBag.id })"><span class="glyphicon glyphicon-stats"> </span> Report</a></li>
+                </ul>
+            </div>
         </div>
     </div>
      
