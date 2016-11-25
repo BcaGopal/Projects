@@ -234,6 +234,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminSetupController.cs" />
     <Compile Include="Controllers\ComboHelpListController.cs" />
+    <Compile Include="Controllers\ProductGroupSettingsController.cs" />
     <Compile Include="Controllers\ProductConsumptionLineController.cs" />
     <Compile Include="Controllers\GetNewDocNoController.cs" />
     <Compile Include="Controllers\LogHistoryController.cs" />
@@ -863,6 +864,7 @@
     <Content Include="Views\ProductMap\ProductTypeIndexForMaterial.cshtml" />
     <Content Include="Views\LogHistory\_LogHistory.cshtml" />
     <Content Include="Views\ProductConsumptionLine\_Create.cshtml" />
+    <Content Include="Views\ProductGroupSettings\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

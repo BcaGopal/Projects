@@ -108,6 +108,8 @@
     <Compile Include="Models\JobReceiveQaLineDetail.cs" />
     <Compile Include="Models\JobReceiveQaAttribute.cs" />
     <Compile Include="Models\JobReceiveQaPenalty.cs" />
+    <Compile Include="Models\ProductGroupSettings.cs" />
+    <Compile Include="Models\ProductCategorySettings.cs" />
     <Compile Include="Models\ProductBuyerSettings.cs" />
     <Compile Include="Models\QAGroup.cs" />
     <Compile Include="Models\QAGroupLine.cs" />
@@ -181,6 +183,8 @@
     <Compile Include="Models\CarpetSkuSettings.cs" />
     <Compile Include="Models\Shift.cs" />
     <Compile Include="Models\SubReport.cs" />
+    <Compile Include="ViewModels\ProductCategorySettingsViewModel.cs" />
+    <Compile Include="ViewModels\ProductGroupSettingsViewModel.cs" />
     <Compile Include="ViewModels\ProductBuyerSettingsViewModel.cs" />
     <Compile Include="ViewModels\DesignColourConsumptionViewModel.cs" />
     <Compile Include="ViewModels\QAGroupLineViewModel.cs" />

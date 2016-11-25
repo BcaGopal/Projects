@@ -1977,19 +1977,28 @@ namespace Web
 
                     //For Inserting Bom for New Product
 
-                    var ProductGroupProduct = (from Pg in db.ProductGroups
-                                               join P in db.Product on Pg.ProductGroupName equals P.ProductName into ProductTable
-                                               from ProductTab in ProductTable.DefaultIfEmpty()
-                                               where Pg.ProductGroupId == vm.ProductGroupId
+                    //var ProductGroupProduct = (from Pg in db.ProductGroups
+                    //                           join P in db.Product on Pg.ProductGroupName equals P.ProductName into ProductTable
+                    //                           from ProductTab in ProductTable.DefaultIfEmpty()
+                    //                           where Pg.ProductGroupId == vm.ProductGroupId
+                    //                           select new
+                    //                           {
+                    //                               ProductGroupId = Pg.ProductGroupId,
+                    //                               ProductId = (int?)ProductTab.ProductId ?? 0
+                    //                           }).FirstOrDefault();
+
+                    var BomProduct = (from P in db.FinishedProduct
+                                               join Bd in db.BomDetail on P.ProductId equals Bd.BaseProductId into BomDetailTable from BomDetailTab in BomDetailTable.DefaultIfEmpty()
+                                               where P.ProductGroupId == vm.ProductGroupId && P.ColourId == vm.ColourId
                                                select new
                                                {
-                                                   ProductGroupId = Pg.ProductGroupId,
-                                                   ProductId = (int?)ProductTab.ProductId ?? 0
+                                                   ProductId = BomDetailTab.ProductId
                                                }).FirstOrDefault();
 
-                    if (ProductGroupProduct != null)
+
+                    if (BomProduct != null)
                     {
-                        if (ProductGroupProduct.ProductId != null && ProductGroupProduct.ProductId != 0)
+                        if (BomProduct.ProductId != null && BomProduct.ProductId != 0)
                         {
                             BomDetail BomDetail = new BomDetail();
                             BomDetail.BaseProductId = pro.ProductId;
@@ -2002,7 +2011,7 @@ namespace Web
                             BomDetail.Dimension1Id = null;
                             BomDetail.Dimension2Id = null;
                             BomDetail.ProcessId = new ProcessService(_unitOfWork).Find(ProcessConstants.Weaving).ProcessId;
-                            BomDetail.ProductId = (int)ProductGroupProduct.ProductId;
+                            BomDetail.ProductId = (int)BomProduct.ProductId;
                             BomDetail.Qty = 1;
 
                             new BomDetailService(_unitOfWork).Create(BomDetail);
@@ -3486,6 +3495,7 @@ namespace Web
             vm.ProductId = ProdProcess.ProductId;
             vm.ProductProcessId = ProdProcess.ProductProcessId;
             vm.ProductRateGroupId = ProdProcess.ProductRateGroupId;
+            vm.QAGroupId = ProdProcess.QAGroupId;
             vm.Sr = ProdProcess.Sr;
 
             return PartialView("EditProductProcess", vm);
@@ -3509,6 +3519,7 @@ namespace Web
                 {
                     item.Instructions = vm.Instructions;
                     item.ProductRateGroupId = vm.ProductRateGroupId;
+                    item.QAGroupId = vm.QAGroupId;
                     item.ObjectState = Model.ObjectState.Modified;
                     db.ProductProcess.Add(item);
                 }

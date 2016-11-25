@@ -197,7 +197,8 @@ namespace Presentation
                     planline.Dimension1Name = item.Dimension1Name;
                     planline.Dimension2Name = item.Dimension2Name;
 
-                        using (SqlConnection sqlConnection = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString.ToString()))
+                        //using (SqlConnection sqlConnection = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString.ToString()))
+                        using (SqlConnection sqlConnection = new SqlConnection((string)System.Web.HttpContext.Current.Session["DefaultConnectionString"]))
                         {
                             sqlConnection.Open();
 

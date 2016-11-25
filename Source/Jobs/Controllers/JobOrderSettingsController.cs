@@ -144,6 +144,7 @@ namespace Web
                     temp.ProcessId = pt.ProcessId;
                     temp.filterProductGroups = pt.filterProductGroups;
                     temp.filterProducts = pt.filterProducts;
+                    temp.filterProductCategories = pt.filterProductCategories;
                     temp.filterProductTypes = pt.filterProductTypes;
                     temp.SqlProcGatePass = pt.SqlProcGatePass;
                     temp.BarcodeStatusUpdate = pt.BarcodeStatusUpdate;
@@ -324,6 +325,7 @@ namespace Web
                     temp.filterLedgerAccounts = pt.filterLedgerAccounts;
                     temp.ProcessId = pt.ProcessId;
                     temp.filterProductGroups = pt.filterProductGroups;
+                    temp.filterProductCategories = pt.filterProductCategories;
                     temp.filterProducts = pt.filterProducts;
                     temp.SqlProcGatePass = pt.SqlProcGatePass;
                     temp.filterProductTypes = pt.filterProductTypes;
@@ -504,6 +506,7 @@ namespace Web
                     temp.filterLedgerAccounts = pt.filterLedgerAccounts;
                     temp.ProcessId = pt.ProcessId;
                     temp.filterProductGroups = pt.filterProductGroups;
+                    temp.filterProductCategories = pt.filterProductCategories;
                     temp.filterProducts = pt.filterProducts;
                     temp.SqlProcGatePass = pt.SqlProcGatePass;
                     temp.filterProductTypes = pt.filterProductTypes;

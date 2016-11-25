@@ -399,8 +399,31 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
 
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.filterProductCategories, "Product Categories", new { @class = "control-label col-xs-4" })
+                                    <div class="col-xs-6">
+                                        @Html.TextBoxFor(m => m.filterProductCategories, new { @class = "form-control col-xs-6" })
+                                        @Html.ValidationMessageFor(m => m.filterProductCategories, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.filterContraDocTypes, "Contra DocTypes", new { @class = "control-label col-xs-4" })
+                                    <div class="col-xs-6">
+                                        @Html.TextBoxFor(m => m.filterContraDocTypes, new { @class = "form-control col-xs-6" })
+                                        @Html.ValidationMessageFor(m => m.filterContraDocTypes, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.filterContraDivisions, "Contra Divisions", new { @class = "control-label col-xs-4" })
@@ -420,19 +443,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
-
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    @Html.LabelFor(model => model.filterContraDocTypes, "Contra DocTypes", new { @class = "control-label col-xs-4" })
-                                    <div class="col-xs-6">
-                                        @Html.TextBoxFor(m => m.filterContraDocTypes, new { @class = "form-control col-xs-6" })
-                                        @Html.ValidationMessageFor(m => m.filterContraDocTypes, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                                            </div>
                 </div>
 
 
@@ -681,6 +692,7 @@
         CustomSelectFunction($("#filterLedgerAccounts"), '/ComboHelpList/GetLedgerAccountGroups', '/ComboHelpList/SetLedgerAccountGroups', ' ', true, 1);
         CustomSelectFunction($("#filterProcesses"), '/ComboHelpList/GetProcess', '/ComboHelpList/SetProcess', ' ', true, 1);
         CustomSelectFunction($("#filterProductGroups"), '/ComboHelpList/GetProductGroup', '/ComboHelpList/SetProductGroup', ' ', true, 1);
+        CustomSelectFunction($("#filterProductCategories"), '/ComboHelpList/GetProductCategory', '/ComboHelpList/SetProductCategory', ' ', true, 1);
         CustomSelectFunction($("#filterProducts"), '/ComboHelpList/GetProducts', '/ComboHelpList/SetProducts', ' ', true, 1);
         CustomSelectFunction($("#filterProductTypes"), '/ComboHelpList/GetProductType', '/ComboHelpList/SetProductType', ' ', true, 1);
         CustomSelectFunction($("#ProcessId"), '/ComboHelpList/GetProcess', '/ComboHelpList/SetSingleProcess', ' ', false, 1);

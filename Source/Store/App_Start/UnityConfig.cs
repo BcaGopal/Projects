@@ -122,6 +122,9 @@ namespace Store.App_Start
             container.RegisterType<IRepository<ProductCustomGroupHeader>, Repository<ProductCustomGroupHeader>>();
             container.RegisterType<IProductCustomGroupHeaderService, ProductCustomGroupHeaderService>(new PerRequestLifetimeManager());
 
+            container.RegisterType<IRepository<ProductGroupSettings>, Repository<ProductGroupSettings>>();
+            container.RegisterType<IProductGroupSettingsService, ProductGroupSettingsService>(new PerRequestLifetimeManager());
+
             container.RegisterType<IRepository<ProductCustomGroupLine>, Repository<ProductCustomGroupLine>>();
             container.RegisterType<IProductCustomGroupLineService, ProductCustomGroupLineService>(new PerRequestLifetimeManager());
 
@@ -188,6 +191,10 @@ namespace Store.App_Start
 
             Mapper.CreateMap<ProcessSequenceLine, ProcessSequenceLineViewModel>();
             Mapper.CreateMap<ProcessSequenceLineViewModel, ProcessSequenceLine>();
+
+            Mapper.CreateMap<ProductGroupSettings, ProductGroupSettingsViewModel>();
+            Mapper.CreateMap<ProductGroupSettingsViewModel, ProductGroupSettings>();
+
 
             Mapper.CreateMap<StockHeaderSettings, StockHeaderSettingsViewModel>();
             Mapper.CreateMap<StockHeaderSettingsViewModel, StockHeaderSettings>();

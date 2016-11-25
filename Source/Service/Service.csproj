@@ -113,6 +113,8 @@
     <Compile Include="FeetConversionToCmsService.cs" />
     <Compile Include="JobReceiveQaAttributeService.cs" />
     <Compile Include="JobReceiveQaPenaltyService.cs" />
+    <Compile Include="ProductGroupSettingsService.cs" />
+    <Compile Include="ProductCategorySettingsService.cs" />
     <Compile Include="ProductBuyerSettingsService.cs" />
     <Compile Include="UserReferralService.cs" />
     <Compile Include="OverTimeApplicationHeaderService.cs" />

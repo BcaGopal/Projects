@@ -164,6 +164,7 @@ namespace Service
         IQueryable<ComboBoxResult> GetUsers(string term);
 
         IQueryable<ComboBoxResult> GetUnits(string term);
+        IQueryable<ComboBoxResult> GetQAGroups(string term);
         IEnumerable<ComboBoxList> GetPersonForSaleHelpList(string term);
 
         IQueryable<ComboBoxResult> GetReasonHelpListWithDocTypeFilter(int Processid, string term);
@@ -2409,6 +2410,23 @@ namespace Service
                       );
 
             return list;
+        }
+
+        public IQueryable<ComboBoxResult> GetQAGroups(string term)
+        {
+
+            var list = (from p in db.QAGroup
+                        where (string.IsNullOrEmpty(term) ? 1 == 1 : (p.QaGroupName.ToLower().Contains(term.ToLower())))
+                        orderby p.QaGroupName
+                        select new ComboBoxResult
+                        {
+                            text = p.QaGroupName,
+                            id = p.QAGroupId.ToString(),
+                        }
+            );
+
+            return list;
+
         }
 
     }

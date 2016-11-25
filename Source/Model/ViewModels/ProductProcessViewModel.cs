@@ -18,6 +18,9 @@ namespace Model.ViewModel
         public int? ProcessId { get; set; }
         public string ProcessName { get; set; }
 
+        public int? QAGroupId { get; set; }
+        public string QAGroupName { get; set; }
+
         public int? Dimension1Id { get; set; }
 
         public int? Dimension2Id { get; set; }

@@ -8051,5 +8051,65 @@ namespace Web
             }
             return Json(ProductJson);
         }
+
+
+        public ActionResult GetQAGroups(string searchTerm, int pageSize, int pageNum)
+        {
+            var Query = cbl.GetQAGroups(searchTerm);
+            var temp = Query.Skip(pageSize * (pageNum - 1)).Take(pageSize).ToList();
+
+            var count = Query.Count();
+
+            ComboBoxPagedResult Data = new ComboBoxPagedResult();
+            Data.Results = temp;
+            Data.Total = count;
+
+            return new JsonpResult
+            {
+                Data = Data,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        public JsonResult SetQAGroups(string Ids)
+        {
+            string[] subStr = Ids.Split(',');
+            List<ComboBoxResult> ProductJson = new List<ComboBoxResult>();
+            for (int i = 0; i < subStr.Length; i++)
+            {
+                int temp = Convert.ToInt32(subStr[i]);
+                IEnumerable<ComboBoxResult> prod = (from b in db.QAGroup
+                                                    where b.QAGroupId == temp
+                                                    select new ComboBoxResult
+                                                    {
+                                                        id = b.QAGroupId.ToString(),
+                                                        text = b.QaGroupName
+                                                    });
+                ProductJson.Add(new ComboBoxResult()
+                {
+                    id = prod.FirstOrDefault().id,
+                    text = prod.FirstOrDefault().text
+                });
+            }
+            return Json(ProductJson);
+        }
+
+        public JsonResult SetSingleQAGroup(int Ids)
+        {
+            ComboBoxResult MenuJson = new ComboBoxResult();
+
+            ComboBoxResult person = (from b in db.QAGroup
+                                     where b.QAGroupId == Ids
+                                     select new ComboBoxResult
+                                     {
+                                         id = b.QAGroupId.ToString(),
+                                         text = b.QaGroupName
+                                     }).FirstOrDefault();
+
+            MenuJson.id = person.id;
+            MenuJson.text = person.text;
+
+            return Json(MenuJson);
+        }
     }
 }
