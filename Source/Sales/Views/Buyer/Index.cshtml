@@ -50,6 +50,7 @@
                columns.Add(m => m.Mobile).Sortable(true).Titled("Mobile").Filterable(true).Sortable(true);
                columns.Add(m => m.City).Sortable(true).Titled("City").Filterable(true).Sortable(true);
                columns.Add(m => m.Suffix).Sortable(true).Titled("Suffix").Filterable(true).Sortable(true);
+               columns.Add(true).RenderValueAs(m => "<a href='/Buyer/Edit/" + m.PersonId + "' hidden class='RecEditurl'></a><a href='/Buyer/Delete/" + m.PersonId + "' hidden class='RecDelurl'></a>");
            }).WithPaging(25).EmptyText("No records found.").Sortable().Filterable().WithMultipleFilters()
     </div>
 </div>

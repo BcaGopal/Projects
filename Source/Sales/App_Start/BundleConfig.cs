@@ -80,7 +80,7 @@ namespace Sales
                      "~/Content/IconCss.css"
                      ));
 
-            BundleTable.EnableOptimizations = true;
+            BundleTable.EnableOptimizations =true;
         }
     }
 }
