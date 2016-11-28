@@ -18,7 +18,7 @@
                 "PercentComplete": PercentCompleteEditor,
                 "DropDown": DropDownEditor,
                 "LongText": LongTextEditor,
-                "TextTime": TextTime1
+                "TextTime": TextTime1   
             }
         }
     });
@@ -782,5 +782,8 @@
 
         this.init();
     }
+
+
+    
 })(jQuery);
 
