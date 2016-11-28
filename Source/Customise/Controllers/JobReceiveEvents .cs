@@ -215,6 +215,10 @@ namespace Web.Controllers
 
             catch (Exception ex)
             {
+                if (Header == null)
+                {
+                    throw new Exception("Header is null");
+                }
                 Header.Status = (int)StatusConstants.Drafted;
                 new JobReceiveHeaderService(_unitOfWork).Update(Header);
                 _unitOfWork.Save();

@@ -255,6 +255,7 @@
     <Compile Include="Controllers\FeetConversionToCmsController .cs" />
     <Compile Include="Controllers\ProductBuyerSettingsController.cs" />
     <Compile Include="Controllers\DesignColourConsumptionHeaderController.cs" />
+    <Compile Include="Controllers\ProductCategorySettingsController.cs" />
     <Compile Include="Controllers\SaleEnquiryProductMapping.cs" />
     <Compile Include="Controllers\ColourController.cs" />
     <Compile Include="Controllers\ComboHelpListController.cs" />
@@ -1162,6 +1163,7 @@
     <Content Include="Views\FeetConversionToCms\_Reason.cshtml" />
     <Content Include="Views\FeetConversionToCms\Create.cshtml" />
     <Content Include="Views\FeetConversionToCms\Index.cshtml" />
+    <Content Include="Views\ProductCategorySettings\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

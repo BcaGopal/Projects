@@ -31,6 +31,18 @@
 
                     <div class="col-md-6">
                         <div class="form-group">
+                            @Html.LabelFor(model => model.QAGroupId, "QA Group", new { @class = "control-label col-xs-5" })
+                            <div class="col-xs-6">
+                                @Html.TextBoxFor(model => model.QAGroupId, new { @class = "form-control col-xs-7 required" })
+                                @Html.ValidationMessageFor(m => m.QAGroupId)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
                             @Html.LabelFor(model => model.Instructions, "Instructions", new { @class = "control-label col-xs-5" })
                             <div class="col-xs-6">
                                 @Html.TextBoxFor(model => model.Instructions, null, new { @class = "form-control col-xs-7 height required" })
@@ -38,6 +50,7 @@
                         </div>
                     </div>
                 </div>
+
 
 
                 <div class="modal-footer " style="padding: 19px 20px 0 20px; border-top:1px solid #8E8888">
@@ -52,7 +65,8 @@
 <script type="text/javascript">
 
     $(document).ready(function () {
-        CustomSelectFunction($("#ProductRateGroupId"), '/ComboHelpList/GetProductRateGroup', '/ComboHelpList/SetSingleProductRateGroup', ' ', false, 0, $('#ProcessId','#modform').val());
+        CustomSelectFunction($("#ProductRateGroupId"), '/ComboHelpList/GetProductRateGroup', '/ComboHelpList/SetSingleProductRateGroup', ' ', false, 0, $('#ProcessId', '#modform').val());
+        CustomSelectFunction($("#QAGroupId"), '/ComboHelpList/GetQAGroups', '/ComboHelpList/SetSingleQAGroup', ' ', false, 0, $('#ProcessId', '#modform').val());
     });
 
 

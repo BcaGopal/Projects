@@ -350,11 +350,14 @@
 
 
 
+                    @if (Model.QAGroupLine.Count > 0)
+                    {
+                        <h4 class="col-md-12 black">
+                            <span class="glyphicon glyphicon-align-justify"></span>
+                            3.QA Detail
+                        </h4>
+                    }
 
-                    <h4 class="col-md-12 black">
-                        <span class="glyphicon glyphicon-align-justify"></span>
-                        3.QA Detail
-                    </h4>
                     <div>
                         @if (Model.QAGroupLine != null)
                         {

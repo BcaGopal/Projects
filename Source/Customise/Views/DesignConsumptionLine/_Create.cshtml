@@ -177,17 +177,18 @@
         else
             check=  CheckForValidation.call();
 
-
-        if($('#Qty','.modal-body').val()==0) 
+        if (check != false)
         {
-            $("#Qtystatus").text("Qty can't be 0");
-            return false;
+            if($('#Qty','.modal-body').val()==0) 
+            {
+                $("#Qtystatus").text("Qty can't be 0");
+                return false;
+            }
+            if (IsProductContent() == true)
+            {
+                check=  CheckForConsumptionValidation.call();
+            }
         }
-        if (IsProductContent() == true)
-        {
-            check=  CheckForConsumptionValidation.call();
-        }
-        
         return check;
     });
 

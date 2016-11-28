@@ -120,6 +120,10 @@ namespace Customise.App_Start
             container.RegisterType<IRepository<ProductCategory>, Repository<ProductCategory>>();
             container.RegisterType<IProductCategoryService, ProductCategoryService>(new PerRequestLifetimeManager());
 
+            container.RegisterType<IRepository<ProductCategorySettings>, Repository<ProductCategorySettings>>();
+            container.RegisterType<IProductCategorySettingsService, ProductCategorySettingsService>(new PerRequestLifetimeManager());
+
+
             container.RegisterType<IRepository<ProductCollection>, Repository<ProductCollection>>();
             container.RegisterType<IProductCollectionService, ProductCollectionService>(new PerRequestLifetimeManager());
 
@@ -513,6 +517,10 @@ namespace Customise.App_Start
 
             Mapper.CreateMap<JobReceiveLine, JobReceiveLineViewModel>();
             Mapper.CreateMap<JobReceiveLineViewModel, JobReceiveLine>();
+
+            Mapper.CreateMap<ProductCategorySettings, ProductCategorySettingsViewModel>();
+            Mapper.CreateMap<ProductCategorySettingsViewModel, ProductCategorySettings>();
+
 
 
             Mapper.CreateMap<SaleInvoiceReturnHeader, SaleInvoiceReturnHeader>();

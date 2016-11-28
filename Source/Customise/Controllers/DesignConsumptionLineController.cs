@@ -257,7 +257,7 @@ namespace Web
                 else
                 {
                     //product = new FinishedProductService(_unitOfWork).Find(svm.BaseProductId);
-                    product.ProductId = svm.ProductId;
+                    product.ProductId = svm.BaseProductId;
                 }
 
                 if (svm.BomDetailId == 0)

@@ -232,15 +232,15 @@ namespace Web
         }
 
 
-        public JsonResult CheckForValidationinEdit(int ProductId, int BaseProductId, int BomDetailId)
+        public JsonResult CheckForValidationinEdit(int ProductId, int? Dimension1Id, int BaseProductId, int BomDetailId)
         {
-            var temp = (_BomDetailService.CheckForProductExists(ProductId, BaseProductId, BomDetailId));
+            var temp = (_BomDetailService.CheckForProductShadeExists(ProductId, Dimension1Id, BaseProductId, BomDetailId));
             return Json(new { returnvalue = temp });
         }
 
-        public JsonResult CheckForValidation(int ProductId, int BaseProductId)
+        public JsonResult CheckForValidation(int ProductId, int? Dimension1Id, int BaseProductId)
         {
-            var temp = (_BomDetailService.CheckForProductExists(ProductId, BaseProductId));
+            var temp = (_BomDetailService.CheckForProductShadeExists(ProductId, Dimension1Id, BaseProductId));
             return Json(new { returnvalue = temp });
         }
     }

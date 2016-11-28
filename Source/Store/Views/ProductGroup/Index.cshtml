@@ -28,6 +28,7 @@
                 @Html.ActionLink(" ", "Delete", "ProductGroup", null, new { @class = "glyphicon glyphicon-trash toolbar", @title = "Delete", @data_toggle = "tooltip", @id = "DeleteRecord" , @data_modal="" })
                 @Html.ActionLink(" ", "Report", "ProductGroup", null, new { @class = "glyphicon glyphicon-stats toolbar right", @title = "Report", @data_toggle = "tooltip", target = "_blank" })
                 @Html.ActionLink(" ", "ProductTypeIndex", "ProductGroup", null, new { @class = "glyphicon glyphicon-list toolbar right", @title = "List", @data_toggle = "tooltip" })                
+                @Html.ActionLink(" ", "Create", "ProductGroupSettings", null, new { @class = "glyphicon glyphicon-cog toolbar right", @title = "Default Settings", @data_toggle = "tooltip", @id = "Settings", target = "_blank" })
                 @Html.ActionLink(" ", "", "", null, new { @class = "glyphicon glyphicon-export toolbar right", @title = "Export", @data_toggle = "tooltip" })
             </h4>
         </div>
@@ -71,4 +72,16 @@
     $('#myModal').on('shown.bs.modal', function () {
         $("#Reason").focus();
     });
+
+    $('a#Settings').click(function (e) {
+        var $this = $(this);
+        var row = $this.closest("tr");
+        var editid = $('table.grid-table .grid-row.grid-row-selected').find('[data-name="ProductGroupId"]').text();
+
+        if (editid == 0 || editid == null)
+            return false;
+        var url = '@Url.Action("Create", "ProductGroupSettings")' + "/" + editid;
+        $(this).attr('href', url);
+        return;
+    })
 </script>

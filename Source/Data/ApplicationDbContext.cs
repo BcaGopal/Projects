@@ -212,6 +212,7 @@ namespace Data.Models
         public DbSet<UnitConversionFor> UnitConversonFor { get; set; }
         public DbSet<PersonRateGroup> PersonRateGroup { get; set; }
         public DbSet<ProductRateGroup> ProductRateGroup { get; set; }
+
         public DbSet<Counter> Counter { get; set; }
         public DbSet<RateListHistory> RateListHistory { get; set; }
         public DbSet<RateListHeader> RateListHeader { get; set; }
@@ -264,9 +265,11 @@ namespace Data.Models
         public DbSet<ProductAttributes> ProductAttributes { get; set; }
         public DbSet<BomDetail> BomDetail { get; set; }
         public DbSet<ProductCategory> ProductCategory { get; set; }
+        public DbSet<ProductCategorySettings> ProductCategorySettings { get; set; }
         public DbSet<ProductCollection> ProductCollections { get; set; }
         //public DbSet<ProductDesign> ProductDesign { get; set; }
         public DbSet<ProductGroup> ProductGroups { get; set; }
+        public DbSet<ProductGroupSettings> ProductGroupSettings { get; set; }
         public DbSet<ProductIncludedAccessories> ProductIncludedAccessories { get; set; }
         public DbSet<ProductNature> ProductNature { get; set; }
         public DbSet<ProductRelatedAccessories> ProductRelatedAccessories { get; set; }

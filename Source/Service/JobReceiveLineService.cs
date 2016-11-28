@@ -12,6 +12,7 @@ using Model.ViewModels;
 using Model.ViewModel;
 using System.Data.SqlClient;
 using System.Configuration;
+using System.Data.Entity.SqlServer;
 
 namespace Service
 {
@@ -165,6 +166,21 @@ namespace Service
         }
         public IEnumerable<JobReceiveLineViewModel> GetLineListForIndex(int headerId)
         {
+            JobReceiveHeader Header = new JobReceiveHeaderService(_unitOfWork).Find(headerId);
+
+
+            JobReceiveQASettings JobReceiveQASettings = (from S in db.JobReceiveQASettings
+                                                         where S.DivisionId == Header.DivisionId && S.SiteId == Header.SiteId
+                                                         && SqlFunctions.CharIndex(Header.DocTypeId.ToString(), S.filterContraDocTypes) > 0
+                                                         select S).FirstOrDefault();
+            int JobReceiveQADocTypeId = 0;
+            if (JobReceiveQASettings != null)
+            {
+                JobReceiveQADocTypeId = JobReceiveQASettings.DocTypeId;
+            }
+
+
+
             var JobReceiveQALine = from L in db.JobReceiveLine
                                    join Jql in db.JobReceiveQALine on L.JobReceiveLineId equals Jql.JobReceiveLineId into JobReceiveQALineTable
                                    from JobReceiveQALineTab in JobReceiveQALineTable.DefaultIfEmpty()
@@ -211,9 +227,9 @@ namespace Service
                           JobOrderLineId = p.JobOrderLineId,
                           OrderDocTypeId = tab.JobOrderHeader.DocTypeId,
                           OrderHeaderId = tab.JobOrderHeaderId,
-                          JobReceiveQALineId = JobReceiveQALineTab.JobReceiveQALineId
-                      }
-                        );
+                          JobReceiveQALineId = JobReceiveQALineTab.JobReceiveQALineId,
+                          JobReceiveQADocTypeId = JobReceiveQADocTypeId
+                      });
 
             return pt;
 

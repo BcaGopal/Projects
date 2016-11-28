@@ -33,14 +33,16 @@
         <hr style="margin-top:0px;margin-bottom:0px" />
 
         <div class="panel-info">
-            <h4 style="padding:5px 0 0 0;margin:0px">
+            @*<h4 style="padding:5px 0 0 0;margin:0px">
                 @Html.ActionLink(" ", " ", " ", null, new { @class = "glyphicon glyphicon-refresh toolbar", @title = "Refresh Page", @data_toggle = "tooltip", @id = "RefreshPage" })
-                @Html.ActionLink(" ", "Create", "Tasks", null, new { @class = "glyphicon glyphicon-plus toolbar", @title = "Add New", @data_toggle = "tooltip" })
-                @Html.ActionLink(" ", "History", "Tasks", null, new { @class = "glyphicon glyphicon-user toolbar", @title = "History", @data_toggle = "tooltip" })
-                @Html.ActionLink(" ", "Delete", "Tasks", null, new { @class = "glyphicon glyphicon-trash toolbar", @title = "Delete", @data_toggle = "tooltip", @id = "DeleteRecord", @data_modal = "" })
                 @Html.ActionLink(" ", "Index", "Tasks", null, new { @class = "glyphicon glyphicon-list toolbar right", @title = "List", @data_toggle = "tooltip" })
                 @Html.ActionLink(" ", "", "", null, new { @class = "glyphicon glyphicon-export toolbar right", @title = "Export", @data_toggle = "tooltip" })
-            </h4>
+            </h4>*@
+            <div class="btn-group">
+                @Html.ActionLink(" ", "Create", "Tasks", null, new { @class = "cbtn btn-circle glyphicon glyphicon-plus toolbar", @title = "Add New", @data_toggle = "tooltip" })
+                @Html.ActionLink(" ", "History", "Tasks", null, new { @class = "cbtn btn-circle glyphicon glyphicon-user toolbar", @title = "History", @data_toggle = "tooltip" })
+                @Html.ActionLink(" ", "Delete", "Tasks", null, new { @class = "cbtn btn-circle glyphicon glyphicon-trash toolbar", @title = "Delete", @data_toggle = "tooltip", @id = "DeleteRecord", @data_modal = "" })
+            </div>  
         </div>
     </div>
     <ul class="nav nav-pills">
