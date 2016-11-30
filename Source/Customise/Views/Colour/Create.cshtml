@@ -22,15 +22,22 @@
             <hr style="margin-top:0px;margin-bottom:0px" />
 
             <div class="panel-info">
-                <h4 style="padding:5px 0 0 0;margin:0px">
-                    @Html.ActionLink(" ", " ", " ", null, new { @class = "glyphicon glyphicon-refresh toolbar", @title = "Refresh Page", @data_toggle = "tooltip", @id = "RefreshPage" })
-                    @Html.ActionLink(" ", "Create", "Colour", null, new { @class = "glyphicon glyphicon-plus toolbar", @title = "Add New", @data_toggle = "tooltip" })
-                    @Html.ActionLink(" ", "History", "Colour", null, new { @class = "glyphicon glyphicon-user toolbar", @title = "History", @data_toggle = "tooltip" })
-                    @Html.ActionLink(" ", "Email", "Colour", null, new { @class = "glyphicon glyphicon-envelope toolbar", @title = "Email", @data_toggle = "tooltip" })
-                    @Html.ActionLink(" ", "PrevPage", "Colour", new { id = @Model.ColourId }, new { @class = "glyphicon glyphicon-arrow-left toolbar", @title = "Prev Record", @data_toggle = "tooltip" })
-                    @Html.ActionLink(" ", "NextPage", "Colour", new { id = @Model.ColourId }, new { @class = "glyphicon glyphicon-arrow-right toolbar", @title = "Next Record", @data_toggle = "tooltip" })
-                    @Html.ActionLink(" ", "Index", "Colour", null, new { @class = "glyphicon glyphicon-list toolbar right", @title = "List", @data_toggle = "tooltip" })                    
-                </h4>
+                <div class="btn-group">
+                    @Html.ActionLink(" ", "Create", "Colour", null, new { @class = "cbtn btn-circle glyphicon glyphicon-plus toolbar", @title = "Add New", @data_toggle = "tooltip" })
+                    @Html.ActionLink(" ", "PrevPage", "Colour", new { id = @Model.ColourId }, new { @class = "cbtn btn-circle glyphicon glyphicon-arrow-left toolbar", @title = "Prev Record", @data_toggle = "tooltip" })
+                    @Html.ActionLink(" ", "NextPage", "Colour", new { id = @Model.ColourId }, new { @class = "cbtn btn-circle glyphicon glyphicon-arrow-right toolbar", @title = "Next Record", @data_toggle = "tooltip" })
+                    @Html.ActionLink(" ", "History", "Colour", null, new { @class = "cbtn btn-circle glyphicon glyphicon-user toolbar", @title = "History", @data_toggle = "tooltip" })
+                    @Html.ActionLink(" ", "Index", "Colour", null, new { @class = "cbtn btn-circle glyphicon glyphicon-list", @title = "List", @data_toggle = "tooltip" })
+                </div>
+                <div class="btn-group">
+                    <a class="cbtn btn-circle glyphicon glyphicon-option-horizontal dropdown-toggle" aria-expanded="false" style="padding-top: 6px;padding-bottom: 6px;" href="#" data-toggle="dropdown" id="dropdownMenu1">
+                    </a>
+                    <ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu1">
+                        <li><a href="@Url.Action("Email", "Colour")"><span class="glyphicon glyphicon-envelope"> </span> Email</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a target="_blank" href="@Url.Action("Report", "Colour")"><span class="glyphicon glyphicon-stats"> </span> Report</a></li>
+                    </ul>
+                </div>
             </div>
 
         </div>
@@ -43,8 +50,8 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group" style="margin-top:15px">
-                            @Html.LabelFor(model => model.ColourName, "Colour Name", new { @class = "control-label col-xs-4" })
-                            <div class="col-xs-6">
+                            @Html.LabelFor(model => model.ColourName, "Colour Name", new { @class = "control-label col-md-4 col-sm-2" })
+                            <div class="col-md-7 col-sm-10">
                                 @Html.TextBoxFor(m => m.ColourName, null, new { @class = "form-control col-xs-6 required" })
                                 @Html.ValidationMessageFor(m => m.ColourName, null, new { @class = "has-error" })
                             </div>
@@ -52,8 +59,8 @@
                     </div>
                     <div class="col-md-6">
                         <div class="form-group" style="margin-top:15px">
-                            @Html.LabelFor(model => model.IsActive, "Is Active", new { @class = "control-label col-xs-4" })
-                            <div class="col-xs-6" style=" padding-top:4px">
+                            @Html.LabelFor(model => model.IsActive, "Is Active", new { @class = "control-label col-md-4 col-sm-2" })
+                            <div class="col-md-7 col-sm-10" style="padding-top:4px">
                                 @Html.CheckBoxFor(m => m.IsActive, new { @class = "checkbox col-xs-1" })
                                 @Html.ValidationMessageFor(model => model.IsActive)
                             </div>

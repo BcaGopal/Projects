@@ -1164,13 +1164,13 @@
               <Width>0.62846in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>0.5066in</Width>
+              <Width>0.3in</Width>
             </TablixColumn>
             <TablixColumn>
               <Width>0.09375in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>0.82622in</Width>
+              <Width>1.01816in</Width>
             </TablixColumn>
           </TablixColumns>
           <TablixRows>
@@ -1619,7 +1619,7 @@ Fields!DealUnit.Value</Value>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>PO. No.</Value>
+                              <Value>PO. No./Buyer</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>9pt</FontSize>
@@ -3209,7 +3209,7 @@ Fields!DealUnit.Value</Value>
         <Top>1.85012in</Top>
         <Left>0.04263in</Left>
         <Height>1.52084in</Height>
-        <Width>7.33883in</Width>
+        <Width>7.32417in</Width>
         <ZIndex>1</ZIndex>
         <Style>
           <Border>
@@ -4442,13 +4442,13 @@ Fields!DealUnit.Value</Value>
               <Width>0.62192in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>0.50006in</Width>
+              <Width>0.3in</Width>
             </TablixColumn>
             <TablixColumn>
               <Width>0.05596in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>0.81968in</Width>
+              <Width>0.97929in</Width>
             </TablixColumn>
           </TablixColumns>
           <TablixRows>
@@ -4897,7 +4897,7 @@ Fields!DealUnit.Value</Value>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>PO. No.</Value>
+                              <Value>PO. No./Buyer</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>9pt</FontSize>
@@ -6122,7 +6122,6 @@ Fields!DealUnit.Value</Value>
                         <PaddingBottom>2pt</PaddingBottom>
                       </Style>
                     </Textbox>
-                    <rd:Selected>true</rd:Selected>
                   </CellContents>
                 </TablixCell>
                 <TablixCell>
@@ -6163,7 +6162,6 @@ Fields!DealUnit.Value</Value>
                         <PaddingBottom>2pt</PaddingBottom>
                       </Style>
                     </Textbox>
-                    <rd:Selected>true</rd:Selected>
                   </CellContents>
                 </TablixCell>
                 <TablixCell>
@@ -6203,7 +6201,6 @@ Fields!DealUnit.Value</Value>
                         <PaddingBottom>2pt</PaddingBottom>
                       </Style>
                     </Textbox>
-                    <rd:Selected>true</rd:Selected>
                   </CellContents>
                 </TablixCell>
                 <TablixCell>
@@ -6245,7 +6242,6 @@ Fields!DealUnit.Value</Value>
                       </Style>
                     </Textbox>
                     <ColSpan>2</ColSpan>
-                    <rd:Selected>true</rd:Selected>
                   </CellContents>
                 </TablixCell>
                 <TablixCell />
@@ -6286,7 +6282,6 @@ Fields!DealUnit.Value</Value>
                         <PaddingBottom>2pt</PaddingBottom>
                       </Style>
                     </Textbox>
-                    <rd:Selected>true</rd:Selected>
                   </CellContents>
                 </TablixCell>
                 <TablixCell>
@@ -6328,7 +6323,6 @@ Fields!DealUnit.Value</Value>
                       </Style>
                     </Textbox>
                     <ColSpan>3</ColSpan>
-                    <rd:Selected>true</rd:Selected>
                   </CellContents>
                 </TablixCell>
                 <TablixCell />
@@ -6370,7 +6364,6 @@ Fields!DealUnit.Value</Value>
                         <PaddingBottom>2pt</PaddingBottom>
                       </Style>
                     </Textbox>
-                    <rd:Selected>true</rd:Selected>
                   </CellContents>
                 </TablixCell>
               </TablixCells>
@@ -6459,7 +6452,7 @@ Fields!DealUnit.Value</Value>
         <Top>9.05742in</Top>
         <Left>0.05825in</Left>
         <Height>1.52084in</Height>
-        <Width>7.30855in</Width>
+        <Width>7.2681in</Width>
         <ZIndex>5</ZIndex>
         <Style>
           <Border>
@@ -7714,14 +7707,31 @@ Fields!DealUnit.Value</Value>
               <TablixCells>
                 <TablixCell>
                   <CellContents>
-                    <Subreport Name="WeavingOrder_Print11">
-                      <ReportName>WeavingOrder_Print1</ReportName>
+                    <Textbox Name="Textbox8">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value />
+                              <Style />
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox8</rd:DefaultName>
                       <Style>
                         <Border>
                           <Style>None</Style>
                         </Border>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
                       </Style>
-                    </Subreport>
+                    </Textbox>
                     <ColSpan>2</ColSpan>
                   </CellContents>
                 </TablixCell>

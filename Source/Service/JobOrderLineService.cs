@@ -702,19 +702,21 @@ namespace Service
             int CurrentDivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
 
             var list = (from p in db.ViewProdOrderBalance
+                        join t in db.Persons on p.BuyerId  equals t.PersonID into table
+                        from tab in table.DefaultIfEmpty()
                         where (string.IsNullOrEmpty(term) ? 1 == 1 : p.ProdOrderNo.ToLower().Contains(term.ToLower())) && p.BalanceQty > 0
                         && (string.IsNullOrEmpty(settings.filterContraDocTypes) ? 1 == 1 : contraDocTypes.Contains(p.DocTypeId.ToString()))
                          && (string.IsNullOrEmpty(settings.filterContraSites) ? p.SiteId == CurrentSiteId : contraSites.Contains(p.SiteId.ToString()))
                     && (string.IsNullOrEmpty(settings.filterContraDivisions) ? p.DivisionId == CurrentDivisionId : contraDivisions.Contains(p.DivisionId.ToString()))
-                        group new { p } by p.ProdOrderHeaderId into g
+                        group new { p, tab.Code  } by p.ProdOrderHeaderId into g
                         orderby g.Max(m => m.p.IndentDate)
                         select new ComboBoxResult
                         {
-                            text = g.Max(m => m.p.ProdOrderNo) + " | " + g.Max(m => m.p.DocType.DocumentTypeShortName),
+                            text = g.Max(m => m.p.DocType.DocumentTypeShortName) + "-" + g.Max(m => m.p.ProdOrderNo) + " {" + g.Max(m => m.Code ) + "}",
                             id = g.Key.ToString(),
                         }
                           );
-
+             
             return list;
         }
 

@@ -58,30 +58,50 @@
                 </h3>
             }*@
 
-            @if (Model.SaleDispatchSettings.isVisibleForSaleOrder)
-            {
-            @Html.ActionLink("For Order", "_ForOrder", "SaleDispatchLine", new { id = @Model.SaleDispatchHeaderId }, new { data_modal = "", id = "btnCreateFP", @class = "btn btn-primary borderradii", @title = "For Order", @data_toggle = "tooltip", @data_detailDeleted = "true" })
+            @{
+                string EditAction = "";
+                if (Model.Status == (int)StatusConstants.Drafted || Model.Status == (int)StatusConstants.Import)
+                {
+                    EditAction = "Modify";
+                }
+                else if ((Model.Status == (int)StatusConstants.Submitted || Model.Status == (int)StatusConstants.Modified))
+                {
+                    EditAction = "ModifyAfter_Submit";
+                }
+                else
+                {
+                    EditAction = "DetailInformation";
+                }
             }
 
-            <hr style="margin-top:0px;margin-bottom:0px" />
+           
+
+            @*<hr style="margin-top:0px;margin-bottom:0px" />*@
 
             <div class="panel-info">
-                <h4 style="padding:5px 0 0 0;margin:0px">
-                    @Html.ActionLink(" ", " ", " ", null, new { @class = "glyphicon glyphicon-refresh toolbar", @title = "Refresh Page", @data_toggle = "tooltip", @id = "RefreshPage" })
-                    @Html.ActionLink(" ", "Create", "SaleDispatchHeader", new { @id = @ViewBag.id }, new { @class = "glyphicon glyphicon-plus toolbar", @title = "Add New", @data_toggle = "tooltip" })
-                    @Html.ActionLink(" ", "GetHistory", "LogHistory", new { Ids = Model.SaleDispatchHeaderId, DocTypeId = Model.DocTypeId }, new { @class = "glyphicon glyphicon-user toolbar", @title = "History", @data_toggle = "tooltip", @id = "DocHistory", @data_modal = "" })
-                    @Html.ActionLink(" ", "GeneratePrints", "SaleDispatchHeader", new { Ids = Model.SaleDispatchHeaderId, DocTypeId = Model.DocTypeId }, new { @class = "glyphicon glyphicon-print toolbar", @title = "Print", @data_toggle = "tooltip", @id = "PrintRecordC", target = "_blank" })
-                    @if (Model.Status == (int)StatusConstants.Submitted && !Model.GatePassHeaderId.HasValue)
-                    {
-                        @Html.ActionLink(" ", "GenerateGatePass", "SaleDispatchHeader", new { Ids = @Model.SaleDispatchHeaderId, DocTypeId = Model.DocTypeId }, new { @class = "glyphicon glyphicon-log-out toolbar", @title = "GatePass", @data_toggle = "tooltip", @id = "GenGatePassC" })
-                    }
-                    @Html.ActionLink(" ", "Email", "SaleDispatchHeader", null, new { @class = "glyphicon glyphicon-envelope toolbar", @title = "Email", @data_toggle = "tooltip" })
-                    @Html.ActionLink(" ", "PrevPage", "SaleDispatchHeader", new { DocId = @Model.SaleDispatchHeaderId, DocTypeId = Model.DocTypeId }, new { @class = "glyphicon glyphicon-arrow-left toolbar", @title = "Prev Record", @data_toggle = "tooltip" })
-                    @Html.ActionLink(" ", "NextPage", "SaleDispatchHeader", new { DocId = @Model.SaleDispatchHeaderId, DocTypeId = Model.DocTypeId }, new { @class = "glyphicon glyphicon-arrow-right toolbar", @title = "Next Record", @data_toggle = "tooltip" })
-                    @*@Html.ActionLink(" ", " ", " ", null, new { @class = "glyphicon glyphicon-trash toolbar", @title = "Delete", @data_toggle = "tooltip" })*@
-                    @Html.ActionLink(" ", "Index", "SaleDispatchHeader", new { @id = ViewBag.id, IndexType = ViewBag.IndexStatus }, new { @class = "glyphicon glyphicon-list toolbar right", @title = "List", @data_toggle = "tooltip" })
-                    @Html.ActionLink(" ", "Report", "SaleDispatchHeader", null, new { @class = "glyphicon glyphicon-th toolbar right", @title = "Report", @data_toggle = "tooltip" })
-                </h4>
+              
+                <div class="btn-group">
+                    @Html.ActionLink(" ", "Create", "SaleDispatchHeader", new { @id = @ViewBag.id }, new { @class = "cbtn btn-circle glyphicon glyphicon-plus toolbar", @title = "Add New", @data_toggle = "tooltip" })
+                    @Html.ActionLink(" ", EditAction, "SaleDispatchHeader", new { @id = Model.SaleDispatchHeaderId, IndexType = ViewBag.IndexStatus }, new { @class = "cbtn btn-circle glyphicon glyphicon-edit", @title = "Edit", @data_toggle = "tooltip" })
+                    @Html.ActionLink(" ", "GeneratePrints", "SaleDispatchHeader", new { Ids = Model.SaleDispatchHeaderId, DocTypeId = Model.DocTypeId }, new { @class = "cbtn btn-circle glyphicon glyphicon-print toolbar", @title = "Print", @data_toggle = "tooltip", @id = "PrintRecordC", target = "_blank" })
+                    @Html.ActionLink(" ", "PrevPage", "SaleDispatchHeader", new { DocId = @Model.SaleDispatchHeaderId, DocTypeId = Model.DocTypeId }, new { @class = "cbtn btn-circle glyphicon glyphicon-arrow-left toolbar", @title = "Prev Record", @data_toggle = "tooltip" })
+                    @Html.ActionLink(" ", "NextPage", "SaleDispatchHeader", new { DocId = @Model.SaleDispatchHeaderId, DocTypeId = Model.DocTypeId }, new { @class = "cbtn btn-circle glyphicon glyphicon-arrow-right toolbar", @title = "Next Record", @data_toggle = "tooltip" })
+                    @Html.ActionLink(" ", "Index", "SaleDispatchHeader", new { @id = ViewBag.id, IndexType = ViewBag.IndexStatus }, new { @class = "cbtn btn-circle glyphicon glyphicon-list toolbar", @title = "List", @data_toggle = "tooltip" })
+                </div>
+                <div class="btn-group">
+                    <a class="cbtn btn-circle glyphicon glyphicon-option-horizontal dropdown-toggle" aria-expanded="false" style="padding-top: 6px;padding-bottom: 6px;" href="#" data-toggle="dropdown" id="dropdownMenu1">
+                    </a>
+                    <ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu1">
+                        @if (Model.Status == (int)StatusConstants.Submitted && !Model.GatePassHeaderId.HasValue)
+                        {
+                            <li><a id="GenGatePassC" href="@Url.Action("GenerateGatePass", "SaleDispatchHeader", new { Ids = @Model.SaleDispatchHeaderId, DocTypeId = Model.DocTypeId })"><span class="glyphicon glyphicon-log-out"> </span> Generate Gatepass</a></li>
+                        }
+                        <li><a id="DocHistory" data-modal="" href="@Url.Action("GetHistory", "LogHistory", new { Ids = Model.SaleDispatchHeaderId, DocTypeId = Model.DocTypeId })"><span class="glyphicon glyphicon-user"> </span> History</a></li>
+                        <li><a href="@Url.Action("Email", "SaleDispatchHeader")"><span class="glyphicon glyphicon-envelope"> </span> Email</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="@Url.Action("Report", "SaleDispatchHeader")"><span class="glyphicon glyphicon-stats"> </span> Report</a></li>
+                    </ul>
+                </div>
             </div>
         </div>
         <div class="panel-info" style="padding-left:15px">
@@ -194,26 +214,32 @@
                     </h4>
                 </div>
 
-                <div class="panel-info">
-                    <h5 style="padding:5px 0 3px 0;margin:0px;font-weight:bold">
-                        <span class="glyphicon glyphicon-plus-sign"></span>
-                        @{string Action = "";
-                        if (Model.Status == (int) StatusConstants.Drafted)
-                        { Action = "CreateLine"; }
-                        else if (Model.Status == (int)StatusConstants.Submitted || Model.Status == (int)StatusConstants.Modified || Model.Status == (int)StatusConstants.ModificationSubmitted)
-                        { Action = "CreateLineAfter_Submit"; }
-                        else if (Model.Status == (int)StatusConstants.Approved)
-                        { Action = "CreateLineAfter_Approve"; }
-                        }
-
-                        @Html.ActionLink("Add New Row ", Action, "SaleDispatchLine", new { id = @Model.SaleDispatchHeaderId, IsSaleBased = false }, new { data_modal = "", id = "btnCreate", @class = "toolbar", @title = "Add New", @data_toggle = "tooltip", @data_detailDisabled = "true" })
+                <div class="panel-info" style="height:40px;">
+                    
+                        <div class="btn-group" style="padding:5px 0 3px 0;margin:0px;font-weight:bold">
+                            <span class="glyphicon glyphicon-plus-sign"></span>
+                            @{string Action = "";
+                                if (Model.Status == (int)StatusConstants.Drafted)
+                                { Action = "CreateLine"; }
+                                else if (Model.Status == (int)StatusConstants.Submitted || Model.Status == (int)StatusConstants.Modified || Model.Status == (int)StatusConstants.ModificationSubmitted)
+                                { Action = "CreateLineAfter_Submit"; }
+                                else if (Model.Status == (int)StatusConstants.Approved)
+                                { Action = "CreateLineAfter_Approve"; }
+                            }
+                            @Html.ActionLink("Add New Row ", Action, "SaleDispatchLine", new { id = @Model.SaleDispatchHeaderId, IsSaleBased = false }, new { data_modal = "", id = "btnCreate", @class = "toolbar", @title = "Add New", @data_toggle = "tooltip", @data_detailDisabled = "true" })
+                            @if (Model.SaleDispatchSettings.isVisibleForSaleOrder)
+                            {
+                                @:/
+                                @Html.ActionLink("For Sale Order", Action, "SaleDispatchLine", new { id = @Model.SaleDispatchHeaderId, IsSaleBased = true }, new { data_modal = "", id = "btnCreate", @class = "toolbar", @title = "Add New", @data_toggle = "tooltip", @data_detailDisabled = "true" })
+                            }
+                            </div>
+                    <div class="btn-group right" style="padding-right:15px">
                         @if (Model.SaleDispatchSettings.isVisibleForSaleOrder)
                         {
-                            @:/
-                            @Html.ActionLink("For Sale Order", Action, "SaleDispatchLine", new { id = @Model.SaleDispatchHeaderId, IsSaleBased = true }, new { data_modal = "", id = "btnCreate", @class = "toolbar", @title = "Add New", @data_toggle = "tooltip", @data_detailDisabled = "true" })
+                            @Html.ActionLink("For Order", "_ForOrder", "SaleDispatchLine", new { id = @Model.SaleDispatchHeaderId }, new { data_modal = "", id = "btnCreateFP", @class = "btn btn-primary borderradii", @title = "For Order", @data_toggle = "tooltip", @data_detailDeleted = "true" })
                         }
-                        
-                    </h5>
+                    </div>
+
                 </div>
                 <div style="padding-right:15px">
 
