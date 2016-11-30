@@ -881,8 +881,6 @@ namespace Presentation
                            SqlCommand Totalf = new SqlCommand("SELECT Web.FGetExcessStock_WithDimension( " + ProductCode + ", " + header.DocTypeId + ", " + item.dim1Id + ") ", sqlConnection);
                             planline.ExcessStockQty = Convert.ToDecimal(Totalf.ExecuteScalar() == DBNull.Value ? 0 : Totalf.ExecuteScalar()); 
                         }
-
-
                        // planline.ExcessStockQty = 10;
                         planline.MaterialPlanHeaderId = vm.MaterialPlanLineViewModel.FirstOrDefault().MaterialPlanHeaderId;
                         planline.ProductId = item.id;
