@@ -70,6 +70,7 @@ namespace Model.DatabaseViews
         public int DivisionId { get; set; }
         public int ? ReferenceDocLineId { get; set; }
         public int ? ReferenceDocTypeId { get; set; }
+        public int? BuyerId { get; set; }
     }
 
     [Table("ViewProdOrderBalanceForMPlan")]
