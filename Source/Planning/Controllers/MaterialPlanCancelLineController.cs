@@ -111,7 +111,7 @@ namespace Presentation
                 //Changed because ViewMaterialPlanForSaleOrderBalance is not required.
                 var mPlanRecords = db.MaterialPlanForSaleOrder.AsNoTracking().Where(m => mPlanLineIds.Contains(m.MaterialPlanLineId.Value)).ToList();
 
-                foreach (var item in vm.MaterialPlanCancelLineViewModel.Where(m => m.Qty > 0 && m.Qty == m.BalanceQty))
+                foreach (var item in vm.MaterialPlanCancelLineViewModel.Where(m => m.Qty > 0 && m.Qty <= m.BalanceQty))
                 {
 
                     MaterialPlanCancelLine cline = new MaterialPlanCancelLine();

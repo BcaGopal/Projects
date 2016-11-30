@@ -146,13 +146,34 @@
                         </div>
 
                         <div class="row">
-
                             <div class="col-md-6">
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.IsVisibleWeight, "Weight", new { @class = "control-label col-xs-6" })
                                     <div class="col-xs-4" style=" padding-top:4px">
                                         @Html.CheckBoxFor(m => m.IsVisibleWeight, new { @class = "checkbox col-xs-2" })
                                         @Html.ValidationMessageFor(model => model.IsVisibleWeight)
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.isVisibleSpecification, "Specification", new { @class = "control-label col-xs-6" })
+                                    <div class="col-xs-4" style=" padding-top:4px">
+                                        @Html.CheckBoxFor(m => m.isVisibleSpecification, new { @class = "checkbox col-xs-2" })
+                                        @Html.ValidationMessageFor(model => model.isVisibleSpecification)
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.isVisibleDealUnit, "Deal Unit", new { @class = "control-label col-xs-6" })
+                                    <div class="col-xs-4" style=" padding-top:4px">
+                                        @Html.CheckBoxFor(m => m.isVisibleDealUnit, new { @class = "checkbox col-xs-2" })
+                                        @Html.ValidationMessageFor(model => model.isVisibleDealUnit)
                                     </div>
                                 </div>
                             </div>

@@ -80,7 +80,8 @@
 
 
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-6" style="display:@(Model.JobInvoiceSettings.isVisibleSpecification ? "" : "none")">
+                        @Html.HiddenFor(m => m.JobInvoiceSettings.isVisibleSpecification)
                         <div class="form-group">
                             @Html.LabelFor(model => model.Specification, "Specification", new { @class = "control-label col-md-4 col-sm-2 " })
                             <div class="col-md-7 col-sm-10">
@@ -112,9 +113,10 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-6" style="display:@(Model.JobInvoiceSettings.isVisibleCostCenter? "" : "none")">
+                        @Html.HiddenFor(m => m.JobInvoiceSettings.isVisibleCostCenter)
                         <div class="form-group">
-                            @Html.LabelFor(model => model.CostCenterId, "CostCenter", new { @class = "control-label col-md-4 col-sm-2" })
+                            @Html.LabelFor(model => model.CostCenterId, "Cost Center", new { @class = "control-label col-md-4 col-sm-2" })
                             <div class="col-md-7 col-sm-10">
                                 @Html.TextBoxFor(model => model.CostCenterId, new { @class = "form-control required", @readonly = "true" })
                                 @Html.ValidationMessageFor(model => model.CostCenterId, "", new { @class = "text-danger" })
@@ -155,23 +157,24 @@
 
 
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-6" style="display:@(Model.JobInvoiceSettings.isVisibleDealUnit ? "" : "none")">
+                        @Html.HiddenFor(m => m.JobInvoiceSettings.isVisibleDealUnit)
                         <div class="form-group">
                             @Html.LabelFor(model => model.DealUnitId, "Deal Unit& Multiplier", new { @class = "control-label col-md-4 col-sm-2" })
                             <div class="col-md-7 col-sm-10" style="padding:0px">
-                            <div class="col-xs-7" style="padding-right:0px">
-                                @Html.DropDownListFor(model => model.DealUnitId, new SelectList(ViewBag.DeliveryUnitList as System.Collections.IEnumerable, "UnitId", "UnitName"), new { @class = "form-control height cusrightnormal required" })
-                                @Html.ValidationMessageFor(model => model.DealUnitId, "", new { @class = "text-danger" })
-                            </div>
-                            <div class="col-xs-5" style="padding-left:0px">
-                                @Html.TextBoxFor(model => model.UnitConversionMultiplier, new { @class = "form-control cusleftnormal required text-right" })
-                                @Html.ValidationMessageFor(model => model.UnitConversionMultiplier, "", new { @class = "text-danger" })
-                            </div>
+                                <div class="col-xs-7" style="padding-right:0px">
+                                    @Html.DropDownListFor(model => model.DealUnitId, new SelectList(ViewBag.DeliveryUnitList as System.Collections.IEnumerable, "UnitId", "UnitName"), new { @class = "form-control height cusrightnormal required" })
+                                    @Html.ValidationMessageFor(model => model.DealUnitId, "", new { @class = "text-danger" })
                                 </div>
+                                <div class="col-xs-5" style="padding-left:0px">
+                                    @Html.TextBoxFor(model => model.UnitConversionMultiplier, new { @class = "form-control cusleftnormal required text-right" })
+                                    @Html.ValidationMessageFor(model => model.UnitConversionMultiplier, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <div class="form-group">
+                        <div class="col-md-6" style="display:@(Model.JobInvoiceSettings.isVisibleDealUnit ? "" : "none")">
                             @Html.LabelFor(model => model.DealQty, "Deal Qty", new { @class = "control-label col-md-4 col-sm-2" })
                             <div class="col-md-7 col-sm-10">
                                 @Html.TextBoxFor(model => model.DealQty, new { @class = "form-control required text-right" })

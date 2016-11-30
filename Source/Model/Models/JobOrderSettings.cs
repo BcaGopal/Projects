@@ -37,7 +37,13 @@ namespace Model.Models
         public bool? isEditableRate { get; set; }  
         public bool? isVisibleLotNo { get; set; }
         public bool? isVisibleLoss { get; set; }
+        public bool? isVisibleDealUnit { get; set; }
+        public bool? isVisibleLineDueDate { get; set; }
+        public bool? isVisibleBillToParty { get; set; }
         public bool? isVisibleUncountableQty { get; set; }
+        public bool? isVisibleUnitConversionFor { get; set; }
+        public bool? isVisibleSpecification { get; set; }
+        public bool? isVisibleCreditDays { get; set; }
         public bool? isMandatoryProcessLine { get; set; }
         public bool? isVisibleProcessLine { get; set; }
         public bool? isVisibleJobWorkerLine { get; set; }

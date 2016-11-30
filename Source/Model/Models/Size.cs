@@ -32,7 +32,7 @@ namespace Model.Models
         [ForeignKey("ProductShape")]
         [Display(Name = "Product Shape")]
         public int? ProductShapeId { get; set; }
-        public virtual ProductType ProductShape { get; set; }
+        public virtual ProductShape ProductShape { get; set; }
 
         [ForeignKey("Unit"), Display(Name = "Unit")]
         public string UnitId { get; set; }

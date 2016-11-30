@@ -1315,6 +1315,31 @@ namespace Web
             };
         }
 
+        public ActionResult GetFirstStockInForProduct(int SaleDispatchHeaderId, int ProductId, int Dimension1Id, int? Dimension2Id)//DocTypeId
+        {
+            var Query = _SaleDispatchLineService.GetPendingStockInForDispatch(SaleDispatchHeaderId, ProductId, Dimension1Id, Dimension2Id, "");
+            var temp = Query.ToList();
+
+            var count = Query.Count();
+
+
+            if (count == 1)
+            {
+                if (temp != null)
+                {
+                    return Json(temp.FirstOrDefault());
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            else
+            {
+                return null;
+            }
+        }
+
         public ActionResult GetStockInForProduct(string searchTerm, int pageSize, int pageNum, int SaleDispatchHeaderId, int ProductId, int Dimension1Id, int? Dimension2Id)//DocTypeId
         {
             var Query = _SaleDispatchLineService.GetPendingStockInForDispatch(SaleDispatchHeaderId, ProductId, Dimension1Id, Dimension2Id, searchTerm);

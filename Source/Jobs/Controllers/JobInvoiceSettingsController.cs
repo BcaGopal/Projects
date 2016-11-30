@@ -157,6 +157,10 @@ namespace Web
                     temp.isVisibleLotNo = pt.isVisibleLotNo;
                     temp.isVisibleMachine = pt.isVisibleMachine;
                     temp.isVisibleProductUID = pt.isVisibleProductUID;
+                    temp.isVisibleSpecification = pt.isVisibleSpecification;
+                    temp.isVisibleDealUnit = pt.isVisibleDealUnit;
+                    temp.isVisibleWeight = pt.isVisibleWeight;
+                    temp.isVisibleCostCenter = pt.isVisibleCostCenter;
                     temp.SqlProcDocumentPrint = pt.SqlProcDocumentPrint;
                     temp.DocumentPrint = pt.DocumentPrint;
                     temp.isAutoCreateJobReceive = pt.isAutoCreateJobReceive;
@@ -326,6 +330,10 @@ namespace Web
                     temp.isVisibleLotNo = pt.isVisibleLotNo;
                     temp.isVisibleMachine = pt.isVisibleMachine;
                     temp.isVisibleProductUID = pt.isVisibleProductUID;
+                    temp.isVisibleSpecification = pt.isVisibleSpecification;
+                    temp.isVisibleDealUnit = pt.isVisibleDealUnit;
+                    temp.isVisibleWeight = pt.isVisibleWeight;
+                    temp.isVisibleCostCenter = pt.isVisibleCostCenter;
                     temp.SqlProcDocumentPrint = pt.SqlProcDocumentPrint;
                     temp.DocumentPrint = pt.DocumentPrint;
                     temp.isAutoCreateJobReceive = pt.isAutoCreateJobReceive;

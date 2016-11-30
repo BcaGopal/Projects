@@ -213,8 +213,9 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-6">
+                            <div class="col-md-6" style='display:@(Model.JobOrderSettings.isVisibleBillToParty?"":"none")'>
                                 <div class="form-group">
+                                    @Html.HiddenFor(m => m.JobOrderSettings.isVisibleBillToParty)
                                     @Html.LabelFor(model => model.BillToPartyId, "Billing A/C", new { @class = "control-label col-md-4 col-sm-2" })
                                     <div class="col-md-7 col-sm-10">
                                         @Html.TextBoxFor(m => m.BillToPartyId, new { @class = "form-control required" })
@@ -260,7 +261,8 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-6" style='display:@(Model.JobOrderSettings.isVisibleCreditDays?"":"none")'>
+                                @Html.HiddenFor(m => m.JobOrderSettings.isVisibleCreditDays)
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.CreditDays, "Credit Days", new { @class = "control-label col-md-4 col-sm-2" })
                                     <div class="col-md-7 col-sm-10">
@@ -271,7 +273,8 @@
                             </div>
 
 
-                            <div class="col-md-6">
+                            <div class="col-md-6" style='display:@(Model.JobOrderSettings.isVisibleUnitConversionFor?"":"none")'>
+                                @Html.HiddenFor(m => m.JobOrderSettings.isVisibleUnitConversionFor)
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.UnitConversionForId, "Unit Conversion For", new { @class = "control-label col-md-4 col-sm-2" })
                                     <div class="col-md-7 col-sm-10">

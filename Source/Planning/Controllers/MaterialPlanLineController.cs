@@ -501,7 +501,13 @@ namespace Presentation
                         order.CreatedDate = DateTime.Now;
                         order.ModifiedBy = User.Identity.Name;
                         order.ModifiedDate = DateTime.Now;
-                        order.MaterialPlanLineId = context.MaterialPlanLine.Local.Where(m => m.ProductId == item.ProductId).FirstOrDefault().MaterialPlanLineId;
+                        
+                        var temp = context.MaterialPlanLine.Local.Where(m => m.ProductId == item.ProductId).FirstOrDefault();
+                        if (temp != null)
+                        {
+                            order.MaterialPlanLineId = context.MaterialPlanLine.Local.Where(m => m.ProductId == item.ProductId).FirstOrDefault().MaterialPlanLineId;
+                        }
+
                         order.ObjectState = Model.ObjectState.Added;
                         context.MaterialPlanForSaleOrder.Add(order);
 
@@ -873,7 +879,8 @@ namespace Presentation
                         planline.Dimension2Name = item.dim2Name;
                         planline.ProcessName = item.procName;
 
-                        using (SqlConnection sqlConnection = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString.ToString()))
+                        //using (SqlConnection sqlConnection = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString.ToString()))
+                        using (SqlConnection sqlConnection = new SqlConnection((string)System.Web.HttpContext.Current.Session["DefaultConnectionString"]))
                         {
                             sqlConnection.Open();
 

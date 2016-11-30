@@ -73,7 +73,10 @@ namespace Model.Models
         [MaxLength(50)]
         public string OMSId { get; set; }
 
+        [MaxLength(50)]
+        public string Dimension1Caption { get; set; }
 
-
+        [MaxLength(50)]
+        public string Dimension2Caption { get; set; }
     }
 }

@@ -243,7 +243,7 @@ namespace Service
         }
         public IEnumerable<MaterialPlanLineViewModel> GetMaterialPlanSummaryFromProcedure(MaterialPlanLineListViewModel vm, string ConnectionString, string ProcName)
         {
-            var prodorderlinelist = vm.MaterialPlanLineViewModel.Where(m => m.Qty > 0).Select(m => new { m.SaleOrderLineId, m.Qty });
+            var prodorderlinelist = vm.MaterialPlanLineViewModel.Where(m => m.Qty > 0).Select(m => new { m.SaleOrderLineId, m.ProductId, m.Qty });
 
             int MaterialPlanHeaderId = 0;
 
@@ -254,6 +254,7 @@ namespace Service
 
             DataTable dataTable = new DataTable();
             dataTable.Columns.Add("SaleOrderLineId");
+            dataTable.Columns.Add("ProductId");
             dataTable.Columns.Add("Qty");
 
 
@@ -262,6 +263,7 @@ namespace Service
 
                 var dr = dataTable.NewRow();
                 dr["SaleOrderLineId"] = item.SaleOrderLineId;
+                dr["ProductId"] = item.ProductId;
                 dr["Qty"] = item.Qty;
                 dataTable.Rows.Add(dr);
 
