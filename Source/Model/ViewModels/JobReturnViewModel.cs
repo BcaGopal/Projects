@@ -117,6 +117,7 @@ namespace Model.ViewModel
         public string UnitId { get; set; }
         public string UnitName { get; set; }
         public JobReceiveSettingsViewModel JobReceiveSettings { get; set; }
+        public DocumentTypeSettingsViewModel DocumentTypeSettings { get; set; }
         
         public int? PurchaseInvoiceReturnLineId { get; set; }
         public int unitDecimalPlaces { get; set; }
@@ -161,6 +162,7 @@ namespace Model.ViewModel
         public string ProductId { get; set; }
         [Display(Name = "Product Group")]
         public string ProductGroupId { get; set; }
+        public DocumentTypeSettingsViewModel DocumentTypeSettings { get; set; }
     }
     public class JobReturnMasterDetailModel
     {

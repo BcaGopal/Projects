@@ -71,6 +71,8 @@ namespace Web
         {
             JobReturnLineFilterViewModel vm = new JobReturnLineFilterViewModel();
             vm.JobReturnHeaderId = id;
+            JobReturnHeader Header = new JobReturnHeaderService(_unitOfWork).Find(id);
+            vm.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(Header.DocTypeId);
             vm.JobWorkerId = sid;
             return PartialView("_OrderFilters", vm);
         }
@@ -954,6 +956,8 @@ namespace Web
             var settings = new JobReceiveSettingsService(_unitOfWork).GetJobReceiveSettingsForDocument(H.DocTypeId, H.DivisionId, H.SiteId);
             s.JobReceiveSettings = Mapper.Map<JobReceiveSettings, JobReceiveSettingsViewModel>(settings);
 
+            s.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(H.DocTypeId);
+
             s.JobReturnHeaderId = H.JobReturnHeaderId;
             s.JobReturnHeaderDocNo = H.DocNo;
             s.JobWorkerId = sid;
@@ -1583,6 +1587,7 @@ namespace Web
             var settings = new JobReceiveSettingsService(_unitOfWork).GetJobReceiveSettingsForDocument(H.DocTypeId, H.DivisionId, H.SiteId);
 
             temp.JobReceiveSettings = Mapper.Map<JobReceiveSettings, JobReceiveSettingsViewModel>(settings);
+            temp.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(H.DocTypeId);
 
             return PartialView("_Create", temp);
         }

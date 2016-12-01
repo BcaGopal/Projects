@@ -33,7 +33,7 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
-                            @Html.LabelFor(model => model.ProductId, "Product ", new { @class = "control-label col-md-4 col-sm-2 " })
+                            @Html.LabelFor(model => model.ProductId, (Model.DocumentTypeSettings.ProductCaption ?? "Product"), new { @class = "control-label col-md-4 col-sm-2 " })
                             <div class="col-md-7 col-sm-10">
                                 @Html.TextBoxFor(model => model.ProductId, new { @class = "form-control required" })
                                 @Html.ValidationMessageFor(model => model.ProductId, "", new { @class = "text-danger" })
@@ -46,7 +46,7 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
-                            @Html.LabelFor(model => model.ProductGroupId, "Product Group", new { @class = "control-label col-md-4 col-sm-2" })
+                            @Html.LabelFor(model => model.ProductGroupId, (Model.DocumentTypeSettings.ProductGroupCaption ?? "Product Group"), new { @class = "control-label col-md-4 col-sm-2" })
                             <div class="col-md-7 col-sm-10">
                                 @Html.TextBoxFor(model => model.ProductGroupId, new { @class = "form-control required" })
                                 @Html.ValidationMessageFor(model => model.ProductGroupId, "", new { @class = "text-danger" })
@@ -72,7 +72,7 @@
     $(document).ready(function () {
         //CustomSelectFunction($("#ProductId"), '/ComboHelpList/GetProducts', '/ComboHelpList/SetProducts', 'Enter Product Name', true, 3);        
         //CustomSelectFunction($("#JobReceiptHeaderId"), '/ComboHelpList/GetJobReceipt', '/ComboHelpList/SetJobReceipts', 'Enter Receipt Name', true, 1);
-        CustomSelectFunction($("#ProductGroupId"), '/ComboHelpList/GetProductGroup', '/ComboHelpList/SetProductGroup', 'Enter Group Name', true, 1);
+        CustomSelectFunction($("#ProductGroupId"), '/ComboHelpList/GetProductGroup', '/ComboHelpList/SetProductGroup', ' ', true, 1);
 
         var IsSaved = false;
         var ValidationCount = 0;

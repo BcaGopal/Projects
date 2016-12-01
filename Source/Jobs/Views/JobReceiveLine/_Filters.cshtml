@@ -39,7 +39,7 @@
 
                     <div class="col-md-6">
                         <div class="form-group">
-                            @Html.LabelFor(model => model.ProductId, "Product", new { @class = "control-label col-md-4 col-sm-2 " })
+                            @Html.LabelFor(model => model.ProductId, (Model.DocumentTypeSettings.ProductCaption ?? "Product"), new { @class = "control-label col-md-4 col-sm-2 " })
                             <div class="col-md-7 cos-sm-10">
                                 @Html.TextBoxFor(model => model.ProductId, new { @class = "form-control required" })
                                 @Html.ValidationMessageFor(model => model.ProductId, "", new { @class = "text-danger" })
@@ -61,7 +61,7 @@
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            @Html.LabelFor(model => model.ProductGroupId, "Product Group", new { @class = "control-label col-md-4 col-sm-2" })
+                            @Html.LabelFor(model => model.ProductGroupId, (Model.DocumentTypeSettings.ProductGroupCaption ?? "Product Group"), new { @class = "control-label col-md-4 col-sm-2" })
                             <div class="col-md-7 cos-sm-10">
                                 @Html.TextBoxFor(model => model.ProductGroupId, new { @class = "form-control required" })
                                 @Html.ValidationMessageFor(model => model.ProductGroupId, "", new { @class = "text-danger" })
