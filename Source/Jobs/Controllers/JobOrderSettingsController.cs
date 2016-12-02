@@ -186,6 +186,12 @@ namespace Web
                     temp.isVisibleMachine = pt.isVisibleMachine;
                     temp.isVisibleProductUID = pt.isVisibleProductUID;
                     temp.isVisibleRate = pt.isVisibleRate;
+                    temp.isVisibleDealUnit = pt.isVisibleDealUnit;
+                    temp.isVisibleLineDueDate = pt.isVisibleLineDueDate;
+                    temp.isVisibleBillToParty = pt.isVisibleBillToParty;
+                    temp.isVisibleUnitConversionFor = pt.isVisibleUnitConversionFor;
+                    temp.isVisibleSpecification = pt.isVisibleSpecification;
+                    temp.isVisibleCreditDays = pt.isVisibleCreditDays;
                     temp.SqlProcDocumentPrint = pt.SqlProcDocumentPrint;
                     temp.DocumentPrint = pt.DocumentPrint;
                     temp.MaxDays = pt.MaxDays;
@@ -367,6 +373,12 @@ namespace Web
                     temp.isVisibleMachine = pt.isVisibleMachine;
                     temp.isVisibleProductUID = pt.isVisibleProductUID;
                     temp.isVisibleRate = pt.isVisibleRate;
+                    temp.isVisibleDealUnit = pt.isVisibleDealUnit;
+                    temp.isVisibleLineDueDate = pt.isVisibleLineDueDate;
+                    temp.isVisibleBillToParty = pt.isVisibleBillToParty;
+                    temp.isVisibleUnitConversionFor = pt.isVisibleUnitConversionFor;
+                    temp.isVisibleSpecification = pt.isVisibleSpecification;
+                    temp.isVisibleCreditDays = pt.isVisibleCreditDays;
                     temp.SqlProcDocumentPrint = pt.SqlProcDocumentPrint;
                     temp.DocumentPrint = pt.DocumentPrint;
                     temp.AmountRoundOff = pt.AmountRoundOff;

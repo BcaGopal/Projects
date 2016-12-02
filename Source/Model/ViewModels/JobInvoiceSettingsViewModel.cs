@@ -25,7 +25,11 @@ namespace Model.ViewModel
         public bool isVisibleDimension1 { get; set; }
         public bool isVisibleDimension2 { get; set; }
         public bool isVisibleLotNo { get; set; }
+        public bool isVisibleSpecification { get; set; }
         public bool isVisibleLoss { get; set; }
+        public bool isVisibleDealUnit { get; set; }
+        public bool isVisibleWeight { get; set; }
+        public bool isVisibleCostCenter { get; set; }
         public bool isVisibleHeaderJobWorker { get; set; }
         public bool isPostedInStock { get; set; }
         public bool isPostedInStockProcess { get; set; }

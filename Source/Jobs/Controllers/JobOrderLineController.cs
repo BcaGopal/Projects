@@ -61,6 +61,8 @@ namespace Web
             JobOrderSettings Settings = new JobOrderSettingsService(_unitOfWork).GetJobOrderSettingsForDocument(Header.DocTypeId, Header.DivisionId, Header.SiteId);
 
             vm.JobOrderSettings = Mapper.Map<JobOrderSettings, JobOrderSettingsViewModel>(Settings);
+            vm.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(Header.DocTypeId);
+
             vm.DealUnitId = Settings.DealUnitId;
             vm.JobOrderHeaderId = id;
             vm.JobWorkerId = jid;
@@ -591,6 +593,8 @@ namespace Web
             //Getting Settings
             var settings = new JobOrderSettingsService(_unitOfWork).GetJobOrderSettingsForDocument(H.DocTypeId, H.DivisionId, H.SiteId);
             s.JobOrderSettings = Mapper.Map<JobOrderSettings, JobOrderSettingsViewModel>(settings);
+
+            s.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(H.DocTypeId);
 
             var count = _JobOrderLineService.GetJobOrderLineListForIndex(Id).Count();
             if (count > 0)
@@ -1520,6 +1524,8 @@ namespace Web
 
 
             temp.JobOrderSettings = Mapper.Map<JobOrderSettings, JobOrderSettingsViewModel>(settings);
+
+            temp.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(H.DocTypeId);
 
             //ViewBag.DocNo = H.DocNo;
             temp.GodownId = H.GodownId;

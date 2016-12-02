@@ -205,6 +205,7 @@ namespace Model.ViewModel
         public int JobWorkerId { get; set; }
         public decimal OrderBalanceQty { get; set; }
         public JobReceiveSettingsViewModel JobReceiveSettings { get; set; }
+        public DocumentTypeSettingsViewModel DocumentTypeSettings { get; set; }
         public byte UnitDecimalPlaces { get; set; }
         public byte DealUnitDecimalPlaces { get; set; }
         public decimal Rate { get; set; }
@@ -251,6 +252,7 @@ namespace Model.ViewModel
         [Display(Name = "Product Group")]
         public string ProductGroupId { get; set; }
         public string CostCenterId { get; set; }
+        public DocumentTypeSettingsViewModel DocumentTypeSettings { get; set; }
     }
     public class JobReceiveMasterDetailModel
     {

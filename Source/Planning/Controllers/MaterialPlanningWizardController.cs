@@ -143,6 +143,7 @@ namespace Web
 
                 DataTable dataTable = new DataTable();
                 dataTable.Columns.Add("SaleOrderLineId");
+                dataTable.Columns.Add("ProductId");
                 dataTable.Columns.Add("Qty");
 
 
@@ -151,6 +152,7 @@ namespace Web
 
                     var dr = dataTable.NewRow();
                     dr["SaleOrderLineId"] = item.SaleOrderLineId;
+                    dr["ProductId"] = null;
                     dr["Qty"] = item.Qty;
                     dataTable.Rows.Add(dr);
 
@@ -645,7 +647,24 @@ namespace Web
                                 order.CreatedDate = DateTime.Now;
                                 order.ModifiedBy = User.Identity.Name;
                                 order.ModifiedDate = DateTime.Now;
-                                order.MaterialPlanLineId = context.MaterialPlanLine.Local.Where(m => m.ProductId == item.ProductId).FirstOrDefault().MaterialPlanLineId;
+
+                                if (item.Dimension1Id != null)
+                                {
+                                    var MaterialPlan = context.MaterialPlanLine.Local.Where(m => m.ProductId == item.ProductId && m.Dimension1Id == item.Dimension1Id).FirstOrDefault();
+                                    if (order != null)
+                                    {
+                                        order.MaterialPlanLineId = MaterialPlan.MaterialPlanLineId;
+                                    }
+                                }
+                                else
+                                {
+                                    var MaterialPlan = context.MaterialPlanLine.Local.Where(m => m.ProductId == item.ProductId).FirstOrDefault();
+                                    if (order != null)
+                                    {
+                                        order.MaterialPlanLineId = MaterialPlan.MaterialPlanLineId;
+                                    }
+                                }
+
                                 order.ObjectState = Model.ObjectState.Added;
                                 context.MaterialPlanForSaleOrder.Add(order);
 

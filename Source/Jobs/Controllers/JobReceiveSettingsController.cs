@@ -160,7 +160,9 @@ namespace Web
                     temp.isVisibleDimension2 = pt.isVisibleDimension2;
                     temp.isVisibleLotNo = pt.isVisibleLotNo;
                     temp.isVisibleMachine = pt.isVisibleMachine;
-                    temp.isVisibleProductUID = pt.isVisibleProductUID;                    
+                    temp.isVisibleProductUID = pt.isVisibleProductUID;
+                    temp.isVisibleSpecification = pt.isVisibleSpecification;
+                    temp.isVisibleDealUnit = pt.isVisibleDealUnit;                    
                     temp.SqlProcDocumentPrint = pt.SqlProcDocumentPrint;
 
                     temp.ModifiedDate = DateTime.Now;
@@ -313,6 +315,8 @@ namespace Web
                     temp.isVisibleDimension1 = pt.isVisibleDimension1;
                     temp.isVisibleDimension2 = pt.isVisibleDimension2;
                     temp.isVisibleLotNo = pt.isVisibleLotNo;
+                    temp.isVisibleSpecification = pt.isVisibleSpecification;
+                    temp.isVisibleDealUnit = pt.isVisibleDealUnit;                    
                     temp.SqlProcGatePass = pt.SqlProcGatePass;
                     temp.SqlProcDocumentPrint = pt.SqlProcDocumentPrint;
 

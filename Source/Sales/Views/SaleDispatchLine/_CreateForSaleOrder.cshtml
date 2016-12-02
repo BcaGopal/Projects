@@ -513,6 +513,7 @@
                             $("#Specification").val(data.Specification);
                             Calculation();
                             CustomSelectFunctionForStockIn($("#StockInId"), '/SaleDispatchLine/GetStockInForProduct', '/SaleDispatchLine/SetSingleStockIn', ' ', false, 0,$("#SaleDispatchHeaderId").val(),$("#ProductId").val(),$("#Dimension1Id").val(),$("#Dimension2Id").val());
+                            GetFirstStockIn();
                         }
                         else{
                             $("#SaleOrderHeaderDocNo").val("");
@@ -582,6 +583,37 @@
                 //$("#PassQty").val(0);
                 $("#StockInBalanceQty").val(0);
                 $("#LotNo").val("");
+            }
+        }
+
+
+            function GetFirstStockIn() {
+                var ProcessProgress = $("#Sale Order detail loading progress");
+                ProcessProgress.show();
+                if ($("#ProductId").val() != "")
+                {
+                    $.ajax({
+                        cache: false,
+                        type: "POST",
+                        url: "@(Url.Action("GetFirstStockInForProduct"))",
+                        data: { SaleDispatchHeaderId: $("#SaleDispatchHeaderId").val(), ProductId: $("#ProductId").val(), Dimension1Id: $("#Dimension1Id").val(), Dimension2Id: $("#Dimension2Id").val()},
+                    success: function (data) {
+                        if (data != null)
+                        {
+                            $("#StockInId").select2("data", { id: data.id, text: data.text });
+                            Validate_StockIn();
+                            $("#Specification").focus();
+                        }
+                        else{
+                            $("#StockInId").select2("data", { id: "", text: "" });
+                        }
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        alert('Failed to retrieve Stock In details.' + thrownError);
+                        ProcessProgress.hide();
+                    }
+                });
+
             }
         }
 

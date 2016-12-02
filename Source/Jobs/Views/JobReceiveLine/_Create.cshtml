@@ -46,7 +46,7 @@
                     <div class="col-md-6" style="display:@(Model.JobReceiveSettings.isVisibleProductUID?"":"none")">
                         @Html.HiddenFor(m => m.JobReceiveSettings.isVisibleProductUID)
                         <div class="form-group">
-                            @Html.LabelFor(model => model.ProductUidId, "ProductUId", new { @class = "control-label col-md-4 col-sm-2 " })
+                            @Html.LabelFor(model => model.ProductUidId, "Product UID", new { @class = "control-label col-md-4 col-sm-2 " })
                             <div class="col-md-7 col-sm-10">
                                 @Html.TextBoxFor(model => model.ProductUidName, new { @class = "form-control col-xs-7 required" })
                                 @Html.ValidationMessageFor(model => model.ProductUidId, "", new { @class = "text-danger" })
@@ -67,7 +67,7 @@
 
                     <div class="col-md-6">
                         <div class="form-group">
-                            @Html.LabelFor(model => model.ProductId, "Product Id", new { @class = "control-label col-md-4 col-sm-2 " })
+                            @Html.LabelFor(model => model.ProductId, (Model.DocumentTypeSettings.ProductCaption ?? "Product"), new { @class = "control-label col-md-4 col-sm-2 " })
                             <div class="col-md-7 col-sm-10">
                                 @Html.TextBoxFor(model => model.ProductId, new { @class = "form-control col-xs-7 required", @readonly = true })
                                 @Html.ValidationMessageFor(model => model.ProductId, "", new { @class = "text-danger" })
@@ -78,7 +78,7 @@
                     <div class="col-md-6" style="display:@(Model.JobReceiveSettings.isVisibleDimension1?"":"none")">
                         @Html.HiddenFor(m => m.JobReceiveSettings.isVisibleDimension1)
                         <div class="form-group">
-                            @Html.LabelFor(model => model.Dimension1Id, "Dimension1", new { @class = "control-label col-md-4 col-sm-2 " })
+                            @Html.LabelFor(model => model.Dimension1Id, (Model.DocumentTypeSettings.Dimension1Caption ?? "Dimension1"), new { @class = "control-label col-md-4 col-sm-2 " })
                             <div class="col-md-7 col-sm-10">
                                 @Html.TextBoxFor(model => model.Dimension1Name, new { @class = "form-control col-xs-7 required", @readonly = true })
                                 @Html.ValidationMessageFor(model => model.Dimension1Id, "", new { @class = "text-danger" })
@@ -90,14 +90,15 @@
                     <div class="col-md-6" style="display:@(Model.JobReceiveSettings.isVisibleDimension2?"":"none")">
                         @Html.HiddenFor(m => m.JobReceiveSettings.isVisibleDimension2)
                         <div class="form-group">
-                            @Html.LabelFor(model => model.Dimension2Id, "Dimension2", new { @class = "control-label col-md-4 col-sm-2 " })
+                            @Html.LabelFor(model => model.Dimension2Id, (Model.DocumentTypeSettings.Dimension2Caption ?? "Dimension2"), new { @class = "control-label col-md-4 col-sm-2 " })
                             <div class="col-md-7 col-sm-10">
                                 @Html.TextBoxFor(model => model.Dimension2Name, new { @class = "form-control col-xs-7 required", @readonly = true })
                                 @Html.ValidationMessageFor(model => model.Dimension2Id, "", new { @class = "text-danger" })
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-6" style="display:@(Model.JobReceiveSettings.isVisibleSpecification? "" : "none")">
+                        @Html.HiddenFor(m => m.JobReceiveSettings.isVisibleSpecification)
                         <div class="form-group">
                             @Html.LabelFor(model => model.Specification, "Specification", new { @class = "control-label col-md-4 col-sm-2 " })
                             <div class="col-md-7 col-sm-10">
@@ -180,7 +181,8 @@
                         </div>
                     </div>
 
-                    <div class="col-md-6">
+                    <div class="col-md-6" style="display:@(Model.JobReceiveSettings.isVisibleDealUnit? "" : "none")">
+                        @Html.HiddenFor(m => m.JobReceiveSettings.isVisibleDealUnit)
                         <div class="form-group">
                             @Html.LabelFor(model => model.DealUnitId, "Deal Unit& Multiplier", new { @class = "control-label col-md-4 col-sm-2" })
                             <div class="col-md-7 col-sm-10" style="padding:0px">
@@ -192,11 +194,11 @@
                                     @Html.TextBoxFor(model => model.UnitConversionMultiplier, new { @class = "form-control cusleftnormal required", @readonly = "true" })
                                     @Html.ValidationMessageFor(model => model.UnitConversionMultiplier, "", new { @class = "text-danger" })
                                 </div>
-                                </div>
                             </div>
+                        </div>
                     </div>
 
-                    <div class="col-md-6">
+                    <div class="col-md-6" style="display:@(Model.JobReceiveSettings.isVisibleDealUnit? "" : "none")">
                         <div class="form-group">
                             @Html.LabelFor(model => model.DealQty, "Deal Qty", new { @class = "control-label col-md-4 col-sm-2" })
                             <div class="col-md-7 col-sm-10">

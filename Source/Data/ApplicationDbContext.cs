@@ -107,6 +107,7 @@ namespace Data.Models
         public DbSet<PerkDocumentType> PerkDocumentType { get; set; }
         public DbSet<JobOrderPerk> JobOrderPerk { get; set; }
         public DbSet<JobOrderSettings> JobOrderSettings { get; set; }
+        public DbSet<DocumentTypeSettings> DocumentTypeSettings { get; set; }
         public DbSet<LedgerSetting> LedgerSetting { get; set; }
         public DbSet<PurchaseOrderSetting> PurchaseOrderSetting { get; set; }
         public DbSet<PurchaseQuotationSetting> PurchaseQuotationSetting { get; set; }

@@ -26,6 +26,7 @@ namespace Model.ViewModel
         public bool isVisibleDimension1 { get; set; }
         public bool isVisibleDimension2 { get; set; }
         public bool isVisibleLoss { get; set; }
+        public bool isVisibleDealUnit { get; set; }
         public bool isVisibleUncountableQty { get; set; }
         public bool isVisibleFromProdOrder { get; set; }
         public string SqlProcConsumption { get; set; }
@@ -42,6 +43,11 @@ namespace Model.ViewModel
         public bool isVisibleLotNo { get; set; }
         public bool isMandatoryProcessLine { get; set; }
         public bool isVisibleJobWorkerLine { get; set; }
+        public bool isVisibleLineDueDate { get; set; }
+        public bool isVisibleBillToParty { get; set; }
+        public bool isVisibleUnitConversionFor { get; set; }
+        public bool isVisibleSpecification { get; set; }
+        public bool isVisibleCreditDays { get; set; }
         public bool isPostedInStock { get; set; }
         public bool isPostedInStockProcess { get; set; }
         public bool isPostedInStockVirtual { get; set; }

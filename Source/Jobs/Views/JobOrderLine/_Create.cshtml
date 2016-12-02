@@ -62,7 +62,7 @@
 
                     <div class="col-md-6">
                         <div class="form-group">
-                            @Html.LabelFor(model => model.ProductId, "Product", new { @class = "control-label col-md-4 col-sm-2" })
+                            @Html.LabelFor(model => model.ProductId, (Model.DocumentTypeSettings.ProductCaption ?? "Product"), new { @class = "control-label col-md-4 col-sm-2" })
                             <div class="col-md-7 col-sm-10">
                                 @Html.TextBoxFor(model => model.ProductId, new { @class = "form-control col-xs-7 required" })
                                 @Html.ValidationMessageFor(model => model.ProductId, "", new { @class = "text-danger" })
@@ -83,7 +83,8 @@
 
 
 
-                    <div class="col-md-6">
+                    <div class="col-md-6" style="display:@(Model.JobOrderSettings.isVisibleSpecification?"":"none")">
+                        @Html.HiddenFor(m => m.JobOrderSettings.isVisibleSpecification)
                         <div class="form-group">
                             @Html.LabelFor(model => model.Specification, "Specification", new { @class = "control-label col-md-4 col-sm-2" })
                             <div class="col-md-7 col-sm-10">
@@ -95,7 +96,7 @@
                     <div class="col-md-6" style="display:@(Model.JobOrderSettings.isVisibleDimension1?"":"none")">
                         @Html.HiddenFor(m => m.JobOrderSettings.isVisibleDimension1)
                         <div class="form-group">
-                            @Html.LabelFor(model => model.Dimension1Id, "Dimension1", new { @class = "control-label col-md-4 col-sm-2" })
+                            @Html.LabelFor(model => model.Dimension1Id, (Model.DocumentTypeSettings.Dimension1Caption ?? "Dimension1"), new { @class = "control-label col-md-4 col-sm-2" })
                             <div class="col-md-7 col-sm-10">
                                 @Html.TextBoxFor(model => model.Dimension1Id, new { @class = "form-control col-xs-7 required" })
                                 @Html.ValidationMessageFor(model => model.Dimension1Id, "", new { @class = "text-danger" })
@@ -106,7 +107,7 @@
                     <div class="col-md-6" style="display:@(Model.JobOrderSettings.isVisibleDimension2?"":"none")">
                         @Html.HiddenFor(m => m.JobOrderSettings.isVisibleDimension2)
                         <div class="form-group">
-                            @Html.LabelFor(model => model.Dimension2Id, "Dimension2", new { @class = "control-label col-md-4 col-sm-2" })
+                            @Html.LabelFor(model => model.Dimension2Id, (Model.DocumentTypeSettings.Dimension2Caption ?? "Dimension2"), new { @class = "control-label col-md-4 col-sm-2" })
                             <div class="col-md-7 col-sm-10">
                                 @Html.TextBoxFor(model => model.Dimension2Id, new { @class = "form-control col-xs-7 required" })
                                 @Html.ValidationMessageFor(model => model.Dimension2Id, "", new { @class = "text-danger" })
@@ -185,7 +186,8 @@
 
 
 
-                    <div class="col-md-6">
+                    <div class="col-md-6" style="display:@(Model.JobOrderSettings.isVisibleDealUnit?"":"none")">
+                        @Html.HiddenFor(m => m.JobOrderSettings.isVisibleDealUnit)
                         <div class="form-group">
                             @Html.LabelFor(model => model.DealUnitId, "Deal Unit", new { @class = "control-label col-md-4 col-sm-2" })
                             <div class="col-md-7 col-sm-10">
@@ -202,7 +204,7 @@
                     </div>
 
 
-                    <div class="col-md-6">
+                    <div class="col-md-6" style="display:@(Model.JobOrderSettings.isVisibleDealUnit?"":"none")">
                         <div class="form-group">
                             @Html.LabelFor(model => model.DealQty, "Deal Qty", new { @class = "control-label col-md-4 col-sm-2" })
                             <div class="col-md-7 col-sm-10">
@@ -221,7 +223,8 @@
                         </div>
                     </div>
 
-                    <div class="col-md-6">
+                    <div class="col-md-6" style="display:@(Model.JobOrderSettings.isVisibleLoss ? "" : "none")">
+                        @Html.HiddenFor(m => m.JobOrderSettings.isVisibleLoss)
                         <div class="form-group">
                             @Html.LabelFor(model => model.LossQty, "Loss Qty", new { @class = "control-label col-md-4 col-sm-2" })
                             <div class="col-md-7 col-sm-10">
@@ -230,7 +233,8 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-6" style="display:@(Model.JobOrderSettings.isVisibleUncountableQty ? "" : "none")">
+                        @Html.HiddenFor(m => m.JobOrderSettings.isVisibleUncountableQty)
                         <div class="form-group">
                             @Html.LabelFor(model => model.NonCountedQty, "Non Counted Qty", new { @class = "control-label col-md-4 col-sm-2" })
                             <div class="col-md-7 col-sm-10">
@@ -241,7 +245,8 @@
                     </div>
 
 
-                    <div class="col-md-6">
+                    <div class="col-md-6" style="display:@(Model.JobOrderSettings.isVisibleLineDueDate ? "" : "none")">
+                        @Html.HiddenFor(m => m.JobOrderSettings.isVisibleLineDueDate)
                         <div class="form-group">
                             @Html.LabelFor(model => model.DueDate, "DueDate", new { @class = "control-label col-md-4 col-sm-2" })
                             <div class="col-md-7 col-sm-10">
@@ -322,8 +327,8 @@ else
 
     $(document).ready(function () {
         //CustomSelectFunction($("#ProductId"), '/ComboHelpList/GetProducts', '/ComboHelpList/SetSingleProducts', 'Enter Product Name', false, 3);
-        CustomSelectFunction($("#Dimension1Id"), '/ComboHelpList/GetDimension1', '/ComboHelpList/SetSingleDimension1', 'Enter Dimension2', false, 1);
-        CustomSelectFunction($("#Dimension2Id"), '/ComboHelpList/GetDimension2', '/ComboHelpList/SetSingleDimension2', 'Enter Dimension1 ', false, 1);
+        CustomSelectFunction($("#Dimension1Id"), '/ComboHelpList/GetDimension1', '/ComboHelpList/SetSingleDimension1', ' ', false, 1);
+        CustomSelectFunction($("#Dimension2Id"), '/ComboHelpList/GetDimension2', '/ComboHelpList/SetSingleDimension2', ' ', false, 1);
         CustomSelectFunction($("#FromProcessId"), '/ComboHelpList/GetProcess', '/ComboHelpList/SetSingleProcess', 'Enter Process Name', false, 1);
 
         var DocID = $('#JobOrderHeaderId', '.modal-body').val();

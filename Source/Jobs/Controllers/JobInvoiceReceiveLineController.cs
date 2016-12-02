@@ -67,6 +67,8 @@ namespace Web
             JobInvoiceLineFilterViewModel vm = new JobInvoiceLineFilterViewModel();
             vm.JobWorkerId = JobworkrId;
             vm.JobInvoiceHeaderId = id;
+            JobInvoiceHeader Header = new JobInvoiceHeaderService(_unitOfWork).Find(id);
+            vm.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(Header.DocTypeId);
             return PartialView("_OrderFilters", vm);
         }
 
@@ -785,6 +787,9 @@ namespace Web
             //Getting Settings
             var settings = new JobInvoiceSettingsService(_unitOfWork).GetJobInvoiceSettingsForDocument(H.DocTypeId, H.DivisionId, H.SiteId);
             s.JobInvoiceSettings = Mapper.Map<JobInvoiceSettings, JobInvoiceSettingsViewModel>(settings);
+
+            s.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(H.DocTypeId);
+
             s.DocTypeId = H.DocTypeId;
             s.SiteId = H.SiteId;
             s.JobReceiveHeaderId = H.JobReceiveHeaderId.Value;
@@ -1762,6 +1767,8 @@ namespace Web
 
 
             temp.JobInvoiceSettings = Mapper.Map<JobInvoiceSettings, JobInvoiceSettingsViewModel>(settings);
+
+            temp.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(H.DocTypeId);
 
             PrepareViewBag(temp);
 

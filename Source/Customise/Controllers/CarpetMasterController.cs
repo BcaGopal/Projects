@@ -1992,7 +1992,7 @@ namespace Web
                                                where P.ProductGroupId == vm.ProductGroupId && P.ColourId == vm.ColourId
                                                select new
                                                {
-                                                   ProductId = BomDetailTab.ProductId
+                                                   ProductId = (int?)BomDetailTab.ProductId
                                                }).FirstOrDefault();
 
 

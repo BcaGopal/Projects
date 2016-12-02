@@ -52,11 +52,11 @@
                                         <div class="block" style="width:92%">
                                             <div class="row">
                                                 @*ProductInfo*@
-                                                <div class="block" style="width:35%">
+                                                <div class="block" style="width:40%">
                                                     Product Name
                                                 </div>
                                                 @*Qty*@
-                                                <div class="block" style="width:25%">
+                                                <div class="block" style="width:20%">
                                                     Sale Order
                                                 </div>
                                                 <div class="block" style="width:10%">
@@ -89,8 +89,8 @@
                                                 @Html.HiddenFor(m => m.MaterialPlanLineViewModel[i].MaterialPlanHeaderId)
                                                 @Html.HiddenFor(m => m.MaterialPlanLineViewModel[i].SaleOrderDocNo)
                                                 @Html.HiddenFor(m => m.MaterialPlanLineViewModel[i].SaleOrderLineId)
-                                                @Html.HiddenFor(m => m.MaterialPlanLineViewModel[i].ProductName)
-                                                @Html.HiddenFor(m => m.MaterialPlanLineViewModel[i].ProductId)
+                                                @Html.HiddenFor(m => m.MaterialPlanLineViewModel[i].ProductName, new { @class = "ProdName" })
+                                                @Html.HiddenFor(m => m.MaterialPlanLineViewModel[i].ProductId, new { @class = "ProdId" })
                                                 @Html.HiddenFor(m => m.MaterialPlanLineViewModel[i].Dimension1Name)
                                                 @Html.HiddenFor(m => m.MaterialPlanLineViewModel[i].Dimension1Id)
                                                 @Html.HiddenFor(m => m.MaterialPlanLineViewModel[i].Dimension2Name)
@@ -104,8 +104,11 @@
 
                                                 <div class='row'>
 
-                                                    <div class='block' style='width:35%'>
-                                                        <strong> @Model.MaterialPlanLineViewModel[i].ProductName</strong>
+                                                    <div class='block' style='width:40%'>
+                                                        <div class="block  ReplacableProduct" style="width: 100%">
+                                                            @Model.MaterialPlanLineViewModel[i].ProductName
+                                                            <span style="font-size:xx-small;cursor:pointer;padding-left:5px" class="text-info glyphicon glyphicon-pencil EditProduct"></span>
+                                                        </div>
                                                         <br />
                                                         <p style="margin-bottom:0px">
                                                             @{
@@ -124,7 +127,8 @@
 
                                                     </div>
                                                     <div>
-                                                        <div class='block' style='width:25%'>
+
+                                                        <div class='block' style='width:20%'>
                                                             @(Model.MaterialPlanLineViewModel[i].SaleOrderDocNo)
                                                         </div>
                                                         <div class='block' style='width:10%'>
@@ -228,4 +232,24 @@
 
     })
 
+    CustomSelectFunction($(".ProdHelpList"), '/ComboHelpList/GetProducts', '/ComboHelpList/SetSingleProducts', ' ', false, 0);
+    
+    $('.EditProduct').click(function () {
+        var $Block = $(this).closest('div.row.crow');
+        var ProdId = parseInt($Block.find('input.ProdId').val());
+        var ProdName = $Block.find('input.ProdName').val();
+
+
+        if (ProdId && ProdName) {
+            var ProdElemId = $Block.find('input.ProdId').attr('id');
+            var ProdElemName = $Block.find('input.ProdId').attr('name');
+            $Block.find('input.ProdId').remove();
+            var elem = '<input type="text" class="form-control multiple-modal ProdHelpList ProdId" style="display:inline;margin-bottom:3px" tabindex="-1" id="' + ProdElemId + '" name="' + ProdElemName + '"/>'
+            var Container = $Block.find('div.ReplacableProduct:first');
+            Container.html(elem);
+            CustomSelectFunction($('.ProdHelpList', $Block), '/ComboHelpList/GetProducts', '/ComboHelpList/SetSingleProducts', ' ', false, 0);
+            $('.ProdHelpList', $Block).select2("data", { id: ProdId, text: ProdName });
+        }
+
+    })
 </script>

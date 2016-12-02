@@ -25,6 +25,8 @@ namespace Model.ViewModel
         public bool isVisibleDimension1 { get; set; }
         public bool isVisibleDimension2 { get; set; }
         public bool isVisibleLoss { get; set; }
+        public bool isVisibleSpecification { get; set; }
+        public bool isVisibleDealUnit { get; set; }
         public bool isVisibleUncountableQty { get; set; }
         public bool IsVisibleForOrderMultiple { get; set; }
         public bool IsVisibleWeight { get; set; }
