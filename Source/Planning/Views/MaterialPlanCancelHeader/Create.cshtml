@@ -162,10 +162,10 @@
 
                 <hr />
                 <div class="row">
-                    <h4 class="col-md-12 black" style="margin-top:15px">
+                    @*<h4 class="col-md-12 black" style="margin-top:15px">
                         <span class="glyphicon glyphicon-shopping-cart"></span>
                         2.Products
-                    </h4>
+                    </h4>*@
                 </div>
 
                 <div class="panel-info">
@@ -175,6 +175,12 @@
                         </h5>*@
                 </div>
                 <div class="panel-info" style="height:40px">
+                    <div class="btn-group">
+                        <h4 style="padding:5px 0 3px 0;margin:0px;font-weight:bold">
+                            <span class="glyphicon glyphicon-shopping-cart"></span>
+                            2.Products
+                        </h4>
+                    </div>
                     <div class="btn-group right" style="padding-right:15px">
                         @if ( Model.MaterialPlanSettings.PlanType == MaterialPlanTypeConstants.SaleOrder)
                         {
