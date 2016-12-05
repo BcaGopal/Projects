@@ -148,6 +148,7 @@ namespace Model.ViewModel
         public Decimal UnitConversionMultiplier { get; set; }
         public bool IsProdOrderBased { get; set; }
         public JobOrderSettingsViewModel JobOrderSettings { get; set; }
+        public DocumentTypeSettingsViewModel DocumentTypeSettings { get; set; }
         public List<JobOrderLineCharge> linecharges { get; set; }
         public List<JobOrderHeaderCharge> footercharges { get; set; }
         public int? GodownId { get; set; }
@@ -214,6 +215,7 @@ namespace Model.ViewModel
         public string DealUnitId { get; set; }
         public decimal Rate { get; set; }
         public JobOrderSettingsViewModel JobOrderSettings { get; set; }
+        public DocumentTypeSettingsViewModel DocumentTypeSettings { get; set; }
 
     }
 

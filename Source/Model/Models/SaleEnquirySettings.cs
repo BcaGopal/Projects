@@ -42,6 +42,11 @@ namespace Model.Models
         public byte UnitConversionForId { get; set; }
         public virtual UnitConversionFor UnitConversionFor { get; set; }
 
+
+        [ForeignKey("DealUnit"), Display(Name = "Deal Unit")]
+        public string DealUnitId { get; set; }
+        public virtual Unit DealUnit { get; set; }
+
         public bool? isVisibleCurrency { get; set; }
         public bool? isVisibleShipMethod { get; set; }
         public bool? isVisibleDeliveryTerms { get; set; }
@@ -53,6 +58,7 @@ namespace Model.Models
         public bool? isVisibleProductCode { get; set; }
         public bool? isVisibleUnitConversionFor { get; set; }
         public bool? isVisibleAdvance { get; set; }
+        public bool? isVisibleCreditDays { get; set; }
 
 
         public string filterLedgerAccountGroups { get; set; }

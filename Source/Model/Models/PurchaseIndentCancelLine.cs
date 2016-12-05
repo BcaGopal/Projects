@@ -27,6 +27,11 @@ namespace Model.Models
         public int PurchaseIndentLineId { get; set; }
         public virtual PurchaseIndentLine PurchaseIndentLine { get; set; }
 
+        [ForeignKey("MaterialPlanCancelLine")]
+        public int? MaterialPlanCancelLineId { get; set; }
+        public virtual MaterialPlanCancelLine MaterialPlanCancelLine { get; set; }
+
+
         [Display(Name = "Qty"), Required]
         public Decimal Qty { get; set; }
 

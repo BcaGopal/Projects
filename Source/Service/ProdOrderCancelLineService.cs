@@ -30,6 +30,8 @@ namespace Service
         ProdOrderCancelLineViewModel GetProdOrderCancelLine(int id);//ProdOrderCancelLine Id
         IEnumerable<ProdOrderLineBalance> GetProdOrderForProduct(int id);//ProductId
 
+        IEnumerable<ProdOrderCancelLine> GetProdOrderCancelLineForMaterialPlanCancel(int id);
+
         IEnumerable<ProdOrderLineBalance> GetPendingProdOrdersWithPatternMatch(int HeaderId, string term, int Limiter);
         decimal GetBalanceQuantity(int id);//ProdOrderLineId
         IQueryable<ComboBoxResult> GetPendingProdOrders(int filter, string term);
@@ -550,6 +552,15 @@ namespace Service
                         id = g.Key.ToString(),
                         text = g.Max(m => m.ProductName),
                     });
+        }
+
+        public IEnumerable<ProdOrderCancelLine> GetProdOrderCancelLineForMaterialPlanCancel(int id)
+        {
+            return (from p in db.ProdOrderCancelLine
+                    where p.MaterialPlanCancelLineId == id
+                    select p
+                        );
+
         }
 
         public Task<IEquatable<ProdOrderCancelLine>> GetAsync()

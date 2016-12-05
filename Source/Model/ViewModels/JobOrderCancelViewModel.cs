@@ -90,6 +90,7 @@ namespace Model.ViewModel
         public string ProductGroupId { get; set; }
         public string Dimension1Id { get; set; }
         public string Dimension2Id { get; set; }
+        public DocumentTypeSettingsViewModel DocumentTypeSettings { get; set; }
     }
     public class JobOrderCancelMasterDetailModel
     {
@@ -138,6 +139,7 @@ namespace Model.ViewModel
         public string UnitId { get; set; }
         public string UnitName { get; set; }
         public JobOrderSettingsViewModel JobOrderSettings { get; set; }
+        public DocumentTypeSettingsViewModel DocumentTypeSettings { get; set; }
         public int unitDecimalPlaces { get; set; }
         public int DealunitDecimalPlaces { get; set; }
         public string BarCodes { get; set; }

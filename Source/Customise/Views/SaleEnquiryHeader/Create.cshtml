@@ -271,7 +271,8 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-6" style="display:@(Model.SaleEnquirySettings.isVisibleCreditDays ? "" : "none")">
+                                @Html.HiddenFor(m => m.SaleEnquirySettings.isVisibleCreditDays)
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.CreditDays, "Credit Days", new { @class = "control-label col-xs-4" })
                                     <div class="col-xs-6">

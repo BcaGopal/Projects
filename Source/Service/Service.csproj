@@ -111,6 +111,7 @@
   <ItemGroup>
     <Compile Include="AccountService.cs" />
     <Compile Include="FeetConversionToCmsService.cs" />
+    <Compile Include="DocumentTypeSettingsService.cs" />
     <Compile Include="JobReceiveQaAttributeService.cs" />
     <Compile Include="JobReceiveQaPenaltyService.cs" />
     <Compile Include="ProductGroupSettingsService.cs" />

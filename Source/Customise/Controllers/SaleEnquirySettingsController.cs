@@ -53,7 +53,7 @@ namespace Web
             ViewBag.UnitConvForList = (from p in db.UnitConversonFor
                                        select p).ToList();
 
-            ViewBag.DealUnitList = new UnitService(_unitOfWork).GetUnitList().ToList();
+            ViewBag.DeliveryUnitList = new UnitService(_unitOfWork).GetUnitList().ToList();
             ViewBag.SalesTaxGroupList = new ChargeGroupPersonService(_unitOfWork).GetChargeGroupPersonList((int)(ChargeTypeConstants.SalesTax)).ToList();
             ViewBag.DeliveryTermsList = new DeliveryTermsService(_unitOfWork).GetDeliveryTermsList().ToList();
 
@@ -173,6 +173,7 @@ namespace Web
                     temp.isVisibleDimension2 = pt.isVisibleDimension2;
                     temp.SqlProcDocumentPrint = pt.SqlProcDocumentPrint;
                     temp.UnitConversionForId = pt.UnitConversionForId;
+                    temp.DealUnitId = pt.DealUnitId;
                     temp.ImportMenuId = pt.ImportMenuId;
                     temp.isVisibleAdvance = pt.isVisibleAdvance;
                     temp.isVisibleCurrency = pt.isVisibleCurrency;
@@ -343,6 +344,7 @@ namespace Web
                     temp.isVisibleProductCode = pt.isVisibleProductCode;
                     temp.isVisiblePriority = pt.isVisiblePriority;
                     temp.isVisibleUnitConversionFor = pt.isVisibleUnitConversionFor;
+                    temp.isVisibleCreditDays = pt.isVisibleCreditDays;
                     temp.CurrencyId = pt.CurrencyId;
                     temp.DeliveryTermsId = pt.DeliveryTermsId;
                     temp.ShipMethodId = pt.ShipMethodId;

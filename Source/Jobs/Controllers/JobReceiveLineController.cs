@@ -464,8 +464,9 @@ namespace Web
         {
             JobReceiveLineFilterViewModel vm = new JobReceiveLineFilterViewModel();
             vm.JobReceiveHeaderId = id;
-            JobReceiveHeader header = new JobReceiveHeaderService(_unitOfWork).Find(vm.JobReceiveHeaderId);
-            vm.DocTypeId = header.DocTypeId;
+            JobReceiveHeader Header = new JobReceiveHeaderService(_unitOfWork).Find(vm.JobReceiveHeaderId);
+            vm.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(Header.DocTypeId);
+            vm.DocTypeId = Header.DocTypeId;
             vm.JobWorkerId = sid;
             return PartialView("_Filters", vm);
         }
@@ -1929,6 +1930,8 @@ namespace Web
             var settings = new JobReceiveSettingsService(_unitOfWork).GetJobReceiveSettingsForDocument(H.DocTypeId, H.DivisionId, H.SiteId);
             s.JobReceiveSettings = Mapper.Map<JobReceiveSettings, JobReceiveSettingsViewModel>(settings);
 
+            s.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(H.DocTypeId);
+
             s.JobReceiveHeaderId = Id;
             s.JobReceiveHeaderDocNo = H.DocNo;
             s.JobWorkerId = JobWorkerId;
@@ -2790,6 +2793,8 @@ namespace Web
             //Getting Settings
             var settings = new JobReceiveSettingsService(_unitOfWork).GetJobReceiveSettingsForDocument(H.DocTypeId, H.DivisionId, H.SiteId);
             temp.JobReceiveSettings = Mapper.Map<JobReceiveSettings, JobReceiveSettingsViewModel>(settings);
+
+            temp.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(H.DocTypeId);
 
             PrepareViewBag(temp);
 

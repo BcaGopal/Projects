@@ -66,6 +66,7 @@ namespace Web
             JobInvoiceHeader Header = new JobInvoiceHeaderService(_unitOfWork).Find(id);
 
             JobInvoiceSettings Settings = new JobInvoiceSettingsService(_unitOfWork).GetJobInvoiceSettingsForDocument(Header.DocTypeId, Header.DivisionId, Header.SiteId);
+            vm.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(Header.DocTypeId);
 
             if (JobworkrId.HasValue)
                 vm.JobWorkerId = JobworkrId.Value;
@@ -81,6 +82,7 @@ namespace Web
             JobInvoiceHeader Header = new JobInvoiceHeaderService(_unitOfWork).Find(id);
 
             JobInvoiceSettings Settings = new JobInvoiceSettingsService(_unitOfWork).GetJobInvoiceSettingsForDocument(Header.DocTypeId, Header.DivisionId, Header.SiteId);
+            vm.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(Header.DocTypeId);
 
             if (JobworkrId.HasValue)
                 vm.JobWorkerId = JobworkrId.Value;
@@ -404,6 +406,10 @@ namespace Web
             //Getting Settings
             var settings = new JobInvoiceSettingsService(_unitOfWork).GetJobInvoiceSettingsForDocument(H.DocTypeId, H.DivisionId, H.SiteId);
             s.JobInvoiceSettings = Mapper.Map<JobInvoiceSettings, JobInvoiceSettingsViewModel>(settings);
+
+
+            s.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(H.DocTypeId);
+
             s.DocTypeId = H.DocTypeId;
             s.SiteId = H.SiteId;
             s.DivisionId = H.DivisionId;
@@ -827,6 +833,8 @@ namespace Web
             var settings = new JobInvoiceSettingsService(_unitOfWork).GetJobInvoiceSettingsForDocument(H.DocTypeId, H.DivisionId, H.SiteId);
 
             temp.JobInvoiceSettings = Mapper.Map<JobInvoiceSettings, JobInvoiceSettingsViewModel>(settings);
+
+            temp.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(H.DocTypeId);
 
             PrepareViewBag(temp);
 

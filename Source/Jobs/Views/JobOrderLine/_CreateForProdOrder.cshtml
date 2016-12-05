@@ -54,7 +54,7 @@
                 @Html.HiddenFor(m => m.JobOrderSettings.isPostedInStockProcess)
 
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                <div>
+                <div class="row">
                     <div class="col-md-6" style="display:@(Model.JobOrderSettings.isVisibleProductUID?"":"none")">
                         @Html.HiddenFor(m => m.JobOrderSettings.isVisibleProductUID)
                         @Html.HiddenFor(m => m.JobOrderSettings.isMandatoryProductUID)
@@ -67,7 +67,6 @@
                         </div>
                     </div>
 
-
                     <div class="col-md-6">
                         <div class="form-group">
                             @Html.LabelFor(model => model.ProdOrderLineId, "Production Order", new { @class = "control-label col-md-4 col-sm-10" })
@@ -77,8 +76,6 @@
                             </div>
                         </div>
                     </div>
-
-
 
                     <div class="col-md-6">
                         <div class="form-group">
@@ -90,8 +87,6 @@
                             </div>
                         </div>
                     </div>
-
-
 
                     <div class="col-md-6" style="display:@(Model.JobOrderSettings.isVisibleSpecification?"":"none")">
                         @Html.HiddenFor(m => m.JobOrderSettings.isVisibleSpecification)
@@ -106,18 +101,17 @@
                     <div class="col-md-6" style="display:@(Model.JobOrderSettings.isVisibleDimension1?"":"none")">
                         @Html.HiddenFor(m => m.JobOrderSettings.isVisibleDimension1)
                         <div class="form-group">
-                            @Html.LabelFor(model => model.Dimension1Id, "Dimension1", new { @class = "control-label col-md-4 col-sm-10" })
+                            @Html.LabelFor(model => model.Dimension1Id, (Model.DocumentTypeSettings.Dimension1Caption ?? "Dimension1"), new { @class = "control-label col-md-4 col-sm-10" })
                             <div class="col-md-7 col-sm-10">
                                 @Html.TextBoxFor(model => model.Dimension1Id, new { @class = "form-control  required", @readonly = true })
                                 @Html.ValidationMessageFor(model => model.Dimension1Id, "", new { @class = "text-danger" })
                             </div>
                         </div>
                     </div>
-
                     <div class="col-md-6" style="display:@(Model.JobOrderSettings.isVisibleDimension2?"":"none")">
                         @Html.HiddenFor(m => m.JobOrderSettings.isVisibleDimension2)
                         <div class="form-group">
-                            @Html.LabelFor(model => model.Dimension2Id, "Dimension2", new { @class = "control-label col-md-4 col-sm-10" })
+                            @Html.LabelFor(model => model.Dimension2Id, (Model.DocumentTypeSettings.Dimension2Caption ?? "Dimension2"), new { @class = "control-label col-md-4 col-sm-10" })
                             <div class="col-md-7 col-sm-10">
                                 @Html.TextBoxFor(model => model.Dimension2Id, new { @class = "form-control  required", @readonly = true })
                                 @Html.ValidationMessageFor(model => model.Dimension2Id, "", new { @class = "text-danger" })
@@ -134,8 +128,6 @@
                             </div>
                         </div>
                     </div>
-
-
 
                     <div class="col-md-6" style="display:@(Model.JobOrderSettings.isVisibleProcessLine?"":"none")">
                         <div class="form-group">
@@ -170,7 +162,6 @@
                         </div>
                     </div>
 
-
                     <div class="col-md-6" style="display:@(Model.JobOrderSettings.isVisibleRate?"":"none")">
                         <div class="form-group">
                             @Html.LabelFor(model => model.Rate, "Rate", new { @class = "control-label col-md-4 col-sm-10" })
@@ -188,13 +179,9 @@
                                     @Html.TextBoxFor(model => model.Rate, new { @class = "form-control  required text-right" })
                                     @Html.ValidationMessageFor(model => model.Rate, "", new { @class = "text-danger" })
                                 }
-
                             </div>
                         </div>
                     </div>
-
-
-
 
 
                     <div class="col-md-6" style="display:@(Model.JobOrderSettings.isVisibleDealUnit?"":"none")">
@@ -214,7 +201,6 @@
                         </div>
                     </div>
 
-
                     <div class="col-md-6" style="display:@(Model.JobOrderSettings.isVisibleDealUnit ? "" : "none")">
                         <div class="form-group">
                             @Html.LabelFor(model => model.DealQty, "Deal Qty", new { @class = "control-label col-md-4 col-sm-10" })
@@ -233,7 +219,6 @@
                             </div>
                         </div>
                     </div>
-
                     <div class="col-md-6" style="display:@(Model.JobOrderSettings.isVisibleLoss ? "" : "none")">
                         @Html.HiddenFor(m => m.JobOrderSettings.isVisibleLoss)
                         <div class="form-group">
@@ -255,7 +240,6 @@
                         </div>
                     </div>
 
-
                     <div class="col-md-6" style="display:@(Model.JobOrderSettings.isVisibleLineDueDate ? "" : "none")">
                         @Html.HiddenFor(m => m.JobOrderSettings.isVisibleLineDueDate)
                         <div class="form-group">
@@ -266,7 +250,6 @@
                             </div>
                         </div>
                     </div>
-
                     <div class="col-md-6">
                         <div class="form-group">
                             @Html.LabelFor(model => model.Remark, "Remark", new { @class = "control-label col-md-4 col-sm-10" })
@@ -528,7 +511,7 @@ else
 {
     <script type="text/javascript">
         $(function(){
-            AddCalculationFieldsEdit(parseInt($('#JobOrderHeaderId').val()),$('#JobOrderLineId').val(),true,"Web.JobOrderHeaderCharges","Web.JobOrderLineCharges");
+            AddCalculationFieldsEdit(parseInt($('#JobOrderHeaderId').val()),$('#JobOrderLineId').val(),false,"Web.JobOrderHeaderCharges","Web.JobOrderLineCharges");
         })
     </script>
 }

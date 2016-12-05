@@ -63,6 +63,8 @@ namespace Web
         {
             JobOrderCancelFilterViewModel vm = new JobOrderCancelFilterViewModel();
             vm.JobOrderCancelHeaderId = id;
+            JobOrderCancelHeader Header = new JobOrderCancelHeaderService(_unitOfWork).Find(id);
+            vm.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(Header.DocTypeId);
             vm.JobWorkerId = sid;
             return PartialView("_Filters", vm);
         }
@@ -974,6 +976,7 @@ namespace Web
             //Getting Settings
             var settings = new JobOrderSettingsService(_unitOfWork).GetJobOrderSettingsForDocument(header.DocTypeId, header.DivisionId, header.SiteId);
             svm.JobOrderSettings = Mapper.Map<JobOrderSettings, JobOrderSettingsViewModel>(settings);
+            svm.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(header.DocTypeId);
             ViewBag.LineMode = "Create";
             svm.JobOrderCancelHeaderId = Id;
             svm.JobWorkerId = sid;
@@ -1757,6 +1760,7 @@ namespace Web
 
             //Getting Settings
             var settings = new JobOrderSettingsService(_unitOfWork).GetJobOrderSettingsForDocument(header.DocTypeId, header.DivisionId, header.SiteId);
+            temp.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(header.DocTypeId);
 
             var JobOrderLine = new JobOrderLineService(_unitOfWork).Find(temp.JobOrderLineId);
           

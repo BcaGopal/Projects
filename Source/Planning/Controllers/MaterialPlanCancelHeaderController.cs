@@ -470,6 +470,10 @@ namespace Presentation
 
                 var MaterialPlanCancelline = new MaterialPlanCancelLineService(_unitOfWork).GetMaterialPlanCancelForDelete(vm.id).ToList();
 
+                List<ProdOrderCancelLine> ProdOrderCancelLines = new List<ProdOrderCancelLine>();
+                List<PurchaseIndentCancelLine> PurchaseIndentCancelLines = new List<PurchaseIndentCancelLine>();
+
+
                 foreach (var item in MaterialPlanCancelline)
                 {
 
@@ -507,6 +511,45 @@ namespace Presentation
                     //new MaterialPlanCancelLineService(_unitOfWork).Delete(item.MaterialPlanCancelLineId);
 
                     //MaterialPlanCancelLine Si = (MaterialPlanCancelLine) item;
+
+
+
+
+
+
+
+                    ProdOrderCancelLines = new ProdOrderCancelLineService(_unitOfWork).GetProdOrderCancelLineForMaterialPlanCancel(item.MaterialPlanCancelLineId).ToList();
+
+                    foreach (var item2 in ProdOrderCancelLines)
+                    {
+                        LogList.Add(new LogTypeViewModel
+                        {
+                            ExObj = item2,
+                        });
+
+                        item2.ObjectState = Model.ObjectState.Deleted;
+                        db.ProdOrderCancelLine.Attach(item2);
+                        db.ProdOrderCancelLine.Remove(item2);
+                    }
+
+                    PurchaseIndentCancelLines = new PurchaseIndentCancelLineService(_unitOfWork).GetPurchaseIndentCancelLineForMaterialPlanCancel(item.MaterialPlanCancelLineId).ToList();
+
+                    foreach (var item2 in PurchaseIndentCancelLines)
+                    {
+                        LogList.Add(new LogTypeViewModel
+                        {
+                            ExObj = item2,
+                        });
+
+                        item2.ObjectState = Model.ObjectState.Deleted;
+                        db.PurchaseIndentCancelLine.Attach(item2);
+                        db.PurchaseIndentCancelLine.Remove(item2);
+                    }
+
+
+
+
+
                     MaterialPlanCancelLine MPL = new MaterialPlanCancelLineService(_unitOfWork).Find(item.MaterialPlanCancelLineId);
 
                     LogList.Add(new LogTypeViewModel
@@ -599,17 +642,18 @@ namespace Presentation
         }
 
         [HttpGet]
-        public ActionResult NextPage(int id)//CurrentHeaderId
+        public ActionResult NextPage(int DocId, int DocTypeId)//CurrentHeaderId
         {
-            var nextId = _MaterialPlanCancelHeaderService.NextId(id);
-            return RedirectToAction("Edit", new { id = nextId });
+            var nextId = new NextPrevIdService(_unitOfWork).GetNextPrevId(DocId, DocTypeId, User.Identity.Name, "", "Web.MaterialPlanCancelHeaders", "MaterialPlanCancelHeaderId", PrevNextConstants.Next);
+            return Edit(nextId, "");
         }
         [HttpGet]
-        public ActionResult PrevPage(int id)//CurrentHeaderId
+        public ActionResult PrevPage(int DocId, int DocTypeId)//CurrentHeaderId
         {
-            var nextId = _MaterialPlanCancelHeaderService.PrevId(id);
-            return RedirectToAction("Edit", new { id = nextId });
+            var PrevId = new NextPrevIdService(_unitOfWork).GetNextPrevId(DocId, DocTypeId, User.Identity.Name, "", "Web.MaterialPlanCancelHeaders", "MaterialPlanCancelHeaderId", PrevNextConstants.Prev);
+            return Edit(PrevId, "");
         }
+
 
         [HttpGet]
         public ActionResult History()

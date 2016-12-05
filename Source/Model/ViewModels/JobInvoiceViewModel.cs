@@ -146,6 +146,7 @@ namespace Model.ViewModel
         public byte UnitDecimalPlaces { get; set; }
         public byte DealUnitDecimalPlaces { get; set; }
         public JobInvoiceSettingsViewModel JobInvoiceSettings { get; set; }
+        public DocumentTypeSettingsViewModel DocumentTypeSettings { get; set; }
         public List<JobInvoiceLineCharge> linecharges { get; set; }
         public List<JobInvoiceHeaderCharge> footercharges { get; set; }
 
@@ -227,6 +228,7 @@ namespace Model.ViewModel
         public DateTime ? AsOnDate { get; set; }
         public string JobWorkerIds { get; set; }
         public JobInvoiceSettingsViewModel JobInvoiceSettings { get; set; }
+        public DocumentTypeSettingsViewModel DocumentTypeSettings { get; set; }
     }
     public class JobInvoiceMasterDetailModel
     {

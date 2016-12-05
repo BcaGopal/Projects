@@ -392,6 +392,7 @@ namespace Service
                        {
                            SaleEnquiryLineId = p.SaleEnquiryLineId,
                            SaleEnquiryHeaderDocNo = tab1.DocNo,
+                           SaleEnquiryHeaderDocDate = tab1.DocDate,
                            SaleToBuyerId = tab1.SaleToBuyerId,
                            SaleToBuyerName = tab1.SaleToBuyer.Name,
                            ProductGroup = SaleEnquiryLineTab.ProductGroup,
