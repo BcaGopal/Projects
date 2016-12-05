@@ -90,6 +90,16 @@ namespace Web
             var settings = new SaleEnquirySettingsService(_unitOfWork).GetSaleEnquirySettings(H.DocTypeId, H.DivisionId, H.SiteId);
             s.SaleEnquirySettings = Mapper.Map<SaleEnquirySettings, SaleEnquirySettingsViewModel>(settings);
 
+            var count = _SaleEnquiryLineService.GetSaleEnquiryLineListForIndex(Id).Count();
+            if (count > 0)
+            {
+                s.DealUnitId = _SaleEnquiryLineService.GetSaleEnquiryLineListForIndex(Id).OrderByDescending(m => m.SaleEnquiryLineId).FirstOrDefault().DealUnitId;
+            }
+            else
+            {
+                s.DealUnitId = settings.DealUnitId;
+            }
+
             PrepareViewBag(H);
             return PartialView("_Create", s);
         }

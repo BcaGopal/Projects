@@ -30,6 +30,7 @@ namespace Service
         PurchaseIndentCancelLineViewModel GetPurchaseIndentCancelLine(int id);//PurchaseIndentCancelLine Id
         IEnumerable<PurchaseIndentLineBalance> GetPurchaseIndentForProduct(int id, int PurchaseIndentCancelHeaderId);//ProductId
         PurchaseIndentCancelLineViewModel GetBalanceQuantity(int id);//PurchaseIndentLineId
+        IEnumerable<PurchaseIndentCancelLine> GetPurchaseIndentCancelLineForMaterialPlanCancel(int id);
         int GetMaxSr(int id);
     }
 
@@ -249,6 +250,14 @@ namespace Service
                 return Max.Max(m => m ?? 0) + 1;
             else
                 return (1);
+        }
+
+        public IEnumerable<PurchaseIndentCancelLine> GetPurchaseIndentCancelLineForMaterialPlanCancel(int id)
+        {
+            return (from p in db.PurchaseIndentCancelLine
+                    where p.MaterialPlanCancelLineId == id
+                    select p
+                        );
         }
 
         public Task<IEquatable<PurchaseIndentCancelLine>> GetAsync()

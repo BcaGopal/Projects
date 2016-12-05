@@ -119,6 +119,16 @@ namespace Service
                         else
                             return true;
                     }
+                case "SaleEnquiryHeader":
+                    {
+                        var temp = (from p in db.SaleEnquiryHeader
+                                    where p.DocNo == docno && ((doctypeId == null) ? 1 == 1 : p.DocTypeId == doctypeId) && p.SiteId == SiteId && p.DivisionId == DivisionId
+                                    select p).FirstOrDefault();
+                        if (temp == null)
+                            return false;
+                        else
+                            return true;
+                    }
                 case "JobOrders":
                     {
                         var temp = (from p in db.JobOrderHeader
@@ -658,6 +668,16 @@ namespace Service
                     {
                         var temp = (from p in db.SaleOrderHeader
                                     where p.DocNo == docno && p.SaleOrderHeaderId != headerid && ((doctypeId == null) ? 1 == 1 : p.DocTypeId == doctypeId) && p.SiteId == SiteId && p.DivisionId == DivisionId
+                                    select p).FirstOrDefault();
+                        if (temp == null)
+                            return false;
+                        else
+                            return true;
+                    }
+                case "SaleEnquiryHeader":
+                    {
+                        var temp = (from p in db.SaleEnquiryHeader
+                                    where p.DocNo == docno && p.SaleEnquiryHeaderId != headerid && ((doctypeId == null) ? 1 == 1 : p.DocTypeId == doctypeId) && p.SiteId == SiteId && p.DivisionId == DivisionId
                                     select p).FirstOrDefault();
                         if (temp == null)
                             return false;

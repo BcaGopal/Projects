@@ -124,7 +124,18 @@ namespace Web
                     xEModifications = Modifications,
                 }));
 
-                return RedirectToAction("Index").Success("Data saved successfully");
+                //return RedirectToAction("Index").Success("Data saved successfully");
+
+                var SaleEnquiryProductMapping = _SaleEnquiryLineService.GetSaleEnquiryLineListForIndex().OrderBy(m => m.SaleEnquiryLineId).FirstOrDefault();
+                if (SaleEnquiryProductMapping != null)
+                {
+                    return RedirectToAction("Edit", new { id = SaleEnquiryProductMapping.SaleEnquiryLineId }).Success("Data saved successfully");
+                }
+                else
+                {
+                    return RedirectToAction("Index").Success("Data saved successfully");
+                }
+                
 
 
             }

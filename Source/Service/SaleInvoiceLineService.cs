@@ -227,6 +227,7 @@ namespace Service
                                                                                   UnitId = tab.UnitId,
                                                                                   DealQty = l.DealQty,
                                                                                   DealUnitId = DealUnitTab.UnitName,
+                                                                                  UnitDecimalPlaces = tab.Unit.DecimalPlaces,
                                                                                   DealUnitDecimalPlaces = DealUnitTab.DecimalPlaces,
                                                                                   Rate = l.Rate,
                                                                                   SaleDispatchDocNo = SaleInvoiceLineTab.SaleDispatchLine.SaleDispatchHeader.DocNo,
