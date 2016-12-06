@@ -197,13 +197,22 @@ GridMvc = (function ($) {
             var arrow = popup.find(".grid-dropdown-arrow");
             return { arrow: arrow, currentDropLeft: parseInt(drop.css("left")), currentArrowLeft: parseInt(arrow.css("left")) };
         }
-        var dropLeft = drop.offset().left;
-        if (dropLeft < 0) {
+        //var dropLeft = drop.offset().left;
+        //if (dropLeft < 0) {
+        //    var info = getInfo();
+        //    info.arrow.css({ left: (info.currentArrowLeft + dropLeft - 10) + "px" });
+        //    drop.css({ left: (info.currentDropLeft - dropLeft + 10) + "px" });
+        //    return;
+        //}
+
+          var dropPosLeft = drop.position().left;
+          if (dropPosLeft < 0) {
             var info = getInfo();
-            info.arrow.css({ left: (info.currentArrowLeft + dropLeft - 10) + "px" });
-            drop.css({ left: (info.currentDropLeft - dropLeft + 10) + "px" });
+            info.arrow.css({ left: "8px" });
+            drop.css({ left: (info.currentDropLeft - dropPosLeft - 10) + "px" });
             return;
         }
+
         var dropWidth = drop.width();
         var offsetRight = $(window).width() - (dropLeft + dropWidth);
         if (offsetRight < 0) {
