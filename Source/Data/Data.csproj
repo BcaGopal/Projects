@@ -147,6 +147,14 @@
     <Compile Include="Migrations\201611301311463_DocumentTypeSettins.Designer.cs">
       <DependentUpon>201611301311463_DocumentTypeSettins.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201612061301425_ProductCategoryProcessSettings.cs" />
+    <Compile Include="Migrations\201612061301425_ProductCategoryProcessSettings.Designer.cs">
+      <DependentUpon>201612061301425_ProductCategoryProcessSettings.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201612071023177_ProductGroupProcessSettings.cs" />
+    <Compile Include="Migrations\201612071023177_ProductGroupProcessSettings.Designer.cs">
+      <DependentUpon>201612071023177_ProductGroupProcessSettings.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="NotificationApplicationDbContext.cs" />
     <Compile Include="LoginApplicationDbContext.cs" />
@@ -234,6 +242,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201611301311463_DocumentTypeSettins.resx">
       <DependentUpon>201611301311463_DocumentTypeSettins.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201612061301425_ProductCategoryProcessSettings.resx">
+      <DependentUpon>201612061301425_ProductCategoryProcessSettings.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201612071023177_ProductGroupProcessSettings.resx">
+      <DependentUpon>201612071023177_ProductGroupProcessSettings.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

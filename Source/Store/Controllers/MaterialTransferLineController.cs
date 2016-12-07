@@ -928,6 +928,22 @@ namespace Web
 
         }
 
+        public JsonResult GetProductCodeDetailJson(string ProductCode)
+        {
+            Product Product = (from P in db.Product
+                               where P.ProductCode == ProductCode
+                               select P).FirstOrDefault();
+
+            if (Product != null)
+            {
+                return Json(Product);
+            }
+            else
+            {
+                return null;
+            }
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (!string.IsNullOrEmpty((string)TempData["CSEXC"]))

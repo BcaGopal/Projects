@@ -27,6 +27,12 @@ namespace Model.ViewModels
         [Display(Name = "Product Group")]
         public string ProductGroupName { get; set; }
 
+        public int? Dimension1Id { get; set; }
+        public string Dimension1Name { get; set; }
+        public int? Dimension2Id { get; set; }
+        public string Dimension2Name { get; set; }
+
+
         public decimal Qty { get; set; }
 
         public string UnitName { get; set; }

@@ -123,6 +123,8 @@ namespace Customise.App_Start
             container.RegisterType<IRepository<ProductCategorySettings>, Repository<ProductCategorySettings>>();
             container.RegisterType<IProductCategorySettingsService, ProductCategorySettingsService>(new PerRequestLifetimeManager());
 
+            container.RegisterType<IRepository<ProductCategoryProcessSettings>, Repository<ProductCategoryProcessSettings>>();
+            container.RegisterType<IProductCategoryProcessSettingsService, ProductCategoryProcessSettingsService>(new PerRequestLifetimeManager());
 
             container.RegisterType<IRepository<ProductCollection>, Repository<ProductCollection>>();
             container.RegisterType<IProductCollectionService, ProductCollectionService>(new PerRequestLifetimeManager());
@@ -520,6 +522,9 @@ namespace Customise.App_Start
 
             Mapper.CreateMap<ProductCategorySettings, ProductCategorySettingsViewModel>();
             Mapper.CreateMap<ProductCategorySettingsViewModel, ProductCategorySettings>();
+
+            Mapper.CreateMap<ProductCategoryProcessSettings, ProductCategoryProcessSettingsViewModel>();
+            Mapper.CreateMap<ProductCategoryProcessSettingsViewModel, ProductCategoryProcessSettings>();
 
 
 

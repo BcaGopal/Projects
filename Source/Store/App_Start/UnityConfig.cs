@@ -125,6 +125,10 @@ namespace Store.App_Start
             container.RegisterType<IRepository<ProductGroupSettings>, Repository<ProductGroupSettings>>();
             container.RegisterType<IProductGroupSettingsService, ProductGroupSettingsService>(new PerRequestLifetimeManager());
 
+            container.RegisterType<IRepository<ProductGroupProcessSettings>, Repository<ProductGroupProcessSettings>>();
+            container.RegisterType<IProductGroupProcessSettingsService, ProductGroupProcessSettingsService>(new PerRequestLifetimeManager());
+
+
             container.RegisterType<IRepository<ProductCustomGroupLine>, Repository<ProductCustomGroupLine>>();
             container.RegisterType<IProductCustomGroupLineService, ProductCustomGroupLineService>(new PerRequestLifetimeManager());
 
@@ -252,6 +256,10 @@ namespace Store.App_Start
 
             Mapper.CreateMap<ExcessMaterialLineViewModel, DocumentUniqueId>();
             Mapper.CreateMap<ExcessMaterialLine, DocumentUniqueId>();
+
+            Mapper.CreateMap<ProductGroupProcessSettings, ProductGroupProcessSettingsViewModel>();
+            Mapper.CreateMap<ProductGroupProcessSettingsViewModel, ProductGroupProcessSettings>();
+
 
             Mapper.CreateMap<RequisitionCancelHeader, RequisitionCancelHeader>();
             Mapper.CreateMap<RequisitionCancelLineViewModel, RequisitionCancelLine>();

@@ -154,6 +154,7 @@ namespace Web
                     temp.isVisibleLotNo = pt.isVisibleLotNo;
                     temp.isVisibleMachine = pt.isVisibleMachine;
                     temp.isVisibleProductUID = pt.isVisibleProductUID;
+                    temp.isVisibleProductCode = pt.isVisibleProductCode;
                     temp.isVisibleRate = pt.isVisibleRate;
                     temp.filterContraProductDivisions = pt.filterContraProductDivisions;
                     temp.SqlProcDocumentPrint = pt.SqlProcDocumentPrint;
@@ -311,6 +312,7 @@ namespace Web
                     temp.isVisibleLotNo = pt.isVisibleLotNo;
                     temp.isVisibleMachine = pt.isVisibleMachine;
                     temp.isVisibleProductUID = pt.isVisibleProductUID;
+                    temp.isVisibleProductCode = pt.isVisibleProductCode;
                     temp.isVisibleRate = pt.isVisibleRate;
                     temp.SqlProcDocumentPrint = pt.SqlProcDocumentPrint;
                     temp.filterContraProductDivisions = pt.filterContraProductDivisions;
@@ -469,6 +471,7 @@ namespace Web
                     temp.filterContraSites = pt.filterContraSites;
                     temp.isVisibleMachine = pt.isVisibleMachine;
                     temp.isVisibleProductUID = pt.isVisibleProductUID;
+                    temp.isVisibleProductCode = pt.isVisibleProductCode;
                     temp.isVisibleRate = pt.isVisibleRate;
                     temp.SqlProcDocumentPrint = pt.SqlProcDocumentPrint;
                     temp.isVisibleMaterialRequest = pt.isVisibleMaterialRequest;
@@ -626,6 +629,7 @@ namespace Web
                     temp.filterContraSites = pt.filterContraSites;
                     temp.isVisibleMachine = pt.isVisibleMachine;
                     temp.isVisibleProductUID = pt.isVisibleProductUID;
+                    temp.isVisibleProductCode = pt.isVisibleProductCode;
                     temp.isVisibleRate = pt.isVisibleRate;
                     temp.SqlProcDocumentPrint = pt.SqlProcDocumentPrint;
                     temp.isVisibleMaterialRequest = pt.isVisibleMaterialRequest;
@@ -783,6 +787,7 @@ namespace Web
                     temp.filterContraProductDivisions = pt.filterContraProductDivisions;
                     temp.isVisibleMachine = pt.isVisibleMachine;
                     temp.isVisibleProductUID = pt.isVisibleProductUID;
+                    temp.isVisibleProductCode = pt.isVisibleProductCode;
                     temp.isVisibleRate = pt.isVisibleRate;
                     temp.SqlProcDocumentPrint = pt.SqlProcDocumentPrint;
                     temp.isVisibleMaterialRequest = pt.isVisibleMaterialRequest;
@@ -942,6 +947,7 @@ namespace Web
                     temp.filterContraProductDivisions = pt.filterContraProductDivisions;
                     temp.PersonFieldHeading = pt.PersonFieldHeading;
                     temp.isVisibleProductUID = pt.isVisibleProductUID;
+                    temp.isVisibleProductCode = pt.isVisibleProductCode;
                     temp.SqlProcDocumentPrint = pt.SqlProcDocumentPrint;
                     temp.PersonFieldHeading = pt.PersonFieldHeading;
 
@@ -1086,6 +1092,7 @@ namespace Web
                     temp.isVisibleLotNo = pt.isVisibleLotNo;
                     temp.isVisibleMachine = pt.isVisibleMachine;
                     temp.isVisibleProductUID = pt.isVisibleProductUID;
+                    temp.isVisibleProductCode = pt.isVisibleProductCode;
                     temp.SqlProcDocumentPrint = pt.SqlProcDocumentPrint;
                     temp.PersonFieldHeading = pt.PersonFieldHeading;
                     temp.filterContraProductDivisions = pt.filterContraProductDivisions;
@@ -1245,6 +1252,7 @@ namespace Web
                     temp.isVisibleMachine = pt.isVisibleMachine;
                     temp.filterContraProductDivisions = pt.filterContraProductDivisions;
                     temp.isVisibleProductUID = pt.isVisibleProductUID;
+                    temp.isVisibleProductCode = pt.isVisibleProductCode;
                     temp.isVisibleRate = pt.isVisibleRate;
                     temp.SqlProcDocumentPrint = pt.SqlProcDocumentPrint;
                     temp.isVisibleMaterialRequest = pt.isVisibleMaterialRequest;

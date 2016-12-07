@@ -33,6 +33,13 @@ namespace Model.Models
         public bool? isVisibleDimension1 { get; set; }
         public bool? isVisibleDimension2 { get; set; }
 
+        public bool? isVisibleMarks { get; set; }
+        public bool? isVisibleDealUnit { get; set; }
+        public bool? IsVisibleInspectedQty { get; set; }
+        public bool? IsVisiblePenalty { get; set; }
+        public bool? IsVisibleSpecification { get; set; }
+        public bool? IsVisibleWeight { get; set; }
+
 
         public int? DocTypeProductionOrderId { get; set; }
 

@@ -18,10 +18,6 @@ namespace Model.ViewModel
         public int ProductCategorySettingsId { get; set; }
         public int ProductCategoryId { get; set; }
         public string ProductCategoryName { get; set; }
-        public int SiteId { get; set; }
-        public int DivisionId { get; set; }
-        public int? QAGroupId { get; set; }
-        public string QAGroupName { get; set; }
 
         [Display(Name = "Created By")]
         public string CreatedBy { get; set; }

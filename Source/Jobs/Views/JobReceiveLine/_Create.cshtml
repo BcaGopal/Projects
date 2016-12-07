@@ -171,11 +171,12 @@
 
 
 
-                    <div class="col-md-6">
+                    <div class="col-md-6" style="display:@(Model.JobReceiveSettings.IsVisiblePassQty?"":"none")">
+                        @Html.HiddenFor(m => m.JobReceiveSettings.IsVisiblePassQty)
                         <div class="form-group">
                             @Html.LabelFor(model => model.PassQty, "Pass Qty", new { @class = "control-label col-md-4 col-sm-2" })
                             <div class="col-md-7 col-sm-10">
-                                @Html.TextBoxFor(model => model.PassQty, new { @class = "form-control col-xs-7 required", roundOff = Model.UnitDecimalPlaces+1 })
+                                @Html.TextBoxFor(model => model.PassQty, new { @class = "form-control col-xs-7 required", roundOff = Model.UnitDecimalPlaces + 1 })
                                 @Html.ValidationMessageFor(model => model.PassQty, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -207,7 +208,8 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-6" style="display:@(Model.JobReceiveSettings.IsVisiblePenalty? "" : "none")">
+                        @Html.HiddenFor(m => m.JobReceiveSettings.IsVisiblePenalty)
                         <div class="form-group">
                             @Html.LabelFor(model => model.PenaltyRate, "Penality", new { @class = "control-label col-md-4 col-sm-2" })
                             <div class="col-md-7 col-sm-10" style="padding:0px">
@@ -220,10 +222,11 @@
                                     @Html.ValidationMessageFor(model => model.PenaltyAmt, "", new { @class = "text-danger" })
                                 </div>
                             </div>
-                            </div>
+                        </div>
                     </div>
 
-                    <div class="col-md-6">
+                    <div class="col-md-6" style="display:@(Model.JobReceiveSettings.IsVisibleIncentive? "" : "none")">
+                        @Html.HiddenFor(m => m.JobReceiveSettings.IsVisibleIncentive)
                         <div class="form-group">
                             @Html.LabelFor(model => model.IncentiveRate, "Incentive", new { @class = "control-label col-md-4 col-sm-2" })
                             <div class="col-md-7 col-sm-10" style="padding:0px">
@@ -235,8 +238,8 @@
                                     @Html.TextBoxFor(model => model.IncentiveAmt, new { @class = "form-control cusleftnormal required" })
                                     @Html.ValidationMessageFor(model => model.IncentiveAmt, "", new { @class = "text-danger" })
                                 </div>
-                                </div>
                             </div>
+                        </div>
                     </div>
 
                     <div class="col-md-6" style="display:@(Model.JobReceiveSettings.IsVisibleWeight?"":"none")">

@@ -130,9 +130,8 @@ namespace Service
                             PersonId = p.StockHeader.PersonId,
                             CostCenterId = p.CostCenterId,
                             LockReason = p.LockReason,
-                        }
-
-                        ).FirstOrDefault();
+                            ProductCode = tab.ProductCode
+                        }).FirstOrDefault();
 
             return temp;
         }

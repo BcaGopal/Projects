@@ -34,6 +34,9 @@ namespace Model.Models
         public bool ? IsVisibleWeight { get; set; }
         public bool ? IsMandatoryWeight { get; set; }
         public bool? IsVisibleForOrderMultiple { get; set; }
+        public bool? IsVisibleIncentive { get; set; }
+        public bool? IsVisiblePenalty { get; set; }
+        public bool? IsVisiblePassQty { get; set; }
         public bool? isPostedInStock { get; set; }
         public bool? isPostedInStockProcess { get; set; }
         public bool? isPostedInStockVirtual { get; set; }

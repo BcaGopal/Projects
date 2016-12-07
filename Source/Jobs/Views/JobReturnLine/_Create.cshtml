@@ -105,7 +105,8 @@
                         </div>
                     </div>
 
-                    <div class="col-md-6">
+                    <div class="col-md-6" style="display:@(Model.JobReceiveSettings.isVisibleSpecification ? "" : "none")">
+                        @Html.HiddenFor(m => m.JobReceiveSettings.isVisibleSpecification)
                         <div class="form-group">
                             @Html.LabelFor(model => model.Specification, "Specification", new { @class = "control-label col-md-4 col-sm-2" })
                             <div class="col-md-7 col-sm-10">

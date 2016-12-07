@@ -22,6 +22,10 @@ namespace Model.Models
         public virtual Site Site { get; set; }
         public int DivisionId { get; set; }
         public virtual Division Division { get; set; }
+
+        public bool? isVisibleMachine { get; set; }
+        public bool? isMandatoryMachine { get; set; }
+
         public bool? isVisibleDimension1 { get; set; }
         public bool? isVisibleDimension2 { get; set; }
         public bool? isMandatoryProcessLine { get; set; }

@@ -235,6 +235,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminSetupController.cs" />
     <Compile Include="Controllers\ComboHelpListController.cs" />
+    <Compile Include="Controllers\ProductGroupProcessSettingsController.cs" />
     <Compile Include="Controllers\ProductGroupSettingsController.cs" />
     <Compile Include="Controllers\ProductConsumptionLineController.cs" />
     <Compile Include="Controllers\GetNewDocNoController.cs" />
@@ -871,6 +872,9 @@
     <Content Include="Views\ProductTrace\Edit.cshtml" />
     <Content Include="Views\ProductTrace\PendingToApprove.cshtml" />
     <Content Include="Views\ProductTrace\PendingToSubmit.cshtml" />
+    <Content Include="Views\ProductGroupProcessSettings\_Reason.cshtml" />
+    <Content Include="Views\ProductGroupProcessSettings\Create.cshtml" />
+    <Content Include="Views\ProductGroupProcessSettings\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

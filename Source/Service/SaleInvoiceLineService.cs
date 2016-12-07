@@ -788,7 +788,7 @@ namespace Service
 
         public List<DirectSaleInvoiceLineViewModel> GetSaleDispatchForFilters(SaleInvoiceFilterViewModel vm)
         {
-            SaleInvoiceHeader Header = new SaleInvoiceHeaderService(_unitOfWork).Find(vm.SaleInvoiceHeaderId);
+            SaleInvoiceHeader Header = new SaleInvoiceHeaderService(_unitOfWork).FindDirectSaleInvoice(vm.SaleInvoiceHeaderId);
 
             string[] ProductIdArr = null;
             if (!string.IsNullOrEmpty(vm.ProductId)) { ProductIdArr = vm.ProductId.Split(",".ToCharArray()); }

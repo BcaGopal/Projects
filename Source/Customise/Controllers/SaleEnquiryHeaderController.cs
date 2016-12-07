@@ -452,7 +452,7 @@ namespace Web
             {
 
                 TimePlanValidation = DocumentValidation.ValidateDocument(Mapper.Map<DocumentUniqueId>(s), DocumentTimePlanTypeConstants.Modify, User.Identity.Name, out ExceptionMsg, out Continue);
-
+                //TimePlanValidation = DocumentValidation.ValidateDocument(new DocumentUniqueId { LockReason = s.LockReason }, DocumentTimePlanTypeConstants.Modify, User.Identity.Name, out ExceptionMsg, out Continue);
             }
             catch (Exception ex)
             {
@@ -987,6 +987,7 @@ namespace Web
             OrderHeader.Status = (int)StatusConstants.Submitted;
             OrderHeader.ReviewBy = User.Identity.Name;
             OrderHeader.ReviewCount = 1;
+            OrderHeader.LockReason = "Sale order is created for enquiry.Now you can't modify enquiry, changes can be done in sale order.";
             new SaleOrderHeaderService(_unitOfWork).Create(OrderHeader);
 
 

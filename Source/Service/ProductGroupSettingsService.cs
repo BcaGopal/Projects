@@ -19,7 +19,7 @@ namespace Service
         ProductGroupSettings Find(int Id);
         void Update(ProductGroupSettings s);
         IEnumerable<ProductGroupSettings> GetProductGroupSettingsList();
-        ProductGroupSettings GetProductGroupSettings(int ProductGroupId, int DivisionId, int SiteId);
+        ProductGroupSettings GetProductGroupSettings(int ProductGroupId);
 
 
     }
@@ -38,9 +38,9 @@ namespace Service
             return _unitOfWork.Repository<ProductGroupSettings>().Find(id);
         }
 
-        public ProductGroupSettings GetProductGroupSettings(int ProductGroupId, int DivisionId, int SiteId)
+        public ProductGroupSettings GetProductGroupSettings(int ProductGroupId)
         {
-            return _unitOfWork.Repository<ProductGroupSettings>().Query().Get().Where(m=> m.ProductGroupId == ProductGroupId && m.DivisionId == DivisionId && m.SiteId == SiteId).FirstOrDefault();
+            return _unitOfWork.Repository<ProductGroupSettings>().Query().Get().Where(m=> m.ProductGroupId == ProductGroupId).FirstOrDefault();
         }
 
         public ProductGroupSettings Create(ProductGroupSettings s)

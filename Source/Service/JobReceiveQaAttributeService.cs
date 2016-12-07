@@ -125,13 +125,14 @@ namespace Service
 
 
             JobReceiveQALineDetail LineDetail = (from Ld in db.JobReceiveQALineDetail where Ld.JobReceiveQALineId == pt.JobReceiveQALineId select Ld).FirstOrDefault();
-            LineDetail.Length = pt.Length;
-            LineDetail.Width = pt.Width;
-            LineDetail.Height = pt.Height;
-            LineDetail.ObjectState = ObjectState.Modified;
-            db.JobReceiveQALineDetail.Add(LineDetail);
-
-
+            if (LineDetail != null)
+            {
+                LineDetail.Length = pt.Length;
+                LineDetail.Width = pt.Width;
+                LineDetail.Height = pt.Height;
+                LineDetail.ObjectState = ObjectState.Modified;
+                db.JobReceiveQALineDetail.Add(LineDetail);
+            }
 
 
             List<QAGroupLineLineViewModel> tem = pt.QAGroupLine;

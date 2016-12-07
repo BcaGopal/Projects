@@ -248,6 +248,7 @@ namespace Presentation
                     temp.DueDate = pt.DueDate;
                     temp.Remark = pt.Remark;
                     temp.BuyerId = pt.BuyerId;
+                    temp.MachineId = pt.MachineId;
                     temp.ModifiedDate = DateTime.Now;
                     temp.ModifiedBy = User.Identity.Name;
                     temp.ObjectState = Model.ObjectState.Modified;

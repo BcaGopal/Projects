@@ -154,7 +154,8 @@
                         </div>
                     </div>
 
-                    <div class="col-md-6">
+                    <div class="col-md-6" style="display:@(Model.CarpetSkuSettings.isVisibleMapScale ? "" : "none")">
+                        @Html.HiddenFor(m => m.CarpetSkuSettings.isVisibleMapScale)
                         <div class="form-group">
                             @Html.LabelFor(model => model.MapScale, "Map Scale", new { @class = "control-label col-md-4 col-sm-2" })
                             <div class="col-md-7 col-sm-10">
@@ -175,7 +176,8 @@
                         </div>
                     </div>
 
-                    <div class="col-md-6">
+                    <div class="col-md-6" style="display:@(Model.CarpetSkuSettings.isVisibleCBM ? "" : "none")">
+                        @Html.HiddenFor(m => m.CarpetSkuSettings.isVisibleCBM)
                         <div class="form-group">
                             @Html.LabelFor(model => model.CBM, "CBM", new { @class = "control-label col-md-4 col-sm-2" })
                             <div class="col-md-7 col-sm-10">
