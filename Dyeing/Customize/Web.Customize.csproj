@@ -382,6 +382,7 @@
     <Content Include="Content\DataTables\swf\flashExport.swf" />
     <Content Include="Content\Gridmvc.css" />
     <Content Include="Content\gridmvc.datepicker.css" />
+    <Content Include="Content\IconCss.css" />
     <Content Include="Content\jasny\jasny-bootstrap.css" />
     <Content Include="Content\jasny\jasny-bootstrap.min.css" />
     <Content Include="Content\jquery.ui.theme.css" />

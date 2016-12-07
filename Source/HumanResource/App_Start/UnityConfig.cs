@@ -83,6 +83,7 @@ namespace HumanResource.App_Start
             container.RegisterType<IOverTimeApplicationHeaderService, OverTimeApplicationHeaderService>(new PerRequestLifetimeManager());
             container.RegisterType<IUserReferralService, UserReferralService>(new PerRequestLifetimeManager());
 
+            container.RegisterType<IGatePassHeaderService, GatePassHeaderService>(new PerRequestLifetimeManager());
             //Registering Mappers::
 
 

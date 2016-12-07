@@ -32,40 +32,30 @@
         <hr style="margin-top:0px;margin-bottom:0px" />
         <input type="hidden" class="DocType_Id" value="@ViewBag.id">
         <div class="panel-info">
-            <h4 style="padding: 5px 0 0 0; margin: 0px; position: relative" class="dropdown">
-                @Html.ActionLink(" ", " ", " ", null, new { @class = "glyphicon glyphicon-refresh toolbar", @title = "Refresh Page", @data_toggle = "tooltip", @id = "RefreshPage" })
-                @Html.ActionLink(" ", "Create", "RecipeHeader", new { @id = @ViewBag.id }, new { @class = "glyphicon glyphicon-plus toolbar", @title = "Add New", @data_toggle = "tooltip" })
-                @Html.ActionLink(" ", "GetHistory", "LogHistory", null, new { @class = "glyphicon glyphicon-user toolbar", @title = "History", @data_toggle = "tooltip", @id = "DocHistoryI" })
-                @Html.ActionLink(" ", "GeneratePrints", "RecipeHeader", null, new { @class = "glyphicon glyphicon-print toolbar", @title = "Print", @data_toggle = "tooltip", @id = "PrintRecordI", target = "_blank" })
-                @Html.ActionLink(" ", "GenerateGatePass", "RecipeHeader", null, new { @class = "glyphicon glyphicon glyphicon-log-out toolbar", @title = "GatePass", @data_toggle = "tooltip", @id = "GenGatePassI" })
-                @Html.ActionLink(" ", "Remove", "RecipeHeader", null, new { @class = "glyphicon glyphicon-trash toolbar", @title = "Delete", @data_toggle = "tooltip", @id = "DeleteRecord", @data_modal = "", onclick = "" })
-                @Html.ActionLink(" ", "Report", "RecipeHeader", new { @ViewBag.id }, new { @class = "glyphicon glyphicon-stats toolbar right", @title = "Report", @data_toggle = "tooltip", @id = "ReportRecord", target = "_blank" })
-                @Html.ActionLink(" ", "Wizard", "RecipeHeader", new { @id = @ViewBag.id }, new { @class = "glyphicon glyphicon-import toolbar right", @title = "Wizard", @data_toggle = "tooltip" })
-                @Html.ActionLink(" ", "Import", "RecipeHeader", new { @id = @ViewBag.id }, new { @class = "glyphicon glyphicon-import toolbar right", @title = "Import", @data_toggle = "tooltip" })
-                @Html.ActionLink(" ", "", "", null, new { @class = "glyphicon glyphicon-export toolbar right", @title = "Export", @data_toggle = "tooltip" })
-                @Html.ActionLink(" ", "Index", "RecipeHeader", new { @id = @ViewBag.id }, new { @class = "glyphicon glyphicon-list toolbar right", @title = "Index", @data_toggle = "tooltip" })
-
-
-                @*<a href="#" class="dropdown-toggle toolbar right" data-toggle="dropdown" id="dropdownMenu1">
-                        <i class="glyphicon glyphicon-th"></i>
-                        <span class="label label-danger"></span>
-                    </a>
-                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">
-                        <li><a href="#"><span class="glyphicon glyphicon-cog"> </span> Action</a></li>
-                        <li><a href="#"><span class="glyphicon glyphicon-cog"> </span> Another action</a></li>
-                        <li><a href="#"><span class="glyphicon glyphicon-cog"> </span> Something else here</a></li>
-                        <li><a href="#"><span class="glyphicon glyphicon-cog"> </span> Action</a></li>
-                        <li><a href="#"><span class="glyphicon glyphicon-cog"> </span> Another action</a></li>
-                        <li><a href="#"><span class="glyphicon glyphicon-cog"> </span> Something else here asdas asd</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li><a href="#"><span class="glyphicon glyphicon-cog"> </span> Separated link</a></li>
-                    </ul>*@
-            </h4>
-
+            <div class="btn-group">
+                @Html.ActionLink(" ", "Create", "RecipeHeader", new { @id = @ViewBag.id }, new { @class = "cbtn btn-circle glyphicon glyphicon-plus toolbar", @title = "Add New", @data_toggle = "tooltip" })
+                @Html.ActionLink(" ", "GetHistory", "LogHistory", null, new { @class = "cbtn btn-circle glyphicon glyphicon-user toolbar", @title = "History", @data_toggle = "tooltip", @id = "DocHistoryI" })
+                @Html.ActionLink(" ", "GeneratePrints", "RecipeHeader", null, new { @class = "cbtn btn-circle glyphicon glyphicon-print toolbar", @title = "Print", @data_toggle = "tooltip", @id = "PrintRecordI", target = "_blank" })
+                @Html.ActionLink(" ", "GenerateGatePass", "RecipeHeader", null, new { @class = "cbtn btn-circle glyphicon glyphicon glyphicon-log-out toolbar", @title = "GatePass", @data_toggle = "tooltip", @id = "GenGatePassI" })
+                @Html.ActionLink(" ", "Remove", "RecipeHeader", null, new { @class = "cbtn btn-circle glyphicon glyphicon-trash toolbar", @title = "Delete", @data_toggle = "tooltip", @id = "DeleteRecord", @data_modal = "", onclick = "" })
+            </div>
+            <div class="btn-group">
+                <a class="cbtn btn-circle glyphicon glyphicon-option-horizontal dropdown-toggle" aria-expanded="false" style="padding-top: 6px;padding-bottom: 6px;" href="#" data-toggle="dropdown" id="dropdownMenu1">
+                </a>
+                <ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu1">
+                    <li><a href="@Url.Action("Wizard", "RecipeHeader", new { @id = @ViewBag.id })"><span class="glyphicon glyphicon-random" onclick="$('#')"> </span>&nbsp;&nbsp;Wizard</a></li>
+                    <li><a href="@Url.Action("Import", "RecipeHeader", new { @id = @ViewBag.id })"><span class="glyphicon glyphicon-import"> </span>&nbsp;&nbsp;Import</a></li>
+                    @*<li><a href="@Url.Action("Create", "JobOrderSettings", new { @id = @ViewBag.id })"><span class="glyphicon glyphicon-cog"> </span>&nbsp;&nbsp;Settings</a></li>*@
+                    <li role="separator" class="divider"></li>
+                    <li><a target="_blank" href="@Url.Action("Report", "RecipeHeader", new { @ViewBag.id })"><span class="glyphicon glyphicon-stats"> </span> Report</a></li>
+                </ul>
+            </div>
+            <div class="btn-group right">
+                @CustomHelpers.RenderIconStatusFilters(ViewBag.PendingToSubmit, ViewBag.PendingToReview, ControllerName, ViewBag.id, ViewBag.IndexStatus)
+            </div>
         </div>
-        <hr style="margin-top: 5px; margin-bottom: 5px; border-top: 1px solid #706f6f; " />
-
-        @CustomHelpers.RenderStatusFilters(ViewBag.PendingToSubmit, ViewBag.PendingToReview, ControllerName, ViewBag.id, ViewBag.IndexStatus)
+        @*<hr style="margin-top: 5px; margin-bottom: 5px; border-top: 1px solid #706f6f; " />
+        @CustomHelpers.RenderStatusFilters(ViewBag.PendingToSubmit, ViewBag.PendingToReview, ControllerName, ViewBag.id, ViewBag.IndexStatus)*@
 
     </div>
     <div class="panel-info" style="padding-left:5px;padding-top:2px;font-size:12px">

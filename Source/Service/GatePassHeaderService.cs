@@ -9,6 +9,8 @@ using System;
 using Model;
 using System.Threading.Tasks;
 using Data.Models;
+using Model.ViewModels;
+
 using Model.ViewModel;
 
 namespace Service
@@ -24,7 +26,10 @@ namespace Service
         void Update(GatePassHeader pt);
         GatePassHeader Add(GatePassHeader pt);                
         Task<IEquatable<GatePassHeader>> GetAsync();
-        Task<GatePassHeader> FindAsync(int id);        
+        Task<GatePassHeader> FindAsync(int id);
+
+
+        IQueryable<GatePassHeaderViewModel> GetPendingGatePassList(int GodownId);
     }
 
     public class GatePassHeaderService : IGatePassHeaderService
@@ -103,6 +108,142 @@ namespace Service
         public Task<GatePassHeader> FindAsync(int id)
         {
             throw new NotImplementedException();
+        }
+
+        
+
+        public IQueryable<GatePassHeaderViewModel> GetPendingGatePassList(int GodownId)
+        {
+            var DivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
+            var SiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
+            //var Query = (from a in db.GatePassLine.ToList()
+            //        group a by a.GatePassHeaderId into g
+            //        select new 
+            //        {
+            //            GatePassHeaderId = g.Key,
+            //            Remark = string.Join(",", g.Select(x => x.Product + "(" + x.Qty + x.UnitId + ")"))
+            //        });
+
+
+
+
+            //var Query1 = (from G in db.GatePassHeader
+            //              join p in db.Persons on G.PersonId equals p.PersonID
+            //              join L in db.GatePassLine on G.GatePassHeaderId equals L.GatePassHeaderId                         
+            //              into table 
+            //              from ta in table.DefaultIfEmpty()
+            //              group new { G,ta} by G.GatePassHeaderId into GL
+            //              select new GatePassHeader
+            //              {    
+            //                 GatePassHeaderId=GL.Key,
+            //                 DocNo=GL.Max(x=>x.G.DocNo),
+            //                  DocDate = GL.Max(x => x.G.DocDate),
+            //                  Status = GL.Max(x => x.G.Status),
+            //                  Remark = string.Join(",", GL.Select(x => x.ta.Product + "(" + x.ta.Qty + x.ta.UnitId + ")"))
+
+            //              }
+            //             ).ToList();
+
+            //var Query2 = (
+            //             from G in db.GatePassHeader
+            //             join L in db.GatePassLine on G.GatePassHeaderId equals L.GatePassHeaderId
+            //             join P in db.Persons on G.PersonId equals P.PersonID
+            //             select new
+            //             {
+            //                 GatePassHeaderId=G.GatePassHeaderId,
+            //                 DocNo=G.DocNo,
+            //                 DocDate=G.DocDate,
+            //                 Status=G.Status,
+            //                 Name=P.Name,
+            //                 Product=L.Product,
+            //                 Qty=L.Qty,
+            //                 UnitId=L.UnitId
+       
+            //             });
+
+            return (
+                from G in db.GatePassHeader               
+                join P in db.Persons on G.PersonId equals P.PersonID
+                orderby G.DocNo descending,G.GatePassHeaderId descending
+                where G.GodownId== GodownId && G.Status==0
+                select new GatePassHeaderViewModel
+                {
+                    GatePassHeaderId = G.GatePassHeaderId,
+                    DocNo = G.DocNo,
+                    DocDate = G.DocDate,
+                    Status = G.Status,
+                    Name = P.Name
+                }  
+                   );
+
+
+           //return (from a in Query2
+           //              group a by a.GatePassHeaderId into g
+           //              select new 
+           //              {
+           //                  GatePassHeaderId = g.Key,
+           //                  DocNo=g.Max(x=>x.DocNo),
+           //                  DocDate = g.Max(x => x.DocDate),
+           //                  Status = g.Max(x => x.Status),
+                             //Remark = string.Join(",", g.Select(x => x.Product + " ( " + x.Qty + x.UnitId + " ) ")),
+                         //    Product=g.Select(x=>x.Product),
+                         //    Qty=g.Select(x=>x.Qty),
+                         //    UnitId=g.Select(x=>x.UnitId),
+                         //});
+
+
+            
+           
+
+
+            //var Test = (from G in db.GatePassHeader
+            //            join p in db.Persons on G.PersonId equals p.PersonID
+            //            join L in Query on G.GatePassHeaderId equals L.GatePassHeaderId
+            //            orderby G.GatePassHeaderId ascending
+            //            where G.GodownId == GodownId
+            //            select new GatePassHeader
+            //            {
+            //                GatePassHeaderId = G.GatePassHeaderId,
+            //                DocNo = G.DocNo,
+            //                DocDate = G.DocDate,
+            //                Remark = Query.Where(p => p.GatePassHeaderId == G.GatePassHeaderId).Select(p => p.Remark).FirstOrDefault(),
+            //                Status = G.Status
+            //            }).ToList();
+
+
+
+            //return (
+            //from G in db.GatePassHeader
+            //join p in db.Persons on G.PersonId equals p.PersonID
+            //join L in Query on G.GatePassHeaderId equals L.GatePassHeaderId
+            //orderby G.GatePassHeaderId ascending
+            //where G.GodownId == GodownId
+            //select new GatePassHeader
+            //{
+            //    GatePassHeaderId = G.GatePassHeaderId,
+            //    DocNo = G.DocNo,
+            //    DocDate = G.DocDate,
+            //    Remark = L.Remark,
+            //    Status = G.Status
+            //});
+
+            //from G in db.GatePassHeader
+            //join p in db.Persons on G.PersonId equals p.PersonID
+            //join L in db.GatePassLine on G.GatePassHeaderId equals L.GatePassHeaderId
+            //orderby G.GatePassHeaderId ascending
+            //where G.GodownId == GodownId
+            //group new { G, L } by new { L.GatePassHeaderId } into GL
+            //select new GatePassHeader
+            //{
+            //    GatePassHeaderId = GL.Key.GatePassHeaderId,
+            //    DocNo = GL.Max(x => x.G.DocNo),
+            //    DocDate = GL.Max(x => x.G.DocDate),
+            //    Status = GL.Max(x => x.G.Status),
+            //    Remark = string.Join(",", GL.Select(x => x.L.Product + "(" + x.L.Qty + x.L.UnitId + ")"))
+            //}
+
+
+
         }
     }
 }
