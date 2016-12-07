@@ -584,6 +584,12 @@
         Validate_JobOrderLine();
     });
 
+    $("#DocDate").change(function(){
+        $("#StartDateTime").val($("#DocDate").val());
+        $("#CompletedDateTime").val($("#DocDate").val());
+    });
+
+
     
 
 

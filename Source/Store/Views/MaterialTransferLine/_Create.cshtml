@@ -48,6 +48,16 @@
                             </div>
                         </div>
                     </div>
+                    <div class="col-md-6" style="display:@(Model.StockHeaderSettings.isVisibleProductCode?"":"none")">
+                        @Html.HiddenFor(m => m.StockHeaderSettings.isVisibleProductCode)
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.ProductCode, "Product Code", new { @class = "control-label col-md-4 col-sm-2" })
+                            <div class="col-md-7 col-sm-10">
+                                @Html.TextBoxFor(model => model.ProductCode, new { @class = "form-control col-xs-7 required" })
+                                @Html.ValidationMessageFor(model => model.ProductCode, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
                     <div class="col-md-6">
                         <div class="form-group">
                             @Html.LabelFor(model => model.ProductId, "Product", new { @class = "control-label col-md-4 col-sm-2" })
@@ -187,6 +197,7 @@
 
         })
 
+       
 
         $('.datepicker').datepicker({
             format: 'dd/MM/yyyy',
@@ -276,6 +287,37 @@
             });
         }
         }
+
+        $('#ProductCode').change(function(){
+            Validation_ProductCode();
+        })
+
+
+        function Validation_ProductCode()
+        {
+            if ($("#ProductCode").val()) {
+                $.ajax({
+                    cache: false,
+                    type: "POST",
+                    url: "@(Url.Action("GetProductCodeDetailJson"))",
+                    data: { ProductCode: $("#ProductCode").val()},
+                success: function (data) {
+                    if (data != null && data != "")
+                    {
+                        $("#ProductId").select2("data", { id: data.ProductId, text: data.ProductName });
+                        GetProductDetail();
+                    }
+                    else
+                    {
+                        $("#ProductId").select2("data", { id: "", text: "" });
+                    }
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert('Failed to retrieve product details.' + thrownError);
+                }
+            });
+        }
+    }
 
 
         function Calculation() {
@@ -467,6 +509,7 @@
         function LockFields(){
             $('#ProductUidIdName').attr('readonly',true);
             $('#ProductId').attr('readonly',true);
+            $('#ProductCode').attr('readonly'true);
             $('#Dimension1Id').attr('readonly',true);
             $('#Dimension2Id').attr('readonly',true);
             $('#LotNo').attr('readonly',true);

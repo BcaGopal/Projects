@@ -136,6 +136,12 @@ namespace Web
                     temp.WizardMenuId = pt.WizardMenuId;
                     temp.isVisibleProductUID = pt.isVisibleProductUID;
                     temp.isMandatoryProductUID = pt.isMandatoryProductUID;
+                    temp.isVisibleMarks = pt.isVisibleMarks;
+                    temp.isVisibleDealUnit = pt.isVisibleDealUnit;
+                    temp.IsVisibleInspectedQty = pt.IsVisibleInspectedQty;
+                    temp.IsVisiblePenalty = pt.IsVisiblePenalty;
+                    temp.IsVisibleSpecification = pt.IsVisibleSpecification;
+                    temp.IsVisibleWeight = pt.IsVisibleWeight;
                     
                     _JobReceiveQASettingsService.Update(temp,User.Identity.Name);
 

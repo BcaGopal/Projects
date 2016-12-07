@@ -2018,6 +2018,8 @@ namespace Web
                         }
                     }
 
+                    
+
 
                     //var bomproduct = (from p in db.Product
                     //                  where p.ProductGroupId == vm.ProductGroupId && p.ProductId != pro.ProductId
@@ -2080,8 +2082,17 @@ namespace Web
 
                         IEnumerable<ProductProcessViewModel> ProcessSeqLines = new ProcessSequenceHeaderService(_unitOfWork).FGetProductProcessFromProcessSequence((int)pro.ProcessSequenceHeaderId);
 
+
+
                         foreach (var ProcSeqLin in ProcessSeqLines)
                         {
+                            var ProductCategoryProcessSettings = new ProductCategoryProcessSettingsService(_unitOfWork).GetProductCategoryProcessSettings((int)pro.ProductCategoryId, (int)ProcSeqLin.ProcessId);
+                            int? QAGroupId = null;
+                            if (ProductCategoryProcessSettings != null)
+                            {
+                                QAGroupId = ProductCategoryProcessSettings.QAGroupId;
+                            }
+
                             ProductProcess ProdProc = new ProductProcess()
                             {
                                 CreatedBy = User.Identity.Name,
@@ -2089,6 +2100,7 @@ namespace Web
                                 ModifiedBy = User.Identity.Name,
                                 ModifiedDate = DateTime.Now,
                                 ProcessId = ProcSeqLin.ProcessId,
+                                QAGroupId = QAGroupId,
                                 Sr = ProcSeqLin.Sr,
                                 ProductId = pro.ProductId,
                             };
@@ -3488,6 +3500,17 @@ namespace Web
         public ActionResult EditProductProcess(int id)
         {
             var ProdProcess = new ProductProcessService(_unitOfWork).Find(id);
+            if (ProdProcess.ProcessId != null)
+            {
+                var Process = new ProcessService(_unitOfWork).Find((int)ProdProcess.ProcessId);
+                ViewBag.ProcessName = Process.ProcessName;
+            }
+            else
+            {
+                ViewBag.ProcessName = "";
+            }
+            
+
 
             ProductProcessViewModel vm = new ProductProcessViewModel();
             vm.Instructions = ProdProcess.Instructions;

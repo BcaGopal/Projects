@@ -100,8 +100,8 @@
                      @Html.ActionLink(" ", "Create", "MaterialPlanHeader", new { @id = ViewBag.id }, new { @class = "cbtn btn-circle glyphicon glyphicon-plus toolbar", @title = "Add New", @data_toggle = "tooltip" })
                      @Html.ActionLink(" ", EditAction, "MaterialPlanHeader", new { @id = Model.MaterialPlanHeaderId, IndexType = ViewBag.IndexStatus }, new { @class = "cbtn btn-circle glyphicon glyphicon-edit", @title = "Edit", @data_toggle = "tooltip" })
                      @Html.ActionLink(" ", "GeneratePrints", "MaterialPlanHeader", new { Ids = Model.MaterialPlanHeaderId, DocTypeId = Model.DocTypeId }, new { @class = "cbtn btn-circle glyphicon glyphicon-print toolbar", @title = "Print", @data_toggle = "tooltip", @id = "PrintRecordC", target = "_blank" })
-                     @Html.ActionLink(" ", "PrevPage", "MaterialPlanHeader", new { id = @Model.MaterialPlanHeaderId }, new { @class = "cbtn btn-circle glyphicon glyphicon-arrow-left toolbar", @title = "Prev Record", @data_toggle = "tooltip" })
-                     @Html.ActionLink(" ", "NextPage", "MaterialPlanHeader", new { id = @Model.MaterialPlanHeaderId }, new { @class = "cbtn btn-circle glyphicon glyphicon-arrow-right toolbar", @title = "Next Record", @data_toggle = "tooltip" })
+                     @Html.ActionLink(" ", "PrevPage", "MaterialPlanHeader", new { DocId = @Model.MaterialPlanHeaderId, DocTypeId = Model.DocTypeId }, new { @class = "cbtn btn-circle glyphicon glyphicon-arrow-left", @title = "Prev Record", @data_toggle = "tooltip" })
+                     @Html.ActionLink(" ", "NextPage", "MaterialPlanHeader", new { DocId = @Model.MaterialPlanHeaderId, DocTypeId = Model.DocTypeId }, new { @class = "cbtn btn-circle glyphicon glyphicon-arrow-right", @title = "Next Record", @data_toggle = "tooltip" })
                      @Html.ActionLink(" ", "Index", "MaterialPlanHeader", new { @id = ViewBag.id, IndexType = ViewBag.IndexStatus }, new { @class = "cbtn btn-circle glyphicon glyphicon-list", @title = "List", @data_toggle = "tooltip" })
                  </div>
                 <div class="btn-group">
@@ -170,6 +170,18 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="col-md-6" style='display:@(Model.MaterialPlanSettings .isVisibleMachine?"":"none")'>
+                                <div class="form-group">
+                                    @Html.HiddenFor(m => m.MaterialPlanSettings.isMandatoryMachine)
+                                    @Html.HiddenFor(m => m.MaterialPlanSettings.isVisibleMachine)
+                                    @Html.LabelFor(model => model.MachineId, "Machine", new { @class = "control-label col-md-4 col-sm-2" })
+                                    <div class="col-md-7 col-sm-10">
+                                        @Html.TextBoxFor(m => m.MachineId, new { @class = "form-control " + (Model.MaterialPlanSettings.isMandatoryMachine ? " required" : "") })
+                                        @Html.ValidationMessageFor(m => m.MachineId, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+
                             <div class="col-md-6">
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.Remark, "Remark", new { @class = "control-label  col-md-4 col-sm-2" })
@@ -410,6 +422,7 @@
     $(document).ready(function () {
 
         CustomSelectFunction($("#BuyerId"), '/ComboHelpList/GetBuyers', '/ComboHelpList/SetSingleBuyer', ' ', false, 0);
+        CustomSelectFunction($("#MachineId"), '/ComboHelpList/GetMachine', '/ComboHelpList/SetSingleMachine', ' ', false, 1);
         //Calling the function to load the table data/ Line information
         LoadProducts();
         AddFields();

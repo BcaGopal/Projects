@@ -36,6 +36,8 @@ namespace Model.ViewModel
         public bool isVisibleDivision { get; set; }
         public bool isVisibleColour { get; set; }
         public bool isVisibleProductionRemark { get; set; }
+        public bool isVisibleMapScale { get; set; }
+        public bool isVisibleCBM { get; set; }
 
 
         public int? ProductDesignId { get; set; }

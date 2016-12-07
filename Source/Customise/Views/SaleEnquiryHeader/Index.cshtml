@@ -52,8 +52,8 @@
                columns.Add(m => m.SaleEnquiryHeaderId, true).Css("Header_Id");
                columns.Add(m => m.Status, true);
                columns.Add().Encoded(false).Sanitized(false).SetWidth("5%").RenderValueAs(m => CustomHelpers.RenderCheckBox());
-               columns.Add(foo => foo.DocDate).Sortable(true).Titled("Order Date").Format("{0:dd/MMM/yyyy}").Filterable(true);
-               columns.Add(m => m.DocNo).Sortable(true).Titled("Order No.").Filterable(true).Sortable(true);
+               columns.Add(foo => foo.DocDate).Sortable(true).Titled("Enquiry Date").Format("{0:dd/MMM/yyyy}").Filterable(true);
+               columns.Add(m => m.DocNo).Sortable(true).Titled("Enquiry No.").Filterable(true).Sortable(true);
                columns.Add(m => m.SaleToBuyerName).Titled("Buyer").Filterable(true).Sortable(true);
                columns.Add(foo => foo.DueDate).Sortable(true).Titled("Due Date").Format("{0:dd/MMM/yyyy}").Filterable(true);
                columns.Add(m => m.Remark).Sortable(true).Filterable(true).Titled("Remark");

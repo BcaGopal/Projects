@@ -24,6 +24,7 @@ namespace Model.ViewModels
         public int? SaleToBuyerId { get; set; }
         public string SaleToBuyerName { get; set; }
 
+
         [ForeignKey("Product"), Display(Name = "Product")]
         public int ? ProductId { get; set; }
         public virtual Product Product { get; set; }
@@ -82,11 +83,13 @@ namespace Model.ViewModels
         public string Size { get; set; }
         public string ProductQuality { get; set; }
         public string Colour { get; set; }
+        public string LockReason { get; set; }
     }
 
     public class SaleEnquiryLineIndexViewModel : SaleEnquiryLineViewModel
     {
         public string SaleEnquiryHeaderDocNo { get; set; }
+        public DateTime SaleEnquiryHeaderDocDate { get; set; }
         public int ProgressPerc { get; set; }
         public int unitDecimalPlaces { get; set; }
 

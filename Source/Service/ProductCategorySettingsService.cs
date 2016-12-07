@@ -19,7 +19,7 @@ namespace Service
         ProductCategorySettings Find(int Id);
         void Update(ProductCategorySettings s);
         IEnumerable<ProductCategorySettings> GetProductCategorySettingsList();
-        ProductCategorySettings GetProductCategorySettings(int ProductCategoryId, int DivisionId, int SiteId);
+        ProductCategorySettings GetProductCategorySettings(int ProductCategoryId);
 
 
     }
@@ -38,9 +38,9 @@ namespace Service
             return _unitOfWork.Repository<ProductCategorySettings>().Find(id);
         }
 
-        public ProductCategorySettings GetProductCategorySettings(int ProductCategoryId, int DivisionId, int SiteId)
+        public ProductCategorySettings GetProductCategorySettings(int ProductCategoryId)
         {
-            return _unitOfWork.Repository<ProductCategorySettings>().Query().Get().Where(m=> m.ProductCategoryId == ProductCategoryId && m.DivisionId == DivisionId && m.SiteId == SiteId).FirstOrDefault();
+            return _unitOfWork.Repository<ProductCategorySettings>().Query().Get().Where(m=> m.ProductCategoryId == ProductCategoryId).FirstOrDefault();
         }
 
         public ProductCategorySettings Create(ProductCategorySettings s)

@@ -40,6 +40,9 @@ namespace Model.ViewModel
         public bool isMandatoryRate { get; set; }
         public bool isEditableRate { get; set; }
         public bool isVisibleLotNo { get; set; }
+        public bool IsVisibleIncentive { get; set; }
+        public bool IsVisiblePenalty { get; set; }
+        public bool IsVisiblePassQty { get; set; }
         public bool isMandatoryProcessLine { get; set; }
         public bool isPostedInStock { get; set; }
         public bool isPostedInStockProcess { get; set; }

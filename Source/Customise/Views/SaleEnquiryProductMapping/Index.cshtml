@@ -38,6 +38,7 @@
            {
                columns.Add(foo => foo.SaleEnquiryLineId, true);
                columns.Add(foo => foo.SaleEnquiryHeaderDocNo).Sortable(true).Titled("Enquiry No").Filterable(true);
+               columns.Add(foo => foo.SaleEnquiryHeaderDocDate).Sortable(true).Titled("Enquiry Date").Format("{0:dd/MMM/yyyy}").Filterable(true);
                columns.Add(foo => foo.SaleToBuyerName).Sortable(true).Titled("Buyer").Filterable(true);
                columns.Add(foo => foo.ProductGroup).Sortable(true).Titled("Design").Filterable(true);
                columns.Add(foo => foo.Size).Sortable(true).Titled("Size").Filterable(true);

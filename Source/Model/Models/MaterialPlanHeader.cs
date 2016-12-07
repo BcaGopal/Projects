@@ -52,6 +52,11 @@ namespace Model.Models
 
         public int? ReferenceDocId { get; set; }
 
+        [ForeignKey("Machine"), Display(Name = "Machine")]
+        public int? MachineId { get; set; }
+        public virtual Machine Machine { get; set; }
+
+
         public int Status { get; set; }
 
         [Display(Name = "Remark")]

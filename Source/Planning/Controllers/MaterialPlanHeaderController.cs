@@ -248,6 +248,7 @@ namespace Presentation
                     temp.DueDate = pt.DueDate;
                     temp.Remark = pt.Remark;
                     temp.BuyerId = pt.BuyerId;
+                    temp.MachineId = pt.MachineId;
                     temp.ModifiedDate = DateTime.Now;
                     temp.ModifiedBy = User.Identity.Name;
                     temp.ObjectState = Model.ObjectState.Modified;
@@ -693,17 +694,18 @@ namespace Presentation
         }
 
         [HttpGet]
-        public ActionResult NextPage(int id)//CurrentHeaderId
+        public ActionResult NextPage(int DocId, int DocTypeId)//CurrentHeaderId
         {
-            var nextId = _MaterialPlanHeaderService.NextId(id);
-            return RedirectToAction("Edit", new { id = nextId });
+            var nextId = new NextPrevIdService(_unitOfWork).GetNextPrevId(DocId, DocTypeId, User.Identity.Name, "", "Web.MaterialPlanHeaders", "MaterialPlanHeaderId", PrevNextConstants.Next);
+            return Edit(nextId, "");
         }
         [HttpGet]
-        public ActionResult PrevPage(int id)//CurrentHeaderId
+        public ActionResult PrevPage(int DocId, int DocTypeId)//CurrentHeaderId
         {
-            var nextId = _MaterialPlanHeaderService.PrevId(id);
-            return RedirectToAction("Edit", new { id = nextId });
+            var PrevId = new NextPrevIdService(_unitOfWork).GetNextPrevId(DocId, DocTypeId, User.Identity.Name, "", "Web.MaterialPlanHeaders", "MaterialPlanHeaderId", PrevNextConstants.Prev);
+            return Edit(PrevId, "");
         }
+
 
         [HttpGet]
         public ActionResult History()

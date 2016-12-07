@@ -57,13 +57,11 @@ namespace Web
             }
             var DivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
             var SiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
-            var settings = new ProductCategorySettingsService(_unitOfWork).GetProductCategorySettings(id, DivisionId, SiteId);
+            var settings = new ProductCategorySettingsService(_unitOfWork).GetProductCategorySettings(id);
 
             if (settings == null)
             {
                 ProductCategorySettingsViewModel vm = new ProductCategorySettingsViewModel();
-                vm.SiteId = SiteId;
-                vm.DivisionId = DivisionId;
                 vm.ProductCategoryId = id;
                 PrepareViewBag(vm);
                 return View("Create", vm);
@@ -133,7 +131,6 @@ namespace Web
 
                     ProductCategorySettings ExRec = Mapper.Map<ProductCategorySettings>(temp);
 
-                    temp.QAGroupId = vm.QAGroupId;
                     temp.ModifiedDate = DateTime.Now;
                     temp.ModifiedBy = User.Identity.Name;
                     temp.ObjectState = Model.ObjectState.Modified;

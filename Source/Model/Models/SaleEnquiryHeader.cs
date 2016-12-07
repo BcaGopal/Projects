@@ -18,6 +18,7 @@ namespace Model.Models
         public int SaleEnquiryHeaderId { get; set; }
 
         [ForeignKey("DocType"), Display(Name = "Enquiry Type")]
+        [Index("IX_SaleEnquiryHeader_DocID", IsUnique = true, Order = 1)]
         public int DocTypeId { get; set; }
         public virtual DocumentType DocType { get; set; }
 
@@ -25,13 +26,16 @@ namespace Model.Models
         public DateTime DocDate { get; set; }
 
         [Display(Name = "Enquiry No"), MaxLength(20)]
+        [Index("IX_SaleEnquiryHeader_DocID", IsUnique = true, Order = 2)]
         public string DocNo { get; set; }
 
         [ForeignKey("Division"),Display(Name="Division")]
+        [Index("IX_SaleEnquiryHeader_DocID", IsUnique = true, Order = 3)]
         public int DivisionId { get; set; }
         public virtual Division Division { get; set; }
 
         [ForeignKey("Site"),Display(Name="Site")]
+        [Index("IX_SaleEnquiryHeader_DocID", IsUnique = true, Order = 4)]
         public int SiteId { get; set; }
         public virtual Site Site { get; set; }
 

@@ -885,7 +885,19 @@ namespace Presentation
                             sqlConnection.Open();
 
                             int ProductCode = item.id;
-                           SqlCommand Totalf = new SqlCommand("SELECT Web.FGetExcessStock_WithDimension( " + ProductCode + ", " + header.DocTypeId + ", " + item.dim1Id + ") ", sqlConnection);
+
+                            string CommandText = "";
+                            if (item.dim1Id != null && item.dim1Id != 0)
+                            {
+                                CommandText = "SELECT Web.FGetExcessStock_WithDimension( " + ProductCode + ", " + header.DocTypeId + ", " + item.dim1Id + ") ";
+                            }
+                            else{
+                                CommandText = "SELECT Web.FGetExcessStock( " + ProductCode + ", " + header.DocTypeId + ")";
+                            }
+                            
+
+                           //SqlCommand Totalf = new SqlCommand("SELECT Web.FGetExcessStock_WithDimension( " + ProductCode + ", " + header.DocTypeId + ", " + item.dim1Id + ") ", sqlConnection);
+                            SqlCommand Totalf = new SqlCommand(CommandText, sqlConnection);
                             planline.ExcessStockQty = Convert.ToDecimal(Totalf.ExecuteScalar() == DBNull.Value ? 0 : Totalf.ExecuteScalar()); 
                         }
                        // planline.ExcessStockQty = 10;

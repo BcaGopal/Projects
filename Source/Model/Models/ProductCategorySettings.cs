@@ -22,15 +22,6 @@ namespace Model.Models
         public int ProductCategoryId { get; set; }
         public virtual ProductCategory ProductCategory { get; set; }
 
-        public int SiteId { get; set; }
-        public virtual Site Site { get; set; }
-        public int DivisionId { get; set; }
-        public virtual Division Division { get; set; }
-
-        [Display(Name = "QA Group")]
-        public int? QAGroupId { get; set; }
-        public virtual QAGroup QAGroup { get; set; }
-
         [Display(Name = "Created By")]
         public string CreatedBy { get; set; }
 

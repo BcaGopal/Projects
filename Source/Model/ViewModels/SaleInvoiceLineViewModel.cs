@@ -40,6 +40,7 @@ namespace Model.ViewModels
         public string DealUnitId { get; set; }
         public string DealUnitName { get; set; }
         public int DealUnitDecimalPlaces { get; set; }
+        public int UnitDecimalPlaces { get; set; }
 
         [Display(Name = "Unit Conversion Multiplier")]
         public Decimal? UnitConversionMultiplier { get; set; }

@@ -153,6 +153,8 @@ namespace Web
                     temp.ProductDesignId = pt.ProductDesignId;
                     temp.OriginCountryId = pt.OriginCountryId;
                     temp.UnitConversions = pt.UnitConversions;
+                    temp.isVisibleCBM = pt.isVisibleCBM;
+                    temp.isVisibleMapScale = pt.isVisibleMapScale;
                     temp.ModifiedDate = DateTime.Now;
                     temp.ModifiedBy = User.Identity.Name;
                     temp.ObjectState = Model.ObjectState.Modified;

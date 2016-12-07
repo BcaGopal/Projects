@@ -603,7 +603,7 @@ namespace Web
 
                 var PackingLine = (from L in db.PackingLine where L.PackingHeaderId == Ph.PackingHeaderId select L).ToList();
 
-
+                List<int> StockIdList = new List<int>();
                 int cnt = 0;
                 foreach (var item in SaleDispatchLine)
                 {
@@ -617,6 +617,11 @@ namespace Web
                     catch (Exception e)
                     {
                         string str = e.Message;
+                    }
+
+                    if (item.StockId != null)
+                    {
+                        StockIdList.Add((int)item.StockId);
                     }
 
                 }
@@ -646,12 +651,12 @@ namespace Web
                 db.PackingHeader.Remove(Ph);
 
 
-                foreach (var item in SaleDispatchLine)
+                foreach (var item in StockIdList)
                 {
-                    if (item.StockId != null)
+                    if (item != null)
                     {
                         StockAdj Adj = (from L in db.StockAdj
-                                        where L.StockOutId == item.StockId
+                                        where L.StockOutId == item
                                         select L).FirstOrDefault();
 
                         if (Adj != null)
@@ -659,7 +664,7 @@ namespace Web
                             new StockAdjService(_unitOfWork).Delete(Adj);
                         }
 
-                        new StockService(_unitOfWork).DeleteStock((int)item.StockId);
+                        new StockService(_unitOfWork).DeleteStock((int)item);
                     }
                 }
                 

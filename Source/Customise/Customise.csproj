@@ -255,8 +255,9 @@
     <Compile Include="Controllers\FeetConversionToCmsController .cs" />
     <Compile Include="Controllers\ProductBuyerSettingsController.cs" />
     <Compile Include="Controllers\DesignColourConsumptionHeaderController.cs" />
+    <Compile Include="Controllers\ProductCategoryProcessSettingsController.cs" />
     <Compile Include="Controllers\ProductCategorySettingsController.cs" />
-    <Compile Include="Controllers\SaleEnquiryProductMapping.cs" />
+    <Compile Include="Controllers\SaleEnquiryProductMappingController.cs" />
     <Compile Include="Controllers\ColourController.cs" />
     <Compile Include="Controllers\ComboHelpListController.cs" />
     <Compile Include="Controllers\DyeingInvoiceExcelImportController.cs" />
@@ -1164,6 +1165,9 @@
     <Content Include="Views\FeetConversionToCms\Create.cshtml" />
     <Content Include="Views\FeetConversionToCms\Index.cshtml" />
     <Content Include="Views\ProductCategorySettings\Create.cshtml" />
+    <Content Include="Views\ProductCategoryProcessSettings\Create.cshtml" />
+    <Content Include="Views\ProductCategoryProcessSettings\Index.cshtml" />
+    <Content Include="Views\ProductCategoryProcessSettings\_Reason.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -114,6 +114,8 @@
     <Compile Include="DocumentTypeSettingsService.cs" />
     <Compile Include="JobReceiveQaAttributeService.cs" />
     <Compile Include="JobReceiveQaPenaltyService.cs" />
+    <Compile Include="ProductGroupProcessSettingsService.cs" />
+    <Compile Include="ProductCategoryProcessSettingsService.cs" />
     <Compile Include="ProductGroupSettingsService.cs" />
     <Compile Include="ProductCategorySettingsService.cs" />
     <Compile Include="ProductBuyerSettingsService.cs" />

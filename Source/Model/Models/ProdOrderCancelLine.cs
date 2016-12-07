@@ -40,6 +40,10 @@ namespace Model.Models
         public string LockReason { get; set; }
 
 
+        [ForeignKey("MaterialPlanCancelLine")]
+        public int? MaterialPlanCancelLineId { get; set; }
+        public virtual MaterialPlanCancelLine MaterialPlanCancelLine { get; set; }
+
         [Display(Name = "Created By")]
         public string CreatedBy { get; set; }
 

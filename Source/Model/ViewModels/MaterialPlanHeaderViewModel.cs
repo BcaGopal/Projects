@@ -26,6 +26,10 @@ namespace Model.ViewModel
         
         public int SiteId { get; set; }
         public string SiteName{ get; set; }
+
+        public int? MachineId { get; set; }
+        public string MachineName { get; set; }
+
         
         public DateTime DueDate { get; set; }        
         public int ? GodownId { get; set; }

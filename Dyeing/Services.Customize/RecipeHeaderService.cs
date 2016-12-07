@@ -566,6 +566,16 @@ namespace Services.Customize
             temp.ObjectState = Model.ObjectState.Modified;
             Update(temp);
 
+            
+            if (temp.StockHeaderId != null && temp.StockHeaderId != 0 )
+            {
+                StockHeader StockHeader = new StockHeaderService(_unitOfWork).Find((int)temp.StockHeaderId);
+                StockHeader.DocDate = temp.DocDate;
+                StockHeader.DocNo = temp.DocNo;
+                new StockHeaderService(_unitOfWork).Update(StockHeader);
+            }
+            
+
 
 
 

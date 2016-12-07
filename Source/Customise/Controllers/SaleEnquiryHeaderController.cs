@@ -452,7 +452,7 @@ namespace Web
             {
 
                 TimePlanValidation = DocumentValidation.ValidateDocument(Mapper.Map<DocumentUniqueId>(s), DocumentTimePlanTypeConstants.Modify, User.Identity.Name, out ExceptionMsg, out Continue);
-
+                //TimePlanValidation = DocumentValidation.ValidateDocument(new DocumentUniqueId { LockReason = s.LockReason }, DocumentTimePlanTypeConstants.Modify, User.Identity.Name, out ExceptionMsg, out Continue);
             }
             catch (Exception ex)
             {
@@ -737,9 +737,6 @@ namespace Web
                     ActivityType = (int)ActivityTypeContants.Submitted;
 
 
-                    int LedgerHeaderId = 0;
-                    LedgerHeaderId = LedgerPost(pd);
-                    pd.LedgerHeaderId = LedgerHeaderId;
 
                     _SaleEnquiryHeaderService.Update(pd);
 
@@ -771,79 +768,6 @@ namespace Web
             }
 
             return View();
-        }
-
-        public int LedgerPost(SaleEnquiryHeader pd)
-        {
-            int LedgerHeaderId = 0;
-
-            if (pd.LedgerHeaderId == 0 || pd.LedgerHeaderId == null)
-            {
-                LedgerHeader LedgerHeader = new LedgerHeader();
-
-                LedgerHeader.DocTypeId = pd.DocTypeId;
-                LedgerHeader.DocDate = pd.DocDate;
-                LedgerHeader.DocNo = pd.DocNo;
-                LedgerHeader.DivisionId = pd.DivisionId;
-                LedgerHeader.SiteId = pd.SiteId;
-                LedgerHeader.Remark = pd.Remark;
-                LedgerHeader.CreatedBy = pd.CreatedBy;
-                LedgerHeader.CreatedDate = DateTime.Now.Date;
-                LedgerHeader.ModifiedBy = pd.ModifiedBy;
-                LedgerHeader.ModifiedDate = DateTime.Now.Date;
-
-                new LedgerHeaderService(_unitOfWork).Create(LedgerHeader);
-            }
-            else
-            {
-                LedgerHeader LedgerHeader = new LedgerHeaderService(_unitOfWork).Find((int)pd.LedgerHeaderId);
-
-                LedgerHeader.DocTypeId = pd.DocTypeId;
-                LedgerHeader.DocDate = pd.DocDate;
-                LedgerHeader.DocNo = pd.DocNo;
-                LedgerHeader.DivisionId = pd.DivisionId;
-                LedgerHeader.SiteId = pd.SiteId;
-                LedgerHeader.Remark = pd.Remark;
-                LedgerHeader.ModifiedBy = pd.ModifiedBy;
-                LedgerHeader.ModifiedDate = DateTime.Now.Date;
-
-                new LedgerHeaderService(_unitOfWork).Update(LedgerHeader);
-
-                IEnumerable<Ledger> LedgerList = new LedgerService(_unitOfWork).FindForLedgerHeader(LedgerHeader.LedgerHeaderId);
-
-                foreach (Ledger item in LedgerList)
-                {
-                    new LedgerService(_unitOfWork).Delete(item);
-                }
-
-                LedgerHeaderId = LedgerHeader.LedgerHeaderId;
-            }
-
-
-            int SalesAc = new LedgerAccountService(_unitOfWork).Find(LedgerAccountConstants.Sale).LedgerAccountId;
-
-            if (pd.Advance > 0)
-            {
-                Ledger LedgerDr = new Ledger();
-                if (LedgerHeaderId != 0) { LedgerDr.LedgerHeaderId = LedgerHeaderId; }
-                LedgerDr.LedgerAccountId = SalesAc;
-                LedgerDr.ContraLedgerAccountId = pd.BillToBuyerId;
-                LedgerDr.AmtDr = pd.Advance ?? 0;
-                LedgerDr.AmtCr = 0;
-                LedgerDr.Narration = "";
-                new LedgerService(_unitOfWork).Create(LedgerDr);
-
-                Ledger LedgerCr = new Ledger();
-                if (LedgerHeaderId != 0) { LedgerCr.LedgerHeaderId = LedgerHeaderId; }
-                LedgerCr.LedgerAccountId = pd.BillToBuyerId;
-                LedgerCr.ContraLedgerAccountId = SalesAc;
-                LedgerCr.AmtDr = 0;
-                LedgerCr.AmtCr = pd.Advance ?? 0;
-                LedgerCr.Narration = "";
-                new LedgerService(_unitOfWork).Create(LedgerCr);
-            }
-
-            return LedgerHeaderId;
         }
 
 
@@ -1060,7 +984,10 @@ namespace Web
             OrderHeader.ModifiedDate = DateTime.Now;
             OrderHeader.ModifiedDate = DateTime.Now;
             OrderHeader.ModifiedBy = User.Identity.Name;
-            OrderHeader.Status = (int)StatusConstants.Drafted;
+            OrderHeader.Status = (int)StatusConstants.Submitted;
+            OrderHeader.ReviewBy = User.Identity.Name;
+            OrderHeader.ReviewCount = 1;
+            OrderHeader.LockReason = "Sale order is created for enquiry.Now you can't modify enquiry, changes can be done in sale order.";
             new SaleOrderHeaderService(_unitOfWork).Create(OrderHeader);
 
 
@@ -1092,6 +1019,9 @@ namespace Web
                 new SaleOrderLineService(_unitOfWork).Create(OrderLine);
 
                 new SaleOrderLineStatusService(_unitOfWork).CreateLineStatus(OrderLine.SaleOrderLineId);
+
+                Line.LockReason = "Sale order is created for enquiry.Now you can't modify enquiry, changes can be done in sale order.";
+                new SaleEnquiryLineService(_unitOfWork).Update(Line);
             }
         }
     }

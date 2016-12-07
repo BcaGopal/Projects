@@ -16,6 +16,7 @@
 
             @Html.HiddenFor(model => model.SaleEnquiryHeaderId)
             @Html.HiddenFor(m => m.SaleEnquiryLineId)
+            @Html.HiddenFor(m => m.LockReason)
 
             <div class="form-horizontal modal-body">
 
@@ -31,10 +32,7 @@
                             </div>
                         </div>
                     </div>
-
-                        
-
-                    </div>
+                </div>
 
                 <div class="row">
                     <div class="col-md-6">
@@ -128,8 +126,6 @@
                             </div>
                         </div>
                     </div>
-
-
                 </div>
 
                 <div class="row">
@@ -157,11 +153,9 @@
                             </div>
                         </div>
                     </div>
-
                 </div>
+                
                 <div class="row">
-
-
                     <div class="col-md-6">
                         <div class="form-group">
                             @Html.LabelFor(model => model.DueDate, "DueDate", new { @class = "control-label col-xs-4" })
@@ -246,7 +240,7 @@
 </script>
 
 <script type="text/javascript">
-    
+
     $(document).ready(function () {
         var DocID = $('#SaleEnquiryHeaderId').val();
         CustomSelectFunction($("#ProductId"), '/SaleEnquiryLine/GetCustomProducts', '/SaleEnquiryLine/SetSingleBuyerProduct', ' ', false, 1,DocID);
@@ -267,7 +261,7 @@
 
 
 
-        
+
 
         var id=@Model.SaleEnquiryLineId;
         $('#delete','.modal-content').click(function (e) {
@@ -283,16 +277,17 @@
             }
         })
 
-        if (id != 0 && id != null)
+        if ($("#LockReason").val() != "" && $("#LockReason").val() != null)
         {
-            $("#ProductId").prop('readonly', true);
-            $("#ProductGroup").prop('readonly', true);
-            $("#Size").prop('readonly', true);
-            $("#ProductQuality").prop('readonly', true);
-            $("#Colour").prop('readonly', true);
+            //$("#ProductId").prop('readonly', true);
+            //$("#ProductGroup").prop('readonly', true);
+            //$("#Size").prop('readonly', true);
+            //$("#ProductQuality").prop('readonly', true);
+            //$("#Colour").prop('readonly', true);
+            $('button:submit').attr('disabled','disabled');
         }
 
-        
+
 
         var IsSaved=false;
         var ValidationCount=0;
@@ -365,7 +360,7 @@
                     success: function (data) {
                         $("#Rate").val(data[0].StandardCost);
                         $("#UnitId").val(data[0].UnitId);
-                        $("#DealUnitId").val(data[0].UnitId);
+                        //$("#DealUnitId").val(data[0].UnitId);
                         $("#Specification").val(data[0].ProductSpecification);
 
                         GetUnitConversionMultiplier.call();

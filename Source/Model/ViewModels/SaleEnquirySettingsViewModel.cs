@@ -37,6 +37,10 @@ namespace Model.ViewModel
         public byte UnitConversionForId { get; set; }
         public string UnitConversionForName { get; set; }
 
+        public string DealUnitId { get; set; }
+        public string DealUnitName { get; set; }
+
+
         public bool isVisibleCurrency { get; set; }
         public bool isVisibleShipMethod { get; set; }
         public bool isVisibleDeliveryTerms { get; set; }
@@ -48,6 +52,7 @@ namespace Model.ViewModel
         public bool isVisibleProductCode { get; set; }
         public bool isVisibleUnitConversionFor { get; set; }
         public bool isVisibleAdvance { get; set; }
+        public bool isVisibleCreditDays { get; set; }
 
 
         public int SaleOrderDocTypeId { get; set; }

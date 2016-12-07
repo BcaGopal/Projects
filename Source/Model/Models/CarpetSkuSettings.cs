@@ -40,6 +40,8 @@ namespace Model.Models
         public bool? isVisibleDivision { get; set; }
         public bool? isVisibleColour { get; set; }
         public bool? isVisibleProductionRemark { get; set; }
+        public bool? isVisibleMapScale { get; set; }
+        public bool? isVisibleCBM { get; set; }
 
 
 

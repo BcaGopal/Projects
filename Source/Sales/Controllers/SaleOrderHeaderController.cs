@@ -614,6 +614,8 @@ namespace Web
                 //first find the Purchase Order Object based on the ID. (sience this object need to marked to be deleted IE. ObjectState.Deleted)
                 var SaleOrderHeader = _SaleOrderHeaderService.GetSaleOrderHeader(vm.id);
 
+                
+
                 LogList.Add(new LogTypeViewModel
                 {
                     ExObj = SaleOrderHeader,
@@ -636,8 +638,27 @@ namespace Web
                     new SaleOrderLineService(_unitOfWork).Delete(item.SaleOrderLineId);
                 }
 
-                // Now delete the Purhcase Order Header
+
+                int LedgerHeaderId = SaleOrderHeader.LedgerHeaderId ?? 0;
+                
+
+                // Now delete the Sale Order Header
                 new SaleOrderHeaderService(_unitOfWork).Delete(vm.id);
+
+                // Now delete the Ledger & Ledger Header
+                if (LedgerHeaderId != 0)
+                {
+                    var LedgerList = new LedgerService(_unitOfWork).FindForLedgerHeader(LedgerHeaderId).ToList();
+
+                    foreach (var item in LedgerList)
+                    {
+                        new LedgerService(_unitOfWork).Delete(item.LedgerId);
+                    }
+                    new LedgerHeaderService(_unitOfWork).Delete(LedgerHeaderId);
+                }
+                
+
+
                 XElement Modifications = new ModificationsCheckService().CheckChanges(LogList);
                 //Commit the DB
                 try

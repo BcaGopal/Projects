@@ -173,7 +173,7 @@
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.Area, "Area", new { @class = "control-label col-md-4 col-sm-2 strong", @style = "font-weight:bolder ! important;color:black ! important;font-size:1.3em! important" })
                                     <div class="col-md-7 col-sm-10">
-                                        @Html.TextBoxFor(model => model.Area, null, new { @class = "form-control col-xs-6 strong", @style = "font-weight:bolder;color:black ! important;font-size:1.3em! important" })
+                                        @Html.TextBoxFor(model => model.Area, null, new { @class = "form-control col-xs-6 strong", @style = "font-weight:bolder;color:black ! important;font-size:1.3em! important required" })
                                         @Html.ValidationMessageFor(m => m.Area)
                                     </div>
                                 </div>
@@ -182,7 +182,7 @@
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.Perimeter, "Perimeter", new { @class = "control-label col-md-4 col-sm-2 strong", @style = "font-weight:bolder ! important;color:black ! important;font-size:1.3em! important" })
                                     <div class="col-md-7 col-sm-10">
-                                        @Html.TextBoxFor(model => model.Perimeter, null, new { @class = "form-control col-xs-6 strong", @style = "font-weight:bolder;color:black ! important;font-size:1.3em! important" })
+                                        @Html.TextBoxFor(model => model.Perimeter, null, new { @class = "form-control col-xs-6 strong", @style = "font-weight:bolder;color:black ! important;font-size:1.3em! important required" })
                                         @Html.ValidationMessageFor(m => m.Perimeter)
                                     </div>
                                 </div>
