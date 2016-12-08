@@ -187,6 +187,7 @@
     <Compile Include="Models\Shift.cs" />
     <Compile Include="Models\SubReport.cs" />
     <Compile Include="ViewModels\DocumentTypeSettingsViewModel.cs" />
+    <Compile Include="ViewModels\GatePassHeaderViewModel.cs" />
     <Compile Include="ViewModels\ProductGroupProcessSettingsViewModel.cs" />
     <Compile Include="ViewModels\ProductCategoryProcessSettingsViewModel.cs" />
     <Compile Include="ViewModels\ProductCategorySettingsViewModel.cs" />

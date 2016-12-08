@@ -169,7 +169,7 @@
 <script type="text/javascript">
 
     CustomSelectFunction($("#JobWorker"), '/ComboHelpList/GetJobWorkers', '/ComboHelpList/SetSinglePerson', ' ', false, 1);
-
+   
     $('input').change(function () {
         if ($('#FromDate').val() && $('#ToDate').val() && $('#CloseDate').val()) {
             $('#submit').removeAttr('disabled');
@@ -182,6 +182,7 @@
             $('#submit').attr('disabled', 'disabled');
         }
     })
+
 
 
     $('#submit').click(function () {
@@ -277,40 +278,45 @@
         $('#example').DataTable().search('').draw();
     }
 
+  
+
+
+    var IsSaved = false;
     $('a#Proceed').click(function () {
+        if (!IsSaved) {
+            IsSaved = true;
+            var arr = [];
+            var table = $("#example").DataTable();
+            var test = table.rows('.selected').data();
+            var List = "";
+            var test34 = table.$('input, select').serialize();
 
-        var arr = [];
+            $.each(test, function (index, value) {
+                arr.push(value.CostCenterId);
+            })
 
-        var table = $("#example").DataTable();
-        var test = table.rows('.selected').data();
-        var List = "";
-        var test34 = table.$('input, select').serialize();
-        $.each(test, function (index, value) {
-            arr.push(value.CostCenterId);
-        })
+            //alert($(this).attr('href'));
 
-        //alert($(this).attr('href'));
+            if (arr.length > 0) {
+                $.ajax({
+                    url: '/CostCenterClose/PostCostCenters/',
+                    type: "POST",
+                    data: { CostCenterId: arr, CloseDate: $('#CloseDate').val() },
+                    success: function (result) {
+                        if (result.Success == true) {
+                            window.location.reload();
+                        }
+                        else {
+                            IsSaved = false;
+                            alert("Some Process Not Completed");
+                            $("#CostCenterValidation").text("Invalid Bar Code.");
 
-        if (arr.length > 0) {
-            $.ajax({
-                url: '/CostCenterClose/PostCostCenters/',
-                type: "POST",
-                data: { CostCenterId: arr, CloseDate: $('#CloseDate').val() },
-                success: function (result) {
-                    if (result.Success == true) {
-                        window.location.reload();
-                    }
-                    else {
-
-                        alert("Some Process Not Completed");
-                        $("#CostCenterValidation").text("Invalid Bar Code.");
-
-                    }
-                },
-            });
-        }
-        return false;
-
+                        }
+                    },
+                });
+            }
+            return false;
+       }
     });
 
 </script>
