@@ -235,6 +235,8 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminSetupController.cs" />
     <Compile Include="Controllers\ComboHelpListController.cs" />
+    <Compile Include="Controllers\GatePassHeaderController.cs" />
+    <Compile Include="Controllers\GatePassLineController.cs" />
     <Compile Include="Controllers\ProductGroupProcessSettingsController.cs" />
     <Compile Include="Controllers\ProductGroupSettingsController.cs" />
     <Compile Include="Controllers\ProductConsumptionLineController.cs" />
@@ -875,6 +877,16 @@
     <Content Include="Views\ProductGroupProcessSettings\_Reason.cshtml" />
     <Content Include="Views\ProductGroupProcessSettings\Create.cshtml" />
     <Content Include="Views\ProductGroupProcessSettings\Index.cshtml" />
+    <Content Include="Views\GatePassHeader\_LineProgress.cshtml" />
+    <Content Include="Views\GatePassHeader\_Reason.cshtml" />
+    <Content Include="Views\GatePassHeader\Create.cshtml" />
+    <Content Include="Views\GatePassHeader\Detail.cshtml" />
+    <Content Include="Views\GatePassHeader\DocumentTypeList.cshtml" />
+    <Content Include="Views\GatePassHeader\Index.cshtml" />
+    <Content Include="Views\GatePassLine\_Create.cshtml" />
+    <Content Include="Views\GatePassLine\_Filters.cshtml" />
+    <Content Include="Views\GatePassLine\_Index.cshtml" />
+    <Content Include="Views\GatePassLine\_Results.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -194,6 +194,7 @@
     <Compile Include="ViewModels\ProductGroupSettingsViewModel.cs" />
     <Compile Include="ViewModels\ProductBuyerSettingsViewModel.cs" />
     <Compile Include="ViewModels\DesignColourConsumptionViewModel.cs" />
+    <Compile Include="ViewModels\QAGroupViewModel.cs" />
     <Compile Include="ViewModels\QAGroupLineViewModel.cs" />
     <Compile Include="ViewModels\WeavingReceiveWizardViewModel.cs" />
     <Compile Include="ViewModels\OverTimeApplicationHeaderViewModel.cs" />
