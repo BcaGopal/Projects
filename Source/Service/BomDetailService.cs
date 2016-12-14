@@ -504,6 +504,10 @@ namespace Service
                                                                             BaseProductId = b.BaseProductId,
                                                                             ProductName = ProductTab.ProductName,
                                                                             ProductGroupName = ProductGroupTab.ProductGroupName,
+                                                                            Dimension1Id = b.Dimension1Id,
+                                                                            Dimension1Name = b.Dimension1.Dimension1Name,
+                                                                            Dimension2Id = b.Dimension2Id,
+                                                                            Dimension2Name = b.Dimension2.Dimension2Name,
                                                                             Qty = b.Qty,
                                                                             UnitName = UnitTab.UnitName
                                                                         }).ToList();

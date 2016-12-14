@@ -106,6 +106,7 @@ namespace Model.ViewModel
         [Display(Name = "ProductUid")]
         public int ? ProductUidId { get; set; }
         public string ProductUidIdName { get; set; }
+        public string ProductCode { get; set; }
 
         [Display(Name = "Product"), Required]        
         public int ProductId { get; set; }

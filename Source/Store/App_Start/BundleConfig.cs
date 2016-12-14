@@ -79,7 +79,7 @@ namespace Store
                      "~/Content/IconCss.css"
                      ));
 
-            BundleTable.EnableOptimizations = true;
+            BundleTable.EnableOptimizations = false;
         }
     }
 }

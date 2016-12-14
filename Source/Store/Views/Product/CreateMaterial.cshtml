@@ -351,7 +351,7 @@
                 if(data.length!=0)
                 {
                     $.each(data, function (index, item) {
-                        row += "<tr><td><input type='hidden' class='id' value='" + item.BomDetailId + "'/></td> <td>"+ srno +"</td> <td>" + item.ProductName + "</td>        <td>" + item.ProductGroupName + "</td>                  <td>" + item.Qty + "</td>                  <td>" + item.UnitName + "</td>                  <td><a class='rowEditBlue hidden' Modify href='/ProductConsumptionLine/_Edit/"+item.BomDetailId+"' ></a></td>       <td><a class='glyphicon glyphicon-trash' data-modal='' delete='' href='/ProductConsumptionLine/_Edit/"+item.BomDetailId+"' ></a></td>  </tr>";
+                        row += "<tr><td><input type='hidden' class='id' value='" + item.BomDetailId + "'/></td> <td>"+ srno +"</td> <td >" + (item.ProductName==null?" ":"<strong>"+item.ProductName+"</strong>") + "<div>"+(item.Dimension1Name==null?" ":item.Dimension1Name+",")+(item.Dimension2Name==null?" ":item.Dimension2Name)+"</div></td>        <td>" + item.ProductGroupName + "</td>                  <td>" + item.Qty + "</td>                  <td>" + item.UnitName + "</td>                  <td><a class='rowEditBlue hidden' Modify href='/ProductConsumptionLine/_Edit/"+item.BomDetailId+"' ></a></td>       <td><a class='glyphicon glyphicon-trash' data-modal='' delete='' href='/ProductConsumptionLine/_Edit/"+item.BomDetailId+"' ></a></td>  </tr>";
                         srno++;
                     });
                 }

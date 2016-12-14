@@ -17,8 +17,6 @@
 @using (Html.BeginForm("Post", "ProductGroupSettings", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
-    @Html.HiddenFor(m => m.SiteId)
-    @Html.HiddenFor(m => m.DivisionId)
     @Html.HiddenFor(m => m.ProductGroupId)
     @Html.HiddenFor(m => m.ProductGroupSettingsId)
     <div class="panel panel-default">

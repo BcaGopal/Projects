@@ -213,8 +213,6 @@ namespace Web
             {
                 return View("~/Views/Shared/InValidSettings.cshtml");
             }
-
-
             ViewBag.Mode = "Add";
 
             return View("Create", s);

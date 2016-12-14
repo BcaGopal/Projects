@@ -62,22 +62,54 @@
                 </h3>                
             }*@
 
-            @Html.ActionLink("For Sale Delivery Order", "_ForOrder", "SaleDeliveryOrderCancelLine", new { id = @Model.SaleDeliveryOrderCancelHeaderId, sid = @Model.BuyerId }, new { data_modal = "", id = "btnCreateF", @class = "btn btn-primary borderradii", @title = "For Order", @data_toggle = "tooltip", @style = "background-color:#2980b9;font-size:1em", @data_detailDeleted = "true" })
+            
 
-            <hr style="margin-top: 10px; margin-bottom: 0px" />
-
+            
+            <hr style="margin-top:0px;margin-bottom:0px" />
+            @{
+                string EditAction = "";
+                if (Model.Status == (int)StatusConstants.Drafted || Model.Status == (int)StatusConstants.Import)
+                {
+                    EditAction = "Modify";
+                }
+                else if ((Model.Status == (int)StatusConstants.Submitted || Model.Status == (int)StatusConstants.Modified))
+                {
+                    EditAction = "ModifyAfter_Submit";
+                }
+                else
+                {
+                    EditAction = "DetailInformation";
+                }
+            }
             <div class="panel-info">
-                <h4 style="padding:5px 0 0 0;margin:0px">
+                @*<h4 style="padding:5px 0 0 0;margin:0px">
                     @Html.ActionLink(" ", " ", " ", null, new { @class = "glyphicon glyphicon-refresh toolbar", @title = "Refresh Page", @data_toggle = "tooltip", @id = "RefreshPage" })
-                    @Html.ActionLink(" ", "Create", "SaleDeliveryOrderCancelHeader", new { @id = ViewBag.id }, new { @class = "glyphicon glyphicon-plus toolbar", @title = "Add New", @data_toggle = "tooltip" })
+                   
                     @Html.ActionLink(" ", "History", "SaleDeliveryOrderCancelHeader", null, new { @class = "glyphicon glyphicon-user toolbar", @title = "History", @data_toggle = "tooltip" })
-                    @Html.ActionLink(" ", "GeneratePrints", "SaleDeliveryOrderCancelHeader", new { Ids = Model.SaleDeliveryOrderCancelHeaderId, DocTypeId = Model.DocTypeId }, new { @class = "glyphicon glyphicon-print toolbar", @title = "Print", @data_toggle = "tooltip", @id = "PrintRecordC", target = "_blank" })
+                    
                     @Html.ActionLink(" ", "Email", "SaleDeliveryOrderCancelHeader", null, new { @class = "glyphicon glyphicon-envelope toolbar", @title = "Email", @data_toggle = "tooltip" })
+                    
+                    @Html.ActionLink(" ", "Report", "SaleDeliveryOrderCancelHeader", null, new { @class = "glyphicon glyphicon-th toolbar right", @title = "Report", @data_toggle = "tooltip" })
+                </h4>*@
+
+                <div class="btn-group">
+                    @Html.ActionLink(" ", "Create", "SaleDeliveryOrderCancelHeader", new { @id = ViewBag.id }, new { @class = "glyphicon glyphicon-plus toolbar", @title = "Add New", @data_toggle = "tooltip" })
+                    @Html.ActionLink(" ", EditAction, "DirectSaleInvoiceHeader", new { @id = Model.SaleDeliveryOrderCancelHeaderId, IndexType = ViewBag.IndexStatus }, new { @class = "cbtn btn-circle glyphicon glyphicon-edit", @title = "Edit", @data_toggle = "tooltip" })
+                    @Html.ActionLink(" ", "GeneratePrints", "SaleDeliveryOrderCancelHeader", new { Ids = Model.SaleDeliveryOrderCancelHeaderId, DocTypeId = Model.DocTypeId }, new { @class = "glyphicon glyphicon-print toolbar", @title = "Print", @data_toggle = "tooltip", @id = "PrintRecordC", target = "_blank" })
                     @Html.ActionLink(" ", "PrevPage", "SaleDeliveryOrderCancelHeader", new { DocId = @Model.SaleDeliveryOrderCancelHeaderId, DocTypeId = Model.DocTypeId }, new { @class = "glyphicon glyphicon-arrow-left toolbar", @title = "Prev Record", @data_toggle = "tooltip" })
                     @Html.ActionLink(" ", "NextPage", "SaleDeliveryOrderCancelHeader", new { DocId = @Model.SaleDeliveryOrderCancelHeaderId, DocTypeId = Model.DocTypeId }, new { @class = "glyphicon glyphicon-arrow-right toolbar", @title = "Next Record", @data_toggle = "tooltip" })
                     @Html.ActionLink(" ", "Index", "SaleDeliveryOrderCancelHeader", new { @id = ViewBag.id, IndexType = ViewBag.IndexStatus }, new { @class = "glyphicon glyphicon-list toolbar right", @title = "List", @data_toggle = "tooltip" })
-                    @Html.ActionLink(" ", "Report", "SaleDeliveryOrderCancelHeader", null, new { @class = "glyphicon glyphicon-th toolbar right", @title = "Report", @data_toggle = "tooltip" })
-                </h4>
+                </div>
+                <div class="btn-group">
+                    <a class="cbtn btn-circle glyphicon glyphicon-option-horizontal dropdown-toggle" aria-expanded="false" style="padding-top: 6px;padding-bottom: 6px;" href="#" data-toggle="dropdown" id="dropdownMenu1">
+                    </a>
+                    <ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu1">
+                        <li><a id="DocHistory" data-modal="" href="@Url.Action("GetHistory", "LogHistory", new { Ids = Model.SaleDeliveryOrderCancelHeaderId, DocTypeId = Model.DocTypeId })"><span class="glyphicon glyphicon-user"> </span> History</a></li>
+                        <li><a href="@Url.Action("Email", "SaleDeliveryOrderCancelHeader")"><span class="glyphicon glyphicon-envelope"> </span> Email</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="@Url.Action("Report", "SaleDeliveryOrderCancelHeader")"><span class="glyphicon glyphicon-th"> </span> Report</a></li>
+                    </ul>
+                </div>
             </div>
         </div>
         <div class="panel-info" style="padding-left:15px">
@@ -170,19 +202,27 @@
                         2.Products
                     </h4>
                 </div>
-
-                <div class="panel-info">
-                    <h5 style="padding:5px 0 3px 0;margin:0px;font-weight:bold">
+               
+                <div class="panel-info" style="height:40px;">
+                    <div class="btn-group" style="padding:5px 0 3px 0;margin:0px;font-weight:bold">
                         <span class="glyphicon glyphicon-plus-sign"></span>
                         @{string Action = "";
-                        if (Model.Status == (int)StatusConstants.Drafted)
-                        { Action = "CreateLine"; }
-                        else if (Model.Status == (int)StatusConstants.Submitted || Model.Status == (int)StatusConstants.Modified )
-                        { Action = "CreateLineAfter_Submit"; }                       
+                            if (Model.Status == (int)StatusConstants.Drafted)
+                            {
+                                Action = "CreateLine";
+                            }
+                            else if (Model.Status == (int)StatusConstants.Submitted || Model.Status == (int)StatusConstants.Modified)
+                            {
+                                Action = "CreateLineAfter_Submit";
+                            }
                         }
                         @Html.ActionLink("Add New ", Action, "SaleDeliveryOrderCancelLine", new { id = @Model.SaleDeliveryOrderCancelHeaderId, sid = @Model.BuyerId }, new { data_modal = "", id = "btnCreate", @class = "toolbar", @title = "Add New", @data_toggle = "tooltip", @data_detailDisabled = "true" })
-                    </h5>
-                </div>
+                          </div>
+                    <div class="btn-group right" style="padding-right:15px">
+                        @Html.ActionLink(" ", "_ForOrder", "SaleDeliveryOrderCancelLine", new { id = @Model.SaleDeliveryOrderCancelHeaderId, sid = @Model.BuyerId }, new { data_modal = "", id = "btnCreateF", @class = "cbtn btn-circle glyphicon glyphicon-link toolbar right", @title = "For Sale Delivery Order", @data_toggle = "tooltip",@data_detailDeleted = "true" })
+                        </div>
+                    
+                    </div>
                 <div style="padding-right:15px">
 
                     <div class="panel panel-default" id="grid">

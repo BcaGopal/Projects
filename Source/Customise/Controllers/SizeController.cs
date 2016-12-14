@@ -61,11 +61,35 @@ namespace Web
 
         // GET: /ProductMaster/Create
         //
+        [HttpGet]
         public ActionResult Create()
         {
             PrepareViewBag();
             Size pt = new Size();
             pt.IsActive = true;
+
+            var temp = (from U in db.Size
+                        group new { U } by new { U.UnitId } into Result
+                        select new
+                        {
+                            UnitId = Result.Key.UnitId,
+                            Count = Result.Count()
+                        });
+
+            var MaxSize = (from L in temp
+                         orderby L.Count descending
+                         select new
+                         {
+                             UnitId = L.UnitId
+                         }).FirstOrDefault();
+
+            if (MaxSize != null)
+            {
+                pt.UnitId = MaxSize.UnitId;
+            }
+
+
+
             ViewBag.Mode = "Add";
             return View("Create", pt);
         }
@@ -78,6 +102,25 @@ namespace Web
         public ActionResult Post(Size ptt)
         {
             Size pt = ptt;
+
+            if (ptt.Area == 0)
+            {
+                PrepareViewBag();
+                string message = "Area field is required";
+                ModelState.AddModelError("", message);
+                ViewBag.Mode = "Add";
+                return View("Create", ptt);
+            }
+
+            if (ptt.Perimeter == 0)
+            {
+                PrepareViewBag();
+                string message = "Perimeter field is required";
+                ModelState.AddModelError("", message);
+                ViewBag.Mode = "Add";
+                return View("Create", ptt);
+            }
+
             if (ModelState.IsValid)
             {
 

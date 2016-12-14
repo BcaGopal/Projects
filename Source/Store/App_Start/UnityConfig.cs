@@ -125,6 +125,10 @@ namespace Store.App_Start
             container.RegisterType<IRepository<ProductGroupSettings>, Repository<ProductGroupSettings>>();
             container.RegisterType<IProductGroupSettingsService, ProductGroupSettingsService>(new PerRequestLifetimeManager());
 
+            container.RegisterType<IRepository<ProductGroupProcessSettings>, Repository<ProductGroupProcessSettings>>();
+            container.RegisterType<IProductGroupProcessSettingsService, ProductGroupProcessSettingsService>(new PerRequestLifetimeManager());
+
+
             container.RegisterType<IRepository<ProductCustomGroupLine>, Repository<ProductCustomGroupLine>>();
             container.RegisterType<IProductCustomGroupLineService, ProductCustomGroupLineService>(new PerRequestLifetimeManager());
 
@@ -181,7 +185,24 @@ namespace Store.App_Start
 
             container.RegisterType<IExcessMaterialSettingsService, ExcessMaterialSettingsService>(new PerRequestLifetimeManager());
 
+
             //Registering Mappers:
+
+
+
+            //new Gopal
+            container.RegisterType<IRepository<GatePassHeader>, Repository<GatePassHeader>>();
+            container.RegisterType<IGatePassHeaderService, GatePassHeaderService>(new PerRequestLifetimeManager());
+
+            container.RegisterType<IRepository<GatePassLine>, Repository<GatePassLine>>();
+            container.RegisterType<IGatePassLineService, GatePassLineService>(new PerRequestLifetimeManager());
+
+            Mapper.CreateMap<GatePassHeader, GatePassHeaderViewModel>();
+            Mapper.CreateMap<GatePassHeaderViewModel, GatePassHeader>();
+
+            Mapper.CreateMap<GatePassLine, GatePassLineViewModel>();
+            Mapper.CreateMap<GatePassLineViewModel, GatePassLine>();
+            //////
             Mapper.CreateMap<ProcessSequenceHeader, ProcessSequenceHeaderIndexViewModel>();
             Mapper.CreateMap<ProcessSequenceHeaderIndexViewModel, ProcessSequenceHeader>();
 
@@ -253,6 +274,10 @@ namespace Store.App_Start
             Mapper.CreateMap<ExcessMaterialLineViewModel, DocumentUniqueId>();
             Mapper.CreateMap<ExcessMaterialLine, DocumentUniqueId>();
 
+            Mapper.CreateMap<ProductGroupProcessSettings, ProductGroupProcessSettingsViewModel>();
+            Mapper.CreateMap<ProductGroupProcessSettingsViewModel, ProductGroupProcessSettings>();
+
+
             Mapper.CreateMap<RequisitionCancelHeader, RequisitionCancelHeader>();
             Mapper.CreateMap<RequisitionCancelLineViewModel, RequisitionCancelLine>();
             Mapper.CreateMap<StockHeader, StockHeader>();
@@ -287,6 +312,12 @@ namespace Store.App_Start
             Mapper.CreateMap<MaterialRequestSettings, MaterialRequestSettings>();
             Mapper.CreateMap<RequisitionSetting, RequisitionSetting>();
             Mapper.CreateMap<StockHeaderSettings, StockHeaderSettings>();
+
+            //new
+            Mapper.CreateMap<GatePassHeader, GatePassHeader>();
+            Mapper.CreateMap<GatePassLineViewModel, GatePassLine>();
+            Mapper.CreateMap<GatePassHeaderViewModel, DocumentUniqueId>();
+            Mapper.CreateMap<GatePassHeader, DocumentUniqueId>();
 
         }
     }

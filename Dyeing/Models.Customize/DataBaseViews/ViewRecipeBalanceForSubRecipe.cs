@@ -17,7 +17,7 @@ namespace Models.Customize.DataBaseViews
         public int DivisionId { get; set; }
         public int ProductId { get; set; }
         public int Dimension1Id { get; set; }
-        public int Dimension2Id { get; set; }
+        public int? Dimension2Id { get; set; }
         public string RecipeNo { get; set; }
         public Decimal BalanceQty { get; set; }
     }

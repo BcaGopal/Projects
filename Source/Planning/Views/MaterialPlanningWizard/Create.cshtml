@@ -151,6 +151,20 @@
                                     </div>
                                 </div>
                             </div>
+
+                            <div class="col-md-6" style='display:@(Model.MaterialPlanSettings .isVisibleMachine?"":"none")'>
+                                <div class="form-group">
+                                    @Html.HiddenFor(m => m.MaterialPlanSettings.isMandatoryMachine)
+                                    @Html.HiddenFor(m => m.MaterialPlanSettings.isVisibleMachine)
+                                    @Html.LabelFor(model => model.MachineId, "Machine", new { @class = "control-label col-md-4 col-sm-2" })
+                                    <div class="col-md-7 col-sm-10">
+                                        @Html.TextBoxFor(m => m.MachineId, new { @class = "form-control " + (Model.MaterialPlanSettings.isMandatoryMachine ? " required" : "") })
+                                        @Html.ValidationMessageFor(m => m.MachineId, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+
+
                             <div class="col-md-6">
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.Remark, "Remark", new { @class = "control-label col-md-4 col-sm-2" })
@@ -175,6 +189,7 @@
         var IsSaved=false;
         var ValidationCount=0;
         CustomSelectFunction($("#BuyerId"), '/ComboHelpList/GetBuyers', '/ComboHelpList/SetSingleBuyer', ' ', false, 0);
+        CustomSelectFunction($("#MachineId"), '/ComboHelpList/GetMachine', '/ComboHelpList/SetSingleMachine', ' ', false, 1);
         $('form').submit(function(event){
 
             if(!IsSaved)

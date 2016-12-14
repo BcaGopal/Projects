@@ -38,6 +38,7 @@ namespace Model.ViewModel
         public string DesignName { get; set; }
         public string DesignPatternName { get; set; }
         public string Size { get; set; }
+        public string Colour { get; set; }
         public decimal BalanceQty { get; set; }
         public decimal Qty { get; set; }
         public decimal OtherQty { get; set; }

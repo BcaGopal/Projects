@@ -311,6 +311,9 @@ namespace Web
             ViewBag.DocNo = H.DocNo;
             SaleOrderLineViewModel s = Mapper.Map<SaleOrderLine, SaleOrderLineViewModel>(temp);
 
+            string BuyerSku = (_SaleOrderLineService.GetBuyerSKU(temp.ProductId, temp.SaleOrderHeaderId));
+
+            s.BuyerSku = BuyerSku;
 
             var settings = new SaleOrderSettingsService(_unitOfWork).GetSaleOrderSettings(H.DocTypeId, H.DivisionId, H.SiteId);
             s.SaleOrderSettings = Mapper.Map<SaleOrderSettings, SaleOrderSettingsViewModel>(settings);

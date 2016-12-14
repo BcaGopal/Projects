@@ -26,8 +26,7 @@ namespace Data.Models
 
         public string strSchemaName = "Web";
 
-        public ApplicationDbContext()
-            : base((string)System.Web.HttpContext.Current.Session["DefaultConnectionString"] ?? "LoginDB", false)
+        public ApplicationDbContext() : base((string)System.Web.HttpContext.Current.Session["DefaultConnectionString"] ?? "LoginDB", false)
         {
             Configuration.ProxyCreationEnabled = false;
             Database.ExecuteSqlCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
@@ -267,10 +266,12 @@ namespace Data.Models
         public DbSet<BomDetail> BomDetail { get; set; }
         public DbSet<ProductCategory> ProductCategory { get; set; }
         public DbSet<ProductCategorySettings> ProductCategorySettings { get; set; }
+        public DbSet<ProductCategoryProcessSettings> ProductCategoryProcessSettings { get; set; }
         public DbSet<ProductCollection> ProductCollections { get; set; }
         //public DbSet<ProductDesign> ProductDesign { get; set; }
         public DbSet<ProductGroup> ProductGroups { get; set; }
         public DbSet<ProductGroupSettings> ProductGroupSettings { get; set; }
+        public DbSet<ProductGroupProcessSettings> ProductGroupProcessSettings { get; set; }
         public DbSet<ProductIncludedAccessories> ProductIncludedAccessories { get; set; }
         public DbSet<ProductNature> ProductNature { get; set; }
         public DbSet<ProductRelatedAccessories> ProductRelatedAccessories { get; set; }

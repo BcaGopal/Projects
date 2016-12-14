@@ -116,7 +116,7 @@ namespace Web
                     decimal balqty = (from p in db.ViewSaleDispatchBalance
                                       where p.SaleDispatchLineId == item.SaleDispatchLineId
                                       select p.BalanceQty).FirstOrDefault();
-                    if (item.Qty > 0 && (item.Rate > 0) && item.Qty <= balqty)
+                    if (item.Qty > 0 && item.Qty <= balqty)
                     {
 
                         SaleInvoiceLine line = new SaleInvoiceLine();

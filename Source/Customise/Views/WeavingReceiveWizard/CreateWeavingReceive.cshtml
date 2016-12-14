@@ -164,7 +164,7 @@
             ],
             columnDefs: [
     { "targets": 7, "searchable": false, className: "DTHidden", }, { "targets": 6, "render": function (data, type, row) { return '<input style="width:100%;text-align:right" class="Qty"  type="text" name="Qty' + row.JobOrderLineId + '" id="Qty' + row.JobOrderLineId + '" value="' + data + '"/>'; }, },
-    { "targets": 8, "searchable": false, className: "DTHidden", }, { "targets": 9, "render": function (data, type, row) { return '<input style="width:100%;text-align:right" type="text" name="FromProductUidName' + row.JobOrderLineId + '" id="FromProductUidName' + row.JobOrderLineId + '" value="' + data + '"/>'; }, },
+    { "targets": 8, "searchable": false, className: "DTHidden", }, { "targets": 9, "render": function (data, type, row) { return '<input style="width:100%;text-align:right" class="FromProductUidName"  type="text" name="FromProductUidName' + row.JobOrderLineId + '" id="FromProductUidName' + row.JobOrderLineId + '" value="' + data + '"/>'; }, },
     { "targets": 10, "render": function (data, type, row) { return '<input style="width:100%;text-align:right" type="text" name="ToProductUidName' + row.JobOrderLineId + '" id="ToProductUidName' + row.JobOrderLineId + '" value="' + data + '"/>'; }, },
             ],
             dom: 'T<"clear">lfrti',
@@ -215,6 +215,12 @@
 
             var ValidationMsg = "";
             var multiplejobworkers = false;
+
+
+            if (test.length == 0)
+            {
+                ValidationMsg = "No rows has been selected.Can't continue.";
+            }
 
             for (var i = 0; i < test.length; i++) {
                 if (i > 0)
@@ -310,6 +316,10 @@
                 $('#example').DataTable().draw(false);
                 CalculateSelectedTotal();
             }
+
+            //if ($(this).is('.FromProductUidName')) {
+            //    table.fnUpdate(parseFloat($(this).val()), pos[0], pos[1], false);
+            //}
         })
 
 

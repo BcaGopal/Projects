@@ -727,6 +727,15 @@ namespace Service
 
             var settings = new JobOrderSettingsService(_unitOfWork).GetJobOrderSettingsForDocument(JobOrderHeader.DocTypeId, JobOrderHeader.DivisionId, JobOrderHeader.SiteId);
 
+            string settingProductTypes = "";
+            string settingProductDivision = "";
+            string settingProductCategory = "";
+
+            if (!string.IsNullOrEmpty(settings.filterProductTypes)) { settingProductTypes = "|" + settings.filterProductTypes.Replace(",", "|,|") + "|"; }
+            if (!string.IsNullOrEmpty(settings.FilterProductDivision)) { settingProductDivision = "|" + settings.FilterProductDivision.Replace(",", "|,|") + "|"; }
+            if (!string.IsNullOrEmpty(settings.filterProductCategories)) { settingProductCategory = "|" + settings.filterProductCategories.Replace(",", "|,|") + "|"; }
+
+
             string[] contraDocTypes = null;
             if (!string.IsNullOrEmpty(settings.filterContraDocTypes)) { contraDocTypes = settings.filterContraDocTypes.Split(",".ToCharArray()); }
             else { contraDocTypes = new string[] { "NA" }; }
@@ -739,11 +748,27 @@ namespace Service
             if (!string.IsNullOrEmpty(settings.filterContraDivisions)) { contraDivisions = settings.filterContraDivisions.Split(",".ToCharArray()); }
             else { contraDivisions = new string[] { "NA" }; }
 
+            string[] ProductTypes = null;
+            if (!string.IsNullOrEmpty(settings.filterProductTypes)) { ProductTypes = settingProductTypes.Split(",".ToCharArray()); }
+            else { ProductTypes = new string[] { "NA" }; }
+
+            string[] ProductDivision = null;
+            if (!string.IsNullOrEmpty(settings.FilterProductDivision)) { ProductDivision = settingProductDivision.Split(",".ToCharArray()); }
+            else { ProductDivision = new string[] { "NA" }; }
+
+            string[] ProductCategory = null;
+            if (!string.IsNullOrEmpty(settings.filterProductCategories)) { ProductCategory = settingProductCategory.Split(",".ToCharArray()); }
+            else { ProductCategory = new string[] { "NA" }; }
+
+
             int CurrentSiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
             int CurrentDivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
 
 
             var list = (from p in db.ViewProdOrderBalance
+                        join Pt in db.Product on p.ProductId equals Pt.ProductId into ProductTable from ProductTab in ProductTable.DefaultIfEmpty()
+                        join Fp in db.FinishedProduct on p.ProductId equals Fp.ProductId into FinishedProductTable
+                        from FinishedProductTab in FinishedProductTable.DefaultIfEmpty()
                         where (
                         string.IsNullOrEmpty(term) ? 1 == 1 : p.ProdOrderNo.ToLower().Contains(term.ToLower()) ||
                         string.IsNullOrEmpty(term) ? 1 == 1 : p.Product.ProductName.ToLower().Contains(term.ToLower()) ||
@@ -751,8 +776,11 @@ namespace Service
                         string.IsNullOrEmpty(term) ? 1 == 1 : p.Dimension2.Dimension2Name.ToLower().Contains(term.ToLower())
                         ) && p.BalanceQty > 0
                         && (string.IsNullOrEmpty(settings.filterContraDocTypes) ? 1 == 1 : contraDocTypes.Contains(p.DocTypeId.ToString()))
-                         && (string.IsNullOrEmpty(settings.filterContraSites) ? p.SiteId == CurrentSiteId : contraSites.Contains(p.SiteId.ToString()))
-                    && (string.IsNullOrEmpty(settings.filterContraDivisions) ? p.DivisionId == CurrentDivisionId : contraDivisions.Contains(p.DivisionId.ToString()))
+                        && (string.IsNullOrEmpty(settings.filterContraSites) ? p.SiteId == CurrentSiteId : contraSites.Contains(p.SiteId.ToString()))
+                        && (string.IsNullOrEmpty(settings.filterContraDivisions) ? p.DivisionId == CurrentDivisionId : contraDivisions.Contains(p.DivisionId.ToString()))
+                        && (string.IsNullOrEmpty(settings.filterProductTypes) ? 1 == 1 : ProductTypes.Contains("|" + ProductTab.ProductGroup.ProductTypeId.ToString() + "|"))
+                        && (string.IsNullOrEmpty(settings.FilterProductDivision) ? 1 == 1 : ProductDivision.Contains("|" + ProductTab.DivisionId.ToString() + "|"))
+                        && (string.IsNullOrEmpty(settings.filterProductCategories) ? 1 == 1 : ProductCategory.Contains("|" + FinishedProductTab.ProductCategoryId.ToString() + "|"))
                         orderby p.ProdOrderNo
                         select new ProdOrderHeaderListViewModel
                         {
@@ -776,11 +804,12 @@ namespace Service
 
             string settingProductTypes = "";
             string settingProductDivision = "";
+            string settingProductCategory = "";
 
 
             if (!string.IsNullOrEmpty(settings.filterProductTypes)) { settingProductTypes = "|" + settings.filterProductTypes.Replace(",", "|,|") + "|"; }
             if (!string.IsNullOrEmpty(settings.FilterProductDivision)) { settingProductDivision = "|" + settings.FilterProductDivision.Replace(",", "|,|") + "|"; }
-
+            if (!string.IsNullOrEmpty(settings.filterProductCategories)) { settingProductCategory = "|" + settings.filterProductCategories.Replace(",", "|,|") + "|"; }
 
 
             string[] ProductTypes = null;
@@ -791,10 +820,17 @@ namespace Service
             if (!string.IsNullOrEmpty(settings.FilterProductDivision)) { ProductDivision = settingProductDivision.Split(",".ToCharArray()); }
             else { ProductDivision = new string[] { "NA" }; }
 
+            string[] ProductCategory = null;
+            if (!string.IsNullOrEmpty(settings.filterProductCategories)) { ProductCategory = settingProductCategory.Split(",".ToCharArray()); }
+            else { ProductCategory = new string[] { "NA" }; }
+
+
             var list = (from p in db.Product
+                        join Fp in db.FinishedProduct on p.ProductId equals Fp.ProductId into FinishedProductTable from FinishedProductTab in FinishedProductTable.DefaultIfEmpty()
                         where (string.IsNullOrEmpty(term) ? 1 == 1 : p.ProductName.ToLower().Contains(term.ToLower()))
                         && (string.IsNullOrEmpty(settings.filterProductTypes) ? 1 == 1 : ProductTypes.Contains("|" + p.ProductGroup.ProductTypeId.ToString() + "|"))
                         && (string.IsNullOrEmpty(settings.FilterProductDivision) ? 1 == 1 : ProductDivision.Contains("|" + p.DivisionId.ToString() + "|"))
+                        && (string.IsNullOrEmpty(settings.filterProductCategories) ? 1 == 1 : ProductCategory.Contains("|" + FinishedProductTab.ProductCategoryId.ToString() + "|"))
                         group new { p } by p.ProductId into g
                         select new ComboBoxList
                         {

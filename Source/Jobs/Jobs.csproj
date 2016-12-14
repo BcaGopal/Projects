@@ -871,6 +871,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\GatePass\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

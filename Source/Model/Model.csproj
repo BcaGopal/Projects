@@ -109,6 +109,8 @@
     <Compile Include="Models\JobReceiveQaLineDetail.cs" />
     <Compile Include="Models\JobReceiveQaAttribute.cs" />
     <Compile Include="Models\JobReceiveQaPenalty.cs" />
+    <Compile Include="Models\ProductGroupProcessSettings.cs" />
+    <Compile Include="Models\ProductCategoryProcessSettings.cs" />
     <Compile Include="Models\ProductGroupSettings.cs" />
     <Compile Include="Models\ProductCategorySettings.cs" />
     <Compile Include="Models\ProductBuyerSettings.cs" />
@@ -185,10 +187,14 @@
     <Compile Include="Models\Shift.cs" />
     <Compile Include="Models\SubReport.cs" />
     <Compile Include="ViewModels\DocumentTypeSettingsViewModel.cs" />
+    <Compile Include="ViewModels\GatePassHeaderViewModel.cs" />
+    <Compile Include="ViewModels\ProductGroupProcessSettingsViewModel.cs" />
+    <Compile Include="ViewModels\ProductCategoryProcessSettingsViewModel.cs" />
     <Compile Include="ViewModels\ProductCategorySettingsViewModel.cs" />
     <Compile Include="ViewModels\ProductGroupSettingsViewModel.cs" />
     <Compile Include="ViewModels\ProductBuyerSettingsViewModel.cs" />
     <Compile Include="ViewModels\DesignColourConsumptionViewModel.cs" />
+    <Compile Include="ViewModels\QAGroupViewModel.cs" />
     <Compile Include="ViewModels\QAGroupLineViewModel.cs" />
     <Compile Include="ViewModels\WeavingReceiveWizardViewModel.cs" />
     <Compile Include="ViewModels\OverTimeApplicationHeaderViewModel.cs" />
