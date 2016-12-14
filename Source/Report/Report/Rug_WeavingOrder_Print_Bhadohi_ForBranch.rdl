@@ -5846,7 +5846,11 @@ Fields!DealUnit.Value</Value>
               </Visibility>
             </TablixMember>
             <TablixMember />
-            <TablixMember />
+            <TablixMember>
+              <Visibility>
+                <Hidden>=iif(Max(Fields!PerkCount.Value)=0,true,false)</Hidden>
+              </Visibility>
+            </TablixMember>
             <TablixMember />
           </TablixMembers>
         </TablixRowHierarchy>
@@ -6748,7 +6752,11 @@ Fields!DealUnit.Value</Value>
               </Visibility>
             </TablixMember>
             <TablixMember />
-            <TablixMember />
+            <TablixMember>
+              <Visibility>
+                <Hidden>=iif(Max(Fields!PerkCount.Value)=0,true,false)</Hidden>
+              </Visibility>
+            </TablixMember>
             <TablixMember />
           </TablixMembers>
         </TablixRowHierarchy>
