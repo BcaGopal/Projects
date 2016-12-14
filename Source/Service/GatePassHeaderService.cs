@@ -35,6 +35,7 @@ namespace Service
 
         IQueryable<GatePassHeaderViewModel> GetGatePassHeaderListPendingToSubmit(int DocumentTypeId, string Uname);
         IQueryable<GatePassHeaderViewModel> GetGatePassHeaderListPendingToReview(int DocumentTypeId, string Uname);
+        bool CheckForDocNoExists(int GodownId, string docno, int doctypeId);
     }
 
     public class GatePassHeaderService : IGatePassHeaderService
@@ -278,7 +279,8 @@ namespace Service
                         ReviewCount = p.ReviewCount,
                         GodownName =G.GodownName,
                         ReviewBy = p.ReviewBy,
-                        Reviewed = (SqlFunctions.CharIndex(Uname, p.ReviewBy) > 0),
+                        Reviewed = (SqlFunctions.CharIndex(Uname, p.ReviewBy) > 0),  
+                        OrderById=p.OrderById,                      
                         TotalQty = p.GatePassLines.Sum(m => m.Qty),
                         DecimalPlaces = (from o in p.GatePassLines                                        
                                          join u in db.Units on o.UnitId equals u.UnitId
@@ -331,9 +333,33 @@ namespace Service
                         SiteId = p.SiteId,
                         ModifiedBy = p.ModifiedBy,
                         CreatedDate = p.CreatedDate,
+                        OrderById=p.OrderById,
                     }
                         ).FirstOrDefault();
         }
 
+        public bool CheckForDocNoExists(int GodownId, string docno, int doctypeId)
+        {
+            var GateId = (from G in db.Godown where G.GodownId == GodownId select G.GateId).FirstOrDefault();
+            var temp = (from p in db.GatePassHeader
+                        join G in db.Godown on p.GodownId equals G.GodownId
+                        where p.DocNo == docno && p.DocTypeId== doctypeId && G.GateId ==GateId
+                        select p).FirstOrDefault();
+            if (temp == null)
+                return false;
+            else
+                return true;
+        }
+
+        public bool CheckForDocNoExists(int GodownId, string docno, int doctypeId, int headerid)
+        {
+            var temp = (from p in db.GatePassHeader
+                        where p.DocNo == docno && p.GatePassHeaderId != headerid
+                        select p).FirstOrDefault();
+            if (temp == null)
+                return false;
+            else
+                return true;
+        }
     }
 }

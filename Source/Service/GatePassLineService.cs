@@ -136,7 +136,7 @@ namespace Service
                             GatePassLineId=p.GatePassLineId,
                             Specification = p.Specification,
                             Qty = p.Qty,
-                            UnitId = p.UnitId,                            
+                            UnitId = p.UnitId,                           
                             
                         }).FirstOrDefault();
             return temp;

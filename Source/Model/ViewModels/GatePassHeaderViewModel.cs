@@ -19,6 +19,8 @@ namespace Model.ViewModel
         public string SiteName { get; set; }
 
         public int PersonId { get; set; }
+
+        public int ? OrderById { get; set; }
         public string Name { get; set; }
         public int? GodownId { get; set; }
         public string GodownName { get; set; }
@@ -28,7 +30,7 @@ namespace Model.ViewModel
          public decimal Qty { get; set; }
         public decimal? TotalQty { get; set; }
         public string UnitId { get; set; }
-           public string Remark { get; set; }
+        public string Remark { get; set; }
 
         public string ModifiedBy { get; set; }
         public int? ReviewCount { get; set; }

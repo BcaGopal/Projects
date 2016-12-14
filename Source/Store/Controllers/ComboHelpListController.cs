@@ -5458,6 +5458,62 @@ namespace Web
             return Json(MenuJson);
         }
 
+        public ActionResult GetUnits(string searchTerm, int pageSize, int pageNum)
+        {
+            var Query = cbl.GetUnits(searchTerm);
+            var temp = Query.Skip(pageSize * (pageNum - 1)).Take(pageSize).ToList();
 
+            var count = Query.Count();
+
+            ComboBoxPagedResult Data = new ComboBoxPagedResult();
+            Data.Results = temp;
+            Data.Total = count;
+
+            return new JsonpResult
+            {
+                Data = Data,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+        public JsonResult SetUnits(string Ids)
+        {
+            string[] subStr = Ids.Split(',');
+            List<ComboBoxResult> ProductJson = new List<ComboBoxResult>();
+            for (int i = 0; i < subStr.Length; i++)
+            {
+                string temp = subStr[i];
+                IEnumerable<ComboBoxResult> prod = (from b in db.Units
+                                                    where b.UnitId == temp
+                                                    select new ComboBoxResult
+                                                    {
+                                                        id = b.UnitId.ToString(),
+                                                        text = b.UnitName
+                                                    });
+                ProductJson.Add(new ComboBoxResult()
+                {
+                    id = prod.FirstOrDefault().id,
+                    text = prod.FirstOrDefault().text
+                });
+            }
+            return Json(ProductJson);
+        }
+
+        public JsonResult SetSingleUnits(string Ids)
+        {
+            ComboBoxResult MenuJson = new ComboBoxResult();
+
+            ComboBoxResult person = (from b in db.Units
+                                     where b.UnitId == Ids
+                                     select new ComboBoxResult
+                                     {
+                                         id = b.UnitId.ToString(),
+                                         text = b.UnitName
+                                     }).FirstOrDefault();
+
+            MenuJson.id = person.id;
+            MenuJson.text = person.text;
+
+            return Json(MenuJson);
+        }
     }
 }
