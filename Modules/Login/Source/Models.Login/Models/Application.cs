@@ -22,6 +22,7 @@ namespace Models.Login.Models
         public string IconName { get; set; }
         [MaxLength(250)]
         public string ConnectionString { get; set; }
+        public string TopBarColour { get; set; }
 
     }
 }
