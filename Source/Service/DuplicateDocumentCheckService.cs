@@ -200,6 +200,16 @@ namespace Service
                         else
                             return true;
                     }
+                case "GatePassHeaders":
+                    {
+                        var temp = (from p in db.GatePassHeader
+                                    where p.DocNo == docno && ((doctypeId == null) ? 1 == 1 : p.DocTypeId == doctypeId) && p.SiteId == SiteId
+                                    select p).FirstOrDefault();
+                        if (temp == null)
+                            return false;
+                        else
+                            return true;
+                    }
                 case "DispatchWaybillHeader":
                     {
                         var temp = (from p in db.DispatchWaybillHeader
@@ -988,6 +998,7 @@ namespace Service
                         else
                             return true;
                     }
+                
                 case "ChargeTypes":
                     {
                         var temp = (from p in db.ChargeType
@@ -1032,6 +1043,16 @@ namespace Service
                     {
                         var temp = (from p in db.ProductGroups
                                     where p.ProductGroupName == docno && p.ProductGroupId != headerid
+                                    select p).FirstOrDefault();
+                        if (temp == null)
+                            return false;
+                        else
+                            return true;
+                    }
+                case "GatePassHeaders":
+                    {
+                        var temp = (from p in db.GatePassHeader
+                                    where p.DocNo == docno && p.GatePassHeaderId != headerid
                                     select p).FirstOrDefault();
                         if (temp == null)
                             return false;

@@ -26,6 +26,9 @@ namespace Service
         Task<IEquatable<GatePassLine>> GetAsync();
         Task<GatePassLine> FindAsync(int id);
         IEnumerable<GatePassLine> GetGatePassLineList(int GatePassHeaderId);
+
+        IQueryable<GatePassLineViewModel> GetGatePassLineListForIndex(int JobOrderHeaderId);
+        GatePassLineViewModel GetGatePassLine(int id);
     }
 
     public class GatePassLineService : IGatePassLineService
@@ -93,6 +96,51 @@ namespace Service
                     select p);
         }
 
+        public IQueryable<GatePassLineViewModel> GetGatePassLineListForIndex(int GatePassHeaderId)
+        {
+            var temp = from p in db.GatePassLine                
+                       where p.GatePassHeaderId == GatePassHeaderId
+                       orderby p.GatePassLineId
+                       select new GatePassLineViewModel
+                       {
+                           GatePassHeaderId=p.GatePassHeaderId,
+                           GatePassLineId=p.GatePassLineId,
+                           Product=p.Product,
+                           Specification=p.Specification,
+                           Qty=p.Qty,
+                           UnitId=p.UnitId,
+                           DecimalPlaces = (from o in db.Units
+                                            where o.UnitId== p.UnitId
+                                            select o.DecimalPlaces).Max(),
+                           UnitName = (from o in db.Units
+                                            where o.UnitId == p.UnitId
+                                            select o.UnitName).Max(),
+                           CreatedBy =p.CreatedBy,
+                           CreatedDate = p.CreatedDate,
+                           ModifiedBy = p.ModifiedBy,
+                           ModifiedDate = p.ModifiedDate,
+                           
+                       };
+            return temp;
+        }
+
+
+        public GatePassLineViewModel GetGatePassLine(int id)
+        {
+            var temp = (from p in db.GatePassLine
+                        where p.GatePassLineId == id
+                        select new GatePassLineViewModel
+                        {
+                            Product = p.Product,
+                            GatePassHeaderId = p.GatePassHeaderId,
+                            GatePassLineId=p.GatePassLineId,
+                            Specification = p.Specification,
+                            Qty = p.Qty,
+                            UnitId = p.UnitId,                           
+                            
+                        }).FirstOrDefault();
+            return temp;
+        }
         public void GenerateGatePass(int id)//PurchaseGoodsReturnHeaderId
         {
            

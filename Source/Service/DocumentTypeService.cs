@@ -14,6 +14,7 @@ using System.Configuration;
 using System.Data.Entity.Core.Objects;
 using Model.ViewModels;
 
+
 namespace Service
 {
     public interface IDocumentTypeService : IDisposable
@@ -226,7 +227,6 @@ namespace Service
                 return null;
             }
         }
-
         public DateTime GetFinYearStart()
         {
             string FinStartDate = db.Database.SqlQuery<string>("" + ConfigurationManager.AppSettings["DataBaseSchema"] + ".ProFromDate").FirstOrDefault();

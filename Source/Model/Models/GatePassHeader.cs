@@ -81,5 +81,11 @@ namespace Model.Models
 
         [MaxLength(50)]
         public string OMSId { get; set; }
+        public int? ReviewCount { get; set; }
+        public string ReviewBy { get; set; }
+
+        [ForeignKey("OrderBy"), Display(Name = "Order By")]
+        public int? OrderById { get; set; }
+        public virtual Employee OrderBy { get; set; }
     }
 }

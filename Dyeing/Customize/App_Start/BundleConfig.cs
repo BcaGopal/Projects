@@ -72,7 +72,8 @@ namespace Customize
 
             bundles.Add(new StyleBundle("~/Content/clibcss").Include(
                      "~/Content/ProjLib.css",
-                     "~/Content/Notification.css"
+                     "~/Content/Notification.css",
+                      "~/Content/IconCss.css"
                      ));
 
             BundleTable.EnableOptimizations = true;

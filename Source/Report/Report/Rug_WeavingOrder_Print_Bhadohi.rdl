@@ -4903,7 +4903,11 @@ Fields!DealUnit.Value</Value>
         </TablixColumnHierarchy>
         <TablixRowHierarchy>
           <TablixMembers>
-            <TablixMember />
+            <TablixMember>
+              <Visibility>
+                <Hidden>=iif(Fields!Requisition.Value =0,true,false)</Hidden>
+              </Visibility>
+            </TablixMember>
           </TablixMembers>
         </TablixRowHierarchy>
         <Top>13.88174in</Top>
@@ -5962,8 +5966,16 @@ Fields!DealUnit.Value</Value>
               </Visibility>
             </TablixMember>
             <TablixMember />
-            <TablixMember />
-            <TablixMember />
+            <TablixMember>
+              <Visibility>
+                <Hidden>=iif(Fields!Requisition.Value =0,true,false)</Hidden>
+              </Visibility>
+            </TablixMember>
+            <TablixMember>
+              <Visibility>
+                <Hidden>=iif(Fields!Requisition.Value =0,true,false)</Hidden>
+              </Visibility>
+            </TablixMember>
             <TablixMember />
           </TablixMembers>
         </TablixRowHierarchy>
@@ -6865,7 +6877,11 @@ Fields!DealUnit.Value</Value>
               </Visibility>
             </TablixMember>
             <TablixMember />
-            <TablixMember />
+            <TablixMember>
+              <Visibility>
+                <Hidden>=iif(Fields!Requisition.Value =0,true,false)</Hidden>
+              </Visibility>
+            </TablixMember>
             <TablixMember />
           </TablixMembers>
         </TablixRowHierarchy>
