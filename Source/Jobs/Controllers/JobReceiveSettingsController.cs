@@ -183,7 +183,7 @@ namespace Web
 
 
 
-
+                    temp.LossPer = pt.LossPer;
                     temp.SqlProcDocumentPrint = pt.SqlProcDocumentPrint;
                     temp.WizardMenuId = pt.WizardMenuId;
                     temp.ImportMenuId = pt.ImportMenuId;
@@ -358,6 +358,7 @@ namespace Web
                     temp.isVisibleByProductDimension1 = pt.isVisibleByProductDimension1;
                     temp.isVisibleByProductDimension2 = pt.isVisibleByProductDimension2;
 
+                    temp.LossPer = pt.LossPer;
                     temp.SqlProcGatePass = pt.SqlProcGatePass;
                     temp.SqlProcDocumentPrint = pt.SqlProcDocumentPrint;
                     temp.WizardMenuId = pt.WizardMenuId;

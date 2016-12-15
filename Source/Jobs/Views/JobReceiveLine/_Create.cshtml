@@ -39,6 +39,7 @@
                 @Html.HiddenFor(m => m.JobReceiveSettings.isPostedInStock)
                 @Html.HiddenFor(m => m.JobReceiveSettings.CalculationId)
                 @Html.HiddenFor(m => m.JobReceiveSettings.isPostedInStockProcess)
+                @Html.HiddenFor(m => m.JobReceiveSettings.LossPer)
 
 
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
@@ -690,6 +691,7 @@
         }
     }
 
+    var allowedLossPer =$('#JobReceiveSettings_LossPer').val();
     function ValidateData()
     {
 
@@ -718,6 +720,16 @@
             ValidationMessage="DocQty exceeding Order Balance Qty";
 
         }
+        
+        //Check that Loss Qty can not exceed allowed Loss Percentage.
+        if (allowedLossPer != null)
+        {
+            if ($('#LossQty').val() > ($('#DocQty').val() * allowedLossPer / 100) ) 
+            {
+                ValidationMessage="Loss Qty exceeding allowed loss % [" + allowedLossPer.toString() + "]" ;
+            }
+        }
+
 
         if(!ValidationMessage=="")
         {

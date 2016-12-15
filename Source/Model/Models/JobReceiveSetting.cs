@@ -128,6 +128,8 @@ namespace Model.Models
         [MaxLength(20)]
         public string StockQty { get; set; }
 
+        public Decimal? LossPer { get; set; }
+
 
         [MaxLength(50)]
         public string ConsumptionProductCaption { get; set; }

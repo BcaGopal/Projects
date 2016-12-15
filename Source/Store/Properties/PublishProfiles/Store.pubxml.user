@@ -10,7 +10,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
   </PropertyGroup>
   <ItemGroup>
     <File Include="App_Code/CustomHelpers.cshtml">
-      <publishTime>11/25/2016 14:28:03</publishTime>
+      <publishTime>12/15/2016 09:38:43</publishTime>
     </File>
     <File Include="App_Readme/NProgressjs_LICENSE">
       <publishTime>09/22/2016 10:54:56</publishTime>
@@ -34,13 +34,13 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>12/08/2016 11:04:02</publishTime>
     </File>
     <File Include="bin/CustomEventHandlers.dll">
-      <publishTime>12/12/2016 17:45:54</publishTime>
+      <publishTime>12/15/2016 09:47:48</publishTime>
     </File>
     <File Include="bin/Data.dll">
-      <publishTime>12/12/2016 17:45:33</publishTime>
+      <publishTime>12/15/2016 09:47:28</publishTime>
     </File>
     <File Include="bin/DocumentEvents.dll">
-      <publishTime>12/12/2016 17:45:52</publishTime>
+      <publishTime>12/15/2016 09:47:46</publishTime>
     </File>
     <File Include="bin/Elmah.dll">
       <publishTime>09/22/2016 11:24:00</publishTime>
@@ -127,7 +127,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/22/2016 11:23:54</publishTime>
     </File>
     <File Include="bin/Model.dll">
-      <publishTime>12/12/2016 17:45:28</publishTime>
+      <publishTime>12/15/2016 09:47:24</publishTime>
     </File>
     <File Include="bin/Models.Login.dll">
       <publishTime>12/08/2016 11:04:03</publishTime>
@@ -139,7 +139,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/22/2016 11:23:06</publishTime>
     </File>
     <File Include="bin/Notifier.dll">
-      <publishTime>12/12/2016 17:45:53</publishTime>
+      <publishTime>12/15/2016 09:47:47</publishTime>
     </File>
     <File Include="bin/Owin.dll">
       <publishTime>09/22/2016 11:22:43</publishTime>
@@ -151,7 +151,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/22/2016 10:54:21</publishTime>
     </File>
     <File Include="bin/Reports.dll">
-      <publishTime>12/12/2016 17:46:01</publishTime>
+      <publishTime>12/15/2016 09:47:53</publishTime>
     </File>
     <File Include="bin/Reports/CompanyDetail.rdlc">
       <publishTime>09/22/2016 10:54:49</publishTime>
@@ -319,10 +319,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/22/2016 10:54:50</publishTime>
     </File>
     <File Include="bin/Service.dll">
-      <publishTime>12/12/2016 17:45:51</publishTime>
+      <publishTime>12/15/2016 09:47:45</publishTime>
     </File>
     <File Include="bin/Store.dll">
-      <publishTime>12/12/2016 17:54:43</publishTime>
+      <publishTime>12/15/2016 09:51:17</publishTime>
     </File>
     <File Include="bin/Surya.India.Reports.dll">
       <publishTime>07/29/2016 09:39:06</publishTime>
@@ -1399,7 +1399,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/22/2016 10:54:57</publishTime>
     </File>
     <File Include="Scripts/ProjLibFormatting.js">
-      <publishTime>11/17/2016 11:52:45</publishTime>
+      <publishTime>12/15/2016 09:38:43</publishTime>
     </File>
     <File Include="Scripts/respond.js">
       <publishTime>09/22/2016 10:54:57</publishTime>
@@ -1550,6 +1550,36 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     </File>
     <File Include="Views/Gate/_Reason.cshtml">
       <publishTime>09/22/2016 10:54:58</publishTime>
+    </File>
+    <File Include="Views/GatePassHeader/Create.cshtml">
+      <publishTime>12/15/2016 09:38:43</publishTime>
+    </File>
+    <File Include="Views/GatePassHeader/Detail.cshtml">
+      <publishTime>12/15/2016 09:38:43</publishTime>
+    </File>
+    <File Include="Views/GatePassHeader/DocumentTypeList.cshtml">
+      <publishTime>12/15/2016 09:38:43</publishTime>
+    </File>
+    <File Include="Views/GatePassHeader/Index.cshtml">
+      <publishTime>12/15/2016 09:38:43</publishTime>
+    </File>
+    <File Include="Views/GatePassHeader/_LineProgress.cshtml">
+      <publishTime>12/15/2016 09:38:43</publishTime>
+    </File>
+    <File Include="Views/GatePassHeader/_Reason.cshtml">
+      <publishTime>12/15/2016 09:38:43</publishTime>
+    </File>
+    <File Include="Views/GatePassLine/_Create.cshtml">
+      <publishTime>12/15/2016 09:38:43</publishTime>
+    </File>
+    <File Include="Views/GatePassLine/_Filters.cshtml">
+      <publishTime>12/15/2016 09:38:43</publishTime>
+    </File>
+    <File Include="Views/GatePassLine/_Index.cshtml">
+      <publishTime>12/15/2016 09:38:43</publishTime>
+    </File>
+    <File Include="Views/GatePassLine/_Results.cshtml">
+      <publishTime>12/15/2016 09:38:43</publishTime>
     </File>
     <File Include="Views/Godown/Create.cshtml">
       <publishTime>11/25/2016 14:28:03</publishTime>
@@ -1945,7 +1975,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/22/2016 10:54:58</publishTime>
     </File>
     <File Include="Views/Shared/_Layout.cshtml">
-      <publishTime>10/18/2016 09:38:06</publishTime>
+      <publishTime>12/15/2016 09:38:43</publishTime>
     </File>
     <File Include="Views/Shared/_LoginPartial.cshtml">
       <publishTime>09/22/2016 10:54:58</publishTime>

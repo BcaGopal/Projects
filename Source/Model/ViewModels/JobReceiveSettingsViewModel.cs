@@ -77,6 +77,7 @@ namespace Model.ViewModel
 
         [MaxLength(20)]
         public string StockQty { get; set; }
+        public Decimal? LossPer { get; set; }
 
 
         [MaxLength(50)]

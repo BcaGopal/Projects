@@ -2031,6 +2031,15 @@ namespace Web
                 ModelState.AddModelError("DocQty", "DocQty exceeding BalanceQty");
             }
 
+            if (settings.LossPer != null)
+            {
+                if (svm.LossQty > (svm.DocQty * (int)settings.LossPer / 100))
+                {
+                    ModelState.AddModelError("LossQty", "Loss Qty exceeding allowed loss % [" + settings.LossPer.ToString() + "]");
+                }
+            }
+
+
 
             if (ModelState.IsValid && BeforeSave && !EventException)
             {
