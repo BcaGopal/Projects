@@ -211,6 +211,85 @@
                             </div>
                         </div>
 
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.isVisibleCostCenter, "Cost Center", new { @class = "control-label col-xs-6" })
+                                    <div class="col-xs-4" style=" padding-top:4px">
+                                        @Html.CheckBoxFor(m => m.isVisibleCostCenter, new { @class = "checkbox col-xs-2" })
+                                        @Html.ValidationMessageFor(model => model.isVisibleCostCenter)
+                                    </div>
+                                </div>
+                            </div>
+
+                            
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.isVisibleConsumptionDetail, "Consumption Detail", new { @class = "control-label col-xs-6" })
+                                    <div class="col-xs-4" style=" padding-top:4px">
+                                        @Html.CheckBoxFor(m => m.isVisibleConsumptionDetail, new { @class = "checkbox col-xs-2" })
+                                        @Html.ValidationMessageFor(model => model.isVisibleConsumptionDetail)
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.isVisibleByProductDetail, "By Product Detail", new { @class = "control-label col-xs-6" })
+                                    <div class="col-xs-4" style=" padding-top:4px">
+                                        @Html.CheckBoxFor(m => m.isVisibleByProductDetail, new { @class = "checkbox col-xs-2" })
+                                        @Html.ValidationMessageFor(model => model.isVisibleByProductDetail)
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.isVisibleConsumptionDimension1, "Consumption Dimension1", new { @class = "control-label col-xs-6" })
+                                    <div class="col-xs-4" style=" padding-top:4px">
+                                        @Html.CheckBoxFor(m => m.isVisibleConsumptionDimension1, new { @class = "checkbox col-xs-2" })
+                                        @Html.ValidationMessageFor(model => model.isVisibleConsumptionDimension1)
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.isVisibleConsumptionDimension2, "Consumption Dimension2", new { @class = "control-label col-xs-6" })
+                                    <div class="col-xs-4" style=" padding-top:4px">
+                                        @Html.CheckBoxFor(m => m.isVisibleConsumptionDimension2, new { @class = "checkbox col-xs-2" })
+                                        @Html.ValidationMessageFor(model => model.isVisibleConsumptionDimension2)
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.isVisibleByProductDimension1, "By Product Dimension1", new { @class = "control-label col-xs-6" })
+                                    <div class="col-xs-4" style=" padding-top:4px">
+                                        @Html.CheckBoxFor(m => m.isVisibleByProductDimension1, new { @class = "checkbox col-xs-2" })
+                                        @Html.ValidationMessageFor(model => model.isVisibleByProductDimension1)
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.isVisibleByProductDimension2, "By Product Dimension2", new { @class = "control-label col-xs-6" })
+                                    <div class="col-xs-4" style=" padding-top:4px">
+                                        @Html.CheckBoxFor(m => m.isVisibleByProductDimension2, new { @class = "checkbox col-xs-2" })
+                                        @Html.ValidationMessageFor(model => model.isVisibleByProductDimension2)
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -446,7 +525,6 @@
                         </div>
 
                         <div class="row">
-
                             <div class="col-md-6">
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.SqlProcDocumentPrint, "SQL Proc DocumentPrint", new { @class = "control-label col-xs-4" })
@@ -483,6 +561,25 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.WizardMenuId, "Wizard Menu", new { @class = "control-label col-xs-4" })
+                                    <div class="col-xs-6">
+                                        @Html.TextBoxFor(m => m.WizardMenuId, new { @class = "form-control col-xs-6" })
+                                        @Html.ValidationMessageFor(m => m.WizardMenuId, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.ImportMenuId, "Import Menu", new { @class = "control-label col-xs-4" })
+                                    <div class="col-xs-6">
+                                        @Html.TextBoxFor(m => m.ImportMenuId, new { @class = "form-control col-xs-6" })
+                                        @Html.ValidationMessageFor(m => m.ImportMenuId, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+
 
                         </div>
                         <div class="row">
@@ -515,6 +612,65 @@
 
                                    }, "Text", "Value"), string.Empty, new { @class = "form-control col-xs-6" })
                                         @Html.ValidationMessageFor(m => m.StockQty, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.ConsumptionProductCaption, "Consumption Product Caption", new { @class = "control-label col-xs-4" })
+                                    <div class="col-xs-6">
+                                        @Html.TextBoxFor(m => m.ConsumptionProductCaption, new { @class = "form-control col-xs-6" })
+                                        @Html.ValidationMessageFor(m => m.ConsumptionProductCaption, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.ConsumptionDimension1Caption, "Consumption Dimension1 Caption", new { @class = "control-label col-xs-4" })
+                                    <div class="col-xs-6">
+                                        @Html.TextBoxFor(m => m.ConsumptionDimension1Caption, new { @class = "form-control col-xs-6" })
+                                        @Html.ValidationMessageFor(m => m.ConsumptionDimension1Caption, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.ConsumptionDimension2Caption, "Consumption Dimension2 Caption", new { @class = "control-label col-xs-4" })
+                                    <div class="col-xs-6">
+                                        @Html.TextBoxFor(m => m.ConsumptionDimension2Caption, new { @class = "form-control col-xs-6" })
+                                        @Html.ValidationMessageFor(m => m.ConsumptionDimension2Caption, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.ByProductCaption, "By Product Caption", new { @class = "control-label col-xs-4" })
+                                    <div class="col-xs-6">
+                                        @Html.TextBoxFor(m => m.ByProductCaption, new { @class = "form-control col-xs-6" })
+                                        @Html.ValidationMessageFor(m => m.ByProductCaption, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.ByProductDimension1Caption, "By Product Dimension1 Caption", new { @class = "control-label col-xs-4" })
+                                    <div class="col-xs-6">
+                                        @Html.TextBoxFor(m => m.ByProductDimension1Caption, new { @class = "form-control col-xs-6" })
+                                        @Html.ValidationMessageFor(m => m.ByProductDimension1Caption, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.ByProductDimension2Caption, "By Product Dimension2 Caption", new { @class = "control-label col-xs-4" })
+                                    <div class="col-xs-6">
+                                        @Html.TextBoxFor(m => m.ByProductDimension2Caption, new { @class = "form-control col-xs-6" })
+                                        @Html.ValidationMessageFor(m => m.ByProductDimension2Caption, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
                             </div>

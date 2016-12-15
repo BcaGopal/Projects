@@ -165,8 +165,28 @@ namespace Web
                     temp.isVisibleDealUnit = pt.isVisibleDealUnit;
                     temp.IsVisibleIncentive = pt.IsVisibleIncentive;
                     temp.IsVisiblePenalty = pt.IsVisiblePenalty;
-                    temp.IsVisiblePassQty = pt.IsVisiblePassQty;                    
+                    temp.IsVisiblePassQty = pt.IsVisiblePassQty;
+                    temp.isVisibleCostCenter = pt.isVisibleCostCenter;
+                    temp.isVisibleConsumptionDetail = pt.isVisibleConsumptionDetail;
+                    temp.isVisibleByProductDetail = pt.isVisibleByProductDetail;
+
+                    temp.ConsumptionProductCaption = pt.ConsumptionProductCaption;
+                    temp.ConsumptionDimension1Caption = pt.ConsumptionDimension1Caption;
+                    temp.ConsumptionDimension2Caption = pt.ConsumptionDimension2Caption;
+                    temp.ByProductCaption = pt.ByProductCaption;
+                    temp.ByProductDimension1Caption = pt.ByProductDimension1Caption;
+                    temp.ByProductDimension2Caption = pt.ByProductDimension2Caption;
+                    temp.isVisibleConsumptionDimension1 = pt.isVisibleConsumptionDimension1;
+                    temp.isVisibleConsumptionDimension2 = pt.isVisibleConsumptionDimension2;
+                    temp.isVisibleByProductDimension1 = pt.isVisibleByProductDimension1;
+                    temp.isVisibleByProductDimension2 = pt.isVisibleByProductDimension2;
+
+
+
+
                     temp.SqlProcDocumentPrint = pt.SqlProcDocumentPrint;
+                    temp.WizardMenuId = pt.WizardMenuId;
+                    temp.ImportMenuId = pt.ImportMenuId;
 
                     temp.ModifiedDate = DateTime.Now;
                     temp.ModifiedBy = User.Identity.Name;
@@ -322,9 +342,28 @@ namespace Web
                     temp.isVisibleDealUnit = pt.isVisibleDealUnit;
                     temp.IsVisibleIncentive = pt.IsVisibleIncentive;
                     temp.IsVisiblePenalty = pt.IsVisiblePenalty;
-                    temp.IsVisiblePassQty = pt.IsVisiblePassQty;                    
+                    temp.IsVisiblePassQty = pt.IsVisiblePassQty;
+                    temp.isVisibleCostCenter = pt.isVisibleCostCenter;
+                    temp.isVisibleConsumptionDetail = pt.isVisibleConsumptionDetail;
+                    temp.isVisibleByProductDetail = pt.isVisibleByProductDetail;
+
+                    temp.ConsumptionProductCaption = pt.ConsumptionProductCaption;
+                    temp.ConsumptionDimension1Caption = pt.ConsumptionDimension1Caption;
+                    temp.ConsumptionDimension2Caption = pt.ConsumptionDimension2Caption;
+                    temp.ByProductCaption = pt.ByProductCaption;
+                    temp.ByProductDimension1Caption = pt.ByProductDimension1Caption;
+                    temp.ByProductDimension2Caption = pt.ByProductDimension2Caption;
+                    temp.isVisibleConsumptionDimension1 = pt.isVisibleConsumptionDimension1;
+                    temp.isVisibleConsumptionDimension2 = pt.isVisibleConsumptionDimension2;
+                    temp.isVisibleByProductDimension1 = pt.isVisibleByProductDimension1;
+                    temp.isVisibleByProductDimension2 = pt.isVisibleByProductDimension2;
+
                     temp.SqlProcGatePass = pt.SqlProcGatePass;
                     temp.SqlProcDocumentPrint = pt.SqlProcDocumentPrint;
+                    temp.WizardMenuId = pt.WizardMenuId;
+                    temp.ImportMenuId = pt.ImportMenuId;
+
+
 
                     temp.ModifiedDate = DateTime.Now;
                     temp.ModifiedBy = User.Identity.Name;

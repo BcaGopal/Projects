@@ -476,7 +476,8 @@
 
 
                         <div>
-                            <div class="col-md-6">
+                            <div class="col-md-6" style="display:@(Model.CarpetSkuSettings.isVisibleTraceType ? "" : "none")">
+                                @Html.HiddenFor(m => m.CarpetSkuSettings.isVisibleTraceType)
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.TraceType, "Trace Type", new { @class = "control-label col-md-4 col-sm-2" })
                                     <div class="col-md-7 col-sm-10">
@@ -486,7 +487,8 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-6">
+                            <div class="col-md-6" style="display:@(Model.CarpetSkuSettings.isVisibleMapType ? "" : "none")">
+                                @Html.HiddenFor(m => m.CarpetSkuSettings.isVisibleMapType)
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.MapType, "Map Type", new { @class = "control-label col-md-4 col-sm-2" })
                                     <div class="col-md-7 col-sm-10">

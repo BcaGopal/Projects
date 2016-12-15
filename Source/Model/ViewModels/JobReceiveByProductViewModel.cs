@@ -28,5 +28,6 @@ namespace Model.ViewModel
         public string UnitId { get; set; }
         public string UnitName { get; set; }
         public byte UnitDecimalPlaces { get; set; }
+        public JobReceiveSettingsViewModel JobReceiveSettings { get; set; }
     }
 }

@@ -121,7 +121,7 @@
                 <div>
                     <h4 class="col-md-12 black">
                         <span class="glyphicon glyphicon-align-justify"></span>
-                        1.Document Details
+                        Document Details
                     </h4>
                     <div>
                         <div>
@@ -166,17 +166,7 @@
                             </div>
 
                         </div>
-                        <div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    @Html.LabelFor(model => model.Remark, "Remark", new { @class = "control-label col-md-4 col-sm-2" })
-                                    <div class="col-md-7 col-sm-10">
-                                        @Html.TextBoxFor(m => m.Remark, new { @class = "form-control" })
-                                        @Html.ValidationMessageFor(m => m.Remark, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                       
                         <div>
                             <div class="col-md-6" style="display:@(Model.JobReceiveQASettings.isVisibleProductUID?"":"none")">
                                 @Html.HiddenFor(m => m.JobReceiveQASettings.isVisibleProductUID)
@@ -252,7 +242,7 @@
                             </div>
                             <div class="col-md-6" style="display:@(Model.JobReceiveQASettings.isVisibleDealUnit?"":"none")">
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.DealQty, "DealQty", new { @class = "control-label col-md-4 col-sm-2" })
+                                    @Html.LabelFor(model => model.DealQty, "Deal Qty", new { @class = "control-label col-md-4 col-sm-2" })
                                     <div class="col-md-7 col-sm-10">
                                         @Html.TextBoxFor(m => m.DealQty, null, new { @class = "form-control" })
                                         @Html.ValidationMessageFor(m => m.DealQty, "", new { @class = "text-danger" })
@@ -308,16 +298,29 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-
-
-                    <h4 class="col-md-12 black">
-                        <span class="glyphicon glyphicon-align-justify"></span>
-                        2.Dimensions
-                    </h4>
-                    <div>
                         <div>
                             <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Remark, "Remark", new { @class = "control-label col-md-4 col-sm-2" })
+                                    <div class="col-md-7 col-sm-10">
+                                        @Html.TextBoxFor(m => m.Remark, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(m => m.Remark, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    @if (Model.JobReceiveQASettings.IsVisibleLength || Model.JobReceiveQASettings.IsVisibleWidth || Model.JobReceiveQASettings.IsVisibleHeight)
+                    {
+                        <h4 class="col-md-12 black">
+                            <span class="glyphicon glyphicon-align-justify"></span>
+                            Dimensions
+                        </h4>
+                    }
+                    <div>
+                        <div>
+                            <div class="col-md-6" style="display:@(Model.JobReceiveQASettings.IsVisibleLength?"":"none")">
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.Length, "Length", new { @class = "control-label col-md-4 col-sm-2" })
                                     <div class="col-md-7 col-sm-10">
@@ -326,7 +329,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-6" style="display:@(Model.JobReceiveQASettings.IsVisibleWidth?"":"none")">
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.Width, "Width", new { @class = "control-label col-md-4 col-sm-2" })
                                     <div class="col-md-7 col-sm-10">
@@ -338,7 +341,7 @@
                         </div>
 
                         <div>
-                            <div class="col-md-6">
+                            <div class="col-md-6" style="display:@(Model.JobReceiveQASettings.IsVisibleHeight?"":"none")">
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.Height, "Height", new { @class = "control-label col-md-4 col-sm-2" })
                                     <div class="col-md-7 col-sm-10">
@@ -359,7 +362,7 @@
                     {
                         <h4 class="col-md-12 black">
                             <span class="glyphicon glyphicon-align-justify"></span>
-                            3.QA Detail
+                            QA Detail
                         </h4>
                     }
 
@@ -418,7 +421,7 @@
                 <div class="row">
                     <h4 class="col-md-12 black" style="margin-top:15px">
                         <span class="glyphicon glyphicon-shopping-cart"></span>
-                        4.Penalty Detail
+                        Penalty Detail
                     </h4>
                 </div>
 

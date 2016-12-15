@@ -1168,6 +1168,7 @@
     <Content Include="Views\ProductCategoryProcessSettings\Create.cshtml" />
     <Content Include="Views\ProductCategoryProcessSettings\Index.cshtml" />
     <Content Include="Views\ProductCategoryProcessSettings\_Reason.cshtml" />
+    <Content Include="Views\Shared\UnderImplementation.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -53,6 +53,8 @@ namespace Presentation
         {
             ProdOrderLineFilterViewModel vm = new ProdOrderLineFilterViewModel();
             vm.ProdOrderHeaderId = id;
+            ProdOrderHeader Header = new ProdOrderHeaderService(_unitOfWork).Find(id);
+            vm.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(Header.DocTypeId);
             return PartialView("_Filters", vm);
         }
         [HttpPost]
@@ -173,6 +175,8 @@ namespace Presentation
             //Getting Settings
             var settings = new ProdOrderSettingsService(_unitOfWork).GetProdOrderSettingsForDocument(H.DocTypeId, H.DivisionId, H.SiteId);
             s.ProdOrderSettings = Mapper.Map<ProdOrderSettings, ProdOrderSettingsViewModel>(settings);
+
+            s.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(H.DocTypeId);
 
             s.ProdOrderHeaderId = H.ProdOrderHeaderId;
             ViewBag.DocNo = H.DocNo;

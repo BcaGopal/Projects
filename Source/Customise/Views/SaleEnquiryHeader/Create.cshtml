@@ -50,7 +50,10 @@
     @Html.HiddenFor(m => m.ProcessId)
     <div class="panel panel-default">
         <div class="panel-heading">
-            @if (ViewBag.transactionType == "submit")
+
+            @CustomHelpers.RenderHeaderInfo(ViewBag.transactionType, (int?)ViewBag.PendingToSubmit, (int?)ViewBag.PendingToReview, ViewBag.Name)
+
+            @*@if (ViewBag.transactionType == "submit")
             {<h3>
                 <span style="font-family: Calibri,sans-serif,Verdana;font-weight:bold" class="black"> <span class="glyphicon glyphicon-file black"></span>Submit @ViewBag.Name</span>
                 <input type="submit" value="Submit" name="Command:Submit" class="btn btn-primary right" style="width: 90px; background-color: #2980b9" />
@@ -77,21 +80,57 @@
                     <input type="submit" value="Save" class="btn btn-primary right" id="submit" style="width: 90px; background-color: #2980b9" />
                 </h3>
             }
-            <hr style="margin-top:0px;margin-bottom:0px" />
+            <hr style="margin-top:0px;margin-bottom:0px" />*@
+
+            @{
+            string EditAction = "";
+            if (Model.Status == (int)StatusConstants.Drafted || Model.Status == (int)StatusConstants.Import)
+            {
+                EditAction = "Modify";
+            }
+            else if ((Model.Status == (int)StatusConstants.Submitted || Model.Status == (int)StatusConstants.Modified))
+            {
+                EditAction = "ModifyAfter_Submit";
+            }
+            else
+            {
+                EditAction = "DetailInformation";
+            }
+            }
+
+            <hr style="margin-top: 5px; margin-bottom: 5px; border-top: 1px solid #d8d5d5" />
 
             <div class="panel-info">
-                <h4 style="padding:5px 0 0 0;margin:0px">
+                @*<h4 style="padding:5px 0 0 0;margin:0px">
                     @Html.ActionLink(" ", " ", " ", null, new { @class = "glyphicon glyphicon-refresh toolbar", @title = "Refresh Page", @data_toggle = "tooltip", @id = "RefreshPage" })
                     @Html.ActionLink(" ", "Create", "SaleEnquiryHeader", new { @id = ViewBag.id }, new { @class = "glyphicon glyphicon-plus toolbar", @title = "Add New", @data_toggle = "tooltip" })
                     @Html.ActionLink(" ", "GetHistory", "LogHistory", new { Ids = Model.SaleEnquiryHeaderId, DocTypeId = Model.DocTypeId }, new { @class = "glyphicon glyphicon-user toolbar", @title = "History", @data_toggle = "tooltip", @id = "DocHistory", @data_modal = "" })
                     @Html.ActionLink(" ", "GeneratePrints", "SaleEnquiryHeader", new { Ids = Model.SaleEnquiryHeaderId, DocTypeId = Model.DocTypeId }, new { @class = "glyphicon glyphicon-print toolbar", @title = "Print", @data_toggle = "tooltip", @id = "PrintRecordC", target = "_blank" })
                     @Html.ActionLink(" ", "Email", "SaleEnquiryHeader", null, new { @class = "glyphicon glyphicon-envelope toolbar", @title = "Email", @data_toggle = "tooltip" })
-                    @Html.ActionLink(" ", "PrevPage", "SaleEnquiryHeader", new { id = @Model.SaleEnquiryHeaderId }, new { @class = "glyphicon glyphicon-arrow-left toolbar", @title = "Prev Record", @data_toggle = "tooltip" })
-                    @Html.ActionLink(" ", "NextPage", "SaleEnquiryHeader", new { id = @Model.SaleEnquiryHeaderId }, new { @class = "glyphicon glyphicon-arrow-right toolbar", @title = "Next Record", @data_toggle = "tooltip" })
-                    @*@Html.ActionLink(" ", " ", " ", null, new { @class = "glyphicon glyphicon-trash toolbar", @title = "Delete", @data_toggle = "tooltip" })*@
+                    @Html.ActionLink(" ", "PrevPage", "SaleEnquiryHeader", new { DocId = @Model.SaleEnquiryHeaderId, DocTypeId = Model.DocTypeId }, new { @class = "glyphicon glyphicon-arrow-left toolbar", @title = "Prev Record", @data_toggle = "tooltip" })
+                    @Html.ActionLink(" ", "NextPage", "SaleEnquiryHeader", new { DocId = @Model.SaleEnquiryHeaderId, DocTypeId = Model.DocTypeId }, new { @class = "glyphicon glyphicon-arrow-right toolbar", @title = "Next Record", @data_toggle = "tooltip" })
+                    @Html.ActionLink(" ", " ", " ", null, new { @class = "glyphicon glyphicon-trash toolbar", @title = "Delete", @data_toggle = "tooltip" })
                     @Html.ActionLink(" ", "Index", "SaleEnquiryHeader", new { @id = ViewBag.id, IndexType = ViewBag.IndexStatus }, new { @class = "glyphicon glyphicon-list toolbar right", @title = "List", @data_toggle = "tooltip" })
                     @Html.ActionLink(" ", "Report", "SaleEnquiryHeader", new { @id = ViewBag.id }, new { @class = "glyphicon glyphicon-th toolbar right", @title = "Report", @data_toggle = "tooltip" })
-                </h4>
+                </h4>*@
+                <div class="btn-group">
+                    @Html.ActionLink(" ", "Create", "SaleEnquiryHeader", new { @id = ViewBag.id }, new { @class = "cbtn btn-circle glyphicon glyphicon-plus toolbar", @title = "Add New", @data_toggle = "tooltip" })
+                    @Html.ActionLink(" ", EditAction, "SaleEnquiryHeader", new { @id = Model.SaleEnquiryHeaderId, IndexType = ViewBag.IndexStatus }, new { @class = "cbtn btn-circle glyphicon glyphicon-edit", @title = "Edit", @data_toggle = "tooltip" })
+                    @Html.ActionLink(" ", "GeneratePrints", "SaleEnquiryHeader", new { Ids = Model.SaleEnquiryHeaderId, DocTypeId = Model.DocTypeId }, new { @class = "cbtn btn-circle glyphicon glyphicon-print toolbar", @title = "Print", @data_toggle = "tooltip", @id = "PrintRecordC", target = "_blank" })
+                    @Html.ActionLink(" ", "PrevPage", "SaleEnquiryHeader", new { DocId = @Model.SaleEnquiryHeaderId, DocTypeId = Model.DocTypeId }, new { @class = "cbtn btn-circle glyphicon glyphicon-arrow-left toolbar", @title = "Prev Record", @data_toggle = "tooltip" })
+                    @Html.ActionLink(" ", "NextPage", "SaleEnquiryHeader", new { DocId = @Model.SaleEnquiryHeaderId, DocTypeId = Model.DocTypeId }, new { @class = "cbtn btn-circle glyphicon glyphicon-arrow-right toolbar", @title = "Next Record", @data_toggle = "tooltip" })
+                    @Html.ActionLink(" ", "Index", "SaleEnquiryHeader", new { @id = ViewBag.id, IndexType = ViewBag.IndexStatus }, new { @class = "cbtn btn-circle glyphicon glyphicon-list toolbar", @title = "List", @data_toggle = "tooltip" })
+                </div>
+                <div class="btn-group">
+                    <a class="cbtn btn-circle glyphicon glyphicon-option-horizontal dropdown-toggle" aria-expanded="false" style="padding-top: 6px;padding-bottom: 6px;" href="#" data-toggle="dropdown" id="dropdownMenu1">
+                    </a>
+                    <ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu1">
+                        <li><a id="DocHistory" data-modal="" href="@Url.Action("GetHistory", "LogHistory", new { Ids = Model.SaleEnquiryHeaderId, DocTypeId = Model.DocTypeId })"><span class="glyphicon glyphicon-user"> </span> History</a></li>
+                        <li><a href="@Url.Action("Email", "SaleEnquiryHeader")"><span class="glyphicon glyphicon-envelope"> </span> Email</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="@Url.Action("Report", "SaleEnquiryHeader")"><span class="glyphicon glyphicon-th"> </span> Report</a></li>
+                    </ul>
+                </div>
             </div>
         </div>
         <div class="panel-info" style="padding-left:15px">

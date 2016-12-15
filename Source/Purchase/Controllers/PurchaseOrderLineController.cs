@@ -65,6 +65,8 @@ namespace Web
             PurchaseOrderLineFilterViewModel vm = new PurchaseOrderLineFilterViewModel();
             vm.PurchaseOrderHeaderId = id;
             vm.SupplierId = sid;
+            PurchaseOrderHeader Header = new PurchaseOrderHeaderService(_unitOfWork).Find(id);
+            vm.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(Header.DocTypeId);
             PrepareViewBag(null);
             return PartialView("_Filters", vm);
         }
@@ -379,6 +381,8 @@ namespace Web
             //Getting Settings
             var settings = new PurchaseOrderSettingService(_unitOfWork).GetPurchaseOrderSettingForDocument(H.DocTypeId, H.DivisionId, H.SiteId);
             s.PurchOrderSettings = Mapper.Map<PurchaseOrderSetting, PurchaseOrderSettingsViewModel>(settings);
+
+            s.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(H.DocTypeId);
 
             s.PurchaseOrderHeaderId = H.PurchaseOrderHeaderId;
             s.PurchaseOrderHeaderDocNo = H.DocNo;
@@ -921,7 +925,7 @@ namespace Web
 
 
             temp.PurchOrderSettings = Mapper.Map<PurchaseOrderSetting, PurchaseOrderSettingsViewModel>(settings);
-
+            temp.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(H.DocTypeId);
 
             return PartialView("_Create", temp);
         }
@@ -971,6 +975,7 @@ namespace Web
             //Getting Settings
             var settings = new PurchaseOrderSettingService(_unitOfWork).GetPurchaseOrderSettingForDocument(H.DocTypeId, H.DivisionId, H.SiteId);
             temp.PurchOrderSettings = Mapper.Map<PurchaseOrderSetting, PurchaseOrderSettingsViewModel>(settings);
+            temp.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(H.DocTypeId);
             return PartialView("_Create", temp);
         }
 

@@ -201,8 +201,11 @@ namespace Service
                       where p.JobReceiveHeaderId == headerId
                       join t in db.JobOrderLine on p.JobOrderLineId equals t.JobOrderLineId
                       into table from tab in table.DefaultIfEmpty()
+                      join H in db.JobReceiveHeader on p.JobReceiveHeaderId equals H.JobReceiveHeaderId into JobReceiveHeaderTable from JobReceiveHeaderTab in JobReceiveHeaderTable.DefaultIfEmpty()
                       join Jql in JobReceiveQALine on p.JobReceiveLineId equals Jql.JobReceiveLineId into JobReceiveQALineTable
                       from JobReceiveQALineTab in JobReceiveQALineTable.DefaultIfEmpty()
+                      join Pp in db.ProductProcess on new { X1 = tab.ProductId, X2 = JobReceiveHeaderTab.ProcessId } equals new { X1 = Pp.ProductId, X2 = (Pp.ProcessId ?? 0) } into ProductProcessTable
+                      from ProductProcessTab in ProductProcessTable.DefaultIfEmpty()
                       orderby p.Sr
                       select new JobReceiveLineViewModel
                       {
@@ -233,7 +236,8 @@ namespace Service
                           OrderDocTypeId = tab.JobOrderHeader.DocTypeId,
                           OrderHeaderId = tab.JobOrderHeaderId,
                           JobReceiveQALineId = JobReceiveQALineTab.JobReceiveQALineId,
-                          JobReceiveQADocTypeId = JobReceiveQADocTypeId
+                          JobReceiveQADocTypeId = JobReceiveQADocTypeId,
+                          QAGroupId = ProductProcessTab.QAGroupId
                       });
 
             return pt;

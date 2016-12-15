@@ -134,6 +134,33 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.IsVisibleLength, "Length", new { @class = "control-label col-xs-6" })
+                                    <div class="col-xs-4" style=" padding-top:4px">
+                                        @Html.CheckBoxFor(m => m.IsVisibleLength, new { @class = "checkbox col-xs-2" })
+                                        @Html.ValidationMessageFor(model => model.IsVisibleLength)
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.IsVisibleWidth, "Width", new { @class = "control-label col-xs-6" })
+                                    <div class="col-xs-4" style=" padding-top:4px">
+                                        @Html.CheckBoxFor(m => m.IsVisibleWidth, new { @class = "checkbox col-xs-2" })
+                                        @Html.ValidationMessageFor(model => model.IsVisibleWidth)
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.IsVisibleHeight, "Height", new { @class = "control-label col-xs-6" })
+                                    <div class="col-xs-4" style=" padding-top:4px">
+                                        @Html.CheckBoxFor(m => m.IsVisibleHeight, new { @class = "checkbox col-xs-2" })
+                                        @Html.ValidationMessageFor(model => model.IsVisibleHeight)
+                                    </div>
+                                </div>
+                            </div>
                         </div>       
 
 

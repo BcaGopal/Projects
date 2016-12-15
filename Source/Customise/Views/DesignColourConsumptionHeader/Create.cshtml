@@ -313,7 +313,7 @@
                         PercCount+=item.ConsumptionPer;
                         QtyCount+=item.Qty;
                     });
-                    row+="<tr> <td></td> <td></td> <td><strong>Total</strong></td>        <td></td>          <td></td>                  <td>" + PercCount+ "</td>                  <td>" + QtyCount + "</td>                  <td></td><td></td>       <td></td>  </tr>"
+                    row+="<tr> <td></td> <td></td> <td><strong>Total</strong></td>        <td></td>          <td></td>                  <td>" + PercCount.toFixed(2) + "</td>                  <td>" + QtyCount.toFixed(3) + "</td>                  <td></td><td></td>       <td></td>  </tr>"
                 }
                 else
                 {

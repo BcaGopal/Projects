@@ -49,7 +49,7 @@ namespace Web
 
         // GET: /ProductBuyerSettingMaster/Create
 
-        public ActionResult Create()
+        public ActionResult Create(int id)
         {
             if (!UserRoles.Contains("Admin"))
             {
@@ -64,12 +64,14 @@ namespace Web
                 ProductBuyerSettingsViewModel vm = new ProductBuyerSettingsViewModel();
                 vm.SiteId = SiteId;
                 vm.DivisionId = DivisionId;
+                vm.ProductId = id;
                 PrepareViewBag(vm);
                 return View("Create", vm);
             }
             else
             {
                 ProductBuyerSettingsViewModel temp = AutoMapper.Mapper.Map<ProductBuyerSettings, ProductBuyerSettingsViewModel>(settings);
+                temp.ProductId = id;
                 PrepareViewBag(temp);
                 return View("Create", temp);
             }
@@ -122,7 +124,7 @@ namespace Web
 
 
 
-                    return RedirectToAction("Index", "ProductBuyer", new { id = 0 }).Success("Data saved successfully");
+                    return RedirectToAction("Index", "ProductBuyer", new { id = vm.ProductId }).Success("Data saved successfully");
                 }
                 else
                 {
@@ -175,7 +177,7 @@ namespace Web
                         xEModifications = Modifications,
                     }));
 
-                    return RedirectToAction("Index", "ProductBuyer", new { id = 0 }).Success("Data saved successfully");
+                    return RedirectToAction("Index", "ProductBuyer", new { id = vm.ProductId }).Success("Data saved successfully");
 
                 }
 

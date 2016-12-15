@@ -16,10 +16,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/22/2016 10:54:23</publishTime>
     </File>
     <File Include="bin/AdminSetup.dll">
-      <publishTime>11/02/2016 13:20:10</publishTime>
+      <publishTime>12/12/2016 18:02:36</publishTime>
     </File>
     <File Include="bin/AdminSetup.Models.dll">
-      <publishTime>11/02/2016 13:20:07</publishTime>
+      <publishTime>12/12/2016 18:02:33</publishTime>
     </File>
     <File Include="bin/Antlr3.Runtime.dll">
       <publishTime>09/22/2016 11:15:45</publishTime>
@@ -28,10 +28,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/22/2016 11:15:40</publishTime>
     </File>
     <File Include="bin/Components.dll">
-      <publishTime>10/22/2016 14:16:43</publishTime>
+      <publishTime>12/12/2016 18:01:05</publishTime>
     </File>
     <File Include="bin/Data.dll">
-      <publishTime>11/02/2016 13:20:08</publishTime>
+      <publishTime>12/12/2016 18:02:33</publishTime>
     </File>
     <File Include="bin/EntityFramework.dll">
       <publishTime>09/22/2016 11:15:38</publishTime>
@@ -43,10 +43,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/22/2016 11:16:00</publishTime>
     </File>
     <File Include="bin/Infrastructure.dll">
-      <publishTime>10/22/2016 14:16:43</publishTime>
+      <publishTime>12/12/2016 18:01:05</publishTime>
     </File>
     <File Include="bin/Logger.dll">
-      <publishTime>10/22/2016 14:16:45</publishTime>
+      <publishTime>12/12/2016 18:01:06</publishTime>
     </File>
     <File Include="bin/Microsoft.AspNet.Identity.Core.dll">
       <publishTime>09/22/2016 11:15:39</publishTime>
@@ -109,28 +109,28 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/22/2016 11:16:16</publishTime>
     </File>
     <File Include="bin/Models.BasicSetup.dll">
-      <publishTime>11/02/2016 13:19:01</publishTime>
+      <publishTime>12/12/2016 18:01:06</publishTime>
     </File>
     <File Include="bin/Newtonsoft.Json.dll">
       <publishTime>09/22/2016 11:15:41</publishTime>
     </File>
     <File Include="bin/Notifier.dll">
-      <publishTime>10/22/2016 14:16:44</publishTime>
+      <publishTime>12/12/2016 18:01:11</publishTime>
     </File>
     <File Include="bin/Owin.dll">
       <publishTime>09/22/2016 11:15:45</publishTime>
     </File>
     <File Include="bin/PermissionValidator.dll">
-      <publishTime>10/22/2016 14:16:46</publishTime>
+      <publishTime>12/12/2016 18:02:33</publishTime>
     </File>
     <File Include="bin/ProjLib.dll">
-      <publishTime>10/22/2016 14:16:45</publishTime>
+      <publishTime>12/12/2016 18:01:05</publishTime>
     </File>
     <File Include="bin/Services.AdminSetup.dll">
-      <publishTime>11/02/2016 13:20:09</publishTime>
+      <publishTime>12/12/2016 18:02:34</publishTime>
     </File>
     <File Include="bin/Services.BasicSetup.dll">
-      <publishTime>11/02/2016 13:19:03</publishTime>
+      <publishTime>12/12/2016 18:01:09</publishTime>
     </File>
     <File Include="bin/System.Web.Helpers.dll">
       <publishTime>09/22/2016 11:16:12</publishTime>

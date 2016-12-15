@@ -24,6 +24,7 @@
     @Html.HiddenFor(m => m.DocTypeId)
     @Html.HiddenFor(m => m.ProcessId)
     @Html.HiddenFor(m => m.CreatedDate)
+    @Html.HiddenFor(m => m.CalculationFooterChargeCount)
     @Html.HiddenFor(m => m.JobOrderSettings.ProcessId)
     @Html.HiddenFor(m => m.JobOrderSettings.isUniqueCostCenter)
     @Html.HiddenFor(m => m.JobOrderSettings.isVisibleFromProdOrder)
@@ -609,7 +610,11 @@
         $('#myModal').on('hidden.bs.modal', function () {
             LoadProducts();
             var id='@Model.JobOrderHeaderId';
-            LoadNewCharges(id,"Web.JobOrderHeaderCharges","Web.JobOrderLineCharges","/TaxCalculation/GetJOHeaderChargeForEdit");
+            var CalculationFooterChargeCount='@Model.CalculationFooterChargeCount';
+            if (CalculationFooterChargeCount > 0)
+            {
+                LoadNewCharges(id,"Web.JobOrderHeaderCharges","Web.JobOrderLineCharges","/TaxCalculation/GetJOHeaderChargeForEdit");
+            }
         });
 
         $(document).ready(function(){
@@ -1000,9 +1005,11 @@
         LoadConsumption();
 
         var id=@Model.JobOrderHeaderId;
-
-        LoadNewCharges(id,"Web.JobOrderHeaderCharges","Web.JobOrderLineCharges","/TaxCalculation/GetJOHeaderChargeForEdit");
-
+        var CalculationFooterChargeCount='@Model.CalculationFooterChargeCount';
+        if (CalculationFooterChargeCount > 0)
+        {
+            LoadNewCharges(id,"Web.JobOrderHeaderCharges","Web.JobOrderLineCharges","/TaxCalculation/GetJOHeaderChargeForEdit");
+        }
     });
 
 

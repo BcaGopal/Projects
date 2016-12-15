@@ -1600,6 +1600,7 @@ namespace Web
             var settings = new JobOrderSettingsService(_unitOfWork).GetJobOrderSettingsForDocument(H.DocTypeId, H.DivisionId, H.SiteId);
 
             temp.JobOrderSettings = Mapper.Map<JobOrderSettings, JobOrderSettingsViewModel>(settings);
+            temp.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(H.DocTypeId);
 
             temp.GodownId = H.GodownId;
             if (temp == null)

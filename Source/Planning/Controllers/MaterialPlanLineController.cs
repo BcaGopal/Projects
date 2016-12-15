@@ -48,7 +48,12 @@ namespace Presentation
         public ActionResult _ForSaleOrder(int id)
         {
             MaterialPlanForLineFilterViewModel vm = new MaterialPlanForLineFilterViewModel();
-            vm.DocTypeId = new MaterialPlanHeaderService(_unitOfWork).Find(id).DocTypeId;
+            //vm.DocTypeId = new MaterialPlanHeaderService(_unitOfWork).Find(id).DocTypeId;
+            MaterialPlanHeader Header = new MaterialPlanHeaderService(_unitOfWork).Find(id);
+            MaterialPlanSettings Settings = new MaterialPlanSettingsService(_unitOfWork).GetMaterialPlanSettingsForDocument(Header.DocTypeId, Header.DivisionId, Header.SiteId);
+            vm.MaterialPlanSettings = Mapper.Map<MaterialPlanSettings, MaterialPlanSettingsViewModel>(Settings);
+
+            vm.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(Header.DocTypeId);
             vm.MaterialPlanHeaderId = id;
             return PartialView("_Filters", vm);
         }
@@ -626,7 +631,9 @@ namespace Presentation
         public ActionResult _Edit(int id)//Materialplanlineid
         {
             MaterialPlanLine m = _MaterialPlaniLine.Find(id);
+            MaterialPlanHeader Header = new MaterialPlanHeaderService(_unitOfWork).Find(m.MaterialPlanHeaderId);
             MaterialPlanLineViewModel vm = Mapper.Map<MaterialPlanLine, MaterialPlanLineViewModel>(m);
+            vm.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(Header.DocTypeId);
 
             return PartialView("_Create", vm);
 
@@ -715,6 +722,7 @@ namespace Presentation
         {
             MaterialPlanLineForProductionFilterViewModel vm = new MaterialPlanLineForProductionFilterViewModel();
             vm.DocTypeId = new MaterialPlanHeaderService(_unitOfWork).Find(id).DocTypeId;
+            vm.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(vm.DocTypeId);
             vm.MaterialPlanHeaderId = id;
             PrepareViewBag();
             return PartialView("_FiltersProduction", vm);

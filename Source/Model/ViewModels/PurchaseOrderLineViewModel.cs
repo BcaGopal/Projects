@@ -89,6 +89,7 @@ namespace Model.ViewModel
         public List<PurchaseOrderLineCharge> linecharges { get; set; }
         public List<PurchaseOrderHeaderCharge> footercharges { get; set; }
         public PurchaseOrderSettingsViewModel PurchOrderSettings { get; set; }
+        public DocumentTypeSettingsViewModel DocumentTypeSettings { get; set; }
         public bool UnitConversionException { get; set; }
 
         public int DocTypeId { get; set; }
@@ -133,6 +134,7 @@ namespace Model.ViewModel
 
         public decimal Rate { get; set; }
         public string DealUnitId { get; set; }
+        public DocumentTypeSettingsViewModel DocumentTypeSettings { get; set; }
     }
 
     public class PurchaseOrderMasterDetailModel

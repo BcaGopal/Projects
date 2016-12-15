@@ -1435,7 +1435,15 @@ namespace Web
             PrepareViewBag(vm);
 
             vm.ProductTypeAttributes = (List<ProductTypeAttributeViewModel>)System.Web.HttpContext.Current.Session["list"];
-            vm.ProductShapeId = (int)ProductShapeConstants.Rectangle;
+
+            var ProductShape = new ProductShapeService(_unitOfWork).Find("Rectangle");
+
+            if (ProductShape != null)
+            {
+                vm.ProductShapeId = ProductShape.ProductShapeId;
+            }
+
+            //vm.ProductShapeId = (int)ProductShapeConstants.Rectangle;
 
             int DivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
             int SiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];

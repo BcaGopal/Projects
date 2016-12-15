@@ -62,6 +62,8 @@ namespace Model.ViewModel
 
         [Display(Name = "Product Group")]
         public string ProductGroupId { get; set; }
+        public MaterialPlanSettingsViewModel MaterialPlanSettings { get; set; }
+        public DocumentTypeSettingsViewModel DocumentTypeSettings { get; set; }
     }
     public class MaterialPlanLineForProductionFilterViewModel
     {
@@ -74,6 +76,7 @@ namespace Model.ViewModel
         public string ProductId { get; set; }
         [Display(Name = "Product Group")]
         public string ProductGroupId { get; set; }
+        public DocumentTypeSettingsViewModel DocumentTypeSettings { get; set; }
     }
     
     public class MaterialPlanLineListViewModel

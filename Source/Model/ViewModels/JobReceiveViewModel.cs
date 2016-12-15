@@ -226,6 +226,7 @@ namespace Model.ViewModel
 
         public int? JobReceiveQALineId { get; set; }
         public int? JobReceiveQADocTypeId { get; set; }
+        public int? QAGroupId { get; set; }
 
     }
 
@@ -252,6 +253,7 @@ namespace Model.ViewModel
         [Display(Name = "Product Group")]
         public string ProductGroupId { get; set; }
         public string CostCenterId { get; set; }
+        public JobReceiveSettingsViewModel JobReceiveSettings { get; set; }
         public DocumentTypeSettingsViewModel DocumentTypeSettings { get; set; }
     }
     public class JobReceiveMasterDetailModel

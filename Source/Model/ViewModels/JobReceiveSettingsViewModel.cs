@@ -43,6 +43,8 @@ namespace Model.ViewModel
         public bool IsVisibleIncentive { get; set; }
         public bool IsVisiblePenalty { get; set; }
         public bool IsVisiblePassQty { get; set; }
+        public bool isVisibleConsumptionDetail { get; set; }
+        public bool isVisibleByProductDetail { get; set; }
         public bool isMandatoryProcessLine { get; set; }
         public bool isPostedInStock { get; set; }
         public bool isPostedInStockProcess { get; set; }
@@ -75,5 +77,34 @@ namespace Model.ViewModel
 
         [MaxLength(20)]
         public string StockQty { get; set; }
+
+
+        [MaxLength(50)]
+        public string ConsumptionProductCaption { get; set; }
+
+        [MaxLength(50)]
+        public string ConsumptionDimension1Caption { get; set; }
+
+        [MaxLength(50)]
+        public string ConsumptionDimension2Caption { get; set; }
+
+        [MaxLength(50)]
+        public string ByProductCaption { get; set; }
+
+        [MaxLength(50)]
+        public string ByProductDimension1Caption { get; set; }
+
+        [MaxLength(50)]
+        public string ByProductDimension2Caption { get; set; }
+        public bool isVisibleConsumptionDimension1 { get; set; }
+        public bool isVisibleConsumptionDimension2 { get; set; }
+        public bool isVisibleByProductDimension1 { get; set; }
+        public bool isVisibleByProductDimension2 { get; set; }
+
+        public int? WizardMenuId { get; set; }
+        public string WizardMenuName { get; set; }
+        public int? ImportMenuId { get; set; }
+        public string ImportMenuName { get; set; }
+
     }
 }

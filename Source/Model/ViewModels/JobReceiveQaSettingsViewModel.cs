@@ -28,8 +28,9 @@ namespace Model.ViewModels
         public bool IsVisiblePenalty { get; set; }
         public bool IsVisibleSpecification { get; set; }
         public bool IsVisibleWeight { get; set; }
-
-
+        public bool IsVisibleLength { get; set; }
+        public bool IsVisibleWidth { get; set; }
+        public bool IsVisibleHeight { get; set; }
         public string filterContraDocTypes { get; set; }
         public string filterContraSites { get; set; }
         public string filterContraDivisions { get; set; }

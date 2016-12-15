@@ -1829,6 +1829,7 @@ namespace Web
             //Getting Settings
             var settings = new JobOrderSettingsService(_unitOfWork).GetJobOrderSettingsForDocument(header.DocTypeId, header.DivisionId, header.SiteId);
 
+
             var JobOrderLine = new JobOrderLineService(_unitOfWork).Find(temp.JobOrderLineId);
 
             if (temp.ProductUidId.HasValue)
@@ -1837,6 +1838,7 @@ namespace Web
                 temp.BarCodes = temp.ProductUidId.ToString();
             }
             temp.JobOrderSettings = Mapper.Map<JobOrderSettings, JobOrderSettingsViewModel>(settings);
+            temp.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(header.DocTypeId);
             
             return PartialView("_Create", temp);
         }

@@ -31,7 +31,7 @@ namespace Model.Models
         public virtual Charge Charge { get; set; }
 
 
-        public bool? AddDeduct { get; set; }
+        public string AddDeduct { get; set; }
 
 
         public bool AffectCost { get; set; }
@@ -87,8 +87,8 @@ namespace Model.Models
         [Display(Name = "Person")]
         public int? PersonId { get; set; }
         public virtual Person Person { get; set; }
-
-
+        public string IncludedCharges { get; set; }
+        public string IncludedChargesCalculation { get; set; }
         public bool IsVisible { get; set; }
 
         [Display(Name = "Is Active ?")]

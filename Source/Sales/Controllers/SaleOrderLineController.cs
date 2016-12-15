@@ -88,6 +88,8 @@ namespace Web
             var settings = new SaleOrderSettingsService(_unitOfWork).GetSaleOrderSettings(H.DocTypeId, H.DivisionId, H.SiteId);
             s.SaleOrderSettings = Mapper.Map<SaleOrderSettings, SaleOrderSettingsViewModel>(settings);
 
+            s.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(H.DocTypeId);
+
             PrepareViewBag(H);
             return PartialView("_Create", s);
         }
@@ -318,6 +320,8 @@ namespace Web
             var settings = new SaleOrderSettingsService(_unitOfWork).GetSaleOrderSettings(H.DocTypeId, H.DivisionId, H.SiteId);
             s.SaleOrderSettings = Mapper.Map<SaleOrderSettings, SaleOrderSettingsViewModel>(settings);
 
+            s.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(H.DocTypeId);
+
             s.UnitId = new ProductService(_unitOfWork).Find(temp.ProductId).UnitId;
             PrepareViewBag(H);
 
@@ -377,6 +381,8 @@ namespace Web
             var settings = new SaleOrderSettingsService(_unitOfWork).GetSaleOrderSettings(H.DocTypeId, H.DivisionId, H.SiteId);
             s.SaleOrderSettings = Mapper.Map<SaleOrderSettings, SaleOrderSettingsViewModel>(settings);
 
+            s.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(H.DocTypeId);
+
 
             PrepareViewBag(H);
 
@@ -398,6 +404,7 @@ namespace Web
             SaleOrderLineViewModel s = Mapper.Map<SaleOrderLine, SaleOrderLineViewModel>(temp);
             s.UnitId = new ProductService(_unitOfWork).Find(temp.ProductId).UnitId;
             PrepareViewBag(H);
+
 
             return PartialView("_Create", s);
         }

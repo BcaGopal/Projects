@@ -187,15 +187,34 @@
                     </div>     
                     <div class="col-md-6">
                         <div class="form-group">
-                            @Html.LabelFor(model => model.IsVisible, "Is Visible", new { @class = "control-label col-xs-4 " })
+                            @Html.LabelFor(model => model.IncludedCharges, "Incl.Charges", new { @class = "control-label col-xs-4" })
                             <div class="col-xs-7">
-                                @Html.DropDownListFor(model => model.IsVisible, new SelectList(ViewBag.AffectList as System.Collections.IEnumerable, "Value", "Text"), new { @class = "form-control col-xs-7 height" })
-                                @Html.ValidationMessageFor(model => model.IsVisible, "", new { @class = "text-danger" })
+                                @Html.TextBoxFor(model => model.IncludedCharges, new { @class = "form-control col-xs-7" })
+                                @Html.ValidationMessageFor(model => model.IncludedCharges, "", new { @class = "text-danger" })
                             </div>
                         </div>
                     </div>
                 </div>
-             
+             <div class="row">
+                 <div class="col-md-6">
+                     <div class="form-group">
+                         @Html.LabelFor(model => model.IncludedChargesCalculation, "Incl.Calculation", new { @class = "control-label col-xs-4" })
+                         <div class="col-xs-7">
+                             @Html.TextBoxFor(model => model.IncludedChargesCalculation, new { @class = "form-control col-xs-7" })
+                             @Html.ValidationMessageFor(model => model.IncludedChargesCalculation, "", new { @class = "text-danger" })
+                         </div>
+                     </div>
+                 </div>
+                 <div class="col-md-6">
+                     <div class="form-group">
+                         @Html.LabelFor(model => model.IsVisible, "Is Visible", new { @class = "control-label col-xs-4 " })
+                         <div class="col-xs-7">
+                             @Html.DropDownListFor(model => model.IsVisible, new SelectList(ViewBag.AffectList as System.Collections.IEnumerable, "Value", "Text"), new { @class = "form-control col-xs-7 height" })
+                             @Html.ValidationMessageFor(model => model.IsVisible, "", new { @class = "text-danger" })
+                         </div>
+                     </div>
+                 </div>
+             </div>
 
                 <div class="modal-footer " style="padding: 19px 20px 0 20px; border-top:1px solid #8E8888">
                     <button class="btn custom left" name="Command:Edit" type="submit"><h2 style="margin:0px" id="submit"><span class="glyphicon glyphicon-floppy-disk black"></span> </h2></button>
@@ -215,7 +234,8 @@
         CustomSelectFunction($("#CostCenterId"), '/ComboHelpList/GetCostCenterWithDocType', '/ComboHelpList/SetSingleCostCenter', ' ', false, 1);
         CustomSelectFunction($("#ChargeTypeId"), '/ComboHelpList/GetChargeTypeList', '/ComboHelpList/SetSingleChargeType', ' ', false, 1);   
         CustomSelectFunction($("#ProductChargeId"), '/ComboHelpList/GetChargeList', '/ComboHelpList/SetSingleCharge', ' ', false, 1); 
-        CustomSelectFunction($("#ChargeId"), '/ComboHelpList/GetChargeList', '/ComboHelpList/SetSingleCharge', ' ', false, 1); 
+        CustomSelectFunction($("#ChargeId"), '/ComboHelpList/GetChargeList', '/ComboHelpList/SetSingleCharge', ' ', false, 1);
+        CustomSelectFunction($("#IncludedCharges"), '/ComboHelpList/GetChargeListWithCode', '/ComboHelpList/SetChargeWithCode', ' ', true, 1);
         CustomSelectFunction($("#ParentChargeId"), '/ComboHelpList/GetChargeList', '/ComboHelpList/SetSingleCharge', ' ', false, 1); 
     })
 

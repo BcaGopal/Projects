@@ -41,6 +41,7 @@ namespace Model.ViewModel
         public int? Dimension2Id { get; set; }
         public string Dimension2Name { get; set; }
         public string Specification { get; set; }
+        public DocumentTypeSettingsViewModel DocumentTypeSettings { get; set; }
     }
 
 

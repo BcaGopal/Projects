@@ -340,6 +340,7 @@
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="App_Code\MyHelpers.cshtml" />
     <None Include="Properties\PublishProfiles\Purchase.pubxml" />
+    <None Include="Properties\PublishProfiles\TaskManagement.pubxml" />
     <None Include="Scripts\jquery-2.1.4.intellisense.js" />
     <Content Include="Scripts\jquery-2.1.4.js" />
     <Content Include="Scripts\jquery-2.1.4.min.js" />

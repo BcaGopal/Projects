@@ -34,6 +34,10 @@ namespace Model.Models
         [Display(Name = "Account No")]
         public string AccountNo { get; set; }
 
+        [MaxLength(100)]
+        [Display(Name = "Account Holder Name")]
+        public string AccountHolderName { get; set; }
+
         [Display(Name = "Remark")]
         public string Remark { get; set; }
                
