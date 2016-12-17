@@ -197,11 +197,25 @@ namespace Store.App_Start
             container.RegisterType<IRepository<GatePassLine>, Repository<GatePassLine>>();
             container.RegisterType<IGatePassLineService, GatePassLineService>(new PerRequestLifetimeManager());
 
+
+            container.RegisterType<IRepository<QAGroup>, Repository<QAGroup>>();
+            container.RegisterType<IQAGroupService, QAGroupService>(new PerRequestLifetimeManager());
+
+            container.RegisterType<IRepository<QAGroupLine>, Repository<QAGroupLine>>();
+            container.RegisterType<IQAGroupLineService, QAGroupLineService>(new PerRequestLifetimeManager());
+
             Mapper.CreateMap<GatePassHeader, GatePassHeaderViewModel>();
             Mapper.CreateMap<GatePassHeaderViewModel, GatePassHeader>();
 
             Mapper.CreateMap<GatePassLine, GatePassLineViewModel>();
             Mapper.CreateMap<GatePassLineViewModel, GatePassLine>();
+
+            Mapper.CreateMap<QAGroup, QAGroupViewModel>();
+            Mapper.CreateMap<QAGroupViewModel, QAGroup>();
+
+            Mapper.CreateMap<QAGroupLine, QAGroupLineViewModel>();
+            Mapper.CreateMap<QAGroupLineViewModel, QAGroupLine>();
+
             //////
             Mapper.CreateMap<ProcessSequenceHeader, ProcessSequenceHeaderIndexViewModel>();
             Mapper.CreateMap<ProcessSequenceHeaderIndexViewModel, ProcessSequenceHeader>();
@@ -318,6 +332,12 @@ namespace Store.App_Start
             Mapper.CreateMap<GatePassLineViewModel, GatePassLine>();
             Mapper.CreateMap<GatePassHeaderViewModel, DocumentUniqueId>();
             Mapper.CreateMap<GatePassHeader, DocumentUniqueId>();
+
+            Mapper.CreateMap<QAGroup, QAGroup>();
+            Mapper.CreateMap<QAGroupLineViewModel, QAGroupLine>();
+            Mapper.CreateMap<QAGroupViewModel, DocumentUniqueId>();
+            Mapper.CreateMap<QAGroup, DocumentUniqueId>();
+
 
         }
     }

@@ -48,5 +48,7 @@ namespace Model.Models
 
         [MaxLength(50)]
         public string OMSId { get; set; }
+        public int? ReviewCount { get; set; }
+        public string ReviewBy { get; set; }
     }
 }

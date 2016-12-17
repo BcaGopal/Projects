@@ -112,6 +112,8 @@
     <Compile Include="AccountService.cs" />
     <Compile Include="FeetConversionToCmsService.cs" />
     <Compile Include="DocumentTypeSettingsService.cs" />
+    <Compile Include="QAGroupLineService.cs" />
+    <Compile Include="QAGroupService.cs" />
     <Compile Include="JobReceiveQaAttributeService.cs" />
     <Compile Include="JobReceiveQaPenaltyService.cs" />
     <Compile Include="ProductGroupProcessSettingsService.cs" />
