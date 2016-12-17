@@ -75,6 +75,8 @@ namespace Service
                         ParentChargeId = p.ParentChargeId,
                         Rate = p.Rate,
                         Sr=p.Sr,
+                        IncludedCharges=p.IncludedCharges,
+                        IncludedChargesCalculation=p.IncludedChargesCalculation,
                     }
 
                         ).FirstOrDefault();
@@ -100,7 +102,8 @@ namespace Service
                     select new CalculationFooterViewModel
                     {
                         AddDeduct = p.AddDeduct,
-                        AddDeductName = (p.AddDeduct == null ? "" : (p.AddDeduct == true ? "Add" : "Deduction")),
+                        //AddDeductName = (p.AddDeduct == null ? "" : (p.AddDeduct == true ? "Add" : "Deduction")),
+                        AddDeductName = p.AddDeduct,
                         AffectCost = p.AffectCost,
                         AffectCostName = (p.AffectCost == true ? "Yes" : "No"),
                         CalculateOnId = p.CalculateOnId,
@@ -197,6 +200,8 @@ namespace Service
                         Sr=p.Sr,
                         RateType=p.RateType,
                         IsVisible=p.IsVisible,
+                        IncludedCharges = p.IncludedCharges,
+                        IncludedChargesCalculation = p.IncludedChargesCalculation,
                     }
                         );
         }

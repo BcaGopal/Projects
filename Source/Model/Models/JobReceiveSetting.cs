@@ -37,6 +37,10 @@ namespace Model.Models
         public bool? IsVisibleIncentive { get; set; }
         public bool? IsVisiblePenalty { get; set; }
         public bool? IsVisiblePassQty { get; set; }
+        public bool? isVisibleCostCenter { get; set; }
+        public bool? isVisibleConsumptionDetail { get; set; }
+
+        public bool? isVisibleByProductDetail { get; set; }
         public bool? isPostedInStock { get; set; }
         public bool? isPostedInStockProcess { get; set; }
         public bool? isPostedInStockVirtual { get; set; }
@@ -123,6 +127,31 @@ namespace Model.Models
 
         [MaxLength(20)]
         public string StockQty { get; set; }
+
+        public Decimal? LossPer { get; set; }
+
+
+        [MaxLength(50)]
+        public string ConsumptionProductCaption { get; set; }
+
+        [MaxLength(50)]
+        public string ConsumptionDimension1Caption { get; set; }
+
+        [MaxLength(50)]
+        public string ConsumptionDimension2Caption { get; set; }
+        
+        [MaxLength(50)]
+        public string ByProductCaption { get; set; }
+
+        [MaxLength(50)]
+        public string ByProductDimension1Caption { get; set; }
+
+        [MaxLength(50)]
+        public string ByProductDimension2Caption { get; set; }
+        public bool? isVisibleConsumptionDimension1 { get; set; }
+        public bool? isVisibleConsumptionDimension2 { get; set; }
+        public bool? isVisibleByProductDimension1 { get; set; }
+        public bool? isVisibleByProductDimension2 { get; set; }
 
 
         [Display(Name = "Created By")]

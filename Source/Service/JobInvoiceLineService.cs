@@ -232,7 +232,7 @@ namespace Service
                              UnitId = p.UnitId,
                              UnitName = p.UnitName,
                              DealUnitId = p.DealUnitId,
-                             DealUnitName = p.UnitName,
+                             DealUnitName = p.DealUnitName,
                              JobWorkerId = p.JobWorkerId,
                              JobWorkerName = p.JobWorkerName,
                              DealQty = p.DealQty,

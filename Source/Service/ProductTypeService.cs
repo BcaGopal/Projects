@@ -160,7 +160,7 @@ namespace Service
         public IEnumerable<ProductType> GetProductTypeListForMaterial(int id)
         {
             var pt = (from p in db.ProductTypes
-                      where p.IsCustomUI == null && p.ProductNatureId==id
+                      where p.IsCustomUI == false && p.ProductNatureId==id
                       select p
                           );
 

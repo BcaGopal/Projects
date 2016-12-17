@@ -142,6 +142,9 @@ namespace Web
                     temp.IsVisiblePenalty = pt.IsVisiblePenalty;
                     temp.IsVisibleSpecification = pt.IsVisibleSpecification;
                     temp.IsVisibleWeight = pt.IsVisibleWeight;
+                    temp.IsVisibleLength = pt.IsVisibleLength;
+                    temp.IsVisibleWidth = pt.IsVisibleWidth;
+                    temp.IsVisibleHeight = pt.IsVisibleHeight;
                     
                     _JobReceiveQASettingsService.Update(temp,User.Identity.Name);
 

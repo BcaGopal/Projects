@@ -73,6 +73,7 @@ namespace Model.ViewModels
         public int DivisionId { get; set; }
 
         public SaleOrderSettingsViewModel SaleOrderSettings { get; set; }
+        public DocumentTypeSettingsViewModel DocumentTypeSettings { get; set; }
 
 
     }

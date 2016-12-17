@@ -144,6 +144,7 @@ namespace Model.ViewModels
         public string Dimension2Id { get; set; }
 
         public SaleOrderSettingsViewModel SaleOrderSettings { get; set; }
+        public DocumentTypeSettingsViewModel DocumentTypeSettings { get; set; }
 
 
         [Display(Name = "Product Group")]

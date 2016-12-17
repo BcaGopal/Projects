@@ -63,6 +63,7 @@ namespace Model.ViewModels
         public string Dimension2Name { get; set; }
         public string UnitId { get; set; }
         public PurchaseIndentSettingsViewModel PurchIndentSettings { get; set; }
+        public DocumentTypeSettingsViewModel DocumentTypeSettings { get; set; }
         public int MyProperty { get; set; }
         public int unitDecimalPlaces { get; set; }
         public int DealunitDecimalPlaces { get; set; }
@@ -93,6 +94,7 @@ namespace Model.ViewModels
         public string ProductId { get; set; }
         [Display(Name = "Product Group")]
         public string ProductGroupId { get; set; }
+        public DocumentTypeSettingsViewModel DocumentTypeSettings { get; set; }
         
     }
 

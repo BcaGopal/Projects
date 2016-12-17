@@ -84,7 +84,7 @@ namespace Web
             //Getting Settings
             var settings = new StockHeaderSettingsService(_unitOfWork).GetStockHeaderSettingsForDocument(H.DocTypeId, H.DivisionId, H.SiteId);
             s.StockHeaderSettings = Mapper.Map<StockHeaderSettings, StockHeaderSettingsViewModel>(settings);
-
+            s.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(H.DocTypeId);
             s.StockHeaderId = H.StockHeaderId;
             s.GodownId = H.GodownId;
             s.DocTypeId = H.DocTypeId;
@@ -611,6 +611,7 @@ namespace Web
             //Getting Settings
             var settings = new StockHeaderSettingsService(_unitOfWork).GetStockHeaderSettingsForDocument(H.DocTypeId, H.DivisionId, H.SiteId);
             temp.StockHeaderSettings = Mapper.Map<StockHeaderSettings, StockHeaderSettingsViewModel>(settings);
+            temp.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(H.DocTypeId);
             temp.GodownId = H.GodownId;
             temp.DocTypeId = H.DocTypeId;
             PrepareViewBag(temp);
@@ -683,6 +684,7 @@ namespace Web
             //Getting Settings
             var settings = new StockHeaderSettingsService(_unitOfWork).GetStockHeaderSettingsForDocument(H.DocTypeId, H.DivisionId, H.SiteId);
             temp.StockHeaderSettings = Mapper.Map<StockHeaderSettings, StockHeaderSettingsViewModel>(settings);
+            temp.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(H.DocTypeId);
             temp.GodownId = H.GodownId;
             PrepareViewBag(temp);
             return PartialView("_Create", temp);

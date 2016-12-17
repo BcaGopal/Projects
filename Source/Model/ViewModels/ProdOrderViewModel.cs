@@ -87,6 +87,7 @@ namespace Model.ViewModel
         public int DealunitDecimalPlaces { get; set; }
         public string ProdOrderDocNo { get; set; }
         public ProdOrderSettingsViewModel ProdOrderSettings { get; set; }
+        public DocumentTypeSettingsViewModel DocumentTypeSettings { get; set; }
         public string LockReason { get; set; }
     }
     [Serializable]
@@ -137,6 +138,7 @@ namespace Model.ViewModel
         public string ProductId { get; set; }
         [Display(Name = "Product Group")]
         public string ProductGroupId { get; set; }
+        public DocumentTypeSettingsViewModel DocumentTypeSettings { get; set; }
 
     }
     public class ProdOrderMasterDetailModel

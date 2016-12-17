@@ -34,5 +34,6 @@ namespace Model.ViewModel
         public string UnitName { get; set; }
         public byte UnitDecimalPlaces { get; set; }
         public string CostCenterName { get; set; }
+        public JobReceiveSettingsViewModel JobReceiveSettings { get; set; }
     }
 }

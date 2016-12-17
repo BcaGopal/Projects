@@ -39,8 +39,9 @@ namespace Model.Models
         public bool? IsVisiblePenalty { get; set; }
         public bool? IsVisibleSpecification { get; set; }
         public bool? IsVisibleWeight { get; set; }
-
-
+        public bool? IsVisibleLength { get; set; }
+        public bool? IsVisibleWidth { get; set; }
+        public bool? IsVisibleHeight { get; set; }
         public int? DocTypeProductionOrderId { get; set; }
 
         public string filterContraDocTypes { get; set; }

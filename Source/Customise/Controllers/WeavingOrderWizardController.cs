@@ -97,6 +97,15 @@ namespace Web
         {
             bool BarCodesBased = Selected.Any(m => m.RefDocLineId.HasValue);
 
+            int DivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
+            int SiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
+            var settings = new JobOrderSettingsService(_unitOfWork).GetJobOrderSettingsForDocument(id, DivisionId, SiteId);
+
+            if (settings != null)
+            {
+                BarCodesBased = settings.isVisibleProductUID ?? false;
+            }
+
             System.Web.HttpContext.Current.Session["BarCodesWeavingWizardProdOrder"] = Selected;
             if (!BarCodesBased)
                 return Json(new { Success = "URL", Data = "/WeavingOrderWizard/Create/" + id.ToString() }, JsonRequestBehavior.AllowGet);
@@ -350,7 +359,7 @@ namespace Web
                 ModelState.AddModelError("DueDate", "DueDate should not be less than " + svm.DocDate.ToString());
             }
 
-            if (svm.Rate <= 0)
+            if (svm.Rate <= 0 && svm.JobOrderSettings.isMandatoryRate)
                 ModelState.AddModelError("Rate", "Rate field is required");
 
             if (ProdOrdersAndQtys.Count() <= 0)
@@ -479,10 +488,10 @@ namespace Web
                         int? MaxLineId = new JobOrderLineChargeService(_unitOfWork).GetMaxProductCharge(s.JobOrderHeaderId, "Web.JobOrderLines", "JobOrderHeaderId", "JobOrderLineId");
 
                         int PersonCount = 0;
-                        if (!Settings.CalculationId.HasValue)
-                        {
-                            throw new Exception("Calculation not configured in Job order settings");
-                        }
+                        //if (!Settings.CalculationId.HasValue)
+                        //{
+                        //    throw new Exception("Calculation not configured in Job order settings");
+                        //}
 
                         int CalculationId = Settings.CalculationId ?? 0;
 

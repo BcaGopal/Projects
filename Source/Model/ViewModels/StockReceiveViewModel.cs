@@ -21,6 +21,7 @@ namespace Model.ViewModels
         public string Dimension2Id { get; set; }
         public string CostCenterId { get; set; }
         public string RequisitionHeaderId { get; set; }
+        public DocumentTypeSettingsViewModel DocumentTypeSettings { get; set; }
     }
 
 

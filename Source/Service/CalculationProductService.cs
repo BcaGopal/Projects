@@ -73,7 +73,9 @@ namespace Service
                        IsVisible=p.IsVisible,
                        ParentChargeId=p.ParentChargeId,
                        Rate=p.Rate,
-                       Sr=p.Sr
+                       Sr=p.Sr,
+                       IncludedCharges=p.IncludedCharges,
+                       IncludedChargesCalculation=p.IncludedChargesCalculation,
                     }
 
                         ).FirstOrDefault();
@@ -99,7 +101,8 @@ namespace Service
                     select new CalculationProductViewModel
                     {
                         AddDeduct=p.AddDeduct,
-                        AddDeductName=(p.AddDeduct==null?"":(p.AddDeduct==true?"Add":"Deduction")),
+                        //AddDeductName=(p.AddDeduct==null?"":(p.AddDeduct==true?"Add":"Deduction")),
+                        AddDeductName = p.AddDeduct,
                         AffectCost=p.AffectCost,
                         AffectCostName=(p.AffectCost==true?"Yes":"No"),
                         CalculateOnId=p.CalculateOnId,
@@ -193,6 +196,8 @@ namespace Service
                         Amount=p.Amount,
                         ParentChargeId=p.ParentChargeId,
                         ElementId="CALL_"+p.Charge.ChargeCode,
+                        IncludedCharges=p.IncludedCharges,
+                        IncludedChargesCalculation=p.IncludedChargesCalculation,
 
                     }
                         );

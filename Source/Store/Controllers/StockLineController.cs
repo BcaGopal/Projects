@@ -54,6 +54,8 @@ namespace Web
         public ActionResult _ForRequisition(int id, int sid)
         {
             RequisitionFiltersForIssue vm = new RequisitionFiltersForIssue();
+            StockHeader Header = new StockHeaderService(_unitOfWork).Find(id);
+            vm.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(Header.DocTypeId);
             vm.StockHeaderId = id;
             vm.PersonId = sid;
             return PartialView("_Filters", vm);
@@ -242,6 +244,7 @@ namespace Web
             //Getting Settings
             var settings = new StockHeaderSettingsService(_unitOfWork).GetStockHeaderSettingsForDocument(H.DocTypeId, H.DivisionId, H.SiteId);
             s.StockHeaderSettings = Mapper.Map<StockHeaderSettings, StockHeaderSettingsViewModel>(settings);
+            s.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(H.DocTypeId);
             s.PersonId = H.PersonId;
             s.StockHeaderId = H.StockHeaderId;
             s.GodownId = H.GodownId;
@@ -552,6 +555,7 @@ namespace Web
 
             //Getting Settings
             var settings = new StockHeaderSettingsService(_unitOfWork).GetStockHeaderSettingsForDocument(H.DocTypeId, H.DivisionId, H.SiteId);
+            temp.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(H.DocTypeId);
 
 
             temp.StockHeaderSettings = Mapper.Map<StockHeaderSettings, StockHeaderSettingsViewModel>(settings);
@@ -608,6 +612,7 @@ namespace Web
 
 
             temp.StockHeaderSettings = Mapper.Map<StockHeaderSettings, StockHeaderSettingsViewModel>(settings);
+            temp.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(H.DocTypeId);
 
             temp.GodownId = H.GodownId;
 

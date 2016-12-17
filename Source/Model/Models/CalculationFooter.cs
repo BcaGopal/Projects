@@ -30,7 +30,7 @@ namespace Model.Models
         public virtual Charge Charge { get; set; }
 
 
-        public bool? AddDeduct { get; set; }
+        public string AddDeduct { get; set; }
 
 
         public bool AffectCost { get; set; }
@@ -88,13 +88,12 @@ namespace Model.Models
         public int? LedgerAccountDrId { get; set; }
         public virtual LedgerAccount LedgerAccountDr { get; set; }
 
-
-
         [ForeignKey("LedgerAccountCr")]
         [Display(Name = "Ledger A/c (Cr.)")]
         public int? LedgerAccountCrId { get; set; }
         public virtual LedgerAccount LedgerAccountCr { get; set; }
-
+        public string IncludedCharges { get; set; }
+        public string IncludedChargesCalculation { get; set; }
         public bool IsVisible { get; set; }
 
         [Display(Name = "Is Active ?")]

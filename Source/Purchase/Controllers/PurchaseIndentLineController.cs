@@ -54,6 +54,8 @@ namespace Web
         {
             PurchaseIndentLineFilterViewModel vm = new PurchaseIndentLineFilterViewModel();
             vm.PurchaseIndentHeaderId = id;
+            PurchaseIndentHeader Header = new PurchaseIndentHeaderService(_unitOfWork).Find(id);
+            vm.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(Header.DocTypeId);
             return PartialView("_Filters", vm);
         }
         [HttpPost]
@@ -221,7 +223,7 @@ namespace Web
             var settings = new PurchaseIndentSettingService(_unitOfWork).GetPurchaseIndentSettingForDocument(H.DocTypeId, H.DivisionId, H.SiteId);
             s.PurchIndentSettings = Mapper.Map<PurchaseIndentSetting, PurchaseIndentSettingsViewModel>(settings);
 
-
+            s.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(H.DocTypeId);
             s.PurchaseIndentHeaderId = H.PurchaseIndentHeaderId;
             ViewBag.DocNo = H.DocNo;
             ViewBag.Status = H.Status;
@@ -510,6 +512,7 @@ namespace Web
 
 
             temp.PurchIndentSettings = Mapper.Map<PurchaseIndentSetting, PurchaseIndentSettingsViewModel>(settings);
+            temp.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(H.DocTypeId);
 
             return PartialView("_Create", temp);
         }

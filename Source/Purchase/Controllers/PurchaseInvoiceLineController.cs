@@ -71,6 +71,8 @@ namespace Web
         {
             PurchaseInvoiceLineFilterViewModel vm = new PurchaseInvoiceLineFilterViewModel();
             vm.PurchaseInvoiceHeaderId = id;
+            PurchaseInvoiceHeader Header = new PurchaseInvoiceHeaderService(_unitOfWork).Find(id);
+            vm.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(Header.DocTypeId);
             vm.SupplierId = sid;
             return PartialView("_OrderFilters", vm);
         }
@@ -366,6 +368,8 @@ namespace Web
             //Getting Settings
             var settings = new PurchaseInvoiceSettingService(_unitOfWork).GetPurchaseInvoiceSettingForDocument(H.DocTypeId, H.DivisionId, H.SiteId);
             s.PurchInvoiceSettings = Mapper.Map<PurchaseInvoiceSetting, PurchaseInvoiceSettingsViewModel>(settings);
+
+            s.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(H.DocTypeId);
 
             s.PurchaseInvoiceHeaderId = H.PurchaseInvoiceHeaderId;
             s.PurchaseInvoiceHeaderDocNo = H.DocNo;
@@ -742,6 +746,7 @@ namespace Web
             var settings = new PurchaseInvoiceSettingService(_unitOfWork).GetPurchaseInvoiceSettingForDocument(H.DocTypeId, H.DivisionId, H.SiteId);
 
             temp.PurchInvoiceSettings = Mapper.Map<PurchaseInvoiceSetting, PurchaseInvoiceSettingsViewModel>(settings);
+            temp.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(H.DocTypeId);
 
             return PartialView("_Create", temp);
         }
@@ -795,7 +800,7 @@ namespace Web
             var settings = new PurchaseInvoiceSettingService(_unitOfWork).GetPurchaseInvoiceSettingForDocument(H.DocTypeId, H.DivisionId, H.SiteId);
 
             temp.PurchInvoiceSettings = Mapper.Map<PurchaseInvoiceSetting, PurchaseInvoiceSettingsViewModel>(settings);
-
+            temp.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(H.DocTypeId);
             return PartialView("_Create", temp);
         }
 

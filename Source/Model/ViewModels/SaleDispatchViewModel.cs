@@ -139,6 +139,7 @@ namespace Model.ViewModels
         public string UnitId { get; set; }
         public string UnitName { get; set; }
         public SaleDispatchSettingsViewModel SaleDispatchSettings { get; set; }
+        public DocumentTypeSettingsViewModel DocumentTypeSettings { get; set; }
         public int DocTypeId { get; set; }
         public int SiteId { get; set; }
         public int DivisionId { get; set; }
@@ -183,6 +184,7 @@ namespace Model.ViewModels
         public string Dimension2Id { get; set; }
 
         public SaleDispatchSettingsViewModel SaleDispatchSettings { get; set; }
+        public DocumentTypeSettingsViewModel DocumentTypeSettings { get; set; }
 
         [Display(Name = "Product Group")]
         public string ProductGroupId { get; set; }

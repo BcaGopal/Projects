@@ -251,6 +251,40 @@
                                 </div>
                             </div>
                         </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.isVisibleTraceType, "Trace Type", new { @class = "control-label col-xs-6" })
+                                    <div class="col-xs-4" style=" padding-top:4px">
+                                        @Html.CheckBoxFor(m => m.isVisibleTraceType, new { @class = "checkbox col-xs-2" })
+                                        @Html.ValidationMessageFor(model => model.isVisibleTraceType)
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.isVisibleMapType, "Map Type", new { @class = "control-label col-xs-6" })
+                                    <div class="col-xs-4" style=" padding-top:4px">
+                                        @Html.CheckBoxFor(m => m.isVisibleMapType, new { @class = "checkbox col-xs-2" })
+                                        @Html.ValidationMessageFor(model => model.isVisibleMapType)
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.isVisibleStencilSize, "Stencil Size", new { @class = "control-label col-xs-6" })
+                                    <div class="col-xs-4" style=" padding-top:4px">
+                                        @Html.CheckBoxFor(m => m.isVisibleStencilSize, new { @class = "checkbox col-xs-2" })
+                                        @Html.ValidationMessageFor(model => model.isVisibleStencilSize)
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 

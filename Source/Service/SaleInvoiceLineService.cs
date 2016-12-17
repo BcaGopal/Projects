@@ -790,6 +790,8 @@ namespace Service
         {
             SaleInvoiceHeader Header = new SaleInvoiceHeaderService(_unitOfWork).FindDirectSaleInvoice(vm.SaleInvoiceHeaderId);
 
+            var settings = new SaleInvoiceSettingService(_unitOfWork).GetSaleInvoiceSettingForDocument(Header.DocTypeId, Header.DivisionId, Header.SiteId);
+
             string[] ProductIdArr = null;
             if (!string.IsNullOrEmpty(vm.ProductId)) { ProductIdArr = vm.ProductId.Split(",".ToCharArray()); }
             else { ProductIdArr = new string[] { "NA" }; }
@@ -811,6 +813,20 @@ namespace Service
             else { Dimension2IdArr = new string[] { "NA" }; }
 
 
+            string[] contraDocTypes = null;
+            if (!string.IsNullOrEmpty(settings.filterContraDocTypes)) { contraDocTypes = settings.filterContraDocTypes.Split(",".ToCharArray()); }
+            else { contraDocTypes = new string[] { "NA" }; }
+
+            string[] contraSites = null;
+            if (!string.IsNullOrEmpty(settings.filterContraSites)) { contraSites = settings.filterContraSites.Split(",".ToCharArray()); }
+            else { contraSites = new string[] { "NA" }; }
+
+            string[] contraDivisions = null;
+            if (!string.IsNullOrEmpty(settings.filterContraDivisions)) { contraDivisions = settings.filterContraDivisions.Split(",".ToCharArray()); }
+            else { contraDivisions = new string[] { "NA" }; }
+
+            int CurrentSiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
+            int CurrentDivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
 
 
             //ToChange View to get Saleorders instead of goodsreceipts
@@ -828,6 +844,9 @@ namespace Service
                                                          && (string.IsNullOrEmpty(vm.ProductGroupId) ? 1 == 1 : ProductGroupIdArr.Contains(tab2.ProductGroupId.ToString()))
                                                          && (string.IsNullOrEmpty(vm.Dimension1Id) ? 1 == 1 : Dimension1IdArr.Contains(p.Dimension1Id.ToString()))
                                                          && (string.IsNullOrEmpty(vm.Dimension2Id) ? 1 == 1 : Dimension2IdArr.Contains(p.Dimension2Id.ToString()))
+                                                         && (string.IsNullOrEmpty(settings.filterContraDocTypes) ? 1 == 1 : contraDocTypes.Contains(tab.DocTypeId.ToString()))
+                                                         && (string.IsNullOrEmpty(settings.filterContraSites) ? tab.SiteId == CurrentSiteId : contraSites.Contains(tab.SiteId.ToString()))
+                                                         && (string.IsNullOrEmpty(settings.filterContraDivisions) ? tab.DivisionId == CurrentDivisionId : contraDivisions.Contains(tab.DivisionId.ToString()))
                                                          && ((vm.UpToDate == null) ? 1 == 1 : tab.DocDate <= vm.UpToDate)
                                                          && p.BuyerId == Header.SaleToBuyerId
                                                          && p.BalanceQty > 0

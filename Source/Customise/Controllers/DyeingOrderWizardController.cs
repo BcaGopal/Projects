@@ -368,10 +368,10 @@ namespace Web
                 int? MaxLineId = new JobOrderLineChargeService(_unitOfWork).GetMaxProductCharge(s.JobOrderHeaderId, "Web.JobOrderLines", "JobOrderHeaderId", "JobOrderLineId");
 
                 int PersonCount = 0;
-                if (!Settings.CalculationId.HasValue)
-                {
-                    throw new Exception("Calculation not configured in Job order settings");
-                }
+                //if (!Settings.CalculationId.HasValue)
+                //{
+                //    throw new Exception("Calculation not configured in Job order settings");
+                //}
 
                 int CalculationId = Settings.CalculationId ?? 0;
 

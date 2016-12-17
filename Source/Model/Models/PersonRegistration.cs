@@ -26,6 +26,12 @@ namespace Model.Models
         [Display(Name = "Registration No")]
         public string RegistrationNo { get; set; }
 
+        [Display(Name = "Registration Date")]
+        public DateTime? RegistrationDate { get; set; }
+
+        [Display(Name = "Expiry Date")]
+        public DateTime? ExpiryDate { get; set; }
+
         [Display(Name = "Created By")]
         public string CreatedBy { get; set; }
 

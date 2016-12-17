@@ -50,12 +50,13 @@
                 </div>
 
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-6" style="display:@(Model.JobReceiveSettings.isVisibleCostCenter?"":"none")">
+                        @Html.HiddenFor(m => m.JobReceiveSettings.isVisibleCostCenter)
                         <div class="form-group">
                             @Html.LabelFor(model => model.CostCenterId, "CostCenter", new { @class = "control-label col-md-4 col-sm-2 " })
                             <div class="col-md-7 cos-sm-10">
                                 @Html.TextBoxFor(model => model.CostCenterId, new { @class = "form-control required" })
-                                @Html.ValidationMessageFor(model => model.CostCenterId, "", new { @class = "text-danger" })                                
+                                @Html.ValidationMessageFor(model => model.CostCenterId, "", new { @class = "text-danger" })
                             </div>
                         </div>
                     </div>

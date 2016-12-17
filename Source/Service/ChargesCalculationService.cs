@@ -82,13 +82,17 @@ namespace Service
                 }
 
 
-                if (LineCharges[i].AddDeduct == true)
+                if (LineCharges[i].AddDeduct == "Add")
                 {
                     SubTotalProduct = (SubTotalProduct + Line[selector] ?? 0);
                 }
-                else if (LineCharges[i].AddDeduct == false)
+                else if (LineCharges[i].AddDeduct == "Deduction")
                 {
                     SubTotalProduct = (SubTotalProduct - Line[selector] ?? 0);
+                }
+                else if (LineCharges[i].AddDeduct == "Override")
+                {
+                    SubTotalProduct = (Line[selector] ?? 0);
                 }
             }
 
@@ -183,15 +187,21 @@ namespace Service
                 }
 
 
-                if (HeaderCharges[i].AddDeduct == true)
+                if (HeaderCharges[i].AddDeduct == "Add")
                 {
 
                     SubTotalFooter = (SubTotalFooter + Footers[selector] ?? 0);
                 }
-                else if (HeaderCharges[i].AddDeduct == false)
+                else if (HeaderCharges[i].AddDeduct == "Deduction")
                 {
 
                     SubTotalFooter = (SubTotalFooter - Footers[selector] ?? 0);
+
+                }
+                else if (HeaderCharges[i].AddDeduct == "Override")
+                {
+
+                    SubTotalFooter = (Footers[selector] ?? 0);
 
                 }
 

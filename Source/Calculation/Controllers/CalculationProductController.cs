@@ -1,31 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
 using System.Linq;
-using System.Net;
-using System.Web;
 using System.Web.Mvc;
 using Model.Models;
 using Data.Models;
 using Service;
 using Data.Infrastructure;
 using Core.Common;
-using System.Net.Http;
-using System.IO;
-using System.Web.UI.WebControls;
-using System.Web.UI;
-using Presentation.ViewModels;
-using Model.ViewModels;
 using AutoMapper;
-using System.Configuration;
-using Presentation.Helper;
-using Presentation;
-using System.Text;
-using System.Web.Script.Serialization;
-using System.Data.Entity.Validation;
 using Model.ViewModel;
-using System.Data.Entity.Infrastructure;
 using System.Xml.Linq;
 
 namespace Web
@@ -65,8 +48,9 @@ namespace Web
             //ViewBag.CostCenterList = new CostCenterService(_unitOfWork).GetCostCenterList().Take(10).ToList();
             //ViewBag.CalculationProductList = new GetCalculationProductListForDropDown().ToList();
             List<SelectListItem> AddList = new List<SelectListItem>();
-            AddList.Add(new SelectListItem { Text = "Add", Value = "true" });
-            AddList.Add(new SelectListItem { Text = "Deduction", Value = "false" });
+            AddList.Add(new SelectListItem { Text = "Add", Value = "Add" });
+            AddList.Add(new SelectListItem { Text = "Deduction", Value = "Deduction" });
+            AddList.Add(new SelectListItem { Text = "Override", Value = "Override" });
             ViewBag.AddList = new SelectList(AddList, "Value", "Text");
             List<SelectListItem> AffectList = new List<SelectListItem>();
             AffectList.Add(new SelectListItem { Text = "No", Value = "false" });
@@ -149,6 +133,8 @@ namespace Web
                     temp1.Sr = svm.Sr;
                     temp1.RateType = svm.RateType;
                     temp1.IsVisible = svm.IsVisible;
+                    temp1.IncludedCharges = svm.IncludedCharges;
+                    temp1.IncludedChargesCalculation = svm.IncludedChargesCalculation;
                     temp1.ParentChargeId = svm.ParentChargeId;
                     temp1.ModifiedDate = DateTime.Now;
                     temp1.ModifiedBy = User.Identity.Name;

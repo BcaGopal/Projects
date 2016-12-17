@@ -85,6 +85,8 @@ namespace Model.ViewModel
         public DateTime CreatedDate { get; set; }
         public decimal? TotalQty { get; set; }
         public int? DecimalPlaces { get; set; }
+
+        public int? CalculationFooterChargeCount { get; set; }
     }
 
     public class JobOrderLineViewModel

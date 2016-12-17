@@ -67,6 +67,7 @@ namespace Web
             SaleInvoiceHeader H = new SaleInvoiceHeaderService(_unitOfWork).FindDirectSaleInvoice(id);
             var settings = new SaleInvoiceSettingService(_unitOfWork).GetSaleInvoiceSettingForDocument(H.DocTypeId, H.DivisionId, H.SiteId);
             vm.SaleInvoiceSettings = Mapper.Map<SaleInvoiceSetting, SaleInvoiceSettingsViewModel>(settings);
+            vm.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(H.DocTypeId);
             return PartialView("_DispatchFilters", vm);
         }
 
@@ -259,6 +260,9 @@ namespace Web
             //Getting Settings
             var settings = new SaleInvoiceSettingService(_unitOfWork).GetSaleInvoiceSettingForDocument(H.DocTypeId, H.DivisionId, H.SiteId);
             s.SaleInvoiceSettings = Mapper.Map<SaleInvoiceSetting, SaleInvoiceSettingsViewModel>(settings);
+
+            s.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(H.DocTypeId);
+
             s.IsSaleBased = IsSaleBased;
             s.SaleInvoiceHeaderId = H.SaleInvoiceHeaderId;
             s.SaleInvoiceHeaderDocNo = H.DocNo;
@@ -557,6 +561,7 @@ namespace Web
             var settings = new SaleInvoiceSettingService(_unitOfWork).GetSaleInvoiceSettingForDocument(H.DocTypeId, H.DivisionId, H.SiteId);
 
             vm.SaleInvoiceSettings = Mapper.Map<SaleInvoiceSetting, SaleInvoiceSettingsViewModel>(settings);
+            vm.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(H.DocTypeId);
 
             return PartialView("_Create", vm);
         }
@@ -617,6 +622,7 @@ namespace Web
             var settings = new SaleInvoiceSettingService(_unitOfWork).GetSaleInvoiceSettingForDocument(H.DocTypeId, H.DivisionId, H.SiteId);
 
             vm.SaleInvoiceSettings = Mapper.Map<SaleInvoiceSetting, SaleInvoiceSettingsViewModel>(settings);
+            vm.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(H.DocTypeId);
 
             return PartialView("_Create", vm);
         }

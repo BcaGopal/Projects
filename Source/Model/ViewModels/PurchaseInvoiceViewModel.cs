@@ -167,6 +167,7 @@ namespace Model.ViewModel
         public List<PurchaseInvoiceLineCharge> linecharges { get; set; }
         public List<PurchaseInvoiceHeaderCharge> footercharges { get; set; }
         public PurchaseInvoiceSettingsViewModel PurchInvoiceSettings { get; set; }
+        public DocumentTypeSettingsViewModel DocumentTypeSettings { get; set; }
         public bool UnitConversionException { get; set; }
         public int unitDecimalPlaces { get; set; }
         public int DealunitDecimalPlaces { get; set; }
@@ -248,6 +249,7 @@ namespace Model.ViewModel
         public string DealUnitId { get; set; }
         public decimal Rate { get; set; }
         public PurchaseInvoiceSettingsViewModel PurchaseInvoiceSettings { get; set; }
+        public DocumentTypeSettingsViewModel DocumentTypeSettings { get; set; }
     }
     public class PurchaseInvoiceMasterDetailModel
     {

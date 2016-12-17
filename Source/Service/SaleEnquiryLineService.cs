@@ -409,12 +409,14 @@ namespace Service
             if (id != 0)
             {
                 temp = (from p in db.SaleEnquiryLine
+                        where p.ProductId == null
                         orderby p.SaleEnquiryLineId
                         select p.SaleEnquiryLineId).AsEnumerable().SkipWhile(p => p != id).Skip(1).FirstOrDefault();
             }
             else
             {
                 temp = (from p in db.SaleEnquiryLine
+                        where p.ProductId == null
                         orderby p.SaleEnquiryLineId
                         select p.SaleEnquiryLineId).FirstOrDefault();
             }
@@ -432,12 +434,14 @@ namespace Service
             {
 
                 temp = (from p in db.SaleEnquiryLine
+                        where p.ProductId == null
                         orderby p.SaleEnquiryLineId
                         select p.SaleEnquiryLineId).AsEnumerable().TakeWhile(p => p != id).LastOrDefault();
             }
             else
             {
                 temp = (from p in db.SaleEnquiryLine
+                        where p.ProductId == null
                         orderby p.SaleEnquiryLineId
                         select p.SaleEnquiryLineId).AsEnumerable().LastOrDefault();
             }
