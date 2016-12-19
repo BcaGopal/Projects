@@ -82,6 +82,17 @@ namespace Sales.App_Start
             container.RegisterType<IRepository<SaleOrderLine>, Repository<SaleOrderLine>>();
             container.RegisterType<Service.ISaleOrderLineService, Service.SaleOrderLineService>(new PerRequestLifetimeManager());
 
+            container.RegisterType<IRepository<SaleEnquiryHeader>, Repository<SaleEnquiryHeader>>();
+            container.RegisterType<Service.ISaleEnquiryHeaderService, Service.SaleEnquiryHeaderService>(new PerRequestLifetimeManager());
+
+            container.RegisterType<IRepository<SaleEnquiryLine>, Repository<SaleEnquiryLine>>();
+            container.RegisterType<Service.ISaleEnquiryLineService, Service.SaleEnquiryLineService>(new PerRequestLifetimeManager());
+
+            container.RegisterType<ISaleEnquirySettingsService, SaleEnquirySettingsService>(new PerRequestLifetimeManager());
+
+            container.RegisterType<IProductBuyerSettingsService, ProductBuyerSettingsService>(new PerRequestLifetimeManager());
+
+
             container.RegisterType<IRepository<DispatchWaybillHeader>, Repository<DispatchWaybillHeader>>();
             container.RegisterType<Service.IDispatchWaybillHeaderService, Service.DispatchWaybillHeaderService>(new PerRequestLifetimeManager());
 
@@ -93,6 +104,10 @@ namespace Sales.App_Start
 
             container.RegisterType<IRepository<ProductBuyer>, Repository<ProductBuyer>>();
             container.RegisterType<IProductBuyerService, ProductBuyerService>(new PerRequestLifetimeManager());
+
+            Mapper.CreateMap<ProductBuyerSettings, ProductBuyerSettingsViewModel>();
+            Mapper.CreateMap<ProductBuyerSettingsViewModel, ProductBuyerSettings>();
+
 
             container.RegisterType<IRepository<ProductUid>, Repository<ProductUid>>();
             container.RegisterType<IProductUidService, ProductUidService>(new PerRequestLifetimeManager());
@@ -389,6 +404,22 @@ namespace Sales.App_Start
 
             Mapper.CreateMap<DirectSaleInvoiceLineViewModel, SaleDispatchLine>();
             Mapper.CreateMap<SaleDispatchLine, DirectSaleInvoiceLineViewModel>();
+
+            Mapper.CreateMap<SaleEnquiryLine, SaleEnquiryLineViewModel>();
+            Mapper.CreateMap<SaleEnquiryLineViewModel, SaleEnquiryLine>();
+
+            Mapper.CreateMap<SaleEnquiryHeader, SaleEnquiryHeaderIndexViewModel>();
+            Mapper.CreateMap<SaleEnquiryHeaderIndexViewModel, SaleEnquiryHeader>();
+
+            Mapper.CreateMap<SaleEnquiryHeaderIndexViewModelForEdit, SaleEnquiryHeaderIndexViewModel>();
+            Mapper.CreateMap<SaleEnquiryHeaderIndexViewModel, SaleEnquiryHeaderIndexViewModelForEdit>();
+
+            Mapper.CreateMap<SaleEnquiryHeader, DocumentUniqueId>();
+            Mapper.CreateMap<SaleEnquiryHeaderIndexViewModel, DocumentUniqueId>();
+
+            Mapper.CreateMap<SaleEnquirySettings, SaleEnquirySettingsViewModel>();
+            Mapper.CreateMap<SaleEnquirySettingsViewModel, SaleEnquirySettings>();
+
 
 
 

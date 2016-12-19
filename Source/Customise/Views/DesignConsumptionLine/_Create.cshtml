@@ -96,10 +96,11 @@
 
                 <div class="modal-footer " style="padding: 19px 20px 0 20px; border-top:1px solid #8E8888">
                     <button class="btn custom left" name="Command:Edit" type="submit"><h2 style="margin:0px" id="submit"><span class="glyphicon glyphicon-floppy-disk black"></span> </h2></button>
-                    @if (Model.ContentType == "Main Contents")
+                    <small style="text-align:center;font-weight:bold">@ViewBag.LastTransaction</small>
+                    @*@if (Model.ContentType == "Main Contents")
                     { 
                         <small style="text-align:center;font-weight:bold">@ViewBag.LastTransaction</small>
-                    }
+                    }*@
                     <button class="btn custom" name="Command:Delete" id="delete" type="submit"><h2 style="margin:0px"><span class="glyphicon glyphicon-trash black"></span> </h2></button>
                 </div>
             </div>

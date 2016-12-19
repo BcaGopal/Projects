@@ -273,6 +273,7 @@ namespace Service
                                                                                QAQty = L.Qty,
                                                                                InspectedQty = L.Qty,
                                                                                Qty = L.Qty,
+                                                                               UnitId = JobOrderLineTab.Product.UnitId,
                                                                                DealUnitId = L.DealUnitId,
                                                                                UnitConversionMultiplier = L.UnitConversionMultiplier,
                                                                                DealQty = L.DealQty,

@@ -1329,6 +1329,10 @@ namespace Web
                 ProdOrderHeader.ObjectState = Model.ObjectState.Added;
                 db.ProdOrderHeader.Add(ProdOrderHeader);
 
+                ProdOrderHeaderStatus ProdOrderHeaderStatus = new ProdOrderHeaderStatus();
+                ProdOrderHeaderStatus.ProdOrderHeaderId = ProdOrderHeader.ProdOrderHeaderId;
+                db.ProdOrderHeaderStatus.Add(ProdOrderHeaderStatus);
+
 
                 IEnumerable<JobReceiveQALineViewModel> Line = (from L in db.JobReceiveQALine
                                                                where L.JobReceiveQAHeaderId == JobReceiveQAHeaderId

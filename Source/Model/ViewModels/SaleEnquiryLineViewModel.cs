@@ -52,6 +52,7 @@ namespace Model.ViewModels
         public string Remark { get; set; }
 
         public SaleEnquirySettingsViewModel SaleEnquirySettings { get; set; }
+        public ProductBuyerSettingsViewModel ProductBuyerSettings { get; set; }
 
         [Display(Name = "Created By")]
         public string CreatedBy { get; set; }
@@ -79,10 +80,10 @@ namespace Model.ViewModels
         public int? Dimension2Id { get; set; }
         public string Dimension2Name { get; set; }
 
-        public string ProductGroup { get; set; }
-        public string Size { get; set; }
-        public string ProductQuality { get; set; }
-        public string Colour { get; set; }
+        public string BuyerSpecification { get; set; }
+        public string BuyerSpecification1 { get; set; }
+        public string BuyerSpecification2 { get; set; }
+        public string BuyerSpecification3 { get; set; }
         public string LockReason { get; set; }
     }
 
@@ -92,6 +93,7 @@ namespace Model.ViewModels
         public DateTime SaleEnquiryHeaderDocDate { get; set; }
         public int ProgressPerc { get; set; }
         public int unitDecimalPlaces { get; set; }
+
 
     }
     public class SaleEnquiryLineBalance
