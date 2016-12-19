@@ -210,6 +210,16 @@ namespace Service
                         else
                             return true;
                     }
+                case "QAGroups":
+                    {
+                        var temp = (from p in db.QAGroup
+                                    where p.QaGroupName == docno && ((doctypeId == null) ? 1 == 1 : p.DocTypeId == doctypeId) 
+                                    select p).FirstOrDefault();
+                        if (temp == null)
+                            return false;
+                        else
+                            return true;
+                    }
                 case "DispatchWaybillHeader":
                     {
                         var temp = (from p in db.DispatchWaybillHeader
@@ -688,6 +698,16 @@ namespace Service
                     {
                         var temp = (from p in db.SaleEnquiryHeader
                                     where p.DocNo == docno && p.SaleEnquiryHeaderId != headerid && ((doctypeId == null) ? 1 == 1 : p.DocTypeId == doctypeId) && p.SiteId == SiteId && p.DivisionId == DivisionId
+                                    select p).FirstOrDefault();
+                        if (temp == null)
+                            return false;
+                        else
+                            return true;
+                    }
+                case "QAGroups":
+                    {
+                        var temp = (from p in db.QAGroup
+                                    where p.QaGroupName == docno && p.QAGroupId != headerid && ((doctypeId == null) ? 1 == 1 : p.DocTypeId == doctypeId) 
                                     select p).FirstOrDefault();
                         if (temp == null)
                             return false;
