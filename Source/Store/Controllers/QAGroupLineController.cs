@@ -461,16 +461,16 @@ namespace Web
         public ActionResult DeletePost(QAGroupLineViewModel vm)
         {
             bool BeforeSave = true;
-            try
-            {
-                BeforeSave = JobOrderDocEvents.beforeLineDeleteEvent(this, new JobEventArgs(vm.QAGroupId, vm.QAGroupLineId), ref db);
-            }
-            catch (Exception ex)
-            {
-                string message = _exception.HandleException(ex);
-                TempData["CSEXC"] += message;
-                EventException = true;
-            }
+            //try
+            //{
+            //    BeforeSave = JobOrderDocEvents.beforeLineDeleteEvent(this, new JobEventArgs(vm.QAGroupId, vm.QAGroupLineId), ref db);
+            //}
+            //catch (Exception ex)
+            //{
+            //    string message = _exception.HandleException(ex);
+            //    TempData["CSEXC"] += message;
+            //    EventException = true;
+            //}
 
             if (!BeforeSave)
                 TempData["CSEXC"] += "Validation failed before delete.";

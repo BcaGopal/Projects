@@ -624,16 +624,7 @@ namespace Web
             List<LogTypeViewModel> LogList = new List<LogTypeViewModel>();
             bool BeforeSave = true;
 
-            try
-            {
-                BeforeSave = JobOrderDocEvents.beforeHeaderDeleteEvent(this, new JobEventArgs(vm.id), ref context);
-            }
-            catch (Exception ex)
-            {
-                string message = _exception.HandleException(ex);
-                TempData["CSEXC"] += message;
-                EventException = true;
-            }
+          
 
             if (!BeforeSave)
                 TempData["CSEXC"] += "Failed validation before delete";
@@ -660,16 +651,7 @@ namespace Web
 
                 var GeLineIds = QAGroupLine.Select(m => m.QAGroupLineId).ToArray();
 
-                try
-                {
-                    JobOrderDocEvents.onHeaderDeleteEvent(this, new JobEventArgs(vm.id), ref context);
-                }
-                catch (Exception ex)
-                {
-                    string message = _exception.HandleException(ex);
-                    TempData["CSEXC"] += message;
-                    EventException = true;
-                }
+           
 
                 //Mark ObjectState.Delete to all the Purchase Order Lines. 
                 foreach (var item in QAGroupLine)
@@ -726,15 +708,7 @@ namespace Web
                     return PartialView("_Reason", vm);
                 }
 
-                try
-                {
-                    JobOrderDocEvents.afterHeaderDeleteEvent(this, new JobEventArgs(vm.id), ref context);
-                }
-                catch (Exception ex)
-                {
-                    string message = _exception.HandleException(ex);
-                    TempData["CSEXC"] += message;
-                }
+            
 
                 LogActivity.LogActivityDetail(LogVm.Map(new ActiivtyLogViewModel
                 {
