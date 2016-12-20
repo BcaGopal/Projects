@@ -1258,6 +1258,11 @@ namespace Services.Customize
             _unitOfWork.Repository<ProdOrderHeader>().Add(ProdOrderHeader);
 
 
+            ProdOrderHeaderStatus ProdOrderHeaderStatus = new ProdOrderHeaderStatus();
+            ProdOrderHeaderStatus.ProdOrderHeaderId = ProdOrderHeader.ProdOrderHeaderId;
+            _unitOfWork.Repository<ProdOrderHeaderStatus>().Add(ProdOrderHeaderStatus);
+
+
             ProdOrderLine ProdOrderLine = new ProdOrderLine();
             ProdOrderLine.ProdOrderHeaderId = ProdOrderHeader.ProdOrderHeaderId;
             ProdOrderLine.ProductId = vmRecipeHeader.ProductId;

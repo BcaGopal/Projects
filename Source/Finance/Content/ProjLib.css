@@ -282,7 +282,7 @@ body {
         color: #FFF;
         padding: 5px;
         text-align: center;
-        font-size:13.5px;
+        font-size: 13.5px;
         -webkit-transition: all 0.3s ease-out;
         -moz-transition: all 0.3s ease-out;
         -o-transition: all 0.3s ease-out;
@@ -394,44 +394,52 @@ table.grid-table .ui-selecting {
 
 
 .Loading {
-  -webkit-animation: spin 1s infinite linear;
-  -moz-animation: spin 1s infinite linear;
-  -o-animation: spin 1s infinite linear;
-  animation: spin 1s infinite linear;
+    -webkit-animation: spin 1s infinite linear;
+    -moz-animation: spin 1s infinite linear;
+    -o-animation: spin 1s infinite linear;
+    animation: spin 1s infinite linear;
 }
+
 @-moz-keyframes spin {
-  0% {
-    -moz-transform: rotate(0deg);
-  }
-  100% {
-    -moz-transform: rotate(359deg);
-  }
+    0% {
+        -moz-transform: rotate(0deg);
+    }
+
+    100% {
+        -moz-transform: rotate(359deg);
+    }
 }
+
 @-webkit-keyframes spin {
-  0% {
-    -webkit-transform: rotate(0deg);
-  }
-  100% {
-    -webkit-transform: rotate(359deg);
-  }
+    0% {
+        -webkit-transform: rotate(0deg);
+    }
+
+    100% {
+        -webkit-transform: rotate(359deg);
+    }
 }
+
 @-o-keyframes spin {
-  0% {
-    -o-transform: rotate(0deg);
-  }
-  100% {
-    -o-transform: rotate(359deg);
-  }
+    0% {
+        -o-transform: rotate(0deg);
+    }
+
+    100% {
+        -o-transform: rotate(359deg);
+    }
 }
+
 @keyframes spin {
-  0% {
-    -webkit-transform: rotate(0deg);
-    transform: rotate(0deg);
-  }
-  100% {
-    -webkit-transform: rotate(359deg);
-    transform: rotate(359deg);
-  }
+    0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+
+    100% {
+        -webkit-transform: rotate(359deg);
+        transform: rotate(359deg);
+    }
 }
 
 
@@ -519,7 +527,7 @@ input[type=number]::-webkit-outer-spin-button {
 
 @media(max-width:950px) {
 
-    #grid,#gridcharges {
+    #grid, #gridcharges {
         overflow-x: scroll;
     }
 }
@@ -527,5 +535,10 @@ input[type=number]::-webkit-outer-spin-button {
 @media(max-width:550px) {
 
     #gridcharges {
-        overflow-x:initial;
+        overflow-x: initial;
     }
+}
+
+.grid-mvc .table > tbody > tr > td {
+    word-break: break-word;
+}

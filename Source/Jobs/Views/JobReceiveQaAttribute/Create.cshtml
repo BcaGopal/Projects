@@ -43,6 +43,7 @@
     @Html.HiddenFor(m => m.DivisionId)
     @Html.HiddenFor(m => m.SiteId)
     @Html.HiddenFor(m => m.ProcessId)
+    @Html.HiddenFor(m => m.UnitId)
     @Html.HiddenFor(m => m.JobReceiveLineId)
     @Html.HiddenFor(m => m.ProductUidId)
     @Html.HiddenFor(m => m.UnitDecimalPlaces)
@@ -230,11 +231,11 @@
                                     @Html.LabelFor(model => model.DealUnitId, "Deal Unit& Multiplier", new { @class = "control-label col-md-4 col-sm-2" })
                                     <div class="col-md-7 col-sm-10" style="padding:0px">
                                         <div class="col-xs-7" style="padding-right:0px">
-                                            @Html.DropDownListFor(model => model.DealUnitId, new SelectList(ViewBag.DeliveryUnitList as System.Collections.IEnumerable, "UnitId", "UnitName"), new { @class = "form-control height cusrightnormal required", @readonly = "true" })
+                                            @Html.DropDownListFor(model => model.DealUnitId, new SelectList(ViewBag.DeliveryUnitList as System.Collections.IEnumerable, "UnitId", "UnitName"), new { @class = "form-control height cusrightnormal required"})
                                             @Html.ValidationMessageFor(model => model.DealUnitId, "", new { @class = "text-danger" })
                                         </div>
                                         <div class="col-xs-5" style="padding-left:0px">
-                                            @Html.TextBoxFor(model => model.UnitConversionMultiplier, new { @class = "form-control cusleftnormal ", @readonly = "true" })
+                                            @Html.TextBoxFor(model => model.UnitConversionMultiplier, new { @class = "form-control cusleftnormal "})
                                             @Html.ValidationMessageFor(model => model.UnitConversionMultiplier, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
@@ -757,6 +758,8 @@
         Calculation();
     });
 
+    $("#DealUnitId").change(GetUnitConversionMultiplier);
+
     $('#Length,#Width,#Height').keyup(function(){
         GetUnitConversionMultiplier();
         Calculation();
@@ -772,8 +775,8 @@
 
         if ($('#UnitConversionMultiplier').val() != 0) {
             $('#DealQty').val(parseFloat($('#Qty').val() * $('#UnitConversionMultiplier').val()).toFixed($('#DealUnitDecimalPlaces').val()));
-            //$('#FailDealQty').val(parseFloat($('#FailQty').val() * $('#UnitConversionMultiplier').val()).toFixed($('#DealUnitDecimalPlaces').val()));
         }
+
         if($('#PenaltyRate').val() && $('#PenaltyRate').val() >0)
             $('#PenaltyAmt').val(($('#PenaltyRate').val() * parseFloat(($('#QAQty').val()-$('#Qty').val()) * $('#UnitConversionMultiplier').val())).toFixed(2))
 
@@ -843,11 +846,6 @@
     });
 
 
-
-</script>
-
-
-<script type="text/javascript">
     function GetUnitConversionMultiplier() {
         if ($("#Length").val() > 0 && $("#Width").val() > 0) {
             $.ajax({
@@ -856,18 +854,49 @@
                 async: false,
                 url: "@(Url.Action("GetUnitConversionMultiplier"))",
                 data: { ProductId: $("#ProductId").val(),Length: $("#Length").val(),Width: $("#Width").val(),Height: $("#Height").val(),ToUnitId: $("#DealUnitId").val()},
-                success: function (data) {
-                    if (data) {
-                        $('#UnitConversionMultiplier').val(data);
-                    }
-                },
-                error: function (xhr, ajaxOptions, thrownError) {
-                    alert('Failed to retrieve product details.' + thrownError);
+            success: function (data) {
+                if (data) {
+                    $('#UnitConversionMultiplier').val(0);
+                    $('#DealQty').val(data * $("#Qty").val());
+
                 }
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert('Failed to retrieve product details.' + thrownError);
+            }
             });
-        }
-        else {
-            $('#UnitConversionMultiplier').val(0);
-        }
+            $('#DealUnitId').attr('readonly', 'true');
+            $('#UnitConversionMultiplier').attr('readonly', 'true');
+            $('#DealQty').attr('readonly', 'true');
     }
+    else if ($("#UnitId").val() == $("#DealUnitId").val()) 
+    {
+        $("#UnitConversionMultiplier").val(1);
+        Calculation.call();
+        $('#DealUnitId').removeAttr('readonly');
+        $('#UnitConversionMultiplier').removeAttr('readonly');
+        $('#DealQty').removeAttr('readonly');
+    }
+    else 
+    {
+        $.ajax({
+            cache: false,
+            type: "POST",
+            url: "@(Url.Action("GetUnitConversionDetailJson"))",
+            data: { ProductId: $("#ProductId").val(), UnitId: $("#UnitId").val(), DeliveryUnitId: $("#DealUnitId").val() },
+
+        success: function (data) {
+            $("#UnitConversionMultiplier").val(data[0].Value);
+            Calculation.call();
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+            alert('Failed to retrieve Unit conversion details.' + thrownError);
+        }
+        });
+        $('#DealUnitId').removeAttr('readonly');
+        $('#UnitConversionMultiplier').removeAttr('readonly');
+        $('#DealQty').removeAttr('readonly');
+    }
+}
+
 </script>

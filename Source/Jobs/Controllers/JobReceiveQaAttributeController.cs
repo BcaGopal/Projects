@@ -325,6 +325,30 @@ namespace Web
             return Json(UnitConversionMultiplier);
         }
 
+        public JsonResult getunitconversiondetailjson(int productid, string unitid, string deliveryunitid)
+        {
+            UnitConversion uc = new UnitConversionService(_unitOfWork).GetUnitConversion(productid, unitid, deliveryunitid);
+            List<SelectListItem> unitconversionjson = new List<SelectListItem>();
+            if (uc != null)
+            {
+                unitconversionjson.Add(new SelectListItem
+                {
+                    Text = uc.Multiplier.ToString(),
+                    Value = uc.Multiplier.ToString()
+                });
+            }
+            else
+            {
+                unitconversionjson.Add(new SelectListItem
+                {
+                    Text = "0",
+                    Value = "0"
+                });
+            }
+
+
+            return Json(unitconversionjson);
+        }
 
         protected override void Dispose(bool disposing)
         {

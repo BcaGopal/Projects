@@ -24,7 +24,7 @@ namespace Service
 
         SaleEnquiryLineViewModel GetSaleEnquiryLineModel(int id);
         SaleEnquiryLine Find(int id);
-        SaleEnquiryLine Find_WithLineDetail(int SaleEnquiryHeaderId, string ProductQuality, string ProductGroup, string Colour, string Size);
+        SaleEnquiryLine Find_WithLineDetail(int SaleEnquiryHeaderId, string BuyerSpecification, string BuyerSpecification1, string BuyerSpecification2, string BuyerSpecification3);
         void Update(SaleEnquiryLine s);
         IEnumerable<SaleEnquiryLineIndexViewModel> GetSaleEnquiryLineList(int SaleEnquiryHeaderId);
 
@@ -39,7 +39,11 @@ namespace Service
         SaleEnquiryLineViewModel GetSaleEnquiryDetailForInvoice(int id);
 
         IQueryable<ComboBoxResult> GetCustomProducts(int Id, string term);
-
+        string GetBuyerSpecification(int BuyerId);
+        string GetBuyerSpecification1(int BuyerId);
+        string GetBuyerSpecification2(int BuyerId);
+        string GetBuyerSpecification3(int BuyerId);
+        SaleEnquiryLastTransaction GetLastTransactionDetail(int SaleEnquiryHeaderId);
         int NextId(int id);
         int PrevId(int id);
     }
@@ -145,14 +149,14 @@ namespace Service
             return _unitOfWork.Repository<SaleEnquiryLine>().Find(id);
         }
 
-        public SaleEnquiryLine Find_WithLineDetail(int SaleEnquiryHeaderId, string ProductQuality, string ProductGroup, string Colour, string Size)
+        public SaleEnquiryLine Find_WithLineDetail(int SaleEnquiryHeaderId, string BuyerSpecification, string BuyerSpecification1, string BuyerSpecification2, string BuyerSpecification3)
         {
             //return _unitOfWork.Repository<SaleEnquiryLine>().Find(id);
 
             return (from p in db.SaleEnquiryLine
                     join t in db.SaleEnquiryLineExtended  on p.SaleEnquiryLineId equals t.SaleEnquiryLineId into table
                     from tab in table.DefaultIfEmpty()
-                    where (p.SaleEnquiryHeaderId  == SaleEnquiryHeaderId) &&  (tab.ProductQuality == ProductQuality) && (tab.ProductGroup == ProductGroup) && (tab.Colour  == Colour) && (tab.Size == Size)
+                    where (p.SaleEnquiryHeaderId == SaleEnquiryHeaderId) && (tab.BuyerSpecification == BuyerSpecification) && (tab.BuyerSpecification1 == BuyerSpecification1) && (tab.BuyerSpecification2 == BuyerSpecification2) && (tab.BuyerSpecification3 == BuyerSpecification3) 
                     select p
             ).FirstOrDefault();
         }
@@ -205,10 +209,10 @@ namespace Service
                            Amount = p.Amount,
                            DueDate = p.DueDate,
                            ProductName = tab2.ProductName,
-                           ProductGroup = SaleEnquiryLineTab.ProductGroup,
-                           Size = SaleEnquiryLineTab.Size,
-                           Colour = SaleEnquiryLineTab.Colour,
-                           ProductQuality = SaleEnquiryLineTab.ProductQuality,
+                           BuyerSpecification = SaleEnquiryLineTab.BuyerSpecification,
+                           BuyerSpecification1 = SaleEnquiryLineTab.BuyerSpecification1,
+                           BuyerSpecification3 = SaleEnquiryLineTab.BuyerSpecification3,
+                           BuyerSpecification2 = SaleEnquiryLineTab.BuyerSpecification2,
                            Dimension1Name = p.Dimension1.Dimension1Name,
                            Dimension2Name = p.Dimension2.Dimension2Name,
                            Qty = p.Qty,
@@ -371,10 +375,10 @@ namespace Service
                     {
                         id = pb.ProductId.ToString(),
                         text = pb.ProductName,
-                        AProp1 = "Design : " + pb.ProductGroup,
-                        AProp2 = "Size : " + pb.Size,
-                        TextProp1 = "Colour : " + pb.Colour,
-                        TextProp2 = "Quality : " + pb.ProductQuality
+                        AProp1 = pb.BuyerSpecification,
+                        AProp2 = pb.BuyerSpecification1,
+                        TextProp1 = pb.BuyerSpecification2,
+                        TextProp2 = pb.BuyerSpecification3
                     });
         }
 
@@ -395,10 +399,10 @@ namespace Service
                            SaleEnquiryHeaderDocDate = tab1.DocDate,
                            SaleToBuyerId = tab1.SaleToBuyerId,
                            SaleToBuyerName = tab1.SaleToBuyer.Name,
-                           ProductGroup = SaleEnquiryLineTab.ProductGroup,
-                           Size = SaleEnquiryLineTab.Size,
-                           Colour = SaleEnquiryLineTab.Colour,
-                           ProductQuality = SaleEnquiryLineTab.ProductQuality,
+                           BuyerSpecification = SaleEnquiryLineTab.BuyerSpecification,
+                           BuyerSpecification1 = SaleEnquiryLineTab.BuyerSpecification1,
+                           BuyerSpecification3 = SaleEnquiryLineTab.BuyerSpecification3,
+                           BuyerSpecification2 = SaleEnquiryLineTab.BuyerSpecification2,
                        };
             return temp;
         }
@@ -451,8 +455,104 @@ namespace Service
                 return id;
         }
 
+        public string GetBuyerSpecification(int BuyerId)
+        {
+            var Query = (from Le in db.SaleEnquiryLineExtended
+                         join L in db.SaleEnquiryLine on Le.SaleEnquiryLineId equals L.SaleEnquiryLineId into SaleEnquiryLineTable from SaleEnquiryLineTab in SaleEnquiryLineTable.DefaultIfEmpty()
+                         join H in db.SaleEnquiryHeader on SaleEnquiryLineTab.SaleEnquiryHeaderId equals H.SaleEnquiryHeaderId into SaleEnquiryHeaderTable from SaleEnquiryHeaderTab in SaleEnquiryHeaderTable.DefaultIfEmpty()
+                         where SaleEnquiryHeaderTab.SaleToBuyerId == BuyerId && Le.BuyerSpecification != null
+                         group new  { Le } by new { Le.BuyerSpecification } into Result
+                         select new
+                         {
+                             BuyerSpecification = Result.Key.BuyerSpecification,
+                         }
+                        );
+
+            return string.Join(",", Query.Select(m => m.BuyerSpecification).ToList());
+        }
+
+        public string GetBuyerSpecification1(int BuyerId)
+        {
+            var Query = (from Le in db.SaleEnquiryLineExtended
+                         join L in db.SaleEnquiryLine on Le.SaleEnquiryLineId equals L.SaleEnquiryLineId into SaleEnquiryLineTable
+                         from SaleEnquiryLineTab in SaleEnquiryLineTable.DefaultIfEmpty()
+                         join H in db.SaleEnquiryHeader on SaleEnquiryLineTab.SaleEnquiryHeaderId equals H.SaleEnquiryHeaderId into SaleEnquiryHeaderTable
+                         from SaleEnquiryHeaderTab in SaleEnquiryHeaderTable.DefaultIfEmpty()
+                         where SaleEnquiryHeaderTab.SaleToBuyerId == BuyerId && Le.BuyerSpecification1 != null
+                         group new { Le } by new { Le.BuyerSpecification1 } into Result
+                         select new
+                         {
+                             BuyerSpecification1 = Result.Key.BuyerSpecification1,
+                         }
+                        );
+
+            return string.Join(",", Query.Select(m => m.BuyerSpecification1).ToList());
+        }
+
+        public string GetBuyerSpecification2(int BuyerId)
+        {
+            var Query = (from Le in db.SaleEnquiryLineExtended
+                         join L in db.SaleEnquiryLine on Le.SaleEnquiryLineId equals L.SaleEnquiryLineId into SaleEnquiryLineTable
+                         from SaleEnquiryLineTab in SaleEnquiryLineTable.DefaultIfEmpty()
+                         join H in db.SaleEnquiryHeader on SaleEnquiryLineTab.SaleEnquiryHeaderId equals H.SaleEnquiryHeaderId into SaleEnquiryHeaderTable
+                         from SaleEnquiryHeaderTab in SaleEnquiryHeaderTable.DefaultIfEmpty()
+                         where SaleEnquiryHeaderTab.SaleToBuyerId == BuyerId && Le.BuyerSpecification2 != null
+                         group new { Le } by new { Le.BuyerSpecification2 } into Result
+                         select new
+                         {
+                             BuyerSpecification2 = Result.Key.BuyerSpecification2,
+                         }
+                        );
+
+            return string.Join(",", Query.Select(m => m.BuyerSpecification2).ToList());
+        }
+
+        public string GetBuyerSpecification3(int BuyerId)
+        {
+            var Query = (from Le in db.SaleEnquiryLineExtended
+                         join L in db.SaleEnquiryLine on Le.SaleEnquiryLineId equals L.SaleEnquiryLineId into SaleEnquiryLineTable
+                         from SaleEnquiryLineTab in SaleEnquiryLineTable.DefaultIfEmpty()
+                         join H in db.SaleEnquiryHeader on SaleEnquiryLineTab.SaleEnquiryHeaderId equals H.SaleEnquiryHeaderId into SaleEnquiryHeaderTable
+                         from SaleEnquiryHeaderTab in SaleEnquiryHeaderTable.DefaultIfEmpty()
+                         where SaleEnquiryHeaderTab.SaleToBuyerId == BuyerId && Le.BuyerSpecification3 != null
+                         group new { Le } by new { Le.BuyerSpecification3 } into Result
+                         select new
+                         {
+                             BuyerSpecification3 = Result.Key.BuyerSpecification3,
+                         }
+                        );
+
+            return string.Join(",", Query.Select(m => m.BuyerSpecification3).ToList());
+        }
+
+        public SaleEnquiryLastTransaction GetLastTransactionDetail(int SaleEnquiryHeaderId)
+        {
+            SaleEnquiryLastTransaction LastTransactionDetail = (from L in db.SaleEnquiryLine
+                                                                join Le in db.SaleEnquiryLineExtended on L.SaleEnquiryLineId equals Le.SaleEnquiryLineId into SaleEnquiryLineExtendedTable
+                                                                from SaleEnquiryLineExtendedTab in SaleEnquiryLineExtendedTable.DefaultIfEmpty()
+                                                                orderby L.SaleEnquiryLineId descending
+                                                                where L.SaleEnquiryHeaderId == SaleEnquiryHeaderId
+                                                                select new SaleEnquiryLastTransaction
+                                         {
+                                             BuyerSpecification = SaleEnquiryLineExtendedTab.BuyerSpecification,
+                                             BuyerSpecification1 = SaleEnquiryLineExtendedTab.BuyerSpecification1,
+                                             BuyerSpecification2 = SaleEnquiryLineExtendedTab.BuyerSpecification2,
+                                             BuyerSpecification3 = SaleEnquiryLineExtendedTab.BuyerSpecification3,
+                                         }).FirstOrDefault();
+
+            return LastTransactionDetail;
+        }
+
         public void Dispose()
         {
         }
+    }
+
+    public class SaleEnquiryLastTransaction
+    {
+        public string BuyerSpecification { get; set; }
+        public string BuyerSpecification1 { get; set; }
+        public string BuyerSpecification2 { get; set; }
+        public string BuyerSpecification3 { get; set; }
     }
 }
