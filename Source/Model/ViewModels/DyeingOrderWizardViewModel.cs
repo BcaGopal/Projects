@@ -11,6 +11,7 @@ namespace Model.ViewModel
     public class DyeingOrderWizardViewModel
     {
         public int ProdOrderHeaderId { get; set; }
+        public string BuyerCode { get; set; }
         public string Dimension2Name { get; set; }
         public string ProductList { get; set; }
         public string Dimension1List { get; set; }

@@ -77,6 +77,16 @@
                             </div>
                         </div>
                     </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.BuyerId, "Buyer", new { @class = "control-label col-md-4 col-sm-2" })
+                            <div class="col-md-7 col-sm-10">
+                                @Html.TextBoxFor(model => model.BuyerId, new { @class = "form-control col-xs-7 required" })
+                                @Html.ValidationMessageFor(model => model.BuyerId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="modal-footer " style="padding: 19px 20px 0 20px; border-top:1px solid #8E8888">
@@ -101,6 +111,7 @@
         CustomSelectFunction($("#ProductGroupId"), '/ComboHelpList/GetProductGroup', '/ComboHelpList/SetProductGroup', 'Enter Product Name', true, 3);
         CustomSelectFunction($("#Dimension1Id"), '/ComboHelpList/GetDimension1', '/ComboHelpList/SetDimension1', 'Enter Dimension1', true, 1);
         CustomSelectFunction($("#Dimension2Id"), '/ComboHelpList/GetDimension2', '/ComboHelpList/SetDimension2', 'Enter Dimension2', true, 1);
+        CustomSelectFunction($("#BuyerId"), '/ComboHelpList/GetBuyers', '/ComboHelpList/SetSingleBuyer', ' ', false, 0);
 
 
 

@@ -29,7 +29,7 @@ namespace Login.Controllers
 
             System.Web.HttpContext.Current.Session["DefaultConnectionString"] = AppRecord.ConnectionString;
             System.Web.HttpContext.Current.Session["ApplicationId"] = AppRecord.ApplicationId;
-            System.Web.HttpContext.Current.Session["TopBarColr"] = AppRecord.TopBarColour;
+            //System.Web.HttpContext.Current.Session["TopBarColr"] = AppRecord.TopBarColour;
 
             return Redirect(AppRecord.ApplicationDefaultPage);
         }

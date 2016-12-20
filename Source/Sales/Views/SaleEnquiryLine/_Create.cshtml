@@ -35,7 +35,6 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
@@ -236,11 +235,10 @@
     $(function()
     {
         var TitleCase= '@Session["TitleCase"]';
-        //alert(TitleCase);
         $('#BuyerSpecification, #BuyerSpecification1,#BuyerSpecification2,#BuyerSpecification3').keyup(function () {
             if (TitleCase=="UpperCase")
-            this.value = this.value.toUpperCase() ;
-    });
+                this.value = this.value.toUpperCase() ;
+        });
     });
 </script>
 

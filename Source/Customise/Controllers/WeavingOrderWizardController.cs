@@ -252,6 +252,8 @@ namespace Web
 
             int ProdOrderLineId = ProdOrderLin.ProdOrderLineId;
 
+            p.GodownId = (int)System.Web.HttpContext.Current.Session["DefaultGodownId"];
+
             var DesignPatternId = (from pol in db.ProdOrderLine
                                    where pol.ProdOrderLineId == ProdOrderLineId
                                    join t in db.FinishedProduct on pol.ProductId equals t.ProductId
