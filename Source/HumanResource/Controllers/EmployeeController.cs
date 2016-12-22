@@ -125,6 +125,7 @@ namespace Web.Controllers
         {
             EmployeeViewModel p = new EmployeeViewModel();
             p.IsActive = true;
+            p.Code = new PersonService(_unitOfWork).GetMaxCode();
             PrepareViewBag();
             return View("Create", p);
         }
