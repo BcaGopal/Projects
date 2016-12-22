@@ -39,6 +39,7 @@
                 @Html.HiddenFor(m => m.JobReceiveSettings.isPostedInStock)
                 @Html.HiddenFor(m => m.JobReceiveSettings.CalculationId)
                 @Html.HiddenFor(m => m.JobReceiveSettings.isPostedInStockProcess)
+                @Html.HiddenFor(m => m.JobReceiveSettings.LossPer)
 
 
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
@@ -68,6 +69,7 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             @Html.LabelFor(model => model.ProductId, (Model.DocumentTypeSettings.ProductCaption ?? "Product"), new { @class = "control-label col-md-4 col-sm-2 " })
+                            @Html.HiddenFor(m => m.DocumentTypeSettings.ProductCaption)
                             <div class="col-md-7 col-sm-10">
                                 @Html.TextBoxFor(model => model.ProductId, new { @class = "form-control col-xs-7 required", @readonly = true })
                                 @Html.ValidationMessageFor(model => model.ProductId, "", new { @class = "text-danger" })
@@ -77,6 +79,7 @@
 
                     <div class="col-md-6" style="display:@(Model.JobReceiveSettings.isVisibleDimension1?"":"none")">
                         @Html.HiddenFor(m => m.JobReceiveSettings.isVisibleDimension1)
+                        @Html.HiddenFor(m => m.DocumentTypeSettings.Dimension1Caption)
                         <div class="form-group">
                             @Html.LabelFor(model => model.Dimension1Id, (Model.DocumentTypeSettings.Dimension1Caption ?? "Dimension1"), new { @class = "control-label col-md-4 col-sm-2 " })
                             <div class="col-md-7 col-sm-10">
@@ -89,6 +92,7 @@
 
                     <div class="col-md-6" style="display:@(Model.JobReceiveSettings.isVisibleDimension2?"":"none")">
                         @Html.HiddenFor(m => m.JobReceiveSettings.isVisibleDimension2)
+                        @Html.HiddenFor(m => m.DocumentTypeSettings.Dimension2Caption)
                         <div class="form-group">
                             @Html.LabelFor(model => model.Dimension2Id, (Model.DocumentTypeSettings.Dimension2Caption ?? "Dimension2"), new { @class = "control-label col-md-4 col-sm-2 " })
                             <div class="col-md-7 col-sm-10">
@@ -133,7 +137,7 @@
                     </div>
 
                     <div class="col-md-6">
-                        <div class="form-group">
+                        <div class="form-group">tr
                             @Html.LabelFor(model => model.DocQty, "Job Qty", new { @class = "control-label col-md-4 col-sm-2" })                          
                             <div class="col-md-7 col-sm-10" style="padding:0px">
                                 <div class="col-xs-7" style="padding-right:0px;">
@@ -690,6 +694,7 @@
         }
     }
 
+    var allowedLossPer =$('#JobReceiveSettings_LossPer').val();
     function ValidateData()
     {
 
@@ -718,6 +723,16 @@
             ValidationMessage="DocQty exceeding Order Balance Qty";
 
         }
+        
+        //Check that Loss Qty can not exceed allowed Loss Percentage.
+        if (allowedLossPer != null)
+        {
+            if ($('#LossQty').val() > ($('#DocQty').val() * allowedLossPer / 100) ) 
+            {
+                ValidationMessage="Loss Qty exceeding allowed loss % [" + allowedLossPer.toString() + "]" ;
+            }
+        }
+
 
         if(!ValidationMessage=="")
         {

@@ -148,6 +148,7 @@ namespace Web
                                   ProdOrderHeaderId = p.ProdOrderHeaderId,
                                   ProdOrderLineId = p.ProdOrderLineId,
                                   ProdOrderNo = p.ProdOrderNo,
+                                  BuyerCode = t2.Buyer.Person.Code,
                                   ProductList = p.Product.ProductName,
                                   Qty = p.BalanceQty,
                                   BalanceQty = p.BalanceQty,
@@ -162,6 +163,7 @@ namespace Web
                                    ProdOrderHeaderId = p.ProdOrderHeaderId,
                                    ProdOrderLineId = p.ProdOrderLineId,
                                    ProdOrderNo = p.ProdOrderNo,
+                                   BuyerCode = p.BuyerCode,
                                    ProductList = p.ProductList,
                                    Qty = p.Qty,
                                    BalanceQty = p.BalanceQty,
@@ -368,10 +370,10 @@ namespace Web
                 int? MaxLineId = new JobOrderLineChargeService(_unitOfWork).GetMaxProductCharge(s.JobOrderHeaderId, "Web.JobOrderLines", "JobOrderHeaderId", "JobOrderLineId");
 
                 int PersonCount = 0;
-                if (!Settings.CalculationId.HasValue)
-                {
-                    throw new Exception("Calculation not configured in Job order settings");
-                }
+                //if (!Settings.CalculationId.HasValue)
+                //{
+                //    throw new Exception("Calculation not configured in Job order settings");
+                //}
 
                 int CalculationId = Settings.CalculationId ?? 0;
 

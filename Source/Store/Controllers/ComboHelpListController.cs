@@ -5458,6 +5458,150 @@ namespace Web
             return Json(MenuJson);
         }
 
+        public ActionResult GetUnits(string searchTerm, int pageSize, int pageNum)
+        {
+            var Query = cbl.GetUnits(searchTerm);
+            var temp = Query.Skip(pageSize * (pageNum - 1)).Take(pageSize).ToList();
+
+            var count = Query.Count();
+
+            ComboBoxPagedResult Data = new ComboBoxPagedResult();
+            Data.Results = temp;
+            Data.Total = count;
+
+            return new JsonpResult
+            {
+                Data = Data,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+        public JsonResult SetUnits(string Ids)
+        {
+            string[] subStr = Ids.Split(',');
+            List<ComboBoxResult> ProductJson = new List<ComboBoxResult>();
+            for (int i = 0; i < subStr.Length; i++)
+            {
+                string temp = subStr[i];
+                IEnumerable<ComboBoxResult> prod = (from b in db.Units
+                                                    where b.UnitId == temp
+                                                    select new ComboBoxResult
+                                                    {
+                                                        id = b.UnitId.ToString(),
+                                                        text = b.UnitName
+                                                    });
+                ProductJson.Add(new ComboBoxResult()
+                {
+                    id = prod.FirstOrDefault().id,
+                    text = prod.FirstOrDefault().text
+                });
+            }
+            return Json(ProductJson);
+        }
+
+        public JsonResult SetSingleUnits(string Ids)
+        {
+            ComboBoxResult MenuJson = new ComboBoxResult();
+
+            ComboBoxResult person = (from b in db.Units
+                                     where b.UnitId == Ids
+                                     select new ComboBoxResult
+                                     {
+                                         id = b.UnitId.ToString(),
+                                         text = b.UnitName
+                                     }).FirstOrDefault();
+
+            MenuJson.id = person.id;
+            MenuJson.text = person.text;
+
+            return Json(MenuJson);
+        }
+
+
+        public ActionResult GetDataTypeList(string searchTerm, int pageSize, int pageNum)
+        {
+            List<CustomComboBoxResult> Types = new List<CustomComboBoxResult>();
+            Types.Add(new CustomComboBoxResult { id = "Text", text = "Text" });
+            Types.Add(new CustomComboBoxResult { id = "Number", text = "Number" });
+            Types.Add(new CustomComboBoxResult { id = "List", text = "List" });
+            Types.Add(new CustomComboBoxResult { id = "Date", text = "Date" });
+
+            var list = (from p in Types
+                        where (string.IsNullOrEmpty(searchTerm) ? 1 == 1 : (p.text.ToLower().Contains(searchTerm.ToLower())))
+                        orderby p.text
+                        select new ComboBoxResult
+                        {
+                            text = p.text,
+                            id = p.id.ToString(),
+                        }
+            ).ToList();
+            var temp = list.Skip(pageSize * (pageNum - 1)).Take(pageSize).ToList();
+
+            var count = list.Count();
+
+            ComboBoxPagedResult Data = new ComboBoxPagedResult();
+            Data.Results = temp;
+            Data.Total = count;
+
+            return new JsonpResult
+            {
+                Data = Data,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+
+            //AutoCompleteComboBoxRepositoryAndHelper ar = new AutoCompleteComboBoxRepositoryAndHelper();
+            //List<ComboBoxList> prodLst = new List<ComboBoxList>();
+            //prodLst.Add(new ComboBoxList() { Id = 1, PropFirst = "Text" });
+            //prodLst.Add(new ComboBoxList() { Id = 2, PropFirst = "Number" });
+            //prodLst.Add(new ComboBoxList() { Id = 3, PropFirst = "List" });
+            //prodLst.Add(new ComboBoxList() { Id = 4, PropFirst = "Date" });
+            //ComboBoxPagedResult pagedAttendees = ar.TranslateToComboBoxFormat(prodLst, 2);
+            //return new JsonpResult
+            //{
+            //    Data = pagedAttendees,
+            //    JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            //};
+        }
+
+    
+
+        public JsonResult SetSingleDataTypeList(string Ids)
+        {
+            List<CustomComboBoxResult> Types = new List<CustomComboBoxResult>();
+            Types.Add(new CustomComboBoxResult { id = "Text", text = "Text" });
+            Types.Add(new CustomComboBoxResult { id = "Number", text = "Number" });
+            Types.Add(new CustomComboBoxResult { id = "List", text = "List" });
+            Types.Add(new CustomComboBoxResult { id = "Date", text = "Date" });
+
+            var T= Types.ToList().Where(x => x.id == Ids);
+
+            CustomComboBoxResult ProductJson = new CustomComboBoxResult();
+            ProductJson.id = T.FirstOrDefault().id.ToString();
+            ProductJson.text = T.FirstOrDefault().text.ToString();
+            return Json(ProductJson);
+
+            //ComboBoxResult ProductJson = new ComboBoxResult();
+            //string Value = "";
+
+            //if (Ids == 1)
+            //    Value = "Text";
+            //else if (Ids == 2)
+            //    Value = "Number";
+            //else if (Ids == 2)
+            //    Value = "List";
+            //else if (Ids == 2)
+            //    Value = "Date";
+            //else
+            //    Value = "";
+
+            //List<ComboBoxList> prodLst = new List<ComboBoxList>();
+            //prodLst.Add(new ComboBoxList() { Id = Ids, PropFirst = Value });
+
+            //ProductJson.id = prodLst.FirstOrDefault().Id.ToString();
+            //ProductJson.text = prodLst.FirstOrDefault().PropFirst;
+
+            //return Json(ProductJson);
+        }
+
 
     }
 }

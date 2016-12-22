@@ -34,6 +34,19 @@
     <script src="~/Scripts/ProjLibFormatting.js"></script>
     <script src="~/Scripts/CheckForDuplicateDocNo.js"></script>
     <script src="~/Scripts/jquery.slimscroll.min.js"></script>
+
+    @{
+        var color = (string)System.Web.HttpContext.Current.Session["TopBarColr"];
+
+        if (!string.IsNullOrEmpty(color))
+        {
+            <style type="text/css">
+        .navbar-inverse{
+            background-image:linear-gradient(to bottom,@color 0,@color 100%)
+        }
+            </style>
+        }
+    }
 </head>
 <body>
     <div class="main-header">

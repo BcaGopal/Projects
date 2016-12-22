@@ -77,7 +77,7 @@
                         <span class="glyphicon glyphicon-align-justify"></span>
                         1.Gate Pass Details
                     </h4>
-                    <div>
+                  
                         <div>
                             <div class="col-md-6">
                                 <div class="form-group" style="margin-top:15px">
@@ -94,7 +94,7 @@
                                 <div class="form-group" style="margin-top:15px">
                                     @Html.LabelFor(model => model.DocNo, "GatePass No", new { @class = "control-label col-md-4 col-sm-2" })
                                     <div class="col-md-7 col-sm-10">
-                                        @Html.TextBoxFor(m => m.DocNo, null, new { @class = "form-control required" })
+                                        @Html.TextBoxFor(m => m.DocNo, null, new { @class = "form-control", @readonly = "true" })
                                         @Html.ValidationMessageFor(m => m.DocNo, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
@@ -112,6 +112,26 @@
 
                             <div class="col-md-6">
                                 <div class="form-group">
+                                    @Html.LabelFor(model => model.GodownId, "Godown", new { @class = "control-label col-md-4 col-sm-2" })
+                                    <div class="col-md-7 col-sm-10">
+                                        @Html.TextBoxFor(m => m.GodownId, new { @class = "form-control required" })
+                                        @Html.ValidationMessageFor(m => m.GodownId, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.OrderById, "Order By", new { @class = "control-label col-md-4 col-sm-2" })
+                                    <div class="col-md-7 col-sm-10">
+                                        @Html.TextBoxFor(m => m.OrderById, new { @class = "form-control  required" })
+                                        @Html.ValidationMessageFor(m => m.OrderById, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
                                     @Html.LabelFor(model => model.Remark, "Remark", new { @class = "control-label col-md-4 col-sm-2" })
                                     <div class="col-md-7 col-sm-10">
                                         @Html.TextAreaFor(m => m.Remark, new { @class = "form-control" })
@@ -120,9 +140,15 @@
                                 </div>
                             </div>
 
+
+                          
+
+                       
+
+
                         </div>
 
-                    </div>
+                  
                 </div>
 
                 <hr />
@@ -223,17 +249,20 @@
             var TempValue;
             var ValidationMessage="";
 
-            //Checking for dulicate key value
-            if(DocId<=0)
-            {
-                TempValue= $('#DocNo').DuplicateCheckForCreate({ name: 'GatePassHeaders', value: $('#DocNo').val(), doctype: $('#DocTypeId').val() });
-                if (TempValue){ ValidationMessage=$('#DocNo').val() + " already exist <br />";}
-            }
-            else
-            {
-                TempValue = $('#DocNo').DuplicateCheckForEdit({ name: 'GatePassHeaders', value: $('#DocNo').val(), doctype: $('#DocTypeId').val(),headerId:DocId });
-                if (TempValue) {ValidationMessage+=$('#DocNo').val() + " already exist <br />";}
-            }
+           
+            //if(DocId<=0)
+            //{
+
+                
+                //TempValue= $('#DocNo').DuplicateCheckForCreate({ name: 'GatePassHeaders', value: $('#DocNo').val(), doctype: $('#DocTypeId').val() });
+                //if (TempValue){ ValidationMessage=$('#DocNo').val() + " already exist <br />";}
+           // }
+            //else
+            //{
+               
+                //TempValue = $('#DocNo').DuplicateCheckForEdit({ name: 'GatePassHeaders', value: $('#DocNo').val(), doctype: $('#DocTypeId').val(),headerId:DocId });
+                //if (TempValue) {ValidationMessage+=$('#DocNo').val() + " already exist <br />";}
+           // }
             if(TempValue)
             {
                 if($('#validationerrormsg').length==0){
@@ -289,6 +318,10 @@
             $(document).find('a#btnCreate').removeAttr('href').removeAttr('data-modal');
             $(document).find('a#btnCreatePO').removeAttr('href').removeAttr('data-modal');
         }
+        else
+        {
+            $('#GodownId').attr('readonly','true');
+        }
 
         $(document).ajaxStart(function () {
             if ($(':submit', 'div.modal-content').length)
@@ -306,7 +339,8 @@
             $(document).find('a#btnCreateF').removeAttr('href').removeAttr('data-modal').attr("disabled","disabled");*@
 
       CustomSelectFunction($("#PersonId"), '/ComboHelpList/GetJobWorkers', '/ComboHelpList/SetSingleJobWorker', ' ', false, 1);
-        
+      CustomSelectFunction($("#OrderById"), '/ComboHelpList/GetEmployees', '/ComboHelpList/SetSingleEmployee', ' ', false, 1);
+      CustomSelectFunction($("#GodownId"), '/ComboHelpList/GetGodown', '/ComboHelpList/SetSingleGodown', ' ', false, 1);
       
         //$('#PersonId').select2('focus');
         //Calling the function to load the table data/ Line information
@@ -314,8 +348,6 @@
 
         //Adding Hidden Input Fields
         AddFields();
-
-
         var id=@Model.GatePassHeaderId;
 
        

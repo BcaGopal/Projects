@@ -68,6 +68,7 @@ namespace Web
             SaleDispatchHeader H = new SaleDispatchHeaderService(_unitOfWork).Find(id);
             var settings = new SaleDispatchSettingService(_unitOfWork).GetSaleDispatchSettingForDocument(H.DocTypeId, H.DivisionId, H.SiteId);
             vm.SaleDispatchSettings = Mapper.Map<SaleDispatchSetting, SaleDispatchSettingsViewModel>(settings);
+            vm.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(H.DocTypeId);
             return PartialView("_OrderFilters", vm);
         }
 
@@ -339,6 +340,8 @@ namespace Web
             //Getting Settings
             var settings = new SaleDispatchSettingService(_unitOfWork).GetSaleDispatchSettingForDocument(H.DocTypeId, H.DivisionId, H.SiteId);
             s.SaleDispatchSettings = Mapper.Map<SaleDispatchSetting, SaleDispatchSettingsViewModel>(settings);
+            s.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(H.DocTypeId);
+
             s.IsSaleBased = IsSaleBased;
             s.SaleDispatchHeaderId = H.SaleDispatchHeaderId;
             s.SaleDispatchHeaderDocNo = H.DocNo;
@@ -811,6 +814,8 @@ namespace Web
 
             vm.SaleDispatchSettings = Mapper.Map<SaleDispatchSetting, SaleDispatchSettingsViewModel>(settings);
 
+            vm.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(H.DocTypeId);
+
             vm.SiteId = H.SiteId;
             vm.DivisionId = H.DivisionId;
             vm.DocTypeId = H.DocTypeId;
@@ -885,6 +890,7 @@ namespace Web
             var settings = new SaleDispatchSettingService(_unitOfWork).GetSaleDispatchSettingForDocument(H.DocTypeId, H.DivisionId, H.SiteId);
 
             vm.SaleDispatchSettings = Mapper.Map<SaleDispatchSetting, SaleDispatchSettingsViewModel>(settings);
+            vm.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(H.DocTypeId);
 
             if (PackingLine.SaleOrderLineId.HasValue && PackingLine.SaleOrderLineId.Value > 0)
             {

@@ -137,6 +137,7 @@ namespace Login.Controllers
 
                                 System.Web.HttpContext.Current.Session["DefaultConnectionString"] = AppRecord.ConnectionString;
                                 System.Web.HttpContext.Current.Session["ApplicationId"] = AppRecord.ApplicationId;
+                                //System.Web.HttpContext.Current.Session["TopBarColr"] = AppRecord.TopBarColour;
 
                                 System.Web.HttpContext.Current.Session["TitleCase"] = "UpperCase";
 
@@ -201,6 +202,7 @@ namespace Login.Controllers
                             {
                                 System.Web.HttpContext.Current.Session["DefaultConnectionString"] = AppRecord.ConnectionString;
                                 System.Web.HttpContext.Current.Session["ApplicationId"] = AppRecord.ApplicationId;
+                                //System.Web.HttpContext.Current.Session["TopBarColr"] = AppRecord.TopBarColour;
 
                                 if (AppRecord.ApplicationDefaultPage != null)
                                     return Redirect(AppRecord.ApplicationDefaultPage);

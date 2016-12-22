@@ -53,6 +53,7 @@ namespace Model.Models
         public bool? isVisibleProductCode { get; set; }
         public bool? isVisibleUnitConversionFor { get; set; }
         public bool? isVisibleAdvance { get; set; }
+        public bool? isVisibleBillToParty { get; set; }
 
 
         public string filterLedgerAccountGroups { get; set; }

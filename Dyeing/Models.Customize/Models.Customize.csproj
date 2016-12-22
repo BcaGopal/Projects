@@ -59,6 +59,7 @@
     <Compile Include="Models\JobReceiveLine.cs" />
     <Compile Include="Models\JobReceiveLineStatus.cs" />
     <Compile Include="Models\JobReceiveSetting.cs" />
+    <Compile Include="Models\ProdOrderHeaderStatus.cs" />
     <Compile Include="Models\StockLineExtended.cs" />
     <Compile Include="Models\PerkDocumentType.cs" />
     <Compile Include="Models\ProdOrderLineStatus.cs" />

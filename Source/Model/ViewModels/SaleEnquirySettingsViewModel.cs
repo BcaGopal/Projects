@@ -53,7 +53,8 @@ namespace Model.ViewModel
         public bool isVisibleUnitConversionFor { get; set; }
         public bool isVisibleAdvance { get; set; }
         public bool isVisibleCreditDays { get; set; }
-
+        public bool isVisibleRate { get; set; }
+        public bool isVisibleBillToParty { get; set; }
 
         public int SaleOrderDocTypeId { get; set; }
 

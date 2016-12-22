@@ -43,6 +43,7 @@
     @Html.HiddenFor(m => m.DivisionId)
     @Html.HiddenFor(m => m.SiteId)
     @Html.HiddenFor(m => m.ProcessId)
+    @Html.HiddenFor(m => m.UnitId)
     @Html.HiddenFor(m => m.JobReceiveLineId)
     @Html.HiddenFor(m => m.ProductUidId)
     @Html.HiddenFor(m => m.UnitDecimalPlaces)
@@ -121,7 +122,7 @@
                 <div>
                     <h4 class="col-md-12 black">
                         <span class="glyphicon glyphicon-align-justify"></span>
-                        1.Document Details
+                        Document Details
                     </h4>
                     <div>
                         <div>
@@ -166,17 +167,7 @@
                             </div>
 
                         </div>
-                        <div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    @Html.LabelFor(model => model.Remark, "Remark", new { @class = "control-label col-md-4 col-sm-2" })
-                                    <div class="col-md-7 col-sm-10">
-                                        @Html.TextBoxFor(m => m.Remark, new { @class = "form-control" })
-                                        @Html.ValidationMessageFor(m => m.Remark, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                       
                         <div>
                             <div class="col-md-6" style="display:@(Model.JobReceiveQASettings.isVisibleProductUID?"":"none")">
                                 @Html.HiddenFor(m => m.JobReceiveQASettings.isVisibleProductUID)
@@ -240,11 +231,11 @@
                                     @Html.LabelFor(model => model.DealUnitId, "Deal Unit& Multiplier", new { @class = "control-label col-md-4 col-sm-2" })
                                     <div class="col-md-7 col-sm-10" style="padding:0px">
                                         <div class="col-xs-7" style="padding-right:0px">
-                                            @Html.DropDownListFor(model => model.DealUnitId, new SelectList(ViewBag.DeliveryUnitList as System.Collections.IEnumerable, "UnitId", "UnitName"), new { @class = "form-control height cusrightnormal required", @readonly = "true" })
+                                            @Html.DropDownListFor(model => model.DealUnitId, new SelectList(ViewBag.DeliveryUnitList as System.Collections.IEnumerable, "UnitId", "UnitName"), new { @class = "form-control height cusrightnormal required"})
                                             @Html.ValidationMessageFor(model => model.DealUnitId, "", new { @class = "text-danger" })
                                         </div>
                                         <div class="col-xs-5" style="padding-left:0px">
-                                            @Html.TextBoxFor(model => model.UnitConversionMultiplier, new { @class = "form-control cusleftnormal ", @readonly = "true" })
+                                            @Html.TextBoxFor(model => model.UnitConversionMultiplier, new { @class = "form-control cusleftnormal "})
                                             @Html.ValidationMessageFor(model => model.UnitConversionMultiplier, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
@@ -252,7 +243,7 @@
                             </div>
                             <div class="col-md-6" style="display:@(Model.JobReceiveQASettings.isVisibleDealUnit?"":"none")">
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.DealQty, "DealQty", new { @class = "control-label col-md-4 col-sm-2" })
+                                    @Html.LabelFor(model => model.DealQty, "Deal Qty", new { @class = "control-label col-md-4 col-sm-2" })
                                     <div class="col-md-7 col-sm-10">
                                         @Html.TextBoxFor(m => m.DealQty, null, new { @class = "form-control" })
                                         @Html.ValidationMessageFor(m => m.DealQty, "", new { @class = "text-danger" })
@@ -308,16 +299,29 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-
-
-                    <h4 class="col-md-12 black">
-                        <span class="glyphicon glyphicon-align-justify"></span>
-                        2.Dimensions
-                    </h4>
-                    <div>
                         <div>
                             <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Remark, "Remark", new { @class = "control-label col-md-4 col-sm-2" })
+                                    <div class="col-md-7 col-sm-10">
+                                        @Html.TextBoxFor(m => m.Remark, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(m => m.Remark, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    @if (Model.JobReceiveQASettings.IsVisibleLength || Model.JobReceiveQASettings.IsVisibleWidth || Model.JobReceiveQASettings.IsVisibleHeight)
+                    {
+                        <h4 class="col-md-12 black">
+                            <span class="glyphicon glyphicon-align-justify"></span>
+                            Dimensions
+                        </h4>
+                    }
+                    <div>
+                        <div>
+                            <div class="col-md-6" style="display:@(Model.JobReceiveQASettings.IsVisibleLength?"":"none")">
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.Length, "Length", new { @class = "control-label col-md-4 col-sm-2" })
                                     <div class="col-md-7 col-sm-10">
@@ -326,7 +330,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-6" style="display:@(Model.JobReceiveQASettings.IsVisibleWidth?"":"none")">
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.Width, "Width", new { @class = "control-label col-md-4 col-sm-2" })
                                     <div class="col-md-7 col-sm-10">
@@ -338,7 +342,7 @@
                         </div>
 
                         <div>
-                            <div class="col-md-6">
+                            <div class="col-md-6" style="display:@(Model.JobReceiveQASettings.IsVisibleHeight?"":"none")">
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.Height, "Height", new { @class = "control-label col-md-4 col-sm-2" })
                                     <div class="col-md-7 col-sm-10">
@@ -359,7 +363,7 @@
                     {
                         <h4 class="col-md-12 black">
                             <span class="glyphicon glyphicon-align-justify"></span>
-                            3.QA Detail
+                            QA Detail
                         </h4>
                     }
 
@@ -418,7 +422,7 @@
                 <div class="row">
                     <h4 class="col-md-12 black" style="margin-top:15px">
                         <span class="glyphicon glyphicon-shopping-cart"></span>
-                        4.Penalty Detail
+                        Penalty Detail
                     </h4>
                 </div>
 
@@ -754,6 +758,8 @@
         Calculation();
     });
 
+    $("#DealUnitId").change(GetUnitConversionMultiplier);
+
     $('#Length,#Width,#Height').keyup(function(){
         GetUnitConversionMultiplier();
         Calculation();
@@ -769,8 +775,8 @@
 
         if ($('#UnitConversionMultiplier').val() != 0) {
             $('#DealQty').val(parseFloat($('#Qty').val() * $('#UnitConversionMultiplier').val()).toFixed($('#DealUnitDecimalPlaces').val()));
-            //$('#FailDealQty').val(parseFloat($('#FailQty').val() * $('#UnitConversionMultiplier').val()).toFixed($('#DealUnitDecimalPlaces').val()));
         }
+
         if($('#PenaltyRate').val() && $('#PenaltyRate').val() >0)
             $('#PenaltyAmt').val(($('#PenaltyRate').val() * parseFloat(($('#QAQty').val()-$('#Qty').val()) * $('#UnitConversionMultiplier').val())).toFixed(2))
 
@@ -840,11 +846,6 @@
     });
 
 
-
-</script>
-
-
-<script type="text/javascript">
     function GetUnitConversionMultiplier() {
         if ($("#Length").val() > 0 && $("#Width").val() > 0) {
             $.ajax({
@@ -853,18 +854,49 @@
                 async: false,
                 url: "@(Url.Action("GetUnitConversionMultiplier"))",
                 data: { ProductId: $("#ProductId").val(),Length: $("#Length").val(),Width: $("#Width").val(),Height: $("#Height").val(),ToUnitId: $("#DealUnitId").val()},
-                success: function (data) {
-                    if (data) {
-                        $('#UnitConversionMultiplier').val(data);
-                    }
-                },
-                error: function (xhr, ajaxOptions, thrownError) {
-                    alert('Failed to retrieve product details.' + thrownError);
+            success: function (data) {
+                if (data) {
+                    $('#UnitConversionMultiplier').val(0);
+                    $('#DealQty').val(data * $("#Qty").val());
+
                 }
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert('Failed to retrieve product details.' + thrownError);
+            }
             });
-        }
-        else {
-            $('#UnitConversionMultiplier').val(0);
-        }
+            $('#DealUnitId').attr('readonly', 'true');
+            $('#UnitConversionMultiplier').attr('readonly', 'true');
+            $('#DealQty').attr('readonly', 'true');
     }
+    else if ($("#UnitId").val() == $("#DealUnitId").val()) 
+    {
+        $("#UnitConversionMultiplier").val(1);
+        Calculation.call();
+        $('#DealUnitId').removeAttr('readonly');
+        $('#UnitConversionMultiplier').removeAttr('readonly');
+        $('#DealQty').removeAttr('readonly');
+    }
+    else 
+    {
+        $.ajax({
+            cache: false,
+            type: "POST",
+            url: "@(Url.Action("GetUnitConversionDetailJson"))",
+            data: { ProductId: $("#ProductId").val(), UnitId: $("#UnitId").val(), DeliveryUnitId: $("#DealUnitId").val() },
+
+        success: function (data) {
+            $("#UnitConversionMultiplier").val(data[0].Value);
+            Calculation.call();
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+            alert('Failed to retrieve Unit conversion details.' + thrownError);
+        }
+        });
+        $('#DealUnitId').removeAttr('readonly');
+        $('#UnitConversionMultiplier').removeAttr('readonly');
+        $('#DealQty').removeAttr('readonly');
+    }
+}
+
 </script>

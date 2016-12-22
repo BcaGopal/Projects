@@ -56,432 +56,7 @@ namespace Web
        
        
 
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult _ResultsPost(JobOrderMasterDetailModel vm)
-        //{
-        //    int Cnt = 0;
-        //    int Serial = _JobOrderLineService.GetMaxSr(vm.JobOrderLineViewModel.FirstOrDefault().JobOrderHeaderId);
-        //    List<HeaderChargeViewModel> HeaderCharges = new List<HeaderChargeViewModel>();
-        //    List<LineChargeViewModel> LineCharges = new List<LineChargeViewModel>();
-        //    Dictionary<int, decimal> LineStatus = new Dictionary<int, decimal>();
-        //    List<JobOrderLine> BarCodesPendingToUpdate = new List<JobOrderLine>();
-
-        //    bool BeforeSave = true;
-        //    try
-        //    {
-        //        BeforeSave = JobOrderDocEvents.beforeLineSaveBulkEvent(this, new JobEventArgs(vm.JobOrderLineViewModel.FirstOrDefault().JobOrderHeaderId), ref db);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        string message = _exception.HandleException(ex);
-        //        TempData["CSEXCL"] += message;
-        //        EventException = true;
-        //    }
-
-        //    if (!BeforeSave)
-        //        ModelState.AddModelError("", "Validation failed before save");
-
-
-        //    int pk = 0;
-        //    bool HeaderChargeEdit = false;
-
-        //    JobOrderHeader Header = new JobOrderHeaderService(_unitOfWork).Find(vm.JobOrderLineViewModel.FirstOrDefault().JobOrderHeaderId);
-
-        //    JobOrderSettings Settings = new JobOrderSettingsService(_unitOfWork).GetJobOrderSettingsForDocument(Header.DocTypeId, Header.DivisionId, Header.SiteId);
-
-        //    int? MaxLineId = new JobOrderLineChargeService(_unitOfWork).GetMaxProductCharge(Header.JobOrderHeaderId, "Web.JobOrderLines", "JobOrderHeaderId", "JobOrderLineId");
-
-        //    int PersonCount = 0;
-
-        //    decimal Qty = vm.JobOrderLineViewModel.Where(m => m.Rate > 0).Sum(m => m.Qty);
-
-        //    int CalculationId = Settings.CalculationId ?? 0;
-        //    //List<string> uids = new List<string>();
-
-        //    //if (!string.IsNullOrEmpty(Settings.SqlProcGenProductUID))
-        //    //{
-        //    //    uids = _JobOrderLineService.GetProcGenProductUids(Header.DocTypeId, Qty, Header.DivisionId, Header.SiteId);
-        //    //}
-
-        //    List<LineDetailListViewModel> LineList = new List<LineDetailListViewModel>();
-
-        //    if (ModelState.IsValid && BeforeSave && !EventException)
-        //    {
-        //        foreach (var item in vm.JobOrderLineViewModel)
-        //        {
-        //            //if (item.Qty > 0 &&  ((Settings.isMandatoryRate.HasValue && Settings.isMandatoryRate == true )? item.Rate > 0 : 1 == 1))
-        //            if (item.Qty > 0 && item.UnitConversionMultiplier > 0 && ((Settings.isVisibleRate == true && Settings.isMandatoryRate == true && item.Rate > 0) || (Settings.isVisibleRate == false || Settings.isVisibleRate == true && Settings.isMandatoryRate == false)))
-        //            {
-        //                JobOrderLine line = new JobOrderLine();
-
-        //                if (Settings.isPostedInStock ?? false)
-        //                {
-        //                    StockViewModel StockViewModel = new StockViewModel();
-
-        //                    if (Cnt == 0)
-        //                    {
-        //                        StockViewModel.StockHeaderId = Header.StockHeaderId ?? 0;
-        //                    }
-        //                    else
-        //                    {
-        //                        if (Header.StockHeaderId != null && Header.StockHeaderId != 0)
-        //                        {
-        //                            StockViewModel.StockHeaderId = (int)Header.StockHeaderId;
-        //                        }
-        //                        else
-        //                        {
-        //                            StockViewModel.StockHeaderId = -1;
-        //                        }
-        //                    }
-
-        //                    StockViewModel.StockId = -Cnt;
-        //                    StockViewModel.DocHeaderId = Header.JobOrderHeaderId;
-        //                    StockViewModel.DocLineId = line.JobOrderLineId;
-        //                    StockViewModel.DocTypeId = Header.DocTypeId;
-        //                    StockViewModel.StockHeaderDocDate = Header.DocDate;
-        //                    StockViewModel.StockDocDate = DateTime.Now.Date;
-        //                    StockViewModel.DocNo = Header.DocNo;
-        //                    StockViewModel.DivisionId = Header.DivisionId;
-        //                    StockViewModel.SiteId = Header.SiteId;
-        //                    StockViewModel.CurrencyId = null;
-        //                    StockViewModel.PersonId = Header.JobWorkerId;
-        //                    StockViewModel.ProductId = item.ProductId;
-        //                    StockViewModel.HeaderFromGodownId = null;
-        //                    StockViewModel.HeaderGodownId = Header.GodownId;
-        //                    StockViewModel.HeaderProcessId = Header.ProcessId;
-        //                    StockViewModel.GodownId = (int)Header.GodownId;
-        //                    StockViewModel.Remark = Header.Remark;
-        //                    StockViewModel.Status = Header.Status;
-        //                    StockViewModel.ProcessId = Header.ProcessId;
-        //                    StockViewModel.LotNo = null;
-        //                    StockViewModel.CostCenterId = Header.CostCenterId;
-        //                    StockViewModel.Qty_Iss = item.Qty;
-        //                    StockViewModel.Qty_Rec = 0;
-        //                    StockViewModel.Rate = item.Rate;
-        //                    StockViewModel.ExpiryDate = null;
-        //                    StockViewModel.Specification = item.Specification;
-        //                    StockViewModel.Dimension1Id = item.Dimension1Id;
-        //                    StockViewModel.Dimension2Id = item.Dimension2Id;
-        //                    StockViewModel.ProductUidId = item.ProductUidId;
-        //                    StockViewModel.CreatedBy = User.Identity.Name;
-        //                    StockViewModel.CreatedDate = DateTime.Now;
-        //                    StockViewModel.ModifiedBy = User.Identity.Name;
-        //                    StockViewModel.ModifiedDate = DateTime.Now;
-
-        //                    string StockPostingError = "";
-        //                    StockPostingError = new StockService(_unitOfWork).StockPostDB(ref StockViewModel, ref db);
-
-        //                    if (StockPostingError != "")
-        //                    {
-        //                        string message = StockPostingError;
-        //                        ModelState.AddModelError("", message);
-        //                        return PartialView("_Results", vm);
-        //                    }
-
-        //                    if (Cnt == 0)
-        //                    {
-        //                        Header.StockHeaderId = StockViewModel.StockHeaderId;
-        //                    }
-        //                    line.StockId = StockViewModel.StockId;
-        //                }
-
-
-
-        //                if (Settings.isPostedInStockProcess ?? false)
-        //                {
-        //                    StockProcessViewModel StockProcessViewModel = new StockProcessViewModel();
-
-        //                    if (Header.StockHeaderId != null && Header.StockHeaderId != 0)//If Transaction Header Table Has Stock Header Id Then It will Save Here.
-        //                    {
-        //                        StockProcessViewModel.StockHeaderId = (int)Header.StockHeaderId;
-        //                    }
-        //                    else if (Settings.isPostedInStock ?? false)//If Stok Header is already posted during stock posting then this statement will Execute.So theat Stock Header will not generate again.
-        //                    {
-        //                        StockProcessViewModel.StockHeaderId = -1;
-        //                    }
-        //                    else if (Cnt > 0)//If function will only post in stock process then after first iteration of loop the stock header id will go -1
-        //                    {
-        //                        StockProcessViewModel.StockHeaderId = -1;
-        //                    }
-        //                    else//If function will only post in stock process then this statement will execute.For Example Job consumption.
-        //                    {
-        //                        StockProcessViewModel.StockHeaderId = 0;
-        //                    }
-        //                    StockProcessViewModel.StockProcessId = -Cnt;
-        //                    StockProcessViewModel.DocHeaderId = Header.JobOrderHeaderId;
-        //                    StockProcessViewModel.DocLineId = line.JobOrderLineId;
-        //                    StockProcessViewModel.DocTypeId = Header.DocTypeId;
-        //                    StockProcessViewModel.StockHeaderDocDate = Header.DocDate;
-        //                    StockProcessViewModel.StockProcessDocDate = DateTime.Now.Date;
-        //                    StockProcessViewModel.DocNo = Header.DocNo;
-        //                    StockProcessViewModel.DivisionId = Header.DivisionId;
-        //                    StockProcessViewModel.SiteId = Header.SiteId;
-        //                    StockProcessViewModel.CurrencyId = null;
-        //                    StockProcessViewModel.PersonId = Header.JobWorkerId;
-        //                    StockProcessViewModel.ProductId = item.ProductId;
-        //                    StockProcessViewModel.HeaderFromGodownId = null;
-        //                    StockProcessViewModel.HeaderGodownId = Header.GodownId;
-        //                    StockProcessViewModel.HeaderProcessId = Header.ProcessId;
-        //                    StockProcessViewModel.GodownId = (int)Header.GodownId;
-        //                    StockProcessViewModel.Remark = Header.Remark;
-        //                    StockProcessViewModel.Status = Header.Status;
-        //                    StockProcessViewModel.ProcessId = Header.ProcessId;
-        //                    StockProcessViewModel.LotNo = null;
-        //                    StockProcessViewModel.CostCenterId = Header.CostCenterId;
-        //                    StockProcessViewModel.Qty_Iss = 0;
-        //                    StockProcessViewModel.Qty_Rec = item.Qty;
-        //                    StockProcessViewModel.Rate = item.Rate;
-        //                    StockProcessViewModel.ExpiryDate = null;
-        //                    StockProcessViewModel.Specification = item.Specification;
-        //                    StockProcessViewModel.Dimension1Id = item.Dimension1Id;
-        //                    StockProcessViewModel.Dimension2Id = item.Dimension2Id;
-        //                    StockProcessViewModel.ProductUidId = item.ProductUidId;
-        //                    StockProcessViewModel.CreatedBy = User.Identity.Name;
-        //                    StockProcessViewModel.CreatedDate = DateTime.Now;
-        //                    StockProcessViewModel.ModifiedBy = User.Identity.Name;
-        //                    StockProcessViewModel.ModifiedDate = DateTime.Now;
-
-        //                    string StockProcessPostingError = "";
-        //                    StockProcessPostingError = new StockProcessService(_unitOfWork).StockProcessPostDB(ref StockProcessViewModel, ref db);
-
-        //                    if (StockProcessPostingError != "")
-        //                    {
-        //                        string message = StockProcessPostingError;
-        //                        ModelState.AddModelError("", message);
-        //                        return PartialView("_Results", vm);
-        //                    }
-
-
-        //                    if ((Settings.isPostedInStock ?? false) == false)
-        //                    {
-        //                        if (Cnt == 0)
-        //                        {
-        //                            Header.StockHeaderId = StockProcessViewModel.StockHeaderId;
-        //                        }
-        //                    }
-
-        //                    line.StockProcessId = StockProcessViewModel.StockProcessId;
-        //                }
-
-
-        //                line.JobOrderHeaderId = item.JobOrderHeaderId;
-        //                line.ProdOrderLineId = item.ProdOrderLineId;
-        //                line.ProductId = item.ProductId;
-        //                line.Dimension1Id = item.Dimension1Id;
-        //                line.Dimension2Id = item.Dimension2Id;
-        //                line.Specification = item.Specification;
-        //                line.Qty = item.Qty;
-        //                line.UnitId = item.UnitId;
-        //                line.Sr = Serial++;
-        //                line.LossQty = item.LossQty;
-        //                line.NonCountedQty = item.NonCountedQty;
-        //                line.Rate = item.Rate;
-        //                line.DealQty = item.UnitConversionMultiplier * item.Qty;
-        //                line.DealUnitId = item.DealUnitId;
-        //                line.Amount = DecimalRoundOff.amountToFixed((line.DealQty * line.Rate), Settings.AmountRoundOff);
-        //                line.UnitConversionMultiplier = item.UnitConversionMultiplier;
-        //                line.CreatedDate = DateTime.Now;
-        //                line.ModifiedDate = DateTime.Now;
-        //                line.CreatedBy = User.Identity.Name;
-        //                line.ModifiedBy = User.Identity.Name;
-        //                line.JobOrderLineId = pk;
-        //                line.ObjectState = Model.ObjectState.Added;
-        //                //_JobOrderLineService.Create(line);
-        //                db.JobOrderLine.Add(line);
-
-        //                if (line.ProdOrderLineId.HasValue)
-        //                    LineStatus.Add(line.ProdOrderLineId.Value, line.Qty);
-
-
-        //                new JobOrderLineStatusService(_unitOfWork).CreateLineStatus(line.JobOrderLineId, ref db, true);
-
-        //                BarCodesPendingToUpdate.Add(line);
-
-
-        //                #region BOMPost
-
-        //                //Saving BOMPOST Data
-        //                //Saving BOMPOST Data
-        //                //Saving BOMPOST Data
-        //                //Saving BOMPOST Data
-        //                if (!string.IsNullOrEmpty(Settings.SqlProcConsumption))
-        //                {
-        //                    var BomPostList = _JobOrderLineService.GetBomPostingDataForWeaving(line.ProductId, line.Dimension1Id, line.Dimension2Id, Header.ProcessId, line.Qty, Header.DocTypeId, Settings.SqlProcConsumption).ToList();
-
-        //                    foreach (var Bomitem in BomPostList)
-        //                    {
-        //                        JobOrderBom BomPost = new JobOrderBom();
-        //                        BomPost.CreatedBy = User.Identity.Name;
-        //                        BomPost.CreatedDate = DateTime.Now;
-        //                        BomPost.Dimension1Id = Bomitem.Dimension1Id;
-        //                        BomPost.Dimension2Id = Bomitem.Dimension2Id;
-        //                        BomPost.JobOrderHeaderId = line.JobOrderHeaderId;
-        //                        BomPost.JobOrderLineId = line.JobOrderLineId;
-        //                        BomPost.ModifiedBy = User.Identity.Name;
-        //                        BomPost.ModifiedDate = DateTime.Now;
-        //                        BomPost.ProductId = Bomitem.ProductId;
-        //                        BomPost.Qty = Convert.ToDecimal(Bomitem.Qty);
-        //                        BomPost.BOMQty = Convert.ToDecimal(Bomitem.BOMQty);
-        //                        BomPost.ObjectState = Model.ObjectState.Added;
-        //                        db.JobOrderBom.Add(BomPost);
-        //                        //new JobOrderBomService(_unitOfWork).Create(BomPost);
-        //                    }
-        //                }
-
-
-
-        //                #endregion
-
-
-        //                if (Settings != null)
-        //                {
-        //                    new CommonService().ExecuteCustomiseEvents(Settings.Event_OnLineSave, new object[] { _unitOfWork, line.JobOrderHeaderId, line.JobOrderLineId, "A" });
-        //                }
-
-
-        //                if (Settings.CalculationId.HasValue)
-        //                {
-        //                    LineList.Add(new LineDetailListViewModel { Amount = line.Amount, Rate = line.Rate, LineTableId = line.JobOrderLineId, HeaderTableId = item.JobOrderHeaderId, PersonID = Header.JobWorkerId, DealQty = line.DealQty });
-        //                }
-        //                pk++;
-        //                Cnt = Cnt + 1;
-        //            }
-
-        //        }
-        //        if (Header.Status != (int)StatusConstants.Drafted && Header.Status != (int)StatusConstants.Import)
-        //        {
-        //            Header.Status = (int)StatusConstants.Modified;
-        //            Header.ModifiedBy = User.Identity.Name;
-        //            Header.ModifiedDate = DateTime.Now;
-        //        }
-        //        //new JobOrderHeaderService(_unitOfWork).Update(Header);
-        //        Header.ObjectState = Model.ObjectState.Modified;
-        //        db.JobOrderHeader.Add(Header);
-
-        //        new ProdOrderLineStatusService(_unitOfWork).UpdateProdQtyJobOrderMultiple(LineStatus, Header.DocDate, ref db);
-
-        //        try
-        //        {
-        //            if (Settings.CalculationId.HasValue)
-        //            {
-        //                new ChargesCalculationService(_unitOfWork).CalculateCharges(LineList, vm.JobOrderLineViewModel.FirstOrDefault().JobOrderHeaderId, CalculationId, MaxLineId, out LineCharges, out HeaderChargeEdit, out HeaderCharges, "Web.JobOrderHeaderCharges", "Web.JobOrderLineCharges", out PersonCount, Header.DocTypeId, Header.SiteId, Header.DivisionId);
-
-        //                //Saving Charges
-        //                foreach (var item in LineCharges)
-        //                {
-
-        //                    JobOrderLineCharge PoLineCharge = Mapper.Map<LineChargeViewModel, JobOrderLineCharge>(item);
-        //                    PoLineCharge.ObjectState = Model.ObjectState.Added;
-        //                    db.JobOrderLineCharge.Add(PoLineCharge);
-        //                    //new JobOrderLineChargeService(_unitOfWork).Create(PoLineCharge);
-
-        //                }
-
-
-        //                //Saving Header charges
-        //                for (int i = 0; i < HeaderCharges.Count(); i++)
-        //                {
-
-        //                    if (!HeaderChargeEdit)
-        //                    {
-        //                        JobOrderHeaderCharge POHeaderCharge = Mapper.Map<HeaderChargeViewModel, JobOrderHeaderCharge>(HeaderCharges[i]);
-        //                        POHeaderCharge.HeaderTableId = vm.JobOrderLineViewModel.FirstOrDefault().JobOrderHeaderId;
-        //                        POHeaderCharge.PersonID = Header.JobWorkerId;
-        //                        POHeaderCharge.ObjectState = Model.ObjectState.Added;
-        //                        db.JobOrderHeaderCharges.Add(POHeaderCharge);
-        //                        //new JobOrderHeaderChargeService(_unitOfWork).Create(POHeaderCharge);
-        //                    }
-        //                    else
-        //                    {
-        //                        var footercharge = new JobOrderHeaderChargeService(_unitOfWork).Find(HeaderCharges[i].Id);
-        //                        footercharge.Rate = HeaderCharges[i].Rate;
-        //                        footercharge.Amount = HeaderCharges[i].Amount;
-        //                        footercharge.ObjectState = Model.ObjectState.Modified;
-        //                        db.JobOrderHeaderCharges.Add(footercharge);
-        //                        //new JobOrderHeaderChargeService(_unitOfWork).Update(footercharge);
-        //                    }
-
-        //                }
-        //            }
-
-
-
-        //            //_unitOfWork.Save();
-        //        }
-
-        //        catch (Exception ex)
-        //        {
-        //            string message = _exception.HandleException(ex);
-        //            TempData["CSEXCL"] += message;
-        //            return PartialView("_Results", vm);
-        //        }
-
-        //        try
-        //        {
-        //            JobOrderDocEvents.onLineSaveBulkEvent(this, new JobEventArgs(vm.JobOrderLineViewModel.FirstOrDefault().JobOrderHeaderId), ref db);
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            string message = _exception.HandleException(ex);
-        //            TempData["CSEXCL"] += message;
-        //            EventException = true;
-        //        }
-
-        //        try
-        //        {
-        //            if (EventException)
-        //            { throw new Exception(); }
-        //            db.SaveChanges();
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            string message = _exception.HandleException(ex);
-        //            TempData["CSEXCL"] += message;
-        //            return PartialView("_Results", vm);
-        //        }
-
-
-        //        if (Settings != null)
-        //        {
-        //            if (Settings.Event_AfterLineSave != null)
-        //            {
-        //                IEnumerable<JobOrderLineViewModel> linelist = new JobOrderLineService(_unitOfWork).GetJobOrderLineListForIndex(Header.JobOrderHeaderId);
-
-        //                foreach (var item in linelist)
-        //                {
-        //                    new CommonService().ExecuteCustomiseEvents(Settings.Event_AfterLineSave, new object[] { _unitOfWork, item.JobOrderHeaderId, item.JobOrderLineId, "A" });
-        //                }
-        //            }
-        //        }
-
-        //        try
-        //        {
-        //            JobOrderDocEvents.afterLineSaveBulkEvent(this, new JobEventArgs(vm.JobOrderLineViewModel.FirstOrDefault().JobOrderHeaderId), ref db);
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            string message = _exception.HandleException(ex);
-        //            TempData["CSEXC"] += message;
-        //        }
-
-        //        LogActivity.LogActivityDetail(LogVm.Map(new ActiivtyLogViewModel
-        //        {
-        //            DocTypeId = Header.DocTypeId,
-        //            DocId = Header.JobOrderHeaderId,
-        //            ActivityType = (int)ActivityTypeContants.MultipleCreate,                  
-        //            DocNo = Header.DocNo,
-        //            DocDate = Header.DocDate,
-        //            DocStatus=Header.Status,
-        //        }));
-
-        //        return Json(new { success = true });
-
-        //    }
-        //    return PartialView("_Results", vm);
-
-        //}
-
+        
 
         [HttpGet]
         public JsonResult Index(int id)
@@ -554,38 +129,45 @@ namespace Web
             List<LogTypeViewModel> LogList = new List<LogTypeViewModel>();
             bool BeforeSave = true;
             GatePassHeader temp = new GatePassHeaderService(_unitOfWork).Find(svm.GatePassHeaderId);
+            var PD = _GatePassLineService.GetGatePassLineListForIndex(svm.GatePassHeaderId).Where(x=>x.Product==svm.Product && x.Specification==svm.Specification).ToList();
 
-          
 
-       
 
             #region BeforeSave
-            try
-            {
+            //try
+            //{
 
-                if (svm.GatePassLineId <= 0)
-                    BeforeSave = JobOrderDocEvents.beforeLineSaveEvent(this, new JobEventArgs(svm.GatePassHeaderId, EventModeConstants.Add), ref db);
-                else
-                    BeforeSave = JobOrderDocEvents.beforeLineSaveEvent(this, new JobEventArgs(svm.GatePassHeaderId, EventModeConstants.Edit), ref db);
+            //    if (svm.GatePassLineId <= 0)
+            //        BeforeSave = JobOrderDocEvents.beforeLineSaveEvent(this, new JobEventArgs(svm.GatePassHeaderId, EventModeConstants.Add), ref db);
+            //    else
+            //        BeforeSave = JobOrderDocEvents.beforeLineSaveEvent(this, new JobEventArgs(svm.GatePassHeaderId, EventModeConstants.Edit), ref db);
 
-            }
-            catch (Exception ex)
-            {
-                string message = _exception.HandleException(ex);
-                TempData["CSEXCL"] += message;
-                EventException = true;
-            }
+            //}
+            //catch (Exception ex)
+            //{
+            //    string message = _exception.HandleException(ex);
+            //    TempData["CSEXCL"] += message;
+            //    EventException = true;
+            //}
 
-            if (!BeforeSave)
-                ModelState.AddModelError("", "Validation failed before save.");
+            //if (!BeforeSave)
+            //    ModelState.AddModelError("", "Validation failed before save.");
             #endregion
 
 
-            if (svm.Qty <= 0 || svm.Product=="" || svm.Product==null)
+            if (svm.Qty <= 0 || svm.Product=="" || svm.Product==null || svm.UnitId==null || svm.UnitId=="")
             {
+                
                 ModelState.AddModelError("Product", "The Product is required");
+                ModelState.AddModelError("UnitId", "The Unit Name is required");
                 ModelState.AddModelError("Qty", "The Qty is required");
             }
+            if(PD.ToList().Count()!=0)
+            {
+                ModelState.AddModelError("Product",svm.Product +" "+ svm.Specification + " already exist");
+            }
+          
+
             GatePassLine s = Mapper.Map<GatePassLineViewModel, GatePassLine>(svm);
 
             ViewBag.Status = temp.Status;
@@ -651,15 +233,15 @@ namespace Web
                     }
 
 
-                    try
-                    {
-                        JobOrderDocEvents.afterLineSaveEvent(this, new JobEventArgs(s.GatePassHeaderId, s.GatePassHeaderId, EventModeConstants.Add), ref db);
-                    }
-                    catch (Exception ex)
-                    {
-                        string message = _exception.HandleException(ex);
-                        TempData["CSEXCL"] += message;
-                    }
+                    //try
+                    //{
+                    //    JobOrderDocEvents.afterLineSaveEvent(this, new JobEventArgs(s.GatePassHeaderId, s.GatePassHeaderId, EventModeConstants.Add), ref db);
+                    //}
+                    //catch (Exception ex)
+                    //{
+                    //    string message = _exception.HandleException(ex);
+                    //    TempData["CSEXCL"] += message;
+                    //}
 
                     LogActivity.LogActivityDetail(LogVm.Map(new ActiivtyLogViewModel
                     {
@@ -676,8 +258,6 @@ namespace Web
                     //return RedirectToAction("_Create", new { id = svm.GatePassHeaderId, IsProdBased = (s.ProdOrderLineId == null ? false : true) });
 
                 }
-
-
                 else
                 {
                     GatePassLine templine = (from p in db.GatePassLine

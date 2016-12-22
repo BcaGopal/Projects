@@ -62,6 +62,15 @@ namespace Web
         {
             ViewBag.Docno = H.DocNo;
             ViewBag.DeliveryUnitList = new UnitService(_unitOfWork).GetUnitList().ToList();
+            ViewBag.BuyerSpecificationList = _SaleEnquiryLineService.GetBuyerSpecification(H.SaleToBuyerId);
+            ViewBag.BuyerSpecification1List = _SaleEnquiryLineService.GetBuyerSpecification1(H.SaleToBuyerId);
+            ViewBag.BuyerSpecification2List = _SaleEnquiryLineService.GetBuyerSpecification2(H.SaleToBuyerId);
+            ViewBag.BuyerSpecification3List = _SaleEnquiryLineService.GetBuyerSpecification3(H.SaleToBuyerId);
+
+
+
+
+            
         }
 
         [HttpGet]
@@ -100,6 +109,34 @@ namespace Web
                 s.DealUnitId = settings.DealUnitId;
             }
 
+            ProductBuyerSettings ProductBuyerSettings = new ProductBuyerSettingsService(_unitOfWork).GetProductBuyerSettings(H.DivisionId, H.SiteId);
+            s.ProductBuyerSettings = Mapper.Map<ProductBuyerSettings, ProductBuyerSettingsViewModel>(ProductBuyerSettings);
+
+            var LastTransactionDetail = _SaleEnquiryLineService.GetLastTransactionDetail(Id);
+            if (LastTransactionDetail != null)
+            {
+                if (LastTransactionDetail.BuyerSpecification != null && LastTransactionDetail.BuyerSpecification != "")
+                {
+                    ViewBag.LastTransaction = LastTransactionDetail.BuyerSpecification;
+                }
+
+                if (LastTransactionDetail.BuyerSpecification1 != null && LastTransactionDetail.BuyerSpecification1 != "")
+                {
+                    ViewBag.LastTransaction = ViewBag.LastTransaction + ", " + LastTransactionDetail.BuyerSpecification1;
+                }
+
+                if (LastTransactionDetail.BuyerSpecification2 != null && LastTransactionDetail.BuyerSpecification2 != "")
+                {
+                    ViewBag.LastTransaction = ViewBag.LastTransaction + ", " + LastTransactionDetail.BuyerSpecification2;
+                }
+
+                if (LastTransactionDetail.BuyerSpecification3 != null && LastTransactionDetail.BuyerSpecification3 != "")
+                {
+                    ViewBag.LastTransaction = ViewBag.LastTransaction + ", " + LastTransactionDetail.BuyerSpecification3;
+                }
+            }
+
+
             PrepareViewBag(H);
             return PartialView("_Create", s);
         }
@@ -113,7 +150,7 @@ namespace Web
             //if (Command == "Submit" && (s.ProductId == 0))
             //    return RedirectToAction("Submit", "SaleEnquiryHeader", new { id = s.SaleEnquiryHeaderId }).Success("Data saved successfully");
 
-            SaleEnquiryLine es = new SaleEnquiryLineService(_unitOfWork).Find_WithLineDetail(svm.SaleEnquiryHeaderId, svm.ProductQuality, svm.ProductGroup,  svm.Colour, svm.Size );
+            SaleEnquiryLine es = new SaleEnquiryLineService(_unitOfWork).Find_WithLineDetail(svm.SaleEnquiryHeaderId, svm.BuyerSpecification, svm.BuyerSpecification1, svm.BuyerSpecification2, svm.BuyerSpecification3);
              
             if (es != null )
             {
@@ -129,7 +166,12 @@ namespace Web
 
             if (svm.Qty <= 0)
             {
-                ModelState.AddModelError("Qty", "Please Check Qty");
+                //ModelState.AddModelError("Qty", "Please Check Qty");
+                ViewBag.LineMode = "Create";
+                string message = "Please Check Qty";
+                TempData["CSEXCL"] += message;
+                PrepareViewBag(temp);
+                return PartialView("_Create", svm);
             }
 
             if (svm.DueDate < temp.DocDate)
@@ -159,10 +201,10 @@ namespace Web
 
                     SaleEnquiryLineExtended Extended = new SaleEnquiryLineExtended();
                     Extended.SaleEnquiryLineId = s.SaleEnquiryLineId;
-                    Extended.ProductGroup = svm.ProductGroup;
-                    Extended.Size = svm.Size;
-                    Extended.ProductQuality = svm.ProductQuality;
-                    Extended.Colour = svm.Colour;
+                    Extended.BuyerSpecification = svm.BuyerSpecification;
+                    Extended.BuyerSpecification1 = svm.BuyerSpecification1;
+                    Extended.BuyerSpecification2 = svm.BuyerSpecification2;
+                    Extended.BuyerSpecification3 = svm.BuyerSpecification3;
                     new SaleEnquiryLineExtendedService(_unitOfWork).Create(Extended);
 
                     //new SaleEnquiryLineStatusService(_unitOfWork).CreateLineStatus(s.SaleEnquiryLineId);
@@ -237,10 +279,10 @@ namespace Web
                     _SaleEnquiryLineService.Update(temp1);
 
                     SaleEnquiryLineExtended Extended = new SaleEnquiryLineExtendedService(_unitOfWork).Find(svm.SaleEnquiryLineId);
-                    Extended.ProductGroup = svm.ProductGroup;
-                    Extended.Size = svm.Size;
-                    Extended.ProductQuality = svm.ProductQuality;
-                    Extended.Colour = svm.Colour;
+                    Extended.BuyerSpecification = svm.BuyerSpecification;
+                    Extended.BuyerSpecification1 = svm.BuyerSpecification1;
+                    Extended.BuyerSpecification2 = svm.BuyerSpecification2;
+                    Extended.BuyerSpecification3 = svm.BuyerSpecification3;
                     new SaleEnquiryLineExtendedService(_unitOfWork).Update(Extended);
 
 
@@ -294,6 +336,10 @@ namespace Web
                 }
             }
 
+            //string messages = string.Join("; ", ModelState.Values
+            //                            .SelectMany(x => x.Errors)
+            //                            .Select(x => x.ErrorMessage));
+            //TempData["CSEXCL"] += messages;
             ViewBag.Status = temp.Status;
             PrepareViewBag(temp);
             return PartialView("_Create", svm);
@@ -349,15 +395,18 @@ namespace Web
             ViewBag.DocNo = H.DocNo;
             SaleEnquiryLineViewModel s = Mapper.Map<SaleEnquiryLine, SaleEnquiryLineViewModel>(temp);
 
-            s.ProductGroup = Extended.ProductGroup;
-            s.Size = Extended.Size;
-            s.ProductQuality = Extended.ProductQuality;
-            s.Colour = Extended.Colour;
+            s.BuyerSpecification = Extended.BuyerSpecification;
+            s.BuyerSpecification1 = Extended.BuyerSpecification1;
+            s.BuyerSpecification2 = Extended.BuyerSpecification2;
+            s.BuyerSpecification3 = Extended.BuyerSpecification3;
 
 
 
             var settings = new SaleEnquirySettingsService(_unitOfWork).GetSaleEnquirySettings(H.DocTypeId, H.DivisionId, H.SiteId);
             s.SaleEnquirySettings = Mapper.Map<SaleEnquirySettings, SaleEnquirySettingsViewModel>(settings);
+
+            ProductBuyerSettings ProductBuyerSettings = new ProductBuyerSettingsService(_unitOfWork).GetProductBuyerSettings(H.DivisionId, H.SiteId);
+            s.ProductBuyerSettings = Mapper.Map<ProductBuyerSettings, ProductBuyerSettingsViewModel>(ProductBuyerSettings);
 
             PrepareViewBag(H);
 
@@ -414,14 +463,16 @@ namespace Web
 
             SaleEnquiryLineViewModel s = Mapper.Map<SaleEnquiryLine, SaleEnquiryLineViewModel>(temp);
 
-            s.ProductGroup = Extended.ProductGroup;
-            s.Size = Extended.Size;
-            s.ProductQuality = Extended.ProductQuality;
-            s.Colour = Extended.Colour;
+            s.BuyerSpecification = Extended.BuyerSpecification;
+            s.BuyerSpecification1 = Extended.BuyerSpecification1;
+            s.BuyerSpecification2 = Extended.BuyerSpecification2;
+            s.BuyerSpecification3 = Extended.BuyerSpecification3;
 
             var settings = new SaleEnquirySettingsService(_unitOfWork).GetSaleEnquirySettings(H.DocTypeId, H.DivisionId, H.SiteId);
             s.SaleEnquirySettings = Mapper.Map<SaleEnquirySettings, SaleEnquirySettingsViewModel>(settings);
 
+            ProductBuyerSettings ProductBuyerSettings = new ProductBuyerSettingsService(_unitOfWork).GetProductBuyerSettings(H.DivisionId, H.SiteId);
+            s.ProductBuyerSettings = Mapper.Map<ProductBuyerSettings, ProductBuyerSettingsViewModel>(ProductBuyerSettings);
 
             PrepareViewBag(H);
 
@@ -568,10 +619,10 @@ namespace Web
                                                                 where P.ProductId == ProductId && P.BuyerId == Header.SaleToBuyerId
                                                                 select new ProductCustomDetailViewModel
                                                                 {
-                                                                    ProductGroup = P.ProductGroup,
-                                                                    Size = P.Size,
-                                                                    ProductQuality = P.ProductQuality,
-                                                                    Colour = P.Colour
+                                                                    BuyerSpecification = P.BuyerSpecification,
+                                                                    BuyerSpecification1 = P.BuyerSpecification1,
+                                                                    BuyerSpecification2 = P.BuyerSpecification2,
+                                                                    BuyerSpecification3 = P.BuyerSpecification3
                                                                 }).FirstOrDefault();
 
 
@@ -580,10 +631,10 @@ namespace Web
 
             ProductCustomDetailJson.Add(new ProductCustomDetailViewModel()
             {
-                ProductGroup = ProductCustomDetail.ProductGroup,
-                Size = ProductCustomDetail.Size,
-                ProductQuality = ProductCustomDetail.ProductQuality,
-                Colour = ProductCustomDetail.Colour
+                BuyerSpecification = ProductCustomDetail.BuyerSpecification,
+                BuyerSpecification1 = ProductCustomDetail.BuyerSpecification1,
+                BuyerSpecification2 = ProductCustomDetail.BuyerSpecification2,
+                BuyerSpecification3 = ProductCustomDetail.BuyerSpecification3
             });
 
             return Json(ProductCustomDetailJson);
@@ -641,6 +692,12 @@ namespace Web
 
             return Json(ProductJson);
         }
+        public JsonResult GetLastTransactionDetailJson(int SaleEnquiryHeaderId)
+        {
+            var LastTransactionDetail = _SaleEnquiryLineService.GetLastTransactionDetail(SaleEnquiryHeaderId);
+            return Json(LastTransactionDetail);
+        }
+
 
 
 
@@ -648,9 +705,9 @@ namespace Web
     public class ProductCustomDetailViewModel
     {
         public int ProductId { get; set; }
-        public string ProductGroup { get; set; }
-        public string Size { get; set; }
-        public string ProductQuality { get; set; }
-        public string Colour { get; set; }
+        public string BuyerSpecification { get; set; }
+        public string BuyerSpecification1 { get; set; }
+        public string BuyerSpecification2 { get; set; }
+        public string BuyerSpecification3 { get; set; }
     }
 }

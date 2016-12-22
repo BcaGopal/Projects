@@ -237,7 +237,7 @@ namespace Model.ViewModel
         public byte UnitDecimalPlaces { get; set; }
         public byte DealUnitDecimalPlaces { get; set; }
 
-
+        public string UnitId { get; set; }
         public string DealUnitId { get; set; }
         public Decimal UnitConversionMultiplier { get; set; }
         public decimal DealQty { get; set; }

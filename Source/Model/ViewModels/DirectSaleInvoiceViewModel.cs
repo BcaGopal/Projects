@@ -172,6 +172,7 @@ namespace Model.ViewModels
         public List<SaleInvoiceLineCharge> linecharges { get; set; }
         public List<SaleInvoiceHeaderCharge> footercharges { get; set; }
         public SaleInvoiceSettingsViewModel SaleInvoiceSettings { get; set; }
+        public DocumentTypeSettingsViewModel DocumentTypeSettings { get; set; }
         public int DocTypeId { get; set; }
         public int SiteId { get; set; }
         public int DivisionId { get; set; }
@@ -246,6 +247,7 @@ namespace Model.ViewModels
         public DateTime UpToDate { get; set; }
 
         public SaleInvoiceSettingsViewModel SaleInvoiceSettings { get; set; }
+        public DocumentTypeSettingsViewModel DocumentTypeSettings { get; set; }
                 
     }
 

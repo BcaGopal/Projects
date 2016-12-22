@@ -114,16 +114,16 @@ namespace Web
 
 
         [HttpGet]
-        public ActionResult NextPage(int id, string name)//CurrentHeaderId
+        public ActionResult NextPage(int DocId, int DocTypeId)//CurrentHeaderId
         {
-            var nextId = _SaleEnquiryHeaderService.NextId(id);
-            return RedirectToAction("Edit", new { id = nextId });
+            var nextId = new NextPrevIdService(_unitOfWork).GetNextPrevId(DocId, DocTypeId, User.Identity.Name, "", "Web.SaleEnquiryHeaders", "SaleEnquiryHeaderId", PrevNextConstants.Next);
+            return Edit(nextId, "");
         }
         [HttpGet]
-        public ActionResult PrevPage(int id, string name)//CurrentHeaderId
+        public ActionResult PrevPage(int DocId, int DocTypeId)//CurrentHeaderId
         {
-            var nextId = _SaleEnquiryHeaderService.PrevId(id);
-            return RedirectToAction("Edit", new { id = nextId });
+            var PrevId = new NextPrevIdService(_unitOfWork).GetNextPrevId(DocId, DocTypeId, User.Identity.Name, "", "Web.SaleEnquiryHeaders", "SaleEnquiryHeaderId", PrevNextConstants.Prev);
+            return Edit(PrevId, "");
         }
 
         [HttpGet]
@@ -254,6 +254,17 @@ namespace Web
             {
                 return RedirectToAction("Create", "SaleEnquirySettings", new { id = id }).Warning("Please create sale enquiry settings");
             }
+
+
+            //ProductBuyerSettings ProductBuyerSettings = new ProductBuyerSettingsService(_unitOfWork).GetProductBuyerSettings(p.DivisionId, p.SiteId);
+            //if (ProductBuyerSettings == null && UserRoles.Contains("Admin"))
+            //{
+            //    return RedirectToAction("Create", "ProductBuyerSettings").Warning("Please create Product Buyer settings");
+            //}
+            //else if (ProductBuyerSettings == null && !UserRoles.Contains("Admin"))
+            //{
+            //    return View("~/Views/Shared/InValidSettings.cshtml");
+            //}
 
             p.SaleEnquirySettings = Mapper.Map<SaleEnquirySettings, SaleEnquirySettingsViewModel>(temp);
             ViewBag.Mode = "Add";
@@ -419,6 +430,17 @@ namespace Web
         public ActionResult Modify(int id, string IndexType)
         {
             SaleEnquiryHeader header = _SaleEnquiryHeaderService.Find(id);
+
+            //ProductBuyerSettings ProductBuyerSettings = new ProductBuyerSettingsService(_unitOfWork).GetProductBuyerSettings(header.DivisionId, header.SiteId);
+            //if (ProductBuyerSettings == null && UserRoles.Contains("Admin"))
+            //{
+            //    return RedirectToAction("Create", "ProductBuyerSettings").Warning("Please create Product Buyer settings");
+            //}
+            //else if (ProductBuyerSettings == null && !UserRoles.Contains("Admin"))
+            //{
+            //    return View("~/Views/Shared/InValidSettings.cshtml");
+            //}
+
             if (header.Status == (int)StatusConstants.Drafted || header.Status == (int)StatusConstants.Import)
                 return Edit(id, IndexType);
             else

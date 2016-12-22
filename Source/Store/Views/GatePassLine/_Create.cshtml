@@ -58,18 +58,40 @@
                         <div class="form-group">
                             @Html.LabelFor(model => model.Qty, "Qty", new { @class = "control-label col-md-4 col-sm-2" })
                             <div class="col-md-7 col-sm-10">
-                                <div class="col-xs-7" style="padding:0px;">
                                    @Html.TextBoxFor(model => model.Qty, new { @class = "form-control col-xs-3 required number" })                                  
                                     @Html.ValidationMessageFor(model => model.Qty, "", new { @class = "text-danger" })
-                                </div>
-                                <div class="col-xs-5" style="padding:0px">
-                                    @Html.TextBoxFor(m => m.UnitId, new { @class = "form-control col-xs-2"@*, @readonly = "false"*@ })
-                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.UnitId, "Unit Name", new { @class = "control-label col-md-4 col-sm-2" })
+                            <div class="col-md-7 col-sm-10">
+                               
+                                    @Html.TextBoxFor(model => model.UnitId, new { @class = "form-control col-xs-3 required number" })
+                                    @Html.ValidationMessageFor(model => model.UnitId, "", new { @class = "text-danger" })
+                               
                             </div>
                         </div>
                     </div>
 
                 </div>
+
+
+
+                @*<div class="col-md-6" style="display:@(Model.JobOrderSettings.isVisibleDimension1?"":"none")">
+                    @Html.HiddenFor(m => m.JobOrderSettings.isVisibleDimension1)
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Dimension1Id, (Model.DocumentTypeSettings.Dimension1Caption ?? "Dimension1"), new { @class = "control-label col-md-4 col-sm-2" })
+                        <div class="col-md-7 col-sm-10">
+                            @Html.TextBoxFor(model => model.Dimension1Id, new { @class = "form-control col-xs-7 required" })
+                            @Html.ValidationMessageFor(model => model.Dimension1Id, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>*@
+
+
 
                 <div class="modal-footer " style="padding: 19px 20px 0 20px; border-top:1px solid #8E8888">
                     @if (ViewBag.LineMode == "Edit" || ViewBag.LineMode == "Create")
@@ -101,7 +123,7 @@
         CustomSelectFunction($("#Dimension1Id"), '/ComboHelpList/GetDimension1', '/ComboHelpList/SetSingleDimension1', ' ', false, 1);
         CustomSelectFunction($("#Dimension2Id"), '/ComboHelpList/GetDimension2', '/ComboHelpList/SetSingleDimension2', ' ', false, 1);
         CustomSelectFunction($("#FromProcessId"), '/ComboHelpList/GetProcess', '/ComboHelpList/SetSingleProcess', 'Enter Process Name', false, 1);
-
+        CustomSelectFunction($("#UnitId"), '/ComboHelpList/GetUnits', '/ComboHelpList/SetSingleUnits', ' ', false, 1);
         var DocID = $('#GatePassHeaderId', '.modal-body').val();
         //var URL = '/JobOrderLine/GetCustomProducts/'+ DocID;
         //$("#ProductId").select2({

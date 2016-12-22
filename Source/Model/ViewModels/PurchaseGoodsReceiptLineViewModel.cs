@@ -91,6 +91,7 @@ namespace Model.ViewModel
         [Display(Name = "Debit Note Reason"), MaxLength(50)]
         public string DebitNoteReason { get; set; }
         public PurchaseGoodsReceiptSettingsViewModel PurchGoodsReceiptSettings { get; set; }
+        public DocumentTypeSettingsViewModel DocumentTypeSettings { get; set; }
         public int unitDecimalPlaces { get; set; }
         public int DealunitDecimalPlaces { get; set; }
         public string LockReason { get; set; }
@@ -106,6 +107,7 @@ namespace Model.ViewModel
         public string ProductId { get; set; }
         [Display(Name = "Product Group")]
         public string ProductGroupId { get; set; }
+        public DocumentTypeSettingsViewModel DocumentTypeSettings { get; set; }
     }
     public class PurchaseGoodsReceiptMasterDetailModel
     {

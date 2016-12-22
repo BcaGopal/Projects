@@ -239,6 +239,10 @@
     <Compile Include="Controllers\BuyerController.cs" />
     <Compile Include="Controllers\ComboHelpListController.cs" />
     <Compile Include="Controllers\PromoCodeController.cs" />
+    <Compile Include="Controllers\SaleEnquiryHeaderController.cs" />
+    <Compile Include="Controllers\SaleEnquiryLineController.cs" />
+    <Compile Include="Controllers\SaleEnquiryProductMappingController.cs" />
+    <Compile Include="Controllers\SaleEnquirySettingsController.cs" />
     <Compile Include="Controllers\SaleInvoiceLineController.cs" />
     <Compile Include="Controllers\SaleInvoiceHeaderController.cs" />
     <Compile Include="Controllers\SaleDispatchLineController.cs" />
@@ -1714,6 +1718,21 @@
     <Content Include="Views\PromoCode\Index.cshtml" />
     <Content Include="Views\SaleOrderSettings\CreateForCancel.cshtml" />
     <Content Include="Views\TaxCalculation\_GetHeaderCharge.cshtml" />
+    <Content Include="Views\Shared\UnderImplementation.cshtml" />
+    <Content Include="Views\SaleEnquiryHeader\_Reason.cshtml" />
+    <Content Include="Views\SaleEnquiryHeader\Create.cshtml" />
+    <Content Include="Views\SaleEnquiryHeader\Delete.cshtml" />
+    <Content Include="Views\SaleEnquiryHeader\Detail.cshtml" />
+    <Content Include="Views\SaleEnquiryHeader\DocumentTypeList.cshtml" />
+    <Content Include="Views\SaleEnquiryHeader\Edit.cshtml" />
+    <Content Include="Views\SaleEnquiryHeader\Index.cshtml" />
+    <Content Include="Views\SaleEnquiryHeader\MultipleDocumentPrint.cshtml" />
+    <Content Include="Views\SaleEnquiryHeader\PendingToApprove.cshtml" />
+    <Content Include="Views\SaleEnquiryHeader\PendingToSubmit.cshtml" />
+    <Content Include="Views\SaleEnquiryLine\_Create.cshtml" />
+    <Content Include="Views\SaleEnquirySettings\Create.cshtml" />
+    <Content Include="Views\SaleEnquiryProductMapping\Create.cshtml" />
+    <Content Include="Views\SaleEnquiryProductMapping\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

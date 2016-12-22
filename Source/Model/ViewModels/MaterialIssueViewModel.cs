@@ -153,6 +153,7 @@ namespace Model.ViewModel
         public int? RequiredProductId { get; set; }
         public string RequiredProductName { get; set; }
         public StockHeaderSettingsViewModel StockHeaderSettings { get; set; }
+        public DocumentTypeSettingsViewModel DocumentTypeSettings { get; set; }
         public MaterialReceiveSettingsViewModel MaterialReceiveSettingsViewModel { get; set; }
         public MaterialTransferSettingsViewModel MaterialTransferSettings { get; set; }
         //public JobConsumptionSettingsViewModel JobConsumptionSettings { get; set; }
@@ -229,7 +230,8 @@ namespace Model.ViewModel
         public string ProductGroupId { get; set; }
         public string CostCenterId { get; set; }
         public string Dimension1Id { get; set; }
-        public string Dimension2Id { get; set; }        
+        public string Dimension2Id { get; set; }
+        public DocumentTypeSettingsViewModel DocumentTypeSettings { get; set; }
     }
 
     public  class RequisitionFiltersForExchange

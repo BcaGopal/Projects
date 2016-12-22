@@ -42,6 +42,9 @@ namespace Model.Models
         public bool? isVisibleProductionRemark { get; set; }
         public bool? isVisibleMapScale { get; set; }
         public bool? isVisibleCBM { get; set; }
+        public bool? isVisibleTraceType { get; set; }
+        public bool? isVisibleMapType { get; set; }
+        public bool? isVisibleStencilSize { get; set; }
 
 
 

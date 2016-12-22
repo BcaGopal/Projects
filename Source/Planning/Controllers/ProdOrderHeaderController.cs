@@ -572,11 +572,13 @@ namespace Planning.Controllers
 
                     new ProdOrderLineService(_unitOfWork).Delete(item.ProdOrderLineId);
                 }
+            
 
                 new ProdOrderHeaderStatusService(_unitOfWork).Delete(ProdOrderHeader.ProdOrderHeaderId);
 
                 // Now delete the Purhcase Order Header
                 new ProdOrderHeaderService(_unitOfWork).Delete(vm.id);
+
 
                 XElement Modifications = new ModificationsCheckService().CheckChanges(LogList);
                 //Commit the DB

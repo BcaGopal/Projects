@@ -67,6 +67,8 @@ namespace Web
         {
             SaleInvoiceFilterViewModel vm = new SaleInvoiceFilterViewModel();
             vm.SaleInvoiceHeaderId = id;
+            SaleInvoiceHeader H = new SaleInvoiceHeaderService(_unitOfWork).Find(id);
+            vm.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(H.DocTypeId);
             return PartialView("_OrderFilters", vm);
         }
 
@@ -401,6 +403,7 @@ namespace Web
             //Getting Settings
             var settings = new SaleInvoiceSettingService(_unitOfWork).GetSaleInvoiceSettingForDocument(H.DocTypeId, H.DivisionId, H.SiteId);
             s.SaleInvoiceSettings = Mapper.Map<SaleInvoiceSetting, SaleInvoiceSettingsViewModel>(settings);
+            s.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(H.DocTypeId);
             s.IsSaleBased = IsSaleBased;
             s.SaleInvoiceHeaderId = H.SaleInvoiceHeaderId;
             s.SaleInvoiceHeaderDocNo = H.DocNo;
@@ -949,6 +952,7 @@ namespace Web
             var settings = new SaleInvoiceSettingService(_unitOfWork).GetSaleInvoiceSettingForDocument(H.DocTypeId, H.DivisionId, H.SiteId);
 
             vm.SaleInvoiceSettings = Mapper.Map<SaleInvoiceSetting, SaleInvoiceSettingsViewModel>(settings);
+            vm.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(H.DocTypeId);
 
             if (temp.SaleOrderLineId.HasValue && temp.SaleOrderLineId.Value > 0)
             {

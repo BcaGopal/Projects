@@ -56,6 +56,8 @@ namespace Web
         {
             PurchaseGoodsReceiptLineFilterViewModel vm = new PurchaseGoodsReceiptLineFilterViewModel();
             vm.PurchaseGoodsReceiptHeaderId = id;
+            PurchaseGoodsReceiptHeader Header = new PurchaseGoodsReceiptHeaderService(_unitOfWork).Find(id);
+            vm.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(Header.DocTypeId);
             vm.SupplierId = sid;
             return PartialView("_Filters", vm);
         }
@@ -369,6 +371,8 @@ namespace Web
             //Getting Settings
             var settings = new PurchaseGoodsReceiptSettingService(_unitOfWork).GetPurchaseGoodsReceiptSettingForDocument(H.DocTypeId, H.DivisionId, H.SiteId);
             s.PurchGoodsReceiptSettings = Mapper.Map<PurchaseGoodsReceiptSetting, PurchaseGoodsReceiptSettingsViewModel>(settings);
+
+            s.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(H.DocTypeId);
 
             s.SupplierId = sid;
             s.PurchaseGoodsReceiptHeaderId = Id;
@@ -800,6 +804,8 @@ namespace Web
             var settings = new PurchaseGoodsReceiptSettingService(_unitOfWork).GetPurchaseGoodsReceiptSettingForDocument(H.DocTypeId, H.DivisionId, H.SiteId);
 
             temp.PurchGoodsReceiptSettings = Mapper.Map<PurchaseGoodsReceiptSetting, PurchaseGoodsReceiptSettingsViewModel>(settings);
+
+            temp.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(H.DocTypeId);
            
             return PartialView("_Create", temp);
         }
@@ -871,7 +877,9 @@ namespace Web
             var settings = new PurchaseGoodsReceiptSettingService(_unitOfWork).GetPurchaseGoodsReceiptSettingForDocument(H.DocTypeId, H.DivisionId, H.SiteId);
 
             temp.PurchGoodsReceiptSettings = Mapper.Map<PurchaseGoodsReceiptSetting, PurchaseGoodsReceiptSettingsViewModel>(settings);
-           
+            temp.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(H.DocTypeId);
+
+
             return PartialView("_Create", temp);
         }
 

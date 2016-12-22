@@ -19,6 +19,8 @@ namespace Model.ViewModel
         public int SiteId { get; set; }
         public int DivisionId { get; set; }
 
+        public int ProductId { get; set; }
+
         public string BuyerSpecificationDisplayName { get; set; }
         public string BuyerSpecification1DisplayName { get; set; }
         public string BuyerSpecification2DisplayName { get; set; }

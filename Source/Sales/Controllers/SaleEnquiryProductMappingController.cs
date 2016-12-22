@@ -44,7 +44,17 @@ namespace Web
 
         public ActionResult Index()
         {
-            var SaleEnquiryProductMapping = _SaleEnquiryLineService.GetSaleEnquiryLineListForIndex().ToList();
+            IEnumerable<SaleEnquiryLineIndexViewModel> SaleEnquiryProductMapping = _SaleEnquiryLineService.GetSaleEnquiryLineListForIndex().ToList();
+
+            int DivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
+            int SiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
+
+            if (SaleEnquiryProductMapping.FirstOrDefault() != null)
+            {
+                ProductBuyerSettings ProductBuyerSettings = new ProductBuyerSettingsService(_unitOfWork).GetProductBuyerSettings(DivisionId, SiteId);
+                SaleEnquiryProductMapping.FirstOrDefault().ProductBuyerSettings = Mapper.Map<ProductBuyerSettings, ProductBuyerSettingsViewModel>(ProductBuyerSettings);
+            }
+
             return View(SaleEnquiryProductMapping);
             //return RedirectToAction("Create");
         }
@@ -79,16 +89,16 @@ namespace Web
                 {
 
 
-                    string BuyerSku = vm.ProductGroup.Replace("-", "") + "-" + vm.Size + "-" + vm.Colour;
+                    string BuyerSku = vm.BuyerSpecification.Replace("-", "") + "-" + vm.BuyerSpecification1 + "-" + vm.BuyerSpecification3;
 
                     ProductBuyer ProdBuyer = new ProductBuyer();
                     ProdBuyer.BuyerId = (int)vm.SaleToBuyerId;
                     ProdBuyer.ProductId = (int)vm.ProductId;
                     ProdBuyer.BuyerSku = BuyerSku;
-                    ProdBuyer.BuyerSpecification = vm.ProductGroup;
-                    ProdBuyer.BuyerSpecification1 = vm.Size;
-                    ProdBuyer.BuyerSpecification2 = vm.Colour;
-                    ProdBuyer.BuyerSpecification3 = vm.ProductQuality;
+                    ProdBuyer.BuyerSpecification = vm.BuyerSpecification;
+                    ProdBuyer.BuyerSpecification1 = vm.BuyerSpecification1;
+                    ProdBuyer.BuyerSpecification2 = vm.BuyerSpecification3;
+                    ProdBuyer.BuyerSpecification3 = vm.BuyerSpecification2;
                     ProdBuyer.CreatedDate = DateTime.Now;
                     ProdBuyer.CreatedBy = User.Identity.Name;
                     ProdBuyer.ModifiedDate = DateTime.Now;
@@ -161,10 +171,10 @@ namespace Web
             ViewBag.DocNo = H.DocNo;
             SaleEnquiryLineViewModel s = Mapper.Map<SaleEnquiryLine, SaleEnquiryLineViewModel>(temp);
 
-            s.ProductGroup = Extended.ProductGroup;
-            s.Size = Extended.Size;
-            s.ProductQuality = Extended.ProductQuality;
-            s.Colour = Extended.Colour;
+            s.BuyerSpecification = Extended.BuyerSpecification;
+            s.BuyerSpecification1 = Extended.BuyerSpecification1;
+            s.BuyerSpecification2 = Extended.BuyerSpecification2;
+            s.BuyerSpecification3 = Extended.BuyerSpecification3;
             s.SaleEnquiryDocNo = H.DocNo;
             s.SaleToBuyerId = H.SaleToBuyerId;
             s.SaleEnquiryHeaderId = H.SaleEnquiryHeaderId;
@@ -173,6 +183,9 @@ namespace Web
 
             var settings = new SaleEnquirySettingsService(_unitOfWork).GetSaleEnquirySettings(H.DocTypeId, H.DivisionId, H.SiteId);
             s.SaleEnquirySettings = Mapper.Map<SaleEnquirySettings, SaleEnquirySettingsViewModel>(settings);
+
+            ProductBuyerSettings ProductBuyerSettings = new ProductBuyerSettingsService(_unitOfWork).GetProductBuyerSettings(H.DivisionId, H.SiteId);
+            s.ProductBuyerSettings = Mapper.Map<ProductBuyerSettings, ProductBuyerSettingsViewModel>(ProductBuyerSettings);
 
 
             return View("Create", s);

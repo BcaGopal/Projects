@@ -63,6 +63,10 @@ namespace Web
         {
             JobReceiveByProductViewModel vm = new JobReceiveByProductViewModel();
             vm.JobReceiveHeaderId = id;
+            JobReceiveHeader H = new JobReceiveHeaderService(_unitOfWork).Find(id);
+            var settings = new JobReceiveSettingsService(_unitOfWork).GetJobReceiveSettingsForDocument(H.DocTypeId, H.DivisionId, H.SiteId);
+            vm.JobReceiveSettings = Mapper.Map<JobReceiveSettings, JobReceiveSettingsViewModel>(settings);
+
             return PartialView("ByProduct", vm);
         }
 
@@ -144,6 +148,10 @@ namespace Web
 
             JobReceiveByProductViewModel vm = new JobReceiveByProductService(_unitOfWork).GetJobReceiveByProduct(id);
 
+            JobReceiveHeader H = new JobReceiveHeaderService(_unitOfWork).Find(id);
+            var settings = new JobReceiveSettingsService(_unitOfWork).GetJobReceiveSettingsForDocument(H.DocTypeId, H.DivisionId, H.SiteId);
+            vm.JobReceiveSettings = Mapper.Map<JobReceiveSettings, JobReceiveSettingsViewModel>(settings);
+
             if (vm == null)
             {
                 return HttpNotFound();
@@ -202,6 +210,9 @@ namespace Web
         {
             JobReceiveBomViewModel vm = new JobReceiveBomViewModel();
             vm.JobReceiveHeaderId = id;
+            JobReceiveHeader H = new JobReceiveHeaderService(_unitOfWork).Find(id);
+            var settings = new JobReceiveSettingsService(_unitOfWork).GetJobReceiveSettingsForDocument(H.DocTypeId, H.DivisionId, H.SiteId);
+            vm.JobReceiveSettings = Mapper.Map<JobReceiveSettings, JobReceiveSettingsViewModel>(settings);
             return PartialView("Consumption", vm);
         }
 
@@ -398,6 +409,10 @@ namespace Web
         {
             JobReceiveBomViewModel vm = new JobReceiveBomService(_unitOfWork).GetJobReceiveBom(id);
 
+            JobReceiveHeader H = new JobReceiveHeaderService(_unitOfWork).Find(id);
+            var settings = new JobReceiveSettingsService(_unitOfWork).GetJobReceiveSettingsForDocument(H.DocTypeId, H.DivisionId, H.SiteId);
+            vm.JobReceiveSettings = Mapper.Map<JobReceiveSettings, JobReceiveSettingsViewModel>(settings);
+
             if (vm == null)
             {
                 return HttpNotFound();
@@ -466,6 +481,11 @@ namespace Web
             vm.JobReceiveHeaderId = id;
             JobReceiveHeader Header = new JobReceiveHeaderService(_unitOfWork).Find(vm.JobReceiveHeaderId);
             vm.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(Header.DocTypeId);
+
+            var settings = new JobReceiveSettingsService(_unitOfWork).GetJobReceiveSettingsForDocument(Header.DocTypeId, Header.DivisionId, Header.SiteId);
+            vm.JobReceiveSettings = Mapper.Map<JobReceiveSettings, JobReceiveSettingsViewModel>(settings);
+
+
             vm.DocTypeId = Header.DocTypeId;
             vm.JobWorkerId = sid;
             return PartialView("_Filters", vm);
@@ -679,6 +699,7 @@ namespace Web
                         line.Qty = item.ReceiveQty;
                         line.LossQty = item.LossQty;
                         line.PassQty = item.PassQty;
+                        line.LotNo = item.LotNo;
                         line.UnitConversionMultiplier = JobOrderLine.UnitConversionMultiplier;
                         line.DealQty = (line.UnitConversionMultiplier * line.Qty);
                         line.DealUnitId = JobOrderLine.DealUnitId;
@@ -2010,6 +2031,15 @@ namespace Web
                 ModelState.AddModelError("DocQty", "DocQty exceeding BalanceQty");
             }
 
+            if (settings.LossPer != null)
+            {
+                if (svm.LossQty > (svm.DocQty * (int)settings.LossPer / 100))
+                {
+                    ModelState.AddModelError("LossQty", "Loss Qty exceeding allowed loss % [" + settings.LossPer.ToString() + "]");
+                }
+            }
+
+
 
             if (ModelState.IsValid && BeforeSave && !EventException)
             {
@@ -2853,6 +2883,7 @@ namespace Web
             //Getting Settings
             var settings = new JobReceiveSettingsService(_unitOfWork).GetJobReceiveSettingsForDocument(H.DocTypeId, H.DivisionId, H.SiteId);
             temp.JobReceiveSettings = Mapper.Map<JobReceiveSettings, JobReceiveSettingsViewModel>(settings);
+            temp.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(H.DocTypeId);
 
             PrepareViewBag(temp);
 

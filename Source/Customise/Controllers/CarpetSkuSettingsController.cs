@@ -155,6 +155,9 @@ namespace Web
                     temp.UnitConversions = pt.UnitConversions;
                     temp.isVisibleCBM = pt.isVisibleCBM;
                     temp.isVisibleMapScale = pt.isVisibleMapScale;
+                    temp.isVisibleTraceType = pt.isVisibleTraceType;
+                    temp.isVisibleMapType = pt.isVisibleMapType;
+                    temp.isVisibleStencilSize = pt.isVisibleStencilSize;
                     temp.ModifiedDate = DateTime.Now;
                     temp.ModifiedBy = User.Identity.Name;
                     temp.ObjectState = Model.ObjectState.Modified;

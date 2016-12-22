@@ -24,7 +24,7 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
-                            @Html.LabelFor(model => model.ProductId, "Product", new { @class = "control-label col-md-4 col-sm-2" })
+                            @Html.LabelFor(model => model.ProductId, (Model.DocumentTypeSettings.ProductCaption ?? "Product"), new { @class = "control-label col-md-4 col-sm-2" })
                             <div class="col-md-7 col-sm-10">
                                 @Html.TextBoxFor(model => model.ProductId, new { @class = "form-control required", @readonly = true })
                                 @Html.ValidationMessageFor(model => model.ProductId, "", new { @class = "text-danger" })
@@ -54,7 +54,7 @@
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            @Html.LabelFor(model => model.ExcessStockQty, "ExcessStock Qty", new { @class = "control-label col-md-4 col-sm-2" })
+                            @Html.LabelFor(model => model.ExcessStockQty, "Excess Stock Qty", new { @class = "control-label col-md-4 col-sm-2" })
                             <div class="col-md-7 col-sm-10">
                                 @Html.TextBoxFor(m => m.ExcessStockQty, new { @class = "form-control", @readonly = true })
                                 @Html.ValidationMessageFor(model => model.ExcessStockQty, "", new { @class = "text-danger" })
@@ -65,7 +65,7 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
-                            @Html.LabelFor(model => model.StockPlanQty, "StockPlan Qty", new { @class = "control-label col-md-4 col-sm-2" })
+                            @Html.LabelFor(model => model.StockPlanQty, "Stock Plan Qty", new { @class = "control-label col-md-4 col-sm-2" })
                             <div class="col-md-7 col-sm-10">
                                 @Html.TextBoxFor(model => model.StockPlanQty, new { @class = "form-control required" })
                                 @Html.ValidationMessageFor(model => model.StockPlanQty, "", new { @class = "text-danger" })
@@ -74,7 +74,7 @@
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            @Html.LabelFor(model => model.ProdPlanQty, "ProdPlan Qty", new { @class = "control-label col-md-4 col-sm-2" })
+                            @Html.LabelFor(model => model.ProdPlanQty, "Prod Plan Qty", new { @class = "control-label col-md-4 col-sm-2" })
                             <div class="col-md-7 col-sm-10">
                                 @Html.TextBoxFor(m => m.ProdPlanQty, new { @class = "form-control" })
                                 @Html.ValidationMessageFor(model => model.ProdPlanQty, "", new { @class = "text-danger" })
@@ -87,7 +87,7 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
-                            @Html.LabelFor(model => model.PurchPlanQty, "PurchPlan Qty", new { @class = "control-label col-md-4 col-sm-2" })
+                            @Html.LabelFor(model => model.PurchPlanQty, "Purch Plan Qty", new { @class = "control-label col-md-4 col-sm-2" })
                             <div class="col-md-7 col-sm-10">
                                 @Html.TextBoxFor(model => model.PurchPlanQty, new { @class = "form-control required" })
                                 @Html.ValidationMessageFor(model => model.PurchPlanQty, "", new { @class = "text-danger" })

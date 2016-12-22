@@ -50,6 +50,7 @@ namespace Model.ViewModels
         public string Remark { get; set; }
 
         public SaleOrderSettingsViewModel SaleOrderSettings { get; set; }
+        public DocumentTypeSettingsViewModel DocumentTypeSettings { get; set; }
 
         [Display(Name = "Created By")]
         public string CreatedBy { get; set; }

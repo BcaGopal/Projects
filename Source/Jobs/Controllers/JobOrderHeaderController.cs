@@ -100,6 +100,9 @@ namespace Web
             ViewBag.PendingToSubmit = PendingToSubmitCount(id);
             ViewBag.PendingToReview = PendingToReviewCount(id);
             ViewBag.IndexStatus = "All";
+
+
+
             ViewBag.id = id;
             return View(p);
         }
@@ -143,6 +146,7 @@ namespace Web
             {
                 ViewBag.WizardId = settings.WizardMenuId;
                 ViewBag.IsPostedInStock = settings.isPostedInStock;
+                ViewBag.isVisibleCostCenter = settings.isVisibleCostCenter;
             }
 
         }
@@ -894,6 +898,8 @@ namespace Web
             {
                 return HttpNotFound();
             }
+
+            s.CalculationFooterChargeCount = new JobOrderHeaderChargeService(_unitOfWork).GetCalculationFooterList(id).Count();
 
             //ViewBag.transactionType = "detail";
 

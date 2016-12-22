@@ -169,19 +169,24 @@ namespace Service
             JobReceiveHeader Header = new JobReceiveHeaderService(_unitOfWork).Find(headerId);
 
             int DocTypeId = 0;
+            int JobReceiveQADocTypeId = 0;
             if (Header != null)
             {
                 DocTypeId = Header.DocTypeId;
             }
 
-            JobReceiveQASettings JobReceiveQASettings = (from S in db.JobReceiveQASettings
-                                                         where S.DivisionId == Header.DivisionId && S.SiteId == Header.SiteId
-                                                         && SqlFunctions.CharIndex(DocTypeId.ToString(), S.filterContraDocTypes) > 0
-                                                         select S).FirstOrDefault();
-            int JobReceiveQADocTypeId = 0;
-            if (JobReceiveQASettings != null)
+            if (DocTypeId != 0 && DocTypeId != null)
             {
-                JobReceiveQADocTypeId = JobReceiveQASettings.DocTypeId;
+                JobReceiveQASettings JobReceiveQASettings = (from S in db.JobReceiveQASettings
+                                                             where S.DivisionId == Header.DivisionId && S.SiteId == Header.SiteId
+                                                             && SqlFunctions.CharIndex(DocTypeId.ToString(), S.filterContraDocTypes) > 0
+                                                             select S).FirstOrDefault();
+                
+                if (JobReceiveQASettings != null)
+                {
+                    JobReceiveQADocTypeId = JobReceiveQASettings.DocTypeId;
+                }
+
             }
 
 
@@ -201,8 +206,11 @@ namespace Service
                       where p.JobReceiveHeaderId == headerId
                       join t in db.JobOrderLine on p.JobOrderLineId equals t.JobOrderLineId
                       into table from tab in table.DefaultIfEmpty()
+                      join H in db.JobReceiveHeader on p.JobReceiveHeaderId equals H.JobReceiveHeaderId into JobReceiveHeaderTable from JobReceiveHeaderTab in JobReceiveHeaderTable.DefaultIfEmpty()
                       join Jql in JobReceiveQALine on p.JobReceiveLineId equals Jql.JobReceiveLineId into JobReceiveQALineTable
                       from JobReceiveQALineTab in JobReceiveQALineTable.DefaultIfEmpty()
+                      join Pp in db.ProductProcess on new { X1 = tab.ProductId, X2 = JobReceiveHeaderTab.ProcessId } equals new { X1 = Pp.ProductId, X2 = (Pp.ProcessId ?? 0) } into ProductProcessTable
+                      from ProductProcessTab in ProductProcessTable.DefaultIfEmpty()
                       orderby p.Sr
                       select new JobReceiveLineViewModel
                       {
@@ -233,7 +241,8 @@ namespace Service
                           OrderDocTypeId = tab.JobOrderHeader.DocTypeId,
                           OrderHeaderId = tab.JobOrderHeaderId,
                           JobReceiveQALineId = JobReceiveQALineTab.JobReceiveQALineId,
-                          JobReceiveQADocTypeId = JobReceiveQADocTypeId
+                          JobReceiveQADocTypeId = JobReceiveQADocTypeId,
+                          QAGroupId = ProductProcessTab.QAGroupId
                       });
 
             return pt;
@@ -733,29 +742,39 @@ namespace Service
 
                 //context.Database.CommandTimeout = 30000;
 
-                var Temp = (from p in context.ProductUid
-                            join t in context.JobReceiveLine on p.ProductUIDId equals t.ProductUidId into table
-                            from tab in table.DefaultIfEmpty()
-                            join t3 in context.JobReceiveHeader.Where(m => m.SiteId == JobOrderHeader.SiteId && m.DivisionId == JobOrderHeader.DivisionId) on tab.JobReceiveHeaderId equals t3.JobReceiveHeaderId into table5
-                            from JRH in table5.DefaultIfEmpty()
-                            //where p.ProductUidHeaderId == JobOrderline.ProductUidHeaderId && JRH == null
-                            //&& p.Status != ProductUidStatusConstants.Return && p.Status != ProductUidStatusConstants.Cancel && ((p.GenDocId == p.LastTransactionDocId && p.GenDocNo == p.LastTransactionDocNo && p.GenPersonId == p.LastTransactionPersonId) || p.CurrenctGodownId != null)
-                            //orderby p.ProductUIDId
-                            join t2 in context.JobOrderLine on p.ProductUidHeaderId equals t2.ProductUidHeaderId
-                            join JOH in context.JobOrderHeader.Where(m => m.SiteId == JobOrderHeader.SiteId && m.DivisionId == JobOrderHeader.DivisionId) on t2.JobOrderHeaderId equals JOH.JobOrderHeaderId
-                            join RecLineStatus in context.JobReceiveLineStatus on tab.JobReceiveLineId equals RecLineStatus.JobReceiveLineId into RecLineStatTab
-                            from RecLineStat in RecLineStatTab.DefaultIfEmpty()
-                            where p.ProductUidHeaderId == JobOrderline.ProductUidHeaderId && (JRH == null || ((tab.Qty - (RecLineStat.ReturnQty ?? 0)) == 0)) && p.Status != ProductUidStatusConstants.Return &&
-                            p.Status != ProductUidStatusConstants.Cancel && ((p.GenPersonId == p.LastTransactionPersonId) || p.CurrenctGodownId != null)
-                            && JOH.ProcessId == JobOrderHeader.ProcessId
-                            orderby p.ProductUIDId
-                            select new { Id = p.ProductUIDId, Name = p.ProductUidName }).ToList();
+                //var Temp = (from p in context.ProductUid
+                //            join t in context.JobReceiveLine on p.ProductUIDId equals t.ProductUidId into table
+                //            from tab in table.DefaultIfEmpty()
+                //            join t3 in context.JobReceiveHeader.Where(m => m.SiteId == JobOrderHeader.SiteId && m.DivisionId == JobOrderHeader.DivisionId) on tab.JobReceiveHeaderId equals t3.JobReceiveHeaderId into table5
+                //            from JRH in table5.DefaultIfEmpty()
+                //            //where p.ProductUidHeaderId == JobOrderline.ProductUidHeaderId && JRH == null
+                //            //&& p.Status != ProductUidStatusConstants.Return && p.Status != ProductUidStatusConstants.Cancel && ((p.GenDocId == p.LastTransactionDocId && p.GenDocNo == p.LastTransactionDocNo && p.GenPersonId == p.LastTransactionPersonId) || p.CurrenctGodownId != null)
+                //            //orderby p.ProductUIDId
+                //            join t2 in context.JobOrderLine on p.ProductUidHeaderId equals t2.ProductUidHeaderId
+                //            join JOH in context.JobOrderHeader.Where(m => m.SiteId == JobOrderHeader.SiteId && m.DivisionId == JobOrderHeader.DivisionId) on t2.JobOrderHeaderId equals JOH.JobOrderHeaderId
+                //            join RecLineStatus in context.JobReceiveLineStatus on tab.JobReceiveLineId equals RecLineStatus.JobReceiveLineId into RecLineStatTab
+                //            from RecLineStat in RecLineStatTab.DefaultIfEmpty()
+                //            where p.ProductUidHeaderId == JobOrderline.ProductUidHeaderId && (JRH == null || ((tab.Qty - (RecLineStat.ReturnQty ?? 0)) == 0)) && p.Status != ProductUidStatusConstants.Return &&
+                //            p.Status != ProductUidStatusConstants.Cancel && ((p.GenPersonId == p.LastTransactionPersonId) || p.CurrenctGodownId != null)
+                //            && JOH.ProcessId == JobOrderHeader.ProcessId
+                //            orderby p.ProductUIDId
+                //            select new { Id = p.ProductUIDId, Name = p.ProductUidName }).ToList();
+
+
+                SqlParameter SQLProductUidHeaderId = new SqlParameter("@ProductUidHeaderId", JobOrderline.ProductUidHeaderId);
+                SqlParameter SQLSiteId = new SqlParameter("@SiteId", JobOrderHeader.SiteId);
+                SqlParameter SQLDivisionId = new SqlParameter("@DivisionId", JobOrderHeader.DivisionId);
+                SqlParameter SQLProcessId = new SqlParameter("@ProcessId", JobOrderHeader.ProcessId);
+
+
+                var Temp = db.Database.SqlQuery<ProductUidList>("" + ConfigurationManager.AppSettings["DataBaseSchema"] + ".sp_GetProductUidListForWeavingOrderCancel @ProductUidHeaderId, @SiteId,	@DivisionId, @ProcessId", SQLProductUidHeaderId, SQLSiteId, SQLDivisionId, SQLProcessId).ToList();
+
                 foreach (var item in Temp)
                 {
                     Barcodes.Add(new ComboBoxList
                     {
-                        Id = item.Id,
-                        PropFirst = item.Name,
+                        Id = item.ProductUidId,
+                        PropFirst = item.ProductUidName,
                     });
                 }
             }

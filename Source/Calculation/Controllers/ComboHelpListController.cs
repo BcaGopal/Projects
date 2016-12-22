@@ -1,24 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
 using System.Linq;
-using System.Net;
-using System.Web;
 using System.Web.Mvc;
 using Model.Models;
 using Data.Models;
 using Service;
-using Data.Infrastructure;
-using Presentation.ViewModels;
 using System.Configuration;
 using Presentation.Helper;
 using Model.ViewModels;
-using System.Data.SqlClient;
-using System.Data.Entity.Core.Objects;
-using System.Data.Entity.Infrastructure;
 using Core.Common;
-using Calculations;
 
 
 namespace Web
@@ -5359,7 +5349,55 @@ namespace Web
             return Json(ProductJson);
         }
 
+        public ActionResult GetChargeListWithCode(string searchTerm, int pageSize, int pageNum)
+        {
 
+            var temp = cbl.GetChargeListWithCode(searchTerm).Skip(pageSize * (pageNum - 1)).Take(pageSize).ToList();
+
+            var count = cbl.GetChargeListWithCode(searchTerm).Count();
+
+            ComboBoxPagedResult Data = new ComboBoxPagedResult();
+            Data.Results = temp;
+            Data.Total = count;
+
+            return new JsonpResult
+            {
+                Data = Data,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+        public JsonResult SetChargeWithCode(string Ids)
+        {
+            string[] subStr = Ids.Split(',');
+            List<ComboBoxResult> ProductJson = new List<ComboBoxResult>();
+            for (int i = 0; i < subStr.Length; i++)
+            {
+                string temp = subStr[i];
+                //IEnumerable<Product> products = db.Products.Take(3);
+                IEnumerable<Charge> prod = from p in db.Charge
+                                            where p.ChargeCode == temp
+                                            select p;
+                ProductJson.Add(new ComboBoxResult()
+                {
+                    id = prod.FirstOrDefault().ChargeCode.ToString(),
+                    text = prod.FirstOrDefault().ChargeName
+                });
+            }
+            return Json(ProductJson);
+        }
+        public JsonResult SetSingleChargeWithCode(int Ids)
+        {
+            ComboBoxResult ProductJson = new ComboBoxResult();
+
+            IEnumerable<Charge> prod = from p in db.Charge
+                                       where p.ChargeId == Ids
+                                       select p;
+
+            ProductJson.id = prod.FirstOrDefault().ChargeCode;
+            ProductJson.text = prod.FirstOrDefault().ChargeName;
+
+            return Json(ProductJson);
+        }
     }
 }
 

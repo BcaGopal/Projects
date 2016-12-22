@@ -146,6 +146,7 @@ namespace Service
         IQueryable<ComboBoxResult> GetCostCenterHelpListWithDocTypes(string term, int SiteId, int DivisionId);
         IQueryable<ComboBoxResult> GetChargeTypeList(string term);
         IQueryable<ComboBoxResult> GetChargeList(string term);
+        IQueryable<ComboBoxResult> GetChargeListWithCode(string term);
         IEnumerable<ComboBoxList> GetJobOrderHelpList(string TransactionDocTypeConstants, int SiteId, int DivisionId);
         IEnumerable<ComboBoxList> GetJobOrderAmendmentHelpList(string TransactionDocTypeConstants, int SiteId, int DivisionId);
         IEnumerable<ComboBoxList> GetJobReceiveHelpList(string TransactionDocTypeConstants, int SiteId, int DivisionId);
@@ -155,20 +156,17 @@ namespace Service
         IEnumerable<ComboBoxList> GetLedgerHeaderHelpList(string TransactionDocTypeConstants, int SiteId, int DivisionId);
         IQueryable<ComboBoxResult> GetJobWorkerHelpListWithProcessFilter(int Processid, string term);
         IQueryable<ComboBoxResult> GetEmployeeHelpListWithProcessFilter(int Processid, string term);
-        IQueryable<ComboBoxResult> GetEmployeeHelpListWithDepartMentFilter(int DepartMentId, string term);
         IQueryable<ComboBoxResult> GetPersonHelpListWithProcessFilter(int? Processid, string term);
         IQueryable<ComboBoxResult> GetPersonRateGroupHelpList(string term, int filter);
         IQueryable<ComboBoxResult> GetProductRateGroupHelpList(string term, int filter);
         IQueryable<ComboBoxResult> GetControllerActionList(string term);
         IQueryable<ComboBoxResult> GetDocumentCategoryList(string term);
         IQueryable<ComboBoxResult> GetUsers(string term);
-
-        IQueryable<ComboBoxResult> GetUnits(string term);
-        IQueryable<ComboBoxResult> GetQAGroups(string term);
         IEnumerable<ComboBoxList> GetPersonForSaleHelpList(string term);
-
-        IQueryable<ComboBoxResult> GetReasonHelpListWithDocTypeFilter(int Processid, string term);
-
+        IQueryable<ComboBoxResult> GetReasonHelpListWithDocTypeFilter(int DocTypeId, string term);
+        IQueryable<ComboBoxResult> GetEmployeeHelpListWithDepartMentFilter(int DepartMentId, string term);
+        IQueryable<ComboBoxResult> GetQAGroups(string term);
+        IQueryable<ComboBoxResult> GetUnits(string term);
 
     }
 
@@ -1095,6 +1093,19 @@ namespace Service
             return Helplist;
         }
 
+        public IQueryable<ComboBoxResult> GetChargeListWithCode(string term)
+        {
+            IQueryable<ComboBoxResult> Helplist = (from H in db.Charge
+                                                   where (string.IsNullOrEmpty(term) ? 1 == 1 : H.ChargeName.ToLower().Contains(term.ToLower()))
+                                                   orderby H.ChargeName
+                                                   select new ComboBoxResult
+                                                   {
+                                                       id = H.ChargeCode,
+                                                       text = H.ChargeName
+                                                   });
+
+            return Helplist;
+        }
 
         public IEnumerable<ComboBoxList> GetJobOrderHelpList(string TransactionDocTypeConstants, int SiteId, int DivisionId)
         {
@@ -1260,7 +1271,7 @@ namespace Service
                                                    select new ComboBoxList
                                                    {
                                                        Id = b.PersonID,
-                                                       PropFirst = PersonTab.Name
+                                                       PropFirst = PersonTab.Name + "|" + PersonTab.Code
                                                    });
 
 
@@ -2326,23 +2337,6 @@ namespace Service
 
         }
 
-        public IQueryable<ComboBoxResult> GetUnits(string term)
-        {
-
-            var list = (from p in db.Units
-                        where (string.IsNullOrEmpty(term) ? 1 == 1 : (p.UnitName.ToLower().Contains(term.ToLower())))
-                        orderby p.UnitName
-                        select new ComboBoxResult
-                        {
-                            text = p.UnitName,
-                            id = p.UnitId,
-                        }
-            );
-
-            return list;
-
-        }
-
         public IEnumerable<ComboBoxList> GetPersonForSaleHelpList(string term)
         {
 
@@ -2377,7 +2371,7 @@ namespace Service
             return list;
         }
 
-        public IQueryable<ComboBoxResult> GetReasonHelpListWithDocTypeFilter(int DocTypeId, string term)
+         public IQueryable<ComboBoxResult> GetReasonHelpListWithDocTypeFilter(int DocTypeId, string term)
         {
             var DocumentType = (from D in db.DocumentType where D.DocumentTypeId == DocTypeId select D).FirstOrDefault();
 
@@ -2429,5 +2423,23 @@ namespace Service
 
         }
 
+        public IQueryable<ComboBoxResult> GetUnits(string term)
+        {
+
+            var list = (from p in db.Units
+                        where (string.IsNullOrEmpty(term) ? 1 == 1 : (p.UnitName.ToLower().Contains(term.ToLower())))
+                        orderby p.UnitName
+                        select new ComboBoxResult
+                        {
+                            text = p.UnitName,
+                            id = p.UnitId,
+                        }
+            );
+
+            return list;
+
+        }
+
     }
 }
+

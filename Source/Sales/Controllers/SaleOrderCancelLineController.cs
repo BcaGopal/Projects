@@ -81,6 +81,7 @@ namespace Web
             SaleOrderCancelHeader H = new SaleOrderCancelHeaderService(_unitOfWork).Find(id);
             var settings = new SaleOrderSettingsService(_unitOfWork).GetSaleOrderSettings(H.DocTypeId, H.DivisionId, H.SiteId);
             vm.SaleOrderSettings = Mapper.Map<SaleOrderSettings, SaleOrderSettingsViewModel>(settings);
+            vm.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(H.DocTypeId);
             return PartialView("_Filters", vm);
         }
         [HttpPost]
@@ -189,6 +190,7 @@ namespace Web
             svm.BuyerId = bid;
             var settings = new SaleOrderSettingsService(_unitOfWork).GetSaleOrderSettings(header.DocTypeId, header.DivisionId, header.SiteId);
             svm.SaleOrderSettings = Mapper.Map<SaleOrderSettings, SaleOrderSettingsViewModel>(settings);
+            svm.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(header.DocTypeId);
 
             ViewBag.LineMode = "Create";
             return PartialView("_Create", svm);
@@ -452,6 +454,7 @@ namespace Web
 
             var settings = new SaleOrderSettingsService(_unitOfWork).GetSaleOrderSettings(Header.DocTypeId, Header.DivisionId, Header.SiteId);
             temp.SaleOrderSettings = Mapper.Map<SaleOrderSettings, SaleOrderSettingsViewModel>(settings);
+            temp.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(Header.DocTypeId);
 
             if (temp == null)
             {

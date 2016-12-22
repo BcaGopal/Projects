@@ -96,7 +96,7 @@
                     }
                     @Html.ActionLink(" ", "PrevPage", "DirectSaleInvoiceHeader", new { DocId = @Model.SaleInvoiceHeaderId, DocTypeId = Model.DocTypeId }, new { @class = "cbtn btn-circle glyphicon glyphicon-arrow-left toolbar", @title = "Prev Record", @data_toggle = "tooltip" })
                     @Html.ActionLink(" ", "NextPage", "DirectSaleInvoiceHeader", new { DocId = @Model.SaleInvoiceHeaderId, DocTypeId = Model.DocTypeId }, new { @class = "cbtn btn-circle glyphicon glyphicon-arrow-right toolbar", @title = "Next Record", @data_toggle = "tooltip" })
-                    @Html.ActionLink(" ", "Index", "DirectSaleInvoiceHeader", new { @id = ViewBag.id, IndexType = ViewBag.IndexStatus }, new { @class = "cbtn btn-circle glyphicon glyphicon-list", @title = "List", @data_toggle = "tooltip" })
+                    @Html.ActionLink(" ", "Index", "DirectSaleInvoiceHeader", new { @id = ViewBag.id, IndexType = ViewBag.IndexStatus }, new { @class = "cbtn btn-circle glyphicon glyphicon-list toolbar", @title = "List", @data_toggle = "tooltip" })
                 </div>
                 <div class="btn-group">
                     <a class="cbtn btn-circle glyphicon glyphicon-option-horizontal dropdown-toggle" aria-expanded="false" style="padding-top: 6px;padding-bottom: 6px;" href="#" data-toggle="dropdown" id="dropdownMenu1">
@@ -318,10 +318,9 @@
                             else if (Model.Status == (int)StatusConstants.Approved)
                             { Action = "CreateLineAfter_Approve"; }
                         }
-                        @Html.ActionLink("Add New Row ", Action, "DirectSaleInvoiceLine", new { id = @Model.SaleInvoiceHeaderId, IsSaleBased = false }, new { data_modal = "", id = "btnCreate", @class = "toolbar", @title = "Add New", @data_toggle = "tooltip", @data_detailDisabled = "true" })
+                        @Html.ActionLink("Add New Row ", Action, "DirectSaleInvoiceLine", new { id = @Model.SaleInvoiceHeaderId, IsSaleBased = false }, new { data_modal = "", id = "btnCreate", @class = "toolbar", @title = "Add New", @data_toggle = "tooltip", @data_detailDisabled = "true" })/
                         @if (Model.SaleInvoiceSettings.isVisibleForSaleOrder)
                         {
-                         
                             @Html.ActionLink("For Sale Order", Action, "DirectSaleInvoiceLine", new { id = @Model.SaleInvoiceHeaderId, IsSaleBased = true }, new { data_modal = "", id = "btnCreate", @class = "toolbar", @title = "Add New", @data_toggle = "tooltip", @data_detailDisabled = "true" })
                         }
                     </div>

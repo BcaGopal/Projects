@@ -16,10 +16,10 @@ namespace Model.DatabaseViews
         [Key]
         public int? ProductId { get; set; }
         public string ProductName { get; set; }
-        public string ProductGroup { get; set; }
-        public string Size { get; set; }
-        public string Colour { get; set; }
-        public string ProductQuality { get; set; }
+        public string BuyerSpecification { get; set; }
+        public string BuyerSpecification1 { get; set; }
+        public string BuyerSpecification2 { get; set; }
+        public string BuyerSpecification3 { get; set; }
         public int BuyerId { get; set; }
         
     }

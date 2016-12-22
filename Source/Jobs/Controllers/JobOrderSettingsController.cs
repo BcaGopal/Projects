@@ -155,6 +155,7 @@ namespace Web
                     temp.JobUnitId = pt.JobUnitId;
                     temp.DealUnitId = pt.DealUnitId;
                     temp.WizardMenuId = pt.WizardMenuId;
+                    temp.ImportMenuId = pt.ImportMenuId;
                     temp.isMandatoryGodown = pt.isMandatoryGodown;
                     temp.isVisibleGodown = pt.isVisibleGodown;
                     temp.isMandatoryCostCenter = pt.isMandatoryCostCenter;
@@ -359,6 +360,7 @@ namespace Web
                     temp.filterContraDivisions = pt.filterContraDivisions;
                     temp.filterContraSites = pt.filterContraSites;
                     temp.WizardMenuId = pt.WizardMenuId;
+                    temp.ImportMenuId = pt.ImportMenuId;
                     temp.isPostedInStock = pt.isPostedInStock;
                     temp.isVisibleUncountableQty = pt.isVisibleUncountableQty;
                     temp.isVisibleLoss = pt.isVisibleLoss;

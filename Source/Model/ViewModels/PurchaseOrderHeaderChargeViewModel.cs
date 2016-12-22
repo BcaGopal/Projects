@@ -21,7 +21,7 @@ namespace Model.ViewModel
         public string ChargeName { get; set; }
         public string ChargeCode { get; set; }
         public int ? PersonID { get; set; }
-        public bool? AddDeduct { get; set; }
+        public string AddDeduct { get; set; }
         public string AddDeductName { get; set; }
 
         public bool AffectCost { get; set; }
@@ -76,6 +76,8 @@ namespace Model.ViewModel
         public decimal? Amount { get; set; }
 
         public bool IsVisible { get; set; }
+        public string IncludedCharges { get; set; }
+        public string IncludedChargesCalculation { get; set; }
 
         [MaxLength(50)]
         public string OMSId { get; set; }

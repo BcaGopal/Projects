@@ -607,6 +607,11 @@ namespace Web
                 int cnt = 0;
                 foreach (var item in SaleDispatchLine)
                 {
+                    if (item.StockId != null)
+                    {
+                        StockIdList.Add((int)item.StockId);
+                    }
+
                     cnt = cnt + 1;
                     try
                     {
@@ -619,10 +624,7 @@ namespace Web
                         string str = e.Message;
                     }
 
-                    if (item.StockId != null)
-                    {
-                        StockIdList.Add((int)item.StockId);
-                    }
+                    
 
                 }
 
@@ -641,16 +643,6 @@ namespace Web
 
                 }
 
-
-                Sd.ObjectState = Model.ObjectState.Deleted;
-                db.SaleDispatchHeader.Attach(Sd);
-                db.SaleDispatchHeader.Remove(Sd);
-
-                Ph.ObjectState = Model.ObjectState.Deleted;
-                db.PackingHeader.Attach(Ph);
-                db.PackingHeader.Remove(Ph);
-
-
                 foreach (var item in StockIdList)
                 {
                     if (item != null)
@@ -664,9 +656,34 @@ namespace Web
                             new StockAdjService(_unitOfWork).Delete(Adj);
                         }
 
-                        new StockService(_unitOfWork).DeleteStock((int)item);
+                        new StockService(_unitOfWork).DeleteStockDB((int)item, ref db, true);
                     }
                 }
+
+                int? StockHeaderId = null;
+                StockHeaderId = Sd.StockHeaderId;
+
+
+
+                Sd.ObjectState = Model.ObjectState.Deleted;
+                db.SaleDispatchHeader.Attach(Sd);
+                db.SaleDispatchHeader.Remove(Sd);
+
+                Ph.ObjectState = Model.ObjectState.Deleted;
+                db.PackingHeader.Attach(Ph);
+                db.PackingHeader.Remove(Ph);
+
+                if (StockHeaderId != null)
+                {
+                    StockHeader StockHeader = (from H in db.StockHeader where H.StockHeaderId == StockHeaderId select H).FirstOrDefault();
+                    StockHeader.ObjectState = Model.ObjectState.Deleted;
+                    db.StockHeader.Attach(StockHeader);
+                    db.StockHeader.Remove(StockHeader);
+                }
+
+
+
+                
                 
 
 

@@ -783,11 +783,12 @@ namespace Web
                             {
                                 foreach (var pta in vm.ProductTypeAttributes)
                                 {
-                                    ProductAttributes productattribute = null;
-                                    if (pta.ProductAttributeId != 0)
-                                    {
-                                        productattribute = new ProductAttributeService(_unitOfWork).Find(prod.ProductId, pta.ProductTypeAttributeId);
-                                    }
+                                    //ProductAttributes productattribute = null;
+                                    //if (pta.ProductAttributeId != 0)
+                                    //{
+                                    //    productattribute = new ProductAttributeService(_unitOfWork).Find(prod.ProductId, pta.ProductTypeAttributeId);
+                                    //}
+                                    ProductAttributes productattribute = new ProductAttributeService(_unitOfWork).Find(prod.ProductId, pta.ProductTypeAttributeId);
 
                                     if (productattribute != null)
                                     {
@@ -855,30 +856,34 @@ namespace Web
                                         UnitConv.FromUnitId = UnitConstants.Pieces;
                                         UnitConv.ToUnitId = UnitConstants.Feet;
 
-                                        if (ProductShapeId == (int)ProductShapeConstants.Circle)
-                                        {
-                                            UnitConv.ToQty = Math.Floor((FinishingSizeForPerimeter.Length + (FinishingSizeForPerimeter.LengthFraction / 12)) * (decimal)3.14);
-                                        }
-                                        else if (ProductShapeId == null || ProductShapeId == (int)ProductShapeConstants.Rectangle || vm.ProductShapeId == (int)ProductShapeConstants.Square)
-                                        {
-                                            if (pta.DefaultValue == ProductTypeAttributeValuess.Length)
-                                            {
-                                                UnitConv.ToQty = Width;
-                                            }
-                                            if (pta.DefaultValue == ProductTypeAttributeValuess.Width)
-                                            {
-                                                UnitConv.ToQty = Length;
-                                            }
-                                            if (pta.DefaultValue == ProductTypeAttributeValuess.LengthAndWidth)
-                                            {
-                                                UnitConv.ToQty = LenghtAndWidth;
-                                            }
-                                        }
-                                        else
-                                        {
-                                            UnitConv.ToQty = LenghtAndWidth;
-                                        }
 
+                                        //To Enable User to create custom logic to get Unit Conversion these section is commented and it is generating from Sql Procedure
+
+                                        //if (ProductShapeId == (int)ProductShapeConstants.Circle)
+                                        //{
+                                        //    UnitConv.ToQty = Math.Floor((FinishingSizeForPerimeter.Length + (FinishingSizeForPerimeter.LengthFraction / 12)) * (decimal)3.14);
+                                        //}
+                                        //else if (ProductShapeId == null || ProductShapeId == (int)ProductShapeConstants.Rectangle || vm.ProductShapeId == (int)ProductShapeConstants.Square)
+                                        //{
+                                        //    if (pta.DefaultValue == ProductTypeAttributeValuess.Length)
+                                        //    {
+                                        //        UnitConv.ToQty = Width;
+                                        //    }
+                                        //    if (pta.DefaultValue == ProductTypeAttributeValuess.Width)
+                                        //    {
+                                        //        UnitConv.ToQty = Length;
+                                        //    }
+                                        //    if (pta.DefaultValue == ProductTypeAttributeValuess.LengthAndWidth)
+                                        //    {
+                                        //        UnitConv.ToQty = LenghtAndWidth;
+                                        //    }
+                                        //}
+                                        //else
+                                        //{
+                                        //    UnitConv.ToQty = LenghtAndWidth;
+                                        //}
+
+                                        UnitConv.ToQty = GetUnitConversionQty(FinishingSizeId, UnitConstants.Feet, pta.DefaultValue);
 
                                         if (pta.ProductTypeAttributeId == (int)ProductTypeAttributeTypess.Binding)
                                         {
@@ -1435,7 +1440,15 @@ namespace Web
             PrepareViewBag(vm);
 
             vm.ProductTypeAttributes = (List<ProductTypeAttributeViewModel>)System.Web.HttpContext.Current.Session["list"];
-            vm.ProductShapeId = (int)ProductShapeConstants.Rectangle;
+
+            var ProductShape = new ProductShapeService(_unitOfWork).Find("Rectangle");
+
+            if (ProductShape != null)
+            {
+                vm.ProductShapeId = ProductShape.ProductShapeId;
+            }
+
+            //vm.ProductShapeId = (int)ProductShapeConstants.Rectangle;
 
             int DivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
             int SiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
@@ -1946,30 +1959,31 @@ namespace Web
                                     UnitConv.UnitConversionForId = (int)UnitConversionFors.PattiMuraiDurry;
                                 }
 
-                                if (vm.ProductShapeId == (int)ProductShapeConstants.Circle)
-                                {
-                                    UnitConv.ToQty = Math.Floor((FinishingSizeForPerimeter.Length + (FinishingSizeForPerimeter.LengthFraction / 12)) * (decimal)3.14);
-                                }
-                                else if (vm.ProductShapeId == (int)ProductShapeConstants.Rectangle || vm.ProductShapeId == (int)ProductShapeConstants.Square)
-                                {
-                                    if (item.DefaultValue == ProductTypeAttributeValuess.Length)
-                                    {
-                                        UnitConv.ToQty = Width;
-                                    }
-                                    if (item.DefaultValue == ProductTypeAttributeValuess.Width)
-                                    {
-                                        UnitConv.ToQty = Length;
-                                    }
-                                    if (item.DefaultValue == ProductTypeAttributeValuess.LengthAndWidth)
-                                    {
-                                        UnitConv.ToQty = LenghtAndWidth;
-                                    }
-                                }
-                                else
-                                {
-                                    UnitConv.ToQty = LenghtAndWidth;
-                                }
+                                //if (vm.ProductShapeId == (int)ProductShapeConstants.Circle)
+                                //{
+                                //    UnitConv.ToQty = Math.Floor((FinishingSizeForPerimeter.Length + (FinishingSizeForPerimeter.LengthFraction / 12)) * (decimal)3.14);
+                                //}
+                                //else if (vm.ProductShapeId == (int)ProductShapeConstants.Rectangle || vm.ProductShapeId == (int)ProductShapeConstants.Square)
+                                //{
+                                //    if (item.DefaultValue == ProductTypeAttributeValuess.Length)
+                                //    {
+                                //        UnitConv.ToQty = Width;
+                                //    }
+                                //    if (item.DefaultValue == ProductTypeAttributeValuess.Width)
+                                //    {
+                                //        UnitConv.ToQty = Length;
+                                //    }
+                                //    if (item.DefaultValue == ProductTypeAttributeValuess.LengthAndWidth)
+                                //    {
+                                //        UnitConv.ToQty = LenghtAndWidth;
+                                //    }
+                                //}
+                                //else
+                                //{
+                                //    UnitConv.ToQty = LenghtAndWidth;
+                                //}
 
+                                UnitConv.ToQty = GetUnitConversionQty(vm.FinishingSizeId, UnitConstants.Feet, item.DefaultValue);
                                 new UnitConversionService(_unitOfWork).Create(UnitConv);
                             }
                         }
@@ -3032,13 +3046,7 @@ namespace Web
                 }
                 else 
                 {
-                    SqlParameter SqlParameterSizeId = new SqlParameter("@SizeId", SizeId);
-                    SqlParameter SqlParameterToUnitId = new SqlParameter("@ToUnitId", ToUnit);
-                    SizeArea SizeArea = db.Database.SqlQuery<SizeArea>("" + ConfigurationManager.AppSettings["DataBaseSchema"] + ".sp_GetUnitConversionForSize @SizeId, @ToUnitId", SqlParameterSizeId, SqlParameterToUnitId).FirstOrDefault();
-                    if (SizeArea != null)
-                    {
-                        SizeExist.ToQty = SizeArea.Area ?? 0;
-                    }
+                    SizeExist.ToQty = GetUnitConversionQty(SizeId, ToUnit);
                 }
 
                 UnitConvr = SizeExist;
@@ -3076,13 +3084,7 @@ namespace Web
                 }
                 else
                 {
-                    SqlParameter SqlParameterSizeId = new SqlParameter("@SizeId", SizeId);
-                    SqlParameter SqlParameterToUnitId = new SqlParameter("@ToUnitId", ToUnit);
-                    SizeArea SizeArea = db.Database.SqlQuery<SizeArea>("" + ConfigurationManager.AppSettings["DataBaseSchema"] + ".sp_GetUnitConversionForSize @SizeId, @ToUnitId", SqlParameterSizeId, SqlParameterToUnitId).FirstOrDefault();
-                    if (SizeArea != null)
-                    {
-                        UnitConv.ToQty = SizeArea.Area ?? 0;
-                    }
+                    UnitConv.ToQty = GetUnitConversionQty(SizeId, ToUnit);
                 }
 
                 Mode = "Create";
@@ -3578,6 +3580,37 @@ namespace Web
             return Json(CustomProductName);
         }
 
+        public Decimal GetUnitConversionQty(int SizeId, string ToUnit, string Attribute = null)
+        {
+            SqlParameter SqlParameterSizeId = new SqlParameter("@SizeId", SizeId);
+            SqlParameter SqlParameterToUnitId = new SqlParameter("@ToUnitId", ToUnit);
+            SqlParameter SqlParameterAttribute = new SqlParameter("@Attribute", Attribute);
+            if (Attribute != null)
+            {
+                UnitConversionQty UnitConversionQty = db.Database.SqlQuery<UnitConversionQty>("" + ConfigurationManager.AppSettings["DataBaseSchema"] + ".sp_GetUnitConversionForSize @SizeId, @ToUnitId, @Attribute", SqlParameterSizeId, SqlParameterToUnitId, SqlParameterAttribute).FirstOrDefault();
+                if (UnitConversionQty != null)
+                {
+                    return UnitConversionQty.ToQty ?? 0;
+                }
+                else
+                {
+                    return 0;
+                }
+            }
+            else
+            {
+                UnitConversionQty UnitConversionQty = db.Database.SqlQuery<UnitConversionQty>("" + ConfigurationManager.AppSettings["DataBaseSchema"] + ".sp_GetUnitConversionForSize @SizeId, @ToUnitId", SqlParameterSizeId, SqlParameterToUnitId).FirstOrDefault();
+                if (UnitConversionQty != null)
+                {
+                    return UnitConversionQty.ToQty ?? 0;
+                }
+                else
+                {
+                    return 0;
+                }
+            }
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)
@@ -3593,8 +3626,8 @@ namespace Web
         public string ProductName { get; set; }
     }
 
-    public class SizeArea
+    public class UnitConversionQty
     {
-        public Decimal? Area { get; set; }
+        public Decimal? ToQty { get; set; }
     }
 }

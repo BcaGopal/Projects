@@ -23,6 +23,7 @@ using DocumentEvents;
 using JobOrderDocumentEvents;
 using Reports.Reports;
 using Reports.Controllers;
+using Model.ViewModels;
 namespace Web
 {
 
@@ -30,6 +31,7 @@ namespace Web
     public class GatePassHeaderController : System.Web.Mvc.Controller
     {
         private ApplicationDbContext context = new ApplicationDbContext();
+        
         private bool EventException = false;
 
         List<string> UserRoles = new List<string>();
@@ -134,14 +136,6 @@ namespace Web
 
             var DivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
             var SiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
-
-            //var settings = new JobOrderSettingsService(_unitOfWork).GetJobOrderSettingsForDocument(id, DivisionId, SiteId);
-            //if (settings != null)
-            //{
-            //    ViewBag.WizardId = settings.WizardMenuId;
-            //    ViewBag.IsPostedInStock = settings.isPostedInStock;
-            //}
-
         }
 
 
@@ -171,72 +165,24 @@ namespace Web
 
         public ActionResult Create(int id)//DocumentTypeId
         {
-            GatePassHeaderViewModel p = new GatePassHeaderViewModel();
-
+            int GoDownId = (int)System.Web.HttpContext.Current.Session["DefaultGodownId"];            
+            SqlParameter DocDate = new SqlParameter("@DocDate", DateTime.Now.Date);
+            DocDate.SqlDbType = SqlDbType.DateTime;
+            SqlParameter Godown = new SqlParameter("@GodownId", GoDownId);
+            SqlParameter DocType = new SqlParameter("@DocTypeId", id);
+            GatePassHeaderViewModel p = new GatePassHeaderViewModel();    
             p.DocDate = DateTime.Now;        
             p.CreatedDate = DateTime.Now;
             p.DivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
-            p.SiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
+            p.SiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];            
             p.DocTypeId = id;
             PrepareViewBag(id);
-            p.GodownId = (int)System.Web.HttpContext.Current.Session["DefaultGodownId"];
-            p.DocNo = new DocumentTypeService(_unitOfWork).FGetNewDocNo("DocNo", ConfigurationManager.AppSettings["DataBaseSchema"] + ".Gatepassheaders", p.DocTypeId, p.DocDate, p.DivisionId, p.SiteId);
+            p.GodownId = GoDownId;
+            //p.DocNo = context.Database.SqlQuery<string>("Web.GetNewDocNoGatePass @DocTypeId, @DocDate, @GodownId ", DocType, DocDate, Godown).FirstOrDefault();
             ViewBag.Mode = "Add";
             ViewBag.Name = new DocumentTypeService(_unitOfWork).Find(id).DocumentTypeName;
             ViewBag.id = id;
             return View(p);
-            //Getting Settings
-            //var settings = new JobOrderSettingsService(_unitOfWork).GetJobOrderSettingsForDocument(id, p.DivisionId, p.SiteId);
-
-            //if (settings == null && UserRoles.Contains("Admin"))
-            //{
-            //    return RedirectToAction("Create", "JobOrderSettings", new { id = id }).Warning("Please create job order settings");
-            //}
-            //else if (settings == null && !UserRoles.Contains("Admin"))
-            //{
-            //    return View("~/Views/Shared/InValidSettings.cshtml");
-            //}
-            //p.JobOrderSettings = Mapper.Map<JobOrderSettings, JobOrderSettingsViewModel>(settings);
-
-
-            //List<PerkViewModel> Perks = new List<PerkViewModel>();
-            //Perks
-            //if (p.JobOrderSettings.Perks != null)
-            //{
-            //    foreach (var item in p.JobOrderSettings.Perks.Split(',').ToList())
-            //    {
-            //        PerkViewModel temp = Mapper.Map<Perk, PerkViewModel>(new PerkService(_unitOfWork).Find(Convert.ToInt32(item)));
-            //        var DocTypePerk = (from p2 in context.PerkDocumentType
-            //                           where p2.DocTypeId == id && p2.PerkId == temp.PerkId && p2.SiteId == p.SiteId && p2.DivisionId == p.DivisionId
-            //                           select p2).FirstOrDefault();
-            //        if (DocTypePerk != null)
-            //        {
-            //            temp.Base = DocTypePerk.Base;
-            //            temp.Worth = DocTypePerk.Worth;
-            //            temp.CostConversionMultiplier = DocTypePerk.CostConversionMultiplier;
-            //            temp.IsEditableRate = DocTypePerk.IsEditableRate;
-            //        }
-            //        else
-            //        {
-            //            temp.Base = 0;
-            //            temp.Worth = 0;
-            //            temp.CostConversionMultiplier = 0;
-            //            temp.IsEditableRate = true;
-            //        }
-            //        Perks.Add(temp);
-            //    }
-            //}
-
-            //if (p.JobOrderSettings.isVisibleCostCenter)
-            //{
-            //    p.CostCenterName = new JobOrderHeaderService(_unitOfWork).FGetJobOrderCostCenter(p.DocTypeId, p.DocDate, p.DivisionId, p.SiteId);
-            //}
-
-            //p.PerkViewModel = Perks;
-            // p.UnitConversionForId = settings.UnitConversionForId;
-            //p.ProcessId = settings.ProcessId;
-
-
         }
 
         [HttpPost]
@@ -247,37 +193,7 @@ namespace Web
             bool CostCenterGenerated = false;
 
             GatePassHeader s = Mapper.Map<GatePassHeaderViewModel, GatePassHeader>(svm);
-
-            //var settings = new JobOrderSettingsService(_unitOfWork).GetJobOrderSettingsForDocument(svm.DocTypeId, svm.DivisionId, svm.SiteId);
-
-            //if (settings != null)
-            //{
-            //    if (svm.JobOrderSettings.isMandatoryCostCenter == true && (string.IsNullOrEmpty(svm.CostCenterName)))
-            //    {
-            //        ModelState.AddModelError("CostCenterName", "The CostCenter field is required");
-            //    }
-            //    if (svm.JobOrderSettings.isMandatoryMachine == true && (svm.MachineId <= 0 || svm.MachineId == null))
-            //    {
-            //        ModelState.AddModelError("MachineId", "The Machine field is required");
-            //    }
-            //    if (svm.JobOrderSettings.isVisibleGodown == true && svm.JobOrderSettings.isMandatoryGodown == true && !svm.GodownId.HasValue)
-            //    {
-            //        ModelState.AddModelError("GodownId", "The Godown field is required");
-            //    }
-            //    if (settings.MaxDays.HasValue && (svm.DueDate - svm.DocDate).Days > settings.MaxDays.Value)
-            //    {
-            //        ModelState.AddModelError("DueDate", "DueDate is exceeding MaxDueDays.");
-            //    }
-            //}
-
-            //if (!string.IsNullOrEmpty(svm.CostCenterName))
-            //{
-            //    string CostCenterValidation = _JobOrderHeaderService.ValidateCostCenter(svm.DocTypeId, svm.JobOrderHeaderId, svm.JobWorkerId, svm.CostCenterName);
-            //    if (!string.IsNullOrEmpty(CostCenterValidation))
-            //        ModelState.AddModelError("CostCenterName", CostCenterValidation);
-            //}
             #region BeforeSaveEvents
-
             try
             {
 
@@ -327,7 +243,13 @@ namespace Web
                 #region CreateRecord
                 if (svm.GatePassHeaderId <= 0)
                 {
-                    s.GodownId= (int)System.Web.HttpContext.Current.Session["DefaultGodownId"];
+                    // s.GodownId= (int)System.Web.HttpContext.Current.Session["DefaultGodownId"];
+                    
+                    SqlParameter DocDate = new SqlParameter("@DocDate", DateTime.Now.Date);
+                    DocDate.SqlDbType = SqlDbType.DateTime;
+                    SqlParameter Godown = new SqlParameter("@GodownId", svm.GodownId);
+                    SqlParameter DocType = new SqlParameter("@DocTypeId",svm.DocTypeId);                    
+                    s.DocNo= context.Database.SqlQuery<string>("Web.GetNewDocNoGatePass @DocTypeId, @DocDate, @GodownId ", DocType, DocDate, Godown).FirstOrDefault();
                     s.CreatedDate = DateTime.Now;
                     s.ModifiedDate = DateTime.Now;   
                     s.CreatedBy = User.Identity.Name;
@@ -416,7 +338,7 @@ namespace Web
 
                     temp.DocDate = s.DocDate;
                     temp.PersonId = s.PersonId;
-                    temp.GodownId =(int)System.Web.HttpContext.Current.Session["DefaultGodownId"];
+                    temp.GodownId =s.GodownId;
                     temp.DocNo = s.DocNo;
                     temp.Remark = s.Remark;                 
                     temp.ModifiedDate = DateTime.Now;
@@ -746,24 +668,6 @@ namespace Web
 
         // GET: /PurchaseOrderHeader/Delete/5
 
-        //public ActionResult Delete(int id, string PrevAction, string PrevController)
-        //{
-        //    if (id == null)
-        //    {
-        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-        //    }
-        //    JobOrderHeader JobOrderHeader = _JobOrderHeaderService.Find(id);
-        //    if (JobOrderHeader == null)
-        //    {
-        //        return HttpNotFound();
-        //    }
-        //    ReasonViewModel rvm = new ReasonViewModel()
-        //    {
-        //        id = id,
-        //    };
-        //    return PartialView("_Reason", rvm);
-        //}
-
 
 
         // POST: /PurchaseOrderHeader/Delete/5
@@ -1042,22 +946,7 @@ namespace Web
                             ReturnUrl = System.Configuration.ConfigurationManager.AppSettings["CurrentDomain"] + "/" + "GatePassHeader" + "/" + "Submit" + "/" + nextId + "?TransactionType=submitContinue&IndexType=" + IndexType;
                     }
 
-                    #region "For Calling Customise Menu"
-                    //int DivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
-                    //int SiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
-
-                    //var settings = new JobOrderSettingsService(_unitOfWork).GetJobOrderSettingsForDocument(pd.DocTypeId, DivisionId, SiteId);
-
-                    //if (settings != null)
-                    //{
-                    //    if (settings.OnSubmitMenuId != null)
-                    //    {
-                    //        return Action_Menu(Id, (int)settings.OnSubmitMenuId, ReturnUrl);
-                    //    }
-                    //    else
-                    //        return Redirect(ReturnUrl);
-                    //}
-                   #endregion
+               
 
                 }
                 else
@@ -1068,8 +957,7 @@ namespace Web
         }
 
 
-
-
+    
 
         public ActionResult Review(int id, string IndexType, string TransactionType)
         {
@@ -1211,12 +1099,6 @@ namespace Web
 
         }
 
-
-       
-
-
-       
-
         public ActionResult Action_Menu(int Id, int MenuId, string ReturnUrl)
         {
             MenuViewModel menuviewmodel = new MenuService(_unitOfWork).GetMenu(MenuId);
@@ -1272,255 +1154,6 @@ namespace Web
             base.Dispose(disposing);
         }
 
-   
-
-        //public ActionResult GenerateGatePass(string Ids, int DocTypeId)
-        //{
-
-        //    if (!string.IsNullOrEmpty(Ids))
-        //    {
-        //        int SiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
-        //        int DivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
-        //        int PK = 0;
-
-        //        var Settings = new JobOrderSettingsService(_unitOfWork).GetJobOrderSettingsForDocument(DocTypeId, DivisionId, SiteId);
-        //        var GatePassDocTypeID = new DocumentTypeService(_unitOfWork).FindByName(TransactionDocCategoryConstants.GatePass).DocumentTypeId;
-        //        string JobHeaderIds = "";
-
-        //        try
-        //        {
-
-        //            foreach (var item in Ids.Split(',').Select(Int32.Parse))
-        //            {
-        //                TimePlanValidation = true;
-
-        //                var pd = context.JobOrderHeader.Find(item);
-
-        //                if (!pd.GatePassHeaderId.HasValue)
-        //                {
-        //                    #region DocTypeTimeLineValidation
-        //                    try
-        //                    {
-
-        //                        TimePlanValidation = DocumentValidation.ValidateDocument(Mapper.Map<DocumentUniqueId>(pd), DocumentTimePlanTypeConstants.GatePassCreate, User.Identity.Name, out ExceptionMsg, out Continue);
-
-        //                    }
-        //                    catch (Exception ex)
-        //                    {
-        //                        string message = _exception.HandleException(ex);
-        //                        TempData["CSEXC"] += message;
-        //                        TimePlanValidation = false;
-        //                    }
-        //                    #endregion
-
-        //                    if ((TimePlanValidation || Continue))
-        //                    {
-        //                        if (Settings.isPostedInStock.HasValue && Settings.isPostedInStock == true)
-        //                        {
-
-        //                            if (!String.IsNullOrEmpty(Settings.SqlProcGatePass) && pd.Status == (int)StatusConstants.Submitted && !pd.GatePassHeaderId.HasValue)
-        //                            {
-
-        //                                SqlParameter SqlParameterUserId = new SqlParameter("@Id", item);
-        //                                IEnumerable<GatePassGeneratedViewModel> GatePasses = context.Database.SqlQuery<GatePassGeneratedViewModel>(Settings.SqlProcGatePass + " @Id", SqlParameterUserId).ToList();
-
-        //                                if (pd.GatePassHeaderId == null)
-        //                                {
-        //                                    SqlParameter DocDate = new SqlParameter("@DocDate", DateTime.Now.Date);
-        //                                    DocDate.SqlDbType = SqlDbType.DateTime;
-        //                                    SqlParameter Godown = new SqlParameter("@GodownId", pd.GodownId);
-        //                                    SqlParameter DocType = new SqlParameter("@DocTypeId", GatePassDocTypeID);
-        //                                    GatePassHeader GPHeader = new GatePassHeader();
-        //                                    GPHeader.CreatedBy = User.Identity.Name;
-        //                                    GPHeader.CreatedDate = DateTime.Now;
-        //                                    GPHeader.DivisionId = pd.DivisionId;
-        //                                    GPHeader.DocDate = DateTime.Now.Date;
-        //                                    GPHeader.DocNo = context.Database.SqlQuery<string>("Web.GetNewDocNoGatePass @DocTypeId, @DocDate, @GodownId ", DocType, DocDate, Godown).FirstOrDefault();
-        //                                    GPHeader.DocTypeId = GatePassDocTypeID;
-        //                                    GPHeader.ModifiedBy = User.Identity.Name;
-        //                                    GPHeader.ModifiedDate = DateTime.Now;
-        //                                    GPHeader.Remark = pd.Remark;
-        //                                    GPHeader.PersonId = pd.JobWorkerId;
-        //                                    GPHeader.SiteId = pd.SiteId;
-        //                                    GPHeader.GodownId = pd.GodownId ?? 0;
-        //                                    GPHeader.GatePassHeaderId = PK++;
-        //                                    GPHeader.ReferenceDocTypeId = pd.DocTypeId;
-        //                                    GPHeader.ReferenceDocId = pd.JobOrderHeaderId;
-        //                                    GPHeader.ReferenceDocNo = pd.DocNo;
-        //                                    GPHeader.ObjectState = Model.ObjectState.Added;
-        //                                    context.GatePassHeader.Add(GPHeader);
-
-        //                                    //new GatePassHeaderService(_unitOfWork).Create(GPHeader);
-
-
-        //                                    foreach (GatePassGeneratedViewModel GatepassLine in GatePasses)
-        //                                    {
-        //                                        GatePassLine Gline = new GatePassLine();
-        //                                        Gline.CreatedBy = User.Identity.Name;
-        //                                        Gline.CreatedDate = DateTime.Now;
-        //                                        Gline.GatePassHeaderId = GPHeader.GatePassHeaderId;
-        //                                        Gline.ModifiedBy = User.Identity.Name;
-        //                                        Gline.ModifiedDate = DateTime.Now;
-        //                                        Gline.Product = GatepassLine.ProductName;
-        //                                        Gline.Qty = GatepassLine.Qty;
-        //                                        Gline.Specification = GatepassLine.Specification;
-        //                                        Gline.UnitId = GatepassLine.UnitId;
-
-        //                                        // new GatePassLineService(_unitOfWork).Create(Gline);
-        //                                        Gline.ObjectState = Model.ObjectState.Added;
-        //                                        context.GatePassLine.Add(Gline);
-        //                                    }
-
-        //                                    pd.GatePassHeaderId = GPHeader.GatePassHeaderId;
-
-        //                                    pd.ObjectState = Model.ObjectState.Modified;
-        //                                    context.JobOrderHeader.Add(pd);
-
-        //                                    JobHeaderIds += pd.StockHeaderId + ", ";
-        //                                }
-
-        //                                context.SaveChanges();
-        //                            }
-
-        //                        }
-        //                    }
-        //                    else
-        //                        TempData["CSEXC"] += ExceptionMsg;
-        //                }
-
-
-        //            }
-
-
-        //            //_unitOfWork.Save();
-        //        }
-
-        //        catch (Exception ex)
-        //        {
-        //            string message = _exception.HandleException(ex);
-        //            return Json(new { success = "Error", data = message }, JsonRequestBehavior.AllowGet);
-        //        }
-
-        //        LogActivity.LogActivityDetail(LogVm.Map(new ActiivtyLogViewModel
-        //        {
-        //            DocTypeId = GatePassDocTypeID,
-        //            ActivityType = (int)ActivityTypeContants.Added,
-        //            Narration = "GatePass created for Job Orders " + JobHeaderIds,
-        //        }));
-
-        //        if (string.IsNullOrEmpty((string)TempData["CSEXC"]))
-        //            return Json(new { success = "Success" }, JsonRequestBehavior.AllowGet).Success("Gate passes generated successfully");
-        //        else
-        //            return Json(new { success = "Success" }, JsonRequestBehavior.AllowGet);
-
-        //    }
-        //    return Json(new { success = "Error", data = "No Records Selected." }, JsonRequestBehavior.AllowGet);
-
-        //}
-
-
-
-
-        //public ActionResult DeleteGatePass(int Id)
-        //{
-        //    List<LogTypeViewModel> LogList = new List<LogTypeViewModel>();
-        //    if (Id > 0)
-        //    {
-        //        int SiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
-        //        int DivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
-
-        //        try
-        //        {
-
-        //            var pd = context.JobOrderHeader.Find(Id);
-
-        //            #region DocTypeTimeLineValidation
-        //            try
-        //            {
-
-        //                TimePlanValidation = DocumentValidation.ValidateDocument(Mapper.Map<DocumentUniqueId>(pd), DocumentTimePlanTypeConstants.GatePassCancel, User.Identity.Name, out ExceptionMsg, out Continue);
-
-        //            }
-        //            catch (Exception ex)
-        //            {
-        //                string message = _exception.HandleException(ex);
-        //                TempData["CSEXC"] += message;
-        //                TimePlanValidation = false;
-        //            }
-
-        //            if (!TimePlanValidation && !Continue)
-        //                throw new Exception(ExceptionMsg);
-        //            #endregion
-
-        //            var GatePass = context.GatePassHeader.Find(pd.GatePassHeaderId);
-
-        //            //LogList.Add(new LogTypeViewModel
-        //            //{
-        //            //    ExObj = GatePass,
-        //            //});
-
-        //            //var GatePassLines = (from p in context.GatePassLine
-        //            //                     where p.GatePassHeaderId == GatePass.GatePassHeaderId
-        //            //                     select p).ToList();
-
-        //            //foreach (var item in GatePassLines)
-        //            //{
-        //            //    LogList.Add(new LogTypeViewModel
-        //            //    {
-        //            //        ExObj = item,
-        //            //    });
-        //            //    item.ObjectState = Model.ObjectState.Deleted;
-        //            //    context.GatePassLine.Remove(item);
-        //            //}
-        //            if (GatePass.Status != (int)StatusConstants.Submitted)
-        //            {
-        //                pd.GatePassHeaderId = null;
-        //                pd.Status = (int)StatusConstants.Modified;
-        //                pd.ModifiedBy = User.Identity.Name;
-        //                pd.ModifiedDate = DateTime.Now;
-        //                pd.IsGatePassPrinted = false;
-        //                pd.ObjectState = Model.ObjectState.Modified;
-        //                context.JobOrderHeader.Add(pd);
-
-        //                GatePass.Status = (int)StatusConstants.Cancel;
-        //                GatePass.ObjectState = Model.ObjectState.Modified;
-        //                context.GatePassHeader.Add(GatePass);
-
-        //                XElement Modifications = new ModificationsCheckService().CheckChanges(LogList);
-
-        //                context.SaveChanges();
-
-        //                LogActivity.LogActivityDetail(LogVm.Map(new ActiivtyLogViewModel
-        //                {
-        //                    DocTypeId = GatePass.DocTypeId,
-        //                    DocId = GatePass.GatePassHeaderId,
-        //                    ActivityType = (int)ActivityTypeContants.Deleted,
-        //                    DocNo = GatePass.DocNo,
-        //                    DocDate = GatePass.DocDate,
-        //                    xEModifications = Modifications,
-        //                    DocStatus = GatePass.Status,
-        //                }));
-
-        //            }
-        //            else
-        //                throw new Exception("Gatepass cannot be deleted because it is already submitted");
-
-        //        }
-
-        //        catch (Exception ex)
-        //        {
-        //            string message = _exception.HandleException(ex);
-        //            return Json(new { success = "Error", data = message }, JsonRequestBehavior.AllowGet);
-        //        }
-
-        //        return Json(new { success = "Success" }, JsonRequestBehavior.AllowGet).Success("Gate pass Deleted successfully");
-
-        //    }
-        //    return Json(new { success = "Error", data = "No Records Selected." }, JsonRequestBehavior.AllowGet);
-
-        //}
-
-
 
 
 
@@ -1532,87 +1165,47 @@ namespace Web
                 int SiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
                 int DivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
 
-                var Settings = new JobOrderSettingsService(_unitOfWork).GetJobOrderSettingsForDocument(DocTypeId, DivisionId, SiteId);
-
-                string ReportSql = "";
-
-                if (!string.IsNullOrEmpty(Settings.DocumentPrint))
-                    ReportSql = context.ReportHeader.Where((m) => m.ReportName == Settings.DocumentPrint).FirstOrDefault().ReportSQL;
-
                 try
                 {
 
                     List<byte[]> PdfStream = new List<byte[]>();
                     foreach (var item in Ids.Split(',').Select(Int32.Parse))
                     {
-                        int Copies = 1;
-                        int AdditionalCopies = Settings.NoOfPrintCopies ?? 0;
-                        bool UpdateGatePassPrint = true;
 
                         DirectReportPrint drp = new DirectReportPrint();
 
-                        var pd = context.JobOrderHeader.Find(item);
+                        var pd = context.GatePassHeader.Find(item);
 
                         LogActivity.LogActivityDetail(LogVm.Map(new ActiivtyLogViewModel
                         {
                             DocTypeId = pd.DocTypeId,
-                            DocId = pd.JobOrderHeaderId,
+                            DocId = pd.GatePassHeaderId,
                             ActivityType = (int)ActivityTypeContants.Print,
                             DocNo = pd.DocNo,
                             DocDate = pd.DocDate,
                             DocStatus = pd.Status,
                         }));
 
-                        do
+                        byte[] Pdf;
+
+                        if (pd.Status == (int)StatusConstants.Drafted || pd.Status == (int)StatusConstants.Import || pd.Status == (int)StatusConstants.Modified)
                         {
-                            byte[] Pdf;
+                            //LogAct(item.ToString());
+                            Pdf = drp.DirectDocumentPrint("Web.spRep_GatePassPrint ", User.Identity.Name, item);
 
-                            if (!string.IsNullOrEmpty(ReportSql))
-                            {
-                                Pdf = drp.rsDirectDocumentPrint(ReportSql, User.Identity.Name, item);
-                                PdfStream.Add(Pdf);
-                            }
-                            else
-                            {
-                                if (pd.Status == (int)StatusConstants.Drafted || pd.Status == (int)StatusConstants.Import || pd.Status == (int)StatusConstants.Modified)
-                                {
-                                    //LogAct(item.ToString());
-                                    Pdf = drp.DirectDocumentPrint(Settings.SqlProcDocumentPrint, User.Identity.Name, item);
+                            PdfStream.Add(Pdf);
+                        }
+                        else if (pd.Status == (int)StatusConstants.Submitted || pd.Status == (int)StatusConstants.ModificationSubmitted)
+                        {
+                            Pdf = drp.DirectDocumentPrint("Web.spRep_GatePassPrint ", User.Identity.Name, item);
 
-                                    PdfStream.Add(Pdf);
-                                }
-                                else if (pd.Status == (int)StatusConstants.Submitted || pd.Status == (int)StatusConstants.ModificationSubmitted)
-                                {
-                                    Pdf = drp.DirectDocumentPrint(Settings.SqlProcDocumentPrint_AfterSubmit, User.Identity.Name, item);
-
-                                    PdfStream.Add(Pdf);
-                                }
-                                else
-                                {
-                                    Pdf = drp.DirectDocumentPrint(Settings.SqlProcDocumentPrint_AfterApprove, User.Identity.Name, item);
-                                    PdfStream.Add(Pdf);
-                                }
-                            }
-
-                            if (UpdateGatePassPrint && !(pd.IsGatePassPrinted ?? false))
-                            {
-                                if (pd.GatePassHeaderId.HasValue)
-                                {
-                                    pd.IsGatePassPrinted = true;
-                                    pd.ObjectState = Model.ObjectState.Modified;
-                                    context.JobOrderHeader.Add(pd);
-                                    context.SaveChanges();
-
-                                    UpdateGatePassPrint = false;
-                                    Copies = AdditionalCopies;
-                                    if (Copies > 0)
-                                        continue;
-                                }
-                            }
-
-                            Copies--;
-
-                        } while (Copies > 0);
+                            PdfStream.Add(Pdf);
+                        }
+                        else
+                        {
+                            Pdf = drp.DirectDocumentPrint("Web.spRep_GatePassPrint ", User.Identity.Name, item);
+                            PdfStream.Add(Pdf);
+                        }
 
                     }
 
@@ -1638,7 +1231,6 @@ namespace Web
             return Json(new { success = "Error", data = "No Records Selected." }, JsonRequestBehavior.AllowGet);
 
         }
-
         protected string GetIPAddress()
         {
             System.Web.HttpContext context = System.Web.HttpContext.Current;
@@ -1656,18 +1248,8 @@ namespace Web
             return context.Request.ServerVariables["REMOTE_ADDR"];
         }
 
-        //public JsonResult ValidateCostCenter(int DocTypeId, int HeaderId, int JobWorkerId, string CostCenterName)
-        //{
-        //    return Json(_JobOrderHeaderService.ValidateCostCenter(DocTypeId, HeaderId, JobWorkerId, CostCenterName), JsonRequestBehavior.AllowGet);
-        //}
+      
 
-        //public ActionResult GetLineProgress(int LineId)
-        //{
-
-        //    var ProgressDetail = _JobOrderHeaderService.GetLineProgressDetail(LineId);
-
-        //    return PartialView("_LineProgress", ProgressDetail);
-        //}
-
+    
     }
 }

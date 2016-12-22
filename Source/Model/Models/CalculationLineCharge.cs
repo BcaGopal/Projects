@@ -22,7 +22,7 @@ namespace Model.Models
         public virtual Charge Charge { get; set; }
 
 
-        public bool? AddDeduct { get; set; }
+        public string AddDeduct { get; set; }
 
 
         public bool AffectCost { get; set; }
@@ -89,6 +89,9 @@ namespace Model.Models
         public decimal? DealQty { get; set; }
 
         public bool IsVisible { get; set; }
+
+        public string IncludedCharges { get; set; }
+        public string IncludedChargesCalculation { get; set; }
 
         [MaxLength(50)]
         public string OMSId { get; set; }

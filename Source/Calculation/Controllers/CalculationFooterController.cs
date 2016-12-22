@@ -45,12 +45,13 @@ namespace Web
             ViewBag.CalculateOnList = new ChargeService(_unitOfWork).GetCalculateOnListForFooter(vm.CalculationId).ToList();
             //ViewBag.CalculationFooterList = new CalculationFooterService(_unitOfWork).GetCalculationFooterList().ToList();
             ViewBag.LedgerAccountList = new LedgerAccountService(_unitOfWork).GetLedgerAccountList().ToList();
-            //ViewBag.CostCenterList = new CostCenterService(_unitOfWork).GetCostCenterList().Take(10).ToList();
+            //ViewBag.CostCenterList = new CostCenterService(_unitOfWork).GetCostCenterList().TGetLedgerAccountListake(10).ToList();
             // ViewBag.CalculationFooterList = _CalculationFooterService.GetCalculationFooterListForDropDown().ToList();
             //ViewBag.CalculationProductList =  new  CalculationProductService(_unitOfWork).GetCalculationProductListForDropDown().ToList();
             List<SelectListItem> AddList = new List<SelectListItem>();
-            AddList.Add(new SelectListItem { Text = "Add", Value = "true" });
-            AddList.Add(new SelectListItem { Text = "Deduction", Value = "false" });
+            AddList.Add(new SelectListItem { Text = "Add", Value = "Add" });
+            AddList.Add(new SelectListItem { Text = "Deduction", Value = "Deduction" });
+            AddList.Add(new SelectListItem { Text = "Override", Value = "Override" });
             ViewBag.AddList = new SelectList(AddList, "Value", "Text");
             List<SelectListItem> AffectList = new List<SelectListItem>();
             AffectList.Add(new SelectListItem { Text = "No", Value = "false" });
@@ -137,6 +138,8 @@ namespace Web
                     temp1.ProductChargeId = svm.ProductChargeId;
                     temp1.Sr = svm.Sr;
                     temp1.IsVisible = svm.IsVisible;
+                    temp1.IncludedCharges = svm.IncludedCharges;
+                    temp1.IncludedChargesCalculation = svm.IncludedChargesCalculation;
                     temp1.ModifiedDate = DateTime.Now;
                     temp1.ModifiedBy = User.Identity.Name;
                     temp1.ObjectState = Model.ObjectState.Modified;
