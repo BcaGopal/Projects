@@ -1030,14 +1030,20 @@ namespace Web
         [HttpGet]
         public ActionResult NextPage(int DocId, int DocTypeId)//CurrentHeaderId
         {
-            var nextId = new NextPrevIdService(_unitOfWork).GetNextPrevId(DocId, DocTypeId, User.Identity.Name, "", "Web.QAGroups", "QAGroupId", PrevNextConstants.Next);
-            return Edit(nextId, "");
+            //var nextId = new NextPrevIdService(_unitOfWork).GetNextPrevId(DocId, DocTypeId, User.Identity.Name, "", "Web.QAGroups", "QAGroupId", PrevNextConstants.Next);
+           // return Edit(nextId, "");
+            var nextId = _QAGroupService.NextId(DocId, DocTypeId);
+            return RedirectToAction("Edit", new { id = nextId });
         }
         [HttpGet]
         public ActionResult PrevPage(int DocId, int DocTypeId)//CurrentHeaderId
         {
-            var PrevId = new NextPrevIdService(_unitOfWork).GetNextPrevId(DocId, DocTypeId, User.Identity.Name, "", "Web.QAGroups", "QAGroupId", PrevNextConstants.Prev);
-            return Edit(PrevId, "");
+
+            var nextId = _QAGroupService.PrevId(DocId, DocTypeId);
+            return RedirectToAction("Edit", new { id = nextId });
+
+           // var PrevId = new NextPrevIdService(_unitOfWork).GetNextPrevId(DocId, DocTypeId, User.Identity.Name, "", "Web.QAGroups", "QAGroupId", PrevNextConstants.Prev);
+            //return Edit(PrevId, "");
         }
 
         protected override void Dispose(bool disposing)

@@ -268,55 +268,19 @@
                             <tbody id="Result"></tbody>
                         </table>*@
 
-                            <div class="panel panel-default" id="grid">
-                                <div class="panel-heading headrow">
-                                    <div class="row grid-head">
-                                        <div class="block" style="width:5%">
-                                            Srl.
-                                        </div>
-                                        <div class="block" style="width:90%">
-                                            <div class="row">
-                                                @*ProductInfo*@
-                                                <div class="block" style="width:25%">
-                                                    Product Name
+                            <div style="padding-right:15px;">
 
-                                                </div>
-                                                @*PopContext*@
-                                                <div class="block" style="width:15%">
-                                                    Order No
-                                                </div>
-                                                @*Qty*@
-                                                <div class="block text-right" style="width:10%">
-                                                    Qty
-                                                </div>
-                                                <div class="block" style="width:10%">
-                                                    Unit
-                                                </div>
-                                                <div class="block text-right" style="width:10%">
-                                                    Receive <br /> Qty
-                                                </div>
-                                                <div class="block text-right" style="width:10%">
-                                                    Pass<br /> Qty
-                                                </div>
-                                                <div class="block text-right" style="width:10%">
-                                                    Loss<br /> Qty
-                                                </div>
-                                                <div class="block text-right" style="width:10%">
-                                                    Penality<br /> Amt
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="block" style="width:5%">
+                                <div class="panel panel-default" id="grid">
+
+                                    <div style="min-width: 700px;">
+
+                                        <div class="panel-info" id="gbody">
 
                                         </div>
                                     </div>
-
-                                </div>
-                                <div class="panel-info" id="gbody">
-
-
                                 </div>
                             </div>
+
 
 
                             <div style="display:@(Model.JobReceiveSettings.isVisibleConsumptionDetail ? "" : "none")">
@@ -541,7 +505,7 @@
 
 
     //Loading the Table data or Line Information
-    function LoadProducts() {
+    @*function LoadProducts() {
         var DomainName='@System.Configuration.ConfigurationManager.AppSettings["AdminSetupDomain"]';
         var SelectedRecord='@ViewBag.DocLineId';
         var groupId=@Model.JobReceiveHeaderId;
@@ -701,8 +665,25 @@
                 alert("Error");
             }
         });
-    }
+    }*@
 
+    function LoadProducts() {
+        var groupId=@Model.JobReceiveHeaderId;
+        var status='@Model.Status';  
+        var link="/JobReceiveLine/_Index/";
+
+        $.ajax({
+            url: link,
+            type: "GET",
+            data:{id:groupId,status:status},
+            success: function (data) {
+                $("#gbody").html(data);
+            },
+            error: function (result) {
+                alert("Error");
+            }
+        });
+    };
 
     function LoadConsumption() {
         var groupId=@Model.JobReceiveHeaderId;

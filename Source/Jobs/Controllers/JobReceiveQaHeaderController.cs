@@ -1372,7 +1372,7 @@ namespace Web
 
                     ProdOrderLineStatus ProdOrderLineStatus = new ProdOrderLineStatus();
                     ProdOrderLineStatus.ProdOrderLineId = ProdOrderLine.ProdOrderLineId;
-                    _unitOfWork.Repository<ProdOrderLineStatus>().Add(ProdOrderLineStatus);
+                    db.ProdOrderLineStatus.Add(ProdOrderLineStatus);
                 }
             }
         }

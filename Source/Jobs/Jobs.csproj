@@ -869,6 +869,7 @@
     <Content Include="Views\ProductRateGroupWizard\DocumentTypeList.cshtml" />
     <Content Include="Views\ProductRateGroupWizard\RateListHeaderIndex.cshtml" />
     <Content Include="Views\Shared\UnderImplementation.cshtml" />
+    <Content Include="Views\JobReceiveLine\_Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

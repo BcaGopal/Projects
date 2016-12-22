@@ -35,7 +35,9 @@ namespace Service
 
         IQueryable<QAGroupViewModel> GetQAGroupListPendingToSubmit(int DocumentTypeId, string Uname);
         IQueryable<QAGroupViewModel> GetQAGroupListPendingToReview(int DocumentTypeId, string Uname);
-       // bool CheckForDocNoExists(int GodownId, string docno, int doctypeId);
+        // bool CheckForDocNoExists(int GodownId, string docno, int doctypeId);
+        int NextId(int id, int DocTypeId);
+        int PrevId(int id, int DocTypeId);
     }
 
     public class QAGroupService : IQAGroupService
@@ -187,6 +189,55 @@ namespace Service
                         CreatedDate = p.CreatedDate,                        
                     }
                         ).FirstOrDefault();
+        }
+
+        public int NextId(int id,int DocTypeId)
+        {
+            int temp = 0;
+            if (id != 0)
+            {
+                temp = (from p in db.QAGroup
+                        orderby p.QaGroupName
+                        where p.DocTypeId == DocTypeId
+                        select p.QAGroupId
+                     ).AsEnumerable().SkipWhile(p => p != id).Skip(1).FirstOrDefault();
+
+
+            }
+            else
+            {
+                temp = (from p in db.QAGroup
+                        orderby p.QaGroupName
+                        select p.QAGroupId).FirstOrDefault();
+            }
+            if (temp != 0)
+                return temp;
+            else
+                return id;
+        }
+
+        public int PrevId(int id, int DocTypeId)
+        {
+
+            int temp = 0;
+            if (id != 0)
+            {
+                temp = (from p in db.QAGroup
+                        orderby p.QaGroupName
+                        where p.DocTypeId == DocTypeId
+                        select p.QAGroupId
+                     ).AsEnumerable().SkipWhile(p => p != id).Skip(1).LastOrDefault();               
+            }
+            else
+            {
+                temp = (from p in db.QAGroup
+                        orderby p.QaGroupName
+                        select p.QAGroupId).LastOrDefault();
+            }
+            if (temp != 0)
+                return temp;
+            else
+                return id;
         }
     }
 }

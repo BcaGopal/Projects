@@ -76,6 +76,11 @@ namespace Model.Models
 
         [Display(Name = "Remark")]
         public string Remark { get; set; }
+        [Display(Name = "Stock")]
+        [ForeignKey("Stock")]
+        public int? StockId { get; set; }
+        public virtual Stock Stock { get; set; }
+
 
         [Display(Name = "Lock Reason")]
         public string LockReason { get; set; }

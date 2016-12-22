@@ -52,6 +52,7 @@ namespace Model.ViewModel
 
         public string Remarks { get; set; }
 
+        [Display(Name = "Is Active ?")]
         public bool IsActive { get; set; }
 
 
