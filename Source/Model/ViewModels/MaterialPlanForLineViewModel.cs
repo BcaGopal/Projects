@@ -62,6 +62,7 @@ namespace Model.ViewModel
 
         [Display(Name = "Product Group")]
         public string ProductGroupId { get; set; }
+        public string BuyerId { get; set; }
         public MaterialPlanSettingsViewModel MaterialPlanSettings { get; set; }
         public DocumentTypeSettingsViewModel DocumentTypeSettings { get; set; }
     }

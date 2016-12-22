@@ -3585,14 +3585,29 @@ namespace Web
             SqlParameter SqlParameterSizeId = new SqlParameter("@SizeId", SizeId);
             SqlParameter SqlParameterToUnitId = new SqlParameter("@ToUnitId", ToUnit);
             SqlParameter SqlParameterAttribute = new SqlParameter("@Attribute", Attribute);
-            UnitConversionQty UnitConversionQty = db.Database.SqlQuery<UnitConversionQty>("" + ConfigurationManager.AppSettings["DataBaseSchema"] + ".sp_GetUnitConversionForSize @SizeId, @ToUnitId, @Attribute", SqlParameterSizeId, SqlParameterToUnitId, SqlParameterAttribute).FirstOrDefault();
-            if (UnitConversionQty != null)
+            if (Attribute != null)
             {
-                return UnitConversionQty.ToQty ?? 0;
+                UnitConversionQty UnitConversionQty = db.Database.SqlQuery<UnitConversionQty>("" + ConfigurationManager.AppSettings["DataBaseSchema"] + ".sp_GetUnitConversionForSize @SizeId, @ToUnitId, @Attribute", SqlParameterSizeId, SqlParameterToUnitId, SqlParameterAttribute).FirstOrDefault();
+                if (UnitConversionQty != null)
+                {
+                    return UnitConversionQty.ToQty ?? 0;
+                }
+                else
+                {
+                    return 0;
+                }
             }
             else
             {
-                return 0;
+                UnitConversionQty UnitConversionQty = db.Database.SqlQuery<UnitConversionQty>("" + ConfigurationManager.AppSettings["DataBaseSchema"] + ".sp_GetUnitConversionForSize @SizeId, @ToUnitId", SqlParameterSizeId, SqlParameterToUnitId).FirstOrDefault();
+                if (UnitConversionQty != null)
+                {
+                    return UnitConversionQty.ToQty ?? 0;
+                }
+                else
+                {
+                    return 0;
+                }
             }
         }
 

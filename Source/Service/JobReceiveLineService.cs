@@ -169,19 +169,24 @@ namespace Service
             JobReceiveHeader Header = new JobReceiveHeaderService(_unitOfWork).Find(headerId);
 
             int DocTypeId = 0;
+            int JobReceiveQADocTypeId = 0;
             if (Header != null)
             {
                 DocTypeId = Header.DocTypeId;
             }
 
-            JobReceiveQASettings JobReceiveQASettings = (from S in db.JobReceiveQASettings
-                                                         where S.DivisionId == Header.DivisionId && S.SiteId == Header.SiteId
-                                                         && SqlFunctions.CharIndex(DocTypeId.ToString(), S.filterContraDocTypes) > 0
-                                                         select S).FirstOrDefault();
-            int JobReceiveQADocTypeId = 0;
-            if (JobReceiveQASettings != null)
+            if (DocTypeId != 0 && DocTypeId != null)
             {
-                JobReceiveQADocTypeId = JobReceiveQASettings.DocTypeId;
+                JobReceiveQASettings JobReceiveQASettings = (from S in db.JobReceiveQASettings
+                                                             where S.DivisionId == Header.DivisionId && S.SiteId == Header.SiteId
+                                                             && SqlFunctions.CharIndex(DocTypeId.ToString(), S.filterContraDocTypes) > 0
+                                                             select S).FirstOrDefault();
+                
+                if (JobReceiveQASettings != null)
+                {
+                    JobReceiveQADocTypeId = JobReceiveQASettings.DocTypeId;
+                }
+
             }
 
 
