@@ -242,7 +242,8 @@ namespace Service
                           OrderHeaderId = tab.JobOrderHeaderId,
                           JobReceiveQALineId = JobReceiveQALineTab.JobReceiveQALineId,
                           JobReceiveQADocTypeId = JobReceiveQADocTypeId,
-                          QAGroupId = ProductProcessTab.QAGroupId
+                          QAGroupId = ProductProcessTab.QAGroupId,
+                         DealUnitName=tab.DealUnit.UnitName
                       });
 
             return pt;

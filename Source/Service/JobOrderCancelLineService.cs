@@ -504,7 +504,7 @@ namespace Service
         {
             return (from p in db.JobOrderLine
                     where p.JobOrderLineId == JobOrderLineId
-                    join t in db.ProductUid on p.ProductUidHeaderId equals t.ProductUidHeaderId
+                    join t in db.ProductUid on p.ProductUidHeaderId equals t.ProductUidHeaderId                    
                     join t2 in db.JobReceiveLine on t.ProductUIDId equals t2.ProductUidId into table
                     from tab in table.DefaultIfEmpty()
                     where tab == null
