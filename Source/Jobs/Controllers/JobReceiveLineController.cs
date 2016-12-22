@@ -1902,6 +1902,15 @@ namespace Web
         }
 
         [HttpGet]
+        public ActionResult _Index(int id, int Status)
+        {
+            ViewBag.Status = Status;            
+            ViewBag.JobReceiveHeaderId = id;
+            var p = _JobReceiveLineService.GetLineListForIndex(id).ToList();
+            return PartialView(p);
+        }
+
+        [HttpGet]
         public JsonResult ConsumptionIndex(int id)
         {
             var p = _JobReceiveLineService.GetConsumptionLineListForIndex(id).ToList();

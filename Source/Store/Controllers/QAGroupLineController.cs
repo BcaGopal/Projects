@@ -109,6 +109,7 @@ namespace Web
         {
             QAGroup H = new QAGroupService(_unitOfWork).Find(Id);
             QAGroupLineViewModel s = new QAGroupLineViewModel();
+            s.IsActive = true;
             s.QAGroupId = H.QAGroupId;
             ViewBag.Status = H.Status;            
             PrepareViewBag(s);
@@ -130,10 +131,15 @@ namespace Web
             List<LogTypeViewModel> LogList = new List<LogTypeViewModel>();
             bool BeforeSave = true;
             QAGroup temp = new QAGroupService(_unitOfWork).Find(svm.QAGroupId);
-            var PD = _QAGroupLineService.GetQAGroupLineListForIndex(svm.QAGroupId).Where(x=>x.Name==svm.Name).ToList();
-
-
-
+            int i = 0;
+            if (temp.QAGroupId <= 0)
+            {
+                i = _QAGroupLineService.GetQAGroupLineListForIndex(svm.QAGroupId).Where(x => x.Name == svm.Name).ToList().Count();
+            }
+            else
+            {
+                i = _QAGroupLineService.GetQAGroupLineListForIndex(svm.QAGroupId).Where(x => x.Name == svm.Name && x.QAGroupLineId != svm.QAGroupLineId).ToList().Count();
+            }
             #region BeforeSave
             //try
             //{
@@ -162,9 +168,10 @@ namespace Web
                 ModelState.AddModelError("Name", "The Name is required");
                
             }
-            if(PD.ToList().Count()!=0)
+
+            if (i !=0)
             {
-                ModelState.AddModelError("Name",svm.Name + " already exist");
+                ModelState.AddModelError("Name", svm.Name + " already exist");
             }
 
 

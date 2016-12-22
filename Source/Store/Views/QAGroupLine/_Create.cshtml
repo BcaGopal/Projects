@@ -67,8 +67,7 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             @Html.LabelFor(model => model.DefaultValue, "Default Value", new { @class = "control-label col-md-4 col-sm-2" })
-                            <div class="col-md-7 col-sm-10">
-                               
+                            <div class="col-md-7 col-sm-10">                               
                                     @Html.TextBoxFor(model => model.DefaultValue, new { @class = "form-control col-xs-3" })
                                     @Html.ValidationMessageFor(model => model.DefaultValue, "", new { @class = "text-danger" })
                                
@@ -142,7 +141,7 @@
         CustomSelectFunction($("#Dimension1Id"), '/ComboHelpList/GetDimension1', '/ComboHelpList/SetSingleDimension1', ' ', false, 1);
         CustomSelectFunction($("#Dimension2Id"), '/ComboHelpList/GetDimension2', '/ComboHelpList/SetSingleDimension2', ' ', false, 1);
         CustomSelectFunction($("#FromProcessId"), '/ComboHelpList/GetProcess', '/ComboHelpList/SetSingleProcess', 'Enter Process Name', false, 1);
-        CustomSelectFunction($("#DataType"), '/ComboHelpList/GetDataTypeList', '/ComboHelpList/SetSingleDataTypeList', ' ', false, 1);
+        CustomSelectFunction($("#DataType"), '/ComboHelpList/GetDataTypeList', '/ComboHelpList/SetSingleDataTypeList', ' ', false);
         var DocID = $('#QAGroupId', '.modal-body').val();
         
 
@@ -177,8 +176,19 @@
             return  (ValidationMessage=="");
 
         }
+       
+        $( '#DataType').change(function() {
+            if ($('#DataType').val() !='List')
+            {
+                $('#ListItem').attr('disabled','disabled');
+            }
+            else
+            {
+                $('#ListItem').removeAttr('disabled');                
+            }
+        });
 
-
+       
 
         $('.datepicker').datepicker({
             format: 'dd/MM/yyyy',
@@ -230,6 +240,8 @@
 {
 
     <script type="text/javascript">
+
+        
 
         @*var decimalplaces='@Model.DecimalPlaces';
         $(function(){*@
