@@ -40,6 +40,7 @@ namespace Model.ViewModel
         public bool isVisibleProcessLine { get; set; }
         public bool isPostedInStockProcess { get; set; }
         public bool isVisibleMaterialRequest { get; set; }
+        public bool isVisibleStockIn { get; set; }
         public bool isPostedInLedger { get; set; }
         public bool isProductHelpFromStockProcess { get; set; }
         public int ?  AdjLedgerAccountId { get; set; }

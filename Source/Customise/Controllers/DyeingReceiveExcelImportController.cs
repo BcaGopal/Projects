@@ -69,14 +69,14 @@ namespace Web.Controllers
 
 
 
-            string DyeingConnectionString = "Persist Security Info=False;User ID='sa';Initial Catalog=Dyeing;Data Source=192.168.2.22";
+            string DyeingConnectionString = "Persist Security Info=False;User ID='sa';Initial Catalog=Dyeing;Data Source=192.168.2.25";
 
 
             DataSet WorkDispatch = new DataSet();
             using (SqlConnection sqlConnection = new SqlConnection(DyeingConnectionString))
             {
                 sqlConnection.Open();
-                using (SqlCommand cmd = new SqlCommand("FGetWorkOrderDispatch"))
+                using (SqlCommand cmd = new SqlCommand("Web.FGetWorkOrderDispatch"))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Connection = sqlConnection;

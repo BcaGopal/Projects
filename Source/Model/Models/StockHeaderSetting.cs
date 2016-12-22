@@ -45,6 +45,7 @@ namespace Model.Models
         public int? AdjLedgerAccountId { get; set; }
 
         public bool? isVisibleMaterialRequest { get; set; }
+        public bool? isVisibleStockIn { get; set; }
 
         [MaxLength(50)]
         public string PersonFieldHeading { get; set; }

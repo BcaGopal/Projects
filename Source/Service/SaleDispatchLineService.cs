@@ -522,7 +522,8 @@ namespace Service
                         id = p.StockInId.ToString(),
                         text = p.StockInNo,
                         TextProp1 = "Lot No :" + p.LotNo,
-                        TextProp2 = "Balance :" + p.BalanceQty
+                        TextProp2 = "Balance :" + p.BalanceQty,
+                        AProp1 = "Date :" + p.StockInDate.Date.ToString()
                     });
         }
 
