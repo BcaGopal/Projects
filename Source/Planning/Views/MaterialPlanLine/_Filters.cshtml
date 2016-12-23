@@ -105,10 +105,13 @@
 
     $(document).ready(function () {
         $("#ProductId").select2("focus");
+        var DocID = $('#MaterialPlanHeaderId', '.modal-body').val();
 
-        CustomSelectFunction($("#ProductId"), '/ComboHelpList/GetProducts', '/ComboHelpList/SetProducts', 'Enter Product Name', true, 3);
+        //CustomSelectFunction($("#ProductId"), '/ComboHelpList/GetProducts', '/ComboHelpList/SetProducts', ' ', true, 3);
+        CustomSelectFunction($("#ProductId"), '/MaterialPlanLine/GetCustomProducts', '/ComboHelpList/SetProducts', ' ', false, 0, DocID);
         //CustomSelectFunction($("#SaleOrderHeaderId"), '/ComboHelpList/GetSaleOrders', '/ComboHelpList/SetSaleOrders', 'Enter Product Name', true, 3);
-        CustomSelectFunction($("#ProductGroupId"), '/ComboHelpList/GetProductGroup', '/ComboHelpList/SetProductGroup', 'Enter Product Name', true, 3);
+        //CustomSelectFunction($("#ProductGroupId"), '/ComboHelpList/GetProductGroup', '/ComboHelpList/SetProductGroup', 'Enter Product Name', true, 3);
+        CustomSelectFunction($("#ProductGroupId"), '/MaterialPlanLine/GetCustomProductGroups', '/ComboHelpList/SetProductGroup', ' ', false, 0, DocID);
         CustomSelectFunction($("#Dimension1Id"), '/ComboHelpList/GetDimension1', '/ComboHelpList/SetDimension1', 'Enter Dimension1', true, 1);
         CustomSelectFunction($("#Dimension2Id"), '/ComboHelpList/GetDimension2', '/ComboHelpList/SetDimension2', 'Enter Dimension2', true, 1);
         CustomSelectFunction($("#BuyerId"), '/ComboHelpList/GetBuyers', '/ComboHelpList/SetSingleBuyer', ' ', false, 0);
@@ -117,7 +120,6 @@
 
 
 
-        var DocID = $('#MaterialPlanHeaderId', '.modal-body').val();
         var URL = '/MaterialPlanLine/GetSaleOrders/' + DocID;
         $("#SaleOrderHeaderId").select2({
             minimumInputLength: 0,

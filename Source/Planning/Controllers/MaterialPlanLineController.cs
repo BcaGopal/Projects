@@ -11,6 +11,8 @@ using AutoMapper;
 using Model.ViewModel;
 using System.Data.SqlClient;
 using System.Configuration;
+using Model.ViewModels;
+using Planning;
 
 namespace Presentation
 {
@@ -21,7 +23,7 @@ namespace Presentation
         private ApplicationDbContext db = new ApplicationDbContext();
         IMaterialPlanForSaleOrderLineService _MaterialPlanForSaleOrderLineService;
         IMaterialPlanForProdOrderService _MaterialPlanForProdOrderLineService;
-        IMaterialPlanLineService _MaterialPlaniLine;
+        IMaterialPlanLineService _MaterialPlanLineService;
         IUnitOfWork _unitOfWork;
         IExceptionHandlingService _exception;
 
@@ -33,7 +35,7 @@ namespace Presentation
         {
             _MaterialPlanForSaleOrderLineService = SaleOrder;
             _MaterialPlanForProdOrderLineService = prodorder;
-            _MaterialPlaniLine = line;
+            _MaterialPlanLineService = line;
             _unitOfWork = unitOfWork;
             _exception = exec;
         }
@@ -564,7 +566,7 @@ namespace Presentation
                     s.ModifiedBy = User.Identity.Name;
                     s.Sr = new MaterialPlanLineService(_unitOfWork).GetMaxSr(s.MaterialPlanHeaderId);
                     s.ObjectState = Model.ObjectState.Added;
-                    _MaterialPlaniLine.Create(s);
+                    _MaterialPlanLineService.Create(s);
 
                     MaterialPlanHeader header = new MaterialPlanHeaderService(_unitOfWork).Find(s.MaterialPlanHeaderId);
                     if (header.Status != (int)StatusConstants.Drafted)
@@ -595,7 +597,7 @@ namespace Presentation
                     MaterialPlanHeader header = new MaterialPlanHeaderService(_unitOfWork).Find(vm.MaterialPlanHeaderId);
 
                     int status = header.Status;
-                    MaterialPlanLine temp1 = _MaterialPlaniLine.Find(vm.MaterialPlanLineId);
+                    MaterialPlanLine temp1 = _MaterialPlanLineService.Find(vm.MaterialPlanLineId);
 
                     temp1.DueDate = vm.DueDate;
                     temp1.StockPlanQty = vm.StockPlanQty;
@@ -604,7 +606,7 @@ namespace Presentation
                     temp1.Remark = vm.Remark;
                     temp1.ModifiedDate = DateTime.Now;
                     temp1.ModifiedBy = User.Identity.Name;
-                    _MaterialPlaniLine.Update(temp1);
+                    _MaterialPlanLineService.Update(temp1);
 
 
                     header.Status = (int)StatusConstants.Modified;
@@ -630,7 +632,7 @@ namespace Presentation
 
         public ActionResult _Edit(int id)//Materialplanlineid
         {
-            MaterialPlanLine m = _MaterialPlaniLine.Find(id);
+            MaterialPlanLine m = _MaterialPlanLineService.Find(id);
             MaterialPlanHeader Header = new MaterialPlanHeaderService(_unitOfWork).Find(m.MaterialPlanHeaderId);
             MaterialPlanLineViewModel vm = Mapper.Map<MaterialPlanLine, MaterialPlanLineViewModel>(m);
             vm.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(Header.DocTypeId);
@@ -641,13 +643,13 @@ namespace Presentation
 
         public ActionResult SaleOrderDetail(int id)//Materialplanlineid
         {
-            var m = _MaterialPlaniLine.GetSaleOrderDetail(id);
+            var m = _MaterialPlanLineService.GetSaleOrderDetail(id);
             return PartialView("_Detail", m);
         }
 
         public ActionResult ProdOrderDetail(int id)//Materialplanlineid
         {
-            var m = _MaterialPlaniLine.GetProdOrderDetail(id);
+            var m = _MaterialPlanLineService.GetProdOrderDetail(id);
             return PartialView("_Detail", m);
         }
 
@@ -655,8 +657,8 @@ namespace Presentation
         [ValidateAntiForgeryToken]
         public ActionResult DeletePost(MaterialPlanLineViewModel vm)
         {
-            MaterialPlanLine MaterialPlanLine = _MaterialPlaniLine.Find(vm.MaterialPlanLineId);
-            _MaterialPlaniLine.Delete(vm.MaterialPlanLineId);
+            MaterialPlanLine MaterialPlanLine = _MaterialPlanLineService.Find(vm.MaterialPlanLineId);
+            _MaterialPlanLineService.Delete(vm.MaterialPlanLineId);
             MaterialPlanHeader header = new MaterialPlanHeaderService(_unitOfWork).Find(MaterialPlanLine.MaterialPlanHeaderId);
             if (header.Status != (int)StatusConstants.Drafted)
             {
@@ -1340,6 +1342,46 @@ namespace Presentation
                 return Json(new { Error = ValidationMsg, Success = true }, JsonRequestBehavior.AllowGet);
             }
 
+        }
+
+        public ActionResult GetCustomProducts(string searchTerm, int pageSize, int pageNum, int filter)//DocTypeId
+        {
+            var Query = _MaterialPlanLineService.GetCustomProducts(filter, searchTerm);
+            var temp = Query.Skip(pageSize * (pageNum - 1))
+                .Take(pageSize)
+                .ToList();
+
+            var count = Query.Count();
+
+            ComboBoxPagedResult Data = new ComboBoxPagedResult();
+            Data.Results = temp;
+            Data.Total = count;
+
+            return new JsonpResult
+            {
+                Data = Data,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        public ActionResult GetCustomProductGroups(string searchTerm, int pageSize, int pageNum, int filter)//DocTypeId
+        {
+            var Query = _MaterialPlanLineService.GetCustomProductGroups(filter, searchTerm);
+            var temp = Query.Skip(pageSize * (pageNum - 1))
+                .Take(pageSize)
+                .ToList();
+
+            var count = Query.Count();
+
+            ComboBoxPagedResult Data = new ComboBoxPagedResult();
+            Data.Results = temp;
+            Data.Total = count;
+
+            return new JsonpResult
+            {
+                Data = Data,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
         }
 
 
