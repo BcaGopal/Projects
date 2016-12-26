@@ -20,6 +20,12 @@ namespace Core.Common
         SalesATax=2,
         SalesTax=1
     }
+    public enum AddDeductEnum
+    {
+        Deduct,
+        Add,
+        OverRide
+    }
     public enum RateTypeEnum
     {
         Rate=1,
