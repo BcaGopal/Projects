@@ -1408,6 +1408,18 @@ namespace Service
 
 
 
+            //var temp = from p in db.ProductGroups
+            //           join t in db.ProductTypes on p.ProductTypeId equals t.ProductTypeId into table1
+            //           from tab1 in table1.DefaultIfEmpty()
+            //           where ((filter == null || filter == 0) ? 1 == 1 : tab1.ProductTypeId == filter)
+            //           orderby p.ProductGroupName, tab1.ProductTypeName
+            //           select new ComboBoxList
+            //           {
+            //               Id = p.ProductGroupId,
+            //               PropFirst = p.ProductGroupName,
+            //               PropSecond = tab1.ProductTypeName
+            //           };
+
             var temp = from p in db.ProductGroups
                        join t in db.ProductTypes on p.ProductTypeId equals t.ProductTypeId into table1
                        from tab1 in table1.DefaultIfEmpty()
@@ -1416,8 +1428,7 @@ namespace Service
                        select new ComboBoxList
                        {
                            Id = p.ProductGroupId,
-                           PropFirst = p.ProductGroupName,
-                           PropSecond = tab1.ProductTypeName
+                           PropFirst = p.ProductGroupName
                        };
 
             return temp;

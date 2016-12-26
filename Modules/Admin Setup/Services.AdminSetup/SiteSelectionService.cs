@@ -47,7 +47,7 @@ namespace Service
         public IEnumerable<Site> GetSiteList()
         {
             var pt = (from p in _unitOfWork.Repository<Site>().Instance
-                      orderby p.SiteName
+                      orderby p.SiteId
                       select p);
 
             return pt;
@@ -66,7 +66,7 @@ namespace Service
 
         public IEnumerable<Division> GetDivisionList()
         {
-            var pt = _unitOfWork.Repository<Division>().Query().Get().OrderBy(m => m.DivisionName);
+            var pt = _unitOfWork.Repository<Division>().Query().Get().OrderBy(m => m.DivisionId);
 
             return pt;
         }

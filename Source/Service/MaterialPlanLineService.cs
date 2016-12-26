@@ -10,6 +10,7 @@ using Model;
 using System.Threading.Tasks;
 using Data.Models;
 using Model.ViewModel;
+using Model.ViewModels;
 
 namespace Service
 {
@@ -32,6 +33,9 @@ namespace Service
         int GetMaxSr(int id);
         IEnumerable<MaterialPlanLineViewModel> GetSaleOrderDetail(int MaterialPlanLineId);
         IEnumerable<MaterialPlanLineViewModel> GetProdOrderDetail(int MaterialPlanLineId);
+
+        IQueryable<ComboBoxResult> GetCustomProducts(int Id, string term);
+        IQueryable<ComboBoxResult> GetCustomProductGroups(int Id, string term);
     }
 
     public class MaterialPlanLineService : IMaterialPlanLineService
@@ -231,6 +235,64 @@ namespace Service
                         ProdPlanQty=p.Qty,
                     }).ToList();
 
+        }
+
+        public IQueryable<ComboBoxResult> GetCustomProducts(int Id, string term)
+        {
+
+            var MaterialPlan = new MaterialPlanHeaderService(_unitOfWork).Find(Id);
+
+            var settings = new MaterialPlanSettingsService(_unitOfWork).GetMaterialPlanSettingsForDocument(MaterialPlan.DocTypeId, MaterialPlan.DivisionId, MaterialPlan.SiteId);
+
+            string[] ProductTypes = null;
+            if (!string.IsNullOrEmpty(settings.filterProductTypes)) { ProductTypes = settings.filterProductTypes.Split(",".ToCharArray()); }
+            else { ProductTypes = new string[] { "NA" }; }
+
+            string[] Products = null;
+            if (!string.IsNullOrEmpty(settings.filterProducts)) { Products = settings.filterProducts.Split(",".ToCharArray()); }
+            else { Products = new string[] { "NA" }; }
+
+            string[] ProductGroups = null;
+            if (!string.IsNullOrEmpty(settings.filterProductGroups)) { ProductGroups = settings.filterProductGroups.Split(",".ToCharArray()); }
+            else { ProductGroups = new string[] { "NA" }; }
+
+            return (from p in db.Product
+                    where (string.IsNullOrEmpty(settings.filterProductTypes) ? 1 == 1 : ProductTypes.Contains(p.ProductGroup.ProductTypeId.ToString()))
+                    && (string.IsNullOrEmpty(settings.filterProducts) ? 1 == 1 : Products.Contains(p.ProductId.ToString()))
+                    && (string.IsNullOrEmpty(settings.filterProductGroups) ? 1 == 1 : ProductGroups.Contains(p.ProductGroupId.ToString()))
+                    && (string.IsNullOrEmpty(term) ? 1 == 1 : p.ProductName.ToLower().Contains(term.ToLower()))
+                    orderby p.ProductName
+                    select new ComboBoxResult
+                    {
+                        id = p.ProductId.ToString(),
+                        text = p.ProductName,
+                    });
+        }
+        public IQueryable<ComboBoxResult> GetCustomProductGroups(int Id, string term)
+        {
+
+            var MaterialPlan = new MaterialPlanHeaderService(_unitOfWork).Find(Id);
+
+            var settings = new MaterialPlanSettingsService(_unitOfWork).GetMaterialPlanSettingsForDocument(MaterialPlan.DocTypeId, MaterialPlan.DivisionId, MaterialPlan.SiteId);
+
+            string[] ProductTypes = null;
+            if (!string.IsNullOrEmpty(settings.filterProductTypes)) { ProductTypes = settings.filterProductTypes.Split(",".ToCharArray()); }
+            else { ProductTypes = new string[] { "NA" }; }
+
+            string[] ProductGroups = null;
+            if (!string.IsNullOrEmpty(settings.filterProductGroups)) { ProductGroups = settings.filterProductGroups.Split(",".ToCharArray()); }
+            else { ProductGroups = new string[] { "NA" }; }
+
+            return (from p in db.ProductGroups
+                    where (string.IsNullOrEmpty(settings.filterProductTypes) ? 1 == 1 : ProductTypes.Contains(p.ProductTypeId.ToString()))
+                    && (string.IsNullOrEmpty(settings.filterProductGroups) ? 1 == 1 : ProductGroups.Contains(p.ProductGroupId.ToString()))
+                    && (string.IsNullOrEmpty(term) ? 1 == 1 : p.ProductGroupName.ToLower().Contains(term.ToLower()))
+                    orderby p.ProductGroupName
+                    select new ComboBoxResult
+                    {
+                        id = p.ProductGroupId.ToString(),
+                        text = p.ProductGroupName,
+                    });
         }
 
         public void Dispose()

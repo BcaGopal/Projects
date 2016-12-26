@@ -19,6 +19,7 @@ namespace Model.Models
         public int SaleOrderCancelHeaderId { get; set; }
 
         [ForeignKey("DocType"), Display(Name = "Cancel Type")]
+        [Index("IX_SaleOrderCancelHeader_DocID", IsUnique = true, Order = 1)]
         public int DocTypeId { get; set; }
         public virtual DocumentType DocType { get; set; }
 
@@ -30,9 +31,11 @@ namespace Model.Models
         public virtual Reason Reason { get; set; }
 
         [MaxLength(20)]
+        [Index("IX_SaleOrderCancelHeader_DocID", IsUnique = true, Order = 2)]
         public string DocNo { get; set; }
 
         [ForeignKey("Division")]
+        [Index("IX_SaleOrderCancelHeader_DocID", IsUnique = true, Order = 3)]
         public int? DivisionId { get; set; }
         public virtual Division Division { get; set; }
         
@@ -41,6 +44,7 @@ namespace Model.Models
         public virtual Buyer Buyer { get; set; }
 
         [ForeignKey("Site")]
+        [Index("IX_SaleOrderCancelHeader_DocID", IsUnique = true, Order = 4)]
         public int SiteId { get; set; }
         public virtual Site Site { get; set; }
 

@@ -155,6 +155,7 @@ namespace Services.Customize
             List<string> UserRoles = (List<string>)System.Web.HttpContext.Current.Session["Roles"];
 
             return (from p in _RecipeRepository.Instance
+                    join l in _unitOfWork.Repository<JobOrderLine>().Instance on p.JobOrderHeaderId equals l.JobOrderHeaderId
                     join t in _unitOfWork.Repository<Person>().Instance on p.JobWorkerId equals t.PersonID
                     join dt in _unitOfWork.Repository<DocumentType>().Instance on p.DocTypeId equals dt.DocumentTypeId
                     orderby p.DocDate descending, p.DocNo descending
@@ -174,6 +175,7 @@ namespace Services.Customize
                         ReviewCount = p.ReviewCount,
                         ReviewBy = p.ReviewBy,
                         Reviewed = (SqlFunctions.CharIndex(Uname, p.ReviewBy) > 0),
+                        Dimension1Name = l.Dimension1.Dimension1Name
                     });
         }
 
@@ -625,7 +627,7 @@ namespace Services.Customize
                 StockViewModel.DocLineId = line.JobOrderLineId;
                 StockViewModel.DocTypeId = temp.DocTypeId;
                 StockViewModel.StockHeaderDocDate = temp.DocDate;
-                StockViewModel.StockDocDate = line.CreatedDate.Date;
+                StockViewModel.StockDocDate = temp.DocDate;
                 StockViewModel.DocNo = temp.DocNo;
                 StockViewModel.DivisionId = temp.DivisionId;
                 StockViewModel.SiteId = temp.SiteId;
@@ -1285,6 +1287,7 @@ namespace Services.Customize
 
             ProdOrderLineStatus ProdOrderLineStatus = new ProdOrderLineStatus();
             ProdOrderLineStatus.ProdOrderLineId = ProdOrderLine.ProdOrderLineId;
+            ProdOrderLineStatus.ObjectState = Model.ObjectState.Added;
             _unitOfWork.Repository<ProdOrderLineStatus>().Add(ProdOrderLineStatus);
         }
 
