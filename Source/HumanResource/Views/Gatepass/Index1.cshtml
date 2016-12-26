@@ -67,6 +67,11 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
+        enableModalTransitions();
+    })
+    $(document).ready(function () {
+
+
         var PageLoadFirst = true;
         var Url = "/GatePass/PendingGatePassHeaders/";
 
@@ -77,7 +82,7 @@
             scrollCollapse: true,
             scroller: true,
             columns: [
-                { "data": "DocNo", "width": "100%", "render": function (data, type, row) { return ' <a href="/GatePass/LineDetail?Ids=' + row.GatePassHeaderId + '"  data_modal = "" > ' + data + ' </a>' + '<br>' + row.Name + '<br>' + row.Remark; }, },
+                { "data": "DocNo", "width": "100%", "render": function (data, type, row) { return ' <a href="/GatePass/LineDetail?Ids=' + row.GatePassHeaderId + '"  data_modal ="" > ' + data + ' </a>' + '<br>' + row.Name + '<br>' + row.Remark; }, },
 
                   //{ "data": "Name", "width": "15%" },
                   //{ "data": "ReMark", "width": "95%", "render": function (data, type, row) { return row.Name + '<br>' + row.Remark }, },

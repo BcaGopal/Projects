@@ -193,6 +193,8 @@ namespace Service
 
         public int NextId(int id,int DocTypeId)
         {
+            
+
             int temp = 0;
             if (id != 0)
             {
@@ -218,12 +220,13 @@ namespace Service
 
         public int PrevId(int id, int DocTypeId)
         {
+       
 
             int temp = 0;
             if (id != 0)
             {
                 temp = (from p in db.QAGroup
-                        orderby p.QaGroupName
+                        orderby p.QAGroupId
                         where p.DocTypeId == DocTypeId
                         select p.QAGroupId
                      ).AsEnumerable().SkipWhile(p => p != id).Skip(1).LastOrDefault();               
