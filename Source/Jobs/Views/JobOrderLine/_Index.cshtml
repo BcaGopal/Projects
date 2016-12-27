@@ -5,14 +5,12 @@
 
 
 @{ 
-    string Uunit = "";
-    string DUunit = "";   
-    Uunit = Model.Max(m => m.UnitName).FirstOrDefault().ToString();
-    DUunit = Model.Max(m => m.DealUnitName).FirstOrDefault().ToString();
-    decimal? PDcnt;
-    PDcnt = Model.Sum(m => m.ProdOrderDocNo != null ? 1 :0);
     
 
+    decimal? Uunit;
+    Uunit = Model.Sum(m => m.UnitName != m.DealUnitName ? 1 : 0);
+    decimal? PDcnt;
+    PDcnt = Model.Sum(m => m.ProdOrderDocNo != null ? 1 :0);
 }
 
 <div style="min-width: 700px;">
@@ -24,7 +22,7 @@
             <div class="block" style="width: 90%;">
                 <div class="row">
                     @*ProductInfo*@
-                    <div class="block" style="width: @(Uunit!=DUunit ?  25 :35)%; ">
+                    <div class="block" style="width: @(Uunit!=0 ?  25 :35)%; ">
                         Product Name
                     </div>
                     @if (PDcnt >0)
@@ -44,7 +42,7 @@
                         Qty
                     </div>
                     @*Rate*@
-                    @if (Uunit != DUunit)
+                    @if (Uunit != 0)
                     {
                     <div class="text-right block" style="width: 10%; ">
                         Deal Qty
@@ -117,7 +115,7 @@
                 <div class='row-index block' style='width:5%'>@srno<input type='hidden' class='id' value='@item.JobOrderLineId' /></div>
                 <div class='block navbody' style='width:90%'>
                     <div class='row'>                     
-                            <div class="block" style="width: @(Uunit!=DUunit ?  25 :35)%; ">
+                            <div class="block" style="width: @(Uunit!=0 ?  25 :35)%; ">
                                 @if (item.ProductName != null)
                                 {
                                     <strong> @item.ProductName </strong>
@@ -183,7 +181,7 @@
                                     </div>
                                 }
                             </div>
-                            @if (Uunit != DUunit)
+                            @if (Uunit != 0)
                             {
                                 <div class='text-right block' style='width:10%'>
                                     @(item.DealQty == null ? " " : Math.Round(item.DealQty, item.DealUnitDecimalPlaces).ToString())<br />
@@ -241,7 +239,7 @@
             </div>
             <div class='block' style='width:90%'>
                 <div class='row'>
-                    <div class='block' style="width: @(Uunit!=DUunit ?  25 :35)%; "><strong>Total</strong></div>
+                    <div class='block' style="width: @(Uunit!=0 ?  25 :35)%; "><strong>Total</strong></div>
                     <div class='block' style='width:15%'>
                     </div>
                     <div class='block text-right' style='width:10%'>
@@ -258,7 +256,7 @@
                             }
                         </strong>
                     </div>
-                    @if (Uunit != DUunit)
+                    @if (Uunit != 0)
                     {
                     <div class='block text-right' style='width:10%'>
                         <strong>
