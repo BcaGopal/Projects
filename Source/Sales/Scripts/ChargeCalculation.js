@@ -18,6 +18,13 @@ var RateTypeEnum = {
 };
 
 
+var AddDeductEnum = {
+    Deduct: 0,
+    Add: 1,
+    OverRide: 2,
+}
+
+
 function AddCalculationFields(DocHeaderId, DebugMode, CalculationId, HeaderCTable, LineCTable, MaxLinId, DocumentType, SiteId, DivisionId) {
 
     $.ajax({
@@ -265,12 +272,61 @@ function ChargeCalculation() {
         }
 
 
-        if (ProductFields[i].AddDeduct == true) {
+        if (ProductFields[i].IncludedChargesCalculation) {
+            var Rate = EvalExpression(ProductFields[i].IncludedCharges, ProductFields[i].IncludedChargesCalculation, "#CALL_");
+            if ($.isNumeric(Rate)) {//SubTotalProduct = (SubTotalProduct * 100) / (100 + Rate);
+                var Amt = (($(selector).val() * 100) / (100 + Rate));
+                $(selector).val(Amt.toFixed(2));
+            }
+        }
+
+        if (ProductFields[i].AddDeduct == AddDeductEnum.Add) {
             SubTotalProduct = (SubTotalProduct + parseFloat($(selector).val()));
         }
-        else if (ProductFields[i].AddDeduct == false) {
+        else if (ProductFields[i].AddDeduct == AddDeductEnum.Deduct) {
             SubTotalProduct = (SubTotalProduct - parseFloat($(selector).val()));
         }
+        else if (ProductFields[i].AddDeduct == AddDeductEnum.OverRide) {
+            SubTotalProduct = parseFloat($(selector).val());
+        }
+
+    }
+
+
+     function EvalExpression(IncludedCharges, ChargeCalculation, selector) {
+        var Rate;
+
+        if (IncludedCharges) {
+
+            var Params = IncludedCharges.split(',');
+
+            var ParamDict = [];
+
+            $.each(Params, function (i, val) {
+
+                var Elem = selector + val;
+
+                ParamDict.push({ id: val, text: $(Elem).val() });
+            })
+
+            var CalExpr = ChargeCalculation;
+
+            $.each(ParamDict, function (i, val) {
+
+                var replace = '/' + val.id + '/gi';
+
+                CalExpr = CalExpr.replace(new RegExp(val.id, 'ig'), val.text);
+
+            })
+
+            Rate = parseFloat(eval(CalExpr));
+
+        }
+        else {
+            Rate = parseFloat(eval(ChargeCalculation));
+        }
+
+        return Rate;
     }
 
 
@@ -339,12 +395,21 @@ function ChargeCalculation() {
         }
 
 
-        if (FooterFields[i].AddDeduct == true) {
+        if (FooterFields[i].IncludedChargesCalculation) {
+            var Rate = EvalExpression(FooterFields[i].IncludedCharges, FooterFields[i].IncludedChargesCalculation, "#CALH_");
+            if ($.isNumeric(Rate)) {//SubTotalProduct = (SubTotalProduct * 100) / (100 + Rate);
+                var Amt = (($(selector).val() * 100) / (100 + Rate));
+                $(selector).val(Amt.toFixed(2));
+            }
+
+        }
+
+        if (FooterFields[i].AddDeduct == AddDeductEnum.Add) {
 
             if ($.isNumeric($(selector).val()))
                 SubTotalFooter = (SubTotalFooter + parseFloat($(selector).val()));
         }
-        else if (FooterFields[i].AddDeduct == false) {
+        else if (FooterFields[i].AddDeduct == AddDeductEnum.Deduct) {
 
 
             if ($.isNumeric($(selector).val()))
@@ -352,8 +417,12 @@ function ChargeCalculation() {
 
 
         }
+        else if (FooterFields[i].AddDeduct == AddDeductEnum.OverRide) {
+            if ($.isNumeric($(selector).val()))
+                SubTotalFooter = parseFloat($(selector).val());
 
 
+        }
 
     }
 

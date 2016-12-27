@@ -24,7 +24,7 @@ namespace Model.ViewModel
         public string ChargeCode { get; set; }
 
 
-        public string AddDeduct { get; set; }
+        public int ?AddDeduct { get; set; }
         public string AddDeductName { get; set; }
 
         public bool AffectCost { get; set; }
@@ -81,7 +81,7 @@ namespace Model.ViewModel
         public string ChargeCode { get; set; }
 
 
-        public bool? AddDeduct { get; set; }
+        public int ?AddDeduct { get; set; }
         public string AddDeductName { get; set; }
 
         public bool AffectCost { get; set; }
