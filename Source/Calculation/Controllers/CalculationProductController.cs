@@ -48,9 +48,9 @@ namespace Web
             //ViewBag.CostCenterList = new CostCenterService(_unitOfWork).GetCostCenterList().Take(10).ToList();
             //ViewBag.CalculationProductList = new GetCalculationProductListForDropDown().ToList();
             List<SelectListItem> AddList = new List<SelectListItem>();
-            AddList.Add(new SelectListItem { Text = "Add", Value = "Add" });
-            AddList.Add(new SelectListItem { Text = "Deduction", Value = "Deduction" });
-            AddList.Add(new SelectListItem { Text = "Override", Value = "Override" });
+            AddList.Add(new SelectListItem { Text = "Add", Value = ((int)AddDeductEnum.Add).ToString() });
+            AddList.Add(new SelectListItem { Text = "Deduction", Value = ((int)AddDeductEnum.Deduct).ToString() });
+            AddList.Add(new SelectListItem { Text = "Override", Value = ((int)AddDeductEnum.OverRide).ToString() });
             ViewBag.AddList = new SelectList(AddList, "Value", "Text");
             List<SelectListItem> AffectList = new List<SelectListItem>();
             AffectList.Add(new SelectListItem { Text = "No", Value = "false" });

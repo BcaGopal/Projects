@@ -96,30 +96,51 @@ namespace Service
         }
         public IEnumerable<CalculationFooterViewModel> GetCalculationListForIndex(int id)
         {
-            return (from p in db.CalculationFooter
-                    where p.CalculationId == id
-                    orderby p.CalculationFooterLineId
-                    select new CalculationFooterViewModel
-                    {
-                        AddDeduct = p.AddDeduct,
-                        //AddDeductName = (p.AddDeduct == null ? "" : (p.AddDeduct == true ? "Add" : "Deduction")),
-                        AddDeductName = p.AddDeduct,
-                        AffectCost = p.AffectCost,
-                        AffectCostName = (p.AffectCost == true ? "Yes" : "No"),
-                        CalculateOnId = p.CalculateOnId,
-                        CalculateOnName = p.CalculateOn.ChargeName,
-                        Id = p.CalculationFooterLineId,
-                        ChargeName = p.Charge.ChargeName,
-                        ChargeTypeName = p.ChargeType.ChargeTypeName,
-                        CostCenterName = p.CostCenter.CostCenterName,
-                        IncludedInBase = p.IncludedInBase,
-                        IncludedInBaseName = (p.IncludedInBase == true ? "Yes" : "No"),
-                        IsActive = p.IsActive,                       
-                        Rate = p.Rate,
-                        ParentChargeId = p.ParentChargeId,
 
-                    }
-                        );
+            var Query = (from p in db.CalculationFooter
+                        where p.CalculationId == id
+                        orderby p.CalculationFooterLineId
+                        select new CalculationFooterViewModel
+                        {
+                            AddDeduct = p.AddDeduct,
+                            //AddDeductName = (p.AddDeduct == null ? "" : (p.AddDeduct == true ? "Add" : "Deduction")),
+                            //AddDeductName = p.AddDeduct,
+                            AffectCost = p.AffectCost,
+                            AffectCostName = (p.AffectCost == true ? "Yes" : "No"),
+                            CalculateOnId = p.CalculateOnId,
+                            CalculateOnName = p.CalculateOn.ChargeName,
+                            Id = p.CalculationFooterLineId,
+                            ChargeName = p.Charge.ChargeName,
+                            ChargeTypeName = p.ChargeType.ChargeTypeName,
+                            CostCenterName = p.CostCenter.CostCenterName,
+                            IncludedInBase = p.IncludedInBase,
+                            IncludedInBaseName = (p.IncludedInBase == true ? "Yes" : "No"),
+                            IsActive = p.IsActive,
+                            Rate = p.Rate,
+                            ParentChargeId = p.ParentChargeId,
+
+                        }).ToList();
+            var Result=Query.Select(p => new CalculationFooterViewModel
+            {
+                AddDeduct = p.AddDeduct,
+                //AddDeductName = (p.AddDeduct == null ? "" : (p.AddDeduct == true ? "Add" : "Deduction")),
+                AddDeductName = (p.AddDeduct.HasValue ? Enum.GetName(typeof(AddDeductEnum), p.AddDeduct) : ""),
+                AffectCost = p.AffectCost,
+                AffectCostName = (p.AffectCost == true ? "Yes" : "No"),
+                CalculateOnId = p.CalculateOnId,
+                CalculateOnName = p.CalculateOnName,
+                Id = p.Id,
+                ChargeName = p.ChargeName,
+                ChargeTypeName = p.ChargeTypeName,
+                CostCenterName = p.CostCenterName,
+                IncludedInBase = p.IncludedInBase,
+                IncludedInBaseName = (p.IncludedInBase == true ? "Yes" : "No"),
+                IsActive = p.IsActive,
+                Rate = p.Rate,
+                ParentChargeId = p.ParentChargeId,
+            }).AsEnumerable();
+         
+            return (Result);
         }
 
         public CalculationFooter Create(CalculationFooter pt)
