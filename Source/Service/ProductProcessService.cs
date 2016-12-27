@@ -27,7 +27,7 @@ namespace Service
         IEnumerable<ProductProcess> GetProductProcessList();
         IEnumerable<ProductProcess> GetProductProcessList(int id);
         ProductProcess Find(int id);
-        ProductProcess FindByProductProcess(int ProductId, int? ProcessId, int? Dimension1Id, int? Dimension2Id);
+        ProductProcess FindByProductProcess(int ProductId, int? ProcessId, int? Dimension1Id, int? Dimension2Id, int? Dimension3Id, int? Dimension4Id);
 
         Task<IEquatable<ProductProcess>> GetAsync();
         Task<ProductProcess> FindAsync(int id);
@@ -123,9 +123,9 @@ namespace Service
             return _unitOfWork.Repository<ProductProcess>().Find(id);
         }
 
-        public ProductProcess FindByProductProcess(int ProductId, int? ProcessId, int? Dimension1Id, int? Dimension2Id)
+        public ProductProcess FindByProductProcess(int ProductId, int? ProcessId, int? Dimension1Id, int? Dimension2Id, int? Dimension3Id, int? Dimension4Id)
         {
-            var pt = _unitOfWork.Repository<ProductProcess>().Query().Get().Where(m => m.ProductId == ProductId && m.ProcessId == ProcessId && m.Dimension1Id == Dimension1Id && m.Dimension2Id == Dimension2Id).FirstOrDefault();
+            var pt = _unitOfWork.Repository<ProductProcess>().Query().Get().Where(m => m.ProductId == ProductId && m.ProcessId == ProcessId && m.Dimension1Id == Dimension1Id && m.Dimension2Id == Dimension2Id && m.Dimension3Id == Dimension3Id && m.Dimension4Id == Dimension4Id).FirstOrDefault();
             return pt;
         }
 

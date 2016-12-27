@@ -821,6 +821,218 @@ namespace Service
             return list;
         }
 
+        //public int? StockPost(int JobReceiveQAHeaderId)
+        //{
+        //    int? StockHeaderId = null;
+
+        //    var Header = (from H in db.JobReceiveQAHeader
+        //                  where H.JobReceiveQAHeaderId == JobReceiveQAHeaderId
+        //                  select new
+        //                  {
+        //                      StockHeaderId = H.StockHeaderId,
+        //                      JobReceiveQAHeaderId = H.JobReceiveQAHeaderId,
+        //                      DocTypeId = H.DocTypeId,
+        //                      DocDate = H.DocDate,
+        //                      DocNo = H.DocNo,
+        //                      DivisionId = H.DivisionId,
+        //                      SiteId = H.SiteId,
+        //                      ProcessId = H.ProcessId,
+        //                      JobWorkerId = H.JobWorkerId,
+        //                      Status = H.Status,
+        //                      CreatedBy = H.CreatedBy,
+        //                      ModifiedBy = H.ModifiedBy
+        //                  }).FirstOrDefault();
+
+        //    JobReceiveQASettings Settings = (from H in db.JobReceiveQASettings
+        //                                     where H.DocTypeId == Header.DocTypeId &&
+        //                                     H.SiteId == Header.SiteId &&
+        //                                     H.DivisionId == Header.DivisionId
+        //                                     select H).FirstOrDefault();
+
+        //    IEnumerable<JobReceiveQALine> JobReceiveQALineList = (from L in db.JobReceiveQALine
+        //                                                          where L.JobReceiveQAHeaderId == JobReceiveQAHeaderId
+        //                                                          select L).ToList();
+
+
+
+        //    foreach (JobReceiveQALine item in JobReceiveQALineList)
+        //    {
+
+
+        //        if (Settings.isPostedInStock ?? false && item.FailQty > 0)
+        //        {
+        //            JobOrderLine JobOrderLine = (from L in db.JobReceiveLine
+        //                                         join Jol in db.JobOrderLine on L.JobOrderLineId equals Jol.JobOrderLineId
+        //                                         where L.JobReceiveLineId == item.JobReceiveLineId
+        //                                         select Jol).FirstOrDefault();
+
+        //            int? Personid = (from H in db.JobOrderHeaderExtended
+        //                            where H.JobOrderHeaderId == JobOrderLine.JobOrderHeaderId
+        //                            select H).FirstOrDefault().PersonId;
+
+        //            JobReceiveLine JobReceiveLine = (from L in db.JobReceiveLine
+        //                                             where L.JobReceiveLineId == item.JobReceiveLineId
+        //                                             select L).FirstOrDefault();
+
+
+        //            int GodownId = (from L in db.JobReceiveLine
+        //                            join H in db.JobReceiveHeader on L.JobReceiveHeaderId equals H.JobReceiveHeaderId
+        //                            select H.GodownId).FirstOrDefault();
+
+        //            StockViewModel StockViewModel_IssQty = new StockViewModel();
+
+        //            StockViewModel_IssQty.StockId = -1;
+        //            StockViewModel_IssQty.StockHeaderId = Header.StockHeaderId ?? 0;
+        //            StockViewModel_IssQty.DocHeaderId = Header.JobReceiveQAHeaderId;
+        //            StockViewModel_IssQty.DocLineId = item.JobReceiveLineId;
+        //            StockViewModel_IssQty.DocTypeId = Header.DocTypeId;
+        //            StockViewModel_IssQty.StockHeaderDocDate = Header.DocDate;
+        //            StockViewModel_IssQty.StockDocDate = DateTime.Now.Date;
+        //            StockViewModel_IssQty.DocNo = Header.DocNo;
+        //            StockViewModel_IssQty.DivisionId = Header.DivisionId;
+        //            StockViewModel_IssQty.SiteId = Header.SiteId;
+        //            StockViewModel_IssQty.CurrencyId = null;
+        //            StockViewModel_IssQty.HeaderProcessId = Header.ProcessId;
+        //            StockViewModel_IssQty.PersonId = Personid ?? Header.JobWorkerId;
+        //            StockViewModel_IssQty.ProductId = JobOrderLine.ProductId;
+        //            StockViewModel_IssQty.HeaderFromGodownId = null;
+        //            StockViewModel_IssQty.HeaderGodownId = null;
+        //            StockViewModel_IssQty.GodownId = GodownId;
+        //            StockViewModel_IssQty.ProcessId = Header.ProcessId;
+        //            StockViewModel_IssQty.LotNo = JobReceiveLine.LotNo;
+        //            StockViewModel_IssQty.CostCenterId = null;
+        //            StockViewModel_IssQty.Qty_Iss = item.QAQty;
+        //            StockViewModel_IssQty.Qty_Rec = 0;
+        //            StockViewModel_IssQty.Rate = 0;
+        //            StockViewModel_IssQty.StockStatus = null;
+        //            StockViewModel_IssQty.ExpiryDate = null;
+        //            StockViewModel_IssQty.Specification = null;
+        //            StockViewModel_IssQty.Dimension1Id = JobOrderLine.Dimension1Id;
+        //            StockViewModel_IssQty.Dimension2Id = JobOrderLine.Dimension2Id;
+        //            StockViewModel_IssQty.ReferenceDocId = item.JobReceiveQALineId;
+        //            StockViewModel_IssQty.Remark = null;
+        //            StockViewModel_IssQty.Status = Header.Status;
+        //            StockViewModel_IssQty.ProductUidId = JobOrderLine.ProductUidId;
+        //            StockViewModel_IssQty.CreatedBy = Header.CreatedBy;
+        //            StockViewModel_IssQty.CreatedDate = DateTime.Now;
+        //            StockViewModel_IssQty.ModifiedBy = Header.ModifiedBy;
+        //            StockViewModel_IssQty.ModifiedDate = DateTime.Now;
+                    
+
+        //            string StockPostingError = "";
+        //            StockPostingError = _stockService.StockPostDB(ref StockViewModel_IssQty, ref db);
+
+        //            StockHeaderId = StockViewModel_IssQty.StockHeaderId;
+
+
+        //            //For Posting Entry In Stock Adjustment Table Which Was received from Job Receive.
+        //            if (JobReceiveLine.StockId != null)
+        //            {
+        //                StockAdj Adj_IssQty = new StockAdj();
+        //                Adj_IssQty.StockInId = (int)JobReceiveLine.StockId;
+        //                Adj_IssQty.StockOutId = (int)StockViewModel_IssQty.StockId;
+        //                Adj_IssQty.DivisionId = StockViewModel_IssQty.DivisionId;
+        //                Adj_IssQty.SiteId = StockViewModel_IssQty.SiteId;
+        //                Adj_IssQty.AdjustedQty = StockViewModel_IssQty.Qty_Iss;
+        //                Adj_IssQty.ObjectState = ObjectState.Added;
+        //                db.StockAdj.Add(Adj_IssQty);
+        //            }
+                    
+
+        //            //End Stock Adj Code
+
+        //            StockViewModel StockViewModel_RecFailedQty = new StockViewModel();
+
+        //            StockViewModel_RecFailedQty.StockId = -2;
+        //            StockViewModel_RecFailedQty.StockHeaderId = Header.StockHeaderId ?? -1;
+        //            StockViewModel_RecFailedQty.DocHeaderId = Header.JobReceiveQAHeaderId;
+        //            StockViewModel_RecFailedQty.DocLineId = item.JobReceiveLineId;
+        //            StockViewModel_RecFailedQty.DocTypeId = Header.DocTypeId;
+        //            StockViewModel_RecFailedQty.StockHeaderDocDate = Header.DocDate;
+        //            StockViewModel_RecFailedQty.StockDocDate = DateTime.Now.Date;
+        //            StockViewModel_RecFailedQty.DocNo = Header.DocNo;
+        //            StockViewModel_RecFailedQty.DivisionId = Header.DivisionId;
+        //            StockViewModel_RecFailedQty.SiteId = Header.SiteId;
+        //            StockViewModel_RecFailedQty.CurrencyId = null;
+        //            StockViewModel_RecFailedQty.HeaderProcessId = Header.ProcessId;
+        //            StockViewModel_RecFailedQty.PersonId = Header.JobWorkerId;
+        //            StockViewModel_RecFailedQty.ProductId = JobOrderLine.ProductId;
+        //            StockViewModel_RecFailedQty.HeaderFromGodownId = null;
+        //            StockViewModel_RecFailedQty.HeaderGodownId = null;
+        //            StockViewModel_RecFailedQty.GodownId = GodownId;
+        //            StockViewModel_RecFailedQty.ProcessId = Header.ProcessId;
+        //            StockViewModel_RecFailedQty.LotNo = JobReceiveLine.LotNo;
+        //            StockViewModel_RecFailedQty.CostCenterId = null;
+        //            StockViewModel_RecFailedQty.Qty_Iss = 0;
+        //            StockViewModel_RecFailedQty.Qty_Rec = item.FailQty;
+        //            StockViewModel_RecFailedQty.Rate = 0;
+        //            StockViewModel_RecFailedQty.StockStatus = StockStatusConstants.Failed;
+        //            StockViewModel_RecFailedQty.ExpiryDate = null;
+        //            StockViewModel_RecFailedQty.Specification = null;
+        //            StockViewModel_RecFailedQty.Dimension1Id = JobOrderLine.Dimension1Id;
+        //            StockViewModel_RecFailedQty.Dimension2Id = JobOrderLine.Dimension2Id;
+        //            StockViewModel_RecFailedQty.ReferenceDocId = item.JobReceiveQALineId;
+        //            StockViewModel_RecFailedQty.Remark = null;
+        //            StockViewModel_RecFailedQty.Status = Header.Status;
+        //            StockViewModel_RecFailedQty.ProductUidId = JobOrderLine.ProductUidId;
+        //            StockViewModel_RecFailedQty.CreatedBy = Header.CreatedBy;
+        //            StockViewModel_RecFailedQty.CreatedDate = DateTime.Now;
+        //            StockViewModel_RecFailedQty.ModifiedBy = Header.ModifiedBy;
+        //            StockViewModel_RecFailedQty.ModifiedDate = DateTime.Now;
+
+        //            StockPostingError = StockPostingError + _stockService.StockPostDB(ref StockViewModel_RecFailedQty, ref db);
+
+
+        //            StockViewModel StockViewModel_RecPassedQty = new StockViewModel();
+
+        //            StockViewModel_RecPassedQty.StockId = -3;
+        //            StockViewModel_RecPassedQty.StockHeaderId = Header.StockHeaderId ?? -1;
+        //            StockViewModel_RecPassedQty.DocHeaderId = Header.JobReceiveQAHeaderId;
+        //            StockViewModel_RecPassedQty.DocLineId = item.JobReceiveLineId;
+        //            StockViewModel_RecPassedQty.DocTypeId = Header.DocTypeId;
+        //            StockViewModel_RecPassedQty.StockHeaderDocDate = Header.DocDate;
+        //            StockViewModel_RecPassedQty.StockDocDate = DateTime.Now.Date;
+        //            StockViewModel_RecPassedQty.DocNo = Header.DocNo;
+        //            StockViewModel_RecPassedQty.DivisionId = Header.DivisionId;
+        //            StockViewModel_RecPassedQty.SiteId = Header.SiteId;
+        //            StockViewModel_RecPassedQty.CurrencyId = null;
+        //            StockViewModel_RecPassedQty.HeaderProcessId = Header.ProcessId;
+        //            StockViewModel_RecPassedQty.PersonId = Header.JobWorkerId;
+        //            StockViewModel_RecPassedQty.ProductId = JobOrderLine.ProductId;
+        //            StockViewModel_RecPassedQty.HeaderFromGodownId = null;
+        //            StockViewModel_RecPassedQty.HeaderGodownId = null;
+        //            StockViewModel_RecPassedQty.GodownId = GodownId;
+        //            StockViewModel_RecPassedQty.ProcessId = Header.ProcessId;
+        //            StockViewModel_RecPassedQty.LotNo = JobReceiveLine.LotNo;
+        //            StockViewModel_RecPassedQty.CostCenterId = null;
+        //            StockViewModel_RecPassedQty.Qty_Iss = 0;
+        //            StockViewModel_RecPassedQty.Qty_Rec = item.QAQty - item.FailQty;
+        //            StockViewModel_RecPassedQty.Rate = 0;
+        //            StockViewModel_RecPassedQty.StockStatus = null;
+        //            StockViewModel_RecPassedQty.ExpiryDate = null;
+        //            StockViewModel_RecPassedQty.Specification = null;
+        //            StockViewModel_RecPassedQty.Dimension1Id = JobOrderLine.Dimension1Id;
+        //            StockViewModel_RecPassedQty.Dimension2Id = JobOrderLine.Dimension2Id;
+        //            StockViewModel_RecPassedQty.ReferenceDocId = item.JobReceiveQALineId;
+        //            StockViewModel_RecPassedQty.Remark = null;
+        //            StockViewModel_RecPassedQty.Status = Header.Status;
+        //            StockViewModel_RecPassedQty.ProductUidId = JobOrderLine.ProductUidId;
+        //            StockViewModel_RecPassedQty.CreatedBy = Header.CreatedBy;
+        //            StockViewModel_RecPassedQty.CreatedDate = DateTime.Now;
+        //            StockViewModel_RecPassedQty.ModifiedBy = Header.ModifiedBy;
+        //            StockViewModel_RecPassedQty.ModifiedDate = DateTime.Now;
+
+        //            StockPostingError = StockPostingError + _stockService.StockPostDB(ref StockViewModel_RecPassedQty, ref db);
+
+
+                    
+
+
+        //        }
+        //    }
+        //    return StockHeaderId;
+        //}
+
         public int? StockPost(int JobReceiveQAHeaderId)
         {
             int? StockHeaderId = null;
@@ -867,8 +1079,8 @@ namespace Service
                                                  select Jol).FirstOrDefault();
 
                     int? Personid = (from H in db.JobOrderHeaderExtended
-                                    where H.JobOrderHeaderId == JobOrderLine.JobOrderHeaderId
-                                    select H).FirstOrDefault().PersonId;
+                                     where H.JobOrderHeaderId == JobOrderLine.JobOrderHeaderId
+                                     select H).FirstOrDefault().PersonId;
 
                     JobReceiveLine JobReceiveLine = (from L in db.JobReceiveLine
                                                      where L.JobReceiveLineId == item.JobReceiveLineId
@@ -901,7 +1113,7 @@ namespace Service
                     StockViewModel_IssQty.ProcessId = Header.ProcessId;
                     StockViewModel_IssQty.LotNo = JobReceiveLine.LotNo;
                     StockViewModel_IssQty.CostCenterId = null;
-                    StockViewModel_IssQty.Qty_Iss = item.QAQty;
+                    StockViewModel_IssQty.Qty_Iss = item.FailQty;
                     StockViewModel_IssQty.Qty_Rec = 0;
                     StockViewModel_IssQty.Rate = 0;
                     StockViewModel_IssQty.StockStatus = null;
@@ -917,7 +1129,7 @@ namespace Service
                     StockViewModel_IssQty.CreatedDate = DateTime.Now;
                     StockViewModel_IssQty.ModifiedBy = Header.ModifiedBy;
                     StockViewModel_IssQty.ModifiedDate = DateTime.Now;
-                    
+
 
                     string StockPostingError = "";
                     StockPostingError = _stockService.StockPostDB(ref StockViewModel_IssQty, ref db);
@@ -937,7 +1149,7 @@ namespace Service
                         Adj_IssQty.ObjectState = ObjectState.Added;
                         db.StockAdj.Add(Adj_IssQty);
                     }
-                    
+
 
                     //End Stock Adj Code
 
@@ -981,58 +1193,10 @@ namespace Service
                     StockViewModel_RecFailedQty.ModifiedDate = DateTime.Now;
 
                     StockPostingError = StockPostingError + _stockService.StockPostDB(ref StockViewModel_RecFailedQty, ref db);
-
-
-                    StockViewModel StockViewModel_RecPassedQty = new StockViewModel();
-
-                    StockViewModel_RecPassedQty.StockId = -3;
-                    StockViewModel_RecPassedQty.StockHeaderId = Header.StockHeaderId ?? -1;
-                    StockViewModel_RecPassedQty.DocHeaderId = Header.JobReceiveQAHeaderId;
-                    StockViewModel_RecPassedQty.DocLineId = item.JobReceiveLineId;
-                    StockViewModel_RecPassedQty.DocTypeId = Header.DocTypeId;
-                    StockViewModel_RecPassedQty.StockHeaderDocDate = Header.DocDate;
-                    StockViewModel_RecPassedQty.StockDocDate = DateTime.Now.Date;
-                    StockViewModel_RecPassedQty.DocNo = Header.DocNo;
-                    StockViewModel_RecPassedQty.DivisionId = Header.DivisionId;
-                    StockViewModel_RecPassedQty.SiteId = Header.SiteId;
-                    StockViewModel_RecPassedQty.CurrencyId = null;
-                    StockViewModel_RecPassedQty.HeaderProcessId = Header.ProcessId;
-                    StockViewModel_RecPassedQty.PersonId = Header.JobWorkerId;
-                    StockViewModel_RecPassedQty.ProductId = JobOrderLine.ProductId;
-                    StockViewModel_RecPassedQty.HeaderFromGodownId = null;
-                    StockViewModel_RecPassedQty.HeaderGodownId = null;
-                    StockViewModel_RecPassedQty.GodownId = GodownId;
-                    StockViewModel_RecPassedQty.ProcessId = Header.ProcessId;
-                    StockViewModel_RecPassedQty.LotNo = JobReceiveLine.LotNo;
-                    StockViewModel_RecPassedQty.CostCenterId = null;
-                    StockViewModel_RecPassedQty.Qty_Iss = 0;
-                    StockViewModel_RecPassedQty.Qty_Rec = item.QAQty - item.FailQty;
-                    StockViewModel_RecPassedQty.Rate = 0;
-                    StockViewModel_RecPassedQty.StockStatus = null;
-                    StockViewModel_RecPassedQty.ExpiryDate = null;
-                    StockViewModel_RecPassedQty.Specification = null;
-                    StockViewModel_RecPassedQty.Dimension1Id = JobOrderLine.Dimension1Id;
-                    StockViewModel_RecPassedQty.Dimension2Id = JobOrderLine.Dimension2Id;
-                    StockViewModel_RecPassedQty.ReferenceDocId = item.JobReceiveQALineId;
-                    StockViewModel_RecPassedQty.Remark = null;
-                    StockViewModel_RecPassedQty.Status = Header.Status;
-                    StockViewModel_RecPassedQty.ProductUidId = JobOrderLine.ProductUidId;
-                    StockViewModel_RecPassedQty.CreatedBy = Header.CreatedBy;
-                    StockViewModel_RecPassedQty.CreatedDate = DateTime.Now;
-                    StockViewModel_RecPassedQty.ModifiedBy = Header.ModifiedBy;
-                    StockViewModel_RecPassedQty.ModifiedDate = DateTime.Now;
-
-                    StockPostingError = StockPostingError + _stockService.StockPostDB(ref StockViewModel_RecPassedQty, ref db);
-
-
-                    
-
-
                 }
             }
             return StockHeaderId;
         }
-
 
         public Task<IEquatable<JobReceiveQALine>> GetAsync()
         {

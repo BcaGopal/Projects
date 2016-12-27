@@ -104,6 +104,10 @@
     <Compile Include="DatabaseViews\SaleInvoiceViewModels.cs" />
     <Compile Include="DatabaseViews\StockVirtual.cs" />
     <Compile Include="Models\ActivityLog.cs" />
+    <Compile Include="Models\Dimension4Type.cs" />
+    <Compile Include="Models\Dimension3Type.cs" />
+    <Compile Include="Models\Dimension4.cs" />
+    <Compile Include="Models\Dimension3.cs" />
     <Compile Include="Models\DocumentTypeSettings.cs" />
     <Compile Include="Models\FeetConversionToCms.cs" />
     <Compile Include="Models\JobReceiveQaLineDetail.cs" />

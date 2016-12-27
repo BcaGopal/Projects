@@ -235,6 +235,8 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminSetupController.cs" />
     <Compile Include="Controllers\ComboHelpListController.cs" />
+    <Compile Include="Controllers\Dimension4Controller.cs" />
+    <Compile Include="Controllers\Dimension3Controller.cs" />
     <Compile Include="Controllers\QAGroupLineController.cs" />
     <Compile Include="Controllers\QAGroupController.cs" />
     <Compile Include="Controllers\GatePassHeaderController.cs" />
@@ -898,6 +900,14 @@
     <Content Include="Views\QAGroupLine\_Create.cshtml" />
     <Content Include="Views\QAGroupLine\_Index.cshtml" />
     <Content Include="Views\QAGroupLine\_Results.cshtml" />
+    <Content Include="Views\Dimension3\_Reason.cshtml" />
+    <Content Include="Views\Dimension3\Create.cshtml" />
+    <Content Include="Views\Dimension3\Index.cshtml" />
+    <Content Include="Views\Dimension3\ProductTypeIndex.cshtml" />
+    <Content Include="Views\Dimension4\_Reason.cshtml" />
+    <Content Include="Views\Dimension4\Create.cshtml" />
+    <Content Include="Views\Dimension4\Index.cshtml" />
+    <Content Include="Views\Dimension4\ProductTypeIndex.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

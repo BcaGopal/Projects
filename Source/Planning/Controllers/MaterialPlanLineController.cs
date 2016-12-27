@@ -177,7 +177,7 @@ namespace Presentation
                 var summary = (from p in db.Product.Where(p => ProductIds.Contains(p.ProductId)).AsEnumerable()
                                join t in vm.MaterialPlanLineViewModel on p.ProductId equals t.ProductId
                                where t.Qty > 0
-                               group t by new { t.ProductId, p.ProductName, t.Dimension1Id, t.Dimension2Id, t.Specification } into g
+                               group t by new { t.ProductId, p.ProductName, t.Dimension1Id, t.Dimension2Id, t.Dimension3Id, t.Dimension4Id, t.Specification } into g
                                join p1 in db.Product.Where(p => ProductIds.Contains(p.ProductId)).AsEnumerable() on g.Key.ProductId equals p1.ProductId
                                join u1 in db.Units on p1.UnitId equals u1.UnitId
                                select new
@@ -191,6 +191,10 @@ namespace Presentation
                                    Dimension1Name = g.Max(i => i.Dimension1Name),
                                    Dimension2Id = g.Key.Dimension2Id,
                                    Dimension2Name = g.Max(i => i.Dimension2Name),
+                                   Dimension3Id = g.Key.Dimension3Id,
+                                   Dimension3Name = g.Max(i => i.Dimension3Name),
+                                   Dimension4Id = g.Key.Dimension4Id,
+                                   Dimension4Name = g.Max(i => i.Dimension4Name),
                                    Specification = g.Key.Specification,
                                    Fractionunits = u1.DecimalPlaces
                                }).ToList();
@@ -203,6 +207,8 @@ namespace Presentation
                     planline.RequiredQty = item.QtySum;
                     planline.Dimension1Name = item.Dimension1Name;
                     planline.Dimension2Name = item.Dimension2Name;
+                    planline.Dimension3Name = item.Dimension3Name;
+                    planline.Dimension4Name = item.Dimension4Name;
 
                         //using (SqlConnection sqlConnection = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString.ToString()))
                         using (SqlConnection sqlConnection = new SqlConnection((string)System.Web.HttpContext.Current.Session["DefaultConnectionString"]))
@@ -222,6 +228,8 @@ namespace Presentation
                     planline.ProductId = item.id;
                     planline.Dimension1Id = item.Dimension1Id;
                     planline.Dimension2Id = item.Dimension2Id;
+                    planline.Dimension3Id = item.Dimension3Id;
+                    planline.Dimension4Id = item.Dimension4Id;
                     planline.ProdPlanQty = item.QtySum;
                     planline.UnitName = item.unitname;
                     planline.unitDecimalPlaces = item.Fractionunits;
@@ -238,7 +246,7 @@ namespace Presentation
                 var SiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
                 Summary.MaterialPlanSettings = Setting;
 
-                Summary.PlanLine = Line.OrderBy(m => m.ProductName).ThenBy(m => m.Dimension1Name).ThenBy(m => m.Dimension2Name).ToList();
+                Summary.PlanLine = Line.OrderBy(m => m.ProductName).ThenBy(m => m.Dimension1Name).ThenBy(m => m.Dimension2Name).ThenBy(m => m.Dimension3Name).ThenBy(m => m.Dimension4Name).ToList();
 
                 return PartialView("_SummarySaleOrder", Summary);
 
@@ -281,6 +289,8 @@ namespace Presentation
                         planLine.ProductId = item.ProductId;
                         planLine.Dimension1Id = item.Dimension1Id;
                         planLine.Dimension2Id = item.Dimension2Id;
+                        planLine.Dimension3Id = item.Dimension3Id;
+                        planLine.Dimension4Id = item.Dimension4Id;
                         planLine.ProdPlanQty = item.ProdPlanQty;
                         planLine.CreatedBy = User.Identity.Name;
                         planLine.CreatedDate = DateTime.Now;
@@ -360,6 +370,8 @@ namespace Presentation
                             prodOrderLine.ProductId = item.ProductId;
                             prodOrderLine.Dimension1Id = item.Dimension1Id;
                             prodOrderLine.Dimension2Id = item.Dimension2Id;
+                            prodOrderLine.Dimension3Id = item.Dimension3Id;
+                            prodOrderLine.Dimension4Id = item.Dimension4Id;
                             prodOrderLine.Sr = ProdORderSerial++;
                             prodOrderLine.Qty = item.ProdPlanQty;
                             prodOrderLine.Remark = item.Remark;
@@ -394,6 +406,8 @@ namespace Presentation
                             prodOrderLine.ProductId = item.ProductId;
                             prodOrderLine.Dimension1Id = item.Dimension1Id;
                             prodOrderLine.Dimension2Id = item.Dimension2Id;
+                            prodOrderLine.Dimension3Id = item.Dimension3Id;
+                            prodOrderLine.Dimension4Id = item.Dimension4Id;
                             prodOrderLine.Specification = item.Specification;
                             prodOrderLine.Qty = item.ProdPlanQty;
                             prodOrderLine.Sr = ProdORderSerial++;
@@ -451,6 +465,8 @@ namespace Presentation
                             indentLine.ProductId = item.ProductId;
                             indentLine.Dimension1Id = item.Dimension1Id;
                             indentLine.Dimension2Id = item.Dimension2Id;
+                            indentLine.Dimension3Id = item.Dimension3Id;
+                            indentLine.Dimension4Id = item.Dimension4Id;
                             indentLine.Specification = item.Specification;
                             indentLine.PurchaseIndentHeaderId = indentHeader.PurchaseIndentHeaderId;
                             indentLine.Qty = item.PurchPlanQty;
@@ -476,6 +492,8 @@ namespace Presentation
                             indentLine.ProductId = item.ProductId;
                             indentLine.Dimension1Id = item.Dimension1Id;
                             indentLine.Dimension2Id = item.Dimension2Id;
+                            indentLine.Dimension3Id = item.Dimension3Id;
+                            indentLine.Dimension4Id = item.Dimension4Id;
                             indentLine.Sr = PurchaseIndentSr++;
                             indentLine.PurchaseIndentHeaderId = ExistingIndent.PurchaseIndentHeaderId;
                             indentLine.Qty = item.PurchPlanQty;
@@ -784,13 +802,15 @@ namespace Presentation
                     {
                         item.Dimension1Id = null;
                         item.Dimension2Id = null;
+                        item.Dimension3Id = null;
+                        item.Dimension4Id = null;
                     }
 
                     System.Web.HttpContext.Current.Session[sessionmaterialplanline] = vm.MaterialPlanLineViewModel.ToList();
                     System.Web.HttpContext.Current.Session[sessionprodorderbom] = prodorderlinefromprocedure;
 
                     MPSummary.MaterialPlanSettings = Setting;
-                    MPSummary.PlanLine = MSummary.OrderBy(m => m.ProductName).ThenBy(m => m.Dimension1Name).ThenByDescending(m => m.Dimension2Name).ToList();
+                    MPSummary.PlanLine = MSummary.OrderBy(m => m.ProductName).ThenBy(m => m.Dimension1Name).ThenByDescending(m => m.Dimension2Name).ThenByDescending(m => m.Dimension3Name).ThenByDescending(m => m.Dimension4Name).ToList();
 
                 }
                 else
@@ -806,6 +826,8 @@ namespace Presentation
                     var ProductIds = prodorderlinefromprocedure.Select(m => m.ProductId).ToArray();
                     var Dimension1Ids = prodorderlinefromprocedure.Select(m => m.Dimension1Id).ToArray();
                     var Dimension2Ids = prodorderlinefromprocedure.Select(m => m.Dimension2Id).ToArray();
+                    var Dimension3Ids = prodorderlinefromprocedure.Select(m => m.Dimension3Id).ToArray();
+                    var Dimension4Ids = prodorderlinefromprocedure.Select(m => m.Dimension4Id).ToArray();
                     var processIds = prodorderlinefromprocedure.Select(m => m.ProcessId).ToArray();
 
 
@@ -827,27 +849,41 @@ namespace Presentation
                                        where Dimension2Ids.Contains(p.Dimension2Id)
                                        select p).ToList();
 
+                    var Dimension3s = (from p in db.Dimension3.AsNoTracking()
+                                       where Dimension3Ids.Contains(p.Dimension3Id)
+                                       select p).ToList();
+
+                    var Dimension4s = (from p in db.Dimension4.AsNoTracking()
+                                       where Dimension4Ids.Contains(p.Dimension4Id)
+                                       select p).ToList();
+
                     var Processes = (from p in db.Process.AsNoTracking()
                                      where processIds.Contains(p.ProcessId)
                                      select p).ToList();
 
                     var ProductProcess = (from p in db.ProductProcess.AsNoTracking()
                                           where processIds.Contains(p.ProcessId) && Dimension1Ids.Contains(p.Dimension1Id)
-                                          && Dimension2Ids.Contains(p.Dimension2Id) && ProductIds.Contains(p.ProductId)
+                                          && Dimension2Ids.Contains(p.Dimension2Id) && Dimension3Ids.Contains(p.Dimension3Id)
+                                          && Dimension4Ids.Contains(p.Dimension4Id) 
+                                          && ProductIds.Contains(p.ProductId)
                                           select p).ToList();
 
                     var summary = (from t2 in prodorderlinefromprocedure
                                    where t2.Qty > 0
-                                   group t2 by new { t2.ProductId, t2.Dimension1Id, t2.Dimension2Id, t2.ProcessId } into g
+                                   group t2 by new { t2.ProductId, t2.Dimension1Id, t2.Dimension2Id, t2.Dimension3Id, t2.Dimension4Id, t2.ProcessId } into g
                                    join p1 in Products on g.Key.ProductId equals p1.ProductId
                                    join u1 in Units on p1.UnitId equals u1.UnitId
                                    join d1 in Dimension1s on g.Key.Dimension1Id equals d1.Dimension1Id into Dim1Table
                                    from DT1 in Dim1Table.DefaultIfEmpty()
                                    join d2 in Dimension2s on g.Key.Dimension2Id equals d2.Dimension2Id into Dim2Table
                                    from DT2 in Dim2Table.DefaultIfEmpty()
+                                   join d3 in Dimension3s on g.Key.Dimension3Id equals d3.Dimension3Id into Dim3Table
+                                   from DT3 in Dim3Table.DefaultIfEmpty()
+                                   join d4 in Dimension4s on g.Key.Dimension4Id equals d4.Dimension4Id into Dim4Table
+                                   from DT4 in Dim4Table.DefaultIfEmpty()
                                    join proc in Processes on g.Key.ProcessId equals proc.ProcessId into ProcTable
                                    from PT in ProcTable.DefaultIfEmpty()
-                                   join PP in ProductProcess on new { A = g.Key.ProcessId ?? 0, B = g.Key.Dimension1Id ?? 0, D = g.Key.Dimension2Id ?? 0, g.Key.ProductId } equals new { A = PP.ProcessId ?? 0, B = PP.Dimension1Id ?? 0, D = PP.Dimension2Id ?? 0, PP.ProductId } into ProductProcessTable
+                                   join PP in ProductProcess on new { A = g.Key.ProcessId ?? 0, B = g.Key.Dimension1Id ?? 0, D = g.Key.Dimension2Id ?? 0, E = g.Key.Dimension3Id ?? 0, F = g.Key.Dimension4Id ?? 0, g.Key.ProductId } equals new { A = PP.ProcessId ?? 0, B = PP.Dimension1Id ?? 0, D = PP.Dimension2Id ?? 0, E = PP.Dimension3Id ?? 0, F = PP.Dimension4Id ?? 0, PP.ProductId } into ProductProcessTable
                                    from ProductProcessTab in ProductProcessTable.DefaultIfEmpty()
                                    select new
                                    {
@@ -856,8 +892,12 @@ namespace Presentation
                                        PurchaseProduction = ProductProcessTab == null ? "Production" : (ProductProcessTab.PurchProd),
                                        dim1Id = g.Key.Dimension1Id,
                                        dim1Name = DT1 == null ? "" : (DT1.Dimension1Name),
-                                       dim2id = g.Key.Dimension2Id,
+                                       dim2Id = g.Key.Dimension2Id,
                                        dim2Name = DT2 == null ? "" : (DT2.Dimension2Name),
+                                       dim3Id = g.Key.Dimension3Id,
+                                       dim3Name = DT3 == null ? "" : (DT3.Dimension3Name),
+                                       dim4Id = g.Key.Dimension4Id,
+                                       dim4Name = DT4 == null ? "" : (DT4.Dimension4Name),
                                        procid = g.Key.ProcessId,
                                        procName = PT == null ? "" : (PT.ProcessName),
                                        QtySum = Math.Ceiling(g.Sum(m => m.Qty)),
@@ -884,9 +924,13 @@ namespace Presentation
                         planline.unitDecimalPlaces = item.DecimalPlaces;
                         planline.RequiredQty = item.QtySum;
                         planline.Dimension1Id = item.dim1Id;
-                        planline.Dimension2Id = item.dim2id;
+                        planline.Dimension2Id = item.dim2Id;
+                        planline.Dimension3Id = item.dim3Id;
+                        planline.Dimension4Id = item.dim4Id;
                         planline.Dimension1Name = item.dim1Name;
                         planline.Dimension2Name = item.dim2Name;
+                        planline.Dimension3Name = item.dim3Name;
+                        planline.Dimension4Name = item.dim4Name;
                         planline.ProcessName = item.procName;
 
                         //using (SqlConnection sqlConnection = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString.ToString()))
@@ -926,7 +970,7 @@ namespace Presentation
 
                     //MaterialPlanSummaryViewModel Summary = new MaterialPlanSummaryViewModel();
                     MPSummary.MaterialPlanSettings = Setting;
-                    MPSummary.PlanLine = Line.OrderBy(m => m.ProductName).ThenBy(m => m.Dimension1Name).ThenByDescending(m => m.Dimension2Name).ToList();
+                    MPSummary.PlanLine = Line.OrderBy(m => m.ProductName).ThenBy(m => m.Dimension1Name).ThenByDescending(m => m.Dimension2Name).ThenByDescending(m => m.Dimension3Name).ThenByDescending(m => m.Dimension4Name).ToList();
                 }
 
 
@@ -957,18 +1001,6 @@ namespace Presentation
             svm.MaterialPlanLineViewModel = (List<MaterialPlanForSaleOrderViewModel>)System.Web.HttpContext.Current.Session[sessionMaterialPlanLine];
             List<MaterialPlanForProcedureViewModel> prodOrderBom = (List<MaterialPlanForProcedureViewModel>)System.Web.HttpContext.Current.Session[sessionProdOrderBom];
 
-            //var summary = (from t in prodOrderBom
-            //               where t.Qty > 0
-            //               group t by new { t.ProductId, t.Dimension1Id, t.Dimension2Id, t.ProcessId } into g
-            //               select new
-            //               {
-            //                   id = g.Key.ProductId,
-            //                   dim1Id = g.Key.Dimension1Id,
-            //                   dim2id = g.Key.Dimension2Id,
-            //                   procid = g.Key.ProcessId,
-            //                   QtySum = g.Sum(m => m.Qty),
-            //                   GroupedItems = g
-            //               }).ToList();                      
 
             using (var context = new ApplicationDbContext())
             {
@@ -987,6 +1019,8 @@ namespace Presentation
                         planLine.CreatedBy = User.Identity.Name;
                         planLine.Dimension1Id = item.Dimension1Id;
                         planLine.Dimension2Id = item.Dimension2Id;
+                        planLine.Dimension3Id = item.Dimension3Id;
+                        planLine.Dimension4Id = item.Dimension4Id;
                         planLine.Sr = Serial++;
                         planLine.CreatedDate = DateTime.Now;
                         planLine.ModifiedBy = User.Identity.Name;
@@ -1011,7 +1045,7 @@ namespace Presentation
                         }
 
 
-                        ProductProcess PP = new ProductProcessService(_unitOfWork).FindByProductProcess(item.ProductId, item.ProcessId, item.Dimension1Id, item.Dimension2Id);
+                        ProductProcess PP = new ProductProcessService(_unitOfWork).FindByProductProcess(item.ProductId, item.ProcessId, item.Dimension1Id, item.Dimension2Id, item.Dimension3Id, item.Dimension4Id);
                         if (PP == null)
                         {
                             ProductProcess NewPP = new ProductProcess();
@@ -1019,6 +1053,8 @@ namespace Presentation
                             NewPP.ProductId = item.ProductId;
                             NewPP.Dimension1Id = (int?)item.Dimension1Id;
                             NewPP.Dimension2Id = (int?)item.Dimension2Id;
+                            NewPP.Dimension3Id = (int?)item.Dimension3Id;
+                            NewPP.Dimension4Id = (int?)item.Dimension4Id;
                             NewPP.PurchProd = (item.PurchPlanQty > 0 ? "Purchase" : "Production");
                             NewPP.CreatedBy = User.Identity.Name;
                             NewPP.CreatedDate = DateTime.Now;
@@ -1079,9 +1115,11 @@ namespace Presentation
                             prodOrderLine.MaterialPlanLineId = item.MaterialPlanLineId;
                             prodOrderLine.ModifiedBy = User.Identity.Name;
                             prodOrderLine.Dimension1Id = item.Dimension1Id;
+                            prodOrderLine.Dimension2Id = item.Dimension2Id;
+                            prodOrderLine.Dimension3Id = item.Dimension3Id;
+                            prodOrderLine.Dimension4Id = item.Dimension4Id;
                             prodOrderLine.ProcessId = item.ProcessId;
                             prodOrderLine.Sr = ProdOrderSr++;
-                            prodOrderLine.Dimension2Id = item.Dimension2Id;
                             prodOrderLine.ModifiedDate = DateTime.Now;
                             prodOrderLine.ProdOrderHeaderId = prodOrderHeader.ProdOrderHeaderId;
                             prodOrderLine.ProductId = item.ProductId;
@@ -1114,6 +1152,8 @@ namespace Presentation
                             prodOrderLine.MaterialPlanLineId = item.MaterialPlanLineId;
                             prodOrderLine.Dimension1Id = item.Dimension1Id;
                             prodOrderLine.Dimension2Id = item.Dimension2Id;
+                            prodOrderLine.Dimension3Id = item.Dimension3Id;
+                            prodOrderLine.Dimension4Id = item.Dimension4Id;
                             prodOrderLine.ProcessId = item.ProcessId;
                             prodOrderLine.ModifiedBy = User.Identity.Name;
                             prodOrderLine.ModifiedDate = DateTime.Now;
@@ -1168,8 +1208,10 @@ namespace Presentation
                             indentLine.MaterialPlanLineId = item.MaterialPlanLineId;
                             indentLine.ModifiedBy = User.Identity.Name;
                             indentLine.Dimension1Id = item.Dimension1Id;
-                            indentLine.Sr = PurchaseIndentSr++;
                             indentLine.Dimension2Id = item.Dimension2Id;
+                            indentLine.Dimension3Id = item.Dimension3Id;
+                            indentLine.Dimension4Id = item.Dimension4Id;
+                            indentLine.Sr = PurchaseIndentSr++;
                             indentLine.ModifiedDate = DateTime.Now;
                             indentLine.ProductId = item.ProductId;
                             indentLine.PurchaseIndentHeaderId = indentHeader.PurchaseIndentHeaderId;
@@ -1193,6 +1235,8 @@ namespace Presentation
                             indentLine.ProductId = item.ProductId;
                             indentLine.Dimension1Id = item.Dimension1Id;
                             indentLine.Dimension2Id = item.Dimension2Id;
+                            indentLine.Dimension3Id = item.Dimension3Id;
+                            indentLine.Dimension4Id = item.Dimension4Id;
                             indentLine.Sr = PurchaseIndentSr++;
                             indentLine.PurchaseIndentHeaderId = ExistingIndent.PurchaseIndentHeaderId;
                             indentLine.Qty = item.PurchPlanQty;
@@ -1234,12 +1278,14 @@ namespace Presentation
                             line.Qty = item2.Qty;
                             line.Dimension1Id = item2.Dimension1Id;
                             line.Dimension2Id = item2.Dimension2Id;
+                            line.Dimension3Id = item2.Dimension3Id;
+                            line.Dimension4Id = item2.Dimension4Id;
                             line.ProcessId = item2.ProcessId;
                             line.MaterialPlanForProdOrderId = order.MaterialPlanForProdOrderId;
                             line.ProductId = item2.ProductId;
                             line.Sr = MPFPOLSr++;
                             line.ObjectState = Model.ObjectState.Added;
-                            line.MaterialPlanLineId = context.MaterialPlanLine.Local.Where(m => m.ProductId == line.ProductId && m.Dimension1Id == line.Dimension1Id && m.Dimension2Id == line.Dimension2Id && m.ProcessId == line.ProcessId).FirstOrDefault().MaterialPlanLineId;
+                            line.MaterialPlanLineId = context.MaterialPlanLine.Local.Where(m => m.ProductId == line.ProductId && m.Dimension1Id == line.Dimension1Id && m.Dimension2Id == line.Dimension2Id && m.Dimension3Id == line.Dimension3Id && m.Dimension4Id == line.Dimension4Id && m.ProcessId == line.ProcessId).FirstOrDefault().MaterialPlanLineId;
                             context.MaterialPlanForProdOrderLine.Add(line);
                         }
 
