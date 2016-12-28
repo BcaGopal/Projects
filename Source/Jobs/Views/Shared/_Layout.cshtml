@@ -52,7 +52,7 @@
                             <a href="#" class="dropdown-toggle hidden-xs" data-toggle="dropdown" role="button" aria-expanded="false">Bookmarks <span class="caret"></span></a>
                             <a href="#" class="dropdown-toggle hidden-lg hidden-md hidden-sm" data-toggle="dropdown" role="button" aria-expanded="false"><span class="glyphicon glyphicon-bookmark"></span></a>
                             <ul class="dropdown-menu" role="menu" id="bookmarkdd">
-                                @foreach (var item in (List<ProjLib.ViewModels.UserBookMarkViewModel>)(Session["BookMarks"]))
+                            @foreach (var item in (List<ProjLib.ViewModels.UserBookMarkViewModel>)(Session["BookMarks"]))
                                 {
                                     <li>
                                         <a href="/Menu/DropDown/@item.MenuId">
@@ -61,7 +61,6 @@
                                         </a>
                                     </li>
                                 }
-
                             </ul>
                         </li>
                         <li class="hidden-xs"><a href="@Defaultdomain/SiteSelection/SiteSelection/"><span>@System.Web.HttpContext.Current.Session[SessionNameConstants.SiteShortName]</span>|<span>@System.Web.HttpContext.Current.Session[SessionNameConstants.DivisionName]</span></a></li>
