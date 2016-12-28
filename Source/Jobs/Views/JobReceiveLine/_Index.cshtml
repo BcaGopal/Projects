@@ -5,12 +5,14 @@
 @{
     decimal? TDealQty;
     decimal? TLossQty;
-    string Uunit = "";
-    string DUunit = "";
+    //string Uunit = "";
+    //string DUunit = "";
     TDealQty = Model.Sum(m => m.DealQty);
     TLossQty = Model.Sum(m => m.LossQty);
-    Uunit = Model.Max(m => m.UnitName).FirstOrDefault().ToString();
-    DUunit = Model.Max(m => m.DealUnitName).FirstOrDefault().ToString();
+    //Uunit = Model.Max(m => m.UnitName).FirstOrDefault().ToString();
+    //DUunit = Model.Max(m => m.DealUnitName).FirstOrDefault().ToString();
+    decimal? Uunit;
+    Uunit = Model.Sum(m => m.UnitName != m.DealUnitName ? 1 : 0);
 }
 <div style="min-width: 700px;">
     <div class="panel-heading headrow">
@@ -21,14 +23,14 @@
             <div class="block" style="width: 90%;">
                 <div class="row">
                 
-                    <div class="block" style="width: @(TDealQty > 0 && Uunit!=DUunit ?  25 :35)%; ">
+                    <div class="block" style="width: @(TDealQty > 0 && Uunit!=0 ?  25 :35)%; ">
                         Product Name
                     </div>
                     <div class="block" style="width:15%;">
                        Ref. No
                     </div>
                  
-                    @if (TDealQty > 0 && Uunit != DUunit)
+                    @if (TDealQty > 0 && Uunit != 0)
                     {
                         <div class='text-right block' style='width:25%'>
                             Receive<br>Qty
@@ -41,7 +43,7 @@
                         </div>
                     }
 
-@if (TDealQty > 0 && Uunit == DUunit)
+@if (TDealQty > 0 && Uunit == 0)
 {
                     <div class='text-right block' style='width:10%'>
                         Unit
@@ -49,7 +51,7 @@
 }
 
                    
-                    @if (TDealQty > 0 && Uunit != DUunit)
+                    @if (TDealQty > 0 && Uunit != 0)
                     {
                         <div class='text-right block' style='width:10%'>
                             Deal <Br>Qty
@@ -125,7 +127,7 @@
                      <div class='row-index block'  style='width:5%'>@srno<input type='hidden' class='id' value='@item.JobReceiveLineId' /></div>
                                  <div class='block'  style='width:90%'>
                                           <div class='row'>
-                                              <div class='block' style='width:@(TDealQty > 0 && Uunit!=DUunit ?  25 :35)%'>
+                                              <div class='block' style='width:@(TDealQty > 0 && Uunit!=0 ?  25 :35)%'>
                                                   @if(item.ProductName!=null)
                                                   {
                                                        <strong> @item.ProductName </strong>
@@ -151,7 +153,7 @@
 
                                               @if (item.ReceiveQty != null)
                                               {
-                                                  if (TDealQty > 0 && Uunit != DUunit)
+                                                  if (TDealQty > 0 && Uunit != 0)
                                                   {
                                                       <div class='text-right block' style='width:25%'>
                                                     @Math.Round(item.ReceiveQty, item.UnitDecimalPlaces).ToString()<br />
@@ -167,7 +169,7 @@
                                                 </div>
                                                 }
                                                         }
-                                                        @if (TDealQty > 0 && Uunit == DUunit)
+                                                        @if (TDealQty > 0 && Uunit == 0)
                                                         {
                                                             <div class='text-right block' style='width:10%'>
                                                                 <small>@(item.UnitName == null ? " " : item.UnitName)</small>
@@ -175,7 +177,7 @@
                                                         }
 
 
-                                                        @if (TDealQty > 0 && Uunit != DUunit)
+                                                        @if (TDealQty > 0 && Uunit != 0)
                                                         {   <div class='text-right block' style='width:10%'>
                                                             @(item.DealQty == null ? " " : Math.Round(item.DealQty, 3).ToString())<br />
                                                             <div>
@@ -273,7 +275,7 @@
 
                <div class="row">
     @*ProductInfo*@
-    <div class="block" style='width:@(TDealQty > 0 && Uunit!=DUunit ?  25 :35)%'>
+    <div class="block" style='width:@(TDealQty > 0 && Uunit!=0 ?  25 :35)%'>
         <strong>Total</strong>
     </div>
 
@@ -285,7 +287,7 @@
 
 
     @*Amount*@
-    @if (TDealQty > 0 && Uunit != DUunit)
+    @if (TDealQty > 0 && Uunit != 0)
     {
         <div class='text-right block' style='width:25%'>
             <strong>
@@ -312,7 +314,7 @@
             </div>
      }
 
-@if (TDealQty > 0 && Uunit == DUunit)
+@if (TDealQty > 0 && Uunit == 0)
 {
     <div class='text-right block' style='width:10%'>
         <strong>
@@ -323,7 +325,7 @@
 
 
               
-                @if (TDealQty > 0 && Uunit != DUunit)
+                @if (TDealQty > 0 && Uunit != 0)
                 {
                     <div class='text-right block' style='width:10%'>
                         <strong>
