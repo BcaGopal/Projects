@@ -27,6 +27,9 @@ namespace Model.ViewModel
         public bool isVisibleProductUID { get; set; }
         public bool isVisibleDimension1 { get; set; }
         public bool isVisibleDimension2 { get; set; }
+        public bool isVisibleDimension3 { get; set; }
+        public bool isVisibleDimension4 { get; set; }
+
         public bool isVisibleLotNo { get; set; }
         public bool isMandatoryProcessLine { get; set; }
         public bool isPostedInStockProcess { get; set; }

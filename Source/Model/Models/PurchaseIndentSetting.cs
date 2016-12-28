@@ -24,7 +24,9 @@ namespace Model.Models
         public bool? isVisibleCostCenter { get; set; }
         public bool? isMandatoryCostCenter { get; set; }
         public bool? isVisibleDimension1 { get; set; }
-        public bool? isVisibleDimension2 { get; set; }                       
+        public bool? isVisibleDimension2 { get; set; }
+        public bool? isVisibleDimension3 { get; set; }
+        public bool? isVisibleDimension4 { get; set; }           
         public string filterProductTypes { get; set; }
         public string filterProductGroups { get; set; }
         public string filterProducts { get; set; }

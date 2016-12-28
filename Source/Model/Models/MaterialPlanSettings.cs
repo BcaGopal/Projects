@@ -28,6 +28,8 @@ namespace Model.Models
 
         public bool? isVisibleDimension1 { get; set; }
         public bool? isVisibleDimension2 { get; set; }
+        public bool? isVisibleDimension3 { get; set; }
+        public bool? isVisibleDimension4 { get; set; }
         public bool? isMandatoryProcessLine { get; set; }
         public string SqlProcConsumption { get; set; }
         public string SqlProcConsumptionSummary { get; set; }

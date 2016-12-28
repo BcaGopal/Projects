@@ -26,7 +26,8 @@ namespace Data.Models
 
         public string strSchemaName = "Web";
 
-        public ApplicationDbContext() : base((string)System.Web.HttpContext.Current.Session["DefaultConnectionString"] ?? "LoginDB", false)
+        public ApplicationDbContext()
+            : base((string)System.Web.HttpContext.Current.Session["DefaultConnectionString"] ?? "LoginDB", false)
         {
             Configuration.ProxyCreationEnabled = false;
             Database.ExecuteSqlCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");

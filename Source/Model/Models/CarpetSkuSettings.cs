@@ -58,6 +58,11 @@ namespace Model.Models
         public virtual Country OriginCountry { get; set; }
 
 
+        [ForeignKey("PerimeterSizeType")]
+        [Display(Name = "PerimeterSizeType")]
+        public int? PerimeterSizeTypeId { get; set; }
+        public virtual ProductSizeType PerimeterSizeType { get; set; }
+
         public string UnitConversions { get; set; }
 
 

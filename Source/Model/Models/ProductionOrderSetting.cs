@@ -23,7 +23,9 @@ namespace Model.Models
         public int DivisionId { get; set; }
         public virtual Division Division { get; set; }
         public bool? isVisibleDimension1 { get; set; }
-        public bool? isVisibleDimension2 { get; set; }        
+        public bool? isVisibleDimension2 { get; set; }
+        public bool? isVisibleDimension3 { get; set; }
+        public bool? isVisibleDimension4 { get; set; }
         public bool? isMandatoryProcessLine { get; set; }   
         public string filterProcesses { get; set; }
         public string filterProductTypes { get; set; }

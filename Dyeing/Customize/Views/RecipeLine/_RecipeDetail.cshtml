@@ -54,7 +54,7 @@
 <div class="panel panel-default">
     <div class="panel-heading">
         <h3>
-            <span style="font-family: Calibri,sans-serif,Verdana;font-weight:bold" class="black"><span class="glyphicon glyphicon-list black"></span> Copy Recipe</span>
+            <span style="font-family: Calibri,sans-serif,Verdana;font-weight:bold" class="black"><span class="glyphicon glyphicon-list black"></span> Recipe Detail</span>
             @*@Html.ActionLink(" ", " ", " ", null, new { @class = "glyphicon glyphicon-refresh toolbar right small", @title = "Refresh Page", @data_toggle = "tooltip", @id = "RefreshPage", @style = "padding:10px 5px;" })*@
             <input type="submit" value="Save" class="btn btn-primary right" id="submit" style="width: 90px; background-color: #2980b9" />
         </h3>
@@ -225,7 +225,7 @@
                 url: '/RecipeLine/_ResultsPost',
                 type: "POST",
                 async: false,
-                data: { JobOrderHeaderId: JobOrderHeaderIdIdVal, ProductId: grid.getDataItem(i).ProductId, DyeingRatio: grid.getDataItem(i).DyeingRatio, TestingQty: grid.getDataItem(i).TestingQty, DocQty: grid.getDataItem(i).DocQty, ExcessQty: grid.getDataItem(i).ExcessQty, Qty: grid.getDataItem(i).Qty, Rate: grid.getDataItem(i).Rate, Amount: grid.getDataItem(i).Amount },
+                data: { JobOrderHeaderId: JobOrderHeaderIdIdVal, StockLineId: grid.getDataItem(i).StockLineId, ProductId: grid.getDataItem(i).ProductId, DyeingRatio: grid.getDataItem(i).DyeingRatio, TestingQty: grid.getDataItem(i).TestingQty, DocQty: grid.getDataItem(i).DocQty, ExcessQty: grid.getDataItem(i).ExcessQty, Qty: grid.getDataItem(i).Qty, Rate: grid.getDataItem(i).Rate, Amount: grid.getDataItem(i).Amount },
             });
         }
         editurl = "/RecipeHeader/Modify/"+ JobOrderHeaderIdIdVal + "?IndexType=All";

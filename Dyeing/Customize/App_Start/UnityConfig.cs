@@ -110,6 +110,9 @@ namespace Customize.App_Start
             container.RegisterType<IRepository<Stock>, Repository<Stock>>();
             container.RegisterType<IStockService, StockService>(new PerRequestLifetimeManager());
 
+            container.RegisterType<IRepository<StockAdj>, Repository<StockAdj>>();
+            container.RegisterType<IStockAdjService, StockAdjService>(new PerRequestLifetimeManager());
+
             container.RegisterType<IRepository<StockHeader>, Repository<StockHeader>>();
             container.RegisterType<IStockHeaderService, StockHeaderService>(new PerRequestLifetimeManager());
 

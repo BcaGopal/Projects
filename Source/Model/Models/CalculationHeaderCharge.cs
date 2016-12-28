@@ -19,7 +19,7 @@ namespace Model.Models
         public virtual Charge Charge { get; set; }
 
 
-        public int? AddDeduct { get; set; }
+        public byte? AddDeduct { get; set; }
 
 
         public bool AffectCost { get; set; }
