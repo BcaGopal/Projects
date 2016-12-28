@@ -4,13 +4,9 @@
 
 @{
     decimal? TDealQty;
-    decimal? TLossQty;
-    //string Uunit = "";
-    //string DUunit = "";
+    decimal? TLossQty;  
     TDealQty = Model.Sum(m => m.DealQty);
-    TLossQty = Model.Sum(m => m.LossQty);
-    //Uunit = Model.Max(m => m.UnitName).FirstOrDefault().ToString();
-    //DUunit = Model.Max(m => m.DealUnitName).FirstOrDefault().ToString();
+    TLossQty = Model.Sum(m => m.LossQty);    
     decimal? Uunit;
     Uunit = Model.Sum(m => m.UnitName != m.DealUnitName ? 1 : 0);
 }
