@@ -32,6 +32,8 @@ namespace Model.Models
         public bool? isMandatoryProductUID { get; set; }
         public bool? isVisibleDimension1 { get; set; }
         public bool? isVisibleDimension2 { get; set; }
+        public bool? isVisibleDimension3 { get; set; }
+        public bool? isVisibleDimension4 { get; set; }
 
         public bool? isVisibleMarks { get; set; }
         public bool? isVisibleDealUnit { get; set; }

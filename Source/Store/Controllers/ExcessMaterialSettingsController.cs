@@ -139,6 +139,8 @@ namespace Web
                     temp.filterContraSites = pt.filterContraSites;
                     temp.isVisibleDimension1 = pt.isVisibleDimension1;
                     temp.isVisibleDimension2 = pt.isVisibleDimension2;
+                    temp.isVisibleDimension3 = pt.isVisibleDimension3;
+                    temp.isVisibleDimension4 = pt.isVisibleDimension4;
                     temp.isVisibleLotNo = pt.isVisibleLotNo;
                     temp.isVisibleProductUID = pt.isVisibleProductUID;
                     temp.SqlProcDocumentPrint = pt.SqlProcDocumentPrint;

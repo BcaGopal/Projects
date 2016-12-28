@@ -44,6 +44,9 @@ namespace Web
         private void PrepareViewBag(CarpetSkuSettingsViewModel s)
         {
             int SiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
+            ViewBag.ProductSizeTypeList = (from p in db.ProductSizeType
+                                       select p).ToList();
+
         }
 
 
@@ -153,6 +156,7 @@ namespace Web
                     temp.ProductDesignId = pt.ProductDesignId;
                     temp.OriginCountryId = pt.OriginCountryId;
                     temp.UnitConversions = pt.UnitConversions;
+                    temp.PerimeterSizeTypeId = pt.PerimeterSizeTypeId;
                     temp.isVisibleCBM = pt.isVisibleCBM;
                     temp.isVisibleMapScale = pt.isVisibleMapScale;
                     temp.isVisibleTraceType = pt.isVisibleTraceType;

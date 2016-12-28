@@ -151,6 +151,8 @@ namespace Web
                     temp.isVisibleHeaderCostCenter = pt.isVisibleHeaderCostCenter;
                     temp.isVisibleDimension1 = pt.isVisibleDimension1;
                     temp.isVisibleDimension2 = pt.isVisibleDimension2;
+                    temp.isVisibleDimension3 = pt.isVisibleDimension3;
+                    temp.isVisibleDimension4 = pt.isVisibleDimension4;
                     temp.isVisibleLotNo = pt.isVisibleLotNo;
                     temp.isVisibleMachine = pt.isVisibleMachine;
                     temp.isVisibleProductUID = pt.isVisibleProductUID;
@@ -310,6 +312,8 @@ namespace Web
                     temp.isVisibleHeaderCostCenter = pt.isVisibleHeaderCostCenter;
                     temp.isVisibleDimension1 = pt.isVisibleDimension1;
                     temp.isVisibleDimension2 = pt.isVisibleDimension2;
+                    temp.isVisibleDimension3 = pt.isVisibleDimension3;
+                    temp.isVisibleDimension4 = pt.isVisibleDimension4;
                     temp.isVisibleLotNo = pt.isVisibleLotNo;
                     temp.isVisibleMachine = pt.isVisibleMachine;
                     temp.isVisibleProductUID = pt.isVisibleProductUID;
@@ -467,6 +471,8 @@ namespace Web
                     temp.isVisibleHeaderCostCenter = pt.isVisibleHeaderCostCenter;
                     temp.isVisibleDimension1 = pt.isVisibleDimension1;
                     temp.isVisibleDimension2 = pt.isVisibleDimension2;
+                    temp.isVisibleDimension3 = pt.isVisibleDimension3;
+                    temp.isVisibleDimension4 = pt.isVisibleDimension4;
                     temp.filterContraProductDivisions = pt.filterContraProductDivisions;
                     temp.isVisibleLotNo = pt.isVisibleLotNo;
                     temp.filterContraDivisions = pt.filterContraDivisions;
@@ -627,6 +633,8 @@ namespace Web
                     temp.isVisibleDimension1 = pt.isVisibleDimension1;
                     temp.isVisibleSpecification = pt.isVisibleSpecification;
                     temp.isVisibleDimension2 = pt.isVisibleDimension2;
+                    temp.isVisibleDimension3 = pt.isVisibleDimension3;
+                    temp.isVisibleDimension4 = pt.isVisibleDimension4;
                     temp.isVisibleLotNo = pt.isVisibleLotNo;
                     temp.filterContraDivisions = pt.filterContraDivisions;
                     temp.filterContraSites = pt.filterContraSites;
@@ -785,6 +793,8 @@ namespace Web
                     temp.isVisibleDimension1 = pt.isVisibleDimension1;
                     temp.isVisibleSpecification = pt.isVisibleSpecification;
                     temp.isVisibleDimension2 = pt.isVisibleDimension2;
+                    temp.isVisibleDimension3 = pt.isVisibleDimension3;
+                    temp.isVisibleDimension4 = pt.isVisibleDimension4;
                     temp.isVisibleLotNo = pt.isVisibleLotNo;
                     temp.filterContraDivisions = pt.filterContraDivisions;
                     temp.filterContraSites = pt.filterContraSites;
@@ -946,6 +956,8 @@ namespace Web
                     temp.isVisibleHeaderCostCenter = pt.isVisibleHeaderCostCenter;
                     temp.isVisibleDimension1 = pt.isVisibleDimension1;
                     temp.isVisibleDimension2 = pt.isVisibleDimension2;
+                    temp.isVisibleDimension3 = pt.isVisibleDimension3;
+                    temp.isVisibleDimension4 = pt.isVisibleDimension4;
                     temp.isPostedInStockProcess = pt.isPostedInStockProcess;
                     temp.isVisibleLotNo = pt.isVisibleLotNo;
                     temp.isVisibleMachine = pt.isVisibleMachine;
@@ -1095,6 +1107,8 @@ namespace Web
                     temp.isVisibleSpecification = pt.isVisibleSpecification;
                     temp.isVisibleDimension1 = pt.isVisibleDimension1;
                     temp.isVisibleDimension2 = pt.isVisibleDimension2;
+                    temp.isVisibleDimension3 = pt.isVisibleDimension3;
+                    temp.isVisibleDimension4 = pt.isVisibleDimension4;
                     temp.isVisibleLotNo = pt.isVisibleLotNo;
                     temp.isVisibleMachine = pt.isVisibleMachine;
                     temp.isVisibleProductUID = pt.isVisibleProductUID;
@@ -1255,6 +1269,8 @@ namespace Web
                     temp.isVisibleHeaderCostCenter = pt.isVisibleHeaderCostCenter;
                     temp.isVisibleDimension1 = pt.isVisibleDimension1;
                     temp.isVisibleDimension2 = pt.isVisibleDimension2;
+                    temp.isVisibleDimension3 = pt.isVisibleDimension3;
+                    temp.isVisibleDimension4 = pt.isVisibleDimension4;
                     temp.isVisibleLotNo = pt.isVisibleLotNo;
                     temp.isVisibleMachine = pt.isVisibleMachine;
                     temp.filterContraProductDivisions = pt.filterContraProductDivisions;

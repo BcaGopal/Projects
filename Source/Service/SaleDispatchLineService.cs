@@ -523,7 +523,7 @@ namespace Service
                         text = p.StockInNo,
                         TextProp1 = "Lot No :" + p.LotNo,
                         TextProp2 = "Balance :" + p.BalanceQty,
-                        AProp1 = "Date :" + p.StockInDate.Date.ToString()
+                        AProp1 = "Date :" + p.StockInDate
                     });
         }
 

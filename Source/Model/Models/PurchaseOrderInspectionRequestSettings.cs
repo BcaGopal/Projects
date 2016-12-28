@@ -27,6 +27,8 @@ namespace Model.Models
         public bool? isMandatoryProductUID { get; set; }
         public bool? isVisibleDimension1 { get; set; }
         public bool? isVisibleDimension2 { get; set; }
+        public bool? isVisibleDimension3 { get; set; }
+        public bool? isVisibleDimension4 { get; set; }
         public string filterContraDocTypes { get; set; }
         public string filterContraSites { get; set; }
         public string filterContraDivisions { get; set; }

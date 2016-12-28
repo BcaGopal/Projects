@@ -24,7 +24,7 @@ namespace Model.ViewModel
         public string ChargeCode { get; set; }
 
         public int ? PersonID { get; set; }
-        public int ?AddDeduct { get; set; }
+        public byte? AddDeduct { get; set; }
         public string AddDeductName { get; set; }
 
         public bool AffectCost { get; set; }

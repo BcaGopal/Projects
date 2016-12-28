@@ -219,25 +219,36 @@ namespace Customize.Controllers
 
             #endregion
 
-            if (svm.StartDateTime > svm.CompletedDateTime)
+            if (svm.CompletedDateTime != null)
             {
-                TempData["CSEXC"] += "Start date time can't be greater then completed date time.";
-                PrepareViewBag(svm.DocTypeId);
-                ViewBag.Mode = "Add";
-                return View("Create", svm);
+                if (svm.StartDateTime > svm.CompletedDateTime)
+                {
+                    TempData["CSEXC"] += "Start date time can't be greater then completed date time.";
+                    PrepareViewBag(svm.DocTypeId);
+                    ViewBag.Mode = "Add";
+                    return View("Create", svm);
+                }
+
+                if (svm.StartDateTimeHour > 24 || svm.CompletedDateTimeHour > 24)
+                {
+                    TempData["CSEXC"] += "Hour value can not be greater then 24.";
+                    PrepareViewBag(svm.DocTypeId);
+                    ViewBag.Mode = "Add";
+                    return View("Create", svm);
+                }
+
+                if (svm.StartDateTimeMinute > 59 || svm.CompletedDateTimeMinute > 59)
+                {
+                    TempData["CSEXC"] += "Minute value can not be greater then 59.";
+                    PrepareViewBag(svm.DocTypeId);
+                    ViewBag.Mode = "Add";
+                    return View("Create", svm);
+                }
             }
 
-            if (svm.StartDateTimeHour > 24 || svm.CompletedDateTimeHour > 24)
+            if (svm.MachineId == null)
             {
-                TempData["CSEXC"] += "Hour value can not be greater then 24.";
-                PrepareViewBag(svm.DocTypeId);
-                ViewBag.Mode = "Add";
-                return View("Create", svm);
-            }
-
-            if (svm.StartDateTimeMinute > 59 || svm.CompletedDateTimeMinute > 59)
-            {
-                TempData["CSEXC"] += "Minute value can not be greater then 59.";
+                TempData["CSEXC"] += "Machine is recquired.";
                 PrepareViewBag(svm.DocTypeId);
                 ViewBag.Mode = "Add";
                 return View("Create", svm);
@@ -381,8 +392,11 @@ namespace Customize.Controllers
             s.StartDateTimeHour = s.StartDateTime.Value.Hour;
             s.StartDateTimeMinute = s.StartDateTime.Value.Minute;
 
-            s.CompletedDateTimeHour = s.CompletedDateTime.Value.Hour;
-            s.CompletedDateTimeMinute = s.CompletedDateTime.Value.Minute;
+            if (s.CompletedDateTime != null)
+            {
+                s.CompletedDateTimeHour = s.CompletedDateTime.Value.Hour;
+                s.CompletedDateTimeMinute = s.CompletedDateTime.Value.Minute;
+            }
 
             #region DocTypeTimeLineValidation
             try

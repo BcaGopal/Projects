@@ -44,6 +44,7 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             @Html.LabelFor(model => model.ProductId, (Model.DocumentTypeSettings.ProductCaption ?? "Product"), new { @class = "control-label col-md-4 col-sm-2" })
+                            @Html.HiddenFor(m => m.DocumentTypeSettings.ProductCaption)
                             <div class="col-md-7 col-sm-10">
                                 @Html.TextBoxFor(model => model.ProductId, new { @class = "form-control col-xs-7 required" })
                                 @Html.ValidationMessageFor(model => model.ProductId, "", new { @class = "text-danger" })
@@ -72,6 +73,7 @@
                     </div>
                     <div class="col-md-6" style="display:@(Model.PurchOrderSettings.isVisibleDimension1 ? "" : "none")">
                         @Html.HiddenFor(m => m.PurchOrderSettings.isVisibleDimension1)
+                        @Html.HiddenFor(m => m.DocumentTypeSettings.Dimension1Caption)
                         <div class="form-group">
                             @Html.LabelFor(model => model.Dimension1Id, (Model.DocumentTypeSettings.Dimension1Caption ?? "Dimension1"), new { @class = "control-label col-md-4 col-sm-2" })
                             <div class="col-md-7 col-sm-10">
@@ -83,6 +85,7 @@
 
                     <div class="col-md-6" style="display:@(Model.PurchOrderSettings.isVisibleDimension2 ? "" : "none")">
                         @Html.HiddenFor(m => m.PurchOrderSettings.isVisibleDimension2)
+                        @Html.HiddenFor(m => m.DocumentTypeSettings.Dimension2Caption)
                         <div class="form-group">
                             @Html.LabelFor(model => model.Dimension2Id, (Model.DocumentTypeSettings.Dimension2Caption ?? "Dimension2"), new { @class = "control-label col-md-4 col-sm-2" })
                             <div class="col-md-7 col-sm-10">

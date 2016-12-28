@@ -50,6 +50,10 @@ namespace Model.ViewModel
         public int? OriginCountryId { get; set; }
         public string OriginCountryName { get; set; }
 
+        public int? PerimeterSizeTypeId { get; set; }
+        public string PerimeterSizeTypeName { get; set; }
+
+
 
         public string UnitConversions { get; set; }
 

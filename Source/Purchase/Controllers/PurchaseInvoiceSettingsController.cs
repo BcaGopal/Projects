@@ -145,6 +145,8 @@ namespace Web
                     temp.isVisibleCostCenter = pt.isVisibleCostCenter;
                     temp.isVisibleDimension1 = pt.isVisibleDimension1;
                     temp.isVisibleDimension2 = pt.isVisibleDimension2;
+                    temp.isVisibleDimension3 = pt.isVisibleDimension3;
+                    temp.isVisibleDimension4 = pt.isVisibleDimension4;
                     temp.isVisibleLotNo = pt.isVisibleLotNo;
                     temp.SqlProcDocumentPrint = pt.SqlProcDocumentPrint;
                     temp.SqlProcDocumentPrint_AfterApprove = pt.SqlProcDocumentPrint_AfterApprove;
@@ -300,6 +302,8 @@ namespace Web
                     temp.isVisibleCostCenter = pt.isVisibleCostCenter;
                     temp.isVisibleDimension1 = pt.isVisibleDimension1;
                     temp.isVisibleDimension2 = pt.isVisibleDimension2;
+                    temp.isVisibleDimension3 = pt.isVisibleDimension3;
+                    temp.isVisibleDimension4 = pt.isVisibleDimension4;
                     temp.isVisibleLotNo = pt.isVisibleLotNo;
                     temp.SqlProcDocumentPrint = pt.SqlProcDocumentPrint;
                     temp.SqlProcDocumentPrint_AfterApprove = pt.SqlProcDocumentPrint_AfterApprove;
@@ -460,6 +464,8 @@ namespace Web
                     temp.SqlProcDocumentPrint_AfterSubmit = pt.SqlProcDocumentPrint_AfterSubmit;
                     temp.SqlProcDocumentPrint_AfterApprove = pt.SqlProcDocumentPrint_AfterApprove;
                     temp.isVisibleDimension2 = pt.isVisibleDimension2;
+                    temp.isVisibleDimension3 = pt.isVisibleDimension3;
+                    temp.isVisibleDimension4 = pt.isVisibleDimension4;
                     temp.isVisibleLotNo = pt.isVisibleLotNo;
                     temp.DocTypeGoodsReturnId = pt.DocTypeGoodsReturnId;
                     temp.SqlProcDocumentPrint = pt.SqlProcDocumentPrint;
