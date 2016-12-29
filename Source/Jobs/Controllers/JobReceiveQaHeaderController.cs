@@ -607,6 +607,25 @@ namespace Web
                     ExObj = Mapper.Map<JobReceiveQAHeader>(temp),
                 });
 
+                int? StockHeaderId = 0;
+                StockHeaderId = temp.StockHeaderId;
+                List<int> StockIdList = new List<int>();
+
+                if (StockHeaderId != null)
+                {
+                    var Stocks = new StockService(_unitOfWork).GetStockForStockHeaderId((int)StockHeaderId);
+                    foreach (var item in Stocks)
+                    {
+                        if (item.StockId != null)
+                        {
+                            StockIdList.Add((int)item.StockId);
+                        }
+                        StockAdj StockAdj = (from L in db.StockAdj where L.StockOutId == item.StockId select L).FirstOrDefault();
+                        StockAdj.ObjectState = Model.ObjectState.Deleted;
+                        db.StockAdj.Remove(StockAdj);
+                    }
+                }
+
 
                 //var line = new JobReceiveQALineService(_unitOfWork).GetLineListForIndex(vm.id);
                 var line = (from p in db.JobReceiveQALine
@@ -625,6 +644,9 @@ namespace Web
                     new JobReceiveQALineService(db,_unitOfWork).Delete(item);
                 }
 
+
+
+                new StockService(_unitOfWork).DeleteStockDBMultiple(StockIdList, ref db, true);
 
                 _JobReceiveQAHeaderService.Delete(temp);
 

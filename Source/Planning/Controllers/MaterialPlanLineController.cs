@@ -50,7 +50,7 @@ namespace Presentation
         public ActionResult _ForSaleOrder(int id)
         {
             MaterialPlanForLineFilterViewModel vm = new MaterialPlanForLineFilterViewModel();
-            //vm.DocTypeId = new MaterialPlanHeaderService(_unitOfWork).Find(id).DocTypeId;
+            vm.DocTypeId = new MaterialPlanHeaderService(_unitOfWork).Find(id).DocTypeId;
             MaterialPlanHeader Header = new MaterialPlanHeaderService(_unitOfWork).Find(id);
             MaterialPlanSettings Settings = new MaterialPlanSettingsService(_unitOfWork).GetMaterialPlanSettingsForDocument(Header.DocTypeId, Header.DivisionId, Header.SiteId);
             vm.MaterialPlanSettings = Mapper.Map<MaterialPlanSettings, MaterialPlanSettingsViewModel>(Settings);

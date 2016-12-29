@@ -630,6 +630,7 @@ namespace Services.Customize
             line.Qty = vmRecipeHeader.Qty;
             line.UnitId = vmRecipeHeader.UnitId;
             line.Sr = 1;
+            line.LotNo = vmRecipeHeader.LotNo;
             line.LossQty = 0;
             line.NonCountedQty = 0;
             line.Rate = 0;

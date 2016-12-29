@@ -63,6 +63,10 @@ namespace Presentation
             MaterialPlanCancelFilterViewModel vm = new MaterialPlanCancelFilterViewModel();
             vm.DocTypeId = new MaterialPlanCancelHeaderService(_unitOfWork).Find(id).DocTypeId;
             vm.MaterialPlanCancelHeaderId = id;
+            MaterialPlanCancelHeader Header = new MaterialPlanCancelHeaderService(_unitOfWork).Find(id);
+            MaterialPlanSettings Settings = new MaterialPlanSettingsService(_unitOfWork).GetMaterialPlanSettingsForDocument(Header.DocTypeId, Header.DivisionId, Header.SiteId);
+            vm.MaterialPlanSettings = Mapper.Map<MaterialPlanSettings, MaterialPlanSettingsViewModel>(Settings);
+            vm.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(Header.DocTypeId);
             return PartialView("_Filters", vm);
         }
 
@@ -284,6 +288,11 @@ namespace Presentation
             MaterialPlanCancelFilterViewModel vm = new MaterialPlanCancelFilterViewModel();
             vm.DocTypeId = new MaterialPlanCancelHeaderService(_unitOfWork).Find(id).DocTypeId;
             vm.MaterialPlanCancelHeaderId = id;
+            MaterialPlanCancelHeader Header = new MaterialPlanCancelHeaderService(_unitOfWork).Find(id);
+            MaterialPlanSettings Settings = new MaterialPlanSettingsService(_unitOfWork).GetMaterialPlanSettingsForDocument(Header.DocTypeId, Header.DivisionId, Header.SiteId);
+            vm.MaterialPlanSettings = Mapper.Map<MaterialPlanSettings, MaterialPlanSettingsViewModel>(Settings);
+            vm.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(Header.DocTypeId);
+
             return PartialView("_FiltersProduction", vm);
         }
 

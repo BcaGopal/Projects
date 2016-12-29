@@ -1407,5 +1407,18 @@ namespace Web
             }
         }
 
+        public JsonResult GetStockInBalance(int StockInId)
+        {
+            var temp = (from L in db.ViewStockInBalance where L.StockInId == StockInId select L).FirstOrDefault();
+            if (temp != null)
+            {
+                return Json(temp.BalanceQty, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return Json(0, JsonRequestBehavior.AllowGet);
+            }
+        }
+
     }
 }
