@@ -33,6 +33,12 @@ namespace Model.ViewModels
         public string Dimension2Name { get; set; }
 
 
+        public int? Dimension3Id { get; set; }
+        public string Dimension3Name { get; set; }
+        public int? Dimension4Id { get; set; }
+        public string Dimension4Name { get; set; }
+
+
         public decimal Qty { get; set; }
 
         public string UnitName { get; set; }

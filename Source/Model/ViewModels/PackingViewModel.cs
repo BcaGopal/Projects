@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Model.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -178,6 +179,18 @@ namespace Model.ViewModels
         public int? DeliveryOrderShipMethodId { get; set; }
 
         public int? OtherBuyerDeliveryOrders { get; set; }
+
+        public string BuyerSku { get; set; }
+        public string BuyerSpecification { get; set; }
+        public string BuyerSpecification1 { get; set; }
+        public string BuyerSpecification2 { get; set; }
+        public string BuyerSpecification3 { get; set; }
+        public ProductBuyerSettingsViewModel ProductBuyerSettings { get; set; }
+
+        public Decimal? Length { get; set; }
+        public Decimal? Width { get; set; }
+        public Decimal? Height { get; set; }
+
 
 
 

@@ -49,8 +49,9 @@ namespace Service
         Decimal FGetPendingDeliveryOrderQtyForDispatch(int SaleDeliveryOrderilneId);
 
         bool FSaleOrderProductMatchWithPacking(int SaleOrderLineId, int ProductId);
+        IQueryable<ComboBoxResult> GetCustomProducts(int Id, string term);
 
-
+        IEnumerable<PendingOrderListForPacking> FGetPendingOrderListForPackingForProductUid(int ProductUidId, int BuyerId);
     }
 
     public class PackingLineService : IPackingLineService
@@ -229,6 +230,7 @@ namespace Service
                     from DeliveryUnitTab in DeliveryUnitTable.DefaultIfEmpty()
                     join Pu in db.ProductUid on L.ProductUidId equals Pu.ProductUIDId into ProductUidTable
                     from ProductUidTab in ProductUidTable.DefaultIfEmpty()
+                    join Le in db.PackingLineExtended on L.PackingLineId equals Le.PackingLineId into PackingLineExtendedTable from PackingLineExtendedTab in PackingLineExtendedTable.DefaultIfEmpty()
                     orderby L.PackingLineId
                     where L.PackingLineId == PackingLineId
                     select new PackingLineViewModel
@@ -253,6 +255,9 @@ namespace Service
                         GrossWeight = L.GrossWeight,
                         NetWeight = L.NetWeight,
                         Remark = L.Remark,
+                        Length = PackingLineExtendedTab.Length,
+                        Width = PackingLineExtendedTab.Width,
+                        Height = PackingLineExtendedTab.Height,
                         ImageFolderName = ProductTab.ImageFolderName,
                         ImageFileName = ProductTab.ImageFileName,
                         CreatedBy = L.CreatedBy,
@@ -459,6 +464,16 @@ namespace Service
             return FifoSaleOrderLineList;
         }
 
+        public IEnumerable<PendingOrderListForPacking> FGetPendingOrderListForPackingForProductUid(int ProductUidId, int BuyerId)
+        {
+            SqlParameter SqlParameterProductUidId = new SqlParameter("@ProductUidId", ProductUidId);
+            SqlParameter SqlParameterBuyerId = new SqlParameter("@BuyerId", BuyerId);
+
+            IEnumerable<PendingOrderListForPacking> FifoSaleOrderLineList = db.Database.SqlQuery<PendingOrderListForPacking>("" + ConfigurationManager.AppSettings["DataBaseSchema"] + ".ProcGetPendingOrderListForPackingForProductUid @ProductUidId, @BuyerId", SqlParameterProductUidId, SqlParameterBuyerId).ToList();
+
+            return FifoSaleOrderLineList;
+        }
+
 
         public IEnumerable<PendingDeliveryOrderListForPacking> FGetPendingDeliveryOrderListForPacking(int ProductId, int BuyerId, int PackingLineId)
         {
@@ -606,6 +621,57 @@ namespace Service
             {
                 return 0;
             }
+        }
+
+        public IQueryable<ComboBoxResult> GetCustomProducts(int Id, string term)
+        {
+
+            var PackingHeader = new PackingHeaderService(_unitOfWork).Find(Id);
+
+            //var settings = new PackingSettingsService(_unitOfWork).GetPacking(SaleEnquiry.DocTypeId, SaleEnquiry.DivisionId, SaleEnquiry.SiteId);
+
+            //string[] ProductTypes = null;
+            //if (!string.IsNullOrEmpty(settings.filterProductTypes)) { ProductTypes = settings.filterProductTypes.Split(",".ToCharArray()); }
+            //else { ProductTypes = new string[] { "NA" }; }
+
+            //string[] Products = null;
+            //if (!string.IsNullOrEmpty(settings.filterProducts)) { Products = settings.filterProducts.Split(",".ToCharArray()); }
+            //else { Products = new string[] { "NA" }; }
+
+            //string[] ProductGroups = null;
+            //if (!string.IsNullOrEmpty(settings.filterProductGroups)) { ProductGroups = settings.filterProductGroups.Split(",".ToCharArray()); }
+            //else { ProductGroups = new string[] { "NA" }; }
+
+            //return (from pb in db.ViewProductBuyer
+            //        join Pt in db.Product on pb.ProductId equals Pt.ProductId into ProductTable
+            //        from ProductTab in ProductTable.DefaultIfEmpty()
+            //        where (string.IsNullOrEmpty(settings.filterProductTypes) ? 1 == 1 : ProductTypes.Contains(ProductTab.ProductGroup.ProductTypeId.ToString()))
+            //        && (string.IsNullOrEmpty(settings.filterProducts) ? 1 == 1 : Products.Contains(ProductTab.ProductId.ToString()))
+            //        && (string.IsNullOrEmpty(settings.filterProductGroups) ? 1 == 1 : ProductGroups.Contains(ProductTab.ProductGroupId.ToString()))
+            //        && (string.IsNullOrEmpty(term) ? 1 == 1 : pb.ProductName.ToLower().Contains(term.ToLower()))
+            //        && pb.BuyerId == SaleEnquiry.SaleToBuyerId
+            //        orderby pb.ProductName
+            //        select new ComboBoxResult
+            //        {
+            //            id = pb.ProductId.ToString(),
+            //            text = ProductTab.ProductName,
+            //            AProp1 = pb.ProductName
+            //        });
+
+
+            return (from pb in db.ViewProductBuyer
+                    join Pt in db.Product on pb.ProductId equals Pt.ProductId into ProductTable
+                    from ProductTab in ProductTable.DefaultIfEmpty()
+                    where pb.BuyerId == PackingHeader.BuyerId
+                    && (string.IsNullOrEmpty(term) ? 1 == 1 : pb.ProductName.ToLower().Contains(term.ToLower())
+                    || string.IsNullOrEmpty(term) ? 1 == 1 : ProductTab.ProductName.ToLower().Contains(term.ToLower()))
+                    orderby pb.ProductName
+                    select new ComboBoxResult
+                    {
+                        id = pb.ProductId.ToString(),
+                        text = ProductTab.ProductName,
+                        AProp1 = pb.ProductName
+                    });
         }
 
     }

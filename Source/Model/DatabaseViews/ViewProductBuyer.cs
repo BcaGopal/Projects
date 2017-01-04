@@ -16,6 +16,7 @@ namespace Model.DatabaseViews
         [Key]
         public int? ProductId { get; set; }
         public string ProductName { get; set; }
+        public string BuyerSku { get; set; }
         public string BuyerSpecification { get; set; }
         public string BuyerSpecification1 { get; set; }
         public string BuyerSpecification2 { get; set; }

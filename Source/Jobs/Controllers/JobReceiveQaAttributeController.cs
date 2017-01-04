@@ -154,6 +154,8 @@ namespace Web
                     JobReceiveQALine Line = new JobReceiveQALine();
                     Line = _JobReceiveQAAttributeService.Create(vm, User.Identity.Name);
 
+
+
                     try
                     {
                         db.SaveChanges();
@@ -320,7 +322,7 @@ namespace Web
             ProductViewModel product = new ProductService(_unitOfWork).GetProduct(ProductId);
 
             Decimal UnitConversionMultiplier = 0;
-            UnitConversionMultiplier = _JobReceiveQAAttributeService.GetUnitConversionMultiplier(product.UnitId, Length, Width, Height, ToUnitId);
+            UnitConversionMultiplier = new ProductService(_unitOfWork).GetUnitConversionMultiplier(1, product.UnitId, Length, Width, Height, ToUnitId,db);
 
             return Json(UnitConversionMultiplier);
         }

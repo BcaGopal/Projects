@@ -39,6 +39,7 @@ namespace Service
         SaleEnquiryLineViewModel GetSaleEnquiryDetailForInvoice(int id);
 
         IQueryable<ComboBoxResult> GetCustomProducts(int Id, string term);
+        string GetBuyerSku(int BuyerId);
         string GetBuyerSpecification(int BuyerId);
         string GetBuyerSpecification1(int BuyerId);
         string GetBuyerSpecification2(int BuyerId);
@@ -455,6 +456,20 @@ namespace Service
                 return id;
         }
 
+
+        public string GetBuyerSku(int BuyerId)
+        {
+            var Query = (from Le in db.ProductBuyer
+                         where Le.BuyerId == BuyerId && Le.BuyerSku != null
+                         group new { Le } by new { Le.BuyerSku } into Result
+                         select new
+                         {
+                             BuyerSku = Result.Key.BuyerSku,
+                         }
+                        );
+
+            return string.Join(",", Query.Select(m => m.BuyerSku).ToList());
+        }
         public string GetBuyerSpecification(int BuyerId)
         {
             var Query = (from Le in db.SaleEnquiryLineExtended

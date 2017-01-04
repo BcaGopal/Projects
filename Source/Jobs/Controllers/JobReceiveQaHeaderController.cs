@@ -621,8 +621,11 @@ namespace Web
                             StockIdList.Add((int)item.StockId);
                         }
                         StockAdj StockAdj = (from L in db.StockAdj where L.StockOutId == item.StockId select L).FirstOrDefault();
-                        StockAdj.ObjectState = Model.ObjectState.Deleted;
-                        db.StockAdj.Remove(StockAdj);
+                        if (StockAdj != null)
+                        {
+                            StockAdj.ObjectState = Model.ObjectState.Deleted;
+                            db.StockAdj.Remove(StockAdj);
+                        }
                     }
                 }
 

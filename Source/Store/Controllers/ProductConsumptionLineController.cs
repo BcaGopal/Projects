@@ -74,11 +74,17 @@ namespace Web
 
                     bomdetail.BaseProductId = svm.BaseProductId;
                     bomdetail.BatchQty = 1;
-                    bomdetail.ProcessId = new ProcessService(_unitOfWork).Find(ProcessConstants.Silai).ProcessId;
+                    //bomdetail.ProcessId = new ProcessService(_unitOfWork).Find(ProcessConstants.Silai).ProcessId;
                     bomdetail.ProductId = svm.ProductId;
+                    bomdetail.ProcessId = svm.ProcessId;
                     bomdetail.Dimension1Id = svm.Dimension1Id;
                     bomdetail.Dimension2Id = svm.Dimension2Id;
+                    bomdetail.Dimension3Id = svm.Dimension3Id;
+                    bomdetail.Dimension4Id = svm.Dimension4Id;
                     bomdetail.Qty = svm.Qty;
+                    bomdetail.MBQ = svm.MBQ;
+                    bomdetail.StdCost = svm.StdCost;
+                    bomdetail.StdTime = svm.StdTime;
 
                     bomdetail.CreatedDate = DateTime.Now;
                     bomdetail.ModifiedDate = DateTime.Now;
@@ -109,9 +115,15 @@ namespace Web
                     bomdetail.BaseProductId = svm.BaseProductId;
                     bomdetail.BatchQty = 1;
                     bomdetail.ProductId = svm.ProductId;
+                    bomdetail.ProcessId = svm.ProcessId;
                     bomdetail.Dimension1Id = svm.Dimension1Id;
                     bomdetail.Dimension2Id = svm.Dimension2Id;
+                    bomdetail.Dimension3Id = svm.Dimension3Id;
+                    bomdetail.Dimension4Id = svm.Dimension4Id;
                     bomdetail.Qty = svm.Qty;
+                    bomdetail.MBQ = svm.MBQ;
+                    bomdetail.StdCost = svm.StdCost;
+                    bomdetail.StdTime = svm.StdTime;
 
 
                     bomdetail.ModifiedDate = DateTime.Now;
@@ -232,15 +244,15 @@ namespace Web
         }
 
 
-        public JsonResult CheckForValidationinEdit(int ProductId, int? Dimension1Id, int BaseProductId, int BomDetailId)
+        public JsonResult CheckForValidationinEdit(int ProductId, int? Dimension1Id, int? Dimension2Id, int? Dimension3Id, int? Dimension4Id, int BaseProductId, int BomDetailId)
         {
-            var temp = (_BomDetailService.CheckForProductShadeExists(ProductId, Dimension1Id, BaseProductId, BomDetailId));
+            var temp = (_BomDetailService.CheckForProductDimensionExists(ProductId, Dimension1Id, Dimension2Id, Dimension3Id, Dimension4Id, BaseProductId, BomDetailId));
             return Json(new { returnvalue = temp });
         }
 
-        public JsonResult CheckForValidation(int ProductId, int? Dimension1Id, int BaseProductId)
+        public JsonResult CheckForValidation(int ProductId, int? Dimension1Id, int? Dimension2Id, int? Dimension3Id, int? Dimension4Id, int BaseProductId)
         {
-            var temp = (_BomDetailService.CheckForProductShadeExists(ProductId, Dimension1Id, BaseProductId));
+            var temp = (_BomDetailService.CheckForProductDimensionExists(ProductId, Dimension1Id, Dimension2Id, Dimension3Id, Dimension4Id, BaseProductId));
             return Json(new { returnvalue = temp });
         }
     }

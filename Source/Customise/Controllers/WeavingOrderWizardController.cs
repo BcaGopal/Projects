@@ -520,7 +520,8 @@ namespace Web
 
                             foreach (var SelectedProdOrd in ProdOrdersAndQtys)
                             {
-                                if (SelectedProdOrd.ProdOrderLineId > 0 && !SelectedProdOrd.RefDocLineId.HasValue)
+                                //if (SelectedProdOrd.ProdOrderLineId > 0 && !SelectedProdOrd.RefDocLineId.HasValue)
+                                if (SelectedProdOrd.ProdOrderLineId > 0 && string.IsNullOrEmpty(SelectedProdOrd.SelectedBarCodes))
                                 {
                                     var ProdOrderLine = new ProdOrderLineService(_unitOfWork).Find((SelectedProdOrd.ProdOrderLineId));
                                     var Product = new ProductService(_unitOfWork).Find(ProdOrderLine.ProductId);
@@ -756,7 +757,8 @@ namespace Web
                                     }
 
                                 }
-                                else if (SelectedProdOrd.ProdOrderLineId > 0 && SelectedProdOrd.RefDocLineId.HasValue)
+                                //else if (SelectedProdOrd.ProdOrderLineId > 0 && SelectedProdOrd.RefDocLineId.HasValue)
+                                else if (SelectedProdOrd.ProdOrderLineId > 0 && SelectedProdOrd.SelectedBarCodes.Split(',').Count() > 0)
                                 {
                                     var ProdOrderLine = new ProdOrderLineService(_unitOfWork).Find((SelectedProdOrd.ProdOrderLineId));
                                     var Product = new ProductService(_unitOfWork).Find(ProdOrderLine.ProductId);
