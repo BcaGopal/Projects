@@ -649,9 +649,34 @@ namespace Web
                                     where p.QAGroupId == vm.id
                                     select p).ToList();
 
+                
+
                 var GeLineIds = QAGroupLine.Select(m => m.QAGroupLineId).ToArray();
 
-           
+                string Val= "";
+                int JRQA = (from p in context.JobReceiveQAAttribute
+                          join Ql in context.QAGroupLine on p.QAGroupLineId equals Ql.QAGroupLineId
+                          where Ql.QAGroupId== vm.id
+                            select p.QAGroupLineId
+                          ).ToList().Count();
+               
+
+                int ProductProcess = (from p in context.ProductProcess
+                                      where p.QAGroupId == vm.id
+                                      select p.QAGroupId).ToList().Count();
+
+                if (JRQA > 0)
+                {
+                    Val = "This Already Used in JobReceiveQAAttribute";
+                }
+                else if(ProductProcess>0)
+                {
+                    Val = Val+ "This Already Used in ProductProcess";
+                }
+                else
+                {
+                    Val = "";
+                }
 
                 //Mark ObjectState.Delete to all the Purchase Order Lines. 
                 foreach (var item in QAGroupLine)
@@ -693,22 +718,27 @@ namespace Web
 
 
                 //Commit the DB
-                try
+                if (Val != "" || Val != null)
                 {
-                    if (EventException)
-                        throw new Exception();
-
-                    context.SaveChanges();
+                    TempData["CSEXC"] += Val.ToString();
                 }
-
-                catch (Exception ex)
+                else
                 {
-                    string message = _exception.HandleException(ex);
-                    TempData["CSEXC"] += message;
-                    return PartialView("_Reason", vm);
-                }
+                    try
+                    {
 
-            
+                        if (EventException)
+                            throw new Exception();
+                        context.SaveChanges();
+
+                    }
+                    catch (Exception ex)
+                    {
+                        string message = _exception.HandleException(ex);
+                        TempData["CSEXC"] += message;
+                        return PartialView("_Reason", vm);
+                    }
+                }
 
                 LogActivity.LogActivityDetail(LogVm.Map(new ActiivtyLogViewModel
                 {
@@ -1033,16 +1063,17 @@ namespace Web
             //var nextId = new NextPrevIdService(_unitOfWork).GetNextPrevId(DocId, DocTypeId, User.Identity.Name, "", "Web.QAGroups", "QAGroupId", PrevNextConstants.Next);
            // return Edit(nextId, "");
             var nextId = _QAGroupService.NextId(DocId, DocTypeId);
-            return RedirectToAction("Edit", new { id = nextId });
+            //return RedirectToAction("Edit", new { id = nextId });
+            return Edit(nextId, "");
         }
         [HttpGet]
         public ActionResult PrevPage(int DocId, int DocTypeId)//CurrentHeaderId
         {
 
             var nextId = _QAGroupService.PrevId(DocId, DocTypeId);
-            return RedirectToAction("Edit", new { id = nextId });
-
-           // var PrevId = new NextPrevIdService(_unitOfWork).GetNextPrevId(DocId, DocTypeId, User.Identity.Name, "", "Web.QAGroups", "QAGroupId", PrevNextConstants.Prev);
+           // return RedirectToAction("Edit", new { id = nextId });
+            return Edit(nextId, "");
+            // var PrevId = new NextPrevIdService(_unitOfWork).GetNextPrevId(DocId, DocTypeId, User.Identity.Name, "", "Web.QAGroups", "QAGroupId", PrevNextConstants.Prev);
             //return Edit(PrevId, "");
         }
 

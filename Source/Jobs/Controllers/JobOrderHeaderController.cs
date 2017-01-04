@@ -2317,10 +2317,6 @@ namespace Web
 
         }
 
-
-
-
-
         public ActionResult GeneratePrints(string Ids, int DocTypeId)
         {
 

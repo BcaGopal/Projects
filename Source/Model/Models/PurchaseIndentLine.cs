@@ -45,6 +45,16 @@ namespace Model.Models
         [ForeignKey("Dimension2")]
         public int ? Dimension2Id { get; set; }
         public virtual Dimension2 Dimension2 { get; set; }
+
+        [Display(Name = "Dimension3")]
+        [ForeignKey("Dimension3")]
+        public int? Dimension3Id { get; set; }
+        public virtual Dimension3 Dimension3 { get; set; }
+
+        [Display(Name = "Dimension4")]
+        [ForeignKey("Dimension4")]
+        public int? Dimension4Id { get; set; }
+        public virtual Dimension4 Dimension4 { get; set; }
         
         [Display(Name = "Qty"), Required]
         public decimal Qty { get; set; }

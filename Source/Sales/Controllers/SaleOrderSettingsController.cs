@@ -171,6 +171,8 @@ namespace Web
                     temp.SqlProcDocumentPrint_AfterSubmit = pt.SqlProcDocumentPrint_AfterSubmit;
                     temp.isVisibleDimension1 = pt.isVisibleDimension1;
                     temp.isVisibleDimension2 = pt.isVisibleDimension2;
+                    temp.isVisibleDimension3 = pt.isVisibleDimension3;
+                    temp.isVisibleDimension4 = pt.isVisibleDimension4;
                     temp.SqlProcDocumentPrint = pt.SqlProcDocumentPrint;
                     temp.UnitConversionForId = pt.UnitConversionForId;
                     temp.ImportMenuId = pt.ImportMenuId;
@@ -330,6 +332,8 @@ namespace Web
                     temp.SqlProcDocumentPrint_AfterSubmit = pt.SqlProcDocumentPrint_AfterSubmit;
                     temp.isVisibleDimension1 = pt.isVisibleDimension1;
                     temp.isVisibleDimension2 = pt.isVisibleDimension2;
+                    temp.isVisibleDimension3 = pt.isVisibleDimension3;
+                    temp.isVisibleDimension4 = pt.isVisibleDimension4;
                     temp.SqlProcDocumentPrint = pt.SqlProcDocumentPrint;
                     temp.UnitConversionForId = pt.UnitConversionForId;
                     temp.ImportMenuId = pt.ImportMenuId;

@@ -26,7 +26,8 @@ namespace Data.Models
 
         public string strSchemaName = "Web";
 
-        public ApplicationDbContext() : base((string)System.Web.HttpContext.Current.Session["DefaultConnectionString"] ?? "LoginDB", false)
+        public ApplicationDbContext()
+            : base((string)System.Web.HttpContext.Current.Session["DefaultConnectionString"] ?? "LoginDB", false)
         {
             Configuration.ProxyCreationEnabled = false;
             Database.ExecuteSqlCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
@@ -171,6 +172,10 @@ namespace Data.Models
         public DbSet<Dimension1Types> Dimension1Types { get; set; }
         public DbSet<Dimension2> Dimension2 { get; set; }
         public DbSet<Dimension2Types> Dimension2Types { get; set; }
+        public DbSet<Dimension3> Dimension3 { get; set; }
+        public DbSet<Dimension3Types> Dimension3Types { get; set; }
+        public DbSet<Dimension4> Dimension4 { get; set; }
+        public DbSet<Dimension4Types> Dimension4Types { get; set; }
         public DbSet<Division> Divisions { get; set; }
         public DbSet<Colour> Colour { get; set; }
         public DbSet<DocumentCategory> DocumentCategory { get; set; }

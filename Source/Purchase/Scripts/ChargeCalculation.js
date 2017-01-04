@@ -17,6 +17,12 @@ var RateTypeEnum = {
     NA: 3,
 };
 
+var AddDeductEnum = {
+    Deduct: 0,
+    Add: 1,
+    OverRide:2,
+}
+
 
 function AddCalculationFields(DocHeaderId, DebugMode, CalculationId, HeaderCTable, LineCTable, MaxLinId, DocumentType, SiteId, DivisionId) {
 
@@ -272,13 +278,13 @@ function ChargeCalculation() {
             }
         }
 
-        if (ProductFields[i].AddDeduct == "Add") {
+        if (ProductFields[i].AddDeduct == AddDeductEnum.Add) {
             SubTotalProduct = (SubTotalProduct + parseFloat($(selector).val()));
         }
-        else if (ProductFields[i].AddDeduct == "Deduction") {
+        else if (ProductFields[i].AddDeduct == AddDeductEnum.Deduct) {
             SubTotalProduct = (SubTotalProduct - parseFloat($(selector).val()));
         }
-        else if (ProductFields[i].AddDeduct == "Override") {
+        else if (ProductFields[i].AddDeduct == AddDeductEnum.OverRide) {
             SubTotalProduct = parseFloat($(selector).val());
         }
 
@@ -395,12 +401,12 @@ function ChargeCalculation() {
 
         }
 
-        if (FooterFields[i].AddDeduct == "Add") {
+        if (FooterFields[i].AddDeduct == AddDeductEnum.Add) {
 
             if ($.isNumeric($(selector).val()))
                 SubTotalFooter = (SubTotalFooter + parseFloat($(selector).val()));
         }
-        else if (FooterFields[i].AddDeduct == "Deduction") {
+        else if (FooterFields[i].AddDeduct == AddDeductEnum.Deduct) {
 
 
             if ($.isNumeric($(selector).val()))
@@ -408,7 +414,7 @@ function ChargeCalculation() {
 
 
         }
-        else if (FooterFields[i].AddDeduct == "Override") {
+        else if (FooterFields[i].AddDeduct == AddDeductEnum.OverRide) {
             if ($.isNumeric($(selector).val()))
                 SubTotalFooter = parseFloat($(selector).val());
 

@@ -39,6 +39,7 @@ namespace Model.ViewModel
         public string Specification { get; set; }
         public MaterialPlanSettingsViewModel MaterialPlanSettings { get; set; }
         public string LockReason { get; set; }
+        public DocumentTypeSettingsViewModel DocumentTypeSettings { get; set; }
     }
 
 

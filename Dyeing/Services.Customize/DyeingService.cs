@@ -415,7 +415,10 @@ namespace Services.Customize
             JobReceiveHeaderExtended HeaderExtended = new JobReceiveHeaderExtended();
             HeaderExtended.JobReceiveHeaderId = s.JobReceiveHeaderId;
             HeaderExtended.StartDateTime = vmDyeing.StartDateTime.Value.AddHours(vmDyeing.StartDateTimeHour).AddMinutes(vmDyeing.StartDateTimeMinute);
-            HeaderExtended.CompletedDateTime = vmDyeing.CompletedDateTime.Value.AddHours(vmDyeing.CompletedDateTimeHour).AddMinutes(vmDyeing.CompletedDateTimeMinute);
+            if (vmDyeing.CompletedDateTime != null)
+            {
+                HeaderExtended.CompletedDateTime = vmDyeing.CompletedDateTime.Value.AddHours(vmDyeing.CompletedDateTimeHour).AddMinutes(vmDyeing.CompletedDateTimeMinute);
+            }
             HeaderExtended.LoadingTime = vmDyeing.LoadingTime;
             HeaderExtended.IsQCRequired = vmDyeing.IsQCRequired;
             HeaderExtended.DyeingType = vmDyeing.DyeingType;
@@ -554,7 +557,10 @@ namespace Services.Customize
             JobReceiveHeaderExtended HeaderExtended = _JobReceiveHeaderExtendedService.Find(temp.JobReceiveHeaderId);
             HeaderExtended.JobReceiveHeaderId = temp.JobReceiveHeaderId;
             HeaderExtended.StartDateTime = vmDyeing.StartDateTime.Value.AddHours(vmDyeing.StartDateTimeHour).AddMinutes(vmDyeing.StartDateTimeMinute);
-            HeaderExtended.CompletedDateTime = vmDyeing.CompletedDateTime.Value.AddHours(vmDyeing.StartDateTimeHour).AddMinutes(vmDyeing.StartDateTimeMinute);
+            if (vmDyeing.CompletedDateTime != null)
+            {
+                HeaderExtended.CompletedDateTime = vmDyeing.CompletedDateTime.Value.AddHours(vmDyeing.CompletedDateTimeHour).AddMinutes(vmDyeing.CompletedDateTimeMinute);
+            }
             HeaderExtended.LoadingTime = vmDyeing.LoadingTime;
             HeaderExtended.IsQCRequired = vmDyeing.IsQCRequired;
             HeaderExtended.DyeingType = vmDyeing.DyeingType;

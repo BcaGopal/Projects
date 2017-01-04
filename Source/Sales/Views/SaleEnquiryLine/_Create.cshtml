@@ -39,6 +39,7 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             @Html.LabelFor(model => model.BuyerSpecification, (Model.ProductBuyerSettings.BuyerSpecificationDisplayName != "" ? Model.ProductBuyerSettings.BuyerSpecificationDisplayName : "Specification"), new { @class = "control-label col-xs-4 " })
+                            @Html.HiddenFor(m => m.ProductBuyerSettings.BuyerSpecificationDisplayName)
                             <div class="col-xs-7">
                                 @Html.TextBoxFor(model => model.BuyerSpecification, new { @class = "form-control col-xs-7 required" })
                                 @Html.ValidationMessageFor(model => model.BuyerSpecification, "", new { @class = "text-danger" })
@@ -49,6 +50,7 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             @Html.LabelFor(model => model.BuyerSpecification1, (Model.ProductBuyerSettings.BuyerSpecification1DisplayName != "" ? Model.ProductBuyerSettings.BuyerSpecification1DisplayName : "Specification-1"), new { @class = "control-label col-xs-4 " })
+                            @Html.HiddenFor(m => m.ProductBuyerSettings.BuyerSpecification1DisplayName)
                             <div class="col-xs-7">
                                 @Html.TextBoxFor(model => model.BuyerSpecification1, new { @class = "form-control col-xs-7 required" })
                                 @Html.ValidationMessageFor(model => model.BuyerSpecification1, "", new { @class = "text-danger" })
@@ -61,6 +63,7 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             @Html.LabelFor(model => model.BuyerSpecification2, (Model.ProductBuyerSettings.BuyerSpecification2DisplayName != "" ? Model.ProductBuyerSettings.BuyerSpecification2DisplayName : "Specification-2"), new { @class = "control-label col-xs-4 " })
+                            @Html.HiddenFor(m => m.ProductBuyerSettings.BuyerSpecification2DisplayName)
                             <div class="col-xs-7">
                                 @Html.TextBoxFor(model => model.BuyerSpecification2, new { @class = "form-control col-xs-7 required" })
                                 @Html.ValidationMessageFor(model => model.BuyerSpecification2, "", new { @class = "text-danger" })
@@ -71,6 +74,7 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             @Html.LabelFor(model => model.BuyerSpecification3, (Model.ProductBuyerSettings.BuyerSpecification3DisplayName != "" ? Model.ProductBuyerSettings.BuyerSpecification3DisplayName : "Specification-3"), new { @class = "control-label col-xs-4 " })
+                            @Html.HiddenFor(m => m.ProductBuyerSettings.BuyerSpecification3DisplayName)
                             <div class="col-xs-7">
                                 @Html.TextBoxFor(model => model.BuyerSpecification3, new { @class = "form-control col-xs-7 required" })
                                 @Html.ValidationMessageFor(model => model.BuyerSpecification3, "", new { @class = "text-danger" })
@@ -242,6 +246,8 @@
     });
 </script>
 
+
+
 <script type="text/javascript">
 
     $(document).ready(function () {
@@ -251,7 +257,7 @@
         CustomSelectFunction($("#Dimension2Id"), '/ComboHelpList/GetDimension2', '/ComboHelpList/SetSingleDimension2', 'Enter Dimension2', false, 1);
 
         var BuyerSpecification = "@ViewBag.BuyerSpecificationList";
-        $("#BuyerSpecification").select2({ tags: BuyerSpecification.split(',') });
+        $("#BuyerSpecification").select2({ multiple: "single", tags: BuyerSpecification.split(',') });
 
         var BuyerSpecification1 = "@ViewBag.BuyerSpecification1List";
         $("#BuyerSpecification1").select2({ tags: BuyerSpecification1.split(',') });
@@ -261,6 +267,7 @@
 
         var BuyerSpecification3 = "@ViewBag.BuyerSpecification3List";
         $("#BuyerSpecification3").select2({ tags: BuyerSpecification3.split(',') });
+
 
 
         $("#ProductId").select2("focus");
@@ -398,10 +405,26 @@
                     success: function (data) {
                         if (data.length > 0)
                         {
-                            $("#BuyerSpecification").val(data[0].BuyerSpecification);
-                            $("#BuyerSpecification1").val(data[0].BuyerSpecification1);
-                            $("#BuyerSpecification2").val(data[0].BuyerSpecification2);
-                            $("#BuyerSpecification3").val(data[0].BuyerSpecification3);
+                        //    $("#BuyerSpecification").val(data[0].BuyerSpecification);
+                        //    $("#BuyerSpecification1").val(data[0].BuyerSpecification1);
+                        //    $("#BuyerSpecification2").val(data[0].BuyerSpecification2);
+                        //    $("#BuyerSpecification3").val(data[0].BuyerSpecification3);
+                            if (data[0].BuyerSpecification != null)
+                            {
+                                $("#BuyerSpecification").select2("data", { id: data[0].BuyerSpecification, text: data[0].BuyerSpecification });
+                            }
+                            if (data[0].BuyerSpecification1 != null)
+                            {
+                                $("#BuyerSpecification1").select2("data", { id: data[0].BuyerSpecification1, text: data[0].BuyerSpecification1 });
+                            }
+                            if (data[0].BuyerSpecification2 != null)
+                            {
+                                $("#BuyerSpecification2").select2("data", { id: data[0].BuyerSpecification2, text: data[0].BuyerSpecification2 });
+                            }
+                            if (data[0].BuyerSpecification3 != null)
+                            {
+                                $("#BuyerSpecification3").select2("data", { id: data[0].BuyerSpecification3, text: data[0].BuyerSpecification3 });
+                            }
                         }
                         else{
                             $("#BuyerSpecification").val("");

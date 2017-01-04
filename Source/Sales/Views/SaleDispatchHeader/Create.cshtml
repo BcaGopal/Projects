@@ -30,34 +30,6 @@
         <div class="panel-heading">
 
             @CustomHelpers.RenderHeaderInfo(ViewBag.transactionType, (int?)ViewBag.PendingToSubmit, (int?)ViewBag.PendingToReview, ViewBag.Name)
-
-            @*@if (ViewBag.transactionType == "submit" || ViewBag.transactionType == "submitContinue")
-            {<h3 style="border-bottom:1px solid #e1dada;padding-bottom:10px">
-                <span style="font-family: Calibri,sans-serif,Verdana;font-weight:bold" class="black"> <span class="glyphicon glyphicon-file black"></span>Submit @ViewBag.Name</span>
-                <input type="submit" value="Submit" name="Command:Submit" class="btn btn-primary right" style="width: 90px; background-color: #2980b9" />
-            </h3>}
-            else if (ViewBag.transactionType == "review" || ViewBag.transactionType == "ReviewContinue")
-            {<h3 style="border-bottom:0px solid #e1dada;padding-bottom:0px;">
-                <span style="font-family: Calibri,sans-serif,Verdana;font-weight:bold" class="black"> <span class="glyphicon glyphicon-file black"></span> Review @ViewBag.Name</span>
-                <button type="submit" name="Command:Review" class="btn btn-primary right" style="margin-left:5px" id="ReviewContinue">Review & Next<span class='badge'>@(ViewBag.PendingToReview != 0 ? ViewBag.PendingToReview : "")</span></button>
-                <button type="submit" class="btn btn-primary right" name="Command:Review">Review</button>
-                <input type="hidden" id="IsContinue" name="IsContinue" value="" />
-            </h3>
-            }
-            else if (ViewBag.transactionType == "detail")
-            {
-                <h3>
-                    <span style="font-family: Calibri,sans-serif,Verdana;font-weight:bold" class="black"> <span class="glyphicon glyphicon-file black"></span>@ViewBag.Name</span>
-                </h3>
-            }
-            else
-            {
-                <h3>
-                    <span style="font-family: Calibri,sans-serif,Verdana;font-weight:bold" class="black"> <span class="glyphicon glyphicon-file black"></span>@ViewBag.Name</span>
-                    <input type="submit" value="Save" class="btn btn-primary right" id="submit" style="width: 90px; background-color: #2980b9" />
-                </h3>
-            }*@
-
             @{
                 string EditAction = "";
                 if (Model.Status == (int)StatusConstants.Drafted || Model.Status == (int)StatusConstants.Import)

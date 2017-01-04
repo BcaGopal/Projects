@@ -198,6 +198,8 @@ namespace Web
                     temp1.Specification = svm.Specification;
                     temp1.Dimension1Id = svm.Dimension1Id;
                     temp1.Dimension2Id = svm.Dimension2Id;
+                    temp1.Dimension3Id = svm.Dimension3Id;
+                    temp1.Dimension4Id = svm.Dimension4Id;
                     temp1.Qty = svm.Qty ?? 0;
                     temp1.DealQty = svm.DealQty ?? 0;
                     temp1.DealUnitId = svm.DealUnitId;

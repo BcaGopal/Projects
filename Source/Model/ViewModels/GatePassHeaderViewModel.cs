@@ -40,11 +40,23 @@ namespace Model.ViewModel
         public int? DecimalPlaces { get; set; }
     }
 
+    public class GatePassHeaderViewModel1
+    {
+        public int GatePassHeaderId { get; set; }
+        public string Name { get; set; }
+        public string DocNo { get; set; }
+        public string Remark { get; set; }
+        public DateTime DocDate { get; set; }
+        public int Status { get; set; }
+        public string Product { get; set; }
+        public decimal Qty { get; set; }
+        public string UnitId { get; set; }
+
+    }
     public class GatePassLineViewModel
     {
 
-        public int GatePassLineId { get; set; }
-         
+        public int GatePassLineId { get; set; }         
 	   public int GatePassHeaderId { get; set; }
        public string Product { get; set; }
 	   public string Specification { get; set; }

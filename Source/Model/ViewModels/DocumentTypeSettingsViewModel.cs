@@ -8,6 +8,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Model.ViewModel
 {
+    [Serializable]
     public class DocumentTypeSettingsViewModel
     {
         [Key]

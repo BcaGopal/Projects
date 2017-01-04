@@ -178,7 +178,7 @@ namespace Web
 
             var Query3 = (from a in Query2.ToList()
                           group a by a.GatePassHeaderId into g
-                          select new GatePassHeaderViewModel
+                          select new GatePassHeaderViewModel1
                           {
                               GatePassHeaderId = g.Key,
                               DocNo = g.Max(x => x.DocNo),
@@ -203,7 +203,7 @@ namespace Web
                        join L in db.GatePassLine on G.GatePassHeaderId equals L.GatePassHeaderId
                        join P in db.Persons on G.PersonId equals P.PersonID
                        where G.GatePassHeaderId == Ids
-                       select new GatePassHeaderViewModel
+                       select new GatePassHeaderViewModel1
                        {
                            GatePassHeaderId = G.GatePassHeaderId,
                            DocNo = G.DocNo,

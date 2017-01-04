@@ -212,6 +212,14 @@ namespace Customize.Controllers
 
             #endregion
 
+            if (svm.MachineId == null)
+            {
+                TempData["CSEXC"] += "Machine is recquired.";
+                PrepareViewBag(svm.DocTypeId);
+                ViewBag.Mode = "Add";
+                return View("Create", svm);
+            }
+
             if (ModelState.IsValid && BeforeSave && (TimePlanValidation || Continue))
             {
                 //CreateLogic
