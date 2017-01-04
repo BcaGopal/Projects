@@ -1,5 +1,89 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Report xmlns="http://schemas.microsoft.com/sqlserver/reporting/2008/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
+<Report xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner" xmlns="http://schemas.microsoft.com/sqlserver/reporting/2008/01/reportdefinition">
+  <DataSources>
+    <DataSource Name="Purchase">
+      <ConnectionProperties>
+        <DataProvider>SQL</DataProvider>
+        <ConnectString>=Parameters!DatabaseConnectionString.Value</ConnectString>
+      </ConnectionProperties>
+      <rd:DataSourceID>727bb65e-cc51-4d28-a097-a8ea7d087931</rd:DataSourceID>
+    </DataSource>
+  </DataSources>
+  <DataSets>
+    <DataSet Name="DsMain">
+      <Fields>
+        <Field Name="SiteName">
+          <DataField>SiteName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="DivisionName">
+          <DataField>DivisionName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CompanyName">
+          <DataField>CompanyName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CompanyAddress">
+          <DataField>CompanyAddress</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CompanyCity">
+          <DataField>CompanyCity</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CompanyPhoneNo">
+          <DataField>CompanyPhoneNo</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CompanyPinNo">
+          <DataField>CompanyPinNo</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CompanyTinNo">
+          <DataField>CompanyTinNo</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CompanyCSTNo">
+          <DataField>CompanyCSTNo</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CompanyFaxNo">
+          <DataField>CompanyFaxNo</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CompanyCountry">
+          <DataField>CompanyCountry</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CompanyLogoPath">
+          <DataField>CompanyLogoPath</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+      </Fields>
+      <Query>
+        <DataSourceName>Purchase</DataSourceName>
+        <CommandType>StoredProcedure</CommandType>
+        <CommandText>Web.ProcCompanyDetail</CommandText>
+        <QueryParameters>
+          <QueryParameter Name="@SiteId">
+            <Value>=Parameters!SiteId.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@DivisionId">
+            <Value>=Parameters!DivisionId.Value</Value>
+          </QueryParameter>
+        </QueryParameters>
+      </Query>
+      <rd:DataSetInfo>
+        <rd:DataSetName>Purchase</rd:DataSetName>
+        <rd:SchemaPath>E:\Satyam\SuryaIndia\SuryaIndia\SuppliorModule_V1\Source\Surya.Planning.Reports\Reports\Purchase.xsd</rd:SchemaPath>
+        <rd:TableName>ProcCompanyDetail</rd:TableName>
+        <rd:TableAdapterFillMethod>Fill</rd:TableAdapterFillMethod>
+        <rd:TableAdapterGetDataMethod>GetData</rd:TableAdapterGetDataMethod>
+        <rd:TableAdapterName>ProcCompanyDetailTableAdapter</rd:TableAdapterName>
+      </rd:DataSetInfo>
+    </DataSet>
+  </DataSets>
   <Body>
     <ReportItems>
       <Textbox Name="CompanyName">
@@ -40,8 +124,8 @@
             <TextRuns>
               <TextRun>
                 <Value>=First(Fields!CompanyAddress.Value, "DsMain") + System.Environment.NewLine
-+First(Fields!CompanyCity.Value, "DsMain")  + System.Environment.NewLine
-+First(Fields!CompanyPhoneNo.Value, "DsMain")</Value>
+                  +First(Fields!CompanyCity.Value, "DsMain")  +"-"+ First(Fields!CompanyPinNo.Value, "DsMain") + System.Environment.NewLine
+                  +First(Fields!CompanyPhoneNo.Value, "DsMain")</Value>
                 <Style>
                   <FontFamily>Tahoma</FontFamily>
                 </Style>
@@ -70,8 +154,8 @@
         </Style>
       </Textbox>
       <Image Name="SuryaLogo">
-        <Source>Embedded</Source>
-        <Value>SuryaLogo</Value>
+        <Source>External</Source>
+        <Value>="file:"+ Fields!CompanyLogoPath.Value + ".jpg"</Value>
         <Sizing>FitProportional</Sizing>
         <Top>0.0625in</Top>
         <Height>0.8in</Height>
@@ -90,9 +174,9 @@
             <TextRuns>
               <TextRun>
                 <Value>="TIN No.     : " + First(Fields!CompanyTinNo.Value, "DsMain") + System.Environment.NewLine
-+"CST No.     : " + First(Fields!CompanyCSTNo.Value, "DsMain") + System.Environment.NewLine
-+"DIVISION : " + First(Fields!DivisionName.Value, "DsMain") + System.Environment.NewLine
-+"SITE          : " + First(Fields!SiteName.Value, "DsMain")</Value>
+                  +"CST No.     : " + First(Fields!CompanyCSTNo.Value, "DsMain") + System.Environment.NewLine
+                  +"DIVISION  : " + First(Fields!DivisionName.Value, "DsMain") + System.Environment.NewLine
+                  +"SITE          : " + First(Fields!SiteName.Value, "DsMain")</Value>
                 <Style>
                   <FontFamily>Tahoma</FontFamily>
                   <FontWeight>Bold</FontWeight>
@@ -118,86 +202,9 @@
         </Style>
       </Textbox>
     </ReportItems>
-    <Height>0.88542in</Height>
+    <Height>0.96542in</Height>
     <Style />
   </Body>
-  <Width>7.41542in</Width>
-  <Page>
-    <PageHeight>11.69in</PageHeight>
-    <PageWidth>8.27in</PageWidth>
-    <Style />
-  </Page>
-  <AutoRefresh>0</AutoRefresh>
-  <DataSources>
-    <DataSource Name="dsReport">
-      <ConnectionProperties>
-        <DataProvider>System.Data.DataSet</DataProvider>
-        <ConnectString>/* Local Connection */</ConnectString>
-      </ConnectionProperties>
-      <rd:DataSourceID>7ff49b37-46cf-4f5a-ab89-5a4b7093584f</rd:DataSourceID>
-    </DataSource>
-    <DataSource Name="Purchase">
-      <ConnectionProperties>
-        <DataProvider>System.Data.DataSet</DataProvider>
-        <ConnectString>/* Local Connection */</ConnectString>
-      </ConnectionProperties>
-      <rd:DataSourceID>727bb65e-cc51-4d28-a097-a8ea7d087931</rd:DataSourceID>
-    </DataSource>
-  </DataSources>
-  <DataSets>
-    <DataSet Name="DsMain">
-      <Query>
-        <DataSourceName>Purchase</DataSourceName>
-        <CommandText>/* Local Query */</CommandText>
-      </Query>
-      <Fields>
-        <Field Name="SiteName">
-          <DataField>SiteName</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="DivisionName">
-          <DataField>DivisionName</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="CompanyName">
-          <DataField>CompanyName</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="CompanyAddress">
-          <DataField>CompanyAddress</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="CompanyCity">
-          <DataField>CompanyCity</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="CompanyPhoneNo">
-          <DataField>CompanyPhoneNo</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="CompanyTinNo">
-          <DataField>CompanyTinNo</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="CompanyCSTNo">
-          <DataField>CompanyCSTNo</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="CompanyFaxNo">
-          <DataField>CompanyFaxNo</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-      </Fields>
-      <rd:DataSetInfo>
-        <rd:DataSetName>Purchase</rd:DataSetName>
-        <rd:SchemaPath>E:\Satyam\SuryaIndia\SuryaIndia\SuppliorModule_V1\Source\Surya.Planning.Reports\Reports\Purchase.xsd</rd:SchemaPath>
-        <rd:TableName>ProcCompanyDetail</rd:TableName>
-        <rd:TableAdapterFillMethod>Fill</rd:TableAdapterFillMethod>
-        <rd:TableAdapterGetDataMethod>GetData</rd:TableAdapterGetDataMethod>
-        <rd:TableAdapterName>ProcCompanyDetailTableAdapter</rd:TableAdapterName>
-      </rd:DataSetInfo>
-    </DataSet>
-  </DataSets>
   <ReportParameters>
     <ReportParameter Name="ReportTitle">
       <DataType>String</DataType>
@@ -217,7 +224,37 @@
       <AllowBlank>true</AllowBlank>
       <Prompt>ReportParameter1</Prompt>
     </ReportParameter>
+    <ReportParameter Name="SiteId">
+      <DataType>Integer</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Site Id</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="DivisionId">
+      <DataType>Integer</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Division Id</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="DatabaseConnectionString">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>DatabaseConnectionString</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="PrintedBy">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>PrintedBy</Prompt>
+    </ReportParameter>
   </ReportParameters>
+  <Width>7.41542in</Width>
+  <Page>
+    <PageHeight>11.69in</PageHeight>
+    <PageWidth>8.27in</PageWidth>
+    <Style />
+  </Page>
   <EmbeddedImages>
     <EmbeddedImage Name="SuryaLogo">
       <MIMEType>image/jpeg</MIMEType>
@@ -228,6 +265,6 @@ LbCmyUOMiWE6UFOSkkc6hfclBAb2cTTx0a9cqPWZpNR2WQoNNIQFnUrSkDJ6mmVVXwMThJPmcNvRW3vC
 PtQeVUENmewh02zjEWZuZuLElNvBS6gDSXQMHP8A5UE5f6lWFPkR2q6ZG8HZI8xgvruK93SMJUsHJ61zg03qGN3uFzocawHaqxS70mIIc9UTuHNSgM/Nw32PEcvWvTrcL5EwcilrcatjE0Y1yYdnu25KlmQwkFeU7Hhz9xWZb0aw1jyJtNLrWHPgx+rSclEINTLSnEuKbQVo/CojcehrhUE5InQSBgQcyWxCZL0p1LTYIGpVLZYta7McCdRGc4UZmL2f7PG2XOdcPHLkIlnUEkcATnJOd+lWNgdRiZKuOanYk+ZL5erazdolnmxnHVyCkpUBsgqOBzzx6VJ+Kt6fIZAjtyhVYE9mP3NiA1a1JllLEVoaioHGjzqL8Wu2vpY7TR1jWeoTKs7Nudtg8EtMiM7klZ31ct/pRXxEpQ14nOv1fmDELRercb7JskOK404zkqXj5VEYz58+dXTjLSmUGAZAcsW2ms+RO+0fZtN6lwpK5jjHhFasJGc7g5HQ7caotmgMW7j9Vgc4xNaBNjT2S7EdDiAopJHWoV2paNkOZretqzhhGA2gKKwkBR4nG5p8DOYk6rsJKISUQgZcViY0WpLSXWyQSlQyKR0VxhhkRlZlOVhEpCEBKQAAMADlTDsIvmZjKzKu7yJFtCRGA7mSsA5zx0nG3tUq7XNjIRgD3HepNVfOTD3lmG/bJDdyTmLoy5x4DflVTYKxufUmaur8D7g7AxBYtMdFrSRFwSjVnPHfOeea4louUWDwYCjof4/pOZi3ItxjmLbg6ZB0vPpABQBwyf1wqdtrqyqBkH+pSupCGYnB/wDZpAZG9ViQcaMxFR3cZlDSMk6UJwMmuKiqMKMRmZmOWMNTRZKISUQkohJRCSiE4HEV2cgbl/kZH9M/lUb/ANtvtKV/7iCsv+lxv6YpeL+yv2jX/uNG1cavIGdDhROiXROyUQkohP/Z</ImageData>
     </EmbeddedImage>
   </EmbeddedImages>
-  <rd:ReportUnitType>Inch</rd:ReportUnitType>
   <rd:ReportID>f1b70379-da78-4ea9-bab5-cbb93d10df58</rd:ReportID>
+  <rd:ReportUnitType>Inch</rd:ReportUnitType>
 </Report>
