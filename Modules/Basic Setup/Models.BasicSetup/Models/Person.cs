@@ -2,6 +2,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Models.Company.Models;
 
 namespace Models.BasicSetup.Models
 {
@@ -10,10 +11,15 @@ namespace Models.BasicSetup.Models
         [Key]
         public int PersonID { get; set; }
 
-        [MaxLength(100,ErrorMessage ="{0} can not exceed {1} characters"), Required]
+        [Display(Name = "Doc Type"), Required]
+        [ForeignKey("DocType")]       
+        public int DocTypeId { get; set; }
+        public virtual DocumentType DocType { get; set; }
+
+        [MaxLength(100,ErrorMessage ="{0} can not exceed {1} characters"), Required]        
         public string Name { get; set; }
 
-        [MaxLength(20, ErrorMessage = "{0} can not exceed {1} characters"), Required]
+        [MaxLength(20, ErrorMessage = "{0} can not exceed {1} characters"), Required]        
         public string Suffix { get; set; }
 
         [Index("IX_Person_Code", IsUnique = true)]
@@ -27,9 +33,11 @@ namespace Models.BasicSetup.Models
         public string Phone { get; set; }
 
         [MaxLength(10, ErrorMessage = "{0} can not exceed {1} characters")]
+        [Index("IX_Person_Mobile", IsUnique = true)]
         public string Mobile { get; set; }
 
         [MaxLength(100, ErrorMessage = "{0} can not exceed {1} characters")]
+        [Index("IX_Person_Email", IsUnique = true)]
         public string Email { get; set; }
 
         [Display(Name = "Is Active ?")]
@@ -57,6 +65,6 @@ namespace Models.BasicSetup.Models
 
         [MaxLength(20)]
         public string Nature { get; set; }
-        
+
     }
 }
