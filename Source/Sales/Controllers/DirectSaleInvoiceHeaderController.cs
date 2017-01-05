@@ -863,7 +863,6 @@ namespace Web
                                     Gline.Qty = item.Qty;
                                     Gline.Specification = item.Specification;
                                     Gline.UnitId = item.UnitId;
-
                                     // new GatePassLineService(_unitOfWork).Create(Gline);
                                     Gline.ObjectState = Model.ObjectState.Added;
                                     //db.GatePassLine.Add(Gline);
@@ -1099,7 +1098,7 @@ namespace Web
                                             Dh.GatePassHeaderId = GPHeader.GatePassHeaderId;
                                             Dh.ObjectState = Model.ObjectState.Modified;
                                             db.SaleDispatchHeader.Add(Dh);
-                                            SaleinvoiceIds += pd.LedgerHeaderId + ", ";
+                                            SaleinvoiceIds += pd.SaleInvoiceHeaderId + ", ";
                                         }
 
                                         db.SaveChanges();

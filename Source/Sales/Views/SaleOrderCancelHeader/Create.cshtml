@@ -361,21 +361,25 @@
             LineDeleteUrl="/SaleOrderCancelLine/_Detail/";
         }   
         var link="/SaleOrderCancelLine/Index/"+groupId;
+      
         $.ajax({
             url: link,
             type: "GET",
             success: function (data) {
                 var row = ""
+                var QtyCount=0;
                 var srno=1;
                 var head="<tr style='background-color:#428bca'>  <th style='width:10px'><input type='hidden'  /></th> <th style='width:10px'>Sr</th><th class='center' style='width:50px'>Product</th> <th class='center' style='width:50px'>Order.No</th> <th class='text-right' style='width:50px'> Qty</th> <th style='width:50px'>Remark</th> <th style='width:10px'></th>       <th style='width:10px'></th>  </tr>"
                 if(data.length!=0)
                 {
                     $.each(data, function (index, item) {
                         row += "<tr><td><input type='hidden' class='id' value='" + item.SaleOrderCancelLineId + "'/></td> <td>"+srno+"</td> <td>" + ((item.ProductName==null)?" ":item.ProductName ) + " <div>"+(item.Dimension1Name==null?" ":item.Dimension1Name+",")+(item.Dimension2Name==null?" ":item.Dimension2Name)+"</div>  </td> <td>" + item.DocNo + "</td><td class='text-right'>" + ((item.Qty==null)?" ":item.Qty ) + "</td><td> "+((item.LineRemark==null)?" ":item.LineRemark )+"</td> <td><a  edit='' href='"+LineEditUrl+item.SaleOrderCancelLineId+"'></a></td>       <td  style='padding-top:0px;padding-bottom:0px'><a class='glyphicon glyphicon-trash icon-Cus-Size' data-modal='' delete='' href='"+LineDeleteUrl+item.SaleOrderCancelLineId+"' ></a></td>  </tr>";
+                        QtyCount+=item.Qty;
                         srno++;
                     });
+
+                    row += "<tr><td colspan='2' class='text-center'><strong>Total</strong></td> <td colspan='2'></td><td class='text-right'><strong>" +QtyCount + "</strong></td><td> </td> <td></td>       <td></a></td>  </tr>";
                     $("#BuyerId").attr({'readonly':'true'});
-                    
                 }
                 else
                 {
