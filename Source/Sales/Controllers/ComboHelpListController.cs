@@ -3815,6 +3815,141 @@ namespace Web
               return Json(ProductJson);
           }
 
+          public JsonResult SetSingleDimension2(int Ids)
+          {
+              ComboBoxResult ProductJson = new ComboBoxResult();
+
+              IEnumerable<Dimension2> prod = from p in db.Dimension2
+                                             where p.Dimension2Id == Ids
+                                             select p;
+
+              ProductJson.id = prod.FirstOrDefault().Dimension2Id.ToString();
+              ProductJson.text = prod.FirstOrDefault().Dimension2Name;
+
+              return Json(ProductJson);
+          }
+
+          public ActionResult GetDimension3(string searchTerm, int pageSize, int pageNum)
+          {
+              //Get the paged results and the total count of the results for this query. ProductCacheKeyHint
+              var productCacheKeyHint = "Dimension3CacheKeyHint";
+
+              //THis statement has been changed because GetProductHelpList was calling again and again. 
+
+              AutoCompleteComboBoxRepositoryAndHelper ar = new AutoCompleteComboBoxRepositoryAndHelper(cbl.GetDimension3HelpList(), productCacheKeyHint, RefreshData.RefreshProductData);
+              //AutoCompleteComboBoxRepositoryAndHelper ar = new AutoCompleteComboBoxRepositoryAndHelper(null, productCacheKeyHint);
+
+              if (RefreshData.RefreshProductData == true) { RefreshData.RefreshProductData = false; }
+
+
+              List<ComboBoxList> prodLst = ar.GetListForComboBox(searchTerm, pageSize, pageNum);
+              int prodCount = ar.GetCountForComboBox(searchTerm, pageSize, pageNum);
+
+              //Translate the attendees into a format the select2 dropdown expects
+              ComboBoxPagedResult pagedAttendees = ar.TranslateToComboBoxFormat(prodLst, prodCount);
+
+              //Return the data as a jsonp result
+              return new JsonpResult
+              {
+                  Data = pagedAttendees,
+                  JsonRequestBehavior = JsonRequestBehavior.AllowGet
+              };
+          }
+          public JsonResult SetDimension3(string Ids)
+          {
+              string[] subStr = Ids.Split(',');
+              List<ComboBoxResult> ProductJson = new List<ComboBoxResult>();
+              for (int i = 0; i < subStr.Length; i++)
+              {
+                  int temp = Convert.ToInt32(subStr[i]);
+                  //IEnumerable<Product> products = db.Products.Take(3);
+                  IEnumerable<Dimension3> prod = from p in db.Dimension3
+                                                 where p.Dimension3Id == temp
+                                                 select p;
+                  ProductJson.Add(new ComboBoxResult()
+                  {
+                      id = prod.FirstOrDefault().Dimension3Id.ToString(),
+                      text = prod.FirstOrDefault().Dimension3Name
+                  });
+              }
+              return Json(ProductJson);
+          }
+          public JsonResult SetSingleDimension3(int Ids)
+          {
+              ComboBoxResult ProductJson = new ComboBoxResult();
+
+              IEnumerable<Dimension3> prod = from p in db.Dimension3
+                                             where p.Dimension3Id == Ids
+                                             select p;
+
+              ProductJson.id = prod.FirstOrDefault().Dimension3Id.ToString();
+              ProductJson.text = prod.FirstOrDefault().Dimension3Name;
+
+              return Json(ProductJson);
+          }
+
+
+
+
+          public ActionResult GetDimension4(string searchTerm, int pageSize, int pageNum)
+          {
+              //Get the paged results and the total count of the results for this query. ProductCacheKeyHint
+              var productCacheKeyHint = "Dimension4CacheKeyHint";
+
+              //THis statement has been changed because GetProductHelpList was calling again and again. 
+
+              AutoCompleteComboBoxRepositoryAndHelper ar = new AutoCompleteComboBoxRepositoryAndHelper(cbl.GetDimension4HelpList(), productCacheKeyHint, RefreshData.RefreshProductData);
+              //AutoCompleteComboBoxRepositoryAndHelper ar = new AutoCompleteComboBoxRepositoryAndHelper(null, productCacheKeyHint);
+
+              if (RefreshData.RefreshProductData == true) { RefreshData.RefreshProductData = false; }
+
+
+              List<ComboBoxList> prodLst = ar.GetListForComboBox(searchTerm, pageSize, pageNum);
+              int prodCount = ar.GetCountForComboBox(searchTerm, pageSize, pageNum);
+
+              //Translate the attendees into a format the select2 dropdown expects
+              ComboBoxPagedResult pagedAttendees = ar.TranslateToComboBoxFormat(prodLst, prodCount);
+
+              //Return the data as a jsonp result
+              return new JsonpResult
+              {
+                  Data = pagedAttendees,
+                  JsonRequestBehavior = JsonRequestBehavior.AllowGet
+              };
+          }
+          public JsonResult SetDimension4(string Ids)
+          {
+              string[] subStr = Ids.Split(',');
+              List<ComboBoxResult> ProductJson = new List<ComboBoxResult>();
+              for (int i = 0; i < subStr.Length; i++)
+              {
+                  int temp = Convert.ToInt32(subStr[i]);
+                  //IEnumerable<Product> products = db.Products.Take(3);
+                  IEnumerable<Dimension4> prod = from p in db.Dimension4
+                                                 where p.Dimension4Id == temp
+                                                 select p;
+                  ProductJson.Add(new ComboBoxResult()
+                  {
+                      id = prod.FirstOrDefault().Dimension4Id.ToString(),
+                      text = prod.FirstOrDefault().Dimension4Name
+                  });
+              }
+              return Json(ProductJson);
+          }
+          public JsonResult SetSingleDimension4(int Ids)
+          {
+              ComboBoxResult ProductJson = new ComboBoxResult();
+
+              IEnumerable<Dimension4> prod = from p in db.Dimension4
+                                             where p.Dimension4Id == Ids
+                                             select p;
+
+              ProductJson.id = prod.FirstOrDefault().Dimension4Id.ToString();
+              ProductJson.text = prod.FirstOrDefault().Dimension4Name;
+
+              return Json(ProductJson);
+          }
+
           public ActionResult GetFinishedMaterial(string searchTerm, int pageSize, int pageNum)
           {
               //Get the paged results and the total count of the results for this query. ProductCacheKeyHint
@@ -3867,19 +4002,7 @@ namespace Web
               };
           }
 
-          public JsonResult SetSingleDimension2(int Ids)
-          {
-              ComboBoxResult ProductJson = new ComboBoxResult();
-
-              IEnumerable<Dimension2> prod = from p in db.Dimension2
-                                             where p.Dimension2Id == Ids
-                                             select p;
-
-              ProductJson.id = prod.FirstOrDefault().Dimension2Id.ToString();
-              ProductJson.text = prod.FirstOrDefault().Dimension2Name;
-
-              return Json(ProductJson);
-          }
+          
 
 
           // Sale Help 

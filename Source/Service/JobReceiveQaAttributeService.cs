@@ -31,7 +31,7 @@ namespace Service
         JobReceiveQAAttributeViewModel GetJobReceiveQAAttributeDetailForEdit(int JobReceiveQALineid);//JobReceiveQALineId
 
         LastValues GetLastValues(int DocTypeId);
-        Decimal GetUnitConversionMultiplier(string FromUnitId, Decimal Length, Decimal Width, Decimal? Height, string ToUnitId);
+        
     }
 
     public class JobReceiveQAAttributeService : IJobReceiveQAAttributeService
@@ -351,26 +351,7 @@ namespace Service
             return temp;
         }
 
-        public Decimal GetUnitConversionMultiplier(string FromUnitId, Decimal Length, Decimal Width, Decimal? Height, string ToUnitId)
-        {
-            SqlParameter SQLFromQty = new SqlParameter("@FromQty", 1);
-            SqlParameter SQLFromUnitId = new SqlParameter("@FromUnitId", FromUnitId);
-            SqlParameter SQLLength = new SqlParameter("@Length", Length);
-            SqlParameter SQLWidth = new SqlParameter("@Width", Width);
-            SqlParameter SQLHeight = new SqlParameter("@Height", Height ?? 0);
-            SqlParameter SQLToUnitId = new SqlParameter("@ToUnitId", ToUnitId);
-
-            UnitConversionMultiplier Temp = db.Database.SqlQuery<UnitConversionMultiplier>("Web.sp_GetUnitConversion @FromQty, @FromUnitId, @Length,@Width, @Height, @ToUnitId ", SQLFromQty, SQLFromUnitId, SQLLength, SQLWidth, SQLHeight, SQLToUnitId).FirstOrDefault();
-
-            if (Temp != null)
-            {
-                return Temp.ConvertedValue;
-            }
-            else
-            {
-                return 0;
-            }
-        }
+        
 
         public void Dispose()
         {
@@ -393,8 +374,5 @@ namespace Service
         public int? QAById { get; set; }
     }
 
-    public class UnitConversionMultiplier
-    {
-        public Decimal ConvertedValue { get; set; }
-    }
+
 }

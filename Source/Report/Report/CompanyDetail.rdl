@@ -39,11 +39,9 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>
-                  =First(Fields!CompanyAddress.Value, "DsMain") + System.Environment.NewLine
-                  +First(Fields!CompanyCity.Value, "DsMain")  + System.Environment.NewLine
-                  +First(Fields!CompanyPhoneNo.Value, "DsMain")
-                </Value>
+                <Value>=First(Fields!CompanyAddress.Value, "DsMain") + System.Environment.NewLine
+                  +First(Fields!CompanyCity.Value, "DsMain")  +"-"+ First(Fields!CompanyPinNo.Value, "DsMain") + System.Environment.NewLine
+                  +First(Fields!CompanyPhoneNo.Value, "DsMain")</Value>
                 <Style>
                   <FontFamily>Tahoma</FontFamily>
                 </Style>
@@ -73,7 +71,7 @@
       </Textbox>
       <Image Name="SuryaLogo">
         <Source>External</Source>
-        <Value>="file:"+ Fields!CompanyLogoPath.Value</Value>
+        <Value>="file:"+ Fields!CompanyLogoPath.Value + ".jpg"</Value>
         <Sizing>FitProportional</Sizing>
         <Top>0.0625in</Top>
         <Height>0.8in</Height>
@@ -91,12 +89,10 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>
-                  ="TIN No.     : " + First(Fields!CompanyTinNo.Value, "DsMain") + System.Environment.NewLine
+                <Value>="TIN No.     : " + First(Fields!CompanyTinNo.Value, "DsMain") + System.Environment.NewLine
                   +"CST No.     : " + First(Fields!CompanyCSTNo.Value, "DsMain") + System.Environment.NewLine
-                  +"DIVISION : " + First(Fields!DivisionName.Value, "DsMain") + System.Environment.NewLine
-                  +"SITE          : " + First(Fields!SiteName.Value, "DsMain")
-                </Value>
+                  +"DIVISION  : " + First(Fields!DivisionName.Value, "DsMain") + System.Environment.NewLine
+                  +"SITE          : " + First(Fields!SiteName.Value, "DsMain")</Value>
                 <Style>
                   <FontFamily>Tahoma</FontFamily>
                   <FontWeight>Bold</FontWeight>
@@ -122,7 +118,7 @@
         </Style>
       </Textbox>
     </ReportItems>
-    <Height>0.96875in</Height>
+    <Height>0.88542in</Height>
     <Style />
   </Body>
   <Width>7.41542in</Width>
@@ -134,7 +130,10 @@
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
     <DataSource Name="Purchase">
-      <DataSourceReference>DataSourceMain</DataSourceReference>
+      <ConnectionProperties>
+        <DataProvider>SQL</DataProvider>
+        <ConnectString>=Parameters!DatabaseConnectionString.Value</ConnectString>
+      </ConnectionProperties>
       <rd:SecurityType>None</rd:SecurityType>
       <rd:DataSourceID>727bb65e-cc51-4d28-a097-a8ea7d087931</rd:DataSourceID>
     </DataSource>
@@ -177,6 +176,10 @@
         </Field>
         <Field Name="CompanyPhoneNo">
           <DataField>CompanyPhoneNo</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CompanyPinNo">
+          <DataField>CompanyPinNo</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="CompanyTinNo">
@@ -240,6 +243,18 @@
       <Nullable>true</Nullable>
       <AllowBlank>true</AllowBlank>
       <Prompt>Division Id</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="DatabaseConnectionString">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>DatabaseConnectionString</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="PrintedBy">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>PrintedBy</Prompt>
     </ReportParameter>
   </ReportParameters>
   <EmbeddedImages>

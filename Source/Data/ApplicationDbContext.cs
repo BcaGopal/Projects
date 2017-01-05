@@ -481,6 +481,7 @@ namespace Data.Models
         public DbSet<PackingSetting> PackingSettings { get; set; }
         public DbSet<PackingHeader> PackingHeader { get; set; }
         public DbSet<PackingLine> PackingLine { get; set; }
+        public DbSet<PackingLineExtended> PackingLineExtended { get; set; }
 
         //Stock Models
         public DbSet<StockHeader> StockHeader { get; set; }

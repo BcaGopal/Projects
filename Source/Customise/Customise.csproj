@@ -253,6 +253,9 @@
     <Compile Include="Controllers\AdminSetupController.cs" />
     <Compile Include="Controllers\CarpetMasterController.cs" />
     <Compile Include="Controllers\FeetConversionToCmsController .cs" />
+    <Compile Include="Controllers\PackingHeaderWithBuyerDetailController.cs" />
+    <Compile Include="Controllers\PackingLineWithBuyerDetailController.cs" />
+    <Compile Include="Controllers\WeavingReceiveImportFromBranchToMain.cs" />
     <Compile Include="Controllers\ProductBuyerSettingsController.cs" />
     <Compile Include="Controllers\DesignColourConsumptionHeaderController.cs" />
     <Compile Include="Controllers\ProductCategoryProcessSettingsController.cs" />
@@ -1151,6 +1154,13 @@
     <Content Include="Views\ProductCategoryProcessSettings\Index.cshtml" />
     <Content Include="Views\ProductCategoryProcessSettings\_Reason.cshtml" />
     <Content Include="Views\Shared\UnderImplementation.cshtml" />
+    <Content Include="Views\WeavingReceiveImportFromBranchToMain\Error.cshtml" />
+    <Content Include="Views\WeavingReceiveImportFromBranchToMain\Index.cshtml" />
+    <Content Include="Views\WeavingReceiveImportFromBranchToMain\Sucess.cshtml" />
+    <Content Include="Views\PackingHeaderWithBuyerDetail\_Reason.cshtml" />
+    <Content Include="Views\PackingHeaderWithBuyerDetail\Create.cshtml" />
+    <Content Include="Views\PackingHeaderWithBuyerDetail\Index.cshtml" />
+    <Content Include="Views\PackingLineWithBuyerDetail\_Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

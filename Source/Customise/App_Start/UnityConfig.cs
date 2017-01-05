@@ -537,6 +537,7 @@ namespace Customise.App_Start
             Mapper.CreateMap<SaleInvoiceReturnLineCharge, SaleInvoiceReturnLineCharge>();
             Mapper.CreateMap<SaleInvoiceReturnHeaderCharge, SaleInvoiceReturnHeaderCharge>();
             Mapper.CreateMap<PackingLine, PackingLine>();
+            Mapper.CreateMap<ProductBuyer, ProductBuyer>();
             Mapper.CreateMap<SaleDispatchLine, SaleDispatchLine>();
             Mapper.CreateMap<SaleInvoiceLine, SaleInvoiceLine>();
             Mapper.CreateMap<SaleInvoiceLineCharge, SaleInvoiceLineCharge>();

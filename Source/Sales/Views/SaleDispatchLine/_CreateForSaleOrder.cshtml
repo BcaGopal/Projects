@@ -71,6 +71,7 @@
                             <div class="col-xs-7">
                                 @Html.TextBoxFor(m => m.StockInId, new { @class = "form-control required" })
                                 @Html.ValidationMessageFor(model => model.StockInId, "", new { @class = "text-danger" })
+                                <span id="ExcessStockQty"></span>
                             </div>
                         </div>
                     </div>
@@ -408,7 +409,6 @@
 
 
 
-
         $("#ProductId").select2("focus");
 
         var id=@Model.SaleDispatchLineId;
@@ -514,6 +514,8 @@
                             Calculation();
                             CustomSelectFunctionForStockIn($("#StockInId"), '/SaleDispatchLine/GetStockInForProduct', '/SaleDispatchLine/SetSingleStockIn', ' ', false, 0,$("#SaleDispatchHeaderId").val(),$("#ProductId").val(),$("#Dimension1Id").val(),$("#Dimension2Id").val());
                             GetFirstStockIn();
+
+
                         }
                         else{
                             $("#SaleOrderHeaderDocNo").val("");
@@ -563,6 +565,10 @@
 
                             $("#LotNo").val(data.LotNo);
                             Calculation();
+
+                            $.get('/SaleDispatchLine/GetStockInBalance', {StockInId:$('#StockInId').val()}).done(function(data){
+                                $('#ExcessStockQty').text("Stock:"+data);
+                            });
                         }
                         else{
                             //$("#Qty").val(0);

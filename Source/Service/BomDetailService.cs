@@ -43,6 +43,7 @@ namespace Service
         IQueryable<DesignConsumptionHeaderViewModel> GetDesignConsumptionHeaderViewModelForIndex();
         IQueryable<DesignColourConsumptionHeaderViewModel> GetDesignColourConsumptionHeaderViewModelForIndex();
         IQueryable<ProductConsumptionHeaderViewModel> GetDesignConsumptionHeaderViewModelForIndexForProduct();
+
         bool CheckForProductShadeExists(int ProductId, int? Dimension1Id, int BaseProductId, int BomDetailId);
         bool CheckForProductShadeExists(int ProductId, int? Dimension1Id, int BaseProductId);
 
@@ -64,6 +65,10 @@ namespace Service
         IQueryable<ComboBoxResult> GetFaceContentProductList(int ProductGroupId, string term);
 
         IQueryable<ComboBoxResult> GetOtherContentProductList(int ProductGroupId, string term);
+
+        bool CheckForProductDimensionExists(int ProductId, int? Dimension1Id, int? Dimension2Id, int? Dimension3Id, int? Dimension4Id, int BaseProductId, int BomDetailId);
+        bool CheckForProductDimensionExists(int ProductId, int? Dimension1Id, int? Dimension2Id, int? Dimension3Id, int? Dimension4Id, int BaseProductId);
+
 
     }
 
@@ -508,6 +513,10 @@ namespace Service
                                                                             Dimension1Name = b.Dimension1.Dimension1Name,
                                                                             Dimension2Id = b.Dimension2Id,
                                                                             Dimension2Name = b.Dimension2.Dimension2Name,
+                                                                            Dimension3Id = b.Dimension3Id,
+                                                                            Dimension3Name = b.Dimension3.Dimension3Name,
+                                                                            Dimension4Id = b.Dimension4Id,
+                                                                            Dimension4Name = b.Dimension4.Dimension4Name,
                                                                             Qty = b.Qty,
                                                                             UnitName = UnitTab.UnitName
                                                                         }).ToList();
@@ -620,7 +629,8 @@ namespace Service
                                                                ProductId = b.ProductId,
                                                                ProductGroupName = ProductGroupTab.ProductGroupName,
                                                                Qty = b.Qty,
-                                                               UnitName = UnitTab.UnitName
+                                                               UnitName = UnitTab.UnitName,
+
                                                            }).FirstOrDefault();
             return svm;
         }
@@ -642,9 +652,16 @@ namespace Service
                                                                ProductId = b.ProductId,
                                                                Dimension1Id = b.Dimension1Id,
                                                                Dimension2Id = b.Dimension2Id,
+                                                               Dimension3Id = b.Dimension3Id,
+                                                               Dimension4Id = b.Dimension4Id,
                                                                ProductGroupName = ProductGroupTab.ProductGroupName,
+                                                               ProcessId = b.ProcessId,
+                                                               ProcessName = b.Process.ProcessName,
                                                                Qty = b.Qty,
-                                                               UnitName = UnitTab.UnitName
+                                                               UnitName = UnitTab.UnitName,
+                                                               MBQ = b.MBQ,
+                                                               StdCost = b.StdCost,
+                                                               StdTime = b.StdTime
                                                            }).FirstOrDefault();
             return svm;
         }
@@ -846,7 +863,27 @@ namespace Service
 
 
 
+        public bool CheckForProductDimensionExists(int ProductId, int? Dimension1Id, int? Dimension2Id, int? Dimension3Id, int? Dimension4Id, int BaseProductId, int BomDetailId)
+        {
 
+            BomDetail temp = (from p in db.BomDetail
+                              where p.ProductId == ProductId && p.Dimension1Id == Dimension1Id && p.Dimension2Id == Dimension2Id && p.Dimension3Id == Dimension3Id && p.Dimension4Id == Dimension4Id && p.BaseProductId == BaseProductId && p.BomDetailId != BomDetailId
+                              select p).FirstOrDefault();
+            if (temp != null)
+                return true;
+            else return false;
+        }
+
+        public bool CheckForProductDimensionExists(int ProductId, int? Dimension1Id, int? Dimension2Id, int? Dimension3Id, int? Dimension4Id, int BaseProductId)
+        {
+
+            BomDetail temp = (from p in db.BomDetail
+                              where p.ProductId == ProductId && p.Dimension1Id == Dimension1Id && p.Dimension2Id == Dimension2Id && p.Dimension3Id == Dimension3Id && p.Dimension4Id == Dimension4Id && p.BaseProductId == BaseProductId
+                              select p).FirstOrDefault();
+            if (temp != null)
+                return true;
+            else return false;
+        }
 
 
 

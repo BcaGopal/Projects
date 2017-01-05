@@ -66,11 +66,6 @@ namespace Web
             ViewBag.BuyerSpecification1List = _SaleEnquiryLineService.GetBuyerSpecification1(H.SaleToBuyerId);
             ViewBag.BuyerSpecification2List = _SaleEnquiryLineService.GetBuyerSpecification2(H.SaleToBuyerId);
             ViewBag.BuyerSpecification3List = _SaleEnquiryLineService.GetBuyerSpecification3(H.SaleToBuyerId);
-
-
-
-
-            
         }
 
         [HttpGet]
@@ -702,12 +697,5 @@ namespace Web
 
 
     }
-    public class ProductCustomDetailViewModel
-    {
-        public int ProductId { get; set; }
-        public string BuyerSpecification { get; set; }
-        public string BuyerSpecification1 { get; set; }
-        public string BuyerSpecification2 { get; set; }
-        public string BuyerSpecification3 { get; set; }
-    }
+
 }

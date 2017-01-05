@@ -513,6 +513,9 @@ namespace Service
 
 
             return (from p in db.ViewStockInBalance
+                    join pt in db.Product on p.ProductId equals pt.ProductId into ProductTable from ProductTab in ProductTable.DefaultIfEmpty()
+                    join D1 in db.Dimension1 on p.Dimension1Id equals D1.Dimension1Id into Dimension1Table from Dimension1Tab in Dimension1Table.DefaultIfEmpty()
+                    join D2 in db.Dimension2 on p.Dimension2Id equals D2.Dimension2Id into Dimension2Table from Dimension2Tab in Dimension2Table.DefaultIfEmpty()
                     where p.BalanceQty > 0
                     && p.PersonId == SaleDispatchHeader.SaleToBuyerId
                     && p.Dimension1Id == Dimension1Id
@@ -525,7 +528,8 @@ namespace Service
                         text = p.StockInNo,
                         TextProp1 = "Lot No :" + p.LotNo,
                         TextProp2 = "Balance :" + p.BalanceQty,
-                        AProp1 = "Date :" + p.StockInDate
+                        AProp1 = ProductTab.ProductName + ", " + Dimension1Tab.Dimension1Name + ", " + Dimension2Tab.Dimension2Name, 
+                        AProp2 = "Date :" + p.StockInDate
                     });
         }
 

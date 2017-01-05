@@ -616,7 +616,6 @@ namespace Web
             }
             #endregion
             return RedirectToAction("Detail", new { id = id, IndexType = IndexType, transactionType = string.IsNullOrEmpty(TransactionType) ? "submit" : TransactionType });
-
         }
 
         [HttpPost, ActionName("Detail")]
