@@ -41,7 +41,8 @@
                 </div>
 
                 <div class="row">
-                    <div class="col-md-6" style="display:@(Model.MaterialPlanSettings.isVisibleDimension1 ? "" : "none")">
+                <div class="col-md-6" style="display:@(Model.MaterialPlanSettings.isVisibleDimension1 ? "" : "none")">
+                    <div class="form-group">
                         @Html.HiddenFor(m => m.MaterialPlanSettings.isVisibleDimension1)
                             @Html.LabelFor(model => model.Dimension1Id, (Model.DocumentTypeSettings.Dimension1Caption ?? "Dimension1"), new { @class = "control-label col-md-4 col-sm-2 " })
                             <div class="col-md-7 col-sm-10">
@@ -49,10 +50,12 @@
                                 @Html.ValidationMessageFor(model => model.Dimension1Id, "", new { @class = "text-danger" })
                                 <span id="status" class="text-danger"></span>
                             </div>
-                        </div>
-                    </div>
+                          </div>
+
+                        </div>                    
 
                 <div class="col-md-6" style="display:@(Model.MaterialPlanSettings.isVisibleDimension2 ? "" : "none")">
+                    <div class="form-group">
                     @Html.HiddenFor(m => m.MaterialPlanSettings.isVisibleDimension2)
                         @Html.LabelFor(model => model.Dimension2Id, (Model.DocumentTypeSettings.Dimension2Caption ?? "Dimension2"), new { @class = "control-label col-md-4 col-sm-2" })
                         <div class="col-md-7 col-sm-10">
@@ -60,9 +63,9 @@
                             @Html.ValidationMessageFor(model => model.Dimension2Id, "", new { @class = "text-danger" })
                         </div>
                     </div>
+                    </div>
                 </div>
-                </div>
-
+            
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">

@@ -72,8 +72,8 @@
         </Style>
       </Textbox>
       <Image Name="SuryaLogo">
-        <Source>Embedded</Source>
-        <Value>SuryaLogo</Value>
+        <Source>External</Source>
+        <Value>="file:"+ Fields!CompanyLogoPath.Value</Value>
         <Sizing>FitProportional</Sizing>
         <Top>0.0625in</Top>
         <Height>0.8in</Height>
@@ -122,7 +122,7 @@
         </Style>
       </Textbox>
     </ReportItems>
-    <Height>0.88542in</Height>
+    <Height>0.96875in</Height>
     <Style />
   </Body>
   <Width>7.41542in</Width>
@@ -189,6 +189,14 @@
         </Field>
         <Field Name="CompanyFaxNo">
           <DataField>CompanyFaxNo</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CompanyCountry">
+          <DataField>CompanyCountry</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CompanyLogoPath">
+          <DataField>CompanyLogoPath</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
       </Fields>

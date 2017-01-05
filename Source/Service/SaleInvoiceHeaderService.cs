@@ -182,6 +182,7 @@ namespace Service
 
             var temp = from p in db.SaleInvoiceHeader
                        join t in db.Persons on p.BillToBuyerId equals t.PersonID
+                      
                        orderby p.DocDate descending, p.DocNo descending
                        where p.DivisionId == DivisionId && p.SiteId == SiteId && p.DocTypeId == id
                        select new SaleInvoiceHeaderIndexViewModel
@@ -194,8 +195,12 @@ namespace Service
                            Status = p.Status,
                            ModifiedBy = p.ModifiedBy,
                            ReviewCount = p.ReviewCount,
-                           ReviewBy = p.ReviewBy,
+                           ReviewBy = p.ReviewBy,                                              
                            Reviewed = (SqlFunctions.CharIndex(Uname, p.ReviewBy) > 0),
+                           GatePassDocNo = p.SaleDispatchHeader.GatePassHeader.DocNo,
+                           GatePassHeaderId = p.SaleDispatchHeader.GatePassHeader.GatePassHeaderId,
+                           GatePassDocDate = p.SaleDispatchHeader.GatePassHeader.DocDate,
+                           GatePassStatus = (p.SaleDispatchHeader.GatePassHeader.Status != null ? p.SaleDispatchHeader.GatePassHeader.Status : 0),
                        };
             return temp;
         }

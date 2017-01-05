@@ -1733,6 +1733,7 @@
     <Content Include="Views\SaleEnquirySettings\Create.cshtml" />
     <Content Include="Views\SaleEnquiryProductMapping\Create.cshtml" />
     <Content Include="Views\SaleEnquiryProductMapping\Index.cshtml" />
+    <Content Include="Views\SaleDispatchLine\_Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -61,6 +61,13 @@ namespace Web
 
         }
 
+        public ActionResult _Index(int id, int Status)
+        {
+            ViewBag.Status = Status;
+            ViewBag.SaleDispatchHeaderId = id;
+            var p = _SaleDispatchLineService.GetSaleDispatchLineListForIndex(id).ToList();
+            return PartialView(p);
+        }
         public ActionResult _ForOrder(int id)
         {
             SaleDispatchFilterViewModel vm = new SaleDispatchFilterViewModel();
