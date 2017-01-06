@@ -44,7 +44,7 @@
        columns.Add(foo => foo.Description).Sortable(true).Titled("Description").Filterable(true);
        columns.Add(m => m.IsActive).Sortable(true).Titled("Is Active").Filterable(true);
        columns.Add(true).RenderValueAs(m => "<a href='/Dimension2/Edit/" + m.Dimension2Id + "' hidden class='RecEditurl'></a><a href='/Dimension2/Delete/" + m.Dimension2Id + "' hidden class='RecDelurl'></a>");
-   }).WithPaging(25).EmptyText("No records found.")
+       }).WithPaging(25).EmptyText("No records found.")
     </div>
 </div>
 

@@ -44,7 +44,6 @@ namespace Presentation.Controllers
         public ActionResult SubModule(int id, bool? RolePerm)//ModuleId
         {
             var SubModulelist = _SubModuleService.GetSubModule(id, RolePerm, User.Identity.Name);
-
             var tem = _ModuleService.Find(id);
             ViewBag.MName = tem.ModuleName;
             ViewBag.IconName = tem.IconName;
