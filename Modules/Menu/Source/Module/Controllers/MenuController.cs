@@ -49,14 +49,12 @@ namespace Presentation.Controllers
             ViewBag.MName = tem.ModuleName;
             ViewBag.IconName = tem.IconName;
             ViewBag.RolePermissions = RolePerm ?? false;
-
             return View("SubModule", SubModulelist);
         }
 
         [Authorize]
         public ActionResult MenuSelection(int id)//Controller ActionId
         {
-
             var menuviewmodel = _menuService.GetMenu(id);
 
             var ma = (List<MenuModouleViewModel>)System.Web.HttpContext.Current.Session["UserModuleList"];
