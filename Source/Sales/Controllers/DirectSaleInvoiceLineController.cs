@@ -63,6 +63,15 @@ namespace Web
 
         }
 
+
+        public ActionResult _Index(int id, int Status)
+        {
+            ViewBag.Status = Status;
+            ViewBag.SaleInvoiceHeaderId = id;
+            var p = _SaleInvoiceLineService.GetDirectSaleInvoiceLineListForIndex(id).ToList();
+            return PartialView(p);
+        }
+
         public ActionResult _ForOrder(int id)
         {
             SaleInvoiceFilterViewModel vm = new SaleInvoiceFilterViewModel();

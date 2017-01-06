@@ -2375,7 +2375,13 @@
               </Group>
               <SortExpressions>
                 <SortExpression>
+                  <Value>=Fields!SaleOrderDate.Value</Value>
+                </SortExpression>
+                <SortExpression>
                   <Value>=Fields!SaleOrderNo.Value</Value>
+                </SortExpression>
+                <SortExpression>
+                  <Value>=Fields!ProductName.Value</Value>
                 </SortExpression>
               </SortExpressions>
               <TablixMembers>
@@ -2536,6 +2542,12 @@
                                 <TablixMember>
                                   <Group Name="Details" />
                                   <SortExpressions>
+                                    <SortExpression>
+                                      <Value>=Fields!SaleOrderDate.Value</Value>
+                                    </SortExpression>
+                                    <SortExpression>
+                                      <Value>=Fields!SaleOrderNo.Value</Value>
+                                    </SortExpression>
                                     <SortExpression>
                                       <Value>=Fields!ProductName.Value</Value>
                                     </SortExpression>
@@ -3282,6 +3294,9 @@
           <QueryParameter Name="@CurrencyId">
             <Value>=Parameters!CurrencyId.Value</Value>
           </QueryParameter>
+          <QueryParameter Name="@SampleRecord">
+            <Value>=Parameters!SampleRecord.Value</Value>
+          </QueryParameter>
         </QueryParameters>
         <CommandType>StoredProcedure</CommandType>
         <CommandText>Web.spRep_SaleOrderInventoryStatus</CommandText>
@@ -3617,6 +3632,12 @@
       <AllowBlank>true</AllowBlank>
       <Prompt>Adjust Pattern</Prompt>
     </ReportParameter>
+    <ReportParameter Name="ReportOn1">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Report On1</Prompt>
+    </ReportParameter>
     <ReportParameter Name="FilterOnDate">
       <DataType>String</DataType>
       <Nullable>true</Nullable>
@@ -3629,17 +3650,17 @@
       <AllowBlank>true</AllowBlank>
       <Prompt>Site Id</Prompt>
     </ReportParameter>
-    <ReportParameter Name="ReportOn1">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>Report On1</Prompt>
-    </ReportParameter>
     <ReportParameter Name="CurrencyId">
       <DataType>String</DataType>
       <Nullable>true</Nullable>
       <AllowBlank>true</AllowBlank>
       <Prompt>Currency Id</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="SampleRecord">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Sample Record</Prompt>
     </ReportParameter>
   </ReportParameters>
   <Code>

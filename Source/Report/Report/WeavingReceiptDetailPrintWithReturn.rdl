@@ -1802,6 +1802,17 @@
                       <ReportItems>
                         <Subreport Name="Subreport2">
                           <ReportName>WeavingReceiptDetailPrint1</ReportName>
+                          <Parameters>
+                            <Parameter Name="Id">
+                              <Value>=Parameters!Id.Value</Value>
+                            </Parameter>
+                            <Parameter Name="PrintedBy">
+                              <Value>=Parameters!PrintedBy.Value</Value>
+                            </Parameter>
+                            <Parameter Name="DatabaseConnectionString">
+                              <Value>=Parameters!DatabaseConnectionString.Value</Value>
+                            </Parameter>
+                          </Parameters>
                           <Top>0.0375in</Top>
                           <Left>0.04507in</Left>
                           <Height>0.375in</Height>
@@ -2017,6 +2028,17 @@
                       <ReportItems>
                         <Subreport Name="WeavindReceiptReturnPrint">
                           <ReportName>WeavindReceiptReturnPrint</ReportName>
+                          <Parameters>
+                            <Parameter Name="Id">
+                              <Value>=Parameters!Id.Value</Value>
+                            </Parameter>
+                            <Parameter Name="PrintedBy">
+                              <Value>=Parameters!PrintedBy.Value</Value>
+                            </Parameter>
+                            <Parameter Name="DatabaseConnectionString">
+                              <Value>=Parameters!DatabaseConnectionString.Value</Value>
+                            </Parameter>
+                          </Parameters>
                           <Top>0.05in</Top>
                           <Left>0.04507in</Left>
                           <Height>0.4375in</Height>
@@ -2427,6 +2449,14 @@
       </Tablix>
       <Subreport Name="ProvisionalCompanyDetail">
         <ReportName>ProvisionalCompanyDetail</ReportName>
+        <Parameters>
+          <Parameter Name="SiteId">
+            <Value>=First(Fields!SiteId.Value, "DsMain")</Value>
+          </Parameter>
+          <Parameter Name="DivisionId">
+            <Value>=First(Fields!DivisionId.Value, "DsMain")</Value>
+          </Parameter>
+        </Parameters>
         <Top>0.02778in</Top>
         <Left>0.02092in</Left>
         <Height>0.31945in</Height>
@@ -3787,7 +3817,10 @@
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
     <DataSource Name="WeavingReceiptPrint">
-      <DataSourceReference>DataSourceMain</DataSourceReference>
+      <ConnectionProperties>
+        <DataProvider>SQL</DataProvider>
+        <ConnectString>=Parameters!DatabaseConnectionString.Value</ConnectString>
+      </ConnectionProperties>
       <rd:SecurityType>None</rd:SecurityType>
       <rd:DataSourceID>727bb65e-cc51-4d28-a097-a8ea7d087931</rd:DataSourceID>
     </DataSource>
@@ -3998,6 +4031,12 @@
       <Nullable>true</Nullable>
       <AllowBlank>true</AllowBlank>
       <Prompt>PrintedBy</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="DatabaseConnectionString">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>DatabaseConnectionString</Prompt>
     </ReportParameter>
   </ReportParameters>
   <Code>
@@ -4231,3 +4270,4 @@ PtQeVUENmewh02zjEWZuZuLElNvBS6gDSXQMHP8A5UE5f6lWFPkR2q6ZG8HZI8xgvruK93SMJUsHJ61z
   <rd:ReportUnitType>Inch</rd:ReportUnitType>
   <rd:ReportID>f1b70379-da78-4ea9-bab5-cbb93d10df58</rd:ReportID>
 </Report>
+

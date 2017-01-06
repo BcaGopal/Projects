@@ -3,7 +3,10 @@
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
     <DataSource Name="Purchase">
-      <DataSourceReference>DataSourceMain</DataSourceReference>
+      <ConnectionProperties>
+        <DataProvider>SQL</DataProvider>
+        <ConnectString>=Parameters!DatabaseConnectionString.Value</ConnectString>
+      </ConnectionProperties>
       <rd:SecurityType>None</rd:SecurityType>
       <rd:DataSourceID>a4701ec2-a2bf-4f00-a373-e0ef6d3046c3</rd:DataSourceID>
     </DataSource>
@@ -34,8 +37,8 @@
           <QueryParameter Name="@BranchRecord">
             <Value>=Parameters!BranchRecord.Value</Value>
           </QueryParameter>
-          <QueryParameter Name="@JobWorker">
-            <Value>=Parameters!JobWorker.Value</Value>
+          <QueryParameter Name="@LedgerAccountId">
+            <Value>=Parameters!LedgerAccountId.Value</Value>
           </QueryParameter>
           <QueryParameter Name="@CostCenterId">
             <Value>=Parameters!CostCenterId.Value</Value>
@@ -77,7 +80,7 @@
         </Field>
         <Field Name="YarnIssued">
           <DataField>YarnIssued</DataField>
-          <rd:TypeName>System.Double</rd:TypeName>
+          <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
         <Field Name="ReportName">
           <DataField>ReportName</DataField>
@@ -97,7 +100,7 @@
         </Field>
         <Field Name="Balanceyarn">
           <DataField>Balanceyarn</DataField>
-          <rd:TypeName>System.Double</rd:TypeName>
+          <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
         <Field Name="ReportTitle">
           <DataField>ReportTitle</DataField>
@@ -1750,7 +1753,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=iif(Sum(Fields!BalanceAmount.Value) &lt;&gt; 0, iif(formatnumber(Sum(Fields!AmountDr.Value),2) &gt;= formatnumber(Sum(Fields!AmountCr.Value),2), "Dr" ,"Cr"), " ")</Value>
+                                  <Value>=iif(Sum(Fields!BalanceAmount.Value) &lt;&gt; 0, iif(Sum(Fields!AmountDr.Value) &gt;= Sum(Fields!AmountCr.Value), "Dr" ,"Cr"), " ")</Value>
                                   <Style>
                                     <FontFamily>Tahoma</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -2178,10 +2181,7 @@
                   <Group Name="Details" />
                   <SortExpressions>
                     <SortExpression>
-                      <Value>=Fields!DocDate.Value</Value>
-                    </SortExpression>
-                    <SortExpression>
-                      <Value>=Fields!CostCenterName.Value</Value>
+                      <Value>=Fields!JobWorkerName.Value</Value>
                     </SortExpression>
                   </SortExpressions>
                   <TablixMembers>
@@ -3216,6 +3216,20 @@
           </Textbox>
           <Subreport Name="Subreport1">
             <ReportName>CompanyDetail_Landscap</ReportName>
+            <Parameters>
+              <Parameter Name="SiteId">
+                <Value>=First(Fields!SiteId.Value, "DsMain")</Value>
+              </Parameter>
+              <Parameter Name="DivisionId">
+                <Value>=First(Fields!DivisionId.Value, "DsMain")</Value>
+              </Parameter>
+              <Parameter Name="DatabaseConnectionString">
+                <Value>=Parameters!DatabaseConnectionString.Value</Value>
+              </Parameter>
+              <Parameter Name="PrintedBy">
+                <Value>=Parameters!PrintedBy.Value</Value>
+              </Parameter>
+            </Parameters>
             <Top>0.025in</Top>
             <Left>0.02875in</Left>
             <Height>0.31666in</Height>
@@ -3384,6 +3398,42 @@
               <Height>0.25in</Height>
               <Width>3.3909in</Width>
               <ZIndex>1</ZIndex>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+                <PaddingLeft>2pt</PaddingLeft>
+                <PaddingRight>2pt</PaddingRight>
+                <PaddingTop>2pt</PaddingTop>
+                <PaddingBottom>2pt</PaddingBottom>
+              </Style>
+            </Textbox>
+            <Textbox Name="Textbox153">
+              <CanGrow>true</CanGrow>
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>="Printed By : " + Parameters!PrintedBy.Value</Value>
+                      <Style>
+                        <FontFamily>tahoma</FontFamily>
+                        <FontSize>9pt</FontSize>
+                        <Format>dd-MMM-yy hh:mm:ss tt</Format>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style>
+                    <TextAlign>Center</TextAlign>
+                  </Style>
+                </Paragraph>
+              </Paragraphs>
+              <rd:DefaultName>Textbox19</rd:DefaultName>
+              <Top>0.05642in</Top>
+              <Left>3.79562in</Left>
+              <Height>0.22744in</Height>
+              <Width>3.42406in</Width>
+              <ZIndex>2</ZIndex>
               <Style>
                 <Border>
                   <Style>None</Style>
@@ -3669,6 +3719,24 @@
       <Nullable>true</Nullable>
       <AllowBlank>true</AllowBlank>
       <Prompt>Date Filter On</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="PrintedBy">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>PrintedBy</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="DatabaseConnectionString">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>DatabaseConnectionString</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="LedgerAccountId">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>LedgerAccountId</Prompt>
     </ReportParameter>
   </ReportParameters>
   <EmbeddedImages>

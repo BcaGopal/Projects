@@ -3,7 +3,10 @@
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
     <DataSource Name="WeavingReceiptPrint">
-      <DataSourceReference>DataSourceMain</DataSourceReference>
+      <ConnectionProperties>
+        <DataProvider>SQL</DataProvider>
+        <ConnectString>=Parameters!DatabaseConnectionString.Value</ConnectString>
+      </ConnectionProperties>
       <rd:SecurityType>None</rd:SecurityType>
       <rd:DataSourceID>727bb65e-cc51-4d28-a097-a8ea7d087931</rd:DataSourceID>
     </DataSource>
@@ -73,21 +76,6 @@
     <ReportSection>
       <Body>
         <ReportItems>
-          <Subreport Name="CompanyDetail">
-            <ReportName>CompanyDetail</ReportName>
-            <Top>0.02764in</Top>
-            <Left>0.05909in</Left>
-            <Height>0.31945in</Height>
-            <Width>7.38466in</Width>
-            <Visibility>
-              <Hidden>=iif(Globals!RenderFormat.Name &lt;&gt; "PDF",True,False)</Hidden>
-            </Visibility>
-            <Style>
-              <Border>
-                <Style>None</Style>
-              </Border>
-            </Style>
-          </Subreport>
           <Textbox Name="ReportTitle">
             <CanGrow>true</CanGrow>
             <KeepTogether>true</KeepTogether>
@@ -110,9 +98,9 @@
             </Paragraphs>
             <rd:DefaultName>ReportTitle</rd:DefaultName>
             <Top>0.38959in</Top>
+            <Left>0.00035in</Left>
             <Height>0.25in</Height>
             <Width>7.44375in</Width>
-            <ZIndex>1</ZIndex>
             <Visibility>
               <Hidden>=iif(Globals!RenderFormat.Name &lt;&gt; "PDF",True,False)</Hidden>
             </Visibility>
@@ -539,10 +527,10 @@
               </TablixMembers>
             </TablixRowHierarchy>
             <Top>0.6868in</Top>
-            <Left>0.01505in</Left>
+            <Left>0.0154in</Left>
             <Height>0.9514in</Height>
             <Width>7.4287in</Width>
-            <ZIndex>2</ZIndex>
+            <ZIndex>1</ZIndex>
             <Visibility>
               <Hidden>=iif(Globals!RenderFormat.Name &lt;&gt; "PDF",True,False)</Hidden>
             </Visibility>
@@ -613,7 +601,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=iif(Fields!OKMark.Value="1","ïƒ¼","Ã»")</Value>
+                                  <Value>=iif(Fields!OKMark.Value="1","‹Ÿ¬","A¯")</Value>
                                   <Style>
                                     <FontStyle>Normal</FontStyle>
                                     <FontFamily>Wingdings</FontFamily>
@@ -751,21 +739,51 @@
             <RepeatRowHeaders>true</RepeatRowHeaders>
             <DataSetName>DsMain</DataSetName>
             <Top>1.65833in</Top>
-            <Left>0.03833in</Left>
+            <Left>0.03868in</Left>
             <Height>0.5in</Height>
             <Width>1.32069in</Width>
-            <ZIndex>3</ZIndex>
+            <ZIndex>2</ZIndex>
             <Style>
               <Border>
                 <Style>None</Style>
               </Border>
             </Style>
           </Tablix>
+          <Subreport Name="Subreport1">
+            <ReportName>CompanyDetail</ReportName>
+            <Parameters>
+              <Parameter Name="SiteId">
+                <Value>=First(Fields!SiteId.Value, "DsMain")</Value>
+              </Parameter>
+              <Parameter Name="DivisionId">
+                <Value>=First(Fields!DivisionId.Value, "DsMain")</Value>
+              </Parameter>
+              <Parameter Name="DatabaseConnectionString">
+                <Value>=Parameters!DatabaseConnectionString.Value</Value>
+              </Parameter>
+              <Parameter Name="PrintedBy">
+                <Value>=Parameters!PrintedBy.Value</Value>
+              </Parameter>
+            </Parameters>
+            <Top>0.00209in</Top>
+            <Left>0.03868in</Left>
+            <Height>0.33749in</Height>
+            <Width>7.40542in</Width>
+            <ZIndex>3</ZIndex>
+            <Visibility>
+              <Hidden>=iif(Globals!RenderFormat.Name &lt;&gt; "PDF",True,False)</Hidden>
+            </Visibility>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+            </Style>
+          </Subreport>
         </ReportItems>
         <Height>2.17916in</Height>
         <Style />
       </Body>
-      <Width>7.48542in</Width>
+      <Width>7.48612in</Width>
       <Page>
         <PageHeader>
           <Height>0.32167in</Height>
@@ -794,7 +812,7 @@
               </Paragraphs>
               <rd:DefaultName>ReportTitle</rd:DefaultName>
               <Top>0.03125in</Top>
-              <Left>0.02092in</Left>
+              <Left>0.02127in</Left>
               <Height>0.25in</Height>
               <Width>7.42283in</Width>
               <Visibility>
@@ -874,7 +892,7 @@
               </Paragraphs>
               <rd:DefaultName>Textbox18</rd:DefaultName>
               <Top>0.01389in</Top>
-              <Left>5.14816in</Left>
+              <Left>5.14851in</Left>
               <Height>0.25in</Height>
               <Width>2.29559in</Width>
               <Style>
@@ -917,7 +935,7 @@
               </Paragraphs>
               <rd:DefaultName>Textbox19</rd:DefaultName>
               <Top>0.02778in</Top>
-              <Left>0.125in</Left>
+              <Left>0.12535in</Left>
               <Height>0.25in</Height>
               <Width>2.21944in</Width>
               <ZIndex>1</ZIndex>
@@ -953,7 +971,7 @@
               </Paragraphs>
               <rd:DefaultName>Textbox19</rd:DefaultName>
               <Top>0.03351in</Top>
-              <Left>2.26193in</Left>
+              <Left>2.26228in</Left>
               <Height>0.23786in</Height>
               <Width>2.86156in</Width>
               <ZIndex>2</ZIndex>
@@ -976,8 +994,7 @@
         </PageFooter>
         <PageHeight>11.69in</PageHeight>
         <PageWidth>8.27in</PageWidth>
-        <LeftMargin>0.1in</LeftMargin>
-        <RightMargin>0.1in</RightMargin>
+        <LeftMargin>0.3in</LeftMargin>
         <TopMargin>0.1in</TopMargin>
         <BottomMargin>0.1in</BottomMargin>
         <Style />
@@ -1033,11 +1050,17 @@
       <AllowBlank>true</AllowBlank>
       <Prompt>FilterStr8</Prompt>
     </ReportParameter>
-    <ReportParameter Name="EntryBy">
+    <ReportParameter Name="PrintedBy">
       <DataType>String</DataType>
       <Nullable>true</Nullable>
       <AllowBlank>true</AllowBlank>
-      <Prompt>EntryBy</Prompt>
+      <Prompt>PrintedBy</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="DatabaseConnectionString">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>DatabaseConnectionString</Prompt>
     </ReportParameter>
     <ReportParameter Name="CurrenctGodownId">
       <DataType>String</DataType>
@@ -1062,12 +1085,6 @@
       <Nullable>true</Nullable>
       <AllowBlank>true</AllowBlank>
       <Prompt>Division</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="PrintedBy">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>PrintedBy</Prompt>
     </ReportParameter>
   </ReportParameters>
   <Code>

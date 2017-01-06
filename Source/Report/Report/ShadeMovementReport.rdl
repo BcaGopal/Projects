@@ -3,7 +3,10 @@
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
     <DataSource Name="Dimension1Status">
-      <DataSourceReference>DataSourceMain</DataSourceReference>
+      <ConnectionProperties>
+        <DataProvider>SQL</DataProvider>
+        <ConnectString>=Parameters!DatabaseConnectionString.Value</ConnectString>
+      </ConnectionProperties>
       <rd:SecurityType>None</rd:SecurityType>
       <rd:DataSourceID>a4701ec2-a2bf-4f00-a373-e0ef6d3046c3</rd:DataSourceID>
     </DataSource>
@@ -22,18 +25,12 @@
           <QueryParameter Name="@FromDate">
             <Value>=Parameters!FromDate.Value</Value>
           </QueryParameter>
-          <QueryParameter Name="@CountDivision">
-            <Value>=Parameters!CountDivision.Value</Value>
-          </QueryParameter>
           <QueryParameter Name="@ToDate">
             <Value>=Parameters!ToDate.Value</Value>
           </QueryParameter>
-          <QueryParameter Name="@CountSite">
-            <Value>=Parameters!CountSite.Value</Value>
-          </QueryParameter>
         </QueryParameters>
         <CommandType>StoredProcedure</CommandType>
-        <CommandText>Web.ShadeMovementReport</CommandText>
+        <CommandText>Web.spRep_ShadeMovementReport</CommandText>
       </Query>
       <Fields>
         <Field Name="Dimension1Name">
@@ -1171,7 +1168,21 @@
           </Textbox>
           <Subreport Name="Subreport2">
             <ReportName>CompanyDetail</ReportName>
-            <Top>0.04444in</Top>
+            <Parameters>
+              <Parameter Name="SiteId">
+                <Value>=First(Fields!SiteId.Value, "DsMain")</Value>
+              </Parameter>
+              <Parameter Name="DivisionId">
+                <Value>=First(Fields!DivisionId.Value, "DsMain")</Value>
+              </Parameter>
+              <Parameter Name="DatabaseConnectionString">
+                <Value>=Parameters!DatabaseConnectionString.Value</Value>
+              </Parameter>
+              <Parameter Name="PrintedBy">
+                <Value>=Parameters!PrintedBy.Value</Value>
+              </Parameter>
+            </Parameters>
+            <Top>0.03319in</Top>
             <Left>0.025in</Left>
             <Height>0.34375in</Height>
             <Width>7.41951in</Width>
@@ -1536,8 +1547,6 @@
     </ReportParameter>
     <ReportParameter Name="Site">
       <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
       <Prompt>Site</Prompt>
     </ReportParameter>
     <ReportParameter Name="Division">
@@ -1552,27 +1561,21 @@
       <AllowBlank>true</AllowBlank>
       <Prompt>From Date</Prompt>
     </ReportParameter>
-    <ReportParameter Name="CountDivision">
-      <DataType>Float</DataType>
-      <Nullable>true</Nullable>
-      <Prompt>Count Division</Prompt>
-    </ReportParameter>
     <ReportParameter Name="ToDate">
       <DataType>String</DataType>
       <Nullable>true</Nullable>
       <AllowBlank>true</AllowBlank>
       <Prompt>To Date</Prompt>
     </ReportParameter>
-    <ReportParameter Name="CountSite">
-      <DataType>Float</DataType>
-      <Nullable>true</Nullable>
-      <Prompt>Count Site</Prompt>
-    </ReportParameter>
     <ReportParameter Name="PrintedBy">
       <DataType>String</DataType>
       <Nullable>true</Nullable>
       <AllowBlank>true</AllowBlank>
       <Prompt>PrintedBy</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="DatabaseConnectionString">
+      <DataType>String</DataType>
+      <Prompt>DatabaseConnectionString</Prompt>
     </ReportParameter>
   </ReportParameters>
   <EmbeddedImages>

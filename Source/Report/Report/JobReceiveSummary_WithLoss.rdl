@@ -3,7 +3,10 @@
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
     <DataSource Name="Purchase">
-      <DataSourceReference>DataSourceMain</DataSourceReference>
+      <ConnectionProperties>
+        <DataProvider>SQL</DataProvider>
+        <ConnectString>=Parameters!DatabaseConnectionString.Value</ConnectString>
+      </ConnectionProperties>
       <rd:SecurityType>None</rd:SecurityType>
       <rd:DataSourceID>a4701ec2-a2bf-4f00-a373-e0ef6d3046c3</rd:DataSourceID>
     </DataSource>
@@ -13,11 +16,11 @@
       <Query>
         <DataSourceName>Purchase</DataSourceName>
         <QueryParameters>
-          <QueryParameter Name="@Site">
-            <Value>=Parameters!Site.Value</Value>
-          </QueryParameter>
           <QueryParameter Name="@ReportOnDate">
             <Value>=Parameters!ReportOnDate.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@Site">
+            <Value>=Parameters!Site.Value</Value>
           </QueryParameter>
           <QueryParameter Name="@Division">
             <Value>=Parameters!Division.Value</Value>
@@ -34,11 +37,11 @@
           <QueryParameter Name="@JobWorker">
             <Value>=Parameters!JobWorker.Value</Value>
           </QueryParameter>
-          <QueryParameter Name="@ProductNature">
-            <Value>=Parameters!ProductNature.Value</Value>
-          </QueryParameter>
           <QueryParameter Name="@Process">
             <Value>=Parameters!Process.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@ProductNature">
+            <Value>=Parameters!ProductNature.Value</Value>
           </QueryParameter>
           <QueryParameter Name="@ProductType">
             <Value>=Parameters!ProductType.Value</Value>
@@ -61,14 +64,14 @@
           <QueryParameter Name="@Dimension2">
             <Value>=Parameters!Dimension2.Value</Value>
           </QueryParameter>
-          <QueryParameter Name="@ReportType">
-            <Value>=Parameters!ReportType.Value</Value>
-          </QueryParameter>
           <QueryParameter Name="@JobOrderHeaderId">
             <Value>=Parameters!JobOrderHeaderId.Value</Value>
           </QueryParameter>
           <QueryParameter Name="@JobReceiveHeaderId">
             <Value>=Parameters!JobReceiveHeaderId.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@ReportType">
+            <Value>=Parameters!ReportType.Value</Value>
           </QueryParameter>
           <QueryParameter Name="@ProductDivisionId">
             <Value>=Parameters!ProductDivisionId.Value</Value>
@@ -81,20 +84,20 @@
         <CommandText>Web.spRep_JobReceiveSummary</CommandText>
       </Query>
       <Fields>
-        <Field Name="GroupOnValue">
-          <DataField>GroupOnValue</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
         <Field Name="ProductTypeName">
           <DataField>ProductTypeName</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="GroupTitle">
-          <DataField>GroupTitle</DataField>
+        <Field Name="GroupOnValue">
+          <DataField>GroupOnValue</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="GroupOnText">
           <DataField>GroupOnText</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="GroupTitle">
+          <DataField>GroupTitle</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="UnitName">
@@ -105,21 +108,17 @@
           <DataField>ReceiveQty</DataField>
           <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
-        <Field Name="ReturnQty">
-          <DataField>ReturnQty</DataField>
-          <rd:TypeName>System.Int32</rd:TypeName>
-        </Field>
         <Field Name="LossQty">
           <DataField>LossQty</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="ReturnQty">
+          <DataField>ReturnQty</DataField>
           <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
         <Field Name="Qty">
           <DataField>Qty</DataField>
           <rd:TypeName>System.Decimal</rd:TypeName>
-        </Field>
-        <Field Name="ReportName">
-          <DataField>ReportName</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="DecimalPlaces">
           <DataField>DecimalPlaces</DataField>
@@ -128,10 +127,6 @@
         <Field Name="SiteId">
           <DataField>SiteId</DataField>
           <rd:TypeName>System.Int32</rd:TypeName>
-        </Field>
-        <Field Name="ReportTitle">
-          <DataField>ReportTitle</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="DivisionId">
           <DataField>DivisionId</DataField>
@@ -143,6 +138,14 @@
         </Field>
         <Field Name="DivisionName">
           <DataField>DivisionName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="ReportName">
+          <DataField>ReportName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="ReportTitle">
+          <DataField>ReportTitle</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="SubReportProcList">
@@ -3197,6 +3200,20 @@
           </Tablix>
           <Subreport Name="Subreport2">
             <ReportName>CompanyDetail</ReportName>
+            <Parameters>
+              <Parameter Name="SiteId">
+                <Value>=First(Fields!SiteId.Value, "DsMain")</Value>
+              </Parameter>
+              <Parameter Name="DivisionId">
+                <Value>=First(Fields!DivisionId.Value, "DsMain")</Value>
+              </Parameter>
+              <Parameter Name="DatabaseConnectionString">
+                <Value>=Parameters!DatabaseConnectionString.Value</Value>
+              </Parameter>
+              <Parameter Name="PrintedBy">
+                <Value>=Parameters!PrintedBy.Value</Value>
+              </Parameter>
+            </Parameters>
             <Top>0.04167in</Top>
             <Left>0.04309in</Left>
             <Height>0.30208in</Height>
@@ -3654,6 +3671,24 @@
       <AllowBlank>true</AllowBlank>
       <Prompt>ReportParameter1</Prompt>
     </ReportParameter>
+    <ReportParameter Name="PrintedBy">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>PrintedBy</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="DatabaseConnectionString">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>DatabaseConnectionString</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="ReportOnDate">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Report On Date</Prompt>
+    </ReportParameter>
     <ReportParameter Name="Site">
       <DataType>String</DataType>
       <Nullable>true</Nullable>
@@ -3684,162 +3719,6 @@
       <AllowBlank>true</AllowBlank>
       <Prompt>Document Type</Prompt>
     </ReportParameter>
-    <ReportParameter Name="Department">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>Department</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="ProductNature">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>Product Nature</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="ProductCategory">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>Product Category</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="ProductType">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>Product Type</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="ProductCollection">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>Product Collection</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="ProductQuality">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>Product Quality</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="ProductGroup">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>Product Group</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="ProductStyle">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>Product Style</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="ProductDesign">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>Product Design</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="ProductShape">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>Product Shape</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="ProductSize">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>Product Size</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="ProductReceiveGroup">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>Product Receive Group</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="ProductCustomGroup">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>Product Custom Group</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="ProductTag">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>Product Tag</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="Product">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>Product</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="PurchaseIndent">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>Purchase Indent</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="Supplier">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>Supplier</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="Currency">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>Currency</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="PersonCustomGroup">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>Person Custom Group</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="PurchaseIndentHeaderId">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>Purchase Indent Header Id</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="PurchaseOrderHeaderId">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>Purchase Receive Header Id</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="ReportType">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>Report Type</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="ReportOnTransactionDate">
-      <DataType>Boolean</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>Report On Transaction Date</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="PurchaseGoodsReceiptHeaderId">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>Purchase Goods Receipt Header Id</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="PurchaseReceiveHeaderId">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>Purchase Receive Header Id</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="ReportOnDate">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>Report On Date</Prompt>
-    </ReportParameter>
     <ReportParameter Name="JobWorker">
       <DataType>String</DataType>
       <Nullable>true</Nullable>
@@ -3851,6 +3730,42 @@
       <Nullable>true</Nullable>
       <AllowBlank>true</AllowBlank>
       <Prompt>Process</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="ProductNature">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Product Nature</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="ProductType">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Product Type</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="ProductGroup">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Product Group</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="ProductCustomGroup">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Product Custom Group</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="PersonCustomGroup">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Person Custom Group</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="Product">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Product</Prompt>
     </ReportParameter>
     <ReportParameter Name="Dimension1">
       <DataType>String</DataType>
@@ -3864,17 +3779,23 @@
       <AllowBlank>true</AllowBlank>
       <Prompt>Dimension2</Prompt>
     </ReportParameter>
+    <ReportParameter Name="JobOrderHeaderId">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Job Order Header Id</Prompt>
+    </ReportParameter>
     <ReportParameter Name="JobReceiveHeaderId">
       <DataType>String</DataType>
       <Nullable>true</Nullable>
       <AllowBlank>true</AllowBlank>
       <Prompt>Job Receive Header Id</Prompt>
     </ReportParameter>
-    <ReportParameter Name="JobOrderHeaderId">
+    <ReportParameter Name="ReportType">
       <DataType>String</DataType>
       <Nullable>true</Nullable>
       <AllowBlank>true</AllowBlank>
-      <Prompt>Job Order Header Id</Prompt>
+      <Prompt>Report Type</Prompt>
     </ReportParameter>
     <ReportParameter Name="ProductDivisionId">
       <DataType>String</DataType>
@@ -3887,12 +3808,6 @@
       <Nullable>true</Nullable>
       <AllowBlank>true</AllowBlank>
       <Prompt>Branch Record</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="PrintedBy">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>PrintedBy</Prompt>
     </ReportParameter>
   </ReportParameters>
   <EmbeddedImages>

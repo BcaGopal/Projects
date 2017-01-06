@@ -3,7 +3,10 @@
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
     <DataSource Name="Purchase">
-      <DataSourceReference>DataSourceMain</DataSourceReference>
+      <ConnectionProperties>
+        <DataProvider>SQL</DataProvider>
+        <ConnectString>=Parameters!DatabaseConnectionString.Value</ConnectString>
+      </ConnectionProperties>
       <rd:SecurityType>None</rd:SecurityType>
       <rd:DataSourceID>a4701ec2-a2bf-4f00-a373-e0ef6d3046c3</rd:DataSourceID>
     </DataSource>
@@ -34,8 +37,8 @@
           <QueryParameter Name="@BranchRecord">
             <Value>=Parameters!BranchRecord.Value</Value>
           </QueryParameter>
-          <QueryParameter Name="@JobWorker">
-            <Value>=Parameters!JobWorker.Value</Value>
+          <QueryParameter Name="@LedgerAccountId">
+            <Value>=Parameters!LedgerAccountId.Value</Value>
           </QueryParameter>
           <QueryParameter Name="@CostCenterId">
             <Value>=Parameters!CostCenterId.Value</Value>
@@ -77,7 +80,7 @@
         </Field>
         <Field Name="YarnIssued">
           <DataField>YarnIssued</DataField>
-          <rd:TypeName>System.Double</rd:TypeName>
+          <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
         <Field Name="ReportName">
           <DataField>ReportName</DataField>
@@ -97,7 +100,7 @@
         </Field>
         <Field Name="Balanceyarn">
           <DataField>Balanceyarn</DataField>
-          <rd:TypeName>System.Double</rd:TypeName>
+          <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
         <Field Name="ReportTitle">
           <DataField>ReportTitle</DataField>
@@ -2242,7 +2245,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=iif(Sum(Fields!BalanceAmount.Value) &lt;&gt; 0, iif(formatnumber(Sum(Fields!AmountDr.Value),2) &gt;= formatnumber(Sum(Fields!AmountCr.Value),2), "Dr" ,"Cr"), " ")</Value>
+                                  <Value>=iif(Sum(Fields!BalanceAmount.Value) &lt;&gt; 0, iif(Sum(Fields!AmountDr.Value) &gt;= Sum(Fields!AmountCr.Value), "Dr" ,"Cr"), " ")</Value>
                                   <Style>
                                     <FontFamily>Tahoma</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -2270,6 +2273,7 @@
                             <PaddingBottom>2pt</PaddingBottom>
                           </Style>
                         </Textbox>
+                        <rd:Selected>true</rd:Selected>
                       </CellContents>
                     </TablixCell>
                   </TablixCells>
@@ -3763,6 +3767,20 @@
           </Textbox>
           <Subreport Name="Subreport1">
             <ReportName>CompanyDetail_Landscap</ReportName>
+            <Parameters>
+              <Parameter Name="SiteId">
+                <Value>=First(Fields!SiteId.Value, "DsMain")</Value>
+              </Parameter>
+              <Parameter Name="DivisionId">
+                <Value>=First(Fields!DivisionId.Value, "DsMain")</Value>
+              </Parameter>
+              <Parameter Name="DatabaseConnectionString">
+                <Value>=Parameters!DatabaseConnectionString.Value</Value>
+              </Parameter>
+              <Parameter Name="PrintedBy">
+                <Value>=Parameters!PrintedBy.Value</Value>
+              </Parameter>
+            </Parameters>
             <Top>0.025in</Top>
             <Left>0.02875in</Left>
             <Height>0.31666in</Height>
@@ -4103,6 +4121,12 @@
       <AllowBlank>true</AllowBlank>
       <Prompt>Purja Type</Prompt>
     </ReportParameter>
+    <ReportParameter Name="ReportType">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Report Type</Prompt>
+    </ReportParameter>
     <ReportParameter Name="Division">
       <DataType>String</DataType>
       <Nullable>true</Nullable>
@@ -4121,89 +4145,17 @@
       <AllowBlank>true</AllowBlank>
       <Prompt>To Date</Prompt>
     </ReportParameter>
-    <ReportParameter Name="DocumentType">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>Document Type</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="ProductNature">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>Product Nature</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="JobWorker">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>Job Worker</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="ProductType">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>Product Type</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="Process">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>Process</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="ProductGroup">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>Product Group</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="ProductCustomGroup">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>Product Custom Group</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="Product">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>Product</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="PersonCustomGroup">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>Person Custom Group</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="JobOrderHeaderId">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>Joborder Header Id</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="CostCenter">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>Cost Center</Prompt>
-    </ReportParameter>
     <ReportParameter Name="BranchRecord">
       <DataType>String</DataType>
       <Nullable>true</Nullable>
       <AllowBlank>true</AllowBlank>
       <Prompt>Branch Record</Prompt>
     </ReportParameter>
-    <ReportParameter Name="SampleRecord">
+    <ReportParameter Name="LedgerAccountId">
       <DataType>String</DataType>
       <Nullable>true</Nullable>
       <AllowBlank>true</AllowBlank>
-      <Prompt>Sample Record</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="ReportType">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>Report Type</Prompt>
+      <Prompt>Ledger Account Id</Prompt>
     </ReportParameter>
     <ReportParameter Name="CostCenterId">
       <DataType>String</DataType>
@@ -4211,11 +4163,29 @@
       <AllowBlank>true</AllowBlank>
       <Prompt>Cost Center Id</Prompt>
     </ReportParameter>
+    <ReportParameter Name="SampleRecord">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Sample Record</Prompt>
+    </ReportParameter>
     <ReportParameter Name="DateFilterOn">
       <DataType>String</DataType>
       <Nullable>true</Nullable>
       <AllowBlank>true</AllowBlank>
       <Prompt>Date Filter On</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="DatabaseConnectionString">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>DatabaseConnectionString</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="PrintedBy">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>PrintedBy</Prompt>
     </ReportParameter>
   </ReportParameters>
   <EmbeddedImages>

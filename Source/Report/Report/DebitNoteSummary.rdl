@@ -3,7 +3,10 @@
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
     <DataSource Name="Job">
-      <DataSourceReference>DataSourceMain</DataSourceReference>
+      <ConnectionProperties>
+        <DataProvider>SQL</DataProvider>
+        <ConnectString>=Parameters!DatabaseConnectionString.Value</ConnectString>
+      </ConnectionProperties>
       <rd:SecurityType>None</rd:SecurityType>
       <rd:DataSourceID>a4701ec2-a2bf-4f00-a373-e0ef6d3046c3</rd:DataSourceID>
     </DataSource>
@@ -39,6 +42,12 @@
           </QueryParameter>
           <QueryParameter Name="@CostCenterId">
             <Value>=Parameters!CostCenterId.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@ProcessId">
+            <Value>=Parameters!ProcessId.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@ReportType">
+            <Value>=Parameters!ReportType.Value</Value>
           </QueryParameter>
         </QueryParameters>
         <CommandType>StoredProcedure</CommandType>
@@ -80,6 +89,10 @@
         <Field Name="documentTypename">
           <DataField>documentTypename</DataField>
           <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="ShwHide">
+          <DataField>ShwHide</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
       </Fields>
       <rd:DataSetInfo>
@@ -643,6 +656,9 @@
                   </SortExpressions>
                   <TablixMembers>
                     <TablixMember>
+                      <Visibility>
+                        <Hidden>=fields!ShwHide.Value =0</Hidden>
+                      </Visibility>
                       <KeepWithGroup>After</KeepWithGroup>
                       <RepeatOnNewPage>true</RepeatOnNewPage>
                     </TablixMember>
@@ -662,6 +678,9 @@
                       </Visibility>
                     </TablixMember>
                     <TablixMember>
+                      <Visibility>
+                        <Hidden>=fields!ShwHide.Value =0</Hidden>
+                      </Visibility>
                       <KeepWithGroup>Before</KeepWithGroup>
                     </TablixMember>
                   </TablixMembers>
@@ -675,7 +694,7 @@
             <Top>2.08889in</Top>
             <Left>0.00493in</Left>
             <Height>1.27501in</Height>
-            <Width>7.45416in</Width>
+            <Width>7.45415in</Width>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -1227,12 +1246,26 @@
               <PaddingBottom>2pt</PaddingBottom>
             </Style>
           </Textbox>
-          <Subreport Name="Subreport1">
+          <Subreport Name="CompanyDetail">
             <ReportName>CompanyDetail</ReportName>
-            <Top>0.02292in</Top>
-            <Left>0.02375in</Left>
-            <Height>0.31666in</Height>
-            <Width>7.43535in</Width>
+            <Parameters>
+              <Parameter Name="SiteId">
+                <Value>=First(Fields!SiteId.Value, "DsMain")</Value>
+              </Parameter>
+              <Parameter Name="DivisionId">
+                <Value>=First(Fields!DivisionId.Value, "DsMain")</Value>
+              </Parameter>
+              <Parameter Name="DatabaseConnectionString">
+                <Value>=Parameters!DatabaseConnectionString.Value</Value>
+              </Parameter>
+              <Parameter Name="PrintedBy">
+                <Value>=Parameters!PrintedBy.Value</Value>
+              </Parameter>
+            </Parameters>
+            <Top>0.02535in</Top>
+            <Left>0.05284in</Left>
+            <Height>0.31945in</Height>
+            <Width>7.38466in</Width>
             <ZIndex>3</ZIndex>
             <Visibility>
               <Hidden>=iif(Globals!RenderFormat.Name &lt;&gt; "PDF",True,False)</Hidden>
@@ -1525,6 +1558,18 @@
       <AllowBlank>true</AllowBlank>
       <Prompt>FilterStr10</Prompt>
     </ReportParameter>
+    <ReportParameter Name="PrintedBy">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>PrintedBy</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="DatabaseConnectionString">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>DatabaseConnectionString</Prompt>
+    </ReportParameter>
     <ReportParameter Name="Site">
       <DataType>String</DataType>
       <Nullable>true</Nullable>
@@ -1573,17 +1618,23 @@
       <AllowBlank>true</AllowBlank>
       <Prompt>Ledger Header Id</Prompt>
     </ReportParameter>
-    <ReportParameter Name="PrintedBy">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>PrintedBy</Prompt>
-    </ReportParameter>
     <ReportParameter Name="CostCenterId">
       <DataType>String</DataType>
       <Nullable>true</Nullable>
       <AllowBlank>true</AllowBlank>
       <Prompt>Cost Center Id</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="ProcessId">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Process Id</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="ReportType">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Report Type</Prompt>
     </ReportParameter>
   </ReportParameters>
   <Code>Public Function PageNumber()

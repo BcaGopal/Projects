@@ -1546,6 +1546,14 @@
       </Tablix>
       <Subreport Name="Subreport1">
         <ReportName>CompanyDetail</ReportName>
+        <Parameters>
+          <Parameter Name="SiteId">
+            <Value>=First(Fields!SiteId.Value, "DsMain")</Value>
+          </Parameter>
+          <Parameter Name="DivisionId">
+            <Value>=First(Fields!DivisionId.Value, "DsMain")</Value>
+          </Parameter>
+        </Parameters>
         <Top>0.04861in</Top>
         <Left>0.0727in</Left>
         <Height>0.34723in</Height>
@@ -2785,6 +2793,20 @@
       </Tablix>
       <Subreport Name="Subreport2">
         <ReportName>GatePassPrint</ReportName>
+        <Parameters>
+          <Parameter Name="Id">
+            <Value>=First(Fields!GatePassHeaderId.Value, "DsMain")</Value>
+          </Parameter>
+          <Parameter Name="PrintedBy">
+            <Value>=Parameters!PrintedBy.Value</Value>
+          </Parameter>
+          <Parameter Name="DatabaseConnectionString">
+            <Value>=Parameters!DatabaseConnectionString.Value</Value>
+          </Parameter>
+          <Parameter Name="RefDocNo">
+            <Value>=First(Fields!ReturnNo.Value, "DsMain")</Value>
+          </Parameter>
+        </Parameters>
         <Top>3.64688in</Top>
         <Left>0.05in</Left>
         <Height>0.29167in</Height>
@@ -3297,6 +3319,12 @@
       <AllowBlank>true</AllowBlank>
       <Prompt>PrintedBy</Prompt>
     </ReportParameter>
+    <ReportParameter Name="DatabaseConnectionString">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>DatabaseConnectionString</Prompt>
+    </ReportParameter>
   </ReportParameters>
   <Code>
     Function RupeesToWord(ByVal MyNumber)
@@ -3603,3 +3631,4 @@ EEAAAQQQQAABBBCIgwABQBxakToggAACCCCAAAIIIBAoQAAQCMVpCCCAAAIIIIAAAgjEQYAAIA6tSB0Q
   <rd:ReportUnitType>Inch</rd:ReportUnitType>
   <rd:ReportID>f1b70379-da78-4ea9-bab5-cbb93d10df58</rd:ReportID>
 </Report>
+

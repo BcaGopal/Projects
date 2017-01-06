@@ -2,12 +2,25 @@
 <Report xmlns="http://schemas.microsoft.com/sqlserver/reporting/2008/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
   <Body>
     <ReportItems>
+      <Subreport Name="HalfGatePassPrint">
+        <ReportName>HalfGatePassPrint</ReportName>
+        <Top>3.29431in</Top>
+        <Left>0.06915in</Left>
+        <Height>0.45446in</Height>
+        <Width>7.10544in</Width>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+        </Style>
+      </Subreport>
       <Subreport Name="CompanyDetail_HalfLandscap2">
         <ReportName>CompanyDetail</ReportName>
         <Top>0.03271in</Top>
         <Left>0.06626in</Left>
         <Height>0.3in</Height>
         <Width>7.10833in</Width>
+        <ZIndex>1</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -39,7 +52,7 @@
         <Left>0.06626in</Left>
         <Height>0.26111in</Height>
         <Width>7.10833in</Width>
-        <ZIndex>1</ZIndex>
+        <ZIndex>2</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -538,7 +551,7 @@
         <Left>0.06552in</Left>
         <Height>0.87083in</Height>
         <Width>4.1188in</Width>
-        <ZIndex>2</ZIndex>
+        <ZIndex>3</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -911,7 +924,7 @@
         <Left>4.23293in</Left>
         <Height>0.65522in</Height>
         <Width>2.97216in</Width>
-        <ZIndex>3</ZIndex>
+        <ZIndex>4</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -1055,11 +1068,11 @@
           </TablixMembers>
         </TablixRowHierarchy>
         <DataSetName>DsMain</DataSetName>
-        <Top>2.35987in</Top>
+        <Top>2.47237in</Top>
         <Left>0.06552in</Left>
         <Height>0.22292in</Height>
         <Width>7.10908in</Width>
-        <ZIndex>4</ZIndex>
+        <ZIndex>5</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -1336,27 +1349,6 @@
                 </TablixCell>
               </TablixCells>
             </TablixRow>
-            <TablixRow>
-              <Height>0.25in</Height>
-              <TablixCells>
-                <TablixCell>
-                  <CellContents>
-                    <Subreport Name="HalfGatePassPrint">
-                      <ReportName>HalfGatePassPrint</ReportName>
-                      <Style>
-                        <Border>
-                          <Style>None</Style>
-                        </Border>
-                      </Style>
-                    </Subreport>
-                    <ColSpan>4</ColSpan>
-                  </CellContents>
-                </TablixCell>
-                <TablixCell />
-                <TablixCell />
-                <TablixCell />
-              </TablixCells>
-            </TablixRow>
           </TablixRows>
         </TablixBody>
         <TablixColumnHierarchy>
@@ -1371,19 +1363,14 @@
           <TablixMembers>
             <TablixMember />
             <TablixMember />
-            <TablixMember>
-              <Visibility>
-                <Hidden>=IIF(First(Fields!GatePassHeaderId.Value, "DsMain") IS NOTHING,true,false)</Hidden>
-              </Visibility>
-            </TablixMember>
           </TablixMembers>
         </TablixRowHierarchy>
         <DataSetName>DsMain</DataSetName>
-        <Top>2.65223in</Top>
+        <Top>2.75223in</Top>
         <Left>0.07276in</Left>
-        <Height>0.72292in</Height>
+        <Height>0.47292in</Height>
         <Width>7.10184in</Width>
-        <ZIndex>5</ZIndex>
+        <ZIndex>6</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -1420,7 +1407,7 @@
           </TablixColumns>
           <TablixRows>
             <TablixRow>
-              <Height>0.23013in</Height>
+              <Height>0.31346in</Height>
               <TablixCells>
                 <TablixCell>
                   <CellContents>
@@ -1453,7 +1440,6 @@
                         <BottomBorder>
                           <Style>Solid</Style>
                         </BottomBorder>
-                        <BackgroundColor>LightGrey</BackgroundColor>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
@@ -1493,7 +1479,6 @@
                         <BottomBorder>
                           <Style>Solid</Style>
                         </BottomBorder>
-                        <BackgroundColor>LightGrey</BackgroundColor>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
@@ -1535,7 +1520,6 @@
                         <BottomBorder>
                           <Style>Solid</Style>
                         </BottomBorder>
-                        <BackgroundColor>LightGrey</BackgroundColor>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
@@ -1577,7 +1561,6 @@
                         <BottomBorder>
                           <Style>Solid</Style>
                         </BottomBorder>
-                        <BackgroundColor>LightGrey</BackgroundColor>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
@@ -1619,7 +1602,6 @@
                         <BottomBorder>
                           <Style>Solid</Style>
                         </BottomBorder>
-                        <BackgroundColor>LightGrey</BackgroundColor>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
@@ -1661,7 +1643,6 @@
                         <BottomBorder>
                           <Style>Solid</Style>
                         </BottomBorder>
-                        <BackgroundColor>LightGrey</BackgroundColor>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
@@ -1706,7 +1687,6 @@
                           <Color>Black</Color>
                           <Style>Solid</Style>
                         </BottomBorder>
-                        <BackgroundColor>LightGrey</BackgroundColor>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
@@ -1748,7 +1728,6 @@
                         <BottomBorder>
                           <Style>Solid</Style>
                         </BottomBorder>
-                        <BackgroundColor>LightGrey</BackgroundColor>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
@@ -1760,7 +1739,7 @@
               </TablixCells>
             </TablixRow>
             <TablixRow>
-              <Height>0.20833in</Height>
+              <Height>0.25in</Height>
               <TablixCells>
                 <TablixCell>
                   <CellContents>
@@ -2376,9 +2355,9 @@
         <DataSetName>DsMain</DataSetName>
         <Top>1.60946in</Top>
         <Left>0.07276in</Left>
-        <Height>0.68846in</Height>
+        <Height>0.81346in</Height>
         <Width>7.13309in</Width>
-        <ZIndex>6</ZIndex>
+        <ZIndex>7</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -2386,7 +2365,7 @@
         </Style>
       </Tablix>
     </ReportItems>
-    <Height>3.41821in</Height>
+    <Height>3.79321in</Height>
     <Style />
   </Body>
   <Width>7.24418in</Width>
@@ -2625,7 +2604,7 @@
           </Paragraphs>
           <rd:DefaultName>Textbox18</rd:DefaultName>
           <Top>0.01706in</Top>
-          <Left>4.79619in</Left>
+          <Left>3.10869in</Left>
           <Height>0.25in</Height>
           <Width>2.37593in</Width>
           <ZIndex>1</ZIndex>
@@ -3039,3 +3018,4 @@ PtQeVUENmewh02zjEWZuZuLElNvBS6gDSXQMHP8A5UE5f6lWFPkR2q6ZG8HZI8xgvruK93SMJUsHJ61z
   <rd:ReportUnitType>Inch</rd:ReportUnitType>
   <rd:ReportID>f1b70379-da78-4ea9-bab5-cbb93d10df58</rd:ReportID>
 </Report>
+

@@ -1162,7 +1162,7 @@
             <Top>0.73572in</Top>
             <Left>0.05493in</Left>
             <Height>3in</Height>
-            <Width>10.86668in</Width>
+            <Width>10.86669in</Width>
             <Visibility>
               <Hidden>=iif(Globals!RenderFormat.Name &lt;&gt; "PDF",True,False)</Hidden>
             </Visibility>

@@ -1873,6 +1873,8 @@
     </ReportParameter>
     <ReportParameter Name="LoginSite">
       <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
       <Prompt>Login Site</Prompt>
     </ReportParameter>
     <ReportParameter Name="LoginDivision">

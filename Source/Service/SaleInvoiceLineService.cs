@@ -218,8 +218,7 @@ namespace Service
                                                                                   ProductName = tab.ProductName,
                                                                                   Dimension1Name = Dimension1Tab.Dimension1Name,
                                                                                   Dimension2Name = Dimension2Tab.Dimension2Name,
-                                                                                  Specification = l.Specification,
-                                                                                  SaleOrderHeaderDocNo = tab2.DocNo,
+                                                                                  Specification = l.Specification,                                                                                  
                                                                                   ProductUidIdName = tab3.ProductUidName,
                                                                                   BaleNo = l.BaleNo,
                                                                                   ProductInvoiceGroupName = tab4.ProductInvoiceGroupName,
@@ -233,6 +232,7 @@ namespace Service
                                                                                   SaleDispatchDocNo = SaleInvoiceLineTab.SaleDispatchLine.SaleDispatchHeader.DocNo,
                                                                                   Amount = l.Amount,
                                                                                   Remark = l.Remark,
+                                                                                  SaleOrderHeaderDocNo = tab2.DocNo,
                                                                               }).Take(2000).ToList();
 
 

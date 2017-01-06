@@ -2517,32 +2517,6 @@
                 </TablixCell>
               </TablixCells>
             </TablixRow>
-            <TablixRow>
-              <Height>0.25in</Height>
-              <TablixCells>
-                <TablixCell>
-                  <CellContents>
-                    <Subreport Name="JobOrderGatePassPrint">
-                      <ReportName>JobOrderGatePassPrint</ReportName>
-                      <ZIndex>10</ZIndex>
-                      <Style>
-                        <Border>
-                          <Style>None</Style>
-                        </Border>
-                        <TopBorder>
-                          <Style>Solid</Style>
-                        </TopBorder>
-                      </Style>
-                    </Subreport>
-                    <ColSpan>5</ColSpan>
-                  </CellContents>
-                </TablixCell>
-                <TablixCell />
-                <TablixCell />
-                <TablixCell />
-                <TablixCell />
-              </TablixCells>
-            </TablixRow>
           </TablixRows>
         </TablixBody>
         <TablixColumnHierarchy>
@@ -2560,17 +2534,12 @@
             <TablixMember />
             <TablixMember />
             <TablixMember />
-            <TablixMember>
-              <Visibility>
-                <Hidden>=IIF(First(Fields!GatePassHeaderId.Value, "DsMain") IS NOTHING,true,false)</Hidden>
-              </Visibility>
-            </TablixMember>
           </TablixMembers>
         </TablixRowHierarchy>
         <DataSetName>DsMain</DataSetName>
         <Top>4.05152in</Top>
         <Left>0.05493in</Left>
-        <Height>1.16252in</Height>
+        <Height>0.91252in</Height>
         <Width>7.4032in</Width>
         <ZIndex>2</ZIndex>
         <Style>
@@ -2960,6 +2929,20 @@
       </Tablix>
       <Subreport Name="TransactionChargesPrint">
         <ReportName>TransactionChargesPrint</ReportName>
+        <Parameters>
+          <Parameter Name="Id">
+            <Value>=First(Fields!JobOrderHeaderId.Value, "DsMain")</Value>
+          </Parameter>
+          <Parameter Name="TableName">
+            <Value>="web.jobOrderheadercharges"</Value>
+          </Parameter>
+          <Parameter Name="DatabaseConnectionString">
+            <Value>=Parameters!DatabaseConnectionString.Value</Value>
+          </Parameter>
+          <Parameter Name="PrintedBy">
+            <Value>=Parameters!PrintedBy.Value</Value>
+          </Parameter>
+        </Parameters>
         <Top>2.81466in</Top>
         <Left>4.10014in</Left>
         <Height>0.45446in</Height>
@@ -3466,6 +3449,14 @@
       </Tablix>
       <Subreport Name="CompanyDetail">
         <ReportName>CompanyDetail</ReportName>
+        <Parameters>
+          <Parameter Name="SiteId">
+            <Value>=First(Fields!SiteId.Value, "DsMain")</Value>
+          </Parameter>
+          <Parameter Name="DivisionId">
+            <Value>=First(Fields!DivisionId.Value, "DsMain")</Value>
+          </Parameter>
+        </Parameters>
         <Top>0.04761in</Top>
         <Left>0.04865in</Left>
         <Height>0.31945in</Height>
@@ -4511,8 +4502,38 @@
           </Border>
         </Style>
       </Tablix>
+      <Subreport Name="JobOrderGatePassPrint">
+        <ReportName>JobOrderGatePassPrint</ReportName>
+        <Parameters>
+          <Parameter Name="Id">
+            <Value>=First(Fields!GatePassHeaderId.Value, "DsMain")</Value>
+          </Parameter>
+          <Parameter Name="RefDocNo">
+            <Value>=First(Fields!DocNo.Value, "DsMain")</Value>
+          </Parameter>
+          <Parameter Name="DatabaseConnectionString">
+            <Value>=Parameters!DatabaseConnectionString.Value</Value>
+          </Parameter>
+          <Parameter Name="PrintedBy">
+            <Value>=Parameters!PrintedBy.Value</Value>
+          </Parameter>
+        </Parameters>
+        <Top>5.02098in</Top>
+        <Left>0.04835in</Left>
+        <Height>0.28125in</Height>
+        <Width>7.38688in</Width>
+        <ZIndex>10</ZIndex>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+          <TopBorder>
+            <Style>Solid</Style>
+          </TopBorder>
+        </Style>
+      </Subreport>
     </ReportItems>
-    <Height>5.28557in</Height>
+    <Height>5.34807in</Height>
     <Style />
   </Body>
   <Width>7.49356in</Width>
@@ -4832,7 +4853,10 @@
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
     <DataSource Name="Purchase">
-      <DataSourceReference>DataSourceMain</DataSourceReference>
+      <ConnectionProperties>
+        <DataProvider>SQL</DataProvider>
+        <ConnectString>=Parameters!DatabaseConnectionString.Value</ConnectString>
+      </ConnectionProperties>
       <rd:SecurityType>None</rd:SecurityType>
       <rd:DataSourceID>727bb65e-cc51-4d28-a097-a8ea7d087931</rd:DataSourceID>
     </DataSource>
@@ -5052,6 +5076,18 @@
       <DataType>Integer</DataType>
       <Nullable>true</Nullable>
       <Prompt>Id</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="DatabaseConnectionString">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>DatabaseConnectionString</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="PrintedBy">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>PrintedBy</Prompt>
     </ReportParameter>
   </ReportParameters>
   <Code>
@@ -5285,3 +5321,4 @@ PtQeVUENmewh02zjEWZuZuLElNvBS6gDSXQMHP8A5UE5f6lWFPkR2q6ZG8HZI8xgvruK93SMJUsHJ61z
   <rd:ReportUnitType>Inch</rd:ReportUnitType>
   <rd:ReportID>f1b70379-da78-4ea9-bab5-cbb93d10df58</rd:ReportID>
 </Report>
+

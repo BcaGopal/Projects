@@ -4,10 +4,24 @@
     <ReportItems>
       <Subreport Name="CompanyDetail">
         <ReportName>CompanyDetail</ReportName>
+        <Parameters>
+          <Parameter Name="SiteId">
+            <Value>=First(Fields!SiteId.Value, "DsMain")</Value>
+          </Parameter>
+          <Parameter Name="DivisionId">
+            <Value>=First(Fields!DivisionId.Value, "DsMain")</Value>
+          </Parameter>
+          <Parameter Name="DatabaseConnectionString">
+            <Value>=Parameters!DatabaseConnectionString.Value</Value>
+          </Parameter>
+          <Parameter Name="PrintedBy">
+            <Value>=Parameters!PrintedBy.Value</Value>
+          </Parameter>
+        </Parameters>
         <Top>0.02222in</Top>
         <Left>0.03465in</Left>
         <Height>0.31945in</Height>
-        <Width>7.44639in</Width>
+        <Width>7.83909in</Width>
         <Visibility>
           <Hidden>=iif(Globals!RenderFormat.Name &lt;&gt; "PDF",True,False)</Hidden>
         </Visibility>
@@ -463,7 +477,7 @@
         <Top>0.40242in</Top>
         <Left>0.03465in</Left>
         <Height>0.3125in</Height>
-        <Width>7.44639in</Width>
+        <Width>7.83909in</Width>
         <ZIndex>2</ZIndex>
         <Visibility>
           <Hidden>=iif(Globals!RenderFormat.Name &lt;&gt; "PDF",True,False)</Hidden>
@@ -492,10 +506,10 @@
         <TablixBody>
           <TablixColumns>
             <TablixColumn>
-              <Width>3.67363in</Width>
+              <Width>3.86999in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>3.76271in</Width>
+              <Width>3.95907in</Width>
             </TablixColumn>
           </TablixColumns>
           <TablixRows>
@@ -970,7 +984,7 @@
         <Top>0.74083in</Top>
         <Left>0.04469in</Left>
         <Height>1.5in</Height>
-        <Width>7.43634in</Width>
+        <Width>7.82905in</Width>
         <ZIndex>3</ZIndex>
         <Visibility>
           <Hidden>=iif(Globals!RenderFormat.Name &lt;&gt; "PDF",True,False)</Hidden>
@@ -985,7 +999,7 @@
     <Height>3.03375in</Height>
     <Style />
   </Body>
-  <Width>7.50916in</Width>
+  <Width>7.92583in</Width>
   <Page>
     <PageHeader>
       <Height>0.36083in</Height>
@@ -1016,7 +1030,7 @@
           <Top>0.02333in</Top>
           <Left>0.01875in</Left>
           <Height>0.3125in</Height>
-          <Width>7.46229in</Width>
+          <Width>7.85499in</Width>
           <Visibility>
             <Hidden>=iif(Globals!PageNumber=1 or Globals!RenderFormat.Name &lt;&gt; "PDF",True,False)</Hidden>
           </Visibility>
@@ -1093,8 +1107,8 @@
             </Paragraph>
           </Paragraphs>
           <rd:DefaultName>Textbox18</rd:DefaultName>
-          <Top>0.02778in</Top>
-          <Left>4.39469in</Left>
+          <Top>0.01694in</Top>
+          <Left>4.75719in</Left>
           <Height>0.25in</Height>
           <Width>2.97594in</Width>
           <Style>
@@ -1202,15 +1216,18 @@
     </PageFooter>
     <PageHeight>11.69in</PageHeight>
     <PageWidth>8.27in</PageWidth>
-    <LeftMargin>0.5in</LeftMargin>
-    <TopMargin>0.17in</TopMargin>
-    <BottomMargin>0.17in</BottomMargin>
+    <LeftMargin>0.2in</LeftMargin>
+    <TopMargin>0.1in</TopMargin>
+    <BottomMargin>0.1in</BottomMargin>
     <Style />
   </Page>
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
     <DataSource Name="TrialBalance">
-      <DataSourceReference>DataSourceMain</DataSourceReference>
+      <ConnectionProperties>
+        <DataProvider>SQL</DataProvider>
+        <ConnectString>=Parameters!DatabaseConnectionString.Value</ConnectString>
+      </ConnectionProperties>
       <rd:SecurityType>None</rd:SecurityType>
       <rd:DataSourceID>dd7af43a-86ea-4bb9-8747-c50ac43bbbc6</rd:DataSourceID>
     </DataSource>
@@ -1264,6 +1281,9 @@
           </QueryParameter>
           <QueryParameter Name="@ReportType">
             <Value>=Parameters!ReportType.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@ProductDivisionId">
+            <Value>=Parameters!ProductDivisionId.Value</Value>
           </QueryParameter>
         </QueryParameters>
         <CommandType>StoredProcedure</CommandType>
@@ -1497,6 +1517,18 @@
       <Nullable>true</Nullable>
       <AllowBlank>true</AllowBlank>
       <Prompt>PrintedBy</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="DatabaseConnectionString">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>DatabaseConnectionString</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="ProductDivisionId">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Product Division Id</Prompt>
     </ReportParameter>
   </ReportParameters>
   <Code>

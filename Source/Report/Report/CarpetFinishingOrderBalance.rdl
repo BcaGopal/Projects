@@ -2452,6 +2452,9 @@
           <QueryParameter Name="@ProductQuality">
             <Value>=Parameters!ProductQuality.Value</Value>
           </QueryParameter>
+          <QueryParameter Name="@SampleRecord">
+            <Value>=Parameters!SampleRecord.Value</Value>
+          </QueryParameter>
         </QueryParameters>
         <CommandType>StoredProcedure</CommandType>
         <CommandText>Web.spRep_CarpetFinishingOrderBalanceSummary</CommandText>
@@ -2724,6 +2727,12 @@
       <Nullable>true</Nullable>
       <AllowBlank>true</AllowBlank>
       <Prompt>Product Quality</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="SampleRecord">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Sample Record</Prompt>
     </ReportParameter>
   </ReportParameters>
   <Code>

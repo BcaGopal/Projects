@@ -495,10 +495,10 @@
               <Width>0.68in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>0.77791in</Width>
+              <Width>0.86082in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>0.43978in</Width>
+              <Width>0.47249in</Width>
             </TablixColumn>
             <TablixColumn>
               <Width>0.61082in</Width>
@@ -507,10 +507,10 @@
               <Width>0.68376in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>0.6in</Width>
+              <Width>0.68376in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>0.9in</Width>
+              <Width>0.72939in</Width>
             </TablixColumn>
           </TablixColumns>
           <TablixRows>
@@ -905,7 +905,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value EvaluationMode="Constant">No of Bazar/ Last Bazar Date</Value>
+                              <Value>Max Bazar Date</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>8pt</FontSize>
@@ -1321,14 +1321,14 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="ReceiveDetail">
+                    <Textbox Name="Receivedate">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!ReceiveDetail.Value</Value>
+                              <Value>=Fields!Receivedate.Value</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>8pt</FontSize>
@@ -1341,7 +1341,7 @@
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>ReceiveDetail</rd:DefaultName>
+                      <rd:DefaultName>Receivedate</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>Silver</Color>
@@ -1966,9 +1966,7 @@
                             </Style>
                           </TextRun>
                         </TextRuns>
-                        <Style>
-                          <TextAlign>Left</TextAlign>
-                        </Style>
+                        <Style />
                       </Paragraph>
                     </Paragraphs>
                     <rd:DefaultName>Textbox31</rd:DefaultName>
@@ -2084,9 +2082,7 @@
                                     </Style>
                                   </TextRun>
                                 </TextRuns>
-                                <Style>
-                                  <TextAlign>Left</TextAlign>
-                                </Style>
+                                <Style />
                               </Paragraph>
                             </Paragraphs>
                             <rd:DefaultName>Textbox33</rd:DefaultName>
@@ -2181,9 +2177,7 @@
                                     </Style>
                                   </TextRun>
                                 </TextRuns>
-                                <Style>
-                                  <TextAlign>Left</TextAlign>
-                                </Style>
+                                <Style />
                               </Paragraph>
                             </Paragraphs>
                             <rd:DefaultName>Textbox34</rd:DefaultName>
@@ -2231,9 +2225,7 @@
                             </Style>
                           </TextRun>
                         </TextRuns>
-                        <Style>
-                          <TextAlign>Left</TextAlign>
-                        </Style>
+                        <Style />
                       </Paragraph>
                     </Paragraphs>
                     <rd:DefaultName>Textbox36</rd:DefaultName>
@@ -2309,7 +2301,7 @@
         <Top>1.10209in</Top>
         <Left>0.03912in</Left>
         <Height>1.07291in</Height>
-        <Width>7.924in</Width>
+        <Width>7.95277in</Width>
         <ZIndex>1</ZIndex>
         <Style>
           <Border>
@@ -2471,7 +2463,6 @@
                         <PaddingBottom>2pt</PaddingBottom>
                       </Style>
                     </Textbox>
-                    <rd:Selected>true</rd:Selected>
                   </CellContents>
                 </TablixCell>
               </TablixCells>
@@ -3239,10 +3230,6 @@
           <DataField>ReportName</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="ReceiveDetail">
-          <DataField>ReceiveDetail</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
         <Field Name="ProductGroupName">
           <DataField>ProductGroupName</DataField>
           <rd:TypeName>System.String</rd:TypeName>
@@ -3251,10 +3238,6 @@
           <DataField>OrderNo</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="JobReceiveCount">
-          <DataField>JobReceiveCount</DataField>
-          <rd:TypeName>System.Int32</rd:TypeName>
-        </Field>
         <Field Name="ReportTitle">
           <DataField>ReportTitle</DataField>
           <rd:TypeName>System.String</rd:TypeName>
@@ -3262,10 +3245,6 @@
         <Field Name="SubReportProcList">
           <DataField>SubReportProcList</DataField>
           <rd:TypeName>System.Int32</rd:TypeName>
-        </Field>
-        <Field Name="ProcessName">
-          <DataField>ProcessName</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
         </Field>
       </Fields>
       <rd:DataSetInfo>
@@ -3346,3 +3325,4 @@ PtQeVUENmewh02zjEWZuZuLElNvBS6gDSXQMHP8A5UE5f6lWFPkR2q6ZG8HZI8xgvruK93SMJUsHJ61z
   <rd:ReportUnitType>Inch</rd:ReportUnitType>
   <rd:ReportID>f1b70379-da78-4ea9-bab5-cbb93d10df58</rd:ReportID>
 </Report>
+

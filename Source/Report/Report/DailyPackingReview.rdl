@@ -3,7 +3,10 @@
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
     <DataSource Name="dsReport">
-      <DataSourceReference>DataSourceMain</DataSourceReference>
+      <ConnectionProperties>
+        <DataProvider>SQL</DataProvider>
+        <ConnectString>=Parameters!DatabaseConnectionString.Value</ConnectString>
+      </ConnectionProperties>
       <rd:SecurityType>None</rd:SecurityType>
       <rd:DataSourceID>7ff49b37-46cf-4f5a-ab89-5a4b7093584f</rd:DataSourceID>
     </DataSource>
@@ -30,6 +33,10 @@
         </Field>
         <Field Name="SiteId">
           <DataField>SiteId</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="DivisionId">
+          <DataField>DivisionId</DataField>
           <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
         <Field Name="JobWorkerName">
@@ -115,15 +122,15 @@
             <TablixBody>
               <TablixColumns>
                 <TablixColumn>
-                  <Width>5.39816in</Width>
+                  <Width>5.48178in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>5.29974in</Width>
+                  <Width>5.38336in</Width>
                 </TablixColumn>
               </TablixColumns>
               <TablixRows>
                 <TablixRow>
-                  <Height>0.25in</Height>
+                  <Height>0.24002in</Height>
                   <TablixCells>
                     <TablixCell>
                       <CellContents>
@@ -192,7 +199,7 @@
                   </TablixCells>
                 </TablixRow>
                 <TablixRow>
-                  <Height>0.25in</Height>
+                  <Height>0.24002in</Height>
                   <TablixCells>
                     <TablixCell>
                       <CellContents>
@@ -261,7 +268,7 @@
                   </TablixCells>
                 </TablixRow>
                 <TablixRow>
-                  <Height>0.25in</Height>
+                  <Height>0.24002in</Height>
                   <TablixCells>
                     <TablixCell>
                       <CellContents>
@@ -330,7 +337,7 @@
                   </TablixCells>
                 </TablixRow>
                 <TablixRow>
-                  <Height>0.25in</Height>
+                  <Height>0.24002in</Height>
                   <TablixCells>
                     <TablixCell>
                       <CellContents>
@@ -399,7 +406,7 @@
                   </TablixCells>
                 </TablixRow>
                 <TablixRow>
-                  <Height>0.25in</Height>
+                  <Height>0.24002in</Height>
                   <TablixCells>
                     <TablixCell>
                       <CellContents>
@@ -468,7 +475,7 @@
                   </TablixCells>
                 </TablixRow>
                 <TablixRow>
-                  <Height>0.25in</Height>
+                  <Height>0.24002in</Height>
                   <TablixCells>
                     <TablixCell>
                       <CellContents>
@@ -537,7 +544,7 @@
                   </TablixCells>
                 </TablixRow>
                 <TablixRow>
-                  <Height>0.25in</Height>
+                  <Height>0.24002in</Height>
                   <TablixCells>
                     <TablixCell>
                       <CellContents>
@@ -606,7 +613,7 @@
                   </TablixCells>
                 </TablixRow>
                 <TablixRow>
-                  <Height>0.25in</Height>
+                  <Height>0.24002in</Height>
                   <TablixCells>
                     <TablixCell>
                       <CellContents>
@@ -675,7 +682,7 @@
                   </TablixCells>
                 </TablixRow>
                 <TablixRow>
-                  <Height>0.25in</Height>
+                  <Height>0.24002in</Height>
                   <TablixCells>
                     <TablixCell>
                       <CellContents>
@@ -744,7 +751,7 @@
                   </TablixCells>
                 </TablixRow>
                 <TablixRow>
-                  <Height>0.25in</Height>
+                  <Height>0.24002in</Height>
                   <TablixCells>
                     <TablixCell>
                       <CellContents>
@@ -813,7 +820,7 @@
                   </TablixCells>
                 </TablixRow>
                 <TablixRow>
-                  <Height>0.25in</Height>
+                  <Height>0.24002in</Height>
                   <TablixCells>
                     <TablixCell>
                       <CellContents>
@@ -955,9 +962,10 @@
                 </TablixMember>
               </TablixMembers>
             </TablixRowHierarchy>
-            <Left>0.05493in</Left>
-            <Height>2.75in</Height>
-            <Width>10.6979in</Width>
+            <Top>0.7in</Top>
+            <Left>0.04486in</Left>
+            <Height>2.64022in</Height>
+            <Width>10.86514in</Width>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -1291,8 +1299,8 @@
               </TablixMembers>
             </TablixRowHierarchy>
             <DataSetName>DsMain</DataSetName>
-            <Top>3.09027in</Top>
-            <Left>0.05493in</Left>
+            <Top>3.59027in</Top>
+            <Left>0.15736in</Left>
             <Height>1in</Height>
             <Width>1.94791in</Width>
             <ZIndex>1</ZIndex>
@@ -2184,8 +2192,8 @@
             <PageBreak>
               <BreakLocation>End</BreakLocation>
             </PageBreak>
-            <Top>4.53819in</Top>
-            <Left>0.05493in</Left>
+            <Top>4.95069in</Top>
+            <Left>0.15736in</Left>
             <Height>1in</Height>
             <Width>5.94791in</Width>
             <ZIndex>2</ZIndex>
@@ -2197,9 +2205,17 @@
           </Tablix>
           <Subreport Name="DailyPackingReview1">
             <ReportName>DailyPackingReview1</ReportName>
-            <Top>5.70833in</Top>
-            <Left>0.05493in</Left>
-            <Height>1.26042in</Height>
+            <Parameters>
+              <Parameter Name="OnDate">
+                <Value>=Parameters!OnDate.Value</Value>
+              </Parameter>
+              <Parameter Name="DatabaseConnectionString">
+                <Value>=Parameters!DatabaseConnectionString.Value</Value>
+              </Parameter>
+            </Parameters>
+            <Top>6.00833in</Top>
+            <Left>0.18236in</Left>
+            <Height>0.5in</Height>
             <Width>1.94791in</Width>
             <ZIndex>3</ZIndex>
             <Style>
@@ -2225,8 +2241,8 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox2</rd:DefaultName>
-            <Top>2.84027in</Top>
-            <Left>0.05493in</Left>
+            <Top>3.34027in</Top>
+            <Left>0.15736in</Left>
             <Height>0.25in</Height>
             <Width>2.69792in</Width>
             <ZIndex>4</ZIndex>
@@ -2257,8 +2273,8 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox2</rd:DefaultName>
-            <Top>4.28819in</Top>
-            <Left>0.05493in</Left>
+            <Top>4.70069in</Top>
+            <Left>0.15736in</Left>
             <Height>0.25in</Height>
             <Width>2.69792in</Width>
             <ZIndex>5</ZIndex>
@@ -2272,58 +2288,121 @@
               <PaddingBottom>2pt</PaddingBottom>
             </Style>
           </Textbox>
+          <Subreport Name="Subreport1">
+            <ReportName>CompanyDetail_Landscap</ReportName>
+            <Parameters>
+              <Parameter Name="SiteId">
+                <Value>=First(Fields!SiteId.Value, "DsMain")</Value>
+              </Parameter>
+              <Parameter Name="DivisionId">
+                <Value>=First(Fields!DivisionId.Value, "DsMain")</Value>
+              </Parameter>
+              <Parameter Name="DatabaseConnectionString">
+                <Value>=Parameters!DatabaseConnectionString.Value</Value>
+              </Parameter>
+              <Parameter Name="PrintedBy">
+                <Value>=Parameters!PrintedBy.Value</Value>
+              </Parameter>
+            </Parameters>
+            <Top>0.03194in</Top>
+            <Left>0.025in</Left>
+            <Height>0.33781in</Height>
+            <Width>10.885in</Width>
+            <ZIndex>6</ZIndex>
+            <Visibility>
+              <Hidden>=iif(Globals!RenderFormat.Name &lt;&gt; "PDF",True,False)</Hidden>
+            </Visibility>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+            </Style>
+          </Subreport>
+          <Textbox Name="Textbox133">
+            <CanGrow>true</CanGrow>
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>=First(Fields!ReportTitle.Value, "DsMain")+" "+"On Date : "+ Parameters!OnDate.Value</Value>
+                    <Style>
+                      <FontFamily>Tahoma</FontFamily>
+                      <FontSize>12pt</FontSize>
+                      <FontWeight>Bold</FontWeight>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style>
+                  <TextAlign>Center</TextAlign>
+                </Style>
+              </Paragraph>
+            </Paragraphs>
+            <rd:DefaultName>Textbox97</rd:DefaultName>
+            <Top>0.40046in</Top>
+            <Left>0.02371in</Left>
+            <Height>0.26042in</Height>
+            <Width>10.88628in</Width>
+            <ZIndex>7</ZIndex>
+            <Visibility>
+              <Hidden>=iif(Globals!RenderFormat.Name &lt;&gt; "PDF",True,False)</Hidden>
+            </Visibility>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+              <TopBorder>
+                <Style>Solid</Style>
+              </TopBorder>
+              <BottomBorder>
+                <Style>Solid</Style>
+              </BottomBorder>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+              <PaddingBottom>2pt</PaddingBottom>
+            </Style>
+          </Textbox>
+          <Subreport Name="DailyPackingReview4">
+            <ReportName>DailyPackingReview4</ReportName>
+            <Parameters>
+              <Parameter Name="OnDate">
+                <Value>=Parameters!OnDate.Value</Value>
+              </Parameter>
+              <Parameter Name="DatabaseConnectionString">
+                <Value>=Parameters!DatabaseConnectionString.Value</Value>
+              </Parameter>
+            </Parameters>
+            <Top>6.63147in</Top>
+            <Left>0.15736in</Left>
+            <Height>0.5in</Height>
+            <Width>1.94791in</Width>
+            <ZIndex>8</ZIndex>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+            </Style>
+          </Subreport>
         </ReportItems>
-        <Height>7.00092in</Height>
+        <Height>7.19883in</Height>
         <Style />
       </Body>
-      <Width>10.77251in</Width>
+      <Width>10.94692in</Width>
       <Page>
         <PageHeader>
-          <Height>1.01867in</Height>
+          <Height>0.2895in</Height>
           <PrintOnFirstPage>true</PrintOnFirstPage>
           <PrintOnLastPage>true</PrintOnLastPage>
           <ReportItems>
-            <Textbox Name="ReportTitle">
+            <Textbox Name="Textbox129">
               <CanGrow>true</CanGrow>
               <KeepTogether>true</KeepTogether>
               <Paragraphs>
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value>=Parameters!ReportTitle.Value</Value>
-                      <Style>
-                        <FontFamily>Tahoma</FontFamily>
-                        <FontSize>12pt</FontSize>
-                        <FontWeight>Bold</FontWeight>
-                      </Style>
-                    </TextRun>
-                  </TextRuns>
-                  <Style />
-                </Paragraph>
-              </Paragraphs>
-              <rd:DefaultName>ReportTitle</rd:DefaultName>
-              <Top>0.61806in</Top>
-              <Left>0.86333in</Left>
-              <Height>0.29166in</Height>
-              <Width>4.19791in</Width>
-              <Style>
-                <Border>
-                  <Style>None</Style>
-                </Border>
-                <PaddingLeft>2pt</PaddingLeft>
-                <PaddingRight>2pt</PaddingRight>
-                <PaddingTop>2pt</PaddingTop>
-                <PaddingBottom>2pt</PaddingBottom>
-              </Style>
-            </Textbox>
-            <Textbox Name="CompanyName">
-              <CanGrow>true</CanGrow>
-              <KeepTogether>true</KeepTogether>
-              <Paragraphs>
-                <Paragraph>
-                  <TextRuns>
-                    <TextRun>
-                      <Value>=Parameters!CompanyName.Value</Value>
+                      <Value>=First(Fields!ReportTitle.Value, "DsMain")+" "+"On Date : "+ Parameters!OnDate.Value</Value>
                       <Style>
                         <FontFamily>Tahoma</FontFamily>
                         <FontSize>12pt</FontSize>
@@ -2332,240 +2411,34 @@
                     </TextRun>
                   </TextRuns>
                   <Style>
-                    <TextAlign>Left</TextAlign>
+                    <TextAlign>Center</TextAlign>
                   </Style>
                 </Paragraph>
               </Paragraphs>
-              <rd:DefaultName>CompanyName</rd:DefaultName>
-              <Top>0.125in</Top>
-              <Left>0.86333in</Left>
-              <Height>0.25695in</Height>
-              <Width>2.7825in</Width>
-              <ZIndex>1</ZIndex>
-              <Style>
-                <Border>
-                  <Style>None</Style>
-                </Border>
-                <PaddingLeft>2pt</PaddingLeft>
-                <PaddingRight>2pt</PaddingRight>
-                <PaddingTop>2pt</PaddingTop>
-                <PaddingBottom>2pt</PaddingBottom>
-              </Style>
-            </Textbox>
-            <Textbox Name="DivisionName">
-              <CanGrow>true</CanGrow>
-              <KeepTogether>true</KeepTogether>
-              <Paragraphs>
-                <Paragraph>
-                  <TextRuns>
-                    <TextRun>
-                      <Value>Division : </Value>
-                      <Style>
-                        <FontFamily>Tahoma</FontFamily>
-                        <FontWeight>Bold</FontWeight>
-                      </Style>
-                    </TextRun>
-                    <TextRun>
-                      <Value>Consolidated</Value>
-                      <Style>
-                        <FontStyle>Normal</FontStyle>
-                        <FontFamily>Tahoma</FontFamily>
-                        <FontWeight>Bold</FontWeight>
-                        <TextDecoration>None</TextDecoration>
-                        <Color>#000000</Color>
-                      </Style>
-                    </TextRun>
-                  </TextRuns>
-                  <Style>
-                    <TextAlign>Right</TextAlign>
-                  </Style>
-                </Paragraph>
-              </Paragraphs>
-              <rd:DefaultName>DivisionName</rd:DefaultName>
-              <Top>0.125in</Top>
-              <Left>5.30083in</Left>
+              <rd:DefaultName>Textbox97</rd:DefaultName>
+              <Top>0.02184in</Top>
+              <Left>0.025in</Left>
               <Height>0.25in</Height>
-              <Width>5.44368in</Width>
-              <ZIndex>2</ZIndex>
+              <Width>10.885in</Width>
+              <Visibility>
+                <Hidden>=iif(Globals!PageNumber=1 or Globals!RenderFormat.Name &lt;&gt; "PDF",True,False)</Hidden>
+              </Visibility>
               <Style>
                 <Border>
                   <Style>None</Style>
                 </Border>
-                <PaddingLeft>2pt</PaddingLeft>
-                <PaddingRight>2pt</PaddingRight>
-                <PaddingTop>2pt</PaddingTop>
-                <PaddingBottom>2pt</PaddingBottom>
-              </Style>
-            </Textbox>
-            <Textbox Name="CompanyAddress">
-              <CanGrow>true</CanGrow>
-              <KeepTogether>true</KeepTogether>
-              <Paragraphs>
-                <Paragraph>
-                  <TextRuns>
-                    <TextRun>
-                      <Value>=Parameters!CompanyAddress.Value</Value>
-                      <Style>
-                        <FontFamily>Tahoma</FontFamily>
-                      </Style>
-                    </TextRun>
-                  </TextRuns>
-                  <Style />
-                </Paragraph>
-              </Paragraphs>
-              <rd:DefaultName>CompanyAddress</rd:DefaultName>
-              <Top>0.29862in</Top>
-              <Left>0.86333in</Left>
-              <Height>0.25in</Height>
-              <Width>2.7825in</Width>
-              <ZIndex>3</ZIndex>
-              <Style>
-                <Border>
-                  <Style>None</Style>
-                </Border>
-                <PaddingLeft>2pt</PaddingLeft>
-                <PaddingRight>2pt</PaddingRight>
-                <PaddingTop>2pt</PaddingTop>
-                <PaddingBottom>2pt</PaddingBottom>
-              </Style>
-            </Textbox>
-            <Textbox Name="CompanyCity">
-              <CanGrow>true</CanGrow>
-              <KeepTogether>true</KeepTogether>
-              <Paragraphs>
-                <Paragraph>
-                  <TextRuns>
-                    <TextRun>
-                      <Value>=Parameters!CompanyCity.Value</Value>
-                      <Style>
-                        <FontFamily>Tahoma</FontFamily>
-                      </Style>
-                    </TextRun>
-                  </TextRuns>
-                  <Style />
-                </Paragraph>
-              </Paragraphs>
-              <rd:DefaultName>CompanyCity</rd:DefaultName>
-              <Top>0.4375in</Top>
-              <Left>0.8709in</Left>
-              <Height>0.25in</Height>
-              <Width>2.7825in</Width>
-              <ZIndex>4</ZIndex>
-              <Style>
-                <Border>
-                  <Style>None</Style>
-                </Border>
-                <PaddingLeft>2pt</PaddingLeft>
-                <PaddingRight>2pt</PaddingRight>
-                <PaddingTop>2pt</PaddingTop>
-                <PaddingBottom>2pt</PaddingBottom>
-              </Style>
-            </Textbox>
-            <Textbox Name="SiteName">
-              <CanGrow>true</CanGrow>
-              <KeepTogether>true</KeepTogether>
-              <Paragraphs>
-                <Paragraph>
-                  <TextRuns>
-                    <TextRun>
-                      <Value>Site : </Value>
-                      <Style>
-                        <FontFamily>Tahoma</FontFamily>
-                        <FontWeight>Bold</FontWeight>
-                      </Style>
-                    </TextRun>
-                    <TextRun>
-                      <Value>=Parameters!SiteName.Value</Value>
-                      <Style>
-                        <FontFamily>Tahoma</FontFamily>
-                        <FontWeight>Bold</FontWeight>
-                      </Style>
-                    </TextRun>
-                  </TextRuns>
-                  <Style>
-                    <TextAlign>Right</TextAlign>
-                  </Style>
-                </Paragraph>
-              </Paragraphs>
-              <rd:DefaultName>SiteName</rd:DefaultName>
-              <Top>0.29862in</Top>
-              <Left>5.30083in</Left>
-              <Height>0.25in</Height>
-              <Width>5.43875in</Width>
-              <ZIndex>5</ZIndex>
-              <Style>
-                <Border>
-                  <Style>None</Style>
-                </Border>
-                <PaddingLeft>2pt</PaddingLeft>
-                <PaddingRight>2pt</PaddingRight>
-                <PaddingTop>2pt</PaddingTop>
-                <PaddingBottom>2pt</PaddingBottom>
-              </Style>
-            </Textbox>
-            <Image Name="Image4">
-              <Source>Embedded</Source>
-              <Value>SuryaLogo</Value>
-              <Sizing>FitProportional</Sizing>
-              <Top>0.155in</Top>
-              <Left>0.05493in</Left>
-              <Height>0.74083in</Height>
-              <Width>0.80208in</Width>
-              <ZIndex>6</ZIndex>
-              <Style>
-                <Border>
-                  <Style>None</Style>
-                </Border>
-              </Style>
-            </Image>
-            <Textbox Name="Textbox4">
-              <CanGrow>true</CanGrow>
-              <KeepTogether>true</KeepTogether>
-              <Paragraphs>
-                <Paragraph>
-                  <TextRuns>
-                    <TextRun>
-                      <Value>=Parameters!FilterStr1.Value</Value>
-                      <Style>
-                        <FontFamily>Tahoma</FontFamily>
-                        <FontSize>12pt</FontSize>
-                        <FontWeight>Bold</FontWeight>
-                      </Style>
-                    </TextRun>
-                  </TextRuns>
-                  <Style>
-                    <TextAlign>Right</TextAlign>
-                  </Style>
-                </Paragraph>
-              </Paragraphs>
-              <rd:DefaultName>Textbox2</rd:DefaultName>
-              <Top>0.57514in</Top>
-              <Left>6.84863in</Left>
-              <Height>0.25in</Height>
-              <Width>3.89095in</Width>
-              <ZIndex>7</ZIndex>
-              <Style>
-                <Border>
-                  <Style>None</Style>
-                </Border>
-                <PaddingLeft>2pt</PaddingLeft>
-                <PaddingRight>2pt</PaddingRight>
-                <PaddingTop>2pt</PaddingTop>
-                <PaddingBottom>2pt</PaddingBottom>
-              </Style>
-            </Textbox>
-            <Line Name="Line1">
-              <Top>0.9675in</Top>
-              <Left>0.05493in</Left>
-              <Height>0in</Height>
-              <Width>10.6979in</Width>
-              <ZIndex>8</ZIndex>
-              <Style>
-                <Border>
+                <TopBorder>
                   <Style>Solid</Style>
-                </Border>
+                </TopBorder>
+                <BottomBorder>
+                  <Style>Solid</Style>
+                </BottomBorder>
+                <PaddingLeft>2pt</PaddingLeft>
+                <PaddingRight>2pt</PaddingRight>
+                <PaddingTop>2pt</PaddingTop>
+                <PaddingBottom>2pt</PaddingBottom>
               </Style>
-            </Line>
+            </Textbox>
           </ReportItems>
           <Style>
             <Border>
@@ -2620,7 +2493,7 @@
               </Paragraphs>
               <rd:DefaultName>Textbox18</rd:DefaultName>
               <Top>0.01112in</Top>
-              <Left>7.8584in</Left>
+              <Left>8.02332in</Left>
               <Height>0.25in</Height>
               <Width>2.88667in</Width>
               <Style>
@@ -2661,10 +2534,52 @@
               </Paragraphs>
               <rd:DefaultName>Textbox19</rd:DefaultName>
               <Top>0.02778in</Top>
-              <Left>0.05493in</Left>
+              <Left>0.21985in</Left>
               <Height>0.25in</Height>
               <Width>3.3909in</Width>
               <ZIndex>1</ZIndex>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+                <PaddingLeft>2pt</PaddingLeft>
+                <PaddingRight>2pt</PaddingRight>
+                <PaddingTop>2pt</PaddingTop>
+                <PaddingBottom>2pt</PaddingBottom>
+              </Style>
+            </Textbox>
+            <Textbox Name="Textbox124">
+              <CanGrow>true</CanGrow>
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>Print By : </Value>
+                      <Style>
+                        <FontFamily>tahoma</FontFamily>
+                        <FontSize>9pt</FontSize>
+                      </Style>
+                    </TextRun>
+                    <TextRun>
+                      <Value>=Parameters!PrintedBy.Value</Value>
+                      <Style>
+                        <FontFamily>tahoma</FontFamily>
+                        <FontSize>9pt</FontSize>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style>
+                    <TextAlign>Center</TextAlign>
+                  </Style>
+                </Paragraph>
+              </Paragraphs>
+              <rd:DefaultName>Textbox19</rd:DefaultName>
+              <Top>0.05208in</Top>
+              <Left>4.31617in</Left>
+              <Height>0.20833in</Height>
+              <Width>2.60625in</Width>
+              <ZIndex>2</ZIndex>
               <Style>
                 <Border>
                   <Style>None</Style>
@@ -2684,10 +2599,9 @@
         </PageFooter>
         <PageHeight>8.27in</PageHeight>
         <PageWidth>11.69in</PageWidth>
-        <LeftMargin>0.5in</LeftMargin>
-        <RightMargin>0.17in</RightMargin>
-        <TopMargin>0.25in</TopMargin>
-        <BottomMargin>0.17in</BottomMargin>
+        <LeftMargin>0.3in</LeftMargin>
+        <TopMargin>0.15in</TopMargin>
+        <BottomMargin>0.1in</BottomMargin>
         <Style />
       </Page>
     </ReportSection>
@@ -2884,6 +2798,18 @@
       <Nullable>true</Nullable>
       <AllowBlank>true</AllowBlank>
       <Prompt>Job Worker</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="PrintedBy">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>PrintedBy</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="DatabaseConnectionString">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>DatabaseConnectionString</Prompt>
     </ReportParameter>
   </ReportParameters>
   <EmbeddedImages>

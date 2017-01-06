@@ -3,7 +3,10 @@
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
     <DataSource Name="Weaving">
-      <DataSourceReference>DataSourceMain</DataSourceReference>
+      <ConnectionProperties>
+        <DataProvider>SQL</DataProvider>
+        <ConnectString>=Parameters!DatabaseConnectionString.Value</ConnectString>
+      </ConnectionProperties>
       <rd:SecurityType>None</rd:SecurityType>
       <rd:DataSourceID>a4701ec2-a2bf-4f00-a373-e0ef6d3046c3</rd:DataSourceID>
     </DataSource>
@@ -70,18 +73,23 @@
           <QueryParameter Name="@ReportFor">
             <Value>=Parameters!ReportFor.Value</Value>
           </QueryParameter>
+          <QueryParameter Name="@ReportType">
+            <Value>=Parameters!ReportType.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@IsSisterConcern">
+            <Value>=Parameters!IsSisterConcern.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@SampleRecord">
+            <Value>=Parameters!SampleRecord.Value</Value>
+          </QueryParameter>
         </QueryParameters>
         <CommandType>StoredProcedure</CommandType>
-        <CommandText>Web.spRep_WeavingOrderStatus</CommandText>
+        <CommandText>Web.spRep_WeavingOrderStatusSummary</CommandText>
       </Query>
       <Fields>
         <Field Name="OrderNo">
           <DataField>OrderNo</DataField>
           <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="Sr">
-          <DataField>Sr</DataField>
-          <rd:TypeName>System.Int64</rd:TypeName>
         </Field>
         <Field Name="PurjaNo">
           <DataField>PurjaNo</DataField>
@@ -133,11 +141,11 @@
         </Field>
         <Field Name="WoolIssue">
           <DataField>WoolIssue</DataField>
-          <rd:TypeName>System.Decimal</rd:TypeName>
+          <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
         <Field Name="WoolLagat">
           <DataField>WoolLagat</DataField>
-          <rd:TypeName>System.Decimal</rd:TypeName>
+          <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
         <Field Name="Name">
           <DataField>Name</DataField>
@@ -721,7 +729,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=iif(Fields!Pcs.Value = nothing,"-",FormatNumber(Fields!Pcs.Value,0))</Value>
+                                  <Value>=iif(sum(Fields!Pcs.Value) = nothing,"-",FormatNumber(sum(Fields!Pcs.Value),0))</Value>
                                   <Style>
                                     <FontFamily>Tahoma</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -757,7 +765,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=iif(Fields!Cancel.Value = nothing,"-",FormatNumber(Fields!Cancel.Value,0))</Value>
+                                  <Value>=iif(sum(Fields!Cancel.Value) = nothing,"-",FormatNumber(sum(Fields!Cancel.Value),0))</Value>
                                   <Style>
                                     <FontFamily>Tahoma</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -793,7 +801,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=iif(Fields!Receiveqty.Value = nothing,"-",FormatNumber(Fields!Receiveqty.Value,0))</Value>
+                                  <Value>=iif(sum(Fields!Receiveqty.Value) = nothing,"-",FormatNumber(sum(Fields!Receiveqty.Value),0))</Value>
                                   <Style>
                                     <FontFamily>Tahoma</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -829,7 +837,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=iif(Fields!BalanceQty.Value = nothing,"-",FormatNumber(Fields!BalanceQty.Value,0))</Value>
+                                  <Value>=iif(sum(Fields!BalanceQty.Value) = nothing,"-",FormatNumber(sum(Fields!BalanceQty.Value),0))</Value>
                                   <Style>
                                     <FontFamily>Tahoma</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -1669,8 +1677,7 @@
                               <Paragraph>
                                 <TextRuns>
                                   <TextRun>
-                                    <Value>
-=Fields!Name.Value</Value>
+                                    <Value>=Fields!Name.Value</Value>
                                     <Style>
                                       <FontFamily>Tahoma</FontFamily>
                                       <FontSize>9pt</FontSize>
@@ -2111,10 +2118,14 @@
                                                                           </TablixHeader>
                                                                           <TablixMembers>
                                                                             <TablixMember>
-                                                                              <Group Name="Details" />
+                                                                              <Group Name="size">
+                                                                                <GroupExpressions>
+                                                                                  <GroupExpression>=Fields!size.Value</GroupExpression>
+                                                                                </GroupExpressions>
+                                                                              </Group>
                                                                               <SortExpressions>
                                                                                 <SortExpression>
-                                                                                  <Value>=Fields!Date.Value</Value>
+                                                                                  <Value>=Fields!size.Value</Value>
                                                                                 </SortExpression>
                                                                               </SortExpressions>
                                                                               <TablixMembers>
@@ -2160,7 +2171,7 @@
                               <Paragraph>
                                 <TextRuns>
                                   <TextRun>
-                                    <Value>="Total"+"  "+"Area Sq. Yard : " + iif(Sum(Fields!Dealqty.Value) &lt;&gt; 0, formatnumber(Sum(Fields!Dealqty.Value),4) ,"-")</Value>
+                                    <Value>="Total  Balance Area : "+iif(Sum(Fields!Dealqty.Value) &lt;&gt; 0, formatnumber(Sum(Fields!Dealqty.Value),4) ,"-")</Value>
                                     <Style>
                                       <FontFamily>Tahoma</FontFamily>
                                       <FontSize>8pt</FontSize>
@@ -2514,7 +2525,7 @@
                           <Paragraph>
                             <TextRuns>
                               <TextRun>
-                                <Value>Total </Value>
+                                <Value>="G. Total  Balance Area : "+iif(Sum(Fields!Dealqty.Value) &lt;&gt; 0, formatnumber(Sum(Fields!Dealqty.Value),4) ,"-")</Value>
                                 <Style>
                                   <FontFamily>Tahoma</FontFamily>
                                   <FontSize>8pt</FontSize>
@@ -2523,7 +2534,7 @@
                               </TextRun>
                             </TextRuns>
                             <Style>
-                              <TextAlign>Right</TextAlign>
+                              <TextAlign>Left</TextAlign>
                             </Style>
                           </Paragraph>
                         </Paragraphs>
@@ -4059,6 +4070,20 @@
           </Textbox>
           <Subreport Name="Subreport2">
             <ReportName>CompanyDetail_Landscap</ReportName>
+            <Parameters>
+              <Parameter Name="SiteId">
+                <Value>=First(Fields!SiteId.Value, "DsMain")</Value>
+              </Parameter>
+              <Parameter Name="DivisionId">
+                <Value>=First(Fields!DivisionId.Value, "DsMain")</Value>
+              </Parameter>
+              <Parameter Name="DatabaseConnectionString">
+                <Value>=Parameters!DatabaseConnectionString.Value</Value>
+              </Parameter>
+              <Parameter Name="PrintedBy">
+                <Value>=Parameters!PrintedBy.Value</Value>
+              </Parameter>
+            </Parameters>
             <Top>0.03118in</Top>
             <Left>0.01743in</Left>
             <Height>0.35656in</Height>
@@ -4283,6 +4308,7 @@
         <PageHeight>8.27in</PageHeight>
         <PageWidth>11.69in</PageWidth>
         <LeftMargin>0.3in</LeftMargin>
+        <TopMargin>0.1in</TopMargin>
         <Style />
       </Page>
     </ReportSection>
@@ -4539,6 +4565,30 @@
       <Nullable>true</Nullable>
       <AllowBlank>true</AllowBlank>
       <Prompt>PrintedBy</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="ReportType">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Report Type</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="DatabaseConnectionString">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>DatabaseConnectionString</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="IsSisterConcern">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Is Sister Concern</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="SampleRecord">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Sample Record</Prompt>
     </ReportParameter>
   </ReportParameters>
   <EmbeddedImages>
