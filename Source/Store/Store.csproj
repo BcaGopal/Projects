@@ -235,6 +235,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminSetupController.cs" />
     <Compile Include="Controllers\ComboHelpListController.cs" />
+    <Compile Include="Controllers\GatePassCheckController.cs" />
     <Compile Include="Controllers\GatePassHeaderController.cs" />
     <Compile Include="Controllers\GatePassLineController.cs" />
     <Compile Include="Controllers\ProductGroupProcessSettingsController.cs" />
@@ -887,6 +888,11 @@
     <Content Include="Views\GatePassLine\_Filters.cshtml" />
     <Content Include="Views\GatePassLine\_Index.cshtml" />
     <Content Include="Views\GatePassLine\_Results.cshtml" />
+    <Content Include="Views\GatePassCheck\_LineProgress.cshtml" />
+    <Content Include="Views\GatePassCheck\_Reason.cshtml" />
+    <Content Include="Views\GatePassCheck\Create.cshtml" />
+    <Content Include="Views\GatePassCheck\Detail.cshtml" />
+    <Content Include="Views\GatePassCheck\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
