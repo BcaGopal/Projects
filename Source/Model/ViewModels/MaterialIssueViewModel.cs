@@ -124,6 +124,8 @@ namespace Model.ViewModel
         public Decimal ExcessStockQty { get; set; }
         public Decimal ? RequisitionBalanceQty { get; set; }
 
+        public Decimal? StockInBalanceQty { get; set; }
+
         [Display(Name = "Remark")]
         public string Remark { get; set; }
 
@@ -168,6 +170,8 @@ namespace Model.ViewModel
         public int? PersonId { get; set; }
         public string PersonName { get; set; }
         public int ProductGroupId { get; set; }
+        public int? StockInId { get; set; }
+        public string StockInNo { get; set; }
         public bool Issue { get; set; }
         public string LockReason { get; set; }
     }

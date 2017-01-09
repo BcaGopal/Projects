@@ -5726,6 +5726,26 @@ namespace Web
             //return Json(ProductJson);
         }
 
+        public JsonResult SetSingleStockIn(int Ids)
+        {
+            ComboBoxResult StockInJson = new ComboBoxResult();
+
+            var StockInLine = from L in db.Stock
+                              join H in db.StockHeader on L.StockHeaderId equals H.StockHeaderId into StockHeaderTable
+                              from StockHeaderTab in StockHeaderTable.DefaultIfEmpty()
+                              where L.StockId == Ids
+                              select new
+                              {
+                                  StockInId = L.StockId,
+                                  StockInNo = StockHeaderTab.DocNo
+                              };
+
+            StockInJson.id = StockInLine.FirstOrDefault().ToString();
+            StockInJson.text = StockInLine.FirstOrDefault().StockInNo;
+
+            return Json(StockInJson);
+        }
+
 
     }
 }

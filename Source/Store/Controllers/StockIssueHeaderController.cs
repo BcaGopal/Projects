@@ -784,6 +784,16 @@ namespace Web
 
                 foreach (var item in StockIdList)
                 {
+                    StockAdj Adj = (from L in context.StockAdj
+                                    where L.StockOutId == item
+                                    select L).FirstOrDefault();
+
+                    if (Adj != null)
+                    {
+                        Adj.ObjectState = Model.ObjectState.Deleted;
+                        context.StockAdj.Remove(Adj);
+                    }
+
                     new StockService(_unitOfWork).DeleteStockDB(item, ref context, true);
                 }
 
