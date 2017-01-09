@@ -66,6 +66,17 @@
                       <ReportItems>
                         <Subreport Name="CarpetIssueForWashingPrint4">
                           <ReportName>CarpetIssueForWashingPrint4</ReportName>
+                          <Parameters>
+                            <Parameter Name="Id">
+                              <Value>=Parameters!Id.Value</Value>
+                            </Parameter>
+                            <Parameter Name="DatabaseConnectionString">
+                              <Value>=Parameters!DatabaseConnectionString.Value</Value>
+                            </Parameter>
+                            <Parameter Name="PrintedBy">
+                              <Value>=Parameters!PrintedBy.Value</Value>
+                            </Parameter>
+                          </Parameters>
                           <Top>0.03864in</Top>
                           <Left>0.03236in</Left>
                           <Height>0.2843in</Height>
@@ -676,6 +687,17 @@
                       <ReportItems>
                         <Subreport Name="WashingGatePassPrint">
                           <ReportName>WashingGatePassPrint</ReportName>
+                          <Parameters>
+                            <Parameter Name="Id">
+                              <Value>=Fields!GatePassHeaderId.Value</Value>
+                            </Parameter>
+                            <Parameter Name="RefDocNo">
+                              <Value>=Fields!SlipNo.Value</Value>
+                            </Parameter>
+                            <Parameter Name="DatabaseConnectionString">
+                              <Value>=Parameters!DatabaseConnectionString.Value</Value>
+                            </Parameter>
+                          </Parameters>
                           <Top>0.06534in</Top>
                           <Left>0.02935in</Left>
                           <Height>0.30208in</Height>
@@ -2018,6 +2040,14 @@
       </Tablix>
       <Subreport Name="Subreport2">
         <ReportName>CompanyDetail</ReportName>
+        <Parameters>
+          <Parameter Name="SiteId">
+            <Value>=First(Fields!SiteId.Value, "DsMain")</Value>
+          </Parameter>
+          <Parameter Name="DivisionId">
+            <Value>=First(Fields!DivisionId.Value, "DsMain")</Value>
+          </Parameter>
+        </Parameters>
         <Top>0.025in</Top>
         <Left>0.03906in</Left>
         <Height>0.26299in</Height>
@@ -3083,6 +3113,14 @@
       </Tablix>
       <Subreport Name="ProvisionalCompanyDetail">
         <ReportName>ProvisionalCompanyDetail</ReportName>
+        <Parameters>
+          <Parameter Name="SiteId">
+            <Value>=First(Fields!SiteId.Value, "DsMain")</Value>
+          </Parameter>
+          <Parameter Name="DivisionId">
+            <Value>=First(Fields!DivisionId.Value, "DsMain")</Value>
+          </Parameter>
+        </Parameters>
         <Top>0.32902in</Top>
         <Left>0.025in</Left>
         <Height>0.3in</Height>
@@ -3268,7 +3306,7 @@
           <Top>0.04167in</Top>
           <Left>0.07276in</Left>
           <Height>0.25in</Height>
-          <Width>2.62569in</Width>
+          <Width>3.71944in</Width>
           <Style>
             <Border>
               <Style>None</Style>
@@ -3335,42 +3373,6 @@
             <PaddingBottom>2pt</PaddingBottom>
           </Style>
         </Textbox>
-        <Textbox Name="Textbox154">
-          <CanGrow>true</CanGrow>
-          <KeepTogether>true</KeepTogether>
-          <Paragraphs>
-            <Paragraph>
-              <TextRuns>
-                <TextRun>
-                  <Value>="Printed By : " + Parameters!PrintedBy.Value</Value>
-                  <Style>
-                    <FontFamily>tahoma</FontFamily>
-                    <FontSize>9pt</FontSize>
-                    <Format>dd-MMM-yy hh:mm:ss tt</Format>
-                  </Style>
-                </TextRun>
-              </TextRuns>
-              <Style>
-                <TextAlign>Center</TextAlign>
-              </Style>
-            </Paragraph>
-          </Paragraphs>
-          <rd:DefaultName>Textbox19</rd:DefaultName>
-          <Top>0.05354in</Top>
-          <Left>2.6162in</Left>
-          <Height>0.23804in</Height>
-          <Width>2.69903in</Width>
-          <ZIndex>2</ZIndex>
-          <Style>
-            <Border>
-              <Style>None</Style>
-            </Border>
-            <PaddingLeft>2pt</PaddingLeft>
-            <PaddingRight>2pt</PaddingRight>
-            <PaddingTop>2pt</PaddingTop>
-            <PaddingBottom>2pt</PaddingBottom>
-          </Style>
-        </Textbox>
       </ReportItems>
       <Style>
         <Border>
@@ -3387,7 +3389,10 @@
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
     <DataSource Name="Purchase">
-      <DataSourceReference>DataSourceMain</DataSourceReference>
+      <ConnectionProperties>
+        <DataProvider>SQL</DataProvider>
+        <ConnectString>=Parameters!DatabaseConnectionString.Value</ConnectString>
+      </ConnectionProperties>
       <rd:SecurityType>None</rd:SecurityType>
       <rd:DataSourceID>727bb65e-cc51-4d28-a097-a8ea7d087931</rd:DataSourceID>
     </DataSource>
@@ -3595,6 +3600,12 @@
       <DataType>Integer</DataType>
       <Nullable>true</Nullable>
       <Prompt>Id</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="DatabaseConnectionString">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>DatabaseConnectionString</Prompt>
     </ReportParameter>
     <ReportParameter Name="PrintedBy">
       <DataType>String</DataType>
@@ -3837,3 +3848,4 @@ PtQeVUENmewh02zjEWZuZuLElNvBS6gDSXQMHP8A5UE5f6lWFPkR2q6ZG8HZI8xgvruK93SMJUsHJ61z
   <rd:ReportUnitType>Inch</rd:ReportUnitType>
   <rd:ReportID>f1b70379-da78-4ea9-bab5-cbb93d10df58</rd:ReportID>
 </Report>
+

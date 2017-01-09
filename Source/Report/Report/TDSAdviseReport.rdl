@@ -37,6 +37,9 @@
           <QueryParameter Name="@JobworkerId">
             <Value>=Parameters!JobworkerId.Value</Value>
           </QueryParameter>
+          <QueryParameter Name="@BranchRecord">
+            <Value>=Parameters!BranchRecord.Value</Value>
+          </QueryParameter>
         </QueryParameters>
         <CommandType>StoredProcedure</CommandType>
         <CommandText>Web.spRep_TDSAdvise</CommandText>
@@ -1488,7 +1491,10 @@
             </TablixColumnHierarchy>
             <TablixRowHierarchy>
               <TablixMembers>
-                <TablixMember />
+                <TablixMember>
+                  <KeepWithGroup>After</KeepWithGroup>
+                  <RepeatOnNewPage>true</RepeatOnNewPage>
+                </TablixMember>
                 <TablixMember>
                   <Group Name="ProcessSr">
                     <GroupExpressions>
@@ -2521,7 +2527,7 @@
             <Width>7.6753in</Width>
             <ZIndex>1</ZIndex>
             <Visibility>
-              <Hidden>=iif(Parameters!FileType.Value &lt;&gt; "PDF",True,False)</Hidden>
+              <Hidden>=iif(Globals!RenderFormat.Name &lt;&gt; "PDF",True,False)</Hidden>
             </Visibility>
             <Style>
               <Border>
@@ -2538,6 +2544,12 @@
               <Parameter Name="DivisionId">
                 <Value>=First(Fields!DivisionId.Value, "DsMain")</Value>
               </Parameter>
+              <Parameter Name="DatabaseConnectionString">
+                <Value>=Parameters!DatabaseConnectionString.Value</Value>
+              </Parameter>
+              <Parameter Name="PrintedBy">
+                <Value>=Parameters!PrintedBy.Value</Value>
+              </Parameter>
             </Parameters>
             <Top>0.02778in</Top>
             <Left>0.05493in</Left>
@@ -2545,7 +2557,7 @@
             <Width>7.6628in</Width>
             <ZIndex>2</ZIndex>
             <Visibility>
-              <Hidden>=iif(Parameters!FileType.Value &lt;&gt; "PDF",True,False)</Hidden>
+              <Hidden>=iif(Globals!RenderFormat.Name &lt;&gt; "PDF",True,False)</Hidden>
             </Visibility>
             <Style>
               <Border>
@@ -2580,7 +2592,7 @@
             <Width>7.6753in</Width>
             <ZIndex>3</ZIndex>
             <Visibility>
-              <Hidden>=iif(Parameters!FileType.Value &lt;&gt; "PDF",True,False)</Hidden>
+              <Hidden>=iif(Globals!RenderFormat.Name &lt;&gt; "PDF",True,False)</Hidden>
             </Visibility>
             <Style>
               <Border>
@@ -2634,7 +2646,7 @@
         <Height>6.40833in</Height>
         <Style />
       </Body>
-      <Width>7.73023in</Width>
+      <Width>7.76148in</Width>
       <Page>
         <PageHeader>
           <Height>0.31541in</Height>
@@ -2667,7 +2679,7 @@
               <Height>0.25in</Height>
               <Width>7.6753in</Width>
               <Visibility>
-                <Hidden>=iif(Globals!PageNumber=1,True,False)</Hidden>
+                <Hidden>=iif(Globals!PageNumber=1 or Globals!RenderFormat.Name &lt;&gt; "PDF",True,False)</Hidden>
               </Visibility>
               <Style>
                 <Border>
@@ -3286,6 +3298,12 @@
       <Nullable>true</Nullable>
       <AllowBlank>true</AllowBlank>
       <Prompt>ProcessGroup</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="BranchRecord">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Branch Record</Prompt>
     </ReportParameter>
   </ReportParameters>
   <EmbeddedImages>

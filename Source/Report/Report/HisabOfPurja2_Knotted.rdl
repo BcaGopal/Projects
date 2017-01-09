@@ -359,6 +359,8 @@
           </TablixMembers>
         </TablixRowHierarchy>
         <DataSetName>DsMain</DataSetName>
+        <Top>0.025in</Top>
+        <Left>0.025in</Left>
         <Height>1in</Height>
         <Width>2.45833in</Width>
         <Style>
@@ -367,11 +369,34 @@
           </Border>
         </Style>
       </Tablix>
+      <Subreport Name="HisabOfPurja3">
+        <ReportName>HisabOfPurja3</ReportName>
+        <Parameters>
+          <Parameter Name="CostCenterId">
+            <Value>=First(Fields!CostCenterId.Value, "DsMain")</Value>
+          </Parameter>
+          <Parameter Name="Site">
+            <Value>=First(Fields!SiteId.Value, "DsMain")</Value>
+          </Parameter>
+          <Parameter Name="Division">
+            <Value>=First(Fields!DivisionId.Value, "DsMain")</Value>
+          </Parameter>
+        </Parameters>
+        <Top>1.05278in</Top>
+        <Height>0.30208in</Height>
+        <Width>2.45833in</Width>
+        <ZIndex>1</ZIndex>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+        </Style>
+      </Subreport>
     </ReportItems>
-    <Height>1in</Height>
+    <Height>1.38021in</Height>
     <Style />
   </Body>
-  <Width>2.5625in</Width>
+  <Width>2.52083in</Width>
   <Page>
     <PageHeight>11.69in</PageHeight>
     <PageWidth>4in</PageWidth>
@@ -380,7 +405,10 @@
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
     <DataSource Name="Purchase">
-      <DataSourceReference>DataSourceMain</DataSourceReference>
+      <ConnectionProperties>
+        <DataProvider>SQL</DataProvider>
+        <ConnectString>=Parameters!DatabaseConnectionString.Value</ConnectString>
+      </ConnectionProperties>
       <rd:SecurityType>None</rd:SecurityType>
       <rd:DataSourceID>727bb65e-cc51-4d28-a097-a8ea7d087931</rd:DataSourceID>
     </DataSource>
@@ -395,9 +423,6 @@
           </QueryParameter>
           <QueryParameter Name="@Division">
             <Value>=Parameters!Division.Value</Value>
-          </QueryParameter>
-          <QueryParameter Name="@JobWorkerId">
-            <Value>=Parameters!JobWorkerId.Value</Value>
           </QueryParameter>
           <QueryParameter Name="@CostCenterId">
             <Value>=Parameters!CostCenterId.Value</Value>
@@ -419,8 +444,8 @@
           <DataField>CostCenterId</DataField>
           <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
-        <Field Name="LedgerHeaderId">
-          <DataField>LedgerHeaderId</DataField>
+        <Field Name="DocTypeId">
+          <DataField>DocTypeId</DataField>
           <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
         <Field Name="DocumentTypeName">
@@ -467,17 +492,17 @@
       <AllowBlank>true</AllowBlank>
       <Prompt>Division</Prompt>
     </ReportParameter>
-    <ReportParameter Name="JobWorkerId">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>Job Worker Id</Prompt>
-    </ReportParameter>
     <ReportParameter Name="CostCenterId">
       <DataType>String</DataType>
       <Nullable>true</Nullable>
       <AllowBlank>true</AllowBlank>
-      <Prompt>CostCenterId</Prompt>
+      <Prompt>Cost Center Id</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="DatabaseConnectionString">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>DatabaseConnectionString</Prompt>
     </ReportParameter>
   </ReportParameters>
   <EmbeddedImages>
@@ -493,3 +518,4 @@ PtQeVUENmewh02zjEWZuZuLElNvBS6gDSXQMHP8A5UE5f6lWFPkR2q6ZG8HZI8xgvruK93SMJUsHJ61z
   <rd:ReportUnitType>Inch</rd:ReportUnitType>
   <rd:ReportID>f1b70379-da78-4ea9-bab5-cbb93d10df58</rd:ReportID>
 </Report>
+

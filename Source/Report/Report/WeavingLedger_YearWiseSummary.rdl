@@ -46,6 +46,9 @@
           <QueryParameter Name="@CostCenterType">
             <Value>=Parameters!CostCenterType.Value</Value>
           </QueryParameter>
+          <QueryParameter Name="@WeavingRegister">
+            <Value>=Parameters!WeavingRegister.Value</Value>
+          </QueryParameter>
         </QueryParameters>
         <CommandType>StoredProcedure</CommandType>
         <CommandText>Web.spRep_WeavingLedger</CommandText>
@@ -3820,6 +3823,12 @@
       <Nullable>true</Nullable>
       <AllowBlank>true</AllowBlank>
       <Prompt>Cost Center Type</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="WeavingRegister">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Weaving Register</Prompt>
     </ReportParameter>
   </ReportParameters>
   <EmbeddedImages>

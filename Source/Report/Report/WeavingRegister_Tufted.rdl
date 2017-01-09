@@ -49,6 +49,9 @@
           <QueryParameter Name="@DateFilterOn">
             <Value>=Parameters!DateFilterOn.Value</Value>
           </QueryParameter>
+          <QueryParameter Name="@StatusOnDate">
+            <Value>=Parameters!StatusOnDate.Value</Value>
+          </QueryParameter>
         </QueryParameters>
         <CommandType>StoredProcedure</CommandType>
         <CommandText>Web.spRep_WeavingRegister</CommandText>
@@ -110,6 +113,10 @@
           <DataField>ReportTitle</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
+        <Field Name="SilkQty_1">
+          <DataField>SilkQty</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
         <Field Name="JuteQty">
           <DataField>JuteQty</DataField>
           <rd:TypeName>System.Decimal</rd:TypeName>
@@ -118,8 +125,20 @@
           <DataField>ReceiveArea</DataField>
           <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
+        <Field Name="LakshiQty">
+          <DataField>LakshiQty</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="TharriQty">
+          <DataField>TharriQty</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
         <Field Name="CottonConeQty">
           <DataField>CottonConeQty</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="AangaQty">
+          <DataField>AangaQty</DataField>
           <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
         <Field Name="SootQty">
@@ -132,7 +151,7 @@
         </Field>
         <Field Name="InvoiceAmount">
           <DataField>InvoiceAmount</DataField>
-          <rd:TypeName>System.Double</rd:TypeName>
+          <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
         <Field Name="DivisionId">
           <DataField>DivisionId</DataField>
@@ -140,15 +159,15 @@
         </Field>
         <Field Name="ReceiveIncentiveAmount">
           <DataField>ReceiveIncentiveAmount</DataField>
-          <rd:TypeName>System.Double</rd:TypeName>
+          <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
         <Field Name="ReceivePenaltyAmount">
           <DataField>ReceivePenaltyAmount</DataField>
-          <rd:TypeName>System.Double</rd:TypeName>
+          <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
         <Field Name="RateSettlementQty">
           <DataField>RateSettlementQty</DataField>
-          <rd:TypeName>System.Double</rd:TypeName>
+          <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
         <Field Name="RateSettlementAmount">
           <DataField>RateSettlementAmount</DataField>
@@ -160,51 +179,54 @@
         </Field>
         <Field Name="TimeIncentiveAmount">
           <DataField>TimeIncentiveAmount</DataField>
-          <rd:TypeName>System.Double</rd:TypeName>
+          <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
         <Field Name="TimePenaltyAmount">
           <DataField>TimePenaltyAmount</DataField>
-          <rd:TypeName>System.Double</rd:TypeName>
+          <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
         <Field Name="BalanceAmount">
           <DataField>BalanceAmount</DataField>
-          <rd:TypeName>System.Double</rd:TypeName>
+          <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
         <Field Name="TDSAmount">
           <DataField>TDSAmount</DataField>
-          <rd:TypeName>System.Double</rd:TypeName>
+          <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
         <Field Name="FragmentationPenaltyAmount">
           <DataField>FragmentationPenaltyAmount</DataField>
-          <rd:TypeName>System.Double</rd:TypeName>
+          <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
         <Field Name="DebitCreditAmount">
           <DataField>DebitCreditAmount</DataField>
-          <rd:TypeName>System.Double</rd:TypeName>
+          <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
         <Field Name="SchemeIncentiveAmount">
           <DataField>SchemeIncentiveAmount</DataField>
-          <rd:TypeName>System.Double</rd:TypeName>
+          <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
         <Field Name="DebitAmount">
           <DataField>DebitAmount</DataField>
-          <rd:TypeName>System.Double</rd:TypeName>
+          <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
         <Field Name="TransferAmount">
           <DataField>TransferAmount</DataField>
-          <rd:TypeName>System.Double</rd:TypeName>
+          <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
         <Field Name="CreditAmount">
           <DataField>CreditAmount</DataField>
-          <rd:TypeName>System.Double</rd:TypeName>
+          <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
         <Field Name="NetPayableAmount">
           <DataField>NetPayableAmount</DataField>
-          <rd:TypeName>System.Double</rd:TypeName>
+          <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
         <Field Name="PaymentAmount">
           <DataField>PaymentAmount</DataField>
-          <rd:TypeName>System.Double</rd:TypeName>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="SilkQty">
+          <Value>SilkQty</Value>
         </Field>
       </Fields>
     </DataSet>
@@ -2048,7 +2070,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!YarnQty.Value</Value>
+                                  <Value>=Fields!YarnQty.Value+Fields!SilkQty.Value</Value>
                                   <Style>
                                     <FontFamily>Tahoma</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -2783,7 +2805,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=RunningValue(Fields!YarnQty.Value, Sum, nothing )</Value>
+                                  <Value>=RunningValue(Fields!YarnQty.Value+Fields!SilkQty.Value, Sum, nothing )</Value>
                                   <Style>
                                     <FontFamily>Tahoma</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -3428,7 +3450,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Sum(Fields!YarnQty.Value)</Value>
+                                  <Value>=Sum(Fields!YarnQty.Value+Fields!SilkQty.Value)</Value>
                                   <Style>
                                     <FontFamily>Tahoma</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -5322,6 +5344,7 @@
                             <PaddingBottom>2pt</PaddingBottom>
                           </Style>
                         </Textbox>
+                        <rd:Selected>true</rd:Selected>
                       </CellContents>
                     </TablixCell>
                     <TablixCell>
@@ -6149,6 +6172,12 @@
               </Parameter>
               <Parameter Name="DivisionId">
                 <Value>=First(Fields!DivisionId.Value, "DsMain")</Value>
+              </Parameter>
+              <Parameter Name="DatabaseConnectionString">
+                <Value>=Parameters!DatabaseConnectionString.Value</Value>
+              </Parameter>
+              <Parameter Name="PrintedBy">
+                <Value>=Parameters!PrintedBy.Value</Value>
               </Parameter>
             </Parameters>
             <Top>0.025in</Top>
@@ -7308,6 +7337,12 @@
       <Nullable>true</Nullable>
       <AllowBlank>true</AllowBlank>
       <Prompt>DatabaseConnectionString</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="StatusOnDate">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Status On Date</Prompt>
     </ReportParameter>
   </ReportParameters>
   <EmbeddedImages>

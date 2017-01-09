@@ -207,7 +207,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Parameters!CompanyName.Value</Value>
+                              <Value>=max(fields!CompanyName.Value)</Value>
                               <Style>
                                 <FontFamily>tahoma</FontFamily>
                                 <FontSize>8pt</FontSize>
@@ -313,7 +313,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Parameters!CompanyAddress.Value</Value>
+                              <Value>=max(fields!CompanyAddress.Value)</Value>
                               <Style>
                                 <FontFamily>tahoma</FontFamily>
                                 <FontSize>8pt</FontSize>
@@ -419,7 +419,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Parameters!CompanyCity.Value</Value>
+                              <Value>=max(fields!CompanyCity.Value)</Value>
                               <Style>
                                 <FontFamily>tahoma</FontFamily>
                                 <FontSize>8pt</FontSize>
@@ -525,7 +525,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Parameters!CompanyCountry.Value</Value>
+                              <Value>=max(fields!CompanyCountry.Value)</Value>
                               <Style>
                                 <FontFamily>tahoma</FontFamily>
                                 <FontSize>8pt</FontSize>
@@ -3087,7 +3087,10 @@ Fields!InvoiceAmount.Value,Sum(Fields!Amount.Value, "DsMain"))</Value>
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
     <DataSource Name="SalesReports">
-      <DataSourceReference>DataSourceMain</DataSourceReference>
+      <ConnectionProperties>
+        <DataProvider>SQL</DataProvider>
+        <ConnectString>=Parameters!DatabaseConnectionString.Value</ConnectString>
+      </ConnectionProperties>
       <rd:SecurityType>None</rd:SecurityType>
       <rd:DataSourceID>ecc7d78d-35f4-4535-b69a-8676e99d21e4</rd:DataSourceID>
     </DataSource>
@@ -3100,6 +3103,9 @@ Fields!InvoiceAmount.Value,Sum(Fields!Amount.Value, "DsMain"))</Value>
           <QueryParameter Name="@Id">
             <Value>=Parameters!Id.Value</Value>
           </QueryParameter>
+          <QueryParameter Name="@ReportType">
+            <Value>=Parameters!ReportType.Value</Value>
+          </QueryParameter>
         </QueryParameters>
         <CommandType>StoredProcedure</CommandType>
         <CommandText>Web.ProcSaleInvoicePrint_ForInvoice</CommandText>
@@ -3109,20 +3115,44 @@ Fields!InvoiceAmount.Value,Sum(Fields!Amount.Value, "DsMain"))</Value>
           <DataField>SaleInvoiceHeaderId</DataField>
           <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
+        <Field Name="CompanyName">
+          <DataField>CompanyName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
         <Field Name="DocDate">
           <DataField>DocDate</DataField>
           <rd:TypeName>System.DateTime</rd:TypeName>
         </Field>
+        <Field Name="CountryName">
+          <DataField>CountryName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="ExciseDivision">
+          <DataField>ExciseDivision</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
         <Field Name="DocNo">
           <DataField>DocNo</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="DirectorName">
+          <DataField>DirectorName</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="BillToBuyerName">
           <DataField>BillToBuyerName</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
+        <Field Name="Phone">
+          <DataField>Phone</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
         <Field Name="BillToBuyerAddress">
           <DataField>BillToBuyerAddress</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Fax">
+          <DataField>Fax</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="BIllToPartyCity">
@@ -3133,17 +3163,33 @@ Fields!InvoiceAmount.Value,Sum(Fields!Amount.Value, "DsMain"))</Value>
           <DataField>BillToPartyCountry</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
+        <Field Name="BankName">
+          <DataField>BankName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
         <Field Name="CurrencyName">
           <DataField>CurrencyName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="BankBranch">
+          <DataField>BankBranch</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="BLNo">
           <DataField>BLNo</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
+        <Field Name="CompanyAddress">
+          <DataField>CompanyAddress</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
         <Field Name="BLDate">
           <DataField>BLDate</DataField>
           <rd:TypeName>System.DateTime</rd:TypeName>
+        </Field>
+        <Field Name="CompanyCity">
+          <DataField>CompanyCity</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="PrivateMark">
           <DataField>PrivateMark</DataField>
@@ -3561,6 +3607,48 @@ Fields!InvoiceAmount.Value,Sum(Fields!Amount.Value, "DsMain"))</Value>
       <DataType>Integer</DataType>
       <Nullable>true</Nullable>
       <Prompt>Id</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="ReportType">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Report Type</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="DatabaseConnectionString">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>DatabaseConnectionString</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="FilterStr1">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>FilterStr1</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="FilterStr2">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>FilterStr2</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="FilterStr3">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>FilterStr3</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="FilterStr4">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>FilterStr4</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="PrintedBy">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>PrintedBy</Prompt>
     </ReportParameter>
   </ReportParameters>
   <EmbeddedImages>

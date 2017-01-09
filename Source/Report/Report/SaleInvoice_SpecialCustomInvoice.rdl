@@ -77,7 +77,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Parameters!CompanyName.Value</Value>
+                              <Value>=fields!CompanyName.Value</Value>
                               <Style>
                                 <FontSize>8pt</FontSize>
                               </Style>
@@ -231,7 +231,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Parameters!CompanyAddress.Value</Value>
+                              <Value>=fields!CompanyAddress.Value</Value>
                               <Style>
                                 <FontSize>8pt</FontSize>
                               </Style>
@@ -372,7 +372,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Parameters!CompanyCity.Value</Value>
+                              <Value>=fields!CompanyCity.Value</Value>
                               <Style>
                                 <FontSize>8pt</FontSize>
                               </Style>
@@ -384,7 +384,7 @@
                               </Style>
                             </TextRun>
                             <TextRun>
-                              <Value>=Parameters!CompanyCountry.Value</Value>
+                              <Value>=fields!CountryName.Value</Value>
                               <Style>
                                 <FontSize>8pt</FontSize>
                               </Style>
@@ -1005,7 +1005,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Parameters!CompanyCountry.Value</Value>
+                              <Value>=fields!CountryName.Value</Value>
                               <Style>
                                 <FontSize>8pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
@@ -3235,7 +3235,7 @@ AS PER INVOICE</Value>
                           <TextRuns>
                             <TextRun>
                               <Value>if the goods were not sold or agreed to be sold .I have 
-(B) checked box © and have indicated in coloumn 19 the price I would be willing to receive.
+(B) checked box Ac and have indicated in coloumn 19 the price I would be willing to receive.
 </Value>
                               <Style>
                                 <FontSize>8pt</FontSize>
@@ -4594,29 +4594,40 @@ Exceeds 5500 Otherwise Use Commercial Invoice.
   <DataSources>
     <DataSource Name="dsReport">
       <ConnectionProperties>
-        <DataProvider>System.Data.DataSet</DataProvider>
-        <ConnectString>/* Local Connection */</ConnectString>
+        <DataProvider>SQL</DataProvider>
+        <ConnectString>=Parameters!DatabaseConnectionString.Value</ConnectString>
       </ConnectionProperties>
+      <rd:SecurityType>None</rd:SecurityType>
       <rd:DataSourceID>7ff49b37-46cf-4f5a-ab89-5a4b7093584f</rd:DataSourceID>
-    </DataSource>
-    <DataSource Name="SalesReports">
-      <ConnectionProperties>
-        <DataProvider>System.Data.DataSet</DataProvider>
-        <ConnectString>/* Local Connection */</ConnectString>
-      </ConnectionProperties>
-      <rd:DataSourceID>ecc7d78d-35f4-4535-b69a-8676e99d21e4</rd:DataSourceID>
     </DataSource>
   </DataSources>
   <DataSets>
     <DataSet Name="DsMain">
       <Query>
-        <DataSourceName>SalesReports</DataSourceName>
-        <CommandText>/* Local Query */</CommandText>
+        <DataSourceName>dsReport</DataSourceName>
+        <QueryParameters>
+          <QueryParameter Name="@Id">
+            <Value>=Parameters!Id.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@ReportType">
+            <Value>=Parameters!ReportType.Value</Value>
+          </QueryParameter>
+        </QueryParameters>
+        <CommandType>StoredProcedure</CommandType>
+        <CommandText>Web.ProcSaleInvoicePrint</CommandText>
       </Query>
       <Fields>
         <Field Name="SaleInvoiceHeaderId">
           <DataField>SaleInvoiceHeaderId</DataField>
           <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="CompanyName">
+          <DataField>CompanyName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CountryName">
+          <DataField>CountryName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="DocDate">
           <DataField>DocDate</DataField>
@@ -4626,12 +4637,28 @@ Exceeds 5500 Otherwise Use Commercial Invoice.
           <DataField>DocNo</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
+        <Field Name="ExciseDivision">
+          <DataField>ExciseDivision</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
         <Field Name="BillToBuyerName">
           <DataField>BillToBuyerName</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
+        <Field Name="DirectorName">
+          <DataField>DirectorName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Phone">
+          <DataField>Phone</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
         <Field Name="BillToBuyerAddress">
           <DataField>BillToBuyerAddress</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Fax">
+          <DataField>Fax</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="BIllToPartyCity">
@@ -4642,6 +4669,14 @@ Exceeds 5500 Otherwise Use Commercial Invoice.
           <DataField>BillToPartyCountry</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
+        <Field Name="BankName">
+          <DataField>BankName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="BankBranch">
+          <DataField>BankBranch</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
         <Field Name="CurrencyName">
           <DataField>CurrencyName</DataField>
           <rd:TypeName>System.String</rd:TypeName>
@@ -4650,16 +4685,32 @@ Exceeds 5500 Otherwise Use Commercial Invoice.
           <DataField>BLNo</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
+        <Field Name="IECNo">
+          <DataField>IECNo</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
         <Field Name="BLDate">
           <DataField>BLDate</DataField>
           <rd:TypeName>System.DateTime</rd:TypeName>
+        </Field>
+        <Field Name="TinNo">
+          <DataField>TinNo</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="PrivateMark">
           <DataField>PrivateMark</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
+        <Field Name="CompanyAddress">
+          <DataField>CompanyAddress</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
         <Field Name="PortOfLoading">
           <DataField>PortOfLoading</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CompanyCity">
+          <DataField>CompanyCity</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="DestinationPort">
@@ -4754,6 +4805,10 @@ Exceeds 5500 Otherwise Use Commercial Invoice.
           <DataField>ProductColourName</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
+        <Field Name="DescriptionOfGoodsWithoutCRLF">
+          <DataField>DescriptionOfGoodsWithoutCRLF</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
         <Field Name="ProductTypeName">
           <DataField>ProductTypeName</DataField>
           <rd:TypeName>System.String</rd:TypeName>
@@ -4784,7 +4839,7 @@ Exceeds 5500 Otherwise Use Commercial Invoice.
         </Field>
         <Field Name="BaleNoToSort">
           <DataField>BaleNoToSort</DataField>
-          <rd:TypeName>System.Int32</rd:TypeName>
+          <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
         <Field Name="Qty">
           <DataField>Qty</DataField>
@@ -4800,11 +4855,11 @@ Exceeds 5500 Otherwise Use Commercial Invoice.
         </Field>
         <Field Name="SqFeetArea">
           <DataField>SqFeetArea</DataField>
-          <rd:TypeName>System.Single</rd:TypeName>
+          <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
         <Field Name="SqMeterArea">
           <DataField>SqMeterArea</DataField>
-          <rd:TypeName>System.Single</rd:TypeName>
+          <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
         <Field Name="TotalRugGrossWeight">
           <DataField>TotalRugGrossWeight</DataField>
@@ -4850,6 +4905,10 @@ Exceeds 5500 Otherwise Use Commercial Invoice.
           <DataField>TotalFinishedProductRolls</DataField>
           <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
+        <Field Name="InvoiceAmount">
+          <DataField>InvoiceAmount</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
         <Field Name="TotalRolls">
           <DataField>TotalRolls</DataField>
           <rd:TypeName>System.Int32</rd:TypeName>
@@ -4858,9 +4917,61 @@ Exceeds 5500 Otherwise Use Commercial Invoice.
           <DataField>TotalRoleText</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
+        <Field Name="WeightText">
+          <DataField>WeightText</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
         <Field Name="TotalQtyText">
           <DataField>TotalQtyText</DataField>
           <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="SeparateWeightInInvoice">
+          <DataField>SeparateWeightInInvoice</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="Freight">
+          <DataField>Freight</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="CourierName">
+          <DataField>CourierName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="VehicleNo">
+          <DataField>VehicleNo</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="DealUnitName">
+          <DataField>DealUnitName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="TotalSqFeetArea">
+          <DataField>TotalSqFeetArea</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="GrossWeight">
+          <DataField>GrossWeight</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="NetWeight">
+          <DataField>NetWeight</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="TotalRoleUnitText">
+          <DataField>TotalRoleUnitText</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="TotalGrossWeightText">
+          <DataField>TotalGrossWeightText</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="TotalNetWeightText">
+          <DataField>TotalNetWeightText</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="InvoiceOnProductUnit">
+          <DataField>InvoiceOnProductUnit</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
       </Fields>
       <rd:DataSetInfo>
@@ -4969,6 +5080,47 @@ Exceeds 5500 Otherwise Use Commercial Invoice.
       <Nullable>true</Nullable>
       <AllowBlank>true</AllowBlank>
       <Prompt>ReportParameter1</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="PrintedBy">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>PrintedBy</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="DatabaseConnectionString">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>DatabaseConnectionString</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="Id">
+      <DataType>Integer</DataType>
+      <Nullable>true</Nullable>
+      <Prompt>Id</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="ReportType">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Report Type</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="FilterStr1">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>FilterStr1</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="FilterStr2">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>FilterStr2</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="FilterStr3">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>FilterStr3</Prompt>
     </ReportParameter>
   </ReportParameters>
   <EmbeddedImages>

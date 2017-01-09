@@ -237,6 +237,7 @@
                         <PaddingBottom>2pt</PaddingBottom>
                       </Style>
                     </Textbox>
+                    <rd:Selected>true</rd:Selected>
                   </CellContents>
                 </TablixCell>
                 <TablixCell>
@@ -2023,6 +2024,12 @@
           <QueryParameter Name="@Godown">
             <Value>=Parameters!Godown.Value</Value>
           </QueryParameter>
+          <QueryParameter Name="@Dimension1">
+            <Value>=Parameters!Dimension1.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@Dimension2">
+            <Value>=Parameters!Dimension2.Value</Value>
+          </QueryParameter>
         </QueryParameters>
         <CommandType>StoredProcedure</CommandType>
         <CommandText>Web.spRep_MaterialIssueSummary1</CommandText>
@@ -2353,6 +2360,18 @@
       <Nullable>true</Nullable>
       <AllowBlank>true</AllowBlank>
       <Prompt>Godown</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="Dimension1">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Dimension1</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="Dimension2">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Dimension2</Prompt>
     </ReportParameter>
   </ReportParameters>
   <Code>

@@ -3,7 +3,10 @@
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
     <DataSource Name="Purchase">
-      <DataSourceReference>DataSourceMain</DataSourceReference>
+      <ConnectionProperties>
+        <DataProvider>SQL</DataProvider>
+        <ConnectString>=Parameters!DatabaseConnectionString.Value</ConnectString>
+      </ConnectionProperties>
       <rd:SecurityType>None</rd:SecurityType>
       <rd:DataSourceID>a4701ec2-a2bf-4f00-a373-e0ef6d3046c3</rd:DataSourceID>
     </DataSource>
@@ -67,6 +70,12 @@
           <QueryParameter Name="@ProductDivisionId">
             <Value>=Parameters!ProductDivisionId.Value</Value>
           </QueryParameter>
+          <QueryParameter Name="@Godown">
+            <Value>=Parameters!Godown.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@ProductCollection">
+            <Value>=Parameters!ProductCollection.Value</Value>
+          </QueryParameter>
         </QueryParameters>
         <CommandType>StoredProcedure</CommandType>
         <CommandText>Web.spRep_WashingReceiveSummary</CommandText>
@@ -86,7 +95,7 @@
         </Field>
         <Field Name="Area">
           <DataField>Area</DataField>
-          <rd:TypeName>System.Double</rd:TypeName>
+          <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
         <Field Name="PCS">
           <DataField>PCS</DataField>
@@ -100,9 +109,17 @@
           <DataField>DecimalPlaces</DataField>
           <rd:TypeName>System.Byte</rd:TypeName>
         </Field>
+        <Field Name="AreaDecimalPlaces">
+          <DataField>AreaDecimalPlaces</DataField>
+          <rd:TypeName>System.Byte</rd:TypeName>
+        </Field>
         <Field Name="SiteId">
           <DataField>SiteId</DataField>
           <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="AreaUnitName">
+          <DataField>AreaUnitName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="ReportTitle">
           <DataField>ReportTitle</DataField>
@@ -127,6 +144,10 @@
         <Field Name="HeaderRemark">
           <DataField>HeaderRemark</DataField>
           <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="ProcessSr">
+          <DataField>ProcessSr</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
         <Field Name="ReceiveBy">
           <DataField>ReceiveBy</DataField>
@@ -181,7 +202,7 @@
                                 </TextRun>
                               </TextRuns>
                               <Style>
-                                <TextAlign>Center</TextAlign>
+                                <TextAlign>Left</TextAlign>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
@@ -285,22 +306,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Area</Value>
-                                  <Style>
-                                    <FontFamily>Tahoma</FontFamily>
-                                    <FontSize>8pt</FontSize>
-                                    <FontWeight>Bold</FontWeight>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Right</TextAlign>
-                              </Style>
-                            </Paragraph>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>(Sq. Yard)</Value>
+                                  <Value>="Area"</Value>
                                   <Style>
                                     <FontFamily>Tahoma</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -417,10 +423,11 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value />
+                                  <Value>=max(Fields!AreaUnitName.Value)</Value>
                                   <Style>
                                     <FontFamily>Tahoma</FontFamily>
                                     <FontSize>8pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -458,7 +465,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=RowNumber(nothing)</Value>
+                                  <Value>=RowNumber("ProcessName")</Value>
                                   <Style>
                                     <FontFamily>Tahoma</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -466,7 +473,7 @@
                                 </TextRun>
                               </TextRuns>
                               <Style>
-                                <TextAlign>Right</TextAlign>
+                                <TextAlign>Left</TextAlign>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
@@ -530,7 +537,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=iif(Fields!PCS.Value = nothing,"-",formatnumber(Fields!PCS.Value,Fields!DecimalPlaces.Value))</Value>
+                                  <Value>=iif(Fields!PCS.Value = nothing,"-",Cdbl(formatnumber(Fields!PCS.Value,Fields!DecimalPlaces.Value)))</Value>
                                   <Style>
                                     <FontFamily>Tahoma</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -566,10 +573,11 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=iif(Fields!Area.Value = nothing,"-",formatnumber(Fields!Area.Value,4))</Value>
+                                  <Value>=iif(Fields!Area.Value = nothing,"-",Cdbl(formatnumber(Fields!Area.Value,max(Fields!AreaDecimalPlaces.Value))))</Value>
                                   <Style>
                                     <FontFamily>Tahoma</FontFamily>
                                     <FontSize>8pt</FontSize>
+                                    <Format>0.0000;(0.0000)</Format>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -695,11 +703,12 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=formatnumber(sum(Fields!PCS.Value),max(Fields!DecimalPlaces.Value))</Value>
+                                  <Value>=Cdbl(formatnumber(sum(Fields!PCS.Value),max(Fields!DecimalPlaces.Value)))</Value>
                                   <Style>
                                     <FontFamily>Tahoma</FontFamily>
                                     <FontSize>8pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
+                                    <Format>0;(0)</Format>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -737,11 +746,12 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=formatnumber(sum(Fields!Area.Value),4)</Value>
+                                  <Value>=Cdbl(formatnumber(sum(Fields!Area.Value),max(Fields!AreaDecimalPlaces.Value)))</Value>
                                   <Style>
                                     <FontFamily>Tahoma</FontFamily>
                                     <FontSize>8pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
+                                    <Format>0.0000;(0.0000)</Format>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -795,6 +805,9 @@
                     </GroupExpressions>
                   </Group>
                   <SortExpressions>
+                    <SortExpression>
+                      <Value>=Fields!ProcessSr.Value</Value>
+                    </SortExpression>
                     <SortExpression>
                       <Value>=Fields!ProcessName.Value</Value>
                     </SortExpression>
@@ -1796,6 +1809,20 @@
           </Tablix>
           <Subreport Name="Subreport2">
             <ReportName>CompanyDetail</ReportName>
+            <Parameters>
+              <Parameter Name="SiteId">
+                <Value>=First(Fields!SiteId.Value, "DsMain")</Value>
+              </Parameter>
+              <Parameter Name="DivisionId">
+                <Value>=First(Fields!DivisionId.Value, "DsMain")</Value>
+              </Parameter>
+              <Parameter Name="DatabaseConnectionString">
+                <Value>=Parameters!DatabaseConnectionString.Value</Value>
+              </Parameter>
+              <Parameter Name="PrintedBy">
+                <Value>=Parameters!PrintedBy.Value</Value>
+              </Parameter>
+            </Parameters>
             <Top>0.04306in</Top>
             <Left>0.03394in</Left>
             <Height>0.30208in</Height>
@@ -2324,6 +2351,24 @@
       <Nullable>true</Nullable>
       <AllowBlank>true</AllowBlank>
       <Prompt>PrintedBy</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="DatabaseConnectionString">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>DatabaseConnectionString</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="Godown">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Godown</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="ProductCollection">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Product Collection</Prompt>
     </ReportParameter>
   </ReportParameters>
   <EmbeddedImages>

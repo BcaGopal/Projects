@@ -182,6 +182,9 @@
                       <Source>External</Source>
                       <Value>="file:"+ Fields!H1ImagePath.Value</Value>
                       <Sizing>FitProportional</Sizing>
+                      <Visibility>
+                        <Hidden>=iif(fields!H1ImagePath.Value is nothing,True,False)</Hidden>
+                      </Visibility>
                       <Style>
                         <Border>
                           <Style>None</Style>
@@ -226,6 +229,9 @@
                       <Source>External</Source>
                       <Value>="file:"+ Fields!H2ImagePath.Value</Value>
                       <Sizing>FitProportional</Sizing>
+                      <Visibility>
+                        <Hidden>=iif(fields!H2ImagePath.Value is nothing,True,False)</Hidden>
+                      </Visibility>
                       <Style>
                         <Border>
                           <Style>None</Style>
@@ -269,6 +275,9 @@
                       <Source>External</Source>
                       <Value>="file:"+ Fields!H3ImagePath.Value</Value>
                       <Sizing>FitProportional</Sizing>
+                      <Visibility>
+                        <Hidden>=iif(fields!H3ImagePath.Value is nothing,True,False)</Hidden>
+                      </Visibility>
                       <Style>
                         <Border>
                           <Style>None</Style>
@@ -299,6 +308,9 @@
                         </Paragraph>
                       </Paragraphs>
                       <rd:DefaultName>H1ProductGroupName</rd:DefaultName>
+                      <Visibility>
+                        <Hidden>=iif(fields!H1ProductGroupName.Value is nothing,True,False)</Hidden>
+                      </Visibility>
                       <Style>
                         <Border>
                           <Style>Solid</Style>
@@ -361,6 +373,9 @@
                         </Paragraph>
                       </Paragraphs>
                       <rd:DefaultName>H2ProductGroupName</rd:DefaultName>
+                      <Visibility>
+                        <Hidden>=iif(fields!H2ProductGroupName.Value is nothing,True,False)</Hidden>
+                      </Visibility>
                       <Style>
                         <Border>
                           <Style>Solid</Style>
@@ -419,6 +434,9 @@
                         </Paragraph>
                       </Paragraphs>
                       <rd:DefaultName>H2ProductGroupName</rd:DefaultName>
+                      <Visibility>
+                        <Hidden>=iif(fields!H3ProductGroupName.Value is nothing,True,False)</Hidden>
+                      </Visibility>
                       <Style>
                         <Border>
                           <Style>Solid</Style>
@@ -429,6 +447,7 @@
                         <PaddingBottom>2pt</PaddingBottom>
                       </Style>
                     </Textbox>
+                    <rd:Selected>true</rd:Selected>
                   </CellContents>
                 </TablixCell>
               </TablixCells>
@@ -612,3 +631,4 @@ xmBeLqAMSi5cuFA7deqUuBDuFQkQ18Kl5syZ44oHfXMFkCipXXgWp+AK/8bM9evXd17HbagxmEQMBBpd
   <rd:ReportUnitType>Inch</rd:ReportUnitType>
   <rd:ReportID>f1b70379-da78-4ea9-bab5-cbb93d10df58</rd:ReportID>
 </Report>
+

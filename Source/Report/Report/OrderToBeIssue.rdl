@@ -3,7 +3,10 @@
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
     <DataSource Name="Weaving">
-      <DataSourceReference>DataSourceMain</DataSourceReference>
+      <ConnectionProperties>
+        <DataProvider>SQL</DataProvider>
+        <ConnectString>=Parameters!DatabaseConnectionString.Value</ConnectString>
+      </ConnectionProperties>
       <rd:SecurityType>None</rd:SecurityType>
       <rd:DataSourceID>0d8419b6-a244-43eb-8266-a36faf01b3e8</rd:DataSourceID>
     </DataSource>
@@ -4822,10 +4825,10 @@
             <RepeatColumnHeaders>true</RepeatColumnHeaders>
             <RepeatRowHeaders>true</RepeatRowHeaders>
             <DataSetName>DsMain</DataSetName>
-            <Top>3.45833in</Top>
-            <Left>0.05493in</Left>
+            <Top>3.44791in</Top>
+            <Left>0.025in</Left>
             <Height>3.28125in</Height>
-            <Width>7.69014in</Width>
+            <Width>7.69015in</Width>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -4836,10 +4839,10 @@
             <TablixBody>
               <TablixColumns>
                 <TablixColumn>
-                  <Width>3.65912in</Width>
+                  <Width>3.6435in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>4.04088in</Width>
+                  <Width>4.02526in</Width>
                 </TablixColumn>
               </TablixColumns>
               <TablixRows>
@@ -4871,11 +4874,6 @@
                             <Border>
                               <Style>None</Style>
                             </Border>
-                            <TopBorder>
-                              <Color>Black</Color>
-                              <Style>Solid</Style>
-                              <Width>1pt</Width>
-                            </TopBorder>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
                             <PaddingTop>2pt</PaddingTop>
@@ -4909,11 +4907,6 @@
                             <Border>
                               <Style>None</Style>
                             </Border>
-                            <TopBorder>
-                              <Color>Black</Color>
-                              <Style>Solid</Style>
-                              <Width>1pt</Width>
-                            </TopBorder>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
                             <PaddingTop>2pt</PaddingTop>
@@ -5564,7 +5557,7 @@
                   </TablixCells>
                 </TablixRow>
                 <TablixRow>
-                  <Height>0.25in</Height>
+                  <Height>0.20833in</Height>
                   <TablixCells>
                     <TablixCell>
                       <CellContents>
@@ -5789,10 +5782,10 @@
                 </TablixMember>
               </TablixMembers>
             </TablixRowHierarchy>
-            <Top>0.55833in</Top>
-            <Left>0.05493in</Left>
-            <Height>2.85417in</Height>
-            <Width>7.7in</Width>
+            <Top>0.59583in</Top>
+            <Left>0.0211in</Left>
+            <Height>2.8125in</Height>
+            <Width>7.66876in</Width>
             <ZIndex>1</ZIndex>
             <Style>
               <Border>
@@ -5802,10 +5795,24 @@
           </Tablix>
           <Subreport Name="CompanyDetail">
             <ReportName>CompanyDetail</ReportName>
-            <Top>0.0375in</Top>
-            <Left>0.05493in</Left>
+            <Parameters>
+              <Parameter Name="DivisionId">
+                <Value>=First(Fields!DivisionId.Value, "DsMain")</Value>
+              </Parameter>
+              <Parameter Name="SiteId">
+                <Value>=First(Fields!SiteId.Value, "DsMain")</Value>
+              </Parameter>
+              <Parameter Name="DatabaseConnectionString">
+                <Value>=Parameters!DatabaseConnectionString.Value</Value>
+              </Parameter>
+              <Parameter Name="PrintedBy">
+                <Value>=Parameters!PrintedBy.Value</Value>
+              </Parameter>
+            </Parameters>
+            <Top>0.025in</Top>
+            <Left>0.0211in</Left>
             <Height>0.25in</Height>
-            <Width>7.7in</Width>
+            <Width>7.64583in</Width>
             <ZIndex>2</ZIndex>
             <Style>
               <Border>
@@ -5820,7 +5827,7 @@
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value>=Parameters!ReportTitle.Value</Value>
+                    <Value>=First(Fields!ReportTitle.Value, "DsMain")</Value>
                     <Style>
                       <FontFamily>Tahoma</FontFamily>
                       <FontSize>12pt</FontSize>
@@ -5835,14 +5842,24 @@
             </Paragraphs>
             <rd:DefaultName>ReportTitle</rd:DefaultName>
             <Top>0.30695in</Top>
-            <Left>0.05493in</Left>
+            <Left>0.0336in</Left>
             <Height>0.25in</Height>
-            <Width>7.69014in</Width>
+            <Width>7.64583in</Width>
             <ZIndex>3</ZIndex>
             <Style>
               <Border>
                 <Style>None</Style>
               </Border>
+              <TopBorder>
+                <Color>Black</Color>
+                <Style>Solid</Style>
+                <Width>1pt</Width>
+              </TopBorder>
+              <BottomBorder>
+                <Color>Black</Color>
+                <Style>Solid</Style>
+                <Width>1pt</Width>
+              </BottomBorder>
               <PaddingLeft>2pt</PaddingLeft>
               <PaddingRight>2pt</PaddingRight>
               <PaddingTop>2pt</PaddingTop>
@@ -5850,13 +5867,13 @@
             </Style>
           </Textbox>
         </ReportItems>
-        <Height>6.77083in</Height>
+        <Height>6.75in</Height>
         <Style />
       </Body>
-      <Width>7.76535in</Width>
+      <Width>7.76277in</Width>
       <Page>
         <PageHeader>
-          <Height>0.37375in</Height>
+          <Height>0.33208in</Height>
           <PrintOnFirstPage>true</PrintOnFirstPage>
           <PrintOnLastPage>true</PrintOnLastPage>
           <ReportItems>
@@ -5867,7 +5884,7 @@
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value>=Parameters!ReportTitle.Value</Value>
+                      <Value>=First(Fields!ReportTitle.Value, "DsMain")</Value>
                       <Style>
                         <FontFamily>Tahoma</FontFamily>
                         <FontSize>12pt</FontSize>
@@ -5881,10 +5898,10 @@
                 </Paragraph>
               </Paragraphs>
               <rd:DefaultName>ReportTitle</rd:DefaultName>
-              <Top>0.06708in</Top>
-              <Left>0.05493in</Left>
+              <Top>0.04208in</Top>
+              <Left>0.0211in</Left>
               <Height>0.25in</Height>
-              <Width>7.7in</Width>
+              <Width>7.65833in</Width>
               <Visibility>
                 <Hidden>=iif(Globals!PageNumber=1,true,false)</Hidden>
               </Visibility>
@@ -5892,6 +5909,12 @@
                 <Border>
                   <Style>None</Style>
                 </Border>
+                <TopBorder>
+                  <Style>Solid</Style>
+                </TopBorder>
+                <BottomBorder>
+                  <Style>Solid</Style>
+                </BottomBorder>
                 <PaddingLeft>2pt</PaddingLeft>
                 <PaddingRight>2pt</PaddingRight>
                 <PaddingTop>2pt</PaddingTop>
@@ -5952,8 +5975,8 @@
               </Paragraphs>
               <rd:DefaultName>Textbox18</rd:DefaultName>
               <Top>0.01112in</Top>
-              <Left>4.8584in</Left>
-              <Height>0.25in</Height>
+              <Left>4.73708in</Left>
+              <Height>0.20833in</Height>
               <Width>2.88667in</Width>
               <Style>
                 <Border>
@@ -5993,10 +6016,52 @@
               </Paragraphs>
               <rd:DefaultName>Textbox19</rd:DefaultName>
               <Top>0.02778in</Top>
-              <Left>0.05493in</Left>
-              <Height>0.25in</Height>
-              <Width>3.3909in</Width>
+              <Left>0.2086in</Left>
+              <Height>0.19792in</Height>
+              <Width>2.04715in</Width>
               <ZIndex>1</ZIndex>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+                <PaddingLeft>2pt</PaddingLeft>
+                <PaddingRight>2pt</PaddingRight>
+                <PaddingTop>2pt</PaddingTop>
+                <PaddingBottom>2pt</PaddingBottom>
+              </Style>
+            </Textbox>
+            <Textbox Name="Textbox118">
+              <CanGrow>true</CanGrow>
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>Print By : </Value>
+                      <Style>
+                        <FontFamily>tahoma</FontFamily>
+                        <FontSize>9pt</FontSize>
+                      </Style>
+                    </TextRun>
+                    <TextRun>
+                      <Value>=Parameters!PrintedBy.Value</Value>
+                      <Style>
+                        <FontFamily>tahoma</FontFamily>
+                        <FontSize>9pt</FontSize>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style>
+                    <TextAlign>Center</TextAlign>
+                  </Style>
+                </Paragraph>
+              </Paragraphs>
+              <rd:DefaultName>Textbox19</rd:DefaultName>
+              <Top>0.03473in</Top>
+              <Left>2.34715in</Left>
+              <Height>0.20833in</Height>
+              <Width>2.3284in</Width>
+              <ZIndex>2</ZIndex>
               <Style>
                 <Border>
                   <Style>None</Style>
@@ -6432,6 +6497,24 @@
       <Nullable>true</Nullable>
       <AllowBlank>true</AllowBlank>
       <Prompt>Report For</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="DatabaseConnectionString">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>DatabaseConnectionString</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="SampleRecord">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>SampleRecord</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="PrintedBy">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>PrintedBy</Prompt>
     </ReportParameter>
   </ReportParameters>
   <EmbeddedImages>

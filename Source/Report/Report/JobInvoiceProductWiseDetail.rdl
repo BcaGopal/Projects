@@ -3,7 +3,10 @@
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
     <DataSource Name="Invoice">
-      <DataSourceReference>DataSourceMain</DataSourceReference>
+      <ConnectionProperties>
+        <DataProvider>SQL</DataProvider>
+        <ConnectString>=Parameters!DatabaseConnectionString.Value</ConnectString>
+      </ConnectionProperties>
       <rd:SecurityType>None</rd:SecurityType>
       <rd:DataSourceID>a4701ec2-a2bf-4f00-a373-e0ef6d3046c3</rd:DataSourceID>
     </DataSource>
@@ -100,6 +103,10 @@
         </Field>
         <Field Name="DocNo">
           <DataField>DocNo</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="DocumenType">
+          <DataField>DocumenType</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="Remark">
@@ -218,9 +225,17 @@
           <DataField>Dimension1TypeName</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
+        <Field Name="Weight">
+          <DataField>Weight</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
         <Field Name="Dimension2TypeName">
           <DataField>Dimension2TypeName</DataField>
           <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="JobReceiveHeaderId">
+          <DataField>JobReceiveHeaderId</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
         <Field Name="Dimension1Name">
           <DataField>Dimension1Name</DataField>
@@ -229,6 +244,10 @@
         <Field Name="Dimension2Name">
           <DataField>Dimension2Name</DataField>
           <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="JobOrderHeaderId">
+          <DataField>JobOrderHeaderId</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
         <Field Name="LotNo">
           <DataField>LotNo</DataField>
@@ -5662,7 +5681,7 @@
             <Top>0.88333in</Top>
             <Left>0.02993in</Left>
             <Height>3.12496in</Height>
-            <Width>10.86665in</Width>
+            <Width>10.86666in</Width>
             <ZIndex>1</ZIndex>
             <Visibility>
               <Hidden>=iif(Globals!RenderFormat.Name &lt;&gt; "PDF",True,False)</Hidden>
@@ -5675,6 +5694,20 @@
           </Tablix>
           <Subreport Name="Subreport1">
             <ReportName>CompanyDetail_Landscap</ReportName>
+            <Parameters>
+              <Parameter Name="SiteId">
+                <Value>=First(Fields!SiteId.Value, "DsMain")</Value>
+              </Parameter>
+              <Parameter Name="DivisionId">
+                <Value>=First(Fields!DivisionId.Value, "DsMain")</Value>
+              </Parameter>
+              <Parameter Name="DatabaseConnectionString">
+                <Value>=Parameters!DatabaseConnectionString.Value</Value>
+              </Parameter>
+              <Parameter Name="PrintedBy">
+                <Value>=Parameters!PrintedBy.Value</Value>
+              </Parameter>
+            </Parameters>
             <Top>0.04236in</Top>
             <Left>0.05493in</Left>
             <Height>0.48611in</Height>
@@ -5892,6 +5925,42 @@
               <Height>0.25in</Height>
               <Width>3.3909in</Width>
               <ZIndex>1</ZIndex>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+                <PaddingLeft>2pt</PaddingLeft>
+                <PaddingRight>2pt</PaddingRight>
+                <PaddingTop>2pt</PaddingTop>
+                <PaddingBottom>2pt</PaddingBottom>
+              </Style>
+            </Textbox>
+            <Textbox Name="Textbox30">
+              <CanGrow>true</CanGrow>
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>="Printed By : " + Parameters!PrintedBy.Value</Value>
+                      <Style>
+                        <FontFamily>tahoma</FontFamily>
+                        <FontSize>9pt</FontSize>
+                        <Format>dd-MMM-yy hh:mm:ss tt</Format>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style>
+                    <TextAlign>Center</TextAlign>
+                  </Style>
+                </Paragraph>
+              </Paragraphs>
+              <rd:DefaultName>Textbox19</rd:DefaultName>
+              <Top>0.06771in</Top>
+              <Left>4.04795in</Left>
+              <Height>0.19792in</Height>
+              <Width>2.85486in</Width>
+              <ZIndex>2</ZIndex>
               <Style>
                 <Border>
                   <Style>None</Style>
@@ -6141,12 +6210,6 @@
       <AllowBlank>true</AllowBlank>
       <Prompt>Jobworker Id</Prompt>
     </ReportParameter>
-    <ReportParameter Name="Currency">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>Currency</Prompt>
-    </ReportParameter>
     <ReportParameter Name="ProductType">
       <DataType>String</DataType>
       <Nullable>true</Nullable>
@@ -6207,12 +6270,6 @@
       <AllowBlank>true</AllowBlank>
       <Prompt>Job Invoice Header Id</Prompt>
     </ReportParameter>
-    <ReportParameter Name="Process">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>Process</Prompt>
-    </ReportParameter>
     <ReportParameter Name="ProcessId">
       <DataType>String</DataType>
       <Nullable>true</Nullable>
@@ -6224,6 +6281,18 @@
       <Nullable>true</Nullable>
       <AllowBlank>true</AllowBlank>
       <Prompt>Product Division Id</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="PrintedBy">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>PrintedBy</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="DatabaseConnectionString">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>DatabaseConnectionString</Prompt>
     </ReportParameter>
   </ReportParameters>
   <Code>Public Function PageNumber()

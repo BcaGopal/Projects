@@ -3,7 +3,10 @@
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
     <DataSource Name="Purchase">
-      <DataSourceReference>DataSourceMain</DataSourceReference>
+      <ConnectionProperties>
+        <DataProvider>SQL</DataProvider>
+        <ConnectString>=Parameters!DatabaseConnectionString.Value</ConnectString>
+      </ConnectionProperties>
       <rd:SecurityType>None</rd:SecurityType>
       <rd:DataSourceID>a4701ec2-a2bf-4f00-a373-e0ef6d3046c3</rd:DataSourceID>
     </DataSource>
@@ -15,9 +18,6 @@
         <QueryParameters>
           <QueryParameter Name="@Site">
             <Value>=Parameters!Site.Value</Value>
-          </QueryParameter>
-          <QueryParameter Name="@Division">
-            <Value>=Parameters!Division.Value</Value>
           </QueryParameter>
           <QueryParameter Name="@FromDate">
             <Value>=Parameters!FromDate.Value</Value>
@@ -55,12 +55,18 @@
           <QueryParameter Name="@Dimension1">
             <Value>=Parameters!Dimension1.Value</Value>
           </QueryParameter>
+          <QueryParameter Name="@ProductDivisionId">
+            <Value>=Parameters!ProductDivisionId.Value</Value>
+          </QueryParameter>
           <QueryParameter Name="@Dimension2">
             <Value>=Parameters!Dimension2.Value</Value>
           </QueryParameter>
+          <QueryParameter Name="@PersonId">
+            <Value>=Parameters!PersonId.Value</Value>
+          </QueryParameter>
         </QueryParameters>
         <CommandType>StoredProcedure</CommandType>
-        <CommandText>Web.spStockInHand</CommandText>
+        <CommandText>Web.spStockInHand_ForMultipleProduct</CommandText>
       </Query>
       <Fields>
         <Field Name="UnitName">
@@ -932,7 +938,6 @@
                             </TopBorder>
                             <BottomBorder>
                               <Color>Black</Color>
-                              <Style>Solid</Style>
                             </BottomBorder>
                             <BackgroundColor>Gainsboro</BackgroundColor>
                             <PaddingLeft>2pt</PaddingLeft>
@@ -976,7 +981,6 @@
                             </TopBorder>
                             <BottomBorder>
                               <Color>Black</Color>
-                              <Style>Solid</Style>
                             </BottomBorder>
                             <BackgroundColor>Gainsboro</BackgroundColor>
                             <PaddingLeft>2pt</PaddingLeft>
@@ -1017,9 +1021,6 @@
                             <TopBorder>
                               <Style>Solid</Style>
                             </TopBorder>
-                            <BottomBorder>
-                              <Style>Solid</Style>
-                            </BottomBorder>
                             <BackgroundColor>Gainsboro</BackgroundColor>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
@@ -1062,7 +1063,6 @@
                             </TopBorder>
                             <BottomBorder>
                               <Color>Black</Color>
-                              <Style>Solid</Style>
                             </BottomBorder>
                             <BackgroundColor>Gainsboro</BackgroundColor>
                             <PaddingLeft>2pt</PaddingLeft>
@@ -1106,7 +1106,6 @@
                             </TopBorder>
                             <BottomBorder>
                               <Color>Black</Color>
-                              <Style>Solid</Style>
                             </BottomBorder>
                             <BackgroundColor>Gainsboro</BackgroundColor>
                             <PaddingLeft>2pt</PaddingLeft>
@@ -1152,7 +1151,6 @@
                             </TopBorder>
                             <BottomBorder>
                               <Color>Black</Color>
-                              <Style>Solid</Style>
                             </BottomBorder>
                             <BackgroundColor>Gainsboro</BackgroundColor>
                             <PaddingLeft>2pt</PaddingLeft>
@@ -1199,7 +1197,6 @@
                             </Border>
                             <TopBorder>
                               <Color>Black</Color>
-                              <Style>Solid</Style>
                             </TopBorder>
                             <BottomBorder>
                               <Color>Black</Color>
@@ -1243,7 +1240,6 @@
                             </Border>
                             <TopBorder>
                               <Color>Black</Color>
-                              <Style>Solid</Style>
                             </TopBorder>
                             <BottomBorder>
                               <Color>Black</Color>
@@ -1285,54 +1281,7 @@
                             <Border>
                               <Style>None</Style>
                             </Border>
-                            <TopBorder>
-                              <Style>Solid</Style>
-                            </TopBorder>
                             <BottomBorder>
-                              <Style>Solid</Style>
-                            </BottomBorder>
-                            <BackgroundColor>Gainsboro</BackgroundColor>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="Textbox45">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value />
-                                  <Style>
-                                    <FontFamily>Tahoma</FontFamily>
-                                    <FontSize>8pt</FontSize>
-                                    <FontWeight>Bold</FontWeight>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Right</TextAlign>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>Textbox45</rd:DefaultName>
-                          <Style>
-                            <Border>
-                              <Style>None</Style>
-                            </Border>
-                            <TopBorder>
-                              <Color>Black</Color>
-                              <Style>Solid</Style>
-                            </TopBorder>
-                            <BottomBorder>
-                              <Color>Black</Color>
                               <Style>Solid</Style>
                             </BottomBorder>
                             <BackgroundColor>Gainsboro</BackgroundColor>
@@ -1362,7 +1311,7 @@
                                 </TextRun>
                               </TextRuns>
                               <Style>
-                                <TextAlign>Left</TextAlign>
+                                <TextAlign>Right</TextAlign>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
@@ -1371,9 +1320,6 @@
                             <Border>
                               <Style>None</Style>
                             </Border>
-                            <TopBorder>
-                              <Style>Solid</Style>
-                            </TopBorder>
                             <BottomBorder>
                               <Style>Solid</Style>
                             </BottomBorder>
@@ -1406,7 +1352,7 @@
                                 </TextRun>
                               </TextRuns>
                               <Style>
-                                <TextAlign>Left</TextAlign>
+                                <TextAlign>Right</TextAlign>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
@@ -1415,9 +1361,6 @@
                             <Border>
                               <Style>None</Style>
                             </Border>
-                            <TopBorder>
-                              <Style>Solid</Style>
-                            </TopBorder>
                             <BottomBorder>
                               <Style>Solid</Style>
                             </BottomBorder>
@@ -1432,6 +1375,45 @@
                       </CellContents>
                     </TablixCell>
                     <TablixCell />
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox22">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value />
+                                  <Style>
+                                    <FontFamily>Tahoma</FontFamily>
+                                    <FontSize>8pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Left</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox22</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                            </Border>
+                            <BottomBorder>
+                              <Style>Solid</Style>
+                            </BottomBorder>
+                            <BackgroundColor>Gainsboro</BackgroundColor>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
                   </TablixCells>
                 </TablixRow>
               </TablixRows>
@@ -1467,6 +1449,20 @@
             <RepeatColumnHeaders>true</RepeatColumnHeaders>
             <RepeatRowHeaders>true</RepeatRowHeaders>
             <DataSetName>DsMain</DataSetName>
+            <SortExpressions>
+              <SortExpression>
+                <Value>=Fields!GroupText1.Value</Value>
+              </SortExpression>
+              <SortExpression>
+                <Value>=Fields!GroupText2.Value</Value>
+              </SortExpression>
+              <SortExpression>
+                <Value>=Fields!GroupText3.Value</Value>
+              </SortExpression>
+              <SortExpression>
+                <Value>=Fields!Grouptext4.Value</Value>
+              </SortExpression>
+            </SortExpressions>
             <Top>3.79583in</Top>
             <Left>0.05493in</Left>
             <Height>1.09375in</Height>
@@ -2440,8 +2436,22 @@
           </Tablix>
           <Subreport Name="Subreport1">
             <ReportName>CompanyDetail_Landscap</ReportName>
+            <Parameters>
+              <Parameter Name="SiteId">
+                <Value>=First(Fields!SiteId.Value, "DsMain")</Value>
+              </Parameter>
+              <Parameter Name="DivisionId">
+                <Value>=First(Fields!DivisionId.Value, "DsMain")</Value>
+              </Parameter>
+              <Parameter Name="DatabaseConnectionString">
+                <Value>=Parameters!DatabaseConnectionString.Value</Value>
+              </Parameter>
+              <Parameter Name="PrintedBy">
+                <Value>=Parameters!PrintedBy.Value</Value>
+              </Parameter>
+            </Parameters>
             <Top>0.01931in</Top>
-            <Left>0.05249in</Left>
+            <Left>0.06188in</Left>
             <Height>0.39999in</Height>
             <Width>10.87846in</Width>
             <ZIndex>2</ZIndex>
@@ -2941,6 +2951,24 @@
       <Nullable>true</Nullable>
       <AllowBlank>true</AllowBlank>
       <Prompt>PrintedBy</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="DatabaseConnectionString">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>DatabaseConnectionString</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="ProductDivisionId">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Product Division Id</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="PersonId">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>PersonId</Prompt>
     </ReportParameter>
   </ReportParameters>
   <EmbeddedImages>

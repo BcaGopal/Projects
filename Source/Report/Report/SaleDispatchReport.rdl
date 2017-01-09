@@ -699,6 +699,20 @@
       </Textbox>
       <Subreport Name="CompanyDetail_Landscap">
         <ReportName>CompanyDetail</ReportName>
+        <Parameters>
+          <Parameter Name="SiteId">
+            <Value>=First(Fields!SiteId.Value, "DsMain")</Value>
+          </Parameter>
+          <Parameter Name="DivisionId">
+            <Value>=First(Fields!DivisionId.Value, "DsMain")</Value>
+          </Parameter>
+          <Parameter Name="DatabaseConnectionString">
+            <Value>=Parameters!DatabaseConnectionString.Value</Value>
+          </Parameter>
+          <Parameter Name="PrintedBy">
+            <Value>=Parameters!PrintedBy.Value</Value>
+          </Parameter>
+        </Parameters>
         <Top>0.03255in</Top>
         <Left>0.041in</Left>
         <Height>0.30912in</Height>
@@ -717,10 +731,13 @@
         <TablixBody>
           <TablixColumns>
             <TablixColumn>
-              <Width>1.35833in</Width>
+              <Width>1.0875in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>0.59522in</Width>
+              <Width>0.875in</Width>
+            </TablixColumn>
+            <TablixColumn>
+              <Width>0.56397in</Width>
             </TablixColumn>
             <TablixColumn>
               <Width>0.72916in</Width>
@@ -753,6 +770,43 @@
                         </Paragraph>
                       </Paragraphs>
                       <rd:DefaultName>Textbox3</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <BackgroundColor>LightGrey</BackgroundColor>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox7">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>Specification</Value>
+                              <Style>
+                                <FontFamily>Tahoma</FontFamily>
+                                <FontSize>9pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Left</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox7</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -883,6 +937,41 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
+                    <Textbox Name="Textbox15">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value />
+                              <Style>
+                                <FontFamily>Tahoma</FontFamily>
+                                <FontSize>8.5pt</FontSize>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Left</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox15</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
                     <Textbox Name="Textbox35">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
@@ -978,6 +1067,41 @@
                         </Paragraph>
                       </Paragraphs>
                       <rd:DefaultName>ProductName</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Specification">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Fields!Specification.Value</Value>
+                              <Style>
+                                <FontFamily>Tahoma</FontFamily>
+                                <FontSize>8.5pt</FontSize>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Left</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Specification</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -1112,9 +1236,10 @@
                         <PaddingBottom>2pt</PaddingBottom>
                       </Style>
                     </Textbox>
-                    <ColSpan>2</ColSpan>
+                    <ColSpan>3</ColSpan>
                   </CellContents>
                 </TablixCell>
+                <TablixCell />
                 <TablixCell />
                 <TablixCell>
                   <CellContents>
@@ -1215,9 +1340,10 @@
                         <PaddingBottom>2pt</PaddingBottom>
                       </Style>
                     </Textbox>
-                    <ColSpan>3</ColSpan>
+                    <ColSpan>4</ColSpan>
                   </CellContents>
                 </TablixCell>
+                <TablixCell />
                 <TablixCell />
                 <TablixCell />
               </TablixCells>
@@ -1229,13 +1355,14 @@
             <TablixMember />
             <TablixMember />
             <TablixMember />
+            <TablixMember />
           </TablixMembers>
         </TablixColumnHierarchy>
         <TablixRowHierarchy>
           <TablixMembers>
             <TablixMember>
               <TablixHeader>
-                <Size>0.82292in</Size>
+                <Size>0.64584in</Size>
                 <CellContents>
                   <Textbox Name="Textbox47">
                     <CanGrow>true</CanGrow>
@@ -1290,7 +1417,7 @@
               <TablixMembers>
                 <TablixMember>
                   <TablixHeader>
-                    <Size>0.875in</Size>
+                    <Size>0.83333in</Size>
                     <CellContents>
                       <Textbox Name="Textbox49">
                         <CanGrow>true</CanGrow>
@@ -1330,7 +1457,7 @@
                   <TablixMembers>
                     <TablixMember>
                       <TablixHeader>
-                        <Size>1.61459in</Size>
+                        <Size>1.36459in</Size>
                         <CellContents>
                           <Textbox Name="Textbox38">
                             <CanGrow>true</CanGrow>
@@ -1410,7 +1537,7 @@
                           <TablixMembers>
                             <TablixMember>
                               <TablixHeader>
-                                <Size>0.77083in</Size>
+                                <Size>0.66666in</Size>
                                 <CellContents>
                                   <Textbox Name="Textbox36">
                                     <CanGrow>true</CanGrow>
@@ -1419,7 +1546,22 @@
                                       <Paragraph>
                                         <TextRuns>
                                           <TextRun>
-                                            <Value>Order Date</Value>
+                                            <Value>Order </Value>
+                                            <Style>
+                                              <FontFamily>Tahoma</FontFamily>
+                                              <FontSize>9pt</FontSize>
+                                              <FontWeight>Bold</FontWeight>
+                                            </Style>
+                                          </TextRun>
+                                        </TextRuns>
+                                        <Style>
+                                          <TextAlign>Left</TextAlign>
+                                        </Style>
+                                      </Paragraph>
+                                      <Paragraph>
+                                        <TextRuns>
+                                          <TextRun>
+                                            <Value>Date</Value>
                                             <Style>
                                               <FontFamily>Tahoma</FontFamily>
                                               <FontSize>9pt</FontSize>
@@ -1475,7 +1617,7 @@
               <TablixMembers>
                 <TablixMember>
                   <TablixHeader>
-                    <Size>3.31251in</Size>
+                    <Size>2.84376in</Size>
                     <CellContents>
                       <Textbox Name="DocumentTypeShortName">
                         <CanGrow>true</CanGrow>
@@ -1552,7 +1694,7 @@
                       <TablixMembers>
                         <TablixMember>
                           <TablixHeader>
-                            <Size>0.77083in</Size>
+                            <Size>0.66666in</Size>
                             <CellContents>
                               <Textbox Name="Textbox31">
                                 <CanGrow>true</CanGrow>
@@ -1608,7 +1750,7 @@
                   <TablixMembers>
                     <TablixMember>
                       <TablixHeader>
-                        <Size>0.82292in</Size>
+                        <Size>0.64584in</Size>
                         <CellContents>
                           <Textbox Name="DispatchDate">
                             <CanGrow>true</CanGrow>
@@ -1647,7 +1789,7 @@
                       <TablixMembers>
                         <TablixMember>
                           <TablixHeader>
-                            <Size>0.875in</Size>
+                            <Size>0.83333in</Size>
                             <CellContents>
                               <Textbox Name="DispatchNo">
                                 <CanGrow>true</CanGrow>
@@ -1695,7 +1837,7 @@
                                 </SortExpression>
                               </SortExpressions>
                               <TablixHeader>
-                                <Size>1.61459in</Size>
+                                <Size>1.36459in</Size>
                                 <CellContents>
                                   <Textbox Name="Buyer1">
                                     <CanGrow>true</CanGrow>
@@ -1783,7 +1925,7 @@
                                       <TablixMembers>
                                         <TablixMember>
                                           <TablixHeader>
-                                            <Size>0.77083in</Size>
+                                            <Size>0.66666in</Size>
                                             <CellContents>
                                               <Textbox Name="OrderDate">
                                                 <CanGrow>true</CanGrow>
@@ -1841,7 +1983,7 @@
             </TablixMember>
             <TablixMember>
               <TablixHeader>
-                <Size>0.82292in</Size>
+                <Size>0.64584in</Size>
                 <CellContents>
                   <Textbox Name="Textbox51">
                     <CanGrow>true</CanGrow>
@@ -1892,7 +2034,7 @@
               <TablixMembers>
                 <TablixMember>
                   <TablixHeader>
-                    <Size>0.875in</Size>
+                    <Size>0.83333in</Size>
                     <CellContents>
                       <Textbox Name="Textbox52">
                         <CanGrow>true</CanGrow>
@@ -1942,7 +2084,7 @@
                   <TablixMembers>
                     <TablixMember>
                       <TablixHeader>
-                        <Size>1.61459in</Size>
+                        <Size>1.36459in</Size>
                         <CellContents>
                           <Textbox Name="Textbox40">
                             <CanGrow>true</CanGrow>
@@ -2042,7 +2184,7 @@
                           <TablixMembers>
                             <TablixMember>
                               <TablixHeader>
-                                <Size>0.77083in</Size>
+                                <Size>0.66666in</Size>
                                 <CellContents>
                                   <Textbox Name="Textbox55">
                                     <CanGrow>true</CanGrow>
@@ -2100,7 +2242,7 @@
             </TablixMember>
             <TablixMember>
               <TablixHeader>
-                <Size>0.82292in</Size>
+                <Size>0.64584in</Size>
                 <CellContents>
                   <Textbox Name="Textbox41">
                     <CanGrow>true</CanGrow>
@@ -2151,7 +2293,7 @@
               <TablixMembers>
                 <TablixMember>
                   <TablixHeader>
-                    <Size>0.875in</Size>
+                    <Size>0.83333in</Size>
                     <CellContents>
                       <Textbox Name="Textbox42">
                         <CanGrow>true</CanGrow>
@@ -2201,7 +2343,7 @@
                   <TablixMembers>
                     <TablixMember>
                       <TablixHeader>
-                        <Size>1.61459in</Size>
+                        <Size>1.36459in</Size>
                         <CellContents>
                           <Textbox Name="Textbox43">
                             <CanGrow>true</CanGrow>
@@ -2301,7 +2443,7 @@
                           <TablixMembers>
                             <TablixMember>
                               <TablixHeader>
-                                <Size>0.77083in</Size>
+                                <Size>0.66666in</Size>
                                 <CellContents>
                                   <Textbox Name="Textbox45">
                                     <CanGrow>true</CanGrow>
@@ -2600,7 +2742,10 @@
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
     <DataSource Name="Weaving">
-      <DataSourceReference>DataSourceMain</DataSourceReference>
+      <ConnectionProperties>
+        <DataProvider>SQL</DataProvider>
+        <ConnectString>=Parameters!DatabaseConnectionString.Value</ConnectString>
+      </ConnectionProperties>
       <rd:SecurityType>None</rd:SecurityType>
       <rd:DataSourceID>dd7af43a-86ea-4bb9-8747-c50ac43bbbc6</rd:DataSourceID>
     </DataSource>
@@ -2639,6 +2784,9 @@
           </QueryParameter>
           <QueryParameter Name="@ProductGroup">
             <Value>=Parameters!ProductGroup.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@SaleOrderHeaderId">
+            <Value>=Parameters!SaleOrderHeaderId.Value</Value>
           </QueryParameter>
         </QueryParameters>
         <CommandType>StoredProcedure</CommandType>
@@ -2724,6 +2872,18 @@
         <Field Name="ProductId">
           <DataField>ProductId</DataField>
           <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="Shade">
+          <DataField>Shade</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Design">
+          <DataField>Design</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Specification">
+          <DataField>Specification</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
         </Field>
       </Fields>
     </DataSet>
@@ -2878,6 +3038,18 @@
       <Nullable>true</Nullable>
       <AllowBlank>true</AllowBlank>
       <Prompt>PrintedBy</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="DatabaseConnectionString">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>DatabaseConnectionString</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="SaleOrderHeaderId">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Sale Order Header Id</Prompt>
     </ReportParameter>
   </ReportParameters>
   <Code>

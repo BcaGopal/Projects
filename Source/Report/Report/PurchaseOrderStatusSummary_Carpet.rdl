@@ -3,7 +3,10 @@
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
     <DataSource Name="Purchase">
-      <DataSourceReference>DataSourceMain</DataSourceReference>
+      <ConnectionProperties>
+        <DataProvider>SQL</DataProvider>
+        <ConnectString>=Parameters!DatabaseConnectionString.Value</ConnectString>
+      </ConnectionProperties>
       <rd:SecurityType>None</rd:SecurityType>
       <rd:DataSourceID>a4701ec2-a2bf-4f00-a373-e0ef6d3046c3</rd:DataSourceID>
     </DataSource>
@@ -128,6 +131,10 @@
           <DataField>GroupTitle</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
+        <Field Name="GroupOntext">
+          <DataField>GroupOntext</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
         <Field Name="UnitName">
           <DataField>UnitName</DataField>
           <rd:TypeName>System.String</rd:TypeName>
@@ -218,7 +225,7 @@
         </Field>
         <Field Name="AreaDecimalPlaces">
           <DataField>AreaDecimalPlaces</DataField>
-          <rd:TypeName>System.Byte</rd:TypeName>
+          <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
         <Field Name="SiteName">
           <DataField>SiteName</DataField>
@@ -1662,7 +1669,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!GroupOnValue.Value</Value>
+                                  <Value>=Fields!GroupOntext.Value</Value>
                                   <Style>
                                     <FontFamily>Tahoma</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -3203,12 +3210,6 @@
                             <Border>
                               <Style>None</Style>
                             </Border>
-                            <TopBorder>
-                              <Style>None</Style>
-                            </TopBorder>
-                            <BottomBorder>
-                              <Style>Solid</Style>
-                            </BottomBorder>
                             <BackgroundColor>WhiteSmoke</BackgroundColor>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
@@ -3248,9 +3249,6 @@
                             <Border>
                               <Style>None</Style>
                             </Border>
-                            <TopBorder>
-                              <Style>None</Style>
-                            </TopBorder>
                             <BottomBorder>
                               <Style>Solid</Style>
                             </BottomBorder>
@@ -3611,7 +3609,8 @@
                             </Border>
                             <TopBorder>
                               <Color>Black</Color>
-                              <Style>None</Style>
+                              <Style>Solid</Style>
+                              <Width>1pt</Width>
                             </TopBorder>
                             <BottomBorder>
                               <Color>Black</Color>
@@ -3661,7 +3660,6 @@
                             </TopBorder>
                             <BottomBorder>
                               <Color>Black</Color>
-                              <Style>None</Style>
                             </BottomBorder>
                             <BackgroundColor>Gainsboro</BackgroundColor>
                             <PaddingLeft>2pt</PaddingLeft>
@@ -3708,7 +3706,6 @@
                             </TopBorder>
                             <BottomBorder>
                               <Color>Black</Color>
-                              <Style>None</Style>
                             </BottomBorder>
                             <BackgroundColor>Gainsboro</BackgroundColor>
                             <PaddingLeft>2pt</PaddingLeft>
@@ -4144,7 +4141,7 @@
             <RepeatColumnHeaders>true</RepeatColumnHeaders>
             <RepeatRowHeaders>true</RepeatRowHeaders>
             <DataSetName>DsMain</DataSetName>
-            <Top>3.80833in</Top>
+            <Top>3.84583in</Top>
             <Left>0.05493in</Left>
             <Height>2.73959in</Height>
             <Width>10.90471in</Width>
@@ -4951,6 +4948,77 @@
                   <TablixCells>
                     <TablixCell>
                       <CellContents>
+                        <Textbox Name="Textbox24">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Parameters!FilterStr32.Value</Value>
+                                  <Style>
+                                    <FontFamily>Tahoma</FontFamily>
+                                    <FontSize>9pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox24</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                            </Border>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox25">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Parameters!FilterStr33.Value</Value>
+                                  <Style>
+                                    <FontFamily>Tahoma</FontFamily>
+                                    <FontSize>9pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox25</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                            </Border>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                  </TablixCells>
+                </TablixRow>
+                <TablixRow>
+                  <Height>0.03125in</Height>
+                  <TablixCells>
+                    <TablixCell>
+                      <CellContents>
                         <Textbox Name="Textbox3">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
@@ -5094,6 +5162,12 @@
                   <KeepWithGroup>After</KeepWithGroup>
                 </TablixMember>
                 <TablixMember>
+                  <Visibility>
+                    <Hidden>=Parameters!FilterStr32.Value = "" And Parameters!FilterStr33.Value = ""</Hidden>
+                  </Visibility>
+                  <KeepWithGroup>After</KeepWithGroup>
+                </TablixMember>
+                <TablixMember>
                   <Group Name="Details1" />
                   <Visibility>
                     <Hidden>true</Hidden>
@@ -5103,7 +5177,7 @@
             </TablixRowHierarchy>
             <Top>0.77083in</Top>
             <Left>0.05493in</Left>
-            <Height>3in</Height>
+            <Height>3.03125in</Height>
             <Width>10.8854in</Width>
             <ZIndex>1</ZIndex>
             <Visibility>
@@ -5117,6 +5191,20 @@
           </Tablix>
           <Subreport Name="Subreport1">
             <ReportName>CompanyDetail_Landscap</ReportName>
+            <Parameters>
+              <Parameter Name="SiteId">
+                <Value>=First(Fields!SiteId.Value, "DsMain")</Value>
+              </Parameter>
+              <Parameter Name="DivisionId">
+                <Value>=First(Fields!DivisionId.Value, "DsMain")</Value>
+              </Parameter>
+              <Parameter Name="DatabaseConnectionString">
+                <Value>=Parameters!DatabaseConnectionString.Value</Value>
+              </Parameter>
+              <Parameter Name="PrintedBy">
+                <Value>=Parameters!PrintedBy.Value</Value>
+              </Parameter>
+            </Parameters>
             <Top>0.03195in</Top>
             <Left>0.06932in</Left>
             <Height>0.39999in</Height>
@@ -5177,7 +5265,7 @@
             </Style>
           </Textbox>
         </ReportItems>
-        <Height>6.59375in</Height>
+        <Height>6.66667in</Height>
         <Style />
       </Body>
       <Width>10.99242in</Width>
@@ -5819,6 +5907,24 @@
       <Nullable>true</Nullable>
       <AllowBlank>true</AllowBlank>
       <Prompt>PrintedBy</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="DatabaseConnectionString">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>DatabaseConnectionString</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="FilterStr32">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>FilterStr32</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="FilterStr33">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>FilterStr33</Prompt>
     </ReportParameter>
   </ReportParameters>
   <EmbeddedImages>

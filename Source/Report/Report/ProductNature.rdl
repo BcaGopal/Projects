@@ -200,7 +200,7 @@
           </TablixMembers>
         </TablixRowHierarchy>
         <DataSetName>DsMain</DataSetName>
-        <Top>1.27848in</Top>
+        <Top>1.16598in</Top>
         <Left>0.025in</Left>
         <Height>0.4375in</Height>
         <Width>7.34771in</Width>
@@ -458,7 +458,7 @@
             </TablixMember>
           </TablixMembers>
         </TablixRowHierarchy>
-        <Top>0.7434in</Top>
+        <Top>0.6559in</Top>
         <Left>0.03579in</Left>
         <Height>0.49653in</Height>
         <Width>7.33692in</Width>
@@ -482,7 +482,7 @@
                 <Value>=First(Fields!ReportTitle.Value, "DsMain")</Value>
                 <Style>
                   <FontFamily>Tahoma</FontFamily>
-                  <FontSize>14pt</FontSize>
+                  <FontSize>12pt</FontSize>
                   <FontWeight>Bold</FontWeight>
                 </Style>
               </TextRun>
@@ -495,7 +495,7 @@
         <rd:DefaultName>ReportTitle</rd:DefaultName>
         <Top>0.38681in</Top>
         <Left>0.01875in</Left>
-        <Height>0.32881in</Height>
+        <Height>0.24548in</Height>
         <Width>7.36646in</Width>
         <ZIndex>2</ZIndex>
         <Visibility>
@@ -523,6 +523,20 @@
       </Textbox>
       <Subreport Name="Subreport1">
         <ReportName>CompanyDetail</ReportName>
+        <Parameters>
+          <Parameter Name="SiteId">
+            <Value>=First(Fields!SiteId.Value, "DsMain")</Value>
+          </Parameter>
+          <Parameter Name="DivisionId">
+            <Value>=First(Fields!DivisionId.Value, "DsMain")</Value>
+          </Parameter>
+          <Parameter Name="DatabaseConnectionString">
+            <Value>=Parameters!DatabaseConnectionString.Value</Value>
+          </Parameter>
+          <Parameter Name="PrintedBy">
+            <Value>=Parameters!PrintedBy.Value</Value>
+          </Parameter>
+        </Parameters>
         <Top>0.0125in</Top>
         <Left>0.01875in</Left>
         <Height>0.34375in</Height>
@@ -538,7 +552,7 @@
         </Style>
       </Subreport>
     </ReportItems>
-    <Height>1.74515in</Height>
+    <Height>1.63057in</Height>
     <Style />
   </Body>
   <Width>7.41542in</Width>
@@ -707,6 +721,42 @@
             <PaddingBottom>2pt</PaddingBottom>
           </Style>
         </Textbox>
+        <Textbox Name="Textbox65">
+          <CanGrow>true</CanGrow>
+          <KeepTogether>true</KeepTogether>
+          <Paragraphs>
+            <Paragraph>
+              <TextRuns>
+                <TextRun>
+                  <Value>="Printed By : " + Parameters!PrintedBy.Value</Value>
+                  <Style>
+                    <FontFamily>tahoma</FontFamily>
+                    <FontSize>9pt</FontSize>
+                    <Format>dd-MMM-yy hh:mm:ss tt</Format>
+                  </Style>
+                </TextRun>
+              </TextRuns>
+              <Style>
+                <TextAlign>Center</TextAlign>
+              </Style>
+            </Paragraph>
+          </Paragraphs>
+          <rd:DefaultName>Textbox19</rd:DefaultName>
+          <Top>0.06683in</Top>
+          <Left>2.32485in</Left>
+          <Height>0.1962in</Height>
+          <Width>2.46573in</Width>
+          <ZIndex>2</ZIndex>
+          <Style>
+            <Border>
+              <Style>None</Style>
+            </Border>
+            <PaddingLeft>2pt</PaddingLeft>
+            <PaddingRight>2pt</PaddingRight>
+            <PaddingTop>2pt</PaddingTop>
+            <PaddingBottom>2pt</PaddingBottom>
+          </Style>
+        </Textbox>
       </ReportItems>
       <Style>
         <Border>
@@ -722,7 +772,10 @@
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
     <DataSource Name="DataSource1">
-      <DataSourceReference>DataSourceMain</DataSourceReference>
+      <ConnectionProperties>
+        <DataProvider>SQL</DataProvider>
+        <ConnectString>=Parameters!DatabaseConnectionString.Value</ConnectString>
+      </ConnectionProperties>
       <rd:SecurityType>None</rd:SecurityType>
       <rd:DataSourceID>dd7af43a-86ea-4bb9-8747-c50ac43bbbc6</rd:DataSourceID>
     </DataSource>
@@ -790,6 +843,18 @@
       <Nullable>true</Nullable>
       <AllowBlank>true</AllowBlank>
       <Prompt>FilterStr4</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="DatabaseConnectionString">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>DatabaseConnectionString</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="PrintedBy">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>PrintedBy</Prompt>
     </ReportParameter>
   </ReportParameters>
   <Code>

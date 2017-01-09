@@ -3,7 +3,10 @@
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
     <DataSource Name="Purchase">
-      <DataSourceReference>DataSourceMain</DataSourceReference>
+      <ConnectionProperties>
+        <DataProvider>SQL</DataProvider>
+        <ConnectString>=Parameters!DatabaseConnectionString.Value</ConnectString>
+      </ConnectionProperties>
       <rd:SecurityType>None</rd:SecurityType>
       <rd:DataSourceID>a4701ec2-a2bf-4f00-a373-e0ef6d3046c3</rd:DataSourceID>
     </DataSource>
@@ -63,6 +66,9 @@
           </QueryParameter>
           <QueryParameter Name="@PurchaseOrderHeaderId">
             <Value>=Parameters!PurchaseOrderHeaderId.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@ProductDivisionId">
+            <Value>=Parameters!ProductDivisionId.Value</Value>
           </QueryParameter>
         </QueryParameters>
         <CommandType>StoredProcedure</CommandType>
@@ -167,7 +173,7 @@
         </Field>
         <Field Name="ReportName">
           <DataField>ReportName</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
+          <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
         <Field Name="ReportTitle">
           <DataField>ReportTitle</DataField>
@@ -4028,6 +4034,9 @@
                           </SortExpressions>
                           <TablixMembers>
                             <TablixMember>
+                              <Visibility>
+                                <Hidden>true</Hidden>
+                              </Visibility>
                               <KeepWithGroup>After</KeepWithGroup>
                               <RepeatOnNewPage>true</RepeatOnNewPage>
                             </TablixMember>
@@ -4068,12 +4077,28 @@
                                 </TablixMember>
                               </TablixMembers>
                             </TablixMember>
-                            <TablixMember />
-                            <TablixMember />
+                            <TablixMember>
+                              <Visibility>
+                                <Hidden>true</Hidden>
+                              </Visibility>
+                            </TablixMember>
+                            <TablixMember>
+                              <Visibility>
+                                <Hidden>true</Hidden>
+                              </Visibility>
+                            </TablixMember>
                           </TablixMembers>
                         </TablixMember>
-                        <TablixMember />
-                        <TablixMember />
+                        <TablixMember>
+                          <Visibility>
+                            <Hidden>true</Hidden>
+                          </Visibility>
+                        </TablixMember>
+                        <TablixMember>
+                          <Visibility>
+                            <Hidden>true</Hidden>
+                          </Visibility>
+                        </TablixMember>
                       </TablixMembers>
                     </TablixMember>
                     <TablixMember>
@@ -5066,6 +5091,20 @@
           </Tablix>
           <Subreport Name="Subreport1">
             <ReportName>CompanyDetail_Landscap</ReportName>
+            <Parameters>
+              <Parameter Name="SiteId">
+                <Value>=First(Fields!SiteId.Value, "DsMain")</Value>
+              </Parameter>
+              <Parameter Name="DivisionId">
+                <Value>=First(Fields!DivisionId.Value, "DsMain")</Value>
+              </Parameter>
+              <Parameter Name="DatabaseConnectionString">
+                <Value>=Parameters!DatabaseConnectionString.Value</Value>
+              </Parameter>
+              <Parameter Name="PrintedBy">
+                <Value>=Parameters!PrintedBy.Value</Value>
+              </Parameter>
+            </Parameters>
             <Left>0.03269in</Left>
             <Height>0.44166in</Height>
             <Width>10.88536in</Width>
@@ -5131,7 +5170,7 @@
       <Width>10.94449in</Width>
       <Page>
         <PageHeader>
-          <Height>0.06124in</Height>
+          <Height>0.30082in</Height>
           <PrintOnFirstPage>true</PrintOnFirstPage>
           <PrintOnLastPage>true</PrintOnLastPage>
           <ReportItems>
@@ -5158,7 +5197,7 @@
               <rd:DefaultName>Textbox97</rd:DefaultName>
               <Top>0.01604in</Top>
               <Left>0.02709in</Left>
-              <Height>0.01042in</Height>
+              <Height>0.25in</Height>
               <Width>10.89657in</Width>
               <Visibility>
                 <Hidden>=iif(Globals!PageNumber=1,True,False)</Hidden>
@@ -5713,6 +5752,18 @@
       <Nullable>true</Nullable>
       <AllowBlank>true</AllowBlank>
       <Prompt>PrintedBy</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="ProductDivisionId">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Product Division Id</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="DatabaseConnectionString">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>DatabaseConnectionString</Prompt>
     </ReportParameter>
   </ReportParameters>
   <Code>Public Function PageNumber()

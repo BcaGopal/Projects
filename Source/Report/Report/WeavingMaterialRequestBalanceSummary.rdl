@@ -3,7 +3,10 @@
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
     <DataSource Name="Weaving">
-      <DataSourceReference>DataSourceMain</DataSourceReference>
+      <ConnectionProperties>
+        <DataProvider>SQL</DataProvider>
+        <ConnectString>=Parameters!DatabaseConnectionString.Value</ConnectString>
+      </ConnectionProperties>
       <rd:SecurityType>None</rd:SecurityType>
       <rd:DataSourceID>a4701ec2-a2bf-4f00-a373-e0ef6d3046c3</rd:DataSourceID>
     </DataSource>
@@ -30,6 +33,9 @@
           </QueryParameter>
           <QueryParameter Name="@JobWorker">
             <Value>=Parameters!JobWorker.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@ToDate">
+            <Value>=Parameters!ToDate.Value</Value>
           </QueryParameter>
         </QueryParameters>
         <CommandType>StoredProcedure</CommandType>
@@ -86,7 +92,7 @@
         </Field>
         <Field Name="UndIssueShadeQty">
           <DataField>UndIssueShadeQty</DataField>
-          <rd:TypeName>System.Int32</rd:TypeName>
+          <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
         <Field Name="SubReportProcList">
           <DataField>SubReportProcList</DataField>
@@ -106,7 +112,7 @@
         </Field>
         <Field Name="DyedIssueShadeQty">
           <DataField>DyedIssueShadeQty</DataField>
-          <rd:TypeName>System.Int32</rd:TypeName>
+          <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
         <Field Name="ReportName">
           <DataField>ReportName</DataField>
@@ -1672,7 +1678,7 @@
                 <Value>=Fields!DocDate.Value</Value>
               </SortExpression>
             </SortExpressions>
-            <Top>3.74583in</Top>
+            <Top>3.63333in</Top>
             <Left>0.05493in</Left>
             <Height>0.82292in</Height>
             <Width>11.16306in</Width>
@@ -2629,7 +2635,7 @@
                 </TablixMember>
               </TablixMembers>
             </TablixRowHierarchy>
-            <Top>0.83572in</Top>
+            <Top>0.71072in</Top>
             <Left>0.05493in</Left>
             <Height>2.86458in</Height>
             <Width>11.16305in</Width>
@@ -2684,6 +2690,20 @@
           </Textbox>
           <Subreport Name="Subreport1">
             <ReportName>CompanyDetail_Landscap</ReportName>
+            <Parameters>
+              <Parameter Name="SiteId">
+                <Value>=First(Fields!SiteId.Value, "DsMain")</Value>
+              </Parameter>
+              <Parameter Name="DivisionId">
+                <Value>=First(Fields!DivisionId.Value, "DsMain")</Value>
+              </Parameter>
+              <Parameter Name="DatabaseConnectionString">
+                <Value>=Parameters!DatabaseConnectionString.Value</Value>
+              </Parameter>
+              <Parameter Name="PrintedBy">
+                <Value>=Parameters!PrintedBy.Value</Value>
+              </Parameter>
+            </Parameters>
             <Top>0.03118in</Top>
             <Left>0.03725in</Left>
             <Height>0.35655in</Height>
@@ -2714,7 +2734,7 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox1</rd:DefaultName>
-            <Top>4.62431in</Top>
+            <Top>4.49931in</Top>
             <Left>0.05493in</Left>
             <Height>0.25in</Height>
             <Width>0.56391in</Width>
@@ -2747,7 +2767,7 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox1</rd:DefaultName>
-            <Top>4.61042in</Top>
+            <Top>4.49792in</Top>
             <Left>0.68828in</Left>
             <Height>0.25in</Height>
             <Width>5.45262in</Width>
@@ -2763,13 +2783,13 @@
             </Style>
           </Textbox>
         </ReportItems>
-        <Height>4.88819in</Height>
+        <Height>4.78402in</Height>
         <Style />
       </Body>
       <Width>11.25131in</Width>
       <Page>
         <PageHeader>
-          <Height>0.39104in</Height>
+          <Height>0.31812in</Height>
           <PrintOnFirstPage>true</PrintOnFirstPage>
           <PrintOnLastPage>true</PrintOnLastPage>
           <ReportItems>
@@ -2794,7 +2814,7 @@
                 </Paragraph>
               </Paragraphs>
               <rd:DefaultName>Textbox97</rd:DefaultName>
-              <Top>0.14104in</Top>
+              <Top>0.02854in</Top>
               <Left>0.02188in</Left>
               <Height>0.25in</Height>
               <Width>11.19611in</Width>
@@ -2916,6 +2936,42 @@
               <Height>0.23334in</Height>
               <Width>3.3909in</Width>
               <ZIndex>1</ZIndex>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+                <PaddingLeft>2pt</PaddingLeft>
+                <PaddingRight>2pt</PaddingRight>
+                <PaddingTop>2pt</PaddingTop>
+                <PaddingBottom>2pt</PaddingBottom>
+              </Style>
+            </Textbox>
+            <Textbox Name="Textbox154">
+              <CanGrow>true</CanGrow>
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>="Printed By : " + Parameters!PrintedBy.Value</Value>
+                      <Style>
+                        <FontFamily>tahoma</FontFamily>
+                        <FontSize>9pt</FontSize>
+                        <Format>dd-MMM-yy hh:mm:ss tt</Format>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style>
+                    <TextAlign>Center</TextAlign>
+                  </Style>
+                </Paragraph>
+              </Paragraphs>
+              <rd:DefaultName>Textbox19</rd:DefaultName>
+              <Top>0.05642in</Top>
+              <Left>3.64279in</Left>
+              <Height>0.23786in</Height>
+              <Width>4.46572in</Width>
+              <ZIndex>2</ZIndex>
               <Style>
                 <Border>
                   <Style>None</Style>
@@ -3074,6 +3130,18 @@
       <AllowBlank>true</AllowBlank>
       <Prompt>ReportParameter1</Prompt>
     </ReportParameter>
+    <ReportParameter Name="PrintedBy">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>PrintedBy</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="DatabaseConnectionString">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>DatabaseConnectionString</Prompt>
+    </ReportParameter>
     <ReportParameter Name="Site">
       <DataType>String</DataType>
       <Nullable>true</Nullable>
@@ -3085,18 +3153,6 @@
       <Nullable>true</Nullable>
       <AllowBlank>true</AllowBlank>
       <Prompt>Division</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="JobOrderHeaderId">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>Job Order Header Id</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="CostcenterId">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>Cost Center Id</Prompt>
     </ReportParameter>
     <ReportParameter Name="FromDate">
       <DataType>String</DataType>
@@ -3127,96 +3183,6 @@
       <Nullable>true</Nullable>
       <AllowBlank>true</AllowBlank>
       <Prompt>To Date</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="DocumentType">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>Document Type</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="PersonId">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>Person Id</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="Process">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>Process</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="ProductNature">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>Product Nature</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="ProductType">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>Product Type</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="ProductGroup">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>Product Group</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="ProductCustomGroup">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>Product Custom Group</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="PersonCustomGroup">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>Person Custom Group</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="Product">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>Product</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="RequisitionHeaderId">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>Requisition Header Id</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="Dimension1">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>Dimension1</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="Dimension2">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>Dimension2</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="ReportType">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>Report Type</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="ProductDivisionId">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>Product Division Id</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="ReportFor">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>Report For</Prompt>
     </ReportParameter>
   </ReportParameters>
   <EmbeddedImages>

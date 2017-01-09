@@ -937,6 +937,7 @@ namespace Web
                             {
                                 if (pd.GatePassHeaderId == null)
                                 {
+                                    int g= new DocumentTypeService(_unitOfWork).FindByName(TransactionDocCategoryConstants.GatePass).DocumentTypeId;
                                     SqlParameter DocDate = new SqlParameter("@DocDate", pd.DocDate);
                                     DocDate.SqlDbType = SqlDbType.DateTime;
                                     SqlParameter Godown = new SqlParameter("@GodownId", pd.GodownId);
