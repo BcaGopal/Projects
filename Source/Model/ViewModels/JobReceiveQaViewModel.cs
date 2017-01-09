@@ -40,6 +40,7 @@ namespace Model.ViewModel
         public string ReviewBy { get; set; }
         public bool? Reviewed { get; set; }
         public JobReceiveQASettingsViewModel JobReceiveQASettings { get; set; }
+        public DocumentTypeSettingsViewModel DocumentTypeSettings { get; set; }
         public string LockReason { get; set; }
        
     }
@@ -116,6 +117,7 @@ namespace Model.ViewModel
         public string ProductId { get; set; }
         [Display(Name = "Product Group")]
         public string ProductGroupId { get; set; }
+        public DocumentTypeSettingsViewModel DocumentTypeSettings { get; set; }
     }
 
     public class JobReceiveQAMasterDetailModel

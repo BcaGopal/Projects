@@ -149,7 +149,8 @@
 
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.JobWorkerId, "Job Worker", new { @class = "control-label col-md-4 col-sm-2" })
+                                    @Html.LabelFor(model => model.JobWorkerId, (Model.DocumentTypeSettings.PartyCaption ?? "Party"), new { @class = "control-label col-md-4 col-sm-2" })
+                                    @Html.HiddenFor(m => m.DocumentTypeSettings.PartyCaption)
                                     <div class="col-md-7 col-sm-10">
                                         @Html.TextBoxFor(m => m.JobWorkerId, new { @class = "form-control required" })
                                         @Html.ValidationMessageFor(m => m.JobWorkerId, "", new { @class = "text-danger" })

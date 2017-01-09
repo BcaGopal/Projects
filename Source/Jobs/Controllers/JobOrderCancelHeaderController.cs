@@ -158,7 +158,7 @@ namespace Web
             vm.DocDate = DateTime.Now;
             vm.ProcessId = settings.ProcessId;
             vm.DocNo = new DocumentTypeService(_unitOfWork).FGetNewDocNo("DocNo", ConfigurationManager.AppSettings["DataBaseSchema"] + ".JobOrderCancelHeaders", vm.DocTypeId, vm.DocDate, vm.DivisionId, vm.SiteId);
-
+            vm.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(vm.DocTypeId);
             ViewBag.Mode = "Add";
             return View("Create", vm);
         }
@@ -504,6 +504,7 @@ namespace Web
             }
 
             temp.JobOrderSettings = Mapper.Map<JobOrderSettings, JobOrderSettingsViewModel>(settings);
+            temp.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(pt.DocTypeId);
 
             PrepareViewBag(pt.DocTypeId);
 
@@ -558,6 +559,7 @@ namespace Web
             }
 
             temp.JobOrderSettings = Mapper.Map<JobOrderSettings, JobOrderSettingsViewModel>(settings);
+            temp.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(pt.DocTypeId);
 
             PrepareViewBag(pt.DocTypeId);
             if (pt == null)

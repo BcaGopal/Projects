@@ -316,7 +316,7 @@ namespace Data.Models
         public DbSet<JobReceiveQALine> JobReceiveQALine { get; set; }
         public DbSet<JobReceiveQAAttribute> JobReceiveQAAttribute { get; set; }
         public DbSet<JobReceiveQAPenalty> JobReceiveQAPenalty { get; set; }
-        public DbSet<JobReceiveQALineDetail> JobReceiveQALineDetail { get; set; }
+        public DbSet<JobReceiveQALineExtended> JobReceiveQALineExtended { get; set; }
         public DbSet<InspectionQaAttributes> InspectionQaAttributes { get; set; }
         public DbSet<JobOrderInspectionRequestSettings> JobOrderInspectionRequestSettings { get; set; }
         public DbSet<JobOrderInspectionSettings> JobOrderInspectionSettings { get; set; }

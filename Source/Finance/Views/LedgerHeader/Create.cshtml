@@ -350,10 +350,15 @@
         });
 
 
+        
+        $(document).ready(function(){
+            enableModalTransitions();
+        })
+
         //To focus on the first element on modal load
-        $('#myModal').on('shown.bs.modal', function () {
-            $("#ProductId").select2("focus");
-        });
+        //$('#myModal').on('shown.bs.modal', function () {
+        //    $("#ProductId").select2("focus");
+        //});
 
     </script>
 

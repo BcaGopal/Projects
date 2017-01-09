@@ -141,7 +141,7 @@ namespace Service
         public IEnumerable<ProductType> GetProductTypeListForGroup()
         {            
             var pt = (from p in db.ProductTypes
-                          where p.IsCustomUI==null
+                      where p.IsCustomUI == null || p.IsCustomUI == false
                           select p
                           );
 

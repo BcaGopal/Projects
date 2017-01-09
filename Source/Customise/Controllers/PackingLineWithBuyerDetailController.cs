@@ -1007,9 +1007,9 @@ namespace Web
             }
 
 
-            
 
 
+            new PackingLineExtendedService(_unitOfWork).Delete(vm.PackingLineId);
             _PackingLineService.Delete(vm.PackingLineId);
 
 
@@ -2153,14 +2153,17 @@ namespace Web
 
             List<ProductCustomDetailViewModel> ProductCustomDetailJson = new List<ProductCustomDetailViewModel>();
 
-            ProductCustomDetailJson.Add(new ProductCustomDetailViewModel()
+            if (ProductCustomDetail != null)
             {
-                BuyerSku = ProductCustomDetail.BuyerSku,
-                BuyerSpecification = ProductCustomDetail.BuyerSpecification,
-                BuyerSpecification1 = ProductCustomDetail.BuyerSpecification1,
-                BuyerSpecification2 = ProductCustomDetail.BuyerSpecification2,
-                BuyerSpecification3 = ProductCustomDetail.BuyerSpecification3
-            });
+                ProductCustomDetailJson.Add(new ProductCustomDetailViewModel()
+                {
+                    BuyerSku = ProductCustomDetail.BuyerSku,
+                    BuyerSpecification = ProductCustomDetail.BuyerSpecification,
+                    BuyerSpecification1 = ProductCustomDetail.BuyerSpecification1,
+                    BuyerSpecification2 = ProductCustomDetail.BuyerSpecification2,
+                    BuyerSpecification3 = ProductCustomDetail.BuyerSpecification3
+                });
+            }
 
             return Json(ProductCustomDetailJson);
         }

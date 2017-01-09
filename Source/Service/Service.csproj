@@ -114,6 +114,7 @@
     <Compile Include="Dimension3Service.cs" />
     <Compile Include="FeetConversionToCmsService.cs" />
     <Compile Include="DocumentTypeSettingsService.cs" />
+    <Compile Include="JobReceiveQaLineExtendedService.cs" />
     <Compile Include="PackingLineExtendedService.cs" />
     <Compile Include="QAGroupLineService.cs" />
     <Compile Include="QAGroupService.cs" />

@@ -69,6 +69,8 @@ namespace Web
             JobOrderAmendmentFilterViewModel vm = new JobOrderAmendmentFilterViewModel();
             vm.JobOrderAmendmentHeaderId = id;
             vm.JobWorkerId = sid;
+            JobOrderAmendmentHeader Header = new JobOrderAmendmentHeaderService(_unitOfWork).Find(id);
+            vm.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(Header.DocTypeId);
             return PartialView("_Filters", vm);
         }
         [HttpPost]

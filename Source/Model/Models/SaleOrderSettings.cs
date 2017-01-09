@@ -56,13 +56,15 @@ namespace Model.Models
         public bool? isVisibleUnitConversionFor { get; set; }
         public bool? isVisibleAdvance { get; set; }
         public bool? isVisibleBillToParty { get; set; }
-
+        public bool? isVisibleGodown { get; set; }
 
         public string filterLedgerAccountGroups { get; set; }
         public string filterLedgerAccounts { get; set; }
         public string filterProductTypes { get; set; }
         public string filterProductGroups { get; set; }
         public string filterProducts { get; set; }
+
+        public bool? isPostedInStock { get; set; }
 
 
         /// <summary>

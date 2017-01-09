@@ -36,6 +36,8 @@ namespace Model.ViewModel
         [Display(Name = "Remark")]
         public string Remark { get; set; }
         public JobOrderSettingsViewModel JobOrderSettings { get; set; }
+        public DocumentTypeSettingsViewModel DocumentTypeSettings { get; set; }
+
         public int? ReviewCount { get; set; }
         public string ReviewBy { get; set; }
         public string CreatedBy { get; set; }
@@ -72,6 +74,7 @@ namespace Model.ViewModel
         public string Dimension2Id { get; set; }
         public DateTime ? UpToDate { get; set; }
         public decimal Rate { get; set; }
+        public DocumentTypeSettingsViewModel DocumentTypeSettings { get; set; }
     }
 
     public class JobOrderAmendmentMasterDetailModel

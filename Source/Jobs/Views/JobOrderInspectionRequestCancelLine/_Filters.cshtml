@@ -22,7 +22,7 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
-                            @Html.LabelFor(model => model.JobOrderInspectionRequestId, "Ins-Request", new { @class = "control-label col-md-4 col-sm-2" })
+                            @Html.LabelFor(model => model.JobOrderInspectionRequestId, (Model.DocumentTypeSettings.ContraDocTypeCaption ?? "Ins-Request No."), new { @class = "control-label col-md-4 col-sm-2" })
                             <div class="col-md-7 col-sm-10">
                                 @Html.TextBoxFor(model => model.JobOrderInspectionRequestId, new { @class = "form-control required" })
                                 @Html.ValidationMessageFor(model => model.JobOrderInspectionRequestId, "", new { @class = "text-danger" })

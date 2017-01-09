@@ -307,7 +307,8 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-6" style="display:@(Model.JobOrderSettings.isVisibleLoss ? "" : "none")">
+                                @Html.HiddenFor(m => m.JobOrderSettings.isVisibleLoss)
                                 <div class="form-group">
                                     @Html.LabelFor(m => m.Loss, "Loss", new { @class = "control-label col-xs-4" })
                                     <div class="col-xs-6">
@@ -316,7 +317,8 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-6" style="display:@(Model.JobOrderSettings.isVisibleUncountableQty ? "" : "none")">
+                                @Html.HiddenFor(m => m.JobOrderSettings.isVisibleUncountableQty)
                                 <div class="form-group">
                                     @Html.LabelFor(m => m.UnCountedQty, "UnCounted Qty", new { @class = "control-label col-xs-4" })
                                     <div class="col-xs-6">

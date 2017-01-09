@@ -2999,11 +2999,12 @@ namespace Web
 
                     _ProductService.Delete(item.ProductId);
 
-                    Dimension2  Dim2 = new Dimension2Service(_unitOfWork).Find(group.ToString());
-                  
-                    new Dimension2Service(_unitOfWork).Delete(Dim2);
+
 
                 }
+                Dimension2 Dim2 = new Dimension2Service(_unitOfWork).Find(group.ProductGroupName);
+                new Dimension2Service(_unitOfWork).Delete(Dim2);
+
                 _ProductGroupService.Delete(vm.id);
 
 

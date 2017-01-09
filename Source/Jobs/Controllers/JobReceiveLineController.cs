@@ -752,7 +752,7 @@ namespace Web
                             StockViewModel.Remark = Header.Remark;
                             StockViewModel.Status = Header.Status;
                             StockViewModel.ProcessId = Header.ProcessId;
-                            StockViewModel.LotNo = null;
+                            StockViewModel.LotNo = line.LotNo;
 
                             if (temp != null)
                             {
@@ -829,7 +829,7 @@ namespace Web
                             StockProcessViewModel.Remark = Header.Remark;
                             StockProcessViewModel.Status = Header.Status;
                             StockProcessViewModel.ProcessId = Header.ProcessId;
-                            StockProcessViewModel.LotNo = null;
+                            StockProcessViewModel.LotNo = line.LotNo;
 
                             if (temp != null)
                             {

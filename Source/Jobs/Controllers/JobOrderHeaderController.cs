@@ -101,8 +101,6 @@ namespace Web
             ViewBag.PendingToReview = PendingToReviewCount(id);
             ViewBag.IndexStatus = "All";
 
-
-
             ViewBag.id = id;
             return View(p);
         }
@@ -148,6 +146,8 @@ namespace Web
                 ViewBag.IsPostedInStock = settings.isPostedInStock;
                 ViewBag.isVisibleCostCenter = settings.isVisibleCostCenter;
             }
+
+
 
         }
 
@@ -199,7 +199,11 @@ namespace Web
             }
             p.JobOrderSettings = Mapper.Map<JobOrderSettings, JobOrderSettingsViewModel>(settings);
 
+
             p.DocTypeId = id;
+
+            p.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(p.DocTypeId);
+
             List<PerkViewModel> Perks = new List<PerkViewModel>();
             //Perks
             if (p.JobOrderSettings.Perks != null)
@@ -859,6 +863,7 @@ namespace Web
             }
 
             s.JobOrderSettings = Mapper.Map<JobOrderSettings, JobOrderSettingsViewModel>(settings);
+            s.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(s.DocTypeId);
 
             ////Perks
             s.PerkViewModel = new PerkService(_unitOfWork).GetPerkListForDocumentTypeForEdit(id).ToList();
@@ -980,6 +985,9 @@ namespace Web
             var settings = new JobOrderSettingsService(_unitOfWork).GetJobOrderSettingsForDocument(s.DocTypeId, s.DivisionId, s.SiteId);
 
             s.JobOrderSettings = Mapper.Map<JobOrderSettings, JobOrderSettingsViewModel>(settings);
+
+            s.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(s.DocTypeId);
+
 
             ////Perks
             s.PerkViewModel = new PerkService(_unitOfWork).GetPerkListForDocumentTypeForEdit(id).ToList();
@@ -1419,6 +1427,7 @@ namespace Web
                 return RedirectToAction("Index", new { id = s.DocTypeId, IndexType = IndexType });
             }
             #endregion
+
 
             return RedirectToAction("Detail", new { id = id, IndexType = IndexType, transactionType = string.IsNullOrEmpty(TransactionType) ? "submit" : TransactionType });
         }

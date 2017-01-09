@@ -623,9 +623,6 @@ namespace Web
                     {
                         string str = e.Message;
                     }
-
-                    
-
                 }
 
                 foreach (var item in PackingLine)

@@ -148,7 +148,7 @@
                 <div>
                     <h4 class="col-md-12 black">
                         <span class="glyphicon glyphicon-align-justify"></span>
-                        1.Job Order Details
+                        1.Order Details
                         @if (Model.GatePassHeaderId.HasValue)
                         {
                             <span class="label label-danger right">
@@ -193,7 +193,8 @@
 
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.JobWorkerId, "Job Worker", new { @class = "control-label col-md-4 col-sm-2" })
+                                    @Html.LabelFor(model => model.JobWorkerId, (Model.DocumentTypeSettings.PartyCaption ?? "Party"), new { @class = "control-label col-md-4 col-sm-2" })
+                                    @Html.HiddenFor(m => m.DocumentTypeSettings.PartyCaption)
                                     <div class="col-md-7 col-sm-10">
                                         @Html.TextBoxFor(m => m.JobWorkerId, new { @class = "form-control required" })
                                         @Html.ValidationMessageFor(model => model.JobWorkerId, "", new { @class = "text-danger" })
@@ -408,7 +409,7 @@
                         }
                         @if (Model.JobOrderSettings.isVisibleFromProdOrder)
                         {
-                            @Html.ActionLink("For Production Order /", Action, "JobOrderLine", new { id = @Model.JobOrderHeaderId, IsProdBased = true }, new { data_modal = "", id = "btnCreate", @class = "toolbar", @title = "Add New", @data_toggle = "tooltip", @data_detailDisabled = "true" })
+                            @Html.ActionLink("For " + (Model.DocumentTypeSettings.ContraDocTypeCaption ?? "Production Order") +"/", Action, "JobOrderLine", new { id = @Model.JobOrderHeaderId, IsProdBased = true }, new { data_modal = "", id = "btnCreate", @class = "toolbar", @title = "Add New", @data_toggle = "tooltip", @data_detailDisabled = "true" })
                         }
                         @Html.ActionLink("Add New Row ", Action, "JobOrderLine", new { id = @Model.JobOrderHeaderId, IsProdBased = false }, new { data_modal = "", id = "btnCreatePO", @class = "toolbar", @title = "Add New", @data_toggle = "tooltip", @data_detailDisabled = "true" })
                     </div>

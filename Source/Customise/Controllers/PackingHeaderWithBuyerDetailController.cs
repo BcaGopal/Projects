@@ -603,6 +603,16 @@ namespace Web
                 return HttpNotFound();
         }
 
+        [HttpGet]
+        public ActionResult DeleteAfter_Approve(int id)
+        {
+            PackingHeader header = _PackingHeaderService.Find(id);
+            if (header.Status == (int)StatusConstants.Approved)
+                return Remove(id);
+            else
+                return HttpNotFound();
+        }
+
         // GET: /PurchaseOrderHeader/Delete/5
 
         private ActionResult Remove(int id)
@@ -717,7 +727,11 @@ namespace Web
                         new ProductUidService(_unitOfWork).Update(ProductUid);
                     }
 
-
+                    PackingLineExtended LineExtended = new PackingLineExtendedService(_unitOfWork).Find(item.PackingLineId);
+                    if (LineExtended != null)
+                    {
+                        new PackingLineExtendedService(_unitOfWork).Delete(LineExtended);
+                    }
                     new PackingLineService(_unitOfWork).Delete(item.PackingLineId);
                 }
 

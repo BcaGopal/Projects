@@ -52,7 +52,8 @@ namespace Model.ViewModel
         public bool isVisibleUnitConversionFor { get; set; }
         public bool isVisibleAdvance { get; set; }
         public bool isVisibleBillToParty { get; set; }
-
+        public bool isVisibleGodown { get; set; }
+        public bool isPostedInStock { get; set; }
 
         public string filterLedgerAccountGroups { get; set; }
         public string filterLedgerAccounts { get; set; }
