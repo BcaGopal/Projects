@@ -215,6 +215,7 @@ namespace Data.Models
         public DbSet<Unit> Units { get; set; }
         public DbSet<UnitConversion> UnitConversion { get; set; }
         public DbSet<UnitConversionFor> UnitConversonFor { get; set; }
+        public DbSet<PersonSettings> PersonSettings { get; set; }
         public DbSet<PersonRateGroup> PersonRateGroup { get; set; }
         public DbSet<ProductRateGroup> ProductRateGroup { get; set; }
 

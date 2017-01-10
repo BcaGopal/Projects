@@ -5746,6 +5746,104 @@ namespace Web
             return Json(StockInJson);
         }
 
+        public JsonResult GetTdsGroup(string searchTerm, int pageSize, int pageNum)
+        {
+            var Query = cbl.GetTdsGroups(searchTerm);
+            var temp = Query.Skip(pageSize * (pageNum - 1)).Take(pageSize).ToList();
+
+            var count = Query.Count();
+
+            ComboBoxPagedResult Data = new ComboBoxPagedResult();
+            Data.Results = temp;
+            Data.Total = count;
+
+            return new JsonpResult
+            {
+                Data = Data,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        public JsonResult SetSingleTdsGroup(int Ids)
+        {
+            ComboBoxResult TdsGroupJson = new ComboBoxResult();
+
+            TdsGroup TdsGroup = (from b in db.TdsGroup
+                             where b.TdsGroupId == Ids
+                             select b).FirstOrDefault();
+
+            TdsGroupJson.id = TdsGroup.TdsGroupId.ToString();
+            TdsGroupJson.text = TdsGroup.TdsGroupName;
+
+            return Json(TdsGroupJson);
+        }
+
+
+        public JsonResult GetTdsCategory(string searchTerm, int pageSize, int pageNum)
+        {
+            var Query = cbl.GetTdsCategory(searchTerm);
+            var temp = Query.Skip(pageSize * (pageNum - 1)).Take(pageSize).ToList();
+
+            var count = Query.Count();
+
+            ComboBoxPagedResult Data = new ComboBoxPagedResult();
+            Data.Results = temp;
+            Data.Total = count;
+
+            return new JsonpResult
+            {
+                Data = Data,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        public JsonResult SetSingleTdsCategory(int Ids)
+        {
+            ComboBoxResult TdsCategoryJson = new ComboBoxResult();
+
+            TdsCategory TdsCategory = (from b in db.TdsCategory
+                                 where b.TdsCategoryId == Ids
+                                 select b).FirstOrDefault();
+
+            TdsCategoryJson.id = TdsCategory.TdsCategoryId.ToString();
+            TdsCategoryJson.text = TdsCategory.TdsCategoryName;
+
+            return Json(TdsCategoryJson);
+        }
+
+
+        public JsonResult GetSalesTaxGroupParty(string searchTerm, int pageSize, int pageNum)
+        {
+            var Query = cbl.GetSalesTaxGroupParty(searchTerm);
+            var temp = Query.Skip(pageSize * (pageNum - 1)).Take(pageSize).ToList();
+
+            var count = Query.Count();
+
+            ComboBoxPagedResult Data = new ComboBoxPagedResult();
+            Data.Results = temp;
+            Data.Total = count;
+
+            return new JsonpResult
+            {
+                Data = Data,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        public JsonResult SetSingleSalesTaxGroupParty(int Ids)
+        {
+            ComboBoxResult SalesTaxGroupPartyJson = new ComboBoxResult();
+
+            SalesTaxGroupParty SalesTaxGroupParty = (from b in db.SalesTaxGroupParty
+                                 where b.SalesTaxGroupPartyId == Ids
+                                 select b).FirstOrDefault();
+
+            SalesTaxGroupPartyJson.id = SalesTaxGroupParty.SalesTaxGroupPartyId.ToString();
+            SalesTaxGroupPartyJson.text = SalesTaxGroupParty.SalesTaxGroupPartyName;
+
+            return Json(SalesTaxGroupPartyJson);
+        }
+
 
     }
 }

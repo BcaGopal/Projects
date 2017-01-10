@@ -40,6 +40,8 @@ namespace Services.Customize
         IEnumerable<Dimension1RecipeViewModel> GetRecipes(int Dimension1Id);
         IEnumerable<RecipeDetailViewModel> GetRecipeDetail(int JobOrderHeaderId);
         LastValues GetLastValues(int JobOrderHeaderId);
+        bool IsDuplicateLine(int StockHeaderId, int ProductId);
+        decimal GetExcessStock(int ProductId, int? Dim1, int? Dim2, int? ProcId, string Lot, int StockHeaderId, string ProcName);
 
         #region Helper Methods
         ProductViewModel GetProduct(int ProductId);
@@ -672,6 +674,39 @@ namespace Services.Customize
                         }).FirstOrDefault();
 
             return temp;
+        }
+
+        public bool IsDuplicateLine(int StockHeaderId, int ProductId)
+        {
+            var temp = (from L in _unitOfWork.Repository<StockLine>().Instance
+                        where L.StockHeaderId == StockHeaderId && L.ProductId == ProductId
+                        select L).FirstOrDefault();
+
+            if (temp != null)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public decimal GetExcessStock(int ProductId, int? Dim1, int? Dim2, int? ProcId, string Lot, int StockHeaderId, string ProcName)
+        {
+            StockHeader Header = new StockHeaderService(_unitOfWork).Find(StockHeaderId);
+            decimal EXS = 0;
+
+            using (SqlConnection sqlConnection = new SqlConnection((string)System.Web.HttpContext.Current.Session["DefaultConnectionString"]))
+            {
+                sqlConnection.Open();
+
+                SqlCommand Totalf = new SqlCommand("SELECT " + (string.IsNullOrEmpty(ProcName) ? "Web.FStockBalance" : ProcName) + "( " + ProductId + ", " + (!Dim1.HasValue ? "NULL" : "" + Dim1 + "") + ", " + (!Dim2.HasValue ? "NULL" : "" + Dim2 + "") + ", " + (!ProcId.HasValue ? "NULL" : "" + ProcId + "") + ", " + (string.IsNullOrEmpty(Lot) ? "NULL" : Lot) + ", " + Header.SiteId + ", NULL" + ", " + (!Header.GodownId.HasValue ? "NULL" : "" + Header.GodownId + "") + ")", sqlConnection);
+
+                EXS = Convert.ToDecimal(Totalf.ExecuteScalar() == DBNull.Value ? 0 : Totalf.ExecuteScalar());
+            }
+
+            return EXS;
         }
     }
 

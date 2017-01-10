@@ -130,9 +130,10 @@ namespace Customize.Controllers
             if (svm.Qty <= 0)
                 ModelState.AddModelError("Qty", "The Qty is required");
 
+            if (_RecipeLineService.IsDuplicateLine(svm.StockHeaderId,svm.ProductId))
+                ModelState.AddModelError("ProductId", "Product is already entered in recipe.");
 
             ViewBag.Status = temp.Status;
-
 
 
             if (svm.StockLineId <= 0)
@@ -440,6 +441,11 @@ namespace Customize.Controllers
                 TempData["CSEXCL"] += message;
                 PrepareViewBag(svm);
             }
+        }
+
+        public JsonResult GetExcessStock(int ProductId, int? Dim1, int? Dim2, int? ProcId, string Lot, int StockHeaderId, string ProcName)
+        {
+            return Json(_RecipeLineService.GetExcessStock(ProductId, Dim1, Dim2, ProcId, Lot, StockHeaderId, ProcName), JsonRequestBehavior.AllowGet);
         }
     }
 }
