@@ -79,12 +79,25 @@
         <div class="panel-info" style="padding-left:15px">
             <div class="form-horizontal">
                 @Html.ValidationSummary(true)
+                <h4 class="col-md-12 black">
+                    <span class="glyphicon glyphicon-align-justify"></span>
+                    1.Document Details
+                    @if (Model.GatePassHeaderId.HasValue)
+                    {
+                        <span class="label label-danger right">
+                            <span class="glyphicon glyphicon-log-out"></span>
+                            GPNo:@Model.GatePassDocNo,GPDate:@Model.GatePassDocDate.Value.ToString("dd/MMM/yyyy")
+                            @Html.ActionLink(" ", "DeleteGatePass", "SaleDispatchHeader", new { Id = @Model.SaleDispatchHeaderId }, new { @class = "glyphicon glyphicon-remove", @title = "GatePass", @data_toggle = "tooltip", @id = "GenGatePassD", @style = "color:white;opacity:0.4" })
+                        </span>
+                    }
+                </h4>
+
 
                 <div class="row">
-                    <h4 class="col-md-12 black">
+                    @*<h4 class="col-md-12 black">
                         <span class="glyphicon glyphicon-align-justify"></span>
                         1.Document Details
-                    </h4>
+                    </h4>*@
                     <div>
                         <div class="row">
                             <div class="col-md-6">

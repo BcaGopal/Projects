@@ -57,6 +57,8 @@ namespace Model.ViewModels
         public string ShipMethodName { get; set; }
         public DateTime CreatedDate { get; set; }
         public string CreatedBy { get; set; }
+        public string  GatePassDocNo { get; set; }
+        public DateTime? GatePassDocDate { get; set; }
 
 
     }

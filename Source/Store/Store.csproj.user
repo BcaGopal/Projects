@@ -6,6 +6,9 @@
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort>44303</IISExpressSSLPort>
   </PropertyGroup>
+  <PropertyGroup>
+    <ReferencePath>E:\Gopal Active Project\Projects\3rdPartyLib\</ReferencePath>
+  </PropertyGroup>
   <ProjectExtensions>
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">

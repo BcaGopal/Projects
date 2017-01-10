@@ -40,7 +40,7 @@ namespace Web
         bool Continue = true;
 
         ISaleDispatchHeaderService _SaleDispatchHeaderService;
-        IPackingHeaderService _PackingHeaderService;
+        IPackingHeaderService _PackingHeaderService;        
         IActivityLogService _ActivityLogService;
         IUnitOfWork _unitOfWork;
         IExceptionHandlingService _exception;
@@ -377,13 +377,99 @@ namespace Web
         }
 
 
+        public ActionResult DeleteGatePass(int Id)
+        {
+            List<LogTypeViewModel> LogList = new List<LogTypeViewModel>();
+            if (Id > 0)
+            {
+                int SiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
+                int DivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
+
+                try
+                {
+
+                    var pd = db.SaleDispatchHeader.Find(Id);
+
+                    #region DocTypeTimeLineValidation
+                    try
+                    {
+
+                        TimePlanValidation = DocumentValidation.ValidateDocument(Mapper.Map<DocumentUniqueId>(pd), DocumentTimePlanTypeConstants.GatePassCancel, User.Identity.Name, out ExceptionMsg, out Continue);
+
+                    }
+                    catch (Exception ex)
+                    {
+                        string message = _exception.HandleException(ex);
+                        TempData["CSEXC"] += message;
+                        TimePlanValidation = false;
+                    }
+
+                    if (!TimePlanValidation && !Continue)
+                        throw new Exception(ExceptionMsg);
+                    #endregion
+
+                    var GatePass = db.GatePassHeader.Find(pd.GatePassHeaderId);
+                    
+                    if (GatePass.Status != (int)StatusConstants.Submitted)
+                    {
+                        pd.GatePassHeaderId = null;
+                        pd.Status = (int)StatusConstants.Modified;
+                        pd.ModifiedBy = User.Identity.Name;
+                        pd.ModifiedDate = DateTime.Now;
+                       // pd.IsGatePassPrinted = false;
+                        pd.ObjectState = Model.ObjectState.Modified;
+                        db.SaleDispatchHeader.Add(pd);
+
+                        GatePass.Status = (int)StatusConstants.Cancel;
+                        GatePass.ObjectState = Model.ObjectState.Modified;
+                        db.GatePassHeader.Add(GatePass);
+
+                        XElement Modifications = new ModificationsCheckService().CheckChanges(LogList);
+
+                        db.SaveChanges();
+
+                        LogActivity.LogActivityDetail(LogVm.Map(new ActiivtyLogViewModel
+                        {
+                            DocTypeId = GatePass.DocTypeId,
+                            DocId = GatePass.GatePassHeaderId,
+                            ActivityType = (int)ActivityTypeContants.Deleted,
+                            DocNo = GatePass.DocNo,
+                            DocDate = GatePass.DocDate,
+                            xEModifications = Modifications,
+                            DocStatus = GatePass.Status,
+                        }));
+
+                    }
+                    else
+                        throw new Exception("Gatepass cannot be deleted because it is already submitted");
+
+                }
+
+                catch (Exception ex)
+                {
+                    string message = _exception.HandleException(ex);
+                    return Json(new { success = "Error", data = message }, JsonRequestBehavior.AllowGet);
+                }
+
+                return Json(new { success = "Success" }, JsonRequestBehavior.AllowGet).Success("Gate pass Deleted successfully");
+
+            }
+            return Json(new { success = "Error", data = "No Records Selected." }, JsonRequestBehavior.AllowGet);
+
+        }
 
         private ActionResult Edit(int id, string IndexType)
         {
-
+            
             ViewBag.IndexStatus = IndexType;
             SaleDispatchHeader DispactchHeader = _SaleDispatchHeaderService.Find(id);
             PackingHeader packingHeader = _PackingHeaderService.Find(DispactchHeader.PackingHeaderId.Value);
+            SaleDispatchHeaderViewModel GatePass =(from G in db.GatePassHeader where G.GatePassHeaderId == DispactchHeader.GatePassHeaderId
+                                                    select new SaleDispatchHeaderViewModel
+                                                    {
+                                                       GatePassDocNo= G.DocNo,
+                                                       GatePassDocDate= G.DocDate
+                                                    }).FirstOrDefault();
 
             #region DocTypeTimeLineValidation
             try
@@ -414,7 +500,11 @@ namespace Web
             vm.SaleToBuyerId = DispactchHeader.SaleToBuyerId;
             vm.DeliveryTermsId = DispactchHeader.DeliveryTermsId;
             vm.GodownId = packingHeader.GodownId;
-
+            if (DispactchHeader.GatePassHeaderId >0)
+            { 
+                vm.GatePassDocNo = GatePass.GatePassDocNo;
+                vm.GatePassDocDate = GatePass.DocDate;
+            }
             //Getting Settings
             var settings = new SaleDispatchSettingService(_unitOfWork).GetSaleDispatchSettingForDocument(DispactchHeader.DocTypeId, vm.DivisionId, vm.SiteId);
 
