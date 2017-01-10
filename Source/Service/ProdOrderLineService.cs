@@ -37,6 +37,7 @@ namespace Service
         ProdOrderLineBalance GetLineDetail(int id);
         int GetMaxSr(int id);
         ProdOrderLineViewModel GetProdOrderForProdUid(int id);
+        IEnumerable<ProdOrderLine> GetPurchOrProdLineForMaterialPlan(int MaterialPlanLineId, int PurchOrProdDocTypeId);
     }
 
     public class ProdOrderLineService : IProdOrderLineService
@@ -469,6 +470,16 @@ namespace Service
                        ).FirstOrDefault();
 
 
+        }
+
+        public IEnumerable<ProdOrderLine> GetPurchOrProdLineForMaterialPlan(int MaterialPlanLineId, int PurchOrProdDocTypeId)
+        {
+            return (from p in db.ProdOrderLine
+                    join H in db.ProdOrderHeader on p.ProdOrderHeaderId equals H.ProdOrderHeaderId into ProdOrderHeaderTable
+                    from ProdOrderHeaderTab in ProdOrderHeaderTable.DefaultIfEmpty()
+                    where p.MaterialPlanLineId == MaterialPlanLineId && ProdOrderHeaderTab.DocTypeId == PurchOrProdDocTypeId
+                    select p
+                        );
         }
     }
 }

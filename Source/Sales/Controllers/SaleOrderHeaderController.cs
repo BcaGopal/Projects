@@ -624,9 +624,17 @@ namespace Web
                 //Then find all the Purchase Order Header Line associated with the above ProductType.
                 var SaleOrderLine = new SaleOrderLineService(_unitOfWork).GetSaleOrderLineList(vm.id);
 
+
+
+                List<int> StockIdList = new List<int>();
+
                 //Mark ObjectState.Delete to all the Purchase Order Lines. 
                 foreach (var item in SaleOrderLine)
                 {
+                    if (item.StockId != null)
+                    {
+                        StockIdList.Add((int)item.StockId);
+                    }
 
                     LogList.Add(new LogTypeViewModel
                     {
@@ -638,6 +646,16 @@ namespace Web
                     new SaleOrderLineService(_unitOfWork).Delete(item.SaleOrderLineId);
                 }
 
+                foreach (var item in StockIdList)
+                {
+                    if (item != null)
+                    {
+                        new StockService(_unitOfWork).DeleteStock((int)item);
+                    }
+                }
+
+                int? StockHeaderId = null;
+                StockHeaderId = SaleOrderHeader.StockHeaderId;
 
                 int LedgerHeaderId = SaleOrderHeader.LedgerHeaderId ?? 0;
                 
@@ -656,8 +674,13 @@ namespace Web
                     }
                     new LedgerHeaderService(_unitOfWork).Delete(LedgerHeaderId);
                 }
-                
 
+
+
+                if (StockHeaderId != null)
+                {
+                    new StockHeaderService(_unitOfWork).Delete((int)StockHeaderId);
+                }
 
                 XElement Modifications = new ModificationsCheckService().CheckChanges(LogList);
                 //Commit the DB

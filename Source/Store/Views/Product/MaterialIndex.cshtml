@@ -43,7 +43,8 @@
                columns.Add(foo => foo.ProductCode).Sortable(true).Titled("Code").Format("{0:dd/MMM/yyyy}").Filterable(true);
                columns.Add(foo => foo.ProductGroupName).Sortable(true).Titled("Product Group").Format("{0:dd/MMM/yyyy}").Filterable(true);
                columns.Add(m => m.IsSystemDefine).Sortable(true).Titled("System Defined");
-               columns.Add(m => m.IsActive).Sortable(true).Titled("Is Active").Filterable(true);             
+               columns.Add(m => m.IsActive).Sortable(true).Titled("Is Active").Filterable(true);
+               columns.Add(true).RenderValueAs(m => "<a href='/Product/Edit/" + m.ProductId + "' hidden class='RecEditurl'></a><a href='/Product/Delete/" + m.ProductId + "' hidden class='RecDelurl'></a>");
            }).WithPaging(25).EmptyText("No records found.")
     </div>
 </div>

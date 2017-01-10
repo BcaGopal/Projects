@@ -3,7 +3,10 @@
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
     <DataSource Name="Purchase">
-      <DataSourceReference>DataSourceMain</DataSourceReference>
+      <ConnectionProperties>
+        <DataProvider>SQL</DataProvider>
+        <ConnectString>=Parameters!DatabaseConnectionString.Value</ConnectString>
+      </ConnectionProperties>
       <rd:SecurityType>None</rd:SecurityType>
       <rd:DataSourceID>a4701ec2-a2bf-4f00-a373-e0ef6d3046c3</rd:DataSourceID>
     </DataSource>
@@ -30,12 +33,6 @@
           </QueryParameter>
           <QueryParameter Name="@Buyer">
             <Value>=Parameters!Buyer.Value</Value>
-          </QueryParameter>
-          <QueryParameter Name="@ProductNature">
-            <Value>=Parameters!ProductNature.Value</Value>
-          </QueryParameter>
-          <QueryParameter Name="@ProductType">
-            <Value>=Parameters!ProductType.Value</Value>
           </QueryParameter>
           <QueryParameter Name="@Currency">
             <Value>=Parameters!Currency.Value</Value>
@@ -64,17 +61,11 @@
           <QueryParameter Name="@ProductStyle">
             <Value>=Parameters!ProductStyle.Value</Value>
           </QueryParameter>
-          <QueryParameter Name="@ProductDesign">
-            <Value>=Parameters!ProductDesign.Value</Value>
-          </QueryParameter>
           <QueryParameter Name="@ProductShape">
             <Value>=Parameters!ProductShape.Value</Value>
           </QueryParameter>
           <QueryParameter Name="@ProductSize">
             <Value>=Parameters!ProductSize.Value</Value>
-          </QueryParameter>
-          <QueryParameter Name="@ProductInvoiceGroup">
-            <Value>=Parameters!ProductInvoiceGroup.Value</Value>
           </QueryParameter>
           <QueryParameter Name="@SaleinvoiceheadersId">
             <Value>=Parameters!SaleinvoiceheadersId.Value</Value>
@@ -2096,6 +2087,20 @@
           </Tablix>
           <Subreport Name="Subreport2">
             <ReportName>CompanyDetail</ReportName>
+            <Parameters>
+              <Parameter Name="SiteId">
+                <Value>=First(Fields!SiteId.Value, "DsMain")</Value>
+              </Parameter>
+              <Parameter Name="DivisionId">
+                <Value>=First(Fields!DivisionId.Value, "DsMain")</Value>
+              </Parameter>
+              <Parameter Name="DatabaseConnectionString">
+                <Value>=Parameters!DatabaseConnectionString.Value</Value>
+              </Parameter>
+              <Parameter Name="PrintedBy">
+                <Value>=Parameters!PrintedBy.Value</Value>
+              </Parameter>
+            </Parameters>
             <Top>0.04306in</Top>
             <Left>0.02144in</Left>
             <Height>0.30208in</Height>
@@ -2651,6 +2656,12 @@
       <Nullable>true</Nullable>
       <AllowBlank>true</AllowBlank>
       <Prompt>PrintedBy</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="DatabaseConnectionString">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>DatabaseConnectionString</Prompt>
     </ReportParameter>
   </ReportParameters>
   <EmbeddedImages>

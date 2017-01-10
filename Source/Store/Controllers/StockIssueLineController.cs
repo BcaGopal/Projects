@@ -606,12 +606,26 @@ namespace Web
                         s.StockProcessId = StockProcessViewModel.StockProcessId;
                     }
 
+                    if (svm.StockInId != null)
+                    {
+                        StockAdj Adj_IssQty = new StockAdj();
+                        Adj_IssQty.StockInId = (int)svm.StockInId;
+                        Adj_IssQty.StockOutId = (int)s.StockId;
+                        Adj_IssQty.DivisionId = temp.DivisionId;
+                        Adj_IssQty.SiteId = temp.SiteId;
+                        Adj_IssQty.AdjustedQty = s.Qty ;
+                        Adj_IssQty.ObjectState = Model.ObjectState.Added;
+                        db.StockAdj.Add(Adj_IssQty);
+                        //new StockAdjService(_unitOfWork).Create(Adj_IssQty);
+                    }
+
                     s.CreatedDate = DateTime.Now;
                     s.ModifiedDate = DateTime.Now;
                     s.CreatedBy = User.Identity.Name;
                     s.DocNature = StockNatureConstants.Issue;
                     s.ModifiedBy = User.Identity.Name;
                     s.ProductUidId = svm.ProductUidId;
+                    s.StockInId = svm.StockInId;
                     s.Sr = _StockLineService.GetMaxSr(s.StockHeaderId);
 
 
@@ -839,6 +853,31 @@ namespace Web
                     }
 
 
+                    StockAdj Adj = (from L in db.StockAdj
+                                    where L.StockOutId == templine.StockId
+                                    select L).FirstOrDefault();
+
+                    if (Adj != null)
+                    {
+                        Adj.ObjectState = Model.ObjectState.Deleted;
+                        db.StockAdj.Remove(Adj);
+                        //new StockAdjService(_unitOfWork).Delete(Adj);
+                    }
+
+                    if (svm.StockInId != null)
+                    {
+                        StockAdj Adj_IssQty = new StockAdj();
+                        Adj_IssQty.StockInId = (int)svm.StockInId;
+                        Adj_IssQty.StockOutId = (int)templine.StockId;
+                        Adj_IssQty.DivisionId = temp.DivisionId;
+                        Adj_IssQty.SiteId = temp.SiteId;
+                        Adj_IssQty.AdjustedQty = svm.Qty;
+                        Adj.ObjectState = Model.ObjectState.Added;
+                        db.StockAdj.Add(Adj_IssQty);
+                        //new StockAdjService(_unitOfWork).Create(Adj_IssQty);
+                    }
+
+
 
                     templine.ProductId = s.ProductId;
                     templine.ProductUidId = s.ProductUidId;
@@ -855,6 +894,7 @@ namespace Web
                     templine.Remark = s.Remark;
                     templine.Qty = s.Qty;
                     templine.Weight = s.Weight;
+                    templine.StockInId = s.StockInId;
                     templine.Remark = s.Remark;
 
                     templine.ModifiedDate = DateTime.Now;
@@ -1150,6 +1190,17 @@ namespace Web
 
                 if (StockId != null)
                 {
+                    StockAdj Adj = (from L in db.StockAdj
+                                    where L.StockOutId == StockId
+                                    select L).FirstOrDefault();
+
+                    if (Adj != null)
+                    {
+                        //new StockAdjService(_unitOfWork).Delete(Adj);
+                        Adj.ObjectState = Model.ObjectState.Deleted;
+                        db.StockAdj.Remove(Adj);
+                    }
+
                     new StockService(_unitOfWork).DeleteStockDB((int)StockId, ref db, true);
                 }
 
@@ -1320,6 +1371,61 @@ namespace Web
                 JsonRequestBehavior = JsonRequestBehavior.AllowGet
             };
         }
+
+        public ActionResult GetStockInForProduct(string searchTerm, int pageSize, int pageNum, int StockHeaderId, int ProductId, int? Dimension1Id, int? Dimension2Id)//DocTypeId
+        {
+            var Query = _StockLineService.GetPendingStockInForIssue(StockHeaderId, ProductId, Dimension1Id, Dimension2Id, searchTerm);
+            var temp = Query.Skip(pageSize * (pageNum - 1))
+                .Take(pageSize)
+                .ToList();
+
+            var count = Query.Count();
+
+            ComboBoxPagedResult Data = new ComboBoxPagedResult();
+            Data.Results = temp;
+            Data.Total = count;
+
+            return new JsonpResult
+            {
+                Data = Data,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        public JsonResult GetStockInDetailJson(int StockInId)
+        {
+            var temp = (from L in db.ViewStockInBalance
+                        where L.StockInId == StockInId
+                        select new
+                        {
+                            BalanceQty = L.BalanceQty,
+                            LotNo = L.LotNo
+                        }).FirstOrDefault();
+
+            if (temp != null)
+            {
+                return Json(temp);
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public JsonResult GetStockInBalance(int StockInId)
+        {
+            var temp = (from L in db.ViewStockInBalance where L.StockInId == StockInId select L).FirstOrDefault();
+            if (temp != null)
+            {
+                return Json(temp.BalanceQty, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return Json(0, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+
         protected override void Dispose(bool disposing)
         {
             if (!string.IsNullOrEmpty((string)TempData["CSEXC"]))

@@ -59,10 +59,16 @@ namespace Model.ViewModel
 
         [Display(Name = "Dimension1")]
         public string Dimension1Id { get; set; }
-
-
+        
         [Display(Name = "Dimension2")]
         public string Dimension2Id { get; set; }
+
+        [Display(Name = "Dimension3")]
+        public string Dimension3Id { get; set; }
+        
+        [Display(Name = "Dimension4")]
+        public string Dimension4Id { get; set; }
+
 
         [Display(Name = "Product Group")]
         public string ProductGroupId { get; set; }

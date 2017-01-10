@@ -231,8 +231,10 @@
     <Compile Include="Controllers\LogActivity.cs" />
     <Compile Include="Controllers\LogHistoryController.cs" />
     <Compile Include="Controllers\MaterialPlanCancelHeaderController.cs" />
+    <Compile Include="Controllers\MaterialPlanHeaderNewController.cs" />
     <Compile Include="Controllers\MaterialPlanHeaderController.cs" />
     <Compile Include="Controllers\MaterialPlanCancelLineController.cs" />
+    <Compile Include="Controllers\MaterialPlanLineNewController.cs" />
     <Compile Include="Controllers\MaterialPlanLineController.cs" />
     <Compile Include="Controllers\MaterialPlanningWizardController.cs" />
     <Compile Include="Controllers\ProdOrderSettingsController.cs" />
@@ -505,6 +507,19 @@
     <Content Include="Views\MaterialPlanCancelLine\_ResultsProduction.cshtml" />
     <Content Include="Views\MaterialPlanSettings\CreateForCancel.cshtml" />
     <Content Include="Views\MaterialPlanningWizard\DocumentTypeList.cshtml" />
+    <Content Include="Views\MaterialPlanHeaderNew\_Reason.cshtml" />
+    <Content Include="Views\MaterialPlanHeaderNew\Create.cshtml" />
+    <Content Include="Views\MaterialPlanHeaderNew\DocumentTypeList.cshtml" />
+    <Content Include="Views\MaterialPlanHeaderNew\DocumentTypeListSO.cshtml" />
+    <Content Include="Views\MaterialPlanHeaderNew\Index.cshtml" />
+    <Content Include="Views\MaterialPlanLineNew\_Create.cshtml" />
+    <Content Include="Views\MaterialPlanLineNew\_Detail.cshtml" />
+    <Content Include="Views\MaterialPlanLineNew\_Filters.cshtml" />
+    <Content Include="Views\MaterialPlanLineNew\_FiltersProduction.cshtml" />
+    <Content Include="Views\MaterialPlanLineNew\_Results.cshtml" />
+    <Content Include="Views\MaterialPlanLineNew\_ResultsProduction.cshtml" />
+    <Content Include="Views\MaterialPlanLineNew\_Summary.cshtml" />
+    <Content Include="Views\MaterialPlanLineNew\_SummarySaleOrder.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

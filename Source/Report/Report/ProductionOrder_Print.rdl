@@ -314,9 +314,23 @@
       </Textbox>
       <Subreport Name="Subreport1">
         <ReportName>CompanyDetail</ReportName>
-        <Top>0.03333in</Top>
+        <Parameters>
+          <Parameter Name="SiteId">
+            <Value>=First(Fields!SiteId.Value, "DsMain")</Value>
+          </Parameter>
+          <Parameter Name="DivisionId">
+            <Value>=First(Fields!DivisionId.Value, "DsMain")</Value>
+          </Parameter>
+          <Parameter Name="DatabaseConnectionString">
+            <Value>=Parameters!DatabaseConnectionString.Value</Value>
+          </Parameter>
+          <Parameter Name="PrintedBy">
+            <Value>=Parameters!PrintedBy.Value</Value>
+          </Parameter>
+        </Parameters>
+        <Top>0.0125in</Top>
         <Left>0.01875in</Left>
-        <Height>0.3125in</Height>
+        <Height>0.34375in</Height>
         <Width>7.89222in</Width>
         <ZIndex>2</ZIndex>
         <Visibility>
@@ -2810,14 +2824,15 @@
     <PageHeight>11.69in</PageHeight>
     <PageWidth>8.27in</PageWidth>
     <LeftMargin>0.17in</LeftMargin>
-    <TopMargin>0.1in</TopMargin>
-    <BottomMargin>0.1in</BottomMargin>
     <Style />
   </Page>
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
     <DataSource Name="DataSource1">
-      <DataSourceReference>DataSourceMain</DataSourceReference>
+      <ConnectionProperties>
+        <DataProvider>SQL</DataProvider>
+        <ConnectString>=Parameters!DatabaseConnectionString.Value</ConnectString>
+      </ConnectionProperties>
       <rd:SecurityType>None</rd:SecurityType>
       <rd:DataSourceID>dd7af43a-86ea-4bb9-8747-c50ac43bbbc6</rd:DataSourceID>
     </DataSource>
@@ -3015,7 +3030,6 @@
     </ReportParameter>
     <ReportParameter Name="Id">
       <DataType>Integer</DataType>
-      <Nullable>true</Nullable>
       <Prompt>Id</Prompt>
     </ReportParameter>
   </ReportParameters>

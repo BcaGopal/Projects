@@ -97,6 +97,12 @@
           <QueryParameter Name="@ShowAmount">
             <Value>=Parameters!ShowAmount.Value</Value>
           </QueryParameter>
+          <QueryParameter Name="@Dimension1Id">
+            <Value>=Parameters!Dimension1Id.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@Dimension2Id">
+            <Value>=Parameters!Dimension2Id.Value</Value>
+          </QueryParameter>
         </QueryParameters>
         <CommandType>StoredProcedure</CommandType>
         <CommandText>Web.spRep_SaleOrderDetail_Status1</CommandText>
@@ -105,6 +111,10 @@
         <Field Name="SaleOrderHeaderId">
           <DataField>SaleOrderHeaderId</DataField>
           <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="Sr1">
+          <DataField>Sr1</DataField>
+          <rd:TypeName>System.Int64</rd:TypeName>
         </Field>
         <Field Name="Sr">
           <DataField>Sr</DataField>
@@ -124,11 +134,11 @@
         </Field>
         <Field Name="DueDate">
           <DataField>DueDate</DataField>
-          <rd:TypeName>System.DateTime</rd:TypeName>
+          <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="DocDate">
           <DataField>DocDate</DataField>
-          <rd:TypeName>System.DateTime</rd:TypeName>
+          <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="DocNo">
           <DataField>DocNo</DataField>
@@ -168,7 +178,7 @@
         </Field>
         <Field Name="ReportName">
           <DataField>ReportName</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
+          <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
         <Field Name="D2Name">
           <DataField>D2Name</DataField>
@@ -196,7 +206,7 @@
         </Field>
         <Field Name="DispatchDate">
           <DataField>DispatchDate</DataField>
-          <rd:TypeName>System.DateTime</rd:TypeName>
+          <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="LossQty">
           <DataField>LossQty</DataField>
@@ -1669,7 +1679,6 @@
                             <PaddingBottom>2pt</PaddingBottom>
                           </Style>
                         </Textbox>
-                        <rd:Selected>true</rd:Selected>
                       </CellContents>
                     </TablixCell>
                     <TablixCell>
@@ -5857,6 +5866,18 @@
       <Nullable>true</Nullable>
       <AllowBlank>true</AllowBlank>
       <Prompt>DatabaseConnectionString</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="Dimension1Id">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Dimension1Id</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="Dimension2Id">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Dimension2Id</Prompt>
     </ReportParameter>
   </ReportParameters>
   <EmbeddedImages>

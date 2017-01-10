@@ -51,6 +51,7 @@
                 @Html.HiddenFor(m => m.PersonId)
                 @Html.HiddenFor(m => m.RequisitionBalanceQty)
                 @Html.HiddenFor(m => m.StockHeaderSettings.isVisibleMaterialRequest)
+                @Html.HiddenFor(m => m.StockInBalanceQty)
 
 
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
@@ -92,6 +93,7 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             @Html.LabelFor(model => model.ProductId, (Model.DocumentTypeSettings.ProductCaption ?? "Product"), new { @class = "control-label col-md-4 col-sm-2 " })
+                            @Html.HiddenFor(m => m.DocumentTypeSettings.ProductCaption)
                             <div class="col-md-7 col-sm-10">
                                 @Html.TextBoxFor(model => model.ProductId, new { @class = "form-control col-xs-7 required" })
                                 @Html.ValidationMessageFor(model => model.ProductId, "", new { @class = "text-danger" })
@@ -99,6 +101,7 @@
                             </div>
                         </div>
                     </div>
+                    
 
 
                     <div class="col-md-6" style="display:@(Model.StockHeaderSettings.isVisibleSpecification?"":"none")">
@@ -132,6 +135,18 @@
                             </div>
                         </div>
                     </div>
+
+                    <div class="col-md-6" style="display:@(Model.StockHeaderSettings.isVisibleStockIn?"":"none")">
+                        @Html.HiddenFor(m => m.StockHeaderSettings.isVisibleStockIn)
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.StockInId, "Stock In", new { @class = "control-label col-md-4 col-sm-2" })
+                            <div class="col-md-7 col-sm-10">
+                                @Html.TextBoxFor(model => model.StockInId, new { @class = "form-control col-xs-7 required" })
+                                @Html.ValidationMessageFor(model => model.StockInId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="col-md-6" style="display:@(Model.StockHeaderSettings.isVisibleLotNo?"":"none")">
                         @Html.HiddenFor(m => m.StockHeaderSettings.isVisibleLotNo)
                         <div class="form-group">
@@ -266,12 +281,75 @@
 <script type="text/javascript">
 
     $(document).ready(function () {
-        CustomSelectFunction($("#ProductId"), '/StockIssueLine/GetProductsHelpList', '/ComboHelpList/SetSingleProducts', 'Enter Product Name', false, 3,$('#StockHeaderId','.modal-body').val());
-        CustomSelectFunction($("#Dimension1Id"), '/ComboHelpList/GetDimension1', '/ComboHelpList/SetSingleDimension1', 'Enter Dimension1', false, 1);
-        CustomSelectFunction($("#Dimension2Id"), '/ComboHelpList/GetDimension2', '/ComboHelpList/SetSingleDimension2', 'Enter Dimension2 ', false, 1);
-        CustomSelectFunction($("#CostCenterId"), '/StockIssueLine/GetLineCostCenters', '/ComboHelpList/SetSingleCostCenter', 'Enter CostCenter ', false, 1,$('#StockHeaderId','.modal-body').val());
-        CustomSelectFunction($("#FromProcessId"), '/ComboHelpList/GetProcess', '/ComboHelpList/SetSingleProcess', 'Enter Process Name', false, 1);
+        CustomSelectFunction($("#ProductId"), '/StockIssueLine/GetProductsHelpList', '/ComboHelpList/SetSingleProducts', ' ', false, 3,$('#StockHeaderId','.modal-body').val());
+        CustomSelectFunction($("#Dimension1Id"), '/ComboHelpList/GetDimension1', '/ComboHelpList/SetSingleDimension1', ' ', false, 1);
+        CustomSelectFunction($("#Dimension2Id"), '/ComboHelpList/GetDimension2', '/ComboHelpList/SetSingleDimension2', ' ', false, 1);
+        CustomSelectFunction($("#CostCenterId"), '/StockIssueLine/GetLineCostCenters', '/ComboHelpList/SetSingleCostCenter', ' ', false, 1,$('#StockHeaderId','.modal-body').val());
+        CustomSelectFunction($("#FromProcessId"), '/ComboHelpList/GetProcess', '/ComboHelpList/SetSingleProcess', ' ', false, 1);
+        CustomSelectFunctionForStockIn($("#StockInId"), '/StockIssueLine/GetStockInForProduct', '/ComboHelpList/SetSingleStockIn', ' ', false, 0,$('#StockHeaderId','.modal-body').val(),$("#ProductId").val(),$("#Dimension1Id").val(),$("#Dimension2Id").val());
 
+
+        function CustomSelectFunctionForStockIn(ElementId, GetAction, SetAction, placehold, IsMultiple,MinLength,StockHeaderId,ProductId,Dimension1Id,Dimension2Id) {
+            var geturl = GetAction;
+            //The url we will send our get request to
+            var attendeeUrl = GetAction;
+            var pageSize = 20;
+
+            ElementId.select2(
+            {
+
+                placeholder: placehold,
+                //Does the user have to enter any data before sending the ajax request
+                minimumInputLength: MinLength,
+                allowClear: true,
+                multiple: IsMultiple,
+                ajax: {
+                    //How long the user has to pause their typing before sending the next request
+                    quietMillis: 500,
+                    //The url of the json service
+                    url: attendeeUrl,
+                    dataType: 'jsonp',
+                    //Our search term and what page we are on
+                    data: function (term, page) {
+                        return {
+                            pageSize: pageSize,
+                            pageNum: page,
+                            searchTerm: term,
+                            StockHeaderId:StockHeaderId,
+                            ProductId:ProductId,
+                            Dimension1Id:Dimension1Id,
+                            Dimension2Id:Dimension2Id,
+                        };
+                    },
+                    results: function (data, page) {
+                        //Used to determine whether or not there are more results available,
+                        //and if requests for more data should be sent in the infinite scrolling
+                        var more = (page * pageSize) < data.Total;
+                        return { results: data.Results, more: more };
+                    }
+                },
+                initSelection: function (element, callback) {
+
+                    var xval = element.val();
+                    if (xval != 0)
+                    {
+                        $.ajax({
+                            cache: false,
+                            type: "POST",
+                            url: SetAction,
+                            data: { Ids: element.val() },
+                            success: function (data) {
+                                callback(data);
+                            },
+                            error: function (xhr, ajaxOptions, thrownError) {
+                                alert('Failed to Retrive Qty' + thrownError);
+                            }
+                        })
+                    }
+                    //callback([{ id: "1", text: "arpit" }, { id: "2", text: "akash" }]);
+                }
+            });
+        }
 
 
         var reset = false;
@@ -305,6 +383,53 @@
 
         }
 
+        $("#ProductId,#Dimension1Id,#Dimension2Id").change(function(){
+            CustomSelectFunctionForStockIn($("#StockInId"), '/StockIssueLine/GetStockInForProduct', '/ComboHelpList/SetSingleStockIn', ' ', false, 0,$('#StockHeaderId','.modal-body').val(),$("#ProductId").val(),$("#Dimension1Id").val(),$("#Dimension2Id").val());
+        });
+
+        $("#StockInId").change(function(){
+            Validate_StockIn();
+        });
+
+        function Validate_StockIn() {
+            var ProcessProgress = $("#Stock In detail loading progress");
+            ProcessProgress.show();
+            if ($("#StockInId").val() != "")
+            {
+                $.ajax({
+                    cache: false,
+                    type: "POST",
+                    url: "@(Url.Action("GetStockInDetailJson"))",
+                    data: { StockInId: $("#StockInId").val()},
+                success: function (data) {
+                    if (data != null)
+                    {
+                        $("#StockInBalanceQty").val(data.BalanceQty);
+
+                        if ($("#Qty").val() > $("#StockInBalanceQty").val())
+                        {
+                            $("#Qty").val(data.BalanceQty);
+                        }
+
+                        $("#LotNo").val(data.LotNo);
+                    }
+                    else{
+                        $("#StockInBalanceQty").val(0);
+                        $("#LotNo").val("");
+                    }
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert('Failed to retrieve Stock In details.' + thrownError);
+                    ProcessProgress.hide();
+                }
+            });
+
+        }
+        else {
+            $("#StockInBalanceQty").val(0);
+            $("#LotNo").val("");
+        }
+    }
 
 
 
@@ -386,6 +511,7 @@
             $("#acrequisitionline").val(tex).attr('readonly','true');
             var Prod='@Model.RequiredProductName';
             $("#acProducts").val(Prod).attr('readonly','true');
+            $('#StockInId').attr('readonly','true');
         }
 
 

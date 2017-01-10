@@ -185,6 +185,9 @@ namespace Web
                     temp.isVisibleProductCode = pt.isVisibleProductCode;
                     temp.isVisiblePriority = pt.isVisiblePriority;
                     temp.isVisibleUnitConversionFor = pt.isVisibleUnitConversionFor;
+                    temp.isVisibleBillToParty = pt.isVisibleBillToParty;
+                    temp.isVisibleGodown = pt.isVisibleGodown;
+                    temp.isPostedInStock = pt.isPostedInStock;
                     temp.CurrencyId = pt.CurrencyId;
                     temp.DeliveryTermsId = pt.DeliveryTermsId;
                     temp.ShipMethodId = pt.ShipMethodId;
@@ -346,6 +349,9 @@ namespace Web
                     temp.isVisibleProductCode = pt.isVisibleProductCode;
                     temp.isVisiblePriority = pt.isVisiblePriority;
                     temp.isVisibleUnitConversionFor = pt.isVisibleUnitConversionFor;
+                    temp.isVisibleBillToParty = pt.isVisibleBillToParty;
+                    temp.isVisibleGodown = pt.isVisibleGodown;
+                    temp.isPostedInStock = pt.isPostedInStock;
                     temp.CurrencyId = pt.CurrencyId;
                     temp.DeliveryTermsId = pt.DeliveryTermsId;
                     temp.ShipMethodId = pt.ShipMethodId;

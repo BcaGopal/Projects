@@ -42,6 +42,7 @@ namespace Model.ViewModel
         public int? JobWorkerId { get; set; }
         public string JobWorkerName { get; set; }
         public JobInvoiceSettingsViewModel JobInvoiceSettings { get; set; }
+        public DocumentTypeSettingsViewModel DocumentTypeSettings { get; set; }
         public string ModifiedBy { get; set; }
 
         public string CreatedBy { get; set; }

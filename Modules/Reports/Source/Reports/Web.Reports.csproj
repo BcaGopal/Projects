@@ -22,6 +22,7 @@
     <IISExpressUseClassicPipelineMode />
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
+    <UseGlobalApplicationHostFile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -388,9 +389,9 @@
     <None Include="Project_Readme.html" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\Components\ExceptionHandler\Source\ExceptionHandler.csproj">
+    <ProjectReference Include="..\..\..\..\Source\Components\Components.csproj">
       <Project>{82c76499-ad09-4f11-972c-485d76df396c}</Project>
-      <Name>ExceptionHandler</Name>
+      <Name>Components</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\..\Components\Logger\Source\Logger.csproj">
       <Project>{a68b18d0-67d6-414f-b38d-d4c7edeb3907}</Project>
@@ -449,7 +450,7 @@
         <WebProjectProperties>
           <UseIIS>True</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>26957</DevelopmentServerPort>
+          <DevelopmentServerPort>27957</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>https://localhost:44313/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>

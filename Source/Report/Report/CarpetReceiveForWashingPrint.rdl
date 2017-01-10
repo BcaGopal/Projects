@@ -4,6 +4,20 @@
     <ReportItems>
       <Subreport Name="ProvisionalCompanyDetail">
         <ReportName>ProvisionalCompanyDetail</ReportName>
+        <Parameters>
+          <Parameter Name="SiteId">
+            <Value>=First(Fields!SiteId.Value, "DsMain")</Value>
+          </Parameter>
+          <Parameter Name="DivisionId">
+            <Value>=First(Fields!DivisionId.Value, "DsMain")</Value>
+          </Parameter>
+          <Parameter Name="DatabaseConnectionString">
+            <Value>=Parameters!DatabaseConnectionString.Value</Value>
+          </Parameter>
+          <Parameter Name="PrintedBy">
+            <Value>=Parameters!PrintedBy.Value</Value>
+          </Parameter>
+        </Parameters>
         <Top>0.03271in</Top>
         <Left>0.06627in</Left>
         <Height>0.3in</Height>
@@ -1992,6 +2006,17 @@
                           <ReportItems>
                             <Subreport Name="WashingReceiveSizePrint">
                               <ReportName>WashingReceiveSizePrint</ReportName>
+                              <Parameters>
+                                <Parameter Name="Id">
+                                  <Value>=Parameters!Id.Value</Value>
+                                </Parameter>
+                                <Parameter Name="PrintedBy">
+                                  <Value>=Parameters!PrintedBy.Value</Value>
+                                </Parameter>
+                                <Parameter Name="DatabaseConnectionString">
+                                  <Value>=Parameters!DatabaseConnectionString.Value</Value>
+                                </Parameter>
+                              </Parameters>
                               <Top>0.03333in</Top>
                               <Left>0.04167in</Left>
                               <Height>0.4375in</Height>
@@ -2457,140 +2482,15 @@
         </Style>
       </Tablix>
     </ReportItems>
-    <Height>3.89715in</Height>
+    <Height>3.9034in</Height>
     <Style />
   </Body>
   <Width>7.93625in</Width>
   <Page>
     <PageHeader>
-      <Height>0.59535in</Height>
+      <Height>0.23077in</Height>
       <PrintOnFirstPage>true</PrintOnFirstPage>
       <PrintOnLastPage>true</PrintOnLastPage>
-      <ReportItems>
-        <Textbox Name="Textbox71">
-          <CanGrow>true</CanGrow>
-          <KeepTogether>true</KeepTogether>
-          <Paragraphs>
-            <Paragraph>
-              <TextRuns>
-                <TextRun>
-                  <Value>=First(Fields!ReportTitle.Value, "DsMain")</Value>
-                  <Style>
-                    <FontFamily>Tahoma</FontFamily>
-                    <FontSize>12pt</FontSize>
-                    <FontWeight>Bold</FontWeight>
-                  </Style>
-                </TextRun>
-              </TextRuns>
-              <Style>
-                <TextAlign>Center</TextAlign>
-              </Style>
-            </Paragraph>
-          </Paragraphs>
-          <rd:DefaultName>Textbox2</rd:DefaultName>
-          <Top>0.01747in</Top>
-          <Left>0.04514in</Left>
-          <Height>0.25in</Height>
-          <Width>7.863in</Width>
-          <Visibility>
-            <Hidden>=iif(Globals!PageNumber=1,True,False)</Hidden>
-          </Visibility>
-          <Style>
-            <Border>
-              <Style>None</Style>
-            </Border>
-            <TopBorder>
-              <Style>Solid</Style>
-            </TopBorder>
-            <BottomBorder>
-              <Style>Solid</Style>
-            </BottomBorder>
-            <PaddingLeft>2pt</PaddingLeft>
-            <PaddingRight>2pt</PaddingRight>
-            <PaddingTop>2pt</PaddingTop>
-            <PaddingBottom>2pt</PaddingBottom>
-          </Style>
-        </Textbox>
-        <Textbox Name="Textbox74">
-          <CanGrow>true</CanGrow>
-          <KeepTogether>true</KeepTogether>
-          <Paragraphs>
-            <Paragraph>
-              <TextRuns>
-                <TextRun>
-                  <Value>="Name :  " + " " + First(Fields!Name.Value, "DsMain")</Value>
-                  <Style>
-                    <FontFamily>Tahoma</FontFamily>
-                    <FontSize>9pt</FontSize>
-                    <FontWeight>Bold</FontWeight>
-                  </Style>
-                </TextRun>
-              </TextRuns>
-              <Style>
-                <TextAlign>Left</TextAlign>
-              </Style>
-            </Paragraph>
-          </Paragraphs>
-          <rd:DefaultName>Textbox3</rd:DefaultName>
-          <Top>0.29663in</Top>
-          <Left>0.02811in</Left>
-          <Height>0.26042in</Height>
-          <Width>3.90495in</Width>
-          <ZIndex>1</ZIndex>
-          <Visibility>
-            <Hidden>=iif(Globals!PageNumber=1,True,False)</Hidden>
-          </Visibility>
-          <Style>
-            <Border>
-              <Style>None</Style>
-            </Border>
-            <PaddingLeft>2pt</PaddingLeft>
-            <PaddingRight>2pt</PaddingRight>
-            <PaddingTop>2pt</PaddingTop>
-            <PaddingBottom>2pt</PaddingBottom>
-          </Style>
-        </Textbox>
-        <Textbox Name="Textbox75">
-          <CanGrow>true</CanGrow>
-          <KeepTogether>true</KeepTogether>
-          <Paragraphs>
-            <Paragraph>
-              <TextRuns>
-                <TextRun>
-                  <Value>="Slip No  :  " + First(Fields!SlipNo.Value, "DsMain")</Value>
-                  <Style>
-                    <FontFamily>Tahoma</FontFamily>
-                    <FontSize>9pt</FontSize>
-                    <FontWeight>Bold</FontWeight>
-                    <Format>dd/MMM/yy</Format>
-                  </Style>
-                </TextRun>
-              </TextRuns>
-              <Style>
-                <TextAlign>Left</TextAlign>
-              </Style>
-            </Paragraph>
-          </Paragraphs>
-          <rd:DefaultName>Textbox4</rd:DefaultName>
-          <Top>0.30635in</Top>
-          <Left>3.97472in</Left>
-          <Height>0.25in</Height>
-          <Width>3.93342in</Width>
-          <ZIndex>2</ZIndex>
-          <Visibility>
-            <Hidden>=iif(Globals!PageNumber=1,True,False)</Hidden>
-          </Visibility>
-          <Style>
-            <Border>
-              <Style>None</Style>
-            </Border>
-            <PaddingLeft>2pt</PaddingLeft>
-            <PaddingRight>2pt</PaddingRight>
-            <PaddingTop>2pt</PaddingTop>
-            <PaddingBottom>2pt</PaddingBottom>
-          </Style>
-        </Textbox>
-      </ReportItems>
       <Style>
         <Border>
           <Style>None</Style>
@@ -2598,7 +2498,7 @@
       </Style>
     </PageHeader>
     <PageFooter>
-      <Height>0.3243in</Height>
+      <Height>0.35555in</Height>
       <PrintOnFirstPage>true</PrintOnFirstPage>
       <PrintOnLastPage>true</PrintOnLastPage>
       <ReportItems>
@@ -2701,18 +2601,24 @@
             <PaddingBottom>2pt</PaddingBottom>
           </Style>
         </Textbox>
-        <Textbox Name="Textbox154">
+        <Textbox Name="Textbox28">
           <CanGrow>true</CanGrow>
           <KeepTogether>true</KeepTogether>
           <Paragraphs>
             <Paragraph>
               <TextRuns>
                 <TextRun>
-                  <Value>="Printed By : " + Parameters!PrintedBy.Value</Value>
+                  <Value>Print By : </Value>
                   <Style>
                     <FontFamily>tahoma</FontFamily>
                     <FontSize>9pt</FontSize>
-                    <Format>dd-MMM-yy hh:mm:ss tt</Format>
+                  </Style>
+                </TextRun>
+                <TextRun>
+                  <Value>=Parameters!PrintedBy.Value</Value>
+                  <Style>
+                    <FontFamily>tahoma</FontFamily>
+                    <FontSize>9pt</FontSize>
                   </Style>
                 </TextRun>
               </TextRuns>
@@ -2722,10 +2628,10 @@
             </Paragraph>
           </Paragraphs>
           <rd:DefaultName>Textbox19</rd:DefaultName>
-          <Top>0.05875in</Top>
-          <Left>2.61861in</Left>
-          <Height>0.2208in</Height>
-          <Width>2.69903in</Width>
+          <Top>0.05278in</Top>
+          <Left>2.30705in</Left>
+          <Height>0.20833in</Height>
+          <Width>3.1197in</Width>
           <ZIndex>2</ZIndex>
           <Style>
             <Border>
@@ -2747,14 +2653,15 @@
     <PageHeight>11.69in</PageHeight>
     <PageWidth>8.27in</PageWidth>
     <LeftMargin>0.17in</LeftMargin>
-    <TopMargin>0.1in</TopMargin>
-    <BottomMargin>0.1in</BottomMargin>
     <Style />
   </Page>
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
     <DataSource Name="Purchase">
-      <DataSourceReference>DataSourceMain</DataSourceReference>
+      <ConnectionProperties>
+        <DataProvider>SQL</DataProvider>
+        <ConnectString>=Parameters!DatabaseConnectionString.Value</ConnectString>
+      </ConnectionProperties>
       <rd:SecurityType>None</rd:SecurityType>
       <rd:DataSourceID>727bb65e-cc51-4d28-a097-a8ea7d087931</rd:DataSourceID>
     </DataSource>
@@ -2930,6 +2837,12 @@
       <DataType>Integer</DataType>
       <Nullable>true</Nullable>
       <Prompt>Id</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="DatabaseConnectionString">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>DatabaseConnectionString</Prompt>
     </ReportParameter>
     <ReportParameter Name="PrintedBy">
       <DataType>String</DataType>

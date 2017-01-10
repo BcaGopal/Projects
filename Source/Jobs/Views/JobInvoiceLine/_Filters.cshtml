@@ -31,7 +31,8 @@
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            @Html.LabelFor(model => model.JobReceiveHeaderId, "Receive No", new { @class = "control-label col-md-4 col-sm-2" })
+                            @Html.LabelFor(model => model.JobReceiveHeaderId, (Model.DocumentTypeSettings.ContraDocTypeCaption ?? "Receive No."), new { @class = "control-label col-md-4 col-sm-2" })
+                            @Html.HiddenFor(m => m.DocumentTypeSettings.ContraDocTypeCaption)
                             <div class="col-md-7 col-sm-10">
                                 @Html.TextBoxFor(model => model.JobReceiveHeaderId, new { @class = "form-control required" })
                                 @Html.ValidationMessageFor(model => model.JobReceiveHeaderId, "", new { @class = "text-danger" })
@@ -54,6 +55,7 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             @Html.LabelFor(model => model.ProductId, (Model.DocumentTypeSettings.ProductCaption ?? "Product"), new { @class = "control-label col-md-4 col-sm-2" })
+                            @Html.HiddenFor(m => m.DocumentTypeSettings.ProductCaption)
                             <div class="col-md-7 col-sm-10">
                                 @Html.TextBoxFor(model => model.ProductId, new { @class = "form-control required" })
                                 @Html.ValidationMessageFor(model => model.ProductId, "", new { @class = "text-danger" })
@@ -64,6 +66,7 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             @Html.LabelFor(model => model.ProductGroupId, (Model.DocumentTypeSettings.ProductGroupCaption ?? "Product Group"), new { @class = "control-label col-md-4 col-sm-2" })
+                            @Html.HiddenFor(m => m.DocumentTypeSettings.ProductGroupCaption)
                             <div class="col-md-7 col-sm-10">
                                 @Html.TextBoxFor(model => model.ProductGroupId, new { @class = "form-control required" })
                                 @Html.ValidationMessageFor(model => model.ProductGroupId, "", new { @class = "text-danger" })
@@ -91,8 +94,8 @@
         var ProcessId = '@Model.JobInvoiceSettings.ProcessId';
         var DocID = $('#JobInvoiceHeaderId', '.modal-body').val();
 
-        CustomSelectFunction($("#ProductGroupId"), '/ComboHelpList/GetProductGroup', '/ComboHelpList/SetProductGroup', 'Enter Group Name', true, 1);
-        CustomSelectFunction($("#JobWorkerIds"), '/ComboHelpList/GetJobWorkersWithProcess', '/ComboHelpList/SetJobworkers', 'Enter JobWorker', true, 1, ProcessId);
+        CustomSelectFunction($("#ProductGroupId"), '/ComboHelpList/GetProductGroup', '/ComboHelpList/SetProductGroup', ' ', true, 1);
+        CustomSelectFunction($("#JobWorkerIds"), '/ComboHelpList/GetJobWorkersWithProcess', '/ComboHelpList/SetJobworkers', ' ', true, 1, ProcessId);
 
         $('.datepicker').datepicker({
             format: 'dd/MM/yyyy',

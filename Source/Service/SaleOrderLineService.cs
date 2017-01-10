@@ -146,9 +146,9 @@ namespace Service
                         Rate = p.Rate,
                         SaleOrderHeaderId = p.SaleOrderHeaderId,
                         SaleOrderLineId = p.SaleOrderLineId,
-                        SaleOrderHeaderDocNo=p.SaleOrderHeader.DocNo
+                        SaleOrderHeaderDocNo=p.SaleOrderHeader.DocNo,
+                        StockId = p.StockId
                     }
-
 
                 );
 

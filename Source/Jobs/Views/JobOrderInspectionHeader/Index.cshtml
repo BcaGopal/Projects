@@ -73,7 +73,7 @@
                columns.Add().Encoded(false).Sanitized(false).SetWidth("5%").RenderValueAs(m => CustomHelpers.RenderCheckBox());
                columns.Add(foo => foo.DocDate).Sortable(true).Titled("Inspection Date").Format("{0:dd/MMM/yyyy}").Filterable(true);
                columns.Add(m => m.DocNo).Sortable(true).Titled("Inspection No.").Filterable(true).Sortable(true);
-               columns.Add(foo => foo.JobWorkerName).Sortable(true).Titled("Job Worker").Filterable(true);
+               columns.Add(foo => foo.JobWorkerName).Sortable(true).Titled("Party").Filterable(true);
                columns.Add(foo => foo.InspectionByName).Sortable(true).Titled("Inspected By").Filterable(true);
                columns.Add(m => m.Remark).Sortable(true).Filterable(true).Titled("Remark");
                columns.Add().Sanitized(false).Encoded(false).RenderValueAs(m => CustomHelpers.RenderStatus(m.Status)).Titled("Status");

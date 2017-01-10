@@ -13,10 +13,14 @@ namespace Model.ViewModel
     {
         [Key]
         public int DocumentTypeSettingsId { get; set; }
-
-
         public int DocumentTypeId { get; set; }
         public virtual DocumentType DocumentType { get; set; }
+
+        [MaxLength(50)]
+        public string PartyCaption { get; set; }
+
+        [MaxLength(50)]
+        public string ProductUidCaption { get; set; }
 
         [MaxLength(50)]
         public string ProductCaption { get; set; }
@@ -38,6 +42,11 @@ namespace Model.ViewModel
 
         [MaxLength(50)]
         public string Dimension4Caption { get; set; }
+
+        [MaxLength(50)]
+        public string ContraDocTypeCaption { get; set; }
+        
+
 
         public string CreatedBy { get; set; }
         public string ModifiedBy { get; set; }

@@ -110,7 +110,8 @@
     <Compile Include="Models\Dimension3.cs" />
     <Compile Include="Models\DocumentTypeSettings.cs" />
     <Compile Include="Models\FeetConversionToCms.cs" />
-    <Compile Include="Models\JobReceiveQaLineDetail.cs" />
+    <Compile Include="Models\PackingLineExtended.cs" />
+    <Compile Include="Models\JobReceiveQaLineExtended.cs" />
     <Compile Include="Models\JobReceiveQaAttribute.cs" />
     <Compile Include="Models\JobReceiveQaPenalty.cs" />
     <Compile Include="Models\ProductGroupProcessSettings.cs" />

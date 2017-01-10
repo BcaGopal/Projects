@@ -991,6 +991,9 @@
     <Content Include="Views\PurchaseQuotationLine\_IndentFilters.cshtml" />
     <Content Include="Views\PurchaseQuotationLine\_IndentResults.cshtml" />
     <Content Include="Views\TaxCalculation\_GetHeaderCharge.cshtml" />
+    <Content Include="Views\Supplier\AddInExisting.cshtml" />
+    <Content Include="Views\Supplier\Delete.cshtml" />
+    <Content Include="Views\Supplier\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

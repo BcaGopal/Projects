@@ -263,6 +263,11 @@ namespace Model.ViewModels
         public bool? Reviewed { get; set; }
         public int? ReviewCount { get; set; }
         public string LockReason { get; set; }
+
+        public int? GatePassHeaderId { get; set; }
+        public string GatePassDocNo { get; set; }
+        public int GatePassStatus { get; set; }
+        public DateTime? GatePassDocDate { get; set; }
     }
 
     public class SaleDispatchHeaderIndexViewModelForEdit : SaleDispatchHeaderIndexViewModel

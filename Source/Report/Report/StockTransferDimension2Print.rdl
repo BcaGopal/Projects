@@ -2,12 +2,28 @@
 <Report xmlns="http://schemas.microsoft.com/sqlserver/reporting/2008/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
   <Body>
     <ReportItems>
+      <Subreport Name="HalfGatePassPrint">
+        <ReportName>HalfGatePassPrint</ReportName>
+        <Top>2.48in</Top>
+        <Left>5.68114in</Left>
+        <Height>0.45446in</Height>
+        <Width>5.39637in</Width>
+        <Visibility>
+          <Hidden>=IIF(First(Fields!GatePassHeaderId.Value, "DsMain") ="0",true,false)</Hidden>
+        </Visibility>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+        </Style>
+      </Subreport>
       <Subreport Name="CompanyDetail_HalfLandscap">
         <ReportName>CompanyDetail_HalfLandscap</ReportName>
         <Top>0.03271in</Top>
         <Left>0.06627in</Left>
         <Height>0.3in</Height>
         <Width>5.4in</Width>
+        <ZIndex>1</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -39,7 +55,7 @@
         <Left>0.06626in</Left>
         <Height>0.25in</Height>
         <Width>5.40001in</Width>
-        <ZIndex>1</ZIndex>
+        <ZIndex>2</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -61,7 +77,7 @@
         <Left>5.5691in</Left>
         <Height>2.90175in</Height>
         <Width>0in</Width>
-        <ZIndex>2</ZIndex>
+        <ZIndex>3</ZIndex>
         <Style>
           <Border>
             <Style>Solid</Style>
@@ -332,7 +348,7 @@
         <Left>0.06627in</Left>
         <Height>0.41042in</Height>
         <Width>2.99381in</Width>
-        <ZIndex>3</ZIndex>
+        <ZIndex>4</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -596,7 +612,7 @@
         <Left>3.10869in</Left>
         <Height>0.40939in</Height>
         <Width>2.35758in</Width>
-        <ZIndex>4</ZIndex>
+        <ZIndex>5</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -1350,7 +1366,7 @@
         <Left>0.06627in</Left>
         <Height>0.74054in</Height>
         <Width>5.4in</Width>
-        <ZIndex>5</ZIndex>
+        <ZIndex>6</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -1614,7 +1630,7 @@
         <Left>0.07351in</Left>
         <Height>0.47292in</Height>
         <Width>5.39276in</Width>
-        <ZIndex>6</ZIndex>
+        <ZIndex>7</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -1627,7 +1643,7 @@
         <Left>5.6654in</Left>
         <Height>0.3in</Height>
         <Width>5.4in</Width>
-        <ZIndex>7</ZIndex>
+        <ZIndex>8</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -1659,7 +1675,7 @@
         <Left>5.66539in</Left>
         <Height>0.25in</Height>
         <Width>5.40001in</Width>
-        <ZIndex>8</ZIndex>
+        <ZIndex>9</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -1940,7 +1956,7 @@
         <Left>5.6654in</Left>
         <Height>0.41042in</Height>
         <Width>2.99381in</Width>
-        <ZIndex>9</ZIndex>
+        <ZIndex>10</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -2204,7 +2220,7 @@
         <Left>8.70782in</Left>
         <Height>0.40939in</Height>
         <Width>2.35758in</Width>
-        <ZIndex>10</ZIndex>
+        <ZIndex>11</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -2447,30 +2463,6 @@
                 </TablixCell>
               </TablixCells>
             </TablixRow>
-            <TablixRow>
-              <Height>0.48958in</Height>
-              <TablixCells>
-                <TablixCell>
-                  <CellContents>
-                    <Subreport Name="HalfGatePassPrint">
-                      <ReportName>HalfGatePassPrint</ReportName>
-                      <Visibility>
-                        <Hidden>=IIF(First(Fields!GatePassHeaderId.Value, "DsMain") ="0",true,false)</Hidden>
-                      </Visibility>
-                      <Style>
-                        <Border>
-                          <Style>None</Style>
-                        </Border>
-                      </Style>
-                    </Subreport>
-                    <ColSpan>4</ColSpan>
-                  </CellContents>
-                </TablixCell>
-                <TablixCell />
-                <TablixCell />
-                <TablixCell />
-              </TablixCells>
-            </TablixRow>
           </TablixRows>
         </TablixBody>
         <TablixColumnHierarchy>
@@ -2485,19 +2477,14 @@
           <TablixMembers>
             <TablixMember />
             <TablixMember />
-            <TablixMember>
-              <Visibility>
-                <Hidden>=IIF(First(Fields!GatePassHeaderId.Value, "DsMain") IS NOTHING,true,false)</Hidden>
-              </Visibility>
-            </TablixMember>
           </TablixMembers>
         </TablixRowHierarchy>
         <DataSetName>DsMain</DataSetName>
         <Top>1.94289in</Top>
         <Left>5.67264in</Left>
-        <Height>0.9625in</Height>
+        <Height>0.47292in</Height>
         <Width>5.39276in</Width>
-        <ZIndex>11</ZIndex>
+        <ZIndex>12</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -2996,6 +2983,7 @@
                         <PaddingBottom>2pt</PaddingBottom>
                       </Style>
                     </Textbox>
+                    <rd:Selected>true</rd:Selected>
                   </CellContents>
                 </TablixCell>
               </TablixCells>
@@ -3250,8 +3238,8 @@
         <Top>1.1555in</Top>
         <Left>5.68708in</Left>
         <Height>0.74054in</Height>
-        <Width>5.43497in</Width>
-        <ZIndex>12</ZIndex>
+        <Width>5.43498in</Width>
+        <ZIndex>13</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -3745,78 +3733,6 @@
             <PaddingBottom>2pt</PaddingBottom>
           </Style>
         </Textbox>
-        <Textbox Name="Textbox56">
-          <CanGrow>true</CanGrow>
-          <KeepTogether>true</KeepTogether>
-          <Paragraphs>
-            <Paragraph>
-              <TextRuns>
-                <TextRun>
-                  <Value>="Printed By : " + Parameters!PrintedBy.Value</Value>
-                  <Style>
-                    <FontFamily>tahoma</FontFamily>
-                    <FontSize>9pt</FontSize>
-                    <Format>dd-MMM-yy hh:mm:ss tt</Format>
-                  </Style>
-                </TextRun>
-              </TextRuns>
-              <Style>
-                <TextAlign>Center</TextAlign>
-              </Style>
-            </Paragraph>
-          </Paragraphs>
-          <rd:DefaultName>Textbox19</rd:DefaultName>
-          <Top>0.05876in</Top>
-          <Left>1.24692in</Left>
-          <Height>0.23291in</Height>
-          <Width>3.08031in</Width>
-          <ZIndex>4</ZIndex>
-          <Style>
-            <Border>
-              <Style>None</Style>
-            </Border>
-            <PaddingLeft>2pt</PaddingLeft>
-            <PaddingRight>2pt</PaddingRight>
-            <PaddingTop>2pt</PaddingTop>
-            <PaddingBottom>2pt</PaddingBottom>
-          </Style>
-        </Textbox>
-        <Textbox Name="Textbox57">
-          <CanGrow>true</CanGrow>
-          <KeepTogether>true</KeepTogether>
-          <Paragraphs>
-            <Paragraph>
-              <TextRuns>
-                <TextRun>
-                  <Value>="Printed By : " + Parameters!PrintedBy.Value</Value>
-                  <Style>
-                    <FontFamily>tahoma</FontFamily>
-                    <FontSize>9pt</FontSize>
-                    <Format>dd-MMM-yy hh:mm:ss tt</Format>
-                  </Style>
-                </TextRun>
-              </TextRuns>
-              <Style>
-                <TextAlign>Center</TextAlign>
-              </Style>
-            </Paragraph>
-          </Paragraphs>
-          <rd:DefaultName>Textbox19</rd:DefaultName>
-          <Top>0.04882in</Top>
-          <Left>7.05942in</Left>
-          <Height>0.23291in</Height>
-          <Width>3.08031in</Width>
-          <ZIndex>5</ZIndex>
-          <Style>
-            <Border>
-              <Style>None</Style>
-            </Border>
-            <PaddingLeft>2pt</PaddingLeft>
-            <PaddingRight>2pt</PaddingRight>
-            <PaddingTop>2pt</PaddingTop>
-            <PaddingBottom>2pt</PaddingBottom>
-          </Style>
-        </Textbox>
       </ReportItems>
       <Style>
         <Border>
@@ -3961,12 +3877,6 @@
       <DataType>Integer</DataType>
       <Nullable>true</Nullable>
       <Prompt>Id</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="PrintedBy">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>PrintedBy</Prompt>
     </ReportParameter>
   </ReportParameters>
   <Code>
@@ -4200,3 +4110,4 @@ PtQeVUENmewh02zjEWZuZuLElNvBS6gDSXQMHP8A5UE5f6lWFPkR2q6ZG8HZI8xgvruK93SMJUsHJ61z
   <rd:ReportUnitType>Inch</rd:ReportUnitType>
   <rd:ReportID>f1b70379-da78-4ea9-bab5-cbb93d10df58</rd:ReportID>
 </Report>
+

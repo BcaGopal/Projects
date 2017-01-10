@@ -4,6 +4,20 @@
     <ReportItems>
       <Subreport Name="CompanyDetail">
         <ReportName>CompanyDetail</ReportName>
+        <Parameters>
+          <Parameter Name="SiteId">
+            <Value>=First(Fields!SiteId.Value, "DsMain")</Value>
+          </Parameter>
+          <Parameter Name="DivisionId">
+            <Value>=First(Fields!DivisionId.Value, "DsMain")</Value>
+          </Parameter>
+          <Parameter Name="DatabaseConnectionString">
+            <Value>=Parameters!DatabaseConnectionString.Value</Value>
+          </Parameter>
+          <Parameter Name="PrintedBy">
+            <Value>=Parameters!PrintedBy.Value</Value>
+          </Parameter>
+        </Parameters>
         <Top>0.03472in</Top>
         <Left>0.01875in</Left>
         <Height>0.31945in</Height>
@@ -1007,7 +1021,7 @@
         </TablixRowHierarchy>
         <Top>0.72742in</Top>
         <Left>0.02329in</Left>
-        <Height>1.1632in</Height>
+        <Height>1.16319in</Height>
         <Width>7.95568in</Width>
         <ZIndex>2</ZIndex>
         <Visibility>
@@ -1291,7 +1305,10 @@
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
     <DataSource Name="DataSource1">
-      <DataSourceReference>DataSourceMain</DataSourceReference>
+      <ConnectionProperties>
+        <DataProvider>SQL</DataProvider>
+        <ConnectString>=Parameters!DatabaseConnectionString.Value</ConnectString>
+      </ConnectionProperties>
       <rd:SecurityType>None</rd:SecurityType>
       <rd:DataSourceID>dd7af43a-86ea-4bb9-8747-c50ac43bbbc6</rd:DataSourceID>
     </DataSource>
@@ -1310,8 +1327,8 @@
           <QueryParameter Name="@Country">
             <Value>=Parameters!Country.Value</Value>
           </QueryParameter>
-          <QueryParameter Name="@processId">
-            <Value>=Parameters!processId.Value</Value>
+          <QueryParameter Name="@ProcessId">
+            <Value>=Parameters!ProcessId.Value</Value>
           </QueryParameter>
           <QueryParameter Name="@Site">
             <Value>=Parameters!Site.Value</Value>
@@ -1397,12 +1414,6 @@
       <Nullable>true</Nullable>
       <AllowBlank>true</AllowBlank>
       <Prompt>ReportTitle</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="processId">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>process Id</Prompt>
     </ReportParameter>
     <ReportParameter Name="FilterStr1">
       <DataType>String</DataType>
@@ -1493,6 +1504,18 @@
       <Nullable>true</Nullable>
       <AllowBlank>true</AllowBlank>
       <Prompt>PrintedBy</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="DatabaseConnectionString">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>DatabaseConnectionString</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="ProcessId">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>ProcessId</Prompt>
     </ReportParameter>
   </ReportParameters>
   <Code>

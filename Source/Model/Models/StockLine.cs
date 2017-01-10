@@ -117,6 +117,12 @@ namespace Model.Models
         [Display(Name = "Weight")]
         public Decimal? Weight { get; set; }
 
+        [Display(Name = "StockIn")]
+        [ForeignKey("StockIn")]
+        public int? StockInId { get; set; }
+        public virtual Stock StockIn { get; set; }
+
+
 
         /// <summary>
         /// ///////////////For Maintaining Product Uid Last Values///////////////////////////

@@ -83,6 +83,8 @@ namespace Model.ViewModels
 
         public int? Dimension4Id { get; set; }
         public string Dimension4Name { get; set; }
+
+        public int? StockId { get; set; }
     }
 
     public class SaleOrderLineIndexViewModel : SaleOrderLineViewModel
@@ -90,6 +92,8 @@ namespace Model.ViewModels
         public string SaleOrderHeaderDocNo { get; set; }
         public int ProgressPerc { get; set; }
         public int unitDecimalPlaces { get; set; }
+
+
 
     }
     public class SaleOrderLineBalance

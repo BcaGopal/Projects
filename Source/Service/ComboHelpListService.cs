@@ -55,6 +55,9 @@ namespace Service
         IEnumerable<ComboBoxList> GetProductCategoryHelpList();
         IEnumerable<ComboBoxList> GetDimension1HelpList();
         IEnumerable<ComboBoxList> GetDimension2HelpList();
+        IEnumerable<ComboBoxList> GetDimension3HelpList();
+        IEnumerable<ComboBoxList> GetDimension4HelpList();
+
         IEnumerable<ComboBoxList> GetProductTypeHelpList();
         IEnumerable<ComboBoxList> GetProductCollectionHelpList();
         IEnumerable<ComboBoxList> GetProductQualityHelpList();
@@ -526,6 +529,28 @@ namespace Service
             {
                 Id = m.Dimension2Id,
                 PropFirst = m.Dimension2Name
+            });
+
+            return ProdCategoryList;
+        }
+
+        public IEnumerable<ComboBoxList> GetDimension3HelpList()
+        {
+            IEnumerable<ComboBoxList> ProdCategoryList = db.Dimension3.OrderBy(m => m.Dimension3Name).Select(m => new ComboBoxList
+            {
+                Id = m.Dimension3Id,
+                PropFirst = m.Dimension3Name
+            });
+
+            return ProdCategoryList;
+        }
+
+        public IEnumerable<ComboBoxList> GetDimension4HelpList()
+        {
+            IEnumerable<ComboBoxList> ProdCategoryList = db.Dimension4.OrderBy(m => m.Dimension4Name).Select(m => new ComboBoxList
+            {
+                Id = m.Dimension4Id,
+                PropFirst = m.Dimension4Name
             });
 
             return ProdCategoryList;

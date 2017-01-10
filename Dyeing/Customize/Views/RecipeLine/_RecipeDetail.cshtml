@@ -270,7 +270,7 @@
             
             
             //$('#Qty').val(($('#DocQty').val() + mExcessQtyInKg));
-            grid.getDataItem(i).Qty = grid.getDataItem(i).DocQty + parseFloat(mExcessQtyInKg);
+            grid.getDataItem(i).Qty = parseFloat(grid.getDataItem(i).DocQty) + parseFloat(mExcessQtyInKg);
             grid.getDataItem(i).Amount = (grid.getDataItem(i).Qty * grid.getDataItem(i).Rate).toFixed(2);
             grid.updateRow(i);
         }

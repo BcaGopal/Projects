@@ -48,6 +48,7 @@ namespace Model.ViewModel
         [Display(Name = "Status")]
         public int Status { get; set; }
         public JobOrderSettingsViewModel JobOrderSettings { get; set; }
+        public DocumentTypeSettingsViewModel DocumentTypeSettings { get; set; }
 
         public int ProcessId { get; set; }
         public string ProcessName { get; set; }        

@@ -165,6 +165,8 @@ namespace Service
                                                                                   StockInId = StockInTab.StockId,
                                                                                   StockInNo = StockHeaderTab.DocNo,
                                                                                   Remark = l.Remark,
+                                                                                  LossQty=PackingLineTab.LossQty,
+                                                                                  SaleDispatchHeaderId=l.SaleDispatchHeaderId
                                                                               }).Take(2000).ToList();
 
             return SaleDispatchLineViewModel;

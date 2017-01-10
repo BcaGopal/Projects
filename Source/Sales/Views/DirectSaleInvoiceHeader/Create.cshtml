@@ -334,54 +334,14 @@
                 <div style="padding-right:15px">
 
                     <div class="panel panel-default" id="grid">
-                        <div class="panel-heading headrow" style="background-image: -webkit-linear-gradient(top, #428bca 0%, #428bca 100%);color:white">
-                            <div class="row grid-head">
-                                <div class='text-left block' style='width: 5%; '>
-                                    Srl.
-                                </div>
-                                <div class="block" style="width: 90%; ">
-                                    <div class="row">
-                                        @*ProductInfo*@
-                                        <div class="block" style="width: 20%; ">
-                                            Product Name
-                                        </div>
-                                        @*Bale No*@
-                                        <div class="block" style="width: 10%;">
-                                            Bale No
-                                        </div>
-                                        @*Invoice Group*@
-                                        <div class="block" style="width: 25%; ">
-                                            Invoice Group
-                                        </div>
-                                        @*Qty*@
-                                        <div class="block text-right" style="width: 10%; ">
-                                            Qty
-                                        </div>
-                                        @*Rate*@
-                                        <div class="block text-right" style="width: 10%; ">
-                                            Deal Qty
-                                        </div>
-                                        <div class="block text-right" style="width: 10%; ">
-                                            Rate
-                                        </div>
-                                        @*Amount*@
-                                        <div class="block text-right" style="width: 10%; ">
-                                            Amount
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="block" style="width: 5%; ">
 
-                                </div>
+                        <div style="min-width: 700px;">
+
+                            <div class="panel-info" id="gbody">
+
                             </div>
-
-                        </div>
-                        <div class="panel-info" id="gbody">
-
-
                         </div>
                     </div>
-
 
                     <div class="panel panel-default" id="gridcharges">
                         <div class="panel-heading headrow" style="background-image: -webkit-linear-gradient(top, #428bca 0%, #428bca 100%);color:white">
@@ -912,7 +872,31 @@
     //    $("#ProductId").select2("focus");
     //});
 
+
+    
+  
     function LoadProducts() {
+        var groupId=@Model.SaleInvoiceHeaderId;
+        var status='@Model.Status';
+        var link="/DirectSaleInvoiceLine/_Index/";
+
+        $.ajax({
+            url: link,
+            type: "GET",
+            data:{id:groupId,status:status},
+            success: function (data) {
+                $("#gbody").html(data);
+            },
+            error: function (result) {
+                alert("Error");
+            }
+        });
+    };
+
+
+
+
+    @*function LoadProducts() {
         var groupId=@Model.SaleInvoiceHeaderId;
         var status='@Model.Status';
         var LineEditUrl;
@@ -990,7 +974,10 @@
                 alert("Error");
             }
         });
-    }
+    }*@
+
+
+
 
 
     $(function () {
@@ -1005,7 +992,7 @@
 
             $.ajax({
                 url: NewUrl,
-                type: "POST",               
+                type: "POST",
                 success: function (result) {
                     $('#myModalContent').html(result);
                     $('#myModal').modal({
@@ -1044,7 +1031,7 @@
 
     });
 
-  
+
 </script>
 
 

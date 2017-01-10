@@ -774,7 +774,6 @@ namespace Web
             //int SaleAc = 6650;
             int ActivityType;
 
-
             bool BeforeSave = true;
             try
             {
@@ -864,7 +863,6 @@ namespace Web
                                     Gline.Qty = item.Qty;
                                     Gline.Specification = item.Specification;
                                     Gline.UnitId = item.UnitId;
-
                                     // new GatePassLineService(_unitOfWork).Create(Gline);
                                     Gline.ObjectState = Model.ObjectState.Added;
                                     //db.GatePassLine.Add(Gline);
@@ -1003,6 +1001,138 @@ namespace Web
             return View();
         }
 
+
+        public ActionResult GenerateGatePass(string Ids, int DocTypeId)
+        {
+
+            if (!string.IsNullOrEmpty(Ids))
+            {
+                int SiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
+                int DivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
+                int PK = 0;
+                var Settings = new SaleInvoiceSettingService(_unitOfWork).GetSaleInvoiceSettingForDocument(DocTypeId, DivisionId, SiteId);
+                var GatePassDocTypeID = new DocumentTypeService(_unitOfWork).FindByName(TransactionDocCategoryConstants.GatePass).DocumentTypeId;
+                string SaleinvoiceIds = "";
+                try
+                {
+                    foreach (var item in Ids.Split(',').Select(Int32.Parse))
+                    {
+                        TimePlanValidation = true;                       
+
+                        SaleInvoiceHeader pd = new SaleInvoiceHeaderService(_unitOfWork).FindDirectSaleInvoice(item);
+                        SaleDispatchHeader Dh = _SaleDispatchHeaderService.Find(pd.SaleDispatchHeaderId.Value);
+                        PackingHeader Ph = _PackingHeaderService.Find(Dh.PackingHeaderId.Value);
+
+
+                        if (!Dh.GatePassHeaderId.HasValue)
+                        {
+                            #region DocTypeTimeLineValidation
+                            try
+                            {
+
+                                TimePlanValidation = DocumentValidation.ValidateDocument(Mapper.Map<DocumentUniqueId>(Dh), DocumentTimePlanTypeConstants.GatePassCreate, User.Identity.Name, out ExceptionMsg, out Continue);
+
+                            }
+                            catch (Exception ex)
+                            {
+                                string message = _exception.HandleException(ex);
+                                TempData["CSEXC"] += message;
+                                TimePlanValidation = false;
+                            }
+                            #endregion
+
+                            if ((TimePlanValidation || Continue))
+                            {
+                                    if (!String.IsNullOrEmpty(Settings.SqlProcGatePass) && Dh.Status == (int)StatusConstants.Submitted && !Dh.GatePassHeaderId.HasValue)
+                                    {
+
+                                        SqlParameter SqlParameterUserId = new SqlParameter("@Id", pd.SaleDispatchHeaderId.Value);
+                                        IEnumerable<GatePassGeneratedViewModel> GatePasses = db.Database.SqlQuery<GatePassGeneratedViewModel>(Settings.SqlProcGatePass + " @Id", SqlParameterUserId).ToList();
+
+                                        if (Dh.GatePassHeaderId == null)
+                                        {
+                                            SqlParameter DocDate = new SqlParameter("@DocDate", DateTime.Now.Date);
+                                            DocDate.SqlDbType = SqlDbType.DateTime;
+                                            SqlParameter Godown = new SqlParameter("@GodownId", Ph.GodownId);
+                                            SqlParameter DocType = new SqlParameter("@DocTypeId", GatePassDocTypeID);
+                                            GatePassHeader GPHeader = new GatePassHeader();
+                                            GPHeader.CreatedBy = User.Identity.Name;
+                                            GPHeader.CreatedDate = DateTime.Now;
+                                            GPHeader.DivisionId = pd.DivisionId;
+                                            GPHeader.DocDate = DateTime.Now.Date;
+                                            GPHeader.DocNo = db.Database.SqlQuery<string>("Web.GetNewDocNoGatePass @DocTypeId, @DocDate, @GodownId ", DocType, DocDate, Godown).FirstOrDefault();
+                                            GPHeader.DocTypeId = GatePassDocTypeID;
+                                            GPHeader.ModifiedBy = User.Identity.Name;
+                                            GPHeader.ModifiedDate = DateTime.Now;
+                                            GPHeader.Remark = pd.Remark;
+                                            GPHeader.PersonId = pd.SaleToBuyerId;
+                                            GPHeader.SiteId = pd.SiteId;
+                                            GPHeader.GodownId = Ph.GodownId;
+                                            GPHeader.GatePassHeaderId = PK++;
+                                            GPHeader.ReferenceDocTypeId = pd.DocTypeId;
+                                            GPHeader.ReferenceDocId = pd.SaleInvoiceHeaderId; 
+                                            GPHeader.ReferenceDocNo = pd.DocNo;
+                                            GPHeader.ObjectState = Model.ObjectState.Added;
+                                            db.GatePassHeader.Add(GPHeader);
+                                        //new GatePassHeaderService(_unitOfWork).Create(GPHeader);                                   
+                                       
+
+
+                                        foreach (GatePassGeneratedViewModel GatepassLine in GatePasses)
+                                            {
+                                                GatePassLine Gline = new GatePassLine();
+                                                Gline.CreatedBy = User.Identity.Name;
+                                                Gline.CreatedDate = DateTime.Now;
+                                                Gline.GatePassHeaderId = GPHeader.GatePassHeaderId;
+                                                Gline.ModifiedBy = User.Identity.Name;
+                                                Gline.ModifiedDate = DateTime.Now;
+                                                Gline.Product = GatepassLine.ProductName;
+                                                Gline.Qty = GatepassLine.Qty;
+                                                Gline.Specification = GatepassLine.Specification;
+                                                Gline.UnitId = GatepassLine.UnitId;
+                                                // new GatePassLineService(_unitOfWork).Create(Gline);
+                                                Gline.ObjectState = Model.ObjectState.Added;
+                                                db.GatePassLine.Add(Gline);
+                                            }
+
+                                            Dh.GatePassHeaderId = GPHeader.GatePassHeaderId;
+                                            Dh.ObjectState = Model.ObjectState.Modified;
+                                            db.SaleDispatchHeader.Add(Dh);
+                                            SaleinvoiceIds += pd.SaleInvoiceHeaderId + ", ";
+                                        }
+
+                                        db.SaveChanges();
+                                    }
+                            }
+                            else
+                                TempData["CSEXC"] += ExceptionMsg;
+                        }
+                    }
+                    //_unitOfWork.Save();
+                }
+
+                catch (Exception ex)
+                {
+                    string message = _exception.HandleException(ex);
+                    return Json(new { success = "Error", data = message }, JsonRequestBehavior.AllowGet);
+                }
+
+                LogActivity.LogActivityDetail(LogVm.Map(new ActiivtyLogViewModel
+                {
+                    DocTypeId = GatePassDocTypeID,
+                    ActivityType = (int)ActivityTypeContants.Added,
+                    Narration = "GatePass created for Cloth Sate Invoice " + SaleinvoiceIds,
+                }));
+
+                if (string.IsNullOrEmpty((string)TempData["CSEXC"]))
+                    return Json(new { success = "Success" }, JsonRequestBehavior.AllowGet).Success("Gate passes generated successfully");
+                else
+                    return Json(new { success = "Success" }, JsonRequestBehavior.AllowGet);
+
+            }
+            return Json(new { success = "Error", data = "No Records Selected." }, JsonRequestBehavior.AllowGet);
+
+        }
 
 
         public ActionResult Review(int id, string IndexType, string TransactionType)

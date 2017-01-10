@@ -43,6 +43,9 @@ namespace Service
         /// <param name="id">MaterialPlanHeaderId</param>        
         ProdOrderHeader GetProdOrderForMaterialPlan(int id);
         IEnumerable<ProdOrderHeaderViewModel> GetProdOrdersForDocumentType(string term,int DocTypeId,string ProcName);//DocTypeIds
+
+        ProdOrderHeader GetPurchOrProdForMaterialPlan(int id, int PurchOrProdDocTypeId);
+        
     }
 
     public class ProdOrderHeaderService : IProdOrderHeaderService
@@ -277,6 +280,7 @@ namespace Service
                         ).FirstOrDefault();
         }
 
+
         public IEnumerable<ProdOrderHeaderViewModel> GetProdOrdersForDocumentType( string term,int DocHeaderId,string ProcName)//DocTypeId
         {
             SqlParameter SqlParameterProductId = new SqlParameter("@MaterialPlanHeaderId", DocHeaderId);
@@ -296,6 +300,16 @@ namespace Service
             return temp;
 
         }
+
+        public ProdOrderHeader GetPurchOrProdForMaterialPlan(int id, int PurchOrProdDocTypeId)
+        {
+            return (from p in db.ProdOrderHeader
+                    where p.MaterialPlanHeaderId == id && p.DocTypeId == PurchOrProdDocTypeId
+                    select p
+                ).FirstOrDefault();
+        }
+
+
 
         public void Dispose()
         {

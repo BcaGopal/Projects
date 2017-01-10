@@ -88,6 +88,12 @@
           <QueryParameter Name="@SaleOrderAmendmentHeaderId">
             <Value>=Parameters!SaleOrderAmendmentHeaderId.Value</Value>
           </QueryParameter>
+          <QueryParameter Name="@Dimension1Id">
+            <Value>=Parameters!Dimension1Id.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@Dimension2Id">
+            <Value>=Parameters!Dimension2Id.Value</Value>
+          </QueryParameter>
         </QueryParameters>
         <CommandType>StoredProcedure</CommandType>
         <CommandText>Web.ProcSaleOrderAmendmentReport</CommandText>
@@ -3752,6 +3758,18 @@
       <Nullable>true</Nullable>
       <AllowBlank>true</AllowBlank>
       <Prompt>Sale Order Amendment Header Id</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="Dimension1Id">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Dimension1Id</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="Dimension2Id">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Dimension2Id</Prompt>
     </ReportParameter>
   </ReportParameters>
   <EmbeddedImages>

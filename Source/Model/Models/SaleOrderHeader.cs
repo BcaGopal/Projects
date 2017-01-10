@@ -62,6 +62,11 @@ namespace Model.Models
         public int ? ShipMethodId { get; set; }
         public virtual ShipMethod ShipMethod { get; set; }
 
+        [ForeignKey("Godown"), Display(Name = "Godown")]
+        public int? GodownId { get; set; }
+        public virtual Godown Godown { get; set; }
+
+
         [Display(Name = "Ship Address"), MaxLength(250)]
         public string ShipAddress { get; set; }
 

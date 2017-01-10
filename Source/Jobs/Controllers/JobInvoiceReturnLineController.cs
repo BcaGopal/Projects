@@ -60,6 +60,8 @@ namespace Web
             JobInvoiceReturnLineFilterViewModel vm = new JobInvoiceReturnLineFilterViewModel();
             vm.JobInvoiceReturnHeaderId = id;
             vm.JobWorkerId = sid;
+            JobInvoiceReturnHeader Header = new JobInvoiceReturnHeaderService(db).Find(id);
+            vm.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(Header.DocTypeId);
             return PartialView("_Filters", vm);
         }
 
@@ -68,6 +70,8 @@ namespace Web
             JobInvoiceReturnLineFilterViewModel vm = new JobInvoiceReturnLineFilterViewModel();
             vm.JobInvoiceReturnHeaderId = id;
             vm.JobWorkerId = sid;
+            JobInvoiceReturnHeader Header = new JobInvoiceReturnHeaderService(db).Find(id);
+            vm.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(Header.DocTypeId);
             return PartialView("_ReceiptFilters", vm);
         }
 

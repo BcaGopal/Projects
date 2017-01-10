@@ -51,6 +51,7 @@ namespace Model.ViewModel
         public string ProcessName { get; set; }
         public int GodownId { get; set; }
         public JobInvoiceSettingsViewModel JobInvoiceSettings { get; set; }
+        public DocumentTypeSettingsViewModel DocumentTypeSettings { get; set; }
         public string ModifiedBy { get; set; }
         public string CreatedBy { get; set; }
         public DateTime CreatedDate { get; set; }
@@ -186,6 +187,7 @@ namespace Model.ViewModel
         public string ProductId { get; set; }
         [Display(Name = "Product Group")]
         public string ProductGroupId { get; set; }
+        public DocumentTypeSettingsViewModel DocumentTypeSettings { get; set; }
     }
     public class JobInvoiceReturnMasterDetailModel
     {

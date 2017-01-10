@@ -167,7 +167,7 @@ namespace Web
             vm.ProcessId = settings.ProcessId;
             vm.DocDate = DateTime.Now;
             vm.DocNo = new DocumentTypeService(_unitOfWork).FGetNewDocNo("DocNo", ConfigurationManager.AppSettings["DataBaseSchema"] + ".JobOrderInspectionRequestCancelHeaders", vm.DocTypeId, vm.DocDate, vm.DivisionId, vm.SiteId);
-
+            vm.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(vm.DocTypeId);
             ViewBag.Mode = "Add";
             return View("Create", vm);
         }
@@ -504,6 +504,7 @@ namespace Web
             }
 
             temp.JobOrderInspectionRequestSettings = Mapper.Map<JobOrderInspectionRequestSettings, JobOrderInspectionRequestSettingsViewModel>(settings);
+            temp.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(pt.DocTypeId);
 
             PrepareViewBag(pt.DocTypeId);
 
@@ -548,6 +549,7 @@ namespace Web
                 return View("~/Views/Shared/InValidSettings.cshtml");
             }
             temp.JobOrderInspectionRequestSettings = Mapper.Map<JobOrderInspectionRequestSettings, JobOrderInspectionRequestSettingsViewModel>(settings);
+            temp.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(pt.DocTypeId);
 
             PrepareViewBag(pt.DocTypeId);
             if (pt == null)

@@ -74,6 +74,8 @@ namespace Web
             JobReceiveQALineFilterViewModel vm = new JobReceiveQALineFilterViewModel();
             vm.JobReceiveQAHeaderId = id;
             vm.JobWorkerId = sid;
+            JobReceiveQAHeader Header = new JobReceiveQAHeaderService(db).Find(id);
+            vm.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(Header.DocTypeId);
             return PartialView("_Filters", vm);
         }
 
@@ -984,7 +986,37 @@ namespace Web
                 });
 
 
+
                 new JobReceiveLineStatusService(_unitOfWork).UpdateJobReceiveQtyOnQA(Mapper.Map<JobReceiveQALineViewModel>(JobReceiveQALine), header.DocDate, ref db);
+
+                IEnumerable<JobReceiveQAAttribute> AttributeList = (from L in db.JobReceiveQAAttribute where L.JobReceiveQALineId == JobReceiveQALine.JobReceiveQALineId select L).ToList();
+                foreach (var Attribute in AttributeList)
+                {
+                    if (Attribute.JobReceiveQAAttributeId != null)
+                    {
+                        new JobReceiveQAAttributeService(_unitOfWork).Delete((int)Attribute.JobReceiveQAAttributeId);
+                    }
+                }
+
+                IEnumerable<JobReceiveQAPenalty> PenaltyList = (from L in db.JobReceiveQAPenalty where L.JobReceiveQALineId == JobReceiveQALine.JobReceiveQALineId select L).ToList();
+                foreach (var Penalty in PenaltyList)
+                {
+                    if (Penalty.JobReceiveQAPenaltyId != null)
+                    {
+                        new JobReceiveQAPenaltyService(db, _unitOfWork).Delete((int)Penalty.JobReceiveQAPenaltyId);
+                    }
+                }
+
+                JobReceiveQALineExtended QALineExtended = (from L in db.JobReceiveQALineExtended where L.JobReceiveQALineId == JobReceiveQALine.JobReceiveQALineId select L).FirstOrDefault();
+                if (QALineExtended != null)
+                {
+                    QALineExtended.ObjectState = Model.ObjectState.Deleted;
+                    db.JobReceiveQALineExtended.Remove(QALineExtended);
+                }
+
+
+
+
 
 
                 _JobReceiveQALineService.Delete(JobReceiveQALine);

@@ -72,6 +72,9 @@ namespace Web
             JobOrderInspectionLineFilterViewModel vm = new JobOrderInspectionLineFilterViewModel();
             vm.JobOrderInspectionHeaderId = id;
             vm.JobWorkerId = sid;
+            vm.JobWorkerId = sid;
+            JobOrderInspectionHeader Header = new JobOrderInspectionHeaderService(db).Find(id);
+            vm.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(Header.DocTypeId);
             return PartialView("_Filters", vm);
         }
 
@@ -80,6 +83,8 @@ namespace Web
             JobOrderInspectionLineFilterViewModel vm = new JobOrderInspectionLineFilterViewModel();
             vm.JobOrderInspectionHeaderId = id;
             vm.JobWorkerId = sid;
+            JobOrderInspectionHeader Header = new JobOrderInspectionHeaderService(db).Find(id);
+            vm.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(Header.DocTypeId);
             return PartialView("_RequestFilters", vm);
         }
 

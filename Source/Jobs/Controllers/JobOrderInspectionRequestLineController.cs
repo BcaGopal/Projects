@@ -66,6 +66,8 @@ namespace Web
             JobOrderInspectionRequestFilterViewModel vm = new JobOrderInspectionRequestFilterViewModel();
             vm.JobOrderInspectionRequestHeaderId = id;
             vm.JobWorkerId = sid;
+            JobOrderInspectionRequestHeader Header = new JobOrderInspectionRequestHeaderService(db).Find(id);
+            vm.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(Header.DocTypeId);
             return PartialView("_Filters", vm);
         }
 

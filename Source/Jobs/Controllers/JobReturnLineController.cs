@@ -63,6 +63,8 @@ namespace Web
         {
             JobReturnLineFilterViewModel vm = new JobReturnLineFilterViewModel();
             vm.JobReturnHeaderId = id;
+            JobReturnHeader Header = new JobReturnHeaderService(_unitOfWork).Find(id);
+            vm.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(Header.DocTypeId);
             vm.JobWorkerId = sid;
             return PartialView("_Filters", vm);
         }

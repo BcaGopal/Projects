@@ -53,6 +53,7 @@ namespace Model.ViewModel
         [Display(Name = "Status")]
         public int Status { get; set; }
         public JobReceiveSettingsViewModel JobReceiveSettings { get; set; }
+        public DocumentTypeSettingsViewModel DocumentTypeSettings { get; set; }
         public int? GatePassHeaderId { get; set; }
         public string GatePassHeaderDocNo { get; set; }        
         public int GodownId { get; set; }

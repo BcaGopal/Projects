@@ -145,6 +145,11 @@ namespace Web
 
             //p.JobReceiveById = new EmployeeService(_unitOfWork).GetEmloyeeForUser(User.Identity.GetUserId());
             p.ProcessId = settings.ProcessId;
+            if (System.Web.HttpContext.Current.Session["DefaultGodownId"] != null)
+            {
+                p.GodownId = (int) System.Web.HttpContext.Current.Session["DefaultGodownId"];
+            }
+
             PrepareViewBag();
             p.DocTypeId = DocTypeId;
             p.DocNo = new DocumentTypeService(_unitOfWork).FGetNewDocNo("DocNo", ConfigurationManager.AppSettings["DataBaseSchema"] + ".JobReceiveHeaders", p.DocTypeId, p.DocDate, p.DivisionId, p.SiteId);

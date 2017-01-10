@@ -145,6 +145,7 @@ namespace Web
             vm.DocDate = DateTime.Now;
             vm.DocTypeId = id;
             vm.DocNo = _JobReceiveQAHeaderService.FGetNewDocNo("DocNo", ConfigurationManager.AppSettings["DataBaseSchema"] + ".JobReceiveQAHeaders", vm.DocTypeId, vm.DocDate, vm.DivisionId, vm.SiteId);
+            vm.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(vm.DocTypeId);
             PrepareViewBag(id);
             ViewBag.Mode = "Add";
             return View("Create", vm);
@@ -452,6 +453,7 @@ namespace Web
             }
 
             pt.JobReceiveQASettings = Mapper.Map<JobReceiveQASettings, JobReceiveQASettingsViewModel>(settings);
+            pt.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(pt.DocTypeId);
 
             PrepareViewBag(pt.DocTypeId);
 
@@ -496,6 +498,7 @@ namespace Web
             }
 
             pt.JobReceiveQASettings = Mapper.Map<JobReceiveQASettings, JobReceiveQASettingsViewModel>(settings);
+            pt.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(pt.DocTypeId);
 
             PrepareViewBag(pt.DocTypeId);
             if (pt == null)
@@ -621,8 +624,11 @@ namespace Web
                             StockIdList.Add((int)item.StockId);
                         }
                         StockAdj StockAdj = (from L in db.StockAdj where L.StockOutId == item.StockId select L).FirstOrDefault();
-                        StockAdj.ObjectState = Model.ObjectState.Deleted;
-                        db.StockAdj.Remove(StockAdj);
+                        if (StockAdj != null)
+                        {
+                            StockAdj.ObjectState = Model.ObjectState.Deleted;
+                            db.StockAdj.Remove(StockAdj);
+                        }
                     }
                 }
 
@@ -640,6 +646,34 @@ namespace Web
                     {
                         ExObj = Mapper.Map<JobReceiveQALine>(item),
                     });
+
+
+
+                    IEnumerable<JobReceiveQAAttribute> AttributeList = (from L in db.JobReceiveQAAttribute where L.JobReceiveQALineId == item.JobReceiveQALineId select L).ToList();
+                    foreach (var Attribute in AttributeList)
+                    {
+                        if (Attribute.JobReceiveQAAttributeId != null)
+                        {
+                            new JobReceiveQAAttributeService(_unitOfWork).Delete((int)Attribute.JobReceiveQAAttributeId);
+                        }
+                    }
+
+                    IEnumerable<JobReceiveQAPenalty> PenaltyList = (from L in db.JobReceiveQAPenalty where L.JobReceiveQALineId == item.JobReceiveQALineId select L).ToList();
+                    foreach (var Penalty in PenaltyList)
+                    {
+                        if (Penalty.JobReceiveQAPenaltyId != null)
+                        {
+                            new JobReceiveQAPenaltyService(db, _unitOfWork).Delete((int)Penalty.JobReceiveQAPenaltyId);
+                        }
+                    }
+
+                    JobReceiveQALineExtended QALineExtended = (from L in db.JobReceiveQALineExtended where L.JobReceiveQALineId == item.JobReceiveQALineId select L).FirstOrDefault();
+                    if (QALineExtended != null)
+                    {
+                        QALineExtended.ObjectState = Model.ObjectState.Deleted;
+                        db.JobReceiveQALineExtended.Remove(QALineExtended);
+                    }
+
 
                     new JobReceiveQALineService(db,_unitOfWork).Delete(item);
                 }

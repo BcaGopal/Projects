@@ -57,6 +57,8 @@ namespace Service
                     select new DocumentTypeSettingsViewModel
                     {
                         DocumentTypeId = D.DocumentTypeId,
+                        PartyCaption = DocumentTypeSettingsTab.PartyCaption,
+                        ProductUidCaption = DocumentTypeSettingsTab.ProductUidCaption,
                         ProductCaption = DocumentTypeSettingsTab.ProductCaption,
                         ProductGroupCaption = DocumentTypeSettingsTab.ProductGroupCaption,
                         ProductCategoryCaption = DocumentTypeSettingsTab.ProductCategoryCaption,
@@ -64,6 +66,7 @@ namespace Service
                         Dimension2Caption = DocumentTypeSettingsTab.Dimension2Caption,
                         Dimension3Caption = DocumentTypeSettingsTab.Dimension3Caption,
                         Dimension4Caption = DocumentTypeSettingsTab.Dimension4Caption,
+                        ContraDocTypeCaption = DocumentTypeSettingsTab.ContraDocTypeCaption
                     }).FirstOrDefault();
         }
         public DocumentTypeSettings Create(DocumentTypeSettings pt)

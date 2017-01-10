@@ -226,17 +226,17 @@ namespace Web
 
                     temp = (from p in db.JobReceiveLine
                             where RecLineIds.Contains(p.JobReceiveLineId)
-                            join t in db.JobOrderLine on p.JobOrderLineId equals t.JobOrderLineId
-                            join LineCharge in db.JobOrderLineCharge on p.JobOrderLineId equals LineCharge.LineTableId
-                            join HeaderCharge in db.JobOrderHeaderCharges on t.JobOrderHeaderId equals HeaderCharge.HeaderTableId
+                            join t in db.JobOrderLine on p.JobOrderLineId equals t.JobOrderLineId into JobOrderLineTable from JobOrderLineTab in JobOrderLineTable.DefaultIfEmpty()
+                            join LineCharge in db.JobOrderLineCharge on p.JobOrderLineId equals LineCharge.LineTableId into JobOrderLineChargeTable from JobOrderLineChargeTab in JobOrderLineChargeTable.DefaultIfEmpty()
+                            join HeaderCharge in db.JobOrderHeaderCharges on JobOrderLineTab.JobOrderHeaderId equals HeaderCharge.HeaderTableId into JobOrderHeaderChargeTable from JObOrderHeaderChargeTab in JobOrderHeaderChargeTable.DefaultIfEmpty()
                             join rqa in db.JobReceiveQALine on p.JobReceiveLineId equals rqa.JobReceiveLineId into qatable
                             from qatab in qatable.DefaultIfEmpty()
-                            group new { p, LineCharge, HeaderCharge, qatab } by new { p.JobReceiveLineId } into g
+                            group new { p, JobOrderLineChargeTab, JObOrderHeaderChargeTab, qatab } by new { p.JobReceiveLineId } into g
                             select new ReferenceLineChargeViewModel
                             {
                                 LineId = g.Key.JobReceiveLineId,
-                                HeaderCharges = g.Select(m => m.HeaderCharge).ToList(),
-                                Linecharges = g.Select(m => m.LineCharge).ToList(),
+                                HeaderCharges = g.Select(m => m.JObOrderHeaderChargeTab).ToList(),
+                                Linecharges = g.Select(m => m.JobOrderLineChargeTab).ToList(),
                                 PenaltyAmt = g.Select(m => m.p.PenaltyAmt - (m.p.IncentiveAmt ?? 0)).FirstOrDefault() + ((g.Select(m => m.qatab).FirstOrDefault() == null) ? 0 : g.Select(m => m.qatab.PenaltyAmt).FirstOrDefault()),                                
                             }).ToList();
 
@@ -255,7 +255,7 @@ namespace Web
                                                       Rate = p.Rate,
                                                       CostCenterId = p.CostCenterId,
                                                       Penalty = LineLis == null ? 0 : LineLis.PenaltyAmt,
-                                                      RLineCharges = (LineLis == null ? null : Mapper.Map<List<LineChargeViewModel>>(LineLis.Linecharges.GroupBy(m => m.Id).Select(m => m.FirstOrDefault()))),
+                                                      RLineCharges = (LineLis == null || LineLis.Linecharges.FirstOrDefault() == null ? null : Mapper.Map<List<LineChargeViewModel>>(LineLis.Linecharges.GroupBy(m => m.Id).Select(m => m.FirstOrDefault()))),
                                                   }).ToList();
 
 

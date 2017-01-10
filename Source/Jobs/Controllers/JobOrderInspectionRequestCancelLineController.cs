@@ -65,6 +65,8 @@ namespace Web
             JobOrderInspectionRequestCancelFilterViewModel vm = new JobOrderInspectionRequestCancelFilterViewModel();
             vm.JobOrderInspectionRequestCancelHeaderId = id;
             vm.JobWorkerId = sid;
+            JobOrderInspectionRequestCancelHeader Header = new JobOrderInspectionRequestCancelHeaderService(db).Find(id);
+            vm.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(Header.DocTypeId);
             return PartialView("_Filters", vm);
         }
 

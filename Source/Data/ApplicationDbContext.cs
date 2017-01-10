@@ -316,7 +316,7 @@ namespace Data.Models
         public DbSet<JobReceiveQALine> JobReceiveQALine { get; set; }
         public DbSet<JobReceiveQAAttribute> JobReceiveQAAttribute { get; set; }
         public DbSet<JobReceiveQAPenalty> JobReceiveQAPenalty { get; set; }
-        public DbSet<JobReceiveQALineDetail> JobReceiveQALineDetail { get; set; }
+        public DbSet<JobReceiveQALineExtended> JobReceiveQALineExtended { get; set; }
         public DbSet<InspectionQaAttributes> InspectionQaAttributes { get; set; }
         public DbSet<JobOrderInspectionRequestSettings> JobOrderInspectionRequestSettings { get; set; }
         public DbSet<JobOrderInspectionSettings> JobOrderInspectionSettings { get; set; }
@@ -481,6 +481,7 @@ namespace Data.Models
         public DbSet<PackingSetting> PackingSettings { get; set; }
         public DbSet<PackingHeader> PackingHeader { get; set; }
         public DbSet<PackingLine> PackingLine { get; set; }
+        public DbSet<PackingLineExtended> PackingLineExtended { get; set; }
 
         //Stock Models
         public DbSet<StockHeader> StockHeader { get; set; }

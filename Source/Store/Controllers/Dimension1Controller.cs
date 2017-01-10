@@ -214,7 +214,7 @@ namespace Web
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(ReasonViewModel vm)
-        {
+            {
             List<LogTypeViewModel> LogList = new List<LogTypeViewModel>();
             if (ModelState.IsValid)
             {

@@ -537,6 +537,9 @@ namespace Web
         public JsonResult Index(int id)
         {
             var p = _JobOrderLineService.GetJobOrderLineListForIndex(id).ToList();
+
+            JobOrderHeader Header = new JobOrderHeaderService(_unitOfWork).Find(id);
+
             return Json(p, JsonRequestBehavior.AllowGet);
         }
 

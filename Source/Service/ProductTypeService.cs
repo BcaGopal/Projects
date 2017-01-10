@@ -141,7 +141,7 @@ namespace Service
         public IEnumerable<ProductType> GetProductTypeListForGroup()
         {            
             var pt = (from p in db.ProductTypes
-                          where p.IsCustomUI==null
+                      where p.IsCustomUI == null || p.IsCustomUI == false
                           select p
                           );
 
@@ -160,7 +160,7 @@ namespace Service
         public IEnumerable<ProductType> GetProductTypeListForMaterial(int id)
         {
             var pt = (from p in db.ProductTypes
-                      where p.IsCustomUI == false && p.ProductNatureId==id
+                      where (p.IsCustomUI == false || p.IsCustomUI == null) && p.ProductNatureId == id
                       select p
                           );
 

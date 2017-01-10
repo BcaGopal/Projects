@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Model.Models
 {
-    public class JobReceiveQALineDetail : EntityBase
+    public class JobReceiveQALineExtended : EntityBase
     {
         [Key]
         [ForeignKey("JobReceiveQALine")]

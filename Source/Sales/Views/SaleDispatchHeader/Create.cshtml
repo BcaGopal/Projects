@@ -213,38 +213,21 @@
                     </div>
 
                 </div>
-                <div style="padding-right:15px">
+                <div style="padding-right:15px;">
 
                     <div class="panel panel-default" id="grid">
-                        <div class="panel-heading headrow" style="background-image: -webkit-linear-gradient(top, #428bca 0%, #428bca 100%);color:white">
-                            <div class="row grid-head">
-                                <div class='text-left block' style='width: 5%; '>
-                                    Srl.
-                                </div>
-                                <div class="block" style="width: 90%; ">
-                                    <div class="row">
-                                        @*ProductInfo*@
-                                        <div class="block" style="width: 60%; ">
-                                            Product Name
-                                        </div>
-                                        <div class="block text-right" style="width: 10%; ">
-                                            Qty
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="block" style="width: 5%; ">
 
-                                </div>
+                        <div style="min-width: 700px;">
+
+                            <div class="panel-info" id="gbody">
+
                             </div>
-
-                        </div>
-                        <div class="panel-info" id="gbody">
-
-
                         </div>
                     </div>
-                                     
                 </div>
+                
+                
+
             </div>
         </div>
     </div>
@@ -613,7 +596,25 @@
     //    $("#ProductId").select2("focus");
     //});
 
-    function LoadProducts() {
+   function LoadProducts() {
+        var groupId=@Model.SaleDispatchHeaderId;
+        var status='@Model.Status';
+        var link="/SaleDispatchLine/_Index/";
+
+        $.ajax({
+            url: link,
+            type: "GET",
+            data:{id:groupId,status:status},
+            success: function (data) {
+                $("#gbody").html(data);
+            },
+            error: function (result) {
+                alert("Error");
+            }
+        });
+    };
+
+   @*function LoadProducts() {
         var groupId=@Model.SaleDispatchHeaderId;
         var status='@Model.Status';
         var LineEditUrl;
@@ -691,7 +692,7 @@
                 alert("Error");
             }
         });
-    }
+    }*@
 
 
     $(function () {
@@ -706,7 +707,7 @@
 
             $.ajax({
                 url: NewUrl,
-                type: "POST",               
+                type: "POST",
                 success: function (result) {
                     $('#myModalContent').html(result);
                     $('#myModal').modal({
@@ -745,7 +746,7 @@
 
     });
 
-  
+
 </script>
 
 

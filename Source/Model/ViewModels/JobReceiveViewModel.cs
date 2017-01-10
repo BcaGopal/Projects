@@ -54,6 +54,7 @@ namespace Model.ViewModel
         [Display(Name = "Remark")]
         public string Remark { get; set; }
         public JobReceiveSettingsViewModel JobReceiveSettings { get; set; }
+        public DocumentTypeSettingsViewModel DocumentTypeSettings { get; set; }
         public int? ReviewCount { get; set; }
         public string ModifiedBy { get; set; }
         public string ReviewBy { get; set; }

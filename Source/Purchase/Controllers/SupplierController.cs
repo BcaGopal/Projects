@@ -128,16 +128,22 @@ namespace Web.Controllers
 
         public ActionResult Create()
         {
+            //SupplierViewModel p = new SupplierViewModel();
+            //p.IsActive = true;
+            //p.SiteIds = ((int)System.Web.HttpContext.Current.Session["SiteId"]).ToString();
+            //p.DivisionIds= ((int)System.Web.HttpContext.Current.Session["DivisionId"]).ToString();
+            //var rec=new LedgerAccountGroupService(_unitOfWork).Find(LedgerAccountGroupConstants.SundryCreditors);
+            //if(rec!=null)
+            //p.LedgerAccountGroupId = rec.LedgerAccountGroupId;
+            //p.Code = _PersonService.GetMaxCode();
+            //p.ProcessIds = (new ProcessService(_unitOfWork).Find(ProcessConstants.Purchase).ProcessId).ToString();
+
+            //PrepareViewBag();
+            //return View("Create", p);
+
             SupplierViewModel p = new SupplierViewModel();
             p.IsActive = true;
-            p.SiteIds = ((int)System.Web.HttpContext.Current.Session["SiteId"]).ToString();
-            p.DivisionIds= ((int)System.Web.HttpContext.Current.Session["DivisionId"]).ToString();
-            var rec=new LedgerAccountGroupService(_unitOfWork).Find(LedgerAccountGroupConstants.SundryCreditors);
-            if(rec!=null)
-            p.LedgerAccountGroupId = rec.LedgerAccountGroupId;
-            p.Code = _PersonService.GetMaxCode();
-            p.ProcessIds = (new ProcessService(_unitOfWork).Find(ProcessConstants.Purchase).ProcessId).ToString();
-
+            p.Code = new PersonService(_unitOfWork).GetMaxCode();
             PrepareViewBag();
             return View("Create", p);
         }

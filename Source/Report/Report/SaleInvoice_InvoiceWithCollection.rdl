@@ -2246,6 +2246,7 @@
           </TablixMembers>
         </TablixRowHierarchy>
         <DataSetName>DsMain</DataSetName>
+        <Top>0in</Top>
         <Height>3.67704in</Height>
         <Width>7.56026in</Width>
         <Style>
@@ -6156,6 +6157,14 @@
       </Tablix>
       <Subreport Name="SaleInvoice_InvoiceWithCollection1">
         <ReportName>SaleInvoice_InvoiceWithCollection1</ReportName>
+        <Parameters>
+          <Parameter Name="Id">
+            <Value>=Parameters!Id.Value</Value>
+          </Parameter>
+          <Parameter Name="DatabaseConnectionString">
+            <Value>=Parameters!DatabaseConnectionString.Value</Value>
+          </Parameter>
+        </Parameters>
         <Top>7.38123in</Top>
         <Left>0.05209in</Left>
         <Height>0.1875in</Height>
@@ -6193,7 +6202,7 @@
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value>=Parameters!CompanyAddress.Value</Value>
+                      <Value>=Fields!CompanyAddress.Value</Value>
                       <Style>
                         <FontFamily>Tahoma</FontFamily>
                         <FontSize>8pt</FontSize>
@@ -6225,7 +6234,7 @@
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value>=Parameters!CompanyCity.Value</Value>
+                      <Value>=Fields!CompanyCity.Value</Value>
                       <Style>
                         <FontFamily>Tahoma</FontFamily>
                         <FontSize>8pt</FontSize>
@@ -6236,8 +6245,7 @@
                 </Paragraph>
               </Paragraphs>
               <rd:DefaultName>Textbox8</rd:DefaultName>
-              <Top>0.69571in</Top>
-              <Left>0.00292in</Left>
+              <Top>0.68182in</Top>
               <Height>0.17708in</Height>
               <Width>3.29437in</Width>
               <ZIndex>1</ZIndex>
@@ -6258,7 +6266,7 @@
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value>=Parameters!CompanyCountry.Value</Value>
+                      <Value>=Fields!CountryName.Value</Value>
                       <Style>
                         <FontFamily>Tahoma</FontFamily>
                         <FontSize>8pt</FontSize>
@@ -6682,7 +6690,7 @@
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value>=Parameters!CompanyName.Value</Value>
+                      <Value>=fields!CompanyName.Value</Value>
                       <Style>
                         <FontFamily>tahoma</FontFamily>
                         <FontSize>8pt</FontSize>
@@ -7142,6 +7150,9 @@
           <QueryParameter Name="@Id">
             <Value>=Parameters!Id.Value</Value>
           </QueryParameter>
+          <QueryParameter Name="@ReportType">
+            <Value>=Parameters!ReportType.Value</Value>
+          </QueryParameter>
         </QueryParameters>
         <CommandType>StoredProcedure</CommandType>
         <CommandText>Web.ProcSaleInvoicePrint_ForInvoice_WithCollection</CommandText>
@@ -7151,13 +7162,29 @@
           <DataField>SaleInvoiceHeaderId</DataField>
           <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
+        <Field Name="CompanyName">
+          <DataField>CompanyName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
         <Field Name="SiteId">
           <DataField>SiteId</DataField>
           <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
+        <Field Name="CountryName">
+          <DataField>CountryName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
         <Field Name="DocDate">
           <DataField>DocDate</DataField>
           <rd:TypeName>System.DateTime</rd:TypeName>
+        </Field>
+        <Field Name="ExciseDivision">
+          <DataField>ExciseDivision</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="DirectorName">
+          <DataField>DirectorName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="DivisionId">
           <DataField>DivisionId</DataField>
@@ -7167,12 +7194,28 @@
           <DataField>DocNo</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
+        <Field Name="Phone">
+          <DataField>Phone</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
         <Field Name="BillToBuyerName">
           <DataField>BillToBuyerName</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
+        <Field Name="Fax">
+          <DataField>Fax</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="BankName">
+          <DataField>BankName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
         <Field Name="BillToBuyerAddress">
           <DataField>BillToBuyerAddress</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="BankBranch">
+          <DataField>BankBranch</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="BIllToPartyCity">
@@ -7183,6 +7226,14 @@
           <DataField>BillToPartyCountry</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
+        <Field Name="IECNo">
+          <DataField>IECNo</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="TinNo">
+          <DataField>TinNo</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
         <Field Name="CurrencyName">
           <DataField>CurrencyName</DataField>
           <rd:TypeName>System.String</rd:TypeName>
@@ -7191,8 +7242,16 @@
           <DataField>ProductCollectionName</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
+        <Field Name="CompanyAddress">
+          <DataField>CompanyAddress</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
         <Field Name="BLNo">
           <DataField>BLNo</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CompanyCity">
+          <DataField>CompanyCity</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="BLDate">
@@ -7590,7 +7649,6 @@
     <ReportParameter Name="Id">
       <DataType>Integer</DataType>
       <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
       <Prompt>Id</Prompt>
     </ReportParameter>
     <ReportParameter Name="DatabaseConnectionString">
@@ -7604,6 +7662,30 @@
       <Nullable>true</Nullable>
       <AllowBlank>true</AllowBlank>
       <Prompt>PrintedBy</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="ReportType">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Report Type</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="FilterStr1">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>FilterStr1</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="FilterStr2">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>FilterStr2</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="FilterStr3">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>FilterStr3</Prompt>
     </ReportParameter>
   </ReportParameters>
   <Code>

@@ -3,7 +3,10 @@
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
     <DataSource Name="Weaving">
-      <DataSourceReference>DataSourceMain</DataSourceReference>
+      <ConnectionProperties>
+        <DataProvider>SQL</DataProvider>
+        <ConnectString>=Parameters!DatabaseConnectionString.Value</ConnectString>
+      </ConnectionProperties>
       <rd:SecurityType>None</rd:SecurityType>
       <rd:DataSourceID>0d8419b6-a244-43eb-8266-a36faf01b3e8</rd:DataSourceID>
     </DataSource>
@@ -31,6 +34,9 @@
           <QueryParameter Name="@ProductNature">
             <Value>=Parameters!ProductNature.Value</Value>
           </QueryParameter>
+          <QueryParameter Name="@Buyer">
+            <Value>=Parameters!Buyer.Value</Value>
+          </QueryParameter>
           <QueryParameter Name="@ProductType">
             <Value>=Parameters!ProductType.Value</Value>
           </QueryParameter>
@@ -40,8 +46,14 @@
           <QueryParameter Name="@ProductCustomGroup">
             <Value>=Parameters!ProductCustomGroup.Value</Value>
           </QueryParameter>
+          <QueryParameter Name="@ProductCategory">
+            <Value>=Parameters!ProductCategory.Value</Value>
+          </QueryParameter>
           <QueryParameter Name="@PersonCustomGroup">
             <Value>=Parameters!PersonCustomGroup.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@ProductCollection">
+            <Value>=Parameters!ProductCollection.Value</Value>
           </QueryParameter>
           <QueryParameter Name="@Product">
             <Value>=Parameters!Product.Value</Value>
@@ -54,6 +66,12 @@
           </QueryParameter>
           <QueryParameter Name="@ReportFor">
             <Value>=Parameters!ReportFor.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@SampleRecord">
+            <Value>=Parameters!SampleRecord.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@ReportType">
+            <Value>=Parameters!ReportType.Value</Value>
           </QueryParameter>
         </QueryParameters>
         <CommandType>StoredProcedure</CommandType>
@@ -960,7 +978,7 @@
                                       <TablixMembers>
                                         <TablixMember>
                                           <TablixHeader>
-                                            <Size>1.41905in</Size>
+                                            <Size>1.08572in</Size>
                                             <CellContents>
                                               <Textbox Name="Textbox290">
                                                 <CanGrow>true</CanGrow>
@@ -1290,7 +1308,7 @@
                                       <TablixMembers>
                                         <TablixMember>
                                           <TablixHeader>
-                                            <Size>2.79693in</Size>
+                                            <Size>2.4636in</Size>
                                             <CellContents>
                                               <Textbox Name="Textbox1407">
                                                 <CanGrow>true</CanGrow>
@@ -1559,7 +1577,7 @@
                                       <TablixMembers>
                                         <TablixMember>
                                           <TablixHeader>
-                                            <Size>2.79693in</Size>
+                                            <Size>2.4636in</Size>
                                             <CellContents>
                                               <Textbox Name="DivisionName2">
                                                 <CanGrow>true</CanGrow>
@@ -1988,7 +2006,7 @@
                                                           <TablixMembers>
                                                             <TablixMember>
                                                               <TablixHeader>
-                                                                <Size>1.41905in</Size>
+                                                                <Size>1.08572in</Size>
                                                                 <CellContents>
                                                                   <Textbox Name="OrderNo">
                                                                     <CanGrow>true</CanGrow>
@@ -2209,7 +2227,7 @@
                                                           <TablixMembers>
                                                             <TablixMember>
                                                               <TablixHeader>
-                                                                <Size>1.41905in</Size>
+                                                                <Size>1.08572in</Size>
                                                                 <CellContents>
                                                                   <Textbox Name="OrderNo2">
                                                                     <CanGrow>true</CanGrow>
@@ -2422,7 +2440,7 @@
                                       <TablixMembers>
                                         <TablixMember>
                                           <TablixHeader>
-                                            <Size>1.89067in</Size>
+                                            <Size>1.55734in</Size>
                                             <CellContents>
                                               <Textbox Name="Dimension1Name2">
                                                 <CanGrow>true</CanGrow>
@@ -2738,7 +2756,7 @@
                                                       <TablixMembers>
                                                         <TablixMember>
                                                           <TablixHeader>
-                                                            <Size>1.41905in</Size>
+                                                            <Size>1.08572in</Size>
                                                             <CellContents>
                                                               <Textbox Name="Textbox1490">
                                                                 <CanGrow>true</CanGrow>
@@ -2913,7 +2931,7 @@
                               <TablixMembers>
                                 <TablixMember>
                                   <TablixHeader>
-                                    <Size>3.26855in</Size>
+                                    <Size>2.93522in</Size>
                                     <CellContents>
                                       <Textbox Name="Textbox1440">
                                         <CanGrow>true</CanGrow>
@@ -3267,7 +3285,7 @@
                                                   <TablixMembers>
                                                     <TablixMember>
                                                       <TablixHeader>
-                                                        <Size>1.41905in</Size>
+                                                        <Size>1.08572in</Size>
                                                         <CellContents>
                                                           <Textbox Name="Textbox299">
                                                             <CanGrow>true</CanGrow>
@@ -3697,7 +3715,7 @@
                                               <TablixMembers>
                                                 <TablixMember>
                                                   <TablixHeader>
-                                                    <Size>1.41905in</Size>
+                                                    <Size>1.08572in</Size>
                                                     <CellContents>
                                                       <Textbox Name="Textbox300">
                                                         <CanGrow>true</CanGrow>
@@ -4127,7 +4145,7 @@
                                           <TablixMembers>
                                             <TablixMember>
                                               <TablixHeader>
-                                                <Size>1.41905in</Size>
+                                                <Size>1.08572in</Size>
                                                 <CellContents>
                                                   <Textbox Name="Textbox301">
                                                     <CanGrow>true</CanGrow>
@@ -4569,7 +4587,7 @@
                                       <TablixMembers>
                                         <TablixMember>
                                           <TablixHeader>
-                                            <Size>1.41905in</Size>
+                                            <Size>1.08572in</Size>
                                             <CellContents>
                                               <Textbox Name="Textbox302">
                                                 <CanGrow>true</CanGrow>
@@ -4736,7 +4754,7 @@
             <Top>3.45833in</Top>
             <Left>0.05493in</Left>
             <Height>2.9375in</Height>
-            <Width>7.69014in</Width>
+            <Width>7.35681in</Width>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -4782,11 +4800,6 @@
                             <Border>
                               <Style>None</Style>
                             </Border>
-                            <TopBorder>
-                              <Color>Black</Color>
-                              <Style>Solid</Style>
-                              <Width>1pt</Width>
-                            </TopBorder>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
                             <PaddingTop>2pt</PaddingTop>
@@ -4820,11 +4833,6 @@
                             <Border>
                               <Style>None</Style>
                             </Border>
-                            <TopBorder>
-                              <Color>Black</Color>
-                              <Style>Solid</Style>
-                              <Width>1pt</Width>
-                            </TopBorder>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
                             <PaddingTop>2pt</PaddingTop>
@@ -5713,7 +5721,21 @@
           </Tablix>
           <Subreport Name="CompanyDetail">
             <ReportName>CompanyDetail</ReportName>
-            <Top>0.0375in</Top>
+            <Parameters>
+              <Parameter Name="SiteId">
+                <Value>=First(Fields!SiteId.Value, "DsMain")</Value>
+              </Parameter>
+              <Parameter Name="DivisionId">
+                <Value>=First(Fields!DivisionId.Value, "DsMain")</Value>
+              </Parameter>
+              <Parameter Name="DatabaseConnectionString">
+                <Value>=Parameters!DatabaseConnectionString.Value</Value>
+              </Parameter>
+              <Parameter Name="PrintedBy">
+                <Value>=Parameters!PrintedBy.Value</Value>
+              </Parameter>
+            </Parameters>
+            <Top>0.025in</Top>
             <Left>0.05493in</Left>
             <Height>0.25in</Height>
             <Width>7.7in</Width>
@@ -5731,7 +5753,7 @@
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value>=Parameters!ReportTitle.Value</Value>
+                    <Value>=First(Fields!ReportTitle.Value, "DsMain")</Value>
                     <Style>
                       <FontFamily>Tahoma</FontFamily>
                       <FontSize>12pt</FontSize>
@@ -5745,8 +5767,8 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>ReportTitle</rd:DefaultName>
-            <Top>0.30695in</Top>
-            <Left>0.05493in</Left>
+            <Top>0.2875in</Top>
+            <Left>0.06479in</Left>
             <Height>0.25in</Height>
             <Width>7.69014in</Width>
             <ZIndex>3</ZIndex>
@@ -5754,6 +5776,16 @@
               <Border>
                 <Style>None</Style>
               </Border>
+              <TopBorder>
+                <Color>Black</Color>
+                <Style>Solid</Style>
+                <Width>1pt</Width>
+              </TopBorder>
+              <BottomBorder>
+                <Color>Black</Color>
+                <Style>Solid</Style>
+                <Width>1pt</Width>
+              </BottomBorder>
               <PaddingLeft>2pt</PaddingLeft>
               <PaddingRight>2pt</PaddingRight>
               <PaddingTop>2pt</PaddingTop>
@@ -5767,7 +5799,7 @@
       <Width>7.78618in</Width>
       <Page>
         <PageHeader>
-          <Height>0.37375in</Height>
+          <Height>0.32167in</Height>
           <PrintOnFirstPage>true</PrintOnFirstPage>
           <PrintOnLastPage>true</PrintOnLastPage>
           <ReportItems>
@@ -5778,7 +5810,7 @@
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value>=Parameters!ReportTitle.Value</Value>
+                      <Value>=First(Fields!ReportTitle.Value, "DsMain")</Value>
                       <Style>
                         <FontFamily>Tahoma</FontFamily>
                         <FontSize>12pt</FontSize>
@@ -5792,7 +5824,7 @@
                 </Paragraph>
               </Paragraphs>
               <rd:DefaultName>ReportTitle</rd:DefaultName>
-              <Top>0.06708in</Top>
+              <Top>0.04208in</Top>
               <Left>0.05493in</Left>
               <Height>0.25in</Height>
               <Width>7.7in</Width>
@@ -5803,6 +5835,12 @@
                 <Border>
                   <Style>None</Style>
                 </Border>
+                <TopBorder>
+                  <Style>Solid</Style>
+                </TopBorder>
+                <BottomBorder>
+                  <Style>Solid</Style>
+                </BottomBorder>
                 <PaddingLeft>2pt</PaddingLeft>
                 <PaddingRight>2pt</PaddingRight>
                 <PaddingTop>2pt</PaddingTop>
@@ -5863,9 +5901,9 @@
               </Paragraphs>
               <rd:DefaultName>Textbox18</rd:DefaultName>
               <Top>0.01112in</Top>
-              <Left>4.8584in</Left>
-              <Height>0.25in</Height>
-              <Width>2.88667in</Width>
+              <Left>5.37923in</Left>
+              <Height>0.26042in</Height>
+              <Width>2.36584in</Width>
               <Style>
                 <Border>
                   <Style>None</Style>
@@ -5903,11 +5941,53 @@
                 </Paragraph>
               </Paragraphs>
               <rd:DefaultName>Textbox19</rd:DefaultName>
-              <Top>0.02778in</Top>
+              <Top>0.01736in</Top>
               <Left>0.05493in</Left>
-              <Height>0.25in</Height>
-              <Width>3.3909in</Width>
+              <Height>0.20833in</Height>
+              <Width>2.74507in</Width>
               <ZIndex>1</ZIndex>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+                <PaddingLeft>2pt</PaddingLeft>
+                <PaddingRight>2pt</PaddingRight>
+                <PaddingTop>2pt</PaddingTop>
+                <PaddingBottom>2pt</PaddingBottom>
+              </Style>
+            </Textbox>
+            <Textbox Name="Textbox118">
+              <CanGrow>true</CanGrow>
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>Print By : </Value>
+                      <Style>
+                        <FontFamily>tahoma</FontFamily>
+                        <FontSize>9pt</FontSize>
+                      </Style>
+                    </TextRun>
+                    <TextRun>
+                      <Value>=Parameters!PrintedBy.Value</Value>
+                      <Style>
+                        <FontFamily>tahoma</FontFamily>
+                        <FontSize>9pt</FontSize>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style>
+                    <TextAlign>Center</TextAlign>
+                  </Style>
+                </Paragraph>
+              </Paragraphs>
+              <rd:DefaultName>Textbox19</rd:DefaultName>
+              <Top>0.03473in</Top>
+              <Left>2.87889in</Left>
+              <Height>0.20833in</Height>
+              <Width>2.3284in</Width>
+              <ZIndex>2</ZIndex>
               <Style>
                 <Border>
                   <Style>None</Style>
@@ -6343,6 +6423,28 @@
       <Nullable>true</Nullable>
       <AllowBlank>true</AllowBlank>
       <Prompt>Report For</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="DatabaseConnectionString">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>DatabaseConnectionString</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="SampleRecord">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>SampleRecord</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="PrintedBy">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>PrintedBy</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="Buyer">
+      <DataType>String</DataType>
+      <Prompt>Buyer</Prompt>
     </ReportParameter>
   </ReportParameters>
   <EmbeddedImages>

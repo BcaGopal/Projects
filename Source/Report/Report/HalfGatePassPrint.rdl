@@ -497,7 +497,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Remark1</Value>
+                              <Value>Remark</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>9pt</FontSize>
@@ -709,8 +709,8 @@
           </TablixMembers>
         </TablixRowHierarchy>
         <DataSetName>DsMain</DataSetName>
-        <Top>0.31542in</Top>
-        <Left>0.0444in</Left>
+        <Top>0.27278in</Top>
+        <Left>0.04398in</Left>
         <Height>1.03125in</Height>
         <Width>5.37083in</Width>
         <Style>
@@ -735,10 +735,10 @@
               <Width>0.55291in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>0.38625in</Width>
+              <Width>0.44875in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>0.83542in</Width>
+              <Width>0.77292in</Width>
             </TablixColumn>
           </TablixColumns>
           <TablixRows>
@@ -778,6 +778,7 @@
                         <BottomBorder>
                           <Style>Solid</Style>
                         </BottomBorder>
+                        <BackgroundColor>LightGrey</BackgroundColor>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
@@ -817,6 +818,7 @@
                         <BottomBorder>
                           <Style>Solid</Style>
                         </BottomBorder>
+                        <BackgroundColor>LightGrey</BackgroundColor>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
@@ -856,6 +858,7 @@
                         <BottomBorder>
                           <Style>Solid</Style>
                         </BottomBorder>
+                        <BackgroundColor>LightGrey</BackgroundColor>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
@@ -897,6 +900,7 @@
                         <BottomBorder>
                           <Style>Solid</Style>
                         </BottomBorder>
+                        <BackgroundColor>LightGrey</BackgroundColor>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
@@ -936,6 +940,7 @@
                         <BottomBorder>
                           <Style>Solid</Style>
                         </BottomBorder>
+                        <BackgroundColor>LightGrey</BackgroundColor>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
@@ -969,6 +974,7 @@
                         <Border>
                           <Style>None</Style>
                         </Border>
+                        <BackgroundColor>White</BackgroundColor>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
@@ -1006,8 +1012,10 @@
                       <rd:DefaultName>Textbox220</rd:DefaultName>
                       <Style>
                         <Border>
-                          <Style>None</Style>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
                         </Border>
+                        <BackgroundColor>=iif(RowNumber(nothing) Mod 2 , "White","WhiteSmoke")</BackgroundColor>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
@@ -1038,8 +1046,10 @@
                       <rd:DefaultName>Product</rd:DefaultName>
                       <Style>
                         <Border>
-                          <Style>None</Style>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
                         </Border>
+                        <BackgroundColor>=iif(RowNumber(nothing) Mod 2 , "White","WhiteSmoke")</BackgroundColor>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
@@ -1070,8 +1080,10 @@
                       <rd:DefaultName>Specification</rd:DefaultName>
                       <Style>
                         <Border>
-                          <Style>None</Style>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
                         </Border>
+                        <BackgroundColor>=iif(RowNumber(nothing) Mod 2 , "White","WhiteSmoke")</BackgroundColor>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
@@ -1104,8 +1116,10 @@
                       <rd:DefaultName>Qty</rd:DefaultName>
                       <Style>
                         <Border>
-                          <Style>None</Style>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
                         </Border>
+                        <BackgroundColor>=iif(RowNumber(nothing) Mod 2 , "White","WhiteSmoke")</BackgroundColor>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
@@ -1136,8 +1150,13 @@
                       <rd:DefaultName>UnitName</rd:DefaultName>
                       <Style>
                         <Border>
-                          <Style>None</Style>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
                         </Border>
+                        <RightBorder>
+                          <Style>None</Style>
+                        </RightBorder>
+                        <BackgroundColor>=iif(RowNumber(nothing) Mod 2 , "White","WhiteSmoke")</BackgroundColor>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
@@ -1216,6 +1235,7 @@
                         <BottomBorder>
                           <Style>Solid</Style>
                         </BottomBorder>
+                        <BackgroundColor>LightGrey</BackgroundColor>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
@@ -1255,6 +1275,7 @@
                         <BottomBorder>
                           <Style>Solid</Style>
                         </BottomBorder>
+                        <BackgroundColor>LightGrey</BackgroundColor>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
@@ -1296,6 +1317,7 @@
                         <BottomBorder>
                           <Style>Solid</Style>
                         </BottomBorder>
+                        <BackgroundColor>LightGrey</BackgroundColor>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
@@ -1337,6 +1359,7 @@
                         <BottomBorder>
                           <Style>Solid</Style>
                         </BottomBorder>
+                        <BackgroundColor>LightGrey</BackgroundColor>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
@@ -1372,6 +1395,7 @@
                         <Border>
                           <Style>None</Style>
                         </Border>
+                        <BackgroundColor>White</BackgroundColor>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
@@ -1417,8 +1441,8 @@
           </TablixMembers>
         </TablixRowHierarchy>
         <DataSetName>DsMain</DataSetName>
-        <Top>1.39486in</Top>
-        <Left>0.0444in</Left>
+        <Top>1.35222in</Top>
+        <Left>0.04398in</Left>
         <Height>0.75in</Height>
         <Width>5.37083in</Width>
         <ZIndex>1</ZIndex>
@@ -1432,8 +1456,8 @@
         <Source>Embedded</Source>
         <Value>k</Value>
         <Sizing>FitProportional</Sizing>
-        <Top>0.07375in</Top>
-        <Left>0.07792in</Left>
+        <Top>0.06563in</Top>
+        <Left>0.13157in</Left>
         <Height>0.15625in</Height>
         <Width>0.26815in</Width>
         <ZIndex>2</ZIndex>
@@ -1447,8 +1471,8 @@
         <Source>Embedded</Source>
         <Value>k</Value>
         <Sizing>FitProportional</Sizing>
-        <Top>0.06125in</Top>
-        <Left>4.98041in</Left>
+        <Top>0.05313in</Top>
+        <Left>5.03406in</Left>
         <Height>0.15625in</Height>
         <Width>0.26815in</Width>
         <ZIndex>3</ZIndex>
@@ -1462,8 +1486,8 @@
         <Source>Embedded</Source>
         <Value>k</Value>
         <Sizing>FitProportional</Sizing>
-        <Top>0.07375in</Top>
-        <Left>2.41062in</Left>
+        <Top>0.06563in</Top>
+        <Left>2.46427in</Left>
         <Height>0.15625in</Height>
         <Width>0.26815in</Width>
         <ZIndex>4</ZIndex>
@@ -1474,23 +1498,22 @@
         </Style>
       </Image>
       <Line Name="Line1">
-        <Top>0.13625in</Top>
-        <Left>0.251in</Left>
+        <Top>0.13646in</Top>
+        <Left>0.25449in</Left>
         <Height>0in</Height>
-        <Width>4.86326in</Width>
+        <Width>4.9375in</Width>
         <ZIndex>5</ZIndex>
         <Style>
           <Border>
-            <Style>Dashed</Style>
-            <Width>1.25pt</Width>
+            <Style>Solid</Style>
           </Border>
         </Style>
       </Line>
     </ReportItems>
-    <Height>2.18652in</Height>
+    <Height>2.13542in</Height>
     <Style />
   </Body>
-  <Width>5.45046in</Width>
+  <Width>5.45462in</Width>
   <Page>
     <PageHeight>11.69in</PageHeight>
     <PageWidth>4in</PageWidth>
@@ -1499,7 +1522,10 @@
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
     <DataSource Name="Purchase">
-      <DataSourceReference>DataSourceMain</DataSourceReference>
+      <ConnectionProperties>
+        <DataProvider>SQL</DataProvider>
+        <ConnectString>=Parameters!DatabaseConnectionString.Value</ConnectString>
+      </ConnectionProperties>
       <rd:SecurityType>None</rd:SecurityType>
       <rd:DataSourceID>727bb65e-cc51-4d28-a097-a8ea7d087931</rd:DataSourceID>
     </DataSource>
@@ -1552,16 +1578,12 @@
           <DataField>Product</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="ReportName">
-          <DataField>ReportName</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
         <Field Name="Specification">
           <DataField>Specification</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="ReportTitle">
-          <DataField>ReportTitle</DataField>
+        <Field Name="ReportName">
+          <DataField>ReportName</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="Qty">
@@ -1580,29 +1602,23 @@
           <DataField>ReferenceDocNo</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="SubReportProcList">
-          <DataField>SubReportProcList</DataField>
-          <rd:TypeName>System.Int32</rd:TypeName>
+        <Field Name="ReportTitle">
+          <DataField>ReportTitle</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
         </Field>
       </Fields>
       <rd:DataSetInfo>
         <rd:DataSetName>Purchase</rd:DataSetName>
         <rd:SchemaPath>E:\Satyam\SuryaIndia\SuryaIndia\SuppliorModule_V1\Source\Surya.Planning.Reports\Reports\Purchase.xsd</rd:SchemaPath>
-        <rd:TableName>ProcPurchaseInvoiceHeaderCharges</rd:TableName>
+        <rd:TableName>ProcPurchaseOrderPrint</rd:TableName>
         <rd:TableAdapterFillMethod>Fill</rd:TableAdapterFillMethod>
         <rd:TableAdapterGetDataMethod>GetData</rd:TableAdapterGetDataMethod>
-        <rd:TableAdapterName>ProcPurchaseInvoiceHeaderChargesTableAdapter</rd:TableAdapterName>
+        <rd:TableAdapterName>ProcPurchaseOrderPrintTableAdapter</rd:TableAdapterName>
       </rd:DataSetInfo>
     </DataSet>
   </DataSets>
   <ReportParameters>
     <ReportParameter Name="ReportTitle">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>ReportParameter1</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="CompanyName">
       <DataType>String</DataType>
       <Nullable>true</Nullable>
       <AllowBlank>true</AllowBlank>
@@ -1614,25 +1630,7 @@
       <AllowBlank>true</AllowBlank>
       <Prompt>ReportParameter1</Prompt>
     </ReportParameter>
-    <ReportParameter Name="DivisionName">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>ReportParameter1</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="CompanyAddress">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>ReportParameter1</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="CompanyCity">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>ReportParameter1</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="SiteName">
+    <ReportParameter Name="CompanyName">
       <DataType>String</DataType>
       <Nullable>true</Nullable>
       <AllowBlank>true</AllowBlank>
@@ -1641,8 +1639,19 @@
     <ReportParameter Name="Id">
       <DataType>Integer</DataType>
       <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
       <Prompt>Id</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="PrintedBy">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>PrintedBy</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="DatabaseConnectionString">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>DatabaseConnectionString</Prompt>
     </ReportParameter>
     <ReportParameter Name="RefDocNo">
       <DataType>String</DataType>
@@ -1651,6 +1660,224 @@
       <Prompt>Ref Doc No</Prompt>
     </ReportParameter>
   </ReportParameters>
+  <Code>
+    Function RupeesToWord(ByVal MyNumber)
+    Dim Temp
+    Dim Rupees, Paisa As String
+    Dim DecimalPlace, iCount
+    Dim Hundreds, Words As String
+    Dim place(9) As String
+    place(0) = " Thousand "
+    place(2) = " Lakh "
+    place(4) = " Crore "
+    place(6) = " Arab "
+    place(8) = " Kharab "
+    On Error Resume Next
+    ' Convert MyNumber to a string, trimming extra spaces.
+    MyNumber = Trim(Str(MyNumber))
+
+    ' Find decimal place.
+    DecimalPlace = InStr(MyNumber, ".")
+
+    ' If we find decimal place...
+    If DecimalPlace &gt; 0 Then
+    ' Convert Paisa
+    Temp = Left(Mid(MyNumber, DecimalPlace + 1) &amp; "00", 2)
+    'Paisa = " and " &amp; ConvertTens(Temp) &amp; " Paisa"
+    Paisa = ""
+
+    ' Strip off paisa from remainder to convert.
+    MyNumber = Trim(Left(MyNumber, DecimalPlace - 1))
+    End If
+
+    '===============================================================
+    Dim TM As String ' If MyNumber between Rs.1 To 99 Only.
+    TM = Right(MyNumber, 2)
+
+    If Len(MyNumber) &gt; 0 And Len(MyNumber) &lt;= 2 Then
+    If Len(TM) = 1 Then
+    Words = ConvertDigit(TM)
+    RupeesToWord = Words &amp; Paisa
+
+    Exit Function
+
+    Else
+    If Len(TM) = 2 Then
+    Words = ConvertTens(TM)
+    RupeesToWord = Words &amp; Paisa
+    Exit Function
+
+    End If
+    End If
+    End If
+    '===============================================================
+
+
+    ' Convert last 3 digits of MyNumber to ruppees in word.
+    Hundreds = ConvertHundreds(Right(MyNumber, 3))
+    ' Strip off last three digits
+    MyNumber = Left(MyNumber, Len(MyNumber) - 3)
+
+    iCount = 0
+    Do While MyNumber &lt;&gt; ""
+    'Strip last two digits
+    Temp = Right(MyNumber, 2)
+    If Len(MyNumber) = 1 Then
+
+
+    If Trim(Words) = "Thousand" Or _
+    Trim(Words) = "Lakh Thousand" Or _
+    Trim(Words) = "Lakh" Or _
+    Trim(Words) = "Crore" Or _
+    Trim(Words) = "Crore Lakh Thousand" Or _
+    Trim(Words) = "Arab Crore Lakh Thousand" Or _
+    Trim(Words) = "Arab" Or _
+    Trim(Words) = "Kharab Arab Crore Lakh Thousand" Or _
+    Trim(Words) = "Kharab" Then
+
+    Words = ConvertDigit(Temp) &amp; place(iCount)
+    MyNumber = Left(MyNumber, Len(MyNumber) - 1)
+
+    Else
+
+    Words = ConvertDigit(Temp) &amp; place(iCount) &amp; Words
+    MyNumber = Left(MyNumber, Len(MyNumber) - 1)
+
+    End If
+    Else
+
+    If Trim(Words) = "Thousand" Or _
+    Trim(Words) = "Lakh Thousand" Or _
+    Trim(Words) = "Lakh" Or _
+    Trim(Words) = "Crore" Or _
+    Trim(Words) = "Crore Lakh Thousand" Or _
+    Trim(Words) = "Arab Crore Lakh Thousand" Or _
+    Trim(Words) = "Arab" Then
+
+
+    Words = ConvertTens(Temp) &amp; place(iCount)
+
+
+    MyNumber = Left(MyNumber, Len(MyNumber) - 2)
+    Else
+
+    '=================================================================
+    ' if only Lakh, Crore, Arab, Kharab
+
+    If Trim(ConvertTens(Temp) &amp; place(iCount)) = "Lakh" Or _
+    Trim(ConvertTens(Temp) &amp; place(iCount)) = "Crore" Or _
+    Trim(ConvertTens(Temp) &amp; place(iCount)) = "Arab" Then
+
+    Words = Words
+    MyNumber = Left(MyNumber, Len(MyNumber) - 2)
+    Else
+    Words = ConvertTens(Temp) &amp; place(iCount) &amp; Words
+    MyNumber = Left(MyNumber, Len(MyNumber) - 2)
+    End If
+
+    End If
+    End If
+
+    iCount = iCount + 2
+    Loop
+
+    RupeesToWord = Words &amp; Hundreds &amp; Paisa
+    End Function
+
+    ' Conversion for hundreds
+    '*****************************************
+    Private Function ConvertHundreds(ByVal MyNumber)
+    Dim Result As String
+
+    ' Exit if there is nothing to convert.
+    If Val(MyNumber) = 0 Then Exit Function
+
+    ' Append leading zeros to number.
+    MyNumber = Right("000" &amp; MyNumber, 3)
+
+    ' Do we have a hundreds place digit to convert?
+    If Left(MyNumber, 1) &lt;&gt; "0" Then
+    Result = ConvertDigit(Left(MyNumber, 1)) &amp; " Hundred "
+    End If
+
+    ' Do we have a tens place digit to convert?
+    If Mid(MyNumber, 2, 1) &lt;&gt; "0" Then
+    Result = Result &amp; ConvertTens(Mid(MyNumber, 2))
+    Else
+    ' If not, then convert the ones place digit.
+    Result = Result &amp; ConvertDigit(Mid(MyNumber, 3))
+    End If
+
+    ConvertHundreds = Trim(Result)
+    End Function
+
+    ' Conversion for tens
+    '*****************************************
+    Private Function ConvertTens(ByVal MyTens)
+    Dim Result As String
+
+    ' Is value between 10 and 19?
+    If Val(Left(MyTens, 1)) = 1 Then
+    Select Case Val(MyTens)
+    Case 10 : Result = "Ten"
+    Case 11 : Result = "Eleven"
+    Case 12 : Result = "Twelve"
+    Case 13 : Result = "Thirteen"
+    Case 14 : Result = "Fourteen"
+    Case 15 : Result = "Fifteen"
+    Case 16 : Result = "Sixteen"
+    Case 17 : Result = "Seventeen"
+    Case 18 : Result = "Eighteen"
+    Case 19 : Result = "Nineteen"
+    Case Else
+    End Select
+    Else
+    ' .. otherwise it's between 20 and 99.
+    Select Case Val(Left(MyTens, 1))
+    Case 2 : Result = "Twenty "
+    Case 3 : Result = "Thirty "
+    Case 4 : Result = "Forty "
+    Case 5 : Result = "Fifty "
+    Case 6 : Result = "Sixty "
+    Case 7 : Result = "Seventy "
+    Case 8 : Result = "Eighty "
+    Case 9 : Result = "Ninety "
+    Case Else
+    End Select
+
+    ' Convert ones place digit.
+    Result = Result &amp; ConvertDigit(Right(MyTens, 1))
+    End If
+
+    ConvertTens = Result
+    End Function
+
+    Private Function ConvertDigit(ByVal MyDigit)
+    Select Case Val(MyDigit)
+    Case 1 : ConvertDigit = "One"
+    Case 2 : ConvertDigit = "Two"
+    Case 3 : ConvertDigit = "Three"
+    Case 4 : ConvertDigit = "Four"
+    Case 5 : ConvertDigit = "Five"
+    Case 6 : ConvertDigit = "Six"
+    Case 7 : ConvertDigit = "Seven"
+    Case 8 : ConvertDigit = "Eight"
+    Case 9 : ConvertDigit = "Nine"
+    Case Else : ConvertDigit = ""
+    End Select
+    End Function
+
+
+
+    Public Function GenerateVbCrLf(ByVal Count as integer)
+    dim Value as String
+    dim i as integer
+    For i = 1 To Count Step 1
+    Value = Value &amp; " " &amp; VbCrLf
+    Next i
+    Return Value
+    End Function
+  </Code>
   <EmbeddedImages>
     <EmbeddedImage Name="SuryaLogo">
       <MIMEType>image/jpeg</MIMEType>
@@ -1661,6 +1888,12 @@ LbCmyUOMiWE6UFOSkkc6hfclBAb2cTTx0a9cqPWZpNR2WQoNNIQFnUrSkDJ6mmVVXwMThJPmcNvRW3vC
 PtQeVUENmewh02zjEWZuZuLElNvBS6gDSXQMHP8A5UE5f6lWFPkR2q6ZG8HZI8xgvruK93SMJUsHJ61zg03qGN3uFzocawHaqxS70mIIc9UTuHNSgM/Nw32PEcvWvTrcL5EwcilrcatjE0Y1yYdnu25KlmQwkFeU7Hhz9xWZb0aw1jyJtNLrWHPgx+rSclEINTLSnEuKbQVo/CojcehrhUE5InQSBgQcyWxCZL0p1LTYIGpVLZYta7McCdRGc4UZmL2f7PG2XOdcPHLkIlnUEkcATnJOd+lWNgdRiZKuOanYk+ZL5erazdolnmxnHVyCkpUBsgqOBzzx6VJ+Kt6fIZAjtyhVYE9mP3NiA1a1JllLEVoaioHGjzqL8Wu2vpY7TR1jWeoTKs7Nudtg8EtMiM7klZ31ct/pRXxEpQ14nOv1fmDELRercb7JskOK404zkqXj5VEYz58+dXTjLSmUGAZAcsW2ms+RO+0fZtN6lwpK5jjHhFasJGc7g5HQ7caotmgMW7j9Vgc4xNaBNjT2S7EdDiAopJHWoV2paNkOZretqzhhGA2gKKwkBR4nG5p8DOYk6rsJKISUQgZcViY0WpLSXWyQSlQyKR0VxhhkRlZlOVhEpCEBKQAAMADlTDsIvmZjKzKu7yJFtCRGA7mSsA5zx0nG3tUq7XNjIRgD3HepNVfOTD3lmG/bJDdyTmLoy5x4DflVTYKxufUmaur8D7g7AxBYtMdFrSRFwSjVnPHfOeea4louUWDwYCjof4/pOZi3ItxjmLbg6ZB0vPpABQBwyf1wqdtrqyqBkH+pSupCGYnB/wDZpAZG9ViQcaMxFR3cZlDSMk6UJwMmuKiqMKMRmZmOWMNTRZKISUQkohJRCSiE4HEV2cgbl/kZH9M/lUb/ANtvtKV/7iCsv+lxv6YpeL+yv2jX/uNG1cavIGdDhROiXROyUQkohP/Z</ImageData>
     </EmbeddedImage>
     <EmbeddedImage Name="k">
+      <MIMEType>image/png</MIMEType>
+      <ImageData>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</ImageData>
+    </EmbeddedImage>
+    <EmbeddedImage Name="k2">
       <MIMEType>image/png</MIMEType>
       <ImageData>iVBORw0KGgoAAAANSUhEUgAAAC8AAAAZCAYAAAChBHccAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAOxAAADsQBlSsOGwAAB0xJREFUWEe1mFWoEF0Qx+faid0NFnajYKHoiz4oBhiI2BigKKKgDyIiKD4ZiA8qIggWioooFnZ3YWJ3d843v/GbZb1cr2IcOOye3T3nzPxn5j9zNuPTp08qmVquXLnk/fv38vr1azlz5ozfN23aVEqWLCmfP3+WPHny+Iw3b95I7ty5fczzDx8+SMGCBeXLly/JihkZGX4f18x7/dEY4TP3e/fuaYsWLbRIkSJarVo1LVSoEApq3bp1denSpcp72tu3b/Xx48d+TzNl/GqKJN0UUfrXr1//es+RleYdO3Z0tJcsWSLr1q2TLVu2yP79+6VRo0YybNgwmT17tpjQkj9/fu+g/s/Qzc40IPLu3TtHnzZ37lwtXry4o7t582a9fPmyXrt2zVGm79mzR801dPr06ckc5prL+Pxnz54lzxkbCIll+A4rhIXS1gqLxcd89+TJE71+/boeO3ZMV69erStXrvR75r948UKFBTFzPJg2bZq7x/nz513Y9KJ37tzx8aZNm7Rs2bJ66dIlffnyZeI6T58+TQSNG8BhbZSK9cLl4hsEQVhccNWqVTpy5Eht2bKllipVSgsUKOAuW65cOR03bpyaB+iOHTv0yJEjSnD5GiDHJkyuU6eOI89ibPjx40dfnBYWqlmzpk6ZMsUtE+3GjRvJWgj7/Plzn5tujCMmApjDhw/rqFGjtEqVKpo3b14X1kjAr5UrV9YZM2bovn379NChQ3rixAm9f//+N+Rj4dgEJJkwfvx4R5X26NEjVwwFeQaaINOmTRt/j6ARuLgJ79MNtwzlsQ7vHzx4oLNmzdLq1au7kNGN6bRw4cJar149nTlzphrb6YULF/TkyZMOaBoMR54N0yY9d+6cli5dWgcNGpT4cmyOUKBQtGhRZaO9e/e6
 8GEVBGMtFEXQtMUYHzhwQHv16uUCIjDxE4KXKFFCq1at6kodPXpUT506pbt373ZFwzu4ooBTPJuFNlzZFJPgU82aNfOFBw4cqPPnz3fz4Y9lypRJNkTBcBfcJO1aEayYmbmWK5J5uAUAsL7lAG3Xrp0uWrRIT58+rYBHYDIvu+ZuE5uAEiamoS2ITp06VXPkyKH58uXzjcInLTkpnY2xQOfOnd28weussXbtWu3bt6/nikCXnGH06vN41rx5c128eLEHIkwGUfxqc+Hx6UAMc4QClmHdEqBg3J5Ygk0zK8MYJQn2rVu3+pxu3bolQuMexYoV8zHK/o1GgvkuIzJO+xeK0AnIW7du6fr163XAgAEuAB1hQBI3oBPsrVu31mXLljmKy5cv14kTJyaU16dPH12xYsXfkF0zEDZzEnv16pUYv3rNQn1jphaLAzFkvW6hTrH4kAULFsjGjRvFgksMec/KRnleD/Gt5QKx2JGePXtK27ZtfUx9ZMrLrl27/qis8YyelfA5c+Z0YVGAwstgEmMQL7poFuRirCHGzy4QChoDiaHtQtaoUcPfU06sWbPGlaKM6N69u/Tv31/MtcQ4/d8JT8UYwoIyVqBqtCQh8+bN86uVDS5Y7dq1Zfjw4WJUJ1evXvV5ls7J3v5d5ta4cWOZMGGCdOjQQYxx3Gq/1bLy+WAfKDMyKr5uBZtnwWAK/J0xPs+9KeH8fPz4cQ/wJk2aOI8TCzATQc23ESuVKlXSyZMn68WLF38rBn4YsKGA+aYHIcJFaUypzNjcK3k+adIkPXjwoBdQ5AiYiuy4bds2HTFihJKAgmpRBIVYB0W47927tye/dDL8mUbZss3YsWNdwPLly+uYMWN09OjROnTo0O8or1+/fs7vZE42TxdgJD1SOjnj9u3bzkBdunRxoYP3ETxA4Z5kFWyUrkih86BwlCK5Zik8rsImFSpUUAs4vXv3rgsIsg8fPtTt27d7ekcxiiWeR20TdU36kAKa
