@@ -125,6 +125,7 @@
     <Compile Include="ProductGroupSettingsService.cs" />
     <Compile Include="ProductCategorySettingsService.cs" />
     <Compile Include="ProductBuyerSettingsService.cs" />
+    <Compile Include="PersonSettingsService.cs" />
     <Compile Include="UserReferralService.cs" />
     <Compile Include="OverTimeApplicationHeaderService.cs" />
     <Compile Include="AttendanceHeaderService.cs" />

@@ -170,7 +170,9 @@ namespace Service
         IQueryable<ComboBoxResult> GetEmployeeHelpListWithDepartMentFilter(int DepartMentId, string term);
         IQueryable<ComboBoxResult> GetQAGroups(string term);
         IQueryable<ComboBoxResult> GetUnits(string term);
-
+        IQueryable<ComboBoxResult> GetTdsGroups(string term);
+        IQueryable<ComboBoxResult> GetTdsCategory(string term);
+        IQueryable<ComboBoxResult> GetSalesTaxGroupParty(string term);
     }
 
     public class ComboHelpListService : IComboHelpListService
@@ -2469,6 +2471,58 @@ namespace Service
                         {
                             text = p.UnitName,
                             id = p.UnitId,
+                        }
+            );
+
+            return list;
+
+        }
+
+        public IQueryable<ComboBoxResult> GetTdsGroups(string term)
+        {
+
+            var list = (from p in db.TdsGroup
+                        where (string.IsNullOrEmpty(term) ? 1 == 1 : (p.TdsGroupName.ToLower().Contains(term.ToLower())))
+                        orderby p.TdsGroupName
+                        select new ComboBoxResult
+                        {
+                            text = p.TdsGroupName,
+                            id = p.TdsGroupId.ToString(),
+                        }
+            );
+
+            return list;
+
+        }
+
+        public IQueryable<ComboBoxResult> GetTdsCategory(string term)
+        {
+
+            var list = (from p in db.TdsCategory
+                        where (string.IsNullOrEmpty(term) ? 1 == 1 : (p.TdsCategoryName.ToLower().Contains(term.ToLower())))
+                        orderby p.TdsCategoryName
+                        select new ComboBoxResult
+                        {
+                            text = p.TdsCategoryName,
+                            id = p.TdsCategoryId.ToString(),
+                        }
+            );
+
+            return list;
+
+        }
+
+
+        public IQueryable<ComboBoxResult> GetSalesTaxGroupParty(string term)
+        {
+
+            var list = (from p in db.SalesTaxGroupParty
+                        where (string.IsNullOrEmpty(term) ? 1 == 1 : (p.SalesTaxGroupPartyName.ToLower().Contains(term.ToLower())))
+                        orderby p.SalesTaxGroupPartyName
+                        select new ComboBoxResult
+                        {
+                            text = p.SalesTaxGroupPartyName,
+                            id = p.SalesTaxGroupPartyId.ToString(),
                         }
             );
 

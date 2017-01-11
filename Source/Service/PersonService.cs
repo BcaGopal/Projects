@@ -9,6 +9,7 @@ using System;
 using Model;
 using System.Threading.Tasks;
 using Data.Models;
+using Model.ViewModels;
 
 namespace Service
 {
@@ -37,6 +38,15 @@ namespace Service
         bool CheckDuplicate(string Name, string Sufix, int PersonId = 0);
 
         string GetNewPersonCode();
+
+
+        //New Person Master Mothods
+        IQueryable<PersonIndexViewModel> GetPersonListForIndex(int id);
+        int NextId(int id);
+        int PrevId(int id);
+        PersonViewModel GetPersonViewModelForEdit(int id);
+
+
     }
 
     public class PersonService : IPersonService
@@ -231,10 +241,175 @@ namespace Service
             }
             
         }
+
+        public IQueryable<PersonIndexViewModel> GetPersonListForIndex(int id)
+        {
+            var temp = from p in db.Persons
+                       where p.DocTypeId == id
+                       orderby p.Name
+                       select new PersonIndexViewModel
+                       {
+                           PersonId = p.PersonID,
+                           Name = p.Name,
+                           Code = p.Code,
+                           Mobile = p.Mobile
+                       };
+
+            return temp;
+        }
+
+        public int NextId(int id)
+        {
+            int temp = 0;
+            if (id != 0)
+            {
+                temp = (from p in db.Persons
+                        orderby p.Name
+                        select p.PersonID).AsEnumerable().SkipWhile(p => p != id).Skip(1).FirstOrDefault();
+            }
+            else
+            {
+                temp = (from p in db.Persons
+                        orderby p.Name
+                        select p.PersonID).FirstOrDefault();
+            }
+            if (temp != 0)
+                return temp;
+            else
+                return id;
+        }
+
+        public int PrevId(int id)
+        {
+
+            int temp = 0;
+            if (id != 0)
+            {
+
+                temp = (from p in db.Persons
+                        orderby p.Name
+                        select p.PersonID).AsEnumerable().TakeWhile(p => p != id).LastOrDefault();
+            }
+            else
+            {
+                temp = (from p in db.Persons 
+                        orderby p.Name
+                        select p.PersonID).AsEnumerable().LastOrDefault();
+            }
+            if (temp != 0)
+                return temp;
+            else
+                return id;
+        }
+
+        public PersonViewModel GetPersonViewModelForEdit(int id)
+        {
+
+            PersonViewModel Personviewmodel = (from b in db.Persons
+                                                     join bus in db.BusinessEntity on b.PersonID equals bus.PersonID into BusinessEntityTable
+                                                     from BusinessEntityTab in BusinessEntityTable.DefaultIfEmpty()
+                                                     join pa in db.PersonAddress on b.PersonID equals pa.PersonId into PersonAddressTable
+                                                     from PersonAddressTab in PersonAddressTable.DefaultIfEmpty()
+                                                     join ac in db.LedgerAccount on b.PersonID equals ac.PersonId into AccountTable
+                                                     from AccountTab in AccountTable.DefaultIfEmpty()
+                                                     where b.PersonID == id
+                                               select new PersonViewModel
+                                                     {
+                                                         PersonID = b.PersonID,
+                                                         DocTypeId = b.DocTypeId,
+                                                         Name = b.Name,
+                                                         Suffix = b.Suffix,
+                                                         Code = b.Code,
+                                                         Phone = b.Phone,
+                                                         Mobile = b.Mobile,
+                                                         Email = b.Email,
+                                                         Address = PersonAddressTab.Address,
+                                                         CityId = PersonAddressTab.CityId,
+                                                         Zipcode = PersonAddressTab.Zipcode,
+                                                         TdsCategoryId = BusinessEntityTab.TdsCategoryId,
+                                                         TdsGroupId = BusinessEntityTab.TdsGroupId,
+                                                         IsSisterConcern = BusinessEntityTab.IsSisterConcern,
+                                                         CreaditDays = BusinessEntityTab.CreaditDays,
+                                                         CreaditLimit = BusinessEntityTab.CreaditLimit,
+                                                         GuarantorId = BusinessEntityTab.GuarantorId,
+                                                         IsActive = b.IsActive,
+                                                         LedgerAccountGroupId = AccountTab.LedgerAccountGroupId,
+                                                         CreatedBy = b.CreatedBy,
+                                                         CreatedDate = b.CreatedDate,
+                                                         PersonAddressID = PersonAddressTab.PersonAddressID,
+                                                         AccountId = AccountTab.LedgerAccountId,
+                                                         DivisionIds = BusinessEntityTab.DivisionIds,
+                                                         SiteIds = BusinessEntityTab.SiteIds,
+                                                         Tags = b.Tags,
+                                                         ImageFileName = b.ImageFileName,
+                                                         ImageFolderName = b.ImageFolderName
+                                                     }
+                   ).FirstOrDefault();
+
+            //var PersonProcess = (from pp in db.PersonProcess
+            //                     where pp.PersonId == id
+            //                     select new
+            //                     {
+            //                         ProcessId = pp.ProcessId
+            //                     }).ToList();
+
+            //foreach (var item in PersonProcess)
+            //{
+            //    if (JobWorkerviewmodel.ProcessIds == "" || JobWorkerviewmodel.ProcessIds == null)
+            //    {
+            //        JobWorkerviewmodel.ProcessIds = item.ProcessId.ToString();
+            //    }
+            //    else
+            //    {
+            //        JobWorkerviewmodel.ProcessIds = JobWorkerviewmodel.ProcessIds + "," + item.ProcessId.ToString();
+            //    }
+            //}
+
+            var PersonRegistration = (from pp in db.PersonRegistration
+                                      where pp.PersonId == id
+                                      select new
+                                      {
+                                          PersonRegistrationId = pp.PersonRegistrationID,
+                                          RregistrationType = pp.RegistrationType,
+                                          RregistrationNo = pp.RegistrationNo
+                                      }).ToList();
+
+            if (PersonRegistration != null)
+            {
+                foreach (var item in PersonRegistration)
+                {
+                    if (item.RregistrationType == PersonRegistrationType.PANNo)
+                    {
+                        Personviewmodel.PersonRegistrationPanNoID = item.PersonRegistrationId;
+                        Personviewmodel.PanNo = item.RregistrationNo;
+                    }
+                }
+            }
+
+
+            string Divisions = Personviewmodel.DivisionIds;
+            if (Divisions != null)
+            {
+                Divisions = Divisions.Replace('|', ' ');
+                Personviewmodel.DivisionIds = Divisions;
+            }
+
+            string Sites = Personviewmodel.SiteIds;
+            if (Sites != null)
+            {
+                Sites = Sites.Replace('|', ' ');
+                Personviewmodel.SiteIds = Sites;
+            }
+
+            return Personviewmodel;
+
+        }
     }
 
     public class PersonCodeViewModel
     {
         public string PersonCode { get; set; }
     }
+
+    
 }
