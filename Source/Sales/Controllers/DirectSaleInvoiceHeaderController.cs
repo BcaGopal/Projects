@@ -600,6 +600,7 @@ namespace Web
                 SaleInvoiceHeader Si = (from H in db.SaleInvoiceHeader where H.SaleInvoiceHeaderId == vm.id select H).FirstOrDefault();
                 SaleDispatchHeader Sd = (from H in db.SaleDispatchHeader where H.SaleDispatchHeaderId == Si.SaleDispatchHeaderId select H).FirstOrDefault();
                 PackingHeader Ph = (from H in db.PackingHeader where H.PackingHeaderId == Sd.PackingHeaderId select H).FirstOrDefault();
+                LedgerHeader LH = (from H in db.LedgerHeader where H.LedgerHeaderId == Si.LedgerHeaderId select H).FirstOrDefault();
 
 
                 new StockService(_unitOfWork).DeleteStockForDocHeader(Sd.SaleDispatchHeaderId, Sd.DocTypeId, Sd.SiteId, Sd.DivisionId, db);
@@ -680,6 +681,19 @@ namespace Web
                 }
 
 
+                
+                var ledges = (from L in db.Ledger where L.LedgerHeaderId == Si.LedgerHeaderId select L).ToList();
+                    foreach (var item in ledges)
+                    {
+                        item.ObjectState = Model.ObjectState.Deleted;
+                        db.Ledger.Attach(item);
+                        db.Ledger.Remove(item);
+                    }
+
+
+                   
+
+
                 var headercharges = (from L in db.SaleInvoiceHeaderCharge where L.HeaderTableId == Si.SaleInvoiceHeaderId select L).ToList();
 
                 foreach (var citem in headercharges)
@@ -689,6 +703,7 @@ namespace Web
                     db.SaleInvoiceHeaderCharge.Remove(citem);
                 }
 
+                
 
                 Si.ObjectState = Model.ObjectState.Deleted;
                 db.SaleInvoiceHeader.Attach(Si);
@@ -702,6 +717,12 @@ namespace Web
                 db.PackingHeader.Attach(Ph);
                 db.PackingHeader.Remove(Ph);
 
+                if (LH != null)
+                {
+                    LH.ObjectState = Model.ObjectState.Deleted;
+                    db.LedgerHeader.Attach(LH);
+                    db.LedgerHeader.Remove(LH);
+                }
 
                 //Commit the DB
                 try
