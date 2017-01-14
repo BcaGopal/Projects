@@ -66,6 +66,33 @@ namespace Store.App_Start
             container.RegisterType<IRepository<MaterialRequestSettings>, Repository<MaterialRequestSettings>>();
             container.RegisterType<IMaterialRequestSettingsService, MaterialRequestSettingsService>(new PerRequestLifetimeManager());
 
+            container.RegisterType<IRepository<Person>, Repository<Person>>();
+            container.RegisterType<IPersonService, PersonService>(new PerRequestLifetimeManager());
+
+            container.RegisterType<IRepository<BusinessEntity>, Repository<BusinessEntity>>();
+            container.RegisterType<IBusinessEntityService, BusinessEntityService>(new PerRequestLifetimeManager());
+
+            container.RegisterType<IRepository<LedgerAccount>, Repository<LedgerAccount>>();
+            container.RegisterType<IAccountService, AccountService>(new PerRequestLifetimeManager());
+
+            container.RegisterType<IRepository<PersonProcess>, Repository<PersonProcess>>();
+            container.RegisterType<IPersonProcessService, PersonProcessService>(new PerRequestLifetimeManager());
+
+            container.RegisterType<IRepository<PersonRegistration>, Repository<PersonRegistration>>();
+            container.RegisterType<IPersonRegistrationService, PersonRegistrationService>(new PerRequestLifetimeManager());
+
+            container.RegisterType<IRepository<PersonAddress>, Repository<PersonAddress>>();
+            container.RegisterType<IPersonAddressService, PersonAddressService>(new PerRequestLifetimeManager());
+
+            container.RegisterType<IRepository<PersonContact>, Repository<PersonContact>>();
+            container.RegisterType<IPersonContactService, PersonContactService>(new PerRequestLifetimeManager());
+
+            container.RegisterType<IRepository<PersonBankAccount>, Repository<PersonBankAccount>>();
+            container.RegisterType<IPersonBankAccountService, PersonBankAccountService>(new PerRequestLifetimeManager());
+
+            container.RegisterType<IRepository<PersonSettings>, Repository<PersonSettings>>();
+            container.RegisterType<IPersonSettingsService, PersonSettingsService>(new PerRequestLifetimeManager());
+
             container.RegisterType<IRepository<StockHeader>, Repository<StockHeader>>();
             container.RegisterType<IStockHeaderService, StockHeaderService>(new PerRequestLifetimeManager());
 
@@ -197,11 +224,43 @@ namespace Store.App_Start
             container.RegisterType<IRepository<GatePassLine>, Repository<GatePassLine>>();
             container.RegisterType<IGatePassLineService, GatePassLineService>(new PerRequestLifetimeManager());
 
+
+            container.RegisterType<IRepository<QAGroup>, Repository<QAGroup>>();
+            container.RegisterType<IQAGroupService, QAGroupService>(new PerRequestLifetimeManager());
+
+            container.RegisterType<IRepository<QAGroupLine>, Repository<QAGroupLine>>();
+            container.RegisterType<IQAGroupLineService, QAGroupLineService>(new PerRequestLifetimeManager());
+
+            Mapper.CreateMap<Person, PersonViewModel>();
+            Mapper.CreateMap<PersonViewModel, Person>();
+
+            Mapper.CreateMap<BusinessEntity, PersonViewModel>();
+            Mapper.CreateMap<PersonViewModel, BusinessEntity>();
+
+            Mapper.CreateMap<LedgerAccount, PersonViewModel>();
+            Mapper.CreateMap<PersonViewModel, LedgerAccount>();
+
+            Mapper.CreateMap<PersonAddress, PersonViewModel>();
+            Mapper.CreateMap<PersonViewModel, PersonAddress>();
+
+            Mapper.CreateMap<PersonContact, PersonContactViewModel>();
+            Mapper.CreateMap<PersonContactViewModel, PersonContact>();
+
+            Mapper.CreateMap<PersonSettings, PersonSettingsViewModel>();
+            Mapper.CreateMap<PersonSettingsViewModel, PersonSettings>();
+
             Mapper.CreateMap<GatePassHeader, GatePassHeaderViewModel>();
             Mapper.CreateMap<GatePassHeaderViewModel, GatePassHeader>();
 
             Mapper.CreateMap<GatePassLine, GatePassLineViewModel>();
             Mapper.CreateMap<GatePassLineViewModel, GatePassLine>();
+
+            Mapper.CreateMap<QAGroup, QAGroupViewModel>();
+            Mapper.CreateMap<QAGroupViewModel, QAGroup>();
+
+            Mapper.CreateMap<QAGroupLine, QAGroupLineViewModel>();
+            Mapper.CreateMap<QAGroupLineViewModel, QAGroupLine>();
+
             //////
             Mapper.CreateMap<ProcessSequenceHeader, ProcessSequenceHeaderIndexViewModel>();
             Mapper.CreateMap<ProcessSequenceHeaderIndexViewModel, ProcessSequenceHeader>();
@@ -318,6 +377,18 @@ namespace Store.App_Start
             Mapper.CreateMap<GatePassLineViewModel, GatePassLine>();
             Mapper.CreateMap<GatePassHeaderViewModel, DocumentUniqueId>();
             Mapper.CreateMap<GatePassHeader, DocumentUniqueId>();
+
+            Mapper.CreateMap<QAGroup, QAGroup>();
+            Mapper.CreateMap<QAGroupLineViewModel, QAGroupLine>();
+            Mapper.CreateMap<QAGroupViewModel, DocumentUniqueId>();
+            Mapper.CreateMap<QAGroup, DocumentUniqueId>();
+
+            Mapper.CreateMap<PersonRegistration, PersonRegistration>();
+            Mapper.CreateMap<LedgerAccount, LedgerAccount>();
+            Mapper.CreateMap<PersonAddress, PersonAddress>();
+            Mapper.CreateMap<Person, Person>();
+            Mapper.CreateMap<BusinessEntity, BusinessEntity>();
+
 
         }
     }

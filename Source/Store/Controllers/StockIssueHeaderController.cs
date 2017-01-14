@@ -784,6 +784,16 @@ namespace Web
 
                 foreach (var item in StockIdList)
                 {
+                    StockAdj Adj = (from L in context.StockAdj
+                                    where L.StockOutId == item
+                                    select L).FirstOrDefault();
+
+                    if (Adj != null)
+                    {
+                        Adj.ObjectState = Model.ObjectState.Deleted;
+                        context.StockAdj.Remove(Adj);
+                    }
+
                     new StockService(_unitOfWork).DeleteStockDB(item, ref context, true);
                 }
 
@@ -937,6 +947,7 @@ namespace Web
                             {
                                 if (pd.GatePassHeaderId == null)
                                 {
+                                    int g= new DocumentTypeService(_unitOfWork).FindByName(TransactionDocCategoryConstants.GatePass).DocumentTypeId;
                                     SqlParameter DocDate = new SqlParameter("@DocDate", pd.DocDate);
                                     DocDate.SqlDbType = SqlDbType.DateTime;
                                     SqlParameter Godown = new SqlParameter("@GodownId", pd.GodownId);

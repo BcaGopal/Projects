@@ -47,6 +47,9 @@ namespace Model.ViewModel
         public bool isVisiblePriority { get; set; }
         public bool isVisibleDimension1 { get; set; }
         public bool isVisibleDimension2 { get; set; }
+        public bool isVisibleDimension3 { get; set; }
+        public bool isVisibleDimension4 { get; set; }
+
         public bool isVisibleDealUnit { get; set; }
         public bool isVisibleSpecification { get; set; }
         public bool isVisibleProductCode { get; set; }
@@ -54,7 +57,7 @@ namespace Model.ViewModel
         public bool isVisibleAdvance { get; set; }
         public bool isVisibleCreditDays { get; set; }
         public bool isVisibleRate { get; set; }
-
+        public bool isVisibleBillToParty { get; set; }
 
         public int SaleOrderDocTypeId { get; set; }
 

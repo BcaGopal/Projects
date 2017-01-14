@@ -72,6 +72,7 @@ namespace Model.ViewModel
         [Display(Name = "Remark")]
         public string Remark { get; set; }
         public JobOrderSettingsViewModel JobOrderSettings { get; set; }
+        public DocumentTypeSettingsViewModel DocumentTypeSettings { get; set; }
         public List<PerkViewModel> PerkViewModel { get; set; }
 
         //ForWeavingWizard

@@ -146,9 +146,9 @@ namespace Service
                         Rate = p.Rate,
                         SaleOrderHeaderId = p.SaleOrderHeaderId,
                         SaleOrderLineId = p.SaleOrderLineId,
-                        SaleOrderHeaderDocNo=p.SaleOrderHeader.DocNo
+                        SaleOrderHeaderDocNo=p.SaleOrderHeader.DocNo,
+                        StockId = p.StockId
                     }
-
 
                 );
 
@@ -197,6 +197,8 @@ namespace Service
                            ProductName = p.Product.ProductName,
                            Dimension1Name = p.Dimension1.Dimension1Name,
                            Dimension2Name = p.Dimension2.Dimension2Name,
+                           Dimension3Name = p.Dimension3.Dimension3Name,
+                           Dimension4Name = p.Dimension4.Dimension4Name,
                            Qty = p.Qty,
                            SaleOrderHeaderId = p.SaleOrderHeaderId,
                            SaleOrderLineId = p.SaleOrderLineId,
@@ -343,10 +345,14 @@ namespace Service
                         Qty = t.BalanceQty,
                         Rate = p.Rate,
                         Remark = p.Remark,
-                        Dimension1Id=p.Dimension1Id,
-                        Dimension2Id=p.Dimension2Id,
-                        Dimension1Name=p.Dimension1.Dimension1Name,
-                        Dimension2Name=p.Dimension2.Dimension2Name,
+                        Dimension1Id = p.Dimension1Id,
+                        Dimension2Id = p.Dimension2Id,
+                        Dimension3Id = p.Dimension3Id,
+                        Dimension4Id = p.Dimension4Id,
+                        Dimension1Name = p.Dimension1.Dimension1Name,
+                        Dimension2Name = p.Dimension2.Dimension2Name,
+                        Dimension3Name = p.Dimension3.Dimension3Name,
+                        Dimension4Name = p.Dimension4.Dimension4Name,
                         SaleOrderDocNo = p.SaleOrderHeader.DocNo,
                         SaleOrderHeaderId = p.SaleOrderHeaderId,
                         SaleOrderLineId = p.SaleOrderLineId,

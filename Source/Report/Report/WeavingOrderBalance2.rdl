@@ -85,6 +85,12 @@
           <QueryParameter Name="@ReportType">
             <Value>=Parameters!ReportType.Value</Value>
           </QueryParameter>
+          <QueryParameter Name="@BuyerId">
+            <Value>=Parameters!BuyerId.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@DocTypeIdSize">
+            <Value>=Parameters!DocTypeIdSize.Value</Value>
+          </QueryParameter>
         </QueryParameters>
         <CommandType>StoredProcedure</CommandType>
         <CommandText>Web.spRep_WeavingOrderBalanceInspection</CommandText>
@@ -512,6 +518,45 @@
                   <TablixCells>
                     <TablixCell>
                       <CellContents>
+                        <Textbox Name="Textbox6">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>="Sq.Yards "+iif(Sum(Fields!DealQty.Value) &lt;&gt; 0,formatnumber(Sum(CDBL(Fields!DealQty.Value)), 4), "-")</Value>
+                                  <Style>
+                                    <FontFamily>Tahoma</FontFamily>
+                                    <FontSize>8pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox6</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>Silver</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <BackgroundColor>=iif(RowNumber(nothing) Mod 2 , "White","WhiteSmoke")</BackgroundColor>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                        <ColSpan>2</ColSpan>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell />
+                    <TablixCell>
+                      <CellContents>
                         <Textbox Name="Textbox122">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
@@ -545,11 +590,9 @@
                             <PaddingBottom>2pt</PaddingBottom>
                           </Style>
                         </Textbox>
-                        <ColSpan>4</ColSpan>
+                        <ColSpan>2</ColSpan>
                       </CellContents>
                     </TablixCell>
-                    <TablixCell />
-                    <TablixCell />
                     <TablixCell />
                   </TablixCells>
                 </TablixRow>
@@ -3626,6 +3669,18 @@
       <Nullable>true</Nullable>
       <AllowBlank>true</AllowBlank>
       <Prompt>Report Type</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="BuyerId">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Buyer Id</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="DocTypeIdSize">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Doc Type Id Size</Prompt>
     </ReportParameter>
   </ReportParameters>
   <EmbeddedImages>

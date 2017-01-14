@@ -783,11 +783,12 @@ namespace Web
                             {
                                 foreach (var pta in vm.ProductTypeAttributes)
                                 {
-                                    ProductAttributes productattribute = null;
-                                    if (pta.ProductAttributeId != 0)
-                                    {
-                                        productattribute = new ProductAttributeService(_unitOfWork).Find(prod.ProductId, pta.ProductTypeAttributeId);
-                                    }
+                                    //ProductAttributes productattribute = null;
+                                    //if (pta.ProductAttributeId != 0)
+                                    //{
+                                    //    productattribute = new ProductAttributeService(_unitOfWork).Find(prod.ProductId, pta.ProductTypeAttributeId);
+                                    //}
+                                    ProductAttributes productattribute = new ProductAttributeService(_unitOfWork).Find(prod.ProductId, pta.ProductTypeAttributeId);
 
                                     if (productattribute != null)
                                     {
@@ -839,6 +840,8 @@ namespace Web
                                     if (pta.ProductTypeAttributeId == (int)ProductTypeAttributeTypess.Gachhai || pta.ProductTypeAttributeId == (int)ProductTypeAttributeTypess.Binding
                                         || pta.ProductTypeAttributeId == (int)ProductTypeAttributeTypess.PattiMuraiDurry)
                                     {
+                                        int StandardSizeId = new ProductSizeService(_unitOfWork).GetProductSizeIndexForProduct(prod.ProductId).StandardSizeId;
+                                        int ManufacturingSizeId = new ProductSizeService(_unitOfWork).GetProductSizeIndexForProduct(prod.ProductId).ManufacturingSizeId;
                                         int FinishingSizeId = new ProductSizeService(_unitOfWork).GetProductSizeIndexForProduct(prod.ProductId).FinishingSizeId;
                                         Size FinishingSizeForPerimeter = new SizeService(_unitOfWork).Find(FinishingSizeId);
                                         decimal Length = Math.Floor((FinishingSizeForPerimeter.Length + (FinishingSizeForPerimeter.LengthFraction / 12)) * 2);
@@ -855,28 +858,44 @@ namespace Web
                                         UnitConv.FromUnitId = UnitConstants.Pieces;
                                         UnitConv.ToUnitId = UnitConstants.Feet;
 
-                                        if (ProductShapeId == (int)ProductShapeConstants.Circle)
+
+                                        //To Enable User to create custom logic to get Unit Conversion these section is commented and it is generating from Sql Procedure
+
+                                        //if (ProductShapeId == (int)ProductShapeConstants.Circle)
+                                        //{
+                                        //    UnitConv.ToQty = Math.Floor((FinishingSizeForPerimeter.Length + (FinishingSizeForPerimeter.LengthFraction / 12)) * (decimal)3.14);
+                                        //}
+                                        //else if (ProductShapeId == null || ProductShapeId == (int)ProductShapeConstants.Rectangle || vm.ProductShapeId == (int)ProductShapeConstants.Square)
+                                        //{
+                                        //    if (pta.DefaultValue == ProductTypeAttributeValuess.Length)
+                                        //    {
+                                        //        UnitConv.ToQty = Width;
+                                        //    }
+                                        //    if (pta.DefaultValue == ProductTypeAttributeValuess.Width)
+                                        //    {
+                                        //        UnitConv.ToQty = Length;
+                                        //    }
+                                        //    if (pta.DefaultValue == ProductTypeAttributeValuess.LengthAndWidth)
+                                        //    {
+                                        //        UnitConv.ToQty = LenghtAndWidth;
+                                        //    }
+                                        //}
+                                        //else
+                                        //{
+                                        //    UnitConv.ToQty = LenghtAndWidth;
+                                        //}
+
+                                        if (vm.CarpetSkuSettings.PerimeterSizeTypeId == (int)ProductSizeTypeConstants.StandardSize)
                                         {
-                                            UnitConv.ToQty = Math.Floor((FinishingSizeForPerimeter.Length + (FinishingSizeForPerimeter.LengthFraction / 12)) * (decimal)3.14);
+                                            UnitConv.ToQty = GetUnitConversionQty(StandardSizeId, UnitConstants.Feet, pta.DefaultValue);
                                         }
-                                        else if (ProductShapeId == null || ProductShapeId == (int)ProductShapeConstants.Rectangle || vm.ProductShapeId == (int)ProductShapeConstants.Square)
+                                        else if (vm.CarpetSkuSettings.PerimeterSizeTypeId == (int)ProductSizeTypeConstants.ManufacturingSize)
                                         {
-                                            if (pta.DefaultValue == ProductTypeAttributeValuess.Length)
-                                            {
-                                                UnitConv.ToQty = Width;
-                                            }
-                                            if (pta.DefaultValue == ProductTypeAttributeValuess.Width)
-                                            {
-                                                UnitConv.ToQty = Length;
-                                            }
-                                            if (pta.DefaultValue == ProductTypeAttributeValuess.LengthAndWidth)
-                                            {
-                                                UnitConv.ToQty = LenghtAndWidth;
-                                            }
+                                            UnitConv.ToQty = GetUnitConversionQty(ManufacturingSizeId, UnitConstants.Feet, pta.DefaultValue);
                                         }
                                         else
                                         {
-                                            UnitConv.ToQty = LenghtAndWidth;
+                                            UnitConv.ToQty = GetUnitConversionQty(FinishingSizeId, UnitConstants.Feet, pta.DefaultValue);
                                         }
 
 
@@ -1809,11 +1828,21 @@ namespace Web
 
                             if (StandardUnitConversion_Settings.ToQty == 0 || StandardUnitConversion_Settings.ToQty == null)
                             {
-                                Size Size = new SizeService(_unitOfWork).Find(vm.StandardSizeId);
-                                string message = "Unable to get unit conversion to " + Unit.UnitName + " for size " + Size.SizeName;
-                                ModelState.AddModelError("", message);
-                                PrepareViewBag(vm);
-                                return PartialView("EditSize", vm);
+                                string ProductCategory = "";
+                                if (vm.ProductCategoryId != null)
+                                {
+                                    ProductCategory productCategory = new ProductCategoryService(_unitOfWork).Find((int)vm.ProductCategoryId);
+                                    ProductCategory = productCategory.ProductCategoryName;
+                                }
+
+                                if (ProductCategory == "NEPALI")
+                                {
+                                    Size Size = new SizeService(_unitOfWork).Find(vm.StandardSizeId);
+                                    string message = "Unable to get unit conversion to " + Unit.UnitName + " for size " + Size.SizeName;
+                                    ModelState.AddModelError("", message);
+                                    PrepareViewBag(vm);
+                                    return PartialView("EditSize", vm);
+                                }
                             }
 
                             if (StandardMode_Settings == "Create")
@@ -1833,11 +1862,21 @@ namespace Web
 
                             if (ManufacturingUnitConversion_Settings.ToQty == 0 || ManufacturingUnitConversion_Settings.ToQty == null)
                             {
-                                Size Size = new SizeService(_unitOfWork).Find(vm.ManufacturingSizeId);
-                                string message = "Unable to get unit conversion to " + Unit.UnitName + " for size " + Size.SizeName;
-                                ModelState.AddModelError("", message);
-                                PrepareViewBag(vm);
-                                return PartialView("EditSize", vm);
+                                string ProductCategory = "";
+                                if (vm.ProductCategoryId != null)
+                                {
+                                    ProductCategory productCategory = new ProductCategoryService(_unitOfWork).Find((int)vm.ProductCategoryId);
+                                    ProductCategory = productCategory.ProductCategoryName;
+                                }
+
+                                if (ProductCategory == "NEPALI")
+                                {
+                                    Size Size = new SizeService(_unitOfWork).Find(vm.ManufacturingSizeId);
+                                    string message = "Unable to get unit conversion to " + Unit.UnitName + " for size " + Size.SizeName;
+                                    ModelState.AddModelError("", message);
+                                    PrepareViewBag(vm);
+                                    return PartialView("EditSize", vm);
+                                }
                             }
 
 
@@ -1860,11 +1899,21 @@ namespace Web
 
                             if (FinishingUnitConversion_Settings.ToQty == 0 || FinishingUnitConversion_Settings.ToQty == null)
                             {
-                                Size Size = new SizeService(_unitOfWork).Find(vm.FinishingSizeId);
-                                string message = "Unable to get unit conversion to " + Unit.UnitName + " for size " + Size.SizeName;
-                                ModelState.AddModelError("", message);
-                                PrepareViewBag(vm);
-                                return PartialView("EditSize", vm);
+                                string ProductCategory = "";
+                                if (vm.ProductCategoryId != null)
+                                {
+                                    ProductCategory productCategory = new ProductCategoryService(_unitOfWork).Find((int)vm.ProductCategoryId);
+                                    ProductCategory = productCategory.ProductCategoryName;
+                                }
+
+                                if (ProductCategory == "NEPALI")
+                                {
+                                    Size Size = new SizeService(_unitOfWork).Find(vm.FinishingSizeId);
+                                    string message = "Unable to get unit conversion to " + Unit.UnitName + " for size " + Size.SizeName;
+                                    ModelState.AddModelError("", message);
+                                    PrepareViewBag(vm);
+                                    return PartialView("EditSize", vm);
+                                }
 
                             }
 
@@ -1954,30 +2003,43 @@ namespace Web
                                     UnitConv.UnitConversionForId = (int)UnitConversionFors.PattiMuraiDurry;
                                 }
 
-                                if (vm.ProductShapeId == (int)ProductShapeConstants.Circle)
+                                //if (vm.ProductShapeId == (int)ProductShapeConstants.Circle)
+                                //{
+                                //    UnitConv.ToQty = Math.Floor((FinishingSizeForPerimeter.Length + (FinishingSizeForPerimeter.LengthFraction / 12)) * (decimal)3.14);
+                                //}
+                                //else if (vm.ProductShapeId == (int)ProductShapeConstants.Rectangle || vm.ProductShapeId == (int)ProductShapeConstants.Square)
+                                //{
+                                //    if (item.DefaultValue == ProductTypeAttributeValuess.Length)
+                                //    {
+                                //        UnitConv.ToQty = Width;
+                                //    }
+                                //    if (item.DefaultValue == ProductTypeAttributeValuess.Width)
+                                //    {
+                                //        UnitConv.ToQty = Length;
+                                //    }
+                                //    if (item.DefaultValue == ProductTypeAttributeValuess.LengthAndWidth)
+                                //    {
+                                //        UnitConv.ToQty = LenghtAndWidth;
+                                //    }
+                                //}
+                                //else
+                                //{
+                                //    UnitConv.ToQty = LenghtAndWidth;
+                                //}
+
+                                //UnitConv.ToQty = GetUnitConversionQty(vm.FinishingSizeId, UnitConstants.Feet, item.DefaultValue);
+                                if (vm.CarpetSkuSettings.PerimeterSizeTypeId == (int)ProductSizeTypeConstants.StandardSize)
                                 {
-                                    UnitConv.ToQty = Math.Floor((FinishingSizeForPerimeter.Length + (FinishingSizeForPerimeter.LengthFraction / 12)) * (decimal)3.14);
+                                    UnitConv.ToQty = GetUnitConversionQty(vm.StandardSizeId, UnitConstants.Feet, item.DefaultValue);
                                 }
-                                else if (vm.ProductShapeId == (int)ProductShapeConstants.Rectangle || vm.ProductShapeId == (int)ProductShapeConstants.Square)
+                                else if (vm.CarpetSkuSettings.PerimeterSizeTypeId == (int)ProductSizeTypeConstants.ManufacturingSize)
                                 {
-                                    if (item.DefaultValue == ProductTypeAttributeValuess.Length)
-                                    {
-                                        UnitConv.ToQty = Width;
-                                    }
-                                    if (item.DefaultValue == ProductTypeAttributeValuess.Width)
-                                    {
-                                        UnitConv.ToQty = Length;
-                                    }
-                                    if (item.DefaultValue == ProductTypeAttributeValuess.LengthAndWidth)
-                                    {
-                                        UnitConv.ToQty = LenghtAndWidth;
-                                    }
+                                    UnitConv.ToQty = GetUnitConversionQty(vm.ManufacturingSizeId, UnitConstants.Feet, item.DefaultValue);
                                 }
                                 else
                                 {
-                                    UnitConv.ToQty = LenghtAndWidth;
+                                    UnitConv.ToQty = GetUnitConversionQty(vm.FinishingSizeId, UnitConstants.Feet, item.DefaultValue);
                                 }
-
                                 new UnitConversionService(_unitOfWork).Create(UnitConv);
                             }
                         }
@@ -2414,8 +2476,18 @@ namespace Web
 
                             if (StandardUnitConversion_Settings.ToQty == 0 || StandardUnitConversion_Settings.ToQty == null)
                             {
-                                Size Size = new SizeService(_unitOfWork).Find(vm.StandardSizeId);
-                                ModelState.AddModelError("StandardSizeId", "Unable to get unit conversion to " + Unit.UnitName + " for size " + Size.SizeName);
+                                string ProductCategory = "";
+                                if (vm.ProductCategoryId != null)
+                                {
+                                    ProductCategory productCategory = new ProductCategoryService(_unitOfWork).Find((int)vm.ProductCategoryId);
+                                    ProductCategory = productCategory.ProductCategoryName;
+                                }
+
+                                if (ProductCategory == "NEPALI")
+                                {
+                                    Size Size = new SizeService(_unitOfWork).Find(vm.StandardSizeId);
+                                    ModelState.AddModelError("StandardSizeId", "Unable to get unit conversion to " + Unit.UnitName + " for size " + Size.SizeName);
+                                }
                             }
 
                             if (StandardMode_Settings == "Create")
@@ -2435,8 +2507,18 @@ namespace Web
 
                             if (ManufacturingUnitConversion_Settings.ToQty == 0 || ManufacturingUnitConversion_Settings.ToQty == null)
                             {
-                                Size Size = new SizeService(_unitOfWork).Find(vm.ManufacturingSizeId);
-                                ModelState.AddModelError("ManufacturingSizeId", "Unable to get unit conversion to " + Unit.UnitName + " for size " + Size.SizeName);
+                                string ProductCategory = "";
+                                if (vm.ProductCategoryId != null)
+                                {
+                                    ProductCategory productCategory = new ProductCategoryService(_unitOfWork).Find((int)vm.ProductCategoryId);
+                                    ProductCategory = productCategory.ProductCategoryName;
+                                }
+
+                                if (ProductCategory == "NEPALI")
+                                {
+                                    Size Size = new SizeService(_unitOfWork).Find(vm.ManufacturingSizeId);
+                                    ModelState.AddModelError("ManufacturingSizeId", "Unable to get unit conversion to " + Unit.UnitName + " for size " + Size.SizeName);
+                                }
                             }
 
 
@@ -2457,8 +2539,18 @@ namespace Web
 
                             if (FinishingUnitConversion_Settings.ToQty == 0 || FinishingUnitConversion_Settings.ToQty == null)
                             {
-                                Size Size = new SizeService(_unitOfWork).Find(vm.FinishingSizeId);
-                                ModelState.AddModelError("FinishingSizeId", "Unable to get unit conversion to " + Unit.UnitName + " for size " + Size.SizeName);
+                                string ProductCategory = "";
+                                if (vm.ProductCategoryId != null)
+                                {
+                                    ProductCategory productCategory = new ProductCategoryService(_unitOfWork).Find((int)vm.ProductCategoryId);
+                                    ProductCategory = productCategory.ProductCategoryName;
+                                }
+
+                                if (ProductCategory == "NEPALI")
+                                {
+                                    Size Size = new SizeService(_unitOfWork).Find(vm.FinishingSizeId);
+                                    ModelState.AddModelError("FinishingSizeId", "Unable to get unit conversion to " + Unit.UnitName + " for size " + Size.SizeName);
+                                }
                             }
 
 
@@ -2907,11 +2999,12 @@ namespace Web
 
                     _ProductService.Delete(item.ProductId);
 
-                    Dimension2  Dim2 = new Dimension2Service(_unitOfWork).Find(group.ToString());
-                  
-                    new Dimension2Service(_unitOfWork).Delete(Dim2);
+
 
                 }
+                Dimension2 Dim2 = new Dimension2Service(_unitOfWork).Find(group.ProductGroupName);
+                new Dimension2Service(_unitOfWork).Delete(Dim2);
+
                 _ProductGroupService.Delete(vm.id);
 
 
@@ -3040,13 +3133,7 @@ namespace Web
                 }
                 else 
                 {
-                    SqlParameter SqlParameterSizeId = new SqlParameter("@SizeId", SizeId);
-                    SqlParameter SqlParameterToUnitId = new SqlParameter("@ToUnitId", ToUnit);
-                    SizeArea SizeArea = db.Database.SqlQuery<SizeArea>("" + ConfigurationManager.AppSettings["DataBaseSchema"] + ".sp_GetUnitConversionForSize @SizeId, @ToUnitId", SqlParameterSizeId, SqlParameterToUnitId).FirstOrDefault();
-                    if (SizeArea != null)
-                    {
-                        SizeExist.ToQty = SizeArea.Area ?? 0;
-                    }
+                    SizeExist.ToQty = GetUnitConversionQty(SizeId, ToUnit);
                 }
 
                 UnitConvr = SizeExist;
@@ -3084,13 +3171,7 @@ namespace Web
                 }
                 else
                 {
-                    SqlParameter SqlParameterSizeId = new SqlParameter("@SizeId", SizeId);
-                    SqlParameter SqlParameterToUnitId = new SqlParameter("@ToUnitId", ToUnit);
-                    SizeArea SizeArea = db.Database.SqlQuery<SizeArea>("" + ConfigurationManager.AppSettings["DataBaseSchema"] + ".sp_GetUnitConversionForSize @SizeId, @ToUnitId", SqlParameterSizeId, SqlParameterToUnitId).FirstOrDefault();
-                    if (SizeArea != null)
-                    {
-                        UnitConv.ToQty = SizeArea.Area ?? 0;
-                    }
+                    UnitConv.ToQty = GetUnitConversionQty(SizeId, ToUnit);
                 }
 
                 Mode = "Create";
@@ -3586,6 +3667,37 @@ namespace Web
             return Json(CustomProductName);
         }
 
+        public Decimal GetUnitConversionQty(int SizeId, string ToUnit, string Attribute = null)
+        {
+            SqlParameter SqlParameterSizeId = new SqlParameter("@SizeId", SizeId);
+            SqlParameter SqlParameterToUnitId = new SqlParameter("@ToUnitId", ToUnit);
+            SqlParameter SqlParameterAttribute = new SqlParameter("@Attribute", Attribute);
+            if (Attribute != null)
+            {
+                UnitConversionQty UnitConversionQty = db.Database.SqlQuery<UnitConversionQty>("" + ConfigurationManager.AppSettings["DataBaseSchema"] + ".sp_GetUnitConversionForSize @SizeId, @ToUnitId, @Attribute", SqlParameterSizeId, SqlParameterToUnitId, SqlParameterAttribute).FirstOrDefault();
+                if (UnitConversionQty != null)
+                {
+                    return UnitConversionQty.ToQty ?? 0;
+                }
+                else
+                {
+                    return 0;
+                }
+            }
+            else
+            {
+                UnitConversionQty UnitConversionQty = db.Database.SqlQuery<UnitConversionQty>("" + ConfigurationManager.AppSettings["DataBaseSchema"] + ".sp_GetUnitConversionForSize @SizeId, @ToUnitId", SqlParameterSizeId, SqlParameterToUnitId).FirstOrDefault();
+                if (UnitConversionQty != null)
+                {
+                    return UnitConversionQty.ToQty ?? 0;
+                }
+                else
+                {
+                    return 0;
+                }
+            }
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)
@@ -3601,8 +3713,8 @@ namespace Web
         public string ProductName { get; set; }
     }
 
-    public class SizeArea
+    public class UnitConversionQty
     {
-        public Decimal? Area { get; set; }
+        public Decimal? ToQty { get; set; }
     }
 }

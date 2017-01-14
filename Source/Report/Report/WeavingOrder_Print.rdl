@@ -1217,7 +1217,6 @@
                         <PaddingBottom>2pt</PaddingBottom>
                       </Style>
                     </Textbox>
-                    <rd:Selected>true</rd:Selected>
                   </CellContents>
                 </TablixCell>
                 <TablixCell>
@@ -3159,10 +3158,7 @@
         </TablixColumnHierarchy>
         <TablixRowHierarchy>
           <TablixMembers>
-            <TablixMember>
-              <KeepWithGroup>After</KeepWithGroup>
-              <RepeatOnNewPage>true</RepeatOnNewPage>
-            </TablixMember>
+            <TablixMember />
             <TablixMember>
               <Group Name="JobOrderHeaderId">
                 <GroupExpressions>
@@ -3242,7 +3238,7 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>=First(Fields!ReportTitle.Value, "DsMain")</Value>
+                <Value>=First(Fields!ReportTitle.Value, "DsMain")+" ("+ "Office Copy" + ")"</Value>
                 <Style>
                   <FontFamily>Tahoma</FontFamily>
                   <FontSize>14pt</FontSize>
@@ -3285,12 +3281,9 @@
         <ReportName>CompanyDetail</ReportName>
         <Top>0.025in</Top>
         <Left>0.025in</Left>
-        <Height>0.15278in</Height>
+        <Height>0.31945in</Height>
         <Width>7.35645in</Width>
         <ZIndex>3</ZIndex>
-        <Visibility>
-          <Hidden>=IIF(Fields!Status.Value="0",True,False)</Hidden>
-        </Visibility>
         <Style>
           <Border>
             <Style>None</Style>
@@ -6419,10 +6412,7 @@
         </TablixColumnHierarchy>
         <TablixRowHierarchy>
           <TablixMembers>
-            <TablixMember>
-              <KeepWithGroup>After</KeepWithGroup>
-              <RepeatOnNewPage>true</RepeatOnNewPage>
-            </TablixMember>
+            <TablixMember />
             <TablixMember>
               <Group Name="JobOrderHeaderId2">
                 <GroupExpressions>
@@ -6502,7 +6492,7 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>=First(Fields!ReportTitle.Value, "DsMain")</Value>
+                <Value>=First(Fields!ReportTitle.Value, "DsMain")+" ("+ "Job Worker Copy" + ")"</Value>
                 <Style>
                   <FontFamily>Tahoma</FontFamily>
                   <FontSize>14pt</FontSize>
@@ -6543,14 +6533,11 @@
       </Textbox>
       <Subreport Name="CompanyDetail2">
         <ReportName>CompanyDetail</ReportName>
-        <Top>7.2698in</Top>
+        <Top>7.2823in</Top>
         <Left>0.04062in</Left>
-        <Height>0.14237in</Height>
+        <Height>0.31945in</Height>
         <Width>7.28573in</Width>
         <ZIndex>7</ZIndex>
-        <Visibility>
-          <Hidden>=IIF(Fields!Status.Value="0",True,False)</Hidden>
-        </Visibility>
         <Style>
           <Border>
             <Style>None</Style>
@@ -6561,7 +6548,7 @@
         <TablixBody>
           <TablixColumns>
             <TablixColumn>
-              <Width>7.33068in</Width>
+              <Width>7.05984in</Width>
             </TablixColumn>
           </TablixColumns>
           <TablixRows>
@@ -6595,9 +6582,9 @@
           </TablixMembers>
         </TablixRowHierarchy>
         <Top>14.39216in</Top>
-        <Left>0.03828in</Left>
+        <Left>0.07578in</Left>
         <Height>0.32292in</Height>
-        <Width>7.33068in</Width>
+        <Width>7.05984in</Width>
         <ZIndex>8</ZIndex>
         <Style>
           <Border>
@@ -8591,38 +8578,6 @@
           </Border>
         </Style>
       </Tablix>
-      <Subreport Name="ProvisionalCompanyDetail">
-        <ReportName>ProvisionalCompanyDetail</ReportName>
-        <Top>7.44816in</Top>
-        <Left>0.0407in</Left>
-        <Height>0.16458in</Height>
-        <Width>7.28565in</Width>
-        <ZIndex>11</ZIndex>
-        <Visibility>
-          <Hidden>=IIF(Fields!Status.Value="1",True,False)</Hidden>
-        </Visibility>
-        <Style>
-          <Border>
-            <Style>None</Style>
-          </Border>
-        </Style>
-      </Subreport>
-      <Subreport Name="ProvisionalCompanyDetail2">
-        <ReportName>ProvisionalCompanyDetail</ReportName>
-        <Top>0.20427in</Top>
-        <Left>0.04212in</Left>
-        <Height>0.1125in</Height>
-        <Width>7.32684in</Width>
-        <ZIndex>12</ZIndex>
-        <Visibility>
-          <Hidden>=Microsoft.VisualBasic.Interaction.IIF(Fields!Status.Value = "1", True, False)</Hidden>
-        </Visibility>
-        <Style>
-          <Border>
-            <Style>None</Style>
-          </Border>
-        </Style>
-      </Subreport>
     </ReportItems>
     <Height>14.74841in</Height>
     <Style />
@@ -8816,10 +8771,6 @@
       <Fields>
         <Field Name="SiteId">
           <DataField>SiteId</DataField>
-          <rd:TypeName>System.Int32</rd:TypeName>
-        </Field>
-        <Field Name="Requisition">
-          <DataField>Requisition</DataField>
           <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
         <Field Name="JobOrderHeaderId">
@@ -9038,10 +8989,6 @@
           <DataField>ApproveDate</DataField>
           <rd:TypeName>System.DateTime</rd:TypeName>
         </Field>
-        <Field Name="Status">
-          <DataField>Status</DataField>
-          <rd:TypeName>System.Int32</rd:TypeName>
-        </Field>
       </Fields>
       <rd:DataSetInfo>
         <rd:DataSetName>Purchase</rd:DataSetName>
@@ -9127,3 +9074,4 @@ PtQeVUENmewh02zjEWZuZuLElNvBS6gDSXQMHP8A5UE5f6lWFPkR2q6ZG8HZI8xgvruK93SMJUsHJ61z
   <rd:ReportUnitType>Inch</rd:ReportUnitType>
   <rd:ReportID>f1b70379-da78-4ea9-bab5-cbb93d10df58</rd:ReportID>
 </Report>
+

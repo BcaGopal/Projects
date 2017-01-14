@@ -591,7 +591,7 @@
         <DataSetName>DsMain</DataSetName>
         <Top>0.65973in</Top>
         <Left>0.05493in</Left>
-        <Height>1.01875in</Height>
+        <Height>1.01873in</Height>
         <Width>4.30256in</Width>
         <Style>
           <Border>
@@ -2689,7 +2689,7 @@
         <DataSetName>DsMain</DataSetName>
         <Top>4.11402in</Top>
         <Left>0.05493in</Left>
-        <Height>0.48127in</Height>
+        <Height>0.48126in</Height>
         <Width>7.4032in</Width>
         <ZIndex>2</ZIndex>
         <Style>
@@ -3179,7 +3179,7 @@
         <DataSetName>DsMain</DataSetName>
         <Top>0.66598in</Top>
         <Left>4.41942in</Left>
-        <Height>0.84375in</Height>
+        <Height>0.84377in</Height>
         <Width>3.02972in</Width>
         <ZIndex>3</ZIndex>
         <Style>
@@ -3190,6 +3190,14 @@
       </Tablix>
       <Subreport Name="CompanyDetail">
         <ReportName>CompanyDetail</ReportName>
+        <Parameters>
+          <Parameter Name="SiteId">
+            <Value>=First(Fields!SiteId.Value, "DsMain")</Value>
+          </Parameter>
+          <Parameter Name="DivisionId">
+            <Value>=First(Fields!DivisionId.Value, "DsMain")</Value>
+          </Parameter>
+        </Parameters>
         <Top>0.03511in</Top>
         <Left>0.04865in</Left>
         <Height>0.12982in</Height>
@@ -3252,6 +3260,17 @@
       </Textbox>
       <Subreport Name="Subreport1">
         <ReportName>DyeingOrderShadePrint</ReportName>
+        <Parameters>
+          <Parameter Name="Id">
+            <Value>=First(Fields!JobOrderHeaderId.Value, "DsMain")</Value>
+          </Parameter>
+          <Parameter Name="DatabaseConnectionString">
+            <Value>=Parameters!DatabaseConnectionString.Value</Value>
+          </Parameter>
+          <Parameter Name="PrintedBy">
+            <Value>=Parameters!PrintedBy.Value</Value>
+          </Parameter>
+        </Parameters>
         <Top>2.65222in</Top>
         <Left>0.03013in</Left>
         <Height>0.39388in</Height>
@@ -3577,6 +3596,20 @@
       </Tablix>
       <Subreport Name="TransactionChargesPrint">
         <ReportName>TransactionChargesPrint</ReportName>
+        <Parameters>
+          <Parameter Name="Id">
+            <Value>=First(Fields!JobOrderHeaderId.Value, "DsMain")</Value>
+          </Parameter>
+          <Parameter Name="TableName">
+            <Value>="web.jobOrderheadercharges"</Value>
+          </Parameter>
+          <Parameter Name="DatabaseConnectionString">
+            <Value>=Parameters!DatabaseConnectionString.Value</Value>
+          </Parameter>
+          <Parameter Name="PrintedBy">
+            <Value>=Parameters!PrintedBy.Value</Value>
+          </Parameter>
+        </Parameters>
         <Top>3.76875in</Top>
         <Left>2.50947in</Left>
         <Height>0.30863in</Height>
@@ -4079,6 +4112,14 @@
       </Tablix>
       <Subreport Name="ProvisionalCompanyDetail">
         <ReportName>ProvisionalCompanyDetail</ReportName>
+        <Parameters>
+          <Parameter Name="SiteId">
+            <Value>=First(Fields!SiteId.Value, "DsMain")</Value>
+          </Parameter>
+          <Parameter Name="DivisionId">
+            <Value>=First(Fields!DivisionId.Value, "DsMain")</Value>
+          </Parameter>
+        </Parameters>
         <Top>0.20938in</Top>
         <Left>0.05648in</Left>
         <Height>0.10208in</Height>
@@ -4415,7 +4456,10 @@
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
     <DataSource Name="Purchase">
-      <DataSourceReference>DataSourceMain</DataSourceReference>
+      <ConnectionProperties>
+        <DataProvider>SQL</DataProvider>
+        <ConnectString>=Parameters!DatabaseConnectionString.Value</ConnectString>
+      </ConnectionProperties>
       <rd:SecurityType>None</rd:SecurityType>
       <rd:DataSourceID>727bb65e-cc51-4d28-a097-a8ea7d087931</rd:DataSourceID>
     </DataSource>
@@ -4652,6 +4696,18 @@
       <Nullable>true</Nullable>
       <Prompt>Id</Prompt>
     </ReportParameter>
+    <ReportParameter Name="DatabaseConnectionString">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>DatabaseConnectionString</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="PrintedBy">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>PrintedBy</Prompt>
+    </ReportParameter>
   </ReportParameters>
   <Code>
     Function RupeesToWord(ByVal MyNumber)
@@ -4884,3 +4940,4 @@ PtQeVUENmewh02zjEWZuZuLElNvBS6gDSXQMHP8A5UE5f6lWFPkR2q6ZG8HZI8xgvruK93SMJUsHJ61z
   <rd:ReportUnitType>Inch</rd:ReportUnitType>
   <rd:ReportID>f1b70379-da78-4ea9-bab5-cbb93d10df58</rd:ReportID>
 </Report>
+

@@ -3,7 +3,10 @@
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
     <DataSource Name="Weaving">
-      <DataSourceReference>DataSourceMain</DataSourceReference>
+      <ConnectionProperties>
+        <DataProvider>SQL</DataProvider>
+        <ConnectString>=Parameters!DatabaseConnectionString.Value</ConnectString>
+      </ConnectionProperties>
       <rd:SecurityType>None</rd:SecurityType>
       <rd:DataSourceID>a4701ec2-a2bf-4f00-a373-e0ef6d3046c3</rd:DataSourceID>
     </DataSource>
@@ -49,11 +52,11 @@
           <QueryParameter Name="@Product">
             <Value>=Parameters!Product.Value</Value>
           </QueryParameter>
-          <QueryParameter Name="@CostCenterId">
-            <Value>=Parameters!CostCenterId.Value</Value>
-          </QueryParameter>
           <QueryParameter Name="@PersonCustomGroup">
             <Value>=Parameters!PersonCustomGroup.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@ProductDivisionId">
+            <Value>=Parameters!ProductDivisionId.Value</Value>
           </QueryParameter>
           <QueryParameter Name="@JobOrderHeaderId">
             <Value>=Parameters!JobOrderHeaderId.Value</Value>
@@ -63,9 +66,9 @@
         <CommandText>Web.spRep_WeavingOrderMaterialStatus</CommandText>
       </Query>
       <Fields>
-        <Field Name="JobOrderHeaderId">
-          <DataField>JobOrderHeaderId</DataField>
-          <rd:TypeName>System.Int32</rd:TypeName>
+        <Field Name="PurjaNo">
+          <DataField>PurjaNo</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="OrderNo">
           <DataField>OrderNo</DataField>
@@ -81,7 +84,7 @@
         </Field>
         <Field Name="OrderArea">
           <DataField>OrderArea</DataField>
-          <rd:TypeName>System.Double</rd:TypeName>
+          <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
         <Field Name="Design">
           <DataField>Design</DataField>
@@ -2808,8 +2811,22 @@
               </Border>
             </Style>
           </Tablix>
-          <Subreport Name="Subreport2">
+          <Subreport Name="CompanyDetail">
             <ReportName>CompanyDetail</ReportName>
+            <Parameters>
+              <Parameter Name="SiteId">
+                <Value>=First(Fields!SiteId.Value, "DsMain")</Value>
+              </Parameter>
+              <Parameter Name="DivisionId">
+                <Value>=First(Fields!DivisionId.Value, "DsMain")</Value>
+              </Parameter>
+              <Parameter Name="DatabaseConnectionString">
+                <Value>=Parameters!DatabaseConnectionString.Value</Value>
+              </Parameter>
+              <Parameter Name="PrintedBy">
+                <Value>=Parameters!PrintedBy.Value</Value>
+              </Parameter>
+            </Parameters>
             <Top>0.04306in</Top>
             <Left>0.03394in</Left>
             <Height>0.30208in</Height>
@@ -3080,7 +3097,8 @@
         <PageWidth>8.27in</PageWidth>
         <LeftMargin>0.17in</LeftMargin>
         <RightMargin>0.02in</RightMargin>
-        <BottomMargin>0.02in</BottomMargin>
+        <TopMargin>0.1in</TopMargin>
+        <BottomMargin>0.1in</BottomMargin>
         <Style />
       </Page>
     </ReportSection>
@@ -3290,12 +3308,6 @@
       <AllowBlank>true</AllowBlank>
       <Prompt>Product</Prompt>
     </ReportParameter>
-    <ReportParameter Name="CostCenterId">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>Cost Center Id</Prompt>
-    </ReportParameter>
     <ReportParameter Name="PersonCustomGroup">
       <DataType>String</DataType>
       <Nullable>true</Nullable>
@@ -3313,6 +3325,18 @@
       <Nullable>true</Nullable>
       <AllowBlank>true</AllowBlank>
       <Prompt>PrintedBy</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="ProductDivisionId">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Product Division Id</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="DatabaseConnectionString">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>DatabaseConnectionString</Prompt>
     </ReportParameter>
   </ReportParameters>
   <EmbeddedImages>

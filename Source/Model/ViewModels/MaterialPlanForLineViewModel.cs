@@ -29,8 +29,12 @@ namespace Model.ViewModel
         public string Remark { get; set; }
         public int ? Dimension1Id { get; set; }
         public int ? Dimension2Id { get; set; }
+        public int? Dimension3Id { get; set; }
+        public int? Dimension4Id { get; set; }
         public string Dimension1Name { get; set; }
         public string Dimension2Name { get; set; }
+        public string Dimension3Name { get; set; }
+        public string Dimension4Name { get; set; }
         public int ? ProcessId { get; set; }
         public string ProcessName { get; set; }
         public string UnitId { get; set; }
@@ -55,13 +59,20 @@ namespace Model.ViewModel
 
         [Display(Name = "Dimension1")]
         public string Dimension1Id { get; set; }
-
-
+        
         [Display(Name = "Dimension2")]
         public string Dimension2Id { get; set; }
 
+        [Display(Name = "Dimension3")]
+        public string Dimension3Id { get; set; }
+        
+        [Display(Name = "Dimension4")]
+        public string Dimension4Id { get; set; }
+
+
         [Display(Name = "Product Group")]
         public string ProductGroupId { get; set; }
+        public string BuyerId { get; set; }
         public MaterialPlanSettingsViewModel MaterialPlanSettings { get; set; }
         public DocumentTypeSettingsViewModel DocumentTypeSettings { get; set; }
     }
@@ -91,6 +102,8 @@ namespace Model.ViewModel
         public int ProdOrderLineId { get; set; }
         public int? Dimension1Id { get; set; }
         public int? Dimension2Id { get; set; }
+        public int? Dimension3Id { get; set; }
+        public int? Dimension4Id { get; set; }
         public int? ProcessId { get; set; }
         public decimal Qty { get; set; }
     }

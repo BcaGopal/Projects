@@ -105,6 +105,7 @@ namespace Data.Customize
         public DbSet<_ReportHeader> _ReportHeader { get; set; }
         public DbSet<_ReportLine> _ReportLine { get; set; }
         public DbSet<ProdOrderHeader> ProdOrderHeader { get; set; }
+        public DbSet<ProdOrderHeaderStatus> ProdOrderHeaderStatus { get; set; }
         public DbSet<ProdOrderLine> ProdOrderLine { get; set; }
         public DbSet<ProdOrderLineStatus> ProdOrderLineStatus { get; set; }
         public DbSet<Site> Site { get; set; }

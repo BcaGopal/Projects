@@ -236,6 +236,14 @@
     <Compile Include="Controllers\AdminSetupController.cs" />
     <Compile Include="Controllers\ComboHelpListController.cs" />
     <Compile Include="Controllers\GatePassCheckController.cs" />
+    <Compile Include="Controllers\Dimension4Controller.cs" />
+    <Compile Include="Controllers\Dimension3Controller.cs" />
+    <Compile Include="Controllers\PersonBankAccountController.cs" />
+    <Compile Include="Controllers\PersonContactController.cs" />
+    <Compile Include="Controllers\PersonController.cs" />
+    <Compile Include="Controllers\PersonProcessController.cs" />
+    <Compile Include="Controllers\QAGroupLineController.cs" />
+    <Compile Include="Controllers\QAGroupController.cs" />
     <Compile Include="Controllers\GatePassHeaderController.cs" />
     <Compile Include="Controllers\GatePassLineController.cs" />
     <Compile Include="Controllers\ProductGroupProcessSettingsController.cs" />
@@ -265,6 +273,7 @@
     <Compile Include="Controllers\RateConversionHeaderController.cs" />
     <Compile Include="Controllers\RateConversionLineController.cs" />
     <Compile Include="Controllers\ExcessMaterialHeaderController.cs" />
+    <Compile Include="Controllers\PersonSettingsController.cs" />
     <Compile Include="Controllers\StockHeaderController.cs" />
     <Compile Include="Controllers\ExcessMaterialLineController.cs" />
     <Compile Include="Controllers\ExcessMaterialSettingsController.cs" />
@@ -893,6 +902,32 @@
     <Content Include="Views\GatePassCheck\Create.cshtml" />
     <Content Include="Views\GatePassCheck\Detail.cshtml" />
     <Content Include="Views\GatePassCheck\Index.cshtml" />
+    <Content Include="Views\QAGroup\_LineProgress.cshtml" />
+    <Content Include="Views\QAGroup\_Reason.cshtml" />
+    <Content Include="Views\QAGroup\Create.cshtml" />
+    <Content Include="Views\QAGroup\Detail.cshtml" />
+    <Content Include="Views\QAGroup\DocumentTypeList.cshtml" />
+    <Content Include="Views\QAGroup\Index.cshtml" />
+    <Content Include="Views\QAGroupLine\_Create.cshtml" />
+    <Content Include="Views\QAGroupLine\_Index.cshtml" />
+    <Content Include="Views\QAGroupLine\_Results.cshtml" />
+    <Content Include="Views\Dimension3\_Reason.cshtml" />
+    <Content Include="Views\Dimension3\Create.cshtml" />
+    <Content Include="Views\Dimension3\Index.cshtml" />
+    <Content Include="Views\Dimension3\ProductTypeIndex.cshtml" />
+    <Content Include="Views\Dimension4\_Reason.cshtml" />
+    <Content Include="Views\Dimension4\Create.cshtml" />
+    <Content Include="Views\Dimension4\Index.cshtml" />
+    <Content Include="Views\Dimension4\ProductTypeIndex.cshtml" />
+    <Content Include="Views\PersonSettings\Create.cshtml" />
+    <Content Include="Views\Person\_Reason.cshtml" />
+    <Content Include="Views\Person\Create.cshtml" />
+    <Content Include="Views\Person\Index.cshtml" />
+    <Content Include="Views\Person\DocumentTypeList.cshtml" />
+    <Content Include="Views\PersonBankAccount\_Create.cshtml" />
+    <Content Include="Views\PersonContact\_Create.cshtml" />
+    <Content Include="Views\PersonProcess\_Create.cshtml" />
+    <Content Include="Views\Shared\UnderImplementation.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

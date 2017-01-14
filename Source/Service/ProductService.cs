@@ -45,6 +45,8 @@ namespace Service
         int PrevMaterialId(int id, int nid);
         ProductPrevProcess FGetProductPrevProcess(int ProductId, int GodownId, int DocTypeId);
         ComboBoxPagedResult GetProductHelpList(string searchTerm, int pageSize, int pageNum);
+
+        Decimal GetUnitConversionMultiplier(Decimal FromQty, string FromUnitId, Decimal Length, Decimal Width, Decimal? Height, string ToUnitId, ApplicationDbContext db);
     }
 
 
@@ -656,6 +658,32 @@ namespace Service
             return Data;
         }
 
+        public Decimal GetUnitConversionMultiplier(Decimal FromQty, string FromUnitId, Decimal Length, Decimal Width, Decimal? Height, string ToUnitId, ApplicationDbContext db)
+        {
+            SqlParameter SQLFromQty = new SqlParameter("@FromQty", FromQty);
+            SqlParameter SQLFromUnitId = new SqlParameter("@FromUnitId", FromUnitId);
+            SqlParameter SQLLength = new SqlParameter("@Length", Length);
+            SqlParameter SQLWidth = new SqlParameter("@Width", Width);
+            SqlParameter SQLHeight = new SqlParameter("@Height", Height ?? 0);
+            SqlParameter SQLToUnitId = new SqlParameter("@ToUnitId", ToUnitId);
+
+            UnitConversionMultiplier Temp = db.Database.SqlQuery<UnitConversionMultiplier>("Web.sp_GetUnitConversion @FromQty, @FromUnitId, @Length,@Width, @Height, @ToUnitId ", SQLFromQty, SQLFromUnitId, SQLLength, SQLWidth, SQLHeight, SQLToUnitId).FirstOrDefault();
+
+            if (Temp != null)
+            {
+                return Temp.ConvertedValue;
+            }
+            else
+            {
+                return 0;
+            }
+        }
+
+    }
+
+    public class UnitConversionMultiplier
+    {
+        public Decimal ConvertedValue { get; set; }
     }
 
     public class ProductPrevProcess
@@ -663,6 +691,8 @@ namespace Service
         public int? ProcessId { get; set; }
         public string ProcessName { get; set; }
     }
+
+
 }
 
 
@@ -713,8 +743,14 @@ public class dbProductService : IdbProductService
 
     }
 
+
+
     public void Dispose()
     {
     }
 
+
 }
+
+
+

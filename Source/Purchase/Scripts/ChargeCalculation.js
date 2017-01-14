@@ -17,6 +17,12 @@ var RateTypeEnum = {
     NA: 3,
 };
 
+var AddDeductEnum = {
+    Deduct: 0,
+    Add: 1,
+    OverRide:2,
+}
+
 
 function AddCalculationFields(DocHeaderId, DebugMode, CalculationId, HeaderCTable, LineCTable, MaxLinId, DocumentType, SiteId, DivisionId) {
 
@@ -225,6 +231,7 @@ $(document).on('change', '.Calculation', ChargeCalculation);
 
 
 
+
 function ChargeCalculation() {
 
 
@@ -249,13 +256,13 @@ function ChargeCalculation() {
         }
         else if (ProductFields[i].RateType == RateTypeEnum.PERCENTAGE) {
             var calculateOn = "#CALL_" + ProductFields[i].CalculateOnCode;
-            if ($.isNumeric($(selectorRate).val()) && $(selectorRate).val() > 0)
+            if ($.isNumeric($(selectorRate).val()) && $(selectorRate).val() != 0)
                 $(selector).val(parseFloat(parseFloat($(calculateOn).val()) * parseFloat($(selectorRate).val()) / 100).toFixed(2));
         }
         else if (ProductFields[i].RateType == RateTypeEnum.RATE) {
             var calculateOn = "#CALL_" + ProductFields[i].CalculateOnCode;
 
-            if ($.isNumeric($(selectorRate).val()) && $(selectorRate).val() > 0) {
+            if ($.isNumeric($(selectorRate).val()) && $(selectorRate).val() != 0) {
                 //Changed Logic To Calculate On DealQty
                 //$(selector).val(parseFloat(parseFloat($(calculateOn).val()) * parseFloat($(selectorRate).val())).toFixed(2));
                 $(selector).val(parseFloat(parseFloat($('#DealQty').val()) * parseFloat($(selectorRate).val())).toFixed(2));
@@ -263,12 +270,61 @@ function ChargeCalculation() {
         }
 
 
-        if (ProductFields[i].AddDeduct == true) {
+        if (ProductFields[i].IncludedChargesCalculation) {
+            var Rate = EvalExpression(ProductFields[i].IncludedCharges, ProductFields[i].IncludedChargesCalculation, "#CALL_");
+            if ($.isNumeric(Rate)) {//SubTotalProduct = (SubTotalProduct * 100) / (100 + Rate);
+                var Amt = (($(selector).val() * 100) / (100 + Rate));
+                $(selector).val(Amt.toFixed(2));
+            }
+        }
+
+        if (ProductFields[i].AddDeduct == AddDeductEnum.Add) {
             SubTotalProduct = (SubTotalProduct + parseFloat($(selector).val()));
         }
-        else if (ProductFields[i].AddDeduct == false) {
+        else if (ProductFields[i].AddDeduct == AddDeductEnum.Deduct) {
             SubTotalProduct = (SubTotalProduct - parseFloat($(selector).val()));
         }
+        else if (ProductFields[i].AddDeduct == AddDeductEnum.OverRide) {
+            SubTotalProduct = parseFloat($(selector).val());
+        }
+
+
+    }
+
+    function EvalExpression(IncludedCharges, ChargeCalculation, selector) {
+        var Rate;
+
+        if (IncludedCharges) {
+
+            var Params = IncludedCharges.split(',');
+
+            var ParamDict = [];
+
+            $.each(Params, function (i, val) {
+
+                var Elem = selector + val;
+
+                ParamDict.push({ id: val, text: $(Elem).val() });
+            })
+
+            var CalExpr = ChargeCalculation;
+
+            $.each(ParamDict, function (i, val) {
+
+                var replace = '/' + val.id + '/gi';
+
+                CalExpr = CalExpr.replace(new RegExp(val.id, 'ig'), val.text);
+
+            })
+
+            Rate = parseFloat(eval(CalExpr));
+
+        }
+        else {
+            Rate = parseFloat(eval(ChargeCalculation));
+        }
+
+        return Rate;
     }
 
 
@@ -325,24 +381,32 @@ function ChargeCalculation() {
 
             var calculateOn = "#CALH_" + FooterFields[i].CalculateOnCode;
 
-            if ($.isNumeric($(selectorRate).val()) && $(selectorRate).val() > 0)
+            if ($.isNumeric($(selectorRate).val()) && $(selectorRate).val() != 0)
                 $(selector).val(parseFloat(parseFloat($(calculateOn).val()) * parseFloat($(selectorRate).val()) / 100).toFixed(2));
         }
         else if (FooterFields[i].RateType == RateTypeEnum.RATE) {
 
             var calculateOn = "#CALH_" + FooterFields[i].CalculateOnCode;
 
-            if ($.isNumeric($(selectorRate).val()) && $(selectorRate).val() > 0)
+            if ($.isNumeric($(selectorRate).val()) && $(selectorRate).val() != 0)
                 $(selector).val(parseFloat(parseFloat($(calculateOn).val()) * parseFloat($(selectorRate).val())).toFixed(2));
         }
 
+        if (FooterFields[i].IncludedChargesCalculation) {
+            var Rate = EvalExpression(FooterFields[i].IncludedCharges, FooterFields[i].IncludedChargesCalculation, "#CALH_");
+            if ($.isNumeric(Rate)) {//SubTotalProduct = (SubTotalProduct * 100) / (100 + Rate);
+                var Amt = (($(selector).val() * 100) / (100 + Rate));
+                $(selector).val(Amt.toFixed(2));
+            }
 
-        if (FooterFields[i].AddDeduct == true) {
+        }
+
+        if (FooterFields[i].AddDeduct == AddDeductEnum.Add) {
 
             if ($.isNumeric($(selector).val()))
                 SubTotalFooter = (SubTotalFooter + parseFloat($(selector).val()));
         }
-        else if (FooterFields[i].AddDeduct == false) {
+        else if (FooterFields[i].AddDeduct == AddDeductEnum.Deduct) {
 
 
             if ($.isNumeric($(selector).val()))
@@ -350,8 +414,12 @@ function ChargeCalculation() {
 
 
         }
+        else if (FooterFields[i].AddDeduct == AddDeductEnum.OverRide) {
+            if ($.isNumeric($(selector).val()))
+                SubTotalFooter = parseFloat($(selector).val());
 
 
+        }
 
     }
 
@@ -396,7 +464,7 @@ function AssignValuesToCharges() {
         ProductFields[i].LedgerAccountCrId = parseInt($(LedgerAccCr).val());
         ProductFields[i].LedgerAccountDrId = parseInt($(LedgerAccDr).val());
         ProductFields[i].ContraLedgerAccountId = parseInt($(ContraLedgerAcc).val());
-        ProductFields[i].DealQty = parseFloat($('#DealQty','#modform').val());
+        ProductFields[i].DealQty = parseFloat($('#DealQty', '#modform').val());
 
     }
 

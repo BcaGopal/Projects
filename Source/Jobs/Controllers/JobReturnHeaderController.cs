@@ -154,7 +154,7 @@ namespace Web
             vm.DocDate = DateTime.Now;
             vm.ProcessId = settings.ProcessId;
             vm.DocNo = new DocumentTypeService(_unitOfWork).FGetNewDocNo("DocNo", ConfigurationManager.AppSettings["DataBaseSchema"] + ".JobReturnHeaders", vm.DocTypeId, vm.DocDate, vm.DivisionId, vm.SiteId);
-
+            vm.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(vm.DocTypeId);
             ViewBag.Mode = "Add";
             return View("Create", vm);
         }
@@ -422,6 +422,7 @@ namespace Web
                 return View("~/Views/Shared/InValidSettings.cshtml");
             }
             pt.JobReceiveSettings = Mapper.Map<JobReceiveSettings, JobReceiveSettingsViewModel>(settings);
+            pt.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(pt.DocTypeId);
             PrepareViewBag(pt.DocTypeId);
 
             ViewBag.Mode = "Edit";
@@ -526,6 +527,7 @@ namespace Web
                 return View("~/Views/Shared/InValidSettings.cshtml");
             }
             pt.JobReceiveSettings = Mapper.Map<JobReceiveSettings, JobReceiveSettingsViewModel>(settings);
+            pt.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(pt.DocTypeId);
 
             if (pt == null)
             {

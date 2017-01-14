@@ -40,7 +40,6 @@
                columns.Add(foo => foo.CityId, true);
                columns.Add(foo => foo.CityName).Sortable(true).Titled("City Name").Filterable(true);
                columns.Add(foo => foo.StateName).Sortable(true).Titled("State").Filterable(true);
-               columns.Add(m => m.IsActive).Sortable(true).Titled("Is Active").Filterable(true);  
            }).WithPaging(25).EmptyText("No records found.")
     </div>
 </div>

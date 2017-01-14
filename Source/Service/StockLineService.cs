@@ -63,6 +63,8 @@ namespace Service
         IQueryable<ComboBoxResult> GetDimension2ForReceive(int id, string term);
         IQueryable<ComboBoxResult> GetDimension1ForReceive(int id, string term);
 
+        IEnumerable<ComboBoxResult> GetPendingStockInForIssue(int id, int ProductId, int? Dimension1Id, int? Dimension2Id, string term);
+
     }
 
     public class StockLineService : IStockLineService
@@ -227,6 +229,8 @@ namespace Service
                             PersonId = p.StockHeader.PersonId,
                             PersonName = (PerTab == null ? "" : PerTab.Name + " | " + PerTab.Code),
                             CostCenterId = p.CostCenterId,
+                            StockInId = p.StockInId,
+                            StockInNo = p.StockIn.StockHeader.DocNo,
                             LockReason = p.LockReason,
                         }
 
@@ -1992,6 +1996,53 @@ namespace Service
                     });
 
         }
+
+        public IEnumerable<ComboBoxResult> GetPendingStockInForIssue(int StockHeaderId, int ProductId, int? Dimension1Id, int? Dimension2Id, string term)
+        {
+
+            var StockHeader = new StockHeaderService(_unitOfWork).Find(StockHeaderId);
+
+            var settings = new StockHeaderSettingsService(_unitOfWork).GetStockHeaderSettingsForDocument(StockHeader.DocTypeId, StockHeader.DivisionId, StockHeader.SiteId);
+
+
+            string[] contraSites = null;
+            if (!string.IsNullOrEmpty(settings.filterContraSites)) { contraSites = settings.filterContraSites.Split(",".ToCharArray()); }
+            else { contraSites = new string[] { "NA" }; }
+
+            string[] contraDivisions = null;
+            if (!string.IsNullOrEmpty(settings.filterContraDivisions)) { contraDivisions = settings.filterContraDivisions.Split(",".ToCharArray()); }
+            else { contraDivisions = new string[] { "NA" }; }
+
+            int CurrentSiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
+            int CurrentDivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
+
+
+            return (from p in db.ViewStockInBalance
+                    join pt in db.Product on p.ProductId equals pt.ProductId into ProductTable
+                    from ProductTab in ProductTable.DefaultIfEmpty()
+                    join D1 in db.Dimension1 on p.Dimension1Id equals D1.Dimension1Id into Dimension1Table
+                    from Dimension1Tab in Dimension1Table.DefaultIfEmpty()
+                    join D2 in db.Dimension2 on p.Dimension2Id equals D2.Dimension2Id into Dimension2Table
+                    from Dimension2Tab in Dimension2Table.DefaultIfEmpty()
+                    where p.BalanceQty > 0
+                    && p.ProductId == ProductId
+                    && (Dimension1Id == null ? 1 == 1 : p.Dimension1Id == Dimension1Id)
+                    && (Dimension2Id == null ? 1 == 1 : p.Dimension2Id == Dimension2Id)
+                    && (string.IsNullOrEmpty(settings.filterContraSites) ? p.SiteId == CurrentSiteId : contraSites.Contains(p.SiteId.ToString()))
+                    && (string.IsNullOrEmpty(settings.filterContraDivisions) ? p.DivisionId == CurrentDivisionId : contraDivisions.Contains(p.DivisionId.ToString()))
+                    && (string.IsNullOrEmpty(term) ? 1 == 1 : p.StockInNo.ToLower().Contains(term.ToLower()))
+                    select new ComboBoxResult
+                    {
+                        id = p.StockInId.ToString(),
+                        text = p.StockInNo,
+                        TextProp1 = "Lot No :" + p.LotNo,
+                        TextProp2 = "Balance :" + p.BalanceQty,
+                        AProp1 = ProductTab.ProductName + ", " + Dimension1Tab.Dimension1Name + ", " + Dimension2Tab.Dimension2Name,
+                        AProp2 = "Date :" + p.StockInDate
+                    });
+        }
+
+
 
 
         public void Dispose()

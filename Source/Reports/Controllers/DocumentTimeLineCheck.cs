@@ -28,7 +28,7 @@ namespace Reports.Controllers
                 DocumentTypeTimeExtension TimeExtension = (from p in Con.DocumentTypeTimeExtension
                                                            where p.DocTypeId == Args.DocTypeId
                                                            && p.SiteId == Args.SiteId && p.DivisionId == Args.DivisionId
-                                                           && p.Type == Type && p.ExpiryDate >= Today && p.UserName == UserName && Args.DocDate.Date == p.DocDate
+                                                           && p.Type == Type && p.ExpiryDate >= Today && p.UserName.ToUpper() == UserName.ToUpper() && Args.DocDate.Date == p.DocDate
                                                            select p).FirstOrDefault();
 
 
@@ -51,7 +51,7 @@ namespace Reports.Controllers
                 DocumentTypeTimeExtension BackDaysTimeExtension = (from p in Con.DocumentTypeTimeExtension
                                                                    where p.DocTypeId == Args.DocTypeId
                                                                    && p.SiteId == Args.SiteId && p.DivisionId == Args.DivisionId
-                                                                   && p.Type == DocumentTimePlanTypeConstants.Create && p.UserName == UserName && Args.DocDate.Date == p.DocDate
+                                                                   && p.Type == DocumentTimePlanTypeConstants.Create && p.UserName.ToUpper() == UserName.ToUpper() && Args.DocDate.Date == p.DocDate
                                                                    select p).FirstOrDefault();
 
                 if (TimePlanBackDays != null)
@@ -94,7 +94,7 @@ namespace Reports.Controllers
                             }
 
 
-                            if ((Args.Status == (int)StatusConstants.Drafted || Args.Status == (int)StatusConstants.Modified) && !string.IsNullOrEmpty(Args.ModifiedBy) && Args.ModifiedBy != UserName)
+                            if ((Args.Status == (int)StatusConstants.Drafted || Args.Status == (int)StatusConstants.Modified) && !string.IsNullOrEmpty(Args.ModifiedBy) && Args.ModifiedBy.ToUpper() != UserName.ToUpper())
                             {
                                 Msg += "Record must be submitted before modification. <br />";
                             }

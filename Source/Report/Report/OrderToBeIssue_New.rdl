@@ -6256,9 +6256,6 @@
             <Height>2.81109in</Height>
             <Width>7.66458in</Width>
             <ZIndex>1</ZIndex>
-            <Visibility>
-              <Hidden>=iif(Globals!RenderFormat.Name &lt;&gt; "PDF",True,False)</Hidden>
-            </Visibility>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -6760,6 +6757,8 @@
     </ReportParameter>
     <ReportParameter Name="Site">
       <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
       <Prompt>Site</Prompt>
     </ReportParameter>
     <ReportParameter Name="Division">

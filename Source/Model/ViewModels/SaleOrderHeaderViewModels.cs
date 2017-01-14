@@ -57,6 +57,10 @@ namespace Model.ViewModels
         public int ? ShipMethodId { get; set; }
         public virtual ShipMethod ShipMethod { get; set; }
 
+        public int? GodownId { get; set; }
+        public string GodownName { get; set; }
+
+
         [Display(Name = "Ship Address"), MaxLength(250)]
         public string ShipAddress { get; set; }
 

@@ -21,6 +21,7 @@ namespace Service
     public interface IJobReceiveQAAttributeService : IDisposable
     {
         JobReceiveQALine Create(JobReceiveQAAttributeViewModel pt, string UserName);
+        void Delete(int id);
         void Update(JobReceiveQAAttributeViewModel pt, string UserName);
         IQueryable<JobReceivePendingToQAIndex> GetJobReceiveQAAttributeList(int DocTypeId, string Uname);//DocumentTypeId
         List<QAGroupLineLineViewModel> GetJobReceiveQAAttribute(int JobReceiveLineid);//JobReceiveLineId
@@ -31,7 +32,7 @@ namespace Service
         JobReceiveQAAttributeViewModel GetJobReceiveQAAttributeDetailForEdit(int JobReceiveQALineid);//JobReceiveQALineId
 
         LastValues GetLastValues(int DocTypeId);
-        Decimal GetUnitConversionMultiplier(string FromUnitId, Decimal Length, Decimal Width, Decimal? Height, string ToUnitId);
+        
     }
 
     public class JobReceiveQAAttributeService : IJobReceiveQAAttributeService
@@ -70,13 +71,13 @@ namespace Service
             new JobReceiveLineStatusService(_unitOfWork).UpdateJobReceiveQtyOnQA(Mapper.Map<JobReceiveQALineViewModel>(Line), pt.DocDate, ref db);
             new JobReceiveQALineService(db, _unitOfWork).Create(Line, UserName);
 
-            JobReceiveQALineDetail LineDetail = new JobReceiveQALineDetail();
-            LineDetail.JobReceiveQALineId = Line.JobReceiveQALineId;
-            LineDetail.Length = pt.Length;
-            LineDetail.Width = pt.Width;
-            LineDetail.Height = pt.Height;
-            LineDetail.ObjectState = ObjectState.Added;
-            db.JobReceiveQALineDetail.Add(LineDetail);
+            JobReceiveQALineExtended LineExtended = new JobReceiveQALineExtended();
+            LineExtended.JobReceiveQALineId = Line.JobReceiveQALineId;
+            LineExtended.Length = pt.Length;
+            LineExtended.Width = pt.Width;
+            LineExtended.Height = pt.Height;
+            LineExtended.ObjectState = ObjectState.Added;
+            db.JobReceiveQALineExtended.Add(LineExtended);
 
 
             List<QAGroupLineLineViewModel> tem = pt.QAGroupLine;
@@ -124,14 +125,14 @@ namespace Service
             new JobReceiveQALineService(db, _unitOfWork).Update(Line, UserName);
 
 
-            JobReceiveQALineDetail LineDetail = (from Ld in db.JobReceiveQALineDetail where Ld.JobReceiveQALineId == pt.JobReceiveQALineId select Ld).FirstOrDefault();
-            if (LineDetail != null)
+            JobReceiveQALineExtended LineExtended = (from Ld in db.JobReceiveQALineExtended where Ld.JobReceiveQALineId == pt.JobReceiveQALineId select Ld).FirstOrDefault();
+            if (LineExtended != null)
             {
-                LineDetail.Length = pt.Length;
-                LineDetail.Width = pt.Width;
-                LineDetail.Height = pt.Height;
-                LineDetail.ObjectState = ObjectState.Modified;
-                db.JobReceiveQALineDetail.Add(LineDetail);
+                LineExtended.Length = pt.Length;
+                LineExtended.Width = pt.Width;
+                LineExtended.Height = pt.Height;
+                LineExtended.ObjectState = ObjectState.Modified;
+                db.JobReceiveQALineExtended.Add(LineExtended);
             }
 
 
@@ -273,6 +274,7 @@ namespace Service
                                                                                QAQty = L.Qty,
                                                                                InspectedQty = L.Qty,
                                                                                Qty = L.Qty,
+                                                                               UnitId = JobOrderLineTab.Product.UnitId,
                                                                                DealUnitId = L.DealUnitId,
                                                                                UnitConversionMultiplier = L.UnitConversionMultiplier,
                                                                                DealQty = L.DealQty,
@@ -293,7 +295,7 @@ namespace Service
                                                                      from JobReceiveLineTab in JobReceiveLineTable.DefaultIfEmpty()
                                                                      join Jol in db.JobOrderLine on JobReceiveLineTab.JobOrderLineId equals Jol.JobOrderLineId into JobOrderLineTable
                                                                      from JobOrderLineTab in JobOrderLineTable.DefaultIfEmpty()
-                                                                     join Ld in db.JobReceiveQALineDetail on L.JobReceiveQALineId equals Ld.JobReceiveQALineId into JobReceiveQALineDetailTable
+                                                                     join Ld in db.JobReceiveQALineExtended on L.JobReceiveQALineId equals Ld.JobReceiveQALineId into JobReceiveQALineDetailTable
                                                                      from JobReceiveQALineDetailTab in JobReceiveQALineDetailTable.DefaultIfEmpty()
                                                                      where L.JobReceiveQALineId == JobReceiveQALineid
                                                                      select new JobReceiveQAAttributeViewModel
@@ -350,26 +352,14 @@ namespace Service
             return temp;
         }
 
-        public Decimal GetUnitConversionMultiplier(string FromUnitId, Decimal Length, Decimal Width, Decimal? Height, string ToUnitId)
+        public void Delete(int id)
         {
-            SqlParameter SQLFromQty = new SqlParameter("@FromQty", 1);
-            SqlParameter SQLFromUnitId = new SqlParameter("@FromUnitId", FromUnitId);
-            SqlParameter SQLLength = new SqlParameter("@Length", Length);
-            SqlParameter SQLWidth = new SqlParameter("@Width", Width);
-            SqlParameter SQLHeight = new SqlParameter("@Height", Height ?? 0);
-            SqlParameter SQLToUnitId = new SqlParameter("@ToUnitId", ToUnitId);
+            JobReceiveQAAttribute Temp = db.JobReceiveQAAttribute.Find(id);
+            Temp.ObjectState = Model.ObjectState.Deleted;
 
-            UnitConversionMultiplier Temp = db.Database.SqlQuery<UnitConversionMultiplier>("Web.sp_GetUnitConversion @FromQty, @FromUnitId, @Length,@Width, @Height, @ToUnitId ", SQLFromQty, SQLFromUnitId, SQLLength, SQLWidth, SQLHeight, SQLToUnitId).FirstOrDefault();
-
-            if (Temp != null)
-            {
-                return Temp.ConvertedValue;
-            }
-            else
-            {
-                return 0;
-            }
+            db.JobReceiveQAAttribute.Remove(Temp);
         }
+        
 
         public void Dispose()
         {
@@ -392,8 +382,5 @@ namespace Service
         public int? QAById { get; set; }
     }
 
-    public class UnitConversionMultiplier
-    {
-        public Decimal ConvertedValue { get; set; }
-    }
+
 }

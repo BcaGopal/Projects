@@ -82,15 +82,15 @@ namespace Service
                 }
 
 
-                if (LineCharges[i].AddDeduct == "Add")
+                if (LineCharges[i].AddDeduct == (int)AddDeductEnum.Add)
                 {
                     SubTotalProduct = (SubTotalProduct + Line[selector] ?? 0);
                 }
-                else if (LineCharges[i].AddDeduct == "Deduction")
+                else if (LineCharges[i].AddDeduct == (int)AddDeductEnum.Deduct)
                 {
                     SubTotalProduct = (SubTotalProduct - Line[selector] ?? 0);
                 }
-                else if (LineCharges[i].AddDeduct == "Override")
+                else if (LineCharges[i].AddDeduct == (int)AddDeductEnum.OverRide)
                 {
                     SubTotalProduct = (Line[selector] ?? 0);
                 }
@@ -187,18 +187,18 @@ namespace Service
                 }
 
 
-                if (HeaderCharges[i].AddDeduct == "Add")
+                if (HeaderCharges[i].AddDeduct == (int)AddDeductEnum.Add)
                 {
 
                     SubTotalFooter = (SubTotalFooter + Footers[selector] ?? 0);
                 }
-                else if (HeaderCharges[i].AddDeduct == "Deduction")
+                else if (HeaderCharges[i].AddDeduct == (int)AddDeductEnum.Deduct)
                 {
 
                     SubTotalFooter = (SubTotalFooter - Footers[selector] ?? 0);
 
                 }
-                else if (HeaderCharges[i].AddDeduct == "Override")
+                else if (HeaderCharges[i].AddDeduct == (int)AddDeductEnum.OverRide)
                 {
 
                     SubTotalFooter = (Footers[selector] ?? 0);

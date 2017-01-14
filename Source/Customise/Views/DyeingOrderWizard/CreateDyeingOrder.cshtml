@@ -55,6 +55,7 @@
                 <tr>
                     <th>OrderNo</th>
                     <th>OrderDate</th>
+                    <th>Buyer</th>
                     <th>Design</th>
                     <th>Products</th>
                     <th>Shades</th>
@@ -82,8 +83,9 @@
             scrollCollapse: true,
             scroller: true,
             columns: [
-                { "data": "ProdOrderNo", "width": "11%" },
-                { "data": "ProdOrderDate", "width": "11%" },
+                { "data": "ProdOrderNo", "width": "6%" },
+                { "data": "ProdOrderDate", "width": "6%" },
+                { "data": "BuyerCode", "width": "10%" },
                 { "data": "Dimension2Name", "width": "11%", "render": function (data, type, row) { return ' <a href="/DyeingOrderWizard/GetShadeWiseBal?IdList=' + row.ProdOrderLineIdList + '" class="Design"> ' + data + ' </a>'; }, },
                 { "data": "ProductList", "width": "25%" },
                 { "data": "Dimension1List", "width": "35%" },

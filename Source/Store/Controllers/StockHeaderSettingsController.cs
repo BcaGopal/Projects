@@ -151,6 +151,8 @@ namespace Web
                     temp.isVisibleHeaderCostCenter = pt.isVisibleHeaderCostCenter;
                     temp.isVisibleDimension1 = pt.isVisibleDimension1;
                     temp.isVisibleDimension2 = pt.isVisibleDimension2;
+                    temp.isVisibleDimension3 = pt.isVisibleDimension3;
+                    temp.isVisibleDimension4 = pt.isVisibleDimension4;
                     temp.isVisibleLotNo = pt.isVisibleLotNo;
                     temp.isVisibleMachine = pt.isVisibleMachine;
                     temp.isVisibleProductUID = pt.isVisibleProductUID;
@@ -161,6 +163,7 @@ namespace Web
                     temp.isVisibleMaterialRequest = pt.isVisibleMaterialRequest;
                     temp.PersonFieldHeading = pt.PersonFieldHeading;
                     temp.NoOfPrintCopies = pt.NoOfPrintCopies;
+                    temp.isVisibleStockIn = pt.isVisibleStockIn;
 
                     temp.ModifiedDate = DateTime.Now;
                     temp.ModifiedBy = User.Identity.Name;
@@ -309,6 +312,8 @@ namespace Web
                     temp.isVisibleHeaderCostCenter = pt.isVisibleHeaderCostCenter;
                     temp.isVisibleDimension1 = pt.isVisibleDimension1;
                     temp.isVisibleDimension2 = pt.isVisibleDimension2;
+                    temp.isVisibleDimension3 = pt.isVisibleDimension3;
+                    temp.isVisibleDimension4 = pt.isVisibleDimension4;
                     temp.isVisibleLotNo = pt.isVisibleLotNo;
                     temp.isVisibleMachine = pt.isVisibleMachine;
                     temp.isVisibleProductUID = pt.isVisibleProductUID;
@@ -319,6 +324,7 @@ namespace Web
                     temp.isVisibleMaterialRequest = pt.isVisibleMaterialRequest;
                     temp.PersonFieldHeading = pt.PersonFieldHeading;
                     temp.NoOfPrintCopies = pt.NoOfPrintCopies;
+                    temp.isVisibleStockIn = pt.isVisibleStockIn;
 
                     temp.ModifiedDate = DateTime.Now;
                     temp.ModifiedBy = User.Identity.Name;
@@ -465,6 +471,8 @@ namespace Web
                     temp.isVisibleHeaderCostCenter = pt.isVisibleHeaderCostCenter;
                     temp.isVisibleDimension1 = pt.isVisibleDimension1;
                     temp.isVisibleDimension2 = pt.isVisibleDimension2;
+                    temp.isVisibleDimension3 = pt.isVisibleDimension3;
+                    temp.isVisibleDimension4 = pt.isVisibleDimension4;
                     temp.filterContraProductDivisions = pt.filterContraProductDivisions;
                     temp.isVisibleLotNo = pt.isVisibleLotNo;
                     temp.filterContraDivisions = pt.filterContraDivisions;
@@ -477,6 +485,7 @@ namespace Web
                     temp.isVisibleMaterialRequest = pt.isVisibleMaterialRequest;
                     temp.PersonFieldHeading = pt.PersonFieldHeading;
                     temp.isProductHelpFromStockProcess = pt.isProductHelpFromStockProcess;
+                    temp.isVisibleStockIn = pt.isVisibleStockIn;
 
                     temp.ModifiedDate = DateTime.Now;
                     temp.ModifiedBy = User.Identity.Name;
@@ -624,6 +633,8 @@ namespace Web
                     temp.isVisibleDimension1 = pt.isVisibleDimension1;
                     temp.isVisibleSpecification = pt.isVisibleSpecification;
                     temp.isVisibleDimension2 = pt.isVisibleDimension2;
+                    temp.isVisibleDimension3 = pt.isVisibleDimension3;
+                    temp.isVisibleDimension4 = pt.isVisibleDimension4;
                     temp.isVisibleLotNo = pt.isVisibleLotNo;
                     temp.filterContraDivisions = pt.filterContraDivisions;
                     temp.filterContraSites = pt.filterContraSites;
@@ -634,6 +645,7 @@ namespace Web
                     temp.SqlProcDocumentPrint = pt.SqlProcDocumentPrint;
                     temp.isVisibleMaterialRequest = pt.isVisibleMaterialRequest;
                     temp.PersonFieldHeading = pt.PersonFieldHeading;
+                    temp.isVisibleStockIn = pt.isVisibleStockIn;
 
                     temp.ModifiedDate = DateTime.Now;
                     temp.ModifiedBy = User.Identity.Name;
@@ -781,6 +793,8 @@ namespace Web
                     temp.isVisibleDimension1 = pt.isVisibleDimension1;
                     temp.isVisibleSpecification = pt.isVisibleSpecification;
                     temp.isVisibleDimension2 = pt.isVisibleDimension2;
+                    temp.isVisibleDimension3 = pt.isVisibleDimension3;
+                    temp.isVisibleDimension4 = pt.isVisibleDimension4;
                     temp.isVisibleLotNo = pt.isVisibleLotNo;
                     temp.filterContraDivisions = pt.filterContraDivisions;
                     temp.filterContraSites = pt.filterContraSites;
@@ -793,6 +807,7 @@ namespace Web
                     temp.isVisibleMaterialRequest = pt.isVisibleMaterialRequest;
                     temp.PersonFieldHeading = pt.PersonFieldHeading;
                     temp.NoOfPrintCopies = pt.NoOfPrintCopies;
+                    temp.isVisibleStockIn = pt.isVisibleStockIn;
 
                     temp.ModifiedDate = DateTime.Now;
                     temp.ModifiedBy = User.Identity.Name;
@@ -941,6 +956,8 @@ namespace Web
                     temp.isVisibleHeaderCostCenter = pt.isVisibleHeaderCostCenter;
                     temp.isVisibleDimension1 = pt.isVisibleDimension1;
                     temp.isVisibleDimension2 = pt.isVisibleDimension2;
+                    temp.isVisibleDimension3 = pt.isVisibleDimension3;
+                    temp.isVisibleDimension4 = pt.isVisibleDimension4;
                     temp.isPostedInStockProcess = pt.isPostedInStockProcess;
                     temp.isVisibleLotNo = pt.isVisibleLotNo;
                     temp.isVisibleMachine = pt.isVisibleMachine;
@@ -950,6 +967,7 @@ namespace Web
                     temp.isVisibleProductCode = pt.isVisibleProductCode;
                     temp.SqlProcDocumentPrint = pt.SqlProcDocumentPrint;
                     temp.PersonFieldHeading = pt.PersonFieldHeading;
+                    temp.isVisibleStockIn = pt.isVisibleStockIn;
 
                     temp.ModifiedDate = DateTime.Now;
                     temp.ModifiedBy = User.Identity.Name;
@@ -1089,6 +1107,8 @@ namespace Web
                     temp.isVisibleSpecification = pt.isVisibleSpecification;
                     temp.isVisibleDimension1 = pt.isVisibleDimension1;
                     temp.isVisibleDimension2 = pt.isVisibleDimension2;
+                    temp.isVisibleDimension3 = pt.isVisibleDimension3;
+                    temp.isVisibleDimension4 = pt.isVisibleDimension4;
                     temp.isVisibleLotNo = pt.isVisibleLotNo;
                     temp.isVisibleMachine = pt.isVisibleMachine;
                     temp.isVisibleProductUID = pt.isVisibleProductUID;
@@ -1096,6 +1116,7 @@ namespace Web
                     temp.SqlProcDocumentPrint = pt.SqlProcDocumentPrint;
                     temp.PersonFieldHeading = pt.PersonFieldHeading;
                     temp.filterContraProductDivisions = pt.filterContraProductDivisions;
+                    temp.isVisibleStockIn = pt.isVisibleStockIn;
 
                     temp.ModifiedDate = DateTime.Now;
                     temp.ModifiedBy = User.Identity.Name;
@@ -1248,6 +1269,8 @@ namespace Web
                     temp.isVisibleHeaderCostCenter = pt.isVisibleHeaderCostCenter;
                     temp.isVisibleDimension1 = pt.isVisibleDimension1;
                     temp.isVisibleDimension2 = pt.isVisibleDimension2;
+                    temp.isVisibleDimension3 = pt.isVisibleDimension3;
+                    temp.isVisibleDimension4 = pt.isVisibleDimension4;
                     temp.isVisibleLotNo = pt.isVisibleLotNo;
                     temp.isVisibleMachine = pt.isVisibleMachine;
                     temp.filterContraProductDivisions = pt.filterContraProductDivisions;
@@ -1258,6 +1281,7 @@ namespace Web
                     temp.isVisibleMaterialRequest = pt.isVisibleMaterialRequest;
                     temp.PersonFieldHeading = pt.PersonFieldHeading;
                     temp.NoOfPrintCopies = pt.NoOfPrintCopies;
+                    temp.isVisibleStockIn = pt.isVisibleStockIn;
 
                     temp.ModifiedDate = DateTime.Now;
                     temp.ModifiedBy = User.Identity.Name;

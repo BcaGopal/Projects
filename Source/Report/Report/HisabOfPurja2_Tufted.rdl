@@ -371,8 +371,18 @@
       </Tablix>
       <Subreport Name="HisabOfPurja3">
         <ReportName>HisabOfPurja3</ReportName>
+        <Parameters>
+          <Parameter Name="CostCenterId">
+            <Value>=First(Fields!CostCenterId.Value, "DsMain")</Value>
+          </Parameter>
+          <Parameter Name="Site">
+            <Value>=First(Fields!SiteId.Value, "DsMain")</Value>
+          </Parameter>
+          <Parameter Name="Division">
+            <Value>=First(Fields!DivisionId.Value, "DsMain")</Value>
+          </Parameter>
+        </Parameters>
         <Top>1.03889in</Top>
-        <Left>0.025in</Left>
         <Height>0.30208in</Height>
         <Width>2.45833in</Width>
         <ZIndex>1</ZIndex>
@@ -508,3 +518,4 @@ PtQeVUENmewh02zjEWZuZuLElNvBS6gDSXQMHP8A5UE5f6lWFPkR2q6ZG8HZI8xgvruK93SMJUsHJ61z
   <rd:ReportUnitType>Inch</rd:ReportUnitType>
   <rd:ReportID>f1b70379-da78-4ea9-bab5-cbb93d10df58</rd:ReportID>
 </Report>
+

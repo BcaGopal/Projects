@@ -3,7 +3,10 @@
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
     <DataSource Name="PurchaseGoodsReceive">
-      <DataSourceReference>DataSourceMain</DataSourceReference>
+      <ConnectionProperties>
+        <DataProvider>SQL</DataProvider>
+        <ConnectString>=Parameters!DatabaseConnectionString.Value</ConnectString>
+      </ConnectionProperties>
       <rd:SecurityType>None</rd:SecurityType>
       <rd:DataSourceID>a4701ec2-a2bf-4f00-a373-e0ef6d3046c3</rd:DataSourceID>
     </DataSource>
@@ -2958,6 +2961,12 @@
               <Parameter Name="DivisionId">
                 <Value>=First(Fields!DivisionId.Value, "DsMain")</Value>
               </Parameter>
+              <Parameter Name="DatabaseConnectionString">
+                <Value>=Parameters!DatabaseConnectionString.Value</Value>
+              </Parameter>
+              <Parameter Name="PrintedBy">
+                <Value>=Parameters!PrintedBy.Value</Value>
+              </Parameter>
             </Parameters>
             <Top>0.0399in</Top>
             <Left>0.02475in</Left>
@@ -3025,7 +3034,7 @@
       <Width>10.90907in</Width>
       <Page>
         <PageHeader>
-          <Height>0.31125in</Height>
+          <Height>0.29042in</Height>
           <PrintOnFirstPage>true</PrintOnFirstPage>
           <PrintOnLastPage>true</PrintOnLastPage>
           <ReportItems>
@@ -3475,6 +3484,18 @@
       <Nullable>true</Nullable>
       <AllowBlank>true</AllowBlank>
       <Prompt>Status On Date</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="DatabaseConnectionString">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>DatabaseConnectionString</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="PrintedBy">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>PrintedBy</Prompt>
     </ReportParameter>
   </ReportParameters>
   <EmbeddedImages>

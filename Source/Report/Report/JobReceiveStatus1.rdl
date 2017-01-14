@@ -3,7 +3,10 @@
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
     <DataSource Name="Purchase">
-      <DataSourceReference>DataSourceMain</DataSourceReference>
+      <ConnectionProperties>
+        <DataProvider>SQL</DataProvider>
+        <ConnectString>=Parameters!DatabaseConnectionString.Value</ConnectString>
+      </ConnectionProperties>
       <rd:SecurityType>None</rd:SecurityType>
       <rd:DataSourceID>a4701ec2-a2bf-4f00-a373-e0ef6d3046c3</rd:DataSourceID>
     </DataSource>
@@ -1132,6 +1135,36 @@
               </Border>
             </Style>
           </Tablix>
+          <Subreport Name="Subreport1">
+            <ReportName>CompanyDetail</ReportName>
+            <Parameters>
+              <Parameter Name="SiteId">
+                <Value>=Parameters!Division.Value</Value>
+              </Parameter>
+              <Parameter Name="DivisionId">
+                <Value>=Parameters!Site.Value</Value>
+              </Parameter>
+              <Parameter Name="PrintedBy">
+                <Value>=Parameters!DatabaseConnectionString.Value</Value>
+              </Parameter>
+              <Parameter Name="DatabaseConnectionString">
+                <Value>=Parameters!PrintedBy.Value</Value>
+              </Parameter>
+            </Parameters>
+            <Top>0.025in</Top>
+            <Left>0.0375in</Left>
+            <Height>0.3125in</Height>
+            <Width>7.45639in</Width>
+            <ZIndex>1</ZIndex>
+            <Visibility>
+              <Hidden>=iif(Globals!RenderFormat.Name &lt;&gt; "PDF",True,False)</Hidden>
+            </Visibility>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+            </Style>
+          </Subreport>
           <Textbox Name="Textbox42">
             <CanGrow>true</CanGrow>
             <KeepTogether>true</KeepTogether>
@@ -1156,7 +1189,7 @@
             <Left>0.04838in</Left>
             <Height>0.25in</Height>
             <Width>7.44551in</Width>
-            <ZIndex>1</ZIndex>
+            <ZIndex>2</ZIndex>
             <Visibility>
               <Hidden>=iif(Globals!RenderFormat.Name &lt;&gt; "PDF",True,False)</Hidden>
             </Visibility>
@@ -3349,43 +3382,13 @@
             <Left>0.02993in</Left>
             <Height>1.36458in</Height>
             <Width>7.46399in</Width>
-            <ZIndex>2</ZIndex>
+            <ZIndex>3</ZIndex>
             <Style>
               <Border>
                 <Style>None</Style>
               </Border>
             </Style>
           </Tablix>
-          <Subreport Name="Subreport1">
-            <ReportName>CompanyDetail</ReportName>
-            <Parameters>
-              <Parameter Name="DivisionId">
-                <Value>=First(Fields!DivisionId.Value, "DsMain")</Value>
-              </Parameter>
-              <Parameter Name="SiteId">
-                <Value>=First(Fields!SiteId.Value, "DsMain")</Value>
-              </Parameter>
-              <Parameter Name="DatabaseConnectionString">
-                <Value>=Parameters!DatabaseConnectionString.Value</Value>
-              </Parameter>
-              <Parameter Name="PrintedBy">
-                <Value>=Parameters!PrintedBy.Value</Value>
-              </Parameter>
-            </Parameters>
-            <Top>0.04792in</Top>
-            <Left>0.03553in</Left>
-            <Height>0.3125in</Height>
-            <Width>7.45525in</Width>
-            <ZIndex>3</ZIndex>
-            <Visibility>
-              <Hidden>=iif(Globals!RenderFormat.Name &lt;&gt; "PDF",True,False)</Hidden>
-            </Visibility>
-            <Style>
-              <Border>
-                <Style>None</Style>
-              </Border>
-            </Style>
-          </Subreport>
         </ReportItems>
         <Height>5.10833in</Height>
         <Style />
@@ -3790,6 +3793,8 @@
     </ReportParameter>
     <ReportParameter Name="Site">
       <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
       <Prompt>Site</Prompt>
     </ReportParameter>
     <ReportParameter Name="Division">

@@ -603,6 +603,16 @@ namespace Web
                 return HttpNotFound();
         }
 
+        [HttpGet]
+        public ActionResult DeleteAfter_Approve(int id)
+        {
+            PackingHeader header = _PackingHeaderService.Find(id);
+            if (header.Status == (int)StatusConstants.Approved)
+                return Remove(id);
+            else
+                return HttpNotFound();
+        }
+
         // GET: /PurchaseOrderHeader/Delete/5
 
         private ActionResult Remove(int id)

@@ -88,6 +88,14 @@ namespace Web
                 pt.UnitId = MaxSize.UnitId;
             }
 
+            var ProductShape = new ProductShapeService(_unitOfWork).Find("Rectangle");
+
+            if (ProductShape != null)
+            {
+                pt.ProductShapeId = ProductShape.ProductShapeId;
+            }
+
+
 
 
             ViewBag.Mode = "Add";

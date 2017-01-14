@@ -3,7 +3,10 @@
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
     <DataSource Name="MaterialIssue">
-      <DataSourceReference>DataSourceMain</DataSourceReference>
+      <ConnectionProperties>
+        <DataProvider>SQL</DataProvider>
+        <ConnectString>=Parameters!DatabaseConnectionString.Value</ConnectString>
+      </ConnectionProperties>
       <rd:SecurityType>None</rd:SecurityType>
       <rd:DataSourceID>a4701ec2-a2bf-4f00-a373-e0ef6d3046c3</rd:DataSourceID>
     </DataSource>
@@ -57,6 +60,15 @@
           </QueryParameter>
           <QueryParameter Name="@ProcessId">
             <Value>=Parameters!ProcessId.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@ProductDivisionId">
+            <Value>=Parameters!ProductDivisionId.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@BranchRecord">
+            <Value>=Parameters!BranchRecord.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@Godown">
+            <Value>=Parameters!Godown.Value</Value>
           </QueryParameter>
         </QueryParameters>
         <CommandType>StoredProcedure</CommandType>
@@ -2059,6 +2071,20 @@
           </Textbox>
           <Subreport Name="Subreport1">
             <ReportName>CompanyDetail</ReportName>
+            <Parameters>
+              <Parameter Name="SiteId">
+                <Value>=First(Fields!SiteId.Value, "DsMain")</Value>
+              </Parameter>
+              <Parameter Name="DivisionId">
+                <Value>=First(Fields!DivisionId.Value, "DsMain")</Value>
+              </Parameter>
+              <Parameter Name="DatabaseConnectionString">
+                <Value>=Parameters!DatabaseConnectionString.Value</Value>
+              </Parameter>
+              <Parameter Name="PrintedBy">
+                <Value>=Parameters!PrintedBy.Value</Value>
+              </Parameter>
+            </Parameters>
             <Top>0.01528in</Top>
             <Left>0.05251in</Left>
             <Height>0.37501in</Height>
@@ -2565,6 +2591,30 @@
       <Nullable>true</Nullable>
       <AllowBlank>true</AllowBlank>
       <Prompt>PrintedBy</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="ProductDivisionId">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Product Division Id</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="BranchRecord">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Branch Record</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="DatabaseConnectionString">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>DatabaseConnectionString</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="Godown">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Godown</Prompt>
     </ReportParameter>
   </ReportParameters>
   <EmbeddedImages>

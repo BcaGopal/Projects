@@ -76,7 +76,7 @@
                columns.Add(foo => foo.DocDate).Sortable(true).Titled("Invoice Date").Format("{0:dd/MMM/yyyy}").Filterable(true);
                columns.Add(m => m.DocNo).Sortable(true).Titled("Invoice No.").Filterable(true).Sortable(true);
                columns.Add(m => m.JobWorkerDocNo).Sortable(true).Titled("JobWorker DocNo").Filterable(true).Sortable(true);
-               columns.Add(m => m.JobWorkerName).Sortable(true).Filterable(true).Titled("Job Worker");
+               columns.Add(m => m.JobWorkerName).Sortable(true).Filterable(true).Titled("Party");
                columns.Add().RenderValueAs(m => CustomHelpers.RenderTotal(m.TotalQty, m.DecimalPlaces)).Sanitized(false).Encoded(false).Titled("TotalQty");
                columns.Add().Sanitized(false).Encoded(false).RenderValueAs(m => CustomHelpers.RenderStatus(m.Status)).Titled("Status");
                columns.Add().Titled("").Encoded(false).Sanitized(false).RenderValueAs(m => CustomHelpers.RenderUserImage(m.ModifiedBy)).Titled("User").SetWidth("5%").Css("UserImageIndex");

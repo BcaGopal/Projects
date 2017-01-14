@@ -3,7 +3,10 @@
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
     <DataSource Name="Purchase">
-      <DataSourceReference>DataSourceMain</DataSourceReference>
+      <ConnectionProperties>
+        <DataProvider>SQL</DataProvider>
+        <ConnectString>=Parameters!DatabaseConnectionString.Value</ConnectString>
+      </ConnectionProperties>
       <rd:SecurityType>None</rd:SecurityType>
       <rd:DataSourceID>a4701ec2-a2bf-4f00-a373-e0ef6d3046c3</rd:DataSourceID>
     </DataSource>
@@ -84,6 +87,9 @@
           </QueryParameter>
           <QueryParameter Name="@UnitConversion">
             <Value>=Parameters!UnitConversion.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@ProductDivisionId">
+            <Value>=Parameters!ProductDivisionId.Value</Value>
           </QueryParameter>
         </QueryParameters>
         <CommandType>StoredProcedure</CommandType>
@@ -2647,7 +2653,21 @@
           </Tablix>
           <Subreport Name="Subreport2">
             <ReportName>CompanyDetail</ReportName>
-            <Top>0.05556in</Top>
+            <Parameters>
+              <Parameter Name="SiteId">
+                <Value>=First(Fields!SiteId.Value, "DsMain")</Value>
+              </Parameter>
+              <Parameter Name="DivisionId">
+                <Value>=First(Fields!DivisionId.Value, "DsMain")</Value>
+              </Parameter>
+              <Parameter Name="DatabaseConnectionString">
+                <Value>=Parameters!DatabaseConnectionString.Value</Value>
+              </Parameter>
+              <Parameter Name="PrintedBy">
+                <Value>=Parameters!PrintedBy.Value</Value>
+              </Parameter>
+            </Parameters>
+            <Top>0.04306in</Top>
             <Left>0.03394in</Left>
             <Height>0.30208in</Height>
             <Width>7.86677in</Width>
@@ -3202,6 +3222,18 @@
       <Nullable>true</Nullable>
       <AllowBlank>true</AllowBlank>
       <Prompt>PrintedBy</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="DatabaseConnectionString">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>DatabaseConnectionString</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="ProductDivisionId">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Product Division Id</Prompt>
     </ReportParameter>
   </ReportParameters>
   <EmbeddedImages>

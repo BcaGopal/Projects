@@ -3,7 +3,10 @@
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
     <DataSource Name="Purchase">
-      <DataSourceReference>DataSourceMain</DataSourceReference>
+      <ConnectionProperties>
+        <DataProvider>SQL</DataProvider>
+        <ConnectString>=Parameters!DatabaseConnectionString.Value</ConnectString>
+      </ConnectionProperties>
       <rd:SecurityType>None</rd:SecurityType>
       <rd:DataSourceID>a4701ec2-a2bf-4f00-a373-e0ef6d3046c3</rd:DataSourceID>
     </DataSource>
@@ -46,6 +49,9 @@
           <QueryParameter Name="@DateFilterOn">
             <Value>=Parameters!DateFilterOn.Value</Value>
           </QueryParameter>
+          <QueryParameter Name="@StatusOnDate">
+            <Value>=Parameters!StatusOnDate.Value</Value>
+          </QueryParameter>
         </QueryParameters>
         <CommandType>StoredProcedure</CommandType>
         <CommandText>Web.spRep_WeavingRegister</CommandText>
@@ -61,6 +67,14 @@
         </Field>
         <Field Name="GroupOnTitle">
           <DataField>GroupOnTitle</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CostCenterId">
+          <DataField>CostCenterId</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="CostCenterName">
+          <DataField>CostCenterName</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="SilkQty">
@@ -79,9 +93,21 @@
           <DataField>SiteId</DataField>
           <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
+        <Field Name="JobWorkerName">
+          <DataField>JobWorkerName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Design">
+          <DataField>Design</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
         <Field Name="TharriQty">
           <DataField>TharriQty</DataField>
           <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="StartDate">
+          <DataField>StartDate</DataField>
+          <rd:TypeName>System.DateTime</rd:TypeName>
         </Field>
         <Field Name="YarnQty">
           <DataField>YarnQty</DataField>
@@ -90,6 +116,10 @@
         <Field Name="AangaQty">
           <DataField>AangaQty</DataField>
           <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="CloseDate">
+          <DataField>CloseDate</DataField>
+          <rd:TypeName>System.DateTime</rd:TypeName>
         </Field>
         <Field Name="TarQty">
           <DataField>TarQty</DataField>
@@ -2002,7 +2032,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!YarnQty.Value</Value>
+                                  <Value>=Fields!YarnQty.Value+Fields!SilkQty.Value</Value>
                                   <Style>
                                     <FontFamily>Tahoma</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -2916,7 +2946,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=RunningValue(Fields!YarnQty.Value, Sum, nothing )</Value>
+                                  <Value>=RunningValue(Fields!YarnQty.Value + Fields!SilkQty.Value, Sum, nothing )</Value>
                                   <Style>
                                     <FontFamily>Tahoma</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -3561,7 +3591,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Sum(Fields!YarnQty.Value)</Value>
+                                  <Value>=Sum(Fields!YarnQty.Value)+Sum(Fields!SilkQty.Value)</Value>
                                   <Style>
                                     <FontFamily>Tahoma</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -6274,6 +6304,12 @@
               <Parameter Name="DivisionId">
                 <Value>=First(Fields!DivisionId.Value, "DsMain")</Value>
               </Parameter>
+              <Parameter Name="DatabaseConnectionString">
+                <Value>=Parameters!DatabaseConnectionString.Value</Value>
+              </Parameter>
+              <Parameter Name="PrintedBy">
+                <Value>=Parameters!PrintedBy.Value</Value>
+              </Parameter>
             </Parameters>
             <Top>0.025in</Top>
             <Left>0.02875in</Left>
@@ -7432,6 +7468,12 @@
       <Nullable>true</Nullable>
       <AllowBlank>true</AllowBlank>
       <Prompt>DatabaseConnectionString</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="StatusOnDate">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Status On Date</Prompt>
     </ReportParameter>
   </ReportParameters>
   <EmbeddedImages>

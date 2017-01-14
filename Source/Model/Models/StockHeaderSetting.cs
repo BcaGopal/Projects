@@ -32,6 +32,8 @@ namespace Model.Models
         public bool? isVisibleProductCode { get; set; }
         public bool? isVisibleDimension1 { get; set; }
         public bool? isVisibleDimension2 { get; set; }
+        public bool? isVisibleDimension3 { get; set; }
+        public bool? isVisibleDimension4 { get; set; }
         public bool? isVisibleRate { get; set; }
         public bool? isVisibleSpecification { get; set; }
         public bool? isMandatoryRate { get; set; }
@@ -45,6 +47,7 @@ namespace Model.Models
         public int? AdjLedgerAccountId { get; set; }
 
         public bool? isVisibleMaterialRequest { get; set; }
+        public bool? isVisibleStockIn { get; set; }
 
         [MaxLength(50)]
         public string PersonFieldHeading { get; set; }

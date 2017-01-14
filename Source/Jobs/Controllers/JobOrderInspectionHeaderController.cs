@@ -145,6 +145,7 @@ namespace Web
             vm.DocDate = DateTime.Now;
             vm.DocTypeId = id;
             vm.DocNo = new DocumentTypeService(_unitOfWork).FGetNewDocNo("DocNo", ConfigurationManager.AppSettings["DataBaseSchema"] + ".JobOrderInspectionHeaders", vm.DocTypeId, vm.DocDate, vm.DivisionId, vm.SiteId);
+            vm.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(vm.DocTypeId);
             PrepareViewBag(id);
             ViewBag.Mode = "Add";
             return View("Create", vm);
@@ -454,6 +455,7 @@ namespace Web
             }
             //Job Inspection Settings
             var settings = new JobOrderInspectionSettingsService(db).GetJobOrderInspectionSettingsForDocument(pt.DocTypeId, pt.DivisionId, pt.SiteId);
+            pt.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(pt.DocTypeId);
 
             if (settings == null && UserRoles.Contains("Admin"))
             {
@@ -509,6 +511,7 @@ namespace Web
             }
 
             pt.JobOrderInspectionSettings = Mapper.Map<JobOrderInspectionSettings, JobOrderInspectionSettingsViewModel>(settings);
+            pt.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(pt.DocTypeId);
 
             PrepareViewBag(pt.DocTypeId);
             if (pt == null)

@@ -3,7 +3,10 @@
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
     <DataSource Name="Purchase">
-      <DataSourceReference>DataSourceMain</DataSourceReference>
+      <ConnectionProperties>
+        <DataProvider>SQL</DataProvider>
+        <ConnectString>=Parameters!DatabaseConnectionString.Value</ConnectString>
+      </ConnectionProperties>
       <rd:SecurityType>None</rd:SecurityType>
       <rd:DataSourceID>a4701ec2-a2bf-4f00-a373-e0ef6d3046c3</rd:DataSourceID>
     </DataSource>
@@ -37,8 +40,8 @@
           <QueryParameter Name="@Process">
             <Value>=Parameters!Process.Value</Value>
           </QueryParameter>
-          <QueryParameter Name="@ProOrderheaderId">
-            <Value>=Parameters!ProOrderheaderId.Value</Value>
+          <QueryParameter Name="@ProdOrderHeaderId">
+            <Value>=Parameters!ProdOrderHeaderId.Value</Value>
           </QueryParameter>
           <QueryParameter Name="@ProductGroup">
             <Value>=Parameters!ProductGroup.Value</Value>
@@ -51,6 +54,9 @@
           </QueryParameter>
           <QueryParameter Name="@ReportType">
             <Value>=Parameters!ReportType.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@ProductDivisionId">
+            <Value>=Parameters!ProductDivisionId.Value</Value>
           </QueryParameter>
         </QueryParameters>
         <CommandType>StoredProcedure</CommandType>
@@ -1909,6 +1915,20 @@
           </Textbox>
           <Subreport Name="Subreport1">
             <ReportName>CompanyDetail</ReportName>
+            <Parameters>
+              <Parameter Name="SiteId">
+                <Value>=First(Fields!SiteId.Value, "DsMain")</Value>
+              </Parameter>
+              <Parameter Name="DivisionId">
+                <Value>=First(Fields!DivisionId.Value, "DsMain")</Value>
+              </Parameter>
+              <Parameter Name="DatabaseConnectionString">
+                <Value>=Parameters!DatabaseConnectionString.Value</Value>
+              </Parameter>
+              <Parameter Name="PrintedBy">
+                <Value>=Parameters!PrintedBy.Value</Value>
+              </Parameter>
+            </Parameters>
             <Top>0.02632in</Top>
             <Left>0.05251in</Left>
             <Height>0.37154in</Height>
@@ -2326,12 +2346,6 @@
       <AllowBlank>true</AllowBlank>
       <Prompt>Process</Prompt>
     </ReportParameter>
-    <ReportParameter Name="ProOrderheaderId">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>Pro Orderheader Id</Prompt>
-    </ReportParameter>
     <ReportParameter Name="ProductGroup">
       <DataType>String</DataType>
       <Nullable>true</Nullable>
@@ -2361,6 +2375,24 @@
       <Nullable>true</Nullable>
       <AllowBlank>true</AllowBlank>
       <Prompt>PrintedBy</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="DatabaseConnectionString">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>DatabaseConnectionString</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="ProdOrderHeaderId">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Prod Order Header Id</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="ProductDivisionId">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Product Division Id</Prompt>
     </ReportParameter>
   </ReportParameters>
   <EmbeddedImages>

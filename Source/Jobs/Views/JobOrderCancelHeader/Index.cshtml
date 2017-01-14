@@ -69,7 +69,7 @@
                columns.Add().Encoded(false).Sanitized(false).SetWidth("5%").RenderValueAs(m => CustomHelpers.RenderCheckBox());
                columns.Add(foo => foo.DocDate).Sortable(true).Titled("Cancel Date").Format("{0:dd/MMM/yyyy}").Filterable(true);
                columns.Add(foo => foo.DocNo).Titled("Cancel No").Sortable(true).Filterable(true);
-               columns.Add(m => m.JobWorkerName).Titled("JobWorker").Sortable(true).Filterable(true);
+               columns.Add(m => m.JobWorkerName).Titled("Party").Sortable(true).Filterable(true);
                columns.Add(m => m.Remark).Titled("Remark").Sortable(true).Filterable(true).SetWidth("30%");
                columns.Add().RenderValueAs(m => CustomHelpers.RenderTotal(m.TotalQty, m.DecimalPlaces)).Sanitized(false).Encoded(false).Titled("TotalQty");
                columns.Add().Titled("Status").RenderValueAs(m => CustomHelpers.RenderStatus(m.Status));

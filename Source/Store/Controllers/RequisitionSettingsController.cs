@@ -136,6 +136,8 @@ namespace Web
                     temp.isVisibleCostCenter = pt.isVisibleCostCenter;
                     temp.isVisibleDimension1 = pt.isVisibleDimension1;
                     temp.isVisibleDimension2 = pt.isVisibleDimension2;
+                    temp.isVisibleDimension3 = pt.isVisibleDimension3;
+                    temp.isVisibleDimension4 = pt.isVisibleDimension4;
                     temp.SqlProcDocumentPrint = pt.SqlProcDocumentPrint;
                     temp.OnSubmitMenuId = pt.OnSubmitMenuId;
                     temp.OnApproveMenuId = pt.OnApproveMenuId;
@@ -279,6 +281,8 @@ namespace Web
                     temp.isVisibleDimension1 = pt.isVisibleDimension1;
                     temp.DefaultReasonId = pt.DefaultReasonId;
                     temp.isVisibleDimension2 = pt.isVisibleDimension2;
+                    temp.isVisibleDimension3 = pt.isVisibleDimension3;
+                    temp.isVisibleDimension4 = pt.isVisibleDimension4;
                     temp.SqlProcDocumentPrint = pt.SqlProcDocumentPrint;
                     temp.OnSubmitMenuId = pt.OnSubmitMenuId;
                     temp.OnApproveMenuId = pt.OnApproveMenuId;

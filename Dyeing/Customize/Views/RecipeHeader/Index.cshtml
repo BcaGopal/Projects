@@ -64,9 +64,10 @@
            {
                columns.Add(m => m.JobOrderHeaderId, true).Css("Header_Id");
                columns.Add(m => m.Status, true);
-               columns.Add(foo => foo.DocDate).Sortable(true).Titled("Order Date").Format("{0:dd/MMM/yyyy}").Filterable(true);
-               columns.Add(m => m.DocNo).Sortable(true).Titled("Order No.").Filterable(true).Sortable(true);
+               columns.Add(foo => foo.DocDate).Sortable(true).Titled("Recipe Date").Format("{0:dd/MMM/yyyy}").Filterable(true);
+               columns.Add(m => m.DocNo).Sortable(true).Titled("Recipe No.").Filterable(true).Sortable(true);
                columns.Add(m => m.MachineName).Sortable(true).Filterable(true).Titled("Machine");
+               columns.Add(m => m.Dimension1Name).Sortable(true).Filterable(true).Titled("Shade");
                columns.Add().Sanitized(false).Encoded(false).RenderValueAs(m => CustomHelpers.RenderStatus(m.Status)).Titled("Status");
                columns.Add().Titled("").Encoded(false).Sanitized(false).RenderValueAs(m => CustomHelpers.RenderUserImage(m.ModifiedBy)).Titled("User").SetWidth("5%").Css("UserImageIndex");
                columns.Add().Encoded(false).Sanitized(false).RenderValueAs(m => CustomHelpers.RenderActionColumn(ControllerName, m.JobOrderHeaderId, m.Status, m.Reviewed, m.ReviewCount, (string)ViewBag.IndexStatus)).SetWidth(20).Css("icon-Cus-Size");

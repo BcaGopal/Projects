@@ -113,6 +113,10 @@ namespace Service
                            ReviewCount = p.ReviewCount,
                            ReviewBy = p.ReviewBy,
                            Reviewed = (SqlFunctions.CharIndex(Uname, p.ReviewBy) > 0),
+                           GatePassDocNo = p.GatePassHeader.DocNo,
+                           GatePassHeaderId = p.GatePassHeaderId,
+                           GatePassDocDate = p.GatePassHeader.DocDate,
+                           GatePassStatus = (p.GatePassHeaderId != null ? p.GatePassHeader.Status : 0),
                        };
             return temp;
         }

@@ -112,6 +112,10 @@ namespace Service
             if (!string.IsNullOrEmpty(svm.Dimension2Id)) { Dimension2IdArr = svm.Dimension2Id.Split(",".ToCharArray()); }
             else { Dimension2IdArr = new string[] { "NA" }; }
 
+            string[] BuyerIdArr = null;
+            if (!string.IsNullOrEmpty(svm.BuyerId)) { BuyerIdArr = svm.BuyerId.Split(",".ToCharArray()); }
+            else { BuyerIdArr = new string[] { "NA" }; }
+
 
             var Header = new MaterialPlanHeaderService(_unitOfWork).Find(svm.MaterialPlanHeaderId);            
 
@@ -140,6 +144,7 @@ namespace Service
                                && (string.IsNullOrEmpty(svm.ProductGroupId) ? 1 == 1 : ProductGroupIdArr.Contains(p.ProductGroupId.ToString()))
                                && (string.IsNullOrEmpty(svm.Dimension1Id) ? 1 == 1 : Dimension1IdArr.Contains(p.Dimension1Id.ToString()))
                                && (string.IsNullOrEmpty(svm.Dimension2Id) ? 1 == 1 : Dimension2IdArr.Contains(p.Dimension2Id.ToString()))
+                               && (string.IsNullOrEmpty(svm.BuyerId) ? 1 == 1 : BuyerIdArr.Contains(p.BuyerId.ToString()))
                                && p.BalanceQty > 0
                                orderby p.Sr
                         select new MaterialPlanForSaleOrderViewModel

@@ -91,6 +91,12 @@
           <QueryParameter Name="@ProductDivisionId">
             <Value>=Parameters!ProductDivisionId.Value</Value>
           </QueryParameter>
+          <QueryParameter Name="@Dimension1Id">
+            <Value>=Parameters!Dimension1Id.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@Dimension2Id">
+            <Value>=Parameters!Dimension2Id.Value</Value>
+          </QueryParameter>
         </QueryParameters>
         <CommandType>StoredProcedure</CommandType>
         <CommandText>Web.spRep_SaleOrderSummaryReport</CommandText>
@@ -372,7 +378,6 @@
                             <PaddingBottom>2pt</PaddingBottom>
                           </Style>
                         </Textbox>
-                        <rd:Selected>true</rd:Selected>
                       </CellContents>
                     </TablixCell>
                     <TablixCell>
@@ -2255,6 +2260,18 @@
       <Nullable>true</Nullable>
       <AllowBlank>true</AllowBlank>
       <Prompt>Product Division Id</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="Dimension1Id">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Dimension1Id</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="Dimension2Id">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Dimension2Id</Prompt>
     </ReportParameter>
   </ReportParameters>
   <EmbeddedImages>

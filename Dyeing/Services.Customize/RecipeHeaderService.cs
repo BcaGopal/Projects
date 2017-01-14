@@ -76,6 +76,7 @@ namespace Services.Customize
         private readonly IModificationCheck _modificationCheck;
         private readonly IStockService _stockService;
         private readonly IStockProcessService _stockProcessService;
+        private readonly IStockAdjService _stockAdjService;
         private readonly IJobOrderLineService _JobOrderLineService;
         private readonly IJobOrderLineStatusService _JobOrderLineStatusService;
         private readonly IJobOrderLineExtendedService _JobOrderLineExtendedService;
@@ -84,7 +85,7 @@ namespace Services.Customize
         private ActiivtyLogViewModel logVm = new ActiivtyLogViewModel();
 
         public RecipeHeaderService(IUnitOfWork unit, IRepository<JobOrderHeader> RecipeRepo,
-            IStockService StockServ, IStockProcessService StockPRocServ,
+            IStockService StockServ, IStockProcessService StockPRocServ, IStockAdjService StockAdjServ, 
             IJobOrderLineService JobOrderLineService,
             IJobOrderLineStatusService JobOrderLineStatusService,
             IJobOrderLineExtendedService JobOrderLineExtendedService,
@@ -95,6 +96,7 @@ namespace Services.Customize
             _RecipeRepository = RecipeRepo;
             _stockProcessService = StockPRocServ;
             _stockService = StockServ;
+            _stockAdjService = StockAdjServ;
             _JobOrderLineService = JobOrderLineService;
             _JobOrderLineStatusService = JobOrderLineStatusService;
             _JobOrderLineExtendedService = JobOrderLineExtendedService;
@@ -155,6 +157,7 @@ namespace Services.Customize
             List<string> UserRoles = (List<string>)System.Web.HttpContext.Current.Session["Roles"];
 
             return (from p in _RecipeRepository.Instance
+                    join l in _unitOfWork.Repository<JobOrderLine>().Instance on p.JobOrderHeaderId equals l.JobOrderHeaderId
                     join t in _unitOfWork.Repository<Person>().Instance on p.JobWorkerId equals t.PersonID
                     join dt in _unitOfWork.Repository<DocumentType>().Instance on p.DocTypeId equals dt.DocumentTypeId
                     orderby p.DocDate descending, p.DocNo descending
@@ -174,6 +177,7 @@ namespace Services.Customize
                         ReviewCount = p.ReviewCount,
                         ReviewBy = p.ReviewBy,
                         Reviewed = (SqlFunctions.CharIndex(Uname, p.ReviewBy) > 0),
+                        Dimension1Name = l.Dimension1.Dimension1Name
                     });
         }
 
@@ -459,10 +463,40 @@ namespace Services.Customize
             s.StockHeaderId = StockViewModel.StockHeaderId;
             s.ObjectState = Model.ObjectState.Added;
             Create(s);
+
+
+            string DocTypeName = (from DT in _unitOfWork.Repository<DocumentType>().Instance
+                                  where DT.DocumentTypeId == vmRecipeHeader.DocTypeId
+                                  select DT).FirstOrDefault().DocumentTypeName;
+
+            if (DocTypeName == "Sub-Recipe")
+            {
+                SqlParameter SqlParameterProdOrderLineId = new SqlParameter("@ProdOrderLineId", vmRecipeHeader.ProdOrderLineId);
+                IEnumerable<StockInDetail> StockInDetail = _unitOfWork.SqlQuery<StockInDetail>("" + ConfigurationManager.AppSettings["DataBaseSchema"] + ".sp_GetStockInForSubRecipe @ProdOrderLineId", SqlParameterProdOrderLineId).ToList();
+
+                if (StockInDetail != null)
+                {
+                    if (StockInDetail.FirstOrDefault().StockInId != null)
+                    {
+                        StockAdj Adj_IssQty = new StockAdj();
+                        Adj_IssQty.StockInId = (int)StockInDetail.FirstOrDefault().StockInId;
+                        Adj_IssQty.StockOutId = (int)StockViewModel.StockId;
+                        Adj_IssQty.DivisionId = vmRecipeHeader.DivisionId;
+                        Adj_IssQty.SiteId = vmRecipeHeader.SiteId;
+                        Adj_IssQty.AdjustedQty = vmRecipeHeader.Qty;
+                        Adj_IssQty.ObjectState = ObjectState.Added;
+
+                        _stockAdjService.Create(Adj_IssQty);
+                    }
+                }
+            }
+
+
+            
+
+            
             //Line Save
-
             JobOrderLine line = new JobOrderLine();
-
             line.JobOrderHeaderId = s.JobOrderHeaderId;
             line.ProdOrderLineId = vmRecipeHeader.ProdOrderLineId;
             line.ProductId = vmRecipeHeader.ProductId;
@@ -596,6 +630,7 @@ namespace Services.Customize
             line.Qty = vmRecipeHeader.Qty;
             line.UnitId = vmRecipeHeader.UnitId;
             line.Sr = 1;
+            line.LotNo = vmRecipeHeader.LotNo;
             line.LossQty = 0;
             line.NonCountedQty = 0;
             line.Rate = 0;
@@ -625,7 +660,7 @@ namespace Services.Customize
                 StockViewModel.DocLineId = line.JobOrderLineId;
                 StockViewModel.DocTypeId = temp.DocTypeId;
                 StockViewModel.StockHeaderDocDate = temp.DocDate;
-                StockViewModel.StockDocDate = line.CreatedDate.Date;
+                StockViewModel.StockDocDate = temp.DocDate;
                 StockViewModel.DocNo = temp.DocNo;
                 StockViewModel.DivisionId = temp.DivisionId;
                 StockViewModel.SiteId = temp.SiteId;
@@ -767,6 +802,8 @@ namespace Services.Customize
 
             var Stock = (_unitOfWork.Repository<Stock>().Query().Get().Where(m => m.StockHeaderId == StockHeaderId)).ToList();
 
+            var StockAdj = (_unitOfWork.Repository<StockAdj>().Query().Get().Where(m => m.StockOut.StockHeaderId == StockHeaderId)).ToList();
+
             var StockLine = (_unitOfWork.Repository<StockLine>().Query().Get().Where(m => m.StockHeaderId == StockHeaderId)).ToList();
 
             var StockLineIds = StockLine.Select(m => m.StockLineId).ToArray();
@@ -791,7 +828,11 @@ namespace Services.Customize
 
             DeleteProdQtyOnRecipeMultiple(JobOrderHeader.JobOrderHeaderId);
 
-
+            foreach (var item in StockAdj)
+            {
+                item.ObjectState = Model.ObjectState.Deleted;
+                _unitOfWork.Repository<StockAdj>().Delete(item);
+            }
 
             foreach (var item in JobOrderLineStatusRecords)
             {
@@ -1258,6 +1299,11 @@ namespace Services.Customize
             _unitOfWork.Repository<ProdOrderHeader>().Add(ProdOrderHeader);
 
 
+            ProdOrderHeaderStatus ProdOrderHeaderStatus = new ProdOrderHeaderStatus();
+            ProdOrderHeaderStatus.ProdOrderHeaderId = ProdOrderHeader.ProdOrderHeaderId;
+            _unitOfWork.Repository<ProdOrderHeaderStatus>().Add(ProdOrderHeaderStatus);
+
+
             ProdOrderLine ProdOrderLine = new ProdOrderLine();
             ProdOrderLine.ProdOrderHeaderId = ProdOrderHeader.ProdOrderHeaderId;
             ProdOrderLine.ProductId = vmRecipeHeader.ProductId;
@@ -1280,6 +1326,7 @@ namespace Services.Customize
 
             ProdOrderLineStatus ProdOrderLineStatus = new ProdOrderLineStatus();
             ProdOrderLineStatus.ProdOrderLineId = ProdOrderLine.ProdOrderLineId;
+            ProdOrderLineStatus.ObjectState = Model.ObjectState.Added;
             _unitOfWork.Repository<ProdOrderLineStatus>().Add(ProdOrderLineStatus);
         }
 
@@ -1318,6 +1365,11 @@ namespace Services.Customize
         public string UnitId { get; set; }
         public int? PersonId { get; set; }
         public string PersonName { get; set; }
+    }
+
+    public class StockInDetail
+    {
+        public int? StockInId { get; set; }
     }
 }
 

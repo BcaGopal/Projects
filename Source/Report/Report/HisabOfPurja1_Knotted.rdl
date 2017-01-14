@@ -3,7 +3,10 @@
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
     <DataSource Name="Invoice">
-      <DataSourceReference>DataSourceMain</DataSourceReference>
+      <ConnectionProperties>
+        <DataProvider>SQL</DataProvider>
+        <ConnectString>=Parameters!DatabaseConnectionString.Value</ConnectString>
+      </ConnectionProperties>
       <rd:SecurityType>None</rd:SecurityType>
       <rd:DataSourceID>adf8514c-abaf-4839-a27a-78acbae1d856</rd:DataSourceID>
     </DataSource>
@@ -56,6 +59,10 @@
         </Field>
         <Field Name="DocNo">
           <DataField>DocNo</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="DocumentTypeForHisab">
+          <DataField>DocumentTypeForHisab</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="WoolQty">
@@ -1663,7 +1670,6 @@
                             <PaddingBottom>2pt</PaddingBottom>
                           </Style>
                         </Textbox>
-                        <rd:Selected>true</rd:Selected>
                       </CellContents>
                     </TablixCell>
                     <TablixCell>
@@ -3936,6 +3942,20 @@
                       <CellContents>
                         <Subreport Name="HisabOfPurja2_Knotted">
                           <ReportName>HisabOfPurja2_Knotted</ReportName>
+                          <Parameters>
+                            <Parameter Name="Site">
+                              <Value>=Parameters!Site.Value</Value>
+                            </Parameter>
+                            <Parameter Name="Division">
+                              <Value>=Parameters!Division.Value</Value>
+                            </Parameter>
+                            <Parameter Name="CostCenterId">
+                              <Value>=Parameters!CostCenterId.Value</Value>
+                            </Parameter>
+                            <Parameter Name="DatabaseConnectionString">
+                              <Value>=Parameters!DatabaseConnectionString.Value</Value>
+                            </Parameter>
+                          </Parameters>
                           <Visibility>
                             <Hidden>=iif(Fields!LedgerDocNo.Value ="0",true,False)</Hidden>
                           </Visibility>
@@ -4355,14 +4375,14 @@
                                 <TablixCells>
                                   <TablixCell>
                                     <CellContents>
-                                      <Textbox Name="DocumentType1">
+                                      <Textbox Name="DocumentTypeForHisab">
                                         <CanGrow>true</CanGrow>
                                         <KeepTogether>true</KeepTogether>
                                         <Paragraphs>
                                           <Paragraph>
                                             <TextRuns>
                                               <TextRun>
-                                                <Value>=Fields!DocumentType.Value</Value>
+                                                <Value>=Fields!DocumentTypeForHisab.Value</Value>
                                                 <Style>
                                                   <FontFamily>Tahoma</FontFamily>
                                                   <FontSize>8pt</FontSize>
@@ -4372,7 +4392,7 @@
                                             <Style />
                                           </Paragraph>
                                         </Paragraphs>
-                                        <rd:DefaultName>DocumentType1</rd:DefaultName>
+                                        <rd:DefaultName>DocumentTypeForHisab</rd:DefaultName>
                                         <Style>
                                           <Border>
                                             <Color>LightGrey</Color>
@@ -4384,6 +4404,7 @@
                                           <PaddingBottom>2pt</PaddingBottom>
                                         </Style>
                                       </Textbox>
+                                      <rd:Selected>true</rd:Selected>
                                     </CellContents>
                                   </TablixCell>
                                   <TablixCell>
@@ -4688,7 +4709,7 @@
                                           <Paragraph>
                                             <TextRuns>
                                               <TextRun>
-                                                <Value>=Fields!DocumentType.Value</Value>
+                                                <Value>=Fields!DocumentTypeForHisab.Value</Value>
                                                 <Style>
                                                   <FontFamily>Tahoma</FontFamily>
                                                   <FontSize>8pt</FontSize>
@@ -4710,6 +4731,7 @@
                                           <PaddingBottom>2pt</PaddingBottom>
                                         </Style>
                                       </Textbox>
+                                      <rd:Selected>true</rd:Selected>
                                     </CellContents>
                                   </TablixCell>
                                   <TablixCell>
@@ -5790,14 +5812,14 @@
                             <TablixMembers>
                               <TablixMember />
                               <TablixMember>
-                                <Group Name="DocumentType">
+                                <Group Name="DocumentTypeForHisab">
                                   <GroupExpressions>
-                                    <GroupExpression>=Fields!DocumentType.Value</GroupExpression>
+                                    <GroupExpression>=Fields!DocumentTypeForHisab.Value</GroupExpression>
                                   </GroupExpressions>
                                 </Group>
                                 <SortExpressions>
                                   <SortExpression>
-                                    <Value>=Fields!DocumentType.Value</Value>
+                                    <Value>=Fields!DocumentTypeForHisab.Value</Value>
                                   </SortExpression>
                                 </SortExpressions>
                                 <TablixMembers>
@@ -6605,23 +6627,23 @@
       <AllowBlank>true</AllowBlank>
       <Prompt>Division</Prompt>
     </ReportParameter>
-    <ReportParameter Name="CostCenterId">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>CostCenterId</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="JobWorkerId">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>JobWorkerId</Prompt>
-    </ReportParameter>
     <ReportParameter Name="DocNo">
       <DataType>String</DataType>
       <Nullable>true</Nullable>
       <AllowBlank>true</AllowBlank>
       <Prompt>Doc No</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="CostCenterId">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Cost Center Id</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="DatabaseConnectionString">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>DatabaseConnectionString</Prompt>
     </ReportParameter>
   </ReportParameters>
   <EmbeddedImages>
@@ -6637,3 +6659,4 @@ PtQeVUENmewh02zjEWZuZuLElNvBS6gDSXQMHP8A5UE5f6lWFPkR2q6ZG8HZI8xgvruK93SMJUsHJ61z
   <rd:ReportUnitType>Inch</rd:ReportUnitType>
   <rd:ReportID>f1b70379-da78-4ea9-bab5-cbb93d10df58</rd:ReportID>
 </Report>
+

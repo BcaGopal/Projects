@@ -148,6 +148,7 @@ namespace Services.Customize
             List<string> UserRoles = (List<string>)System.Web.HttpContext.Current.Session["Roles"];
 
             return (from p in _DyeingRepository.Instance
+                    join l in _unitOfWork.Repository<JobReceiveLine>().Instance on p.JobReceiveHeaderId equals l.JobReceiveHeaderId
                     join t in _unitOfWork.Repository<Person>().Instance on p.JobWorkerId equals t.PersonID
                     join dt in _unitOfWork.Repository<DocumentType>().Instance on p.DocTypeId equals dt.DocumentTypeId
                     orderby p.DocDate descending, p.DocNo descending
@@ -166,6 +167,7 @@ namespace Services.Customize
                         ReviewCount = p.ReviewCount,
                         ReviewBy = p.ReviewBy,
                         Reviewed = (SqlFunctions.CharIndex(Uname, p.ReviewBy) > 0),
+                        Dimension1Name = l.JobOrderLine.Dimension1.Dimension1Name
                     });
         }
 
@@ -413,7 +415,10 @@ namespace Services.Customize
             JobReceiveHeaderExtended HeaderExtended = new JobReceiveHeaderExtended();
             HeaderExtended.JobReceiveHeaderId = s.JobReceiveHeaderId;
             HeaderExtended.StartDateTime = vmDyeing.StartDateTime.Value.AddHours(vmDyeing.StartDateTimeHour).AddMinutes(vmDyeing.StartDateTimeMinute);
-            HeaderExtended.CompletedDateTime = vmDyeing.CompletedDateTime.Value.AddHours(vmDyeing.CompletedDateTimeHour).AddMinutes(vmDyeing.CompletedDateTimeMinute);
+            if (vmDyeing.CompletedDateTime != null)
+            {
+                HeaderExtended.CompletedDateTime = vmDyeing.CompletedDateTime.Value.AddHours(vmDyeing.CompletedDateTimeHour).AddMinutes(vmDyeing.CompletedDateTimeMinute);
+            }
             HeaderExtended.LoadingTime = vmDyeing.LoadingTime;
             HeaderExtended.IsQCRequired = vmDyeing.IsQCRequired;
             HeaderExtended.DyeingType = vmDyeing.DyeingType;
@@ -449,6 +454,7 @@ namespace Services.Customize
             List<LogTypeViewModel> LogList = new List<LogTypeViewModel>();
 
             JobReceiveHeader temp = Find(vmDyeing.JobReceiveHeaderId);
+            JobReceiveLine line = _JobReceiveLineService.GetJobReceiveLineListForHeader(vmDyeing.JobReceiveHeaderId).FirstOrDefault();
 
             JobReceiveHeader ExRec = Mapper.Map<JobReceiveHeader>(temp);
 
@@ -476,11 +482,12 @@ namespace Services.Customize
 
             //Posting in Stock
             StockViewModel.StockHeaderId = temp.StockHeaderId ?? 0;
+            StockViewModel.StockId = line.StockId ?? 0;
             StockViewModel.DocHeaderId = temp.JobReceiveHeaderId;
             StockViewModel.DocLineId = null;
             StockViewModel.DocTypeId = temp.DocTypeId;
             StockViewModel.StockHeaderDocDate = temp.DocDate;
-            StockViewModel.StockDocDate = DateTime.Now.Date;
+            StockViewModel.StockDocDate = temp.DocDate;
             StockViewModel.DocNo = temp.DocNo;
             StockViewModel.DivisionId = temp.DivisionId;
             StockViewModel.SiteId = temp.SiteId;
@@ -527,7 +534,7 @@ namespace Services.Customize
             }
 
 
-            JobReceiveLine line = _JobReceiveLineService.GetJobReceiveLineListForHeader(vmDyeing.JobReceiveHeaderId).FirstOrDefault();
+            
 
             line.JobReceiveHeaderId = temp.JobReceiveHeaderId;
             line.JobOrderLineId = vmDyeing.JobOrderLineId;
@@ -550,7 +557,10 @@ namespace Services.Customize
             JobReceiveHeaderExtended HeaderExtended = _JobReceiveHeaderExtendedService.Find(temp.JobReceiveHeaderId);
             HeaderExtended.JobReceiveHeaderId = temp.JobReceiveHeaderId;
             HeaderExtended.StartDateTime = vmDyeing.StartDateTime.Value.AddHours(vmDyeing.StartDateTimeHour).AddMinutes(vmDyeing.StartDateTimeMinute);
-            HeaderExtended.CompletedDateTime = vmDyeing.CompletedDateTime.Value.AddHours(vmDyeing.StartDateTimeHour).AddMinutes(vmDyeing.StartDateTimeMinute);
+            if (vmDyeing.CompletedDateTime != null)
+            {
+                HeaderExtended.CompletedDateTime = vmDyeing.CompletedDateTime.Value.AddHours(vmDyeing.CompletedDateTimeHour).AddMinutes(vmDyeing.CompletedDateTimeMinute);
+            }
             HeaderExtended.LoadingTime = vmDyeing.LoadingTime;
             HeaderExtended.IsQCRequired = vmDyeing.IsQCRequired;
             HeaderExtended.DyeingType = vmDyeing.DyeingType;

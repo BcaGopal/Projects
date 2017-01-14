@@ -853,7 +853,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Qty</Value>
+                              <Value>Pcs</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>9pt</FontSize>
@@ -950,7 +950,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Qty</Value>
+                              <Value>Pcs</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>9pt</FontSize>
@@ -1007,7 +1007,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Qty</Value>
+                              <Value>Pcs</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>9pt</FontSize>
@@ -1064,7 +1064,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Qty</Value>
+                              <Value>Pcs</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>9pt</FontSize>
@@ -3467,3 +3467,4 @@ PtQeVUENmewh02zjEWZuZuLElNvBS6gDSXQMHP8A5UE5f6lWFPkR2q6ZG8HZI8xgvruK93SMJUsHJ61z
   <rd:ReportUnitType>Inch</rd:ReportUnitType>
   <rd:ReportID>f1b70379-da78-4ea9-bab5-cbb93d10df58</rd:ReportID>
 </Report>
+

@@ -2952,6 +2952,20 @@
       </Tablix>
       <Subreport Name="CompanyDetail">
         <ReportName>CompanyDetail</ReportName>
+        <Parameters>
+          <Parameter Name="SiteId">
+            <Value>=First(Fields!Siteid.Value, "DsMain")</Value>
+          </Parameter>
+          <Parameter Name="DivisionId">
+            <Value>=First(Fields!DivisionId.Value, "DsMain")</Value>
+          </Parameter>
+          <Parameter Name="DatabaseConnectionString">
+            <Value>=Parameters!DatabaseConnectionString.Value</Value>
+          </Parameter>
+          <Parameter Name="PrintedBy">
+            <Value>=Parameters!PrintedBy.Value</Value>
+          </Parameter>
+        </Parameters>
         <Top>0.02778in</Top>
         <Left>0.05909in</Left>
         <Height>0.31945in</Height>
@@ -3875,7 +3889,10 @@
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
     <DataSource Name="DyeingReceiptPrint">
-      <DataSourceReference>DataSourceMain</DataSourceReference>
+      <ConnectionProperties>
+        <DataProvider>SQL</DataProvider>
+        <ConnectString>=Parameters!DatabaseConnectionString.Value</ConnectString>
+      </ConnectionProperties>
       <rd:SecurityType>None</rd:SecurityType>
       <rd:DataSourceID>727bb65e-cc51-4d28-a097-a8ea7d087931</rd:DataSourceID>
     </DataSource>
@@ -4076,6 +4093,18 @@
       <Nullable>true</Nullable>
       <AllowBlank>true</AllowBlank>
       <Prompt>FilterStr8</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="DatabaseConnectionString">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>DatabaseConnectionString</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="PrintedBy">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>PrintedBy</Prompt>
     </ReportParameter>
   </ReportParameters>
   <Code>

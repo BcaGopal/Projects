@@ -18,10 +18,12 @@ namespace Model.Models
         public int MaterialPlanHeaderId { get; set; }
 
         [ForeignKey("DocType"), Display(Name = "Plan Type")]
+        [Index("IX_MaterialPlanHeader_DocID", IsUnique = true, Order = 1)]
         public int DocTypeId { get; set; }
         public virtual DocumentType DocType { get; set; }
 
         [Display(Name="Plan Date"),DisplayFormat(DataFormatString="{0:dd/MMM/yyyy}")]
+        [Index("IX_MaterialPlanHeader_DocID", IsUnique = true, Order = 2)]
         public DateTime DocDate { get; set; }
 
         [Display(Name = "Plan No"), MaxLength(20)]
@@ -32,10 +34,12 @@ namespace Model.Models
         public virtual Buyer Buyer { get; set; }
 
         [ForeignKey("Division"),Display(Name="Division")]
+        [Index("IX_MaterialPlanHeader_DocID", IsUnique = true, Order = 3)]
         public int DivisionId { get; set; }
         public virtual Division Division { get; set; }
 
         [ForeignKey("Site"),Display(Name="Site")]
+        [Index("IX_MaterialPlanHeader_DocID", IsUnique = true, Order = 4)]
         public int SiteId { get; set; }
         public virtual Site Site { get; set; }
 

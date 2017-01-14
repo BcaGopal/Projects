@@ -154,7 +154,7 @@ namespace Web
             vm.ProcessId = settings.ProcessId;
             vm.DocDate = DateTime.Now;
             vm.DocNo = new DocumentTypeService(_unitOfWork).FGetNewDocNo("DocNo", ConfigurationManager.AppSettings["DataBaseSchema"] + ".JobInvoiceReturnHeaders", vm.DocTypeId, vm.DocDate, vm.DivisionId, vm.SiteId);
-
+            vm.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(vm.DocTypeId);
             ViewBag.Mode = "Add";
             return View("Create", vm);
         }
@@ -472,6 +472,7 @@ namespace Web
                 return View("~/Views/Shared/InValidSettings.cshtml");
             }
             pt.JobInvoiceSettings = Mapper.Map<JobInvoiceSettings, JobInvoiceSettingsViewModel>(settings);
+            pt.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(pt.DocTypeId);
             ViewBag.Mode = "Edit";
 
             if (!(System.Web.HttpContext.Current.Request.UrlReferrer.PathAndQuery).Contains("Create"))
@@ -557,6 +558,7 @@ namespace Web
                 return View("~/Views/Shared/InValidSettings.cshtml");
             }
             pt.JobInvoiceSettings = Mapper.Map<JobInvoiceSettings, JobInvoiceSettingsViewModel>(settings);
+            pt.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(pt.DocTypeId);
 
             PrepareViewBag(pt.DocTypeId);
             if (pt == null)

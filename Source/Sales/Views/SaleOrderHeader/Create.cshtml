@@ -193,7 +193,8 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-6">
+                            <div class="col-md-6" style="display:@(Model.SaleOrderSettings.isVisibleBillToParty ? "" : "none")">
+                                @Html.HiddenFor(m => m.SaleOrderSettings.isVisibleBillToParty)
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.BillToBuyerId, "Bill To Buyer", new { @class = "control-label col-md-4 col-sm-2" })
                                     <div class="col-md-7 col-sm-10">
@@ -329,6 +330,19 @@
                                     </div>
                                 </div>
                             </div>
+
+                            <div class="col-md-6" style="display:@(Model.SaleOrderSettings.isVisibleGodown ? "" : "none")">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.GodownId, "Godown", new { @class = "control-label col-md-4 col-sm-2" })
+                                    <div class="col-md-7 col-sm-10">
+                                        @Html.TextBoxFor(m => m.GodownId, new { @class = "form-control col-xs-6" })
+                                        @Html.ValidationMessageFor(m => m.GodownId, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.Remark, "Remark", new { @class = "control-label col-md-4 col-sm-2" })
@@ -489,6 +503,16 @@
             }
         });
 
+        $('#SaleToBuyerId').change(function () {
+            var cid = $("#SaleToBuyerId").val();
+            var cdata = $('#SaleToBuyerId').select2('data').text;
+
+            if ($("#BillToBuyerId").val() == 0 || $("#BillToBuyerId").val() == null)
+            {
+                $("#BillToBuyerId").select2('data', { id: cid, text: cdata });
+            }
+        });
+
 
         //Reloading the table contents on modal hide
         $('#myModal').on('hidden.bs.modal', function () {
@@ -576,6 +600,7 @@
 
         CustomSelectFunction($("#BillToBuyerId"), '/ComboHelpList/GetPersonWithProcess', '/ComboHelpList/SetSinglePerson', ' ', false, 0,$('#ProcessId').val());
         CustomSelectFunction($("#SaleToBuyerId"), '/ComboHelpList/GetPersonWithProcess', '/ComboHelpList/SetSinglePerson', ' ', false, 0,$('#ProcessId').val());
+        CustomSelectFunction($("#GodownId"), '/ComboHelpList/GetGodown', '/ComboHelpList/SetSingleGodown', ' ', false, 1);
 
         //CustomSelectFunction($("#SaleToBuyerId"), '/ComboHelpList/GetPerson', '/ComboHelpList/SetSinglePerson', ' ', false, 0);
         //CustomSelectFunction($("#BillToBuyerId"), '/ComboHelpList/GetBuyers', '/ComboHelpList/SetSingleBuyer', ' ', false, 0);

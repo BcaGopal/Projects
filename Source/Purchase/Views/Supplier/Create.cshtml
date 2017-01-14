@@ -62,7 +62,7 @@
             <div class="form-horizontal">
                 @Html.ValidationSummary(true)
 
-                <div class="row">
+                <div>
                     <h4 class="col-md-12 black">
                         <span class="glyphicon glyphicon-align-justify"></span>
                         1.Personal Details
@@ -439,6 +439,18 @@
 }
 
 <script type="text/javascript">
+    $(function()
+    {
+        var TitleCase= '@Session["TitleCase"]';
+        //alert(TitleCase);
+        $('#Name,#Suffix,#Code,#PanNo').keyup(function () {
+            if (TitleCase=="UpperCase")
+            this.value = this.value.toUpperCase() ;
+    });
+    });
+</script>
+
+<script type="text/javascript">
     CustomSelectFunction($("#CityId"), '/ComboHelpList/GetCity', '/ComboHelpList/SetSingleCity', ' ', false, 0);
     CustomSelectFunction($("#GuarantorId"), '/ComboHelpList/GetPerson', '/ComboHelpList/SetSinglePerson', ' ', false, 3);
     CustomSelectFunction($("#ParentId"), '/ComboHelpList/GetSuppliers', '/ComboHelpList/SetSingleSupplier', ' ', false, 3);
@@ -495,6 +507,7 @@
         LoadPersonBankDetail();
     });
 
+    
 
     //To focus on the first element on modal load
     $('#myModal').on('shown.bs.modal', function () {

@@ -457,7 +457,7 @@ namespace Service
                 //            join JOH in context.JobOrderHeader.Where(m => m.SiteId == JobOrderHeader.SiteId && m.DivisionId == JobOrderHeader.DivisionId) on t2.JobOrderHeaderId equals JOH.JobOrderHeaderId
                 //            join RecLineStatus in context.JobReceiveLineStatus on tab.JobReceiveLineId equals RecLineStatus.JobReceiveLineId into RecLineStatTab
                 //            from RecLineStat in RecLineStatTab.DefaultIfEmpty()
-                //            where p.ProductUidHeaderId == JobOrderline.ProductUidHeaderId && (JRH == null || ((tab.Qty - (RecLineStat.ReturnQty ?? 0)) == 0)) && 
+                //            where p.ProductUidHeaderId == JobOrderline.ProductUidHeaderId && (JRH == null || ((tab.Qty - (RecLineStat.ReturnQty ?? 0)) == 0)) &&
                 //            p.Status != ProductUidStatusConstants.Cancel && ((p.GenPersonId == p.LastTransactionPersonId) || p.CurrenctGodownId != null)
                 //            && JOH.ProcessId == JobOrderHeader.ProcessId
                 //            orderby p.ProductUIDId
@@ -504,7 +504,7 @@ namespace Service
         {
             return (from p in db.JobOrderLine
                     where p.JobOrderLineId == JobOrderLineId
-                    join t in db.ProductUid on p.ProductUidHeaderId equals t.ProductUidHeaderId
+                    join t in db.ProductUid on p.ProductUidHeaderId equals t.ProductUidHeaderId                    
                     join t2 in db.JobReceiveLine on t.ProductUIDId equals t2.ProductUidId into table
                     from tab in table.DefaultIfEmpty()
                     where tab == null

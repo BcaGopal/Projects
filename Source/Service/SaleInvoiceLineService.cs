@@ -218,8 +218,7 @@ namespace Service
                                                                                   ProductName = tab.ProductName,
                                                                                   Dimension1Name = Dimension1Tab.Dimension1Name,
                                                                                   Dimension2Name = Dimension2Tab.Dimension2Name,
-                                                                                  Specification = l.Specification,
-                                                                                  SaleOrderHeaderDocNo = tab2.DocNo,
+                                                                                  Specification = l.Specification,                                                                                  
                                                                                   ProductUidIdName = tab3.ProductUidName,
                                                                                   BaleNo = l.BaleNo,
                                                                                   ProductInvoiceGroupName = tab4.ProductInvoiceGroupName,
@@ -233,6 +232,7 @@ namespace Service
                                                                                   SaleDispatchDocNo = SaleInvoiceLineTab.SaleDispatchLine.SaleDispatchHeader.DocNo,
                                                                                   Amount = l.Amount,
                                                                                   Remark = l.Remark,
+                                                                                  SaleOrderHeaderDocNo = tab2.DocNo,
                                                                               }).Take(2000).ToList();
 
 
@@ -1057,7 +1057,8 @@ namespace Service
                                                  Dimension1Id = L.Dimension1Id,
                                                  Dimension2Id = L.Dimension2Id,
                                                  Rate = L.Rate,
-                                                 Weightage = L.Qty
+                                                 Weightage = L.Qty,
+                                                 SaleDispatchLineId = L.SaleDispatchLineId
                                              }).ToList();
 
 
@@ -1067,6 +1068,7 @@ namespace Service
             dataTable.Columns.Add("Dimension2Id");
             dataTable.Columns.Add("Rate");
             dataTable.Columns.Add("Weightage");
+            dataTable.Columns.Add("SaleDispatchLineId");
 
 
             foreach (var item in ProductData)
@@ -1077,6 +1079,7 @@ namespace Service
                 dr["Dimension2Id"] = item.Dimension2Id;
                 dr["Rate"] = 0;
                 dr["Weightage"] = item.Weightage;
+                dr["SaleDispatchLineId"] = item.SaleDispatchLineId;
                 dataTable.Rows.Add(dr);
             }
 
@@ -1140,5 +1143,6 @@ namespace Service
 	    public int? Dimension2Id { get; set; }
         public Decimal? Rate { get; set; }
         public Decimal? Weightage { get; set; }
+        public int? SaleDispatchLineId { get; set; }
     }
 }

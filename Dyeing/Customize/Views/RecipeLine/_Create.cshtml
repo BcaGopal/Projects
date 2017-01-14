@@ -95,6 +95,7 @@
                             <div class="col-xs-4" style="padding-right:0px;">
                                 @Html.TextBoxFor(model => model.Qty, new { @class = "form-control col-xs-3 required cusrightnormal number" })
                                 @Html.ValidationMessageFor(model => model.Qty, "", new { @class = "text-danger" })
+                                <span id="ExcessStockQty"></span>
                             </div>
                             <div class="col-xs-3" style="padding-left:0px">
                                 @Html.TextBoxFor(m => m.UnitId, new { @class = "form-control col-xs-2 cusleftnormal", @readonly = "true" })
@@ -226,6 +227,14 @@
             }
         })
     });
+
+
+    $('#Qty').focusin(function(){
+        if($('#ProductId').val())
+            $.get('/RecipeLine/GetExcessStock', {ProductId:$('#ProductId').val(),Dim1:null,Dim2:null,ProcId:null,Lot:null,StockHeaderId:$('#StockHeaderId').val(),ProcName:null}).done(function(data){
+                $('#ExcessStockQty').text("Stock:"+data);
+            });
+    })
 
 </script>
 

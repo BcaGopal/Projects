@@ -125,6 +125,8 @@ namespace Web
                    
                     temp.isVisibleDimension1 = pt.isVisibleDimension1;
                     temp.isVisibleDimension2 = pt.isVisibleDimension2;
+                    temp.isVisibleDimension3 = pt.isVisibleDimension3;
+                    temp.isVisibleDimension4 = pt.isVisibleDimension4;
                     temp.ImportMenuId = pt.ImportMenuId;
                     temp.isVisibleProductUID = pt.isVisibleProductUID;
                     temp.isMandatoryProductUID = pt.isMandatoryProductUID;
@@ -257,6 +259,8 @@ namespace Web
 
                     temp.isVisibleDimension1 = pt.isVisibleDimension1;
                     temp.isVisibleDimension2 = pt.isVisibleDimension2;
+                    temp.isVisibleDimension3 = pt.isVisibleDimension3;
+                    temp.isVisibleDimension4 = pt.isVisibleDimension4;
                     temp.ImportMenuId = pt.ImportMenuId;
                     temp.isVisibleProductUID = pt.isVisibleProductUID;
                     temp.isMandatoryProductUID = pt.isMandatoryProductUID;

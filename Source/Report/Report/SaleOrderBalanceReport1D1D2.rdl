@@ -5,7 +5,7 @@
     <DataSource Name="Weaving">
       <ConnectionProperties>
         <DataProvider>SQL</DataProvider>
-        <ConnectString>Data Source=192.168.2.17;Initial Catalog=DyeingHouse;Integrated Security=False;User Id=sa; pwd=</ConnectString>
+        <ConnectString>=Parameters!DatabaseConnectionString.Value</ConnectString>
       </ConnectionProperties>
       <rd:SecurityType>None</rd:SecurityType>
       <rd:DataSourceID>a4701ec2-a2bf-4f00-a373-e0ef6d3046c3</rd:DataSourceID>
@@ -79,6 +79,12 @@
           <QueryParameter Name="@SaleOrderHeaderId">
             <Value>=Parameters!SaleOrderHeaderId.Value</Value>
           </QueryParameter>
+          <QueryParameter Name="@Dimension1Id">
+            <Value>=Parameters!Dimension1Id.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@Dimension2Id">
+            <Value>=Parameters!Dimension2Id.Value</Value>
+          </QueryParameter>
         </QueryParameters>
         <CommandType>StoredProcedure</CommandType>
         <CommandText>Web.ProcSaleOrderBalance</CommandText>
@@ -114,7 +120,7 @@
         </Field>
         <Field Name="DocDate">
           <DataField>DocDate</DataField>
-          <rd:TypeName>System.DateTime</rd:TypeName>
+          <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="DocNo">
           <DataField>DocNo</DataField>
@@ -122,7 +128,7 @@
         </Field>
         <Field Name="DueDate">
           <DataField>DueDate</DataField>
-          <rd:TypeName>System.DateTime</rd:TypeName>
+          <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="BuyerOrderNo">
           <DataField>BuyerOrderNo</DataField>
@@ -1189,7 +1195,7 @@
             <Top>0.71072in</Top>
             <Left>0.05493in</Left>
             <Height>3in</Height>
-            <Width>10.83333in</Width>
+            <Width>10.83334in</Width>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -2044,7 +2050,6 @@
                             <PaddingBottom>2pt</PaddingBottom>
                           </Style>
                         </Textbox>
-                        <rd:Selected>true</rd:Selected>
                       </CellContents>
                     </TablixCell>
                     <TablixCell>
@@ -2693,6 +2698,7 @@
                                                           <PaddingBottom>2pt</PaddingBottom>
                                                         </Style>
                                                       </Textbox>
+                                                      <rd:Selected>true</rd:Selected>
                                                     </CellContents>
                                                   </TablixHeader>
                                                   <TablixMembers>
@@ -2920,7 +2926,7 @@
             <Top>3.75239in</Top>
             <Left>0.05493in</Left>
             <Height>1.08333in</Height>
-            <Width>10.83333in</Width>
+            <Width>10.83334in</Width>
             <ZIndex>3</ZIndex>
             <Style>
               <Border>
@@ -3411,7 +3417,21 @@
     </ReportParameter>
     <ReportParameter Name="DatabaseConnectionString">
       <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
       <Prompt>DatabaseConnectionString</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="Dimension1Id">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Dimension1Id</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="Dimension2Id">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Dimension2Id</Prompt>
     </ReportParameter>
   </ReportParameters>
   <EmbeddedImages>

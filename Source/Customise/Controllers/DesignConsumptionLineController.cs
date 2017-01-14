@@ -76,7 +76,7 @@ namespace Web
                                                ProductGroupId = Result.Key.ProductGroupId
                                            };
 
-            var LastTrRec = (from L in db.BomDetail
+            var TotalMainContents = (from L in db.BomDetail
                              join P in db.Product on L.ProductId equals P.ProductId into ProductTable
                              from ProductTab in ProductTable.DefaultIfEmpty()
                              join pcon in ProductFaceContentGroups on ProductTab.ProductGroupId equals pcon.ProductGroupId into ProductFaceContentTable
@@ -88,10 +88,28 @@ namespace Web
                                  TotalQty = Result.Sum(i => i.L.Qty)
                              }).FirstOrDefault();
 
-            if (LastTrRec != null)
+            var TotalOtherContents = (from L in db.BomDetail
+                                     join P in db.Product on L.ProductId equals P.ProductId into ProductTable
+                                     from ProductTab in ProductTable.DefaultIfEmpty()
+                                     join pcon in ProductFaceContentGroups on ProductTab.ProductGroupId equals pcon.ProductGroupId into ProductFaceContentTable
+                                     from ProductFaceContentTab in ProductFaceContentTable.DefaultIfEmpty()
+                                     where L.BaseProductId == svm.BaseProductId && ((int?)ProductFaceContentTab.ProductGroupId ?? 0) == 0
+                                     group new { L } by new { L.BaseProductId } into Result
+                                     select new
+                                     {
+                                         TotalQty = Result.Sum(i => i.L.Qty)
+                                     }).FirstOrDefault();
+
+            if (TotalMainContents != null)
             {
-                Decimal TotalPercentage = Math.Round(LastTrRec.TotalQty * 100 / svm.Weight,2);
-                ViewBag.LastTransaction = TotalPercentage + "% Consumption filled, " + (100 - TotalPercentage) + " remaining.";
+                Decimal TotalMainContentPercentage = Math.Round(TotalMainContents.TotalQty * 100 / svm.Weight,2);
+                ViewBag.LastTransaction = TotalMainContentPercentage + "% Main Contents filled, " + (100 - TotalMainContentPercentage) + " remaining.";
+            }
+
+            if (TotalOtherContents != null)
+            {
+                Decimal TotalOtherContentPercentage = Math.Round(TotalOtherContents.TotalQty * 100 / svm.Weight, 2);
+                ViewBag.LastTransaction = ViewBag.LastTransaction + (TotalOtherContentPercentage + "% Other Contents filled.").ToString();
             }
         }
 

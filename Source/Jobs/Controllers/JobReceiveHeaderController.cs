@@ -147,6 +147,7 @@ namespace Web
             vm.DocDate = DateTime.Now;
             vm.DocTypeId = id;
             vm.DocNo = new DocumentTypeService(_unitOfWork).FGetNewDocNo("DocNo", ConfigurationManager.AppSettings["DataBaseSchema"] + ".JobReceiveHeaders", vm.DocTypeId, vm.DocDate, vm.DivisionId, vm.SiteId);
+            vm.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(vm.DocTypeId);
             PrepareViewBag(id);
             ViewBag.Mode = "Add";
             return View("Create", vm);
@@ -498,6 +499,7 @@ namespace Web
             }
 
             pt.JobReceiveSettings = Mapper.Map<JobReceiveSettings, JobReceiveSettingsViewModel>(settings);
+            pt.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(pt.DocTypeId);
 
             PrepareViewBag(pt.DocTypeId);
 
@@ -542,6 +544,7 @@ namespace Web
             }
 
             pt.JobReceiveSettings = Mapper.Map<JobReceiveSettings, JobReceiveSettingsViewModel>(settings);
+            pt.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(pt.DocTypeId);
 
             PrepareViewBag(pt.DocTypeId);
             if (pt == null)

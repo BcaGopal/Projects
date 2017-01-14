@@ -3,7 +3,10 @@
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
     <DataSource Name="DataSource1">
-      <DataSourceReference>DataSourceMain</DataSourceReference>
+      <ConnectionProperties>
+        <DataProvider>SQL</DataProvider>
+        <ConnectString>=Parameters!DatabaseConnectionString.Value</ConnectString>
+      </ConnectionProperties>
       <rd:SecurityType>None</rd:SecurityType>
       <rd:DataSourceID>d2b5c044-4c3a-4a6c-b8ab-43beedee97e6</rd:DataSourceID>
     </DataSource>
@@ -18,9 +21,6 @@
           </QueryParameter>
           <QueryParameter Name="@Interval">
             <Value>=Parameters!Interval.Value</Value>
-          </QueryParameter>
-          <QueryParameter Name="@ProductDivision">
-            <Value>=Parameters!ProductDivision.Value</Value>
           </QueryParameter>
           <QueryParameter Name="@Site">
             <Value>=Parameters!Site.Value</Value>
@@ -42,6 +42,9 @@
           </QueryParameter>
           <QueryParameter Name="@ReportType">
             <Value>=Parameters!ReportType.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@ProductDivisionId">
+            <Value>=Parameters!ProductDivisionId.Value</Value>
           </QueryParameter>
         </QueryParameters>
         <CommandType>StoredProcedure</CommandType>
@@ -169,11 +172,6 @@
                             <Border>
                               <Style>None</Style>
                             </Border>
-                            <TopBorder>
-                              <Color>Black</Color>
-                              <Style>Solid</Style>
-                              <Width>1pt</Width>
-                            </TopBorder>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
                             <PaddingTop>2pt</PaddingTop>
@@ -206,11 +204,6 @@
                             <Border>
                               <Style>None</Style>
                             </Border>
-                            <TopBorder>
-                              <Color>Black</Color>
-                              <Style>Solid</Style>
-                              <Width>1pt</Width>
-                            </TopBorder>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
                             <PaddingTop>2pt</PaddingTop>
@@ -1060,7 +1053,7 @@
                 </TablixMember>
               </TablixMembers>
             </TablixRowHierarchy>
-            <Top>0.02083in</Top>
+            <Top>0.68333in</Top>
             <Left>0.05493in</Left>
             <Height>3in</Height>
             <Width>10.8854in</Width>
@@ -1166,7 +1159,7 @@
               </TablixMembers>
             </TablixRowHierarchy>
             <DataSetName>DsMain</DataSetName>
-            <Top>3.95833in</Top>
+            <Top>4.67083in</Top>
             <Left>0.05493in</Left>
             <Height>0.25in</Height>
             <Width>10.8854in</Width>
@@ -2034,7 +2027,7 @@
             <RepeatColumnHeaders>true</RepeatColumnHeaders>
             <RepeatRowHeaders>true</RepeatRowHeaders>
             <DataSetName>DsMain</DataSetName>
-            <Top>3.05208in</Top>
+            <Top>3.72708in</Top>
             <Height>0.88542in</Height>
             <Width>6.46749in</Width>
             <ZIndex>2</ZIndex>
@@ -2044,58 +2037,100 @@
               </Border>
             </Style>
           </Tablix>
+          <Subreport Name="Subreport2">
+            <ReportName>CompanyDetail_Landscap</ReportName>
+            <Parameters>
+              <Parameter Name="SiteId">
+                <Value>=First(Fields!SiteId.Value, "DsMain")</Value>
+              </Parameter>
+              <Parameter Name="DivisionId">
+                <Value>=First(Fields!DivisionId.Value, "DsMain")</Value>
+              </Parameter>
+              <Parameter Name="DatabaseConnectionString">
+                <Value>=Parameters!DatabaseConnectionString.Value</Value>
+              </Parameter>
+              <Parameter Name="PrintedBy">
+                <Value>=Parameters!PrintedBy.Value</Value>
+              </Parameter>
+            </Parameters>
+            <Top>0.04896in</Top>
+            <Left>0.05016in</Left>
+            <Height>0.30208in</Height>
+            <Width>10.89834in</Width>
+            <ZIndex>3</ZIndex>
+            <Visibility>
+              <Hidden>=iif(Globals!RenderFormat.Name &lt;&gt; "PDF",true,false)</Hidden>
+            </Visibility>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+            </Style>
+          </Subreport>
+          <Textbox Name="Textbox26">
+            <CanGrow>true</CanGrow>
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>=First(Fields!ReportTitle.Value, "DsMain")</Value>
+                    <Style>
+                      <FontFamily>Tahoma</FontFamily>
+                      <FontSize>12pt</FontSize>
+                      <FontWeight>Bold</FontWeight>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style>
+                  <TextAlign>Center</TextAlign>
+                </Style>
+              </Paragraph>
+            </Paragraphs>
+            <rd:DefaultName>Textbox25</rd:DefaultName>
+            <Top>0.4in</Top>
+            <Left>0.05016in</Left>
+            <Height>0.25in</Height>
+            <Width>10.89835in</Width>
+            <ZIndex>4</ZIndex>
+            <Visibility>
+              <Hidden>=iif(Globals!RenderFormat.Name &lt;&gt; "PDF",true,false)</Hidden>
+            </Visibility>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+              <TopBorder>
+                <Style>Solid</Style>
+              </TopBorder>
+              <BottomBorder>
+                <Style>Solid</Style>
+              </BottomBorder>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+              <PaddingBottom>2pt</PaddingBottom>
+            </Style>
+          </Textbox>
         </ReportItems>
-        <Height>4.20833in</Height>
+        <Height>4.96875in</Height>
         <Style />
       </Body>
-      <Width>11.02366in</Width>
+      <Width>10.98199in</Width>
       <Page>
         <PageHeader>
-          <Height>0.99875in</Height>
+          <Height>0.3425in</Height>
           <PrintOnFirstPage>true</PrintOnFirstPage>
           <PrintOnLastPage>true</PrintOnLastPage>
           <ReportItems>
-            <Textbox Name="ReportTitle">
+            <Textbox Name="Textbox25">
               <CanGrow>true</CanGrow>
               <KeepTogether>true</KeepTogether>
               <Paragraphs>
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value>=Parameters!ReportTitle.Value</Value>
-                      <Style>
-                        <FontFamily>Tahoma</FontFamily>
-                        <FontSize>12pt</FontSize>
-                        <FontWeight>Bold</FontWeight>
-                      </Style>
-                    </TextRun>
-                  </TextRuns>
-                  <Style />
-                </Paragraph>
-              </Paragraphs>
-              <rd:DefaultName>ReportTitle</rd:DefaultName>
-              <Top>0.61806in</Top>
-              <Left>0.86333in</Left>
-              <Height>0.29166in</Height>
-              <Width>4.19791in</Width>
-              <Style>
-                <Border>
-                  <Style>None</Style>
-                </Border>
-                <PaddingLeft>2pt</PaddingLeft>
-                <PaddingRight>2pt</PaddingRight>
-                <PaddingTop>2pt</PaddingTop>
-                <PaddingBottom>2pt</PaddingBottom>
-              </Style>
-            </Textbox>
-            <Textbox Name="CompanyName">
-              <CanGrow>true</CanGrow>
-              <KeepTogether>true</KeepTogether>
-              <Paragraphs>
-                <Paragraph>
-                  <TextRuns>
-                    <TextRun>
-                      <Value>=Parameters!CompanyName.Value</Value>
+                      <Value>=First(Fields!ReportTitle.Value, "DsMain")</Value>
                       <Style>
                         <FontFamily>Tahoma</FontFamily>
                         <FontSize>12pt</FontSize>
@@ -2104,189 +2139,34 @@
                     </TextRun>
                   </TextRuns>
                   <Style>
-                    <TextAlign>Left</TextAlign>
+                    <TextAlign>Center</TextAlign>
                   </Style>
                 </Paragraph>
               </Paragraphs>
-              <rd:DefaultName>CompanyName</rd:DefaultName>
-              <Top>0.125in</Top>
-              <Left>0.86333in</Left>
-              <Height>0.25695in</Height>
-              <Width>2.7825in</Width>
-              <ZIndex>1</ZIndex>
+              <rd:DefaultName>Textbox25</rd:DefaultName>
+              <Top>0.03341in</Top>
+              <Left>0.04413in</Left>
+              <Height>0.25694in</Height>
+              <Width>10.8854in</Width>
+              <Visibility>
+                <Hidden>=iif(Globals!PageNumber=1 or Globals!RenderFormat.Name &lt;&gt; "PDF",True,False)</Hidden>
+              </Visibility>
               <Style>
                 <Border>
                   <Style>None</Style>
                 </Border>
+                <TopBorder>
+                  <Style>Solid</Style>
+                </TopBorder>
+                <BottomBorder>
+                  <Style>Solid</Style>
+                </BottomBorder>
                 <PaddingLeft>2pt</PaddingLeft>
                 <PaddingRight>2pt</PaddingRight>
                 <PaddingTop>2pt</PaddingTop>
                 <PaddingBottom>2pt</PaddingBottom>
               </Style>
             </Textbox>
-            <Textbox Name="DivisionName">
-              <CanGrow>true</CanGrow>
-              <KeepTogether>true</KeepTogether>
-              <Paragraphs>
-                <Paragraph>
-                  <TextRuns>
-                    <TextRun>
-                      <Value>Division : </Value>
-                      <Style>
-                        <FontFamily>Tahoma</FontFamily>
-                        <FontWeight>Bold</FontWeight>
-                      </Style>
-                    </TextRun>
-                    <TextRun>
-                      <Value>=Parameters!DivisionName.Value</Value>
-                      <Style>
-                        <FontFamily>Tahoma</FontFamily>
-                        <FontWeight>Bold</FontWeight>
-                      </Style>
-                    </TextRun>
-                  </TextRuns>
-                  <Style>
-                    <TextAlign>Right</TextAlign>
-                  </Style>
-                </Paragraph>
-              </Paragraphs>
-              <rd:DefaultName>DivisionName</rd:DefaultName>
-              <Top>0.125in</Top>
-              <Left>5.83208in</Left>
-              <Height>0.25in</Height>
-              <Width>5.03743in</Width>
-              <ZIndex>2</ZIndex>
-              <Style>
-                <Border>
-                  <Style>None</Style>
-                </Border>
-                <PaddingLeft>2pt</PaddingLeft>
-                <PaddingRight>2pt</PaddingRight>
-                <PaddingTop>2pt</PaddingTop>
-                <PaddingBottom>2pt</PaddingBottom>
-              </Style>
-            </Textbox>
-            <Textbox Name="CompanyAddress">
-              <CanGrow>true</CanGrow>
-              <KeepTogether>true</KeepTogether>
-              <Paragraphs>
-                <Paragraph>
-                  <TextRuns>
-                    <TextRun>
-                      <Value>=Parameters!CompanyAddress.Value</Value>
-                      <Style>
-                        <FontFamily>Tahoma</FontFamily>
-                      </Style>
-                    </TextRun>
-                  </TextRuns>
-                  <Style />
-                </Paragraph>
-              </Paragraphs>
-              <rd:DefaultName>CompanyAddress</rd:DefaultName>
-              <Top>0.29862in</Top>
-              <Left>0.86333in</Left>
-              <Height>0.25in</Height>
-              <Width>2.7825in</Width>
-              <ZIndex>3</ZIndex>
-              <Style>
-                <Border>
-                  <Style>None</Style>
-                </Border>
-                <PaddingLeft>2pt</PaddingLeft>
-                <PaddingRight>2pt</PaddingRight>
-                <PaddingTop>2pt</PaddingTop>
-                <PaddingBottom>2pt</PaddingBottom>
-              </Style>
-            </Textbox>
-            <Textbox Name="CompanyCity">
-              <CanGrow>true</CanGrow>
-              <KeepTogether>true</KeepTogether>
-              <Paragraphs>
-                <Paragraph>
-                  <TextRuns>
-                    <TextRun>
-                      <Value>=Parameters!CompanyCity.Value</Value>
-                      <Style>
-                        <FontFamily>Tahoma</FontFamily>
-                      </Style>
-                    </TextRun>
-                  </TextRuns>
-                  <Style />
-                </Paragraph>
-              </Paragraphs>
-              <rd:DefaultName>CompanyCity</rd:DefaultName>
-              <Top>0.4375in</Top>
-              <Left>0.8709in</Left>
-              <Height>0.25in</Height>
-              <Width>2.7825in</Width>
-              <ZIndex>4</ZIndex>
-              <Style>
-                <Border>
-                  <Style>None</Style>
-                </Border>
-                <PaddingLeft>2pt</PaddingLeft>
-                <PaddingRight>2pt</PaddingRight>
-                <PaddingTop>2pt</PaddingTop>
-                <PaddingBottom>2pt</PaddingBottom>
-              </Style>
-            </Textbox>
-            <Textbox Name="SiteName">
-              <CanGrow>true</CanGrow>
-              <KeepTogether>true</KeepTogether>
-              <Paragraphs>
-                <Paragraph>
-                  <TextRuns>
-                    <TextRun>
-                      <Value>Site : </Value>
-                      <Style>
-                        <FontFamily>Tahoma</FontFamily>
-                        <FontWeight>Bold</FontWeight>
-                      </Style>
-                    </TextRun>
-                    <TextRun>
-                      <Value>=Parameters!SiteName.Value</Value>
-                      <Style>
-                        <FontFamily>Tahoma</FontFamily>
-                        <FontWeight>Bold</FontWeight>
-                      </Style>
-                    </TextRun>
-                  </TextRuns>
-                  <Style>
-                    <TextAlign>Right</TextAlign>
-                  </Style>
-                </Paragraph>
-              </Paragraphs>
-              <rd:DefaultName>SiteName</rd:DefaultName>
-              <Top>0.29862in</Top>
-              <Left>5.83208in</Left>
-              <Height>0.25in</Height>
-              <Width>5.0325in</Width>
-              <ZIndex>5</ZIndex>
-              <Style>
-                <Border>
-                  <Style>None</Style>
-                </Border>
-                <PaddingLeft>2pt</PaddingLeft>
-                <PaddingRight>2pt</PaddingRight>
-                <PaddingTop>2pt</PaddingTop>
-                <PaddingBottom>2pt</PaddingBottom>
-              </Style>
-            </Textbox>
-            <Image Name="Image4">
-              <Source>Embedded</Source>
-              <Value>SuryaLogo</Value>
-              <Sizing>FitProportional</Sizing>
-              <Top>0.155in</Top>
-              <Left>0.05493in</Left>
-              <Height>0.74083in</Height>
-              <Width>0.80208in</Width>
-              <ZIndex>6</ZIndex>
-              <Style>
-                <Border>
-                  <Style>None</Style>
-                </Border>
-              </Style>
-            </Image>
           </ReportItems>
           <Style>
             <Border>
@@ -2386,6 +2266,42 @@
               <Height>0.25in</Height>
               <Width>3.3909in</Width>
               <ZIndex>1</ZIndex>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+                <PaddingLeft>2pt</PaddingLeft>
+                <PaddingRight>2pt</PaddingRight>
+                <PaddingTop>2pt</PaddingTop>
+                <PaddingBottom>2pt</PaddingBottom>
+              </Style>
+            </Textbox>
+            <Textbox Name="Textbox55">
+              <CanGrow>true</CanGrow>
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>="Printed By : " + Parameters!PrintedBy.Value</Value>
+                      <Style>
+                        <FontFamily>tahoma</FontFamily>
+                        <FontSize>9pt</FontSize>
+                        <Format>dd-MMM-yy hh:mm:ss tt</Format>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style>
+                    <TextAlign>Center</TextAlign>
+                  </Style>
+                </Paragraph>
+              </Paragraphs>
+              <rd:DefaultName>Textbox19</rd:DefaultName>
+              <Top>0.03125in</Top>
+              <Left>3.99586in</Left>
+              <Height>0.21181in</Height>
+              <Width>2.99028in</Width>
+              <ZIndex>2</ZIndex>
               <Style>
                 <Border>
                   <Style>None</Style>
@@ -2588,17 +2504,27 @@
       <AllowBlank>true</AllowBlank>
       <Prompt>ReportParameter1</Prompt>
     </ReportParameter>
-    <ReportParameter Name="FromDate">
+    <ReportParameter Name="DatabaseConnectionString">
       <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>From Date</Prompt>
+      <Prompt>DatabaseConnectionString</Prompt>
     </ReportParameter>
-    <ReportParameter Name="ToDate">
+    <ReportParameter Name="PrintedBy">
       <DataType>String</DataType>
       <Nullable>true</Nullable>
       <AllowBlank>true</AllowBlank>
-      <Prompt>To Date</Prompt>
+      <Prompt>PrintedBy</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="StartValue">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Start Value</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="Interval">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Interval</Prompt>
     </ReportParameter>
     <ReportParameter Name="Site">
       <DataType>String</DataType>
@@ -2606,29 +2532,11 @@
       <AllowBlank>true</AllowBlank>
       <Prompt>Site</Prompt>
     </ReportParameter>
-    <ReportParameter Name="Division">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>Division</Prompt>
-    </ReportParameter>
     <ReportParameter Name="Buyer">
       <DataType>String</DataType>
       <Nullable>true</Nullable>
       <AllowBlank>true</AllowBlank>
       <Prompt>Buyer</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="ProductNature">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>Product Nature</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="ProductCategory">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>Product Category</Prompt>
     </ReportParameter>
     <ReportParameter Name="ProductType">
       <DataType>String</DataType>
@@ -2648,71 +2556,11 @@
       <AllowBlank>true</AllowBlank>
       <Prompt>Product Quality</Prompt>
     </ReportParameter>
-    <ReportParameter Name="ProductGroup">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>Product Group</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="ProductStyle">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>Product Style</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="ProductDesign">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>Product Design</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="ProductShape">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>Product Shape</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="ProductSize">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>Product Size</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="ProductInvoiceGroup">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>Product Invoice Group</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="ProductCustomGroup">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>Product Custom Group</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="ProductTag">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>Product Tag</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="Product">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>Product</Prompt>
-    </ReportParameter>
     <ReportParameter Name="SaleOrderHeaderId">
       <DataType>String</DataType>
       <Nullable>true</Nullable>
       <AllowBlank>true</AllowBlank>
       <Prompt>Sale Order Header Id</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="SaleInvoiceHeaderId">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>Sale Invoice Header Id</Prompt>
     </ReportParameter>
     <ReportParameter Name="ReportType">
       <DataType>String</DataType>
@@ -2720,131 +2568,11 @@
       <AllowBlank>true</AllowBlank>
       <Prompt>Report Type</Prompt>
     </ReportParameter>
-    <ReportParameter Name="ReportOnDate">
+    <ReportParameter Name="ProductDivisionId">
       <DataType>String</DataType>
       <Nullable>true</Nullable>
       <AllowBlank>true</AllowBlank>
-      <Prompt>Report On Date</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="DocumentType">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>Document Type</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="Supplier">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>Supplier</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="Currency">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>Currency</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="PersonCustomGroup">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>Person Custom Group</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="PurchaseIndentHeaderId">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>Purchase Indent Header Id</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="PurchaseOrderHeaderId">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>Purchase Order Header Id</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="IsSample">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>Is Sample</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="ProductDesignPattern">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>Product Design Pattern</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="Colour">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>Colour</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="FaceContent">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>Face Content</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="Content">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>Content</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="ProcessSequence">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>Process Sequence</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="ProductManufacturer">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>Product Manufacturer</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="DescriptionOfGoods">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>Description Of Goods</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="OriginCountry">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>Origin Country</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="Sample">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>Sample</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="AreaOnUnit">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>Area On Unit</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="StartValue">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>Start Value</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="Interval">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>Interval</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="ProductDivision">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>Product Division</Prompt>
+      <Prompt>Product Division Id</Prompt>
     </ReportParameter>
   </ReportParameters>
   <Code>dim Counter as integer=0

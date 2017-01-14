@@ -55,6 +55,9 @@ namespace Service
         IEnumerable<ComboBoxList> GetProductCategoryHelpList();
         IEnumerable<ComboBoxList> GetDimension1HelpList();
         IEnumerable<ComboBoxList> GetDimension2HelpList();
+        IEnumerable<ComboBoxList> GetDimension3HelpList();
+        IEnumerable<ComboBoxList> GetDimension4HelpList();
+
         IEnumerable<ComboBoxList> GetProductTypeHelpList();
         IEnumerable<ComboBoxList> GetProductCollectionHelpList();
         IEnumerable<ComboBoxList> GetProductQualityHelpList();
@@ -167,7 +170,9 @@ namespace Service
         IQueryable<ComboBoxResult> GetEmployeeHelpListWithDepartMentFilter(int DepartMentId, string term);
         IQueryable<ComboBoxResult> GetQAGroups(string term);
         IQueryable<ComboBoxResult> GetUnits(string term);
-
+        IQueryable<ComboBoxResult> GetTdsGroups(string term);
+        IQueryable<ComboBoxResult> GetTdsCategory(string term);
+        IQueryable<ComboBoxResult> GetSalesTaxGroupParty(string term);
     }
 
     public class ComboHelpListService : IComboHelpListService
@@ -526,6 +531,28 @@ namespace Service
             {
                 Id = m.Dimension2Id,
                 PropFirst = m.Dimension2Name
+            });
+
+            return ProdCategoryList;
+        }
+
+        public IEnumerable<ComboBoxList> GetDimension3HelpList()
+        {
+            IEnumerable<ComboBoxList> ProdCategoryList = db.Dimension3.OrderBy(m => m.Dimension3Name).Select(m => new ComboBoxList
+            {
+                Id = m.Dimension3Id,
+                PropFirst = m.Dimension3Name
+            });
+
+            return ProdCategoryList;
+        }
+
+        public IEnumerable<ComboBoxList> GetDimension4HelpList()
+        {
+            IEnumerable<ComboBoxList> ProdCategoryList = db.Dimension4.OrderBy(m => m.Dimension4Name).Select(m => new ComboBoxList
+            {
+                Id = m.Dimension4Id,
+                PropFirst = m.Dimension4Name
             });
 
             return ProdCategoryList;
@@ -1408,6 +1435,18 @@ namespace Service
 
 
 
+            //var temp = from p in db.ProductGroups
+            //           join t in db.ProductTypes on p.ProductTypeId equals t.ProductTypeId into table1
+            //           from tab1 in table1.DefaultIfEmpty()
+            //           where ((filter == null || filter == 0) ? 1 == 1 : tab1.ProductTypeId == filter)
+            //           orderby p.ProductGroupName, tab1.ProductTypeName
+            //           select new ComboBoxList
+            //           {
+            //               Id = p.ProductGroupId,
+            //               PropFirst = p.ProductGroupName,
+            //               PropSecond = tab1.ProductTypeName
+            //           };
+
             var temp = from p in db.ProductGroups
                        join t in db.ProductTypes on p.ProductTypeId equals t.ProductTypeId into table1
                        from tab1 in table1.DefaultIfEmpty()
@@ -1416,8 +1455,7 @@ namespace Service
                        select new ComboBoxList
                        {
                            Id = p.ProductGroupId,
-                           PropFirst = p.ProductGroupName,
-                           PropSecond = tab1.ProductTypeName
+                           PropFirst = p.ProductGroupName
                        };
 
             return temp;
@@ -2433,6 +2471,58 @@ namespace Service
                         {
                             text = p.UnitName,
                             id = p.UnitId,
+                        }
+            );
+
+            return list;
+
+        }
+
+        public IQueryable<ComboBoxResult> GetTdsGroups(string term)
+        {
+
+            var list = (from p in db.TdsGroup
+                        where (string.IsNullOrEmpty(term) ? 1 == 1 : (p.TdsGroupName.ToLower().Contains(term.ToLower())))
+                        orderby p.TdsGroupName
+                        select new ComboBoxResult
+                        {
+                            text = p.TdsGroupName,
+                            id = p.TdsGroupId.ToString(),
+                        }
+            );
+
+            return list;
+
+        }
+
+        public IQueryable<ComboBoxResult> GetTdsCategory(string term)
+        {
+
+            var list = (from p in db.TdsCategory
+                        where (string.IsNullOrEmpty(term) ? 1 == 1 : (p.TdsCategoryName.ToLower().Contains(term.ToLower())))
+                        orderby p.TdsCategoryName
+                        select new ComboBoxResult
+                        {
+                            text = p.TdsCategoryName,
+                            id = p.TdsCategoryId.ToString(),
+                        }
+            );
+
+            return list;
+
+        }
+
+
+        public IQueryable<ComboBoxResult> GetSalesTaxGroupParty(string term)
+        {
+
+            var list = (from p in db.SalesTaxGroupParty
+                        where (string.IsNullOrEmpty(term) ? 1 == 1 : (p.SalesTaxGroupPartyName.ToLower().Contains(term.ToLower())))
+                        orderby p.SalesTaxGroupPartyName
+                        select new ComboBoxResult
+                        {
+                            text = p.SalesTaxGroupPartyName,
+                            id = p.SalesTaxGroupPartyId.ToString(),
                         }
             );
 

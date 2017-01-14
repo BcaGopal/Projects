@@ -19,6 +19,9 @@ namespace Model.ViewModels
         public bool isMandatoryProductUID { get; set; }
         public bool isVisibleDimension1 { get; set; }
         public bool isVisibleDimension2 { get; set; }
+        public bool isVisibleDimension3 { get; set; }
+        public bool isVisibleDimension4 { get; set; }
+
         public int SiteId { get; set; }
         public string SiteName { get; set; }
         public int DivisionId { get; set; }

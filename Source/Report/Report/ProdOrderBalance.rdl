@@ -3,7 +3,10 @@
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
     <DataSource Name="Purchase">
-      <DataSourceReference>DataSourceMain</DataSourceReference>
+      <ConnectionProperties>
+        <DataProvider>SQL</DataProvider>
+        <ConnectString>=Parameters!DatabaseConnectionString.Value</ConnectString>
+      </ConnectionProperties>
       <rd:SecurityType>None</rd:SecurityType>
       <rd:DataSourceID>a4701ec2-a2bf-4f00-a373-e0ef6d3046c3</rd:DataSourceID>
     </DataSource>
@@ -2738,30 +2741,14 @@
               </Border>
             </Style>
           </Tablix>
-          <Subreport Name="CompanyDetail">
-            <ReportName>CompanyDetail</ReportName>
-            <Top>0.0375in</Top>
-            <Left>0.05493in</Left>
-            <Height>0.25in</Height>
-            <Width>7.7in</Width>
-            <ZIndex>2</ZIndex>
-            <Visibility>
-              <Hidden>=iif(Globals!RenderFormat.Name &lt;&gt; "PDF",True,False)</Hidden>
-            </Visibility>
-            <Style>
-              <Border>
-                <Style>None</Style>
-              </Border>
-            </Style>
-          </Subreport>
-          <Textbox Name="ReportTitle3">
+          <Textbox Name="Textbox135">
             <CanGrow>true</CanGrow>
             <KeepTogether>true</KeepTogether>
             <Paragraphs>
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value>=Parameters!ReportTitle.Value</Value>
+                    <Value>=First(Fields!ReportTitle.Value, "DsMain")</Value>
                     <Style>
                       <FontFamily>Tahoma</FontFamily>
                       <FontSize>12pt</FontSize>
@@ -2774,10 +2761,47 @@
                 </Style>
               </Paragraph>
             </Paragraphs>
-            <rd:DefaultName>ReportTitle</rd:DefaultName>
-            <Top>0.30695in</Top>
-            <Left>0.05493in</Left>
+            <rd:DefaultName>Textbox97</rd:DefaultName>
+            <Top>0.2125in</Top>
+            <Left>0.0465in</Left>
             <Height>0.25in</Height>
+            <Width>7.69857in</Width>
+            <ZIndex>2</ZIndex>
+            <Visibility>
+              <Hidden>=iif(Globals!RenderFormat.Name &lt;&gt; "PDF",True,False)</Hidden>
+            </Visibility>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+              <TopBorder>
+                <Style>Solid</Style>
+              </TopBorder>
+              <BottomBorder>
+                <Style>Solid</Style>
+              </BottomBorder>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+              <PaddingBottom>2pt</PaddingBottom>
+            </Style>
+          </Textbox>
+          <Subreport Name="Subreport1">
+            <ReportName>CompanyDetail</ReportName>
+            <Parameters>
+              <Parameter Name="SiteId">
+                <Value>=First(Fields!SiteId.Value, "DsMain")</Value>
+              </Parameter>
+              <Parameter Name="DivisionId">
+                <Value>=First(Fields!DivisionId.Value, "DsMain")</Value>
+              </Parameter>
+              <Parameter Name="DatabaseConnectionString">
+                <Value>=Parameters!DatabaseConnectionString.Value</Value>
+              </Parameter>
+            </Parameters>
+            <Top>0.03194in</Top>
+            <Left>0.05493in</Left>
+            <Height>0.12154in</Height>
             <Width>7.69014in</Width>
             <ZIndex>3</ZIndex>
             <Visibility>
@@ -2787,12 +2811,8 @@
               <Border>
                 <Style>None</Style>
               </Border>
-              <PaddingLeft>2pt</PaddingLeft>
-              <PaddingRight>2pt</PaddingRight>
-              <PaddingTop>2pt</PaddingTop>
-              <PaddingBottom>2pt</PaddingBottom>
             </Style>
-          </Textbox>
+          </Subreport>
         </ReportItems>
         <Height>5.625in</Height>
         <Style />
@@ -2804,14 +2824,14 @@
           <PrintOnFirstPage>true</PrintOnFirstPage>
           <PrintOnLastPage>true</PrintOnLastPage>
           <ReportItems>
-            <Textbox Name="ReportTitle2">
+            <Textbox Name="Textbox134">
               <CanGrow>true</CanGrow>
               <KeepTogether>true</KeepTogether>
               <Paragraphs>
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value>=Parameters!ReportTitle.Value</Value>
+                      <Value>=First(Fields!ReportTitle.Value, "DsMain")</Value>
                       <Style>
                         <FontFamily>Tahoma</FontFamily>
                         <FontSize>12pt</FontSize>
@@ -2824,18 +2844,24 @@
                   </Style>
                 </Paragraph>
               </Paragraphs>
-              <rd:DefaultName>ReportTitle</rd:DefaultName>
-              <Top>0.06708in</Top>
-              <Left>0.05493in</Left>
+              <rd:DefaultName>Textbox97</rd:DefaultName>
+              <Top>0.05431in</Top>
+              <Left>0.05275in</Left>
               <Height>0.25in</Height>
-              <Width>7.7in</Width>
+              <Width>7.69232in</Width>
               <Visibility>
-                <Hidden>=iif(Globals!RenderFormat.Name &lt;&gt; "PDF",True,False)</Hidden>
+                <Hidden>=iif(Globals!PageNumber=1 or Globals!RenderFormat.Name &lt;&gt; "PDF",True,False)</Hidden>
               </Visibility>
               <Style>
                 <Border>
                   <Style>None</Style>
                 </Border>
+                <TopBorder>
+                  <Style>Solid</Style>
+                </TopBorder>
+                <BottomBorder>
+                  <Style>Solid</Style>
+                </BottomBorder>
                 <PaddingLeft>2pt</PaddingLeft>
                 <PaddingRight>2pt</PaddingRight>
                 <PaddingTop>2pt</PaddingTop>
@@ -3285,6 +3311,12 @@
       <Nullable>true</Nullable>
       <AllowBlank>true</AllowBlank>
       <Prompt>Product Division Id</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="DatabaseConnectionString">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>DatabaseConnectionString</Prompt>
     </ReportParameter>
   </ReportParameters>
   <EmbeddedImages>

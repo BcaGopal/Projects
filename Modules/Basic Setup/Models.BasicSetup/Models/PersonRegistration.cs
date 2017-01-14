@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Model;
+using System;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Data.Entity.Spatial;
 using System.ComponentModel.DataAnnotations.Schema;
+using Models.Company.Models;
 
-namespace Model.Models
+namespace Models.BasicSetup.Models
 {
     public class PersonRegistration : EntityBase, IHistoryLog
     {

@@ -102,6 +102,9 @@ namespace Web
             SaleOrderHeader temp = new SaleOrderHeaderService(_unitOfWork).Find(s.SaleOrderHeaderId);
             //if (Command == "Submit" && (s.ProductId == 0))
             //    return RedirectToAction("Submit", "SaleOrderHeader", new { id = s.SaleOrderHeaderId }).Success("Data saved successfully");
+
+            var settings = new SaleOrderSettingsService(_unitOfWork).GetSaleOrderSettingsForDocument(temp.DocTypeId, temp.DivisionId, temp.SiteId);
+
             if (svm.Qty <= 0)
             {
                 ModelState.AddModelError("Qty", "Please Check Qty");
@@ -132,6 +135,63 @@ namespace Web
             {
                 if (svm.SaleOrderLineId <= 0)
                 {
+                    StockViewModel StockViewModel = new StockViewModel();
+                    //Posting in Stock
+                    if (settings.isPostedInStock.HasValue && settings.isPostedInStock == true)
+                    {
+                        StockViewModel.StockHeaderId = temp.StockHeaderId ?? 0;
+                        StockViewModel.DocHeaderId = temp.SaleOrderHeaderId;
+                        StockViewModel.DocLineId = s.SaleOrderLineId;
+                        StockViewModel.DocTypeId = temp.DocTypeId;
+                        StockViewModel.StockHeaderDocDate = temp.DocDate;
+                        StockViewModel.StockDocDate = DateTime.Now.Date;
+                        StockViewModel.DocNo = temp.DocNo;
+                        StockViewModel.DivisionId = temp.DivisionId;
+                        StockViewModel.SiteId = temp.SiteId;
+                        StockViewModel.CurrencyId = null;
+                        StockViewModel.HeaderProcessId = null;
+                        StockViewModel.PersonId = temp.SaleToBuyerId;
+                        StockViewModel.ProductId = s.ProductId;
+                        StockViewModel.HeaderFromGodownId = null;
+                        StockViewModel.HeaderGodownId = null;
+                        StockViewModel.GodownId = temp.GodownId ?? 0;
+                        StockViewModel.ProcessId = null;
+                        StockViewModel.LotNo = null;
+                        StockViewModel.CostCenterId = null;
+                        StockViewModel.Qty_Iss = 0;
+                        StockViewModel.Qty_Rec = s.Qty;
+                        StockViewModel.Rate = s.Rate;
+                        StockViewModel.ExpiryDate = null;
+                        StockViewModel.Specification = s.Specification;
+                        StockViewModel.Dimension1Id = s.Dimension1Id;
+                        StockViewModel.Dimension2Id = s.Dimension2Id;
+                        StockViewModel.Dimension3Id = s.Dimension3Id;
+                        StockViewModel.Dimension4Id = s.Dimension4Id;
+                        StockViewModel.Remark = s.Remark;
+                        StockViewModel.ProductUidId = null;
+                        StockViewModel.Status = temp.Status;
+                        StockViewModel.CreatedBy = temp.CreatedBy;
+                        StockViewModel.CreatedDate = DateTime.Now;
+                        StockViewModel.ModifiedBy = temp.ModifiedBy;
+                        StockViewModel.ModifiedDate = DateTime.Now;
+
+                        string StockPostingError = "";
+                        StockPostingError = new StockService(_unitOfWork).StockPost(ref StockViewModel);
+
+                        if (StockPostingError != "")
+                        {
+                            ModelState.AddModelError("", StockPostingError);
+                            return PartialView("_Create", svm);
+                        }
+
+                        s.StockId = StockViewModel.StockId;
+
+                        if (temp.StockHeaderId == null)
+                        {
+                            temp.StockHeaderId = StockViewModel.StockHeaderId;
+                        }
+                    }
+                 
                     s.CreatedDate = DateTime.Now;
                     s.ModifiedDate = DateTime.Now;
                     s.CreatedBy = User.Identity.Name;
@@ -142,13 +202,20 @@ namespace Web
                     new SaleOrderLineStatusService(_unitOfWork).CreateLineStatus(s.SaleOrderLineId);
 
                     SaleOrderHeader header = new SaleOrderHeaderService(_unitOfWork).Find(s.SaleOrderHeaderId);
+
+                    if (temp.StockHeaderId != null && temp.StockHeaderId != 0)
+                    {
+                        header.StockHeaderId = temp.StockHeaderId;
+                    }
+
                     if (header.Status != (int)StatusConstants.Drafted && header.Status != (int)StatusConstants.Import)
                     {
                         header.Status = (int)StatusConstants.Modified;
                         header.ModifiedDate = DateTime.Now;
                         header.ModifiedBy = User.Identity.Name;
-                        new SaleOrderHeaderService(_unitOfWork).Update(header);
                     }
+
+                    new SaleOrderHeaderService(_unitOfWork).Update(header);
 
 
                     try
@@ -193,11 +260,64 @@ namespace Web
 
                     //End of Tracking the Modifications::
 
+
+                    if (temp1.StockId != null)
+                    {
+                        StockViewModel StockViewModel = new StockViewModel();
+                        StockViewModel.StockHeaderId = temp.StockHeaderId ?? 0;
+                        StockViewModel.StockId = temp1.StockId ?? 0;
+                        StockViewModel.DocHeaderId = temp1.SaleOrderHeaderId;
+                        StockViewModel.DocLineId = temp1.SaleOrderLineId;
+                        StockViewModel.DocTypeId = temp.DocTypeId;
+                        StockViewModel.StockHeaderDocDate = temp.DocDate;
+                        StockViewModel.StockDocDate = temp1.CreatedDate.Date;
+                        StockViewModel.DocNo = temp.DocNo;
+                        StockViewModel.DivisionId = temp.DivisionId;
+                        StockViewModel.SiteId = temp.SiteId;
+                        StockViewModel.CurrencyId = null;
+                        StockViewModel.HeaderProcessId = null;
+                        StockViewModel.PersonId = temp.SaleToBuyerId;
+                        StockViewModel.ProductId = s.ProductId;
+                        StockViewModel.HeaderFromGodownId = null;
+                        StockViewModel.HeaderGodownId = temp.GodownId;
+                        StockViewModel.GodownId = temp.GodownId ?? 0;
+                        StockViewModel.ProcessId = null;
+                        StockViewModel.LotNo = null;
+                        StockViewModel.CostCenterId = null;
+                        StockViewModel.Qty_Iss = 0;
+                        StockViewModel.Qty_Rec = s.Qty;
+                        StockViewModel.Rate = temp1.Rate;
+                        StockViewModel.ExpiryDate = null;
+                        StockViewModel.Specification = temp1.Specification;
+                        StockViewModel.Dimension1Id = temp1.Dimension1Id;
+                        StockViewModel.Dimension2Id = temp1.Dimension2Id;
+                        StockViewModel.Dimension3Id = temp1.Dimension3Id;
+                        StockViewModel.Dimension4Id = temp1.Dimension4Id;
+                        StockViewModel.Remark = s.Remark;
+                        StockViewModel.ProductUidId = null;
+                        StockViewModel.Status = temp.Status;
+                        StockViewModel.CreatedBy = temp1.CreatedBy;
+                        StockViewModel.CreatedDate = temp1.CreatedDate;
+                        StockViewModel.ModifiedBy = User.Identity.Name;
+                        StockViewModel.ModifiedDate = DateTime.Now;
+
+                        string StockPostingError = "";
+                        StockPostingError = new StockService(_unitOfWork).StockPost(ref StockViewModel);
+
+                        if (StockPostingError != "")
+                        {
+                            ModelState.AddModelError("", StockPostingError);
+                            return PartialView("_Create", svm);
+                        }
+                    }
+
                     temp1.DueDate = svm.DueDate;
                     temp1.ProductId = svm.ProductId ?? 0;
                     temp1.Specification = svm.Specification;
                     temp1.Dimension1Id = svm.Dimension1Id;
                     temp1.Dimension2Id = svm.Dimension2Id;
+                    temp1.Dimension3Id = svm.Dimension3Id;
+                    temp1.Dimension4Id = svm.Dimension4Id;
                     temp1.Qty = svm.Qty ?? 0;
                     temp1.DealQty = svm.DealQty ?? 0;
                     temp1.DealUnitId = svm.DealUnitId;
@@ -417,6 +537,16 @@ namespace Web
             List<LogTypeViewModel> LogList = new List<LogTypeViewModel>();
 
             SaleOrderLine SaleOrderLine = _SaleOrderLineService.Find(vm.SaleOrderLineId);
+
+            int? StockId = 0;
+            StockId = SaleOrderLine.StockId;
+
+            if (StockId != null)
+            {
+                new StockService(_unitOfWork).DeleteStock((int)StockId);
+            }
+
+
             new SaleOrderLineStatusService(_unitOfWork).Delete(vm.SaleOrderLineId);
             _SaleOrderLineService.Delete(vm.SaleOrderLineId);
             SaleOrderHeader header = new SaleOrderHeaderService(_unitOfWork).Find(SaleOrderLine.SaleOrderHeaderId);
@@ -428,6 +558,8 @@ namespace Web
                 header.ModifiedDate = DateTime.Now;
                 new SaleOrderHeaderService(_unitOfWork).Update(header);
             }
+
+
 
             LogList.Add(new LogTypeViewModel
             {

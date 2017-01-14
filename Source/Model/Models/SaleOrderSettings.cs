@@ -48,18 +48,23 @@ namespace Model.Models
         public bool? isVisiblePriority { get; set; }
         public bool? isVisibleDimension1 { get; set; }
         public bool? isVisibleDimension2 { get; set; }
+        public bool? isVisibleDimension3 { get; set; }
+        public bool? isVisibleDimension4 { get; set; }
         public bool? isVisibleDealUnit { get; set; }
         public bool? isVisibleSpecification { get; set; }
         public bool? isVisibleProductCode { get; set; }
         public bool? isVisibleUnitConversionFor { get; set; }
         public bool? isVisibleAdvance { get; set; }
-
+        public bool? isVisibleBillToParty { get; set; }
+        public bool? isVisibleGodown { get; set; }
 
         public string filterLedgerAccountGroups { get; set; }
         public string filterLedgerAccounts { get; set; }
         public string filterProductTypes { get; set; }
         public string filterProductGroups { get; set; }
         public string filterProducts { get; set; }
+
+        public bool? isPostedInStock { get; set; }
 
 
         /// <summary>

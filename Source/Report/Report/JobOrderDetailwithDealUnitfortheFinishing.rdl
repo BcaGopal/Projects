@@ -3,7 +3,10 @@
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
     <DataSource Name="Purchase">
-      <DataSourceReference>DataSourceMain</DataSourceReference>
+      <ConnectionProperties>
+        <DataProvider>SQL</DataProvider>
+        <ConnectString>=Parameters!DatabaseConnectionString.Value</ConnectString>
+      </ConnectionProperties>
       <rd:SecurityType>None</rd:SecurityType>
       <rd:DataSourceID>adf8514c-abaf-4839-a27a-78acbae1d856</rd:DataSourceID>
     </DataSource>
@@ -70,9 +73,12 @@
           <QueryParameter Name="@ProductDivisionId">
             <Value>=Parameters!ProductDivisionId.Value</Value>
           </QueryParameter>
+          <QueryParameter Name="@Godown">
+            <Value>=Parameters!Godown.Value</Value>
+          </QueryParameter>
         </QueryParameters>
         <CommandType>StoredProcedure</CommandType>
-        <CommandText>Web.spRep_JobOrderReport</CommandText>
+        <CommandText>Web.spRep_JobOrderReportForFinishing</CommandText>
       </Query>
       <Fields>
         <Field Name="SiteId">
@@ -199,14 +205,6 @@
           <DataField>ModifiedDate</DataField>
           <rd:TypeName>System.DateTime</rd:TypeName>
         </Field>
-        <Field Name="Dimension1Name">
-          <DataField>Dimension1Name</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="Dimension2Name">
-          <DataField>Dimension2Name</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
         <Field Name="LotNo">
           <DataField>LotNo</DataField>
           <rd:TypeName>System.String</rd:TypeName>
@@ -227,17 +225,13 @@
           <DataField>HeaderRemark</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="Dimension1TypeName">
-          <DataField>Dimension1TypeName</DataField>
+        <Field Name="Size">
+          <DataField>Size</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="RatePerPcs">
           <DataField>RatePerPcs</DataField>
           <rd:TypeName>System.Decimal</rd:TypeName>
-        </Field>
-        <Field Name="Dimension2TypeName">
-          <DataField>Dimension2TypeName</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="ReportName">
           <DataField>ReportName</DataField>
@@ -1038,10 +1032,11 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value />
+                                  <Value>=Fields!UnitName.Value</Value>
                                   <Style>
                                     <FontFamily>Tahoma</FontFamily>
                                     <FontSize>8pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -3226,6 +3221,20 @@
           </Tablix>
           <Subreport Name="Subreport1">
             <ReportName>CompanyDetail_Landscap</ReportName>
+            <Parameters>
+              <Parameter Name="SiteId">
+                <Value>=First(Fields!SiteId.Value, "DsMain")</Value>
+              </Parameter>
+              <Parameter Name="DivisionId">
+                <Value>=First(Fields!DivisionId.Value, "DsMain")</Value>
+              </Parameter>
+              <Parameter Name="DatabaseConnectionString">
+                <Value>=Parameters!DatabaseConnectionString.Value</Value>
+              </Parameter>
+              <Parameter Name="PrintedBy">
+                <Value>=Parameters!PrintedBy.Value</Value>
+              </Parameter>
+            </Parameters>
             <Top>0.03194in</Top>
             <Left>0.05493in</Left>
             <Height>0.3118in</Height>
@@ -3494,7 +3503,7 @@
         </PageFooter>
         <PageHeight>8.27in</PageHeight>
         <PageWidth>11.69in</PageWidth>
-        <LeftMargin>0.17in</LeftMargin>
+        <LeftMargin>0.5in</LeftMargin>
         <RightMargin>0.1in</RightMargin>
         <TopMargin>0.1in</TopMargin>
         <BottomMargin>0.1in</BottomMargin>
@@ -3874,6 +3883,18 @@
       <Nullable>true</Nullable>
       <AllowBlank>true</AllowBlank>
       <Prompt>PrintedBy</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="DatabaseConnectionString">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>DatabaseConnectionString</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="Godown">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Godown</Prompt>
     </ReportParameter>
   </ReportParameters>
   <EmbeddedImages>

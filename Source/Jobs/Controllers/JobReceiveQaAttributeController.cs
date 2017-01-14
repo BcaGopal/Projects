@@ -154,6 +154,8 @@ namespace Web
                     JobReceiveQALine Line = new JobReceiveQALine();
                     Line = _JobReceiveQAAttributeService.Create(vm, User.Identity.Name);
 
+
+
                     try
                     {
                         db.SaveChanges();
@@ -320,11 +322,35 @@ namespace Web
             ProductViewModel product = new ProductService(_unitOfWork).GetProduct(ProductId);
 
             Decimal UnitConversionMultiplier = 0;
-            UnitConversionMultiplier = _JobReceiveQAAttributeService.GetUnitConversionMultiplier(product.UnitId, Length, Width, Height, ToUnitId);
+            UnitConversionMultiplier = new ProductService(_unitOfWork).GetUnitConversionMultiplier(1, product.UnitId, Length, Width, Height, ToUnitId,db);
 
             return Json(UnitConversionMultiplier);
         }
 
+        public JsonResult getunitconversiondetailjson(int productid, string unitid, string deliveryunitid)
+        {
+            UnitConversion uc = new UnitConversionService(_unitOfWork).GetUnitConversion(productid, unitid, deliveryunitid);
+            List<SelectListItem> unitconversionjson = new List<SelectListItem>();
+            if (uc != null)
+            {
+                unitconversionjson.Add(new SelectListItem
+                {
+                    Text = uc.Multiplier.ToString(),
+                    Value = uc.Multiplier.ToString()
+                });
+            }
+            else
+            {
+                unitconversionjson.Add(new SelectListItem
+                {
+                    Text = "0",
+                    Value = "0"
+                });
+            }
+
+
+            return Json(unitconversionjson);
+        }
 
         protected override void Dispose(bool disposing)
         {

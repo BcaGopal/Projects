@@ -131,7 +131,8 @@ namespace Web
                     temp.isMandatoryProcessLine = pt.isMandatoryProcessLine;                  
                     temp.isVisibleDimension1 = pt.isVisibleDimension1;
                     temp.isVisibleDimension2 = pt.isVisibleDimension2;
-                  
+                    temp.isVisibleDimension3 = pt.isVisibleDimension3;
+                    temp.isVisibleDimension4 = pt.isVisibleDimension4;
                     temp.ModifiedDate = DateTime.Now;
                     temp.ModifiedBy = User.Identity.Name;
                     temp.ObjectState = Model.ObjectState.Modified;
@@ -267,7 +268,8 @@ namespace Web
                     temp.isMandatoryProcessLine = pt.isMandatoryProcessLine;
                     temp.isVisibleDimension1 = pt.isVisibleDimension1;
                     temp.isVisibleDimension2 = pt.isVisibleDimension2;
-
+                    temp.isVisibleDimension3 = pt.isVisibleDimension3;
+                    temp.isVisibleDimension4 = pt.isVisibleDimension4;
                     temp.ModifiedDate = DateTime.Now;
                     temp.ModifiedBy = User.Identity.Name;
                     temp.ObjectState = Model.ObjectState.Modified;

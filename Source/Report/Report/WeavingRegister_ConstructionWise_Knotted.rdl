@@ -3,7 +3,10 @@
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
     <DataSource Name="Purchase">
-      <DataSourceReference>DataSourceMain</DataSourceReference>
+      <ConnectionProperties>
+        <DataProvider>SQL</DataProvider>
+        <ConnectString>=Parameters!DatabaseConnectionString.Value</ConnectString>
+      </ConnectionProperties>
       <rd:SecurityType>None</rd:SecurityType>
       <rd:DataSourceID>a4701ec2-a2bf-4f00-a373-e0ef6d3046c3</rd:DataSourceID>
     </DataSource>
@@ -46,6 +49,9 @@
           <QueryParameter Name="@DateFilterOn">
             <Value>=Parameters!DateFilterOn.Value</Value>
           </QueryParameter>
+          <QueryParameter Name="@StatusOnDate">
+            <Value>=Parameters!StatusOnDate.Value</Value>
+          </QueryParameter>
         </QueryParameters>
         <CommandType>StoredProcedure</CommandType>
         <CommandText>Web.spRep_WeavingRegister</CommandText>
@@ -63,8 +69,16 @@
           <DataField>SilkQty</DataField>
           <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
+        <Field Name="CostCenterId">
+          <DataField>CostCenterId</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
         <Field Name="GroupOnTitle">
           <DataField>GroupOnTitle</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CostCenterName">
+          <DataField>CostCenterName</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="ReceiveQty">
@@ -75,6 +89,10 @@
           <DataField>SiteId</DataField>
           <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
+        <Field Name="JobWorkerName">
+          <DataField>JobWorkerName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
         <Field Name="YarnQty">
           <DataField>YarnQty</DataField>
           <rd:TypeName>System.Decimal</rd:TypeName>
@@ -83,13 +101,25 @@
           <DataField>TarQty</DataField>
           <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
+        <Field Name="Design">
+          <DataField>Design</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
         <Field Name="ReportTitle">
           <DataField>ReportTitle</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
+        <Field Name="StartDate">
+          <DataField>StartDate</DataField>
+          <rd:TypeName>System.DateTime</rd:TypeName>
+        </Field>
         <Field Name="JuteQty">
           <DataField>JuteQty</DataField>
           <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="CloseDate">
+          <DataField>CloseDate</DataField>
+          <rd:TypeName>System.DateTime</rd:TypeName>
         </Field>
         <Field Name="LakshiQty">
           <DataField>LakshiQty</DataField>
@@ -6274,6 +6304,12 @@
               <Parameter Name="DivisionId">
                 <Value>=First(Fields!DivisionId.Value, "DsMain")</Value>
               </Parameter>
+              <Parameter Name="PrintedBy">
+                <Value>=Parameters!PrintedBy.Value</Value>
+              </Parameter>
+              <Parameter Name="DatabaseConnectionString">
+                <Value>=Parameters!DatabaseConnectionString.Value</Value>
+              </Parameter>
             </Parameters>
             <Top>0.025in</Top>
             <Left>0.02875in</Left>
@@ -6740,6 +6776,12 @@
       <Nullable>true</Nullable>
       <AllowBlank>true</AllowBlank>
       <Prompt>DatabaseConnectionString</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="StatusOnDate">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Status On Date</Prompt>
     </ReportParameter>
   </ReportParameters>
   <EmbeddedImages>

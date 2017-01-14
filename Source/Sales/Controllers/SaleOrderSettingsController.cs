@@ -171,6 +171,8 @@ namespace Web
                     temp.SqlProcDocumentPrint_AfterSubmit = pt.SqlProcDocumentPrint_AfterSubmit;
                     temp.isVisibleDimension1 = pt.isVisibleDimension1;
                     temp.isVisibleDimension2 = pt.isVisibleDimension2;
+                    temp.isVisibleDimension3 = pt.isVisibleDimension3;
+                    temp.isVisibleDimension4 = pt.isVisibleDimension4;
                     temp.SqlProcDocumentPrint = pt.SqlProcDocumentPrint;
                     temp.UnitConversionForId = pt.UnitConversionForId;
                     temp.ImportMenuId = pt.ImportMenuId;
@@ -183,6 +185,9 @@ namespace Web
                     temp.isVisibleProductCode = pt.isVisibleProductCode;
                     temp.isVisiblePriority = pt.isVisiblePriority;
                     temp.isVisibleUnitConversionFor = pt.isVisibleUnitConversionFor;
+                    temp.isVisibleBillToParty = pt.isVisibleBillToParty;
+                    temp.isVisibleGodown = pt.isVisibleGodown;
+                    temp.isPostedInStock = pt.isPostedInStock;
                     temp.CurrencyId = pt.CurrencyId;
                     temp.DeliveryTermsId = pt.DeliveryTermsId;
                     temp.ShipMethodId = pt.ShipMethodId;
@@ -330,6 +335,8 @@ namespace Web
                     temp.SqlProcDocumentPrint_AfterSubmit = pt.SqlProcDocumentPrint_AfterSubmit;
                     temp.isVisibleDimension1 = pt.isVisibleDimension1;
                     temp.isVisibleDimension2 = pt.isVisibleDimension2;
+                    temp.isVisibleDimension3 = pt.isVisibleDimension3;
+                    temp.isVisibleDimension4 = pt.isVisibleDimension4;
                     temp.SqlProcDocumentPrint = pt.SqlProcDocumentPrint;
                     temp.UnitConversionForId = pt.UnitConversionForId;
                     temp.ImportMenuId = pt.ImportMenuId;
@@ -342,6 +349,9 @@ namespace Web
                     temp.isVisibleProductCode = pt.isVisibleProductCode;
                     temp.isVisiblePriority = pt.isVisiblePriority;
                     temp.isVisibleUnitConversionFor = pt.isVisibleUnitConversionFor;
+                    temp.isVisibleBillToParty = pt.isVisibleBillToParty;
+                    temp.isVisibleGodown = pt.isVisibleGodown;
+                    temp.isPostedInStock = pt.isPostedInStock;
                     temp.CurrencyId = pt.CurrencyId;
                     temp.DeliveryTermsId = pt.DeliveryTermsId;
                     temp.ShipMethodId = pt.ShipMethodId;

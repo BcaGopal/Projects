@@ -3,7 +3,10 @@
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
     <DataSource Name="Job">
-      <DataSourceReference>DataSourceMain</DataSourceReference>
+      <ConnectionProperties>
+        <DataProvider>SQL</DataProvider>
+        <ConnectString>=Parameters!DatabaseConnectionString.Value</ConnectString>
+      </ConnectionProperties>
       <rd:SecurityType>None</rd:SecurityType>
       <rd:DataSourceID>a4701ec2-a2bf-4f00-a373-e0ef6d3046c3</rd:DataSourceID>
     </DataSource>
@@ -155,7 +158,7 @@
         </Field>
         <Field Name="ReportName">
           <DataField>ReportName</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
+          <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
         <Field Name="ReportTitle">
           <DataField>ReportTitle</DataField>
@@ -4952,6 +4955,20 @@
           </Tablix>
           <Subreport Name="Subreport1">
             <ReportName>CompanyDetail_Landscap</ReportName>
+            <Parameters>
+              <Parameter Name="SiteId">
+                <Value>=First(Fields!SiteId.Value, "DsMain")</Value>
+              </Parameter>
+              <Parameter Name="DivisionId">
+                <Value>=First(Fields!DivisionId.Value, "DsMain")</Value>
+              </Parameter>
+              <Parameter Name="DatabaseConnectionString">
+                <Value>=Parameters!DatabaseConnectionString.Value</Value>
+              </Parameter>
+              <Parameter Name="PrintedBy">
+                <Value>=Parameters!PrintedBy.Value</Value>
+              </Parameter>
+            </Parameters>
             <Left>0.02993in</Left>
             <Height>0.38542in</Height>
             <Width>10.94375in</Width>
@@ -5367,6 +5384,18 @@
       <AllowBlank>true</AllowBlank>
       <Prompt>FilterStr22</Prompt>
     </ReportParameter>
+    <ReportParameter Name="PrintedBy">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>PrintedBy</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="DatabaseConnectionString">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>DatabaseConnectionString</Prompt>
+    </ReportParameter>
     <ReportParameter Name="Site">
       <DataType>String</DataType>
       <Nullable>true</Nullable>
@@ -5451,23 +5480,11 @@
       <AllowBlank>true</AllowBlank>
       <Prompt>Prod Order Header Id</Prompt>
     </ReportParameter>
-    <ReportParameter Name="PersonCustomGroup">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>Person Custom Group</Prompt>
-    </ReportParameter>
     <ReportParameter Name="ProdOrderCancelHeaderId">
       <DataType>String</DataType>
       <Nullable>true</Nullable>
       <AllowBlank>true</AllowBlank>
       <Prompt>Prod Order Cancel Header Id</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="ProcessId">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>Process Id</Prompt>
     </ReportParameter>
     <ReportParameter Name="ProductDivisionId">
       <DataType>String</DataType>
@@ -5475,11 +5492,11 @@
       <AllowBlank>true</AllowBlank>
       <Prompt>Product Division Id</Prompt>
     </ReportParameter>
-    <ReportParameter Name="PrintedBy">
+    <ReportParameter Name="ProcessId">
       <DataType>String</DataType>
       <Nullable>true</Nullable>
       <AllowBlank>true</AllowBlank>
-      <Prompt>PrintedBy</Prompt>
+      <Prompt>Process Id</Prompt>
     </ReportParameter>
   </ReportParameters>
   <Code>Public Function PageNumber()

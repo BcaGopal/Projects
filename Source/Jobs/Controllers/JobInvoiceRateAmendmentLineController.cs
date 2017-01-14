@@ -67,6 +67,8 @@ namespace Web
             JobInvoiceAmendmentFilterViewModel vm = new JobInvoiceAmendmentFilterViewModel();
             vm.JobInvoiceAmendmentHeaderId = id;
             vm.JobWorkerId = sid;
+            JobInvoiceAmendmentHeader Header = new JobInvoiceAmendmentHeaderService(_unitOfWork).Find(id);
+            vm.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(Header.DocTypeId);
             return PartialView("_Filters", vm);
         }
         [HttpPost]

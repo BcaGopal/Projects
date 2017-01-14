@@ -2300,7 +2300,7 @@
       <Subreport Name="Subreport1">
         <ReportName>CompanyDetail</ReportName>
         <Top>0.04861in</Top>
-        <Left>0.0727in</Left>
+        <Left>0.07381in</Left>
         <Height>0.34723in</Height>
         <Width>7.38543in</Width>
         <ZIndex>4</ZIndex>

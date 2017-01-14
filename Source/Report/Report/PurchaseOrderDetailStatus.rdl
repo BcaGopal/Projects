@@ -3,7 +3,10 @@
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
     <DataSource Name="Purchase">
-      <DataSourceReference>DataSourceMain</DataSourceReference>
+      <ConnectionProperties>
+        <DataProvider>SQL</DataProvider>
+        <ConnectString>=Parameters!DatabaseConnectionString.Value</ConnectString>
+      </ConnectionProperties>
       <rd:SecurityType>None</rd:SecurityType>
       <rd:DataSourceID>a4701ec2-a2bf-4f00-a373-e0ef6d3046c3</rd:DataSourceID>
     </DataSource>
@@ -69,6 +72,12 @@
           </QueryParameter>
           <QueryParameter Name="@ReportFor">
             <Value>=Parameters!ReportFor.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@ShowAmount">
+            <Value>=Parameters!ShowAmount.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@ReportType">
+            <Value>=Parameters!ReportType.Value</Value>
           </QueryParameter>
         </QueryParameters>
         <CommandType>StoredProcedure</CommandType>
@@ -153,7 +162,7 @@
         </Field>
         <Field Name="ReportName">
           <DataField>ReportName</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
+          <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
         <Field Name="CancelQty">
           <DataField>CancelQty</DataField>
@@ -3943,6 +3952,20 @@
           </Tablix>
           <Subreport Name="Subreport1">
             <ReportName>CompanyDetail_Landscap</ReportName>
+            <Parameters>
+              <Parameter Name="SiteId">
+                <Value>=First(Fields!SiteId.Value, "DsMain")</Value>
+              </Parameter>
+              <Parameter Name="DivisionId">
+                <Value>=First(Fields!DivisionId.Value, "DsMain")</Value>
+              </Parameter>
+              <Parameter Name="DatabaseConnectionString">
+                <Value>=Parameters!DatabaseConnectionString.Value</Value>
+              </Parameter>
+              <Parameter Name="PrintedBy">
+                <Value>=Parameters!PrintedBy.Value</Value>
+              </Parameter>
+            </Parameters>
             <Top>0.03681in</Top>
             <Left>0.02746in</Left>
             <Height>0.39999in</Height>
@@ -4211,7 +4234,9 @@
         </PageFooter>
         <PageHeight>8.27in</PageHeight>
         <PageWidth>11.69in</PageWidth>
-        <LeftMargin>0.17in</LeftMargin>
+        <LeftMargin>0.2in</LeftMargin>
+        <TopMargin>0.1in</TopMargin>
+        <BottomMargin>0.1in</BottomMargin>
         <Style />
       </Page>
     </ReportSection>
@@ -4510,6 +4535,24 @@
       <Nullable>true</Nullable>
       <AllowBlank>true</AllowBlank>
       <Prompt>PrintedBy</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="DatabaseConnectionString">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>DatabaseConnectionString</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="ShowAmount">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Show Amount</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="ReportType">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Report Type</Prompt>
     </ReportParameter>
   </ReportParameters>
   <EmbeddedImages>

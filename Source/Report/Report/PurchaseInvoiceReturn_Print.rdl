@@ -606,7 +606,7 @@
               <Width>1.3833in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>1.92298in</Width>
+              <Width>1.57923in</Width>
             </TablixColumn>
             <TablixColumn>
               <Width>1in</Width>
@@ -615,7 +615,7 @@
               <Width>1.04443in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>0.67708in</Width>
+              <Width>1in</Width>
             </TablixColumn>
             <TablixColumn>
               <Width>0.54868in</Width>
@@ -626,7 +626,7 @@
           </TablixColumns>
           <TablixRows>
             <TablixRow>
-              <Height>0.23959in</Height>
+              <Height>0.38542in</Height>
               <TablixCells>
                 <TablixCell>
                   <CellContents>
@@ -659,7 +659,6 @@
                         <BottomBorder>
                           <Style>Solid</Style>
                         </BottomBorder>
-                        <BackgroundColor>LightGrey</BackgroundColor>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
@@ -699,7 +698,6 @@
                         <BottomBorder>
                           <Style>Solid</Style>
                         </BottomBorder>
-                        <BackgroundColor>LightGrey</BackgroundColor>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
@@ -739,7 +737,6 @@
                         <BottomBorder>
                           <Style>Solid</Style>
                         </BottomBorder>
-                        <BackgroundColor>LightGrey</BackgroundColor>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
@@ -781,7 +778,6 @@
                         <BottomBorder>
                           <Style>Solid</Style>
                         </BottomBorder>
-                        <BackgroundColor>LightGrey</BackgroundColor>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
@@ -823,7 +819,6 @@
                         <BottomBorder>
                           <Style>Solid</Style>
                         </BottomBorder>
-                        <BackgroundColor>LightGrey</BackgroundColor>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
@@ -880,7 +875,6 @@
                         <BottomBorder>
                           <Style>Solid</Style>
                         </BottomBorder>
-                        <BackgroundColor>LightGrey</BackgroundColor>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
@@ -925,7 +919,6 @@
                         <BottomBorder>
                           <Style>Solid</Style>
                         </BottomBorder>
-                        <BackgroundColor>LightGrey</BackgroundColor>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
@@ -937,7 +930,7 @@
               </TablixCells>
             </TablixRow>
             <TablixRow>
-              <Height>0.21875in</Height>
+              <Height>0.25in</Height>
               <TablixCells>
                 <TablixCell>
                   <CellContents>
@@ -961,8 +954,7 @@
                       <rd:DefaultName>PurchaseInvoiceNo</rd:DefaultName>
                       <Style>
                         <Border>
-                          <Color>LightGrey</Color>
-                          <Style>Solid</Style>
+                          <Style>None</Style>
                         </Border>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
@@ -994,8 +986,7 @@
                       <rd:DefaultName>ProductName1</rd:DefaultName>
                       <Style>
                         <Border>
-                          <Color>LightGrey</Color>
-                          <Style>Solid</Style>
+                          <Style>None</Style>
                         </Border>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
@@ -1027,8 +1018,7 @@
                       <rd:DefaultName>Specification</rd:DefaultName>
                       <Style>
                         <Border>
-                          <Color>LightGrey</Color>
-                          <Style>Solid</Style>
+                          <Style>None</Style>
                         </Border>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
@@ -1062,8 +1052,7 @@
                       <rd:DefaultName>Qty</rd:DefaultName>
                       <Style>
                         <Border>
-                          <Color>LightGrey</Color>
-                          <Style>Solid</Style>
+                          <Style>None</Style>
                         </Border>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
@@ -1097,8 +1086,7 @@
                       <rd:DefaultName>Unit</rd:DefaultName>
                       <Style>
                         <Border>
-                          <Color>LightGrey</Color>
-                          <Style>Solid</Style>
+                          <Style>None</Style>
                         </Border>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
@@ -1133,8 +1121,7 @@
                       <rd:DefaultName>Rate</rd:DefaultName>
                       <Style>
                         <Border>
-                          <Color>LightGrey</Color>
-                          <Style>Solid</Style>
+                          <Style>None</Style>
                         </Border>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
@@ -1169,8 +1156,7 @@
                       <rd:DefaultName>OrderAmount</rd:DefaultName>
                       <Style>
                         <Border>
-                          <Color>LightGrey</Color>
-                          <Style>Solid</Style>
+                          <Style>None</Style>
                         </Border>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
@@ -1218,7 +1204,6 @@
                         <BottomBorder>
                           <Style>Solid</Style>
                         </BottomBorder>
-                        <BackgroundColor>LightGrey</BackgroundColor>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
@@ -1260,7 +1245,6 @@
                         <BottomBorder>
                           <Style>Solid</Style>
                         </BottomBorder>
-                        <BackgroundColor>LightGrey</BackgroundColor>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
@@ -1302,7 +1286,6 @@
                         <BottomBorder>
                           <Style>Solid</Style>
                         </BottomBorder>
-                        <BackgroundColor>LightGrey</BackgroundColor>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
@@ -1344,7 +1327,6 @@
                         <BottomBorder>
                           <Style>Solid</Style>
                         </BottomBorder>
-                        <BackgroundColor>LightGrey</BackgroundColor>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
@@ -1386,7 +1368,6 @@
                         <BottomBorder>
                           <Style>Solid</Style>
                         </BottomBorder>
-                        <BackgroundColor>LightGrey</BackgroundColor>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
@@ -1429,7 +1410,6 @@
                         <BottomBorder>
                           <Style>Solid</Style>
                         </BottomBorder>
-                        <BackgroundColor>LightGrey</BackgroundColor>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
@@ -1487,8 +1467,8 @@
         <DataSetName>DsMain</DataSetName>
         <Top>1.88208in</Top>
         <Left>0.05493in</Left>
-        <Height>0.70834in</Height>
-        <Width>7.42403in</Width>
+        <Height>0.88542in</Height>
+        <Width>7.4032in</Width>
         <ZIndex>1</ZIndex>
         <Style>
           <Border>
@@ -2423,7 +2403,7 @@
           </TablixMembers>
         </TablixRowHierarchy>
         <DataSetName>DsMain</DataSetName>
-        <Top>3.48902in</Top>
+        <Top>3.35152in</Top>
         <Left>0.05493in</Left>
         <Height>1.16252in</Height>
         <Width>7.4032in</Width>
@@ -2688,7 +2668,7 @@
           </TablixMembers>
         </TablixRowHierarchy>
         <DataSetName>DsMain</DataSetName>
-        <Top>2.64557in</Top>
+        <Top>2.83307in</Top>
         <Left>0.00833in</Left>
         <Height>0.46042in</Height>
         <Width>4.13839in</Width>
@@ -2701,7 +2681,7 @@
       </Tablix>
       <Subreport Name="TransactionChargesPrint">
         <ReportName>TransactionChargesPrint</ReportName>
-        <Top>2.64736in</Top>
+        <Top>2.83486in</Top>
         <Left>4.21382in</Left>
         <Height>0.45446in</Height>
         <Width>3.24507in</Width>
@@ -3142,24 +3122,8 @@
           <PaddingBottom>2pt</PaddingBottom>
         </Style>
       </Textbox>
-      <Subreport Name="GatePassPrint">
-        <ReportName>GatePassPrint</ReportName>
-        <Top>3.14036in</Top>
-        <Left>0.04026in</Left>
-        <Height>0.30208in</Height>
-        <Width>7.41629in</Width>
-        <ZIndex>8</ZIndex>
-        <Style>
-          <Border>
-            <Style>None</Style>
-          </Border>
-          <TopBorder>
-            <Style>Solid</Style>
-          </TopBorder>
-        </Style>
-      </Subreport>
     </ReportItems>
-    <Height>4.70571in</Height>
+    <Height>4.55988in</Height>
     <Style />
   </Body>
   <Width>7.4968in</Width>
@@ -3472,9 +3436,9 @@
     </PageFooter>
     <PageHeight>11.69in</PageHeight>
     <PageWidth>8.27in</PageWidth>
-    <LeftMargin>0.3in</LeftMargin>
-    <TopMargin>0.1in</TopMargin>
-    <BottomMargin>0.1in</BottomMargin>
+    <LeftMargin>0.5in</LeftMargin>
+    <TopMargin>0.17in</TopMargin>
+    <BottomMargin>0.17in</BottomMargin>
     <Style />
   </Page>
   <AutoRefresh>0</AutoRefresh>
@@ -3949,3 +3913,4 @@ PtQeVUENmewh02zjEWZuZuLElNvBS6gDSXQMHP8A5UE5f6lWFPkR2q6ZG8HZI8xgvruK93SMJUsHJ61z
   <rd:ReportUnitType>Inch</rd:ReportUnitType>
   <rd:ReportID>f1b70379-da78-4ea9-bab5-cbb93d10df58</rd:ReportID>
 </Report>
+

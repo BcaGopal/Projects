@@ -32,7 +32,7 @@ namespace Model.Models
         [ForeignKey("AreaId")]
         public virtual Area Area { get; set; }
 
-        [MaxLength(6, ErrorMessage = "{0} can not exceed {1} characters"), Required]
+        [MaxLength(6, ErrorMessage = "{0} can not exceed {1} characters")]
         public string Zipcode { get; set; }
         
         [Display(Name = "Created By")]

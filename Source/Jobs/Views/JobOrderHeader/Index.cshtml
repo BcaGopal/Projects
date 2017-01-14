@@ -89,7 +89,7 @@
                columns.Add(m => m.DocNo).Sortable(true).Titled("Order No.").Filterable(true).Sortable(true);
                columns.Add(foo => foo.DueDate).Sortable(true).Titled("Due Date").Format("{0:dd/MMM/yyyy}").Filterable(true);
                columns.Add(m => m.CostCenterName, (bool)(!(ViewBag.isVisibleCostCenter ?? true))).Sortable(true).Titled("CostCenter").Filterable(true).Sortable(true);
-               columns.Add(m => m.JobWorkerName).Sortable(true).Filterable(true).Titled("Job Worker");
+               columns.Add(m => m.JobWorkerName).Sortable(true).Filterable(true).Titled("Party");
                columns.Add(m => m.GodownName).Sortable(true).Filterable(true).Titled("Godown");
                columns.Add().RenderValueAs(m => CustomHelpers.RenderTotal(m.TotalQty, m.DecimalPlaces)).Sanitized(false).Encoded(false).Titled("TotalQty");
                columns.Add().Sanitized(false).Encoded(false).RenderValueAs(m => CustomHelpers.RenderStatus(m.Status)).Titled("Status");
@@ -109,7 +109,7 @@
                columns.Add(m => m.DocNo).Sortable(true).Titled("Order No.").Filterable(true).Sortable(true);
                columns.Add(foo => foo.DueDate).Sortable(true).Titled("Due Date").Format("{0:dd/MMM/yyyy}").Filterable(true);
                columns.Add(m => m.CostCenterName, (bool)(!(ViewBag.isVisibleCostCenter ?? true))).Sortable(true).Titled("CostCenter").Filterable(true).Sortable(true);
-               columns.Add(m => m.JobWorkerName).Sortable(true).Filterable(true).Titled("Job Worker");
+               columns.Add(m => m.JobWorkerName).Sortable(true).Filterable(true).Titled("Party");
                columns.Add(m => m.Remark).Sortable(true).Filterable(true).Titled("Remark");
                columns.Add().RenderValueAs(m => CustomHelpers.RenderTotal(m.TotalQty, m.DecimalPlaces)).Sanitized(false).Encoded(false).Titled("TotalQty");
                columns.Add().Sanitized(false).Encoded(false).RenderValueAs(m => CustomHelpers.RenderStatus(m.Status)).Titled("Status");

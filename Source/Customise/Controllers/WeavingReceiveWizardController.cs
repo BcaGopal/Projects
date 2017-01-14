@@ -145,6 +145,11 @@ namespace Web
 
             //p.JobReceiveById = new EmployeeService(_unitOfWork).GetEmloyeeForUser(User.Identity.GetUserId());
             p.ProcessId = settings.ProcessId;
+            if (System.Web.HttpContext.Current.Session["DefaultGodownId"] != null)
+            {
+                p.GodownId = (int) System.Web.HttpContext.Current.Session["DefaultGodownId"];
+            }
+
             PrepareViewBag();
             p.DocTypeId = DocTypeId;
             p.DocNo = new DocumentTypeService(_unitOfWork).FGetNewDocNo("DocNo", ConfigurationManager.AppSettings["DataBaseSchema"] + ".JobReceiveHeaders", p.DocTypeId, p.DocDate, p.DivisionId, p.SiteId);
@@ -281,7 +286,12 @@ namespace Web
                                         {
                                             int? ProductUidHeaderId = null;
                                             int? ProductUidId = null;
-                                            if (!string.IsNullOrEmpty(Settings.SqlProcGenProductUID))
+
+
+                                            var SisterSite = (from S in db.Site where S.PersonId == s.JobWorkerId select S).FirstOrDefault();
+
+                                            //if (!string.IsNullOrEmpty(Settings.SqlProcGenProductUID))
+                                            if (SisterSite == null)
                                             {
                                                 ProductUidHeader ProdUidHeader = new ProductUidHeader();
 
@@ -346,12 +356,31 @@ namespace Web
                                                 }
                                                 else
                                                 {
-                                                    string Msg = "";
-                                                    Msg = ProductUidName + " is not a valid barcode.";
+                                                    string Msg = ProductUidName + " is not a valid barcode.";
                                                     ModelState.AddModelError("", Msg);
                                                     PrepareViewBag();
                                                     ViewBag.Mode = "Add";
                                                     return View("Create", svm);
+                                                }
+
+                                                if (temp.CurrenctGodownId != null)
+                                                {
+                                                    string Msg = ProductUidName + " is already in Stock at Godown " + new GodownService(_unitOfWork).Find(temp.CurrenctGodownId ?? 0).GodownName;
+                                                    ModelState.AddModelError("", Msg);
+                                                    PrepareViewBag();
+                                                    ViewBag.Mode = "Add";
+                                                    return View("Create", svm);
+                                                    
+                                                }
+
+                                                if (temp.LastTransactionPersonId != s.JobWorkerId)
+                                                {
+                                                    string Msg = ProductUidName + ProductUidName + " does not belong to this Job Worker";
+                                                    ModelState.AddModelError("", Msg);
+                                                    PrepareViewBag();
+                                                    ViewBag.Mode = "Add";
+                                                    return View("Create", svm);
+
                                                 }
                                             }
 

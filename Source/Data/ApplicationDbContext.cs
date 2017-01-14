@@ -26,7 +26,8 @@ namespace Data.Models
 
         public string strSchemaName = "Web";
 
-        public ApplicationDbContext() : base((string)System.Web.HttpContext.Current.Session["DefaultConnectionString"] ?? "LoginDB", false)
+        public ApplicationDbContext()
+            : base((string)System.Web.HttpContext.Current.Session["DefaultConnectionString"] ?? "LoginDB", false)
         {
             Configuration.ProxyCreationEnabled = false;
             Database.ExecuteSqlCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
@@ -171,6 +172,10 @@ namespace Data.Models
         public DbSet<Dimension1Types> Dimension1Types { get; set; }
         public DbSet<Dimension2> Dimension2 { get; set; }
         public DbSet<Dimension2Types> Dimension2Types { get; set; }
+        public DbSet<Dimension3> Dimension3 { get; set; }
+        public DbSet<Dimension3Types> Dimension3Types { get; set; }
+        public DbSet<Dimension4> Dimension4 { get; set; }
+        public DbSet<Dimension4Types> Dimension4Types { get; set; }
         public DbSet<Division> Divisions { get; set; }
         public DbSet<Colour> Colour { get; set; }
         public DbSet<DocumentCategory> DocumentCategory { get; set; }
@@ -210,6 +215,7 @@ namespace Data.Models
         public DbSet<Unit> Units { get; set; }
         public DbSet<UnitConversion> UnitConversion { get; set; }
         public DbSet<UnitConversionFor> UnitConversonFor { get; set; }
+        public DbSet<PersonSettings> PersonSettings { get; set; }
         public DbSet<PersonRateGroup> PersonRateGroup { get; set; }
         public DbSet<ProductRateGroup> ProductRateGroup { get; set; }
 
@@ -311,7 +317,7 @@ namespace Data.Models
         public DbSet<JobReceiveQALine> JobReceiveQALine { get; set; }
         public DbSet<JobReceiveQAAttribute> JobReceiveQAAttribute { get; set; }
         public DbSet<JobReceiveQAPenalty> JobReceiveQAPenalty { get; set; }
-        public DbSet<JobReceiveQALineDetail> JobReceiveQALineDetail { get; set; }
+        public DbSet<JobReceiveQALineExtended> JobReceiveQALineExtended { get; set; }
         public DbSet<InspectionQaAttributes> InspectionQaAttributes { get; set; }
         public DbSet<JobOrderInspectionRequestSettings> JobOrderInspectionRequestSettings { get; set; }
         public DbSet<JobOrderInspectionSettings> JobOrderInspectionSettings { get; set; }
@@ -476,6 +482,7 @@ namespace Data.Models
         public DbSet<PackingSetting> PackingSettings { get; set; }
         public DbSet<PackingHeader> PackingHeader { get; set; }
         public DbSet<PackingLine> PackingLine { get; set; }
+        public DbSet<PackingLineExtended> PackingLineExtended { get; set; }
 
         //Stock Models
         public DbSet<StockHeader> StockHeader { get; set; }

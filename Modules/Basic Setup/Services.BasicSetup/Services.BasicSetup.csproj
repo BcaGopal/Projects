@@ -100,6 +100,7 @@
     <Compile Include="SalesTaxGroupProductService.cs" />
     <Compile Include="SiteService.cs" />
     <Compile Include="StateService.cs" />
+    <Compile Include="StockAdjService.cs" />
     <Compile Include="StockBalanceService.cs" />
     <Compile Include="StockHeaderService.cs" />
     <Compile Include="StockProcessBalanceService.cs" />

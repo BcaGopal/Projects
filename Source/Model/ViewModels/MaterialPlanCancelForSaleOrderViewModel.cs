@@ -59,6 +59,8 @@ namespace Model.ViewModel
 
         [Display(Name = "Dimension2")]
         public string Dimension2Id { get; set; }
+        public DocumentTypeSettingsViewModel DocumentTypeSettings { get; set; }
+        public MaterialPlanSettingsViewModel MaterialPlanSettings { get; set; }
 
     }
     public class MaterialPlanCancelLineListViewModel

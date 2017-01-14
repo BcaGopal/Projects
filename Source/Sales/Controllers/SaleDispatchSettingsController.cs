@@ -139,6 +139,8 @@ namespace Web
                     temp.isVisibleBaleNo = pt.isVisibleBaleNo;
                     temp.isVisibleDimension1 = pt.isVisibleDimension1;
                     temp.isVisibleDimension2 = pt.isVisibleDimension2;
+                    temp.isVisibleDimension3 = pt.isVisibleDimension3;
+                    temp.isVisibleDimension4 = pt.isVisibleDimension4;
                     temp.isVisibleSpecification = pt.isVisibleSpecification;
                     temp.isVisibleDeliveryTerms = pt.isVisibleDeliveryTerms;
                     temp.isVisibleDealUnit = pt.isVisibleDealUnit;
@@ -309,6 +311,8 @@ namespace Web
                     temp.SqlProcDocumentPrint_AfterSubmit = pt.SqlProcDocumentPrint_AfterSubmit;
                     temp.isVisibleDimension1 = pt.isVisibleDimension1;
                     temp.isVisibleDimension2 = pt.isVisibleDimension2;
+                    temp.isVisibleDimension3 = pt.isVisibleDimension3;
+                    temp.isVisibleDimension4 = pt.isVisibleDimension4;
                     temp.isVisibleLotNo = pt.isVisibleLotNo;
                     temp.SqlProcGatePass = pt.SqlProcGatePass;
                     temp.SqlProcDocumentPrint = pt.SqlProcDocumentPrint;

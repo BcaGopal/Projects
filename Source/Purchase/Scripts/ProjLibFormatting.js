@@ -13,6 +13,7 @@
 //    }
 //});
 
+
 var StatusContstantsEnum = {
     Drafted: 0,
     Submitted: 1,
@@ -26,17 +27,12 @@ var StatusContstantsEnum = {
 
 var TransactionTypeConstantsEnum = {
     Issue: "Issue",
-    Receive:"Receive",
+    Receive: "Receive",
 }
 
 
 
 $(document).ready(function () {
-
-
-    $("img.UserIndexImage,img.UserImage").error(function () {
-        $(this).attr('src', '/Images/DefaultUser.png');
-    });
 
     //ProgressBar
     var start = 0;
@@ -175,12 +171,12 @@ $(document).ready(function () {
 
         if (!$(this).hasClass('Assigned')) {
 
-            savePermission($(this).attr('href'));            
+            savePermission($(this).attr('href'));
 
             $(this).addClass('Assigned');
         }
         else {
-            deletePermission($(this).attr('href'));            
+            deletePermission($(this).attr('href'));
             $(this).removeClass('Assigned');
         }
         return false;
@@ -269,7 +265,6 @@ $(document).ready(function () {
     }
 
     $(document).on("click", "a[data-modalDelete],a[data-modalCopy]", function (e) {
-
         if (this.href)
             $('#myModalContent').load(this.href, function () {
                 $('#myModal').modal({
@@ -481,6 +476,83 @@ $(document).ready(function () {
 
 
 
+    //For managing document attachment modal page
+    $(function () {
+        $.ajaxSetup({ cache: false });
+
+        $("a[data-modaltrigger='DocumentAttachment']").on("click", function (e) {
+
+            var DocTypeId = $('.DocType_Id').val();
+            var Id = $($('table.grid-table .grid-row.grid-row-selected').get(0)).find('.Header_Id').text();
+
+            if (Id && Id > 0 && DocTypeId && DocTypeId > 0) {
+                $(e.target).closest('.btn-group').children('.dropdown-toggle').dropdown('toggle');
+                var url = '/DocumentAttachment/AttachDocument?DocId=' + Id + '&DocTypeId=' + DocTypeId;
+                $('#myModalContent').load(url, function () {
+                    $('#myModal').modal({
+                        backdrop: 'static',
+                        keyboard: true
+                    }, 'show');
+
+                    bindDocumentAttachmentForm(this);
+                });
+            }
+            return false;
+        });
+    });
+
+    function bindDocumentAttachmentForm(dialog) {
+        $('input:file', '#modformDocAttchmt').change(function () {
+
+            var form = $('#modformDocAttchmt')[0];
+            var data = new FormData(form);
+
+            $.ajax({
+                xhr: function () {
+                    var xhr = new window.XMLHttpRequest();
+                    xhr.upload.addEventListener("progress", function (evt) {
+                        if (evt.lengthComputable) {
+                            var percentComplete = evt.loaded / evt.total;
+                            //Do something with upload progress here
+                            $('.uploadPerc').css('display', 'block')
+                            if (percentComplete < 1) {
+                                $('#uloadPerc').text((percentComplete * 100).toFixed(2) + "%");
+                            }
+                            else {
+                                $('.uploadPerc').css('display', 'none')
+                            }
+                        }
+                    }, false);
+
+                    return xhr;
+                },
+                url: form.action,
+                type: form.method,
+                contentType: false,
+                processData: false,
+                data: data,
+                success: function (result) {
+                    if (result.success) {
+                        $('#myModal').modal('hide');
+                        //Refresh
+                        // alert('this.action');
+                        location.reload();
+                    } else {
+                        $('#myModalContent').html(result);
+                        bindDocumentAttachmentForm();
+                    }
+                }
+            });
+
+            return false;
+        });
+    }
+
+
+
+
+
+
     (function ($) {
         DeleteValidation = function () {
 
@@ -534,21 +606,49 @@ $(document).ready(function () {
     })
 
 
-    //function CreateTrasitionEffectForSubmit() {
+    function CreateTrasitionEffectForSubmit() {
 
-    //    //$('body').find('.container.body-content > div.row ').wrap("<div class='animsition' data-animsition-in='fade-in-right-lg' data-animsition-out='fade-out-left-lg' style='animation-duration: 1.5s; -webkit-animation-duration: 1.5s; opacity: 0;'> </div>");
+        //$('body').find('.container.body-content > div.row ').wrap("<div class='animsition' data-animsition-in='fade-in-right-lg' data-animsition-out='fade-out-left-lg' style='animation-duration: 1.5s; -webkit-animation-duration: 1.5s; opacity: 0;'> </div>");
 
-    //    $('body').find('form').filter(":last").wrapInner("<div class='animsition' data-animsition-in='fade-in-right-lg' data-animsition-out='fade-out-left-lg' style='animation-duration: 1.5s; -webkit-animation-duration: 1.5s; opacity: 0;'> </div>");
+        $('body').find('form').filter(":last").wrapInner("<div class='animsition' data-animsition-in='fade-in-right-lg' data-animsition-out='fade-out-left-lg' style='animation-duration: 1.5s; -webkit-animation-duration: 1.5s; opacity: 0;'> </div>");
 
-    //    var script = document.createElement('script');
+        var script = document.createElement('script');
 
-    //    script.setAttribute('type', 'text/javascript');
+        script.setAttribute('type', 'text/javascript');
 
-    //    script.text = " $(document).ready(function () {$('.animsition').animsition().one('animsition.start', function () {}).one('animsition.end', function () {$(this).find('.animsition-child').addClass('zoom-in').css({'opacity': 1});})});";
+        script.text = " $(document).ready(function () {$('.animsition').animsition().one('animsition.start', function () {}).one('animsition.end', function () {$(this).find('.animsition-child').addClass('zoom-in').css({'opacity': 1});})});";
 
-    //    $('body').append(script);
+        $('body').append(script);
 
-    //}
+    }
+
+
+
+    $(document).on("keypress", "input.number", function (e) {
+        var KeyCode = (e.keyCode || e.which);
+        // Allow: backspace, delete, tab, escape, enter and .
+        if (
+            $.inArray(KeyCode, [46, 40, 41, 43, 42, 47, 45]) !== -1 ||
+            // Allow: Ctrl+A
+            (KeyCode == 97 && e.ctrlKey === true) ||
+            // Allow: Ctrl+C
+            (KeyCode == 99 && e.ctrlKey === true) ||
+            // Allow: Ctrl+X
+            (KeyCode == 120 && e.ctrlKey === true) ||
+            // Allow: Ctrl+Y
+            (KeyCode == 118 && e.ctrlKey === true)
+            // Allow: home, end, left, right
+            //(KeyCode >= 35 && KeyCode <= 39)
+            ) {
+            // let it happen, don't do anything
+            return;
+        }
+        // Ensure that it is a number and stop the keypress
+        if ((e.shiftKey || (KeyCode < 48 || KeyCode > 57))) {
+            e.preventDefault();
+        }
+    });
+
 
 })
 
@@ -629,8 +729,6 @@ function AddFields() {
 }
 
 
-
-
 function DisablePage() {
 
     //Disabling input fields
@@ -660,16 +758,16 @@ function DisablePage() {
 
 
 
-function InitializePopover(element, ProdUid, IsPostStock, GodwnId,Type) {
+function InitializePopover(element, ProdUid, IsPostStock, GodwnId, Type) {
 
     $(element).popover('destroy');
 
     var DataArray;
     var status;
-    if(Type=="Issue")
+    if (Type == "Issue")
         var url = "/ProductUid/GetProductUidValidation";
     else if (Type == "Receive")
-        var url = "/ProductUid/GetProductUidReceiveValidation"
+        var url = "/ProductUid/GetProductUidJobCancelValidation"
     $.ajax({
         async: false,
         url: url,
@@ -708,6 +806,7 @@ function InitializePopover(element, ProdUid, IsPostStock, GodwnId,Type) {
         var $page = $(element).closest('.modal-body').get(0);
         $($page).find('#ProductId').select2("data", { id: DataArray.ProductId, text: DataArray.ProductName }).attr('readonly', 'true').trigger('change');
         $($page).find('#Qty').val(1).attr('readonly', 'true');
+        $($page).find('#DocQty').val(1).attr('readonly', 'true');
         $($page).find('#ProductUidId').val(DataArray.ProductUIDId);
 
         if (DataArray.Dimension1Id)
@@ -737,11 +836,11 @@ function InitializePopover(element, ProdUid, IsPostStock, GodwnId,Type) {
     function ResetFields() {
 
         var $page = $(element).closest('.modal-body').get(0);
-        $($page).find('#ProductId').select2('val','').removeAttr('readonly');
+        $($page).find('#ProductId').select2('val', '').removeAttr('readonly');
         $($page).find('#Qty').val('').removeAttr('readonly');
         $($page).find('#Dimension1Id').select2('val', '').removeAttr('readonly');
         $($page).find('#Dimension2Id').select2('val', '').removeAttr('readonly');
-        $($page).find('#FromProcessId').select2('val','').removeAttr('readonly');
+        $($page).find('#FromProcessId').select2('val', '').removeAttr('readonly');
         $($page).find('#LotNo').val('').removeAttr('readonly');
         $($page).find('#ProductUidId').val(0);
 
@@ -756,12 +855,220 @@ function InitializePopover(element, ProdUid, IsPostStock, GodwnId,Type) {
 
     }
 
-    var temp = new Result();   
+    var temp = new Result();
 
     return temp;
 
 
 }
+
+
+
+
+function InitializePopoverForJobReceive(element, ProdUid, IsPostStock, HeadId, Type) {
+
+    $(element).popover('destroy');
+
+    var DataArray;
+    var status;
+    var url = "/ProductUid/GetProductUidJobReceiveValidation"
+    $.ajax({
+        async: false,
+        url: url,
+        data: { ProductUID: ProdUid, PostedInStock: IsPostStock, HeaderID: HeadId },
+        success: function (data) {
+            DataArray = data;
+        }
+    })
+
+    if (DataArray.ErrorType == "InvalidID" || DataArray.ErrorType == "InvalidGodown") {
+        $(element)
+         .popover({
+             trigger: 'manual',
+             container: '.modal-body',
+             'delay': { "hide": "1000" },
+             html: true,
+             content: "<ul class='list-group'>  <li class='list-group-item active'> Validation Detail </li>    <li class='list-group-item'>Message:" + DataArray.ErrorMessage + "</li>   </ul>"
+         });
+        ResetFields();
+        status = false;
+    }
+
+    else if (DataArray.ErrorType == "GodownNull") {
+        $(element)
+          .popover({
+              trigger: 'manual',
+              container: '.modal-body',
+              'delay': { "hide": "1000" },
+              html: true,
+              content: "<ul class='list-group'>  <li class='list-group-item active'> Validation Detail </li>    <li class='list-group-item'>" + DataArray.ErrorMessage + "  </li>    <li class='list-group-item'> DocType:" + (DataArray.GenDocTypeName == null ? "" : DataArray.GenDocTypeName) + " <br /> DocNo:" + (DataArray.GenDocNo == null ? "" : DataArray.GenDocNo) + " <br /> DocDate:" + (DataArray.GenDocDate == null ? "" : formatDate('d/m/Y', new Date(parseInt(DataArray.GenDocDate.substr(6))))) + " <br /> Process:" + (DataArray.CurrentProcessName == null ? "" : DataArray.CurrentProcessName) + " <br /> Person:" + (DataArray.LastTransactionPersonName == null ? "" : DataArray.LastTransactionPersonName) + " </li>   </ul>"
+          });
+        ResetFields();
+        status = false;
+    }
+    else if (DataArray.ErrorType == "Success") {
+        var $page = $(element).closest('.modal-body').get(0);
+        $($page).find('#ProductId').select2("data", { id: DataArray.ProductId, text: DataArray.ProductName }).attr('readonly', 'true').trigger('change');
+        $($page).find('#Qty').val(1).attr('readonly', 'true');
+        $($page).find('#DocQty').val(1).attr('readonly', 'true');
+        $($page).find('#ProductUidId').val(DataArray.ProductUIDId);
+
+        if (DataArray.Dimension1Id)
+            $($page).find('#Dimension1Id').select2("data", { id: DataArray.Dimension1Id, text: DataArray.Dimension1Name }).attr('readonly', 'true');
+        else
+            $($page).find('#Dimension1Id').attr('readonly', 'true');
+
+        if (DataArray.Dimension2Id)
+            $($page).find('#Dimension2Id').select2("data", { id: DataArray.Dimension2Id, text: DataArray.Dimension2Name }).attr('readonly', 'true');
+        else
+            $($page).find('#Dimension2Id').attr('readonly', 'true');
+
+        if (DataArray.CurrenctProcessId)
+            $($page).find('#FromProcessId').select2("data", { id: DataArray.CurrenctProcessId, text: DataArray.CurrentProcessName }).attr('readonly', 'true');
+        else
+            $($page).find('#FromProcessId').attr('readonly', 'true');
+
+        $($page).find('#LotNo').val(DataArray.LotNo);
+        status = true;
+
+    }
+
+
+
+
+
+    function ResetFields() {
+
+        var $page = $(element).closest('.modal-body').get(0);
+        $($page).find('#ProductId').select2('val', '').removeAttr('readonly');
+        $($page).find('#Qty').val('').removeAttr('readonly');
+        $($page).find('#Dimension1Id').select2('val', '').removeAttr('readonly');
+        $($page).find('#Dimension2Id').select2('val', '').removeAttr('readonly');
+        $($page).find('#FromProcessId').select2('val', '').removeAttr('readonly');
+        $($page).find('#LotNo').val('').removeAttr('readonly');
+        $($page).find('#ProductUidId').val(0);
+
+
+    }
+
+
+    function Result() {
+        var self = this;
+        self.status = status;
+        self.data = DataArray;
+
+    }
+
+    var temp = new Result();
+
+    return temp;
+
+
+}
+
+
+
+function InitializePopoverForWashingReceive(element, ProdUid, IsPostStock, HeadId, Type, ProcId) {
+
+    $(element).popover('destroy');
+
+    var DataArray;
+    var status;
+    var url = "/ProductUid/GetProductUidJobReceiveValidationForWashing"
+    $.ajax({
+        async: false,
+        url: url,
+        data: { ProductUID: ProdUid, PostedInStock: IsPostStock, HeaderID: HeadId, ProcessId: ProcId },
+        success: function (data) {
+            DataArray = data;
+        }
+    })
+
+    if (DataArray.ErrorType == "InvalidID" || DataArray.ErrorType == "InvalidGodown") {
+        $(element)
+         .popover({
+             trigger: 'manual',
+             container: '.modal-body',
+             'delay': { "hide": "1000" },
+             html: true,
+             content: "<ul class='list-group'>  <li class='list-group-item active'> Validation Detail </li>    <li class='list-group-item'>Message:" + DataArray.ErrorMessage + "</li>   </ul>"
+         });
+        ResetFields();
+        status = false;
+    }
+
+    else if (DataArray.ErrorType == "GodownNull") {
+        $(element)
+          .popover({
+              trigger: 'manual',
+              container: '.modal-body',
+              'delay': { "hide": "1000" },
+              html: true,
+              content: "<ul class='list-group'>  <li class='list-group-item active'> Validation Detail </li>    <li class='list-group-item'>" + DataArray.ErrorMessage + "  </li>    <li class='list-group-item'> DocType:" + (DataArray.GenDocTypeName == null ? "" : DataArray.GenDocTypeName) + " <br /> DocNo:" + (DataArray.GenDocNo == null ? "" : DataArray.GenDocNo) + " <br /> DocDate:" + (DataArray.GenDocDate == null ? "" : formatDate('d/m/Y', new Date(parseInt(DataArray.GenDocDate.substr(6))))) + " <br /> Process:" + (DataArray.CurrentProcessName == null ? "" : DataArray.CurrentProcessName) + " <br /> Person:" + (DataArray.LastTransactionPersonName == null ? "" : DataArray.LastTransactionPersonName) + " </li>   </ul>"
+          });
+        ResetFields();
+        status = false;
+    }
+    else if (DataArray.ErrorType == "Success") {
+        var $page = $(element).closest('.modal-body').get(0);
+        $($page).find('#ProductId').select2("data", { id: DataArray.ProductId, text: DataArray.ProductName }).attr('readonly', 'true').trigger('change');
+        $($page).find('#Qty').val(1).attr('readonly', 'true');
+        $($page).find('#DocQty').val(1).attr('readonly', 'true');
+        $($page).find('#ProductUidId').val(DataArray.ProductUIDId);
+
+        if (DataArray.Dimension1Id)
+            $($page).find('#Dimension1Id').select2("data", { id: DataArray.Dimension1Id, text: DataArray.Dimension1Name }).attr('readonly', 'true');
+        else
+            $($page).find('#Dimension1Id').attr('readonly', 'true');
+
+        if (DataArray.Dimension2Id)
+            $($page).find('#Dimension2Id').select2("data", { id: DataArray.Dimension2Id, text: DataArray.Dimension2Name }).attr('readonly', 'true');
+        else
+            $($page).find('#Dimension2Id').attr('readonly', 'true');
+
+        if (DataArray.CurrenctProcessId)
+            $($page).find('#FromProcessId').select2("data", { id: DataArray.CurrenctProcessId, text: DataArray.CurrentProcessName }).attr('readonly', 'true');
+        else
+            $($page).find('#FromProcessId').attr('readonly', 'true');
+
+        $($page).find('#LotNo').val(DataArray.LotNo);
+        status = true;
+
+    }
+
+
+
+
+
+    function ResetFields() {
+
+        var $page = $(element).closest('.modal-body').get(0);
+        $($page).find('#ProductId').select2('val', '').removeAttr('readonly');
+        $($page).find('#Qty').val('').removeAttr('readonly');
+        $($page).find('#Dimension1Id').select2('val', '').removeAttr('readonly');
+        $($page).find('#Dimension2Id').select2('val', '').removeAttr('readonly');
+        $($page).find('#FromProcessId').select2('val', '').removeAttr('readonly');
+        $($page).find('#LotNo').val('').removeAttr('readonly');
+        $($page).find('#ProductUidId').val(0);
+
+
+    }
+
+
+    function Result() {
+        var self = this;
+        self.status = status;
+        self.data = DataArray;
+
+    }
+
+    var temp = new Result();
+
+    return temp;
+
+
+}
+
 
 
 function InitializePermissionsPopover(element, MenId) {
@@ -780,56 +1087,34 @@ function InitializePermissionsPopover(element, MenId) {
         }
     })
     var row = "";
-    row+="<ul class='list-group'>  <li class='list-group-item active'> Validation Detail </li>  ";
-    $.each(DataArray,function(index,item){
+    row += "<ul class='list-group'>  <li class='list-group-item active'> Validation Detail </li>  ";
+    $.each(DataArray, function (index, item) {
         row += " <li class='list-group-item'> DocType:" + (item.ActionName == null ? "" : item.ActionName) + "<input type='hidden' class='CAID' value='" + item.ControllerActionId + "'></input> <br />  </li>"
-    }) 
-    row+=   "</ul>";
-        $(element)
-          .popover({
-              animation:true,
-              trigger: 'manual',
-              container: 'body',
-              'delay': { "hide": "1000" },
-              html: true,
-              content: row,
-          });
-        
-        status = false;
-    
+    })
+    row += "</ul>";
+    $(element)
+      .popover({
+          animation: true,
+          trigger: 'manual',
+          container: 'body',
+          'delay': { "hide": "1000" },
+          html: true,
+          content: row,
+      });
+
+    status = false;
+
 
     return status;
 
 
 }
+
 $(document).on("focus", "input,textarea", function () {
     $(this).select();
 })
 
-$(document).on("keypress", "input.number", function (e) {
-    var KeyCode = (e.keyCode || e.which);
-    // Allow: backspace, delete, tab, escape, enter and .
-    if (
-        $.inArray(KeyCode, [46, 40, 41, 43, 42, 47, 45]) !== -1 ||
-        // Allow: Ctrl+A
-        (KeyCode == 97 && e.ctrlKey === true) ||
-        // Allow: Ctrl+C
-        (KeyCode == 99 && e.ctrlKey === true) ||
-        // Allow: Ctrl+X
-        (KeyCode == 120 && e.ctrlKey === true) ||
-        // Allow: Ctrl+Y
-        (KeyCode == 118 && e.ctrlKey === true)
-        // Allow: home, end, left, right
-        //(KeyCode >= 35 && KeyCode <= 39)
-        ) {
-        // let it happen, don't do anything
-        return;
-    }
-    // Ensure that it is a number and stop the keypress
-    if ((e.shiftKey || (KeyCode < 48 || KeyCode > 57))) {
-        e.preventDefault();
-    }
-});
+
 
 
 
@@ -845,13 +1130,6 @@ AlertIconconstants["success"] = "glyphicon glyphicon-ok";
 AlertIconconstants["warning"] = "glyphicon glyphicon-warning-sign";
 AlertIconconstants["info"] = "glyphicon glyphicon-info-sign";
 AlertIconconstants["danger"] = "glyphicon glyphicon-remove";
-
-
-
-
-
-
-//$.notify.defaults({ className: "success", position: "bottom right", clickToHide: true, autoHide: false, style: 'bootstrap' });
 
 
 alertify.defaults = {
@@ -890,9 +1168,6 @@ alertify.defaults = {
 
 
 
-
-
-
 $.fn.CustomNotify = function (options) {
     var target = this;
     options = $.extend({ timeout: 5000, alert: 'info' }, options);
@@ -902,8 +1177,6 @@ $.fn.CustomNotify = function (options) {
     }
 
     if (options.message) {
-
-        //$.notify(options.message, options.alert);
 
     } else {
         return;
@@ -954,8 +1227,7 @@ function CookieNotify(cookie) {
     }
 }
 
-function NavigateToLineRecord(id)
-{
+function NavigateToLineRecord(id) {
     var Id = id;
     var NavOffset = $('.navbar-collapse.collapse').height();
     $('html, body').animate({
@@ -964,9 +1236,8 @@ function NavigateToLineRecord(id)
     $(Id).addClass('SelectedLine');
     setTimeout(function () {
         $(Id).removeClass('SelectedLine');
-    },2000)
+    }, 2000)
 }
-
 
 function GetMultiSelectRecordIds() {
 
@@ -1001,6 +1272,9 @@ $(document).on("click", "a#GenGatePassI", function (e) {
 
 });
 
+
+
+//Comman Function for printing Multiple Records
 $(document).on("click", "a#PrintRecordI", function (e) {
 
     var DocTypeId = $('.DocType_Id').val();
@@ -1014,6 +1288,8 @@ $(document).on("click", "a#PrintRecordI", function (e) {
 
 });
 
+
+//Comman Function for gatepass generation and gatepass deletion
 $(document).on("click", "a#GenGatePassC,a#GenGatePassD", function (e) {
     $.ajax({
         url: $(this).attr('href'),
@@ -1114,13 +1390,15 @@ $(function () {
 $(function () {
 
     $('#myModal').on('shown.bs.modal', function () {
-
         InitializeFocus();
+
         $(function () {
             $('input[readonly]').each(function () {
                 $(this).attr('tabindex', '-1');
             });
         });
+
+
     });
 
 })
@@ -1128,20 +1406,40 @@ $(function () {
 function InitializeFocus() {
     var Input = $('#myModal').find('input[type=text],select,textarea').filter(':visible:first');
     if (Input.length) {
-        if (Input.hasClass("select2-offscreen"))
+        if (Input.hasClass("select2=offscreen"))
             Input.select2("focus");
         else
             Input.focus();
     }
 }
+//$(document).bind("keyup keydown", function (e) {
+//    if (e.ctrlKey && e.keyCode == 80) {
+//        alert('print match');
+//        return false;
+//    }
+//    if (e.ctrlKey && e.keyCode == 83) {
+//        alert('save match');
+//        return false;
+//    }
+//    if (e.keyCode == 45) {
+//        if (($(document).find('a.glyphicon-plus.toolbar:first').get(0)))
+//            window.location = $($(document).find('a.glyphicon-plus.toolbar:first').get(0)).attr('href');
+//    }
 
-//Function for getting Total used in SlickGrid plugin:
-function getColumnTotal(columns, data) {
-    var rowIdx = data.getLength();
-    var total = 0;
-    var dataArr = data.getItems();
-    while (rowIdx--) {
-        total += (parseFloat(dataArr[rowIdx][columns]) || 0);
+
+//})
+
+//Comman Function for Attaching Documents for records
+
+$('a#AttachDocument').click(function (e) {
+    var DocTypeId = '@ViewBag.id';
+    var $row = $('table.grid-table .grid-row.grid-row-selected');
+    var editiiid = $row.find('[data-name="SaleOrderHeaderId"]').text();
+    if (!$('table.grid-table .grid-row.grid-row-selected').get(0)) {
+        e.stopImmediatePropagation();
+        return false;
     }
-    return total;
-}
+    var url = '/DocumentAttachment/AttachDocument?DocId=' + editiiid + '&DocTypeId=' + DocTypeId;
+    $(this).attr('href', url);
+    return;
+})

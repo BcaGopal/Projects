@@ -192,6 +192,11 @@ namespace Presentation
 
             #endregion
 
+            if (vm.MaterialPlanSettings.isMandatoryMachine == true && vm.MachineId == null)
+            {
+                ModelState.AddModelError("MachineId", "Machine field is required");
+            }
+
             if (ModelState.IsValid && (TimePlanValidation || Continue))
             {
 

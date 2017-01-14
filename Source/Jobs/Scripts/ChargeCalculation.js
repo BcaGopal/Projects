@@ -18,6 +18,12 @@ var RateTypeEnum = {
 };
 
 
+var AddDeductEnum = {
+    Deduct: 0,
+    Add: 1,
+    OverRide: 2,
+}
+
 function AddCalculationFields(DocHeaderId, DebugMode, CalculationId, HeaderCTable, LineCTable, MaxLinId, DocumentType, SiteId, DivisionId) {
 
     $.ajax({
@@ -118,8 +124,6 @@ function DrawProductFields(DebugMode) {
                 + "     </div>"
                 + " </div>"
 
-
-
         temp += "<input type='hidden' id='CALL_" + ProductFields[i].ChargeCode + "ACCR' value='" + (ProductFields[i].LedgerAccountCrId == null ? "" : ProductFields[i].LedgerAccountCrId) + "'  name='linecharges[" + i + "].LedgerAccountCrId' />"
         temp += "<input type='hidden' id='CALL_" + ProductFields[i].ChargeCode + "ACDR' value='" + (ProductFields[i].LedgerAccountDrId == null ? "" : ProductFields[i].LedgerAccountDrId) + "' name='linecharges[" + i + "].LedgerAccountDrId'  />"
         temp += "<input type='hidden' id='CALL_" + ProductFields[i].ChargeCode + "CLAC' value='" + (ProductFields[i].ContraLedgerAccountId == null ? "" : ProductFields[i].ContraLedgerAccountId) + "' name='linecharges[" + i + "].ContraLedgerAccountId' />"
@@ -141,10 +145,6 @@ function DrawProductFields(DebugMode) {
 
     temp += "  <input type='hidden' value='" + varXAmount + "' id='xAmount' class='form-control col-xs-7 required text-right' />  "
     //temp += "<hr/>"
-
-    //alert(temp);
-    //prompt("Copy to clipboard: Ctrl+C, Enter", temp);
-    //temp = "<label>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</label>"
     $(temp).appendTo('.modal-body .row:last');
 }
 //"+(DebugMode?"text":"hidden")+"
@@ -220,8 +220,6 @@ function DrawFooterFields(DebugMode) {
 
     }
     temp += "</div>"
-
-    
     $(temp).appendTo('.modal-body');
 }
 
@@ -271,12 +269,57 @@ function ChargeCalculation() {
         }
 
 
-        if (ProductFields[i].AddDeduct == true) {
+        if (ProductFields[i].IncludedChargesCalculation) {
+            var Rate = EvalExpression(ProductFields[i].IncludedCharges, ProductFields[i].IncludedChargesCalculation, "#CALL_");
+            if ($.isNumeric(Rate)) {//SubTotalProduct = (SubTotalProduct * 100) / (100 + Rate);
+                var Amt = (($(selector).val() * 100) / (100 + Rate));
+                $(selector).val(Amt.toFixed(2));
+            }
+        }
+
+        if (ProductFields[i].AddDeduct == AddDeductEnum.Add) {
             SubTotalProduct = (SubTotalProduct + parseFloat($(selector).val()));
         }
-        else if (ProductFields[i].AddDeduct == false) {
+        else if (ProductFields[i].AddDeduct == AddDeductEnum.Deduct) {
             SubTotalProduct = (SubTotalProduct - parseFloat($(selector).val()));
         }
+        else if (ProductFields[i].AddDeduct == AddDeductEnum.OverRide) {
+            SubTotalProduct = parseFloat($(selector).val());
+        }
+
+
+    }
+
+    function EvalExpression(IncludedCharges, ChargeCalculation, selector) {
+        var Rate;
+
+        if (!IncludedCharges) {
+
+            var Params = IncludedCharges.split(',');
+
+            var ParamDict = [];
+
+            $.each(Params, function (i, val) {
+
+                var Elem = selector + Params;
+
+                ParamDict.push({ id: val, text: $(Elem).val() });
+            })
+
+            $.each(ParamDict, function (i, val) {
+
+                ChargeCalculation.replace(val.id, val.text);
+
+            })
+
+            Rate = parseFloat(eval(ChargeCalculation));
+
+        }
+        else {
+            Rate = parseFloat(eval(ChargeCalculation));
+        }
+
+        return Rate;
     }
 
 
@@ -345,12 +388,21 @@ function ChargeCalculation() {
         }
 
 
-        if (FooterFields[i].AddDeduct == true) {
+        if (FooterFields[i].IncludedChargesCalculation) {
+            var Rate = EvalExpression(FooterFields[i].IncludedCharges, FooterFields[i].IncludedChargesCalculation, "#CALH_");
+            if ($.isNumeric(Rate)) {//SubTotalProduct = (SubTotalProduct * 100) / (100 + Rate);
+                var Amt = (($(selector).val() * 100) / (100 + Rate));
+                $(selector).val(Amt.toFixed(2));
+            }
+
+        }
+
+        if (FooterFields[i].AddDeduct == AddDeductEnum.Add) {
 
             if ($.isNumeric($(selector).val()))
                 SubTotalFooter = (SubTotalFooter + parseFloat($(selector).val()));
         }
-        else if (FooterFields[i].AddDeduct == false) {
+        else if (FooterFields[i].AddDeduct == AddDeductEnum.Deduct) {
 
 
             if ($.isNumeric($(selector).val()))
@@ -358,8 +410,12 @@ function ChargeCalculation() {
 
 
         }
+        else if (FooterFields[i].AddDeduct == AddDeductEnum.OverRide) {
+            if ($.isNumeric($(selector).val()))
+                SubTotalFooter = parseFloat($(selector).val());
 
 
+        }
 
     }
 

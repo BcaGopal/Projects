@@ -130,9 +130,10 @@ namespace Customize.Controllers
             if (svm.Qty <= 0)
                 ModelState.AddModelError("Qty", "The Qty is required");
 
+            if (_RecipeLineService.IsDuplicateLine(svm.StockHeaderId,svm.ProductId))
+                ModelState.AddModelError("ProductId", "Product is already entered in recipe.");
 
             ViewBag.Status = temp.Status;
-
 
 
             if (svm.StockLineId <= 0)
@@ -402,10 +403,14 @@ namespace Customize.Controllers
             return Json(new { data = _RecipeLineService.GetRecipeDetail(CopyFromRecipeId) }, JsonRequestBehavior.AllowGet);
         }
 
-        public void _ResultsPost(int JobOrderHeaderId, int ProductId, Decimal DyeingRatio, Decimal TestingQty, Decimal DocQty, Decimal? ExcessQty, Decimal Qty, Decimal Rate, Decimal Amount)
+        public void _ResultsPost(int JobOrderHeaderId, int StockLineId, int ProductId, Decimal DyeingRatio, Decimal TestingQty, Decimal DocQty, Decimal? ExcessQty, Decimal Qty, Decimal Rate, Decimal Amount)
         {
             RecipeLineViewModel svm = new RecipeLineViewModel();
             JobOrderHeader JobOrderHeader = _RecipeHeaderService.Find(JobOrderHeaderId);
+            RecipeLineViewModel RecipeLine = _RecipeLineService.GetStockLine(StockLineId);
+
+
+
             svm.JobOrderHeaderId = JobOrderHeaderId;
             svm.StockHeaderId = (int)JobOrderHeader.StockHeaderId;
             svm.ProductId = ProductId;
@@ -419,7 +424,15 @@ namespace Customize.Controllers
 
             try
             {
-                _RecipeLineService.Create(svm, User.Identity.Name);
+                if (JobOrderHeader.StockHeaderId == RecipeLine.StockHeaderId)
+                {
+                    svm.StockLineId = RecipeLine.StockLineId;
+                    _RecipeLineService.Update(svm, User.Identity.Name);
+                }
+                else
+                {
+                    _RecipeLineService.Create(svm, User.Identity.Name);
+                }
             }
 
             catch (Exception ex)
@@ -428,6 +441,11 @@ namespace Customize.Controllers
                 TempData["CSEXCL"] += message;
                 PrepareViewBag(svm);
             }
+        }
+
+        public JsonResult GetExcessStock(int ProductId, int? Dim1, int? Dim2, int? ProcId, string Lot, int StockHeaderId, string ProcName)
+        {
+            return Json(_RecipeLineService.GetExcessStock(ProductId, Dim1, Dim2, ProcId, Lot, StockHeaderId, ProcName), JsonRequestBehavior.AllowGet);
         }
     }
 }

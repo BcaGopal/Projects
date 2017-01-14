@@ -3,7 +3,10 @@
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
     <DataSource Name="Purchase">
-      <DataSourceReference>DataSourceMain</DataSourceReference>
+      <ConnectionProperties>
+        <DataProvider>SQL</DataProvider>
+        <ConnectString>=Parameters!DatabaseConnectionString.Value</ConnectString>
+      </ConnectionProperties>
       <rd:SecurityType>None</rd:SecurityType>
       <rd:DataSourceID>a4701ec2-a2bf-4f00-a373-e0ef6d3046c3</rd:DataSourceID>
     </DataSource>
@@ -33,6 +36,12 @@
           </QueryParameter>
           <QueryParameter Name="@JoborderHeaderId">
             <Value>=Parameters!JobOrderHeaderId.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@IsSisterConcern">
+            <Value>=Parameters!IsSisterConcern.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@CostructionType">
+            <Value>=Parameters!CostructionType.Value</Value>
           </QueryParameter>
         </QueryParameters>
         <CommandType>StoredProcedure</CommandType>
@@ -1824,7 +1833,7 @@
               </TablixColumns>
               <TablixRows>
                 <TablixRow>
-                  <Height>0.25in</Height>
+                  <Height>0.24653in</Height>
                   <TablixCells>
                     <TablixCell>
                       <CellContents>
@@ -1851,11 +1860,6 @@
                             <Border>
                               <Style>None</Style>
                             </Border>
-                            <TopBorder>
-                              <Color>Black</Color>
-                              <Style>Solid</Style>
-                              <Width>1pt</Width>
-                            </TopBorder>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
                             <PaddingTop>2pt</PaddingTop>
@@ -1889,11 +1893,6 @@
                             <Border>
                               <Style>None</Style>
                             </Border>
-                            <TopBorder>
-                              <Color>Black</Color>
-                              <Style>Solid</Style>
-                              <Width>1pt</Width>
-                            </TopBorder>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
                             <PaddingTop>2pt</PaddingTop>
@@ -1905,7 +1904,7 @@
                   </TablixCells>
                 </TablixRow>
                 <TablixRow>
-                  <Height>0.25in</Height>
+                  <Height>0.24653in</Height>
                   <TablixCells>
                     <TablixCell>
                       <CellContents>
@@ -1976,7 +1975,7 @@
                   </TablixCells>
                 </TablixRow>
                 <TablixRow>
-                  <Height>0.25in</Height>
+                  <Height>0.24653in</Height>
                   <TablixCells>
                     <TablixCell>
                       <CellContents>
@@ -2047,7 +2046,7 @@
                   </TablixCells>
                 </TablixRow>
                 <TablixRow>
-                  <Height>0.25in</Height>
+                  <Height>0.24653in</Height>
                   <TablixCells>
                     <TablixCell>
                       <CellContents>
@@ -2118,7 +2117,7 @@
                   </TablixCells>
                 </TablixRow>
                 <TablixRow>
-                  <Height>0.25in</Height>
+                  <Height>0.24653in</Height>
                   <TablixCells>
                     <TablixCell>
                       <CellContents>
@@ -2189,7 +2188,7 @@
                   </TablixCells>
                 </TablixRow>
                 <TablixRow>
-                  <Height>0.25in</Height>
+                  <Height>0.24653in</Height>
                   <TablixCells>
                     <TablixCell>
                       <CellContents>
@@ -2260,7 +2259,7 @@
                   </TablixCells>
                 </TablixRow>
                 <TablixRow>
-                  <Height>0.25in</Height>
+                  <Height>0.24653in</Height>
                   <TablixCells>
                     <TablixCell>
                       <CellContents>
@@ -2331,7 +2330,7 @@
                   </TablixCells>
                 </TablixRow>
                 <TablixRow>
-                  <Height>0.25in</Height>
+                  <Height>0.24653in</Height>
                   <TablixCells>
                     <TablixCell>
                       <CellContents>
@@ -2402,7 +2401,7 @@
                   </TablixCells>
                 </TablixRow>
                 <TablixRow>
-                  <Height>0.25in</Height>
+                  <Height>0.24653in</Height>
                   <TablixCells>
                     <TablixCell>
                       <CellContents>
@@ -2473,7 +2472,7 @@
                   </TablixCells>
                 </TablixRow>
                 <TablixRow>
-                  <Height>0.25in</Height>
+                  <Height>0.24653in</Height>
                   <TablixCells>
                     <TablixCell>
                       <CellContents>
@@ -2544,7 +2543,7 @@
                   </TablixCells>
                 </TablixRow>
                 <TablixRow>
-                  <Height>0.25in</Height>
+                  <Height>0.24653in</Height>
                   <TablixCells>
                     <TablixCell>
                       <CellContents>
@@ -2615,7 +2614,7 @@
                   </TablixCells>
                 </TablixRow>
                 <TablixRow>
-                  <Height>0.25in</Height>
+                  <Height>0.24653in</Height>
                   <TablixCells>
                     <TablixCell>
                       <CellContents>
@@ -2769,14 +2768,11 @@
                 </TablixMember>
               </TablixMembers>
             </TablixRowHierarchy>
-            <Top>0.64583in</Top>
+            <Top>0.675in</Top>
             <Left>0.05493in</Left>
-            <Height>3in</Height>
+            <Height>2.95836in</Height>
             <Width>7.6753in</Width>
             <ZIndex>1</ZIndex>
-            <Visibility>
-              <Hidden>=iif(Parameters!FileType.Value &lt;&gt; "PDF",True,False)</Hidden>
-            </Visibility>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -2785,14 +2781,25 @@
           </Tablix>
           <Subreport Name="Subreport1">
             <ReportName>CompanyDetail</ReportName>
-            <Top>0.02778in</Top>
-            <Left>0.05493in</Left>
+            <Parameters>
+              <Parameter Name="SiteId">
+                <Value>=First(Fields!SiteId.Value, "DsMain")</Value>
+              </Parameter>
+              <Parameter Name="DivisionId">
+                <Value>=First(Fields!DivisionId.Value, "DsMain")</Value>
+              </Parameter>
+              <Parameter Name="DatabaseConnectionString">
+                <Value>=Parameters!DatabaseConnectionString.Value</Value>
+              </Parameter>
+              <Parameter Name="PrintedBy">
+                <Value>=Parameters!PrintedBy.Value</Value>
+              </Parameter>
+            </Parameters>
+            <Top>0.03785in</Top>
+            <Left>0.06743in</Left>
             <Height>0.30208in</Height>
             <Width>7.6628in</Width>
             <ZIndex>2</ZIndex>
-            <Visibility>
-              <Hidden>=iif(Parameters!FileType.Value &lt;&gt; "PDF",True,False)</Hidden>
-            </Visibility>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -2825,9 +2832,6 @@
             <Height>0.25in</Height>
             <Width>7.6753in</Width>
             <ZIndex>3</ZIndex>
-            <Visibility>
-              <Hidden>=iif(Parameters!FileType.Value &lt;&gt; "PDF",True,False)</Hidden>
-            </Visibility>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -3055,7 +3059,7 @@
         <Height>5.89861in</Height>
         <Style />
       </Body>
-      <Width>7.79244in</Width>
+      <Width>7.77161in</Width>
       <Page>
         <PageHeader>
           <Height>0.31541in</Height>
@@ -3203,8 +3207,44 @@
               <Top>0.02778in</Top>
               <Left>0.05493in</Left>
               <Height>0.25in</Height>
-              <Width>3.3909in</Width>
+              <Width>2.3284in</Width>
               <ZIndex>1</ZIndex>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+                <PaddingLeft>2pt</PaddingLeft>
+                <PaddingRight>2pt</PaddingRight>
+                <PaddingTop>2pt</PaddingTop>
+                <PaddingBottom>2pt</PaddingBottom>
+              </Style>
+            </Textbox>
+            <Textbox Name="Textbox57">
+              <CanGrow>true</CanGrow>
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>="Printed By : " + Parameters!PrintedBy.Value</Value>
+                      <Style>
+                        <FontFamily>tahoma</FontFamily>
+                        <FontSize>9pt</FontSize>
+                        <Format>dd-MMM-yy hh:mm:ss tt</Format>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style>
+                    <TextAlign>Center</TextAlign>
+                  </Style>
+                </Paragraph>
+              </Paragraphs>
+              <rd:DefaultName>Textbox19</rd:DefaultName>
+              <Top>0.0283in</Top>
+              <Left>2.46544in</Left>
+              <Height>0.23786in</Height>
+              <Width>2.76781in</Width>
+              <ZIndex>2</ZIndex>
               <Style>
                 <Border>
                   <Style>None</Style>
@@ -3224,9 +3264,9 @@
         </PageFooter>
         <PageHeight>11.69in</PageHeight>
         <PageWidth>8.27in</PageWidth>
-        <LeftMargin>0.17in</LeftMargin>
-        <TopMargin>0.05in</TopMargin>
-        <BottomMargin>0.5in</BottomMargin>
+        <LeftMargin>0.2in</LeftMargin>
+        <TopMargin>0.1in</TopMargin>
+        <BottomMargin>0.1in</BottomMargin>
         <Style />
       </Page>
     </ReportSection>
@@ -3627,6 +3667,30 @@
       <Nullable>true</Nullable>
       <AllowBlank>true</AllowBlank>
       <Prompt>FileType</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="PrintedBy">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>PrintedBy</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="DatabaseConnectionString">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>DatabaseConnectionString</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="IsSisterConcern">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>IsSisterConcern</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="CostructionType">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>CostructionType</Prompt>
     </ReportParameter>
   </ReportParameters>
   <EmbeddedImages>

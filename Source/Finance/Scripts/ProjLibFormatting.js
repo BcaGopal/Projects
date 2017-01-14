@@ -20,28 +20,19 @@ var StatusContstantsEnum = {
     Approved: 2,
     Modified: 3,
     ModificationSubmitted: 4,
-    Closed:5,
-}
-
-var CreditDebitConstants = {
-    Debit: "Debit",
-    Credit:"Credit",
+    Closed: 5,
+    Completed: 7,
+    Import: 8,
 }
 
 var TransactionTypeConstantsEnum = {
     Issue: "Issue",
-    Receive:"Receive",
+    Receive: "Receive",
 }
 
 
 
 $(document).ready(function () {
-
-
-    $("img.UserIndexImage,img.UserImage").error(function () {
-        $(this).attr('src', '/Images/DefaultUser.png');
-    });
-
 
     //ProgressBar
     var start = 0;
@@ -180,12 +171,12 @@ $(document).ready(function () {
 
         if (!$(this).hasClass('Assigned')) {
 
-            savePermission($(this).attr('href'));            
+            savePermission($(this).attr('href'));
 
             $(this).addClass('Assigned');
         }
         else {
-            deletePermission($(this).attr('href'));            
+            deletePermission($(this).attr('href'));
             $(this).removeClass('Assigned');
         }
         return false;
@@ -273,75 +264,72 @@ $(document).ready(function () {
 
     }
 
-    //Modal MAster
+    $(document).on("click", "a[data-modalDelete],a[data-modalCopy]", function (e) {
 
-
-    $(function () {
-
-        $.ajaxSetup({ cache: false });
-
-        $("a[data-modal]").on("click", function (e) {
-            // hide dropdown if any
-            $(e.target).closest('.btn-group').children('.dropdown-toggle').dropdown('toggle');
-            //alert(' Script');
+        if (this.href)
             $('#myModalContent').load(this.href, function () {
                 $('#myModal').modal({
                     backdrop: 'static',
                     keyboard: true
                 }, 'show');
-
                 bindForm(this);
             });
 
-            return false;
-        });
+        return false;
     });
 
-
-
-    $(function () {
+    //Modal MAster
+    enableModalTransitions = function () {
 
         $.ajaxSetup({ cache: false });
-        $("a[delete-modal]").on("click", function (e) {
-            //alert('here');
-            $.ajax({
-                url: this.href,
-                type: 'POST',
 
-                success: function (result) {
-                    if (result.success) {
-                        $('#myModal').modal('hide');
-                        //Refresh
-                        location.reload();
-                    } else {
-                        $('#myModalContent').html(result);
-                        //bindForm();
-                    }
-                }
-            });
+        $(document).on("click", "a[data-modal]", function (e) {
+
+            if (this.href)
+                $('#myModalContent').load(this.href, function () {
+                    $('#myModal').modal({
+                        backdrop: 'static',
+                        keyboard: true
+                    }, 'show');
+                    bindForm(this);
+                });
+
             return false;
         });
-    });
 
+        $(document).on("dblclick", "#gbody .grid-body,#gbodycharges .grid-body,.grid-content .grid-body", function (e) {
+            var editurl = $(this).find('a[edit]').attr('href');
+            if (editurl)
+                $('#myModalContent').load(editurl, function () {
+                    $('#myModal').modal({
+                        backdrop: 'static',
+                        keyboard: true
+                    }, 'show');
+                    bindForm(this);
+                });
+
+            return false;
+        });
+
+    };
 
     function bindForm(dialog) {
-        //alert('binding Script');
-        $('#modform', dialog).submit(function () {
-            //alert('inside script');
-            //alert(this.action);
-            //alert(this.method);
+        $('form#modform', dialog).submit(function () {
+            var form = this;
             $.ajax({
                 url: this.action,
                 type: this.method,
                 data: $(this).serialize(),
                 success: function (result) {
                     if (result.success) {
+                        $('#myModalContent').html("");
                         $('#myModal').modal('hide');
                         //Refresh
-                        // alert('this.action');
-                        location.reload();
+                        if ($(form).attr("data-pageReload") == "true")
+                        { location.reload(); }
                     } else {
                         $('#myModalContent').html(result);
+                        InitializeFocus();
                         bindForm();
                     }
                 }
@@ -352,34 +340,140 @@ $(document).ready(function () {
 
 
         $('a#AddToExisting ').click(function () {
-            //alert('inside script');
-            //alert(this.href);
-            //alert(this.method);
             $.ajax({
                 url: this.href,
-
-
                 success: function (result) {
                     if (result.success) {
+                        $('#myModalContent').html("");
                         $('#myModal').modal('hide');
                         //Refresh
                         location.reload();
                     } else {
                         $('#myModalContent').html(result);
+                        InitializeFocus();
                         bindForm();
                     }
                 }
             });
             return false;
         });
-    }
+    };
 
+    DisablePageNavigation = function () {
+        //Disabling input fields
+        $(':input:not(:submit,#IsContinue,.transactional)').attr('disabled', 'disabled');
 
+        //Removing Add New Row ActionLink
+        $('a[data-detailDisabled=\'true\']').removeAttr("href");
+        $('a[data-detailDeleted=\'true\']').remove();
 
+        $(document).on('click', 'a[data-detailDisabled=\'true\'],a[data-detailDeleted=\'true\']', function (e) {
+            return false;
+        })
 
-    //on closing model
+        //Removing the action link from the form so that the request will be redirected to the Submit function in the controller instead of the hardcoded path
+        $('form:last').prop('action', '');
+    };
 
+    enableActivityLogReason = function (gatepassProc, gatepassHeaderId, transactionType) {
+        var href = '/ActivityLog/LogEditReason'
+        var $btnClicked;
+        var proc = gatepassProc;
+        var Headid = gatepassHeaderId;
+        var transType = transactionType;
 
+        $(':submit').bind('click', function () {
+            $btnClicked = $(this);
+            $('#myModalContent').load(href, function () {
+
+                $('#myModal').modal({
+                    backdrop: 'static',
+                    keyboard: true
+                }, 'show');
+
+                bindLogReasonForm(this, $btnClicked, proc, Headid, transType);
+            });
+
+            return false;
+        })
+    };
+
+    function bindLogReasonForm(dialog, btn, gatepassProc, gatepassHeaderId, transactionType) {
+
+        $('#modformr', dialog).submit(function () {
+
+            $.ajax({
+                url: this.action,
+                type: this.method,
+                data: $(this).serialize(),
+                success: function (result) {
+                    if (result.success) {
+                        $('#myModal').modal('hide');
+
+                        $(':submit').unbind();
+
+                        $('input[name="UserRemark"]').val(result.UserRemark);
+                        if (gatepassProc && !gatepassHeaderId && (transactionType == "submit" || transactionType == "submitContinue")) {
+                            alertify.confirm('Generate GatePass ?').set({
+                                'closable': false, 'onok': function (onok) {
+
+                                    $('input[name="GenGatePass"]').val('true');
+                                    btn.trigger('click');
+
+                                }, 'oncancel': function (oncancel) {
+
+                                    $('input[name="GenGatePass"]').val('false');
+                                    btn.trigger('click');
+
+                                }
+                            }).setting('labels', { 'ok': 'Yes', 'cancel': 'No' });
+                        }
+                        else {
+                            btn.trigger('click');
+                        }
+                    } else {
+                        $('#myModalContent').html(result);
+                        bindLogReasonForm(dialog, btn, gatepassProc, gatepassHeaderId, transactionType);
+                    }
+                }
+            });
+            return false;
+        });
+    };
+
+    prompGatePassGeneration = function () {
+        $(':submit', 'form .panel.panel-default').one('click', function () {
+            $btnClicked = $(this);
+            var uChoice = false;
+            alertify.confirm('Generate GatePass ?').set({
+                'closable': false, 'onok': function (onok) {
+
+                    $('input[name="GenGatePass"]').val('true');
+                    $btnClicked.trigger('click');
+                    uChoice = true;
+
+                }, 'oncancel': function (oncancel) {
+
+                    $('input[name="GenGatePass"]').val('false');
+                    $btnClicked.trigger('click');
+                    uChoice = true;
+                }
+            }).setting('labels', { 'ok': 'Yes', 'cancel': 'No' });
+            return uChoice;
+        })
+    };
+
+    CreateTrasitionEffect = function () {
+        $('body').find('form').filter(":last").wrapInner("<div class='animsition' data-animsition-in='fade-in-right-lg' data-animsition-out='fade-out-left-lg' style='animation-duration: 1.5s; -webkit-animation-duration: 1.5s; opacity: 0;'> </div>");
+
+        var script = document.createElement('script');
+
+        script.setAttribute('type', 'text/javascript');
+
+        script.text = " $(document).ready(function () {$('.animsition').animsition().one('animsition.start', function () {}).one('animsition.end', function () {$(this).find('.animsition-child').addClass('zoom-in').css({'opacity': 1});})});";
+
+        $('body').append(script);
+    };
 
 
     (function ($) {
@@ -429,10 +523,56 @@ $(document).ready(function () {
     })(jQuery);
 
 
-    $('#SubmitContinue:submit,#ApproveContinue:submit').click(function () {
+    $('#SubmitContinue:submit,#ReviewContinue:submit').click(function () {
         $('#IsContinue').val("True");
+
         return;
     })
+
+
+    //function CreateTrasitionEffectForSubmit() {
+
+    //    //$('body').find('.container.body-content > div.row ').wrap("<div class='animsition' data-animsition-in='fade-in-right-lg' data-animsition-out='fade-out-left-lg' style='animation-duration: 1.5s; -webkit-animation-duration: 1.5s; opacity: 0;'> </div>");
+
+    //    $('body').find('form').filter(":last").wrapInner("<div class='animsition' data-animsition-in='fade-in-right-lg' data-animsition-out='fade-out-left-lg' style='animation-duration: 1.5s; -webkit-animation-duration: 1.5s; opacity: 0;'> </div>");
+
+    //    var script = document.createElement('script');
+
+    //    script.setAttribute('type', 'text/javascript');
+
+    //    script.text = " $(document).ready(function () {$('.animsition').animsition().one('animsition.start', function () {}).one('animsition.end', function () {$(this).find('.animsition-child').addClass('zoom-in').css({'opacity': 1});})});";
+
+    //    $('body').append(script);
+
+    //}
+
+
+
+    $(document).on("keypress", "input.number", function (e) {
+        var KeyCode = (e.keyCode || e.which);
+        // Allow: backspace, delete, tab, escape, enter and .
+        if (
+            $.inArray(KeyCode, [46, 40, 41, 43, 42, 47, 45]) !== -1 ||
+            // Allow: Ctrl+A
+            (KeyCode == 97 && e.ctrlKey === true) ||
+            // Allow: Ctrl+C
+            (KeyCode == 99 && e.ctrlKey === true) ||
+            // Allow: Ctrl+X
+            (KeyCode == 120 && e.ctrlKey === true) ||
+            // Allow: Ctrl+Y
+            (KeyCode == 118 && e.ctrlKey === true)
+            // Allow: home, end, left, right
+            //(KeyCode >= 35 && KeyCode <= 39)
+            ) {
+            // let it happen, don't do anything
+            return;
+        }
+        // Ensure that it is a number and stop the keypress
+        if ((e.shiftKey || (KeyCode < 48 || KeyCode > 57))) {
+            e.preventDefault();
+        }
+    });
+
 
 })
 
@@ -508,7 +648,8 @@ $.fn.addCommas = function () {
 
 
 function AddFields() {
-    $('form:last').append($("<input type='hidden' name='UserRemark'></input>"))
+    $('form:last').append($("<input type='hidden' class='transactional' name='UserRemark'></input>"))
+    $('form:last').append($("<input type='hidden' class='transactional' name='GenGatePass'></input>"))
 }
 
 
@@ -543,20 +684,123 @@ function DisablePage() {
 
 
 
-function InitializePopover(element, ProdUid, IsPostStock, GodwnId,Type) {
+function InitializePopover(element, ProdUid, IsPostStock, GodwnId, Type) {
 
     $(element).popover('destroy');
 
     var DataArray;
     var status;
-    if(Type=="Issue")
+    if (Type == "Issue")
         var url = "/ProductUid/GetProductUidValidation";
     else if (Type == "Receive")
-        var url = "/ProductUid/GetProductUidReceiveValidation"
+        var url = "/ProductUid/GetProductUidJobCancelValidation"
     $.ajax({
         async: false,
         url: url,
         data: { ProductUID: ProdUid, PostedInStock: IsPostStock, GodownId: GodwnId },
+        success: function (data) {
+            DataArray = data;
+        }
+    })
+
+    if (DataArray.ErrorType == "InvalidID" || DataArray.ErrorType == "InvalidGodown") {
+        $(element)
+         .popover({
+             trigger: 'manual',
+             container: '.modal-body',
+             'delay': { "hide": "1000" },
+             html: true,
+             content: "<ul class='list-group'>  <li class='list-group-item active'> Validation Detail </li>    <li class='list-group-item'>Message:" + DataArray.ErrorMessage + "</li>   </ul>"
+         });
+        ResetFields();
+        status = false;
+    }
+    else if (DataArray.ErrorType == "GodownNull") {
+        $(element)
+          .popover({
+              trigger: 'manual',
+              container: '.modal-body',
+              'delay': { "hide": "1000" },
+              html: true,
+              content: "<ul class='list-group'>  <li class='list-group-item active'> Validation Detail </li>    <li class='list-group-item'>" + DataArray.ErrorMessage + "  </li>    <li class='list-group-item'> DocType:" + (DataArray.GenDocTypeName == null ? "" : DataArray.GenDocTypeName) + " <br /> DocNo:" + (DataArray.GenDocNo == null ? "" : DataArray.GenDocNo) + " <br /> DocDate:" + (DataArray.GenDocDate == null ? "" : formatDate('d/m/Y', new Date(parseInt(DataArray.GenDocDate.substr(6))))) + " <br /> Process:" + (DataArray.CurrentProcessName == null ? "" : DataArray.CurrentProcessName) + " <br /> Person:" + (DataArray.LastTransactionPersonName == null ? "" : DataArray.LastTransactionPersonName) + " </li>   </ul>"
+          });
+        ResetFields();
+        status = false;
+    }
+    else if (DataArray.ErrorType == "Success") {
+        var $page = $(element).closest('.modal-body').get(0);
+        $($page).find('#ProductId').select2("data", { id: DataArray.ProductId, text: DataArray.ProductName }).attr('readonly', 'true').trigger('change');
+        $($page).find('#Qty').val(1).attr('readonly', 'true');
+        $($page).find('#DocQty').val(1).attr('readonly', 'true');
+        $($page).find('#ProductUidId').val(DataArray.ProductUIDId);
+
+        if (DataArray.Dimension1Id)
+            $($page).find('#Dimension1Id').select2("data", { id: DataArray.Dimension1Id, text: DataArray.Dimension1Name }).attr('readonly', 'true');
+        else
+            $($page).find('#Dimension1Id').attr('readonly', 'true');
+
+        if (DataArray.Dimension2Id)
+            $($page).find('#Dimension2Id').select2("data", { id: DataArray.Dimension2Id, text: DataArray.Dimension2Name }).attr('readonly', 'true');
+        else
+            $($page).find('#Dimension2Id').attr('readonly', 'true');
+
+        if (DataArray.CurrenctProcessId)
+            $($page).find('#FromProcessId').select2("data", { id: DataArray.CurrenctProcessId, text: DataArray.CurrentProcessName }).attr('readonly', 'true');
+        else
+            $($page).find('#FromProcessId').attr('readonly', 'true');
+
+        $($page).find('#LotNo').val(DataArray.LotNo);
+        status = true;
+
+    }
+
+
+
+
+
+    function ResetFields() {
+
+        var $page = $(element).closest('.modal-body').get(0);
+        $($page).find('#ProductId').select2('val', '').removeAttr('readonly');
+        $($page).find('#Qty').val('').removeAttr('readonly');
+        $($page).find('#Dimension1Id').select2('val', '').removeAttr('readonly');
+        $($page).find('#Dimension2Id').select2('val', '').removeAttr('readonly');
+        $($page).find('#FromProcessId').select2('val', '').removeAttr('readonly');
+        $($page).find('#LotNo').val('').removeAttr('readonly');
+        $($page).find('#ProductUidId').val(0);
+
+
+    }
+
+
+    function Result() {
+        var self = this;
+        self.status = status;
+        self.data = DataArray;
+
+    }
+
+    var temp = new Result();
+
+    return temp;
+
+
+}
+
+
+
+
+function InitializePopoverForJobReceive(element, ProdUid, IsPostStock, HeadId, Type) {
+
+    $(element).popover('destroy');
+
+    var DataArray;
+    var status;
+    var url = "/ProductUid/GetProductUidJobReceiveValidation"
+    $.ajax({
+        async: false,
+        url: url,
+        data: { ProductUID: ProdUid, PostedInStock: IsPostStock, HeaderID: HeadId },
         success: function (data) {
             DataArray = data;
         }
@@ -591,6 +835,7 @@ function InitializePopover(element, ProdUid, IsPostStock, GodwnId,Type) {
         var $page = $(element).closest('.modal-body').get(0);
         $($page).find('#ProductId').select2("data", { id: DataArray.ProductId, text: DataArray.ProductName }).attr('readonly', 'true').trigger('change');
         $($page).find('#Qty').val(1).attr('readonly', 'true');
+        $($page).find('#DocQty').val(1).attr('readonly', 'true');
         $($page).find('#ProductUidId').val(DataArray.ProductUIDId);
 
         if (DataArray.Dimension1Id)
@@ -620,11 +865,11 @@ function InitializePopover(element, ProdUid, IsPostStock, GodwnId,Type) {
     function ResetFields() {
 
         var $page = $(element).closest('.modal-body').get(0);
-        $($page).find('#ProductId').select2('val','').removeAttr('readonly');
+        $($page).find('#ProductId').select2('val', '').removeAttr('readonly');
         $($page).find('#Qty').val('').removeAttr('readonly');
         $($page).find('#Dimension1Id').select2('val', '').removeAttr('readonly');
         $($page).find('#Dimension2Id').select2('val', '').removeAttr('readonly');
-        $($page).find('#FromProcessId').select2('val','').removeAttr('readonly');
+        $($page).find('#FromProcessId').select2('val', '').removeAttr('readonly');
         $($page).find('#LotNo').val('').removeAttr('readonly');
         $($page).find('#ProductUidId').val(0);
 
@@ -639,12 +884,116 @@ function InitializePopover(element, ProdUid, IsPostStock, GodwnId,Type) {
 
     }
 
-    var temp = new Result();   
+    var temp = new Result();
 
     return temp;
 
 
 }
+
+
+
+function InitializePopoverForWashingReceive(element, ProdUid, IsPostStock, HeadId, Type, ProcId) {
+
+    $(element).popover('destroy');
+
+    var DataArray;
+    var status;
+    var url = "/ProductUid/GetProductUidJobReceiveValidationForWashing"
+    $.ajax({
+        async: false,
+        url: url,
+        data: { ProductUID: ProdUid, PostedInStock: IsPostStock, HeaderID: HeadId, ProcessId: ProcId },
+        success: function (data) {
+            DataArray = data;
+        }
+    })
+
+    if (DataArray.ErrorType == "InvalidID" || DataArray.ErrorType == "InvalidGodown") {
+        $(element)
+         .popover({
+             trigger: 'manual',
+             container: '.modal-body',
+             'delay': { "hide": "1000" },
+             html: true,
+             content: "<ul class='list-group'>  <li class='list-group-item active'> Validation Detail </li>    <li class='list-group-item'>Message:" + DataArray.ErrorMessage + "</li>   </ul>"
+         });
+        ResetFields();
+        status = false;
+    }
+
+    else if (DataArray.ErrorType == "GodownNull") {
+        $(element)
+          .popover({
+              trigger: 'manual',
+              container: '.modal-body',
+              'delay': { "hide": "1000" },
+              html: true,
+              content: "<ul class='list-group'>  <li class='list-group-item active'> Validation Detail </li>    <li class='list-group-item'>" + DataArray.ErrorMessage + "  </li>    <li class='list-group-item'> DocType:" + (DataArray.GenDocTypeName == null ? "" : DataArray.GenDocTypeName) + " <br /> DocNo:" + (DataArray.GenDocNo == null ? "" : DataArray.GenDocNo) + " <br /> DocDate:" + (DataArray.GenDocDate == null ? "" : formatDate('d/m/Y', new Date(parseInt(DataArray.GenDocDate.substr(6))))) + " <br /> Process:" + (DataArray.CurrentProcessName == null ? "" : DataArray.CurrentProcessName) + " <br /> Person:" + (DataArray.LastTransactionPersonName == null ? "" : DataArray.LastTransactionPersonName) + " </li>   </ul>"
+          });
+        ResetFields();
+        status = false;
+    }
+    else if (DataArray.ErrorType == "Success") {
+        var $page = $(element).closest('.modal-body').get(0);
+        $($page).find('#ProductId').select2("data", { id: DataArray.ProductId, text: DataArray.ProductName }).attr('readonly', 'true').trigger('change');
+        $($page).find('#Qty').val(1).attr('readonly', 'true');
+        $($page).find('#DocQty').val(1).attr('readonly', 'true');
+        $($page).find('#ProductUidId').val(DataArray.ProductUIDId);
+
+        if (DataArray.Dimension1Id)
+            $($page).find('#Dimension1Id').select2("data", { id: DataArray.Dimension1Id, text: DataArray.Dimension1Name }).attr('readonly', 'true');
+        else
+            $($page).find('#Dimension1Id').attr('readonly', 'true');
+
+        if (DataArray.Dimension2Id)
+            $($page).find('#Dimension2Id').select2("data", { id: DataArray.Dimension2Id, text: DataArray.Dimension2Name }).attr('readonly', 'true');
+        else
+            $($page).find('#Dimension2Id').attr('readonly', 'true');
+
+        if (DataArray.CurrenctProcessId)
+            $($page).find('#FromProcessId').select2("data", { id: DataArray.CurrenctProcessId, text: DataArray.CurrentProcessName }).attr('readonly', 'true');
+        else
+            $($page).find('#FromProcessId').attr('readonly', 'true');
+
+        $($page).find('#LotNo').val(DataArray.LotNo);
+        status = true;
+
+    }
+
+
+
+
+
+    function ResetFields() {
+
+        var $page = $(element).closest('.modal-body').get(0);
+        $($page).find('#ProductId').select2('val', '').removeAttr('readonly');
+        $($page).find('#Qty').val('').removeAttr('readonly');
+        $($page).find('#Dimension1Id').select2('val', '').removeAttr('readonly');
+        $($page).find('#Dimension2Id').select2('val', '').removeAttr('readonly');
+        $($page).find('#FromProcessId').select2('val', '').removeAttr('readonly');
+        $($page).find('#LotNo').val('').removeAttr('readonly');
+        $($page).find('#ProductUidId').val(0);
+
+
+    }
+
+
+    function Result() {
+        var self = this;
+        self.status = status;
+        self.data = DataArray;
+
+    }
+
+    var temp = new Result();
+
+    return temp;
+
+
+}
+
 
 
 function InitializePermissionsPopover(element, MenId) {
@@ -663,56 +1012,33 @@ function InitializePermissionsPopover(element, MenId) {
         }
     })
     var row = "";
-    row+="<ul class='list-group'>  <li class='list-group-item active'> Validation Detail </li>  ";
-    $.each(DataArray,function(index,item){
+    row += "<ul class='list-group'>  <li class='list-group-item active'> Validation Detail </li>  ";
+    $.each(DataArray, function (index, item) {
         row += " <li class='list-group-item'> DocType:" + (item.ActionName == null ? "" : item.ActionName) + "<input type='hidden' class='CAID' value='" + item.ControllerActionId + "'></input> <br />  </li>"
-    }) 
-    row+=   "</ul>";
-        $(element)
-          .popover({
-              animation:true,
-              trigger: 'manual',
-              container: 'body',
-              'delay': { "hide": "1000" },
-              html: true,
-              content: row,
-          });
-        
-        status = false;
-    
+    })
+    row += "</ul>";
+    $(element)
+      .popover({
+          animation: true,
+          trigger: 'manual',
+          container: 'body',
+          'delay': { "hide": "1000" },
+          html: true,
+          content: row,
+      });
+
+    status = false;
+
 
     return status;
 
 
 }
+
 $(document).on("focus", "input,textarea", function () {
     $(this).select();
 })
 
-$(document).on("keypress", "input.number", function (e) {
-    var KeyCode = (e.keyCode || e.which);
-    // Allow: backspace, delete, tab, escape, enter and .
-    if (
-        $.inArray(KeyCode, [46, 40, 41, 43, 42, 47, 45]) !== -1 ||
-        // Allow: Ctrl+A
-        (KeyCode == 97 && e.ctrlKey === true) ||
-        // Allow: Ctrl+C
-        (KeyCode == 99 && e.ctrlKey === true) ||
-        // Allow: Ctrl+X
-        (KeyCode == 120 && e.ctrlKey === true) ||
-        // Allow: Ctrl+Y
-        (KeyCode == 118 && e.ctrlKey === true)
-        // Allow: home, end, left, right
-        //(KeyCode >= 35 && KeyCode <= 39)
-        ) {
-        // let it happen, don't do anything
-        return;
-    }
-    // Ensure that it is a number and stop the keypress
-    if ((e.shiftKey || (KeyCode < 48 || KeyCode > 57))) {
-        e.preventDefault();
-    }
-});
 
 
 
@@ -729,14 +1055,6 @@ AlertIconconstants["success"] = "glyphicon glyphicon-ok";
 AlertIconconstants["warning"] = "glyphicon glyphicon-warning-sign";
 AlertIconconstants["info"] = "glyphicon glyphicon-info-sign";
 AlertIconconstants["danger"] = "glyphicon glyphicon-remove";
-
-
-
-
-
-
-//$.notify.defaults({ className: "success", position: "bottom right", clickToHide: true, autoHide: false, style: 'bootstrap' });
-
 
 
 alertify.defaults = {
@@ -785,8 +1103,6 @@ $.fn.CustomNotify = function (options) {
 
     if (options.message) {
 
-        //$.notify(options.message, options.alert);
-
     } else {
         return;
     }
@@ -827,10 +1143,10 @@ $.fn.CustomNotify = function (options) {
 
 function CookieNotify(cookie) {
     if (cookie.message) {
-        if (cookie.alert === AlertTypeConstants["Warning"] || cookie.alert === AlertTypeConstants["Danger"]) {            
+        if (cookie.alert === AlertTypeConstants["Warning"] || cookie.alert === AlertTypeConstants["Danger"]) {
             alertify.error(message = cookie.message, wait = '0')
         }
-        else {            
+        else {
             alertify.success(message = cookie.message)
         }
     }
@@ -858,6 +1174,31 @@ function GetMultiSelectRecordIds() {
 }
 
 
+
+$(document).on("click", "a#GenGatePassI", function (e) {
+
+    var DocTypeId = $('.DocType_Id').val();
+    var Ids = GetMultiSelectRecordIds();
+
+    $.ajax({
+        url: $(this).attr('href'),
+        data: { Ids: Ids, DocTypeId: DocTypeId },
+        success: function (data) {
+            if (data.success == "Success") {
+                window.location.reload();
+            }
+            else {
+                alertify.error(message = data.data, wait = '0')
+            }
+        }
+    });
+
+    return false;
+
+});
+
+
+
 //Comman Function for printing Multiple Records
 $(document).on("click", "a#PrintRecordI", function (e) {
 
@@ -870,6 +1211,23 @@ $(document).on("click", "a#PrintRecordI", function (e) {
 
     return false;
 
+});
+
+
+//Comman Function for gatepass generation and gatepass deletion
+$(document).on("click", "a#GenGatePassC,a#GenGatePassD", function (e) {
+    $.ajax({
+        url: $(this).attr('href'),
+        success: function (data) {
+            if (data.success == "Success") {
+                window.location.reload();
+            }
+            else {
+                alertify.error(message = data.data, wait = '0')
+            }
+        }
+    })
+    return false;
 });
 
 
@@ -922,6 +1280,9 @@ $(document).ready(function () {
 })
 
 
+
+
+
 //For Comman Edit and Delete Functionality
 $(function () {
 
@@ -954,37 +1315,45 @@ $(function () {
 $(function () {
 
     $('#myModal').on('shown.bs.modal', function () {
-
-        var Input = $('#myModal').find('input[type=text],select,textarea').filter(':visible:first');
-
-        if (Input.hasClass("select2=offscreen"))
-            Input.select2("focus");
-        else
-            Input.focus();
-
+        InitializeFocus();
         $(function () {
             $('input[readonly]').each(function () {
                 $(this).attr('tabindex', '-1');
             });
         });
-
     });
 
 })
 
-
-
-//Function for getting Total used in SlickGrid plugin:
-function getColumnTotal(columns, data) {
-    var rowIdx = data.getLength();
-    var total = 0;
-    var dataArr = data.getItems();
-    console.log(rowIdx);
-    while (rowIdx--) {
-
-        total += (parseFloat(dataArr[rowIdx][columns]) || 0);
-
+function InitializeFocus() {
+    var Input = $('#myModal').find('input[type=text],select,textarea').filter(':visible:first');
+    if (Input.length) {
+        if (Input.hasClass("select2=offscreen"))
+            Input.select2("focus");
+        else
+            Input.focus();
     }
-    console.log(total);
-    return total;
 }
+
+//$(document).bind("keyup keydown", function (e) {
+//    if (e.ctrlKey && e.keyCode == 80) {
+//        alert('print match');
+//        return false;
+//    }
+//    if (e.ctrlKey && e.keyCode == 83) {
+//        alert('save match');
+//        return false;
+//    }
+//    if (e.keyCode == 45) {
+//        if (($(document).find('a.glyphicon-plus.toolbar:first').get(0)))
+//            window.location = $($(document).find('a.glyphicon-plus.toolbar:first').get(0)).attr('href');
+//    }
+
+
+//})
+
+$(function () {
+    $('.cbtn').click(function () {
+        $(this).addClass('clicked');
+    })
+});

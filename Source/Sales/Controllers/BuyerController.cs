@@ -144,6 +144,7 @@ namespace Web.Controllers
         {
             BuyerViewModel p = new BuyerViewModel();
             p.IsActive = true;
+            p.Code = new PersonService(_unitOfWork).GetMaxCode();
             PrepareViewBag();
             return View("Create", p);
         }

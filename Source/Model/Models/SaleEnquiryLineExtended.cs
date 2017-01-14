@@ -14,9 +14,9 @@ namespace Model.Models
         [ForeignKey("SaleEnquiryLine")]
         public int SaleEnquiryLineId { get; set; }
         public SaleEnquiryLine SaleEnquiryLine { get; set; }
-        public string ProductGroup { get; set; }
-        public string Size { get; set; }
-        public string ProductQuality { get; set; }
-        public string Colour { get; set; }
+        public string BuyerSpecification { get; set; }
+        public string BuyerSpecification1 { get; set; }
+        public string BuyerSpecification2 { get; set; }
+        public string BuyerSpecification3 { get; set; }
     }
 }

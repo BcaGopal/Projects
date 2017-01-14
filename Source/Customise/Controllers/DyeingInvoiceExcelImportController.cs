@@ -50,14 +50,14 @@ namespace Web.Controllers
             int i = 0;
             string ErrorText = "";
 
-            string DyeingConnectionString = "Persist Security Info=False;User ID='sa';Initial Catalog=Dyeing;Data Source=192.168.2.22";
+            string DyeingConnectionString = "Persist Security Info=False;User ID='sa';Initial Catalog=Dyeing;Data Source=192.168.2.25";
 
 
             DataSet WorkInvoice = new DataSet();
             using (SqlConnection sqlConnection = new SqlConnection(DyeingConnectionString))
             {
                 sqlConnection.Open();
-                using (SqlCommand cmd = new SqlCommand("FGetWorkOrderInvoice"))
+                using (SqlCommand cmd = new SqlCommand("Web.FGetWorkOrderInvoice"))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Connection = sqlConnection;

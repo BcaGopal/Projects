@@ -110,8 +110,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AccountService.cs" />
+    <Compile Include="Dimension4Service.cs" />
+    <Compile Include="Dimension3Service.cs" />
     <Compile Include="FeetConversionToCmsService.cs" />
     <Compile Include="DocumentTypeSettingsService.cs" />
+    <Compile Include="JobReceiveQaLineExtendedService.cs" />
+    <Compile Include="PackingLineExtendedService.cs" />
+    <Compile Include="QAGroupLineService.cs" />
+    <Compile Include="QAGroupService.cs" />
     <Compile Include="JobReceiveQaAttributeService.cs" />
     <Compile Include="JobReceiveQaPenaltyService.cs" />
     <Compile Include="ProductGroupProcessSettingsService.cs" />
@@ -119,6 +125,7 @@
     <Compile Include="ProductGroupSettingsService.cs" />
     <Compile Include="ProductCategorySettingsService.cs" />
     <Compile Include="ProductBuyerSettingsService.cs" />
+    <Compile Include="PersonSettingsService.cs" />
     <Compile Include="UserReferralService.cs" />
     <Compile Include="OverTimeApplicationHeaderService.cs" />
     <Compile Include="AttendanceHeaderService.cs" />

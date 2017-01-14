@@ -21,6 +21,9 @@ namespace Model.ViewModel
         public string DivisionName { get; set; }
         public bool isVisibleDimension1 { get; set; }
         public bool isVisibleDimension2 { get; set; }
+        public bool isVisibleDimension3 { get; set; }
+        public bool isVisibleDimension4 { get; set; }
+
         public bool isVisibleLotNo { get; set; }
         public bool CalculateDiscountOnRate { get; set; }
         public string filterLedgerAccountGroups { get; set; }

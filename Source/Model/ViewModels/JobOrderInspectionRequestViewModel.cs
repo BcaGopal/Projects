@@ -63,6 +63,7 @@ namespace Model.ViewModel
         public string ReviewBy { get; set; }
         public bool? Reviewed { get; set; }
         public JobOrderInspectionRequestSettingsViewModel JobOrderInspectionRequestSettings { get; set; }
+        public DocumentTypeSettingsViewModel DocumentTypeSettings { get; set; }
 
     }
 
@@ -139,6 +140,7 @@ namespace Model.ViewModel
         public string ProductGroupId { get; set; }
         public string Dimension1Id { get; set; }
         public string Dimension2Id { get; set; }
+        public DocumentTypeSettingsViewModel DocumentTypeSettings { get; set; }
     }
     public class JobOrderInspectionRequestMasterDetailModel
     {

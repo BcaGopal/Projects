@@ -3,7 +3,10 @@
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
     <DataSource Name="Weaving">
-      <DataSourceReference>DataSourceMain</DataSourceReference>
+      <ConnectionProperties>
+        <DataProvider>SQL</DataProvider>
+        <ConnectString>=Parameters!DatabaseConnectionString.Value</ConnectString>
+      </ConnectionProperties>
       <rd:SecurityType>None</rd:SecurityType>
       <rd:DataSourceID>a4701ec2-a2bf-4f00-a373-e0ef6d3046c3</rd:DataSourceID>
     </DataSource>
@@ -69,6 +72,12 @@
           </QueryParameter>
           <QueryParameter Name="@ReportFor">
             <Value>=Parameters!ReportFor.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@IsSisterConcern">
+            <Value>=Parameters!IsSisterConcern.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@SampleRecord">
+            <Value>=Parameters!SampleRecord.Value</Value>
           </QueryParameter>
         </QueryParameters>
         <CommandType>StoredProcedure</CommandType>
@@ -153,11 +162,11 @@
         </Field>
         <Field Name="WoolIssue">
           <DataField>WoolIssue</DataField>
-          <rd:TypeName>System.Decimal</rd:TypeName>
+          <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
         <Field Name="WoolLagat">
           <DataField>WoolLagat</DataField>
-          <rd:TypeName>System.Decimal</rd:TypeName>
+          <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
         <Field Name="Name">
           <DataField>Name</DataField>
@@ -2506,7 +2515,7 @@
                               <Paragraph>
                                 <TextRuns>
                                   <TextRun>
-                                    <Value>="Total Area Sq. Yard : " + formatnumber(sum(iif(Fields!Sr1.Value=1,Fields!Dealqty.Value,Nothing)),4)</Value>
+                                    <Value>="Total  Balance Area : " +formatnumber(sum(iif(Fields!Sr1.Value=1,Fields!Dealqty.Value,Nothing)),4)</Value>
                                     <Style>
                                       <FontFamily>Tahoma</FontFamily>
                                       <FontSize>8pt</FontSize>
@@ -3403,7 +3412,7 @@
                   <TablixMembers>
                     <TablixMember>
                       <TablixHeader>
-                        <Size>0.92702in</Size>
+                        <Size>2.96856in</Size>
                         <CellContents>
                           <Textbox Name="Textbox126">
                             <CanGrow>true</CanGrow>
@@ -3412,7 +3421,7 @@
                               <Paragraph>
                                 <TextRuns>
                                   <TextRun>
-                                    <Value />
+                                    <Value>="Balance Area : "+formatnumber(Sum(IIf(Fields!Sr1.Value =1,Fields!Dealqty.Value,Nothing), "DsMain"),4)</Value>
                                     <Style>
                                       <FontFamily>Tahoma</FontFamily>
                                       <FontSize>8pt</FontSize>
@@ -3447,7 +3456,7 @@
                           <TablixHeader>
                             <Size>1.02077in</Size>
                             <CellContents>
-                              <Textbox Name="Textbox110">
+                              <Textbox Name="Textbox75">
                                 <CanGrow>true</CanGrow>
                                 <KeepTogether>true</KeepTogether>
                                 <Paragraphs>
@@ -3467,7 +3476,7 @@
                                     </Style>
                                   </Paragraph>
                                 </Paragraphs>
-                                <rd:DefaultName>Textbox110</rd:DefaultName>
+                                <rd:DefaultName>Textbox75</rd:DefaultName>
                                 <Style>
                                   <Border>
                                     <Style>None</Style>
@@ -3489,7 +3498,7 @@
                               <TablixHeader>
                                 <Size>1.02077in</Size>
                                 <CellContents>
-                                  <Textbox Name="Textbox95">
+                                  <Textbox Name="Textbox62">
                                     <CanGrow>true</CanGrow>
                                     <KeepTogether>true</KeepTogether>
                                     <Paragraphs>
@@ -3509,7 +3518,7 @@
                                         </Style>
                                       </Paragraph>
                                     </Paragraphs>
-                                    <rd:DefaultName>Textbox95</rd:DefaultName>
+                                    <rd:DefaultName>Textbox62</rd:DefaultName>
                                     <Style>
                                       <Border>
                                         <Style>None</Style>
@@ -3529,16 +3538,16 @@
                               <TablixMembers>
                                 <TablixMember>
                                   <TablixHeader>
-                                    <Size>1.02077in</Size>
+                                    <Size>1.51042in</Size>
                                     <CellContents>
-                                      <Textbox Name="Textbox75">
+                                      <Textbox Name="Textbox328">
                                         <CanGrow>true</CanGrow>
                                         <KeepTogether>true</KeepTogether>
                                         <Paragraphs>
                                           <Paragraph>
                                             <TextRuns>
                                               <TextRun>
-                                                <Value />
+                                                <Value>= formatnumber(Sum(IIf(Fields!Sr1.Value =1,Fields!Pcs.Value,Nothing), "DsMain"),0)</Value>
                                                 <Style>
                                                   <FontFamily>Tahoma</FontFamily>
                                                   <FontSize>8pt</FontSize>
@@ -3551,7 +3560,7 @@
                                             </Style>
                                           </Paragraph>
                                         </Paragraphs>
-                                        <rd:DefaultName>Textbox75</rd:DefaultName>
+                                        <rd:DefaultName>Textbox328</rd:DefaultName>
                                         <Style>
                                           <Border>
                                             <Style>None</Style>
@@ -3571,16 +3580,16 @@
                                   <TablixMembers>
                                     <TablixMember>
                                       <TablixHeader>
-                                        <Size>1.02077in</Size>
+                                        <Size>1.20833in</Size>
                                         <CellContents>
-                                          <Textbox Name="Textbox62">
+                                          <Textbox Name="Textbox352">
                                             <CanGrow>true</CanGrow>
                                             <KeepTogether>true</KeepTogether>
                                             <Paragraphs>
                                               <Paragraph>
                                                 <TextRuns>
                                                   <TextRun>
-                                                    <Value />
+                                                    <Value>= formatnumber(Sum(IIf(Fields!Sr1.Value =1,Fields!BalanceQty.Value,Nothing), "DsMain"),0)</Value>
                                                     <Style>
                                                       <FontFamily>Tahoma</FontFamily>
                                                       <FontSize>8pt</FontSize>
@@ -3593,7 +3602,7 @@
                                                 </Style>
                                               </Paragraph>
                                             </Paragraphs>
-                                            <rd:DefaultName>Textbox62</rd:DefaultName>
+                                            <rd:DefaultName>Textbox352</rd:DefaultName>
                                             <Style>
                                               <Border>
                                                 <Style>None</Style>
@@ -3611,95 +3620,7 @@
                                         </CellContents>
                                       </TablixHeader>
                                       <TablixMembers>
-                                        <TablixMember>
-                                          <TablixHeader>
-                                            <Size>1.51042in</Size>
-                                            <CellContents>
-                                              <Textbox Name="Textbox328">
-                                                <CanGrow>true</CanGrow>
-                                                <KeepTogether>true</KeepTogether>
-                                                <Paragraphs>
-                                                  <Paragraph>
-                                                    <TextRuns>
-                                                      <TextRun>
-                                                        <Value>= formatnumber(Sum(IIf(Fields!Sr1.Value =1,Fields!Pcs.Value,Nothing), "DsMain"),0)</Value>
-                                                        <Style>
-                                                          <FontFamily>Tahoma</FontFamily>
-                                                          <FontSize>8pt</FontSize>
-                                                          <FontWeight>Bold</FontWeight>
-                                                        </Style>
-                                                      </TextRun>
-                                                    </TextRuns>
-                                                    <Style>
-                                                      <TextAlign>Right</TextAlign>
-                                                    </Style>
-                                                  </Paragraph>
-                                                </Paragraphs>
-                                                <rd:DefaultName>Textbox328</rd:DefaultName>
-                                                <Style>
-                                                  <Border>
-                                                    <Style>None</Style>
-                                                  </Border>
-                                                  <TopBorder>
-                                                    <Style>Solid</Style>
-                                                  </TopBorder>
-                                                  <BackgroundColor>Gainsboro</BackgroundColor>
-                                                  <PaddingLeft>2pt</PaddingLeft>
-                                                  <PaddingRight>2pt</PaddingRight>
-                                                  <PaddingTop>2pt</PaddingTop>
-                                                  <PaddingBottom>2pt</PaddingBottom>
-                                                </Style>
-                                              </Textbox>
-                                            </CellContents>
-                                          </TablixHeader>
-                                          <TablixMembers>
-                                            <TablixMember>
-                                              <TablixHeader>
-                                                <Size>1.20833in</Size>
-                                                <CellContents>
-                                                  <Textbox Name="Textbox352">
-                                                    <CanGrow>true</CanGrow>
-                                                    <KeepTogether>true</KeepTogether>
-                                                    <Paragraphs>
-                                                      <Paragraph>
-                                                        <TextRuns>
-                                                          <TextRun>
-                                                            <Value>= formatnumber(Sum(IIf(Fields!Sr1.Value =1,Fields!BalanceQty.Value,Nothing), "DsMain"),0)</Value>
-                                                            <Style>
-                                                              <FontFamily>Tahoma</FontFamily>
-                                                              <FontSize>8pt</FontSize>
-                                                              <FontWeight>Bold</FontWeight>
-                                                            </Style>
-                                                          </TextRun>
-                                                        </TextRuns>
-                                                        <Style>
-                                                          <TextAlign>Right</TextAlign>
-                                                        </Style>
-                                                      </Paragraph>
-                                                    </Paragraphs>
-                                                    <rd:DefaultName>Textbox352</rd:DefaultName>
-                                                    <Style>
-                                                      <Border>
-                                                        <Style>None</Style>
-                                                      </Border>
-                                                      <TopBorder>
-                                                        <Style>Solid</Style>
-                                                      </TopBorder>
-                                                      <BackgroundColor>Gainsboro</BackgroundColor>
-                                                      <PaddingLeft>2pt</PaddingLeft>
-                                                      <PaddingRight>2pt</PaddingRight>
-                                                      <PaddingTop>2pt</PaddingTop>
-                                                      <PaddingBottom>2pt</PaddingBottom>
-                                                    </Style>
-                                                  </Textbox>
-                                                </CellContents>
-                                              </TablixHeader>
-                                              <TablixMembers>
-                                                <TablixMember />
-                                              </TablixMembers>
-                                            </TablixMember>
-                                          </TablixMembers>
-                                        </TablixMember>
+                                        <TablixMember />
                                       </TablixMembers>
                                     </TablixMember>
                                   </TablixMembers>
@@ -4456,6 +4377,7 @@
                             <PaddingBottom>2pt</PaddingBottom>
                           </Style>
                         </Textbox>
+                        <rd:Selected>true</rd:Selected>
                       </CellContents>
                     </TablixCell>
                     <TablixCell>
@@ -5135,6 +5057,20 @@
           </Textbox>
           <Subreport Name="Subreport2">
             <ReportName>CompanyDetail_Landscap</ReportName>
+            <Parameters>
+              <Parameter Name="SiteId">
+                <Value>=First(Fields!SiteId.Value, "DsMain")</Value>
+              </Parameter>
+              <Parameter Name="DivisionId">
+                <Value>=First(Fields!DivisionId.Value, "DsMain")</Value>
+              </Parameter>
+              <Parameter Name="DatabaseConnectionString">
+                <Value>=Parameters!DatabaseConnectionString.Value</Value>
+              </Parameter>
+              <Parameter Name="PrintedBy">
+                <Value>=Parameters!PrintedBy.Value</Value>
+              </Parameter>
+            </Parameters>
             <Top>0.02917in</Top>
             <Left>0.01743in</Left>
             <Height>0.35656in</Height>
@@ -5616,6 +5552,30 @@
       <Nullable>true</Nullable>
       <AllowBlank>true</AllowBlank>
       <Prompt>PrintedBy</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="DatabaseConnectionString">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>DatabaseConnectionString</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="ReportType">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>ReportType</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="IsSisterConcern">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Is Sister Concern</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="SampleRecord">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Sample Record</Prompt>
     </ReportParameter>
   </ReportParameters>
   <EmbeddedImages>

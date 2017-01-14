@@ -3836,6 +3836,142 @@ namespace Web
             return Json(ProductJson);
         }
 
+        public JsonResult SetSingleDimension2(int Ids)
+        {
+            ComboBoxResult ProductJson = new ComboBoxResult();
+
+            IEnumerable<Dimension2> prod = from p in db.Dimension2
+                                           where p.Dimension2Id == Ids
+                                           select p;
+
+            ProductJson.id = prod.FirstOrDefault().Dimension2Id.ToString();
+            ProductJson.text = prod.FirstOrDefault().Dimension2Name;
+
+            return Json(ProductJson);
+        }
+
+
+        public ActionResult GetDimension3(string searchTerm, int pageSize, int pageNum)
+        {
+            //Get the paged results and the total count of the results for this query. ProductCacheKeyHint
+            var productCacheKeyHint = "Dimension3CacheKeyHint";
+
+            //THis statement has been changed because GetProductHelpList was calling again and again. 
+
+            AutoCompleteComboBoxRepositoryAndHelper ar = new AutoCompleteComboBoxRepositoryAndHelper(cbl.GetDimension3HelpList(), productCacheKeyHint, RefreshData.RefreshProductData);
+            //AutoCompleteComboBoxRepositoryAndHelper ar = new AutoCompleteComboBoxRepositoryAndHelper(null, productCacheKeyHint);
+
+            if (RefreshData.RefreshProductData == true) { RefreshData.RefreshProductData = false; }
+
+
+            List<ComboBoxList> prodLst = ar.GetListForComboBox(searchTerm, pageSize, pageNum);
+            int prodCount = ar.GetCountForComboBox(searchTerm, pageSize, pageNum);
+
+            //Translate the attendees into a format the select2 dropdown expects
+            ComboBoxPagedResult pagedAttendees = ar.TranslateToComboBoxFormat(prodLst, prodCount);
+
+            //Return the data as a jsonp result
+            return new JsonpResult
+            {
+                Data = pagedAttendees,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+        public JsonResult SetDimension3(string Ids)
+        {
+            string[] subStr = Ids.Split(',');
+            List<ComboBoxResult> ProductJson = new List<ComboBoxResult>();
+            for (int i = 0; i < subStr.Length; i++)
+            {
+                int temp = Convert.ToInt32(subStr[i]);
+                //IEnumerable<Product> products = db.Products.Take(3);
+                IEnumerable<Dimension3> prod = from p in db.Dimension3
+                                               where p.Dimension3Id == temp
+                                               select p;
+                ProductJson.Add(new ComboBoxResult()
+                {
+                    id = prod.FirstOrDefault().Dimension3Id.ToString(),
+                    text = prod.FirstOrDefault().Dimension3Name
+                });
+            }
+            return Json(ProductJson);
+        }
+        public JsonResult SetSingleDimension3(int Ids)
+        {
+            ComboBoxResult ProductJson = new ComboBoxResult();
+
+            IEnumerable<Dimension3> prod = from p in db.Dimension3
+                                           where p.Dimension3Id == Ids
+                                           select p;
+
+            ProductJson.id = prod.FirstOrDefault().Dimension3Id.ToString();
+            ProductJson.text = prod.FirstOrDefault().Dimension3Name;
+
+            return Json(ProductJson);
+        }
+
+
+
+
+        public ActionResult GetDimension4(string searchTerm, int pageSize, int pageNum)
+        {
+            //Get the paged results and the total count of the results for this query. ProductCacheKeyHint
+            var productCacheKeyHint = "Dimension4CacheKeyHint";
+
+            //THis statement has been changed because GetProductHelpList was calling again and again. 
+
+            AutoCompleteComboBoxRepositoryAndHelper ar = new AutoCompleteComboBoxRepositoryAndHelper(cbl.GetDimension4HelpList(), productCacheKeyHint, RefreshData.RefreshProductData);
+            //AutoCompleteComboBoxRepositoryAndHelper ar = new AutoCompleteComboBoxRepositoryAndHelper(null, productCacheKeyHint);
+
+            if (RefreshData.RefreshProductData == true) { RefreshData.RefreshProductData = false; }
+
+
+            List<ComboBoxList> prodLst = ar.GetListForComboBox(searchTerm, pageSize, pageNum);
+            int prodCount = ar.GetCountForComboBox(searchTerm, pageSize, pageNum);
+
+            //Translate the attendees into a format the select2 dropdown expects
+            ComboBoxPagedResult pagedAttendees = ar.TranslateToComboBoxFormat(prodLst, prodCount);
+
+            //Return the data as a jsonp result
+            return new JsonpResult
+            {
+                Data = pagedAttendees,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+        public JsonResult SetDimension4(string Ids)
+        {
+            string[] subStr = Ids.Split(',');
+            List<ComboBoxResult> ProductJson = new List<ComboBoxResult>();
+            for (int i = 0; i < subStr.Length; i++)
+            {
+                int temp = Convert.ToInt32(subStr[i]);
+                //IEnumerable<Product> products = db.Products.Take(3);
+                IEnumerable<Dimension4> prod = from p in db.Dimension4
+                                               where p.Dimension4Id == temp
+                                               select p;
+                ProductJson.Add(new ComboBoxResult()
+                {
+                    id = prod.FirstOrDefault().Dimension4Id.ToString(),
+                    text = prod.FirstOrDefault().Dimension4Name
+                });
+            }
+            return Json(ProductJson);
+        }
+        public JsonResult SetSingleDimension4(int Ids)
+        {
+            ComboBoxResult ProductJson = new ComboBoxResult();
+
+            IEnumerable<Dimension4> prod = from p in db.Dimension4
+                                           where p.Dimension4Id == Ids
+                                           select p;
+
+            ProductJson.id = prod.FirstOrDefault().Dimension4Id.ToString();
+            ProductJson.text = prod.FirstOrDefault().Dimension4Name;
+
+            return Json(ProductJson);
+        }
+
         public ActionResult GetFinishedMaterial(string searchTerm, int pageSize, int pageNum)
         {
             //Get the paged results and the total count of the results for this query. ProductCacheKeyHint
@@ -3888,19 +4024,7 @@ namespace Web
             };
         }
 
-        public JsonResult SetSingleDimension2(int Ids)
-        {
-            ComboBoxResult ProductJson = new ComboBoxResult();
 
-            IEnumerable<Dimension2> prod = from p in db.Dimension2
-                                           where p.Dimension2Id == Ids
-                                           select p;
-
-            ProductJson.id = prod.FirstOrDefault().Dimension2Id.ToString();
-            ProductJson.text = prod.FirstOrDefault().Dimension2Name;
-
-            return Json(ProductJson);
-        }
 
 
         // Sale Help 
@@ -5515,5 +5639,211 @@ namespace Web
 
             return Json(MenuJson);
         }
+
+
+        public ActionResult GetDataTypeList(string searchTerm, int pageSize, int pageNum)
+        {
+            List<CustomComboBoxResult> Types = new List<CustomComboBoxResult>();
+            Types.Add(new CustomComboBoxResult { id = "Text", text = "Text" });
+            Types.Add(new CustomComboBoxResult { id = "Number", text = "Number" });
+            Types.Add(new CustomComboBoxResult { id = "List", text = "List" });
+            Types.Add(new CustomComboBoxResult { id = "Date", text = "Date" });
+
+            var list = (from p in Types
+                        where (string.IsNullOrEmpty(searchTerm) ? 1 == 1 : (p.text.ToLower().Contains(searchTerm.ToLower())))
+                        orderby p.text
+                        select new ComboBoxResult
+                        {
+                            text = p.text,
+                            id = p.id.ToString(),
+                        }
+            ).ToList();
+            var temp = list.Skip(pageSize * (pageNum - 1)).Take(pageSize).ToList();
+
+            var count = list.Count();
+
+            ComboBoxPagedResult Data = new ComboBoxPagedResult();
+            Data.Results = temp;
+            Data.Total = count;
+
+            return new JsonpResult
+            {
+                Data = Data,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+
+            //AutoCompleteComboBoxRepositoryAndHelper ar = new AutoCompleteComboBoxRepositoryAndHelper();
+            //List<ComboBoxList> prodLst = new List<ComboBoxList>();
+            //prodLst.Add(new ComboBoxList() { Id = 1, PropFirst = "Text" });
+            //prodLst.Add(new ComboBoxList() { Id = 2, PropFirst = "Number" });
+            //prodLst.Add(new ComboBoxList() { Id = 3, PropFirst = "List" });
+            //prodLst.Add(new ComboBoxList() { Id = 4, PropFirst = "Date" });
+            //ComboBoxPagedResult pagedAttendees = ar.TranslateToComboBoxFormat(prodLst, 2);
+            //return new JsonpResult
+            //{
+            //    Data = pagedAttendees,
+            //    JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            //};
+        }
+
+    
+
+        public JsonResult SetSingleDataTypeList(string Ids)
+        {
+            List<CustomComboBoxResult> Types = new List<CustomComboBoxResult>();
+            Types.Add(new CustomComboBoxResult { id = "Text", text = "Text" });
+            Types.Add(new CustomComboBoxResult { id = "Number", text = "Number" });
+            Types.Add(new CustomComboBoxResult { id = "List", text = "List" });
+            Types.Add(new CustomComboBoxResult { id = "Date", text = "Date" });
+
+            var T= Types.ToList().Where(x => x.id == Ids);
+
+            CustomComboBoxResult ProductJson = new CustomComboBoxResult();
+            ProductJson.id = T.FirstOrDefault().id.ToString();
+            ProductJson.text = T.FirstOrDefault().text.ToString();
+            return Json(ProductJson);
+
+            //ComboBoxResult ProductJson = new ComboBoxResult();
+            //string Value = "";
+
+            //if (Ids == 1)
+            //    Value = "Text";
+            //else if (Ids == 2)
+            //    Value = "Number";
+            //else if (Ids == 2)
+            //    Value = "List";
+            //else if (Ids == 2)
+            //    Value = "Date";
+            //else
+            //    Value = "";
+
+            //List<ComboBoxList> prodLst = new List<ComboBoxList>();
+            //prodLst.Add(new ComboBoxList() { Id = Ids, PropFirst = Value });
+
+            //ProductJson.id = prodLst.FirstOrDefault().Id.ToString();
+            //ProductJson.text = prodLst.FirstOrDefault().PropFirst;
+
+            //return Json(ProductJson);
+        }
+
+        public JsonResult SetSingleStockIn(int Ids)
+        {
+            ComboBoxResult StockInJson = new ComboBoxResult();
+
+            var StockInLine = from L in db.Stock
+                              join H in db.StockHeader on L.StockHeaderId equals H.StockHeaderId into StockHeaderTable
+                              from StockHeaderTab in StockHeaderTable.DefaultIfEmpty()
+                              where L.StockId == Ids
+                              select new
+                              {
+                                  StockInId = L.StockId,
+                                  StockInNo = StockHeaderTab.DocNo
+                              };
+
+            StockInJson.id = StockInLine.FirstOrDefault().ToString();
+            StockInJson.text = StockInLine.FirstOrDefault().StockInNo;
+
+            return Json(StockInJson);
+        }
+
+        public JsonResult GetTdsGroup(string searchTerm, int pageSize, int pageNum)
+        {
+            var Query = cbl.GetTdsGroups(searchTerm);
+            var temp = Query.Skip(pageSize * (pageNum - 1)).Take(pageSize).ToList();
+
+            var count = Query.Count();
+
+            ComboBoxPagedResult Data = new ComboBoxPagedResult();
+            Data.Results = temp;
+            Data.Total = count;
+
+            return new JsonpResult
+            {
+                Data = Data,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        public JsonResult SetSingleTdsGroup(int Ids)
+        {
+            ComboBoxResult TdsGroupJson = new ComboBoxResult();
+
+            TdsGroup TdsGroup = (from b in db.TdsGroup
+                             where b.TdsGroupId == Ids
+                             select b).FirstOrDefault();
+
+            TdsGroupJson.id = TdsGroup.TdsGroupId.ToString();
+            TdsGroupJson.text = TdsGroup.TdsGroupName;
+
+            return Json(TdsGroupJson);
+        }
+
+
+        public JsonResult GetTdsCategory(string searchTerm, int pageSize, int pageNum)
+        {
+            var Query = cbl.GetTdsCategory(searchTerm);
+            var temp = Query.Skip(pageSize * (pageNum - 1)).Take(pageSize).ToList();
+
+            var count = Query.Count();
+
+            ComboBoxPagedResult Data = new ComboBoxPagedResult();
+            Data.Results = temp;
+            Data.Total = count;
+
+            return new JsonpResult
+            {
+                Data = Data,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        public JsonResult SetSingleTdsCategory(int Ids)
+        {
+            ComboBoxResult TdsCategoryJson = new ComboBoxResult();
+
+            TdsCategory TdsCategory = (from b in db.TdsCategory
+                                 where b.TdsCategoryId == Ids
+                                 select b).FirstOrDefault();
+
+            TdsCategoryJson.id = TdsCategory.TdsCategoryId.ToString();
+            TdsCategoryJson.text = TdsCategory.TdsCategoryName;
+
+            return Json(TdsCategoryJson);
+        }
+
+
+        public JsonResult GetSalesTaxGroupParty(string searchTerm, int pageSize, int pageNum)
+        {
+            var Query = cbl.GetSalesTaxGroupParty(searchTerm);
+            var temp = Query.Skip(pageSize * (pageNum - 1)).Take(pageSize).ToList();
+
+            var count = Query.Count();
+
+            ComboBoxPagedResult Data = new ComboBoxPagedResult();
+            Data.Results = temp;
+            Data.Total = count;
+
+            return new JsonpResult
+            {
+                Data = Data,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        public JsonResult SetSingleSalesTaxGroupParty(int Ids)
+        {
+            ComboBoxResult SalesTaxGroupPartyJson = new ComboBoxResult();
+
+            SalesTaxGroupParty SalesTaxGroupParty = (from b in db.SalesTaxGroupParty
+                                 where b.SalesTaxGroupPartyId == Ids
+                                 select b).FirstOrDefault();
+
+            SalesTaxGroupPartyJson.id = SalesTaxGroupParty.SalesTaxGroupPartyId.ToString();
+            SalesTaxGroupPartyJson.text = SalesTaxGroupParty.SalesTaxGroupPartyName;
+
+            return Json(SalesTaxGroupPartyJson);
+        }
+
+
     }
 }

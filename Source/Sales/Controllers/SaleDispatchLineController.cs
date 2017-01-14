@@ -61,6 +61,13 @@ namespace Web
 
         }
 
+        public ActionResult _Index(int id, int Status)
+        {
+            ViewBag.Status = Status;
+            ViewBag.SaleDispatchHeaderId = id;
+            var p = _SaleDispatchLineService.GetSaleDispatchLineListForIndex(id).ToList();
+            return PartialView(p);
+        }
         public ActionResult _ForOrder(int id)
         {
             SaleDispatchFilterViewModel vm = new SaleDispatchFilterViewModel();
@@ -176,7 +183,7 @@ namespace Web
                         //StockViewModel.ProcessId = Dh.ProcessId;
                         StockViewModel.LotNo = null;
                         //StockViewModel.CostCenterId = Dh.CostCenterId;
-                        StockViewModel.Qty_Iss = item.Qty;
+                        StockViewModel.Qty_Iss = item.Qty + (item.LossQty ?? 0);
                         StockViewModel.Qty_Rec = 0;
                         StockViewModel.Rate = 0;
                         StockViewModel.ExpiryDate = null;
@@ -470,7 +477,7 @@ namespace Web
                     //StockViewModel.ProcessId = Dl.FromProcessId;
                     StockViewModel.LotNo = svm.LotNo;
                     //StockViewModel.CostCenterId = svm.CostCenterId;
-                    StockViewModel.Qty_Iss = Pl.Qty;
+                    StockViewModel.Qty_Iss = Pl.Qty + (Pl.LossQty ?? 0);
                     StockViewModel.Qty_Rec = 0;
                     StockViewModel.Rate = 0;
                     StockViewModel.ExpiryDate = null;
@@ -620,7 +627,7 @@ namespace Web
                         //StockViewModel.ProcessId = Dl.FromProcessId;
                         StockViewModel.LotNo = svm.LotNo;
                         //StockViewModel.CostCenterId = Dh.CostCenterId;
-                        StockViewModel.Qty_Iss = svm.Qty;
+                        StockViewModel.Qty_Iss = svm.Qty + (svm.LossQty ?? 0);
                         StockViewModel.Qty_Rec = 0;
                         StockViewModel.Rate = 0;
                         StockViewModel.ExpiryDate = null;
@@ -672,6 +679,7 @@ namespace Web
                     Pl.SaleOrderLineId = svm.SaleOrderLineId;
                     Pl.PassQty = svm.PassQty;
                     Pl.Qty = svm.Qty;
+                    Pl.LossQty = svm.LossQty;
                     Pl.BaleNo = svm.BaleNo;
                     Pl.DealUnitId = svm.DealUnitId;
                     Pl.DealQty = svm.DealQty;
@@ -1403,6 +1411,19 @@ namespace Web
             else
             {
                 return null;
+            }
+        }
+
+        public JsonResult GetStockInBalance(int StockInId)
+        {
+            var temp = (from L in db.ViewStockInBalance where L.StockInId == StockInId select L).FirstOrDefault();
+            if (temp != null)
+            {
+                return Json(temp.BalanceQty, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return Json(0, JsonRequestBehavior.AllowGet);
             }
         }
 
