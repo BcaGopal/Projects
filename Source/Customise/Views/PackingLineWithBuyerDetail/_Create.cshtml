@@ -52,6 +52,7 @@
             @Html.HiddenFor(m => m.DeliveryOrderShipMethodId)
             @Html.HiddenFor(m => m.OtherBuyerDeliveryOrders)
             @Html.HiddenFor(m => m.PartyProductUid)
+            @Html.HiddenFor(m => m.DimensionUnitDecimalPlaces)
 
 
             <div class="form-horizontal modal-body">
@@ -644,6 +645,7 @@
 
                     AssignImage();
                     GetProductCustomDetail();
+                    GetProductDimensions();
                 },
                 error: function (xhr, ajaxOptions, thrownError) {
                     alert('Failed to retrieve Product Detail.' + thrownError);
@@ -758,6 +760,39 @@
             }
         });
     }}
+
+
+    function GetProductDimensions() {
+        var ProcessProgress = $("#Product Dimensions loading progress");
+        ProcessProgress.show();
+        if ($("#ProductId").val() != 0 && $("#ProductId").val() != null) {
+            $.ajax({
+                cache: false,
+                type: "POST",
+                url: "@(Url.Action("GetProductDimensionsJson"))",
+                data: { ProductId: $("#ProductId").val(), DealUnitId: $("#DealUnitId").val(), DocTypeId: $("#DocTypeId").val() },
+            success: function (data) {
+                if (data != null)
+                {
+                    $("#Length").val(data.Length);
+                    $("#Width").val(data.Width);
+                    $("#DimensionUnitDecimalPlaces").val(data.DimensionUnitDecimalPlaces);
+                    //$("#Height").val(data.Height);
+                }
+                else{
+                    $("#Length").val("");
+                    $("#Width").val("");
+                    $("#DimensionUnitDecimalPlaces").val(0);
+                    //$("#Height").val("");
+                }
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert('Failed to retrieve product details.' + thrownError);
+                ProcessProgress.hide();
+            }
+        });
+    }}
+
 
 
 
@@ -1117,6 +1152,29 @@
         GetUnitConversionMultiplier();
         Calculation();
     });
+
+    $('#Length,#Width,#Height').focusout(function(){
+        RoundDimensions();
+    });
+
+    function RoundDimensions()
+    {
+        if ($('#Length').val() != 0) 
+        {
+            $('#Length').val(parseFloat($('#Length').val()).toFixed($('#DimensionUnitDecimalPlaces').val()));
+        }
+
+        if ($('#Width').val() != 0) 
+        {
+            $('#Width').val(parseFloat($('#Width').val()).toFixed($('#DimensionUnitDecimalPlaces').val()));
+        }
+
+        if ($('#Height').val() != 0) 
+        {
+            $('#Height').val(parseFloat($('#Height').val()).toFixed($('#DimensionUnitDecimalPlaces').val()));
+        }
+    }
+
 
 
     function GetUnitConversionMultiplier() {

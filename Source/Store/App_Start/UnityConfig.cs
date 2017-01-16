@@ -168,6 +168,9 @@ namespace Store.App_Start
             container.RegisterType<IRepository<ProductType>, Repository<ProductType>>();
             container.RegisterType<IProductTypeService, ProductTypeService>(new PerRequestLifetimeManager());
 
+            container.RegisterType<IRepository<ProductTypeSettings>, Repository<ProductTypeSettings>>();
+            container.RegisterType<IProductTypeSettingsService, ProductTypeSettingsService>(new PerRequestLifetimeManager());
+
             container.RegisterType<IRepository<Unit>, Repository<Unit>>();
             container.RegisterType<IUnitService, UnitService>(new PerRequestLifetimeManager());
 
@@ -275,6 +278,8 @@ namespace Store.App_Start
             Mapper.CreateMap<ProductGroupSettings, ProductGroupSettingsViewModel>();
             Mapper.CreateMap<ProductGroupSettingsViewModel, ProductGroupSettings>();
 
+            Mapper.CreateMap<ProductTypeSettings, ProductTypeSettingsViewModel>();
+            Mapper.CreateMap<ProductTypeSettingsViewModel, ProductTypeSettings>();
 
             Mapper.CreateMap<StockHeaderSettings, StockHeaderSettingsViewModel>();
             Mapper.CreateMap<StockHeaderSettingsViewModel, StockHeaderSettings>();

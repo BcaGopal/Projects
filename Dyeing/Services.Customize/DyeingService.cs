@@ -458,6 +458,11 @@ namespace Services.Customize
 
             JobReceiveHeader ExRec = Mapper.Map<JobReceiveHeader>(temp);
 
+            int? PersonId = (from L in _unitOfWork.Repository<JobOrderLine>().Instance
+                             join He in _unitOfWork.Repository<JobOrderHeaderExtended>().Instance on L.JobOrderHeaderId equals He.JobOrderHeaderId
+                             where L.JobOrderLineId == vmDyeing.JobOrderLineId
+                             select He).FirstOrDefault().PersonId;
+
             int status = temp.Status;
 
             if (temp.Status != (int)StatusConstants.Drafted && temp.Status != (int)StatusConstants.Import)
@@ -493,7 +498,7 @@ namespace Services.Customize
             StockViewModel.SiteId = temp.SiteId;
             StockViewModel.CurrencyId = null;
             StockViewModel.HeaderProcessId = null;
-            StockViewModel.PersonId = temp.JobWorkerId;
+            StockViewModel.PersonId = PersonId;
             StockViewModel.ProductId = vmDyeing.ProductId;
             StockViewModel.HeaderFromGodownId = null;
             StockViewModel.HeaderGodownId = null;

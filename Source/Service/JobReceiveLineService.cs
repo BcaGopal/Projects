@@ -33,6 +33,7 @@ namespace Service
         JobReceiveLineViewModel GetJobReceiveLine(int id);
         IEnumerable<JobReceiveLineViewModel> GetJobOrdersForFilters(JobReceiveLineFilterViewModel vm);
         ComboBoxPagedResult GetPendingProductsForJobReceive(string searchTerm, int pageSize, int pageNum, int filter);
+        ComboBoxPagedResult GetPendingProductGroupsForJobReceive(string searchTerm, int pageSize, int pageNum, int filter);
         ComboBoxPagedResult GetPendingJobOrders(string searchTerm, int pageSize, int pageNum, int filter);//JobReceive HeaderId,DocTypes,Search term
         //IEnumerable<ProcGetBomForWeavingViewModel> GetBomPostingDataForWeaving(int ProductId, int? Dimension1Id, int? Dimension2Id, int ProcessId, decimal Qty, int DocTypeId, string ProcName, int? JobOrderLineId);
 
@@ -443,9 +444,6 @@ namespace Service
             if (!string.IsNullOrEmpty(settings.filterProductTypes)) { ProductTypes = settings.filterProductTypes.Split(",".ToCharArray()); }
             else { ProductTypes = new string[] { "NA" }; }
 
-            var ProductNatures = (from p in db.ProductNature
-                                  where p.ProductNatureName == ProductNatureConstants.FinishedMaterial || p.ProductNatureName == ProductNatureConstants.Rawmaterial
-                                  select p.ProductNatureId).ToArray();
 
             var Query = (from p in db.Product
                          join t in db.ProductGroups on p.ProductGroupId equals t.ProductGroupId
@@ -468,6 +466,43 @@ namespace Service
             return (new ComboBoxPagedResult
             {
                 Results = Recods.Select(m => new ComboBoxResult { id = m.ProductId.ToString(), text = m.ProductName }).ToList(),
+                Total = Count,
+            });
+
+        }
+
+
+        public ComboBoxPagedResult GetPendingProductGroupsForJobReceive(string searchTerm, int pageSize, int pageNum, int filter)//DocTypeId
+        {
+            var JobReceive = new JobReceiveHeaderService(_unitOfWork).Find(filter);
+
+            var settings = new JobReceiveSettingsService(_unitOfWork).GetJobReceiveSettingsForDocument(JobReceive.DocTypeId, JobReceive.DivisionId, JobReceive.SiteId);
+
+            string[] ProductTypes = null;
+            if (!string.IsNullOrEmpty(settings.filterProductTypes)) { ProductTypes = settings.filterProductTypes.Split(",".ToCharArray()); }
+            else { ProductTypes = new string[] { "NA" }; }
+
+
+            var Query = (from p in db.ProductGroups
+                         select new
+                         {
+                             ProductGroupId = p.ProductGroupId,
+                             ProductGroupName = p.ProductGroupName,
+                             ProductTypeId = p.ProductTypeId,
+                         });
+
+            if (!string.IsNullOrEmpty(settings.filterProductTypes))
+                Query = Query.Where(m => ProductTypes.Contains(m.ProductTypeId.ToString()));
+
+            if (!string.IsNullOrEmpty(searchTerm))
+                Query = Query.Where(m => m.ProductGroupName.ToLower().Contains(searchTerm.ToLower()));
+
+            var Recods = Query.OrderBy(m => m.ProductGroupName).Skip(pageSize * (pageNum - 1)).Take(pageSize).ToList();
+            var Count = Query.Count();
+
+            return (new ComboBoxPagedResult
+            {
+                Results = Recods.Select(m => new ComboBoxResult { id = m.ProductGroupId.ToString(), text = m.ProductGroupName }).ToList(),
                 Total = Count,
             });
 

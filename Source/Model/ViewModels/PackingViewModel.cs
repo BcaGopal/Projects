@@ -191,6 +191,8 @@ namespace Model.ViewModels
         public Decimal? Width { get; set; }
         public Decimal? Height { get; set; }
 
+        public int? DimensionUnitDecimalPlaces { get; set; }
+
 
 
 

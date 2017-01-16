@@ -323,6 +323,7 @@ namespace Core.Common
         public const string PreDispatchWaybill = "Pre-Dispatch Waybill";
         public const string FinalDispatchWaybill = "Final-Dispatch Waybill";
 
+        public const string ProductType = "Product Type";
         public const string ProductGroup = "Product Group";
         public const string Product = "Product";
         public const string Report = "Report";

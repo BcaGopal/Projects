@@ -2204,6 +2204,12 @@ namespace Web
 
             return Json(UnitConversionMultiplier);
         }
+
+        public JsonResult GetProductDimensionsJson(int ProductId, string DealUnitId, int DocTypeId)
+        {
+            ProductDimensions ProductDimensions = new ProductService(_unitOfWork).GetProductDimensions(ProductId, DealUnitId, DocTypeId);
+            return Json(ProductDimensions);
+        }
     }
 
 

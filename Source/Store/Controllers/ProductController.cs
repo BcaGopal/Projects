@@ -25,7 +25,9 @@ namespace Web
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
+        List<string> UserRoles = new List<string>();
         ActiivtyLogViewModel LogVm = new ActiivtyLogViewModel();
+
 
         IProductService _ProductService;
         IFinishedProductService _FinishedProductService;
@@ -37,6 +39,8 @@ namespace Web
             _FinishedProductService = FinishedProductService;
             _unitOfWork = unitOfWork;
             _exception = exec;
+
+            UserRoles = (List<string>)System.Web.HttpContext.Current.Session["Roles"];
 
             //Log Initialization
             LogVm.SessionId = 0;
@@ -401,6 +405,18 @@ namespace Web
             ViewBag.Name = ProductType.ProductTypeName;
             ViewBag.id = id;
             ViewBag.ProductGroupList = new ProductGroupService(_unitOfWork).GetProductGroupListForItemType(id);
+
+            var settings = new ProductTypeSettingsService(_unitOfWork).GetProductTypeSettingsForDocument(id);
+
+            if (settings == null && UserRoles.Contains("Admin"))
+            {
+                return RedirectToAction("Create", "ProductTypeSettings", new { id = id }).Warning("Please create Product Type Settings");
+            }
+            else if (settings == null && !UserRoles.Contains("Admin"))
+            {
+                return View("~/Views/Shared/InValidSettings.cshtml");
+            }
+            p.ProductTypeSettings = Mapper.Map<ProductTypeSettings, ProductTypeSettingsViewModel>(settings);
 
             PrepareMaterialViewBag(null);
             return View("CreateMaterial", p);

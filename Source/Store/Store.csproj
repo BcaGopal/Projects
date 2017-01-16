@@ -241,6 +241,7 @@
     <Compile Include="Controllers\PersonContactController.cs" />
     <Compile Include="Controllers\PersonController.cs" />
     <Compile Include="Controllers\PersonProcessController.cs" />
+    <Compile Include="Controllers\ProductTypeSettingsController.cs" />
     <Compile Include="Controllers\QAGroupLineController.cs" />
     <Compile Include="Controllers\QAGroupController.cs" />
     <Compile Include="Controllers\GatePassHeaderController.cs" />
@@ -922,6 +923,7 @@
     <Content Include="Views\PersonContact\_Create.cshtml" />
     <Content Include="Views\PersonProcess\_Create.cshtml" />
     <Content Include="Views\Shared\UnderImplementation.cshtml" />
+    <Content Include="Views\ProductTypeSettings\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

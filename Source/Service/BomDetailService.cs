@@ -66,8 +66,8 @@ namespace Service
 
         IQueryable<ComboBoxResult> GetOtherContentProductList(int ProductGroupId, string term);
 
-        bool CheckForProductDimensionExists(int ProductId, int? Dimension1Id, int? Dimension2Id, int? Dimension3Id, int? Dimension4Id, int BaseProductId, int BomDetailId);
-        bool CheckForProductDimensionExists(int ProductId, int? Dimension1Id, int? Dimension2Id, int? Dimension3Id, int? Dimension4Id, int BaseProductId);
+        bool CheckForProductDimensionExists(int ProductId, int? Dimension1Id, int? Dimension2Id, int? Dimension3Id, int? Dimension4Id, int? ProcessId, int BaseProductId, int BomDetailId);
+        bool CheckForProductDimensionExists(int ProductId, int? Dimension1Id, int? Dimension2Id, int? Dimension3Id, int? Dimension4Id, int? ProcessId, int BaseProductId);
 
 
     }
@@ -518,7 +518,8 @@ namespace Service
                                                                             Dimension4Id = b.Dimension4Id,
                                                                             Dimension4Name = b.Dimension4.Dimension4Name,
                                                                             Qty = b.Qty,
-                                                                            UnitName = UnitTab.UnitName
+                                                                            UnitName = UnitTab.UnitName,
+                                                                            ProcessName = b.Process.ProcessName
                                                                         }).ToList();
 
 
@@ -863,22 +864,21 @@ namespace Service
 
 
 
-        public bool CheckForProductDimensionExists(int ProductId, int? Dimension1Id, int? Dimension2Id, int? Dimension3Id, int? Dimension4Id, int BaseProductId, int BomDetailId)
+        public bool CheckForProductDimensionExists(int ProductId, int? Dimension1Id, int? Dimension2Id, int? Dimension3Id, int? Dimension4Id, int? ProcessId, int BaseProductId, int BomDetailId)
         {
 
             BomDetail temp = (from p in db.BomDetail
-                              where p.ProductId == ProductId && p.Dimension1Id == Dimension1Id && p.Dimension2Id == Dimension2Id && p.Dimension3Id == Dimension3Id && p.Dimension4Id == Dimension4Id && p.BaseProductId == BaseProductId && p.BomDetailId != BomDetailId
+                              where p.ProductId == ProductId && p.Dimension1Id == Dimension1Id && p.Dimension2Id == Dimension2Id && p.Dimension3Id == Dimension3Id && p.Dimension4Id == Dimension4Id && p.ProcessId == ProcessId && p.BaseProductId == BaseProductId && p.BomDetailId != BomDetailId
                               select p).FirstOrDefault();
             if (temp != null)
                 return true;
             else return false;
         }
 
-        public bool CheckForProductDimensionExists(int ProductId, int? Dimension1Id, int? Dimension2Id, int? Dimension3Id, int? Dimension4Id, int BaseProductId)
+        public bool CheckForProductDimensionExists(int ProductId, int? Dimension1Id, int? Dimension2Id, int? Dimension3Id, int? Dimension4Id, int? ProcessId, int BaseProductId)
         {
-
             BomDetail temp = (from p in db.BomDetail
-                              where p.ProductId == ProductId && p.Dimension1Id == Dimension1Id && p.Dimension2Id == Dimension2Id && p.Dimension3Id == Dimension3Id && p.Dimension4Id == Dimension4Id && p.BaseProductId == BaseProductId
+                              where p.ProductId == ProductId && p.Dimension1Id == Dimension1Id && p.Dimension2Id == Dimension2Id && p.Dimension3Id == Dimension3Id && p.Dimension4Id == Dimension4Id && p.ProcessId == ProcessId && p.BaseProductId == BaseProductId
                               select p).FirstOrDefault();
             if (temp != null)
                 return true;

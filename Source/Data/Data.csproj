@@ -159,6 +159,10 @@
     <Compile Include="Migrations\201701100529036_PersonSettings.Designer.cs">
       <DependentUpon>201701100529036_PersonSettings.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201701160801253_ProductTypeSettings.cs" />
+    <Compile Include="Migrations\201701160801253_ProductTypeSettings.Designer.cs">
+      <DependentUpon>201701160801253_ProductTypeSettings.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="NotificationApplicationDbContext.cs" />
     <Compile Include="LoginApplicationDbContext.cs" />
@@ -255,6 +259,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201701100529036_PersonSettings.resx">
       <DependentUpon>201701100529036_PersonSettings.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201701160801253_ProductTypeSettings.resx">
+      <DependentUpon>201701160801253_ProductTypeSettings.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

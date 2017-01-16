@@ -1363,7 +1363,9 @@ namespace Web
 
         public JsonResult GetUnitConversionDetailJson(int ProductId, string UnitId, string DeliveryUnitId)
         {
-            UnitConversion uc = new UnitConversionService(_unitOfWork).GetUnitConversion(ProductId, UnitId, DeliveryUnitId);
+            int UnitConversionForId = (int) UnitConversionFors.Standard; 
+            //UnitConversion uc = new UnitConversionService(_unitOfWork).GetUnitConversion(ProductId, UnitId, DeliveryUnitId);
+            UnitConversion uc = new UnitConversionService(_unitOfWork).GetUnitConversion(ProductId, UnitId, UnitConversionForId, DeliveryUnitId);
             List<SelectListItem> UnitConversionJson = new List<SelectListItem>();
             if (uc != null)
             {

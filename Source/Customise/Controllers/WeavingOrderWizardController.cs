@@ -126,6 +126,7 @@ namespace Web
         {
             ViewBag.UnitConvForList = (from p in db.UnitConversonFor
                                        select p).ToList();
+            ViewBag.DeliveryUnitList = new UnitService(_unitOfWork).GetUnitList().ToList();
         }
 
 
@@ -297,6 +298,7 @@ namespace Web
             p.OrderById = new EmployeeService(_unitOfWork).GetEmloyeeForUser(User.Identity.GetUserId());
             p.UnitConversionForId = settings.UnitConversionForId;
             p.ProcessId = settings.ProcessId;
+            p.DealUnitId = settings.DealUnitId;
             PrepareViewBag();
             p.DocTypeId = DocTypeId;
             p.DocNo = new DocumentTypeService(_unitOfWork).FGetNewDocNo("DocNo", ConfigurationManager.AppSettings["DataBaseSchema"] + ".JobOrderHeaders", p.DocTypeId, p.DocDate, p.DivisionId, p.SiteId);
@@ -472,7 +474,8 @@ namespace Web
                             }
                         }
 
-                        string DealUnit = UnitConstants.SqYard;
+                        //string DealUnit = UnitConstants.SqYard;
+                        string DealUnit = svm.DealUnitId;
 
 
                         int Cnt = 0;
@@ -685,6 +688,17 @@ namespace Web
                                         }
 
                                         UnitConversion uc = new UnitConversionService(_unitOfWork).GetUnitConversion(ProdOrderLine.ProductId, Product.UnitId, s.UnitConversionForId.Value, DealUnit);
+
+                                        if (uc == null)
+                                        {
+                                            var product = new ProductService(_unitOfWork).Find(ProdOrderLine.ProductId);
+                                            var dealunit = new UnitService(_unitOfWork).Find(DealUnit);
+                                            string Msg = "Unit Conversion is not defined for " + product.ProductName + " with " + dealunit.UnitName;
+                                            ModelState.AddModelError("", Msg);
+                                            PrepareViewBag();
+                                            ViewBag.Mode = "Add";
+                                            return View("Create", svm);
+                                        }
 
                                         line.JobOrderHeaderId = s.JobOrderHeaderId;
                                         line.ProdOrderLineId = ProdOrderLine.ProdOrderLineId;
@@ -926,6 +940,18 @@ namespace Web
                                             }
 
                                             UnitConversion uc = new UnitConversionService(_unitOfWork).GetUnitConversion(ProdOrderLine.ProductId, Product.UnitId, s.UnitConversionForId.Value, DealUnit);
+
+
+                                            if (uc == null)
+                                            {
+                                                var product = new ProductService(_unitOfWork).Find(ProdOrderLine.ProductId);
+                                                var dealunit = new UnitService(_unitOfWork).Find(DealUnit);
+                                                string Msg = "Unit Conversion is not defined for " + product.ProductName + " with " + dealunit.UnitName;
+                                                ModelState.AddModelError("", Msg);
+                                                PrepareViewBag();
+                                                ViewBag.Mode = "Add";
+                                                return View("Create", svm);
+                                            }
 
 
                                             line.ProductUidId = BarCode;

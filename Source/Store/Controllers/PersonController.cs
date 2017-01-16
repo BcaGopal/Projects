@@ -246,16 +246,31 @@ namespace Web
                     person.ObjectState = Model.ObjectState.Added;
                     new PersonService(_unitOfWork).Create(person);
 
+                    int CurrentDivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
+                    int CurrentSiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
+
 
                     string Divisions = PersonVm.DivisionIds;
                     if (Divisions != null)
-                    { Divisions = "|" + Divisions.Replace(",", "|,|") + "|"; }
+                    { 
+                        Divisions = "|" + Divisions.Replace(",", "|,|") + "|"; 
+                    }
+                    else
+                    {
+                        Divisions = "|" + CurrentDivisionId.ToString() + "|";
+                    }
 
                     businessentity.DivisionIds = Divisions;
 
                     string Sites = PersonVm.SiteIds ;
                     if (Sites != null)
-                    { Sites = "|" + Sites.Replace(",", "|,|") + "|"; }
+                    { 
+                        Sites = "|" + Sites.Replace(",", "|,|") + "|"; 
+                    }
+                    else
+                    {
+                        Sites = "|" + CurrentSiteId.ToString() + "|";
+                    }
 
                     businessentity.SiteIds = Sites;
 
@@ -481,15 +496,32 @@ namespace Web
                     person.ModifiedBy = User.Identity.Name;
                     new PersonService(_unitOfWork).Update(person);
 
+
+                    int CurrentDivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
+                    int CurrentSiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
+
+
                     string Divisions = PersonVm.DivisionIds;
                     if (Divisions != null)
-                    { Divisions = "|" + Divisions.Replace(",", "|,|") + "|"; }
+                    { 
+                        Divisions = "|" + Divisions.Replace(",", "|,|") + "|"; 
+                    }
+                    else
+                    {
+                        Divisions = "|" + CurrentDivisionId.ToString() + "|";
+                    }
 
                     businessentity.DivisionIds = Divisions;
 
                     string Sites = PersonVm.SiteIds;
                     if (Sites != null)
-                    { Sites = "|" + Sites.Replace(",", "|,|") + "|"; }
+                    { 
+                        Sites = "|" + Sites.Replace(",", "|,|") + "|"; 
+                    }
+                    else
+                    {
+                        Sites = "|" + CurrentSiteId.ToString() + "|";
+                    }
 
                     businessentity.SiteIds = Sites;
 

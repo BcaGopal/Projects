@@ -7,6 +7,7 @@ using Model.Models;
 using System;
 using Microsoft.AspNet.Identity;
 using System.ComponentModel.DataAnnotations.Schema;
+using Model.ViewModel;
 
 namespace Model.ViewModels
 {
@@ -69,5 +70,7 @@ namespace Model.ViewModels
         public Decimal? MBQ { get; set; }
         public Decimal? StdCost { get; set; }
         public Decimal? StdTime { get; set; }
+
+        public ProductTypeSettingsViewModel ProductTypeSettings { get; set; }
     }
 }

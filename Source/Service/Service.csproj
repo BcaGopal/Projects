@@ -116,6 +116,7 @@
     <Compile Include="DocumentTypeSettingsService.cs" />
     <Compile Include="JobReceiveQaLineExtendedService.cs" />
     <Compile Include="PackingLineExtendedService.cs" />
+    <Compile Include="ProductTypeSettingsService.cs" />
     <Compile Include="QAGroupLineService.cs" />
     <Compile Include="QAGroupService.cs" />
     <Compile Include="JobReceiveQaAttributeService.cs" />

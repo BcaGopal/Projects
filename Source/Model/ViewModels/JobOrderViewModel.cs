@@ -53,6 +53,7 @@ namespace Model.ViewModel
         [Range(1, int.MaxValue, ErrorMessage = "The Process field is required")]
         public int ProcessId { get; set; }
         public string ProcessName { get; set; }
+        public string DealUnitId { get; set; }
         public int? CostCenterId { get; set; }
         public string CostCenterName { get; set; }
         public int? MachineId { get; set; }

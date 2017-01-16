@@ -654,7 +654,10 @@ namespace Web
                     {
                         if (Attribute.JobReceiveQAAttributeId != null)
                         {
-                            new JobReceiveQAAttributeService(_unitOfWork).Delete((int)Attribute.JobReceiveQAAttributeId);
+                            //new JobReceiveQAAttributeService(_unitOfWork).Delete((int)Attribute.JobReceiveQAAttributeId);
+                            //JobReceiveQAAttribute Temp = db.JobReceiveQAAttribute.Find(id);
+                            Attribute.ObjectState = Model.ObjectState.Deleted;
+                            db.JobReceiveQAAttribute.Remove(Attribute);
                         }
                     }
 
