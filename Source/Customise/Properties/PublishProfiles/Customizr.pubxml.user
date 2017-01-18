@@ -10,7 +10,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
   </PropertyGroup>
   <ItemGroup>
     <File Include="App_Code/CustomHelpers.cshtml">
-      <publishTime>12/08/2016 10:58:32</publishTime>
+      <publishTime>08/12/2016 10:58:32</publishTime>
     </File>
     <File Include="App_Readme/NProgressjs_LICENSE">
       <publishTime>09/22/2016 10:54:27</publishTime>
@@ -31,25 +31,25 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/22/2016 10:54:21</publishTime>
     </File>
     <File Include="bin/Core.dll">
-      <publishTime>12/27/2016 11:02:23</publishTime>
+      <publishTime>01/17/2017 10:02:58</publishTime>
     </File>
     <File Include="bin/CustomEventHandlers.dll">
-      <publishTime>01/12/2017 17:30:50</publishTime>
+      <publishTime>01/17/2017 10:03:38</publishTime>
     </File>
     <File Include="bin/Customise.dll">
-      <publishTime>01/12/2017 17:32:33</publishTime>
+      <publishTime>01/17/2017 10:03:49</publishTime>
     </File>
     <File Include="bin/Data.dll">
-      <publishTime>01/12/2017 17:30:29</publishTime>
+      <publishTime>01/17/2017 10:03:12</publishTime>
     </File>
     <File Include="bin/DocumentEvents.dll">
-      <publishTime>01/12/2017 17:30:30</publishTime>
+      <publishTime>01/17/2017 10:03:36</publishTime>
     </File>
     <File Include="bin/Elmah.dll">
-      <publishTime>09/22/2016 11:24:00</publishTime>
+      <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="bin/EMailContents.dll">
-      <publishTime>01/12/2017 17:30:48</publishTime>
+      <publishTime>01/17/2017 10:03:37</publishTime>
     </File>
     <File Include="bin/EntityFramework.dll">
       <publishTime>09/22/2016 11:22:43</publishTime>
@@ -64,7 +64,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/22/2016 11:24:54</publishTime>
     </File>
     <File Include="bin/ImageResizer.dll">
-      <publishTime>09/22/2016 11:25:00</publishTime>
+      <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="bin/itextsharp.dll">
       <publishTime>09/22/2016 11:23:54</publishTime>
@@ -73,7 +73,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/22/2016 11:22:41</publishTime>
     </File>
     <File Include="bin/Mailer.dll">
-      <publishTime>01/12/2017 17:30:26</publishTime>
+      <publishTime>01/17/2017 10:03:07</publishTime>
     </File>
     <File Include="bin/Microsoft.AspNet.Identity.Core.dll">
       <publishTime>09/22/2016 11:22:43</publishTime>
@@ -133,34 +133,34 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/22/2016 11:24:56</publishTime>
     </File>
     <File Include="bin/Microsoft.ReportViewer.Common.dll">
-      <publishTime>09/22/2016 11:34:00</publishTime>
+      <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="bin/Microsoft.ReportViewer.ProcessingObjectModel.dll">
-      <publishTime>09/22/2016 11:34:00</publishTime>
+      <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="bin/Microsoft.ReportViewer.WebForms.DLL">
-      <publishTime>10/03/2016 15:20:01</publishTime>
+      <publishTime>03/10/2016 15:20:01</publishTime>
     </File>
     <File Include="bin/Microsoft.Web.Infrastructure.dll">
       <publishTime>09/22/2016 11:23:54</publishTime>
     </File>
     <File Include="bin/Model.dll">
-      <publishTime>01/12/2017 17:30:25</publishTime>
+      <publishTime>01/17/2017 10:03:06</publishTime>
     </File>
     <File Include="bin/Models.Login.dll">
-      <publishTime>01/10/2017 19:07:25</publishTime>
+      <publishTime>01/17/2017 10:03:00</publishTime>
     </File>
     <File Include="bin/Models.Tasks.dll">
-      <publishTime>01/10/2017 19:07:24</publishTime>
+      <publishTime>01/17/2017 10:02:59</publishTime>
     </File>
     <File Include="bin/Newtonsoft.Json.dll">
       <publishTime>09/22/2016 11:23:06</publishTime>
     </File>
     <File Include="bin/NotificationContents.dll">
-      <publishTime>01/12/2017 17:32:29</publishTime>
+      <publishTime>01/17/2017 10:03:39</publishTime>
     </File>
     <File Include="bin/Notifier.dll">
-      <publishTime>01/12/2017 17:30:47</publishTime>
+      <publishTime>01/17/2017 10:03:36</publishTime>
     </File>
     <File Include="bin/Owin.dll">
       <publishTime>09/22/2016 11:22:43</publishTime>
@@ -172,7 +172,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/22/2016 10:54:21</publishTime>
     </File>
     <File Include="bin/Reports.dll">
-      <publishTime>01/12/2017 17:30:52</publishTime>
+      <publishTime>01/17/2017 10:03:44</publishTime>
     </File>
     <File Include="bin/Reports/CompanyDetail.rdlc">
       <publishTime>09/22/2016 10:54:49</publishTime>
@@ -343,7 +343,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/22/2016 11:23:08</publishTime>
     </File>
     <File Include="bin/Service.dll">
-      <publishTime>01/12/2017 17:30:46</publishTime>
+      <publishTime>01/17/2017 10:03:34</publishTime>
     </File>
     <File Include="bin/System.Web.Helpers.dll">
       <publishTime>09/22/2016 11:23:54</publishTime>
@@ -801,6 +801,513 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="Content/Site.css">
       <publishTime>09/22/2016 10:54:28</publishTime>
     </File>
+    <File Include="Content/Slick/css/alertifyjs/alertify.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/alertifyjs/alertify.min.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/alertifyjs/alertify.rtl.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/alertifyjs/alertify.rtl.min.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/alertifyjs/themes/bootstrap.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/alertifyjs/themes/bootstrap.min.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/alertifyjs/themes/bootstrap.rtl.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/alertifyjs/themes/bootstrap.rtl.min.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/alertifyjs/themes/default.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/alertifyjs/themes/default.min.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/alertifyjs/themes/default.rtl.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/alertifyjs/themes/default.rtl.min.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/alertifyjs/themes/semantic.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/alertifyjs/themes/semantic.min.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/alertifyjs/themes/semantic.rtl.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/alertifyjs/themes/semantic.rtl.min.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/animsition.min.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/bootstrap-theme.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/bootstrap-theme.css.map">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/bootstrap-theme.min.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/bootstrap.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/bootstrap.css.map">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/bootstrap.min.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/css/select2-spinner.gif">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/css/select2.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/css/select2.png">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/css/select2x2.png">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/DataTables/css/autoFill.bootstrap.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/DataTables/css/autoFill.bootstrap.min.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/DataTables/css/autoFill.dataTables.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/DataTables/css/autoFill.dataTables.min.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/DataTables/css/autoFill.foundation.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/DataTables/css/autoFill.foundation.min.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/DataTables/css/autoFill.jqueryui.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/DataTables/css/autoFill.jqueryui.min.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/DataTables/css/buttons.bootstrap.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/DataTables/css/buttons.bootstrap.min.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/DataTables/css/buttons.dataTables.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/DataTables/css/buttons.dataTables.min.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/DataTables/css/buttons.foundation.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/DataTables/css/buttons.foundation.min.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/DataTables/css/buttons.jqueryui.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/DataTables/css/buttons.jqueryui.min.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/DataTables/css/colReorder.bootstrap.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/DataTables/css/colReorder.bootstrap.min.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/DataTables/css/colReorder.dataTables.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/DataTables/css/colReorder.dataTables.min.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/DataTables/css/colReorder.foundation.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/DataTables/css/colReorder.foundation.min.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/DataTables/css/colReorder.jqueryui.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/DataTables/css/colReorder.jqueryui.min.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/DataTables/css/common.scss">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/DataTables/css/dataTables.bootstrap.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/DataTables/css/dataTables.bootstrap.min.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/DataTables/css/dataTables.foundation.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/DataTables/css/dataTables.foundation.min.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/DataTables/css/dataTables.jqueryui.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/DataTables/css/dataTables.jqueryui.min.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/DataTables/css/fixedColumns.bootstrap.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/DataTables/css/fixedColumns.bootstrap.min.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/DataTables/css/fixedColumns.dataTables.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/DataTables/css/fixedColumns.dataTables.min.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/DataTables/css/fixedColumns.foundation.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/DataTables/css/fixedColumns.foundation.min.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/DataTables/css/fixedColumns.jqueryui.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/DataTables/css/fixedColumns.jqueryui.min.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/DataTables/css/fixedHeader.bootstrap.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/DataTables/css/fixedHeader.bootstrap.min.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/DataTables/css/fixedHeader.dataTables.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/DataTables/css/fixedHeader.dataTables.min.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/DataTables/css/fixedHeader.foundation.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/DataTables/css/fixedHeader.foundation.min.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/DataTables/css/fixedHeader.jqueryui.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/DataTables/css/fixedHeader.jqueryui.min.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/DataTables/css/jquery.dataTables.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/DataTables/css/jquery.dataTables.min.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/DataTables/css/jquery.dataTables_themeroller.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/DataTables/css/keyTable.bootstrap.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/DataTables/css/keyTable.bootstrap.min.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/DataTables/css/keyTable.dataTables.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/DataTables/css/keyTable.dataTables.min.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/DataTables/css/keyTable.foundation.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/DataTables/css/keyTable.foundation.min.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/DataTables/css/keyTable.jqueryui.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/DataTables/css/keyTable.jqueryui.min.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/DataTables/css/mixins.scss">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/DataTables/css/responsive.bootstrap.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/DataTables/css/responsive.bootstrap.min.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/DataTables/css/responsive.dataTables.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/DataTables/css/responsive.dataTables.min.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/DataTables/css/responsive.foundation.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/DataTables/css/responsive.foundation.min.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/DataTables/css/responsive.jqueryui.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/DataTables/css/responsive.jqueryui.min.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/DataTables/css/rowReorder.bootstrap.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/DataTables/css/rowReorder.bootstrap.min.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/DataTables/css/rowReorder.dataTables.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/DataTables/css/rowReorder.dataTables.min.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/DataTables/css/rowReorder.foundation.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/DataTables/css/rowReorder.foundation.min.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/DataTables/css/rowReorder.jqueryui.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/DataTables/css/rowReorder.jqueryui.min.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/DataTables/css/scroller.bootstrap.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/DataTables/css/scroller.bootstrap.min.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/DataTables/css/scroller.dataTables.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/DataTables/css/scroller.dataTables.min.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/DataTables/css/scroller.foundation.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/DataTables/css/scroller.foundation.min.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/DataTables/css/scroller.jqueryui.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/DataTables/css/scroller.jqueryui.min.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/DataTables/css/select.bootstrap.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/DataTables/css/select.bootstrap.min.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/DataTables/css/select.dataTables.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/DataTables/css/select.dataTables.min.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/DataTables/css/select.foundation.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/DataTables/css/select.foundation.min.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/DataTables/css/select.jqueryui.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/DataTables/css/select.jqueryui.min.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/DataTables/images/background.png">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/DataTables/images/back_disabled.png">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/DataTables/images/back_enabled.png">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/DataTables/images/back_enabled_hover.png">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/DataTables/images/collection.png">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/DataTables/images/collection_hover.png">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/DataTables/images/copy.png">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/DataTables/images/copy_hover.png">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/DataTables/images/csv.png">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/DataTables/images/csv_hover.png">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/DataTables/images/details_close.png">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/DataTables/images/details_open.png">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/DataTables/images/filler.png">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/DataTables/images/forward_disabled.png">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/DataTables/images/forward_enabled.png">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/DataTables/images/forward_enabled_hover.png">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/DataTables/images/insert.png">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/DataTables/images/loading-background.png">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/DataTables/images/pdf.png">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/DataTables/images/pdf_hover.png">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/DataTables/images/print.png">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/DataTables/images/print_hover.png">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/DataTables/images/sort_asc.png">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/DataTables/images/sort_asc_disabled.png">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/DataTables/images/sort_both.png">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/DataTables/images/sort_desc.png">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/DataTables/images/sort_desc_disabled.png">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/DataTables/images/xls.png">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/DataTables/images/xls_hover.png">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/DataTables/swf/flashExport.swf">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/fileinput.min.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/Gridmvc.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/gridmvc.datepicker.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/jasny/jasny-bootstrap.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/jasny/jasny-bootstrap.css.map">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/jasny/jasny-bootstrap.min.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/jquery.ui.theme.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/ModalImage.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/Notification.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/nprogress.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/ProjLib.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/Site.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/smoothness/accordion.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/smoothness/all.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/smoothness/autocomplete.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/smoothness/base.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/smoothness/button.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/smoothness/core.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/smoothness/datepicker.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/smoothness/dialog.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/smoothness/draggable.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
     <File Include="Content/Slick/css/smoothness/images/ui-bg_flat_0_aaaaaa_40x100.png">
       <publishTime>09/22/2016 10:54:28</publishTime>
     </File>
@@ -841,6 +1348,138 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/22/2016 10:54:28</publishTime>
     </File>
     <File Include="Content/Slick/css/smoothness/jquery-ui-1.8.16.custom.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/smoothness/menu.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/smoothness/progressbar.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/smoothness/resizable.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/smoothness/selectable.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/smoothness/selectmenu.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/smoothness/slider.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/smoothness/sortable.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/smoothness/spinner.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/smoothness/tabs.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/smoothness/theme.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/smoothness/tooltip.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/themes/base/accordion.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/themes/base/all.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/themes/base/autocomplete.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/themes/base/base.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/themes/base/button.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/themes/base/core.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/themes/base/datepicker.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/themes/base/dialog.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/themes/base/draggable.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/themes/base/images/ui-bg_flat_0_aaaaaa_40x100.png">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/themes/base/images/ui-bg_flat_75_ffffff_40x100.png">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/themes/base/images/ui-bg_glass_55_fbf9ee_1x400.png">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/themes/base/images/ui-bg_glass_65_ffffff_1x400.png">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/themes/base/images/ui-bg_glass_75_dadada_1x400.png">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/themes/base/images/ui-bg_glass_75_e6e6e6_1x400.png">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/themes/base/images/ui-bg_glass_95_fef1ec_1x400.png">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/themes/base/images/ui-bg_highlight-soft_75_cccccc_1x100.png">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/themes/base/images/ui-icons_222222_256x240.png">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/themes/base/images/ui-icons_2e83ff_256x240.png">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/themes/base/images/ui-icons_454545_256x240.png">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/themes/base/images/ui-icons_888888_256x240.png">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/themes/base/images/ui-icons_cd0a0a_256x240.png">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/themes/base/menu.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/themes/base/progressbar.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/themes/base/resizable.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/themes/base/selectable.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/themes/base/selectmenu.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/themes/base/slider.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/themes/base/sortable.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/themes/base/spinner.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/themes/base/tabs.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/themes/base/theme.css">
+      <publishTime>09/22/2016 10:54:28</publishTime>
+    </File>
+    <File Include="Content/Slick/css/themes/base/tooltip.css">
       <publishTime>09/22/2016 10:54:28</publishTime>
     </File>
     <File Include="Content/Slick/slick-default-theme.css">
@@ -1009,7 +1648,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/22/2016 10:54:29</publishTime>
     </File>
     <File Include="packages.config">
-      <publishTime>10/03/2016 15:20:02</publishTime>
+      <publishTime>03/10/2016 15:20:02</publishTime>
     </File>
     <File Include="Scripts/alertify.js">
       <publishTime>09/22/2016 10:54:29</publishTime>
@@ -1321,13 +1960,13 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/22/2016 10:54:29</publishTime>
     </File>
     <File Include="Scripts/gridmvc.js">
-      <publishTime>12/07/2016 17:34:17</publishTime>
+      <publishTime>07/12/2016 17:34:17</publishTime>
     </File>
     <File Include="Scripts/gridmvc.lang.ru.js">
       <publishTime>09/22/2016 10:54:29</publishTime>
     </File>
     <File Include="Scripts/gridmvc.min.js">
-      <publishTime>12/07/2016 17:34:17</publishTime>
+      <publishTime>07/12/2016 17:34:17</publishTime>
     </File>
     <File Include="Scripts/Jasny/jasny-bootstrap.js">
       <publishTime>09/22/2016 10:54:29</publishTime>
@@ -1461,6 +2100,9 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="Scripts/Slick/slick.dataview.js">
       <publishTime>09/22/2016 10:54:29</publishTime>
     </File>
+    <File Include="Scripts/Slick/slick.editors.js">
+      <publishTime>09/22/2016 10:54:23</publishTime>
+    </File>
     <File Include="Scripts/Slick/slick.grid.js">
       <publishTime>09/22/2016 10:54:29</publishTime>
     </File>
@@ -1510,7 +2152,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>12/27/2016 20:16:52</publishTime>
     </File>
     <File Include="Views/CarpetMaster/EditProductProcess.cshtml">
-      <publishTime>12/06/2016 10:27:03</publishTime>
+      <publishTime>06/12/2016 10:27:03</publishTime>
     </File>
     <File Include="Views/CarpetMaster/EditSize.cshtml">
       <publishTime>12/27/2016 20:16:33</publishTime>
@@ -1546,7 +2188,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/22/2016 10:54:29</publishTime>
     </File>
     <File Include="Views/CustomDetail/Create.cshtml">
-      <publishTime>11/04/2016 17:03:49</publishTime>
+      <publishTime>04/11/2016 17:03:49</publishTime>
     </File>
     <File Include="Views/CustomDetail/Detail.cshtml">
       <publishTime>09/22/2016 10:54:29</publishTime>
@@ -1558,7 +2200,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/22/2016 10:54:29</publishTime>
     </File>
     <File Include="Views/DeliveryTerms/Create.cshtml">
-      <publishTime>11/09/2016 15:01:04</publishTime>
+      <publishTime>09/11/2016 15:01:04</publishTime>
     </File>
     <File Include="Views/DeliveryTerms/Index.cshtml">
       <publishTime>09/22/2016 10:54:29</publishTime>
@@ -1567,7 +2209,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/22/2016 10:54:29</publishTime>
     </File>
     <File Include="Views/DescriptionOfGoods/Create.cshtml">
-      <publishTime>11/09/2016 15:01:04</publishTime>
+      <publishTime>09/11/2016 15:01:04</publishTime>
     </File>
     <File Include="Views/DescriptionOfGoods/Index.cshtml">
       <publishTime>09/22/2016 10:54:29</publishTime>
@@ -1582,7 +2224,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>10/12/2016 17:43:28</publishTime>
     </File>
     <File Include="Views/DesignColourConsumptionHeader/Create.cshtml">
-      <publishTime>12/09/2016 12:03:39</publishTime>
+      <publishTime>09/12/2016 12:03:39</publishTime>
     </File>
     <File Include="Views/DesignColourConsumptionHeader/Index.cshtml">
       <publishTime>11/11/2016 17:16:10</publishTime>
@@ -1597,7 +2239,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/22/2016 10:54:30</publishTime>
     </File>
     <File Include="Views/DesignConsumptionHeader/Create.cshtml">
-      <publishTime>12/09/2016 12:15:10</publishTime>
+      <publishTime>09/12/2016 12:15:10</publishTime>
     </File>
     <File Include="Views/DesignConsumptionHeader/Index.cshtml">
       <publishTime>11/30/2016 15:43:56</publishTime>
@@ -1609,7 +2251,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/04/2017 13:25:15</publishTime>
     </File>
     <File Include="Views/DesignConsumptionLine/_EditWithSKU.cshtml">
-      <publishTime>11/08/2016 12:33:01</publishTime>
+      <publishTime>08/11/2016 12:33:01</publishTime>
     </File>
     <File Include="Views/DesignProductRateGroupWizard/DesignProductRateGroup.cshtml">
       <publishTime>11/15/2016 13:44:26</publishTime>
@@ -1696,7 +2338,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/22/2016 14:32:13</publishTime>
     </File>
     <File Include="Views/FeetConversionToCms/_Reason.cshtml">
-      <publishTime>11/04/2016 16:15:10</publishTime>
+      <publishTime>04/11/2016 16:15:10</publishTime>
     </File>
     <File Include="Views/FinishedProduct/Create.cshtml">
       <publishTime>11/23/2016 14:43:49</publishTime>
@@ -1849,7 +2491,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/22/2016 10:54:31</publishTime>
     </File>
     <File Include="Views/PackingHeaderWithBuyerDetail/Create.cshtml">
-      <publishTime>12/30/2016 14:21:24</publishTime>
+      <publishTime>01/13/2017 14:05:29</publishTime>
     </File>
     <File Include="Views/PackingHeaderWithBuyerDetail/Index.cshtml">
       <publishTime>12/29/2016 18:30:30</publishTime>
@@ -1948,13 +2590,13 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/22/2016 10:54:31</publishTime>
     </File>
     <File Include="Views/ProductBuyerSettings/Create.cshtml">
-      <publishTime>12/08/2016 15:58:34</publishTime>
+      <publishTime>08/12/2016 15:58:34</publishTime>
     </File>
     <File Include="Views/ProductCategory/Create.cshtml">
       <publishTime>11/30/2016 15:43:56</publishTime>
     </File>
     <File Include="Views/ProductCategory/Index.cshtml">
-      <publishTime>12/06/2016 18:41:58</publishTime>
+      <publishTime>06/12/2016 18:41:58</publishTime>
     </File>
     <File Include="Views/ProductCategory/ProductTypeIndex.cshtml">
       <publishTime>09/22/2016 10:54:31</publishTime>
@@ -1963,13 +2605,13 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/22/2016 10:54:31</publishTime>
     </File>
     <File Include="Views/ProductCategoryProcessSettings/Create.cshtml">
-      <publishTime>12/07/2016 10:30:12</publishTime>
+      <publishTime>07/12/2016 10:30:12</publishTime>
     </File>
     <File Include="Views/ProductCategoryProcessSettings/Index.cshtml">
-      <publishTime>12/07/2016 10:16:04</publishTime>
+      <publishTime>07/12/2016 10:16:04</publishTime>
     </File>
     <File Include="Views/ProductCategoryProcessSettings/_Reason.cshtml">
-      <publishTime>12/07/2016 10:18:10</publishTime>
+      <publishTime>07/12/2016 10:18:10</publishTime>
     </File>
     <File Include="Views/ProductCategorySettings/Create.cshtml">
       <publishTime>11/30/2016 15:43:56</publishTime>
@@ -2005,7 +2647,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/22/2016 10:54:31</publishTime>
     </File>
     <File Include="Views/ProductConsumptionHeader/Create.cshtml">
-      <publishTime>12/09/2016 12:03:14</publishTime>
+      <publishTime>09/12/2016 12:03:14</publishTime>
     </File>
     <File Include="Views/ProductConsumptionHeader/Index.cshtml">
       <publishTime>11/30/2016 15:43:56</publishTime>
@@ -2239,7 +2881,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/22/2016 10:54:32</publishTime>
     </File>
     <File Include="Views/Reason/Create.cshtml">
-      <publishTime>11/09/2016 15:01:04</publishTime>
+      <publishTime>09/11/2016 15:01:04</publishTime>
     </File>
     <File Include="Views/Reason/Index.cshtml">
       <publishTime>09/22/2016 10:54:32</publishTime>
@@ -2419,7 +3061,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/22/2016 10:54:32</publishTime>
     </File>
     <File Include="Views/SaleInvoiceHeader/Create.cshtml">
-      <publishTime>11/30/2016 15:43:56</publishTime>
+      <publishTime>01/13/2017 12:20:11</publishTime>
     </File>
     <File Include="Views/SaleInvoiceHeader/Detail.cshtml">
       <publishTime>09/22/2016 10:54:32</publishTime>
@@ -2440,7 +3082,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/22/2016 10:54:32</publishTime>
     </File>
     <File Include="Views/SaleInvoiceLine/UpdateRates.cshtml">
-      <publishTime>09/22/2016 10:54:32</publishTime>
+      <publishTime>01/13/2017 10:25:57</publishTime>
     </File>
     <File Include="Views/SaleInvoiceLine/_Create.cshtml">
       <publishTime>09/22/2016 10:54:32</publishTime>
@@ -2488,7 +3130,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/22/2016 10:54:32</publishTime>
     </File>
     <File Include="Views/Shared/UnderImplementation.cshtml">
-      <publishTime>12/08/2016 10:29:53</publishTime>
+      <publishTime>08/12/2016 10:29:53</publishTime>
     </File>
     <File Include="Views/Shared/_Flash.cshtml">
       <publishTime>09/22/2016 10:54:32</publishTime>
@@ -2500,7 +3142,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/22/2016 10:54:32</publishTime>
     </File>
     <File Include="Views/Shared/_Layout.cshtml">
-      <publishTime>01/06/2017 11:11:55</publishTime>
+      <publishTime>01/13/2017 12:06:52</publishTime>
     </File>
     <File Include="Views/Shared/_LoginPartial.cshtml">
       <publishTime>09/22/2016 10:54:32</publishTime>
@@ -2509,7 +3151,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/22/2016 10:54:32</publishTime>
     </File>
     <File Include="Views/ShipMethod/Create.cshtml">
-      <publishTime>11/09/2016 15:01:04</publishTime>
+      <publishTime>09/11/2016 15:01:04</publishTime>
     </File>
     <File Include="Views/ShipMethod/Index.cshtml">
       <publishTime>09/22/2016 10:54:32</publishTime>
@@ -2518,7 +3160,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/22/2016 10:54:32</publishTime>
     </File>
     <File Include="Views/Size/Create.cshtml">
-      <publishTime>12/06/2016 12:31:38</publishTime>
+      <publishTime>06/12/2016 12:31:38</publishTime>
     </File>
     <File Include="Views/Size/Index.cshtml">
       <publishTime>11/30/2016 15:43:56</publishTime>
@@ -2557,7 +3199,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/22/2016 10:54:32</publishTime>
     </File>
     <File Include="Views/Transporter/Create.cshtml">
-      <publishTime>11/09/2016 15:01:04</publishTime>
+      <publishTime>09/11/2016 15:01:04</publishTime>
     </File>
     <File Include="Views/Transporter/Index.cshtml">
       <publishTime>09/22/2016 10:54:32</publishTime>
@@ -2602,7 +3244,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/18/2016 13:32:08</publishTime>
     </File>
     <File Include="Views/WeavingOrderWizard/CreateWeavingOrder.cshtml">
-      <publishTime>12/07/2016 14:04:50</publishTime>
+      <publishTime>07/12/2016 14:04:50</publishTime>
     </File>
     <File Include="Views/WeavingOrderWizardHandloom/BarCodeSequence.cshtml">
       <publishTime>09/22/2016 10:54:32</publishTime>
@@ -2659,7 +3301,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>12/14/2016 13:22:52</publishTime>
     </File>
     <File Include="Views/WeavingReceiveWizard/CreateWeavingReceive.cshtml">
-      <publishTime>12/06/2016 17:10:06</publishTime>
+      <publishTime>06/12/2016 17:10:06</publishTime>
     </File>
     <File Include="Views/Web.config">
       <publishTime>09/22/2016 10:54:32</publishTime>

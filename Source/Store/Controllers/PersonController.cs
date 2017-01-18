@@ -295,6 +295,19 @@ namespace Web
                     account.ObjectState = Model.ObjectState.Added;
                     _AccountService.Create(account);
 
+                    if (settings.DefaultProcessId != null && settings.DefaultProcessId != 0)
+                    {
+                        PersonProcess personprocess = new PersonProcess();
+                        personprocess.PersonId = person.PersonID;
+                        personprocess.ProcessId = (int)settings.DefaultProcessId;
+                        personprocess.CreatedDate = DateTime.Now;
+                        personprocess.ModifiedDate = DateTime.Now;
+                        personprocess.CreatedBy = User.Identity.Name;
+                        personprocess.ModifiedBy = User.Identity.Name;
+                        personprocess.ObjectState = Model.ObjectState.Added;
+                        _PersonProcessService.Create(personprocess);
+                    }
+
                     //if (PersonVm.ProcessIds != null &&  PersonVm.ProcessIds != "")
                     //{
                     //    ProcessIdArr = PersonVm.ProcessIds.Split(new Char[] { ',' });
@@ -554,6 +567,25 @@ namespace Web
                         ExObj = ExRecLA,
                         Obj = account,
                     });
+
+
+                    if (settings.DefaultProcessId != null && settings.DefaultProcessId != 0)
+                    {
+                        var temp = (from p in db.PersonProcess where p.PersonId == person.PersonID && p.ProcessId == settings.DefaultProcessId select p).FirstOrDefault();
+
+                        if (temp != null)
+                        {
+                            PersonProcess personprocess = new PersonProcess();
+                            personprocess.PersonId = person.PersonID;
+                            personprocess.ProcessId = (int)settings.DefaultProcessId;
+                            personprocess.CreatedDate = DateTime.Now;
+                            personprocess.ModifiedDate = DateTime.Now;
+                            personprocess.CreatedBy = User.Identity.Name;
+                            personprocess.ModifiedBy = User.Identity.Name;
+                            personprocess.ObjectState = Model.ObjectState.Added;
+                            _PersonProcessService.Create(personprocess);
+                        }
+                    }
 
                     //if (PersonVm.ProcessIds != "" && PersonVm.ProcessIds != null)
                     //{

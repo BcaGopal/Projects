@@ -53,7 +53,7 @@
                     @Html.ActionLink(" ", "MaterialIndex", "Product", new { id = ViewBag.id }, new { @class = "glyphicon glyphicon-list toolbar right", @title = "List", @data_toggle = "tooltip" })
                 </h4>*@
                 <div class="btn-group">
-                    @Html.ActionLink(" ", "CreateMaterial", "Product", new { id = ViewBag.id }, new { @class = "cbtn btn-circle glyphicon glyphicon-plus toolbar", @title = "Add New", @data_toggle = "tooltip" })
+                    @Html.ActionLink(" ", "ChooseType", "Product", new { id = @ViewBag.id }, new { @class = "cbtn btn-circle glyphicon glyphicon-plus toolbar", @title = "Add New", @data_toggle = "tooltip", @data_modal = "" })
                     @Html.ActionLink(" ", "History", "Product", null, new { @class = "cbtn btn-circle glyphicon glyphicon-user toolbar", @title = "History", @data_toggle = "tooltip" })
                     @Html.ActionLink(" ", "PrevPageMaterial", "Product", new { id = @Model.ProductId, nid = @Model.ProductGroupId }, new { @class = "cbtn btn-circle glyphicon glyphicon-arrow-left toolbar", @title = "Prev Record", @data_toggle = "tooltip" })
                     @Html.ActionLink(" ", "NextPageMaterial", "Product", new { id = @Model.ProductId, nid = @Model.ProductGroupId }, new { @class = "cbtn btn-circle glyphicon glyphicon-arrow-right toolbar", @title = "Next Record", @data_toggle = "tooltip" })

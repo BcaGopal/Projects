@@ -176,6 +176,7 @@ namespace Web
                     temp.isMandatoryGuarantor = pt.isMandatoryGuarantor;
                     temp.isMandatorySalesTaxGroup = pt.isMandatorySalesTaxGroup;
                     temp.LedgerAccountGroupId = pt.LedgerAccountGroupId;
+                    temp.DefaultProcessId = pt.DefaultProcessId;
                     temp.ModifiedDate = DateTime.Now;
                     temp.ModifiedBy = User.Identity.Name;
                     temp.ObjectState = Model.ObjectState.Modified;

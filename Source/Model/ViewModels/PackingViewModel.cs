@@ -40,7 +40,7 @@ namespace Model.ViewModels
         public string BuyerName { get; set; }
 
         [Display(Name = "Job Worker")]
-        public int JobWorkerId { get; set; }
+        public int? JobWorkerId { get; set; }
         [Display(Name = "Job Worker")]
         public string JobWorkerName { get; set; }
 

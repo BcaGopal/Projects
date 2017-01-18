@@ -58,7 +58,10 @@ namespace Model.ViewModel
 
 
         public int LedgerAccountGroupId { get; set; }
-        public string LedgerAccountGroupName { get; set; }      
+        public string LedgerAccountGroupName { get; set; }
+
+        public int? DefaultProcessId { get; set; }
+        public string DefaultProcessName { get; set; }      
 
     }
 }

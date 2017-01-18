@@ -121,7 +121,7 @@ namespace Web
 
 
 
-                    return RedirectToAction("Index", "ProductType", new { id = vm.ProductTypeId }).Success("Data saved successfully");
+                    return RedirectToAction("MaterialIndex", "Product", new { id = vm.ProductTypeId }).Success("Data saved successfully");
                 }
                 else
                 {
@@ -185,7 +185,7 @@ namespace Web
                         xEModifications = Modifications,
                     }));
 
-                    return RedirectToAction("Index", "ProductType", new { id = vm.ProductTypeId }).Success("Data saved successfully");
+                    return RedirectToAction("MaterialIndex", "Product", new { id = vm.ProductTypeId }).Success("Data saved successfully");
 
                 }
 

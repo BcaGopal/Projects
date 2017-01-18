@@ -193,6 +193,7 @@
     <Compile Include="Models\CarpetSkuSettings.cs" />
     <Compile Include="Models\Shift.cs" />
     <Compile Include="Models\SubReport.cs" />
+    <Compile Include="ViewModels\CopyProductViewModel.cs" />
     <Compile Include="ViewModels\DocumentTypeSettingsViewModel.cs" />
     <Compile Include="ViewModels\GatePassHeaderViewModel.cs" />
     <Compile Include="ViewModels\ProductTypeSettingsViewModel.cs" />
