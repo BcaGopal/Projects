@@ -3171,6 +3171,11 @@ namespace Web
             return new JsonpResult { Data = _JobReceiveLineService.GetPendingProductsForJobReceive(searchTerm, pageSize, pageNum, filter), JsonRequestBehavior = JsonRequestBehavior.AllowGet };
         }
 
+        public ActionResult GetPendingJobOrderProductGroups(string searchTerm, int pageSize, int pageNum, int filter)//DocTypeId
+        {
+            return new JsonpResult { Data = _JobReceiveLineService.GetPendingProductGroupsForJobReceive(searchTerm, pageSize, pageNum, filter), JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+        }
+
         public JsonResult GetPendingJobOrders(string searchTerm, int pageSize, int pageNum, int filter)//DocTypeId
         {
             return new JsonpResult { Data = _JobReceiveLineService.GetPendingJobOrders(searchTerm, pageSize, pageNum, filter), JsonRequestBehavior = JsonRequestBehavior.AllowGet };

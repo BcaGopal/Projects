@@ -48,6 +48,7 @@
     @Html.HiddenFor(m => m.ProductUidId)
     @Html.HiddenFor(m => m.UnitDecimalPlaces)
     @Html.HiddenFor(m => m.DealUnitDecimalPlaces)
+    @Html.HiddenFor(m => m.DimensionUnitDecimalPlaces)
 
     
 
@@ -577,6 +578,7 @@
 
         //Calling the function to load the table data/ Line information
         LoadProducts();
+        RoundDimensions();
 
         //Adding Hidden Input Fields
         AddFields();
@@ -765,6 +767,28 @@
         Calculation();
     });
 
+    $('#Length,#Width,#Height').focusout(function(){
+        RoundDimensions();
+    });
+
+    function RoundDimensions()
+    {
+        if ($('#Length').val() != 0) 
+        {
+            $('#Length').val(parseFloat($('#Length').val()).toFixed($('#DimensionUnitDecimalPlaces').val()));
+        }
+
+        if ($('#Width').val() != 0) 
+        {
+            $('#Width').val(parseFloat($('#Width').val()).toFixed($('#DimensionUnitDecimalPlaces').val()));
+        }
+
+        if ($('#Height').val() != 0) 
+        {
+            $('#Height').val(parseFloat($('#Height').val()).toFixed($('#DimensionUnitDecimalPlaces').val()));
+        }
+    }
+
     $('#InspectedQty,#Qty,#QAQty').focusout(function(){
         ValidateData();
     });
@@ -779,6 +803,7 @@
 
         if($('#PenaltyRate').val() && $('#PenaltyRate').val() >0)
             $('#PenaltyAmt').val(($('#PenaltyRate').val() * parseFloat(($('#QAQty').val()-$('#Qty').val()) * $('#UnitConversionMultiplier').val())).toFixed(2))
+
 
     }
 
@@ -845,25 +870,26 @@
 
     });
 
-
+    var Length = @Model.Length;
+    var Width = @Model.Width;
     function GetUnitConversionMultiplier() {
-        if ($("#Length").val() > 0 && $("#Width").val() > 0) {
-            $.ajax({
-                cache: false,
-                type: "POST",
-                async: false,
-                url: "@(Url.Action("GetUnitConversionMultiplier"))",
-                data: { ProductId: $("#ProductId").val(),Length: $("#Length").val(),Width: $("#Width").val(),Height: $("#Height").val(),ToUnitId: $("#DealUnitId").val()},
-            success: function (data) {
-                if (data) {
-                    $('#UnitConversionMultiplier').val(0);
-                    $('#DealQty').val(data * $("#Qty").val());
+        if ($("#Length").val() > 0 && $("#Width").val() > 0 && ($("#Length").val() != Length || $("#Width").val() != Width)) {
+                $.ajax({
+                    cache: false,
+                    type: "POST",
+                    async: false,
+                    url: "@(Url.Action("GetUnitConversionMultiplier"))",
+                    data: { ProductId: $("#ProductId").val(),Length: $("#Length").val(),Width: $("#Width").val(),Height: $("#Height").val(),ToUnitId: $("#DealUnitId").val()},
+                success: function (data) {
+                    if (data) {
+                        $('#UnitConversionMultiplier').val(0);
+                        $('#DealQty').val(data * $("#Qty").val());
 
+                    }
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert('Failed to retrieve product details.' + thrownError);
                 }
-            },
-            error: function (xhr, ajaxOptions, thrownError) {
-                alert('Failed to retrieve product details.' + thrownError);
-            }
             });
             $('#DealUnitId').attr('readonly', 'true');
             $('#UnitConversionMultiplier').attr('readonly', 'true');
@@ -883,7 +909,7 @@
             cache: false,
             type: "POST",
             url: "@(Url.Action("GetUnitConversionDetailJson"))",
-            data: { ProductId: $("#ProductId").val(), UnitId: $("#UnitId").val(), DeliveryUnitId: $("#DealUnitId").val() },
+            data: { ProductId: $("#ProductId").val(), UnitId: $("#UnitId").val(), DeliveryUnitId: $("#DealUnitId").val(), JobReceiveLineId: $("#JobReceiveLineId").val() },
 
         success: function (data) {
             $("#UnitConversionMultiplier").val(data[0].Value);
@@ -897,6 +923,35 @@
         $('#UnitConversionMultiplier').removeAttr('readonly');
         $('#DealQty').removeAttr('readonly');
     }
-}
+    }
 
+    $("#ProductId").change(function(){
+        Validate_Product();
+    });
+
+    function Validate_Product() {
+        var ProcessProgress = $("#Product detail loading progress");
+        ProcessProgress.show();
+
+        $('button:submit').attr('disabled','disabled');
+
+        if ($("#ProductId").val() != 0 && $("#ProductId").val() != null && $("#ProductId").val() != "") {
+            $.ajax({
+                cache: false,
+                async: false,
+                type: "POST",
+                url: "@(Url.Action("GetProductDetailJson"))",
+                data: { ProductId: $("#ProductId").val() },
+                success: function (data) {
+                    $("#Length").val(data[0].Length);
+                    $("#Width").val(data[0].Width);
+                    $("#Height").val(data[0].Height);
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert('Failed to retrieve Product Detail.' + thrownError);
+                    ProcessProgress.hide();
+                }
+            });
+        }
+    }
 </script>

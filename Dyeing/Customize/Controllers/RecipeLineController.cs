@@ -130,7 +130,7 @@ namespace Customize.Controllers
             if (svm.Qty <= 0)
                 ModelState.AddModelError("Qty", "The Qty is required");
 
-            if (_RecipeLineService.IsDuplicateLine(svm.StockHeaderId,svm.ProductId))
+            if (_RecipeLineService.IsDuplicateLine(svm.StockHeaderId,svm.ProductId, svm.DyeingRatio, svm.StockLineId))
                 ModelState.AddModelError("ProductId", "Product is already entered in recipe.");
 
             ViewBag.Status = temp.Status;

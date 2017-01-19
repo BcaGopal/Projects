@@ -10,7 +10,7 @@
 }
 <!-- modal placeholder-->
 <div id='myModal' class='modal fade in'>
-    <div class="modal-dialog">
+    <div class="modal-dialog  modal-lg">
         <div class="modal-content">
             <div id='myModalContent'></div>
         </div>
@@ -33,7 +33,8 @@
                 @Html.ActionLink(" ", "", "", null, new { @class = "glyphicon glyphicon-export toolbar right", @title = "Export", @data_toggle = "tooltip" })
             </h4>*@
             <div class="btn-group">
-                @Html.ActionLink(" ", "CreateMaterial", "Product", new { id = @ViewBag.id }, new { @class = "cbtn btn-circle glyphicon glyphicon-plus toolbar", @title = "Add New", @data_toggle = "tooltip" })
+                @Html.ActionLink(" ", "ChooseType", "Product", new { id = @ViewBag.id }, new { @class = "cbtn btn-circle glyphicon glyphicon-plus toolbar", @title = "Add New", @data_toggle = "tooltip", @data_modal = "" })
+                @*@Html.ActionLink(" ", "CreateMaterial", "Product", new { id = @ViewBag.id }, new { @class = "cbtn btn-circle glyphicon glyphicon-plus toolbar", @title = "Add New", @data_toggle = "tooltip" })*@
                 @Html.ActionLink(" ", "DeleteMaterial", "Product", null, new { @class = "cbtn btn-circle glyphicon glyphicon-trash toolbar", @title = "Delete", @data_toggle = "tooltip", @id = "DeleteRecord", @data_modalDelete = "" })
 
             </div>
@@ -41,6 +42,8 @@
                 <a class="cbtn btn-circle glyphicon glyphicon-option-horizontal dropdown-toggle" aria-expanded="false" style="padding-top: 6px;padding-bottom: 6px;" href="#" data-toggle="dropdown" id="dropdownMenu1">
                 </a>
                 <ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu1">
+                    <li><a href="@Url.Action("Create", "ProductTypeSettings", new { @id = @ViewBag.id })"><span class="glyphicon glyphicon-cog"> </span>&nbsp;&nbsp;Settings</a></li>
+                    <li role="separator" class="divider"></li>
                     <li><a href="@Url.Action("Report", "Product")"><span class="glyphicon glyphicon-stats"> </span> Report</a></li>
                 </ul>
             </div>
@@ -90,4 +93,9 @@
     //    $("#Reason").focus();
     //});
 
+
+    $(document).ready(function () {
+        //Calling the function to load the table data/ Line information
+        enableModalTransitions();
+    });
 </script>

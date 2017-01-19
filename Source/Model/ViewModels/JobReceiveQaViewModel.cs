@@ -261,6 +261,8 @@ namespace Model.ViewModel
         public Decimal? Length { get; set; }
         public Decimal? Width { get; set; }
         public Decimal? Height { get; set; }
+
+        public int? DimensionUnitDecimalPlaces { get; set; }
         public string OMSId { get; set; }
 
     }

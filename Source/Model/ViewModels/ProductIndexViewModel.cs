@@ -7,6 +7,7 @@ using Model.Models;
 using System;
 using Microsoft.AspNet.Identity;
 using System.ComponentModel.DataAnnotations.Schema;
+using Model.ViewModel;
 
 namespace Model.ViewModels
 {
@@ -241,5 +242,6 @@ namespace Model.ViewModels
         public Boolean LotManagement { get; set; }
         public int ProductSiteDetailId { get; set; }
         public int ? ReferenceDocId { get; set; }
+        public ProductTypeSettingsViewModel ProductTypeSettings { get; set; }
     }
 }

@@ -42,5 +42,7 @@ namespace Model.ViewModels
         public decimal Qty { get; set; }
 
         public string UnitName { get; set; }
+
+        public string ProcessName { get; set; }
     }
 }

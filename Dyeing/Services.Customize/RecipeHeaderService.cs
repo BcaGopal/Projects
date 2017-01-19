@@ -381,7 +381,7 @@ namespace Services.Customize
             StockViewModel.SiteId = s.SiteId;
             StockViewModel.CurrencyId = null;
             StockViewModel.HeaderProcessId = null;
-            StockViewModel.PersonId = s.JobWorkerId;
+            StockViewModel.PersonId = vmRecipeHeader.PersonId;
             StockViewModel.ProductId = vmRecipeHeader.ProductId;
             StockViewModel.HeaderFromGodownId = null;
             StockViewModel.HeaderGodownId = vmRecipeHeader.GodownId;
@@ -394,7 +394,7 @@ namespace Services.Customize
             StockViewModel.Rate = 0;
             StockViewModel.ExpiryDate = null;
             StockViewModel.Specification = null;
-            if (D.DocumentTypeName == "RCPQC" || D.DocumentTypeName == "SRCPE")
+            if (D.DocumentTypeShortName == "RCPQC" || D.DocumentTypeShortName == "SRCPE" || D.DocumentTypeShortName == "RDRCP")
             {
                 StockViewModel.Dimension1Id = vmRecipeHeader.Dimension1Id;
                 StockViewModel.Dimension2Id = vmRecipeHeader.Dimension2Id;
@@ -428,7 +428,7 @@ namespace Services.Customize
             StockProcessViewModel.SiteId = s.SiteId;
             StockProcessViewModel.CurrencyId = null;
             StockProcessViewModel.HeaderProcessId = null;
-            StockProcessViewModel.PersonId = s.JobWorkerId;
+            StockProcessViewModel.PersonId = vmRecipeHeader.PersonId;
             StockProcessViewModel.ProductId = vmRecipeHeader.ProductId;
             StockProcessViewModel.HeaderFromGodownId = null;
             StockProcessViewModel.HeaderGodownId = vmRecipeHeader.GodownId;
@@ -666,7 +666,7 @@ namespace Services.Customize
                 StockViewModel.SiteId = temp.SiteId;
                 StockViewModel.CurrencyId = null;
                 StockViewModel.HeaderProcessId = temp.ProcessId;
-                StockViewModel.PersonId = temp.JobWorkerId;
+                StockViewModel.PersonId = vmRecipeHeader.PersonId;
                 StockViewModel.ProductId = line.ProductId;
                 StockViewModel.HeaderFromGodownId = null;
                 StockViewModel.HeaderGodownId = temp.GodownId;
@@ -679,7 +679,7 @@ namespace Services.Customize
                 StockViewModel.Rate = line.Rate;
                 StockViewModel.ExpiryDate = null;
                 StockViewModel.Specification = line.Specification;
-                if (D.DocumentTypeName == "RCPQC" || D.DocumentTypeName == "SRCPE")
+                if (D.DocumentTypeShortName == "RCPQC" || D.DocumentTypeShortName == "SRCPE" || D.DocumentTypeShortName == "RDRCP")
                 {
                     StockViewModel.Dimension1Id = vmRecipeHeader.Dimension1Id;
                     StockViewModel.Dimension2Id = vmRecipeHeader.Dimension2Id;
@@ -712,7 +712,7 @@ namespace Services.Customize
                 StockProcessViewModel.SiteId = temp.SiteId;
                 StockProcessViewModel.CurrencyId = null;
                 StockProcessViewModel.HeaderProcessId = temp.ProcessId;
-                StockProcessViewModel.PersonId = temp.JobWorkerId;
+                StockProcessViewModel.PersonId = vmRecipeHeader.PersonId;
                 StockProcessViewModel.ProductId = line.ProductId;
                 StockProcessViewModel.HeaderFromGodownId = null;
                 StockProcessViewModel.HeaderGodownId = temp.GodownId;
@@ -1199,8 +1199,15 @@ namespace Services.Customize
         public IQueryable<ComboBoxResult> GetProdOrderHelpListForProduct(int filter, string term)
         {
 
+            int DocTypeId = filter;
             int CurrentSiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
             int CurrentDivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
+
+            var Settings = new JobOrderSettingsService(_unitOfWork).GetJobOrderSettingsForDocument(DocTypeId, CurrentDivisionId, CurrentSiteId);
+
+            string[] ContraDocTypes = null;
+            if (!string.IsNullOrEmpty(Settings.filterContraDocTypes)) { ContraDocTypes = Settings.filterContraDocTypes.Split(",".ToCharArray()); }
+            else { ContraDocTypes = new string[] { "NA" }; }
 
 
             var list = (from p in _unitOfWork.Repository<ViewProdOrderBalance>().Instance
@@ -1215,6 +1222,7 @@ namespace Services.Customize
                         where (string.IsNullOrEmpty(term) ? 1 == 1 : p.ProdOrderNo.ToLower().Contains(term.ToLower())
                         || string.IsNullOrEmpty(term) ? 1 == 1 : Dimension1Tab.Dimension1Name.ToLower().Contains(term.ToLower())
                         || string.IsNullOrEmpty(term) ? 1 == 1 : Dimension2Tab.Dimension2Name.ToLower().Contains(term.ToLower()))
+                        && (string.IsNullOrEmpty(Settings.filterContraDocTypes) ? 1 == 1 : ContraDocTypes.Contains(p.DocTypeId.ToString()))
                         && p.SiteId == CurrentSiteId
                         && p.DivisionId == CurrentDivisionId
                         orderby t.DocDate, t.DocNo

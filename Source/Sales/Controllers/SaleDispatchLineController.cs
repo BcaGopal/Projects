@@ -1269,9 +1269,9 @@ namespace Web
             };
         }
 
-        public ActionResult GetSaleOrderForProduct(string searchTerm, int pageSize, int pageNum, int PersonId)//DocTypeId
+        public ActionResult GetSaleOrderForProduct(string searchTerm, int pageSize, int pageNum, int filter)//DocTypeId
         {
-            var Query = _SaleDispatchLineService.GetSaleOrderHelpListForProduct(PersonId, searchTerm);
+            var Query = _SaleDispatchLineService.GetSaleOrderHelpListForProduct(filter, searchTerm);
             var temp = Query.Skip(pageSize * (pageNum - 1))
                 .Take(pageSize)
                 .ToList();

@@ -47,6 +47,8 @@ namespace Service
         ComboBoxPagedResult GetProductHelpList(string searchTerm, int pageSize, int pageNum);
 
         Decimal GetUnitConversionMultiplier(Decimal FromQty, string FromUnitId, Decimal Length, Decimal Width, Decimal? Height, string ToUnitId, ApplicationDbContext db);
+
+        ProductDimensions GetProductDimensions(int ProductId, string DealUnitId, int DocTypeId);
     }
 
 
@@ -679,6 +681,16 @@ namespace Service
             }
         }
 
+        public ProductDimensions GetProductDimensions(int ProductId, string DealUnitId, int DocTypeId)
+        {
+            SqlParameter SqlParameterProductId = new SqlParameter("@ProductId", ProductId);
+            SqlParameter SqlParameterDealUnitId = new SqlParameter("@DealUnitId", DealUnitId);
+            SqlParameter SqlParameterDocTypeId = new SqlParameter("@DocTypeId", DocTypeId);
+
+            ProductDimensions ProductDimensions = db.Database.SqlQuery<ProductDimensions>("" + ConfigurationManager.AppSettings["DataBaseSchema"] + ".sp_GetProductDimensions @ProductId, @DealUnitId, @DocTypeId", SqlParameterProductId, SqlParameterDealUnitId, SqlParameterDocTypeId).FirstOrDefault();
+
+            return ProductDimensions;
+        }
     }
 
     public class UnitConversionMultiplier
@@ -692,7 +704,13 @@ namespace Service
         public string ProcessName { get; set; }
     }
 
-
+    public class ProductDimensions
+    {
+        public Decimal? Length { get; set; }
+        public Decimal? Width { get; set; }
+        public Decimal? Height { get; set; }
+        public int? DimensionUnitDecimalPlaces { get; set; }
+    }
 }
 
 
@@ -748,6 +766,7 @@ public class dbProductService : IdbProductService
     public void Dispose()
     {
     }
+
 
 
 }

@@ -681,7 +681,6 @@ namespace Service
 
         public IQueryable<ComboBoxResult> GetPendingProdOrderHelpList(int Id, string term)
         {
-
             var JobOrderHeader = new JobOrderHeaderService(_unitOfWork).Find(Id);
 
             var settings = new JobOrderSettingsService(_unitOfWork).GetJobOrderSettingsForDocument(JobOrderHeader.DocTypeId, JobOrderHeader.DivisionId, JobOrderHeader.SiteId);
@@ -698,24 +697,44 @@ namespace Service
             if (!string.IsNullOrEmpty(settings.filterContraDivisions)) { contraDivisions = settings.filterContraDivisions.Split(",".ToCharArray()); }
             else { contraDivisions = new string[] { "NA" }; }
 
+            string[] ProductTypes = null;
+            if (!string.IsNullOrEmpty(settings.filterProductTypes)) { ProductTypes = settings.filterProductTypes.Split(",".ToCharArray()); }
+            else { ProductTypes = new string[] { "NA" }; }
+
+            string[] ProductDivision = null;
+            if (!string.IsNullOrEmpty(settings.FilterProductDivision)) { ProductDivision = settings.FilterProductDivision.Split(",".ToCharArray()); }
+            else { ProductDivision = new string[] { "NA" }; }
+
+            string[] ProductCategory = null;
+            if (!string.IsNullOrEmpty(settings.filterProductCategories)) { ProductCategory = settings.filterProductCategories.Split(",".ToCharArray()); }
+            else { ProductCategory = new string[] { "NA" }; }
+
             int CurrentSiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
             int CurrentDivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
 
             var list = (from p in db.ViewProdOrderBalance
-                        join t in db.Persons on p.BuyerId  equals t.PersonID into table
+                        join t in db.Persons on p.BuyerId equals t.PersonID into table
                         from tab in table.DefaultIfEmpty()
+                        join Pt in db.Product on p.ProductId equals Pt.ProductId into ProductTable
+                        from ProductTab in ProductTable.DefaultIfEmpty()
+                        join Fp in db.FinishedProduct on p.ProductId equals Fp.ProductId into FinishedProductTable
+                        from FinishedProductTab in FinishedProductTable.DefaultIfEmpty()
                         where (string.IsNullOrEmpty(term) ? 1 == 1 : p.ProdOrderNo.ToLower().Contains(term.ToLower())) && p.BalanceQty > 0
                         && (string.IsNullOrEmpty(settings.filterContraDocTypes) ? 1 == 1 : contraDocTypes.Contains(p.DocTypeId.ToString()))
-                         && (string.IsNullOrEmpty(settings.filterContraSites) ? p.SiteId == CurrentSiteId : contraSites.Contains(p.SiteId.ToString()))
-                    && (string.IsNullOrEmpty(settings.filterContraDivisions) ? p.DivisionId == CurrentDivisionId : contraDivisions.Contains(p.DivisionId.ToString()))
-                        group new { p, tab.Code  } by p.ProdOrderHeaderId into g
+                        && (string.IsNullOrEmpty(settings.filterContraSites) ? p.SiteId == CurrentSiteId : contraSites.Contains(p.SiteId.ToString()))
+                        && (string.IsNullOrEmpty(settings.filterContraDivisions) ? p.DivisionId == CurrentDivisionId : contraDivisions.Contains(p.DivisionId.ToString()))
+                        && (string.IsNullOrEmpty(settings.filterProductTypes) ? 1 == 1 : ProductTypes.Contains(ProductTab.ProductGroup.ProductTypeId.ToString()))
+                        && (string.IsNullOrEmpty(settings.FilterProductDivision) ? 1 == 1 : ProductDivision.Contains(ProductTab.DivisionId.ToString()))
+                        && (string.IsNullOrEmpty(settings.filterProductCategories) ? 1 == 1 : ProductCategory.Contains(FinishedProductTab.ProductCategoryId.ToString()))
+                        group new { p, tab.Code } by p.ProdOrderHeaderId into g
                         orderby g.Max(m => m.p.IndentDate)
                         select new ComboBoxResult
                         {
-                            text = g.Max(m => m.p.DocType.DocumentTypeShortName) + "-" + g.Max(m => m.p.ProdOrderNo) + " {" + g.Max(m => m.Code ) + "}",
+                            text = g.Max(m => m.p.DocType.DocumentTypeShortName) + "-" + g.Max(m => m.p.ProdOrderNo) + " {" + g.Max(m => m.Code) + "}",
                             id = g.Key.ToString(),
-                        }
-                          );
+                        });
+
+            
              
             return list;
         }
