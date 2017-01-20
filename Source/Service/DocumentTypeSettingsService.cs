@@ -66,7 +66,9 @@ namespace Service
                         Dimension2Caption = DocumentTypeSettingsTab.Dimension2Caption,
                         Dimension3Caption = DocumentTypeSettingsTab.Dimension3Caption,
                         Dimension4Caption = DocumentTypeSettingsTab.Dimension4Caption,
-                        ContraDocTypeCaption = DocumentTypeSettingsTab.ContraDocTypeCaption
+                        ContraDocTypeCaption = DocumentTypeSettingsTab.ContraDocTypeCaption,
+                        DealQtyCaption = DocumentTypeSettingsTab.DealQtyCaption,
+                        WeightCaption = DocumentTypeSettingsTab.WeightCaption
                     }).FirstOrDefault();
         }
         public DocumentTypeSettings Create(DocumentTypeSettings pt)

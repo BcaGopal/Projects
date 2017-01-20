@@ -262,6 +262,9 @@ namespace Customise.App_Start
             container.RegisterType<IRepository<JobReceiveSettings>, Repository<JobReceiveSettings>>();
             container.RegisterType<IJobReceiveSettingsService, JobReceiveSettingsService>(new PerRequestLifetimeManager());
 
+            container.RegisterType<IRepository<JobReceiveQASettings>, Repository<JobReceiveQASettings>>();
+            container.RegisterType<IJobReceiveQASettingsService, JobReceiveQASettingsService>(new PerRequestLifetimeManager());
+
 
             container.RegisterType<IRepository<JobReceiveHeader>, Repository<JobReceiveHeader>>();
             container.RegisterType<IJobReceiveHeaderService, JobReceiveHeaderService>(new PerRequestLifetimeManager());
@@ -380,6 +383,9 @@ namespace Customise.App_Start
 
             Mapper.CreateMap<JobReceiveSettings, JobReceiveSettingsViewModel>();
             Mapper.CreateMap<JobReceiveSettingsViewModel, JobReceiveSettings>();
+
+            Mapper.CreateMap<JobReceiveQASettings, JobReceiveQASettingsViewModel>();
+            Mapper.CreateMap<JobReceiveQASettingsViewModel, JobReceiveQASettings>();
 
             Mapper.CreateMap<JobReceiveHeader, JobReceiveHeaderViewModel>();
             Mapper.CreateMap<JobReceiveHeaderViewModel, JobReceiveHeader>();

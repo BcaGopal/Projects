@@ -193,6 +193,7 @@
     <Compile Include="Models\CarpetSkuSettings.cs" />
     <Compile Include="Models\Shift.cs" />
     <Compile Include="Models\SubReport.cs" />
+    <Compile Include="ViewModels\WeavingReceiveQACombinedViewModel.cs" />
     <Compile Include="ViewModels\CopyProductViewModel.cs" />
     <Compile Include="ViewModels\Dimension1.cs" />
     <Compile Include="ViewModels\Dimension2.cs" />

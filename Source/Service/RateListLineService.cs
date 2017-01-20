@@ -549,12 +549,16 @@ namespace Service
 
         public RateListLine GetRateListForDesign(int ProductGroupId, int ProcessId)
         {
+            int DivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
+            int SiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
+
             return (from prod in db.Product
                     where prod.ProductGroupId == ProductGroupId
                     let ProdId = prod.ProductId
                     from p in db.RateListLine
                     join t in db.RateListHeader on p.RateListHeaderId equals t.RateListHeaderId
                     where p.ProductId == ProdId && t.ProcessId == ProcessId
+                    && t.SiteId == SiteId && t.DivisionId == DivisionId
                     select p).FirstOrDefault();
         }
 

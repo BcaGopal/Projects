@@ -231,7 +231,7 @@
                             <div class="col-md-6" style="display:@(Model.JobReceiveQASettings.isVisibleDealUnit?"":"none")">
                                 @Html.HiddenFor(m => m.JobReceiveQASettings.isVisibleDealUnit)
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.DealUnitId, "Deal Unit& Multiplier", new { @class = "control-label col-md-4 col-sm-2" })
+                                    @Html.LabelFor(model => model.DealUnitId, (Model.DocumentTypeSettings.DealQtyCaption + " Unit & Multiplier" ?? "Deal Unit & Multiplier"), new { @class = "control-label col-md-4 col-sm-2" })
                                     <div class="col-md-7 col-sm-10" style="padding:0px">
                                         <div class="col-xs-7" style="padding-right:0px">
                                             @Html.DropDownListFor(model => model.DealUnitId, new SelectList(ViewBag.DeliveryUnitList as System.Collections.IEnumerable, "UnitId", "UnitName"), new { @class = "form-control height cusrightnormal required"})
@@ -246,7 +246,8 @@
                             </div>
                             <div class="col-md-6" style="display:@(Model.JobReceiveQASettings.isVisibleDealUnit?"":"none")">
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.DealQty, "Deal Qty", new { @class = "control-label col-md-4 col-sm-2" })
+                                    @Html.LabelFor(model => model.DealQty, (Model.DocumentTypeSettings.DealQtyCaption ?? "Deal Qty"), new { @class = "control-label col-md-4 col-sm-2" })
+                                    @Html.HiddenFor(m => m.DocumentTypeSettings.DealQtyCaption)
                                     <div class="col-md-7 col-sm-10">
                                         @Html.TextBoxFor(m => m.DealQty, null, new { @class = "form-control" })
                                         @Html.ValidationMessageFor(m => m.DealQty, "", new { @class = "text-danger" })
@@ -259,7 +260,8 @@
                             <div class="col-md-6" style="display:@(Model.JobReceiveQASettings.IsVisibleWeight?"":"none")">
                                 @Html.HiddenFor(m => m.JobReceiveQASettings.IsVisibleWeight)
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.Weight, "Weight", new { @class = "control-label col-md-4 col-sm-2" })
+                                    @Html.LabelFor(model => model.Weight, (Model.DocumentTypeSettings.WeightCaption ?? "Weight"), new { @class = "control-label col-md-4 col-sm-2" })
+                                    @Html.HiddenFor(m => m.DocumentTypeSettings.WeightCaption)
                                     <div class="col-md-7 col-sm-10">
                                         @Html.TextBoxFor(m => m.Weight, null, new { @class = "form-control" })
                                         @Html.ValidationMessageFor(m => m.Weight, "", new { @class = "text-danger" })
@@ -302,27 +304,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    @Html.LabelFor(model => model.Remark, "Remark", new { @class = "control-label col-md-4 col-sm-2" })
-                                    <div class="col-md-7 col-sm-10">
-                                        @Html.TextBoxFor(m => m.Remark, new { @class = "form-control" })
-                                        @Html.ValidationMessageFor(m => m.Remark, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
 
-                    @if (Model.JobReceiveQASettings.IsVisibleLength || Model.JobReceiveQASettings.IsVisibleWidth || Model.JobReceiveQASettings.IsVisibleHeight)
-                    {
-                        <h4 class="col-md-12 black">
-                            <span class="glyphicon glyphicon-align-justify"></span>
-                            Dimensions
-                        </h4>
-                    }
-                    <div>
                         <div>
                             <div class="col-md-6" style="display:@(Model.JobReceiveQASettings.IsVisibleLength?"":"none")">
                                 <div class="form-group">
@@ -355,11 +337,19 @@
                                 </div>
                             </div>
                         </div>
+
+                        <div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Remark, "Remark", new { @class = "control-label col-md-4 col-sm-2" })
+                                    <div class="col-md-7 col-sm-10">
+                                        @Html.TextBoxFor(m => m.Remark, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(m => m.Remark, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-
-
-
-
 
 
                     @if (Model.QAGroupLine.Count > 0)

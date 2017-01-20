@@ -45,8 +45,12 @@ namespace Model.ViewModel
 
         [MaxLength(50)]
         public string ContraDocTypeCaption { get; set; }
-        
 
+        [MaxLength(50)]
+        public string DealQtyCaption { get; set; }
+
+        [MaxLength(50)]
+        public string WeightCaption { get; set; }
 
         public string CreatedBy { get; set; }
         public string ModifiedBy { get; set; }
