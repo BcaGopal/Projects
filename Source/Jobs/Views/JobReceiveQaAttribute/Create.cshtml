@@ -173,7 +173,8 @@
                             <div class="col-md-6" style="display:@(Model.JobReceiveQASettings.isVisibleProductUID?"":"none")">
                                 @Html.HiddenFor(m => m.JobReceiveQASettings.isVisibleProductUID)
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.ProductUidId, "Product Uid", new { @class = "control-label col-md-4 col-sm-2" })
+                                    @Html.LabelFor(model => model.ProductUidId, (Model.DocumentTypeSettings.ProductUidCaption ?? "Product Uid"), new { @class = "control-label col-md-4 col-sm-2" })
+                                    @Html.HiddenFor(m => m.DocumentTypeSettings.ProductUidCaption)
                                     <div class="col-md-7 col-sm-10">
                                         @Html.TextBoxFor(m => m.ProductUidName, new { @class = "form-control required", @readonly = "true" })
                                         @Html.ValidationMessageFor(m => m.ProductUidName, "", new { @class = "text-danger" })
@@ -182,7 +183,8 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.ProductId, "Product", new { @class = "control-label col-md-4 col-sm-2" })
+                                    @Html.LabelFor(model => model.ProductId, (Model.DocumentTypeSettings.ProductCaption ?? "Product"), new { @class = "control-label col-md-4 col-sm-2" })
+                                    @Html.HiddenFor(m => m.DocumentTypeSettings.ProductCaption)
                                     <div class="col-md-7 col-sm-10">
                                         @Html.TextBoxFor(m => m.ProductId, null, new { @class = "form-control", @readonly = "true" })
                                         @Html.ValidationMessageFor(m => m.ProductId, "", new { @class = "text-danger" })

@@ -119,6 +119,7 @@ namespace Model.ViewModel
         public int DealunitDecimalPlaces { get; set; }
         public decimal BalanceQty { get; set; }
         public JobOrderInspectionRequestSettingsViewModel JobOrderInspectionRequestSettings { get; set; }
+        public DocumentTypeSettingsViewModel DocumentTypeSettings { get; set; }
         public string BarCodes { get; set; }
         public string JobInspectionType { get; set; }
         public int JobOrderInspectionRequestHeaderId { get; set; }

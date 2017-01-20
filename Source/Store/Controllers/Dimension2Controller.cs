@@ -13,6 +13,7 @@ using Core.Common;
 using Model.ViewModel;
 using AutoMapper;
 using System.Xml.Linq;
+using Model.ViewModels;
 
 namespace Web
 {
@@ -21,6 +22,7 @@ namespace Web
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
+        List<string> UserRoles = new List<string>();
         ActiivtyLogViewModel LogVm = new ActiivtyLogViewModel();
 
         IDimension2Service _Dimension2Service;
@@ -31,6 +33,8 @@ namespace Web
             _Dimension2Service = Dimension2Service;
             _unitOfWork = unitOfWork;
             _exception = exec;
+
+            UserRoles = (List<string>)System.Web.HttpContext.Current.Session["Roles"];
 
             //Log Initialization
             LogVm.SessionId = 0;
@@ -59,11 +63,24 @@ namespace Web
 
         public ActionResult Create(int id)//ProductType Id
         {
-            Dimension2 vm = new Dimension2();
+            Dimension2ViewModel vm = new Dimension2ViewModel();
             vm.IsActive = true;
             vm.ProductTypeId = id;
             ViewBag.id = id;
             ViewBag.Name = new ProductTypeService(_unitOfWork).Find(id).ProductTypeName;
+
+            var settings = new ProductTypeSettingsService(_unitOfWork).GetProductTypeSettingsForDocument(id);
+
+            if (settings == null && UserRoles.Contains("Admin"))
+            {
+                return RedirectToAction("Create", "ProductTypeSettings", new { id = id }).Warning("Please create Product Type Settings");
+            }
+            else if (settings == null && !UserRoles.Contains("Admin"))
+            {
+                return View("~/Views/Shared/InValidSettings.cshtml");
+            }
+            vm.ProductTypeSettings = Mapper.Map<ProductTypeSettings, ProductTypeSettingsViewModel>(settings);
+
             return View("Create", vm);
         }
 
@@ -72,9 +89,9 @@ namespace Web
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Post(Dimension2 vm)
+        public ActionResult Post(Dimension2ViewModel vm)
         {
-            Dimension2 pt = vm;
+            Dimension2 pt = Mapper.Map<Dimension2ViewModel, Dimension2>(vm);
 
             if (ModelState.IsValid)
             {
@@ -173,13 +190,31 @@ namespace Web
 
         public ActionResult Edit(int id)
         {
-            Dimension2 pt = _Dimension2Service.Find(id);
+            Dimension2 D1 = _Dimension2Service.Find(id);
+            Dimension2ViewModel pt = Mapper.Map<Dimension2, Dimension2ViewModel>(D1);
+
             if (pt == null)
             {
                 return HttpNotFound();
             }
             ViewBag.id = pt.ProductTypeId;
             ViewBag.Name = new ProductTypeService(_unitOfWork).Find(pt.ProductTypeId ?? 0).ProductTypeName;
+
+            if (pt.ProductTypeId != null)
+            {
+                var settings = new ProductTypeSettingsService(_unitOfWork).GetProductTypeSettingsForDocument((int)pt.ProductTypeId);
+
+                if (settings == null && UserRoles.Contains("Admin"))
+                {
+                    return RedirectToAction("Create", "ProductTypeSettings", new { id = id }).Warning("Please create Product Type Settings");
+                }
+                else if (settings == null && !UserRoles.Contains("Admin"))
+                {
+                    return View("~/Views/Shared/InValidSettings.cshtml");
+                }
+                pt.ProductTypeSettings = Mapper.Map<ProductTypeSettings, ProductTypeSettingsViewModel>(settings);
+            }
+
             return View("Create", pt);
         }
 

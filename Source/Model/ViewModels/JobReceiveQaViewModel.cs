@@ -78,6 +78,7 @@ namespace Model.ViewModel
         public DateTime ModifiedDate { get; set; }
         public string LockReason { get; set; }
         public JobReceiveQASettingsViewModel JobReceiveQASettings { get; set; }
+        public DocumentTypeSettingsViewModel DocumentTypeSettings { get; set; }
         public string JobReceiveQAType { get; set; }
         public int? Dimension1Id { get; set; }
         public int? Dimension2Id { get; set; }
@@ -257,6 +258,7 @@ namespace Model.ViewModel
         public List<QAGroupLineLineViewModel> QAGroupLine { get; set; }
 
         public JobReceiveQASettingsViewModel JobReceiveQASettings { get; set; }
+        public DocumentTypeSettingsViewModel DocumentTypeSettings { get; set; }
 
         public Decimal? Length { get; set; }
         public Decimal? Width { get; set; }

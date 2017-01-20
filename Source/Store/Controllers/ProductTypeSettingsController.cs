@@ -62,7 +62,7 @@ namespace Web
             if (settings == null)
             {
                 ProductTypeSettingsViewModel vm = new ProductTypeSettingsViewModel();
-                vm.ProductTypeName = new DocumentTypeService(_unitOfWork).Find(id).DocumentTypeName;
+                vm.ProductTypeName = new ProductTypeService(_unitOfWork).Find(id).ProductTypeName;
                 vm.ProductTypeId = id;
                 PrepareViewBag(vm);
                 return View("Create", vm);
@@ -70,7 +70,7 @@ namespace Web
             else
             {
                 ProductTypeSettingsViewModel temp = AutoMapper.Mapper.Map<ProductTypeSettings, ProductTypeSettingsViewModel>(settings);
-                temp.ProductTypeName = new DocumentTypeService(_unitOfWork).Find(id).DocumentTypeName;
+                temp.ProductTypeName = new ProductTypeService(_unitOfWork).Find(id).ProductTypeName;
                 PrepareViewBag(temp);
                 return View("Create", temp);
             }

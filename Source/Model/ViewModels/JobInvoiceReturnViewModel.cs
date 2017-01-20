@@ -122,6 +122,7 @@ namespace Model.ViewModel
         public string Specification { get; set; }
         public string UnitId { get; set; }
         public JobInvoiceSettingsViewModel JobInvoiceSettings { get; set; }
+        public DocumentTypeSettingsViewModel DocumentTypeSettings { get; set; }
         public List<JobInvoiceReturnLineCharge> linecharges { get; set; }
         public List<JobInvoiceReturnHeaderCharge> footercharges { get; set; }
         public int unitDecimalPlaces { get; set; }

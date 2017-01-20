@@ -822,6 +822,7 @@ namespace Service
                 }
 
                 L.StockId = StockViewModel.StockId;
+                L.DocLineId = StockViewModel.DocLineId;
                 L.DocDate = StockViewModel.StockHeaderDocDate;
                 L.ProductId = StockViewModel.ProductId;
                 L.ProcessId = StockViewModel.ProcessId;

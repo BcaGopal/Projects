@@ -130,6 +130,8 @@ namespace Web
             }
             vm.JobReceiveQASettings = Mapper.Map<JobReceiveQASettings, JobReceiveQASettingsViewModel>(settings);
 
+            vm.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(DocTypeId);
+
             vm.ProcessId = settings.ProcessId;
             vm.DocDate = DateTime.Now;
             vm.DocTypeId = DocTypeId;

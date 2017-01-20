@@ -1,23 +1,29 @@
-﻿using Model.ViewModel;
-using System;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace Model.Models
+// New namespace imports:
+using Microsoft.AspNet.Identity.EntityFramework;
+using System.Collections.Generic;
+using Model.Models;
+using System;
+using Microsoft.AspNet.Identity;
+using System.ComponentModel.DataAnnotations.Schema;
+using Model.ViewModel;
+
+namespace Model.ViewModels
 {
-    public class Dimension1 : EntityBase, IHistoryLog
+    public class Dimension3ViewModel : EntityBase
     {
-        public Dimension1()
+        public Dimension3ViewModel()
         {
         }
 
         [Key]
-        public int Dimension1Id { get; set; }
+        public int Dimension3Id { get; set; }
 
         [Display (Name="Name")]
         [MaxLength(50), Required]
-        [Index("IX_Dimension1_Dimension1Name", IsUnique = true)]
-        public string Dimension1Name { get; set; }
+        [Index("IX_Dimension3_Dimension3Name", IsUnique = true)]
+        public string Dimension3Name { get; set; }
 
         [ForeignKey("ProductType")]
         [Display(Name = "ProductType")]
@@ -30,6 +36,7 @@ namespace Model.Models
         [MaxLength(50)]
         public string Description { get; set; }
 
+        public ProductTypeSettingsViewModel ProductTypeSettings { get; set; }
 
         [ForeignKey("ReferenceDocType"), Display(Name = "Order Type")]
         public int? ReferenceDocTypeId { get; set; }
