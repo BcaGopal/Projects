@@ -85,6 +85,7 @@ namespace Web
 
         public ActionResult _Create(int Id, int Laid, int catid, DateTime? tempduedate, string tempchequeno, int? TAID) //Id ==>Sale Order Header Id
         {
+
             LedgersViewModel s = new LedgersViewModel();
             ViewBag.AccountType = new LedgerHeaderService(_unitOfWork).GetLedgerAccountType(Laid);
             LedgerHeader H = db.LedgerHeader.Find(Id);
@@ -113,7 +114,7 @@ namespace Web
             {
                 int id;
                 int.TryParse(tempchequeno, out id);
-                s.ChqNo = (id).ToString();
+                s.ChqNo =(id).ToString();
             }
 
             if (TAID.HasValue && TAID.Value > 0)
