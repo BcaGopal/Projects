@@ -112,6 +112,7 @@ namespace Model.ViewModel
         public Decimal UnitConversionMultiplier { get; set; }
         public decimal DealQty { get; set; }
         public JobOrderSettingsViewModel JobOrderSettings { get; set; }
+        public DocumentTypeSettingsViewModel DocumentTypeSettings { get; set; }
         public int unitDecimalPlaces { get; set; }
         public int DealunitDecimalPlaces { get; set; }
         public bool AAmended { get; set; }

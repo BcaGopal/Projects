@@ -25,7 +25,9 @@ namespace Web
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
+        List<string> UserRoles = new List<string>();
         ActiivtyLogViewModel LogVm = new ActiivtyLogViewModel();
+
 
         IProductService _ProductService;
         IFinishedProductService _FinishedProductService;
@@ -37,6 +39,8 @@ namespace Web
             _FinishedProductService = FinishedProductService;
             _unitOfWork = unitOfWork;
             _exception = exec;
+
+            UserRoles = (List<string>)System.Web.HttpContext.Current.Session["Roles"];
 
             //Log Initialization
             LogVm.SessionId = 0;
@@ -402,6 +406,19 @@ namespace Web
             ViewBag.id = id;
             ViewBag.ProductGroupList = new ProductGroupService(_unitOfWork).GetProductGroupListForItemType(id);
 
+            var settings = new ProductTypeSettingsService(_unitOfWork).GetProductTypeSettingsForDocument(id);
+
+            if (settings == null && UserRoles.Contains("Admin"))
+            {
+                return RedirectToAction("Create", "ProductTypeSettings", new { id = id }).Warning("Please create Product Type Settings");
+            }
+            else if (settings == null && !UserRoles.Contains("Admin"))
+            {
+                return View("~/Views/Shared/InValidSettings.cshtml");
+            }
+            p.ProductTypeSettings = Mapper.Map<ProductTypeSettings, ProductTypeSettingsViewModel>(settings);
+            p.UnitId = settings.UnitId;
+
             PrepareMaterialViewBag(null);
             return View("CreateMaterial", p);
 
@@ -431,6 +448,7 @@ namespace Web
                     pt1.ProductName = pvm.ProductName;
                     pt1.ProductCode = pvm.ProductCode;
                     pt1.ProductGroupId = pvm.ProductGroupId;
+                    pt1.ProductSpecification = pvm.ProductSpecification;
                     pt1.StandardCost = pvm.StandardCost;
                     pt1.Tags = pvm.Tags;
                     pt1.UnitId = pvm.UnitId;
@@ -623,6 +641,7 @@ namespace Web
                     pt.ProductCode = pvm.ProductCode;
                     pt.StandardCost = pvm.StandardCost;
                     pt.ProductGroupId = pvm.ProductGroupId;
+                    pt.ProductSpecification = pvm.ProductSpecification;
                     pt.SalesTaxGroupProductId = pvm.SalesTaxGroupProductId;
                     pt.Tags = pvm.Tags;
                     pt.UnitId = pvm.UnitId;
@@ -967,6 +986,190 @@ namespace Web
             var nextId = _ProductService.PrevMaterialId(id, nid);
             return RedirectToAction("EditMaterial", new { id = nextId });
         }
+
+        public ActionResult ChooseType(int id)
+        {
+            ViewBag.id = id;
+
+            //var settings = new ProductTypeSettingsService(_unitOfWork).GetProductTypeSettingsForDocument(id);
+
+            //if (settings == null && UserRoles.Contains("Admin"))
+            //{
+            //    return RedirectToAction("Create", "ProductTypeSettings", new { id = id }).Warning("Please create Product Type Settings");
+            //}
+            //else if (settings == null && !UserRoles.Contains("Admin"))
+            //{
+            //    return View("~/Views/Shared/InValidSettings.cshtml");
+            //}
+
+            return PartialView("ChooseType");
+        }
+        [HttpGet]
+        public ActionResult CopyFromExisting(int id)
+        {
+            ViewBag.id = id;
+
+            CopyFromExistingProductViewModel vm = new CopyFromExistingProductViewModel();
+            var settings = new ProductTypeSettingsService(_unitOfWork).GetProductTypeSettingsForDocument(id);
+            vm.ProductTypeSettings = Mapper.Map<ProductTypeSettings, ProductTypeSettingsViewModel>(settings);
+
+            return PartialView("CopyFromExisting", vm);
+        }
+
+        [HttpGet]
+        public ActionResult CopyFromExistingConsumption(int ProductId)
+        {
+            //ViewBag.id = id;
+
+            int ProductTypeId = (from P in db.Product where P.ProductId == ProductId select new { ProductTypeId = P.ProductGroup.ProductTypeId }).FirstOrDefault().ProductTypeId;
+            CopyFromExistingProductViewModel vm = new CopyFromExistingProductViewModel();
+            var settings = new ProductTypeSettingsService(_unitOfWork).GetProductTypeSettingsForDocument(ProductTypeId);
+            vm.ProductTypeSettings = Mapper.Map<ProductTypeSettings, ProductTypeSettingsViewModel>(settings);
+            vm.ProductId = ProductId;
+
+            return PartialView("CopyFromExisting", vm);
+        }
+
+        [HttpPost]
+        public ActionResult CopyFromExisting(CopyFromExistingProductViewModel vm)
+        {
+
+            if (ModelState.IsValid)
+            {
+                Product FromProduct = _ProductService.Find(vm.FromProductId);
+                Product NewProduct = new FinishedProduct();
+
+                if (vm.ProductId == null)
+                {
+                    if (vm.ProductCode == "" || vm.ProductCode == null)
+                    {
+                        if (vm.ProductName.Length > 20)
+                        {
+                            NewProduct.ProductCode = vm.ProductName.ToString().Substring(0, 20);
+                        }
+                        else
+                        {
+                            NewProduct.ProductCode = vm.ProductName.ToString().Substring(0, vm.ProductName.Length);
+                        }
+                    }
+                    else
+                    {
+                        NewProduct.ProductCode = vm.ProductCode;
+                    }
+
+
+                    NewProduct.ProductName = vm.ProductName;
+                    NewProduct.ProductDescription = vm.ProductName;
+                    NewProduct.ProductGroupId = FromProduct.ProductGroupId;
+                    NewProduct.ProductSpecification = FromProduct.ProductSpecification;
+                    NewProduct.StandardCost = FromProduct.StandardCost;
+                    NewProduct.SalesTaxGroupProductId = FromProduct.SalesTaxGroupProductId;
+                    NewProduct.UnitId = FromProduct.UnitId;
+                    NewProduct.DivisionId = FromProduct.DivisionId;
+                    NewProduct.IsActive = true;
+                    NewProduct.CreatedDate = DateTime.Now;
+                    NewProduct.ModifiedDate = DateTime.Now;
+                    NewProduct.CreatedBy = User.Identity.Name;
+                    NewProduct.ModifiedBy = User.Identity.Name;
+                    NewProduct.ObjectState = Model.ObjectState.Added;
+                    _ProductService.Create(NewProduct);
+                }
+                else
+                {
+                    NewProduct = _ProductService.Find((int)vm.ProductId);
+                }
+
+
+
+                IEnumerable<BomDetail> BomDetailList = new BomDetailService(_unitOfWork).GetBomDetailList(FromProduct.ProductId);
+
+                foreach (BomDetail item in BomDetailList)
+                {
+                    BomDetail BomDetail = new BomDetail();
+                    BomDetail.BaseProductId = NewProduct.ProductId;
+                    BomDetail.BatchQty = item.BatchQty;
+                    BomDetail.ConsumptionPer = item.ConsumptionPer;
+
+                    if (vm.BomProductId != 0 && vm.BomProductId != null && vm.ReplacingBomProductId != 0 && vm.ReplacingBomProductId != null && vm.BomProductId == item.ProductId)
+                    {
+                        BomDetail.ProductId = (int)vm.ReplacingBomProductId;
+                    }
+                    else
+                    {
+                        BomDetail.ProductId = item.ProductId;
+                    }
+
+                    if (vm.BomDimension1Id != 0 && vm.BomDimension1Id != null && vm.ReplacingBomDimension1Id != 0 && vm.ReplacingBomDimension1Id != null && vm.BomDimension1Id == item.Dimension1Id)
+                    {
+                        BomDetail.Dimension1Id = (int)vm.ReplacingBomDimension1Id;
+                    }
+                    else
+                    {
+                        BomDetail.Dimension1Id = item.Dimension1Id;
+                    }
+
+                    if (vm.BomDimension2Id != 0 && vm.BomDimension2Id != null && vm.ReplacingBomDimension2Id != 0 && vm.ReplacingBomDimension2Id != null && vm.BomDimension2Id == item.Dimension2Id)
+                    {
+                        BomDetail.Dimension2Id = (int)vm.ReplacingBomDimension2Id;
+                    }
+                    else
+                    {
+                        BomDetail.Dimension2Id = item.Dimension2Id;
+                    }
+
+                    if (vm.BomDimension3Id != 0 && vm.BomDimension3Id != null && vm.ReplacingBomDimension3Id != 0 && vm.ReplacingBomDimension3Id != null && vm.BomDimension3Id == item.Dimension3Id)
+                    {
+                        BomDetail.Dimension3Id = (int)vm.ReplacingBomDimension3Id;
+                    }
+                    else
+                    {
+                        BomDetail.Dimension3Id = item.Dimension3Id;
+                    }
+
+                    if (vm.BomDimension4Id != 0 && vm.BomDimension4Id != null && vm.ReplacingBomDimension4Id != 0 && vm.ReplacingBomDimension4Id != null && vm.BomDimension4Id == item.Dimension4Id)
+                    {
+                        BomDetail.Dimension4Id = (int)vm.ReplacingBomDimension4Id;
+                    }
+                    else
+                    {
+                        BomDetail.Dimension4Id = item.Dimension4Id;
+                    }
+
+                    BomDetail.ProcessId = item.ProcessId;
+                    BomDetail.Qty = item.Qty;
+                    BomDetail.CreatedDate = DateTime.Now;
+                    BomDetail.ModifiedDate = DateTime.Now;
+                    BomDetail.CreatedBy = User.Identity.Name;
+                    BomDetail.ModifiedBy = User.Identity.Name;
+                    BomDetail.ObjectState = Model.ObjectState.Added;
+                    new BomDetailService(_unitOfWork).Create(BomDetail);
+                }
+
+                try
+                {
+                    _unitOfWork.Save();
+                }
+
+                catch (Exception ex)
+                {
+                    string message = _exception.HandleException(ex);
+                    ModelState.AddModelError("", message);
+                    return PartialView("CopyFromExisting", vm);
+
+                }
+
+                return Json(new { success = true, Url = "/Product/EditMaterial/" + NewProduct.ProductId });
+
+
+            }
+
+            return PartialView("CopyFromExisting", vm);
+
+        }
+
+
+
+
 
         protected override void Dispose(bool disposing)
         {

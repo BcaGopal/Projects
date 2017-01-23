@@ -18,7 +18,7 @@ namespace Model.ViewModels
 
         public int PersonID { get; set; }
 
-        public int DocTypeId { get; set; }
+        public int? DocTypeId { get; set; }
         public string DocTypeName { get; set; }
         
         [MaxLength(100, ErrorMessage = "{0} can not exceed {1} characters"), Required]

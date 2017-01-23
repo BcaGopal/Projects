@@ -40,7 +40,7 @@ namespace Services.Customize
         IEnumerable<Dimension1RecipeViewModel> GetRecipes(int Dimension1Id);
         IEnumerable<RecipeDetailViewModel> GetRecipeDetail(int JobOrderHeaderId);
         LastValues GetLastValues(int JobOrderHeaderId);
-        bool IsDuplicateLine(int StockHeaderId, int ProductId);
+        bool IsDuplicateLine(int StockHeaderId, int ProductId, Decimal? DyeingRatio, int? StockLineId);
         decimal GetExcessStock(int ProductId, int? Dim1, int? Dim2, int? ProcId, string Lot, int StockHeaderId, string ProcName);
 
         #region Helper Methods
@@ -676,10 +676,11 @@ namespace Services.Customize
             return temp;
         }
 
-        public bool IsDuplicateLine(int StockHeaderId, int ProductId)
+        public bool IsDuplicateLine(int StockHeaderId, int ProductId, Decimal? DyeingRatio, int? StockLineId)
         {
             var temp = (from L in _unitOfWork.Repository<StockLine>().Instance
-                        where L.StockHeaderId == StockHeaderId && L.ProductId == ProductId
+                        join Le in _unitOfWork.Repository<StockLineExtended>().Instance on L.StockLineId equals Le.StockLineId into StockLineExtendedTable from StockLineExtendedTab in StockLineExtendedTable.DefaultIfEmpty()
+                        where L.StockHeaderId == StockHeaderId && L.ProductId == ProductId && StockLineExtendedTab.DyeingRatio == DyeingRatio && L.StockLineId != StockLineId
                         select L).FirstOrDefault();
 
             if (temp != null)

@@ -110,6 +110,7 @@
     <Compile Include="Models\Dimension3.cs" />
     <Compile Include="Models\DocumentTypeSettings.cs" />
     <Compile Include="Models\FeetConversionToCms.cs" />
+    <Compile Include="Models\ProductTypeSettings.cs" />
     <Compile Include="Models\PersonSettings.cs" />
     <Compile Include="Models\PackingLineExtended.cs" />
     <Compile Include="Models\JobReceiveQaLineExtended.cs" />
@@ -192,8 +193,15 @@
     <Compile Include="Models\CarpetSkuSettings.cs" />
     <Compile Include="Models\Shift.cs" />
     <Compile Include="Models\SubReport.cs" />
+    <Compile Include="ViewModels\WeavingReceiveQACombinedViewModel.cs" />
+    <Compile Include="ViewModels\CopyProductViewModel.cs" />
+    <Compile Include="ViewModels\Dimension1.cs" />
+    <Compile Include="ViewModels\Dimension2.cs" />
+    <Compile Include="ViewModels\Dimension3.cs" />
+    <Compile Include="ViewModels\Dimension4.cs" />
     <Compile Include="ViewModels\DocumentTypeSettingsViewModel.cs" />
     <Compile Include="ViewModels\GatePassHeaderViewModel.cs" />
+    <Compile Include="ViewModels\ProductTypeSettingsViewModel.cs" />
     <Compile Include="ViewModels\PersonSettingsViewModel.cs" />
     <Compile Include="ViewModels\ProductGroupProcessSettingsViewModel.cs" />
     <Compile Include="ViewModels\ProductCategoryProcessSettingsViewModel.cs" />

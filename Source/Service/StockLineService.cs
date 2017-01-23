@@ -65,6 +65,8 @@ namespace Service
 
         IEnumerable<ComboBoxResult> GetPendingStockInForIssue(int id, int ProductId, int? Dimension1Id, int? Dimension2Id, string term);
 
+        IQueryable<ComboBoxResult> GetCustomProductGroups(int Id, string term);
+
     }
 
     public class StockLineService : IStockLineService
@@ -2043,7 +2045,32 @@ namespace Service
         }
 
 
+        public IQueryable<ComboBoxResult> GetCustomProductGroups(int Id, string term)
+        {
 
+            var StockHeader = new StockHeaderService(_unitOfWork).Find(Id);
+
+            var settings = new StockHeaderSettingsService(_unitOfWork).GetStockHeaderSettingsForDocument(StockHeader.DocTypeId, StockHeader.DivisionId, StockHeader.SiteId);
+
+            string[] ProductTypes = null;
+            if (!string.IsNullOrEmpty(settings.filterProductTypes)) { ProductTypes = settings.filterProductTypes.Split(",".ToCharArray()); }
+            else { ProductTypes = new string[] { "NA" }; }
+
+            string[] ProductGroups = null;
+            if (!string.IsNullOrEmpty(settings.filterProductGroups)) { ProductGroups = settings.filterProductGroups.Split(",".ToCharArray()); }
+            else { ProductGroups = new string[] { "NA" }; }
+
+            return (from p in db.ProductGroups
+                    where (string.IsNullOrEmpty(settings.filterProductTypes) ? 1 == 1 : ProductTypes.Contains(p.ProductTypeId.ToString()))
+                    && (string.IsNullOrEmpty(settings.filterProductGroups) ? 1 == 1 : ProductGroups.Contains(p.ProductGroupId.ToString()))
+                    && (string.IsNullOrEmpty(term) ? 1 == 1 : p.ProductGroupName.ToLower().Contains(term.ToLower()))
+                    orderby p.ProductGroupName
+                    select new ComboBoxResult
+                    {
+                        id = p.ProductGroupId.ToString(),
+                        text = p.ProductGroupName,
+                    });
+        }
 
         public void Dispose()
         {

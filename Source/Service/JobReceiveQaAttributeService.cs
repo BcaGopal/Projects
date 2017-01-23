@@ -281,7 +281,21 @@ namespace Service
                                                                                Weight = L.Weight,
                                                                                UnitDecimalPlaces = JobOrderLineTab.Product.Unit.DecimalPlaces,
                                                                                DealUnitDecimalPlaces = JobOrderLineTab.DealUnit.DecimalPlaces,
+                                                                               DocTypeId = JobReceiveHeaderTab.DocTypeId
                                                                            }).FirstOrDefault();
+
+            
+            if (JobReceiveLineDetail != null)
+            {
+                ProductDimensions ProductDimensions = new ProductService(_unitOfWork).GetProductDimensions(JobReceiveLineDetail.ProductId, JobReceiveLineDetail.DealUnitId, JobReceiveLineDetail.DocTypeId);
+                if (ProductDimensions != null)
+                {
+                    JobReceiveLineDetail.Length = ProductDimensions.Length;
+                    JobReceiveLineDetail.Width = ProductDimensions.Width;
+                    JobReceiveLineDetail.Height = ProductDimensions.Height;
+                    JobReceiveLineDetail.DimensionUnitDecimalPlaces = ProductDimensions.DimensionUnitDecimalPlaces;
+                }
+            }
 
             return JobReceiveLineDetail;
         }
@@ -311,6 +325,7 @@ namespace Service
                                                                          QAQty = L.Qty,
                                                                          InspectedQty = L.Qty,
                                                                          Qty = L.Qty,
+                                                                         UnitId = JobOrderLineTab.Product.UnitId,
                                                                          DealUnitId = JobReceiveLineTab.DealUnitId,
                                                                          UnitConversionMultiplier = L.UnitConversionMultiplier,
                                                                          DealQty = L.DealQty,
@@ -331,6 +346,15 @@ namespace Service
                                                                          Width = JobReceiveQALineDetailTab.Width,
                                                                          Height = JobReceiveQALineDetailTab.Height
                                                                      }).FirstOrDefault();
+
+            if (JobReceiveQALineDetail != null)
+            {
+                ProductDimensions ProductDimensions = new ProductService(_unitOfWork).GetProductDimensions(JobReceiveQALineDetail.ProductId, JobReceiveQALineDetail.DealUnitId, JobReceiveQALineDetail.DocTypeId);
+                if (ProductDimensions != null)
+                {
+                    JobReceiveQALineDetail.DimensionUnitDecimalPlaces = ProductDimensions.DimensionUnitDecimalPlaces;
+                }
+            }
 
             return JobReceiveQALineDetail;
         }
@@ -380,6 +404,7 @@ namespace Service
     public class LastValues
     {
         public int? QAById { get; set; }
+        public int? JobReceiveById { get; set; }
     }
 
 

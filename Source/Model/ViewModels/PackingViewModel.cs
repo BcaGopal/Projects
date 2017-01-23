@@ -40,7 +40,7 @@ namespace Model.ViewModels
         public string BuyerName { get; set; }
 
         [Display(Name = "Job Worker")]
-        public int JobWorkerId { get; set; }
+        public int? JobWorkerId { get; set; }
         [Display(Name = "Job Worker")]
         public string JobWorkerName { get; set; }
 
@@ -190,6 +190,8 @@ namespace Model.ViewModels
         public Decimal? Length { get; set; }
         public Decimal? Width { get; set; }
         public Decimal? Height { get; set; }
+
+        public int? DimensionUnitDecimalPlaces { get; set; }
 
 
 

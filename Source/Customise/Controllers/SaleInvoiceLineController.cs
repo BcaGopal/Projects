@@ -958,6 +958,7 @@ namespace Web
                         saleinvoiceline.Rate = item.Rate;
                         saleinvoiceline.Amount = item.Amount;
                         saleinvoiceline.ProductInvoiceGroupId = item.ProductInvoiceGroupId;
+                        saleinvoiceline.Remark = item.Remark;
                         saleinvoiceline.CreatedBy = User.Identity.Name;
                         saleinvoiceline.ModifiedBy = User.Identity.Name;
                         saleinvoiceline.CreatedDate = DateTime.Now;
@@ -1787,6 +1788,68 @@ namespace Web
 
         }
 
+                [HttpGet]
+        public ActionResult UpdateRatesDesignWise(int id)
+        {
+            ViewBag.SaleInvoiceHeaderId = id;
+            return View("UpdateRatesDesignWise");
+        }
+
+
+        public JsonResult GetSaleInvoiceDetail(int SaleInvoiceHeaderId)
+        {
+            var temp = (from L in db.SaleInvoiceLine
+                        join P in db.Product on L.ProductId equals P.ProductId into ProductTable
+                        from ProductTab in ProductTable.DefaultIfEmpty()
+                        join Pg in db.ProductGroups on ProductTab.ProductGroupId equals Pg.ProductGroupId into ProductGroupTable
+                        from ProductGroupTab in ProductGroupTable.DefaultIfEmpty()
+                        where L.SaleInvoiceHeaderId == SaleInvoiceHeaderId
+                        group new { L, ProductGroupTab } by new { ProductGroupTab.ProductGroupId, ProductGroupTab.ProductGroupName, L.Remark } into Result
+                        orderby Result.Key.ProductGroupName
+                        select new
+                        {
+                            UniqueName = Result.Key.ProductGroupName + (Result.Key.Remark ?? ""),
+                            ProductGroupId = Result.Key.ProductGroupId,
+                            DesignName = Result.Key.ProductGroupName,
+                            Remark = Result.Key.Remark
+                        }).ToList();
+
+            return Json(new { data = temp }, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public void UpdateRatesDesignWise(int SaleInvoiceHeaderId, int ProductGroupId, string Remark, Decimal? Rate)
+        {
+            if (Rate != null)
+            {
+                IEnumerable<SaleInvoiceLine> SaleInvoiceLineList = (from L in db.SaleInvoiceLine
+                                       join P in db.Product on L.ProductId equals P.ProductId into ProductTable
+                                       from ProductTab in ProductTable.DefaultIfEmpty()
+                                       where L.SaleInvoiceHeaderId == SaleInvoiceHeaderId && ProductTab.ProductGroupId == ProductGroupId && (L.Remark ?? "") == Remark
+                                       select L).ToList();
+
+                foreach (var SaleInvoiceLine in SaleInvoiceLineList)
+                {
+
+                        SaleInvoiceLine.Rate = (Decimal)Rate;
+                        SaleInvoiceLine.Amount = SaleInvoiceLine.DealQty * SaleInvoiceLine.Rate;
+                        SaleInvoiceLine.ObjectState = Model.ObjectState.Modified;
+                        db.SaleInvoiceLine.Add(SaleInvoiceLine);
+                
+                }
+
+                try
+                {
+                    db.SaveChanges();
+                }
+
+                catch (Exception ex)
+                {
+                    string message = _exception.HandleException(ex);
+                    TempData["CSEXCL"] += message;
+                }
+            }
+        }
     }
 
 

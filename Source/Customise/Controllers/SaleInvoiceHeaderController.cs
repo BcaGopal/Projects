@@ -778,9 +778,18 @@ namespace Web
                 var SaleInvoiceHeader = _SaleInvoiceHeaderService.GetSaleInvoiceHeaderDetail(vm.id);
 
                 //_ActivityLogService.Create(al);
+                
+                
+                //var SaleDispatchHeader = _SaleDispatchHeaderService.Find((int)SaleInvoiceHeader.SaleDispatchHeaderId);
+                //new StockService(_unitOfWork).DeleteStockForDocHeader(SaleDispatchHeader.SaleDispatchHeaderId, SaleInvoiceHeader.DocTypeId, SaleInvoiceHeader.SiteId, SaleInvoiceHeader.DivisionId, db);
 
+                int? StockHeaderId = (from H in db.SaleDispatchHeader
+                                      where H.SaleDispatchHeaderId == SaleInvoiceHeader.SaleDispatchHeaderId
+                                      select H).FirstOrDefault().StockHeaderId;
 
-                new StockService(_unitOfWork).DeleteStockForDocHeader(SaleInvoiceHeader.SaleInvoiceHeaderId, SaleInvoiceHeader.DocTypeId, SaleInvoiceHeader.SiteId, SaleInvoiceHeader.DivisionId, db);
+                int? LedgerHeaderId = (from H in db.SaleInvoiceHeader
+                                      where H.SaleInvoiceHeaderId == vm.id
+                                      select H).FirstOrDefault().LedgerHeaderId;
 
 
                 var SaleInvoiceLine = (from L in db.SaleInvoiceLine where L.SaleInvoiceHeaderId == vm.id select L).ToList();
@@ -851,6 +860,40 @@ namespace Web
                 Sd.ObjectState = Model.ObjectState.Deleted;
                 db.SaleDispatchHeader.Attach(Sd);
                 db.SaleDispatchHeader.Remove(Sd);
+
+                if (StockHeaderId != null)
+                {
+                    IEnumerable<Stock> StockList = new StockService(_unitOfWork).GetStockForStockHeaderId((int)StockHeaderId);
+                    foreach(var item in StockList)
+                    {
+                        item.ObjectState = Model.ObjectState.Deleted;
+                        db.Stock.Attach(item);
+                        db.Stock.Remove(item);
+                    }
+
+                    StockHeader StockHeader = new StockHeaderService(_unitOfWork).Find((int)StockHeaderId);
+
+                    StockHeader.ObjectState = Model.ObjectState.Deleted;
+                    db.StockHeader.Attach(StockHeader);
+                    db.StockHeader.Remove(StockHeader);
+                }
+
+                if (LedgerHeaderId != null)
+                {
+                    IEnumerable<Ledger> LedgerList = new LedgerService(_unitOfWork).FindForLedgerHeader((int)LedgerHeaderId);
+                    foreach (var item in LedgerList)
+                    {
+                        item.ObjectState = Model.ObjectState.Deleted;
+                        db.Ledger.Attach(item);
+                        db.Ledger.Remove(item);
+                    }
+
+                    LedgerHeader LedgerHeader = new LedgerHeaderService(_unitOfWork).Find((int)LedgerHeaderId);
+
+                    LedgerHeader.ObjectState = Model.ObjectState.Deleted;
+                    db.LedgerHeader.Attach(LedgerHeader);
+                    db.LedgerHeader.Remove(LedgerHeader);
+                }
 
 
 
@@ -1373,10 +1416,6 @@ namespace Web
         }
 
 
+
     }
-
-
-
-
-
 }

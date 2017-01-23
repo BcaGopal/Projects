@@ -190,7 +190,7 @@ namespace Web
             ViewBag.DocTypeList = new DocumentTypeService(_unitOfWork).GetDocumentTypeList(TransactionDocCategoryConstants.PackingReceive);
             ViewBag.BuyerList = new BuyerService(_unitOfWork).GetBuyerList().ToList();
             ViewBag.GodownList = new GodownService(_unitOfWork).GetGodownList(SiteId).ToList().Where(i => i.SiteId == (int)System.Web.HttpContext.Current.Session["SiteId"] && i.IsActive == true);
-            ViewBag.DealUnitList = new UnitService(_unitOfWork).GetUnitList().ToList();
+            ViewBag.DealUnitList = new UnitService(_unitOfWork).GetUnitList().Where(m => m.DimensionUnitId != null).ToList();
             ViewBag.ShipMethodList = new ShipMethodService(_unitOfWork).GetShipMethodList().ToList();
 
             List<SelectListItem> temp = new List<SelectListItem>();
@@ -858,28 +858,30 @@ namespace Web
 
 
                     pd.Status = (int)StatusConstants.Submitted;
-                    pd.ReviewBy = null;
+                    
+                    //pd.ReviewBy = User.Identity.Name;
+                    //pd.ReviewCount = 1;
 
                     _PackingHeaderService.Update(pd);
                     _unitOfWork.Save();
 
-                    string ConnectionString = (string)System.Web.HttpContext.Current.Session["DefaultConnectionString"];
+                    //string ConnectionString = (string)System.Web.HttpContext.Current.Session["DefaultConnectionString"];
 
-                    DataSet ds = new DataSet();
-                    using (SqlConnection sqlConnection = new SqlConnection(ConnectionString))
-                    {
-                        sqlConnection.Open();
-                        using (SqlCommand cmd = new SqlCommand("" + ConfigurationManager.AppSettings["DataBaseSchema"] + ".sp_UpdatePackingArea"))
-                        {
-                            cmd.CommandType = CommandType.StoredProcedure;
-                            cmd.Connection = sqlConnection;
-                            cmd.Parameters.AddWithValue("@PackingHeaderId", pd.PackingHeaderId);
-                            cmd.Parameters.AddWithValue("@DealUnitId", pd.DealUnitId);
-                            cmd.CommandTimeout = 1000;
-                            cmd.ExecuteNonQuery();
-                            cmd.Connection.Close();
-                        }
-                    }
+                    //DataSet ds = new DataSet();
+                    //using (SqlConnection sqlConnection = new SqlConnection(ConnectionString))
+                    //{
+                    //    sqlConnection.Open();
+                    //    using (SqlCommand cmd = new SqlCommand("" + ConfigurationManager.AppSettings["DataBaseSchema"] + ".sp_UpdatePackingArea"))
+                    //    {
+                    //        cmd.CommandType = CommandType.StoredProcedure;
+                    //        cmd.Connection = sqlConnection;
+                    //        cmd.Parameters.AddWithValue("@PackingHeaderId", pd.PackingHeaderId);
+                    //        cmd.Parameters.AddWithValue("@DealUnitId", pd.DealUnitId);
+                    //        cmd.CommandTimeout = 1000;
+                    //        cmd.ExecuteNonQuery();
+                    //        cmd.Connection.Close();
+                    //    }
+                    //}
 
                     //SendEmail_PODrafted(Id);
 
@@ -893,6 +895,8 @@ namespace Web
                         DocDate = pd.DocDate,
                         DocStatus = pd.Status,
                     }));
+
+                    Reviewed(Id, IndexType, UserRemark, IsContinue);
 
                     return RedirectToAction("Index", new { IndexType = IndexType }).Success("Record submitted successfully.");
                 }

@@ -132,6 +132,7 @@ namespace Service
                          join jw in db.Persons on tab.JobWorkerId equals jw.PersonID
                          join t1 in db.JobReceiveLine on p.JobReceiveLineId equals t1.JobReceiveLineId into table1
                          from tab1 in table1.DefaultIfEmpty()
+                         join Qa in db.JobReceiveQALine on tab1.JobReceiveLineId equals Qa.JobReceiveLineId into JobReceiveQALineTable from JobReceiveQALineTab in JobReceiveQALineTable.DefaultIfEmpty()
                          join t4 in db.JobOrderLine on tab1.JobOrderLineId equals t4.JobOrderLineId into table4
                          from tab4 in table4.DefaultIfEmpty()
                          join product in db.Product on p.ProductId equals product.ProductId into table2
@@ -174,7 +175,8 @@ namespace Service
                              DealUnitName = tab4.DealUnit.UnitName,
                              JobWorkerId = tab.JobWorkerId,
                              JobWorkerName = jw.Name,
-                             DealQty = tab4.UnitConversionMultiplier * p.BalanceQty,
+                             //DealQty = p.BalanceQty * tab4.UnitConversionMultiplier,
+                             DealQty = JobReceiveQALineTab.JobReceiveQALineId != null ? JobReceiveQALineTab.DealQty :  tab4.UnitConversionMultiplier * p.BalanceQty,
                              Rate = tab4.Rate,
                              UnitConversionMultiplier = tab4.UnitConversionMultiplier,
                              UnitDecimalPlaces = tab2.Unit.DecimalPlaces,
@@ -295,6 +297,8 @@ namespace Service
                          from tab2 in table2.DefaultIfEmpty()
                          join t1 in db.JobReceiveLine on p.JobReceiveLineId equals t1.JobReceiveLineId into table1
                          from tab1 in table1.DefaultIfEmpty()
+                         join Qa in db.JobReceiveQALine on tab1.JobReceiveLineId equals Qa.JobReceiveLineId into JobReceiveQALineTable
+                         from JobReceiveQALineTab in JobReceiveQALineTable.DefaultIfEmpty()
                          join t3 in db.JobOrderLine on tab1.JobOrderLineId equals t3.JobOrderLineId into table3
                          from tab3 in table3.DefaultIfEmpty()
 
@@ -339,7 +343,8 @@ namespace Service
                              DealUnitId = tab3.DealUnitId,
                              DealUnitName = tab3.DealUnit.UnitName,
                              JobWorkerId = tab.JobWorkerId,
-                             DealQty = p.BalanceQty * tab3.UnitConversionMultiplier,
+                             //DealQty = p.BalanceQty * tab3.UnitConversionMultiplier,
+                             DealQty = JobReceiveQALineTab.JobReceiveQALineId != null ? JobReceiveQALineTab.DealQty : tab3.UnitConversionMultiplier * p.BalanceQty,
                              Rate = tab3.Rate,
                              UnitConversionMultiplier = tab3.UnitConversionMultiplier,
                              JobOrderDocNo = tabl2.DocNo,

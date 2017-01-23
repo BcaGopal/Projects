@@ -19,9 +19,9 @@ namespace Model.Models
         [Key]
         public int PersonID { get; set; }
 
-        [Display(Name = "Person Type"), Required]
+        [Display(Name = "Person Type")]
         [ForeignKey("DocType")]
-        public int DocTypeId { get; set; }
+        public int? DocTypeId { get; set; }
         public virtual DocumentType DocType { get; set; }
 
         [MaxLength(100,ErrorMessage ="{0} can not exceed {1} characters"), Required]

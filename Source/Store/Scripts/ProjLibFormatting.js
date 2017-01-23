@@ -301,7 +301,7 @@ $(document).ready(function () {
         $.ajaxSetup({ cache: false });
 
         $(document).on("click", "a[data-modal]", function (e) {
-
+            
             if (this.href)
                 $('#myModalContent').load(this.href, function () {
                     $('#myModal').modal({

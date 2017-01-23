@@ -283,6 +283,7 @@ namespace Data.Models
         public DbSet<ProductRelatedAccessories> ProductRelatedAccessories { get; set; }
         public DbSet<ProductShape> ProductShape { get; set; }
         public DbSet<ProductType> ProductTypes { get; set; }
+        public DbSet<ProductTypeSettings> ProductTypeSettings { get; set; }
         public DbSet<ProductTypeAttribute> ProductTypeAttribute { get; set; }
         public DbSet<ProductUidHeader> ProductUidHeader { get; set; }
         public DbSet<ProductUid> ProductUid { get; set; }

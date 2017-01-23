@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Model.ViewModel;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -28,6 +29,7 @@ namespace Model.Models
 
         [MaxLength(50)]
         public string Description { get; set; }
+
 
         [ForeignKey("ReferenceDocType"), Display(Name = "Order Type")]
         public int? ReferenceDocTypeId { get; set; }

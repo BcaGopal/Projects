@@ -238,10 +238,19 @@
     <Compile Include="Controllers\GatePassCheckController.cs" />
     <Compile Include="Controllers\Dimension4Controller.cs" />
     <Compile Include="Controllers\Dimension3Controller.cs" />
+    <Compile Include="Controllers\Dimension2Controller.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Controllers\Dimension3Controller.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Controllers\Dimension4Controller.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Controllers\PersonBankAccountController.cs" />
     <Compile Include="Controllers\PersonContactController.cs" />
-    <Compile Include="Controllers\PersonController.cs" />
     <Compile Include="Controllers\PersonProcessController.cs" />
+    <Compile Include="Controllers\ProductTypeSettingsController.cs" />
     <Compile Include="Controllers\QAGroupLineController.cs" />
     <Compile Include="Controllers\QAGroupController.cs" />
     <Compile Include="Controllers\GatePassHeaderController.cs" />
@@ -255,7 +264,6 @@
     <Compile Include="Controllers\ProductTraceController.cs" />
     <Compile Include="Controllers\ProductRateListWizardController.cs" />
     <Compile Include="Controllers\Dimension1Controller.cs" />
-    <Compile Include="Controllers\Dimension2Controller.cs" />
     <Compile Include="Controllers\DuplicateDocumentCheckController.cs" />
     <Compile Include="Controllers\BarCodeHistoryController.cs" />
     <Compile Include="Controllers\GateController.cs" />
@@ -928,6 +936,9 @@
     <Content Include="Views\PersonContact\_Create.cshtml" />
     <Content Include="Views\PersonProcess\_Create.cshtml" />
     <Content Include="Views\Shared\UnderImplementation.cshtml" />
+    <Content Include="Views\ProductTypeSettings\Create.cshtml" />
+    <Content Include="Views\Product\CopyFromExisting.cshtml" />
+    <Content Include="Views\Product\ChooseType.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

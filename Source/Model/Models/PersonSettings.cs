@@ -68,6 +68,10 @@ namespace Model.Models
         public int LedgerAccountGroupId { get; set; }
         public virtual LedgerAccountGroup LedgerAccountGroup { get; set; }
 
+        [ForeignKey("DefaultProcess"), Display(Name = "Default Process")]
+        public int? DefaultProcessId { get; set; }
+        public virtual Process DefaultProcess { get; set; }
+
         [Display(Name = "Created By")]
         public string CreatedBy { get; set; }
 

@@ -139,7 +139,7 @@
     var URL = '/JobOrderLine/GetPendingProdOrdersHelpList/' + DocID;
 
     $(document).ready(function () {
-        //CustomSelectFunction($("#ProductId"), '/JobOrderLine/GetCustomProducts', '/ComboHelpList/SetProducts', ' ', true, 1, DocID);
+        CustomSelectFunction($("#ProductId"), '/JobOrderLine/GetCustomProducts', '/ComboHelpList/SetProducts', ' ', true, 1, DocID);
         //CustomSelectFunction($("#PurchaseIndentHeaderId"), '/ComboHelpList/GetPurchaseIndents', '/ComboHelpList/SetPurchaseIndents', 'Enter Indent Name', true, 1);
         CustomSelectFunction($("#Dimension1Id"), '/ComboHelpList/GetDimension1', '/ComboHelpList/SetSingleDimension1', ' ', true, 1);
         CustomSelectFunction($("#Dimension2Id"), '/ComboHelpList/GetDimension2', '/ComboHelpList/SetSingleDimension2', ' ', true, 1);
@@ -148,8 +148,9 @@
     });  
    
 
-
-    var URL = '/ComboHelpList/GetCustomProducts/';
+    var DocID = $('#JobOrderHeaderId', '.modal-body').val();
+    var URL = '/JobOrderLine/GetCustomProducts/' + DocID;
+    //var URL = '/ComboHelpList/GetCustomProducts/';
     $("#ProductId").select2({
         minimumInputLength: 1,
         multiple: true,

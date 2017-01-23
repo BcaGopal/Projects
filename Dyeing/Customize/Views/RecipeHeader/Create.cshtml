@@ -578,6 +578,7 @@
 
     $(document).ready(function () {
         var id=@Model.JobOrderHeaderId;
+        var DocTypeId=@Model.DocTypeId;
         if(id==null||id==0)
         {
             $(document).find('a#btnCreateF').removeAttr('href').removeAttr('data-modal');
@@ -607,7 +608,7 @@
         CustomSelectFunction($("#ProductId"), '/ComboHelpList/GetProduct', '/ComboHelpList/SetSingleProduct', ' ', false, 0);
 
 
-        CustomSelectFunction($("#ProdOrderLineId"), '/RecipeHeader/GetProdOrderForProduct', '/RecipeHeader/SetSingleProdOrderLine', ' ', false, 0, $('#PersonId').val());
+        CustomSelectFunction($("#ProdOrderLineId"), '/RecipeHeader/GetProdOrderForProduct', '/RecipeHeader/SetSingleProdOrderLine', ' ', false, 0, DocTypeId);
 
         $("#JobWorkerId").select2('focus');
 

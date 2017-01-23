@@ -78,6 +78,7 @@ namespace Model.ViewModel
         public DateTime ModifiedDate { get; set; }
         public string LockReason { get; set; }
         public JobOrderInspectionSettingsViewModel JobOrderInspectionSettings { get; set; }
+        public DocumentTypeSettingsViewModel DocumentTypeSettings { get; set; }
         public string JobOrderInspectionType { get; set; }
         public int? Dimension1Id { get; set; }
         public int? Dimension2Id { get; set; }

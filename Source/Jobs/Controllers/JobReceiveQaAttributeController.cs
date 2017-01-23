@@ -21,6 +21,7 @@ using JobReceiveQADocumentEvents;
 using Reports.Reports;
 using Model.ViewModels;
 using Reports.Controllers;
+using System.Data.SqlClient;
 
 namespace Web
 {
@@ -128,6 +129,8 @@ namespace Web
                 return View("~/Views/Shared/InValidSettings.cshtml");
             }
             vm.JobReceiveQASettings = Mapper.Map<JobReceiveQASettings, JobReceiveQASettingsViewModel>(settings);
+
+            vm.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(DocTypeId);
 
             vm.ProcessId = settings.ProcessId;
             vm.DocDate = DateTime.Now;
@@ -327,9 +330,17 @@ namespace Web
             return Json(UnitConversionMultiplier);
         }
 
-        public JsonResult getunitconversiondetailjson(int productid, string unitid, string deliveryunitid)
+        public JsonResult getunitconversiondetailjson(int productid, string unitid, string deliveryunitid, int JobReceiveLineId)
         {
-            UnitConversion uc = new UnitConversionService(_unitOfWork).GetUnitConversion(productid, unitid, deliveryunitid);
+            var temp = (from L in db.JobReceiveLine
+                        where L.JobReceiveLineId == JobReceiveLineId
+                        select new
+                        {
+                            UnitConversionForId = L.JobOrderLine.JobOrderHeader.UnitConversionForId
+                        }).FirstOrDefault();
+
+            //UnitConversion uc = new UnitConversionService(_unitOfWork).GetUnitConversion(productid, unitid, deliveryunitid);
+            UnitConversion uc = new UnitConversionService(_unitOfWork).GetUnitConversion(productid, unitid, (int)temp.UnitConversionForId, deliveryunitid);
             List<SelectListItem> unitconversionjson = new List<SelectListItem>();
             if (uc != null)
             {
@@ -352,6 +363,16 @@ namespace Web
             return Json(unitconversionjson);
         }
 
+        //public JsonResult GetProductDetailJson(int ProductId, string DealUnitId)
+        //{
+        //    SqlParameter SqlParameterProductId = new SqlParameter("@ProductId", ProductId);
+        //    SqlParameter SqlParameterDealUnitId = new SqlParameter("@DealUnitId", DealUnitId);
+
+        //    ProductDimensions ProductDimensions = db.Database.SqlQuery<ProductDimensions>("" + ConfigurationManager.AppSettings["DataBaseSchema"] + ".sp_GetProductDimensions @ProductId, @DealUnitId", SqlParameterProductId, SqlParameterDealUnitId).FirstOrDefault();
+
+        //    return Json(ProductDimensions);
+        //}
+
         protected override void Dispose(bool disposing)
         {
             if (!string.IsNullOrEmpty((string)TempData["CSEXC"]))
@@ -368,4 +389,6 @@ namespace Web
 
 
     }
+
+
 }

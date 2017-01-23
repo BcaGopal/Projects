@@ -22,6 +22,8 @@ namespace Model.Models
         public int StockHeaderId { get; set; }
         public virtual StockHeader StockHeader { get; set; }
 
+        public int? DocLineId { get; set; }
+
         [Display(Name = "Doc Date"), Required]
         [DisplayFormat(DataFormatString = "{0:dd/MMM/yyyy}", ApplyFormatInEditMode = true)]
         public DateTime DocDate { get; set; }

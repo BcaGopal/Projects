@@ -209,6 +209,12 @@ namespace Web
                             Status.ObjectState = Model.ObjectState.Added;
                             LineStat.Add(Status);
 
+                            JobReceiveLine Jobreceive = new JobReceiveLineService(_unitOfWork).Find(item.JobReceiveLineId);
+                            Jobreceive.LockReason = "Job Invoice Completed";
+                            Jobreceive.ObjectState = Model.ObjectState.Modified;
+                            db.JobReceiveLine.Add(Jobreceive);
+
+
                             LineList.Add(new LineDetailListViewModel { Amount = line.Amount, Rate = line.Rate, LineTableId = line.JobInvoiceLineId, HeaderTableId = item.JobInvoiceHeaderId, PersonID = item.JobWorkerId, DealQty = line.DealQty, CostCenterId = line.CostCenterId });
                             RefIds.Add(new LineReferenceIds { LineId = line.JobInvoiceLineId, RefLineId = line.JobReceiveLineId });
                             pk++;
@@ -503,6 +509,10 @@ namespace Web
                     s.ObjectState = Model.ObjectState.Added;
                     db.JobInvoiceLine.Add(s);
 
+                    Rec.LockReason = "Job Invoice Completed";
+                    Rec.ObjectState = Model.ObjectState.Modified;
+                    db.JobReceiveLine.Add(Rec);
+
                     JobInvoiceLineStatus Status = new JobInvoiceLineStatus();
                     Status.JobInvoiceLineId = s.JobInvoiceLineId;
                     Status.ObjectState = Model.ObjectState.Added;
@@ -631,8 +641,6 @@ namespace Web
                     StringBuilder logstring = new StringBuilder();
                     int status = header.Status;
                     JobInvoiceLine temp1 = _JobInvoiceLineService.Find(svm.JobInvoiceLineId);
-
-
                     JobInvoiceLine ExRec = new JobInvoiceLine();
                     ExRec = Mapper.Map<JobInvoiceLine>(temp1);
 
@@ -935,6 +943,11 @@ namespace Web
                 JobInvoiceLine JobInvoiceLine = (from p in db.JobInvoiceLine
                                                  where p.JobInvoiceLineId == vm.JobInvoiceLineId
                                                  select p).FirstOrDefault();
+                
+                JobReceiveLine Rec = (from p in db.JobReceiveLine
+                                      where p.JobReceiveLineId == JobInvoiceLine.JobReceiveLineId
+                                      select p).FirstOrDefault();
+
                 JobInvoiceHeader header = new JobInvoiceHeaderService(_unitOfWork).Find(JobInvoiceLine.JobInvoiceHeaderId);
 
                 LogList.Add(new LogTypeViewModel
@@ -949,10 +962,14 @@ namespace Web
                 Status.JobInvoiceLineId = JobInvoiceLine.JobInvoiceLineId;
                 db.JobInvoiceLineStatus.Attach(Status);
                 Status.ObjectState = Model.ObjectState.Deleted;
-
                 db.JobInvoiceLineStatus.Remove(Status);
 
                 //_JobInvoiceLineService.Delete(JobInvoiceLine);
+                Rec.LockReason =null;
+                Rec.ObjectState = Model.ObjectState.Modified;
+                db.JobReceiveLine.Add(Rec);
+
+
                 JobInvoiceLine.ObjectState = Model.ObjectState.Deleted;
                 db.JobInvoiceLine.Remove(JobInvoiceLine);
 
@@ -966,9 +983,9 @@ namespace Web
                     //new JobInvoiceHeaderService(_unitOfWork).Update(header);
                 }
 
-                //var chargeslist = new JobInvoiceLineChargeService(_unitOfWork).GetCalculationProductList(vm.JobInvoiceLineId);
 
-                var chargeslist = (from p in db.JobInvoiceLineCharge
+
+                var chargeslist = (from p in db.JobInvoiceLineCharge 
                                    where p.LineTableId == vm.JobInvoiceLineId
                                    select p).ToList();
 
@@ -977,7 +994,7 @@ namespace Web
                     {
                         item.ObjectState = Model.ObjectState.Deleted;
                         db.JobInvoiceLineCharge.Remove(item);
-                        //new JobInvoiceLineChargeService(_unitOfWork).Delete(item.Id);
+
                     }
 
                 if (vm.footercharges != null)
@@ -992,7 +1009,7 @@ namespace Web
                     }
                 XElement Modifications = new ModificationsCheckService().CheckChanges(LogList);
 
-                try
+                try 
                 {
                     JobInvoiceDocEvents.onLineDeleteEvent(this, new JobEventArgs(JobInvoiceLine.JobInvoiceHeaderId, JobInvoiceLine.JobInvoiceLineId), ref db);
                 }

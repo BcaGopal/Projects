@@ -40,6 +40,9 @@ namespace Model.Models
         [Display(Name = "Decimal Places")]
         public byte DecimalPlaces { get; set; }
 
+        [MaxLength(3)]
+        public string DimensionUnitId { get; set; }
+
         [Display(Name = "Is System Define ?")]
         public Boolean IsSystemDefine { get; set; }
         

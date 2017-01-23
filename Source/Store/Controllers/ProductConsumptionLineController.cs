@@ -24,6 +24,7 @@ using Presentation;
 using System.Text;
 using System.Web.Script.Serialization;
 using System.Data.Entity.Validation;
+using Model.ViewModel;
 
 namespace Web
 {
@@ -56,8 +57,19 @@ namespace Web
 
         public ActionResult _Create(int Id) //Id ==>Sale Order Header Id
         {
+            int ProductTypeId = (from p in db.Product
+                                 where p.ProductId == Id
+                                 select new
+                                 {
+                                     ProductTypeId = p.ProductGroup.ProductTypeId
+                                 }).FirstOrDefault().ProductTypeId;
+
             ProductConsumptionLineViewModel s = new ProductConsumptionLineViewModel();
             s.BaseProductId = Id;
+
+            var settings = new ProductTypeSettingsService(_unitOfWork).GetProductTypeSettingsForDocument(ProductTypeId);
+            s.ProductTypeSettings = Mapper.Map<ProductTypeSettings, ProductTypeSettingsViewModel>(settings);
+
             PrepareViewBag(s);
             return PartialView("_Create", s);
         }
@@ -173,6 +185,16 @@ namespace Web
 
             PrepareViewBag(s);
 
+            int ProductTypeId = (from p in db.Product
+                                 where p.ProductId == s.BaseProductId
+                                 select new
+                                 {
+                                     ProductTypeId = p.ProductGroup.ProductTypeId
+                                 }).FirstOrDefault().ProductTypeId;
+
+            var settings = new ProductTypeSettingsService(_unitOfWork).GetProductTypeSettingsForDocument(ProductTypeId);
+            s.ProductTypeSettings = Mapper.Map<ProductTypeSettings, ProductTypeSettingsViewModel>(settings);
+
             if (s == null)
             {
                 return HttpNotFound();
@@ -188,11 +210,23 @@ namespace Web
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
+            int ProductTypeId = (from p in db.Product
+                                 where p.ProductId == id
+                                 select new
+                                 {
+                                     ProductTypeId = p.ProductGroup.ProductTypeId
+                                 }).FirstOrDefault().ProductTypeId;
+
             BomDetail BomDetail = _BomDetailService.Find(id);
             if (BomDetail == null)
             {
                 return HttpNotFound();
             }
+
+            var settings = new ProductTypeSettingsService(_unitOfWork).GetProductTypeSettingsForDocument(ProductTypeId);
+            //BomDetail.ProductTypeSettings = Mapper.Map<ProductTypeSettings, ProductTypeSettingsViewModel>(settings);
+
             return View(BomDetail);
         }
 
@@ -244,15 +278,15 @@ namespace Web
         }
 
 
-        public JsonResult CheckForValidationinEdit(int ProductId, int? Dimension1Id, int? Dimension2Id, int? Dimension3Id, int? Dimension4Id, int BaseProductId, int BomDetailId)
+        public JsonResult CheckForValidationinEdit(int ProductId, int? Dimension1Id, int? Dimension2Id, int? Dimension3Id, int? Dimension4Id, int? ProcessId, int BaseProductId, int BomDetailId)
         {
-            var temp = (_BomDetailService.CheckForProductDimensionExists(ProductId, Dimension1Id, Dimension2Id, Dimension3Id, Dimension4Id, BaseProductId, BomDetailId));
+            var temp = (_BomDetailService.CheckForProductDimensionExists(ProductId, Dimension1Id, Dimension2Id, Dimension3Id, Dimension4Id, ProcessId, BaseProductId, BomDetailId));
             return Json(new { returnvalue = temp });
         }
 
-        public JsonResult CheckForValidation(int ProductId, int? Dimension1Id, int? Dimension2Id, int? Dimension3Id, int? Dimension4Id, int BaseProductId)
+        public JsonResult CheckForValidation(int ProductId, int? Dimension1Id, int? Dimension2Id, int? Dimension3Id, int? Dimension4Id, int? ProcessId, int BaseProductId)
         {
-            var temp = (_BomDetailService.CheckForProductDimensionExists(ProductId, Dimension1Id, Dimension2Id, Dimension3Id, Dimension4Id, BaseProductId));
+            var temp = (_BomDetailService.CheckForProductDimensionExists(ProductId, Dimension1Id, Dimension2Id, Dimension3Id, Dimension4Id, ProcessId, BaseProductId));
             return Json(new { returnvalue = temp });
         }
     }

@@ -804,5 +804,10 @@ namespace Customize.Controllers
             }
         }
 
+        public ActionResult Settings(int id)//Document Type Id
+        {
+            return Redirect((string)System.Configuration.ConfigurationManager.AppSettings["JobsDomain"] + "/JobReceiveSettings/Create/" + id.ToString());
+        }
+
     }
 }

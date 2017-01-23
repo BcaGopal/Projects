@@ -114,6 +114,12 @@ namespace Store.App_Start
             container.RegisterType<IRepository<Dimension2>, Repository<Dimension2>>();
             container.RegisterType<IDimension2Service, Dimension2Service>(new PerRequestLifetimeManager());
 
+            container.RegisterType<IRepository<Dimension3>, Repository<Dimension3>>();
+            container.RegisterType<IDimension3Service, Dimension3Service>(new PerRequestLifetimeManager());
+
+            container.RegisterType<IRepository<Dimension4>, Repository<Dimension4>>();
+            container.RegisterType<IDimension4Service, Dimension4Service>(new PerRequestLifetimeManager());
+
             container.RegisterType<IRepository<Godown>, Repository<Godown>>();
             container.RegisterType<IGodownService, GodownService>(new PerRequestLifetimeManager());
 
@@ -167,6 +173,9 @@ namespace Store.App_Start
 
             container.RegisterType<IRepository<ProductType>, Repository<ProductType>>();
             container.RegisterType<IProductTypeService, ProductTypeService>(new PerRequestLifetimeManager());
+
+            container.RegisterType<IRepository<ProductTypeSettings>, Repository<ProductTypeSettings>>();
+            container.RegisterType<IProductTypeSettingsService, ProductTypeSettingsService>(new PerRequestLifetimeManager());
 
             container.RegisterType<IRepository<Unit>, Repository<Unit>>();
             container.RegisterType<IUnitService, UnitService>(new PerRequestLifetimeManager());
@@ -275,6 +284,8 @@ namespace Store.App_Start
             Mapper.CreateMap<ProductGroupSettings, ProductGroupSettingsViewModel>();
             Mapper.CreateMap<ProductGroupSettingsViewModel, ProductGroupSettings>();
 
+            Mapper.CreateMap<ProductTypeSettings, ProductTypeSettingsViewModel>();
+            Mapper.CreateMap<ProductTypeSettingsViewModel, ProductTypeSettings>();
 
             Mapper.CreateMap<StockHeaderSettings, StockHeaderSettingsViewModel>();
             Mapper.CreateMap<StockHeaderSettingsViewModel, StockHeaderSettings>();
@@ -335,6 +346,18 @@ namespace Store.App_Start
 
             Mapper.CreateMap<ProductGroupProcessSettings, ProductGroupProcessSettingsViewModel>();
             Mapper.CreateMap<ProductGroupProcessSettingsViewModel, ProductGroupProcessSettings>();
+
+            Mapper.CreateMap<Dimension1, Dimension1ViewModel>();
+            Mapper.CreateMap<Dimension1ViewModel, Dimension1>();
+
+            Mapper.CreateMap<Dimension2, Dimension2ViewModel>();
+            Mapper.CreateMap<Dimension2ViewModel, Dimension2>();
+
+            Mapper.CreateMap<Dimension3, Dimension3ViewModel>();
+            Mapper.CreateMap<Dimension3ViewModel, Dimension3>();
+
+            Mapper.CreateMap<Dimension4, Dimension4ViewModel>();
+            Mapper.CreateMap<Dimension4ViewModel, Dimension4>();
 
 
             Mapper.CreateMap<RequisitionCancelHeader, RequisitionCancelHeader>();

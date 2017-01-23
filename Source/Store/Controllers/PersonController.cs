@@ -246,16 +246,31 @@ namespace Web
                     person.ObjectState = Model.ObjectState.Added;
                     new PersonService(_unitOfWork).Create(person);
 
+                    int CurrentDivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
+                    int CurrentSiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
+
 
                     string Divisions = PersonVm.DivisionIds;
                     if (Divisions != null)
-                    { Divisions = "|" + Divisions.Replace(",", "|,|") + "|"; }
+                    { 
+                        Divisions = "|" + Divisions.Replace(",", "|,|") + "|"; 
+                    }
+                    else
+                    {
+                        Divisions = "|" + CurrentDivisionId.ToString() + "|";
+                    }
 
                     businessentity.DivisionIds = Divisions;
 
                     string Sites = PersonVm.SiteIds ;
                     if (Sites != null)
-                    { Sites = "|" + Sites.Replace(",", "|,|") + "|"; }
+                    { 
+                        Sites = "|" + Sites.Replace(",", "|,|") + "|"; 
+                    }
+                    else
+                    {
+                        Sites = "|" + CurrentSiteId.ToString() + "|";
+                    }
 
                     businessentity.SiteIds = Sites;
 
@@ -279,6 +294,19 @@ namespace Web
                     account.ModifiedBy = User.Identity.Name;
                     account.ObjectState = Model.ObjectState.Added;
                     _AccountService.Create(account);
+
+                    if (settings.DefaultProcessId != null && settings.DefaultProcessId != 0)
+                    {
+                        PersonProcess personprocess = new PersonProcess();
+                        personprocess.PersonId = person.PersonID;
+                        personprocess.ProcessId = (int)settings.DefaultProcessId;
+                        personprocess.CreatedDate = DateTime.Now;
+                        personprocess.ModifiedDate = DateTime.Now;
+                        personprocess.CreatedBy = User.Identity.Name;
+                        personprocess.ModifiedBy = User.Identity.Name;
+                        personprocess.ObjectState = Model.ObjectState.Added;
+                        _PersonProcessService.Create(personprocess);
+                    }
 
                     //if (PersonVm.ProcessIds != null &&  PersonVm.ProcessIds != "")
                     //{
@@ -481,15 +509,32 @@ namespace Web
                     person.ModifiedBy = User.Identity.Name;
                     new PersonService(_unitOfWork).Update(person);
 
+
+                    int CurrentDivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
+                    int CurrentSiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
+
+
                     string Divisions = PersonVm.DivisionIds;
                     if (Divisions != null)
-                    { Divisions = "|" + Divisions.Replace(",", "|,|") + "|"; }
+                    { 
+                        Divisions = "|" + Divisions.Replace(",", "|,|") + "|"; 
+                    }
+                    else
+                    {
+                        Divisions = "|" + CurrentDivisionId.ToString() + "|";
+                    }
 
                     businessentity.DivisionIds = Divisions;
 
                     string Sites = PersonVm.SiteIds;
                     if (Sites != null)
-                    { Sites = "|" + Sites.Replace(",", "|,|") + "|"; }
+                    { 
+                        Sites = "|" + Sites.Replace(",", "|,|") + "|"; 
+                    }
+                    else
+                    {
+                        Sites = "|" + CurrentSiteId.ToString() + "|";
+                    }
 
                     businessentity.SiteIds = Sites;
 
@@ -522,6 +567,25 @@ namespace Web
                         ExObj = ExRecLA,
                         Obj = account,
                     });
+
+
+                    if (settings.DefaultProcessId != null && settings.DefaultProcessId != 0)
+                    {
+                        var temp = (from p in db.PersonProcess where p.PersonId == person.PersonID && p.ProcessId == settings.DefaultProcessId select p).FirstOrDefault();
+
+                        if (temp != null)
+                        {
+                            PersonProcess personprocess = new PersonProcess();
+                            personprocess.PersonId = person.PersonID;
+                            personprocess.ProcessId = (int)settings.DefaultProcessId;
+                            personprocess.CreatedDate = DateTime.Now;
+                            personprocess.ModifiedDate = DateTime.Now;
+                            personprocess.CreatedBy = User.Identity.Name;
+                            personprocess.ModifiedBy = User.Identity.Name;
+                            personprocess.ObjectState = Model.ObjectState.Added;
+                            _PersonProcessService.Create(personprocess);
+                        }
+                    }
 
                     //if (PersonVm.ProcessIds != "" && PersonVm.ProcessIds != null)
                     //{

@@ -2019,7 +2019,8 @@ namespace Web
 
             var temp = _JobOrderLineService.GetPendingProdOrderHelpList(filter, searchTerm).Skip(pageSize * (pageNum - 1)).Take(pageSize).ToList();
 
-            var count = _JobOrderLineService.GetPendingProdOrderHelpList(filter, searchTerm).Count();
+            //var count = _JobOrderLineService.GetPendingProdOrderHelpList(filter, searchTerm).Count();
+            var count = temp.Count();
 
             ComboBoxPagedResult Data = new ComboBoxPagedResult();
             Data.Results = temp;

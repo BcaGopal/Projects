@@ -105,10 +105,11 @@
 
     $(document).ready(function () {
               
-        CustomSelectFunction($("#ProductGroupId"), '/ComboHelpList/GetProductGroup', '/ComboHelpList/SetProductGroup', 'Enter Group Name', true, 1);
-        CustomSelectFunction($("#Dimension1Id"), '/ComboHelpList/GetDimension1', '/ComboHelpList/SetDimension1', 'Enter Dimension1', true, 1);
-        CustomSelectFunction($("#Dimension2Id"), '/ComboHelpList/GetDimension2', '/ComboHelpList/SetDimension2', 'Enter Dimension2', true, 1);
-        CustomSelectFunction($("#CostCenterId"), '/StockIssueLine/GetCostCenters', '/ComboHelpList/SetCostCenter', 'Enter CostCenter', true, 1,PerId);
+        //CustomSelectFunction($("#ProductGroupId"), '/ComboHelpList/GetProductGroup', '/ComboHelpList/SetProductGroup', ' ', true, 1);
+        CustomSelectFunction($("#ProductGroupId"), '/StockIssueLine/GetCustomProductGroups', '/ComboHelpList/SetProductGroup', ' ', false, 0, DocID);
+        CustomSelectFunction($("#Dimension1Id"), '/ComboHelpList/GetDimension1', '/ComboHelpList/SetDimension1', ' ', true, 1);
+        CustomSelectFunction($("#Dimension2Id"), '/ComboHelpList/GetDimension2', '/ComboHelpList/SetDimension2', ' ', true, 1);
+        CustomSelectFunction($("#CostCenterId"), '/StockIssueLine/GetCostCenters', '/ComboHelpList/SetCostCenter', ' ', true, 1,PerId);
     });
 
     $('#Allsubmit').on('click', function () {
