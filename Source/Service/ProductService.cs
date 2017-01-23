@@ -74,6 +74,7 @@ namespace Service
                         ProductName = p.ProductName,
                         ProductCode = p.ProductCode,
                         ProductGroupId = (int)p.ProductGroupId,
+                        ProductSpecification = p.ProductSpecification,
                         StandardCost = p.StandardCost,
                         Tags = p.Tags,
                         UnitId = p.UnitId,

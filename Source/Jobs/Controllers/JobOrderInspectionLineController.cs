@@ -1103,6 +1103,8 @@ namespace Web
             var settings = new JobOrderInspectionSettingsService(db).GetJobOrderInspectionSettingsForDocument(H.DocTypeId, H.DivisionId, H.SiteId);
             s.JobOrderInspectionSettings = Mapper.Map<JobOrderInspectionSettings, JobOrderInspectionSettingsViewModel>(settings);
 
+            s.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(H.DocTypeId);
+
             s.JobOrderInspectionHeaderId = Id;
             s.JobOrderInspectionDocNo = H.DocNo;
             s.JobWorkerId = JobWorkerId;
@@ -1422,6 +1424,8 @@ namespace Web
             var settings = new JobOrderInspectionSettingsService(db).GetJobOrderInspectionSettingsForDocument(H.DocTypeId, H.DivisionId, H.SiteId);
             temp.JobOrderInspectionSettings = Mapper.Map<JobOrderInspectionSettings, JobOrderInspectionSettingsViewModel>(settings);
 
+            temp.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(H.DocTypeId);
+
             PrepareViewBag(temp);
 
             return PartialView("_Create", temp);
@@ -1482,6 +1486,8 @@ namespace Web
             //Getting Settings
             var settings = new JobOrderInspectionSettingsService(db).GetJobOrderInspectionSettingsForDocument(H.DocTypeId, H.DivisionId, H.SiteId);
             temp.JobOrderInspectionSettings = Mapper.Map<JobOrderInspectionSettings, JobOrderInspectionSettingsViewModel>(settings);
+
+            temp.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(H.DocTypeId);
 
             PrepareViewBag(temp);
 

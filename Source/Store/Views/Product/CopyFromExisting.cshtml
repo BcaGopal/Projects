@@ -16,6 +16,7 @@
         @using (Html.BeginForm("CopyFromExisting", "Product", FormMethod.Post, new { @class = "modal-form", id = "modform" }))
         {
             @Html.AntiForgeryToken()
+            @Html.HiddenFor(m => m.ProductId)    
 
             <div class="form-horizontal modal-body">
 
@@ -35,14 +36,14 @@
                             </div>
                         </div>                       
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-6" style="display:@(Model.ProductId == null ?"":"none")">
                         <div class="form-group" style="margin-top:15px">
                             @Html.LabelFor(model => model.ProductName, "Product Name", new { @class = "control-label col-xs-4 " })
                             <div class="col-xs-7">
                                 @Html.TextBoxFor(m => m.ProductName, null, new { @class = "form-control col-xs-7 required" })
                                 @Html.ValidationMessageFor(m => m.ProductName, "", new { @class = "text-danger" })
                             </div>
-                        </div>                       
+                        </div>
                     </div>
                 </div>
 

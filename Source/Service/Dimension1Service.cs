@@ -9,6 +9,7 @@ using System;
 using Model;
 using System.Threading.Tasks;
 using Data.Models;
+using Model.ViewModels;
 
 namespace Service
 {
@@ -23,6 +24,7 @@ namespace Service
         void Update(Dimension1 pt);
         Dimension1 Add(Dimension1 pt);
         IQueryable<Dimension1> GetDimension1List(int id);
+        IQueryable<Dimension1ViewModel> GetDimension1ViewModelList(int id);
 
         // IEnumerable<Dimension1> GetDimension1List(int buyerId);
         Task<IEquatable<Dimension1>> GetAsync();
@@ -98,6 +100,23 @@ namespace Service
                          orderby p.Dimension1Name
                          select p
                          );
+        }
+
+
+        public IQueryable<Dimension1ViewModel> GetDimension1ViewModelList(int id)
+        {
+            //var pt = _unitOfWork.Repository<Dimension1>().Query().Get().Where(m=>m.ProductTypeId==id).OrderBy(m=>m.Dimension1Name);
+
+            return (from p in db.Dimension1
+                    where p.ProductTypeId == id
+                    orderby p.Dimension1Name
+                    select new Dimension1ViewModel
+                    {
+                        Dimension1Id = p.Dimension1Id,
+                        Dimension1Name = p.Dimension1Name,
+                        Description = p.Description,
+                        IsActive = p.IsActive
+                    });
         }
 
         public Dimension1 Add(Dimension1 pt)

@@ -581,6 +581,8 @@ namespace Web
             var settings = new JobReceiveQASettingsService(db).GetJobReceiveQASettingsForDocument(H.DocTypeId, H.DivisionId, H.SiteId);
             s.JobReceiveQASettings = Mapper.Map<JobReceiveQASettings, JobReceiveQASettingsViewModel>(settings);
 
+            s.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(H.DocTypeId);
+
             s.JobReceiveQAHeaderId = Id;
             s.JobReceiveQADocNo = H.DocNo;
             s.JobWorkerId = JobWorkerId;
@@ -879,6 +881,8 @@ namespace Web
             var settings = new JobReceiveQASettingsService(db).GetJobReceiveQASettingsForDocument(H.DocTypeId, H.DivisionId, H.SiteId);
             temp.JobReceiveQASettings = Mapper.Map<JobReceiveQASettings, JobReceiveQASettingsViewModel>(settings);
 
+            temp.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(H.DocTypeId);
+
             PrepareViewBag(temp);
 
             return PartialView("_Create", temp);
@@ -936,6 +940,8 @@ namespace Web
             //Getting Settings
             var settings = new JobReceiveQASettingsService(db).GetJobReceiveQASettingsForDocument(H.DocTypeId, H.DivisionId, H.SiteId);
             temp.JobReceiveQASettings = Mapper.Map<JobReceiveQASettings, JobReceiveQASettingsViewModel>(settings);
+
+            temp.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(H.DocTypeId);
 
             PrepareViewBag(temp);
 
@@ -1013,6 +1019,7 @@ namespace Web
                     QALineExtended.ObjectState = Model.ObjectState.Deleted;
                     db.JobReceiveQALineExtended.Remove(QALineExtended);
                 }
+
 
 
 

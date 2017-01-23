@@ -405,28 +405,33 @@
 {
     <script type="text/javascript">
 
-        RemoveFields();
 
-        function RemoveFields(){
-            //Disabling input fields
-            $(':input:not(:submit)').attr('disabled','disabled');
+        $(document).ready(function(){
+            DisablePageNavigation();
+        })
 
-            //Removing all the events from the newly created lines
-            $('#gbody').unbind();
+        //RemoveFields();
 
-            //Removing Add New Row ActionLink
-            $('a#btnCreate').parents('h5')[0].remove();
+        //function RemoveFields(){
+        //    //Disabling input fields
+        //    $(':input:not(:submit)').attr('disabled','disabled');
 
-            $('a#btnCreateF').remove();
+        //    //Removing all the events from the newly created lines
+        //    $('#gbody').unbind();
+
+        //    //Removing Add New Row ActionLink
+        //    $('a#btnCreate').parents('h5')[0].remove();
+
+        //    $('a#btnCreateF').remove();
 
 
-            //Preventing the click event on newly created elements
-            $(document).on('click','#Result a',function(event){
-                event.preventDefault();
-            })
-            //Removing the action link from the form so that the request will be redirected to the Submit function in the controller instead of the hardcoded path
-            $('form:last').prop('action','');
-        }
+        //    //Preventing the click event on newly created elements
+        //    $(document).on('click','#Result a',function(event){
+        //        event.preventDefault();
+        //    })
+        //    //Removing the action link from the form so that the request will be redirected to the Submit function in the controller instead of the hardcoded path
+        //    $('form:last').prop('action','');
+        //}
 
 
     </script>

@@ -57,9 +57,10 @@ namespace Model.ViewModels
         [Required, Range(1, int.MaxValue, ErrorMessage = "Product field is required")]
         public int FromProductId { get; set; }
 
+        public int? ProductId { get; set; }
+
         public string ProductCode { get; set; }
 
-        [Required(ErrorMessage = "Name field is required")]
         public string ProductName { get; set; }
 
         public int? BomProductId { get; set; }
@@ -97,6 +98,7 @@ namespace Model.ViewModels
         public string ReplacingBomDimension4Name { get; set; }
 
         public ProductTypeSettingsViewModel ProductTypeSettings { get; set; }
+
 
     }
 }

@@ -448,6 +448,7 @@ namespace Web
                     pt1.ProductName = pvm.ProductName;
                     pt1.ProductCode = pvm.ProductCode;
                     pt1.ProductGroupId = pvm.ProductGroupId;
+                    pt1.ProductSpecification = pvm.ProductSpecification;
                     pt1.StandardCost = pvm.StandardCost;
                     pt1.Tags = pvm.Tags;
                     pt1.UnitId = pvm.UnitId;
@@ -640,6 +641,7 @@ namespace Web
                     pt.ProductCode = pvm.ProductCode;
                     pt.StandardCost = pvm.StandardCost;
                     pt.ProductGroupId = pvm.ProductGroupId;
+                    pt.ProductSpecification = pvm.ProductSpecification;
                     pt.SalesTaxGroupProductId = pvm.SalesTaxGroupProductId;
                     pt.Tags = pvm.Tags;
                     pt.UnitId = pvm.UnitId;
@@ -988,6 +990,18 @@ namespace Web
         public ActionResult ChooseType(int id)
         {
             ViewBag.id = id;
+
+            //var settings = new ProductTypeSettingsService(_unitOfWork).GetProductTypeSettingsForDocument(id);
+
+            //if (settings == null && UserRoles.Contains("Admin"))
+            //{
+            //    return RedirectToAction("Create", "ProductTypeSettings", new { id = id }).Warning("Please create Product Type Settings");
+            //}
+            //else if (settings == null && !UserRoles.Contains("Admin"))
+            //{
+            //    return View("~/Views/Shared/InValidSettings.cshtml");
+            //}
+
             return PartialView("ChooseType");
         }
         [HttpGet]
@@ -1002,6 +1016,19 @@ namespace Web
             return PartialView("CopyFromExisting", vm);
         }
 
+        [HttpGet]
+        public ActionResult CopyFromExistingConsumption(int ProductId)
+        {
+            //ViewBag.id = id;
+
+            int ProductTypeId = (from P in db.Product where P.ProductId == ProductId select new { ProductTypeId = P.ProductGroup.ProductTypeId }).FirstOrDefault().ProductTypeId;
+            CopyFromExistingProductViewModel vm = new CopyFromExistingProductViewModel();
+            var settings = new ProductTypeSettingsService(_unitOfWork).GetProductTypeSettingsForDocument(ProductTypeId);
+            vm.ProductTypeSettings = Mapper.Map<ProductTypeSettings, ProductTypeSettingsViewModel>(settings);
+            vm.ProductId = ProductId;
+
+            return PartialView("CopyFromExisting", vm);
+        }
 
         [HttpPost]
         public ActionResult CopyFromExisting(CopyFromExistingProductViewModel vm)
@@ -1010,42 +1037,48 @@ namespace Web
             if (ModelState.IsValid)
             {
                 Product FromProduct = _ProductService.Find(vm.FromProductId);
+                Product NewProduct = new FinishedProduct();
 
-                FinishedProduct NewProduct = new FinishedProduct();
-
-
-                if (vm.ProductCode == "" || vm.ProductCode == null)
+                if (vm.ProductId == null)
                 {
-                    if (vm.ProductName.Length > 20)
+                    if (vm.ProductCode == "" || vm.ProductCode == null)
                     {
-                        NewProduct.ProductCode = vm.ProductName.ToString().Substring(0, 20);
+                        if (vm.ProductName.Length > 20)
+                        {
+                            NewProduct.ProductCode = vm.ProductName.ToString().Substring(0, 20);
+                        }
+                        else
+                        {
+                            NewProduct.ProductCode = vm.ProductName.ToString().Substring(0, vm.ProductName.Length);
+                        }
                     }
                     else
                     {
-                        NewProduct.ProductCode = vm.ProductName.ToString().Substring(0, vm.ProductName.Length);
+                        NewProduct.ProductCode = vm.ProductCode;
                     }
+
+
+                    NewProduct.ProductName = vm.ProductName;
+                    NewProduct.ProductDescription = vm.ProductName;
+                    NewProduct.ProductGroupId = FromProduct.ProductGroupId;
+                    NewProduct.ProductSpecification = FromProduct.ProductSpecification;
+                    NewProduct.StandardCost = FromProduct.StandardCost;
+                    NewProduct.SalesTaxGroupProductId = FromProduct.SalesTaxGroupProductId;
+                    NewProduct.UnitId = FromProduct.UnitId;
+                    NewProduct.DivisionId = FromProduct.DivisionId;
+                    NewProduct.IsActive = true;
+                    NewProduct.CreatedDate = DateTime.Now;
+                    NewProduct.ModifiedDate = DateTime.Now;
+                    NewProduct.CreatedBy = User.Identity.Name;
+                    NewProduct.ModifiedBy = User.Identity.Name;
+                    NewProduct.ObjectState = Model.ObjectState.Added;
+                    _ProductService.Create(NewProduct);
                 }
                 else
                 {
-                    NewProduct.ProductCode = vm.ProductCode;
+                    NewProduct = _ProductService.Find((int)vm.ProductId);
                 }
 
-
-                NewProduct.ProductName = vm.ProductName;
-                NewProduct.ProductDescription = vm.ProductName;
-                NewProduct.ProductGroupId = FromProduct.ProductGroupId;
-                NewProduct.StandardCost = FromProduct.StandardCost;
-                NewProduct.SalesTaxGroupProductId = FromProduct.SalesTaxGroupProductId;
-                NewProduct.UnitId = FromProduct.UnitId;
-                NewProduct.DivisionId = FromProduct.DivisionId;
-                NewProduct.IsActive = true;
-                NewProduct.CreatedDate = DateTime.Now;
-                NewProduct.ModifiedDate = DateTime.Now;
-                NewProduct.CreatedBy = User.Identity.Name;
-                NewProduct.ModifiedBy = User.Identity.Name;
-                NewProduct.IsSample = false;
-                NewProduct.ObjectState = Model.ObjectState.Added;
-                _ProductService.Create(NewProduct);
 
 
                 IEnumerable<BomDetail> BomDetailList = new BomDetailService(_unitOfWork).GetBomDetailList(FromProduct.ProductId);
@@ -1125,7 +1158,7 @@ namespace Web
 
                 }
 
-                return Json(new { success = true, Url = "/DesignConsumptionHeader/Edit/" + NewProduct.ProductId });
+                return Json(new { success = true, Url = "/Product/EditMaterial/" + NewProduct.ProductId });
 
 
             }
@@ -1133,6 +1166,8 @@ namespace Web
             return PartialView("CopyFromExisting", vm);
 
         }
+
+
 
 
 

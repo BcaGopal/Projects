@@ -404,6 +404,7 @@ namespace Service
     public class LastValues
     {
         public int? QAById { get; set; }
+        public int? JobReceiveById { get; set; }
     }
 
 

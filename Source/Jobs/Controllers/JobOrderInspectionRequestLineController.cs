@@ -616,6 +616,7 @@ namespace Web
             //Getting Settings
             var settings = new JobOrderInspectionRequestSettingsService(db).GetJobOrderInspectionRequestSettingsForDocument(header.DocTypeId, header.DivisionId, header.SiteId);
             svm.JobOrderInspectionRequestSettings = Mapper.Map<JobOrderInspectionRequestSettings, JobOrderInspectionRequestSettingsViewModel>(settings);
+            svm.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(header.DocTypeId);
             ViewBag.LineMode = "Create";
             svm.JobOrderInspectionRequestHeaderId = Id;
             svm.JobWorkerId = sid;
@@ -965,6 +966,7 @@ namespace Web
                 temp.BarCodes = temp.ProductUidId.ToString();
             }
             temp.JobOrderInspectionRequestSettings = Mapper.Map<JobOrderInspectionRequestSettings, JobOrderInspectionRequestSettingsViewModel>(settings);
+            temp.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(header.DocTypeId);
            
             return PartialView("_Create", temp);
         }
@@ -1031,7 +1033,9 @@ namespace Web
                 ViewBag.BarCodeGenerated = true;
                 temp.BarCodes = temp.ProductUidId.ToString();
             }
-            temp.JobOrderInspectionRequestSettings = Mapper.Map<JobOrderInspectionRequestSettings, JobOrderInspectionRequestSettingsViewModel>(settings);          
+            temp.JobOrderInspectionRequestSettings = Mapper.Map<JobOrderInspectionRequestSettings, JobOrderInspectionRequestSettingsViewModel>(settings);
+
+            temp.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(header.DocTypeId);
 
             return PartialView("_Create", temp);
         }

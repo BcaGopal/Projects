@@ -1096,7 +1096,7 @@ namespace Service
                     StockViewModel_IssQty.StockId = -1;
                     StockViewModel_IssQty.StockHeaderId = Header.StockHeaderId ?? 0;
                     StockViewModel_IssQty.DocHeaderId = Header.JobReceiveQAHeaderId;
-                    StockViewModel_IssQty.DocLineId = item.JobReceiveLineId;
+                    StockViewModel_IssQty.DocLineId = item.JobReceiveQALineId;
                     StockViewModel_IssQty.DocTypeId = Header.DocTypeId;
                     StockViewModel_IssQty.StockHeaderDocDate = Header.DocDate;
                     StockViewModel_IssQty.StockDocDate = DateTime.Now.Date;
@@ -1158,7 +1158,7 @@ namespace Service
                     StockViewModel_RecFailedQty.StockId = -2;
                     StockViewModel_RecFailedQty.StockHeaderId = Header.StockHeaderId ?? -1;
                     StockViewModel_RecFailedQty.DocHeaderId = Header.JobReceiveQAHeaderId;
-                    StockViewModel_RecFailedQty.DocLineId = item.JobReceiveLineId;
+                    StockViewModel_RecFailedQty.DocLineId = item.JobReceiveQALineId;
                     StockViewModel_RecFailedQty.DocTypeId = Header.DocTypeId;
                     StockViewModel_RecFailedQty.StockHeaderDocDate = Header.DocDate;
                     StockViewModel_RecFailedQty.StockDocDate = DateTime.Now.Date;

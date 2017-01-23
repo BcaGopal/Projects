@@ -596,6 +596,7 @@ namespace Web
             //Getting Settings
             var settings = new JobOrderInspectionRequestSettingsService(db).GetJobOrderInspectionRequestSettingsForDocument(header.DocTypeId, header.DivisionId, header.SiteId);
             svm.JobOrderInspectionRequestSettings = Mapper.Map<JobOrderInspectionRequestSettings, JobOrderInspectionRequestSettingsViewModel>(settings);
+            svm.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(header.DocTypeId);
             ViewBag.LineMode = "Create";
             svm.JobOrderInspectionRequestCancelHeaderId = Id;
             svm.JobWorkerId = sid;
@@ -911,6 +912,7 @@ namespace Web
                 temp.BarCodes = temp.ProductUidId.ToString();
             }
             temp.JobOrderInspectionRequestSettings = Mapper.Map<JobOrderInspectionRequestSettings, JobOrderInspectionRequestSettingsViewModel>(settings);
+            temp.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(header.DocTypeId);
             if (string.IsNullOrEmpty(temp.LockReason) || UserRoles.Contains("Admin"))
                 ViewBag.LineMode = "Edit";
             else
@@ -985,6 +987,8 @@ namespace Web
                 temp.BarCodes = temp.ProductUidId.ToString();
             }
             temp.JobOrderInspectionRequestSettings = Mapper.Map<JobOrderInspectionRequestSettings, JobOrderInspectionRequestSettingsViewModel>(settings);
+
+            temp.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(header.DocTypeId);
            
             return PartialView("_Create", temp);
         }

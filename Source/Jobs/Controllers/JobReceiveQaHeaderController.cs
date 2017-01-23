@@ -685,6 +685,9 @@ namespace Web
 
                 new StockService(_unitOfWork).DeleteStockDBMultiple(StockIdList, ref db, true);
 
+
+                DeleteProdOrder(temp);
+
                 _JobReceiveQAHeaderService.Delete(temp);
 
                 //temp.ObjectState = Model.ObjectState.Deleted;
@@ -828,7 +831,7 @@ namespace Web
                     
                     if (Settings.DocTypeProductionOrderId != null)
                     {
-                        CreateProdOrder(pd.JobReceiveQAHeaderId, (int) Settings.DocTypeProductionOrderId);
+                        CreateProdOrder(pd, (int) Settings.DocTypeProductionOrderId);
                     }
 
 
@@ -1329,28 +1332,70 @@ namespace Web
             return RedirectToAction("Index", new { id = id });
         }
 
-        public void CreateProdOrder(int JobReceiveQAHeaderId, int ProdOrderDocTypeId)
+        public void DeleteProdOrder(JobReceiveQAHeader Header)
         {
+            IEnumerable<ProdOrderHeader> prodorderheaderlist = (from H in db.ProdOrderHeader where H.ReferenceDocId == Header.JobReceiveQAHeaderId && H.ReferenceDocTypeId == Header.DocTypeId select H).ToList();
+
+            foreach (var prodorderheader in prodorderheaderlist)
+            {
+                IEnumerable<ProdOrderLine> ProdOrderLineList = (from L in db.ProdOrderLine where L.ProdOrderHeaderId == prodorderheader.ProdOrderHeaderId select L).ToList();
+
+                foreach (var prodorderline in ProdOrderLineList)
+                {
+                    ProdOrderLineStatus prodorderlinestatus = (from L in db.ProdOrderLineStatus where L.ProdOrderLineId == prodorderline.ProdOrderLineId select L).FirstOrDefault();
+                    if (prodorderlinestatus != null)
+                    {
+                        prodorderlinestatus.ObjectState = Model.ObjectState.Deleted;
+                        db.ProdOrderLineStatus.Remove(prodorderlinestatus);
+                    }
+
+                    prodorderline.ObjectState = Model.ObjectState.Deleted;
+                    db.ProdOrderLine.Remove(prodorderline);
+                }
+
+                ProdOrderHeaderStatus prodorderheaderstatus = (from L in db.ProdOrderHeaderStatus where L.ProdOrderHeaderId == prodorderheader.ProdOrderHeaderId select L).FirstOrDefault();
+                if (prodorderheaderstatus != null)
+                {
+                    prodorderheaderstatus.ObjectState = Model.ObjectState.Deleted;
+                    db.ProdOrderHeaderStatus.Remove(prodorderheaderstatus);
+                }
+
+                prodorderheader.ObjectState = Model.ObjectState.Deleted;
+                db.ProdOrderHeader.Remove(prodorderheader);
+            }
+        }
+
+        //public void CreateProdOrder(int JobReceiveQAHeaderId, int ProdOrderDocTypeId)
+        public void CreateProdOrder(JobReceiveQAHeader Header, int ProdOrderDocTypeId)
+        {
+            //var Header = (from p in db.JobReceiveQAHeader
+            //              where p.JobReceiveQAHeaderId == JobReceiveQAHeaderId
+            //              select p).FirstOrDefault();
+
+            DeleteProdOrder(Header);
+
             Decimal FailedQty = (from L in db.JobReceiveQALine
-                                 where L.JobReceiveQAHeaderId == JobReceiveQAHeaderId
+                                 where L.JobReceiveQAHeaderId == Header.JobReceiveQAHeaderId
                                  select new { FailQty = L.FailQty }).FirstOrDefault().FailQty;
 
-            var Header = (from H in db.JobReceiveQAHeader
-                          where H.JobReceiveQAHeaderId == JobReceiveQAHeaderId
-                          select new
-                          {
-                              JobReceiveQAHeaderId = H.JobReceiveQAHeaderId,
-                              DocTypeId = H.DocTypeId,
-                              DocDate = H.DocDate,
-                              DocNo = H.DocNo,
-                              DivisionId = H.DivisionId,
-                              SiteId = H.SiteId,
-                              ProcessId = H.ProcessId,
-                              Status = H.Status,
-                              Remark = H.Remark,
-                              CreatedBy = H.CreatedBy,
-                              ModifiedBy = H.ModifiedBy
-                          }).FirstOrDefault();
+
+
+            //var Header = (from H in db.JobReceiveQAHeader
+            //              where H.JobReceiveQAHeaderId == JobReceiveQAHeaderId
+            //              select new
+            //              {
+            //                  JobReceiveQAHeaderId = H.JobReceiveQAHeaderId,
+            //                  DocTypeId = H.DocTypeId,
+            //                  DocDate = H.DocDate,
+            //                  DocNo = H.DocNo,
+            //                  DivisionId = H.DivisionId,
+            //                  SiteId = H.SiteId,
+            //                  ProcessId = H.ProcessId,
+            //                  Status = H.Status,
+            //                  Remark = H.Remark,
+            //                  CreatedBy = H.CreatedBy,
+            //                  ModifiedBy = H.ModifiedBy
+            //              }).FirstOrDefault();
 
 
             int DyeingProcessId = (from P in db.Process
@@ -1363,7 +1408,7 @@ namespace Web
                                 join Rl in db.JobReceiveLine on L.JobReceiveLineId equals Rl.JobReceiveLineId
                                 join Jol in db.JobOrderLine on Rl.JobOrderLineId equals Jol.JobOrderLineId
                                 join Joh in db.JobOrderHeaderExtended on Jol.JobOrderHeaderId equals Joh.JobOrderHeaderId
-                                where L.JobReceiveQAHeaderId == JobReceiveQAHeaderId
+                                where L.JobReceiveQAHeaderId == Header.JobReceiveQAHeaderId
                                 select new { PersonId = Joh.PersonId }).FirstOrDefault().PersonId;
 
 
@@ -1394,7 +1439,7 @@ namespace Web
 
 
                 IEnumerable<JobReceiveQALineViewModel> Line = (from L in db.JobReceiveQALine
-                                                               where L.JobReceiveQAHeaderId == JobReceiveQAHeaderId
+                                                               where L.JobReceiveQAHeaderId == Header.JobReceiveQAHeaderId
                                                                select new JobReceiveQALineViewModel
                                                                {
                                                                    ProductId = L.JobReceiveLine.JobOrderLine.ProductId,

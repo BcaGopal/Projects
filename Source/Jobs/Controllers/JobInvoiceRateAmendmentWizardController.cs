@@ -278,7 +278,7 @@ namespace Web
                                                                     JobInvoiceLineId = p.JobInvoiceLineId,
                                                                     OldRate = p.Rate,
                                                                     Rate = NewRate,
-                                                                    JobWorkerName = jwtab.Name,
+                                                                    JobWorkerName = jwtab.Name + "," + jwtab.Suffix,
                                                                     ProductName = prodtab.ProductName,
                                                                     Dimension1Name = dimtab.Dimension1Name,
                                                                     Dimension2Name = dim2tab.Dimension2Name,

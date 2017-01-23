@@ -40,7 +40,8 @@
                     <div class="col-md-6" style="display:@((Model.JobOrderInspectionRequestSettings.isVisibleProductUID || !string.IsNullOrEmpty(Model.ProductUidName)) ? "" : "none")">
                         @Html.HiddenFor(m => m.JobOrderInspectionRequestSettings.isVisibleProductUID)
                         <div class="form-group">
-                            @Html.LabelFor(model => model.ProductUidId, "ProductUId", new { @class = "control-label col-md-4 col-sm-2" })
+                            @Html.LabelFor(model => model.ProductUidId, (Model.DocumentTypeSettings.ProductUidCaption ?? "Product Uid"), new { @class = "control-label col-md-4 col-sm-2" })
+                            @Html.HiddenFor(m => m.DocumentTypeSettings.ProductUidCaption)
                             <div class="ccol-md-7 col-sm-10">
                                 @Html.TextBoxFor(model => model.ProductUidName, new { @class = "form-control required" })
                                 @Html.ValidationMessageFor(model => model.ProductUidId, "", new { @class = "text-danger" })
