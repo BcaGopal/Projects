@@ -145,6 +145,8 @@ namespace Service
             return db.FinishedProduct.Find(id);
         }
 
+       
+
         public FinishedProduct Add(FinishedProduct p)
         {              
             _unitOfWork.Repository<FinishedProduct>().Add(p);

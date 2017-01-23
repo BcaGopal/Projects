@@ -499,12 +499,29 @@ namespace Web
                 var temp = _FinishedProductService.Find(vm.id);
 
                 List<ProductSizeViewModel> sizelist = new ProductSizeService(_unitOfWork).GetProductSizeForProduct(vm.id).ToList();
+                List<ProductProcess> ProcessList = new ProductProcessService(_unitOfWork).GetProductProcessIdListByProductId(vm.id).ToList();
+                List<FinishedProductConsumptionLineViewModel> BOMDetailList =new  BomDetailService(_unitOfWork).GetFinishedProductConsumptionForIndex(vm.id).ToList();
+                List<ProductSiteDetail> SiteDetail=new ProductSiteDetailService(_unitOfWork).GetSiteDetailForProduct(vm.id).ToList();
 
-                foreach (var item in sizelist)
-                {
-                    new ProductSizeService(_unitOfWork).Delete(item.ProductSizeId);
-                }
 
+                   foreach (var item in sizelist)
+                    {
+                        new ProductSizeService(_unitOfWork).Delete(item.ProductSizeId);
+                    }
+                
+                    foreach (var item in ProcessList)
+                    {
+                        new ProductProcessService(_unitOfWork).Delete(item.ProductProcessId);
+                    }
+                    foreach(var item in BOMDetailList)
+                    {
+                        new BomDetailService(_unitOfWork).Delete(item.BomDetailId);
+                    }
+                    foreach(var item in SiteDetail)
+                    {
+                    new ProductSiteDetailService(_unitOfWork).Delete(item.ProductSiteDetailId);
+                    }
+                    
                 ActivityLog al = new ActivityLog()
                 {
                     ActivityType = (int)ActivityTypeContants.Deleted,

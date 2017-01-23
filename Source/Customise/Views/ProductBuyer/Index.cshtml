@@ -23,7 +23,7 @@
         <hr style="margin-top:0px;margin-bottom:0px" />
 
         <div class="panel-info">
-            <h4 style="padding:5px 0 0 0;margin:0px">
+            @*<h4 style="padding:5px 0 0 0;margin:0px">
                 @Html.ActionLink(" ", " ", " ", null, new { @class = "glyphicon glyphicon-refresh toolbar", @title = "Refresh Page", @data_toggle = "tooltip", @id = "RefreshPage" })
                 @Html.ActionLink(" ", "Create", "ProductBuyer", new { ProductId=@ViewBag.Id}, new { @class = "glyphicon glyphicon-plus toolbar", @title = "Add New", @data_toggle = "tooltip" })
                 @Html.ActionLink(" ", "History", "ProductBuyer", null, new { @class = "glyphicon glyphicon-user toolbar", @title = "History", @data_toggle = "tooltip" }) 
@@ -32,7 +32,21 @@
                 @Html.ActionLink(" ", "ProductIndex", "ProductBuyer", new { id = @ViewBag.Id }, new { @class = "glyphicon glyphicon-list toolbar right", @title = "List", @data_toggle = "tooltip" })
                 @Html.ActionLink(" ", "Create", "ProductBuyerSettings", new { @id = @ViewBag.id }, new { @class = "glyphicon glyphicon-cog toolbar right", @title = "Default Settings", @data_toggle = "tooltip" })
                 @Html.ActionLink(" ", "Export", "ProductBuyer", null, new { @class = "glyphicon glyphicon-export toolbar right", @title = "Export", @data_toggle = "tooltip" })
-            </h4>
+            </h4>*@
+            <div class="btn-group">
+                @Html.ActionLink(" ", "Create", "ProductBuyer", new { ProductId = @ViewBag.Id }, new { @class = "cbtn btn-circle glyphicon glyphicon-plus toolbar", @title = "Add New", @data_toggle = "tooltip" })                
+                @Html.ActionLink(" ", "Delete", "ProductBuyer", null, new { @class = "cbtn btn-circle glyphicon glyphicon-trash toolbar", @title = "Delete", @data_toggle = "tooltip", @id = "DeleteRecord", @data_modal = "" })
+             </div>
+            <div class="btn-group">
+                <a class="cbtn btn-circle glyphicon glyphicon-option-horizontal dropdown-toggle" aria-expanded="false" style="padding-top: 6px;padding-bottom: 6px;" href="#" data-toggle="dropdown" id="dropdownMenu1">
+                </a>
+                <ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu1">                    
+                    <li><a href="@Url.Action("Export", "ProductBuyer", new { @id = @ViewBag.id })"><span class="glyphicon glyphicon-export"> </span>&nbsp;&nbsp;Export</a></li>
+                    <li><a href="@Url.Action("Create", "ProductBuyerSettings", new { @id = @ViewBag.id })"><span class="glyphicon glyphicon-cog"> </span>&nbsp;&nbsp;Settings</a></li>
+                    <li role="separator" class="divider"></li>
+                    <li><a href="@Url.Action("Report", "ProductBuyer", new { @ViewBag.id })"><span class="glyphicon glyphicon-stats"> </span>&nbsp;&nbsp;Report</a></li>
+                </ul>
+            </div>
         </div>
 
     </div>

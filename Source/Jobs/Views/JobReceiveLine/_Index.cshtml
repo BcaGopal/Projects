@@ -349,9 +349,14 @@
                     </div>
                 }
                 <div class='text-left block' style='width:@(TLossQty <= 0 ? 25 : 15)%'>
+                    @if(AmountCount >0)
+                    { 
                     <strong>
                         @Decimal.Round(AmountCount, 2)
+                        <br />
+                        Penalty
                     </strong>
+                    }
                 </div>
         </div>
 

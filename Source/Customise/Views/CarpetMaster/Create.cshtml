@@ -47,7 +47,7 @@
                     @Html.ActionLink(" ", "Print", "CarpetMaster", null, new { @class = "cbtn btn-circle glyphicon glyphicon-print toolbar", @title = "Print", @data_toggle = "tooltip" })
                     @Html.ActionLink(" ", "PrevPage", "CarpetMaster", new { id = @Model.ProductGroupId, name = @Model.ProductGroupName, sample = @ViewBag.Sample }, new { @class = "cbtn btn-circle glyphicon glyphicon-arrow-left toolbar", @title = "Prev Record", @data_toggle = "tooltip" })
                     @Html.ActionLink(" ", "NextPage", "CarpetMaster", new { id = @Model.ProductGroupId, name = @Model.ProductGroupName, sample = @ViewBag.Sample }, new { @class = "cbtn btn-circle glyphicon glyphicon-arrow-right toolbar", @title = "Next Record", @data_toggle = "tooltip" })
-                    @Html.ActionLink(" ", "Index", "CarpetMaster", new { id = @ViewBag.SampleId }, new { @class = "cbtn btn-circle glyphicon glyphicon-list toolbar right", @title = "List", @data_toggle = "tooltip" })
+                    @Html.ActionLink(" ", "Index", "CarpetMaster", new { id = @ViewBag.SampleId }, new { @class = "cbtn btn-circle glyphicon glyphicon-list", @title = "List", @data_toggle = "tooltip" })
                 </div>
                 <div class="btn-group">
                     <a class="cbtn btn-circle glyphicon glyphicon-option-horizontal dropdown-toggle" aria-expanded="false" style="padding-top: 6px;padding-bottom: 6px;" href="#" data-toggle="dropdown" id="dropdownMenu1">
