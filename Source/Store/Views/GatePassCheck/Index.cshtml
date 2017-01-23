@@ -47,6 +47,18 @@
                         </div>
                     </div>
                 </div>
+                <div>
+                    <div>
+                        <div class="col-md-12">
+                            <div class="form-group" style="margin-top:15px">
+                                <label class="control-label col-md-3 col-sm-1" for="Person">Tags</label>
+                                <div class="col-md-7 col-sm-10">
+                                    @Html.TextBox(" ", " ", new { @class = "form-control col-xs-3 required", @id = "tagId" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <hr />
@@ -87,7 +99,7 @@
 
 <script type="text/javascript">
 
-    CustomSelectFunction($("#PersonId"), '/ComboHelpList/GetJobWorkers', '/ComboHelpList/SetSingleJobWorker', ' ', false, 1);
+    CustomSelectFunction($("#PersonId"), '/GatePassCheck/GetJobWorkersForActiveGatePass', '/ComboHelpList/SetSingleJobWorker', ' ', false, 1);
 
     $('#PersonId').change(function () {
 
@@ -135,8 +147,6 @@
 
         if (this.checked)
             PostGatePassCheck(this);
-        else
-            alert('unchecked' + $(this).data('id'));
     })
 
     function PostGatePassCheck(elem) {
@@ -150,7 +160,7 @@
                 if (data.success) {
                     var GatePassBlock = $(elem).closest('.row.gatePassBlock');
 
-                    $(GatePassBlock).remove();
+                    $(GatePassBlock).hide('slow',function () { $(GatePassBlock).remove()});
 
                 }
                 else {

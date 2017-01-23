@@ -37,6 +37,7 @@ namespace Service
         IQueryable<GatePassHeaderViewModel> GetGatePassHeaderListPendingToReview(int DocumentTypeId, string Uname);
         bool CheckForDocNoExists(int GodownId, string docno, int doctypeId);
         IEnumerable<GatePassHeaderViewModel> GetActiveGatePassesForSupplier(int SupplierId);
+        IQueryable<ComboBoxResult> GetGatePassActiveJobWorkers(string term);
     }
 
     public class GatePassHeaderService : IGatePassHeaderService
@@ -373,9 +374,30 @@ namespace Service
                         DocNo = p.DocNo,
                         Product = p.GatePassLines.Max(m => m.Product),
                         Qty = p.GatePassLines.Sum(m => m.Qty),
-                        UnitName=p.GatePassLines.Max(m => m.Unit.UnitName),
-                        GatePassHeaderId=p.GatePassHeaderId,
+                        UnitName = p.GatePassLines.Max(m => m.Unit.UnitName),
+                        GatePassHeaderId = p.GatePassHeaderId,
                     }).Take(10).ToList();
         }
+
+        public IQueryable<ComboBoxResult> GetGatePassActiveJobWorkers(string term)
+        {
+
+            var list = (from jw in db.JobWorker
+                        join p in db.Persons on jw.PersonID equals p.PersonID
+                        join gp in db.GatePassHeader on p.PersonID equals gp.PersonId                        
+                        where gp.Status == (int)StatusConstants.Drafted                        
+                        && (string.IsNullOrEmpty(term) ? 1 == 1 : (p.Name.ToLower().Contains(term.ToLower())))
+                        group p by jw.PersonID into pg 
+                        orderby pg.FirstOrDefault().Name
+                        select new ComboBoxResult
+                        {
+                            id = pg.FirstOrDefault().PersonID.ToString(),
+                            text = pg.FirstOrDefault().Name
+                        }
+              );
+
+            return list;
+        }
+
     }
 }
