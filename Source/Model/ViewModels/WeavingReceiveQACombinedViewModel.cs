@@ -35,7 +35,9 @@ namespace Model.ViewModel
         public int ProductId { get; set; }
         public string ProductName { get; set; }
         public int JobOrderLineId { get; set; }
+        public string JobOrderHeaderDocNo { get; set; }
         public decimal Qty { get; set; }
+        public decimal BalanceQty { get; set; }
         public byte UnitDecimalPlaces { get; set; }
         public byte DealUnitDecimalPlaces { get; set; }
         public string UnitId { get; set; }
@@ -43,8 +45,9 @@ namespace Model.ViewModel
         public Decimal UnitConversionMultiplier { get; set; }
         public decimal DealQty { get; set; }
         public decimal Weight { get; set; }
-        public decimal PenaltyRate { get; set; }
-        public decimal PenaltyAmt { get; set; }
+        public decimal Rate { get; set; }
+        public decimal? PenaltyRate { get; set; }
+        public decimal? PenaltyAmt { get; set; }
         public string Remark { get; set; }
         public int Status { get; set; }
         public string CreatedBy { get; set; }
@@ -59,6 +62,10 @@ namespace Model.ViewModel
         public Decimal? Width { get; set; }
         public Decimal? Height { get; set; }
         public int? DimensionUnitDecimalPlaces { get; set; }
+
+        public Decimal? XRate { get; set; }
+        public Decimal? XLength { get; set; }
+        public Decimal? XWidth { get; set; }
         public string OMSId { get; set; }
 
     }
