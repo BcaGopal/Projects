@@ -33,7 +33,7 @@ namespace Service
         Task<ProductProcess> FindAsync(int id);
         IEnumerable<ProductProcess> GetProductProcessIdListByProductId(int ProductId);
         IEnumerable<ProductProcessViewModel> GetMaxProductProcessListForDesign(int Id);//ProductGroupId
-
+       // IQueryable<ProductProcessViewModel> GetProductProcessListForProduct(int id);
     }
 
     public class ProductProcessService : IProductProcessService
@@ -133,7 +133,7 @@ namespace Service
         {
             var pt = _unitOfWork.Repository<ProductProcess>().Query().Get().Where(m => m.ProductId == ProductId).ToList();
             return pt;
-        }
+        }      
 
 
         public bool UpdateProductRateGroupForDesign(int ProductGroupId, int ProductRateGroupId, int RateListHeaderId, string User, out XElement Modifications)
@@ -225,6 +225,23 @@ namespace Service
                     select t).ToList();
 
         }
+
+
+       
+        //public IQueryable<ProductProcessViewModel> GetProductProcessListForProduct(int id)
+        //{
+           
+
+        //    return (from p in db.ProductProcess
+        //            where p.ProductId == id
+        //            select new ProductProcessViewModel
+        //            {
+
+        //                ProductProcessId=p.ProductProcessId
+
+        //            }
+        //           );
+        //}
 
         public bool UpdateProductRateGroupForProduct(int ProductId, int? Dimension1Id, int? Dimension2Id, int ProductRateGroupId, int RateListHeaderId, string User, out XElement Modifications)
         {

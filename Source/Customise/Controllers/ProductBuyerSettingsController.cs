@@ -58,6 +58,9 @@ namespace Web
             var DivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
             var SiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
             var settings = new ProductBuyerSettingsService(_unitOfWork).GetProductBuyerSettings(DivisionId, SiteId);
+            int DocTypeId = new DocumentTypeService(_unitOfWork).Find(MasterDocTypeConstants.Carpet).DocumentTypeId;
+
+
 
             if (settings == null)
             {
@@ -66,6 +69,7 @@ namespace Web
                 vm.DivisionId = DivisionId;
                 vm.ProductId = id;
                 PrepareViewBag(vm);
+                ViewBag.DocTypeId = DocTypeId;
                 return View("Create", vm);
             }
             else
@@ -73,6 +77,7 @@ namespace Web
                 ProductBuyerSettingsViewModel temp = AutoMapper.Mapper.Map<ProductBuyerSettings, ProductBuyerSettingsViewModel>(settings);
                 temp.ProductId = id;
                 PrepareViewBag(temp);
+                ViewBag.DocTypeId = DocTypeId;
                 return View("Create", temp);
             }
 
