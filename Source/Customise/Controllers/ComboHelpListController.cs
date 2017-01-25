@@ -8234,5 +8234,37 @@ namespace Web
 
             return Json(MenuJson);
         }
+
+        public JsonResult GetReason(string searchTerm, int pageSize, int pageNum, int filter)//filter:DocTypeId
+        {
+            var Query = cbl.GetReasonHelpListWithDocTypeFilter(filter, searchTerm);
+            var temp = Query.Skip(pageSize * (pageNum - 1)).Take(pageSize).ToList();
+
+            var count = Query.Count();
+
+            ComboBoxPagedResult Data = new ComboBoxPagedResult();
+            Data.Results = temp;
+            Data.Total = count;
+
+            return new JsonpResult
+            {
+                Data = Data,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        public JsonResult SetSingleReason(int Ids)
+        {
+            ComboBoxResult ReasonJson = new ComboBoxResult();
+
+            Reason reason = (from b in db.Reason
+                             where b.ReasonId == Ids
+                             select b).FirstOrDefault();
+
+            ReasonJson.id = reason.ReasonId.ToString();
+            ReasonJson.text = reason.ReasonName;
+
+            return Json(ReasonJson);
+        }
     }
 }

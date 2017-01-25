@@ -27,7 +27,7 @@ namespace Service
         Task<JobReceiveQAAttribute> FindAsync(int id);
         WeavingReceiveQACombinedViewModel GetJobReceiveDetailForEdit(int JobReceiveHeaderId);//JobReceiveHeaderId
         LastValues GetLastValues(int DocTypeId);
-        
+        IQueryable<ComboBoxResult> GetCustomProduct(int filter, string term);
     }
 
     public class WeavingReceiveQACombinedService : IWeavingReceiveQACombinedService
@@ -62,6 +62,7 @@ namespace Service
             JobReceiveHeader.DocDate = pt.DocDate;
             JobReceiveHeader.DivisionId = pt.DivisionId;
             JobReceiveHeader.SiteId = pt.SiteId;
+            JobReceiveHeader.ProcessId = pt.ProcessId;
             JobReceiveHeader.JobWorkerId = pt.JobWorkerId;
             JobReceiveHeader.JobWorkerDocNo = pt.DocNo;
             JobReceiveHeader.JobReceiveById = pt.JobReceiveById;
@@ -119,8 +120,53 @@ namespace Service
             Dictionary<int, decimal> LineStatus = new Dictionary<int, decimal>();
             LineStatus.Add(JobReceiveLine.JobOrderLineId, (JobReceiveLine.Qty + JobReceiveLine.LossQty));
 
+
+            ProductUidHeader ProductUidHeader = new ProductUidHeader();
+            ProductUidHeader.ProductId = pt.ProductId;
+            ProductUidHeader.GenDocId = JobReceiveHeader.JobReceiveHeaderId;
+            ProductUidHeader.GenDocNo = JobReceiveHeader.DocNo;
+            ProductUidHeader.GenDocTypeId = JobReceiveHeader.DocTypeId;
+            ProductUidHeader.GenDocDate = JobReceiveHeader.DocDate;
+            ProductUidHeader.GenPersonId = JobReceiveHeader.JobWorkerId;
+            ProductUidHeader.CreatedBy = UserName;
+            ProductUidHeader.CreatedDate = DateTime.Now;
+            ProductUidHeader.ModifiedBy = UserName;
+            ProductUidHeader.ModifiedDate = DateTime.Now;
+            ProductUidHeader.ObjectState = Model.ObjectState.Added;
+            db.ProductUidHeader.Add(ProductUidHeader);
+
+
+
+            ProductUid ProductUid = new ProductUid();
+            ProductUid.ProductUidHeaderId = ProductUidHeader.ProductUidHeaderId;
+            ProductUid.ProductUidName = pt.ProductUidName;
+            ProductUid.ProductId = pt.ProductId;
+            ProductUid.IsActive = true;
+            ProductUid.CreatedBy = UserName;
+            ProductUid.CreatedDate = DateTime.Now;
+            ProductUid.ModifiedBy = UserName;
+            ProductUid.ModifiedDate = DateTime.Now;
+            ProductUid.GenLineId = null;
+            ProductUid.GenDocId = JobReceiveHeader.JobReceiveHeaderId;
+            ProductUid.GenDocNo = JobReceiveHeader.DocNo;
+            ProductUid.GenDocTypeId = JobReceiveHeader.DocTypeId;
+            ProductUid.GenDocDate = JobReceiveHeader.DocDate;
+            ProductUid.GenPersonId = JobReceiveHeader.JobWorkerId;
+            ProductUid.CurrenctProcessId = JobReceiveHeader.ProcessId;
+            ProductUid.Status = ProductUidStatusConstants.Receive;
+            ProductUid.LastTransactionDocId = JobReceiveHeader.JobReceiveHeaderId;
+            ProductUid.LastTransactionDocNo = JobReceiveHeader.DocNo;
+            ProductUid.LastTransactionDocTypeId = JobReceiveHeader.DocTypeId;
+            ProductUid.LastTransactionDocDate = JobReceiveHeader.DocDate;
+            ProductUid.LastTransactionPersonId = JobReceiveHeader.JobWorkerId;
+            ProductUid.LastTransactionLineId = null;
+            ProductUid.ObjectState = Model.ObjectState.Added;
+            db.ProductUid.Add(ProductUid);
+
+
             Stock Stock = new Stock();
             Stock.DocDate = JobReceiveHeader.DocDate;
+            Stock.ProductUidId = ProductUid.ProductUIDId;
             Stock.ProductId = pt.ProductId;
             Stock.ProcessId = JobReceiveHeader.ProcessId;
             Stock.GodownId = JobReceiveHeader.GodownId;
@@ -137,9 +183,18 @@ namespace Service
             Stock.ObjectState = Model.ObjectState.Added;
             db.Stock.Add(Stock);
 
+            JobReceiveLine.ProductUidHeaderId = ProductUidHeader.ProductUidHeaderId;
+            JobReceiveLine.ProductUidId = ProductUid.ProductUIDId;
             JobReceiveLine.StockId = Stock.StockId;
             JobReceiveLine.ObjectState = Model.ObjectState.Added;
             db.JobReceiveLine.Add(JobReceiveLine);
+
+            if (pt.Rate != pt.XRate)
+            {
+                JobOrderLine.Rate = pt.Rate;
+                JobOrderLine.ObjectState = ObjectState.Modified;
+                db.JobOrderLine.Add(JobOrderLine);
+            }
 
 
             JobReceiveQAHeader JobReceiveQAHeader = new JobReceiveQAHeader();
@@ -157,6 +212,7 @@ namespace Service
             JobReceiveQAHeader.CreatedDate = JobReceiveHeader.CreatedDate;
             JobReceiveQAHeader.ModifiedBy = JobReceiveHeader.ModifiedBy;
             JobReceiveQAHeader.ModifiedDate = JobReceiveHeader.ModifiedDate;
+            JobReceiveQAHeader.ObjectState = Model.ObjectState.Added;
             db.JobReceiveQAHeader.Add(JobReceiveQAHeader);
 
 
@@ -180,6 +236,7 @@ namespace Service
             JobReceiveQALine.CreatedDate = JobReceiveLine.CreatedDate;
             JobReceiveQALine.ModifiedBy = JobReceiveLine.ModifiedBy;
             JobReceiveQALine.ModifiedDate = JobReceiveLine.ModifiedDate;
+            JobReceiveQALine.ObjectState = Model.ObjectState.Added;
             db.JobReceiveQALine.Add(JobReceiveQALine);
 
 
@@ -406,6 +463,9 @@ namespace Service
                                                                          JobReceiveLineId = JobReceiveLineTab.JobReceiveLineId,
                                                                          JobReceiveQALineId = JobReceiveQALineTab.JobReceiveQALineId,
                                                                          JobReceiveQAHeaderId = JobReceiveQALineTab.JobReceiveQAHeaderId,
+                                                                         JobOrderLineId = JobReceiveLineTab.JobOrderLineId,
+                                                                         JobOrderHeaderDocNo = JobOrderLineTab.JobOrderHeader.DocNo,
+                                                                         GodownId = H.GodownId,
                                                                          JobWorkerId = H.JobWorkerId,
                                                                          ProductUidId = JobReceiveLineTab.ProductUidId,
                                                                          ProductUidName = JobReceiveLineTab.ProductUid.ProductUidName,
@@ -419,6 +479,8 @@ namespace Service
                                                                          Weight = JobReceiveLineTab.Weight,
                                                                          UnitDecimalPlaces = JobOrderLineTab.Product.Unit.DecimalPlaces,
                                                                          DealUnitDecimalPlaces = JobOrderLineTab.DealUnit.DecimalPlaces,
+                                                                         Rate = JobOrderLineTab.Rate,
+                                                                         XRate = JobOrderLineTab.Rate,
                                                                          PenaltyRate = JobReceiveLineTab.PenaltyRate,
                                                                          PenaltyAmt = JobReceiveLineTab.PenaltyAmt,
                                                                          DivisionId = H.DivisionId,
@@ -430,8 +492,10 @@ namespace Service
                                                                          JobReceiveById = JobReceiveLineTab.JobReceiveHeader.JobReceiveById,
                                                                          Remark = H.Remark,
                                                                          Length = JobReceiveQALineExtendedTab.Length,
+                                                                         XLength = JobReceiveQALineExtendedTab.Length,
                                                                          Width = JobReceiveQALineExtendedTab.Width,
-                                                                         Height = JobReceiveQALineExtendedTab.Height
+                                                                         XWidth = JobReceiveQALineExtendedTab.Width,
+                                                                         Height = JobReceiveQALineExtendedTab.Height,
                                                                      }).FirstOrDefault();
 
             if (WeavingReceiveQADetail != null)
@@ -467,11 +531,13 @@ namespace Service
         {
             JobReceiveHeader JobReceiveHeader = db.JobReceiveHeader.Find(id);
             int StockHeaderId = (int)JobReceiveHeader.StockHeaderId;
+            int ProductUidHeaderId = 0;
             int JobReceiveQAHeaderId = 0;
 
             IEnumerable<JobReceiveLine> JobReceiveLineList = (from L in db.JobReceiveLine where L.JobReceiveHeaderId == id select L).ToList();
             foreach (JobReceiveLine JobReceiveLine in JobReceiveLineList)
             {
+                ProductUidHeaderId = JobReceiveLine.ProductUidHeaderId ?? 0;
                 IEnumerable<JobReceiveQALine> JobReceiveQALineList = (from L in db.JobReceiveQALine where L.JobReceiveLineId == JobReceiveLine.JobReceiveLineId select L).ToList();
 
                 foreach (JobReceiveQALine JobReceiveQALine in JobReceiveQALineList)
@@ -531,6 +597,81 @@ namespace Service
                 StockHeader.ObjectState = ObjectState.Deleted;
                 db.StockHeader.Remove(StockHeader);
             }
+
+            if (ProductUidHeaderId > 0)
+            {
+                ProductUidHeader ProductUidHeader = db.ProductUidHeader.Find(ProductUidHeaderId);
+                IEnumerable<ProductUid> ProductUidList = (from P in db.ProductUid where P.ProductUidHeaderId == ProductUidHeaderId select P).ToList();
+                foreach (var ProductUid in ProductUidList)
+                {
+                    if (ProductUid.LastTransactionDocId == null || (ProductUid.LastTransactionDocId == ProductUid.GenDocId && ProductUid.LastTransactionDocTypeId == ProductUid.GenDocTypeId))
+                    {
+                        ProductUid.ObjectState = Model.ObjectState.Deleted;
+                        db.ProductUid.Remove(ProductUid);
+                    }
+                    else
+                    {
+                        throw new Exception("Record Cannot be deleted as its Unique Id's are in use by other documents");
+                    }
+                }
+                ProductUidHeader.ObjectState = ObjectState.Deleted;
+                db.ProductUidHeader.Remove(ProductUidHeader);
+            }
+        }
+
+
+        public IQueryable<ComboBoxResult> GetCustomProduct(int filter, string term)
+        {
+            var DivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
+            var SiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
+
+            var settings = new JobReceiveSettingsService(_unitOfWork).GetJobReceiveSettingsForDocument(filter, DivisionId, SiteId);
+
+            string[] contraSites = null;
+            if (!string.IsNullOrEmpty(settings.filterContraSites)) { contraSites = settings.filterContraSites.Split(",".ToCharArray()); }
+            else { contraSites = new string[] { "NA" }; }
+
+            string[] contraDivisions = null;
+            if (!string.IsNullOrEmpty(settings.filterContraDivisions)) { contraDivisions = settings.filterContraDivisions.Split(",".ToCharArray()); }
+            else { contraDivisions = new string[] { "NA" }; }
+
+            string[] contraDocTypes = null;
+            if (!string.IsNullOrEmpty(settings.filterContraDocTypes)) { contraDocTypes = settings.filterContraDocTypes.Split(",".ToCharArray()); }
+            else { contraDocTypes = new string[] { "NA" }; }
+
+            int CurrentSiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
+            int CurrentDivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
+
+
+            var list = (from p in db.ViewJobOrderBalance
+                        join t in db.JobOrderHeader on p.JobOrderHeaderId equals t.JobOrderHeaderId
+                        join t2 in db.JobOrderLine on p.JobOrderLineId equals t2.JobOrderLineId
+                        join pt in db.Product on p.ProductId equals pt.ProductId into ProductTable
+                        from ProductTab in ProductTable.DefaultIfEmpty()
+                        join D1 in db.Dimension1 on p.Dimension1Id equals D1.Dimension1Id into Dimension1Table
+                        from Dimension1Tab in Dimension1Table.DefaultIfEmpty()
+                        join D2 in db.Dimension2 on p.Dimension2Id equals D2.Dimension2Id into Dimension2Table
+                        from Dimension2Tab in Dimension2Table.DefaultIfEmpty()
+                        where p.BalanceQty > 0
+                        && ((string.IsNullOrEmpty(term) ? 1 == 1 : p.JobOrderNo.ToLower().Contains(term.ToLower()))
+                        || (string.IsNullOrEmpty(term) ? 1 == 1 : ProductTab.ProductName.ToLower().Contains(term.ToLower()))
+                        || (string.IsNullOrEmpty(term) ? 1 == 1 : Dimension1Tab.Dimension1Name.ToLower().Contains(term.ToLower()))
+                        || (string.IsNullOrEmpty(term) ? 1 == 1 : Dimension2Tab.Dimension2Name.ToLower().Contains(term.ToLower())))
+                        && (string.IsNullOrEmpty(settings.filterContraSites) ? p.SiteId == CurrentSiteId : contraSites.Contains(p.SiteId.ToString()))
+                        && (string.IsNullOrEmpty(settings.filterContraDivisions) ? p.DivisionId == CurrentDivisionId : contraDivisions.Contains(p.DivisionId.ToString()))
+                        && (string.IsNullOrEmpty(settings.filterContraDocTypes) ? 1 == 1 : contraDocTypes.Contains(t.DocTypeId.ToString()))
+                        orderby t.DocDate, t.DocNo
+                        select new ComboBoxResult
+                        {
+                            text = ProductTab.ProductName,
+                            id = p.JobOrderLineId.ToString(),
+                            TextProp1 = "Order No: " + p.JobOrderNo.ToString(),
+                            TextProp2 = "BalQty: " + p.BalanceQty.ToString(),
+                            AProp1 = Dimension1Tab.Dimension1Name,
+                            AProp2 = Dimension2Tab.Dimension2Name
+                        });
+
+            return list;
         }
         
 

@@ -1450,10 +1450,13 @@ namespace Web
                                                                }).ToList();
 
 
+
+                int ProdOrderLineId = 0;
                 foreach (var item in Line)
                 {
+                    ProdOrderLineId = ProdOrderLineId - 1;
                     ProdOrderLine ProdOrderLine = new ProdOrderLine();
-                    ProdOrderLine.ProdOrderLineId = -2;
+                    ProdOrderLine.ProdOrderLineId = ProdOrderLineId;
                     ProdOrderLine.ProdOrderHeaderId = ProdOrderHeader.ProdOrderHeaderId;
                     ProdOrderLine.ProductId = item.ProductId;
                     ProdOrderLine.Dimension1Id = item.Dimension1Id;
