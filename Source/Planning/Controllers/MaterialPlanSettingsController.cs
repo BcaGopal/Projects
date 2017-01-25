@@ -152,6 +152,7 @@ namespace Web
                     temp.isVisibleDimension4 = pt.isVisibleDimension4;
                     temp.isVisibleMachine = pt.isVisibleMachine;
                     temp.isMandatoryMachine = pt.isMandatoryMachine;
+                    temp.isVisiblePurchPlanQty = pt.isVisiblePurchPlanQty;
                     temp.PlanType = pt.PlanType;
                     temp.WizardMenuId = pt.WizardMenuId;
                     temp.ModifiedDate = DateTime.Now;

@@ -114,6 +114,7 @@ namespace Model.ViewModels
         public string SaleOrderNo { get; set; }
         public int ProductId { get; set; }
         public int BuyerId { get; set; }
+        public string BuyerName { get; set; }
         public DateTime OrderDate { get; set; }
         public string ProductName { get; set; }
         public int ProductGroupId { get; set; }

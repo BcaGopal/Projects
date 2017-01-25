@@ -137,7 +137,7 @@
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.BuyerId, "Buyer", new { @class = "control-label  col-md-4 col-sm-2" })
                                     <div class="col-md-7 col-sm-10">
-                                        @Html.TextBoxFor(m => m.BuyerId, null, new { @class = "form-control col-xs-6" })
+                                        @Html.TextBoxFor(m => m.BuyerId, null, new { @class = "form-control col-xs-6", @readonly = true })
                                         @Html.ValidationMessageFor(m => m.BuyerId, null, new { @class = "has-error" })
                                     </div>
                                 </div>

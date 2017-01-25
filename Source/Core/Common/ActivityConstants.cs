@@ -208,14 +208,20 @@ namespace Core.Common
 
     public class ProcessConstants
     {
+        //Systenm Define
         public const string Sales = "Sale";
+        public const string Purchase = "Purchase";
+        public const string Manufacturing = "Manufacturing";
+        public const string Stock = "Stock";
+
+        //Customize
         public const string Weaving = "Weaving";
         public const string Silai = "Silai";
         public const string Packing = "Packing";
-        public const string Purchase = "Purchase";
         public const string FullFinishing = "Full Finishing";
         public const string ThirdBacking = "Third Backing";
         public const string Dyeing = "Dyeing";
+
     }
 
     public class StockStatusConstants
