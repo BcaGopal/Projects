@@ -248,6 +248,7 @@
     <Compile Include="Controllers\PersonContactController.cs" />
     <Compile Include="Controllers\PersonProcessController.cs" />
     <Compile Include="Controllers\ProductTypeSettingsController.cs" />
+    <Compile Include="Controllers\MachineMasterController.cs" />
     <Compile Include="Controllers\QAGroupLineController.cs" />
     <Compile Include="Controllers\QAGroupController.cs" />
     <Compile Include="Controllers\GatePassHeaderController.cs" />
@@ -931,6 +932,9 @@
     <Content Include="Views\ProductTypeSettings\Create.cshtml" />
     <Content Include="Views\Product\CopyFromExisting.cshtml" />
     <Content Include="Views\Product\ChooseType.cshtml" />
+    <Content Include="Views\MachineMaster\_Reason.cshtml" />
+    <Content Include="Views\MachineMaster\Create.cshtml" />
+    <Content Include="Views\MachineMaster\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
