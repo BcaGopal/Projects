@@ -56,13 +56,28 @@
                 </h3>
                 
             }*@
+            @{
+                string EditAction = "";
+                if (Model.Status == (int)StatusConstants.Drafted || Model.Status == (int)StatusConstants.Import)
+                {
+                    EditAction = "Modify";
+                }
+                else if ((Model.Status == (int)StatusConstants.Submitted || Model.Status == (int)StatusConstants.Modified))
+                {
+                    EditAction = "ModifyAfter_Submit";
+                }
+                else
+                {
+                    EditAction = "DetailInformation";
+                }
+            }
 
             @Html.ActionLink("Add New Row", "_Multi", "RateConversionLine", new { id = @Model.StockHeaderId, @sid = Model.PersonId, @CosCenteId = Model.CostCenterId, @ProcId = Model.ProcessId }, new { data_modal = "", id = "btnCreate", @class = "btn btn-primary borderradii", @title = "For Indent", @data_toggle = "tooltip", @data_detailDeleted = "true" })
 
             <hr style="margin-top:0px;margin-bottom:0px" />
 
             <div class="panel-info">
-                <h4 style="padding:5px 0 0 0;margin:0px">
+                @*<h4 style="padding:5px 0 0 0;margin:0px">
                     @Html.ActionLink(" ", " ", " ", null, new { @class = "glyphicon glyphicon-refresh toolbar", @title = "Refresh Page", @data_toggle = "tooltip", @id = "RefreshPage" })
                     @Html.ActionLink(" ", "Create", "RateConversionHeader", new { @id = ViewBag.id }, new { @class = "glyphicon glyphicon-plus toolbar", @title = "Add New", @data_toggle = "tooltip" })
                     @Html.ActionLink(" ", "GetHistory", "LogHistory", new { Ids = Model.StockHeaderId, DocTypeId = Model.DocTypeId }, new { @class = "glyphicon glyphicon-user toolbar", @title = "History", @data_toggle = "tooltip", @id = "DocHistory", @data_modal = "" })
@@ -72,7 +87,26 @@
                     @Html.ActionLink(" ", "NextPage", "RateConversionHeader", new { id = @Model.StockHeaderId }, new { @class = "glyphicon glyphicon-arrow-right toolbar", @title = "Next Record", @data_toggle = "tooltip" })
                     @Html.ActionLink(" ", "Index", "RateConversionHeader", new { id = ViewBag.id, IndexType = ViewBag.IndexStatus }, new { @class = "glyphicon glyphicon-list toolbar right", @title = "List", @data_toggle = "tooltip" })
                     @Html.ActionLink(" ", "Report", "RateConversionHeader", null, new { @class = "glyphicon glyphicon-th toolbar right", @title = "Report", @data_toggle = "tooltip" })
-                </h4>
+                </h4>*@
+                <div class="btn-group">
+                    @Html.ActionLink(" ", "Create", "RateConversionHeader", new { @id = ViewBag.id }, new { @class = "cbtn btn-circle glyphicon glyphicon-plus toolbar", @title = "Add New", @data_toggle = "tooltip" })
+                    @Html.ActionLink(" ", EditAction, "RateConversionHeader", new { @id = Model.StockHeaderId, IndexType = ViewBag.IndexStatus }, new { @class = "cbtn btn-circle glyphicon glyphicon-edit", @title = "Edit", @data_toggle = "tooltip" })
+                    @Html.ActionLink(" ", "GeneratePrints", "RateConversionHeader", new { Ids = Model.StockHeaderId, DocTypeId = Model.DocTypeId }, new { @class = "cbtn btn-circle glyphicon glyphicon-print toolbar", @title = "Print", @data_toggle = "tooltip", id = "PrintRecordC" })
+                    @Html.ActionLink(" ", "PrevPage", "RateConversionHeader", new { id = @Model.StockHeaderId }, new { @class = "cbtn btn-circle glyphicon glyphicon-arrow-left toolbar", @title = "Prev Record", @data_toggle = "tooltip" })
+                    @Html.ActionLink(" ", "NextPage", "RateConversionHeader", new { id = @Model.StockHeaderId }, new { @class = "cbtn btn-circle glyphicon glyphicon-arrow-right toolbar", @title = "Next Record", @data_toggle = "tooltip" })
+                    @Html.ActionLink(" ", "Index", "RateConversionHeader", new { id = ViewBag.id, IndexType = ViewBag.IndexStatus }, new { @class = "cbtn btn-circle glyphicon glyphicon-list toolbar right", @title = "List", @data_toggle = "tooltip" })
+                </div>
+                <div class="btn-group">
+                    <a class="cbtn btn-circle glyphicon glyphicon-option-horizontal dropdown-toggle" aria-expanded="false" style="padding-top: 6px;padding-bottom: 6px;" href="#" data-toggle="dropdown" id="dropdownMenu1">
+                    </a>
+                    <ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu1">                        
+                        <li><a id="DocHistory" data-modal="" href="@Url.Action("GetHistory", "LogHistory", new { Ids = Model.StockHeaderId, DocTypeId = Model.DocTypeId })"><span class="glyphicon glyphicon-user"> </span> History</a></li>
+                        <li><a href="@Url.Action("Email", "RateConversionHeader")"><span class="glyphicon glyphicon-envelope"> </span> Email</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a target="_blank" href="@Url.Action("Report", "RateConversionHeader", new { @ViewBag.id })"><span class="glyphicon glyphicon-th"> </span> Report</a></li>
+                    </ul>
+                </div>
+
             </div>
         </div>
 

@@ -91,7 +91,7 @@
                         <li><a id="DocHistory" data-modal="" href="@Url.Action("GetHistory", "LogHistory", new { Ids = Model.StockHeaderId, DocTypeId = Model.DocTypeId })"><span class="glyphicon glyphicon-user"> </span>&nbsp;&nbsp;History</a></li>
                         <li><a href="@Url.Action("Email", "MaterialTransferHeader")"><span class="glyphicon glyphicon-envelope"> </span>&nbsp;&nbsp;Email</a></li>
                         <li role="separator" class="divider"></li>
-                        <li><a href="@Url.Action("Report", "MaterialTransferHeader")"><span class="glyphicon glyphicon-stats"> </span>&nbsp;&nbsp;Report</a></li>
+                        <li><a target="_blank" href="@Url.Action("Report", "MaterialTransferHeader", new { @ViewBag.id })"><span class="glyphicon glyphicon-stats"> </span>&nbsp;&nbsp;Report</a></li>
                     </ul>
                 </div>
             </div>

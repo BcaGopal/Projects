@@ -78,6 +78,21 @@
                 </h3>
                 <hr style="margin-top:10px;margin-bottom:0px" />
             }*@
+            @{
+                string EditAction = "";
+                if (Model.Status == (int)StatusConstants.Drafted || Model.Status == (int)StatusConstants.Import)
+                {
+                    EditAction = "Modify";
+                }
+                else if ((Model.Status == (int)StatusConstants.Submitted || Model.Status == (int)StatusConstants.Modified))
+                {
+                    EditAction = "ModifyAfter_Submit";
+                }
+                else
+                {
+                    EditAction = "DetailInformation";
+                }
+            }
 
             @if (Model.PurchaseQuotationSettings.isVisibleForIndent)
             {
@@ -86,7 +101,7 @@
 
 
             <div class="panel-info">
-                <h4 style="padding:5px 0 0 0;margin:0px">
+                @*<h4 style="padding:5px 0 0 0;margin:0px">
                     @Html.ActionLink(" ", " ", " ", null, new { @class = "glyphicon glyphicon-refresh toolbar", @title = "Refresh Page", @data_toggle = "tooltip", @id = "RefreshPage" })
                     @Html.ActionLink(" ", "Create", "PurchaseQuotationHeader", new { @id = ViewBag.id }, new { @class = "glyphicon glyphicon-plus toolbar", @title = "Add New", @data_toggle = "tooltip" })
                     @Html.ActionLink(" ", "History", "PurchaseQuotationHeader", null, new { @class = "glyphicon glyphicon-user toolbar", @title = "History", @data_toggle = "tooltip" })
@@ -96,7 +111,25 @@
                     @Html.ActionLink(" ", "NextPage", "PurchaseQuotationHeader", new { id = @Model.PurchaseQuotationHeaderId }, new { @class = "glyphicon glyphicon-arrow-right toolbar", @title = "Next Record", @data_toggle = "tooltip" })
                     @Html.ActionLink(" ", "Index", "PurchaseQuotationHeader", new { @id = ViewBag.id, IndexType = ViewBag.IndexStatus }, new { @class = "glyphicon glyphicon-list toolbar right", @title = "List", @data_toggle = "tooltip" })
                     @Html.ActionLink(" ", "Report", "PurchaseQuotationHeader", null, new { @class = "glyphicon glyphicon-th toolbar right", @title = "Report", @data_toggle = "tooltip" })
-                </h4>
+                </h4>*@
+                <div class="btn-group">
+                    @Html.ActionLink(" ", "Create", "PurchaseQuotationHeader", new { @id = ViewBag.id }, new { @class = "cbtn btn-circle glyphicon glyphicon-plus toolbar", @title = "Add New", @data_toggle = "tooltip" })
+                    @Html.ActionLink(" ", EditAction, "PurchaseQuotationHeader", new { @id = Model.PurchaseQuotationHeaderId, IndexType = ViewBag.IndexStatus }, new { @class = "cbtn btn-circle glyphicon glyphicon-edit", @title = "Edit", @data_toggle = "tooltip" })
+                    @Html.ActionLink(" ", "GeneratePrints", "PurchaseQuotationHeader", new { Ids = Model.PurchaseQuotationHeaderId, DocTypeId = Model.DocTypeId }, new { @class = "cbtn btn-circle glyphicon glyphicon-print toolbar", @title = "Print", @data_toggle = "tooltip", @id = "PrintRecordC", target = "_blank" })
+                    @Html.ActionLink(" ", "NextPage", "PurchaseQuotationHeader", new { id = @Model.PurchaseQuotationHeaderId }, new { @class = "cbtn btn-circle glyphicon glyphicon-arrow-right toolbar", @title = "Next Record", @data_toggle = "tooltip" })
+                    @Html.ActionLink(" ", "Index", "PurchaseQuotationHeader", new { @id = ViewBag.id, IndexType = ViewBag.IndexStatus }, new { @class = "cbtn btn-circle glyphicon glyphicon-list toolbar right", @title = "List", @data_toggle = "tooltip" })
+                </div>
+                <div class="btn-group">
+                    <a class="cbtn btn-circle glyphicon glyphicon-option-horizontal dropdown-toggle" aria-expanded="false" style="padding-top: 6px;padding-bottom: 6px;" href="#" data-toggle="dropdown" id="dropdownMenu1">
+                    </a>
+                    <ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu1">
+                        }
+                        <li><a id="DocHistory" data-modal="" href="@Url.Action("GetHistory", "LogHistory", new { Ids = Model.PurchaseQuotationHeaderId, DocTypeId = Model.DocTypeId })"><span class="glyphicon glyphicon-user"> </span> History</a></li>
+                        <li><a href="@Url.Action("Email", "PurchaseQuotationHeader")"><span class="glyphicon glyphicon-envelope"> </span> Email</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a target="_blank" href="@Url.Action("Report", "PurchaseQuotationHeader", new { @ViewBag.id })"><span class="glyphicon glyphicon-stats"> </span> Report</a></li>
+                    </ul>
+                </div>
             </div>
         </div>
         <div class="panel-info" style="padding-left:15px">
