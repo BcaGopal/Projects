@@ -87,6 +87,7 @@ namespace Web
                     bomdetail.BaseProductId = svm.BaseProductId;
                     bomdetail.BatchQty = 1;
                     //bomdetail.ProcessId = new ProcessService(_unitOfWork).Find(ProcessConstants.Silai).ProcessId;
+                    bomdetail.BaseProcessId = new ProcessService(_unitOfWork).Find(ProcessConstants.Manufacturing).ProcessId;
                     bomdetail.ProductId = svm.ProductId;
                     bomdetail.ProcessId = svm.ProcessId;
                     bomdetail.Dimension1Id = svm.Dimension1Id;
@@ -126,6 +127,7 @@ namespace Web
 
                     bomdetail.BaseProductId = svm.BaseProductId;
                     bomdetail.BatchQty = 1;
+                    bomdetail.BaseProcessId = new ProcessService(_unitOfWork).Find(ProcessConstants.Manufacturing).ProcessId;
                     bomdetail.ProductId = svm.ProductId;
                     bomdetail.ProcessId = svm.ProcessId;
                     bomdetail.Dimension1Id = svm.Dimension1Id;

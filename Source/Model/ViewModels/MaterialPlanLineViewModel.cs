@@ -42,6 +42,7 @@ namespace Model.ViewModel
         public string Dimension2Name { get; set; }
 
 
+
         [Display(Name = "Dimension3")]
         public int? Dimension3Id { get; set; }
         public string Dimension3Name { get; set; }
@@ -51,6 +52,8 @@ namespace Model.ViewModel
         public string Dimension4Name { get; set; }
 
         public string Specification { get; set; }
+
+        public MaterialPlanSettingsViewModel MaterialPlanSettings { get; set; }
         public DocumentTypeSettingsViewModel DocumentTypeSettings { get; set; }
     }
 

@@ -83,15 +83,16 @@
 
     //Columns Specification
     var columns = [
-        { id: "SaleOrderDocNo", name: "OrderNo", field: "SaleOrderDocNo", sortable: true, width: 150 },
-         { id: "SaleOrderDocDate", name: "OrderDate", field: "SaleOrderDocDate", width: 150 },
+        { id: "SaleOrderDocNo", name: "OrderNo", field: "SaleOrderDocNo", sortable: true, width: 70 },
+         { id: "SaleOrderDocDate", name: "OrderDate", field: "SaleOrderDocDate", width: 100 },
+         { id: "BuyerName", name: "Buyer", field: "BuyerName", width: 150 },
          { id: "ProductName", name: "Product", field: "ProductName", width: 150 },
-         { id: "Dimension1Name", name: "Dimension1", field: "Dimension1Name", width: 150 },
-         { id: "Dimension2Name", name: "Dimension2", field: "Dimension2Name", width: 150 },
-         { id: "UnitName", name: "Unit", field: "UnitName", width: 150 },
-         { id: "Specification", name: "Specification", field: "Specification", width: 150 },
-         { id: "BalanceQtyForPlan", name: "BalanceQty", hasTotal: true, field: "BalanceQtyForPlan", headerCssClass: 'text-right', width: 100, cssClass: 'text-right' },
-         { id: "Qty", name: "Qty", field: "Qty", hasTotal: true, width: 100, headerCssClass: 'text-right', editor: Slick.Editors.Text, cssClass: 'text-right' },
+         { id: "Dimension1Name", name: "Dimension1", field: "Dimension1Name", width: 120 },
+         { id: "Dimension2Name", name: "Dimension2", field: "Dimension2Name", width: 120 },
+         { id: "UnitName", name: "Unit", field: "UnitName", width: 40 },
+         { id: "Specification", name: "Specification", field: "Specification", width: 80 },
+         { id: "BalanceQtyForPlan", name: "BalanceQty", hasTotal: true, field: "BalanceQtyForPlan", headerCssClass: 'text-right', width: 80, cssClass: 'text-right' },
+         { id: "Qty", name: "Qty", field: "Qty", hasTotal: true, width: 80, headerCssClass: 'text-right', editor: Slick.Editors.Text, cssClass: 'text-right' },
     ];
 
     var summaryCol = [

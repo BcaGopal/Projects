@@ -28,6 +28,7 @@ namespace Model.ViewModel
         public bool isVisibleMachine { get; set; }
         public bool isMandatoryMachine { get; set; }
         public bool isMandatoryProcessLine { get; set; }
+        public bool isVisiblePurchPlanQty { get; set; }
         public string SqlProcConsumption { get; set; }
         public string filterProcesses { get; set; }
         public string filterContraDocTypes { get; set; }
