@@ -31,25 +31,25 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/22/2016 10:54:21</publishTime>
     </File>
     <File Include="bin/Core.dll">
-      <publishTime>01/24/2017 17:48:27</publishTime>
+      <publishTime>01/25/2017 18:15:22</publishTime>
     </File>
     <File Include="bin/CustomEventHandlers.dll">
-      <publishTime>01/24/2017 17:48:58</publishTime>
+      <publishTime>01/26/2017 17:24:56</publishTime>
     </File>
     <File Include="bin/Customise.dll">
-      <publishTime>01/24/2017 17:49:09</publishTime>
+      <publishTime>01/26/2017 17:25:04</publishTime>
     </File>
     <File Include="bin/Data.dll">
-      <publishTime>01/24/2017 17:48:36</publishTime>
+      <publishTime>01/26/2017 17:24:34</publishTime>
     </File>
     <File Include="bin/DocumentEvents.dll">
-      <publishTime>01/24/2017 17:48:55</publishTime>
+      <publishTime>01/26/2017 17:24:53</publishTime>
     </File>
     <File Include="bin/Elmah.dll">
       <publishTime>09/22/2016 11:24:00</publishTime>
     </File>
     <File Include="bin/EMailContents.dll">
-      <publishTime>01/24/2017 17:48:56</publishTime>
+      <publishTime>01/26/2017 17:24:54</publishTime>
     </File>
     <File Include="bin/EntityFramework.dll">
       <publishTime>09/22/2016 11:22:43</publishTime>
@@ -73,7 +73,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/22/2016 11:22:41</publishTime>
     </File>
     <File Include="bin/Mailer.dll">
-      <publishTime>01/24/2017 17:48:32</publishTime>
+      <publishTime>01/26/2017 17:24:29</publishTime>
     </File>
     <File Include="bin/Microsoft.AspNet.Identity.Core.dll">
       <publishTime>09/22/2016 11:22:43</publishTime>
@@ -145,22 +145,22 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/22/2016 11:23:54</publishTime>
     </File>
     <File Include="bin/Model.dll">
-      <publishTime>01/24/2017 17:48:31</publishTime>
+      <publishTime>01/26/2017 17:24:28</publishTime>
     </File>
     <File Include="bin/Models.Login.dll">
-      <publishTime>01/24/2017 17:48:30</publishTime>
+      <publishTime>01/25/2017 18:15:23</publishTime>
     </File>
     <File Include="bin/Models.Tasks.dll">
-      <publishTime>01/24/2017 17:48:29</publishTime>
+      <publishTime>01/25/2017 18:15:23</publishTime>
     </File>
     <File Include="bin/Newtonsoft.Json.dll">
       <publishTime>09/22/2016 11:23:06</publishTime>
     </File>
     <File Include="bin/NotificationContents.dll">
-      <publishTime>01/24/2017 17:49:04</publishTime>
+      <publishTime>01/26/2017 17:24:56</publishTime>
     </File>
     <File Include="bin/Notifier.dll">
-      <publishTime>01/24/2017 17:48:56</publishTime>
+      <publishTime>01/26/2017 17:24:54</publishTime>
     </File>
     <File Include="bin/Owin.dll">
       <publishTime>09/22/2016 11:22:43</publishTime>
@@ -172,7 +172,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/22/2016 10:54:21</publishTime>
     </File>
     <File Include="bin/Reports.dll">
-      <publishTime>01/24/2017 17:49:03</publishTime>
+      <publishTime>01/26/2017 17:25:00</publishTime>
     </File>
     <File Include="bin/Reports/CompanyDetail.rdlc">
       <publishTime>09/22/2016 10:54:49</publishTime>
@@ -343,7 +343,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/22/2016 11:23:08</publishTime>
     </File>
     <File Include="bin/Service.dll">
-      <publishTime>01/24/2017 17:48:54</publishTime>
+      <publishTime>01/26/2017 17:24:52</publishTime>
     </File>
     <File Include="bin/System.Web.Helpers.dll">
       <publishTime>09/22/2016 11:23:54</publishTime>
@@ -2044,7 +2044,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/22/2016 10:54:29</publishTime>
     </File>
     <File Include="Scripts/ProjLibFormatting.js">
-      <publishTime>12/14/2016 13:30:41</publishTime>
+      <publishTime>01/26/2017 16:52:23</publishTime>
     </File>
     <File Include="Scripts/respond.js">
       <publishTime>09/22/2016 10:54:29</publishTime>
@@ -2158,7 +2158,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>12/27/2016 20:16:33</publishTime>
     </File>
     <File Include="Views/CarpetMaster/Index.cshtml">
-      <publishTime>11/30/2016 15:43:56</publishTime>
+      <publishTime>01/26/2017 17:17:52</publishTime>
     </File>
     <File Include="Views/CarpetMaster/_Reason.cshtml">
       <publishTime>09/22/2016 10:54:29</publishTime>
@@ -3301,16 +3301,19 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>12/29/2016 11:34:09</publishTime>
     </File>
     <File Include="Views/WeavingReceiveQACombined/Create.cshtml">
-      <publishTime>01/23/2017 16:51:04</publishTime>
+      <publishTime>01/26/2017 16:12:45</publishTime>
     </File>
     <File Include="Views/WeavingReceiveQACombined/DocumentTypeList.cshtml">
       <publishTime>01/20/2017 14:19:18</publishTime>
     </File>
     <File Include="Views/WeavingReceiveQACombined/Index.cshtml">
-      <publishTime>01/24/2017 10:02:24</publishTime>
+      <publishTime>01/26/2017 16:53:42</publishTime>
     </File>
     <File Include="Views/WeavingReceiveQACombined/PendingRateUpdationIndex.cshtml">
-      <publishTime>01/24/2017 10:08:02</publishTime>
+      <publishTime>01/26/2017 10:29:37</publishTime>
+    </File>
+    <File Include="Views/WeavingReceiveQACombined/PendingToImportFromBranch.cshtml">
+      <publishTime>01/26/2017 17:18:51</publishTime>
     </File>
     <File Include="Views/WeavingReceiveQACombined/_Reason.cshtml">
       <publishTime>01/20/2017 14:19:02</publishTime>

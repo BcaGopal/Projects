@@ -54,24 +54,24 @@ namespace Service
             pt.ObjectState = ObjectState.Added;
             db.JobReceiveQAPenalty.Add(pt);
 
-            List<JobReceiveQAPenalty> PenaltyLines = (from Pl in db.JobReceiveQAPenalty where Pl.JobReceiveQALineId == pt.JobReceiveQALineId select Pl).ToList();
-            Decimal TotalPenalty = 0;
-            if (PenaltyLines != null)
+            if (pt.JobReceiveQALineId > 0)
             {
-                TotalPenalty = PenaltyLines.Sum(i => i.Amount) + pt.Amount;
+                List<JobReceiveQAPenalty> PenaltyLines = (from Pl in db.JobReceiveQAPenalty where Pl.JobReceiveQALineId == pt.JobReceiveQALineId select Pl).ToList();
+                Decimal TotalPenalty = 0;
+                if (PenaltyLines.Count() != 0)
+                {
+                    TotalPenalty = PenaltyLines.Sum(i => i.Amount) + pt.Amount;
+                }
+                else
+                {
+                    TotalPenalty = pt.Amount;
+                }
+
+                JobReceiveQALine Line = db.JobReceiveQALine.Find(pt.JobReceiveQALineId);
+                Line.PenaltyAmt = TotalPenalty;
+                Line.ObjectState = ObjectState.Modified;
+                db.JobReceiveQALine.Add(Line);
             }
-            else 
-            {
-                TotalPenalty = pt.Amount;
-            }
-
-            JobReceiveQALine Line = db.JobReceiveQALine.Find(pt.JobReceiveQALineId);
-            Line.PenaltyAmt = TotalPenalty;
-            Line.ObjectState = ObjectState.Modified;
-            db.JobReceiveQALine.Add(Line);
-
-
-
 
             return pt;
         }

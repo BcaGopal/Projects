@@ -57,6 +57,7 @@ namespace Service
             JobOrderHeader JobOrderHeader = db.JobOrderHeader.Find(JobOrderLine.JobOrderHeaderId);
 
             JobReceiveHeader JobReceiveHeader = new JobReceiveHeader();
+            JobReceiveHeader.JobReceiveHeaderId = pt.JobReceiveHeaderId;
             JobReceiveHeader.DocTypeId = pt.DocTypeId;
             JobReceiveHeader.DocNo = pt.DocNo;
             JobReceiveHeader.DocDate = pt.DocDate;
@@ -68,6 +69,8 @@ namespace Service
             JobReceiveHeader.JobReceiveById = pt.JobReceiveById;
             JobReceiveHeader.GodownId = pt.GodownId;
             JobReceiveHeader.Remark = pt.Remark;
+            JobReceiveHeader.ReferenceDocId = pt.ReferenceDocId;
+            JobReceiveHeader.ReferenceDocTypeId = pt.ReferenceDocTypeId;
             JobReceiveHeader.CreatedBy = UserName;
             JobReceiveHeader.CreatedBy = UserName;
             JobReceiveHeader.CreatedDate = DateTime.Now;
@@ -76,6 +79,7 @@ namespace Service
             JobReceiveHeader.Status = (int)StatusConstants.Drafted;
 
             StockHeader StockHeader = new StockHeader();
+            StockHeader.StockHeaderId = pt.StockHeaderId;
             StockHeader.DocTypeId = JobReceiveHeader.DocTypeId;
             StockHeader.DocDate = JobReceiveHeader.DocDate;
             StockHeader.DocNo = JobReceiveHeader.DocNo;
@@ -101,6 +105,7 @@ namespace Service
 
             JobReceiveLine JobReceiveLine = new JobReceiveLine();
             JobReceiveLine.JobReceiveHeaderId = JobReceiveHeader.JobReceiveHeaderId;
+            JobReceiveLine.JobReceiveLineId = pt.JobReceiveLineId;
             JobReceiveLine.JobOrderLineId = pt.JobOrderLineId;
             JobReceiveLine.ProductUidId = pt.ProductUidId;
             JobReceiveLine.Qty = pt.Qty;
@@ -110,6 +115,7 @@ namespace Service
             JobReceiveLine.UnitConversionMultiplier = JobOrderLine.UnitConversionMultiplier;
             JobReceiveLine.DealQty = JobReceiveLine.Qty * JobReceiveLine.UnitConversionMultiplier;
             JobReceiveLine.DealUnitId = pt.DealUnitId;
+            JobReceiveLine.Weight = pt.Weight;
             JobReceiveLine.LotNo = null;
             JobReceiveLine.Sr = 1;
             JobReceiveLine.CreatedDate = DateTime.Now;
@@ -120,53 +126,9 @@ namespace Service
             Dictionary<int, decimal> LineStatus = new Dictionary<int, decimal>();
             LineStatus.Add(JobReceiveLine.JobOrderLineId, (JobReceiveLine.Qty + JobReceiveLine.LossQty));
 
-
-            ProductUidHeader ProductUidHeader = new ProductUidHeader();
-            ProductUidHeader.ProductId = pt.ProductId;
-            ProductUidHeader.GenDocId = JobReceiveHeader.JobReceiveHeaderId;
-            ProductUidHeader.GenDocNo = JobReceiveHeader.DocNo;
-            ProductUidHeader.GenDocTypeId = JobReceiveHeader.DocTypeId;
-            ProductUidHeader.GenDocDate = JobReceiveHeader.DocDate;
-            ProductUidHeader.GenPersonId = JobReceiveHeader.JobWorkerId;
-            ProductUidHeader.CreatedBy = UserName;
-            ProductUidHeader.CreatedDate = DateTime.Now;
-            ProductUidHeader.ModifiedBy = UserName;
-            ProductUidHeader.ModifiedDate = DateTime.Now;
-            ProductUidHeader.ObjectState = Model.ObjectState.Added;
-            db.ProductUidHeader.Add(ProductUidHeader);
-
-
-
-            ProductUid ProductUid = new ProductUid();
-            ProductUid.ProductUidHeaderId = ProductUidHeader.ProductUidHeaderId;
-            ProductUid.ProductUidName = pt.ProductUidName;
-            ProductUid.ProductId = pt.ProductId;
-            ProductUid.IsActive = true;
-            ProductUid.CreatedBy = UserName;
-            ProductUid.CreatedDate = DateTime.Now;
-            ProductUid.ModifiedBy = UserName;
-            ProductUid.ModifiedDate = DateTime.Now;
-            ProductUid.GenLineId = null;
-            ProductUid.GenDocId = JobReceiveHeader.JobReceiveHeaderId;
-            ProductUid.GenDocNo = JobReceiveHeader.DocNo;
-            ProductUid.GenDocTypeId = JobReceiveHeader.DocTypeId;
-            ProductUid.GenDocDate = JobReceiveHeader.DocDate;
-            ProductUid.GenPersonId = JobReceiveHeader.JobWorkerId;
-            ProductUid.CurrenctProcessId = JobReceiveHeader.ProcessId;
-            ProductUid.Status = ProductUidStatusConstants.Receive;
-            ProductUid.LastTransactionDocId = JobReceiveHeader.JobReceiveHeaderId;
-            ProductUid.LastTransactionDocNo = JobReceiveHeader.DocNo;
-            ProductUid.LastTransactionDocTypeId = JobReceiveHeader.DocTypeId;
-            ProductUid.LastTransactionDocDate = JobReceiveHeader.DocDate;
-            ProductUid.LastTransactionPersonId = JobReceiveHeader.JobWorkerId;
-            ProductUid.LastTransactionLineId = null;
-            ProductUid.ObjectState = Model.ObjectState.Added;
-            db.ProductUid.Add(ProductUid);
-
-
             Stock Stock = new Stock();
             Stock.DocDate = JobReceiveHeader.DocDate;
-            Stock.ProductUidId = ProductUid.ProductUIDId;
+            Stock.StockId = pt.StockId;
             Stock.ProductId = pt.ProductId;
             Stock.ProcessId = JobReceiveHeader.ProcessId;
             Stock.GodownId = JobReceiveHeader.GodownId;
@@ -180,11 +142,71 @@ namespace Service
             Stock.CreatedDate = JobReceiveLine.CreatedDate;
             Stock.ModifiedBy = JobReceiveLine.ModifiedBy;
             Stock.ModifiedDate = JobReceiveLine.ModifiedDate;
+
+
+
+            
+            if (pt.ProductUidId == null)
+            {
+                ProductUidHeader ProductUidHeader = new ProductUidHeader();
+                ProductUidHeader.ProductId = pt.ProductId;
+                ProductUidHeader.GenDocId = JobReceiveHeader.JobReceiveHeaderId;
+                ProductUidHeader.GenDocNo = JobReceiveHeader.DocNo;
+                ProductUidHeader.GenDocTypeId = JobReceiveHeader.DocTypeId;
+                ProductUidHeader.GenDocDate = JobReceiveHeader.DocDate;
+                ProductUidHeader.GenPersonId = JobReceiveHeader.JobWorkerId;
+                ProductUidHeader.CreatedBy = UserName;
+                ProductUidHeader.CreatedDate = DateTime.Now;
+                ProductUidHeader.ModifiedBy = UserName;
+                ProductUidHeader.ModifiedDate = DateTime.Now;
+                ProductUidHeader.ObjectState = Model.ObjectState.Added;
+                db.ProductUidHeader.Add(ProductUidHeader);
+                JobReceiveLine.ProductUidHeaderId = ProductUidHeader.ProductUidHeaderId;
+
+
+
+                ProductUid ProductUid = new ProductUid();
+                ProductUid.ProductUidHeaderId = ProductUidHeader.ProductUidHeaderId;
+                ProductUid.ProductUidName = pt.ProductUidName;
+                ProductUid.ProductId = pt.ProductId;
+                ProductUid.IsActive = true;
+                ProductUid.CreatedBy = UserName;
+                ProductUid.CreatedDate = DateTime.Now;
+                ProductUid.ModifiedBy = UserName;
+                ProductUid.ModifiedDate = DateTime.Now;
+                ProductUid.GenLineId = null;
+                ProductUid.GenDocId = JobReceiveHeader.JobReceiveHeaderId;
+                ProductUid.GenDocNo = JobReceiveHeader.DocNo;
+                ProductUid.GenDocTypeId = JobReceiveHeader.DocTypeId;
+                ProductUid.GenDocDate = JobReceiveHeader.DocDate;
+                ProductUid.GenPersonId = JobReceiveHeader.JobWorkerId;
+                ProductUid.CurrenctProcessId = JobReceiveHeader.ProcessId;
+                ProductUid.Status = ProductUidStatusConstants.Receive;
+                ProductUid.LastTransactionDocId = JobReceiveHeader.JobReceiveHeaderId;
+                ProductUid.LastTransactionDocNo = JobReceiveHeader.DocNo;
+                ProductUid.LastTransactionDocTypeId = JobReceiveHeader.DocTypeId;
+                ProductUid.LastTransactionDocDate = JobReceiveHeader.DocDate;
+                ProductUid.LastTransactionPersonId = JobReceiveHeader.JobWorkerId;
+                ProductUid.LastTransactionLineId = null;
+                ProductUid.ObjectState = Model.ObjectState.Added;
+                db.ProductUid.Add(ProductUid);
+
+                JobReceiveLine.ProductUidId = ProductUid.ProductUIDId;
+                Stock.ProductUidId = ProductUid.ProductUIDId;
+            }
+            else
+            {
+                JobReceiveLine.ProductUidId = pt.ProductUidId;
+                Stock.ProductUidId = pt.ProductUidId;
+            }
+
+
+
             Stock.ObjectState = Model.ObjectState.Added;
             db.Stock.Add(Stock);
 
-            JobReceiveLine.ProductUidHeaderId = ProductUidHeader.ProductUidHeaderId;
-            JobReceiveLine.ProductUidId = ProductUid.ProductUIDId;
+            
+
             JobReceiveLine.StockId = Stock.StockId;
             JobReceiveLine.ObjectState = Model.ObjectState.Added;
             db.JobReceiveLine.Add(JobReceiveLine);
@@ -198,6 +220,7 @@ namespace Service
 
 
             JobReceiveQAHeader JobReceiveQAHeader = new JobReceiveQAHeader();
+            JobReceiveQAHeader.JobReceiveQAHeaderId = pt.JobReceiveQAHeaderId;
             JobReceiveQAHeader.DocTypeId = JobReceiveHeader.DocTypeId;
             JobReceiveQAHeader.DocDate = JobReceiveHeader.DocDate;
             JobReceiveQAHeader.DocNo = JobReceiveHeader.DocNo;
@@ -218,6 +241,7 @@ namespace Service
 
             JobReceiveQALine JobReceiveQALine = new JobReceiveQALine();
             JobReceiveQALine.JobReceiveQAHeaderId = JobReceiveQAHeader.JobReceiveQAHeaderId;
+            JobReceiveQALine.JobReceiveQALineId = pt.JobReceiveQALineId;
             JobReceiveQALine.Sr = JobReceiveLine.Sr;
             JobReceiveQALine.ProductUidId = JobReceiveLine.ProductUidId;
             JobReceiveQALine.JobReceiveLineId = JobReceiveLine.JobReceiveLineId;
@@ -319,6 +343,7 @@ namespace Service
             JobReceiveLine.UnitConversionMultiplier = pt.UnitConversionMultiplier;
             JobReceiveLine.DealQty = pt.DealQty;
             JobReceiveLine.DealUnitId = pt.DealUnitId;
+            JobReceiveLine.Weight = pt.Weight;
             JobReceiveLine.LotNo = null;
             JobReceiveLine.Sr = 1;
             JobReceiveLine.ModifiedBy = UserName;
@@ -463,6 +488,8 @@ namespace Service
                                                                          JobReceiveLineId = JobReceiveLineTab.JobReceiveLineId,
                                                                          JobReceiveQALineId = JobReceiveQALineTab.JobReceiveQALineId,
                                                                          JobReceiveQAHeaderId = JobReceiveQALineTab.JobReceiveQAHeaderId,
+                                                                         StockHeaderId = H.StockHeaderId ?? 0,
+                                                                         StockId = JobReceiveLineTab.StockId ?? 0,
                                                                          JobOrderLineId = JobReceiveLineTab.JobOrderLineId,
                                                                          JobOrderHeaderDocNo = JobOrderLineTab.JobOrderHeader.DocNo,
                                                                          GodownId = H.GodownId,
