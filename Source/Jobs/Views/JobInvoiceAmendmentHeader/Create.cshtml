@@ -95,7 +95,7 @@
                         <li><a id="DocHistory" data-modal="" href="@Url.Action("GetHistory", "LogHistory", new { Ids = Model.JobInvoiceAmendmentHeaderId, DocTypeId = Model.DocTypeId })"><span class="glyphicon glyphicon-user"> </span> History</a></li>
                         <li><a href="@Url.Action("Email", "JobInvoiceAmendmentHeader")"><span class="glyphicon glyphicon-envelope"> </span> Email</a></li>
                         <li role="separator" class="divider"></li>
-                        <li><a href="@Url.Action("Report", "JobInvoiceAmendmentHeader")"><span class="glyphicon glyphicon-th"> </span> Report</a></li>
+                        <li><a href="@Url.Action("Report", "JobInvoiceAmendmentHeader", new { @ViewBag.id })"><span class="glyphicon glyphicon-th"> </span> Report</a></li>
                     </ul>
                 </div>
                     @*<h4 style="padding:5px 0 0 0;margin:0px">

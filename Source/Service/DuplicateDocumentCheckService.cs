@@ -74,6 +74,17 @@ namespace Service
                         else
                             return true;
                     }
+                case "ProductUidMachine":
+                    {
+                        
+                        var temp = (from p in db.ProductUid
+                                    where p.ProductUidName == docno && p.GenDocTypeId== doctypeId
+                                    select p).FirstOrDefault();
+                        if (temp == null)
+                            return false;
+                        else
+                            return true;
+                    }
                 case "ProductRateGroup":
                     {
                         int SiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
@@ -622,6 +633,17 @@ namespace Service
                             return true;
                     }
 
+                case "ProductUidMachine":
+                    {
+                        var temp = (from p in db.ProductUid
+                                    where p.ProductUidName == docno && p.ProductUIDId != headerid && p.GenDocTypeId== doctypeId
+                                    select p).FirstOrDefault();
+                        if (temp == null)
+                            return false;
+                        else
+                            return true;
+                    }
+
                 case "ProductConsumption":
                     {
                         var temp = (from p in db.Product
@@ -1139,6 +1161,7 @@ namespace Service
                         else
                             return true;
                     }
+             
                 case "LeaveType":
                     {
                         var temp = (from p in db.LeaveType

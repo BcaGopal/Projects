@@ -666,8 +666,7 @@ namespace Web
                 // Now delete the Ledger & Ledger Header
                 if (LedgerHeaderId != 0)
                 {
-                    var LedgerList = new LedgerService(_unitOfWork).FindForLedgerHeader(LedgerHeaderId).ToList();
-
+                    var LedgerList = new LedgerService(_unitOfWork).FindForLedgerHeader(LedgerHeaderId).ToList();                    
                     foreach (var item in LedgerList)
                     {
                         new LedgerService(_unitOfWork).Delete(item.LedgerId);
