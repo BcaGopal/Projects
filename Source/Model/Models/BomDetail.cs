@@ -19,6 +19,11 @@ namespace Model.Models
 
         public decimal BatchQty { get; set; }
 
+
+        [ForeignKey("BaseProcess"), Display(Name = "Base Process")]
+        public int? BaseProcessId { get; set; }
+        public virtual Process BaseProcess { get; set; }
+
         [ForeignKey("Product"), Display(Name = "Product")]
         public int ProductId { get; set; }
         public virtual Product Product { get; set; }

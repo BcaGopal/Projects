@@ -50,7 +50,9 @@ namespace Web
 
         public ActionResult Create()
         {
+            int DivisionId= (int)System.Web.HttpContext.Current.Session["DivisionId"];
             ProductInvoiceGroup vm = new ProductInvoiceGroup();
+            vm.DivisionId = DivisionId;
             vm.IsActive = true;
             vm.SeparateWeightInInvoice = false;
             return View("Create", vm);
@@ -68,7 +70,7 @@ namespace Web
             {
                 if (vm.ProductInvoiceGroupId <= 0)
                 {
-                    pt.DivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
+                    //pt.DivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
                     pt.CreatedDate = DateTime.Now;
                     pt.ModifiedDate = DateTime.Now;
                     pt.CreatedBy = User.Identity.Name;
@@ -108,6 +110,7 @@ namespace Web
                     ProductInvoiceGroup ExRec = Mapper.Map<ProductInvoiceGroup>(temp);
 
                     temp.ProductInvoiceGroupName = pt.ProductInvoiceGroupName;
+                    temp.DivisionId = pt.DivisionId;
                     temp.IsActive = pt.IsActive;
                     temp.ItcHsCode = pt.ItcHsCode;
                     temp.Rate = pt.Rate;

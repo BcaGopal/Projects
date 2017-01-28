@@ -37,6 +37,7 @@ namespace Model.ViewModels
 
         public decimal BatchQty { get; set; }
 
+
         public int? ProcessId { get; set; }
         public string ProcessName { get; set; }
 

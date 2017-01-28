@@ -144,7 +144,9 @@ namespace Presentation
 
             var DivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
             var SiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
-            svm.MaterialPlanSettings = new MaterialPlanSettingsService(_unitOfWork).GetMaterialPlanSettingsForDocument(vm.DocTypeId, DivisionId, SiteId);
+            //svm.MaterialPlanSettings = new MaterialPlanSettingsService(_unitOfWork).GetMaterialPlanSettingsForDocument(vm.DocTypeId, DivisionId, SiteId);
+            var settings = new MaterialPlanSettingsService(_unitOfWork).GetMaterialPlanSettingsForDocument(vm.DocTypeId, DivisionId, SiteId);
+            svm.MaterialPlanSettings = Mapper.Map<MaterialPlanSettings, MaterialPlanSettingsViewModel>(settings);
 
             svm.MaterialPlanLineViewModel = temp;
             return PartialView("_Results", svm);
@@ -160,16 +162,20 @@ namespace Presentation
             string sessionmaterialplanline = header.DocTypeId + "_" + header.MaterialPlanHeaderId + "_materialplanline";
 
             System.Web.HttpContext.Current.Session[sessionmaterialplanline] = vm.MaterialPlanLineViewModel.ToList();
-            MaterialPlanSettings Setting = new MaterialPlanSettingsService(_unitOfWork).GetMaterialPlanSettingsForDocument(header.DocTypeId, header.DivisionId, header.SiteId);
+            //MaterialPlanSettings Setting = new MaterialPlanSettingsService(_unitOfWork).GetMaterialPlanSettingsForDocument(header.DocTypeId, header.DivisionId, header.SiteId);
+
+            var settings = new MaterialPlanSettingsService(_unitOfWork).GetMaterialPlanSettingsForDocument(header.DocTypeId, header.DivisionId, header.SiteId);
+            
+
             if (ModelState.IsValid)
             {
 
                 var ProductIds = vm.MaterialPlanLineViewModel.Select(m => m.ProductId).ToArray();
 
                 List<MaterialPlanLineViewModel> Line = new List<MaterialPlanLineViewModel>();
-                if (Setting.SqlProcConsumptionSummary != null)
+                if (settings.SqlProcConsumptionSummary != null)
                 {
-                    Line = new MaterialPlanForSaleOrderLineService(_unitOfWork).GetMaterialPlanSummaryFromProcedure(vm, (string)System.Web.HttpContext.Current.Session["DefaultConnectionString"], Setting.SqlProcConsumptionSummary).ToList();
+                    Line = new MaterialPlanForSaleOrderLineService(_unitOfWork).GetMaterialPlanSummaryFromProcedure(vm, (string)System.Web.HttpContext.Current.Session["DefaultConnectionString"], settings.SqlProcConsumptionSummary).ToList();
                 }
                 else
                 {
@@ -243,7 +249,7 @@ namespace Presentation
 
                 var DivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
                 var SiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
-                Summary.MaterialPlanSettings = Setting;
+                Summary.MaterialPlanSettings = Mapper.Map<MaterialPlanSettings, MaterialPlanSettingsViewModel>(settings); ;
 
                 Summary.PlanLine = Line.OrderBy(m => m.ProductName).ThenBy(m => m.Dimension1Name).ThenBy(m => m.Dimension2Name).ThenBy(m => m.Dimension3Name).ThenBy(m => m.Dimension4Name).ToList();
 
@@ -270,8 +276,12 @@ namespace Presentation
             MaterialPlanLineListViewModel svm = new MaterialPlanLineListViewModel();
             svm.MaterialPlanLineViewModel = (List<MaterialPlanForSaleOrderViewModel>)System.Web.HttpContext.Current.Session[sessionMaterialPlanLine];
 
-            MaterialPlanSettings Settings = new MaterialPlanSettingsService(_unitOfWork).GetMaterialPlanSettingsForDocument(header.DocTypeId, header.DivisionId, header.SiteId);
+            //MaterialPlanSettings Settings = new MaterialPlanSettingsService(_unitOfWork).GetMaterialPlanSettingsForDocument(header.DocTypeId, header.DivisionId, header.SiteId);
 
+
+            //Getting Settings
+            var settings = new MaterialPlanSettingsService(_unitOfWork).GetMaterialPlanSettingsForDocument(header.DocTypeId, header.DivisionId, header.SiteId);
+            vm.MaterialPlanSettings = Mapper.Map<MaterialPlanSettings, MaterialPlanSettingsViewModel>(settings);
 
             using (var context = new ApplicationDbContext())
             {
@@ -326,7 +336,7 @@ namespace Presentation
                 {
                     
                     //ProdOrderHeader ExistingProdOrder = new ProdOrderHeaderService(_unitOfWork).GetProdOrderForMaterialPlan(header.MaterialPlanHeaderId);
-                    ProdOrderHeader ExistingProdOrder = new ProdOrderHeaderService(_unitOfWork).GetPurchOrProdForMaterialPlan(header.MaterialPlanHeaderId, Settings.DocTypeProductionOrderId.Value);
+                    ProdOrderHeader ExistingProdOrder = new ProdOrderHeaderService(_unitOfWork).GetPurchOrProdForMaterialPlan(header.MaterialPlanHeaderId, settings.DocTypeProductionOrderId.Value);
                     int ProdORderSerial = 1;
                     if (ExistingProdOrder == null)
                     {
@@ -337,7 +347,7 @@ namespace Presentation
                         prodOrderHeader.DivisionId = header.DivisionId;
                         prodOrderHeader.DocDate = header.DocDate;
                         prodOrderHeader.DocNo = header.DocNo;
-                        prodOrderHeader.DocTypeId = Settings.DocTypeProductionOrderId.Value;
+                        prodOrderHeader.DocTypeId = settings.DocTypeProductionOrderId.Value;
                         prodOrderHeader.DueDate = header.DueDate;
                         prodOrderHeader.MaterialPlanHeaderId = header.MaterialPlanHeaderId;
                         prodOrderHeader.ModifiedBy = User.Identity.Name;
@@ -434,7 +444,7 @@ namespace Presentation
 
 
                     //PurchaseIndentHeader ExistingIndent = new PurchaseIndentHeaderService(_unitOfWork).GetPurchaseIndentForMaterialPlan(header.MaterialPlanHeaderId);
-                    ProdOrderHeader ExistingIndent = new ProdOrderHeaderService(_unitOfWork).GetPurchOrProdForMaterialPlan(header.MaterialPlanHeaderId, Settings.DocTypePurchaseIndentId.Value);
+                    ProdOrderHeader ExistingIndent = new ProdOrderHeaderService(_unitOfWork).GetPurchOrProdForMaterialPlan(header.MaterialPlanHeaderId, settings.DocTypePurchaseIndentId.Value);
                     int PurchaseIndentSr = 1;
                     if (ExistingIndent == null)
                     {
@@ -447,7 +457,7 @@ namespace Presentation
                         indentHeader.DivisionId = header.DivisionId;
                         indentHeader.DocDate = header.DocDate;
                         indentHeader.DocNo = header.DocNo;
-                        indentHeader.DocTypeId = Settings.DocTypePurchaseIndentId.Value;
+                        indentHeader.DocTypeId = settings.DocTypePurchaseIndentId.Value;
                         indentHeader.DueDate = header.DueDate;
                         indentHeader.MaterialPlanHeaderId = header.MaterialPlanHeaderId;
                         indentHeader.ModifiedBy = User.Identity.Name;
@@ -590,7 +600,8 @@ namespace Presentation
                     ModelState.AddModelError("", message);
                     var DivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
                     var SiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
-                    vm.MaterialPlanSettings = new MaterialPlanSettingsService(_unitOfWork).GetMaterialPlanSettingsForDocument(header.DocTypeId, DivisionId, SiteId);
+                    //vm.MaterialPlanSettings = new MaterialPlanSettingsService(_unitOfWork).GetMaterialPlanSettingsForDocument(header.DocTypeId, DivisionId, SiteId);
+                    vm.MaterialPlanSettings = Mapper.Map<MaterialPlanSettings, MaterialPlanSettingsViewModel>(settings);
                     return PartialView("_SummarySaleOrder", vm);
                 }
 
@@ -692,6 +703,12 @@ namespace Presentation
             MaterialPlanLine m = _MaterialPlanLineService.Find(id);
             MaterialPlanHeader Header = new MaterialPlanHeaderService(_unitOfWork).Find(m.MaterialPlanHeaderId);
             MaterialPlanLineViewModel vm = Mapper.Map<MaterialPlanLine, MaterialPlanLineViewModel>(m);
+
+            //Getting Settings
+            var settings = new MaterialPlanSettingsService(_unitOfWork).GetMaterialPlanSettingsForDocument(Header.DocTypeId, Header.DivisionId, Header.SiteId);
+            vm.MaterialPlanSettings = Mapper.Map<MaterialPlanSettings, MaterialPlanSettingsViewModel>(settings);
+
+
             vm.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(Header.DocTypeId);
 
             return PartialView("_Create", vm);
@@ -799,7 +816,9 @@ namespace Presentation
 
                 var DivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
                 var SiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
-                svm.MaterialPlanSettings = new MaterialPlanSettingsService(_unitOfWork).GetMaterialPlanSettingsForDocument(vm.DocTypeId, DivisionId, SiteId);
+                //svm.MaterialPlanSettings = new MaterialPlanSettingsService(_unitOfWork).GetMaterialPlanSettingsForDocument(vm.DocTypeId, DivisionId, SiteId);
+                var settings = new MaterialPlanSettingsService(_unitOfWork).GetMaterialPlanSettingsForDocument(vm.DocTypeId, DivisionId, SiteId);
+                svm.MaterialPlanSettings = Mapper.Map<MaterialPlanSettings, MaterialPlanSettingsViewModel>(settings);
 
                 return PartialView("_ResultsProduction", svm);
             }
@@ -824,9 +843,12 @@ namespace Presentation
                 var SiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
                 MaterialPlanSummaryViewModel MPSummary = new MaterialPlanSummaryViewModel();
 
-                MaterialPlanSettings Setting = new MaterialPlanSettingsService(_unitOfWork).GetMaterialPlanSettingsForDocument(header.DocTypeId, DivisionId, SiteId);
+                //MaterialPlanSettings Setting = new MaterialPlanSettingsService(_unitOfWork).GetMaterialPlanSettingsForDocument(header.DocTypeId, DivisionId, SiteId);
 
-                if (Setting.SqlProcConsumptionSummary != null)
+                var settings = new MaterialPlanSettingsService(_unitOfWork).GetMaterialPlanSettingsForDocument(header.DocTypeId, header.DivisionId, header.SiteId);
+                vm.MaterialPlanSettings = Mapper.Map<MaterialPlanSettings, MaterialPlanSettingsViewModel>(settings);
+
+                if (settings.SqlProcConsumptionSummary != null)
                 {
                     string sessionmaterialplanline = header.DocTypeId + "_" + header.MaterialPlanHeaderId + "_materialplanline";
                     string sessionprodorderbom = header.DocTypeId + "_" + header.MaterialPlanHeaderId + "_prodorderbom";
@@ -848,7 +870,7 @@ namespace Presentation
                     System.Web.HttpContext.Current.Session[sessionmaterialplanline] = vm.MaterialPlanLineViewModel.ToList();
                     System.Web.HttpContext.Current.Session[sessionprodorderbom] = prodorderlinefromprocedure;
 
-                    MPSummary.MaterialPlanSettings = Setting;
+                    MPSummary.MaterialPlanSettings = Mapper.Map<MaterialPlanSettings, MaterialPlanSettingsViewModel>(settings);
                     MPSummary.PlanLine = MSummary.OrderBy(m => m.ProductName).ThenBy(m => m.Dimension1Name).ThenByDescending(m => m.Dimension2Name).ThenByDescending(m => m.Dimension3Name).ThenByDescending(m => m.Dimension4Name).ToList();
 
                 }
@@ -1008,7 +1030,7 @@ namespace Presentation
 
 
                     //MaterialPlanSummaryViewModel Summary = new MaterialPlanSummaryViewModel();
-                    MPSummary.MaterialPlanSettings = Setting;
+                    MPSummary.MaterialPlanSettings = Mapper.Map<MaterialPlanSettings, MaterialPlanSettingsViewModel>(settings);
                     MPSummary.PlanLine = Line.OrderBy(m => m.ProductName).ThenBy(m => m.Dimension1Name).ThenByDescending(m => m.Dimension2Name).ThenByDescending(m => m.Dimension3Name).ThenByDescending(m => m.Dimension4Name).ToList();
                 }
 
@@ -1389,7 +1411,9 @@ namespace Presentation
                     ModelState.AddModelError("", message);
                     var DivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
                     var SiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
-                    vm.MaterialPlanSettings = new MaterialPlanSettingsService(_unitOfWork).GetMaterialPlanSettingsForDocument(header.DocTypeId, DivisionId, SiteId);
+                    //vm.MaterialPlanSettings = new MaterialPlanSettingsService(_unitOfWork).GetMaterialPlanSettingsForDocument(header.DocTypeId, DivisionId, SiteId);
+                    var settings = new MaterialPlanSettingsService(_unitOfWork).GetMaterialPlanSettingsForDocument(header.DocTypeId, header.DivisionId, header.SiteId);
+                    vm.MaterialPlanSettings = Mapper.Map<MaterialPlanSettings, MaterialPlanSettingsViewModel>(settings);
                     return PartialView("_Summary", vm);
                 }
 

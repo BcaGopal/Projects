@@ -102,6 +102,8 @@ namespace Web
 
             IEnumerable<PendingSaleOrderFromProc> PendingSaleOrders = db.Database.SqlQuery<PendingSaleOrderFromProc>(" " + ProcName + " @PlanningDocumentType, @Site, @Division, @BuyerId", SqlParameterDocType, SqlParameterSite, SqlParameterDivision, SqlParameterBuyer).ToList();
 
+
+
             var resu = PendingSaleOrders.Select((m, i) => new
             {
                 BalanceQtyForPlan = m.BalanceQty,
@@ -111,6 +113,8 @@ namespace Web
                 Specification = m.Specification,
                 ProductId = m.ProductId,
                 ProductName = m.ProductName,
+                BuyerId = m.BuyerId,
+                BuyerName = m.BuyerName,
                 Dimension1Id = m.Dimension1Id,
                 Dimension1Name = m.Dimension1Name,
                 Dimension2Id = m.Dimension2Id,
@@ -129,15 +133,20 @@ namespace Web
             int SiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
             int DivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
 
-            MaterialPlanSettings Setting = new MaterialPlanSettingsService(_unitOfWork).GetMaterialPlanSettingsForDocument(DocTypeId, DivisionId, SiteId);
+            //MaterialPlanSettings Setting = new MaterialPlanSettingsService(_unitOfWork).GetMaterialPlanSettingsForDocument(DocTypeId, DivisionId, SiteId);
+            var settings = new MaterialPlanSettingsService(_unitOfWork).GetMaterialPlanSettingsForDocument(DocTypeId, DivisionId, SiteId);
 
             var ProductIds = selectedRec.Select(m => m.ProductId).ToArray();
-
             List<MaterialPlanLineViewModel> Line = new List<MaterialPlanLineViewModel>();
+
+            if (selectedRec != null)
+            {
+                System.Web.HttpContext.Current.Session["BuyerId"] = selectedRec.FirstOrDefault().BuyerId;
+            }
 
             System.Web.HttpContext.Current.Session["SODyeingPlan"] = selectedRec;
 
-            if (Setting.SqlProcConsumptionSummary != null)
+            if (settings.SqlProcConsumptionSummary != null)
             {
                 var prodorderlinelist = selectedRec.Where(m => m.Qty > 0).Select(m => new { m.SaleOrderLineId, m.Qty });
 
@@ -161,7 +170,7 @@ namespace Web
                 using (SqlConnection sqlConnection = new SqlConnection((string)System.Web.HttpContext.Current.Session["DefaultConnectionString"]))
                 {
                     sqlConnection.Open();
-                    using (SqlCommand cmd = new SqlCommand(Setting.SqlProcConsumptionSummary))
+                    using (SqlCommand cmd = new SqlCommand(settings.SqlProcConsumptionSummary))
                     {
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Connection = sqlConnection;
@@ -205,8 +214,6 @@ namespace Web
                     line.PurchPlanQty = (dr["PurchProd"].ToString() == "Purchase") ? Convert.ToDecimal(dr["Qty"].ToString()) : 0;
 
                     line.GeneratedFor = MaterialPlanConstants.SaleOrder;
-
-
 
                     Line.Add(line);
                 }
@@ -282,7 +289,8 @@ namespace Web
 
 
             MaterialPlanSummaryViewModel Summary = new MaterialPlanSummaryViewModel();
-            Summary.MaterialPlanSettings = Setting;
+            //Summary.MaterialPlanSettings = Setting;
+            Summary.MaterialPlanSettings = Mapper.Map<MaterialPlanSettings, MaterialPlanSettingsViewModel>(settings);
 
             var data = Line.OrderBy(m => m.ProductName).ThenBy(m => m.Dimension1Name).ThenBy(m => m.Dimension2Name)
                 .Select((m, i) => new
@@ -336,6 +344,11 @@ namespace Web
             var settings = new MaterialPlanSettingsService(_unitOfWork).GetMaterialPlanSettingsForDocument(id, vm.DivisionId, vm.SiteId);
 
             vm.MaterialPlanSettings = Mapper.Map<MaterialPlanSettings, MaterialPlanSettingsViewModel>(settings);
+            vm.BuyerId = (int)System.Web.HttpContext.Current.Session["BuyerId"];
+
+
+            List<MaterialPlanForSaleOrderViewModel> svm = new List<MaterialPlanForSaleOrderViewModel>();
+            svm = (List<MaterialPlanForSaleOrderViewModel>)System.Web.HttpContext.Current.Session["SODyeingPlan"];
 
             vm.DocDate = DateTime.Now;
             vm.DueDate = DateTime.Now;

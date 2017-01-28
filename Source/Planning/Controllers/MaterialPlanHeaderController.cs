@@ -1025,6 +1025,7 @@ namespace Presentation
             {
                 if (settings.WizardMenuId != null)
                 {
+                    
                     MenuViewModel menuviewmodel = new MenuService(_unitOfWork).GetMenu((int)settings.WizardMenuId);
 
                     if (menuviewmodel == null)
@@ -1032,12 +1033,15 @@ namespace Presentation
                         return View("~/Views/Shared/UnderImplementation.cshtml");
                     }
                     else if (!string.IsNullOrEmpty(menuviewmodel.URL))
-                    {
-                        return Redirect(System.Configuration.ConfigurationManager.AppSettings[menuviewmodel.URL] + "/" + menuviewmodel.ControllerName + "/" + menuviewmodel.ActionName + "/" + menuviewmodel.RouteId + "?MenuId=" + menuviewmodel.MenuId);
+                    {   
+                        //return Redirect(System.Configuration.ConfigurationManager.AppSettings[menuviewmodel.URL] + "/" + menuviewmodel.ControllerName + "/" + menuviewmodel.ActionName + "/" + menuviewmodel.RouteId + "?MenuId=" + menuviewmodel.MenuId);
+                        return Redirect(System.Configuration.ConfigurationManager.AppSettings[menuviewmodel.URL] + "/" + menuviewmodel.ControllerName + "/" + "Index" + "/" + id + "?MenuId=" + menuviewmodel.MenuId);
                     }
                     else
                     {
                         return RedirectToAction(menuviewmodel.ActionName, menuviewmodel.ControllerName, new { MenuId = menuviewmodel.MenuId, id = menuviewmodel.RouteId });
+                        
+                        
                     }
                 }
             }

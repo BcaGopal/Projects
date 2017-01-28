@@ -173,6 +173,8 @@ namespace Service
         IQueryable<ComboBoxResult> GetTdsGroups(string term);
         IQueryable<ComboBoxResult> GetTdsCategory(string term);
         IQueryable<ComboBoxResult> GetSalesTaxGroupParty(string term);
+        IQueryable<ComboBoxResult> GetProductHelpListWithProductNatureFilter(int ProductNatureId, string term);
+        
     }
 
     public class ComboHelpListService : IComboHelpListService
@@ -234,6 +236,27 @@ namespace Service
             });
             return Sitelist;
         }
+
+
+        public IQueryable<ComboBoxResult> GetProductHelpListWithProductNatureFilter(int ProductNatureId, string term)
+        {
+            var list = ( from P in db.Product
+                        join pg in db.ProductGroups on P.ProductGroupId equals pg.ProductGroupId
+                        join pt in db.ProductTypes on pg.ProductTypeId equals pt.ProductTypeId
+                        where pt.ProductNatureId== ProductNatureId
+                        && (string.IsNullOrEmpty(term) ? 1 == 1 : (P.ProductName.ToLower().Contains(term.ToLower())))
+                         orderby P.ProductName
+                        select new ComboBoxResult
+                        {
+                            id = P.ProductId.ToString(),
+                            text = P.ProductName
+                        }
+                      );
+
+            return list;
+        }
+
+
 
         public IEnumerable<ComboBoxList> GetCalculationHelpList()
         {
@@ -2443,6 +2466,7 @@ namespace Service
 
             return list;
         }
+
 
         public IQueryable<ComboBoxResult> GetQAGroups(string term)
         {

@@ -27,7 +27,6 @@ namespace Service
         void Update(ProductUid p);
         ProductUid Add(ProductUid p);
         IEnumerable<ProductUid> GetProductUidList();
-
         IEnumerable<ProductUid> GetProductUidList(int prodyctTypeId);
         Task<IEquatable<ProductUid>> GetAsync();
         Task<ProductUid> FindAsync(int id);
@@ -41,6 +40,10 @@ namespace Service
         UIDValidationViewModel ValidateUID(string ProductUID, bool PostedInStock, int? GodownId);
         UIDValidationViewModel ValidateUID(string ProductUID);
         List<ProductUid> GetBCForProductUidHeaderId(int id);
+        IQueryable<ProductUid> GetProductUidListMachine(int GenDocTypeId);
+        IQueryable<UIDValidationViewModel> GetProductUidListMachineDetail(int GenDocTypeId);
+        int NextId(int id, int GenDocTypeId);
+        int PrevId(int id, int GenDocTypeId);
     }
 
 
@@ -136,6 +139,7 @@ namespace Service
             return p;
         }
 
+
         public ProductUid Find(int id)
         {
 
@@ -152,6 +156,34 @@ namespace Service
         {
             _unitOfWork.Repository<ProductUid>().Add(p);
             return p;
+        }
+
+        public IQueryable<ProductUid> GetProductUidListMachine(int GenDocTypeId)
+        {
+            var pt = _unitOfWork.Repository<ProductUid>().Query().Get().OrderBy(m => m.ProductUidName).Where(m => m.GenDocTypeId == GenDocTypeId);
+
+            return pt;
+        }
+        public IQueryable<UIDValidationViewModel> GetProductUidListMachineDetail(int GenDocTypeId)
+        {
+
+            var DivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
+            var SiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
+            List<string> UserRoles = (List<string>)System.Web.HttpContext.Current.Session["Roles"];
+
+            return (from p in db.ProductUid
+                    join g in db.Godown on p.CurrenctGodownId equals g.GodownId
+                    orderby p.ProductUidName
+                    where p.GenDocTypeId == GenDocTypeId && g.SiteId == SiteId
+                    select new UIDValidationViewModel
+                    {
+                        ProductUIDId =p.ProductUIDId,
+                        ProductUidName=p.ProductUidName,
+                        ProductName=p.Product.ProductName,
+                        CurrentGodownName=p.CurrenctGodown.GodownName,
+                        GenDocTypeId=p.GenDocTypeId,
+                        IsActive=p.IsActive,
+                    });
         }
 
         public IEnumerable<ProductUid> FindForJobOrderLine(int id)
@@ -971,6 +1003,53 @@ namespace Service
             return UID;
         }
 
+        public int NextId(int id, int GenDocTypeId)
+        {
+            int temp = 0;
+            if (id != 0)
+            {
+                temp = (from p in db.ProductUid
+                        where p.GenDocTypeId == GenDocTypeId
+                        orderby p.ProductUidName
+                        select p.ProductUIDId).AsEnumerable().SkipWhile(p => p != id).Skip(1).FirstOrDefault();
+            }
+            else
+            {
+                temp = (from p in db.ProductUid
+                        where p.GenDocTypeId == GenDocTypeId
+                        orderby p.ProductUidName
+                        select p.ProductUIDId).FirstOrDefault();
+            }
+            if (temp != 0)
+                return temp;
+            else
+                return id;
+        }
+
+        public int PrevId(int id, int GenDocTypeId)
+        {
+
+            int temp = 0;
+            if (id != 0)
+            {
+
+                temp = (from p in db.ProductUid
+                        where p.GenDocTypeId == GenDocTypeId
+                        orderby p.ProductUidName
+                        select p.ProductUIDId).AsEnumerable().TakeWhile(p => p != id).LastOrDefault();
+            }
+            else
+            {
+                temp = (from p in db.ProductUid
+                        where p.GenDocTypeId == GenDocTypeId
+                        orderby p.ProductUidName
+                        select p.ProductUIDId).AsEnumerable().LastOrDefault();
+            }
+            if (temp != 0)
+                return temp;
+            else
+                return id;
+        }
         public bool IsProcessDone(int ProductUidId, int ProcessId)
         {
             string ProcessString = "|" + ProcessId.ToString() + "|";

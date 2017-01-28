@@ -318,6 +318,41 @@ $(document).ready(function () {
         });
     });
 
+    //Modal MAster
+    enableModalTransitions = function () {
+
+        $.ajaxSetup({ cache: false });
+
+        $(document).on("click", "a[data-modal]", function (e) {
+
+            if (this.href)
+                $('#myModalContent').load(this.href, function () {
+                    $('#myModal').modal({
+                        backdrop: 'static',
+                        keyboard: true
+                    }, 'show');
+                    bindForm(this);
+                });
+
+            return false;
+        });
+
+        $(document).on("dblclick", "#gbody .grid-body,#gbodycharges .grid-body,.grid-content .grid-body", function (e) {
+            var editurl = $(this).find('a[edit]').attr('href');
+            if (editurl)
+                $('#myModalContent').load(editurl, function () {
+                    $('#myModal').modal({
+                        backdrop: 'static',
+                        keyboard: true
+                    }, 'show');
+                    bindForm(this);
+                });
+
+            return false;
+        });
+
+    };
+
 
     function bindForm(dialog) {
         //alert('binding Script');
@@ -1001,6 +1036,22 @@ $(function () {
     });
 
     $('a#DeleteRecordC').click(function (e) {
+
+        var tes = DeleteValidation();
+
+        var url = $('table.grid-table .grid-row.grid-row-selected').find('a.RecDelurl:hidden').attr('href');
+
+        if (tes && url) {
+            $(this).attr('href', url);
+            return;
+        }
+        else {
+            e.stopImmediatePropagation();
+            return false;
+        }
+    });
+
+    $('a#DeleteRecord').click(function (e) {
 
         var tes = DeleteValidation();
 

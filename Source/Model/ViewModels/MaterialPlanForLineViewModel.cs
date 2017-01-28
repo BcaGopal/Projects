@@ -23,6 +23,7 @@ namespace Model.ViewModel
         public int ProdOrderLineId { get; set; }
         public int ProductId { get; set; }
         public string ProductName { get; set; }
+        public int? BuyerId { get; set; }
         public DateTime ? DueDate { get; set; }        
         public string DeliveryUnitId { get; set; }
         public decimal DeliveryQty { get; set; }        
@@ -92,7 +93,7 @@ namespace Model.ViewModel
     
     public class MaterialPlanLineListViewModel
     {
-        public MaterialPlanSettings MaterialPlanSettings { get; set; }        
+        public MaterialPlanSettingsViewModel MaterialPlanSettings { get; set; }
         public List<MaterialPlanForSaleOrderViewModel> MaterialPlanLineViewModel { get; set; }
     }
     [Serializable]
@@ -112,7 +113,7 @@ namespace Model.ViewModel
     {
         public List<MaterialPlanForProcedureViewModel> prodorderlinefromprocedure { get; set; }
         public List<MaterialPlanLineViewModel> PlanLine { get; set; }
-        public MaterialPlanSettings MaterialPlanSettings { get; set; }
+        public MaterialPlanSettingsViewModel MaterialPlanSettings { get; set; }
     }
 
 }

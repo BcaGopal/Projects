@@ -5844,6 +5844,25 @@ namespace Web
             return Json(SalesTaxGroupPartyJson);
         }
 
+        
+        public JsonResult GetProductHelpListWithProductNatureFilter(string searchTerm, int pageSize, int pageNum, int filter)//filter:ProductNature
+        {
+
+          var temp= cbl.GetProductHelpListWithProductNatureFilter(filter, searchTerm).Skip(pageSize * (pageNum - 1)).Take(pageSize).ToList(); 
+           var count = cbl.GetProductHelpListWithProductNatureFilter(filter, searchTerm).Count();
+            ComboBoxPagedResult Data = new ComboBoxPagedResult();
+            Data.Results = temp;
+            Data.Total = count;
+
+            return new JsonpResult
+            {
+                Data = Data,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        
+
 
     }
 }
