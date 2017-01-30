@@ -135,6 +135,10 @@
       <HintPath>..\..\packages\Unity.3.5.1404.0\lib\net45\Microsoft.Practices.Unity.RegistrationByConvention.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Models.BasicSetup, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Basic Setup\Models.BasicSetup\bin\Debug\Models.BasicSetup.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
@@ -425,10 +429,6 @@
     <ProjectReference Include="..\..\..\Admin Setup\Data\Data.csproj">
       <Project>{db254004-ebd5-470d-ba5b-f339a3cc1faa}</Project>
       <Name>Data</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\Basic Setup\Models.BasicSetup\Models.BasicSetup.csproj">
-      <Project>{e7b6f2dd-5845-431d-b065-7ca2c51c698a}</Project>
-      <Name>Models.BasicSetup</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\Infrastructure\Infrastructure.csproj">
       <Project>{5a880c5b-c73d-4715-a6e6-70a7dc484695}</Project>

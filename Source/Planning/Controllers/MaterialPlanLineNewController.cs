@@ -235,6 +235,8 @@ namespace Presentation
                         planline.Dimension2Id = item.Dimension2Id;
                         planline.Dimension3Id = item.Dimension3Id;
                         planline.Dimension4Id = item.Dimension4Id;
+                        planline.ProcessId = new ProcessService(_unitOfWork).Find(ProcessConstants.Manufacturing).ProcessId;
+                        planline.ProcessName = new ProcessService(_unitOfWork).Find(ProcessConstants.Manufacturing).ProcessName;
                         planline.ProdPlanQty = item.QtySum;
                         planline.UnitName = item.unitname;
                         planline.unitDecimalPlaces = item.Fractionunits;
@@ -300,6 +302,7 @@ namespace Presentation
                         planLine.Dimension2Id = item.Dimension2Id;
                         planLine.Dimension3Id = item.Dimension3Id;
                         planLine.Dimension4Id = item.Dimension4Id;
+
                         planLine.ProdPlanQty = item.ProdPlanQty;
                         planLine.CreatedBy = User.Identity.Name;
                         planLine.CreatedDate = DateTime.Now;
@@ -383,6 +386,7 @@ namespace Presentation
                             prodOrderLine.Dimension2Id = item.Dimension2Id;
                             prodOrderLine.Dimension3Id = item.Dimension3Id;
                             prodOrderLine.Dimension4Id = item.Dimension4Id;
+                            prodOrderLine.ProcessId = item.ProcessId;
                             prodOrderLine.Sr = ProdORderSerial++;
                             prodOrderLine.Qty = item.ProdPlanQty;
                             prodOrderLine.Remark = item.Remark;
@@ -419,6 +423,7 @@ namespace Presentation
                             prodOrderLine.Dimension2Id = item.Dimension2Id;
                             prodOrderLine.Dimension3Id = item.Dimension3Id;
                             prodOrderLine.Dimension4Id = item.Dimension4Id;
+                            prodOrderLine.ProcessId = item.ProcessId;
                             prodOrderLine.Specification = item.Specification;
                             prodOrderLine.Qty = item.ProdPlanQty;
                             prodOrderLine.Sr = ProdORderSerial++;
