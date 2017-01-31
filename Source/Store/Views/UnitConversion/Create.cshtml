@@ -21,7 +21,7 @@
             <hr style="margin-top:0px;margin-bottom:0px" />
             
             <div class="panel-info">
-                <h4 style="padding:5px 0 0 0;margin:0px">
+                @*@*<h4 style="padding:5px 0 0 0;margin:0px">
                     @Html.ActionLink(" ", " ", " ", null, new { @class = "glyphicon glyphicon-refresh toolbar", @title = "Refresh Page", @data_toggle = "tooltip", @id = "RefreshPage" })
                     @Html.ActionLink(" ", "Create", "UnitConversion", new { ProductId = @ViewBag.Id }, new { @class = "glyphicon glyphicon-plus toolbar", @title = "Add New", @data_toggle = "tooltip" })
                     @Html.ActionLink(" ", "History", "UnitConversion", null, new { @class = "glyphicon glyphicon-user toolbar", @title = "History", @data_toggle = "tooltip" })
@@ -29,7 +29,13 @@
                     @Html.ActionLink(" ", "PrevPage", "UnitConversion", new { id = @Model.UnitConversionId, ProductId = @ViewBag.Id }, new { @class = "glyphicon glyphicon-arrow-left toolbar", @title = "Prev Record", @data_toggle = "tooltip" })
                     @Html.ActionLink(" ", "NextPage", "UnitConversion", new { id = @Model.UnitConversionId, ProductId = @ViewBag.Id }, new { @class = "glyphicon glyphicon-arrow-right toolbar", @title = "Next Record", @data_toggle = "tooltip" })
                     @Html.ActionLink(" ", "Index", "UnitConversion", new { id = @ViewBag.Id }, new { @class = "glyphicon glyphicon-list toolbar right", @title = "List", @data_toggle = "tooltip" })                    
-                </h4>
+                </h4>*@*@
+                <div class="btn-group">
+                    @Html.ActionLink(" ", "Create", "UnitConversion", new { ProductId = @ViewBag.Id }, new { @class = "cbtn btn-circle glyphicon glyphicon-plus toolbar", @title = "Add New", @data_toggle = "tooltip" })
+                    @Html.ActionLink(" ", "PrevPage", "UnitConversion", new { id = @Model.UnitConversionId, ProductId = @ViewBag.Id }, new { @class = "cbtn btn-circle glyphicon glyphicon-arrow-left toolbar", @title = "Prev Record", @data_toggle = "tooltip" })
+                    @Html.ActionLink(" ", "NextPage", "UnitConversion", new { id = @Model.UnitConversionId, ProductId = @ViewBag.Id }, new { @class = "cbtn btn-circle glyphicon glyphicon-arrow-right toolbar", @title = "Next Record", @data_toggle = "tooltip" })
+                    @Html.ActionLink(" ", "Index", "UnitConversion", new { id = @ViewBag.Id }, new { @class = "cbtn btn-circle glyphicon glyphicon-list", @title = "List", @data_toggle = "tooltip" })
+                </div>
             </div>
         </div>        
         <div class="panel-info" style="padding-left:15px">

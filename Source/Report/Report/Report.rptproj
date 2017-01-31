@@ -2648,6 +2648,10 @@
       <FullPath>WeavingReceiveReport1.rdl</FullPath>
     </ProjectItem>
     <ProjectItem>
+      <Name>WeavingReceiveSummary.rdl</Name>
+      <FullPath>WeavingReceiveSummary.rdl</FullPath>
+    </ProjectItem>
+    <ProjectItem>
       <Name>WeavingRegister.rdl</Name>
       <FullPath>WeavingRegister.rdl</FullPath>
     </ProjectItem>
@@ -2675,10 +2679,6 @@
       <Name>XWeavingOrderStatus.rdl</Name>
       <FullPath>XWeavingOrderStatus.rdl</FullPath>
     </ProjectItem>
-    <ProjectItem>
-      <Name>WeavingReceiveSummary.rdl</Name>
-      <FullPath>WeavingReceiveSummary.rdl</FullPath>
-    </ProjectItem>
   </Reports>
   <Configurations>
     <Configuration>
@@ -2687,7 +2687,7 @@
       <Options>
         <OutputPath>bin\Debug</OutputPath>
         <TargetServerVersion>SSRS2008R2</TargetServerVersion>
-        <TargetServerURL>http://itserver/ReportSERVER</TargetServerURL>
+        <TargetServerURL>http://192.168.2.17/ReportSERVER</TargetServerURL>
         <TargetFolder>Report</TargetFolder>
         <TargetDataSourceFolder>Data Sources</TargetDataSourceFolder>
         <TargetDatasetFolder>Datasets</TargetDatasetFolder>
