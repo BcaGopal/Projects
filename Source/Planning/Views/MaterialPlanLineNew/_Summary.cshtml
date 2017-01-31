@@ -173,11 +173,11 @@
                                                             @Html.TextBoxFor(m => Model.PlanLine[i].ProdPlanQty, new { @class = "form-control text-right prodQty" })
                                                             @{ProdPlanQty += Model.PlanLine[i].ProdPlanQty;}
                                                         </div>
-                                                        <div class='block text-right' style='width:13%'>
+                                                        <div class='block text-right' style='width: 13%; display: @(Model.MaterialPlanSettings.isVisiblePurchPlanQty?"":"none")'>
                                                             @Html.TextBoxFor(m => Model.PlanLine[i].PurchPlanQty, new { @class = "form-control text-right purchQty" })
                                                             @{PurchPlanQty += Model.PlanLine[i].PurchPlanQty;}
                                                         </div>
-                                                        <div class='block' style='width:15%'>
+                                                        <div class='block' style='width: @(Model.MaterialPlanSettings.isVisiblePurchPlanQty?"15":"28")%'>
                                                             @Html.TextBoxFor(m => Model.PlanLine[i].Remark, new { @class = "form-control " })
                                                         </div>
                                                     </div>

@@ -44,15 +44,18 @@
                 @Html.ActionLink(" ", "Create", "WeavingReceiveQACombined", new { @id = @ViewBag.id }, new { @class = "cbtn btn-circle glyphicon glyphicon-plus toolbar", @title = "Add New", @data_toggle = "tooltip" })
                 @*@Html.ActionLink(" ", "GetHistory", "LogHistory", null, new { @class = "glyphicon glyphicon-user toolbar", @title = "History", @data_toggle = "tooltip", @id = "DocHistoryI" })*@
                 @Html.ActionLink(" ", "GeneratePrints", "WeavingReceiveQACombined", null, new { @class = "cbtn btn-circle glyphicon glyphicon-print toolbar", @title = "Print", @data_toggle = "tooltip", @id = "PrintRecordI", target = "_blank" })
-                @Html.ActionLink(" ", "Remove", "WeavingReceiveQACombined", null, new { @class = "cbtn btn-circle glyphicon glyphicon-trash toolbar", @title = "Delete", @data_toggle = "tooltip", @id = "DeleteRecord", @data_modalDelete = "" })
-                @Html.ActionLink(" ", "PendingRateUpdationIndex", "WeavingReceiveQACombined", new { id = @ViewBag.id }, new { @class = "cbtn btn-circle glyphicon glyphicon-list", @title = "List", @data_toggle = "tooltip" })
+                @*@Html.ActionLink(" ", "Remove", "WeavingReceiveQACombined", null, new { @class = "cbtn btn-circle glyphicon glyphicon-trash toolbar", @title = "Delete", @data_toggle = "tooltip", @id = "DeleteRecord", @data_modalDelete = "" })*@
+                @Html.ActionLink(" ", "Remove", "WeavingReceiveQACombined", null, new { @class = "cbtn btn-circle glyphicon glyphicon-trash toolbar", @title = "Delete", @data_toggle = "tooltip", @id = "DeleteRecord", @data_modal = "" })
+                @*@Html.ActionLink(" ", "Remove", "WeavingReceiveQACombined", null, new { @class = "cbtn btn-circle glyphicon glyphicon-trash toolbar", @title = "Delete", @data_toggle = "tooltip", @id = "DeleteRecord", @data_modalDelete = "" })*@
+                @Html.ActionLink(" ", "PendingRateUpdationIndex", "WeavingReceiveQACombined", new { id = @ViewBag.id }, new { @class = "cbtn btn-circle glyphicon glyphicon-list", @title = "Pending For Penalty", @data_toggle = "tooltip" })
             </div>
             <div class="btn-group">
                 <a class="cbtn btn-circle glyphicon glyphicon-option-horizontal dropdown-toggle" aria-expanded="false" style="padding-top: 6px;padding-bottom: 6px;" href="#" data-toggle="dropdown" id="dropdownMenu1">
                 </a>
                 <ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu1">
-                    <li><a href="@Url.Action("Wizard", "WeavingReceiveQACombined", new { @id = @ViewBag.id })"><span class="glyphicon glyphicon-random" onclick="$('#')"> </span> Wizard</a></li>
-                    <li><a href="@Url.Action("Import", "WeavingReceiveQACombined", new { @id = @ViewBag.id })"><span class="glyphicon glyphicon-import"> </span> Import</a></li>
+                    @*<li><a href="@Url.Action("Wizard", "WeavingReceiveQACombined", new { @id = @ViewBag.id })"><span class="glyphicon glyphicon-random" onclick="$('#')"> </span> Wizard</a></li>*@
+                    <li><a href="@Url.Action("PendingToImportFromBranch", "WeavingReceiveQACombined", new { @id = @ViewBag.id })"><span class="glyphicon glyphicon-import"> </span> Import From Branch</a></li>
+                    <li><a target="_blank" href="@Url.Action("BarcodePrint", "JobOrderHeader", new { id = Model.JobOrderHeaderId })"><span class="glyphicon glyphicon-barcode"> </span> Barcodes Print</a></li>
                     <li><a href="@Url.Action("Create", "WeavingReceiveQACombined", new { @id = @ViewBag.id })"><span class="glyphicon glyphicon-cog"> </span> Settings</a></li>
                     <li role="separator" class="divider"></li>
                     <li><a href="@Url.Action("Report", "WeavingReceiveQACombined", new { @ViewBag.id })"><span class="glyphicon glyphicon-stats"> </span> Report</a></li>

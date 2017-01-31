@@ -21,6 +21,7 @@ using Reports.Reports;
 using Model.ViewModels;
 using Reports.Controllers;
 using System.Data.SqlClient;
+using System.Data;
 
 namespace Web
 {
@@ -31,6 +32,7 @@ namespace Web
 
         List<string> UserRoles = new List<string>();
         ActiivtyLogViewModel LogVm = new ActiivtyLogViewModel();
+        int MainBranchId = 17;
 
         private bool EventException = false;
 
@@ -560,6 +562,173 @@ namespace Web
             return PartialView("_Reason", vm);
         }
 
+        [Authorize]
+        public ActionResult Detail(int id, string IndexType, string transactionType, int? DocLineId)
+        {
+            if (DocLineId.HasValue)
+                ViewBag.DocLineId = DocLineId;
+
+            ViewBag.transactionType = transactionType;
+            ViewBag.IndexStatus = IndexType;
+
+            WeavingReceiveQACombinedViewModel pt = new WeavingReceiveQACombinedService(db).GetJobReceiveDetailForEdit(id);
+
+
+            //Job Receive Settings
+            var settings = new JobReceiveSettingsService(_unitOfWork).GetJobReceiveSettingsForDocument(pt.DocTypeId, pt.DivisionId, pt.SiteId);
+
+            if (settings == null && UserRoles.Contains("Admin"))
+            {
+                return RedirectToAction("Create", "JobReceiveSettings", new { id = pt.DocTypeId }).Warning("Please create job receive settings");
+            }
+            else if (settings == null && !UserRoles.Contains("Admin"))
+            {
+                return View("~/Views/Shared/InValidSettings.cshtml");
+            }
+
+            pt.JobReceiveSettings = Mapper.Map<JobReceiveSettings, JobReceiveSettingsViewModel>(settings);
+            pt.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(pt.DocTypeId);
+
+
+            var jobreceiveqasettings = new JobReceiveQASettingsService(db).GetJobReceiveQASettingsForDocument(pt.DocTypeId, pt.DivisionId, pt.SiteId);
+
+            if (jobreceiveqasettings == null && UserRoles.Contains("Admin"))
+            {
+                return RedirectToAction("Create", "JobReceiveQaSettings", new { id = id }).Warning("Please create job Inspection settings");
+            }
+            else if (jobreceiveqasettings == null && !UserRoles.Contains("Admin"))
+            {
+                return View("~/Views/Shared/InValidSettings.cshtml");
+            }
+            pt.JobReceiveQASettings = Mapper.Map<JobReceiveQASettings, JobReceiveQASettingsViewModel>(jobreceiveqasettings);
+
+            PrepareViewBag(pt.DocTypeId);
+            if (pt == null)
+            {
+                return HttpNotFound();
+            }
+            if (String.IsNullOrEmpty(transactionType) || transactionType == "detail")
+                LogActivity.LogActivityDetail(LogVm.Map(new ActiivtyLogViewModel
+                {
+                    DocTypeId = pt.DocTypeId,
+                    DocId = pt.JobReceiveHeaderId,
+                    ActivityType = (int)ActivityTypeContants.Detail,
+                    DocNo = pt.DocNo,
+                    DocDate = pt.DocDate,
+                    DocStatus = pt.Status,
+                }));
+
+            return View("Create", pt);
+        }
+
+        public ActionResult Submit(int id, string IndexType, string TransactionType)
+        {
+            #region DocTypeTimeLineValidation
+
+            bool TimePlanValidation = true;
+            string ExceptionMsg = "";
+            bool Continue = true;
+
+            JobReceiveHeader s = db.JobReceiveHeader.Find(id);
+
+            try
+            {
+                TimePlanValidation = DocumentValidation.ValidateDocument(Mapper.Map<DocumentUniqueId>(s), DocumentTimePlanTypeConstants.Submit, User.Identity.Name, out ExceptionMsg, out Continue);
+                TempData["CSEXC"] += ExceptionMsg;
+            }
+            catch (Exception ex)
+            {
+                string message = _exception.HandleException(ex);
+                TempData["CSEXC"] += message;
+                TimePlanValidation = false;
+            }
+
+            if (!TimePlanValidation && !Continue)
+            {
+                return RedirectToAction("Index", new { id = s.DocTypeId, IndexType = IndexType });
+            }
+            #endregion
+
+            return RedirectToAction("Detail", new { id = id, IndexType = IndexType, transactionType = string.IsNullOrEmpty(TransactionType) ? "submit" : TransactionType });
+        }
+
+
+        [HttpPost, ActionName("Detail")]
+        [MultipleButton(Name = "Command", Argument = "Submit")]
+        public ActionResult Submitted(int Id, string IndexType, string UserRemark, string IsContinue)
+        {
+            if (ModelState.IsValid)
+            {
+                JobReceiveHeader pd = new JobReceiveHeaderService(_unitOfWork).Find(Id);
+                int ActivityType;
+                if (User.Identity.Name == pd.ModifiedBy || UserRoles.Contains("Admin"))
+                {
+
+                    pd.Status = (int)StatusConstants.Submitted;
+                    ActivityType = (int)ActivityTypeContants.Submitted;
+                    pd.ReviewBy = null;
+                    pd.ObjectState = Model.ObjectState.Modified;
+                    db.JobReceiveHeader.Add(pd);
+
+                    JobReceiveSettings Settings = new JobReceiveSettingsService(_unitOfWork).GetJobReceiveSettingsForDocument(pd.DocTypeId, pd.DivisionId, pd.SiteId);
+                    try
+                    {
+                        string ConnectionString = (string)System.Web.HttpContext.Current.Session["DefaultConnectionString"];
+                        using (SqlConnection sqlConnection = new SqlConnection(ConnectionString))
+                        {
+                            sqlConnection.Open();
+                            using (SqlCommand cmd = new SqlCommand("" + ConfigurationManager.AppSettings["DataBaseSchema"] + "." + Settings.SqlProcConsumption))
+                            {
+                                cmd.CommandType = CommandType.StoredProcedure;
+                                cmd.Connection = sqlConnection;
+                                cmd.Parameters.AddWithValue("@JobReceiveHeaderId", Id);
+                                cmd.CommandTimeout = 1000;
+                                cmd.ExecuteNonQuery();
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        throw ex;
+                    }
+
+                    try
+                    {
+                        if (EventException)
+                        { throw new Exception(); }
+
+                        db.SaveChanges();
+                    }
+
+                    catch (Exception ex)
+                    {
+                        string message = _exception.HandleException(ex);
+                        TempData["CSEXC"] += message;
+                        return RedirectToAction("Index", new { id = pd.DocTypeId });
+                    }
+
+
+
+                    LogActivity.LogActivityDetail(LogVm.Map(new ActiivtyLogViewModel
+                    {
+                        DocTypeId = pd.DocTypeId,
+                        DocId = pd.JobReceiveHeaderId,
+                        ActivityType = ActivityType,
+                        UserRemark = UserRemark,
+                        DocDate = pd.DocDate,
+                        DocNo = pd.DocNo,
+                        DocStatus = pd.Status,
+                    }));
+                    return RedirectToAction("Index", new { id = pd.DocTypeId, IndexType = IndexType }).Success("Record submitted successfully.");
+                }
+                else
+                    return RedirectToAction("Index", new { id = pd.DocTypeId, IndexType = IndexType }).Warning("Record can be submitted by user " + pd.ModifiedBy + " only.");
+            }
+            
+
+            return View();
+        }
+
 
         [HttpGet]
         public ActionResult Modify(int id, string IndexType)
@@ -722,17 +891,19 @@ namespace Web
 
         public ActionResult PendingRateUpdationIndex(int id)//DocumentTypeId
         {
-            IQueryable<PendingRateIndex> PendingRateIndex = from H in db.JobReceiveHeader
+            int SiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
+
+            IQueryable<PendingWeavingReceives> PendingRateIndex = from H in db.JobReceiveHeader
                                                             join L in db.JobReceiveLine on H.JobReceiveHeaderId equals L.JobReceiveHeaderId into JobReceiveLineTable
                                                             from JobReceiveLineTab in JobReceiveLineTable.DefaultIfEmpty()
                                                             join Jrql in db.JobReceiveQALine on JobReceiveLineTab.JobReceiveLineId equals Jrql.JobReceiveLineId into JobReceiveQALineTable
                                                             from JobReceiveQALineTab in JobReceiveQALineTable.DefaultIfEmpty()
                                                             join Jrqp in db.JobReceiveQAPenalty on JobReceiveQALineTab.JobReceiveQALineId equals Jrqp.JobReceiveQALineId into JobReceibeQAPenaltyTable
                                                             from JobReceiveQAPenaltyTab in JobReceibeQAPenaltyTable.DefaultIfEmpty()
-                                                            where H.DocTypeId == id && JobReceiveQAPenaltyTab.ReasonId != null && JobReceiveQAPenaltyTab.Amount == 0
+                                                            where H.DocTypeId == id && JobReceiveQAPenaltyTab.ReasonId != null && JobReceiveQAPenaltyTab.Amount == 0 && H.SiteId == SiteId
                                                             group new { H, JobReceiveLineTab } by new { JobReceiveLineTab.ProductUidId } into Result
                                                             orderby Result.Key.ProductUidId
-                                                            select new PendingRateIndex
+                                                            select new PendingWeavingReceives
                                                             {
                                                                 JobReceiveHeaderId = Result.Max(m => m.H.JobReceiveHeaderId),
                                                                 ProductUidName = Result.Max(m => m.JobReceiveLineTab.ProductUid.ProductUidName),
@@ -748,6 +919,144 @@ namespace Web
 
             return View(PendingRateIndex);
         }
+
+
+        public ActionResult PendingToImportFromBranch(int id)//DocumentTypeId
+        {
+            int SiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
+
+            IQueryable<PendingWeavingReceives> PendingRateIndex = from H in db.JobReceiveHeader
+                                                            join Hm in db.JobReceiveHeader on H.JobReceiveHeaderId equals Hm.ReferenceDocId into JobReceiveHeaderMainBranchTable
+                                                            from JobReceiveHeaderMainBranchTab in JobReceiveHeaderMainBranchTable.DefaultIfEmpty()
+                                                            join S in db.Site on H.SiteId equals S.SiteId into SiteTable from SiteTab in SiteTable.DefaultIfEmpty()
+                                                            where H.DocTypeId == id && JobReceiveHeaderMainBranchTab.JobReceiveHeaderId == null && H.SiteId != MainBranchId 
+                                                            orderby H.DocDate descending
+                                                            select new PendingWeavingReceives
+                                                            {
+                                                                JobReceiveHeaderId = H.JobReceiveHeaderId,
+                                                                DocNo = H.DocNo,
+                                                                DocDate = H.DocDate,
+                                                                JobWorkerName = SiteTab.SiteName,
+                                                                Status = H.Status
+                                                            };
+
+            ViewBag.Name = new DocumentTypeService(_unitOfWork).Find(id).DocumentTypeName;
+            ViewBag.id = id;
+            ViewBag.IndexStatus = "All";
+
+            return View(PendingRateIndex);
+        }
+
+        public ActionResult ImportRecords(string Ids, int DocTypeId)
+        {
+            if (!string.IsNullOrEmpty(Ids))
+            {
+                int SiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
+                int DivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
+
+
+                int i = 0;
+                int j = 0;
+                int DocNoCnt = 0;
+                foreach (var item in Ids.Split(',').Select(Int32.Parse))
+                {
+                    WeavingReceiveQACombinedViewModel vm = new WeavingReceiveQACombinedService(db).GetJobReceiveDetailForEdit(item);
+                    int? PersonId = null;
+                    PersonId = (from S in db.Site where S.SiteId == vm.SiteId select S).FirstOrDefault().PersonId;
+                    if (PersonId != null)
+                    {
+                        vm.JobWorkerId = (int)PersonId;
+                    }
+                    if (System.Web.HttpContext.Current.Session["DefaultGodownId"] != null)
+                    {
+                        vm.GodownId = (int)System.Web.HttpContext.Current.Session["DefaultGodownId"];
+                    }
+
+
+
+
+                    vm.SiteId = MainBranchId;
+                    
+                    string DocNo = new DocumentTypeService(_unitOfWork).FGetNewDocNo("DocNo", ConfigurationManager.AppSettings["DataBaseSchema"] + ".JobReceiveHeaders", vm.DocTypeId, vm.DocDate, vm.DivisionId, vm.SiteId);
+                    string[] tokens = DocNo.Split('-');
+                    string Prefix = tokens[0];
+                    int Counter = Convert.ToInt32(tokens[1]);
+                    //vm.DocNo = new DocumentTypeService(_unitOfWork).FGetNewDocNo("DocNo", ConfigurationManager.AppSettings["DataBaseSchema"] + ".JobReceiveHeaders", vm.DocTypeId, vm.DocDate, vm.DivisionId, vm.SiteId);
+                    vm.DocNo = Prefix + "-" + (Counter + DocNoCnt).ToString().PadLeft(4).Replace(" ", "0");
+
+                    int JobReceiveQALineId = vm.JobReceiveQALineId;
+
+                    vm.ReferenceDocId = vm.JobReceiveHeaderId;
+                    vm.ReferenceDocTypeId = vm.DocTypeId;
+                    vm.JobReceiveHeaderId = i;
+                    vm.JobReceiveLineId = i;
+                    vm.JobReceiveQAHeaderId = i;
+                    vm.JobReceiveQALineId = i;
+                    vm.StockHeaderId = i;
+                    vm.StockId = i;
+
+
+                    
+                    JobReceiveHeader JobReceiveHeader = new JobReceiveHeader();
+                    JobReceiveHeader = new WeavingReceiveQACombinedService(db).Create(vm, User.Identity.Name);
+
+
+                    //var PenaltyList = new JobReceiveQAPenaltyService(db,_unitOfWork).GetLineListForIndex(vm.JobReceiveQALineId);
+                    
+                    var PenaltyList = (from L in db.JobReceiveQAPenalty where L.JobReceiveQALineId == JobReceiveQALineId select L).ToList();
+                    foreach (var PenaltyItem in PenaltyList)
+                    {
+                        //JobReceiveQAPenaltyViewModel temp = new JobReceiveQAPenaltyService(db, _unitOfWork).GetJobReceiveQAPenaltyForEdit(PenaltyItem.JobReceiveQAPenaltyId);
+                        JobReceiveQAPenaltyViewModel temp = (from p in db.JobReceiveQAPenalty
+                                                             where p.JobReceiveQAPenaltyId == PenaltyItem.JobReceiveQAPenaltyId
+                                                             select new JobReceiveQAPenaltyViewModel
+                                                             {
+                                                                 JobReceiveQAPenaltyId = p.JobReceiveQAPenaltyId,
+                                                                 JobReceiveQALineId = p.JobReceiveQALineId,
+                                                                 ReasonId = p.ReasonId,
+                                                                 Amount = p.Amount,
+                                                                 Remark = p.Remark,
+                                                                 CreatedBy = p.CreatedBy,
+                                                                 ModifiedBy = p.ModifiedBy,
+                                                                 CreatedDate = p.CreatedDate,
+                                                                 ModifiedDate = p.ModifiedDate,
+                                                                 OMSId = p.OMSId
+                                                             }).FirstOrDefault();
+                        JobReceiveQAPenalty s = Mapper.Map<JobReceiveQAPenaltyViewModel, JobReceiveQAPenalty>(temp);
+                        s.JobReceiveQALineId = vm.JobReceiveQALineId;
+                        s.JobReceiveQAPenaltyId = j;
+                        new JobReceiveQAPenaltyService(db, _unitOfWork).Create(s, User.Identity.Name);
+                        j = j - 1;
+                    }
+                    i = i - 1;
+                    DocNoCnt = DocNoCnt + 1;
+                }
+
+                try
+                {
+                    db.SaveChanges();
+                }
+
+                catch (Exception ex)
+                {
+                    string message = _exception.HandleException(ex);
+                    TempData["CSEXC"] += message;
+                }
+
+                if (string.IsNullOrEmpty((string)TempData["CSEXC"]))
+                    //return Json(new { redirectUrl = Url.Action("Index", new { id = DocTypeId }).Success("Data saved successfully");
+                    return Json(new { success = "Success" }, JsonRequestBehavior.AllowGet).Success("Imported successfully");
+                else
+                    return Json(new { success = "Success" }, JsonRequestBehavior.AllowGet);
+
+            }
+            return Json(new { success = "Error", data = "No Records Selected." }, JsonRequestBehavior.AllowGet);
+        }
+
+
+
+
+
 
         protected override void Dispose(bool disposing)
         {
@@ -788,7 +1097,7 @@ namespace Web
         public int? DimensionUnitDecimalPlaces { get; set; }  
     }
 
-    public class PendingRateIndex
+    public class PendingWeavingReceives
     {
         public int JobReceiveHeaderId { get; set; }
         public string ProductUidName { get; set; }

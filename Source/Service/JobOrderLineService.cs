@@ -40,6 +40,7 @@ namespace Service
 
         IEnumerable<JobRate> GetJobRate(int JobOrderHeaderId, int ProductId);
         decimal GetUnitConversionForProdOrderLine(int ProdLineId, byte UnitConvForId, string DealUnitId);
+        IQueryable<ComboBoxResult> GetCustomProductGroups(int Id, string term);
     }
 
     public class JobOrderLineService : IJobOrderLineService
@@ -932,6 +933,32 @@ namespace Service
             }
             else
                 return 0;
+        }
+
+        public IQueryable<ComboBoxResult> GetCustomProductGroups(int Id, string term)
+        {
+            var JobOrder = new JobOrderHeaderService(_unitOfWork).Find(Id);
+
+            var settings = new JobOrderSettingsService(_unitOfWork).GetJobOrderSettingsForDocument(JobOrder.DocTypeId, JobOrder.DivisionId, JobOrder.SiteId);
+
+            string[] ProductTypes = null;
+            if (!string.IsNullOrEmpty(settings.filterProductTypes)) { ProductTypes = settings.filterProductTypes.Split(",".ToCharArray()); }
+            else { ProductTypes = new string[] { "NA" }; }
+
+            string[] ProductGroups = null;
+            if (!string.IsNullOrEmpty(settings.filterProductGroups)) { ProductGroups = settings.filterProductGroups.Split(",".ToCharArray()); }
+            else { ProductGroups = new string[] { "NA" }; }
+
+            return (from p in db.ProductGroups
+                    where (string.IsNullOrEmpty(settings.filterProductTypes) ? 1 == 1 : ProductTypes.Contains(p.ProductTypeId.ToString()))
+                    && (string.IsNullOrEmpty(settings.filterProductGroups) ? 1 == 1 : ProductGroups.Contains(p.ProductGroupId.ToString()))
+                    && (string.IsNullOrEmpty(term) ? 1 == 1 : p.ProductGroupName.ToLower().Contains(term.ToLower()))
+                    orderby p.ProductGroupName
+                    select new ComboBoxResult
+                    {
+                        id = p.ProductGroupId.ToString(),
+                        text = p.ProductGroupName,
+                    });
         }
 
         public void Dispose()

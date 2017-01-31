@@ -95,7 +95,7 @@
             }
             <div class="panel-info">
                 <div class="btn-group">
-                    @Html.ActionLink(" ", "Create", "WeavingReceiveQACombined", new { @id = ViewBag.id }, new { @class = "cbtn btn-circle glyphicon glyphicon-plus toolbar", @title = "Add New", @data_toggle = "tooltip" })
+                    @Html.ActionLink(" ", "Create", "WeavingReceiveQACombined", new { @id = Model.DocTypeId }, new { @class = "cbtn btn-circle glyphicon glyphicon-plus toolbar", @title = "Add New", @data_toggle = "tooltip" })
                     @Html.ActionLink(" ", EditAction, "WeavingReceiveQACombined", new { @id = Model.JobReceiveHeaderId, IndexType = ViewBag.IndexStatus }, new { @class = "cbtn btn-circle glyphicon glyphicon-edit", @title = "Edit", @data_toggle = "tooltip" })
                     @Html.ActionLink(" ", "GeneratePrints", "WeavingReceiveQACombined", new { Ids = Model.JobReceiveHeaderId, DocTypeId = Model.DocTypeId }, new { @class = "cbtn btn-circle glyphicon glyphicon-print toolbar", @title = "Print", @data_toggle = "tooltip", @id = "PrintRecordC", target = "_blank" })
                     @Html.ActionLink(" ", "PrevPage", "WeavingReceiveQACombined", new { DocId = @Model.JobReceiveHeaderId, DocTypeId = Model.DocTypeId }, new { @class = "cbtn btn-circle glyphicon glyphicon-arrow-left toolbar", @title = "Prev Record", @data_toggle = "tooltip" })
@@ -451,9 +451,9 @@
             LoadProducts();
         });
 
-        //$(document).ready(function(){
-        //    enableModalTransitions();
-        //})
+        $(document).ready(function(){
+            enableModalTransitions();
+        })
 
     
         
@@ -727,10 +727,32 @@
 @if ((ViewBag.Mode != "Add") && (ViewBag.Mode != "Edit"))
 {
     <script type="text/javascript">
+        //$(document).ready(function(){
+        //    DisablePageNavigation();
+        //})
 
-        $(document).ready(function(){
-            DisablePageNavigation();
-        })
+        RemoveFields();
+
+        function RemoveFields(){
+            //Disabling input fields
+            $(':input:not(:submit)').attr('disabled','disabled');
+
+            //Removing all the events from the newly created lines
+            $('#gbody').unbind();
+
+            //Removing Add New Row ActionLink
+            $('a#btnCreate').parents('h5')[0].remove();
+
+            $('a#btnCreateF').remove();
+
+
+            //Preventing the click event on newly created elements
+            $(document).on('click','#Result a',function(event){
+                event.preventDefault();
+            })
+            //Removing the action link from the form so that the request will be redirected to the Submit function in the controller instead of the hardcoded path
+            $('form:last').prop('action','');
+        }
 
     </script>
 }

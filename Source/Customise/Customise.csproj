@@ -1386,6 +1386,7 @@
     <Content Include="Views\WeavingReceiveQACombined\_Reason.cshtml" />
     <Content Include="Views\JobReceiveQaPenalty\_Create.cshtml" />
     <Content Include="Views\WeavingReceiveQACombined\PendingRateUpdationIndex.cshtml" />
+    <Content Include="Views\WeavingReceiveQACombined\PendingToImportFromBranch.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

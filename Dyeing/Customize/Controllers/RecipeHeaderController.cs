@@ -600,7 +600,7 @@ namespace Customize.Controllers
 
             TempData["ReportLayoutDefaultValues"] = DefaultValue;
 
-            return Redirect((string)System.Configuration.ConfigurationManager.AppSettings["CustomizeDomain"] + "/Report_ReportPrint/ReportPrint/?MenuId=" + Dt.ReportMenuId);
+            return Redirect((string)System.Configuration.ConfigurationManager.AppSettings["CurrentDomain"] + "/Report_ReportPrint/ReportPrint/?MenuId=" + Dt.ReportMenuId);
 
         }
 

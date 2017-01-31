@@ -21,6 +21,13 @@ namespace Model.ViewModel
         public int JobReceiveQALineId { get; set; }
         public int JobReceiveQAAttributeId { get; set; }
 
+
+        public int StockHeaderId { get; set; }
+
+        public int StockId { get; set; }
+
+        
+
         public int DocTypeId { get; set; }
         public DateTime DocDate { get; set; }
         public string DocNo { get; set; }
@@ -48,6 +55,9 @@ namespace Model.ViewModel
         public decimal Rate { get; set; }
         public decimal? PenaltyRate { get; set; }
         public decimal? PenaltyAmt { get; set; }
+
+        public int? ReferenceDocId { get; set; }
+        public int? ReferenceDocTypeId { get; set; }
         public string Remark { get; set; }
         public int Status { get; set; }
         public string CreatedBy { get; set; }
