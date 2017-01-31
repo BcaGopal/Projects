@@ -87,33 +87,16 @@
             }
 
             <div class="panel-info">
-                @*<h4 style="padding:5px 0 0 0;margin:0px">
-                    @Html.ActionLink(" ", " ", " ", null, new { @class = "glyphicon glyphicon-refresh toolbar", @title = "Refresh Page", @data_toggle = "tooltip", @id = "RefreshPage" })
-                    @Html.ActionLink(" ", "Create", "JobOrderHeader", new { @id = ViewBag.id }, new { @class = "glyphicon glyphicon-plus toolbar", @title = "Add New", @data_toggle = "tooltip", target = "_blank" })
-                    @Html.ActionLink(" ", "GetHistory", "LogHistory", new { Ids = Model.JobOrderHeaderId, DocTypeId = Model.DocTypeId }, new { @class = "glyphicon glyphicon-user toolbar", @title = "History", @data_toggle = "tooltip", @id = "DocHistory", @data_modal = "" })
-                    @Html.ActionLink(" ", "GeneratePrints", "JobOrderHeader", new { Ids = Model.JobOrderHeaderId, DocTypeId = Model.DocTypeId }, new { @class = "glyphicon glyphicon-print toolbar", @title = "Print", @data_toggle = "tooltip", @id = "PrintRecordC", target = "_blank" })
-
-                    @if (@Model.JobOrderSettings.SqlProcGenProductUID != null)
-                    {
-                        @Html.ActionLink(" ", "BarcodePrint", "JobOrderHeader", new { id = @Model.JobOrderHeaderId }, new { @class = "glyphicon glyphicon-barcode toolbar", @title = "Barcode Print", @data_toggle = "tooltip", target = "_blank" })
-                    }
-                    @if (Model.Status == (int)StatusConstants.Submitted && !Model.GatePassHeaderId.HasValue)
-                    {
-                        @Html.ActionLink(" ", "GenerateGatePass", "JobOrderHeader", new { Ids = @Model.JobOrderHeaderId, DocTypeId = Model.DocTypeId }, new { @class = "glyphicon glyphicon-log-out toolbar", @title = "GatePass", @data_toggle = "tooltip", @id = "GenGatePassC" })
-                    }
-                    @Html.ActionLink(" ", "Email", "JobOrderHeader", null, new { @class = "glyphicon glyphicon-envelope toolbar", @title = "Email", @data_toggle = "tooltip" })
-                    @Html.ActionLink(" ", "PrevPage", "JobOrderHeader", new { DocId = @Model.JobOrderHeaderId, DocTypeId = Model.DocTypeId }, new { @class = "glyphicon glyphicon-arrow-left toolbar", @title = "Prev Record", @data_toggle = "tooltip" })
-                    @Html.ActionLink(" ", "NextPage", "JobOrderHeader", new { DocId = @Model.JobOrderHeaderId, DocTypeId = Model.DocTypeId }, new { @class = "glyphicon glyphicon-arrow-right toolbar", @title = "Next Record", @data_toggle = "tooltip" })
-
-                    @Html.ActionLink(" ", "Index", "JobOrderHeader", new { id = ViewBag.id, IndexType = ViewBag.IndexStatus }, new { @class = "glyphicon glyphicon-list toolbar right", @title = "List", @data_toggle = "tooltip" })
-                    @Html.ActionLink(" ", "Report", "JobOrderHeader", null, new { @class = "glyphicon glyphicon-th toolbar right", @title = "Report", @data_toggle = "tooltip" })
-                </h4>*@
-
-
                 <div class="btn-group">
                     @Html.ActionLink(" ", "Create", "JobOrderHeader", new { @id = @ViewBag.id }, new { @class = "cbtn btn-circle glyphicon glyphicon-plus", @title = "Add New", @data_toggle = "tooltip", target = "_blank" })
+                    @if (Model.JobOrderHeaderId > 0)
+                    {
                     @Html.ActionLink(" ", EditAction, "JobOrderHeader", new { @id = Model.JobOrderHeaderId, IndexType = ViewBag.IndexStatus }, new { @class = "cbtn btn-circle glyphicon glyphicon-edit", @title = "Edit", @data_toggle = "tooltip" })
+                    }
+                    @if (Model.JobOrderHeaderId > 0)
+                    {
                     @Html.ActionLink(" ", "GeneratePrints", "JobOrderHeader", new { Ids = Model.JobOrderHeaderId, DocTypeId = Model.DocTypeId }, new { @class = "cbtn btn-circle glyphicon glyphicon-print", @title = "Print", @data_toggle = "tooltip", @id = "PrintRecordC", target = "_blank" })
+                    }
                     @Html.ActionLink(" ", "PrevPage", "JobOrderHeader", new { DocId = @Model.JobOrderHeaderId, DocTypeId = Model.DocTypeId }, new { @class = "cbtn btn-circle glyphicon glyphicon-arrow-left", @title = "Prev Record", @data_toggle = "tooltip" })
                     @Html.ActionLink(" ", "NextPage", "JobOrderHeader", new { DocId = @Model.JobOrderHeaderId, DocTypeId = Model.DocTypeId }, new { @class = "cbtn btn-circle glyphicon glyphicon-arrow-right", @title = "Next Record", @data_toggle = "tooltip" })
                     @Html.ActionLink(" ", "Index", "JobOrderHeader", new { id = ViewBag.id, IndexType = ViewBag.IndexStatus }, new { @class = "cbtn btn-circle glyphicon glyphicon-list", @title = "List", @data_toggle = "tooltip" })
@@ -130,10 +113,13 @@
                         {
                             <li><a id="GenGatePassC" href="@Url.Action("GenerateGatePass", "JobOrderHeader", new { Ids = @Model.JobOrderHeaderId, DocTypeId = Model.DocTypeId })"><span class="glyphicon glyphicon-log-out"> </span> Generate Gatepass</a></li>
                         }
+                        @if (Model.JobOrderHeaderId > 0)
+                        {
                         <li><a id="DocHistory" data-modal="" href="@Url.Action("GetHistory", "LogHistory", new { Ids = Model.JobOrderHeaderId, DocTypeId = Model.DocTypeId })"><span class="glyphicon glyphicon-user"> </span> History</a></li>
+                        }
                         <li><a href="@Url.Action("Email", "JobOrderHeader")"><span class="glyphicon glyphicon-envelope"> </span> Email</a></li>
                         <li role="separator" class="divider"></li>
-                        <li><a href="@Url.Action("Report", "JobOrderHeader", new { @ViewBag.id })"><span class="glyphicon glyphicon-th"> </span> Report</a></li>
+                        <li><a target="_blank" href="@Url.Action("Report", "JobOrderHeader", new { @ViewBag.id })"><span class="glyphicon glyphicon-th"> </span> Report</a></li>
                     </ul>
                 </div>
 
@@ -232,7 +218,7 @@
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.OrderById, "Order By", new { @class = "control-label col-md-4 col-sm-2" })
                                     <div class="col-md-7 col-sm-10">
-                                        @Html.TextBoxFor(m => m.OrderById, new { @class = "form-control" })
+                                        @Html.TextBoxFor(m => m.OrderById, new { @class = "form-control required" })
                                         @Html.ValidationMessageFor(m => m.OrderById, "", new { @class = "text-danger" })
                                     </div>
                                 </div>

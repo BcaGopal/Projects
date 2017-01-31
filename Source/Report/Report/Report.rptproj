@@ -2679,6 +2679,22 @@
       <Name>XWeavingOrderStatus.rdl</Name>
       <FullPath>XWeavingOrderStatus.rdl</FullPath>
     </ProjectItem>
+    <ProjectItem>
+      <Name>OrderToBeIssueSummary_NewWithOutAsonDate.rdl</Name>
+      <FullPath>OrderToBeIssueSummary_NewWithOutAsonDate.rdl</FullPath>
+    </ProjectItem>
+    <ProjectItem>
+      <Name>OrderToBeIssueSummary_New.rdl</Name>
+      <FullPath>OrderToBeIssueSummary_New.rdl</FullPath>
+    </ProjectItem>
+    <ProjectItem>
+      <Name>OrderToBeIssue_New.rdl</Name>
+      <FullPath>OrderToBeIssue_New.rdl</FullPath>
+    </ProjectItem>
+    <ProjectItem>
+      <Name>OrderToBeIssue_NewWithOutAsonDate.rdl</Name>
+      <FullPath>OrderToBeIssue_NewWithOutAsonDate.rdl</FullPath>
+    </ProjectItem>
   </Reports>
   <Configurations>
     <Configuration>
