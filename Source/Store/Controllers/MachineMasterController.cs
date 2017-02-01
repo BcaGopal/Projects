@@ -13,6 +13,8 @@ using Model.ViewModel;
 using System.Collections.Generic;
 using System.Xml.Linq;
 
+
+
 namespace Web
 {
     [Authorize]
@@ -32,14 +34,12 @@ namespace Web
         // GET: /ProductUidMaster/
         
           public ActionResult Index(int Id)
-          {
-            
+          { 
             ViewBag.id = Id;
             ViewBag.Name = new DocumentTypeService(_unitOfWork).Find(Id).DocumentTypeName;
             //var ProductUid = _ProductUidService.GetProductUidListMachine(Id);
             var ProductUid = _ProductUidService.GetProductUidListMachineDetail(Id);            
-              return View(ProductUid);
-              //return RedirectToAction("Create");
+            return View(ProductUid);
           }
 
         // GET: /ProductUidMaster/Create
@@ -49,10 +49,10 @@ namespace Web
           {
             int GoDownId = (int)System.Web.HttpContext.Current.Session["DefaultGodownId"];
             ProductUid vm = new ProductUid();
-              vm.IsActive = true;
-              vm.GenDocTypeId = id;
-              vm.CurrenctGodownId = GoDownId;
-              ViewBag.id = id;
+            vm.IsActive = true;
+            vm.GenDocTypeId = id;
+            vm.CurrenctGodownId = GoDownId;
+            ViewBag.id = id;
             ViewBag.Name = new DocumentTypeService(_unitOfWork).Find(id).DocumentTypeName;
             return View("Create",vm);
           }
@@ -66,6 +66,22 @@ namespace Web
           {
               ProductUid pt = vm;
             ViewBag.id = vm.GenDocTypeId;
+            if (vm.ProductUIDId <= 0)
+            {
+                var Test = (from p in db.ProductUid where p.ProductUidName == pt.ProductUidName && p.ProductId == pt.ProductId && p.GenDocTypeId == pt.GenDocTypeId select p).ToList();
+                if (Test.Count() > 0)
+                {
+                    ModelState.AddModelError("ProductUidName", "Already Exist");
+                }
+            }
+            else
+            {
+                var Test = (from p in db.ProductUid where p.ProductUidName == pt.ProductUidName && p.ProductId == pt.ProductId && p.GenDocTypeId == pt.GenDocTypeId && p.ProductUIDId != pt.ProductUIDId select p).ToList();
+                if (Test.Count() > 0)
+                {
+                    ModelState.AddModelError("ProductUidName", "Already Exist");
+                }
+            }
             if (ModelState.IsValid)
               {                  
 

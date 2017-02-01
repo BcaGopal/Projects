@@ -601,7 +601,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=iif(Fields!OKMark.Value="1","‹Ÿ¬","A¯")</Value>
+                                  <Value>=iif(Fields!OKMark.Value="1","ï¿½ï¿½ï¿½","Aï¿½")</Value>
                                   <Style>
                                     <FontStyle>Normal</FontStyle>
                                     <FontFamily>Wingdings</FontFamily>
