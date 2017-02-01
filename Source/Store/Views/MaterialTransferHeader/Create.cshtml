@@ -390,7 +390,8 @@
         }
 
         CustomSelectFunction($("#ProcessId"), '/ComboHelpList/GetProcess', '/ComboHelpList/SetSingleProcess', ' ', false, 1);
-        CustomSelectFunction($("#PersonId"), '/ComboHelpList/GetPersonBE', '/ComboHelpList/SetSinglePerson', ' ', false, 1);
+        //CustomSelectFunction($("#PersonId"), '/ComboHelpList/GetPersonBE', '/ComboHelpList/SetSinglePerson', ' ', false, 1);
+        CustomSelectFunction($("#PersonId"), '/MaterialTransferHeader/GetCustomPerson', '/ComboHelpList/SetSinglePerson', ' ', false, 1,$('#DocTypeId').val());
         //CustomSelectFunction($("#GodownId"), '/ComboHelpList/GetGodown', '/ComboHelpList/SetSingleGodown', ' ', false, 1);
         CustomSelectFunction($("#GodownId"), '/MaterialTransferHeader/GetGodowns', '/ComboHelpList/SetSingleGodown', ' ', false, 1,DocTypeId);
         CustomSelectFunction($("#FromGodownId"), '/ComboHelpList/GetGodown', '/ComboHelpList/SetSingleGodown', ' ', false, 1);

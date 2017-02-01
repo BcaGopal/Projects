@@ -130,7 +130,8 @@ namespace Web
                     temp.ImportMenuId = pt.ImportMenuId;
                     temp.isVisibleProductUID = pt.isVisibleProductUID;
                     temp.isMandatoryProductUID = pt.isMandatoryProductUID;
-
+                    temp.ProcessId = pt.ProcessId;
+                    temp.filterPersonRoles = pt.filterPersonRoles;
 
                     temp.ModifiedDate = DateTime.Now;
                     temp.ModifiedBy = User.Identity.Name;
@@ -264,6 +265,8 @@ namespace Web
                     temp.ImportMenuId = pt.ImportMenuId;
                     temp.isVisibleProductUID = pt.isVisibleProductUID;
                     temp.isMandatoryProductUID = pt.isMandatoryProductUID;
+                    temp.ProcessId = pt.ProcessId;
+                    temp.filterPersonRoles = pt.filterPersonRoles;
 
                     temp.ModifiedDate = DateTime.Now;
                     temp.ModifiedBy = User.Identity.Name;

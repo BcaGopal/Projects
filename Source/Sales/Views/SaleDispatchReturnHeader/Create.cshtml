@@ -355,7 +355,8 @@
 
 <script type="text/javascript">
 
-    CustomSelectFunction($("#BuyerId"), '/ComboHelpList/GetBuyers', '/ComboHelpList/SetSingleBuyer', ' ', false, 1);
+    //CustomSelectFunction($("#BuyerId"), '/ComboHelpList/GetBuyers', '/ComboHelpList/SetSingleBuyer', ' ', false, 1);
+    CustomSelectFunction($("#BuyerId"), '/SaleDispatchReturnHeader/GetCustomPerson', '/ComboHelpList/SetSinglePerson', ' ', false, 1,$('#DocTypeId').val());
     CustomSelectFunction($("#GodownId"), '/ComboHelpList/GetSiteGodown', '/ComboHelpList/SetSingleGodown', ' ', false, 1);
 
     var form_clean;

@@ -135,6 +135,7 @@ namespace Web
                     temp.filterContraDocTypes = pt.filterContraDocTypes;
                     temp.DocumentPrint = pt.DocumentPrint;
                     temp.filterContraSites = pt.filterContraSites;
+                    temp.filterPersonRoles = pt.filterPersonRoles;
                     temp.WizardMenuId = pt.WizardMenuId;
                     temp.isVisibleProductUID = pt.isVisibleProductUID;
                     temp.isMandatoryProductUID = pt.isMandatoryProductUID;

@@ -91,7 +91,7 @@ namespace Web
             ViewBag.LineMode = "Create";
 
 
-            var settings = new SaleEnquirySettingsService(_unitOfWork).GetSaleEnquirySettings(H.DocTypeId, H.DivisionId, H.SiteId);
+            var settings = new SaleEnquirySettingsService(_unitOfWork).GetSaleEnquirySettingsForDucument(H.DocTypeId, H.DivisionId, H.SiteId);
             s.SaleEnquirySettings = Mapper.Map<SaleEnquirySettings, SaleEnquirySettingsViewModel>(settings);
 
             var count = _SaleEnquiryLineService.GetSaleEnquiryLineListForIndex(Id).Count();
@@ -397,7 +397,7 @@ namespace Web
 
 
 
-            var settings = new SaleEnquirySettingsService(_unitOfWork).GetSaleEnquirySettings(H.DocTypeId, H.DivisionId, H.SiteId);
+            var settings = new SaleEnquirySettingsService(_unitOfWork).GetSaleEnquirySettingsForDucument(H.DocTypeId, H.DivisionId, H.SiteId);
             s.SaleEnquirySettings = Mapper.Map<SaleEnquirySettings, SaleEnquirySettingsViewModel>(settings);
 
             ProductBuyerSettings ProductBuyerSettings = new ProductBuyerSettingsService(_unitOfWork).GetProductBuyerSettings(H.DivisionId, H.SiteId);
@@ -463,7 +463,7 @@ namespace Web
             s.BuyerSpecification2 = Extended.BuyerSpecification2;
             s.BuyerSpecification3 = Extended.BuyerSpecification3;
 
-            var settings = new SaleEnquirySettingsService(_unitOfWork).GetSaleEnquirySettings(H.DocTypeId, H.DivisionId, H.SiteId);
+            var settings = new SaleEnquirySettingsService(_unitOfWork).GetSaleEnquirySettingsForDucument(H.DocTypeId, H.DivisionId, H.SiteId);
             s.SaleEnquirySettings = Mapper.Map<SaleEnquirySettings, SaleEnquirySettingsViewModel>(settings);
 
             ProductBuyerSettings ProductBuyerSettings = new ProductBuyerSettingsService(_unitOfWork).GetProductBuyerSettings(H.DivisionId, H.SiteId);

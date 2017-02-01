@@ -562,8 +562,11 @@
 
     $(document).ready(function () {
 
-        CustomSelectFunction($("#BillToBuyerId"), '/ComboHelpList/GetPersonWithProcess', '/ComboHelpList/SetSinglePerson', ' ', false, 0,$('#ProcessId').val());
-        CustomSelectFunction($("#SaleToBuyerId"), '/ComboHelpList/GetPersonWithProcess', '/ComboHelpList/SetSinglePerson', ' ', false, 0,$('#ProcessId').val());
+        //CustomSelectFunction($("#BillToBuyerId"), '/ComboHelpList/GetPersonWithProcess', '/ComboHelpList/SetSinglePerson', ' ', false, 0,$('#ProcessId').val());
+        //CustomSelectFunction($("#SaleToBuyerId"), '/ComboHelpList/GetPersonWithProcess', '/ComboHelpList/SetSinglePerson', ' ', false, 0,$('#ProcessId').val());
+        CustomSelectFunction($("#BillToBuyerId"), '/SaleDispatchHeader/GetCustomPerson', '/ComboHelpList/SetSinglePerson', ' ', false, 1,$('#DocTypeId').val());
+        CustomSelectFunction($("#SaleToBuyerId"), '/SaleDispatchHeader/GetCustomPerson', '/ComboHelpList/SetSinglePerson', ' ', false, 1,$('#DocTypeId').val());
+
         CustomSelectFunction($("#AgentId"), '/ComboHelpList/GetPerson', '/ComboHelpList/GetPerson', ' ', false, 0);
 
         //Adding Hidden Input Fields

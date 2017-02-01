@@ -37,6 +37,7 @@ namespace Model.ViewModel
         public string filterContraDocTypes { get; set; }
         public string filterContraSites { get; set; }
         public string filterContraDivisions { get; set; }
+        public string filterPersonRoles { get; set; }
         public int? DocTypePackingHeaderId { get; set; }
         public string DocTypePackingHeaderName { get; set; }
         public int? SaleDispatchDocTypeId { get; set; }

@@ -312,7 +312,8 @@
 <script type="text/javascript">
 
     $(document).ready(function () {
-        CustomSelectFunction($("#PersonId"), '/ComboHelpList/GetPerson', '/ComboHelpList/SetSinglePerson', ' ', false, 1);
+        //CustomSelectFunction($("#PersonId"), '/ComboHelpList/GetPerson', '/ComboHelpList/SetSinglePerson', ' ', false, 1);
+        CustomSelectFunction($("#PersonId"), '/MaterialRequestCancelHeader/GetCustomPerson', '/ComboHelpList/SetSinglePerson', ' ', false, 1,$('#DocTypeId').val());
         //Calling the function to load the table data/ Line information
         LoadProducts();
 

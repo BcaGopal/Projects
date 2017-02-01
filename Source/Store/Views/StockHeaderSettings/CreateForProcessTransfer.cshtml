@@ -266,6 +266,15 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.filterPersonRoles, "Person Roles", new { @class = "control-label col-xs-4" })
+                                    <div class="col-xs-6">
+                                        @Html.TextBoxFor(m => m.filterPersonRoles, new { @class = "form-control col-xs-6" })
+                                        @Html.ValidationMessageFor(m => m.filterPersonRoles, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -328,6 +337,7 @@
         CustomSelectFunction($("#ProcessId"), '/ComboHelpList/GetProcess', '/ComboHelpList/SetSingleProcess', ' ', false, 1);
         CustomSelectFunction($("#CalculationId"), '/ComboHelpList/GetCalculation', '/ComboHelpList/SetSingleCalculation', ' ', false, 1);
         CustomSelectFunction($("#Perks"), '/ComboHelpList/GetPerk', '/ComboHelpList/SetPerk', ' ', true, 1);
+        CustomSelectFunction($("#filterPersonRoles"), '/ComboHelpList/GetPersonRoles', '/ComboHelpList/SetPersonRole', ' ', true, 0);
     });
 
 

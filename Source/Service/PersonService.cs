@@ -245,11 +245,13 @@ namespace Service
         public IQueryable<PersonIndexViewModel> GetPersonListForIndex(int id)
         {
             var temp = from p in db.Persons
-                       where p.DocTypeId == id
+                       join Pr in db.PersonRole on p.PersonID equals Pr.PersonId into PersonRoleTable from PersonRoleTab in PersonRoleTable.DefaultIfEmpty()
+                       where PersonRoleTab.RoleDocTypeId == id
                        orderby p.Name
                        select new PersonIndexViewModel
                        {
                            PersonId = p.PersonID,
+                           DocTypeId = PersonRoleTab.RoleDocTypeId,
                            Name = p.Name,
                            Code = p.Code,
                            Mobile = p.Mobile

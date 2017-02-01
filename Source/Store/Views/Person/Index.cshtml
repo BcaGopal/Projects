@@ -35,7 +35,8 @@
         @Html.ActionLink(" ", "Index", "Person", null, new { @class = "glyphicon glyphicon-list toolbar right", @title = "List", @data_toggle = "tooltip" })
     </h4>*@
             <div class="btn-group">
-                @Html.ActionLink(" ", "Create", "Person", new { @id = @ViewBag.id }, new { @class = "cbtn btn-circle glyphicon glyphicon-plus toolbar", @title = "Add New", @data_toggle = "tooltip" })
+                @*@Html.ActionLink(" ", "Create", "Person", new { @id = @ViewBag.id }, new { @class = "cbtn btn-circle glyphicon glyphicon-plus toolbar", @title = "Add New", @data_toggle = "tooltip" })*@
+                @Html.ActionLink(" ", "ChooseContactType", "Person", new { @id = @ViewBag.id }, new { @class = "cbtn btn-circle glyphicon glyphicon-plus toolbar", @title = "Add New", @data_toggle = "tooltip", @data_modalCopy = "" })
                 @Html.ActionLink(" ", "Print", "Person", null, new { @class = "cbtn btn-circle glyphicon glyphicon-print toolbar", @title = "Print", @data_toggle = "tooltip" })
                 @Html.ActionLink(" ", "Remove", "Person", null, new { @class = "cbtn btn-circle glyphicon glyphicon-trash toolbar", @title = "Delete", @data_toggle = "tooltip", @id = "DeleteRecord", @data_modalDelete = "" })
              </div>
@@ -59,7 +60,7 @@
                columns.Add(m => m.Name).Sortable(true).Titled("Person Name").Filterable(true).Sortable(true);
                columns.Add(m => m.Code).Sortable(true).Titled("Code").Filterable(true).Sortable(true);
                columns.Add(m => m.Mobile).Sortable(true).Titled("Mobile No.").Filterable(true).Sortable(true);
-               columns.Add(true).RenderValueAs(m => "<a href='/Person/Edit/" + m.PersonId + "' hidden class='RecEditurl'></a><a href='/Person/Delete/" + m.PersonId + "' hidden class='RecDelurl'></a>");
+               columns.Add(true).RenderValueAs(m => "<a href='/Person/Edit/" + m.PersonId + "?DocTypeId=" + m.DocTypeId + "' hidden class='RecEditurl'></a><a href='/Person/Delete/" + m.PersonId + "' hidden class='RecDelurl'></a>");
            }).WithPaging(25).EmptyText("No records found.").Sortable().Filterable().WithMultipleFilters()
     </div>
 </div>

@@ -135,6 +135,7 @@ namespace Web
                     temp.filterProductGroups = pt.filterProductGroups;
                     temp.filterProducts = pt.filterProducts;
                     temp.filterProductTypes = pt.filterProductTypes;
+                    temp.filterPersonRoles = pt.filterPersonRoles;
                     temp.isEditableRate = pt.isEditableRate;
                     temp.isMandatoryHeaderCostCenter = pt.isMandatoryHeaderCostCenter;
                     temp.isMandatoryMachine = pt.isMandatoryMachine;
@@ -296,6 +297,7 @@ namespace Web
                     temp.filterProductGroups = pt.filterProductGroups;
                     temp.filterProducts = pt.filterProducts;
                     temp.filterProductTypes = pt.filterProductTypes;
+                    temp.filterPersonRoles = pt.filterPersonRoles;
                     temp.isEditableRate = pt.isEditableRate;
                     temp.isMandatoryHeaderCostCenter = pt.isMandatoryHeaderCostCenter;
                     temp.isMandatoryMachine = pt.isMandatoryMachine;
@@ -457,6 +459,7 @@ namespace Web
                     temp.filterProductGroups = pt.filterProductGroups;
                     temp.filterProducts = pt.filterProducts;
                     temp.filterProductTypes = pt.filterProductTypes;
+                    temp.filterPersonRoles = pt.filterPersonRoles;
                     temp.isEditableRate = pt.isEditableRate;
                     temp.BarcodeStatusUpdate = pt.BarcodeStatusUpdate;
                     temp.isMandatoryHeaderCostCenter = pt.isMandatoryHeaderCostCenter;
@@ -619,6 +622,7 @@ namespace Web
                     temp.filterProductGroups = pt.filterProductGroups;
                     temp.filterProducts = pt.filterProducts;
                     temp.filterProductTypes = pt.filterProductTypes;
+                    temp.filterPersonRoles = pt.filterPersonRoles;
                     temp.isEditableRate = pt.isEditableRate;
                     temp.BarcodeStatusUpdate = pt.BarcodeStatusUpdate;
                     temp.isMandatoryHeaderCostCenter = pt.isMandatoryHeaderCostCenter;
@@ -780,6 +784,7 @@ namespace Web
                     temp.filterProductGroups = pt.filterProductGroups;
                     temp.filterProducts = pt.filterProducts;
                     temp.filterProductTypes = pt.filterProductTypes;
+                    temp.filterPersonRoles = pt.filterPersonRoles;
                     temp.isEditableRate = pt.isEditableRate;
                     temp.isMandatoryHeaderCostCenter = pt.isMandatoryHeaderCostCenter;
                     temp.isMandatoryMachine = pt.isMandatoryMachine;
@@ -944,6 +949,7 @@ namespace Web
                     temp.filterProductGroups = pt.filterProductGroups;
                     temp.filterProducts = pt.filterProducts;
                     temp.filterProductTypes = pt.filterProductTypes;
+                    temp.filterPersonRoles = pt.filterPersonRoles;
                     temp.isVisibleLineCostCenter = pt.isVisibleLineCostCenter;
                     temp.isMandatoryHeaderCostCenter = pt.isMandatoryHeaderCostCenter;
                     temp.isMandatoryLineCostCenter = pt.isMandatoryLineCostCenter;
@@ -1098,6 +1104,7 @@ namespace Web
                     temp.ProcessId = pt.ProcessId;
                     temp.filterProductGroups = pt.filterProductGroups;
                     temp.filterProducts = pt.filterProducts;
+                    temp.filterPersonRoles = pt.filterPersonRoles;
                     temp.BarcodeStatusUpdate = pt.BarcodeStatusUpdate;
                     temp.filterProductTypes = pt.filterProductTypes;
                     temp.isMandatoryLineCostCenter = pt.isMandatoryLineCostCenter;
@@ -1253,6 +1260,7 @@ namespace Web
                     temp.filterProductGroups = pt.filterProductGroups;
                     temp.filterProducts = pt.filterProducts;
                     temp.filterProductTypes = pt.filterProductTypes;
+                    temp.filterPersonRoles = pt.filterPersonRoles;
                     temp.BarcodeStatusUpdate = pt.BarcodeStatusUpdate;
                     temp.isEditableRate = pt.isEditableRate;
                     temp.isVisibleSpecification = pt.isVisibleSpecification;

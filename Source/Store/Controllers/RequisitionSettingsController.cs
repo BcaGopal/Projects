@@ -128,8 +128,10 @@ namespace Web
                     temp.filterProductGroups = pt.filterProductGroups;
                     temp.filterProducts = pt.filterProducts;
                     temp.filterProductTypes = pt.filterProductTypes;
+                    temp.filterPersonRoles = pt.filterPersonRoles;
                     temp.filterContraDivisions = pt.filterContraDivisions;
                     temp.filterContraSites = pt.filterContraSites;
+                    temp.ProcessId = pt.ProcessId;
                     temp.isMandatoryCostCenter = pt.isMandatoryCostCenter;
                     temp.SqlProcDocumentPrint_AfterApprove = pt.SqlProcDocumentPrint_AfterApprove;
                     temp.SqlProcDocumentPrint_AfterSubmit = pt.SqlProcDocumentPrint_AfterSubmit;
@@ -272,9 +274,11 @@ namespace Web
                     temp.filterProductGroups = pt.filterProductGroups;
                     temp.filterProducts = pt.filterProducts;
                     temp.filterProductTypes = pt.filterProductTypes;
+                    temp.filterPersonRoles = pt.filterPersonRoles;
                     temp.isMandatoryCostCenter = pt.isMandatoryCostCenter;
                     temp.filterContraDivisions = pt.filterContraDivisions;
                     temp.filterContraSites = pt.filterContraSites;
+                    temp.ProcessId = pt.ProcessId;
                     temp.SqlProcDocumentPrint_AfterSubmit = pt.SqlProcDocumentPrint_AfterSubmit;
                     temp.SqlProcDocumentPrint_AfterApprove = pt.SqlProcDocumentPrint_AfterApprove;
                     temp.isVisibleCostCenter = pt.isVisibleCostCenter;

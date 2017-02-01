@@ -19,7 +19,7 @@ namespace Service
         SaleEnquirySettings Find(int Id);
         void Update(SaleEnquirySettings s);
         IEnumerable<SaleEnquirySettings> GetSaleEnquirySettingsList();
-        SaleEnquirySettings GetSaleEnquirySettings(int DocTypeId, int? DivisionId, int SiteId);
+        SaleEnquirySettings GetSaleEnquirySettingsForDucument(int DocTypeId, int? DivisionId, int SiteId);
 
         SaleEnquirySettings GetSaleEnquirySettingsForExcelImport(int SiteId, int? DivisionId);
 
@@ -39,7 +39,7 @@ namespace Service
             return _unitOfWork.Repository<SaleEnquirySettings>().Find(id);
         }
 
-        public SaleEnquirySettings GetSaleEnquirySettings(int DocTypeId, int? DivisionId, int SiteId)
+        public SaleEnquirySettings GetSaleEnquirySettingsForDucument(int DocTypeId, int? DivisionId, int SiteId)
         {
             return _unitOfWork.Repository<SaleEnquirySettings>().Query().Get().Where(m=>m.DivisionId==DivisionId&&m.SiteId==SiteId && m.DocTypeId==DocTypeId).FirstOrDefault();
         }
