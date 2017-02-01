@@ -113,7 +113,7 @@
                     <li><a id="DocHistory" data-modal="" href="@Url.Action("GetHistory", "LogHistory", new { Ids = Model.ProdOrderHeaderId, DocTypeId = Model.DocTypeId })"><span class="glyphicon glyphicon-user"> </span> History</a></li>
                         <li><a href="@Url.Action("Email", "ProdOrderHeader")"><span class="glyphicon glyphicon-envelope"> </span> Email</a></li>
                         <li role="separator" class="divider"></li>
-                        <li><a href="@Url.Action("Report", "ProdOrderHeader")"><span class="glyphicon glyphicon-th"> </span> Report</a></li>
+                        <li><a target="_blank" href="@Url.Action("Report", "ProdOrderHeader", new { @id = ViewBag.id })"><span class="glyphicon glyphicon-th"> </span> Report</a></li>
                      </ul>
              </div>
             </div>

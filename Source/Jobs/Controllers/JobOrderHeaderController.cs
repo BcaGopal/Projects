@@ -27,6 +27,7 @@ using Model.ViewModels;
 
 
 
+
 namespace Web
 {
 
@@ -130,22 +131,28 @@ namespace Web
         private void PrepareViewBag(int id)
         {
             DocumentType DocType = new DocumentTypeService(_unitOfWork).Find(id);
+            DocumentTypeSettingsViewModel DTS = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(id);
+           
             int Cid = DocType.DocumentCategoryId;
             ViewBag.DocTypeList = new DocumentTypeService(_unitOfWork).FindByDocumentCategory(Cid).ToList();
             ViewBag.Name = DocType.DocumentTypeName;
+            ViewBag.PartyCaption = DTS.PartyCaption;
             ViewBag.id = id;
             ViewBag.UnitConvForList = (from p in context.UnitConversonFor
                                        select p).ToList();
-
+              ViewBag.AdminSetting =UserRoles.Contains("Admin").ToString();
             var DivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
             var SiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
-
+            
             var settings = new JobOrderSettingsService(_unitOfWork).GetJobOrderSettingsForDocument(id, DivisionId, SiteId);
             if (settings != null)
             {
                 ViewBag.WizardId = settings.WizardMenuId;
                 ViewBag.IsPostedInStock = settings.isPostedInStock;
                 ViewBag.isVisibleCostCenter = settings.isVisibleCostCenter;
+                ViewBag.ImportMenuId = settings.ImportMenuId;
+                ViewBag.SqlProcDocumentPrint = settings.SqlProcDocumentPrint;
+                ViewBag.SqlProcGatePass = settings.SqlProcGatePass;
             }
 
 
@@ -180,7 +187,6 @@ namespace Web
         public ActionResult Create(int id)//DocumentTypeId
         {
             JobOrderHeaderViewModel p = new JobOrderHeaderViewModel();
-
             p.DocDate = DateTime.Now;
             p.DueDate = DateTime.Now;
             p.CreatedDate = DateTime.Now;
@@ -241,6 +247,7 @@ namespace Web
             p.PerkViewModel = Perks;
             p.UnitConversionForId = settings.UnitConversionForId;
             p.ProcessId = settings.ProcessId;
+            p.TermsAndConditions = settings.TermsAndConditions;
 
             PrepareViewBag(id);
             p.OrderById = new EmployeeService(_unitOfWork).GetEmloyeeForUser(User.Identity.GetUserId());
@@ -2337,6 +2344,22 @@ namespace Web
 
                 var Settings = new JobOrderSettingsService(_unitOfWork).GetJobOrderSettingsForDocument(DocTypeId, DivisionId, SiteId);
 
+                DataTable Dt = new DataTable();
+                String MainQuery = Settings.SqlProcDocumentPrint + " " + Ids.Split(',')[0];
+                using (SqlConnection sqlConnection = new SqlConnection((string)System.Web.HttpContext.Current.Session["DefaultConnectionString"]))
+                {
+                    SqlDataAdapter sqlDataAapter = new SqlDataAdapter(MainQuery, sqlConnection);
+                    sqlDataAapter.Fill(Dt);
+                }
+                string Reportname = "";
+                string path = "";
+                if (Dt.Rows.Count > 0)
+                {
+                    Reportname = Dt.Rows[0]["ReportName"].ToString();
+                    path = ConfigurationManager.AppSettings["PhysicalRDLCPath"] + ConfigurationManager.AppSettings["ReportsPathFromService"] + Dt.Rows[0]["ReportName"].ToString();
+                }
+                if (System.IO.File.Exists(path))
+                { 
                 string ReportSql = "";
 
                 if (!string.IsNullOrEmpty(Settings.DocumentPrint))
@@ -2436,9 +2459,18 @@ namespace Web
 
 
                 return Json(new { success = "Success" }, JsonRequestBehavior.AllowGet);
+            }
+            return Json(new { success = "Error", data = "File Not Found. " }, JsonRequestBehavior.AllowGet);
 
             }
             return Json(new { success = "Error", data = "No Records Selected." }, JsonRequestBehavior.AllowGet);
+
+
+
+            
+
+            
+
 
         }
 

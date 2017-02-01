@@ -58,6 +58,9 @@
           <QueryParameter Name="@UrgentList">
             <Value>=Parameters!UrgentList.Value</Value>
           </QueryParameter>
+          <QueryParameter Name="@OverDueDays">
+            <Value>=Parameters!OverDueDays.Value</Value>
+          </QueryParameter>
         </QueryParameters>
         <CommandType>StoredProcedure</CommandType>
         <CommandText>Web.spRep_OrderToBeIssue_New</CommandText>
@@ -6765,6 +6768,12 @@
       <Nullable>true</Nullable>
       <AllowBlank>true</AllowBlank>
       <Prompt>Urgent List</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="OverDueDays">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Over Due Days</Prompt>
     </ReportParameter>
   </ReportParameters>
   <EmbeddedImages>

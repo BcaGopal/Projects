@@ -99,5 +99,8 @@ namespace Model.ViewModel
         public string JobUnitName { get; set; }
         public int ExcessQtyAllowedPer { get; set; }
         public int? NoOfPrintCopies { get; set; }
+
+        public string TermsAndConditions { get; set; }
+
     }
 }

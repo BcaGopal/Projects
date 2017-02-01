@@ -880,7 +880,7 @@
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>9pt</FontSize>
-                                <Format>d</Format>
+                                <Format>dd/MMM/yyyy</Format>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -900,6 +900,7 @@
                         <PaddingBottom>2pt</PaddingBottom>
                       </Style>
                     </Textbox>
+                    <rd:Selected>true</rd:Selected>
                   </CellContents>
                 </TablixCell>
               </TablixCells>
@@ -995,7 +996,7 @@
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>9pt</FontSize>
-                                <Format>d</Format>
+                                <Format>dd/MMM/yyyy</Format>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -1015,6 +1016,7 @@
                         <PaddingBottom>2pt</PaddingBottom>
                       </Style>
                     </Textbox>
+                    <rd:Selected>true</rd:Selected>
                   </CellContents>
                 </TablixCell>
               </TablixCells>
@@ -3408,7 +3410,7 @@
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>9pt</FontSize>
-                                <Format>d</Format>
+                                <Format>dd/MMM/yyyy</Format>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -3523,7 +3525,7 @@
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>9pt</FontSize>
-                                <Format>d</Format>
+                                <Format>dd/MMM/yyyy</Format>
                               </Style>
                             </TextRun>
                           </TextRuns>

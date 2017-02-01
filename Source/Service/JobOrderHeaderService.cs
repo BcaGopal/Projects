@@ -15,6 +15,7 @@ using System.Data.Entity.SqlServer;
 using System.Data.Linq;
 using Model.DatabaseViews;
 using Model.ViewModels;
+using AutoMapper;
 
 namespace Service
 {
@@ -111,8 +112,10 @@ namespace Service
 
             var DivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
             var SiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
-            List<string> UserRoles = (List<string>)System.Web.HttpContext.Current.Session["Roles"];
+            List<string> UserRoles = (List<string>)System.Web.HttpContext.Current.Session["Roles"];      
 
+
+            
             return (from p in db.JobOrderHeader
                     join t in db.Persons on p.JobWorkerId equals t.PersonID
                     join dt in db.DocumentType on p.DocTypeId equals dt.DocumentTypeId
@@ -143,6 +146,9 @@ namespace Service
                                          join prod in db.Product on o.ProductId equals prod.ProductId
                                          join u in db.Units on prod.UnitId equals u.UnitId
                                          select u.DecimalPlaces).Max(),
+                       
+
+
                     });
         }
 
