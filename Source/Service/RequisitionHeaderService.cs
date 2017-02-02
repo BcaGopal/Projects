@@ -257,7 +257,7 @@ namespace Service
                         from PersonProcessTab in PersonProcessTable.DefaultIfEmpty()
                         join pr in db.PersonRole on p.PersonID equals pr.PersonId into PersonRoleTable
                         from PersonRoleTab in PersonRoleTable.DefaultIfEmpty()
-                        where PersonProcessTab.ProcessId == settings.ProcessId
+                        where (settings.ProcessId == null ? 1 == 1 : PersonProcessTab.ProcessId == settings.ProcessId)
                         && (string.IsNullOrEmpty(term) ? 1 == 1 : (p.Name.ToLower().Contains(term.ToLower()) || p.Code.ToLower().Contains(term.ToLower())))
                         && (string.IsNullOrEmpty(settings.filterPersonRoles) ? 1 == 1 : PersonRoles.Contains(PersonRoleTab.RoleDocTypeId.ToString()))
                         && BusinessEntityTab.DivisionIds.IndexOf(DivIdStr) != -1

@@ -1071,7 +1071,7 @@ namespace Web
                         StockProcessIssueViewModel.DocLineId = line.StockLineId;
                         StockProcessIssueViewModel.DocTypeId = Header.DocTypeId;
                         StockProcessIssueViewModel.StockHeaderDocDate = Header.DocDate;
-                        StockProcessIssueViewModel.StockProcessDocDate = DateTime.Now.Date;
+                        StockProcessIssueViewModel.StockProcessDocDate = Header.DocDate;
                         StockProcessIssueViewModel.DocNo = Header.DocNo;
                         StockProcessIssueViewModel.DivisionId = Header.DivisionId;
                         StockProcessIssueViewModel.SiteId = Header.SiteId;
@@ -1134,7 +1134,7 @@ namespace Web
                         StockProcessReceiveViewModel.DocLineId = line.StockLineId;
                         StockProcessReceiveViewModel.DocTypeId = Header.DocTypeId;
                         StockProcessReceiveViewModel.StockHeaderDocDate = Header.DocDate;
-                        StockProcessReceiveViewModel.StockProcessDocDate = DateTime.Now.Date;
+                        StockProcessReceiveViewModel.StockProcessDocDate = Header.DocDate;
                         StockProcessReceiveViewModel.DocNo = Header.DocNo;
                         StockProcessReceiveViewModel.DivisionId = Header.DivisionId;
                         StockProcessReceiveViewModel.SiteId = Header.SiteId;

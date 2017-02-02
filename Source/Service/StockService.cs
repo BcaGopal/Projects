@@ -823,7 +823,7 @@ namespace Service
 
                 L.StockId = StockViewModel.StockId;
                 L.DocLineId = StockViewModel.DocLineId;
-                L.DocDate = StockViewModel.StockHeaderDocDate;
+                L.DocDate = StockViewModel.StockDocDate;
                 L.ProductId = StockViewModel.ProductId;
                 L.ProcessId = StockViewModel.ProcessId;
                 L.GodownId = StockViewModel.GodownId;

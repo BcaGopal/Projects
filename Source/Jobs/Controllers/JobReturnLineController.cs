@@ -216,7 +216,7 @@ namespace Web
                             StockViewModel.DocLineId = Line.JobReceiveLineId;
                             StockViewModel.DocTypeId = Header.DocTypeId;
                             StockViewModel.StockHeaderDocDate = Header.DocDate;
-                            StockViewModel.StockDocDate = DateTime.Now.Date;
+                            StockViewModel.StockDocDate = Header.DocDate;
                             StockViewModel.DocNo = Header.DocNo;
                             StockViewModel.DivisionId = Header.DivisionId;
                             StockViewModel.SiteId = Header.SiteId;
@@ -294,7 +294,7 @@ namespace Web
                             StockProcessViewModel.DocLineId = Line.JobReceiveLineId;
                             StockProcessViewModel.DocTypeId = Header.DocTypeId;
                             StockProcessViewModel.StockHeaderDocDate = Header.DocDate;
-                            StockProcessViewModel.StockProcessDocDate = DateTime.Now.Date;
+                            StockProcessViewModel.StockProcessDocDate = Header.DocDate;
                             StockProcessViewModel.DocNo = Header.DocNo;
                             StockProcessViewModel.DivisionId = Header.DivisionId;
                             StockProcessViewModel.SiteId = Header.SiteId;
@@ -716,7 +716,7 @@ namespace Web
                                 StockViewModel.DocLineId = Line.JobReceiveLineId;
                                 StockViewModel.DocTypeId = Header.DocTypeId;
                                 StockViewModel.StockHeaderDocDate = Header.DocDate;
-                                StockViewModel.StockDocDate = DateTime.Now.Date;
+                                StockViewModel.StockDocDate = Header.DocDate;
                                 StockViewModel.DocNo = Header.DocNo;
                                 StockViewModel.DivisionId = Header.DivisionId;
                                 StockViewModel.SiteId = Header.SiteId;
@@ -794,7 +794,7 @@ namespace Web
                                 StockProcessViewModel.DocLineId = Line.JobReceiveLineId;
                                 StockProcessViewModel.DocTypeId = Header.DocTypeId;
                                 StockProcessViewModel.StockHeaderDocDate = Header.DocDate;
-                                StockProcessViewModel.StockProcessDocDate = DateTime.Now.Date;
+                                StockProcessViewModel.StockProcessDocDate = Header.DocDate;
                                 StockProcessViewModel.DocNo = Header.DocNo;
                                 StockProcessViewModel.DivisionId = Header.DivisionId;
                                 StockProcessViewModel.SiteId = Header.SiteId;
@@ -1052,7 +1052,7 @@ namespace Web
                         StockViewModel.DocLineId = Line.JobReturnLineId;
                         StockViewModel.DocTypeId = Header.DocTypeId;
                         StockViewModel.StockHeaderDocDate = Header.DocDate;
-                        StockViewModel.StockDocDate = DateTime.Now.Date;
+                        StockViewModel.StockDocDate = Header.DocDate;
                         StockViewModel.DocNo = Header.DocNo;
                         StockViewModel.DivisionId = Header.DivisionId;
                         StockViewModel.SiteId = Header.SiteId;
@@ -1122,7 +1122,7 @@ namespace Web
                         StockProcessViewModel.DocLineId = Line.JobReturnLineId;
                         StockProcessViewModel.DocTypeId = Header.DocTypeId;
                         StockProcessViewModel.StockHeaderDocDate = Header.DocDate;
-                        StockProcessViewModel.StockProcessDocDate = DateTime.Now.Date;
+                        StockProcessViewModel.StockProcessDocDate = Header.DocDate;
                         StockProcessViewModel.DocNo = Header.DocNo;
                         StockProcessViewModel.DivisionId = Header.DivisionId;
                         StockProcessViewModel.SiteId = Header.SiteId;
@@ -1360,7 +1360,7 @@ namespace Web
                         StockViewModel.DocLineId = Line.JobReceiveLineId;
                         StockViewModel.DocTypeId = Header.DocTypeId;
                         StockViewModel.StockHeaderDocDate = Header.DocDate;
-                        StockViewModel.StockDocDate = Line.CreatedDate.Date;
+                        StockViewModel.StockDocDate = Header.DocDate;
                         StockViewModel.DocNo = Header.DocNo;
                         StockViewModel.DivisionId = Header.DivisionId;
                         StockViewModel.SiteId = Header.SiteId;
@@ -1409,7 +1409,7 @@ namespace Web
                         StockProcessViewModel.DocLineId = Line.JobReceiveLineId;
                         StockProcessViewModel.DocTypeId = Header.DocTypeId;
                         StockProcessViewModel.StockHeaderDocDate = Header.DocDate;
-                        StockProcessViewModel.StockProcessDocDate = Line.CreatedDate.Date;
+                        StockProcessViewModel.StockProcessDocDate = Header.DocDate;
                         StockProcessViewModel.DocNo = Header.DocNo;
                         StockProcessViewModel.DivisionId = Header.DivisionId;
                         StockProcessViewModel.SiteId = Header.SiteId;

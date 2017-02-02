@@ -944,7 +944,7 @@ namespace Service
                 }
 
                 L.StockProcessId = StockProcessViewModel.StockProcessId;
-                L.DocDate = StockProcessViewModel.StockHeaderDocDate;
+                L.DocDate = StockProcessViewModel.StockProcessDocDate;
                 L.ProductId = StockProcessViewModel.ProductId;
                 L.ProcessId = StockProcessViewModel.ProcessId;
                 L.GodownId = StockProcessViewModel.GodownId;

@@ -160,7 +160,7 @@ namespace Web
                         StockViewModel.DocLineId = Dl.SaleDispatchLineId;
                         StockViewModel.DocTypeId = Dh.DocTypeId;
                         StockViewModel.StockHeaderDocDate = Dh.DocDate;
-                        StockViewModel.StockDocDate = DateTime.Now.Date;
+                        StockViewModel.StockDocDate = Dh.DocDate;
                         StockViewModel.DocNo = Dh.DocNo;
                         StockViewModel.DivisionId = Dh.DivisionId;
                         StockViewModel.SiteId = Dh.SiteId;
@@ -463,7 +463,7 @@ namespace Web
                     StockViewModel.DocLineId = Dl.SaleDispatchLineId;
                     StockViewModel.DocTypeId = Dh.DocTypeId;
                     StockViewModel.StockHeaderDocDate = Dh.DocDate;
-                    StockViewModel.StockDocDate = DateTime.Now.Date;
+                    StockViewModel.StockDocDate = Dh.DocDate;
                     StockViewModel.DocNo = Dh.DocNo;
                     StockViewModel.DivisionId = Dh.DivisionId;
                     StockViewModel.SiteId = Dh.SiteId;
@@ -613,7 +613,7 @@ namespace Web
                         StockViewModel.DocLineId = Dl.SaleDispatchLineId;
                         StockViewModel.DocTypeId = Dh.DocTypeId;
                         StockViewModel.StockHeaderDocDate = Dh.DocDate;
-                        StockViewModel.StockDocDate = Dl.CreatedDate.Date;
+                        StockViewModel.StockDocDate = Dh.DocDate;
                         StockViewModel.DocNo = Dh.DocNo;
                         StockViewModel.DivisionId = Dh.DivisionId;
                         StockViewModel.SiteId = Dh.SiteId;

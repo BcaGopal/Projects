@@ -158,7 +158,7 @@ namespace Web
                     StockViewModel_Issue.DocLineId = s.StockLineId;
                     StockViewModel_Issue.DocTypeId = temp.DocTypeId;
                     StockViewModel_Issue.StockHeaderDocDate = temp.DocDate;
-                    StockViewModel_Issue.StockDocDate = DateTime.Now.Date;
+                    StockViewModel_Issue.StockDocDate = temp.DocDate;
                     StockViewModel_Issue.DocNo = temp.DocNo;
                     StockViewModel_Issue.DivisionId = temp.DivisionId;
                     StockViewModel_Issue.SiteId = temp.SiteId;
@@ -208,7 +208,7 @@ namespace Web
                     StockViewModel_Receive.DocLineId = s.StockLineId;
                     StockViewModel_Receive.DocTypeId = temp.DocTypeId;
                     StockViewModel_Receive.StockHeaderDocDate = temp.DocDate;
-                    StockViewModel_Receive.StockDocDate = DateTime.Now.Date;
+                    StockViewModel_Receive.StockDocDate = temp.DocDate;
                     StockViewModel_Receive.DocNo = temp.DocNo;
                     StockViewModel_Receive.DivisionId = temp.DivisionId;
                     StockViewModel_Receive.SiteId = temp.SiteId;
@@ -400,7 +400,7 @@ namespace Web
                         StockViewModel_Issue.DocLineId = templine.StockLineId;
                         StockViewModel_Issue.DocTypeId = temp.DocTypeId;
                         StockViewModel_Issue.StockHeaderDocDate = temp.DocDate;
-                        StockViewModel_Issue.StockDocDate = templine.CreatedDate.Date;
+                        StockViewModel_Issue.StockDocDate = temp.DocDate;
                         StockViewModel_Issue.DocNo = temp.DocNo;
                         StockViewModel_Issue.DivisionId = temp.DivisionId;
                         StockViewModel_Issue.SiteId = temp.SiteId;
@@ -451,7 +451,7 @@ namespace Web
                         StockViewModel_Receive.DocLineId = s.StockLineId;
                         StockViewModel_Receive.DocTypeId = temp.DocTypeId;
                         StockViewModel_Receive.StockHeaderDocDate = temp.DocDate;
-                        StockViewModel_Receive.StockDocDate = DateTime.Now.Date;
+                        StockViewModel_Receive.StockDocDate = temp.DocDate;
                         StockViewModel_Receive.DocNo = temp.DocNo;
                         StockViewModel_Receive.DivisionId = temp.DivisionId;
                         StockViewModel_Receive.SiteId = temp.SiteId;

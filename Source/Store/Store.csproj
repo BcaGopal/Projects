@@ -249,7 +249,7 @@
     <Compile Include="Controllers\PersonController.cs" />
     <Compile Include="Controllers\PersonProcessController.cs" />
     <Compile Include="Controllers\ProductTypeSettingsController.cs" />
-    <Compile Include="Controllers\MachineMasterController.cs" />
+    <Compile Include="Controllers\MachineController.cs" />
     <Compile Include="Controllers\QAGroupLineController.cs" />
     <Compile Include="Controllers\QAGroupController.cs" />
     <Compile Include="Controllers\GatePassHeaderController.cs" />

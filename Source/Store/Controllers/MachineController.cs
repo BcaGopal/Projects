@@ -18,14 +18,14 @@ using System.Xml.Linq;
 namespace Web
 {
     [Authorize]
-    public class MachineMasterController : System.Web.Mvc.Controller
+    public class MachineController : System.Web.Mvc.Controller
     {
           private ApplicationDbContext db = new ApplicationDbContext();
         ActiivtyLogViewModel LogVm = new ActiivtyLogViewModel();
         IProductUidService _ProductUidService;
           IUnitOfWork _unitOfWork;
           IExceptionHandlingService _exception;
-          public MachineMasterController(IProductUidService ProductUidService, IUnitOfWork unitOfWork, IExceptionHandlingService exec)
+          public MachineController(IProductUidService ProductUidService, IUnitOfWork unitOfWork, IExceptionHandlingService exec)
           {
               _ProductUidService = ProductUidService;
               _unitOfWork = unitOfWork;
