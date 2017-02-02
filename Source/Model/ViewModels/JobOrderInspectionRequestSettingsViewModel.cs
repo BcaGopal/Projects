@@ -25,6 +25,7 @@ namespace Model.ViewModels
         public string filterContraDocTypes { get; set; }
         public string filterContraSites { get; set; }
         public string filterContraDivisions { get; set; }
+        public string filterPersonRoles { get; set; }
        
         [MaxLength(100)]
         public string DocumentPrint { get; set; }

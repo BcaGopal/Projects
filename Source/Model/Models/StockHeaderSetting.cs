@@ -79,6 +79,7 @@ namespace Model.Models
         public string filterProducts { get; set; }
         public string filterContraProductDivisions { get; set; }
         public string filterContraDocTypes { get; set; }
+        public string filterPersonRoles { get; set; }
 
         public bool? isVisibleWeight { get; set; }
         public string WeightCaption { get; set; }

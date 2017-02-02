@@ -250,6 +250,7 @@ namespace Data.Models
         public DbSet<LedgerAccount> LedgerAccount { get; set; }
         public DbSet<BusinessEntity> BusinessEntity { get; set; }
         public DbSet<Person> Persons { get; set; }
+        public DbSet<PersonRole> PersonRole { get; set; }
         public DbSet<PersonContact> PersonContacts { get; set; }
         public DbSet<PersonContactType> PersonContactType { get; set; }
         public DbSet<PersonAddress> PersonAddress { get; set; }

@@ -27,7 +27,7 @@
           </QueryParameter>
         </QueryParameters>
         <CommandType>StoredProcedure</CommandType>
-        <CommandText>Web.spRep_HisabOfPurja</CommandText>
+        <CommandText>Web.Rug_HisabOfPurja</CommandText>
       </Query>
       <Fields>
         <Field Name="CostCenterId">
@@ -100,6 +100,10 @@
         </Field>
         <Field Name="Size">
           <DataField>Size</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Quality">
+          <DataField>Quality</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="RecPcs">

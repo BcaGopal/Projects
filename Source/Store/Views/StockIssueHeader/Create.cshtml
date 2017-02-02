@@ -476,7 +476,8 @@
         }
 
         //CustomSelectFunction($("#ProcessId"), '/ComboHelpList/GetProcess', '/ComboHelpList/SetSingleProcess', ' ', false, 1);
-        CustomSelectFunction($("#PersonId"), '/ComboHelpList/GetPersonWithProcess', '/ComboHelpList/SetSinglePerson', ' ', false, 1,'@Model.StockHeaderSettings.ProcessId');
+        //CustomSelectFunction($("#PersonId"), '/ComboHelpList/GetPersonWithProcess', '/ComboHelpList/SetSinglePerson', ' ', false, 1,'@Model.StockHeaderSettings.ProcessId');
+        CustomSelectFunction($("#PersonId"), '/StockIssueHeader/GetCustomPerson', '/ComboHelpList/SetSinglePerson', ' ', false, 1,$('#DocTypeId').val());
         CustomSelectFunction($("#GodownId"), '/ComboHelpList/GetGodown', '/ComboHelpList/SetSingleGodown', ' ', false, 1);
         CustomSelectFunction($("#CostCenterId"), '/ComboHelpList/GetCostCenter', '/ComboHelpList/SetSingleCostCenter', ' ', false, 1);
         CustomSelectFunction($("#MachineId"), '/ComboHelpList/GetMachine', '/ComboHelpList/SetSingleMachine', ' ', false, 1);

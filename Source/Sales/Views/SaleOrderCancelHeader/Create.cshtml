@@ -310,7 +310,8 @@
 <script type="text/javascript">
 
     $(document).ready(function () {
-        CustomSelectFunction($("#BuyerId"), '/ComboHelpList/GetBuyers', '/ComboHelpList/SetSingleBuyer', ' ', false, 1);
+        //CustomSelectFunction($("#BuyerId"), '/ComboHelpList/GetBuyers', '/ComboHelpList/SetSingleBuyer', ' ', false, 1);
+        CustomSelectFunction($("#BuyerId"), '/SaleOrderCancelHeader/GetCustomPerson', '/ComboHelpList/SetSinglePerson', ' ', false, 1,$('#DocTypeId').val());
         //Calling the function to load the table data/ Line information
         LoadProducts();
     });

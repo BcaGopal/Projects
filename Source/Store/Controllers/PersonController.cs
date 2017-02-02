@@ -19,6 +19,7 @@ using ImageResizer;
 using System.Configuration;
 using Model.ViewModel;
 using System.Xml.Linq;
+using Presentation.Helper;
 
 namespace Web
 {
@@ -32,12 +33,13 @@ namespace Web
         IAccountService _AccountService;
         IPersonProcessService _PersonProcessService;
         IPersonRegistrationService _PersonRegistrationService;
+        IPersonRoleService _PersonRoleService;
         IUnitOfWork _unitOfWork;
         IExceptionHandlingService _exception;
 
         List<string> UserRoles = new List<string>();
 
-        public PersonController(IPersonService PersonService, IBusinessEntityService BusinessEntityService, IAccountService AccountService, IPersonRegistrationService PersonRegistrationService, IPersonAddressService PersonAddressService, IPersonProcessService PersonProcessService, IUnitOfWork unitOfWork, IExceptionHandlingService exec)
+        public PersonController(IPersonService PersonService, IBusinessEntityService BusinessEntityService, IAccountService AccountService, IPersonRegistrationService PersonRegistrationService, IPersonAddressService PersonAddressService, IPersonProcessService PersonProcessService, IPersonRoleService PersonRoleService, IUnitOfWork unitOfWork, IExceptionHandlingService exec)
         {
             _PersonService = PersonService;
             _PersonAddressService = PersonAddressService;
@@ -45,6 +47,7 @@ namespace Web
             _AccountService = AccountService;
             _PersonProcessService = PersonProcessService;
             _PersonRegistrationService = PersonRegistrationService;
+            _PersonRoleService = PersonRoleService;
             _unitOfWork = unitOfWork;
             _exception = exec;
 
@@ -75,13 +78,13 @@ namespace Web
         public ActionResult NextPage(int DocId, int DocTypeId)//CurrentHeaderId
         {
             var nextId = new NextPrevIdService(_unitOfWork).GetNextPrevIdWithoutDivisionAndSite(DocId, DocTypeId, User.Identity.Name, "", "Web.People", "PersonID", PrevNextConstants.Next);
-            return Edit(nextId);
+            return Edit(nextId, DocTypeId);
         }
         [HttpGet]
         public ActionResult PrevPage(int DocId, int DocTypeId)//CurrentHeaderId
         {
             var PrevId = new NextPrevIdService(_unitOfWork).GetNextPrevIdWithoutDivisionAndSite(DocId, DocTypeId, User.Identity.Name, "", "Web.People", "PersonID", PrevNextConstants.Prev);
-            return Edit(PrevId);
+            return Edit(PrevId, DocTypeId);
         }
 
         [HttpGet]
@@ -307,6 +310,16 @@ namespace Web
                         personprocess.ObjectState = Model.ObjectState.Added;
                         _PersonProcessService.Create(personprocess);
                     }
+
+                    PersonRole personrole = new PersonRole();
+                    personrole.PersonId = person.PersonID;
+                    personrole.RoleDocTypeId = person.DocTypeId;
+                    personrole.CreatedDate = DateTime.Now;
+                    personrole.ModifiedDate = DateTime.Now;
+                    personrole.CreatedBy = User.Identity.Name;
+                    personrole.ModifiedBy = User.Identity.Name;
+                    personrole.ObjectState = Model.ObjectState.Added;
+                    _PersonRoleService.Create(personrole);
 
                     //if (PersonVm.ProcessIds != null &&  PersonVm.ProcessIds != "")
                     //{
@@ -664,7 +677,7 @@ namespace Web
 
                     LogActivity.LogActivityDetail(new ActiivtyLogViewModel
                     {
-                        DocTypeId = new DocumentTypeService(_unitOfWork).FindByName(MasterDocCategoryConstants.Person).DocumentTypeId,
+                        DocTypeId = PersonVm.DocTypeId,
                         DocId = PersonVm.PersonID,
                         ActivityType = (int)ActivityTypeContants.Modified,                       
                         DocNo = PersonVm.Name,
@@ -797,20 +810,21 @@ namespace Web
         }
 
 
-        public ActionResult Edit(int id)
+        public ActionResult Edit(int id, int DocTypeId)
         {
             PersonViewModel bvm = _PersonService.GetPersonViewModelForEdit(id);
-            PrepareViewBag(bvm.DocTypeId);
+            bvm.DocTypeId = DocTypeId;
+            PrepareViewBag(DocTypeId);
             if (bvm == null)
             {
                 return HttpNotFound();
             }
 
-            var settings = new PersonSettingsService(_unitOfWork).GetPersonSettingsForDocument(bvm.DocTypeId);
+            var settings = new PersonSettingsService(_unitOfWork).GetPersonSettingsForDocument(DocTypeId);
 
             if (settings == null && UserRoles.Contains("Admin"))
             {
-                return RedirectToAction("Create", "PersonSettings", new { id = bvm.DocTypeId }).Warning("Please create Person settings");
+                return RedirectToAction("Create", "PersonSettings", new { id = DocTypeId }).Warning("Please create Person settings");
             }
             else if (settings == null && !UserRoles.Contains("Admin"))
             {
@@ -888,6 +902,14 @@ namespace Web
                     new PersonContactService(_unitOfWork).Delete(item.PersonContactID);
                 }
 
+
+                IEnumerable<PersonRole> personRole = new PersonRoleService(_unitOfWork).GetPersonRoleIdListByPersonId(vm.id);
+                //Mark ObjectState.Delete to all the Person Role For Above Person. 
+                foreach (PersonRole item in personRole)
+                {
+                    new PersonRoleService(_unitOfWork).Delete(item.PersonRoleId);
+                }
+
                 IEnumerable<PersonBankAccount> personbankaccount = new PersonBankAccountService(_unitOfWork).GetPersonBankAccountIdListByPersonId(vm.id);
                 //Mark ObjectState.Delete to all the Person Contact For Above Person. 
                 foreach (PersonBankAccount item in personbankaccount)
@@ -957,17 +979,25 @@ namespace Web
         }
 
         [HttpGet]
-        public ActionResult AddToExisting()
+        public ActionResult AddToExisting(int id)//DocTypeId
         {
-            return PartialView("AddToExisting");
+            AddToExistingContactViewModel vm = new AddToExistingContactViewModel();
+            vm.DocTypeId = id;
+            return PartialView("AddToExisting", vm);
         }
 
         [HttpPost]
         public ActionResult AddToExisting(AddToExistingContactViewModel svm)
         {
-            Person Person = new Person();
-            Person.PersonID = svm.PersonId;
-            _PersonService.Create(Person);
+            PersonRole PersonRole = new PersonRole();
+            PersonRole.PersonId = svm.PersonId;
+            PersonRole.RoleDocTypeId = svm.DocTypeId;
+            PersonRole.CreatedDate = DateTime.Now;
+            PersonRole.ModifiedDate = DateTime.Now;
+            PersonRole.CreatedBy = User.Identity.Name;
+            PersonRole.ModifiedBy = User.Identity.Name;
+            PersonRole.ObjectState = Model.ObjectState.Added;
+            _PersonRoleService.Create(PersonRole);
 
             try
             {
@@ -984,13 +1014,41 @@ namespace Web
 
             return Json(new { success = true });
         }
+       
+       [HttpGet]
+        public ActionResult ChooseContactType(int id)//DocTypeId
+        {
+            PrepareViewBag(id);
+            return PartialView("ChooseContactType");
+        }
 
-        //[HttpGet]
-        //public ActionResult ChooseContactType(int id)//DocTypeId
-        //{
-        //    PrepareViewBag(id);
-        //    return PartialView("ChooseContactType");
-        //}
+       public JsonResult GetCustom(string searchTerm, int pageSize, int pageNum, int filter)
+       {
+           var Query = (from p in db.Persons
+                        join Pr in db.PersonRole on p.PersonID equals Pr.PersonId into PersonRoleTable from PersonRoleTab in PersonRoleTable.DefaultIfEmpty()
+                        where (string.IsNullOrEmpty(searchTerm) ? 1 == 1 : (p.Name.ToLower().Contains(searchTerm.ToLower())))
+                        && PersonRoleTab.RoleDocTypeId != filter
+                        orderby p.Name
+                        select new ComboBoxResult
+                        {
+                            text = p.Name ,
+                            id = p.PersonID.ToString(),
+                        });
+
+           var temp = Query.Skip(pageSize * (pageNum - 1)).Take(pageSize).ToList();
+
+           var count = Query.Count();
+
+           ComboBoxPagedResult Data = new ComboBoxPagedResult();
+           Data.Results = temp;
+           Data.Total = count;
+
+           return new JsonpResult
+           {
+               Data = Data,
+               JsonRequestBehavior = JsonRequestBehavior.AllowGet
+           };
+       }
        
     }
 }

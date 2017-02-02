@@ -58,6 +58,7 @@ namespace Model.ViewModel
         public string filterContraDocTypes { get; set; }
         public string filterContraSites { get; set; }
         public string filterContraDivisions { get; set; }
+        public string filterPersonRoles { get; set; }
         public int? ProcessId { get; set; }
         public int? LineRoundOff { get; set; }
         public string WeightCaption { get; set; }

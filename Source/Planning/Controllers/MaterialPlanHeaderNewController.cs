@@ -495,6 +495,26 @@ namespace Presentation
 
                 var materialplanline = new MaterialPlanLineService(_unitOfWork).GetMaterialPlanForDelete(vm.id).ToList();
 
+                //var MAterialPlanForProdOrderLine = new MaterialPlanForProdOrderLineService(_unitOfWork).GetMAterialPlanForProdORderForMaterialPlan(item.MaterialPlanLineId).ToList();
+                var MAterialPlanForProdOrderLine = (from L in db.MaterialPlanForProdOrderLine
+                                                    join H in db.MaterialPlanForProdOrder on L.MaterialPlanForProdOrderId equals H.MaterialPlanForProdOrderId into MaterialPlanForProdOrderTable
+                                                    from MaterialPlanForProdOrderTab in MaterialPlanForProdOrderTable.DefaultIfEmpty()
+                                                    where MaterialPlanForProdOrderTab.MaterialPlanHeaderId == vm.id
+                                                    select L).ToList();
+                foreach (var item2 in MAterialPlanForProdOrderLine)
+                {
+
+                    LogList.Add(new LogTypeViewModel
+                    {
+                        ExObj = item2,
+                    });
+
+                    item2.ObjectState = Model.ObjectState.Deleted;
+                    //new MaterialPlanForProdOrderLineService(_unitOfWork).Delete(item2.MaterialPlanForProdOrderLineId);
+                    db.MaterialPlanForProdOrderLine.Attach(item2);
+                    db.MaterialPlanForProdOrderLine.Remove(item2);
+                }
+
                 foreach (var item in materialplanline)
                 {
                     //Deleting ProdOrderLines & HEaders
@@ -559,20 +579,20 @@ namespace Presentation
                     }
 
                     //Deleting MaterialPlanForProdOrderLine
-                    var MAterialPlanForProdOrderLine = new MaterialPlanForProdOrderLineService(_unitOfWork).GetMAterialPlanForProdORderForMaterialPlan(item.MaterialPlanLineId).ToList();
-                    foreach (var item2 in MAterialPlanForProdOrderLine)
-                    {
+                    //var MAterialPlanForProdOrderLine = new MaterialPlanForProdOrderLineService(_unitOfWork).GetMAterialPlanForProdORderForMaterialPlan(item.MaterialPlanLineId).ToList();
+                    //foreach (var item2 in MAterialPlanForProdOrderLine)
+                    //{
 
-                        LogList.Add(new LogTypeViewModel
-                        {
-                            ExObj = item2,
-                        });
+                    //    LogList.Add(new LogTypeViewModel
+                    //    {
+                    //        ExObj = item2,
+                    //    });
 
-                        item2.ObjectState = Model.ObjectState.Deleted;
-                        //new MaterialPlanForProdOrderLineService(_unitOfWork).Delete(item2.MaterialPlanForProdOrderLineId);
-                        db.MaterialPlanForProdOrderLine.Attach(item2);
-                        db.MaterialPlanForProdOrderLine.Remove(item2);
-                    }
+                    //    item2.ObjectState = Model.ObjectState.Deleted;
+                    //    //new MaterialPlanForProdOrderLineService(_unitOfWork).Delete(item2.MaterialPlanForProdOrderLineId);
+                    //    db.MaterialPlanForProdOrderLine.Attach(item2);
+                    //    db.MaterialPlanForProdOrderLine.Remove(item2);
+                    //}
 
                     //new MaterialPlanLineService(_unitOfWork).Delete(item.MaterialPlanLineId);
 

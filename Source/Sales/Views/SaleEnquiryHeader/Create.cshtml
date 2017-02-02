@@ -599,8 +599,12 @@
     var form_clean;
     $(document).ready(function () {
 
-        CustomSelectFunction($("#BillToBuyerId"), '/ComboHelpList/GetPersonWithProcess', '/ComboHelpList/SetSinglePerson', ' ', false, 0,$('#ProcessId').val());
-        CustomSelectFunction($("#SaleToBuyerId"), '/ComboHelpList/GetPersonWithProcess', '/ComboHelpList/SetSinglePerson', ' ', false, 0,$('#ProcessId').val());
+        //CustomSelectFunction($("#BillToBuyerId"), '/ComboHelpList/GetPersonWithProcess', '/ComboHelpList/SetSinglePerson', ' ', false, 0,$('#ProcessId').val());
+        //CustomSelectFunction($("#SaleToBuyerId"), '/ComboHelpList/GetPersonWithProcess', '/ComboHelpList/SetSinglePerson', ' ', false, 0,$('#ProcessId').val());
+
+        CustomSelectFunction($("#BillToBuyerId"), '/SaleEnquiryHeader/GetCustomPerson', '/ComboHelpList/SetSinglePerson', ' ', false, 1,$('#DocTypeId').val());
+        CustomSelectFunction($("#SaleToBuyerId"), '/SaleEnquiryHeader/GetCustomPerson', '/ComboHelpList/SetSinglePerson', ' ', false, 1,$('#DocTypeId').val());
+
 
         //CustomSelectFunction($("#SaleToBuyerId"), '/ComboHelpList/GetPerson', '/ComboHelpList/SetSinglePerson', ' ', false, 0);
         //CustomSelectFunction($("#BillToBuyerId"), '/ComboHelpList/GetBuyers', '/ComboHelpList/SetSingleBuyer', ' ', false, 0);

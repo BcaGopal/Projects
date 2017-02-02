@@ -23,6 +23,7 @@ using DocumentEvents;
 using JobOrderDocumentEvents;
 using Reports.Reports;
 using Reports.Controllers;
+using Model.ViewModels;
 
 
 
@@ -2501,6 +2502,26 @@ namespace Web
             var ProgressDetail = _JobOrderHeaderService.GetLineProgressDetail(LineId);
 
             return PartialView("_LineProgress", ProgressDetail);
+        }
+
+        public ActionResult GetCustomPerson(string searchTerm, int pageSize, int pageNum, int filter)//DocTypeId
+        {
+            var Query = _JobOrderHeaderService.GetCustomPerson(filter, searchTerm);
+            var temp = Query.Skip(pageSize * (pageNum - 1))
+                .Take(pageSize)
+                .ToList();
+
+            var count = Query.Count();
+
+            ComboBoxPagedResult Data = new ComboBoxPagedResult();
+            Data.Results = temp;
+            Data.Total = count;
+
+            return new JsonpResult
+            {
+                Data = Data,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
         }
 
     }

@@ -41,6 +41,7 @@ namespace Model.Models
         public string filterProducts { get; set; }
         public string filterContraDocTypes { get; set; }
         public string filterProductTypesConsumption { get; set; }
+        public string filterPersonRoles { get; set; }
 
         [MaxLength(100)]
         public string SqlProcDocumentPrint { get; set; }

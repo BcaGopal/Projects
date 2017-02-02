@@ -37,6 +37,7 @@ namespace Model.Models
         public string filterContraDocTypes { get; set; }
         public string filterContraSites { get; set; }
         public string filterContraDivisions { get; set; }
+        public string filterPersonRoles { get; set; }
 
         [ForeignKey("DocTypePackingHeader"), Display(Name = "Production Order Type")]
         public int? DocTypePackingHeaderId { get; set; }

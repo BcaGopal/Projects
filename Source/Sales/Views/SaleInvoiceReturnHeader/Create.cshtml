@@ -613,7 +613,10 @@
 
 
 <script type="text/javascript">
-    CustomSelectFunction($("#BuyerId"), '/ComboHelpList/GetPersonWithProcess', '/ComboHelpList/SetSinglePerson', ' ', false, 0,$('#ProcessId').val());
+    //CustomSelectFunction($("#BuyerId"), '/ComboHelpList/GetPersonWithProcess', '/ComboHelpList/SetSinglePerson', ' ', false, 0,$('#ProcessId').val());
+
+    CustomSelectFunction($("#BuyerId"), '/SaleInvoiceReturnHeader/GetCustomPerson', '/ComboHelpList/SetSinglePerson', ' ', false, 1,$('#DocTypeId').val());
+
     //CustomSelectFunction($("#BuyerId"), '/ComboHelpList/GetBuyers', '/ComboHelpList/SetSingleBuyer', ' ', false, 1);
     CustomSelectFunction($("#GodownId"), '/ComboHelpList/GetGodown', '/ComboHelpList/SetSingleGodown', ' ', false, 1);
 

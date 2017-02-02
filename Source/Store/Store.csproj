@@ -246,6 +246,7 @@
     </Compile>
     <Compile Include="Controllers\PersonBankAccountController.cs" />
     <Compile Include="Controllers\PersonContactController.cs" />
+    <Compile Include="Controllers\PersonController.cs" />
     <Compile Include="Controllers\PersonProcessController.cs" />
     <Compile Include="Controllers\ProductTypeSettingsController.cs" />
     <Compile Include="Controllers\MachineMasterController.cs" />
@@ -935,6 +936,8 @@
     <Content Include="Views\MachineMaster\_Reason.cshtml" />
     <Content Include="Views\MachineMaster\Create.cshtml" />
     <Content Include="Views\MachineMaster\Index.cshtml" />
+    <Content Include="Views\Person\AddToExisting.cshtml" />
+    <Content Include="Views\Person\ChooseContactType.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -132,6 +132,7 @@ namespace Web
                     temp.filterContraDivisions = pt.filterContraDivisions;
                     temp.filterContraDocTypes = pt.filterContraDocTypes;
                     temp.filterContraSites = pt.filterContraSites;
+                    temp.filterPersonRoles = pt.filterPersonRoles;
 
                     _JobOrderInspectionSettingsService.Update(temp, User.Identity.Name);
 

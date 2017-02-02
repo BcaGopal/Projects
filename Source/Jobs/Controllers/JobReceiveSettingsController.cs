@@ -140,7 +140,8 @@ namespace Web
                     temp.filterProductGroups = pt.filterProductGroups;
                     temp.filterProducts = pt.filterProducts;
                     temp.BarcodeStatusUpdate = pt.BarcodeStatusUpdate;
-                    temp.filterProductTypes = pt.filterProductTypes;                            
+                    temp.filterProductTypes = pt.filterProductTypes;
+                    temp.filterPersonRoles = pt.filterPersonRoles;  
                     temp.isMandatoryMachine = pt.isMandatoryMachine;                                                      
                     temp.SqlProcGenProductUID = pt.SqlProcGenProductUID;
                     temp.SqlProcDocumentPrint_AfterApprove = pt.SqlProcDocumentPrint_AfterApprove;
@@ -324,6 +325,7 @@ namespace Web
                     temp.filterProductGroups = pt.filterProductGroups;
                     temp.filterProducts = pt.filterProducts;
                     temp.filterProductTypes = pt.filterProductTypes;
+                    temp.filterPersonRoles = pt.filterPersonRoles;
                     temp.IsVisibleForOrderMultiple = pt.IsVisibleForOrderMultiple;
                     temp.IsMandatoryWeight = pt.IsMandatoryWeight;
                     temp.IsVisibleWeight = pt.IsVisibleWeight;

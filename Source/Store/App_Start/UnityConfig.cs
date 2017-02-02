@@ -87,6 +87,9 @@ namespace Store.App_Start
             container.RegisterType<IRepository<PersonContact>, Repository<PersonContact>>();
             container.RegisterType<IPersonContactService, PersonContactService>(new PerRequestLifetimeManager());
 
+            container.RegisterType<IRepository<PersonRole>, Repository<PersonRole>>();
+            container.RegisterType<IPersonRoleService, PersonRoleService>(new PerRequestLifetimeManager());
+
             container.RegisterType<IRepository<PersonBankAccount>, Repository<PersonBankAccount>>();
             container.RegisterType<IPersonBankAccountService, PersonBankAccountService>(new PerRequestLifetimeManager());
 
@@ -254,6 +257,9 @@ namespace Store.App_Start
 
             Mapper.CreateMap<PersonContact, PersonContactViewModel>();
             Mapper.CreateMap<PersonContactViewModel, PersonContact>();
+
+            Mapper.CreateMap<PersonRole, PersonRoleViewModel>();
+            Mapper.CreateMap<PersonRoleViewModel, PersonRole>();
 
             Mapper.CreateMap<PersonSettings, PersonSettingsViewModel>();
             Mapper.CreateMap<PersonSettingsViewModel, PersonSettings>();

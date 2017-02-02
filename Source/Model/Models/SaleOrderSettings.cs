@@ -63,6 +63,7 @@ namespace Model.Models
         public string filterProductTypes { get; set; }
         public string filterProductGroups { get; set; }
         public string filterProducts { get; set; }
+        public string filterPersonRoles { get; set; }
 
         public bool? isPostedInStock { get; set; }
 

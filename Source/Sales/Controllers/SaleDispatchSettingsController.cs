@@ -160,7 +160,7 @@ namespace Web
                     temp.filterContraDocTypes = pt.filterContraDocTypes;
                     temp.filterContraDivisions = pt.filterContraDivisions;
                     temp.filterContraSites = pt.filterContraSites;
-
+                    temp.filterPersonRoles = pt.filterPersonRoles;
                     temp.UnitConversionForId = pt.UnitConversionForId;
                     temp.SqlProcDocumentPrint = pt.SqlProcDocumentPrint;
                     temp.SqlProcDocumentPrint_AfterApprove = pt.SqlProcDocumentPrint_AfterApprove;
@@ -308,6 +308,7 @@ namespace Web
                     temp.isVisibleProductUid = pt.isVisibleProductUid;
                     temp.filterContraDivisions = pt.filterContraDivisions;
                     temp.filterContraSites = pt.filterContraSites;
+                    temp.filterPersonRoles = pt.filterPersonRoles;
                     temp.SqlProcDocumentPrint_AfterSubmit = pt.SqlProcDocumentPrint_AfterSubmit;
                     temp.isVisibleDimension1 = pt.isVisibleDimension1;
                     temp.isVisibleDimension2 = pt.isVisibleDimension2;

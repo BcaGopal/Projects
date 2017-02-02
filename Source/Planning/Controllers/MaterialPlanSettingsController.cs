@@ -140,6 +140,7 @@ namespace Web
                     temp.filterProductTypes = pt.filterProductTypes;
                     temp.filterProductGroups = pt.filterProductGroups;
                     temp.filterProducts = pt.filterProducts;
+                    temp.filterPersonRoles = pt.filterPersonRoles;
                     temp.SqlProcDocumentPrint = pt.SqlProcDocumentPrint;
                     temp.isMandatoryProcessLine = pt.isMandatoryProcessLine;                  
                     temp.SqlProcConsumption = pt.SqlProcConsumption;                    
@@ -282,6 +283,7 @@ namespace Web
                     temp.filterProductTypes = pt.filterProductTypes;
                     temp.filterProductGroups = pt.filterProductGroups;
                     temp.filterProducts = pt.filterProducts;
+                    temp.filterPersonRoles = pt.filterPersonRoles;
                     temp.SqlProcDocumentPrint = pt.SqlProcDocumentPrint;
                     temp.isMandatoryProcessLine = pt.isMandatoryProcessLine;
                     temp.SqlProcConsumption = pt.SqlProcConsumption;

@@ -30,6 +30,7 @@ namespace Model.ViewModel
         public string filterContraDocTypes { get; set; }
         public string filterContraSites { get; set; }
         public string filterContraDivisions { get; set; }
+        public string filterPersonRoles { get; set; }
 
         [MaxLength(100)]
         public string SqlProcDocumentPrint { get; set; }
