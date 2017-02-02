@@ -318,7 +318,7 @@ namespace Web
                     temp.SqlProcGatePass = pt.SqlProcGatePass;
                     temp.SqlProcDocumentPrint = pt.SqlProcDocumentPrint;
                     temp.UnitConversionForId = pt.UnitConversionForId;
-
+                    temp.ProcessId = pt.ProcessId;
                     temp.ModifiedDate = DateTime.Now;
                     temp.ModifiedBy = User.Identity.Name;
                     temp.ObjectState = Model.ObjectState.Modified;
