@@ -235,6 +235,9 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminSetupController.cs" />
     <Compile Include="Controllers\ComboHelpListController.cs" />
+    <Compile Include="Controllers\GatePassCheckController.cs" />
+    <Compile Include="Controllers\Dimension4Controller.cs" />
+    <Compile Include="Controllers\Dimension3Controller.cs" />
     <Compile Include="Controllers\Dimension2Controller.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -904,6 +907,11 @@
     <Content Include="Views\GatePassLine\_Filters.cshtml" />
     <Content Include="Views\GatePassLine\_Index.cshtml" />
     <Content Include="Views\GatePassLine\_Results.cshtml" />
+    <Content Include="Views\GatePassCheck\_LineProgress.cshtml" />
+    <Content Include="Views\GatePassCheck\_Reason.cshtml" />
+    <Content Include="Views\GatePassCheck\Create.cshtml" />
+    <Content Include="Views\GatePassCheck\Detail.cshtml" />
+    <Content Include="Views\GatePassCheck\Index.cshtml" />
     <Content Include="Views\QAGroup\_LineProgress.cshtml" />
     <Content Include="Views\QAGroup\_Reason.cshtml" />
     <Content Include="Views\QAGroup\Create.cshtml" />

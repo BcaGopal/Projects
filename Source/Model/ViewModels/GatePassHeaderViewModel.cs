@@ -30,6 +30,7 @@ namespace Model.ViewModel
          public decimal Qty { get; set; }
         public decimal? TotalQty { get; set; }
         public string UnitId { get; set; }
+        public string UnitName { get; set; }
         public string Remark { get; set; }
 
         public string ModifiedBy { get; set; }

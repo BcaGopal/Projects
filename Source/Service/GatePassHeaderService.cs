@@ -24,7 +24,7 @@ namespace Service
         GatePassHeader Find(int id);
         IEnumerable<GatePassHeader> GetPagedList(int pageNumber, int pageSize, out int totalRecords);
         void Update(GatePassHeader pt);
-        GatePassHeader Add(GatePassHeader pt);                
+        GatePassHeader Add(GatePassHeader pt);
         Task<IEquatable<GatePassHeader>> GetAsync();
         Task<GatePassHeader> FindAsync(int id);
 
@@ -36,6 +36,8 @@ namespace Service
         IQueryable<GatePassHeaderViewModel> GetGatePassHeaderListPendingToSubmit(int DocumentTypeId, string Uname);
         IQueryable<GatePassHeaderViewModel> GetGatePassHeaderListPendingToReview(int DocumentTypeId, string Uname);
         bool CheckForDocNoExists(int GodownId, string docno, int doctypeId);
+        IEnumerable<GatePassHeaderViewModel> GetActiveGatePassesForSupplier(int SupplierId);
+        IQueryable<ComboBoxResult> GetGatePassActiveJobWorkers(string term);
     }
 
     public class GatePassHeaderService : IGatePassHeaderService
@@ -67,7 +69,7 @@ namespace Service
             pt.ObjectState = ObjectState.Added;
             _unitOfWork.Repository<GatePassHeader>().Insert(pt);
             return pt;
-        }     
+        }
 
         public void Delete(int id)
         {
@@ -89,7 +91,7 @@ namespace Service
         {
             var so = _unitOfWork.Repository<GatePassHeader>()
                 .Query()
-                .OrderBy(q => q.OrderBy(c => c.DocNo))                
+                .OrderBy(q => q.OrderBy(c => c.DocNo))
                 .GetPage(pageNumber, pageSize, out totalRecords);
 
             return so;
@@ -116,7 +118,7 @@ namespace Service
             throw new NotImplementedException();
         }
 
-        
+
 
         public IQueryable<GatePassHeaderViewModel> GetPendingGatePassList(int GodownId)
         {
@@ -164,14 +166,14 @@ namespace Service
             //                 Product=L.Product,
             //                 Qty=L.Qty,
             //                 UnitId=L.UnitId
-       
+
             //             });
 
             return (
-                from G in db.GatePassHeader               
+                from G in db.GatePassHeader
                 join P in db.Persons on G.PersonId equals P.PersonID
-                orderby G.DocNo descending,G.GatePassHeaderId descending
-                where G.GodownId== GodownId && G.Status==0
+                orderby G.DocNo descending, G.GatePassHeaderId descending
+                where G.GodownId == GodownId && G.Status == 0
                 select new GatePassHeaderViewModel
                 {
                     GatePassHeaderId = G.GatePassHeaderId,
@@ -179,27 +181,27 @@ namespace Service
                     DocDate = G.DocDate,
                     Status = G.Status,
                     Name = P.Name
-                }  
+                }
                    );
 
 
-           //return (from a in Query2
-           //              group a by a.GatePassHeaderId into g
-           //              select new 
-           //              {
-           //                  GatePassHeaderId = g.Key,
-           //                  DocNo=g.Max(x=>x.DocNo),
-           //                  DocDate = g.Max(x => x.DocDate),
-           //                  Status = g.Max(x => x.Status),
-                             //Remark = string.Join(",", g.Select(x => x.Product + " ( " + x.Qty + x.UnitId + " ) ")),
-                         //    Product=g.Select(x=>x.Product),
-                         //    Qty=g.Select(x=>x.Qty),
-                         //    UnitId=g.Select(x=>x.UnitId),
-                         //});
+            //return (from a in Query2
+            //              group a by a.GatePassHeaderId into g
+            //              select new 
+            //              {
+            //                  GatePassHeaderId = g.Key,
+            //                  DocNo=g.Max(x=>x.DocNo),
+            //                  DocDate = g.Max(x => x.DocDate),
+            //                  Status = g.Max(x => x.Status),
+            //Remark = string.Join(",", g.Select(x => x.Product + " ( " + x.Qty + x.UnitId + " ) ")),
+            //    Product=g.Select(x=>x.Product),
+            //    Qty=g.Select(x=>x.Qty),
+            //    UnitId=g.Select(x=>x.UnitId),
+            //});
 
 
-            
-           
+
+
 
 
             //var Test = (from G in db.GatePassHeader
@@ -268,21 +270,21 @@ namespace Service
                     where p.DocTypeId == DocumentTypeId && p.DivisionId == DivisionId && p.SiteId == SiteId
                     select new GatePassHeaderViewModel
                     {
-                        DocTypeName = dt.DocumentTypeName,                       
+                        DocTypeName = dt.DocumentTypeName,
                         Name = t.Name + "," + t.Suffix,
                         DocDate = p.DocDate,
-                        DocNo = p.DocNo,                       
+                        DocNo = p.DocNo,
                         Remark = p.Remark,
                         Status = p.Status,
                         GatePassHeaderId = p.GatePassHeaderId,
                         ModifiedBy = p.ModifiedBy,
                         ReviewCount = p.ReviewCount,
-                        GodownName =G.GodownName,
+                        GodownName = G.GodownName,
                         ReviewBy = p.ReviewBy,
-                        Reviewed = (SqlFunctions.CharIndex(Uname, p.ReviewBy) > 0),  
-                        OrderById=p.OrderById,                      
+                        Reviewed = (SqlFunctions.CharIndex(Uname, p.ReviewBy) > 0),
+                        OrderById = p.OrderById,
                         TotalQty = p.GatePassLines.Sum(m => m.Qty),
-                        DecimalPlaces = (from o in p.GatePassLines                                        
+                        DecimalPlaces = (from o in p.GatePassLines
                                          join u in db.Units on o.UnitId equals u.UnitId
                                          select u.DecimalPlaces).Max(),
                     });
@@ -333,7 +335,7 @@ namespace Service
                         SiteId = p.SiteId,
                         ModifiedBy = p.ModifiedBy,
                         CreatedDate = p.CreatedDate,
-                        OrderById=p.OrderById,
+                        OrderById = p.OrderById,
                     }
                         ).FirstOrDefault();
         }
@@ -343,7 +345,7 @@ namespace Service
             var GateId = (from G in db.Godown where G.GodownId == GodownId select G.GateId).FirstOrDefault();
             var temp = (from p in db.GatePassHeader
                         join G in db.Godown on p.GodownId equals G.GodownId
-                        where p.DocNo == docno && p.DocTypeId== doctypeId && G.GateId ==GateId
+                        where p.DocNo == docno && p.DocTypeId == doctypeId && G.GateId == GateId
                         select p).FirstOrDefault();
             if (temp == null)
                 return false;
@@ -361,5 +363,41 @@ namespace Service
             else
                 return true;
         }
+
+        public IEnumerable<GatePassHeaderViewModel> GetActiveGatePassesForSupplier(int SupplierId)
+        {
+            return (from p in db.GatePassHeader
+                    where p.PersonId == SupplierId && p.Status == (int)StatusConstants.Drafted
+                    select new GatePassHeaderViewModel
+                    {
+                        Name = p.Person.Name,
+                        DocNo = p.DocNo,
+                        Product = p.GatePassLines.Max(m => m.Product),
+                        Qty = p.GatePassLines.Sum(m => m.Qty),
+                        UnitName = p.GatePassLines.Max(m => m.Unit.UnitName),
+                        GatePassHeaderId = p.GatePassHeaderId,
+                    }).Take(10).ToList();
+        }
+
+        public IQueryable<ComboBoxResult> GetGatePassActiveJobWorkers(string term)
+        {
+
+            var list = (from jw in db.JobWorker
+                        join p in db.Persons on jw.PersonID equals p.PersonID
+                        join gp in db.GatePassHeader on p.PersonID equals gp.PersonId                        
+                        where gp.Status == (int)StatusConstants.Drafted                        
+                        && (string.IsNullOrEmpty(term) ? 1 == 1 : (p.Name.ToLower().Contains(term.ToLower())))
+                        group p by jw.PersonID into pg 
+                        orderby pg.FirstOrDefault().Name
+                        select new ComboBoxResult
+                        {
+                            id = pg.FirstOrDefault().PersonID.ToString(),
+                            text = pg.FirstOrDefault().Name
+                        }
+              );
+
+            return list;
+        }
+
     }
 }
