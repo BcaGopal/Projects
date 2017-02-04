@@ -238,7 +238,7 @@ namespace Web
             p.CreatedDate = DateTime.Now;
             p.DivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
             p.SiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
-            SaleEnquirySettings temp = new SaleEnquirySettingsService(_unitOfWork).GetSaleEnquirySettings(id, p.DivisionId, p.SiteId);
+            SaleEnquirySettings temp = new SaleEnquirySettingsService(_unitOfWork).GetSaleEnquirySettingsForDucument(id, p.DivisionId, p.SiteId);
             if (temp != null)
             {
                 p.DocTypeId = id;
@@ -497,7 +497,7 @@ namespace Web
             PrepareViewBag(svm);
             ViewBag.Mode = "Edit";
 
-            SaleEnquirySettings temp = new SaleEnquirySettingsService(_unitOfWork).GetSaleEnquirySettings(s.DocTypeId, s.DivisionId, s.SiteId);
+            SaleEnquirySettings temp = new SaleEnquirySettingsService(_unitOfWork).GetSaleEnquirySettingsForDucument(s.DocTypeId, s.DivisionId, s.SiteId);
             svm.SaleEnquirySettings = Mapper.Map<SaleEnquirySettings, SaleEnquirySettingsViewModel>(temp);
             svm.ProcessId = temp.ProcessId;
 
@@ -533,7 +533,7 @@ namespace Web
             SaleEnquiryHeaderIndexViewModel svm = Mapper.Map<SaleEnquiryHeader, SaleEnquiryHeaderIndexViewModel>(s);
 
 
-            var settings = new SaleEnquirySettingsService(_unitOfWork).GetSaleEnquirySettings(s.DocTypeId, s.DivisionId , s.SiteId);
+            var settings = new SaleEnquirySettingsService(_unitOfWork).GetSaleEnquirySettingsForDucument(s.DocTypeId, s.DivisionId, s.SiteId);
             svm.SaleEnquirySettings = Mapper.Map<SaleEnquirySettings, SaleEnquirySettingsViewModel>(settings);
 
 
@@ -875,7 +875,7 @@ namespace Web
                 int DivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
 
 
-                var Settings = new SaleEnquirySettingsService (_unitOfWork).GetSaleEnquirySettings(DocTypeId, DivisionId, SiteId);
+                var Settings = new SaleEnquirySettingsService(_unitOfWork).GetSaleEnquirySettingsForDucument(DocTypeId, DivisionId, SiteId);
                 try
                 {
 
@@ -949,7 +949,7 @@ namespace Web
             int DivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
             int SiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
 
-            var settings = new SaleEnquirySettingsService(_unitOfWork).GetSaleEnquirySettings(id, DivisionId, SiteId);
+            var settings = new SaleEnquirySettingsService(_unitOfWork).GetSaleEnquirySettingsForDucument(id, DivisionId, SiteId);
 
             if (settings != null)
             {
@@ -978,7 +978,7 @@ namespace Web
         public void CreateSaleOrder(int SaleEnquiryHeaderId)
         {
             SaleEnquiryHeader EnquiryHeader = _SaleEnquiryHeaderService.Find(SaleEnquiryHeaderId);
-            SaleEnquirySettings Settings = new SaleEnquirySettingsService(_unitOfWork).GetSaleEnquirySettings(EnquiryHeader.DocTypeId, EnquiryHeader.DivisionId, EnquiryHeader.SiteId);
+            SaleEnquirySettings Settings = new SaleEnquirySettingsService(_unitOfWork).GetSaleEnquirySettingsForDucument(EnquiryHeader.DocTypeId, EnquiryHeader.DivisionId, EnquiryHeader.SiteId);
 
             SaleOrderHeader OrderHeader = new SaleOrderHeader();
 
@@ -1046,5 +1046,26 @@ namespace Web
                 new SaleEnquiryLineService(_unitOfWork).Update(Line);
             }
         }
+
+        public ActionResult GetCustomPerson(string searchTerm, int pageSize, int pageNum, int filter)//DocTypeId
+        {
+            var Query = _SaleEnquiryHeaderService.GetCustomPerson(filter, searchTerm);
+            var temp = Query.Skip(pageSize * (pageNum - 1))
+                .Take(pageSize)
+                .ToList();
+
+            var count = Query.Count();
+
+            ComboBoxPagedResult Data = new ComboBoxPagedResult();
+            Data.Results = temp;
+            Data.Total = count;
+
+            return new JsonpResult
+            {
+                Data = Data,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
     }
 }

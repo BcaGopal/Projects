@@ -143,7 +143,8 @@
         //CustomSelectFunction($("#PurchaseIndentHeaderId"), '/ComboHelpList/GetPurchaseIndents', '/ComboHelpList/SetPurchaseIndents', 'Enter Indent Name', true, 1);
         CustomSelectFunction($("#Dimension1Id"), '/ComboHelpList/GetDimension1', '/ComboHelpList/SetSingleDimension1', ' ', true, 1);
         CustomSelectFunction($("#Dimension2Id"), '/ComboHelpList/GetDimension2', '/ComboHelpList/SetSingleDimension2', ' ', true, 1);
-        CustomSelectFunction($("#ProductGroupId"), '/ComboHelpList/GetProductGroup', '/ComboHelpList/SetProductGroup', ' ', true, 1);
+        //CustomSelectFunction($("#ProductGroupId"), '/ComboHelpList/GetProductGroup', '/ComboHelpList/SetProductGroup', ' ', true, 1);
+        CustomSelectFunction($("#ProductGroupId"), '/JobOrderLine/GetCustomProductGroups', '/ComboHelpList/SetProductGroup', ' ', false, 0, DocID);
         CustomSelectFunction($("#ProdOrderHeaderId"), '/JobOrderLine/GetPendingProdOrdersHelpList', '/ComboHelpList/SetProdOrders', ' ', true, 1,DocID);
     });  
    

@@ -220,6 +220,7 @@ namespace Services.Customize
                         Remark = p.Remark,
                         ModifiedBy = p.ModifiedBy,
                         CreatedDate = p.CreatedDate,
+                        UnitId=L.UnitId,
                     }
                         ).FirstOrDefault();
         }

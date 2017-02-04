@@ -83,7 +83,7 @@ namespace Web
             }
             var DivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
             var SiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
-            var settings = new SaleEnquirySettingsService(_unitOfWork).GetSaleEnquirySettings(id, DivisionId, SiteId);
+            var settings = new SaleEnquirySettingsService(_unitOfWork).GetSaleEnquirySettingsForDucument(id, DivisionId, SiteId);
 
             if (settings == null)
             {
@@ -166,6 +166,7 @@ namespace Web
                     temp.filterProductGroups = pt.filterProductGroups;
                     temp.filterProducts = pt.filterProducts;
                     temp.filterProductTypes = pt.filterProductTypes;
+                    temp.filterPersonRoles = pt.filterPersonRoles;
                     temp.CalculationId = pt.CalculationId;
                     temp.SqlProcDocumentPrint_AfterApprove = pt.SqlProcDocumentPrint_AfterApprove;
                     temp.SqlProcDocumentPrint_AfterSubmit = pt.SqlProcDocumentPrint_AfterSubmit;
@@ -248,7 +249,7 @@ namespace Web
             }
             var DivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
             var SiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
-            var settings = new SaleEnquirySettingsService(_unitOfWork).GetSaleEnquirySettings(id, DivisionId, SiteId);
+            var settings = new SaleEnquirySettingsService(_unitOfWork).GetSaleEnquirySettingsForDucument(id, DivisionId, SiteId);
 
             if (settings == null)
             {
@@ -331,6 +332,7 @@ namespace Web
                     temp.filterProductGroups = pt.filterProductGroups;
                     temp.filterProducts = pt.filterProducts;
                     temp.filterProductTypes = pt.filterProductTypes;
+                    temp.filterPersonRoles = pt.filterPersonRoles;
                     temp.CalculationId = pt.CalculationId;
                     temp.SqlProcDocumentPrint_AfterApprove = pt.SqlProcDocumentPrint_AfterApprove;
                     temp.SqlProcDocumentPrint_AfterSubmit = pt.SqlProcDocumentPrint_AfterSubmit;

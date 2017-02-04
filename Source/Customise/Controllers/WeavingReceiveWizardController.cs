@@ -407,7 +407,7 @@ namespace Web
                                             StockViewModel.DocLineId = null;
                                             StockViewModel.DocTypeId = s.DocTypeId;
                                             StockViewModel.StockHeaderDocDate = s.DocDate;
-                                            StockViewModel.StockDocDate = DateTime.Now.Date;
+                                            StockViewModel.StockDocDate = s.DocDate;
                                             StockViewModel.DocNo = s.DocNo;
                                             StockViewModel.DivisionId = s.DivisionId;
                                             StockViewModel.SiteId = s.SiteId;

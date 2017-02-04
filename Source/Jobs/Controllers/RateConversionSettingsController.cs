@@ -114,6 +114,7 @@ namespace Web
                     temp.filterProductGroups = pt.filterProductGroups;
                     temp.filterProducts = pt.filterProducts;
                     temp.filterProductTypes = pt.filterProductTypes;
+                    temp.filterPersonRoles = pt.filterPersonRoles;
                     temp.isMandatoryCostCenter = pt.isMandatoryCostCenter;
                     temp.isMandatoryMachine = pt.isMandatoryMachine;
                     temp.isMandatoryProcessLine = pt.isMandatoryProcessLine;

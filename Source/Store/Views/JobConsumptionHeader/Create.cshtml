@@ -332,7 +332,8 @@
         }
 
         //CustomSelectFunction($("#ProcessId"), '/ComboHelpList/GetProcess', '/ComboHelpList/SetSingleProcess', ' ', false, 1);
-        CustomSelectFunction($("#PersonId"), '/ComboHelpList/GetJobWorkersWithProcess', '/ComboHelpList/SetSinglePerson', ' ', false, 1,$("#ProcessId").val());
+        //CustomSelectFunction($("#PersonId"), '/ComboHelpList/GetJobWorkersWithProcess', '/ComboHelpList/SetSinglePerson', ' ', false, 1,$("#ProcessId").val());
+        CustomSelectFunction($("#PersonId"), '/JobConsumptionHeader/GetCustomPerson', '/ComboHelpList/SetSinglePerson', ' ', false, 1,$('#DocTypeId').val());
         CustomSelectFunction($("#CostCenterId"), '/ComboHelpList/GetCostCenter', '/ComboHelpList/SetSingleCostCenter', ' ', false, 1);
         CustomSelectFunction($("#MachineId"), '/ComboHelpList/GetMachine', '/ComboHelpList/SetSingleMachine', ' ', false, 1);
 

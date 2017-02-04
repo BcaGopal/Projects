@@ -527,7 +527,8 @@
 <script type="text/javascript">
 
     $(document).ready(function () {
-        CustomSelectFunction($("#JobWorkerId"), '/ComboHelpList/GetJobWorkers', '/ComboHelpList/SetSingleJobWorker', ' ', false, 1);
+        //CustomSelectFunction($("#JobWorkerId"), '/ComboHelpList/GetJobWorkers', '/ComboHelpList/SetSingleJobWorker', ' ', false, 1);
+        CustomSelectFunction($("#JobWorkerId"), '/JobInvoiceAmendmentHeader/GetCustomPerson', '/ComboHelpList/SetSingleJobWorker', ' ', false, 1,$('#DocTypeId').val());
         CustomSelectFunction($("#OrderById"), '/ComboHelpList/GetEmployees', '/ComboHelpList/SetSingleEmployee', ' ', false, 1);
         //Calling the function to load the table data/ Line information
         LoadProducts();

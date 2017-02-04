@@ -173,6 +173,7 @@ namespace Web
                     temp.isVisibleProcessLine = pt.isVisibleProcessLine;
                     temp.DueDays = pt.DueDays;
                     temp.filterContraSites = pt.filterContraSites;
+                    temp.filterPersonRoles = pt.filterPersonRoles;
                     temp.isPostedInStock = pt.isPostedInStock;
                     temp.isVisibleUncountableQty = pt.isVisibleUncountableQty;
                     temp.isVisibleLoss = pt.isVisibleLoss;
@@ -361,6 +362,7 @@ namespace Web
                     temp.DueDays = pt.DueDays;
                     temp.filterContraDivisions = pt.filterContraDivisions;
                     temp.filterContraSites = pt.filterContraSites;
+                    temp.filterPersonRoles = pt.filterPersonRoles;
                     temp.WizardMenuId = pt.WizardMenuId;
                     temp.ImportMenuId = pt.ImportMenuId;
                     temp.isPostedInStock = pt.isPostedInStock;
@@ -543,6 +545,7 @@ namespace Web
                     temp.SqlProcGenProductUID = pt.SqlProcGenProductUID;
                     temp.Perks = pt.Perks;
                     temp.filterContraDivisions = pt.filterContraDivisions;
+                    temp.filterPersonRoles = pt.filterPersonRoles;
                     temp.isVisibleFromProdOrder = pt.isVisibleFromProdOrder;
                     temp.LossQty = pt.LossQty;
                     temp.JobUnitId = pt.JobUnitId;

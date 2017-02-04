@@ -16,6 +16,7 @@
         @using (Html.BeginForm("AddToExisting", "Person", FormMethod.Post, new { @class = "modal-form", id = "modform" }))
         {
             @Html.AntiForgeryToken()
+            @Html.HiddenFor(m => m.DocTypeId)
 
             <div class="form-horizontal modal-body">
 
@@ -44,5 +45,5 @@
 
 <script type="text/javascript">
     //For Multi Selection Help
-    CustomSelectFunction($("#PersonId"), '/ComboHelpList/GetPerson', '/ComboHelpList/SetSinglePerson', ' ', false, 0);
+    CustomSelectFunction($("#PersonId"), '/Person/GetCustom', '/ComboHelpList/SetSinglePerson', ' ', false, 0, $('#DocTypeId').val());
 </script>

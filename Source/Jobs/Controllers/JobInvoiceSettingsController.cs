@@ -168,6 +168,7 @@ namespace Web
                     temp.isAutoCreateJobReceive = pt.isAutoCreateJobReceive;
                     temp.filterContraSites = pt.filterContraSites;
                     temp.filterContraDivisions = pt.filterContraDivisions;
+                    temp.filterPersonRoles = pt.filterPersonRoles;
                     temp.ImportMenuId = pt.ImportMenuId;
                     temp.WizardMenuId = pt.WizardMenuId;
                     temp.CalculationId = pt.CalculationId;
@@ -343,6 +344,7 @@ namespace Web
                     temp.isAutoCreateJobReceive = pt.isAutoCreateJobReceive;
                     temp.filterContraSites = pt.filterContraSites;
                     temp.filterContraDivisions = pt.filterContraDivisions;
+                    temp.filterPersonRoles = pt.filterPersonRoles;
                     temp.ImportMenuId = pt.ImportMenuId;
                     temp.WizardMenuId = pt.WizardMenuId;
                     temp.CalculationId = pt.CalculationId;
@@ -479,6 +481,7 @@ namespace Web
                     temp.filterProductGroups = pt.filterProductGroups;
                     temp.filterProducts = pt.filterProducts;
                     temp.filterProductTypes = pt.filterProductTypes;
+                    temp.filterPersonRoles = pt.filterPersonRoles;
                     temp.BarcodeStatusUpdate = pt.BarcodeStatusUpdate;
                     temp.isMandatoryMachine = pt.isMandatoryMachine;
                     temp.SqlProcGenProductUID = pt.SqlProcGenProductUID;
@@ -648,6 +651,7 @@ namespace Web
                     temp.filterProductGroups = pt.filterProductGroups;
                     temp.filterProducts = pt.filterProducts;
                     temp.filterProductTypes = pt.filterProductTypes;
+                    temp.filterPersonRoles = pt.filterPersonRoles;
                     temp.isMandatoryMachine = pt.isMandatoryMachine;
                     temp.SqlProcGenProductUID = pt.SqlProcGenProductUID;
                     temp.SqlProcGatePass = pt.SqlProcGatePass;

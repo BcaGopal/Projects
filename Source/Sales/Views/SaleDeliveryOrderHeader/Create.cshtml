@@ -455,7 +455,8 @@
     var form_clean;
     $(document).ready(function () {
 
-        CustomSelectFunction($("#BuyerId"), '/ComboHelpList/GetBuyers', '/ComboHelpList/SetSingleBuyer', ' ', false, 0);
+        //CustomSelectFunction($("#BuyerId"), '/ComboHelpList/GetBuyers', '/ComboHelpList/SetSingleBuyer', ' ', false, 0);
+        CustomSelectFunction($("#BuyerId"), '/SaleDeliveryOrderHeader/GetCustomPerson', '/ComboHelpList/SetSinglePerson', ' ', false, 1,$('#DocTypeId').val());
 
         //Adding Hidden Input Fields
         AddFields();

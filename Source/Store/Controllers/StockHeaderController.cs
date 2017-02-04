@@ -20,6 +20,7 @@ using CustomEventArgs;
 using StockHeaderDocumentEvents;
 using Reports.Reports;
 using Reports.Controllers;
+using Model.ViewModels;
 
 
 
@@ -1120,6 +1121,26 @@ namespace Web
         public JsonResult GetDocNo(DateTime Date, int DocTypeId, int SiteId, int DivisionId)
         {
             return Json(new DocumentTypeService(_unitOfWork).FGetNewDocNo("DocNo", ConfigurationManager.AppSettings["DataBaseSchema"] + ".StockHeaders", DocTypeId, Date, DivisionId, SiteId), JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult GetCustomPerson(string searchTerm, int pageSize, int pageNum, int filter)//DocTypeId
+        {
+            var Query = _StockHeaderService.GetCustomPerson(filter, searchTerm);
+            var temp = Query.Skip(pageSize * (pageNum - 1))
+                .Take(pageSize)
+                .ToList();
+
+            var count = Query.Count();
+
+            ComboBoxPagedResult Data = new ComboBoxPagedResult();
+            Data.Results = temp;
+            Data.Total = count;
+
+            return new JsonpResult
+            {
+                Data = Data,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
         }
 
 

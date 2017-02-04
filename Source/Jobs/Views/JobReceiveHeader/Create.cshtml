@@ -490,7 +490,8 @@
 
 
     //CustomSelectFunction($("#ProcessId"), '/ComboHelpList/GetProcess', '/ComboHelpList/SetSingleProcess', ' ', false, 1);
-    CustomSelectFunction($("#JobWorkerId"), '/ComboHelpList/GetJobWorkersWithProcess', '/ComboHelpList/SetSingleJobWorker', ' ', false, 1, $('#ProcessId').val());
+    //CustomSelectFunction($("#JobWorkerId"), '/ComboHelpList/GetJobWorkersWithProcess', '/ComboHelpList/SetSingleJobWorker', ' ', false, 1, $('#ProcessId').val());
+    CustomSelectFunction($("#JobWorkerId"), '/JobReceiveHeader/GetCustomPerson', '/ComboHelpList/SetSingleJobWorker', ' ', false, 1,$('#DocTypeId').val());
     CustomSelectFunction($("#GodownId"), '/ComboHelpList/GetGodown', '/ComboHelpList/SetSingleGodown', ' ', false, 1);
     CustomSelectFunction($("#JobReceiveById"), '/ComboHelpList/GetEmployeeWithProcess', '/ComboHelpList/SetSingleEmployee', ' ', false, 1, $('#ProcessId').val());
 

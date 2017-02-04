@@ -135,8 +135,10 @@ namespace Service
                 line.ProductId = values[1] == System.DBNull.Value ? 0 : Convert.ToInt32(values[1].ToString());
                 line.Dimension1Id = values[2] == System.DBNull.Value ? null : (int?)Convert.ToInt32(values[2].ToString());
                 line.Dimension2Id = values[3] == System.DBNull.Value ? null : (int?)Convert.ToInt32(values[3].ToString());
-                line.ProcessId = values[4] == System.DBNull.Value ? null : (int?)Convert.ToInt32(values[4].ToString());
-                line.Qty = values[5] == System.DBNull.Value ? 0 : Convert.ToDecimal(values[5].ToString());
+                line.Dimension3Id = values[4] == System.DBNull.Value ? null : (int?)Convert.ToInt32(values[4].ToString());
+                line.Dimension4Id = values[5] == System.DBNull.Value ? null : (int?)Convert.ToInt32(values[5].ToString());
+                line.ProcessId = values[6] == System.DBNull.Value ? null : (int?)Convert.ToInt32(values[6].ToString());
+                line.Qty = values[7] == System.DBNull.Value ? 0 : Convert.ToDecimal(values[7].ToString());
                 temp.Add(line);
 
             }

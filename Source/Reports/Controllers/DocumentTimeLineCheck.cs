@@ -101,6 +101,7 @@ namespace Reports.Controllers
 
                             if (Args.GatePassHeaderId.HasValue && Args.GatePassHeaderId.Value > 0)
                             {
+                                Continue = false;
                                 Msg += "Cannot modify record whose gatepass is generated. <br />";
                             }
 

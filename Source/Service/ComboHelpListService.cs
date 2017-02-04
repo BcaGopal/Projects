@@ -174,6 +174,8 @@ namespace Service
         IQueryable<ComboBoxResult> GetTdsCategory(string term);
         IQueryable<ComboBoxResult> GetSalesTaxGroupParty(string term);
         IQueryable<ComboBoxResult> GetProductHelpListWithProductNatureFilter(int ProductNatureId, string term);
+
+        IQueryable<ComboBoxResult> GetPersonRoles(string term);
         
     }
 
@@ -2552,6 +2554,23 @@ namespace Service
 
             return list;
 
+        }
+
+        public IQueryable<ComboBoxResult> GetPersonRoles(string term)
+        {
+            var list = (from D in db.DocumentType
+                        join Dc in db.DocumentCategory on D.DocumentCategoryId equals Dc.DocumentCategoryId into DocumentCategoryTable from DocumentCategoryTab in DocumentCategoryTable.DefaultIfEmpty()
+                        where DocumentCategoryTab.DocumentCategoryName == MasterDocCategoryConstants.Person
+                        && (string.IsNullOrEmpty(term) ? 1 == 1 : (D.DocumentTypeName.ToLower().Contains(term.ToLower())))
+                        orderby D.DocumentTypeName
+                        select new ComboBoxResult
+                        {
+                            id = D.DocumentTypeId.ToString(),
+                            text = D.DocumentTypeName
+                        }
+              );
+
+            return list;
         }
 
     }

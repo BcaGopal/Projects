@@ -15,6 +15,7 @@ using System.Data.Entity.SqlServer;
 using System.Data.Linq;
 using Model.DatabaseViews;
 using Model.ViewModels;
+using AutoMapper;
 
 namespace Service
 {
@@ -38,7 +39,7 @@ namespace Service
         void UpdateProdUidJobWorkers(ref ApplicationDbContext context, JobOrderHeader Header);
         string ValidateCostCenter(int DocTypeId, int HeaderId, int JobWorkerId, string CostCenterName);
         JobOrderLineProgressViewModel GetLineProgressDetail(int JobOrderLineId);
-
+        IQueryable<ComboBoxResult> GetCustomPerson(int Id, string term);
     }
     public class JobOrderHeaderService : IJobOrderHeaderService
     {
@@ -111,8 +112,10 @@ namespace Service
 
             var DivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
             var SiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
-            List<string> UserRoles = (List<string>)System.Web.HttpContext.Current.Session["Roles"];
+            List<string> UserRoles = (List<string>)System.Web.HttpContext.Current.Session["Roles"];      
 
+
+            
             return (from p in db.JobOrderHeader
                     join t in db.Persons on p.JobWorkerId equals t.PersonID
                     join dt in db.DocumentType on p.DocTypeId equals dt.DocumentTypeId
@@ -143,6 +146,9 @@ namespace Service
                                          join prod in db.Product on o.ProductId equals prod.ProductId
                                          join u in db.Units on prod.UnitId equals u.UnitId
                                          select u.DecimalPlaces).Max(),
+                       
+
+
                     });
         }
 
@@ -555,6 +561,44 @@ namespace Service
 
             return pd;
 
+        }
+
+        public IQueryable<ComboBoxResult> GetCustomPerson(int Id, string term)
+        {
+            int DocTypeId = Id;
+            int SiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
+            int DivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
+
+            var settings = new JobOrderSettingsService(_unitOfWork).GetJobOrderSettingsForDocument(DocTypeId, DivisionId, SiteId);
+
+            string[] PersonRoles = null;
+            if (!string.IsNullOrEmpty(settings.filterPersonRoles)) { PersonRoles = settings.filterPersonRoles.Split(",".ToCharArray()); }
+            else { PersonRoles = new string[] { "NA" }; }
+
+            string DivIdStr = "|" + DivisionId.ToString() + "|";
+            string SiteIdStr = "|" + SiteId.ToString() + "|";
+
+            var list = (from p in db.Persons
+                        join bus in db.BusinessEntity on p.PersonID equals bus.PersonID into BusinessEntityTable
+                        from BusinessEntityTab in BusinessEntityTable.DefaultIfEmpty()
+                        join pp in db.PersonProcess on p.PersonID equals pp.PersonId into PersonProcessTable
+                        from PersonProcessTab in PersonProcessTable.DefaultIfEmpty()
+                        join pr in db.PersonRole on p.PersonID equals pr.PersonId into PersonRoleTable from PersonRoleTab in PersonRoleTable.DefaultIfEmpty()
+                        where PersonProcessTab.ProcessId == settings.ProcessId
+                        && (string.IsNullOrEmpty(term) ? 1 == 1 : (p.Name.ToLower().Contains(term.ToLower()) || p.Code.ToLower().Contains(term.ToLower())))
+                        && (string.IsNullOrEmpty(settings.filterPersonRoles) ? 1 == 1 : PersonRoles.Contains(PersonRoleTab.RoleDocTypeId.ToString()))
+                        && BusinessEntityTab.DivisionIds.IndexOf(DivIdStr) != -1
+                        && BusinessEntityTab.SiteIds.IndexOf(SiteIdStr) != -1
+                        && (p.IsActive == null ? 1 == 1 : p.IsActive == true)
+                        orderby p.Name
+                        select new ComboBoxResult
+                        {
+                            id = p.PersonID.ToString(),
+                            text = p.Name + "|" + p.Code,
+                        }
+              );
+
+            return list;
         }
 
         public void Dispose()

@@ -700,7 +700,6 @@ namespace Web
 
                     if (group.ProductGroupName != vm.ProductGroupName)
                     {
-
                         group.ProductGroupName = vm.ProductGroupName;
                         group.ModifiedBy = User.Identity.Name;
                         group.ModifiedDate = DateTime.Now;
@@ -713,6 +712,7 @@ namespace Web
                         Dim2.ObjectState = Model.ObjectState.Modified;
                         new Dimension2Service(_unitOfWork).Update(Dim2);
 
+
                         ActivityLog grouplog = new ActivityLog()
                         {
                             ActivityType = (int)ActivityTypeContants.Modified,
@@ -723,6 +723,10 @@ namespace Web
                         };
                         new ActivityLogService(_unitOfWork).Create(grouplog);
                     }
+
+
+                    
+
 
 
                     var temp = _ProductService.GetProductListForGroup(vm.ProductGroupId);
@@ -763,8 +767,32 @@ namespace Web
                             prod.FaceContentId = vm.FaceContentId;
                             prod.StandardWeight = vm.StandardWeight;
 
-                            
 
+
+                            //if (prod.GrossWeight != vm.GrossWeight)
+                            //{
+                            //    if (vm.GrossWeight > prod.GrossWeight)
+                            //    {
+                            //        if (prod.ColourId != null)
+                            //        {
+                            //            Colour Colour = new ColourService(_unitOfWork).Find((int)prod.ColourId);
+                            //            Product BomProduct = new ProductService(_unitOfWork).Find(group.ProductGroupName.ToString().Trim() + "-" + Colour.ColourName.ToString().Trim() + "-Bom");
+                            //            if (BomProduct != null)
+                            //            {
+                            //                BomProduct.StandardWeight = vm.GrossWeight;
+                            //                _ProductService.Update(BomProduct);
+                            //            }
+                            //        }
+                            //    }
+                            //    else if (vm.GrossWeight < prod.GrossWeight)
+                            //    {
+                            //        string message = "Consumption is filled for this design.You can not change pile weight.You have to delete conumption first.";
+                            //        PrepareDivisionViewBag();
+                            //        PrepareViewBag(vm);
+                            //        ModelState.AddModelError("", message);
+                            //        return View("Create", vm);
+                            //    }
+                            //}
 
                             
                             prod.GrossWeight = vm.GrossWeight;
@@ -778,6 +806,8 @@ namespace Web
                             prod.MapType = vm.MapType;
                             prod.ObjectState = Model.ObjectState.Modified;
                             _FinishedProductService.Update(prod);
+
+
 
                             if (vm.ProductTypeAttributes != null)
                             {

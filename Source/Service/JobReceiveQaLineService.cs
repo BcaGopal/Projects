@@ -1099,7 +1099,7 @@ namespace Service
                     StockViewModel_IssQty.DocLineId = item.JobReceiveQALineId;
                     StockViewModel_IssQty.DocTypeId = Header.DocTypeId;
                     StockViewModel_IssQty.StockHeaderDocDate = Header.DocDate;
-                    StockViewModel_IssQty.StockDocDate = DateTime.Now.Date;
+                    StockViewModel_IssQty.StockDocDate = Header.DocDate;
                     StockViewModel_IssQty.DocNo = Header.DocNo;
                     StockViewModel_IssQty.DivisionId = Header.DivisionId;
                     StockViewModel_IssQty.SiteId = Header.SiteId;
@@ -1161,7 +1161,7 @@ namespace Service
                     StockViewModel_RecFailedQty.DocLineId = item.JobReceiveQALineId;
                     StockViewModel_RecFailedQty.DocTypeId = Header.DocTypeId;
                     StockViewModel_RecFailedQty.StockHeaderDocDate = Header.DocDate;
-                    StockViewModel_RecFailedQty.StockDocDate = DateTime.Now.Date;
+                    StockViewModel_RecFailedQty.StockDocDate = Header.DocDate;
                     StockViewModel_RecFailedQty.DocNo = Header.DocNo;
                     StockViewModel_RecFailedQty.DivisionId = Header.DivisionId;
                     StockViewModel_RecFailedQty.SiteId = Header.SiteId;

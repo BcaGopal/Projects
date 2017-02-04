@@ -36,6 +36,7 @@ namespace Model.ViewModel
         public string filterProductGroups { get; set; }
         public string filterProducts { get; set; }
         public string filterContraDocTypes { get; set; }
+        public string filterPersonRoles { get; set; }
 
 
 

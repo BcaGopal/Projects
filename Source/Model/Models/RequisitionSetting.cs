@@ -35,6 +35,11 @@ namespace Model.Models
         public string filterContraDocTypes { get; set; }
         public string filterContraSites { get; set; }
         public string filterContraDivisions { get; set; }
+        public string filterPersonRoles { get; set; }
+        
+        [ForeignKey("Process")]
+        public int? ProcessId { get; set; }
+        public virtual Process Process { get; set; }
 
 
         

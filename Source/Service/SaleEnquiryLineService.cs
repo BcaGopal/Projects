@@ -350,7 +350,7 @@ namespace Service
 
             var SaleEnquiry = new SaleEnquiryHeaderService(_unitOfWork).Find(Id);
 
-            var settings = new SaleEnquirySettingsService(_unitOfWork).GetSaleEnquirySettings(SaleEnquiry.DocTypeId, SaleEnquiry.DivisionId, SaleEnquiry.SiteId);
+            var settings = new SaleEnquirySettingsService(_unitOfWork).GetSaleEnquirySettingsForDucument(SaleEnquiry.DocTypeId, SaleEnquiry.DivisionId, SaleEnquiry.SiteId);
 
             string[] ProductTypes = null;
             if (!string.IsNullOrEmpty(settings.filterProductTypes)) { ProductTypes = settings.filterProductTypes.Split(",".ToCharArray()); }

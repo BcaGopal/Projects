@@ -22,6 +22,7 @@ using CustomEventArgs;
 using DocumentEvents;
 using Reports.Reports;
 using Reports.Controllers;
+using Model.ViewModels;
 
 namespace Web
 {
@@ -1723,7 +1724,25 @@ namespace Web
 
 
 
+        public ActionResult GetCustomPerson(string searchTerm, int pageSize, int pageNum, int filter)//DocTypeId
+        {
+            var Query = _JobReturnHeaderService.GetCustomPerson(filter, searchTerm);
+            var temp = Query.Skip(pageSize * (pageNum - 1))
+                .Take(pageSize)
+                .ToList();
 
+            var count = Query.Count();
+
+            ComboBoxPagedResult Data = new ComboBoxPagedResult();
+            Data.Results = temp;
+            Data.Total = count;
+
+            return new JsonpResult
+            {
+                Data = Data,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
 
         protected override void Dispose(bool disposing)
         {

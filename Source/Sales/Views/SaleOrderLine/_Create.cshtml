@@ -243,8 +243,10 @@
         var DocID = $('#SaleOrderHeaderId').val();
         CustomSelectFunction($("#ProductId"), '/SaleOrderLine/GetCustomProducts', '/ComboHelpList/SetSingleProducts', ' ', false, 1,DocID);
         //CustomSelectFunction($("#ProductId"), '/SaleInvoiceLine/GetCustomProductsForSaleDispatch', '/ComboHelpList/SetProducts', ' ', true, 1, DocID);
-        CustomSelectFunction($("#Dimension1Id"), '/ComboHelpList/GetDimension1', '/ComboHelpList/SetSingleDimension1', 'Enter Dimension1', false, 1);
-        CustomSelectFunction($("#Dimension2Id"), '/ComboHelpList/GetDimension2', '/ComboHelpList/SetSingleDimension2', 'Enter Dimension2', false, 1);
+        CustomSelectFunction($("#Dimension1Id"), '/ComboHelpList/GetDimension1', '/ComboHelpList/SetSingleDimension1', ' ', false, 1);
+        CustomSelectFunction($("#Dimension2Id"), '/ComboHelpList/GetDimension2', '/ComboHelpList/SetSingleDimension2', ' ', false, 1);
+        CustomSelectFunction($("#Dimension3Id"), '/ComboHelpList/GetDimension3', '/ComboHelpList/SetSingleDimension3', ' ', false, 1);
+        CustomSelectFunction($("#Dimension4Id"), '/ComboHelpList/GetDimension4', '/ComboHelpList/SetSingleDimension4', ' ', false, 1);
 
 
         $("#ProductId").select2("focus");

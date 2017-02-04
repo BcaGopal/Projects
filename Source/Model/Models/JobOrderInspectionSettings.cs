@@ -32,6 +32,7 @@ namespace Model.Models
         public string filterContraDocTypes { get; set; }
         public string filterContraSites { get; set; }
         public string filterContraDivisions { get; set; }
+        public string filterPersonRoles { get; set; }
 
         [ForeignKey("Process"), Display(Name = "Process")]
         public int ProcessId { get; set; }

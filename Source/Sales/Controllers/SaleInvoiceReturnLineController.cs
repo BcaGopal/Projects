@@ -188,7 +188,7 @@ namespace Web
                         StockViewModel.DocLineId = SaleDispatchLine.SaleDispatchLineId;
                         StockViewModel.DocTypeId = GoodsRetHeader.DocTypeId;
                         StockViewModel.StockHeaderDocDate = GoodsRetHeader.DocDate;
-                        StockViewModel.StockDocDate = DateTime.Now.Date;
+                        StockViewModel.StockDocDate = GoodsRetHeader.DocDate;
                         StockViewModel.DocNo = GoodsRetHeader.DocNo;
                         StockViewModel.DivisionId = GoodsRetHeader.DivisionId;
                         StockViewModel.SiteId = GoodsRetHeader.SiteId;
@@ -424,7 +424,7 @@ namespace Web
                     StockViewModel.DocLineId = Gline.SaleDispatchReturnLineId;
                     StockViewModel.DocTypeId = SaleDispatchReturnHeader.DocTypeId;
                     StockViewModel.StockHeaderDocDate = SaleDispatchReturnHeader.DocDate;
-                    StockViewModel.StockDocDate = DateTime.Now.Date;
+                    StockViewModel.StockDocDate = SaleDispatchReturnHeader.DocDate;
                     StockViewModel.DocNo = SaleDispatchReturnHeader.DocNo;
                     StockViewModel.DivisionId = SaleDispatchReturnHeader.DivisionId;
                     StockViewModel.SiteId = SaleDispatchReturnHeader.SiteId;
@@ -633,7 +633,7 @@ namespace Web
                     StockViewModel.DocLineId = GLine.SaleDispatchLineId;
                     StockViewModel.DocTypeId = SaleDispatchReturnHeader.DocTypeId;
                     StockViewModel.StockHeaderDocDate = SaleDispatchReturnHeader.DocDate;
-                    StockViewModel.StockDocDate = GLine.CreatedDate.Date;
+                    StockViewModel.StockDocDate = SaleDispatchReturnHeader.DocDate;
                     StockViewModel.DocNo = SaleDispatchReturnHeader.DocNo;
                     StockViewModel.DivisionId = SaleDispatchReturnHeader.DivisionId;
                     StockViewModel.SiteId = SaleDispatchReturnHeader.SiteId;

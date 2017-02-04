@@ -146,7 +146,7 @@ namespace Web
                         StockViewModel.DocLineId = line.StockLineId;
                         StockViewModel.DocTypeId = Header.DocTypeId;
                         StockViewModel.StockHeaderDocDate = Header.DocDate;
-                        StockViewModel.StockDocDate = DateTime.Now.Date;
+                        StockViewModel.StockDocDate = Header.DocDate;
                         StockViewModel.DocNo = Header.DocNo;
                         StockViewModel.DivisionId = Header.DivisionId;
                         StockViewModel.SiteId = Header.SiteId;
@@ -215,7 +215,7 @@ namespace Web
                             StockProcessViewModel.DocLineId = line.StockLineId;
                             StockProcessViewModel.DocTypeId = Header.DocTypeId;
                             StockProcessViewModel.StockHeaderDocDate = Header.DocDate;
-                            StockProcessViewModel.StockProcessDocDate = DateTime.Now.Date;
+                            StockProcessViewModel.StockProcessDocDate = Header.DocDate;
                             StockProcessViewModel.DocNo = Header.DocNo;
                             StockProcessViewModel.DivisionId = Header.DivisionId;
                             StockProcessViewModel.SiteId = Header.SiteId;
@@ -507,7 +507,7 @@ namespace Web
                     StockViewModel.DocLineId = s.StockLineId;
                     StockViewModel.DocTypeId = temp.DocTypeId;
                     StockViewModel.StockHeaderDocDate = temp.DocDate;
-                    StockViewModel.StockDocDate = DateTime.Now.Date;
+                    StockViewModel.StockDocDate = temp.DocDate;
                     StockViewModel.DocNo = temp.DocNo;
                     StockViewModel.DivisionId = temp.DivisionId;
                     StockViewModel.SiteId = temp.SiteId;
@@ -561,7 +561,7 @@ namespace Web
                         StockProcessViewModel.DocLineId = s.StockLineId;
                         StockProcessViewModel.DocTypeId = temp.DocTypeId;
                         StockProcessViewModel.StockHeaderDocDate = temp.DocDate;
-                        StockProcessViewModel.StockProcessDocDate = DateTime.Now.Date;
+                        StockProcessViewModel.StockProcessDocDate = temp.DocDate;
                         StockProcessViewModel.DocNo = temp.DocNo;
                         StockProcessViewModel.DivisionId = temp.DivisionId;
                         StockProcessViewModel.SiteId = temp.SiteId;
@@ -733,7 +733,7 @@ namespace Web
                         StockViewModel.DocLineId = templine.StockLineId;
                         StockViewModel.DocTypeId = temp.DocTypeId;
                         StockViewModel.StockHeaderDocDate = temp.DocDate;
-                        StockViewModel.StockDocDate = templine.CreatedDate.Date;
+                        StockViewModel.StockDocDate = temp.DocDate;
                         StockViewModel.DocNo = temp.DocNo;
                         StockViewModel.DivisionId = temp.DivisionId;
                         StockViewModel.SiteId = temp.SiteId;
@@ -788,7 +788,7 @@ namespace Web
                         StockProcessViewModel.DocLineId = templine.StockLineId;
                         StockProcessViewModel.DocTypeId = temp.DocTypeId;
                         StockProcessViewModel.StockHeaderDocDate = temp.DocDate;
-                        StockProcessViewModel.StockProcessDocDate = templine.CreatedDate.Date;
+                        StockProcessViewModel.StockProcessDocDate = temp.DocDate;
                         StockProcessViewModel.DocNo = temp.DocNo;
                         StockProcessViewModel.DivisionId = temp.DivisionId;
                         StockProcessViewModel.SiteId = temp.SiteId;

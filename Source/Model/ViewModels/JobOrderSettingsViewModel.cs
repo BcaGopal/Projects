@@ -75,6 +75,7 @@ namespace Model.ViewModel
         public string filterContraDocTypes { get; set; }
         public string filterContraSites { get; set; }
         public string filterContraDivisions { get; set; }
+        public string filterPersonRoles { get; set; }
         public int? WizardMenuId { get; set; }
         public string WizardMenuName { get; set; }
         public int? ImportMenuId { get; set; }
@@ -98,5 +99,8 @@ namespace Model.ViewModel
         public string JobUnitName { get; set; }
         public int ExcessQtyAllowedPer { get; set; }
         public int? NoOfPrintCopies { get; set; }
+
+        public string TermsAndConditions { get; set; }
+
     }
 }

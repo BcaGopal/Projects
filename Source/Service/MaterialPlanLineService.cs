@@ -118,6 +118,12 @@ namespace Service
                         Dimension1Name=p.Dimension1.Dimension1Name,
                         Dimension2Id=p.Dimension2Id,
                         Dimension2Name=p.Dimension2.Dimension2Name,
+                        Dimension3Id = p.Dimension3Id,
+                        Dimension3Name = p.Dimension3.Dimension3Name,
+                        Dimension4Id = p.Dimension4Id,
+                        Dimension4Name = p.Dimension4.Dimension4Name,
+                        ProcessId = p.ProcessId,
+                        ProcessName = p.Process.ProcessName
                     }
                         );
             

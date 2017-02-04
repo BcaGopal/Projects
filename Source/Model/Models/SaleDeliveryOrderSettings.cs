@@ -31,11 +31,15 @@ namespace Model.Models
         public bool? isVisibleDimension3 { get; set; }
         public bool? isVisibleDimension4 { get; set; }
 
-
+        public string filterPersonRoles { get; set; }
         public int SiteId { get; set; }
         public virtual Site Site { get; set; }
         public int DivisionId { get; set; }
         public virtual Division Division { get; set; }
+
+        [ForeignKey("Process")]
+        public int? ProcessId { get; set; }
+        public virtual Process Process { get; set; }
 
         
         [Display(Name = "Created By")]

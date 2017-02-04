@@ -5533,8 +5533,54 @@ namespace Web
             return Json(ReasonJson);
         }
 
+        public JsonResult GetPersonRoles(string searchTerm, int pageSize, int pageNum)
+        {
+            var Query = cbl.GetPersonRoles(searchTerm);
+            var temp = Query.Skip(pageSize * (pageNum - 1)).Take(pageSize).ToList();
 
+            var count = Query.Count();
 
+            ComboBoxPagedResult Data = new ComboBoxPagedResult();
+            Data.Results = temp;
+            Data.Total = count;
+
+            return new JsonpResult
+            {
+                Data = Data,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+        public JsonResult SetSinglePersonRole(int Ids)
+        {
+            ComboBoxResult PersonRoleJson = new ComboBoxResult();
+
+            DocumentType PersonRole = (from b in db.DocumentType
+                             where b.DocumentTypeId == Ids
+                             select b).FirstOrDefault();
+
+            PersonRoleJson.id = PersonRole.DocumentTypeId.ToString();
+            PersonRoleJson.text = PersonRole.DocumentTypeName;
+
+            return Json(PersonRoleJson);
+        }
+        public JsonResult SetPersonRole(string Ids)
+        {
+            string[] subStr = Ids.Split(',');
+            List<ComboBoxResult> ProductJson = new List<ComboBoxResult>();
+            for (int i = 0; i < subStr.Length; i++)
+            {
+                int temp = Convert.ToInt32(subStr[i]);
+                IEnumerable<DocumentType> prod = from p in db.DocumentType
+                                                 where p.DocumentTypeId == temp
+                                                 select p;
+                ProductJson.Add(new ComboBoxResult()
+                {
+                    id = prod.FirstOrDefault().DocumentTypeId.ToString(),
+                    text = prod.FirstOrDefault().DocumentTypeName
+                });
+            }
+            return Json(ProductJson);
+        }
 
         protected override void Dispose(bool disposing)
         {

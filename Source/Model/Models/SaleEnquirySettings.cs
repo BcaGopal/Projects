@@ -70,7 +70,7 @@ namespace Model.Models
         public string filterProductTypes { get; set; }
         public string filterProductGroups { get; set; }
         public string filterProducts { get; set; }
-
+        public string filterPersonRoles { get; set; }
 
         /// <summary>
         /// DocId will be passed as a parameter in specified procedure.

@@ -406,6 +406,8 @@
 
     var Isvisibledime1='@Model.MaterialPlanSettings.isVisibleDimension1';
     var Isvisibledime2='@Model.MaterialPlanSettings.isVisibleDimension2';
+    var Isvisibledime3='@Model.MaterialPlanSettings.isVisibleDimension3';
+    var Isvisibledime4='@Model.MaterialPlanSettings.isVisibleDimension4';
     var editUrl='';
 
     var DocType= '@((string)System.Web.HttpContext.Current.Session["MaterialPlanType"])';
@@ -466,9 +468,12 @@
             +"          <div class='block'  style='width:23%'>"+(item.ProductName==null?" ":"<strong>"+item.ProductName+"</strong>")
             +"              <br />"
             +               (item.Specification==null?" ":item.Specification)
+            +               (item.ProcessName==null?" ":item.ProcessName)
             +               "<p>"
             +               (item.Dimension1Name==null || Isvisibledime1=='false'?" ":item.Dimension1Name+",")
-            +               (item.Dimension2Name==null || Isvisibledime2=='false'?" ":item.Dimension2Name)
+            +               (item.Dimension2Name==null || Isvisibledime2=='false'?" ":item.Dimension2Name+",")
+            +               (item.Dimension3Name==null || Isvisibledime3=='false'?" ":item.Dimension3Name+",")
+            +               (item.Dimension4Name==null || Isvisibledime4=='false'?" ":item.Dimension4Name)
             +"              </p>"
             +"              <div>"
             +                   ((item.DueDate==null)?" ":"<span title='DueDate' class='label label-danger' style='font-weight:bold'>"+formatDate('d/m/Y',new Date(parseInt(item.DueDate.substr(6))))+"</span>")

@@ -13,6 +13,7 @@ using System.Data.SqlClient;
 using System.Configuration;
 using Model.ViewModels;
 using Planning;
+using System.Data;
 
 namespace Presentation
 {
@@ -235,6 +236,8 @@ namespace Presentation
                         planline.Dimension2Id = item.Dimension2Id;
                         planline.Dimension3Id = item.Dimension3Id;
                         planline.Dimension4Id = item.Dimension4Id;
+                        planline.ProcessId = new ProcessService(_unitOfWork).Find(ProcessConstants.Manufacturing).ProcessId;
+                        planline.ProcessName = new ProcessService(_unitOfWork).Find(ProcessConstants.Manufacturing).ProcessName;
                         planline.ProdPlanQty = item.QtySum;
                         planline.UnitName = item.unitname;
                         planline.unitDecimalPlaces = item.Fractionunits;
@@ -300,6 +303,7 @@ namespace Presentation
                         planLine.Dimension2Id = item.Dimension2Id;
                         planLine.Dimension3Id = item.Dimension3Id;
                         planLine.Dimension4Id = item.Dimension4Id;
+
                         planLine.ProdPlanQty = item.ProdPlanQty;
                         planLine.CreatedBy = User.Identity.Name;
                         planLine.CreatedDate = DateTime.Now;
@@ -383,6 +387,7 @@ namespace Presentation
                             prodOrderLine.Dimension2Id = item.Dimension2Id;
                             prodOrderLine.Dimension3Id = item.Dimension3Id;
                             prodOrderLine.Dimension4Id = item.Dimension4Id;
+                            prodOrderLine.ProcessId = item.ProcessId;
                             prodOrderLine.Sr = ProdORderSerial++;
                             prodOrderLine.Qty = item.ProdPlanQty;
                             prodOrderLine.Remark = item.Remark;
@@ -419,6 +424,7 @@ namespace Presentation
                             prodOrderLine.Dimension2Id = item.Dimension2Id;
                             prodOrderLine.Dimension3Id = item.Dimension3Id;
                             prodOrderLine.Dimension4Id = item.Dimension4Id;
+                            prodOrderLine.ProcessId = item.ProcessId;
                             prodOrderLine.Specification = item.Specification;
                             prodOrderLine.Qty = item.ProdPlanQty;
                             prodOrderLine.Sr = ProdORderSerial++;
@@ -856,7 +862,7 @@ namespace Presentation
 
 
 
-                    List<MaterialPlanLineViewModel> MSummary = new MaterialPlanForProdOrderLineService(_unitOfWork).GetMaterialPlanSummaryFromProcedure(prodorderlinefromprocedure, (string)System.Web.HttpContext.Current.Session["DefaultConnectionString"], ProcName, header.MaterialPlanHeaderId).ToList();
+                    List<MaterialPlanLineViewModel> MSummary = GetMaterialPlanSummaryFromProcedure(prodorderlinefromprocedure, (string)System.Web.HttpContext.Current.Session["DefaultConnectionString"], settings.SqlProcConsumptionSummary, header.MaterialPlanHeaderId).ToList();
 
                     // Only For Weaving Plan
                     foreach (var item in prodorderlinefromprocedure)
@@ -1390,7 +1396,7 @@ namespace Presentation
                             line.ProductId = item2.ProductId;
                             line.Sr = MPFPOLSr++;
                             line.ObjectState = Model.ObjectState.Added;
-                            line.MaterialPlanLineId = context.MaterialPlanLine.Local.Where(m => m.ProductId == line.ProductId && m.Dimension1Id == line.Dimension1Id && m.Dimension2Id == line.Dimension2Id && m.Dimension3Id == line.Dimension3Id && m.Dimension4Id == line.Dimension4Id && m.ProcessId == line.ProcessId).FirstOrDefault().MaterialPlanLineId;
+                            //line.MaterialPlanLineId = context.MaterialPlanLine.Local.Where(m => m.ProductId == line.ProductId && m.Dimension1Id == line.Dimension1Id && m.Dimension2Id == line.Dimension2Id && m.Dimension3Id == line.Dimension3Id && m.Dimension4Id == line.Dimension4Id && m.ProcessId == line.ProcessId).FirstOrDefault().MaterialPlanLineId;
                             context.MaterialPlanForProdOrderLine.Add(line);
                         }
 
@@ -1535,6 +1541,99 @@ namespace Presentation
                 Data = Data,
                 JsonRequestBehavior = JsonRequestBehavior.AllowGet
             };
+        }
+
+
+        public IEnumerable<MaterialPlanLineViewModel> GetMaterialPlanSummaryFromProcedure(List<MaterialPlanForProcedureViewModel> vm, string ConnectionString, string ProcName, int MaterialPlanHeaderId)
+        {
+
+
+            DataTable dataTable = new DataTable();
+            dataTable.Columns.Add("ProductId");
+            dataTable.Columns.Add("ProdOrderLineId");
+            dataTable.Columns.Add("Dimension1Id");
+            dataTable.Columns.Add("Dimension2Id");
+            dataTable.Columns.Add("Dimension3Id");
+            dataTable.Columns.Add("Dimension4Id");
+            dataTable.Columns.Add("ProcessId");
+            dataTable.Columns.Add("Qty");
+
+
+            foreach (var item in vm)
+            {
+                var dr = dataTable.NewRow();
+                dr["ProductId"] = item.ProductId;
+                dr["ProdOrderLineId"] = item.ProdOrderLineId;
+                dr["Dimension1Id"] = item.Dimension1Id;
+                dr["Dimension2Id"] = item.Dimension2Id;
+                dr["Dimension3Id"] = item.Dimension3Id;
+                dr["Dimension4Id"] = item.Dimension4Id;
+                dr["ProcessId"] = item.ProcessId;
+                dr["Qty"] = item.Qty;
+                dataTable.Rows.Add(dr);
+
+            }
+            DataSet ds = new DataSet();
+            using (SqlConnection sqlConnection = new SqlConnection(ConnectionString))
+            {
+                sqlConnection.Open();
+                using (SqlCommand cmd = new SqlCommand(ProcName))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Connection = sqlConnection;
+                    cmd.Parameters.AddWithValue("@T", dataTable);
+                    using (SqlDataAdapter adp = new SqlDataAdapter(cmd))
+                    {
+                        adp.Fill(ds);
+                    }
+                }
+            }
+
+            DataTable dt2 = ds.Tables[0];
+
+
+            List<MaterialPlanLineViewModel> temp = new List<MaterialPlanLineViewModel>();
+
+            foreach (DataRow dr in dt2.Rows)
+            {
+
+                MaterialPlanLineViewModel line = new MaterialPlanLineViewModel();
+
+                line.ProductId = dr["ProductId"] == System.DBNull.Value ? 0 : Convert.ToInt32(dr["ProductId"].ToString());
+                line.ProcessId = dr["ProcessId"] == System.DBNull.Value ? null : (int?)Convert.ToInt32(dr["ProcessId"].ToString());
+                line.Dimension1Id = dr["Dimension1Id"] == System.DBNull.Value ? null : (int?)Convert.ToInt32(dr["Dimension1Id"]);
+                line.Dimension2Id = dr["Dimension2Id"] == System.DBNull.Value ? null : (int?)Convert.ToInt32(dr["Dimension2Id"]);
+                line.Dimension3Id = dr["Dimension3Id"] == System.DBNull.Value ? null : (int?)Convert.ToInt32(dr["Dimension3Id"]);
+                line.Dimension4Id = dr["Dimension4Id"] == System.DBNull.Value ? null : (int?)Convert.ToInt32(dr["Dimension4Id"]);
+
+
+                line.ProductName = dr["ProductName"] == System.DBNull.Value ? null : dr["ProductName"].ToString();
+                line.UnitName = dr["UnitName"] == System.DBNull.Value ? null : dr["UnitName"].ToString();
+                line.unitDecimalPlaces = dr["DecimalPlaces"] == System.DBNull.Value ? 0 : Convert.ToInt32(dr["DecimalPlaces"].ToString());
+                line.RequiredQty = dr["Qty"] == System.DBNull.Value ? 0 : Convert.ToDecimal(dr["Qty"].ToString());
+                line.Dimension1Name = dr["Dimension1Name"] == System.DBNull.Value ? null : dr["Dimension1Name"].ToString();
+                line.Dimension2Name = dr["Dimension2Name"] == System.DBNull.Value ? null : dr["Dimension2Name"].ToString();
+                line.Dimension3Name = dr["Dimension3Name"] == System.DBNull.Value ? null : dr["Dimension3Name"].ToString();
+                line.Dimension4Name = dr["Dimension4Name"] == System.DBNull.Value ? null : dr["Dimension4Name"].ToString();
+                line.ProcessName = dr["ProcessName"] == System.DBNull.Value ? null : dr["ProcessName"].ToString();
+
+
+                line.ExcessStockQty = 0;
+                line.MaterialPlanHeaderId = MaterialPlanHeaderId;
+
+
+                line.ProdPlanQty = (dr["PurchProd"].ToString() == "Purchase") ? 0 : Convert.ToDecimal(dr["Qty"].ToString());
+                line.PurchPlanQty = (dr["PurchProd"].ToString() == "Purchase") ? Convert.ToDecimal(dr["Qty"].ToString()) : 0;
+
+                line.GeneratedFor = MaterialPlanConstants.ProdOrder;
+
+
+
+                temp.Add(line);
+            }
+
+            return temp;
+
         }
 
 

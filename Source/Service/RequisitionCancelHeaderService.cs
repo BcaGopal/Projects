@@ -13,6 +13,7 @@ using Model.ViewModel;
 using System.Data.Entity.SqlServer;
 using System.Data.SqlClient;
 using System.Configuration;
+using Model.ViewModels;
 
 namespace Service
 {
@@ -33,6 +34,7 @@ namespace Service
         int NextId(int id);
         int PrevId(int id);
         bool CancelPendingWeavingRequisitions(int HeaderId, string UserName, int DocType);
+        IQueryable<ComboBoxResult> GetCustomPerson(int Id, string term);
     }
 
     public class RequisitionCancelHeaderService : IRequisitionCancelHeaderService
@@ -276,6 +278,46 @@ namespace Service
             }
             return Success;
 
+        }
+
+        public IQueryable<ComboBoxResult> GetCustomPerson(int Id, string term)
+        {
+            int DocTypeId = Id;
+            int SiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
+            int DivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
+
+            //var settings = new RequisitionSettingService(_unitOfWork).GetRequisitionSettingForDocument(DocTypeId, DivisionId, SiteId);
+            var settings = new MaterialRequestSettingsService(_unitOfWork).GetMaterialRequestSettingsForDocument(DocTypeId, DivisionId, SiteId);
+
+            string[] PersonRoles = null;
+            if (!string.IsNullOrEmpty(settings.filterPersonRoles)) { PersonRoles = settings.filterPersonRoles.Split(",".ToCharArray()); }
+            else { PersonRoles = new string[] { "NA" }; }
+
+            string DivIdStr = "|" + DivisionId.ToString() + "|";
+            string SiteIdStr = "|" + SiteId.ToString() + "|";
+
+            var list = (from p in db.Persons
+                        join bus in db.BusinessEntity on p.PersonID equals bus.PersonID into BusinessEntityTable
+                        from BusinessEntityTab in BusinessEntityTable.DefaultIfEmpty()
+                        join pp in db.PersonProcess on p.PersonID equals pp.PersonId into PersonProcessTable
+                        from PersonProcessTab in PersonProcessTable.DefaultIfEmpty()
+                        join pr in db.PersonRole on p.PersonID equals pr.PersonId into PersonRoleTable
+                        from PersonRoleTab in PersonRoleTable.DefaultIfEmpty()
+                        where (settings.ProcessId == null ? 1 == 1 : PersonProcessTab.ProcessId == settings.ProcessId)
+                        && (string.IsNullOrEmpty(term) ? 1 == 1 : (p.Name.ToLower().Contains(term.ToLower()) || p.Code.ToLower().Contains(term.ToLower())))
+                        && (string.IsNullOrEmpty(settings.filterPersonRoles) ? 1 == 1 : PersonRoles.Contains(PersonRoleTab.RoleDocTypeId.ToString()))
+                        && BusinessEntityTab.DivisionIds.IndexOf(DivIdStr) != -1
+                        && BusinessEntityTab.SiteIds.IndexOf(SiteIdStr) != -1
+                        && (p.IsActive == null ? 1 == 1 : p.IsActive == true)
+                        orderby p.Name
+                        select new ComboBoxResult
+                        {
+                            id = p.PersonID.ToString(),
+                            text = p.Name + "|" + p.Code,
+                        }
+              );
+
+            return list;
         }
 
         public void Dispose()

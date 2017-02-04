@@ -54,7 +54,10 @@ namespace Model.ViewModel
         public bool isPostedInStockVirtual { get; set; }
 
         public string filterLedgerAccountGroups { get; set; }
-        public string filterLedgerAccounts { get; set; }        
+        public string filterLedgerAccounts { get; set; }
+
+        public string filterPersonRoles { get; set; }
+
         [Range(1,int.MaxValue,ErrorMessage="Process field is required")]
         public int ProcessId { get; set; }
         public string ProcessName { get; set; }        

@@ -58,6 +58,9 @@
           <QueryParameter Name="@UrgentList">
             <Value>=Parameters!UrgentList.Value</Value>
           </QueryParameter>
+          <QueryParameter Name="@OverDueDays">
+            <Value>=Parameters!OverDueDays.Value</Value>
+          </QueryParameter>
         </QueryParameters>
         <CommandType>StoredProcedure</CommandType>
         <CommandText>Web.spRep_OrderToBeIssue_NewWithOutAsonDate</CommandText>
@@ -122,6 +125,10 @@
         <Field Name="SiteId">
           <DataField>SiteId</DataField>
           <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="WeavingRate">
+          <DataField>WeavingRate</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
         <Field Name="DivisionId">
           <DataField>DivisionId</DataField>
@@ -6840,6 +6847,12 @@
       <Nullable>true</Nullable>
       <AllowBlank>true</AllowBlank>
       <Prompt>Urgent List</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="OverDueDays">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Over Due Days</Prompt>
     </ReportParameter>
   </ReportParameters>
   <EmbeddedImages>

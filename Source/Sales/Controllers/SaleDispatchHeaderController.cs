@@ -556,11 +556,27 @@ namespace Web
             SaleDispatchHeader DispactchHeader = _SaleDispatchHeaderService.Find(id);
             PackingHeader packingHeader = _PackingHeaderService.Find(DispactchHeader.PackingHeaderId.Value);
 
+
             SaleDispatchHeaderViewModel vm = new SaleDispatchHeaderViewModel();
             vm = Mapper.Map<SaleDispatchHeader, SaleDispatchHeaderViewModel>(DispactchHeader);
             vm.SaleToBuyerId = DispactchHeader.SaleToBuyerId;
             vm.DeliveryTermsId = DispactchHeader.DeliveryTermsId;
             vm.GodownId = packingHeader.GodownId;
+
+
+            if (DispactchHeader.GatePassHeaderId > 0)
+            {
+                var GatePass = (from G in db.GatePassHeader
+                                where G.GatePassHeaderId == DispactchHeader.GatePassHeaderId
+                                select new SaleDispatchHeaderViewModel
+                                {
+                                    GatePassDocNo = G.DocNo,
+                                    GatePassDocDate = G.DocDate
+                                }).FirstOrDefault();
+                vm.GatePassDocNo = GatePass.GatePassDocNo;
+                vm.GatePassDocDate = GatePass.DocDate;
+            }
+
 
             //Getting Settings
             var settings = new SaleDispatchSettingService(_unitOfWork).GetSaleDispatchSettingForDocument(DispactchHeader.DocTypeId, DispactchHeader.DivisionId, DispactchHeader.SiteId);
@@ -1474,7 +1490,25 @@ namespace Web
 
         }
 
+        public ActionResult GetCustomPerson(string searchTerm, int pageSize, int pageNum, int filter)//DocTypeId
+        {
+            var Query = _SaleDispatchHeaderService.GetCustomPerson(filter, searchTerm);
+            var temp = Query.Skip(pageSize * (pageNum - 1))
+                .Take(pageSize)
+                .ToList();
 
+            var count = Query.Count();
+
+            ComboBoxPagedResult Data = new ComboBoxPagedResult();
+            Data.Results = temp;
+            Data.Total = count;
+
+            return new JsonpResult
+            {
+                Data = Data,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
 
         protected override void Dispose(bool disposing)
         {

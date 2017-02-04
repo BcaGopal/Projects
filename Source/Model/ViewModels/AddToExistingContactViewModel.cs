@@ -9,6 +9,7 @@ namespace Model.ViewModels
 {
     public class AddToExistingContactViewModel
     {
+        public int DocTypeId { get; set; }
         public int PersonId { get; set; }
     }
 }
