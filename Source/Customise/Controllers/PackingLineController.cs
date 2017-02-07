@@ -57,8 +57,12 @@ namespace Web
         [HttpGet]
         public JsonResult Index(int id)
         {
-            var p = _PackingLineService.GetPackingLineViewModelForHeaderId(id);
-            return Json(p, JsonRequestBehavior.AllowGet);
+            //var p = _PackingLineService.GetPackingLineViewModelForHeaderId(id);
+            //return Json(p, JsonRequestBehavior.AllowGet);
+            var p = Json(_PackingLineService.GetPackingLineViewModelForHeaderId(id), JsonRequestBehavior.AllowGet);
+            p.MaxJsonLength = int.MaxValue;
+            return p;
+
 
         }
 
