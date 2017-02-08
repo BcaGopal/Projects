@@ -925,7 +925,8 @@ namespace Service
                             DesignName = ProductGroupTab.ProductGroupName,
                             DesignId = ProductGroupTab.ProductGroupId,
                             QualityName = QualityTab.ProductQualityName,
-                            Weight = (QualityTab.Weight > 0 ? QualityTab.Weight : (p.StandardWeight ?? 0))
+                            //Weight = (QualityTab.Weight > 0 ? QualityTab.Weight : (p.StandardWeight ?? 0))
+                            Weight = ((p.StandardWeight ?? 0) > 0 ? (p.StandardWeight ?? 0) : QualityTab.Weight)
                         };
 
 

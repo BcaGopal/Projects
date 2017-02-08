@@ -185,7 +185,7 @@ namespace Web
                         StockViewModel.DocLineId = Line.PurchaseGoodsReceiptLineId;
                         StockViewModel.DocTypeId = Header.DocTypeId;
                         StockViewModel.StockHeaderDocDate = Header.DocDate;
-                        StockViewModel.StockDocDate = DateTime.Now.Date;
+                        StockViewModel.StockDocDate = Header.DocDate;
                         StockViewModel.DocNo = Header.DocNo;
                         StockViewModel.DivisionId = Header.DivisionId;
                         StockViewModel.SiteId = Header.SiteId;
@@ -467,7 +467,7 @@ namespace Web
                     StockViewModel.DocLineId = Line.PurchaseGoodsReturnLineId;
                     StockViewModel.DocTypeId = Header.DocTypeId;
                     StockViewModel.StockHeaderDocDate = Header.DocDate;
-                    StockViewModel.StockDocDate = DateTime.Now.Date;
+                    StockViewModel.StockDocDate = Header.DocDate;
                     StockViewModel.DocNo = Header.DocNo;
                     StockViewModel.DivisionId = Header.DivisionId;
                     StockViewModel.SiteId = Header.SiteId;
@@ -696,7 +696,7 @@ namespace Web
                     StockViewModel.DocLineId = Line.PurchaseGoodsReceiptLineId;
                     StockViewModel.DocTypeId = Header.DocTypeId;
                     StockViewModel.StockHeaderDocDate = Header.DocDate;
-                    StockViewModel.StockDocDate = Line.CreatedDate.Date;
+                    StockViewModel.StockDocDate = Header.DocDate;
                     StockViewModel.DocNo = Header.DocNo;
                     StockViewModel.DivisionId = Header.DivisionId;
                     StockViewModel.SiteId = Header.SiteId;

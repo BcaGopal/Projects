@@ -1053,9 +1053,31 @@ namespace Web
             return Json(new { success = "Error", data = "No Records Selected." }, JsonRequestBehavior.AllowGet);
         }
 
+        public ActionResult Settings(int id)//Document Type Id
+        {
+            return Redirect(System.Configuration.ConfigurationManager.AppSettings["JobsDomain"] + "/JobReceiveSettings/Create/" + id);
+        }
 
 
+        public ActionResult GetCustomPerson(string searchTerm, int pageSize, int pageNum, int filter)//DocTypeId
+        {
+            var Query = new WeavingReceiveQACombinedService(db).GetCustomPerson(filter, searchTerm);
+            var temp = Query.Skip(pageSize * (pageNum - 1))
+                .Take(pageSize)
+                .ToList();
 
+            var count = Query.Count();
+
+            ComboBoxPagedResult Data = new ComboBoxPagedResult();
+            Data.Results = temp;
+            Data.Total = count;
+
+            return new JsonpResult
+            {
+                Data = Data,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
 
 
         protected override void Dispose(bool disposing)

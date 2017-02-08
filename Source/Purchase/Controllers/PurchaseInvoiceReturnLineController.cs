@@ -220,7 +220,7 @@ namespace Web
                         StockViewModel.DocLineId = PurchaseGoodsReceiptLine.PurchaseGoodsReceiptLineId;
                         StockViewModel.DocTypeId = GoodsRetHeader.DocTypeId;
                         StockViewModel.StockHeaderDocDate = GoodsRetHeader.DocDate;
-                        StockViewModel.StockDocDate = DateTime.Now.Date;
+                        StockViewModel.StockDocDate = GoodsRetHeader.DocDate;
                         StockViewModel.DocNo = GoodsRetHeader.DocNo;
                         StockViewModel.DivisionId = GoodsRetHeader.DivisionId;
                         StockViewModel.SiteId = GoodsRetHeader.SiteId;
@@ -529,7 +529,7 @@ namespace Web
                     StockViewModel.DocLineId = Gline.PurchaseGoodsReturnLineId;
                     StockViewModel.DocTypeId = PurchaseGoodsReturnHeader.DocTypeId;
                     StockViewModel.StockHeaderDocDate = PurchaseGoodsReturnHeader.DocDate;
-                    StockViewModel.StockDocDate = DateTime.Now.Date;
+                    StockViewModel.StockDocDate = PurchaseGoodsReturnHeader.DocDate;
                     StockViewModel.DocNo = PurchaseGoodsReturnHeader.DocNo;
                     StockViewModel.DivisionId = PurchaseGoodsReturnHeader.DivisionId;
                     StockViewModel.SiteId = PurchaseGoodsReturnHeader.SiteId;
@@ -776,7 +776,7 @@ namespace Web
                     StockViewModel.DocLineId = GLine.PurchaseGoodsReceiptLineId;
                     StockViewModel.DocTypeId = PurchaseGoodsReturnHeader.DocTypeId;
                     StockViewModel.StockHeaderDocDate = PurchaseGoodsReturnHeader.DocDate;
-                    StockViewModel.StockDocDate = GLine.CreatedDate.Date;
+                    StockViewModel.StockDocDate = PurchaseGoodsReturnHeader.DocDate;
                     StockViewModel.DocNo = PurchaseGoodsReturnHeader.DocNo;
                     StockViewModel.DivisionId = PurchaseGoodsReturnHeader.DivisionId;
                     StockViewModel.SiteId = PurchaseGoodsReturnHeader.SiteId;

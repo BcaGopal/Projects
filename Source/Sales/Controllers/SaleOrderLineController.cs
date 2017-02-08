@@ -144,7 +144,7 @@ namespace Web
                         StockViewModel.DocLineId = s.SaleOrderLineId;
                         StockViewModel.DocTypeId = temp.DocTypeId;
                         StockViewModel.StockHeaderDocDate = temp.DocDate;
-                        StockViewModel.StockDocDate = DateTime.Now.Date;
+                        StockViewModel.StockDocDate = temp.DocDate;
                         StockViewModel.DocNo = temp.DocNo;
                         StockViewModel.DivisionId = temp.DivisionId;
                         StockViewModel.SiteId = temp.SiteId;
@@ -270,7 +270,7 @@ namespace Web
                         StockViewModel.DocLineId = temp1.SaleOrderLineId;
                         StockViewModel.DocTypeId = temp.DocTypeId;
                         StockViewModel.StockHeaderDocDate = temp.DocDate;
-                        StockViewModel.StockDocDate = temp1.CreatedDate.Date;
+                        StockViewModel.StockDocDate = temp.DocDate;
                         StockViewModel.DocNo = temp.DocNo;
                         StockViewModel.DivisionId = temp.DivisionId;
                         StockViewModel.SiteId = temp.SiteId;

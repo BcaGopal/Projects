@@ -138,6 +138,26 @@
                         <div>
                             <div class="col-md-6">
                                 <div class="form-group">
+                                    @Html.LabelFor(model => model.JobReceiveById, "Job Receive By", new { @class = "control-label col-md-4 col-sm-2" })
+                                    <div class="col-md-7 col-sm-10">
+                                        @Html.TextBoxFor(m => m.JobReceiveById, new { @class = "form-control required" })
+                                        @Html.ValidationMessageFor(m => m.JobReceiveById, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.GodownId, "Godown", new { @class = "control-label col-md-4 col-sm-2" })
+                                    <div class="col-md-7 col-sm-10">
+                                        @Html.TextBoxFor(m => m.GodownId, new { @class = "form-control required" })
+                                        @Html.ValidationMessageFor(m => m.GodownId, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
                                     @Html.LabelFor(model => model.JobOrderLineId, (Model.DocumentTypeSettings.ProductCaption ?? "Product"), new { @class = "control-label col-md-4 col-sm-2" })
                                     @Html.HiddenFor(m => m.DocumentTypeSettings.ProductCaption)
                                     <div class="col-md-7 col-sm-10">
@@ -191,25 +211,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    @Html.LabelFor(model => model.JobReceiveById, "Job Receive By", new { @class = "control-label col-md-4 col-sm-2" })
-                                    <div class="col-md-7 col-sm-10">
-                                        @Html.TextBoxFor(m => m.JobReceiveById, new { @class = "form-control required" })
-                                        @Html.ValidationMessageFor(m => m.JobReceiveById, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    @Html.LabelFor(model => model.GodownId, "Godown", new { @class = "control-label col-md-4 col-sm-2" })
-                                    <div class="col-md-7 col-sm-10">
-                                        @Html.TextBoxFor(m => m.GodownId, new { @class = "form-control required" })
-                                        @Html.ValidationMessageFor(m => m.GodownId, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
-                            </div>
+                           
                         </div>
                        
                         <div>
@@ -557,7 +559,7 @@
         $("#btnCreateF").attr('disabled','disabled');
         $("#btnCreateFR").attr('disabled','disabled');
     }
-    //$("#QAById").select2('focus');
+    $("#JobOrderLineId").select2('focus');
 
     $("#JobOrderLineId").change(function(){
         Validate_JobOrderLine();
