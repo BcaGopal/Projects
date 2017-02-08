@@ -873,12 +873,27 @@ namespace Web
             return PartialView("_Reason", vm);
         }
 
+        
 
+        
         public ActionResult Submit(int id, string IndexType, string TransactionType)
         {
             #region DocTypeTimeLineValidation
 
             StockHeader s = context.StockHeader.Find(id);
+
+            try
+            {
+                TimePlanValidation = Submitvalidation(id, out ExceptionMsg);
+                TempData["CSEXC"] += ExceptionMsg;
+            }
+            catch (Exception ex)
+            {
+                string message = _exception.HandleException(ex);
+                TempData["CSEXC"] += message;
+                TimePlanValidation = false;
+            }
+
 
             try
             {
@@ -907,7 +922,7 @@ namespace Web
         {
 
 
-            bool BeforeSave = true;
+            bool BeforeSave = true;            
             try
             {
                 BeforeSave = StockIssueDocEvents.beforeHeaderSubmitEvent(this, new StockEventArgs(Id), ref context);
@@ -1682,6 +1697,23 @@ namespace Web
             };
         }
 
+        #region submitValidation
+        public bool Submitvalidation(int id, out string Msg)
+        {
+            Msg = "";
+            int Stockline = (new StockLineService(_unitOfWork).GetStockLineListForIndex(id)).Count();
+            if (Stockline == 0)
+            {
+                Msg = "Add Line Record. <br />";
+            }
+            else
+            {
+                Msg = "";
+            }
+            return (string.IsNullOrEmpty(Msg));
+        }
+
+        #endregion submitValidation
         protected override void Dispose(bool disposing)
         {
             if (!string.IsNullOrEmpty((string)TempData["CSEXC"]))

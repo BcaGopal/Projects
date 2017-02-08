@@ -620,7 +620,17 @@ namespace Planning.Controllers
             #region DocTypeTimeLineValidation
 
             ProdOrderHeader s = context.ProdOrderHeader.Find(id);
-
+            try
+            {
+                TimePlanValidation = Submitvalidation(id, out ExceptionMsg);
+                TempData["CSEXC"] += ExceptionMsg;
+            }
+            catch (Exception ex)
+            {
+                string message = _exception.HandleException(ex);
+                TempData["CSEXC"] += message;
+                TimePlanValidation = false;
+            }
             try
             {
                 TimePlanValidation = DocumentValidation.ValidateDocument(Mapper.Map<DocumentUniqueId>(s), DocumentTimePlanTypeConstants.Submit, User.Identity.Name, out ExceptionMsg, out Continue);
@@ -820,6 +830,25 @@ namespace Planning.Controllers
             return Json(new { success = "Error", data = "No Records Selected." }, JsonRequestBehavior.AllowGet);
 
         }
+
+
+        #region submitValidation
+        public bool Submitvalidation(int id, out string Msg)
+        {
+            Msg = "";
+            int ProdOrdLine = (new ProdOrderLineService(_unitOfWork).GetProdOrderLineListForIndex(id)).Count();
+            if (ProdOrdLine == 0)
+            {
+                Msg = "Add Line Record. <br />";
+            }
+            else
+            {
+                Msg = "";
+            }
+            return (string.IsNullOrEmpty(Msg));
+        }
+
+        #endregion submitValidation
 
     }
 }

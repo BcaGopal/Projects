@@ -241,12 +241,6 @@
     <Compile Include="Controllers\Dimension2Controller.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Controllers\Dimension3Controller.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Controllers\Dimension4Controller.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Controllers\PersonBankAccountController.cs" />
     <Compile Include="Controllers\PersonContactController.cs" />
     <Compile Include="Controllers\PersonController.cs" />
