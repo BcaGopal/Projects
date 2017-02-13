@@ -49,10 +49,10 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
-                            @Html.LabelFor(model => model.BankBranch, "Branch", new { @class = "control-label col-md-4 col-sm-2" })
+                            @Html.LabelFor(model => model.AccountHolderName, "Account Holder Name", new { @class = "control-label col-md-4 col-sm-2" })
                             <div class="col-md-7 col-sm-10">
-                                @Html.TextBoxFor(model => model.BankBranch, new { @class = "form-control required" })
-                                @Html.ValidationMessageFor(model => model.BankBranch, "", new { @class = "text-danger" })
+                                @Html.TextBoxFor(model => model.AccountHolderName, new { @class = "form-control required" })
+                                @Html.ValidationMessageFor(model => model.AccountHolderName, "", new { @class = "text-danger" })
                             </div>
                         </div>
                     </div>
@@ -69,6 +69,16 @@
                 </div>
 
                 <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.BankBranch, "Branch", new { @class = "control-label col-md-4 col-sm-2" })
+                            <div class="col-md-7 col-sm-10">
+                                @Html.TextBoxFor(model => model.BankBranch, new { @class = "form-control required" })
+                                @Html.ValidationMessageFor(model => model.BankBranch, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="col-md-6">
                         <div class="form-group">
                             @Html.LabelFor(model => model.Remark, "Remark", new { @class = "control-label col-md-4 col-sm-2" })
@@ -95,7 +105,7 @@
     {
         var TitleCase= '@Session["TitleCase"]';
         //alert(TitleCase);
-        $('#BankName,#BankCode,#BankBranch,#AccountNo').keyup(function () {
+        $('#BankName,#BankCode,#BankBranch,#AccountNo').focusout(function () {
             if (TitleCase=="UpperCase")
             this.value = this.value.toUpperCase() ;
     });

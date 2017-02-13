@@ -88,7 +88,7 @@ namespace Web
             {
                 return RedirectToAction("Index_PendingToReview", new { id });
             }
-            var JobReceiveHeader = new JobReceiveHeaderService(_unitOfWork).GetJobReceiveHeaderList(id, User.Identity.Name);
+            var JobReceiveHeader = new WeavingReceiveQACombinedService(db).GetJobReceiveHeaderList(id, User.Identity.Name);
             ViewBag.Name = new DocumentTypeService(_unitOfWork).Find(id).DocumentTypeName;
             ViewBag.id = id;
             ViewBag.PendingToSubmit = PendingToSubmitCount(id);
@@ -1079,6 +1079,15 @@ namespace Web
             };
         }
 
+        public JsonResult GetStandardWeightson(int ProductId)
+        {
+            SqlParameter SqlParameterProductId = new SqlParameter("@ProductId", ProductId);
+
+            ProductWeight ProductWeight = db.Database.SqlQuery<ProductWeight>("" + ConfigurationManager.AppSettings["DataBaseSchema"] + ".sp_GetProductStandardWeight @ProductId", SqlParameterProductId).FirstOrDefault();
+
+            return Json(ProductWeight);
+        }
+
 
         protected override void Dispose(bool disposing)
         {
@@ -1128,5 +1137,10 @@ namespace Web
         public string JobWorkerName { get; set; }
         public int Status { get; set; }
 
+    }
+
+    public class ProductWeight
+    {
+        public Decimal? StandardWeight { get; set; }
     }
 }

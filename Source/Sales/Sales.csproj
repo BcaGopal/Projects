@@ -238,6 +238,7 @@
     <Compile Include="Controllers\AgentController.cs" />
     <Compile Include="Controllers\BuyerController.cs" />
     <Compile Include="Controllers\ComboHelpListController.cs" />
+    <Compile Include="Controllers\GetNewDocNoController.cs" />
     <Compile Include="Controllers\PromoCodeController.cs" />
     <Compile Include="Controllers\SaleEnquiryHeaderController.cs" />
     <Compile Include="Controllers\SaleEnquiryLineController.cs" />

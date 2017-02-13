@@ -16,6 +16,7 @@ using System.Xml.Linq;
 using Reports.Controllers;
 using Reports.Reports;
 using System.Configuration;
+using Model.ViewModels;
 
 namespace Presentation
 {
@@ -838,17 +839,7 @@ namespace Presentation
             #region DocTypeTimeLineValidation
 
             MaterialPlanCancelHeader s = db.MaterialPlanCancelHeader.Find(id);
-            try
-            {
-                TimePlanValidation = Submitvalidation(id, out ExceptionMsg);
-                TempData["CSEXC"] += ExceptionMsg;
-            }
-            catch (Exception ex)
-            {
-                string message = _exception.HandleException(ex);
-                TempData["CSEXC"] += message;
-                TimePlanValidation = false;
-            }
+
             try
             {
                 TimePlanValidation = DocumentValidation.ValidateDocument(Mapper.Map<DocumentUniqueId>(s), DocumentTimePlanTypeConstants.Submit, User.Identity.Name, out ExceptionMsg, out Continue);
@@ -963,23 +954,27 @@ namespace Presentation
         {
             return (_MaterialPlanCancelHeaderService.GetMaterialPlanCancelHeaderListPendingToReview(id, User.Identity.Name)).Count();
         }
-        #region submitValidation
-        public bool Submitvalidation(int id, out string Msg)
+
+        public ActionResult GetCustomPerson(string searchTerm, int pageSize, int pageNum, int filter)//DocTypeId
         {
-            Msg = "";
-            int MaterialPlanLine = (new MaterialPlanCancelLineService(_unitOfWork).GetMaterialPlanCancelLineList(id)).Count();
-            if (MaterialPlanLine == 0)
+            var Query = _MaterialPlanCancelHeaderService.GetCustomPerson(filter, searchTerm);
+            var temp = Query.Skip(pageSize * (pageNum - 1))
+                .Take(pageSize)
+                .ToList();
+
+            var count = Query.Count();
+
+            ComboBoxPagedResult Data = new ComboBoxPagedResult();
+            Data.Results = temp;
+            Data.Total = count;
+
+            return new JsonpResult
             {
-                Msg = "Add Line Record. <br />";
-            }
-            else
-            {
-                Msg = "";
-            }
-            return (string.IsNullOrEmpty(Msg));
+                Data = Data,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
         }
 
-        #endregion submitValidation
         protected override void Dispose(bool disposing)
         {
             if (!string.IsNullOrEmpty((string)TempData["CSEXC"]))

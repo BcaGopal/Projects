@@ -154,6 +154,8 @@ namespace Web
                 return View("~/Views/Shared/InValidSettings.cshtml");
             }
 
+            p.DivisionIds = System.Web.HttpContext.Current.Session["DivisionId"].ToString();
+            p.SiteIds = System.Web.HttpContext.Current.Session["SiteId"].ToString();
             p.PersonSettings = Mapper.Map<PersonSettings, PersonSettingsViewModel>(settings);
             p.LedgerAccountGroupId = settings.LedgerAccountGroupId;
 
@@ -491,7 +493,7 @@ namespace Web
 
 
                     //return RedirectToAction("Create").Success("Data saved successfully");
-                    return RedirectToAction("Edit", new { id = person.PersonID }).Success("Data saved Successfully");
+                    return RedirectToAction("Edit", new { id = person.PersonID, DocTypeId = PersonVm.DocTypeId }).Success("Data saved Successfully");
                 }
                 else
                 {
@@ -955,7 +957,7 @@ namespace Web
 
             LogActivity.LogActivityDetail(new ActiivtyLogViewModel
             {
-                DocTypeId = new DocumentTypeService(_unitOfWork).FindByName(MasterDocCategoryConstants.Person).DocumentTypeId,
+                DocTypeId = person.DocTypeId,
                 DocId = vm.id,
                 ActivityType = (int)ActivityTypeContants.Deleted,
                 UserRemark = vm.Reason,

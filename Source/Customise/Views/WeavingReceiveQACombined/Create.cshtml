@@ -35,8 +35,6 @@
     @Html.HiddenFor(m => m.DimensionUnitDecimalPlaces)
     @Html.HiddenFor(m => m.BalanceQty)
     @Html.HiddenFor(m => m.XRate)
-    @Html.HiddenFor(m => m.XLength)
-    @Html.HiddenFor(m => m.XWidth)
 
     
 
@@ -133,9 +131,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
 
-                        <div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.JobReceiveById, "Job Receive By", new { @class = "control-label col-md-4 col-sm-2" })
@@ -155,166 +151,209 @@
                                     </div>
                                 </div>
                             </div>
-
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    @Html.LabelFor(model => model.JobOrderLineId, (Model.DocumentTypeSettings.ProductCaption ?? "Product"), new { @class = "control-label col-md-4 col-sm-2" })
-                                    @Html.HiddenFor(m => m.DocumentTypeSettings.ProductCaption)
-                                    <div class="col-md-7 col-sm-10">
-                                        @Html.TextBoxFor(m => m.JobOrderLineId, null, new { @class = "form-control" })
-                                        @Html.ValidationMessageFor(m => m.JobOrderLineId, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    @Html.LabelFor(model => model.JobOrderHeaderDocNo, (Model.DocumentTypeSettings.ContraDocTypeCaption ?? "Order No."), new { @class = "control-label col-md-4 col-sm-2" })
-                                    @Html.HiddenFor(m => m.DocumentTypeSettings.ContraDocTypeCaption)
-                                    <div class="col-md-7 col-sm-10">
-                                        @Html.TextBoxFor(m => m.JobOrderHeaderDocNo, null, new { @class = "form-control", @readonly = "true" })
-                                        @Html.ValidationMessageFor(m => m.JobOrderHeaderDocNo, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    @Html.LabelFor(model => model.JobWorkerId, "Job Worker", new { @class = "control-label col-md-4 col-sm-2" })
-                                    <div class="col-md-7 col-sm-10">
-                                        @Html.TextBoxFor(m => m.JobWorkerId, new { @class = "form-control ", @readonly = "true" })
-                                        @Html.ValidationMessageFor(m => m.JobWorkerId, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    @Html.LabelFor(model => model.Qty, "Qty", new { @class = "control-label col-md-4 col-sm-2" })
-                                    <div class="col-md-7 col-sm-10">
-                                        @Html.TextBoxFor(m => m.Qty, new { @class = "form-control ", @readonly = "true" })
-                                        @Html.ValidationMessageFor(m => m.Qty, "", new { @class = "text-danger" })
-                                        <span id="ExcessStockQty"></span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-md-6" style="display:@(Model.JobReceiveSettings.isVisibleProductUID ? "" : "none")">
-                                @Html.HiddenFor(m => m.JobReceiveSettings.isVisibleProductUID)
-                                <div class="form-group">
-                                    @Html.LabelFor(model => model.ProductUidId, (Model.DocumentTypeSettings.ProductUidCaption ?? "Product Uid"), new { @class = "control-label col-md-4 col-sm-2" })
-                                    @Html.HiddenFor(m => m.DocumentTypeSettings.ProductUidCaption)
-                                    <div class="col-md-7 col-sm-10">
-                                        @Html.TextBoxFor(m => m.ProductUidName, new { @class = "form-control required"})
-                                        @Html.ValidationMessageFor(m => m.ProductUidName, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
-                            </div>
-
-                           
-                        </div>
-                       
-                        <div>
-                            <div class="col-md-6" style="display:@(Model.JobReceiveQASettings.IsVisibleLength ? "" : "none")">
-                                <div class="form-group">
-                                    @Html.LabelFor(model => model.Length, "Length", new { @class = "control-label col-md-4 col-sm-2" })
-                                    <div class="col-md-7 col-sm-10">
-                                        @Html.TextBoxFor(m => m.Length, null, new { @class = "form-control " })
-                                        @Html.ValidationMessageFor(m => m.Length, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6" style="display:@(Model.JobReceiveQASettings.IsVisibleWidth ? "" : "none")">
-                                <div class="form-group">
-                                    @Html.LabelFor(model => model.Width, "Width", new { @class = "control-label col-md-4 col-sm-2" })
-                                    <div class="col-md-7 col-sm-10">
-                                        @Html.TextBoxFor(m => m.Width, null, new { @class = "form-control " })
-                                        @Html.ValidationMessageFor(m => m.Width, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div>
-                            
                         </div>
 
+                        <hr style="margin-bottom:0px" />
                         <div>
-                            <div class="col-md-6" style="display:@(Model.JobReceiveSettings.isVisibleDealUnit ? "" : "none")">
-                                @Html.HiddenFor(m => m.JobReceiveSettings.isVisibleDealUnit)
-                                <div class="form-group">
-                                    @Html.LabelFor(model => model.DealUnitId, (Model.DocumentTypeSettings.DealQtyCaption + " Unit & Multiplier" ?? "Deal Unit & Multiplier"), new { @class = "control-label col-md-4 col-sm-2" })
-                                    <div class="col-md-7 col-sm-10" style="padding:0px">
-                                        <div class="col-xs-7" style="padding-right:0px">
-                                            @Html.DropDownListFor(model => model.DealUnitId, new SelectList(ViewBag.DeliveryUnitList as System.Collections.IEnumerable, "UnitId", "UnitName"), new { @class = "form-control height cusrightnormal required"})
-                                            @Html.ValidationMessageFor(model => model.DealUnitId, "", new { @class = "text-danger" })
-                                        </div>
-                                        <div class="col-xs-5" style="padding-left:0px">
-                                            @Html.TextBoxFor(model => model.UnitConversionMultiplier, new { @class = "form-control cusleftnormal "})
-                                            @Html.ValidationMessageFor(model => model.UnitConversionMultiplier, "", new { @class = "text-danger" })
+                            <h4 class="col-md-12 black">
+                                <span class="glyphicon glyphicon-shopping-cart"></span>
+                                2.Product Details
+                            </h4>
+                            <div>
+                                <div>
+                                    <div class="col-md-6" style="display:@(Model.JobReceiveSettings.isVisibleProductUID ? "" : "none")">
+                                        @Html.HiddenFor(m => m.JobReceiveSettings.isVisibleProductUID)
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.ProductUidId, (Model.DocumentTypeSettings.ProductUidCaption ?? "Product Uid"), new { @class = "control-label col-md-4 col-sm-2" })
+                                            @Html.HiddenFor(m => m.DocumentTypeSettings.ProductUidCaption)
+                                            <div class="col-md-7 col-sm-10">
+                                                @Html.TextBoxFor(m => m.ProductUidName, new { @class = "form-control " })
+                                                @Html.ValidationMessageFor(m => m.ProductUidName, "", new { @class = "text-danger" })
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6" style="display:@(Model.JobReceiveSettings.isVisibleDealUnit ? "" : "none")">
-                                <div class="form-group">
-                                    @Html.LabelFor(model => model.DealQty, (Model.DocumentTypeSettings.DealQtyCaption ?? "Deal Qty"), new { @class = "control-label col-md-4 col-sm-2" })
-                                    @Html.HiddenFor(m => m.DocumentTypeSettings.DealQtyCaption)
-                                    <div class="col-md-7 col-sm-10">
-                                        @Html.TextBoxFor(m => m.DealQty, null, new { @class = "form-control" })
-                                        @Html.ValidationMessageFor(m => m.DealQty, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
 
-                        <div>
-                            <div class="col-md-6" style="display:@(Model.JobReceiveSettings.IsVisibleWeight ? "" : "none")">
-                                @Html.HiddenFor(m => m.JobReceiveSettings.IsVisibleWeight)
-                                <div class="form-group">
-                                    @Html.LabelFor(model => model.Weight, (Model.DocumentTypeSettings.WeightCaption ?? "Weight"), new { @class = "control-label col-md-4 col-sm-2" })
-                                    @Html.HiddenFor(m => m.DocumentTypeSettings.WeightCaption)
-                                    <div class="col-md-7 col-sm-10">
-                                        @Html.TextBoxFor(m => m.Weight, null, new { @class = "form-control" })
-                                        @Html.ValidationMessageFor(m => m.Weight, "", new { @class = "text-danger" })
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.JobOrderLineId, (Model.DocumentTypeSettings.ProductCaption ?? "Product"), new { @class = "control-label col-md-4 col-sm-2" })
+                                            @Html.HiddenFor(m => m.DocumentTypeSettings.ProductCaption)
+                                            <div class="col-md-7 col-sm-10">
+                                                @Html.TextBoxFor(m => m.JobOrderLineId, null, new { @class = "form-control" })
+                                                @Html.ValidationMessageFor(m => m.JobOrderLineId, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                            </div>
 
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    @Html.LabelFor(model => model.Rate, "Rate", new { @class = "control-label col-md-4 col-sm-2" })
-                                    <div class="col-md-7 col-sm-10">
-                                        @Html.TextBoxFor(m => m.Rate, null, new { @class = "form-control" })
-                                        @Html.ValidationMessageFor(m => m.Rate, "", new { @class = "text-danger" })
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.JobOrderHeaderDocNo, (Model.DocumentTypeSettings.ContraDocTypeCaption ?? "Order No."), new { @class = "control-label col-md-4 col-sm-2" })
+                                            @Html.HiddenFor(m => m.DocumentTypeSettings.ContraDocTypeCaption)
+                                            <div class="col-md-7 col-sm-10">
+                                                @Html.TextBoxFor(m => m.JobOrderHeaderDocNo, null, new { @class = "form-control", @readonly = "true" })
+                                                @Html.ValidationMessageFor(m => m.JobOrderHeaderDocNo, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                            </div>
 
-                            <div class="col-md-6" style="display:@(Model.JobReceiveQASettings.IsVisiblePenalty?"":"none")">
-                                @Html.HiddenFor(m => m.JobReceiveQASettings.IsVisiblePenalty)
-                                <div class="form-group">
-                                    @Html.LabelFor(model => model.PenaltyRate, "Penalty Rate", new { @class = "control-label col-md-4 col-sm-2" })
-                                    <div class="col-md-7 col-sm-10">
-                                        @Html.TextBoxFor(m => m.PenaltyRate, new { @class = "form-control " })
-                                        @Html.ValidationMessageFor(m => m.PenaltyRate, "", new { @class = "text-danger" })
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.JobWorkerId, "Job Worker", new { @class = "control-label col-md-4 col-sm-2" })
+                                            <div class="col-md-7 col-sm-10">
+                                                @Html.TextBoxFor(m => m.JobWorkerId, new { @class = "form-control ", @readonly = "true" })
+                                                @Html.ValidationMessageFor(m => m.JobWorkerId, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                            </div>
-                        </div>
 
-                        <div>
-                            <div class="col-md-6" style="display:@(Model.JobReceiveQASettings.IsVisiblePenalty?"":"none")">
-                                <div class="form-group">
-                                    @Html.LabelFor(model => model.PenaltyAmt, "Penalty Amt", new { @class = "control-label col-md-4 col-sm-2" })
-                                    <div class="col-md-7 col-sm-10">
-                                        @Html.TextBoxFor(m => m.PenaltyAmt, null, new { @class = "form-control" })
-                                        @Html.ValidationMessageFor(m => m.PenaltyAmt, "", new { @class = "text-danger" })
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.Qty, "Qty", new { @class = "control-label col-md-4 col-sm-2" })
+                                            <div class="col-md-7 col-sm-10">
+                                                @Html.TextBoxFor(m => m.Qty, new { @class = "form-control ", @readonly = "true" })
+                                                @Html.ValidationMessageFor(m => m.Qty, "", new { @class = "text-danger" })
+                                                <span id="ExcessStockQty"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    
+
+                                    <div class="col-md-6" >
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.OrderLength, "Order Size (L X W)", new { @class = "control-label col-md-4 col-sm-2" })
+                                            <div class="col-md-7 col-sm-10">
+                                                <div class="col-xs-5" style="padding:0px">
+                                                    @Html.TextBoxFor(m => m.OrderLength, null, new { @class = "form-control ", @readonly = "true" })
+                                                    @Html.ValidationMessageFor(m => m.OrderLength, "", new { @class = "text-danger" })
+                                                </div>
+                                                <div class="col-xs-2" style="padding:5px;text-align:center;font-weight:bold">
+                                                    X
+                                                </div>
+                                                <div class="col-xs-5" style="padding:0px">
+                                                    @Html.TextBoxFor(m => m.OrderWidth, null, new { @class = "form-control ", @readonly = "true" })
+                                                    @Html.ValidationMessageFor(m => m.OrderWidth, "", new { @class = "text-danger" })
+                                                </div>
+                                                </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.Length, "Actual Size (L X W)", new { @class = "control-label col-md-4 col-sm-2" })
+                                            <div class="col-md-7 col-sm-10">
+                                                <div class="col-xs-5" style="padding:0px">
+                                                    @Html.TextBoxFor(m => m.Length, null, new { @class = "form-control " })
+                                                    @Html.ValidationMessageFor(m => m.Length, "", new { @class = "text-danger" })
+                                                </div>
+                                                <div class="col-xs-2" style="padding:5px;text-align:center;font-weight:bold">
+                                                    X
+                                                </div>
+                                                <div class="col-xs-5" style="padding:0px">
+                                                    @Html.TextBoxFor(m => m.Width, null, new { @class = "form-control " })
+                                                    @Html.ValidationMessageFor(m => m.Width, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+
+                                    <div class="col-md-6" style="display:@(Model.JobReceiveSettings.isVisibleDealUnit ? "" : "none")">
+                                        @Html.HiddenFor(m => m.JobReceiveSettings.isVisibleDealUnit)
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.DealUnitId, (Model.DocumentTypeSettings.DealQtyCaption + " Unit & Multiplier" ?? "Deal Unit & Multiplier"), new { @class = "control-label col-md-4 col-sm-2" })
+                                            <div class="col-md-7 col-sm-10" style="padding:0px">
+                                                <div class="col-xs-7" style="padding-right:0px">
+                                                    @Html.TextBoxFor(model => model.UnitConversionMultiplier, new { @class = "form-control cusleftnormal ", @readonly = "true" })
+                                                    @Html.ValidationMessageFor(model => model.UnitConversionMultiplier, "", new { @class = "text-danger" })
+                                                </div>
+                                                
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.DealQty, (Model.DocumentTypeSettings.DealQtyCaption ?? "Deal Qty"), new { @class = "control-label col-md-4 col-sm-2" })
+                                            @Html.HiddenFor(m => m.DocumentTypeSettings.DealQtyCaption)
+                                            <div class="col-md-7 col-sm-10" style="padding:0px">
+                                                <div class="col-xs-7" style="padding-right:0px">
+                                                    @Html.TextBoxFor(m => m.DealQty, null, new { @class = "form-control" })
+                                                    @Html.ValidationMessageFor(m => m.DealQty, "", new { @class = "text-danger" })
+                                                </div>
+                                                <div class="col-xs-5" style="padding-left:0px">
+                                                    @Html.DropDownListFor(model => model.DealUnitId, new SelectList(ViewBag.DeliveryUnitList as System.Collections.IEnumerable, "UnitId", "UnitName"), new { @class = "form-control height cusrightnormal required" })
+                                                    @Html.ValidationMessageFor(model => model.DealUnitId, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6" style="display:@(Model.JobReceiveSettings.IsVisibleWeight ? "" : "none")">
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.StandardWeight, "Standard Weight", new { @class = "control-label col-md-4 col-sm-2" })
+                                            <div class="col-md-7 col-sm-10">
+                                                @Html.TextBoxFor(m => m.StandardWeight, null, new { @class = "form-control", @readonly = "true" })
+                                                @Html.ValidationMessageFor(m => m.StandardWeight, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6" style="display:@(Model.JobReceiveSettings.IsVisibleWeight ? "" : "none")">
+                                        @Html.HiddenFor(m => m.JobReceiveSettings.IsVisibleWeight)
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.Weight, (Model.DocumentTypeSettings.WeightCaption ?? "Weight"), new { @class = "control-label col-md-4 col-sm-2" })
+                                            @Html.HiddenFor(m => m.DocumentTypeSettings.WeightCaption)
+                                            <div class="col-md-7 col-sm-10">
+                                                @Html.TextBoxFor(m => m.Weight, null, new { @class = "form-control" })
+                                                @Html.ValidationMessageFor(m => m.Weight, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.Rate, "Rate", new { @class = "control-label col-md-4 col-sm-2" })
+                                            <div class="col-md-7 col-sm-10">
+                                                @Html.TextBoxFor(m => m.Rate, null, new { @class = "form-control" })
+                                                @Html.ValidationMessageFor(m => m.Rate, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.Amount, "Amount", new { @class = "control-label col-md-4 col-sm-2" })
+                                            <div class="col-md-7 col-sm-10">
+                                                @Html.TextBoxFor(m => m.Amount, null, new { @class = "form-control" })
+                                                @Html.ValidationMessageFor(m => m.Amount, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6" style="display:@(Model.JobReceiveQASettings.IsVisiblePenalty?"":"none")">
+                                        @Html.HiddenFor(m => m.JobReceiveQASettings.IsVisiblePenalty)
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.PenaltyRate, "Penalty Rate", new { @class = "control-label col-md-4 col-sm-2" })
+                                            <div class="col-md-7 col-sm-10">
+                                                @Html.TextBoxFor(m => m.PenaltyRate, new { @class = "form-control " })
+                                                @Html.ValidationMessageFor(m => m.PenaltyRate, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6" style="display:@(Model.JobReceiveQASettings.IsVisiblePenalty?"":"none")">
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.PenaltyAmt, "Penalty Amt", new { @class = "control-label col-md-4 col-sm-2" })
+                                            <div class="col-md-7 col-sm-10">
+                                                @Html.TextBoxFor(m => m.PenaltyAmt, null, new { @class = "form-control" })
+                                                @Html.ValidationMessageFor(m => m.PenaltyAmt, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-
                     @if (Model.QAGroupLine != null)
                     {
                         if (Model.QAGroupLine.Count > 0)
@@ -325,9 +364,8 @@
                             </h4>
                         }
                     }
-
-                    <div>
-                        @if (Model.QAGroupLine != null)
+                            <div>
+                                @if (Model.QAGroupLine != null)
                         {
                             for (int i = 0; i < Model.QAGroupLine.Count; i++)
                             {
@@ -337,7 +375,7 @@
                                         @Html.HiddenFor(m => m.QAGroupLine[i].JobReceiveQAAttributeId)
                                         @Html.HiddenFor(m => Model.QAGroupLine[i].Name)
                                         @Html.HiddenFor(m => Model.QAGroupLine[i].QAGroupLineId)
-                                            @if (Model.QAGroupLine[i].DataType == "List")
+                                        @if (Model.QAGroupLine[i].DataType == "List")
                                             {
                                                 List<SelectListItem> tem = new List<SelectListItem>();
                                                 foreach (string item in (Model.QAGroupLine[i].ListItem).Split(',').ToList())
@@ -346,96 +384,87 @@
                                                 }
 
 
-                                                <div class="col-md-7 col-sm-10">
-                                                    @Html.DropDownListFor(m => Model.QAGroupLine[i].Value, new SelectList(tem as System.Collections.IEnumerable, "Value", "Text", Model.QAGroupLine[i].DefaultValue), new { @class = "form-control" })
-                                                    @*<input type="text" name="@(item.Name)s" value=@item.DefaultValue class="form-control col-xs-6" />*@
-                                                </div>
+                                            <div class="col-md-7 col-sm-10">
+                                                @Html.DropDownListFor(m => Model.QAGroupLine[i].Value, new SelectList(tem as System.Collections.IEnumerable, "Value", "Text", Model.QAGroupLine[i].DefaultValue), new { @class = "form-control" })
+                                                @*<input type="text" name="@(item.Name)s" value=@item.DefaultValue class="form-control col-xs-6" />*@
+                                            </div>
                                             }
                                             else
                                             {
-                                                <div class="col-md-7 col-sm-10">
-                                                    @Html.TextBoxFor(m => Model.QAGroupLine[i].Value, new { @class = "form-control col-xs-6" })
-                                                    @*<input type="text" name="@(item.Name)s" value=@item.DefaultValue class="form-control col-xs-6" />*@
-                                                </div>
+                                            <div class="col-md-7 col-sm-10">
+                                                @Html.TextBoxFor(m => Model.QAGroupLine[i].Value, new { @class = "form-control col-xs-6" })
+                                                @*<input type="text" name="@(item.Name)s" value=@item.DefaultValue class="form-control col-xs-6" />*@
+                                            </div>
                                             }
                                     </div>
                                 </div>
-                            
-                                @*<div class="col-md-6">
-                                        <div class="form-group">
-                                            @Html.Label(Model.QAGroupLine[i].Name + " Remark", new { @class = "control-label col-xs-4" })
-                                            <div class="col-md-7 col-sm-10">
-                                                @Html.TextBoxFor(m => Model.QAGroupLine[i].Remarks, new { @class = "form-control col-xs-6" })
-                                            </div>
-                                        </div>
-                                </div>*@
-                            }
-                        }
-                    </div>
 
-
-                </div>
-
-
-                <hr />
-                <div class="row">
-                    <h4 class="col-md-12 black" style="margin-top:15px">
-                        <span class="glyphicon glyphicon-shopping-cart"></span>
-                        Penalty Detail
-                    </h4>
-                </div>
-
-                <div class="panel-info">
-                    <h5 style="padding:5px 0 3px 0;margin:0px;font-weight:bold">
-                        <span class="glyphicon glyphicon-plus-sign"></span>
-                        @Html.ActionLink("Add New Row ", "_Create", "JobReceiveQAPenalty", new { id = @Model.JobReceiveQALineId }, new { data_modal = "", id = "btnCreate", @class = "toolbar", @title = "Add New", @data_toggle = "tooltip", @data_detailDisabled = "true" })
-                    </h5>
-                </div>
-                <div style="padding-right:15px">
-
-                    @*<table class="table table-hover ctable">
-                            <thead id="header">
-                            </thead>
-
-                            <tbody id="Result"></tbody>
-                        </table>*@
-
-                    <div class="panel panel-default" id="grid">
-                        <div class="panel-heading headrow" >
-                            <div class="row grid-head">
-                                <div class="block" style="width:5%">
-                                    Srl.
-                                </div>
-                                <div class="block" style="width:90%">
-                                    <div class="row">
-                                        @*ProductInfo*@
-                                        <div class="block" style="width:32%">
-                                            Reason
-                                        </div>
-                                        @*PopContext*@
-                                        <div class="block text-right" style="width:20%">
-                                            Amount
-                                        </div>
-                                        @*Qty*@
-                                        <div class="block" style="width:15%">
-                                            Remark
-                                        </div>
+                                    @*<div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.Label(Model.QAGroupLine[i].Name + " Remark", new { @class = "control-label col-xs-4" })
+                                    <div class="col-md-7 col-sm-10">
+                                        @Html.TextBoxFor(m => Model.QAGroupLine[i].Remarks, new { @class = "form-control col-xs-6" })
                                     </div>
                                 </div>
-                                <div class="block" style="width:5%">
-
-                                </div>
+                        </div>*@
+                            }
+                        }
                             </div>
 
                         </div>
-                        <div class="panel-info" id="gbody">
 
+                        <hr />
+                        <div class="row">
+                            <h4 class="col-md-12 black" style="margin-top:15px">
+                                <span class="glyphicon glyphicon-shopping-cart"></span>
+                                Penalty Detail
+                            </h4>
+                        </div>
+                        <div class="panel-info">
+                            <h5 style="padding:5px 0 3px 0;margin:0px;font-weight:bold">
+                                <span class="glyphicon glyphicon-plus-sign"></span>
+                                @Html.ActionLink("Add New Row ", "_Create", "JobReceiveQAPenalty", new { id = @Model.JobReceiveQALineId }, new { data_modal = "", id = "btnCreate", @class = "toolbar", @title = "Add New", @data_toggle = "tooltip", @data_detailDisabled = "true" })
+                            </h5>
+                        </div>
+                        <div style="padding-right:15px">
+                            @*<table class="table table-hover ctable">
+                    <thead id="header">
+                    </thead>
 
+                    <tbody id="Result"></tbody>
+                </table>*@
+                            <div class="panel panel-default" id="grid">
+                                <div class="panel-heading headrow">
+                                    <div class="row grid-head">
+                                        <div class="block" style="width:5%">
+                                            Srl.
+                                        </div>
+                                        <div class="block" style="width:90%">
+                                            <div class="row">
+                                                @*ProductInfo*@
+                                                <div class="block" style="width:32%">
+                                                    Reason
+                                                </div>
+                                                @*PopContext*@
+                                                <div class="block text-right" style="width:20%">
+                                                    Amount
+                                                </div>
+                                                @*Qty*@
+                                                <div class="block" style="width:15%">
+                                                    Remark
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="block" style="width:5%">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="panel-info" id="gbody">
+
+                                </div>
+                            </div>
                         </div>
                     </div>
-
-                </div>
-            </div>
         </div>
     </div>
 }
@@ -455,6 +484,7 @@
 
         $(document).ready(function(){
             enableModalTransitions();
+            Calculation();
         })
 
     
@@ -573,6 +603,7 @@
             $.ajax({
                 cache: false,
                 type: "POST",
+                async : false,
                 url: "@(Url.Action("GetJobOrderDetailJson"))",
                 data: { JobOrderLineId: $("#JobOrderLineId").val()},
             success: function (data) {
@@ -591,9 +622,9 @@
                     $("#UnitConversionMultiplier").val(data.UnitConversionMultiplier);
                     $("#UnitName").val(data.UnitName);
                     $("#Length").val(data.Length);
-                    $("#XLength").val(data.Length);
+                    $("#OrderLength").val(data.Length);
                     $("#Width").val(data.Width);
-                    $("#XWidth").val(data.Width);
+                    $("#OrderWidth").val(data.Width);
                     $("#DimensionUnitDecimalPlaces").val(data.DimensionUnitDecimalPlaces);
                     Calculation();
                 }
@@ -606,15 +637,34 @@
                     $("#Rate").val(0);
                     $("#XRate").val(0);
                     $("#Length").val("");
-                    $("#XLength").val("");
+                    $("#OrderLength").val("");
                     $("#Width").val("");
-                    $("#XWidth").val("");
+                    $("#OrderWidth").val("");
                     $("#DimensionUnitDecimalPlaces").val(0);
                     $("#JobWorkerId").select2("data", { id: "", text: "" });
                 }
             },
             error: function (xhr, ajaxOptions, thrownError) {
                 alert('Failed to retrieve product Uid details.' + thrownError);
+                ProcessProgress.hide();
+            }
+        });
+
+            $.ajax({
+                cache: false,
+                async: false,
+                type: "POST",
+                url: "@(Url.Action("GetStandardWeightson"))",
+                data: { ProductId: $("#ProductId").val() },
+            success: function (data) {
+                if (data != null)
+                {
+                    $("#StandardWeight").val(data.StandardWeight);
+                    $("#Weight").val(data.StandardWeight);
+                }
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert('Failed to retrieve Product Detail.' + thrownError);
                 ProcessProgress.hide();
             }
         });
@@ -793,8 +843,18 @@
         return;
     });
 
+    $('#ProductUidName').keyup(function(){
+        if ($('#ProductUidName').val() == null || $('#ProductUidName').val() == "")
+        {
+            $('#Qty').removeAttr('readonly');
+        }
+        else{
+            $('#Qty').attr('readonly', 'true');
+        }
+    });
 
-    $('#DealQty,#Qty,#PenaltyRate').keyup(function(){
+
+    $('#DealQty,#Qty,#PenaltyRate,#Rate').keyup(function(){
         Calculation();
     });
 
@@ -838,6 +898,11 @@
         if($('#PenaltyRate').val() && $('#PenaltyRate').val() >0)
             $('#PenaltyAmt').val(($('#PenaltyRate').val() * parseFloat($('#Qty').val() * $('#UnitConversionMultiplier').val())).toFixed(2))
 
+        
+        if($('#DealQty').val() > 0 && $('#Rate').val() >0)
+        {
+            $('#Amount').val(($('#DealQty').val() * $('#Rate').val()).toFixed(2));
+        }
 
     }
 
@@ -893,7 +958,7 @@
     @*var Length = @Model.Length;
     var Width = @Model.Width;*@
     function GetUnitConversionMultiplier() {
-        if ($("#Length").val() > 0 && $("#Width").val() > 0 && ($("#Length").val() != $("#XLength").val() || $("#Width").val() != $("#XWidth").val())) {
+        if ($("#Length").val() > 0 && $("#Width").val() > 0 && ($("#Length").val() != $("#OrderLength").val() || $("#Width").val() != $("#OrderWidth").val())) {
         //if ($("#Length").val() > 0 && $("#Width").val() > 0) {
                 $.ajax({
                     cache: false,
@@ -973,6 +1038,9 @@
                     ProcessProgress.hide();
                 }
             });
+
+            
+            
         }
     }
 </script>

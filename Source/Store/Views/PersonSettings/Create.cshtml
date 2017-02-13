@@ -491,6 +491,17 @@
                                     </div>
                                 </div>
                             </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group" style="margin-top:15px">
+                                    @Html.LabelFor(model => model.DefaultProcessId, "Default Process", new { @class = "control-label col-xs-4" })
+                                    <div class="col-xs-6">
+                                        @Html.TextBoxFor(m => m.DefaultProcessId, null, new { @class = "form-control col-xs-6 required" })
+                                        @Html.ValidationMessageFor(m => m.DefaultProcessId)
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                 </div>
@@ -504,6 +515,7 @@
 
     $(function () {
         CustomSelectFunction($("#LedgerAccountGroupId"), '/ComboHelpList/GetAccountGroup', '/ComboHelpList/SetSingleAccountGroup', ' ', false, 0);
+        CustomSelectFunction($("#DefaultProcessId"), '/ComboHelpList/GetProcess', '/ComboHelpList/SetSingleProcess', ' ', false, 0);
     });
 
 

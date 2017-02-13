@@ -605,11 +605,14 @@
     {
         var TitleCase= '@Session["TitleCase"]';
         //alert(TitleCase);
-        $('#ProductGroupName').keyup(function() {
+        $('#ProductGroupName').focusout(function() {
             if (TitleCase=="UpperCase")
             this.value = this.value.toUpperCase() ;
+        });
     });
-    });
+    
+
+
 </script>
 
 <script type="text/javascript">

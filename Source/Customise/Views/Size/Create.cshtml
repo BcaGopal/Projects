@@ -202,7 +202,7 @@
     {
         var TitleCase= '@Session["TitleCase"]';
         //alert(TitleCase);
-        $('#SizeName').keyup(function() {
+        $('#SizeName').focusout(function() {
             if (TitleCase=="UpperCase")
             this.value = this.value.toUpperCase() ;
     });

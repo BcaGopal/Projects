@@ -8,6 +8,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Model.ViewModel
 {
+    [Serializable]
     public class MaterialPlanSettingsViewModel
     {
         public int MaterialPlanSettingsId { get; set; }
@@ -42,6 +43,8 @@ namespace Model.ViewModel
         public string DocTypePurchaseIndentName { get; set; }        
         public int ? DocTypeProductionOrderId { get; set; }
         public string DocTypeProductOrderName { get; set; }
+
+
 
         public int? WizardMenuId { get; set; }
 

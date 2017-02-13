@@ -18,6 +18,8 @@
     @Scripts.Render("~/bundles/clibs")
     @Scripts.Render("~/bundles/bootstrap")
 
+
+    
     @{
         var color = (string)System.Web.HttpContext.Current.Session["TopBarColr"];
 
@@ -298,7 +300,7 @@
         <p style="padding:10px"> &copy;  @System.Configuration.ConfigurationManager.AppSettings["FooterNote"]</p>
     </footer>
     <script type="text/javascript">
-
+        
         $('.datepicker').datepicker({
             format: 'dd/MM/yyyy',
             "setDate": new Date(),
@@ -327,6 +329,8 @@
             }
         })
 
+        
+        
         $('.datepicker,.datepickerWithNFD').datepicker().on('changeDate', function () {
             if (($(this).val())) {
                 var date = new Date($(this).val())
@@ -338,13 +342,14 @@
                 }
             }
 
-            //if (($(this).val()) && ViewBag.Mode == "Add" && $(this).hasClass('updateDocNo')) {
-            //    $.get("/GetNewDocNo/GetNewDocNo", {
-            //        table: $(this).data('tabl'), doctype: $(this).data('doctype'), division: parseInt($(this).data('divid')), site: parseInt($(this).data('sitid')), date: $(this).val()
-            //    }, function (data, stat, xhr) {
-            //        $('#DocNo').val(data.returnvalue);
-            //    })
-            //}
+            var EntryMode = '@ViewBag.Mode';
+            if (($(this).val()) && EntryMode == "Add" && $(this).hasClass('updateDocNo')) {
+                $.get("/GetNewDocNo/GetNewDocNo", {
+                    table: $(this).data('tabl'), doctype: $(this).data('doctype'), division: parseInt($(this).data('divid')), site: parseInt($(this).data('sitid')), date: $(this).val()
+                }, function (data, stat, xhr) {
+                    $('#DocNo').val(data.returnvalue);
+                })
+            }
 
         })
 

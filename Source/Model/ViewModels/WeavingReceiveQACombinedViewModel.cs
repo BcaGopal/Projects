@@ -51,8 +51,10 @@ namespace Model.ViewModel
         public string DealUnitId { get; set; }
         public Decimal UnitConversionMultiplier { get; set; }
         public decimal DealQty { get; set; }
+        public decimal StandardWeight { get; set; }
         public decimal Weight { get; set; }
         public decimal Rate { get; set; }
+        public decimal Amount { get; set; }
         public decimal? PenaltyRate { get; set; }
         public decimal? PenaltyAmt { get; set; }
 
@@ -68,14 +70,16 @@ namespace Model.ViewModel
         public JobReceiveSettingsViewModel JobReceiveSettings { get; set; }
         public JobReceiveQASettingsViewModel JobReceiveQASettings { get; set; }
         public DocumentTypeSettingsViewModel DocumentTypeSettings { get; set; }
+
+        public Decimal? OrderLength { get; set; }
+        public Decimal? OrderWidth { get; set; }
+
         public Decimal? Length { get; set; }
         public Decimal? Width { get; set; }
         public Decimal? Height { get; set; }
         public int? DimensionUnitDecimalPlaces { get; set; }
 
         public Decimal? XRate { get; set; }
-        public Decimal? XLength { get; set; }
-        public Decimal? XWidth { get; set; }
         public string OMSId { get; set; }
 
     }

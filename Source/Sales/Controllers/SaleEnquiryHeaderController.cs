@@ -759,7 +759,7 @@ namespace Web
                     ActivityType = (int)ActivityTypeContants.Submitted;
 
 
-
+                    pd.LockReason = "Sale order is created for enquiry.Now you can't modify enquiry, changes can be done in sale order.";
                     _SaleEnquiryHeaderService.Update(pd);
 
                     CreateSaleOrder(Id);
@@ -1009,7 +1009,7 @@ namespace Web
             OrderHeader.Status = (int)StatusConstants.Submitted;
             OrderHeader.ReviewBy = User.Identity.Name;
             OrderHeader.ReviewCount = 1;
-            OrderHeader.LockReason = "Sale order is created for enquiry.Now you can't modify enquiry, changes can be done in sale order.";
+            //OrderHeader.LockReason = "Sale order is created for enquiry.Now you can't modify enquiry, changes can be done in sale order.";
             new SaleOrderHeaderService(_unitOfWork).Create(OrderHeader);
 
 

@@ -130,7 +130,8 @@
     $(document).ready(function () {
         var DocID = $('#SaleEnquiryHeaderId').val();
         CustomSelectFunction($("#ProductId"), '/SaleEnquiryProductMapping/GetCustomProducts', '/ComboHelpList/SetSingleProducts', ' ', false, 0, DocID);
-        CustomSelectFunction($("#SaleToBuyerId"), '/ComboHelpList/GetBuyers', '/ComboHelpList/SetSingleBuyer', ' ', false, 0);
+        //CustomSelectFunction($("#SaleToBuyerId"), '/ComboHelpList/GetBuyers', '/ComboHelpList/SetSingleBuyer', ' ', false, 0);
+        CustomSelectFunction($("#SaleToBuyerId"), '/SaleEnquiryProductMapping/GetCustomPerson', '/ComboHelpList/SetSinglePerson', ' ', false, 1, DocID);
     });
 </script>
 
