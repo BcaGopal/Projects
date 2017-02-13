@@ -64,6 +64,16 @@ namespace Model.Models
         [MaxLength(100)]
         public string SqlProcDocumentPrint_AfterApprove { get; set; }
 
+        [ForeignKey("ImportMenu")]
+        [Display(Name = "ImportMenu")]
+        public int? ImportMenuId { get; set; }
+        public virtual Menu ImportMenu { get; set; }
+
+        [ForeignKey("ExportMenu")]
+        [Display(Name = "ExportMenu")]
+        public int? ExportMenuId { get; set; }
+        public virtual Menu ExportMenu { get; set; }
+
 
         [ForeignKey("OnSubmitMenu")]
         [Display(Name = "OnSubmitMenu")]

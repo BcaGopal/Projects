@@ -90,6 +90,7 @@ namespace Web
             IQueryable<RequisitionHeaderViewModel> p = _RequisitionHeaderService.GetRequisitionHeaderList(id, User.Identity.Name);
             ViewBag.Name = new DocumentTypeService(_unitOfWork).Find(id).DocumentTypeName;
             ViewBag.id = id;
+            PrepareViewBag(id);
             ViewBag.PendingToSubmit = PendingToSubmitCount(id);
             ViewBag.PendingToReview = PendingToReviewCount(id);
             ViewBag.IndexStatus = "All";
@@ -123,6 +124,16 @@ namespace Web
             ViewBag.ReasonList = new ReasonService(_unitOfWork).GetReasonList(TransactionDocCategoryConstants.Requisition).ToList();
             ViewBag.Name = new DocumentTypeService(_unitOfWork).Find(id).DocumentTypeName;
             ViewBag.id = id;
+            var DivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
+             var SiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
+            ViewBag.AdminSetting = UserRoles.Contains("Admin").ToString();
+            var settings = new MaterialRequestSettingsService(_unitOfWork).GetMaterialRequestSettingsForDocument(id,DivisionId, SiteId);
+            if(settings !=null)
+            {
+                ViewBag.ImportMenuId = settings.ImportMenuId;
+                ViewBag.SqlProcDocumentPrint = settings.SqlProcDocumentPrint;
+                ViewBag.ExportMenuId = settings.ExportMenuId;
+            }
         }
 
         // GET: /RequisitionHeader/Create
@@ -1072,7 +1083,7 @@ namespace Web
         #region submitValidation
         public bool Submitvalidation(int id, out string Msg)
         {   
-            Msg = "";
+            Msg = "";            
             int Stockline = (new RequisitionLineService(_unitOfWork).GetRequisitionLineListForIndex(id)).Count();
             if (Stockline == 0)
             {

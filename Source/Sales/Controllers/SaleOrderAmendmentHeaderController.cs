@@ -398,7 +398,17 @@ namespace Web
             #region DocTypeTimeLineValidation
 
             SaleOrderAmendmentHeader s = db.SaleOrderAmendmentHeader.Find(id);
-
+            try
+            {
+                TimePlanValidation = Submitvalidation(id, out ExceptionMsg);
+                TempData["CSEXC"] += ExceptionMsg;
+            }
+            catch (Exception ex)
+            {
+                string message = _exception.HandleException(ex);
+                TempData["CSEXC"] += message;
+                TimePlanValidation = false;
+            }
             try
             {
                 TimePlanValidation = DocumentValidation.ValidateDocument(Mapper.Map<DocumentUniqueId>(s), DocumentTimePlanTypeConstants.Submit, User.Identity.Name, out ExceptionMsg, out Continue);
@@ -786,6 +796,23 @@ namespace Web
 
         }
 
+        #region submitValidation
+        public bool Submitvalidation(int id, out string Msg)
+        {
+            Msg = "";            
+            int SaleOrderQtyAmd = (new SaleOrderQtyAmendmentLineService(_unitOfWork).GetSaleOrderQtyAmendmentLineForHeader(id)).Count();
+            if (SaleOrderQtyAmd == 0)
+            {
+                Msg = "Add Line Record. <br />";
+            }
+            else
+            {
+                Msg = "";
+            }
+            return (string.IsNullOrEmpty(Msg));
+        }
+
+        #endregion submitValidation
 
         public ActionResult GetCustomPerson(string searchTerm, int pageSize, int pageNum, int filter)//DocTypeId
         {

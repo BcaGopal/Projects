@@ -84,6 +84,17 @@ namespace Web
             ViewBag.ReasonList = new ReasonService(_unitOfWork).GetReasonList(TransactionDocCategoryConstants.JobOrderCancel).ToList();
             ViewBag.Name = new DocumentTypeService(_unitOfWork).Find(id).DocumentTypeName;
             ViewBag.id = id;
+
+            ViewBag.AdminSetting = UserRoles.Contains("Admin").ToString();
+            var DivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
+            var SiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
+            var settings = new JobOrderInspectionRequestSettingsService(db).GetJobOrderInspectionRequestSettingsForDocument(id, DivisionId, SiteId);
+            if(settings !=null)
+            {
+                ViewBag.ImportMenuId = settings.ImportMenuId;
+                ViewBag.SqlProcDocumentPrint = settings.DocumentPrint;
+                ViewBag.ExportMenuId = settings.ExportMenuId;
+            }
         }
 
         // GET: /JobOrderInspectionRequestCancelHeaderMaster/

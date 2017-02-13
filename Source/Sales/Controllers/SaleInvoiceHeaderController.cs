@@ -73,6 +73,18 @@ namespace Web
             ViewBag.CurrencyList = new CurrencyService(_unitOfWork).GetCurrencyList().ToList();
             ViewBag.SalesTaxGroupList = new ChargeGroupPersonService(_unitOfWork).GetChargeGroupPersonList((int)(ChargeTypeConstants.SalesTax)).ToList();
             ViewBag.DeliveryTermsList = new DeliveryTermsService(_unitOfWork).GetDeliveryTermsList().ToList();
+
+             var DivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
+             var SiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
+             ViewBag.AdminSetting = UserRoles.Contains("Admin").ToString();
+             var settings = new SaleInvoiceSettingService(_unitOfWork).GetSaleInvoiceSettingForDocument(id,DivisionId,SiteId);
+            if(settings !=null)
+            {
+                ViewBag.ImportMenuId = settings.ImportMenuId;
+                ViewBag.SqlProcDocumentPrint = settings.SqlProcDocumentPrint;
+                ViewBag.ExportMenuId = settings.ExportMenuId;
+            }
+
         }
 
         public ActionResult DocumentTypeIndex(int id)//DocumentCategoryId
@@ -624,7 +636,17 @@ namespace Web
             #region DocTypeTimeLineValidation
 
             SaleInvoiceHeader s = db.SaleInvoiceHeader.Find(id);
-
+            try
+            {
+                TimePlanValidation = Submitvalidation(id, out ExceptionMsg);
+                TempData["CSEXC"] += ExceptionMsg;
+            }
+            catch (Exception ex)
+            {
+                string message = _exception.HandleException(ex);
+                TempData["CSEXC"] += message;
+                TimePlanValidation = false;
+            }
             try
             {
                 TimePlanValidation = DocumentValidation.ValidateDocument(Mapper.Map<DocumentUniqueId>(s), DocumentTimePlanTypeConstants.Submit, User.Identity.Name, out ExceptionMsg, out Continue);
@@ -1094,6 +1116,20 @@ namespace Web
             };
         }
 
+        public bool Submitvalidation(int id, out string Msg)
+        {
+            Msg = "";
+            int SaleInvoiceLine = (new SaleInvoiceLineService(_unitOfWork).GetDirectSaleInvoiceLineListForIndex(id)).Count();
+            if (SaleInvoiceLine == 0)
+            {
+                Msg = "Add Line Record. <br />";
+            }
+            else
+            {
+                Msg = "";
+            }
+            return (string.IsNullOrEmpty(Msg));
+        }
         protected override void Dispose(bool disposing)
         {
             if (!string.IsNullOrEmpty((string)TempData["CSEXC"]))

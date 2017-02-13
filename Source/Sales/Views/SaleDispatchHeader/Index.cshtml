@@ -30,15 +30,32 @@
             <div class="btn-group">
                 @Html.ActionLink(" ", "Create", "SaleDispatchHeader", new { @id = @ViewBag.id }, new { @class = "cbtn btn-circle glyphicon glyphicon-plus toolbar", @title = "Add New", @data_toggle = "tooltip" })
                 @Html.ActionLink(" ", "GetHistory", "LogHistory", null, new { @class = "cbtn btn-circle glyphicon glyphicon-user toolbar", @title = "History", @data_toggle = "tooltip", @id = "DocHistoryI" })
+                @if (ViewBag.SqlProcDocumentPrint !=null)
+                {
                 @Html.ActionLink(" ", "GeneratePrints", "SaleDispatchHeader", null, new { @class = "cbtn btn-circle glyphicon glyphicon-print toolbar", @title = "Print", @data_toggle = "tooltip", @id = "PrintRecordI", target = "_blank" })
+                }
+                @if (ViewBag.SqlProcGatePass !=null)
+                {
                 @Html.ActionLink(" ", "GenerateGatePass", "SaleDispatchHeader", null, new { @class = "cbtn btn-circle glyphicon glyphicon glyphicon-log-out ", @title = "GatePass", @data_toggle = "tooltip", @id = "GenGatePassI" })
+                }
                 @Html.ActionLink(" ", "Remove", "SaleDispatchHeader", null, new { @class = "cbtn btn-circle glyphicon glyphicon-trash toolbar", @title = "Delete", @data_toggle = "tooltip", @id = "DeleteRecord", @data_modalDelete = "" })
             </div>
             <div class="btn-group">
                 <a class="cbtn btn-circle glyphicon glyphicon-option-horizontal dropdown-toggle" aria-expanded="false" style="padding-top: 6px;padding-bottom: 6px;" href="#" data-toggle="dropdown" id="dropdownMenu1">
                 </a>
                 <ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu1">
+                    @if (ViewBag.ExportMenuId !=null)
+                    {
+                    <li><a href="@Url.Action("Export", "SaleDispatchHeader", new { @id = @ViewBag.id })"><span class="glyphicon glyphicon-export"> </span>&nbsp;&nbsp;Export</a></li>
+                    }
+                    @if (ViewBag.ImportMenuId !=null)
+                    {
+                    <li><a href="@Url.Action("Import", "SaleDispatchHeader", new { @id = @ViewBag.id })"><span class="glyphicon glyphicon-import"> </span>&nbsp;&nbsp;Import</a></li>
+                    }
+                    @if (ViewBag.AdminSetting == "True")
+                    {
                     <li><a href="@Url.Action("Create", "SaleDispatchSetting", new { @id = @ViewBag.id })"><span class="glyphicon glyphicon-cog"> </span>&nbsp;&nbsp;Settings</a></li>
+                    }
                     <li role="separator" class="divider"></li>
                     <li><a target="_blank" href="@Url.Action("Report", "SaleDispatchHeader", new { @ViewBag.id })"><span class="glyphicon glyphicon-stats"> </span> Report</a></li>
                 </ul>

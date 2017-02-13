@@ -838,7 +838,17 @@ namespace Presentation
             #region DocTypeTimeLineValidation
 
             MaterialPlanCancelHeader s = db.MaterialPlanCancelHeader.Find(id);
-
+            try
+            {
+                TimePlanValidation = Submitvalidation(id, out ExceptionMsg);
+                TempData["CSEXC"] += ExceptionMsg;
+            }
+            catch (Exception ex)
+            {
+                string message = _exception.HandleException(ex);
+                TempData["CSEXC"] += message;
+                TimePlanValidation = false;
+            }
             try
             {
                 TimePlanValidation = DocumentValidation.ValidateDocument(Mapper.Map<DocumentUniqueId>(s), DocumentTimePlanTypeConstants.Submit, User.Identity.Name, out ExceptionMsg, out Continue);
@@ -953,7 +963,23 @@ namespace Presentation
         {
             return (_MaterialPlanCancelHeaderService.GetMaterialPlanCancelHeaderListPendingToReview(id, User.Identity.Name)).Count();
         }
+        #region submitValidation
+        public bool Submitvalidation(int id, out string Msg)
+        {
+            Msg = "";
+            int MaterialPlanLine = (new MaterialPlanCancelLineService(_unitOfWork).GetMaterialPlanCancelLineList(id)).Count();
+            if (MaterialPlanLine == 0)
+            {
+                Msg = "Add Line Record. <br />";
+            }
+            else
+            {
+                Msg = "";
+            }
+            return (string.IsNullOrEmpty(Msg));
+        }
 
+        #endregion submitValidation
         protected override void Dispose(bool disposing)
         {
             if (!string.IsNullOrEmpty((string)TempData["CSEXC"]))

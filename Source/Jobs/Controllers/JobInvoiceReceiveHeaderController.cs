@@ -80,11 +80,15 @@ namespace Web
 
             var DivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
             var SiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
-
+            ViewBag.AdminSetting = UserRoles.Contains("Admin").ToString();
             var settings = new JobInvoiceSettingsService(_unitOfWork).GetJobInvoiceSettingsForDocument(id, DivisionId, SiteId);
             if (settings != null)
             {
                 ViewBag.IsPostedInStock = settings.isPostedInStock;
+                ViewBag.WizardId = settings.WizardMenuId;
+                ViewBag.ImportMenuId = settings.ImportMenuId;
+                ViewBag.SqlProcDocumentPrint = settings.SqlProcDocumentPrint;
+                ViewBag.ExportMenuId = settings.ExportMenuId;
             }
 
             ViewBag.id = id;

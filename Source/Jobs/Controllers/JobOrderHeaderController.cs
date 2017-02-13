@@ -153,6 +153,7 @@ namespace Web
                 ViewBag.ImportMenuId = settings.ImportMenuId;
                 ViewBag.SqlProcDocumentPrint = settings.SqlProcDocumentPrint;
                 ViewBag.SqlProcGatePass = settings.SqlProcGatePass;
+                ViewBag.ExportMenuId = settings.ExportMenuId;
             }
 
 

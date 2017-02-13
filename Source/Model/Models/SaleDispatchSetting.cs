@@ -85,6 +85,10 @@ namespace Model.Models
         public virtual Menu ImportMenu { get; set; }
 
 
+        [ForeignKey("ExportMenu")]
+        [Display(Name = "ExportMenu")]
+        public int? ExportMenuId { get; set; }
+        public virtual Menu ExportMenu { get; set; }
 
 
 
@@ -116,11 +120,6 @@ namespace Model.Models
         [ForeignKey("Godown")]
         public int GodownId { get; set; }
         public virtual Godown Godown { get; set; }
-
-
-
-
-
 
         [Display(Name = "Created By")]
         public string CreatedBy { get; set; }

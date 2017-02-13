@@ -27,15 +27,32 @@
         <div class="panel-info">
             <div class="btn-group">
                 @Html.ActionLink(" ", "Create", "JobInvoiceAmendmentHeader", new { @id = @ViewBag.id }, new { @class = "cbtn btn-circle glyphicon glyphicon-plus", @title = "Add New", @data_toggle = "tooltip" })
+                @if (ViewBag.SqlProcDocumentPrint != null)
+                {
                 @Html.ActionLink(" ", "GeneratePrints", "JobInvoiceAmendmentHeader", null, new { @class = "cbtn btn-circle glyphicon glyphicon-print", @title = "Print", @data_toggle = "tooltip", @id = "PrintRecordI", target = "_blank" })                
+                }
                 @Html.ActionLink(" ", "Remove", "JobInvoiceAmendmentHeader", null, new { @class = "cbtn btn-circle glyphicon glyphicon-trash hidden-xs", @title = "Delete", @data_toggle = "tooltip", @id = "DeleteRecord", @data_modalDelete = ""})
             </div>
             <div class="btn-group">
                 <a class="cbtn btn-circle glyphicon glyphicon-option-horizontal dropdown-toggle" aria-expanded="false" style="padding-top: 6px;padding-bottom: 6px;" href="#" data-toggle="dropdown" id="dropdownMenu1">
                 </a>
                 <ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu1">
+                    @if (ViewBag.ExportMenuId != null)
+                    {
+                    <li><a href="@Url.Action("Export", "JobInvoiceAmendmentHeader", new { @id = @ViewBag.id })"><span class="glyphicon glyphicon-export"> </span>&nbsp;&nbsp;Export</a></li>
+                    }
+                    @if (ViewBag.ImportMenuId != null)
+                    {
+                    <li><a href="@Url.Action("Import", "JobInvoiceAmendmentHeader", new { @id = @ViewBag.id })"><span class="glyphicon glyphicon-import"> </span>&nbsp;&nbsp;Import</a></li>
+                    }
+                    @if (ViewBag.WizardId != null)
+                    {
                     <li><a href="@Url.Action("Wizard", "JobInvoiceAmendmentHeader", new { @id = @ViewBag.id })"><span class="glyphicon glyphicon-random"> </span> Wizard</a></li>
+                    }
+                    @if (ViewBag.AdminSetting == "True")
+                    {
                     <li><a href="@Url.Action("CreateJobInvoiceAmendment", "JobInvoiceSettings", new { @id = @ViewBag.id })"><span class="glyphicon glyphicon-cog"> </span> Settings</a></li>
+                    }
                     <li role="separator" class="divider"></li>
                     <li><a href="@Url.Action("Report", "JobInvoiceAmendmentHeader", new { @ViewBag.id })" target="_blank"><span class="glyphicon glyphicon-stats"> </span> Report</a></li>
                 </ul>

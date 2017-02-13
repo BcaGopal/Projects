@@ -44,7 +44,9 @@
                 <a class="cbtn btn-circle glyphicon glyphicon-option-horizontal dropdown-toggle" aria-expanded="false" style="padding-top: 6px;padding-bottom: 6px;" href="#" data-toggle="dropdown" id="dropdownMenu1">
                 </a>
                 <ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu1">
-                    <li><a href="@Url.Action("Report", "DispatchWaybillHeader", new { @id = @ViewBag.id })"><span class="glyphicon glyphicon-import"> </span>&nbsp;&nbsp;Report</a></li>
+                    <li><a href="@Url.Action("Export", "DispatchWaybillHeader", new { @id = @ViewBag.id })"><span class="glyphicon glyphicon-export"> </span>&nbsp;&nbsp;Export</a></li>
+                    <li><a href="@Url.Action("Import", "DispatchWaybillHeader", new { @id = @ViewBag.id })"><span class="glyphicon glyphicon-import"> </span>&nbsp;&nbsp;Import</a></li>
+                    <li><a href="@Url.Action("Report", "DispatchWaybillHeader", new { @id = @ViewBag.id })"><span class="glyphicon glyphicon-stats"> </span>&nbsp;&nbsp;Report</a></li>
                     </ul>
             </div>
             <div class="btn-group right">

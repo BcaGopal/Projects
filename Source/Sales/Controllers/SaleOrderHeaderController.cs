@@ -80,9 +80,7 @@ namespace Web
                 return RedirectToAction("Index_PendingToReview", new { id });
             }
             IQueryable<SaleOrderHeaderIndexViewModel> p = _SaleOrderHeaderService.GetSaleOrderHeaderList(id, User.Identity.Name);
-
-            ViewBag.Name = new DocumentTypeService(_unitOfWork).Find(id).DocumentTypeName;
-            ViewBag.id = id;
+            PrepareViewBagSettings(id);
             ViewBag.PendingToSubmit = PendingToSubmitCount(id);
             ViewBag.PendingToReview = PendingToReviewCount(id);
             ViewBag.IndexStatus = "All";
@@ -92,9 +90,7 @@ namespace Web
         public ActionResult Index_PendingToSubmit(int id)
         {
             var PendingToSubmit = _SaleOrderHeaderService.GetSaleOrderHeaderListPendingToSubmit(id, User.Identity.Name);
-
-            ViewBag.Name = new DocumentTypeService(_unitOfWork).Find(id).DocumentTypeName;
-            ViewBag.id = id;
+            PrepareViewBagSettings(id);
             ViewBag.PendingToSubmit = PendingToSubmitCount(id);
             ViewBag.PendingToReview = PendingToReviewCount(id);
             ViewBag.IndexStatus = "PTS";
@@ -104,12 +100,29 @@ namespace Web
         public ActionResult Index_PendingToReview(int id)
         {
             var PendingtoReview = _SaleOrderHeaderService.GetSaleOrderHeaderListPendingToReview(id, User.Identity.Name);
-            ViewBag.Name = new DocumentTypeService(_unitOfWork).Find(id).DocumentTypeName;
-            ViewBag.id = id;
+            PrepareViewBagSettings(id);
             ViewBag.PendingToSubmit = PendingToSubmitCount(id);
             ViewBag.PendingToReview = PendingToReviewCount(id);
             ViewBag.IndexStatus = "PTR";
             return View("Index", PendingtoReview);
+        }
+
+
+        private void PrepareViewBagSettings(int id)
+        {
+            ViewBag.Name = new DocumentTypeService(_unitOfWork).Find(id).DocumentTypeName;
+            ViewBag.id = id;
+            var DivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
+            var SiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
+            var settings = new SaleOrderSettingsService(_unitOfWork).GetSaleOrderSettings(id, DivisionId, SiteId);
+            ViewBag.AdminSetting = UserRoles.Contains("Admin").ToString();
+            if (settings != null)
+            {
+                ViewBag.ImportMenuId = settings.ImportMenuId;
+                ViewBag.SqlProcDocumentPrint = settings.SqlProcDocumentPrint;
+                ViewBag.ExportMenuId = settings.ExportMenuId;
+            }
+
         }
 
 
@@ -721,7 +734,17 @@ namespace Web
             #region DocTypeTimeLineValidation
 
             SaleOrderHeader s = context.SaleOrderHeader.Find(id);
-
+            try
+            {
+                TimePlanValidation = Submitvalidation(id, out ExceptionMsg);
+                TempData["CSEXC"] += ExceptionMsg;
+            }
+            catch (Exception ex)
+            {
+                string message = _exception.HandleException(ex);
+                TempData["CSEXC"] += message;
+                TimePlanValidation = false;
+            }
             try
             {
                 TimePlanValidation = DocumentValidation.ValidateDocument(Mapper.Map<DocumentUniqueId>(s), DocumentTimePlanTypeConstants.Submit, User.Identity.Name, out ExceptionMsg, out Continue);
@@ -1042,6 +1065,23 @@ namespace Web
             return RedirectToAction("Index", new { id = id });
         }
 
+        #region submitValidation
+        public bool Submitvalidation(int id, out string Msg)
+        {
+            Msg = "";
+            int Stockline = (new SaleOrderLineService(_unitOfWork).GetSaleOrderLineListForIndex(id)).Count();
+            if (Stockline == 0)
+            {
+                Msg = "Add Line Record. <br />";
+            }
+            else
+            {
+                Msg = "";
+            }
+            return (string.IsNullOrEmpty(Msg));
+        }
+
+        #endregion submitValidation
         public ActionResult GetCustomPerson(string searchTerm, int pageSize, int pageNum, int filter)//DocTypeId
         {
             var Query = _SaleOrderHeaderService.GetCustomPerson(filter, searchTerm);
