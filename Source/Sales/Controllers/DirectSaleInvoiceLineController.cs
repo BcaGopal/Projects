@@ -323,7 +323,6 @@ namespace Web
                     SaleInvoiceLineCharge PoLineCharge = Mapper.Map<LineChargeViewModel, SaleInvoiceLineCharge>(item);
                     PoLineCharge.ObjectState = Model.ObjectState.Added;
                     new SaleInvoiceLineChargeService(_unitOfWork).Create(PoLineCharge);
-
                 }
 
 

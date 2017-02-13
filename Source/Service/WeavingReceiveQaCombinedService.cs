@@ -509,6 +509,7 @@ namespace Service
                                                                          DealUnitDecimalPlaces = JobOrderLineTab.DealUnit.DecimalPlaces,
                                                                          Rate = JobOrderLineTab.Rate,
                                                                          XRate = JobOrderLineTab.Rate,
+                                                                         Amount = JobReceiveLineTab.DealQty * JobOrderLineTab.Rate,
                                                                          PenaltyRate = JobReceiveLineTab.PenaltyRate,
                                                                          PenaltyAmt = JobReceiveLineTab.PenaltyAmt,
                                                                          DivisionId = H.DivisionId,
@@ -520,9 +521,9 @@ namespace Service
                                                                          JobReceiveById = JobReceiveLineTab.JobReceiveHeader.JobReceiveById,
                                                                          Remark = H.Remark,
                                                                          Length = JobReceiveQALineExtendedTab.Length,
-                                                                         XLength = JobReceiveQALineExtendedTab.Length,
+                                                                         OrderLength = JobReceiveQALineExtendedTab.Length,
                                                                          Width = JobReceiveQALineExtendedTab.Width,
-                                                                         XWidth = JobReceiveQALineExtendedTab.Width,
+                                                                         OrderWidth = JobReceiveQALineExtendedTab.Width,
                                                                          Height = JobReceiveQALineExtendedTab.Height,
                                                                      }).FirstOrDefault();
 
@@ -561,6 +562,13 @@ namespace Service
             int StockHeaderId = (int)JobReceiveHeader.StockHeaderId;
             int ProductUidHeaderId = 0;
             int JobReceiveQAHeaderId = 0;
+
+            IEnumerable<JobReceiveBom> JobReceiveBomList = (from L in db.JobReceiveBom where L.JobReceiveHeaderId == id select L).ToList();
+            foreach (JobReceiveBom JobReceiveBom in JobReceiveBomList)
+            {
+                JobReceiveBom.ObjectState = Model.ObjectState.Deleted;
+                db.JobReceiveBom.Remove(JobReceiveBom);
+            }
 
             IEnumerable<JobReceiveLine> JobReceiveLineList = (from L in db.JobReceiveLine where L.JobReceiveHeaderId == id select L).ToList();
             foreach (JobReceiveLine JobReceiveLine in JobReceiveLineList)
@@ -620,6 +628,14 @@ namespace Service
                     Stock.ObjectState = ObjectState.Deleted;
                     db.Stock.Remove(Stock);
                 }
+
+                IEnumerable<StockProcess> StockProcessList = (from L in db.StockProcess where L.StockHeaderId == StockHeaderId select L).ToList();
+                foreach (var StockProcess in StockProcessList)
+                {
+                    StockProcess.ObjectState = ObjectState.Deleted;
+                    db.StockProcess.Remove(StockProcess);
+                }
+
 
                 StockHeader StockHeader = db.StockHeader.Find(StockHeaderId);
                 StockHeader.ObjectState = ObjectState.Deleted;
@@ -694,9 +710,9 @@ namespace Service
                             text = ProductTab.ProductName,
                             id = p.JobOrderLineId.ToString(),
                             TextProp1 = "Order No: " + p.JobOrderNo.ToString(),
-                            TextProp2 = "BalQty: " + p.BalanceQty.ToString(),
-                            AProp1 = Dimension1Tab.Dimension1Name,
-                            AProp2 = Dimension2Tab.Dimension2Name
+                            TextProp2 = "Order Date: " + t.DocDate.ToString(),
+                            AProp1 = "Job Worker: " + t.JobWorker.Person.Name,
+                            AProp2 = "BalQty: " + p.BalanceQty.ToString(),
                         });
 
             return list;
@@ -741,6 +757,42 @@ namespace Service
             return list;
         }
 
+        public IQueryable<WeavingReceiveQaCombinedIndexViewModel> GetJobReceiveHeaderList(int DocTypeId, string Uname)
+        {
+
+            var DivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
+            var SiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
+            List<string> UserRoles = (List<string>)System.Web.HttpContext.Current.Session["Roles"];
+
+            return (from p in db.JobReceiveHeader
+                    join L in db.JobReceiveLine on p.JobReceiveHeaderId equals L.JobReceiveHeaderId into JobReceiveLineTable from JobReceiveLineTab in JobReceiveLineTable.DefaultIfEmpty()
+                    orderby p.DocDate descending, p.DocNo descending
+                    where p.SiteId == SiteId && p.DivisionId == DivisionId && p.DocTypeId == DocTypeId
+                    select new WeavingReceiveQaCombinedIndexViewModel
+                    {
+                        JobReceiveHeaderId = p.JobReceiveHeaderId,
+                        DocDate = p.DocDate,
+                        JobWorkerDocNo = p.JobWorkerDocNo,
+                        DocNo = p.DocNo,
+                        JobWorkerName = p.JobWorker.Person.Name,
+                        DocTypeName = p.DocType.DocumentTypeName,
+                        Remark = p.Remark,
+                        Status = p.Status,
+                        ModifiedBy = p.ModifiedBy,
+                        ReviewCount = p.ReviewCount,
+                        ReviewBy = p.ReviewBy,
+                        Reviewed = (SqlFunctions.CharIndex(Uname, p.ReviewBy) > 0),
+                        TotalQty = p.JobReceiveLines.Sum(m => m.Qty),
+                        ProductUidName = JobReceiveLineTab.ProductUid.ProductUidName,
+                        DecimalPlaces = (from o in p.JobReceiveLines
+                                         join ol in db.JobOrderLine on o.JobOrderLineId equals ol.JobOrderLineId
+                                         join prod in db.Product on ol.ProductId equals prod.ProductId
+                                         join u in db.Units on prod.UnitId equals u.UnitId
+                                         select u.DecimalPlaces).Max(),
+                    }
+                );
+        }
+
         public void Dispose()
         {
         }
@@ -755,6 +807,28 @@ namespace Service
         {
             throw new NotImplementedException();
         }
+    }
+
+    public class WeavingReceiveQaCombinedIndexViewModel
+    {
+
+        public int JobReceiveHeaderId { get; set; }
+        public DateTime DocDate { get; set; }
+        public string DocNo { get; set; }
+        public string DocTypeName { get; set; }
+        public string Remark { get; set; }
+        public int Status { get; set; }
+        public string JobWorkerDocNo { get; set; }
+        public string JobWorkerName { get; set; }
+        public string ModifiedBy { get; set; }
+        public int? ReviewCount { get; set; }
+        public string ReviewBy { get; set; }
+        public bool? Reviewed { get; set; }
+        public decimal? TotalQty { get; set; }
+        public int? DecimalPlaces { get; set; }
+
+        public string ProductUidName { get; set; }
+
     }
 
 }

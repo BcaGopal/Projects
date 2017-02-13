@@ -478,7 +478,7 @@
     {
         var TitleCase= '@Session["TitleCase"]';
         //alert(TitleCase);
-        $('#Name,#Suffix,#Code,#PanNo').keyup(function () {
+        $('#Name,#Suffix,#Code,#PanNo').focusout(function () {
             if (TitleCase=="UpperCase")
             this.value = this.value.toUpperCase() ;
     });

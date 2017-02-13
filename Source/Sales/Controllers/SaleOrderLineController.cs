@@ -546,8 +546,25 @@ namespace Web
                 new StockService(_unitOfWork).DeleteStock((int)StockId);
             }
 
+            if (SaleOrderLine.ReferenceDocLineId != null && SaleOrderLine.ReferenceDocLineId != 0 && SaleOrderLine.ReferenceDocTypeId != null && SaleOrderLine.ReferenceDocTypeId != 0)
+            {
+                var temp = (from L in db.SaleEnquiryLine
+                                       join H in db.SaleEnquiryHeader on L.SaleEnquiryHeaderId equals H.SaleEnquiryHeaderId into SaleEnquiryHeaderTable
+                                       from SaleEnquiryHeaderTab in SaleEnquiryHeaderTable.DefaultIfEmpty()
+                                       where SaleEnquiryHeaderTab.DocTypeId == SaleOrderLine.ReferenceDocTypeId && L.SaleEnquiryLineId == SaleOrderLine.ReferenceDocLineId
+                                       select L).FirstOrDefault();
+                if (temp != null)
+                {
+                    SaleEnquiryLine SaleEnquiryLine = new SaleEnquiryLineService(_unitOfWork).Find(temp.SaleEnquiryLineId);
+                    SaleEnquiryLine.LockReason = null;
+                    new SaleEnquiryLineService(_unitOfWork).Update(SaleEnquiryLine);
+                }
+            }
 
             new SaleOrderLineStatusService(_unitOfWork).Delete(vm.SaleOrderLineId);
+
+
+
             _SaleOrderLineService.Delete(vm.SaleOrderLineId);
             SaleOrderHeader header = new SaleOrderHeaderService(_unitOfWork).Find(SaleOrderLine.SaleOrderHeaderId);
 

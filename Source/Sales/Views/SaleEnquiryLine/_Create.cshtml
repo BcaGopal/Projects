@@ -239,7 +239,7 @@
     $(function()
     {
         var TitleCase= '@Session["TitleCase"]';
-        $('#BuyerSpecification, #BuyerSpecification1,#BuyerSpecification2,#BuyerSpecification3').keyup(function () {
+        $('#BuyerSpecification, #BuyerSpecification1,#BuyerSpecification2,#BuyerSpecification3').focusout(function () {
             if (TitleCase=="UpperCase")
                 this.value = this.value.toUpperCase() ;
         });

@@ -95,7 +95,7 @@
     {
         var TitleCase= '@Session["TitleCase"]';
         //alert(TitleCase);
-        $('#BankName,#BankCode,#BankBranch,#AccountNo').keyup(function () {
+        $('#BankName,#BankCode,#BankBranch,#AccountNo').focusout(function () {
             if (TitleCase=="UpperCase")
             this.value = this.value.toUpperCase() ;
     });

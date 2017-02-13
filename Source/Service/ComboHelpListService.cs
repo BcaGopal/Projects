@@ -1314,19 +1314,35 @@ namespace Service
             //     });
 
 
-            IEnumerable<ComboBoxList> buyerlist = (from b in db.Buyer
-                                                   join bus in db.BusinessEntity on b.PersonID equals bus.PersonID into BusinessEntityTable
-                                                   from BusinessEntityTab in BusinessEntityTable.DefaultIfEmpty()
-                                                   join p in db.Persons on b.PersonID equals p.PersonID into PersonTable
-                                                   from PersonTab in PersonTable.DefaultIfEmpty()
-                                                   orderby PersonTab.Name
+            //IEnumerable<ComboBoxList> buyerlist = (from b in db.Buyer
+            //                                       join bus in db.BusinessEntity on b.PersonID equals bus.PersonID into BusinessEntityTable
+            //                                       from BusinessEntityTab in BusinessEntityTable.DefaultIfEmpty()
+            //                                       join p in db.Persons on b.PersonID equals p.PersonID into PersonTable
+            //                                       from PersonTab in PersonTable.DefaultIfEmpty()
+            //                                       orderby PersonTab.Name
+            //                                       select new ComboBoxList
+            //                                       {
+            //                                           Id = b.PersonID,
+            //                                           PropFirst = PersonTab.Name + "|" + PersonTab.Code
+            //                                       });
+
+            int ProcessId = (from P in db.Process where P.ProcessName == ProcessConstants.Sales select P).FirstOrDefault().ProcessId;
+            int BuyerDocTypeId = (from D in db.DocumentType where D.DocumentTypeName == MasterDocTypeConstants.Buyer select D).FirstOrDefault().DocumentTypeId;
+
+            IEnumerable<ComboBoxList> buyerlist = (from p in db.Persons
+                                                   join pp in db.PersonProcess on p.PersonID equals pp.PersonId into PersonProcessTable
+                                                   from PersonProcessTab in PersonProcessTable.DefaultIfEmpty()
+                                                   join pr in db.PersonRole on p.PersonID equals pr.PersonId into PersonRoleTable
+                                                   from PersonRoleTab in PersonRoleTable.DefaultIfEmpty()
+                                                   where PersonProcessTab.ProcessId == ProcessId
+                                                   && PersonRoleTab.RoleDocTypeId == BuyerDocTypeId
+                                                   && (p.IsActive == null ? 1 == 1 : p.IsActive == true)
+                                                   orderby p.Name
                                                    select new ComboBoxList
                                                    {
-                                                       Id = b.PersonID,
-                                                       PropFirst = PersonTab.Name + "|" + PersonTab.Code
+                                                       Id = p.PersonID,
+                                                       PropFirst = p.Name + "|" + p.Code
                                                    });
-
-
 
 
             return buyerlist;

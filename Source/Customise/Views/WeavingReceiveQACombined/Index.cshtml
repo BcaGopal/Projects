@@ -1,7 +1,7 @@
 ﻿@using Core.Common;
 @using Model.ViewModel;
 @using GridMvc.Html;
-@model IQueryable<Model.ViewModel.JobReceiveIndexViewModel>
+@model IQueryable<Service.WeavingReceiveQaCombinedIndexViewModel>
 
 @{
     ViewBag.Title = "Index";
@@ -77,12 +77,11 @@
                columns.Add(m => m.JobReceiveHeaderId, true).Css("Header_Id");
                columns.Add(m => m.Status, true);
                columns.Add().Encoded(false).Sanitized(false).SetWidth("5%").RenderValueAs(m => CustomHelpers.RenderCheckBox());
+               columns.Add(m => m.ProductUidName).Sortable(true).Titled("Barcode").Filterable(true).Sortable(true);
                columns.Add(foo => foo.DocDate).Sortable(true).Titled("Receipt Date").Format("{0:dd/MMM/yyyy}").Filterable(true);
                columns.Add(m => m.DocNo).Sortable(true).Titled("Receipt No.").Filterable(true).Sortable(true);
                columns.Add(foo => foo.JobWorkerName).Sortable(true).Titled("Party").Filterable(true);
-               columns.Add(foo => foo.JobWorkerDocNo).Sortable(true).Titled("Party Doc No").Filterable(true);
                columns.Add(m => m.Remark).Sortable(true).Filterable(true).Titled("Remark");
-               columns.Add().RenderValueAs(m => CustomHelpers.RenderTotal(m.TotalQty, m.DecimalPlaces)).Sanitized(false).Encoded(false).Titled("TotalQty");
                columns.Add().Sanitized(false).Encoded(false).RenderValueAs(m => CustomHelpers.RenderStatus(m.Status)).Titled("Status");
                columns.Add().Titled("").Encoded(false).Sanitized(false).RenderValueAs(m => CustomHelpers.RenderUserImage(m.ModifiedBy)).Titled("User").SetWidth("5%").Css("UserImageIndex");
                columns.Add().Encoded(false).Sanitized(false).RenderValueAs(m => CustomHelpers.RenderActionColumn(ControllerName, m.JobReceiveHeaderId, m.Status, m.Reviewed, m.ReviewCount, (string)ViewBag.IndexStatus)).SetWidth(20).Css("icon-Cus-Size");

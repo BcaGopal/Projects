@@ -171,6 +171,15 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.filterPersonRoles, "Person Roles", new { @class = "control-label col-xs-4" })
+                                    <div class="col-xs-6">
+                                        @Html.TextBoxFor(m => m.filterPersonRoles, new { @class = "form-control col-xs-6" })
+                                        @Html.ValidationMessageFor(m => m.filterPersonRoles, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
                         </div>                        
       
                       
@@ -242,6 +251,7 @@
         CustomSelectFunction($("#filterProductTypes"), '/ComboHelpList/GetProductType', '/ComboHelpList/SetProductType', ' ', true, 1);
         CustomSelectFunction($("#DocTypeProductionOrderId"), '/ComboHelpList/GetDocumentType', '/ComboHelpList/SetSingleDocumentType', ' ', false, 1);
         CustomSelectFunction($("#DocTypePurchaseIndentId"), '/ComboHelpList/GetDocumentType', '/ComboHelpList/SetSingleDocumentType', ' ', false, 1);
+        CustomSelectFunction($("#filterPersonRoles"), '/ComboHelpList/GetPersonRoles', '/ComboHelpList/SetPersonRole', ' ', true, 0);
     });
 
 

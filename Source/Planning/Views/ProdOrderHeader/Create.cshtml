@@ -264,8 +264,12 @@
             $('#DocTypeId').focus();
         })
 
-        CustomSelectFunction($("#SaleToBuyerId"), '/ComboHelpList/GetBuyers', '/ComboHelpList/SetSingleBuyer', ' ', false, 0);
-        CustomSelectFunction($("#BillToBuyerId"), '/ComboHelpList/GetBuyers', '/ComboHelpList/SetSingleBuyer', ' ', false, 0);
+        //CustomSelectFunction($("#SaleToBuyerId"), '/ComboHelpList/GetBuyers', '/ComboHelpList/SetSingleBuyer', ' ', false, 0);
+        //CustomSelectFunction($("#BillToBuyerId"), '/ComboHelpList/GetBuyers', '/ComboHelpList/SetSingleBuyer', ' ', false, 0);
+
+        CustomSelectFunction($("#BillToBuyerId"), '/SaleEnquiryHeader/GetCustomPerson', '/ComboHelpList/SetSinglePerson', ' ', false, 1,$('#DocTypeId').val());
+        CustomSelectFunction($("#SaleToBuyerId"), '/SaleEnquiryHeader/GetCustomPerson', '/ComboHelpList/SetSinglePerson', ' ', false, 1,$('#DocTypeId').val());
+
 
         $("#DocNo").on("change", function () {
             $(this).DuplicateCheckForCreate({ name: 'ProdOrderHeader', value: $(this).val(), doctype: $("#DocTypeId").val() });

@@ -158,6 +158,7 @@ namespace Web.Controllers
                     PersonAddress personaddress = Mapper.Map<EmployeeViewModel, PersonAddress>(EmployeeVm);
                     LedgerAccount account = Mapper.Map<EmployeeViewModel, LedgerAccount>(EmployeeVm);
 
+                    person.DocTypeId = new DocumentTypeService(_unitOfWork).Find(MasterDocTypeConstants.Employee).DocumentTypeId;
                     person.CreatedDate = DateTime.Now;
                     person.ModifiedDate = DateTime.Now;
                     person.CreatedBy = User.Identity.Name;

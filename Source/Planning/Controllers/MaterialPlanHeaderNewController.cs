@@ -16,6 +16,7 @@ using System.Xml.Linq;
 using Reports.Controllers;
 using Reports.Reports;
 using System.Configuration;
+using Model.ViewModels;
 
 namespace Presentation
 {
@@ -1053,6 +1054,25 @@ namespace Presentation
             return RedirectToAction("Index", new { id = id });
         }
 
+        public ActionResult GetCustomPerson(string searchTerm, int pageSize, int pageNum, int filter)//DocTypeId
+        {
+            var Query = _MaterialPlanHeaderService.GetCustomPerson(filter, searchTerm);
+            var temp = Query.Skip(pageSize * (pageNum - 1))
+                .Take(pageSize)
+                .ToList();
+
+            var count = Query.Count();
+
+            ComboBoxPagedResult Data = new ComboBoxPagedResult();
+            Data.Results = temp;
+            Data.Total = count;
+
+            return new JsonpResult
+            {
+                Data = Data,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
         protected override void Dispose(bool disposing)
         {
             if (!string.IsNullOrEmpty((string)TempData["CSEXC"]))

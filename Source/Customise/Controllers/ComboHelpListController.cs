@@ -956,14 +956,12 @@ namespace Web
         {
             ComboBoxResult BuyerJson = new ComboBoxResult();
 
-            PersonViewModel person = (from b in db.Buyer
-                                      join p in db.Persons on b.PersonID equals p.PersonID into PersonTable
-                                      from PersonTab in PersonTable.DefaultIfEmpty()
-                                      where b.PersonID == Ids
+            PersonViewModel person = (from p in db.Persons 
+                                      where p.PersonID == Ids
                                       select new PersonViewModel
                                       {
-                                          PersonID = b.PersonID,
-                                          Name = PersonTab.Name
+                                          PersonID = p.PersonID,
+                                          Name = p.Name
                                       }).FirstOrDefault();
 
             BuyerJson.id = person.PersonID.ToString();
