@@ -422,7 +422,7 @@ namespace Service
             objNotification.IsActive = true;
             objNotification.ModifiedBy = UserName;
             objNotification.ModifiedDate = DateTime.Now;
-            objNotification.NotificationUrl = "/Tasks/Index?SiteId=16&DivisionId=6";
+            objNotification.NotificationUrl = "/Tasks/Index";
             objNotification.UrlKey = "TaskDomain";
             objNotification.NotificationText = vmTasks.TaskTitle;
 

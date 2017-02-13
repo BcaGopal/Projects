@@ -593,7 +593,17 @@ namespace Web
             bool Continue = true;
 
             JobOrderCancelHeader s = db.JobOrderCancelHeader.Find(id);
-
+            try
+            {
+                TimePlanValidation = Submitvalidation(id, out ExceptionMsg);
+                TempData["CSEXC"] += ExceptionMsg;
+            }
+            catch (Exception ex)
+            {
+                string message = _exception.HandleException(ex);
+                TempData["CSEXC"] += message;
+                TimePlanValidation = false;
+            }
             try
             {
                 TimePlanValidation = DocumentValidation.ValidateDocument(Mapper.Map<DocumentUniqueId>(s), DocumentTimePlanTypeConstants.Submit, User.Identity.Name, out ExceptionMsg, out Continue);
@@ -1385,7 +1395,20 @@ namespace Web
                 JsonRequestBehavior = JsonRequestBehavior.AllowGet
             };
         }
-
+        public bool Submitvalidation(int id, out string Msg)
+        {
+            Msg = "";
+            int JobcancelLine = (new JobOrderCancelLineService(_unitOfWork).GetJobOrderCancelLineForHeader(id)).Count();
+            if (JobcancelLine == 0)
+            {
+                Msg = "Add Line Record. <br />";
+            }
+            else
+            {
+                Msg = "";
+            }
+            return (string.IsNullOrEmpty(Msg));
+        }
 
         protected override void Dispose(bool disposing)
         {

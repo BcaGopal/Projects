@@ -188,7 +188,7 @@ namespace Web
             //ViewBag.DocTypeList = new DocumentTypeService(_unitOfWork).GetDocumentTypeList().ToList();
             int SiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
             ViewBag.DocTypeList = new DocumentTypeService(_unitOfWork).GetDocumentTypeList(TransactionDocCategoryConstants.PackingReceive);
-            ViewBag.BuyerList = new BuyerService(_unitOfWork).GetBuyerList().ToList();
+            //ViewBag.BuyerList = new BuyerService(_unitOfWork).GetBuyerList().ToList();
             ViewBag.GodownList = new GodownService(_unitOfWork).GetGodownList(SiteId).ToList().Where(i => i.SiteId == (int)System.Web.HttpContext.Current.Session["SiteId"] && i.IsActive == true);
             ViewBag.DealUnitList = new UnitService(_unitOfWork).GetUnitList().ToList();
             ViewBag.ShipMethodList = new ShipMethodService(_unitOfWork).GetShipMethodList().ToList();

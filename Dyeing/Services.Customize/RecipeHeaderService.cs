@@ -793,6 +793,13 @@ namespace Services.Customize
 
                 foreach (var item in ProdOrderLine)
                 {
+                    var Prodorderlinestatus = (_unitOfWork.Repository<ProdOrderLineStatus>().Query().Get().Where(m => m.ProdOrderLineId == item.ProdOrderLineId)).FirstOrDefault();
+                    if (Prodorderlinestatus != null)
+                    {
+                        Prodorderlinestatus.ObjectState = Model.ObjectState.Deleted;
+                        _unitOfWork.Repository<ProdOrderLineStatus>().Delete(Prodorderlinestatus);
+                    }
+
                     item.ObjectState = Model.ObjectState.Deleted;
                     _unitOfWork.Repository<ProdOrderLine>().Delete(item);
                 }

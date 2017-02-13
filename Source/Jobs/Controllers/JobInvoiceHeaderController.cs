@@ -580,6 +580,17 @@ namespace Web
             bool Continue = true;
 
             JobInvoiceHeader s = db.JobInvoiceHeader.Find(id);
+            try
+            {
+                TimePlanValidation = Submitvalidation(id, out ExceptionMsg);
+                TempData["CSEXC"] += ExceptionMsg;
+            }
+            catch (Exception ex)
+            {
+                string message = _exception.HandleException(ex);
+                TempData["CSEXC"] += message;
+                TimePlanValidation = false;
+            }
 
             try
             {
@@ -1372,6 +1383,23 @@ namespace Web
             };
         }
 
+        #region submitValidation
+        public bool Submitvalidation(int id, out string Msg)
+        {   
+            Msg = "";
+            int Stockline = (new JobInvoiceLineService(_unitOfWork).GetLineListForIndex(id)).Count();
+            if (Stockline == 0)
+            {
+                Msg = "Add Line Record. <br />";
+            }
+            else
+            {
+                Msg = "";
+            }
+            return (string.IsNullOrEmpty(Msg));
+        }
+
+        #endregion submitValidation
         protected override void Dispose(bool disposing)
         {
             if (!string.IsNullOrEmpty((string)TempData["CSEXC"]))
