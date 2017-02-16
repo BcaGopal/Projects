@@ -24,6 +24,11 @@ namespace Services.BasicSetup
         Task<Dimension1> FindAsync(int id);
         int NextId(int id,int ptypeid);
         int PrevId(int id,int ptypeid);
+
+        bool CheckForNameExists(string Name);
+        bool CheckForNameExists(string Name, int Id);
+
+
         #region HelpList Getter
         /// <summary>
         /// *General Function*
@@ -250,6 +255,34 @@ namespace Services.BasicSetup
         public Task<Dimension1> FindAsync(int id)
         {
             throw new NotImplementedException();
+        }
+
+        public bool CheckForNameExists(string Name)
+        {
+            int SiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
+            int DivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
+
+            var temp = (from pr in _Dimension1Repository.Instance
+                        where pr.Dimension1Name == Name
+                        select pr).FirstOrDefault();
+            if (temp == null)
+                return false;
+            else
+                return true;
+
+        }
+        public bool CheckForNameExists(string Name, int Id)
+        {
+            int SiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
+            int DivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
+
+            var temp = (from pr in _Dimension1Repository.Instance
+                        where pr.Dimension1Name == Name && pr.Dimension1Id != Id
+                        select pr).FirstOrDefault();
+            if (temp == null)
+                return false;
+            else
+                return true;
         }
     }
 }

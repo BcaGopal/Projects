@@ -32,6 +32,7 @@ namespace Model.Models
         public bool? isVisibleDimension4 { get; set; }
         public bool? isMandatoryProcessLine { get; set; }
         public bool? isVisiblePurchPlanQty { get; set; }
+        public bool? isVisibleProdPlanQty { get; set; }
         public string SqlProcConsumption { get; set; }
         public string SqlProcConsumptionSummary { get; set; }
         public string PendingProdOrderList { get; set; }

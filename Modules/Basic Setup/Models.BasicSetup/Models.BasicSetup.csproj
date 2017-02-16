@@ -59,6 +59,8 @@
     <Compile Include="DatabaseViews\_Roles.cs" />
     <Compile Include="DatabaseViews\_Employee.cs" />
     <Compile Include="DatabaseViews\_Users.cs" />
+    <Compile Include="Models\Area.cs" />
+    <Compile Include="Models\BinLocation.cs" />
     <Compile Include="Models\BusinessEntity.cs" />
     <Compile Include="Models\Calculation.cs" />
     <Compile Include="Models\CalculationFooter.cs" />
@@ -104,6 +106,7 @@
     <Compile Include="Models\PersonRegistration.cs" />
     <Compile Include="Models\Process.cs" />
     <Compile Include="Models\Product.cs" />
+    <Compile Include="Models\ProductBuyer.cs" />
     <Compile Include="Models\ProductGroup.cs" />
     <Compile Include="Models\ProductNature.cs" />
     <Compile Include="Models\ProductType.cs" />

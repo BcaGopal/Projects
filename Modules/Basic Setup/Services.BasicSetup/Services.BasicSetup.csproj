@@ -62,6 +62,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AreaService.cs" />
     <Compile Include="CalculationFooterService.cs" />
     <Compile Include="CalculationHeaderLedgerAccountService.cs" />
     <Compile Include="CalculationLineLedgerAccountService.cs" />
@@ -80,6 +81,8 @@
     <Compile Include="DocumentTypeService.cs" />
     <Compile Include="GatePassHeaderService.cs" />
     <Compile Include="GateService.cs" />
+    <Compile Include="BinLocationService.cs" />
+    <Compile Include="PersonRateGroupService.cs" />
     <Compile Include="GodownService.cs" />
     <Compile Include="LedgerAccountGroupService.cs" />
     <Compile Include="LedgerAccountService.cs" />

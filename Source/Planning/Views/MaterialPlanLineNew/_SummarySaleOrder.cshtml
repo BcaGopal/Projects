@@ -68,7 +68,7 @@
                                                 <div class="block text-right" style="width:13%">
                                                     <a href="#" id="ToPlan" style="color:white">Stock<br />Plan Qty</a>
                                                 </div>
-                                                <div class="block text-right" style="width:13%">
+                                                <div class="block text-right" style="width: 13%; display: @(Model.MaterialPlanSettings.isVisibleProdPlanQty?"":"none")">
                                                     <a href="#" id="ToProduction" style="color:white">Production<br />Plan Qty</a>
                                                 </div>
                                                 @*Remark*@
@@ -165,7 +165,7 @@
                                                             @Html.TextBoxFor(m => Model.PlanLine[i].StockPlanQty, new { @class = "form-control text-right stockplanQty" })
                                                             @{StockPlanQty += Model.PlanLine[i].StockPlanQty;}
                                                         </div>
-                                                        <div class='block text-right' style='width:13%'>
+                                                        <div class='block text-right' style='width: 13%; display: @(Model.MaterialPlanSettings.isVisibleProdPlanQty?"":"none")'>
                                                             @Html.TextBoxFor(m => Model.PlanLine[i].ProdPlanQty, new { @class = "form-control text-right prodQty" })
                                                             @{ProdPlanQty += Model.PlanLine[i].ProdPlanQty;}
                                                         </div>
@@ -173,7 +173,7 @@
                                                             @Html.TextBoxFor(m => Model.PlanLine[i].PurchPlanQty, new { @class = "form-control text-right purchQty" })
                                                             @{PurchPlanQty += Model.PlanLine[i].PurchPlanQty;}
                                                         </div>
-                                                        <div class='block' style='width: @(Model.MaterialPlanSettings.isVisiblePurchPlanQty?"15":"28")%'>
+                                                        <div class='block' style='width: @(Model.MaterialPlanSettings.isVisiblePurchPlanQty || Model.MaterialPlanSettings.isVisibleProdPlanQty ? "15" : "28")%'>
                                                             @Html.TextBoxFor(m => Model.PlanLine[i].Remark, new { @class = "form-control" })
                                                         </div>
                                                     </div>

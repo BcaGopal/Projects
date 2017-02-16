@@ -244,6 +244,45 @@ namespace Services.BasicSetup
             return Data;
         }
 
+        public ComboBoxPagedResult GetListWithDocType(string searchTerm, int pageSize, int pageNum, int DocTypeId)
+        {
+
+            int CurrentSiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
+            int CurrentDivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
+
+            string DivId = "|" + CurrentDivisionId.ToString() + "|";
+            string SiteId = "|" + CurrentSiteId.ToString() + "|";
+
+            var list = (from b in _personRepository.Instance
+                        join bus in _unitOfWork.Repository<BusinessEntity>().Instance on b.PersonID equals bus.PersonID into BusinessEntityTable
+                        from BusinessEntityTab in BusinessEntityTable.DefaultIfEmpty()
+                        join p in _unitOfWork.Repository<Person>().Instance on b.PersonID equals p.PersonID into PersonTable
+                        from PersonTab in PersonTable.DefaultIfEmpty()
+                        where b.DocTypeId == DocTypeId
+                        && (string.IsNullOrEmpty(searchTerm) ? 1 == 1 : (PersonTab.Name.ToLower().Contains(searchTerm.ToLower()) || PersonTab.Code.ToLower().Contains(searchTerm.ToLower())))
+                        && BusinessEntityTab.DivisionIds.IndexOf(DivId) != -1
+                        && (PersonTab.IsActive == null ? 1 == 1 : PersonTab.IsActive == true)
+                        && BusinessEntityTab.SiteIds.IndexOf(SiteId) != -1
+                        orderby PersonTab.Name
+                        select new ComboBoxResult
+                        {
+                            id = b.PersonID.ToString(),
+                            text = PersonTab.Name + "|" + PersonTab.Code,
+                        }
+              );
+
+            var temp = list
+               .Skip(pageSize * (pageNum - 1)).Take(pageSize).ToList();
+
+            var count = list.Count();
+
+            ComboBoxPagedResult Data = new ComboBoxPagedResult();
+            Data.Results = temp;
+            Data.Total = count;
+
+            return Data;
+        }
+
         public ComboBoxResult GetValue(int Id)
         {
             ComboBoxResult ProductJson = new ComboBoxResult();
@@ -256,6 +295,44 @@ namespace Services.BasicSetup
             ProductJson.text = Person.FirstOrDefault().Name;
 
             return ProductJson;
+        }
+
+        public ComboBoxPagedResult GetList(string searchTerm, int pageSize, int pageNum)
+        {
+
+            int CurrentSiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
+            int CurrentDivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
+
+            string DivId = "|" + CurrentDivisionId.ToString() + "|";
+            string SiteId = "|" + CurrentSiteId.ToString() + "|";
+
+            var list = (from b in _personRepository.Instance
+                        join bus in _unitOfWork.Repository<BusinessEntity>().Instance on b.PersonID equals bus.PersonID into BusinessEntityTable
+                        from BusinessEntityTab in BusinessEntityTable.DefaultIfEmpty()
+                        join p in _unitOfWork.Repository<Person>().Instance on b.PersonID equals p.PersonID into PersonTable
+                        from PersonTab in PersonTable.DefaultIfEmpty()
+                        where (string.IsNullOrEmpty(searchTerm) ? 1 == 1 : (PersonTab.Name.ToLower().Contains(searchTerm.ToLower()) || PersonTab.Code.ToLower().Contains(searchTerm.ToLower())))
+                        && BusinessEntityTab.DivisionIds.IndexOf(DivId) != -1
+                        && (PersonTab.IsActive == null ? 1 == 1 : PersonTab.IsActive == true)
+                        && BusinessEntityTab.SiteIds.IndexOf(SiteId) != -1
+                        orderby PersonTab.Name
+                        select new ComboBoxResult
+                        {
+                            id = b.PersonID.ToString(),
+                            text = PersonTab.Name + "|" + PersonTab.Code,
+                        }
+              );
+
+            var temp = list
+               .Skip(pageSize * (pageNum - 1)).Take(pageSize).ToList();
+
+            var count = list.Count();
+
+            ComboBoxPagedResult Data = new ComboBoxPagedResult();
+            Data.Results = temp;
+            Data.Total = count;
+
+            return Data;
         }
     }
 
