@@ -187,6 +187,18 @@ namespace Web
             ViewBag.id = id;
             ViewBag.ReasonList = new ReasonService(_unitOfWork).GetReasonList(TransactionDocCategoryConstants.SaleOrderCancel).ToList();
 
+
+            var DivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
+            var SiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
+            var  settings = new SaleOrderSettingsService(_unitOfWork).GetSaleOrderSettings(id, DivisionId, SiteId);
+            ViewBag.AdminSetting = UserRoles.Contains("Admin").ToString();
+            if(settings !=null)
+            {
+                ViewBag.ImportMenuId = settings.ImportMenuId;
+                ViewBag.SqlProcDocumentPrint = settings.SqlProcDocumentPrint;
+                ViewBag.ExportMenuId = settings.ExportMenuId;
+            }
+
         }
 
         // GET: /SaleOrderCancelHeader/Create
@@ -631,7 +643,17 @@ namespace Web
             #region DocTypeTimeLineValidation
 
             SaleOrderCancelHeader s = context.SaleOrderCancelHeader.Find(id);
-
+            try
+            {
+                TimePlanValidation = Submitvalidation(id, out ExceptionMsg);
+                TempData["CSEXC"] += ExceptionMsg;
+            }
+            catch (Exception ex)
+            {
+                string message = _exception.HandleException(ex);
+                TempData["CSEXC"] += message;
+                TimePlanValidation = false;
+            }
             try
             {
                 TimePlanValidation = DocumentValidation.ValidateDocument(Mapper.Map<DocumentUniqueId>(s), DocumentTimePlanTypeConstants.Submit, User.Identity.Name, out ExceptionMsg, out Continue);
@@ -914,6 +936,23 @@ namespace Web
             return Json(new { success = "Error", data = "No Records Selected." }, JsonRequestBehavior.AllowGet);
 
         }
+        #region submitValidation
+        public bool Submitvalidation(int id, out string Msg)
+        {
+            Msg = "";
+            int SaleOrderCancelLine = (new SaleOrderCancelLineService(_unitOfWork).GetSaleOrderCancelLineListForHeader(id)).Count();
+            if (SaleOrderCancelLine == 0)
+            {
+                Msg = "Add Line Record. <br />";
+            }
+            else
+            {
+                Msg = "";
+            }
+            return (string.IsNullOrEmpty(Msg));
+        }
+
+        #endregion submitValidation
 
         public ActionResult GetCustomPerson(string searchTerm, int pageSize, int pageNum, int filter)//DocTypeId
         {

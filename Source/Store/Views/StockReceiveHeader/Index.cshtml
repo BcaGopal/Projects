@@ -41,7 +41,10 @@
             </h4>*@
             <div class="btn-group">
                 @Html.ActionLink(" ", "Create", "StockReceiveHeader", new { @id = @ViewBag.id }, new { @class = "cbtn btn-circle glyphicon glyphicon-plus toolbar", @title = "Add New", @data_toggle = "tooltip" })
+                @if (ViewBag.SqlProcDocumentPrint !=null)
+                {
                 @Html.ActionLink(" ", "GeneratePrints", "StockReceiveHeader", null, new { @class = "cbtn btn-circle glyphicon glyphicon-print toolbar", @title = "Print", @data_toggle = "tooltip", @id = "PrintRecordI", target = "_blank" })
+                }
                 @Html.ActionLink(" ", "Remove", "StockReceiveHeader", null, new { @class = "cbtn btn-circle glyphicon glyphicon-trash toolbar", @title = "Delete", @data_toggle = "tooltip", @id = "DeleteRecord", @data_modalDelete = "" })
             </div>
             <div class="btn-group">
@@ -49,8 +52,18 @@
                 </a>
                 <ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu1">
                     <li><a id="DocHistoryI" data-modal="" href="@Url.Action("GetHistory", "LogHistory",new {  })"><span class="glyphicon glyphicon-user"> </span>&nbsp;&nbsp;History</a></li>
+                    @if (ViewBag.ExportMenuId !=null)
+                    {
+                    <li><a href="@Url.Action("Export", "StockReceiveHeader", new { @id = @ViewBag.id })"><span class="glyphicon glyphicon-export"> </span>&nbsp;&nbsp;Export</a></li>
+                    }
+                    @if (ViewBag.ImportMenuId !=null)
+                    {
                     <li><a href="@Url.Action("Import", "StockReceiveHeader", new { @id = @ViewBag.id })"><span class="glyphicon glyphicon-import"> </span>&nbsp;&nbsp;Import</a></li>
+                    }
+                    @if (ViewBag.AdminSetting == "True")
+                    {
                     <li><a href="@Url.Action("CreateForReceive", "StockHeaderSettings", new { @id = @ViewBag.id })"><span class="glyphicon glyphicon-cog"> </span>&nbsp;&nbsp;Settings</a></li>
+                    }
                     <li role="separator" class="divider"></li>
                     <li><a  target="_blank"   href="@Url.Action("Report", "StockReceiveHeader", new { @ViewBag.id })"><span class="glyphicon glyphicon-stats"> </span>&nbsp;&nbsp;Report</a></li>
                 </ul>

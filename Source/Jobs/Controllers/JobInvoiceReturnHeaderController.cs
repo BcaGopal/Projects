@@ -123,6 +123,18 @@ namespace Web
             ViewBag.CurrencyList = new CurrencyService(_unitOfWork).GetCurrencyList().ToList();
             ViewBag.SalesTaxGroupList = new ChargeGroupPersonService(_unitOfWork).GetChargeGroupPersonList((int)(ChargeTypeConstants.SalesTax)).ToList();
             ViewBag.ReasonList = new ReasonService(_unitOfWork).FindByDocumentType(id).ToList();
+            var DivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
+            var SiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
+            ViewBag.AdminSetting = UserRoles.Contains("Admin").ToString();
+            var settings = new JobInvoiceSettingsService(_unitOfWork).GetJobInvoiceSettingsForDocument(id, DivisionId, SiteId);
+            if(settings !=null)
+            {
+                ViewBag.WizardId = settings.WizardMenuId;
+                ViewBag.ImportMenuId = settings.ImportMenuId;
+                ViewBag.SqlProcDocumentPrint = settings.SqlProcDocumentPrint;
+                ViewBag.ExportMenuId = settings.ExportMenuId;
+                ViewBag.SqlProcGatePass = settings.SqlProcGatePass;
+            }
         }
 
         // GET: /JobInvoiceReturnHeaderMaster/Create

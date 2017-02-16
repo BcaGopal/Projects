@@ -75,6 +75,18 @@ namespace Web
             ViewBag.CurrencyList = new CurrencyService(_unitOfWork).GetCurrencyList().ToList();
             ViewBag.SalesTaxGroupList = new ChargeGroupPersonService(_unitOfWork).GetChargeGroupPersonList((int)(ChargeTypeConstants.SalesTax)).ToList();
             ViewBag.DeliveryTermsList = new DeliveryTermsService(_unitOfWork).GetDeliveryTermsList().ToList();
+
+            var DivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
+            var SiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
+            ViewBag.AdminSetting = UserRoles.Contains("Admin").ToString();
+            var settings = new SaleDispatchSettingService(_unitOfWork).GetSaleDispatchSettingForDocument(id,DivisionId,SiteId);
+            if(settings !=null)
+            {
+                ViewBag.ImportMenuId = settings.ImportMenuId;
+                ViewBag.SqlProcDocumentPrint = settings.SqlProcDocumentPrint;
+                ViewBag.ExportMenuId = settings.ExportMenuId;
+                ViewBag.SqlProcGatePass = settings.SqlProcGatePass;
+            }
         }
 
         public ActionResult DocumentTypeIndex(int id)//DocumentCategoryId
@@ -833,7 +845,17 @@ namespace Web
             #region DocTypeTimeLineValidation
 
             SaleDispatchHeader s = db.SaleDispatchHeader.Find(id);
-
+            try
+            {
+                TimePlanValidation = Submitvalidation(id, out ExceptionMsg);
+                TempData["CSEXC"] += ExceptionMsg;
+            }
+            catch (Exception ex)
+            {
+                string message = _exception.HandleException(ex);
+                TempData["CSEXC"] += message;
+                TimePlanValidation = false;
+            }
             try
             {
                 TimePlanValidation = DocumentValidation.ValidateDocument(Mapper.Map<DocumentUniqueId>(s), DocumentTimePlanTypeConstants.Submit, User.Identity.Name, out ExceptionMsg, out Continue);
@@ -1510,6 +1532,23 @@ namespace Web
             };
         }
 
+        #region submitValidation
+        public bool Submitvalidation(int id, out string Msg)
+        {
+            Msg = "";
+            int SaleDispatchLine = (new SaleDispatchLineService(_unitOfWork).GetSaleDispatchLineListForIndex(id)).Count();
+            if (SaleDispatchLine == 0)
+            {
+                Msg = "Add Line Record. <br />";
+            }
+            else
+            {
+                Msg = "";
+            }
+            return (string.IsNullOrEmpty(Msg));
+        }
+
+        #endregion submitValidation
         protected override void Dispose(bool disposing)
         {
             if (!string.IsNullOrEmpty((string)TempData["CSEXC"]))

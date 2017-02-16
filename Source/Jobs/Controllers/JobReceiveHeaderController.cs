@@ -77,6 +77,19 @@ namespace Web
         {
             ViewBag.Name = new DocumentTypeService(_unitOfWork).Find(id).DocumentTypeName;
             ViewBag.id = id;
+            var DivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
+            var  SiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
+            ViewBag.AdminSetting = UserRoles.Contains("Admin").ToString();
+            var settings = new JobReceiveSettingsService(_unitOfWork).GetJobReceiveSettingsForDocument(id, DivisionId, SiteId);
+            if(settings !=null)
+            {
+                ViewBag.WizardId = settings.WizardMenuId;
+                ViewBag.ImportMenuId = settings.ImportMenuId;
+                ViewBag.SqlProcDocumentPrint = settings.SqlProcDocumentPrint;
+                ViewBag.SqlProcGatePass = settings.SqlProcGatePass;
+                ViewBag.ExportMenuId = settings.ExportMenuId;
+            }
+
         }
 
         // GET: /JobReceiveHeaderMaster/
@@ -94,6 +107,7 @@ namespace Web
             var JobReceiveHeader = _JobReceiveHeaderService.GetJobReceiveHeaderList(id, User.Identity.Name);
             ViewBag.Name = new DocumentTypeService(_unitOfWork).Find(id).DocumentTypeName;
             ViewBag.id = id;
+            PrepareViewBag(id);
             ViewBag.PendingToSubmit = PendingToSubmitCount(id);
             ViewBag.PendingToReview = PendingToReviewCount(id);
             ViewBag.IndexStatus = "All";

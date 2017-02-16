@@ -100,6 +100,11 @@ namespace Model.Models
         public int? ImportMenuId { get; set; }
         public virtual Menu ImportMenu { get; set; }
 
+        [ForeignKey("ExportMenu")]
+        [Display(Name = "ExportMenu")]
+        public int? ExportMenuId { get; set; }
+        public virtual Menu ExportMenu { get; set; }
+
         [MaxLength(20)]
         public string BarcodeStatusUpdate { get; set; }
 

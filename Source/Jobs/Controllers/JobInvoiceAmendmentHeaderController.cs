@@ -76,7 +76,18 @@ namespace Web
             ViewBag.id = id;
             ViewBag.DocTypeList = new DocumentTypeService(_unitOfWork).GetDocumentTypeList(DocType.DocumentTypeName).ToList();
             ViewBag.ReasonList = new ReasonService(_unitOfWork).GetReasonList(DocType.DocumentTypeName).ToList();
+            var DivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
+            var SiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
+            var settings = new JobInvoiceSettingsService(_unitOfWork).GetJobInvoiceSettingsForDocument(id, DivisionId, SiteId);
+            ViewBag.AdminSetting = UserRoles.Contains("Admin").ToString();
+            if (settings !=null)
+            {
 
+                ViewBag.WizardId = settings.WizardMenuId;
+                ViewBag.ImportMenuId = settings.ImportMenuId;
+                ViewBag.SqlProcDocumentPrint = settings.SqlProcDocumentPrint;                
+                ViewBag.ExportMenuId = settings.ExportMenuId;
+            }
         }
 
         // GET: /JobInvoiceAmendmentHeaderMaster/
@@ -93,6 +104,7 @@ namespace Web
             }
             DocumentType DocType = new DocumentTypeService(_unitOfWork).Find(id);
             ViewBag.Name = DocType.DocumentTypeName;
+            PrepareViewBag(id);
             ViewBag.id = id;
             IQueryable<JobInvoiceAmendmentHeaderIndexViewModel> JobInvoiceAmendmentHeader = _JobInvoiceAmendmentHeaderService.GetJobInvoiceAmendmentHeaderList(id, User.Identity.Name);
             ViewBag.PendingToSubmit = PendingToSubmitCount(id);
@@ -578,7 +590,17 @@ namespace Web
             bool Continue = true;
 
             JobInvoiceAmendmentHeader s = db.JobInvoiceAmendmentHeader.Find(id);
-
+            try
+            {
+                TimePlanValidation = Submitvalidation(id, out ExceptionMsg);
+                TempData["CSEXC"] += ExceptionMsg;
+            }
+            catch (Exception ex)
+            {
+                string message = _exception.HandleException(ex);
+                TempData["CSEXC"] += message;
+                TimePlanValidation = false;
+            }
             try
             {
                 TimePlanValidation = DocumentValidation.ValidateDocument(Mapper.Map<DocumentUniqueId>(s), DocumentTimePlanTypeConstants.Submit, User.Identity.Name, out ExceptionMsg, out Continue);
@@ -1234,7 +1256,23 @@ namespace Web
             return RedirectToAction("Index", new { id = id });
         }
 
+        #region submitValidation
+        public bool Submitvalidation(int id, out string Msg)
+        {
+            Msg = "";
+            int JobInvoiceRateAmendmentLine = (new JobInvoiceRateAmendmentLineService(_unitOfWork).GetJobInvoiceRateAmendmentLineForHeader(id)).Count();
+            if (JobInvoiceRateAmendmentLine == 0)
+            {
+                Msg = "Add Line Record. <br />";
+            }
+            else
+            {
+                Msg = "";
+            }
+            return (string.IsNullOrEmpty(Msg));
+        }
 
+        #endregion submitValidation
 
 
         protected override void Dispose(bool disposing)

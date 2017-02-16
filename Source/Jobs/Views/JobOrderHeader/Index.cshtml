@@ -68,6 +68,10 @@
                 {
                 <li><a href="@Url.Action("Wizard", "JobOrderHeader", new { @id = @ViewBag.id })"><span class="glyphicon glyphicon-random" onclick="$('#')"> </span>&nbsp;&nbsp;Wizard</a></li>
                 }
+                @if (ViewBag.ExportMenuId != null)
+                {
+                <li><a href="@Url.Action("Export", "JobOrderHeader", new { @id = @ViewBag.id })"><span class="glyphicon glyphicon-export"> </span>&nbsp;&nbsp;Export</a></li>
+                }
                 @if (ViewBag.ImportMenuId != null)
                 {
                 <li><a href="@Url.Action("Import", "JobOrderHeader", new { @id = @ViewBag.id })"><span class="glyphicon glyphicon-import"> </span>&nbsp;&nbsp;Import</a></li>

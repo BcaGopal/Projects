@@ -77,6 +77,17 @@ namespace Web
         {
             ViewBag.Name = db.DocumentType.Find(id).DocumentTypeName;
             ViewBag.id = id;
+            var DivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
+             var SiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
+            ViewBag.AdminSetting = UserRoles.Contains("Admin").ToString();            
+            var settings = new JobReceiveQASettingsService(db).GetJobReceiveQASettingsForDocument(id, DivisionId, SiteId);
+            if(settings !=null)
+            {
+                ViewBag.WizardId = settings.WizardMenuId;
+                ViewBag.ImportMenuId = settings.ImportMenuId;
+                ViewBag.SqlProcDocumentPrint = settings.SqlProcDocumentPrint;
+                ViewBag.ExportMenuId = settings.ExportMenuId;
+            }
         }
 
         // GET: /JobReceiveQAHeaderMaster/
@@ -94,6 +105,7 @@ namespace Web
             var JobReceiveQAHeader = _JobReceiveQAHeaderService.GetJobReceiveQAHeaderList(id, User.Identity.Name);
             ViewBag.Name = db.DocumentType.Find(id).DocumentTypeName;
             ViewBag.id = id;
+            PrepareViewBag(id);
             ViewBag.PendingToSubmit = PendingToSubmitCount(id);
             ViewBag.PendingToReview = PendingToReviewCount(id);
             ViewBag.IndexStatus = "All";
@@ -744,7 +756,17 @@ namespace Web
             #region DocTypeTimeLineValidation
 
             JobReceiveQAHeader s = db.JobReceiveQAHeader.Find(id);
-
+            try
+            {
+                TimePlanValidation = Submitvalidation(id, out ExceptionMsg);
+                TempData["CSEXC"] += ExceptionMsg;
+            }
+            catch (Exception ex)
+            {
+                string message = _exception.HandleException(ex);
+                TempData["CSEXC"] += message;
+                TimePlanValidation = false;
+            }
             try
             {
                 TimePlanValidation = DocumentValidation.ValidateDocument(Mapper.Map<DocumentUniqueId>(s), DocumentTimePlanTypeConstants.Submit, User.Identity.Name, out ExceptionMsg, out Continue);
@@ -1505,6 +1527,25 @@ namespace Web
             };
         }
 
+        #region submitValidation
+        public bool Submitvalidation(int id, out string Msg)
+        {
+            Msg = "";
+            int Qaline = (from p in db.JobReceiveQALine
+                     where p.JobReceiveQAHeaderId == id
+                     select p).Count();
+            if (Qaline == 0)
+            {
+                Msg = "Add Line Record. <br />";
+            }
+            else
+            {
+                Msg = "";
+            }
+            return (string.IsNullOrEmpty(Msg));
+        }
+
+        #endregion submitValidation
 
 
         protected override void Dispose(bool disposing)

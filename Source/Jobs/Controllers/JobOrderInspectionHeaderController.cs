@@ -77,6 +77,16 @@ namespace Web
         {
             ViewBag.Name = new DocumentTypeService(_unitOfWork).Find(id).DocumentTypeName;
             ViewBag.id = id;
+            ViewBag.AdminSetting = UserRoles.Contains("Admin").ToString();
+            var DivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
+            var SiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
+            var settings = new JobOrderInspectionSettingsService(db).GetJobOrderInspectionSettingsForDocument(id,DivisionId, SiteId);
+            if(settings !=null)
+            {
+                ViewBag.ImportMenuId = settings.ImportMenuId;
+                ViewBag.SqlProcDocumentPrint = settings.DocumentPrint;
+                ViewBag.ExportMenuId = settings.ExportMenuId;
+            }
         }
 
         // GET: /JobOrderInspectionHeaderMaster/
@@ -94,6 +104,7 @@ namespace Web
             var JobOrderInspectionHeader = _JobOrderInspectionHeaderService.GetJobOrderInspectionHeaderList(id, User.Identity.Name);
             ViewBag.Name = new DocumentTypeService(_unitOfWork).Find(id).DocumentTypeName;
             ViewBag.id = id;
+            PrepareViewBag(id);
             ViewBag.PendingToSubmit = PendingToSubmitCount(id);
             ViewBag.PendingToReview = PendingToReviewCount(id);
             ViewBag.IndexStatus = "All";
@@ -699,7 +710,7 @@ namespace Web
             #region DocTypeTimeLineValidation
 
             JobOrderInspectionHeader s = db.JobOrderInspectionHeader.Find(id);
-
+            
             try
             {
                 TimePlanValidation = DocumentValidation.ValidateDocument(Mapper.Map<DocumentUniqueId>(s), DocumentTimePlanTypeConstants.Submit, User.Identity.Name, out ExceptionMsg, out Continue);
@@ -1247,8 +1258,7 @@ namespace Web
                 JsonRequestBehavior = JsonRequestBehavior.AllowGet
             };
         }
-
-
+        
         protected override void Dispose(bool disposing)
         {
             if (!string.IsNullOrEmpty((string)TempData["CSEXC"]))

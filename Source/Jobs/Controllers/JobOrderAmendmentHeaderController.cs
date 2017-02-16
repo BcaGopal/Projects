@@ -80,6 +80,17 @@ namespace Web
             ViewBag.Name = DocType.DocumentTypeName;
             ViewBag.id = id;
             ViewBag.ReasonList = new ReasonService(_unitOfWork).GetReasonList(DocType.DocumentTypeName).ToList();
+            var DivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
+            var SiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
+            ViewBag.AdminSetting = UserRoles.Contains("Admin").ToString();
+            var settings = new JobOrderSettingsService(_unitOfWork).GetJobOrderSettingsForDocument(id, DivisionId, SiteId);
+            if(settings !=null)
+            {
+                ViewBag.ImportMenuId = settings.ImportMenuId;
+                ViewBag.SqlProcDocumentPrint = settings.SqlProcDocumentPrint;
+                ViewBag.SqlProcGatePass = settings.SqlProcGatePass;
+                ViewBag.ExportMenuId = settings.ExportMenuId;
+            }
 
         }
 
@@ -98,6 +109,7 @@ namespace Web
             DocumentType DocType = new DocumentTypeService(_unitOfWork).Find(id);
             ViewBag.Name = DocType.DocumentTypeName;
             ViewBag.id = id;
+            PrepareViewBag(id);
             IQueryable<JobOrderAmendmentHeaderIndexViewModel> JobOrderAmendmentHeader = _JobOrderAmendmentHeaderService.GetJobOrderAmendmentHeaderList(id, User.Identity.Name);
             ViewBag.PendingToSubmit = PendingToSubmitCount(id);
             ViewBag.PendingToReview = PendingToReviewCount(id);

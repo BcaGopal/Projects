@@ -121,6 +121,20 @@ namespace Web
             ViewBag.ReasonList = new ReasonService(_unitOfWork).FindByDocumentType(id).ToList();
             ViewBag.UnitConvForList = (from p in db.UnitConversonFor
                                        select p).ToList();
+
+
+            var DivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
+            var SiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
+            ViewBag.AdminSetting = UserRoles.Contains("Admin").ToString();
+            var settings = new SaleDispatchSettingService(_unitOfWork).GetSaleDispatchSettingForDocument(id,DivisionId,SiteId);
+            if(settings !=null)
+            {
+                ViewBag.ImportMenuId = settings.ImportMenuId;
+                ViewBag.SqlProcDocumentPrint = settings.SqlProcDocumentPrint;
+                ViewBag.ExportMenuId = settings.ExportMenuId;
+                ViewBag.SqlProcGatePass = settings.SqlProcGatePass;
+            }
+
         }
 
         // GET: /SaleDispatchReturnHeaderMaster/Create
@@ -506,7 +520,17 @@ namespace Web
             #region DocTypeTimeLineValidation
 
             SaleDispatchReturnHeader s = db.SaleDispatchReturnHeader.Find(id);
-
+            try
+            {
+                TimePlanValidation = Submitvalidation(id, out ExceptionMsg);
+                TempData["CSEXC"] += ExceptionMsg;
+            }
+            catch (Exception ex)
+            {
+                string message = _exception.HandleException(ex);
+                TempData["CSEXC"] += message;
+                TimePlanValidation = false;
+            }
             try
             {
                 TimePlanValidation = DocumentValidation.ValidateDocument(Mapper.Map<DocumentUniqueId>(s), DocumentTimePlanTypeConstants.Submit, User.Identity.Name, out ExceptionMsg, out Continue);
@@ -1506,6 +1530,20 @@ namespace Web
             };
         }
 
+        public bool Submitvalidation(int id, out string Msg)
+        {
+            Msg = "";
+            int SaleDispatchReturnLine = (new SaleDispatchReturnLineService(_unitOfWork).GetLineListForIndex(id)).Count();
+            if (SaleDispatchReturnLine == 0)
+            {
+                Msg = "Add Line Record. <br />";
+            }
+            else
+            {
+                Msg = "";
+            }
+            return (string.IsNullOrEmpty(Msg));
+        }
         protected override void Dispose(bool disposing)
         {
             if (!string.IsNullOrEmpty((string)TempData["CSEXC"]))
