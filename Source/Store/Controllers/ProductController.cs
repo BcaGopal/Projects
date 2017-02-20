@@ -17,6 +17,7 @@ using ImageResizer;
 using Model.ViewModel;
 using AutoMapper;
 using System.Xml.Linq;
+using Reports.Reports;
 
 namespace Web
 {
@@ -455,6 +456,8 @@ namespace Web
                     pt1.SalesTaxGroupProductId = pvm.SalesTaxGroupProductId;
                     pt1.IsActive = pvm.IsActive;
                     pt1.DivisionId = pvm.DivisionId;
+                    pt1.ProfitMargin = pvm.ProfitMargin;
+                    pt1.CarryingCost = pvm.CarryingCost;
                     pt1.CreatedDate = DateTime.Now;
                     pt1.ModifiedDate = DateTime.Now;
                     pt1.CreatedBy = User.Identity.Name;
@@ -643,6 +646,8 @@ namespace Web
                     pt.ProductGroupId = pvm.ProductGroupId;
                     pt.ProductSpecification = pvm.ProductSpecification;
                     pt.SalesTaxGroupProductId = pvm.SalesTaxGroupProductId;
+                    pt.ProfitMargin = pvm.ProfitMargin;
+                    pt.CarryingCost = pvm.CarryingCost;
                     pt.Tags = pvm.Tags;
                     pt.UnitId = pvm.UnitId;
                     pt.IsActive = pvm.IsActive;
@@ -1137,6 +1142,9 @@ namespace Web
 
                     BomDetail.ProcessId = item.ProcessId;
                     BomDetail.Qty = item.Qty;
+                    BomDetail.MBQ = item.MBQ;
+                    BomDetail.StdCost = item.StdCost;
+                    BomDetail.StdTime = item.StdTime;
                     BomDetail.CreatedDate = DateTime.Now;
                     BomDetail.ModifiedDate = DateTime.Now;
                     BomDetail.CreatedBy = User.Identity.Name;
@@ -1167,8 +1175,79 @@ namespace Web
 
         }
 
+        //public ActionResult GeneratePrints(string Ids, int DocTypeId)
+        //{
+
+        //    if (!string.IsNullOrEmpty(Ids))
+        //    {
+               
+
+        //        try
+        //        {
+
+        //            List<byte[]> PdfStream = new List<byte[]>();
+        //            foreach (var item in Ids.Split(',').Select(Int32.Parse))
+        //            {
+
+        //                DirectReportPrint drp = new DirectReportPrint();
+                        
+        //                var pd = db.Product.Find(item);
+
+        //                LogActivity.LogActivityDetail(LogVm.Map(new ActiivtyLogViewModel
+        //                {
+        //                    DocTypeId = new DocumentTypeService(_unitOfWork).FindByName(MasterDocTypeConstants.Product).DocumentTypeId,
+        //                    DocId = pd.ProductId,
+        //                    ActivityType = (int)ActivityTypeContants.Print,
+        //                }));
+
+        //                byte[] Pdf;
+
+        //                Pdf = drp.DirectDocumentPrint("Web.spRep_FinishedProductConsumption_HomeFurnishing", User.Identity.Name, item);
+        //                PdfStream.Add(Pdf);
+
+        //                //if (pd.Status == (int)StatusConstants.Drafted || pd.Status == (int)StatusConstants.Modified || pd.Status == (int)StatusConstants.Import)
+        //                //{
+        //                //    //LogAct(item.ToString());
+        //                //    Pdf = drp.DirectDocumentPrint(Settings.SqlProcDocumentPrint, User.Identity.Name, item);
+
+        //                //    PdfStream.Add(Pdf);
+        //                //}
+        //                //else if (pd.Status == (int)StatusConstants.Submitted || pd.Status == (int)StatusConstants.ModificationSubmitted)
+        //                //{
+        //                //    Pdf = drp.DirectDocumentPrint(Settings.SqlProcDocumentPrint, User.Identity.Name, item);
+
+        //                //    PdfStream.Add(Pdf);
+        //                //}
+        //                //else
+        //                //{
+        //                //    Pdf = drp.DirectDocumentPrint(Settings.SqlProcDocumentPrint, User.Identity.Name, item);
+        //                //    PdfStream.Add(Pdf);
+        //                //}
+
+        //            }
+
+        //            PdfMerger pm = new PdfMerger();
+
+        //            byte[] Merge = pm.MergeFiles(PdfStream);
+
+        //            if (Merge != null)
+        //                return File(Merge, "application/pdf");
+        //        }
+
+        //        catch (Exception ex)
+        //        {
+        //            string message = _exception.HandleException(ex);
+        //            return Json(new { success = "Error", data = message }, JsonRequestBehavior.AllowGet);
+        //        }
 
 
+
+        //        return Json(new { success = "Success" }, JsonRequestBehavior.AllowGet);
+
+        //    }
+        //    return Json(new { success = "Error", data = "No Records Selected." }, JsonRequestBehavior.AllowGet);
+
+        //}
 
 
         protected override void Dispose(bool disposing)

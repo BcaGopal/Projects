@@ -96,6 +96,10 @@ namespace Model.Models
 
         public Decimal? CBM { get; set; }
 
+        public Decimal? ProfitMargin { get; set; }
+        public Decimal? CarryingCost { get; set; }
+
+
         [Display(Name = "Is Active ?")]
         public Boolean IsActive { get; set; }
 

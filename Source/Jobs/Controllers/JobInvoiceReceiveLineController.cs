@@ -57,8 +57,11 @@ namespace Web
         [HttpGet]
         public JsonResult Index(int id)
         {
-            var p = _JobInvoiceLineService.GetLineListForIndex(id).ToList();
-            return Json(p, JsonRequestBehavior.AllowGet);
+            //var p = _JobInvoiceLineService.GetLineListForIndex(id).ToList();
+            //return Json(p, JsonRequestBehavior.AllowGet);
+            var p = Json(_JobInvoiceLineService.GetLineListForIndex(id).ToList(), JsonRequestBehavior.AllowGet);
+            p.MaxJsonLength = int.MaxValue;
+            return p;
 
         }
 

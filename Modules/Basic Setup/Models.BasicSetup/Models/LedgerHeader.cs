@@ -66,7 +66,9 @@ namespace Models.BasicSetup.Models
         [ForeignKey("Godown")]
         public int ? GodownId { get; set; }
         public virtual Godown Godown { get; set; }
-        
+
+        public string PartyDocNo { get; set; }
+
         public string  Narration { get; set; }
 
         [Display(Name = "Remark")]

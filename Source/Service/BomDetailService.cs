@@ -519,6 +519,7 @@ namespace Service
                                                                             Dimension4Name = b.Dimension4.Dimension4Name,
                                                                             Qty = b.Qty,
                                                                             UnitName = UnitTab.UnitName,
+                                                                            StdCost = b.StdCost,
                                                                             ProcessName = b.Process.ProcessName
                                                                         }).ToList();
 

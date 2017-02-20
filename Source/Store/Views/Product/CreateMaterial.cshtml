@@ -231,6 +231,28 @@
                         </div>
 
 
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.ProfitMargin, "Profit Margin", new { @class = "control-label col-xs-4" })
+                                    <div class="col-xs-6">
+                                        @Html.TextBoxFor(m => m.ProfitMargin, new { @class = "form-control col-xs-6" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.CarryingCost, "Carrying Cost", new { @class = "control-label col-xs-4" })
+                                    <div class="col-xs-6">
+                                        @Html.TextBoxFor(m => m.CarryingCost, new { @class = "form-control col-xs-6" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+
                       
                         <div class="row">
                             <div class="col-md-6">
@@ -379,11 +401,11 @@
             success: function (data) {
                 var row = ""
                 var srno=1;
-                var head="<tr style='background-color:#428bca'>  <th style='width:10px'><input type='hidden'  /></th> <th style='width:10px'>Serial</th><th class='center' style='width:50px'>Product</th>   <th class='center' style='width:100px'>Process</th>       <th class='center' style='width:50px'>Qty</th>        <th style='width:10px'></th>       <th style='width:10px'></th>  </tr>"
+                var head="<tr style='background-color:#428bca'>  <th style='width:10px'><input type='hidden'  /></th> <th style='width:10px'>Serial</th><th class='center' style='width:50px'>Product</th>   <th class='center' style='width:100px'>Process</th>       <th class='center' style='width:50px'>Qty</th>        <th class='center' style='width:50px'>Standard Cost</th>        <th style='width:10px'></th>       <th style='width:10px'></th>  </tr>"
                 if(data.length!=0)
                 {
                     $.each(data, function (index, item) {
-                        row += "<tr><td><input type='hidden' class='id' value='" + item.BomDetailId + "'/></td> <td>"+ srno +"</td> <td >" + (item.ProductName==null?" ":"<strong>"+item.ProductName+"</strong>") + "<div>"+(item.Dimension1Name==null?" ":item.Dimension1Name+",")+(item.Dimension2Name==null?" ":item.Dimension2Name+",")+(item.Dimension3Name==null?" ":item.Dimension3Name+",")+(item.Dimension4Name==null?" ":item.Dimension4Name+",")+"</div></td>        <td>" + item.ProcessName + "</td>                  <td>" + item.Qty + "<div>" + item.UnitName + "</div></td>                                    <td><a class='rowEditBlue hidden' Modify href='/ProductConsumptionLine/_Edit/"+item.BomDetailId+"' ></a></td>       <td><a class='glyphicon glyphicon-trash' data-modal='' delete='' href='/ProductConsumptionLine/_Edit/"+item.BomDetailId+"' ></a></td>  </tr>";
+                        row += "<tr><td><input type='hidden' class='id' value='" + item.BomDetailId + "'/></td> <td>"+ srno +"</td> <td >" + (item.ProductName==null?" ":"<strong>"+item.ProductName+"</strong>") + "<div>"+(item.Dimension1Name==null?" ":item.Dimension1Name+",")+(item.Dimension2Name==null?" ":item.Dimension2Name+",")+(item.Dimension3Name==null?" ":item.Dimension3Name+",")+(item.Dimension4Name==null?" ":item.Dimension4Name+",")+"</div></td>        <td>" + item.ProcessName + "</td>                  <td>" + item.Qty + "<div>" + item.UnitName + "</div></td>              <td>" + (item.StdCost==null?" ":item.StdCost) + "</td>                                        <td><a class='rowEditBlue hidden' Modify href='/ProductConsumptionLine/_Edit/"+item.BomDetailId+"' ></a></td>       <td><a class='glyphicon glyphicon-trash' data-modal='' delete='' href='/ProductConsumptionLine/_Edit/"+item.BomDetailId+"' ></a></td>  </tr>";
                         srno++;
                     });
                 }

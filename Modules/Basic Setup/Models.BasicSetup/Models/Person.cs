@@ -65,6 +65,9 @@ namespace Models.BasicSetup.Models
 
         [MaxLength(20)]
         public string Nature { get; set; }
+        public int Status { get; set; }
+        public int? ReviewCount { get; set; }
+        public string ReviewBy { get; set; }
 
     }
 }

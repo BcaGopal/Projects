@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Models.Company.Models;
 using Models.BasicSetup.ViewModels;
 using Infrastructure.IO;
+using Models.BasicSetup.Models;
 
 namespace Services.BasicSetup
 {
@@ -20,10 +21,13 @@ namespace Services.BasicSetup
         void Update(Godown pt);
         Godown Add(Godown pt);
         IEnumerable<Godown> GetGodownList(int SiteId);
+        IQueryable<Godown> GetGodownListForIndex(int SiteId);
         Task<IEquatable<Godown>> GetAsync();
         Task<Godown> FindAsync(int id);
         int NextId(int id);
         int PrevId(int id);
+        bool CheckForNameExists(string Name);
+        bool CheckForNameExists(string Name, int Id);
 
         #region HelpList Getter
         /// <summary>
@@ -86,16 +90,21 @@ namespace Services.BasicSetup
         {
             pt.ObjectState = ObjectState.Added;
             _unitOfWork.Repository<Godown>().Add(pt);
+
+
             return pt;
         }
 
         public void Delete(int id)
         {
-            _unitOfWork.Repository<Godown>().Delete(id);
+            Godown pt = Find(id);
+            pt.ObjectState = ObjectState.Deleted;
+            _unitOfWork.Repository<Godown>().Delete(pt);
         }
 
         public void Delete(Godown pt)
         {
+            pt.ObjectState = ObjectState.Deleted;
             _unitOfWork.Repository<Godown>().Delete(pt);
         }
 
@@ -116,6 +125,13 @@ namespace Services.BasicSetup
         }
 
         public IEnumerable<Godown> GetGodownList(int SiteId)
+        {
+            var pt = _unitOfWork.Repository<Godown>().Query().Get().OrderBy(m => m.GodownName).Where(m => m.SiteId == SiteId);
+
+            return pt;
+        }
+
+        public IQueryable<Godown> GetGodownListForIndex(int SiteId)
         {
             var pt = _unitOfWork.Repository<Godown>().Query().Get().OrderBy(m => m.GodownName).Where(m => m.SiteId == SiteId);
 
@@ -242,6 +258,35 @@ namespace Services.BasicSetup
         public Task<Godown> FindAsync(int id)
         {
             throw new NotImplementedException();
+        }
+
+
+        public bool CheckForNameExists(string Name)
+        {
+            int SiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
+            int DivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
+
+            var temp = (from pr in _GodownRepository.Instance
+                        where pr.GodownName == Name && pr.SiteId == SiteId 
+                        select pr).FirstOrDefault();
+            if (temp == null)
+                return false;
+            else
+                return true;
+
+        }
+        public bool CheckForNameExists(string Name, int Id)
+        {
+            int SiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
+            int DivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
+
+            var temp = (from pr in _GodownRepository.Instance
+                        where pr.GodownName == Name && pr.GodownId != Id && pr.SiteId == SiteId
+                        select pr).FirstOrDefault();
+            if (temp == null)
+                return false;
+            else
+                return true;
         }
     }
 }
