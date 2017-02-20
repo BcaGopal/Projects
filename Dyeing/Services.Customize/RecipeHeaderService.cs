@@ -177,7 +177,9 @@ namespace Services.Customize
                         ReviewCount = p.ReviewCount,
                         ReviewBy = p.ReviewBy,
                         Reviewed = (SqlFunctions.CharIndex(Uname, p.ReviewBy) > 0),
-                        Dimension1Name = l.Dimension1.Dimension1Name
+                        Dimension1Name = l.Dimension1.Dimension1Name,
+                        Dimension2Name=l.Dimension2.Dimension2Name
+
                     });
         }
 

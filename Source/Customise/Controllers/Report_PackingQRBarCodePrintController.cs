@@ -99,7 +99,8 @@ namespace Web
             else
             {
                 //RepName = "Packing_LabelPrint";
-                RepName = "Packing_LabelPrintNew";
+                //RepName = "Packing_LabelPrintNew";
+                RepName = "Packing_LabelPrintNew_1422017";
                 Dt = P.FGetDataForSCILabelPrint(DtTemp, con);
             }
             reportdatasource = new ReportDataSource("DsMain", Dt);
