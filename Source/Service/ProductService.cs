@@ -145,6 +145,7 @@ namespace Service
                            ProductCategoryId = tab.ProductCategoryId ?? 0,
                            ProductCollectionId = tab.ProductCollectionId,
                            ProductQualityId = tab.ProductQualityId,
+                           ProductQualityName = tab.ProductQuality.ProductQualityName,
                            ProductDesignId = tab.ProductDesignId,
                            ProductId = p.ProductId,
                            ProductDescription = p.ProductDescription,

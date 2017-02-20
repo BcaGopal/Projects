@@ -186,6 +186,16 @@
 
                                     <div class="col-md-6">
                                         <div class="form-group">
+                                            @Html.LabelFor(model => model.ProductQualityName, "Quality", new { @class = "control-label col-md-4 col-sm-2" })
+                                            <div class="col-md-7 col-sm-10">
+                                                @Html.TextBoxFor(m => m.ProductQualityName, null, new { @class = "form-control", @readonly = "true" })
+                                                @Html.ValidationMessageFor(m => m.ProductQualityName, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
                                             @Html.LabelFor(model => model.JobOrderHeaderDocNo, (Model.DocumentTypeSettings.ContraDocTypeCaption ?? "Order No."), new { @class = "control-label col-md-4 col-sm-2" })
                                             @Html.HiddenFor(m => m.DocumentTypeSettings.ContraDocTypeCaption)
                                             <div class="col-md-7 col-sm-10">
@@ -216,7 +226,7 @@
                                         </div>
                                     </div>
 
-                                    
+
 
                                     <div class="col-md-6" >
                                         <div class="form-group">
@@ -621,6 +631,7 @@
                     $("#DealUnitId").val(data.DealUnitId);
                     $("#UnitConversionMultiplier").val(data.UnitConversionMultiplier);
                     $("#UnitName").val(data.UnitName);
+                    $("#ProductQualityName").val(data.ProductQualityName);
                     $("#Length").val(data.Length);
                     $("#OrderLength").val(data.Length);
                     $("#Width").val(data.Width);
@@ -639,6 +650,7 @@
                     $("#Length").val("");
                     $("#OrderLength").val("");
                     $("#Width").val("");
+                    $("#ProductQualityName").val("");
                     $("#OrderWidth").val("");
                     $("#DimensionUnitDecimalPlaces").val(0);
                     $("#JobWorkerId").select2("data", { id: "", text: "" });
@@ -663,6 +675,8 @@
                     $("#Weight").val(data.StandardWeight);
                 }
             },
+
+
             error: function (xhr, ajaxOptions, thrownError) {
                 alert('Failed to retrieve Product Detail.' + thrownError);
                 ProcessProgress.hide();
