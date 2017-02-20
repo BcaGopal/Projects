@@ -68,6 +68,7 @@
                columns.Add(m => m.DocNo).Sortable(true).Titled("Recipe No.").Filterable(true).Sortable(true);
                columns.Add(m => m.MachineName).Sortable(true).Filterable(true).Titled("Machine");
                columns.Add(m => m.Dimension1Name).Sortable(true).Filterable(true).Titled("Shade");
+               columns.Add(m => m.Dimension2Name).Sortable(true).Filterable(true).Titled("Design");
                columns.Add().Sanitized(false).Encoded(false).RenderValueAs(m => CustomHelpers.RenderStatus(m.Status)).Titled("Status");
                columns.Add().Titled("").Encoded(false).Sanitized(false).RenderValueAs(m => CustomHelpers.RenderUserImage(m.ModifiedBy)).Titled("User").SetWidth("5%").Css("UserImageIndex");
                columns.Add().Encoded(false).Sanitized(false).RenderValueAs(m => CustomHelpers.RenderActionColumn(ControllerName, m.JobOrderHeaderId, m.Status, m.Reviewed, m.ReviewCount, (string)ViewBag.IndexStatus)).SetWidth(20).Css("icon-Cus-Size");

@@ -88,7 +88,7 @@ namespace Web
                     }
                     else
                     {
-                        RepName = "Packing_LabelPrintNew";
+                        RepName = "Packing_LabelPrintNew";                        
                         Dt = FGetDataForSCILabelPrint(DtTemp, con);
                     }
                 }
@@ -350,7 +350,7 @@ namespace Web
 
                 strQry = " Select H.BarCode, H.UPCCode, H.UPCCodeValue, ISNULL(IB.BuyerSKU,H.CarpetSku) AS CarpetSku, ISNULL(H.SaleOrder,'') AS SaleOrder, H.SaleOrderHeaderId, ISNULL(H.Serial,'') AS Serial, H.ProductId, So.SaleToBuyerId, " +
                         " ISNULL(IB.BuyerSpecification2, PC.ProductCollectionName) As Collection, ISNULL(IB.BuyerSpecification1,PG.ProductGroupName) As Design, " +
-                        " S.SizeName + IsNull(Prs.ProductShapeShortName,'') As Size, PCH.ProductContentName AS Contents, H.PrintSign, NUll AS Construction, " +
+                        " S.SizeName + IsNull(Prs.ProductShapeShortName,'') As Size, PCH.ProductContentName AS FaceContents,PCH1.ProductContentName AS Contents, H.PrintSign, NUll AS Construction, " +
                         " H.BaleNo, H.CarpetNo, ISNULL(H.CarpetNoImg,'') AS CarpetNoImg , ISNULL(H.CarpetSKUImg,'') AS CarpetSKUImg, ISNULL(H.UPCCodeImg,'') AS UPCCodeImg, ISNULL(H.BaleNoCarpetImg,'') AS BaleNoCarpetImg " +
                         " From [#" + bTempTable + "] H " +
                         " LEFT JOIN Web.SaleOrderHeaders So On H.SaleOrderHeaderId = So.SaleOrderHeaderId  " +
@@ -363,6 +363,7 @@ namespace Web
                         " LEFT JOIN Web.ProductSizes PS ON PS.ProductId = P.ProductId AND PS.ProductSizeTypeId = 1 " +
                         " LEFT JOIN WEb.Sizes S ON S.SizeId = PS.SizeId   " +
                         " LEFT JOIN web.ProductContentHeaders PCH ON PCH.ProductContentHeaderId = FP.FaceContentId  " +
+                        " LEFT JOIN web.ProductContentHeaders PCH1 ON PCH1.ProductContentHeaderId = FP.ContentId  " +
                         " Order By (Case When IsNumeric(H.BaleNo)>0 Then Convert(Numeric,H.BaleNo) Else 0 End) ";
 
                
