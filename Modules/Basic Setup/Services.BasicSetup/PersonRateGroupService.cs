@@ -10,20 +10,20 @@ using Models.BasicSetup.Models;
 
 namespace Services.BasicSetup
 {
-    public interface IGodownService : IDisposable
+    public interface IPersonRateGroupService : IDisposable
     {
-        Godown Create(Godown pt);
+        PersonRateGroup Create(PersonRateGroup pt);
         void Delete(int id);
-        void Delete(Godown pt);
-        Godown Find(string Name);
-        Godown Find(int id);
-        IEnumerable<Godown> GetPagedList(int pageNumber, int pageSize, out int totalRecords);
-        void Update(Godown pt);
-        Godown Add(Godown pt);
-        IEnumerable<Godown> GetGodownList(int SiteId);
-        IQueryable<Godown> GetGodownListForIndex(int SiteId);
-        Task<IEquatable<Godown>> GetAsync();
-        Task<Godown> FindAsync(int id);
+        void Delete(PersonRateGroup pt);
+        PersonRateGroup Find(string Name);
+        PersonRateGroup Find(int id);
+        IEnumerable<PersonRateGroup> GetPagedList(int pageNumber, int pageSize, out int totalRecords);
+        void Update(PersonRateGroup pt);
+        PersonRateGroup Add(PersonRateGroup pt);
+        IEnumerable<PersonRateGroup> GetPersonRateGroupList(int SiteId);
+        IQueryable<PersonRateGroup> GetPersonRateGroupListForIndex(int SiteId);
+        Task<IEquatable<PersonRateGroup>> GetAsync();
+        Task<PersonRateGroup> FindAsync(int id);
         int NextId(int id);
         int PrevId(int id);
         bool CheckForNameExists(string Name);
@@ -60,87 +60,82 @@ namespace Services.BasicSetup
         #endregion
     }
 
-    public class GodownService : IGodownService
+    public class PersonRateGroupService : IPersonRateGroupService
     {
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IRepository<Godown> _GodownRepository;
-        public GodownService(IUnitOfWork unitOfWork, IRepository<Godown> GodownRepo)
+        private readonly IRepository<PersonRateGroup> _PersonRateGroupRepository;
+        public PersonRateGroupService(IUnitOfWork unitOfWork, IRepository<PersonRateGroup> PersonRateGroupRepo)
         {
             _unitOfWork = unitOfWork;
-            _GodownRepository = GodownRepo;
+            _PersonRateGroupRepository = PersonRateGroupRepo;
         }
-        public GodownService(IUnitOfWork unitOfWork)
+        public PersonRateGroupService(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
-            _GodownRepository = unitOfWork.Repository<Godown>();
+            _PersonRateGroupRepository = unitOfWork.Repository<PersonRateGroup>();
         }
 
-        public Godown Find(string Name)
+        public PersonRateGroup Find(string Name)
         {
-            return _GodownRepository.Query().Get().Where(i => i.GodownName == Name).FirstOrDefault();
+            return _PersonRateGroupRepository.Query().Get().Where(i => i.PersonRateGroupName == Name).FirstOrDefault();
         }
 
 
-        public Godown Find(int id)
+        public PersonRateGroup Find(int id)
         {
-            return _unitOfWork.Repository<Godown>().Find(id);
+            return _unitOfWork.Repository<PersonRateGroup>().Find(id);
         }
 
-        public Godown Create(Godown pt)
+        public PersonRateGroup Create(PersonRateGroup pt)
         {
             pt.ObjectState = ObjectState.Added;
-            _unitOfWork.Repository<Godown>().Add(pt);
-
-
+            _unitOfWork.Repository<PersonRateGroup>().Add(pt);
             return pt;
         }
 
         public void Delete(int id)
         {
-            Godown pt = Find(id);
-            pt.ObjectState = ObjectState.Deleted;
-            _unitOfWork.Repository<Godown>().Delete(pt);
+            _unitOfWork.Repository<PersonRateGroup>().Delete(id);
         }
 
-        public void Delete(Godown pt)
+        public void Delete(PersonRateGroup pt)
         {
-            pt.ObjectState = ObjectState.Deleted;
-            _unitOfWork.Repository<Godown>().Delete(pt);
+            _unitOfWork.Repository<PersonRateGroup>().Delete(pt);
         }
 
-        public void Update(Godown pt)
+        public void Update(PersonRateGroup pt)
         {
             pt.ObjectState = ObjectState.Modified;
-            _unitOfWork.Repository<Godown>().Update(pt);
+            _unitOfWork.Repository<PersonRateGroup>().Update(pt);
         }
 
-        public IEnumerable<Godown> GetPagedList(int pageNumber, int pageSize, out int totalRecords)
+        public IEnumerable<PersonRateGroup> GetPagedList(int pageNumber, int pageSize, out int totalRecords)
         {
-            var so = _unitOfWork.Repository<Godown>()
+            var so = _unitOfWork.Repository<PersonRateGroup>()
                 .Query()
-                .OrderBy(q => q.OrderBy(c => c.GodownName))                
+                .OrderBy(q => q.OrderBy(c => c.PersonRateGroupName))                
                 .GetPage(pageNumber, pageSize, out totalRecords);
 
             return so;
         }
 
-        public IEnumerable<Godown> GetGodownList(int SiteId)
+        public IEnumerable<PersonRateGroup> GetPersonRateGroupList(int SiteId)
         {
-            var pt = _unitOfWork.Repository<Godown>().Query().Get().OrderBy(m => m.GodownName).Where(m => m.SiteId == SiteId);
+            var pt = _unitOfWork.Repository<PersonRateGroup>().Query().Get().OrderBy(m => m.PersonRateGroupName).Where(m => m.SiteId == SiteId);
 
             return pt;
         }
 
-        public IQueryable<Godown> GetGodownListForIndex(int SiteId)
+        public IQueryable<PersonRateGroup> GetPersonRateGroupListForIndex(int SiteId)
         {
-            var pt = _unitOfWork.Repository<Godown>().Query().Get().OrderBy(m => m.GodownName).Where(m => m.SiteId == SiteId);
+            var pt = _unitOfWork.Repository<PersonRateGroup>().Query().Get().OrderBy(m => m.PersonRateGroupName).Where(m => m.SiteId == SiteId);
 
             return pt;
         }
 
-        public Godown Add(Godown pt)
+        public PersonRateGroup Add(PersonRateGroup pt)
         {
-            _unitOfWork.Repository<Godown>().Insert(pt);
+            _unitOfWork.Repository<PersonRateGroup>().Insert(pt);
             return pt;
         }
 
@@ -149,15 +144,15 @@ namespace Services.BasicSetup
             int temp = 0;
             if (id != 0)
             {
-                temp = (from p in _GodownRepository.Instance
-                        orderby p.GodownName
-                        select p.GodownId).AsEnumerable().SkipWhile(p => p != id).Skip(1).FirstOrDefault();
+                temp = (from p in _PersonRateGroupRepository.Instance
+                        orderby p.PersonRateGroupName
+                        select p.PersonRateGroupId).AsEnumerable().SkipWhile(p => p != id).Skip(1).FirstOrDefault();
             }
             else
             {
-                temp = (from p in _GodownRepository.Instance
-                        orderby p.GodownName
-                        select p.GodownId).FirstOrDefault();
+                temp = (from p in _PersonRateGroupRepository.Instance
+                        orderby p.PersonRateGroupName
+                        select p.PersonRateGroupId).FirstOrDefault();
             }
             if (temp != 0)
                 return temp;
@@ -172,15 +167,15 @@ namespace Services.BasicSetup
             if (id != 0)
             {
 
-                temp = (from p in _GodownRepository.Instance
-                        orderby p.GodownName
-                        select p.GodownId).AsEnumerable().TakeWhile(p => p != id).LastOrDefault();
+                temp = (from p in _PersonRateGroupRepository.Instance
+                        orderby p.PersonRateGroupName
+                        select p.PersonRateGroupId).AsEnumerable().TakeWhile(p => p != id).LastOrDefault();
             }
             else
             {
-                temp = (from p in _GodownRepository.Instance
-                        orderby p.GodownName
-                        select p.GodownId).AsEnumerable().LastOrDefault();
+                temp = (from p in _PersonRateGroupRepository.Instance
+                        orderby p.PersonRateGroupName
+                        select p.PersonRateGroupId).AsEnumerable().LastOrDefault();
             }
             if (temp != 0)
                 return temp;
@@ -190,13 +185,13 @@ namespace Services.BasicSetup
 
         public ComboBoxPagedResult GetList(string searchTerm, int pageSize, int pageNum)
         {
-            var list = (from pr in _GodownRepository.Instance
-                        where (string.IsNullOrEmpty(searchTerm) ? 1 == 1 : (pr.GodownName.ToLower().Contains(searchTerm.ToLower())))
-                        orderby pr.GodownName
+            var list = (from pr in _PersonRateGroupRepository.Instance
+                        where (string.IsNullOrEmpty(searchTerm) ? 1 == 1 : (pr.PersonRateGroupName.ToLower().Contains(searchTerm.ToLower())))
+                        orderby pr.PersonRateGroupName
                         select new ComboBoxResult
                         {
-                            text = pr.GodownName,
-                            id = pr.GodownId.ToString()
+                            text = pr.PersonRateGroupName,
+                            id = pr.PersonRateGroupId.ToString()
                         }
               );
 
@@ -216,12 +211,12 @@ namespace Services.BasicSetup
         {
             ComboBoxResult ProductJson = new ComboBoxResult();
 
-            IEnumerable<Godown> Godowns = from pr in _GodownRepository.Instance
-                                            where pr.GodownId == Id
+            IEnumerable<PersonRateGroup> PersonRateGroups = from pr in _PersonRateGroupRepository.Instance
+                                            where pr.PersonRateGroupId == Id
                                             select pr;
 
-            ProductJson.id = Godowns.FirstOrDefault().GodownId.ToString();
-            ProductJson.text = Godowns.FirstOrDefault().GodownName;
+            ProductJson.id = PersonRateGroups.FirstOrDefault().PersonRateGroupId.ToString();
+            ProductJson.text = PersonRateGroups.FirstOrDefault().PersonRateGroupName;
 
             return ProductJson;
         }
@@ -233,13 +228,13 @@ namespace Services.BasicSetup
             for (int i = 0; i < subStr.Length; i++)
             {
                 int temp = Convert.ToInt32(subStr[i]);
-                IEnumerable<Godown> Godowns = from pr in _GodownRepository.Instance
-                                                where pr.GodownId == temp
+                IEnumerable<PersonRateGroup> PersonRateGroups = from pr in _PersonRateGroupRepository.Instance
+                                                where pr.PersonRateGroupId == temp
                                                 select pr;
                 ProductJson.Add(new ComboBoxResult()
                 {
-                    id = Godowns.FirstOrDefault().GodownId.ToString(),
-                    text = Godowns.FirstOrDefault().GodownName
+                    id = PersonRateGroups.FirstOrDefault().PersonRateGroupId.ToString(),
+                    text = PersonRateGroups.FirstOrDefault().PersonRateGroupName
                 });
             }
             return ProductJson;
@@ -250,24 +245,23 @@ namespace Services.BasicSetup
         }
 
 
-        public Task<IEquatable<Godown>> GetAsync()
+        public Task<IEquatable<PersonRateGroup>> GetAsync()
         {
             throw new NotImplementedException();
         }
 
-        public Task<Godown> FindAsync(int id)
+        public Task<PersonRateGroup> FindAsync(int id)
         {
             throw new NotImplementedException();
         }
-
 
         public bool CheckForNameExists(string Name)
         {
             int SiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
             int DivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
 
-            var temp = (from pr in _GodownRepository.Instance
-                        where pr.GodownName == Name && pr.SiteId == SiteId 
+            var temp = (from pr in _PersonRateGroupRepository.Instance
+                        where pr.PersonRateGroupName == Name 
                         select pr).FirstOrDefault();
             if (temp == null)
                 return false;
@@ -280,8 +274,8 @@ namespace Services.BasicSetup
             int SiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
             int DivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
 
-            var temp = (from pr in _GodownRepository.Instance
-                        where pr.GodownName == Name && pr.GodownId != Id && pr.SiteId == SiteId
+            var temp = (from pr in _PersonRateGroupRepository.Instance
+                        where pr.PersonRateGroupName == Name && pr.PersonRateGroupId != Id 
                         select pr).FirstOrDefault();
             if (temp == null)
                 return false;

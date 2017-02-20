@@ -24,6 +24,7 @@ namespace Services.BasicSetup
         Product Add(Product p);
         IQueryable<Product> GetProductList();
         IEnumerable<Product> GetProductList(int prodyctTypeId);
+        IQueryable<Product> GetProductForIndex();
         Task<IEquatable<Product>> GetAsync();
         Task<Product> FindAsync(int id);
         Product Find(string ProductName);
@@ -39,6 +40,8 @@ namespace Services.BasicSetup
         int PrevId(int id);
         int NextMaterialId(int id, int nid);
         int PrevMaterialId(int id, int nid);
+        bool CheckForNameExists(string Name);
+        bool CheckForNameExists(string Name, int Id);
         ProductPrevProcess FGetProductPrevProcess(int ProductId, int ProcessId);
         ComboBoxPagedResult GetProductHelpList(string searchTerm, int pageSize, int pageNum);
         #region HelpList Getter
@@ -201,6 +204,13 @@ namespace Services.BasicSetup
 
             return p;
 
+        }
+
+        public IQueryable<Product> GetProductForIndex()
+        {
+            var pt = _unitOfWork.Repository<Product>().Query().Get().OrderBy(m => m.ProductName);
+
+            return pt;
         }
 
         public IEnumerable<Product> GetAccessoryList()
@@ -554,6 +564,34 @@ namespace Services.BasicSetup
                 });
             }
             return ProductJson;
+        }
+
+        public bool CheckForNameExists(string Name)
+        {
+            int SiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
+            int DivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
+
+            var temp = (from pr in _productRepository.Instance
+                        where pr.ProductName == Name
+                        select pr).FirstOrDefault();
+            if (temp == null)
+                return false;
+            else
+                return true;
+
+        }
+        public bool CheckForNameExists(string Name, int Id)
+        {
+            int SiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
+            int DivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
+
+            var temp = (from pr in _productRepository.Instance
+                        where pr.ProductName == Name && pr.ProductId != Id
+                        select pr).FirstOrDefault();
+            if (temp == null)
+                return false;
+            else
+                return true;
         }
 
     }

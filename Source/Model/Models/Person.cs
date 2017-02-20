@@ -74,6 +74,8 @@ namespace Model.Models
 
         [MaxLength(20)]
         public string Nature { get; set; }
+
+
         
     }
 }

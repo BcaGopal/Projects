@@ -10,20 +10,20 @@ using Models.BasicSetup.Models;
 
 namespace Services.BasicSetup
 {
-    public interface IGodownService : IDisposable
+    public interface IBinLocationService : IDisposable
     {
-        Godown Create(Godown pt);
+        BinLocation Create(BinLocation pt);
         void Delete(int id);
-        void Delete(Godown pt);
-        Godown Find(string Name);
-        Godown Find(int id);
-        IEnumerable<Godown> GetPagedList(int pageNumber, int pageSize, out int totalRecords);
-        void Update(Godown pt);
-        Godown Add(Godown pt);
-        IEnumerable<Godown> GetGodownList(int SiteId);
-        IQueryable<Godown> GetGodownListForIndex(int SiteId);
-        Task<IEquatable<Godown>> GetAsync();
-        Task<Godown> FindAsync(int id);
+        void Delete(BinLocation pt);
+        BinLocation Find(string Name);
+        BinLocation Find(int id);
+        IEnumerable<BinLocation> GetPagedList(int pageNumber, int pageSize, out int totalRecords);
+        void Update(BinLocation pt);
+        BinLocation Add(BinLocation pt);
+        IEnumerable<BinLocation> GetBinLocationList();
+        IQueryable<BinLocation> GetBinLocationListForIndex();
+        Task<IEquatable<BinLocation>> GetAsync();
+        Task<BinLocation> FindAsync(int id);
         int NextId(int id);
         int PrevId(int id);
         bool CheckForNameExists(string Name);
@@ -60,87 +60,82 @@ namespace Services.BasicSetup
         #endregion
     }
 
-    public class GodownService : IGodownService
+    public class BinLocationService : IBinLocationService
     {
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IRepository<Godown> _GodownRepository;
-        public GodownService(IUnitOfWork unitOfWork, IRepository<Godown> GodownRepo)
+        private readonly IRepository<BinLocation> _BinLocationRepository;
+        public BinLocationService(IUnitOfWork unitOfWork, IRepository<BinLocation> BinLocationRepo)
         {
             _unitOfWork = unitOfWork;
-            _GodownRepository = GodownRepo;
+            _BinLocationRepository = BinLocationRepo;
         }
-        public GodownService(IUnitOfWork unitOfWork)
+        public BinLocationService(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
-            _GodownRepository = unitOfWork.Repository<Godown>();
+            _BinLocationRepository = unitOfWork.Repository<BinLocation>();
         }
 
-        public Godown Find(string Name)
+        public BinLocation Find(string Name)
         {
-            return _GodownRepository.Query().Get().Where(i => i.GodownName == Name).FirstOrDefault();
+            return _BinLocationRepository.Query().Get().Where(i => i.BinLocationName == Name).FirstOrDefault();
         }
 
 
-        public Godown Find(int id)
+        public BinLocation Find(int id)
         {
-            return _unitOfWork.Repository<Godown>().Find(id);
+            return _unitOfWork.Repository<BinLocation>().Find(id);
         }
 
-        public Godown Create(Godown pt)
+        public BinLocation Create(BinLocation pt)
         {
             pt.ObjectState = ObjectState.Added;
-            _unitOfWork.Repository<Godown>().Add(pt);
-
-
+            _unitOfWork.Repository<BinLocation>().Add(pt);
             return pt;
         }
 
         public void Delete(int id)
         {
-            Godown pt = Find(id);
-            pt.ObjectState = ObjectState.Deleted;
-            _unitOfWork.Repository<Godown>().Delete(pt);
+            _unitOfWork.Repository<BinLocation>().Delete(id);
         }
 
-        public void Delete(Godown pt)
+        public void Delete(BinLocation pt)
         {
-            pt.ObjectState = ObjectState.Deleted;
-            _unitOfWork.Repository<Godown>().Delete(pt);
+            _unitOfWork.Repository<BinLocation>().Delete(pt);
         }
 
-        public void Update(Godown pt)
+        public void Update(BinLocation pt)
         {
             pt.ObjectState = ObjectState.Modified;
-            _unitOfWork.Repository<Godown>().Update(pt);
+            _unitOfWork.Repository<BinLocation>().Update(pt);
         }
 
-        public IEnumerable<Godown> GetPagedList(int pageNumber, int pageSize, out int totalRecords)
+        public IEnumerable<BinLocation> GetPagedList(int pageNumber, int pageSize, out int totalRecords)
         {
-            var so = _unitOfWork.Repository<Godown>()
+            var so = _unitOfWork.Repository<BinLocation>()
                 .Query()
-                .OrderBy(q => q.OrderBy(c => c.GodownName))                
+                .OrderBy(q => q.OrderBy(c => c.BinLocationName))                
                 .GetPage(pageNumber, pageSize, out totalRecords);
 
             return so;
         }
 
-        public IEnumerable<Godown> GetGodownList(int SiteId)
+        public IEnumerable<BinLocation> GetBinLocationList()
         {
-            var pt = _unitOfWork.Repository<Godown>().Query().Get().OrderBy(m => m.GodownName).Where(m => m.SiteId == SiteId);
+            var pt = _unitOfWork.Repository<BinLocation>().Query().Get().OrderBy(m => m.BinLocationName);
 
             return pt;
         }
 
-        public IQueryable<Godown> GetGodownListForIndex(int SiteId)
+        public IQueryable<BinLocation> GetBinLocationListForIndex()
         {
-            var pt = _unitOfWork.Repository<Godown>().Query().Get().OrderBy(m => m.GodownName).Where(m => m.SiteId == SiteId);
+            var pt = _unitOfWork.Repository<BinLocation>().Query().Get().OrderBy(m => m.BinLocationName);
 
             return pt;
         }
 
-        public Godown Add(Godown pt)
+        public BinLocation Add(BinLocation pt)
         {
-            _unitOfWork.Repository<Godown>().Insert(pt);
+            _unitOfWork.Repository<BinLocation>().Insert(pt);
             return pt;
         }
 
@@ -149,15 +144,15 @@ namespace Services.BasicSetup
             int temp = 0;
             if (id != 0)
             {
-                temp = (from p in _GodownRepository.Instance
-                        orderby p.GodownName
-                        select p.GodownId).AsEnumerable().SkipWhile(p => p != id).Skip(1).FirstOrDefault();
+                temp = (from p in _BinLocationRepository.Instance
+                        orderby p.BinLocationName
+                        select p.BinLocationId).AsEnumerable().SkipWhile(p => p != id).Skip(1).FirstOrDefault();
             }
             else
             {
-                temp = (from p in _GodownRepository.Instance
-                        orderby p.GodownName
-                        select p.GodownId).FirstOrDefault();
+                temp = (from p in _BinLocationRepository.Instance
+                        orderby p.BinLocationName
+                        select p.BinLocationId).FirstOrDefault();
             }
             if (temp != 0)
                 return temp;
@@ -172,15 +167,15 @@ namespace Services.BasicSetup
             if (id != 0)
             {
 
-                temp = (from p in _GodownRepository.Instance
-                        orderby p.GodownName
-                        select p.GodownId).AsEnumerable().TakeWhile(p => p != id).LastOrDefault();
+                temp = (from p in _BinLocationRepository.Instance
+                        orderby p.BinLocationName
+                        select p.BinLocationId).AsEnumerable().TakeWhile(p => p != id).LastOrDefault();
             }
             else
             {
-                temp = (from p in _GodownRepository.Instance
-                        orderby p.GodownName
-                        select p.GodownId).AsEnumerable().LastOrDefault();
+                temp = (from p in _BinLocationRepository.Instance
+                        orderby p.BinLocationName
+                        select p.BinLocationId).AsEnumerable().LastOrDefault();
             }
             if (temp != 0)
                 return temp;
@@ -190,13 +185,13 @@ namespace Services.BasicSetup
 
         public ComboBoxPagedResult GetList(string searchTerm, int pageSize, int pageNum)
         {
-            var list = (from pr in _GodownRepository.Instance
-                        where (string.IsNullOrEmpty(searchTerm) ? 1 == 1 : (pr.GodownName.ToLower().Contains(searchTerm.ToLower())))
-                        orderby pr.GodownName
+            var list = (from pr in _BinLocationRepository.Instance
+                        where (string.IsNullOrEmpty(searchTerm) ? 1 == 1 : (pr.BinLocationName.ToLower().Contains(searchTerm.ToLower())))
+                        orderby pr.BinLocationName
                         select new ComboBoxResult
                         {
-                            text = pr.GodownName,
-                            id = pr.GodownId.ToString()
+                            text = pr.BinLocationName,
+                            id = pr.BinLocationId.ToString()
                         }
               );
 
@@ -216,12 +211,12 @@ namespace Services.BasicSetup
         {
             ComboBoxResult ProductJson = new ComboBoxResult();
 
-            IEnumerable<Godown> Godowns = from pr in _GodownRepository.Instance
-                                            where pr.GodownId == Id
+            IEnumerable<BinLocation> BinLocations = from pr in _BinLocationRepository.Instance
+                                            where pr.BinLocationId == Id
                                             select pr;
 
-            ProductJson.id = Godowns.FirstOrDefault().GodownId.ToString();
-            ProductJson.text = Godowns.FirstOrDefault().GodownName;
+            ProductJson.id = BinLocations.FirstOrDefault().BinLocationId.ToString();
+            ProductJson.text = BinLocations.FirstOrDefault().BinLocationName;
 
             return ProductJson;
         }
@@ -233,13 +228,13 @@ namespace Services.BasicSetup
             for (int i = 0; i < subStr.Length; i++)
             {
                 int temp = Convert.ToInt32(subStr[i]);
-                IEnumerable<Godown> Godowns = from pr in _GodownRepository.Instance
-                                                where pr.GodownId == temp
+                IEnumerable<BinLocation> BinLocations = from pr in _BinLocationRepository.Instance
+                                                where pr.BinLocationId == temp
                                                 select pr;
                 ProductJson.Add(new ComboBoxResult()
                 {
-                    id = Godowns.FirstOrDefault().GodownId.ToString(),
-                    text = Godowns.FirstOrDefault().GodownName
+                    id = BinLocations.FirstOrDefault().BinLocationId.ToString(),
+                    text = BinLocations.FirstOrDefault().BinLocationName
                 });
             }
             return ProductJson;
@@ -250,24 +245,23 @@ namespace Services.BasicSetup
         }
 
 
-        public Task<IEquatable<Godown>> GetAsync()
+        public Task<IEquatable<BinLocation>> GetAsync()
         {
             throw new NotImplementedException();
         }
 
-        public Task<Godown> FindAsync(int id)
+        public Task<BinLocation> FindAsync(int id)
         {
             throw new NotImplementedException();
         }
-
 
         public bool CheckForNameExists(string Name)
         {
             int SiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
             int DivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
 
-            var temp = (from pr in _GodownRepository.Instance
-                        where pr.GodownName == Name && pr.SiteId == SiteId 
+            var temp = (from pr in _BinLocationRepository.Instance
+                        where pr.BinLocationName == Name 
                         select pr).FirstOrDefault();
             if (temp == null)
                 return false;
@@ -280,8 +274,8 @@ namespace Services.BasicSetup
             int SiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
             int DivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
 
-            var temp = (from pr in _GodownRepository.Instance
-                        where pr.GodownName == Name && pr.GodownId != Id && pr.SiteId == SiteId
+            var temp = (from pr in _BinLocationRepository.Instance
+                        where pr.BinLocationName == Name && pr.BinLocationId != Id 
                         select pr).FirstOrDefault();
             if (temp == null)
                 return false;

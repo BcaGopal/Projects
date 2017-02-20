@@ -1138,6 +1138,9 @@ namespace Web
 
                     BomDetail.ProcessId = item.ProcessId;
                     BomDetail.Qty = item.Qty;
+                    BomDetail.MBQ = item.MBQ;
+                    BomDetail.StdCost = item.StdCost;
+                    BomDetail.StdTime = item.StdTime;
                     BomDetail.CreatedDate = DateTime.Now;
                     BomDetail.ModifiedDate = DateTime.Now;
                     BomDetail.CreatedBy = User.Identity.Name;
