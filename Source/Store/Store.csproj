@@ -935,9 +935,9 @@
     <Content Include="Views\ProductTypeSettings\Create.cshtml" />
     <Content Include="Views\Product\CopyFromExisting.cshtml" />
     <Content Include="Views\Product\ChooseType.cshtml" />
-    <Content Include="Views\MachineMaster\_Reason.cshtml" />
-    <Content Include="Views\MachineMaster\Create.cshtml" />
-    <Content Include="Views\MachineMaster\Index.cshtml" />
+    <Content Include="Views\Machine\_Reason.cshtml" />
+    <Content Include="Views\Machine\Create.cshtml" />
+    <Content Include="Views\Machine\Index.cshtml" />
     <Content Include="Views\Person\AddToExisting.cshtml" />
     <Content Include="Views\Person\ChooseContactType.cshtml" />
   </ItemGroup>

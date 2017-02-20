@@ -63,6 +63,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AreaService.cs" />
+    <Compile Include="PaymentModeLedgerAccountService.cs" />
+    <Compile Include="PaymentModeService.cs" />
     <Compile Include="CalculationFooterService.cs" />
     <Compile Include="CalculationHeaderLedgerAccountService.cs" />
     <Compile Include="CalculationLineLedgerAccountService.cs" />

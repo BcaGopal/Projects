@@ -76,6 +76,8 @@ namespace Service
                         ProductGroupId = (int)p.ProductGroupId,
                         ProductSpecification = p.ProductSpecification,
                         StandardCost = p.StandardCost,
+                        ProfitMargin = p.ProfitMargin,
+                        CarryingCost = p.CarryingCost,
                         Tags = p.Tags,
                         UnitId = p.UnitId,
                         IsActive = p.IsActive,

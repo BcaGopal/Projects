@@ -44,5 +44,7 @@ namespace Model.ViewModels
         public string UnitName { get; set; }
 
         public string ProcessName { get; set; }
+
+        public Decimal? StdCost { get; set; }
     }
 }
