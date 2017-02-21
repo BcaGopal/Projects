@@ -23,16 +23,16 @@
         <div class="panel-info">
             @*<h4 style="padding:5px 0 0 0;margin:0px">
                 @Html.ActionLink(" ", " ", " ", null, new { @class = "glyphicon glyphicon-refresh toolbar", @title = "Refresh Page", @data_toggle = "tooltip", @id = "RefreshPage" })
-                @Html.ActionLink(" ", "Create", "MachineMaster", new { id = @ViewBag.id }, new { @class = "glyphicon glyphicon-plus toolbar", @title = "Add New", @data_toggle = "tooltip" })
-                @Html.ActionLink(" ", "Print", "MachineMaster", null, new { @class = "glyphicon glyphicon-print toolbar", @title = "Print", @data_toggle = "tooltip" })
-                @Html.ActionLink(" ", "Delete", "MachineMaster", null, new { @class = "glyphicon glyphicon-trash toolbar", @title = "Delete", @data_toggle = "tooltip", @id = "DeleteRecord" , @data_modalDelete = "" })
-                @Html.ActionLink(" ", "Report", "MachineMaster", null, new { @class = "glyphicon glyphicon-stats toolbar right", @title = "Report", @data_toggle = "tooltip", target = "_blank" })
+                @Html.ActionLink(" ", "Create", "Machine", new { id = @ViewBag.id }, new { @class = "glyphicon glyphicon-plus toolbar", @title = "Add New", @data_toggle = "tooltip" })
+                @Html.ActionLink(" ", "Print", "Machine", null, new { @class = "glyphicon glyphicon-print toolbar", @title = "Print", @data_toggle = "tooltip" })
+                @Html.ActionLink(" ", "Delete", "Machine", null, new { @class = "glyphicon glyphicon-trash toolbar", @title = "Delete", @data_toggle = "tooltip", @id = "DeleteRecord" , @data_modalDelete = "" })
+                @Html.ActionLink(" ", "Report", "Machine", null, new { @class = "glyphicon glyphicon-stats toolbar right", @title = "Report", @data_toggle = "tooltip", target = "_blank" })
                 @Html.ActionLink(" ", "", "", null, new { @class = "glyphicon glyphicon-export toolbar right", @title = "Export", @data_toggle = "tooltip" })
             </h4>*@
             <div class="btn-group">
-                @Html.ActionLink(" ", "Create", "MachineMaster", new { id = @ViewBag.id }, new { @class = "cbtn btn-circle glyphicon glyphicon-plus toolbar", @title = "Add New", @data_toggle = "tooltip" })
-                @Html.ActionLink(" ", "Print", "MachineMaster", null, new { @class = "cbtn btn-circle glyphicon glyphicon-print toolbar", @title = "Print", @data_toggle = "tooltip" })
-                @Html.ActionLink(" ", "Delete", "MachineMaster", null, new { @class = "cbtn btn-circle glyphicon glyphicon-trash toolbar", @title = "Delete", @data_toggle = "tooltip", @id = "DeleteRecord", @data_modalDelete = "" })
+                @Html.ActionLink(" ", "Create", "Machine", new { id = @ViewBag.id }, new { @class = "cbtn btn-circle glyphicon glyphicon-plus toolbar", @title = "Add New", @data_toggle = "tooltip" })
+                @Html.ActionLink(" ", "Print", "Machine", null, new { @class = "cbtn btn-circle glyphicon glyphicon-print toolbar", @title = "Print", @data_toggle = "tooltip" })
+                @Html.ActionLink(" ", "Delete", "Machine", null, new { @class = "cbtn btn-circle glyphicon glyphicon-trash toolbar", @title = "Delete", @data_toggle = "tooltip", @id = "DeleteRecord", @data_modalDelete = "" })
             </div>
         </div>
     </div>
@@ -43,7 +43,7 @@
        columns.Add(foo => foo.ProductName).Sortable(true).Titled("Machine").Filterable(true);
        columns.Add(foo => foo.CurrentGodownName).Sortable(true).Titled("Location").Filterable(true);
        columns.Add(m => m.IsActive).Sortable(true).Titled("Is Active").Filterable(true);
-       columns.Add(true).RenderValueAs(m => "<a href='/MachineMaster/Edit/" + m.ProductUIDId + "' hidden class='RecEditurl'></a><a href='/MachineMaster/Delete/" + m.ProductUIDId + "' hidden class='RecDelurl'></a>");
+       columns.Add(true).RenderValueAs(m => "<a href='/Machine/Edit/" + m.ProductUIDId + "' hidden class='RecEditurl'></a><a href='/Machine/Delete/" + m.ProductUIDId + "' hidden class='RecDelurl'></a>");
    }).WithPaging(25).EmptyText("No records found.")
     </div>
 </div>
@@ -54,7 +54,7 @@
         var $this = $(this);
         var row = $this.closest("tr");
         var editid = row.find('[data-name="ProductUIDId"]').text();
-        var url = '@Url.Action("Edit", "MachineMaster")' + "/" + editid;
+        var url = '@Url.Action("Edit", "Machine")' + "/" + editid;
         window.location.href = url;
 
     });

@@ -480,6 +480,8 @@ namespace Service
                                                                         from JobReceiveQALineTab in JobReceiveQaLineTable.DefaultIfEmpty()
                                                                         join Jol in db.JobOrderLine on JobReceiveLineTab.JobOrderLineId equals Jol.JobOrderLineId into JobOrderLineTable
                                                                         from JobOrderLineTab in JobOrderLineTable.DefaultIfEmpty()
+                                                                        join FP in db.FinishedProduct on JobOrderLineTab.ProductId equals FP.ProductId into FinishedProductTable
+                                                                        from FinishedProductTab in FinishedProductTable.DefaultIfEmpty()
                                                                         join Ld in db.JobReceiveQALineExtended on JobReceiveQALineTab.JobReceiveQALineId equals Ld.JobReceiveQALineId into JobReceiveQALineExtendedTable
                                                                         from JobReceiveQALineExtendedTab in JobReceiveQALineExtendedTable.DefaultIfEmpty()
                                                                         where JobReceiveLineTab.JobReceiveHeaderId == JobReceiveHeaderId
@@ -518,6 +520,7 @@ namespace Service
                                                                          DocDate = H.DocDate,
                                                                          DocTypeId = H.DocTypeId,
                                                                          DocNo = H.DocNo,
+                                                                         ProductQualityName = FinishedProductTab.ProductQuality.ProductQualityName,
                                                                          JobReceiveById = JobReceiveLineTab.JobReceiveHeader.JobReceiveById,
                                                                          Remark = H.Remark,
                                                                          Length = JobReceiveQALineExtendedTab.Length,

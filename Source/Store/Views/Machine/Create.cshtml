@@ -6,7 +6,7 @@
 }
 
 
-@using (Html.BeginForm("Post", "MachineMaster", FormMethod.Post, new { enctype = "multipart/form-data" }))
+@using (Html.BeginForm("Post", "Machine", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
     @Html.HiddenFor(model => model.ProductUIDId)
@@ -30,18 +30,18 @@
             <div class="panel-info">
                 @*<h4 style="padding:5px 0 0 0;margin:0px">
                     @Html.ActionLink(" ", " ", " ", null, new { @class = "glyphicon glyphicon-refresh toolbar", @title = "Refresh Page", @data_toggle = "tooltip", @id = "RefreshPage" })
-                    @Html.ActionLink(" ", "Create", "MachineMaster", new { id = @ViewBag.id }, new { @class = "glyphicon glyphicon-plus toolbar", @title = "Add New", @data_toggle = "tooltip" })
-                    @Html.ActionLink(" ", "History", "MachineMaster", null, new { @class = "glyphicon glyphicon-user toolbar", @title = "History", @data_toggle = "tooltip" })
-                    @Html.ActionLink(" ", "PrevPage", "MachineMaster", new { id = @Model.ProductUIDId, GenDocTypeId = @ViewBag.id }, new { @class = "glyphicon glyphicon-arrow-left toolbar", @title = "Prev Record", @data_toggle = "tooltip" })
-                    @Html.ActionLink(" ", "NextPage", "MachineMaster", new { id = @Model.ProductUIDId, GenDocTypeId = @ViewBag.id }, new { @class = "glyphicon glyphicon-arrow-right toolbar", @title = "Next Record", @data_toggle = "tooltip" })
-                    @Html.ActionLink(" ", "Index", "MachineMaster", new { Id = ViewBag.id }, new { @class = "glyphicon glyphicon-list toolbar right", @title = "List", @data_toggle = "tooltip" })
+                    @Html.ActionLink(" ", "Create", "Machine", new { id = @ViewBag.id }, new { @class = "glyphicon glyphicon-plus toolbar", @title = "Add New", @data_toggle = "tooltip" })
+                    @Html.ActionLink(" ", "History", "Machine", null, new { @class = "glyphicon glyphicon-user toolbar", @title = "History", @data_toggle = "tooltip" })
+                    @Html.ActionLink(" ", "PrevPage", "Machine", new { id = @Model.ProductUIDId, GenDocTypeId = @ViewBag.id }, new { @class = "glyphicon glyphicon-arrow-left toolbar", @title = "Prev Record", @data_toggle = "tooltip" })
+                    @Html.ActionLink(" ", "NextPage", "Machine", new { id = @Model.ProductUIDId, GenDocTypeId = @ViewBag.id }, new { @class = "glyphicon glyphicon-arrow-right toolbar", @title = "Next Record", @data_toggle = "tooltip" })
+                    @Html.ActionLink(" ", "Index", "Machine", new { Id = ViewBag.id }, new { @class = "glyphicon glyphicon-list toolbar right", @title = "List", @data_toggle = "tooltip" })
                 </h4>*@
                 <div class="btn-group">
-                    @Html.ActionLink(" ", "Create", "MachineMaster", new { id = @ViewBag.id }, new { @class = "cbtn btn-circle glyphicon glyphicon-plus toolbar", @title = "Add New", @data_toggle = "tooltip" })
-                    @Html.ActionLink(" ", "History", "MachineMaster", null, new { @class = "cbtn btn-circle glyphicon glyphicon-user toolbar", @title = "History", @data_toggle = "tooltip" })
-                    @Html.ActionLink(" ", "PrevPage", "MachineMaster", new { id = @Model.ProductUIDId, GenDocTypeId = @ViewBag.id }, new { @class = "cbtn btn-circle glyphicon glyphicon-arrow-left toolbar", @title = "Prev Record", @data_toggle = "tooltip" })
-                    @Html.ActionLink(" ", "NextPage", "MachineMaster", new { id = @Model.ProductUIDId, GenDocTypeId = @ViewBag.id }, new { @class = "cbtn btn-circle glyphicon glyphicon-arrow-right toolbar", @title = "Next Record", @data_toggle = "tooltip" })
-                    @Html.ActionLink(" ", "Index", "MachineMaster", new { Id = ViewBag.id }, new { @class = "cbtn btn-circle glyphicon glyphicon-list", @title = "List", @data_toggle = "tooltip" })
+                    @Html.ActionLink(" ", "Create", "Machine", new { id = @ViewBag.id }, new { @class = "cbtn btn-circle glyphicon glyphicon-plus toolbar", @title = "Add New", @data_toggle = "tooltip" })
+                    @Html.ActionLink(" ", "History", "Machine", null, new { @class = "cbtn btn-circle glyphicon glyphicon-user toolbar", @title = "History", @data_toggle = "tooltip" })
+                    @Html.ActionLink(" ", "PrevPage", "Machine", new { id = @Model.ProductUIDId, GenDocTypeId = @ViewBag.id }, new { @class = "cbtn btn-circle glyphicon glyphicon-arrow-left toolbar", @title = "Prev Record", @data_toggle = "tooltip" })
+                    @Html.ActionLink(" ", "NextPage", "Machine", new { id = @Model.ProductUIDId, GenDocTypeId = @ViewBag.id }, new { @class = "cbtn btn-circle glyphicon glyphicon-arrow-right toolbar", @title = "Next Record", @data_toggle = "tooltip" })
+                    @Html.ActionLink(" ", "Index", "Machine", new { Id = ViewBag.id }, new { @class = "cbtn btn-circle glyphicon glyphicon-list", @title = "List", @data_toggle = "tooltip" })
                 </div>
                 <div class="btn-group">
                     <a class="cbtn btn-circle glyphicon glyphicon-option-horizontal dropdown-toggle" aria-expanded="false" style="padding-top: 6px;padding-bottom: 6px;" href="#" data-toggle="dropdown" id="dropdownMenu1">
@@ -50,7 +50,7 @@
                         <li><a id="DocHistory" data-modal="" href="@Url.Action("GetHistory", "LogHistory", new { Ids = Model.ProductUIDId, DocTypeId = @ViewBag.id })"><span class="glyphicon glyphicon-user"> </span>&nbsp;&nbsp;History</a></li>
                         <li><a href="@Url.Action("Email", "MaterialRequestHeader")"><span class="glyphicon glyphicon-envelope"> </span>&nbsp;&nbsp;Email</a></li>
                         <li role="separator" class="divider"></li>
-                        <li><a href="@Url.Action("Report", "MachineMaster")"><span class="glyphicon glyphicon-stats"> </span>&nbsp;&nbsp;Report</a></li>
+                        <li><a href="@Url.Action("Report", "Machine")"><span class="glyphicon glyphicon-stats"> </span>&nbsp;&nbsp;Report</a></li>
                     </ul>
                 </div>
             </div>

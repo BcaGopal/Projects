@@ -215,6 +215,9 @@ namespace Model.ViewModels
         public decimal NField1 { get; set; }
         public string ProductionRemark { get; set; }
         public Decimal? CBM { get; set; }
+
+        public Decimal? ProfitMargin { get; set; }
+        public Decimal? CarryingCost { get; set; }
         public int ProductSKUId { get; set; }
     }
 

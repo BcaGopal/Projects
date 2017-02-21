@@ -456,6 +456,8 @@ namespace Web
                     pt1.SalesTaxGroupProductId = pvm.SalesTaxGroupProductId;
                     pt1.IsActive = pvm.IsActive;
                     pt1.DivisionId = pvm.DivisionId;
+                    pt1.ProfitMargin = pvm.ProfitMargin;
+                    pt1.CarryingCost = pvm.CarryingCost;
                     pt1.CreatedDate = DateTime.Now;
                     pt1.ModifiedDate = DateTime.Now;
                     pt1.CreatedBy = User.Identity.Name;
@@ -644,6 +646,8 @@ namespace Web
                     pt.ProductGroupId = pvm.ProductGroupId;
                     pt.ProductSpecification = pvm.ProductSpecification;
                     pt.SalesTaxGroupProductId = pvm.SalesTaxGroupProductId;
+                    pt.ProfitMargin = pvm.ProfitMargin;
+                    pt.CarryingCost = pvm.CarryingCost;
                     pt.Tags = pvm.Tags;
                     pt.UnitId = pvm.UnitId;
                     pt.IsActive = pvm.IsActive;

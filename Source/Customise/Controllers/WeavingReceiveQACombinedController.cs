@@ -32,7 +32,7 @@ namespace Web
 
         List<string> UserRoles = new List<string>();
         ActiivtyLogViewModel LogVm = new ActiivtyLogViewModel();
-        int MainBranchId = 17;
+        int MainBranchId = 1;
 
         private bool EventException = false;
 
@@ -830,6 +830,14 @@ namespace Web
                     temp.Height = ProductDimensions.Height;
                     temp.DimensionUnitDecimalPlaces = ProductDimensions.DimensionUnitDecimalPlaces;
                 }
+
+                ProductViewModel PQ = new ProductService(_unitOfWork).GetFinishedProduct(temp.ProductId);
+                if (PQ != null)
+                {
+
+                    temp.ProductQualityName = PQ.ProductQualityName;
+                }
+
                 return Json(temp);
             }
             else
@@ -1125,7 +1133,8 @@ namespace Web
         public Decimal? Length { get; set; }
         public Decimal? Width { get; set; }
         public Decimal? Height { get; set; }
-        public int? DimensionUnitDecimalPlaces { get; set; }  
+        public int? DimensionUnitDecimalPlaces { get; set; }
+        public string ProductQualityName { get; set; }
     }
 
     public class PendingWeavingReceives

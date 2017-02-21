@@ -5,6 +5,7 @@ using Model;
 using System.Threading.Tasks;
 using Models.BasicSetup.Models;
 using Infrastructure.IO;
+using Models.BasicSetup.ViewModels;
 
 namespace Services.BasicSetup
 {
@@ -25,6 +26,8 @@ namespace Services.BasicSetup
         string GetLedgerAccountnature(int LedgerAccountId);
         int NextId(int id);
         int PrevId(int id);
+        ComboBoxPagedResult GetList(string searchTerm, int pageSize, int pageNum);
+        ComboBoxResult GetValue(int Id);
     }
 
     public class LedgerAccountService : ILedgerAccountService
@@ -159,6 +162,44 @@ namespace Services.BasicSetup
                     from LedgerAccountGroupTab in LedgerAccountGroupTable.DefaultIfEmpty()
                     where L.LedgerAccountId == LedgerAccountId
                     select new { LedgerAccountNature = LedgerAccountGroupTab.LedgerAccountNature }).FirstOrDefault().LedgerAccountNature;
+        }
+
+        public ComboBoxPagedResult GetList(string searchTerm, int pageSize, int pageNum)
+        {
+            var list = (from pr in _LedgerAccountRepository.Instance
+                        where (string.IsNullOrEmpty(searchTerm) ? 1 == 1 : (pr.LedgerAccountName.ToLower().Contains(searchTerm.ToLower())))
+                        orderby pr.LedgerAccountName
+                        select new ComboBoxResult
+                        {
+                            text = pr.LedgerAccountName,
+                            id = pr.LedgerAccountId.ToString()
+                        }
+              );
+
+            var temp = list
+               .Skip(pageSize * (pageNum - 1)).Take(pageSize).ToList();
+
+            var count = list.Count();
+
+            ComboBoxPagedResult Data = new ComboBoxPagedResult();
+            Data.Results = temp;
+            Data.Total = count;
+
+            return Data;
+        }
+
+        public ComboBoxResult GetValue(int Id)
+        {
+            ComboBoxResult ProductJson = new ComboBoxResult();
+
+            IEnumerable<LedgerAccount> LedgerAccounts = from pr in _LedgerAccountRepository.Instance
+                                                    where pr.LedgerAccountId == Id
+                                                    select pr;
+
+            ProductJson.id = LedgerAccounts.FirstOrDefault().LedgerAccountId.ToString();
+            ProductJson.text = LedgerAccounts.FirstOrDefault().LedgerAccountName;
+
+            return ProductJson;
         }
 
 

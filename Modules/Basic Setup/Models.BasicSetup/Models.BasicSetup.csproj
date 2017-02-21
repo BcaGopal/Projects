@@ -106,6 +106,7 @@
     <Compile Include="Models\PersonRegistration.cs" />
     <Compile Include="Models\Process.cs" />
     <Compile Include="Models\Product.cs" />
+    <Compile Include="Models\PaymentModeLedgerAccount.cs" />
     <Compile Include="Models\ProductBuyer.cs" />
     <Compile Include="Models\ProductGroup.cs" />
     <Compile Include="Models\ProductNature.cs" />
@@ -116,6 +117,7 @@
     <Compile Include="Models\SalesTaxGroupProduct.cs" />
     <Compile Include="Models\ServiceTaxCategory.cs" />
     <Compile Include="Models\Site.cs" />
+    <Compile Include="Models\PaymentMode.cs" />
     <Compile Include="Models\State.cs" />
     <Compile Include="Models\Stock.cs" />
     <Compile Include="Models\StockAdj.cs" />
@@ -135,6 +137,7 @@
     <Compile Include="ViewModels\CalculationHeaderLedgerAccountViewModel.cs" />
     <Compile Include="ViewModels\CalculationLineLedgerAccountViewModel.cs" />
     <Compile Include="ViewModels\CalculationProductViewModel.cs" />
+    <Compile Include="ViewModels\PaymentModeViewModel.cs" />
     <Compile Include="ViewModels\GatePassViewModel.cs" />
     <Compile Include="ViewModels\LedgerHeaderViewModel.cs" />
     <Compile Include="ViewModels\LedgerViewModel.cs" />
