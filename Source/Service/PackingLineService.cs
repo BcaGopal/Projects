@@ -30,6 +30,7 @@ namespace Service
         IQueryable<PackingLine> GetPackingLineForHeaderId(int PackingHeaderId);
         PackingLine GetPackingLineForLineId(int PackingLineId);
         PackingLineViewModel GetPackingLineViewModelForLineId(int PackingLineId);
+        PackingLineViewModel GetPackingLineWithExtendedViewModelForLineId(int PackingLineId);
         //IQueryable<PackingLineViewModel> GetPackingLineViewModelForHeaderId(int PackingHeaderId);
         IEnumerable<PackingLineViewModel> GetPackingLineViewModelForHeaderId(int PackingHeaderId);
         //PendingOrderListForPacking FGetFifoSaleOrder(int ProductId, int BuyerId);
@@ -230,7 +231,55 @@ namespace Service
                     from DeliveryUnitTab in DeliveryUnitTable.DefaultIfEmpty()
                     join Pu in db.ProductUid on L.ProductUidId equals Pu.ProductUIDId into ProductUidTable
                     from ProductUidTab in ProductUidTable.DefaultIfEmpty()
-                    join Le in db.PackingLineExtended on L.PackingLineId equals Le.PackingLineId into PackingLineExtendedTable from PackingLineExtendedTab in PackingLineExtendedTable.DefaultIfEmpty()
+                    orderby L.PackingLineId
+                    where L.PackingLineId == PackingLineId
+                    select new PackingLineViewModel
+                    {
+                        PackingHeaderId = L.PackingHeaderId,
+                        PackingLineId = L.PackingLineId,
+                        ProductUidId = L.ProductUidId,
+                        ProductUidName = ProductUidTab.ProductUidName,
+                        ProductId = L.ProductId,
+                        ProductName = ProductTab.ProductName,
+                        ProductInvoiceGroupId = ProductTab.ProductInvoiceGroupId,
+                        ProductInvoiceGroupName = ProductInvoiceGroupTab.ProductInvoiceGroupName,
+                        Qty = L.Qty,
+                        SaleOrderLineId = L.SaleOrderLineId,
+                        SaleOrderNo = SaleOrderHeaderTab.DocNo,
+                        SaleDeliveryOrderLineId = L.SaleDeliveryOrderLineId,
+                        SaleDeliveryOrderNo = L.SaleDeliveryOrderLine.SaleDeliveryOrderHeader.DocNo,
+                        DealUnitId = L.DealUnitId,
+                        DealUnitName = DeliveryUnitTab.UnitName,
+                        DealQty = L.DealQty,
+                        BaleNo = L.BaleNo,
+                        GrossWeight = L.GrossWeight,
+                        NetWeight = L.NetWeight,
+                        Remark = L.Remark,
+                        ImageFolderName = ProductTab.ImageFolderName,
+                        ImageFileName = ProductTab.ImageFileName,
+                        CreatedBy = L.CreatedBy,
+                        CreatedDate = L.CreatedDate
+                    }).FirstOrDefault();
+        }
+
+
+        public PackingLineViewModel GetPackingLineWithExtendedViewModelForLineId(int PackingLineId)
+        {
+            return (from L in db.PackingLine
+                    join P in db.FinishedProduct on L.ProductId equals P.ProductId into ProductTable
+                    from ProductTab in ProductTable.DefaultIfEmpty()
+                    join Pig in db.ProductInvoiceGroup on ProductTab.ProductInvoiceGroupId equals Pig.ProductInvoiceGroupId into ProductInvoiceGroupTable
+                    from ProductInvoiceGroupTab in ProductInvoiceGroupTable.DefaultIfEmpty()
+                    join S in db.SaleOrderLine on L.SaleOrderLineId equals S.SaleOrderLineId into SaleOrderLineTable
+                    from SaleOrderLineTab in SaleOrderLineTable.DefaultIfEmpty()
+                    join So in db.SaleOrderHeader on SaleOrderLineTab.SaleOrderHeaderId equals So.SaleOrderHeaderId into SaleOrderHeaderTable
+                    from SaleOrderHeaderTab in SaleOrderHeaderTable.DefaultIfEmpty()
+                    join Du in db.Units on L.DealUnitId equals Du.UnitId into DeliveryUnitTable
+                    from DeliveryUnitTab in DeliveryUnitTable.DefaultIfEmpty()
+                    join Pu in db.ProductUid on L.ProductUidId equals Pu.ProductUIDId into ProductUidTable
+                    from ProductUidTab in ProductUidTable.DefaultIfEmpty()
+                    join Le in db.PackingLineExtended on L.PackingLineId equals Le.PackingLineId into PackingLineExtendedTable
+                    from PackingLineExtendedTab in PackingLineExtendedTable.DefaultIfEmpty()
                     orderby L.PackingLineId
                     where L.PackingLineId == PackingLineId
                     select new PackingLineViewModel

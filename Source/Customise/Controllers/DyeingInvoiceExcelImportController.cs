@@ -50,7 +50,7 @@ namespace Web.Controllers
             int i = 0;
             string ErrorText = "";
 
-            string DyeingConnectionString = "Persist Security Info=False;User ID='sa';Initial Catalog=Dyeing;Data Source=192.168.2.25";
+            string DyeingConnectionString = "Persist Security Info=False;User ID='sa';pwd=P@ssw0rd!;Initial Catalog=DyeingHouse;Data Source=192.168.2.25";
 
 
             DataSet WorkInvoice = new DataSet();
