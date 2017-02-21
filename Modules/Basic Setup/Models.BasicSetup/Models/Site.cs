@@ -21,7 +21,7 @@ namespace Models.Company.Models
         [MaxLength(50, ErrorMessage = "Phone no cannot exceed 50 characters")]
         public string PhoneNo { get; set; }
 
-        [ForeignKey("City"), Required,Range(1,int.MaxValue,ErrorMessage="The City field is required")]
+        [ForeignKey("City"), Range(1,int.MaxValue)]
         public int? CityId { get; set; }
         public virtual City City { get; set; }
 
