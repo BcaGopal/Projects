@@ -42,11 +42,17 @@ namespace Model.Models
         public string filterContraDocTypes { get; set; }
         public string filterContraSites { get; set; }
         public string filterContraDivisions { get; set; }
+        public string filterPersonRoles { get; set; }
 
 
         [ForeignKey("Calculation")]
         public int ? CalculationId { get; set; }
         public virtual Calculation Calculation { get; set; }
+
+        [ForeignKey("Process")]
+        public int? ProcessId { get; set; }
+        public virtual Process Process { get; set; }
+
         
         /// <summary>
         /// DocId will be passed as a parameter in specified procedure.

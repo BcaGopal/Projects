@@ -394,7 +394,7 @@ namespace Service
             StockHeader Header = new StockHeaderService(_unitOfWork).Find(StockHeaderId);
 
             SqlParameter SqlParameterPersonIdId = new SqlParameter("@PersonId", Header.PersonId);
-            SqlParameter SqlParameterProcessId = new SqlParameter("@ProcessId", Header.ProcessId);
+            SqlParameter SqlParameterProcessId = new SqlParameter("@ProcessId", Header.ProcessId ?? 0);
             SqlParameter SqlParameterCostCenterId = new SqlParameter("@CostCenterId", -1);
             SqlParameter SqlParameterProductId = new SqlParameter("@ProductId", ProductId);
             SqlParameter SqlParameterUptoDate = new SqlParameter("@UptoDate", DateTime.Now.Date);

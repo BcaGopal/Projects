@@ -384,7 +384,8 @@
 
 
     $(document).ready(function () {
-        CustomSelectFunction($("#SupplierId"), '/ComboHelpList/GetSuppliers', '/ComboHelpList/SetSingleSupplier', ' ', false, 1);
+        //CustomSelectFunction($("#SupplierId"), '/ComboHelpList/GetSuppliers', '/ComboHelpList/SetSingleSupplier', ' ', false, 1);
+        CustomSelectFunction($("#SupplierId"), '/PurchaseOrderCancelHeader/GetCustomPerson', '/ComboHelpList/SetSinglePerson', ' ', false, 1,$('#DocTypeId').val());
         //Calling the function to load the table data/ Line information
         LoadProducts();
 
