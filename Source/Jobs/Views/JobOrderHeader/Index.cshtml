@@ -9,7 +9,16 @@
     string ControllerName = (string)ViewContext.RouteData.Values["controller"];
     string IndexStatus = (string)ViewBag.IndexStatus;
 
-    string Partycaption = (string)ViewBag.PartyCaption;
+    string Partycaption = "";
+    if ((string)ViewBag.PartyCaption =="" || (string)ViewBag.PartyCaption ==null)
+    {
+        Partycaption = "Party";
+    }
+    else
+    {
+        Partycaption= (string)ViewBag.PartyCaption;
+    }
+
 }
 
 @*<style type="text/css">

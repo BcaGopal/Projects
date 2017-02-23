@@ -358,7 +358,7 @@ $(document).ready(function () {
         });
     };
 
-    DisablePageNavigation = function () {
+|    DisablePageNavigation = function () {
         //Disabling input fields
         $(':input:not(:submit,#IsContinue,.transactional)').attr('disabled', 'disabled');
 
