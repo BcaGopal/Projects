@@ -515,18 +515,29 @@ namespace Service
             return prodList;
         }
 
+        //public IEnumerable<ComboBoxList> GetMachineHelpList()
+        //{
+        //    IEnumerable<ComboBoxList> prodList = db.Product.Where(m => m.IsActive == true && m.ProductGroup.ProductType.ProductNature.ProductNatureName == ProductNatureConstants.Machine)
+        //        .OrderBy(m => m.ProductName).Select(i => new ComboBoxList
+        //    {
+        //        Id = i.ProductId,
+        //        PropFirst = i.ProductName,
+        //    });
+
+        //    return prodList;
+        //}
+
         public IEnumerable<ComboBoxList> GetMachineHelpList()
         {
-            IEnumerable<ComboBoxList> prodList = db.Product.Where(m => m.IsActive == true && m.ProductGroup.ProductType.ProductNature.ProductNatureName == ProductNatureConstants.Machine)
-                .OrderBy(m => m.ProductName).Select(i => new ComboBoxList
-            {
-                Id = i.ProductId,
-                PropFirst = i.ProductName,
-            });
+            IEnumerable<ComboBoxList> prodList = db.ProductUid.Where(m => m.IsActive == true && m.Product.ProductGroup.ProductType.ProductNature.ProductNatureName == ProductNatureConstants.Machine)
+                .OrderBy(m => m.ProductUidName).Select(i => new ComboBoxList
+                {
+                    Id = i.ProductUIDId,
+                    PropFirst = i.ProductUidName,
+                });
 
             return prodList;
         }
-
 
         public IEnumerable<ComboBoxList> GetProductCategoryHelpList()
         {

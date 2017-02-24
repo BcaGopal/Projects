@@ -583,6 +583,11 @@ namespace Service
             if (!string.IsNullOrEmpty(vm.ProductGroupId)) { ProductGroupIdArr = vm.ProductGroupId.Split(",".ToCharArray()); }
             else { ProductGroupIdArr = new string[] { "NA" }; }
 
+
+            string[] ProductCategoryIdArr = null;
+            if (!string.IsNullOrEmpty(Settings.filterProductCategories)) { ProductCategoryIdArr = Settings.filterProductCategories.Split(",".ToCharArray()); }
+            else { ProductCategoryIdArr = new string[] { "NA" }; }
+
             if (!string.IsNullOrEmpty(vm.DealUnitId))
             {
                 Unit Dealunit = new UnitService(_unitOfWork).Find(vm.DealUnitId);
@@ -595,6 +600,8 @@ namespace Service
                             from tab1 in table1.DefaultIfEmpty()
                             from tab2 in table2.DefaultIfEmpty()
                             join t3 in db.UnitConversion on new { p1 = p.ProductId, DU1 = vm.DealUnitId, U1 = UnitConvForId ?? 0 } equals new { p1 = t3.ProductId ?? 0, DU1 = t3.ToUnitId, U1 = t3.UnitConversionForId } into table3
+                            join FP in db.FinishedProduct on p.ProductId equals FP.ProductId into tableFinishedProduct
+                            from tabFinishedProduct in tableFinishedProduct.DefaultIfEmpty()
                             from tab3 in table3.DefaultIfEmpty()
                             where (string.IsNullOrEmpty(vm.ProductId) ? 1 == 1 : ProductIdArr.Contains(p.ProductId.ToString()))
                             && (string.IsNullOrEmpty(vm.ProdOrderHeaderId) ? 1 == 1 : SaleOrderIdArr.Contains(p.ProdOrderHeaderId.ToString()))
@@ -602,6 +609,7 @@ namespace Service
                             && (string.IsNullOrEmpty(vm.Dimension2Id) ? 1 == 1 : Dimension2.Contains(p.Dimension2Id.ToString()))
                             && (string.IsNullOrEmpty(vm.ProductGroupId) ? 1 == 1 : ProductGroupIdArr.Contains(tab2.ProductGroupId.ToString()))
                             && (string.IsNullOrEmpty(Settings.filterContraSites) ? p.SiteId == joborder.SiteId : ContraSites.Contains(p.SiteId.ToString()))
+                            && (string.IsNullOrEmpty(Settings.filterProductCategories) ? 1 == 1 : ProductCategoryIdArr.Contains(tabFinishedProduct.ProductCategoryId.ToString()))
                             && (string.IsNullOrEmpty(Settings.filterContraDivisions) ? p.DivisionId == joborder.DivisionId : ContraDivisions.Contains(p.DivisionId.ToString()))
                             && p.BalanceQty > 0
                             orderby tab.DocDate, tab.DocNo, tab1.Sr
@@ -609,7 +617,7 @@ namespace Service
                             {
                                 Dimension1Name = tab1.Dimension1.Dimension1Name,
                                 Dimension2Name = tab1.Dimension2.Dimension2Name,
-                                Dimension1Id = p.Dimension1Id,
+                                Dimension1Id = tabFinishedProduct.ProductCategoryId,
                                 Dimension2Id = p.Dimension2Id,
                                 Specification = tab1.Specification,
                                 ProdOrderBalanceQty = p.BalanceQty,
@@ -643,11 +651,14 @@ namespace Service
                             join t1 in db.ProdOrderLine on p.ProdOrderLineId equals t1.ProdOrderLineId into table1
                             from tab1 in table1.DefaultIfEmpty()
                             from tab2 in table2.DefaultIfEmpty()
+                            join FP in db.FinishedProduct on p.ProductId equals FP.ProductId into tableFinishedProduct
+                            from tabFinishedProduct in tableFinishedProduct.DefaultIfEmpty()
                             where (string.IsNullOrEmpty(vm.ProductId) ? 1 == 1 : ProductIdArr.Contains(p.ProductId.ToString()))
                             && (string.IsNullOrEmpty(vm.ProdOrderHeaderId) ? 1 == 1 : SaleOrderIdArr.Contains(p.ProdOrderHeaderId.ToString()))
                              && (string.IsNullOrEmpty(vm.Dimension1Id) ? 1 == 1 : Dimension1.Contains(p.Dimension1Id.ToString()))
                             && (string.IsNullOrEmpty(vm.Dimension2Id) ? 1 == 1 : Dimension2.Contains(p.Dimension2Id.ToString()))
                             && (string.IsNullOrEmpty(vm.ProductGroupId) ? 1 == 1 : ProductGroupIdArr.Contains(tab2.ProductGroupId.ToString()))
+                            && (string.IsNullOrEmpty(Settings.filterProductCategories) ? 1 == 1 : ProductCategoryIdArr.Contains(tabFinishedProduct.ProductCategoryId.ToString()))
                             && p.BalanceQty > 0
                             select new JobOrderLineViewModel
                             {

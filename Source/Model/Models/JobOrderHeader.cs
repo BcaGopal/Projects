@@ -70,7 +70,7 @@ namespace Model.Models
 
         [ForeignKey("Machine"), Display(Name = "Machine")]
         public int? MachineId { get; set; }
-        public virtual Machine Machine { get; set; }
+        public virtual ProductUid Machine { get; set; }
 
         public string TermsAndConditions { get; set; }
 
