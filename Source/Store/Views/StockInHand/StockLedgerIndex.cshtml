@@ -258,6 +258,7 @@
 <script src="~/Scripts/Slick/slick.dataview.js"></script>
 <script src="~/Scripts/Slick/slick.rowselectionmodel.js"></script>
 
+
 <script>
     var data;
     var options;
@@ -375,7 +376,13 @@
 
 
     //Data Fetching
-    var url = '@Url.Action("GetStockLedgerJson", "StockInHand", new { ProductId = ViewBag.ProductId, Dim1 = ViewBag.Dim1, Dim2 = ViewBag.Dim2, Process = ViewBag.Process, LotNo = ViewBag.LotNo, Godown = ViewBag.Dim1 })';
+
+
+
+    var url = '@Url.Action("GetStockLedgerJson", "StockInHand")';
+    url += '?ProductId=' + @ViewBag.ProductId + '&Dim1=' + @ViewBag.Dim1 +
+           '&Dim2=' + @ViewBag.Dim2 + '&Process=' + @ViewBag.Process +
+           '&LotNo=' + @ViewBag.LotNo + '&Godown=' + @ViewBag.Godown;
 
     $(document).ready(function () {
         $.ajax({
@@ -390,6 +397,8 @@
             }
         });
     })
+
+
 
     //Initializing the Grid
     function InitializeGrid() {

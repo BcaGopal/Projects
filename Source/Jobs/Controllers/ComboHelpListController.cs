@@ -3426,41 +3426,76 @@ namespace Web
               };
           }
 
-          public JsonResult SetSingleMachine(int Ids)
-          {
-              ComboBoxResult ProductJson = new ComboBoxResult();
+        //public JsonResult SetSingleMachine(int Ids)
+        //{
+        //    ComboBoxResult ProductJson = new ComboBoxResult();
 
-              IEnumerable<Product> prod = from p in db.Product
-                                          where p.ProductId == Ids
-                                          select p;
+        //    IEnumerable<Product> prod = from p in db.Product
+        //                                where p.ProductId == Ids
+        //                                select p;
 
-              ProductJson.id = prod.FirstOrDefault().ProductId.ToString();
-              ProductJson.text = prod.FirstOrDefault().ProductName;
+        //    ProductJson.id = prod.FirstOrDefault().ProductId.ToString();
+        //    ProductJson.text = prod.FirstOrDefault().ProductName;
 
-              return Json(ProductJson);
-          }
+        //    return Json(ProductJson);
+        //}
 
-          public JsonResult SetMachine(string Ids)
-          {
-              string[] subStr = Ids.Split(',');
-              List<ComboBoxResult> ProductJson = new List<ComboBoxResult>();
-              for (int i = 0; i < subStr.Length; i++)
-              {
-                  int temp = Convert.ToInt32(subStr[i]);
-                  //IEnumerable<Product> products = db.Products.Take(3);
-                  IEnumerable<Product> prod = from p in db.Product
-                                              where p.ProductId == temp
-                                              select p;
-                  ProductJson.Add(new ComboBoxResult()
-                  {
-                      id = prod.FirstOrDefault().ProductId.ToString(),
-                      text = prod.FirstOrDefault().ProductName
-                  });
-              }
-              return Json(ProductJson);
-          }
+        //public JsonResult SetMachine(string Ids)
+        //{
+        //    string[] subStr = Ids.Split(',');
+        //    List<ComboBoxResult> ProductJson = new List<ComboBoxResult>();
+        //    for (int i = 0; i < subStr.Length; i++)
+        //    {
+        //        int temp = Convert.ToInt32(subStr[i]);
+        //        //IEnumerable<Product> products = db.Products.Take(3);
+        //        IEnumerable<Product> prod = from p in db.Product
+        //                                    where p.ProductId == temp
+        //                                    select p;
+        //        ProductJson.Add(new ComboBoxResult()
+        //        {
+        //            id = prod.FirstOrDefault().ProductId.ToString(),
+        //            text = prod.FirstOrDefault().ProductName
+        //        });
+        //    }
+        //    return Json(ProductJson);
+        //}
 
-          public ActionResult GetProductDesignPatterns(string searchTerm, int pageSize, int pageNum)
+
+        public JsonResult SetSingleMachine(int Ids)
+        {
+            ComboBoxResult ProductJson = new ComboBoxResult();
+
+            IEnumerable<ProductUid> prod = from p in db.ProductUid
+                                        where p.ProductUIDId == Ids
+                                        select p;
+
+            ProductJson.id = prod.FirstOrDefault().ProductUIDId.ToString();
+            ProductJson.text = prod.FirstOrDefault().ProductUidName;
+
+            return Json(ProductJson);
+        }
+
+        public JsonResult SetMachine(string Ids)
+        {
+            string[] subStr = Ids.Split(',');
+            List<ComboBoxResult> ProductJson = new List<ComboBoxResult>();
+            for (int i = 0; i < subStr.Length; i++)
+            {
+                int temp = Convert.ToInt32(subStr[i]);
+                //IEnumerable<Product> products = db.Products.Take(3);
+                IEnumerable<ProductUid> prod = from p in db.ProductUid
+                                               where p.ProductUIDId == temp
+                                            select p;
+                ProductJson.Add(new ComboBoxResult()
+                {
+                    id = prod.FirstOrDefault().ProductUIDId.ToString(),
+                    text = prod.FirstOrDefault().ProductUidName
+                });
+            }
+            return Json(ProductJson);
+        }
+
+        public ActionResult GetProductDesignPatterns(string searchTerm, int pageSize, int pageNum)
           {
               //Get the paged results and the total count of the results for this query. ProductCacheKeyHint
               var productCacheKeyHint = "DesignPatternCacheKeyHint";
