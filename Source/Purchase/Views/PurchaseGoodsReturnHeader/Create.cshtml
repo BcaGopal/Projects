@@ -398,7 +398,8 @@
 
 <script type="text/javascript">
 
-    CustomSelectFunction($("#SupplierId"), '/ComboHelpList/GetSuppliers', '/ComboHelpList/SetSingleSupplier', ' ', false, 1);
+    //CustomSelectFunction($("#SupplierId"), '/ComboHelpList/GetSuppliers', '/ComboHelpList/SetSingleSupplier', ' ', false, 1);
+    CustomSelectFunction($("#SupplierId"), '/PurchaseGoodsReturnHeader/GetCustomPerson', '/ComboHelpList/SetSinglePerson', ' ', false, 1,$('#DocTypeId').val());
     CustomSelectFunction($("#GodownId"), '/ComboHelpList/GetSiteGodown', '/ComboHelpList/SetSingleGodown', ' ', false, 1);
 
     var form_clean;

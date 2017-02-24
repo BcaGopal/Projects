@@ -717,7 +717,8 @@
     });
 
 
-    CustomSelectFunction($("#SupplierId"), '/ComboHelpList/GetSuppliers', '/ComboHelpList/SetSingleSupplier', ' ', false, 1);
+    //CustomSelectFunction($("#SupplierId"), '/ComboHelpList/GetSuppliers', '/ComboHelpList/SetSingleSupplier', ' ', false, 1);
+    CustomSelectFunction($("#SupplierId"), '/PurchaseGoodsReceiptHeader/GetCustomPerson', '/ComboHelpList/SetSinglePerson', ' ', false, 1, $('#DocTypeId').val());
     CustomSelectFunction($("#GodownId"), '/ComboHelpList/GetSiteGodown', '/ComboHelpList/SetSingleGodown', ' ', false, 1);
 
     var id='@Model.PurchaseGoodsReceiptHeaderId';

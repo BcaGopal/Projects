@@ -20,6 +20,7 @@ using CustomEventArgs;
 using DocumentEvents;
 using Reports.Controllers;
 using Reports.Reports;
+using Model.ViewModels;
 
 namespace Web
 {
@@ -1092,6 +1093,26 @@ namespace Web
         public int PendingToReviewCount(int id)
         {
             return (_PurchaseOrderCancelHeaderService.GetPurchaseOrderCancelPendingToReview(id, User.Identity.Name)).Count();
+        }
+
+        public ActionResult GetCustomPerson(string searchTerm, int pageSize, int pageNum, int filter)//DocTypeId
+        {
+            var Query = _PurchaseOrderCancelHeaderService.GetCustomPerson(filter, searchTerm);
+            var temp = Query.Skip(pageSize * (pageNum - 1))
+                .Take(pageSize)
+                .ToList();
+
+            var count = Query.Count();
+
+            ComboBoxPagedResult Data = new ComboBoxPagedResult();
+            Data.Results = temp;
+            Data.Total = count;
+
+            return new JsonpResult
+            {
+                Data = Data,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
         }
 
 

@@ -38,6 +38,7 @@ namespace Model.Models
         public string filterContraDocTypes { get; set; }
         public string filterContraSites { get; set; }
         public string filterContraDivisions { get; set; }
+        public string filterPersonRoles { get; set; }
         /// <summary>
         /// DocId will be passed as a parameter in specified procedure.
         /// Procedure should have only one parameter of type int.
@@ -75,6 +76,11 @@ namespace Model.Models
         [Display(Name = "ImportMenu")]
         public int? ImportMenuId { get; set; }
         public virtual Menu ImportMenu { get; set; }
+
+        [ForeignKey("Process")]
+        public int? ProcessId { get; set; }
+        public virtual Process Process { get; set; }
+
 
 
 

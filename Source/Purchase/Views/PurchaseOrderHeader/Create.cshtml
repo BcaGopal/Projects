@@ -712,7 +712,8 @@
     })*@  
 
 
-    CustomSelectFunction($("#SupplierId"), '/ComboHelpList/GetSuppliers', '/ComboHelpList/SetSingleSupplier', ' ', false, 1);
+    //CustomSelectFunction($("#SupplierId"), '/ComboHelpList/GetSuppliers', '/ComboHelpList/SetSingleSupplier', ' ', false, 1);
+    CustomSelectFunction($("#SupplierId"), '/PurchaseOrderHeader/GetCustomPerson', '/ComboHelpList/SetSinglePerson', ' ', false, 1,$('#DocTypeId').val());
     $('#SupplierId').select2("focus");
 
     $(document).ready(function () {
