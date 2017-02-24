@@ -21,13 +21,16 @@ namespace Services.BasicSetup
         void Update(BinLocation pt);
         BinLocation Add(BinLocation pt);
         IEnumerable<BinLocation> GetBinLocationList();
-        IQueryable<BinLocation> GetBinLocationListForIndex();
+        IEnumerable<BinLocation> GetBinLocationListForGodown(int id);
+        IQueryable<BinLocation> GetBinLocationListForIndex(int id);
         Task<IEquatable<BinLocation>> GetAsync();
         Task<BinLocation> FindAsync(int id);
         int NextId(int id);
         int PrevId(int id);
         bool CheckForNameExists(string Name);
         bool CheckForNameExists(string Name, int Id);
+        bool IsDuplicateBinLocationName(int GodownId, string BinLocationName, int BinLocationId);
+        bool IsDuplicateBinLocationCode(int GodownId, string BinLocationCode, int BinLocationId);
 
         #region HelpList Getter
         /// <summary>
@@ -126,9 +129,16 @@ namespace Services.BasicSetup
             return pt;
         }
 
-        public IQueryable<BinLocation> GetBinLocationListForIndex()
+        public IEnumerable<BinLocation> GetBinLocationListForGodown(int id)
         {
-            var pt = _unitOfWork.Repository<BinLocation>().Query().Get().OrderBy(m => m.BinLocationName);
+            var pt = _unitOfWork.Repository<BinLocation>().Query().Get().Where(m => m.GodownId == id).OrderBy(m => m.BinLocationName);
+
+            return pt;
+        }
+
+        public IQueryable<BinLocation> GetBinLocationListForIndex(int id)
+        {
+            var pt = _unitOfWork.Repository<BinLocation>().Query().Get().Where(m => m.GodownId == id).OrderBy(m => m.BinLocationName);
 
             return pt;
         }
@@ -281,6 +291,38 @@ namespace Services.BasicSetup
                 return false;
             else
                 return true;
+        }
+
+        public bool IsDuplicateBinLocationName(int GodownId,string BinLocationName, int BinLocationId)
+        {
+            var temp = (from L in _unitOfWork.Repository<BinLocation>().Instance
+                        where L.GodownId == GodownId && L.BinLocationName == BinLocationName && L.BinLocationId != BinLocationId
+                        select L).FirstOrDefault();
+
+            if (temp != null)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public bool IsDuplicateBinLocationCode(int GodownId, string BinLocationCode, int BinLocationId)
+        {
+            var temp = (from L in _unitOfWork.Repository<BinLocation>().Instance
+                        where L.GodownId == GodownId && L.BinLocationCode == BinLocationCode && L.BinLocationId != BinLocationId
+                        select L).FirstOrDefault();
+
+            if (temp != null)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 }

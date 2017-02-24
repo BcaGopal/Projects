@@ -1,4 +1,5 @@
 ﻿using Model;
+using Models.Company.Models;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -9,6 +10,12 @@ namespace Models.BasicSetup.Models
     {
         [Key]
         public int AreaId { get; set; }
+
+
+        [ForeignKey("DocType")]
+        public int DocTypeId { get; set; }
+        public virtual DocumentType DocType { get; set; }
+
 
         [Display (Name="Name")]
         [MaxLength(50, ErrorMessage = "Area Name cannot exceed 50 characters"), Required]
