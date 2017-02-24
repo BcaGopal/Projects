@@ -556,7 +556,7 @@ namespace Web
                                      OrderNo = p.JobReceiveNo,
                                      JobReceiveLineId = p.JobReceiveLineId,
                                      BalanceQty = p.BalanceQty,
-                                     JobWorkerName = h.JobWorker.Person.Name,
+                                     JobWorkerName = h.JobWorker.Name,
                                      ProductName = jol.Product.ProductName,
                                      Dimension1Name = jol.Dimension1.Dimension1Name,
                                      Dimension2Name = jol.Dimension2.Dimension2Name,

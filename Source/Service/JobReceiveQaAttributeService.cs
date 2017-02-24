@@ -199,7 +199,7 @@ namespace Service
                         DocTypeName = JobReceiveHeaderTab.DocType.DocumentTypeName,
                         DocDate = JobReceiveHeaderTab.DocDate,
                         DocNo = JobReceiveHeaderTab.DocNo,
-                        JobWorkerName = JobReceiveHeaderTab.JobWorker.Person.Name,
+                        JobWorkerName = JobReceiveHeaderTab.JobWorker.Name,
                         ProductName = JobReceiveLineTab.JobOrderLine.Product.ProductName,
                         ProductUidName = JobReceiveLineTab.ProductUid.ProductUidName,
                         DocTypeId = DocTypeId

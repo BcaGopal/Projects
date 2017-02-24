@@ -12,6 +12,10 @@ namespace Models.BasicSetup.Models
         [Key]
         public int PersonRateGroupId { get; set; }
 
+        [ForeignKey("DocType"), Display(Name = "Order Type")]
+        public int DocTypeId { get; set; }
+        public virtual DocumentType DocType { get; set; }
+
         [Display(Name = "Person Rate Group")]
         [MaxLength(50), Required]
         [Index("IX_PersonRateGroup_PersonRateGroupName", IsUnique = true,Order=1)]

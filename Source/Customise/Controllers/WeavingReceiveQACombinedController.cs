@@ -917,7 +917,7 @@ namespace Web
                                                                 ProductUidName = Result.Max(m => m.JobReceiveLineTab.ProductUid.ProductUidName),
                                                                 DocNo = Result.Max(m => m.H.DocNo),
                                                                 DocDate = Result.Max(m => m.H.DocDate),
-                                                                JobWorkerName = Result.Max(m => m.H.JobWorker.Person.Name),
+                                                                JobWorkerName = Result.Max(m => m.H.JobWorker.Name),
                                                                 Status = Result.Max(m => m.H.Status)
                                                             };
 

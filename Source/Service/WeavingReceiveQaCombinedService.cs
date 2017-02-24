@@ -435,7 +435,7 @@ namespace Service
                         DocTypeName = JobReceiveHeaderTab.DocType.DocumentTypeName,
                         DocDate = JobReceiveHeaderTab.DocDate,
                         DocNo = JobReceiveHeaderTab.DocNo,
-                        JobWorkerName = JobReceiveHeaderTab.JobWorker.Person.Name,
+                        JobWorkerName = JobReceiveHeaderTab.JobWorker.Name,
                         ProductName = JobReceiveLineTab.JobOrderLine.Product.ProductName,
                         ProductUidName = JobReceiveLineTab.ProductUid.ProductUidName,
                         DocTypeId = DocTypeId
@@ -777,7 +777,7 @@ namespace Service
                         DocDate = p.DocDate,
                         JobWorkerDocNo = p.JobWorkerDocNo,
                         DocNo = p.DocNo,
-                        JobWorkerName = p.JobWorker.Person.Name,
+                        JobWorkerName = p.JobWorker.Name,
                         DocTypeName = p.DocType.DocumentTypeName,
                         Remark = p.Remark,
                         Status = p.Status,

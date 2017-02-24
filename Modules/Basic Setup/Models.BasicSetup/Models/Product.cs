@@ -35,6 +35,10 @@ namespace Models.BasicSetup.Models
         [Display(Name = "Product Id")]
         public int ProductId { get; set; }
 
+        [ForeignKey("DocType")]
+        public int? DocTypeId { get; set; }
+        public virtual DocumentType DocType { get; set; }
+
         [MaxLength(20, ErrorMessage = "ProductCode cannot exceed 20 characters"), Required]
         [Display(Name = "Product Code")]
         [Index("IX_Product_ProductCode", IsUnique = true)]

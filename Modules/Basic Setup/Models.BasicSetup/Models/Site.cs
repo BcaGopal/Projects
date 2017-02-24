@@ -12,7 +12,15 @@ namespace Models.Company.Models
 
         [Key]
         public int SiteId { get; set; }
+
+
+        [ForeignKey("DocType")]
+        public int? DocTypeId { get; set; }
+        public virtual DocumentType DocType { get; set; }
+
         [MaxLength(50, ErrorMessage = "Site Name cannot exceed 50 characters"), Required]
+
+
         public string SiteName { get; set; }
         [MaxLength(250, ErrorMessage = "Site Name cannot exceed 250 characters")]
         public string SiteCode { get; set; }
@@ -21,7 +29,7 @@ namespace Models.Company.Models
         [MaxLength(50, ErrorMessage = "Phone no cannot exceed 50 characters")]
         public string PhoneNo { get; set; }
 
-        [ForeignKey("City"), Required,Range(1,int.MaxValue,ErrorMessage="The City field is required")]
+        [ForeignKey("City"), Range(1,int.MaxValue)]
         public int? CityId { get; set; }
         public virtual City City { get; set; }
 

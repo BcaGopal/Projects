@@ -15,6 +15,12 @@ namespace Models.Company.Models
         [Key]
         public int GodownId { get; set; }
 
+        [ForeignKey("DocType")]
+        public int? DocTypeId { get; set; }
+        public virtual DocumentType DocType { get; set; }
+
+        public string GodownCode { get; set; }
+
         [Display (Name="Name")]
         [MaxLength(50, ErrorMessage = "Godown Name cannot exceed 50 characters"), Required]
         [Index("IX_Godown_GodownName", IsUnique = true)]

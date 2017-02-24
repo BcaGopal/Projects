@@ -636,7 +636,7 @@
     var form_clean;
     $(document).ready(function () {
         //CustomSelectFunction($("#JobWorkerId"), '/ComboHelpList/GetJobWorkersWithProcess', '/ComboHelpList/SetSingleJobWorker', ' ', false, 1,$('#ProcessId').val());
-        CustomSelectFunction($("#JobWorkerId"), '/JobInvoiceHeader/GetCustomPerson', '/ComboHelpList/SetSingleJobWorker', ' ', false, 1, $('#DocTypeId').val());
+        CustomSelectFunction($("#JobWorkerId"), '/JobInvoiceHeader/GetCustomPerson', '/ComboHelpList/SetSinglePerson', ' ', false, 1, $('#DocTypeId').val());
 
         //Calling the function to load the table data/ Line information
         LoadProducts();

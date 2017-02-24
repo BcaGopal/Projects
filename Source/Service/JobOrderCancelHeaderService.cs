@@ -112,7 +112,7 @@ namespace Service
                         ReasonName = p.Reason.ReasonName,
                         Remark = p.Remark,
                         Status = p.Status,
-                        JobWorkerName = p.JobWorker.Person.Name,
+                        JobWorkerName = p.JobWorker.Name,
                         ModifiedBy = p.ModifiedBy,
                         ReviewCount = p.ReviewCount,
                         ReviewBy = p.ReviewBy,

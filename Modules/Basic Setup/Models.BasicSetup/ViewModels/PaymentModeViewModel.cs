@@ -6,6 +6,7 @@ namespace Models.BasicSetup.ViewModels
     public class PaymentModeViewModel
     {
         public int PaymentModeId { get; set; }
+        public int DocTypeId { get; set; }
         public string PaymentModeName { get; set; }
         public int? PaymentModeLedgerAccountId { get; set; }
         public int? LedgerAccountId { get; set; }
