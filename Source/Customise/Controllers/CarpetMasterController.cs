@@ -804,8 +804,16 @@ namespace Web
                             prod.Tags = vm.Tags;
                             prod.TraceType = vm.TraceType;
                             prod.MapType = vm.MapType;
-                            prod.ObjectState = Model.ObjectState.Modified;
-                            _FinishedProductService.Update(prod);
+
+                            try
+                            {
+                                prod.ObjectState = Model.ObjectState.Modified;
+                                _FinishedProductService.Update(prod);
+                            }
+                            catch (Exception ex)
+                            {
+
+                            }
 
 
 
