@@ -189,6 +189,7 @@ namespace Service
                                    select new EmployeeViewModel
                                    {
                                        PersonId = b.PersonID,
+                                       DocTypeId = PersonTab.DocTypeId,
                                        Name = PersonTab.Name,
                                        Suffix = PersonTab.Suffix,
                                        Code = PersonTab.Code,

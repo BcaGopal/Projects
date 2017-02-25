@@ -12,7 +12,15 @@ namespace Models.Company.Models
 
         [Key]
         public int SiteId { get; set; }
+
+
+        [ForeignKey("DocType")]
+        public int? DocTypeId { get; set; }
+        public virtual DocumentType DocType { get; set; }
+
         [MaxLength(50, ErrorMessage = "Site Name cannot exceed 50 characters"), Required]
+
+
         public string SiteName { get; set; }
         [MaxLength(250, ErrorMessage = "Site Name cannot exceed 250 characters")]
         public string SiteCode { get; set; }

@@ -15,6 +15,10 @@ namespace Models.BasicSetup.Models
         [Key]
         public int Dimension1Id { get; set; }
 
+        [ForeignKey("DocType")]
+        public int? DocTypeId { get; set; }
+        public virtual DocumentType DocType { get; set; }
+
         [Display (Name="Name")]
         [MaxLength(50), Required]
         [Index("IX_Dimension1_Dimension1Name", IsUnique = true)]

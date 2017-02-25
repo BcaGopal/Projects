@@ -1,4 +1,5 @@
 ﻿using Model;
+using Models.Company.Models;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -10,6 +11,12 @@ namespace Models.BasicSetup.Models
         [Key]
         [Display(Name = "BinLocation Id")]
         public int BinLocationId { get; set; }
+
+        [ForeignKey("Godown")]
+        public int GodownId { get; set; }
+        public virtual Godown Godown { get; set; }
+
+        public string BinLocationCode { get; set; }
 
         [MaxLength(50, ErrorMessage = "BinLocation Name cannot exceed 50 characters"), Required]
         [Index("IX_BinLocation_BinLocation", IsUnique = true)]

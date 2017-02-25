@@ -10,6 +10,12 @@ namespace Models.Company.Models
     {
         [Key]
         public int PaymentModeId { get; set; }
+
+
+        [ForeignKey("DocType")]
+        public int DocTypeId { get; set; }
+        public virtual DocumentType DocType { get; set; }
+
         [Display (Name="Name")]
         [MaxLength(50, ErrorMessage = "PaymentMode Name cannot exceed 50 characters"), Required]
         [Index("IX_PaymentMode_PaymentModeName", IsUnique = true)]

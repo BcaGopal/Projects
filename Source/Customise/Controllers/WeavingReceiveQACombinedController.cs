@@ -300,9 +300,12 @@ namespace Web
                 return HttpNotFound();
             }
 
-
-            var temp = GetQAGroupLine();
+            var temp = new JobReceiveQAAttributeService(db).GetJobReceiveQAAttributeForEdit(pt.JobReceiveQALineId);
             pt.QAGroupLine = temp;
+            
+            
+            //var temp = GetQAGroupLine();
+            //pt.QAGroupLine = temp;
 
             //Getting Settings
             //Getting Settings
