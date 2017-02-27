@@ -700,6 +700,8 @@ namespace Web
                                             return View("Create", svm);
                                         }
 
+                                        var Unit = new UnitService(_unitOfWork).Find(DealUnit);
+
                                         line.JobOrderHeaderId = s.JobOrderHeaderId;
                                         line.ProdOrderLineId = ProdOrderLine.ProdOrderLineId;
                                         line.ProductId = ProdOrderLine.ProductId;
@@ -710,7 +712,7 @@ namespace Web
                                         line.Rate = SelectedProdOrd.Rate > 0 ? SelectedProdOrd.Rate : svm.Rate;
                                         line.LossQty = svm.Loss;
                                         line.NonCountedQty = svm.UnCountedQty;
-                                        line.UnitConversionMultiplier = uc.Multiplier;
+                                        line.UnitConversionMultiplier = Math.Round( uc.Multiplier, Unit.DecimalPlaces);
                                         line.DealQty = SelectedProdOrd.Qty * line.UnitConversionMultiplier;
                                         line.UnitId = bal.UnitId;
                                         line.DealUnitId = DealUnit;
@@ -953,6 +955,7 @@ namespace Web
                                                 return View("Create", svm);
                                             }
 
+                                            var Unit = new UnitService(_unitOfWork).Find(DealUnit);
 
                                             line.ProductUidId = BarCode;
                                             line.JobOrderHeaderId = s.JobOrderHeaderId;
@@ -965,7 +968,7 @@ namespace Web
                                             line.Rate = SelectedProdOrd.Rate > 0 ? SelectedProdOrd.Rate : svm.Rate;
                                             line.NonCountedQty = svm.UnCountedQty;
                                             line.LossQty = svm.Loss;
-                                            line.UnitConversionMultiplier = uc.Multiplier;
+                                            line.UnitConversionMultiplier = Math.Round(uc.Multiplier, Unit.DecimalPlaces);
                                             line.DealQty = 1 * line.UnitConversionMultiplier;
                                             line.UnitId = bal.UnitId;
                                             line.DealUnitId = DealUnit;

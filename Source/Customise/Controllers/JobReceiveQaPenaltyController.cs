@@ -93,7 +93,8 @@ namespace Web
                 TempData["CSEXCL"] = null;
             }
             ViewBag.LineMode = "Create";
-            ViewBag.DocNo = D.DocumentTypeName + "-" + H.DocNo;
+            //ViewBag.DocNo = D.DocumentTypeName + "-" + H.DocNo;
+            ViewBag.DocNo = D.DocumentTypeName + "-" + H.DocNo + " ( Deal Qty : " + L.DealQty.ToString() +" )";
             return PartialView("_Create", s);
         }
 
@@ -199,6 +200,11 @@ namespace Web
 
                     _JobReceiveQAPenaltyService.Update(temp1, User.Identity.Name);
 
+
+                    //List<JobReceiveQAPenalty> PenaltyLines = (from Pl in db.JobReceiveQAPenalty where Pl.JobReceiveQALineId == L.JobReceiveQALineId select Pl).ToList();
+
+                    
+
                     LogList.Add(new LogTypeViewModel
                     {
                         ExObj = ExRec,
@@ -209,6 +215,21 @@ namespace Web
                     {
                         temp.Status = (int)StatusConstants.Modified;
                     }
+
+                    List<JobReceiveQAPenalty> PenaltyLinesList = (from Pl in db.JobReceiveQAPenalty where Pl.JobReceiveQALineId == L.JobReceiveQALineId && Pl.JobReceiveQAPenaltyId != svm.JobReceiveQAPenaltyId select Pl).ToList();
+                    Decimal TotalPenalty = 0;
+                    if (PenaltyLinesList.Count() != 0)
+                    {
+                        TotalPenalty = PenaltyLinesList.Sum(i => i.Amount) + svm.Amount;
+                    }
+                    else
+                    {
+                        TotalPenalty = svm.Amount;
+                    }
+
+                    L.PenaltyAmt = TotalPenalty;
+                    new JobReceiveQALineService(db, _unitOfWork).Update(L, User.Identity.Name);
+
                     new JobReceiveQAHeaderService(db).Update(temp, User.Identity.Name);
 
                     XElement Modifications = new ModificationsCheckService().CheckChanges(LogList);
