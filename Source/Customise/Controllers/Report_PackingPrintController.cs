@@ -88,7 +88,8 @@ namespace Web
                     }
                     else
                     {
-                        RepName = "Packing_LabelPrintNew";                        
+                        //RepName = "Packing_LabelPrintNew";
+                        RepName = "Packing_LabelPrintNew_1422017";
                         Dt = FGetDataForSCILabelPrint(DtTemp, con);
                     }
                 }
