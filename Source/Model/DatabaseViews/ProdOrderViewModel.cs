@@ -86,6 +86,17 @@ namespace Model.DatabaseViews
         public DateTime IndentDate { get; set; }
     }
 
+    [Table("ViewSizeinCms")]
+    public class ViewSizeinCms
+    {
+        [Key]
+        public int SizeId { get; set; }
+        public string SizeName { get; set; }
+        public decimal? Length { get; set; }
+        public decimal? Width { get; set; }
+        public decimal? Area { get; set; }
+    }
+
     [Table("ViewRugSize")]
     public class ViewRugSize
     {

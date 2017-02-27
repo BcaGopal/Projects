@@ -588,6 +588,7 @@ namespace Data.Models
 
         public DbSet<ViewRugSize> ViewRugSize { get; set; }
         public DbSet<ViewRugArea> ViewRugArea { get; set; }
+        public DbSet<ViewSizeinCms> ViewSizeinCms { get; set; }
         public DbSet<ViewSaleInvoiceLine> ViewSaleInvoiceLine { get; set; }
         public DbSet<ViewPurchaseGoodsReceiptLine> ViewPurchaseGoodsReceiptLine { get; set; }
         public DbSet<ViewPurchaseGoodsReceiptBalance> ViewPurchaseGoodsReceiptBalance { get; set; }

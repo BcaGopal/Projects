@@ -167,6 +167,28 @@ namespace Service
             return pt;
         }
 
+        public Dimension1Types GetProductTypeDimension1Types(int id)
+        {
+            var pt = (from PT in db.ProductTypes
+                      join DT in db.Dimension1Types on PT.Dimension1TypeId equals DT.Dimension1TypeId into tableDT
+                      from tabDT in tableDT.DefaultIfEmpty()
+                      where PT.ProductTypeId == id
+                      select tabDT
+                ).FirstOrDefault();
+
+            return pt;
+        }
+
+        public Dimension2Types GetProductTypeDimension2Types(int id)
+        {
+            return (from PT in db.ProductTypes
+                    join DT in db.Dimension2Types on PT.Dimension2TypeId equals DT.Dimension2TypeId into tableDT
+                    from tabDT in tableDT.DefaultIfEmpty()
+                    where PT.ProductTypeId == id
+                    select tabDT
+                ).FirstOrDefault();
+        }
+
         public IEnumerable<ProductType> GetRawAndOtherMaterialProductTypes()
         {
 

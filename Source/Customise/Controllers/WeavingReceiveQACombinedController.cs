@@ -796,6 +796,8 @@ namespace Web
                         from ProductTab in ProductTable.DefaultIfEmpty()
                         join U in db.Units on ProductTab.UnitId equals U.UnitId into UnitTable
                         from UnitTab in UnitTable.DefaultIfEmpty()
+                        join JW in db.Persons on L.JobWorkerId equals JW.PersonID into JWTable
+                        from JWTab in JWTable.DefaultIfEmpty()
                         join D1 in db.Dimension1 on L.Dimension1Id equals D1.Dimension1Id into Dimension1Table
                         from Dimension1Tab in Dimension1Table.DefaultIfEmpty()
                         join D2 in db.Dimension2 on L.Dimension2Id equals D2.Dimension2Id into Dimension2Table
@@ -806,7 +808,7 @@ namespace Web
                             JobOrderHeaderDocNo = L.JobOrderNo,
                             DocTypeId = JobOrderLineTab.JobOrderHeader.DocTypeId,
                             JobWorkerId = JobOrderLineTab.JobOrderHeader.JobWorkerId,
-                            JobWorkerName = JobOrderLineTab.JobOrderHeader.JobWorker.Person.Name,
+                            JobWorkerName = JWTab.Name,
                             UnitId = UnitTab.UnitId,
                             UnitName = UnitTab.UnitName,
                             DealUnitId = JobOrderLineTab.DealUnitId,

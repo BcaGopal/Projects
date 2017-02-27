@@ -51,7 +51,29 @@ namespace Web
             if (settings == null)
             {
                 return RedirectToAction("Create", "StockInHandSetting", new { ProductTypeId = id }).Warning("Please create Stock In Hand settings");
-            }           
+            }
+
+            Dimension1Types Dimension1Type = new ProductTypeService(_unitOfWork).GetProductTypeDimension1Types(id);
+            Dimension2Types Dimension2Type = new ProductTypeService(_unitOfWork).GetProductTypeDimension2Types(id);
+
+
+            if (Dimension1Type == null)
+            {
+                ViewBag.Dimension1TypeName = "Dimension1";
+            }
+            else
+            {
+                ViewBag.Dimension1TypeName = Dimension1Type.Dimension1TypeName;
+            }
+
+            if (Dimension2Type == null)
+            {
+                ViewBag.Dimension2TypeName = "Dimension2";
+            }
+            else
+            {
+                ViewBag.Dimension2TypeName = Dimension2Type.Dimension2TypeName;
+            }
 
             ViewBag.id = id;
             ViewBag.GroupOn = settings.GroupOn;
@@ -70,10 +92,57 @@ namespace Web
 
         public ActionResult GetStockLedger(int? ProductId, int? Dim1, int? Dim2, int? Process, string LotNo, int? Godown)//LedgerAccountId
         {
+            var Name = "";
+            var TempName = "";
             ViewBag.ProductId = ProductId;
-            ViewBag.Name = (from p in db.Product
+            Name  = (from p in db.Product
                             where p.ProductId == ProductId
                             select p).AsNoTracking().FirstOrDefault().ProductName;
+
+            if (Dim1!=null)
+            {
+                TempName = "";
+                TempName = (from P in db.Dimension1
+                           join PT in db.ProductTypes on P.ProductTypeId equals PT.ProductTypeId into tablePT
+                           from tabPT in tablePT.DefaultIfEmpty()
+                           join DT in db.Dimension1Types on tabPT.Dimension1TypeId equals DT.Dimension1TypeId into tableDT
+                           from tabDT in tableDT.DefaultIfEmpty()
+                           where P.Dimension1Id  == Dim1
+                           select ", " + tabDT.Dimension1TypeName +" : "+P.Dimension1Name
+                           ).AsNoTracking().FirstOrDefault();
+
+                if( TempName!="")
+                {
+                    Name = Name + TempName;
+                }
+
+
+            }
+
+            if (Dim2 != null)
+            {
+                TempName = "";
+                TempName = (from P in db.Dimension2
+                            join PT in db.ProductTypes on P.ProductTypeId equals PT.ProductTypeId into tablePT
+                            from tabPT in tablePT.DefaultIfEmpty()
+                            join DT in db.Dimension2Types on tabPT.Dimension1TypeId equals DT.Dimension2TypeId into tableDT
+                            from tabDT in tableDT.DefaultIfEmpty()
+                            where P.Dimension2Id == Dim2
+                            select ", " + tabDT.Dimension2TypeName + " : " + P.Dimension2Name
+                           ).AsNoTracking().FirstOrDefault();
+
+                if (TempName != "")
+                {
+                    Name = Name + TempName;
+                }
+            }
+
+            if (LotNo != null && LotNo != "")
+            {
+                Name = Name + ", LotNo : " + LotNo;
+            }
+
+            ViewBag.Name = Name;
             ViewBag.Dim1 = Dim1;
             ViewBag.Dim2 = Dim2;
             ViewBag.Process = Process;
