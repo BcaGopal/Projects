@@ -182,6 +182,7 @@ namespace Service
                 ProductUid.GenDocDate = JobReceiveHeader.DocDate;
                 ProductUid.GenPersonId = JobReceiveHeader.JobWorkerId;
                 ProductUid.CurrenctProcessId = JobReceiveHeader.ProcessId;
+                ProductUid.CurrenctGodownId = JobReceiveHeader.GodownId;
                 ProductUid.Status = ProductUidStatusConstants.Receive;
                 ProductUid.LastTransactionDocId = JobReceiveHeader.JobReceiveHeaderId;
                 ProductUid.LastTransactionDocNo = JobReceiveHeader.DocNo;
@@ -352,6 +353,13 @@ namespace Service
             JobReceiveLine.ObjectState = ObjectState.Modified;
             db.JobReceiveLine.Add(JobReceiveLine);
 
+            JobOrderLine JobOrderLine = db.JobOrderLine.Find(pt.JobOrderLineId);
+            if (pt.Rate != pt.XRate)
+            {
+                JobOrderLine.Rate = pt.Rate;
+                JobOrderLine.ObjectState = ObjectState.Modified;
+                db.JobOrderLine.Add(JobOrderLine);
+            }
 
             JobReceiveQALine JobReceiveQALine = db.JobReceiveQALine.Find(pt.JobReceiveQALineId);
             JobReceiveQALine.Weight = JobReceiveLine.Weight;
@@ -690,11 +698,51 @@ namespace Service
             int CurrentDivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
 
 
-            var list = (from p in db.ViewJobOrderBalance
+            //var list = (from p in db.ViewJobOrderBalance
+            //            join t in db.JobOrderHeader on p.JobOrderHeaderId equals t.JobOrderHeaderId
+            //            join t2 in db.JobOrderLine on p.JobOrderLineId equals t2.JobOrderLineId
+            //            join pt in db.Product on p.ProductId equals pt.ProductId into ProductTable
+            //            from ProductTab in ProductTable.DefaultIfEmpty()
+            //            join D1 in db.Dimension1 on p.Dimension1Id equals D1.Dimension1Id into Dimension1Table
+            //            from Dimension1Tab in Dimension1Table.DefaultIfEmpty()
+            //            join D2 in db.Dimension2 on p.Dimension2Id equals D2.Dimension2Id into Dimension2Table
+            //            from Dimension2Tab in Dimension2Table.DefaultIfEmpty()
+            //            where p.BalanceQty > 0
+            //            && ((string.IsNullOrEmpty(term) ? 1 == 1 : p.JobOrderNo.ToLower().Contains(term.ToLower()))
+            //            || (string.IsNullOrEmpty(term) ? 1 == 1 : ProductTab.ProductName.ToLower().Contains(term.ToLower()))
+            //            || (string.IsNullOrEmpty(term) ? 1 == 1 : Dimension1Tab.Dimension1Name.ToLower().Contains(term.ToLower()))
+            //            || (string.IsNullOrEmpty(term) ? 1 == 1 : Dimension2Tab.Dimension2Name.ToLower().Contains(term.ToLower())))
+            //            && (string.IsNullOrEmpty(settings.filterContraSites) ? p.SiteId == CurrentSiteId : contraSites.Contains(p.SiteId.ToString()))
+            //            && (string.IsNullOrEmpty(settings.filterContraDivisions) ? p.DivisionId == CurrentDivisionId : contraDivisions.Contains(p.DivisionId.ToString()))
+            //            && (string.IsNullOrEmpty(settings.filterContraDocTypes) ? 1 == 1 : contraDocTypes.Contains(t.DocTypeId.ToString()))
+            //            orderby t.DocDate, t.DocNo
+            //            select new ComboBoxResult
+            //            {
+            //                text = ProductTab.ProductName,
+            //                id = p.JobOrderLineId.ToString(),
+            //                TextProp1 = "Order No: " + p.JobOrderNo.ToString(),
+            //                TextProp2 = "Order Date: " + t.DocDate.ToString(),
+            //                AProp1 = "Job Worker: " + t.JobWorker.Person.Name,
+            //                AProp2 = "BalQty: " + p.BalanceQty.ToString(),
+            //            });
+
+                 var list = (from p in db.ViewJobOrderBalance
                         join t in db.JobOrderHeader on p.JobOrderHeaderId equals t.JobOrderHeaderId
                         join t2 in db.JobOrderLine on p.JobOrderLineId equals t2.JobOrderLineId
                         join pt in db.Product on p.ProductId equals pt.ProductId into ProductTable
                         from ProductTab in ProductTable.DefaultIfEmpty()
+                        join JW in db.Persons on t.JobWorkerId equals JW.PersonID into JWTable
+                        from JWTab in JWTable.DefaultIfEmpty()
+                        join PG in db.ProductGroups on ProductTab.ProductGroupId equals PG.ProductGroupId into PGTable
+                        from PGTab in PGTable.DefaultIfEmpty()
+                        join FP in db.FinishedProduct on ProductTab.ProductId equals FP.ProductId into FPTable
+                        from FPTab in FPTable.DefaultIfEmpty()
+                        join C in db.Colour on FPTab.ColourId equals C.ColourId into CTable
+                        from CTab in CTable.DefaultIfEmpty()
+                        join RS in db.ViewRugSize on p.ProductId equals RS.ProductId into RSTable
+                        from RSTab in RSTable.DefaultIfEmpty()
+                        join SC in db.ViewSizeinCms on RSTab.ManufaturingSizeID equals SC.SizeId into SCTable
+                        from SCTab in SCTable.DefaultIfEmpty()
                         join D1 in db.Dimension1 on p.Dimension1Id equals D1.Dimension1Id into Dimension1Table
                         from Dimension1Tab in Dimension1Table.DefaultIfEmpty()
                         join D2 in db.Dimension2 on p.Dimension2Id equals D2.Dimension2Id into Dimension2Table
@@ -703,7 +751,8 @@ namespace Service
                         && ((string.IsNullOrEmpty(term) ? 1 == 1 : p.JobOrderNo.ToLower().Contains(term.ToLower()))
                         || (string.IsNullOrEmpty(term) ? 1 == 1 : ProductTab.ProductName.ToLower().Contains(term.ToLower()))
                         || (string.IsNullOrEmpty(term) ? 1 == 1 : Dimension1Tab.Dimension1Name.ToLower().Contains(term.ToLower()))
-                        || (string.IsNullOrEmpty(term) ? 1 == 1 : Dimension2Tab.Dimension2Name.ToLower().Contains(term.ToLower())))
+                        || (string.IsNullOrEmpty(term) ? 1 == 1 : Dimension2Tab.Dimension2Name.ToLower().Contains(term.ToLower()))
+                        || (string.IsNullOrEmpty(term) ? 1 == 1 : (PGTab.ProductGroupName.ToString().Replace("-", "") + "-" + (t2.DealUnitId == "MT2" ? SCTab.SizeName.ToString() : RSTab.ManufaturingSizeName.ToString()) + "-" + CTab.ColourName.ToString()).Contains(term.ToLower())))
                         && (string.IsNullOrEmpty(settings.filterContraSites) ? p.SiteId == CurrentSiteId : contraSites.Contains(p.SiteId.ToString()))
                         && (string.IsNullOrEmpty(settings.filterContraDivisions) ? p.DivisionId == CurrentDivisionId : contraDivisions.Contains(p.DivisionId.ToString()))
                         && (string.IsNullOrEmpty(settings.filterContraDocTypes) ? 1 == 1 : contraDocTypes.Contains(t.DocTypeId.ToString()))
@@ -712,12 +761,11 @@ namespace Service
                         {
                             text = ProductTab.ProductName,
                             id = p.JobOrderLineId.ToString(),
-                            TextProp1 = "Order No: " + p.JobOrderNo.ToString(),
-                            TextProp2 = "Order Date: " + t.DocDate.ToString(),
-                            AProp1 = "Job Worker: " + t.JobWorker.Person.Name,
+                            TextProp1 = "Order Product: " + PGTab.ProductGroupName.ToString().Replace("-","")+"-"+ (t2.DealUnitId== "MT2"? SCTab.SizeName.ToString() : RSTab.ManufaturingSizeName.ToString())  + "-" + CTab.ColourName.ToString(),
+                            TextProp2 = "Order No: " + p.JobOrderNo.ToString(),
+                            AProp1 = "Job Worker: " + JWTab.Name,
                             AProp2 = "BalQty: " + p.BalanceQty.ToString(),
                         });
-
             return list;
         }
 

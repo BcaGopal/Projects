@@ -633,7 +633,8 @@ namespace Service
                                 ProdOrderDocNo = p.ProdOrderNo,
                                 //DealUnitId = (tab3 == null ? tab2.UnitId : vm.DealUnitId),
                                 DealUnitId = (vm.DealUnitId),
-                                UnitConversionMultiplier = (tab3 == null ? 1 : tab3.ToQty / tab3.FromQty),
+                                //UnitConversionMultiplier =  (tab3 == null ? 1 : tab3.ToQty / tab3.FromQty),
+                                UnitConversionMultiplier = Math.Round( (tab3 == null ? 1 : tab3.ToQty / tab3.FromQty), (tab3 == null ? tab2.Unit.DecimalPlaces : Dealunit.DecimalPlaces)),
                                 UnitConversionException = tab3 == null ? true : false,
                                 UnitDecimalPlaces = tab2.Unit.DecimalPlaces,
                                 DealUnitDecimalPlaces = (tab3 == null ? tab2.Unit.DecimalPlaces : Dealunit.DecimalPlaces)

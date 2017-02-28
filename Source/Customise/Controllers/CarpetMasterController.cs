@@ -2201,6 +2201,28 @@ namespace Web
                                 QAGroupId = ProductCategoryProcessSettings.QAGroupId;
                             }
 
+                            int? ProductRateGroupId = null;
+                            if (ProcSeqLin != null)
+                            {
+                                if (ProcSeqLin.ProcessId != null && pro.ProductCategoryId != null)
+                                {
+                                    string ProcessName = new ProcessService(_unitOfWork).Find((int)ProcSeqLin.ProcessId).ProcessName;
+                                    if (ProcessName == "Latexing Outside")
+                                    {
+                                        string ProductCategoryName = new ProductCategoryService(_unitOfWork).Find((int)pro.ProductCategoryId).ProductCategoryName;
+
+                                        if (ProductCategoryName.Contains("Handloom"))
+                                        {
+                                            ProductRateGroupId = new ProductRateGroupService(_unitOfWork).Find("Handloom").ProductRateGroupId;
+                                        }
+                                        else
+                                        {
+                                            ProductRateGroupId = new ProductRateGroupService(_unitOfWork).Find("Tufted").ProductRateGroupId;
+                                        }
+                                    }
+                                }
+                            }
+
                             ProductProcess ProdProc = new ProductProcess()
                             {
                                 CreatedBy = User.Identity.Name,
@@ -2209,6 +2231,7 @@ namespace Web
                                 ModifiedDate = DateTime.Now,
                                 ProcessId = ProcSeqLin.ProcessId,
                                 QAGroupId = QAGroupId,
+                                ProductRateGroupId = ProductRateGroupId,
                                 Sr = ProcSeqLin.Sr,
                                 ProductId = pro.ProductId,
                             };
