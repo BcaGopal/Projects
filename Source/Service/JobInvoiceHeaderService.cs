@@ -198,7 +198,7 @@ namespace Service
                         Remark=p.Remark,
                         Status=p.Status,
                         JobWorkerDocNo=p.JobWorkerDocNo,
-                        JobWorkerName=p.JobWorker.Person.Name,
+                        JobWorkerName=p.JobWorker.Name,
                         ModifiedBy=p.ModifiedBy,
                         ReviewCount=p.ReviewCount,
                         GodownName = AutoReceipt ? p.JobReceiveHeader.Godown.GodownName :"",

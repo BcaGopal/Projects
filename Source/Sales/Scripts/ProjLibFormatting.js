@@ -358,21 +358,21 @@ $(document).ready(function () {
         });
     };
 
-|    DisablePageNavigation = function () {
+   DisablePageNavigation = function () {
         //Disabling input fields
         $(':input:not(:submit,#IsContinue,.transactional)').attr('disabled', 'disabled');
 
         //Removing Add New Row ActionLink
         $('a[data-detailDisabled=\'true\']').removeAttr("href");
         $('a[data-detailDeleted=\'true\']').remove();
-
         $(document).on('click', 'a[data-detailDisabled=\'true\'],a[data-detailDeleted=\'true\']', function (e) {
             return false;
         })
-
         //Removing the action link from the form so that the request will be redirected to the Submit function in the controller instead of the hardcoded path
         $('form:last').prop('action', '');
     };
+
+
 
     enableActivityLogReason = function (gatepassProc, gatepassHeaderId, transactionType) {
         var href = '/ActivityLog/LogEditReason'
