@@ -668,7 +668,7 @@ namespace Service
 
             var list = (from p in db.ViewJobInvoiceBalanceForRateAmendment
                         join t in db.JobInvoiceHeader on p.JobInvoiceHeaderId equals t.JobInvoiceHeaderId
-                        where (string.IsNullOrEmpty(term) ? 1 == 1 : t.JobWorker.Person.Name.ToLower().Contains(term.ToLower())) && p.BalanceQty > 0 && t.ProcessId == settings.ProcessId
+                        where (string.IsNullOrEmpty(term) ? 1 == 1 : t.JobWorker.Name.ToLower().Contains(term.ToLower())) && p.BalanceQty > 0 && t.ProcessId == settings.ProcessId
                         && (string.IsNullOrEmpty(settings.filterContraDocTypes) ? 1 == 1 : contraDocTypes.Contains(t.DocTypeId.ToString()))
                         && (string.IsNullOrEmpty(settings.filterContraSites) ? t.SiteId == CurrentSiteId : contraSites.Contains(t.SiteId.ToString()))
                         && (string.IsNullOrEmpty(settings.filterContraDivisions) ? t.DivisionId == CurrentDivisionId : contraDivisions.Contains(t.DivisionId.ToString()))
@@ -676,7 +676,7 @@ namespace Service
                         orderby g.Max(m => m.p.InvoiceDate)
                         select new ComboBoxResult
                         {
-                            text = g.Max(m => m.t.JobWorker.Person.Name),
+                            text = g.Max(m => m.t.JobWorker.Name),
                             id = g.Key.ToString(),
                         }
                         );
