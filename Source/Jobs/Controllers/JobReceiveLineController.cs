@@ -586,8 +586,22 @@ namespace Web
 
             }
 
-            return PartialView("_Results", svm);
-
+            if (svm.JobReceiveSettings.isVisibleLoss == true && svm.JobReceiveSettings.IsVisiblePassQty == false  && svm.JobReceiveSettings.isVisibleLotNo == false)
+            {
+                return PartialView("_ResultsWithLossQty", svm);
+            }
+            if (svm.JobReceiveSettings.isVisibleLoss == false && svm.JobReceiveSettings.IsVisiblePassQty == false && svm.JobReceiveSettings.isVisibleLotNo == false)
+            {
+                return PartialView("_ResultsWithQty", svm);
+            }
+            if (svm.JobReceiveSettings.isVisibleLoss == false && svm.JobReceiveSettings.IsVisiblePassQty == false && svm.JobReceiveSettings.isVisibleLotNo == true)
+            {
+                return PartialView("_ResultsWithQtyLotNo", svm);
+            }
+            else
+            {
+                return PartialView("_Results", svm);
+            }
         }
 
         [HttpPost]

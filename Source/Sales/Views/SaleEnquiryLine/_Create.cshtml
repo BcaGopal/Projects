@@ -252,21 +252,17 @@
 
     $(document).ready(function () {
         var DocID = $('#SaleEnquiryHeaderId').val();
+        var SaleToBuyerId = $('#SaleToBuyerId').val();
+
         CustomSelectFunction($("#ProductId"), '/SaleEnquiryLine/GetCustomProducts', '/SaleEnquiryLine/SetSingleBuyerProduct', ' ', false, 1,DocID);
         CustomSelectFunction($("#Dimension1Id"), '/ComboHelpList/GetDimension1', '/ComboHelpList/SetSingleDimension1', 'Enter Dimension1', false, 1);
         CustomSelectFunction($("#Dimension2Id"), '/ComboHelpList/GetDimension2', '/ComboHelpList/SetSingleDimension2', 'Enter Dimension2', false, 1);
 
-        var BuyerSpecification = "@ViewBag.BuyerSpecificationList";
-        $("#BuyerSpecification").select2({ multiple: "single", tags: BuyerSpecification.split(',') });
+        CustomTagFunction($("#BuyerSpecification"), '/SaleEnquiryLine/GetBuyerSpecification', '/SaleEnquiryLine/SetSingleBuyerSpecification',' ', 0, SaleToBuyerId, 1);
+        CustomTagFunction($("#BuyerSpecification1"), '/SaleEnquiryLine/GetBuyerSpecification1', '/SaleEnquiryLine/SetSingleBuyerSpecification1',' ', 0, SaleToBuyerId, 1);
+        CustomTagFunction($("#BuyerSpecification2"), '/SaleEnquiryLine/GetBuyerSpecification2', '/SaleEnquiryLine/SetSingleBuyerSpecification2',' ', 0, SaleToBuyerId, 1);
+        CustomTagFunction($("#BuyerSpecification3"), '/SaleEnquiryLine/GetBuyerSpecification3', '/SaleEnquiryLine/SetSingleBuyerSpecification3',' ', 0, SaleToBuyerId, 1);
 
-        var BuyerSpecification1 = "@ViewBag.BuyerSpecification1List";
-        $("#BuyerSpecification1").select2({ tags: BuyerSpecification1.split(',') });
-
-        var BuyerSpecification2 = "@ViewBag.BuyerSpecification2List";
-        $("#BuyerSpecification2").select2({ tags: BuyerSpecification2.split(',') });
-
-        var BuyerSpecification3 = "@ViewBag.BuyerSpecification3List";
-        $("#BuyerSpecification3").select2({ tags: BuyerSpecification3.split(',') });
 
 
 

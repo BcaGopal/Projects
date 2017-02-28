@@ -109,6 +109,10 @@ namespace Model.ViewModel
         public int? ProdOrderLineId { get; set; }
         public string ProdOrderDocNo { get; set; }
 
+        public int? OrderDocTypeId { get; set; }
+        public int? OrderHeaderId { get; set; }
+
+
         public int? Dimension1Id { get; set; }
         public string Dimension1Name { get; set; }
 
@@ -237,6 +241,7 @@ namespace Model.ViewModel
     {
         public List<JobOrderLineViewModel> JobOrderLineViewModel { get; set; }
         public JobOrderSettingsViewModel JobOrderSettings { get; set; }
+        public DocumentTypeSettingsViewModel DocumentTypeSettings { get; set; }
     }
 
     public class JobOrderLineProgressViewModel

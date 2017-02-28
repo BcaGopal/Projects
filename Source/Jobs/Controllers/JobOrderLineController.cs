@@ -74,12 +74,12 @@ namespace Web
         public ActionResult _FilterPost(JobOrderLineFilterViewModel vm)
         {
 
-            if (vm.JobOrderSettings.isVisibleRate && vm.JobOrderSettings.isMandatoryRate && (vm.Rate == null || vm.Rate == 0))
-            {
-                ModelState.AddModelError("", "Rate is mandatory");
-                PrepareViewBag(null);
-                return PartialView("_Filters", vm);
-            }
+            //if (vm.JobOrderSettings.isVisibleRate && vm.JobOrderSettings.isMandatoryRate && (vm.Rate == null || vm.Rate == 0))
+            //{
+            //    ModelState.AddModelError("", "Rate is mandatory");
+            //    PrepareViewBag(null);
+            //    return PartialView("_Filters", vm);
+            //}
 
 
             List<JobOrderLineViewModel> temp = _JobOrderLineService.GetProdOrdersForFilters(vm).ToList();
@@ -102,8 +102,18 @@ namespace Web
 
             svm.JobOrderSettings = Mapper.Map<JobOrderSettings, JobOrderSettingsViewModel>(Settings);
 
-            return PartialView("_Results", svm);
-
+            if (svm.JobOrderSettings.isVisibleDealUnit == false && svm.JobOrderSettings.isVisibleLoss == false && svm.JobOrderSettings.isVisibleUncountableQty == false)
+            {
+                return PartialView("_ResultsWithRate", svm);
+            }
+            if (svm.JobOrderSettings.isVisibleDealUnit == true && svm.JobOrderSettings.isVisibleLoss == true && svm.JobOrderSettings.isVisibleUncountableQty == false)
+            {
+                return PartialView("_ResultsWithRateDealQtyLoss", svm);
+            }
+            else
+            {
+                return PartialView("_Results", svm);
+            }
         }
 
         [HttpPost]

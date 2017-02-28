@@ -62,10 +62,10 @@ namespace Web
         {
             ViewBag.Docno = H.DocNo;
             ViewBag.DeliveryUnitList = new UnitService(_unitOfWork).GetUnitList().ToList();
-            ViewBag.BuyerSpecificationList = _SaleEnquiryLineService.GetBuyerSpecification(H.SaleToBuyerId);
-            ViewBag.BuyerSpecification1List = _SaleEnquiryLineService.GetBuyerSpecification1(H.SaleToBuyerId);
-            ViewBag.BuyerSpecification2List = _SaleEnquiryLineService.GetBuyerSpecification2(H.SaleToBuyerId);
-            ViewBag.BuyerSpecification3List = _SaleEnquiryLineService.GetBuyerSpecification3(H.SaleToBuyerId);
+            //ViewBag.BuyerSpecificationList = _SaleEnquiryLineService.GetBuyerSpecification(H.SaleToBuyerId);
+            //ViewBag.BuyerSpecification1List = _SaleEnquiryLineService.GetBuyerSpecification1(H.SaleToBuyerId);
+            //ViewBag.BuyerSpecification2List = _SaleEnquiryLineService.GetBuyerSpecification2(H.SaleToBuyerId);
+            //ViewBag.BuyerSpecification3List = _SaleEnquiryLineService.GetBuyerSpecification3(H.SaleToBuyerId);
         }
 
         [HttpGet]
@@ -693,9 +693,125 @@ namespace Web
             return Json(LastTransactionDetail);
         }
 
+        public ActionResult GetBuyerSpecification(string searchTerm, int pageSize, int pageNum, int filter)
+        {
+            var Query = _SaleEnquiryLineService.GetBuyerSpecification(searchTerm, filter);
+            var temp = Query.Skip(pageSize * (pageNum - 1)).Take(pageSize).ToList();
+
+            var count = Query.Count();
+
+            ComboBoxPagedResult Data = new ComboBoxPagedResult();
+            Data.Results = temp;
+            Data.Total = count;
+
+            return new JsonpResult
+            {
+                Data = Data,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        public ActionResult GetBuyerSpecification1(string searchTerm, int pageSize, int pageNum, int filter)
+        {
+            var Query = _SaleEnquiryLineService.GetBuyerSpecification1(searchTerm, filter);
+            var temp = Query.Skip(pageSize * (pageNum - 1)).Take(pageSize).ToList();
+
+            var count = Query.Count();
+
+            ComboBoxPagedResult Data = new ComboBoxPagedResult();
+            Data.Results = temp;
+            Data.Total = count;
+
+            return new JsonpResult
+            {
+                Data = Data,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        public ActionResult GetBuyerSpecification2(string searchTerm, int pageSize, int pageNum, int filter)
+        {
+            var Query = _SaleEnquiryLineService.GetBuyerSpecification2(searchTerm, filter);
+            var temp = Query.Skip(pageSize * (pageNum - 1)).Take(pageSize).ToList();
+
+            var count = Query.Count();
+
+            ComboBoxPagedResult Data = new ComboBoxPagedResult();
+            Data.Results = temp;
+            Data.Total = count;
+
+            return new JsonpResult
+            {
+                Data = Data,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        public ActionResult GetBuyerSpecification3(string searchTerm, int pageSize, int pageNum, int filter)
+        {
+            var Query = _SaleEnquiryLineService.GetBuyerSpecification3(searchTerm, filter);
+            var temp = Query.Skip(pageSize * (pageNum - 1)).Take(pageSize).ToList();
+
+            var count = Query.Count();
+
+            ComboBoxPagedResult Data = new ComboBoxPagedResult();
+            Data.Results = temp;
+            Data.Total = count;
+
+            return new JsonpResult
+            {
+                Data = Data,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
 
 
+        public JsonResult SetSingleBuyerSpecification(string Ids)
+        {
+            ComboBoxResult ProductJson = (from b in db.SaleEnquiryLineExtended
+                                          where b.BuyerSpecification == Ids
+                                          select new ComboBoxResult
+                                      {
+                                          id = b.BuyerSpecification,
+                                          text = b.BuyerSpecification,
+                                      }).FirstOrDefault();
+            return Json(ProductJson);
+        }
 
+        public JsonResult SetSingleBuyerSpecification1(string Ids)
+        {
+            ComboBoxResult ProductJson = (from b in db.SaleEnquiryLineExtended
+                                          where b.BuyerSpecification1 == Ids
+                                          select new ComboBoxResult
+                                          {
+                                              id = b.BuyerSpecification1,
+                                              text = b.BuyerSpecification1,
+                                          }).FirstOrDefault();
+            return Json(ProductJson);
+        }
+
+        public JsonResult SetSingleBuyerSpecification2(string Ids)
+        {
+            ComboBoxResult ProductJson = (from b in db.SaleEnquiryLineExtended
+                                          where b.BuyerSpecification2 == Ids
+                                          select new ComboBoxResult
+                                          {
+                                              id = b.BuyerSpecification2,
+                                              text = b.BuyerSpecification2,
+                                          }).FirstOrDefault();
+            return Json(ProductJson);
+        }
+
+        public JsonResult SetSingleBuyerSpecification3(string Ids)
+        {
+            ComboBoxResult ProductJson = (from b in db.SaleEnquiryLineExtended
+                                          where b.BuyerSpecification3 == Ids
+                                          select new ComboBoxResult
+                                          {
+                                              id = b.BuyerSpecification3,
+                                              text = b.BuyerSpecification3,
+                                          }).FirstOrDefault();
+            return Json(ProductJson);
+        }
     }
-
 }

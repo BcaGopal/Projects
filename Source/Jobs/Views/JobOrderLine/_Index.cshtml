@@ -110,6 +110,7 @@
         @{var srno = 1;}
         @foreach (var item in Model)
         {
+            var OrderUrl = DomainName + "/Redirect/RedirectToDocument?DocTypeId=" + item.OrderDocTypeId + "&DocId=" + item.OrderHeaderId + "&DocLineId=" + item.ProdOrderLineId;
             var BarCodeUrl = DomainName + "/Redirect/BarCodeDetail?BarCode=" + item.ProductUidName;
             <div class='row crow grid-body' style='margin-left:0px;margin-right:0px' id='@item.JobOrderLineId'>
                 <div class='row-index block' style='width:5%'>@srno<input type='hidden' class='id' value='@item.JobOrderLineId' /></div>
@@ -144,7 +145,7 @@
                         <div class='block' style='width:12%'>
                             @if (item.ProdOrderDocNo != null)
                             {
-                                <span title='DueDate' class='' style='font-weight:bold'>@item.ProdOrderDocNo</span><br />
+                                 <a href='@OrderUrl'  class='nav' style='color:black'><span class='small' style='font-weight:bold'>@item.ProdOrderDocNo</span></a>
                             }
                         </div>
                         }

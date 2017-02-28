@@ -94,4 +94,24 @@
             this.value = this.value.toUpperCase() ;
     });
     });
+
+    $(":submit").on("click", function () {
+        var mpoid=@Model.Dimension1Id;
+        var tes;
+        if(mpoid<=0)
+        {
+            tes= $('#Dimension1Name').DuplicateCheckForCreate({ name: 'Dimension1', value: $('#Dimension1Name').val(), doctype: 0 });
+        }
+        else
+        {
+            tes = $('#Dimension1Name').DuplicateCheckForEdit({ name: 'Dimension1', value: $('#Dimension1Name').val(), doctype: 0,headerId:mpoid });
+        }
+        if (tes) {
+            return false;
+        }
+        else
+        {
+            return;
+        }
+    });
 </script>

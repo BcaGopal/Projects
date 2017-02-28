@@ -695,7 +695,8 @@
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.DealUnitId, "Deal Unit", new { @class = "control-label col-xs-4" })
                                     <div class="col-xs-6">
-                                        @Html.DropDownListFor(model => model.DealUnitId, new SelectList(ViewBag.DeliveryUnitList as System.Collections.IEnumerable, "UnitId", "UnitName"), new { @class = "form-control height cusrightnormal required" })
+                                        @Html.TextBoxFor(m => m.DealUnitId, new { @class = "form-control col-xs-6" })
+                                        @*@Html.DropDownListFor(model => model.DealUnitId, new SelectList(ViewBag.DeliveryUnitList as System.Collections.IEnumerable, "UnitId", "UnitName"), new { @class = "form-control height cusrightnormal required" })*@
                                         @Html.ValidationMessageFor(model => model.DealUnitId, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
@@ -811,6 +812,7 @@
         CustomSelectFunction($("#filterContraDivisions"), '/ComboHelpList/GetDivision', '/ComboHelpList/SetDivision', ' ', true, 1);
         CustomSelectFunction($("#filterContraSites"), '/ComboHelpList/GetSite', '/ComboHelpList/SetSite', ' ', true, 1);
         CustomSelectFunction($("#filterPersonRoles"), '/ComboHelpList/GetPersonRoles', '/ComboHelpList/SetPersonRole', ' ', true, 0);
+        CustomSelectFunction($("#DealUnitId"), '/ComboHelpList/GetUnits', '/ComboHelpList/SetSingleUnit', ' ', false, 0);
     });
 
 
