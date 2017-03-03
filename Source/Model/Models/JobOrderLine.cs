@@ -28,10 +28,7 @@ namespace Model.Models
         public int ProductId { get; set; }
         public virtual Product Product { get; set; }
 
-        [ForeignKey("ProdOrderLine"), Display(Name = "ProdOrder")]
-        [Index("IX_JobOrderLine_Unique", IsUnique = true, Order = 6)]
-        public int ? ProdOrderLineId { get; set; }
-        public virtual ProdOrderLine ProdOrderLine { get; set; }
+
 
         [ForeignKey("Dimension1"),Display(Name="Dimension1")]
         [Index("IX_JobOrderLine_Unique", IsUnique = true, Order = 4)]
@@ -43,6 +40,26 @@ namespace Model.Models
         public int ? Dimension2Id { get; set; }
         public virtual Dimension2 Dimension2 { get; set; }
 
+
+
+
+        [ForeignKey("Dimension3"), Display(Name = "Dimension3")]
+        [Index("IX_JobOrderLine_Unique", IsUnique = true, Order = 6)]
+        public int? Dimension3Id { get; set; }
+        public virtual Dimension3 Dimension3 { get; set; }
+
+        [ForeignKey("Dimension4"), Display(Name = "Dimension4")]
+        [Index("IX_JobOrderLine_Unique", IsUnique = true, Order = 7)]
+        public int? Dimension4Id { get; set; }
+        public virtual Dimension4 Dimension4 { get; set; }
+
+        [ForeignKey("ProdOrderLine"), Display(Name = "ProdOrder")]
+        [Index("IX_JobOrderLine_Unique", IsUnique = true, Order = 8)]
+        public int? ProdOrderLineId { get; set; }
+        public virtual ProdOrderLine ProdOrderLine { get; set; }
+
+
+
         [MaxLength(50)]
         [Index("IX_JobOrderLine_Unique", IsUnique = true, Order = 9)]
         public string Specification { get; set; }
@@ -52,11 +69,11 @@ namespace Model.Models
         public DateTime ? DueDate { get; set; }
 
         [MaxLength(50)]
-        [Index("IX_JobOrderLine_Unique", IsUnique = true, Order = 8)]
+        [Index("IX_JobOrderLine_Unique", IsUnique = true, Order = 10)]
         public string  LotNo { get; set; }
 
         [ForeignKey("FromProcess"), Display(Name = "From Process")]
-        [Index("IX_JobOrderLine_Unique", IsUnique = true, Order = 7)]
+        [Index("IX_JobOrderLine_Unique", IsUnique = true, Order = 11)]
         public int ? FromProcessId { get; set; }
         public virtual Process FromProcess { get; set; }
 

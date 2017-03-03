@@ -186,8 +186,21 @@ namespace Service
                         GatePassStatus = (p.GatePassHeader == null ? 0 : p.GatePassHeader.Status),
                         GatePassDocDate = p.GatePassHeader.DocDate,
                         CreatedDate = p.CreatedDate,
-                    }
-                        ).FirstOrDefault();
+                        DeliveryTermsId = p.DeliveryTermsId,
+                        ShipToAddressId = p.ShipToAddressId,
+                        CurrencyId = p.CurrencyId,
+                        SalesTaxGroupPersonId = p.SalesTaxGroupPersonId,
+                        ShipMethodId = p.ShipMethodId,
+                        DocumentShipMethodId = p.DocumentShipMethodId,
+                        TransporterId = p.TransporterId,
+                        AgentId= p.AgentId,
+                        IsDoorDelivery = p.IsDoorDelivery ?? false,
+                        PayTermAdvancePer= p.PayTermAdvancePer,
+                        PayTermOnDeliveryPer = p.PayTermOnDeliveryPer,
+                        PayTermOnDueDatePer= p.PayTermOnDueDatePer,
+                        PayTermCashPer = p.PayTermCashPer,
+                        PayTermBankPer= p.PayTermBankPer,
+                    }).FirstOrDefault();
         }
 
 

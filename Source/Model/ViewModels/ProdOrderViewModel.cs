@@ -69,6 +69,19 @@ namespace Model.ViewModel
         public int? Dimension2Id { get; set; }
         public string Dimension2Name { get; set; }
 
+
+
+
+        [Display(Name = "Dimension3")]
+        public int? Dimension3Id { get; set; }
+        public string Dimension3Name { get; set; }
+
+        [Display(Name = "Dimension4")]
+        public int? Dimension4Id { get; set; }
+        public string Dimension4Name { get; set; }
+
+
+
         public string Specification { get; set; }
         public int? MaterialPlanLineId { get; set; }
         public string MaterialPlanName { get; set; }
@@ -76,6 +89,8 @@ namespace Model.ViewModel
         public string MaterialPlanHeaderDocNo { get; set; }
 
         public decimal Qty { get; set; }
+
+        public DateTime? DueDate { get; set; }
 
         public string UnitId { get; set; }
         public string UnitName { get; set; }
@@ -101,6 +116,8 @@ namespace Model.ViewModel
         public string ProductName { get; set; }
         public string Dimension1Name { get; set; }
         public string Dimension2Name { get; set; }
+        public string Dimension3Name { get; set; }
+        public string Dimension4Name { get; set; }
     }
     public class ProdOrderBalanceViewModel
     {

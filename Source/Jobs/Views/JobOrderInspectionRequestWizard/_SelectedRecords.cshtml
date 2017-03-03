@@ -64,10 +64,12 @@
                                                     <br />
                                                     @{
                                     var Dim1 = string.IsNullOrEmpty(ModelData[i].Dimension1Name) ? "" : ModelData[i].Dimension1Name + ",";
-                                    var Dim2 = string.IsNullOrEmpty(ModelData[i].Dimension2Name) ? "" : ModelData[i].Dimension2Name;
+                                    var Dim2 = string.IsNullOrEmpty(ModelData[i].Dimension2Name) ? "" : ModelData[i].Dimension2Name + ",";
+                                    var Dim3 = string.IsNullOrEmpty(ModelData[i].Dimension3Name) ? "" : ModelData[i].Dimension3Name + ",";
+                                    var Dim4 = string.IsNullOrEmpty(ModelData[i].Dimension4Name) ? "" : ModelData[i].Dimension4Name;
                                                     }
 
-                                                    @Dim1 @Dim2
+                                                    @Dim1 @Dim2 @Dim3 @Dim4
 
                                                     <div>@ModelData[i].ProductGroupName</div>
                                                 </div>

@@ -73,7 +73,7 @@
                             @Html.LabelFor(model => model.Dimension1Id, "Dimension1", new { @class = "control-label col-md-4 col-sm-2 " })
                             <div class="col-md-7 col-sm-10">
                                 @Html.TextBoxFor(model => model.Dimension1Id, new { @class = "form-control required" })
-                                @Html.ValidationMessageFor(model => model.Dimension2Id, "", new { @class = "text-danger" })
+                                @Html.ValidationMessageFor(model => model.Dimension1Id, "", new { @class = "text-danger" })
                             </div>
                         </div>
                     </div>
@@ -87,6 +87,29 @@
                         </div>
                     </div>
                 </div>
+
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Dimension3Id, "Dimension3", new { @class = "control-label col-md-4 col-sm-2 " })
+                            <div class="col-md-7 col-sm-10">
+                                @Html.TextBoxFor(model => model.Dimension3Id, new { @class = "form-control required" })
+                                @Html.ValidationMessageFor(model => model.Dimension3Id, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Dimension4Id, "Dimension4", new { @class = "control-label col-md-4 col-sm-2 " })
+                            <div class="col-md-7 col-sm-10">
+                                @Html.TextBoxFor(model => model.Dimension4Id, new { @class = "form-control required" })
+                                @Html.ValidationMessageFor(model => model.Dimension4Id, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
@@ -138,9 +161,11 @@
     })
 
     $(document).ready(function () {
-        CustomSelectFunction($("#ProductGroupId"), '/ComboHelpList/GetProductGroup', '/ComboHelpList/SetProductGroup', 'Enter Design Name', true, 1);
-        CustomSelectFunction($("#Dimension1Id"), '/ComboHelpList/GetDimension1', '/ComboHelpList/SetDimension1', 'Enter Dimension1', true, 1);
-        CustomSelectFunction($("#Dimension2Id"), '/ComboHelpList/GetDimension2', '/ComboHelpList/SetDimension2', 'Enter Dimension2', true, 1);
+        CustomSelectFunction($("#ProductGroupId"), '/ComboHelpList/GetProductGroup', '/ComboHelpList/SetProductGroup', ' ', true, 1);
+        CustomSelectFunction($("#Dimension1Id"), '/ComboHelpList/GetDimension1', '/ComboHelpList/SetDimension1', ' ', true, 0);
+        CustomSelectFunction($("#Dimension2Id"), '/ComboHelpList/GetDimension2', '/ComboHelpList/SetDimension2', ' ', true, 0);
+        CustomSelectFunction($("#Dimension3Id"), '/ComboHelpList/GetDimension3', '/ComboHelpList/SetDimension3', ' ', true, 0);
+        CustomSelectFunction($("#Dimension4Id"), '/ComboHelpList/GetDimension4', '/ComboHelpList/SetDimension4', ' ', true, 0);
         CustomSelectFunction($("#JobInvoiceId"), '/JobInvoiceRateAmendmentLine/GetPendingJobInvoices', '/ComboHelpList/SetJobInvoices', 'Enter Invoice No', true, 1, $('#JobInvoiceAmendmentHeaderId', '.modal-body').val());
         CustomSelectFunction($("#JobWorkerId"), '/JobInvoiceRateAmendmentLine/GetPendingJobInvoiceJobWorkers', '/ComboHelpList/SetSingleJobWorker', 'Enter JobWorker', false, 1, $('#JobInvoiceAmendmentHeaderId', '.modal-body').val());
         CustomSelectFunction($("#ProductId"), '/JobInvoiceRateAmendmentLine/GetPendingJobInvoiceProducts', '/ComboHelpList/SetProducts', 'Enter Product', true, 1, $('#JobInvoiceAmendmentHeaderId', '.modal-body').val());

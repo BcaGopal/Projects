@@ -131,7 +131,9 @@
                                                         @Model.JobOrderInspectionRequestViewModels[i].Specification
                                                         @{
                                         var Dim1 = (string.IsNullOrEmpty(Model.JobOrderInspectionRequestViewModels[i].Dimension1Name)) ? "" : Model.JobOrderInspectionRequestViewModels[i].Dimension1Name + ",";
-                                        var Dim2 = (string.IsNullOrEmpty(Model.JobOrderInspectionRequestViewModels[i].Dimension2Name)) ? "" : Model.JobOrderInspectionRequestViewModels[i].Dimension2Name;
+                                        var Dim2 = (string.IsNullOrEmpty(Model.JobOrderInspectionRequestViewModels[i].Dimension2Name)) ? "" : Model.JobOrderInspectionRequestViewModels[i].Dimension2Name + ",";
+                                        var Dim3 = (string.IsNullOrEmpty(Model.JobOrderInspectionRequestViewModels[i].Dimension3Name)) ? "" : Model.JobOrderInspectionRequestViewModels[i].Dimension3Name + ",";
+                                        var Dim4 = (string.IsNullOrEmpty(Model.JobOrderInspectionRequestViewModels[i].Dimension4Name)) ? "" : Model.JobOrderInspectionRequestViewModels[i].Dimension4Name;
                                                         }                                                        
                                                         <div>
                                                             @Dim1 @Dim2

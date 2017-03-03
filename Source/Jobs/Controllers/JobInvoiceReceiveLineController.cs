@@ -324,6 +324,8 @@ namespace Web
                             StockViewModel.Specification = JobOrderLine.Specification;
                             StockViewModel.Dimension1Id = JobOrderLine.Dimension1Id;
                             StockViewModel.Dimension2Id = JobOrderLine.Dimension2Id;
+                            StockViewModel.Dimension3Id = JobOrderLine.Dimension3Id;
+                            StockViewModel.Dimension4Id = JobOrderLine.Dimension4Id;
                             StockViewModel.ProductUidId = ReceiveLine.ProductUidId;
                             StockViewModel.Remark = ReceiveLine.Remark;
                             StockViewModel.Status = ReceiveHeader.Status;
@@ -406,6 +408,8 @@ namespace Web
                             StockProcessViewModel.Specification = JobOrderLine.Specification;
                             StockProcessViewModel.Dimension1Id = JobOrderLine.Dimension1Id;
                             StockProcessViewModel.Dimension2Id = JobOrderLine.Dimension2Id;
+                            StockProcessViewModel.Dimension3Id = JobOrderLine.Dimension3Id;
+                            StockProcessViewModel.Dimension4Id = JobOrderLine.Dimension4Id;
                             StockProcessViewModel.Remark = ReceiveLine.Remark;
                             StockProcessViewModel.ProductUidId = ReceiveLine.ProductUidId;
                             StockProcessViewModel.Status = ReceiveHeader.Status;
@@ -450,7 +454,7 @@ namespace Web
                         //Saving BOMPOST Data
                         if (!string.IsNullOrEmpty(Settings.SqlProcConsumption))
                         {
-                            var BomPostList = _JobReceiveLineService.GetBomPostingDataForWeaving(item.ProductId, item.Dimension1Id, item.Dimension2Id, ReceiveHeader.ProcessId, item.PassQty, ReceiveHeader.DocTypeId, Settings.SqlProcConsumption, ReceiveLine.JobOrderLineId, ReceiveLine.Weight).ToList();
+                            var BomPostList = _JobReceiveLineService.GetBomPostingDataForWeaving(item.ProductId, item.Dimension1Id, item.Dimension2Id, null, null, ReceiveHeader.ProcessId, item.PassQty, ReceiveHeader.DocTypeId, Settings.SqlProcConsumption, ReceiveLine.JobOrderLineId, ReceiveLine.Weight).ToList();
 
                             foreach (var BomItem in BomPostList)
                             {
@@ -510,6 +514,8 @@ namespace Web
                                 StockProcessBomViewModel.Specification = null;
                                 StockProcessBomViewModel.Dimension1Id = null;
                                 StockProcessBomViewModel.Dimension2Id = null;
+                                StockProcessBomViewModel.Dimension3Id = null;
+                                StockProcessBomViewModel.Dimension4Id = null;
                                 StockProcessBomViewModel.Remark = null;
                                 StockProcessBomViewModel.Status = ReceiveHeader.Status;
                                 StockProcessBomViewModel.CreatedBy = User.Identity.Name;
@@ -917,6 +923,8 @@ namespace Web
                         StockViewModel.Specification = JobOrderLine.Specification;
                         StockViewModel.Dimension1Id = JobOrderLine.Dimension1Id;
                         StockViewModel.Dimension2Id = JobOrderLine.Dimension2Id;
+                        StockViewModel.Dimension3Id = JobOrderLine.Dimension3Id;
+                        StockViewModel.Dimension4Id = JobOrderLine.Dimension4Id;
                         StockViewModel.HeaderRemark = ReceiveHeader.Remark;
                         StockViewModel.Remark = ReceiveLine.Remark;
                         StockViewModel.ProductUidId = ReceiveLine.ProductUidId;
@@ -986,6 +994,8 @@ namespace Web
                         StockProcessViewModel.Specification = JobOrderLine.Specification;
                         StockProcessViewModel.Dimension1Id = JobOrderLine.Dimension1Id;
                         StockProcessViewModel.Dimension2Id = JobOrderLine.Dimension2Id;
+                        StockProcessViewModel.Dimension3Id = JobOrderLine.Dimension3Id;
+                        StockProcessViewModel.Dimension4Id = JobOrderLine.Dimension4Id;
                         StockProcessViewModel.HeaderRemark = ReceiveHeader.Remark;
                         StockProcessViewModel.Remark = ReceiveLine.Remark;
                         StockProcessViewModel.ProductUidId = ReceiveLine.ProductUidId;
@@ -1023,7 +1033,7 @@ namespace Web
                     //Saving BOMPOST Data
                     if (!string.IsNullOrEmpty(svm.JobInvoiceSettings.SqlProcConsumption))
                     {
-                        var BomPostList = _JobReceiveLineService.GetBomPostingDataForWeaving(svm.ProductId, svm.Dimension1Id, svm.Dimension2Id, ReceiveHeader.ProcessId, ReceiveLine.PassQty, ReceiveHeader.DocTypeId, svm.JobInvoiceSettings.SqlProcConsumption, ReceiveLine.JobOrderLineId, ReceiveLine.Weight).ToList();
+                        var BomPostList = _JobReceiveLineService.GetBomPostingDataForWeaving(svm.ProductId, svm.Dimension1Id, svm.Dimension2Id, null, null, ReceiveHeader.ProcessId, ReceiveLine.PassQty, ReceiveHeader.DocTypeId, svm.JobInvoiceSettings.SqlProcConsumption, ReceiveLine.JobOrderLineId, ReceiveLine.Weight).ToList();
 
                         foreach (var item in BomPostList)
                         {
@@ -1078,6 +1088,8 @@ namespace Web
                             StockProcessBomViewModel.Specification = null;
                             StockProcessBomViewModel.Dimension1Id = null;
                             StockProcessBomViewModel.Dimension2Id = null;
+                            StockProcessBomViewModel.Dimension3Id = null;
+                            StockProcessBomViewModel.Dimension4Id = null;
                             StockProcessBomViewModel.Remark = null;
                             StockProcessBomViewModel.Status = ReceiveHeader.Status;
                             StockProcessBomViewModel.CreatedBy = User.Identity.Name;
@@ -1353,6 +1365,8 @@ namespace Web
                         StockViewModel.Specification = JobOrderLine.Specification;
                         StockViewModel.Dimension1Id = JobOrderLine.Dimension1Id;
                         StockViewModel.Dimension2Id = JobOrderLine.Dimension2Id;
+                        StockViewModel.Dimension3Id = JobOrderLine.Dimension3Id;
+                        StockViewModel.Dimension4Id = JobOrderLine.Dimension4Id;
                         StockViewModel.HeaderRemark = ReceiveHeader.Remark;
                         StockViewModel.Remark = svm.Remark;
                         StockViewModel.ProductUidId = temprec.ProductUidId;
@@ -1405,6 +1419,8 @@ namespace Web
                         StockProcessViewModel.Specification = JobOrderLine.Specification;
                         StockProcessViewModel.Dimension1Id = JobOrderLine.Dimension1Id;
                         StockProcessViewModel.Dimension2Id = JobOrderLine.Dimension2Id;
+                        StockProcessViewModel.Dimension3Id = JobOrderLine.Dimension3Id;
+                        StockProcessViewModel.Dimension4Id = JobOrderLine.Dimension4Id;
                         StockProcessViewModel.HeaderRemark = ReceiveHeader.Remark;
                         StockProcessViewModel.Remark = svm.Remark;
                         StockProcessViewModel.ProductUidId = temprec.ProductUidId;
@@ -1475,7 +1491,7 @@ namespace Web
                         }
 
 
-                        var BomPostList = _JobReceiveLineService.GetBomPostingDataForWeaving(svm.ProductId, svm.Dimension1Id, svm.Dimension2Id, ReceiveHeader.ProcessId, ReceiveLine.PassQty, ReceiveHeader.DocTypeId, svm.JobInvoiceSettings.SqlProcConsumption, svm.JobOrderLineId, temprec.Weight).ToList();
+                        var BomPostList = _JobReceiveLineService.GetBomPostingDataForWeaving(svm.ProductId, svm.Dimension1Id, svm.Dimension2Id, null, null, ReceiveHeader.ProcessId, ReceiveLine.PassQty, ReceiveHeader.DocTypeId, svm.JobInvoiceSettings.SqlProcConsumption, svm.JobOrderLineId, temprec.Weight).ToList();
 
                         foreach (var item in BomPostList)
                         {
@@ -1529,6 +1545,8 @@ namespace Web
                             StockProcessBomViewModel.Specification = null;
                             StockProcessBomViewModel.Dimension1Id = null;
                             StockProcessBomViewModel.Dimension2Id = null;
+                            StockProcessBomViewModel.Dimension3Id = null;
+                            StockProcessBomViewModel.Dimension4Id = null;
                             StockProcessBomViewModel.Remark = null;
                             StockProcessBomViewModel.Status = ReceiveHeader.Status;
                             StockProcessBomViewModel.CreatedBy = User.Identity.Name;

@@ -89,6 +89,33 @@ namespace Model.ViewModel
         public int? DecimalPlaces { get; set; }
 
         public int? CalculationFooterChargeCount { get; set; }
+
+
+
+        public int? DeliveryTermsId { get; set; }
+        public string DeliveryTermsName { get; set; }
+        public int? ShipToAddressId { get; set; }
+        public string ShipToAddress { get; set; }
+        public int? CurrencyId { get; set; }
+        public string CurrencyName { get; set; }
+        public int? SalesTaxGroupPersonId { get; set; }
+        public string SalesTaxGroupPersonName { get; set; }
+        public int? ShipMethodId { get; set; }
+        public string ShipMethodName { get; set; }
+        public int? DocumentShipMethodId { get; set; }
+        public string DocumentShipMethodName { get; set; }
+        public int? TransporterId { get; set; }
+        public string TransporterName { get; set; }
+        public int? AgentId { get; set; }
+        public string AgentName { get; set; }
+        public bool IsDoorDelivery { get; set; }
+
+        public Decimal? PayTermAdvancePer { get; set; }
+        public Decimal? PayTermOnDeliveryPer { get; set; }
+        public Decimal? PayTermOnDueDatePer { get; set; }
+        public Decimal? PayTermCashPer { get; set; }
+        public Decimal? PayTermBankPer { get; set; }
+
     }
 
     public class JobOrderLineViewModel
@@ -118,6 +145,15 @@ namespace Model.ViewModel
 
         public int? Dimension2Id { get; set; }
         public string Dimension2Name { get; set; }
+
+
+
+        public int? Dimension3Id { get; set; }
+        public string Dimension3Name { get; set; }
+
+        public int? Dimension4Id { get; set; }
+        public string Dimension4Name { get; set; }
+
 
         [MaxLength(50)]
         public string Specification { get; set; }
@@ -219,6 +255,10 @@ namespace Model.ViewModel
 
         public string Dimension1Id { get; set; }
         public string Dimension2Id { get; set; }
+
+        public string Dimension3Id { get; set; }
+        public string Dimension4Id { get; set; }
+
 
         public string DealUnitId { get; set; }
         public decimal Rate { get; set; }

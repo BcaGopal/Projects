@@ -210,6 +210,7 @@ namespace Data.Models
         public DbSet<QAGroupLine> QAGroupLine { get; set; }
         public DbSet<Reason> Reason { get; set; }
         public DbSet<ShipMethod> ShipMethod { get; set; }
+        public DbSet<DocumentShipMethod> DocumentShipMethod { get; set; }
         public DbSet<Site> Site { get; set; }
         public DbSet<State> State { get; set; }
         public DbSet<Unit> Units { get; set; }

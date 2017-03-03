@@ -116,6 +116,33 @@
                             </div>
                         </div>
                     </div>
+
+                    <div class="col-md-6" style="display:@(Model.JobInvoiceSettings.isVisibleDimension3?"":"none")">
+                        @Html.HiddenFor(m => m.JobInvoiceSettings.isVisibleDimension3)
+                        @Html.HiddenFor(m => m.DocumentTypeSettings.Dimension3Caption)
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Dimension3Name, (Model.DocumentTypeSettings.Dimension3Caption ?? "Dimension3"), new { @class = "control-label col-md-4 col-sm-2" })
+                            <div class="col-md-7 col-sm-10">
+                                @Html.TextBoxFor(model => model.Dimension3Name, new { @class = "form-control required" })
+                                @Html.ValidationMessageFor(model => model.Dimension3Name, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6" style="display:@(Model.JobInvoiceSettings.isVisibleDimension4?"":"none")">
+                        @Html.HiddenFor(m => m.JobInvoiceSettings.isVisibleDimension4)
+                        @Html.HiddenFor(m => m.DocumentTypeSettings.Dimension4Caption)
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Dimension4Name, (Model.DocumentTypeSettings.Dimension4Caption ?? "Dimension4"), new { @class = "control-label col-md-4 col-sm-2" })
+                            <div class="col-md-7 col-sm-10">
+                                @Html.TextBoxFor(model => model.Dimension4Name, new { @class = "form-control required" })
+                                @Html.ValidationMessageFor(model => model.Dimension4Name, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="col-md-6" style="display:@(Model.JobInvoiceSettings.isVisibleCostCenter? "" : "none")">
                         @Html.HiddenFor(m => m.JobInvoiceSettings.isVisibleCostCenter)
                         <div class="form-group">
@@ -126,8 +153,6 @@
                             </div>
                         </div>
                     </div>
-
-
                 </div>
 
                 <div class="row">
@@ -344,6 +369,8 @@ else
         $('#acgoodsreceipt').attr('readonly','true');
         $("#Dimension1Name").attr('readonly','true');
         $("#Dimension2Name").attr('readonly','true');
+        $("#Dimension3Name").attr('readonly','true');
+        $("#Dimension4Name").attr('readonly','true');
         $('#Qty').attr('readonly','true');
         $('#LotNo').attr('readonly','true');
         $('#Specification').attr('readonly','true');
@@ -353,6 +380,8 @@ else
         $("#Dimension1Name").removeAttr('readonly');
         $("#Qty").removeAttr('readonly');
         $("#Dimension2Name").removeAttr('readonly');
+        $("#Dimension3Name").removeAttr('readonly');
+        $("#Dimension4Name").removeAttr('readonly');
         $("#LotNo").removeAttr('readonly');
         $("#Specification").removeAttr('readonly');
     }
@@ -454,6 +483,8 @@ else
                         $('#LotNo').val(data.LotNo);
                         $("#Dimension1Name").val(data.Dimension1Name);
                         $("#Dimension2Name").val(data.Dimension2Name);
+                        $("#Dimension3Name").val(data.Dimension3Name);
+                        $("#Dimension4Name").val(data.Dimension4Name);
 
                         (data.CostCenterId==null)?(1==1):($("#CostCenterId").select2("data", {id: data.CostCenterId, text: data.CostCenterName}));
                         if(JobWorkerVisibile=="False")
@@ -488,6 +519,8 @@ else
                 $('#Specification').val("");
                 $("#Dimension1Name").val("");
                 $("#Dimension2Name").val("");
+                $("#Dimension3Name").val("");
+                $("#Dimension4Name").val("");
                 if(JobWorkerVisibile=="False")
                     $("#JobWorkerId",".modal-body").val(0);
                 UnLockFields();
@@ -555,6 +588,8 @@ else
                                         spec:m.Specification,
                                         dim1: m.Dimension1Name,
                                         dim2:m.Dimension2Name,
+                                        dim3: m.Dimension3Name,
+                                        dim4:m.Dimension4Name,
                                         JO:m.JobOrderNo,
                                         JR:m.JobReceiveDocNo,
                                         JRE:m.JobReceiveNo,

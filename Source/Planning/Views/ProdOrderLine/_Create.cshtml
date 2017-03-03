@@ -54,12 +54,45 @@
                         </div>
                     </div>
 
+                    <div class="col-md-6" style="display:@(Model.ProdOrderSettings.isVisibleDimension3 ? "" : "none")">
+                        @Html.HiddenFor(m => m.ProdOrderSettings.isVisibleDimension3)
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Dimension3Id, (Model.DocumentTypeSettings.Dimension3Caption ?? "Dimension3"), new { @class = "control-label col-md-4 col-sm-2" })
+                            @Html.HiddenFor(m => m.DocumentTypeSettings.Dimension3Caption)
+                            <div class="col-md-7 col-sm-10">
+                                @Html.TextBoxFor(model => model.Dimension3Id, new { @class = "form-control col-xs-7" })
+                                @Html.ValidationMessageFor(model => model.Dimension3Id, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6" style="display:@(Model.ProdOrderSettings.isVisibleDimension4 ? "" : "none")">
+                        @Html.HiddenFor(m => m.ProdOrderSettings.isVisibleDimension4)
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Dimension4Id, (Model.DocumentTypeSettings.Dimension4Caption ?? "Dimension4"), new { @class = "control-label col-md-4 col-sm-2" })
+                            @Html.HiddenFor(m => m.DocumentTypeSettings.Dimension4Caption)
+                            <div class="col-md-7 col-sm-10">
+                                @Html.TextBoxFor(model => model.Dimension4Id, new { @class = "form-control col-xs-7 required" })
+                                @Html.ValidationMessageFor(model => model.Dimension4Id, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="col-md-6">
                         <div class="form-group">
                             @Html.LabelFor(model => model.Qty, "Qty", new { @class = "control-label col-md-4 col-sm-2" })
                             <div class="col-md-7 col-sm-10">
                                 @Html.TextBoxFor(model => model.Qty, new { @class = "form-control col-xs-7 required" })
                                 @Html.ValidationMessageFor(model => model.Qty, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.DueDate, "Due Date", new { @class = "control-label col-md-4 col-sm-2" })
+                            <div class="col-md-7 col-sm-10">
+                                @Html.TextBoxFor(model => model.DueDate, "{0:dd/MMMM/yyyy}", new { @class = "datepicker form-control col-xs-7 required" })
+                                @Html.ValidationMessageFor(model => model.DueDate, "", new { @class = "text-danger" })
                             </div>
                         </div>
                     </div>
@@ -93,9 +126,11 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
-        CustomSelectFunction($("#ProductId"), '/ComboHelpList/GetProducts', '/ComboHelpList/SetSingleProducts', 'Enter Product Name', false, 3);
-        CustomSelectFunction($("#Dimension1Id"), '/ComboHelpList/GetDimension1', '/ComboHelpList/SetSingleDimension1', 'Dimension1', false, 1);
-        CustomSelectFunction($("#Dimension2Id"), '/ComboHelpList/GetDimension2', '/ComboHelpList/SetSingleDimension2', 'Dimension2', false, 1);
+        CustomSelectFunction($("#ProductId"), '/ComboHelpList/GetProducts', '/ComboHelpList/SetSingleProducts', ' ', false, 3);
+        CustomSelectFunction($("#Dimension1Id"), '/ComboHelpList/GetDimension1', '/ComboHelpList/SetSingleDimension1', ' ', false, 0);
+        CustomSelectFunction($("#Dimension2Id"), '/ComboHelpList/GetDimension2', '/ComboHelpList/SetSingleDimension2', ' ', false, 0);
+        CustomSelectFunction($("#Dimension3Id"), '/ComboHelpList/GetDimension3', '/ComboHelpList/SetSingleDimension3', ' ', false, 0);
+        CustomSelectFunction($("#Dimension4Id"), '/ComboHelpList/GetDimension4', '/ComboHelpList/SetSingleDimension4', ' ', false, 0);
 
         $("#ProductId").select2("focus");
 

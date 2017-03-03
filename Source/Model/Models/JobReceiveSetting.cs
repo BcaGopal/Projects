@@ -146,6 +146,11 @@ namespace Model.Models
 
         [MaxLength(50)]
         public string ConsumptionDimension2Caption { get; set; }
+        [MaxLength(50)]
+        public string ConsumptionDimension3Caption { get; set; }
+
+        [MaxLength(50)]
+        public string ConsumptionDimension4Caption { get; set; }
         
         [MaxLength(50)]
         public string ByProductCaption { get; set; }
@@ -155,10 +160,18 @@ namespace Model.Models
 
         [MaxLength(50)]
         public string ByProductDimension2Caption { get; set; }
+        [MaxLength(50)]
+        public string ByProductDimension3Caption { get; set; }
+        [MaxLength(50)]
+        public string ByProductDimension4Caption { get; set; }
         public bool? isVisibleConsumptionDimension1 { get; set; }
         public bool? isVisibleConsumptionDimension2 { get; set; }
+        public bool? isVisibleConsumptionDimension3 { get; set; }
+        public bool? isVisibleConsumptionDimension4 { get; set; }
         public bool? isVisibleByProductDimension1 { get; set; }
         public bool? isVisibleByProductDimension2 { get; set; }
+        public bool? isVisibleByProductDimension3 { get; set; }
+        public bool? isVisibleByProductDimension4 { get; set; }
 
 
         [Display(Name = "Created By")]

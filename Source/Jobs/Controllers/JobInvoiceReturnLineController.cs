@@ -367,6 +367,8 @@ namespace Web
                             StockViewModel.Specification = item.Specification;
                             StockViewModel.Dimension1Id = item.Dimension1Id;
                             StockViewModel.Dimension2Id = item.Dimension2Id;
+                            StockViewModel.Dimension3Id = item.Dimension3Id;
+                            StockViewModel.Dimension4Id = item.Dimension4Id;
                             StockViewModel.CreatedBy = User.Identity.Name;
                             StockViewModel.ProductUidId = RecRecord.ProductUidId;
                             StockViewModel.CreatedDate = DateTime.Now;
@@ -445,6 +447,8 @@ namespace Web
                             StockProcessViewModel.Specification = item.Specification;
                             StockProcessViewModel.Dimension1Id = item.Dimension1Id;
                             StockProcessViewModel.Dimension2Id = item.Dimension2Id;
+                            StockProcessViewModel.Dimension3Id = item.Dimension3Id;
+                            StockProcessViewModel.Dimension4Id = item.Dimension4Id;
                             StockProcessViewModel.ProductUidId = RecRecord.ProductUidId;
                             StockProcessViewModel.CreatedBy = User.Identity.Name;
                             StockProcessViewModel.CreatedDate = DateTime.Now;
@@ -911,6 +915,8 @@ namespace Web
                                 StockViewModel.Specification = Order.Specification;
                                 StockViewModel.Dimension1Id = Order.Dimension1Id;
                                 StockViewModel.Dimension2Id = Order.Dimension2Id;
+                                StockViewModel.Dimension3Id = Order.Dimension3Id;
+                                StockViewModel.Dimension4Id = Order.Dimension4Id;
                                 StockViewModel.ProductUidId = Receive.ProductUidId;
                                 StockViewModel.CreatedBy = User.Identity.Name;
                                 StockViewModel.CreatedDate = DateTime.Now;
@@ -989,6 +995,8 @@ namespace Web
                                 StockProcessViewModel.Specification = Order.Specification;
                                 StockProcessViewModel.Dimension1Id = Order.Dimension1Id;
                                 StockProcessViewModel.Dimension2Id = Order.Dimension2Id;
+                                StockProcessViewModel.Dimension3Id = Order.Dimension3Id;
+                                StockProcessViewModel.Dimension4Id = Order.Dimension4Id;
                                 StockProcessViewModel.ProductUidId = Receive.ProductUidId;
                                 StockProcessViewModel.CreatedBy = User.Identity.Name;
                                 StockProcessViewModel.CreatedDate = DateTime.Now;
@@ -1296,6 +1304,8 @@ namespace Web
                         StockViewModel.Specification = svm.Specification;
                         StockViewModel.Dimension1Id = svm.Dimension1Id;
                         StockViewModel.Dimension2Id = svm.Dimension2Id;
+                        StockViewModel.Dimension3Id = svm.Dimension3Id;
+                        StockViewModel.Dimension4Id = svm.Dimension4Id;
                         StockViewModel.Remark = Gline.Remark;
                         StockViewModel.ProductUidId = svm.ProductUidId;
                         StockViewModel.Status = JobReturnHeader.Status;
@@ -1366,6 +1376,8 @@ namespace Web
                         StockProcessViewModel.Specification = svm.Specification;
                         StockProcessViewModel.Dimension1Id = svm.Dimension1Id;
                         StockProcessViewModel.Dimension2Id = svm.Dimension2Id;
+                        StockProcessViewModel.Dimension3Id = svm.Dimension3Id;
+                        StockProcessViewModel.Dimension4Id = svm.Dimension4Id;
                         StockProcessViewModel.Remark = Gline.Remark;
                         StockProcessViewModel.ProductUidId = svm.ProductUidId;
                         StockProcessViewModel.Status = JobReturnHeader.Status;
@@ -1644,6 +1656,8 @@ namespace Web
                         StockViewModel.Specification = svm.Specification;
                         StockViewModel.Dimension1Id = svm.Dimension1Id;
                         StockViewModel.Dimension2Id = svm.Dimension2Id;
+                        StockViewModel.Dimension3Id = svm.Dimension3Id;
+                        StockViewModel.Dimension4Id = svm.Dimension4Id;
                         StockViewModel.Remark = GLine.Remark;
                         StockViewModel.ProductUidId = svm.ProductUidId;
                         StockViewModel.Status = JobReturnHeader.Status;
@@ -1693,6 +1707,8 @@ namespace Web
                         StockProcessViewModel.Specification = svm.Specification;
                         StockProcessViewModel.Dimension1Id = svm.Dimension1Id;
                         StockProcessViewModel.Dimension2Id = svm.Dimension2Id;
+                        StockProcessViewModel.Dimension3Id = svm.Dimension3Id;
+                        StockProcessViewModel.Dimension4Id = svm.Dimension4Id;
                         StockProcessViewModel.Remark = GLine.Remark;
                         StockProcessViewModel.ProductUidId = svm.ProductUidId;
                         StockProcessViewModel.Status = JobReturnHeader.Status;

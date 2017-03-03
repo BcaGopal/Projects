@@ -58,6 +58,8 @@ namespace Model.Models
 
         public int? ReferenceDocLineId { get; set; }
 
+        public DateTime? DueDate { get; set; }
+
         public int? Sr { get; set; }
         
 

@@ -743,7 +743,7 @@ namespace Web
                                         //Saving BOMPOST Data
                                         if (!string.IsNullOrEmpty(Settings.SqlProcConsumption))
                                         {
-                                            var BomPostList = new JobOrderLineService(_unitOfWork).GetBomPostingDataForWeaving(line.ProductId, line.Dimension1Id, line.Dimension2Id, s.ProcessId, line.Qty, s.DocTypeId, Settings.SqlProcConsumption).ToList();
+                                            var BomPostList = new JobOrderLineService(_unitOfWork).GetBomPostingDataForWeaving(line.ProductId, line.Dimension1Id, line.Dimension2Id, null, null, s.ProcessId, line.Qty, s.DocTypeId, Settings.SqlProcConsumption).ToList();
 
                                             foreach (var Bomitem in BomPostList)
                                             {
@@ -1000,7 +1000,7 @@ namespace Web
                                             //Saving BOMPOST Data
                                             if (!string.IsNullOrEmpty(Settings.SqlProcConsumption))
                                             {
-                                                var BomPostList = new JobOrderLineService(_unitOfWork).GetBomPostingDataForWeaving(line.ProductId, line.Dimension1Id, line.Dimension2Id, s.ProcessId, line.Qty, s.DocTypeId, Settings.SqlProcConsumption).ToList();
+                                                var BomPostList = new JobOrderLineService(_unitOfWork).GetBomPostingDataForWeaving(line.ProductId, line.Dimension1Id, line.Dimension2Id, null, null, s.ProcessId, line.Qty, s.DocTypeId, Settings.SqlProcConsumption).ToList();
 
                                                 foreach (var Bomitem in BomPostList)
                                                 {

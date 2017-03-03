@@ -35,9 +35,9 @@ namespace Service
         ComboBoxPagedResult GetPendingProductsForJobReceive(string searchTerm, int pageSize, int pageNum, int filter);
         ComboBoxPagedResult GetPendingProductGroupsForJobReceive(string searchTerm, int pageSize, int pageNum, int filter);
         ComboBoxPagedResult GetPendingJobOrders(string searchTerm, int pageSize, int pageNum, int filter);//JobReceive HeaderId,DocTypes,Search term
-        //IEnumerable<ProcGetBomForWeavingViewModel> GetBomPostingDataForWeaving(int ProductId, int? Dimension1Id, int? Dimension2Id, int ProcessId, decimal Qty, int DocTypeId, string ProcName, int? JobOrderLineId);
+        //IEnumerable<ProcGetBomForWeavingViewModel> GetBomPostingDataForWeaving(int ProductId, int? Dimension1Id, int? Dimension2Id, int? Dimension3Id, int? Dimension4Id, int ProcessId, decimal Qty, int DocTypeId, string ProcName, int? JobOrderLineId);
 
-        IEnumerable<ProcGetBomForWeavingViewModel> GetBomPostingDataForWeaving(int ProductId, int? Dimension1Id, int? Dimension2Id, int ProcessId, decimal Qty, int DocTypeId, string ProcName, int? JobOrderLineId, Decimal? Weight);
+        IEnumerable<ProcGetBomForWeavingViewModel> GetBomPostingDataForWeaving(int ProductId, int? Dimension1Id, int? Dimension2Id, int? Dimension3Id, int? Dimension4Id, int ProcessId, decimal Qty, int DocTypeId, string ProcName, int? JobOrderLineId, Decimal? Weight);
         IQueryable<JobReceiveBomViewModel> GetConsumptionLineListForIndex(int JobOrderHeaderId);
         IQueryable<JobReceiveByProductViewModel> GetByProductListForIndex(int JobOrderHeaderId);
         string GetFirstBarCodeForCancel(int JobOrderLineId);
@@ -126,6 +126,8 @@ namespace Service
                         {
                             Dimension1Name = tab1.Dimension1.Dimension1Name,
                             Dimension2Name = tab1.Dimension2.Dimension2Name,
+                            Dimension3Name = tab1.Dimension3.Dimension3Name,
+                            Dimension4Name = tab1.Dimension4.Dimension4Name,
                             Specification = tab1.Specification,
                             OrderBalanceQty = p.BalanceQty,
                             Qty = p.BalanceQty,
@@ -222,6 +224,8 @@ namespace Service
                           JobOrderHeaderDocNo = tab.JobOrderHeader.DocNo,
                           Dimension1Name = tab.Dimension1.Dimension1Name,
                           Dimension2Name = tab.Dimension2.Dimension2Name,
+                          Dimension3Name = tab.Dimension3.Dimension3Name,
+                          Dimension4Name = tab.Dimension4.Dimension4Name,
                           Specification = tab.Specification,
                           JobReceiveHeaderId = p.JobReceiveHeaderId,
                           LossQty = p.LossQty,
@@ -268,6 +272,8 @@ namespace Service
                         ProductId = jl.ProductId,
                         Dimension1Name = jl.Dimension1.Dimension1Name,
                         Dimension2Name = jl.Dimension2.Dimension2Name,
+                        Dimension3Name = jl.Dimension3.Dimension3Name,
+                        Dimension4Name = jl.Dimension4.Dimension4Name,
                         Specification = jl.Specification,
                         OrderBalanceQty = (tab == null ? 0 : tab.BalanceQty) + p.Qty + p.LossQty,
                         UnitDecimalPlaces = jl.Unit.DecimalPlaces,
@@ -347,6 +353,10 @@ namespace Service
                             Dimension1Name = tab.Dimension1.Dimension1Name,
                             Dimension2Id = tab.Dimension2Id,
                             Dimension2Name = tab.Dimension2.Dimension2Name,
+                            Dimension3Id = tab.Dimension3Id,
+                            Dimension3Name = tab.Dimension3.Dimension3Name,
+                            Dimension4Id = tab.Dimension4Id,
+                            Dimension4Name = tab.Dimension4.Dimension4Name,
                             ProductId = tab.ProductId,
                             ProductName = tab.Product.ProductName,
                             Specification = tab.Specification,
@@ -385,6 +395,10 @@ namespace Service
                             Dimension1Name = tab.Dimension1.Dimension1Name,
                             Dimension2Id = tab.Dimension2Id,
                             Dimension2Name = tab.Dimension2.Dimension2Name,
+                            Dimension3Id = tab.Dimension3Id,
+                            Dimension3Name = tab.Dimension3.Dimension3Name,
+                            Dimension4Id = tab.Dimension4Id,
+                            Dimension4Name = tab.Dimension4.Dimension4Name,
                             ProductId = tab.ProductId,
                             ProductName = tab.Product.ProductName,
                             Specification = tab.Specification,
@@ -633,7 +647,7 @@ namespace Service
                         );
         }
 
-        public IEnumerable<ProcGetBomForWeavingViewModel> GetBomPostingDataForWeaving(int ProductId, int? Dimension1Id, int? Dimension2Id, int ProcessId, decimal Qty, int DocTypeId, string ProcName, int? JobOrderLineId, Decimal? Weight)
+        public IEnumerable<ProcGetBomForWeavingViewModel> GetBomPostingDataForWeaving(int ProductId, int? Dimension1Id, int? Dimension2Id, int? Dimension3Id, int? Dimension4Id, int ProcessId, decimal Qty, int DocTypeId, string ProcName, int? JobOrderLineId, Decimal? Weight)
         {
             SqlParameter SQLDocTypeID = new SqlParameter("@DocTypeId", DocTypeId);
             SqlParameter SQLProductID = new SqlParameter("@ProductId", ProductId);
@@ -684,10 +698,6 @@ namespace Service
         public IQueryable<JobReceiveBomViewModel> GetConsumptionLineListForIndex(int JobReceiveHeaderId)
         {
             var temp = from p in db.JobReceiveBom
-                       join t in db.Dimension1 on p.Dimension1Id equals t.Dimension1Id into table
-                       from Dim1 in table.DefaultIfEmpty()
-                       join t1 in db.Dimension2 on p.Dimension2Id equals t1.Dimension2Id into table1
-                       from Dim2 in table1.DefaultIfEmpty()
                        join t2 in db.Product on p.ProductId equals t2.ProductId into table2
                        from ProdTab in table2.DefaultIfEmpty()
                        orderby p.JobReceiveLineId
@@ -696,8 +706,10 @@ namespace Service
                        {
                            UnitName = ProdTab.Unit.UnitName,
                            UnitDecimalPlaces = ProdTab.Unit.DecimalPlaces,
-                           Dimension1Name = Dim1.Dimension1Name,
-                           Dimension2Name = Dim2.Dimension2Name,
+                           Dimension1Name = p.Dimension1.Dimension1Name,
+                           Dimension2Name = p.Dimension2.Dimension2Name,
+                           Dimension3Name = p.Dimension3.Dimension3Name,
+                           Dimension4Name = p.Dimension4.Dimension4Name,
                            JobReceiveBomId = p.JobReceiveBomId,
                            JobReceiveHeaderId = p.JobReceiveHeaderId,
                            JobReceiveLineId = p.JobReceiveLineId,
@@ -711,10 +723,6 @@ namespace Service
         public IQueryable<JobReceiveByProductViewModel> GetByProductListForIndex(int JobReceiveHeaderId)
         {
             var temp = from p in db.JobReceiveByProduct
-                       join t in db.Dimension1 on p.Dimension1Id equals t.Dimension1Id into table
-                       from Dim1 in table.DefaultIfEmpty()
-                       join t1 in db.Dimension2 on p.Dimension2Id equals t1.Dimension2Id into table1
-                       from Dim2 in table1.DefaultIfEmpty()
                        join t2 in db.Product on p.ProductId equals t2.ProductId into table2
                        from ProdTab in table2.DefaultIfEmpty()
                        orderby p.JobReceiveByProductId
@@ -723,8 +731,10 @@ namespace Service
                        {
                            UnitName = ProdTab.Unit.UnitName,
                            UnitDecimalPlaces = ProdTab.Unit.DecimalPlaces,
-                           Dimension1Name = Dim1.Dimension1Name,
-                           Dimension2Name = Dim2.Dimension2Name,
+                           Dimension1Name = p.Dimension1.Dimension1Name,
+                           Dimension2Name = p.Dimension2.Dimension2Name,
+                           Dimension3Name = p.Dimension3.Dimension3Name,
+                           Dimension4Name = p.Dimension4.Dimension4Name,
                            JobReceiveByProductId = p.JobReceiveByProductId,
                            JobReceiveHeaderId = p.JobReceiveHeaderId,
                            ProductName = ProdTab.ProductName,
