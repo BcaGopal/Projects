@@ -5,7 +5,7 @@
     <div class="modal-header" style="border-bottom: 1px solid #8E8888">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true"> <span class="glyphicon glyphicon-remove"></span></button>
         <h3>
-            <span style="font-family: Calibri,sans-serif,Verdana;font-weight:bold" class="black"><span class="glyphicon glyphicon-file black"></span> For Production Order</span>
+            <span style="font-family: Calibri,sans-serif,Verdana;font-weight:bold" class="black"><span class="glyphicon glyphicon-file black"></span> For @(Model.DocumentTypeSettings.ContraDocTypeCaption ?? "Production Order")</span>
         </h3>
     </div>
     <div>
@@ -109,7 +109,7 @@
                            
                             <div class="col-md-6" style="display:@((Model.JobOrderSettings.isVisibleRate)?"":"none")">
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.Rate, "Rate", new { @class = "control-label col-md-4 col-sm-2" })
+                                    @Html.LabelFor(model => model.Rate, "Flat Rate", new { @class = "control-label col-md-4 col-sm-2" })
                                     <div class="col-md-7 col-sm-10">
                                         @Html.TextBoxFor(model => model.Rate, new { @class = "form-control required" })
                                         @Html.ValidationMessageFor(model => model.Rate, "", new { @class = "text-danger" })

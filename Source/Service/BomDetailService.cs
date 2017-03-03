@@ -290,6 +290,7 @@ namespace Service
                                                                {
                                                                    BomDetailId = b.BomDetailId,
                                                                    BaseProductId = b.BaseProductId,
+                                                                   ProductId = b.ProductId,
                                                                    ProductName = ProductTab.ProductName,
                                                                    Dimension1Name = Dimension1Tab.Dimension1Name,
                                                                    ProductGroupName = ProductGroupTab.ProductGroupName,

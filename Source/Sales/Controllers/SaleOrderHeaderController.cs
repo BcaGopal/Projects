@@ -623,9 +623,34 @@ namespace Web
             {
                 List<LogTypeViewModel> LogList = new List<LogTypeViewModel>();
 
+
+
+                
+
+
                 //string temp = (Request["Redirect"].ToString());
                 //first find the Purchase Order Object based on the ID. (sience this object need to marked to be deleted IE. ObjectState.Deleted)
                 var SaleOrderHeader = _SaleOrderHeaderService.GetSaleOrderHeader(vm.id);
+
+
+                //For Updating Enquiry Header and Lines so that it can be edited and deleted as needed.
+                if (SaleOrderHeader.ReferenceDocId != null && SaleOrderHeader.ReferenceDocId != 0)
+                {
+                    var SaleEnquiryHeader = (from H in context.SaleEnquiryHeader where H.SaleEnquiryHeaderId == SaleOrderHeader.ReferenceDocId && H.DocTypeId == SaleOrderHeader.ReferenceDocTypeId select H).FirstOrDefault();
+                    if (SaleEnquiryHeader != null)
+                    {
+                        SaleEnquiryHeader Header = new SaleEnquiryHeaderService(_unitOfWork).Find(SaleEnquiryHeader.SaleEnquiryHeaderId);
+                        Header.LockReason = null;
+                        new SaleEnquiryHeaderService(_unitOfWork).Update(Header);
+
+                        IEnumerable<SaleEnquiryLine> LineList = new SaleEnquiryLineService(_unitOfWork).GetSaleEnquiryLineListForHeader(SaleEnquiryHeader.SaleEnquiryHeaderId);
+                        foreach (SaleEnquiryLine Line in LineList)
+                        {
+                            Line.LockReason = null;
+                            new SaleEnquiryLineService(_unitOfWork).Update(Line);
+                        }
+                    }
+                }
 
                 
 

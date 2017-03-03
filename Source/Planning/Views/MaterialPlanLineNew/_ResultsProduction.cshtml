@@ -148,7 +148,7 @@
                             }
                             @if(count>0)
                             { 
-                            <div class="alert alert-danger" style="font-weight:bold"> &hellip; @message</div>
+                            <div id="alertzone" class="alert alert-danger" style="font-weight:bold"> &hellip; @message</div>
                             }
 
 
@@ -204,6 +204,7 @@
                                                 @Html.HiddenFor(m => m.MaterialPlanLineViewModel[i].ProductName)
                                                 @Html.HiddenFor(m => m.MaterialPlanLineViewModel[i].ProductId)
                                                 @Html.HiddenFor(m => m.MaterialPlanLineViewModel[i].BalanceQtyForPlan)
+                                                @Html.HiddenFor(m => m.MaterialPlanLineViewModel[i].BomDetailExists, new { @class = "form-control text-right BomDetailExists" })
                                                 @(i + 1)
                                             </div>
                                             <div class='block pull-middle' style='width:94%'>
@@ -309,22 +310,42 @@
 
 
 <script type="text/javascript">
-
+    
     $('.stockplanQty').keyup(function () {
+        var ConsumptionValidation = false;
         var Count = 0;
 
         $('.row.crow.grid-body', '.modal-body').each(function () {
             if ($(this).find('input.stockplanQty').val()) {
                 Count += parseFloat($(this).find('input.stockplanQty').val());
             }
-        })
 
+
+            //alert($(this).find('input.stockplanQty').val());
+            //alert($(this).find('input.BomDetailExists').val());
+            if ($(this).find('input.stockplanQty').val() != 0 && $(this).find('input.BomDetailExists').val() == 'False') {
+                ConsumptionValidation = true;
+                //alert(ConsumptionValidation);
+            }
+
+        })
         $('#QtyCount', '.modal-body').text(Count);
 
+
+
+        if (ConsumptionValidation == false)
+        {
+            $('#alertzone').remove();
+            $('#submit1').prop('disabled', false);
+        }
+        else {
+            $('#alertzone').show();
+            $('#submit1').prop('disabled', true);
+        }
 
     })
 
 
-  
+
 
 </script>

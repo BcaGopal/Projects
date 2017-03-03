@@ -55,6 +55,8 @@ namespace Model.ViewModel
         public bool isVisibleGodown { get; set; }
         public bool isPostedInStock { get; set; }
 
+        public bool isMandatoryRate { get; set; }
+
         public string filterLedgerAccountGroups { get; set; }
         public string filterLedgerAccounts { get; set; }
         public string filterProductTypes { get; set; }

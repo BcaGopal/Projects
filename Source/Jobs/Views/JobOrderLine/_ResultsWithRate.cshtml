@@ -20,7 +20,6 @@
                 @Html.HiddenFor(m => m.JobOrderSettings.ProcessId)
                 <div style="padding-right:15px">
                     <div class="row">
-
                             <div class="form-horizontal">
                                 @Html.ValidationSummary(true, null, new { @class = "alert alert-danger" })
 
@@ -33,7 +32,7 @@
                                             <div class="col-xs-11">
                                                 <div class="row">
                                                     @*ProductInfo*@
-                                                    <div class="col-sm-2">
+                                                    <div class="col-sm-5">
                                                         Product
 
                                                     </div>
@@ -42,18 +41,18 @@
                                                     </div>
                                                     @*Qty*@
 
-                                                    <div class="col-sm-2 text-right" style="padding-right:30px">
+                                                    <div class="col-sm-3 text-right" style="padding-right:30px">
                                                         <a href="#" id="ToOrder" style="color:white">Order Qty</a>
                                                     </div>
                                                     <div class="col-sm-2 text-right" style="padding-right:30px;">
                                                         Rate
                                                     </div>
-                                                    <div class="col-sm-2 text-right" style="padding-right:30px">
+                                                    @*<div class="col-sm-2 text-right" style="padding-right:30px">
                                                         Loss<br /> NC-Qty
                                                     </div>
                                                     <div class="col-sm-2 text-right">
                                                         Multiplier
-                                                    </div>
+                                                    </div>*@
                                                 </div>
                                             </div>
 
@@ -104,7 +103,7 @@
                                                 </div>
                                                 <div class='col-xs-11'>
                                                     <div class='row'>
-                                                        <div class='col-sm-2'>
+                                                        <div class='col-sm-5'>
                                                             <strong>@Model.JobOrderLineViewModel[i].ProductName</strong>
                                                             <br />
                                                             @Model.JobOrderLineViewModel[i].Specification
@@ -127,7 +126,7 @@
                                                             @{ProdQty += Model.JobOrderLineViewModel[i].ProdOrderBalanceQty;}
                                                         </div>
 
-                                                        <div class="col-md-2 text-right">
+                                                        <div class="col-md-3 text-right">
                                                             @Html.TextBoxFor(m => Model.JobOrderLineViewModel[i].Qty, new { @class = "form-control multiple-modal text-right OrderQty" })
                                                             @Html.ValidationMessageFor(m => Model.JobOrderLineViewModel[i].Qty, "", new { @class = "text-danger" })
                                                             @{OrderQty += Model.JobOrderLineViewModel[i].Qty;}
@@ -136,7 +135,7 @@
                                                             @Html.TextBoxFor(m => Model.JobOrderLineViewModel[i].Rate, new { @class = "form-control multiple-modal text-right" })
                                                             @Html.ValidationMessageFor(m => Model.JobOrderLineViewModel[i].Rate, null, new { @class = "text-danger" })
                                                         </div>
-                                                        <div class="col-sm-2 text-right">
+                                                        @*<div class="col-sm-2 text-right">
                                                             @Html.TextBoxFor(m => Model.JobOrderLineViewModel[i].LossQty, new { @class = "form-control multiple-modal text-right", @style = "display:inline;margin-bottom:3px" })
                                                             <br />
                                                             @Html.TextBoxFor(m => m.JobOrderLineViewModel[i].NonCountedQty, new { @class = "form-control multiple-modal text-right", @style = "display:inline" })
@@ -144,7 +143,7 @@
 
                                                         <div class='col-sm-2 text-right'>
                                                             @Html.TextBoxFor(m => Model.JobOrderLineViewModel[i].UnitConversionMultiplier, "{0:0.0000}", new { @class = "form-control multiple-modal text-right" })
-                                                        </div>
+                                                        </div>*@
                                                     </div>
                                                 </div>
 
@@ -161,15 +160,15 @@
                                     <div class="col-xs-11">
                                         <div class="row">
                                             @*ProductInfo*@
-                                            <div class="col-sm-2">
+                                            <div class="col-sm-5">
                                                 <strong>Total</strong>
                                             </div>
 
                                             @*Qty*@
-                                            <div class="col-sm-2 text-right">
+                                            <div class="col-sm-2 text-center">
                                                 @string.Format("{" + "0:0.".PadRight(MaxUnitDecplaces + 4, '0') + "}", ProdQty)
                                             </div>
-                                            <div class="col-sm-2 text-right" style="padding-right:30px">
+                                            <div class="col-sm-3 text-right" style="padding-right:30px">
                                                 <strong><span id="OrderQty">@string.Format("{" + "0:0.".PadRight(MaxDealUnitDecplaces + 4, '0') + "}", OrderQty)</span></strong>
                                             </div>
                                             <div class="col-sm-2 text-right" style="padding-right:30px">
@@ -187,9 +186,6 @@
                                 </div>
 
                             </div>
-
-
-
                     </div>
                 </div>
                 <div class="modal-footer " style="padding: 19px 20px 0 20px; border-top:1px solid #8E8888">

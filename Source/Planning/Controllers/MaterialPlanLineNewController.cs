@@ -360,7 +360,8 @@ namespace Presentation
                         prodOrderHeader.BuyerId = header.BuyerId;
                         prodOrderHeader.SiteId = header.SiteId;
                         //prodOrderHeader.Status = header.Status;
-                        prodOrderHeader.Status = (int)StatusConstants.System;
+                        prodOrderHeader.Status = header.Status;
+                        prodOrderHeader.LockReason = "Production Order automatically generated from planning.";
                         prodOrderHeader.ObjectState = Model.ObjectState.Added;
                         context.ProdOrderHeader.Add(prodOrderHeader);
 
@@ -391,6 +392,7 @@ namespace Presentation
                             prodOrderLine.Sr = ProdORderSerial++;
                             prodOrderLine.Qty = item.ProdPlanQty;
                             prodOrderLine.Remark = item.Remark;
+                            prodOrderLine.LockReason = "Production Order automatically generated from planning.";
                             prodOrderLine.ProdOrderLineId = prodorderlineid--;
                             prodOrderLine.ObjectState = Model.ObjectState.Added;
                             context.ProdOrderLine.Add(prodOrderLine);
@@ -429,6 +431,7 @@ namespace Presentation
                             prodOrderLine.Qty = item.ProdPlanQty;
                             prodOrderLine.Sr = ProdORderSerial++;
                             prodOrderLine.Remark = item.Remark;
+                            prodOrderLine.LockReason = "Production Order automatically generated from planning.";
                             prodOrderLine.ProdOrderLineId = prodorderlineid--;
                             prodOrderLine.ObjectState = Model.ObjectState.Added;
                             context.ProdOrderLine.Add(prodOrderLine);
@@ -472,7 +475,8 @@ namespace Presentation
                         indentHeader.BuyerId = header.BuyerId;
                         indentHeader.SiteId = header.SiteId;
                         //indentHeader.Status = header.Status;
-                        indentHeader.Status = (int)StatusConstants.System;
+                        indentHeader.Status = header.Status;
+                        indentHeader.LockReason = "Purchase Indent automatically generated from planning.";
                         //indentHeader.DepartmentId = (int)DepartmentConstants.Production;
                         indentHeader.ObjectState = Model.ObjectState.Added;
                         //context.PurchaseIndentHeader.Add(indentHeader);
@@ -504,9 +508,11 @@ namespace Presentation
                             indentLine.Dimension2Id = item.Dimension2Id;
                             indentLine.Dimension3Id = item.Dimension3Id;
                             indentLine.Dimension4Id = item.Dimension4Id;
+                            indentLine.ProcessId = new ProcessService(_unitOfWork).Find(ProcessConstants.Purchase).ProcessId;
                             indentLine.Sr = PurchaseIndentSr++;
                             indentLine.Qty = item.PurchPlanQty;
                             indentLine.Remark = item.Remark;
+                            indentLine.LockReason = "Purchase Indent automatically generated from planning.";
                             indentLine.ProdOrderLineId = prodorderlineid--;
                             //indentLine.PurchaseIndentHeaderId = indentHeader.PurchaseIndentHeaderId;
                             indentLine.ObjectState = Model.ObjectState.Added;
@@ -542,8 +548,10 @@ namespace Presentation
                             indentLine.Dimension3Id = item.Dimension3Id;
                             indentLine.Dimension4Id = item.Dimension4Id;
                             indentLine.Qty = item.PurchPlanQty;
+                            indentLine.ProcessId = new ProcessService(_unitOfWork).Find(ProcessConstants.Purchase).ProcessId;
                             indentLine.Sr = PurchaseIndentSr++;
                             indentLine.Remark = item.Remark;
+                            indentLine.LockReason = "Purchase Indent automatically generated from planning.";
                             //indentLine.PurchaseIndentHeaderId = ExistingIndent.PurchaseIndentHeaderId;
                             indentLine.ProdOrderLineId = prodorderlineid--;
                             indentLine.ObjectState = Model.ObjectState.Added;
@@ -1167,7 +1175,8 @@ namespace Presentation
                         prodOrderHeader.SiteId = temp.SiteId;
                         prodOrderHeader.BuyerId = temp.BuyerId;
                         //prodOrderHeader.Status = temp.Status;
-                        prodOrderHeader.Status = (int)StatusConstants.System;
+                        prodOrderHeader.LockReason = "Prod order automatically generated from planning.";
+                        prodOrderHeader.Status = header.Status;
                         prodOrderHeader.ObjectState = Model.ObjectState.Added;
                         context.ProdOrderHeader.Add(prodOrderHeader);
 
@@ -1197,6 +1206,7 @@ namespace Presentation
                             prodOrderLine.ProductId = item.ProductId;
                             prodOrderLine.Qty = item.ProdPlanQty;
                             prodOrderLine.Remark = item.Remark;
+                            prodOrderLine.LockReason = "Prod order automatically generated from planning.";
                             prodOrderLine.ProdOrderLineId = prodorderlineid--;
                             prodOrderLine.ObjectState = Model.ObjectState.Added;
                             context.ProdOrderLine.Add(prodOrderLine);
@@ -1234,6 +1244,7 @@ namespace Presentation
                             prodOrderLine.ProductId = item.ProductId;
                             prodOrderLine.Qty = item.ProdPlanQty;
                             prodOrderLine.Remark = item.Remark;
+                            prodOrderLine.LockReason = "Prod order automatically generated from planning.";
                             prodOrderLine.ProdOrderLineId = prodorderlineid--;
                             prodOrderLine.ObjectState = Model.ObjectState.Added;
                             context.ProdOrderLine.Add(prodOrderLine);
@@ -1273,7 +1284,8 @@ namespace Presentation
                         indentHeader.Remark = temp.Remark;
                         indentHeader.SiteId = temp.SiteId;
                         //indentHeader.Status = temp.Status;
-                        indentHeader.Status = (int)StatusConstants.System;
+                        indentHeader.LockReason = "Purchase Indent automatically generated from planning.";
+                        indentHeader.Status = header.Status;
                         //indentHeader.DepartmentId = (int)DepartmentConstants.Production;
                         indentHeader.ObjectState = Model.ObjectState.Added;
                         //context.PurchaseIndentHeader.Add(indentHeader);
@@ -1302,10 +1314,12 @@ namespace Presentation
                             indentLine.Dimension2Id = item.Dimension2Id;
                             indentLine.Dimension3Id = item.Dimension3Id;
                             indentLine.Dimension4Id = item.Dimension4Id;
-                            indentLine.ProcessId = item.ProcessId;
+                            //indentLine.ProcessId = item.ProcessId;
+                            indentLine.ProcessId = new ProcessService(_unitOfWork).Find(ProcessConstants.Purchase).ProcessId;
                             indentLine.Sr = PurchaseIndentSr++;
                             indentLine.Qty = item.PurchPlanQty;
                             indentLine.Remark = item.Remark;
+                            indentLine.LockReason = "Purchase Indent automatically generated from planning.";
                             indentLine.ProdOrderLineId = prodorderlineid--;
                             //indentLine.PurchaseIndentHeaderId = indentHeader.PurchaseIndentHeaderId;
                             indentLine.ObjectState = Model.ObjectState.Added;
@@ -1339,9 +1353,11 @@ namespace Presentation
                             indentLine.Dimension2Id = item.Dimension2Id;
                             indentLine.Dimension3Id = item.Dimension3Id;
                             indentLine.Dimension4Id = item.Dimension4Id;
-                            indentLine.ProcessId = item.ProcessId;
+                            //indentLine.ProcessId = item.ProcessId;
+                            indentLine.ProcessId = new ProcessService(_unitOfWork).Find(ProcessConstants.Purchase).ProcessId;
                             indentLine.Qty = item.PurchPlanQty;
                             indentLine.Remark = item.Remark;
+                            indentLine.LockReason = "Purchase Indent automatically generated from planning.";
                             indentLine.Sr = PurchaseIndentSr++;
                             //indentLine.PurchaseIndentHeaderId = ExistingIndent.PurchaseIndentHeaderId;
                             indentLine.ProdOrderLineId = prodorderlineid--;

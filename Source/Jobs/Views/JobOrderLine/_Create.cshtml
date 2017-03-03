@@ -119,7 +119,7 @@
                     <div class="col-md-6" style="display:@(Model.JobOrderSettings.isVisibleLotNo?"":"none")">
                         @Html.HiddenFor(m => m.JobOrderSettings.isVisibleLotNo)
                         <div class="form-group">
-                            @Html.LabelFor(model => model.LotNo, "LotNo", new { @class = "control-label col-md-4 col-sm-2" })
+                            @Html.LabelFor(model => model.LotNo, "Lot No.", new { @class = "control-label col-md-4 col-sm-2" })
                             <div class="col-md-7 col-sm-10">
                                 @Html.TextBoxFor(model => model.LotNo, new { @class = "form-control col-xs-7 required" })
                                 @Html.ValidationMessageFor(model => model.LotNo, "", new { @class = "text-danger" })

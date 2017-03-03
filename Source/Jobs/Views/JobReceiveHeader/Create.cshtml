@@ -168,7 +168,7 @@
 
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.JobWorkerDocNo, "JobWorker DocNo", new { @class = "control-label col-md-4 col-sm-2" })
+                                    @Html.LabelFor(model => model.JobWorkerDocNo, (Model.DocumentTypeSettings.PartyCaption ?? "Party") + " Doc No", new { @class = "control-label col-md-4 col-sm-2" })
                                     <div class="col-md-7 col-sm-10">
                                         @Html.TextBoxFor(m => m.JobWorkerDocNo, null, new { @class = "form-control" })
                                         @Html.ValidationMessageFor(m => m.JobWorkerDocNo, "", new { @class = "text-danger" })
@@ -181,7 +181,7 @@
                         <div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.JobReceiveById, "Job Received By", new { @class = "control-label col-md-4 col-sm-2" })
+                                    @Html.LabelFor(model => model.JobReceiveById, "Goods Received By", new { @class = "control-label col-md-4 col-sm-2" })
                                     <div class="col-md-7 col-sm-10">
                                         @Html.TextBoxFor(m => m.JobReceiveById, new { @class = "form-control required" })
                                         @Html.ValidationMessageFor(m => m.JobReceiveById, "", new { @class = "text-danger" })

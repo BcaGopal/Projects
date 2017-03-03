@@ -109,11 +109,11 @@ namespace Web
             {
                 ModelState.AddModelError("Qty", "Please Check Qty");
             }
-            else if (svm.Rate <= 0)
+            else if (svm.Rate <= 0 && settings.isMandatoryRate == true)
             {
                 ModelState.AddModelError("Rate", "Please Check Rate");
             }
-            else if (svm.Amount <= 0)
+            else if (svm.Amount <= 0 && settings.isMandatoryRate == true)
             {
                 ModelState.AddModelError("Amount", "Please Check Amount");
             }

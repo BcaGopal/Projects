@@ -196,6 +196,8 @@ namespace Service
                            Qty = p.Qty,
                            JobOrderHeaderId = p.JobOrderHeaderId,
                            JobOrderLineId = p.JobOrderLineId,
+                           OrderDocTypeId = p.ProdOrderLine.ProdOrderHeader.DocTypeId,
+                           OrderHeaderId = p.ProdOrderLine.ProdOrderHeaderId,
                            ProgressPerc = ((p.Qty == 0 || LineStatus == null) ? 0 : (int)(((((LineStatus.ReceiveQty ?? 0)) / (p.Qty + (LineStatus.AmendmentQty ?? 0))) * 100))),
                            ProgressPercCancelled = ((p.Qty == 0 || LineStatus == null) ? 0 : (int)(((((LineStatus.CancelQty ?? 0) / (p.Qty + (LineStatus.AmendmentQty ?? 0)))) * 100))),
                        };
@@ -588,6 +590,7 @@ namespace Service
             if (!string.IsNullOrEmpty(Settings.filterProductCategories)) { ProductCategoryIdArr = Settings.filterProductCategories.Split(",".ToCharArray()); }
             else { ProductCategoryIdArr = new string[] { "NA" }; }
 
+
             if (!string.IsNullOrEmpty(vm.DealUnitId))
             {
                 Unit Dealunit = new UnitService(_unitOfWork).Find(vm.DealUnitId);
@@ -608,6 +611,7 @@ namespace Service
                             && (string.IsNullOrEmpty(vm.Dimension1Id) ? 1 == 1 : Dimension1.Contains(p.Dimension1Id.ToString()))
                             && (string.IsNullOrEmpty(vm.Dimension2Id) ? 1 == 1 : Dimension2.Contains(p.Dimension2Id.ToString()))
                             && (string.IsNullOrEmpty(vm.ProductGroupId) ? 1 == 1 : ProductGroupIdArr.Contains(tab2.ProductGroupId.ToString()))
+                            && tab1.ProcessId == Settings.ProcessId
                             && (string.IsNullOrEmpty(Settings.filterContraSites) ? p.SiteId == joborder.SiteId : ContraSites.Contains(p.SiteId.ToString()))
                             && (string.IsNullOrEmpty(Settings.filterProductCategories) ? 1 == 1 : ProductCategoryIdArr.Contains(tabFinishedProduct.ProductCategoryId.ToString()))
                             && (string.IsNullOrEmpty(Settings.filterContraDivisions) ? p.DivisionId == joborder.DivisionId : ContraDivisions.Contains(p.DivisionId.ToString()))
@@ -659,6 +663,7 @@ namespace Service
                              && (string.IsNullOrEmpty(vm.Dimension1Id) ? 1 == 1 : Dimension1.Contains(p.Dimension1Id.ToString()))
                             && (string.IsNullOrEmpty(vm.Dimension2Id) ? 1 == 1 : Dimension2.Contains(p.Dimension2Id.ToString()))
                             && (string.IsNullOrEmpty(vm.ProductGroupId) ? 1 == 1 : ProductGroupIdArr.Contains(tab2.ProductGroupId.ToString()))
+                            && tab1.ProcessId == Settings.ProcessId
                             && (string.IsNullOrEmpty(Settings.filterProductCategories) ? 1 == 1 : ProductCategoryIdArr.Contains(tabFinishedProduct.ProductCategoryId.ToString()))
                             && p.BalanceQty > 0
                             select new JobOrderLineViewModel
