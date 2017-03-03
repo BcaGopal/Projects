@@ -78,5 +78,8 @@
 }
 
 <script type="text/javascript">
+    $(document).ready(function () {
+        enableModalTransitions();
+    })
     CustomSelectFunction($("#ProductId"), '/ComboHelpList/GetProducts', '/ComboHelpList/SetSingleProducts', ' ', false, 0);
 </script>

@@ -79,7 +79,19 @@ namespace Presentation
         {
             ViewBag.Name = new DocumentTypeService(_unitOfWork).Find(id).DocumentTypeName;
             ViewBag.id = id;
-        }
+            var DivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
+            var SiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
+            var settings = new MaterialPlanSettingsService(_unitOfWork).GetMaterialPlanSettingsForDocument(id, DivisionId, SiteId);
+            ViewBag.AdminSetting = UserRoles.Contains("Admin").ToString();
+            if (settings != null)
+            {
+                ViewBag.WizardId = settings.WizardMenuId;
+                ViewBag.ImportMenuId = settings.ImportMenuId;
+                ViewBag.SqlProcDocumentPrint = settings.SqlProcDocumentPrint;                
+                ViewBag.ExportMenuId = settings.ExportMenuId;
+            }
+
+            }
 
         // GET: /MaterialPlanCancelHeaderMaster/
 
