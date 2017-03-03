@@ -41,16 +41,32 @@
             <div class="btn-group">
                 @Html.ActionLink(" ", "Create", "ProdOrderHeader", new { @id = @ViewBag.id }, new { @class = "cbtn btn-circle glyphicon glyphicon-plus toolbar", @title = "Add New", @data_toggle = "tooltip" })
                 @*@Html.ActionLink(" ", "GetHistory", "LogHistory", null, new { @class = "cbtn btn-circle glyphicon glyphicon-user toolbar", @title = "History", @data_toggle = "tooltip", @id = "DocHistoryI" })*@
+                @if (ViewBag.SqlProcDocumentPrint !=null)
+                {
                 @Html.ActionLink(" ", "GeneratePrints", "ProdOrderHeader", null, new { @class = "cbtn btn-circle glyphicon glyphicon-print toolbar", @title = "Print", @data_toggle = "tooltip", @id = "PrintRecordI", target = "_blank" })
+                }
                 @Html.ActionLink(" ", "Remove", "ProdOrderHeader", null, new { @class = "cbtn btn-circle glyphicon glyphicon-trash toolbar", @title = "Delete", @data_toggle = "tooltip", @id = "DeleteRecord", @data_modal = "" })
             </div>
             <div class="btn-group">
                 <a class="cbtn btn-circle glyphicon glyphicon-option-horizontal dropdown-toggle" title="More Option" aria-expanded="false" style="padding-top: 6px;padding-bottom: 6px;" href="#" data-toggle="dropdown" id="dropdownMenu1">
                 </a>
                 <ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu1">
+                    @if (ViewBag.WizardId != null)
+                    {
+                        <li><a href="@Url.Action("Wizard", "ProdOrderHeader", new { @id = @ViewBag.id })"><span class="glyphicon glyphicon-random" onclick="$('#')"> </span>&nbsp;&nbsp;Wizard</a></li>
+                    }
+                    @if (ViewBag.ExportMenuId !=null)
+                    {
                     <li><a href="@Url.Action("Export", "ProdOrderHeader", new { @id = @ViewBag.id })"><span class="glyphicon glyphicon-export"> </span>&nbsp;&nbsp;Export</a></li>
+                    }
+                    @if (ViewBag.ImportMenuId !=null)
+                    {
                     <li><a href="@Url.Action("Import", "ProdOrderHeader", new { @id = @ViewBag.id })"><span class="glyphicon glyphicon-import"> </span>&nbsp;&nbsp;Import</a></li>
+                    }
+                    @if (ViewBag.AdminSetting == "True")
+                    {
                     <li><a href="@Url.Action("Create", "ProdOrderSettings", new { @id = @ViewBag.id })"><span class="glyphicon glyphicon-cog"> </span>&nbsp;&nbsp;Settings</a></li>
+                    }
                     <li role="separator" class="divider"></li>
                     <li><a id="DocHistoryI" href="@Url.Action("GetHistory", "LogHistory", new {  })"><span class="glyphicon glyphicon-user"> </span> History</a></li>
                     <li><a target="_blank" href="@Url.Action("Report", "ProdOrderHeader", new { @ViewBag.id })"><span class="glyphicon glyphicon-stats"> </span> Report</a></li>

@@ -46,7 +46,9 @@
 
                     <li><a href="@Url.Action("Export", "SaleOrderAmendmentHeader", new { @id = @ViewBag.id })"><span class="glyphicon glyphicon-export"> </span>&nbsp;&nbsp;Export</a></li>
                     <li><a href="@Url.Action("Import", "SaleOrderAmendmentHeader", new { @id = @ViewBag.id })"><span class="glyphicon glyphicon-import"> </span>&nbsp;&nbsp;Import</a></li>
-                    <li><a href="@Url.Action("Report", "SaleOrderAmendmentHeader", new { @ViewBag.id })"><span class="glyphicon glyphicon-stats"> </span> Report</a></li>
+                    <li role="separator" class="divider"></li>
+                    <li><a id="DocHistoryI" href="@Url.Action("GetHistory", "LogHistory", new {  })"><span class="glyphicon glyphicon-user"> </span> History</a></li>
+                    <li><a target="_blank" href="@Url.Action("Report", "SaleOrderAmendmentHeader", new { @ViewBag.id })"><span class="glyphicon glyphicon-stats"> </span> Report</a></li>
                  </ul>
              </div>
             <div class="btn-group right">

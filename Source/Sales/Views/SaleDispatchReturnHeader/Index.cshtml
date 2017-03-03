@@ -64,7 +64,8 @@
                     <li><a href="@Url.Action("CreateSaleDispatchReturn", "SaleDispatchSetting", new { @id = @ViewBag.id })"><span class="glyphicon glyphicon-cog"> </span>&nbsp;&nbsp;Settings</a></li>
                     }
                     <li role="separator" class="divider"></li>
-                    <li><a href="@Url.Action("Report", "SaleDispatchReturnHeader", new { @ViewBag.id })"><span class="glyphicon glyphicon-stats"> </span> Report</a></li>
+                    <li><a id="DocHistoryI" href="@Url.Action("GetHistory", "LogHistory", new {  })"><span class="glyphicon glyphicon-user"> </span> History</a></li>
+                    <li><a target="_blank" href="@Url.Action("Report", "SaleDispatchReturnHeader", new { @ViewBag.id })"><span class="glyphicon glyphicon-stats"> </span> Report</a></li>
                 </ul>
             </div>
             <div class="btn-group right">

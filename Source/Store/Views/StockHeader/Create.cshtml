@@ -84,7 +84,7 @@
                     @Html.ActionLink(" ", "Index", "StockHeader", new { id = ViewBag.id, IndexType = ViewBag.IndexStatus }, new { @class = "cbtn btn-circle glyphicon glyphicon-list", @title = "List", @data_toggle = "tooltip" })
                 </div>
                 <div class="btn-group">
-                    <a class="cbtn btn-circle glyphicon glyphicon-option-horizontal dropdown-toggle" aria-expanded="false" style="padding-top: 6px;padding-bottom: 6px;" href="#" data-toggle="dropdown" id="dropdownMenu1">
+                    <a class="cbtn btn-circle glyphicon glyphicon-option-horizontal dropdown-toggle"   title="More Option"  aria-expanded="false" style="padding-top: 6px;padding-bottom: 6px;" href="#" data-toggle="dropdown" id="dropdownMenu1">
                     </a>
                     <ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu1">                        
                         @if (Model.Status == (int)StatusConstants.Submitted && !Model.GatePassHeaderId.HasValue)

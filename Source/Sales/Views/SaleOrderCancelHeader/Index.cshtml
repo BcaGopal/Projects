@@ -62,7 +62,8 @@
                     }
                     <li><a target="_blank" href="@Url.Action("Index", "SaleOrderCancelExcelImport")"><span class="glyphicon glyphicon-import"> </span>&nbsp;&nbsp;Import</a></li>
                     <li role="separator" class="divider"></li>
-                    <li><a href="@Url.Action("Report", "SaleOrderCancelHeader", new { @ViewBag.id })"><span class="glyphicon glyphicon-stats"> </span> Report</a></li>
+                    <li><a id="DocHistoryI" href="@Url.Action("GetHistory", "LogHistory", new {  })"><span class="glyphicon glyphicon-user"> </span> History</a></li>
+                    <li><a target="_blank" href="@Url.Action("Report", "SaleOrderCancelHeader", new { @ViewBag.id })"><span class="glyphicon glyphicon-stats"> </span> Report</a></li>
                  </ul>
             </div>
           <div class="btn-group right">

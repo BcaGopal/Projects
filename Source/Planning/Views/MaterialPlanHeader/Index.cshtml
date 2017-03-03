@@ -42,7 +42,7 @@
             <div class="btn-group">
                 @Html.ActionLink(" ", "Create", "MaterialPlanHeader", new { @id = ViewBag.id }, new { @class = "cbtn btn-circle glyphicon glyphicon-plus toolbar", @title = "Add New", @data_toggle = "tooltip" })
                 @*@Html.ActionLink(" ", "GetHistory", "LogHistory", null, new { @class = "cbtn btn-circle glyphicon glyphicon-user toolbar", @title = "History", @data_toggle = "tooltip", @id = "DocHistoryI" })*@
-                @if ()
+                @if (ViewBag.SqlProcDocumentPrint!=null)
                 {
                 @Html.ActionLink(" ", "GeneratePrints", "MaterialPlanHeader", null, new { @class = "cbtn btn-circle glyphicon glyphicon-print toolbar", @title = "Print", @data_toggle = "tooltip", @id = "PrintRecordI", target = "_blank" })
                 }
@@ -52,19 +52,19 @@
                 <a class="cbtn btn-circle glyphicon glyphicon-option-horizontal dropdown-toggle" title="More Option" aria-expanded="false" style="padding-top: 6px;padding-bottom: 6px;" href="#" data-toggle="dropdown" id="dropdownMenu1">
                 </a>
                 <ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu1">
-                    @if ()
+                    @if (ViewBag.WizardId !=null)
                     {
                     <li><a href="@Url.Action("Wizard", "MaterialPlanHeader", new { @id = @ViewBag.id })"><span class="glyphicon glyphicon-random" onclick="$('#')"> </span>&nbsp;&nbsp;Wizard</a></li>
                     }
-                    @if ()
+                    @if (ViewBag.ExportMenuId !=null)
                     {
                     <li><a href="@Url.Action("Export", "MaterialPlanHeader", new { @id = @ViewBag.id })"><span class="glyphicon glyphicon-export"> </span>&nbsp;&nbsp;Export</a></li>
                     }
-                    @if ()
+                    @if (ViewBag.ImportMenuId !=null)
                     {
                     <li><a href="@Url.Action("Import", "MaterialPlanHeader", new { @id = @ViewBag.id })"><span class="glyphicon glyphicon-import"> </span>&nbsp;&nbsp;Import</a></li>
                     }
-                    @if ()
+                    @if (ViewBag.AdminSetting == "True")
                     {
                     <li><a href="@Url.Action("Create", "MaterialPlanSettings", new { @id = @ViewBag.id })"><span class="glyphicon glyphicon-cog"> </span>&nbsp;&nbsp;Settings</a></li>
                     }

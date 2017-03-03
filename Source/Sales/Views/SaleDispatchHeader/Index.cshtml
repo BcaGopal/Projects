@@ -29,7 +29,7 @@
         <div class="panel-info">
             <div class="btn-group">
                 @Html.ActionLink(" ", "Create", "SaleDispatchHeader", new { @id = @ViewBag.id }, new { @class = "cbtn btn-circle glyphicon glyphicon-plus toolbar", @title = "Add New", @data_toggle = "tooltip" })
-                @Html.ActionLink(" ", "GetHistory", "LogHistory", null, new { @class = "cbtn btn-circle glyphicon glyphicon-user toolbar", @title = "History", @data_toggle = "tooltip", @id = "DocHistoryI" })
+                @*@Html.ActionLink(" ", "GetHistory", "LogHistory", null, new { @class = "cbtn btn-circle glyphicon glyphicon-user toolbar", @title = "History", @data_toggle = "tooltip", @id = "DocHistoryI" })*@
                 @if (ViewBag.SqlProcDocumentPrint !=null)
                 {
                 @Html.ActionLink(" ", "GeneratePrints", "SaleDispatchHeader", null, new { @class = "cbtn btn-circle glyphicon glyphicon-print toolbar", @title = "Print", @data_toggle = "tooltip", @id = "PrintRecordI", target = "_blank" })
@@ -57,6 +57,7 @@
                     <li><a href="@Url.Action("Create", "SaleDispatchSetting", new { @id = @ViewBag.id })"><span class="glyphicon glyphicon-cog"> </span>&nbsp;&nbsp;Settings</a></li>
                     }
                     <li role="separator" class="divider"></li>
+                    <li><a id="DocHistoryI" href="@Url.Action("GetHistory", "LogHistory", new {  })"><span class="glyphicon glyphicon-user"> </span> History</a></li>
                     <li><a target="_blank" href="@Url.Action("Report", "SaleDispatchHeader", new { @ViewBag.id })"><span class="glyphicon glyphicon-stats"> </span> Report</a></li>
                 </ul>
             </div>
