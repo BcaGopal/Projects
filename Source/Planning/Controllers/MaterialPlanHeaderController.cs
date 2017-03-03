@@ -79,6 +79,7 @@ namespace Presentation
         {
             ViewBag.Name = new DocumentTypeService(_unitOfWork).Find(id).DocumentTypeName;
             ViewBag.id = id;
+
         }
 
         // GET: /MaterialPlanHeaderMaster/

@@ -111,8 +111,8 @@
 {
 
     @*<a class="btn btn-primary right @(IndexStatus == "All" ? "focus" : "")" href="/@ControllerName/Index/@DocTypeId" id="All" style="border-color: #fff"> All </a>*@
-    <a class="cbtn btn-circle glyphicon glyphicon-thumbs-up @(IndexStatus == "PTR" ? "cbtn-selected" : "")" href="/@ControllerName/@(IndexStatus == "PTR" ? "Index" : "Index_PendingToReview")/@DocTypeId" id="PTR"></a>
-    <a class="cbtn btn-circle glyphicon glyphicon-floppy-open @(IndexStatus == "PTS" ? "cbtn-selected" : "")" href="/@ControllerName/@(IndexStatus == "PTS" ? "Index" : "Index_PendingToSubmit")/@DocTypeId" id="PTS"><span class='badge' style="position:absolute;top:-10px">@(PendingToSubmit != 0 ? (PendingToSubmit > 9 ? "9" : PendingToSubmit.ToString()) : "")</span> </a>
+    <a class="cbtn btn-circle glyphicon glyphicon-thumbs-up @(IndexStatus == "PTR" ? "cbtn-selected" : "")" href="/@ControllerName/@(IndexStatus == "PTR" ? "Index" : "Index_PendingToReview")/@DocTypeId" title="Pending To Review" id="PTR"></a>
+    <a class="cbtn btn-circle glyphicon glyphicon-floppy-open @(IndexStatus == "PTS" ? "cbtn-selected" : "")" href="/@ControllerName/@(IndexStatus == "PTS" ? "Index" : "Index_PendingToSubmit")/@DocTypeId" title="Pending To Submit" id="PTS"><span class='badge' style="position:absolute;top:-10px">@(PendingToSubmit != 0 ? (PendingToSubmit > 9 ? "9" : PendingToSubmit.ToString()) : "")</span> </a>
 
 }
 @*To Add Hidden Edit ActionLink in Index*@

@@ -742,7 +742,7 @@
     <Content Include="Views\JobReceiveSettings\CreateJobReturn.cshtml" />
     <Content Include="Views\PersonBankAccount\_Create.cshtml" />
     <Content Include="Views\PersonContact\_Create.cshtml" />
-    <Content Include="Views\JobInvoiceReceiveHeader\_Reason.cshtml" />
+    <Content Include="Views\JobInvoiceRateAmendmentLine\_Reason.cshtml" />
     <Content Include="Views\JobInvoiceReceiveHeader\Create.cshtml" />
     <Content Include="Views\JobInvoiceReceiveHeader\Detail.cshtml" />
     <Content Include="Views\JobInvoiceReceiveHeader\DocumentTypeList.cshtml" />

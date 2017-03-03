@@ -38,6 +38,7 @@
             </h4>*@
             <div class="btn-group">
                 @Html.ActionLink(" ", "Create", "JobOrderAmendmentHeader", new { @id = @ViewBag.id }, new { @class = "cbtn btn-circle glyphicon glyphicon-plus toolbar", @title = "Add New", @data_toggle = "tooltip" })
+                
                 @*@Html.ActionLink(" ", "GetHistory", "LogHistory", null, new { @class = "glyphicon glyphicon-user toolbar", @title = "History", @data_toggle = "tooltip", @id = "DocHistoryI" })*@
                 @if (ViewBag.SqlProcDocumentPrint != null)
                 {
@@ -46,7 +47,7 @@
                 @Html.ActionLink(" ", "Remove", "JobOrderAmendmentHeader", null, new { @class = "cbtn btn-circle glyphicon glyphicon-trash toolbar", @title = "Delete", @data_toggle = "tooltip", @id = "DeleteRecord", @data_modalDelete = "" })
             </div>
             <div class="btn-group">
-                <a class="cbtn btn-circle glyphicon glyphicon-option-horizontal dropdown-toggle" aria-expanded="false" style="padding-top: 6px;padding-bottom: 6px;" href="#" data-toggle="dropdown" id="dropdownMenu1">
+                <a class="cbtn btn-circle glyphicon glyphicon-option-horizontal dropdown-toggle" aria-expanded="false" style="padding-top: 6px;padding-bottom: 6px;" title="More Option" href="#" data-toggle="dropdown" id="dropdownMenu1">
                 </a>
                 <ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu1">
                     @if (ViewBag.ExportMenuId != null)
@@ -62,7 +63,8 @@
                     <li><a href="@Url.Action("CreateJobOrderAmendment", "JobOrderSettings", new { @id = @ViewBag.id })"><span class="glyphicon glyphicon-cog"> </span> Settings</a></li>
                     }
                     <li role="separator" class="divider"></li>
-                    <li><a href="@Url.Action("Report", "JobOrderAmendmentHeader", new { @ViewBag.id })"><span class="glyphicon glyphicon-stats"> </span> Report</a></li>
+                    <li><a id="DocHistoryI" href="@Url.Action("GetHistory", "LogHistory", new {  })"><span class="glyphicon glyphicon-user"> </span> History</a></li>
+                    <li><a target="_blank" href="@Url.Action("Report", "JobOrderAmendmentHeader", new { @ViewBag.id })"><span class="glyphicon glyphicon-stats"> </span> Report</a></li>
                 </ul>
             </div>
             <div class="btn-group right">
