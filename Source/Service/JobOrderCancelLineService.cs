@@ -35,7 +35,7 @@ namespace Service
         int PrevId(int id);
         IEnumerable<ComboBoxList> GetPendingJobOrders(string DocTypes, string term, int JobOrderCancelHeaderId);
         IEnumerable<ComboBoxList> GetPendingProductsForJobOrderCancel(string DocTypes, string term, int JobOrderCancelHeaderId);
-        IEnumerable<ProcGetBomForWeavingViewModel> GetBomPostingDataForCancel(int ProductId, int? Dimension1Id, int? Dimension2Id, int ProcessId, decimal Qty, int DocTypeId);
+        IEnumerable<ProcGetBomForWeavingViewModel> GetBomPostingDataForCancel(int ProductId, int? Dimension1Id, int? Dimension2Id, int? Dimension3Id, int? Dimension4Id, int ProcessId, decimal Qty, int DocTypeId);
         List<ComboBoxList> GetPendingBarCodesList(int id);
         bool CheckForDuplicateJobOrder(int LineId, int CancelHeaderId);
         int GetMaxSr(int id);
@@ -101,10 +101,14 @@ namespace Service
                     join t in db.JobOrderLine on p.JobOrderLineId equals t.JobOrderLineId into table
                     from tab in table.DefaultIfEmpty()
                     join t5 in db.JobOrderHeader on tab.JobOrderHeaderId equals t5.JobOrderHeaderId
-                    join t1 in db.Dimension1 on tab.Dimension1Id equals t1.Dimension1Id into table1
-                    from tab1 in table1.DefaultIfEmpty()
-                    join t2 in db.Dimension2 on tab.Dimension2Id equals t2.Dimension2Id into table2
-                    from tab2 in table2.DefaultIfEmpty()
+                    join D1 in db.Dimension1 on tab.Dimension1Id equals D1.Dimension1Id into Dimension1Table
+                    from Dimension1Tab in Dimension1Table.DefaultIfEmpty()
+                    join D2 in db.Dimension2 on tab.Dimension2Id equals D2.Dimension2Id into Dimension2Table
+                    from Dimension2Tab in Dimension2Table.DefaultIfEmpty()
+                    join D3 in db.Dimension3 on tab.Dimension3Id equals D3.Dimension3Id into Dimension3Table
+                    from Dimension3Tab in Dimension3Table.DefaultIfEmpty()
+                    join D4 in db.Dimension4 on tab.Dimension4Id equals D4.Dimension4Id into Dimension4Table
+                    from Dimension4Tab in Dimension4Table.DefaultIfEmpty()
                     join t3 in db.Product on tab.ProductId equals t3.ProductId into table3
                     from tab3 in table3.DefaultIfEmpty()
                     join t4 in db.JobOrderCancelHeader on p.JobOrderCancelHeaderId equals t4.JobOrderCancelHeaderId
@@ -114,8 +118,10 @@ namespace Service
                     orderby p.Sr
                     select new JobOrderCancelLineViewModel
                     {
-                        Dimension1Name = tab1.Dimension1Name,
-                        Dimension2Name = tab2.Dimension2Name,
+                        Dimension1Name = Dimension1Tab.Dimension1Name,
+                        Dimension2Name = Dimension2Tab.Dimension2Name,
+                        Dimension3Name = Dimension3Tab.Dimension3Name,
+                        Dimension4Name = Dimension4Tab.Dimension4Name,
                         DueDate = tab.DueDate,
                         LotNo = tab.LotNo,
                         ProductId = tab.ProductId,
@@ -169,6 +175,14 @@ namespace Service
             if (!string.IsNullOrEmpty(svm.Dimension2Id)) { Dime2IdArr = svm.Dimension2Id.Split(",".ToCharArray()); }
             else { Dime2IdArr = new string[] { "NA" }; }
 
+            string[] Dime3IdArr = null;
+            if (!string.IsNullOrEmpty(svm.Dimension3Id)) { Dime3IdArr = svm.Dimension3Id.Split(",".ToCharArray()); }
+            else { Dime3IdArr = new string[] { "NA" }; }
+
+            string[] Dime4IdArr = null;
+            if (!string.IsNullOrEmpty(svm.Dimension4Id)) { Dime4IdArr = svm.Dimension4Id.Split(",".ToCharArray()); }
+            else { Dime4IdArr = new string[] { "NA" }; }
+
             string[] ContraSites = null;
             if (!string.IsNullOrEmpty(Settings.filterContraSites)) { ContraSites = Settings.filterContraSites.Split(",".ToCharArray()); }
             else { ContraSites = new string[] { "NA" }; }
@@ -184,12 +198,14 @@ namespace Service
                         join product in db.Product on p.ProductId equals product.ProductId into table2
                         from tab2 in table2.DefaultIfEmpty()
                         where (string.IsNullOrEmpty(svm.ProductId) ? 1 == 1 : ProductIdArr.Contains(p.ProductId.ToString()))
-                            && (svm.JobWorkerId == 0 ? 1 == 1 : p.JobWorkerId == svm.JobWorkerId)
+                        && (svm.JobWorkerId == 0 ? 1 == 1 : p.JobWorkerId == svm.JobWorkerId)
                         && (string.IsNullOrEmpty(svm.JobOrderId) ? 1 == 1 : SaleOrderIdArr.Contains(p.JobOrderHeaderId.ToString()))
                         && (string.IsNullOrEmpty(svm.ProductGroupId) ? 1 == 1 : ProductGroupIdArr.Contains(tab2.ProductGroupId.ToString()))
-                         && (string.IsNullOrEmpty(svm.Dimension1Id) ? 1 == 1 : Dime1IdArr.Contains(p.Dimension1Id.ToString()))
-                         && (string.IsNullOrEmpty(svm.Dimension2Id) ? 1 == 1 : Dime2IdArr.Contains(p.Dimension2Id.ToString()))
-                           && (string.IsNullOrEmpty(Settings.filterContraSites) ? p.SiteId == Header.SiteId : ContraSites.Contains(p.SiteId.ToString()))
+                        && (string.IsNullOrEmpty(svm.Dimension1Id) ? 1 == 1 : Dime1IdArr.Contains(p.Dimension1Id.ToString()))
+                        && (string.IsNullOrEmpty(svm.Dimension2Id) ? 1 == 1 : Dime2IdArr.Contains(p.Dimension2Id.ToString()))
+                        && (string.IsNullOrEmpty(svm.Dimension3Id) ? 3 == 3 : Dime3IdArr.Contains(p.Dimension3Id.ToString()))
+                        && (string.IsNullOrEmpty(svm.Dimension4Id) ? 3 == 3 : Dime4IdArr.Contains(p.Dimension4Id.ToString()))
+                        && (string.IsNullOrEmpty(Settings.filterContraSites) ? p.SiteId == Header.SiteId : ContraSites.Contains(p.SiteId.ToString()))
                         && (string.IsNullOrEmpty(Settings.filterContraDivisions) ? p.DivisionId == Header.DivisionId : ContraDivisions.Contains(p.DivisionId.ToString()))
                         && p.BalanceQty > 0 && p.JobWorkerId == svm.JobWorkerId
                         orderby p.OrderDate, p.JobOrderNo, tab.Sr
@@ -204,16 +220,19 @@ namespace Service
                             JobOrderLineId = p.JobOrderLineId,
                             Dimension1Id = p.Dimension1Id,
                             Dimension2Id = p.Dimension2Id,
+                            Dimension3Id = p.Dimension3Id,
+                            Dimension4Id = p.Dimension4Id,
                             Dimension1Name = p.Dimension1.Dimension1Name,
                             Dimension2Name = p.Dimension2.Dimension2Name,
+                            Dimension3Name = p.Dimension3.Dimension3Name,
+                            Dimension4Name = p.Dimension4.Dimension4Name,
                             Specification = tab.Specification,
                             UnitId = tab2.UnitId,
                             UnitName = tab2.Unit.UnitName,
                             unitDecimalPlaces = tab2.Unit.DecimalPlaces,
                             DealunitDecimalPlaces = tab.DealUnit.DecimalPlaces,
                             ProductUidName = (tab.ProductUidHeaderId == null ? tab.ProductUid.ProductUidName : "")
-                        }
-                        );
+                        });
 
             return temp;
         }
@@ -224,10 +243,14 @@ namespace Service
                         from tab in table.DefaultIfEmpty()
                         join t5 in db.JobOrderHeader on tab.JobOrderHeaderId equals t5.JobOrderHeaderId into table5
                         from tab5 in table5.DefaultIfEmpty()
-                        join t1 in db.Dimension1 on tab.Dimension1Id equals t1.Dimension1Id into table1
-                        from tab1 in table1.DefaultIfEmpty()
-                        join t2 in db.Dimension2 on tab.Dimension2Id equals t2.Dimension2Id into table2
-                        from tab2 in table2.DefaultIfEmpty()
+                        join D1 in db.Dimension1 on tab.Dimension1Id equals D1.Dimension1Id into Dimension1Table
+                        from Dimension1Tab in Dimension1Table.DefaultIfEmpty()
+                        join D2 in db.Dimension2 on tab.Dimension2Id equals D2.Dimension2Id into Dimension2Table
+                        from Dimension2Tab in Dimension2Table.DefaultIfEmpty()
+                        join D3 in db.Dimension3 on tab.Dimension3Id equals D3.Dimension3Id into Dimension3Table
+                        from Dimension3Tab in Dimension3Table.DefaultIfEmpty()
+                        join D4 in db.Dimension4 on tab.Dimension4Id equals D4.Dimension4Id into Dimension4Table
+                        from Dimension4Tab in Dimension4Table.DefaultIfEmpty()
                         join t3 in db.Product on tab.ProductId equals t3.ProductId into table3
                         from tab3 in table3.DefaultIfEmpty()
                         join t4 in db.JobOrderCancelHeader on p.JobOrderCancelHeaderId equals t4.JobOrderCancelHeaderId into table4
@@ -240,8 +263,10 @@ namespace Service
                         where p.JobOrderCancelLineId == id
                         select new JobOrderCancelLineViewModel
                         {
-                            Dimension1Name = tab1.Dimension1Name,
-                            Dimension2Name = tab2.Dimension2Name,
+                            Dimension1Name = Dimension1Tab.Dimension1Name,
+                            Dimension2Name = Dimension2Tab.Dimension2Name,
+                            Dimension3Name = Dimension3Tab.Dimension3Name,
+                            Dimension4Name = Dimension4Tab.Dimension4Name,
                             DueDate = tab.DueDate,
                             LotNo = tab.LotNo,
                             ProductId = tab.ProductId,
@@ -366,7 +391,7 @@ namespace Service
         }
 
 
-        public IEnumerable<ProcGetBomForWeavingViewModel> GetBomPostingDataForCancel(int ProductId, int? Dimension1Id, int? Dimension2Id, int ProcessId, decimal Qty, int DocTypeId)
+        public IEnumerable<ProcGetBomForWeavingViewModel> GetBomPostingDataForCancel(int ProductId, int? Dimension1Id, int? Dimension2Id, int? Dimension3Id, int? Dimension4Id, int ProcessId, decimal Qty, int DocTypeId)
         {
             SqlParameter SQLDocTypeID = new SqlParameter("@DocTypeId", DocTypeId);
             SqlParameter SQLProductID = new SqlParameter("@ProductId", ProductId);
@@ -542,6 +567,8 @@ namespace Service
                                        Specification = t.Specification,
                                        Dimension1Name = t.Dimension1.Dimension1Name,
                                        Dimension2Name = t.Dimension2.Dimension2Name,
+                                       Dimension3Name = t.Dimension3.Dimension3Name,
+                                       Dimension4Name = t.Dimension4.Dimension4Name,
                                        ProdOrderBalanceQty = 1,
                                        LotNo = p.LotNo,
                                        UnitName = p.Product.Unit.UnitName,
@@ -566,6 +593,8 @@ namespace Service
                                        Specification = t.Specification,
                                        Dimension1Name = t.Dimension1.Dimension1Name,
                                        Dimension2Name = t.Dimension2.Dimension2Name,
+                                       Dimension3Name = t.Dimension3.Dimension3Name,
+                                       Dimension4Name = t.Dimension4.Dimension4Name,
                                        ProdOrderBalanceQty = 1,
                                        LotNo = p.LotNo,
                                        UnitName = p.Product.Unit.UnitName,

@@ -135,6 +135,8 @@ namespace Model.ViewModel
         public string ProductUidName { get; set; }
         public string Dimension1Name { get; set; }
         public string Dimension2Name { get; set; }
+        public string Dimension3Name { get; set; }
+        public string Dimension4Name { get; set; }
         public string Specification { get; set; }
         public string LotNo { get; set; }
 

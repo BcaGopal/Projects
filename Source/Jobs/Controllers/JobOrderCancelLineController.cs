@@ -397,7 +397,7 @@ namespace Web
                         //Saving BOMPOST Data
                         //Saving BOMPOST Data
                         //Saving BOMPOST Data
-                        var BomPostList = _JobOrderCancelLineService.GetBomPostingDataForCancel(JobOrderLine.ProductId, JobOrderLine.Dimension1Id, JobOrderLine.Dimension2Id, Header.ProcessId, line.Qty, Header.DocTypeId).ToList();
+                        var BomPostList = _JobOrderCancelLineService.GetBomPostingDataForCancel(JobOrderLine.ProductId, JobOrderLine.Dimension1Id, JobOrderLine.Dimension2Id, JobOrderLine.Dimension3Id, JobOrderLine.Dimension4Id, Header.ProcessId, line.Qty, Header.DocTypeId).ToList();
 
                         foreach (var Litem in BomPostList)
                         {
@@ -880,7 +880,7 @@ namespace Web
                             //Saving BOMPOST Data
                             //Saving BOMPOST Data
                             //Saving BOMPOST Data
-                            var BomPostList = _JobOrderCancelLineService.GetBomPostingDataForCancel(JobOrderLine.ProductId, JobOrderLine.Dimension1Id, JobOrderLine.Dimension2Id, Header.ProcessId, line.Qty, Header.DocTypeId).ToList();
+                            var BomPostList = _JobOrderCancelLineService.GetBomPostingDataForCancel(JobOrderLine.ProductId, JobOrderLine.Dimension1Id, JobOrderLine.Dimension2Id, JobOrderLine.Dimension3Id, JobOrderLine.Dimension4Id, Header.ProcessId, line.Qty, Header.DocTypeId).ToList();
 
                             foreach (var Litem in BomPostList)
                             {
@@ -1365,7 +1365,7 @@ namespace Web
                         //Saving BOMPOST Data
                         //Saving BOMPOST Data
 
-                        var BomPostList = _JobOrderCancelLineService.GetBomPostingDataForCancel(JobOrderLine.ProductId, JobOrderLine.Dimension1Id, JobOrderLine.Dimension2Id, temp.ProcessId, s.Qty, temp.DocTypeId).ToList();
+                        var BomPostList = _JobOrderCancelLineService.GetBomPostingDataForCancel(JobOrderLine.ProductId, JobOrderLine.Dimension1Id, JobOrderLine.Dimension2Id, JobOrderLine.Dimension3Id, JobOrderLine.Dimension4Id, temp.ProcessId, s.Qty, temp.DocTypeId).ToList();
 
                         foreach (var item in BomPostList)
                         {
@@ -1626,7 +1626,7 @@ namespace Web
                     //Saving BOMPOST Data
                     //Saving BOMPOST Data
 
-                    var BomPostList = _JobOrderCancelLineService.GetBomPostingDataForCancel(JobOrderLine.ProductId, JobOrderLine.Dimension1Id, JobOrderLine.Dimension2Id, temp.ProcessId, s.Qty, temp.DocTypeId).ToList();
+                    var BomPostList = _JobOrderCancelLineService.GetBomPostingDataForCancel(JobOrderLine.ProductId, JobOrderLine.Dimension1Id, JobOrderLine.Dimension2Id, JobOrderLine.Dimension3Id, JobOrderLine.Dimension4Id, temp.ProcessId, s.Qty, temp.DocTypeId).ToList();
 
                     foreach (var item in BomPostList)
                     {

@@ -234,6 +234,8 @@ namespace Model.ViewModel
         public string RequestDocNo { get; set; }
         public string Dimension1Name { get; set; }
         public string Dimension2Name { get; set; }
+        public string Dimension3Name { get; set; }
+        public string Dimension4Name { get; set; }
         public string DocumentTypeName { get; set; }
         public string ProductName { get; set; }
         public decimal BalanceQty { get; set; }
