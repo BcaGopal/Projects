@@ -256,8 +256,8 @@ namespace Service
             //serverReport.ReportServerUrl =
             //    new Uri(ConfigurationManager.AppSettings["RSDomain"]);
 
-            serverReport.ReportServerUrl =
-                new Uri(ConfigurationManager.AppSettings["RSServer"]);
+            
+            serverReport.ReportServerUrl = new Uri(ConfigurationManager.AppSettings["RSServer"]);
 
             serverReport.ReportPath =
                ConfigurationManager.AppSettings["RSPath"] + ReportName;

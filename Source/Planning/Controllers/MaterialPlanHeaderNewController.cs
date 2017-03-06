@@ -742,13 +742,17 @@ namespace Presentation
 
         public ActionResult GeneratePrints(string Ids, int DocTypeId)
         {
-
             if (!string.IsNullOrEmpty(Ids))
             {
                 int SiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
                 int DivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
 
                 var Settings = new MaterialPlanLineService(_unitOfWork).GetMaterialPlanSettingsForDocument(DocTypeId, DivisionId, SiteId);
+
+                string ReportSql = "";
+
+                if (Settings.DocumentPrintReportHeaderId.HasValue)
+                    ReportSql = db.ReportHeader.Where((m) => m.ReportHeaderId == Settings.DocumentPrintReportHeaderId).FirstOrDefault().ReportSQL;
 
                 try
                 {
@@ -758,7 +762,6 @@ namespace Presentation
                     {
 
                         DirectReportPrint drp = new DirectReportPrint();
-
                         var pd = db.MaterialPlanHeader.Find(item);
 
                         LogActivity.LogActivityDetail(LogVm.Map(new ActiivtyLogViewModel
@@ -773,25 +776,34 @@ namespace Presentation
 
                         byte[] Pdf;
 
-                        if (pd.Status == (int)StatusConstants.Drafted || pd.Status == (int)StatusConstants.Import || pd.Status == (int)StatusConstants.Modified)
+                        if (!string.IsNullOrEmpty(ReportSql))
                         {
-                            //LogAct(item.ToString());
-                            Pdf = drp.DirectDocumentPrint(Settings.SqlProcDocumentPrint, User.Identity.Name, item);
-
-                            PdfStream.Add(Pdf);
-                        }
-                        else if (pd.Status == (int)StatusConstants.Submitted || pd.Status == (int)StatusConstants.ModificationSubmitted)
-                        {
-                            Pdf = drp.DirectDocumentPrint(Settings.SqlProcDocumentPrint, User.Identity.Name, item);
-
+                            Pdf = drp.rsDirectDocumentPrint(ReportSql, User.Identity.Name, item);
                             PdfStream.Add(Pdf);
                         }
                         else
                         {
-                            Pdf = drp.DirectDocumentPrint(Settings.SqlProcDocumentPrint, User.Identity.Name, item);
-                            PdfStream.Add(Pdf);
-                        }
 
+                            if (pd.Status == (int)StatusConstants.Drafted || pd.Status == (int)StatusConstants.Modified || pd.Status == (int)StatusConstants.Import)
+                            {
+                                //LogAct(item.ToString());
+                                Pdf = drp.DirectDocumentPrint(Settings.SqlProcDocumentPrint, User.Identity.Name, item);
+
+                                PdfStream.Add(Pdf);
+                            }
+                            else if (pd.Status == (int)StatusConstants.Submitted || pd.Status == (int)StatusConstants.ModificationSubmitted)
+                            {
+                                Pdf = drp.DirectDocumentPrint(Settings.SqlProcDocumentPrint, User.Identity.Name, item);
+
+                                PdfStream.Add(Pdf);
+                            }
+                            else if (pd.Status == (int)StatusConstants.Approved)
+                            {
+                                Pdf = drp.DirectDocumentPrint(Settings.SqlProcDocumentPrint, User.Identity.Name, item);
+                                PdfStream.Add(Pdf);
+                            }
+
+                        }
                     }
 
                     PdfMerger pm = new PdfMerger();
@@ -800,7 +812,9 @@ namespace Presentation
 
                     if (Merge != null)
                         return File(Merge, "application/pdf");
+
                 }
+
                 catch (Exception ex)
                 {
                     string message = _exception.HandleException(ex);

@@ -48,7 +48,7 @@ namespace Model.Models
         [ForeignKey("Supplier")]
         [Display(Name = "Supplier Name"),Required]
         public int SupplierId { get; set; }        
-        public virtual Supplier Supplier { get; set; }
+        public virtual Person Supplier { get; set; }
 
         [Display(Name = "Godown"),Required]
         [ForeignKey("Godown")]
