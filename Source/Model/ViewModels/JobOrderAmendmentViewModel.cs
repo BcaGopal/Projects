@@ -72,6 +72,8 @@ namespace Model.ViewModel
         public string ProductGroupId { get; set; }
         public string Dimension1Id { get; set; }
         public string Dimension2Id { get; set; }
+        public string Dimension3Id { get; set; }
+        public string Dimension4Id { get; set; }
         public DateTime ? UpToDate { get; set; }
         public decimal Rate { get; set; }
         public DocumentTypeSettingsViewModel DocumentTypeSettings { get; set; }
@@ -101,6 +103,8 @@ namespace Model.ViewModel
         public string Remark { get; set; }
         public string Dimension1Name { get; set; }
         public string Dimension2Name { get; set; }
+        public string Dimension3Name { get; set; }
+        public string Dimension4Name { get; set; }
         public int ProductId { get; set; }
         public string ProductName { get; set; }
         public string Specification { get; set; }

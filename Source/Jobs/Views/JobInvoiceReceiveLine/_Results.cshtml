@@ -83,6 +83,8 @@
                                         @Html.HiddenFor(m => Model.JobInvoiceLineViewModel[i].Specification)
                                         @Html.HiddenFor(m => Model.JobInvoiceLineViewModel[i].Dimension1Name)
                                         @Html.HiddenFor(m => Model.JobInvoiceLineViewModel[i].Dimension2Name)
+                                        @Html.HiddenFor(m => Model.JobInvoiceLineViewModel[i].Dimension3Name)
+                                        @Html.HiddenFor(m => Model.JobInvoiceLineViewModel[i].Dimension4Name)
                                         @Html.HiddenFor(m => Model.JobInvoiceLineViewModel[i].JobReceiveLineId)
                                         @Html.HiddenFor(m => Model.JobInvoiceLineViewModel[i].JobInvoiceHeaderId)
                                         @Html.HiddenFor(m => Model.JobInvoiceLineViewModel[i].JobReceiveDocNo)
@@ -104,7 +106,9 @@
                                                         <br />
                                                         @{
                                         var Dim1 = string.IsNullOrEmpty(Model.JobInvoiceLineViewModel[i].Dimension1Name) ? "" : Model.JobInvoiceLineViewModel[i].Dimension1Name + ",";
-                                        var Dim2 = string.IsNullOrEmpty(Model.JobInvoiceLineViewModel[i].Dimension2Name) ? "" : Model.JobInvoiceLineViewModel[i].Dimension2Name;
+                                        var Dim2 = string.IsNullOrEmpty(Model.JobInvoiceLineViewModel[i].Dimension2Name) ? "" : Model.JobInvoiceLineViewModel[i].Dimension2Name + ",";
+                                        var Dim3 = string.IsNullOrEmpty(Model.JobInvoiceLineViewModel[i].Dimension3Name) ? "" : Model.JobInvoiceLineViewModel[i].Dimension3Name + ",";
+                                        var Dim4 = string.IsNullOrEmpty(Model.JobInvoiceLineViewModel[i].Dimension4Name) ? "" : Model.JobInvoiceLineViewModel[i].Dimension4Name;
                                                         }
 
                                                         @Dim1 @Dim2

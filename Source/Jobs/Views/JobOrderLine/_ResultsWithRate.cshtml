@@ -36,8 +36,16 @@
                                                         Product
 
                                                     </div>
-                                                    <div class="col-sm-2">
-                                                        Order No.
+                                                    <div class="col-sm-2 text-right">
+                                                        @if (Model.DocumentTypeSettings.ContraDocTypeCaption != null)
+                                                        {
+                                                        @Model.DocumentTypeSettings.ContraDocTypeCaption
+                                                        }
+                                                        else
+                                                        {
+                                                        @Html.Raw("Plan")
+                                                        }
+                                                        No.
                                                     </div>
                                                     @*Qty*@
 
@@ -78,6 +86,10 @@
                                                 @Html.HiddenFor(m => Model.JobOrderLineViewModel[i].Dimension1Id)
                                                 @Html.HiddenFor(m => Model.JobOrderLineViewModel[i].Dimension2Name)
                                                 @Html.HiddenFor(m => Model.JobOrderLineViewModel[i].Dimension2Id)
+                                                @Html.HiddenFor(m => Model.JobOrderLineViewModel[i].Dimension3Name)
+                                                @Html.HiddenFor(m => Model.JobOrderLineViewModel[i].Dimension3Id)
+                                                @Html.HiddenFor(m => Model.JobOrderLineViewModel[i].Dimension4Name)
+                                                @Html.HiddenFor(m => Model.JobOrderLineViewModel[i].Dimension4Id)
                                                 @Html.HiddenFor(m => Model.JobOrderLineViewModel[i].ProdOrderLineId)
                                                 @Html.HiddenFor(m => Model.JobOrderLineViewModel[i].JobOrderHeaderId)
                                                 @Html.HiddenFor(m => Model.JobOrderLineViewModel[i].ProdOrderDocNo)
@@ -109,14 +121,16 @@
                                                             @Model.JobOrderLineViewModel[i].Specification
                                                             @{
                                                 var Dim1 = (string.IsNullOrEmpty(Model.JobOrderLineViewModel[i].Dimension1Name)) ? "" : Model.JobOrderLineViewModel[i].Dimension1Name + ",";
-                                                var Dim2 = (string.IsNullOrEmpty(Model.JobOrderLineViewModel[i].Dimension2Name)) ? "" : Model.JobOrderLineViewModel[i].Dimension2Name;
+                                                var Dim2 = (string.IsNullOrEmpty(Model.JobOrderLineViewModel[i].Dimension2Name)) ? "" : Model.JobOrderLineViewModel[i].Dimension2Name + ",";
+                                                var Dim3 = (string.IsNullOrEmpty(Model.JobOrderLineViewModel[i].Dimension3Name)) ? "" : Model.JobOrderLineViewModel[i].Dimension3Name + ",";
+                                                var Dim4 = (string.IsNullOrEmpty(Model.JobOrderLineViewModel[i].Dimension4Name)) ? "" : Model.JobOrderLineViewModel[i].Dimension4Name;
                                                             }
 
-                                                            @Dim1 @Dim2
+                                                            @Dim1 @Dim2 @Dim3 @Dim4
                                                             <div>
                                                             </div>
                                                         </div>
-                                                        <div class="col-sm-2 text-center">
+                                                        <div class="col-sm-2  text-right">
                                                             @Model.JobOrderLineViewModel[i].ProdOrderDocNo
                                                             <br />
                                                             <a href="#" class="ToOrder" style="color:black">

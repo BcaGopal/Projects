@@ -70,8 +70,12 @@
                                             @Html.HiddenFor(m => Model.JobReturnLineViewModel[i].Specification)
                                             @Html.HiddenFor(m => Model.JobReturnLineViewModel[i].Dimension1Name)
                                             @Html.HiddenFor(m => Model.JobReturnLineViewModel[i].Dimension2Name)
+                                            @Html.HiddenFor(m => Model.JobReturnLineViewModel[i].Dimension3Name)
+                                            @Html.HiddenFor(m => Model.JobReturnLineViewModel[i].Dimension4Name)
                                             @Html.HiddenFor(m => Model.JobReturnLineViewModel[i].Dimension1Id)
                                             @Html.HiddenFor(m => Model.JobReturnLineViewModel[i].Dimension2Id)
+                                            @Html.HiddenFor(m => Model.JobReturnLineViewModel[i].Dimension3Id)
+                                            @Html.HiddenFor(m => Model.JobReturnLineViewModel[i].Dimension4Id)
                                             @Html.HiddenFor(m => Model.JobReturnLineViewModel[i].JobReceiveLineId)
                                             @Html.HiddenFor(m => Model.JobReturnLineViewModel[i].JobReturnHeaderId)
                                             @Html.HiddenFor(m => Model.JobReturnLineViewModel[i].JobReceiveHeaderDocNo)
@@ -104,7 +108,9 @@
                                                         @Model.JobReturnLineViewModel[i].Specification
                                                         @{
                                             var Dim1 = (string.IsNullOrEmpty(Model.JobReturnLineViewModel[i].Dimension1Name)) ? "" : Model.JobReturnLineViewModel[i].Dimension1Name + ",";
-                                            var Dim2 = (string.IsNullOrEmpty(Model.JobReturnLineViewModel[i].Dimension2Name)) ? "" : Model.JobReturnLineViewModel[i].Dimension2Name;
+                                            var Dim2 = (string.IsNullOrEmpty(Model.JobReturnLineViewModel[i].Dimension2Name)) ? "" : Model.JobReturnLineViewModel[i].Dimension2Name + ",";
+                                            var Dim3 = (string.IsNullOrEmpty(Model.JobReturnLineViewModel[i].Dimension3Name)) ? "" : Model.JobReturnLineViewModel[i].Dimension3Name + ",";
+                                            var Dim4 = (string.IsNullOrEmpty(Model.JobReturnLineViewModel[i].Dimension4Name)) ? "" : Model.JobReturnLineViewModel[i].Dimension4Name;
 
 
                                                         }

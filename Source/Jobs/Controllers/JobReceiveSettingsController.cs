@@ -176,13 +176,21 @@ namespace Web
                     temp.ConsumptionProductCaption = pt.ConsumptionProductCaption;
                     temp.ConsumptionDimension1Caption = pt.ConsumptionDimension1Caption;
                     temp.ConsumptionDimension2Caption = pt.ConsumptionDimension2Caption;
+                    temp.ConsumptionDimension3Caption = pt.ConsumptionDimension3Caption;
+                    temp.ConsumptionDimension4Caption = pt.ConsumptionDimension4Caption;
                     temp.ByProductCaption = pt.ByProductCaption;
                     temp.ByProductDimension1Caption = pt.ByProductDimension1Caption;
                     temp.ByProductDimension2Caption = pt.ByProductDimension2Caption;
+                    temp.ByProductDimension3Caption = pt.ByProductDimension3Caption;
+                    temp.ByProductDimension4Caption = pt.ByProductDimension4Caption;
                     temp.isVisibleConsumptionDimension1 = pt.isVisibleConsumptionDimension1;
                     temp.isVisibleConsumptionDimension2 = pt.isVisibleConsumptionDimension2;
+                    temp.isVisibleConsumptionDimension3 = pt.isVisibleConsumptionDimension3;
+                    temp.isVisibleConsumptionDimension4 = pt.isVisibleConsumptionDimension4;
                     temp.isVisibleByProductDimension1 = pt.isVisibleByProductDimension1;
                     temp.isVisibleByProductDimension2 = pt.isVisibleByProductDimension2;
+                    temp.isVisibleByProductDimension3 = pt.isVisibleByProductDimension3;
+                    temp.isVisibleByProductDimension4 = pt.isVisibleByProductDimension4;
 
 
 
@@ -356,13 +364,21 @@ namespace Web
                     temp.ConsumptionProductCaption = pt.ConsumptionProductCaption;
                     temp.ConsumptionDimension1Caption = pt.ConsumptionDimension1Caption;
                     temp.ConsumptionDimension2Caption = pt.ConsumptionDimension2Caption;
+                    temp.ConsumptionDimension3Caption = pt.ConsumptionDimension3Caption;
+                    temp.ConsumptionDimension4Caption = pt.ConsumptionDimension4Caption;
                     temp.ByProductCaption = pt.ByProductCaption;
                     temp.ByProductDimension1Caption = pt.ByProductDimension1Caption;
                     temp.ByProductDimension2Caption = pt.ByProductDimension2Caption;
+                    temp.ByProductDimension3Caption = pt.ByProductDimension3Caption;
+                    temp.ByProductDimension4Caption = pt.ByProductDimension4Caption;
                     temp.isVisibleConsumptionDimension1 = pt.isVisibleConsumptionDimension1;
                     temp.isVisibleConsumptionDimension2 = pt.isVisibleConsumptionDimension2;
+                    temp.isVisibleConsumptionDimension3 = pt.isVisibleConsumptionDimension3;
+                    temp.isVisibleConsumptionDimension4 = pt.isVisibleConsumptionDimension4;
                     temp.isVisibleByProductDimension1 = pt.isVisibleByProductDimension1;
                     temp.isVisibleByProductDimension2 = pt.isVisibleByProductDimension2;
+                    temp.isVisibleByProductDimension3 = pt.isVisibleByProductDimension3;
+                    temp.isVisibleByProductDimension4 = pt.isVisibleByProductDimension4;
 
                     temp.LossPer = pt.LossPer;
                     temp.SqlProcGatePass = pt.SqlProcGatePass;

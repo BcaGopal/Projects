@@ -77,25 +77,24 @@ namespace Service
         {
             return (from p in db.ProdOrderLine
                     where p.ProdOrderHeaderId == id
-                    join t in db.Dimension1 on p.Dimension1Id equals t.Dimension1Id into table
-                    from tab in table.DefaultIfEmpty()
-                    join t2 in db.Dimension2 on p.Dimension2Id equals t2.Dimension2Id into table2
-                    from tab2 in table2.DefaultIfEmpty()
                     join t3 in db.Product on p.ProductId equals t3.ProductId into table3
                     from tab3 in table3.DefaultIfEmpty()
                     orderby p.Sr
                     select new ProdOrderLineViewModel
                     {
-                        Dimension1Name = tab.Dimension1Name,
-                        Dimension2Name = tab2.Dimension2Name,
+                        Dimension1Name = p.Dimension1.Dimension1Name,
+                        Dimension2Name = p.Dimension2.Dimension2Name,
+                        Dimension3Name = p.Dimension3.Dimension3Name,
+                        Dimension4Name = p.Dimension4.Dimension4Name,
                         MaterialPlanLineId = p.MaterialPlanLineId,
                         ProdOrderHeaderId = p.ProdOrderHeaderId,
                         ProdOrderLineId = p.ProdOrderLineId,
                         ProductName = tab3.ProductName,
                         Qty = p.Qty,
                         Remark = p.Remark,
-                    }
-                        );
+                        unitDecimalPlaces = p.Product.Unit.DecimalPlaces,
+                        UnitId = p.Product.UnitId,
+                    });
         }
         public ProdOrderLineViewModel GetProdOrderLine(int id)
         {
@@ -105,10 +104,13 @@ namespace Service
                     {
                         Dimension1Id = p.Dimension1Id,
                         Dimension2Id = p.Dimension2Id,
+                        Dimension3Id = p.Dimension3Id,
+                        Dimension4Id = p.Dimension4Id,
                         MaterialPlanLineId = p.MaterialPlanLineId,
                         ProdOrderHeaderId = p.ProdOrderHeaderId,
                         ProdOrderLineId = p.ProdOrderLineId,
                         ProductId = p.ProductId,
+                        DueDate = p.DueDate,
                         Qty = p.Qty,
                         Remark = p.Remark,
                         LockReason=p.LockReason,
@@ -219,6 +221,11 @@ namespace Service
                         Dimension1Name = p.Dimension1.Dimension1Name,
                         Dimension2Id = p.Dimension2Id,
                         Dimension2Name = p.Dimension2.Dimension2Name,
+                        Dimension3Id = p.Dimension3Id,
+                        Dimension3Name = p.Dimension3.Dimension3Name,
+                        Dimension4Id = p.Dimension4Id,
+                        Dimension4Name = p.Dimension4.Dimension4Name,
+
                         unitDecimalPlaces = p.Product.Unit.DecimalPlaces,
 
                         //LotNo = p.LotNo,
@@ -308,9 +315,13 @@ namespace Service
                         {
                             Dimension1Name = tab1.Dimension1.Dimension1Name,
                             Dimension2Name = tab1.Dimension2.Dimension2Name,
+                            Dimension3Name = tab1.Dimension3.Dimension3Name,
+                            Dimension4Name = tab1.Dimension4.Dimension4Name,
                             Specification = tab1.Specification,
                             Dimension1Id = tab1.Dimension1Id,
                             Dimension2Id = tab1.Dimension2Id,
+                            Dimension3Id = tab1.Dimension3Id,
+                            Dimension4Id = tab1.Dimension4Id,
                             PlanBalanceQty = p.BalanceQty,
                             Qty = p.BalanceQty,
                             MaterialPlanHeaderDocNo = tab.DocNo,
@@ -437,18 +448,24 @@ namespace Service
         public ProdOrderLineBalance GetLineDetail(int id)
         {
             return (from p in db.ViewProdOrderBalance
-                    join t2 in db.Product on p.ProductId equals t2.ProductId
-                    join t3 in db.Dimension1 on p.Dimension1Id equals t3.Dimension1Id into table3
-                    from tab3 in table3.DefaultIfEmpty()
-                    join t4 in db.Dimension2 on p.Dimension2Id equals t4.Dimension2Id into table4
-                    from tab4 in table4.DefaultIfEmpty()
+                    join P in db.Product on p.ProductId equals P.ProductId
+                    join D1 in db.Dimension1 on p.Dimension1Id equals D1.Dimension1Id into Dimension1Table
+                    from Dimension1Tab in Dimension1Table.DefaultIfEmpty()
+                    join D2 in db.Dimension2 on p.Dimension2Id equals D2.Dimension2Id into Dimension2Table
+                    from Dimension2Tab in Dimension2Table.DefaultIfEmpty()
+                    join D3 in db.Dimension3 on p.Dimension3Id equals D3.Dimension3Id into Dimension3Table
+                    from Dimension3Tab in Dimension3Table.DefaultIfEmpty()
+                    join D4 in db.Dimension4 on p.Dimension4Id equals D4.Dimension4Id into Dimension4Table
+                    from Dimension4Tab in Dimension4Table.DefaultIfEmpty()
                     where p.ProdOrderLineId == id
                     select new ProdOrderLineBalance
                     {
-                        Dimension1Name = tab3.Dimension1Name,
-                        Dimension2Name = tab4.Dimension2Name,
+                        Dimension1Name = Dimension1Tab.Dimension1Name,
+                        Dimension2Name = Dimension2Tab.Dimension2Name,
+                        Dimension3Name = Dimension3Tab.Dimension3Name,
+                        Dimension4Name = Dimension4Tab.Dimension4Name,
                         ProductId = p.ProductId,
-                        ProductName = t2.ProductName,
+                        ProductName = P.ProductName,
                         ProdOrderLineId = p.ProdOrderLineId,
                         ProdOrderDocNo = p.ProdOrderNo,
                         BalanceQty = p.BalanceQty,

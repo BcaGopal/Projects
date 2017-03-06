@@ -91,6 +91,8 @@ namespace Model.ViewModel
         public string ProductGroupId { get; set; }
         public string Dimension1Id { get; set; }
         public string Dimension2Id { get; set; }
+        public string Dimension3Id { get; set; }
+        public string Dimension4Id { get; set; }
         public DocumentTypeSettingsViewModel DocumentTypeSettings { get; set; }
     }
     public class JobOrderCancelMasterDetailModel
@@ -129,9 +131,20 @@ namespace Model.ViewModel
         public int? Dimension1Id { get; set; }
         public string Dimension1Name { get; set; }
 
-        [Display(Name = "Dimension2")]
         public int? Dimension2Id { get; set; }
         public string Dimension2Name { get; set; }
+
+
+        public int? Dimension3Id { get; set; }
+        public string Dimension3Name { get; set; }
+
+        public int? Dimension4Id { get; set; }
+        public string Dimension4Name { get; set; }
+
+
+
+
+
         [MaxLength(50)]
         public string Specification { get; set; }
         [Display(Name = "Lot No."), MaxLength(10)]

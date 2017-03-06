@@ -174,8 +174,21 @@ namespace Service
         IQueryable<ComboBoxResult> GetTdsCategory(string term);
         IQueryable<ComboBoxResult> GetSalesTaxGroupParty(string term);
         IQueryable<ComboBoxResult> GetProductHelpListWithProductNatureFilter(int ProductNatureId, string term);
-
         IQueryable<ComboBoxResult> GetPersonRoles(string term);
+        
+        
+        
+        IQueryable<ComboBoxResult> GetDeliveryTerms(string term);
+        IQueryable<ComboBoxResult> GetAddresses(string term);
+        IQueryable<ComboBoxResult> GetCurrencies(string term);
+        IQueryable<ComboBoxResult> GetSalesTaxGroupPerson(string term);
+        IQueryable<ComboBoxResult> GetShipMethods(string term);
+        IQueryable<ComboBoxResult> GetDocumentShipMethods(string term);
+        IQueryable<ComboBoxResult> GetTransporters(string term);
+        IQueryable<ComboBoxResult> GetAgents(string term);
+
+
+        
         
     }
 
@@ -2600,6 +2613,149 @@ namespace Service
             return list;
         }
 
+
+
+        public IQueryable<ComboBoxResult> GetDeliveryTerms(string term)
+        {
+            var list = (from D in db.DeliveryTerms
+                        where D.IsActive == true
+                        orderby D.DeliveryTermsName
+                        select new ComboBoxResult
+                        {
+                            id = D.DeliveryTermsId.ToString(),
+                            text = D.DeliveryTermsName
+                        }
+              );
+
+            return list;
+        }
+
+        public IQueryable<ComboBoxResult> GetAddresses(string term)
+        {
+            var list = (from D in db.PersonAddress
+                        join P in db.Persons on D.PersonId equals P.PersonID into PersonTable from PersonTab in PersonTable.DefaultIfEmpty()
+                        orderby PersonTab.Name
+                        select new ComboBoxResult
+                        {
+                            id = D.PersonAddressID.ToString(),
+                            text = PersonTab.Name,
+                            AProp1 = D.Address
+                        }
+              );
+
+            return list;
+        }
+
+
+
+        public IQueryable<ComboBoxResult> GetCurrencies(string term)
+        {
+            var list = (from D in db.Currency
+                        where D.IsActive == true
+                        orderby D.Name
+                        select new ComboBoxResult
+                        {
+                            id = D.ID.ToString(),
+                            text = D.Name
+                        }
+              );
+
+            return list;
+        }
+
+
+        public IQueryable<ComboBoxResult> GetSalesTaxGroupPerson(string term)
+        {
+            var list = (from D in db.ChargeGroupPerson
+                        where D.IsActive == true
+                        orderby D.ChargeGroupPersonName
+                        select new ComboBoxResult
+                        {
+                            id = D.ChargeGroupPersonId.ToString(),
+                            text = D.ChargeGroupPersonName
+                        }
+              );
+
+            return list;
+        }
+
+
+        public IQueryable<ComboBoxResult> GetShipMethods(string term)
+        {
+            var list = (from D in db.ShipMethod
+                        where D.IsActive == true
+                        orderby D.ShipMethodName
+                        select new ComboBoxResult
+                        {
+                            id = D.ShipMethodId .ToString(),
+                            text = D.ShipMethodName
+                        }
+              );
+
+            return list;
+        }
+
+        public IQueryable<ComboBoxResult> GetDocumentShipMethods(string term)
+        {
+            var list = (from D in db.DocumentShipMethod
+                        where D.IsActive == true
+                        orderby D.DocumentShipMethodName
+                        select new ComboBoxResult
+                        {
+                            id = D.DocumentShipMethodId.ToString(),
+                            text = D.DocumentShipMethodName
+                        }
+              );
+
+            return list;
+        }
+
+        public IQueryable<ComboBoxResult> GetTransporters(string term)
+        {
+            int TransporterDocTypeId = 0;
+            var DocumentType = (from D in db.DocumentType where D.DocumentTypeName == MasterDocTypeConstants.Transporter select D).FirstOrDefault();
+            if (DocumentType != null)
+            {
+                TransporterDocTypeId = DocumentType.DocumentTypeId;
+            }
+
+            var list = (from D in db.Persons
+                        join Pr in db.PersonRole on D.PersonID equals Pr.PersonId into PersonRoleTable from PersonRoleTab in PersonRoleTable.DefaultIfEmpty()
+                        where D.IsActive == true && PersonRoleTab.RoleDocTypeId == TransporterDocTypeId
+                        orderby D.Name
+                        select new ComboBoxResult
+                        {
+                            id = D.PersonID.ToString(),
+                            text = D.Name
+                        }
+              );
+
+            return list;
+        }
+
+        public IQueryable<ComboBoxResult> GetAgents(string term)
+        {
+            int AgentDocTypeId = 0;
+            var DocumentType = (from D in db.DocumentType where D.DocumentTypeName == MasterDocTypeConstants.Agent select D).FirstOrDefault();
+            if (DocumentType != null)
+            {
+                AgentDocTypeId = DocumentType.DocumentTypeId;
+            }
+
+            var list = (from D in db.Persons
+                        join Pr in db.PersonRole on D.PersonID equals Pr.PersonId into PersonRoleTable
+                        from PersonRoleTab in PersonRoleTable.DefaultIfEmpty()
+                        where D.IsActive == true && PersonRoleTab.RoleDocTypeId == AgentDocTypeId
+                        orderby D.Name
+                        select new ComboBoxResult
+                        {
+                            id = D.PersonID.ToString(),
+                            text = D.Name
+                        }
+              );
+
+            return list;
+        }
     }
 }
 

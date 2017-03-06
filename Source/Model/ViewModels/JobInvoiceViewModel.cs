@@ -111,10 +111,14 @@ namespace Model.ViewModel
         public decimal Amount { get; set; }
         public int ProductId { get; set; }
         public string ProductName { get; set; }
+        public int? Dimension1Id { get; set; }
         public string Dimension1Name { get; set; }
-        public int ? Dimension1Id { get; set; }
         public int ? Dimension2Id { get; set; }
         public string Dimension2Name { get; set; }
+        public int? Dimension3Id { get; set; }
+        public string Dimension3Name { get; set; }
+        public int? Dimension4Id { get; set; }
+        public string Dimension4Name { get; set; }
         public decimal ReceiptBalQty { get; set; }
         public decimal OrderBalanceQty { get; set; }
         public string Specification { get; set; }
@@ -175,6 +179,8 @@ namespace Model.ViewModel
         public string ProductUidName { get; set; }
         public string Dimension1Name { get; set; }
         public string Dimension2Name { get; set; }
+        public string Dimension3Name { get; set; }
+        public string Dimension4Name { get; set; }
         public string Specification { get; set; }
         public string LotNo { get; set; }
 
@@ -244,6 +250,8 @@ namespace Model.ViewModel
         public string ReceiveDocNo { get; set; }
         public string Dimension1Name { get; set; }
         public string Dimension2Name { get; set; }
+        public string Dimension3Name { get; set; }
+        public string Dimension4Name { get; set; }
         public decimal BalanceQty { get; set; }
         public int ProductId { get; set; }
         public string ProductName { get; set; }
@@ -255,6 +263,8 @@ namespace Model.ViewModel
         public string DocNo { get; set; }
         public string Dimension1Name { get; set; }
         public string Dimension2Name { get; set; }
+        public string Dimension3Name { get; set; }
+        public string Dimension4Name { get; set; }
         public string DocumentTypeName { get; set; }
         public string ProductName { get; set; }
         public decimal BalanceQty { get; set; }

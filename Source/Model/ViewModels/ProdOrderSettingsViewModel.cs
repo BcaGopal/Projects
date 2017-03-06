@@ -24,7 +24,8 @@ namespace Model.ViewModel
         public bool isVisibleDimension2 { get; set; }
         public bool isVisibleDimension3 { get; set; }
         public bool isVisibleDimension4 { get; set; }
-
+        public bool isVisibleBuyer { get; set; }
+        public bool isVisibleLineDueDate { get; set; }
         public bool isMandatoryProcessLine { get; set; }
         public string filterProcesses { get; set; }
         public string filterContraDocTypes { get; set; }
@@ -34,8 +35,10 @@ namespace Model.ViewModel
         public string filterPersonRoles { get; set; }
         public string SqlProcDocumentPrint { get; set; }
 
+        public int? ImportMenuId { get; set; }
+        public string ImportMenuName { get; set; }
 
-      
-
+        public int? ExportMenuId { get; set; }
+        public string ExportMenuName { get; set; }
     }
 }

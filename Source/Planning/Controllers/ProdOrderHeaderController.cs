@@ -17,6 +17,7 @@ using System.Xml.Linq;
 using Reports.Controllers;
 using Reports.Reports;
 using Model.ViewModels;
+using System.Configuration;
 
 
 namespace Planning.Controllers
@@ -175,15 +176,16 @@ namespace Planning.Controllers
         {
             ViewBag.Name = new DocumentTypeService(_unitOfWork).Find(id).DocumentTypeName;
             ViewBag.id = id;
-            int SiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
-            int DivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
+
+            var DivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
+            var SiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
+
             var settings = new ProdOrderSettingsService(_unitOfWork).GetProdOrderSettingsForDocument(id, DivisionId, SiteId);
-            ViewBag.AdminSetting = UserRoles.Contains("Admin").ToString();
             if (settings != null)
             {
-                ViewBag.WizardId = settings.WizardMenuId;
-                ViewBag.ImportMenuId = settings.ImportMenuId;
                 ViewBag.SqlProcDocumentPrint = settings.SqlProcDocumentPrint;
+                ViewBag.isVisibleBuyer = settings.isVisibleBuyer;
+                ViewBag.ImportMenuId = settings.ImportMenuId;
                 ViewBag.ExportMenuId = settings.ExportMenuId;
             }
         }
@@ -216,7 +218,8 @@ namespace Planning.Controllers
             PrepareViewBag(id);
 
             ViewBag.Mode = "Add";
-            p.DocNo = _ProdOrderHeaderService.GetMaxDocNo();
+            //p.DocNo = _ProdOrderHeaderService.GetMaxDocNo();
+            p.DocNo = new DocumentTypeService(_unitOfWork).FGetNewDocNo("DocNo", ConfigurationManager.AppSettings["DataBaseSchema"] + ".ProdOrderHeaders", p.DocTypeId, p.DocDate, p.DivisionId, p.SiteId);
             return View("Create", p);
         }
 

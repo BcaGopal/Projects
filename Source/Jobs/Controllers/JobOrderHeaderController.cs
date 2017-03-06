@@ -282,6 +282,19 @@ namespace Web
 
             if (settings != null)
             {
+                if (svm.JobOrderSettings.isVisiblePaymentTerms == true)
+                {
+                    if ((svm.PayTermAdvancePer ?? 0) + (svm.PayTermOnDeliveryPer ?? 0) + (svm.PayTermOnDueDatePer ?? 0) > 100)
+                    {
+                        ModelState.AddModelError("PayTermAdvancePer", "Total of Advance %, Delivery % and Due Date % should be equal to 100.");
+                    }
+                    if ((svm.PayTermBankPer ?? 0) + (svm.PayTermCashPer ?? 0) > 100)
+                    {
+                        ModelState.AddModelError("PayTermAdvancePer", "Total of Bank %, and Cash % should be equal to 100.");
+                    }
+                }
+
+
                 if (svm.JobOrderSettings.isMandatoryCostCenter == true && (string.IsNullOrEmpty(svm.CostCenterName)))
                 {
                     ModelState.AddModelError("CostCenterName", "The CostCenter field is required");
@@ -579,6 +592,20 @@ namespace Web
                     temp.GodownId = s.GodownId;
                     temp.TermsAndConditions = s.TermsAndConditions;
                     temp.DocNo = s.DocNo;
+                    temp.DeliveryTermsId = s.DeliveryTermsId;
+                    temp.ShipToAddressId = s.ShipToAddressId;
+                    temp.CurrencyId = s.CurrencyId;
+                    temp.SalesTaxGroupPersonId = s.SalesTaxGroupPersonId;
+                    temp.ShipMethodId = s.ShipMethodId;
+                    temp.DocumentShipMethodId = s.DocumentShipMethodId;
+                    temp.TransporterId = s.TransporterId;
+                    temp.IsDoorDelivery = s.IsDoorDelivery;
+                    temp.AgentId = s.AgentId;
+                    temp.PayTermAdvancePer = s.PayTermAdvancePer;
+                    temp.PayTermOnDeliveryPer = s.PayTermOnDeliveryPer;
+                    temp.PayTermOnDueDatePer = s.PayTermOnDueDatePer;
+                    temp.PayTermCashPer = s.PayTermCashPer;
+                    temp.PayTermBankPer = s.PayTermBankPer;
                     temp.Remark = s.Remark;
                     temp.CreditDays = s.CreditDays;
                     temp.ModifiedDate = DateTime.Now;
@@ -1643,6 +1670,8 @@ namespace Web
                                 ProdUidHeader.ProductId = item.ProductId;
                                 ProdUidHeader.Dimension1Id = item.Dimension1Id;
                                 ProdUidHeader.Dimension2Id = item.Dimension2Id;
+                                ProdUidHeader.Dimension3Id = item.Dimension3Id;
+                                ProdUidHeader.Dimension4Id = item.Dimension4Id;
                                 ProdUidHeader.GenDocId = pd.JobOrderHeaderId;
                                 ProdUidHeader.GenDocNo = pd.DocNo;
                                 ProdUidHeader.GenDocTypeId = pd.DocTypeId;
@@ -1680,6 +1709,8 @@ namespace Web
                                     ProdUid.GenPersonId = pd.JobWorkerId;
                                     ProdUid.Dimension1Id = item.Dimension1Id;
                                     ProdUid.Dimension2Id = item.Dimension2Id;
+                                    ProdUid.Dimension3Id = item.Dimension3Id;
+                                    ProdUid.Dimension4Id = item.Dimension4Id;
                                     ProdUid.CurrenctProcessId = pd.ProcessId;
                                     ProdUid.Status = (!string.IsNullOrEmpty(Settings.BarcodeStatusUpdate) ? Settings.BarcodeStatusUpdate : ProductUidStatusConstants.Issue);
                                     ProdUid.LastTransactionDocId = pd.JobOrderHeaderId;

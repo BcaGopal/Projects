@@ -71,6 +71,25 @@
                             </div>
                         </div>
                     </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Dimension3Id, "Dimension3", new { @class = "control-label col-md-4 col-sm-2 " })
+                            <div class="col-md-7 col-sm-10">
+                                @Html.TextBoxFor(model => model.Dimension3Id, new { @class = "form-control required" })
+                                @Html.ValidationMessageFor(model => model.Dimension3Id, "", new { @class = "text-danger" })
+                                <span id="status" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Dimension4Id, "Dimension4", new { @class = "control-label col-md-4 col-sm-2" })
+                            <div class="col-md-7 col-sm-10">
+                                @Html.TextBoxFor(model => model.Dimension4Id, new { @class = "form-control required" })
+                                @Html.ValidationMessageFor(model => model.Dimension4Id, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="modal-footer " style="padding: 19px 20px 0 20px; border-top:1px solid #8E8888">

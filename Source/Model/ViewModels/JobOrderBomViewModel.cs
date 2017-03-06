@@ -13,6 +13,8 @@ namespace Model.ViewModel
         public int ProductId { get; set; }
         public int ? Dimension1Id { get; set; }
         public int ? Dimension2Id{ get; set; }
+        public int? Dimension3Id { get; set; }
+        public int? Dimension4Id { get; set; }
         public int? CostCenterId { get; set; }
         public int ProcessId { get; set; }
         public decimal Qty { get; set; }
@@ -38,6 +40,18 @@ namespace Model.ViewModel
         [Display(Name = "Dimension2")]
         public int? Dimension2Id { get; set; }
         public string Dimension2Name { get; set; }
+
+
+
+
+        [Display(Name = "Dimension3")]
+        public int? Dimension3Id { get; set; }
+        public string Dimension3Name { get; set; }
+
+        [Display(Name = "Dimension4")]
+        public int? Dimension4Id { get; set; }
+        public string Dimension4Name { get; set; }
+
         public string UnitId { get; set; }
         public string UnitName { get; set; }
         public byte UnitDecimalPlaces { get; set; }

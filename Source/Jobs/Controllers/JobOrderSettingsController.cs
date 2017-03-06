@@ -196,6 +196,21 @@ namespace Web
                     temp.isVisibleUnitConversionFor = pt.isVisibleUnitConversionFor;
                     temp.isVisibleSpecification = pt.isVisibleSpecification;
                     temp.isVisibleCreditDays = pt.isVisibleCreditDays;
+
+
+
+                    temp.isVisibleDeliveryTerms = pt.isVisibleDeliveryTerms;
+                    temp.isVisibleShipToAddress = pt.isVisibleShipToAddress;
+                    temp.isVisibleCurrency = pt.isVisibleCurrency;
+                    temp.isVisibleSalesTaxGroupPerson = pt.isVisibleSalesTaxGroupPerson;
+                    temp.isVisibleShipMethod = pt.isVisibleShipMethod;
+                    temp.isVisibleDocumentShipMethod = pt.isVisibleDocumentShipMethod;
+                    temp.isVisibleTransporter = pt.isVisibleTransporter;
+                    temp.isVisibleAgent = pt.isVisibleAgent;
+                    temp.isVisibleDoorDelivery = pt.isVisibleDoorDelivery;
+                    temp.isVisiblePaymentTerms = pt.isVisiblePaymentTerms;
+
+                    temp.NonCountedQtyCaption = pt.NonCountedQtyCaption;
                     temp.SqlProcDocumentPrint = pt.SqlProcDocumentPrint;
                     temp.DocumentPrint = pt.DocumentPrint;
                     temp.MaxDays = pt.MaxDays;
@@ -387,6 +402,19 @@ namespace Web
                     temp.isVisibleUnitConversionFor = pt.isVisibleUnitConversionFor;
                     temp.isVisibleSpecification = pt.isVisibleSpecification;
                     temp.isVisibleCreditDays = pt.isVisibleCreditDays;
+
+                    temp.isVisibleDeliveryTerms = pt.isVisibleDeliveryTerms;
+                    temp.isVisibleShipToAddress = pt.isVisibleShipToAddress;
+                    temp.isVisibleCurrency = pt.isVisibleCurrency;
+                    temp.isVisibleSalesTaxGroupPerson = pt.isVisibleSalesTaxGroupPerson;
+                    temp.isVisibleShipMethod = pt.isVisibleShipMethod;
+                    temp.isVisibleDocumentShipMethod = pt.isVisibleDocumentShipMethod;
+                    temp.isVisibleTransporter = pt.isVisibleTransporter;
+                    temp.isVisibleAgent = pt.isVisibleAgent;
+                    temp.isVisibleDoorDelivery = pt.isVisibleDoorDelivery;
+                    temp.isVisiblePaymentTerms = pt.isVisiblePaymentTerms;
+
+                    temp.NonCountedQtyCaption = pt.NonCountedQtyCaption;
                     temp.SqlProcDocumentPrint = pt.SqlProcDocumentPrint;
                     temp.DocumentPrint = pt.DocumentPrint;
                     temp.AmountRoundOff = pt.AmountRoundOff;
@@ -572,6 +600,20 @@ namespace Web
                     temp.isVisibleMachine = pt.isVisibleMachine;
                     temp.isVisibleProductUID = pt.isVisibleProductUID;
                     temp.isVisibleRate = pt.isVisibleRate;
+
+                    temp.isVisibleDeliveryTerms = pt.isVisibleDeliveryTerms;
+                    temp.isVisibleShipToAddress = pt.isVisibleShipToAddress;
+                    temp.isVisibleCurrency = pt.isVisibleCurrency;
+                    temp.isVisibleSalesTaxGroupPerson = pt.isVisibleSalesTaxGroupPerson;
+                    temp.isVisibleShipMethod = pt.isVisibleShipMethod;
+                    temp.isVisibleDocumentShipMethod = pt.isVisibleDocumentShipMethod;
+                    temp.isVisibleTransporter = pt.isVisibleTransporter;
+                    temp.isVisibleAgent = pt.isVisibleAgent;
+                    temp.isVisibleDoorDelivery = pt.isVisibleDoorDelivery;
+                    temp.isVisiblePaymentTerms = pt.isVisiblePaymentTerms;
+
+
+                    temp.NonCountedQtyCaption = pt.NonCountedQtyCaption;
                     temp.SqlProcDocumentPrint = pt.SqlProcDocumentPrint;
                     temp.DocumentPrint = pt.DocumentPrint;
                     temp.AmountRoundOff = pt.AmountRoundOff;

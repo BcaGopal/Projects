@@ -125,5 +125,60 @@ namespace Model.Models
         [MaxLength(50)]
         public string OMSId { get; set; }
         public int ReferentialCheckSum { get; set; }
+
+
+        [Display(Name = "Delivery Terms")]
+        [ForeignKey("DeliveryTerms")]
+        public int? DeliveryTermsId { get; set; }
+        public virtual DeliveryTerms DeliveryTerms { get; set; }
+
+        [Display(Name = "Shipe Address")]
+        [ForeignKey("ShipToAddress")]
+        public int? ShipToAddressId { get; set; }
+        public virtual PersonAddress ShipToAddress { get; set; }
+
+        [ForeignKey("Currency"), Display(Name = "Currency")]
+        public int? CurrencyId { get; set; }
+        public virtual Currency Currency { get; set; }
+
+
+
+        [ForeignKey("SalesTaxGroupPerson")]
+        public int? SalesTaxGroupPersonId { get; set; }
+        public virtual ChargeGroupPerson SalesTaxGroupPerson { get; set; }
+
+
+        [Display(Name = "Ship Method")]
+        [ForeignKey("ShipMethod")]
+        public int? ShipMethodId { get; set; }
+        public virtual ShipMethod ShipMethod { get; set; }
+
+
+        [Display(Name = "Document Ship Method")]
+        [ForeignKey("DocumentShipMethod")]
+        public int? DocumentShipMethodId { get; set; }
+        public virtual DocumentShipMethod DocumentShipMethod { get; set; }
+
+
+
+
+        [Display(Name = "Transporter")]
+        [ForeignKey("Transporter")]
+        public int? TransporterId { get; set; }
+        public virtual Person Transporter { get; set; }
+
+        public bool? IsDoorDelivery { get; set; }
+
+
+        [Display(Name = "Agent")]
+        [ForeignKey("Agent")]
+        public int? AgentId { get; set; }
+        public virtual Person Agent { get; set; }
+
+        public Decimal? PayTermAdvancePer { get; set; }
+        public Decimal? PayTermOnDeliveryPer { get; set; }
+        public Decimal? PayTermOnDueDatePer { get; set; }
+        public Decimal? PayTermCashPer { get; set; }
+        public Decimal? PayTermBankPer { get; set; }
     }
 }

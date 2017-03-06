@@ -283,6 +283,8 @@ namespace Web
                             StockViewModel.Specification = JobOrderLine.Specification;
                             StockViewModel.Dimension1Id = JobOrderLine.Dimension1Id;
                             StockViewModel.Dimension2Id = JobOrderLine.Dimension2Id;
+                            StockViewModel.Dimension3Id = JobOrderLine.Dimension3Id;
+                            StockViewModel.Dimension4Id = JobOrderLine.Dimension4Id;
                             StockViewModel.ProductUidId = line.ProductUidId;
                             StockViewModel.CreatedBy = User.Identity.Name;
                             StockViewModel.CreatedDate = DateTime.Now;
@@ -359,6 +361,8 @@ namespace Web
                             StockProcessViewModel.Specification = JobOrderLine.Specification;
                             StockProcessViewModel.Dimension1Id = JobOrderLine.Dimension1Id;
                             StockProcessViewModel.Dimension2Id = JobOrderLine.Dimension2Id;
+                            StockProcessViewModel.Dimension3Id = JobOrderLine.Dimension3Id;
+                            StockProcessViewModel.Dimension4Id = JobOrderLine.Dimension4Id;
                             StockProcessViewModel.ProductUidId = line.ProductUidId;
                             StockProcessViewModel.CreatedBy = User.Identity.Name;
                             StockProcessViewModel.CreatedDate = DateTime.Now;
@@ -402,6 +406,8 @@ namespace Web
                             BomPost.CreatedDate = DateTime.Now;
                             BomPost.Dimension1Id = Litem.Dimension1Id;
                             BomPost.Dimension2Id = Litem.Dimension2Id;
+                            BomPost.Dimension3Id = Litem.Dimension3Id;
+                            BomPost.Dimension4Id = Litem.Dimension4Id;
                             BomPost.JobOrderCancelHeaderId = line.JobOrderCancelHeaderId;
                             BomPost.JobOrderCancelLineId = line.JobOrderCancelLineId;
                             BomPost.ModifiedBy = User.Identity.Name;
@@ -760,6 +766,8 @@ namespace Web
                                 StockViewModel.Specification = JobOrderLine.Specification;
                                 StockViewModel.Dimension1Id = JobOrderLine.Dimension1Id;
                                 StockViewModel.Dimension2Id = JobOrderLine.Dimension2Id;
+                                StockViewModel.Dimension3Id = JobOrderLine.Dimension3Id;
+                                StockViewModel.Dimension4Id = JobOrderLine.Dimension4Id;
                                 StockViewModel.ProductUidId = line.ProductUidId;
                                 StockViewModel.CreatedBy = User.Identity.Name;
                                 StockViewModel.CreatedDate = DateTime.Now;
@@ -836,6 +844,8 @@ namespace Web
                                 StockProcessViewModel.Specification = JobOrderLine.Specification;
                                 StockProcessViewModel.Dimension1Id = JobOrderLine.Dimension1Id;
                                 StockProcessViewModel.Dimension2Id = JobOrderLine.Dimension2Id;
+                                StockProcessViewModel.Dimension3Id = JobOrderLine.Dimension3Id;
+                                StockProcessViewModel.Dimension4Id = JobOrderLine.Dimension4Id;
                                 StockProcessViewModel.ProductUidId = line.ProductUidId;
                                 StockProcessViewModel.CreatedBy = User.Identity.Name;
                                 StockProcessViewModel.CreatedDate = DateTime.Now;
@@ -879,6 +889,8 @@ namespace Web
                                 BomPost.CreatedDate = DateTime.Now;
                                 BomPost.Dimension1Id = Litem.Dimension1Id;
                                 BomPost.Dimension2Id = Litem.Dimension2Id;
+                                BomPost.Dimension3Id = Litem.Dimension3Id;
+                                BomPost.Dimension4Id = Litem.Dimension4Id;
                                 BomPost.JobOrderCancelHeaderId = line.JobOrderCancelHeaderId;
                                 BomPost.JobOrderCancelLineId = line.JobOrderCancelLineId;
                                 BomPost.ModifiedBy = User.Identity.Name;
@@ -1239,6 +1251,8 @@ namespace Web
                             StockViewModel.Specification = JobOrderLine.Specification;
                             StockViewModel.Dimension1Id = JobOrderLine.Dimension1Id;
                             StockViewModel.Dimension2Id = JobOrderLine.Dimension2Id;
+                            StockViewModel.Dimension3Id = JobOrderLine.Dimension3Id;
+                            StockViewModel.Dimension4Id = JobOrderLine.Dimension4Id;
                             StockViewModel.ProductUidId = s.ProductUidId; ;
                             StockViewModel.Remark = s.Remark;
                             StockViewModel.Status = temp.Status;
@@ -1310,6 +1324,8 @@ namespace Web
                             StockProcessViewModel.Specification = JobOrderLine.Specification;
                             StockProcessViewModel.Dimension1Id = JobOrderLine.Dimension1Id;
                             StockProcessViewModel.Dimension2Id = JobOrderLine.Dimension2Id;
+                            StockProcessViewModel.Dimension3Id = JobOrderLine.Dimension3Id;
+                            StockProcessViewModel.Dimension4Id = JobOrderLine.Dimension4Id;
                             StockProcessViewModel.Remark = s.Remark;
                             StockProcessViewModel.ProductUidId = s.ProductUidId;
                             StockProcessViewModel.Status = temp.Status;
@@ -1358,6 +1374,8 @@ namespace Web
                             BomPost.CreatedDate = DateTime.Now;
                             BomPost.Dimension1Id = item.Dimension1Id;
                             BomPost.Dimension2Id = item.Dimension2Id;
+                            BomPost.Dimension3Id = item.Dimension3Id;
+                            BomPost.Dimension4Id = item.Dimension4Id;
                             BomPost.JobOrderCancelHeaderId = s.JobOrderCancelHeaderId;
                             BomPost.JobOrderCancelLineId = s.JobOrderCancelLineId;
                             BomPost.ModifiedBy = User.Identity.Name;
@@ -1510,6 +1528,8 @@ namespace Web
                             StockViewModel.Specification = JobOrderLine.Specification;
                             StockViewModel.Dimension1Id = JobOrderLine.Dimension1Id;
                             StockViewModel.Dimension2Id = JobOrderLine.Dimension2Id;
+                            StockViewModel.Dimension3Id = JobOrderLine.Dimension3Id;
+                            StockViewModel.Dimension4Id = JobOrderLine.Dimension4Id;
                             StockViewModel.Remark = s.Remark;
                             StockViewModel.ProductUidId = s.ProductUidId;
                             StockViewModel.Status = temp.Status;
@@ -1561,6 +1581,8 @@ namespace Web
                             StockProcessViewModel.Specification = JobOrderLine.Specification;
                             StockProcessViewModel.Dimension1Id = JobOrderLine.Dimension1Id;
                             StockProcessViewModel.Dimension2Id = JobOrderLine.Dimension2Id;
+                            StockProcessViewModel.Dimension3Id = JobOrderLine.Dimension3Id;
+                            StockProcessViewModel.Dimension4Id = JobOrderLine.Dimension4Id;
                             StockProcessViewModel.Remark = s.Remark;
                             StockProcessViewModel.ProductUidId = s.ProductUidId;
                             StockProcessViewModel.Status = temp.Status;
@@ -1613,6 +1635,8 @@ namespace Web
                         BomPost.CreatedDate = DateTime.Now;
                         BomPost.Dimension1Id = item.Dimension1Id;
                         BomPost.Dimension2Id = item.Dimension2Id;
+                        BomPost.Dimension3Id = item.Dimension3Id;
+                        BomPost.Dimension4Id = item.Dimension4Id;
                         BomPost.JobOrderCancelHeaderId = s.JobOrderCancelHeaderId;
                         BomPost.JobOrderCancelLineId = s.JobOrderCancelLineId;
                         BomPost.ModifiedBy = User.Identity.Name;

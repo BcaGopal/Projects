@@ -1467,6 +1467,8 @@ namespace Web
                                                                    ProductId = L.JobReceiveLine.JobOrderLine.ProductId,
                                                                    Dimension1Id = L.JobReceiveLine.JobOrderLine.Dimension1Id,
                                                                    Dimension2Id = L.JobReceiveLine.JobOrderLine.Dimension2Id,
+                                                                   Dimension3Id = L.JobReceiveLine.JobOrderLine.Dimension3Id,
+                                                                   Dimension4Id = L.JobReceiveLine.JobOrderLine.Dimension4Id,
                                                                    JobReceiveQALineId = L.JobReceiveQALineId,
                                                                    FailQty = L.FailQty
                                                                }).ToList();
@@ -1483,6 +1485,8 @@ namespace Web
                     ProdOrderLine.ProductId = item.ProductId;
                     ProdOrderLine.Dimension1Id = item.Dimension1Id;
                     ProdOrderLine.Dimension2Id = item.Dimension2Id;
+                    ProdOrderLine.Dimension3Id = item.Dimension3Id;
+                    ProdOrderLine.Dimension4Id = item.Dimension4Id;
                     ProdOrderLine.Specification = null;
                     ProdOrderLine.ProcessId = Header.ProcessId;
                     ProdOrderLine.ReferenceDocTypeId = ProdOrderHeader.DocTypeId;

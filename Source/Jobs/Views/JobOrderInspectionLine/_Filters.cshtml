@@ -71,10 +71,12 @@
         var DocId = $('#JobOrderInspectionHeaderId', '.modal-body').val();
 
         CustomSelectFunction($("#ProductGroupId"), '/ComboHelpList/GetProductGroup', '/ComboHelpList/SetProductGroup', 'Enter Design Name', true, 1);
-        CustomSelectFunction($("#Dimension1Id"), '/ComboHelpList/GetDimension1', '/ComboHelpList/SetSingleDimension1', 'Dimension1', true, 1);
-        CustomSelectFunction($("#Dimension2Id"), '/ComboHelpList/GetDimension2', '/ComboHelpList/SetSingleDimension2', 'Dimension2', true, 1);
-        CustomSelectFunction($("#ProductId"), '/JobOrderInspectionLine/GetPendingJobOrderProducts', '/ComboHelpList/SetProducts', 'Enter Product Name', true, 1, DocId);
-        CustomSelectFunction($("#JobOrderHeaderId"), '/JobOrderInspectionLine/GetPendingJobOrders', '/ComboHelpList/SetJobOrders', 'Enter Job Order', true, 1, DocId);
+        CustomSelectFunction($("#Dimension1Id"), '/ComboHelpList/GetDimension1', '/ComboHelpList/SetSingleDimension1', ' ', true, 0);
+        CustomSelectFunction($("#Dimension2Id"), '/ComboHelpList/GetDimension2', '/ComboHelpList/SetSingleDimension2', ' ', true, 0);
+        CustomSelectFunction($("#Dimension3Id"), '/ComboHelpList/GetDimension3', '/ComboHelpList/SetSingleDimension3', ' ', true, 0);
+        CustomSelectFunction($("#Dimension4Id"), '/ComboHelpList/GetDimension4', '/ComboHelpList/SetSingleDimension4', ' ', true, 0);
+        CustomSelectFunction($("#ProductId"), '/JobOrderInspectionLine/GetPendingJobOrderProducts', '/ComboHelpList/SetProducts', ' ', true, 1, DocId);
+        CustomSelectFunction($("#JobOrderHeaderId"), '/JobOrderInspectionLine/GetPendingJobOrders', '/ComboHelpList/SetJobOrders', ' ', true, 1, DocId);
 
     });
 
