@@ -281,7 +281,7 @@ namespace Service
                         DocTypeName = p.DocType.DocumentTypeName,                        
                         Remark = p.Remark, 
                         Status=p.Status,
-                        SupplierName=p.Supplier.Person.Name,
+                        SupplierName=p.Supplier.Name,
                         ModifiedBy = p.ModifiedBy,
                         FirstName = tab.FirstName,
                         ReviewCount = p.ReviewCount,
