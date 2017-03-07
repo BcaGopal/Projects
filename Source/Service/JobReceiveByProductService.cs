@@ -75,6 +75,8 @@ namespace Service
                     {
                         Dimension1Id = p.Dimension1Id,
                         Dimension2Id = p.Dimension2Id,
+                        Dimension3Id = p.Dimension3Id,
+                        Dimension4Id = p.Dimension4Id,
                         JobReceiveByProductId = p.JobReceiveByProductId,
                         JobReceiveHeaderId = p.JobReceiveHeaderId,
                         LotNo = p.LotNo,

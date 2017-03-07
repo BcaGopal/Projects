@@ -105,6 +105,32 @@
                             </div>
                         </div>
                     </div>
+
+                    <div class="col-md-6" style="display:@(Model.JobInvoiceSettings.isVisibleDimension3 ? "" : "none")">
+                        @Html.HiddenFor(m => m.JobInvoiceSettings.isVisibleDimension3)
+                        @Html.HiddenFor(m => m.DocumentTypeSettings.Dimension3Caption)
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Dimension3Id, (Model.DocumentTypeSettings.Dimension3Caption ?? "Dimension3"), new { @class = "control-label col-md-4 col-sm-2 " })
+                            <div class="col-md-7 col-sm-10">
+                                @Html.TextBoxFor(model => model.Dimension3Name, new { @class = "form-control  required", @readonly = true })
+                                @Html.ValidationMessageFor(model => model.Dimension3Id, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6" style="display:@(Model.JobInvoiceSettings.isVisibleDimension4 ? "" : "none")">
+                        @Html.HiddenFor(m => m.JobInvoiceSettings.isVisibleDimension4)
+                        @Html.HiddenFor(m => m.DocumentTypeSettings.Dimension4Caption)
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Dimension4Id, (Model.DocumentTypeSettings.Dimension4Caption ?? "Dimension4"), new { @class = "control-label col-md-4 col-sm-2 " })
+                            <div class="col-md-7 col-sm-10">
+                                @Html.TextBoxFor(model => model.Dimension4Name, new { @class = "form-control required", @readonly = true })
+                                @Html.ValidationMessageFor(model => model.Dimension4Id, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+
+
                     <div class="col-md-6" style="display:@(Model.JobInvoiceSettings.isVisibleSpecification ? "" : "none")">
                         @Html.HiddenFor(m => m.JobInvoiceSettings.isVisibleSpecification)
                         <div class="form-group">
@@ -502,6 +528,14 @@ else
                         {
                             $("#Dimension2Name").val(data.Dimension2Name)
                         }
+                        if(data.Dimension3Name!=null)
+                        {
+                            $("#Dimension3Name").val(data.Dimension3Name)
+                        }
+                        if(data.Dimension4Name!=null)
+                        {
+                            $("#Dimension4Name").val(data.Dimension4Name)
+                        }
 
                         CopyOrderCharges(data.RHeaderCharges,data.RLineCharges);
 
@@ -528,6 +562,8 @@ else
                 $('#DealUnitDecimalPlaces').val(0);
                 $("#Dimension1Name").val("");
                 $("#Dimension2Name").val("");
+                $("#Dimension3Name").val("");
+                $("#Dimension4Name").val("");
                 //UnLockFields();
             }
         }
@@ -598,6 +634,8 @@ else
                                         spec:m.Specification,
                                         dim1: m.Dimension1Name,
                                         dim2:m.Dimension2Name,
+                                        dim3: m.Dimension3Name,
+                                        dim4:m.Dimension4Name,
                                         JO:m.JobOrderNo,
                                         balqty:m.Qty,
                                         linekey:m.JobOrderLineId,

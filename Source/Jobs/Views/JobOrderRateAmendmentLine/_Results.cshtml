@@ -87,6 +87,8 @@
                                                 @Html.HiddenFor(m => Model.JobOrderRateAmendmentLineViewModel[i].Specification)
                                                 @Html.HiddenFor(m => Model.JobOrderRateAmendmentLineViewModel[i].Dimension1Name)
                                                 @Html.HiddenFor(m => Model.JobOrderRateAmendmentLineViewModel[i].Dimension2Name)
+                                                @Html.HiddenFor(m => Model.JobOrderRateAmendmentLineViewModel[i].Dimension3Name)
+                                                @Html.HiddenFor(m => Model.JobOrderRateAmendmentLineViewModel[i].Dimension4Name)
                                                 @Html.HiddenFor(m => Model.JobOrderRateAmendmentLineViewModel[i].JobOrderLineId)
                                                 @Html.HiddenFor(m => Model.JobOrderRateAmendmentLineViewModel[i].JobOrderAmendmentHeaderId)
                                                 @Html.HiddenFor(m => Model.JobOrderRateAmendmentLineViewModel[i].JobOrderAmendmentHeaderDocNo)
@@ -109,10 +111,12 @@
                                                         <p style="margin-bottom:0px">
                                                             @{
                                         var Dim1 = (string.IsNullOrEmpty(Model.JobOrderRateAmendmentLineViewModel[i].Dimension1Name)) ? "" : Model.JobOrderRateAmendmentLineViewModel[i].Dimension1Name + ",";
-                                        var Dim2 = (string.IsNullOrEmpty(Model.JobOrderRateAmendmentLineViewModel[i].Dimension2Name)) ? "" : Model.JobOrderRateAmendmentLineViewModel[i].Dimension2Name;
+                                        var Dim2 = (string.IsNullOrEmpty(Model.JobOrderRateAmendmentLineViewModel[i].Dimension2Name)) ? "" : Model.JobOrderRateAmendmentLineViewModel[i].Dimension2Name + ",";
+                                        var Dim3 = (string.IsNullOrEmpty(Model.JobOrderRateAmendmentLineViewModel[i].Dimension3Name)) ? "" : Model.JobOrderRateAmendmentLineViewModel[i].Dimension3Name + ",";
+                                        var Dim4 = (string.IsNullOrEmpty(Model.JobOrderRateAmendmentLineViewModel[i].Dimension4Name)) ? "" : Model.JobOrderRateAmendmentLineViewModel[i].Dimension4Name;
                                                             }
 
-                                                            @Dim1 @Dim2
+                                                            @Dim1 @Dim2 @Dim3 @Dim4
                                                         </p>
                                                     </div>
                                                     <div>

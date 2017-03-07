@@ -268,6 +268,7 @@ namespace Presentation
                     ProdOrderLine ExRec = new ProdOrderLine();
                     ExRec = Mapper.Map<ProdOrderLine>(temp1);
 
+                    temp1.DueDate = svm.DueDate;
                     temp1.ProductId = svm.ProductId;
                     temp1.Qty = svm.Qty;
                     temp1.Remark = svm.Remark;
@@ -316,6 +317,8 @@ namespace Presentation
                         DocDate = temp.DocDate,
                         DocStatus = temp.Status,
                     }));
+
+                    return Json(new { success = true });
 
                 }
             }
@@ -373,6 +376,8 @@ namespace Presentation
 
             temp.ProdOrderSettings = Mapper.Map<ProdOrderSettings, ProdOrderSettingsViewModel>(settings);
 
+            temp.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(H.DocTypeId);
+
             ViewBag.DocNo = H.DocNo;
 
             return PartialView("_Create", temp);
@@ -426,6 +431,8 @@ namespace Presentation
             var settings = new ProdOrderSettingsService(_unitOfWork).GetProdOrderSettingsForDocument(H.DocTypeId, H.DivisionId, H.SiteId);
 
             temp.ProdOrderSettings = Mapper.Map<ProdOrderSettings, ProdOrderSettingsViewModel>(settings);
+
+            temp.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(H.DocTypeId);
 
             ViewBag.DocNo = H.DocNo;
 

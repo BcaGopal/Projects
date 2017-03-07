@@ -1888,31 +1888,31 @@ namespace Web
             return Json(ProductJson);
         }
 
-        public ActionResult GetTransporters(string searchTerm, int pageSize, int pageNum)
-        {
-            //Get the paged results and the total count of the results for this query. ProductCacheKeyHint
-            var productCacheKeyHint = ConfigurationManager.AppSettings["TransporterCacheKeyHint"];
+        //public ActionResult GetTransporters(string searchTerm, int pageSize, int pageNum)
+        //{
+        //    //Get the paged results and the total count of the results for this query. ProductCacheKeyHint
+        //    var productCacheKeyHint = ConfigurationManager.AppSettings["TransporterCacheKeyHint"];
 
-            //THis statement has been changed because GetProductHelpList was calling again and again. 
+        //    //THis statement has been changed because GetProductHelpList was calling again and again. 
 
-            AutoCompleteComboBoxRepositoryAndHelper ar = new AutoCompleteComboBoxRepositoryAndHelper(cbl.GetTransporterHelpList(), productCacheKeyHint, RefreshData.RefreshProductData);
-            //AutoCompleteComboBoxRepositoryAndHelper ar = new AutoCompleteComboBoxRepositoryAndHelper(null, productCacheKeyHint);
+        //    AutoCompleteComboBoxRepositoryAndHelper ar = new AutoCompleteComboBoxRepositoryAndHelper(cbl.GetTransporterHelpList(), productCacheKeyHint, RefreshData.RefreshProductData);
+        //    //AutoCompleteComboBoxRepositoryAndHelper ar = new AutoCompleteComboBoxRepositoryAndHelper(null, productCacheKeyHint);
 
-            if (RefreshData.RefreshProductData == true) { RefreshData.RefreshProductData = false; }
+        //    if (RefreshData.RefreshProductData == true) { RefreshData.RefreshProductData = false; }
 
-            List<ComboBoxList> prodLst = ar.GetListForComboBox(searchTerm, pageSize, pageNum);
-            int prodCount = ar.GetCountForComboBox(searchTerm, pageSize, pageNum);
+        //    List<ComboBoxList> prodLst = ar.GetListForComboBox(searchTerm, pageSize, pageNum);
+        //    int prodCount = ar.GetCountForComboBox(searchTerm, pageSize, pageNum);
 
-            //Translate the attendees into a format the select2 dropdown expects
-            ComboBoxPagedResult pagedAttendees = ar.TranslateToComboBoxFormat(prodLst, prodCount);
+        //    //Translate the attendees into a format the select2 dropdown expects
+        //    ComboBoxPagedResult pagedAttendees = ar.TranslateToComboBoxFormat(prodLst, prodCount);
 
-            //Return the data as a jsonp result
-            return new JsonpResult
-            {
-                Data = pagedAttendees,
-                JsonRequestBehavior = JsonRequestBehavior.AllowGet
-            };
-        }
+        //    //Return the data as a jsonp result
+        //    return new JsonpResult
+        //    {
+        //        Data = pagedAttendees,
+        //        JsonRequestBehavior = JsonRequestBehavior.AllowGet
+        //    };
+        //}
 
         public JsonResult SetTransporters(string Ids)
         {
@@ -5616,6 +5616,452 @@ namespace Web
             }
             return Json(ProductJson);
         }
+
+        public ActionResult GetUnits(string searchTerm, int pageSize, int pageNum)
+        {
+            var Query = cbl.GetUnits(searchTerm);
+            var temp = Query.Skip(pageSize * (pageNum - 1)).Take(pageSize).ToList();
+
+            var count = Query.Count();
+
+            ComboBoxPagedResult Data = new ComboBoxPagedResult();
+            Data.Results = temp;
+            Data.Total = count;
+
+            return new JsonpResult
+            {
+                Data = Data,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        public JsonResult SetUnits(string Ids)
+        {
+            string[] subStr = Ids.Split(',');
+            List<ComboBoxResult> ProductJson = new List<ComboBoxResult>();
+            for (int i = 0; i < subStr.Length; i++)
+            {
+                string temp = subStr[i];
+                IEnumerable<ComboBoxResult> prod = (from b in db.Units
+                                                    where b.UnitId == temp
+                                                    select new ComboBoxResult
+                                                    {
+                                                        id = b.UnitId.ToString(),
+                                                        text = b.UnitName
+                                                    });
+                ProductJson.Add(new ComboBoxResult()
+                {
+                    id = prod.FirstOrDefault().id,
+                    text = prod.FirstOrDefault().text
+                });
+            }
+            return Json(ProductJson);
+        }
+
+        public JsonResult SetSingleUnit(string Ids)
+        {
+            ComboBoxResult MenuJson = new ComboBoxResult();
+
+            ComboBoxResult person = (from b in db.Units
+                                     where b.UnitId == Ids
+                                     select new ComboBoxResult
+                                     {
+                                         id = b.UnitId,
+                                         text = b.UnitName
+                                     }).FirstOrDefault();
+
+            MenuJson.id = person.id;
+            MenuJson.text = person.text;
+
+            return Json(MenuJson);
+        }
+
+
+
+
+
+
+
+
+
+
+
+        public JsonResult GetDeliveryTerms(string searchTerm, int pageSize, int pageNum)
+        {
+            var Query = cbl.GetDeliveryTerms(searchTerm);
+            var temp = Query.Skip(pageSize * (pageNum - 1)).Take(pageSize).ToList();
+
+            var count = Query.Count();
+
+            ComboBoxPagedResult Data = new ComboBoxPagedResult();
+            Data.Results = temp;
+            Data.Total = count;
+
+            return new JsonpResult
+            {
+                Data = Data,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+        public JsonResult SetSingleDeliveryTerm(int Ids)
+        {
+            ComboBoxResult DeliveryTermJson = new ComboBoxResult();
+
+            DeliveryTerms DeliveryTerm = (from b in db.DeliveryTerms
+                                       where b.DeliveryTermsId == Ids
+                                       select b).FirstOrDefault();
+
+            DeliveryTermJson.id = DeliveryTerm.DeliveryTermsId .ToString();
+            DeliveryTermJson.text = DeliveryTerm.DeliveryTermsName;
+
+            return Json(DeliveryTermJson);
+        }
+        public JsonResult SetDeliveryTerm(string Ids)
+        {
+            string[] subStr = Ids.Split(',');
+            List<ComboBoxResult> ProductJson = new List<ComboBoxResult>();
+            for (int i = 0; i < subStr.Length; i++)
+            {
+                int temp = Convert.ToInt32(subStr[i]);
+                IEnumerable<DeliveryTerms> prod = from p in db.DeliveryTerms
+                                                  where p.DeliveryTermsId == temp
+                                                 select p;
+                ProductJson.Add(new ComboBoxResult()
+                {
+                    id = prod.FirstOrDefault().DeliveryTermsId.ToString(),
+                    text = prod.FirstOrDefault().DeliveryTermsName
+                });
+            }
+            return Json(ProductJson);
+        }
+
+
+
+
+
+
+
+        public JsonResult GetAddresses(string searchTerm, int pageSize, int pageNum)
+        {
+            var Query = cbl.GetAddresses(searchTerm);
+            var temp = Query.Skip(pageSize * (pageNum - 1)).Take(pageSize).ToList();
+
+            var count = Query.Count();
+
+            ComboBoxPagedResult Data = new ComboBoxPagedResult();
+            Data.Results = temp;
+            Data.Total = count;
+
+            return new JsonpResult
+            {
+                Data = Data,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+        public JsonResult SetSingleAddress(int Ids)
+        {
+            ComboBoxResult AddressJson = new ComboBoxResult();
+
+            var Address = (from b in db.PersonAddress
+                           where b.PersonAddressID == Ids
+                           select new
+                           {
+                               PersonAddressID = b.PersonAddressID,
+                               PersonName = b.Person.Name
+                           }).FirstOrDefault();
+
+            AddressJson.id = Address.PersonAddressID.ToString();
+            AddressJson.text = Address.PersonName;
+
+            return Json(AddressJson);
+        }
+        public JsonResult SetAddress(string Ids)
+        {
+            string[] subStr = Ids.Split(',');
+            List<ComboBoxResult> ProductJson = new List<ComboBoxResult>();
+            for (int i = 0; i < subStr.Length; i++)
+            {
+                int temp = Convert.ToInt32(subStr[i]);
+                var prod = from p in db.PersonAddress
+                                                  where p.PersonAddressID == temp
+                           select new ComboBoxResult
+                                                 {
+                                                     id = p.PersonAddressID.ToString(),
+                                                     text = p.Person.Name
+                                                 };
+
+                ProductJson.Add(new ComboBoxResult()
+                {
+                    id = prod.FirstOrDefault().id.ToString(),
+                    text = prod.FirstOrDefault().text
+                });
+            }
+            return Json(ProductJson);
+        }
+
+
+
+
+
+
+
+
+        public JsonResult GetCurrencies(string searchTerm, int pageSize, int pageNum)
+        {
+            var Query = cbl.GetCurrencies(searchTerm);
+            var temp = Query.Skip(pageSize * (pageNum - 1)).Take(pageSize).ToList();
+
+            var count = Query.Count();
+
+            ComboBoxPagedResult Data = new ComboBoxPagedResult();
+            Data.Results = temp;
+            Data.Total = count;
+
+            return new JsonpResult
+            {
+                Data = Data,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+        public JsonResult SetSingleCurrency(int Ids)
+        {
+            ComboBoxResult CurrencyJson = new ComboBoxResult();
+
+            Currency Currency = (from b in db.Currency
+                                 where b.ID == Ids
+                                       select b).FirstOrDefault();
+
+            CurrencyJson.id = Currency.ID.ToString();
+            CurrencyJson.text = Currency.Name;
+
+            return Json(CurrencyJson);
+        }
+        public JsonResult SetCurrency(string Ids)
+        {
+            string[] subStr = Ids.Split(',');
+            List<ComboBoxResult> ProductJson = new List<ComboBoxResult>();
+            for (int i = 0; i < subStr.Length; i++)
+            {
+                int temp = Convert.ToInt32(subStr[i]);
+                IEnumerable<Currency> prod = from p in db.Currency
+                                                 where p.ID == temp
+                                                 select p;
+                ProductJson.Add(new ComboBoxResult()
+                {
+                    id = prod.FirstOrDefault().ID.ToString(),
+                    text = prod.FirstOrDefault().Name
+                });
+            }
+            return Json(ProductJson);
+        }
+
+
+
+
+        public JsonResult GetSalesTaxGroupPerson(string searchTerm, int pageSize, int pageNum)
+        {
+            var Query = cbl.GetSalesTaxGroupPerson(searchTerm);
+            var temp = Query.Skip(pageSize * (pageNum - 1)).Take(pageSize).ToList();
+
+            var count = Query.Count();
+
+            ComboBoxPagedResult Data = new ComboBoxPagedResult();
+            Data.Results = temp;
+            Data.Total = count;
+
+            return new JsonpResult
+            {
+                Data = Data,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+        public JsonResult SetSingleSalesTaxGroupPerson(int Ids)
+        {
+            ComboBoxResult SalesTaxGroupPersonJson = new ComboBoxResult();
+
+            ChargeGroupPerson SalesTaxGroupPerson = (from b in db.ChargeGroupPerson
+                                                     where b.ChargeGroupPersonId == Ids
+                                       select b).FirstOrDefault();
+
+            SalesTaxGroupPersonJson.id = SalesTaxGroupPerson.ChargeGroupPersonId.ToString();
+            SalesTaxGroupPersonJson.text = SalesTaxGroupPerson.ChargeGroupPersonName;
+
+            return Json(SalesTaxGroupPersonJson);
+        }
+        public JsonResult SetSalesTaxGroupPerson(string Ids)
+        {
+            string[] subStr = Ids.Split(',');
+            List<ComboBoxResult> ProductJson = new List<ComboBoxResult>();
+            for (int i = 0; i < subStr.Length; i++)
+            {
+                int temp = Convert.ToInt32(subStr[i]);
+                IEnumerable<ChargeGroupPerson> prod = from p in db.ChargeGroupPerson
+                                                      where p.ChargeGroupPersonId == temp
+                                                 select p;
+                ProductJson.Add(new ComboBoxResult()
+                {
+                    id = prod.FirstOrDefault().ChargeGroupPersonId.ToString(),
+                    text = prod.FirstOrDefault().ChargeGroupPersonName
+                });
+            }
+            return Json(ProductJson);
+        }
+
+
+
+
+        public JsonResult GetShipMethods(string searchTerm, int pageSize, int pageNum)
+        {
+            var Query = cbl.GetShipMethods(searchTerm);
+            var temp = Query.Skip(pageSize * (pageNum - 1)).Take(pageSize).ToList();
+
+            var count = Query.Count();
+
+            ComboBoxPagedResult Data = new ComboBoxPagedResult();
+            Data.Results = temp;
+            Data.Total = count;
+
+            return new JsonpResult
+            {
+                Data = Data,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+        public JsonResult SetSingleShipMethod(int Ids)
+        {
+            ComboBoxResult ShipMethodJson = new ComboBoxResult();
+
+            ShipMethod ShipMethod = (from b in db.ShipMethod
+                                     where b.ShipMethodId == Ids
+                                       select b).FirstOrDefault();
+
+            ShipMethodJson.id = ShipMethod.ShipMethodId.ToString();
+            ShipMethodJson.text = ShipMethod.ShipMethodName;
+
+            return Json(ShipMethodJson);
+        }
+        public JsonResult SetShipMethod(string Ids)
+        {
+            string[] subStr = Ids.Split(',');
+            List<ComboBoxResult> ProductJson = new List<ComboBoxResult>();
+            for (int i = 0; i < subStr.Length; i++)
+            {
+                int temp = Convert.ToInt32(subStr[i]);
+                IEnumerable<ShipMethod> prod = from p in db.ShipMethod
+                                               where p.ShipMethodId == temp
+                                                 select p;
+                ProductJson.Add(new ComboBoxResult()
+                {
+                    id = prod.FirstOrDefault().ShipMethodId.ToString(),
+                    text = prod.FirstOrDefault().ShipMethodName
+                });
+            }
+            return Json(ProductJson);
+        }
+
+
+
+        public JsonResult GetDocumentShipMethods(string searchTerm, int pageSize, int pageNum)
+        {
+            var Query = cbl.GetDocumentShipMethods(searchTerm);
+            var temp = Query.Skip(pageSize * (pageNum - 1)).Take(pageSize).ToList();
+
+            var count = Query.Count();
+
+            ComboBoxPagedResult Data = new ComboBoxPagedResult();
+            Data.Results = temp;
+            Data.Total = count;
+
+            return new JsonpResult
+            {
+                Data = Data,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+        public JsonResult SetSingleDocumentShipMethod(int Ids)
+        {
+            ComboBoxResult DocumentShipMethodJson = new ComboBoxResult();
+
+            DocumentShipMethod DocumentShipMethod = (from b in db.DocumentShipMethod
+                                                     where b.DocumentShipMethodId == Ids
+                                       select b).FirstOrDefault();
+
+            DocumentShipMethodJson.id = DocumentShipMethod.DocumentShipMethodId.ToString();
+            DocumentShipMethodJson.text = DocumentShipMethod.DocumentShipMethodName;
+
+            return Json(DocumentShipMethodJson);
+        }
+        public JsonResult SetDocumentShipMethod(string Ids)
+        {
+            string[] subStr = Ids.Split(',');
+            List<ComboBoxResult> ProductJson = new List<ComboBoxResult>();
+            for (int i = 0; i < subStr.Length; i++)
+            {
+                int temp = Convert.ToInt32(subStr[i]);
+                IEnumerable<DocumentShipMethod> prod = from p in db.DocumentShipMethod
+                                                       where p.DocumentShipMethodId == temp
+                                                 select p;
+                ProductJson.Add(new ComboBoxResult()
+                {
+                    id = prod.FirstOrDefault().DocumentShipMethodId.ToString(),
+                    text = prod.FirstOrDefault().DocumentShipMethodName
+                });
+            }
+            return Json(ProductJson);
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+        public JsonResult GetTransporters(string searchTerm, int pageSize, int pageNum)
+        {
+            var Query = cbl.GetTransporters(searchTerm);
+            var temp = Query.Skip(pageSize * (pageNum - 1)).Take(pageSize).ToList();
+
+            var count = Query.Count();
+
+            ComboBoxPagedResult Data = new ComboBoxPagedResult();
+            Data.Results = temp;
+            Data.Total = count;
+
+            return new JsonpResult
+            {
+                Data = Data,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        public JsonResult GetAgents(string searchTerm, int pageSize, int pageNum)
+        {
+            var Query = cbl.GetAgents(searchTerm);
+            var temp = Query.Skip(pageSize * (pageNum - 1)).Take(pageSize).ToList();
+
+            var count = Query.Count();
+
+            ComboBoxPagedResult Data = new ComboBoxPagedResult();
+            Data.Results = temp;
+            Data.Total = count;
+
+            return new JsonpResult
+            {
+                Data = Data,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+
+
+
+
+
 
         protected override void Dispose(bool disposing)
         {

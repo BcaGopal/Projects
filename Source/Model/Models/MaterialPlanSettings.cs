@@ -68,6 +68,17 @@ namespace Model.Models
         public int? WizardMenuId { get; set; }
         public virtual Menu WizardMenu { get; set; }
 
+        [ForeignKey("ImportMenu")]
+        [Display(Name = "ImportMenu")]
+        public int? ImportMenuId { get; set; }
+        public virtual Menu ImportMenu { get; set; }
+
+
+        [ForeignKey("ExportMenu")]
+        [Display(Name = "ExportMenu")]
+        public int? ExportMenuId { get; set; }
+        public virtual Menu ExportMenu { get; set; }
+
         [Display(Name = "Created By")]
         public string CreatedBy { get; set; }
 
@@ -79,6 +90,9 @@ namespace Model.Models
 
         [Display(Name = "Modified Date")]
         public DateTime ModifiedDate { get; set; }
+        
+        public int ? DocumentPrintReportHeaderId { get; set; }
+
 
 
     }

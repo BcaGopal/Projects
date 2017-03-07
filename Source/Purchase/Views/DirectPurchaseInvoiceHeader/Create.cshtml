@@ -782,7 +782,8 @@
 
     var form_clean;
     $(document).ready(function () {
-        CustomSelectFunction($("#SupplierId"), '/ComboHelpList/GetSuppliers', '/ComboHelpList/SetSingleSupplier', ' ', false, 1);
+        //CustomSelectFunction($("#SupplierId"), '/ComboHelpList/GetSuppliers', '/ComboHelpList/SetSingleSupplier', ' ', false, 1);
+        CustomSelectFunction($("#SupplierId"), '/DirectPurchaseInvoiceHeader/GetCustomPerson', '/ComboHelpList/SetSinglePerson', ' ', false, 1,$('#DocTypeId').val());
         CustomSelectFunction($("#BillingAccountId"), '/ComboHelpList/GetSuppliers', '/ComboHelpList/SetSingleSupplier', ' ', false, 1);
         CustomSelectFunction($("#GodownId"), '/ComboHelpList/GetSiteGodown', '/ComboHelpList/SetSingleGodown', ' ', false, 1);
         //Calling the function to load the table data/ Line information

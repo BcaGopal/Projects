@@ -74,12 +74,12 @@ namespace Web
         public ActionResult _FilterPost(JobOrderLineFilterViewModel vm)
         {
 
-            if (vm.JobOrderSettings.isVisibleRate && vm.JobOrderSettings.isMandatoryRate && (vm.Rate == null || vm.Rate == 0))
-            {
-                ModelState.AddModelError("", "Rate is mandatory");
-                PrepareViewBag(null);
-                return PartialView("_Filters", vm);
-            }
+            //if (vm.JobOrderSettings.isVisibleRate && vm.JobOrderSettings.isMandatoryRate && (vm.Rate == null || vm.Rate == 0))
+            //{
+            //    ModelState.AddModelError("", "Rate is mandatory");
+            //    PrepareViewBag(null);
+            //    return PartialView("_Filters", vm);
+            //}
 
 
             List<JobOrderLineViewModel> temp = _JobOrderLineService.GetProdOrdersForFilters(vm).ToList();
@@ -99,11 +99,26 @@ namespace Web
             JobOrderHeader Header = new JobOrderHeaderService(_unitOfWork).Find(vm.JobOrderHeaderId);
 
             JobOrderSettings Settings = new JobOrderSettingsService(_unitOfWork).GetJobOrderSettingsForDocument(Header.DocTypeId, Header.DivisionId, Header.SiteId);
+            svm.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(Header.DocTypeId);
 
             svm.JobOrderSettings = Mapper.Map<JobOrderSettings, JobOrderSettingsViewModel>(Settings);
 
-            return PartialView("_Results", svm);
-
+            if (svm.JobOrderSettings.isVisibleDealUnit == false && svm.JobOrderSettings.isVisibleLoss == false && svm.JobOrderSettings.isVisibleUncountableQty == false)
+            {
+                return PartialView("_ResultsWithRate", svm);
+            }
+            if (svm.JobOrderSettings.isVisibleDealUnit == true && svm.JobOrderSettings.isVisibleLoss == true && svm.JobOrderSettings.isVisibleUncountableQty == false)
+            {
+                return PartialView("_ResultsWithRateDealQtyLoss", svm);
+            }
+            if (svm.JobOrderSettings.isVisibleDealUnit == false && svm.JobOrderSettings.isVisibleLoss == true && svm.JobOrderSettings.isVisibleUncountableQty == false)
+            {
+                return PartialView("_ResultsWithRateLoss", svm);
+            }
+            else
+            {
+                return PartialView("_Results", svm);
+            }
         }
 
         [HttpPost]
@@ -213,6 +228,8 @@ namespace Web
                             StockViewModel.Specification = item.Specification;
                             StockViewModel.Dimension1Id = item.Dimension1Id;
                             StockViewModel.Dimension2Id = item.Dimension2Id;
+                            StockViewModel.Dimension3Id = item.Dimension3Id;
+                            StockViewModel.Dimension4Id = item.Dimension4Id;
                             StockViewModel.ProductUidId = item.ProductUidId;
                             StockViewModel.CreatedBy = User.Identity.Name;
                             StockViewModel.CreatedDate = DateTime.Now;
@@ -286,6 +303,8 @@ namespace Web
                             StockProcessViewModel.Specification = item.Specification;
                             StockProcessViewModel.Dimension1Id = item.Dimension1Id;
                             StockProcessViewModel.Dimension2Id = item.Dimension2Id;
+                            StockProcessViewModel.Dimension3Id = item.Dimension3Id;
+                            StockProcessViewModel.Dimension4Id = item.Dimension4Id;
                             StockProcessViewModel.ProductUidId = item.ProductUidId;
                             StockProcessViewModel.CreatedBy = User.Identity.Name;
                             StockProcessViewModel.CreatedDate = DateTime.Now;
@@ -320,6 +339,8 @@ namespace Web
                         line.ProductId = item.ProductId;
                         line.Dimension1Id = item.Dimension1Id;
                         line.Dimension2Id = item.Dimension2Id;
+                        line.Dimension3Id = item.Dimension3Id;
+                        line.Dimension4Id = item.Dimension4Id;
                         line.Specification = item.Specification;
                         line.Qty = item.Qty;
                         line.UnitId = item.UnitId;
@@ -357,7 +378,7 @@ namespace Web
                         //Saving BOMPOST Data
                         if (!string.IsNullOrEmpty(Settings.SqlProcConsumption))
                         {
-                            var BomPostList = _JobOrderLineService.GetBomPostingDataForWeaving(line.ProductId, line.Dimension1Id, line.Dimension2Id, Header.ProcessId, line.Qty, Header.DocTypeId, Settings.SqlProcConsumption).ToList();
+                            var BomPostList = _JobOrderLineService.GetBomPostingDataForWeaving(line.ProductId, line.Dimension1Id, line.Dimension2Id, line.Dimension3Id, line.Dimension4Id, Header.ProcessId, line.Qty, Header.DocTypeId, Settings.SqlProcConsumption).ToList();
 
                             foreach (var Bomitem in BomPostList)
                             {
@@ -366,6 +387,8 @@ namespace Web
                                 BomPost.CreatedDate = DateTime.Now;
                                 BomPost.Dimension1Id = Bomitem.Dimension1Id;
                                 BomPost.Dimension2Id = Bomitem.Dimension2Id;
+                                BomPost.Dimension3Id = Bomitem.Dimension3Id;
+                                BomPost.Dimension4Id = Bomitem.Dimension4Id;
                                 BomPost.JobOrderHeaderId = line.JobOrderHeaderId;
                                 BomPost.JobOrderLineId = line.JobOrderLineId;
                                 BomPost.ModifiedBy = User.Identity.Name;
@@ -756,6 +779,8 @@ namespace Web
                         StockViewModel.Specification = s.Specification;
                         StockViewModel.Dimension1Id = s.Dimension1Id;
                         StockViewModel.Dimension2Id = s.Dimension2Id;
+                        StockViewModel.Dimension3Id = s.Dimension3Id;
+                        StockViewModel.Dimension4Id = s.Dimension4Id;
                         StockViewModel.Remark = s.Remark;
                         StockViewModel.ProductUidId = s.ProductUidId;
                         StockViewModel.Status = temp.Status;
@@ -824,6 +849,8 @@ namespace Web
                         StockProcessViewModel.Specification = s.Specification;
                         StockProcessViewModel.Dimension1Id = s.Dimension1Id;
                         StockProcessViewModel.Dimension2Id = s.Dimension2Id;
+                        StockProcessViewModel.Dimension3Id = s.Dimension3Id;
+                        StockProcessViewModel.Dimension4Id = s.Dimension4Id;
                         StockProcessViewModel.Remark = s.Remark;
                         StockProcessViewModel.Status = temp.Status;
                         StockProcessViewModel.ProductUidId = s.ProductUidId;
@@ -965,7 +992,7 @@ namespace Web
                     //Saving BOMPOST Data
                     if (!string.IsNullOrEmpty(svm.JobOrderSettings.SqlProcConsumption))
                     {
-                        var BomPostList = _JobOrderLineService.GetBomPostingDataForWeaving(s.ProductId, s.Dimension1Id, s.Dimension2Id, temp.ProcessId, s.Qty, temp.DocTypeId, svm.JobOrderSettings.SqlProcConsumption).ToList();
+                        var BomPostList = _JobOrderLineService.GetBomPostingDataForWeaving(s.ProductId, s.Dimension1Id, s.Dimension2Id, s.Dimension3Id, s.Dimension4Id, temp.ProcessId, s.Qty, temp.DocTypeId, svm.JobOrderSettings.SqlProcConsumption).ToList();
 
                         foreach (var item in BomPostList)
                         {
@@ -974,6 +1001,8 @@ namespace Web
                             BomPost.CreatedDate = DateTime.Now;
                             BomPost.Dimension1Id = item.Dimension1Id;
                             BomPost.Dimension2Id = item.Dimension2Id;
+                            BomPost.Dimension3Id = item.Dimension3Id;
+                            BomPost.Dimension4Id = item.Dimension4Id;
                             BomPost.JobOrderHeaderId = s.JobOrderHeaderId;
                             BomPost.JobOrderLineId = s.JobOrderLineId;
                             BomPost.ModifiedBy = User.Identity.Name;
@@ -1113,6 +1142,8 @@ namespace Web
                         StockViewModel.Specification = templine.Specification;
                         StockViewModel.Dimension1Id = templine.Dimension1Id;
                         StockViewModel.Dimension2Id = templine.Dimension2Id;
+                        StockViewModel.Dimension3Id = templine.Dimension3Id;
+                        StockViewModel.Dimension4Id = templine.Dimension4Id;
                         StockViewModel.Remark = s.Remark;
                         StockViewModel.ProductUidId = s.ProductUidId;
                         StockViewModel.Status = temp.Status;
@@ -1164,6 +1195,8 @@ namespace Web
                         StockProcessViewModel.Specification = templine.Specification;
                         StockProcessViewModel.Dimension1Id = templine.Dimension1Id;
                         StockProcessViewModel.Dimension2Id = templine.Dimension2Id;
+                        StockProcessViewModel.Dimension3Id = templine.Dimension3Id;
+                        StockProcessViewModel.Dimension4Id = templine.Dimension4Id;
                         StockProcessViewModel.Remark = s.Remark;
                         StockProcessViewModel.ProductUidId = s.ProductUidId;
                         StockProcessViewModel.Status = temp.Status;
@@ -1202,6 +1235,8 @@ namespace Web
                             ProdUidHeader.ProductId = s.ProductId;
                             ProdUidHeader.Dimension1Id = s.Dimension1Id;
                             ProdUidHeader.Dimension2Id = s.Dimension2Id;
+                            ProdUidHeader.Dimension3Id = s.Dimension3Id;
+                            ProdUidHeader.Dimension4Id = s.Dimension4Id;
                             ProdUidHeader.GenDocId = s.JobOrderHeaderId;
                             ProdUidHeader.GenDocNo = temp.DocNo;
                             ProdUidHeader.GenDocTypeId = temp.DocTypeId;
@@ -1236,6 +1271,8 @@ namespace Web
                                     ProdUid.GenPersonId = temp.JobWorkerId;
                                     ProdUid.Dimension1Id = s.Dimension1Id;
                                     ProdUid.Dimension2Id = s.Dimension2Id;
+                                    ProdUid.Dimension3Id = s.Dimension3Id;
+                                    ProdUid.Dimension4Id = s.Dimension4Id;
                                     ProdUid.CurrenctProcessId = null;
                                     ProdUid.Status = (!string.IsNullOrEmpty(settings.BarcodeStatusUpdate) ? settings.BarcodeStatusUpdate : ProductUidStatusConstants.Issue);
                                     ProdUid.LastTransactionDocId = s.JobOrderHeaderId;
@@ -1287,6 +1324,8 @@ namespace Web
                     templine.Remark = s.Remark;
                     templine.Dimension1Id = s.Dimension1Id;
                     templine.Dimension2Id = s.Dimension2Id;
+                    templine.Dimension3Id = s.Dimension3Id;
+                    templine.Dimension4Id = s.Dimension4Id;
                     templine.UnitConversionMultiplier = s.UnitConversionMultiplier;
                     templine.Specification = s.Specification;
 
@@ -1330,7 +1369,7 @@ namespace Web
                     //Saving BOMPOST Data
                     if (!string.IsNullOrEmpty(svm.JobOrderSettings.SqlProcConsumption))
                     {
-                        var BomPostList = _JobOrderLineService.GetBomPostingDataForWeaving(s.ProductId, s.Dimension1Id, s.Dimension2Id, temp.ProcessId, s.Qty, temp.DocTypeId, svm.JobOrderSettings.SqlProcConsumption).ToList();
+                        var BomPostList = _JobOrderLineService.GetBomPostingDataForWeaving(s.ProductId, s.Dimension1Id, s.Dimension2Id, s.Dimension3Id, s.Dimension4Id, temp.ProcessId, s.Qty, temp.DocTypeId, svm.JobOrderSettings.SqlProcConsumption).ToList();
 
                         foreach (var item in BomPostList)
                         {
@@ -1339,6 +1378,8 @@ namespace Web
                             BomPost.CreatedDate = DateTime.Now;
                             BomPost.Dimension1Id = item.Dimension1Id;
                             BomPost.Dimension2Id = item.Dimension2Id;
+                            BomPost.Dimension3Id = item.Dimension3Id;
+                            BomPost.Dimension4Id = item.Dimension4Id;
                             BomPost.JobOrderHeaderId = s.JobOrderHeaderId;
                             BomPost.JobOrderLineId = s.JobOrderLineId;
                             BomPost.ModifiedBy = User.Identity.Name;

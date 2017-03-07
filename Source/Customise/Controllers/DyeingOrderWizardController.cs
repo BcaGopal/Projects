@@ -148,7 +148,7 @@ namespace Web
                                   ProdOrderHeaderId = p.ProdOrderHeaderId,
                                   ProdOrderLineId = p.ProdOrderLineId,
                                   ProdOrderNo = p.ProdOrderNo,
-                                  BuyerCode = t2.Buyer.Person.Code,
+                                  BuyerCode = t2.Buyer.Code,
                                   ProductList = p.Product.ProductName,
                                   Qty = p.BalanceQty,
                                   BalanceQty = p.BalanceQty,

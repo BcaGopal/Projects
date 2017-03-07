@@ -132,6 +132,27 @@
                         </div>
                     </div>
 
+                    <div class="col-md-6" style="display:@(Model.JobInvoiceSettings.isVisibleDimension3?"":"none")">
+                        @Html.HiddenFor(m => m.JobInvoiceSettings.isVisibleDimension3)
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Dimension3Name, "Dimension3", new { @class = "control-label col-md-4 col-sm-2" })
+                            <div class="col-md-7 col-sm-10">
+                                @Html.TextBoxFor(model => model.Dimension3Name, new { @class = "form-control required", @readonly = true })
+                                @Html.ValidationMessageFor(model => model.Dimension3Name, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6" style="display:@(Model.JobInvoiceSettings.isVisibleDimension4?"":"none")">
+                        @Html.HiddenFor(m => m.JobInvoiceSettings.isVisibleDimension4)
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Dimension4Name, "Dimension4", new { @class = "control-label col-md-4 col-sm-2" })
+                            <div class="col-md-7 col-sm-10">
+                                @Html.TextBoxFor(model => model.Dimension4Name, new { @class = "form-control required", @readonly = true })
+                                @Html.ValidationMessageFor(model => model.Dimension4Name, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
 
                     <div class="col-md-6">
                         <div class="form-group">
@@ -334,6 +355,8 @@
                                 key: m.JobInvoiceLineId,
                                 dim1: m.Dimension1Name,
                                 dim2: m.Dimension2Name,
+                                dim3: m.Dimension3Name,
+                                dim4: m.Dimension4Name,
                                 prod: m.ProductName,
                                 balqty: m.BalanceQty,
                                 barcode: m.ProductUidName,
@@ -460,6 +483,8 @@
             $('#Specification').val("");
             $('#Dimension1Name').val("");
             $('#Dimension2Name').val("");
+            $('#Dimension3Name').val("");
+            $('#Dimension4Name').val("");
             $('#LotNo').val("");
             $('#DealQty').val("");
             $('#UnitName').val("");
@@ -482,6 +507,8 @@
             $('#Specification').val(data.Specification);
             $("#Dimension1Name").val(data.Dimension1Name);
             $("#Dimension2Name").val(data.Dimension2Name);
+            $("#Dimension3Name").val(data.Dimension3Name);
+            $("#Dimension4Name").val(data.Dimension4Name);
             $('#LotNo').val(data.LotNo);
             $('#UnitName').val(data.UnitName);
             $('#DealUnitName').val(data.DealUnitName);

@@ -251,6 +251,18 @@ namespace Planning.Controllers
         {
             ViewBag.Name = new DocumentTypeService(_unitOfWork).Find(id).DocumentTypeName;
             ViewBag.id = id;
+
+            int SiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
+            int DivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
+            var Settings = new ProdOrderHeaderService(_unitOfWork).GetProductionOrderSettingsForDocument(id, DivisionId, SiteId);
+            ViewBag.AdminSetting = UserRoles.Contains("Admin").ToString();
+            if (Settings != null)
+            {
+                ViewBag.WizardId = Settings.WizardMenuId;
+                ViewBag.ImportMenuId = Settings.ImportMenuId;
+                ViewBag.SqlProcDocumentPrint = Settings.SqlProcDocumentPrint;
+                ViewBag.ExportMenuId = Settings.ExportMenuId;
+            }
         }
 
         // GET: /ProdOrderCancelHeader/Create

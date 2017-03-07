@@ -58,6 +58,8 @@ namespace Model.Models
         public bool? isVisibleBillToParty { get; set; }
         public bool? isVisibleGodown { get; set; }
 
+        public bool? isMandatoryRate { get; set; }
+
         public string filterLedgerAccountGroups { get; set; }
         public string filterLedgerAccounts { get; set; }
         public string filterProductTypes { get; set; }

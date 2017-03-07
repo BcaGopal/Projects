@@ -98,7 +98,7 @@
                     @Html.ActionLink(" ", "Index", "JobReceiveQAHeader", new { @id = ViewBag.id, IndexType = ViewBag.IndexStatus }, new { @class = "cbtn btn-circle glyphicon glyphicon-list", @title = "List", @data_toggle = "tooltip" })
                   </div>
                 <div class="btn-group">
-                    <a class="cbtn btn-circle glyphicon glyphicon-option-horizontal dropdown-toggle" aria-expanded="false" style="padding-top: 6px;padding-bottom: 6px;" href="#" data-toggle="dropdown" id="dropdownMenu1">
+                    <a class="cbtn btn-circle glyphicon glyphicon-option-horizontal dropdown-toggle" title="More Option" aria-expanded="false" style="padding-top: 6px;padding-bottom: 6px;" href="#" data-toggle="dropdown" id="dropdownMenu1">
                     </a>
                     <ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu1"> 
                         <li><a id="DocHistory" data-modal="" href="@Url.Action("GetHistory", "LogHistory", new { Ids = Model.JobReceiveQAHeaderId, DocTypeId = Model.DocTypeId })"><span class="glyphicon glyphicon-user"> </span> History</a></li>
@@ -539,7 +539,7 @@
                             +"              <div class='row'>"
                             +"                   <div class='block' style='width:25%'>"+(item.ProductName==null?" ":"<strong>"+item.ProductName+"</strong>")
                             +"                       <div>"+(item.Specification==null?" ":item.Specification)+"</div>"
-                            +"                           <div>"+(item.Dimension1Name==null?" ":item.Dimension1Name+",")+(item.Dimension2Name==null?" ":item.Dimension2Name)+"</div>"
+                            +"                           <div>"+(item.Dimension1Name==null?" ":item.Dimension1Name+",")+(item.Dimension2Name==null?" ":item.Dimension2Name)+(item.Dimension3Name==null?" ":item.Dimension3Name)+(item.Dimension4Name==null?" ":item.Dimension4Name)+"</div>"
                             +"                              <div>"+(item.ProductUidName==null?" ":"Product UID : <a href='"+BarCodeUrl+"' target='_blank'> "+item.ProductUidName+"</a>")+"</div>"
                             +"                   </div>"
                             +"                   <div class='block'  style='width:20%'>"+(item.JobReceiveDocNo==null?" ":"<a href='"+ReceiveUrl+"' class='nav' style='color:black'> <span class='small' style='font-weight:bold'>"+item.JobReceiveDocNo+"</span></a>")

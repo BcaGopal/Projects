@@ -138,7 +138,7 @@
                                                   {
                                                     <div>@item.Specification </div>
                                                   }
-                                                  <div>@(item.Dimension1Name == null ? " " : item.Dimension1Name + ",")@(item.Dimension2Name == null ? " " : item.Dimension2Name)</div>
+                                                  <div>@(item.Dimension1Name == null ? " " : item.Dimension1Name + ",")@(item.Dimension2Name == null ? " " : item.Dimension2Name + ",")@(item.Dimension3Name == null ? " " : item.Dimension3Name + ",")@(item.Dimension4Name == null ? " " : item.Dimension4Name)</div>
                                                   @if (item.ProductUidName != null)
                                                   {
                                                     <div> Product UID : <a href='@BarCodeUrl' target='_blank'>@item.ProductUidName </a></div>

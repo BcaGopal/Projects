@@ -124,7 +124,7 @@
                     @Html.ActionLink(" ", "Index", "JobInvoiceHeader", new { id = ViewBag.id, IndexType = ViewBag.IndexStatus }, new { @class = "cbtn btn-circle glyphicon glyphicon-list", @title = "List", @data_toggle = "tooltip" })
                 </div>
                 <div class="btn-group">
-                    <a class="cbtn btn-circle glyphicon glyphicon-option-horizontal dropdown-toggle" aria-expanded="false" style="padding-top: 6px;padding-bottom: 6px;" href="#" data-toggle="dropdown" id="dropdownMenu1">
+                    <a class="cbtn btn-circle glyphicon glyphicon-option-horizontal dropdown-toggle" title="More Option" aria-expanded="false" style="padding-top: 6px;padding-bottom: 6px;" href="#" data-toggle="dropdown" id="dropdownMenu1">
                     </a>
                     <ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu1">
                                              
@@ -188,7 +188,7 @@
 
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.JobWorkerDocNo, "JobWorker DocNo", new { @class = "control-label col-md-4 col-sm-2" })
+                                    @Html.LabelFor(model => model.JobWorkerDocNo, (Model.DocumentTypeSettings.PartyCaption ?? "Party") + " Doc No", new { @class = "control-label col-md-4 col-sm-2" })
                                     <div class="col-md-7 col-sm-10">
                                         @Html.TextBoxFor(m => m.JobWorkerDocNo, null, new { @class = "form-control" })
                                         @Html.ValidationMessageFor(m => m.JobWorkerDocNo, "", new { @class = "text-danger" })
@@ -709,7 +709,7 @@
                             +"              <div class='row'>"
                             +"                  <div class='block' style='width:25%'>"+(item.ProductName==null?" ":"<strong>"+item.ProductName+"</strong>")
                             +"                      <div>"+(item.Specification==null?" ":item.Specification)+"</div>"
-                            +"                          <div>"+(item.Dimension1Name==null?" ":item.Dimension1Name+",")+(item.Dimension2Name==null?" ":item.Dimension2Name)+"</div>"
+                            + "                          <div>" + (item.Dimension1Name == null ? " " : item.Dimension1Name + ",") + (item.Dimension2Name == null ? " " : item.Dimension2Name) + (item.Dimension3Name == null ? " " : item.Dimension3Name) + (item.Dimension4Name == null ? " " : item.Dimension4Name) + "</div>"
                             +"                          <div>"+((item.DueDate==null)?" ":"<span title='DueDate' class='label label-danger' style='font-weight:bold'>"+formatDate('d/m/Y',new Date(parseInt(item.DueDate.substr(6))))+"</span>")
                             +"                          </div>"
                             +"                           <div>"+(item.ProductUidName==null?" ":"ProductUID:<a href='"+BarCodeUrl+"' target='_blank'> "+item.ProductUidName+"</a>")+"</div>"

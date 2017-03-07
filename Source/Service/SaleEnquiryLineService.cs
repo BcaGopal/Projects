@@ -40,10 +40,11 @@ namespace Service
 
         IQueryable<ComboBoxResult> GetCustomProducts(int Id, string term);
         string GetBuyerSku(int BuyerId);
-        string GetBuyerSpecification(int BuyerId);
-        string GetBuyerSpecification1(int BuyerId);
-        string GetBuyerSpecification2(int BuyerId);
-        string GetBuyerSpecification3(int BuyerId);
+
+        IQueryable<ComboBoxResult> GetBuyerSpecification(string term, int filter);
+        IQueryable<ComboBoxResult> GetBuyerSpecification1(string term, int filter);
+        IQueryable<ComboBoxResult> GetBuyerSpecification2(string term, int filter);
+        IQueryable<ComboBoxResult> GetBuyerSpecification3(string term, int filter);
         SaleEnquiryLastTransaction GetLastTransactionDetail(int SaleEnquiryHeaderId);
         int NextId(int id);
         int PrevId(int id);
@@ -470,75 +471,79 @@ namespace Service
 
             return string.Join(",", Query.Select(m => m.BuyerSku).ToList());
         }
-        public string GetBuyerSpecification(int BuyerId)
+
+
+        public IQueryable<ComboBoxResult> GetBuyerSpecification(string term, int filter)
         {
-            var Query = (from Le in db.SaleEnquiryLineExtended
+            var list = (from Le in db.SaleEnquiryLineExtended
                          join L in db.SaleEnquiryLine on Le.SaleEnquiryLineId equals L.SaleEnquiryLineId into SaleEnquiryLineTable from SaleEnquiryLineTab in SaleEnquiryLineTable.DefaultIfEmpty()
                          join H in db.SaleEnquiryHeader on SaleEnquiryLineTab.SaleEnquiryHeaderId equals H.SaleEnquiryHeaderId into SaleEnquiryHeaderTable from SaleEnquiryHeaderTab in SaleEnquiryHeaderTable.DefaultIfEmpty()
-                         where SaleEnquiryHeaderTab.SaleToBuyerId == BuyerId && Le.BuyerSpecification != null
+                         where SaleEnquiryHeaderTab.SaleToBuyerId == filter && Le.BuyerSpecification != null
                          group new  { Le } by new { Le.BuyerSpecification } into Result
-                         select new
+                         orderby Result.Key.BuyerSpecification
+                         select new ComboBoxResult
                          {
-                             BuyerSpecification = Result.Key.BuyerSpecification,
-                         }
-                        );
-
-            return string.Join(",", Query.Select(m => m.BuyerSpecification).ToList());
+                            id = Result.Key.BuyerSpecification,
+                            text = Result.Key.BuyerSpecification
+                         });
+            return list;
         }
 
-        public string GetBuyerSpecification1(int BuyerId)
+        public IQueryable<ComboBoxResult> GetBuyerSpecification1(string term, int filter)
         {
-            var Query = (from Le in db.SaleEnquiryLineExtended
-                         join L in db.SaleEnquiryLine on Le.SaleEnquiryLineId equals L.SaleEnquiryLineId into SaleEnquiryLineTable
-                         from SaleEnquiryLineTab in SaleEnquiryLineTable.DefaultIfEmpty()
-                         join H in db.SaleEnquiryHeader on SaleEnquiryLineTab.SaleEnquiryHeaderId equals H.SaleEnquiryHeaderId into SaleEnquiryHeaderTable
-                         from SaleEnquiryHeaderTab in SaleEnquiryHeaderTable.DefaultIfEmpty()
-                         where SaleEnquiryHeaderTab.SaleToBuyerId == BuyerId && Le.BuyerSpecification1 != null
-                         group new { Le } by new { Le.BuyerSpecification1 } into Result
-                         select new
-                         {
-                             BuyerSpecification1 = Result.Key.BuyerSpecification1,
-                         }
-                        );
-
-            return string.Join(",", Query.Select(m => m.BuyerSpecification1).ToList());
+            var list = (from Le in db.SaleEnquiryLineExtended
+                        join L in db.SaleEnquiryLine on Le.SaleEnquiryLineId equals L.SaleEnquiryLineId into SaleEnquiryLineTable
+                        from SaleEnquiryLineTab in SaleEnquiryLineTable.DefaultIfEmpty()
+                        join H in db.SaleEnquiryHeader on SaleEnquiryLineTab.SaleEnquiryHeaderId equals H.SaleEnquiryHeaderId into SaleEnquiryHeaderTable
+                        from SaleEnquiryHeaderTab in SaleEnquiryHeaderTable.DefaultIfEmpty()
+                        where SaleEnquiryHeaderTab.SaleToBuyerId == filter && Le.BuyerSpecification1 != null
+                        group new { Le } by new { Le.BuyerSpecification1 } into Result
+                        orderby Result.Key.BuyerSpecification1
+                        select new ComboBoxResult
+                        {
+                            id = Result.Key.BuyerSpecification1,
+                            text = Result.Key.BuyerSpecification1
+                        });
+            return list;
         }
 
-        public string GetBuyerSpecification2(int BuyerId)
+        public IQueryable<ComboBoxResult> GetBuyerSpecification2(string term, int filter)
         {
-            var Query = (from Le in db.SaleEnquiryLineExtended
-                         join L in db.SaleEnquiryLine on Le.SaleEnquiryLineId equals L.SaleEnquiryLineId into SaleEnquiryLineTable
-                         from SaleEnquiryLineTab in SaleEnquiryLineTable.DefaultIfEmpty()
-                         join H in db.SaleEnquiryHeader on SaleEnquiryLineTab.SaleEnquiryHeaderId equals H.SaleEnquiryHeaderId into SaleEnquiryHeaderTable
-                         from SaleEnquiryHeaderTab in SaleEnquiryHeaderTable.DefaultIfEmpty()
-                         where SaleEnquiryHeaderTab.SaleToBuyerId == BuyerId && Le.BuyerSpecification2 != null
-                         group new { Le } by new { Le.BuyerSpecification2 } into Result
-                         select new
-                         {
-                             BuyerSpecification2 = Result.Key.BuyerSpecification2,
-                         }
-                        );
-
-            return string.Join(",", Query.Select(m => m.BuyerSpecification2).ToList());
+            var list = (from Le in db.SaleEnquiryLineExtended
+                        join L in db.SaleEnquiryLine on Le.SaleEnquiryLineId equals L.SaleEnquiryLineId into SaleEnquiryLineTable
+                        from SaleEnquiryLineTab in SaleEnquiryLineTable.DefaultIfEmpty()
+                        join H in db.SaleEnquiryHeader on SaleEnquiryLineTab.SaleEnquiryHeaderId equals H.SaleEnquiryHeaderId into SaleEnquiryHeaderTable
+                        from SaleEnquiryHeaderTab in SaleEnquiryHeaderTable.DefaultIfEmpty()
+                        where SaleEnquiryHeaderTab.SaleToBuyerId == filter && Le.BuyerSpecification2 != null
+                        group new { Le } by new { Le.BuyerSpecification2 } into Result
+                        orderby Result.Key.BuyerSpecification2
+                        select new ComboBoxResult
+                        {
+                            id = Result.Key.BuyerSpecification2,
+                            text = Result.Key.BuyerSpecification2
+                        });
+            return list;
         }
 
-        public string GetBuyerSpecification3(int BuyerId)
+        public IQueryable<ComboBoxResult> GetBuyerSpecification3(string term, int filter)
         {
-            var Query = (from Le in db.SaleEnquiryLineExtended
-                         join L in db.SaleEnquiryLine on Le.SaleEnquiryLineId equals L.SaleEnquiryLineId into SaleEnquiryLineTable
-                         from SaleEnquiryLineTab in SaleEnquiryLineTable.DefaultIfEmpty()
-                         join H in db.SaleEnquiryHeader on SaleEnquiryLineTab.SaleEnquiryHeaderId equals H.SaleEnquiryHeaderId into SaleEnquiryHeaderTable
-                         from SaleEnquiryHeaderTab in SaleEnquiryHeaderTable.DefaultIfEmpty()
-                         where SaleEnquiryHeaderTab.SaleToBuyerId == BuyerId && Le.BuyerSpecification3 != null
-                         group new { Le } by new { Le.BuyerSpecification3 } into Result
-                         select new
-                         {
-                             BuyerSpecification3 = Result.Key.BuyerSpecification3,
-                         }
-                        );
-
-            return string.Join(",", Query.Select(m => m.BuyerSpecification3).ToList());
+            var list = (from Le in db.SaleEnquiryLineExtended
+                        join L in db.SaleEnquiryLine on Le.SaleEnquiryLineId equals L.SaleEnquiryLineId into SaleEnquiryLineTable
+                        from SaleEnquiryLineTab in SaleEnquiryLineTable.DefaultIfEmpty()
+                        join H in db.SaleEnquiryHeader on SaleEnquiryLineTab.SaleEnquiryHeaderId equals H.SaleEnquiryHeaderId into SaleEnquiryHeaderTable
+                        from SaleEnquiryHeaderTab in SaleEnquiryHeaderTable.DefaultIfEmpty()
+                        where SaleEnquiryHeaderTab.SaleToBuyerId == filter && Le.BuyerSpecification3 != null
+                        group new { Le } by new { Le.BuyerSpecification3 } into Result
+                        orderby Result.Key.BuyerSpecification3
+                        select new ComboBoxResult
+                        {
+                            id = Result.Key.BuyerSpecification3,
+                            text = Result.Key.BuyerSpecification3
+                        });
+            return list;
         }
+
+
 
         public SaleEnquiryLastTransaction GetLastTransactionDetail(int SaleEnquiryHeaderId)
         {

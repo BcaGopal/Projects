@@ -124,6 +124,7 @@
     <Compile Include="Models\ProductBuyerSettings.cs" />
     <Compile Include="Models\QAGroup.cs" />
     <Compile Include="Models\QAGroupLine.cs" />
+    <Compile Include="Models\DocumentShipMethod.cs" />
     <Compile Include="Models\UserReferral.cs" />
     <Compile Include="Models\Agent.cs" />
     <Compile Include="Models\ApplicationUser.cs" />

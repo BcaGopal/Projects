@@ -186,8 +186,21 @@ namespace Service
                         GatePassStatus = (p.GatePassHeader == null ? 0 : p.GatePassHeader.Status),
                         GatePassDocDate = p.GatePassHeader.DocDate,
                         CreatedDate = p.CreatedDate,
-                    }
-                        ).FirstOrDefault();
+                        DeliveryTermsId = p.DeliveryTermsId,
+                        ShipToAddressId = p.ShipToAddressId,
+                        CurrencyId = p.CurrencyId,
+                        SalesTaxGroupPersonId = p.SalesTaxGroupPersonId,
+                        ShipMethodId = p.ShipMethodId,
+                        DocumentShipMethodId = p.DocumentShipMethodId,
+                        TransporterId = p.TransporterId,
+                        AgentId= p.AgentId,
+                        IsDoorDelivery = p.IsDoorDelivery ?? false,
+                        PayTermAdvancePer= p.PayTermAdvancePer,
+                        PayTermOnDeliveryPer = p.PayTermOnDeliveryPer,
+                        PayTermOnDueDatePer= p.PayTermOnDueDatePer,
+                        PayTermCashPer = p.PayTermCashPer,
+                        PayTermBankPer= p.PayTermBankPer,
+                    }).FirstOrDefault();
         }
 
 
@@ -199,24 +212,32 @@ namespace Service
 
 
             var tem = (from p in db.ViewJobOrderBalance
-                       join t in db.Dimension1 on p.Dimension1Id equals t.Dimension1Id into table
-                       from dim1 in table.DefaultIfEmpty()
-                       join t2 in db.Dimension2 on p.Dimension2Id equals t2.Dimension2Id into table2
-                       from dim2 in table2.DefaultIfEmpty()
+                       join D1 in db.Dimension1 on p.Dimension1Id equals D1.Dimension1Id into Dimension1Table
+                       from Dimension1Tab in Dimension1Table.DefaultIfEmpty()
+                       join D2 in db.Dimension2 on p.Dimension2Id equals D2.Dimension2Id into Dimension2Table
+                       from Dimension2Tab in Dimension2Table.DefaultIfEmpty()
+                       join D3 in db.Dimension3 on p.Dimension3Id equals D3.Dimension3Id into Dimension3Table
+                       from Dimension3Tab in Dimension3Table.DefaultIfEmpty()
+                       join D4 in db.Dimension4 on p.Dimension4Id equals D4.Dimension4Id into Dimension4Table
+                       from Dimension4Tab in Dimension4Table.DefaultIfEmpty()
                        join t3 in db.Product on p.ProductId equals t3.ProductId
                        where p.BalanceQty > 0 && p.JobWorkerId == JobWorkerId
                        && p.DivisionId == DivisionId && p.SiteId == SiteId
                        && ((string.IsNullOrEmpty(term) ? 1 == 1 : p.JobOrderNo.ToLower().Contains(term.ToLower()))
-                       || (string.IsNullOrEmpty(term) ? 1 == 1 : dim1.Dimension1Name.ToLower().Contains(term.ToLower()))
-                       || (string.IsNullOrEmpty(term) ? 1 == 1 : dim2.Dimension2Name.ToLower().Contains(term.ToLower()))
+                       || (string.IsNullOrEmpty(term) ? 1 == 1 : Dimension1Tab.Dimension1Name.ToLower().Contains(term.ToLower()))
+                       || (string.IsNullOrEmpty(term) ? 1 == 1 : Dimension2Tab.Dimension2Name.ToLower().Contains(term.ToLower()))
+                       || (string.IsNullOrEmpty(term) ? 1 == 1 : Dimension3Tab.Dimension3Name.ToLower().Contains(term.ToLower()))
+                       || (string.IsNullOrEmpty(term) ? 1 == 1 : Dimension4Tab.Dimension4Name.ToLower().Contains(term.ToLower()))
                        || (string.IsNullOrEmpty(term) ? 1 == 1 : t3.ProductName.ToLower().Contains(term.ToLower())))
                        orderby p.JobOrderNo
                        select new JobOrderHeaderListViewModel
                        {
                            DocNo = p.JobOrderNo,
                            JobOrderLineId = p.JobOrderLineId,
-                           Dimension1Name = dim1.Dimension1Name,
-                           Dimension2Name = dim2.Dimension2Name,
+                           Dimension1Name = Dimension1Tab.Dimension1Name,
+                           Dimension2Name = Dimension2Tab.Dimension2Name,
+                           Dimension3Name = Dimension3Tab.Dimension3Name,
+                           Dimension4Name = Dimension4Tab.Dimension4Name,
                            ProductName = t3.ProductName,
                            BalanceQty = p.BalanceQty,
 
@@ -232,25 +253,33 @@ namespace Service
             var SiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
 
             var tem = (from p in db.ViewJobOrderBalanceFromStatus
-                       join t in db.Dimension1 on p.Dimension1Id equals t.Dimension1Id into table
-                       from dim1 in table.DefaultIfEmpty()
-                       join t2 in db.Dimension2 on p.Dimension2Id equals t2.Dimension2Id into table2
-                       from dim2 in table2.DefaultIfEmpty()
+                       join D1 in db.Dimension1 on p.Dimension1Id equals D1.Dimension1Id into Dimension1Table
+                       from Dimension1Tab in Dimension1Table.DefaultIfEmpty()
+                       join D2 in db.Dimension2 on p.Dimension2Id equals D2.Dimension2Id into Dimension2Table
+                       from Dimension2Tab in Dimension2Table.DefaultIfEmpty()
+                       join D3 in db.Dimension3 on p.Dimension3Id equals D3.Dimension3Id into Dimension3Table
+                       from Dimension3Tab in Dimension3Table.DefaultIfEmpty()
+                       join D4 in db.Dimension4 on p.Dimension4Id equals D4.Dimension4Id into Dimension4Table
+                       from Dimension4Tab in Dimension4Table.DefaultIfEmpty()
                        join t4 in db.JobOrderHeader on p.JobOrderHeaderId equals t4.JobOrderHeaderId
                        join t3 in db.Product on p.ProductId equals t3.ProductId
                        where p.BalanceQty > 0 && p.JobWorkerId == JobWorkerId && t4.ProcessId == ProcessId
                        && p.DivisionId == DivisionId && p.SiteId == SiteId
                        && ((string.IsNullOrEmpty(term) ? 1 == 1 : p.JobOrderNo.ToLower().Contains(term.ToLower()))
-                       || (string.IsNullOrEmpty(term) ? 1 == 1 : dim1.Dimension1Name.ToLower().Contains(term.ToLower()))
-                       || (string.IsNullOrEmpty(term) ? 1 == 1 : dim2.Dimension2Name.ToLower().Contains(term.ToLower()))
+                       || (string.IsNullOrEmpty(term) ? 1 == 1 : Dimension1Tab.Dimension1Name.ToLower().Contains(term.ToLower()))
+                       || (string.IsNullOrEmpty(term) ? 1 == 1 : Dimension2Tab.Dimension2Name.ToLower().Contains(term.ToLower()))
+                       || (string.IsNullOrEmpty(term) ? 1 == 1 : Dimension3Tab.Dimension3Name.ToLower().Contains(term.ToLower()))
+                       || (string.IsNullOrEmpty(term) ? 1 == 1 : Dimension4Tab.Dimension4Name.ToLower().Contains(term.ToLower()))
                        || (string.IsNullOrEmpty(term) ? 1 == 1 : t3.ProductName.ToLower().Contains(term.ToLower())))
                        orderby p.JobOrderNo
                        select new JobOrderHeaderListViewModel
                        {
                            DocNo = p.JobOrderNo,
                            JobOrderLineId = p.JobOrderLineId,
-                           Dimension1Name = dim1.Dimension1Name,
-                           Dimension2Name = dim2.Dimension2Name,
+                           Dimension1Name = Dimension1Tab.Dimension1Name,
+                           Dimension2Name = Dimension2Tab.Dimension2Name,
+                           Dimension3Name = Dimension3Tab.Dimension3Name,
+                           Dimension4Name = Dimension4Tab.Dimension4Name,
                            ProductName = t3.ProductName,
                            BalanceQty = p.BalanceQty,
 

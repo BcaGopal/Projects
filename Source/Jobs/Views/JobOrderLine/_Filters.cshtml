@@ -5,7 +5,7 @@
     <div class="modal-header" style="border-bottom: 1px solid #8E8888">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true"> <span class="glyphicon glyphicon-remove"></span></button>
         <h3>
-            <span style="font-family: Calibri,sans-serif,Verdana;font-weight:bold" class="black"><span class="glyphicon glyphicon-file black"></span> For Production Order</span>
+            <span style="font-family: Calibri,sans-serif,Verdana;font-weight:bold" class="black"><span class="glyphicon glyphicon-file black"></span> For @(Model.DocumentTypeSettings.ContraDocTypeCaption ?? "Production Order")</span>
         </h3>
     </div>
     <div>
@@ -85,6 +85,29 @@
                                     </div>
                                 </div>
                             </div>
+
+
+                            <div class="col-md-6" style="display:@(Model.JobOrderSettings.isVisibleDimension3?"":"none")">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Dimension3Id, (Model.DocumentTypeSettings.Dimension3Caption ?? "Dimension3"), new { @class = "control-label col-md-4 col-sm-2 " })
+                                    @Html.HiddenFor(m => m.DocumentTypeSettings.Dimension3Caption)
+                                    <div class="col-md-7 col-sm-10">
+                                        @Html.TextBoxFor(model => model.Dimension3Id, new { @class = "form-control required" })
+                                        @Html.ValidationMessageFor(model => model.Dimension3Id, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6" style="display:@(Model.JobOrderSettings.isVisibleDimension4?"":"none")">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Dimension4Id, (Model.DocumentTypeSettings.Dimension4Caption ?? "Dimension4"), new { @class = "control-label col-md-4 col-sm-2" })
+                                    @Html.HiddenFor(m => m.DocumentTypeSettings.Dimension4Caption)
+                                    <div class="col-md-7 col-sm-10">
+                                        @Html.TextBoxFor(model => model.Dimension4Id, new { @class = "form-control required" })
+                                        @Html.ValidationMessageFor(model => model.Dimension4Id, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                 </div>
@@ -109,7 +132,7 @@
                            
                             <div class="col-md-6" style="display:@((Model.JobOrderSettings.isVisibleRate)?"":"none")">
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.Rate, "Rate", new { @class = "control-label col-md-4 col-sm-2" })
+                                    @Html.LabelFor(model => model.Rate, "Flat Rate", new { @class = "control-label col-md-4 col-sm-2" })
                                     <div class="col-md-7 col-sm-10">
                                         @Html.TextBoxFor(model => model.Rate, new { @class = "form-control required" })
                                         @Html.ValidationMessageFor(model => model.Rate, "", new { @class = "text-danger" })
@@ -143,6 +166,8 @@
         //CustomSelectFunction($("#PurchaseIndentHeaderId"), '/ComboHelpList/GetPurchaseIndents', '/ComboHelpList/SetPurchaseIndents', 'Enter Indent Name', true, 1);
         CustomSelectFunction($("#Dimension1Id"), '/ComboHelpList/GetDimension1', '/ComboHelpList/SetSingleDimension1', ' ', true, 1);
         CustomSelectFunction($("#Dimension2Id"), '/ComboHelpList/GetDimension2', '/ComboHelpList/SetSingleDimension2', ' ', true, 1);
+        CustomSelectFunction($("#Dimension3Id"), '/ComboHelpList/GetDimension3', '/ComboHelpList/SetSingleDimension3', ' ', true, 1);
+        CustomSelectFunction($("#Dimension4Id"), '/ComboHelpList/GetDimension4', '/ComboHelpList/SetSingleDimension4', ' ', true, 1);
         //CustomSelectFunction($("#ProductGroupId"), '/ComboHelpList/GetProductGroup', '/ComboHelpList/SetProductGroup', ' ', true, 1);
         CustomSelectFunction($("#ProductGroupId"), '/JobOrderLine/GetCustomProductGroups', '/ComboHelpList/SetProductGroup', ' ', false, 0, DocID);
         CustomSelectFunction($("#ProdOrderHeaderId"), '/JobOrderLine/GetPendingProdOrdersHelpList', '/ComboHelpList/SetProdOrders', ' ', true, 1,DocID);

@@ -134,10 +134,10 @@ namespace Web
             
             ViewBag.DeliveryUnitList = new UnitService(_unitOfWork).GetUnitList().ToList();
             ViewBag.BuyerSkuList = new SaleEnquiryLineService(_unitOfWork).GetBuyerSku(BuyerId);
-            ViewBag.BuyerSpecificationList = new SaleEnquiryLineService(_unitOfWork).GetBuyerSpecification(BuyerId);
-            ViewBag.BuyerSpecification1List = new SaleEnquiryLineService(_unitOfWork).GetBuyerSpecification1(BuyerId);
-            ViewBag.BuyerSpecification2List = new SaleEnquiryLineService(_unitOfWork).GetBuyerSpecification2(BuyerId);
-            ViewBag.BuyerSpecification3List = new SaleEnquiryLineService(_unitOfWork).GetBuyerSpecification3(BuyerId);
+            //ViewBag.BuyerSpecificationList = new SaleEnquiryLineService(_unitOfWork).GetBuyerSpecification(BuyerId);
+            //ViewBag.BuyerSpecification1List = new SaleEnquiryLineService(_unitOfWork).GetBuyerSpecification1(BuyerId);
+            //ViewBag.BuyerSpecification2List = new SaleEnquiryLineService(_unitOfWork).GetBuyerSpecification2(BuyerId);
+            //ViewBag.BuyerSpecification3List = new SaleEnquiryLineService(_unitOfWork).GetBuyerSpecification3(BuyerId);
         }
 
 

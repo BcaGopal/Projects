@@ -94,6 +94,28 @@
                                 </div>
                             </div>
 
+
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Dimension3Id, "Dimension3", new { @class = "control-label col-xs-4 " })
+                                    <div class="col-xs-7">
+                                        @Html.TextBoxFor(model => model.Dimension3Id, new { @class = "form-control col-xs-7 required" })
+                                        @Html.ValidationMessageFor(model => model.Dimension3Id, "", new { @class = "text-danger" })
+                                        <span id="status" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Dimension4Id, "Dimension4", new { @class = "control-label col-xs-4" })
+                                    <div class="col-xs-7">
+                                        @Html.TextBoxFor(model => model.Dimension4Id, new { @class = "form-control col-xs-7 required" })
+                                        @Html.ValidationMessageFor(model => model.Dimension4Id, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+
                             <div class="col-md-6">
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.ProductGroupId, "Product Group", new { @class = "control-label col-xs-4" })
@@ -152,8 +174,10 @@
 
         //CustomSelectFunction($("#ProductId"), '/JobOrderInspectionRequestWizard/GetPendingProductHelpList', '/ComboHelpList/SetProducts', 'Enter Product Name', true, 3, DocId);
         CustomSelectFunction($("#JobWorkerId"), '/ComboHelpList/GetJobWorkers', '/ComboHelpList/SetJobWorkers', 'Enter JobWorker', true, 1);
-        CustomSelectFunction($("#Dimension1Id"), '/ComboHelpList/GetDimension1', '/ComboHelpList/SetSingleDimension1', 'Dimension1', true, 1);
-        CustomSelectFunction($("#Dimension2Id"), '/ComboHelpList/GetDimension2', '/ComboHelpList/SetSingleDimension2', 'Dimension2', true, 1);
+        CustomSelectFunction($("#Dimension1Id"), '/ComboHelpList/GetDimension1', '/ComboHelpList/SetSingleDimension1', ' ', true, 0);
+        CustomSelectFunction($("#Dimension2Id"), '/ComboHelpList/GetDimension2', '/ComboHelpList/SetSingleDimension2', ' ', true, 0);
+        CustomSelectFunction($("#Dimension3Id"), '/ComboHelpList/GetDimension3', '/ComboHelpList/SetSingleDimension3', ' ', true, 0);
+        CustomSelectFunction($("#Dimension4Id"), '/ComboHelpList/GetDimension4', '/ComboHelpList/SetSingleDimension4', ' ', true, 0);
         //CustomSelectFunction($("#ProductGroupId"), '/ComboHelpList/GetProductGroup', '/ComboHelpList/SetProductGroup', 'Enter Group Name', true, 1);
         CustomSelectFunction($("#JobOrderHeaderId"), '/JobOrderInspectionRequestWizard/GetPendingJobOrdersHelpList', '/ComboHelpList/SetJobOrders', 'Enter Job Order', true, 1, DocId);
     });

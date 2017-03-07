@@ -127,9 +127,14 @@
 <script type="text/javascript">
     $(document).ready(function () {
         
-
-        $("#ProductId").select2('focus');
-
+        if ($("#ProductId").val() != 0 && $("#ProductId").val() != null)
+        {
+            $("#ProductId").select2('focus');
+        }
+        else{
+            $("#Dimension1Id").select2('focus');
+        }
+        Calculation();
 
 
         var id=@Model.BomDetailId;

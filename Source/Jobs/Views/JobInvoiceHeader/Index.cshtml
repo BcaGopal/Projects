@@ -41,7 +41,10 @@
             </h4>*@
             <div class="btn-group">
                 @Html.ActionLink(" ", "Create", "JobInvoiceHeader", new { @id = @ViewBag.id }, new { @class = "cbtn btn-circle glyphicon glyphicon-plus toolbar", @title = "Add New", @data_toggle = "tooltip" })
+                @*@if (ViewBag.AdminSetting == "True")
+                {
                 @Html.ActionLink(" ", "GetHistory", "LogHistory", null, new { @class = "cbtn btn-circle glyphicon glyphicon-user toolbar", @title = "History", @data_toggle = "tooltip", @id = "DocHistoryI" })
+                }*@
                 @if (ViewBag.SqlProcDocumentPrint != null)
                 {
                 @Html.ActionLink(" ", "GeneratePrints", "JobInvoiceHeader", null, new { @class = "cbtn btn-circle glyphicon glyphicon-print toolbar", @title = "Print", @data_toggle = "tooltip", @id = "PrintRecordI", target = "_blank" })
@@ -49,7 +52,7 @@
                 @Html.ActionLink(" ", "Remove", "JobInvoiceHeader", null, new { @class = "cbtn btn-circle glyphicon glyphicon-trash toolbar", @title = "Delete", @data_toggle = "tooltip", @id = "DeleteRecord", @data_modalDelete = "" })
                 </div>
             <div class="btn-group">
-                <a class="cbtn btn-circle glyphicon glyphicon-option-horizontal dropdown-toggle" aria-expanded="false" style="padding-top: 6px;padding-bottom: 6px;" href="#" data-toggle="dropdown" id="dropdownMenu1">
+                <a class="cbtn btn-circle glyphicon glyphicon-option-horizontal dropdown-toggle" aria-expanded="false" style="padding-top: 6px;padding-bottom: 6px;" title="More Option" href="#" data-toggle="dropdown" id="dropdownMenu1">
                 </a>
                 <ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu1">
                     @if (ViewBag.ExportMenuId != null)
@@ -69,7 +72,8 @@
                     <li><a href="@Url.Action("Create", "JobInvoiceSettings", new { @id = @ViewBag.id })"><span class="glyphicon glyphicon-cog"> </span>&nbsp;&nbsp;Settings</a></li>
                     }
                     <li role="separator" class="divider"></li>
-                    <li><a href="@Url.Action("Report", "JobInvoiceHeader", new { @ViewBag.id })"><span class="glyphicon glyphicon-stats"> </span>&nbsp;&nbsp;Report</a></li>
+                    <li><a id="DocHistoryI" href="@Url.Action("GetHistory", "LogHistory", new {  })"><span class="glyphicon glyphicon-user"> </span> History</a></li>
+                    <li><a target="_blank" href="@Url.Action("Report", "JobInvoiceHeader", new { @ViewBag.id })"><span class="glyphicon glyphicon-stats"> </span>&nbsp;&nbsp;Report</a></li>
                 </ul>
             </div>
             <div class="btn-group right">
@@ -92,9 +96,9 @@
                columns.Add().Encoded(false).Sanitized(false).SetWidth("5%").RenderValueAs(m => CustomHelpers.RenderCheckBox());
                columns.Add(foo => foo.DocDate).Sortable(true).Titled("Invoice Date").Format("{0:dd/MMM/yyyy}").Filterable(true);
                columns.Add(m => m.DocNo).Sortable(true).Titled("Invoice No.").Filterable(true).Sortable(true);
-               columns.Add(m => m.JobWorkerDocNo).Sortable(true).Titled("JobWorker DocNo").Filterable(true).Sortable(true);
                columns.Add(m => m.JobWorkerName).Sortable(true).Filterable(true).Titled("Party");
-               columns.Add().RenderValueAs(m => CustomHelpers.RenderTotal(m.TotalQty, m.DecimalPlaces)).Sanitized(false).Encoded(false).Titled("TotalQty");
+               columns.Add(m => m.JobWorkerDocNo).Sortable(true).Titled("Party Doc No").Filterable(true).Sortable(true);
+               columns.Add().RenderValueAs(m => CustomHelpers.RenderTotal(m.TotalQty, m.DecimalPlaces)).Sanitized(false).Encoded(false).Titled("Total Qty");
                columns.Add().Sanitized(false).Encoded(false).RenderValueAs(m => CustomHelpers.RenderStatus(m.Status)).Titled("Status");
                columns.Add().Titled("").Encoded(false).Sanitized(false).RenderValueAs(m => CustomHelpers.RenderUserImage(m.ModifiedBy)).Titled("User").SetWidth("5%").Css("UserImageIndex");
                columns.Add().Encoded(false).Sanitized(false).RenderValueAs(m => CustomHelpers.RenderActionColumn(ControllerName, m.JobInvoiceHeaderId, m.Status, m.Reviewed, m.ReviewCount, (string)ViewBag.IndexStatus)).SetWidth(20).Css("icon-Cus-Size");
@@ -110,7 +114,7 @@
                columns.Add().Encoded(false).Sanitized(false).SetWidth("5%").RenderValueAs(m => CustomHelpers.RenderCheckBox());
                columns.Add(foo => foo.DocDate).Sortable(true).Titled("Invoice Date").Format("{0:dd/MMM/yyyy}").Filterable(true);
                columns.Add(m => m.DocNo).Sortable(true).Titled("Invoice No.").Filterable(true).Sortable(true);
-               columns.Add().RenderValueAs(m => CustomHelpers.RenderTotal(m.TotalQty, m.DecimalPlaces)).Sanitized(false).Encoded(false).Titled("TotalQty");
+               columns.Add().RenderValueAs(m => CustomHelpers.RenderTotal(m.TotalQty, m.DecimalPlaces)).Sanitized(false).Encoded(false).Titled("Total Qty");
                columns.Add().Sanitized(false).Encoded(false).RenderValueAs(m => CustomHelpers.RenderStatus(m.Status)).Titled("Status");
                columns.Add().Titled("").Encoded(false).Sanitized(false).RenderValueAs(m => CustomHelpers.RenderUserImage(m.ModifiedBy)).Titled("User").SetWidth("5%").Css("UserImageIndex");
                columns.Add().Encoded(false).Sanitized(false).RenderValueAs(m => CustomHelpers.RenderActionColumn(ControllerName, m.JobInvoiceHeaderId, m.Status, m.Reviewed, m.ReviewCount, (string)ViewBag.IndexStatus)).SetWidth(20).Css("icon-Cus-Size");

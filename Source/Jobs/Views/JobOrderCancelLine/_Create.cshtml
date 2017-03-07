@@ -124,6 +124,27 @@
                         </div>
                     </div>
 
+                    <div class="col-md-6" style="display:@(Model.JobOrderSettings.isVisibleDimension3?"":"none")">
+                        @Html.HiddenFor(m => m.JobOrderSettings.isVisibleDimension3)
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Dimension3Name, (Model.DocumentTypeSettings.Dimension3Caption ?? "Dimension3"), new { @class = "control-label col-md-4 col-sm-2" })
+                            <div class="col-md-7 col-sm-10">
+                                @Html.TextBoxFor(model => model.Dimension3Name, new { @class = "form-control required", @readonly = true })
+                                @Html.ValidationMessageFor(model => model.Dimension3Name, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6" style="display:@(Model.JobOrderSettings.isVisibleDimension4?"":"none")">
+                        @Html.HiddenFor(m => m.JobOrderSettings.isVisibleDimension4)
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Dimension4Name, (Model.DocumentTypeSettings.Dimension4Caption ?? "Dimension4"), new { @class = "control-label col-md-4 col-sm-2" })
+                            <div class="col-md-7 col-sm-10">
+                                @Html.TextBoxFor(model => model.Dimension4Name, new { @class = "form-control required", @readonly = true })
+                                @Html.ValidationMessageFor(model => model.Dimension4Name, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+
 
                     <div class="col-md-6">
                         <div class="form-group">
@@ -195,6 +216,8 @@
                             $('#Specification').val(data.Specification);
                             $("#Dimension1Name").val(data.Dimension1Name);
                             $("#Dimension2Name").val(data.Dimension2Name);
+                            $("#Dimension3Name").val(data.Dimension3Name);
+                            $("#Dimension4Name").val(data.Dimension4Name);
                             $('#LotNo').val(data.LotNo);
                             $('#UnitId').val(data.UnitName);
                             $('#BalanceQty').val(data.ProdOrderBalanceQty);
@@ -206,6 +229,8 @@
                             $("#Dimension1Name").val("");
                             $("#ProductId").select2("val", "");
                             $("#Dimension2Name").val("");
+                            $("#Dimension3Name").val("");
+                            $("#Dimension4Name").val("");
                             $('#LotNo').val("");
                             $('#UnitId').val("");
                             $('#BalanceQty').val(0);
@@ -228,6 +253,8 @@
                 $("#Dimension1Name").val("");
                 $("#ProductId").select2("val", "");
                 $("#Dimension2Name").val("");
+                $("#Dimension3Name").val("");
+                $("#Dimension4Name").val("");
                 $('#LotNo').val("");
                 $('#UnitId').val("");
                 $('#BalanceQty').val(0);
@@ -404,6 +431,8 @@
                         $('#Specification').val(data.Specification);
                         $("#Dimension1Name").val(data.Dimension1Name);
                         $("#Dimension2Name").val(data.Dimension2Name);
+                        $("#Dimension3Name").val(data.Dimension3Name);
+                        $("#Dimension4Name").val(data.Dimension4Name);
                         $('#LotNo').val(data.LotNo);
                         $('#UnitId').val(data.UnitId);
                         $("#ProductId").select2('data', { id: data.ProductId, text: data.ProductName });
@@ -428,6 +457,8 @@
                 $('#Specification').val("");
                 $('#Dimension1Name').val("");
                 $('#Dimension2Name').val("");
+                $('#Dimension3Name').val("");
+                $('#Dimension4Name').val("");
                 $('#LotNo').val("");
                 $('#UnitId').val("");
             }
@@ -457,6 +488,8 @@
                                         key: m.JobOrderLineId,
                                         dim1: m.Dimension1Name,
                                         dim2: m.Dimension2Name,
+                                        dim3: m.Dimension3Name,
+                                        dim4: m.Dimension4Name,
                                         prod: m.ProductName,
                                     };
                                 });

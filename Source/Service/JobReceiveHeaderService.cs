@@ -240,6 +240,8 @@ namespace Service
                         JobWorkerDocNo = tab.JobWorkerDocNo,
                         Dimension1Name = tab1.Dimension1.Dimension1Name,
                         Dimension2Name = tab1.Dimension2.Dimension2Name,
+                        Dimension3Name = tab1.Dimension3.Dimension3Name,
+                        Dimension4Name = tab1.Dimension4.Dimension4Name,
                     }
                         );
         }
@@ -251,6 +253,8 @@ namespace Service
                        && ((string.IsNullOrEmpty(term) ? 1 == 1 : p.JobReceiveNo.ToLower().Contains(term.ToLower()))
                        || (string.IsNullOrEmpty(term) ? 1 == 1 : p.Dimension1.Dimension1Name.ToLower().Contains(term.ToLower()))
                        || (string.IsNullOrEmpty(term) ? 1 == 1 : p.Dimension2.Dimension2Name.ToLower().Contains(term.ToLower()))
+                       || (string.IsNullOrEmpty(term) ? 1 == 1 : p.Dimension3.Dimension3Name.ToLower().Contains(term.ToLower()))
+                       || (string.IsNullOrEmpty(term) ? 1 == 1 : p.Dimension4.Dimension4Name.ToLower().Contains(term.ToLower()))
                        || (string.IsNullOrEmpty(term) ? 1 == 1 : p.Product.ProductName.ToLower().Contains(term.ToLower())))
                        orderby p.JobReceiveNo
                        select new JobReceiveHeaderListViewModel
@@ -259,6 +263,8 @@ namespace Service
                            JobReceiveLineId = p.JobReceiveLineId,
                            Dimension1Name = p.Dimension1.Dimension1Name,
                            Dimension2Name = p.Dimension2.Dimension2Name,
+                           Dimension3Name = p.Dimension3.Dimension3Name,
+                           Dimension4Name = p.Dimension4.Dimension4Name,
                            ProductName = p.Product.ProductName,
 
                        }).Take(Limiter);

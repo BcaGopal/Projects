@@ -476,12 +476,8 @@ namespace Web
             ViewBag.IndexStatus = IndexType;
             SaleDispatchHeader DispactchHeader = _SaleDispatchHeaderService.Find(id);
             PackingHeader packingHeader = _PackingHeaderService.Find(DispactchHeader.PackingHeaderId.Value);
-            SaleDispatchHeaderViewModel GatePass =(from G in db.GatePassHeader where G.GatePassHeaderId == DispactchHeader.GatePassHeaderId
-                                                    select new SaleDispatchHeaderViewModel
-                                                    {
-                                                       GatePassDocNo= G.DocNo,
-                                                       GatePassDocDate= G.DocDate
-                                                    }).FirstOrDefault();
+
+            
 
             #region DocTypeTimeLineValidation
             try
@@ -513,9 +509,16 @@ namespace Web
             vm.DeliveryTermsId = DispactchHeader.DeliveryTermsId;
             vm.GodownId = packingHeader.GodownId;
             if (DispactchHeader.GatePassHeaderId >0)
-            { 
+            {
+                var GatePass = (from G in db.GatePassHeader
+                                where G.GatePassHeaderId == DispactchHeader.GatePassHeaderId
+                                select new SaleDispatchHeaderViewModel
+                                {
+                                    GatePassDocNo = G.DocNo,
+                                    GatePassDocDate = G.DocDate
+                                }).FirstOrDefault();
                 vm.GatePassDocNo = GatePass.GatePassDocNo;
-                vm.GatePassDocDate = GatePass.DocDate;
+                vm.GatePassDocDate = GatePass.GatePassDocDate;                
             }
             //Getting Settings
             var settings = new SaleDispatchSettingService(_unitOfWork).GetSaleDispatchSettingForDocument(DispactchHeader.DocTypeId, vm.DivisionId, vm.SiteId);
@@ -586,7 +589,7 @@ namespace Web
                                     GatePassDocDate = G.DocDate
                                 }).FirstOrDefault();
                 vm.GatePassDocNo = GatePass.GatePassDocNo;
-                vm.GatePassDocDate = GatePass.DocDate;
+                vm.GatePassDocDate = GatePass.GatePassDocDate;
             }
 
 

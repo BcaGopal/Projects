@@ -29,6 +29,28 @@ namespace Service
 
             switch (table)
             {
+                case "Dimension1":
+                    {
+                        var temp = (from p in db.Dimension1
+                                    where p.Dimension1Name == docno
+                                    select p).FirstOrDefault();
+                        if (temp == null)
+                            return false;
+                        else
+                            return true;
+                    }
+
+                case "Dimension2":
+                    {
+                        var temp = (from p in db.Dimension2
+                                    where p.Dimension2Name == docno
+                                    select p).FirstOrDefault();
+                        if (temp == null)
+                            return false;
+                        else
+                            return true;
+                    }
+
                 case "DesignConsumption":
                     {
                         var temp = (from p in db.Product
@@ -622,6 +644,29 @@ namespace Service
 
             switch (table)
             {
+                case "Dimension1":
+                    {
+                        var temp = (from p in db.Dimension1
+                                    where p.Dimension1Name == docno && p.Dimension1Id != headerid
+                                    select p).FirstOrDefault();
+                        if (temp == null)
+                            return false;
+                        else
+                            return true;
+                    }
+
+                case "Dimension2":
+                    {
+                        var temp = (from p in db.Dimension2
+                                    where p.Dimension2Name == docno && p.Dimension2Id != headerid
+                                    select p).FirstOrDefault();
+                        if (temp == null)
+                            return false;
+                        else
+                            return true;
+                    }
+
+
                 case "DesignConsumption":
                     {
                         var temp = (from p in db.Product

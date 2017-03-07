@@ -130,6 +130,7 @@ namespace Service
                         DueDate = p.DueDate,
                         ProdOrderHeaderId = p.ProdOrderHeaderId,
                         Remark = p.Remark,
+                        BuyerName = p.Buyer.Name,
                         Status = p.Status,
                         ModifiedBy = p.ModifiedBy,
                         ReviewCount = p.ReviewCount,
@@ -144,9 +145,9 @@ namespace Service
         {
 
             List<string> UserRoles = (List<string>)System.Web.HttpContext.Current.Session["Roles"];
-            var LedgerHeader = GetProdOrderHeaderList(id, Uname).AsQueryable();
+            var ProdOrderHeader = GetProdOrderHeaderList(id, Uname).AsQueryable();
 
-            var PendingToSubmit = from p in LedgerHeader
+            var PendingToSubmit = from p in ProdOrderHeader
                                   where p.Status == (int)StatusConstants.Drafted || p.Status == (int)StatusConstants.Modified && (p.ModifiedBy == Uname || UserRoles.Contains("Admin"))
                                   select p;
             return PendingToSubmit;
@@ -157,9 +158,9 @@ namespace Service
         {
 
             List<string> UserRoles = (List<string>)System.Web.HttpContext.Current.Session["Roles"];
-            var LedgerHeader = GetProdOrderHeaderList(id, Uname).AsQueryable();
+            var ProdOrderHeader = GetProdOrderHeaderList(id, Uname).AsQueryable();
 
-            var PendingToReview = from p in LedgerHeader
+            var PendingToReview = from p in ProdOrderHeader
                                   where p.Status == (int)StatusConstants.Submitted && (SqlFunctions.CharIndex(Uname, (p.ReviewBy ?? "")) == 0)
                                   select p;
             return PendingToReview;
@@ -188,6 +189,7 @@ namespace Service
                         DocNo = p.DocNo,
                         DocTypeId = p.DocTypeId,
                         DueDate = p.DueDate,
+                        BuyerId = p.BuyerId,
                         ProdOrderHeaderId = p.ProdOrderHeaderId,
                         Remark = p.Remark,
                         SiteId = p.SiteId,

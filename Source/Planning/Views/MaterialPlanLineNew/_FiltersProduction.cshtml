@@ -88,11 +88,14 @@
 
     $(document).ready(function () {
         $("#ProductId").select2("focus");
+        var DocID = $('#MaterialPlanHeaderId', '.modal-body').val();
 
-        CustomSelectFunction($("#ProcessId"), '/ComboHelpList/GetProcess', '/ComboHelpList/SetSingleProcess', 'Enter Process', true, 0);
-        CustomSelectFunction($("#ProductId"), '/ComboHelpList/GetProducts', '/ComboHelpList/SetProducts', 'Enter Product Name', true, 0);
+        CustomSelectFunction($("#ProcessId"), '/ComboHelpList/GetProcess', '/ComboHelpList/SetSingleProcess', ' ', true, 0);
+        //CustomSelectFunction($("#ProductId"), '/ComboHelpList/GetProducts', '/ComboHelpList/SetProducts', 'Enter Product Name', true, 0);
+        CustomSelectFunction($("#ProductId"), '/MaterialPlanLineNew/GetCustomProducts', '/ComboHelpList/SetProducts', ' ', false, 0, DocID);
         //CustomSelectFunction($("#ProdOrderHeaderId"), '/ComboHelpList/GetProdOrders', '/ComboHelpList/SetProdOrders', 'Enter Production order Name', true, 0);
-        CustomSelectFunction($("#ProductGroupId"), '/ComboHelpList/GetProductGroup', '/ComboHelpList/SetProductGroup', 'Enter Product Name', true, 0);
+        //CustomSelectFunction($("#ProductGroupId"), '/ComboHelpList/GetProductGroup', '/ComboHelpList/SetProductGroup', 'Enter Product Name', true, 0);
+        CustomSelectFunction($("#ProductGroupId"), '/MaterialPlanLineNew/GetCustomProductGroups', '/ComboHelpList/SetProductGroup', ' ', false, 0, DocID);
         CustomSelectFunction($("#Dimension1Id"), '/ComboHelpList/GetDimension1', '/ComboHelpList/SetSingleDimension1', ' ', false, 1);
         CustomSelectFunction($("#Dimension2Id"), '/ComboHelpList/GetDimension2', '/ComboHelpList/SetSingleDimension2', ' ', false, 1);
         CustomSelectFunction($("#Dimension3Id"), '/ComboHelpList/GetDimension3', '/ComboHelpList/SetSingleDimension3', ' ', false, 1);

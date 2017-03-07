@@ -28,6 +28,8 @@ namespace Model.Models
         public bool? isVisibleDimension2 { get; set; }
         public bool? isVisibleDimension3 { get; set; }
         public bool? isVisibleDimension4 { get; set; }
+        public bool? isVisibleBuyer { get; set; }
+        public bool? isVisibleLineDueDate { get; set; }
         public bool? isMandatoryProcessLine { get; set; }        
         public string filterProcesses { get; set; }
         public string filterProductTypes { get; set; }
@@ -37,6 +39,18 @@ namespace Model.Models
         public string filterContraDivisions { get; set; }
         public string filterContraDocTypes { get; set; }
         public string filterPersonRoles { get; set; }
+
+        [ForeignKey("ImportMenu")]
+        [Display(Name = "ImportMenu")]
+        public int? ImportMenuId { get; set; }
+        public virtual Menu ImportMenu { get; set; }
+
+
+        [ForeignKey("ExportMenu")]
+        [Display(Name = "ExportMenu")]
+        public int? ExportMenuId { get; set; }
+        public virtual Menu ExportMenu { get; set; }
+
 
         [MaxLength(100)]
         public string SqlProcDocumentPrint { get; set; }
@@ -53,6 +67,12 @@ namespace Model.Models
         [Display(Name = "Modified Date")]
         public DateTime ModifiedDate { get; set; }
 
+
+
+        [ForeignKey("WizardMenu")]
+        [Display(Name = "WizardMenu")]
+        public int? WizardMenuId { get; set; }
+        public virtual Menu WizardMenu { get; set; }
 
     }
 }

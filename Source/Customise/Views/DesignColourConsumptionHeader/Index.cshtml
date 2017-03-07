@@ -33,16 +33,28 @@
         <hr style="margin-top:0px;margin-bottom:0px" />
 
         <div class="panel-info">
-            <h4 style="padding:5px 0 0 0;margin:0px">
+            @*<h4 style="padding:5px 0 0 0;margin:0px">
                 @Html.ActionLink(" ", " ", " ", null, new { @class = "glyphicon glyphicon-refresh toolbar", @title = "Refresh Page", @data_toggle = "tooltip", @id = "RefreshPage" })
-                @*@Html.ActionLink(" ", "ChooseType", "DesignColourConsumptionHeader", null, new { @class = "glyphicon glyphicon-plus toolbar", @title = "Add New", @data_toggle = "tooltip", @data_modal = "" })*@
                 @Html.ActionLink(" ", "Print", "DesignColourConsumptionHeader", null, new { @class = "glyphicon glyphicon-print toolbar", @title = "Print", @data_toggle = "tooltip" })
                 @Html.ActionLink(" ", "Remove", "DesignColourConsumptionHeader", null, new { @class = "glyphicon glyphicon-trash toolbar", @title = "Delete", @data_toggle = "tooltip", @id = "DeleteRecord", @data_modal = "" })
                 @Html.ActionLink(" ", "Report", "DesignColourConsumptionHeader", null, new { @class = "glyphicon glyphicon-stats toolbar right", @title = "Report", @data_toggle = "tooltip", target = "_blank" })
                 @Html.ActionLink(" ", "Index", "DesignColourConsumptionHeader", null, new { @class = "glyphicon glyphicon-list toolbar right", @title = "List", @data_toggle = "tooltip" })            
                 @Html.ActionLink(" ", "Index_Pending", "DesignColourConsumptionHeader", null, new { @class = "glyphicon glyphicon-floppy-open toolbar right", @title = "Pending", @data_toggle = "tooltip" })
+            </h4>*@
+            <div class="btn-group">
+                @Html.ActionLink(" ", "Print", "DesignColourConsumptionHeader", null, new { @class = "cbtn btn-circle glyphicon glyphicon-print toolbar", @title = "Print", @data_toggle = "tooltip" })
+                @Html.ActionLink(" ", "Remove", "DesignColourConsumptionHeader", null, new { @class = "cbtn btn-circle glyphicon glyphicon-trash toolbar", @title = "Delete", @data_toggle = "tooltip", @id = "DeleteRecord", @data_modal = "" })
+                @Html.ActionLink(" ", "Index_Pending", "DesignColourConsumptionHeader", null, new { @class = "cbtn btn-circle glyphicon glyphicon-floppy-open toolbar", @title = "Pending", @data_toggle = "tooltip" })
+                @Html.ActionLink(" ", "Index", "DesignColourConsumptionHeader", null, new { @class = "cbtn btn-circle glyphicon glyphicon-list toolbar", @title = "List", @data_toggle = "tooltip" })
                 
-            </h4>
+            </div>
+            <div class="btn-group">
+                <a class="cbtn btn-circle glyphicon glyphicon-option-horizontal dropdown-toggle" aria-expanded="false" style="padding-top: 6px;padding-bottom: 6px;" href="#" data-toggle="dropdown" id="dropdownMenu1">
+                </a>
+                <ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu1">
+                    <li><a target="_blank" href="@Url.Action("Report", "DesignColourConsumptionHeader")"><span class="glyphicon glyphicon-stats"> </span> Report</a></li>
+                </ul>
+            </div>
         </div>
     </div>
 
@@ -59,6 +71,7 @@
                columns.Add(m => m.ProductGroupName).Sortable(true).Titled("Design").Filterable(true).Sortable(true);
                columns.Add(m => m.ColourName).Sortable(true).Titled("Colour").Filterable(true).Sortable(true);
                columns.Add(m => m.Weight).Sortable(true).Titled("Weight").Filterable(true).Sortable(true);
+               columns.Add(true).RenderValueAs(m => CustomHelpers.RenderHEDActionLink(ControllerName, m.BaseProductId, 0, IndexStatus));
            }).WithPaging(25).EmptyText("No records found.").Sortable().Filterable().WithMultipleFilters()
     </div>
 </div>
@@ -111,6 +124,9 @@
         return;
     })
 
+    $(document).ready(function () {
+        enableModalTransitions();
+    })
 
 
 </script>

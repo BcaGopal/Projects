@@ -56,6 +56,18 @@ namespace Model.Models
         public bool? isPostedInStockProcess { get; set; }
         public bool? isPostedInStockVirtual { get; set; }
 
+
+        public bool? isVisibleDeliveryTerms { get; set; }
+        public bool? isVisibleShipToAddress { get; set; }
+        public bool? isVisibleCurrency { get; set; }
+        public bool? isVisibleSalesTaxGroupPerson { get; set; }
+        public bool? isVisibleShipMethod { get; set; }
+        public bool? isVisibleDocumentShipMethod { get; set; }
+        public bool? isVisibleTransporter { get; set; }
+        public bool? isVisibleAgent { get; set; }
+        public bool? isVisibleDoorDelivery { get; set; }
+        public bool? isVisiblePaymentTerms { get; set; }
+
         public int? RetensionCostCenter { get; set; }
         public bool? isVisibleFromProdOrder { get; set; }
 
@@ -187,6 +199,9 @@ namespace Model.Models
         public int ? MaxDays { get; set; }
         public int ExcessQtyAllowedPer { get; set; }
         public int ? NoOfPrintCopies { get; set; }
+
+        [MaxLength(50)]
+        public string NonCountedQtyCaption { get; set; }
 
         [Display(Name = "Created By")]
         public string CreatedBy { get; set; }

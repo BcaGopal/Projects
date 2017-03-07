@@ -50,7 +50,7 @@
                 @Html.ActionLink(" ", "Remove", "JobReceiveHeader", null, new { @class = "cbtn btn-circle glyphicon glyphicon-trash toolbar", @title = "Delete", @data_toggle = "tooltip", @id = "DeleteRecord", @data_modalDelete = "" })
             </div>
             <div class="btn-group">
-                <a class="cbtn btn-circle glyphicon glyphicon-option-horizontal dropdown-toggle" aria-expanded="false" style="padding-top: 6px;padding-bottom: 6px;" href="#" data-toggle="dropdown" id="dropdownMenu1">
+                <a class="cbtn btn-circle glyphicon glyphicon-option-horizontal dropdown-toggle" title="More Option" aria-expanded="false" style="padding-top: 6px;padding-bottom: 6px;" href="#" data-toggle="dropdown" id="dropdownMenu1">
                 </a>
                 <ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu1">
                     @if (ViewBag.ExportMenuId !=null)
@@ -70,7 +70,8 @@
                     <li><a href="@Url.Action("Create", "JobReceiveSettings", new { @id = @ViewBag.id })"><span class="glyphicon glyphicon-cog"> </span> Settings</a></li>
                     }
                     <li role="separator" class="divider"></li>
-                    <li><a href="@Url.Action("Report", "JobReceiveHeader", new { @ViewBag.id })"><span class="glyphicon glyphicon-stats"> </span> Report</a></li>
+                    <li><a id="DocHistoryI" href="@Url.Action("GetHistory", "LogHistory", new {  })"><span class="glyphicon glyphicon-user"> </span> History</a></li>
+                    <li><a target="_blank" href="@Url.Action("Report", "JobReceiveHeader", new { @ViewBag.id })"><span class="glyphicon glyphicon-stats"> </span> Report</a></li>
                 </ul>
             </div>
             <div class="btn-group right">
@@ -94,7 +95,7 @@
                columns.Add(foo => foo.JobWorkerName).Sortable(true).Titled("Party").Filterable(true);
                columns.Add(foo => foo.JobWorkerDocNo).Sortable(true).Titled("Party Doc No").Filterable(true);
                columns.Add(m => m.Remark).Sortable(true).Filterable(true).Titled("Remark");
-               columns.Add().RenderValueAs(m => CustomHelpers.RenderTotal(m.TotalQty, m.DecimalPlaces)).Sanitized(false).Encoded(false).Titled("TotalQty");
+               columns.Add().RenderValueAs(m => CustomHelpers.RenderTotal(m.TotalQty, m.DecimalPlaces)).Sanitized(false).Encoded(false).Titled("Total Qty");
                columns.Add().Sanitized(false).Encoded(false).RenderValueAs(m => CustomHelpers.RenderStatus(m.Status)).Titled("Status");
                columns.Add().Titled("").Encoded(false).Sanitized(false).RenderValueAs(m => CustomHelpers.RenderUserImage(m.ModifiedBy)).Titled("User").SetWidth("5%").Css("UserImageIndex");
                columns.Add().Encoded(false).Sanitized(false).RenderValueAs(m => CustomHelpers.RenderActionColumn(ControllerName, m.JobReceiveHeaderId, m.Status, m.Reviewed, m.ReviewCount, (string)ViewBag.IndexStatus)).SetWidth(20).Css("icon-Cus-Size");

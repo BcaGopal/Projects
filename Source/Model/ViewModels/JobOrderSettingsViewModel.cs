@@ -56,6 +56,20 @@ namespace Model.ViewModel
         public bool isPostedInStockVirtual { get; set; }
 
         public bool isVisibleProcessLine { get; set; }
+
+
+        public bool isVisibleDeliveryTerms { get; set; }
+        public bool isVisibleShipToAddress { get; set; }
+        public bool isVisibleCurrency { get; set; }
+        public bool isVisibleSalesTaxGroupPerson { get; set; }
+        public bool isVisibleShipMethod { get; set; }
+        public bool isVisibleDocumentShipMethod { get; set; }
+        public bool isVisibleTransporter { get; set; }
+        public bool isVisibleAgent { get; set; }
+        public bool isVisibleDoorDelivery { get; set; }
+        public bool isVisiblePaymentTerms { get; set; }
+
+
         public bool isUniqueCostCenter { get; set; }
         public bool PersonWiseCostCenter { get; set; }
 
@@ -101,6 +115,8 @@ namespace Model.ViewModel
         public int? NoOfPrintCopies { get; set; }
 
         public string TermsAndConditions { get; set; }
+        [MaxLength(50)]
+        public string NonCountedQtyCaption { get; set; }
 
     }
 }

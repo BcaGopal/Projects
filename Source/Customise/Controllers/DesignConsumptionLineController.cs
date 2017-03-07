@@ -134,6 +134,22 @@ namespace Web
             s.ContentType = "Main Contents";
             DesignConsumptionLineViewModel temp = _BomDetailService.GetBaseProductDetail(Id);
 
+
+            var MainContens = _BomDetailService.GetDesignConsumptionFaceContentForIndex(Id);
+            var LastMainContentLine = (from L in MainContens
+                                       orderby L.BomDetailId descending
+                                       select new
+                                       {
+                                           BomDetailId = L.BomDetailId,
+                                           ProductId = L.ProductId
+                                       }).FirstOrDefault();
+            if (LastMainContentLine != null)
+            {
+                s.ProductId = LastMainContentLine.ProductId;
+                s.ConsumptionPer = 100 - MainContens.Sum(m => m.ConsumptionPer);
+            }
+
+
             s.DesignName = temp.DesignName;
             s.DesignId = temp.DesignId;
             s.QualityName = temp.QualityName;

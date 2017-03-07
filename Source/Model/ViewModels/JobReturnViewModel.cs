@@ -96,6 +96,8 @@ namespace Model.ViewModel
         public string ProductName { get; set; }
         public int? Dimension1Id { get; set; }
         public int? Dimension2Id { get; set; }
+        public int? Dimension3Id { get; set; }
+        public int? Dimension4Id { get; set; }
         public Decimal GoodsReceiptBalQty { get; set; }
 
         [Display(Name = "Unit Conversion Multiplier"), Required]
@@ -114,6 +116,8 @@ namespace Model.ViewModel
         public string Remark { get; set; }
         public string Dimension1Name { get; set; }
         public string Dimension2Name { get; set; }
+        public string Dimension3Name { get; set; }
+        public string Dimension4Name { get; set; }
         public string Specification { get; set; }
         public string UnitId { get; set; }
         public string UnitName { get; set; }
@@ -131,6 +135,8 @@ namespace Model.ViewModel
         public string ProductUidName { get; set; }
         public string Dimension1Name { get; set; }
         public string Dimension2Name { get; set; }
+        public string Dimension3Name { get; set; }
+        public string Dimension4Name { get; set; }
         public string Specification { get; set; }
         public string LotNo { get; set; }
 

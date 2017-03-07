@@ -105,6 +105,10 @@ namespace Model.ViewModel
         public string Dimension1Name { get; set; }
         public int? Dimension2Id { get; set; }
         public string Dimension2Name { get; set; }
+        public int? Dimension3Id { get; set; }
+        public string Dimension3Name { get; set; }
+        public int? Dimension4Id { get; set; }
+        public string Dimension4Name { get; set; }
         public string LotNo { get; set; }
         public DateTime? DueDate { get; set; }
         public int ProductId { get; set; }
@@ -141,6 +145,8 @@ namespace Model.ViewModel
         public string ProductGroupId { get; set; }
         public string Dimension1Id { get; set; }
         public string Dimension2Id { get; set; }
+        public string Dimension3Id { get; set; }
+        public string Dimension4Id { get; set; }
         public DocumentTypeSettingsViewModel DocumentTypeSettings { get; set; }
     }
     public class JobOrderInspectionRequestMasterDetailModel
@@ -225,6 +231,8 @@ namespace Model.ViewModel
         public string ProductId { get; set; }
         public string Dimension1Id { get; set; }
         public string Dimension2Id { get; set; }
+        public string Dimension3Id { get; set; }
+        public string Dimension4Id { get; set; }
         public string ProductGroupId { get; set; }
         public string ProductCategoryId { get; set; }
         public decimal? BalanceQty { get; set; }

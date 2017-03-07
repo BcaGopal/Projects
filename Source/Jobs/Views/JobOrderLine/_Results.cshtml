@@ -5,7 +5,7 @@
     <div class="modal-header" style="border-bottom: 1px solid #8E8888">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true"> <span class="glyphicon glyphicon-remove"></span></button>
         <h3>
-            <span style="font-family: Calibri,sans-serif,Verdana;font-weight:bold" class="black"><span class="glyphicon glyphicon-file black"></span> Prod Orders & Quantities</span>
+            <span style="font-family: Calibri,sans-serif,Verdana;font-weight:bold" class="black"><span class="glyphicon glyphicon-file black"></span> Orders & Quantities</span>
         </h3>
     </div>
     <div>
@@ -21,8 +21,6 @@
                 <div style="padding-right:15px">
                     <div class="row">
 
-                        @if (Model.JobOrderSettings.isVisibleRate)
-                        {
                             <div class="form-horizontal">
                                 @Html.ValidationSummary(true, null, new { @class = "alert alert-danger" })
 
@@ -39,19 +37,35 @@
                                                         Product
 
                                                     </div>
-                                                    <div class="col-sm-2">
-                                                        Production<br />Order No
+                                                    <div class="col-sm-2 text-right">
+                                                        @if (Model.DocumentTypeSettings.ContraDocTypeCaption != null)
+                                                        {
+                                                            @Model.DocumentTypeSettings.ContraDocTypeCaption
+                                                        }
+                                                        else
+                                                        {
+                                                            @Html.Raw("Plan")
+                                                        }
+                                                        No.
                                                     </div>
                                                     @*Qty*@
 
                                                     <div class="col-sm-2 text-right" style="padding-right:30px">
                                                         <a href="#" id="ToOrder" style="color:white">Order Qty</a>
                                                     </div>
-                                                    <div class="col-sm-2 text-right" style="padding-right:30px">
+                                                    <div class="col-sm-2 text-right" style="padding-right:30px;">
                                                         Rate
                                                     </div>
                                                     <div class="col-sm-2 text-right" style="padding-right:30px">
-                                                        Loss<br /> NC-Qty
+                                                        Loss<br /> 
+                                                        @if (Model.JobOrderSettings.NonCountedQtyCaption != null)
+                                                        {
+                                                            @Model.JobOrderSettings.NonCountedQtyCaption
+                                                        }
+                                                        else
+                                                        {
+                                                            @Html.Raw("NC-Qty")
+                                                        }
                                                     </div>
                                                     <div class="col-sm-2 text-right">
                                                         Multiplier
@@ -81,6 +95,10 @@
                                                 @Html.HiddenFor(m => Model.JobOrderLineViewModel[i].Dimension1Id)
                                                 @Html.HiddenFor(m => Model.JobOrderLineViewModel[i].Dimension2Name)
                                                 @Html.HiddenFor(m => Model.JobOrderLineViewModel[i].Dimension2Id)
+                                                @Html.HiddenFor(m => Model.JobOrderLineViewModel[i].Dimension3Name)
+                                                @Html.HiddenFor(m => Model.JobOrderLineViewModel[i].Dimension3Id)
+                                                @Html.HiddenFor(m => Model.JobOrderLineViewModel[i].Dimension4Name)
+                                                @Html.HiddenFor(m => Model.JobOrderLineViewModel[i].Dimension4Id)
                                                 @Html.HiddenFor(m => Model.JobOrderLineViewModel[i].ProdOrderLineId)
                                                 @Html.HiddenFor(m => Model.JobOrderLineViewModel[i].JobOrderHeaderId)
                                                 @Html.HiddenFor(m => Model.JobOrderLineViewModel[i].ProdOrderDocNo)
@@ -112,14 +130,16 @@
                                                             @Model.JobOrderLineViewModel[i].Specification
                                                             @{
                                                 var Dim1 = (string.IsNullOrEmpty(Model.JobOrderLineViewModel[i].Dimension1Name)) ? "" : Model.JobOrderLineViewModel[i].Dimension1Name + ",";
-                                                var Dim2 = (string.IsNullOrEmpty(Model.JobOrderLineViewModel[i].Dimension2Name)) ? "" : Model.JobOrderLineViewModel[i].Dimension2Name;
+                                                var Dim2 = (string.IsNullOrEmpty(Model.JobOrderLineViewModel[i].Dimension2Name)) ? "" : Model.JobOrderLineViewModel[i].Dimension2Name + ",";
+                                                var Dim3 = (string.IsNullOrEmpty(Model.JobOrderLineViewModel[i].Dimension3Name)) ? "" : Model.JobOrderLineViewModel[i].Dimension3Name + ",";
+                                                var Dim4 = (string.IsNullOrEmpty(Model.JobOrderLineViewModel[i].Dimension4Name)) ? "" : Model.JobOrderLineViewModel[i].Dimension4Name;
                                                             }
 
-                                                            @Dim1 @Dim2
+                                                            @Dim1 @Dim2 @Dim3 @Dim4
                                                             <div>
                                                             </div>
                                                         </div>
-                                                        <div class="col-sm-2 text-center">
+                                                        <div class="col-sm-2  text-right">
                                                             @Model.JobOrderLineViewModel[i].ProdOrderDocNo
                                                             <br />
                                                             <a href="#" class="ToOrder" style="color:black">
@@ -190,169 +210,6 @@
 
                             </div>
 
-
-                        }
-
-                        else
-                        {
-                            <div class="form-horizontal">
-                                @Html.ValidationSummary(true, null, new { @class = "alert alert-danger" })
-
-                                <div class="panel panel-default" id="grid">
-                                    <div class="panel-heading headrow" style="background-image: -webkit-linear-gradient(top, #428bca 0%, #428bca 100%);color:white">
-                                        <div class="row grid-head">
-                                            <div class="col-xs-1 text-left">
-                                                Srl.
-                                            </div>
-                                            <div class="col-xs-11">
-                                                <div class="row">
-                                                    @*ProductInfo*@
-                                                    <div class="col-sm-3">
-                                                        Product
-                                                    </div>
-                                                    <div class="col-sm-2">
-                                                        ProdOrder No
-                                                    </div>
-                                                    @*Qty*@
-
-                                                    <div class="col-sm-3 text-right" style="padding-right:30px">
-                                                        <a href="#" id="ToOrder" style="color:white">Order Qty</a>
-                                                    </div>
-                                                    <div class="col-sm-2 text-right" style="padding-right:30px">
-                                                        Loss<br />NC-Qty
-                                                    </div>
-                                                    <div class="col-sm-2 text-right">
-                                                        Multiplier
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                        </div>
-
-                                    </div>
-                                    <div class="panel-info" id="gbody" style="max-height:250px;overflow-y:scroll">
-                                        @{
-                            decimal OrderQty = 0;
-                            decimal ProdQty = 0;
-                            int MaxUnitDecplaces = 0;
-                            int MaxDealUnitDecplaces = 0;
-                                        }
-                                        @for (int i = 0; i < Model.JobOrderLineViewModel.Count(); i++)
-                                        {
-                                            <div class='row crow grid-body' style='margin-left:0px;margin-right:0px'>
-
-                                                @Html.HiddenFor(m => Model.JobOrderLineViewModel[i].ProductId)
-                                                @Html.HiddenFor(m => Model.JobOrderLineViewModel[i].DealUnitId)
-                                                @Html.HiddenFor(m => Model.JobOrderLineViewModel[i].ProductName)
-                                                @Html.HiddenFor(m => Model.JobOrderLineViewModel[i].Specification)
-                                                @Html.HiddenFor(m => Model.JobOrderLineViewModel[i].Dimension1Name)
-                                                @Html.HiddenFor(m => Model.JobOrderLineViewModel[i].Dimension1Id)
-                                                @Html.HiddenFor(m => Model.JobOrderLineViewModel[i].Dimension2Name)
-                                                @Html.HiddenFor(m => Model.JobOrderLineViewModel[i].Dimension2Id)
-                                                @Html.HiddenFor(m => Model.JobOrderLineViewModel[i].ProdOrderLineId)
-                                                @Html.HiddenFor(m => Model.JobOrderLineViewModel[i].JobOrderHeaderId)
-                                                @Html.HiddenFor(m => Model.JobOrderLineViewModel[i].ProdOrderDocNo)
-                                                @Html.HiddenFor(m => Model.JobOrderLineViewModel[i].ProdOrderBalanceQty)
-                                                @Html.HiddenFor(m => Model.JobOrderLineViewModel[i].UnitId)
-                                                @*@Html.HiddenFor(m => Model.JobOrderLineViewModel[i].UnitConversionMultiplier)*@
-                                                @Html.HiddenFor(m => Model.JobOrderLineViewModel[i].UnitDecimalPlaces, new { @class = "UDec" })
-                                                @Html.HiddenFor(m => Model.JobOrderLineViewModel[i].DealUnitDecimalPlaces, new { @class = "DelUDec" })
-
-
-                                                @if (MaxDealUnitDecplaces < Model.JobOrderLineViewModel[i].DealUnitDecimalPlaces)
-                                                {
-                                                    MaxDealUnitDecplaces = Model.JobOrderLineViewModel[i].DealUnitDecimalPlaces;
-                                                }
-                                                @if (MaxUnitDecplaces < Model.JobOrderLineViewModel[i].UnitDecimalPlaces)
-                                                {
-                                                    MaxUnitDecplaces = Model.JobOrderLineViewModel[i].UnitDecimalPlaces;
-                                                }
-
-
-
-                                                <div class='col-xs-1 row-index'>
-                                                    @(i + 1)
-                                                    <input type='hidden' class='id' value="@Model.JobOrderLineViewModel[i].JobOrderHeaderId" />
-                                                </div>
-                                                <div class='col-xs-11'>
-                                                    <div class='row'>
-                                                        <div class='col-sm-3'>
-                                                            <strong>@Model.JobOrderLineViewModel[i].ProductName</strong>
-                                                            <br />
-                                                            @Model.JobOrderLineViewModel[i].Specification
-                                                            @{
-                                                var Dim1 = (string.IsNullOrEmpty(Model.JobOrderLineViewModel[i].Dimension1Name)) ? "" : Model.JobOrderLineViewModel[i].Dimension1Name + ",";
-                                                var Dim2 = (string.IsNullOrEmpty(Model.JobOrderLineViewModel[i].Dimension2Name)) ? "" : Model.JobOrderLineViewModel[i].Dimension2Name;
-                                                            }
-
-                                                            @Dim1 @Dim2
-                                                            <div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-sm-2 text-center">
-                                                            @Model.JobOrderLineViewModel[i].ProdOrderDocNo
-                                                            <br />
-                                                            <a href="#" class="ToOrder" style="color:black">
-                                                                <span id="ProdQty"> @string.Format("{" + "0:0.".PadRight(@Model.JobOrderLineViewModel[i].UnitDecimalPlaces + 4, '0') + "}", Model.JobOrderLineViewModel[i].ProdOrderBalanceQty)</span>
-                                                                <small>@Model.JobOrderLineViewModel[i].UnitId</small>
-                                                            </a>
-                                                            @{ProdQty += Model.JobOrderLineViewModel[i].ProdOrderBalanceQty;}
-                                                        </div>
-
-                                                        <div class="col-md-3 text-right">
-                                                            @Html.TextBoxFor(m => Model.JobOrderLineViewModel[i].Qty, new { @class = "form-control text-right OrderQty" })
-                                                            @Html.ValidationMessageFor(m => Model.JobOrderLineViewModel[i].Qty, null, new { @class = "text-danger" })
-                                                            @{OrderQty += Model.JobOrderLineViewModel[i].Qty;}
-                                                        </div>
-                                                        <div class="col-md-2 text-right">
-                                                            @Html.TextBoxFor(m => Model.JobOrderLineViewModel[i].LossQty, new { @class = "form-control text-right Rate", @style = "display:inline;margin-bottom:3px" })
-                                                            <br />
-                                                            @Html.TextBoxFor(m => m.JobOrderLineViewModel[i].NonCountedQty, new { @class = "form-control text-right", @style = "display:inline" })
-                                                        </div>
-                                                        <div class='col-sm-2 text-right'>
-                                                            @Html.TextBoxFor(m => Model.JobOrderLineViewModel[i].UnitConversionMultiplier, "{0:0.0000}", new { @class = "form-control text-right" })
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                            </div>
-                                            <hr style='margin-top:0px;margin-bottom:0px' />
-                                        }
-                                    </div>
-                                </div>
-
-
-                                <div class="row grid-head" style='margin-left:0px;margin-right:0px'>
-                                    <div class="col-xs-1 text-left">
-                                    </div>
-                                    <div class="col-xs-11">
-                                        <div class="row">
-                                            @*ProductInfo*@
-                                            <div class="col-sm-3">
-                                                <strong>Total</strong>
-                                            </div>
-
-                                            @*Qty*@
-                                            <div class="col-sm-2 text-right">
-                                                @string.Format("{" + "0:0.".PadRight(MaxUnitDecplaces + 4, '0') + "}", ProdQty)
-                                            </div>
-                                            <div class="col-sm-3 text-right" style="padding-right:30px">
-                                                <strong><span id="OrderQty">@string.Format("{" + "0:0.".PadRight(MaxDealUnitDecplaces + 4, '0') + "}", OrderQty)</span></strong>
-                                            </div>
-                                            <div class="col-sm-2">
-
-                                            </div>
-                                            <div class="col-sm-2">
-
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                </div>
-
-                            </div>
-
-                        }
 
 
                     </div>

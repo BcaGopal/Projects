@@ -69,6 +69,8 @@
                                         @Html.HiddenFor(m => Model.JobInvoiceReturnLineViewModel[i].Specification)
                                         @Html.HiddenFor(m => Model.JobInvoiceReturnLineViewModel[i].Dimension1Name)
                                         @Html.HiddenFor(m => Model.JobInvoiceReturnLineViewModel[i].Dimension2Name)
+                                        @Html.HiddenFor(m => Model.JobInvoiceReturnLineViewModel[i].Dimension3Name)
+                                        @Html.HiddenFor(m => Model.JobInvoiceReturnLineViewModel[i].Dimension4Name)
                                         @Html.HiddenFor(m => Model.JobInvoiceReturnLineViewModel[i].JobInvoiceLineId)
                                         @Html.HiddenFor(m => Model.JobInvoiceReturnLineViewModel[i].JobInvoiceReturnHeaderId)
                                         @Html.HiddenFor(m => Model.JobInvoiceReturnLineViewModel[i].JobInvoiceHeaderDocNo)
@@ -103,7 +105,9 @@
                                                         @Model.JobInvoiceReturnLineViewModel[i].Specification
                                                         @{
                                         var Dim1 = (string.IsNullOrEmpty(Model.JobInvoiceReturnLineViewModel[i].Dimension1Name)) ? "" : Model.JobInvoiceReturnLineViewModel[i].Dimension1Name + ",";
-                                        var Dim2 = (string.IsNullOrEmpty(Model.JobInvoiceReturnLineViewModel[i].Dimension2Name)) ? "" : Model.JobInvoiceReturnLineViewModel[i].Dimension2Name;
+                                        var Dim2 = (string.IsNullOrEmpty(Model.JobInvoiceReturnLineViewModel[i].Dimension2Name)) ? "" : Model.JobInvoiceReturnLineViewModel[i].Dimension2Name + ",";
+                                        var Dim3 = (string.IsNullOrEmpty(Model.JobInvoiceReturnLineViewModel[i].Dimension3Name)) ? "" : Model.JobInvoiceReturnLineViewModel[i].Dimension3Name + ",";
+                                        var Dim4 = (string.IsNullOrEmpty(Model.JobInvoiceReturnLineViewModel[i].Dimension4Name)) ? "" : Model.JobInvoiceReturnLineViewModel[i].Dimension4Name;
                                                         }
                                                         <div>@Dim1 @Dim2</div>
                                                         @if (!string.IsNullOrEmpty(Model.JobInvoiceReturnLineViewModel[i].ProductUidName))

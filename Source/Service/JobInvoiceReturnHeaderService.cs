@@ -262,6 +262,8 @@ namespace Service
                         ReceiveDocNo = p.JobReceiveNo,
                         Dimension1Name = jo.Dimension1.Dimension1Name,
                         Dimension2Name = jo.Dimension2.Dimension2Name,
+                        Dimension3Name = jo.Dimension3.Dimension3Name,
+                        Dimension4Name = jo.Dimension4.Dimension4Name,
                         BalanceQty = p.BalanceQty,
                     }
                         ).Take(Limit);

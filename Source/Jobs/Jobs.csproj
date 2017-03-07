@@ -742,7 +742,7 @@
     <Content Include="Views\JobReceiveSettings\CreateJobReturn.cshtml" />
     <Content Include="Views\PersonBankAccount\_Create.cshtml" />
     <Content Include="Views\PersonContact\_Create.cshtml" />
-    <Content Include="Views\JobInvoiceReceiveHeader\_Reason.cshtml" />
+    <Content Include="Views\JobInvoiceRateAmendmentLine\_Reason.cshtml" />
     <Content Include="Views\JobInvoiceReceiveHeader\Create.cshtml" />
     <Content Include="Views\JobInvoiceReceiveHeader\Detail.cshtml" />
     <Content Include="Views\JobInvoiceReceiveHeader\DocumentTypeList.cshtml" />
@@ -871,6 +871,12 @@
     <Content Include="Views\ProductRateGroupWizard\RateListHeaderIndex.cshtml" />
     <Content Include="Views\Shared\UnderImplementation.cshtml" />
     <Content Include="Views\JobReceiveLine\_Index.cshtml" />
+    <Content Include="Views\JobOrderLine\_ResultsWithRate.cshtml" />
+    <Content Include="Views\JobOrderLine\_ResultsWithRateDealQtyLoss.cshtml" />
+    <Content Include="Views\JobReceiveLine\_ResultsWithLossQty.cshtml" />
+    <Content Include="Views\JobReceiveLine\_ResultsWithQty.cshtml" />
+    <Content Include="Views\JobReceiveLine\_ResultsWithQtyLotNo.cshtml" />
+    <Content Include="Views\JobOrderLine\_ResultsWithRateLoss.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -113,6 +113,32 @@
                             </div>
                         </div>
                     </div>
+
+
+                    <div class="col-md-6" style="display:@(Model.JobOrderInspectionSettings.isVisibleDimension3?"":"none")">
+                        @Html.HiddenFor(m => m.JobOrderInspectionSettings.isVisibleDimension3)
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Dimension3Id, "Dimension3", new { @class = "control-label col-md-4 col-sm-2 " })
+                            <div class="col-md-7 col-sm-10">
+                                @Html.TextBoxFor(model => model.Dimension3Name, new { @class = "form-control required", @readonly = true })
+                                @Html.ValidationMessageFor(model => model.Dimension3Id, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6" style="display:@(Model.JobOrderInspectionSettings.isVisibleDimension4?"":"none")">
+                        @Html.HiddenFor(m => m.JobOrderInspectionSettings.isVisibleDimension4)
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Dimension4Id, "Dimension4", new { @class = "control-label col-md-4 col-sm-2 " })
+                            <div class="col-md-7 col-sm-10">
+                                @Html.TextBoxFor(model => model.Dimension4Name, new { @class = "form-control  required", @readonly = true })
+                                @Html.ValidationMessageFor(model => model.Dimension4Id, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+
+
+
                     <div class="col-md-6">
                         <div class="form-group">
                             @Html.LabelFor(model => model.Specification, "Specification", new { @class = "control-label col-md-4 col-sm-2 " })
@@ -305,6 +331,15 @@
                         {
                             $("#Dimension2Name").val(data.Dimension2Name)
                         }
+                        if(data.Dimension3Name!=null)
+                        {
+                            $("#Dimension3Name").val(data.Dimension3Name)
+                        }
+                        if(data.Dimension4Name!=null)
+                        {
+                            $("#Dimension4Name").val(data.Dimension4Name)
+                        }
+
 
                     },
                     error: function (xhr, ajaxOptions, thrownError) {
@@ -323,6 +358,8 @@
                 $('#DealUnitDecimalPlaces').val(0);
                 $("#Dimension1Name").val("");
                 $("#Dimension2Name").val("");
+                $("#Dimension3Name").val("");
+                $("#Dimension4Name").val("");
             }
         }
         );
@@ -353,6 +390,8 @@
                                         req:m.RequestDocNo,
                                         dim1: m.Dimension1Name,
                                         dim2:m.Dimension2Name,
+                                        dim3: m.Dimension3Name,
+                                        dim4:m.Dimension4Name,
                                         prod:m.ProductName,
                                         balqty:m.BalanceQty,
                                     };
