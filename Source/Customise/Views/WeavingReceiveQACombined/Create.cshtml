@@ -161,6 +161,17 @@
                             </h4>
                             <div>
                                 <div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.JobOrderLineId, (Model.DocumentTypeSettings.ProductCaption ?? "Product"), new { @class = "control-label col-md-4 col-sm-2" })
+                                            @Html.HiddenFor(m => m.DocumentTypeSettings.ProductCaption)
+                                            <div class="col-md-7 col-sm-10">
+                                                @Html.TextBoxFor(m => m.JobOrderLineId, null, new { @class = "form-control" })
+                                                @Html.ValidationMessageFor(m => m.JobOrderLineId, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                    </div>
+
                                     <div class="col-md-6" style="display:@(Model.JobReceiveSettings.isVisibleProductUID ? "" : "none")">
                                         @Html.HiddenFor(m => m.JobReceiveSettings.isVisibleProductUID)
                                         <div class="form-group">
@@ -173,16 +184,6 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            @Html.LabelFor(model => model.JobOrderLineId, (Model.DocumentTypeSettings.ProductCaption ?? "Product"), new { @class = "control-label col-md-4 col-sm-2" })
-                                            @Html.HiddenFor(m => m.DocumentTypeSettings.ProductCaption)
-                                            <div class="col-md-7 col-sm-10">
-                                                @Html.TextBoxFor(m => m.JobOrderLineId, null, new { @class = "form-control" })
-                                                @Html.ValidationMessageFor(m => m.JobOrderLineId, "", new { @class = "text-danger" })
-                                            </div>
-                                        </div>
-                                    </div>
 
                                     <div class="col-md-6">
                                         <div class="form-group">
@@ -619,9 +620,11 @@
             success: function (data) {
                 if (data != null)
                 {
+
                     $("#JobOrderHeaderDocNo").val(data.JobOrderHeaderDocNo);
                     $("#JobWorkerId").select2("data", { id: data.JobWorkerId, text: data.JobWorkerName });
                     $("#ProductId").val(data.ProductId);
+                    $("#ProductUidName").val(data.ProductUidName);
                     $("#Qty").val(1);
                     $('#ExcessStockQty').text("Balance:"+data.BalanceQty);
                     $("#BalanceQty").val(data.BalanceQty);
@@ -630,7 +633,7 @@
                     $("#UnitId").val(data.UnitId);
                     $("#DealUnitId").val(data.DealUnitId);
                     $("#UnitConversionMultiplier").val(data.UnitConversionMultiplier);
-                    $("#UnitName").val(data.UnitName);
+                    $("#UnitName").val(data.UnitName);                    
                     $("#ProductQualityName").val(data.ProductQualityName);
                     $("#Length").val(data.Length);
                     $("#OrderLength").val(data.Length);

@@ -792,6 +792,10 @@ namespace Web
 
         public JsonResult GetJobOrderDetailJson(int JobOrderLineId)
         {
+            JobOrderLine JOL = new JobOrderLineService(_unitOfWork).Find (JobOrderLineId);
+
+            var ProductUIDName = GetNewProductUid(JOL.ProductId);
+
             var temp = (from L in db.ViewJobOrderBalance
                         join Dl in db.JobOrderLine on L.JobOrderLineId equals Dl.JobOrderLineId into JobOrderLineTable
                         from JobOrderLineTab in JobOrderLineTable.DefaultIfEmpty()
@@ -812,6 +816,7 @@ namespace Web
                             DocTypeId = JobOrderLineTab.JobOrderHeader.DocTypeId,
                             JobWorkerId = JobOrderLineTab.JobOrderHeader.JobWorkerId,
                             JobWorkerName = JWTab.Name,
+                            ProductUidName= ProductUIDName,
                             UnitId = UnitTab.UnitId,
                             UnitName = UnitTab.UnitName,
                             DealUnitId = JobOrderLineTab.DealUnitId,
@@ -870,7 +875,37 @@ namespace Web
 
                 int TypeId = DocTypeId;
 
-                SqlCommand Totalf = new SqlCommand("SELECT * FROM " + Settings.SqlProcGenProductUID + "( " + TypeId + ", " + Qty + ")", sqlConnection);
+                SqlCommand Totalf = new SqlCommand("SELECT * FROM " + Settings.SqlProcGenProductUID + "( " + TypeId + ", " + Qty + ",NULL)", sqlConnection);
+
+                SqlDataReader ExcessStockQty = (Totalf.ExecuteReader());
+                while (ExcessStockQty.Read())
+                {
+                    uids.Add((string)ExcessStockQty.GetValue(0));
+                }
+            }
+
+            return uids.FirstOrDefault();
+        }
+
+        public string GetNewProductUid(int ProductId)
+        {
+            decimal Qty = 1;
+
+            int DocTypeId = new DocumentTypeService(_unitOfWork).Find(TransactionDoctypeConstants.WeavingBazar).DocumentTypeId;
+            int DivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
+            int SiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
+
+
+            JobReceiveSettings Settings = new JobReceiveSettingsService(_unitOfWork).GetJobReceiveSettingsForDocument(DocTypeId, DivisionId, SiteId);
+            List<string> uids = new List<string>();
+
+            using (SqlConnection sqlConnection = new SqlConnection((string)System.Web.HttpContext.Current.Session["DefaultConnectionString"]))
+            {
+                sqlConnection.Open();
+
+                int TypeId = DocTypeId;
+
+                SqlCommand Totalf = new SqlCommand("SELECT * FROM " + Settings.SqlProcGenProductUID + "( " + TypeId + ", " + Qty + ", " + ProductId + ")", sqlConnection);
 
                 SqlDataReader ExcessStockQty = (Totalf.ExecuteReader());
                 while (ExcessStockQty.Read())
