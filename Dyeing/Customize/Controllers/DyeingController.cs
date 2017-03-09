@@ -124,7 +124,8 @@ namespace Customize.Controllers
             temp.Add(new SelectListItem { Text = "Double", Value = "Double" });
             temp.Add(new SelectListItem { Text = "QC Failed", Value = "QC Failed" });
             temp.Add(new SelectListItem { Text = "Repair", Value = "Repair" });
-
+            temp.Add(new SelectListItem { Text = "Second Color", Value = "Repair" });
+            temp.Add(new SelectListItem { Text = "Multi Color", Value = "Repair" });
             ViewBag.DyeingTypeList = new SelectList(temp, "Value", "Text");
         }
 
@@ -494,6 +495,14 @@ namespace Customize.Controllers
 
             DyeingViewModel s = _DyeingService.GetDyeing(id);
 
+            s.StartDateTimeHour = s.StartDateTime.Value.Hour;
+            s.StartDateTimeMinute = s.StartDateTime.Value.Minute;
+
+            if (s.CompletedDateTime != null)
+            {
+                s.CompletedDateTimeHour = s.CompletedDateTime.Value.Hour;
+                s.CompletedDateTimeMinute = s.CompletedDateTime.Value.Minute;
+            }
 
             PrepareViewBag(s.DocTypeId);
             if (s == null)
