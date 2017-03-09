@@ -124,7 +124,8 @@ namespace Customize.Controllers
             temp.Add(new SelectListItem { Text = "Double", Value = "Double" });
             temp.Add(new SelectListItem { Text = "QC Failed", Value = "QC Failed" });
             temp.Add(new SelectListItem { Text = "Repair", Value = "Repair" });
-
+            temp.Add(new SelectListItem { Text = "Second Color", Value = "Repair" });
+            temp.Add(new SelectListItem { Text = "Multi Color", Value = "Repair" });
             ViewBag.DyeingTypeList = new SelectList(temp, "Value", "Text");
         }
 
