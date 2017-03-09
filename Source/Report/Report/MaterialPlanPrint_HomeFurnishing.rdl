@@ -12,10 +12,10 @@
               <Width>0.19792in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>2.52188in</Width>
+              <Width>2.74063in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>1in</Width>
+              <Width>0.80208in</Width>
             </TablixColumn>
             <TablixColumn>
               <Width>0.125in</Width>
@@ -147,6 +147,235 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
+                    <Textbox Name="Textbox14">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>Plan Date</Value>
+                              <Style>
+                                <FontFamily>Tahoma</FontFamily>
+                                <FontSize>9pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox14</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Style>None</Style>
+                        </Border>
+                        <TopBorder>
+                          <Color>Black</Color>
+                          <Width>1pt</Width>
+                        </TopBorder>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox24">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>:</Value>
+                              <Style>
+                                <FontFamily>tahoma</FontFamily>
+                                <FontSize>9pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Left</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox24</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Style>None</Style>
+                        </Border>
+                        <TopBorder>
+                          <Color>Black</Color>
+                          <Width>1pt</Width>
+                        </TopBorder>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="DocDate1">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Fields!DocDate.Value</Value>
+                              <Style>
+                                <FontFamily>tahoma</FontFamily>
+                                <FontSize>9pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                                <Format>dd/MMM/yy</Format>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Left</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>DocDate1</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Style>None</Style>
+                        </Border>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+              </TablixCells>
+            </TablixRow>
+            <TablixRow>
+              <Height>0.25in</Height>
+              <TablixCells>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox103">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>Buyer</Value>
+                              <Style>
+                                <FontFamily>Tahoma</FontFamily>
+                                <FontSize>9pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox103</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Style>None</Style>
+                        </Border>
+                        <TopBorder>
+                          <Color>Black</Color>
+                          <Width>1pt</Width>
+                        </TopBorder>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="DocDate">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>:</Value>
+                              <Style>
+                                <FontFamily>Tahoma</FontFamily>
+                                <FontSize>9pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                                <Color>#4d4d4d</Color>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Center</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>DocDate</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Style>None</Style>
+                        </Border>
+                        <TopBorder>
+                          <Color>Black</Color>
+                          <Width>1pt</Width>
+                        </TopBorder>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="BuyerName1">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Fields!BuyerName.Value</Value>
+                              <Style>
+                                <FontFamily>tahoma</FontFamily>
+                                <FontSize>9pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Left</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>BuyerName1</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Style>None</Style>
+                        </Border>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
                     <Textbox Name="Textbox20">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
@@ -186,7 +415,7 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox24">
+                    <Textbox Name="Textbox81">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
@@ -265,241 +494,6 @@
                 </TablixCell>
               </TablixCells>
             </TablixRow>
-            <TablixRow>
-              <Height>0.25in</Height>
-              <TablixCells>
-                <TablixCell>
-                  <CellContents>
-                    <Textbox Name="Textbox14">
-                      <CanGrow>true</CanGrow>
-                      <KeepTogether>true</KeepTogether>
-                      <Paragraphs>
-                        <Paragraph>
-                          <TextRuns>
-                            <TextRun>
-                              <Value>Plan Date</Value>
-                              <Style>
-                                <FontFamily>Tahoma</FontFamily>
-                                <FontSize>9pt</FontSize>
-                                <FontWeight>Bold</FontWeight>
-                              </Style>
-                            </TextRun>
-                          </TextRuns>
-                          <Style />
-                        </Paragraph>
-                      </Paragraphs>
-                      <rd:DefaultName>Textbox14</rd:DefaultName>
-                      <Style>
-                        <Border>
-                          <Style>None</Style>
-                        </Border>
-                        <TopBorder>
-                          <Color>Black</Color>
-                          <Width>1pt</Width>
-                        </TopBorder>
-                        <PaddingLeft>2pt</PaddingLeft>
-                        <PaddingRight>2pt</PaddingRight>
-                        <PaddingTop>2pt</PaddingTop>
-                        <PaddingBottom>2pt</PaddingBottom>
-                      </Style>
-                    </Textbox>
-                  </CellContents>
-                </TablixCell>
-                <TablixCell>
-                  <CellContents>
-                    <Textbox Name="DocDate">
-                      <CanGrow>true</CanGrow>
-                      <KeepTogether>true</KeepTogether>
-                      <Paragraphs>
-                        <Paragraph>
-                          <TextRuns>
-                            <TextRun>
-                              <Value>:</Value>
-                              <Style>
-                                <FontFamily>Tahoma</FontFamily>
-                                <FontSize>9pt</FontSize>
-                                <FontWeight>Bold</FontWeight>
-                                <Color>#4d4d4d</Color>
-                              </Style>
-                            </TextRun>
-                          </TextRuns>
-                          <Style>
-                            <TextAlign>Center</TextAlign>
-                          </Style>
-                        </Paragraph>
-                      </Paragraphs>
-                      <rd:DefaultName>DocDate</rd:DefaultName>
-                      <Style>
-                        <Border>
-                          <Style>None</Style>
-                        </Border>
-                        <TopBorder>
-                          <Color>Black</Color>
-                          <Width>1pt</Width>
-                        </TopBorder>
-                        <PaddingLeft>2pt</PaddingLeft>
-                        <PaddingRight>2pt</PaddingRight>
-                        <PaddingTop>2pt</PaddingTop>
-                        <PaddingBottom>2pt</PaddingBottom>
-                      </Style>
-                    </Textbox>
-                  </CellContents>
-                </TablixCell>
-                <TablixCell>
-                  <CellContents>
-                    <Textbox Name="DocDate1">
-                      <CanGrow>true</CanGrow>
-                      <KeepTogether>true</KeepTogether>
-                      <Paragraphs>
-                        <Paragraph>
-                          <TextRuns>
-                            <TextRun>
-                              <Value>=Fields!DocDate.Value</Value>
-                              <Style>
-                                <FontFamily>tahoma</FontFamily>
-                                <FontSize>9pt</FontSize>
-                                <FontWeight>Bold</FontWeight>
-                                <Format>dd/MMM/yy</Format>
-                              </Style>
-                            </TextRun>
-                          </TextRuns>
-                          <Style>
-                            <TextAlign>Left</TextAlign>
-                          </Style>
-                        </Paragraph>
-                      </Paragraphs>
-                      <rd:DefaultName>DocDate1</rd:DefaultName>
-                      <Style>
-                        <Border>
-                          <Style>None</Style>
-                        </Border>
-                        <PaddingLeft>2pt</PaddingLeft>
-                        <PaddingRight>2pt</PaddingRight>
-                        <PaddingTop>2pt</PaddingTop>
-                        <PaddingBottom>2pt</PaddingBottom>
-                      </Style>
-                    </Textbox>
-                  </CellContents>
-                </TablixCell>
-                <TablixCell>
-                  <CellContents>
-                    <Textbox Name="Textbox21">
-                      <CanGrow>true</CanGrow>
-                      <KeepTogether>true</KeepTogether>
-                      <Paragraphs>
-                        <Paragraph>
-                          <TextRuns>
-                            <TextRun>
-                              <Value />
-                              <Style>
-                                <FontFamily>tahoma</FontFamily>
-                                <FontSize>9pt</FontSize>
-                                <FontWeight>Bold</FontWeight>
-                              </Style>
-                            </TextRun>
-                          </TextRuns>
-                          <Style>
-                            <TextAlign>Left</TextAlign>
-                          </Style>
-                        </Paragraph>
-                      </Paragraphs>
-                      <rd:DefaultName>Textbox21</rd:DefaultName>
-                      <Style>
-                        <Border>
-                          <Style>None</Style>
-                        </Border>
-                        <TopBorder>
-                          <Color>Black</Color>
-                          <Width>1pt</Width>
-                        </TopBorder>
-                        <PaddingLeft>2pt</PaddingLeft>
-                        <PaddingRight>2pt</PaddingRight>
-                        <PaddingTop>2pt</PaddingTop>
-                        <PaddingBottom>2pt</PaddingBottom>
-                      </Style>
-                    </Textbox>
-                  </CellContents>
-                </TablixCell>
-                <TablixCell>
-                  <CellContents>
-                    <Textbox Name="Textbox25">
-                      <CanGrow>true</CanGrow>
-                      <KeepTogether>true</KeepTogether>
-                      <Paragraphs>
-                        <Paragraph>
-                          <TextRuns>
-                            <TextRun>
-                              <Value />
-                              <Style>
-                                <FontFamily>tahoma</FontFamily>
-                                <FontSize>9pt</FontSize>
-                                <FontWeight>Bold</FontWeight>
-                              </Style>
-                            </TextRun>
-                          </TextRuns>
-                          <Style>
-                            <TextAlign>Left</TextAlign>
-                          </Style>
-                        </Paragraph>
-                      </Paragraphs>
-                      <rd:DefaultName>Textbox25</rd:DefaultName>
-                      <Style>
-                        <Border>
-                          <Style>None</Style>
-                        </Border>
-                        <TopBorder>
-                          <Color>Black</Color>
-                          <Width>1pt</Width>
-                        </TopBorder>
-                        <PaddingLeft>2pt</PaddingLeft>
-                        <PaddingRight>2pt</PaddingRight>
-                        <PaddingTop>2pt</PaddingTop>
-                        <PaddingBottom>2pt</PaddingBottom>
-                      </Style>
-                    </Textbox>
-                  </CellContents>
-                </TablixCell>
-                <TablixCell>
-                  <CellContents>
-                    <Textbox Name="Textbox23">
-                      <CanGrow>true</CanGrow>
-                      <KeepTogether>true</KeepTogether>
-                      <Paragraphs>
-                        <Paragraph>
-                          <TextRuns>
-                            <TextRun>
-                              <Value />
-                              <Style>
-                                <FontFamily>tahoma</FontFamily>
-                                <FontSize>9pt</FontSize>
-                                <FontWeight>Bold</FontWeight>
-                              </Style>
-                            </TextRun>
-                          </TextRuns>
-                          <Style>
-                            <TextAlign>Left</TextAlign>
-                          </Style>
-                        </Paragraph>
-                      </Paragraphs>
-                      <rd:DefaultName>Textbox23</rd:DefaultName>
-                      <Style>
-                        <Border>
-                          <Style>None</Style>
-                        </Border>
-                        <TopBorder>
-                          <Color>Black</Color>
-                          <Width>1pt</Width>
-                        </TopBorder>
-                        <PaddingLeft>2pt</PaddingLeft>
-                        <PaddingRight>2pt</PaddingRight>
-                        <PaddingTop>2pt</PaddingTop>
-                        <PaddingBottom>2pt</PaddingBottom>
-                      </Style>
-                    </Textbox>
-                  </CellContents>
-                </TablixCell>
-              </TablixCells>
-            </TablixRow>
           </TablixRows>
         </TablixBody>
         <TablixColumnHierarchy>
@@ -522,7 +516,7 @@
         <Top>0.73473in</Top>
         <Left>0.05493in</Left>
         <Height>0.45in</Height>
-        <Width>7.48653in</Width>
+        <Width>7.50736in</Width>
         <Style>
           <Border>
             <Style>None</Style>
@@ -1124,6 +1118,22 @@
                         <Border>
                           <Style>None</Style>
                         </Border>
+                        <TopBorder>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </TopBorder>
+                        <BottomBorder>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </BottomBorder>
+                        <LeftBorder>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </LeftBorder>
+                        <RightBorder>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </RightBorder>
                         <BackgroundColor>=iif(RowNumber(nothing) Mod 2 , "White","WhiteSmoke")</BackgroundColor>
                         <VerticalAlign>Middle</VerticalAlign>
                         <PaddingLeft>2pt</PaddingLeft>
@@ -1158,6 +1168,22 @@
                         <Border>
                           <Style>None</Style>
                         </Border>
+                        <TopBorder>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </TopBorder>
+                        <BottomBorder>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </BottomBorder>
+                        <LeftBorder>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </LeftBorder>
+                        <RightBorder>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </RightBorder>
                         <BackgroundColor>=iif(RowNumber(nothing) Mod 2 , "White","WhiteSmoke")</BackgroundColor>
                         <VerticalAlign>Middle</VerticalAlign>
                         <PaddingLeft>2pt</PaddingLeft>
@@ -1192,6 +1218,22 @@
                         <Border>
                           <Style>None</Style>
                         </Border>
+                        <TopBorder>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </TopBorder>
+                        <BottomBorder>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </BottomBorder>
+                        <LeftBorder>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </LeftBorder>
+                        <RightBorder>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </RightBorder>
                         <BackgroundColor>=iif(RowNumber(nothing) Mod 2 , "White","WhiteSmoke")</BackgroundColor>
                         <VerticalAlign>Middle</VerticalAlign>
                         <PaddingLeft>2pt</PaddingLeft>
@@ -1226,6 +1268,22 @@
                         <Border>
                           <Style>None</Style>
                         </Border>
+                        <TopBorder>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </TopBorder>
+                        <BottomBorder>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </BottomBorder>
+                        <LeftBorder>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </LeftBorder>
+                        <RightBorder>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </RightBorder>
                         <BackgroundColor>=iif(RowNumber(nothing) Mod 2 , "White","WhiteSmoke")</BackgroundColor>
                         <VerticalAlign>Middle</VerticalAlign>
                         <PaddingLeft>2pt</PaddingLeft>
@@ -1260,6 +1318,22 @@
                         <Border>
                           <Style>None</Style>
                         </Border>
+                        <TopBorder>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </TopBorder>
+                        <BottomBorder>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </BottomBorder>
+                        <LeftBorder>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </LeftBorder>
+                        <RightBorder>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </RightBorder>
                         <BackgroundColor>=iif(RowNumber(nothing) Mod 2 , "White","WhiteSmoke")</BackgroundColor>
                         <VerticalAlign>Middle</VerticalAlign>
                         <PaddingLeft>2pt</PaddingLeft>
@@ -1294,6 +1368,22 @@
                         <Border>
                           <Style>None</Style>
                         </Border>
+                        <TopBorder>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </TopBorder>
+                        <BottomBorder>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </BottomBorder>
+                        <LeftBorder>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </LeftBorder>
+                        <RightBorder>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </RightBorder>
                         <BackgroundColor>=iif(RowNumber(nothing) Mod 2 , "White","WhiteSmoke")</BackgroundColor>
                         <VerticalAlign>Middle</VerticalAlign>
                         <PaddingLeft>2pt</PaddingLeft>
@@ -1313,7 +1403,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=formatnumber(Fields!Requiredqty.Value,Max(Fields!DecimalPlaces.Value))</Value>
+                              <Value>=iif(Fields!Requiredqty.Value &lt;&gt; 0, formatnumber(Fields!Requiredqty.Value,Fields!DecimalPlaces.Value) ,"-")</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>7pt</FontSize>
@@ -1330,6 +1420,22 @@
                         <Border>
                           <Style>None</Style>
                         </Border>
+                        <TopBorder>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </TopBorder>
+                        <BottomBorder>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </BottomBorder>
+                        <LeftBorder>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </LeftBorder>
+                        <RightBorder>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </RightBorder>
                         <BackgroundColor>=iif(RowNumber(nothing) Mod 2 , "White","WhiteSmoke")</BackgroundColor>
                         <VerticalAlign>Middle</VerticalAlign>
                         <PaddingLeft>2pt</PaddingLeft>
@@ -1366,6 +1472,22 @@
                         <Border>
                           <Style>None</Style>
                         </Border>
+                        <TopBorder>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </TopBorder>
+                        <BottomBorder>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </BottomBorder>
+                        <LeftBorder>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </LeftBorder>
+                        <RightBorder>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </RightBorder>
                         <BackgroundColor>=iif(RowNumber(nothing) Mod 2 , "White","WhiteSmoke")</BackgroundColor>
                         <VerticalAlign>Middle</VerticalAlign>
                         <PaddingLeft>2pt</PaddingLeft>
@@ -1385,7 +1507,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=formatnumber(Fields!ProdPlanqty.Value,Max(Fields!DecimalPlaces.Value))</Value>
+                              <Value>=iif(Fields!ProdPlanqty.Value &lt;&gt; 0, formatnumber(Fields!ProdPlanqty.Value,Fields!DecimalPlaces.Value) ,"-")</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>7pt</FontSize>
@@ -1402,6 +1524,22 @@
                         <Border>
                           <Style>None</Style>
                         </Border>
+                        <TopBorder>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </TopBorder>
+                        <BottomBorder>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </BottomBorder>
+                        <LeftBorder>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </LeftBorder>
+                        <RightBorder>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </RightBorder>
                         <BackgroundColor>=iif(RowNumber(nothing) Mod 2 , "White","WhiteSmoke")</BackgroundColor>
                         <VerticalAlign>Middle</VerticalAlign>
                         <PaddingLeft>2pt</PaddingLeft>
@@ -1421,7 +1559,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=formatnumber(Fields!PurchPlanQty.Value,Max(Fields!DecimalPlaces.Value))</Value>
+                              <Value>=iif(Fields!PurchPlanQty.Value &lt;&gt; 0, formatnumber(Fields!PurchPlanQty.Value,Fields!DecimalPlaces.Value) ,"-")</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>7pt</FontSize>
@@ -1438,6 +1576,22 @@
                         <Border>
                           <Style>None</Style>
                         </Border>
+                        <TopBorder>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </TopBorder>
+                        <BottomBorder>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </BottomBorder>
+                        <LeftBorder>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </LeftBorder>
+                        <RightBorder>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </RightBorder>
                         <BackgroundColor>=iif(RowNumber(nothing) Mod 2 , "White","WhiteSmoke")</BackgroundColor>
                         <VerticalAlign>Middle</VerticalAlign>
                         <PaddingLeft>2pt</PaddingLeft>
@@ -1457,7 +1611,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=formatnumber(Fields!StockPlanqty.Value,Max(Fields!DecimalPlaces.Value))</Value>
+                              <Value>=iif(Fields!StockPlanqty.Value &lt;&gt; 0, formatnumber(Fields!StockPlanqty.Value,Fields!DecimalPlaces.Value) ,"-")</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>7pt</FontSize>
@@ -1474,6 +1628,22 @@
                         <Border>
                           <Style>None</Style>
                         </Border>
+                        <TopBorder>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </TopBorder>
+                        <BottomBorder>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </BottomBorder>
+                        <LeftBorder>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </LeftBorder>
+                        <RightBorder>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </RightBorder>
                         <BackgroundColor>=iif(RowNumber(nothing) Mod 2 , "White","WhiteSmoke")</BackgroundColor>
                         <VerticalAlign>Middle</VerticalAlign>
                         <PaddingLeft>2pt</PaddingLeft>
@@ -1715,7 +1885,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=formatnumber(sum(Fields!Requiredqty.Value),Max(Fields!DecimalPlaces.Value))</Value>
+                              <Value>=iif(sum(Fields!Requiredqty.Value) &lt;&gt; 0, formatnumber(sum(Fields!Requiredqty.Value),max(Fields!DecimalPlaces.Value)) ,"-")</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>7pt</FontSize>
@@ -1801,7 +1971,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=formatnumber(sum(Fields!ProdPlanqty.Value),Max(Fields!DecimalPlaces.Value))</Value>
+                              <Value>=iif(sum(Fields!ProdPlanqty.Value) &lt;&gt; 0, formatnumber(sum(Fields!ProdPlanqty.Value),max(Fields!DecimalPlaces.Value)) ,"-")</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>7pt</FontSize>
@@ -1844,7 +2014,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=formatnumber(sum(Fields!PurchPlanQty.Value),Max(Fields!DecimalPlaces.Value))</Value>
+                              <Value>=iif(sum(Fields!PurchPlanQty.Value) &lt;&gt; 0, formatnumber(sum(Fields!PurchPlanQty.Value),max(Fields!DecimalPlaces.Value)) ,"-")</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>7pt</FontSize>
@@ -1887,7 +2057,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=formatnumber(sum(Fields!StockPlanqty.Value),Max(Fields!DecimalPlaces.Value))</Value>
+                              <Value>=iif(sum(Fields!StockPlanqty.Value) &lt;&gt; 0, formatnumber(sum(Fields!StockPlanqty.Value),max(Fields!DecimalPlaces.Value)) ,"-")</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>7pt</FontSize>
@@ -1995,19 +2165,19 @@
         <TablixBody>
           <TablixColumns>
             <TablixColumn>
-              <Width>0.9998in</Width>
+              <Width>1.24397in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>0.19187in</Width>
+              <Width>0.19645in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>1.83925in</Width>
+              <Width>1.84383in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>2.29879in</Width>
+              <Width>2.15754in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>2.07349in</Width>
+              <Width>2.07807in</Width>
             </TablixColumn>
           </TablixColumns>
           <TablixRows>
@@ -2083,7 +2253,7 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="DocumentTypeName2">
+                    <Textbox Name="Textbox102">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
@@ -2093,7 +2263,6 @@
                               <Value />
                               <Style>
                                 <FontSize>9pt</FontSize>
-                                <Format>0.00;(0.00);'-'</Format>
                                 <Color>#4d4d4d</Color>
                               </Style>
                             </TextRun>
@@ -2103,7 +2272,7 @@
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>DocumentTypeName1</rd:DefaultName>
+                      <rd:DefaultName>Textbox102</rd:DefaultName>
                       <Style>
                         <Border>
                           <Style>None</Style>
@@ -2192,24 +2361,27 @@
               <TablixCells>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox333">
+                    <Textbox Name="Textbox23">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value />
+                              <Value>Last Modified By</Value>
                               <Style>
-                                <FontFamily>Tahoma</FontFamily>
+                                <FontFamily>tahoma</FontFamily>
                                 <FontSize>9pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
                               </Style>
                             </TextRun>
                           </TextRuns>
-                          <Style />
+                          <Style>
+                            <TextAlign>Left</TextAlign>
+                          </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox333</rd:DefaultName>
+                      <rd:DefaultName>Textbox23</rd:DefaultName>
                       <Style>
                         <Border>
                           <Style>None</Style>
@@ -2224,14 +2396,14 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox9">
+                    <Textbox Name="Textbox10">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value />
+                              <Value>:</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>9pt</FontSize>
@@ -2260,14 +2432,14 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox329">
+                    <Textbox Name="ModifiedBy">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value />
+                              <Value>=Fields!ModifiedBy.Value</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>9pt</FontSize>
@@ -2279,7 +2451,7 @@
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox329</rd:DefaultName>
+                      <rd:DefaultName>ModifiedBy</rd:DefaultName>
                       <Style>
                         <Border>
                           <Style>None</Style>
@@ -2290,42 +2462,10 @@
                         <PaddingBottom>2pt</PaddingBottom>
                       </Style>
                     </Textbox>
+                    <ColSpan>2</ColSpan>
                   </CellContents>
                 </TablixCell>
-                <TablixCell>
-                  <CellContents>
-                    <Textbox Name="Textbox317">
-                      <CanGrow>true</CanGrow>
-                      <KeepTogether>true</KeepTogether>
-                      <Paragraphs>
-                        <Paragraph>
-                          <TextRuns>
-                            <TextRun>
-                              <Value />
-                              <Style>
-                                <FontFamily>Tahoma</FontFamily>
-                                <FontSize>9pt</FontSize>
-                              </Style>
-                            </TextRun>
-                          </TextRuns>
-                          <Style>
-                            <TextAlign>Left</TextAlign>
-                          </Style>
-                        </Paragraph>
-                      </Paragraphs>
-                      <rd:DefaultName>Textbox317</rd:DefaultName>
-                      <Style>
-                        <Border>
-                          <Style>None</Style>
-                        </Border>
-                        <PaddingLeft>2pt</PaddingLeft>
-                        <PaddingRight>2pt</PaddingRight>
-                        <PaddingTop>2pt</PaddingTop>
-                        <PaddingBottom>2pt</PaddingBottom>
-                      </Style>
-                    </Textbox>
-                  </CellContents>
-                </TablixCell>
+                <TablixCell />
                 <TablixCell>
                   <CellContents>
                     <Textbox Name="Textbox41">
@@ -2367,25 +2507,27 @@
               <TablixCells>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox10">
+                    <Textbox Name="Textbox93">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value />
+                              <Value>Approved By</Value>
                               <Style>
-                                <FontFamily>Tahoma</FontFamily>
+                                <FontFamily>tahoma</FontFamily>
                                 <FontSize>9pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
                             </TextRun>
                           </TextRuns>
-                          <Style />
+                          <Style>
+                            <TextAlign>Left</TextAlign>
+                          </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox10</rd:DefaultName>
+                      <rd:DefaultName>Textbox40</rd:DefaultName>
                       <Style>
                         <Border>
                           <Style>None</Style>
@@ -2400,14 +2542,14 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox8">
+                    <Textbox Name="Textbox9">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value />
+                              <Value>:</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>9pt</FontSize>
@@ -2421,7 +2563,7 @@
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox8</rd:DefaultName>
+                      <rd:DefaultName>Textbox9</rd:DefaultName>
                       <Style>
                         <Border>
                           <Style>None</Style>
@@ -2470,14 +2612,14 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox44">
+                    <Textbox Name="Textbox21">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Vendor's Signature</Value>
+                              <Value />
                               <Style>
                                 <FontFamily>tahoma</FontFamily>
                                 <FontSize>9pt</FontSize>
@@ -2490,7 +2632,7 @@
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox40</rd:DefaultName>
+                      <rd:DefaultName>Textbox21</rd:DefaultName>
                       <Style>
                         <Border>
                           <Style>None</Style>
@@ -2559,10 +2701,10 @@
           </TablixMembers>
         </TablixRowHierarchy>
         <DataSetName>DsMain</DataSetName>
-        <Top>5.31402in</Top>
-        <Left>0.05493in</Left>
+        <Top>5.28902in</Top>
+        <Left>0.04243in</Left>
         <Height>0.67918in</Height>
-        <Width>7.4032in</Width>
+        <Width>7.51986in</Width>
         <ZIndex>2</ZIndex>
         <Style>
           <Border>
@@ -2574,13 +2716,13 @@
         <TablixBody>
           <TablixColumns>
             <TablixColumn>
-              <Width>1.48937in</Width>
+              <Width>0.99453in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>0.1376in</Width>
+              <Width>0.19187in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>5.82283in</Width>
+              <Width>6.30528in</Width>
             </TablixColumn>
           </TablixColumns>
           <TablixRows>
@@ -2712,9 +2854,9 @@
         </TablixRowHierarchy>
         <DataSetName>DsMain</DataSetName>
         <Top>5.03416in</Top>
-        <Left>0.0602in</Left>
+        <Left>0.0477in</Left>
         <Height>0.21042in</Height>
-        <Width>7.4498in</Width>
+        <Width>7.49168in</Width>
         <ZIndex>3</ZIndex>
         <Style>
           <Border>
@@ -3372,7 +3514,8 @@
                       <rd:DefaultName>Textbox56</rd:DefaultName>
                       <Style>
                         <Border>
-                          <Style>None</Style>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
                         </Border>
                         <BackgroundColor>=iif(RowNumber(nothing) Mod 2 , "White","WhiteSmoke")</BackgroundColor>
                         <VerticalAlign>Middle</VerticalAlign>
@@ -3406,7 +3549,8 @@
                       <rd:DefaultName>ProductName</rd:DefaultName>
                       <Style>
                         <Border>
-                          <Style>None</Style>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
                         </Border>
                         <BackgroundColor>=iif(RowNumber(nothing) Mod 2 , "White","WhiteSmoke")</BackgroundColor>
                         <VerticalAlign>Middle</VerticalAlign>
@@ -3440,7 +3584,8 @@
                       <rd:DefaultName>Dimension1Name</rd:DefaultName>
                       <Style>
                         <Border>
-                          <Style>None</Style>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
                         </Border>
                         <BackgroundColor>=iif(RowNumber(nothing) Mod 2 , "White","WhiteSmoke")</BackgroundColor>
                         <VerticalAlign>Middle</VerticalAlign>
@@ -3474,7 +3619,8 @@
                       <rd:DefaultName>Dimension2Name</rd:DefaultName>
                       <Style>
                         <Border>
-                          <Style>None</Style>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
                         </Border>
                         <BackgroundColor>=iif(RowNumber(nothing) Mod 2 , "White","WhiteSmoke")</BackgroundColor>
                         <VerticalAlign>Middle</VerticalAlign>
@@ -3508,7 +3654,8 @@
                       <rd:DefaultName>Dimension3Name</rd:DefaultName>
                       <Style>
                         <Border>
-                          <Style>None</Style>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
                         </Border>
                         <BackgroundColor>=iif(RowNumber(nothing) Mod 2 , "White","WhiteSmoke")</BackgroundColor>
                         <VerticalAlign>Middle</VerticalAlign>
@@ -3529,7 +3676,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Microsoft.VisualBasic.Strings.formatnumber(Fields!Requiredqty.Value, Max(Fields!DecimalPlaces.Value))</Value>
+                              <Value>=iif(sum(Fields!Requiredqty.Value) &lt;&gt; 0, formatnumber(sum(Fields!Requiredqty.Value),max(Fields!DecimalPlaces.Value)) ,"-")</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>7pt</FontSize>
@@ -3544,7 +3691,8 @@
                       <rd:DefaultName>Requiredqty</rd:DefaultName>
                       <Style>
                         <Border>
-                          <Style>None</Style>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
                         </Border>
                         <BackgroundColor>=iif(RowNumber(nothing) Mod 2 , "White","WhiteSmoke")</BackgroundColor>
                         <VerticalAlign>Middle</VerticalAlign>
@@ -3580,7 +3728,8 @@
                       <rd:DefaultName>Unit</rd:DefaultName>
                       <Style>
                         <Border>
-                          <Style>None</Style>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
                         </Border>
                         <BackgroundColor>=iif(RowNumber(nothing) Mod 2 , "White","WhiteSmoke")</BackgroundColor>
                         <VerticalAlign>Middle</VerticalAlign>
@@ -3616,7 +3765,8 @@
                       <rd:DefaultName>ProdPlanqty</rd:DefaultName>
                       <Style>
                         <Border>
-                          <Style>None</Style>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
                         </Border>
                         <BackgroundColor>=iif(RowNumber(nothing) Mod 2 , "White","WhiteSmoke")</BackgroundColor>
                         <VerticalAlign>Middle</VerticalAlign>
@@ -3652,7 +3802,8 @@
                       <rd:DefaultName>PurchPlanQty</rd:DefaultName>
                       <Style>
                         <Border>
-                          <Style>None</Style>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
                         </Border>
                         <BackgroundColor>=iif(RowNumber(nothing) Mod 2 , "White","WhiteSmoke")</BackgroundColor>
                         <VerticalAlign>Middle</VerticalAlign>
@@ -3688,7 +3839,8 @@
                       <rd:DefaultName>StockPlanqty</rd:DefaultName>
                       <Style>
                         <Border>
-                          <Style>None</Style>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
                         </Border>
                         <BackgroundColor>=iif(RowNumber(nothing) Mod 2 , "White","WhiteSmoke")</BackgroundColor>
                         <VerticalAlign>Middle</VerticalAlign>
@@ -3724,7 +3876,8 @@
                       <rd:DefaultName>Remark</rd:DefaultName>
                       <Style>
                         <Border>
-                          <Style>None</Style>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
                         </Border>
                         <BackgroundColor>=iif(RowNumber(nothing) Mod 2 , "White","WhiteSmoke")</BackgroundColor>
                         <VerticalAlign>Middle</VerticalAlign>
@@ -4096,7 +4249,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Microsoft.VisualBasic.Strings.formatnumber(Sum(Fields!StockPlanqty.Value), Max(Fields!DecimalPlaces.Value))</Value>
+                              <Value>=iif(sum(Fields!StockPlanqty.Value) &lt;&gt; 0, formatnumber(sum(Fields!StockPlanqty.Value),max(Fields!DecimalPlaces.Value)) ,"-")</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>7pt</FontSize>
@@ -4794,7 +4947,8 @@
                       <rd:DefaultName>Textbox56</rd:DefaultName>
                       <Style>
                         <Border>
-                          <Style>None</Style>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
                         </Border>
                         <BackgroundColor>=iif(RowNumber(nothing) Mod 2 , "White","WhiteSmoke")</BackgroundColor>
                         <VerticalAlign>Middle</VerticalAlign>
@@ -4828,7 +4982,8 @@
                       <rd:DefaultName>ProductName</rd:DefaultName>
                       <Style>
                         <Border>
-                          <Style>None</Style>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
                         </Border>
                         <BackgroundColor>=iif(RowNumber(nothing) Mod 2 , "White","WhiteSmoke")</BackgroundColor>
                         <VerticalAlign>Middle</VerticalAlign>
@@ -4862,7 +5017,8 @@
                       <rd:DefaultName>Dimension1Name</rd:DefaultName>
                       <Style>
                         <Border>
-                          <Style>None</Style>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
                         </Border>
                         <BackgroundColor>=iif(RowNumber(nothing) Mod 2 , "White","WhiteSmoke")</BackgroundColor>
                         <VerticalAlign>Middle</VerticalAlign>
@@ -4896,7 +5052,8 @@
                       <rd:DefaultName>Dimension2Name</rd:DefaultName>
                       <Style>
                         <Border>
-                          <Style>None</Style>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
                         </Border>
                         <BackgroundColor>=iif(RowNumber(nothing) Mod 2 , "White","WhiteSmoke")</BackgroundColor>
                         <VerticalAlign>Middle</VerticalAlign>
@@ -4932,7 +5089,8 @@
                       <rd:DefaultName>Requiredqty</rd:DefaultName>
                       <Style>
                         <Border>
-                          <Style>None</Style>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
                         </Border>
                         <BackgroundColor>=iif(RowNumber(nothing) Mod 2 , "White","WhiteSmoke")</BackgroundColor>
                         <VerticalAlign>Middle</VerticalAlign>
@@ -4968,7 +5126,8 @@
                       <rd:DefaultName>Unit</rd:DefaultName>
                       <Style>
                         <Border>
-                          <Style>None</Style>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
                         </Border>
                         <BackgroundColor>=iif(RowNumber(nothing) Mod 2 , "White","WhiteSmoke")</BackgroundColor>
                         <VerticalAlign>Middle</VerticalAlign>
@@ -5004,7 +5163,8 @@
                       <rd:DefaultName>ProdPlanqty</rd:DefaultName>
                       <Style>
                         <Border>
-                          <Style>None</Style>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
                         </Border>
                         <BackgroundColor>=iif(RowNumber(nothing) Mod 2 , "White","WhiteSmoke")</BackgroundColor>
                         <VerticalAlign>Middle</VerticalAlign>
@@ -5040,7 +5200,8 @@
                       <rd:DefaultName>PurchPlanQty</rd:DefaultName>
                       <Style>
                         <Border>
-                          <Style>None</Style>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
                         </Border>
                         <BackgroundColor>=iif(RowNumber(nothing) Mod 2 , "White","WhiteSmoke")</BackgroundColor>
                         <VerticalAlign>Middle</VerticalAlign>
@@ -5076,7 +5237,8 @@
                       <rd:DefaultName>StockPlanqty</rd:DefaultName>
                       <Style>
                         <Border>
-                          <Style>None</Style>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
                         </Border>
                         <BackgroundColor>=iif(RowNumber(nothing) Mod 2 , "White","WhiteSmoke")</BackgroundColor>
                         <VerticalAlign>Middle</VerticalAlign>
@@ -5112,7 +5274,8 @@
                       <rd:DefaultName>Remark</rd:DefaultName>
                       <Style>
                         <Border>
-                          <Style>None</Style>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
                         </Border>
                         <BackgroundColor>=iif(RowNumber(nothing) Mod 2 , "White","WhiteSmoke")</BackgroundColor>
                         <VerticalAlign>Middle</VerticalAlign>
@@ -5269,7 +5432,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Microsoft.VisualBasic.Strings.formatnumber(Sum(Fields!Requiredqty.Value), Max(Fields!DecimalPlaces.Value))</Value>
+                              <Value>=iif(sum(Fields!Requiredqty.Value) &lt;&gt; 0, formatnumber(sum(Fields!Requiredqty.Value),max(Fields!DecimalPlaces.Value)) ,"-")</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>7pt</FontSize>
@@ -5355,7 +5518,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Microsoft.VisualBasic.Strings.formatnumber(Sum(Fields!ProdPlanqty.Value), Max(Fields!DecimalPlaces.Value))</Value>
+                              <Value>=iif(sum(Fields!ProdPlanqty.Value) &lt;&gt; 0, formatnumber(sum(Fields!ProdPlanqty.Value),max(Fields!DecimalPlaces.Value)) ,"-")</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>7pt</FontSize>
@@ -5398,7 +5561,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Microsoft.VisualBasic.Strings.formatnumber(Sum(Fields!PurchPlanQty.Value), Max(Fields!DecimalPlaces.Value))</Value>
+                              <Value>=iif(sum(Fields!PurchPlanQty.Value) &lt;&gt; 0, formatnumber(sum(Fields!PurchPlanQty.Value),max(Fields!DecimalPlaces.Value)) ,"-")</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>7pt</FontSize>
@@ -5441,7 +5604,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Microsoft.VisualBasic.Strings.formatnumber(Sum(Fields!StockPlanqty.Value), Max(Fields!DecimalPlaces.Value))</Value>
+                              <Value>=iif(sum(Fields!StockPlanqty.Value) &lt;&gt; 0, formatnumber(sum(Fields!StockPlanqty.Value),max(Fields!DecimalPlaces.Value)) ,"-")</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>7pt</FontSize>
@@ -5576,7 +5739,7 @@
         <Top>2.7573in</Top>
         <Left>0.04152in</Left>
         <Height>0.71874in</Height>
-        <Width>7.52078in</Width>
+        <Width>7.52077in</Width>
         <ZIndex>7</ZIndex>
         <Visibility>
           <Hidden>=IIF(max(Fields!DimensionCnt.Value) = "2", False, True)</Hidden>
@@ -6094,7 +6257,8 @@
                       <rd:DefaultName>Textbox56</rd:DefaultName>
                       <Style>
                         <Border>
-                          <Style>None</Style>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
                         </Border>
                         <BackgroundColor>=iif(RowNumber(nothing) Mod 2 , "White","WhiteSmoke")</BackgroundColor>
                         <VerticalAlign>Middle</VerticalAlign>
@@ -6128,7 +6292,8 @@
                       <rd:DefaultName>ProductName</rd:DefaultName>
                       <Style>
                         <Border>
-                          <Style>None</Style>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
                         </Border>
                         <BackgroundColor>=iif(RowNumber(nothing) Mod 2 , "White","WhiteSmoke")</BackgroundColor>
                         <VerticalAlign>Middle</VerticalAlign>
@@ -6162,7 +6327,8 @@
                       <rd:DefaultName>Dimension1Name</rd:DefaultName>
                       <Style>
                         <Border>
-                          <Style>None</Style>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
                         </Border>
                         <BackgroundColor>=iif(RowNumber(nothing) Mod 2 , "White","WhiteSmoke")</BackgroundColor>
                         <VerticalAlign>Middle</VerticalAlign>
@@ -6198,7 +6364,8 @@
                       <rd:DefaultName>Requiredqty</rd:DefaultName>
                       <Style>
                         <Border>
-                          <Style>None</Style>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
                         </Border>
                         <BackgroundColor>=iif(RowNumber(nothing) Mod 2 , "White","WhiteSmoke")</BackgroundColor>
                         <VerticalAlign>Middle</VerticalAlign>
@@ -6234,7 +6401,8 @@
                       <rd:DefaultName>Unit</rd:DefaultName>
                       <Style>
                         <Border>
-                          <Style>None</Style>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
                         </Border>
                         <BackgroundColor>=iif(RowNumber(nothing) Mod 2 , "White","WhiteSmoke")</BackgroundColor>
                         <VerticalAlign>Middle</VerticalAlign>
@@ -6270,7 +6438,8 @@
                       <rd:DefaultName>ProdPlanqty</rd:DefaultName>
                       <Style>
                         <Border>
-                          <Style>None</Style>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
                         </Border>
                         <BackgroundColor>=iif(RowNumber(nothing) Mod 2 , "White","WhiteSmoke")</BackgroundColor>
                         <VerticalAlign>Middle</VerticalAlign>
@@ -6306,7 +6475,8 @@
                       <rd:DefaultName>PurchPlanQty</rd:DefaultName>
                       <Style>
                         <Border>
-                          <Style>None</Style>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
                         </Border>
                         <BackgroundColor>=iif(RowNumber(nothing) Mod 2 , "White","WhiteSmoke")</BackgroundColor>
                         <VerticalAlign>Middle</VerticalAlign>
@@ -6327,7 +6497,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Microsoft.VisualBasic.Strings.formatnumber(Fields!StockPlanqty.Value, Max(Fields!DecimalPlaces.Value))</Value>
+                              <Value>=iif(Fields!StockPlanqty.Value &lt;&gt; 0, formatnumber(Fields!StockPlanqty.Value,Fields!DecimalPlaces.Value) ,"-")</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>7pt</FontSize>
@@ -6342,7 +6512,8 @@
                       <rd:DefaultName>StockPlanqty</rd:DefaultName>
                       <Style>
                         <Border>
-                          <Style>None</Style>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
                         </Border>
                         <BackgroundColor>=iif(RowNumber(nothing) Mod 2 , "White","WhiteSmoke")</BackgroundColor>
                         <VerticalAlign>Middle</VerticalAlign>
@@ -6378,7 +6549,8 @@
                       <rd:DefaultName>Remark</rd:DefaultName>
                       <Style>
                         <Border>
-                          <Style>None</Style>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
                         </Border>
                         <BackgroundColor>=iif(RowNumber(nothing) Mod 2 , "White","WhiteSmoke")</BackgroundColor>
                         <VerticalAlign>Middle</VerticalAlign>
@@ -6492,7 +6664,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Microsoft.VisualBasic.Strings.formatnumber(Sum(Fields!Requiredqty.Value), Max(Fields!DecimalPlaces.Value))</Value>
+                              <Value>=iif(sum(Fields!Requiredqty.Value) &lt;&gt; 0, formatnumber(sum(Fields!Requiredqty.Value),max(Fields!DecimalPlaces.Value)) ,"-")</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>7pt</FontSize>
@@ -6578,7 +6750,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Microsoft.VisualBasic.Strings.formatnumber(Sum(Fields!ProdPlanqty.Value), Max(Fields!DecimalPlaces.Value))</Value>
+                              <Value>=iif(sum(Fields!ProdPlanqty.Value) &lt;&gt; 0, formatnumber(sum(Fields!ProdPlanqty.Value),max(Fields!DecimalPlaces.Value)) ,"-")</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>7pt</FontSize>
@@ -6621,7 +6793,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Microsoft.VisualBasic.Strings.formatnumber(Sum(Fields!PurchPlanQty.Value), Max(Fields!DecimalPlaces.Value))</Value>
+                              <Value>=iif(sum(Fields!PurchPlanQty.Value) &lt;&gt; 0, formatnumber(sum(Fields!PurchPlanQty.Value),max(Fields!DecimalPlaces.Value)) ,"-")</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>7pt</FontSize>
@@ -6664,7 +6836,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Microsoft.VisualBasic.Strings.formatnumber(Sum(Fields!StockPlanqty.Value), Max(Fields!DecimalPlaces.Value))</Value>
+                              <Value>=iif(sum(Fields!StockPlanqty.Value) &lt;&gt; 0, formatnumber(sum(Fields!StockPlanqty.Value),max(Fields!DecimalPlaces.Value)) ,"-")</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>7pt</FontSize>
@@ -6798,7 +6970,7 @@
         <Top>3.5198in</Top>
         <Left>0.02857in</Left>
         <Height>0.71874in</Height>
-        <Width>7.51289in</Width>
+        <Width>7.5129in</Width>
         <ZIndex>8</ZIndex>
         <Visibility>
           <Hidden>=IIF(max(Fields!DimensionCnt.Value) = "1", False, True)</Hidden>
@@ -6834,7 +7006,7 @@
               <Width>0.85202in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>1.22972in</Width>
+              <Width>1.25059in</Width>
             </TablixColumn>
           </TablixColumns>
           <TablixRows>
@@ -6853,7 +7025,7 @@
                               <Value>Sr</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
-                                <FontSize>7pt</FontSize>
+                                <FontSize>8pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
                             </TextRun>
@@ -6896,7 +7068,7 @@
                               <Value>Product Name</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
-                                <FontSize>7pt</FontSize>
+                                <FontSize>8pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
                             </TextRun>
@@ -6937,7 +7109,7 @@
                               <Value>Req</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
-                                <FontSize>7pt</FontSize>
+                                <FontSize>8pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
                             </TextRun>
@@ -6952,7 +7124,7 @@
                               <Value> Qty</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
-                                <FontSize>7pt</FontSize>
+                                <FontSize>8pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
                             </TextRun>
@@ -6995,7 +7167,7 @@
                               <Value>Unit</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
-                                <FontSize>7pt</FontSize>
+                                <FontSize>8pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
                             </TextRun>
@@ -7038,7 +7210,7 @@
                               <Value>ProdPlan</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
-                                <FontSize>7pt</FontSize>
+                                <FontSize>8pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
                             </TextRun>
@@ -7053,7 +7225,7 @@
                               <Value> Qty</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
-                                <FontSize>7pt</FontSize>
+                                <FontSize>8pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
                             </TextRun>
@@ -7096,7 +7268,7 @@
                               <Value>PurchPlan</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
-                                <FontSize>7pt</FontSize>
+                                <FontSize>8pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
                             </TextRun>
@@ -7111,7 +7283,7 @@
                               <Value> Qty</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
-                                <FontSize>7pt</FontSize>
+                                <FontSize>8pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
                             </TextRun>
@@ -7154,7 +7326,7 @@
                               <Value>Stock</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
-                                <FontSize>7pt</FontSize>
+                                <FontSize>8pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
                             </TextRun>
@@ -7169,7 +7341,7 @@
                               <Value> Planqty</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
-                                <FontSize>7pt</FontSize>
+                                <FontSize>8pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
                             </TextRun>
@@ -7212,7 +7384,7 @@
                               <Value>Remark</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
-                                <FontSize>7pt</FontSize>
+                                <FontSize>8pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
                             </TextRun>
@@ -7260,7 +7432,7 @@
                               <Value>=RowNumber(Nothing)</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
-                                <FontSize>7pt</FontSize>
+                                <FontSize>8pt</FontSize>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -7272,7 +7444,8 @@
                       <rd:DefaultName>Textbox56</rd:DefaultName>
                       <Style>
                         <Border>
-                          <Style>None</Style>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
                         </Border>
                         <BackgroundColor>=iif(RowNumber(nothing) Mod 2 , "White","WhiteSmoke")</BackgroundColor>
                         <VerticalAlign>Middle</VerticalAlign>
@@ -7296,7 +7469,7 @@
                               <Value>=Fields!ProductName.Value</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
-                                <FontSize>7pt</FontSize>
+                                <FontSize>8pt</FontSize>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -7306,7 +7479,8 @@
                       <rd:DefaultName>ProductName</rd:DefaultName>
                       <Style>
                         <Border>
-                          <Style>None</Style>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
                         </Border>
                         <BackgroundColor>=iif(RowNumber(nothing) Mod 2 , "White","WhiteSmoke")</BackgroundColor>
                         <VerticalAlign>Middle</VerticalAlign>
@@ -7327,10 +7501,10 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Microsoft.VisualBasic.Strings.formatnumber(Fields!Requiredqty.Value, Max(Fields!DecimalPlaces.Value))</Value>
+                              <Value>=iif(Fields!Requiredqty.Value &lt;&gt; 0, formatnumber(Fields!Requiredqty.Value,Fields!DecimalPlaces.Value) ,"-")</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
-                                <FontSize>7pt</FontSize>
+                                <FontSize>8pt</FontSize>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -7342,7 +7516,8 @@
                       <rd:DefaultName>Requiredqty</rd:DefaultName>
                       <Style>
                         <Border>
-                          <Style>None</Style>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
                         </Border>
                         <BackgroundColor>=iif(RowNumber(nothing) Mod 2 , "White","WhiteSmoke")</BackgroundColor>
                         <VerticalAlign>Middle</VerticalAlign>
@@ -7366,7 +7541,7 @@
                               <Value>=Fields!Unit.Value</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
-                                <FontSize>7pt</FontSize>
+                                <FontSize>8pt</FontSize>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -7378,7 +7553,8 @@
                       <rd:DefaultName>Unit</rd:DefaultName>
                       <Style>
                         <Border>
-                          <Style>None</Style>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
                         </Border>
                         <BackgroundColor>=iif(RowNumber(nothing) Mod 2 , "White","WhiteSmoke")</BackgroundColor>
                         <VerticalAlign>Middle</VerticalAlign>
@@ -7399,10 +7575,10 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Microsoft.VisualBasic.Strings.formatnumber(Fields!ProdPlanqty.Value, Max(Fields!DecimalPlaces.Value))</Value>
+                              <Value>=iif(Fields!ProdPlanqty.Value &lt;&gt; 0, formatnumber(Fields!ProdPlanqty.Value,Fields!DecimalPlaces.Value) ,"-")</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
-                                <FontSize>7pt</FontSize>
+                                <FontSize>8pt</FontSize>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -7414,7 +7590,8 @@
                       <rd:DefaultName>ProdPlanqty</rd:DefaultName>
                       <Style>
                         <Border>
-                          <Style>None</Style>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
                         </Border>
                         <BackgroundColor>=iif(RowNumber(nothing) Mod 2 , "White","WhiteSmoke")</BackgroundColor>
                         <VerticalAlign>Middle</VerticalAlign>
@@ -7435,10 +7612,10 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Microsoft.VisualBasic.Strings.formatnumber(Fields!PurchPlanQty.Value, Max(Fields!DecimalPlaces.Value))</Value>
+                              <Value>=iif(Fields!PurchPlanQty.Value &lt;&gt; 0, formatnumber(Fields!PurchPlanQty.Value,Fields!DecimalPlaces.Value) ,"-")</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
-                                <FontSize>7pt</FontSize>
+                                <FontSize>8pt</FontSize>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -7450,7 +7627,8 @@
                       <rd:DefaultName>PurchPlanQty</rd:DefaultName>
                       <Style>
                         <Border>
-                          <Style>None</Style>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
                         </Border>
                         <BackgroundColor>=iif(RowNumber(nothing) Mod 2 , "White","WhiteSmoke")</BackgroundColor>
                         <VerticalAlign>Middle</VerticalAlign>
@@ -7471,10 +7649,10 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Microsoft.VisualBasic.Strings.formatnumber(Fields!StockPlanqty.Value, Max(Fields!DecimalPlaces.Value))</Value>
+                              <Value>=iif(Fields!StockPlanqty.Value &lt;&gt; 0, formatnumber(Fields!StockPlanqty.Value,Fields!DecimalPlaces.Value) ,"-")</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
-                                <FontSize>7pt</FontSize>
+                                <FontSize>8pt</FontSize>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -7486,7 +7664,8 @@
                       <rd:DefaultName>StockPlanqty</rd:DefaultName>
                       <Style>
                         <Border>
-                          <Style>None</Style>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
                         </Border>
                         <BackgroundColor>=iif(RowNumber(nothing) Mod 2 , "White","WhiteSmoke")</BackgroundColor>
                         <VerticalAlign>Middle</VerticalAlign>
@@ -7510,7 +7689,7 @@
                               <Value>=Fields!Remark.Value</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
-                                <FontSize>7pt</FontSize>
+                                <FontSize>8pt</FontSize>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -7522,7 +7701,8 @@
                       <rd:DefaultName>Remark</rd:DefaultName>
                       <Style>
                         <Border>
-                          <Style>None</Style>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
                         </Border>
                         <BackgroundColor>=iif(RowNumber(nothing) Mod 2 , "White","WhiteSmoke")</BackgroundColor>
                         <VerticalAlign>Middle</VerticalAlign>
@@ -7551,7 +7731,7 @@
                               <Value>Total</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
-                                <FontSize>7pt</FontSize>
+                                <FontSize>8pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
                             </TextRun>
@@ -7593,10 +7773,10 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Microsoft.VisualBasic.Strings.formatnumber(Sum(Fields!Requiredqty.Value), Max(Fields!DecimalPlaces.Value))</Value>
+                              <Value>=iif(sum(Fields!Requiredqty.Value) &lt;&gt; 0, formatnumber(sum(Fields!Requiredqty.Value),max(Fields!DecimalPlaces.Value)) ,"-")</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
-                                <FontSize>7pt</FontSize>
+                                <FontSize>8pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
                             </TextRun>
@@ -7639,7 +7819,7 @@
                               <Value />
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
-                                <FontSize>7pt</FontSize>
+                                <FontSize>8pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
                             </TextRun>
@@ -7679,10 +7859,10 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Microsoft.VisualBasic.Strings.formatnumber(Sum(Fields!ProdPlanqty.Value), Max(Fields!DecimalPlaces.Value))</Value>
+                              <Value>=iif(sum(Fields!ProdPlanqty.Value) &lt;&gt; 0, formatnumber(sum(Fields!ProdPlanqty.Value),max(Fields!DecimalPlaces.Value)) ,"-")</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
-                                <FontSize>7pt</FontSize>
+                                <FontSize>8pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
                             </TextRun>
@@ -7722,10 +7902,10 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Microsoft.VisualBasic.Strings.formatnumber(Sum(Fields!PurchPlanQty.Value), Max(Fields!DecimalPlaces.Value))</Value>
+                              <Value>=iif(sum(Fields!PurchPlanQty.Value) &lt;&gt; 0, formatnumber(sum(Fields!PurchPlanQty.Value),max(Fields!DecimalPlaces.Value)) ,"-")</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
-                                <FontSize>7pt</FontSize>
+                                <FontSize>8pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
                             </TextRun>
@@ -7765,10 +7945,10 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Microsoft.VisualBasic.Strings.formatnumber(Sum(Fields!StockPlanqty.Value), Max(Fields!DecimalPlaces.Value))</Value>
+                              <Value>=iif(sum(Fields!StockPlanqty.Value) &lt;&gt; 0, formatnumber(sum(Fields!StockPlanqty.Value),max(Fields!DecimalPlaces.Value)) ,"-")</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
-                                <FontSize>7pt</FontSize>
+                                <FontSize>8pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
                             </TextRun>
@@ -7811,7 +7991,7 @@
                               <Value />
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
-                                <FontSize>7pt</FontSize>
+                                <FontSize>8pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
                             </TextRun>
@@ -7898,7 +8078,7 @@
         <Top>4.2698in</Top>
         <Left>0.02827in</Left>
         <Height>0.71874in</Height>
-        <Width>7.50278in</Width>
+        <Width>7.52361in</Width>
         <ZIndex>9</ZIndex>
         <Visibility>
           <Hidden>=IIF(max(Fields!DimensionCnt.Value) = "0", False, True)</Hidden>
@@ -7910,7 +8090,7 @@
         </Style>
       </Tablix>
     </ReportItems>
-    <Height>6.70833in</Height>
+    <Height>6in</Height>
     <Style />
   </Body>
   <Width>7.59665in</Width>
@@ -8209,9 +8389,9 @@
     </PageFooter>
     <PageHeight>11.69in</PageHeight>
     <PageWidth>8.27in</PageWidth>
-    <LeftMargin>0.5in</LeftMargin>
-    <TopMargin>0.17in</TopMargin>
-    <BottomMargin>0.12in</BottomMargin>
+    <LeftMargin>0.3in</LeftMargin>
+    <TopMargin>0.1in</TopMargin>
+    <BottomMargin>0.1in</BottomMargin>
     <Style />
   </Page>
   <AutoRefresh>0</AutoRefresh>
@@ -8301,7 +8481,7 @@
         </Field>
         <Field Name="ReportName">
           <DataField>ReportName</DataField>
-          <rd:TypeName>System.Int32</rd:TypeName>
+          <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="StockPlanqty">
           <DataField>StockPlanqty</DataField>
@@ -8315,9 +8495,21 @@
           <DataField>Dimension1Title</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
+        <Field Name="ApproveBy">
+          <DataField>ApproveBy</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
         <Field Name="ReportTitle">
           <DataField>ReportTitle</DataField>
           <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="ModifiedBy">
+          <DataField>ModifiedBy</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="ApproveDate">
+          <DataField>ApproveDate</DataField>
+          <rd:TypeName>System.DateTime</rd:TypeName>
         </Field>
         <Field Name="Dimension2Name">
           <DataField>Dimension2Name</DataField>
@@ -8350,6 +8542,10 @@
         <Field Name="DimensionCnt">
           <DataField>DimensionCnt</DataField>
           <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="BuyerName">
+          <DataField>BuyerName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
         </Field>
       </Fields>
       <rd:DataSetInfo>

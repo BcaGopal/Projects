@@ -4462,7 +4462,7 @@
                 </TablixMember>
                 <TablixMember>
                   <Visibility>
-                    <Hidden>=iif(Fields!DebitNoteAmount.Value &gt; 0 or Fields!CreaditNoteAmount.Value &gt; 0, False, True)</Hidden>
+                    <Hidden>=iif(Fields!DebitNoteAmount.Value &gt; 0 or Fields!CreaditNoteAmount.Value &gt; 0 or Fields!InvoiceReturnAmount.Value &gt;0, False, True)</Hidden>
                   </Visibility>
                 </TablixMember>
               </TablixMembers>
@@ -5331,4 +5331,3 @@ PtQeVUENmewh02zjEWZuZuLElNvBS6gDSXQMHP8A5UE5f6lWFPkR2q6ZG8HZI8xgvruK93SMJUsHJ61z
   <rd:ReportUnitType>Inch</rd:ReportUnitType>
   <rd:ReportID>f1b70379-da78-4ea9-bab5-cbb93d10df58</rd:ReportID>
 </Report>
-

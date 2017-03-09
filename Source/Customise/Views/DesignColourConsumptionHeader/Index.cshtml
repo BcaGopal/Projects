@@ -71,7 +71,7 @@
                columns.Add(m => m.ProductGroupName).Sortable(true).Titled("Design").Filterable(true).Sortable(true);
                columns.Add(m => m.ColourName).Sortable(true).Titled("Colour").Filterable(true).Sortable(true);
                columns.Add(m => m.Weight).Sortable(true).Titled("Weight").Filterable(true).Sortable(true);
-               columns.Add(true).RenderValueAs(m => CustomHelpers.RenderHEDActionLink(ControllerName, m.BaseProductId, 0, IndexStatus));
+               //columns.Add(true).RenderValueAs(m => CustomHelpers.RenderHEDActionLink(ControllerName, m.BaseProductId, 0, IndexStatus));
            }).WithPaging(25).EmptyText("No records found.").Sortable().Filterable().WithMultipleFilters()
     </div>
 </div>

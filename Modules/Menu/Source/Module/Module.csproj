@@ -226,6 +226,7 @@
     <Compile Include="Controllers\MenuController.cs" />
     <Compile Include="Controllers\NotificationController.cs" />
     <Compile Include="Controllers\SiteSelectionController.cs" />
+    <Compile Include="Controllers\UpdateTableStructureController.cs" />
     <Compile Include="Controllers\UserBookMarkController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
