@@ -494,6 +494,14 @@ namespace Customize.Controllers
 
             DyeingViewModel s = _DyeingService.GetDyeing(id);
 
+            s.StartDateTimeHour = s.StartDateTime.Value.Hour;
+            s.StartDateTimeMinute = s.StartDateTime.Value.Minute;
+
+            if (s.CompletedDateTime != null)
+            {
+                s.CompletedDateTimeHour = s.CompletedDateTime.Value.Hour;
+                s.CompletedDateTimeMinute = s.CompletedDateTime.Value.Minute;
+            }
 
             PrepareViewBag(s.DocTypeId);
             if (s == null)
