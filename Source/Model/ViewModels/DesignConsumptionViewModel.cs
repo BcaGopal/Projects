@@ -38,6 +38,14 @@ namespace Model.ViewModels
         public int BaseProductId { get; set; }
         public string BaseProductName { get; set; }
 
+
+
+        [ForeignKey("BaseProcess"), Display(Name = "Base Process")]
+        public int BaseProcessId { get; set; }
+        public string BaseProcessName { get; set; }
+
+
+
         public decimal BatchQty { get; set; }
 
         [ForeignKey("Product"), Display(Name = "Product")]
