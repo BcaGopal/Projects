@@ -13,6 +13,7 @@ using Core.Common;
 using Model.ViewModel;
 using AutoMapper;
 using System.Xml.Linq;
+using System.Data.SqlClient;
 
 namespace Web
 {
@@ -52,6 +53,8 @@ namespace Web
         public ActionResult Create()
         {
             FeetConversionToCms vm = new FeetConversionToCms();
+            int ProductCount = 0;
+            ViewBag.ProductCount = ProductCount;
             return View("Create", vm);
         }
 
@@ -156,6 +159,23 @@ namespace Web
             {
                 return HttpNotFound();
             }
+
+            int ProductCount = 0;
+            using (SqlConnection sqlConnection = new SqlConnection((string)System.Web.HttpContext.Current.Session["DefaultConnectionString"]))
+            {
+                sqlConnection.Open();
+
+
+                SqlCommand Totalf = new SqlCommand("SELECT Web.FGetProductCountByFeetConversionToCms ( " + id + ")", sqlConnection);
+
+                SqlDataReader ExcessStockQty = (Totalf.ExecuteReader());
+                while (ExcessStockQty.Read())
+                {
+                    ProductCount= Convert.ToInt16( ExcessStockQty.GetValue(0));
+                }
+            }
+
+            ViewBag.ProductCount = ProductCount;
             return View("Create", pt);
         }     
 
