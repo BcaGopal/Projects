@@ -46,7 +46,7 @@ namespace Web
 
             if (PackingId != "") { bConStr = " AND H.PackingHeaderId In ( " + PackingId + " )"; }
             if (FromRollNo != "" && ToRollNo != "")
-            { bConStr = bConStr + " AND L.BaleNo  Between  " + FromRollNo + " And " + ToRollNo + " "; }
+            { bConStr = bConStr + " AND replace(L.BaleNo,'-','.')  Between   replace('" + FromRollNo + "','-','.') And  replace('" + ToRollNo + "','-','.') "+" "; }
 
 
             mQry = "SELECT P.ProductName AS CarpetSKU, SOH.DocNo AS SaleOrder , SOH.SaleOrderHeaderId, " +
