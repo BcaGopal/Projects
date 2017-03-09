@@ -113,8 +113,12 @@ namespace Service
                         {
                             Dimension1Name = tab1.JobOrderLine.Dimension1.Dimension1Name,
                             Dimension2Name = tab1.JobOrderLine.Dimension2.Dimension2Name,
+                            Dimension3Name = tab1.JobOrderLine.Dimension3.Dimension3Name,
+                            Dimension4Name = tab1.JobOrderLine.Dimension4.Dimension4Name,
                             Dimension1Id = tab1.JobOrderLine.Dimension1Id,
                             Dimension2Id = tab1.JobOrderLine.Dimension2Id,
+                            Dimension3Id = tab1.JobOrderLine.Dimension3Id,
+                            Dimension4Id = tab1.JobOrderLine.Dimension4Id,
                             Specification = tab1.JobOrderLine.Specification,
                             GoodsReceiptBalQty = p.BalanceQty,
                             Qty = p.BalanceQty,
@@ -169,6 +173,10 @@ namespace Service
                             Dimension1Name = tab1.JobOrderLine.Dimension1.Dimension1Name,
                             Dimension2Id = tab1.JobOrderLine.Dimension2Id,
                             Dimension2Name = tab1.JobOrderLine.Dimension2.Dimension2Name,
+                            Dimension3Id = tab1.JobOrderLine.Dimension3Id,
+                            Dimension3Name = tab1.JobOrderLine.Dimension3.Dimension3Name,
+                            Dimension4Id = tab1.JobOrderLine.Dimension4Id,
+                            Dimension4Name = tab1.JobOrderLine.Dimension4.Dimension4Name,
                             Specification = tab1.JobOrderLine.Specification,
                             GoodsReceiptBalQty = p.BalanceQty,
                             Qty = p.BalanceQty,
@@ -184,9 +192,7 @@ namespace Service
                             DealUnitName = linetab.JobOrderLine.DealUnit.UnitName,
                             unitDecimalPlaces=tab2.Unit.DecimalPlaces,
                             DealunitDecimalPlaces=linetab.JobOrderLine.DealUnit.DecimalPlaces,
-                        }
-
-                        );
+                        });
             return temp;
         }
         public void Update(JobReturnLine pt)
@@ -225,6 +231,8 @@ namespace Service
                         Specification = tab1.JobOrderLine.Specification,
                         Dimension1Name = tab1.JobOrderLine.Dimension1.Dimension1Name,
                         Dimension2Name = tab1.JobOrderLine.Dimension2.Dimension2Name,
+                        Dimension3Name = tab1.JobOrderLine.Dimension3.Dimension3Name,
+                        Dimension4Name = tab1.JobOrderLine.Dimension4.Dimension4Name,
                         LotNo = tab1.LotNo,
                         JobReceiveHeaderDocNo = tab3.DocNo,
                         DealQty = p.DealQty,
@@ -273,6 +281,10 @@ namespace Service
                         Dimension1Name = tab3.JobOrderLine.Dimension1.Dimension1Name,
                         Dimension2Id = tab3.JobOrderLine.Dimension2Id,
                         Dimension2Name = tab3.JobOrderLine.Dimension2.Dimension2Name,
+                        Dimension3Id = tab3.JobOrderLine.Dimension3Id,
+                        Dimension3Name = tab3.JobOrderLine.Dimension3.Dimension3Name,
+                        Dimension4Id = tab3.JobOrderLine.Dimension4Id,
+                        Dimension4Name = tab3.JobOrderLine.Dimension4.Dimension4Name,
                         Specification = tab3.JobOrderLine.Specification,
                         ProductUidId=tab.ProductUidId,
                         ProductUidName=tab.ProductUid.ProductUidName,

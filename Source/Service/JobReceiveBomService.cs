@@ -23,7 +23,7 @@ namespace Service
         void Delete(JobReceiveBom s);
         JobReceiveBom Find(int id);
         void Update(JobReceiveBom s);
-        IEnumerable<JobReceiveBom> GetBomPostingDataForWeaving(int ProductId, int? Dimension1Id, int? Dimension2Id, int? ProcessId, decimal Qty);
+        IEnumerable<JobReceiveBom> GetBomPostingDataForWeaving(int ProductId, int? Dimension1Id, int? Dimension2Id, int? Dimension3Id, int? Dimension4Id, int? ProcessId, decimal Qty);
         IEnumerable<JobReceiveBom> GetBomForLine(int id);
         IEnumerable<JobReceiveBom> GetBomForHeader(int id);
         JobReceiveBomViewModel GetJobReceiveBom(int id);
@@ -69,7 +69,7 @@ namespace Service
             return _unitOfWork.Repository<JobReceiveBom>().Find(id);
         }
 
-        public IEnumerable<JobReceiveBom> GetBomPostingDataForWeaving(int ProductId, int? Dimension1Id, int? Dimension2Id, int? ProcessId, decimal Qty)
+        public IEnumerable<JobReceiveBom> GetBomPostingDataForWeaving(int ProductId, int? Dimension1Id, int? Dimension2Id, int? Dimension3Id, int? Dimension4Id, int? ProcessId, decimal Qty)
         {
 
 
@@ -109,6 +109,8 @@ namespace Service
                     {
                         Dimension1Id = p.Dimension1Id,
                         Dimension2Id = p.Dimension2Id,
+                        Dimension3Id = p.Dimension3Id,
+                        Dimension4Id = p.Dimension4Id,
                         JobReceiveBomId = p.JobReceiveBomId,
                         JobReceiveHeaderId = p.JobReceiveHeaderId,
                         JobReceiveLineId=p.JobReceiveLineId,

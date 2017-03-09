@@ -34,6 +34,11 @@ namespace Model.Models
         public int? ProductCategoryId { get; set; }
         public virtual ProductCategory ProductCategory { get; set; }
 
+        [ForeignKey("Person")]
+        [Display(Name = "Person")]
+        public int? PersonId { get; set; }
+        public virtual Person  Person { get; set; }
+
         [Display(Name = "RetensionPer")]
         public Decimal RetensionPer { get; set; }
 

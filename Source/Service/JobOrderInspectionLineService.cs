@@ -104,6 +104,8 @@ namespace Service
                         ProductId = p.JobOrderLine.ProductId,
                         Dimension1Name = p.JobOrderLine.Dimension1.Dimension1Name,
                         Dimension2Name = p.JobOrderLine.Dimension2.Dimension2Name,
+                        Dimension3Name = p.JobOrderLine.Dimension3.Dimension3Name,
+                        Dimension4Name = p.JobOrderLine.Dimension4.Dimension4Name,
                         Specification = p.JobOrderLine.Specification,
                         BalanceQty = (tab2 == null ? tab.BalanceQty : tab2.BalanceQty) + p.Qty,
                         UnitDecimalPlaces = p.JobOrderLine.Product.Unit.DecimalPlaces,
@@ -144,6 +146,8 @@ namespace Service
                           JobOrderDocNo = p.JobOrderLine.JobOrderHeader.DocNo,
                           Dimension1Name = p.JobOrderLine.Dimension1.Dimension1Name,
                           Dimension2Name = p.JobOrderLine.Dimension2.Dimension2Name,
+                          Dimension3Name = p.JobOrderLine.Dimension3.Dimension3Name,
+                          Dimension4Name = p.JobOrderLine.Dimension4.Dimension4Name,
                           Specification = p.JobOrderLine.Specification,
                           JobOrderInspectionHeaderId = p.JobOrderInspectionHeaderId,
                           ProductId = p.JobOrderLine.ProductId,
@@ -212,8 +216,12 @@ namespace Service
                              JobOrderLineId = p.JobOrderLineId,
                              Dimension1Id = p.Dimension1Id,
                              Dimension2Id = p.Dimension2Id,
+                             Dimension3Id = p.Dimension3Id,
+                             Dimension4Id = p.Dimension4Id,
                              Dimension1Name = p.Dimension1.Dimension1Name,
                              Dimension2Name = p.Dimension2.Dimension2Name,
+                             Dimension3Name = p.Dimension3.Dimension3Name,
+                             Dimension4Name = p.Dimension4.Dimension4Name,
                              Specification = tab.Specification,
                              UnitId = tab2.UnitId,
                              UnitName = tab2.Unit.UnitName,
@@ -263,8 +271,12 @@ namespace Service
                         JobOrderLineId = p.JobOrderLineId,
                         Dimension1Id = p.Dimension1Id,
                         Dimension2Id = p.Dimension2Id,
+                        Dimension3Id = p.Dimension3Id,
+                        Dimension4Id = p.Dimension4Id,
                         Dimension1Name = p.Dimension1Name,
                         Dimension2Name = p.Dimension2Name,
+                        Dimension3Name = p.Dimension3Name,
+                        Dimension4Name = p.Dimension4Name,
                         Specification = p.Specification,
                         UnitId = p.UnitId,
                         UnitName = p.UnitName,
@@ -326,8 +338,12 @@ namespace Service
                              JobOrderInspectionRequestLineId = p.JobOrderInspectionRequestLineId,
                              Dimension1Id = p.Dimension1Id,
                              Dimension2Id = p.Dimension2Id,
+                             Dimension3Id = p.Dimension3Id,
+                             Dimension4Id = p.Dimension4Id,
                              Dimension1Name = p.Dimension1.Dimension1Name,
                              Dimension2Name = p.Dimension2.Dimension2Name,
+                             Dimension3Name = p.Dimension3.Dimension3Name,
+                             Dimension4Name = p.Dimension4.Dimension4Name,
                              Specification = Jol.Specification,
                              UnitId = tab2.UnitId,
                              UnitName = tab2.Unit.UnitName,
@@ -377,8 +393,12 @@ namespace Service
                         JobOrderInspectionRequestLineId = p.JobOrderInspectionRequestLineId,
                         Dimension1Id = p.Dimension1Id,
                         Dimension2Id = p.Dimension2Id,
+                        Dimension3Id = p.Dimension3Id,
+                        Dimension4Id = p.Dimension4Id,
                         Dimension1Name = p.Dimension1Name,
                         Dimension2Name = p.Dimension2Name,
+                        Dimension3Name = p.Dimension3Name,
+                        Dimension4Name = p.Dimension4Name,
                         Specification = p.Specification,
                         UnitId = p.UnitId,
                         UnitName = p.UnitName,
@@ -499,15 +519,21 @@ namespace Service
                 return (from p in db.ViewJobOrderInspectionRequestBalance
                         join t1 in db.JobOrderLine on p.JobOrderLineId equals t1.JobOrderLineId
                         join t2 in db.Product on p.ProductId equals t2.ProductId
-                        join t3 in db.Dimension1 on t1.Dimension1Id equals t3.Dimension1Id into table3
-                        from tab3 in table3.DefaultIfEmpty()
-                        join t4 in db.Dimension2 on t1.Dimension2Id equals t4.Dimension2Id into table4
-                        from tab4 in table4.DefaultIfEmpty()
+                        join D1 in db.Dimension1 on t1.Dimension1Id equals D1.Dimension1Id into Dimension1Table
+                        from Dimension1Tab in Dimension1Table.DefaultIfEmpty()
+                        join D2 in db.Dimension2 on t1.Dimension2Id equals D2.Dimension2Id into Dimension2Table
+                        from Dimension2Tab in Dimension2Table.DefaultIfEmpty()
+                        join D3 in db.Dimension3 on t1.Dimension3Id equals D3.Dimension3Id into Dimension3Table
+                        from Dimension3Tab in Dimension3Table.DefaultIfEmpty()
+                        join D4 in db.Dimension4 on t1.Dimension4Id equals D4.Dimension4Id into Dimension4Table
+                        from Dimension4Tab in Dimension4Table.DefaultIfEmpty()
                         where p.JobOrderLineId == id
                         select new JobOrderInspectionLineViewModel
                         {
-                            Dimension1Name = tab3.Dimension1Name,
-                            Dimension2Name = tab4.Dimension2Name,
+                            Dimension1Name = Dimension1Tab.Dimension1Name,
+                            Dimension2Name = Dimension2Tab.Dimension2Name,
+                            Dimension3Name = Dimension3Tab.Dimension3Name,
+                            Dimension4Name = Dimension4Tab.Dimension4Name,
                             Qty = (p.BalanceQty),
                             Specification = t1.Specification,
                             UnitId = t2.UnitId,
@@ -530,15 +556,21 @@ namespace Service
                 return (from p in db.ViewJobOrderBalanceForInspection
                         join t1 in db.JobOrderLine on p.JobOrderLineId equals t1.JobOrderLineId
                         join t2 in db.Product on p.ProductId equals t2.ProductId
-                        join t3 in db.Dimension1 on t1.Dimension1Id equals t3.Dimension1Id into table3
-                        from tab3 in table3.DefaultIfEmpty()
-                        join t4 in db.Dimension2 on t1.Dimension2Id equals t4.Dimension2Id into table4
-                        from tab4 in table4.DefaultIfEmpty()
+                        join D1 in db.Dimension1 on t1.Dimension1Id equals D1.Dimension1Id into Dimension1Table
+                        from Dimension1Tab in Dimension1Table.DefaultIfEmpty()
+                        join D2 in db.Dimension2 on t1.Dimension2Id equals D2.Dimension2Id into Dimension2Table
+                        from Dimension2Tab in Dimension2Table.DefaultIfEmpty()
+                        join D3 in db.Dimension3 on t1.Dimension3Id equals D3.Dimension3Id into Dimension3Table
+                        from Dimension3Tab in Dimension3Table.DefaultIfEmpty()
+                        join D4 in db.Dimension4 on t1.Dimension4Id equals D4.Dimension4Id into Dimension4Table
+                        from Dimension4Tab in Dimension4Table.DefaultIfEmpty()
                         where p.JobOrderLineId == id
                         select new JobOrderInspectionLineViewModel
                         {
-                            Dimension1Name = tab3.Dimension1Name,
-                            Dimension2Name = tab4.Dimension2Name,
+                            Dimension1Name = Dimension1Tab.Dimension1Name,
+                            Dimension2Name = Dimension2Tab.Dimension2Name,
+                            Dimension3Name = Dimension3Tab.Dimension3Name,
+                            Dimension4Name = Dimension4Tab.Dimension4Name,
                             Qty = p.BalanceQty,
                             Specification = t1.Specification,
                             UnitId = t2.UnitId,
@@ -900,10 +932,14 @@ namespace Service
             if (InsReq)
             {
                 var Query = (from p in db.ViewJobOrderInspectionRequestBalance
-                             join t in db.Dimension1 on p.Dimension1Id equals t.Dimension1Id into table
-                             from dim1 in table.DefaultIfEmpty()
-                             join t2 in db.Dimension2 on p.Dimension2Id equals t2.Dimension2Id into table2
-                             from dim2 in table2.DefaultIfEmpty()
+                             join D1 in db.Dimension1 on p.Dimension1Id equals D1.Dimension1Id into Dimension1Table
+                             from Dimension1Tab in Dimension1Table.DefaultIfEmpty()
+                             join D2 in db.Dimension2 on p.Dimension2Id equals D2.Dimension2Id into Dimension2Table
+                             from Dimension2Tab in Dimension2Table.DefaultIfEmpty()
+                             join D3 in db.Dimension3 on p.Dimension3Id equals D3.Dimension3Id into Dimension3Table
+                             from Dimension3Tab in Dimension3Table.DefaultIfEmpty()
+                             join D4 in db.Dimension4 on p.Dimension4Id equals D4.Dimension4Id into Dimension4Table
+                             from Dimension4Tab in Dimension4Table.DefaultIfEmpty()
                              join t3 in db.Product on p.ProductId equals t3.ProductId
                              join t4 in db.JobOrderInspectionRequestHeader on p.JobOrderInspectionRequestHeaderId equals t4.JobOrderInspectionRequestHeaderId
                              join t5 in db.JobOrderLine on p.JobOrderLineId equals t5.JobOrderLineId
@@ -915,8 +951,10 @@ namespace Service
                                  DocNo = t6.DocNo,
                                  RequestDocNo = t4.DocNo,
                                  JobOrderLineId = p.JobOrderLineId,
-                                 Dimension1Name = dim1.Dimension1Name,
-                                 Dimension2Name = dim2.Dimension2Name,
+                                 Dimension1Name = Dimension1Tab.Dimension1Name,
+                                 Dimension2Name = Dimension2Tab.Dimension2Name,
+                                 Dimension3Name = Dimension3Tab.Dimension3Name,
+                                 Dimension4Name = Dimension4Tab.Dimension4Name,
                                  ProductName = t3.ProductName,
                                  BalanceQty = (p.BalanceQty),
                                  DocTypeId = t4.DocTypeId,
@@ -928,6 +966,8 @@ namespace Service
                     Query = Query.Where(m => m.RequestDocNo.ToLower().Contains(term.ToLower())
                         || m.Dimension1Name.ToLower().Contains(term.ToLower())
                         || m.Dimension2Name.ToLower().Contains(term.ToLower())
+                        || m.Dimension3Name.ToLower().Contains(term.ToLower())
+                        || m.Dimension4Name.ToLower().Contains(term.ToLower())
                         || m.ProductName.ToLower().Contains(term.ToLower()));
 
                 if (!string.IsNullOrEmpty(settings.filterContraDocTypes))
@@ -949,6 +989,8 @@ namespace Service
                             JobOrderLineId = p.JobOrderLineId,
                             Dimension1Name = p.Dimension1Name,
                             Dimension2Name = p.Dimension2Name,
+                            Dimension3Name = p.Dimension3Name,
+                            Dimension4Name = p.Dimension4Name,
                             ProductName = p.ProductName,
                             BalanceQty = (p.BalanceQty),
                         }).Take(Limiter);
@@ -956,10 +998,14 @@ namespace Service
             else
             {
                 var Query = (from p in db.ViewJobOrderBalanceForInspection
-                             join t in db.Dimension1 on p.Dimension1Id equals t.Dimension1Id into table
-                             from dim1 in table.DefaultIfEmpty()
-                             join t2 in db.Dimension2 on p.Dimension2Id equals t2.Dimension2Id into table2
-                             from dim2 in table2.DefaultIfEmpty()
+                             join D1 in db.Dimension1 on p.Dimension1Id equals D1.Dimension1Id into Dimension1Table
+                             from Dimension1Tab in Dimension1Table.DefaultIfEmpty()
+                             join D2 in db.Dimension2 on p.Dimension2Id equals D2.Dimension2Id into Dimension2Table
+                             from Dimension2Tab in Dimension2Table.DefaultIfEmpty()
+                             join D3 in db.Dimension3 on p.Dimension3Id equals D3.Dimension3Id into Dimension3Table
+                             from Dimension3Tab in Dimension3Table.DefaultIfEmpty()
+                             join D4 in db.Dimension4 on p.Dimension4Id equals D4.Dimension4Id into Dimension4Table
+                             from Dimension4Tab in Dimension4Table.DefaultIfEmpty()
                              join t3 in db.Product on p.ProductId equals t3.ProductId
                              join t4 in db.JobOrderHeader on p.JobOrderHeaderId equals t4.JobOrderHeaderId
                              where p.BalanceQty > 0 && p.JobWorkerId == InspectionHeader.JobWorkerId && t4.ProcessId == InspectionHeader.ProcessId
@@ -968,8 +1014,10 @@ namespace Service
                              {
                                  DocNo = p.JobOrderNo,
                                  JobOrderLineId = p.JobOrderLineId,
-                                 Dimension1Name = dim1.Dimension1Name,
-                                 Dimension2Name = dim2.Dimension2Name,
+                                 Dimension1Name = Dimension1Tab.Dimension1Name,
+                                 Dimension2Name = Dimension2Tab.Dimension2Name,
+                                 Dimension3Name = Dimension3Tab.Dimension3Name,
+                                 Dimension4Name = Dimension4Tab.Dimension4Name,
                                  ProductName = t3.ProductName,
                                  BalanceQty = p.BalanceQty,
                                  DocTypeId = t4.DocTypeId,
@@ -982,6 +1030,8 @@ namespace Service
                     Query = Query.Where(m => m.DocNo.ToLower().Contains(term.ToLower())
                         || m.Dimension1Name.ToLower().Contains(term.ToLower())
                         || m.Dimension2Name.ToLower().Contains(term.ToLower())
+                        || m.Dimension3Name.ToLower().Contains(term.ToLower())
+                        || m.Dimension4Name.ToLower().Contains(term.ToLower())
                         || m.ProductName.ToLower().Contains(term.ToLower()));
 
                 if (!string.IsNullOrEmpty(settings.filterContraDocTypes))
@@ -1002,6 +1052,8 @@ namespace Service
                             JobOrderLineId = p.JobOrderLineId,
                             Dimension1Name = p.Dimension1Name,
                             Dimension2Name = p.Dimension2Name,
+                            Dimension3Name = p.Dimension3Name,
+                            Dimension4Name = p.Dimension4Name,
                             ProductName = p.ProductName,
                             BalanceQty = p.BalanceQty,
                         }).Take(Limiter);

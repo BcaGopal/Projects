@@ -23,7 +23,7 @@ namespace Service
         void Delete(JobOrderBom s);
         JobOrderBom Find(int id);
         void Update(JobOrderBom s);
-        IEnumerable<JobOrderBom> GetBomPostingDataForWeaving(int ProductId, int? Dimension1Id, int? Dimension2Id, int? ProcessId, decimal Qty);
+        IEnumerable<JobOrderBom> GetBomPostingDataForWeaving(int ProductId, int? Dimension1Id, int? Dimension2Id, int? Dimension3Id, int? Dimension4Id, int? ProcessId, decimal Qty);
         IEnumerable<JobOrderBom> GetBomForLine(int id);
     }
 
@@ -65,9 +65,9 @@ namespace Service
         public JobOrderBom Find(int id)
         {
             return _unitOfWork.Repository<JobOrderBom>().Find(id);
-        }        
-      
-        public IEnumerable<JobOrderBom> GetBomPostingDataForWeaving(int ProductId, int? Dimension1Id, int? Dimension2Id, int? ProcessId, decimal Qty)
+        }
+
+        public IEnumerable<JobOrderBom> GetBomPostingDataForWeaving(int ProductId, int? Dimension1Id, int? Dimension2Id, int? Dimension3Id, int? Dimension4Id, int? ProcessId, decimal Qty)
         {
 
 
