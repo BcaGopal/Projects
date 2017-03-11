@@ -146,8 +146,32 @@ namespace Service
 
 
 
-            
-            if (pt.ProductUidId == null)
+            JobReceiveSettings jobreceivesetting = new JobReceiveSettingsService(_unitOfWork).GetJobReceiveSettingsForDocument(pt.DocTypeId, pt.DivisionId, pt.SiteId);
+
+            if (jobreceivesetting.isPostedInStockProcess == true )
+            {
+                StockProcess StockProcess = new StockProcess();
+                StockProcess.DocDate = JobReceiveHeader.DocDate;
+                //StockProcess.StockId = pt.StockId;
+                StockProcess.ProductId = pt.ProductId;
+                StockProcess.ProcessId = JobReceiveHeader.ProcessId;
+                StockProcess.GodownId = JobReceiveHeader.GodownId;
+                StockProcess.LotNo = JobReceiveLine.LotNo;
+                StockProcess.ProductUidId = JobReceiveLine.ProductUidId;
+                StockProcess.CostCenterId = JobOrderHeader.CostCenterId;
+                StockProcess.Qty_Iss = JobReceiveLine.Qty;
+                StockProcess.Qty_Rec = 0;
+                StockProcess.Remark = JobReceiveLine.Remark;
+                StockProcess.CreatedBy = JobReceiveLine.CreatedBy;
+                StockProcess.CreatedDate = JobReceiveLine.CreatedDate;
+                StockProcess.ModifiedBy = JobReceiveLine.ModifiedBy;
+                StockProcess.ModifiedDate = JobReceiveLine.ModifiedDate;
+
+                StockProcess.ObjectState = Model.ObjectState.Added;
+                db.StockProcess.Add(StockProcess);
+            }
+
+            if (pt.ProductUidId == null && jobreceivesetting.SqlProcGenProductUID !=null )
             {
                 ProductUidHeader ProductUidHeader = new ProductUidHeader();
                 ProductUidHeader.ProductId = pt.ProductId;
@@ -192,15 +216,31 @@ namespace Service
                 ProductUid.LastTransactionLineId = null;
                 ProductUid.ObjectState = Model.ObjectState.Added;
                 db.ProductUid.Add(ProductUid);
-
-                JobReceiveLine.ProductUidId = ProductUid.ProductUIDId;
-                Stock.ProductUidId = ProductUid.ProductUIDId;
+                JobReceiveLine.ProductUidId = JobOrderLine.ProductUidId != null ? JobOrderLine.ProductUidId : ProductUid.ProductUIDId;
+                Stock.ProductUidId = JobOrderLine.ProductUidId != null ? JobOrderLine.ProductUidId : ProductUid.ProductUIDId;
             }
             else
             {
-                JobReceiveLine.ProductUidId = pt.ProductUidId;
-                Stock.ProductUidId = pt.ProductUidId;
+
+                ProductUid ProductUid=  db.ProductUid.Find(JobOrderLine.ProductUidId);
+                ProductUid.ModifiedBy = UserName;
+                ProductUid.ModifiedDate = DateTime.Now;
+                ProductUid.CurrenctProcessId = JobReceiveHeader.ProcessId;
+                ProductUid.CurrenctGodownId = JobReceiveHeader.GodownId;
+                ProductUid.Status = ProductUidStatusConstants.Receive;
+                ProductUid.LastTransactionDocId = JobReceiveHeader.JobReceiveHeaderId;
+                ProductUid.LastTransactionDocNo = JobReceiveHeader.DocNo;
+                ProductUid.LastTransactionDocTypeId = JobReceiveHeader.DocTypeId;
+                ProductUid.LastTransactionDocDate = JobReceiveHeader.DocDate;
+                ProductUid.LastTransactionPersonId = JobReceiveHeader.JobWorkerId;
+                ProductUid.LastTransactionLineId = null;
+                ProductUid.ObjectState = Model.ObjectState.Modified;
+                db.ProductUid.Add(ProductUid);
+
+                JobReceiveLine.ProductUidId = JobOrderLine.ProductUidId != null ? JobOrderLine.ProductUidId : pt.ProductUidId;
+                Stock.ProductUidId = JobOrderLine.ProductUidId != null ? JobOrderLine.ProductUidId : pt.ProductUidId;
             }
+
 
 
 
@@ -731,6 +771,8 @@ namespace Service
                  var list = (from p in db.ViewJobOrderBalance
                         join t in db.JobOrderHeader on p.JobOrderHeaderId equals t.JobOrderHeaderId
                         join t2 in db.JobOrderLine on p.JobOrderLineId equals t2.JobOrderLineId
+                        join PU in db.ProductUid on t2.ProductUidId equals PU.ProductUIDId into PUTable
+                        from PUTab in PUTable.DefaultIfEmpty()
                         join pt in db.Product on p.ProductId equals pt.ProductId into ProductTable
                         from ProductTab in ProductTable.DefaultIfEmpty()
                         join JW in db.Persons on t.JobWorkerId equals JW.PersonID into JWTable
@@ -754,6 +796,7 @@ namespace Service
                         || (string.IsNullOrEmpty(term) ? 1 == 1 : ProductTab.ProductName.ToLower().Contains(term.ToLower()))
                         || (string.IsNullOrEmpty(term) ? 1 == 1 : Dimension1Tab.Dimension1Name.ToLower().Contains(term.ToLower()))
                         || (string.IsNullOrEmpty(term) ? 1 == 1 : Dimension2Tab.Dimension2Name.ToLower().Contains(term.ToLower()))
+                        || (string.IsNullOrEmpty(term) ? 1 == 1 : (settings.isVisibleProductUID == true ? "Product UID: " + PUTab.ProductUidName.ToString() : "BalQty: " + p.BalanceQty.ToString()).ToLower().Contains(term.ToLower()))
                         || (string.IsNullOrEmpty(term) ? 1 == 1 : (PGTab.ProductGroupName.ToString().Replace("-", "") + "-" + (t2.DealUnitId == "MT2" ? SCTab.SizeName.ToString() : RSTab.ManufaturingSizeName.ToString()) + "-" + CTab.ColourName.ToString()).Contains(term.ToLower())))
                         && (string.IsNullOrEmpty(settings.filterContraSites) ? p.SiteId == CurrentSiteId : contraSites.Contains(p.SiteId.ToString()))
                         && (string.IsNullOrEmpty(settings.filterContraDivisions) ? p.DivisionId == CurrentDivisionId : contraDivisions.Contains(p.DivisionId.ToString()))
@@ -766,7 +809,7 @@ namespace Service
                             TextProp1 = "Order Product: " + PGTab.ProductGroupName.ToString().Replace("-","")+"-"+ (t2.DealUnitId== "MT2"? SCTab.SizeName.ToString() : RSTab.ManufaturingSizeName.ToString())  + "-" + CTab.ColourName.ToString(),
                             TextProp2 = "Order No: " + p.JobOrderNo.ToString(),
                             AProp1 = "Job Worker: " + JWTab.Name,
-                            AProp2 = "BalQty: " + p.BalanceQty.ToString(),
+                            AProp2 = settings.isVisibleProductUID==true ? "Product UID: " + PUTab.ProductUidName.ToString() : "BalQty: " + p.BalanceQty.ToString(),
                         });
             return list;
         }

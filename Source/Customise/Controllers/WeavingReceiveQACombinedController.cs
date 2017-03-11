@@ -133,7 +133,7 @@ namespace Web
             }
 
 
-            vm.ProductUidName = GetNewProductUid();
+            //vm.ProductUidName = GetNewProductUid();
 
             //Getting Settings
             var jobreceivesettings = new JobReceiveSettingsService(_unitOfWork).GetJobReceiveSettingsForDocument(id, vm.DivisionId, vm.SiteId);
@@ -810,6 +810,8 @@ namespace Web
             var temp = (from L in db.ViewJobOrderBalance
                         join Dl in db.JobOrderLine on L.JobOrderLineId equals Dl.JobOrderLineId into JobOrderLineTable
                         from JobOrderLineTab in JobOrderLineTable.DefaultIfEmpty()
+                        join PU in db.ProductUid on L.ProductUidId equals PU.ProductUIDId into PUTable
+                        from PUTab in PUTable.DefaultIfEmpty()
                         join P in db.Product on L.ProductId equals P.ProductId into ProductTable
                         from ProductTab in ProductTable.DefaultIfEmpty()
                         join U in db.Units on ProductTab.UnitId equals U.UnitId into UnitTable
@@ -827,7 +829,8 @@ namespace Web
                             DocTypeId = JobOrderLineTab.JobOrderHeader.DocTypeId,
                             JobWorkerId = JobOrderLineTab.JobOrderHeader.JobWorkerId,
                             JobWorkerName = JWTab.Name,
-                            ProductUidName= ProductUIDName,
+                            ProductUidId = PUTab.ProductUIDId ,
+                            ProductUidName = PUTab.ProductUidName == null  ? ProductUIDName : PUTab.ProductUidName ,
                             UnitId = UnitTab.UnitId,
                             UnitName = UnitTab.UnitName,
                             DealUnitId = JobOrderLineTab.DealUnitId,
@@ -1180,6 +1183,7 @@ namespace Web
         public int ProductId { get; set; }
         public Decimal Rate { get; set; }  
         public string ProductUidName { get; set; }
+        public int? ProductUidId { get; set; }
         public Decimal BalanceQty { get; set; }
         public Decimal? Length { get; set; }
         public Decimal? Width { get; set; }
