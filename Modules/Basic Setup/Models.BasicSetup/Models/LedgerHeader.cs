@@ -79,6 +79,9 @@ namespace Models.BasicSetup.Models
         [Display(Name = "Lock Reason")]
         public string LockReason { get; set; }
 
+
+
+
         [MaxLength(20)]
         public string AdjustmentType { get; set; }
         public int? ReviewCount { get; set; }

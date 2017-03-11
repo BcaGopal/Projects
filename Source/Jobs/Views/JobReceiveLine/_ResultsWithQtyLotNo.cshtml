@@ -59,8 +59,15 @@
                                                 </div>
 
 
-                                                <div class="block " style="width:20%">
+                                                <div class="block " style="width:18%">
                                                     Lot No
+                                                </div>
+
+                                                <div class="block text-right" style="width: 0%; visibility: hidden">
+                                                    Loss/Shortage<br />Qty
+                                                </div>
+                                                <div class="block text-right" style="width:0%;visibility:hidden">
+                                                    Pass<br />Qty
                                                 </div>
                                             </div>
                                         </div>
@@ -88,8 +95,8 @@
                                                 @Html.HiddenFor(m => Model.JobReceiveLineViewModel[i].JobOrderHeaderDocNo)
                                                 @Html.HiddenFor(m => Model.JobReceiveLineViewModel[i].OrderBalanceQty)
                                                 @Html.HiddenFor(m => Model.JobReceiveLineViewModel[i].DocQty)
-                                                @Html.HiddenFor(m => Model.JobReceiveLineViewModel[i].LossQty)
-                                                @Html.HiddenFor(m => Model.JobReceiveLineViewModel[i].PassQty)
+                                                @*@Html.HiddenFor(m => Model.JobReceiveLineViewModel[i].LossQty)
+                                                @Html.HiddenFor(m => Model.JobReceiveLineViewModel[i].PassQty)*@
                                                 @Html.HiddenFor(m => Model.JobReceiveLineViewModel[i].UnitId)
                                                 @Html.HiddenFor(m => m.JobReceiveLineViewModel[i].UnitDecimalPlaces, new { @class="UDec"})
 
@@ -126,13 +133,23 @@
                                                             @*<span class="label label-warning">Qty:@string.Format("{" + "0:0.".PadRight(@Model.JobReceiveLineViewModel[i].UnitDecimalPlaces + 4, '0') + "}", Model.JobReceiveLineViewModel[i].OrderBalanceQty)</span>*@
                                                             @*<input type="hidden" value="@Model.JobReceiveLineViewModel[i].OrderBalanceQty" class="OrderBalanceQty" />*@
                                                         </div>
+
+
                                                         
                                                         <div class='block text-right pull-middle' style='width:20%'>
                                                             @Html.TextBoxFor(m => Model.JobReceiveLineViewModel[i].ReceiveQty, new { @class = "form-control multiple-modal text-right Quantity ReceiveQty" })
                                                         </div>
-                                                        <div class='block pull-middle' style='width:20%'>
+                                                        <div class='block pull-middle' style='width:18%'>
                                                             @Html.TextBoxFor(m => Model.JobReceiveLineViewModel[i].LotNo, new { @class = "form-control multiple-modal LotNo" })
                                                         </div>
+
+                                                        <div class='block text-right pull-middle' style='width: 0%; visibility: hidden'>
+                                                            @Html.TextBoxFor(m => Model.JobReceiveLineViewModel[i].LossQty, new { @class = "form-control multiple-modal text-right Quantity LossQty" })
+                                                        </div>
+                                                        <div class='block text-right pull-middle' style='width: 0%; visibility: hidden'>
+                                                            @Html.TextBoxFor(m => Model.JobReceiveLineViewModel[i].PassQty, new { @class = "form-control multiple-modal text-right PassQty" })
+                                                        </div>
+
 
                                                     </div>
 
@@ -211,18 +228,34 @@
 
 
     $('.Quantity').change(function () {
-
+        
         var $Block = $(this).closest('div.row');
         var $HBlock = $(this).closest('div.row.crow');
         var DecPlaces = $HBlock.find('input.UDec:first').val();
 
         //if (parseFloat($Block.find('.ReceiveQty').val()) <= parseFloat($Block.find('.JobQuantity').val())) {
-            $Block.find('.LossQty').val(parseFloat($Block.find('.JobQuantity').val() - $Block.find('.ReceiveQty').val()).toFixed(DecPlaces))
+            //$Block.find('.LossQty').val(parseFloat($Block.find('.JobQuantity').val() - $Block.find('.ReceiveQty').val()).toFixed(DecPlaces))
         //}
         //else {
         //    $Block.find('.ReceiveQty').val(parseFloat($Block.find('.JobQuantity').val()).toFixed(DecPlaces));
         //}
+            //alert($Block.find('.PassQty').val());
 
+            var qty = parseFloat($(this).val());
+            alert(qty);
+
+            if ($Block.find('.LossQty').val() == 0) {
+                //$Block.find('.ReceiveQty').val(qty.toFixed(DecPlaces));
+                $Block.find('.PassQty').val(qty.toFixed(DecPlaces));
+            }
+            else {
+                //$Block.find('.ReceiveQty').val(parseFloat(qty - $Block.find('.LossQty').val()).toFixed(DecPlaces));
+                $Block.find('.PassQty').val(qty.toFixed(DecPlaces));
+            }
+
+            alert($Block.find('.PassQty').val());
+
+            ValidateData(this);
     })
 
     $('.PassQty').change(function () {

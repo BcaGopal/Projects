@@ -224,10 +224,12 @@
 
 
     $('.Quantity').change(function () {
-
+        
         var $Block = $(this).closest('div.row');
         var $HBlock = $(this).closest('div.row.crow');
         var DecPlaces = $HBlock.find('input.UDec:first').val();
+
+
 
         //if (parseFloat($Block.find('.ReceiveQty').val()) <= parseFloat($Block.find('.JobQuantity').val())) {
             $Block.find('.LossQty').val(parseFloat($Block.find('.JobQuantity').val() - $Block.find('.ReceiveQty').val()).toFixed(DecPlaces))
