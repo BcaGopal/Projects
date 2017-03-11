@@ -325,7 +325,8 @@
         $(document).ready(function () {
 
             CustomSelectFunction($("#ProcessId"), '/ComboHelpList/GetProcess', '/ComboHelpList/SetSingleProcess', ' ', false, 1);
-            CustomSelectFunction($("#JobWorkerId"), '/ComboHelpList/GetJobWorkersWithProcess', '/ComboHelpList/SetSinglePerson', ' ', false, 1,$('#ProcessId').val());
+            //CustomSelectFunction($("#JobWorkerId"), '/ComboHelpList/GetJobWorkersWithProcess', '/ComboHelpList/SetSinglePerson', ' ', false, 1,$('#ProcessId').val());
+            CustomSelectFunction($("#JobWorkerId"), '/WeavingOrderWizardHandloom/GetCustomPerson', '/ComboHelpList/SetSinglePerson', ' ', false, 1,$('#DocTypeId').val());
             CustomSelectFunction($("#MachineId"), '/ComboHelpList/GetMachine', '/ComboHelpList/SetSingleMachine', ' ', false, 1);
             CustomSelectFunction($("#BillToPartyId"), '/ComboHelpList/GetJobWorkers', '/ComboHelpList/SetSingleJobWorker', ' ', false, 1);
             CustomSelectFunction($("#OrderById"), '/ComboHelpList/GetEmployees', '/ComboHelpList/SetSingleEmployee', ' ', false, 1);

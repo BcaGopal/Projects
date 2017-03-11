@@ -75,7 +75,8 @@ namespace Web
                 else if (DtTemp.Rows[0]["BuyerName"].ToString() == "Artistic Weavers")
                 {
                     //RepName = "Packing_AWLabelPrint";
-                    RepName = "Packing_AWLabelPrintNew";
+                    //RepName = "Packing_AWLabelPrintNew";
+                    RepName = "Packing_AWLabelPrintNew11317";
                     Dt = FGetDataForSCILabelPrint(DtTemp, con);
                 }
                 else
