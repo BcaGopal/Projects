@@ -796,7 +796,7 @@ namespace Service
                         || (string.IsNullOrEmpty(term) ? 1 == 1 : ProductTab.ProductName.ToLower().Contains(term.ToLower()))
                         || (string.IsNullOrEmpty(term) ? 1 == 1 : Dimension1Tab.Dimension1Name.ToLower().Contains(term.ToLower()))
                         || (string.IsNullOrEmpty(term) ? 1 == 1 : Dimension2Tab.Dimension2Name.ToLower().Contains(term.ToLower()))
-                        || (string.IsNullOrEmpty(term) ? 1 == 1 : (settings.isVisibleProductUID == true ? "Product UID: " + PUTab.ProductUidName.ToString() : "BalQty: " + p.BalanceQty.ToString()).ToLower().Contains(term.ToLower()))
+                        || (string.IsNullOrEmpty(term) ? 1 == 1 : (settings.isVisibleProductUID == true && settings.SqlProcGenProductUID == null ? "Product UID: " + PUTab.ProductUidName.ToString() : "BalQty: " + p.BalanceQty.ToString()).ToLower().Contains(term.ToLower()))
                         || (string.IsNullOrEmpty(term) ? 1 == 1 : (PGTab.ProductGroupName.ToString().Replace("-", "") + "-" + (t2.DealUnitId == "MT2" ? SCTab.SizeName.ToString() : RSTab.ManufaturingSizeName.ToString()) + "-" + CTab.ColourName.ToString()).Contains(term.ToLower())))
                         && (string.IsNullOrEmpty(settings.filterContraSites) ? p.SiteId == CurrentSiteId : contraSites.Contains(p.SiteId.ToString()))
                         && (string.IsNullOrEmpty(settings.filterContraDivisions) ? p.DivisionId == CurrentDivisionId : contraDivisions.Contains(p.DivisionId.ToString()))
@@ -809,7 +809,7 @@ namespace Service
                             TextProp1 = "Order Product: " + PGTab.ProductGroupName.ToString().Replace("-","")+"-"+ (t2.DealUnitId== "MT2"? SCTab.SizeName.ToString() : RSTab.ManufaturingSizeName.ToString())  + "-" + CTab.ColourName.ToString(),
                             TextProp2 = "Order No: " + p.JobOrderNo.ToString(),
                             AProp1 = "Job Worker: " + JWTab.Name,
-                            AProp2 = settings.isVisibleProductUID==true ? "Product UID: " + PUTab.ProductUidName.ToString() : "BalQty: " + p.BalanceQty.ToString(),
+                            AProp2 = settings.isVisibleProductUID==true && settings.SqlProcGenProductUID == null ? "Product UID: " + PUTab.ProductUidName.ToString() : "BalQty: " + p.BalanceQty.ToString(),
                         });
             return list;
         }
