@@ -61,7 +61,7 @@
            {
                columns.Add(m => m.BaseProductId, true);
                columns.Add(m => m.BaseProductName).Sortable(true).Titled("Design Name").Filterable(true).Sortable(true);
-               columns.Add(true).RenderValueAs(m => CustomHelpers.RenderHEDActionLink(ControllerName, m.BaseProductId, 0, IndexStatus));
+               //columns.Add(true).RenderValueAs(m => CustomHelpers.RenderHEDActionLink(ControllerName, m.BaseProductId, 0, IndexStatus));
            }).WithPaging(25).EmptyText("No records found.").Sortable().Filterable().WithMultipleFilters()
     </div>
 </div>

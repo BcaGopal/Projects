@@ -295,6 +295,17 @@ namespace Web
         {
             WeavingReceiveQACombinedViewModel pt = new WeavingReceiveQACombinedService(db).GetJobReceiveDetailForEdit(id);
 
+            if (pt != null)
+            {
+                ProductDimensions ProductDimensions = new ProductService(_unitOfWork).GetProductDimensions(pt.ProductId, pt.DealUnitId, pt.DocTypeId);
+                if (ProductDimensions != null)
+                {
+                    pt.OrderLength = ProductDimensions.Length;
+                    pt.OrderWidth = ProductDimensions.Width;
+                    pt.DimensionUnitDecimalPlaces = ProductDimensions.DimensionUnitDecimalPlaces;
+                }
+            }
+
             if (pt == null)
             {
                 return HttpNotFound();

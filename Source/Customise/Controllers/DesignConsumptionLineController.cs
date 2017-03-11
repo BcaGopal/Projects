@@ -58,6 +58,13 @@ namespace Web
 
         }
 
+        [HttpGet]
+        public JsonResult IndexForOverTuftContent(int id)
+        {
+            var p = _BomDetailService.GetDesignConsumptionOverTuftContentForIndex(id);
+            return Json(p, JsonRequestBehavior.AllowGet);
+
+        }
 
         private void PrepareViewBag(DesignConsumptionLineViewModel svm)
         {
@@ -154,6 +161,8 @@ namespace Web
             s.DesignId = temp.DesignId;
             s.QualityName = temp.QualityName;
             s.Weight = temp.Weight;
+            s.BaseProcessId = new ProcessService(_unitOfWork).Find(ProcessConstants.Weaving).ProcessId;
+
 
             PrepareViewBag(s);
             return PartialView("_Create", s);
@@ -170,6 +179,24 @@ namespace Web
             s.DesignId = temp.DesignId;
             s.QualityName = temp.QualityName;
             s.Weight = temp.Weight;
+            s.BaseProcessId = new ProcessService(_unitOfWork).Find(ProcessConstants.Weaving).ProcessId;
+
+            PrepareViewBag(s);
+            return PartialView("_Create", s);
+        }
+
+        public ActionResult _CreateOverTuftContentForBaseProduct(int Id) //Id ==>Design Content Header Id
+        {
+            DesignConsumptionLineViewModel s = new DesignConsumptionLineViewModel();
+            s.BaseProductId = Id;
+            s.ContentType = "OverTuft Contents";
+            DesignConsumptionLineViewModel temp = _BomDetailService.GetBaseProductDetail(Id);
+
+            s.DesignName = temp.DesignName;
+            s.DesignId = temp.DesignId;
+            s.QualityName = temp.QualityName;
+            s.Weight = temp.Weight;
+            s.BaseProcessId = new ProcessService(_unitOfWork).Find(ProcessConstants.OverTuft).ProcessId;
 
             PrepareViewBag(s);
             return PartialView("_Create", s);
@@ -184,6 +211,7 @@ namespace Web
             s.QualityName = QualityName;
             s.ColourName = new ColourService(_unitOfWork).Find(ColourId).ColourName;
             s.Weight = Weight ?? 0;
+            s.BaseProcessId = new ProcessService(_unitOfWork).Find(ProcessConstants.Weaving).ProcessId;
 
             PrepareViewBag(s);
             return PartialView("_Create", s);
@@ -198,6 +226,22 @@ namespace Web
             s.QualityName = QualityName;
             s.ColourName = new ColourService(_unitOfWork).Find(ColourId).ColourName;
             s.Weight = Weight ?? 0;
+            s.BaseProcessId = new ProcessService(_unitOfWork).Find(ProcessConstants.Weaving).ProcessId;
+
+            PrepareViewBag(s);
+            return PartialView("_Create", s);
+        }
+
+        public ActionResult _CreateOverTuftContent(int ProductGroupId, string QualityName, int ColourId, Decimal? Weight) //Id ==>Design Content Header Id
+        {
+            DesignConsumptionLineViewModel s = new DesignConsumptionLineViewModel();
+            s.ContentType = "OverTuft Contents";
+            s.DesignName = new ProductGroupService(_unitOfWork).Find(ProductGroupId).ProductGroupName;
+            s.DesignId = ProductGroupId;
+            s.QualityName = QualityName;
+            s.ColourName = new ColourService(_unitOfWork).Find(ColourId).ColourName;
+            s.Weight = Weight ?? 0;
+            s.BaseProcessId = new ProcessService(_unitOfWork).Find(ProcessConstants.OverTuft).ProcessId;
 
             PrepareViewBag(s);
             return PartialView("_Create", s);
@@ -265,6 +309,7 @@ namespace Web
                             bomdetail.BatchQty = 1;
                             bomdetail.ConsumptionPer = 100;
                             bomdetail.ProcessId = new ProcessService(_unitOfWork).Find(ProcessConstants.Weaving).ProcessId;
+                            bomdetail.BaseProcessId = svm.BaseProcessId;
                             bomdetail.ProductId = product.ProductId;
                             bomdetail.Qty = 1;
 
@@ -302,6 +347,7 @@ namespace Web
                     bomdetail.ConsumptionPer = svm.ConsumptionPer;
                     bomdetail.Dimension1Id = svm.Dimension1Id;
                     bomdetail.ProcessId = new ProcessService(_unitOfWork).Find(ProcessConstants.Weaving).ProcessId;
+                    bomdetail.BaseProcessId = svm.BaseProcessId;
                     bomdetail.ProductId = svm.ProductId;
                     bomdetail.Qty = svm.Qty;
 
@@ -737,6 +783,26 @@ namespace Web
         {
 
             var Query = _BomDetailService.GetOtherContentProductList(filter, searchTerm);
+
+            var temp = Query.Skip(pageSize * (pageNum - 1)).Take(pageSize).ToList();
+
+            var count = Query.Count();
+
+            ComboBoxPagedResult Data = new ComboBoxPagedResult();
+            Data.Results = temp;
+            Data.Total = count;
+
+            return new JsonpResult
+            {
+                Data = Data,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        public JsonResult GetOverTuftContentProducts(string searchTerm, int pageSize, int pageNum, int filter)//DocTypeId
+        {
+
+            var Query = _BomDetailService.GetOverTuftContentProductList(filter, searchTerm);
 
             var temp = Query.Skip(pageSize * (pageNum - 1)).Take(pageSize).ToList();
 

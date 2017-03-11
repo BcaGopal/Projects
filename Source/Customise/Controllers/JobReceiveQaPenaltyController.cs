@@ -350,7 +350,8 @@ namespace Web
 
 
             PrepareViewBag();
-            ViewBag.DocNo = D.DocumentTypeName + "-" + Header.DocNo;
+            //ViewBag.DocNo = D.DocumentTypeName + "-" + Header.DocNo;
+            ViewBag.DocNo = D.DocumentTypeName + "-" + Header.DocNo + " ( Deal Qty : " + L.DealQty.ToString() + " )";
             return PartialView("_Create", temp);
         }
 

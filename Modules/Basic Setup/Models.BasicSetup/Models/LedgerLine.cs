@@ -1,4 +1,5 @@
 ﻿using Model;
+using Models.Company.Models;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -37,6 +38,17 @@ namespace Models.BasicSetup.Models
         [Display(Name = "Cost Center")]
         public int? CostCenterId { get; set; }
         public virtual CostCenter CostCenter { get; set; }
+
+
+        [ForeignKey("PaymentMode")]
+        [Display(Name = "Payment Mode")]
+        public int? PaymentModeId { get; set; }
+        public virtual PaymentMode PaymentMode { get; set; }
+
+        [ForeignKey("Agent")]
+        [Display(Name = "Agent")]
+        public int? AgentId { get; set; }
+        public virtual Person Agent { get; set; }
 
         public decimal BaseValue { get; set; }
         public decimal BaseRate { get; set; }

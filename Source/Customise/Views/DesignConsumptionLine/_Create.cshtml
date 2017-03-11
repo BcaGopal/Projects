@@ -24,6 +24,7 @@
                 @Html.HiddenFor(m => m.ColourName)
                 @Html.HiddenFor(m => m.Weight)
                 @Html.HiddenFor(m => m.ContentType)
+                @Html.HiddenFor(m => m.BaseProcessId)
 
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
@@ -116,8 +117,13 @@
     {
         CustomSelectFunction($("#ProductId"), '/DesignConsumptionLine/GetFaceContentProducts', '/ComboHelpList/SetSingleProducts', ' ', false, 0,$("#DesignId",'.modal-body').val());
     }
-    else{
+    else if (ContentType == "Other Contents")
+    {
         CustomSelectFunction($("#ProductId"), '/DesignConsumptionLine/GetOtherContentProducts', '/ComboHelpList/SetSingleProducts', ' ', false, 0,$("#DesignId",'.modal-body').val());
+    }
+    else
+    {
+        CustomSelectFunction($("#ProductId"), '/DesignConsumptionLine/GetOverTuftContentProducts', '/ComboHelpList/SetSingleProducts', ' ', false, 0,$("#DesignId",'.modal-body').val());
     }
     //CustomSelectFunction($("#ProductId"), '/ComboHelpList/GetBomMaterial', '/ComboHelpList/SetSingleProducts', ' ', false, 3);
     CustomSelectFunction($("#Dimension1Id"), '/ComboHelpList/GetDimension1', '/ComboHelpList/SetSingleDimension1', ' ', false, 0);

@@ -38,6 +38,8 @@ namespace Service
         IEnumerable<ProductConsumptionLineViewModel> GetDesignConsumptionFaceContentForIndexForProduct(int BaseProductId);
         IEnumerable<DesignConsumptionLineViewModel> GetDesignConsumptionOtherContentForIndex(int BaseProductId);
         IEnumerable<ProductConsumptionLineViewModel> GetDesignConsumptionOtherContentForIndexForProduct(int BaseProductId);
+        IEnumerable<DesignConsumptionLineViewModel> GetDesignConsumptionOverTuftContentForIndex(int BaseProductId);
+        IEnumerable<ProductConsumptionLineViewModel> GetDesignConsumptionOverTuftContentForIndexForProduct(int BaseProductId);
         DesignConsumptionLineViewModel GetDesignConsumptionLineForEdit(int BomDetailId);
         ProductConsumptionLineViewModel GetDesignConsumptionLineForEditForProduct(int BomDetailId);
         IQueryable<DesignConsumptionHeaderViewModel> GetDesignConsumptionHeaderViewModelForIndex();
@@ -65,6 +67,7 @@ namespace Service
         IQueryable<ComboBoxResult> GetFaceContentProductList(int ProductGroupId, string term);
 
         IQueryable<ComboBoxResult> GetOtherContentProductList(int ProductGroupId, string term);
+        IQueryable<ComboBoxResult> GetOverTuftContentProductList(int ProductGroupId, string term);
 
         bool CheckForProductDimensionExists(int ProductId, int? Dimension1Id, int? Dimension2Id, int? Dimension3Id, int? Dimension4Id, int? ProcessId, int BaseProductId, int BomDetailId);
         bool CheckForProductDimensionExists(int ProductId, int? Dimension1Id, int? Dimension2Id, int? Dimension3Id, int? Dimension4Id, int? ProcessId, int BaseProductId);
@@ -78,11 +81,20 @@ namespace Service
         private readonly IUnitOfWorkForService _unitOfWork;
         private readonly Repository<BomDetail> _BomDetailRepository;
         RepositoryQuery<BomDetail> BomDetailRepository;
+        int OverTuftProcessId = 0;
+
+
         public BomDetailService(IUnitOfWorkForService unitOfWork)
         {
             _unitOfWork = unitOfWork;
             _BomDetailRepository = new Repository<BomDetail>(db);
             BomDetailRepository = new RepositoryQuery<BomDetail>(_BomDetailRepository);
+
+            var OverTuftProcess = new ProcessService(_unitOfWork).Find(ProcessConstants.OverTuft);
+            if (OverTuftProcess != null)
+            {
+                OverTuftProcessId = OverTuftProcess.ProcessId;
+            }
         }
 
         public BomDetail Find(int id)
@@ -285,7 +297,7 @@ namespace Service
                                                                from UnitTab in UnitTable.DefaultIfEmpty()
                                                                join pcon in ProductFaceContentGroups on ProductTab.ProductGroupId equals pcon.ProductGroupId into ProductFaceContentTable
                                                                from ProductFaceContentTab in ProductFaceContentTable.DefaultIfEmpty()
-                                                               where b.BaseProductId == BaseProductId && ((int?)ProductFaceContentTab.ProductGroupId ?? 0) != 0
+                                                               where b.BaseProductId == BaseProductId && ((int?)ProductFaceContentTab.ProductGroupId ?? 0) != 0 && b.BaseProcessId != OverTuftProcessId
                                                                select new DesignConsumptionLineViewModel
                                                                {
                                                                    BomDetailId = b.BomDetailId,
@@ -418,7 +430,7 @@ namespace Service
                                                                from UnitTab in UnitTable.DefaultIfEmpty()
                                                                join pcon in ProductFaceContentGroups on ProductTab.ProductGroupId equals pcon.ProductGroupId into ProductFaceContentTable
                                                                from ProductFaceContentTab in ProductFaceContentTable.DefaultIfEmpty()
-                                                               where b.BaseProductId == BaseProductId && ((int?)ProductFaceContentTab.ProductGroupId ?? 0) == 0
+                                                               where b.BaseProductId == BaseProductId && ((int?)ProductFaceContentTab.ProductGroupId ?? 0) == 0 && b.BaseProcessId != OverTuftProcessId
                                                                select new DesignConsumptionLineViewModel
                                                                {
                                                                    BomDetailId = b.BomDetailId,
@@ -473,7 +485,7 @@ namespace Service
                                                                 from UnitTab in UnitTable.DefaultIfEmpty()
                                                                 join pcon in ProductFaceContentGroups on ProductTab.ProductGroupId equals pcon.ProductGroupId into ProductFaceContentTable
                                                                 from ProductFaceContentTab in ProductFaceContentTable.DefaultIfEmpty()
-                                                                where b.BaseProductId == BaseProductId && ((int?)ProductFaceContentTab.ProductGroupId ?? 0) == 0
+                                                                where b.BaseProductId == BaseProductId && ((int?)ProductFaceContentTab.ProductGroupId ?? 0) == 0 && b.BaseProcessId != OverTuftProcessId
                                                                 select new ProductConsumptionLineViewModel
                                                                {
                                                                    BomDetailId = b.BomDetailId,
@@ -493,6 +505,95 @@ namespace Service
 
             return svm.ToList();
         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        public IEnumerable<DesignConsumptionLineViewModel> GetDesignConsumptionOverTuftContentForIndex(int BaseProductId)
+        {
+            IEnumerable<DesignConsumptionLineViewModel> svm = (from b in db.BomDetail
+                                                               join d in db.Dimension1 on b.Dimension1Id equals d.Dimension1Id into Dimension1Table
+                                                               from Dimension1Tab in Dimension1Table.DefaultIfEmpty()
+                                                               join p in db.Product on b.ProductId equals p.ProductId into ProductTable
+                                                               from ProductTab in ProductTable.DefaultIfEmpty()
+                                                               join pg in db.ProductGroups on ProductTab.ProductGroupId equals pg.ProductGroupId into ProductGroupTable
+                                                               from ProductGroupTab in ProductGroupTable.DefaultIfEmpty()
+                                                               join U in db.Units on ProductTab.UnitId equals U.UnitId into UnitTable
+                                                               from UnitTab in UnitTable.DefaultIfEmpty()
+                                                               where b.BaseProductId == BaseProductId && b.BaseProcessId == OverTuftProcessId
+                                                               select new DesignConsumptionLineViewModel
+                                                               {
+                                                                   BomDetailId = b.BomDetailId,
+                                                                   BaseProductId = b.BaseProductId,
+                                                                   ProductName = ProductTab.ProductName,
+                                                                   Dimension1Name = Dimension1Tab.Dimension1Name,
+                                                                   ProductGroupName = ProductGroupTab.ProductGroupName,
+                                                                   //ConsumptionPer = b.ConsumptionPer,
+                                                                   ConsumptionPer = 0,
+                                                                   Qty = b.Qty,
+                                                                   UnitName = UnitTab.UnitName
+                                                               });
+            return svm.ToList();
+        }
+
+        public IEnumerable<ProductConsumptionLineViewModel> GetDesignConsumptionOverTuftContentForIndexForProduct(int BaseProductId)
+        {
+            IEnumerable<ProductConsumptionLineViewModel> svm = (from b in db.BomDetail
+                                                                join d in db.Dimension1 on b.Dimension1Id equals d.Dimension1Id into Dimension1Table
+                                                                from Dimension1Tab in Dimension1Table.DefaultIfEmpty()
+                                                                join p in db.Product on b.ProductId equals p.ProductId into ProductTable
+                                                                from ProductTab in ProductTable.DefaultIfEmpty()
+                                                                join pg in db.ProductGroups on ProductTab.ProductGroupId equals pg.ProductGroupId into ProductGroupTable
+                                                                from ProductGroupTab in ProductGroupTable.DefaultIfEmpty()
+                                                                join U in db.Units on ProductTab.UnitId equals U.UnitId into UnitTable
+                                                                from UnitTab in UnitTable.DefaultIfEmpty()
+                                                                where b.BaseProductId == BaseProductId && b.BaseProcessId == OverTuftProcessId
+                                                                select new ProductConsumptionLineViewModel
+                                                                {
+                                                                    BomDetailId = b.BomDetailId,
+                                                                    BaseProductId = b.BaseProductId,
+                                                                    ProductName = ProductTab.ProductName,
+                                                                    Dimension1Name = Dimension1Tab.Dimension1Name,
+                                                                    ProductGroupName = ProductGroupTab.ProductGroupName,
+                                                                    //ConsumptionPer = b.ConsumptionPer,
+                                                                    ConsumptionPer = 0,
+                                                                    Qty = b.Qty,
+                                                                    UnitName = UnitTab.UnitName
+                                                                });
+
+
+
+
+
+            return svm.ToList();
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         public IEnumerable<FinishedProductConsumptionLineViewModel> GetFinishedProductConsumptionForIndex(int BaseProductId)
         {
@@ -1022,6 +1123,34 @@ namespace Service
                      && (string.IsNullOrEmpty(term) ? 1 == 1 : p.ProductName.ToLower().Contains(term.ToLower()))
                      && ProductNatureTab.ProductNatureName == ProductNatureConstants.Rawmaterial
                      && ProductTypeTab.ProductTypeName != ProductTypeConstants.Trace 
+                     && ProductTypeTab.ProductTypeName != ProductTypeConstants.Map
+                     && ProductTypeTab.ProductTypeName != ProductTypeConstants.OtherMaterial
+                     && ProductTypeTab.ProductTypeName != ProductTypeConstants.Bom
+                     && p.IsActive == true
+                    orderby p.ProductName ascending
+                    select new ComboBoxResult
+                    {
+                        id = p.ProductId.ToString(),
+                        text = p.ProductName,
+
+                    });
+        }
+
+
+
+        public IQueryable<ComboBoxResult> GetOverTuftContentProductList(int ProductGroupId, string term)
+        {
+            return (from p in db.Product
+                    join Pg in db.ProductGroups on p.ProductGroupId equals Pg.ProductGroupId into ProductGroupTable
+                    from ProductGroupTab in ProductGroupTable.DefaultIfEmpty()
+                    join Pt in db.ProductTypes on ProductGroupTab.ProductTypeId equals Pt.ProductTypeId into ProductTypeTable
+                    from ProductTypeTab in ProductTypeTable.DefaultIfEmpty()
+                    join pn in db.ProductNature on ProductTypeTab.ProductNatureId equals pn.ProductNatureId into ProductNatureTable
+                    from ProductNatureTab in ProductNatureTable.DefaultIfEmpty()
+                    where 1 == 1
+                     && (string.IsNullOrEmpty(term) ? 1 == 1 : p.ProductName.ToLower().Contains(term.ToLower()))
+                     && ProductNatureTab.ProductNatureName == ProductNatureConstants.Rawmaterial
+                     && ProductTypeTab.ProductTypeName != ProductTypeConstants.Trace
                      && ProductTypeTab.ProductTypeName != ProductTypeConstants.Map
                      && ProductTypeTab.ProductTypeName != ProductTypeConstants.OtherMaterial
                      && ProductTypeTab.ProductTypeName != ProductTypeConstants.Bom

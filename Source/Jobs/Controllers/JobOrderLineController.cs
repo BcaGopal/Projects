@@ -176,8 +176,13 @@ namespace Web
                 foreach (var item in vm.JobOrderLineViewModel)
                 {
                     //if (item.Qty > 0 &&  ((Settings.isMandatoryRate.HasValue && Settings.isMandatoryRate == true )? item.Rate > 0 : 1 == 1))
-                    if (item.Qty > 0 && item.UnitConversionMultiplier > 0 && ((Settings.isVisibleRate == true && Settings.isMandatoryRate == true && item.Rate > 0) || (Settings.isVisibleRate == false || Settings.isVisibleRate == true && Settings.isMandatoryRate == false)))
+                    if (item.Qty > 0  && ((Settings.isVisibleRate == true && Settings.isMandatoryRate == true && item.Rate > 0) || (Settings.isVisibleRate == false || Settings.isVisibleRate == true && Settings.isMandatoryRate == false)))
                     {
+                        if (item.UnitConversionMultiplier == 0 ||item.UnitConversionMultiplier == null)
+                        {
+                            item.UnitConversionMultiplier = 1;
+                        }
+
                         JobOrderLine line = new JobOrderLine();
 
                         if (Settings.isPostedInStock ?? false)

@@ -1,10 +1,10 @@
 ﻿using Model;
+using Models.Company.Models;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Models.Company.Models
+namespace Models.BasicSetup.Models
 {
     public class PaymentMode : EntityBase, IHistoryLog
     {

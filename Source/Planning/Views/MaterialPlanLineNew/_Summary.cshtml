@@ -220,15 +220,14 @@
                                         <div class="block text-right" style="width:13%">
                                             <strong><span id="StockPlanQty">@StockPlanQty</span></strong>
                                         </div>
-                                        <div class="block text-right" style="width:13%">
+                                        <div class="block text-right" style="width: 13%; display @(Model.MaterialPlanSettings.isVisibleProdPlanQty ? "" : "none")">
                                             <strong><span id="ProdPlanQty">@ProdPlanQty</span></strong>
                                         </div>
                                         @*Remark*@
-                                        <div class="block text-right" style="width:13%">
+                                        <div class="block text-right" style="width: 13%; display @(Model.MaterialPlanSettings.isVisiblePurchPlanQty ? "" : "none")">
                                             <strong><span id="PurchPlanQty">@PurchPlanQty</span></strong>
                                         </div>
-                                        <div class="block" style="width:15%">
-
+                                        <div class="block" style='width: @(Model.MaterialPlanSettings.isVisiblePurchPlanQty && Model.MaterialPlanSettings.isVisibleProdPlanQty ? "15" : "28")%'>
                                         </div>
                                     </div>
                                 </div>
