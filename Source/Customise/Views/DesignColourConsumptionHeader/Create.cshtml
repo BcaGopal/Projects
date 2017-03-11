@@ -167,7 +167,7 @@
                         <span class="glyphicon glyphicon-plus-sign"></span>
                         @if (Model.BaseProductId == 0)
                         {
-                            @Html.ActionLink("Add New Row ", "_CreateOtherContent", "DesignConsumptionLine", new { DesignName = @Model.ProductGroupName, QualityName = @Model.ProductQualityName, ColourName = @Model.ColourName, Weight = @Model.Weight }, new { data_modal = "", id = "btnCreateOtherContent", @class = "toolbar", @title = "Add New", @data_toggle = "tooltip" })
+                            @Html.ActionLink("Add New Row ", "_CreateOtherContent", "DesignConsumptionLine", new { ProductGroupId = @Model.ProductGroupId, QualityName = @Model.ProductQualityName, ColourId = @Model.ColourId, Weight = @Model.Weight }, new { data_modal = "", id = "btnCreateOtherContent", @class = "toolbar", @title = "Add New", @data_toggle = "tooltip" })
                         }
                         else
                         {
@@ -184,6 +184,44 @@
                         <tbody id="OtherContentLine"></tbody>
                     </table>
                 </div>
+
+
+
+
+
+
+
+                <hr />
+                <div class="row">
+                    <h4 class="col-md-12 black" style="margin-top:15px">
+                        <span class="glyphicon glyphicon-shopping-cart"></span>
+                        3.Over-Tuft Material
+                    </h4>
+                </div>
+                <div class="panel-info">
+                    <h5 style="padding:5px 0 3px 0;margin:0px;font-weight:bold">
+                        <span class="glyphicon glyphicon-plus-sign"></span>
+                        @if (Model.BaseProductId == 0)
+                        {
+                            @Html.ActionLink("Add New Row ", "_CreateOverTuftContent", "DesignConsumptionLine", new { ProductGroupId = @Model.ProductGroupId, QualityName = @Model.ProductQualityName, ColourId = @Model.ColourId, Weight = @Model.Weight }, new { data_modal = "", id = "btnCreateOtherContent", @class = "toolbar", @title = "Add New", @data_toggle = "tooltip" })
+                        }
+                        else
+                        {
+                            @Html.ActionLink("Add New Row ", "_CreateOverTuftContentForBaseProduct", "DesignConsumptionLine", new { id = @Model.BaseProductId }, new { data_modal = "", id = "btnCreateOtherContent", @class = "toolbar", @title = "Add New", @data_toggle = "tooltip" })
+                        }
+                    </h5>
+                </div>
+                <div style="padding-right:15px">
+                    <table class="table table-hover ctable">
+                        <thead id="OverTuftContentHeader">
+                        </thead>
+                        <tbody id="OverTuftContentLine"></tbody>
+                    </table>
+                </div>
+
+
+
+
             </div>
         </div>
     </div>
@@ -211,6 +249,7 @@
         //Calling the function to load the table data/ Line information
         LoadMainContent();
         LoadOtherContent();
+        LoadOverTuftContent();
 
     });
 
@@ -254,6 +293,7 @@
     $('#myModal').on('hidden.bs.modal', function () {
         LoadMainContent();
         LoadOtherContent();
+        LoadOverTuftContent();
     });
 
 
@@ -343,6 +383,43 @@
         });
     }
 
+    //Loading the Table data or Line Information
+    function LoadOverTuftContent() {
+        var groupId=@Model.BaseProductId;
+        var PercCount=0;
+        var QtyCount=0;
+        var link="/DesignConsumptionLine/IndexForOverTuftContent/"+groupId;
+
+        $.ajax({
+            url: link,
+            type: "GET",
+            success: function (data) {
+                var row = ""
+                var srno=1;
+                var head="<tr style='background-color:#428bca'>  <th style='width:10px'><input type='hidden'  /></th> <th style='width:10px'>Serial</th><th class='center' style='width:50px'>Product</th>   <th class='center' style='width:50px'>Shade</th>      <th class='center' style='width:50px'>Product Group</th>       <th class='center' style='width:50px'>Percentage</th>        <th class='center' style='width:50px'>Qty</th>        <th class='center' style='width:50px'>Unit</th> <th style='width:10px'></th>       <th style='width:10px'></th>  </tr>"
+                if(data.length!=0)
+                {
+                    $.each(data, function (index, item) {
+                        row += "<tr><td><input type='hidden' class='id' value='" + item.BomDetailId + "'/></td> <td>"+ srno +"</td> <td>"+(item.ProductName==null?" ":""+item.ProductName+"")+"</td>        <td>"+(item.Dimension1Name==null?" ":""+item.Dimension1Name+"")+"</td>          <td>"+(item.ProductGroupName==null?" ":""+item.ProductGroupName+"")+"</td>                  <td>" + item.ConsumptionPer + "</td>                  <td>" + item.Qty + "</td>                  <td>" + item.UnitName + "</td>                  <td><a class='rowEditBlue hidden' Modify href='/DesignConsumptionLine/_Edit/"+item.BomDetailId+"' ></a></td>       <td><a class='glyphicon glyphicon-trash' data-modal='' delete='' href='/DesignConsumptionLine/_Edit/"+item.BomDetailId+"' ></a></td>  </tr>";
+                        srno++;
+                        PercCount+=item.ConsumptionPer;
+                        QtyCount+=item.Qty;
+                    });
+                    row+="<tr> <td></td> <td></td> <td><strong>Total</strong></td>        <td></td>          <td></td>                  <td>" + PercCount.toFixed(2) + "</td>                  <td>" + QtyCount.toFixed(3) + "</td>                  <td></td><td></td>       <td></td>  </tr>"
+                }
+                else
+                {
+                    row+="<tr><td>No Items Found.</td></tr>";
+                }
+                $("#OverTuftContentHeader").html(head);
+                $("#OverTuftContentLine").html(row);
+            },
+            error: function (BankAccoutDetail) {
+                alert("Error");
+            }
+        });
+    }
+
 
 
 
@@ -384,6 +461,25 @@
     });
 
 
+    //For Populating Modal PopUp on DoubleClick Of Row
+    $('#OverTuftContentLine').on("dblclick",'tr',function(){
+        var text = $(this).find(".id").val();
+        var editurl=$(this).find('a[Modify]').attr('href');
+
+
+        $('#myModalContent').load(editurl, function () {
+            //alert('2');
+            $('#myModal').modal({
+                backdrop: 'static',
+                keyboard: true
+            }, 'show');
+
+            bindForm1(this);
+        });
+    });
+
+
+
 
     //For Handling Modal PopUp on Clicking Delete Icon
     $('#MainContentLine').on("click",'a[delete]', function (e) {
@@ -402,6 +498,21 @@
 
     //For Handling Modal PopUp on Clicking Delete Icon
     $('#OtherContentLine').on("click",'a[delete]', function (e) {
+        $('#myModalContent').load(this.href, function () {
+            //alert('2');
+            $('#myModal').modal({
+                backdrop: 'static',
+                keyboard: true
+            }, 'show');
+
+            bindForm1(this);
+        });
+        return false;
+    });
+
+
+    //For Handling Modal PopUp on Clicking Delete Icon
+    $('#OverTuftContentLine').on("click",'a[delete]', function (e) {
         $('#myModalContent').load(this.href, function () {
             //alert('2');
             $('#myModal').modal({

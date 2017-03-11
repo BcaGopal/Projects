@@ -182,6 +182,7 @@ namespace Core.Common
         public const string PurjaTransfer = "Purja Transfer";
         public const string MaterialReturnFromWeaving = "Material Return From Weaving";
         public const string PurjaAmtTransfer = "Purja Amt Transfer";
+        public const string AdvanceAmtAdjustment = "Advance Amt Adjustment";
 
         public const string DyeingMaterialReceive = "Dyeing Material Receive";
 

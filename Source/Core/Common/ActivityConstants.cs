@@ -215,6 +215,7 @@ namespace Core.Common
         public const string Stock = "Stock";
 
         //Customize
+        public const string OverTuft = "OverTuft";
         public const string Weaving = "Weaving";
         public const string Silai = "Silai";
         public const string Packing = "Packing";

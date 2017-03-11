@@ -653,7 +653,7 @@ namespace Web
             if (ModelState.IsValid && BeforeSave && !EventException)
             {
                 int? StockHeaderId = 0;
-                int ProcessId = new ProcessService(_unitOfWork).Find(ProcessConstants.Weaving).ProcessId;
+                //int ProcessId = new ProcessService(_unitOfWork).Find(ProcessConstants.Weaving).ProcessId;
 
                 List<LogTypeViewModel> LogList = new List<LogTypeViewModel>();
 

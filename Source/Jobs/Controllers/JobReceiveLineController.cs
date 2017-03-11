@@ -802,7 +802,23 @@ namespace Web
                             {
                                 string message = StockPostingError;
                                 ModelState.AddModelError("", message);
-                                return PartialView("_Results", vm);
+                                //return PartialView("_Results", vm);
+                                if (vm.JobReceiveSettings.isVisibleLoss == true && vm.JobReceiveSettings.IsVisiblePassQty == false && vm.JobReceiveSettings.isVisibleLotNo == false)
+                                {
+                                    return PartialView("_ResultsWithLossQty", vm);
+                                }
+                                if (vm.JobReceiveSettings.isVisibleLoss == false && vm.JobReceiveSettings.IsVisiblePassQty == false && vm.JobReceiveSettings.isVisibleLotNo == false)
+                                {
+                                    return PartialView("_ResultsWithQty", vm);
+                                }
+                                if (vm.JobReceiveSettings.isVisibleLoss == false && vm.JobReceiveSettings.IsVisiblePassQty == false && vm.JobReceiveSettings.isVisibleLotNo == true)
+                                {
+                                    return PartialView("_ResultsWithQtyLotNo", vm);
+                                }
+                                else
+                                {
+                                    return PartialView("_Results", vm);
+                                }
                             }
 
                             if (Cnt == 0)
@@ -881,7 +897,23 @@ namespace Web
                             {
                                 string message = StockProcessPostingError;
                                 ModelState.AddModelError("", message);
-                                return PartialView("_Results", vm);
+                                //return PartialView("_Results", vm);
+                                if (vm.JobReceiveSettings.isVisibleLoss == true && vm.JobReceiveSettings.IsVisiblePassQty == false && vm.JobReceiveSettings.isVisibleLotNo == false)
+                                {
+                                    return PartialView("_ResultsWithLossQty", vm);
+                                }
+                                if (vm.JobReceiveSettings.isVisibleLoss == false && vm.JobReceiveSettings.IsVisiblePassQty == false && vm.JobReceiveSettings.isVisibleLotNo == false)
+                                {
+                                    return PartialView("_ResultsWithQty", vm);
+                                }
+                                if (vm.JobReceiveSettings.isVisibleLoss == false && vm.JobReceiveSettings.IsVisiblePassQty == false && vm.JobReceiveSettings.isVisibleLotNo == true)
+                                {
+                                    return PartialView("_ResultsWithQtyLotNo", vm);
+                                }
+                                else
+                                {
+                                    return PartialView("_Results", vm);
+                                }
                             }
 
                             if ((Settings.isPostedInStock ?? false) == false)
@@ -986,7 +1018,23 @@ namespace Web
                                 if (StockProcessPostingError != "")
                                 {
                                     ModelState.AddModelError("", StockProcessPostingError);
-                                    return PartialView("_Results", vm);
+                                    //return PartialView("_Results", vm);
+                                    if (vm.JobReceiveSettings.isVisibleLoss == true && vm.JobReceiveSettings.IsVisiblePassQty == false && vm.JobReceiveSettings.isVisibleLotNo == false)
+                                    {
+                                        return PartialView("_ResultsWithLossQty", vm);
+                                    }
+                                    if (vm.JobReceiveSettings.isVisibleLoss == false && vm.JobReceiveSettings.IsVisiblePassQty == false && vm.JobReceiveSettings.isVisibleLotNo == false)
+                                    {
+                                        return PartialView("_ResultsWithQty", vm);
+                                    }
+                                    if (vm.JobReceiveSettings.isVisibleLoss == false && vm.JobReceiveSettings.IsVisiblePassQty == false && vm.JobReceiveSettings.isVisibleLotNo == true)
+                                    {
+                                        return PartialView("_ResultsWithQtyLotNo", vm);
+                                    }
+                                    else
+                                    {
+                                        return PartialView("_Results", vm);
+                                    }
                                 }
 
                                 BomPost.StockProcessId = StockProcessBomViewModel.StockProcessId;
@@ -1048,7 +1096,23 @@ namespace Web
                 {
                     string message = _exception.HandleException(ex);
                     ModelState.AddModelError("", message);
-                    return PartialView("_Results", vm);
+                    //return PartialView("_Results", vm);
+                    if (vm.JobReceiveSettings.isVisibleLoss == true && vm.JobReceiveSettings.IsVisiblePassQty == false && vm.JobReceiveSettings.isVisibleLotNo == false)
+                    {
+                        return PartialView("_ResultsWithLossQty", vm);
+                    }
+                    if (vm.JobReceiveSettings.isVisibleLoss == false && vm.JobReceiveSettings.IsVisiblePassQty == false && vm.JobReceiveSettings.isVisibleLotNo == false)
+                    {
+                        return PartialView("_ResultsWithQty", vm);
+                    }
+                    if (vm.JobReceiveSettings.isVisibleLoss == false && vm.JobReceiveSettings.IsVisiblePassQty == false && vm.JobReceiveSettings.isVisibleLotNo == true)
+                    {
+                        return PartialView("_ResultsWithQtyLotNo", vm);
+                    }
+                    else
+                    {
+                        return PartialView("_Results", vm);
+                    }
                 }
 
 
@@ -1131,7 +1195,23 @@ namespace Web
 
                 return Json(new { success = true });
             }
-            return PartialView("_Results", vm);
+            //return PartialView("_Results", vm);
+            if (vm.JobReceiveSettings.isVisibleLoss == true && vm.JobReceiveSettings.IsVisiblePassQty == false && vm.JobReceiveSettings.isVisibleLotNo == false)
+            {
+                return PartialView("_ResultsWithLossQty", vm);
+            }
+            if (vm.JobReceiveSettings.isVisibleLoss == false && vm.JobReceiveSettings.IsVisiblePassQty == false && vm.JobReceiveSettings.isVisibleLotNo == false)
+            {
+                return PartialView("_ResultsWithQty", vm);
+            }
+            if (vm.JobReceiveSettings.isVisibleLoss == false && vm.JobReceiveSettings.IsVisiblePassQty == false && vm.JobReceiveSettings.isVisibleLotNo == true)
+            {
+                return PartialView("_ResultsWithQtyLotNo", vm);
+            }
+            else
+            {
+                return PartialView("_Results", vm);
+            }
         }
 
         [ValidateAntiForgeryToken]

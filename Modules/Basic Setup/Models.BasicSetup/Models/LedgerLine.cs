@@ -64,6 +64,11 @@ namespace Models.BasicSetup.Models
         [Display(Name = "Lock Reason")]
         public string LockReason { get; set; }
 
+        [Display(Name = "ReferenceLedgerAccount")]
+        [ForeignKey("ReferenceLedgerAccount")]
+        public int? ReferenceLedgerAccountId { get; set; }
+        public virtual LedgerAccount ReferenceLedgerAccount { get; set; }
+
         [Display(Name = "Created By")]
         public string CreatedBy { get; set; }
 

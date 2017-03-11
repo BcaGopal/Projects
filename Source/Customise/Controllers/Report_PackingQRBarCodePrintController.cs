@@ -81,7 +81,8 @@ namespace Web
             else if (PrintReportType == "Print For Artistic Weavers")               
             {
                 //RepName = "Packing_AWLabelPrint";
-                RepName = "Packing_AWLabelPrintNew";
+                //RepName = "Packing_AWLabelPrintNew";
+                RepName="Packing_AWLabelPrintNew11317";
                 Dt = P.FGetDataForSCILabelPrint(DtTemp, con);               
             }
             else if (PrintReportType == "Print Only QR Code")
