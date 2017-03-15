@@ -251,6 +251,7 @@ namespace Core.Common
 
 
         public const string WeavingBazar = "Weaving Bazar";
+        public const string WeavingBazarHalfTuft = "Weaving Bazar(Half Tuft)";
         public const string WeavingCancel = "Weaving Cancel";
         public const string WeavingChequeCancel = "Weaving Cheque Cancel";
         public const string ChequeCancel = "Cheque Cancel";

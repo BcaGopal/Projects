@@ -39,7 +39,9 @@ namespace Web.Controllers
 
             string ConnectionString = (string)System.Web.HttpContext.Current.Session["DefaultConnectionString"];
 
+            
 
+            int MainSitid = new SiteService(_unitOfWork).FindBySiteName("Main").SiteId;
             try
             {
                 DataSet ds = new DataSet();
@@ -47,7 +49,7 @@ namespace Web.Controllers
                 {
                     sqlConnection.Open();
 
-                    if (JobOrderHeader.SiteId != PubConstants.MainSiteId)
+                    if (JobOrderHeader.SiteId != MainSitid)
                     {
                         using (SqlCommand cmd = new SqlCommand("" + ConfigurationManager.AppSettings["DataBaseSchema"] + ".sp_PostBomForWeavingOrder"))
                         {
@@ -77,7 +79,7 @@ namespace Web.Controllers
                         cmd.ExecuteNonQuery();
                     }
 
-                    if (JobOrderHeader.SiteId == PubConstants.MainSiteId)
+                    if (JobOrderHeader.SiteId == MainSitid)
                     {
                         using (SqlCommand cmd = new SqlCommand("" + ConfigurationManager.AppSettings["DataBaseSchema"] + ".sp_PostProdOrderAtBranch"))
                         {
@@ -115,7 +117,7 @@ namespace Web.Controllers
                 throw ex;
             }
 
-            //if (JobOrderHeader.SiteId == PubConstants.MainSiteId)
+            //if (JobOrderHeader.SiteId == MainSitid)
             //{
             //    var temp = from H in db.JobOrderHeader
             //               join P in db.Persons on H.JobWorkerId equals P.PersonID into PersonTable from PersonTab in PersonTable.DefaultIfEmpty()

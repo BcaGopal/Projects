@@ -143,6 +143,13 @@ namespace Service
                     select p).FirstOrDefault();
         }
 
+        public Site FindBySiteName(string SiteName)
+        {
+            return (from p in db.Site
+                    where p.SiteName == SiteName
+                    select p).FirstOrDefault();
+        }
+
         public void Dispose()
         {
         }

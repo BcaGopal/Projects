@@ -302,8 +302,8 @@
     grid.onFooterRowCellRendered.subscribe(function (e, args) {
         if (args.column.hasTotal) {
             $(args.node).empty();
-            $("<span></span>").text((getColumnTotal(args.column.field, grid.getData())).toFixed(2))
-               .appendTo(args.node);
+            //$("<span></span>").text((getColumnTotal(args.column.field, grid.getData())).toFixed(2))
+            //   .appendTo(args.node);
             $(args.node).addClass(args.column.headerCssClass);
         }
         else if (args.column.hasTotalName) {

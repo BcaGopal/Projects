@@ -223,6 +223,19 @@ namespace Service
             {
 
                 ProductUid ProductUid=  db.ProductUid.Find(JobOrderLine.ProductUidId);
+
+
+                JobReceiveLine.ProductUidLastTransactionDocId = ProductUid.LastTransactionDocId;
+                JobReceiveLine.ProductUidLastTransactionDocDate = ProductUid.LastTransactionDocDate;
+                JobReceiveLine.ProductUidLastTransactionDocNo = ProductUid.LastTransactionDocNo;
+                JobReceiveLine.ProductUidLastTransactionDocTypeId = ProductUid.LastTransactionDocTypeId;
+                JobReceiveLine.ProductUidLastTransactionPersonId = ProductUid.LastTransactionPersonId;
+                JobReceiveLine.ProductUidStatus = ProductUid.Status;
+                JobReceiveLine.ProductUidCurrentProcessId = ProductUid.CurrenctProcessId;
+                JobReceiveLine.ProductUidCurrentGodownId = ProductUid.CurrenctGodownId;
+
+
+
                 ProductUid.ModifiedBy = UserName;
                 ProductUid.ModifiedDate = DateTime.Now;
                 ProductUid.CurrenctProcessId = JobReceiveHeader.ProcessId;
@@ -611,6 +624,8 @@ namespace Service
 
         public void Delete(int id)//JobReceiveHeaderId
         {
+            int MainSiteId = (from S in db.Site where S.SiteCode == "MAIN" select S).FirstOrDefault().SiteId;
+
             JobReceiveHeader JobReceiveHeader = db.JobReceiveHeader.Find(id);
             int StockHeaderId = (int)JobReceiveHeader.StockHeaderId;
             int ProductUidHeaderId = 0;
@@ -626,6 +641,63 @@ namespace Service
             IEnumerable<JobReceiveLine> JobReceiveLineList = (from L in db.JobReceiveLine where L.JobReceiveHeaderId == id select L).ToList();
             foreach (JobReceiveLine JobReceiveLine in JobReceiveLineList)
             {
+
+
+
+                ProductUid ProductUid = (from p in db.ProductUid
+                                         where p.ProductUIDId == JobReceiveLine.ProductUidId
+                                         select p).FirstOrDefault();
+
+                if (JobReceiveLine.ProductUidId != null && JobReceiveLine.ProductUidId != 0)
+                {
+                    if (!(JobReceiveLine.ProductUidLastTransactionDocNo == ProductUid.LastTransactionDocNo && JobReceiveLine.ProductUidLastTransactionDocTypeId == ProductUid.LastTransactionDocTypeId) || JobReceiveHeader.SiteId == MainSiteId)
+                    {
+
+
+                        if ((JobReceiveHeader.DocNo != ProductUid.LastTransactionDocNo || JobReceiveHeader.DocTypeId != ProductUid.LastTransactionDocTypeId))
+                        {
+                            //ModelState.AddModelError("", "Bar Code Can't be deleted because this is already transfered to another process.");
+                            //PrepareViewBag(vm);
+                            //return PartialView("_Create", vm);
+                        }
+
+                        if (JobReceiveLine.ProductUidHeaderId == null || JobReceiveLine.ProductUidHeaderId == 0)
+                        {
+                            ProductUid.LastTransactionDocDate = JobReceiveLine.ProductUidLastTransactionDocDate;
+                            ProductUid.LastTransactionDocId = JobReceiveLine.ProductUidLastTransactionDocId;
+                            ProductUid.LastTransactionDocNo = JobReceiveLine.ProductUidLastTransactionDocNo;
+                            ProductUid.LastTransactionDocTypeId = JobReceiveLine.ProductUidLastTransactionDocTypeId;
+                            ProductUid.LastTransactionPersonId = JobReceiveLine.ProductUidLastTransactionPersonId;
+                            ProductUid.CurrenctGodownId = JobReceiveLine.ProductUidCurrentGodownId;
+                            ProductUid.CurrenctProcessId = JobReceiveLine.ProductUidCurrentProcessId;
+                            ProductUid.Status = JobReceiveLine.ProductUidStatus;
+
+                            ProductUid.ObjectState = Model.ObjectState.Modified;
+                            db.ProductUid.Add(ProductUid);
+
+                            new StockUidService(_unitOfWork).DeleteStockUidForDocLineDB(JobReceiveHeader.JobReceiveHeaderId, JobReceiveHeader.DocTypeId, JobReceiveHeader.SiteId, JobReceiveHeader.DivisionId, ref db);
+                        }
+                    }
+                    else
+                    {
+                        var MainJobRec = (from p in db.JobReceiveLine
+                                          join t in db.JobReceiveHeader on p.JobReceiveHeaderId equals t.JobReceiveHeaderId
+                                          join d in db.DocumentType on t.DocTypeId equals d.DocumentTypeId
+                                          where p.ProductUidId == JobReceiveLine.ProductUidId && t.SiteId != JobReceiveHeader.SiteId && d.DocumentTypeName == TransactionDoctypeConstants.WeavingBazarHalfTuft
+                                          && p.LockReason != null
+                                          select p).ToList().LastOrDefault();
+
+                        if (MainJobRec != null)
+                        {
+                            MainJobRec.LockReason = null;
+                            MainJobRec.ObjectState = Model.ObjectState.Modified;
+                            db.JobReceiveLine.Add(MainJobRec);
+                        }
+                    }
+                }
+
+
+
                 ProductUidHeaderId = JobReceiveLine.ProductUidHeaderId ?? 0;
                 IEnumerable<JobReceiveQALine> JobReceiveQALineList = (from L in db.JobReceiveQALine where L.JobReceiveLineId == JobReceiveLine.JobReceiveLineId select L).ToList();
 
@@ -714,6 +786,7 @@ namespace Service
                 ProductUidHeader.ObjectState = ObjectState.Deleted;
                 db.ProductUidHeader.Remove(ProductUidHeader);
             }
+
         }
 
 
