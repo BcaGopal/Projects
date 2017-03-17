@@ -7011,7 +7011,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>PO. No.</Value>
+                              <Value>Remark</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>9pt</FontSize>
@@ -7475,7 +7475,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!ProdOrderNo.Value</Value>
+                              <Value>=Fields!LineRemark.Value</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>9pt</FontSize>

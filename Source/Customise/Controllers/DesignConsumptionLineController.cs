@@ -384,9 +384,15 @@ namespace Web
                         ActivityType = (int)ActivityTypeContants.Added,
                     }));
 
+                    
+
                     if (svm.ContentType == "Main Contents")
                     {
                         return RedirectToAction("_CreateMainContentForBaseProduct", new { id = product.ProductId });
+                    }
+                    else if (svm.ContentType == "OverTuft Contents")
+                    {
+                        return RedirectToAction("_CreateOverTuftContentForBaseProduct", new { id = product.ProductId });
                     }
                     else
                     {

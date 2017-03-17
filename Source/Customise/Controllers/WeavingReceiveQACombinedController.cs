@@ -29,6 +29,7 @@ namespace Web
     public class WeavingReceiveQACombinedController : System.Web.Mvc.Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
+        private ApplicationDbContext db1 = new ApplicationDbContext();
 
         List<string> UserRoles = new List<string>();
         ActiivtyLogViewModel LogVm = new ActiivtyLogViewModel();
@@ -194,10 +195,43 @@ namespace Web
                     JobReceiveHeader JobReceiveHeader = new JobReceiveHeader();
                     JobReceiveHeader = new WeavingReceiveQACombinedService(db).Create(vm, User.Identity.Name);
 
+
                     try
                     {
                         db.SaveChanges();
                     }
+
+
+                    catch (Exception ex)
+                    {
+                        string message = _exception.HandleException(ex);
+                        TempData["CSEXC"] += message;
+                        PrepareViewBag(vm.DocTypeId);
+                        ViewBag.Mode = "Add";
+                        return View("Create", vm);
+                    }
+
+
+
+                    ProductUid ProductUid = new ProductUidService(_unitOfWork).Find(vm.ProductUidName);
+                    ProductUid.ModifiedDate = DateTime.Now;
+                    ProductUid.CurrenctProcessId = JobReceiveHeader.ProcessId;
+                    ProductUid.CurrenctGodownId = JobReceiveHeader.GodownId;
+                    ProductUid.Status = ProductUidStatusConstants.Receive;
+                    ProductUid.LastTransactionDocId = JobReceiveHeader.JobReceiveHeaderId;
+                    ProductUid.LastTransactionDocNo = JobReceiveHeader.DocNo;
+                    ProductUid.LastTransactionDocTypeId = JobReceiveHeader.DocTypeId;
+                    ProductUid.LastTransactionDocDate = JobReceiveHeader.DocDate;
+                    ProductUid.LastTransactionPersonId = JobReceiveHeader.JobWorkerId;
+
+                    ProductUid.ObjectState = Model.ObjectState.Modified;
+                    db1.ProductUid.Add(ProductUid);
+
+                    try
+                    {
+                        db1.SaveChanges();
+                    }
+
 
                     catch (Exception ex)
                     {
@@ -862,6 +896,10 @@ namespace Web
                     temp.ProductQualityName = PQ.ProductQualityName;
                 }
 
+                Decimal UnitConversionMultiplier = 0;
+                UnitConversionMultiplier = new ProductService(_unitOfWork).GetUnitConversionMultiplier(1, temp.UnitId, (decimal) temp.Length, (decimal) temp.Width, temp.Height, temp.DealUnitId, db);
+
+                temp.UnitConversionMultiplier = UnitConversionMultiplier;
                 return Json(temp);
             }
             else

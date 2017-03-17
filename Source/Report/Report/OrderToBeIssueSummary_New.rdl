@@ -58,9 +58,6 @@
           <QueryParameter Name="@UrgentList">
             <Value>=Parameters!UrgentList.Value</Value>
           </QueryParameter>
-          <QueryParameter Name="@OverDueDays">
-            <Value>=Parameters!OverDueDays.Value</Value>
-          </QueryParameter>
         </QueryParameters>
         <CommandType>StoredProcedure</CommandType>
         <CommandText>Web.spRep_OrderToBeIssue_New</CommandText>
@@ -5886,6 +5883,7 @@
                             <PaddingBottom>2pt</PaddingBottom>
                           </Style>
                         </Textbox>
+                        <rd:Selected>true</rd:Selected>
                       </CellContents>
                     </TablixCell>
                   </TablixCells>

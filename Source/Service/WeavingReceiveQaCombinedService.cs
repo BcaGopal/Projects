@@ -222,33 +222,35 @@ namespace Service
             else
             {
 
-                ProductUid ProductUid=  db.ProductUid.Find(JobOrderLine.ProductUidId);
+
+                if (JobOrderLine.ProductUidId != null)
+                {
+                    ProductUid ProductUid = db.ProductUid.Find(JobOrderLine.ProductUidId);
+
+                    JobReceiveLine.ProductUidLastTransactionDocId = ProductUid.LastTransactionDocId;
+                    JobReceiveLine.ProductUidLastTransactionDocDate = ProductUid.LastTransactionDocDate;
+                    JobReceiveLine.ProductUidLastTransactionDocNo = ProductUid.LastTransactionDocNo;
+                    JobReceiveLine.ProductUidLastTransactionDocTypeId = ProductUid.LastTransactionDocTypeId;
+                    JobReceiveLine.ProductUidLastTransactionPersonId = ProductUid.LastTransactionPersonId;
+                    JobReceiveLine.ProductUidStatus = ProductUid.Status;
+                    JobReceiveLine.ProductUidCurrentProcessId = ProductUid.CurrenctProcessId;
+                    JobReceiveLine.ProductUidCurrentGodownId = ProductUid.CurrenctGodownId;
 
 
-                JobReceiveLine.ProductUidLastTransactionDocId = ProductUid.LastTransactionDocId;
-                JobReceiveLine.ProductUidLastTransactionDocDate = ProductUid.LastTransactionDocDate;
-                JobReceiveLine.ProductUidLastTransactionDocNo = ProductUid.LastTransactionDocNo;
-                JobReceiveLine.ProductUidLastTransactionDocTypeId = ProductUid.LastTransactionDocTypeId;
-                JobReceiveLine.ProductUidLastTransactionPersonId = ProductUid.LastTransactionPersonId;
-                JobReceiveLine.ProductUidStatus = ProductUid.Status;
-                JobReceiveLine.ProductUidCurrentProcessId = ProductUid.CurrenctProcessId;
-                JobReceiveLine.ProductUidCurrentGodownId = ProductUid.CurrenctGodownId;
-
-
-
-                ProductUid.ModifiedBy = UserName;
-                ProductUid.ModifiedDate = DateTime.Now;
-                ProductUid.CurrenctProcessId = JobReceiveHeader.ProcessId;
-                ProductUid.CurrenctGodownId = JobReceiveHeader.GodownId;
-                ProductUid.Status = ProductUidStatusConstants.Receive;
-                ProductUid.LastTransactionDocId = JobReceiveHeader.JobReceiveHeaderId;
-                ProductUid.LastTransactionDocNo = JobReceiveHeader.DocNo;
-                ProductUid.LastTransactionDocTypeId = JobReceiveHeader.DocTypeId;
-                ProductUid.LastTransactionDocDate = JobReceiveHeader.DocDate;
-                ProductUid.LastTransactionPersonId = JobReceiveHeader.JobWorkerId;
-                ProductUid.LastTransactionLineId = null;
-                ProductUid.ObjectState = Model.ObjectState.Modified;
-                db.ProductUid.Add(ProductUid);
+                    ProductUid.ModifiedBy = UserName;
+                    ProductUid.ModifiedDate = DateTime.Now;
+                    ProductUid.CurrenctProcessId = JobReceiveHeader.ProcessId;
+                    ProductUid.CurrenctGodownId = JobReceiveHeader.GodownId;
+                    ProductUid.Status = ProductUidStatusConstants.Receive;
+                    ProductUid.LastTransactionDocId = JobReceiveHeader.JobReceiveHeaderId;
+                    ProductUid.LastTransactionDocNo = JobReceiveHeader.DocNo;
+                    ProductUid.LastTransactionDocTypeId = JobReceiveHeader.DocTypeId;
+                    ProductUid.LastTransactionDocDate = JobReceiveHeader.DocDate;
+                    ProductUid.LastTransactionPersonId = JobReceiveHeader.JobWorkerId;
+                    ProductUid.LastTransactionLineId = null;
+                    ProductUid.ObjectState = Model.ObjectState.Modified;
+                    db.ProductUid.Add(ProductUid);
+                }
 
                 JobReceiveLine.ProductUidId = JobOrderLine.ProductUidId != null ? JobOrderLine.ProductUidId : pt.ProductUidId;
                 Stock.ProductUidId = JobOrderLine.ProductUidId != null ? JobOrderLine.ProductUidId : pt.ProductUidId;
@@ -350,6 +352,7 @@ namespace Service
 
             return JobReceiveHeader;
         }
+
 
         public void Update(WeavingReceiveQACombinedViewModel pt, string UserName)
         {
