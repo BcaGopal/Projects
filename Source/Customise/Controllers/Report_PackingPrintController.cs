@@ -8,9 +8,11 @@ using Microsoft.Reporting.WebForms;
 using System.Data.SqlClient;
 using System.Data;
 using System.Drawing;
-using Reports.Common;
 using Reports.Controllers;
+using Reports.Common;
 using ThoughtWorks.QRCode.Codec;
+using DocumentValidations;
+
 
 namespace Web
 {
@@ -62,7 +64,7 @@ namespace Web
 
 
             SqlDataAdapter sqlDataAapter = new SqlDataAdapter(mQry, con);
-            dsRep.EnforceConstraints = false;
+            //dsRep.EnforceConstraints = false;
             sqlDataAapter.Fill(DtTemp);
 
             if (DtTemp.Rows.Count > 0)
@@ -146,7 +148,7 @@ namespace Web
 
 
             SqlDataAdapter sqlDataAapter = new SqlDataAdapter(mQry, con);
-            dsRep.EnforceConstraints = false;
+            //dsRep.EnforceConstraints = false;
             sqlDataAapter.Fill(DtTemp);
 
             if (DtTemp.Rows.Count > 0)
@@ -370,7 +372,7 @@ namespace Web
 
                
                 SqlDataAdapter sqlDataAapter = new SqlDataAdapter(strQry.ToString(), con);
-                dsRep.EnforceConstraints = false;
+                //dsRep.EnforceConstraints = false;
                 sqlDataAapter.Fill(Dt);
             }
         return Dt;
@@ -472,7 +474,7 @@ namespace Web
 
                 
                 SqlDataAdapter DA = new SqlDataAdapter(strQry.ToString(), con);
-                dsRep.EnforceConstraints = false;
+                //dsRep.EnforceConstraints = false;
                 DA.Fill(Dt);                
 
             }

@@ -18,7 +18,7 @@ using System.Xml.Linq;
 using JobInvoiceAmendmentDocumentEvents;
 using CustomEventArgs;
 using DocumentEvents;
-using Reports.Controllers;
+using DocumentValidations;
 
 namespace Web
 {

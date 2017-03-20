@@ -21,8 +21,8 @@ using System.Xml.Linq;
 using CustomEventArgs;
 using DocumentEvents;
 using JobOrderDocumentEvents;
-using Reports.Reports;
-using Reports.Controllers;
+using ERP.Reports.DocumentPrint; using DocumentValidations;
+
 using Model.ViewModels;
 
 
@@ -1987,7 +1987,7 @@ namespace Web
 
             TempData["ReportLayoutDefaultValues"] = DefaultValue;
 
-            return Redirect((string)System.Configuration.ConfigurationManager.AppSettings["CustomizeDomain"] + "/Report_ReportPrint/ReportPrint/?MenuId=" + Dt.ReportMenuId);
+            return Redirect((string)System.Configuration.ConfigurationManager.AppSettings[menu.URL] + "/Report_ReportPrint/ReportPrint/?MenuId=" + Dt.ReportMenuId);
 
         }
 

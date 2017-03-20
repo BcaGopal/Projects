@@ -18,7 +18,7 @@ using Model.ViewModel;
 using JobInvoiceAmendmentDocumentEvents;
 using CustomEventArgs;
 using DocumentEvents;
-using Reports.Controllers;
+using DocumentValidations;
 
 
 

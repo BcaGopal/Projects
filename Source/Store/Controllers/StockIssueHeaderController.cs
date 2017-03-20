@@ -20,8 +20,8 @@ using System.Xml.Linq;
 using DocumentEvents;
 using CustomEventArgs;
 using StockIssueDocumentEvents;
-using Reports.Reports;
-using Reports.Controllers;
+using ERP.Reports.DocumentPrint; using DocumentValidations;
+
 using Model.ViewModels;
 
 

@@ -18,9 +18,9 @@ using System.Xml.Linq;
 using DocumentEvents;
 using CustomEventArgs;
 using JobReceiveQADocumentEvents;
-using Reports.Reports;
+using ERP.Reports.DocumentPrint; using DocumentValidations;
 using Model.ViewModels;
-using Reports.Controllers;
+
 using System.Data.SqlClient;
 
 namespace Web

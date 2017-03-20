@@ -3,12 +3,12 @@ using Infrastructure.IO;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Models.Company.Models;
 using Models.Reports.DatabaseViews;
-using Models.Reports.Models;
+using ERP.Reports.Models;
 using System;
 using System.Data.Entity;
 using System.IO;
 
-namespace Data
+namespace ERP.Reports.Data
 {
     public partial class ApplicationDbContext : DataContext
     {

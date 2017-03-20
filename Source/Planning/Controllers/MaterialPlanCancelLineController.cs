@@ -12,7 +12,7 @@ using Model.ViewModel;
 using Model.ViewModels;
 using Planning;
 using System.Net;
-using Reports.Controllers;
+using DocumentValidations;
 using System.Xml.Linq;
 using System.Data.SqlClient;
 using System.Configuration;

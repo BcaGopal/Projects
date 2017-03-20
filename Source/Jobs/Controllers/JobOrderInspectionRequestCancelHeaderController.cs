@@ -16,12 +16,12 @@ using Presentation.Helper;
 using AutoMapper;
 using System.Configuration;
 using System.Xml.Linq;
-using Reports.Reports;
+using ERP.Reports.DocumentPrint; using DocumentValidations;
 using Model.ViewModels;
 using JobOrderInspectionRequestCancelDocumentEvents;
 using CustomEventArgs;
 using DocumentEvents;
-using Reports.Controllers;
+
 
 namespace Web
 {

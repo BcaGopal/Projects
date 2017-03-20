@@ -15,7 +15,7 @@ using System.Xml.Linq;
 using DocumentEvents;
 using CustomEventArgs;
 using JobOrderDocumentEvents;
-using Reports.Controllers;
+using DocumentValidations;
 
 namespace Web
 {

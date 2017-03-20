@@ -16,8 +16,8 @@ using AutoMapper;
 using System.Configuration;
 using Model.ViewModels;
 using System.Xml.Linq;
-using Reports.Controllers;
-using Reports.Reports;
+
+using ERP.Reports.DocumentPrint; using DocumentValidations;
 
 namespace Web
 {

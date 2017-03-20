@@ -8,7 +8,7 @@ using Data.Infrastructure;
 using Core.Common;
 using Model.ViewModels;
 using AutoMapper;
-using Reports.Controllers;
+using DocumentValidations;
 using Model.ViewModel;
 using System.Collections.Generic;
 using System.Xml.Linq;

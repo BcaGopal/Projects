@@ -17,8 +17,8 @@ using Model.ViewModel;
 using System.Configuration;
 using System.Xml.Linq;
 using Model.ViewModels;
-using Reports.Controllers;
-using Reports.Reports;
+
+using ERP.Reports.DocumentPrint; using DocumentValidations;
 
 namespace Web
 {

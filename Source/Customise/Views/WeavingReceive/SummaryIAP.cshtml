@@ -296,7 +296,8 @@
 }
 
 <script type="text/javascript">
-    CustomSelectFunction($("#JobWorkerId"), '/ComboHelpList/GetJobWorkers', '/ComboHelpList/SetSingleJobWorker', ' ', false, 1);
+    //CustomSelectFunction($("#JobWorkerId"), '/ComboHelpList/GetJobWorkers', '/ComboHelpList/SetSingleJobWorker', ' ', false, 1);
+    CustomSelectFunction($("#JobWorkerId"), '/WeavingReceive/GetCustomPerson', '/ComboHelpList/SetSinglePerson', ' ', false, 1, $('#DocTypeId').val());
     //CustomSelectFunction($(".Remark"), '/WeavingReceive/GetReasons', '/WeavingReceive/SetReason', ' ', true, 1, $('#DocTypeId').val());
     //CustomSelectFunction($("#mRemark"), '/WeavingReceive/GetReasons', '/WeavingReceive/SetReason', ' ', true, 1, $('#DocTypeId').val());
 

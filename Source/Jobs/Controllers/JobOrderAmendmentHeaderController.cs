@@ -20,8 +20,8 @@ using System.Configuration;
 using JobOrderAmendmentDocumentEvents;
 using CustomEventArgs;
 using DocumentEvents;
-using Reports.Reports;
-using Reports.Controllers;
+using ERP.Reports.DocumentPrint; using DocumentValidations;
+
 using Model.ViewModels;
 
 namespace Web

@@ -1,7 +1,7 @@
 ﻿using iTextSharp.text;
 using iTextSharp.text.pdf;
 using Core.Common;
-using Reports.Reports;
+using DocumentPrint; using DocumentValidations;
 using Service;
 using System;
 using System.Collections.Generic;

@@ -19,8 +19,8 @@ using System.Configuration;
 using LedgerDocumentEvents;
 using CustomEventArgs;
 using DocumentEvents;
-using Reports.Controllers;
-using Reports.Reports;
+using DocumentValidations;
+using ERP.Reports.DocumentPrint; using DocumentValidations;
 
 namespace Web
 {

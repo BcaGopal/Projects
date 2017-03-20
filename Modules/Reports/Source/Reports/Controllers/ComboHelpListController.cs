@@ -1,8 +1,8 @@
 ﻿using System.Web.Mvc;
 using Presentation.Helper;
-using Services.Reports;
+using ERP.Reports.Services;
 
-namespace Web
+namespace WebERP.Reports.Web
 {
     [Authorize]
     public class ComboHelpListController : Controller

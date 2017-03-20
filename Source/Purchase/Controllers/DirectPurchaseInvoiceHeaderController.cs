@@ -18,8 +18,8 @@ using System.Xml.Linq;
 using PurchaseInvoiceReceiveDocumentEvents;
 using DocumentEvents;
 using CustomEventArgs;
-using Reports.Controllers;
-using Reports.Reports;
+
+using ERP.Reports.DocumentPrint; using DocumentValidations;
 using Model.ViewModels;
 
 namespace Web

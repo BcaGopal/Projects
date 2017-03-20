@@ -10,7 +10,7 @@ using System.Data.SqlClient;
 using System.Data;
 using System.Text;
 using Core.Common;
-using Reports.Controllers;
+
 using Presentation.Helper;
 
 /* All Details Reports Will Be Created From Table 

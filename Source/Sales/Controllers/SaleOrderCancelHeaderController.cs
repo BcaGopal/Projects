@@ -16,8 +16,8 @@ using Presentation;
 using System.Text;
 using Model.ViewModel;
 using System.Xml.Linq;
-using Reports.Controllers;
-using Reports.Reports;
+
+using ERP.Reports.DocumentPrint; using DocumentValidations;
 using System.Configuration;
 
 

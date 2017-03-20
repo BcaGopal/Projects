@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
-using Service;
+using ERP.Reports.Services;
 using Presentation;
 using Infrastructure.IO;
 using Components.ExceptionHandlers;
 using Models.Reports.ViewModels;
 using Models.BasicSetup.ViewModels;
 
-namespace Web
+namespace ERP.Reports.Web
 {
     [Authorize]
     public class ReportHeaderController : System.Web.Mvc.Controller

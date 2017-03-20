@@ -1,4 +1,4 @@
-﻿using Models.Reports.Models;
+﻿using ERP.Reports.Models;
 using System.Collections.Generic;
 
 namespace Models.Reports.ViewModels

@@ -17,7 +17,7 @@ using ImageResizer;
 using Model.ViewModel;
 using AutoMapper;
 using System.Xml.Linq;
-using Reports.Reports;
+using ERP.Reports.DocumentPrint; using DocumentValidations;
 
 namespace Web
 {

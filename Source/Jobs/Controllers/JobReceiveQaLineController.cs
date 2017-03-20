@@ -18,7 +18,7 @@ using System.Data.Entity;
 using DocumentEvents;
 using CustomEventArgs;
 using JobReceiveQADocumentEvents;
-using Reports.Controllers;
+using DocumentValidations;
 
 namespace Web
 {

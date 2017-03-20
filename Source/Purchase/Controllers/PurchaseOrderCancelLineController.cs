@@ -15,7 +15,7 @@ using System.Xml.Linq;
 using PurchaseOrderCancelDocumentEvents;
 using CustomEventArgs;
 using DocumentEvents;
-using Reports.Controllers;
+using DocumentValidations;
 using Model.ViewModels;
 using Presentation.Helper;
 

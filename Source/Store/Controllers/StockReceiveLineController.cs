@@ -16,7 +16,7 @@ using DocumentEvents;
 using CustomEventArgs;
 using StockReceiveDocumentEvents;
 using StockIssueDocumentEvents;
-using Reports.Controllers;
+using DocumentValidations;
 
 namespace Web
 {

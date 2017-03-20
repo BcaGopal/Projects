@@ -2,15 +2,15 @@ using System;
 using Microsoft.Practices.Unity;
 using Infrastructure.IO;
 using AutoMapper;
-using Data;
+using ERP.Reports.Data;
 using Components.Logging;
 using Services.BasicSetup;
-using Service;
+using ERP.Reports.Services;
 using Components.ExceptionHandlers;
-using Models.Reports.Models;
+using ERP.Reports.Models;
 using Models.Company.Models;
 using Models.Reports.ViewModels;
-using Services.Reports;
+
 
 namespace Reports.App_Start
 {

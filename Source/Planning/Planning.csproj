@@ -244,8 +244,6 @@
     <Compile Include="Controllers\ProdOrderCancelLineController.cs" />
     <Compile Include="Controllers\ProdOrderHeaderController.cs" />
     <Compile Include="Controllers\ProdOrderLineController.cs" />
-    <Compile Include="Controllers\Report_DocumentPrintController.cs" />
-    <Compile Include="Controllers\Report_ReportPrintController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -529,6 +527,10 @@
     <None Include="Project_Readme.html" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Modules\Reports\DocumentPrint\ERP.Reports.DocumentPrint.csproj">
+      <Project>{fbe8335b-f90b-4fa1-b394-690ba9cbfce7}</Project>
+      <Name>DocumentPrint</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Models.Login\Models.Login.csproj">
       <Project>{6daf1185-1fde-48f4-98f7-6dfc20acf4c5}</Project>
       <Name>Models.Login</Name>
@@ -552,10 +554,6 @@
     <ProjectReference Include="..\Model\Model.csproj">
       <Project>{4d4923f5-548c-4d13-859d-7f5e9699facd}</Project>
       <Name>Model</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Reports\Reports.csproj">
-      <Project>{4e0beea6-54e4-40bb-bb95-89cbd434e649}</Project>
-      <Name>Reports</Name>
     </ProjectReference>
     <ProjectReference Include="..\Service\Service.csproj">
       <Project>{bfbab8ee-be97-4467-837e-09f142f1bf44}</Project>

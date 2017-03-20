@@ -14,7 +14,7 @@ using System.Xml.Linq;
 using RateConversionDocumentEvents;
 using CustomEventArgs;
 using DocumentEvents;
-using Reports.Controllers;
+using DocumentValidations;
 
 namespace Web
 {

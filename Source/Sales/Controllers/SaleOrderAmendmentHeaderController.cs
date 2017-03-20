@@ -14,8 +14,8 @@ using Model.ViewModel;
 using Presentation.Helper;
 using AutoMapper;
 using System.Xml.Linq;
-using Reports.Controllers;
-using Reports.Reports;
+
+using ERP.Reports.DocumentPrint; using DocumentValidations;
 using System.Configuration;
 using Model.ViewModels;
 

@@ -15,7 +15,7 @@ using System.Xml.Linq;
 using PurchaseGoodsReceiptDocumentEvents;
 using CustomEventArgs;
 using DocumentEvents;
-using Reports.Controllers;
+using DocumentValidations;
 
 namespace Web
 {

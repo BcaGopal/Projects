@@ -18,8 +18,8 @@ using System.Xml.Linq;
 using DocumentEvents;
 using CustomEventArgs;
 using ExcessMaterialDocumentEvents;
-using Reports.Reports;
-using Reports.Controllers;
+using ERP.Reports.DocumentPrint; using DocumentValidations;
+
 using Model.ViewModels;
 
 

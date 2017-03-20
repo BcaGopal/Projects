@@ -18,8 +18,8 @@ using System.Data.SqlClient;
 using System.Configuration;
 using System.Xml.Linq;
 using CustomEventArgs;
-using Reports.Controllers;
-using Reports.Reports;
+
+using ERP.Reports.DocumentPrint; using DocumentValidations;
 using Model.ViewModels;
 
 namespace Web

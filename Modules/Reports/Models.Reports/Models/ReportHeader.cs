@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace Models.Reports.Models
+namespace ERP.Reports.Models
 {
     public class ReportHeader : EntityBase, IHistoryLog
     {

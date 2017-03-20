@@ -112,6 +112,7 @@
     <Compile Include="AccountService.cs" />
     <Compile Include="Dimension4Service.cs" />
     <Compile Include="Dimension3Service.cs" />
+    <Compile Include="DocumentTimeLineCheck.cs" />
     <Compile Include="FeetConversionToCmsService.cs" />
     <Compile Include="DocumentTypeSettingsService.cs" />
     <Compile Include="PersonRoleService.cs" />

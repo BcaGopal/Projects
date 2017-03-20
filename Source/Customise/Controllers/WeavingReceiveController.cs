@@ -10,6 +10,8 @@ using Core.Common;
 using Model.ViewModel;
 using AutoMapper;
 using System.Xml.Linq;
+using Model.ViewModels;
+using Presentation.Helper;
 
 namespace Web
 {
@@ -406,7 +408,27 @@ namespace Web
 
             return Json(new { Success = true, Url = RetUrl });
         }
-     
+
+        public ActionResult GetCustomPerson(string searchTerm, int pageSize, int pageNum, int filter)//DocTypeId
+        {
+            var Query = _JobReceiveHeaderService.GetCustomPerson(filter, searchTerm);
+            var temp = Query.Skip(pageSize * (pageNum - 1))
+                .Take(pageSize)
+                .ToList();
+
+            var count = Query.Count();
+
+            ComboBoxPagedResult Data = new ComboBoxPagedResult();
+            Data.Results = temp;
+            Data.Total = count;
+
+            return new JsonpResult
+            {
+                Data = Data,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
         public JsonResult SetReason(string Ids)
         {
             return Json(_JobReceiveLineService.SetReason(Ids));

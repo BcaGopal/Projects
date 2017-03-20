@@ -4,7 +4,7 @@ using System.Web;
 using System.Web.Mvc;
 using Microsoft.Owin.Security;
 using System.Web.Security;
-namespace AdminSetup.Controllers
+namespace ERP.Reports.Web
 {
     [Authorize]
     public class AccountController : Controller

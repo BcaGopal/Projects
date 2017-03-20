@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
-using Service;
+using ERP.Reports.Services;
 using Models.Reports.ViewModels;
-using Models.Reports.Models;
+using ERP.Reports.Models;
 
-namespace Web
+namespace ERP.Reports.Web
 {
     [Authorize]
     public class ReportLayoutController : System.Web.Mvc.Controller

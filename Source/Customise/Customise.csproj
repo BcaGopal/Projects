@@ -252,8 +252,11 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminSetupController.cs" />
     <Compile Include="Controllers\CarpetMasterController.cs" />
+    <Compile Include="Controllers\CUPCA.cs" />
     <Compile Include="Controllers\FeetConversionToCmsController .cs" />
     <Compile Include="Controllers\JobReceiveQaPenaltyController.cs" />
+    <Compile Include="Controllers\ReportController.cs" />
+    <Compile Include="Controllers\ReportService.cs" />
     <Compile Include="Controllers\WeavingReceiveQACombinedController.cs" />
     <Compile Include="Controllers\PackingHeaderWithBuyerDetailController.cs" />
     <Compile Include="Controllers\PackingLineWithBuyerDetailController.cs" />
@@ -292,7 +295,6 @@
     <Compile Include="Controllers\FinishingInvoiceTextImportController.cs" />
     <Compile Include="Controllers\DesignRateListWizardController.cs" />
     <Compile Include="Controllers\PostingLayoutController.cs" />
-    <Compile Include="Controllers\Posting_ProcedureExecuteController.cs" />
     <Compile Include="Controllers\WeavingProductRatesController.cs" />
     <Compile Include="Controllers\WeavingReceiveBranchTextImportController.cs" />
     <Compile Include="Controllers\StockTransferTextImport.cs" />
@@ -318,7 +320,6 @@
     <Compile Include="Controllers\JobOrderCancelEvents.cs" />
     <Compile Include="Controllers\JobReceiveEvents .cs" />
     <Compile Include="Controllers\JobReceiveTextImportController.cs" />
-    <Compile Include="Controllers\Report_ReportPrintController.cs" />
     <Compile Include="Controllers\WeavingReceiveController.cs" />
     <Compile Include="Controllers\LogActivity.cs" />
     <Compile Include="Controllers\MultipleButtonHelper.cs" />
@@ -352,7 +353,6 @@
     <Compile Include="Controllers\ReportLayoutController.cs" />
     <Compile Include="Controllers\ReportLineController.cs" />
     <Compile Include="Controllers\Report_BarcodePrintController.cs" />
-    <Compile Include="Controllers\Report_DocumentPrintController.cs" />
     <Compile Include="Controllers\Report_PackingPrintController.cs" />
     <Compile Include="Controllers\Report_PackingQRBarCodePrintController.cs" />
     <Compile Include="Controllers\RugStencilController.cs" />
@@ -1431,10 +1431,6 @@
     <ProjectReference Include="..\Model\Model.csproj">
       <Project>{4d4923f5-548c-4d13-859d-7f5e9699facd}</Project>
       <Name>Model</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Reports\Reports.csproj">
-      <Project>{4e0beea6-54e4-40bb-bb95-89cbd434e649}</Project>
-      <Name>Reports</Name>
     </ProjectReference>
     <ProjectReference Include="..\Service\Service.csproj">
       <Project>{bfbab8ee-be97-4467-837e-09f142f1bf44}</Project>

@@ -2,11 +2,11 @@
 using System.Linq;
 using System;
 using Model;
-using Models.Reports.Models;
+using ERP.Reports.Models;
 using Models.Reports.ViewModels;
 using Infrastructure.IO;
 
-namespace Service
+namespace ERP.Reports.Services
 {
     public interface IReportColumnService : IDisposable
     {

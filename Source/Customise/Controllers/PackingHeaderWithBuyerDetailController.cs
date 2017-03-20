@@ -19,7 +19,7 @@ using System.Text;
 using System.Data.SqlClient;
 using Model.ViewModel;
 using System.Xml.Linq;
-using Reports.Controllers;
+using DocumentValidations;
 
 
 namespace Web

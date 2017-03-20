@@ -1,19 +1,19 @@
-﻿using Data;
-using iTextSharp.text;
+﻿using iTextSharp.text;
 using iTextSharp.text.pdf;
 using Microsoft.Reporting.WebForms;
-using Model;
-using Models.Reports.Models;
-using Service;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
+using ERP.Reports.Models;
+using ERP.Reports.Services;
+using ERP.Reports.Data;
+using ERP.Reports.DocumentPrint.Constants;
+using Model;
 
-
-namespace DocumentPrint
+namespace ERP.Reports.DocumentPrint
 {
     public class DirectReportPrint
     {

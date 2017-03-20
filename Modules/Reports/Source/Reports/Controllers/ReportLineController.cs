@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
-using Service;
+using ERP.Reports.Services;
 using Presentation;
 using Components.ExceptionHandlers;
 using Models.Reports.ViewModels;
 
-namespace Web
+namespace ERP.Reports.Web
 {
     [Authorize]
     public class ReportLineController : System.Web.Mvc.Controller

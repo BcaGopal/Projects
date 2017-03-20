@@ -17,8 +17,8 @@ using System.Configuration;
 using System.Xml.Linq;
 using DocumentEvents;
 using CustomEventArgs;
-using Reports.Controllers;
-using Reports.Reports;
+
+using ERP.Reports.DocumentPrint; using DocumentValidations;
 
 namespace Web
 {

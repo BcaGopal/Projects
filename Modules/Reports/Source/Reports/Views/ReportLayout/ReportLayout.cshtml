@@ -15,8 +15,11 @@
         <div class="panel-heading">
             <h4>
                 <span> @Model.ReportHeader.ReportName </span>
-                <input type="submit" name="Print:Excel" value="Excel" id="PrintExcel" class="btn btn-primary btn-sm CurveBorder height" style="float: right; margin-left: 2px; " />
-                <input type="submit" name="Print:PDF" value="PDF" id="PrintPDF" class="btn btn-primary btn-sm CurveBorder height" style="float : right ; " />
+
+                @*<input type="submit" name="Print:Excel" value="Excel" id="PrintExcel" class="btn btn-primary btn-sm CurveBorder height" style="float: right; margin-left: 2px; " />
+                <input type="submit" name="Print:PDF" value="PDF" id="PrintPDF" class="btn btn-primary btn-sm CurveBorder height" style="float : right ; " />*@
+                <input type="submit" name="Print:Excel" value="Excel" id="PrintExcel" class="btn btn-primary btn-sm CurveBorder height" style="float: right; margin-left: 2px; width:5em" />
+                <input type="submit" name="Print:PDF" value="PDF" id="PrintPDF" class="btn btn-primary btn-sm CurveBorder height" style="float : right ; width:5em" />
                 @Html.CheckBoxFor(m => m.closeOnSelect, new { @style = "float:right;margin-top:10px;margin-right:10px" })
             </h4>
         </div>

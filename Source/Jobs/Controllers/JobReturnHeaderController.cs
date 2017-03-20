@@ -20,8 +20,8 @@ using System.Xml.Linq;
 using JobReturnDocumentEvents;
 using CustomEventArgs;
 using DocumentEvents;
-using Reports.Reports;
-using Reports.Controllers;
+using ERP.Reports.DocumentPrint; using DocumentValidations;
+
 using Model.ViewModels;
 
 namespace Web

@@ -58,9 +58,9 @@
     <Compile Include="UserTeamService.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Components\Components.csproj">
-      <Project>{82c76499-ad09-4f11-972c-485d76df396c}</Project>
-      <Name>Components</Name>
+    <ProjectReference Include="..\..\Components\Logger\Source\Logger.csproj">
+      <Project>{a68b18d0-67d6-414f-b38d-d4c7edeb3907}</Project>
+      <Name>Logger</Name>
     </ProjectReference>
     <ProjectReference Include="..\Models.Tasks\Models.Tasks.csproj">
       <Project>{d888d7da-557f-4d7e-9d07-33e6e8cd12dc}</Project>

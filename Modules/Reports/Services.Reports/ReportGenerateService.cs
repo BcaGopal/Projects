@@ -8,7 +8,7 @@ using System.Net;
 using Microsoft.Reporting.WebForms;
 using ProjLib.Constants;
 
-namespace Service
+namespace ERP.Reports.Services
 {
     public class ReportGenerateService
     {

@@ -13,10 +13,11 @@ using Model.ViewModel;
 using AutoMapper;
 using Planning;
 using System.Xml.Linq;
-using Reports.Controllers;
-using Reports.Reports;
+using ERP.Reports.DocumentPrint;
+using DocumentValidations;
 using System.Configuration;
 using Model.ViewModels;
+
 
 namespace Presentation
 {

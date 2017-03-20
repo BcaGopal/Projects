@@ -13,9 +13,9 @@ using Data.Infrastructure;
 using Presentation.ViewModels;
 using AutoMapper;
 using Presentation;
-using Reports.Controllers;
+
 using Model.ViewModel;
-using Reports.Reports;
+using ERP.Reports.DocumentPrint; using DocumentValidations;
 
 
 

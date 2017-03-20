@@ -69,7 +69,7 @@ namespace Web
             }
             
             SqlDataAdapter sqlDataAapter = new SqlDataAdapter(mQry, con);
-            dsRep.EnforceConstraints = false;
+            //dsRep.EnforceConstraints = false;
             sqlDataAapter.Fill(DtTemp);
 
             if (PrintReportType == "Print For HDC")

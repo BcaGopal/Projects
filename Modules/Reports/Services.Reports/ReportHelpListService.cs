@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 
-namespace Services.Reports
+namespace ERP.Reports.Services
 {
     public interface IReportHelpListService : IDisposable
     {

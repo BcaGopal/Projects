@@ -22,6 +22,7 @@
     <IISExpressUseClassicPipelineMode />
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
+    <UseGlobalApplicationHostFile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -248,8 +249,6 @@
     <Compile Include="Controllers\LogActivity.cs" />
     <Compile Include="Controllers\MultipleButtonHelper.cs" />
     <Compile Include="Controllers\NotificationController.cs" />
-    <Compile Include="Controllers\Report_DocumentPrintController.cs" />
-    <Compile Include="Controllers\Report_ReportPrintController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -479,10 +478,6 @@
     <ProjectReference Include="..\Model\Model.csproj">
       <Project>{4d4923f5-548c-4d13-859d-7f5e9699facd}</Project>
       <Name>Model</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Reports\Reports.csproj">
-      <Project>{4e0beea6-54e4-40bb-bb95-89cbd434e649}</Project>
-      <Name>Reports</Name>
     </ProjectReference>
     <ProjectReference Include="..\Service\Service.csproj">
       <Project>{bfbab8ee-be97-4467-837e-09f142f1bf44}</Project>

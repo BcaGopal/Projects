@@ -14,7 +14,7 @@ using System.Xml.Linq;
 using DocumentEvents;
 using CustomEventArgs;
 using MaterialRequestDocumentEvents;
-using Reports.Controllers;
+using DocumentValidations;
 
 namespace Web
 {

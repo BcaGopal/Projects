@@ -2,12 +2,12 @@
 using System.Linq;
 using System;
 using System.Threading.Tasks;
-using Models.Reports.Models;
+using ERP.Reports.Models;
 using Infrastructure.IO;
 using Models.Reports.DatabaseViews;
 using Microsoft.Reporting.WebForms;
 
-namespace Service
+namespace ERP.Reports.Services
 {
     public interface IReportUIDValuesService : IDisposable
     {

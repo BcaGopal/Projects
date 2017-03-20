@@ -14,10 +14,10 @@ using System.Configuration;
 using AutoMapper;
 using Presentation.Helper;
 using Model.ViewModel;
-using Reports.Controllers;
+
 using System.Xml.Linq;
 using System.Data.SqlClient;
-using Reports.Reports;
+using ERP.Reports.DocumentPrint; using DocumentValidations;
 using System.Data;
 using SaleInvoiceDocumentEvents;
 using CustomEventArgs;

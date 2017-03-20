@@ -2,6 +2,7 @@
 using Model.Models;
 using Data.Infrastructure;
 using Model.ViewModel;
+using Components.Logging;
 
 namespace Components.Logging
 {

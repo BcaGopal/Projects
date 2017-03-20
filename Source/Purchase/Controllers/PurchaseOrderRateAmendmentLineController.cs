@@ -16,7 +16,7 @@ using System.Xml.Linq;
 using PurchaseOrderAmendmentDocumentEvents;
 using CustomEventArgs;
 using DocumentEvents;
-using Reports.Controllers;
+using DocumentValidations;
 
 namespace Web
 {

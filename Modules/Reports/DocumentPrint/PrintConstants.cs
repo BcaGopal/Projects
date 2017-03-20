@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DocumentPrint
+namespace ERP.Reports.DocumentPrint.Constants
 {
     public class ReportFileTypeConstants
     {

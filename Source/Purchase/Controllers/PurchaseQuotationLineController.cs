@@ -15,7 +15,7 @@ using System.Xml.Linq;
 //using PurchaseQuotationReceiveDocumentEvents;
 using CustomEventArgs;
 using DocumentEvents;
-using Reports.Controllers;
+using DocumentValidations;
 using Presentation.Helper;
 
 namespace Web

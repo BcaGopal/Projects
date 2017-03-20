@@ -17,8 +17,8 @@ using System.Text;
 using EmailContents;
 using Model.ViewModel;
 using System.Xml.Linq;
-using Reports.Controllers;
-using Reports.Reports;
+
+using ERP.Reports.DocumentPrint; using DocumentValidations;
 using System.Configuration;
 
 namespace Web

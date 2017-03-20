@@ -21,8 +21,8 @@ using MaterialTransferDocumentEvents;
 using CustomEventArgs;
 using DocumentEvents;
 using System.Data.SqlClient;
-using Reports.Reports;
-using Reports.Controllers;
+using ERP.Reports.DocumentPrint; using DocumentValidations;
+
 
 
 

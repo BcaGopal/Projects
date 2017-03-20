@@ -2,7 +2,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace Models.Reports.Models
+namespace ERP.Reports.Models
 {
     public class ReportUIDValues : EntityBase
     {

@@ -20,8 +20,8 @@ using System.Configuration;
 using PurchaseOrderAmendmentDocumentEvents;
 using CustomEventArgs;
 using DocumentEvents;
-using Reports.Reports;
-using Reports.Controllers;
+using ERP.Reports.DocumentPrint; using DocumentValidations;
+
 
 namespace Web
 {

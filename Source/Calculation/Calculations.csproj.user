@@ -3,6 +3,8 @@
   <PropertyGroup>
     <ProjectView>ProjectFiles</ProjectView>
     <NameOfLastUsedPublishProfile>Calculation</NameOfLastUsedPublishProfile>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort>44303</IISExpressSSLPort>
   </PropertyGroup>
   <PropertyGroup>
     <ReferencePath>E:\Gopal Active Project\Projects\3rdPartyLib\</ReferencePath>

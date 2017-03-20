@@ -17,10 +17,11 @@ using Presentation.Helper;
 using System.Xml.Linq;
 //using PurchaseOrderDocumentEvents;
 using CustomEventArgs;
+using DocumentValidations;
 //using DocumentEvents;
-using Reports.Reports;
+using ERP.Reports.DocumentPrint; using DocumentValidations;
 using Model.ViewModels;
-using Reports.Controllers;
+
 
 namespace Web
 {

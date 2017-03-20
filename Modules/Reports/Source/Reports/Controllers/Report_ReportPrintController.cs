@@ -6,8 +6,8 @@ using System.Data.SqlClient;
 using System.Data;
 using System.Text;
 using System.Xml.Linq;
-using Service;
-using Models.Reports.Models;
+using ERP.Reports.Services;
+using ERP.Reports.Models;
 using ProjLib.Constants;
 using Components.Logging;
 using Microsoft.Reporting.WebForms;
@@ -15,11 +15,13 @@ using Services.BasicSetup;
 using ProjLib.DocumentConstants;
 using Infrastructure.IO;
 using Helper;
-using DocumentPrint;
+using ERP.Reports.DocumentPrint.Constants;
 using Models.Reports.ViewModels;
 using Newtonsoft.Json;
 
-namespace Reports
+
+
+namespace ERP.Reports.Web
 {
     [Authorize]
     public class Report_ReportPrintController : Controller
@@ -33,6 +35,8 @@ namespace Reports
         IDocumentTypeService _documentTypeService;
         IReportUIDValuesService _reportUidValuesService;
 
+
+        
         List<string> UserRoles = new List<string>();
         ActiivtyLogViewModel LogVm = new ActiivtyLogViewModel();
         public Report_ReportPrintController(IReportLineService line, IReportHeaderService ReportHeader, ILogger logger, IDocumentTypeService DoctypeServ
@@ -260,6 +264,10 @@ namespace Reports
                         ActivityType = (int)ActivityTypeContants.Report,
                         xEModifications = s,
                     }));
+
+                    
+                    
+
 
                     if (BAR.Length == 1)
                     {

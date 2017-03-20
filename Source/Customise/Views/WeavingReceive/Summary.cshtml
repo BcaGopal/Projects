@@ -273,8 +273,8 @@
 }
 
 <script type="text/javascript">
-    CustomSelectFunction($("#JobWorkerId"), '/ComboHelpList/GetJobWorkers', '/ComboHelpList/SetSinglePerson', ' ', false, 1);
-
+    //CustomSelectFunction($("#JobWorkerId"), '/ComboHelpList/GetJobWorkers', '/ComboHelpList/SetSinglePerson', ' ', false, 1);
+    CustomSelectFunction($("#JobWorkerId"), '/WeavingReceive/GetCustomPerson', '/ComboHelpList/SetSinglePerson', ' ', false, 1, $('#DocTypeId').val());
     $('input.Weight').change(function () {
         $(this).val(eval($(this).val()));
         CalculateTotal();

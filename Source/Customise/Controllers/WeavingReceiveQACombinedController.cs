@@ -17,9 +17,9 @@ using System.Configuration;
 using System.Xml.Linq;
 using DocumentEvents;
 using CustomEventArgs;
-using Reports.Reports;
+using DocumentValidations;
 using Model.ViewModels;
-using Reports.Controllers;
+
 using System.Data.SqlClient;
 using System.Data;
 

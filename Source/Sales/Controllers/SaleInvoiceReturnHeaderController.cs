@@ -15,7 +15,7 @@ using Presentation.Helper;
 using AutoMapper;
 using System.Configuration;
 using System.Xml.Linq;
-using Reports.Controllers;
+using DocumentValidations;
 using Model.ViewModels;
 
 namespace Web

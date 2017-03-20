@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System;
-using Models.Reports.Models;
+using ERP.Reports.Models;
 using Infrastructure.IO;
 using Models.Reports.DatabaseViews;
 using Components.Logging;
@@ -12,7 +12,7 @@ using Services.BasicSetup;
 using System.Xml.Linq;
 using Models.BasicSetup.ViewModels;
 
-namespace Service
+namespace ERP.Reports.Services
 {
     public interface IReportHeaderService : IDisposable
     {

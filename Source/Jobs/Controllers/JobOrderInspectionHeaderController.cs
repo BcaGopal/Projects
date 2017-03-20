@@ -18,9 +18,9 @@ using System.Xml.Linq;
 using DocumentEvents;
 using CustomEventArgs;
 using JobOrderInspectionDocumentEvents;
-using Reports.Reports;
+using ERP.Reports.DocumentPrint; using DocumentValidations;
 using Model.ViewModels;
-using Reports.Controllers;
+
 
 namespace Web
 {

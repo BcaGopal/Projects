@@ -18,7 +18,7 @@ using Microsoft.Reporting.WebForms;
 using System.Text;
 using Model.ViewModel;
 using System.Xml.Linq;
-using Reports.Controllers;
+using DocumentValidations;
 
 
 namespace Web

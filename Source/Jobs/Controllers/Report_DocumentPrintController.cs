@@ -1,7 +1,7 @@
 ﻿using Microsoft.Owin.Security;
 using Data.Infrastructure;
 using Data.Models;
-using Reports.Presentation.Helper;
+
 using Model.ViewModels;
 using Service;
 using System;
@@ -14,14 +14,14 @@ using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Model.Models;
-using Reports.ViewModels;
+
 using System.Data.SqlClient;
 using System.Data;
 using System.Text;
 using System.Drawing;
-using Reports.Common;
+
 using Core.Common;
-using Reports.Controllers;
+
 
 namespace Web
 {

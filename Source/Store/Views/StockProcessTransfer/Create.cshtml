@@ -58,17 +58,17 @@
                 </h3>
             }*@
 
-            @Html.ActionLink("For Transfer", "_ForProcessTransfer", "StockProcessTransfer", new { id = @Model.StockHeaderId, sid = @Model.PersonId, ProcessId = Model.ProcessId, CostCenterId = Model.CostCenterId }, new { data_modal = "", id = "btnCreateF", @class = "btn btn-primary borderradii", @title = "For Indent", @data_toggle = "tooltip", @data_detailDeleted = "true" })
+            @*@Html.ActionLink("For Transfer", "_ForProcessTransfer", "StockProcessTransfer", new { id = @Model.StockHeaderId, sid = @Model.PersonId, ProcessId = Model.ProcessId, CostCenterId = Model.CostCenterId }, new { data_modal = "", id = "btnCreateF", @class = "btn btn-primary borderradii", @title = "For Indent", @data_toggle = "tooltip", @data_detailDeleted = "true" })*@
 
             <hr style="margin-top:0px;margin-bottom:0px" />
 
             <div class="panel-info">
                  <div class="btn-group">
-                    @Html.ActionLink(" ", "Create", "StockProcessTransfer", new { @id = ViewBag.id }, new { @class = "glyphicon glyphicon-plus toolbar", @title = "Add New", @data_toggle = "tooltip" })
-                    @Html.ActionLink(" ", "GeneratePrints", "StockProcessTransfer", new { Ids = Model.StockHeaderId, DocTypeId = Model.DocTypeId }, new { @class = "glyphicon glyphicon-print toolbar", @title = "Print", @data_toggle = "tooltip", id = "PrintRecordC" })
-                    @Html.ActionLink(" ", "PrevPage", "StockProcessTransfer", new { id = @Model.StockHeaderId }, new { @class = "glyphicon glyphicon-arrow-left toolbar", @title = "Prev Record", @data_toggle = "tooltip" })
-                    @Html.ActionLink(" ", "NextPage", "StockProcessTransfer", new { id = @Model.StockHeaderId }, new { @class = "glyphicon glyphicon-arrow-right toolbar", @title = "Next Record", @data_toggle = "tooltip" })
-                    @Html.ActionLink(" ", "Index", "StockProcessTransfer", new { id = ViewBag.id, IndexType = ViewBag.IndexStatus }, new { @class = "glyphicon glyphicon-list toolbar right", @title = "List", @data_toggle = "tooltip" })
+                    @Html.ActionLink(" ", "Create", "StockProcessTransfer", new { @id = ViewBag.id }, new { @class = "cbtn btn-circle glyphicon glyphicon-plus toolbar", @title = "Add New", @data_toggle = "tooltip" })
+                    @Html.ActionLink(" ", "GeneratePrints", "StockProcessTransfer", new { Ids = Model.StockHeaderId, DocTypeId = Model.DocTypeId }, new { @class = "cbtn btn-circle glyphicon glyphicon-print toolbar", @title = "Print", @data_toggle = "tooltip", id = "PrintRecordC" })
+                    @Html.ActionLink(" ", "PrevPage", "StockProcessTransfer", new { id = @Model.StockHeaderId }, new { @class = "cbtn btn-circle glyphicon glyphicon-arrow-left toolbar", @title = "Prev Record", @data_toggle = "tooltip" })
+                    @Html.ActionLink(" ", "NextPage", "StockProcessTransfer", new { id = @Model.StockHeaderId }, new { @class = "cbtn btn-circle glyphicon glyphicon-arrow-right toolbar", @title = "Next Record", @data_toggle = "tooltip" })
+                    @Html.ActionLink(" ", "Index", "StockProcessTransfer", new { id = ViewBag.id, IndexType = ViewBag.IndexStatus }, new { @class = "cbtn btn-circle glyphicon glyphicon-list toolbar", @title = "List", @data_toggle = "tooltip" })
                 </div>
                 <div class="btn-group">
                     <a class="cbtn btn-circle glyphicon glyphicon-option-horizontal dropdown-toggle"   title="More Option"  aria-expanded="false" style="padding-top: 6px;padding-bottom: 6px;" href="#" data-toggle="dropdown" id="dropdownMenu1">
@@ -208,11 +208,24 @@
                 <hr />
 
                 <div class="row">
-                    <h4 class="col-md-12 black" style="margin-top:15px">
+                    @*<h4 class="col-md-12 black" style="margin-top:15px">
                         <span class="glyphicon glyphicon-shopping-cart"></span>
                         2.Transfer Product
-                    </h4>
+                    </h4>*@                    
                 </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <h4 style="margin-top:15px">
+                            <span class="glyphicon glyphicon-shopping-cart"></span>
+                            2.Transfer Product
+                        </h4>
+                    </div>
+                    <div class="col-md-6">                        
+                        <div class="btn-group right" style="padding-right:15px;margin-top:10px">
+                        @Html.ActionLink(" ", "_ForProcessTransfer", "StockProcessTransfer", new { id = @Model.StockHeaderId, sid = @Model.PersonId, ProcessId = Model.ProcessId, CostCenterId = Model.CostCenterId }, new { data_modal = "", id = "btnCreateF", @class = "cbtn btn-circle glyphicon glyphicon-link toolbar right", @title = "For Transfer", @data_toggle = "tooltip", @data_detailDeleted = "true" })
+                        </div>
+                     </div>
+                    </div>
 
                 <div style="padding-right:15px">
 
@@ -307,6 +320,8 @@
         if(id==null||id==0)
         {
             $(document).find('a#btnCreate').removeAttr('href').removeAttr('data-modal');
+            $(document).find('a#btnCreateF').removeAttr('href').removeAttr('data-modal');
+            
         }
 
         //CustomSelectFunction($("#ProcessId"), '/ComboHelpList/GetProcess', '/ComboHelpList/SetSingleProcess', ' ', false, 1);

@@ -17,7 +17,7 @@ using System.Xml.Linq;
 using DocumentEvents;
 using CustomEventArgs;
 using JobReceiveDocumentEvents;
-using Reports.Controllers;
+using DocumentValidations;
 using System.Reflection;
 
 namespace Web

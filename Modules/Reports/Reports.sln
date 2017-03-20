@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Web.Reports", "Source\Reports\Web.Reports.csproj", "{CB041969-31D3-422E-853D-59DB364A13A3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ERP.Reports.Web", "Source\Reports\ERP.Reports.Web.csproj", "{CB041969-31D3-422E-853D-59DB364A13A3}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Support", "Support", "{F347FBD9-FA3A-4594-9007-CE87DC9CC9E8}"
 EndProject
@@ -13,17 +13,17 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Models.BasicSetup", "..\Bas
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services.BasicSetup", "..\Basic Setup\Services.BasicSetup\Services.BasicSetup.csproj", "{2CB98992-0690-49D2-9ADE-DB76D5D77C73}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services.Reports", "Services.Reports\Services.Reports.csproj", "{9FD04BE7-A826-478E-A2A8-6A8B63E78532}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ERP.Reports.Services", "Services.Reports\ERP.Reports.Services.csproj", "{9FD04BE7-A826-478E-A2A8-6A8B63E78532}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Models.Reports", "Models.Reports\Models.Reports.csproj", "{0ECF9F56-7121-46E9-B3ED-88DC6280AFEE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ERP.Reports.Models", "Models.Reports\ERP.Reports.Models.csproj", "{0ECF9F56-7121-46E9-B3ED-88DC6280AFEE}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Logger", "..\..\Components\Logger\Source\Logger.csproj", "{A68B18D0-67D6-414F-B38D-D4C7EDEB3907}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExceptionHandler", "..\..\Components\ExceptionHandler\Source\ExceptionHandler.csproj", "{82C76499-AD09-4F11-972C-485D76DF396C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DocumentPrint", "DocumentPrint\DocumentPrint.csproj", "{FBE8335B-F90B-4FA1-B394-690BA9CBFCE7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ERP.Reports.DocumentPrint", "DocumentPrint\ERP.Reports.DocumentPrint.csproj", "{FBE8335B-F90B-4FA1-B394-690BA9CBFCE7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Data", "Data\Data.csproj", "{1BA586E8-8304-4F8D-81A1-DE085B4E5D12}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ERP.Reports.Data", "Data\ERP.Reports.Data.csproj", "{1BA586E8-8304-4F8D-81A1-DE085B4E5D12}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjLib", "..\ProjLib\Source\ProjLib.csproj", "{2D5DAC81-3374-4622-A5E4-7881DC0FC77C}"
 EndProject

@@ -3,7 +3,7 @@ using System.Linq;
 using System;
 using Model;
 using System.Threading.Tasks;
-using Models.Reports.Models;
+using ERP.Reports.Models;
 using Infrastructure.IO;
 using Components.Logging;
 using Models.Reports.ViewModels;
@@ -13,7 +13,7 @@ using ProjLib.DocumentConstants;
 using Models.BasicSetup.ViewModels;
 using System.Xml.Linq;
 
-namespace Service
+namespace ERP.Reports.Services
 {
     public interface IReportLineService : IDisposable
     {

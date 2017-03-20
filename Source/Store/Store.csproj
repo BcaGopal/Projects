@@ -300,8 +300,6 @@
     <Compile Include="Controllers\ProductTypeAttributeController.cs" />
     <Compile Include="Controllers\ProductTypeController.cs" />
     <Compile Include="Controllers\RequisitionSettingsController.cs" />
-    <Compile Include="Controllers\Report_DocumentPrintController.cs" />
-    <Compile Include="Controllers\Report_ReportPrintController.cs" />
     <Compile Include="Controllers\ProductCustomGroupExcelImportController.cs" />
     <Compile Include="Controllers\StockExchangeController.cs" />
     <Compile Include="Controllers\StockIssueHeaderController.cs" />
@@ -949,6 +947,10 @@
     <None Include="Project_Readme.html" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Modules\Reports\DocumentPrint\ERP.Reports.DocumentPrint.csproj">
+      <Project>{fbe8335b-f90b-4fa1-b394-690ba9cbfce7}</Project>
+      <Name>DocumentPrint</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CustomEventHandlers\CustomEventHandlers.csproj">
       <Project>{465d7bdd-279e-4337-b291-b1ea61eac35c}</Project>
       <Name>CustomEventHandlers</Name>
@@ -980,10 +982,6 @@
     <ProjectReference Include="..\Model\Model.csproj">
       <Project>{4d4923f5-548c-4d13-859d-7f5e9699facd}</Project>
       <Name>Model</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Reports\Reports.csproj">
-      <Project>{4e0beea6-54e4-40bb-bb95-89cbd434e649}</Project>
-      <Name>Reports</Name>
     </ProjectReference>
     <ProjectReference Include="..\Service\Service.csproj">
       <Project>{bfbab8ee-be97-4467-837e-09f142f1bf44}</Project>

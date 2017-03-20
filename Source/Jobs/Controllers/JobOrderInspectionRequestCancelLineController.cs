@@ -14,7 +14,7 @@ using System.Xml.Linq;
 using DocumentEvents;
 using CustomEventArgs;
 using JobOrderInspectionRequestCancelDocumentEvents;
-using Reports.Controllers;
+using DocumentValidations;
 using Presentation.Helper;
 
 namespace Web
