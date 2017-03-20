@@ -67,13 +67,13 @@
 
     //Columns Specification
     var columns;
-    if (DrCr == CreditDebitConstants.Credit) {
+    if (DrCr == 'Credit') {
         columns = [
       { id: "LedgerAccGName", name: "Ledger A/C Group", field: "LedgerAccountGroupName", width: 800, minWidth: 150, hasTotalName: true },
       { id: "ACr", name: "Amount Cr", field: "AmtCr", cssClass: "text-right", headerCssClass: "text-right", width: 200, minWidth: 100, hasTotal: true },
         ];
     }
-    else if (DrCr == CreditDebitConstants.Debit) {
+    else if (DrCr == 'Debit') {
         columns = [
       { id: "LedgerAccGName", name: "Ledger A/C Group", field: "LedgerAccountGroupName", width: 800, minWidth: 150, hasTotalName: true },
       { id: "ADr", name: "Amount Dr", field: "AmtDr", cssClass: "text-right", headerCssClass: "text-right", width: 200, minWidth: 100, hasTotal: true }
@@ -119,8 +119,8 @@
     grid.onFooterRowCellRendered.subscribe(function (e, args) {
         if (args.column.hasTotal) {
             $(args.node).empty();
-            $("<span></span>").text((getColumnTotal(args.column.field, grid.getData())).toFixed(2))
-               .appendTo(args.node);
+            //$("<span></span>").text((getColumnTotal(args.column.field, grid.getData())).toFixed(2))
+            //   .appendTo(args.node);
             $(args.node).addClass(args.column.headerCssClass);
         }
         else if (args.column.hasTotalName) {

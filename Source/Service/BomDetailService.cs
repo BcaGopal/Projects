@@ -46,8 +46,8 @@ namespace Service
         IQueryable<DesignColourConsumptionHeaderViewModel> GetDesignColourConsumptionHeaderViewModelForIndex();
         IQueryable<ProductConsumptionHeaderViewModel> GetDesignConsumptionHeaderViewModelForIndexForProduct();
 
-        bool CheckForProductShadeExists(int ProductId, int? Dimension1Id, int BaseProductId, int BomDetailId);
-        bool CheckForProductShadeExists(int ProductId, int? Dimension1Id, int BaseProductId);
+        bool CheckForProductShadeExists(int ProductId, int? Dimension1Id, int BaseProductId, int BomDetailId, int BaseProcessId);
+        bool CheckForProductShadeExists(int ProductId, int? Dimension1Id, int BaseProductId, int BaseProcessId);
 
 
         //For Finished Product Consumtion
@@ -943,22 +943,22 @@ namespace Service
         }
 
 
-        public bool CheckForProductShadeExists(int ProductId, int? Dimension1Id, int BaseProductId, int BomDetailId)
+        public bool CheckForProductShadeExists(int ProductId, int? Dimension1Id, int BaseProductId, int BomDetailId, int BaseProcessId)
         {
 
             BomDetail temp = (from p in db.BomDetail
-                              where p.ProductId == ProductId && p.Dimension1Id == Dimension1Id && p.BaseProductId == BaseProductId && p.BomDetailId != BomDetailId
+                              where p.ProductId == ProductId && p.Dimension1Id == Dimension1Id && p.BaseProductId == BaseProductId && p.BomDetailId != BomDetailId && p.BaseProcessId == BaseProcessId
                               select p).FirstOrDefault();
             if (temp != null)
                 return true;
             else return false;
         }
 
-        public bool CheckForProductShadeExists(int ProductId, int? Dimension1Id, int BaseProductId)
+        public bool CheckForProductShadeExists(int ProductId, int? Dimension1Id, int BaseProductId, int BaseProcessId)
         {
 
             BomDetail temp = (from p in db.BomDetail
-                              where p.ProductId == ProductId && p.Dimension1Id == Dimension1Id && p.BaseProductId == BaseProductId
+                              where p.ProductId == ProductId && p.Dimension1Id == Dimension1Id && p.BaseProductId == BaseProductId && p.BaseProcessId == BaseProcessId
                               select p).FirstOrDefault();
             if (temp != null)
                 return true;

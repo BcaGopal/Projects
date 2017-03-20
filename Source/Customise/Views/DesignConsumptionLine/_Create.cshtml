@@ -236,7 +236,7 @@
                     cache: false,
                     type: "POST",
                     url: "@(Url.Action("CheckForValidation"))",
-                    data: { ProductId: $("#ProductId",'.modal-body').val(), Dimension1Id: $("#Dimension1Id",'.modal-body').val(), BaseProductId: $("#BaseProductId",'.modal-body').val() },
+                    data: { ProductId: $("#ProductId",'.modal-body').val(), Dimension1Id: $("#Dimension1Id",'.modal-body').val(), BaseProductId: $("#BaseProductId",'.modal-body').val(), BaseProcessId: $("#BaseProcessId",'.modal-body').val() },
                 success: function (data) {
                     var status = data;
                     if (data.returnvalue) {
@@ -267,7 +267,7 @@
                     cache: false,
                     type: "POST",
                     url: "@(Url.Action("CheckForValidationinEdit"))",
-                    data: { ProductId: $("#ProductId",'.modal-body').val(), Dimension1Id: $("#Dimension1Id",'.modal-body').val(), BaseProductId: $("#BaseProductId",'.modal-body').val(), BomDetailId: $("#BomDetailId",'.modal-body').val() },
+                    data: { ProductId: $("#ProductId",'.modal-body').val(), Dimension1Id: $("#Dimension1Id",'.modal-body').val(), BaseProductId: $("#BaseProductId",'.modal-body').val(), BomDetailId: $("#BomDetailId",'.modal-body').val() , BaseProcessId: $("#BaseProcessId",'.modal-body').val()},
                 success: function (data) {
                     var status = data;
                     if (data.returnvalue){
@@ -311,7 +311,7 @@
                 cache: false,
                 type: "POST",
                 url: "@(Url.Action("GetConsumptionTotalQty"))",
-                data: { BaseProductId: $("#BaseProductId",'.modal-body').val(), TotalWeight: $("#Weight",'.modal-body').val(), BomQty: $("#Qty",'.modal-body').val(), BomDetailId: $("#BomDetailId",'.modal-body').val() },
+                data: { BaseProductId: $("#BaseProductId",'.modal-body').val(), TotalWeight: $("#Weight",'.modal-body').val(), BomQty: $("#Qty",'.modal-body').val(), BomDetailId: $("#BomDetailId",'.modal-body').val(), BaseProcessId: $("#BaseProcessId",'.modal-body').val() },
             success: function (data) {
                 TotalQty = data;
             },

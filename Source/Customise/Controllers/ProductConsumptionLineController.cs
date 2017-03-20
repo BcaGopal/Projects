@@ -266,15 +266,15 @@ namespace Web
         }
 
 
-        public JsonResult CheckForValidationinEdit(int ProductId, int? Dimension1Id, int BaseProductId, int BomDetailId)
+        public JsonResult CheckForValidationinEdit(int ProductId, int? Dimension1Id, int BaseProductId, int BomDetailId, int BaseProcessId)
         {
-            var temp = (_BomDetailService.CheckForProductShadeExists(ProductId, Dimension1Id, BaseProductId, BomDetailId));
+            var temp = (_BomDetailService.CheckForProductShadeExists(ProductId, Dimension1Id, BaseProductId, BomDetailId, BaseProcessId));
             return Json(new { returnvalue = temp });
         }
 
-        public JsonResult CheckForValidation(int ProductId, int? Dimension1Id, int BaseProductId)
+        public JsonResult CheckForValidation(int ProductId, int? Dimension1Id, int BaseProductId, int BaseProcessId)
         {
-            var temp = (_BomDetailService.CheckForProductShadeExists(ProductId, Dimension1Id, BaseProductId));
+            var temp = (_BomDetailService.CheckForProductShadeExists(ProductId, Dimension1Id, BaseProductId, BaseProcessId));
             return Json(new { returnvalue = temp });
         }
     }

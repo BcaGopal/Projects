@@ -146,8 +146,32 @@ namespace Service
 
 
 
-            
-            if (pt.ProductUidId == null)
+            JobReceiveSettings jobreceivesetting = new JobReceiveSettingsService(_unitOfWork).GetJobReceiveSettingsForDocument(pt.DocTypeId, pt.DivisionId, pt.SiteId);
+
+            if (jobreceivesetting.isPostedInStockProcess == true )
+            {
+                StockProcess StockProcess = new StockProcess();
+                StockProcess.DocDate = JobReceiveHeader.DocDate;
+                //StockProcess.StockId = pt.StockId;
+                StockProcess.ProductId = pt.ProductId;
+                StockProcess.ProcessId = JobReceiveHeader.ProcessId;
+                StockProcess.GodownId = JobReceiveHeader.GodownId;
+                StockProcess.LotNo = JobReceiveLine.LotNo;
+                StockProcess.ProductUidId = JobReceiveLine.ProductUidId;
+                StockProcess.CostCenterId = JobOrderHeader.CostCenterId;
+                StockProcess.Qty_Iss = JobReceiveLine.Qty;
+                StockProcess.Qty_Rec = 0;
+                StockProcess.Remark = JobReceiveLine.Remark;
+                StockProcess.CreatedBy = JobReceiveLine.CreatedBy;
+                StockProcess.CreatedDate = JobReceiveLine.CreatedDate;
+                StockProcess.ModifiedBy = JobReceiveLine.ModifiedBy;
+                StockProcess.ModifiedDate = JobReceiveLine.ModifiedDate;
+
+                StockProcess.ObjectState = Model.ObjectState.Added;
+                db.StockProcess.Add(StockProcess);
+            }
+
+            if (pt.ProductUidId == null && jobreceivesetting.SqlProcGenProductUID !=null )
             {
                 ProductUidHeader ProductUidHeader = new ProductUidHeader();
                 ProductUidHeader.ProductId = pt.ProductId;
@@ -192,15 +216,46 @@ namespace Service
                 ProductUid.LastTransactionLineId = null;
                 ProductUid.ObjectState = Model.ObjectState.Added;
                 db.ProductUid.Add(ProductUid);
-
-                JobReceiveLine.ProductUidId = ProductUid.ProductUIDId;
-                Stock.ProductUidId = ProductUid.ProductUIDId;
+                JobReceiveLine.ProductUidId = JobOrderLine.ProductUidId != null ? JobOrderLine.ProductUidId : ProductUid.ProductUIDId;
+                Stock.ProductUidId = JobOrderLine.ProductUidId != null ? JobOrderLine.ProductUidId : ProductUid.ProductUIDId;
             }
             else
             {
-                JobReceiveLine.ProductUidId = pt.ProductUidId;
-                Stock.ProductUidId = pt.ProductUidId;
+
+
+                if (JobOrderLine.ProductUidId != null)
+                {
+                    ProductUid ProductUid = db.ProductUid.Find(JobOrderLine.ProductUidId);
+
+                    JobReceiveLine.ProductUidLastTransactionDocId = ProductUid.LastTransactionDocId;
+                    JobReceiveLine.ProductUidLastTransactionDocDate = ProductUid.LastTransactionDocDate;
+                    JobReceiveLine.ProductUidLastTransactionDocNo = ProductUid.LastTransactionDocNo;
+                    JobReceiveLine.ProductUidLastTransactionDocTypeId = ProductUid.LastTransactionDocTypeId;
+                    JobReceiveLine.ProductUidLastTransactionPersonId = ProductUid.LastTransactionPersonId;
+                    JobReceiveLine.ProductUidStatus = ProductUid.Status;
+                    JobReceiveLine.ProductUidCurrentProcessId = ProductUid.CurrenctProcessId;
+                    JobReceiveLine.ProductUidCurrentGodownId = ProductUid.CurrenctGodownId;
+
+
+                    ProductUid.ModifiedBy = UserName;
+                    ProductUid.ModifiedDate = DateTime.Now;
+                    ProductUid.CurrenctProcessId = JobReceiveHeader.ProcessId;
+                    ProductUid.CurrenctGodownId = JobReceiveHeader.GodownId;
+                    ProductUid.Status = ProductUidStatusConstants.Receive;
+                    ProductUid.LastTransactionDocId = JobReceiveHeader.JobReceiveHeaderId;
+                    ProductUid.LastTransactionDocNo = JobReceiveHeader.DocNo;
+                    ProductUid.LastTransactionDocTypeId = JobReceiveHeader.DocTypeId;
+                    ProductUid.LastTransactionDocDate = JobReceiveHeader.DocDate;
+                    ProductUid.LastTransactionPersonId = JobReceiveHeader.JobWorkerId;
+                    ProductUid.LastTransactionLineId = null;
+                    ProductUid.ObjectState = Model.ObjectState.Modified;
+                    db.ProductUid.Add(ProductUid);
+                }
+
+                JobReceiveLine.ProductUidId = JobOrderLine.ProductUidId != null ? JobOrderLine.ProductUidId : pt.ProductUidId;
+                Stock.ProductUidId = JobOrderLine.ProductUidId != null ? JobOrderLine.ProductUidId : pt.ProductUidId;
             }
+
 
 
 
@@ -297,6 +352,7 @@ namespace Service
 
             return JobReceiveHeader;
         }
+
 
         public void Update(WeavingReceiveQACombinedViewModel pt, string UserName)
         {
@@ -571,6 +627,8 @@ namespace Service
 
         public void Delete(int id)//JobReceiveHeaderId
         {
+            int MainSiteId = (from S in db.Site where S.SiteCode == "MAIN" select S).FirstOrDefault().SiteId;
+
             JobReceiveHeader JobReceiveHeader = db.JobReceiveHeader.Find(id);
             int StockHeaderId = (int)JobReceiveHeader.StockHeaderId;
             int ProductUidHeaderId = 0;
@@ -586,6 +644,63 @@ namespace Service
             IEnumerable<JobReceiveLine> JobReceiveLineList = (from L in db.JobReceiveLine where L.JobReceiveHeaderId == id select L).ToList();
             foreach (JobReceiveLine JobReceiveLine in JobReceiveLineList)
             {
+
+
+
+                ProductUid ProductUid = (from p in db.ProductUid
+                                         where p.ProductUIDId == JobReceiveLine.ProductUidId
+                                         select p).FirstOrDefault();
+
+                if (JobReceiveLine.ProductUidId != null && JobReceiveLine.ProductUidId != 0)
+                {
+                    if (!(JobReceiveLine.ProductUidLastTransactionDocNo == ProductUid.LastTransactionDocNo && JobReceiveLine.ProductUidLastTransactionDocTypeId == ProductUid.LastTransactionDocTypeId) || JobReceiveHeader.SiteId == MainSiteId)
+                    {
+
+
+                        if ((JobReceiveHeader.DocNo != ProductUid.LastTransactionDocNo || JobReceiveHeader.DocTypeId != ProductUid.LastTransactionDocTypeId))
+                        {
+                            //ModelState.AddModelError("", "Bar Code Can't be deleted because this is already transfered to another process.");
+                            //PrepareViewBag(vm);
+                            //return PartialView("_Create", vm);
+                        }
+
+                        if (JobReceiveLine.ProductUidHeaderId == null || JobReceiveLine.ProductUidHeaderId == 0)
+                        {
+                            ProductUid.LastTransactionDocDate = JobReceiveLine.ProductUidLastTransactionDocDate;
+                            ProductUid.LastTransactionDocId = JobReceiveLine.ProductUidLastTransactionDocId;
+                            ProductUid.LastTransactionDocNo = JobReceiveLine.ProductUidLastTransactionDocNo;
+                            ProductUid.LastTransactionDocTypeId = JobReceiveLine.ProductUidLastTransactionDocTypeId;
+                            ProductUid.LastTransactionPersonId = JobReceiveLine.ProductUidLastTransactionPersonId;
+                            ProductUid.CurrenctGodownId = JobReceiveLine.ProductUidCurrentGodownId;
+                            ProductUid.CurrenctProcessId = JobReceiveLine.ProductUidCurrentProcessId;
+                            ProductUid.Status = JobReceiveLine.ProductUidStatus;
+
+                            ProductUid.ObjectState = Model.ObjectState.Modified;
+                            db.ProductUid.Add(ProductUid);
+
+                            new StockUidService(_unitOfWork).DeleteStockUidForDocLineDB(JobReceiveHeader.JobReceiveHeaderId, JobReceiveHeader.DocTypeId, JobReceiveHeader.SiteId, JobReceiveHeader.DivisionId, ref db);
+                        }
+                    }
+                    else
+                    {
+                        var MainJobRec = (from p in db.JobReceiveLine
+                                          join t in db.JobReceiveHeader on p.JobReceiveHeaderId equals t.JobReceiveHeaderId
+                                          join d in db.DocumentType on t.DocTypeId equals d.DocumentTypeId
+                                          where p.ProductUidId == JobReceiveLine.ProductUidId && t.SiteId != JobReceiveHeader.SiteId && d.DocumentTypeName == TransactionDoctypeConstants.WeavingBazarHalfTuft
+                                          && p.LockReason != null
+                                          select p).ToList().LastOrDefault();
+
+                        if (MainJobRec != null)
+                        {
+                            MainJobRec.LockReason = null;
+                            MainJobRec.ObjectState = Model.ObjectState.Modified;
+                            db.JobReceiveLine.Add(MainJobRec);
+                        }
+                    }
+                }
+
+
+
                 ProductUidHeaderId = JobReceiveLine.ProductUidHeaderId ?? 0;
                 IEnumerable<JobReceiveQALine> JobReceiveQALineList = (from L in db.JobReceiveQALine where L.JobReceiveLineId == JobReceiveLine.JobReceiveLineId select L).ToList();
 
@@ -674,6 +789,7 @@ namespace Service
                 ProductUidHeader.ObjectState = ObjectState.Deleted;
                 db.ProductUidHeader.Remove(ProductUidHeader);
             }
+
         }
 
 
@@ -731,6 +847,8 @@ namespace Service
                  var list = (from p in db.ViewJobOrderBalance
                         join t in db.JobOrderHeader on p.JobOrderHeaderId equals t.JobOrderHeaderId
                         join t2 in db.JobOrderLine on p.JobOrderLineId equals t2.JobOrderLineId
+                        join PU in db.ProductUid on t2.ProductUidId equals PU.ProductUIDId into PUTable
+                        from PUTab in PUTable.DefaultIfEmpty()
                         join pt in db.Product on p.ProductId equals pt.ProductId into ProductTable
                         from ProductTab in ProductTable.DefaultIfEmpty()
                         join JW in db.Persons on t.JobWorkerId equals JW.PersonID into JWTable
@@ -754,6 +872,7 @@ namespace Service
                         || (string.IsNullOrEmpty(term) ? 1 == 1 : ProductTab.ProductName.ToLower().Contains(term.ToLower()))
                         || (string.IsNullOrEmpty(term) ? 1 == 1 : Dimension1Tab.Dimension1Name.ToLower().Contains(term.ToLower()))
                         || (string.IsNullOrEmpty(term) ? 1 == 1 : Dimension2Tab.Dimension2Name.ToLower().Contains(term.ToLower()))
+                        || (string.IsNullOrEmpty(term) ? 1 == 1 : (settings.isVisibleProductUID == true && settings.SqlProcGenProductUID == null ? "Product UID: " + PUTab.ProductUidName.ToString() : "BalQty: " + p.BalanceQty.ToString()).ToLower().Contains(term.ToLower()))
                         || (string.IsNullOrEmpty(term) ? 1 == 1 : (PGTab.ProductGroupName.ToString().Replace("-", "") + "-" + (t2.DealUnitId == "MT2" ? SCTab.SizeName.ToString() : RSTab.ManufaturingSizeName.ToString()) + "-" + CTab.ColourName.ToString()).Contains(term.ToLower())))
                         && (string.IsNullOrEmpty(settings.filterContraSites) ? p.SiteId == CurrentSiteId : contraSites.Contains(p.SiteId.ToString()))
                         && (string.IsNullOrEmpty(settings.filterContraDivisions) ? p.DivisionId == CurrentDivisionId : contraDivisions.Contains(p.DivisionId.ToString()))
@@ -766,7 +885,7 @@ namespace Service
                             TextProp1 = "Order Product: " + PGTab.ProductGroupName.ToString().Replace("-","")+"-"+ (t2.DealUnitId== "MT2"? SCTab.SizeName.ToString() : RSTab.ManufaturingSizeName.ToString())  + "-" + CTab.ColourName.ToString(),
                             TextProp2 = "Order No: " + p.JobOrderNo.ToString(),
                             AProp1 = "Job Worker: " + JWTab.Name,
-                            AProp2 = "BalQty: " + p.BalanceQty.ToString(),
+                            AProp2 = settings.isVisibleProductUID==true && settings.SqlProcGenProductUID == null ? "Product UID: " + PUTab.ProductUidName.ToString() : "BalQty: " + p.BalanceQty.ToString(),
                         });
             return list;
         }
