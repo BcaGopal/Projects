@@ -221,12 +221,27 @@ namespace Service
             }
             else
             {
-
+                ProductUid ProductUid;
 
                 if (JobOrderLine.ProductUidId != null)
                 {
-                    ProductUid ProductUid = db.ProductUid.Find(JobOrderLine.ProductUidId);
+                    ProductUid = db.ProductUid.Find(JobOrderLine.ProductUidId);
 
+                }
+                else
+                {
+                    ProductUid = db.ProductUid.Find(pt.ProductUidId);
+
+                }
+
+                //if (pt.ProductUidId != null)
+                //{
+                //    ProductUid = db.ProductUid.Find(pt.ProductUidId);
+
+                //}
+
+                if (ProductUid != null)
+                {
                     JobReceiveLine.ProductUidLastTransactionDocId = ProductUid.LastTransactionDocId;
                     JobReceiveLine.ProductUidLastTransactionDocDate = ProductUid.LastTransactionDocDate;
                     JobReceiveLine.ProductUidLastTransactionDocNo = ProductUid.LastTransactionDocNo;
