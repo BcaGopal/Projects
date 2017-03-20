@@ -72,6 +72,9 @@ namespace Model.Models
         public int? DefaultProcessId { get; set; }
         public virtual Process DefaultProcess { get; set; }
 
+
+
+
         [Display(Name = "Created By")]
         public string CreatedBy { get; set; }
 

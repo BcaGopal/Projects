@@ -657,6 +657,8 @@ namespace Web
                     pd.Status = (int)StatusConstants.Submitted;
                     ActivityType = (int)ActivityTypeContants.Submitted;
 
+                    var settings = new JobInvoiceSettingsService(_unitOfWork).GetJobInvoiceSettingsForDocument(pd.DocTypeId, pd.DivisionId, pd.SiteId);
+
 
                     #region "Ledger Posting"
 
@@ -683,7 +685,15 @@ namespace Web
 
                     try
                     {
-                        new CalculationService(_unitOfWork).LedgerPostingDB(ref LedgerHeaderViewModel, JobInvoiceHeaderCharges, JobInvoiceLineCharges, ref db);
+                        if (settings.isLedgerPostingLineWise == true)
+                        {
+                            LedgerPostingDBLineWise(ref LedgerHeaderViewModel, JobInvoiceHeaderCharges, JobInvoiceLineCharges, ref db);
+                        }
+                        else
+                        {
+                            new CalculationService(_unitOfWork).LedgerPostingDB(ref LedgerHeaderViewModel, JobInvoiceHeaderCharges, JobInvoiceLineCharges, ref db);
+                        }
+
                     }
                     catch (Exception ex)
                     {
@@ -1412,6 +1422,11 @@ namespace Web
         }
 
         #endregion submitValidation
+
+        public ActionResult GetSummary(int id)
+        {
+            return Redirect(System.Configuration.ConfigurationManager.AppSettings["CustomizeDomain"] + "/WeavingInvoice/GetSummary/" + id);
+        }
         protected override void Dispose(bool disposing)
         {
             if (!string.IsNullOrEmpty((string)TempData["CSEXC"]))
@@ -1426,5 +1441,195 @@ namespace Web
             }
             base.Dispose(disposing);
         }
+
+        public void LedgerPostingDBLineWise(ref LedgerHeaderViewModel LedgerHeaderViewModel, IEnumerable<JobInvoiceHeaderCharge> HeaderTable, IEnumerable<JobInvoiceLineCharge> LineTable, ref ApplicationDbContext Context)
+        {
+            int PersonAccountId = 6612;
+            int LedgerHeaderId = 0;
+
+            if (LedgerHeaderViewModel.LedgerHeaderId == 0)
+            {
+                LedgerHeader LedgerHeader = new LedgerHeader();
+
+                LedgerHeader.DocTypeId = LedgerHeaderViewModel.DocTypeId;
+                LedgerHeader.DocDate = LedgerHeaderViewModel.DocDate;
+                LedgerHeader.DocNo = LedgerHeaderViewModel.DocNo;
+                LedgerHeader.DivisionId = LedgerHeaderViewModel.DivisionId;
+                LedgerHeader.SiteId = LedgerHeaderViewModel.SiteId;
+                LedgerHeader.Narration = LedgerHeaderViewModel.Narration;
+                LedgerHeader.Remark = LedgerHeaderViewModel.Remark;
+                LedgerHeader.CreatedBy = LedgerHeaderViewModel.CreatedBy;
+                LedgerHeader.ProcessId = LedgerHeaderViewModel.ProcessId;
+                LedgerHeader.CreatedDate = DateTime.Now.Date;
+                LedgerHeader.ModifiedBy = LedgerHeaderViewModel.ModifiedBy;
+                LedgerHeader.ModifiedDate = DateTime.Now.Date;
+                LedgerHeader.ObjectState = Model.ObjectState.Added;
+                Context.LedgerHeader.Add(LedgerHeader);
+                //new LedgerHeaderService(_unitOfWork).Create(LedgerHeader);
+            }
+            else
+            {
+
+                int LedHeadId = LedgerHeaderViewModel.LedgerHeaderId;
+                LedgerHeader LedgerHeader = (from p in Context.LedgerHeader
+                                             where p.LedgerHeaderId == LedHeadId
+                                             select p).FirstOrDefault();
+
+                LedgerHeader.DocTypeId = LedgerHeaderViewModel.DocTypeId;
+                LedgerHeader.DocDate = LedgerHeaderViewModel.DocDate;
+                LedgerHeader.DocNo = LedgerHeaderViewModel.DocNo;
+                LedgerHeader.DivisionId = LedgerHeaderViewModel.DivisionId;
+                LedgerHeader.ProcessId = LedgerHeaderViewModel.ProcessId;
+                LedgerHeader.SiteId = LedgerHeaderViewModel.SiteId;
+                LedgerHeader.Narration = LedgerHeaderViewModel.Narration;
+                LedgerHeader.Remark = LedgerHeaderViewModel.Remark;
+                LedgerHeader.ModifiedBy = LedgerHeaderViewModel.ModifiedBy;
+                LedgerHeader.ModifiedDate = DateTime.Now.Date;
+                LedgerHeader.ObjectState = Model.ObjectState.Modified;
+                Context.LedgerHeader.Add(LedgerHeader);
+                //new LedgerHeaderService(_unitOfWork).Update(LedgerHeader);
+
+                IEnumerable<Ledger> LedgerList = (from p in Context.Ledger
+                                                  where p.LedgerHeaderId == LedHeadId
+                                                  select p).ToList();
+                foreach (Ledger item in LedgerList)
+                {
+                    item.ObjectState = Model.ObjectState.Deleted;
+                    Context.Ledger.Remove(item);
+                    //new LedgerService(_unitOfWork).Delete(item);
+                }
+
+                LedgerHeaderId = LedgerHeader.LedgerHeaderId;
+            }
+
+
+            IEnumerable<LedgerPostingViewModel> LedgerHeaderAmtDr = (from H in HeaderTable
+                                                                     join A in Context.LedgerAccount on H.PersonID equals A.PersonId into LedgerAccountTable
+                                                                     from LedgerAccountTab in LedgerAccountTable.DefaultIfEmpty()
+                                                                     where H.LedgerAccountDrId != null && H.Amount != 0 && H.Amount != null
+                                                                     select new LedgerPostingViewModel
+                                                                     {
+                                                                         LedgerAccountId = (int)(H.LedgerAccountDrId == PersonAccountId ? LedgerAccountTab.LedgerAccountId : H.LedgerAccountDrId),
+                                                                         ContraLedgerAccountId = (H.LedgerAccountCrId == PersonAccountId ? LedgerAccountTab.LedgerAccountId : H.LedgerAccountCrId),
+                                                                         CostCenterId = H.CostCenterId,
+                                                                         AmtDr = Math.Abs((H.Amount > 0 ? H.Amount : 0) ?? 0),
+                                                                         AmtCr = Math.Abs((H.Amount < 0 ? H.Amount : 0) ?? 0)
+                                                                     }).ToList();
+
+            IEnumerable<LedgerPostingViewModel> LedgerHeaderAmtCr = (from H in HeaderTable
+                                                                     join A in Context.LedgerAccount on H.PersonID equals A.PersonId into LedgerAccountTable
+                                                                     from LedgerAccountTab in LedgerAccountTable.DefaultIfEmpty()
+                                                                     where H.LedgerAccountCrId != null && H.Amount != 0 && H.Amount != null
+                                                                     select new LedgerPostingViewModel
+                                                                     {
+                                                                         LedgerAccountId = (int)(H.LedgerAccountCrId == PersonAccountId ? LedgerAccountTab.LedgerAccountId : H.LedgerAccountCrId),
+                                                                         ContraLedgerAccountId = (H.LedgerAccountDrId == PersonAccountId ? LedgerAccountTab.LedgerAccountId : H.LedgerAccountDrId),
+                                                                         CostCenterId = H.CostCenterId,
+                                                                         AmtCr = Math.Abs((H.Amount > 0 ? H.Amount : 0) ?? 0),
+                                                                         AmtDr = Math.Abs((H.Amount < 0 ? H.Amount : 0) ?? 0)
+                                                                     }).ToList();
+
+            IEnumerable<LedgerPostingViewModel> LedgerLineAmtDr = (from L in LineTable
+                                                                   join A in Context.LedgerAccount on L.PersonID equals A.PersonId into LedgerAccountTable
+                                                                   from LedgerAccountTab in LedgerAccountTable.DefaultIfEmpty()
+                                                                   where L.LedgerAccountDrId != null && L.Amount != 0 && L.Amount != null
+                                                                   select new LedgerPostingViewModel
+                                                                   {
+                                                                       LedgerAccountId = (int)(L.LedgerAccountDrId == PersonAccountId ? LedgerAccountTab.LedgerAccountId : L.LedgerAccountDrId),
+                                                                       ContraLedgerAccountId = (L.LedgerAccountCrId == PersonAccountId ? LedgerAccountTab.LedgerAccountId : L.LedgerAccountCrId),
+                                                                       CostCenterId = L.CostCenterId,
+                                                                       AmtDr = Math.Abs((L.Amount > 0 ? L.Amount : 0) ?? 0),
+                                                                       AmtCr = Math.Abs((L.Amount < 0 ? L.Amount : 0) ?? 0),
+                                                                       ReferenceDocLineId = L.LineTableId
+                                                                   }).ToList();
+
+            IEnumerable<LedgerPostingViewModel> LedgerLineAmtCr = (from L in LineTable
+                                                                   join A in Context.LedgerAccount on L.PersonID equals A.PersonId into LedgerAccountTable
+                                                                   from LedgerAccountTab in LedgerAccountTable.DefaultIfEmpty()
+                                                                   where L.LedgerAccountCrId != null && L.Amount != 0 && L.Amount != null
+                                                                   select new LedgerPostingViewModel
+                                                                   {
+                                                                       LedgerAccountId = (int)(L.LedgerAccountCrId == PersonAccountId ? LedgerAccountTab.LedgerAccountId : L.LedgerAccountCrId),
+                                                                       ContraLedgerAccountId = (L.LedgerAccountDrId == PersonAccountId ? LedgerAccountTab.LedgerAccountId : L.LedgerAccountDrId),
+                                                                       CostCenterId = L.CostCenterId,
+                                                                       AmtCr = Math.Abs((L.Amount > 0 ? L.Amount : 0) ?? 0),
+                                                                       AmtDr = Math.Abs((L.Amount < 0 ? L.Amount : 0) ?? 0),
+                                                                       ReferenceDocLineId = L.LineTableId
+                                                                   }).ToList();
+
+
+            IEnumerable<LedgerPostingViewModel> LedgerCombind = LedgerHeaderAmtDr.Union(LedgerHeaderAmtCr).Union(LedgerLineAmtDr).Union(LedgerLineAmtCr).ToList();
+
+            IEnumerable<LedgerPostingViewModel> LedgerPost = (from L in LedgerCombind
+                                                              select new LedgerPostingViewModel
+                                                              {
+                                                                  LedgerAccountId = L.LedgerAccountId,
+                                                                  ContraLedgerAccountId = L.ContraLedgerAccountId,
+                                                                  CostCenterId = L.CostCenterId,
+                                                                  AmtDr = L.AmtDr,
+                                                                  AmtCr = L.AmtCr,
+                                                                  ReferenceDocLineId = L.ReferenceDocLineId
+                                                              }).ToList();
+
+
+            var temp = (from L in LedgerPost
+                        group L by 1 into Result
+                        select new
+                        {
+                            AmtDr = Result.Sum(i => i.AmtDr),
+                            AmtCr = Result.Sum(i => i.AmtCr)
+                        }).FirstOrDefault();
+
+
+            if (temp != null)
+            {
+                if (temp.AmtDr != temp.AmtCr)
+                {
+                    throw new Exception("Debit amount and credit amount is not equal.Check account posting.");
+                }
+            }
+
+
+
+            foreach (LedgerPostingViewModel item in LedgerPost)
+            {
+                Ledger Ledger = new Ledger();
+
+                if (LedgerHeaderId != 0)
+                {
+                    Ledger.LedgerHeaderId = LedgerHeaderId;
+                }
+                Ledger.LedgerAccountId = item.LedgerAccountId;
+                Ledger.ContraLedgerAccountId = item.ContraLedgerAccountId;
+
+
+                var TempCostCenter = (from C in Context.CostCenter
+                                      where C.CostCenterId == item.CostCenterId && C.LedgerAccountId == item.LedgerAccountId
+                                      select new { CostCenterId = C.CostCenterId }).FirstOrDefault();
+
+                if (TempCostCenter != null)
+                {
+                    Ledger.CostCenterId = item.CostCenterId;
+                    Ledger.ReferenceDocLineId = item.ReferenceDocLineId;
+                    Ledger.ReferenceDocTypeId = LedgerHeaderViewModel.DocTypeId;
+                }
+
+
+
+
+
+                Ledger.AmtDr = item.AmtDr * (LedgerHeaderViewModel.ExchangeRate ?? 1);
+                Ledger.AmtCr = item.AmtCr * (LedgerHeaderViewModel.ExchangeRate ?? 1);
+                Ledger.Narration = "";
+
+                //new LedgerService(_unitOfWork).Create(Ledger);
+                Ledger.ObjectState = Model.ObjectState.Added;
+                Context.Ledger.Add(Ledger);
+            }
+        }
+
     }
+
+
+
 }

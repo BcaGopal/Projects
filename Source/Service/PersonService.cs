@@ -385,6 +385,18 @@ namespace Service
                         Personviewmodel.PersonRegistrationPanNoID = item.PersonRegistrationId;
                         Personviewmodel.PanNo = item.RregistrationNo;
                     }
+
+                    if (item.RregistrationType == PersonRegistrationType.CstNo)
+                    {
+                        Personviewmodel.PersonRegistrationCstNoID = item.PersonRegistrationId;
+                        Personviewmodel.CstNo = item.RregistrationNo;
+                    }
+
+                    if (item.RregistrationType == PersonRegistrationType.TinNo)
+                    {
+                        Personviewmodel.PersonRegistrationTinNoID = item.PersonRegistrationId;
+                        Personviewmodel.TinNo = item.RregistrationNo;
+                    }
                 }
             }
 

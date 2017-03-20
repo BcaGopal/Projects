@@ -96,7 +96,9 @@ namespace Model.ViewModels
 
         public int AccountId { get; set; }
         public string Tags { get; set; }
-        public int PersonRegistrationPanNoID { get; set; }
+        public int? PersonRegistrationPanNoID { get; set; }
+        public int? PersonRegistrationCstNoID { get; set; }
+        public int? PersonRegistrationTinNoID { get; set; }
 
         [MaxLength(100)]
         public string ImageFolderName { get; set; }

@@ -15,9 +15,9 @@ namespace Model.Models
         [Key]
         public int LedgerAdjId { get; set; }
 
-        [Display(Name = "Ledger Id"), Required]
+        [Display(Name = "Ledger Id")]
         [ForeignKey("Ledger")]
-        public int LedgerId { get; set; }
+        public int? LedgerId { get; set; }
         public virtual Ledger Ledger { get; set; }
 
         [Display(Name = "Debit Ledger Id")]

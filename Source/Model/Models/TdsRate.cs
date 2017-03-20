@@ -27,6 +27,12 @@ namespace Model.Models
 
         public Decimal Percentage { get; set; }
 
+        [Display(Name = "LedgerAccount")]
+        [ForeignKey("LedgerAccount")]
+        public int? LedgerAccountId { get; set; }
+        public virtual LedgerAccount LedgerAccount { get; set; }
+
+
         [Display(Name = "Created By")]
         public string CreatedBy { get; set; }
 

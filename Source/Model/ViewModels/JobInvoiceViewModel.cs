@@ -273,5 +273,31 @@ namespace Model.ViewModel
 
     }
 
+    public class JobInvoiceSummaryDetailViewModel
+    {
+        public List<JobInvoiceSummaryViewModel> JobInvoiceSummaryViewModel { get; set; }
+        public int JobInvoiceHeaderId { get; set; }
+        public DateTime DocDate { get; set; }
+        public string DocNo { get; set; }
+    }
+
+    public class JobInvoiceSummaryViewModel
+    {
+        public int JobInvoiceLineId { get; set; }
+        public int ProductUidId { get; set; }
+        public string ProductUidName { get; set; }
+        public int CostCenterId { get; set; }
+        public string CostCenterName { get; set; }
+        public int PersonId { get; set; }
+        public string PersonName { get; set; }
+        public Decimal InvoiceAmount { get; set; }
+        public Decimal AdvanceAmount { get; set; }
+        public Decimal TdsAmount { get; set; }
+        public Decimal AdvanceAdjusted { get; set; }
+        public Decimal TdsAdjusted { get; set; }
+        public Decimal TanaAmount { get; set; }
+        public bool ValidationError { get; set; }
+    }
+
 
 }

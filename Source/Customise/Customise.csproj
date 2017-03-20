@@ -1232,10 +1232,10 @@
     <Content Include="Views\ReportHeader\_Reason.cshtml" />
     <Content Include="Views\SaleInvoiceHeader\DocumentTypeList.cshtml" />
     <Content Include="Views\Shared\Notifications.cshtml" />
-    <Content Include="Views\DyeingOrderWizard\Createx.cshtml" />
-    <Content Include="Views\DyeingOrderWizard\Index.cshtml" />
-    <Content Include="Views\DyeingOrderWizard\CreateDyeingOrder.cshtml" />
-    <Content Include="Views\DyeingOrderWizard\Create.cshtml" />
+    <Content Include="Views\DyeingReceiveExcelImport\DyeingOrderWizard\Createx.cshtml" />
+    <Content Include="Views\DyeingReceiveExcelImport\DyeingOrderWizard\Index.cshtml" />
+    <Content Include="Views\DyeingReceiveExcelImport\DyeingOrderWizard\CreateDyeingOrder.cshtml" />
+    <Content Include="Views\DyeingReceiveExcelImport\DyeingOrderWizard\Create.cshtml" />
     <Content Include="Views\WeavingReceive\Summary.cshtml" />
     <Content Include="Views\WeavingReceive\Create.cshtml" />
     <Content Include="Views\JobReceiveTextImport\Error.cshtml" />
@@ -1321,7 +1321,7 @@
     <Content Include="Views\DyeingInvoiceExcelImport\Index.cshtml" />
     <Content Include="Views\DyeingInvoiceExcelImport\Sucess.cshtml" />
     <Content Include="Views\DesignConsumptionLine\_EditWithSKU.cshtml" />
-    <Content Include="Views\DyeingOrderWizard\SummarizeProdOrders.cshtml" />
+    <Content Include="Views\DyeingReceiveExcelImport\DyeingOrderWizard\SummarizeProdOrders.cshtml" />
     <Content Include="Views\PackingBarcodeImport\Error.cshtml" />
     <Content Include="Views\PackingBarcodeImport\Index.cshtml" />
     <Content Include="Views\PackingBarcodeImport\Sucess.cshtml" />
@@ -1388,6 +1388,7 @@
     <Content Include="Views\JobReceiveQaPenalty\_Create.cshtml" />
     <Content Include="Views\WeavingReceiveQACombined\PendingRateUpdationIndex.cshtml" />
     <Content Include="Views\WeavingReceiveQACombined\PendingToImportFromBranch.cshtml" />
+    <Content Include="Views\WeavingInvoice\Summary.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

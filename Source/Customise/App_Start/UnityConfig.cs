@@ -256,6 +256,12 @@ namespace Customise.App_Start
 
             container.RegisterType<ISaleInvoiceLineChargeService, SaleInvoiceLineChargeService>(new PerRequestLifetimeManager());
 
+            container.RegisterType<IRepository<JobInvoiceHeader>, Repository<JobInvoiceHeader>>();
+            container.RegisterType<IJobInvoiceHeaderService, JobInvoiceHeaderService>(new PerRequestLifetimeManager());
+
+            container.RegisterType<IRepository<JobInvoiceLine>, Repository<JobInvoiceLine>>();
+            container.RegisterType<IJobInvoiceLineService, JobInvoiceLineService>(new PerRequestLifetimeManager());
+
             container.RegisterType<IRepository<JobReceiveLine>, Repository<JobReceiveLine>>();
             container.RegisterType<IJobReceiveLineService, JobReceiveLineService>(new PerRequestLifetimeManager());
 

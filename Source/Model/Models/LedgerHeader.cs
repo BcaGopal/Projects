@@ -79,6 +79,13 @@ namespace Model.Models
         [Display(Name = "Lock Reason")]
         public string LockReason { get; set; }
 
+        [ForeignKey("ReferenceDocType"), Display(Name = "ReferenceDocType")]
+        public int? ReferenceDocTypeId { get; set; }
+        public virtual DocumentType ReferenceDocType { get; set; }
+
+        public int? ReferenceDocId { get; set; }
+
+
         [MaxLength(20)]
         public string AdjustmentType { get; set; }
         public int? ReviewCount { get; set; }

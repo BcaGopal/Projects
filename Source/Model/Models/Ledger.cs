@@ -62,6 +62,13 @@ namespace Model.Models
         public int? ProductUidId { get; set; }
         public virtual ProductUid ProductUid { get; set; }
 
+        [ForeignKey("ReferenceDocType")]
+        public int? ReferenceDocTypeId { get; set; }
+        public virtual DocumentType ReferenceDocType { get; set; }
+
+        public int? ReferenceDocLineId { get; set; }
+
+
 
         [MaxLength(50)]
         public string OMSId { get; set; }

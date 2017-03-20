@@ -40,6 +40,7 @@ namespace Model.Models
         public bool? isPostedInStockProcess { get; set; }
         public bool? isPostedInStockVirtual { get; set; }
         public bool? isAutoCreateJobReceive { get; set; }
+        public bool? isLedgerPostingLineWise { get; set; }
 
         /// <summary>
         /// DocId will be passed as a parameter in specified procedure.
