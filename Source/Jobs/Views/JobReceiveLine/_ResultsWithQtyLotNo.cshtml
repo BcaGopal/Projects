@@ -94,7 +94,7 @@
                                                 @Html.HiddenFor(m => Model.JobReceiveLineViewModel[i].JobReceiveHeaderId)
                                                 @Html.HiddenFor(m => Model.JobReceiveLineViewModel[i].JobOrderHeaderDocNo)
                                                 @Html.HiddenFor(m => Model.JobReceiveLineViewModel[i].OrderBalanceQty)
-                                                @Html.HiddenFor(m => Model.JobReceiveLineViewModel[i].DocQty)
+                                                @*@Html.HiddenFor(m => Model.JobReceiveLineViewModel[i].DocQty)*@
                                                 @*@Html.HiddenFor(m => Model.JobReceiveLineViewModel[i].LossQty)
                                                 @Html.HiddenFor(m => Model.JobReceiveLineViewModel[i].PassQty)*@
                                                 @Html.HiddenFor(m => Model.JobReceiveLineViewModel[i].UnitId)
@@ -134,7 +134,10 @@
                                                             @*<input type="hidden" value="@Model.JobReceiveLineViewModel[i].OrderBalanceQty" class="OrderBalanceQty" />*@
                                                         </div>
 
-
+                                                        <div class='block text-right pull-middle' style='width: 0%; visibility: hidden'>
+                                                            @Html.TextBoxFor(m => Model.JobReceiveLineViewModel[i].DocQty, new { @class = "form-control multiple-modal text-right JobQuantity" })
+                                                            @Html.ValidationMessageFor(m => m.JobReceiveLineViewModel[i].DocQty)
+                                                        </div>
                                                         
                                                         <div class='block text-right pull-middle' style='width:20%'>
                                                             @Html.TextBoxFor(m => Model.JobReceiveLineViewModel[i].ReceiveQty, new { @class = "form-control multiple-modal text-right Quantity ReceiveQty" })
@@ -242,7 +245,9 @@
             //alert($Block.find('.PassQty').val());
 
             var qty = parseFloat($(this).val());
-            alert(qty);
+        //alert(qty);
+
+            $Block.find('.JobQuantity').val(qty);
 
             if ($Block.find('.LossQty').val() == 0) {
                 //$Block.find('.ReceiveQty').val(qty.toFixed(DecPlaces));
@@ -253,7 +258,7 @@
                 $Block.find('.PassQty').val(qty.toFixed(DecPlaces));
             }
 
-            alert($Block.find('.PassQty').val());
+        //alert($Block.find('.JobQuantity').val());
 
             ValidateData(this);
     })
@@ -350,7 +355,6 @@
     });
 
     $('.ToOrder').click(function () {
-
         var $Hidiv = $(this).closest('div.row.crow');
 
 
@@ -361,7 +365,6 @@
 
         var OrderQty = parseFloat($div.find('#ProdQty').text()) || 0;
 
-
         if ($div.find('input.ReceiveQty').val() && $div.find('input.ReceiveQty').val() > 0) {
             $div.find('input.ReceiveQty').val(0);
         }
@@ -370,12 +373,14 @@
             $div.find('input.ReceiveQty').val(OrderQty.toFixed(unitDecPlaces));
         }
 
+        $div.find('input.JobQuantity').val($div.find('input.ReceiveQty').val());
+        $div.find('input.PassQty').val($div.find('input.ReceiveQty').val());
 
 
     })
 
     $('#ToOrder').click(function () {
-
+        alert("Go#");
         if (reset) {
             $('div.row.crow', "#gbody.panel-info").each(function (index) {
 
@@ -386,9 +391,10 @@
 
                 var OrderQty = parseFloat($Hidiv.find('#ProdQty').text()) || 0;
 
-
+                
 
                 $Hidiv.find('input.ReceiveQty').val(OrderQty.toFixed(unitDecPlaces));
+
 
             })
             reset = false;
@@ -405,6 +411,8 @@
             })
             reset = true;
         }
+        $div.find('input.JobQuantity').val($div.find('input.ReceiveQty').val());
+        $div.find('input.PassQty').val($div.find('input.ReceiveQty').val());
     })
 
 

@@ -252,6 +252,7 @@
                             { Action = "CreateLineAfter_Submit"; }
                         }
                         @Html.ActionLink("Add New Row ", Action, "JobInvoiceLine", new { id = @Model.JobInvoiceHeaderId, JobWorkerId = @Model.JobWorkerId }, new { data_modal = "", id = "btnCreate", @class = "toolbar", @title = "Add New", @data_toggle = "tooltip", @data_detailDisabled = "true" })
+                        @Html.ActionLink("/Summary", "GetSummary", "JobInvoiceHeader", new { id = @Model.JobInvoiceHeaderId }, new { @class = "toolbar", @data_toggle = "tooltip", @data_detailDisabled = "true" })
                     </div>
                     <div class="btn-group right" style="padding-right:15px">
                         <a class="cbtn btn-circle glyphicon glyphicon-link dropdown-toggle" aria-expanded="false" style="padding-top: 6px;padding-bottom: 6px;" href="#" data-toggle="dropdown" id="dropdownMenu1">

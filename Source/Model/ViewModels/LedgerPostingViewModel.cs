@@ -22,6 +22,8 @@ namespace Model.ViewModels
 
         public Decimal AmtCr { get; set; }
 
+        public int? ReferenceDocLineId { get; set; }
+
     }
 
 }
