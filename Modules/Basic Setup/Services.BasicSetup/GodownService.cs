@@ -195,7 +195,7 @@ namespace Services.BasicSetup
                         orderby pr.GodownName
                         select new ComboBoxResult
                         {
-                            text = pr.GodownName,
+                            text = pr.GodownCode + "|" + pr.GodownName,
                             id = pr.GodownId.ToString()
                         }
               );

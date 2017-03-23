@@ -1,4 +1,5 @@
 ﻿using Model;
+using Models.BasicSetup.Models;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -29,6 +30,14 @@ namespace Models.Company.Models
         [ForeignKey("Site"), Display(Name = "Site")]
         public int SiteId { get; set; }
         public virtual Site Site { get; set; }
+
+
+        [ForeignKey("Person"), Display(Name = "Person")]
+        public int? PersonId { get; set; }
+        public virtual Person Person { get; set; }
+
+
+
 
         [Display(Name = "Is Active ?")]
         public Boolean IsActive { get; set; }

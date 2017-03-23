@@ -491,6 +491,14 @@ namespace Services.Customize
 
                         _stockAdjService.Create(Adj_IssQty);
                     }
+                    else
+                    {
+                        throw new Exception("Recipe Production is not done yet.");
+                    }
+                }
+                else
+                {
+                    throw new Exception("Recipe Production is not done yet.");
                 }
             }
 
