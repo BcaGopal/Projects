@@ -381,7 +381,7 @@ namespace Web
                     LedgerAdj LedgerAdj = new LedgerAdj();
                     LedgerAdj.LedgerAdjId = LedgerAdjId;
                     LedgerAdj.DrLedgerId = TdsLedgerDr.LedgerId;
-                    LedgerAdj.CrLedgerId = TempLedger.LedgerCrId;
+                    LedgerAdj.CrLedgerId = TempLedger ==null ? 0 : TempLedger.LedgerCrId;
                     LedgerAdj.SiteId = Header.SiteId;
                     LedgerAdj.Adj_Type = "Tds Adjustment";
                     LedgerAdj.Amount = TdsLedgerDr.AmtDr;

@@ -1389,6 +1389,7 @@
     <Content Include="Views\WeavingReceiveQACombined\PendingRateUpdationIndex.cshtml" />
     <Content Include="Views\WeavingReceiveQACombined\PendingToImportFromBranch.cshtml" />
     <Content Include="Views\WeavingInvoice\Summary.cshtml" />
+    <Content Include="Views\SaleInvoiceLine\UpdateRatesDesignWise.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -634,7 +634,9 @@ namespace Service
                         orderby H.JobReceiveHeaderId descending
                         select new LastValues
                         {
-                            JobReceiveById = H.JobReceiveById
+                            JobReceiveById = H.JobReceiveById,
+                            DocDate=H.DocDate
+                            
                         }).FirstOrDefault();
 
             return temp;

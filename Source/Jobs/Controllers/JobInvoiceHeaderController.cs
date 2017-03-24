@@ -1560,15 +1560,40 @@ namespace Web
 
             IEnumerable<LedgerPostingViewModel> LedgerCombind = LedgerHeaderAmtDr.Union(LedgerHeaderAmtCr).Union(LedgerLineAmtDr).Union(LedgerLineAmtCr).ToList();
 
-            IEnumerable<LedgerPostingViewModel> LedgerPost = (from L in LedgerCombind
+            //IEnumerable<LedgerPostingViewModel> LedgerPost = (from L in LedgerCombind
+            //                                                  select new LedgerPostingViewModel
+            //                                                  {
+            //                                                      LedgerAccountId = L.LedgerAccountId,
+            //                                                      ContraLedgerAccountId = L.ContraLedgerAccountId,
+            //                                                      CostCenterId = L.CostCenterId,
+            //                                                      AmtDr = L.AmtDr,
+            //                                                      AmtCr = L.AmtCr,
+            //                                                      ReferenceDocLineId = L.ReferenceDocLineId
+            //                                                  }).ToList();
+
+
+            IEnumerable<LedgerPostingViewModel> TEmpLedger = (from L in LedgerCombind
+                                                              group new { L } by new { L.LedgerAccountId, L.CostCenterId, L.ReferenceDocLineId } into Result
+                                                              select new LedgerPostingViewModel
+                                                              {
+                                                                  LedgerAccountId = Result.Key.LedgerAccountId,
+                                                                  ContraLedgerAccountId = Result.Max(i => i.L.ContraLedgerAccountId),
+                                                                  CostCenterId = Result.Key.CostCenterId,
+                                                                  AmtDr = Result.Sum(i => i.L.AmtDr),
+                                                                  AmtCr = Result.Sum(i => i.L.AmtCr),
+                                                                  ReferenceDocLineId = Result.Key.ReferenceDocLineId,
+                                                              }).ToList();
+
+
+            IEnumerable<LedgerPostingViewModel> LedgerPost = (from L in TEmpLedger
                                                               select new LedgerPostingViewModel
                                                               {
                                                                   LedgerAccountId = L.LedgerAccountId,
                                                                   ContraLedgerAccountId = L.ContraLedgerAccountId,
                                                                   CostCenterId = L.CostCenterId,
-                                                                  AmtDr = L.AmtDr,
-                                                                  AmtCr = L.AmtCr,
-                                                                  ReferenceDocLineId = L.ReferenceDocLineId
+                                                                  AmtDr = (L.AmtDr - L.AmtCr) > 0 ? (L.AmtDr - L.AmtCr) : 0,
+                                                                  AmtCr = (L.AmtCr - L.AmtDr) > 0 ? (L.AmtCr - L.AmtDr) : 0,
+                                                                  ReferenceDocLineId = L.ReferenceDocLineId,
                                                               }).ToList();
 
 

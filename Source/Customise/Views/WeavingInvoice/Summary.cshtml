@@ -244,10 +244,39 @@
 <script type="text/javascript">
     CustomSelectFunction($("#JobWorkerId"), '/ComboHelpList/GetJobWorkers', '/ComboHelpList/SetSinglePerson', ' ', false, 1);
 
+    //$('input.AdvanceAdjusted,input.TanaAmount,input.TdsAdjusted').keydown(function (e) 
+    $('input.AdvanceAdjusted').keydown(function (e)
+    {
+        switch (e.which) {
+            case 37: // left
+                break;
+
+            case 38: // up
+                alert("up")
+                break;
+
+            case 39: // right
+                break;
+
+            case 40: // down
+                e.preventDefault();
+                var inputs = $(this).closest('form').find(':input:visible');
+                inputs.eq(inputs.index(this) + 3).focus();
+                break;
+
+            default: return; // exit this handler for other keys
+        }
+        e.preventDefault(); // prevent the default action (scroll / move caret)
+    });
+
+
+
+
     $('input.AdvanceAdjusted,input.TanaAmount,input.TdsAdjusted').change(function () {
         $(this).val(eval($(this).val()));
         CalculateTotal();
     })
+
 
     function CalculateTotal() {
         var TotAdvanceAdjusted = 0;
