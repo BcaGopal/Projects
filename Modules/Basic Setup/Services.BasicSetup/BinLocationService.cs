@@ -200,7 +200,7 @@ namespace Services.BasicSetup
                         orderby pr.BinLocationName
                         select new ComboBoxResult
                         {
-                            text = pr.BinLocationName,
+                            text = pr.BinLocationCode + "|" + pr.BinLocationName,
                             id = pr.BinLocationId.ToString()
                         }
               );
