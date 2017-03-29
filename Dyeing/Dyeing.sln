@@ -29,7 +29,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimePlanValidator", "..\Com
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CookieNotifier", "..\Components\CookieNotifier\CookieNotifier.csproj", "{82E39C55-7466-4B30-9A63-1F5D85F9106C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DocumentPrint", "..\Modules\Reports\DocumentPrint\DocumentPrint.csproj", "{FBE8335B-F90B-4FA1-B394-690BA9CBFCE7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ERP.Reports.DocumentPrint", "..\Modules\Reports\DocumentPrint\ERP.Reports.DocumentPrint.csproj", "{FBE8335B-F90B-4FA1-B394-690BA9CBFCE7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Notifier", "..\Components\Notifier\Source\Notifier.csproj", "{D301FF3B-3DFC-471C-A3D1-E77C2E53B7A5}"
 EndProject
@@ -46,6 +46,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Finance", "..\Source\Finance\Finance.csproj", "{C65642C8-720C-42A0-AEBD-F21AB4573E06}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Store", "..\Source\Store\Store.csproj", "{EE9605BC-F77F-4041-A540-713D5EF204A8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ERP.Reports.Services", "..\Modules\Reports\Services.Reports\ERP.Reports.Services.csproj", "{9FD04BE7-A826-478E-A2A8-6A8B63E78532}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -137,6 +139,10 @@ Global
 		{EE9605BC-F77F-4041-A540-713D5EF204A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EE9605BC-F77F-4041-A540-713D5EF204A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EE9605BC-F77F-4041-A540-713D5EF204A8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9FD04BE7-A826-478E-A2A8-6A8B63E78532}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9FD04BE7-A826-478E-A2A8-6A8B63E78532}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9FD04BE7-A826-478E-A2A8-6A8B63E78532}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9FD04BE7-A826-478E-A2A8-6A8B63E78532}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

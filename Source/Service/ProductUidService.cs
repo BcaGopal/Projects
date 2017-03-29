@@ -761,7 +761,7 @@ namespace Service
 
                         var Rec = (from p in db.JobReceiveLine
                                    join t in db.JobReceiveHeader.Where(m => m.SiteId == SiteId && m.DivisionId == DivisionId) on p.JobReceiveHeaderId equals t.JobReceiveHeaderId
-                                   where p.ProductUidId == BarCode.ProductUIDId
+                                   where p.ProductUidId == BarCode.ProductUIDId && t.JobReceiveHeaderId==HeaderID
                                    select p).FirstOrDefault();
 
                         if (Rec != null)

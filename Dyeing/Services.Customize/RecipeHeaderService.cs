@@ -19,7 +19,8 @@ using AutoMapper;
 using System.Xml.Linq;
 using System.Data;
 using ProjLib.DocumentConstants;
-using DocumentPrint;
+using ERP.Reports.DocumentPrint;
+
 
 namespace Services.Customize
 {

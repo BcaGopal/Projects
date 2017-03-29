@@ -108,7 +108,7 @@
       <Project>{2d5dac81-3374-4622-a5e4-7881dc0fc77c}</Project>
       <Name>ProjLib</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Modules\Reports\DocumentPrint\DocumentPrint.csproj">
+    <ProjectReference Include="..\..\Modules\Reports\DocumentPrint\ERP.Reports.DocumentPrint.csproj">
       <Project>{fbe8335b-f90b-4fa1-b394-690ba9cbfce7}</Project>
       <Name>DocumentPrint</Name>
     </ProjectReference>

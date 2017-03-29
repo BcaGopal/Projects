@@ -57,10 +57,10 @@
                     {
                     <li><a href="@Url.Action("Export", "JobReceiveHeader", new { @id = @ViewBag.id })"><span class="glyphicon glyphicon-export"> </span>&nbsp;&nbsp;Export</a></li>
                     }
-                    @if (ViewBag.WizardId !=null)
-                    {
+                    @*@if (ViewBag.WizardId !=null)
+                    {*@
                     <li><a href="@Url.Action("Wizard", "JobReceiveHeader", new { @id = @ViewBag.id })"><span class="glyphicon glyphicon-random" onclick="$('#')"> </span> Wizard</a></li>
-                    }
+                    @*}*@
                     @if (ViewBag.ImportMenuId!=null)
                     {
                     <li><a href="@Url.Action("Import", "JobReceiveHeader", new { @id = @ViewBag.id })"><span class="glyphicon glyphicon-import"> </span> Import</a></li>

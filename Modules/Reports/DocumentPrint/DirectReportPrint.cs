@@ -1,5 +1,4 @@
-﻿using iTextSharp.text;
-using iTextSharp.text.pdf;
+﻿using iTextSharp.text.pdf;
 using Microsoft.Reporting.WebForms;
 using System;
 using System.Collections.Generic;
@@ -12,6 +11,7 @@ using ERP.Reports.Services;
 using ERP.Reports.Data;
 using ERP.Reports.DocumentPrint.Constants;
 using Model;
+using iTextSharp.text;
 
 namespace ERP.Reports.DocumentPrint
 {

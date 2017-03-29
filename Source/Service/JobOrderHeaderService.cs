@@ -492,13 +492,19 @@ namespace Service
 
             string ValidationMsg = "";
 
-            if (Settings.PersonWiseCostCenter == true)
+            var CostCenter1 = (db.CostCenter.AsNoTracking().Where(m => m.CostCenterName == CostCenterName
+                   && m.ReferenceDocTypeId == DocTypeId && m.SiteId == SiteId && m.DivisionId == DivisionId && m.ReferenceDocId== HeaderId).FirstOrDefault());
+            if (CostCenter1 == null)
             {
-                var CostCenter = (db.CostCenter.AsNoTracking().Where(m => m.CostCenterName == CostCenterName
-                    && m.ReferenceDocTypeId == DocTypeId && m.SiteId == SiteId && m.DivisionId == DivisionId).FirstOrDefault());
-                if (CostCenter != null)
-                    if (CostCenter.LedgerAccountId != LedgerAccountId)
-                        ValidationMsg += "CostCenter belongs to a different person. ";
+                if (Settings.PersonWiseCostCenter == true)
+                {
+                    var CostCenter = (db.CostCenter.AsNoTracking().Where(m => m.CostCenterName == CostCenterName
+                        && m.ReferenceDocTypeId == DocTypeId && m.SiteId == SiteId && m.DivisionId == DivisionId).FirstOrDefault());
+                    if (CostCenter != null)
+                        if (CostCenter.LedgerAccountId != LedgerAccountId)
+                            ValidationMsg += "CostCenter belongs to a different person. ";
+
+                }
             }
 
             if (Settings.isUniqueCostCenter == true)

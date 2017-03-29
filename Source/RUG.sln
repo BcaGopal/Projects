@@ -79,7 +79,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ERP.Reports.Web", "..\Modul
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Logger", "..\Components\Logger\Source\Logger.csproj", "{A68B18D0-67D6-414F-B38D-D4C7EDEB3907}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExceptionHandler", "..\Components\ExceptionHandler\Source\ExceptionHandler.csproj", "{74E41B68-158A-4DDB-AAB4-9CA32925C9D2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExceptionHandler", "..\Components\ExceptionHandler\Source\ExceptionHandler.csproj", "{82C76499-AD09-4F11-972C-485D76DF396C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ERP.Reports.DocumentPrint", "..\Modules\Reports\DocumentPrint\ERP.Reports.DocumentPrint.csproj", "{FBE8335B-F90B-4FA1-B394-690BA9CBFCE7}"
 EndProject
@@ -215,10 +215,10 @@ Global
 		{A68B18D0-67D6-414F-B38D-D4C7EDEB3907}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A68B18D0-67D6-414F-B38D-D4C7EDEB3907}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A68B18D0-67D6-414F-B38D-D4C7EDEB3907}.Release|Any CPU.Build.0 = Release|Any CPU
-		{74E41B68-158A-4DDB-AAB4-9CA32925C9D2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{74E41B68-158A-4DDB-AAB4-9CA32925C9D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{74E41B68-158A-4DDB-AAB4-9CA32925C9D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{74E41B68-158A-4DDB-AAB4-9CA32925C9D2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{82C76499-AD09-4F11-972C-485D76DF396C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{82C76499-AD09-4F11-972C-485D76DF396C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{82C76499-AD09-4F11-972C-485D76DF396C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{82C76499-AD09-4F11-972C-485D76DF396C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{FBE8335B-F90B-4FA1-B394-690BA9CBFCE7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{FBE8335B-F90B-4FA1-B394-690BA9CBFCE7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FBE8335B-F90B-4FA1-B394-690BA9CBFCE7}.Release|Any CPU.ActiveCfg = Release|Any CPU

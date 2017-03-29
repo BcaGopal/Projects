@@ -31,8 +31,8 @@
     <div class="panel panel-default">
         <div class="panel-heading">
 
-            @CustomHelpers.RenderHeaderInfo(ViewBag.transactionType, (int?)ViewBag.PendingToSubmit, (int?)ViewBag.PendingToReview, ViewBag.Name)
-
+            @*@CustomHelpers.RenderHeaderInfo(ViewBag.transactionType, (int?)ViewBag.PendingToSubmit, (int?)ViewBag.PendingToReview, ViewBag.Name)*@
+            @CustomHelpers.RenderResHeaderInfo(ViewBag.transactionType, (int?)ViewBag.PendingToSubmit, (int?)ViewBag.PendingToReview, ViewBag.Name)
             @*@if (ViewBag.transactionType == "submit")
             {<h3 style="border-bottom:0px solid #e1dada;padding-bottom:0px;">
                 <span style="font-family: Calibri,sans-serif,Verdana;font-weight:bold" class="black"> <span class="glyphicon glyphicon-file black"></span>Submit @ViewBag.Name</span>
@@ -213,19 +213,20 @@
                         2.Transfer Product
                     </h4>*@                    
                 </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <h4 style="margin-top:15px">
+        
+
+                <div class="panel-info" style="height:40px;">
+                    <div class="btn-group" style="padding:5px 0 3px 0;margin:0px;font-weight:bold">
+                        <h4>
                             <span class="glyphicon glyphicon-shopping-cart"></span>
                             2.Transfer Product
                         </h4>
                     </div>
-                    <div class="col-md-6">                        
-                        <div class="btn-group right" style="padding-right:15px;margin-top:10px">
+                    <div class="btn-group right" style="padding-right:15px">                       
                         @Html.ActionLink(" ", "_ForProcessTransfer", "StockProcessTransfer", new { id = @Model.StockHeaderId, sid = @Model.PersonId, ProcessId = Model.ProcessId, CostCenterId = Model.CostCenterId }, new { data_modal = "", id = "btnCreateF", @class = "cbtn btn-circle glyphicon glyphicon-link toolbar right", @title = "For Transfer", @data_toggle = "tooltip", @data_detailDeleted = "true" })
-                        </div>
+                        @*@Html.ActionLink("For Transfer", "_ForProcessTransfer", "StockProcessTransfer", new { id = @Model.StockHeaderId, sid = @Model.PersonId, ProcessId = Model.ProcessId, CostCenterId = Model.CostCenterId }, new { data_modal = "", id = "btnCreateF", @class = "btn btn-primary borderradii", @title = "For Indent", @data_toggle = "tooltip", @data_detailDeleted = "true" })*@
                      </div>
-                    </div>
+                </div>
 
                 <div style="padding-right:15px">
 

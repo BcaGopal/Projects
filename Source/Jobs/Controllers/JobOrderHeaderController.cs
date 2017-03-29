@@ -571,13 +571,12 @@ namespace Web
 
                             ExistingCostCenter.CostCenterName = svm.CostCenterName;
                             ExistingCostCenter.ObjectState = Model.ObjectState.Modified;
-
                             context.CostCenter.Add(ExistingCostCenter);
                         }
 
                     }
 
-
+                    
 
 
                     temp.DocDate = s.DocDate;
@@ -715,6 +714,25 @@ namespace Web
                         ExObj = ExRec,
                         Obj = temp,
                     });
+
+                    #region ProductUidUpdate
+
+                    var ProductUid = (from p in context.ProductUid
+                                      where p.GenDocId == svm.JobOrderHeaderId && p.GenDocTypeId == svm.DocTypeId
+                                      select p).ToList();
+                    if (ProductUid != null)
+                    {
+                        foreach (var item in ProductUid)
+                        {
+                            if (item.GenPersonId != svm.JobWorkerId)
+                            {
+                                item.GenPersonId = svm.JobWorkerId;
+                                item.ObjectState = Model.ObjectState.Modified;
+                                context.ProductUid.Add(item);
+                            }
+                        }
+                    }
+                    #endregion
 
 
 
@@ -915,6 +933,10 @@ namespace Web
                         var DocTypePerk = (from p2 in context.PerkDocumentType
                                            where p2.DocTypeId == s.DocTypeId && p2.PerkId == temp.PerkId && p2.SiteId == s.SiteId && p2.DivisionId == s.DivisionId
                                            select p2).FirstOrDefault();
+
+                        
+
+
                         if (DocTypePerk != null)
                         {
                             temp.Base = DocTypePerk.Base;
@@ -943,9 +965,13 @@ namespace Web
             s.CalculationFooterChargeCount = new JobOrderHeaderChargeService(_unitOfWork).GetCalculationFooterList(id).Count();
 
             //ViewBag.transactionType = "detail";
+            int ProdOrder = (from p in context.ProdOrderHeader
+                             where p.ReferenceDocId == id
+                             select p).Count();
 
             ViewBag.Mode = "Edit";
             ViewBag.transactionType = "";
+            ViewBag.ProdOrder = ProdOrder;
 
             ViewBag.Name = new DocumentTypeService(_unitOfWork).Find(s.DocTypeId).DocumentTypeName;
             ViewBag.id = s.DocTypeId;

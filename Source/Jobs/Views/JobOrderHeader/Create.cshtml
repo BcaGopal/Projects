@@ -1153,11 +1153,20 @@
 
     $(document).ready(function () {
         var id=@Model.JobOrderHeaderId;
+        var   ProdOrderBranch='@ViewBag.ProdOrder';
         if(id==null||id==0)
         {
             $(document).find('a#btnCreateF').removeAttr('href').removeAttr('data-modal');
             $(document).find('a#btnCreate').removeAttr('href').removeAttr('data-modal');
             $(document).find('a#btnCreatePO').removeAttr('href').removeAttr('data-modal');
+        }
+
+        if(ProdOrderBranch >0 )
+        {
+            $("#JobWorkerId").prop("readonly", true);
+            $("#CostCenterName").prop("readonly", true);
+            $("#BillToPartyId").prop("readonly", true);
+            
         }
 
         $(document).ajaxStart(function () {
