@@ -85,6 +85,9 @@
           <QueryParameter Name="@BuyerId">
             <Value>=Parameters!BuyerId.Value</Value>
           </QueryParameter>
+          <QueryParameter Name="@PenaltyDetail">
+            <Value>=Parameters!PenaltyDetail.Value</Value>
+          </QueryParameter>
         </QueryParameters>
         <CommandType>StoredProcedure</CommandType>
         <CommandText>Web.Rug_spRep_WeavingReceiveReport</CommandText>
@@ -140,6 +143,14 @@
         </Field>
         <Field Name="RecSize">
           <DataField>RecSize</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="PenaltyDetail">
+          <DataField>PenaltyDetail</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="PenaltyRemark">
+          <DataField>PenaltyRemark</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="Rate">
@@ -1584,6 +1595,99 @@
                   <TablixCells>
                     <TablixCell>
                       <CellContents>
+                        <Textbox Name="Textbox4">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>Remark :</Value>
+                                  <Style>
+                                    <FontFamily>Tahoma</FontFamily>
+                                    <FontSize>8pt</FontSize>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Left</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox4</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>Silver</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <BackgroundColor>=iif(RowNumber(nothing) Mod 2 , "White","WhiteSmoke")</BackgroundColor>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="PenaltyRemark">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!PenaltyRemark.Value</Value>
+                                  <Style>
+                                    <FontFamily>Tahoma</FontFamily>
+                                    <FontSize>8pt</FontSize>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Left</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>PenaltyRemark</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>Silver</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <BackgroundColor>=iif(RowNumber(nothing) Mod 2 , "White","WhiteSmoke")</BackgroundColor>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                        <ColSpan>16</ColSpan>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell />
+                    <TablixCell />
+                    <TablixCell />
+                    <TablixCell />
+                    <TablixCell />
+                    <TablixCell />
+                    <TablixCell />
+                    <TablixCell />
+                    <TablixCell />
+                    <TablixCell />
+                    <TablixCell />
+                    <TablixCell />
+                    <TablixCell />
+                    <TablixCell />
+                    <TablixCell />
+                  </TablixCells>
+                </TablixRow>
+                <TablixRow>
+                  <Height>0.25in</Height>
+                  <TablixCells>
+                    <TablixCell>
+                      <CellContents>
                         <Textbox Name="Textbox55">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
@@ -2056,7 +2160,6 @@
                           </Style>
                         </Textbox>
                         <ColSpan>2</ColSpan>
-                        <rd:Selected>true</rd:Selected>
                       </CellContents>
                     </TablixCell>
                     <TablixCell />
@@ -2694,6 +2797,11 @@
                   </SortExpressions>
                   <TablixMembers>
                     <TablixMember />
+                    <TablixMember>
+                      <Visibility>
+                        <Hidden>=iif(Fields!PenaltyDetail.Value="With Penalty Detail",false,true)</Hidden>
+                      </Visibility>
+                    </TablixMember>
                   </TablixMembers>
                 </TablixMember>
                 <TablixMember />
@@ -2708,7 +2816,7 @@
             </SortExpressions>
             <Top>3.77083in</Top>
             <Left>0.05493in</Left>
-            <Height>1.07987in</Height>
+            <Height>1.32987in</Height>
             <Width>11.28389in</Width>
             <Style>
               <Border>
@@ -3753,7 +3861,7 @@
             </Style>
           </Textbox>
         </ReportItems>
-        <Height>4.89237in</Height>
+        <Height>5.12154in</Height>
         <Style />
       </Body>
       <Width>11.36436in</Width>
@@ -4250,6 +4358,12 @@
       <Nullable>true</Nullable>
       <AllowBlank>true</AllowBlank>
       <Prompt>Buyer Id</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="PenaltyDetail">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Penalty Detail</Prompt>
     </ReportParameter>
   </ReportParameters>
   <EmbeddedImages>

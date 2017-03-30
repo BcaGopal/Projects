@@ -106,14 +106,14 @@ namespace Web
                                          TotalQty = Result.Sum(i => i.L.Qty)
                                      }).FirstOrDefault();
 
-            if (TotalMainContents != null)
+            if (TotalMainContents != null  && svm.Weight!=0)
             {
                 Decimal TotalMainContentPercentage = Math.Round(TotalMainContents.TotalQty * 100 / svm.Weight,2);
                 ViewBag.LastTransaction = TotalMainContentPercentage + "% Main Contents filled, " + (100 - TotalMainContentPercentage) + " remaining.";
             }
 
-            if (TotalOtherContents != null)
-            {
+            if (TotalOtherContents != null && svm.Weight != 0)
+            { 
                 Decimal TotalOtherContentPercentage = Math.Round(TotalOtherContents.TotalQty * 100 / svm.Weight, 2);
                 ViewBag.LastTransaction = ViewBag.LastTransaction + (TotalOtherContentPercentage + "% Other Contents filled.").ToString();
             }

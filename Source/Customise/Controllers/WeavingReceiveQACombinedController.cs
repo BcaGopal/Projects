@@ -130,6 +130,7 @@ namespace Web
                 if (LastValues.JobReceiveById != null)
                 {
                     vm.JobReceiveById = (int)LastValues.JobReceiveById;
+                    vm.DocDate = LastValues.DocDate;
                 }
             }
 
@@ -168,7 +169,7 @@ namespace Web
             vm.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(id);
 
             vm.ProcessId = jobreceivesettings.ProcessId;
-            vm.DocDate = DateTime.Now;
+           // vm.DocDate = DateTime.Now;
             vm.DocTypeId = id;
 
             if (System.Web.HttpContext.Current.Session["DefaultGodownId"] != null)
@@ -212,9 +213,9 @@ namespace Web
                     }
 
 
-
                     ProductUid ProductUid = new ProductUidService(_unitOfWork).Find(vm.ProductUidName);
                     ProductUid.ModifiedDate = DateTime.Now;
+                    ProductUid.GenDocId= JobReceiveHeader.JobReceiveHeaderId;
                     ProductUid.CurrenctProcessId = JobReceiveHeader.ProcessId;
                     ProductUid.CurrenctGodownId = JobReceiveHeader.GodownId;
                     ProductUid.Status = ProductUidStatusConstants.Receive;

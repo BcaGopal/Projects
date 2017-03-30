@@ -405,6 +405,7 @@ namespace Service
     {
         public int? QAById { get; set; }
         public int? JobReceiveById { get; set; }
+        public DateTime DocDate { get; set; }
     }
 
 
