@@ -661,22 +661,22 @@ namespace Web
                                 order.ModifiedBy = User.Identity.Name;
                                 order.ModifiedDate = DateTime.Now;
 
-                                if (item.Dimension1Id != null)
-                                {
-                                    var MaterialPlan = context.MaterialPlanLine.Local.Where(m => m.ProductId == item.ProductId && m.Dimension1Id == item.Dimension1Id).FirstOrDefault();
-                                    if (order != null)
-                                    {
-                                        order.MaterialPlanLineId = MaterialPlan.MaterialPlanLineId;
-                                    }
-                                }
-                                else
-                                {
-                                    var MaterialPlan = context.MaterialPlanLine.Local.Where(m => m.ProductId == item.ProductId).FirstOrDefault();
-                                    if (order != null)
-                                    {
-                                        order.MaterialPlanLineId = MaterialPlan.MaterialPlanLineId;
-                                    }
-                                }
+                                //if (item.Dimension1Id != null)
+                                //{
+                                //    var MaterialPlan = context.MaterialPlanLine.Local.Where(m => m.ProductId == item.ProductId && m.Dimension1Id == item.Dimension1Id).FirstOrDefault();
+                                //    if (order != null)
+                                //    {
+                                //        order.MaterialPlanLineId = MaterialPlan.MaterialPlanLineId;
+                                //    }
+                                //}
+                                //else
+                                //{
+                                //    var MaterialPlan = context.MaterialPlanLine.Local.Where(m => m.ProductId == item.ProductId).FirstOrDefault();
+                                //    if (order != null)
+                                //    {
+                                //        order.MaterialPlanLineId = MaterialPlan.MaterialPlanLineId;
+                                //    }
+                                //}
 
                                 order.ObjectState = Model.ObjectState.Added;
                                 context.MaterialPlanForSaleOrder.Add(order);
