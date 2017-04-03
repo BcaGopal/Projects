@@ -69,7 +69,10 @@ namespace Customise.App_Start
             container.RegisterType<IBuyerService, BuyerService>(new PerRequestLifetimeManager());
 
             container.RegisterType<IRepository<Colour>, Repository<Colour>>();
-            container.RegisterType<IColourService, ColourService>(new PerRequestLifetimeManager());           
+            container.RegisterType<IColourService, ColourService>(new PerRequestLifetimeManager());
+
+            Mapper.CreateMap<JobReceiveBom, JobReceiveBomViewModel>();
+            Mapper.CreateMap<JobReceiveBomViewModel, JobReceiveBom>();
 
             container.RegisterType<IRepository<Currency>, Repository<Currency>>();
             container.RegisterType<ICurrencyService, CurrencyService>(new PerRequestLifetimeManager());

@@ -133,7 +133,10 @@ namespace Web
                     vm.DocDate = LastValues.DocDate;
                 }
             }
-
+            else
+            {
+                vm.DocDate = DateTime.Now;
+            }
 
             //vm.ProductUidName = GetNewProductUid();
 
@@ -215,7 +218,11 @@ namespace Web
 
                     ProductUid ProductUid = new ProductUidService(_unitOfWork).Find(vm.ProductUidName);
                     ProductUid.ModifiedDate = DateTime.Now;
-                    ProductUid.GenDocId= JobReceiveHeader.JobReceiveHeaderId;
+                    if ( ProductUid.GenDocId ==0 )
+                    {
+                        ProductUid.GenDocId = JobReceiveHeader.JobReceiveHeaderId;
+                    }                   
+
                     ProductUid.CurrenctProcessId = JobReceiveHeader.ProcessId;
                     ProductUid.CurrenctGodownId = JobReceiveHeader.GodownId;
                     ProductUid.Status = ProductUidStatusConstants.Receive;
@@ -609,6 +616,344 @@ namespace Web
 
             }
             return PartialView("_Reason", vm);
+        }
+
+        [HttpGet]
+        public JsonResult ConsumptionIndex(int id)
+        {
+            var p = new JobReceiveLineService(_unitOfWork).GetConsumptionLineListForIndex(id).ToList();
+            return Json(p, JsonRequestBehavior.AllowGet);
+
+        }
+
+        public ActionResult Consumption(int id)//ReceiveHeaderId
+        {
+            JobReceiveBomViewModel vm = new JobReceiveBomViewModel();
+            vm.JobReceiveHeaderId = id;
+            JobReceiveHeader H = new JobReceiveHeaderService(_unitOfWork).Find(id);           
+            var settings = new JobReceiveSettingsService(_unitOfWork).GetJobReceiveSettingsForDocument(H.DocTypeId, H.DivisionId, H.SiteId);
+            vm.JobReceiveSettings = Mapper.Map<JobReceiveSettings, JobReceiveSettingsViewModel>(settings);
+            ViewBag.LineMode = "Create";
+            return PartialView("Consumption", vm);
+        }
+
+        public JsonResult GetProductsForConsumption(string searchTerm, int pageSize, int pageNum, int filter)//filter:PersonId
+        {
+
+            var Query = new JobReceiveLineService(_unitOfWork).GetConsumptionProducts(searchTerm, filter);
+
+            var temp = Query.Skip(pageSize * (pageNum - 1)).Take(pageSize).ToList();
+
+            var count = Query.Count();
+
+            return new JsonResult
+            {
+                Data = temp,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+
+        }
+
+        public JsonResult GetProductDetailJson(int ProductId, int? HeaderId)
+        {
+            ProductViewModel product = new ProductService(_unitOfWork).GetProduct(ProductId);
+            List<Product> ProductJson = new List<Product>();
+
+            decimal BalanceQty = 0;
+
+            if (HeaderId.HasValue)
+            {
+                BalanceQty = new JobReceiveLineService(_unitOfWork).GetConsumptionBalanceQty(HeaderId.Value, ProductId);
+            }
+
+            return Json(new
+            {
+                ProductId = product.ProductId,
+                StandardCost = product.StandardCost,
+                UnitId = product.UnitId,
+                BalanceQty = BalanceQty
+            });
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult ConsumptionPost(JobReceiveBomViewModel vm)
+        {
+
+            if (ModelState.IsValid)
+            {
+                //Create Logic
+                if (vm.JobReceiveBomId <= 0)
+                {
+                    JobReceiveBom Consumption = Mapper.Map<JobReceiveBomViewModel, JobReceiveBom>(vm);
+                    Consumption.CreatedBy = User.Identity.Name;
+                    Consumption.CreatedDate = DateTime.Now;
+                    Consumption.ModifiedBy = User.Identity.Name;
+                    Consumption.ModifiedDate = DateTime.Now;
+
+                    JobReceiveLine JobReceiveLine = new JobReceiveLineService(_unitOfWork).GetJobReceiveLineList(vm.JobReceiveHeaderId).FirstOrDefault();
+
+                    CostCenter CostCenter = new JobReceiveLineService(_unitOfWork).GetCoscenterId((int)JobReceiveLine.JobReceiveLineId);
+
+                    Consumption.CostCenterId = CostCenter.CostCenterId;
+                    JobReceiveHeader JobReceiveHeader = new JobReceiveHeaderService(_unitOfWork).Find(vm.JobReceiveHeaderId);
+                    StockProcessViewModel StockProcessBomViewModel = new StockProcessViewModel();
+
+
+                    if (JobReceiveHeader.StockHeaderId == null)
+                    {
+                        StockProcessBomViewModel.StockHeaderId = 0;
+                    }
+                    else
+                    {
+                        StockProcessBomViewModel.StockHeaderId = (int)JobReceiveHeader.StockHeaderId;
+                    }
+
+                    StockProcessBomViewModel.DocHeaderId = JobReceiveHeader.JobReceiveHeaderId;
+                    StockProcessBomViewModel.DocLineId = Consumption.JobReceiveBomId;
+                    StockProcessBomViewModel.DocTypeId = JobReceiveHeader.DocTypeId;
+                    StockProcessBomViewModel.StockHeaderDocDate = JobReceiveHeader.DocDate;
+                    StockProcessBomViewModel.StockProcessDocDate = JobReceiveHeader.DocDate;
+                    StockProcessBomViewModel.DocNo = JobReceiveHeader.DocNo;
+                    StockProcessBomViewModel.DivisionId = JobReceiveHeader.DivisionId;
+                    StockProcessBomViewModel.SiteId = JobReceiveHeader.SiteId;
+                    StockProcessBomViewModel.CurrencyId = null;
+                    StockProcessBomViewModel.HeaderProcessId = null;
+                    StockProcessBomViewModel.PersonId = JobReceiveHeader.JobWorkerId;
+                    StockProcessBomViewModel.ProductId = Consumption.ProductId;
+                    StockProcessBomViewModel.HeaderFromGodownId = null;
+                    StockProcessBomViewModel.HeaderGodownId = null;
+                    StockProcessBomViewModel.GodownId = JobReceiveHeader.GodownId;
+                    StockProcessBomViewModel.ProcessId = JobReceiveHeader.ProcessId;
+                    StockProcessBomViewModel.LotNo = Consumption.LotNo;
+                    StockProcessBomViewModel.CostCenterId = Consumption.CostCenterId;
+                    StockProcessBomViewModel.Qty_Iss = Consumption.Qty;
+                    StockProcessBomViewModel.Qty_Rec = 0;
+                    StockProcessBomViewModel.Rate = 0;
+                    StockProcessBomViewModel.ExpiryDate = null;
+                    StockProcessBomViewModel.Specification = null;
+                    StockProcessBomViewModel.Dimension1Id = null;
+                    StockProcessBomViewModel.Dimension2Id = null;
+                    StockProcessBomViewModel.Dimension3Id = null;
+                    StockProcessBomViewModel.Dimension4Id = null;
+                    StockProcessBomViewModel.Remark = null;
+                    StockProcessBomViewModel.Status = JobReceiveHeader.Status;
+                    StockProcessBomViewModel.CreatedBy = User.Identity.Name;
+                    StockProcessBomViewModel.CreatedDate = DateTime.Now;
+                    StockProcessBomViewModel.ModifiedBy = User.Identity.Name;
+                    StockProcessBomViewModel.ModifiedDate = DateTime.Now;
+
+                    string StockProcessPostingError = "";
+                    StockProcessPostingError = new StockProcessService(_unitOfWork).StockProcessPostDB(ref StockProcessBomViewModel, ref db);
+
+                    if (StockProcessPostingError != "")
+                    {
+                        ModelState.AddModelError("", StockProcessPostingError);
+                        return PartialView("_Create", vm);
+                    }
+
+                    Consumption.StockProcessId = StockProcessBomViewModel.StockProcessId;
+                    Consumption.ObjectState = Model.ObjectState.Added;
+                    db.JobReceiveBom.Add(Consumption);
+
+
+                    if (!JobReceiveHeader.StockHeaderId.HasValue || JobReceiveHeader.StockHeaderId == 0)
+                    {
+                        JobReceiveHeader.StockHeaderId = StockProcessBomViewModel.StockHeaderId;
+
+                        JobReceiveHeader.ObjectState = Model.ObjectState.Modified;
+                        db.JobReceiveHeader.Add(JobReceiveHeader);
+                    }
+
+
+                    try
+                    {
+                        db.SaveChanges();
+                        //_unitOfWork.Save();
+                    }
+
+                    catch (Exception ex)
+                    {
+                        string message = _exception.HandleException(ex);
+                        ModelState.AddModelError("", message);
+                        return PartialView("Consumption", vm);
+                    }
+
+                    return RedirectToAction("Consumption", new { id = vm.JobReceiveHeaderId });
+
+                }
+                else//Edit Logic
+                {
+
+                    JobReceiveBom temp = new JobReceiveBomService(_unitOfWork).Find(vm.JobReceiveBomId);
+                    temp.ProductId = vm.ProductId;
+                    temp.Dimension1Id = vm.Dimension1Id;
+                    temp.Dimension2Id = vm.Dimension2Id;
+                    temp.Dimension3Id = vm.Dimension3Id;
+                    temp.Dimension4Id = vm.Dimension4Id;
+                    temp.LotNo = vm.LotNo;
+                    temp.Qty = vm.Qty;
+
+
+                    JobReceiveHeader JobReceiveHeader = new JobReceiveHeaderService(_unitOfWork).Find(vm.JobReceiveHeaderId);
+                    StockProcessViewModel StockProcessBomViewModel = new StockProcessViewModel();
+
+                    StockProcessBomViewModel.StockHeaderId = JobReceiveHeader.StockHeaderId ?? 0;
+                    StockProcessBomViewModel.StockProcessId = temp.StockProcessId ?? 0;
+                    StockProcessBomViewModel.DocHeaderId = JobReceiveHeader.JobReceiveHeaderId;
+                    StockProcessBomViewModel.DocLineId = temp.JobReceiveBomId;
+                    StockProcessBomViewModel.DocTypeId = JobReceiveHeader.DocTypeId;
+                    StockProcessBomViewModel.StockHeaderDocDate = JobReceiveHeader.DocDate;
+                    StockProcessBomViewModel.StockProcessDocDate = JobReceiveHeader.DocDate;
+                    StockProcessBomViewModel.DocNo = JobReceiveHeader.DocNo;
+                    StockProcessBomViewModel.DivisionId = JobReceiveHeader.DivisionId;
+                    StockProcessBomViewModel.SiteId = JobReceiveHeader.SiteId;
+                    StockProcessBomViewModel.CurrencyId = null;
+                    StockProcessBomViewModel.HeaderProcessId = null;
+                    StockProcessBomViewModel.PersonId = JobReceiveHeader.JobWorkerId;
+                    StockProcessBomViewModel.ProductId = temp.ProductId;
+                    StockProcessBomViewModel.HeaderFromGodownId = null;
+                    StockProcessBomViewModel.HeaderGodownId = null;
+                    StockProcessBomViewModel.GodownId = JobReceiveHeader.GodownId;
+                    StockProcessBomViewModel.ProcessId = JobReceiveHeader.ProcessId;
+                    StockProcessBomViewModel.LotNo = temp.LotNo;
+                    StockProcessBomViewModel.CostCenterId = temp.CostCenterId;
+                    StockProcessBomViewModel.Qty_Iss = temp.Qty;
+                    StockProcessBomViewModel.Qty_Rec = 0;
+                    StockProcessBomViewModel.Rate = 0;
+                    StockProcessBomViewModel.ExpiryDate = null;
+                    StockProcessBomViewModel.Specification = null;
+                    StockProcessBomViewModel.Dimension1Id = null;
+                    StockProcessBomViewModel.Dimension2Id = null;
+                    StockProcessBomViewModel.Dimension3Id = null;
+                    StockProcessBomViewModel.Dimension4Id = null;
+                    StockProcessBomViewModel.Remark = null;
+                    StockProcessBomViewModel.Status = JobReceiveHeader.Status;
+                    StockProcessBomViewModel.CreatedBy = User.Identity.Name;
+                    StockProcessBomViewModel.CreatedDate = DateTime.Now;
+                    StockProcessBomViewModel.ModifiedBy = User.Identity.Name;
+                    StockProcessBomViewModel.ModifiedDate = DateTime.Now;
+
+                    string StockProcessPostingError = "";
+                    StockProcessPostingError = new StockProcessService(_unitOfWork).StockProcessPostDB(ref StockProcessBomViewModel, ref db);
+
+                    if (StockProcessPostingError != "")
+                    {
+                        ModelState.AddModelError("", StockProcessPostingError);
+                        return PartialView("_Create", vm);
+                    }
+
+
+
+                    temp.StockProcessId = StockProcessBomViewModel.StockProcessId;
+                    temp.ObjectState = Model.ObjectState.Modified;
+
+                    db.JobReceiveBom.Add(temp);
+
+                    //new JobReceiveBomService(_unitOfWork).Update(temp);
+
+                    try
+                    {
+                        db.SaveChanges();
+                        //_unitOfWork.Save();
+                    }
+
+                    catch (Exception ex)
+                    {
+                        string message = _exception.HandleException(ex);
+                        ModelState.AddModelError("", message);
+                        return PartialView("Consumption", vm);
+
+                    }
+
+                    return Json(new { success = true });
+
+                }
+            }
+
+            return PartialView("Consumption", vm);
+
+        }
+
+        public ActionResult EditConsumption(int id)//ReceiveHeaderId
+        {
+            JobReceiveBomViewModel vm = new JobReceiveBomService(_unitOfWork).GetJobReceiveBom(id);
+
+            JobReceiveHeader H = new JobReceiveHeaderService(_unitOfWork).Find(vm.JobReceiveHeaderId);
+            var settings = new JobReceiveSettingsService(_unitOfWork).GetJobReceiveSettingsForDocument(H.DocTypeId, H.DivisionId, H.SiteId);
+            vm.JobReceiveSettings = Mapper.Map<JobReceiveSettings, JobReceiveSettingsViewModel>(settings);
+
+            if (vm == null)
+            {
+                return HttpNotFound();
+            }
+            ViewBag.LineMode = "Edit";
+            return PartialView("Consumption", vm);
+        }
+
+        public ActionResult DeleteConsumption(int id)//ReceiveHeaderId
+        {
+            JobReceiveBomViewModel vm = new JobReceiveBomService(_unitOfWork).GetJobReceiveBom(id);
+
+            JobReceiveHeader H = new JobReceiveHeaderService(_unitOfWork).Find(vm.JobReceiveHeaderId);
+            var settings = new JobReceiveSettingsService(_unitOfWork).GetJobReceiveSettingsForDocument(H.DocTypeId, H.DivisionId, H.SiteId);
+            vm.JobReceiveSettings = Mapper.Map<JobReceiveSettings, JobReceiveSettingsViewModel>(settings);
+
+            if (vm == null)
+            {
+                return HttpNotFound();
+            }
+            ViewBag.LineMode = "Delete";
+            return PartialView("Consumption", vm);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteConsumption(JobReceiveBomViewModel vm)
+        {
+            JobReceiveBom temp = (from p in db.JobReceiveBom
+                                  where p.JobReceiveBomId == vm.JobReceiveBomId
+                                  select p).FirstOrDefault();
+
+            JobReceiveHeader header = new JobReceiveHeaderService(_unitOfWork).Find(vm.JobReceiveHeaderId);
+
+            if (temp.StockProcessId != null)
+            {
+                var StockProcess = (from p in db.StockProcess
+                                    where p.StockProcessId == temp.StockProcessId
+                                    select p).FirstOrDefault();
+                StockProcess.ObjectState = Model.ObjectState.Deleted;
+                db.StockProcess.Remove(StockProcess);
+            }
+
+            temp.ObjectState = Model.ObjectState.Deleted;
+            db.JobReceiveBom.Remove(temp);
+            //new JobReceiveBomService(_unitOfWork).Delete(temp);
+
+            if (header.Status != (int)StatusConstants.Drafted)
+            {
+                header.Status = (int)StatusConstants.Modified;
+                header.ModifiedBy = User.Identity.Name;
+                header.ModifiedDate = DateTime.Now;
+            }
+
+
+            header.ObjectState = Model.ObjectState.Modified;
+            db.JobReceiveHeader.Add(header);
+
+            try
+            {
+                db.SaveChanges();
+                //_unitOfWork.Save();
+            }
+
+            catch (Exception ex)
+            {
+                string message = _exception.HandleException(ex);
+                ModelState.AddModelError("", message);
+                return PartialView("Consumption", vm);
+            }
+            return Json(new { success = true });
         }
 
         [Authorize]
@@ -1096,8 +1441,15 @@ namespace Web
                     vm.StockHeaderId = i;
                     vm.StockId = i;
 
+                    JobOrderLine JobOrderLine = new JobOrderLineService(_unitOfWork).Find(vm.JobOrderLineId);
+                    if (JobOrderLine.ProdOrderLineId !=null)
+                    {
+                        ProdOrderLine ProdOrderLine = new ProdOrderLineService(_unitOfWork).Find((int)JobOrderLine.ProdOrderLineId);
+                        vm.JobOrderLineId = (int)ProdOrderLine.ReferenceDocLineId;
+                    }
 
-                    
+
+
                     JobReceiveHeader JobReceiveHeader = new JobReceiveHeader();
                     JobReceiveHeader = new WeavingReceiveQACombinedService(db).Create(vm, User.Identity.Name);
 

@@ -144,6 +144,8 @@ namespace Model.ViewModels
 
         public Decimal? Freight { get; set; }
 
+        public Decimal? Insurance { get; set; }
+
         [Display(Name = "Vehicle No")]
         public string VehicleNo { get; set; }
 

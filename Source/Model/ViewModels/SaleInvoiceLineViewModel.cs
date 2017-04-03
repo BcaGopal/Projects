@@ -94,6 +94,9 @@ namespace Model.ViewModels
         [Display(Name = "Remark")]
         public string Remark { get; set; }
 
+        [Display(Name = "Rate Remark")]
+        public string RateRemark { get; set; }
+
         [Display(Name = "Created By")]
         public string CreatedBy { get; set; }
 

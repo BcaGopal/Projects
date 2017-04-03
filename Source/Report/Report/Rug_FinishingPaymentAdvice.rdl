@@ -510,22 +510,22 @@
               <Width>0.66667in</Width>
             </TablixColumn>
             <TablixColumn>
+              <Width>0.86459in</Width>
+            </TablixColumn>
+            <TablixColumn>
+              <Width>0.56249in</Width>
+            </TablixColumn>
+            <TablixColumn>
+              <Width>0.63542in</Width>
+            </TablixColumn>
+            <TablixColumn>
               <Width>0.67708in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>0.64583in</Width>
+              <Width>0.46875in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>0.59375in</Width>
-            </TablixColumn>
-            <TablixColumn>
-              <Width>0.67708in</Width>
-            </TablixColumn>
-            <TablixColumn>
-              <Width>0.5in</Width>
-            </TablixColumn>
-            <TablixColumn>
-              <Width>0.875in</Width>
+              <Width>0.76042in</Width>
             </TablixColumn>
           </TablixColumns>
           <TablixRows>
@@ -717,7 +717,7 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox7">
+                    <Textbox Name="Textbox2">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
@@ -736,23 +736,8 @@
                             <TextAlign>Right</TextAlign>
                           </Style>
                         </Paragraph>
-                        <Paragraph>
-                          <TextRuns>
-                            <TextRun>
-                              <Value>Amount</Value>
-                              <Style>
-                                <FontFamily>Tahoma</FontFamily>
-                                <FontSize>8pt</FontSize>
-                                <FontWeight>Bold</FontWeight>
-                              </Style>
-                            </TextRun>
-                          </TextRuns>
-                          <Style>
-                            <TextAlign>Right</TextAlign>
-                          </Style>
-                        </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox7</rd:DefaultName>
+                      <rd:DefaultName>Textbox2</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -1106,10 +1091,11 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=iif(Fields!TDSPayment.Value &lt;&gt; 0, formatnumber(Fields!TDSPayment.Value,2), "-")</Value>
+                              <Value>=Fields!TDSPayment.Value</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>8pt</FontSize>
+                                <Format>0.00;-0.00;'-'</Format>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -1132,6 +1118,7 @@
                         <PaddingBottom>2pt</PaddingBottom>
                       </Style>
                     </Textbox>
+                    <rd:Selected>true</rd:Selected>
                   </CellContents>
                 </TablixCell>
                 <TablixCell>
@@ -1276,7 +1263,7 @@
                       <Style>
                         <Border>
                           <Color>Gray</Color>
-                          <Style>Solid</Style>
+                          <Style>None</Style>
                           <Width>0.25pt</Width>
                         </Border>
                         <BackgroundColor>LightGrey</BackgroundColor>
@@ -1314,7 +1301,7 @@
                       <Style>
                         <Border>
                           <Color>Gray</Color>
-                          <Style>Solid</Style>
+                          <Style>None</Style>
                           <Width>0.25pt</Width>
                         </Border>
                         <BackgroundColor>LightGrey</BackgroundColor>
@@ -1355,7 +1342,7 @@
                       <Style>
                         <Border>
                           <Color>Gray</Color>
-                          <Style>Solid</Style>
+                          <Style>None</Style>
                           <Width>0.25pt</Width>
                         </Border>
                         <BackgroundColor>LightGrey</BackgroundColor>
@@ -1369,6 +1356,44 @@
                   </CellContents>
                 </TablixCell>
                 <TablixCell />
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox28">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value />
+                              <Style>
+                                <FontFamily>Tahoma</FontFamily>
+                                <FontSize>8pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox28</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>Gray</Color>
+                          <Style>None</Style>
+                          <Width>0.25pt</Width>
+                        </Border>
+                        <BackgroundColor>LightGrey</BackgroundColor>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
                 <TablixCell>
                   <CellContents>
                     <Textbox Name="Textbox55">
@@ -1395,7 +1420,7 @@
                       <Style>
                         <Border>
                           <Color>Gray</Color>
-                          <Style>Solid</Style>
+                          <Style>None</Style>
                           <Width>0.25pt</Width>
                         </Border>
                         <BackgroundColor>LightGrey</BackgroundColor>
@@ -1405,10 +1430,8 @@
                         <PaddingBottom>2pt</PaddingBottom>
                       </Style>
                     </Textbox>
-                    <ColSpan>2</ColSpan>
                   </CellContents>
                 </TablixCell>
-                <TablixCell />
                 <TablixCell>
                   <CellContents>
                     <Textbox Name="Textbox58">
@@ -1435,12 +1458,9 @@
                       <Style>
                         <Border>
                           <Color>Gray</Color>
-                          <Style>Solid</Style>
+                          <Style>None</Style>
                           <Width>0.25pt</Width>
                         </Border>
-                        <TopBorder>
-                          <Style>None</Style>
-                        </TopBorder>
                         <BottomBorder>
                           <Color>Gray</Color>
                         </BottomBorder>
@@ -1492,9 +1512,12 @@
                       <Style>
                         <Border>
                           <Color>Gray</Color>
-                          <Style>Solid</Style>
+                          <Style>None</Style>
                           <Width>0.25pt</Width>
                         </Border>
+                        <BottomBorder>
+                          <Style>Solid</Style>
+                        </BottomBorder>
                         <BackgroundColor>LightGrey</BackgroundColor>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
@@ -1532,9 +1555,12 @@
                       <Style>
                         <Border>
                           <Color>Gray</Color>
-                          <Style>Solid</Style>
+                          <Style>None</Style>
                           <Width>0.25pt</Width>
                         </Border>
+                        <BottomBorder>
+                          <Style>Solid</Style>
+                        </BottomBorder>
                         <BackgroundColor>LightGrey</BackgroundColor>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
@@ -1548,14 +1574,14 @@
                 <TablixCell />
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox64">
+                    <Textbox Name="Textbox4">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=iif(sum(Fields!TDSPayment.Value) &lt;&gt; 0, formatnumber(sum(Fields!TDSPayment.Value),2), "-")</Value>
+                              <Value />
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>8pt</FontSize>
@@ -1568,13 +1594,16 @@
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox64</rd:DefaultName>
+                      <rd:DefaultName>Textbox4</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>Gray</Color>
-                          <Style>Solid</Style>
+                          <Style>None</Style>
                           <Width>0.25pt</Width>
                         </Border>
+                        <BottomBorder>
+                          <Style>Solid</Style>
+                        </BottomBorder>
                         <BackgroundColor>LightGrey</BackgroundColor>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
@@ -1582,10 +1611,49 @@
                         <PaddingBottom>2pt</PaddingBottom>
                       </Style>
                     </Textbox>
-                    <ColSpan>2</ColSpan>
                   </CellContents>
                 </TablixCell>
-                <TablixCell />
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox63">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Microsoft.VisualBasic.Interaction.iif(Sum(Fields!TDSPayment.Value) &lt;&gt; 0, Microsoft.VisualBasic.Strings.formatnumber(Sum(Fields!TDSPayment.Value), 2), "-")</Value>
+                              <Style>
+                                <FontFamily>Tahoma</FontFamily>
+                                <FontSize>8pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox62</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>Gray</Color>
+                          <Style>None</Style>
+                          <Width>0.25pt</Width>
+                        </Border>
+                        <BottomBorder>
+                          <Style>Solid</Style>
+                        </BottomBorder>
+                        <BackgroundColor>LightGrey</BackgroundColor>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
                 <TablixCell>
                   <CellContents>
                     <Textbox Name="Textbox62">
@@ -1612,9 +1680,12 @@
                       <Style>
                         <Border>
                           <Color>Gray</Color>
-                          <Style>Solid</Style>
+                          <Style>None</Style>
                           <Width>0.25pt</Width>
                         </Border>
+                        <BottomBorder>
+                          <Style>Solid</Style>
+                        </BottomBorder>
                         <BackgroundColor>LightGrey</BackgroundColor>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
@@ -1652,9 +1723,12 @@
                       <Style>
                         <Border>
                           <Color>Gray</Color>
-                          <Style>Solid</Style>
+                          <Style>None</Style>
                           <Width>0.25pt</Width>
                         </Border>
+                        <BottomBorder>
+                          <Style>Solid</Style>
+                        </BottomBorder>
                         <BackgroundColor>LightGrey</BackgroundColor>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
@@ -1702,7 +1776,7 @@
         <Top>1.55417in</Top>
         <Left>0.02092in</Left>
         <Height>1.07291in</Height>
-        <Width>7.6498in</Width>
+        <Width>7.64981in</Width>
         <ZIndex>3</ZIndex>
         <Style>
           <Border>

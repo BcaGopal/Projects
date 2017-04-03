@@ -959,6 +959,7 @@ namespace Web
                         saleinvoiceline.Amount = item.Amount;
                         saleinvoiceline.ProductInvoiceGroupId = item.ProductInvoiceGroupId;
                         saleinvoiceline.Remark = item.Remark;
+                        saleinvoiceline.RateRemark = item.RateRemark;
                         saleinvoiceline.CreatedBy = User.Identity.Name;
                         saleinvoiceline.ModifiedBy = User.Identity.Name;
                         saleinvoiceline.CreatedDate = DateTime.Now;
@@ -1804,14 +1805,14 @@ namespace Web
                         join Pg in db.ProductGroups on ProductTab.ProductGroupId equals Pg.ProductGroupId into ProductGroupTable
                         from ProductGroupTab in ProductGroupTable.DefaultIfEmpty()
                         where L.SaleInvoiceHeaderId == SaleInvoiceHeaderId
-                        group new { L, ProductGroupTab } by new { ProductGroupTab.ProductGroupId, ProductGroupTab.ProductGroupName, L.Remark } into Result
+                        group new { L, ProductGroupTab } by new { ProductGroupTab.ProductGroupId, ProductGroupTab.ProductGroupName, L.RateRemark } into Result
                         orderby Result.Key.ProductGroupName
                         select new
                         {
-                            UniqueName = Result.Key.ProductGroupName + (Result.Key.Remark ?? ""),
+                            UniqueName = Result.Key.ProductGroupName + (Result.Key.RateRemark ?? ""),
                             ProductGroupId = Result.Key.ProductGroupId,
                             DesignName = Result.Key.ProductGroupName,
-                            Remark = Result.Key.Remark
+                            Remark = Result.Key.RateRemark
                         }).ToList();
 
             return Json(new { data = temp }, JsonRequestBehavior.AllowGet);
@@ -1825,7 +1826,7 @@ namespace Web
                 IEnumerable<SaleInvoiceLine> SaleInvoiceLineList = (from L in db.SaleInvoiceLine
                                        join P in db.Product on L.ProductId equals P.ProductId into ProductTable
                                        from ProductTab in ProductTable.DefaultIfEmpty()
-                                       where L.SaleInvoiceHeaderId == SaleInvoiceHeaderId && ProductTab.ProductGroupId == ProductGroupId && (L.Remark ?? "") == Remark
+                                       where L.SaleInvoiceHeaderId == SaleInvoiceHeaderId && ProductTab.ProductGroupId == ProductGroupId && (L.RateRemark ?? "") == Remark
                                        select L).ToList();
 
                 foreach (var SaleInvoiceLine in SaleInvoiceLineList)

@@ -277,6 +277,7 @@ namespace Model.ViewModel
     {
         public List<JobInvoiceSummaryViewModel> JobInvoiceSummaryViewModel { get; set; }
         public int JobInvoiceHeaderId { get; set; }
+        public int ProcessId { get; set; }
         public DateTime DocDate { get; set; }
         public string DocNo { get; set; }
     }
@@ -285,6 +286,7 @@ namespace Model.ViewModel
     {
         public int JobInvoiceLineId { get; set; }
         public int ProductUidId { get; set; }
+        public int ProcessId { get; set; }
         public string ProductUidName { get; set; }
         public int CostCenterId { get; set; }
         public string CostCenterName { get; set; }

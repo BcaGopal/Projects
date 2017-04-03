@@ -87,6 +87,7 @@ namespace Web
             vm.JobInvoiceHeaderId = id;
             vm.DocDate = Header.DocDate;
             vm.DocNo = Header.DocNo;
+            vm.ProcessId = Header.ProcessId;
             vm.JobInvoiceSummaryViewModel = JobInvoices;
             PrepareViewBag(id);
 
@@ -326,7 +327,10 @@ namespace Web
                     TdsLedgerLine.LedgerLineId = LedgerLineId;
                     TdsLedgerLine.LedgerHeaderId = SavedTdsCollectionLedgerHeaderId;
                     TdsLedgerLine.LedgerAccountId = new LedgerAccountService(_unitOfWork).GetLedgerAccountByPersondId(item.PersonId).LedgerAccountId;
-                    TdsLedgerLine.CostCenterId = item.CostCenterId;
+                    if (item.CostCenterId != 0)
+                    {
+                        TdsLedgerLine.CostCenterId = item.CostCenterId;
+                    }                    
                     TdsLedgerLine.ProductUidId = item.ProductUidId;
                     TdsLedgerLine.BaseValue = item.TdsAdjusted * 100 / TdsRate.Percentage;
                     TdsLedgerLine.Amount = item.TdsAdjusted;
@@ -344,7 +348,10 @@ namespace Web
                     TdsLedgerDr.LedgerHeaderId = SavedTdsCollectionLedgerHeaderId;
                     TdsLedgerDr.LedgerAccountId = TdsLedgerLine.LedgerAccountId;
                     TdsLedgerDr.ContraLedgerAccountId = TdsRate.LedgerAccountId;
-                    TdsLedgerDr.CostCenterId = item.CostCenterId;
+                    if (item.CostCenterId != 0)
+                    {
+                        TdsLedgerDr.CostCenterId = item.CostCenterId;
+                    }
                     TdsLedgerDr.ProductUidId = item.ProductUidId;
                     TdsLedgerDr.AmtDr = TdsLedgerLine.Amount;
                     TdsLedgerDr.AmtCr = 0;

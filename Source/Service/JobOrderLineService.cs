@@ -125,6 +125,48 @@ namespace Service
 
             return temp;
         }
+
+        public JobOrderLine GetMainJobOrderLine(int id)
+        {
+            var temp = (from p in db.JobOrderLine
+                        join POL in db.ProdOrderLine on p.ProdOrderLineId equals POL.ProdOrderLineId into tablePOL
+                        from TabPOL in tablePOL.DefaultIfEmpty()
+                        join JOL in db.JobOrderLine on TabPOL.ReferenceDocLineId equals JOL.JobOrderLineId into tableJOL
+                        from TabJOL in tableJOL.DefaultIfEmpty()
+                        where p.JobOrderLineId == id
+                        select new JobOrderLine
+                        {
+                            ProductId = TabJOL.ProductId,
+                            ProductUidHeaderId = TabJOL.ProductUidHeaderId,
+                            DueDate = TabJOL.DueDate,
+                            Qty = TabJOL.Qty,
+                            Remark = TabJOL.Remark,
+                            JobOrderHeaderId = TabJOL.JobOrderHeaderId,
+                            JobOrderLineId = TabJOL.JobOrderLineId,
+                            Dimension1Id = TabJOL.Dimension1Id,
+                            Dimension2Id = TabJOL.Dimension2Id,
+                            Dimension3Id = TabJOL.Dimension3Id,
+                            Dimension4Id = TabJOL.Dimension4Id,
+                            ProductUidId = TabJOL.ProductUidId,
+                            ProdOrderLineId = TabJOL.ProdOrderLineId,
+                            LotNo = TabJOL.LotNo,
+                            FromProcessId = TabJOL.FromProcessId,
+                            DealUnitId = TabJOL.DealUnitId,
+                            DealQty = TabJOL.DealQty,
+                            LockReason = TabJOL.LockReason,
+                            LossQty = TabJOL.LossQty,
+                            Rate = TabJOL.Rate,
+                            Amount = TabJOL.Amount,
+                            NonCountedQty = TabJOL.NonCountedQty,
+                            UnitId = TabJOL.UnitId,
+                            UnitConversionMultiplier = TabJOL.UnitConversionMultiplier,
+                            Specification = TabJOL.Specification,
+                        }).FirstOrDefault();
+
+
+            return temp;
+        }
+
         public JobOrderLine Find(int id)
         {
             return _unitOfWork.Repository<JobOrderLine>().Find(id);

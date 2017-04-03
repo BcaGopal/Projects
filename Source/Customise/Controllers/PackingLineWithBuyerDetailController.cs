@@ -591,6 +591,8 @@ namespace Web
                     packingline.GrossWeight = svm.GrossWeight;
                     packingline.NetWeight = svm.NetWeight;
                     packingline.Remark = svm.Remark;
+                    packingline.SealNo = svm.SealNo;
+                    packingline.RateRemark = svm.RateRemark;
                     packingline.ModifiedDate = DateTime.Now;
                     packingline.ModifiedBy = User.Identity.Name;
                     _PackingLineService.Update(packingline);

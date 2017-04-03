@@ -94,6 +94,9 @@ namespace Model.Models
         [Display(Name = "Remark")]
         public string Remark { get; set; }
 
+        [Display(Name = "Rate Remark")]
+        public string RateRemark { get; set; }
+
         [Display(Name = "Lock Reason")]
         public string LockReason { get; set; }
 
