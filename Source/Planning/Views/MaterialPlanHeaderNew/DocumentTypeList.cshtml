@@ -4,53 +4,11 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<!-- modal placeholder-->
-<div id='myModal' class='modal fade in'>
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div id='myModalContent'></div>
-        </div>
-    </div>
-</div>
-@*<div class="panel panel-default">
-        <div class="panel-heading">
-            <h3>
-                <span style="font-family: Calibri,sans-serif,Verdana;font-weight:bold" class="black"><span class="glyphicon glyphicon-list black"></span> Document Type List</span>
-            </h3>
-            <hr style="margin-top:0px;margin-bottom:0px" />
-
-        </div>
-        <div class="panel-info" style="padding-left:5px;padding-top:2px">
-
-            @Html.Grid(Model).Columns(columns =>
-               {
-                   columns.Add(foo => foo.DocumentTypeId, true);
-                   columns.Add(foo => foo.DocumentTypeName).Sortable(true).Titled("Name").Filterable(true).Css("modal-link");
-                   //columns.Add(foo => foo.DocumentCategory.DocumentCategoryName).Sortable(true).Titled("Category").Filterable(true).Css("modal-link");
-                   //columns.Add(m => m.IsSystemDefine).Sortable(true).Titled("System Defined");
-                   //columns.Add(m => m.IsActive).Sortable(true).Titled("Is Active").Filterable(true);
-               }).WithPaging(25).EmptyText("No records found.")
-        </div>
-    </div>
-    <script type="text/javascript">
-
-        $('table.grid-table td').dblclick(function () {
-            var $this = $(this);
-            var row = $this.closest("tr");
-            var editid = row.find('[data-name="DocumentTypeId"]').text();
-            var url = '@Url.Action("Index", "MaterialPlanHeaderNew")' + "/" + editid;
-            window.location.href = url;
-
-        });
-
-    </script>*@
-
-
 
 <div class="panel panel-default">
     <div class="panel-heading">
         <h3>
-            <span style="font-family: Calibri,sans-serif,Verdana;font-weight:bold" class="black"><span class="glyphicon glyphicon-list black"></span> Document Type List</span>
+            <span style="font-family: Calibri,sans-serif,Verdana;font-weight:bold" class="black"><span class="glyphicon glyphicon-list black"></span> @Model.FirstOrDefault().DocumentCategory.DocumentCategoryName List</span>
         </h3>
 
     </div>
@@ -61,14 +19,20 @@
             @foreach (var item in Model)
             {
 
-                <div class="Box">
-                    <a href="/MaterialPlanHeaderNew/Index/@item.DocumentTypeId">
-                        <div class="InnerContent">
-                            <div style="width:100%">
-                                <h1><span class="glyphicon glyphicon-alert"></span></h1>
-                            </div>
-                            <div class="titleBox">@item.DocumentTypeName</div>
+                string Dd = (System.Configuration.ConfigurationManager.AppSettings["DocTypePic"]);
+                string Ad = (System.Configuration.ConfigurationManager.AppSettings["AlphabetPic"]);
+                string ImgSrc = Dd + item.ImageFileName;
+                int val;
+                bool IsNumeric = Int32.TryParse(item.DocumentTypeName.Substring(0, 1), out val);
+                string ImgAlt = Ad + (IsNumeric ? "N" : item.DocumentTypeName.Substring(0, 1)) + ".png";
 
+                <div class="Box">
+                    <a href="/MaterialPlanHeader/Index/@item.DocumentTypeId">
+                        <div class="InnerContent">
+                            <div style="width:100%;height:100%;margin-left:auto;margin-right:auto">
+                                <img src="@ImgSrc" style="max-height:100%;max-width:100%;padding:5px;height:135px;width:155px; border-radius:10%" alt="@ImgAlt" onerror="this.src = '@ImgAlt'" />
+                            </div>
+                            <div class="titleBox">@(string.IsNullOrEmpty(item.IconDisplayName) ? item.DocumentTypeName : item.IconDisplayName)</div>
                         </div>
                     </a>
                 </div>

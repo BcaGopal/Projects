@@ -95,15 +95,11 @@ label {
 }
 
 select {
-    height: 30px !important;
+    height: 30px;
 }
 
 label, h4 {
     font-weight: bold !important;
-}
-
-.panel h3 {
-    margin-top: 0px;
 }
 
 .panel h3 {
@@ -225,7 +221,7 @@ body {
     color: white;
 }
 
-.progress-bar, .progress {
+.progress {
     border-radius: 10px !important;
 }
 
@@ -259,8 +255,8 @@ body {
 .Box {
     float: left;
     position: relative;
-    width: 25%;
-    padding-bottom: 25%;
+    width: 182px;
+    padding-bottom: 182px;
 }
 
 .InnerContent {
@@ -282,10 +278,11 @@ body {
         bottom: 0;
         left: 0;
         right: 0;
-        background: #2980b9;
+        background: #333;
         color: #FFF;
-        padding: 10px;
+        padding: 5px;
         text-align: center;
+        font-size: 13.5px;
         -webkit-transition: all 0.3s ease-out;
         -moz-transition: all 0.3s ease-out;
         -o-transition: all 0.3s ease-out;
@@ -300,6 +297,46 @@ body {
             font-size: 3em;
         }
 
+
+.AInfo {
+    font-size: 12px;
+    font-family: Calibri;
+}
+
+
+.form-control.multiple-modal {
+    height: 25px;
+    font-size: 14px;
+}
+
+
+.modal-content.Custom-modal {
+    font-size: 14px;
+    line-height: 1.1;
+}
+
+    .modal-content.Custom-modal .modal-header {
+        padding-top: 0px;
+        padding-bottom: 0px;
+    }
+
+    .modal-content.Custom-modal .panel-heading.headrow {
+        padding-top: 5px;
+        padding-bottom: 5px;
+    }
+
+    .modal-content.Custom-modal .form-horizontal.modal-body {
+        padding-top: 5px;
+    }
+
+    .modal-content.Custom-modal .select2-container .select2-choice {
+        height: 27px;
+    }
+
+    .modal-content.Custom-modal .select2-container {
+        font-size: 12px;
+    }
+
 .SelectedLine {
     background-color: rgb(137, 135, 135);
 }
@@ -309,8 +346,8 @@ body {
 }
 
 .UserIndexImage {
-    height: 35px;
-    width: 35px;
+    height: 30px;
+    width: 30px;
 }
 
 img.UserIndexImage {
@@ -319,9 +356,14 @@ img.UserIndexImage {
     /*background-image: url("/Images/DefaultUser.png");*/
 }
 
-.grid-cell.UserImageIndex{
-    padding-top:3px ! important;
-    padding-bottom:3px ! important;
+.grid-cell.UserImageIndex {
+    padding-top: 3px !important;
+    padding-bottom: 3px !important;
+}
+
+.grid-cell.UserImageIndex {
+    padding-top: 3px !important;
+    padding-bottom: 3px !important;
 }
 
 .Badge_Cont {
@@ -339,7 +381,6 @@ img.UserIndexImage {
     border-radius: 6px;
     /*box-shadow: 0 0 6px #0C0C0C;*/
 }
-
 
 table.grid-table .ui-selecting {
     background: #b2cefa !important;
@@ -394,14 +435,12 @@ table.grid-table .ui-selecting {
   }
 }
 
-
 /* For Removing Arrows from <input type='number'/>*/
 input[type=number]::-webkit-inner-spin-button,
 input[type=number]::-webkit-outer-spin-button {
     -webkit-appearance: none;
     margin: 0;
 }
-
 
 
 @-webkit-keyframes button-gradient-explosion {

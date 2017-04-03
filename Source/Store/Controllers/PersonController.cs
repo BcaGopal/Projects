@@ -616,7 +616,7 @@ namespace Web
                     {
                         var temp = (from p in db.PersonProcess where p.PersonId == person.PersonID && p.ProcessId == settings.DefaultProcessId select p).FirstOrDefault();
 
-                        if (temp != null)
+                        if (temp == null)
                         {
                             PersonProcess personprocess = new PersonProcess();
                             personprocess.PersonId = person.PersonID;

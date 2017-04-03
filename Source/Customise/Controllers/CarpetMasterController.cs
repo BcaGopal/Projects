@@ -250,33 +250,54 @@ namespace Web
 
                     ////ForInsertingProductProcess
 
-                    if (fp.ProcessSequenceHeaderId.HasValue && fp.ProcessSequenceHeaderId.Value > 0)
+                    var ProductProcessList = (from P in db.ProductProcess
+                                         where P.ProductId == item.ProductId
+                                         select P).ToList();
+
+                    foreach (var ProductProcess in ProductProcessList)
                     {
-
-                        //var ProcessSeqLines = (from p in db.ProcessSequenceLine
-                        //                       where p.ProcessSequenceHeaderId == fp.ProcessSequenceHeaderId
-                        //                       select p).ToList();
-
-                        IEnumerable<ProductProcessViewModel> ProcessSeqLines = new ProcessSequenceHeaderService(_unitOfWork).FGetProductProcessFromProcessSequence((int)fp.ProcessSequenceHeaderId);
-
-                        foreach (var ProcSeqLin in ProcessSeqLines)
+                        ProductProcess ProdProc = new ProductProcess()
                         {
-                            ProductProcess ProdProc = new ProductProcess()
-                            {
-                                CreatedBy = User.Identity.Name,
-                                CreatedDate = DateTime.Now,
-                                ModifiedBy = User.Identity.Name,
-                                ModifiedDate = DateTime.Now,
-                                ProcessId = ProcSeqLin.ProcessId,
-                                Sr = ProcSeqLin.Sr,
-                                ProductId = fp.ProductId,
-                            };
-                            ProdProc.ObjectState = Model.ObjectState.Added;
-                            new ProductProcessService(_unitOfWork).Create(ProdProc);
-                        }
-
+                            CreatedBy = User.Identity.Name,
+                            CreatedDate = DateTime.Now,
+                            ModifiedBy = User.Identity.Name,
+                            ModifiedDate = DateTime.Now,
+                            ProcessId = ProductProcess.ProcessId,
+                            QAGroupId = ProductProcess.QAGroupId,
+                            ProductRateGroupId = ProductProcess.ProductRateGroupId,
+                            Sr = ProductProcess.Sr,
+                            ProductId = fp.ProductId,
+                        };
+                        ProdProc.ObjectState = Model.ObjectState.Added;
+                        new ProductProcessService(_unitOfWork).Create(ProdProc);
                     }
 
+
+                    //if (fp.ProcessSequenceHeaderId.HasValue && fp.ProcessSequenceHeaderId.Value > 0)
+                    //{
+
+                    //    //var ProcessSeqLines = (from p in db.ProcessSequenceLine
+                    //    //                       where p.ProcessSequenceHeaderId == fp.ProcessSequenceHeaderId
+                    //    //                       select p).ToList();
+
+                    //    IEnumerable<ProductProcessViewModel> ProcessSeqLines = new ProcessSequenceHeaderService(_unitOfWork).FGetProductProcessFromProcessSequence((int)fp.ProcessSequenceHeaderId);
+
+                    //    foreach (var ProcSeqLin in ProcessSeqLines)
+                    //    {
+
+                    //        ProductProcess ProdProc = new ProductProcess()
+                    //        {
+                    //            CreatedBy = User.Identity.Name,
+                    //            CreatedDate = DateTime.Now,
+                    //            ModifiedBy = User.Identity.Name,
+                    //            ModifiedDate = DateTime.Now,
+                    //            Sr = ProcSeqLin.Sr,
+                    //            ProductId = fp.ProductId,
+                    //        };
+                    //        ProdProc.ObjectState = Model.ObjectState.Added;
+                    //        new ProductProcessService(_unitOfWork).Create(ProdProc);
+                    //    }
+                    //}
                 }
 
 
@@ -2211,7 +2232,7 @@ namespace Web
                                     {
                                         string ProductCategoryName = new ProductCategoryService(_unitOfWork).Find((int)pro.ProductCategoryId).ProductCategoryName;
 
-                                        if (ProductCategoryName.Contains("Handloom"))
+                                        if (ProductCategoryName.ToUpper().Contains("HANDLOOM"))
                                         {
                                             ProductRateGroupId = new ProductRateGroupService(_unitOfWork).Find("Handloom").ProductRateGroupId;
                                         }

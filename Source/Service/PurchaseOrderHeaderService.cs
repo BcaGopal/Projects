@@ -364,11 +364,12 @@ namespace Service
                         && BusinessEntityTab.DivisionIds.IndexOf(DivIdStr) != -1
                         && BusinessEntityTab.SiteIds.IndexOf(SiteIdStr) != -1
                         && (p.IsActive == null ? 1 == 1 : p.IsActive == true)
-                        orderby p.Name
+                        group new { p } by new { p.PersonID } into Result
+                        orderby Result.Max(m => m.p.Name)
                         select new ComboBoxResult
                         {
-                            id = p.PersonID.ToString(),
-                            text = p.Name + "|" + p.Code,
+                            id = Result.Key.PersonID.ToString(),
+                            text = Result.Max(m => m.p.Name + "|" + m.p.Code),
                         }
               );
 

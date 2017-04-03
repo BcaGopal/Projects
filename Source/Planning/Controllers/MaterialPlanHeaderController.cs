@@ -17,6 +17,7 @@ using Reports.Controllers;
 using Reports.Reports;
 using System.Configuration;
 using Model.ViewModels;
+using System.Data.SqlClient;
 
 namespace Presentation
 {
@@ -943,6 +944,8 @@ namespace Presentation
 
                 if (User.Identity.Name == pd.ModifiedBy || UserRoles.Contains("Admin"))
                 {
+                    SqlParameter SqlMaterialPlanHeaderId = new SqlParameter("@MaterialPlanHeaderId", Id);
+                    db.Database.SqlQuery<int>("" + ConfigurationManager.AppSettings["DataBaseSchema"] + ".sp_UpdateMaterialPlanForSaleOrder @MaterialPlanHeaderId", SqlMaterialPlanHeaderId).FirstOrDefault();
 
 
                     pd.Status = (int)StatusConstants.Submitted;
@@ -951,6 +954,7 @@ namespace Presentation
                     _MaterialPlanHeaderService.Update(pd);
 
                     _unitOfWork.Save();
+
 
                     LogActivity.LogActivityDetail(LogVm.Map(new ActiivtyLogViewModel
                     {

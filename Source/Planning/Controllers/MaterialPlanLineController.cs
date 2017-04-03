@@ -541,10 +541,10 @@ namespace Presentation
                         order.ModifiedDate = DateTime.Now;
                         
                         var temp = context.MaterialPlanLine.Local.Where(m => m.ProductId == item.ProductId).FirstOrDefault();
-                        if (temp != null)
-                        {
-                            order.MaterialPlanLineId = context.MaterialPlanLine.Local.Where(m => m.ProductId == item.ProductId).FirstOrDefault().MaterialPlanLineId;
-                        }
+                        //if (temp != null)
+                        //{
+                        //    order.MaterialPlanLineId = context.MaterialPlanLine.Local.Where(m => m.ProductId == item.ProductId).FirstOrDefault().MaterialPlanLineId;
+                        //}
 
                         order.ObjectState = Model.ObjectState.Added;
                         context.MaterialPlanForSaleOrder.Add(order);

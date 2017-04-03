@@ -92,6 +92,7 @@ namespace Web
             {
                 return RedirectToAction("Index_PendingToReview", new { id });
             }
+            PrepareViewBag(id);
             IQueryable<StockHeaderViewModel> p = _StockHeaderService.GetStockHeaderList(id, User.Identity.Name);
             ViewBag.Name = new DocumentTypeService(_unitOfWork).Find(id).DocumentTypeName;
             ViewBag.id = id;
