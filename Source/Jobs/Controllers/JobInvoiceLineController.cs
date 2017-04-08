@@ -944,9 +944,9 @@ namespace Web
                                                  where p.JobInvoiceLineId == vm.JobInvoiceLineId
                                                  select p).FirstOrDefault();
                 
-                JobReceiveLine Rec = (from p in db.JobReceiveLine
-                                      where p.JobReceiveLineId == JobInvoiceLine.JobReceiveLineId
-                                      select p).FirstOrDefault();
+                //JobReceiveLine Rec = (from p in db.JobReceiveLine
+                //                      where p.JobReceiveLineId == JobInvoiceLine.JobReceiveLineId
+                //                      select p).FirstOrDefault();
 
                 JobInvoiceHeader header = new JobInvoiceHeaderService(_unitOfWork).Find(JobInvoiceLine.JobInvoiceHeaderId);
 
@@ -956,18 +956,23 @@ namespace Web
                 });
 
                 new JobOrderLineStatusService(_unitOfWork).UpdateJobQtyOnInvoice(JobInvoiceLine.JobReceiveLineId, JobInvoiceLine.JobInvoiceLineId, header.DocDate, 0, JobInvoiceLine.UnitConversionMultiplier, ref db, true);
-                new JobReceiveLineStatusService(_unitOfWork).UpdateJobReceiveQtyOnInvoice(JobInvoiceLine.JobReceiveLineId, JobInvoiceLine.JobInvoiceLineId, header.DocDate, 0, ref db, true);
+                //new JobReceiveLineStatusService(_unitOfWork).UpdateJobReceiveQtyOnInvoice(JobInvoiceLine.JobReceiveLineId, JobInvoiceLine.JobInvoiceLineId, header.DocDate, 0, ref db, true);
 
-                JobInvoiceLineStatus Status = new JobInvoiceLineStatus();
-                Status.JobInvoiceLineId = JobInvoiceLine.JobInvoiceLineId;
-                db.JobInvoiceLineStatus.Attach(Status);
+                //JobInvoiceLineStatus Status = new JobInvoiceLineStatus();
+                //Status.JobInvoiceLineId = JobInvoiceLine.JobInvoiceLineId;
+                //db.JobInvoiceLineStatus.Attach(Status);
+                //Status.ObjectState = Model.ObjectState.Deleted;
+                //db.JobInvoiceLineStatus.Remove(Status);
+
+                JobInvoiceLineStatus Status = db.JobInvoiceLineStatus.Find(JobInvoiceLine.JobInvoiceLineId);
                 Status.ObjectState = Model.ObjectState.Deleted;
                 db.JobInvoiceLineStatus.Remove(Status);
 
+
                 //_JobInvoiceLineService.Delete(JobInvoiceLine);
-                Rec.LockReason =null;
-                Rec.ObjectState = Model.ObjectState.Modified;
-                db.JobReceiveLine.Add(Rec);
+                //Rec.LockReason =null;
+                //Rec.ObjectState = Model.ObjectState.Modified;
+                //db.JobReceiveLine.Add(Rec);
 
 
                 JobInvoiceLine.ObjectState = Model.ObjectState.Deleted;

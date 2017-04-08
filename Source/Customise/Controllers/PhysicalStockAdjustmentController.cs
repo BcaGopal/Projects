@@ -79,9 +79,11 @@ namespace Web.Controllers
 
             if (DateList == "" || DateList == null)
             {
-                ViewBag.id = id;
-                ModelState.AddModelError("", "Please select Physical Dates.");
-                return View("Index");
+                //ViewBag.id = id;
+                //ModelState.AddModelError("", "Please select Physical Dates.");
+                //return View("Index");
+
+                DateList = DocDate.ToString();
             }
 
 

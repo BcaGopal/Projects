@@ -42,6 +42,7 @@ namespace Services.BasicSetup
         /// <param name="pageNum">current page size </param>
         /// <returns>ComboBoxPagedResult</returns>
         ComboBoxPagedResult GetList(string searchTerm, int pageSize, int pageNum);
+        ComboBoxPagedResult GetList(string searchTerm, int pageSize, int pageNum, int filterid);
         #endregion
 
         #region HelpList Setters
@@ -197,6 +198,31 @@ namespace Services.BasicSetup
         {
             var list = (from pr in _BinLocationRepository.Instance
                         where (string.IsNullOrEmpty(searchTerm) ? 1 == 1 : (pr.BinLocationName.ToLower().Contains(searchTerm.ToLower())))
+                        orderby pr.BinLocationName
+                        select new ComboBoxResult
+                        {
+                            text = pr.BinLocationCode + "|" + pr.BinLocationName,
+                            id = pr.BinLocationId.ToString()
+                        }
+              );
+
+            var temp = list
+               .Skip(pageSize * (pageNum - 1)).Take(pageSize).ToList();
+
+            var count = list.Count();
+
+            ComboBoxPagedResult Data = new ComboBoxPagedResult();
+            Data.Results = temp;
+            Data.Total = count;
+
+            return Data;
+        }
+
+        public ComboBoxPagedResult GetList(string searchTerm, int pageSize, int pageNum, int filterid)
+        {
+            var list = (from pr in _BinLocationRepository.Instance
+                        where (string.IsNullOrEmpty(searchTerm) ? 1 == 1 : (pr.BinLocationName.ToLower().Contains(searchTerm.ToLower())))
+                        && pr.GodownId == filterid
                         orderby pr.BinLocationName
                         select new ComboBoxResult
                         {

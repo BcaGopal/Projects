@@ -204,8 +204,8 @@ namespace Web
                         StockViewModel.ProcessId = ProcessId;
                         StockViewModel.LotNo = null;
                         StockViewModel.CostCenterId = null;
-                        StockViewModel.Qty_Iss = GLine.Qty;
-                        StockViewModel.Qty_Rec = 0;
+                        StockViewModel.Qty_Iss = 0;
+                        StockViewModel.Qty_Rec = GLine.Qty;
                         StockViewModel.Rate = null;
                         StockViewModel.ExpiryDate = null;
                         StockViewModel.Specification = PackingLin.Specification;
@@ -438,8 +438,8 @@ namespace Web
                     StockViewModel.ProcessId = ProcessId;
                     StockViewModel.LotNo = null;
                     StockViewModel.CostCenterId = null;
-                    StockViewModel.Qty_Iss = Gline.Qty;
-                    StockViewModel.Qty_Rec = 0;
+                    StockViewModel.Qty_Iss = 0;
+                    StockViewModel.Qty_Rec = Gline.Qty;
                     StockViewModel.Weight_Iss = Gline.Weight;
                     StockViewModel.Weight_Rec = 0;
                     StockViewModel.Rate = null;
@@ -647,8 +647,8 @@ namespace Web
                     StockViewModel.ProcessId = ProcessId;
                     StockViewModel.LotNo = null;
                     StockViewModel.CostCenterId = null;
-                    StockViewModel.Qty_Iss = svm.Qty;
-                    StockViewModel.Qty_Rec = 0;
+                    StockViewModel.Qty_Iss = 0;
+                    StockViewModel.Qty_Rec = svm.Qty;
                     StockViewModel.Weight_Iss = svm.Weight;
                     StockViewModel.Weight_Rec = 0;
                     StockViewModel.Rate = null;

@@ -1187,6 +1187,8 @@ namespace Web
                     string message = _exception.HandleException(ex);
                     TempData["CSEXCL"] += message;
                     ViewBag.LineMode = "Delete";
+                    var settings = new StockHeaderSettingsService(_unitOfWork).GetStockHeaderSettingsForDocument(header.DocTypeId, header.DivisionId, header.SiteId);
+                    vm.StockHeaderSettings = Mapper.Map<StockHeaderSettings, StockHeaderSettingsViewModel>(settings);
                     return PartialView("_Create", vm);
                 }
 
@@ -1199,6 +1201,8 @@ namespace Web
                     string message = _exception.HandleException(ex);
                     TempData["CSEXC"] += message;
                 }
+
+
 
                 LogActivity.LogActivityDetail(LogVm.Map(new ActiivtyLogViewModel
                 {

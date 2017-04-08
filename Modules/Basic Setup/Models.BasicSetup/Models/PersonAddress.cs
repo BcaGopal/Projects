@@ -22,9 +22,11 @@ namespace Models.BasicSetup.Models
         public virtual Person Person { get; set; }
                 
 
-        [ForeignKey("AddressType"), Display(Name = "Contact Type")]
-        public int AddressTypeId { get; set; }
-        public virtual GenericType AddressType { get; set; }
+        //[ForeignKey("AddressType"), Display(Name = "Contact Type")]
+        //public int AddressTypeId { get; set; }
+        //public virtual GenericType AddressType { get; set; }
+
+        public string AddressType { get; set; }
 
 
         public string Address { get; set; }
@@ -55,3 +57,4 @@ namespace Models.BasicSetup.Models
         
     }
 }
+
