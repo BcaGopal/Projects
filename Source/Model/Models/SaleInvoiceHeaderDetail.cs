@@ -90,6 +90,9 @@ namespace Model.Models
         [Display(Name = "Freight")]
         public Decimal? Freight { get; set; }
 
+        [Display(Name = "Insurance")]
+        public Decimal? Insurance { get; set; }
+
         [Display(Name = "Vehicle No")]
         public string VehicleNo { get; set; }
 

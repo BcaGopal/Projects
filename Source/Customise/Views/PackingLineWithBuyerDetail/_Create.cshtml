@@ -281,6 +281,27 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
+                                        @Html.LabelFor(model => model.SealNo, new { @class = "control-label col-xs-4" })
+                                        <div class="col-xs-7">
+                                            @Html.TextBoxFor(model => model.SealNo, new { @class = "form-control col-xs-7" })
+                                            @Html.ValidationMessageFor(model => model.SealNo)
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.RateRemark, new { @class = "control-label col-xs-4" })
+                                        <div class="col-xs-7">
+                                            @Html.TextBoxFor(model => model.RateRemark, new { @class = "form-control col-xs-7" })
+                                            @Html.ValidationMessageFor(model => model.RateRemark)
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
                                         @Html.LabelFor(model => model.SaleDeliveryOrderLineId, new { @class = "control-label col-xs-4" })
                                         <div class="col-xs-7">
                                             @Html.DropDownList("SaleDeliveryOrderLineId", Enumerable.Empty<SelectListItem>(), new { @class = "form-control col-xs-7 height" })

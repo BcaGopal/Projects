@@ -97,21 +97,28 @@
                                         <div class="block" style="width: 10%; ">
                                             Barcode
                                         </div>
-                                        <div class="block" style="width: 17%;">
-                                            Cost Center
-                                        </div>
+                                        @if (Model.ProcessId == 43 || Model.ProcessId == 2008)
+                                        {
+                                                <div class="block" style="width: 17%;">
+                                                    Cost Center
+                                                </div>
+                                        }
                                         <div class="block" style="width: 25%;">
                                             Job Worker
                                         </div>
                                         <div class="block text-right" style="width: 10%;">
-                                            Weaving Amount
+                                            Amount
                                         </div>
                                         <div class="block text-right" style="width: 11%;">
                                             Advance Adjusted
                                         </div>
+                                        @if (Model.ProcessId ==43 || Model.ProcessId == 2008)
+                                        {
                                         <div class="block text-right" style="width: 11%;">
                                             Tana
                                         </div>
+                                        }
+
                                         <div class="block text-right" style="width: 12%;">
                                             Tds Adjusted
                                         </div>
@@ -167,12 +174,15 @@
                                             <div class="block" style="width:10%">
                                                 <span> @Model.JobInvoiceSummaryViewModel[i].ProductUidName </span>
                                             </div>
-                                            <div class="block" style="width: 17%">
-                                                <span> @(IsRepeatedCostCenter ? "" : Model.JobInvoiceSummaryViewModel[i].CostCenterName) </span>
-                                                <br /> <span> @(IsRepeatedCostCenter ? "" : "Advance : " + string.Format("{" + "0:0.".PadRight(2 + 4, '0') + "}", Model.JobInvoiceSummaryViewModel[i].AdvanceAmount)) </span>
-                                                @*<span> @Model.JobInvoiceSummaryViewModel[i].CostCenterName </span>
-                                                <br /> <span> Advance : <span class="AdvanceSum">@string.Format("{" + "0:0.".PadRight(2 + 4, '0') + "}", Model.JobInvoiceSummaryViewModel[i].AdvanceAmount)</span></span>*@
-                                            </div>
+                                            @if (Model.ProcessId == 43 || Model.ProcessId == 2008)
+                                            {
+                                                                                        <div class="block" style="width: 17%">
+                                                                                            <span> @(IsRepeatedCostCenter ? "" : Model.JobInvoiceSummaryViewModel[i].CostCenterName) </span>
+                                                                                            <br /> <span> @(IsRepeatedCostCenter ? "" : "Advance : " + string.Format("{" + "0:0.".PadRight(2 + 4, '0') + "}", Model.JobInvoiceSummaryViewModel[i].AdvanceAmount)) </span>
+                                                                                            @*<span> @Model.JobInvoiceSummaryViewModel[i].CostCenterName </span>
+                                                                                            <br /> <span> Advance : <span class="AdvanceSum">@string.Format("{" + "0:0.".PadRight(2 + 4, '0') + "}", Model.JobInvoiceSummaryViewModel[i].AdvanceAmount)</span></span>*@
+                                                                                        </div>
+                                            }
                                             <div class="block" style="width: 25%">
                                                 <span> @(IsRepeatedPerson ? "" : Model.JobInvoiceSummaryViewModel[i].PersonName) </span>
                                                 <br /> <span> @(IsRepeatedPerson ? "" : "Tds : " + string.Format("{" + "0:0.".PadRight(2 + 4, '0') + "}", Model.JobInvoiceSummaryViewModel[i].TdsAmount)) </span>
@@ -185,10 +195,14 @@
                                                 @Html.TextBoxFor(m => Model.JobInvoiceSummaryViewModel[i].AdvanceAdjusted, "{" + "0:0.".PadRight(2 + 4, '0') + "}", new { @class = "form-control AdvanceAdjusted text-right" })
                                                 @Html.ValidationMessageFor(m => Model.JobInvoiceSummaryViewModel[i].AdvanceAdjusted, "", new { @class = "text-danger" })
                                             </div>
-                                            <div class="block text-right" style="width:11%">
-                                                @Html.TextBoxFor(m => Model.JobInvoiceSummaryViewModel[i].TanaAmount, "{" + "0:0.".PadRight(2 + 4, '0') + "}", new { @class = "form-control TanaAmount text-right" })
-                                                @Html.ValidationMessageFor(m => Model.JobInvoiceSummaryViewModel[i].TanaAmount, "", new { @class = "text-danger" })
-                                            </div>
+                                            @if (Model.ProcessId == 43 || Model.ProcessId == 2008)
+                                            {
+                                                <div class="block text-right" style="width:11%">
+                                                    @Html.TextBoxFor(m => Model.JobInvoiceSummaryViewModel[i].TanaAmount, "{" + "0:0.".PadRight(2 + 4, '0') + "}", new { @class = "form-control TanaAmount text-right" })
+                                                    @Html.ValidationMessageFor(m => Model.JobInvoiceSummaryViewModel[i].TanaAmount, "", new { @class = "text-danger" })
+                                                </div>
+                                            }
+
                                             <div class="block text-right" style="width:12%">
                                                 @Html.TextBoxFor(m => Model.JobInvoiceSummaryViewModel[i].TdsAdjusted, "{" + "0:0.".PadRight(2 + 4, '0') + "}", new { @class = "form-control TdsAdjusted text-right" })
                                                 @Html.ValidationMessageFor(m => Model.JobInvoiceSummaryViewModel[i].TdsAdjusted, "", new { @class = "text-danger" })
@@ -224,9 +238,12 @@
                                 <div class="block text-right" id="TotalAdvanceAdjusted" style="width: 11%;">
                                     @string.Format("{" + "0:0.".PadRight(2 + 4, '0') + "}", TotalAdvanceAdjusted)
                                 </div>
+                                @if (Model.ProcessId == 43 || Model.ProcessId == 2008)
+                                {
                                 <div class="block text-right" id="TotalTanaAmount" style="width: 11%;">
                                     @string.Format("{" + "0:0.".PadRight(2 + 4, '0') + "}", TotalTanaAmount)
                                 </div>
+                                }
                                 <div class="block text-right" id="TotalTdsAdjusted" style="width: 12%;">
                                     @string.Format("{" + "0:0.".PadRight(2 + 4, '0') + "}", TotalTdsAdjusted)
                                 </div>
@@ -244,15 +261,14 @@
 <script type="text/javascript">
     CustomSelectFunction($("#JobWorkerId"), '/ComboHelpList/GetJobWorkers', '/ComboHelpList/SetSinglePerson', ' ', false, 1);
 
-    //$('input.AdvanceAdjusted,input.TanaAmount,input.TdsAdjusted').keydown(function (e) 
-    $('input.AdvanceAdjusted').keydown(function (e)
+    $('input.AdvanceAdjusted,input.TanaAmount,input.TdsAdjusted').keydown(function (e) 
     {
         switch (e.which) {
             case 37: // left
                 break;
 
             case 38: // up
-                alert("up")
+                //alert("up")
                 break;
 
             case 39: // right

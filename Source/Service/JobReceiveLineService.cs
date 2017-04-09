@@ -304,6 +304,23 @@ namespace Service
 
 
         }
+
+        public CostCenter GetCoscenterId(int id)
+        {
+            return (from JRL in db.JobReceiveLine                    
+                    join JOL in db.JobOrderLine on JRL.JobOrderLineId equals JOL.JobOrderLineId into tableJOL
+                    from tabJOL in tableJOL.DefaultIfEmpty()
+                    join JOH in db.JobOrderHeader on tabJOL.JobOrderHeaderId equals JOH.JobOrderHeaderId into tableJOH
+                    from tabJOH in tableJOH.DefaultIfEmpty()
+                    join CC in db.CostCenter on tabJOH.CostCenterId equals CC.CostCenterId into tableCC
+                    from tabCC in tableCC.DefaultIfEmpty()
+                    where JRL.JobReceiveLineId == id
+                    select tabCC
+                      ).FirstOrDefault();
+
+
+        }
+
         public IEnumerable<JobReceiveLine> GetPagedList(int pageNumber, int pageSize, out int totalRecords)
         {
             var so = _unitOfWork.Repository<JobReceiveLine>()

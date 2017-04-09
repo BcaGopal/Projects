@@ -93,6 +93,13 @@ namespace Model.Models
 
         [Display(Name = "Remark")]
         public string Remark { get; set; }
+
+        [Display(Name = "Seal No")]
+        public string SealNo { get; set; }
+
+        [Display(Name = "Rate Remark")]
+        public string RateRemark { get; set; }
+
         public string Specification { get; set; }
 
         [Display(Name = "Lock Reason")]

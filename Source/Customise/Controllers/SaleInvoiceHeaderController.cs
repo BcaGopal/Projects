@@ -473,6 +473,7 @@ namespace Web
                     saleinvoiceheaderdetail.BaleNoSeries = svm.BaleNoSeries;
                     saleinvoiceheaderdetail.TermsOfSale = svm.TermsOfSale;
                     saleinvoiceheaderdetail.Freight = svm.Freight;
+                    saleinvoiceheaderdetail.Insurance = svm.Insurance;
                     saleinvoiceheaderdetail.VehicleNo = svm.VehicleNo;
 
 

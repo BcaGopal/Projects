@@ -15,6 +15,7 @@ namespace Model.ViewModel
         public string JobReceiveHeaderDocNo { get; set; }
         public int ? JobReceiveLineId { get; set; }
 
+
         [Display(Name = "Product")]
         public int ProductId { get; set; }
         public string ProductName { get; set; }
@@ -47,6 +48,7 @@ namespace Model.ViewModel
         public string UnitId { get; set; }
         public string UnitName { get; set; }
         public byte UnitDecimalPlaces { get; set; }
+        public int? CostCenterId { get; set; }
         public string CostCenterName { get; set; }
         public JobReceiveSettingsViewModel JobReceiveSettings { get; set; }
     }

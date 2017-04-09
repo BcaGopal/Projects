@@ -255,6 +255,8 @@ namespace Service
                         GrossWeight = L.GrossWeight,
                         NetWeight = L.NetWeight,
                         Remark = L.Remark,
+                        SealNo = L.SealNo,
+                        RateRemark = L.RateRemark,
                         ImageFolderName = ProductTab.ImageFolderName,
                         ImageFileName = ProductTab.ImageFileName,
                         CreatedBy = L.CreatedBy,

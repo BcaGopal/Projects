@@ -1635,11 +1635,13 @@ namespace Web
                 if (TempCostCenter != null)
                 {
                     Ledger.CostCenterId = item.CostCenterId;
-                    Ledger.ReferenceDocLineId = item.ReferenceDocLineId;
-                    Ledger.ReferenceDocTypeId = LedgerHeaderViewModel.DocTypeId;
+
                 }
 
 
+
+                Ledger.ReferenceDocLineId = item.ReferenceDocLineId;
+                Ledger.ReferenceDocTypeId = LedgerHeaderViewModel.DocTypeId;
 
 
 

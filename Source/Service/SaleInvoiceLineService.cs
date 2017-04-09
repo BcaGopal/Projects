@@ -360,6 +360,7 @@ namespace Service
                                   SaleOrderRate = (Decimal?)SaleOrderLineTab.Rate ?? 0,
                                   Rate = (Decimal?)ProductInvoiceGroupTab.Rate ?? 0,
                                   Amount = (Decimal?)(L.DealQty * ProductInvoiceGroupTab.Rate) ?? 0,
+                                  RateRemark = L.RateRemark,
                                   Remark = L.Remark
                               };
 
