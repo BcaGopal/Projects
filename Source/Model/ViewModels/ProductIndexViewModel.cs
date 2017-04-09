@@ -246,5 +246,6 @@ namespace Model.ViewModels
         public int ProductSiteDetailId { get; set; }
         public int ? ReferenceDocId { get; set; }
         public ProductTypeSettingsViewModel ProductTypeSettings { get; set; }
+        public List<ProductTypeAttributeViewModel> ProductTypeAttributes { get; set; }
     }
 }
