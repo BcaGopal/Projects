@@ -97,6 +97,7 @@ namespace Model.Models
         [Display(Name = "Loss Qty")]
         public decimal? LossQty { get; set; }
 
+        
         public decimal Rate { get; set; }
         [DataType(DataType.Currency)]
         public decimal Amount { get; set; }

@@ -34,6 +34,9 @@ namespace Service
         IEnumerable<ProductProcess> GetProductProcessIdListByProductId(int ProductId);
         IEnumerable<ProductProcessViewModel> GetMaxProductProcessListForDesign(int Id);//ProductGroupId
        // IQueryable<ProductProcessViewModel> GetProductProcessListForProduct(int id);
+        IEnumerable<ProductProcessViewModel> GetProductProcessForIndex(int Id);//ProductId
+        bool CheckForProductDimensionExists(int ProductId, int? Dimension1Id, int? Dimension2Id, int? Dimension3Id, int? Dimension4Id, int? ProcessId, int ProductProcessId);
+        bool CheckForProductDimensionExists(int ProductId, int? Dimension1Id, int? Dimension2Id, int? Dimension3Id, int? Dimension4Id, int? ProcessId);
     }
 
     public class ProductProcessService : IProductProcessService
@@ -286,6 +289,48 @@ namespace Service
 
             return true;
 
+        }
+
+        public IEnumerable<ProductProcessViewModel> GetProductProcessForIndex(int Id)
+        {
+            var Temp = (from p in db.ProductProcess 
+                        where p.ProductId == Id
+                        orderby p.Sr
+                        select new ProductProcessViewModel
+                        {
+                            ProductProcessId = p.ProductProcessId,
+                            ProcessName = p.Process.ProcessName,
+                            ProcessId = p.ProcessId,
+                            Sr = p.Sr,
+                            ProductRateGroupId = p.ProductRateGroupId,
+                            ProudctRateGroupName = p.ProductRateGroup.ProductRateGroupName,
+                            QAGroupId = p.QAGroupId,
+                            QAGroupName = p.QAGroup.QaGroupName,
+                            Instructions = p.Instructions,
+                        }).ToList();
+
+            return Temp;
+        }
+
+        public bool CheckForProductDimensionExists(int ProductId, int? Dimension1Id, int? Dimension2Id, int? Dimension3Id, int? Dimension4Id, int? ProcessId, int ProductProcessId)
+        {
+
+            ProductProcess temp = (from p in db.ProductProcess
+                              where p.ProductId == ProductId && p.Dimension1Id == Dimension1Id && p.Dimension2Id == Dimension2Id && p.Dimension3Id == Dimension3Id && p.Dimension4Id == Dimension4Id && p.ProcessId == ProcessId && p.ProductProcessId != ProductProcessId
+                              select p).FirstOrDefault();
+            if (temp != null)
+                return true;
+            else return false;
+        }
+
+        public bool CheckForProductDimensionExists(int ProductId, int? Dimension1Id, int? Dimension2Id, int? Dimension3Id, int? Dimension4Id, int? ProcessId)
+        {
+            ProductProcess temp = (from p in db.ProductProcess
+                              where p.ProductId == ProductId && p.Dimension1Id == Dimension1Id && p.Dimension2Id == Dimension2Id && p.Dimension3Id == Dimension3Id && p.Dimension4Id == Dimension4Id && p.ProcessId == ProcessId 
+                              select p).FirstOrDefault();
+            if (temp != null)
+                return true;
+            else return false;
         }
 
     }

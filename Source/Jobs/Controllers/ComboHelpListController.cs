@@ -6058,7 +6058,42 @@ namespace Web
         }
 
 
+        public JsonResult GetFinanciers(string searchTerm, int pageSize, int pageNum)
+        {
+            var Query = cbl.GetFinanciers(searchTerm);
+            var temp = Query.Skip(pageSize * (pageNum - 1)).Take(pageSize).ToList();
 
+            var count = Query.Count();
+
+            ComboBoxPagedResult Data = new ComboBoxPagedResult();
+            Data.Results = temp;
+            Data.Total = count;
+
+            return new JsonpResult
+            {
+                Data = Data,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+
+        public JsonResult GetSalesExecutives(string searchTerm, int pageSize, int pageNum)
+        {
+            var Query = cbl.GetSalesExecutives(searchTerm);
+            var temp = Query.Skip(pageSize * (pageNum - 1)).Take(pageSize).ToList();
+
+            var count = Query.Count();
+
+            ComboBoxPagedResult Data = new ComboBoxPagedResult();
+            Data.Results = temp;
+            Data.Total = count;
+
+            return new JsonpResult
+            {
+                Data = Data,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
 
 
 

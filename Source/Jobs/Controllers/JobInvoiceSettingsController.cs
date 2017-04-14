@@ -163,6 +163,16 @@ namespace Web
                     temp.isVisibleDealUnit = pt.isVisibleDealUnit;
                     temp.isVisibleWeight = pt.isVisibleWeight;
                     temp.isVisibleCostCenter = pt.isVisibleCostCenter;
+
+
+                    temp.isVisibleIncentive = pt.isVisibleIncentive;
+                    temp.isVisiblePenalty = pt.isVisiblePenalty;
+
+                    temp.isVisibleRateDiscountPer = pt.isVisibleRateDiscountPer;
+                    temp.isVisibleMfgDate = pt.isVisibleMfgDate;
+                    temp.isVisibleFinancier = pt.isVisibleFinancier;
+                    temp.isGenerateProductUid = pt.isGenerateProductUid;
+
                     temp.SqlProcDocumentPrint = pt.SqlProcDocumentPrint;
                     temp.DocumentPrint = pt.DocumentPrint;
                     temp.isAutoCreateJobReceive = pt.isAutoCreateJobReceive;
@@ -339,9 +349,15 @@ namespace Web
                     temp.isVisibleDealUnit = pt.isVisibleDealUnit;
                     temp.isVisibleWeight = pt.isVisibleWeight;
                     temp.isVisibleCostCenter = pt.isVisibleCostCenter;
+                    temp.isVisibleIncentive = pt.isVisibleIncentive;
+                    temp.isVisiblePenalty = pt.isVisiblePenalty;
+                    temp.isVisibleRateDiscountPer = pt.isVisibleRateDiscountPer;
+                    temp.isVisibleMfgDate = pt.isVisibleMfgDate;
+                    temp.isVisibleFinancier = pt.isVisibleFinancier;
                     temp.SqlProcDocumentPrint = pt.SqlProcDocumentPrint;
                     temp.DocumentPrint = pt.DocumentPrint;
                     temp.isAutoCreateJobReceive = pt.isAutoCreateJobReceive;
+                    temp.isGenerateProductUid = pt.isGenerateProductUid;
                     temp.filterContraSites = pt.filterContraSites;
                     temp.filterContraDivisions = pt.filterContraDivisions;
                     temp.filterPersonRoles = pt.filterPersonRoles;
@@ -499,9 +515,15 @@ namespace Web
                     temp.isVisibleLotNo = pt.isVisibleLotNo;
                     temp.isVisibleMachine = pt.isVisibleMachine;
                     temp.isVisibleProductUID = pt.isVisibleProductUID;
+                    temp.isVisibleIncentive = pt.isVisibleIncentive;
+                    temp.isVisiblePenalty = pt.isVisiblePenalty;
+                    temp.isVisibleRateDiscountPer = pt.isVisibleRateDiscountPer;
+                    temp.isVisibleMfgDate = pt.isVisibleMfgDate;
+                    temp.isVisibleFinancier = pt.isVisibleFinancier;
                     temp.SqlProcDocumentPrint = pt.SqlProcDocumentPrint;
                     temp.DocumentPrint = pt.DocumentPrint;
                     temp.isAutoCreateJobReceive = pt.isAutoCreateJobReceive;
+                    temp.isGenerateProductUid = pt.isGenerateProductUid;
                     temp.filterContraSites = pt.filterContraSites;
                     temp.filterContraDivisions = pt.filterContraDivisions;
                     temp.ImportMenuId = pt.ImportMenuId;
@@ -669,9 +691,15 @@ namespace Web
                     temp.isVisibleLotNo = pt.isVisibleLotNo;
                     temp.isVisibleMachine = pt.isVisibleMachine;
                     temp.isVisibleProductUID = pt.isVisibleProductUID;
+                    temp.isVisibleIncentive = pt.isVisibleIncentive;
+                    temp.isVisiblePenalty = pt.isVisiblePenalty;
+                    temp.isVisibleRateDiscountPer = pt.isVisibleRateDiscountPer;
+                    temp.isVisibleMfgDate = pt.isVisibleMfgDate;
+                    temp.isVisibleFinancier = pt.isVisibleFinancier;
                     temp.SqlProcDocumentPrint = pt.SqlProcDocumentPrint;
                     temp.DocumentPrint = pt.DocumentPrint;
                     temp.isAutoCreateJobReceive = pt.isAutoCreateJobReceive;
+                    temp.isGenerateProductUid = pt.isGenerateProductUid;
                     temp.filterContraSites = pt.filterContraSites;
                     temp.filterContraDivisions = pt.filterContraDivisions;
                     temp.ImportMenuId = pt.ImportMenuId;

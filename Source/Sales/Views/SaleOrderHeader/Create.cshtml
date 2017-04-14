@@ -329,6 +329,43 @@
                         </div>
                         
                         <div>
+                            <div class="col-md-6" style="display:@(Model.SaleOrderSettings.isVisibleGodown ? "" : "none")">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.GodownId, "Godown", new { @class = "control-label col-md-4 col-sm-2" })
+                                    <div class="col-md-7 col-sm-10">
+                                        @Html.TextBoxFor(m => m.GodownId, new { @class = "form-control col-xs-6" })
+                                        @Html.ValidationMessageFor(m => m.GodownId, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6" style="display:@(Model.SaleOrderSettings.isVisibleFinancier ? "" : "none")">
+                                @Html.HiddenFor(m => m.SaleOrderSettings.isVisibleFinancier)
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.FinancierId, "Financier", new { @class = "control-label col-md-4 col-sm-2" })
+                                    <div class="col-md-7 col-sm-10">
+                                        @Html.TextAreaFor(m => m.FinancierId, new { @class = "form-control col-xs-6" })
+                                        @Html.ValidationMessageFor(m => m.FinancierId, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="col-md-6" style="display:@(Model.SaleOrderSettings.isVisibleSalesExecutive ? "" : "none")">
+                                @Html.HiddenFor(m => m.SaleOrderSettings.isVisibleSalesExecutive)
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.SalesExecutiveId, "Sales Executive", new { @class = "control-label col-md-4 col-sm-2" })
+                                    <div class="col-md-7 col-sm-10">
+                                        @Html.TextBoxFor(m => m.SalesExecutiveId, new { @class = "form-control col-xs-6" })
+                                        @Html.ValidationMessageFor(m => m.SalesExecutiveId, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.TermsAndConditions, "Terms", new { @class = "control-label col-md-4 col-sm-2" })
@@ -339,18 +376,6 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-6" style="display:@(Model.SaleOrderSettings.isVisibleGodown ? "" : "none")">
-                                <div class="form-group">
-                                    @Html.LabelFor(model => model.GodownId, "Godown", new { @class = "control-label col-md-4 col-sm-2" })
-                                    <div class="col-md-7 col-sm-10">
-                                        @Html.TextBoxFor(m => m.GodownId, new { @class = "form-control col-xs-6" })
-                                        @Html.ValidationMessageFor(m => m.GodownId, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.Remark, "Remark", new { @class = "control-label col-md-4 col-sm-2" })
@@ -614,6 +639,8 @@
 
 
         CustomSelectFunction($("#GodownId"), '/ComboHelpList/GetGodown', '/ComboHelpList/SetSingleGodown', ' ', false, 1);
+        CustomSelectFunction($("#FinancierId"), '/ComboHelpList/GetFinanciers', '/ComboHelpList/SetSinglePerson', ' ', false, 0);
+        CustomSelectFunction($("#SalesExecutiveId"), '/ComboHelpList/GetSalesExecutives', '/ComboHelpList/SetSinglePerson', ' ', false, 0);
 
         //CustomSelectFunction($("#SaleToBuyerId"), '/ComboHelpList/GetPerson', '/ComboHelpList/SetSinglePerson', ' ', false, 0);
         //CustomSelectFunction($("#BillToBuyerId"), '/ComboHelpList/GetBuyers', '/ComboHelpList/SetSingleBuyer', ' ', false, 0);

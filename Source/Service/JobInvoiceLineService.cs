@@ -669,12 +669,14 @@ namespace Service
                         Dimension3Name = tab3.Dimension3.Dimension3Name,
                         Dimension4Id = tab3.Dimension4Id,
                         Dimension4Name = tab3.Dimension4.Dimension4Name,
-                        Specification = tab3.Specification,
+                        Specification = tab.ProductUid.ProductUidSpecification ?? tab3.Specification,
                         Weight = tab.Weight,
                         PenaltyAmt = tab.PenaltyAmt,
                         IncentiveAmt = tab.IncentiveAmt ?? 0,
                         IncentiveRate = tab.IncentiveRate,
                         PenaltyRate = tab.PenaltyRate,
+                        RateDiscountPer = p.RateDiscountPer,
+                        MfgDate = p.MfgDate,
                         LockReason = p.LockReason,
                     }
                         ).FirstOrDefault();

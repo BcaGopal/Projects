@@ -1539,6 +1539,21 @@ namespace Web
             };
         }
 
+        public JsonResult IsDuplicatePartyDocNo(int PersonId, string PartyDocNo)
+        {
+            var temp = (from H in db.JobReceiveHeader
+                        where H.JobWorkerId == PersonId && H.JobWorkerDocNo == PartyDocNo
+                        select H).FirstOrDefault();
+            if (temp == null)
+            {
+                return Json(false);
+            }
+            else{
+                return Json(true);
+            }
+        }
+
+
         #region submitValidation
         public bool Submitvalidation(int id, out string Msg)
         {   

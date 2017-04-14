@@ -152,6 +152,10 @@ namespace Store.App_Start
             container.RegisterType<IRepository<BomDetail>, Repository<BomDetail>>();
             container.RegisterType<IBomDetailService, BomDetailService>(new PerRequestLifetimeManager());
 
+            container.RegisterType<IRepository<ProductProcess>, Repository<ProductProcess>>();
+            container.RegisterType<IProductProcessService, ProductProcessService>(new PerRequestLifetimeManager());
+
+
             container.RegisterType<IRepository<FinishedProduct>, Repository<FinishedProduct>>();
             container.RegisterType<IFinishedProductService, FinishedProductService>(new PerRequestLifetimeManager());
 
@@ -417,7 +421,7 @@ namespace Store.App_Start
             Mapper.CreateMap<PersonAddress, PersonAddress>();
             Mapper.CreateMap<Person, Person>();
             Mapper.CreateMap<BusinessEntity, BusinessEntity>();
-
+            Mapper.CreateMap<ProductProcess, ProductProcess>();
 
         }
     }

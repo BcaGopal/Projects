@@ -41,6 +41,10 @@ namespace Model.ViewModel
         public string Remark { get; set; }        
         public int? JobWorkerId { get; set; }
         public string JobWorkerName { get; set; }
+
+        public int? FinancierId { get; set; }
+        public string FinancierName { get; set; }
+
         public JobInvoiceSettingsViewModel JobInvoiceSettings { get; set; }
         public DocumentTypeSettingsViewModel DocumentTypeSettings { get; set; }
         public string ModifiedBy { get; set; }
@@ -138,6 +142,8 @@ namespace Model.ViewModel
         [Display(Name = "Penalty Amount")]
         public Decimal PenaltyAmt { get; set; }
         public decimal PenaltyRate { get; set; }
+        public Decimal? RateDiscountPer { get; set; }
+        public DateTime? MfgDate { get; set; }
 
         [Display(Name = "Lot No."), MaxLength(10)]
         public string LotNo { get; set; }

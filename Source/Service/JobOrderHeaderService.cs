@@ -194,6 +194,8 @@ namespace Service
                         DocumentShipMethodId = p.DocumentShipMethodId,
                         TransporterId = p.TransporterId,
                         AgentId= p.AgentId,
+                        FinancierId = p.FinancierId,
+                        SalesExecutiveId = p.SalesExecutiveId,
                         IsDoorDelivery = p.IsDoorDelivery ?? false,
                         PayTermAdvancePer= p.PayTermAdvancePer,
                         PayTermOnDeliveryPer = p.PayTermOnDeliveryPer,

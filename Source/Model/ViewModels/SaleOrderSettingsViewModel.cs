@@ -53,6 +53,8 @@ namespace Model.ViewModel
         public bool isVisibleAdvance { get; set; }
         public bool isVisibleBillToParty { get; set; }
         public bool isVisibleGodown { get; set; }
+        public bool isVisibleFinancier { get; set; }
+        public bool isVisibleSalesExecutive { get; set; }
         public bool isPostedInStock { get; set; }
 
         public bool isMandatoryRate { get; set; }

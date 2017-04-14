@@ -62,6 +62,7 @@ namespace Service
         IEnumerable<ComboBoxList> GetProductCollectionHelpList();
         IEnumerable<ComboBoxList> GetProductQualityHelpList();
         IEnumerable<ComboBoxList> GetProductGroupHelpList(int? filter);
+        IEnumerable<ComboBoxList> GetProductCategoryHelpList(int? filter);
         IEnumerable<ComboBoxList> GetProductGroupForRugHelpList();
         //IEnumerable<ComboBoxList> GetProductGroupWithTypeFilterHelpList(int filterid);
         IEnumerable<ComboBoxList> GetProductStyleHelpList();
@@ -186,6 +187,10 @@ namespace Service
         IQueryable<ComboBoxResult> GetDocumentShipMethods(string term);
         IQueryable<ComboBoxResult> GetTransporters(string term);
         IQueryable<ComboBoxResult> GetAgents(string term);
+        IQueryable<ComboBoxResult> GetFinanciers(string term);
+        IQueryable<ComboBoxResult> GetSalesExecutives(string term);
+        IQueryable<ComboBoxResult> GetChargeGroupProducts(string term);
+        IQueryable<ComboBoxResult> GetBinLocations(string term, int filter);
 
 
         
@@ -2777,6 +2782,99 @@ namespace Service
               );
 
             return list;
+        }
+
+        public IQueryable<ComboBoxResult> GetFinanciers(string term)
+        {
+            int FinancierDocTypeId = 0;
+            var DocumentType = (from D in db.DocumentType where D.DocumentTypeName == MasterDocTypeConstants.Financier select D).FirstOrDefault();
+            if (DocumentType != null)
+            {
+                FinancierDocTypeId = DocumentType.DocumentTypeId;
+            }
+
+            var list = (from D in db.Persons
+                        join Pr in db.PersonRole on D.PersonID equals Pr.PersonId into PersonRoleTable
+                        from PersonRoleTab in PersonRoleTable.DefaultIfEmpty()
+                        where D.IsActive == true && PersonRoleTab.RoleDocTypeId == FinancierDocTypeId
+                        orderby D.Name
+                        select new ComboBoxResult
+                        {
+                            id = D.PersonID.ToString(),
+                            text = D.Name
+                        }
+              );
+
+            return list;
+        }
+
+        public IQueryable<ComboBoxResult> GetSalesExecutives(string term)
+        {
+            int SalesExecutiveDocTypeId = 0;
+            var DocumentType = (from D in db.DocumentType where D.DocumentTypeName == MasterDocTypeConstants.SalesExecutive select D).FirstOrDefault();
+            if (DocumentType != null)
+            {
+                SalesExecutiveDocTypeId = DocumentType.DocumentTypeId;
+            }
+
+            var list = (from D in db.Persons
+                        join Pr in db.PersonRole on D.PersonID equals Pr.PersonId into PersonRoleTable
+                        from PersonRoleTab in PersonRoleTable.DefaultIfEmpty()
+                        where D.IsActive == true && PersonRoleTab.RoleDocTypeId == SalesExecutiveDocTypeId
+                        orderby D.Name
+                        select new ComboBoxResult
+                        {
+                            id = D.PersonID.ToString(),
+                            text = D.Name
+                        }
+              );
+
+            return list;
+        }
+
+        public IQueryable<ComboBoxResult> GetChargeGroupProducts(string term)
+        {
+            var list = (from D in db.ChargeGroupProduct
+                        where (string.IsNullOrEmpty(term) ? 1 == 1 : (D.ChargeGroupProductName.ToLower().Contains(term.ToLower())))
+                        orderby D.ChargeGroupProductName
+                        select new ComboBoxResult
+                        {
+                            id = D.ChargeGroupProductId.ToString(),
+                            text = D.ChargeGroupProductName
+                        }
+              );
+            return list;
+        }
+
+        public IQueryable<ComboBoxResult> GetBinLocations(string term, int filter)
+        {
+            var list = (from D in db.BinLocation
+                        where (string.IsNullOrEmpty(term) ? 1 == 1 : (D.BinLocationName.ToLower().Contains(term.ToLower())))
+                        && D.GodownId == filter
+                        orderby D.BinLocationName
+                        select new ComboBoxResult
+                        {
+                            id = D.BinLocationId.ToString(),
+                            text = D.BinLocationName
+                        }
+              );
+            return list;
+        }
+
+        public IEnumerable<ComboBoxList> GetProductCategoryHelpList(int? filter)
+        {
+            var temp = from p in db.ProductCategory
+                       join t in db.ProductTypes on p.ProductTypeId equals t.ProductTypeId into table1
+                       from tab1 in table1.DefaultIfEmpty()
+                       where ((filter == null || filter == 0) ? 1 == 1 : tab1.ProductTypeId == filter)
+                       orderby p.ProductCategoryName, tab1.ProductTypeName
+                       select new ComboBoxList
+                       {
+                           Id = p.ProductCategoryId,
+                           PropFirst = p.ProductCategoryName
+                       };
+
+            return temp;
         }
     }
 }

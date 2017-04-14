@@ -110,6 +110,7 @@ namespace Service
                         SiteId = p.SiteId,
                         Status = p.Status,
                         JobWorkerId=p.JobWorkerId,
+                        FinancierId = p.FinancierId,
                         JobReceiveHeaderId=p.JobReceiveHeaderId,
                         ModifiedBy=p.ModifiedBy,
                         LockReason=p.LockReason,

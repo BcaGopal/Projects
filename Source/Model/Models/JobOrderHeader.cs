@@ -72,6 +72,17 @@ namespace Model.Models
         public int? MachineId { get; set; }
         public virtual ProductUid Machine { get; set; }
 
+
+        [ForeignKey("Financier")]
+        public int? FinancierId { get; set; }
+        public virtual Person Financier { get; set; }
+
+        [ForeignKey("SalesExecutive")]
+        public int? SalesExecutiveId { get; set; }
+        public virtual Person SalesExecutive { get; set; }
+
+
+
         public string TermsAndConditions { get; set; }
 
         [Display(Name = "CreditDays")]

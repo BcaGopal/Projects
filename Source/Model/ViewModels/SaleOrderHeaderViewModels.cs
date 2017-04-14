@@ -76,6 +76,14 @@ namespace Model.ViewModels
 
         public Decimal? Advance { get; set; }
 
+        [ForeignKey("Financier")]
+        public int? FinancierId { get; set; }
+        public virtual Person Financier { get; set; }
+
+        [ForeignKey("SalesExecutive")]
+        public int? SalesExecutiveId { get; set; }
+        public virtual Person SalesExecutive { get; set; }
+
         public int Status { get; set; }
 
         [Display(Name = "Remark")]

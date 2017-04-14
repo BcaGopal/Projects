@@ -186,7 +186,7 @@
 
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.JobWorkerDocNo, "JobWorker DocNo", new { @class = "control-label col-md-4 col-sm-2" })
+                                    @Html.LabelFor(model => model.JobWorkerDocNo, (Model.DocumentTypeSettings.PartyCaption ?? "Party") + " Doc No", new { @class = "control-label col-md-4 col-sm-2" })
                                     <div class="col-md-7 col-sm-10">
                                         @Html.TextBoxFor(m => m.JobWorkerDocNo, null, new { @class = "form-control" })
                                         @Html.ValidationMessageFor(m => m.JobWorkerDocNo, "", new { @class = "text-danger" })
@@ -201,7 +201,7 @@
                           
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.JobReceiveById, "Job Received By", new { @class = "control-label col-md-4 col-sm-2" })
+                                    @Html.LabelFor(model => model.JobReceiveById, "Goods Received By", new { @class = "control-label col-md-4 col-sm-2" })
                                     <div class="col-md-7 col-sm-10">
                                         @Html.TextBoxFor(m => m.JobReceiveById, new { @class = "form-control required" })
                                         @Html.ValidationMessageFor(m => m.JobReceiveById, "", new { @class = "text-danger" })
@@ -221,7 +221,22 @@
                            
                         </div>
 
+
+
+
+
+
                         <div>
+                            <div class="col-md-6" style="display:@(Model.JobInvoiceSettings.isVisibleFinancier?"":"none")">
+                                @Html.HiddenFor(m => m.JobInvoiceSettings.isVisibleFinancier)
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.FinancierId, "Financier", new { @class = "control-label col-md-4 col-sm-2" })
+                                    <div class="col-md-7 col-sm-10">
+                                        @Html.TextBoxFor(m => m.FinancierId, new { @class = "form-control " })
+                                        @Html.ValidationMessageFor(m => m.FinancierId, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
 
                             <div class="col-md-6">
                                 <div class="form-group">
@@ -748,6 +763,7 @@
         CustomSelectFunction($("#JobWorkerId"), '/JobInvoiceReceiveHeader/GetCustomPerson', '/ComboHelpList/SetSinglePerson', ' ', false, 1,$('#DocTypeId').val());
         CustomSelectFunction($("#GodownId"), '/ComboHelpList/GetGodown', '/ComboHelpList/SetSingleGodown', ' ', false, 1);
         CustomSelectFunction($("#JobReceiveById"), '/ComboHelpList/GetEmployees', '/ComboHelpList/SetSingleEmployee', ' ', false, 1);
+        CustomSelectFunction($("#FinancierId"), '/ComboHelpList/GetFinanciers', '/ComboHelpList/SetSinglePerson', ' ', false, 0);
         //Calling the function to load the table data/ Line information
         LoadProducts();
         

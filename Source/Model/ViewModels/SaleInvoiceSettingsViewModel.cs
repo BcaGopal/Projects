@@ -60,7 +60,8 @@ namespace Model.ViewModel
         public bool isVisibleForSaleOrder { get; set; }
         public bool isVisibleWeight { get; set; }
 
-
+        public bool isVisibleFinancier { get; set; }
+        public bool isVisibleSalesExecutive { get; set; }
 
         public int? CurrencyId { get; set; }
         public int? DeliveryTermsId { get; set; }

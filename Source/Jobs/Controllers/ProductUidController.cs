@@ -15,6 +15,7 @@ using Presentation;
 using Core.Common;
 using System.Data.Entity.Validation;
 using System.Data.Entity.Infrastructure;
+using Model.ViewModel;
 
 namespace Web
 {
@@ -324,6 +325,11 @@ namespace Web
             int SiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
             int DivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
 
+            JobInvoiceHeader InvoiceHeader = (from H in db.JobInvoiceHeader where H.JobReceiveHeaderId == HeaderID select H).FirstOrDefault();
+            
+
+
+
             var temp2 = (from p in db.ProductUid
                          where p.ProductUidName == ProductUID
                          join t2 in db.JobOrderLine on p.ProductUIDId equals t2.ProductUidId
@@ -338,7 +344,31 @@ namespace Web
             }
             else
             {
-                return Json(new { ErrorType = "InvalidID", ErrorMessage = "BarCodeNotFound" });
+                if (InvoiceHeader != null)
+                {
+                    var settings = new JobInvoiceSettingsService(_unitOfWork).GetJobInvoiceSettingsForDocument(InvoiceHeader.DocTypeId, InvoiceHeader.DivisionId, InvoiceHeader.SiteId);
+                    if (settings != null)
+                    {
+                        if (settings.isGenerateProductUid == true)
+                        {
+                            UIDValidationViewModel temp = new UIDValidationViewModel();
+                            temp.ErrorType = "Success";
+                            return Json(temp);
+                        }
+                        else
+                        {
+                            return Json(new ProductUidService(_unitOfWork).ValidateUIDOnJobReceiveBranch(ProductUID, PostedInStock, HeaderID), JsonRequestBehavior.AllowGet);
+                        }
+                    }
+                    else
+                    {
+                        return Json(new ProductUidService(_unitOfWork).ValidateUIDOnJobReceiveBranch(ProductUID, PostedInStock, HeaderID), JsonRequestBehavior.AllowGet);
+                    }
+                }
+                else
+                {
+                    return Json(new { ErrorType = "InvalidID", ErrorMessage = "BarCodeNotFound" });
+                }
             }
         }
         

@@ -2560,14 +2560,42 @@ namespace Web
             return Json(ProductJson);
         }
 
-        public ActionResult GetProductCategory(string searchTerm, int pageSize, int pageNum)
+        //public ActionResult GetProductCategory(string searchTerm, int pageSize, int pageNum)
+        //{
+        //    //Get the paged results and the total count of the results for this query. ProductCacheKeyHint
+        //    var productCacheKeyHint = "CacheProductCategory";
+
+        //    //THis statement has been changed because GetProductHelpList was calling again and again. 
+
+        //    AutoCompleteComboBoxRepositoryAndHelper ar = new AutoCompleteComboBoxRepositoryAndHelper(cbl.GetProductCategoryHelpList(), productCacheKeyHint, RefreshData.RefreshProductData);
+        //    //AutoCompleteComboBoxRepositoryAndHelper ar = new AutoCompleteComboBoxRepositoryAndHelper(null, productCacheKeyHint);
+
+        //    if (RefreshData.RefreshProductData == true) { RefreshData.RefreshProductData = false; }
+
+
+        //    List<ComboBoxList> prodLst = ar.GetListForComboBox(searchTerm, pageSize, pageNum);
+        //    int prodCount = ar.GetCountForComboBox(searchTerm, pageSize, pageNum);
+
+        //    //Translate the attendees into a format the select2 dropdown expects
+        //    ComboBoxPagedResult pagedAttendees = ar.TranslateToComboBoxFormat(prodLst, prodCount);
+
+        //    //Return the data as a jsonp result
+        //    return new JsonpResult
+        //    {
+        //        Data = pagedAttendees,
+        //        JsonRequestBehavior = JsonRequestBehavior.AllowGet
+        //    };
+        //}
+
+
+        public ActionResult GetProductCategory(string searchTerm, int pageSize, int pageNum, int? filter)
         {
             //Get the paged results and the total count of the results for this query. ProductCacheKeyHint
-            var productCacheKeyHint = "CacheProductCategory";
+            var productCacheKeyHint = ConfigurationManager.AppSettings["ProductGroupCacheKeyHint"];
 
             //THis statement has been changed because GetProductHelpList was calling again and again. 
 
-            AutoCompleteComboBoxRepositoryAndHelper ar = new AutoCompleteComboBoxRepositoryAndHelper(cbl.GetProductCategoryHelpList(), productCacheKeyHint, RefreshData.RefreshProductData);
+            AutoCompleteComboBoxRepositoryAndHelper ar = new AutoCompleteComboBoxRepositoryAndHelper(cbl.GetProductCategoryHelpList(filter), productCacheKeyHint, RefreshData.RefreshProductData);
             //AutoCompleteComboBoxRepositoryAndHelper ar = new AutoCompleteComboBoxRepositoryAndHelper(null, productCacheKeyHint);
 
             if (RefreshData.RefreshProductData == true) { RefreshData.RefreshProductData = false; }
@@ -5910,7 +5938,89 @@ namespace Web
             return Json(ProductJson);
         }
 
-        
+
+
+        public JsonResult GetChargeGroupProducts(string searchTerm, int pageSize, int pageNum)
+        {
+            var Query = cbl.GetChargeGroupProducts(searchTerm);
+            var temp = Query.Skip(pageSize * (pageNum - 1)).Take(pageSize).ToList();
+
+            var count = Query.Count();
+
+            ComboBoxPagedResult Data = new ComboBoxPagedResult();
+            Data.Results = temp;
+            Data.Total = count;
+
+            return new JsonpResult
+            {
+                Data = Data,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+        public JsonResult SetSingleChargeGroupProduct(int Ids)
+        {
+            ComboBoxResult ChargeGroupProductJson = new ComboBoxResult();
+
+            ChargeGroupProduct ChargeGroupProduct = (from b in db.ChargeGroupProduct
+                                       where b.ChargeGroupProductId == Ids
+                                       select b).FirstOrDefault();
+
+            ChargeGroupProductJson.id = ChargeGroupProduct.ChargeGroupProductId.ToString();
+            ChargeGroupProductJson.text = ChargeGroupProduct.ChargeGroupProductName;
+
+            return Json(ChargeGroupProductJson);
+        }
+        public JsonResult SetChargeGroupProduct(string Ids)
+        {
+            string[] subStr = Ids.Split(',');
+            List<ComboBoxResult> ProductJson = new List<ComboBoxResult>();
+            for (int i = 0; i < subStr.Length; i++)
+            {
+                int temp = Convert.ToInt32(subStr[i]);
+                IEnumerable<ChargeGroupProduct> prod = from p in db.ChargeGroupProduct
+                                                 where p.ChargeGroupProductId == temp
+                                                 select p;
+                ProductJson.Add(new ComboBoxResult()
+                {
+                    id = prod.FirstOrDefault().ChargeGroupProductId.ToString(),
+                    text = prod.FirstOrDefault().ChargeGroupProductName
+                });
+            }
+            return Json(ProductJson);
+        }
+
+        public JsonResult GetBinLocations(string searchTerm, int pageSize, int pageNum, int filter)
+        {
+            var Query = cbl.GetBinLocations(searchTerm, filter);
+            var temp = Query.Skip(pageSize * (pageNum - 1)).Take(pageSize).ToList();
+
+            var count = Query.Count();
+
+            ComboBoxPagedResult Data = new ComboBoxPagedResult();
+            Data.Results = temp;
+            Data.Total = count;
+
+            return new JsonpResult
+            {
+                Data = Data,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+        public JsonResult SetSingleBinLocation(int Ids)
+        {
+            ComboBoxResult BinLocationJson = new ComboBoxResult();
+
+            BinLocation BinLocation = (from b in db.BinLocation
+                                                     where b.BinLocationId == Ids
+                                                     select b).FirstOrDefault();
+
+            BinLocationJson.id = BinLocation.BinLocationId.ToString();
+            BinLocationJson.text = BinLocation.BinLocationName;
+
+            return Json(BinLocationJson);
+        }
+
+
 
 
     }

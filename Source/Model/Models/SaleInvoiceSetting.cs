@@ -27,6 +27,9 @@ namespace Model.Models
         public bool? isVisibleDimension4 { get; set; }
         public bool? isVisiblePromoCode { get; set; }
         public bool? isVisibleLotNo { get; set; }
+        public bool? isVisibleFinancier { get; set; }
+        public bool? isVisibleSalesExecutive { get; set; }
+
         public bool CalculateDiscountOnRate { get; set; }
         public string filterLedgerAccountGroups { get; set; }
         public string filterLedgerAccounts { get; set; }

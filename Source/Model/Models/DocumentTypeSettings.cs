@@ -56,6 +56,14 @@ namespace Model.Models
         [MaxLength(50)]
         public string WeightCaption { get; set; }
 
+
+        [MaxLength(50)]
+        public string CostCenterCaption { get; set; }
+
+        [MaxLength(50)]
+        public string SpecificationCaption { get; set; }
+
+
         public string CreatedBy { get; set; }
         public string ModifiedBy { get; set; }
         public DateTime CreatedDate { get; set; }

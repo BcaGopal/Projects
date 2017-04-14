@@ -25,6 +25,7 @@
     @Html.AntiForgeryToken()
     @Html.HiddenFor(m => m.DivisionId)
     @Html.HiddenFor(m => m.ProductId)    
+    @Html.HiddenFor(m => m.ProductTypeId)    
     @Html.HiddenFor(m=>m.ProductSiteDetailId)
     @Html.HiddenFor(m=>m.SiteId)
     <div class="panel panel-default">
@@ -68,7 +69,7 @@
                 <div class="row">
                     <h4 class="col-md-12 black" style="margin-top:15px">
                         <span class="glyphicon glyphicon-align-justify"></span>
-                        1.@Model.ProductCategoryName Details
+                        @Model.ProductCategoryName Details
                     </h4>
                     <div>
                         <div class="row">
@@ -76,7 +77,7 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="form-group" style="margin-top:15px">
-                                            @Html.LabelFor(model => model.ProductName, "Product Name", new { @class = "control-label col-xs-4" })
+                                            @Html.LabelFor(model => model.ProductName, (Model.ProductTypeSettings.ProductNameCaption ?? "Product Name"), new { @class = "control-label col-xs-4" })
                                             <div class="col-xs-6">
                                                 @Html.TextBoxFor(model => model.ProductName, null, new { @class = "form-control col-xs-6 height required" })
                                                 @Html.ValidationMessageFor(model => model.ProductName, null, new { @class = "text-danger" })
@@ -84,10 +85,11 @@
                                         </div>
                                     </div>
                                 </div>
+
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="form-group">
-                                            @Html.LabelFor(model => model.ProductCode, "Product Code", new { @class = "control-label col-xs-4 " })
+                                            @Html.LabelFor(model => model.ProductCode, (Model.ProductTypeSettings.ProductCodeCaption ?? "Product Code"), new { @class = "control-label col-xs-4 " })
                                             <div class="col-xs-6">
                                                 @Html.TextBoxFor(m => m.ProductCode, null, new { @class = "form-control col-xs-6 required" })
                                                 @Html.ValidationMessageFor(model => model.ProductCode, null, new { @class = "text-danger" })
@@ -96,22 +98,22 @@
                                     </div>
                                 </div>
 
-                               
-                                <div class="row">
+                                <div class="row" style="display:@(Model.ProductTypeSettings.isVisibleProductDescription?"":"none")">
                                     <div class="col-md-12">
                                         <div class="form-group">
-                                            @Html.LabelFor(model => model.UnitId, "Stock Unit", new { @class = "control-label col-xs-4" })
+                                            @Html.LabelFor(model => model.ProductDescription, (Model.ProductTypeSettings.ProductDescriptionCaption ?? "Product Description"), new { @class = "control-label col-xs-4 " })
                                             <div class="col-xs-6">
-                                                @Html.DropDownListFor(m => m.UnitId, new SelectList(ViewBag.UnitList as System.Collections.IEnumerable, "UnitId", "UnitName"), new { @class = "form-control col-xs-6 height" })
+                                                @Html.TextBoxFor(m => m.ProductDescription, null, new { @class = "form-control col-xs-6 required" })
+                                                @Html.ValidationMessageFor(model => model.ProductDescription, null, new { @class = "text-danger" })
                                             </div>
                                         </div>
                                     </div>
                                 </div>
 
-                                <div class="row">
+                                <div class="row" style="display:@(Model.ProductTypeSettings.isVisibleProductSpecification?"":"none")">
                                     <div class="col-md-12">
                                         <div class="form-group">
-                                            @Html.LabelFor(model => model.ProductSpecification, "Specification", new { @class = "control-label col-xs-4" })
+                                            @Html.LabelFor(model => model.ProductSpecification, (Model.ProductTypeSettings.ProductSpecificationCaption ?? "Specification"), new { @class = "control-label col-xs-4" })
                                             <div class="col-xs-6">
                                                 @Html.TextBoxFor(m => m.ProductSpecification, null, new { @class = "form-control col-xs-6 " })
                                                 @Html.ValidationMessageFor(model => model.ProductSpecification, null, new { @class = "text-danger" })
@@ -148,14 +150,57 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.ProductGroupId, "Group", new { @class = "control-label col-xs-4 " })
+                                    @Html.LabelFor(model => model.ProductGroupId, (Model.ProductTypeSettings.ProductGroupCaption ?? "Group"), new { @class = "control-label col-xs-4 " })
                                     <div class="col-xs-6">
-                                        @Html.DropDownListFor(m => m.ProductGroupId, new SelectList(ViewBag.ProductGroupList as System.Collections.IEnumerable, "ProductGroupId", "ProductGroupName"), new { @class = "form-control col-xs-6 required height" })
+                                        @Html.TextBoxFor(m => m.ProductGroupId, null, new { @class = "form-control col-xs-6 " })
                                         @Html.ValidationMessageFor(model => model.ProductGroupId, null, new { @class = "text-danger" })
                                     </div>
                                 </div>
                             </div>
+
+                            <div class="col-md-6" style="display:@(Model.ProductTypeSettings.isVisibleProductCategory?"":"none")">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.ProductCategoryId, (Model.ProductTypeSettings.ProductCategoryCaption ?? "Category"), new { @class = "control-label col-xs-4 " })
+                                    <div class="col-xs-6">
+                                        @Html.TextBoxFor(m => m.ProductCategoryId, null, new { @class = "form-control col-xs-6 " })
+                                        @Html.ValidationMessageFor(model => model.ProductCategoryId, null, new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+
+
+
                             <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.UnitId, "Stock Unit", new { @class = "control-label col-xs-4 " })
+                                    <div class="col-xs-6">
+                                        @Html.TextBoxFor(m => m.UnitId, null, new { @class = "form-control col-xs-6 " })
+                                        @Html.ValidationMessageFor(model => model.UnitId, null, new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6" style="display:@(Model.ProductTypeSettings.isVisibleSalesTaxGroup?"":"none")">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.SalesTaxGroupProductId, "Sales Tax Group", new { @class = "control-label col-xs-4" })
+                                    <div class="col-xs-6">
+                                        @Html.TextBoxFor(m => m.SalesTaxGroupProductId, null, new { @class = "form-control col-xs-6 " })
+                                        @Html.ValidationMessageFor(model => model.SalesTaxGroupProductId, null, new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6" style="display:@(Model.ProductTypeSettings.isVisibleSaleRate?"":"none")">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.SaleRate, "Sale Rate", new { @class = "control-label col-xs-4 " })
+                                    <div class="col-xs-6">
+                                        @Html.TextBoxFor(m => m.SaleRate, null, new { @class = "form-control col-xs-6 " })
+                                        @Html.ValidationMessageFor(model => model.SaleRate, null, new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6" style="display:@(Model.ProductTypeSettings.isVisibleStandardCost?"":"none")">
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.StandardCost, "Standard Cost", new { @class = "control-label col-xs-4 " })
                                     <div class="col-xs-6">
@@ -165,15 +210,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    @Html.LabelFor(model => model.SalesTaxGroupProductId, "Sales Tax Group", new { @class = "control-label col-xs-4" })
-                                    <div class="col-xs-6">
-                                        @Html.DropDownListFor(m => m.SalesTaxGroupProductId, new SelectList(ViewBag.SalesTaxGroup as System.Collections.IEnumerable, "SalesTaxGroupProductId", "SalesTaxGroupProductName"), new { @class = "form-control col-xs-6 height" })
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
+                            <div class="col-md-6" style="display:@(Model.ProductTypeSettings.isVisibleTags?"":"none")">
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.Tags, "Tags", new { @class = "control-label col-xs-4 " })
                                     <div class="col-xs-6">
@@ -183,56 +220,62 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-6">
+                            <div class="col-md-6" style="display:@(Model.ProductTypeSettings.isVisibleMinimumOrderQty?"":"none")">
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.MinimumOrderQty, "Min Order Qty", new { @class = "control-label col-xs-4" })
                                     <div class="col-xs-6">
                                         @Html.TextBoxFor(m => m.MinimumOrderQty, new { @class = "form-control col-xs-6" })
+                                        @Html.ValidationMessageFor(model => model.MinimumOrderQty)
                                     </div>
                                 </div>
                             </div>
 
-                            <div class="col-md-6">
+                            <div class="col-md-6" style="display:@(Model.ProductTypeSettings.isVisibleReOrderLevel?"":"none")">
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.ReOrderLevel, "Reorder Level", new { @class = "control-label col-xs-4" })
                                     <div class="col-xs-6">
                                         @Html.TextBoxFor(m => m.ReOrderLevel, new { @class = "form-control col-xs-6" })
+                                        @Html.ValidationMessageFor(model => model.ReOrderLevel)
                                     </div>
                                 </div>
                             </div>
 
-                            <div class="col-md-6">
+                            <div class="col-md-6" style="display:@(Model.ProductTypeSettings.isVisibleGodownId?"":"none")">
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.GodownId, "Godown", new { @class = "control-label col-xs-4" })
                                     <div class="col-xs-6">
                                         @Html.TextBoxFor(m => m.GodownId, new { @class = "form-control col-xs-6" })
+                                        @Html.ValidationMessageFor(model => model.GodownId)
                                     </div>
                                 </div>
                             </div>
 
-                            <div class="col-md-6">
+                            <div class="col-md-6" style="display:@(Model.ProductTypeSettings.isVisibleBinLocationId?"":"none")">
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.BinLocation, "Bin Location", new { @class = "control-label col-xs-4" })
+                                    @Html.LabelFor(model => model.BinLocationId, "Bin Location", new { @class = "control-label col-xs-4" })
                                     <div class="col-xs-6">
-                                        @Html.TextBoxFor(m => m.BinLocation, new { @class = "form-control col-xs-6" })
+                                        @Html.TextBoxFor(m => m.BinLocationId, new { @class = "form-control col-xs-6" })
+                                        @Html.ValidationMessageFor(model => model.BinLocationId)
                                     </div>
                                 </div>
                             </div>
 
-                            <div class="col-md-6">
+                            <div class="col-md-6" style="display:@(Model.ProductTypeSettings.isVisibleProfitMargin?"":"none")">
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.ProfitMargin, "Profit Margin", new { @class = "control-label col-xs-4" })
                                     <div class="col-xs-6">
                                         @Html.TextBoxFor(m => m.ProfitMargin, new { @class = "form-control col-xs-6" })
+                                        @Html.ValidationMessageFor(model => model.ProfitMargin)
                                     </div>
                                 </div>
                             </div>
 
-                            <div class="col-md-6">
+                            <div class="col-md-6" style="display:@(Model.ProductTypeSettings.isVisibleCarryingCost?"":"none")">
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.CarryingCost, "Carrying Cost", new { @class = "control-label col-xs-4" })
                                     <div class="col-xs-6">
                                         @Html.TextBoxFor(m => m.CarryingCost, new { @class = "form-control col-xs-6" })
+                                        @Html.ValidationMessageFor(model => model.CarryingCost)
                                     </div>
                                 </div>
                             </div>
@@ -273,7 +316,7 @@
                                 }
                             }
                             
-                            <div class="col-md-6">
+                            <div class="col-md-6" style="display:@(Model.ProductTypeSettings.isVisibleLotManagement?"":"none")">
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.LotManagement, "Is Lot Management", new { @class = "control-label col-xs-4" })
                                     <div class="col-xs-6" style=" padding-top:4px">
@@ -296,27 +339,55 @@
                     </div>
                 </div>
 
-                <hr />
-                <div class="row">
-                    <h4 class="col-md-12 black" style="margin-top:15px">
-                        <span class="glyphicon glyphicon-shopping-cart"></span>
-                        2.Consumption
-                    </h4>
-                </div>
-                <div class="panel-info">
-                    <h5 style="padding:5px 0 3px 0;margin:0px;font-weight:bold">
-                        <span class="glyphicon glyphicon-plus-sign"></span>
-                        @Html.ActionLink("Add New Row ", "_Create", "ProductConsumptionLine", new { id = @Model.ProductId }, new { data_modal = "", id = "btnCreate", @class = "toolbar", @title = "Add New", @data_toggle = "tooltip" })/
-                        @Html.ActionLink("Copy From Existing", "CopyFromExistingConsumption", "Product", new { ProductId = @Model.ProductId }, new { data_modal = "", id = "btnCreate", @class = "toolbar", @title = "Add New", @data_toggle = "tooltip" })
-                    </h5>
-                </div>
-                <div style="padding-right:15px">
-                    <table class="table table-hover ctable">
-                        <thead id="OtherContentHeader">
-                        </thead>
-                        <tbody id="OtherContentLine"></tbody>
-                    </table>
-                </div>
+                @if (Model.ProductTypeSettings.isVisibleConsumptionDetail)
+                {
+                    <hr />
+                    <div class="row">
+                        <h4 class="col-md-12 black" style="margin-top:15px">
+                            <span class="glyphicon glyphicon-shopping-cart"></span>
+                            Consumption
+                        </h4>
+                    </div>
+                    <div class="panel-info">
+                        <h5 style="padding:5px 0 3px 0;margin:0px;font-weight:bold">
+                            <span class="glyphicon glyphicon-plus-sign"></span>
+                            @Html.ActionLink("Add New Row ", "_Create", "ProductConsumptionLine", new { id = @Model.ProductId }, new { data_modal = "", id = "btnCreate", @class = "toolbar", @title = "Add New", @data_toggle = "tooltip" })/
+                            @Html.ActionLink("Copy From Existing", "CopyFromExistingConsumption", "Product", new { ProductId = @Model.ProductId }, new { data_modal = "", id = "btnCreate", @class = "toolbar", @title = "Add New", @data_toggle = "tooltip" })
+                        </h5>
+                    </div>
+                    <div style="padding-right:15px">
+                        <table class="table table-hover ctable">
+                            <thead id="OtherContentHeader">
+                            </thead>
+                            <tbody id="OtherContentLine"></tbody>
+                        </table>
+                    </div>
+                }
+                
+
+                @if (Model.ProductTypeSettings.isVisibleProductProcessDetail)
+                {
+                    <hr />
+                    <div class="row">
+                        <h4 class="col-md-12 black" style="margin-top:15px">
+                            <span class="glyphicon glyphicon-shopping-cart"></span>
+                            Product Process
+                        </h4>
+                    </div>
+                    <div class="panel-info">
+                        <h5 style="padding:5px 0 3px 0;margin:0px;font-weight:bold">
+                            <span class="glyphicon glyphicon-plus-sign"></span>
+                            @Html.ActionLink("Add New Row ", "_Create", "ProductProcess", new { id = @Model.ProductId }, new { data_modal = "", id = "btnCreate", @class = "toolbar", @title = "Add New", @data_toggle = "tooltip" })
+                        </h5>
+                    </div>
+                    <div style="padding-right:15px">
+                        <table class="table table-hover ctable">
+                            <thead id="ProductProcessHeader">
+                            </thead>
+                            <tbody id="ProductProcessLine"></tbody>
+                        </table>
+                    </div>
+                }
             </div>
         </div>
     </div>
@@ -337,26 +408,26 @@
 <script type="text/javascript">
     $(document).ready(function () {
 
-        var name='@Model.ProductCategoryName';
+        @*var name='@Model.ProductCategoryName';
+        var id=@Model.ProductTypeId;*@
+
         var id=@Model.ProductTypeId;
 
-        //CustomSelectFunction($("#ProductGroupId"), '/ComboHelpList/GetProductGroupWithTypeFilter', '/ComboHelpList/SetSingleRawMaterialProductGroup', ' ', false, 1,id);
-        //CustomSelectFunction($("#ProductCategoryId"), '/ComboHelpList/GetRawMaterialProductCategory', '/ComboHelpList/SetSingleRawMaterialProductCategory', ' ', false, 1);
-
-        //if(name=='Raw Material')
-        //{
-            
-            
-        //}
-        //else if(name=='Other Material')
-        //{
-           
-        //    CustomSelectFunction($("#ProductCategoryId"), '/ComboHelpList/GetOtherMaterialProductCategory', '/ComboHelpList/SetSingleOtherMaterialProductCategory', ' ', false, 1);
-        //}      
-
-
         $("#Tags").select2({tags: true,tokenSeparators: [',', ' ']});
-        CustomSelectFunction($("#GodownId"), '/ComboHelpList/GetGodown', '/ComboHelpList/SetSingleGodown', ' ', false, 1);
+        CustomSelectFunction($("#GodownId"), '/ComboHelpList/GetGodown', '/ComboHelpList/SetSingleGodown', ' ', false, 0);
+        CustomSelectFunction($("#UnitId"), '/ComboHelpList/GetUnits', '/ComboHelpList/SetSingleUnits', ' ', false, 0);
+        CustomSelectFunction($("#ProductGroupId"), '/ComboHelpList/GetProductGroup', '/ComboHelpList/SetSingleProductGroup', ' ', false, 0,id);
+        CustomSelectFunction($("#ProductCategoryId"), '/ComboHelpList/GetProductCategory', '/ComboHelpList/SetSingleProductCategory', ' ', false, 0,id);
+        CustomSelectFunction($("#SalesTaxGroupProductId"), '/ComboHelpList/GetChargeGroupProducts', '/ComboHelpList/SetSingleChargeGroupProduct', ' ', false, 0);
+        CustomSelectFunction($("#BinLocationId"), '/ComboHelpList/GetBinLocations', '/ComboHelpList/SetSingleBinLocation', ' ', false, 0,0);
+
+        $("#GodownId").change(function(){
+            $("#BinLocationId").select2("data", { id: null, text: null });
+            CustomSelectFunction($("#BinLocationId"), '/ComboHelpList/GetBinLocations', '/ComboHelpList/SetSingleBinLocation', ' ', false, 0,$("#GodownId").val());
+        });
+
+
+
     });
 
      $(":submit").on("click", function () {
@@ -390,6 +461,7 @@
         $("#ProductName").focus();
 
         LoadOtherContent();
+        LoadProductProcess();
     });
 
     var id=@Model.ProductId;
@@ -401,6 +473,7 @@
     //Reloading the table contents on modal hide
     $('#myModal').on('hidden.bs.modal', function () {
         LoadOtherContent();
+        LoadProductProcess();
     });
 
     $('#myModal').on('shown.bs.modal', function () {
@@ -440,6 +513,41 @@
         });
     }
 
+
+    //Loading the Table data or Line Information
+    function LoadProductProcess() {
+        var groupId=@Model.ProductId;
+
+        var link="/ProductProcess/Index/"+groupId;
+
+        $.ajax({
+            url: link,
+            type: "GET",
+            success: function (data) {
+                var row = ""
+                var srno=1;
+                var head="<tr style='background-color:#428bca'>  <th><input type='hidden'  /></th> <th style='width:5%'>Sr.No</th><th class='center' style='width:30%'>Process</th>   <th class='center' style='width:30%'>Product Rate Group</th> <th class='center' style='width:30%'>Instructions</th> <th style='width:10%'></th>  </tr>"
+                if(data.length!=0)
+                {
+                    $.each(data, function (index, item) {
+                        row += "<tr><td><input type='hidden' class='id' value='" + item.ProductProcessId + "'/></td> <td>"+srno+"</td> <td>" + item.ProcessName + "</td><td>" + ((item.ProudctRateGroupName==null)?" ":item.ProudctRateGroupName )+ "</td><td>" + ((item.Instructions==null)?" ":item.Instructions ) + "</td>  <td><a class='rowEditBlue hidden' Modify href='/ProductProcess/_Edit/"+item.ProductProcessId+"' ></a></td>       <td><a class='glyphicon glyphicon-trash' data-modal='' delete='' href='/ProductProcess/_Edit/"+item.ProductProcessId+"' ></a></td>   </tr>";
+                        srno++;
+                    });
+
+                }
+                else
+                {
+                    row+="<tr><td>No Items Found.</td></tr>";
+                }
+                $("#ProductProcessHeader").html(head);
+                $("#ProductProcessLine").html(row);
+            },
+            error: function (BankAccoutDetail) {
+                alert("Error");
+            }
+        });
+    }
+
     //Loading the table data or ProductBuyer Information
 
     //For Populating Modal PopUp on DoubleClick Of Row
@@ -460,8 +568,42 @@
     });
 
 
+    //For Populating Modal PopUp on DoubleClick Of Row
+    $('#ProductProcessLine').on("dblclick",'tr',function(){
+        var text = $(this).find(".id").val();
+        var editurl=$(this).find('a[Modify]').attr('href');
+
+
+        $('#myModalContent').load(editurl, function () {
+            //alert('2');
+            $('#myModal').modal({
+                backdrop: 'static',
+                keyboard: true
+            }, 'show');
+
+            bindForm1(this);
+        });
+    });
+
+
     //For Handling Modal PopUp on Clicking Delete Icon
     $('#OtherContentLine').on("click",'a[delete]', function (e) {
+        $('#myModalContent').load(this.href, function () {
+            //alert('2');
+            $('#myModal').modal({
+                backdrop: 'static',
+                keyboard: true
+            }, 'show');
+
+            bindForm1(this);
+        });
+        return false;
+    });
+
+
+
+    //For Handling Modal PopUp on Clicking Delete Icon
+    $('#ProductProcessLine').on("click",'a[delete]', function (e) {
         $('#myModalContent').load(this.href, function () {
             //alert('2');
             $('#myModal').modal({

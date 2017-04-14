@@ -353,6 +353,7 @@ namespace Web
                     temp.JobWorkerId = pt.JobWorkerId;
                     temp.JobWorkerDocNo = pt.JobWorkerDocNo;
                     temp.ProcessId = pt.ProcessId;
+                    temp.FinancierId = pt.FinancierId;
                     temp.ModifiedDate = DateTime.Now;
                     temp.ModifiedBy = User.Identity.Name;
                     temp.ObjectState = Model.ObjectState.Modified;

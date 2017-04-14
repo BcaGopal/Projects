@@ -607,6 +607,8 @@ namespace Web
                     temp.PayTermCashPer = s.PayTermCashPer;
                     temp.PayTermBankPer = s.PayTermBankPer;
                     temp.Remark = s.Remark;
+                    temp.FinancierId = s.FinancierId;
+                    temp.SalesExecutiveId = s.SalesExecutiveId;
                     temp.CreditDays = s.CreditDays;
                     temp.ModifiedDate = DateTime.Now;
                     temp.ModifiedBy = User.Identity.Name;
