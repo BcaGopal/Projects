@@ -1800,7 +1800,6 @@
                           </Style>
                         </Textbox>
                         <ColSpan>3</ColSpan>
-                        <rd:Selected>true</rd:Selected>
                       </CellContents>
                     </TablixCell>
                     <TablixCell />
@@ -2132,7 +2131,6 @@
                             <PaddingBottom>2pt</PaddingBottom>
                           </Style>
                         </Textbox>
-                        <rd:Selected>true</rd:Selected>
                       </CellContents>
                     </TablixCell>
                     <TablixCell>
@@ -2205,6 +2203,7 @@
                             <PaddingBottom>2pt</PaddingBottom>
                           </Style>
                         </Textbox>
+                        <rd:Selected>true</rd:Selected>
                       </CellContents>
                     </TablixCell>
                     <TablixCell>
@@ -2468,7 +2467,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=iif(Fields!BalIndQty.Value &lt;&gt; 0, formatnumber(Fields!BalIndQty.Value,2) ,"-")</Value>
+                                  <Value>=iif(Fields!BalIndQty.Value &lt;&gt; 0, formatnumber(Fields!BalIndQty.Value,3) ,"-")</Value>
                                   <Style>
                                     <FontFamily>Tahoma</FontFamily>
                                     <FontSize>9pt</FontSize>
@@ -2542,7 +2541,6 @@
                           </Style>
                         </Textbox>
                         <ColSpan>2</ColSpan>
-                        <rd:Selected>true</rd:Selected>
                       </CellContents>
                     </TablixCell>
                     <TablixCell />
@@ -2810,7 +2808,6 @@
                             <PaddingBottom>2pt</PaddingBottom>
                           </Style>
                         </Textbox>
-                        <rd:Selected>true</rd:Selected>
                       </CellContents>
                     </TablixCell>
                     <TablixCell>
@@ -3076,7 +3073,7 @@
             <Top>3.71875in</Top>
             <Left>0.05292in</Left>
             <Height>1.5in</Height>
-            <Width>10.94402in</Width>
+            <Width>10.94407in</Width>
             <ZIndex>3</ZIndex>
             <Style>
               <Border>

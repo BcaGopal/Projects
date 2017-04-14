@@ -162,7 +162,7 @@
                                     </div>
                                 </div>
                             </div>
-
+                            
 
                             <div class="col-md-6">
                                 <div class="form-group" style="margin-top:15px">
@@ -182,7 +182,7 @@
                                     </div>
                                 </div>
                             </div>
-
+                            
 
                             <div class="col-md-6">
                                 <div class="form-group">
@@ -1154,6 +1154,8 @@
     $(document).ready(function () {
         var id=@Model.JobOrderHeaderId;
         var   ProdOrderBranch='@ViewBag.ProdOrder';
+        var   RecCnt='@ViewBag.RecCnt';
+        var   CanCnt='@ViewBag.CanCnt';
         if(id==null||id==0)
         {
             $(document).find('a#btnCreateF').removeAttr('href').removeAttr('data-modal');
@@ -1161,12 +1163,14 @@
             $(document).find('a#btnCreatePO').removeAttr('href').removeAttr('data-modal');
         }
 
-        if(ProdOrderBranch >0 )
+        if(ProdOrderBranch >0 ||RecCnt >0 || CanCnt >0)
         {
             $("#JobWorkerId").prop("readonly", true);
             $("#CostCenterName").prop("readonly", true);
             $("#BillToPartyId").prop("readonly", true);
-            
+            $("#DocNo").prop("readonly", true);
+            $("#DueDate").prop("readonly", true);
+            $("#DocDate").prop("readonly", true);
         }
 
         $(document).ajaxStart(function () {

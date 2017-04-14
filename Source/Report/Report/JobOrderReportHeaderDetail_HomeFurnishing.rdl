@@ -303,6 +303,18 @@
           <DataField>ProdorderCnt</DataField>
           <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
+        <Field Name="ProductCaption">
+          <DataField>ProductCaption</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Partycaption">
+          <DataField>Partycaption</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="ContraDocTypeCaption">
+          <DataField>ContraDocTypeCaption</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
       </Fields>
       <rd:DataSetInfo>
         <rd:DataSetName>Purchase</rd:DataSetName>
@@ -503,7 +515,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Job Worker</Value>
+                                  <Value>=max(fields!Partycaption.Value)</Value>
                                   <Style>
                                     <FontFamily>Tahoma</FontFamily>
                                     <FontSize>8pt</FontSize>

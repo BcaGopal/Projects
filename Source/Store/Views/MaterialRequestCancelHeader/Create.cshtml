@@ -73,6 +73,7 @@
                     @Html.ActionLink(" ", "GeneratePrints", "MaterialRequestCancelHeader", new { Ids = Model.RequisitionCancelHeaderId, DocTypeId = Model.DocTypeId }, new { @class = "cbtn btn-circle glyphicon glyphicon-print toolbar", @title = "Print", @data_toggle = "tooltip", id = "PrintRecordC" })
                     @Html.ActionLink(" ", "PrevPage", "MaterialRequestCancelHeader", new { id = @Model.RequisitionCancelHeaderId }, new { @class = "cbtn btn-circle glyphicon glyphicon-arrow-left toolbar", @title = "Prev Record", @data_toggle = "tooltip" })
                     @Html.ActionLink(" ", "NextPage", "MaterialRequestCancelHeader", new { id = @Model.RequisitionCancelHeaderId }, new { @class = "cbtn btn-circle glyphicon glyphicon-arrow-right toolbar", @title = "Next Record", @data_toggle = "tooltip" })
+                    @Html.ActionLink(" ", "Index", "MaterialRequestCancelHeader", new { id = ViewBag.id, IndexType = ViewBag.IndexStatus }, new { @class = "cbtn btn-circle glyphicon glyphicon-list", @title = "List", @data_toggle = "tooltip" })
                 </div>
                 <div class="btn-group">
                     <a class="cbtn btn-circle glyphicon glyphicon-option-horizontal dropdown-toggle"   title="More Option"  aria-expanded="false" style="padding-top: 6px;padding-bottom: 6px;" href="#" data-toggle="dropdown" id="dropdownMenu1">

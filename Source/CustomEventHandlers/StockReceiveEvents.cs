@@ -107,16 +107,18 @@ namespace Web
                            where p.DocumentTypeName == TransactionDoctypeConstants.MaterialReturnFromWeaving
                            select p).FirstOrDefault();
 
-            var ReceiveLineCostCenterRecords = (from p in DbContext.StockLine
-                                                join t in DbContext.StockHeader on p.StockHeaderId equals t.StockHeaderId
-                                                where p.CostCenterId == Temp.CostCenterId && t.DocTypeId == DocType.DocumentTypeId
-                                                && p.StockLineId != EventArgs.DocLineId
-                                                select p).ToList();
+           
+                var ReceiveLineCostCenterRecords = (from p in DbContext.StockLine
+                                                    join t in DbContext.StockHeader on p.StockHeaderId equals t.StockHeaderId
+                                                    where p.CostCenterId == Temp.CostCenterId && t.DocTypeId == DocType.DocumentTypeId
+                                                    && p.StockLineId != EventArgs.DocLineId
+                                                    select p).ToList();
 
-            var ReceiveProductCount = (from p in ReceiveLineCostCenterRecords
-                                       select p.RequisitionLineId).Distinct().Count();
+                var ReceiveProductCount = (from p in ReceiveLineCostCenterRecords
+                                           select p.RequisitionLineId).Distinct().Count();
 
-
+         
+            
             DbContext.Dispose();
 
 

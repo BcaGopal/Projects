@@ -43,6 +43,12 @@
           <QueryParameter Name="@Product">
             <Value>=Parameters!Product.Value</Value>
           </QueryParameter>
+          <QueryParameter Name="@ProductGroups">
+            <Value>=Parameters!ProductGroups.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@ReportType">
+            <Value>=Parameters!ReportType.Value</Value>
+          </QueryParameter>
         </QueryParameters>
         <CommandType>StoredProcedure</CommandType>
         <CommandText>Web.spRep_DailyStockSummary</CommandText>
@@ -103,6 +109,10 @@
         <Field Name="SubReportProcList">
           <DataField>SubReportProcList</DataField>
           <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="HeaderTitle">
+          <DataField>HeaderTitle</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
         </Field>
       </Fields>
     </DataSet>
@@ -1123,16 +1133,16 @@
                   <Width>0.54514in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.09722in</Width>
+                  <Width>1.50347in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.43056in</Width>
+                  <Width>1.30556in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.46181in</Width>
+                  <Width>1.36806in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.59722in</Width>
+                  <Width>1.3993in</Width>
                 </TablixColumn>
                 <TablixColumn>
                   <Width>1.35764in</Width>
@@ -1186,7 +1196,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Date</Value>
+                                  <Value>=max(Fields!HeaderTitle.Value)</Value>
                                   <Style>
                                     <FontFamily>Tahoma</FontFamily>
                                     <FontSize>9pt</FontSize>
@@ -1332,7 +1342,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Closeing</Value>
+                                  <Value>Closing</Value>
                                   <Style>
                                     <FontFamily>Tahoma</FontFamily>
                                     <FontSize>9pt</FontSize>
@@ -2668,7 +2678,7 @@
             <Top>3.54792in</Top>
             <Left>0.02792in</Left>
             <Height>1.75in</Height>
-            <Width>7.48959in</Width>
+            <Width>7.47917in</Width>
             <ZIndex>2</ZIndex>
             <Style>
               <Border>
@@ -3119,6 +3129,18 @@
       <Nullable>true</Nullable>
       <AllowBlank>true</AllowBlank>
       <Prompt>Product</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="ProductGroups">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Product Groups</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="ReportType">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Report Type</Prompt>
     </ReportParameter>
   </ReportParameters>
   <EmbeddedImages>

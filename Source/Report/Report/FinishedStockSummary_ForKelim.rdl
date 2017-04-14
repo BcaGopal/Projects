@@ -3562,30 +3562,6 @@
               <FontWeight>Bold</FontWeight>
             </Style>
           </Tablix>
-          <Subreport Name="CompanyDetail_Landscap">
-            <ReportName>CompanyDetail_Landscap</ReportName>
-            <Parameters>
-              <Parameter Name="SiteId">
-                <Value>=First(Fields!SiteId.Value, "DsMain")</Value>
-              </Parameter>
-              <Parameter Name="DivisionId">
-                <Value>=First(Fields!DivisionId.Value, "DsMain")</Value>
-              </Parameter>
-            </Parameters>
-            <Top>0.05556in</Top>
-            <Left>0.05061in</Left>
-            <Height>0.30912in</Height>
-            <Width>13.19446in</Width>
-            <ZIndex>2</ZIndex>
-            <Visibility>
-              <Hidden>=iif(Globals!RenderFormat.Name &lt;&gt; "PDF",True,False)</Hidden>
-            </Visibility>
-            <Style>
-              <Border>
-                <Style>None</Style>
-              </Border>
-            </Style>
-          </Subreport>
           <Textbox Name="ReportTitle2">
             <CanGrow>true</CanGrow>
             <KeepTogether>true</KeepTogether>
@@ -3611,7 +3587,7 @@
             <Left>0.04209in</Left>
             <Height>0.3125in</Height>
             <Width>13.20298in</Width>
-            <ZIndex>3</ZIndex>
+            <ZIndex>2</ZIndex>
             <Visibility>
               <Hidden>=iif(Globals!RenderFormat.Name &lt;&gt; "PDF",True,False)</Hidden>
             </Visibility>
@@ -3635,11 +3611,41 @@
               <PaddingBottom>2pt</PaddingBottom>
             </Style>
           </Textbox>
+          <Subreport Name="CompanyDetail_Landscap">
+            <ReportName>CompanyDetail_Landscap</ReportName>
+            <Parameters>
+              <Parameter Name="SiteId">
+                <Value>=First(Fields!SiteId.Value, "DsMain")</Value>
+              </Parameter>
+              <Parameter Name="DivisionId">
+                <Value>=First(Fields!DivisionId.Value, "DsMain")</Value>
+              </Parameter>
+              <Parameter Name="DatabaseConnectionString">
+                <Value>=Parameters!DatabaseConnectionString.Value</Value>
+              </Parameter>
+              <Parameter Name="PrintedBy">
+                <Value>=Parameters!PrintedBy.Value</Value>
+              </Parameter>
+            </Parameters>
+            <Top>0.03711in</Top>
+            <Left>0.03364in</Left>
+            <Height>0.30912in</Height>
+            <Width>13.21143in</Width>
+            <ZIndex>3</ZIndex>
+            <Visibility>
+              <Hidden>=iif(Globals!RenderFormat.Name &lt;&gt; "PDF",True,False)</Hidden>
+            </Visibility>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+            </Style>
+          </Subreport>
         </ReportItems>
         <Height>4.83334in</Height>
         <Style />
       </Body>
-      <Width>13.357in</Width>
+      <Width>13.32141in</Width>
       <Page>
         <PageHeader>
           <Height>0.38417in</Height>

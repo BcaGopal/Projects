@@ -969,9 +969,30 @@ namespace Web
                              where p.ReferenceDocId == id
                              select p).Count();
 
+
+            int RecCnt = (from p in context.JobOrderLine
+                     where p.JobOrderHeaderId == id
+                     join t in context.JobReceiveLine on p.JobOrderLineId equals t.JobOrderLineId 
+                     select new JobReceiveLineViewModel
+                     {
+                         JobOrderLineId = t.JobOrderLineId
+                     }
+                     ).ToList().Count();
+
+            int CanCnt = (from p in context.JobOrderLine
+                          where p.JobOrderHeaderId == id
+                          join t in context.JobOrderCancelLine on p.JobOrderLineId equals t.JobOrderLineId
+                          select new JobOrderCancelLineViewModel
+                          {
+                              JobOrderLineId = t.JobOrderLineId
+                          }).ToList().Count();
+
+
             ViewBag.Mode = "Edit";
             ViewBag.transactionType = "";
             ViewBag.ProdOrder = ProdOrder;
+            ViewBag.RecCnt = RecCnt;
+            ViewBag.CanCnt = CanCnt;
 
             ViewBag.Name = new DocumentTypeService(_unitOfWork).Find(s.DocTypeId).DocumentTypeName;
             ViewBag.id = s.DocTypeId;

@@ -318,6 +318,7 @@ namespace Web
                 ViewBag.CSEXCL = TempData["CSEXCL"];
                 TempData["CSEXCL"] = null;
             }
+            ViewBag.LineMode = "Create";
             return PartialView("_Create", s);
         }
 
