@@ -4,20 +4,6 @@
     <ReportItems>
       <Subreport Name="CompanyDetail">
         <ReportName>CompanyDetail</ReportName>
-        <Parameters>
-          <Parameter Name="SiteId">
-            <Value>=First(Fields!SiteId.Value, "DsMain")</Value>
-          </Parameter>
-          <Parameter Name="DivisionId">
-            <Value>=First(Fields!DivisionId.Value, "DsMain")</Value>
-          </Parameter>
-          <Parameter Name="DatabaseConnectionString">
-            <Value>=Parameters!DatabaseConnectionString.Value</Value>
-          </Parameter>
-          <Parameter Name="PrintedBy">
-            <Value>=Parameters!PrintedBy.Value</Value>
-          </Parameter>
-        </Parameters>
         <Top>0.02222in</Top>
         <Left>0.01875in</Left>
         <Height>0.31945in</Height>
@@ -90,6 +76,7 @@
                       </Style>
                     </Textbox>
                     <ColSpan>2</ColSpan>
+                    <rd:Selected>true</rd:Selected>
                   </CellContents>
                 </TablixCell>
                 <TablixCell />
@@ -147,7 +134,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>="From Date : "+ Fields!Fdate.Value</Value>
+                              <Value>="From Date : "+ Fields!FromDate.Value</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>8pt</FontSize>
@@ -161,7 +148,7 @@
                       </Paragraphs>
                       <rd:DefaultName>Textbox39</rd:DefaultName>
                       <Visibility>
-                        <Hidden>=IIF(IsNothing(Fields!Fdate.Value),True,False)</Hidden>
+                        <Hidden>=IIF(IsNothing(Fields!FromDate.Value),True,False)</Hidden>
                       </Visibility>
                       <Style>
                         <Border>
@@ -625,7 +612,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value />
+                              <Value>Total</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>9pt</FontSize>
@@ -661,7 +648,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value />
+                              <Value>=iif(Sum(Fields!Opening.Value) &lt;&gt; 0, formatnumber(Sum(Fields!Opening.Value),2) ,"-")</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>9pt</FontSize>
@@ -669,7 +656,9 @@
                               </Style>
                             </TextRun>
                           </TextRuns>
-                          <Style />
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
                         </Paragraph>
                       </Paragraphs>
                       <rd:DefaultName>Textbox34</rd:DefaultName>
@@ -697,10 +686,11 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value />
+                              <Value>=iif(Sum(Fields!AmtDr.Value) &lt;&gt; 0, formatnumber(Sum(Fields!AmtDr.Value),2) ,"-")</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>8pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -734,10 +724,11 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value />
+                              <Value>=iif(Sum(Fields!AmtCr.Value) &lt;&gt; 0, formatnumber(Sum(Fields!AmtCr.Value),2) ,"-")</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>8pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -771,10 +762,11 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value />
+                              <Value>=iif(Sum(Fields!Balance.Value) &lt;&gt; 0, formatnumber(Sum(Fields!Balance.Value),2) ,"-")</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>8pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -823,7 +815,7 @@
             </TablixMember>
             <TablixMember>
               <Visibility>
-                <Hidden>=IIF(IsNothing(Fields!Fdate.Value) And IsNothing(Fields!ToDate.Value),True,False)</Hidden>
+                <Hidden>=IIF(IsNothing(Fields!FromDate.Value) And IsNothing(Fields!ToDate.Value),True,False)</Hidden>
               </Visibility>
               <KeepWithGroup>After</KeepWithGroup>
               <RepeatOnNewPage>true</RepeatOnNewPage>
@@ -1396,7 +1388,7 @@
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
     <DataSource Name="DetailTrialBalance">
-      <DataSourceReference>DataSourceMain</DataSourceReference>
+      <DataSourceReference>DSBC</DataSourceReference>
       <rd:SecurityType>None</rd:SecurityType>
       <rd:DataSourceID>dd7af43a-86ea-4bb9-8747-c50ac43bbbc6</rd:DataSourceID>
     </DataSource>
@@ -1417,6 +1409,18 @@
           </QueryParameter>
           <QueryParameter Name="@ToDate">
             <Value>=Parameters!ToDate.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@LedgerAccountGroupId">
+            <Value>=Parameters!LedgerAccountGroupId.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@LedgerAccountId">
+            <Value>=Parameters!LedgerAccountId.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@ProcessId">
+            <Value>=Parameters!ProcessId.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@ReportType">
+            <Value>=Parameters!ReportType.Value</Value>
           </QueryParameter>
         </QueryParameters>
         <CommandType>StoredProcedure</CommandType>
@@ -1439,6 +1443,10 @@
           <DataField>Opening</DataField>
           <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
+        <Field Name="OpeningValue">
+          <DataField>OpeningValue</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
         <Field Name="AmtCr">
           <DataField>AmtCr</DataField>
           <rd:TypeName>System.Decimal</rd:TypeName>
@@ -1457,7 +1465,11 @@
         </Field>
         <Field Name="SiteId">
           <DataField>SiteId</DataField>
-          <rd:TypeName>System.Int32</rd:TypeName>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="BalanceValue">
+          <DataField>BalanceValue</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
         <Field Name="Balance">
           <DataField>Balance</DataField>
@@ -1471,9 +1483,13 @@
           <DataField>ReportTitle</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
+        <Field Name="FromDate">
+          <DataField>FromDate</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
         <Field Name="DivisionId">
           <DataField>DivisionId</DataField>
-          <rd:TypeName>System.Int32</rd:TypeName>
+          <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="DivisionText">
           <DataField>DivisionText</DataField>
@@ -1481,10 +1497,6 @@
         </Field>
         <Field Name="Sitetext">
           <DataField>SiteText</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="Fdate">
-          <DataField>Fdate</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="ToDate">
@@ -1554,6 +1566,30 @@
       <Nullable>true</Nullable>
       <AllowBlank>true</AllowBlank>
       <Prompt>DatabaseConnectionString</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="LedgerAccountGroupId">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Ledger Account Group Id</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="LedgerAccountId">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Ledger Account Id</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="ProcessId">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Process Id</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="ReportType">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Report Type</Prompt>
     </ReportParameter>
   </ReportParameters>
   <Code>

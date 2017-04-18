@@ -1947,10 +1947,7 @@
         </TablixColumnHierarchy>
         <TablixRowHierarchy>
           <TablixMembers>
-            <TablixMember>
-              <KeepWithGroup>After</KeepWithGroup>
-              <RepeatOnNewPage>true</RepeatOnNewPage>
-            </TablixMember>
+            <TablixMember />
             <TablixMember>
               <Group Name="MaterialPlanHeaderId">
                 <GroupExpressions>
@@ -1976,22 +1973,36 @@
                   </SortExpressions>
                   <TablixMembers>
                     <TablixMember>
-                      <KeepWithGroup>After</KeepWithGroup>
-                    </TablixMember>
-                    <TablixMember>
-                      <Group Name="Details" />
+                      <Group Name="DesignColour">
+                        <GroupExpressions>
+                          <GroupExpression>=Fields!DesignColour.Value</GroupExpression>
+                        </GroupExpressions>
+                      </Group>
                       <SortExpressions>
                         <SortExpression>
-                          <Value>=Fields!ProdPlanQty.Value</Value>
-                          <Direction>Descending</Direction>
+                          <Value>=Fields!DesignColour.Value</Value>
                         </SortExpression>
                       </SortExpressions>
                       <TablixMembers>
-                        <TablixMember />
+                        <TablixMember>
+                          <KeepWithGroup>After</KeepWithGroup>
+                        </TablixMember>
+                        <TablixMember>
+                          <Group Name="Details" />
+                          <SortExpressions>
+                            <SortExpression>
+                              <Value>=Fields!ProdPlanQty.Value</Value>
+                              <Direction>Descending</Direction>
+                            </SortExpression>
+                          </SortExpressions>
+                          <TablixMembers>
+                            <TablixMember />
+                          </TablixMembers>
+                        </TablixMember>
+                        <TablixMember>
+                          <KeepWithGroup>Before</KeepWithGroup>
+                        </TablixMember>
                       </TablixMembers>
-                    </TablixMember>
-                    <TablixMember>
-                      <KeepWithGroup>Before</KeepWithGroup>
                     </TablixMember>
                   </TablixMembers>
                 </TablixMember>
@@ -3701,7 +3712,7 @@
     <Height>5.08125in</Height>
     <Style />
   </Body>
-  <Width>7.51584in</Width>
+  <Width>7.49364in</Width>
   <Page>
     <PageHeader>
       <Height>0.32167in</Height>

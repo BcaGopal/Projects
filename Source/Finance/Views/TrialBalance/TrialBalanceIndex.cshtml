@@ -17,6 +17,7 @@
     .slick-row.ui-widget-content, .slick-cell {
         height: 30px;
         line-height: 30px;
+        font-size:14px;
     }
 
     #myGrid * {
@@ -31,15 +32,35 @@
         color: black !important;
         background-color: #ffffff !important;
     }
+
+        .Bold 
+        {
+            font-weight: bold;
+            color:  black;
+                    font-size:14px;
+        }
+
+          .totals {
+      font-weight: bold;
+      text-align:right;
+      font-size:larger;
+      color:  black;
+              font-size:14px;
+    }
+            .rightMargin {
+      margin-right: 2px;
+    }
 </style>
 
 <div class="panel panel-default">
     <div class="panel-heading">
         <h3>
-            <span style="font-family: Calibri,sans-serif,Verdana;font-weight:bold" class="black"><span class="glyphicon glyphicon-list black"></span> Trial Balance Index</span>
-            @Html.ActionLink(" ", " ", " ", null, new { @class = "glyphicon glyphicon-refresh toolbar right small", @title = "Refresh Page", @data_toggle = "tooltip", @id = "RefreshPage", @style = "padding:10px 5px;" })
-            @Html.ActionLink(" ", "Create", "TrialBalanceSetting", null, new { @class = "glyphicon glyphicon-cog toolbar right small", @title = "List", @data_toggle = "tooltip", @style = "padding:10px 5px;" })
-            <input type="text" id="txtSearch2" class="right toolbar small" placeholder="Search" style="height:25px;max-width:20%">
+            <span style="font-family: Calibri,sans-serif,Verdana;font-weight:bold" class="black"><span class="glyphicon glyphicon-list black"></span> Trial Balance </span>       
+            <span style="font-family: Calibri,sans-serif,Verdana;font-size:medium" class="black"> @ViewBag.FilterRemark </span>     
+            @Html.ActionLink(" ", "Create", "TrialBalanceSetting", null, new { @class = "cbtn btn-circle glyphicon glyphicon-cog toolbar right rightMargin", @title = "Setting", @data_toggle = "tooltip" })
+            @Html.ActionLink(" ", " ", " ", null, new { @class = "cbtn btn-circle glyphicon glyphicon-refresh toolbar right rightMargin", @title = "Refresh Page", @data_toggle = "tooltip", @id = "RefreshPage"})
+            @Html.ActionLink(" ", "GeneratePrints", "TrialBalance", new { ActionName = "TrialBalance" }, new { @class = "cbtn btn-circle glyphicon glyphicon-print toolbar right rightMargin", @title = "Print", @data_toggle = "tooltip", @id = "PrintRecord" })
+            <input type="text" id="txtSearch2" class="right toolbar small" placeholder="Search" style="height:25px;margin:5px;max-width:20%">
         </h3>
 
     </div>
@@ -69,24 +90,37 @@
     var columns;
     if (DrCr == 'Credit') {
         columns = [
-      { id: "LedgerAccGName", name: "Ledger A/C Group", field: "LedgerAccountGroupName", width: 800, minWidth: 150, hasTotalName: true },
-      { id: "ACr", name: "Amount Cr", field: "AmtCr", cssClass: "text-right", headerCssClass: "text-right", width: 200, minWidth: 100, hasTotal: true },
+      { id: "LedgerAccGName", name: "Particulars", field: "LedgerAccountGroupName", headerCssClass: "Bold", width: 800, minWidth: 150, hasTotalName: true },
+      { id: "ACr", name: "Amount Cr", field: "AmtCr", cssClass: "text-right", headerCssClass: "text-right Bold", width: 200, minWidth: 100, hasTotal: true, formatter: DecimalFormatter },
         ];
     }
     else if (DrCr == 'Debit') {
         columns = [
-      { id: "LedgerAccGName", name: "Ledger A/C Group", field: "LedgerAccountGroupName", width: 800, minWidth: 150, hasTotalName: true },
-      { id: "ADr", name: "Amount Dr", field: "AmtDr", cssClass: "text-right", headerCssClass: "text-right", width: 200, minWidth: 100, hasTotal: true }
+      { id: "LedgerAccGName", name: "Particulars", field: "LedgerAccountGroupName", headerCssClass: "Bold", width: 800, minWidth: 150, hasTotalName: true },
+      { id: "ADr", name: "Amount Dr", field: "AmtDr", cssClass: "text-right", headerCssClass: "text-right Bold", width: 200, minWidth: 100, hasTotal: true, formatter: DecimalFormatter }
         ];
     }
     else {
         columns = [
-       { id: "LedgerAccGName", name: "Ledger A/C Group", field: "LedgerAccountGroupName", width: 600, minWidth: 150, hasTotalName: true },
-       { id: "ADr", name: "Amount Dr", field: "AmtDr", cssClass: "text-right", headerCssClass: "text-right", width: 200, minWidth: 100, hasTotal: true },
-       { id: "ACr", name: "Amount Cr", field: "AmtCr", cssClass: "text-right", headerCssClass: "text-right", width: 200, minWidth: 100, hasTotal: true }
+       { id: "LedgerAccGName", name: "Particulars", field: "LedgerAccountGroupName", headerCssClass: "Bold", width: 600, minWidth: 150, hasTotalName: true },
+       { id: "ADr", name: "Amount Dr", field: "AmtDr", cssClass: "text-right", headerCssClass: "text-right Bold", width: 200, minWidth: 100, hasTotal: true, formatter: DecimalFormatter },
+       { id: "ACr", name: "Amount Cr", field: "AmtCr", cssClass: "text-right", headerCssClass: "text-right Bold", width: 200, minWidth: 100, hasTotal: true, formatter: DecimalFormatter }
         ];
     }
 
+    function DecimalFormatter(row, cell, value, columnDef, dataContext) {
+
+        if (value == null || value == "") {
+
+            return "";
+
+        } else {
+
+            return Number(value).toFixed(2);
+
+        }
+
+    }
 
     //Options Initialization
     options = {
@@ -119,15 +153,15 @@
     grid.onFooterRowCellRendered.subscribe(function (e, args) {
         if (args.column.hasTotal) {
             $(args.node).empty();
-            //$("<span></span>").text((getColumnTotal(args.column.field, grid.getData())).toFixed(2))
-            //   .appendTo(args.node);
-            $(args.node).addClass(args.column.headerCssClass);
+            $("<span></span>").text((getColumnTotal(args.column.field, grid.getData())).toFixed(2))
+               .appendTo(args.node);
+            $(args.node).addClass("totals");
         }
         else if (args.column.hasTotalName) {
             $(args.node).empty();
             $("<span></span>").text("Total")
                .appendTo(args.node);
-            $(args.node).addClass(args.column.headerCssClass);
+            $(args.node).addClass("totals");
         }
     });
 
@@ -210,4 +244,17 @@
         grid.resizeCanvas();
     })
 
+    function getColumnTotal(columns, data) {
+        var rowIdx = data.getLength();
+        var total = 0;
+        var dataArr = data.getItems();
+        console.log(rowIdx);
+        while (rowIdx--) {
+
+            total += (parseFloat(dataArr[rowIdx][columns]) || 0);
+
+        }
+        console.log(total);
+        return total;
+    }
 </script>

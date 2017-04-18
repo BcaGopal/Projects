@@ -2582,10 +2582,7 @@
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
     <DataSource Name="dsReport">
-      <ConnectionProperties>
-        <DataProvider>SQL</DataProvider>
-        <ConnectString />
-      </ConnectionProperties>
+      <DataSourceReference>DSBCL</DataSourceReference>
       <rd:SecurityType>None</rd:SecurityType>
       <rd:DataSourceID>7ff49b37-46cf-4f5a-ab89-5a4b7093584f</rd:DataSourceID>
     </DataSource>
@@ -2749,6 +2746,26 @@
         </Field>
         <Field Name="ReportTitle">
           <DataField>ReportTitle</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="BuyerSpecificationDisplayName">
+          <DataField>BuyerSpecificationDisplayName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="BuyerSpecification1DisplayName">
+          <DataField>BuyerSpecification1DisplayName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="BuyerSpecification2DisplayName">
+          <DataField>BuyerSpecification2DisplayName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="BuyerSpecification3DisplayName">
+          <DataField>BuyerSpecification3DisplayName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="BuyerSpecification4DisplayName">
+          <DataField>BuyerSpecification4DisplayName</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
       </Fields>

@@ -2,206 +2,6 @@
     ViewBag.Title = "Sub Trial Balance";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-@*<style type="text/css">
-        .DTHidden {
-            display: none;
-        }
-
-        .TextRight {
-            text-align: right;
-        }
-
-        .dataTables_scroll {
-            font-size: 13px !important;
-            line-height: 1;
-        }
-
-        table.dataTable tbody td {
-            padding: 2px 10px;
-        }
-    </style>
-    <link href="~/Content/DataTables/css/dataTables.bootstrap.css" rel="stylesheet" />
-    <link href="~/Content/DataTables/css/scroller.dataTables.min.css" rel="stylesheet" />
-
-    <script src="~/Scripts/DataTables/jquery.dataTables.min.js"></script>
-    <script src="~/Scripts/DataTables/dataTables.scroller.min.js"></script>
-
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <h3>
-                <span style="font-family: Calibri,sans-serif,Verdana;font-weight:bold" class="black"><span class="glyphicon glyphicon-list black"></span> @ViewBag.Name </span>
-                @Html.ActionLink(" ", " ", " ", null, new { @class = "glyphicon glyphicon-refresh toolbar right small", @title = "Refresh Page", @data_toggle = "tooltip", @id = "RefreshPage", @style = "padding:10px 5px;" })
-                @Html.ActionLink(" ", "Create", "TrialBalanceSetting", null, new { @class = "glyphicon glyphicon-cog toolbar right small", @title = "List", @data_toggle = "tooltip", @style = "padding:10px 5px;" })
-            </h3>
-        </div>
-
-        <div class="panel-info tab" style="padding-left:5px;padding-top:20px">
-            <table id="SubTrialBal" class="table table-striped" cellspacing="0" width="100%">
-                <thead style="background: #428bca;color:white">
-                    <tr>
-                        <th class="string">Ledger A/C</th>
-                        <th>Opening</th>
-                        <th></th>
-                        <th>Amount Dr</th>
-                        <th>Amount Cr</th>
-                        <th>Balance</th>
-                        <th></th>
-                        <th>LedgerAccountId</th>
-                    </tr>
-                </thead>
-                <tfoot>
-                    <tr>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                    </tr>
-                </tfoot>
-            </table>
-        </div>
-    </div>
-
-
-    <script type="text/javascript">
-        $(document).ready(function () {
-            var url = '@Url.Action("GetSubTrlBalSummary", "TrialBalance", new { id = @ViewBag.id })';
-            $('#SubTrialBal').dataTable({
-                ajax: url,
-                columns: [
-                    { "data": "LedgerAccountName", "width": "15%" },
-                    { "data": "Opening", "width": "20%" },
-                    { "data": "OpeningType", "width": "5%" },
-                    { "data": "AmtDr", "width": "15%" },
-                    { "data": "AmtCr", "width": "15%" },
-                    { "data": "Balance", "width": "20%" },
-                    { "data": "BalanceType", "width": "5%" },
-                    { "data": "LedgerAccountId" }
-                ],
-                columnDefs: [
-                { "targets": 7, "searchable": false, className: "DTHidden Id", },
-                { "targets": 3, className: "TextRight", },
-                { "targets": 4, className: "TextRight", },
-                 { "targets": 1, className: "TextRight", },
-                { "targets": 5, className: "TextRight", },
-                 { "targets": 2, "sortable": false, },
-                { "targets": 6, "sortable": false },
-                ],
-                scrollY: "290px",
-                bScrollCollapse: true,
-                dom: '<"clear">frtiS',
-                TableTools: {
-                    "sRowSelect": "os",
-                },
-                footerCallback: function (row, data, start, end, display) {
-                    var api = this.api();
-                    // Remove the formatting to get integer data for summation
-                    var intVal = function (i) {
-                        return typeof i === 'string' ?
-                            i.replace(/[\$,]/g, '') * 1 :
-                            typeof i === 'number' ?
-                            i : 0;
-                    };
-
-                    // Total over all pages
-                    var totalCr = api
-                        .column(3)
-                        .data()
-                        .reduce(function (a, b) {
-                            return intVal(a) + intVal(b);
-                        }, 0);
-
-                    // Total over all pages
-                    var totalDr = api
-                        .column(4)
-                        .data()
-                        .reduce(function (a, b) {
-                            return intVal(a) + intVal(b);
-                        }, 0);
-
-                    // Total over all pages
-                    var totalOp = api
-                        .column(1)
-                        .data()
-                        .reduce(function (a, b) {
-                            return intVal(a) + intVal(b);
-                        }, 0);
-
-                    // Total over all pages
-                    var totalBa = api
-                        .column(5)
-                        .data()
-                        .reduce(function (a, b) {
-                            return intVal(a) + intVal(b);
-                        }, 0);
-
-                    // Update footer
-                    $(api.column(3).footer()).html(
-                         totalCr.toFixed(2)
-                    );
-                    // Update footer
-                    $(api.column(4).footer()).html(
-                         totalDr.toFixed(2)
-                    );
-                    // Update footer
-                    $(api.column(1).footer()).html(
-                        totalOp.toFixed(2)
-                    );
-                    // Update footer
-                    $(api.column(5).footer()).html(
-                        totalBa.toFixed(2)
-                    );
-                    // Update footer
-                    $(api.column(0).footer()).html(
-                        "Total"
-                    ).wrap('strong');
-                },
-
-            });
-
-            //new $.fn.dataTable.KeyTable($('#SubTrialBal'));
-
-            $('#SubTrialBal tbody').on('dblclick', 'tr', function () {
-                var id = parseInt($(this).find("td.Id:first").html());
-                window.location.href = '/TrialBalance/GetLedgerBalance/' + id;
-            });
-
-            $('#SubTrialBal tbody').on('click', 'tr', function () {
-                $(this).closest('tbody').find('tr.selected').removeClass('selected');
-                $(this).toggleClass('selected');
-            })
-
-        });
-
-    </script>*@
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 <link href="~/Content/Slick/slick.grid.css" rel="stylesheet" />
@@ -218,6 +18,7 @@
 
     .slick-row.ui-widget-content, .slick-cell {
         height: 30px;
+              font-size:14px;
         line-height: 30px;
     }
 
@@ -228,15 +29,32 @@
     .hidden {
         display: none;
     }
+        .Bold 
+        {
+            font-weight: bold;
+            color:  black;
+        }
+
+      .totals {
+      font-weight: bold;
+      text-align:right;
+              font-size:14px;
+      color:  black;
+    }
+      .rightMargin {
+      margin-right: 2px;
+    }
 </style>
 
 <div class="panel panel-default">
     <div class="panel-heading">
         <h3>
             <span style="font-family: Calibri,sans-serif,Verdana;font-weight:bold" class="black"><span class="glyphicon glyphicon-list black"></span> @ViewBag.Name</span>
-            @Html.ActionLink(" ", " ", " ", null, new { @class = "glyphicon glyphicon-refresh toolbar right small", @title = "Refresh Page", @data_toggle = "tooltip", @id = "RefreshPage", @style = "padding:10px 5px;" })
-            @Html.ActionLink(" ", "Create", "TrialBalanceSetting", null, new { @class = "glyphicon glyphicon-cog toolbar right small", @title = "List", @data_toggle = "tooltip", @style = "padding:10px 5px;" })
-            <input type="text" id="txtSearch2" class="right toolbar small" placeholder="Search" style="height:25px;max-width:20%">
+            <span style="font-family: Calibri,sans-serif,Verdana;font-size:medium" class="black"> @ViewBag.FilterRemark </span> 
+            @Html.ActionLink(" ", "Create", "TrialBalanceSetting", null, new { @class = "cbtn btn-circle glyphicon glyphicon-cog toolbar right rightMargin", @title = "List", @data_toggle = "tooltip" })
+            @Html.ActionLink(" ", " ", " ", null, new { @class = "cbtn btn-circle glyphicon glyphicon-refresh toolbar right rightMargin", @title = "Refresh Page", @data_toggle = "tooltip", @id = "RefreshPage" })
+            @Html.ActionLink(" ", "GeneratePrints", "TrialBalance", new { ActionName = "SubTrialBalanceSummary", LedgerAccountGroupId= @ViewBag.id }, new { @class = "cbtn btn-circle glyphicon glyphicon-print toolbar right rightMargin", @title = "Print", @data_toggle = "tooltip", @id = "PrintRecord" })
+            <input type="text" id="txtSearch2" class="right toolbar small" placeholder="Search" style="height:25px;margin:5px;max-width:20%">
         </h3>
     </div>
 
@@ -261,14 +79,28 @@
 
     //Columns Specification
     columns = [
-   { id: "LedgerAccName", name: "Ledger A/C", field: "LedgerAccountName", width: 300, minWidth: 150, hasTotalName: true },
-   { id: "Opening", name: "Opening", field: "Opening", cssClass: "text-right", headerCssClass: "text-right", width: 150, minWidth: 100, hasTotal: true },
-   { id: "OpeningTyp", name: "", field: "OpeningType", width: 30, minWidth: 30 },
-   { id: "ADr", name: "Amount Dr", field: "AmtDr", cssClass: "text-right", headerCssClass: "text-right", width: 150, minWidth: 100, hasTotal:true },
-   { id: "ACr", name: "Amount Cr", field: "AmtCr", cssClass: "text-right", headerCssClass: "text-right", width: 150, minWidth: 100, hasTotal: true },
-   { id: "Balance", name: "Balance", field: "Balance", cssClass: "text-right", headerCssClass: "text-right", width: 150, minWidth: 100, hasTotal: true },
-    { id: "BalanceTyp", name: "", field: "BalanceType", width: 30, minWidth: 30 },
+   { id: "LedgerAccName", name: "Ledger A/C", field: "LedgerAccountName", headerCssClass: "Bold", width: 300, minWidth: 150, hasTotalName: true },
+   { id: "Opening", name: "Opening", field: "Opening", cssClass: "text-right", headerCssClass: "text-right Bold", width: 150, minWidth: 100, hasTotal: true, formatter: DecimalFormatter },
+   { id: "OpeningTyp", name: "", field: "OpeningType", headerCssClass: "Bold", width: 30, minWidth: 30 },
+   { id: "ADr", name: "Amount Dr", field: "AmtDr", cssClass: "text-right", headerCssClass: "text-right Bold", width: 150, minWidth: 100, hasTotal: true, formatter: DecimalFormatter },
+   { id: "ACr", name: "Amount Cr", field: "AmtCr", cssClass: "text-right", headerCssClass: "text-right Bold", width: 150, minWidth: 100, hasTotal: true, formatter: DecimalFormatter },
+   { id: "Balance", name: "Balance", field: "Balance", cssClass: "text-right", headerCssClass: "text-right Bold", width: 150, minWidth: 100, hasTotal: true, formatter: DecimalFormatter },
+    { id: "BalanceTyp", name: "", field: "BalanceType", headerCssClass: "Bold", width: 30, minWidth: 30 },
     ];
+
+    function DecimalFormatter(row, cell, value, columnDef, dataContext) {
+
+        if (value == null || value == "") {
+
+            return "";
+
+        } else {
+
+            return Number(value).toFixed(2);
+
+        }
+
+    }
 
     //Options Initialization
     var options = {
@@ -299,18 +131,19 @@
 
 
     //Functionality for adding Totals on cell render
+    //Functionality for adding Totals on cell render
     grid.onFooterRowCellRendered.subscribe(function (e, args) {
         if (args.column.hasTotal) {
             $(args.node).empty();
-            $("<span></span>").text((getColumnTotal(args.column.field,grid.getData())).toFixed(2))
+            $("<span></span>").text((getColumnTotal(args.column.field, grid.getData())).toFixed(2))
                .appendTo(args.node);
-            $(args.node).addClass(args.column.headerCssClass);
+            $(args.node).addClass("totals");
         }
         else if (args.column.hasTotalName) {
             $(args.node).empty();
             $("<span></span>").text("Total")
                .appendTo(args.node);
-            $(args.node).addClass(args.column.headerCssClass);
+            $(args.node).addClass("totals");
         }
     });
 
@@ -395,5 +228,19 @@
     $(window).resize(function (e) {
         grid.resizeCanvas();
     })
+
+    function getColumnTotal(columns, data) {
+        var rowIdx = data.getLength();
+        var total = 0;
+        var dataArr = data.getItems();
+        console.log(rowIdx);
+        while (rowIdx--) {
+
+            total += (parseFloat(dataArr[rowIdx][columns]) || 0);
+
+        }
+        console.log(total);
+        return total;
+    }
 
 </script>

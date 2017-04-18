@@ -16,6 +16,7 @@ using Core.Common;
 using System.Data.Entity.Validation;
 using System.Data.Entity.Infrastructure;
 using Model.ViewModel;
+using Reports.Reports;
 
 namespace Web
 {
@@ -52,6 +53,10 @@ namespace Web
             {
                 return RedirectToAction("Create", "StockInHandSetting", new { ProductTypeId = id }).Warning("Please create Stock In Hand settings");
             }
+
+            string FromDate = settings.ToDate.HasValue ? settings.FromDate.Value.ToString("dd/MMM/yyyy") : "";
+            string ToDate = settings.ToDate.HasValue ? settings.ToDate.Value.ToString("dd/MMM/yyyy") : "";
+            ViewBag.FilterRemark = "( From Date : " + FromDate + " To Date : " + ToDate + " )";
 
             Dimension1Types Dimension1Type = new ProductTypeService(_unitOfWork).GetProductTypeDimension1Types(id);
             Dimension2Types Dimension2Type = new ProductTypeService(_unitOfWork).GetProductTypeDimension2Types(id);
@@ -142,6 +147,9 @@ namespace Web
                 Name = Name + ", LotNo : " + LotNo;
             }
 
+
+
+
             ViewBag.Name = Name;
             ViewBag.Dim1 = Dim1;
             ViewBag.Dim2 = Dim2;
@@ -152,7 +160,9 @@ namespace Web
 
             var settings = new StockInHandSettingService(_unitOfWork).GetTrailBalanceSetting(User.Identity.Name);
             ViewBag.GroupOn = settings.GroupOn;
-
+            string FromDate = settings.ToDate.HasValue ? settings.FromDate.Value.ToString("dd/MMM/yyyy") : "";
+            string ToDate = settings.ToDate.HasValue ? settings.ToDate.Value.ToString("dd/MMM/yyyy") : "";
+            ViewBag.FilterRemark = "( From Date : " + FromDate + " To Date : " + ToDate + " )";
             return View("StockLedgerIndex");
         }
 
@@ -199,6 +209,122 @@ namespace Web
             ViewBag.RetUrl = System.Web.HttpContext.Current.Request.UrlReferrer;
             HandleErrorInfo Excp = new HandleErrorInfo(new Exception("Document Settings not Configured"), "StockInHand", "DocumentMenu");
             return View("Error", Excp);
+        }
+
+
+        public ActionResult GeneratePrints(string ActionName, int Id = 0)
+        {
+
+            string PrintProcedure = "";
+
+
+            if (!string.IsNullOrEmpty(ActionName))
+            {
+
+                var Settings = new StockInHandSettingService(_unitOfWork).GetTrailBalanceSetting(User.Identity.Name);
+
+
+
+                string SqlParameterGroupOn;
+                string SqlParameterShowBalance;
+                string SqlParameterProdType;
+
+
+
+                string SqlParameterSiteId = Settings.SiteIds;
+                string DivisionId = Settings.DivisionIds;
+                string SqlParameterFromDate = Settings.FromDate.HasValue ? Settings.FromDate.Value.ToString("dd/MMM/yyyy") : "";
+                string SqlParameterToDate = Settings.ToDate.HasValue ? Settings.ToDate.Value.ToString("dd/MMM/yyyy") : "";
+
+
+                SqlParameterProdType = Id.ToString();
+
+                if (string.IsNullOrEmpty(Settings.GroupOn))
+                    SqlParameterGroupOn = "NULL";
+                else
+                    SqlParameterGroupOn = Settings.GroupOn.ToString();
+
+                if (string.IsNullOrEmpty(Settings.ShowBalance) || Settings.ShowBalance == StockInHandShowBalanceConstants.All)
+                    SqlParameterShowBalance = "NULL";
+                else
+                    SqlParameterShowBalance = Settings.ShowBalance.ToString();
+
+
+                if (ActionName == "StockInHand")
+                    PrintProcedure = "Web.spStockInHand  @ProductType ='" + SqlParameterProdType.ToString() + "', @Site='" + SqlParameterSiteId.ToString() + "', @FromDate='" + SqlParameterFromDate.ToString() + "', @ToDate='" + SqlParameterToDate.ToString() + "', @GroupOn='" + SqlParameterGroupOn.ToString() + "'";
+
+       
+
+                try
+                {
+                   DataTable Dt = new DataTable();
+
+                    List<byte[]> PdfStream = new List<byte[]>();
+                    DirectReportPrint drp = new DirectReportPrint();
+                    byte[] Pdf;
+                    Pdf = drp.DirectPrint(Dt, User.Identity.Name);
+                    PdfStream.Add(Pdf);
+
+
+                    PdfMerger pm = new PdfMerger();
+
+                    byte[] Merge = pm.MergeFiles(PdfStream);
+
+                    if (Merge != null)
+                        return File(Merge, "application/pdf");
+
+                }
+
+                catch (Exception ex)
+                {
+                    string message = _exception.HandleException(ex);
+                    return Json(new { success = "Error", data = message }, JsonRequestBehavior.AllowGet);
+                }
+
+
+                return Json(new { success = "Success" }, JsonRequestBehavior.AllowGet);
+
+            }
+            return Json(new { success = "Error", data = "No Records Selected." }, JsonRequestBehavior.AllowGet);
+
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Prints(DataTable Dt)
+        {
+
+
+                try
+                {
+                   // DataTable Dt = new DataTable();
+
+                    List<byte[]> PdfStream = new List<byte[]>();
+                    DirectReportPrint drp = new DirectReportPrint();
+                    byte[] Pdf;
+                    Pdf = drp.DirectPrint(Dt, User.Identity.Name);
+                    PdfStream.Add(Pdf);
+
+
+                    PdfMerger pm = new PdfMerger();
+
+                    byte[] Merge = pm.MergeFiles(PdfStream);
+
+                    if (Merge != null)
+                        return File(Merge, "application/pdf");
+
+                }
+
+                catch (Exception ex)
+                {
+                    string message = _exception.HandleException(ex);
+                    return Json(new { success = "Error", data = message }, JsonRequestBehavior.AllowGet);
+                }
+
+
+                return Json(new { success = "Success" }, JsonRequestBehavior.AllowGet);
+
+
         }
 
         protected override void Dispose(bool disposing)
