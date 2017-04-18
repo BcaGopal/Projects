@@ -74,10 +74,11 @@ namespace Model.ViewModels
 
         [Display(Name = "Standard Cost")]
         public decimal? StandardCost { get; set; }
+        public decimal? SaleRate { get; set; }
 
         [ForeignKey("ProductCategory")]
         [Display(Name = "Product Category")]
-        public int ProductCategoryId { get; set; }
+        public int? ProductCategoryId { get; set; }
         public virtual ProductCategory ProductCategory { get; set; }
         public string ProductCategoryName { get; set; }
 
@@ -234,9 +235,13 @@ namespace Model.ViewModels
         public int? GodownId { get; set; }
         public virtual Godown Godown { get; set; }
 
-        [Display(Name = "Bin Location")]
-        [MaxLength(20, ErrorMessage = "{0} can not exceed {1} characters")]
-        public string BinLocation { get; set; }
+
+        [ForeignKey("BinLocation")]
+        [Display(Name = "BinLocation")]
+        public int? BinLocationId { get; set; }
+        public virtual BinLocation BinLocation { get; set; }
+
+
         [ForeignKey("Site")]
         [Display(Name = "Site")]
         public int SiteId { get; set; }
@@ -246,5 +251,6 @@ namespace Model.ViewModels
         public int ProductSiteDetailId { get; set; }
         public int ? ReferenceDocId { get; set; }
         public ProductTypeSettingsViewModel ProductTypeSettings { get; set; }
+        public List<ProductTypeAttributeViewModel> ProductTypeAttributes { get; set; }
     }
 }

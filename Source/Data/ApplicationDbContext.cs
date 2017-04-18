@@ -185,6 +185,7 @@ namespace Data.Models
         public DbSet<Transporter> Transporter { get; set; }
         public DbSet<Courier> Courier { get; set; }
         public DbSet<Godown> Godown { get; set; }
+        public DbSet<BinLocation> BinLocation { get; set; }
         public DbSet<Gate> Gate { get; set; }
         public DbSet<LeaveType> LeaveType { get; set; }
         public DbSet<JobInstruction> JobInstruction { get; set; }

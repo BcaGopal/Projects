@@ -46,6 +46,7 @@ namespace Model.Models
         public bool? isPostedInStock { get; set; }
         public bool? isPostedInStockProcess { get; set; }
         public bool? isPostedInStockVirtual { get; set; }
+        
 
         public string filterContraSites { get; set; }
         public string filterContraDivisions { get; set; }

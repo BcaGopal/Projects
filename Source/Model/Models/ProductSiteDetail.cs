@@ -42,11 +42,11 @@ namespace Model.Models
         public int? GodownId { get; set; }        
         public virtual Godown Godown { get; set; }
 
-        [Display(Name = "Bin Location")]
-        [MaxLength(20,ErrorMessage ="{0} can not exceed {1} characters")]
-        public string BinLocation { get; set; }
 
-
+        [ForeignKey("BinLocation")]
+        [Display(Name = "BinLocation")]
+        public int? BinLocationId { get; set; }
+        public virtual BinLocation BinLocation { get; set; }
 
 
         [Display(Name = "Is Active ?")]

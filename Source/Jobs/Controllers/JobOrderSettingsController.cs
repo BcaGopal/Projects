@@ -198,6 +198,8 @@ namespace Web
                     temp.isVisibleCreditDays = pt.isVisibleCreditDays;
 
 
+                    temp.isVisibleFinancier = pt.isVisibleFinancier;
+                    temp.isVisibleSalesExecutive = pt.isVisibleSalesExecutive;
 
                     temp.isVisibleDeliveryTerms = pt.isVisibleDeliveryTerms;
                     temp.isVisibleShipToAddress = pt.isVisibleShipToAddress;
@@ -402,7 +404,8 @@ namespace Web
                     temp.isVisibleUnitConversionFor = pt.isVisibleUnitConversionFor;
                     temp.isVisibleSpecification = pt.isVisibleSpecification;
                     temp.isVisibleCreditDays = pt.isVisibleCreditDays;
-
+                    temp.isVisibleFinancier = pt.isVisibleFinancier;
+                    temp.isVisibleSalesExecutive = pt.isVisibleSalesExecutive;
                     temp.isVisibleDeliveryTerms = pt.isVisibleDeliveryTerms;
                     temp.isVisibleShipToAddress = pt.isVisibleShipToAddress;
                     temp.isVisibleCurrency = pt.isVisibleCurrency;
@@ -611,7 +614,8 @@ namespace Web
                     temp.isVisibleAgent = pt.isVisibleAgent;
                     temp.isVisibleDoorDelivery = pt.isVisibleDoorDelivery;
                     temp.isVisiblePaymentTerms = pt.isVisiblePaymentTerms;
-
+                    temp.isVisibleFinancier = pt.isVisibleFinancier;
+                    temp.isVisibleSalesExecutive = pt.isVisibleSalesExecutive;
 
                     temp.NonCountedQtyCaption = pt.NonCountedQtyCaption;
                     temp.SqlProcDocumentPrint = pt.SqlProcDocumentPrint;

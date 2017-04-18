@@ -57,11 +57,19 @@ namespace Model.Models
         [Display(Name = "Standard Cost")]
         public decimal? StandardCost { get; set; }
 
+        [Display(Name = "Sale Rate")]
+        public decimal? SaleRate { get; set; }
+
 
         [ForeignKey("ProductGroup")]
         [Display(Name = "Product Group")]
         public int? ProductGroupId { get; set; }        
         public virtual ProductGroup ProductGroup { get; set; }
+
+        [ForeignKey("ProductCategory")]
+        [Display(Name = "Product Category")]
+        public int? ProductCategoryId { get; set; }
+        public virtual ProductCategory ProductCategory { get; set; }
 
         [ForeignKey("SalesTaxGroupProduct")]
         [Display(Name = "SalesTaxGroupProduct")]

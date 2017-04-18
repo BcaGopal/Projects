@@ -263,6 +263,29 @@
                             </div>
                         </div>
 
+                        <div>
+                            <div class="col-md-6" style="display:@(Model.SaleInvoiceSettings.isVisibleFinancier ? "" : "none")">
+                                @Html.HiddenFor(m => m.SaleInvoiceSettings.isVisibleFinancier)
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.FinancierId, "Financier", new { @class = "control-label col-md-4 col-sm-2" })
+                                    <div class="col-md-7 col-sm-10">
+                                        @Html.TextAreaFor(m => m.FinancierId, new { @class = "form-control col-xs-6" })
+                                        @Html.ValidationMessageFor(m => m.FinancierId, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6" style="display:@(Model.SaleInvoiceSettings.isVisibleSalesExecutive ? "" : "none")">
+                                @Html.HiddenFor(m => m.SaleInvoiceSettings.isVisibleSalesExecutive)
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.SalesExecutiveId, "Sales Executive", new { @class = "control-label col-md-4 col-sm-2" })
+                                    <div class="col-md-7 col-sm-10">
+                                        @Html.TextBoxFor(m => m.SalesExecutiveId, new { @class = "form-control col-xs-6" })
+                                        @Html.ValidationMessageFor(m => m.SalesExecutiveId, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
 
                         <div>
                             
@@ -836,6 +859,8 @@
         CustomSelectFunction($("#BillToBuyerId"), '/DirectSaleInvoiceHeader/GetCustomPerson', '/ComboHelpList/SetSinglePerson', ' ', false, 1,$('#DocTypeId').val());
         CustomSelectFunction($("#SaleToBuyerId"), '/DirectSaleInvoiceHeader/GetCustomPerson', '/ComboHelpList/SetSinglePerson', ' ', false, 1,$('#DocTypeId').val());
         CustomSelectFunction($("#AgentId"), '/ComboHelpList/GetPerson', '/ComboHelpList/GetPerson', ' ', false, 0);
+        CustomSelectFunction($("#FinancierId"), '/ComboHelpList/GetFinanciers', '/ComboHelpList/SetSinglePerson', ' ', false, 0);
+        CustomSelectFunction($("#SalesExecutiveId"), '/ComboHelpList/GetSalesExecutives', '/ComboHelpList/SetSinglePerson', ' ', false, 0);
 
         //Adding Hidden Input Fields
         AddFields();

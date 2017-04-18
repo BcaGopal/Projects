@@ -73,7 +73,7 @@
 
                     <div class="col-md-6">
                         <div class="form-group">
-                            @Html.LabelFor(model => model.JobOrderLineId, "Job Order", new { @class = "control-label col-md-4 col-sm-2" })
+                            @Html.LabelFor(model => model.JobOrderLineId, (Model.DocumentTypeSettings.ContraDocTypeCaption ?? "Order No."), new { @class = "control-label col-md-4 col-sm-2" })
                             <div class="col-md-7 col-sm-10">
                                 @Html.TextBox(" ", "", new { @class = "form-control", @id = "acorder", @readonly = "true" })
                                 @Html.ValidationMessageFor(model => model.JobOrderLineId, "", new { @class = "text-danger" })
@@ -133,10 +133,11 @@
 
                     <div class="col-md-6" style="display:@(Model.JobInvoiceSettings.isVisibleSpecification ? "" : "none")">
                         @Html.HiddenFor(m => m.JobInvoiceSettings.isVisibleSpecification)
+                        @Html.HiddenFor(m => m.DocumentTypeSettings.SpecificationCaption)
                         <div class="form-group">
-                            @Html.LabelFor(model => model.Specification, "Specification", new { @class = "control-label col-md-4 col-sm-2 " })
+                            @Html.LabelFor(model => model.Specification, (Model.DocumentTypeSettings.SpecificationCaption ?? "Specification"), new { @class = "control-label col-md-4 col-sm-2 " })
                             <div class="col-md-7 col-sm-10">
-                                @Html.TextBoxFor(model => model.Specification, new { @class = "form-control  required", @readonly = true })
+                                @Html.TextBoxFor(model => model.Specification, new { @class = "form-control  " })
                                 @Html.ValidationMessageFor(model => model.Specification, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -144,8 +145,9 @@
 
                     <div class="col-md-6" style="display:@(Model.JobInvoiceSettings.isVisibleCostCenter ? "" : "none")">
                         @Html.HiddenFor(m => m.JobInvoiceSettings.isVisibleCostCenter)
+                        @Html.HiddenFor(m => m.DocumentTypeSettings.CostCenterCaption)
                         <div class="form-group">
-                            @Html.LabelFor(model => model.CostCenterId, "Cost Center", new { @class = "control-label col-md-4 col-sm-2 " })
+                            @Html.LabelFor(model => model.CostCenterId, (Model.DocumentTypeSettings.CostCenterCaption ?? "Cost Center"), new { @class = "control-label col-md-4 col-sm-2 " })
                             <div class="col-md-7 col-sm-10">
                                 @Html.TextBoxFor(model => model.CostCenterId, new { @class = "form-control required", @readonly = true })
                                 @Html.ValidationMessageFor(model => model.CostCenterId, "", new { @class = "text-danger" })
@@ -165,7 +167,7 @@
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            @Html.LabelFor(model => model.JobQty, "Job Qty", new { @class = "control-label col-md-4 col-sm-2" })
+                            @Html.LabelFor(model => model.JobQty, "Qty", new { @class = "control-label col-md-4 col-sm-2" })
                             <div class="col-md-7 col-sm-10" style="padding:0px">
                             <div class="col-xs-7" style="padding-right:0px;">
                                 @Html.TextBoxFor(model => model.JobQty, new { @class = "form-control required cusrightnormal JobQuantity" })
@@ -184,6 +186,17 @@
                             <div class="col-md-7 col-sm-10">
                                 @Html.TextBoxFor(model => model.Rate, new { @class = "form-control  required text-right" })
                                 @Html.ValidationMessageFor(model => model.Rate, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6" style="display:@(Model.JobInvoiceSettings.isVisibleRateDiscountPer ? "" : "none")">
+                        @Html.HiddenFor(m => m.JobInvoiceSettings.isVisibleRateDiscountPer)
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.RateDiscountPer, "Rate Disc %", new { @class = "control-label col-md-4 col-sm-2 " })
+                            <div class="col-md-7 col-sm-10">
+                                @Html.TextBoxFor(model => model.RateDiscountPer, new { @class = "form-control  " })
+                                @Html.ValidationMessageFor(model => model.RateDiscountPer, "", new { @class = "text-danger" })
                             </div>
                         </div>
                     </div>
@@ -257,35 +270,35 @@
                         </div>
                     </div>
 
-                    <div class="col-md-6">
+                    <div class="col-md-6" style="display:@(Model.JobInvoiceSettings.isVisiblePenalty ? "" : "none")">
                         <div class="form-group">
                             @Html.LabelFor(model => model.PenaltyRate, "Penality", new { @class = "control-label col-md-4 col-sm-2" })
                             <div class="col-md-7 col-sm-10" style="padding:0px">
-                            <div class="col-xs-5" style="padding-right:0px">
-                                @Html.TextBoxFor(model => model.PenaltyRate, new { @class = "form-control cusrightnormal required" })
-                                @Html.ValidationMessageFor(model => model.PenaltyRate, "", new { @class = "text-danger" })
-                            </div>
-                            <div class="col-xs-7" style="padding-left:0px">
-                                @Html.TextBoxFor(model => model.PenaltyAmt, new { @class = "form-control cusleftnormal required" })
-                                @Html.ValidationMessageFor(model => model.PenaltyAmt, "", new { @class = "text-danger" })
-                            </div>
+                                <div class="col-xs-5" style="padding-right:0px">
+                                    @Html.TextBoxFor(model => model.PenaltyRate, new { @class = "form-control cusrightnormal required" })
+                                    @Html.ValidationMessageFor(model => model.PenaltyRate, "", new { @class = "text-danger" })
                                 </div>
+                                <div class="col-xs-7" style="padding-left:0px">
+                                    @Html.TextBoxFor(model => model.PenaltyAmt, new { @class = "form-control cusleftnormal required" })
+                                    @Html.ValidationMessageFor(model => model.PenaltyAmt, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
                         </div>
                     </div>
 
-                    <div class="col-md-6">
+                    <div class="col-md-6" style="display:@(Model.JobInvoiceSettings.isVisibleIncentive ? "" : "none")">
                         <div class="form-group">
                             @Html.LabelFor(model => model.IncentiveRate, "Incentive", new { @class = "control-label col-md-4 col-sm-2" })
                             <div class="col-md-7 col-sm-10" style="padding:0px">
-                            <div class="col-xs-5" style="padding-right:0px">
-                                @Html.TextBoxFor(model => model.IncentiveRate, new { @class = "form-control cusrightnormal required" })
-                                @Html.ValidationMessageFor(model => model.IncentiveRate, "", new { @class = "text-danger" })
-                            </div>
-                            <div class="col-xs-7" style="padding-left:0px">
-                                @Html.TextBoxFor(model => model.IncentiveAmt, new { @class = "form-control cusleftnormal required" })
-                                @Html.ValidationMessageFor(model => model.IncentiveAmt, "", new { @class = "text-danger" })
-                            </div>
+                                <div class="col-xs-5" style="padding-right:0px">
+                                    @Html.TextBoxFor(model => model.IncentiveRate, new { @class = "form-control cusrightnormal required" })
+                                    @Html.ValidationMessageFor(model => model.IncentiveRate, "", new { @class = "text-danger" })
                                 </div>
+                                <div class="col-xs-7" style="padding-left:0px">
+                                    @Html.TextBoxFor(model => model.IncentiveAmt, new { @class = "form-control cusleftnormal required" })
+                                    @Html.ValidationMessageFor(model => model.IncentiveAmt, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
                         </div>
                     </div>
 
@@ -297,6 +310,17 @@
                             <div class="col-md-7 col-sm-10">
                                 @Html.TextBoxFor(model => model.Weight, new { @class = "form-control required" })
                                 @Html.ValidationMessageFor(model => model.Weight, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6" style="display:@(Model.JobInvoiceSettings.isVisibleMfgDate ? "" : "none")">
+                        @Html.HiddenFor(m => m.JobInvoiceSettings.isVisibleMfgDate)
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.MfgDate, "Mfg. Date", new { @class = "control-label col-md-4 col-sm-2" })
+                            <div class="col-md-7 col-sm-10">
+                                @Html.TextBoxFor(model => model.MfgDate, "{0:dd/MMMM/yyyy}", new { @class = "datepicker form-control col-xs-7 " })
+                                @Html.ValidationMessageFor(model => model.MfgDate, "", new { @class = "text-danger" })
                             </div>
                         </div>
                     </div>
@@ -400,6 +424,13 @@ else
             return  (ValidationMessage=="");
 
         }
+
+        $('.datepicker').datepicker({
+            format: 'dd/MM/yyyy',
+            "setDate": new Date(),
+            "autoclose": true
+
+        })
 
         var id=@Model.JobReceiveLineId;
         if(id>0)
@@ -819,7 +850,15 @@ else
             $('#DealQty').val(parseFloat($('#PassQty').val() * $('#UnitConversionMultiplier').val()).toFixed($('#DealUnitDecimalPlaces').val()));
         }
 
-        $('#Amount').val(($('#DealQty').val() * $('#Rate').val()).toFixed(2));
+        if ($('#RateDiscountPer').val() != 0 && $('#RateDiscountPer').val() != null && $('#RateDiscountPer').val() != '') 
+        {
+            var NetRate = $('#Rate').val() - ($('#Rate').val() * $('#RateDiscountPer').val() / 100)
+            $('#Amount').val(($('#DealQty').val() * NetRate).toFixed(2));
+        }
+        else{
+            $('#Amount').val(($('#DealQty').val() * $('#Rate').val()).toFixed(2));
+        }
+
 
         ChargeCalculation();
 

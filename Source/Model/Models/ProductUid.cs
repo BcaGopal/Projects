@@ -33,6 +33,10 @@ namespace Model.Models
         public int ProductId { get; set; }
         public virtual Product Product { get; set; }
 
+        [Display(Name = "Product Uid Specification")]
+        public string ProductUidSpecification { get; set; }
+
+
         [ForeignKey("Dimension1"), Display(Name = "Dimension1")]
         public int? Dimension1Id { get; set; }
         public virtual Dimension1 Dimension1 { get; set; }

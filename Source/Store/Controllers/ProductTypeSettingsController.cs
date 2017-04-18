@@ -149,6 +149,31 @@ namespace Web
                     temp.isShowUnMappedDimension4 = pt.isShowUnMappedDimension4;
                     temp.isApplicableDimension4 = pt.isApplicableDimension4;
                     temp.Dimension4Caption = pt.Dimension4Caption;
+
+
+                    temp.isVisibleProductDescription = pt.isVisibleProductDescription;
+                    temp.isVisibleProductSpecification = pt.isVisibleProductSpecification;
+                    temp.isVisibleProductCategory = pt.isVisibleProductCategory;
+                    temp.isVisibleSalesTaxGroup = pt.isVisibleSalesTaxGroup;
+                    temp.isVisibleSaleRate = pt.isVisibleSaleRate;
+                    temp.isVisibleStandardCost = pt.isVisibleStandardCost;
+                    temp.isVisibleTags = pt.isVisibleTags;
+                    temp.isVisibleMinimumOrderQty = pt.isVisibleMinimumOrderQty;
+                    temp.isVisibleReOrderLevel = pt.isVisibleReOrderLevel;
+                    temp.isVisibleGodownId = pt.isVisibleGodownId;
+                    temp.isVisibleBinLocationId = pt.isVisibleBinLocationId;
+                    temp.isVisibleProfitMargin = pt.isVisibleProfitMargin;
+                    temp.isVisibleCarryingCost = pt.isVisibleCarryingCost;
+                    temp.isVisibleLotManagement = pt.isVisibleLotManagement;
+                    temp.isVisibleConsumptionDetail = pt.isVisibleConsumptionDetail;
+                    temp.isVisibleProductProcessDetail = pt.isVisibleProductProcessDetail;
+                    temp.ProductNameCaption = pt.ProductNameCaption;
+                    temp.ProductCodeCaption = pt.ProductCodeCaption;
+                    temp.ProductDescriptionCaption = pt.ProductDescriptionCaption;
+                    temp.ProductSpecificationCaption = pt.ProductSpecificationCaption;
+                    temp.ProductGroupCaption = pt.ProductGroupCaption;
+                    temp.ProductCategoryCaption = pt.ProductCategoryCaption;
+
                     temp.ModifiedDate = DateTime.Now;
                     temp.ModifiedBy = User.Identity.Name;
                     temp.ObjectState = Model.ObjectState.Modified;

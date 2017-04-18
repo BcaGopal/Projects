@@ -107,10 +107,12 @@
     <Compile Include="Models\Process.cs" />
     <Compile Include="Models\Product.cs" />
     <Compile Include="Models\PaymentModeLedgerAccount.cs" />
+    <Compile Include="Models\PersonAttributes.cs" />
     <Compile Include="Models\ProductBuyer.cs" />
     <Compile Include="Models\ProductGroup.cs" />
     <Compile Include="Models\ProductNature.cs" />
     <Compile Include="Models\ProductType.cs" />
+    <Compile Include="Models\DocumentTypeAttributes.cs" />
     <Compile Include="Models\ProductUid.cs" />
     <Compile Include="Models\ProductUidHeader.cs" />
     <Compile Include="Models\SalesTaxGroupParty.cs" />
@@ -142,6 +144,7 @@
     <Compile Include="ViewModels\LedgerHeaderViewModel.cs" />
     <Compile Include="ViewModels\LedgerViewModel.cs" />
     <Compile Include="ViewModels\ProductIndexViewModel.cs" />
+    <Compile Include="ViewModels\DocumentTypeAttributeViewModel.cs" />
     <Compile Include="ViewModels\ProductUidViewModel.cs" />
     <Compile Include="ViewModels\HeaderChargeViewModel.cs" />
     <Compile Include="ViewModels\LineChargeViewModel.cs" />

@@ -55,6 +55,11 @@ namespace Model.Models
         public int ? JobWorkerId { get; set; }
         public virtual Person JobWorker { get; set; }
 
+        [ForeignKey("Financier")]
+        public int? FinancierId { get; set; }
+        public virtual Person Financier { get; set; }
+
+
         public int Status { get; set; }
 
         [ForeignKey("Process"), Display(Name = "Process")]

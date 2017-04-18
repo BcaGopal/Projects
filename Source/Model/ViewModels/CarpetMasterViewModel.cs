@@ -17,7 +17,7 @@ namespace Model.ViewModels
         public string ProductGroupName { get; set; }
         [ForeignKey("ProductCategory")]
         [Display(Name = "Product Category"), Required(ErrorMessage = "The Construction field is required."), Range(1, int.MaxValue, ErrorMessage = "The Construction field is required.")]
-        public int ProductCategoryId { get; set; }
+        public int? ProductCategoryId { get; set; }
         public virtual ProductCategory ProductCategory { get; set; }
 
         [ForeignKey("ProductGroup")]

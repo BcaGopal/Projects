@@ -36,11 +36,25 @@ namespace Model.Models
         public bool? isVisibleWeight { get; set; }
         public bool? isVisibleCostCenter { get; set; }
         public bool? isVisibleHeaderJobWorker { get; set; }
+
+
+        public bool? isVisibleIncentive { get; set; }
+        public bool? isVisiblePenalty { get; set; }
+
+        public bool? isVisibleRateDiscountPer { get; set; }
+        public bool? isVisibleFinancier { get; set; }
+        public bool? isVisibleMfgDate { get; set; }
+
+
+
+
+
         public bool? isPostedInStock { get; set; }
         public bool? isPostedInStockProcess { get; set; }
         public bool? isPostedInStockVirtual { get; set; }
         public bool? isAutoCreateJobReceive { get; set; }
         public bool? isLedgerPostingLineWise { get; set; }
+        public bool? isGenerateProductUid { get; set; }
 
         /// <summary>
         /// DocId will be passed as a parameter in specified procedure.

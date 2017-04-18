@@ -77,6 +77,11 @@ namespace Model.ViewModels
         public string Address { get; set; }
         public int? CityId { get; set; }
 
+        public int? FinancierId { get; set; }
+        public string FinancierName { get; set; }
+
+        public int? SalesExecutiveId { get; set; }
+        public string SalesExecutiveName { get; set; }
 
         [Display(Name = "Ship Method"), Required]
         public int ShipMethodId { get; set; }

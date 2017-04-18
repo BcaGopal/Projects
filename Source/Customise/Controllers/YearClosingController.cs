@@ -106,7 +106,7 @@ namespace Web
                 mTrans = "Begin";
 
 
-                FRollBack(ETrans);
+                //FRollBack(ETrans);
 
                 // *****************  For Getting Pending Weaving Orders
 
@@ -224,6 +224,15 @@ namespace Web
                                 Cmd.Connection.Open();
                             Cmd.Transaction = ETrans;
                             Cmd.ExecuteNonQuery();
+
+
+                            mQry = " INSERT INTO Web.CostCenterStatus (CostCenterId) " +
+                                    " SELECT CostCenterId FROM Web.CostCenters WHERE CostCenterName = '" + NewCostcenterNo + "' ";
+                            Cmd = new SqlCommand(mQry, Con);
+                            if (Cmd.Connection.State != ConnectionState.Open)
+                                Cmd.Connection.Open();
+                            Cmd.Transaction = ETrans;
+                            Cmd.ExecuteNonQuery();
                         }
 
 
@@ -253,6 +262,9 @@ namespace Web
                         Cmd.ExecuteNonQuery();
 
 
+
+
+
                         mQry = "SELECT JobOrderHeaderId FROM web.JobOrderHeaders C WHERE C.DocTypeId =" + DtJobOrder.Rows[I]["DocTypeId"].ToString() + " AND C.SiteId = " + SiteId + " AND C.DivisionId =" + DivisionId + "  AND C.DocNo = '" + JobOrderDocNo + "' ";
                         Cmd = new SqlCommand(mQry, Con);
                         if (Cmd.Connection.State != ConnectionState.Open)
@@ -264,6 +276,43 @@ namespace Web
 
                         mQry = " INSERT INTO Web.JobOrderJobOrders (JobOrderHeaderId, GenJobOrderHeaderId) " +
                                 " Select " + JobOrderHeaderId + ", " + DtJobOrder.Rows[I]["JobOrderHeaderId"] + "";
+                        Cmd = new SqlCommand(mQry, Con);
+                        if (Cmd.Connection.State != ConnectionState.Open)
+                            Cmd.Connection.Open();
+                        Cmd.Transaction = ETrans;
+                        Cmd.ExecuteNonQuery();
+
+
+                        mQry = " INSERT INTO Web.JobOrderHeaderStatus (JobOrderHeaderId)" +
+                                "Select " + JobOrderHeaderId + "";
+                        Cmd = new SqlCommand(mQry, Con);
+                        if (Cmd.Connection.State != ConnectionState.Open)
+                            Cmd.Connection.Open();
+                        Cmd.Transaction = ETrans;
+                        Cmd.ExecuteNonQuery();
+
+
+                        mQry = " INSERT INTO Web.JobOrderHeaderCharges (HeaderTableId, Sr, ChargeId, AddDeduct, AffectCost, ChargeTypeId, ProductChargeId, CalculateOnId, LedgerAccountDrId, LedgerAccountCrId, CostCenterId, RateType, IncludedInBase, ParentChargeId, Rate, Amount, IsVisible, OMSId, PersonId, ContraLedgerAccountId, IncludedCharges, IncludedChargesCalculation) " +
+                                " SELECT " + JobOrderHeaderId + " AS HeaderTableId, Hc.Sr, Hc.ChargeId, Hc.AddDeduct, Hc.AffectCost, Hc.ChargeTypeId, Hc.ProductChargeId, Hc.CalculateOnId, Hc.LedgerAccountDrId, Hc.LedgerAccountCrId, Hc.CostCenterId, Hc.RateType, Hc.IncludedInBase, Hc.ParentChargeId, Hc.Rate, Hc.Amount, Hc.IsVisible, Hc.OMSId, Hc.PersonId, Hc.ContraLedgerAccountId, Hc.IncludedCharges, Hc.IncludedChargesCalculation   " +
+                                " FROM Web.JobOrderHeaders H " +
+                                " LEFT JOIN Web.JobOrderHeaderCharges Hc ON H.JobOrderHeaderId = Hc.HeaderTableId " +
+                                " WHERE H.JobOrderHeaderId = " + DtJobOrder.Rows[I]["JobOrderHeaderId"] + " ";
+                        Cmd = new SqlCommand(mQry, Con);
+                        if (Cmd.Connection.State != ConnectionState.Open)
+                            Cmd.Connection.Open();
+                        Cmd.Transaction = ETrans;
+                        Cmd.ExecuteNonQuery();
+
+
+                        mQry = " INSERT INTO Web.JobOrderPerks (JobOrderHeaderId, PerkId, Base, Worth, CostConversionMultiplier, CreatedBy, ModifiedBy, CreatedDate, ModifiedDate) " +
+                                " SELECT H.JobOrderHeaderId, P1.PerkId, P1.Base, P1.Worth, P1.CostConversionMultiplier,  " +
+                                " 'System' AS CreatedBy, 'System' AS ModifiedBy, getdate() AS CreatedDate, getdate() AS ModifiedDate " +
+                                " FROM Web.JobOrderHeaders H  " +
+                                " LEFT JOIN Web.JobOrderPerks P ON H.JobOrderHeaderId = P.JobOrderHeaderId " +
+                                " LEFT JOIN Web.JobOrderJobOrders Jj ON H.JobOrderHeaderId = jj.JobOrderHeaderId " +
+                                " LEFT JOIN Web.JobOrderPerks P1 ON Jj.GenJobOrderHeaderId = P1.JobOrderHeaderId " +
+                                " WHERE H.JobOrderHeaderId = " + DtJobOrder.Rows[I]["JobOrderHeaderId"] + " " +
+                                " And P.JobOrderPerkId IS NULL ";
                         Cmd = new SqlCommand(mQry, Con);
                         if (Cmd.Connection.State != ConnectionState.Open)
                             Cmd.Connection.Open();
@@ -342,6 +391,29 @@ namespace Web
                                 Cmd.Transaction = ETrans;
                                 Cmd.ExecuteNonQuery();
 
+
+                                mQry = " INSERT INTO Web.JobOrderLineCharges (LineTableId, Sr, ChargeId, AffectCost, ChargeTypeId, CalculateOnId, LedgerAccountDrId, LedgerAccountCrId, CostCenterId, RateType, IncludedInBase, ParentChargeId, Rate, Amount, IsVisible, OMSId, HeaderTableId, PersonId, ContraLedgerAccountId, DealQty, IncludedCharges, IncludedChargesCalculation, AddDeduct) " +
+                                        " SELECT L1.JobOrderLineId AS LineTableId, Lc.Sr, Lc.ChargeId, Lc.AffectCost, Lc.ChargeTypeId, Lc.CalculateOnId, Lc.LedgerAccountDrId, Lc.LedgerAccountCrId, Lc.CostCenterId, Lc.RateType, Lc.IncludedInBase, Lc.ParentChargeId, Lc.Rate, Lc.Amount, Lc.IsVisible, Lc.OMSId,  " +
+                                        " L1.JobOrderHeaderId AS HeaderTableId, Lc.PersonId, Lc.ContraLedgerAccountId, Lc.DealQty, Lc.IncludedCharges, Lc.IncludedChargesCalculation, Lc.AddDeduct  " +
+                                        " FROM Web.JobOrderHeaders J  " +
+                                        " LEFT JOIN Web.JobOrderJobOrders Jj ON J.JobOrderHeaderId = Jj.JobOrderHeaderId " +
+                                        " LEFT JOIN Web.JobOrderHeaders H ON jj.GenJobOrderHeaderId = H.JobOrderHeaderId " +
+                                        " LEFT JOIN Web.JobOrderLines L ON H.JobOrderHeaderId = L.JobOrderHeaderId " +
+                                        " LEFT JOIN Web.JobOrderLineCharges Lc ON L.JobOrderLineId = Lc.LineTableId " +
+                                        " LEFT JOIN Web.JobOrderLines L1 ON L1.JobOrderHeaderId = J.JobOrderHeaderId " +
+                                        " 	AND IsNull(L1.ProductId,0) = IsNull(L.ProductId,0) " +
+                                        " 	AND IsNull(L1.ProductUidId,0) = IsNull(L.ProductUidId,0)  " +
+                                        " 	AND IsNull(L1.ProdOrderLineId,0) = IsNull(L.ProdOrderLineId,0)  " +
+                                        " 	AND IsNull(L1.Sr,0) = IsNull(L.Sr,0)  " +
+                                        " WHERE J.JobOrderHeaderId = " + JobOrderHeaderId + " " +
+                                        " AND L1.JobOrderLineId IS NOT NULL ";
+                                Cmd = new SqlCommand(mQry, Con);
+                                if (Cmd.Connection.State != ConnectionState.Open)
+                                    Cmd.Connection.Open();
+                                Cmd.Transaction = ETrans;
+                                Cmd.ExecuteNonQuery();
+
+
                                 FTransferProductUids((int)DtJobOrderLine.Rows[J]["JobOrderLineId"], ETrans);
                             }
 
@@ -385,13 +457,22 @@ namespace Web
 
 
 
-                            if (SiteId == 17)
+                            if (SiteId == 17 && DivisionId != 2)
                             {
                                 FTransferMaterial(JobOrderHeaderId, (int)DtJobOrder.Rows[I]["JobOrderHeaderId"], DivisionId, SiteId, CloseDate, ETrans);
                             }
                         }
                     }
                 }
+
+
+                Cmd = new SqlCommand("" + ConfigurationManager.AppSettings["DataBaseSchema"] + ".SpUpdate_CostCenterStatusExtended");
+                Cmd.Connection = Con;
+                Cmd.CommandType = CommandType.StoredProcedure;
+                if (Cmd.Connection.State != ConnectionState.Open)
+                    Cmd.Connection.Open();
+                Cmd.Transaction = ETrans;
+                Cmd.ExecuteNonQuery();
 
                 mTrans = "Commit";
                 ETrans.Commit();
@@ -556,7 +637,7 @@ namespace Web
                     }
                     else
                     {
-                        if (bConstruction == "KELIM")
+                        if (bConstruction.ToUpper().Contains("KELIM"))
                         {
                             bStartFrom = 1;
                             strCondConstruction = " AND PC.ProductCategoryName =  '" + bConstruction + "' AND IsNull(JW.IsSisterConcern,0) = 0 ";
@@ -702,7 +783,7 @@ namespace Web
                         " From Web.StockProcesses L " +
                         " Where L.CostCenterId = " + OldCostCenterId + "" +
                         " Group By L.ProductId " +
-                        " HAVING IsNull(Sum(L.Qty_Rec),0) - IsNull(Sum(L.Qty_Iss),0) > 0 ";
+                        " HAVING IsNull(Sum(L.Qty_Rec),0) - IsNull(Sum(L.Qty_Iss),0) <> 0 ";
                 Cmd = new SqlCommand(mQry, Con);
                 if (Cmd.Connection.State != ConnectionState.Open)
                     Cmd.Connection.Open();
@@ -856,6 +937,70 @@ namespace Web
                     Cmd.Connection.Open();
                 Cmd.Transaction = ETrans;
                 Cmd.ExecuteNonQuery();
+
+
+                
+//--UPDATE Web.ProductUids  
+//--SET Web.ProductUids.ProductUIDHeaderId = V1.ProductUIDHeaderId,  
+//--Web.ProductUids.GenDocId = V1.GenDocId,  
+//--Web.ProductUids.GenDocNo = V1.GenDocNo,  
+//--Web.ProductUids.GenDocTypeId = V1.GenDocTypeId,  
+//--Web.ProductUids.GenDocDate = V1.GenDocDate,  
+//--Web.ProductUids.GenPersonId = V1.GenPersonId,  
+//--Web.ProductUids.LastTransactionDocId = V1.GenDocId,  
+//--Web.ProductUids.LastTransactionDocNo = V1.GenDocNo,  
+//--Web.ProductUids.LastTransactionDocTypeId = V1.GenDocTypeId,  
+//--Web.ProductUids.LastTransactionDocDate = V1.GenDocDate,  
+//--Web.ProductUids.LastTransactionPersonId = V1.GenPersonId  
+//--FROM (  
+//--	SELECT PU.ProductUIDId, Puh.ProductUIDHeaderId,
+//--	H.JobOrderHeaderId AS GenDocId, H.DocNo AS GenDocNo, H.DocTypeId AS GenDocTypeId, H.DocDate AS GenDocDate,
+//--	H.JobWorkerId AS GenPersonId
+//--	--H.DocNo, Puh.ProductUIDHeaderId, Jol1.JobOrderLineId, PU.ProductUidName, Jrt.*
+//--	FROM Web.JobOrderHeaders H 
+//--	LEFT JOIN Web.JobOrderJobOrders Jj ON H.JobOrderHeaderId = jj.JobOrderHeaderId
+//--	LEFT JOIN Web.JobOrderHeaders Joh ON Jj.GenJobOrderHeaderId = Joh.JobOrderHeaderId
+//--	LEFT JOIN Web.JobOrderLines Jol ON Joh.JobOrderHeaderId = Jol.JobOrderHeaderId
+//--	LEFT JOIN Web.JobReceiveLines Jrl ON Jol.JobOrderLineId = Jrl.JobOrderLineId
+//--	LEFT JOIN Web.JobReturnLines Jrt ON Jrl.JobReceiveLineId = Jrt.JobReceiveLineId
+//--	LEFT JOIN Web.ProductUids PU ON Jrl.ProductUidId = PU.ProductUIDId
+//--	LEFT JOIN Web.JobOrderLines Jol1 ON H.JobOrderHeaderId = Jol1.JobOrderHeaderId
+//--		AND Jol.ProductId = Jol1.ProductId
+//--		AND IsNull(Jol.ProductUidId,0) = IsNull(Jol1.ProductUidId,0)
+//--		AND IsNull(Jol.ProdOrderLineId,0) = IsNull(Jol1.ProdOrderLineId,0)
+//--	LEFT JOIN Web.ProductUidHeaders Puh ON Jol1.ProductUidHeaderId = Puh.ProductUIDHeaderId
+//--	WHERE H.DocDate = '01/Apr/2017'
+//--	AND Jrt.JobReturnLineId IS NOT NULL
+//--	AND H.SiteId = 17 --AND H.DivisionId = 6
+//--	AND PU.LastTransactionDocId = Jrt.JobReturnHeaderId
+//--	AND Puh.ProductUIDHeaderId IS NOT NULL
+//--	--AND H.JobOrderHeaderId = 536441
+//--) AS V1 WHERE Web.ProductUids.ProductUidId = V1.ProductUidId
+
+
+//--INSERT INTO Web.ProductUidHeaders (ProductId, GenDocId, GenDocNo, GenDocTypeId, GenDocDate, GenPersonId, 
+//--CreatedBy, ModifiedBy, CreatedDate, ModifiedDate, ReferenceDocTypeId, ReferenceDocId)
+//--
+//--SELECT L.ProductId, H.JobOrderHeaderId, H.DocNo, H.DocTypeId, H.DocDate, H.JobWorkerId, 
+//--L.CreatedBy, L.ModifiedBy, L.CreatedDate, L.ModifiedDate, 706 AS ReferenceDocTypeId,
+//--jol.ProductUidHeaderId
+//--FROM Web.JobOrderHeaders H 
+//--LEFT JOIN Web.JobOrderLines L ON H.JobOrderHeaderId = L.JobOrderHeaderId
+//--LEFT JOIN Web.JobOrderJobOrders Jj ON H.JobOrderHeaderId = Jj.JobOrderHeaderId
+//--LEFT JOIN Web.JobOrderHeaders H1 ON Jj.GenJobOrderHeaderId = H1.JobOrderHeaderId
+//--LEFT JOIN Web.JobOrderLines Jol ON H1.JobOrderHeaderId = Jol.JobOrderHeaderId
+//--            AND L.ProductId = Jol.ProductId  
+//--            AND IsNull(L.ProdOrderLineId,0) = IsNull(Jol.ProdOrderLineId,0) 
+//--WHERE H.DocDate = '01/Apr/2017'
+//--AND H.SiteId = 17
+//--AND L.ProductUidHeaderId IS NULL
+//--AND Jol.ProductUidHeaderId IS NOT NULL
+
+
+
+
+
+
             }
             else
             {

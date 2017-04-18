@@ -384,6 +384,8 @@ namespace Web
                     temp.Remark = s.Remark;
                     temp.DueDate = s.DueDate;
                     temp.Advance = s.Advance;
+                    temp.FinancierId = s.FinancierId;
+                    temp.SalesExecutiveId = s.SalesExecutiveId;
                     temp.ModifiedDate = DateTime.Now;
                     temp.ModifiedBy = User.Identity.Name;
                     _SaleOrderHeaderService.Update(temp);

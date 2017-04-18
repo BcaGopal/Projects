@@ -843,6 +843,8 @@ namespace Web
             JobReceiveHeader ReceiveHeader = new JobReceiveHeaderService(_unitOfWork).Find(InvoiceHeader.JobReceiveHeaderId.Value);
 
             var settings = new JobInvoiceSettingsService(_unitOfWork).GetJobInvoiceSettingsForDocument(InvoiceHeader.DocTypeId, InvoiceHeader.DivisionId, InvoiceHeader.SiteId);
+            var jobreceivesettings = new JobReceiveSettingsService(_unitOfWork).GetJobReceiveSettingsForDocument(ReceiveHeader.DocTypeId, ReceiveHeader.DivisionId, ReceiveHeader.SiteId);
+
 
             if (svm.JobOrderLineId <= 0)
             {
@@ -874,6 +876,59 @@ namespace Web
 
                     JobOrderLine JobOrderLine = new JobOrderLineService(_unitOfWork).Find(ReceiveLine.JobOrderLineId);
                     JobOrderHeader JobOrderHeader = new JobOrderHeaderService(_unitOfWork).Find(JobOrderLine.JobOrderHeaderId);
+
+
+                    //Product Uid Generation
+                    if (svm.ProductUidId == null && settings.isGenerateProductUid == true)
+                    {
+                        ProductUidHeader ProductUidHeader = new ProductUidHeader();
+                        ProductUidHeader.ProductId = svm.ProductId;
+                        ProductUidHeader.GenDocId = ReceiveHeader.JobReceiveHeaderId;
+                        ProductUidHeader.GenDocNo = ReceiveHeader.DocNo;
+                        ProductUidHeader.GenDocTypeId = ReceiveHeader.DocTypeId;
+                        ProductUidHeader.GenDocDate = ReceiveHeader.DocDate;
+                        ProductUidHeader.GenPersonId = ReceiveHeader.JobWorkerId;
+                        ProductUidHeader.CreatedBy = User.Identity.Name;
+                        ProductUidHeader.CreatedDate = DateTime.Now;
+                        ProductUidHeader.ModifiedBy = User.Identity.Name;
+                        ProductUidHeader.ModifiedDate = DateTime.Now;
+                        ProductUidHeader.ObjectState = Model.ObjectState.Added;
+                        db.ProductUidHeader.Add(ProductUidHeader);
+                        ReceiveLine.ProductUidHeaderId = ProductUidHeader.ProductUidHeaderId;
+
+
+
+                        ProductUid ProductUid = new ProductUid();
+                        ProductUid.ProductUidHeaderId = ProductUidHeader.ProductUidHeaderId;
+                        ProductUid.ProductUidName = svm.ProductUidName;
+                        ProductUid.ProductId = svm.ProductId;
+                        ProductUid.ProductUidSpecification = svm.Specification;
+                        ProductUid.IsActive = true;
+                        ProductUid.CreatedBy = User.Identity.Name;
+                        ProductUid.CreatedDate = DateTime.Now;
+                        ProductUid.ModifiedBy = User.Identity.Name;
+                        ProductUid.ModifiedDate = DateTime.Now;
+                        ProductUid.GenLineId = null;
+                        ProductUid.GenDocId = ReceiveHeader.JobReceiveHeaderId;
+                        ProductUid.GenDocNo = ReceiveHeader.DocNo;
+                        ProductUid.GenDocTypeId = ReceiveHeader.DocTypeId;
+                        ProductUid.GenDocDate = ReceiveHeader.DocDate;
+                        ProductUid.GenPersonId = ReceiveHeader.JobWorkerId;
+                        ProductUid.CurrenctProcessId = ReceiveHeader.ProcessId;
+                        ProductUid.CurrenctGodownId = ReceiveHeader.GodownId;
+                        ProductUid.Status = ProductUidStatusConstants.Receive;
+                        ProductUid.LastTransactionDocId = ReceiveHeader.JobReceiveHeaderId;
+                        ProductUid.LastTransactionDocNo = ReceiveHeader.DocNo;
+                        ProductUid.LastTransactionDocTypeId = ReceiveHeader.DocTypeId;
+                        ProductUid.LastTransactionDocDate = ReceiveHeader.DocDate;
+                        ProductUid.LastTransactionPersonId = ReceiveHeader.JobWorkerId;
+                        ProductUid.LastTransactionLineId = null;
+                        ProductUid.ObjectState = Model.ObjectState.Added;
+                        db.ProductUid.Add(ProductUid);
+                        ReceiveLine.ProductUidId = ProductUid.ProductUIDId;
+                    }
+
+
 
                     ReceiveLine.Qty = svm.ReceiveQty;
                     ReceiveLine.LossQty = svm.LossQty;
@@ -1334,6 +1389,33 @@ namespace Web
                     JobOrderHeader JobOrderHeader = new JobOrderHeaderService(_unitOfWork).Find(JobOrderLine.JobOrderHeaderId);
 
 
+                    if (svm.ProductUidId != null && settings.isGenerateProductUid == true)
+                    {
+                        ProductUidHeader ProductUidHeader = new ProductUidHeaderService(_unitOfWork).Find((int)temprec.ProductUidHeaderId);
+                        ProductUidHeader.ProductId = svm.ProductId;
+                        ProductUidHeader.Dimension1Id = svm.Dimension1Id;
+                        ProductUidHeader.Dimension2Id = svm.Dimension2Id;
+                        ProductUidHeader.Dimension3Id = svm.Dimension3Id;
+                        ProductUidHeader.Dimension4Id = svm.Dimension4Id;
+                        ProductUidHeader.ModifiedDate = DateTime.Now;
+                        ProductUidHeader.ModifiedBy = User.Identity.Name;
+                        ProductUidHeader.ObjectState = Model.ObjectState.Modified;
+                        db.ProductUidHeader.Add(ProductUidHeader);
+
+                        ProductUid ProductUid = new ProductUidService(_unitOfWork).Find((int)svm.ProductUidId);
+                        ProductUid.ProductUidName = svm.ProductUidName;
+                        ProductUid.ProductId = svm.ProductId;
+                        ProductUid.ProductUidSpecification = svm.Specification;
+                        ProductUid.Dimension1Id = svm.Dimension1Id;
+                        ProductUid.Dimension2Id = svm.Dimension2Id;
+                        ProductUid.Dimension3Id = svm.Dimension3Id;
+                        ProductUid.Dimension4Id = svm.Dimension4Id;
+                        ProductUid.ModifiedDate = DateTime.Now;
+                        ProductUid.ModifiedBy = User.Identity.Name;
+                        ProductUid.ObjectState = Model.ObjectState.Modified;
+                        db.ProductUid.Add(ProductUid);
+                    }
+
 
                     if (temprec.StockId != null)
                     {
@@ -1595,6 +1677,9 @@ namespace Web
                     temp1.Rate = svm.Rate;
                     temp1.IncentiveRate = temprec.IncentiveRate;
                     temp1.IncentiveAmt = temprec.IncentiveAmt;
+                    temp1.RateDiscountPer = svm.RateDiscountPer;
+                    temp1.MfgDate = svm.MfgDate;
+
                     temp1.ModifiedDate = DateTime.Now;
                     temp1.ModifiedBy = User.Identity.Name;
                     temp1.ObjectState = Model.ObjectState.Modified;

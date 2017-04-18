@@ -73,8 +73,10 @@ namespace Service
                         ProductId = p.ProductId,
                         ProductName = p.ProductName,
                         ProductCode = p.ProductCode,
+                        ProductDescription = p.ProductDescription,
                         ProductGroupId = (int)p.ProductGroupId,
                         ProductSpecification = p.ProductSpecification,
+                        SaleRate = p.SaleRate,
                         StandardCost = p.StandardCost,
                         ProfitMargin = p.ProfitMargin,
                         CarryingCost = p.CarryingCost,
@@ -85,8 +87,7 @@ namespace Service
                         ImageFileName = p.ImageFileName,
                         ImageFolderName = p.ImageFolderName,
                         ReferenceDocId = p.ReferenceDocId,
-                    }
-                        ).FirstOrDefault();
+                    }).FirstOrDefault();
         }
 
         public IQueryable<ProductViewModel> GetProductListForGroup(int id)

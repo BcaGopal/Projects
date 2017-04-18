@@ -315,6 +315,8 @@ namespace Web
                     saleinvoiceheaderdetail.CurrencyId = vm.CurrencyId;
                     saleinvoiceheaderdetail.DocDate = vm.DocDate;
                     saleinvoiceheaderdetail.DocNo = vm.DocNo;
+                    saleinvoiceheaderdetail.FinancierId = vm.FinancierId;
+                    saleinvoiceheaderdetail.SalesExecutiveId = vm.SalesExecutiveId;
                     saleinvoiceheaderdetail.Remark = vm.Remark;
                     saleinvoiceheaderdetail.ModifiedDate = DateTime.Now;
                     saleinvoiceheaderdetail.ModifiedBy = User.Identity.Name;

@@ -71,6 +71,7 @@ namespace Web
         {
             ProductViewModel p = new ProductViewModel();
             p.DivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
+
             p.IsActive = true;
             PrepareViewBag();
             return View("Create", p);
@@ -135,6 +136,7 @@ namespace Web
                     pt.ProductCode = pvm.ProductCode;
                     pt.ProductDescription = pvm.ProductDescription;
                     pt.StandardCost = pvm.StandardCost;
+                    pt.SaleRate = pvm.SaleRate;
                     pt.ProductCategoryId = pvm.ProductCategoryId;
                     pt.ProductGroupId = pvm.ProductGroupId;
                     pt.ProductCollectionId = pvm.ProductCollectionId;
@@ -407,6 +409,9 @@ namespace Web
             ViewBag.id = id;
             ViewBag.ProductGroupList = new ProductGroupService(_unitOfWork).GetProductGroupListForItemType(id);
 
+            List<ProductTypeAttributeViewModel> tem = new ProductTypeAttributeService(_unitOfWork).GetAttributeVMForProductType(id).ToList();
+            p.ProductTypeAttributes = tem;
+
             var settings = new ProductTypeSettingsService(_unitOfWork).GetProductTypeSettingsForDocument(id);
 
             if (settings == null && UserRoles.Contains("Admin"))
@@ -448,9 +453,12 @@ namespace Web
 
                     pt1.ProductName = pvm.ProductName;
                     pt1.ProductCode = pvm.ProductCode;
+                    pt1.ProductDescription = pvm.ProductDescription;
                     pt1.ProductGroupId = pvm.ProductGroupId;
+                    pt1.ProductCategoryId = pvm.ProductCategoryId;
                     pt1.ProductSpecification = pvm.ProductSpecification;
                     pt1.StandardCost = pvm.StandardCost;
+                    pt1.SaleRate = pvm.SaleRate;
                     pt1.Tags = pvm.Tags;
                     pt1.UnitId = pvm.UnitId;
                     pt1.SalesTaxGroupProductId = pvm.SalesTaxGroupProductId;
@@ -473,7 +481,7 @@ namespace Web
                     psd.MinimumOrderQty = pvm.MinimumOrderQty;
                     psd.ReOrderLevel = pvm.ReOrderLevel;
                     psd.GodownId = pvm.GodownId;
-                    psd.BinLocation = pvm.BinLocation;
+                    psd.BinLocationId = pvm.BinLocationId;
                     psd.SiteId = pvm.SiteId;
                     psd.DivisionId = pvm.DivisionId;
                     psd.ProductId = pt1.ProductId;
@@ -482,8 +490,36 @@ namespace Web
                     psd.ModifiedBy = User.Identity.Name;
                     psd.CreatedDate = DateTime.Now;
                     psd.ModifiedDate = DateTime.Now;
-
                     new ProductSiteDetailService(_unitOfWork).Create(psd);
+
+
+                    foreach (var pta in pvm.ProductTypeAttributes)
+                    {
+                        ProductAttributes productattribute = new ProductAttributeService(_unitOfWork).Find(pt1.ProductId, pta.ProductTypeAttributeId);
+
+                        if (productattribute != null)
+                        {
+                            productattribute.ProductAttributeValue = pta.DefaultValue;
+                            productattribute.ObjectState = Model.ObjectState.Modified;
+                            new ProductAttributeService(_unitOfWork).Update(productattribute);
+                        }
+                        else
+                        {
+                            ProductAttributes pa = new ProductAttributes()
+                            {
+                                ProductAttributeValue = pta.DefaultValue,
+                                ProductId = pt1.ProductId,
+                                ProductTypeAttributeId = pta.ProductTypeAttributeId,
+                                CreatedBy = User.Identity.Name,
+                                ModifiedBy = User.Identity.Name,
+                                CreatedDate = DateTime.Now,
+                                ModifiedDate = DateTime.Now
+
+                            };
+                            pa.ObjectState = Model.ObjectState.Added;
+                            new ProductAttributeService(_unitOfWork).Create(pa);
+                        }
+                    }
 
                     try
                     {
@@ -642,8 +678,11 @@ namespace Web
 
                     pt.ProductName = pvm.ProductName;
                     pt.ProductCode = pvm.ProductCode;
+                    pt.ProductDescription = pvm.ProductDescription;
                     pt.StandardCost = pvm.StandardCost;
+                    pt.SaleRate = pvm.SaleRate;
                     pt.ProductGroupId = pvm.ProductGroupId;
+                    pt.ProductCategoryId = pvm.ProductCategoryId;
                     pt.ProductSpecification = pvm.ProductSpecification;
                     pt.SalesTaxGroupProductId = pvm.SalesTaxGroupProductId;
                     pt.ProfitMargin = pvm.ProfitMargin;
@@ -664,7 +703,7 @@ namespace Web
                         psd.MinimumOrderQty = pvm.MinimumOrderQty;
                         psd.ReOrderLevel = pvm.ReOrderLevel;
                         psd.GodownId = pvm.GodownId;
-                        psd.BinLocation = pvm.BinLocation;
+                        psd.BinLocationId = pvm.BinLocationId;
                         psd.SiteId = pvm.SiteId;
                         psd.DivisionId = pvm.DivisionId;
                         psd.ProductId = pvm.ProductId;
@@ -683,12 +722,40 @@ namespace Web
                         psd.MinimumOrderQty = pvm.MinimumOrderQty;
                         psd.ReOrderLevel = pvm.ReOrderLevel;
                         psd.GodownId = pvm.GodownId;
-                        psd.BinLocation = pvm.BinLocation;
+                        psd.BinLocationId = pvm.BinLocationId;
                         psd.LotManagement = pvm.LotManagement;
                         psd.ModifiedBy = User.Identity.Name;
                         psd.ModifiedDate = DateTime.Now;
 
                         new ProductSiteDetailService(_unitOfWork).Update(psd);
+                    }
+
+                    foreach (var pta in pvm.ProductTypeAttributes)
+                    {
+                        ProductAttributes productattribute = new ProductAttributeService(_unitOfWork).Find(pt.ProductId, pta.ProductTypeAttributeId);
+
+                        if (productattribute != null)
+                        {
+                            productattribute.ProductAttributeValue = pta.DefaultValue;
+                            productattribute.ObjectState = Model.ObjectState.Modified;
+                            new ProductAttributeService(_unitOfWork).Update(productattribute);
+                        }
+                        else
+                        {
+                            ProductAttributes pa = new ProductAttributes()
+                            {
+                                ProductAttributeValue = pta.DefaultValue,
+                                ProductId = pt.ProductId,
+                                ProductTypeAttributeId = pta.ProductTypeAttributeId,
+                                CreatedBy = User.Identity.Name,
+                                ModifiedBy = User.Identity.Name,
+                                CreatedDate = DateTime.Now,
+                                ModifiedDate = DateTime.Now
+
+                            };
+                            pa.ObjectState = Model.ObjectState.Added;
+                            new ProductAttributeService(_unitOfWork).Create(pa);
+                        }
                     }
 
                     LogList.Add(new LogTypeViewModel
@@ -863,6 +930,7 @@ namespace Web
             int SiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
             pt.DivisionId = DivisionId;
             pt.SiteId = SiteId;
+            pt.ProductTypeId = Type.ProductTypeId;
             ProductSiteDetail psd = new ProductSiteDetailService(_unitOfWork).FindforSite(SiteId, DivisionId, pt.ProductId);
             if (psd != null)
             {
@@ -870,9 +938,16 @@ namespace Web
                 pt.MinimumOrderQty = psd.MinimumOrderQty;
                 pt.ReOrderLevel = psd.ReOrderLevel;
                 pt.GodownId = psd.GodownId;
-                pt.BinLocation = psd.BinLocation;
+                pt.BinLocationId = psd.BinLocationId;
                 pt.LotManagement = psd.LotManagement;
             }
+
+            var settings = new ProductTypeSettingsService(_unitOfWork).GetProductTypeSettingsForDocument(Type.ProductTypeId);
+            pt.ProductTypeSettings = Mapper.Map<ProductTypeSettings, ProductTypeSettingsViewModel>(settings);
+
+
+            List<ProductTypeAttributeViewModel> tem = new ProductTypeAttributeService(_unitOfWork).GetAttributeForProduct(id).ToList();
+            pt.ProductTypeAttributes = tem;
 
             if (pt == null)
             {
@@ -1066,8 +1141,10 @@ namespace Web
                     NewProduct.ProductName = vm.ProductName;
                     NewProduct.ProductDescription = vm.ProductName;
                     NewProduct.ProductGroupId = FromProduct.ProductGroupId;
+                    NewProduct.ProductCategoryId = FromProduct.ProductCategoryId;
                     NewProduct.ProductSpecification = FromProduct.ProductSpecification;
                     NewProduct.StandardCost = FromProduct.StandardCost;
+                    NewProduct.SaleRate = FromProduct.SaleRate;
                     NewProduct.SalesTaxGroupProductId = FromProduct.SalesTaxGroupProductId;
                     NewProduct.UnitId = FromProduct.UnitId;
                     NewProduct.DivisionId = FromProduct.DivisionId;
@@ -1151,6 +1228,26 @@ namespace Web
                     BomDetail.ModifiedBy = User.Identity.Name;
                     BomDetail.ObjectState = Model.ObjectState.Added;
                     new BomDetailService(_unitOfWork).Create(BomDetail);
+                }
+
+
+                List<ProductTypeAttributeViewModel> pa = new ProductTypeAttributeService(_unitOfWork).GetAttributeForProduct(vm.FromProductId).ToList();
+
+                foreach (var attribute in pa)
+                {
+                    ProductAttributes prodattr = new ProductAttributes()
+                    {
+                        ProductAttributeValue = attribute.DefaultValue,
+                        ProductId = NewProduct.ProductId,
+                        ProductTypeAttributeId = attribute.ProductTypeAttributeId,
+                        CreatedBy = User.Identity.Name,
+                        ModifiedBy = User.Identity.Name,
+                        CreatedDate = DateTime.Now,
+                        ModifiedDate = DateTime.Now
+
+                    };
+                    prodattr.ObjectState = Model.ObjectState.Added;
+                    new ProductAttributeService(_unitOfWork).Create(prodattr);
                 }
 
                 try

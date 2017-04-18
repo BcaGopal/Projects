@@ -54,9 +54,11 @@
                                                 </div>
 
 
+
                                                 <div class="block text-right" style="width:20%">
-                                                    Receive Qty
+                                                    <a href="#" id="ToOrder" style="color:white">Receive Qty</a>
                                                 </div>
+                                                
 
 
                                                 <div class="block " style="width:18%">
@@ -380,7 +382,7 @@
     })
 
     $('#ToOrder').click(function () {
-        alert("Go#");
+        
         if (reset) {
             $('div.row.crow', "#gbody.panel-info").each(function (index) {
 
@@ -405,8 +407,9 @@
                 var $Hidiv = $(this);
 
 
+                alert(index);
 
-                $Hidiv.find('input.ReceiveQty').val(0);
+                //$Hidiv.find('input.ReceiveQty').val(0);
 
             })
             reset = true;

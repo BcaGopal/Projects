@@ -188,6 +188,8 @@ namespace Web
                     temp.isVisiblePromoCode = pt.isVisiblePromoCode;
                     temp.isVisibleForSaleOrder = pt.isVisibleForSaleOrder;
                     temp.isVisibleWeight = pt.isVisibleWeight;
+                    temp.isVisibleFinancier = pt.isVisibleFinancier;
+                    temp.isVisibleSalesExecutive = pt.isVisibleSalesExecutive;
                     temp.CurrencyId = pt.CurrencyId;
                     temp.DeliveryTermsId = pt.DeliveryTermsId;
                     temp.ShipMethodId = pt.ShipMethodId;
@@ -362,6 +364,8 @@ namespace Web
                     temp.isVisibleDiscountPer = pt.isVisibleDiscountPer;
                     temp.isVisibleForSaleOrder = pt.isVisibleForSaleOrder;
                     temp.isVisibleWeight = pt.isVisibleWeight;
+                    temp.isVisibleFinancier = pt.isVisibleFinancier;
+                    temp.isVisibleSalesExecutive = pt.isVisibleSalesExecutive;
                     temp.CurrencyId = pt.CurrencyId;
                     temp.DeliveryTermsId = pt.DeliveryTermsId;
                     temp.ShipMethodId = pt.ShipMethodId;

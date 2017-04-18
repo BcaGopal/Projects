@@ -108,6 +108,10 @@ namespace Model.ViewModel
         public string TransporterName { get; set; }
         public int? AgentId { get; set; }
         public string AgentName { get; set; }
+        public int? FinancierId { get; set; }
+        public string FinancierName { get; set; }
+        public int? SalesExecutiveId { get; set; }
+        public string SalesExecutiveName { get; set; }
         public bool IsDoorDelivery { get; set; }
 
         public Decimal? PayTermAdvancePer { get; set; }

@@ -68,8 +68,8 @@ namespace Model.ViewModel
         public bool isVisibleAgent { get; set; }
         public bool isVisibleDoorDelivery { get; set; }
         public bool isVisiblePaymentTerms { get; set; }
-
-
+        public bool isVisibleFinancier { get; set; }
+        public bool isVisibleSalesExecutive { get; set; }
         public bool isUniqueCostCenter { get; set; }
         public bool PersonWiseCostCenter { get; set; }
 

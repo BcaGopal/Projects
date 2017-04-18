@@ -188,6 +188,8 @@ namespace Web
                     temp.isVisibleUnitConversionFor = pt.isVisibleUnitConversionFor;
                     temp.isVisibleBillToParty = pt.isVisibleBillToParty;
                     temp.isVisibleGodown = pt.isVisibleGodown;
+                    temp.isVisibleFinancier = pt.isVisibleFinancier;
+                    temp.isVisibleSalesExecutive = pt.isVisibleSalesExecutive;
                     temp.isMandatoryRate = pt.isMandatoryRate;
                     temp.isPostedInStock = pt.isPostedInStock;
                     temp.CurrencyId = pt.CurrencyId;
@@ -354,6 +356,8 @@ namespace Web
                     temp.isVisibleUnitConversionFor = pt.isVisibleUnitConversionFor;
                     temp.isVisibleBillToParty = pt.isVisibleBillToParty;
                     temp.isVisibleGodown = pt.isVisibleGodown;
+                    temp.isVisibleFinancier = pt.isVisibleFinancier;
+                    temp.isVisibleSalesExecutive = pt.isVisibleSalesExecutive;
                     temp.isMandatoryRate = pt.isMandatoryRate;
                     temp.isPostedInStock = pt.isPostedInStock;
                     temp.CurrencyId = pt.CurrencyId;
