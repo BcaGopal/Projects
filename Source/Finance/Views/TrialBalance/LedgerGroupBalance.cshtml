@@ -1,7 +1,9 @@
 ﻿@{
-    ViewBag.Title = "Sub Trial Balance";
+    ViewBag.Title = "Ledger Group Balance";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
+
 
 
 <link href="~/Content/Slick/slick.grid.css" rel="stylesheet" />
@@ -13,13 +15,29 @@
         background-color: #428bca;
         color: white;
         height: 35px;
-        font-size:14px;
         line-height: 35px;
+                font-size:14px;
     }
+
+  .totals {
+      font-weight: bold;
+      text-align:right;
+      font-size:larger;
+      color:  black;
+              font-size:14px;
+    }
+
+    .Bold 
+        {
+            font-weight: bold;
+                    font-size:14px;
+            color:  black;
+        }
+
 
     .slick-row.ui-widget-content, .slick-cell {
         height: 30px;
-        font-size:14px;
+                font-size:14px;
         line-height: 30px;
     }
 
@@ -31,23 +49,9 @@
         display: none;
     }
 
-        .Bold 
-        {
-            font-weight: bold;
-            color:  black;
-        }
-
-      .totals {
-      font-weight: bold;
-      text-align:right;
-      font-size:14px;
-      color:  black;
-    }
-
-  .rightMargin {
+      .rightMargin {
       margin-right: 2px;
     }
-
 </style>
 
 <div class="panel panel-default">
@@ -55,9 +59,9 @@
         <h3>
             <span style="font-family: Calibri,sans-serif,Verdana;font-weight:bold" class="black"><span class="glyphicon glyphicon-list black"></span> @ViewBag.Name</span>
             <span style="font-family: Calibri,sans-serif,Verdana;font-size:medium" class="black"> @ViewBag.FilterRemark </span> 
-            @Html.ActionLink(" ", "Create", "TrialBalanceSetting", null, new {  @class = "cbtn btn-circle glyphicon glyphicon-cog toolbar right rightMargin", @title = "List", @data_toggle = "tooltip" })
-            @Html.ActionLink(" ", " ", " ", null, new { @class = "cbtn btn-circle glyphicon glyphicon-refresh toolbar right rightMargin ", @title = "Refresh Page", @data_toggle = "tooltip", @id = "RefreshPage" })
-            @Html.ActionLink(" ", "GeneratePrints", "TrialBalance", new { ActionName = "SubTrialBalance", LedgerAccountGroupId = @ViewBag.id }, new { @class = "cbtn btn-circle glyphicon glyphicon-print toolbar right rightMargin", @title = "Print", @data_toggle = "tooltip", @id = "PrintRecord" })
+            @Html.ActionLink(" ", "Create", "TrialBalanceSetting", null, new { @class = "cbtn btn-circle glyphicon glyphicon-cog toolbar right", @title = "List", @data_toggle = "tooltip" })
+            @Html.ActionLink(" ", " ", " ", null, new { @class = "cbtn btn-circle glyphicon glyphicon-refresh toolbar right", @title = "Refresh Page", @data_toggle = "tooltip", @id = "RefreshPage" })
+            @Html.ActionLink(" ", "GeneratePrints", "TrialBalance", new { ActionName = "LedgerBalance" }, new { @class = "cbtn btn-circle glyphicon glyphicon-print toolbar right", @title = "Print", @data_toggle = "tooltip", @id = "PrintRecord" })
             <input type="text" id="txtSearch2" class="right toolbar small" placeholder="Search" style="height:25px;margin:5px;max-width:20%">
         </h3>
     </div>
@@ -74,6 +78,7 @@
 <script src="~/Scripts/Slick/slick.grid.js"></script>
 <script src="~/Scripts/Slick/slick.dataview.js"></script>
 <script src="~/Scripts/Slick/slick.rowselectionmodel.js"></script>
+<script src="../slick.formatters.js"></script>
 
 <script>
 
@@ -83,28 +88,12 @@
     var data;
 
     //Columns Specification
-    if (DrCr == 'Credit') {
-        columns = [
-      { id: "LedgerAccName", name: "Ledger A/C", field: "LedgerAccountName", headerCssClass: "Bold", width: 500, minWidth: 150, hasTotalName: true },
-      { id: "ACr", name: "Amount Cr", field: "AmtCr", cssClass: "text-right", headerCssClass: "text-right Bold", width: 150, minWidth: 100, hasTotal: true, formatter: DecimalFormatter },
-        ];
-
-
-    }
-    else if (DrCr == 'Debit') {
-        columns = [
-      { id: "LedgerAccName", name: "Ledger A/C", field: "LedgerAccountName", headerCssClass: "Bold", width: 500, minWidth: 150, hasTotalName: true },
-      { id: "ADr", name: "Amount Dr", field: "AmtDr", cssClass: "text-right", headerCssClass: "text-right Bold", width: 150, minWidth: 100, hasTotal: true, formatter: DecimalFormatter }
-        ];
-    }
-    else {
-        columns = [
-       { id: "LedgerAccName", name: "Ledger A/C", field: "LedgerAccountName", headerCssClass: "Bold", width: 500, minWidth: 150, hasTotalName: true },
-       { id: "ADr", name: "Amount Dr", field: "AmtDr", cssClass: "text-right", headerCssClass: "text-right Bold", width: 100, minWidth: 100, hasTotal: true, formatter: DecimalFormatter },
-       { id: "ACr", name: "Amount Cr", field: "AmtCr", cssClass: "text-right", headerCssClass: "text-right Bold", width: 100, minWidth: 100, hasTotal: true, formatter: DecimalFormatter }
-        ];
-
-    }
+    columns =
+   [
+   { id: "LedgerAccountName", name: "LedgerAccountName", field: "LedgerAccountName", headerCssClass: "Bold", width: 200, minWidth: 200, hasTotalName: true },
+   { id: "AmtDr", name: "Amount Dr", field: "AmtDr", cssClass: "text-right", headerCssClass: "text-right Bold", width: 150, minWidth: 100, hasTotal: true, formatter: DecimalFormatter },
+   { id: "AmtCr", name: "Amount Cr", field: "AmtCr", cssClass: "text-right", headerCssClass: "text-right Bold", width: 150, minWidth: 100, hasTotal: true, formatter: DecimalFormatter },
+   ];
 
     function DecimalFormatter(row, cell, value, columnDef, dataContext) {
 
@@ -140,26 +129,39 @@
     }
 
     //Instantiating the Grid
+
     var dataView = new Slick.Data.DataView({ inlineFilters: true });
+
+    dataView.getItemMetadata = function (row) {
+        var item = dataView.getItem(row);
+        if (item["GroupOn"] == "LedgerAccountGroupId") {
+            return { cssClasses: "Bold" };
+        }
+        return null;
+    }
+
     grid = new Slick.Grid("#myGrid", dataView, columns, options);
 
     //Adding Grid functionalities
     grid.setSelectionModel(new Slick.RowSelectionModel());
 
     //Functionality for adding Totals on cell render
-    grid.onFooterRowCellRendered.subscribe(function (e, args) {
+    grid.onFooterRowCellRendered.subscribe(function (e, args)
+    {   
         if (args.column.hasTotal) {
             $(args.node).empty();
             $("<span></span>").text((getColumnTotal(args.column.field, grid.getData())).toFixed(2))
                .appendTo(args.node);
             $(args.node).addClass("totals");
         }
-        else if (args.column.hasTotalName) {
+        else if (args.column.hasTotalName)
+        {
             $(args.node).empty();
             $("<span></span>").text("Total")
                .appendTo(args.node);
             $(args.node).addClass("totals");
         }
+        
     });
 
     //Functionality for Enter key navigation
@@ -200,7 +202,7 @@
 
 
     //Data Fetching
-    var url = '@Url.Action("GetSubTrlBal", "TrialBalance", new { id = @ViewBag.id })';
+    var url = '@Url.Action("_GetLedgerGroupBalance", "TrialBalance", new { id = @ViewBag.id })';
     $.ajax({
         url: url,
         async: true,
@@ -232,16 +234,28 @@
         grid.init();
     }
 
-    $('#myGrid').on('dblclick', '.ui-widget-content.slick-row', function () {
+    $('#myGrid').on('dblclick', '.ui-widget-content.slick-row', function ()
+    {
         var id = grid.getDataItem(grid.getSelectedRows()).LedgerAccountId;
-        window.location.href = '/TrialBalance/GetLedgerBalance/' + id;
+
+        if (grid.getDataItem(grid.getSelectedRows()).GroupOn == "LedgerAccountGroupId")
+        {
+            window.location.href = '/TrialBalance/GetLedgerGroupBalance/' + id;
+        }
+        else
+        {
+            window.location.href = '/TrialBalance/GetLedgerBalance/' + id;
+        }        
+        
     });
 
     $(window).resize(function (e) {
         grid.resizeCanvas();
     })
 
-    function getColumnTotal(columns, data) {
+
+    function getColumnTotal(columns, data)
+    {
         var rowIdx = data.getLength();
         var total = 0;
         var dataArr = data.getItems();
@@ -250,7 +264,7 @@
 
             total += (parseFloat(dataArr[rowIdx][columns]) || 0);
 
-        }
+        }        
         console.log(total);
         return total;
     }

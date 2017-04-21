@@ -97,8 +97,8 @@ namespace Web
                     ProdBuyer.BuyerSku = BuyerSku;
                     ProdBuyer.BuyerSpecification = vm.BuyerSpecification;
                     ProdBuyer.BuyerSpecification1 = vm.BuyerSpecification1;
-                    ProdBuyer.BuyerSpecification2 = vm.BuyerSpecification3;
-                    ProdBuyer.BuyerSpecification3 = vm.BuyerSpecification2;
+                    ProdBuyer.BuyerSpecification2 = vm.BuyerSpecification2;
+                    ProdBuyer.BuyerSpecification3 = vm.BuyerSpecification3;
                     ProdBuyer.CreatedDate = DateTime.Now;
                     ProdBuyer.CreatedBy = User.Identity.Name;
                     ProdBuyer.ModifiedDate = DateTime.Now;

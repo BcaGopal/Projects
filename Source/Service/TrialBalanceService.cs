@@ -18,9 +18,12 @@ namespace Service
     {
         IEnumerable<TrialBalanceViewModel> GetTrialBalance(string UserName);
         IEnumerable<TrialBalanceSummaryViewModel> GetTrialBalanceSummary(string UserName);
+        IEnumerable<ProfitAndLossSummaryViewModel> GetProfitAndLossSummary(string UserName);
+        IEnumerable<BalanceSheetSummaryViewModel> GetBalanceSheetSummary(string UserName);
         IEnumerable<SubTrialBalanceViewModel> GetSubTrialBalance(int ? id, string UserName);
         IEnumerable<SubTrialBalanceSummaryViewModel> GetSubTrialBalanceSummary(int ? id, string UserName);
         IEnumerable<LedgerBalanceViewModel> GetLedgerBalance(int id,string UserName);
+        IEnumerable<LedgerAccountGroupBalanceViewModel> GetLedgerGroupBalance(int? id, string UserName);
     }
 
     public class TrialBalanceService : ITrialBalanceService
@@ -73,6 +76,48 @@ namespace Service
 
         }
 
+        public IEnumerable<ProfitAndLossSummaryViewModel> GetProfitAndLossSummary(string UserName)
+        {
+
+            var Settings = new TrialBalanceSettingService(_unitOfWork).GetTrailBalanceSetting(UserName);
+
+            string SiteId = Settings.SiteIds;
+            string DivisionId = Settings.DivisionIds;
+            string FromDate = Settings.FromDate.HasValue ? Settings.FromDate.Value.ToString("dd/MMM/yyyy") : "";
+            string ToDate = Settings.ToDate.HasValue ? Settings.ToDate.Value.ToString("dd/MMM/yyyy") : "";
+
+            SqlParameter SqlParameterSiteId = new SqlParameter("@Site", !string.IsNullOrEmpty(SiteId) ? SiteId : (object)DBNull.Value);
+            SqlParameter SqlParameterDivisionId = new SqlParameter("@Division", !string.IsNullOrEmpty(DivisionId) ? DivisionId : (object)DBNull.Value);
+            SqlParameter SqlParameterFromDate = new SqlParameter("@FromDate", FromDate);
+            SqlParameter SqlParameterToDate = new SqlParameter("@ToDate", ToDate);
+
+            IEnumerable<ProfitAndLossSummaryViewModel> TrialBalanceList = db.Database.SqlQuery<ProfitAndLossSummaryViewModel>("" + ConfigurationManager.AppSettings["DataBaseSchema"] + ".spProfitAndLoss @Site, @Division, @FromDate, @ToDate", SqlParameterSiteId, SqlParameterDivisionId, SqlParameterFromDate, SqlParameterToDate).ToList();
+
+            return TrialBalanceList;
+
+        }
+
+        public IEnumerable<BalanceSheetSummaryViewModel> GetBalanceSheetSummary(string UserName)
+        {
+
+            var Settings = new TrialBalanceSettingService(_unitOfWork).GetTrailBalanceSetting(UserName);
+
+            string SiteId = Settings.SiteIds;
+            string DivisionId = Settings.DivisionIds;
+            string FromDate = Settings.ToDate.HasValue ? Settings.FromDate.Value.ToString("dd/MMM/yyyy") : "";
+            string ToDate = Settings.ToDate.HasValue ? Settings.ToDate.Value.ToString("dd/MMM/yyyy") : "";
+
+            SqlParameter SqlParameterSiteId = new SqlParameter("@Site", !string.IsNullOrEmpty(SiteId) ? SiteId : (object)DBNull.Value);
+            SqlParameter SqlParameterDivisionId = new SqlParameter("@Division", !string.IsNullOrEmpty(DivisionId) ? DivisionId : (object)DBNull.Value);
+            SqlParameter SqlParameterFromDate = new SqlParameter("@FromDate", FromDate);
+            SqlParameter SqlParameterToDate = new SqlParameter("@ToDate", ToDate);
+
+            IEnumerable<BalanceSheetSummaryViewModel> BalanceSheetList = db.Database.SqlQuery<BalanceSheetSummaryViewModel>("" + ConfigurationManager.AppSettings["DataBaseSchema"] + ".spBalanceSheet @Site, @Division, @FromDate, @ToDate", SqlParameterSiteId, SqlParameterDivisionId, SqlParameterFromDate, SqlParameterToDate).ToList();
+
+            return BalanceSheetList;
+
+        }
+
         public IEnumerable<SubTrialBalanceViewModel> GetSubTrialBalance(int ? id, string UserName)
         {
 
@@ -105,6 +150,41 @@ namespace Service
            
 
         }
+
+        public IEnumerable<LedgerAccountGroupBalanceViewModel> GetLedgerGroupBalance(int? id, string UserName)
+        {
+
+            var Settings = new TrialBalanceSettingService(_unitOfWork).GetTrailBalanceSetting(UserName);
+
+            string SiteId = Settings.SiteIds;
+            string DivisionId = Settings.DivisionIds;
+            string AsOnDate = Settings.ToDate.HasValue ? Settings.ToDate.Value.ToString("dd/MMM/yyyy") : "";
+
+            if (id.HasValue)
+            {
+                SqlParameter SqlParameterSiteId = new SqlParameter("@Site", !string.IsNullOrEmpty(SiteId) ? SiteId : (object)DBNull.Value);
+                SqlParameter SqlParameterDivisionId = new SqlParameter("@Division", !string.IsNullOrEmpty(DivisionId) ? DivisionId : (object)DBNull.Value);
+                SqlParameter SqlParameterDate = new SqlParameter("@AsOnDate", AsOnDate);
+                SqlParameter SqlParameterLedgerAccountGroupId = new SqlParameter("@LedgerAccountGroupId", id.Value);
+
+                IEnumerable<LedgerAccountGroupBalanceViewModel> TrialBalanceList = db.Database.SqlQuery<LedgerAccountGroupBalanceViewModel>("" + ConfigurationManager.AppSettings["DataBaseSchema"] + ".spLedgerAccountGroupBalance @Site, @Division, @AsOnDate, @LedgerAccountGroupId", SqlParameterSiteId, SqlParameterDivisionId, SqlParameterDate, SqlParameterLedgerAccountGroupId).ToList();
+                return TrialBalanceList;
+            }
+            else
+            {
+                SqlParameter SqlParameterSiteId = new SqlParameter("@Site", !string.IsNullOrEmpty(SiteId) ? SiteId : (object)DBNull.Value);
+                SqlParameter SqlParameterDivisionId = new SqlParameter("@Division", !string.IsNullOrEmpty(DivisionId) ? DivisionId : (object)DBNull.Value);
+                SqlParameter SqlParameterDate = new SqlParameter("@AsOnDate", AsOnDate);
+
+                IEnumerable<LedgerAccountGroupBalanceViewModel> TrialBalanceList = db.Database.SqlQuery<LedgerAccountGroupBalanceViewModel>("" + ConfigurationManager.AppSettings["DataBaseSchema"] + ".spLedgerAccountGroupBalance @Site, @Division, @AsOnDate", SqlParameterSiteId, SqlParameterDivisionId, SqlParameterDate).ToList();
+                return TrialBalanceList;
+            }
+
+
+
+        }
+
+        
 
         public IEnumerable<SubTrialBalanceSummaryViewModel> GetSubTrialBalanceSummary(int ? id, string UserName)
         {

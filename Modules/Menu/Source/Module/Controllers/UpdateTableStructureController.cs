@@ -65,6 +65,49 @@ namespace Module
                     mQry = "ALTER TABLE Web.ProductSiteDetails DROP COLUMN BinLocation";
                     ExecuteQuery(mQry);
                 }
+
+                if ((int)ExecuteScaler("SELECT Count(*) AS Cnt FROM INFORMATION_SCHEMA.Columns WHERE COLUMN_NAME =  'ParentLedgerAccountGroupId' AND TABLE_NAME = 'LedgerAccountGroups'") == 0)
+                {
+                    mQry = "ALTER TABLE Web.LedgerAccountGroups ADD ParentLedgerAccountGroupId INT";
+                    ExecuteQuery(mQry);
+                }
+
+                if ((int)ExecuteScaler("SELECT Count(*) AS Cnt FROM INFORMATION_SCHEMA.Columns WHERE COLUMN_NAME =  'BSNature' AND TABLE_NAME = 'LedgerAccountGroups'") == 0)
+                {
+                    mQry = "ALTER TABLE Web.LedgerAccountGroups ADD BSNature NVARCHAR (20)";
+                    ExecuteQuery(mQry);
+                }
+
+                if ((int)ExecuteScaler("SELECT Count(*) AS Cnt FROM INFORMATION_SCHEMA.Columns WHERE COLUMN_NAME =  'BSSr' AND TABLE_NAME = 'LedgerAccountGroups'") == 0)
+                {
+                    mQry = "ALTER TABLE Web.LedgerAccountGroups ADD BSSr INT";
+                    ExecuteQuery(mQry);
+                }
+
+                if ((int)ExecuteScaler("SELECT Count(*) AS Cnt FROM INFORMATION_SCHEMA.Columns WHERE COLUMN_NAME =  'TradingNature' AND TABLE_NAME = 'LedgerAccountGroups'") == 0)
+                {
+                    mQry = "ALTER TABLE Web.LedgerAccountGroups ADD TradingNature NVARCHAR (20)";
+                    ExecuteQuery(mQry);
+                }
+
+                if ((int)ExecuteScaler("SELECT Count(*) AS Cnt FROM INFORMATION_SCHEMA.Columns WHERE COLUMN_NAME =  'TradingSr' AND TABLE_NAME = 'LedgerAccountGroups'") == 0)
+                {
+                    mQry = "ALTER TABLE Web.LedgerAccountGroups ADD TradingSr INT";
+                    ExecuteQuery(mQry);
+                }
+
+                if ((int)ExecuteScaler("SELECT Count(*) AS Cnt FROM INFORMATION_SCHEMA.Columns WHERE COLUMN_NAME =  'PLNature' AND TABLE_NAME = 'LedgerAccountGroups'") == 0)
+                {
+                    mQry = "ALTER TABLE Web.LedgerAccountGroups ADD PLNature NVARCHAR (20)";
+                    ExecuteQuery(mQry);
+                }
+
+                if ((int)ExecuteScaler("SELECT Count(*) AS Cnt FROM INFORMATION_SCHEMA.Columns WHERE COLUMN_NAME =  'PLSr' AND TABLE_NAME = 'LedgerAccountGroups'") == 0)
+                {
+                    mQry = "ALTER TABLE Web.LedgerAccountGroups ADD PLSr INT";
+                    ExecuteQuery(mQry);
+                }
+
             }
             catch (Exception ex)
             {

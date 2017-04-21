@@ -32,7 +32,11 @@ namespace Reports.Reports
             DataTable SubRepData = new DataTable();
             String SubReportProc;
 
-            String MainQuery = queryString + " " + DocumentId.ToString();
+            String MainQuery;
+            if (DocumentId != 0)
+                MainQuery = queryString + " " + DocumentId.ToString();
+            else
+                MainQuery = queryString;
             String StrSubReportProcList;
             using (SqlConnection sqlConnection = new SqlConnection((string)System.Web.HttpContext.Current.Session["DefaultConnectionString"]))
             {
@@ -105,6 +109,19 @@ namespace Reports.Reports
             return c.ReportGenerate(Dt, out mimtype, ReportFileTypeConstants.PDF, null, SubReportDataList, null, SubReportNameList, UserName);
 
         }
+
+
+
+        public byte[] DirectPrint(DataTable Data, string UserName, string ReportFileType = ReportFileTypeConstants.PDF)
+        {
+            string mimtype;
+            ReportGenerateService c = new ReportGenerateService();
+            string mimetype = "";
+            return c.ReportGenerate(Data, out mimtype, ReportFileTypeConstants.PDF, null, null, null, null, UserName);
+
+        }
+
+
 
 
         public byte[] rsDirectDocumentPrint(String ReportSQL, string UserName, int DocumentId = 0, string ReportFileType = ReportFileTypeConstants.PDF)

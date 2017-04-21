@@ -43,7 +43,14 @@ namespace Model.Models
         [Display(Name = "Modified Date")]
         public DateTime ModifiedDate { get; set; }
 
-        [MaxLength(50)]
+        //public int ? ParentLedgerAccountGroupId { get; set; }
+        //public string BSNature { get; set; }
+        //public Int64 ? BSSr { get; set; }
+        //public string TradingNature { get; set; }
+        //public Int64? TradingSr { get; set; }
+        //public string PLNature { get; set; }
+        //public Int64? PLSr { get; set; }
+
         public string OMSId { get; set; }
     }
 }

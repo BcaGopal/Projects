@@ -245,7 +245,7 @@
                       <CellContents>
                         <Image Name="SuryaLogo">
                           <Source>External</Source>
-                          <Value>="file:"+ Fields!CompanyLogoPath.Value + ".jpg"</Value>
+                          <Value>="file:"+ Fields!CompanyLogoPath.Value</Value>
                           <Sizing>FitProportional</Sizing>
                           <ZIndex>2</ZIndex>
                           <Style>
@@ -955,9 +955,9 @@
                               <Value>=Code.Convert(Fields!ProductUidName.Value)</Value>
                               <MIMEType>image/bmp</MIMEType>
                               <Sizing>FitProportional</Sizing>
-                              <Left>0in</Left>
+                              <Left>0.19792in</Left>
                               <Height>0.54958in</Height>
-                              <Width>1.88125in</Width>
+                              <Width>1.68333in</Width>
                               <Style>
                                 <Border>
                                   <Style>None</Style>
@@ -1543,6 +1543,12 @@
       <Nullable>true</Nullable>
       <AllowBlank>true</AllowBlank>
       <Prompt>Report For</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="DatabaseConnectionString">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>DatabaseConnectionString</Prompt>
     </ReportParameter>
   </ReportParameters>
   <Code> Public Function Convert(Text As String) As Byte()

@@ -1,8 +1,7 @@
 ﻿@{
-    ViewBag.Title = "Trial Balance Summary";
+    ViewBag.Title = "Balance Sheet";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
 
 
 <link href="~/Content/Slick/slick.grid.css" rel="stylesheet" />
@@ -17,10 +16,35 @@
         line-height: 35px;
     }
 
+    .Bold 
+        {
+            font-weight: bold;
+            color:  black;
+        }
+
+        .LineHight 
+        {
+         
+        height: 150px;
+        }
+
+    .Row_Total
+   {
+    font-weight: bold;
+    font-size:larger;
+    color:  black;
+    }
+
+      .totals {
+      font-weight: bold;
+      text-align:right;
+      font-size:larger;
+      color:  black;
+    }
+
     .slick-row.ui-widget-content, .slick-cell {
         height: 30px;
         line-height: 30px;
-                font-size:14px;
     }
 
     #myGrid * {
@@ -39,35 +63,30 @@
         width: 15% !important;
     }
 
-            .Bold 
-        {
-            font-weight: bold;
-            color:  black;
-                    font-size:14px;
-        }
-
-   .totals 
-     {
-      font-weight: bold;
-      text-align:right;
-              font-size:14px;
-      color:  black;
+   .toggle {
+      height: 9px;
+      width: 9px;
+      display: inline-block;
+    }
+    .toggle.expand {
+        background: url(../images/minus.gif) no-repeat center center;
+        
+    }
+    .toggle.collapse {
+      background: url(../images/plus.gif) no-repeat center center;
     }
 
-     .rightMargin {
-      margin-right: 2px;
-    }
+
+
 </style>
 
 <div class="panel panel-default">
     <div class="panel-heading">
         <h3>
-            <span style="font-family: Calibri,sans-serif,Verdana;font-weight:bold" class="black"><span class="glyphicon glyphicon-list black"></span> Trial Balance </span>
-            <span style="font-family: Calibri,sans-serif,Verdana;font-size:medium" class="black"> @ViewBag.FilterRemark </span> 
-            @Html.ActionLink(" ", "Create", "TrialBalanceSetting", null, new { @class = "cbtn btn-circle glyphicon glyphicon-cog toolbar right rightMargin", @title = "List", @data_toggle = "tooltip" })
-            @Html.ActionLink(" ", " ", " ", null, new { @class = "cbtn btn-circle glyphicon glyphicon-refresh toolbar right rightMargin", @title = "Refresh Page", @data_toggle = "tooltip", @id = "RefreshPage" })
-            @Html.ActionLink(" ", "GeneratePrints", "TrialBalance", new { ActionName = "TrialBalanceSummary" }, new { @class = "cbtn btn-circle glyphicon glyphicon-print toolbar right rightMargin", @title = "Print", @data_toggle = "tooltip", @id = "PrintRecord" })
-            <input type="text" id="txtSearch2" class="right toolbar small" placeholder="Search" style="height:25px;margin:5px;max-width:20% ">
+            <span style="font-family: Calibri,sans-serif,Verdana;font-weight:bold" class="black"><span class="glyphicon glyphicon-list black"></span> Balance Sheet</span>
+            @Html.ActionLink(" ", " ", " ", null, new { @class = "glyphicon glyphicon-refresh toolbar right small", @title = "Refresh Page", @data_toggle = "tooltip", @id = "RefreshPage", @style = "padding:10px 5px;" })
+            @Html.ActionLink(" ", "Create", "TrialBalanceSetting", null, new { @class = "glyphicon glyphicon-cog toolbar right small", @title = "List", @data_toggle = "tooltip", @style = "padding:10px 5px;" })
+            <input type="text" id="txtSearch2" class="right toolbar small" placeholder="Search" style="height:25px;max-width:20%">
         </h3>
     </div>
 
@@ -86,34 +105,35 @@
 
 <script>
 
+
+    var TaskNameFormatter = function (row, cell, value, columnDef, dataContext) {
+        value = value.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+        var spacer = "<span style='display:inline-block;height:1px;width:" + (15 * dataContext["indent"]) + "px'></span>";
+        var idx = dataView.getIdxById(dataContext.id);
+        if (data[idx + 1] && data[idx + 1].indent > data[idx].indent) {
+            if (dataContext._collapsed) {
+                return spacer + " <span class='toggle expand'></span>&nbsp;" + value;
+            } else {
+                return spacer + " <span class='toggle collapse'></span>&nbsp;" + value;
+            }
+        } else {
+            return spacer + " <span class='toggle'></span>&nbsp;" + value;
+        }
+    };
+
     var grid;
     var columns;
     var data;
 
     //Columns Specification
-    columns = [
-   { id: "LedgerAccGName", name: "Ledger A/C Group", field: "LedgerAccountGroupName", headerCssClass: "Bold", width: 300, minWidth: 150, hasTotalName: true },
-   { id: "Opening", name: "Opening", field: "Opening", cssClass: "text-right bold", headerCssClass: "text-right Bold", width: 150, minWidth: 100, hasTotal: true, formatter: DecimalFormatter },
-   { id: "OpeningTyp", name: "", field: "OpeningType", headerCssClass: "Bold", width: 30, minWidth: 30 },
-   { id: "ADr", name: "Amount Dr", field: "AmtDr", cssClass: "text-right", headerCssClass: "text-right Bold", width: 150, minWidth: 100, hasTotal: true, formatter: DecimalFormatter },
-   { id: "ACr", name: "Amount Cr", field: "AmtCr", cssClass: "text-right", headerCssClass: "text-right Bold", width: 150, minWidth: 100, hasTotal: true, formatter: DecimalFormatter },
-   { id: "Balance", name: "Balance", field: "Balance", cssClass: "text-right", headerCssClass: "text-right Bold", width: 150, minWidth: 100, hasTotal: true, formatter: DecimalFormatter },
-    { id: "BalanceTyp", name: "", field: "BalanceType", headerCssClass: "Bold", width: 30, minWidth: 30 },
+    columns =
+   [
+   { id: "LiabilityGroupName", name: "Liabilitis", field: "LiabilityGroupName", formatter: TaskNameFormatter, width: 200, minWidth: 200, hasTotalName: true },
+   { id: "LiabilityAmount", name: "Amount", field: "LiabilityAmount", cssClass: "text-right", headerCssClass: "text-right", width: 150, minWidth: 100, hasTotal: true },
+   { id: "AssetGroupName", name: "Assets", field: "AssetGroupName", width: 200, minWidth: 200 },
+   { id: "AssetAmount", name: "Amount", field: "AssetAmount", cssClass: "text-right", headerCssClass: "text-right", width: 150, minWidth: 100, hasTotal: true },
     ];
 
-    function DecimalFormatter(row, cell, value, columnDef, dataContext) {
-
-        if (value == null || value == "") {
-
-            return "";
-
-        } else {
-
-            return Number(value).toFixed(2);
-
-        }
-
-    }
 
     //Options Initialization
     var options = {
@@ -128,7 +148,7 @@
     //Creating Custom FilterFunction that can be passed to slickgrid for search
     var searchString = "";
     function myFilter(item, args) {
-        if (args.searchString != "" && (item["LedgerAccountGroupName"]).toLowerCase().indexOf(args.searchString.toLowerCase()) == -1) {
+        if (args.searchString != "" && (item["DrParticular"]).toLowerCase().indexOf(args.searchString.toLowerCase()) == -1) {
             return false;
         }
         return true;
@@ -136,11 +156,12 @@
 
     //Instantiating the Grid
     var dataView = new Slick.Data.DataView({ inlineFilters: true });
+
+
     grid = new Slick.Grid("#myGrid", dataView, columns, options);
 
     //Adding Grid functionalities
     grid.setSelectionModel(new Slick.RowSelectionModel());
-
 
     //Functionality for adding Totals on cell render
     grid.onFooterRowCellRendered.subscribe(function (e, args) {
@@ -156,15 +177,9 @@
                .appendTo(args.node);
             $(args.node).addClass("totals");
         }
+
     });
 
-    //Functionality for Enter key navigation
-    grid.onKeyDown.subscribe(function (e) {
-        if (e.which == 13) {
-            var id = grid.getDataItem(grid.getSelectedRows()).LedgerAccountGroupId;
-            window.location.href = '/TrialBalance/GetSubTrialBalance/' + id;
-        }
-    });
 
     //Functionality for search events
     $("#txtSearch,#txtSearch2").keyup(function (e) {
@@ -197,7 +212,7 @@
 
     //Data Fetching
     $.ajax({
-        url: "/TrialBalance/GetTrlBalSummary",
+        url: "/TrialBalance/_BalanceSheet",
         async: true,
         success: function (rest) {
             data = rest.data;
@@ -213,7 +228,7 @@
     function InitializeGrid() {
         // initialize the model after all the events have been hooked up
         dataView.beginUpdate();
-        dataView.setItems(data, "LedgerAccountGroupId");
+        dataView.setItems(data, "Sr");
         dataView.setFilterArgs({
             searchString: searchString
         });
@@ -228,9 +243,58 @@
 
     }
 
-    $('#myGrid').on('dblclick', '.ui-widget-content.slick-row', function () {
-        var id = grid.getDataItem(grid.getSelectedRows()).LedgerAccountGroupId;
-        window.location.href = '/TrialBalance/GetSubTrialBalance/' + id;
+    $('#myGrid').on('dblclick', '.ui-widget-content.slick-row', function ()
+    {
+        var cell = grid.getActiveCell();
+        var c = grid.getColumns()[cell.cell];
+       // alert(c.field.toString());
+        var id=0;
+        if (c.field.toString() == "LiabilityGroupName" || c.field.toString() == "LiabilityAmount")
+        {
+            id = grid.getDataItem(grid.getSelectedRows()).LiabilityGroupId;
+        }
+        else if (c.field.toString() == "AssetGroupName" || c.field.toString() == "AssetAmount")
+        {
+            id = grid.getDataItem(grid.getSelectedRows()).AssetGroupId;
+        }
+        if (id != 0)
+        {
+            window.location.href = '/TrialBalance/GetLedgerGroupBalance/' + id;
+        }
+    });
+
+
+    grid.onCellChange.subscribe(function (e, args) {
+        dataView.updateItem(args.item.id, args.item);
+    });
+
+    grid.onAddNewRow.subscribe(function (e, args) {
+        var item = {
+            "Sr": "new_" + (Math.round(Math.random() * 10000)),
+            "LiabilityGroupName": "New task",
+            "LiabilityAmount": "1 day",
+            "AssetAmount": 0,
+            "AssetGroupName": "01/01/2009"
+        };
+        $.extend(item, args.item);
+        dataView.addItem(item);
+    });
+
+    grid.onClick.subscribe(function (e, args) {
+        alert('1');
+        //if ($(e.target).hasClass("toggle")) {
+            var item = dataView.getItem(args.row);
+            alert(item.toString());
+            if (item) {
+                if (!item._collapsed) {
+                    item._collapsed = true;
+                } else {
+                    item._collapsed = false;
+                }
+                dataView.updateItem(item.id, item);
+            }
+            e.stopImmediatePropagation();
+        //}
     });
 
     $(window).resize(function (e) {
@@ -250,4 +314,6 @@
         console.log(total);
         return total;
     }
+
+
 </script>

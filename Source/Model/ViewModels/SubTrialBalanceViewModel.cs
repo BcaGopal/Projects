@@ -17,6 +17,16 @@ namespace Model.ViewModel
         public decimal ? AmtCr { get; set; }
     }
 
+    public class LedgerAccountGroupBalanceViewModel
+    {
+        public int LedgerAccountId { get; set; }
+        public string GroupOn { get; set; }
+        public string LedgerAccountName { get; set; }
+        public string LedgerAccountGroupName { get; set; }
+        public decimal? AmtDr { get; set; }
+        public decimal? AmtCr { get; set; }
+    }
+
     public class SubTrialBalanceSummaryViewModel
     {
         public int LedgerAccountId { get; set; }

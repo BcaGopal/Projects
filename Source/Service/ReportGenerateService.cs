@@ -103,16 +103,16 @@ namespace Service
                 {
 
                     if (Dt.Rows[0]["DivisionId"].ToString() == "" && Dt.Rows[0]["SiteId"].ToString() == "")
-                        queryCompanyDetail = "Web.ProcCompanyDetail " + (int)System.Web.HttpContext.Current.Session[SessionNameConstants.LoginSiteId];
+                        queryCompanyDetail = "Web.ProcCompanyDetail '" + (int)System.Web.HttpContext.Current.Session[SessionNameConstants.LoginSiteId] + "'";
                     else if (Dt.Rows[0]["DivisionId"].ToString() != "" && Dt.Rows[0]["SiteId"].ToString() == "")
 
-                        queryCompanyDetail = "Web.ProcCompanyDetail NULL , " + Dt.Rows[0]["DivisionId"].ToString();
+                        queryCompanyDetail = "Web.ProcCompanyDetail NULL , '" + Dt.Rows[0]["DivisionId"].ToString() + "'";
                     else
-                        queryCompanyDetail = "Web.ProcCompanyDetail " + Dt.Rows[0]["SiteId"].ToString() + ", " + Dt.Rows[0]["DivisionId"].ToString();
+                        queryCompanyDetail = "Web.ProcCompanyDetail '" + Dt.Rows[0]["SiteId"].ToString() + "', '" + Dt.Rows[0]["DivisionId"].ToString() + "'";
                 }
                 else
                 {
-                    queryCompanyDetail = "Web.ProcCompanyDetail " + Dt.Rows[0]["SiteId"].ToString();
+                    queryCompanyDetail = "Web.ProcCompanyDetail '" + Dt.Rows[0]["SiteId"].ToString() + "'";
                 }
 
                 DataTable CompanyDetailData = new DataTable();

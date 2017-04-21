@@ -2601,7 +2601,6 @@ iif(Fields!DimensionCnt.Value=4 ,iif(Fields!Dimension4Name.Value &lt;&gt; "",Fie
                         <PaddingBottom>2pt</PaddingBottom>
                       </Style>
                     </Textbox>
-                    <rd:Selected>true</rd:Selected>
                   </CellContents>
                 </TablixCell>
                 <TablixCell>
@@ -7231,7 +7230,7 @@ Code.DimensionName(Fields!Dimension1Name.Value,Fields!Dimension2Name.Value,Field
     <Height>7.33893in</Height>
     <Style />
   </Body>
-  <Width>8.02586in</Width>
+  <Width>8.58836in</Width>
   <Page>
     <PageHeader>
       <Height>0.61458in</Height>
