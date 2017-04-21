@@ -47,6 +47,7 @@ namespace Model.Models
         public bool? isVisibleUnitConversionFor { get; set; }
         public bool? isVisibleSpecification { get; set; }
         public bool? isVisibleCreditDays { get; set; }
+        public bool? isVisibleProcessHeader { get; set; }
         public bool? isMandatoryProcessLine { get; set; }
         public bool? isVisibleProcessLine { get; set; }
         public bool? isVisibleJobWorkerLine { get; set; }

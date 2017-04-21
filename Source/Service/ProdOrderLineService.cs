@@ -225,7 +225,7 @@ namespace Service
                         Dimension3Name = p.Dimension3.Dimension3Name,
                         Dimension4Id = p.Dimension4Id,
                         Dimension4Name = p.Dimension4.Dimension4Name,
-
+                        ProdOrderDocNo = b.ProdOrderNo,
                         unitDecimalPlaces = p.Product.Unit.DecimalPlaces,
 
                         //LotNo = p.LotNo,

@@ -118,9 +118,9 @@ namespace Service
                         && (string.IsNullOrEmpty(vm.JobOrderHeaderId) ? 1 == 1 : SaleOrderIdArr.Contains(p.JobOrderHeaderId.ToString()))
                         && (string.IsNullOrEmpty(vm.CostCenterId) ? 1 == 1 : CostCenterIdArr.Contains(tab.CostCenterId.ToString()))
                         && (string.IsNullOrEmpty(vm.ProductGroupId) ? 1 == 1 : ProductGroupIdArr.Contains(tab2.ProductGroupId.ToString()))
-                         && (string.IsNullOrEmpty(settings.filterContraSites) ? p.SiteId == JobReceive.SiteId : ContraSites.Contains(p.SiteId.ToString()))
+                        && (string.IsNullOrEmpty(settings.filterContraSites) ? p.SiteId == JobReceive.SiteId : ContraSites.Contains(p.SiteId.ToString()))
                         && (string.IsNullOrEmpty(settings.filterContraDivisions) ? p.DivisionId == JobReceive.DivisionId : ContraDivisions.Contains(p.DivisionId.ToString()))
-                        && p.BalanceQty > 0 && p.JobWorkerId == vm.JobWorkerId
+                        && p.BalanceQty > 0 && p.JobWorkerId == vm.JobWorkerId && tab.DocDate <= JobReceive.DocDate
                         orderby tab.DocDate, tab.DocNo, tab1.Sr
                         select new JobReceiveLineViewModel
                         {

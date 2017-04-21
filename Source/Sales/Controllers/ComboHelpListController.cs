@@ -1174,6 +1174,21 @@ namespace Web
             };
         }
 
+
+        public JsonResult SetSingleCurrency(int Ids)
+        {
+            ComboBoxResult ProductJson = new ComboBoxResult();
+
+            IEnumerable<Currency> prod = from p in db.Currency
+                                     where p.ID == Ids
+                                     select p;
+
+            ProductJson.id = prod.FirstOrDefault().ID.ToString();
+            ProductJson.text = prod.FirstOrDefault().Name;
+
+            return Json(ProductJson);
+        }
+
         public JsonResult SetCurrencys(string Ids)
         {
             string[] subStr = Ids.Split(',');
@@ -5528,6 +5543,56 @@ namespace Web
                 Data = Data,
                 JsonRequestBehavior = JsonRequestBehavior.AllowGet
             };
+        }
+
+
+        public JsonResult GetDeliveryTerms(string searchTerm, int pageSize, int pageNum)
+        {
+            var Query = cbl.GetDeliveryTerms(searchTerm);
+            var temp = Query.Skip(pageSize * (pageNum - 1)).Take(pageSize).ToList();
+
+            var count = Query.Count();
+
+            ComboBoxPagedResult Data = new ComboBoxPagedResult();
+            Data.Results = temp;
+            Data.Total = count;
+
+            return new JsonpResult
+            {
+                Data = Data,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+        public JsonResult SetSingleDeliveryTerm(int Ids)
+        {
+            ComboBoxResult DeliveryTermJson = new ComboBoxResult();
+
+            DeliveryTerms DeliveryTerm = (from b in db.DeliveryTerms
+                                          where b.DeliveryTermsId == Ids
+                                          select b).FirstOrDefault();
+
+            DeliveryTermJson.id = DeliveryTerm.DeliveryTermsId.ToString();
+            DeliveryTermJson.text = DeliveryTerm.DeliveryTermsName;
+
+            return Json(DeliveryTermJson);
+        }
+        public JsonResult SetDeliveryTerm(string Ids)
+        {
+            string[] subStr = Ids.Split(',');
+            List<ComboBoxResult> ProductJson = new List<ComboBoxResult>();
+            for (int i = 0; i < subStr.Length; i++)
+            {
+                int temp = Convert.ToInt32(subStr[i]);
+                IEnumerable<DeliveryTerms> prod = from p in db.DeliveryTerms
+                                                  where p.DeliveryTermsId == temp
+                                                  select p;
+                ProductJson.Add(new ComboBoxResult()
+                {
+                    id = prod.FirstOrDefault().DeliveryTermsId.ToString(),
+                    text = prod.FirstOrDefault().DeliveryTermsName
+                });
+            }
+            return Json(ProductJson);
         }
 
 

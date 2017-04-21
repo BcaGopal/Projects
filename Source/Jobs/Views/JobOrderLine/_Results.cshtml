@@ -13,9 +13,10 @@
         {
             @Html.ValidationLog((string)TempData["CSEXCL"])
 
-            @Html.AntiForgeryToken()
 
             <div class="form-horizontal modal-body">
+                @Html.AntiForgeryToken()
+
                 @Html.HiddenFor(m => m.JobOrderSettings.isVisibleRate)
                 @Html.HiddenFor(m => m.JobOrderSettings.ProcessId)
                 <div style="padding-right:15px">

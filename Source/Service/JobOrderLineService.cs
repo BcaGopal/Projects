@@ -41,6 +41,10 @@ namespace Service
         IEnumerable<JobRate> GetJobRate(int JobOrderHeaderId, int ProductId);
         decimal GetUnitConversionForProdOrderLine(int ProdLineId, byte UnitConvForId, string DealUnitId);
         IQueryable<ComboBoxResult> GetCustomProductGroups(int Id, string term);
+
+        IQueryable<ComboBoxResult> GetProdOrderHelpListForProduct(int Id, string term);
+
+        IEnumerable<ComboBoxResult> GetPendingProdOrderForProductUid(int JobOrderHeaderId, int ProductUidId, string term);
     }
 
     public class JobOrderLineService : IJobOrderLineService
@@ -695,6 +699,7 @@ namespace Service
                             && (string.IsNullOrEmpty(vm.Dimension4Id) ? 1 == 1 : Dimension4.Contains(p.Dimension4Id.ToString()))
                             && (string.IsNullOrEmpty(vm.ProductGroupId) ? 1 == 1 : ProductGroupIdArr.Contains(tab2.ProductGroupId.ToString()))
                             && tab1.ProcessId == Settings.ProcessId
+                            && tab.DocDate <= joborder.DocDate
                             && (string.IsNullOrEmpty(Settings.filterContraSites) ? p.SiteId == joborder.SiteId : ContraSites.Contains(p.SiteId.ToString()))
                             && (string.IsNullOrEmpty(Settings.filterProductCategories) ? 1 == 1 : ProductCategoryIdArr.Contains(tabFinishedProduct.ProductCategoryId.ToString()))
                             && (string.IsNullOrEmpty(Settings.filterContraDivisions) ? p.DivisionId == joborder.DivisionId : ContraDivisions.Contains(p.DivisionId.ToString()))
@@ -1071,6 +1076,168 @@ namespace Service
                         id = p.ProductGroupId.ToString(),
                         text = p.ProductGroupName,
                     });
+        }
+
+        public IQueryable<ComboBoxResult> GetProdOrderHelpListForProduct(int Id, string term)
+        {
+            var JobOrderHeader = new JobOrderHeaderService(_unitOfWork).Find(Id);
+
+            var settings = new JobOrderSettingsService(_unitOfWork).GetJobOrderSettingsForDocument(JobOrderHeader.DocTypeId, JobOrderHeader.DivisionId, JobOrderHeader.SiteId);
+
+            string settingProductTypes = "";
+            string settingProductDivision = "";
+            string settingProductCategory = "";
+
+            if (!string.IsNullOrEmpty(settings.filterProductTypes)) { settingProductTypes = "|" + settings.filterProductTypes.Replace(",", "|,|") + "|"; }
+            if (!string.IsNullOrEmpty(settings.FilterProductDivision)) { settingProductDivision = "|" + settings.FilterProductDivision.Replace(",", "|,|") + "|"; }
+            if (!string.IsNullOrEmpty(settings.filterProductCategories)) { settingProductCategory = "|" + settings.filterProductCategories.Replace(",", "|,|") + "|"; }
+
+
+            string[] contraDocTypes = null;
+            if (!string.IsNullOrEmpty(settings.filterContraDocTypes)) { contraDocTypes = settings.filterContraDocTypes.Split(",".ToCharArray()); }
+            else { contraDocTypes = new string[] { "NA" }; }
+
+            string[] contraSites = null;
+            if (!string.IsNullOrEmpty(settings.filterContraSites)) { contraSites = settings.filterContraSites.Split(",".ToCharArray()); }
+            else { contraSites = new string[] { "NA" }; }
+
+            string[] contraDivisions = null;
+            if (!string.IsNullOrEmpty(settings.filterContraDivisions)) { contraDivisions = settings.filterContraDivisions.Split(",".ToCharArray()); }
+            else { contraDivisions = new string[] { "NA" }; }
+
+            string[] ProductTypes = null;
+            if (!string.IsNullOrEmpty(settings.filterProductTypes)) { ProductTypes = settingProductTypes.Split(",".ToCharArray()); }
+            else { ProductTypes = new string[] { "NA" }; }
+
+            string[] ProductDivision = null;
+            if (!string.IsNullOrEmpty(settings.FilterProductDivision)) { ProductDivision = settingProductDivision.Split(",".ToCharArray()); }
+            else { ProductDivision = new string[] { "NA" }; }
+
+            string[] ProductCategory = null;
+            if (!string.IsNullOrEmpty(settings.filterProductCategories)) { ProductCategory = settingProductCategory.Split(",".ToCharArray()); }
+            else { ProductCategory = new string[] { "NA" }; }
+
+
+            int CurrentSiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
+            int CurrentDivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
+
+
+
+            var list = (from p in db.ViewProdOrderBalance
+                        join Pt in db.Product on p.ProductId equals Pt.ProductId into ProductTable
+                        from ProductTab in ProductTable.DefaultIfEmpty()
+                        join Fp in db.FinishedProduct on p.ProductId equals Fp.ProductId into FinishedProductTable
+                        from FinishedProductTab in FinishedProductTable.DefaultIfEmpty()
+                        where (
+                        string.IsNullOrEmpty(term) ? 1 == 1 : p.ProdOrderNo.ToLower().Contains(term.ToLower()) ||
+                        string.IsNullOrEmpty(term) ? 1 == 1 : p.Product.ProductName.ToLower().Contains(term.ToLower()) ||
+                        string.IsNullOrEmpty(term) ? 1 == 1 : p.Dimension1.Dimension1Name.ToLower().Contains(term.ToLower()) ||
+                        string.IsNullOrEmpty(term) ? 1 == 1 : p.Dimension2.Dimension2Name.ToLower().Contains(term.ToLower()) ||
+                        string.IsNullOrEmpty(term) ? 1 == 1 : p.Dimension3.Dimension3Name.ToLower().Contains(term.ToLower()) ||
+                        string.IsNullOrEmpty(term) ? 1 == 1 : p.Dimension4.Dimension4Name.ToLower().Contains(term.ToLower())
+                        ) && p.BalanceQty > 0
+                        && (string.IsNullOrEmpty(settings.filterContraDocTypes) ? 1 == 1 : contraDocTypes.Contains(p.DocTypeId.ToString()))
+                        && (string.IsNullOrEmpty(settings.filterContraSites) ? p.SiteId == CurrentSiteId : contraSites.Contains(p.SiteId.ToString()))
+                        && (string.IsNullOrEmpty(settings.filterContraDivisions) ? p.DivisionId == CurrentDivisionId : contraDivisions.Contains(p.DivisionId.ToString()))
+                        && (string.IsNullOrEmpty(settings.filterProductTypes) ? 1 == 1 : ProductTypes.Contains("|" + ProductTab.ProductGroup.ProductTypeId.ToString() + "|"))
+                        && (string.IsNullOrEmpty(settings.FilterProductDivision) ? 1 == 1 : ProductDivision.Contains("|" + ProductTab.DivisionId.ToString() + "|"))
+                        && (string.IsNullOrEmpty(settings.filterProductCategories) ? 1 == 1 : ProductCategory.Contains("|" + FinishedProductTab.ProductCategoryId.ToString() + "|"))
+                        orderby p.ProdOrderNo
+                        select new ComboBoxResult
+                        {
+                            text = ProductTab.ProductName,
+                            id = p.ProdOrderLineId.ToString(),
+                            TextProp1 = "Prod Order No: " + p.ProdOrderNo.ToString(),
+                            TextProp2 = "BalQty: " + p.BalanceQty.ToString(),
+                            AProp1 = p.Dimension1.Dimension1Name + (string.IsNullOrEmpty(p.Dimension1.Dimension1Name) ? "" : ",") + p.Dimension2.Dimension2Name,
+                            AProp2 = p.Dimension3.Dimension3Name + (string.IsNullOrEmpty(p.Dimension3.Dimension3Name) ? "" : ",") + p.Dimension4.Dimension4Name,
+                        });
+
+            return list;
+        }
+
+        public IEnumerable<ComboBoxResult> GetPendingProdOrderForProductUid(int JobOrderHeaderId, int ProductUidId, string term)
+        {
+            var JobOrderHeader = new JobOrderHeaderService(_unitOfWork).Find(JobOrderHeaderId);
+
+            var settings = new JobOrderSettingsService(_unitOfWork).GetJobOrderSettingsForDocument(JobOrderHeader.DocTypeId, JobOrderHeader.DivisionId, JobOrderHeader.SiteId);
+
+            var ProductUid = new ProductUidService(_unitOfWork).Find(ProductUidId);
+
+            string settingProductTypes = "";
+            string settingProductDivision = "";
+            string settingProductCategory = "";
+
+            if (!string.IsNullOrEmpty(settings.filterProductTypes)) { settingProductTypes = "|" + settings.filterProductTypes.Replace(",", "|,|") + "|"; }
+            if (!string.IsNullOrEmpty(settings.FilterProductDivision)) { settingProductDivision = "|" + settings.FilterProductDivision.Replace(",", "|,|") + "|"; }
+            if (!string.IsNullOrEmpty(settings.filterProductCategories)) { settingProductCategory = "|" + settings.filterProductCategories.Replace(",", "|,|") + "|"; }
+
+
+            string[] contraDocTypes = null;
+            if (!string.IsNullOrEmpty(settings.filterContraDocTypes)) { contraDocTypes = settings.filterContraDocTypes.Split(",".ToCharArray()); }
+            else { contraDocTypes = new string[] { "NA" }; }
+
+            string[] contraSites = null;
+            if (!string.IsNullOrEmpty(settings.filterContraSites)) { contraSites = settings.filterContraSites.Split(",".ToCharArray()); }
+            else { contraSites = new string[] { "NA" }; }
+
+            string[] contraDivisions = null;
+            if (!string.IsNullOrEmpty(settings.filterContraDivisions)) { contraDivisions = settings.filterContraDivisions.Split(",".ToCharArray()); }
+            else { contraDivisions = new string[] { "NA" }; }
+
+            string[] ProductTypes = null;
+            if (!string.IsNullOrEmpty(settings.filterProductTypes)) { ProductTypes = settingProductTypes.Split(",".ToCharArray()); }
+            else { ProductTypes = new string[] { "NA" }; }
+
+            string[] ProductDivision = null;
+            if (!string.IsNullOrEmpty(settings.FilterProductDivision)) { ProductDivision = settingProductDivision.Split(",".ToCharArray()); }
+            else { ProductDivision = new string[] { "NA" }; }
+
+            string[] ProductCategory = null;
+            if (!string.IsNullOrEmpty(settings.filterProductCategories)) { ProductCategory = settingProductCategory.Split(",".ToCharArray()); }
+            else { ProductCategory = new string[] { "NA" }; }
+
+
+            int CurrentSiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
+            int CurrentDivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
+
+
+
+            var list = (from p in db.ViewProdOrderBalance
+                        join Pt in db.Product on p.ProductId equals Pt.ProductId into ProductTable
+                        from ProductTab in ProductTable.DefaultIfEmpty()
+                        join Fp in db.FinishedProduct on p.ProductId equals Fp.ProductId into FinishedProductTable
+                        from FinishedProductTab in FinishedProductTable.DefaultIfEmpty()
+                        where (
+                        string.IsNullOrEmpty(term) ? 1 == 1 : p.ProdOrderNo.ToLower().Contains(term.ToLower()) ||
+                        string.IsNullOrEmpty(term) ? 1 == 1 : p.Product.ProductName.ToLower().Contains(term.ToLower()) ||
+                        string.IsNullOrEmpty(term) ? 1 == 1 : p.Dimension1.Dimension1Name.ToLower().Contains(term.ToLower()) ||
+                        string.IsNullOrEmpty(term) ? 1 == 1 : p.Dimension2.Dimension2Name.ToLower().Contains(term.ToLower()) ||
+                        string.IsNullOrEmpty(term) ? 1 == 1 : p.Dimension3.Dimension3Name.ToLower().Contains(term.ToLower()) ||
+                        string.IsNullOrEmpty(term) ? 1 == 1 : p.Dimension4.Dimension4Name.ToLower().Contains(term.ToLower())
+                        ) && p.BalanceQty > 0
+                        && (string.IsNullOrEmpty(settings.filterContraDocTypes) ? 1 == 1 : contraDocTypes.Contains(p.DocTypeId.ToString()))
+                        && (string.IsNullOrEmpty(settings.filterContraSites) ? p.SiteId == CurrentSiteId : contraSites.Contains(p.SiteId.ToString()))
+                        && (string.IsNullOrEmpty(settings.filterContraDivisions) ? p.DivisionId == CurrentDivisionId : contraDivisions.Contains(p.DivisionId.ToString()))
+                        && (string.IsNullOrEmpty(settings.filterProductTypes) ? 1 == 1 : ProductTypes.Contains("|" + ProductTab.ProductGroup.ProductTypeId.ToString() + "|"))
+                        && (string.IsNullOrEmpty(settings.FilterProductDivision) ? 1 == 1 : ProductDivision.Contains("|" + ProductTab.DivisionId.ToString() + "|"))
+                        && (string.IsNullOrEmpty(settings.filterProductCategories) ? 1 == 1 : ProductCategory.Contains("|" + FinishedProductTab.ProductCategoryId.ToString() + "|"))
+                        && p.ProductId == ProductUid.ProductId
+                        && p.Dimension1Id == ProductUid.Dimension1Id
+                        && p.Dimension2Id == ProductUid.Dimension2Id
+                        && p.Dimension3Id == ProductUid.Dimension3Id
+                        && p.Dimension4Id == ProductUid.Dimension4Id
+                        orderby p.ProdOrderNo
+                        select new ComboBoxResult
+                        {
+                            text = ProductTab.ProductName,
+                            id = p.ProdOrderLineId.ToString(),
+                            TextProp1 = "Prod Order No: " + p.ProdOrderNo.ToString(),
+                            TextProp2 = "BalQty: " + p.BalanceQty.ToString(),
+                            AProp1 = p.Dimension1.Dimension1Name + (string.IsNullOrEmpty(p.Dimension1.Dimension1Name) ? "" : ",") + p.Dimension2.Dimension2Name,
+                            AProp2 = p.Dimension3.Dimension3Name + (string.IsNullOrEmpty(p.Dimension3.Dimension3Name) ? "" : ",") + p.Dimension4.Dimension4Name,
+                        });
+            return list;
         }
 
         public void Dispose()

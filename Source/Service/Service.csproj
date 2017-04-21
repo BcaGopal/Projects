@@ -114,6 +114,12 @@
     <Compile Include="Dimension3Service.cs" />
     <Compile Include="FeetConversionToCmsService.cs" />
     <Compile Include="DocumentTypeSettingsService.cs" />
+    <Compile Include="SaleQuotationHeaderDetailService.cs" />
+    <Compile Include="SaleQuotationLineService.cs" />
+    <Compile Include="SaleQuotationHeaderService.cs" />
+    <Compile Include="SaleQuotationSettingsService.cs" />
+    <Compile Include="SaleQuotationLineChargeService.cs" />
+    <Compile Include="SaleQuotationHeaderChargeService.cs" />
     <Compile Include="PersonRoleService.cs" />
     <Compile Include="WeavingReceiveQaCombinedService.cs" />
     <Compile Include="JobReceiveQaLineExtendedService.cs" />

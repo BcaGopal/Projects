@@ -336,6 +336,8 @@ namespace Service
                                                          GuarantorId = BusinessEntityTab.GuarantorId,
                                                          IsActive = b.IsActive,
                                                          LedgerAccountGroupId = AccountTab.LedgerAccountGroupId,
+                                                         SalesTaxGroupPartyId = BusinessEntityTab.SalesTaxGroupPartyId,
+                                                         SalesTaxGroupPartyName = BusinessEntityTab.SalesTaxGroupParty.SalesTaxGroupPartyName,
                                                          CreatedBy = b.CreatedBy,
                                                          CreatedDate = b.CreatedDate,
                                                          PersonAddressID = PersonAddressTab.PersonAddressID,

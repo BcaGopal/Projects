@@ -140,6 +140,8 @@ namespace Module
             AddFields("SaleInvoiceHeaders", "FinancierId", "Int", "People");
             AddFields("SaleInvoiceHeaders", "SalesExecutiveId", "Int", "People");
 
+            AddFields("JobOrderSettings", "isVisibleProcessHeader", "BIT");
+
 
             return RedirectToAction("Module", "Menu");
         }
