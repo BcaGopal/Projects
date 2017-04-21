@@ -89,7 +89,7 @@ namespace Web
                 {
 
 
-                    string BuyerSku = vm.BuyerSpecification.Replace("-", "") + "-" + vm.BuyerSpecification1 + "-" + vm.BuyerSpecification3;
+                    string BuyerSku = vm.BuyerSpecification.Replace("-", "") + "-" + vm.BuyerSpecification1 + "-" + vm.BuyerSpecification2;
 
                     ProductBuyer ProdBuyer = new ProductBuyer();
                     ProdBuyer.BuyerId = (int)vm.SaleToBuyerId;

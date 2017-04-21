@@ -220,8 +220,11 @@ namespace Module
 
         public void RecordError(Exception ex)
         {
-            mQry = @"INSERT INTO Web.ActivityLogs (DocId, ActivityType, Narration, UserRemark, CreatedBy, CreatedDate)
-                    SELECT 0 AS DocId, 1 AS ActivityType, 'Update Table Structure' AS Narration, '" + ex.Message.Replace("'","") + "' AS UserRemark, 'System' AS CreatedBy, getdate() AS CreatedDate ";
+            int DivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
+            int SiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
+
+            mQry = @"INSERT INTO Web.ActivityLogs (DocId, ActivityType, Narration, UserRemark, CreatedBy, CreatedDate, DocStatus, SiteId, DivisionId)
+                    SELECT 0 AS DocId, 1 AS ActivityType, 'Update Table Structure' AS Narration, '" + ex.Message.Replace("'","") + "' AS UserRemark, 'System' AS CreatedBy, getdate() AS CreatedDate, 0 as DocStatus, " + SiteId + "," + DivisionId + " ";
             ExecuteQuery(mQry);
         }
 
