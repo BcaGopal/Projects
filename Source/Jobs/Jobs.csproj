@@ -871,13 +871,12 @@
     <Content Include="Views\ProductRateGroupWizard\RateListHeaderIndex.cshtml" />
     <Content Include="Views\Shared\UnderImplementation.cshtml" />
     <Content Include="Views\JobReceiveLine\_Index.cshtml" />
-    <Content Include="Views\JobOrderLine\_ResultsWithRateQty.cshtml" />
+    <Content Include="Views\JobOrderLine\_ResultsWithRate.cshtml" />
     <Content Include="Views\JobOrderLine\_ResultsWithRateDealQtyLoss.cshtml" />
     <Content Include="Views\JobReceiveLine\_ResultsWithLossQty.cshtml" />
     <Content Include="Views\JobReceiveLine\_ResultsWithQty.cshtml" />
     <Content Include="Views\JobReceiveLine\_ResultsWithQtyLotNo.cshtml" />
     <Content Include="Views\JobOrderLine\_ResultsWithRateLoss.cshtml" />
-    <Content Include="Views\JobOrderLine\_ResultsWithQty.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

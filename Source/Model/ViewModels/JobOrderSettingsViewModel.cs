@@ -55,7 +55,6 @@ namespace Model.ViewModel
         public bool isPostedInStockProcess { get; set; }
         public bool isPostedInStockVirtual { get; set; }
 
-        public bool isVisibleProcessHeader { get; set; }
         public bool isVisibleProcessLine { get; set; }
 
 

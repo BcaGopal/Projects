@@ -59,7 +59,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="JobInvoiceAmendmentDocEvents.cs" />
-    <Compile Include="SaleQuoatationDocEvents.cs" />
     <Compile Include="SaleDispatchDocEvents.cs" />
     <Compile Include="SaleInvoiceDocEvents.cs" />
     <Compile Include="JobReceiveQaDocEvents.cs" />

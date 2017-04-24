@@ -579,7 +579,7 @@ namespace Web
 
 
 
-                    temp.ProcessId = s.ProcessId;
+
                     temp.DocDate = s.DocDate;
                     temp.DueDate = s.DueDate;
                     temp.UnitConversionForId = s.UnitConversionForId;
@@ -2548,13 +2548,6 @@ namespace Web
             var ProgressDetail = _JobOrderHeaderService.GetLineProgressDetail(LineId);
 
             return PartialView("_LineProgress", ProgressDetail);
-        }
-
-        public JsonResult GetJobWorkerDetailJson(int JobWorkerId)
-        {
-            var temp = new PersonService(_unitOfWork).GetPersonViewModelForEdit(JobWorkerId);
-
-            return Json(temp);
         }
 
         #region submitValidation

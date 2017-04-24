@@ -48,12 +48,8 @@ namespace Model.ViewModels
         [ForeignKey("CityId")]
         public virtual City City { get; set; }
 
-        public string CityName { get; set; }
-
         [MaxLength(6)]
         public string Zipcode { get; set; }
-
-        public int? PersonRateGroupId { get; set; }
 
 
         [Display(Name = "PAN No")]

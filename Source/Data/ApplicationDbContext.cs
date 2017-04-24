@@ -352,13 +352,6 @@ namespace Data.Models
         public DbSet<SaleOrderHeader> SaleOrderHeader { get; set; }
         public DbSet<SaleOrderLine> SaleOrderLine { get; set; }
 
-        public DbSet<SaleQuotationHeader> SaleQuotationHeader { get; set; }
-        public DbSet<SaleQuotationHeaderDetail> SaleQuotationHeaderDetail { get; set; }
-        public DbSet<SaleQuotationHeaderCharge> SaleQuotationHeaderCharge { get; set; }
-        public DbSet<SaleQuotationLine> SaleQuotationLine { get; set; }
-        public DbSet<SaleQuotationLineCharge> SaleQuotationLineCharge { get; set; }
-
-
         public DbSet<SaleEnquiryHeader> SaleEnquiryHeader { get; set; }
         public DbSet<SaleEnquiryLine> SaleEnquiryLine { get; set; }
         public DbSet<SaleEnquiryLineExtended> SaleEnquiryLineExtended { get; set; }
@@ -367,7 +360,6 @@ namespace Data.Models
         public DbSet<SaleDeliveryOrderCancelHeader> SaleDeliveryOrderCancelHeader { get; set; }
         public DbSet<SaleDeliveryOrderCancelLine> SaleDeliveryOrderCancelLine { get; set; }
         public DbSet<SaleOrderSettings> SaleOrderSettings { get; set; }
-        public DbSet<SaleQuotationSettings> SaleQuotationSettings { get; set; }
         public DbSet<SaleEnquirySettings> SaleEnquirySettings { get; set; }
         public DbSet<SaleDeliveryOrderSettings> SaleDeliveryOrderSettings { get; set; }
         public DbSet<JobReceiveQASettings> JobReceiveQASettings { get; set; }
@@ -587,7 +579,6 @@ namespace Data.Models
         public DbSet<ViewSaleOrderBalance> ViewSaleOrderBalance { get; set; }
 
         public DbSet<ViewSaleEnquiryBalance> ViewSaleEnquiryBalance { get; set; }
-        public DbSet<ViewSaleEnquiryBalanceForQuotation> ViewSaleEnquiryBalanceForQuotation { get; set; }
 
         public DbSet<ViewStockInBalance> ViewStockInBalance { get; set; }
         public DbSet<ViewProductBuyer> ViewProductBuyer { get; set; }

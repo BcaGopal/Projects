@@ -22,7 +22,7 @@
     @Html.HiddenFor(m => m.DivisionId)
     @Html.HiddenFor(m => m.JobOrderHeaderId)
     @Html.HiddenFor(m => m.DocTypeId)
-    @*@Html.HiddenFor(m => m.ProcessId)*@
+    @Html.HiddenFor(m => m.ProcessId)
     @Html.HiddenFor(m => m.CreatedDate)
     @Html.HiddenFor(m => m.CalculationFooterChargeCount)
     @Html.HiddenFor(m => m.JobOrderSettings.ProcessId)
@@ -88,7 +88,7 @@
 
             <div class="panel-info">
                 <div class="btn-group">
-                    @Html.ActionLink(" ", "Create", "JobOrderHeader", new { @id = @ViewBag.id }, new { @class = "cbtn btn-circle glyphicon glyphicon-plus", @title = "Add New", @data_toggle = "tooltip" })
+                    @Html.ActionLink(" ", "Create", "JobOrderHeader", new { @id = @ViewBag.id }, new { @class = "cbtn btn-circle glyphicon glyphicon-plus", @title = "Add New", @data_toggle = "tooltip", target = "_blank" })
                     @if (Model.JobOrderHeaderId > 0)
                     {
                     @Html.ActionLink(" ", EditAction, "JobOrderHeader", new { @id = Model.JobOrderHeaderId, IndexType = ViewBag.IndexStatus }, new { @class = "cbtn btn-circle glyphicon glyphicon-edit", @title = "Edit", @data_toggle = "tooltip" })
@@ -179,18 +179,6 @@
                                     <div class="col-md-7 col-sm-10">
                                         @Html.TextBoxFor(m => m.DueDate, "{0:dd/MMMM/yyyy}", new { @class = "datepicker form-control required" })
                                         @Html.ValidationMessageFor(model => model.DueDate, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
-                            </div>
-
-
-                            <div class="col-md-6" style='display:@(Model.JobOrderSettings.isVisibleProcessHeader?"":"none")'>
-                                <div class="form-group">
-                                    @Html.HiddenFor(m => m.JobOrderSettings.isVisibleProcessHeader)
-                                    @Html.LabelFor(model => model.ProcessId, "Process", new { @class = "control-label col-md-4 col-sm-2" })
-                                    <div class="col-md-7 col-sm-10">
-                                        @Html.TextBoxFor(m => m.ProcessId, new { @class = "form-control " + (Model.JobOrderSettings.isMandatoryMachine ? " required" : "") })
-                                        @Html.ValidationMessageFor(m => m.ProcessId, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
                             </div>
@@ -1094,13 +1082,6 @@
 
         });
 
-        var id=@Model.JobOrderHeaderId;
-
-        if(id>0)
-        {
-            $('#ProcessId').attr('readonly','true');
-        }
-
 
         function ValidateData() {
             var DocId=@Model.JobOrderHeaderId;
@@ -1234,7 +1215,6 @@
         CustomSelectFunction($("#AgentId"), '/ComboHelpList/GetAgents', '/ComboHelpList/SetSinglePerson', ' ', false, 0);
         CustomSelectFunction($("#FinancierId"), '/ComboHelpList/GetFinanciers', '/ComboHelpList/SetSinglePerson', ' ', false, 0);
         CustomSelectFunction($("#SalesExecutiveId"), '/ComboHelpList/GetSalesExecutives', '/ComboHelpList/SetSinglePerson', ' ', false, 0);
-        CustomSelectFunction($("#ProcessId"), '/ComboHelpList/GetProcessWithChildProcess', '/ComboHelpList/SetSingleProcess', ' ', false,0, $('#JobOrderSettings_ProcessId').val());
 
 
         $('#JobWorkerId').select2('focus');
@@ -1538,29 +1518,6 @@
             }
         });
     };
-
-
-    $("#JobWorkerId").change(GetJobWorkerDetail);
-
-    function GetJobWorkerDetail() {
-        var ProcessProgress = $("#Product detail loading progress");
-        ProcessProgress.show();
-        if ($("#JobWorkerId").val() != 0 && $("#JobWorkerId").val() != null) {
-            $.ajax({
-                cache: false,
-                type: "POST",
-                url: "@(Url.Action("GetJobWorkerDetailJson"))",
-                data: { JobWorkerId: $("#JobWorkerId").val() },
-            success: function (data) {
-                $("#CreditDays").val(data.CreaditDays);
-                $("#SalesTaxGroupPersonId").select2('data', { id: data.SalesTaxGroupPartyId, text: data.SalesTaxGroupPartyName});
-            },
-            error: function (xhr, ajaxOptions, thrownError) {
-                alert('Failed to retrieve product details.' + thrownError);
-            }
-        });
-    }
-    }
 </script>
 
 

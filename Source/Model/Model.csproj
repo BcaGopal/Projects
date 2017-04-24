@@ -111,8 +111,6 @@
     <Compile Include="Models\Dimension3.cs" />
     <Compile Include="Models\DocumentTypeSettings.cs" />
     <Compile Include="Models\FeetConversionToCms.cs" />
-    <Compile Include="Models\SaleQuotationLineCharge.cs" />
-    <Compile Include="Models\SaleQuotationHeaderCharge.cs" />
     <Compile Include="Models\PersonRole.cs" />
     <Compile Include="Models\ProductTypeSettings.cs" />
     <Compile Include="Models\PersonSettings.cs" />
@@ -128,10 +126,6 @@
     <Compile Include="Models\QAGroup.cs" />
     <Compile Include="Models\QAGroupLine.cs" />
     <Compile Include="Models\DocumentShipMethod.cs" />
-    <Compile Include="Models\SaleQuotationSettings.cs" />
-    <Compile Include="Models\SaleQuotationLine.cs" />
-    <Compile Include="Models\SaleQuotationHeaderDetail.cs" />
-    <Compile Include="Models\SaleQuotationHeader.cs" />
     <Compile Include="Models\UserReferral.cs" />
     <Compile Include="Models\Agent.cs" />
     <Compile Include="Models\ApplicationUser.cs" />
@@ -203,9 +197,6 @@
     <Compile Include="Models\Shift.cs" />
     <Compile Include="Models\SubReport.cs" />
     <Compile Include="ViewModels\PersonRoleViewModel.cs" />
-    <Compile Include="ViewModels\SaleQuotationSettingsViewModel.cs" />
-    <Compile Include="ViewModels\SaleQuotationLineViewModel.cs" />
-    <Compile Include="ViewModels\SaleQuotationHeaderViewModel.cs" />
     <Compile Include="ViewModels\WeavingReceiveQACombinedViewModel.cs" />
     <Compile Include="ViewModels\CopyProductViewModel.cs" />
     <Compile Include="ViewModels\Dimension1.cs" />

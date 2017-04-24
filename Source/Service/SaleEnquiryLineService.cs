@@ -414,15 +414,10 @@ namespace Service
             int temp = 0;
             if (id != 0)
             {
-                //temp = (from p in db.SaleEnquiryLine
-                //        where p.ProductId == null
-                //        orderby p.SaleEnquiryLineId
-                //        select p.SaleEnquiryLineId).AsEnumerable().SkipWhile(p => p != id && p > id).Skip(1).FirstOrDefault();
-
                 temp = (from p in db.SaleEnquiryLine
-                        where p.ProductId == null && p.SaleEnquiryLineId > id
+                        where p.ProductId == null
                         orderby p.SaleEnquiryLineId
-                        select p.SaleEnquiryLineId).FirstOrDefault();
+                        select p.SaleEnquiryLineId).AsEnumerable().SkipWhile(p => p != id).Skip(1).FirstOrDefault();
             }
             else
             {
@@ -443,15 +438,11 @@ namespace Service
             int temp = 0;
             if (id != 0)
             {
-                //temp = (from p in db.SaleEnquiryLine
-                //        where p.ProductId == null
-                //        orderby p.SaleEnquiryLineId
-                //        select p.SaleEnquiryLineId).AsEnumerable().TakeWhile(p => p != id && p < id).LastOrDefault();
 
                 temp = (from p in db.SaleEnquiryLine
-                        where p.ProductId == null && p.SaleEnquiryLineId < id
-                        orderby p.SaleEnquiryLineId descending
-                        select p.SaleEnquiryLineId).FirstOrDefault();
+                        where p.ProductId == null
+                        orderby p.SaleEnquiryLineId
+                        select p.SaleEnquiryLineId).AsEnumerable().TakeWhile(p => p != id).LastOrDefault();
             }
             else
             {
@@ -570,23 +561,6 @@ namespace Service
                                          }).FirstOrDefault();
 
             return LastTransactionDetail;
-        }
-
-
-        public IEnumerable<SaleEnquiryLineListViewModel> GetPendingSaleEnquiries(int id)
-        {
-            return (from p in db.ViewSaleEnquiryBalance
-                    join t in db.SaleEnquiryHeader on p.SaleEnquiryHeaderId equals t.SaleEnquiryHeaderId into table
-                    from tab in table.DefaultIfEmpty()
-                    join t1 in db.SaleEnquiryLine on p.SaleEnquiryLineId equals t1.SaleEnquiryLineId into table1
-                    from tab1 in table1.DefaultIfEmpty()
-                    where p.ProductId == id && p.BalanceQty > 0
-                    select new SaleEnquiryLineListViewModel
-                    {
-                        SaleEnquiryLineId = p.SaleEnquiryLineId,
-                        SaleEnquiryHeaderId = p.SaleEnquiryHeaderId,
-                        DocNo = tab.DocNo,
-                    });
         }
 
         public void Dispose()

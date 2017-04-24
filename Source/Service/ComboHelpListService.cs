@@ -104,7 +104,6 @@ namespace Service
         IEnumerable<ComboBoxList> GetReasonHelpList();
         IEnumerable<ComboBoxList> GetSizeHelpList();
         IEnumerable<ComboBoxList> GetProcessHelpList();
-        IEnumerable<ComboBoxList> GetProcessWithChildProcessHelpList(int? filter);
         IEnumerable<ComboBoxList> GetMachineHelpList();
         IEnumerable<ComboBoxList> GetCityHelpList();
         IEnumerable<ComboBoxList> GetStateHelpList();
@@ -2646,7 +2645,7 @@ namespace Service
         public IQueryable<ComboBoxResult> GetDeliveryTerms(string term)
         {
             var list = (from D in db.DeliveryTerms
-                        where D.IsActive == true && (string.IsNullOrEmpty(term) ? 1 == 1 : (D.DeliveryTermsName.ToLower().Contains(term.ToLower())))
+                        where D.IsActive == true
                         orderby D.DeliveryTermsName
                         select new ComboBoxResult
                         {
@@ -2662,8 +2661,6 @@ namespace Service
         {
             var list = (from D in db.PersonAddress
                         join P in db.Persons on D.PersonId equals P.PersonID into PersonTable from PersonTab in PersonTable.DefaultIfEmpty()
-                        where (string.IsNullOrEmpty(term) ? 1 == 1 : (D.Address.ToLower().Contains(term.ToLower()))
-                        || string.IsNullOrEmpty(term) ? 1 == 1 : (PersonTab.Name.ToLower().Contains(term.ToLower())))
                         orderby PersonTab.Name
                         select new ComboBoxResult
                         {
@@ -2876,31 +2873,6 @@ namespace Service
                            Id = p.ProductCategoryId,
                            PropFirst = p.ProductCategoryName
                        };
-
-            return temp;
-        }
-
-        public IEnumerable<ComboBoxList> GetProcessWithChildProcessHelpList(int? filter)
-        {
-            var temp1 = from p in db.Process
-                       where ((filter == null || filter == 0) ? 1 == 1 : p.ParentProcessId == filter)
-                       orderby p.ProcessName
-                       select new ComboBoxList
-                       {
-                           Id = p.ProcessId,
-                           PropFirst = p.ProcessName
-                       };
-
-            var temp2 = from p in db.Process
-                        where p.ProcessId == filter
-                        orderby p.ProcessName
-                        select new ComboBoxList
-                        {
-                            Id = p.ProcessId,
-                            PropFirst = p.ProcessName
-                        };
-
-            var temp = temp1.Union(temp2).Distinct().OrderBy(i => i.PropFirst);
 
             return temp;
         }

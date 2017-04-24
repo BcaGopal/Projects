@@ -50,15 +50,15 @@ namespace Web
 
 
 
-        public ActionResult _Create(int? id, int DocTypeId) 
+        public ActionResult _Create(int? id) 
         {
-            PersonViewModel p = new PersonViewModel();
+            BuyerViewModel p = new BuyerViewModel();
             p.IsActive = true;
-            p.DocTypeId = DocTypeId;
+            
 
             if (id != null && id !=0)
             {
-                p = GetPersonViewModel((int)id);
+                p = GetBuyerViewModel((int)id);
             }
             else
             {
@@ -80,16 +80,16 @@ namespace Web
 
         [HttpPost]
         //[ValidateAntiForgeryToken]
-        public ActionResult _CreatePost(PersonViewModel PersonVm)
+        public ActionResult _CreatePost(BuyerViewModel buyerVm)
         {
             if (ModelState.IsValid)
             {
-                if (PersonVm.PersonID == 0)
+                if (buyerVm.PersonId == 0)
                 {
-                    Person person = Mapper.Map<PersonViewModel, Person>(PersonVm);
-                    BusinessEntity businessentity = Mapper.Map<PersonViewModel, BusinessEntity>(PersonVm);
-                    PersonAddress personaddress = Mapper.Map<PersonViewModel, PersonAddress>(PersonVm);
-                    LedgerAccount account = Mapper.Map<PersonViewModel, LedgerAccount>(PersonVm);
+                    Person person = Mapper.Map<BuyerViewModel, Person>(buyerVm);
+                    BusinessEntity businessentity = Mapper.Map<BuyerViewModel, BusinessEntity>(buyerVm);
+                    PersonAddress personaddress = Mapper.Map<BuyerViewModel, PersonAddress>(buyerVm);
+                    LedgerAccount account = Mapper.Map<BuyerViewModel, LedgerAccount>(buyerVm);
 
                     person.IsActive = true;
                     person.CreatedDate = DateTime.Now;
@@ -121,11 +121,11 @@ namespace Web
                     new LedgerAccountService(_unitOfWork).Create(account);
 
 
-                    if (PersonVm.CstNo != "" && PersonVm.CstNo != null)
+                    if (buyerVm.CstNo != "" && buyerVm.CstNo != null)
                     {
                         PersonRegistration personregistration = new PersonRegistration();
                         personregistration.RegistrationType = PersonRegistrationType.CstNo;
-                        personregistration.RegistrationNo = PersonVm.CstNo;
+                        personregistration.RegistrationNo = buyerVm.CstNo;
                         personregistration.CreatedDate = DateTime.Now;
                         personregistration.ModifiedDate = DateTime.Now;
                         personregistration.CreatedBy = User.Identity.Name;
@@ -134,11 +134,11 @@ namespace Web
                         new PersonRegistrationService(_unitOfWork).Create(personregistration);
                     }
 
-                    if (PersonVm.TinNo != "" && PersonVm.TinNo != null)
+                    if (buyerVm.TinNo != "" && buyerVm.TinNo != null)
                     {
                         PersonRegistration personregistration = new PersonRegistration();
                         personregistration.RegistrationType = PersonRegistrationType.TinNo;
-                        personregistration.RegistrationNo = PersonVm.TinNo;
+                        personregistration.RegistrationNo = buyerVm.TinNo;
                         personregistration.CreatedDate = DateTime.Now;
                         personregistration.ModifiedDate = DateTime.Now;
                         personregistration.CreatedBy = User.Identity.Name;
@@ -147,11 +147,11 @@ namespace Web
                         new PersonRegistrationService(_unitOfWork).Create(personregistration);
                     }
 
-                    if (PersonVm.PanNo != "" && PersonVm.PanNo != null)
+                    if (buyerVm.PANNo != "" && buyerVm.PANNo != null)
                     {
                         PersonRegistration personregistration = new PersonRegistration();
                         personregistration.RegistrationType = PersonRegistrationType.PANNo;
-                        personregistration.RegistrationNo = PersonVm.PanNo;
+                        personregistration.RegistrationNo = buyerVm.PANNo;
                         personregistration.CreatedDate = DateTime.Now;
                         personregistration.ModifiedDate = DateTime.Now;
                         personregistration.CreatedBy = User.Identity.Name;
@@ -159,48 +159,6 @@ namespace Web
                         personregistration.ObjectState = Model.ObjectState.Added;
                         new PersonRegistrationService(_unitOfWork).Create(personregistration);
                     }
-
-
-                    PersonRole personrole = new PersonRole();
-                    personrole.PersonRoleId = -1;
-                    personrole.PersonId = person.PersonID;
-                    personrole.RoleDocTypeId = person.DocTypeId;
-                    personrole.CreatedDate = DateTime.Now;
-                    personrole.ModifiedDate = DateTime.Now;
-                    personrole.CreatedBy = User.Identity.Name;
-                    personrole.ModifiedBy = User.Identity.Name;
-                    personrole.ObjectState = Model.ObjectState.Added;
-                    new PersonRoleService(_unitOfWork).Create(personrole);
-
-                    int ProspectDocTypeId = new DocumentTypeService(_unitOfWork).Find(MasterDocTypeConstants.Prospect).DocumentTypeId;
-                    if (person.DocTypeId == ProspectDocTypeId)
-                    {
-                        int BuyerDocTypeId = new DocumentTypeService(_unitOfWork).Find(MasterDocTypeConstants.Buyer).DocumentTypeId;
-
-                        PersonRole personrole1 = new PersonRole();
-                        personrole.PersonRoleId = -2;
-                        personrole1.PersonId = person.PersonID;
-                        personrole1.RoleDocTypeId = BuyerDocTypeId;
-                        personrole1.CreatedDate = DateTime.Now;
-                        personrole1.ModifiedDate = DateTime.Now;
-                        personrole1.CreatedBy = User.Identity.Name;
-                        personrole1.ModifiedBy = User.Identity.Name;
-                        personrole1.ObjectState = Model.ObjectState.Added;
-                        new PersonRoleService(_unitOfWork).Create(personrole1);
-                    }
-
-
-                    int ProcessId = new ProcessService(_unitOfWork).Find(ProcessConstants.Sales).ProcessId;
-
-                    PersonProcess personprocess = new PersonProcess();
-                    personprocess.PersonId = person.PersonID;
-                    personprocess.ProcessId = ProcessId;
-                    personprocess.CreatedDate = DateTime.Now;
-                    personprocess.ModifiedDate = DateTime.Now;
-                    personprocess.CreatedBy = User.Identity.Name;
-                    personprocess.ModifiedBy = User.Identity.Name;
-                    personprocess.ObjectState = Model.ObjectState.Added;
-                    new PersonProcessService(_unitOfWork).Create(personprocess);
 
 
                     try
@@ -212,22 +170,22 @@ namespace Web
                     {
                         string message = _exception.HandleException(ex);
                         ModelState.AddModelError("", message);
-                        return View(PersonVm);
+                        return View(buyerVm);
 
                     }
 
-                    return Json(new { success = true, PersonId = PersonVm.PersonID, Name = PersonVm.Name });
+                    return Json(new { success = true, PersonId = buyerVm.PersonId, Name = buyerVm.Name });
                 }
                 else
                 {
                     //string tempredirect = (Request["Redirect"].ToString());
-                    Person person = Mapper.Map<PersonViewModel, Person>(PersonVm);
-                    BusinessEntity businessentity = Mapper.Map<PersonViewModel, BusinessEntity>(PersonVm);
-                    PersonAddress personaddress = new PersonAddressService(_unitOfWork).Find(PersonVm.PersonAddressID);
-                    LedgerAccount account = new LedgerAccountService(_unitOfWork).Find(PersonVm.AccountId);
-                    PersonRegistration PersonCst = new PersonRegistrationService(_unitOfWork).Find(PersonVm.PersonRegistrationCstNoID ?? 0);
-                    PersonRegistration PersonTin = new PersonRegistrationService(_unitOfWork).Find(PersonVm.PersonRegistrationTinNoID ?? 0);
-                    PersonRegistration PersonPAN = new PersonRegistrationService(_unitOfWork).Find(PersonVm.PersonRegistrationPanNoID ?? 0);
+                    Person person = Mapper.Map<BuyerViewModel, Person>(buyerVm);
+                    BusinessEntity businessentity = Mapper.Map<BuyerViewModel, BusinessEntity>(buyerVm);
+                    PersonAddress personaddress = new PersonAddressService(_unitOfWork).Find(buyerVm.PersonAddressID);
+                    LedgerAccount account = new LedgerAccountService(_unitOfWork).Find(buyerVm.AccountId);
+                    PersonRegistration PersonCst = new PersonRegistrationService(_unitOfWork).Find(buyerVm.PersonRegistrationCstNoID);
+                    PersonRegistration PersonTin = new PersonRegistrationService(_unitOfWork).Find(buyerVm.PersonRegistrationTinNoID);
+                    PersonRegistration PersonPAN = new PersonRegistrationService(_unitOfWork).Find(buyerVm.PersonRegistrationPANNoID);
 
 
                     person.IsActive = true;
@@ -238,9 +196,9 @@ namespace Web
 
                     new BusinessEntityService(_unitOfWork).Update(businessentity);
 
-                    personaddress.Address = PersonVm.Address;
-                    personaddress.CityId = PersonVm.CityId;
-                    personaddress.Zipcode = PersonVm.Zipcode;
+                    personaddress.Address = buyerVm.Address;
+                    personaddress.CityId = buyerVm.CityId;
+                    personaddress.Zipcode = buyerVm.Zipcode;
                     personaddress.ModifiedDate = DateTime.Now;
                     personaddress.ModifiedBy = User.Identity.Name;
                     personaddress.ObjectState = Model.ObjectState.Modified;
@@ -252,19 +210,19 @@ namespace Web
                     account.ModifiedBy = User.Identity.Name;
                     new LedgerAccountService(_unitOfWork).Update(account);
 
-                    if (PersonVm.CstNo != null && PersonVm.CstNo != "")
+                    if (buyerVm.CstNo != null && buyerVm.CstNo != "")
                     {
                         if (PersonCst != null)
                         {
-                            PersonCst.RegistrationNo = PersonVm.CstNo;
+                            PersonCst.RegistrationNo = buyerVm.CstNo;
                             new PersonRegistrationService(_unitOfWork).Update(PersonCst);
                         }
                         else
                         {
                             PersonRegistration personregistration = new PersonRegistration();
-                            personregistration.PersonId = PersonVm.PersonID;
+                            personregistration.PersonId = buyerVm.PersonId;
                             personregistration.RegistrationType = PersonRegistrationType.CstNo;
-                            personregistration.RegistrationNo = PersonVm.CstNo;
+                            personregistration.RegistrationNo = buyerVm.CstNo;
                             personregistration.CreatedDate = DateTime.Now;
                             personregistration.ModifiedDate = DateTime.Now;
                             personregistration.CreatedBy = User.Identity.Name;
@@ -274,19 +232,19 @@ namespace Web
                         }
                     }
 
-                    if (PersonVm.TinNo != null && PersonVm.TinNo != "")
+                    if (buyerVm.TinNo != null && buyerVm.TinNo != "")
                     {
                         if (PersonTin != null)
                         {
-                            PersonTin.RegistrationNo = PersonVm.TinNo;
+                            PersonTin.RegistrationNo = buyerVm.TinNo;
                             new PersonRegistrationService(_unitOfWork).Update(PersonTin);
                         }
                         else
                         {
                             PersonRegistration personregistration = new PersonRegistration();
-                            personregistration.PersonId = PersonVm.PersonID;
+                            personregistration.PersonId = buyerVm.PersonId;
                             personregistration.RegistrationType = PersonRegistrationType.TinNo;
-                            personregistration.RegistrationNo = PersonVm.TinNo;
+                            personregistration.RegistrationNo = buyerVm.TinNo;
                             personregistration.CreatedDate = DateTime.Now;
                             personregistration.ModifiedDate = DateTime.Now;
                             personregistration.CreatedBy = User.Identity.Name;
@@ -296,19 +254,19 @@ namespace Web
                         }
                     }
 
-                    if (PersonVm.PanNo != null && PersonVm.PanNo != "")
+                    if (buyerVm.PANNo != null && buyerVm.PANNo != "")
                     {
                         if (PersonPAN != null)
                         {
-                            PersonPAN.RegistrationNo = PersonVm.PanNo;
+                            PersonPAN.RegistrationNo = buyerVm.PANNo;
                             new PersonRegistrationService(_unitOfWork).Update(PersonPAN);
                         }
                         else
                         {
                             PersonRegistration personregistration = new PersonRegistration();
-                            personregistration.PersonId = PersonVm.PersonID;
+                            personregistration.PersonId = buyerVm.PersonId;
                             personregistration.RegistrationType = PersonRegistrationType.PANNo;
-                            personregistration.RegistrationNo = PersonVm.PanNo;
+                            personregistration.RegistrationNo = buyerVm.PANNo;
                             personregistration.CreatedDate = DateTime.Now;
                             personregistration.ModifiedDate = DateTime.Now;
                             personregistration.CreatedBy = User.Identity.Name;
@@ -328,13 +286,13 @@ namespace Web
                     {
                         string message = _exception.HandleException(ex);
                         ModelState.AddModelError("", message);
-                        return View("Create", PersonVm);
+                        return View("Create", buyerVm);
                     }
 
-                    return Json(new { success = true, PersonId = PersonVm.PersonID, Name = PersonVm.Name });
+                    return Json(new { success = true, PersonId = buyerVm.PersonId, Name = buyerVm.Name });
                 }
             }
-            return View(PersonVm);
+            return View(buyerVm);
 
         }
 
@@ -349,13 +307,13 @@ namespace Web
                                       PersonId = p.PersonID
                                   }).FirstOrDefault();
 
-            PersonViewModel vm = null;
-            List<PersonViewModel> PersonViewModelJson = new List<PersonViewModel>();
+            BuyerViewModel vm = null;
+            List<BuyerViewModel> BuyerViewModelJson = new List<BuyerViewModel>();
             if (CustomerDetail != null)
             {
-                vm = GetPersonViewModel(CustomerDetail.PersonId);
-                PersonViewModelJson.Add(vm);
-                return Json(PersonViewModelJson);
+                vm = GetBuyerViewModel(CustomerDetail.PersonId);
+                BuyerViewModelJson.Add(vm);
+                return Json(BuyerViewModelJson);
             }
             else
             {
@@ -364,9 +322,9 @@ namespace Web
         }
 
 
-        public PersonViewModel GetPersonViewModel(int id)
+        public BuyerViewModel GetBuyerViewModel(int id)
         {
-            PersonViewModel PersonViewModel = (from bus in db.BusinessEntity
+            BuyerViewModel buyerviewmodel = (from bus in db.BusinessEntity
                                              join p in db.Persons on bus.PersonID equals p.PersonID into PersonTable
                                              from PersonTab in PersonTable.DefaultIfEmpty()
                                              join pa in db.PersonAddress on PersonTab.PersonID equals pa.PersonId into PersonAddressTable
@@ -374,9 +332,9 @@ namespace Web
                                              join ac in db.LedgerAccount on PersonTab.PersonID equals ac.PersonId into AccountTable
                                              from AccountTab in AccountTable.DefaultIfEmpty()
                                              where PersonTab.PersonID == id
-                                              select new PersonViewModel
+                                             select new BuyerViewModel
                                              {
-                                                 PersonID = PersonTab.PersonID,
+                                                 PersonId = PersonTab.PersonID,
                                                  Name = PersonTab.Name,
                                                  Suffix = PersonTab.Suffix,
                                                  Code = PersonTab.Code,
@@ -419,25 +377,25 @@ namespace Web
                 {
                     if (item.RregistrationType == PersonRegistrationType.CstNo)
                     {
-                        PersonViewModel.PersonRegistrationCstNoID = item.PersonRegistrationId;
-                        PersonViewModel.CstNo = item.RregistrationNo;
+                        buyerviewmodel.PersonRegistrationCstNoID = item.PersonRegistrationId;
+                        buyerviewmodel.CstNo = item.RregistrationNo;
                     }
 
                     if (item.RregistrationType == PersonRegistrationType.TinNo)
                     {
-                        PersonViewModel.PersonRegistrationTinNoID = item.PersonRegistrationId;
-                        PersonViewModel.TinNo = item.RregistrationNo;
+                        buyerviewmodel.PersonRegistrationTinNoID = item.PersonRegistrationId;
+                        buyerviewmodel.TinNo = item.RregistrationNo;
                     }
 
                     if (item.RregistrationType == PersonRegistrationType.PANNo)
                     {
-                        PersonViewModel.PersonRegistrationPanNoID = item.PersonRegistrationId;
-                        PersonViewModel.PanNo = item.RregistrationNo;
+                        buyerviewmodel.PersonRegistrationPANNoID = item.PersonRegistrationId;
+                        buyerviewmodel.PANNo = item.RregistrationNo;
                     }
                 }
             }
 
-            return PersonViewModel;
+            return buyerviewmodel;
         }
 
     }

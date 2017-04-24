@@ -60,7 +60,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="JobInvoiceAmendmentEvents.cs" />
-    <Compile Include="SaleQuotationEvents.cs" />
     <Compile Include="SaleDispatchEvents.cs" />
     <Compile Include="SaleInvoiceEvents.cs" />
     <Compile Include="JobReceiveQaEvents.cs" />

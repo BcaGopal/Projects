@@ -67,15 +67,6 @@ namespace Model.DatabaseViews
         public virtual Dimension1 Dimension1 { get; set; }
         public int ? Dimension2Id { get; set; }
         public virtual Dimension2 Dimension2 { get; set; }
-
-        public int? Dimension3Id { get; set; }
-        public virtual Dimension3 Dimension3 { get; set; }
-        public int? Dimension4Id { get; set; }
-        public virtual Dimension4 Dimension4 { get; set; }
-
-
-        public int? DocTypeId { get; set; }
-        public virtual DocumentType DocType { get; set; }
         public int SiteId { get; set; }
         public int DivisionId { get; set; }
         public string SaleEnquiryNo { get; set; }
@@ -83,33 +74,6 @@ namespace Model.DatabaseViews
         public virtual Product Product { get; set; }
         public int BuyerId { get; set; }
         public DateTime OrderDate { get; set; }
-    }
-
-
-
-    [Table("ViewSaleEnquiryBalanceForQuotation")]
-    public class ViewSaleEnquiryBalanceForQuotation
-    {
-        [Key]
-        public int SaleEnquiryLineId { get; set; }
-        public decimal BalanceQty { get; set; }
-        public decimal Rate { get; set; }
-        public decimal BalanceAmount { get; set; }
-        public int SaleEnquiryHeaderId { get; set; }
-        public int? Dimension1Id { get; set; }
-        public int? Dimension2Id { get; set; }
-
-        public int? Dimension3Id { get; set; }
-        public int? Dimension4Id { get; set; }
-
-
-        public int? DocTypeId { get; set; }
-        public int SiteId { get; set; }
-        public int DivisionId { get; set; }
-        public string SaleEnquiryNo { get; set; }
-        public int ProductId { get; set; }
-        public int BuyerId { get; set; }
-        public DateTime EnquiryDate { get; set; }
     }
 
 

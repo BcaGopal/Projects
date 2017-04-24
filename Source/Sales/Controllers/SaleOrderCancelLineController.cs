@@ -520,7 +520,6 @@ namespace Web
 
             var settings = new SaleOrderSettingsService(_unitOfWork).GetSaleOrderSettings(Header.DocTypeId, Header.DivisionId, Header.SiteId);
             temp.SaleOrderSettings = Mapper.Map<SaleOrderSettings, SaleOrderSettingsViewModel>(settings);
-            temp.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(Header.DocTypeId);
 
             if (temp == null)
             {

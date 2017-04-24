@@ -54,8 +54,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\AutoMapper.3.3.1\lib\net40\AutoMapper.Net4.dll</HintPath>
     </Reference>
-    <Reference Include="CustomEventHandlers, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="CustomEventHandlers">
       <HintPath>..\CustomEventHandlers\bin\Debug\CustomEventHandlers.dll</HintPath>
     </Reference>
     <Reference Include="DocumentEvents">
@@ -240,9 +239,6 @@
     <Compile Include="Controllers\BuyerController.cs" />
     <Compile Include="Controllers\ComboHelpListController.cs" />
     <Compile Include="Controllers\GetNewDocNoController.cs" />
-    <Compile Include="Controllers\SaleQuotationLineController.cs" />
-    <Compile Include="Controllers\SaleQuotationHeaderController.cs" />
-    <Compile Include="Controllers\SaleQuotationSettingsController.cs" />
     <Compile Include="Controllers\PromoCodeController.cs" />
     <Compile Include="Controllers\SaleEnquiryHeaderController.cs" />
     <Compile Include="Controllers\SaleEnquiryLineController.cs" />
@@ -1740,17 +1736,6 @@
     <Content Include="Views\SaleEnquiryProductMapping\Index.cshtml" />
     <Content Include="Views\SaleDispatchLine\_Index.cshtml" />
     <Content Include="Views\DirectSaleInvoiceLine\_Index.cshtml" />
-    <Content Include="Views\SaleQuotationSettings\Create.cshtml" />
-    <Content Include="Views\SaleQuotationHeader\_LineProgress.cshtml" />
-    <Content Include="Views\SaleQuotationHeader\_Reason.cshtml" />
-    <Content Include="Views\SaleQuotationHeader\Create.cshtml" />
-    <Content Include="Views\SaleQuotationHeader\DocumentTypeList.cshtml" />
-    <Content Include="Views\SaleQuotationHeader\Index.cshtml" />
-    <Content Include="Views\SaleQuotationLine\_Create.cshtml" />
-    <Content Include="Views\SaleQuotationLine\_CreateForSaleEnquiry.cshtml" />
-    <Content Include="Views\SaleQuotationLine\_Filters.cshtml" />
-    <Content Include="Views\SaleQuotationLine\_Index.cshtml" />
-    <Content Include="Views\SaleQuotationLine\_Results.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

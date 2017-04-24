@@ -171,7 +171,6 @@ namespace Web
                     temp.Perks = pt.Perks;
                     temp.filterContraDivisions = pt.filterContraDivisions;
                     temp.isVisibleProcessLine = pt.isVisibleProcessLine;
-                    temp.isVisibleProcessHeader = pt.isVisibleProcessHeader;
                     temp.DueDays = pt.DueDays;
                     temp.filterContraSites = pt.filterContraSites;
                     temp.filterPersonRoles = pt.filterPersonRoles;
@@ -371,7 +370,6 @@ namespace Web
                     temp.DealUnitId = pt.DealUnitId;
                     temp.isMandatoryProcessLine = pt.isMandatoryProcessLine;
                     temp.isVisibleProcessLine = pt.isVisibleProcessLine;
-                    temp.isVisibleProcessHeader = pt.isVisibleProcessHeader;
                     temp.isMandatoryRate = pt.isMandatoryRate;
                     temp.isMandatoryGodown = pt.isMandatoryGodown;
                     temp.isVisibleGodown = pt.isVisibleGodown;
@@ -601,7 +599,6 @@ namespace Web
                     temp.isVisibleDimension4 = pt.isVisibleDimension4;
                     temp.isVisibleLotNo = pt.isVisibleLotNo;
                     temp.isVisibleProcessLine = pt.isVisibleProcessLine;
-                    temp.isVisibleProcessHeader = pt.isVisibleProcessHeader;
                     temp.isUniqueCostCenter = pt.isUniqueCostCenter;
                     temp.isVisibleMachine = pt.isVisibleMachine;
                     temp.isVisibleProductUID = pt.isVisibleProductUID;

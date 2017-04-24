@@ -443,7 +443,6 @@ namespace Core.Common
         public const string ProductUid = "Product Uid";
         public const string ProcessSequence = "Process Sequence";
         public const string City = "City";
-        public const string Prospect = "Prospect";
         public const string Buyer = "Buyer";
         public const string Quality = "Quality";
         public const string ProductCategry = "Product Category";

@@ -116,7 +116,7 @@
                     @Html.ActionLink(" ", "Report", "JobInvoiceHeader", null, new { @class = "glyphicon glyphicon-th toolbar right", @title = "Report", @data_toggle = "tooltip" })
                 </h4>*@
                 <div class="btn-group">
-                    @Html.ActionLink(" ", "Create", "JobInvoiceHeader", new { @id = @ViewBag.id }, new { @class = "cbtn btn-circle glyphicon glyphicon-plus", @title = "Add New", @data_toggle = "tooltip" })
+                    @Html.ActionLink(" ", "Create", "JobInvoiceHeader", new { @id = @ViewBag.id }, new { @class = "cbtn btn-circle glyphicon glyphicon-plus", @title = "Add New", @data_toggle = "tooltip", target = "_blank" })
                     @Html.ActionLink(" ", EditAction, "JobInvoiceHeader", new { @id = Model.JobInvoiceHeaderId, IndexType = ViewBag.IndexStatus }, new { @class = "cbtn btn-circle glyphicon glyphicon-edit", @title = "Edit", @data_toggle = "tooltip" })
                     @Html.ActionLink(" ", "GeneratePrints", "JobInvoiceHeader", new { Ids = Model.JobInvoiceHeaderId, DocTypeId = Model.DocTypeId }, new { @class = "cbtn btn-circle glyphicon glyphicon-print", @title = "Print", @data_toggle = "tooltip", @id = "PrintRecordC", target = "_blank" })
                     @Html.ActionLink(" ", "PrevPage", "JobInvoiceHeader", new { DocId = @Model.JobInvoiceHeaderId, DocTypeId = Model.DocTypeId }, new { @class = "cbtn btn-circle glyphicon glyphicon-arrow-left", @title = "Prev Record", @data_toggle = "tooltip" })

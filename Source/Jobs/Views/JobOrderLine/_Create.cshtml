@@ -422,7 +422,7 @@ else
         function RepeatProcessValidation() {
                 $.ajax({
                     cache: false,
-                    async: false,
+                    async: true,
                     type: "POST",
                     url: "@(Url.Action("IsProcessDone"))",
                     data: { ProductUidName: $("#ProductUidName").val(),ProcessId: $("#ProcessId").val() },
