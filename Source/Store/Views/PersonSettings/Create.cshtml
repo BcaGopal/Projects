@@ -31,7 +31,7 @@
                 <h4 style="padding:5px 0 0 0;margin:0px">
                     @Html.ActionLink(" ", " ", " ", null, new { @class = "glyphicon glyphicon-refresh toolbar", @title = "Refresh Page", @data_toggle = "tooltip", @id = "RefreshPage" })
                     @Html.ActionLink(" ", "GetHistory", "LogHistory", new { Ids = Model.PersonSettingsId, DocTypeId = Model.DocTypeId }, new { @class = "glyphicon glyphicon-user toolbar", @title = "History", @data_toggle = "tooltip", @id = "DocHistory", @data_modal = "" })
-                    @Html.ActionLink(" ", "Index", "PersonHeader", new { id=ViewBag.id}, new { @class = "glyphicon glyphicon-list toolbar right", @title = "List", @data_toggle = "tooltip" })
+                    @Html.ActionLink(" ", "Index", "Person", new { id=ViewBag.id}, new { @class = "glyphicon glyphicon-list toolbar right", @title = "List", @data_toggle = "tooltip" })
                 </h4>
             </div>
         </div>

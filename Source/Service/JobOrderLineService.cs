@@ -1001,6 +1001,8 @@ namespace Service
             var Site = new SiteService(_unitOfWork).Find(SiteId);
             var JobOrder = Find(id);
 
+            var JobOrderHeader = new JobOrderHeaderService(_unitOfWork).Find(JobOrder.JobOrderHeaderId);
+
             //return (from p in db.ViewRequisitionBalance
             //        where p.PersonId == id && (string.IsNullOrEmpty(term) ? 1 == 1 : p.CostCenter.CostCenterName.ToLower().Contains(term.ToLower()))
             //        && p.SiteId == SiteId && p.DivisionId == DivisionId
@@ -1014,7 +1016,7 @@ namespace Service
 
             var temp = from p in db.ProductUid
                        where p.ProductUidHeaderId == JobOrder.ProductUidHeaderId && p.ProductId == JobOrder.ProductId && (string.IsNullOrEmpty(term) ? 1 == 1 : p.ProductUidName.ToLower().Contains(term.ToLower()))
-                       && p.CurrenctGodownId == Site.DefaultGodownId
+                       && p.CurrenctGodownId == Site.DefaultGodownId && (!(p.ProcessesDone ?? "").Contains("|" + JobOrderHeader.ProcessId + "|"))
                        orderby p.ProductUidName
                        select new ComboBoxResult
                        {
