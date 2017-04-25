@@ -265,6 +265,9 @@ namespace Data.Models
         public DbSet<SubReport> SubReport { get; set; }
         public DbSet<ReportUIDValues> ReportUIDValues { get; set; }
 
+        public DbSet<ImportHeader> ImportHeader { get; set; }
+        public DbSet<ImportLine> ImportLine { get; set; }
+
         //Product Models
         public DbSet<ProductContentHeader> ProductContentHeader { get; set; }
         public DbSet<ProductContentLine> ProductContentLine { get; set; }
@@ -349,6 +352,15 @@ namespace Data.Models
         public DbSet<DocumentAttachment> DocumentAttachment { get; set; }
 
         //Sales Models
+
+        public DbSet<SaleQuotationSettings> SaleQuotationSettings { get; set; }
+        public DbSet<SaleQuotationHeader> SaleQuotationHeader { get; set; }
+        public DbSet<SaleQuotationHeaderDetail> SaleQuotationHeaderDetail { get; set; }
+        public DbSet<SaleQuotationHeaderCharge> SaleQuotationHeaderCharge { get; set; }
+        public DbSet<SaleQuotationLine> SaleQuotationLine { get; set; }
+        public DbSet<SaleQuotationLineCharge> SaleQuotationLineCharge { get; set; }
+
+
         public DbSet<SaleOrderHeader> SaleOrderHeader { get; set; }
         public DbSet<SaleOrderLine> SaleOrderLine { get; set; }
 
@@ -579,6 +591,7 @@ namespace Data.Models
         public DbSet<ViewSaleOrderBalance> ViewSaleOrderBalance { get; set; }
 
         public DbSet<ViewSaleEnquiryBalance> ViewSaleEnquiryBalance { get; set; }
+        public DbSet<ViewSaleEnquiryBalanceForQuotation> ViewSaleEnquiryBalanceForQuotation { get; set; }
 
         public DbSet<ViewStockInBalance> ViewStockInBalance { get; set; }
         public DbSet<ViewProductBuyer> ViewProductBuyer { get; set; }

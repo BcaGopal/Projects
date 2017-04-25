@@ -151,6 +151,10 @@ namespace Module
             AddFields("JobOrderSettings", "isVisibleProcessHeader", "BIT");
 
 
+            AddFields("SaleInvoiceLine", "RateRemark", "nvarchar(Max)");
+            AddFields("SaleInvoiceHeaderDetail", "Insurance", "Decimal(18,4)");
+
+
 
             try
             {

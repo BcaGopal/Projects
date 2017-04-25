@@ -235,7 +235,6 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminSetupController.cs" />
     <Compile Include="Controllers\ComboHelpListController.cs" />
-    <Compile Include="Controllers\ImportController.cs" />
     <Compile Include="Controllers\GatePassCheckController.cs" />
     <Compile Include="Controllers\Dimension4Controller.cs" />
     <Compile Include="Controllers\Dimension3Controller.cs" />

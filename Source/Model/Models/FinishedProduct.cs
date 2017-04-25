@@ -16,10 +16,10 @@ namespace Model.Models
 
         public bool IsSample { get; set; }
 
-        [ForeignKey("ProductCategory")]
-        [Display(Name = "Product Category")]
-        public int? ProductCategoryId { get; set; }
-        public virtual ProductCategory ProductCategory { get; set; }
+        //[ForeignKey("ProductCategory")]
+        //[Display(Name = "Product Category")]
+        //public int? ProductCategoryId { get; set; }
+        //public virtual ProductCategory ProductCategory { get; set; }
 
         [ForeignKey("ProductCollection")]
         [Display(Name = "Product Collection")]

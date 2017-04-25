@@ -21,35 +21,62 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="bin/Antlr3.Runtime.dll">
       <publishTime>09/22/2016 11:24:54</publishTime>
     </File>
+    <File Include="bin/Antlr3.Runtime.pdb">
+      <publishTime>09/22/2016 11:24:54</publishTime>
+    </File>
     <File Include="bin/AutoMapper.dll">
       <publishTime>09/22/2016 11:23:20</publishTime>
     </File>
     <File Include="bin/AutoMapper.Net4.dll">
       <publishTime>09/22/2016 11:23:20</publishTime>
     </File>
+    <File Include="bin/AutoMapper.Net4.pdb">
+      <publishTime>09/22/2016 11:23:20</publishTime>
+    </File>
+    <File Include="bin/AutoMapper.pdb">
+      <publishTime>09/22/2016 11:23:20</publishTime>
+    </File>
     <File Include="bin/BarcodeLib.dll">
       <publishTime>09/22/2016 10:54:21</publishTime>
     </File>
     <File Include="bin/Core.dll">
-      <publishTime>03/10/2017 17:18:29</publishTime>
+      <publishTime>04/25/2017 14:22:57</publishTime>
+    </File>
+    <File Include="bin/Core.pdb">
+      <publishTime>04/25/2017 14:22:57</publishTime>
     </File>
     <File Include="bin/CustomEventHandlers.dll">
-      <publishTime>03/10/2017 17:19:08</publishTime>
+      <publishTime>04/25/2017 15:29:02</publishTime>
+    </File>
+    <File Include="bin/CustomEventHandlers.pdb">
+      <publishTime>04/25/2017 15:29:02</publishTime>
     </File>
     <File Include="bin/Customise.dll">
-      <publishTime>03/11/2017 13:35:41</publishTime>
+      <publishTime>04/25/2017 15:29:11</publishTime>
+    </File>
+    <File Include="bin/Customise.pdb">
+      <publishTime>04/25/2017 15:29:11</publishTime>
     </File>
     <File Include="bin/Data.dll">
-      <publishTime>03/10/2017 17:18:39</publishTime>
+      <publishTime>04/25/2017 15:28:32</publishTime>
+    </File>
+    <File Include="bin/Data.pdb">
+      <publishTime>04/25/2017 15:28:32</publishTime>
     </File>
     <File Include="bin/DocumentEvents.dll">
-      <publishTime>03/10/2017 17:19:05</publishTime>
+      <publishTime>04/25/2017 15:28:59</publishTime>
+    </File>
+    <File Include="bin/DocumentEvents.pdb">
+      <publishTime>04/25/2017 15:28:59</publishTime>
     </File>
     <File Include="bin/Elmah.dll">
       <publishTime>09/22/2016 11:24:00</publishTime>
     </File>
     <File Include="bin/EMailContents.dll">
-      <publishTime>03/10/2017 17:19:06</publishTime>
+      <publishTime>04/25/2017 15:29:00</publishTime>
+    </File>
+    <File Include="bin/EMailContents.pdb">
+      <publishTime>04/25/2017 15:29:00</publishTime>
     </File>
     <File Include="bin/EntityFramework.dll">
       <publishTime>09/22/2016 11:22:43</publishTime>
@@ -73,7 +100,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/22/2016 11:22:41</publishTime>
     </File>
     <File Include="bin/Mailer.dll">
-      <publishTime>03/10/2017 17:18:34</publishTime>
+      <publishTime>04/25/2017 15:28:33</publishTime>
+    </File>
+    <File Include="bin/Mailer.pdb">
+      <publishTime>04/25/2017 15:28:33</publishTime>
     </File>
     <File Include="bin/Microsoft.AspNet.Identity.Core.dll">
       <publishTime>09/22/2016 11:22:43</publishTime>
@@ -120,6 +150,9 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="bin/Microsoft.Practices.ServiceLocation.dll">
       <publishTime>09/22/2016 11:24:54</publishTime>
     </File>
+    <File Include="bin/Microsoft.Practices.ServiceLocation.pdb">
+      <publishTime>09/22/2016 11:24:54</publishTime>
+    </File>
     <File Include="bin/Microsoft.Practices.Unity.Configuration.dll">
       <publishTime>09/22/2016 11:24:56</publishTime>
     </File>
@@ -148,34 +181,55 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/22/2016 11:23:54</publishTime>
     </File>
     <File Include="bin/Model.dll">
-      <publishTime>03/10/2017 17:18:32</publishTime>
+      <publishTime>04/25/2017 15:28:27</publishTime>
+    </File>
+    <File Include="bin/Model.pdb">
+      <publishTime>04/25/2017 15:28:27</publishTime>
     </File>
     <File Include="bin/Models.Login.dll">
-      <publishTime>03/10/2017 17:18:30</publishTime>
+      <publishTime>04/25/2017 14:22:58</publishTime>
+    </File>
+    <File Include="bin/Models.Login.pdb">
+      <publishTime>04/25/2017 14:22:58</publishTime>
     </File>
     <File Include="bin/Models.Tasks.dll">
-      <publishTime>03/10/2017 17:18:30</publishTime>
+      <publishTime>04/25/2017 14:22:57</publishTime>
+    </File>
+    <File Include="bin/Models.Tasks.pdb">
+      <publishTime>04/25/2017 14:22:57</publishTime>
     </File>
     <File Include="bin/Newtonsoft.Json.dll">
       <publishTime>09/22/2016 11:23:06</publishTime>
     </File>
     <File Include="bin/NotificationContents.dll">
-      <publishTime>03/11/2017 13:35:34</publishTime>
+      <publishTime>04/25/2017 15:29:02</publishTime>
+    </File>
+    <File Include="bin/NotificationContents.pdb">
+      <publishTime>04/25/2017 15:29:02</publishTime>
     </File>
     <File Include="bin/Notifier.dll">
-      <publishTime>03/10/2017 17:19:06</publishTime>
+      <publishTime>04/25/2017 15:29:00</publishTime>
+    </File>
+    <File Include="bin/Notifier.pdb">
+      <publishTime>04/25/2017 15:29:00</publishTime>
     </File>
     <File Include="bin/Owin.dll">
       <publishTime>09/22/2016 11:22:43</publishTime>
     </File>
     <File Include="bin/ProjLib.dll">
-      <publishTime>02/27/2017 14:03:30</publishTime>
+      <publishTime>04/25/2017 14:22:57</publishTime>
+    </File>
+    <File Include="bin/ProjLib.pdb">
+      <publishTime>04/25/2017 14:22:57</publishTime>
     </File>
     <File Include="bin/Remotion.Data.Linq.dll">
       <publishTime>09/22/2016 10:54:21</publishTime>
     </File>
     <File Include="bin/Reports.dll">
-      <publishTime>03/10/2017 17:19:15</publishTime>
+      <publishTime>04/25/2017 15:29:08</publishTime>
+    </File>
+    <File Include="bin/Reports.pdb">
+      <publishTime>04/25/2017 15:29:08</publishTime>
     </File>
     <File Include="bin/Reports/CompanyDetail.rdlc">
       <publishTime>09/22/2016 10:54:49</publishTime>
@@ -346,7 +400,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/22/2016 11:23:08</publishTime>
     </File>
     <File Include="bin/Service.dll">
-      <publishTime>03/10/2017 17:19:04</publishTime>
+      <publishTime>04/25/2017 15:28:58</publishTime>
+    </File>
+    <File Include="bin/Service.pdb">
+      <publishTime>04/25/2017 15:28:58</publishTime>
     </File>
     <File Include="bin/System.Web.Helpers.dll">
       <publishTime>09/22/2016 11:23:54</publishTime>
@@ -1312,46 +1369,46 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/22/2016 10:54:28</publishTime>
     </File>
     <File Include="Content/Slick/css/smoothness/images/ui-bg_flat_0_aaaaaa_40x100.png">
-      <publishTime>09/22/2016 10:54:28</publishTime>
+      <publishTime>09/22/2016 10:54:22</publishTime>
     </File>
     <File Include="Content/Slick/css/smoothness/images/ui-bg_flat_75_ffffff_40x100.png">
-      <publishTime>09/22/2016 10:54:28</publishTime>
+      <publishTime>09/22/2016 10:54:22</publishTime>
     </File>
     <File Include="Content/Slick/css/smoothness/images/ui-bg_glass_55_fbf9ee_1x400.png">
-      <publishTime>09/22/2016 10:54:28</publishTime>
+      <publishTime>09/22/2016 10:54:22</publishTime>
     </File>
     <File Include="Content/Slick/css/smoothness/images/ui-bg_glass_65_ffffff_1x400.png">
-      <publishTime>09/22/2016 10:54:28</publishTime>
+      <publishTime>09/22/2016 10:54:22</publishTime>
     </File>
     <File Include="Content/Slick/css/smoothness/images/ui-bg_glass_75_dadada_1x400.png">
-      <publishTime>09/22/2016 10:54:28</publishTime>
+      <publishTime>09/22/2016 10:54:22</publishTime>
     </File>
     <File Include="Content/Slick/css/smoothness/images/ui-bg_glass_75_e6e6e6_1x400.png">
-      <publishTime>09/22/2016 10:54:28</publishTime>
+      <publishTime>09/22/2016 10:54:22</publishTime>
     </File>
     <File Include="Content/Slick/css/smoothness/images/ui-bg_glass_95_fef1ec_1x400.png">
-      <publishTime>09/22/2016 10:54:28</publishTime>
+      <publishTime>09/22/2016 10:54:22</publishTime>
     </File>
     <File Include="Content/Slick/css/smoothness/images/ui-bg_highlight-soft_75_cccccc_1x100.png">
-      <publishTime>09/22/2016 10:54:28</publishTime>
+      <publishTime>09/22/2016 10:54:22</publishTime>
     </File>
     <File Include="Content/Slick/css/smoothness/images/ui-icons_222222_256x240.png">
-      <publishTime>09/22/2016 10:54:28</publishTime>
+      <publishTime>09/22/2016 10:54:22</publishTime>
     </File>
     <File Include="Content/Slick/css/smoothness/images/ui-icons_2e83ff_256x240.png">
-      <publishTime>09/22/2016 10:54:28</publishTime>
+      <publishTime>09/22/2016 10:54:22</publishTime>
     </File>
     <File Include="Content/Slick/css/smoothness/images/ui-icons_454545_256x240.png">
-      <publishTime>09/22/2016 10:54:28</publishTime>
+      <publishTime>09/22/2016 10:54:22</publishTime>
     </File>
     <File Include="Content/Slick/css/smoothness/images/ui-icons_888888_256x240.png">
-      <publishTime>09/22/2016 10:54:28</publishTime>
+      <publishTime>09/22/2016 10:54:22</publishTime>
     </File>
     <File Include="Content/Slick/css/smoothness/images/ui-icons_cd0a0a_256x240.png">
-      <publishTime>09/22/2016 10:54:28</publishTime>
+      <publishTime>09/22/2016 10:54:22</publishTime>
     </File>
     <File Include="Content/Slick/css/smoothness/jquery-ui-1.8.16.custom.css">
-      <publishTime>09/22/2016 10:54:28</publishTime>
+      <publishTime>09/22/2016 10:54:22</publishTime>
     </File>
     <File Include="Content/Slick/css/smoothness/menu.css">
       <publishTime>09/22/2016 10:54:28</publishTime>
@@ -1486,10 +1543,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/22/2016 10:54:28</publishTime>
     </File>
     <File Include="Content/Slick/slick-default-theme.css">
-      <publishTime>09/22/2016 10:54:28</publishTime>
+      <publishTime>09/22/2016 10:54:22</publishTime>
     </File>
     <File Include="Content/Slick/slick.grid.css">
-      <publishTime>09/22/2016 10:54:28</publishTime>
+      <publishTime>09/22/2016 10:54:22</publishTime>
     </File>
     <File Include="Content/themes/base/accordion.css">
       <publishTime>09/22/2016 10:54:28</publishTime>
@@ -1675,7 +1732,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/22/2016 10:54:29</publishTime>
     </File>
     <File Include="Scripts/ChargeCalculation.js">
-      <publishTime>10/18/2016 09:38:06</publishTime>
+      <publishTime>10/17/2016 15:30:03</publishTime>
     </File>
     <File Include="Scripts/CheckForDuplicateDocNo.js">
       <publishTime>09/22/2016 10:54:29</publishTime>
@@ -1960,7 +2017,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/22/2016 10:54:29</publishTime>
     </File>
     <File Include="Scripts/FunctionForMultiSelect.js">
-      <publishTime>09/22/2016 10:54:29</publishTime>
+      <publishTime>04/25/2017 15:05:19</publishTime>
     </File>
     <File Include="Scripts/gridmvc.js">
       <publishTime>12/07/2016 17:34:17</publishTime>
@@ -2068,52 +2125,52 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/28/2016 09:53:27</publishTime>
     </File>
     <File Include="Scripts/Slick/lib/firebugx.js">
-      <publishTime>09/22/2016 10:54:29</publishTime>
+      <publishTime>09/22/2016 10:54:23</publishTime>
     </File>
     <File Include="Scripts/Slick/lib/jquery-1.7.min.js">
-      <publishTime>09/22/2016 10:54:29</publishTime>
+      <publishTime>09/22/2016 10:54:23</publishTime>
     </File>
     <File Include="Scripts/Slick/lib/jquery-ui-1.8.16.custom.min.js">
-      <publishTime>09/22/2016 10:54:29</publishTime>
+      <publishTime>09/22/2016 10:54:23</publishTime>
     </File>
     <File Include="Scripts/Slick/lib/jquery.event.drag-2.2.js">
-      <publishTime>09/22/2016 10:54:29</publishTime>
+      <publishTime>09/22/2016 10:54:23</publishTime>
     </File>
     <File Include="Scripts/Slick/lib/jquery.event.drop-2.2.js">
-      <publishTime>09/22/2016 10:54:29</publishTime>
+      <publishTime>09/22/2016 10:54:23</publishTime>
     </File>
     <File Include="Scripts/Slick/lib/jquery.jsonp-2.4.min.js">
-      <publishTime>09/22/2016 10:54:29</publishTime>
+      <publishTime>09/22/2016 10:54:23</publishTime>
     </File>
     <File Include="Scripts/Slick/lib/jquery.simulate.js">
-      <publishTime>09/22/2016 10:54:29</publishTime>
+      <publishTime>09/22/2016 10:54:23</publishTime>
     </File>
     <File Include="Scripts/Slick/lib/jquery.sparkline.min.js">
-      <publishTime>09/22/2016 10:54:29</publishTime>
+      <publishTime>09/22/2016 10:54:23</publishTime>
     </File>
     <File Include="Scripts/Slick/lib/qunit.css">
-      <publishTime>09/22/2016 10:54:29</publishTime>
+      <publishTime>09/22/2016 10:54:23</publishTime>
     </File>
     <File Include="Scripts/Slick/lib/qunit.js">
-      <publishTime>09/22/2016 10:54:29</publishTime>
+      <publishTime>09/22/2016 10:54:23</publishTime>
     </File>
     <File Include="Scripts/Slick/slick.core.js">
-      <publishTime>09/22/2016 10:54:29</publishTime>
+      <publishTime>09/22/2016 10:54:23</publishTime>
     </File>
     <File Include="Scripts/Slick/slick.dataview.js">
-      <publishTime>09/22/2016 10:54:29</publishTime>
+      <publishTime>09/22/2016 10:54:23</publishTime>
     </File>
     <File Include="Scripts/Slick/slick.editors.js">
       <publishTime>09/22/2016 10:54:23</publishTime>
     </File>
     <File Include="Scripts/Slick/slick.grid.js">
-      <publishTime>09/22/2016 10:54:29</publishTime>
+      <publishTime>09/22/2016 10:54:23</publishTime>
     </File>
     <File Include="Scripts/Slick/slick.remotemodel.js">
-      <publishTime>09/22/2016 10:54:29</publishTime>
+      <publishTime>09/22/2016 10:54:23</publishTime>
     </File>
     <File Include="Scripts/Slick/slick.rowselectionmodel.js">
-      <publishTime>09/22/2016 10:54:29</publishTime>
+      <publishTime>09/22/2016 10:54:23</publishTime>
     </File>
     <File Include="Scripts/_references.js">
       <publishTime>10/18/2016 09:38:06</publishTime>
@@ -2152,10 +2209,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/22/2016 10:54:29</publishTime>
     </File>
     <File Include="Views/CarpetMaster/Create.cshtml">
-      <publishTime>02/22/2017 17:02:22</publishTime>
+      <publishTime>04/12/2017 18:33:21</publishTime>
     </File>
     <File Include="Views/CarpetMaster/EditProductProcess.cshtml">
-      <publishTime>12/06/2016 10:27:03</publishTime>
+      <publishTime>04/12/2017 17:15:40</publishTime>
     </File>
     <File Include="Views/CarpetMaster/EditSize.cshtml">
       <publishTime>02/02/2017 14:18:33</publishTime>
@@ -2251,7 +2308,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/22/2016 10:54:30</publishTime>
     </File>
     <File Include="Views/DesignConsumptionLine/_Create.cshtml">
-      <publishTime>03/09/2017 19:58:20</publishTime>
+      <publishTime>03/20/2017 13:25:40</publishTime>
     </File>
     <File Include="Views/DesignConsumptionLine/_EditWithSKU.cshtml">
       <publishTime>11/08/2016 12:33:01</publishTime>
@@ -2311,6 +2368,21 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/22/2016 10:54:30</publishTime>
     </File>
     <File Include="Views/DyeingOrderWizard/SummarizeProdOrders.cshtml">
+      <publishTime>12/19/2016 14:53:18</publishTime>
+    </File>
+    <File Include="Views/DyeingReceiveExcelImport/DyeingOrderWizard/Create.cshtml">
+      <publishTime>12/29/2016 17:53:33</publishTime>
+    </File>
+    <File Include="Views/DyeingReceiveExcelImport/DyeingOrderWizard/CreateDyeingOrder.cshtml">
+      <publishTime>12/19/2016 15:08:25</publishTime>
+    </File>
+    <File Include="Views/DyeingReceiveExcelImport/DyeingOrderWizard/Createx.cshtml">
+      <publishTime>09/22/2016 10:54:30</publishTime>
+    </File>
+    <File Include="Views/DyeingReceiveExcelImport/DyeingOrderWizard/Index.cshtml">
+      <publishTime>09/22/2016 10:54:30</publishTime>
+    </File>
+    <File Include="Views/DyeingReceiveExcelImport/DyeingOrderWizard/SummarizeProdOrders.cshtml">
       <publishTime>12/19/2016 14:53:18</publishTime>
     </File>
     <File Include="Views/DyeingReceiveExcelImport/Error.cshtml">
@@ -2497,7 +2569,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/22/2016 10:54:31</publishTime>
     </File>
     <File Include="Views/PackingHeaderWithBuyerDetail/Create.cshtml">
-      <publishTime>02/22/2017 17:10:24</publishTime>
+      <publishTime>03/20/2017 13:25:40</publishTime>
     </File>
     <File Include="Views/PackingHeaderWithBuyerDetail/Index.cshtml">
       <publishTime>12/29/2016 18:30:30</publishTime>
@@ -2521,7 +2593,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>12/19/2016 16:51:38</publishTime>
     </File>
     <File Include="Views/PackingLineWithBuyerDetail/_Create.cshtml">
-      <publishTime>01/12/2017 16:26:46</publishTime>
+      <publishTime>04/09/2017 13:29:49</publishTime>
     </File>
     <File Include="Views/PackingReportLayout/PackingReportLayout.cshtml">
       <publishTime>09/22/2016 10:54:31</publishTime>
@@ -2542,7 +2614,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/22/2016 10:54:31</publishTime>
     </File>
     <File Include="Views/PhysicalStockAdjustment/Index.cshtml">
-      <publishTime>09/22/2016 10:54:31</publishTime>
+      <publishTime>03/29/2017 11:06:50</publishTime>
     </File>
     <File Include="Views/PhysicalStockAdjustment/Sucess.cshtml">
       <publishTime>09/22/2016 10:54:31</publishTime>
@@ -3067,7 +3139,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/22/2016 10:54:32</publishTime>
     </File>
     <File Include="Views/SaleInvoiceHeader/Create.cshtml">
-      <publishTime>02/22/2017 17:00:32</publishTime>
+      <publishTime>04/09/2017 13:29:49</publishTime>
     </File>
     <File Include="Views/SaleInvoiceHeader/Detail.cshtml">
       <publishTime>09/22/2016 10:54:32</publishTime>
@@ -3089,6 +3161,9 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     </File>
     <File Include="Views/SaleInvoiceLine/UpdateRates.cshtml">
       <publishTime>01/13/2017 10:25:57</publishTime>
+    </File>
+    <File Include="Views/SaleInvoiceLine/UpdateRatesDesignWise.cshtml">
+      <publishTime>01/13/2017 13:35:10</publishTime>
     </File>
     <File Include="Views/SaleInvoiceLine/_Create.cshtml">
       <publishTime>09/22/2016 10:54:32</publishTime>
@@ -3237,6 +3312,9 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="Views/WeavingDesignRates/_Filters.cshtml">
       <publishTime>09/22/2016 10:54:32</publishTime>
     </File>
+    <File Include="Views/WeavingInvoice/Summary.cshtml">
+      <publishTime>04/09/2017 13:29:49</publishTime>
+    </File>
     <File Include="Views/WeavingMaterialRequestCancelWizard/RequestCancelWizard.cshtml">
       <publishTime>09/22/2016 10:54:32</publishTime>
     </File>
@@ -3283,7 +3361,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>02/27/2017 13:59:40</publishTime>
     </File>
     <File Include="Views/WeavingReceive/SummaryIAP.cshtml">
-      <publishTime>09/22/2016 10:54:32</publishTime>
+      <publishTime>03/16/2017 14:01:34</publishTime>
     </File>
     <File Include="Views/WeavingReceiveBranchTextImport/Error.cshtml">
       <publishTime>09/22/2016 10:54:32</publishTime>
@@ -3303,8 +3381,11 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="Views/WeavingReceiveImportFromBranchToMain/Sucess.cshtml">
       <publishTime>12/29/2016 11:34:09</publishTime>
     </File>
+    <File Include="Views/WeavingReceiveQACombined/Consumption.cshtml">
+      <publishTime>04/09/2017 13:29:49</publishTime>
+    </File>
     <File Include="Views/WeavingReceiveQACombined/Create.cshtml">
-      <publishTime>03/09/2017 17:36:56</publishTime>
+      <publishTime>04/09/2017 13:29:49</publishTime>
     </File>
     <File Include="Views/WeavingReceiveQACombined/DocumentTypeList.cshtml">
       <publishTime>01/20/2017 14:19:18</publishTime>
@@ -3346,7 +3427,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/22/2016 10:54:29</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>01/10/2017 19:08:50</publishTime>
+      <publishTime>04/25/2017 16:20:36</publishTime>
     </File>
   </ItemGroup>
 </Project>

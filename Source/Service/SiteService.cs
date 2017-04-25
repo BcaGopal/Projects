@@ -150,6 +150,13 @@ namespace Service
                     select p).FirstOrDefault();
         }
 
+        public Site FindBySiteCode(string SiteCode)
+        {
+            return (from p in db.Site
+                    where p.SiteCode == SiteCode
+                    select p).FirstOrDefault();
+        }
+
         public void Dispose()
         {
         }
