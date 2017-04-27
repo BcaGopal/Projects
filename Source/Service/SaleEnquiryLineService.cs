@@ -414,10 +414,15 @@ namespace Service
             int temp = 0;
             if (id != 0)
             {
+                //temp = (from p in db.SaleEnquiryLine
+                //        where p.ProductId == null
+                //        orderby p.SaleEnquiryLineId
+                //        select p.SaleEnquiryLineId).AsEnumerable().SkipWhile(p => p != id && p > id).Skip(1).FirstOrDefault();
+
                 temp = (from p in db.SaleEnquiryLine
-                        where p.ProductId == null
+                        where p.ProductId == null && p.SaleEnquiryLineId > id
                         orderby p.SaleEnquiryLineId
-                        select p.SaleEnquiryLineId).AsEnumerable().SkipWhile(p => p != id).Skip(1).FirstOrDefault();
+                        select p.SaleEnquiryLineId).FirstOrDefault();
             }
             else
             {
@@ -438,11 +443,15 @@ namespace Service
             int temp = 0;
             if (id != 0)
             {
+                //temp = (from p in db.SaleEnquiryLine
+                //        where p.ProductId == null
+                //        orderby p.SaleEnquiryLineId
+                //        select p.SaleEnquiryLineId).AsEnumerable().TakeWhile(p => p != id && p < id).LastOrDefault();
 
                 temp = (from p in db.SaleEnquiryLine
-                        where p.ProductId == null
-                        orderby p.SaleEnquiryLineId
-                        select p.SaleEnquiryLineId).AsEnumerable().TakeWhile(p => p != id).LastOrDefault();
+                        where p.ProductId == null && p.SaleEnquiryLineId < id
+                        orderby p.SaleEnquiryLineId descending
+                        select p.SaleEnquiryLineId).FirstOrDefault();
             }
             else
             {
@@ -456,7 +465,6 @@ namespace Service
             else
                 return id;
         }
-
 
         public string GetBuyerSku(int BuyerId)
         {
