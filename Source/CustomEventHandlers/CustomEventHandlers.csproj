@@ -82,6 +82,7 @@
     <Compile Include="JobReturnEvents.cs" />
     <Compile Include="LedgerEvents.cs" />
     <Compile Include="ExcessMaterialEvents.cs" />
+    <Compile Include="SaleQuotationEvents.cs" />
     <Compile Include="StockHeaderEvents.cs" />
     <Compile Include="StockProcessTransferEvents.cs" />
     <Compile Include="StockExchangeEvents.cs" />

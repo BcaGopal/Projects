@@ -41,7 +41,7 @@ namespace Web.Controllers
 
             
 
-            int MainSitid = new SiteService(_unitOfWork).FindBySiteName("Main").SiteId;
+            int MainSitid = new SiteService(_unitOfWork).FindBySiteCode("Main").SiteId;
             try
             {
                 DataSet ds = new DataSet();

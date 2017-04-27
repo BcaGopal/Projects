@@ -66,6 +66,9 @@ namespace Sales.App_Start
             container.RegisterType<IRepository<SaleOrderSettings>, Repository<SaleOrderSettings>>();
             container.RegisterType<ISaleOrderSettingsService, SaleOrderSettingsService>(new PerRequestLifetimeManager());
 
+            container.RegisterType<IRepository<SaleQuotationSettings>, Repository<SaleQuotationSettings>>();
+            container.RegisterType<ISaleQuotationSettingsService, SaleQuotationSettingsService>(new PerRequestLifetimeManager());
+
             container.RegisterType<IRepository<SaleOrderAmendmentHeader>, Repository<SaleOrderAmendmentHeader>>();
             container.RegisterType<ISaleOrderAmendmentHeaderService, SaleOrderAmendmentHeaderService>(new PerRequestLifetimeManager());
 
@@ -81,6 +84,20 @@ namespace Sales.App_Start
 
             container.RegisterType<IRepository<SaleOrderLine>, Repository<SaleOrderLine>>();
             container.RegisterType<Service.ISaleOrderLineService, Service.SaleOrderLineService>(new PerRequestLifetimeManager());
+
+            container.RegisterType<IRepository<SaleQuotationHeader>, Repository<SaleQuotationHeader>>();
+            container.RegisterType<Service.ISaleQuotationHeaderService, Service.SaleQuotationHeaderService>(new PerRequestLifetimeManager());
+
+            container.RegisterType<IRepository<SaleQuotationHeaderDetail>, Repository<SaleQuotationHeaderDetail>>();
+            container.RegisterType<Service.ISaleQuotationHeaderDetailService, Service.SaleQuotationHeaderDetailService>(new PerRequestLifetimeManager());
+
+            container.RegisterType<IRepository<SaleQuotationLine>, Repository<SaleQuotationLine>>();
+            container.RegisterType<Service.ISaleQuotationLineService, Service.SaleQuotationLineService>(new PerRequestLifetimeManager());
+
+            container.RegisterType<ISaleQuotationHeaderChargeService, SaleQuotationHeaderChargeService>(new PerRequestLifetimeManager());
+            container.RegisterType<ISaleQuotationLineChargeService, SaleQuotationLineChargeService>(new PerRequestLifetimeManager());
+
+
 
             container.RegisterType<IRepository<SaleEnquiryHeader>, Repository<SaleEnquiryHeader>>();
             container.RegisterType<Service.ISaleEnquiryHeaderService, Service.SaleEnquiryHeaderService>(new PerRequestLifetimeManager());
@@ -237,6 +254,36 @@ namespace Sales.App_Start
 
             Mapper.CreateMap<BuyerViewModel, LedgerAccount>();
             Mapper.CreateMap<LedgerAccount, BuyerViewModel>();
+
+
+
+
+
+
+
+
+
+
+
+
+
+            Mapper.CreateMap<PersonViewModel, Person>();
+            Mapper.CreateMap<Person, PersonViewModel>();
+
+            Mapper.CreateMap<PersonViewModel, BusinessEntity>();
+            Mapper.CreateMap<BusinessEntity, PersonViewModel>();
+
+            Mapper.CreateMap<PersonViewModel, Buyer>();
+            Mapper.CreateMap<Buyer, PersonViewModel>();
+
+            Mapper.CreateMap<PersonViewModel, PersonAddress>();
+            Mapper.CreateMap<PersonAddress, PersonViewModel>();
+
+            Mapper.CreateMap<PersonViewModel, LedgerAccount>();
+            Mapper.CreateMap<LedgerAccount, PersonViewModel>();
+
+
+
 
             Mapper.CreateMap<SaleOrderLine, SaleOrderLineViewModel>();
             Mapper.CreateMap<SaleOrderLineViewModel, SaleOrderLine>();
@@ -520,6 +567,32 @@ namespace Sales.App_Start
 
             Mapper.CreateMap<BusinessEntity, CourierViewModel>();
             Mapper.CreateMap<CourierViewModel, BusinessEntity>();
+
+
+            Mapper.CreateMap<SaleQuotationHeader, SaleQuotationHeaderViewModel>();
+            Mapper.CreateMap<SaleQuotationHeaderViewModel, SaleQuotationHeader>();
+
+            Mapper.CreateMap<SaleQuotationHeaderDetail, SaleQuotationHeaderViewModel>();
+            Mapper.CreateMap<SaleQuotationHeaderViewModel, SaleQuotationHeaderDetail>();
+
+            Mapper.CreateMap<SaleQuotationLine, SaleQuotationLineViewModel>();
+            Mapper.CreateMap<SaleQuotationLineViewModel, SaleQuotationLine>();
+
+            Mapper.CreateMap<SaleQuotationSettings, SaleQuotationSettingsViewModel>();
+            Mapper.CreateMap<SaleQuotationSettingsViewModel, SaleQuotationSettings>();
+
+            Mapper.CreateMap<LineChargeViewModel, SaleQuotationLineCharge>().ForMember(m => m.Id, x => x.Ignore());
+            Mapper.CreateMap<SaleQuotationLineCharge, LineChargeViewModel>().ForMember(m => m.Id, x => x.Ignore());
+
+            Mapper.CreateMap<HeaderChargeViewModel, SaleQuotationHeaderCharge>().ForMember(m => m.Id, x => x.Ignore());
+            Mapper.CreateMap<SaleQuotationHeaderCharge, HeaderChargeViewModel>().ForMember(m => m.Id, x => x.Ignore());
+
+            Mapper.CreateMap<SaleQuotationSettings, SaleQuotationSettings>();
+            Mapper.CreateMap<SaleQuotationLine, SaleQuotationLine>();
+
+            Mapper.CreateMap<SaleQuotationHeader, DocumentUniqueId>();
+            Mapper.CreateMap<SaleQuotationHeaderDetail, DocumentUniqueId>();
+            Mapper.CreateMap<SaleQuotationHeaderViewModel, DocumentUniqueId>();
 
         }
     }

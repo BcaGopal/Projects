@@ -245,6 +245,9 @@
     <Compile Include="Controllers\PersonContactController.cs" />
     <Compile Include="Controllers\PersonController.cs" />
     <Compile Include="Controllers\PersonProcessController.cs" />
+    <Compile Include="Controllers\ProductCategoryController.cs" />
+    <Compile Include="Controllers\ProductCategoryProcessSettingsController.cs" />
+    <Compile Include="Controllers\ProductCategorySettingsController.cs" />
     <Compile Include="Controllers\ProductProcessController.cs" />
     <Compile Include="Controllers\ProductTypeSettingsController.cs" />
     <Compile Include="Controllers\MachineController.cs" />
@@ -942,6 +945,14 @@
     <Content Include="Views\Person\AddToExisting.cshtml" />
     <Content Include="Views\Person\ChooseContactType.cshtml" />
     <Content Include="Views\ProductProcess\_Create.cshtml" />
+    <Content Include="Views\ProductCategory\_Reason.cshtml" />
+    <Content Include="Views\ProductCategory\Create.cshtml" />
+    <Content Include="Views\ProductCategory\Index.cshtml" />
+    <Content Include="Views\ProductCategory\ProductTypeIndex.cshtml" />
+    <Content Include="Views\ProductCategoryProcessSettings\_Reason.cshtml" />
+    <Content Include="Views\ProductCategoryProcessSettings\Create.cshtml" />
+    <Content Include="Views\ProductCategoryProcessSettings\Index.cshtml" />
+    <Content Include="Views\ProductCategorySettings\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

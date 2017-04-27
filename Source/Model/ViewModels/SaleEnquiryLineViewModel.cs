@@ -80,6 +80,14 @@ namespace Model.ViewModels
         public int? Dimension2Id { get; set; }
         public string Dimension2Name { get; set; }
 
+
+        public int? Dimension3Id { get; set; }
+        public string Dimension3Name { get; set; }
+
+        public int? Dimension4Id { get; set; }
+        public string Dimension4Name { get; set; }
+
+
         public string BuyerSpecification { get; set; }
         public string BuyerSpecification1 { get; set; }
         public string BuyerSpecification2 { get; set; }

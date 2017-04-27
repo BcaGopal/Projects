@@ -268,6 +268,9 @@
     <Compile Include="Controllers\SaleInvoiceReturnHeaderController.cs" />
     <Compile Include="Controllers\SaleInvoiceReturnLineController.cs" />
     <Compile Include="Controllers\SaleInvoiceSettingsController.cs" />
+    <Compile Include="Controllers\SaleQuotationHeaderController.cs" />
+    <Compile Include="Controllers\SaleQuotationLineController.cs" />
+    <Compile Include="Controllers\SaleQuotationSettingsController.cs" />
     <Compile Include="Controllers\TaxCalculationController.cs" />
     <Compile Include="Controllers\UploadDocument.cs" />
     <Compile Include="Controllers\SaleDeliveryOrderCancelHeaderController.cs" />
@@ -1736,6 +1739,28 @@
     <Content Include="Views\SaleEnquiryProductMapping\Index.cshtml" />
     <Content Include="Views\SaleDispatchLine\_Index.cshtml" />
     <Content Include="Views\DirectSaleInvoiceLine\_Index.cshtml" />
+    <Content Include="Views\SaleQuotationHeader\Create.cshtml" />
+    <Content Include="Views\SaleQuotationHeader\Delete.cshtml" />
+    <Content Include="Views\SaleQuotationHeader\DocumentTypeList.cshtml" />
+    <Content Include="Views\SaleQuotationHeader\Edit.cshtml" />
+    <Content Include="Views\SaleQuotationHeader\Index.cshtml" />
+    <Content Include="Views\SaleQuotationHeader\PendingToApprove.cshtml" />
+    <Content Include="Views\SaleQuotationHeader\PendingToSubmit.cshtml" />
+    <Content Include="Views\SaleQuotationHeader\_LineProgress.cshtml" />
+    <Content Include="Views\SaleQuotationHeader\_Reason.cshtml" />
+    <Content Include="Views\SaleQuotationLine\Delete.cshtml" />
+    <Content Include="Views\SaleQuotationLine\Details.cshtml" />
+    <Content Include="Views\SaleQuotationLine\Edit.cshtml" />
+    <Content Include="Views\SaleQuotationLine\Index.cshtml" />
+    <Content Include="Views\SaleQuotationLine\_Create.cshtml" />
+    <Content Include="Views\SaleQuotationLine\_CreateForSaleEnquiry.cshtml" />
+    <Content Include="Views\SaleQuotationLine\_Filters.cshtml" />
+    <Content Include="Views\SaleQuotationLine\_Index.cshtml" />
+    <Content Include="Views\SaleQuotationLine\_Results.cshtml" />
+    <Content Include="Views\SaleQuotationSettings\Create.cshtml" />
+    <Content Include="Views\SaleQuotationSettings\Delete.cshtml" />
+    <Content Include="Views\SaleQuotationSettings\Details.cshtml" />
+    <Content Include="Views\SaleQuotationSettings\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

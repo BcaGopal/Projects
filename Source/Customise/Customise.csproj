@@ -261,8 +261,6 @@
     <Compile Include="Controllers\WeavingReceiveImportFromBranchToMain.cs" />
     <Compile Include="Controllers\ProductBuyerSettingsController.cs" />
     <Compile Include="Controllers\DesignColourConsumptionHeaderController.cs" />
-    <Compile Include="Controllers\ProductCategoryProcessSettingsController.cs" />
-    <Compile Include="Controllers\ProductCategorySettingsController.cs" />
     <Compile Include="Controllers\ColourController.cs" />
     <Compile Include="Controllers\ComboHelpListController.cs" />
     <Compile Include="Controllers\DyeingInvoiceExcelImportController.cs" />
@@ -328,7 +326,6 @@
     <Compile Include="Controllers\PackingLineController.cs" />
     <Compile Include="Controllers\PackingReportLayoutController.cs" />
     <Compile Include="Controllers\ProductBuyerController.cs" />
-    <Compile Include="Controllers\ProductCategoryController.cs" />
     <Compile Include="Controllers\ProductCollectionController.cs" />
     <Compile Include="Controllers\ProductConstructionController.cs" />
     <Compile Include="Controllers\ProductContentHeaderController.cs" />
@@ -1049,10 +1046,6 @@
     <Content Include="Views\PackingLine\Delete.cshtml" />
     <Content Include="Views\PackingLine\Edit.cshtml" />
     <Content Include="Views\PackingLine\Index.cshtml" />
-    <Content Include="Views\ProductCategory\_Reason.cshtml" />
-    <Content Include="Views\ProductCategory\Create.cshtml" />
-    <Content Include="Views\ProductCategory\Index.cshtml" />
-    <Content Include="Views\ProductCategory\ProductTypeIndex.cshtml" />
     <Content Include="Views\ProductCollection\_Reason.cshtml" />
     <Content Include="Views\ProductCollection\Create.cshtml" />
     <Content Include="Views\ProductCollection\Index.cshtml" />
@@ -1366,10 +1359,6 @@
     <Content Include="Views\FeetConversionToCms\_Reason.cshtml" />
     <Content Include="Views\FeetConversionToCms\Create.cshtml" />
     <Content Include="Views\FeetConversionToCms\Index.cshtml" />
-    <Content Include="Views\ProductCategorySettings\Create.cshtml" />
-    <Content Include="Views\ProductCategoryProcessSettings\Create.cshtml" />
-    <Content Include="Views\ProductCategoryProcessSettings\Index.cshtml" />
-    <Content Include="Views\ProductCategoryProcessSettings\_Reason.cshtml" />
     <Content Include="Views\Shared\UnderImplementation.cshtml" />
     <Content Include="Views\WeavingReceiveImportFromBranchToMain\Error.cshtml" />
     <Content Include="Views\WeavingReceiveImportFromBranchToMain\Index.cshtml" />

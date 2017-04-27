@@ -52,7 +52,17 @@ namespace Web
         public ActionResult ProductTypeIndex()
         {
             var producttype = new ProductTypeService(_unitOfWork).GetProductTypeListForGroup().ToList();
-            return View("ProductTypeIndex", producttype);
+
+            if (producttype.Count() == 0)
+            {
+                ViewBag.PrevLink = Request.UrlReferrer.ToString();
+                ViewBag.Message = "No ProductType found for this section.";
+                return View("~/Views/Shared/NotFound.cshtml");
+            }
+            if (producttype.Count() == 1)
+                return RedirectToAction("Index", new { id = producttype.FirstOrDefault().ProductTypeId });
+            else
+                return View("ProductTypeIndex", producttype);
         }
 
         // GET: /ProductMaster/Create

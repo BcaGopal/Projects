@@ -3275,16 +3275,16 @@ namespace Planning.Controllers
 
           public JsonResult SetSingleMachine(int Ids)
           {
-              ComboBoxResult ProductJson = new ComboBoxResult();
+              ComboBoxResult ProductUidJson = new ComboBoxResult();
 
-              IEnumerable<Product> prod = from p in db.Product
-                                          where p.ProductId == Ids
+              IEnumerable<ProductUid> prod = from p in db.ProductUid
+                                          where p.ProductUIDId == Ids
                                           select p;
 
-              ProductJson.id = prod.FirstOrDefault().ProductId.ToString();
-              ProductJson.text = prod.FirstOrDefault().ProductName;
+              ProductUidJson.id = prod.FirstOrDefault().ProductId.ToString();
+              ProductUidJson.text = prod.FirstOrDefault().ProductUidName;
 
-              return Json(ProductJson);
+              return Json(ProductUidJson);
           }
 
           public JsonResult SetMachine(string Ids)

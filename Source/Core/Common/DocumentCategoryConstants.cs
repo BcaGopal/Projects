@@ -460,6 +460,7 @@ namespace Core.Common
         public const string UserTeam = "UserTeam";
         public const string Project = "Project";
         public const string Other = "Other";
+        public const string Prospect = "Prospect";
 
         
         public const string CarpetDesign = "Carpet Design";

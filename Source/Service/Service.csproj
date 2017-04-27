@@ -25,7 +25,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <UseVSHostingProcess>true</UseVSHostingProcess>
-    <PlatformTarget>x86</PlatformTarget>
+    <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -115,6 +115,12 @@
     <Compile Include="FeetConversionToCmsService.cs" />
     <Compile Include="DocumentTypeSettingsService.cs" />
     <Compile Include="PersonRoleService.cs" />
+    <Compile Include="SaleQuotationHeaderChargeService.cs" />
+    <Compile Include="SaleQuotationHeaderDetailService.cs" />
+    <Compile Include="SaleQuotationHeaderService.cs" />
+    <Compile Include="SaleQuotationLineChargeService.cs" />
+    <Compile Include="SaleQuotationLineService.cs" />
+    <Compile Include="SaleQuotationSettingsService.cs" />
     <Compile Include="WeavingReceiveQaCombinedService.cs" />
     <Compile Include="JobReceiveQaLineExtendedService.cs" />
     <Compile Include="PackingLineExtendedService.cs" />

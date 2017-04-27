@@ -103,17 +103,21 @@ namespace Web
 
             svm.JobOrderSettings = Mapper.Map<JobOrderSettings, JobOrderSettingsViewModel>(Settings);
 
-            if (svm.JobOrderSettings.isVisibleDealUnit == false && svm.JobOrderSettings.isVisibleLoss == false && svm.JobOrderSettings.isVisibleUncountableQty == false)
+            if (svm.JobOrderSettings.isVisibleDealUnit == false && svm.JobOrderSettings.isVisibleLoss == false && svm.JobOrderSettings.isVisibleUncountableQty == false && svm.JobOrderSettings.isVisibleRate == true)
             {
                 return PartialView("_ResultsWithRate", svm);
             }
-            if (svm.JobOrderSettings.isVisibleDealUnit == true && svm.JobOrderSettings.isVisibleLoss == true && svm.JobOrderSettings.isVisibleUncountableQty == false)
+            if (svm.JobOrderSettings.isVisibleDealUnit == true && svm.JobOrderSettings.isVisibleLoss == true && svm.JobOrderSettings.isVisibleUncountableQty == false && svm.JobOrderSettings.isVisibleRate == true)
             {
                 return PartialView("_ResultsWithRateDealQtyLoss", svm);
             }
-            if (svm.JobOrderSettings.isVisibleDealUnit == false && svm.JobOrderSettings.isVisibleLoss == true && svm.JobOrderSettings.isVisibleUncountableQty == false)
+            if (svm.JobOrderSettings.isVisibleDealUnit == false && svm.JobOrderSettings.isVisibleLoss == true && svm.JobOrderSettings.isVisibleUncountableQty == false && svm.JobOrderSettings.isVisibleRate == true)
             {
                 return PartialView("_ResultsWithRateLoss", svm);
+            }
+            if (svm.JobOrderSettings.isVisibleRate == false)
+            {
+                return PartialView("_ResultsWithQty", svm);
             }
             else
             {
@@ -171,13 +175,27 @@ namespace Web
 
             List<LineDetailListViewModel> LineList = new List<LineDetailListViewModel>();
 
+            int RowNo = 0;
             if (ModelState.IsValid && BeforeSave && !EventException)
             {
                 foreach (var item in vm.JobOrderLineViewModel)
                 {
+                    RowNo = RowNo + 1;
                     //if (item.Qty > 0 &&  ((Settings.isMandatoryRate.HasValue && Settings.isMandatoryRate == true )? item.Rate > 0 : 1 == 1))
-                    if (item.Qty > 0  && ((Settings.isVisibleRate == true && Settings.isMandatoryRate == true && item.Rate > 0) || (Settings.isVisibleRate == false || Settings.isVisibleRate == true && Settings.isMandatoryRate == false)))
+                    //if (item.Qty > 0  && ((Settings.isVisibleRate == true && Settings.isMandatoryRate == true && item.Rate > 0) || (Settings.isVisibleRate == false || Settings.isVisibleRate == true && Settings.isMandatoryRate == false)))
+                    if (item.Qty > 0)
                     {
+                        if (Settings.isVisibleRate == true && Settings.isMandatoryRate == true && item.Rate == 0)
+                        {
+                            //string message = "Rate is not entered in line no" + RowNo.ToString();
+                            //TempData["CSEXCL"] += message;
+                            //EventException = true;
+
+                            string msg = "Rate is not entered in line no" + RowNo.ToString();
+                            ModelState.AddModelError("", msg);
+                            return PartialView("_Results", vm);
+                        }
+
                         if (item.UnitConversionMultiplier == 0 ||item.UnitConversionMultiplier == null)
                         {
                             item.UnitConversionMultiplier = 1;
@@ -2127,6 +2145,86 @@ namespace Web
         public ActionResult GetCustomProductGroups(string searchTerm, int pageSize, int pageNum, int filter)//DocTypeId
         {
             var Query = _JobOrderLineService.GetCustomProductGroups(filter, searchTerm);
+            var temp = Query.Skip(pageSize * (pageNum - 1))
+                .Take(pageSize)
+                .ToList();
+
+            var count = Query.Count();
+
+            ComboBoxPagedResult Data = new ComboBoxPagedResult();
+            Data.Results = temp;
+            Data.Total = count;
+
+            return new JsonpResult
+            {
+                Data = Data,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        public ActionResult GetProdOrderForProduct(string searchTerm, int pageSize, int pageNum, int filter)//DocTypeId
+        {
+            var Query = _JobOrderLineService.GetProdOrderHelpListForProduct(filter, searchTerm);
+            var temp = Query.Skip(pageSize * (pageNum - 1))
+                .Take(pageSize)
+                .ToList();
+
+            var count = Query.Count();
+
+            ComboBoxPagedResult Data = new ComboBoxPagedResult();
+            Data.Results = temp;
+            Data.Total = count;
+
+            return new JsonpResult
+            {
+                Data = Data,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        public JsonResult SetSingleProdOrderLine(int Ids)
+        {
+            ComboBoxResult ProdOrderJson = new ComboBoxResult();
+
+            var ProdOrderLine = from L in db.ProdOrderLine
+                                  join H in db.ProdOrderHeader on L.ProdOrderHeaderId equals H.ProdOrderHeaderId into ProdOrderHeaderTable
+                                  from ProdOrderHeaderTab in ProdOrderHeaderTable.DefaultIfEmpty()
+                                  where L.ProdOrderLineId == Ids
+                                  select new
+                                  {
+                                      ProdOrderLineId = L.ProdOrderLineId,
+                                      ProdOrderNo = L.Product.ProductName
+                                  };
+
+            ProdOrderJson.id = ProdOrderLine.FirstOrDefault().ToString();
+            ProdOrderJson.text = ProdOrderLine.FirstOrDefault().ProdOrderNo;
+
+            return Json(ProdOrderJson);
+        }
+
+
+
+        public ActionResult GetFirstProdOrderForProductUid(int JobOrderHeaderId, int ProductUidId, string term)
+        {
+            var Query = _JobOrderLineService.GetPendingProdOrderForProductUid(JobOrderHeaderId, ProductUidId, "");
+            var temp = Query.ToList();
+
+            var count = Query.Count();
+
+
+            if (count >= 1)
+            {
+                return Json(temp.FirstOrDefault());
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public ActionResult GetProdOrderForProductUid(string searchTerm, int pageSize, int pageNum, int JobOrderHeaderId, int ProductUidId, string term)
+        {
+            var Query = _JobOrderLineService.GetPendingProdOrderForProductUid(JobOrderHeaderId, ProductUidId, searchTerm);
             var temp = Query.Skip(pageSize * (pageNum - 1))
                 .Take(pageSize)
                 .ToList();

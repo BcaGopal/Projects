@@ -162,18 +162,32 @@ namespace Store.App_Start
             container.RegisterType<IRepository<ProductCustomGroupHeader>, Repository<ProductCustomGroupHeader>>();
             container.RegisterType<IProductCustomGroupHeaderService, ProductCustomGroupHeaderService>(new PerRequestLifetimeManager());
 
+
+
+
+
+            container.RegisterType<IRepository<ProductCustomGroupLine>, Repository<ProductCustomGroupLine>>();
+            container.RegisterType<IProductCustomGroupLineService, ProductCustomGroupLineService>(new PerRequestLifetimeManager());
+
             container.RegisterType<IRepository<ProductGroupSettings>, Repository<ProductGroupSettings>>();
             container.RegisterType<IProductGroupSettingsService, ProductGroupSettingsService>(new PerRequestLifetimeManager());
 
             container.RegisterType<IRepository<ProductGroupProcessSettings>, Repository<ProductGroupProcessSettings>>();
             container.RegisterType<IProductGroupProcessSettingsService, ProductGroupProcessSettingsService>(new PerRequestLifetimeManager());
 
-
-            container.RegisterType<IRepository<ProductCustomGroupLine>, Repository<ProductCustomGroupLine>>();
-            container.RegisterType<IProductCustomGroupLineService, ProductCustomGroupLineService>(new PerRequestLifetimeManager());
-
             container.RegisterType<IRepository<ProductGroup>, Repository<ProductGroup>>();
             container.RegisterType<IProductGroupService, ProductGroupService>(new PerRequestLifetimeManager());
+
+
+            container.RegisterType<IRepository<ProductCategorySettings>, Repository<ProductCategorySettings>>();
+            container.RegisterType<IProductCategorySettingsService, ProductCategorySettingsService>(new PerRequestLifetimeManager());
+
+            container.RegisterType<IRepository<ProductCategoryProcessSettings>, Repository<ProductCategoryProcessSettings>>();
+            container.RegisterType<IProductCategoryProcessSettingsService, ProductCategoryProcessSettingsService>(new PerRequestLifetimeManager());
+
+            container.RegisterType<IRepository<ProductCategory>, Repository<ProductCategory>>();
+            container.RegisterType<IProductCategoryService, ProductCategoryService>(new PerRequestLifetimeManager());
+
 
             container.RegisterType<IRepository<ProductTypeAttribute>, Repository<ProductTypeAttribute>>();
             container.RegisterType<IProductTypeAttributeService, ProductTypeAttributeService>(new PerRequestLifetimeManager());
@@ -294,6 +308,9 @@ namespace Store.App_Start
             Mapper.CreateMap<ProductGroupSettings, ProductGroupSettingsViewModel>();
             Mapper.CreateMap<ProductGroupSettingsViewModel, ProductGroupSettings>();
 
+            Mapper.CreateMap<ProductCategorySettings, ProductCategorySettingsViewModel>();
+            Mapper.CreateMap<ProductCategorySettingsViewModel, ProductCategorySettings>();
+
             Mapper.CreateMap<ProductTypeSettings, ProductTypeSettingsViewModel>();
             Mapper.CreateMap<ProductTypeSettingsViewModel, ProductTypeSettings>();
 
@@ -392,6 +409,7 @@ namespace Store.App_Start
             Mapper.CreateMap<ProductCustomGroupHeader, ProductCustomGroupHeader>();
             Mapper.CreateMap<ProductCustomGroupLine, ProductCustomGroupLine>();
             Mapper.CreateMap<ProductGroup, ProductGroup>();
+            Mapper.CreateMap<ProductCategory, ProductCategory>();
             Mapper.CreateMap<ProductTypeAttribute, ProductTypeAttribute>();
             Mapper.CreateMap<ProductType, ProductType>();
             Mapper.CreateMap<Unit, Unit>();
