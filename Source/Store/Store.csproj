@@ -282,6 +282,8 @@
     <Compile Include="Controllers\RateConversionLineController.cs" />
     <Compile Include="Controllers\ExcessMaterialHeaderController.cs" />
     <Compile Include="Controllers\PersonSettingsController.cs" />
+    <Compile Include="Controllers\ImportLayoutController.cs" />
+    <Compile Include="Controllers\ImportController.cs" />
     <Compile Include="Controllers\StockHeaderController.cs" />
     <Compile Include="Controllers\ExcessMaterialLineController.cs" />
     <Compile Include="Controllers\ExcessMaterialSettingsController.cs" />
@@ -953,6 +955,9 @@
     <Content Include="Views\ProductCategoryProcessSettings\Create.cshtml" />
     <Content Include="Views\ProductCategoryProcessSettings\Index.cshtml" />
     <Content Include="Views\ProductCategorySettings\Create.cshtml" />
+    <Content Include="Views\ImportLayout\ImportLayout.cshtml" />
+    <Content Include="Views\Import\Error.cshtml" />
+    <Content Include="Views\Import\Sucess.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

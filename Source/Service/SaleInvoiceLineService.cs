@@ -528,6 +528,7 @@ namespace Service
         {
 
             return (from p in db.SaleInvoiceLine
+                    join Sid in db.SaleInvoiceLineDetail on p.SaleInvoiceLineId equals Sid.SaleInvoiceLineId into SaleInvoiceLineDetailTable from SaleInvoiceLineDetailTab in SaleInvoiceLineDetailTable.DefaultIfEmpty()
                     join t in db.SaleDispatchLine on p.SaleDispatchLineId equals t.SaleDispatchLineId into table
                     from Dl in table.DefaultIfEmpty()
                     join t2 in db.PackingLine on Dl.PackingLineId equals t2.PackingLineId into table2
@@ -571,7 +572,9 @@ namespace Service
                         SaleDispatchHeaderDocNo = SaleDispatchHeaderTab.DocNo,
                         PackingLineId = Pl.PackingLineId,
                         SaleOrderLineId = p.SaleOrderLineId,
-                        Weight = p.Weight
+                        Weight = p.Weight,
+                        FreeQty = Pl.FreeQty,
+                        RewardPoints = SaleInvoiceLineDetailTab.RewardPoints
                     }
                         ).FirstOrDefault();
 
@@ -917,6 +920,7 @@ namespace Service
         {
 
             return (from p in db.SaleInvoiceLine
+                    join Sid in db.SaleInvoiceLineDetail on p.SaleInvoiceLineId equals Sid.SaleInvoiceLineId into SaleInvoiceLineDetailTable from SaleInvoiceLineDetailTab in SaleInvoiceLineDetailTable.DefaultIfEmpty()
                     join t in db.SaleDispatchLine on p.SaleDispatchLineId equals t.SaleDispatchLineId into table
                     from Dl in table.DefaultIfEmpty()
                     join pl in db.PackingLine on Dl.PackingLineId equals pl.PackingLineId into PackingLineTable
@@ -949,6 +953,7 @@ namespace Service
                         SaleDispatchLineId = p.SaleDispatchLineId,
                         SaleDispatchHeaderDocNo = SaleDispatchHeaderTab.DocNo,
                         PackingLineId = Dl.PackingLineId,
+                        RewardPoints = SaleInvoiceLineDetailTab.RewardPoints
                     }
                         ).FirstOrDefault();
 

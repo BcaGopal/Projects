@@ -102,7 +102,7 @@ namespace Web.Controllers
                 dr["CreatedBy"] = User.Identity.Name;
                 dr["ProductName"] = item.Product;
                 dr["Qty"] = item.Quantity;
-                dr["Rate"] = item.Rate;
+                dr["Rate"] = item.Rate; 
                 dr["Sr"] = i;
 
                 dataTable.Rows.Add(dr);

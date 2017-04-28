@@ -26,6 +26,7 @@ namespace Web
         ActiivtyLogViewModel LogVm = new ActiivtyLogViewModel();
 
         ISaleInvoiceLineService _SaleInvoiceLineService;
+        ISaleInvoiceLineDetailService _SaleInvoiceLineDetailService;
         IUnitOfWork _unitOfWork;
         IExceptionHandlingService _exception;
 
@@ -33,9 +34,10 @@ namespace Web
         string ExceptionMsg = "";
         bool Continue = true;
 
-        public SaleInvoiceLineController(ISaleInvoiceLineService SaleInvoice, IUnitOfWork unitOfWork, IExceptionHandlingService exec)
+        public SaleInvoiceLineController(ISaleInvoiceLineService SaleInvoice, ISaleInvoiceLineDetailService SaleInvoiceDetail, IUnitOfWork unitOfWork, IExceptionHandlingService exec)
         {
             _SaleInvoiceLineService = SaleInvoice;
+            _SaleInvoiceLineDetailService = SaleInvoiceDetail;
             _unitOfWork = unitOfWork;
             _exception = exec;
 
@@ -154,6 +156,13 @@ namespace Web
                         line.SaleDispatchLineId = item.SaleDispatchLineId;
                         line.ObjectState = Model.ObjectState.Added;
                         _SaleInvoiceLineService.Create(line);
+
+
+                        SaleInvoiceLineDetail linedetail = new SaleInvoiceLineDetail();
+                        linedetail.SaleInvoiceLineId = line.SaleInvoiceLineId;
+                        linedetail.RewardPoints = item.RewardPoints;
+                        _SaleInvoiceLineDetailService.Create(linedetail);
+
 
 
                         LineList.Add(new LineDetailListViewModel { Amount = line.Amount, Rate = line.Rate, LineTableId = line.SaleInvoiceLineId, HeaderTableId = item.SaleInvoiceHeaderId, PersonID = Sh.BillToBuyerId });
@@ -305,6 +314,7 @@ namespace Web
                 if (svm.SaleInvoiceLineId <= 0)
                 {
                     SaleInvoiceLine Sl = Mapper.Map<DirectSaleInvoiceLineViewModel, SaleInvoiceLine>(svm);
+                    SaleInvoiceLineDetail Sid = Mapper.Map<DirectSaleInvoiceLineViewModel, SaleInvoiceLineDetail>(svm);
 
                     Sl.SaleDispatchLineId = svm.SaleDispatchLineId;
                     Sl.SaleInvoiceHeaderId = Sh.SaleInvoiceHeaderId;
@@ -316,6 +326,11 @@ namespace Web
                     Sl.ModifiedBy = User.Identity.Name;
                     Sl.ObjectState = Model.ObjectState.Added;
                     _SaleInvoiceLineService.Create(Sl);
+
+                    Sid.SaleInvoiceLineId = Sl.SaleInvoiceLineId;
+                    _SaleInvoiceLineDetailService.Create(Sid);
+
+
 
 
 
@@ -394,6 +409,7 @@ namespace Web
                     int status = Sh.Status;
 
                     SaleInvoiceLine Sl = _SaleInvoiceLineService.Find(svm.SaleInvoiceLineId);
+                    SaleInvoiceLineDetail Sid = _SaleInvoiceLineDetailService.Find(svm.SaleInvoiceLineId);
 
                     SaleInvoiceLine ExRecS = new SaleInvoiceLine();
                     ExRecS = Mapper.Map<SaleInvoiceLine>(Sl);
@@ -415,6 +431,9 @@ namespace Web
                     Sl.ObjectState = Model.ObjectState.Modified;
                     _SaleInvoiceLineService.Update(Sl);
 
+
+                    Sid.RewardPoints = svm.RewardPoints;
+                    _SaleInvoiceLineDetailService.Update(Sid);
 
                     LogList.Add(new LogTypeViewModel
                     {
@@ -638,7 +657,7 @@ namespace Web
             int status = Sh.Status;
 
             SaleInvoiceLine Sl = _SaleInvoiceLineService.Find(vm.SaleInvoiceLineId);
-
+            SaleInvoiceLineDetail Sid = _SaleInvoiceLineDetailService.Find(vm.SaleInvoiceLineId);
 
             LogList.Add(new LogTypeViewModel
             {
@@ -646,7 +665,7 @@ namespace Web
             });
 
 
-
+            _SaleInvoiceLineDetailService.Delete(Sid);
             _SaleInvoiceLineService.Delete(Sl);
             
             

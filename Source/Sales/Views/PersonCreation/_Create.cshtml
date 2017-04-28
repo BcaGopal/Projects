@@ -1,4 +1,4 @@
-﻿@model Model.ViewModels.BuyerViewModel
+﻿@model Model.ViewModels.PersonViewModel
 @using Core.Common
 
 <style type="text/css">
@@ -29,12 +29,13 @@
 
                 @Html.AntiForgeryToken()
 
-                @Html.HiddenFor(m => m.PersonId)
+                @Html.HiddenFor(m => m.PersonID)
+                @Html.HiddenFor(m => m.DocTypeId)
                 @Html.HiddenFor(m => m.PersonAddressID)
                 @Html.HiddenFor(m => m.AccountId)
                 @Html.HiddenFor(m => m.PersonRegistrationCstNoID)
                 @Html.HiddenFor(m => m.PersonRegistrationTinNoID)
-                @Html.HiddenFor(m => m.PersonRegistrationPANNoID)
+                @Html.HiddenFor(m => m.PersonRegistrationPanNoID)
                 @Html.HiddenFor(m => m.Suffix)
                 @Html.HiddenFor(m => m.Code)
                 @Html.HiddenFor(m => m.CreatedBy)
@@ -105,10 +106,10 @@
 
                     <div class="col-md-6">
                         <div class="form-group">
-                            @Html.LabelFor(model => model.PANNo, "PAN No", new { @class = "control-label col-xs-4" })
+                            @Html.LabelFor(model => model.PanNo, "PAN No", new { @class = "control-label col-xs-4" })
                             <div class="col-xs-7">
-                                @Html.TextBoxFor(m => m.PANNo, new { @class = "form-control col-xs-7 height" })
-                                @Html.ValidationMessageFor(m => m.PANNo, "", new { @class = "text-danger" })
+                                @Html.TextBoxFor(m => m.PanNo, new { @class = "form-control col-xs-7 height" })
+                                @Html.ValidationMessageFor(m => m.PanNo, "", new { @class = "text-danger" })
                             </div>
                         </div>
                     </div>

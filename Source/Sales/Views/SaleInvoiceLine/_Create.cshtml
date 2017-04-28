@@ -161,6 +161,17 @@
                         </div>
                     </div>
 
+                    <div class="col-md-6" style="display:@(Model.SaleInvoiceSettings.isVisibleRewardPoints ? "" : "none")">
+                        @Html.HiddenFor(m => m.SaleInvoiceSettings.isVisibleRewardPoints)
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.RewardPoints, "Reward Points", new { @class = "control-label col-md-4 col-sm-2" })
+                            <div class="col-md-7 col-sm-10">
+                                @Html.TextBoxFor(model => model.RewardPoints, new { @class = "form-control col-xs-7 text-right" })
+                                @Html.ValidationMessageFor(model => model.RewardPoints, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+
 
 
 

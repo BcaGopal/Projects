@@ -385,6 +385,7 @@ namespace Data.Models
         public DbSet<SaleInvoiceHeader> SaleInvoiceHeader { get; set; }
         public DbSet<SaleInvoiceHeaderDetail> SaleInvoiceHeaderDetail { get; set; }
         public DbSet<SaleInvoiceLine> SaleInvoiceLine { get; set; }
+        public DbSet<SaleInvoiceLineDetail> SaleInvoiceLineDetail { get; set; }
         public DbSet<DispatchWaybillHeader> DispatchWaybillHeader { get; set; }
         public DbSet<DispatchWaybillLine> DispatchWaybillLine { get; set; }
         public DbSet<CustomDetail> CustomDetail { get; set; }

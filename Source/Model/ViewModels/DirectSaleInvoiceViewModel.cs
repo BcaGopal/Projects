@@ -138,6 +138,8 @@ namespace Model.ViewModels
         public Decimal Qty { get; set; }
         public Decimal BalanceQty { get; set; }
 
+        public Decimal? FreeQty { get; set; }
+
         [Display(Name = "Deal Unit")]
         [ForeignKey("DealUnit")]
         public string DealUnitId { get; set; }
@@ -145,6 +147,10 @@ namespace Model.ViewModels
         
         [Display(Name = "Delivery Qty")]
         public Decimal DealQty { get; set; }
+
+
+        [Display(Name = "Reward Points")]
+        public Decimal? RewardPoints { get; set; }
 
 
         [Display(Name = "Weight")]

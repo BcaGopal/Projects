@@ -130,6 +130,7 @@
     <Compile Include="Models\ImportLine.cs" />
     <Compile Include="Models\SaleQuotationHeader.cs" />
     <Compile Include="Models\SaleQuotationHeaderCharge.cs" />
+    <Compile Include="Models\SaleInvoiceLineDetail.cs" />
     <Compile Include="Models\SaleQuotationHeaderDetail.cs" />
     <Compile Include="Models\SaleQuotationLine.cs" />
     <Compile Include="Models\SaleQuotationLineCharge.cs" />
@@ -204,7 +205,10 @@
     <Compile Include="Models\CarpetSkuSettings.cs" />
     <Compile Include="Models\Shift.cs" />
     <Compile Include="Models\SubReport.cs" />
+    <Compile Include="ViewModels\ImportHeaderViewModel.cs" />
+    <Compile Include="ViewModels\ImportLineViewModel.cs" />
     <Compile Include="ViewModels\PersonRoleViewModel.cs" />
+    <Compile Include="ViewModels\ImportMasterViewModel.cs" />
     <Compile Include="ViewModels\SaleQuotationHeaderViewModel.cs" />
     <Compile Include="ViewModels\SaleQuotationLineViewModel.cs" />
     <Compile Include="ViewModels\SaleQuotationSettingsViewModel.cs" />

@@ -6096,7 +6096,21 @@ namespace Web
         }
 
 
-
+        public ActionResult GetProcessWithChildProcess(string searchTerm, int pageSize, int pageNum, int? filter)
+        {
+            var productCacheKeyHint = ConfigurationManager.AppSettings["ProcessCacheKeyHint"];
+            AutoCompleteComboBoxRepositoryAndHelper ar = new AutoCompleteComboBoxRepositoryAndHelper(cbl.GetProcessWithChildProcessHelpList(filter), productCacheKeyHint, RefreshData.RefreshProductData);
+            if (RefreshData.RefreshProductData == true) { RefreshData.RefreshProductData = false; }
+ 
+            List<ComboBoxList> prodLst = ar.GetListForComboBox(searchTerm, pageSize, pageNum);
+            int prodCount = ar.GetCountForComboBox(searchTerm, pageSize, pageNum);
+            ComboBoxPagedResult pagedAttendees = ar.TranslateToComboBoxFormat(prodLst, prodCount);
+            return new JsonpResult
+            {
+                Data = pagedAttendees,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
 
         protected override void Dispose(bool disposing)
         {

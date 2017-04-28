@@ -26,6 +26,7 @@ namespace Web
         ActiivtyLogViewModel LogVm = new ActiivtyLogViewModel();
 
         ISaleInvoiceLineService _SaleInvoiceLineService;
+        ISaleInvoiceLineDetailService _SaleInvoiceLineDetailService;
         ISaleDispatchLineService _SaleDispatchLineService;
         IPackingLineService _PackingLineService;
         IStockService _StockService;
@@ -36,9 +37,10 @@ namespace Web
         string ExceptionMsg = "";
         bool Continue = true;
 
-        public DirectSaleInvoiceLineController(ISaleInvoiceLineService SaleInvoice, IStockService StockService, ISaleDispatchLineService SaleDispatch, IUnitOfWork unitOfWork, IExceptionHandlingService exec, IPackingLineService packLineServ)
+        public DirectSaleInvoiceLineController(ISaleInvoiceLineService SaleInvoice, ISaleInvoiceLineDetailService SaleInvoiceDetail, IStockService StockService, ISaleDispatchLineService SaleDispatch, IUnitOfWork unitOfWork, IExceptionHandlingService exec, IPackingLineService packLineServ)
         {
             _SaleInvoiceLineService = SaleInvoice;
+            _SaleInvoiceLineDetailService = SaleInvoiceDetail;
             _SaleDispatchLineService = SaleDispatch;
             _StockService = StockService;
             _PackingLineService = packLineServ;
@@ -241,6 +243,7 @@ namespace Web
                         Pl.PackingHeaderId = Ph.PackingHeaderId;
                         Pl.ProductId = item.ProductId;
                         Pl.Qty = item.Qty;
+                        Pl.FreeQty = item.FreeQty;
                         Pl.Remark = item.Remark;
                         Pl.SaleOrderLineId = item.SaleOrderLineId;
                         Pl.Specification = item.Specification;
@@ -304,6 +307,11 @@ namespace Web
                         line.SaleDispatchLineId = Dl.SaleDispatchLineId;
                         line.ObjectState = Model.ObjectState.Added;
                         _SaleInvoiceLineService.Create(line);
+
+                        SaleInvoiceLineDetail linedetail = new SaleInvoiceLineDetail();
+                        linedetail.SaleInvoiceLineId = line.SaleInvoiceLineId;
+                        linedetail.RewardPoints = item.RewardPoints;
+                        _SaleInvoiceLineDetailService.Create(linedetail);
 
 
                         LineList.Add(new LineDetailListViewModel { Amount = line.Amount, Rate = line.Rate, LineTableId = line.SaleInvoiceLineId, HeaderTableId = item.SaleInvoiceHeaderId, PersonID = Sh.BillToBuyerId });
@@ -510,6 +518,7 @@ namespace Web
                     SaleDispatchLine Dl = Mapper.Map<DirectSaleInvoiceLineViewModel, SaleDispatchLine>(svm);
 
                     SaleInvoiceLine Sl = Mapper.Map<DirectSaleInvoiceLineViewModel, SaleInvoiceLine>(svm);
+                    SaleInvoiceLineDetail Sid = Mapper.Map<DirectSaleInvoiceLineViewModel, SaleInvoiceLineDetail>(svm);
 
 
 
@@ -536,7 +545,7 @@ namespace Web
                     //StockViewModel.ProcessId = Dl.FromProcessId;
                     StockViewModel.LotNo = svm.LotNo;
                     //StockViewModel.CostCenterId = svm.CostCenterId;
-                    StockViewModel.Qty_Iss = Sl.Qty;
+                    StockViewModel.Qty_Iss = Sl.Qty + (svm.FreeQty ?? 0);
                     StockViewModel.Qty_Rec = 0;
                     StockViewModel.Rate = Sl.Rate;
                     StockViewModel.ExpiryDate = null;
@@ -568,7 +577,8 @@ namespace Web
 
 
 
-
+                    Sid.SaleInvoiceLineId = Sl.SaleInvoiceLineId;
+                    _SaleInvoiceLineDetailService.Create(Sid);
 
 
 
@@ -693,6 +703,8 @@ namespace Web
 
                     SaleInvoiceLine Sl = _SaleInvoiceLineService.Find(svm.SaleInvoiceLineId);
 
+                    SaleInvoiceLineDetail Sid = _SaleInvoiceLineDetailService.Find(svm.SaleInvoiceLineId);
+
                     PackingLine ExRec = new PackingLine();
                     ExRec = Mapper.Map<PackingLine>(Pl);
 
@@ -725,7 +737,7 @@ namespace Web
                         //StockViewModel.ProcessId = Dl.FromProcessId;
                         StockViewModel.LotNo = svm.LotNo;
                         //StockViewModel.CostCenterId = Dh.CostCenterId;
-                        StockViewModel.Qty_Iss = svm.Qty;
+                        StockViewModel.Qty_Iss = svm.Qty + (svm.FreeQty ?? 0);
                         StockViewModel.Qty_Rec = 0;
                         StockViewModel.Rate = svm.Rate;
                         StockViewModel.ExpiryDate = null;
@@ -758,6 +770,7 @@ namespace Web
                     Pl.ProductId = svm.ProductId;
                     Pl.SaleOrderLineId = svm.SaleOrderLineId;
                     Pl.Qty = svm.Qty;
+                    Pl.FreeQty = svm.FreeQty;
                     Pl.BaleNo = svm.BaleNo;
                     Pl.DealUnitId = svm.DealUnitId;
                     Pl.DealQty = svm.DealQty;
@@ -806,6 +819,9 @@ namespace Web
                     Sl.ModifiedBy = User.Identity.Name;
                     Sl.ObjectState = Model.ObjectState.Modified;
                     _SaleInvoiceLineService.Update(Sl);
+
+                    Sid.RewardPoints = svm.RewardPoints;
+                    _SaleInvoiceLineDetailService.Update(Sid);
 
 
                     LogList.Add(new LogTypeViewModel
@@ -1070,6 +1086,8 @@ namespace Web
 
             SaleInvoiceLine Sl = _SaleInvoiceLineService.Find(vm.SaleInvoiceLineId);
 
+            SaleInvoiceLineDetail Sid = _SaleInvoiceLineDetailService.Find(vm.SaleInvoiceLineId);
+
             LogList.Add(new LogTypeViewModel
             {
                 ExObj = Pl,
@@ -1088,7 +1106,7 @@ namespace Web
 
             StockId = Dl.StockId;
 
-
+            _SaleInvoiceLineDetailService.Delete(Sid);
             _SaleInvoiceLineService.Delete(Sl);
             _SaleDispatchLineService.Delete(Dl);
             _PackingLineService.Delete(Pl);

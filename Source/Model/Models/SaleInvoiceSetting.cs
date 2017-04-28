@@ -29,6 +29,8 @@ namespace Model.Models
         public bool? isVisibleLotNo { get; set; }
         public bool? isVisibleFinancier { get; set; }
         public bool? isVisibleSalesExecutive { get; set; }
+        public bool? isVisibleFreeQty { get; set; }
+        public bool? isVisibleRewardPoints { get; set; }
 
         public bool CalculateDiscountOnRate { get; set; }
         public string filterLedgerAccountGroups { get; set; }

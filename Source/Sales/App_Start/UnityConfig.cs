@@ -198,6 +198,9 @@ namespace Sales.App_Start
             container.RegisterType<IRepository<SaleInvoiceLine>, Repository<SaleInvoiceLine>>();
             container.RegisterType<Service.ISaleInvoiceLineService, Service.SaleInvoiceLineService>(new PerRequestLifetimeManager());
 
+            container.RegisterType<IRepository<SaleInvoiceLineDetail>, Repository<SaleInvoiceLineDetail>>();
+            container.RegisterType<Service.ISaleInvoiceLineDetailService, Service.SaleInvoiceLineDetailService>(new PerRequestLifetimeManager());
+
             container.RegisterType<IRepository<PackingHeader>, Repository<PackingHeader>>();
             container.RegisterType<Service.IPackingHeaderService, Service.PackingHeaderService>(new PerRequestLifetimeManager());
 
@@ -445,6 +448,9 @@ namespace Sales.App_Start
 
             Mapper.CreateMap<DirectSaleInvoiceLineViewModel, SaleInvoiceLine>();
             Mapper.CreateMap<SaleInvoiceLine, DirectSaleInvoiceLineViewModel>();
+
+            Mapper.CreateMap<DirectSaleInvoiceLineViewModel, SaleInvoiceLineDetail>();
+            Mapper.CreateMap<SaleInvoiceLineDetail, DirectSaleInvoiceLineViewModel>();
 
             Mapper.CreateMap<DirectSaleInvoiceLineViewModel, PackingLine>();
             Mapper.CreateMap<PackingLine, DirectSaleInvoiceLineViewModel>();

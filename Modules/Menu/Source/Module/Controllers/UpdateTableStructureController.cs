@@ -154,6 +154,8 @@ namespace Module
             AddFields("SaleInvoiceLine", "RateRemark", "nvarchar(Max)");
             AddFields("SaleInvoiceHeaderDetail", "Insurance", "Decimal(18,4)");
 
+            AddFields("PackingLines", "FreeQty", "Decimal(18,4)");
+            AddFields("SaleOrderLines", "FreeQty", "Decimal(18,4)");
 
 
             try
@@ -599,7 +601,7 @@ namespace Module
 
             try
             {
-                if ((int)ExecuteScaler("SELECT Count(*) AS Cnt FROM INFORMATION_SCHEMA.Tables WHERE TABLE_NAME = 'SaleQuotationLineCharges'") == 0)
+                if ((int)ExecuteScaler("SELECT Count(*) AS Cnt FROM INFORMATION_SCHEMA.Tables WHERE TABLE_NAME = 'SaleQuotationSettings'") == 0)
                 {
                     mQry = @"CREATE TABLE Web.SaleQuotationSettings
 	                        (
@@ -740,7 +742,42 @@ namespace Module
             }
 
 
+            try
+            {
+                if ((int)ExecuteScaler("SELECT Count(*) AS Cnt FROM INFORMATION_SCHEMA.Tables WHERE TABLE_NAME = 'SaleInvoiceLineDetails'") == 0)
+                {
+                    mQry = @"CREATE TABLE Web.SaleInvoiceLineDetails
+	                        (
+	                        SaleInvoiceLineId INT NOT NULL,
+	                        RewardPoints      DECIMAL (18, 4),
+	                        CONSTRAINT [PK_Web.SaleInvoiceLineDetails] PRIMARY KEY (SaleInvoiceLineId),
+	                        CONSTRAINT [FK_Web.SaleInvoiceLineDetails_Web.SaleInvoiceLines_SaleInvoiceLineId] FOREIGN KEY (SaleInvoiceLineId) REFERENCES Web.SaleInvoiceLines (SaleInvoiceLineId)
+	                        )
 
+                        CREATE INDEX IX_SaleInvoiceLineId
+	                        ON Web.SaleInvoiceLineDetails (SaleInvoiceLineId)";
+                    ExecuteQuery(mQry);
+                }
+            }
+            catch (Exception ex)
+            {
+                RecordError(ex);
+            }
+
+
+            AddFields("SaleInvoiceSettings", "isVisibleFreeQty", "BIT");
+            AddFields("SaleInvoiceSettings", "isVisibleRewardPoints", "BIT");
+
+            AddFields("SaleDispatchSettings", "isVisibleFreeQty", "BIT");
+
+            AddFields("PackingLines", "SealNo", "nvarchar(Max)");
+            AddFields("PackingLines", "RateRemark", "nvarchar(Max)");
+            
+            AddFields("PackingLines", "FreeQty", "Decimal(18,4)");
+
+            AddFields("SaleOrderLines", "FreeQty", "Decimal(18,4)");
+
+            
             return RedirectToAction("Module", "Menu");
         }
 

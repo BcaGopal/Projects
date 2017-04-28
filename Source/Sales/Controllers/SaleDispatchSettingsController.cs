@@ -148,6 +148,7 @@ namespace Web
                     temp.isVisibleForSaleOrder = pt.isVisibleForSaleOrder;
                     temp.isVisibleWeight = pt.isVisibleWeight;
                     temp.isVisibleStockIn = pt.isVisibleStockIn;
+                    temp.isVisibleFreeQty = pt.isVisibleFreeQty;
 
                     temp.IsMandatoryStockIn = pt.IsMandatoryStockIn;
                     
@@ -315,6 +316,7 @@ namespace Web
                     temp.isVisibleDimension3 = pt.isVisibleDimension3;
                     temp.isVisibleDimension4 = pt.isVisibleDimension4;
                     temp.isVisibleLotNo = pt.isVisibleLotNo;
+                    temp.isVisibleFreeQty = pt.isVisibleFreeQty;
                     temp.SqlProcGatePass = pt.SqlProcGatePass;
                     temp.SqlProcDocumentPrint = pt.SqlProcDocumentPrint;
                     temp.UnitConversionForId = pt.UnitConversionForId;

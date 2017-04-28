@@ -27,6 +27,7 @@ namespace Model.Models
         public bool? isVisibleDimension4 { get; set; }
         public bool? isVisibleLotNo { get; set; }
         public bool? isVisibleStockIn { get; set; }
+        public bool? isVisibleFreeQty { get; set; }
 
         public bool? IsMandatoryStockIn { get; set; }
         public string filterLedgerAccountGroups { get; set; }

@@ -570,6 +570,12 @@ namespace Web
 
                     try
                     {
+                        SaleInvoiceLineDetail LineDetail = (from L in db.SaleInvoiceLineDetail where L.SaleInvoiceLineId == item.SaleInvoiceLineId select L).FirstOrDefault();
+                        LineDetail.ObjectState = Model.ObjectState.Deleted;
+                        db.SaleInvoiceLineDetail.Attach(LineDetail);
+                        db.SaleInvoiceLineDetail.Remove(LineDetail);
+
+
                         item.ObjectState = Model.ObjectState.Deleted;
                         db.SaleInvoiceLine.Attach(item);
                         db.SaleInvoiceLine.Remove(item);

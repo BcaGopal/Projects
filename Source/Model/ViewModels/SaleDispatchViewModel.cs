@@ -114,6 +114,11 @@ namespace Model.ViewModels
         public Decimal? PassQty { get; set; }
 
 
+        [Display(Name = "Free Qty")]
+        public Decimal? FreeQty { get; set; }
+
+
+
         public Decimal BalanceQty { get; set; }
         public Decimal StockInBalanceQty { get; set; }
 

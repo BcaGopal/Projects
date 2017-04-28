@@ -33,6 +33,7 @@ namespace Customize
     [Authorize]
     public class Report_ReportPrintController : ReportController
     {
+
         IReportLineService _ReportLineService;
         public Report_ReportPrintController(IUnitOfWork unitOfWork, IReportLineService line)
         {              

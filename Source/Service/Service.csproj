@@ -115,7 +115,10 @@
     <Compile Include="FeetConversionToCmsService.cs" />
     <Compile Include="DocumentTypeSettingsService.cs" />
     <Compile Include="PersonRoleService.cs" />
+    <Compile Include="ImportHeaderService.cs" />
+    <Compile Include="ImportLineService.cs" />
     <Compile Include="SaleQuotationHeaderChargeService.cs" />
+    <Compile Include="SaleInvoiceLineDetailService.cs" />
     <Compile Include="SaleQuotationHeaderDetailService.cs" />
     <Compile Include="SaleQuotationHeaderService.cs" />
     <Compile Include="SaleQuotationLineChargeService.cs" />

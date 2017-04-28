@@ -43,8 +43,8 @@ namespace Web.Controllers
 
         public ActionResult JobOrderTextImport(int id, int? GodownId, Decimal? Rate)
         {
-            
-            string[] StrArr = new string[] {};
+
+            string[] StrArr = new string[] { };
 
             string ErrorText = "";
             //string WarningText = "";
@@ -62,6 +62,7 @@ namespace Web.Controllers
                 ModelState.AddModelError("", "Please select Godown.");
                 return View("Index");
             }
+
 
             var file = Request.Files[0];
             string filePath = Request.MapPath(ConfigurationManager.AppSettings["ExcelFilePath"] + file.FileName);

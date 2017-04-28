@@ -49,6 +49,7 @@ namespace Model.Models
         public bool? isVisibleCreditDays { get; set; }
         public bool? isMandatoryProcessLine { get; set; }
         public bool? isVisibleProcessLine { get; set; }
+        public bool? isVisibleProcessHeader { get; set; }
         public bool? isVisibleJobWorkerLine { get; set; }
         public bool? isUniqueCostCenter { get; set; }
         public bool? PersonWiseCostCenter { get; set; }

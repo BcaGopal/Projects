@@ -262,6 +262,7 @@ namespace Service
                         ProductName = Pl.Product.ProductName,
                         SaleOrderHeaderDocNo = Pl.SaleOrderLine.SaleOrderHeader.DocNo,
                         LossQty = Pl.LossQty,
+                        FreeQty = Pl.FreeQty,
                         PassQty = Pl.PassQty,
                         Qty = Pl.Qty,
                         BalanceQty = (tab3 == null ? (decimal)Pl.PassQty : tab3.BalanceQty + (decimal)Pl.PassQty),

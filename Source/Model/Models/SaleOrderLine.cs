@@ -54,6 +54,9 @@ namespace Model.Models
 
         public decimal Qty { get; set; }
 
+        [Display(Name = "Free Qty")]
+        public Decimal? FreeQty { get; set; }
+
         [Display (Name ="Due Date")]
         [Index("IX_SaleOrderLine_SaleOrdeHeaderProductDueDate", IsUnique = true, Order = 3)]
         public DateTime ? DueDate { get; set; }

@@ -62,6 +62,9 @@ namespace Model.Models
         [Display(Name = "Pass Qty")]
         public Decimal? PassQty { get; set; }
 
+        [Display(Name = "Free Qty")]
+        public Decimal? FreeQty { get; set; }
+
 
 
         [Display(Name = "Bale No."), MaxLength(10)]

@@ -477,7 +477,7 @@ namespace Web
                     //StockViewModel.ProcessId = Dl.FromProcessId;
                     StockViewModel.LotNo = svm.LotNo;
                     //StockViewModel.CostCenterId = svm.CostCenterId;
-                    StockViewModel.Qty_Iss = Pl.Qty + (Pl.LossQty ?? 0);
+                    StockViewModel.Qty_Iss = Pl.Qty + (Pl.LossQty ?? 0) + (Pl.FreeQty ?? 0);
                     StockViewModel.Qty_Rec = 0;
                     StockViewModel.Rate = 0;
                     StockViewModel.ExpiryDate = null;
@@ -627,7 +627,7 @@ namespace Web
                         //StockViewModel.ProcessId = Dl.FromProcessId;
                         StockViewModel.LotNo = svm.LotNo;
                         //StockViewModel.CostCenterId = Dh.CostCenterId;
-                        StockViewModel.Qty_Iss = svm.Qty + (svm.LossQty ?? 0);
+                        StockViewModel.Qty_Iss = svm.Qty + (svm.LossQty ?? 0) + (svm.FreeQty ?? 0);
                         StockViewModel.Qty_Rec = 0;
                         StockViewModel.Rate = 0;
                         StockViewModel.ExpiryDate = null;
@@ -668,7 +668,7 @@ namespace Web
                         Adj_IssQty.StockOutId = (int)Dl.StockId;
                         Adj_IssQty.DivisionId = Dh.DivisionId;
                         Adj_IssQty.SiteId = Dh.SiteId;
-                        Adj_IssQty.AdjustedQty = svm.Qty + (svm.LossQty ?? 0);
+                        Adj_IssQty.AdjustedQty = svm.Qty + (svm.LossQty ?? 0) + (svm.FreeQty ?? 0);
                         new StockAdjService(_unitOfWork).Create(Adj_IssQty);
                     }
 
@@ -680,6 +680,7 @@ namespace Web
                     Pl.PassQty = svm.PassQty;
                     Pl.Qty = svm.Qty;
                     Pl.LossQty = svm.LossQty;
+                    Pl.FreeQty = svm.FreeQty;
                     Pl.BaleNo = svm.BaleNo;
                     Pl.DealUnitId = svm.DealUnitId;
                     Pl.DealQty = svm.DealQty;

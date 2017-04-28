@@ -56,6 +56,12 @@ namespace Store.App_Start
             
             container.RegisterType<IExceptionHandlingService, ExceptionHandlingService>(new PerRequestLifetimeManager());
 
+            container.RegisterType<IRepository<ImportHeader>, Repository<ImportHeader>>();
+            container.RegisterType<IImportHeaderService, ImportHeaderService>(new PerRequestLifetimeManager());
+
+            container.RegisterType<IRepository<ImportLine>, Repository<ImportLine>>();
+            container.RegisterType<IImportLineService, ImportLineService>(new PerRequestLifetimeManager());
+
             container.RegisterType<IRepository<Godown>, Repository<Godown>>();
             container.RegisterType<IGodownService, GodownService>(new PerRequestLifetimeManager());
 
@@ -440,6 +446,12 @@ namespace Store.App_Start
             Mapper.CreateMap<Person, Person>();
             Mapper.CreateMap<BusinessEntity, BusinessEntity>();
             Mapper.CreateMap<ProductProcess, ProductProcess>();
+
+            Mapper.CreateMap<ImportHeader, ImportHeaderViewModel>();
+            Mapper.CreateMap<ImportHeaderViewModel, ImportHeader>();
+
+            Mapper.CreateMap<ImportLine, ImportLineViewModel>();
+            Mapper.CreateMap<ImportLineViewModel, ImportLine>();
 
         }
     }
