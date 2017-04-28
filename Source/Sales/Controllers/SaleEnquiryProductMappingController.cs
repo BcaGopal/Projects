@@ -136,10 +136,22 @@ namespace Web
 
                 //return RedirectToAction("Index").Success("Data saved successfully");
 
-                var SaleEnquiryProductMapping = _SaleEnquiryLineService.GetSaleEnquiryLineListForIndex().OrderBy(m => m.SaleEnquiryLineId).FirstOrDefault();
-                if (SaleEnquiryProductMapping != null)
+                //var SaleEnquiryProductMapping = _SaleEnquiryLineService.GetSaleEnquiryLineListForIndex().OrderBy(m => m.SaleEnquiryLineId).OrderBy(m => m.SaleEnquiryLineId).FirstOrDefault();
+
+                //if (SaleEnquiryProductMapping != null)
+                //{
+                //    return RedirectToAction("Edit", new { id = SaleEnquiryProductMapping.SaleEnquiryLineId }).Success("Data saved successfully");
+                //}
+                //else
+                //{
+                //    return RedirectToAction("Index").Success("Data saved successfully");
+                //}
+
+                int SaleEnquiryId = _SaleEnquiryLineService.NextId(vm.SaleEnquiryLineId);
+
+                if (SaleEnquiryId > 0)
                 {
-                    return RedirectToAction("Edit", new { id = SaleEnquiryProductMapping.SaleEnquiryLineId }).Success("Data saved successfully");
+                    return RedirectToAction("Edit", new { id = SaleEnquiryId }).Success("Data saved successfully");
                 }
                 else
                 {
