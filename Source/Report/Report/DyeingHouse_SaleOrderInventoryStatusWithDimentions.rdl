@@ -836,7 +836,7 @@
         <Top>0.74083in</Top>
         <Left>0.01761in</Left>
         <Height>2.5in</Height>
-        <Width>13.01233in</Width>
+        <Width>13.01232in</Width>
         <ZIndex>1</ZIndex>
         <Visibility>
           <Hidden>=iif(Globals!RenderFormat.Name &lt;&gt; "PDF",True,False)</Hidden>
@@ -919,7 +919,7 @@
           </TablixColumns>
           <TablixRows>
             <TablixRow>
-              <Height>0.53125in</Height>
+              <Height>0.5in</Height>
               <TablixCells>
                 <TablixCell>
                   <CellContents>
@@ -2836,7 +2836,6 @@
               <Group Name="SaleOrderNo">
                 <GroupExpressions>
                   <GroupExpression>=Fields!SaleOrderNo.Value</GroupExpression>
-                  <GroupExpression>=Fields!PrimaryProductName.Value</GroupExpression>
                 </GroupExpressions>
               </Group>
               <SortExpressions>
@@ -3006,7 +3005,7 @@
                                   <Group Name="Details" />
                                   <SortExpressions>
                                     <SortExpression>
-                                      <Value>=Fields!ProductName.Value</Value>
+                                      <Value>=Fields!Dimension2Name.Value</Value>
                                     </SortExpression>
                                   </SortExpressions>
                                 </TablixMember>
@@ -3437,7 +3436,7 @@
         <DataSetName>DsMain</DataSetName>
         <Top>3.29777in</Top>
         <Left>0.03465in</Left>
-        <Height>1.28125in</Height>
+        <Height>1.25in</Height>
         <Width>12.98487in</Width>
         <ZIndex>3</ZIndex>
         <Style>
@@ -3447,7 +3446,7 @@
         </Style>
       </Tablix>
     </ReportItems>
-    <Height>4.62069in</Height>
+    <Height>4.57902in</Height>
     <Style />
   </Body>
   <Width>13.07161in</Width>
@@ -3559,7 +3558,7 @@
           </Paragraphs>
           <rd:DefaultName>Textbox18</rd:DefaultName>
           <Top>0.02778in</Top>
-          <Left>7.55719in</Left>
+          <Left>9.85719in</Left>
           <Height>0.25in</Height>
           <Width>2.97594in</Width>
           <Style>
@@ -3644,7 +3643,7 @@
           </Paragraphs>
           <rd:DefaultName>Textbox19</rd:DefaultName>
           <Top>0.05861in</Top>
-          <Left>4.50194in</Left>
+          <Left>5.30194in</Left>
           <Height>0.20833in</Height>
           <Width>2.05737in</Width>
           <ZIndex>2</ZIndex>

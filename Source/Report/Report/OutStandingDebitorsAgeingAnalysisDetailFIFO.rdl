@@ -57,7 +57,7 @@
           </QueryParameter>
         </QueryParameters>
         <CommandType>StoredProcedure</CommandType>
-        <CommandText>Web.spRep_CreditorOutstandingFIFO</CommandText>
+        <CommandText>Web.spRep_DebitorOutstandingAgeingAnalysisFIFO</CommandText>
       </Query>
       <Fields>
         <Field Name="LedgerAccountName">
@@ -108,8 +108,8 @@
           <DataField>LedgerAccountId</DataField>
           <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
-        <Field Name="AmtCr">
-          <DataField>AmtCr</DataField>
+        <Field Name="AmtDr">
+          <DataField>AmtDr</DataField>
           <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
         <Field Name="TotalBalanceAmt">
@@ -1801,7 +1801,7 @@
                                           <Paragraph>
                                             <TextRuns>
                                               <TextRun>
-                                                <Value>=iif(Sum(Fields!AmtCr.Value) &lt;&gt; 0, formatnumber(Sum(Fields!AmtCr.Value),2) ,"-")</Value>
+                                                <Value>=iif(Sum(Fields!AmtDr.Value) &lt;&gt; 0, formatnumber(Sum(Fields!AmtDr.Value),2) ,"-")</Value>
                                                 <Style>
                                                   <FontFamily>Tahoma</FontFamily>
                                                   <FontSize>9pt</FontSize>

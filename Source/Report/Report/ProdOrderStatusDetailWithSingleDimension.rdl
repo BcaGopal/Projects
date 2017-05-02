@@ -5,7 +5,7 @@
     <DataSource Name="Purchase">
       <ConnectionProperties>
         <DataProvider>SQL</DataProvider>
-        <ConnectString>=Parameters!DatabaseConnectionString.Value</ConnectString>
+        <ConnectString>Data Source=192.168.2.22;Initial Catalog=HomeFurnishing;Integrated Security=False;User Id=sa; pwd=</ConnectString>
       </ConnectionProperties>
       <rd:SecurityType>None</rd:SecurityType>
       <rd:DataSourceID>a4701ec2-a2bf-4f00-a373-e0ef6d3046c3</rd:DataSourceID>
@@ -18,6 +18,9 @@
         <QueryParameters>
           <QueryParameter Name="@Site">
             <Value>=Parameters!Site.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@ReportType">
+            <Value>=Parameters!ReportType.Value</Value>
           </QueryParameter>
           <QueryParameter Name="@Division">
             <Value>=Parameters!Division.Value</Value>
@@ -64,9 +67,18 @@
           <QueryParameter Name="@ProductDivisionId">
             <Value>=Parameters!ProductDivisionId.Value</Value>
           </QueryParameter>
+          <QueryParameter Name="@ReportFor">
+            <Value>=Parameters!ReportFor.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@Dimension3">
+            <Value>=Parameters!Dimension3.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@Dimension4">
+            <Value>=Parameters!Dimension4.Value</Value>
+          </QueryParameter>
         </QueryParameters>
         <CommandType>StoredProcedure</CommandType>
-        <CommandText>Web.spRep_ProdOrderStatusDetail</CommandText>
+        <CommandText>Web.spRep_ProdOrderStatus</CommandText>
       </Query>
       <Fields>
         <Field Name="OrderDate">
@@ -105,6 +117,10 @@
           <DataField>Dimension1TypeName</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
+        <Field Name="OverDueDays">
+          <DataField>OverDueDays</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
         <Field Name="Dimension1Name">
           <DataField>Dimension1Name</DataField>
           <rd:TypeName>System.String</rd:TypeName>
@@ -121,9 +137,17 @@
           <DataField>ProdOrderLineId</DataField>
           <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
+        <Field Name="Dimension3Name">
+          <DataField>Dimension3Name</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
         <Field Name="BalanceQty">
           <DataField>BalanceQty</DataField>
           <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="Dimension4Name">
+          <DataField>Dimension4Name</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="ReceiveDate">
           <DataField>ReceiveDate</DataField>
@@ -180,6 +204,10 @@
         <Field Name="SubReportProcList">
           <DataField>SubReportProcList</DataField>
           <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="Sr">
+          <DataField>Sr</DataField>
+          <rd:TypeName>System.Int64</rd:TypeName>
         </Field>
       </Fields>
     </DataSet>
@@ -5651,7 +5679,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Microsoft.VisualBasic.Interaction.iif(Sum(Fields!OrderQty.Value) &lt;&gt; 0, Microsoft.VisualBasic.Strings.formatnumber(Sum(Fields!OrderQty.Value), Max(Fields!DecimalPlaces.Value)), "-")</Value>
+                                  <Value>= formatnumber(Sum(IIf(Fields!Sr.Value =1,Fields!OrderQty.Value,Nothing), "DsMain"),Max(Fields!DecimalPlaces.Value))</Value>
                                   <Style>
                                     <FontFamily>Tahoma</FontFamily>
                                     <FontSize>7pt</FontSize>
@@ -6137,7 +6165,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=iif(Sum(Fields!CancelQty.Value) &lt;&gt; 0,  formatnumber(Sum(Fields!CancelQty.Value), Max(Fields!DecimalPlaces.Value)),"-")</Value>
+                                  <Value>= formatnumber(Sum(IIf(Fields!Sr.Value =1,Fields!CancelQty.Value,Nothing), "DsMain"),Max(Fields!DecimalPlaces.Value))</Value>
                                   <Style>
                                     <FontFamily>Tahoma</FontFamily>
                                     <FontSize>7pt</FontSize>
@@ -6182,7 +6210,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=iif(Sum(Fields!BalanceQty.Value) &lt;&gt; 0,  formatnumber(Sum(Fields!BalanceQty.Value), Max(Fields!DecimalPlaces.Value)),"-")</Value>
+                                  <Value>= formatnumber(Sum(IIf(Fields!Sr.Value =1,Fields!BalanceQty.Value,Nothing), "DsMain"),Max(Fields!DecimalPlaces.Value))</Value>
                                   <Style>
                                     <FontFamily>Tahoma</FontFamily>
                                     <FontSize>7pt</FontSize>
@@ -7570,7 +7598,7 @@
         <Height>7.73958in</Height>
         <Style />
       </Body>
-      <Width>10.89092in</Width>
+      <Width>11.21384in</Width>
       <Page>
         <PageHeader>
           <Height>0.32583in</Height>
@@ -8185,6 +8213,18 @@
       <Nullable>true</Nullable>
       <AllowBlank>true</AllowBlank>
       <Prompt>DatabaseConnectionString</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="ReportFor">
+      <DataType>String</DataType>
+      <Prompt>Report For</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="Dimension3">
+      <DataType>String</DataType>
+      <Prompt>Dimension3</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="Dimension4">
+      <DataType>String</DataType>
+      <Prompt>Dimension4</Prompt>
     </ReportParameter>
   </ReportParameters>
   <EmbeddedImages>

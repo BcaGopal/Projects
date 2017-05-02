@@ -191,6 +191,10 @@
           <DataField>SubReportProcList</DataField>
           <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
+        <Field Name="Sr">
+          <DataField>Sr</DataField>
+          <rd:TypeName>System.Int64</rd:TypeName>
+        </Field>
       </Fields>
     </DataSet>
   </DataSets>
@@ -1445,6 +1449,7 @@
                           </Style>
                         </Textbox>
                         <ColSpan>2</ColSpan>
+                        <rd:Selected>true</rd:Selected>
                       </CellContents>
                     </TablixCell>
                     <TablixCell />
@@ -2624,7 +2629,6 @@
                             <PaddingBottom>2pt</PaddingBottom>
                           </Style>
                         </Textbox>
-                        <rd:Selected>true</rd:Selected>
                       </CellContents>
                     </TablixCell>
                     <TablixCell>
@@ -6494,7 +6498,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Microsoft.VisualBasic.Interaction.iif(Sum(Fields!OrderQty.Value) &lt;&gt; 0, Microsoft.VisualBasic.Strings.formatnumber(Sum(Fields!OrderQty.Value), Max(Fields!DecimalPlaces.Value)), "-")</Value>
+                                  <Value>= formatnumber(Sum(IIf(Fields!Sr.Value =1,Fields!OrderQty.Value,Nothing), "DsMain"),Max(Fields!DecimalPlaces.Value))</Value>
                                   <Style>
                                     <FontFamily>Tahoma</FontFamily>
                                     <FontSize>7pt</FontSize>
@@ -7069,7 +7073,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=iif(Sum(Fields!CancelQty.Value) &lt;&gt; 0,  formatnumber(Sum(Fields!CancelQty.Value), Max(Fields!DecimalPlaces.Value)),"-")</Value>
+                                  <Value>= formatnumber(Sum(IIf(Fields!Sr.Value =1,Fields!CancelQty.Value,Nothing), "DsMain"),Max(Fields!DecimalPlaces.Value))</Value>
                                   <Style>
                                     <FontFamily>Tahoma</FontFamily>
                                     <FontSize>7pt</FontSize>
@@ -7114,7 +7118,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=iif(Sum(Fields!BalanceQty.Value) &lt;&gt; 0,  formatnumber(Sum(Fields!BalanceQty.Value), Max(Fields!DecimalPlaces.Value)),"-")</Value>
+                                  <Value>= formatnumber(Sum(IIf(Fields!Sr.Value =1,Fields!BalanceQty.Value,Nothing), "DsMain"),Max(Fields!DecimalPlaces.Value))</Value>
                                   <Style>
                                     <FontFamily>Tahoma</FontFamily>
                                     <FontSize>7pt</FontSize>

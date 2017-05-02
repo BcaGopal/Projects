@@ -1626,20 +1626,6 @@
                   <CellContents>
                     <Subreport Name="TransactionChargesPrint">
                       <ReportName>TransactionChargesPrint</ReportName>
-                      <Parameters>
-                        <Parameter Name="Id">
-                          <Value>=Fields!JobOrderHeaderId.Value</Value>
-                        </Parameter>
-                        <Parameter Name="TableName">
-                          <Value>=Fields!TableName.Value</Value>
-                        </Parameter>
-                        <Parameter Name="DatabaseConnectionString">
-                          <Value>=Parameters!DatabaseConnectionString.Value</Value>
-                        </Parameter>
-                        <Parameter Name="PrintedBy">
-                          <Value>=Parameters!PrintedBy.Value</Value>
-                        </Parameter>
-                      </Parameters>
                       <ZIndex>11</ZIndex>
                       <Visibility>
                         <Hidden>=IIF(max(Fields!NetAmount.Value) &gt; 0,false,True)</Hidden>
@@ -1833,20 +1819,6 @@
       </Tablix>
       <Subreport Name="Subreport3">
         <ReportName>CompanyDetail</ReportName>
-        <Parameters>
-          <Parameter Name="SiteId">
-            <Value>=Fields!Siteid.Value</Value>
-          </Parameter>
-          <Parameter Name="DivisionId">
-            <Value>=Fields!DivisionId.Value</Value>
-          </Parameter>
-          <Parameter Name="DatabaseConnectionString">
-            <Value>=Parameters!DatabaseConnectionString.Value</Value>
-          </Parameter>
-          <Parameter Name="PrintedBy">
-            <Value>=Parameters!PrintedBy.Value</Value>
-          </Parameter>
-        </Parameters>
         <Top>0.03194in</Top>
         <Left>0.01643in</Left>
         <Height>0.28373in</Height>
@@ -1987,20 +1959,6 @@
                   <CellContents>
                     <Subreport Name="HalfGatePassPrint">
                       <ReportName>HalfGatePassPrint</ReportName>
-                      <Parameters>
-                        <Parameter Name="Id">
-                          <Value>=Parameters!Id.Value</Value>
-                        </Parameter>
-                        <Parameter Name="PrintedBy">
-                          <Value>=Parameters!PrintedBy.Value</Value>
-                        </Parameter>
-                        <Parameter Name="DatabaseConnectionString">
-                          <Value>=Parameters!DatabaseConnectionString.Value</Value>
-                        </Parameter>
-                        <Parameter Name="RefDocNo">
-                          <Value>=Fields!DocNo.Value</Value>
-                        </Parameter>
-                      </Parameters>
                       <Visibility>
                         <Hidden>=IIF(First(Fields!GatePassHeaderId.Value, "DsMain") IS NOTHING,true,false)</Hidden>
                       </Visibility>
@@ -3069,7 +3027,7 @@ iif(Fields!DimensionCnt.Value=4 ,iif(Fields!Dimension4Name.Value &lt;&gt; "",Fie
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=iif(Fields!Qty.Value &lt;&gt; 0, formatnumber(Fields!Qty.Value,Fields!DecimalPlaces.Value),"-")</Value>
+                              <Value>=iif(sum(Fields!Qty.Value) &lt;&gt; 0, formatnumber(sum(Fields!Qty.Value),max(Fields!DecimalPlaces.Value)),"-")</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>8.5pt</FontSize>
@@ -4218,7 +4176,7 @@ Code.DimensionName(Fields!Dimension1Name.Value,Fields!Dimension2Name.Value,Field
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Microsoft.VisualBasic.Interaction.iif(Fields!Qty.Value &lt;&gt; 0, Microsoft.VisualBasic.Strings.formatnumber(Fields!Qty.Value, Fields!DecimalPlaces.Value), "-")</Value>
+                              <Value>=iif(sum(Fields!Qty.Value) &lt;&gt; 0, formatnumber(sum(Fields!Qty.Value),max(Fields!DecimalPlaces.Value)),"-")</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>8.5pt</FontSize>
@@ -5182,7 +5140,7 @@ Code.DimensionName(Fields!Dimension1Name.Value,Fields!Dimension2Name.Value,Field
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Microsoft.VisualBasic.Interaction.iif(Fields!Qty.Value &lt;&gt; 0, Microsoft.VisualBasic.Strings.formatnumber(Fields!Qty.Value, Fields!DecimalPlaces.Value), "-")</Value>
+                              <Value>=iif(sum(Fields!Qty.Value) &lt;&gt; 0, formatnumber(sum(Fields!Qty.Value),max(Fields!DecimalPlaces.Value)),"-")</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontWeight>Bold</FontWeight>
@@ -6216,7 +6174,7 @@ Code.DimensionName(Fields!Dimension1Name.Value,Fields!Dimension2Name.Value,Field
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Microsoft.VisualBasic.Interaction.iif(Fields!Qty.Value &lt;&gt; 0, Microsoft.VisualBasic.Strings.formatnumber(Fields!Qty.Value, Fields!DecimalPlaces.Value), "-")</Value>
+                              <Value>=iif(sum(Fields!Qty.Value) &lt;&gt; 0, formatnumber(sum(Fields!Qty.Value),max(Fields!DecimalPlaces.Value)),"-")</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>8.5pt</FontSize>
@@ -7021,7 +6979,7 @@ Code.DimensionName(Fields!Dimension1Name.Value,Fields!Dimension2Name.Value,Field
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Microsoft.VisualBasic.Interaction.iif(Fields!Qty.Value &lt;&gt; 0, Microsoft.VisualBasic.Strings.formatnumber(Fields!Qty.Value, Fields!DecimalPlaces.Value), "-")</Value>
+                              <Value>=iif(sum(Fields!Qty.Value) &lt;&gt; 0, formatnumber(sum(Fields!Qty.Value),max(Fields!DecimalPlaces.Value)),"-")</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>8.5pt</FontSize>
@@ -7230,7 +7188,7 @@ Code.DimensionName(Fields!Dimension1Name.Value,Fields!Dimension2Name.Value,Field
     <Height>7.33893in</Height>
     <Style />
   </Body>
-  <Width>8.58836in</Width>
+  <Width>8.02586in</Width>
   <Page>
     <PageHeader>
       <Height>0.61458in</Height>
@@ -7533,10 +7491,7 @@ Code.DimensionName(Fields!Dimension1Name.Value,Fields!Dimension2Name.Value,Field
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
     <DataSource Name="DyeingCancelPrint">
-      <ConnectionProperties>
-        <DataProvider>SQL</DataProvider>
-        <ConnectString>=Parameters!DatabaseConnectionString.Value</ConnectString>
-      </ConnectionProperties>
+      <DataSourceReference>DataSourceMain</DataSourceReference>
       <rd:SecurityType>None</rd:SecurityType>
       <rd:DataSourceID>727bb65e-cc51-4d28-a097-a8ea7d087931</rd:DataSourceID>
     </DataSource>
@@ -7708,10 +7663,6 @@ Code.DimensionName(Fields!Dimension1Name.Value,Fields!Dimension2Name.Value,Field
         </Field>
         <Field Name="LineRemark">
           <DataField>LineRemark</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="TableName">
-          <DataField>TableName</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="ModifiedBy">

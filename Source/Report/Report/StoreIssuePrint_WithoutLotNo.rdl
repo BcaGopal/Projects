@@ -127,13 +127,13 @@
         <TablixBody>
           <TablixColumns>
             <TablixColumn>
-              <Width>0.84334in</Width>
+              <Width>0.73917in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>0.21744in</Width>
+              <Width>0.12369in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>1.91219in</Width>
+              <Width>2.50594in</Width>
             </TablixColumn>
           </TablixColumns>
           <TablixRows>
@@ -604,7 +604,7 @@
         <Top>0.64723in</Top>
         <Left>5.67751in</Left>
         <Height>0.87083in</Height>
-        <Width>2.97297in</Width>
+        <Width>3.3688in</Width>
         <ZIndex>5</ZIndex>
         <Style>
           <Border>
@@ -616,13 +616,13 @@
         <TablixBody>
           <TablixColumns>
             <TablixColumn>
-              <Width>0.71163in</Width>
+              <Width>0.60746in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>0.22526in</Width>
+              <Width>0.13151in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>1.42069in</Width>
+              <Width>1.24361in</Width>
             </TablixColumn>
           </TablixColumns>
           <TablixRows>
@@ -975,9 +975,9 @@
         </TablixRowHierarchy>
         <DataSetName>DsMain</DataSetName>
         <Top>0.64341in</Top>
-        <Left>8.71992in</Left>
+        <Left>9.06992in</Left>
         <Height>0.65522in</Height>
-        <Width>2.35758in</Width>
+        <Width>1.98258in</Width>
         <ZIndex>6</ZIndex>
         <Style>
           <Border>
@@ -992,13 +992,13 @@
               <Width>0.45778in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>2.44794in</Width>
+              <Width>2.32294in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>0.74894in</Width>
+              <Width>0.67602in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>0.34181in</Width>
+              <Width>0.52931in</Width>
             </TablixColumn>
             <TablixColumn>
               <Width>1.42069in</Width>
@@ -1150,7 +1150,7 @@
                             </TextRun>
                           </TextRuns>
                           <Style>
-                            <TextAlign>Right</TextAlign>
+                            <TextAlign>Left</TextAlign>
                           </Style>
                         </Paragraph>
                       </Paragraphs>
@@ -1347,7 +1347,7 @@
                             </TextRun>
                           </TextRuns>
                           <Style>
-                            <TextAlign>Right</TextAlign>
+                            <TextAlign>Left</TextAlign>
                           </Style>
                         </Paragraph>
                       </Paragraphs>
@@ -1510,7 +1510,7 @@
                             </TextRun>
                           </TextRuns>
                           <Style>
-                            <TextAlign>Right</TextAlign>
+                            <TextAlign>Left</TextAlign>
                           </Style>
                         </Paragraph>
                       </Paragraphs>
@@ -1628,7 +1628,7 @@
         <Top>1.575in</Top>
         <Left>5.66034in</Left>
         <Height>0.72111in</Height>
-        <Width>5.41716in</Width>
+        <Width>5.40674in</Width>
         <ZIndex>7</ZIndex>
         <Style>
           <Border>
@@ -2104,7 +2104,7 @@
             <TablixMember />
             <TablixMember>
               <Visibility>
-                <Hidden>=iif(fields!GatePassHeaderId.Value is nothing,True,False)</Hidden>
+                <Hidden>=IIF(First(Fields!GatePassHeaderId.Value, "DsMain") IS NOTHING,true,false)</Hidden>
               </Visibility>
             </TablixMember>
           </TablixMembers>
@@ -2125,13 +2125,13 @@
         <TablixBody>
           <TablixColumns>
             <TablixColumn>
-              <Width>0.84334in</Width>
+              <Width>0.73917in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>0.21744in</Width>
+              <Width>0.11327in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>1.91219in</Width>
+              <Width>2.47469in</Width>
             </TablixColumn>
           </TablixColumns>
           <TablixRows>
@@ -2602,7 +2602,7 @@
         <Top>0.65488in</Top>
         <Left>0.06627in</Left>
         <Height>0.87083in</Height>
-        <Width>2.97297in</Width>
+        <Width>3.32714in</Width>
         <ZIndex>10</ZIndex>
         <Style>
           <Border>
@@ -2614,13 +2614,13 @@
         <TablixBody>
           <TablixColumns>
             <TablixColumn>
-              <Width>0.71163in</Width>
+              <Width>0.59705in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>0.22526in</Width>
+              <Width>0.15234in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>1.42069in</Width>
+              <Width>1.29569in</Width>
             </TablixColumn>
           </TablixColumns>
           <TablixRows>
@@ -2973,9 +2973,9 @@
         </TablixRowHierarchy>
         <DataSetName>DsMain</DataSetName>
         <Top>0.65591in</Top>
-        <Left>3.10869in</Left>
+        <Left>3.44619in</Left>
         <Height>0.65522in</Height>
-        <Width>2.35758in</Width>
+        <Width>2.04508in</Width>
         <ZIndex>11</ZIndex>
         <Style>
           <Border>
@@ -2990,13 +2990,13 @@
               <Width>0.45778in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>2.43078in</Width>
+              <Width>2.34745in</Width>
             </TablixColumn>
             <TablixColumn>
               <Width>0.74894in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>0.34181in</Width>
+              <Width>0.47723in</Width>
             </TablixColumn>
             <TablixColumn>
               <Width>1.42069in</Width>
@@ -3148,7 +3148,7 @@
                             </TextRun>
                           </TextRuns>
                           <Style>
-                            <TextAlign>Right</TextAlign>
+                            <TextAlign>Left</TextAlign>
                           </Style>
                         </Paragraph>
                       </Paragraphs>
@@ -3345,7 +3345,7 @@
                             </TextRun>
                           </TextRuns>
                           <Style>
-                            <TextAlign>Right</TextAlign>
+                            <TextAlign>Left</TextAlign>
                           </Style>
                         </Paragraph>
                       </Paragraphs>
@@ -3508,7 +3508,7 @@
                             </TextRun>
                           </TextRuns>
                           <Style>
-                            <TextAlign>Right</TextAlign>
+                            <TextAlign>Left</TextAlign>
                           </Style>
                         </Paragraph>
                       </Paragraphs>
@@ -3626,7 +3626,7 @@
         <Top>1.57015in</Top>
         <Left>0.05377in</Left>
         <Height>0.70096in</Height>
-        <Width>5.4in</Width>
+        <Width>5.45208in</Width>
         <ZIndex>12</ZIndex>
         <Style>
           <Border>
@@ -4961,4 +4961,3 @@ PtQeVUENmewh02zjEWZuZuLElNvBS6gDSXQMHP8A5UE5f6lWFPkR2q6ZG8HZI8xgvruK93SMJUsHJ61z
   <rd:ReportUnitType>Inch</rd:ReportUnitType>
   <rd:ReportID>f1b70379-da78-4ea9-bab5-cbb93d10df58</rd:ReportID>
 </Report>
-
