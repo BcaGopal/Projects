@@ -37,7 +37,7 @@
             <div class="btn-group">
                 @*@Html.ActionLink(" ", "Create", "Person", new { @id = @ViewBag.id }, new { @class = "cbtn btn-circle glyphicon glyphicon-plus toolbar", @title = "Add New", @data_toggle = "tooltip" })*@
                 @Html.ActionLink(" ", "ChooseContactType", "Person", new { @id = @ViewBag.id }, new { @class = "cbtn btn-circle glyphicon glyphicon-plus toolbar", @title = "Add New", @data_toggle = "tooltip", @data_modalCopy = "" })
-                @Html.ActionLink(" ", "Print", "Person", null, new { @class = "cbtn btn-circle glyphicon glyphicon-print toolbar", @title = "Print", @data_toggle = "tooltip" })
+                @*@Html.ActionLink(" ", "Print", "Person", null, new { @class = "cbtn btn-circle glyphicon glyphicon-print toolbar", @title = "Print", @data_toggle = "tooltip" })*@
                 @Html.ActionLink(" ", "Remove", "Person", null, new { @class = "cbtn btn-circle glyphicon glyphicon-trash toolbar", @title = "Delete", @data_toggle = "tooltip", @id = "DeleteRecord", @data_modalDelete = "" })
              </div>
             <div class="btn-group">
@@ -46,7 +46,7 @@
                 <ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu1">
                     <li><a href="@Url.Action("Create", "PersonSettings", new { @id = @ViewBag.id })"><span class="glyphicon glyphicon-cog"> </span>&nbsp;&nbsp;Settings</a></li>
                     <li role="separator" class="divider"></li>
-                    <li><a  target = "_blank" href="@Url.Action("Report", "Person")"><span class="glyphicon glyphicon-stats"> </span> Report</a></li>
+                    @*<li><a  target = "_blank" href="@Url.Action("Report", "Person")"><span class="glyphicon glyphicon-stats"> </span> Report</a></li>*@
                 </ul>
             </div>
         </div>

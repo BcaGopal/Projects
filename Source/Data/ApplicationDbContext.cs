@@ -152,6 +152,7 @@ namespace Data.Models
         public DbSet<RolesMenu> RolesMenu { get; set; }
         public DbSet<RolesSite> RolesSite { get; set; }
         public DbSet<UserBookMark> UserBookMark { get; set; }
+
         public DbSet<Menu> Menu { get; set; }
         public DbSet<Agent> Agent { get; set; }
         public DbSet<Manufacturer> Manufacturer { get; set; }

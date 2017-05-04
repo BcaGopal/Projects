@@ -37,7 +37,7 @@ namespace Models.BasicSetup.Models
         public virtual City City { get; set; }
 
 
-        [MaxLength(6, ErrorMessage = "{0} can not exceed {1} characters"), Required]
+        [MaxLength(6, ErrorMessage = "{0} can not exceed {1} characters")]
         public string Zipcode { get; set; }
         
         [Display(Name = "Created By")]

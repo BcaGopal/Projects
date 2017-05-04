@@ -105,6 +105,7 @@
     <Compile Include="DatabaseViews\StockVirtual.cs" />
     <Compile Include="Models\ActivityLog.cs" />
     <Compile Include="Models\BinLocation.cs" />
+    <Compile Include="Models\CompanySettings.cs" />
     <Compile Include="Models\Dimension4Type.cs" />
     <Compile Include="Models\Dimension3Type.cs" />
     <Compile Include="Models\Dimension4.cs" />

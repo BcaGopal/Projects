@@ -1436,8 +1436,8 @@ namespace Web
                             var productcharge = (ProductChargeList.Where(m => m.Id == item.Id)).FirstOrDefault();
 
                             var ExProdcharge = Mapper.Map<JobOrderLineCharge>(productcharge);
-                            productcharge.Rate = item.Rate;
-                            productcharge.Amount = item.Amount;
+                            productcharge.Rate = item.Rate ?? 0;
+                            productcharge.Amount = item.Amount ?? 0;
                             productcharge.DealQty = templine.DealQty;
                             LogList.Add(new LogTypeViewModel
                             {
@@ -1459,8 +1459,8 @@ namespace Web
                         {
                             var footercharge = footerChargerecords.Where(m => m.Id == item.Id).FirstOrDefault();
                             var Exfootercharge = Mapper.Map<JobOrderHeaderCharge>(footercharge);
-                            footercharge.Rate = item.Rate;
-                            footercharge.Amount = item.Amount;
+                            footercharge.Rate = item.Rate ?? 0;
+                            footercharge.Amount = item.Amount ?? 0;
                             LogList.Add(new LogTypeViewModel
                             {
                                 ExObj = Exfootercharge,

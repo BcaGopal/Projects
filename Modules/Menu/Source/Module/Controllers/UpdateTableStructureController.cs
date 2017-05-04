@@ -777,6 +777,53 @@ namespace Module
 
             AddFields("SaleOrderLines", "FreeQty", "Decimal(18,4)");
 
+
+            try
+            {
+                if ((int)ExecuteScaler("SELECT Count(*) AS Cnt FROM INFORMATION_SCHEMA.Tables WHERE TABLE_NAME = 'CompanySettings'") == 0)
+                {
+                    mQry = @"CREATE TABLE Web.CompanySettings
+	                        (
+	                        CompanySettingsId     INT IDENTITY NOT NULL,
+	                        CompanyId             INT NOT NULL,
+	                        IsVisibleMessage      BIT,
+	                        IsVisibleTask         BIT,
+	                        IsVisibleNotification BIT,
+	                        SiteCaption           NVARCHAR (50),
+	                        DivisionCaption       NVARCHAR (50),
+	                        GodownCaption         NVARCHAR (50),
+	                        CreatedBy             NVARCHAR (max),
+	                        ModifiedBy            NVARCHAR (max),
+	                        CreatedDate           DATETIME NOT NULL,
+	                        ModifiedDate          DATETIME NOT NULL,
+	                        OMSId                 NVARCHAR (50),
+	                        CONSTRAINT [PK_Web.CompanySettings] PRIMARY KEY (CompanySettingsId),
+	                        CONSTRAINT [FK_Web.CompanySettings_Web.Companies_CompanyId] FOREIGN KEY (CompanyId) REFERENCES Web.Companies (CompanyId)
+	                        )
+
+
+                        CREATE INDEX IX_CompanyId
+	                        ON Web.CompanySettings (CompanyId)
+                        ";
+
+
+                    mQry = @" INSERT INTO Web.CompanySettings (CompanyId, CreatedBy, ModifiedBy, CreatedDate, ModifiedDate)
+                                SELECT C.CompanyId, 'admin' AS CreatedBy, 'admin' AS ModifiedBy, getdate() AS CreatedDate, 
+                                getdate() AS ModifiedDate
+                                FROM Web.Companies C
+                                LEFT JOIN Web.CompanySettings Cs ON C.CompanyId = Cs.CompanyId
+                                WHERE Cs.CompanySettingsId IS NULL";
+                    ExecuteQuery(mQry);
+                }
+            }
+            catch (Exception ex)
+            {
+                RecordError(ex);
+            }
+
+
+            AddFields("ProductTypeSettings", "ImportMenuId", "Int","Menus");
+
             
             return RedirectToAction("Module", "Menu");
         }

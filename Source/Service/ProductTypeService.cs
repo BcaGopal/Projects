@@ -138,10 +138,10 @@ namespace Service
             return pt;
         }
 
-        public IEnumerable<ProductType> GetProductTypeListForGroup()
+        public IEnumerable<ProductType> GetProductTypeListForGroup(int id)
         {            
             var pt = (from p in db.ProductTypes
-                      where p.IsCustomUI == null || p.IsCustomUI == false
+                      where (p.IsCustomUI == false || p.IsCustomUI == null) && p.ProductNatureId == id
                           select p
                           );
 

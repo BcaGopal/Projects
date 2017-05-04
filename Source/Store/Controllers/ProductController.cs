@@ -353,6 +353,9 @@ namespace Web
         public ActionResult ProductTypeIndex(int id)//NatureId
         {
             var producttype = new ProductTypeService(_unitOfWork).GetProductTypeListForMaterial(id).Where(m => m.IsActive != false).ToList();
+
+            ViewBag.ProductNatureName = new ProductNatureService(_unitOfWork).Find(id).ProductNatureName;
+
             if (producttype.Count() == 0)
             {
                 ViewBag.PrevLink = Request.UrlReferrer.ToString();
@@ -373,6 +376,13 @@ namespace Web
             var Product = _ProductService.GetProductListForMaterial(id);
             ViewBag.Name = new ProductTypeService(_unitOfWork).Find(id).ProductTypeName;
             ViewBag.id = id;
+
+            var settings = new ProductTypeSettingsService(_unitOfWork).GetProductTypeSettingsForDocument(id);
+            if (settings != null)
+            {
+                ViewBag.ImportMenuId = settings.ImportMenuId;
+            }
+
             return View(Product);
         }
 
@@ -492,32 +502,34 @@ namespace Web
                     psd.ModifiedDate = DateTime.Now;
                     new ProductSiteDetailService(_unitOfWork).Create(psd);
 
-
-                    foreach (var pta in pvm.ProductTypeAttributes)
+                    if (pvm.ProductTypeAttributes != null)
                     {
-                        ProductAttributes productattribute = new ProductAttributeService(_unitOfWork).Find(pt1.ProductId, pta.ProductTypeAttributeId);
+                        foreach (var pta in pvm.ProductTypeAttributes)
+                        {
+                            ProductAttributes productattribute = new ProductAttributeService(_unitOfWork).Find(pt1.ProductId, pta.ProductTypeAttributeId);
 
-                        if (productattribute != null)
-                        {
-                            productattribute.ProductAttributeValue = pta.DefaultValue;
-                            productattribute.ObjectState = Model.ObjectState.Modified;
-                            new ProductAttributeService(_unitOfWork).Update(productattribute);
-                        }
-                        else
-                        {
-                            ProductAttributes pa = new ProductAttributes()
+                            if (productattribute != null)
                             {
-                                ProductAttributeValue = pta.DefaultValue,
-                                ProductId = pt1.ProductId,
-                                ProductTypeAttributeId = pta.ProductTypeAttributeId,
-                                CreatedBy = User.Identity.Name,
-                                ModifiedBy = User.Identity.Name,
-                                CreatedDate = DateTime.Now,
-                                ModifiedDate = DateTime.Now
+                                productattribute.ProductAttributeValue = pta.DefaultValue;
+                                productattribute.ObjectState = Model.ObjectState.Modified;
+                                new ProductAttributeService(_unitOfWork).Update(productattribute);
+                            }
+                            else
+                            {
+                                ProductAttributes pa = new ProductAttributes()
+                                {
+                                    ProductAttributeValue = pta.DefaultValue,
+                                    ProductId = pt1.ProductId,
+                                    ProductTypeAttributeId = pta.ProductTypeAttributeId,
+                                    CreatedBy = User.Identity.Name,
+                                    ModifiedBy = User.Identity.Name,
+                                    CreatedDate = DateTime.Now,
+                                    ModifiedDate = DateTime.Now
 
-                            };
-                            pa.ObjectState = Model.ObjectState.Added;
-                            new ProductAttributeService(_unitOfWork).Create(pa);
+                                };
+                                pa.ObjectState = Model.ObjectState.Added;
+                                new ProductAttributeService(_unitOfWork).Create(pa);
+                            }
                         }
                     }
 
@@ -1346,6 +1358,33 @@ namespace Web
 
         //}
 
+
+        public ActionResult Import(int id)//Document Type Id
+        {
+            var settings = new ProductTypeSettingsService(_unitOfWork).GetProductTypeSettingsForDocument(id);
+
+            if (settings != null)
+            {
+                if (settings.ImportMenuId != null)
+                {
+                    MenuViewModel menuviewmodel = new MenuService(_unitOfWork).GetMenu((int)settings.ImportMenuId);
+
+                    if (menuviewmodel == null)
+                    {
+                        return View("~/Views/Shared/UnderImplementation.cshtml");
+                    }
+                    else if (!string.IsNullOrEmpty(menuviewmodel.URL))
+                    {
+                        return Redirect(System.Configuration.ConfigurationManager.AppSettings[menuviewmodel.URL] + "/" + menuviewmodel.ControllerName + "/" + menuviewmodel.ActionName + "/" + id + "?MenuId=" + menuviewmodel.MenuId);
+                    }
+                    else
+                    {
+                        return RedirectToAction(menuviewmodel.ActionName, menuviewmodel.ControllerName, new { MenuId = menuviewmodel.MenuId, id = id });
+                    }
+                }
+            }
+            return RedirectToAction("Index", new { id = id });
+        }
 
         protected override void Dispose(bool disposing)
         {

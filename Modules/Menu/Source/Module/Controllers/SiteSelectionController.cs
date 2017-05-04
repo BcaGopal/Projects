@@ -25,13 +25,15 @@ namespace Module
         private readonly IUserRolesService _userRolesService;
         private readonly IModuleService _moduleService;
         private readonly IUserBookMarkService _userBookMarkService;
+        private readonly ICompanySettingsService _CompanySettingsService;
         private readonly IRolesControllerActionService _rolesControllerAcitonService;
-        public SiteSelectionController(ISiteSelectionService SiteSelectionServ, IUserRolesService userRolesService, IModuleService moduleServ,
+        public SiteSelectionController(ISiteSelectionService SiteSelectionServ, IUserRolesService userRolesService, IModuleService moduleServ, ICompanySettingsService CompanySettingsServ,
             IUserBookMarkService userBookmarkServ, IRolesControllerActionService rolesControllerActServ)
         {
             _siteSelectionService = SiteSelectionServ;
             _userRolesService = userRolesService;
             _moduleService = moduleServ;
+            _CompanySettingsService = CompanySettingsServ;
             _userBookMarkService = userBookmarkServ;
             _rolesControllerAcitonService = rolesControllerActServ;
         }
@@ -176,6 +178,14 @@ namespace Module
             System.Web.HttpContext.Current.Session["BookMarks"] = vm;
             #endregion
 
+            #region CompanySettings
+            //var vm = new Compa _userBookMarkService.GetUserBookMarkListForUser(User.Identity.Name);
+            var CompanySettings = _CompanySettingsService.GetCompanySettingsForCompany((int)System.Web.HttpContext.Current.Session["CompanyId"]);
+            
+            System.Web.HttpContext.Current.Session["CompanySettings"] = CompanySettings;
+            #endregion
+
+
             #region Permissions
             if (!UserRoles.Contains("Admin"))
             {
@@ -215,6 +225,12 @@ namespace Module
             int SiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
 
             var GodownList = _siteSelectionService.GetGodownList(SiteId);
+
+            var CompanySettings = _CompanySettingsService.GetCompanySettingsForCompany((int)System.Web.HttpContext.Current.Session["CompanyId"]);
+            if ((CompanySettings.isVisibleGodownSelection ?? true) == false)
+            {
+                return RedirectToAction("Module", "Menu");
+            }
 
             if (GodownList.Count() == 1 || GodownList.Count() == 0)
             {

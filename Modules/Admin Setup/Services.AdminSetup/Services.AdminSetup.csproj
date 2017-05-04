@@ -62,6 +62,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ControllerActionService.cs" />
+    <Compile Include="CompanySettingsService.cs" />
     <Compile Include="MenuService.cs" />
     <Compile Include="ModuleService.cs" />
     <Compile Include="MVCControllerService.cs" />

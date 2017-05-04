@@ -686,8 +686,8 @@ namespace Web
                             JobInvoiceLineCharge ExRecC = new JobInvoiceLineCharge();
                             ExRecC = Mapper.Map<JobInvoiceLineCharge>(productcharge);
 
-                            productcharge.Rate = item.Rate;
-                            productcharge.Amount = item.Amount;
+                            productcharge.Rate = item.Rate ?? 0;
+                            productcharge.Amount = item.Amount ?? 0;
                             productcharge.DealQty = temp1.DealQty;
                             productcharge.ObjectState = Model.ObjectState.Modified;
                              db.JobInvoiceLineCharge.Add(productcharge);
@@ -709,8 +709,8 @@ namespace Web
                             JobInvoiceHeaderCharge ExRecC = new JobInvoiceHeaderCharge();
                             ExRecC = Mapper.Map<JobInvoiceHeaderCharge>(footercharge);
 
-                            footercharge.Rate = item.Rate;
-                            footercharge.Amount = item.Amount;
+                            footercharge.Rate = item.Rate ?? 0;
+                            footercharge.Amount = item.Amount ?? 0;
                             footercharge.ObjectState = Model.ObjectState.Modified;
                             db.JobInvoiceHeaderCharges.Add(footercharge);
                             //new JobInvoiceHeaderChargeService(_unitOfWork).Update(footercharge);

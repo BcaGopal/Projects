@@ -113,6 +113,7 @@ namespace Model.Models
         public bool? isVisibleDiscountPer { get; set; }
         public bool? isVisibleForSaleOrder { get; set; }
         public bool? isVisibleWeight { get; set; }
+        public bool? isVisibleCreditDays { get; set; }
 
 
         [ForeignKey("Currency")]

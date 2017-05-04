@@ -188,6 +188,7 @@ namespace Services.BasicSetup
         {
             var list = (from pr in _Dimension1Repository.Instance
                         where (string.IsNullOrEmpty(searchTerm) ? 1 == 1 : (pr.Dimension1Name.ToLower().Contains(searchTerm.ToLower())))
+                        && pr.IsActive == true
                         orderby pr.Dimension1Name
                         select new ComboBoxResult
                         {

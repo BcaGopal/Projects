@@ -168,6 +168,7 @@ namespace Services.BasicSetup
             var pt = (from P in _unitOfWork.Repository<PaymentMode>().Instance
                       join Pl in PaymentModeLedgerAccounts on P.PaymentModeId equals Pl.PaymentModeId into PaymentModeLedgerAccountsTable
                      from PaymentModeLedgerAccountsTab in PaymentModeLedgerAccountsTable.DefaultIfEmpty()
+                     where P.PaymentModeId == PaymentModeId
                      select new PaymentModeViewModel
                      {
                          PaymentModeId = P.PaymentModeId,

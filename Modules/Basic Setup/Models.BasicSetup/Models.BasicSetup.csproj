@@ -72,6 +72,7 @@
     <Compile Include="Models\Charge.cs" />
     <Compile Include="Models\ChargeType.cs" />
     <Compile Include="Models\City.cs" />
+    <Compile Include="Models\CompanySettings.cs" />
     <Compile Include="Models\CostCenter.cs" />
     <Compile Include="Models\CostCenterStatus.cs" />
     <Compile Include="Models\Country.cs" />
@@ -139,6 +140,7 @@
     <Compile Include="ViewModels\CalculationHeaderLedgerAccountViewModel.cs" />
     <Compile Include="ViewModels\CalculationLineLedgerAccountViewModel.cs" />
     <Compile Include="ViewModels\CalculationProductViewModel.cs" />
+    <Compile Include="ViewModels\CompanySettingsViewModel.cs" />
     <Compile Include="ViewModels\PaymentModeViewModel.cs" />
     <Compile Include="ViewModels\GatePassViewModel.cs" />
     <Compile Include="ViewModels\LedgerHeaderViewModel.cs" />

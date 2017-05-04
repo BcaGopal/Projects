@@ -62,6 +62,7 @@ namespace Module.App_Start
             container.RegisterType<IRolesControllerActionService, RolesControllerActionService>(new PerRequestLifetimeManager());
             container.RegisterType<IUsersService, UsersService>(new PerRequestLifetimeManager());
             container.RegisterType<ILogger, LogActivity>(new PerRequestLifetimeManager());
+            container.RegisterType<ICompanySettingsService, CompanySettingsService>(new PerRequestLifetimeManager());
 
             container.RegisterType<IRepository<MenuModule>, Repository<MenuModule>>();
             container.RegisterType<IRepository<ActivityLog>, Repository<ActivityLog>>();
@@ -71,6 +72,7 @@ namespace Module.App_Start
             container.RegisterType<IRepository<RolesMenu>, Repository<RolesMenu>>();
             container.RegisterType<IRepository<ControllerAction>, Repository<ControllerAction>>();
             container.RegisterType<IRepository<RolesControllerAction>, Repository<RolesControllerAction>>();
+            container.RegisterType<IRepository<CompanySettings>, Repository<CompanySettings>>();
 
 
             Mapper.Initialize(cfg => { cfg.CreateMap<Site, SiteViewModel>();

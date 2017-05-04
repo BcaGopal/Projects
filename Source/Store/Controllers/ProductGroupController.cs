@@ -49,9 +49,11 @@ namespace Web
             var p = _ProductGroupService.GetProductGroupList(id);
             return View(p);
         }
-        public ActionResult ProductTypeIndex()
+        public ActionResult ProductTypeIndex(int id)//NatureId
         {
-            var producttype = new ProductTypeService(_unitOfWork).GetProductTypeListForGroup().ToList();
+            var producttype = new ProductTypeService(_unitOfWork).GetProductTypeListForGroup(id).Where(m => m.IsActive != false).ToList();
+
+            ViewBag.ProductNatureName = new ProductNatureService(_unitOfWork).Find(id).ProductNatureName;
 
             if (producttype.Count() == 0)
             {

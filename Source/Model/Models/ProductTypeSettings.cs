@@ -70,7 +70,10 @@ namespace Model.Models
         public string ProductCategoryCaption { get; set; }
 
 
-
+        [ForeignKey("ImportMenu")]
+        [Display(Name = "ImportMenu")]
+        public int? ImportMenuId { get; set; }
+        public virtual Menu ImportMenu { get; set; }
 
 
 

@@ -45,6 +45,10 @@
                 <ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu1">
                     <li><a href="@Url.Action("Create", "ProductTypeSettings", new { @id = @ViewBag.id })"><span class="glyphicon glyphicon-cog"> </span>&nbsp;&nbsp;Settings</a></li>
                     <li role="separator" class="divider"></li>
+                    @if (ViewBag.ImportMenuId != null)
+                    {
+                        <li><a href="@Url.Action("Import", "Product", new { @id = @ViewBag.id })"><span class="glyphicon glyphicon-import"> </span>&nbsp;&nbsp;Import</a></li>
+                    }
                     <li><a href="@Url.Action("Report", "Product")"><span class="glyphicon glyphicon-stats"> </span> Report</a></li>
                 </ul>
             </div>
