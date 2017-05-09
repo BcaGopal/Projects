@@ -14,7 +14,7 @@
     <WebStackScaffolding_ViewDialogWidth>600</WebStackScaffolding_ViewDialogWidth>
   </PropertyGroup>
   <PropertyGroup>
-    <ReferencePath>E:\Gopal Active Project\Projects\3rdPartyLib\</ReferencePath>
+    <ReferencePath>E:\Gopal Active Project\Projects\3rdPartyLib\;D:\Active Project\Projects\3rdPartyLib\</ReferencePath>
   </PropertyGroup>
   <ProjectExtensions>
     <VisualStudio>

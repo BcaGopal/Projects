@@ -145,7 +145,14 @@
                                 <div class="form-group" style="margin-top:15px">
                                     @Html.LabelFor(model => model.DocDate, "Order Date", new { @class = "control-label col-md-4 col-sm-2" })
                                     <div class="col-md-7 col-sm-10">
-                                        @Html.TextBoxFor(m => m.DocDate, "{0:dd/MMMM/yyyy}", new { @class = "datepickerWithNFD form-control col-xs-6 required" })
+                                        @Html.TextBoxFor(m => m.DocDate, "{0:dd/MMMM/yyyy}", new
+                                   {
+                                       @class = "datepickerWithNFD form-control col-xs-6 required updateDocNo",
+                                       data_tabl = "PurchaseOrderHeaders",
+                                       data_doctype = Model.DocTypeId,
+                                       data_divId = Model.DivisionId,
+                                       data_sitId = Model.SiteId,
+                                   })
                                         @Html.ValidationMessageFor(model => model.DocDate, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
