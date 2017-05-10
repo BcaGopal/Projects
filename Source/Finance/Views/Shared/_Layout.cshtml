@@ -363,8 +363,8 @@
                         $(this).removeClass('DateSunday');
                 }
             }
-
-            if (($(this).val()) && ViewBag.Mode == "Add"  && $(this).hasClass('updateDocNo')) {
+            var EntryMode = '@ViewBag.Mode';
+            if (($(this).val()) && EntryMode == "Add" && $(this).hasClass('updateDocNo')) {
                 $.get("/GetNewDocNo/GetNewDocNo", {
                     table: $(this).data('tabl'), doctype: $(this).data('doctype'), division: parseInt($(this).data('divid')), site: parseInt($(this).data('sitid')), date: $(this).val()
                 }, function (data, stat, xhr) {

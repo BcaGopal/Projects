@@ -67,8 +67,14 @@
           <QueryParameter Name="@Dimension2">
             <Value>=Parameters!Dimension2.Value</Value>
           </QueryParameter>
+          <QueryParameter Name="@Dimension3">
+            <Value>=Parameters!Dimension3.Value</Value>
+          </QueryParameter>
           <QueryParameter Name="@ProdOrderHeaderId">
             <Value>=Parameters!ProdOrderHeaderId.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@Dimension4">
+            <Value>=Parameters!Dimension4.Value</Value>
           </QueryParameter>
           <QueryParameter Name="@JobOrderHeaderId">
             <Value>=Parameters!JobOrderHeaderId.Value</Value>
@@ -163,6 +169,10 @@
           <DataField>ReceiveQty</DataField>
           <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
+        <Field Name="BalanceQty1">
+          <DataField>BalanceQty1</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
         <Field Name="LossQty">
           <DataField>LossQty</DataField>
           <rd:TypeName>System.Decimal</rd:TypeName>
@@ -226,6 +236,38 @@
         <Field Name="SubReportProcList">
           <DataField>SubReportProcList</DataField>
           <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="Dimension3Name">
+          <DataField>Dimension3Name</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Dimension4Name">
+          <DataField>Dimension4Name</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Dimension1Title">
+          <DataField>Dimension1Title</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Dimension2Title">
+          <DataField>Dimension2Title</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Dimension3Title">
+          <DataField>Dimension3Title</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Dimension4Title">
+          <DataField>Dimension4Title</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="PartyCaption">
+          <DataField>PartyCaption</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="ProductCaption">
+          <DataField>ProductCaption</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
         </Field>
       </Fields>
     </DataSet>
@@ -446,7 +488,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Job Worker</Value>
+                                  <Value>=fields!PartyCaption.Value</Value>
                                   <Style>
                                     <FontFamily>Tahoma</FontFamily>
                                     <FontSize>7pt</FontSize>
@@ -483,7 +525,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Product</Value>
+                                  <Value>=fields!ProductCaption.Value</Value>
                                   <Style>
                                     <FontFamily>Tahoma</FontFamily>
                                     <FontSize>7pt</FontSize>
@@ -5540,6 +5582,9 @@
                           </SortExpressions>
                           <TablixMembers>
                             <TablixMember>
+                              <Visibility>
+                                <Hidden>true</Hidden>
+                              </Visibility>
                               <KeepWithGroup>After</KeepWithGroup>
                               <RepeatOnNewPage>true</RepeatOnNewPage>
                             </TablixMember>
@@ -5556,6 +5601,9 @@
                               </SortExpressions>
                               <TablixMembers>
                                 <TablixMember>
+                                  <Visibility>
+                                    <Hidden>true</Hidden>
+                                  </Visibility>
                                   <KeepWithGroup>After</KeepWithGroup>
                                   <RepeatOnNewPage>true</RepeatOnNewPage>
                                 </TablixMember>
@@ -5565,17 +5613,36 @@
                                     <TablixMember />
                                   </TablixMembers>
                                 </TablixMember>
-                                <TablixMember />
-                                <TablixMember />
+                                <TablixMember>
+                                  <Visibility>
+                                    <Hidden>true</Hidden>
+                                  </Visibility>
+                                </TablixMember>
+                                <TablixMember>
+                                  <Visibility>
+                                    <Hidden>true</Hidden>
+                                  </Visibility>
+                                </TablixMember>
                               </TablixMembers>
                             </TablixMember>
-                            <TablixMember />
-                            <TablixMember />
+                            <TablixMember>
+                              <Visibility>
+                                <Hidden>true</Hidden>
+                              </Visibility>
+                            </TablixMember>
+                            <TablixMember>
+                              <Visibility>
+                                <Hidden>true</Hidden>
+                              </Visibility>
+                            </TablixMember>
                           </TablixMembers>
                         </TablixMember>
                       </TablixMembers>
                     </TablixMember>
                     <TablixMember>
+                      <Visibility>
+                        <Hidden>true</Hidden>
+                      </Visibility>
                       <KeepWithGroup>Before</KeepWithGroup>
                     </TablixMember>
                   </TablixMembers>
@@ -7168,6 +7235,18 @@
       <Nullable>true</Nullable>
       <AllowBlank>true</AllowBlank>
       <Prompt>Site</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="Dimension3">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Dimension3</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="Dimension4">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Dimension4</Prompt>
     </ReportParameter>
   </ReportParameters>
   <EmbeddedImages>

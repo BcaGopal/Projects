@@ -49,6 +49,7 @@ namespace Service
         decimal GetConsumptionBalanceQty(int filter, int ProductId);
         string GetReasons(int filter);
         List<ComboBoxResult> SetReason(string Ids);
+        IEnumerable<JobReceiveLine> ProductUidsExist(int JobReceiveHeaderId, int? ProductUid);
     }
 
     public class JobReceiveLineService : IJobReceiveLineService
@@ -344,6 +345,13 @@ namespace Service
             return pt;
         }
 
+        public IEnumerable<JobReceiveLine> ProductUidsExist(int JobReceiveHeaderId,int? ProductUid)
+        {
+            var pt = _unitOfWork.Repository<JobReceiveLine>().Query().Get().Where(i => i.JobReceiveHeaderId == JobReceiveHeaderId && i.ProductUidId== ProductUid);
+
+            return pt;
+        }
+     
         public JobReceiveLine Add(JobReceiveLine pt)
         {
             _unitOfWork.Repository<JobReceiveLine>().Insert(pt);
@@ -929,7 +937,8 @@ namespace Service
             return StockProcessBalance.BalanceQty;
         }
 
-
+        
+        
 
         public string GetReasons(int filter)//DocTypeId
         {

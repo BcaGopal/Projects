@@ -3475,12 +3475,6 @@ iif(fields!DimensionCnt.Value=4 ,iif(Fields!Dimension4Name.Value &lt;&gt; "",Fie
       <AllowBlank>true</AllowBlank>
       <Prompt>ReportTitle</Prompt>
     </ReportParameter>
-    <ReportParameter Name="CompanyName">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>CompanyName</Prompt>
-    </ReportParameter>
   </ReportParameters>
   <Code>
     Function RupeesToWord(ByVal MyNumber)

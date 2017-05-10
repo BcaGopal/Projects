@@ -5,7 +5,7 @@
     <DataSource Name="Purchase">
       <ConnectionProperties>
         <DataProvider>SQL</DataProvider>
-        <ConnectString>=Parameters!DatabaseConnectionString.Value</ConnectString>
+        <ConnectString>Data Source=192.168.2.25;Initial Catalog=Dyeinghouse;Integrated Security=False;User Id=sa; pwd=P@ssw0rd!</ConnectString>
       </ConnectionProperties>
       <rd:SecurityType>None</rd:SecurityType>
       <rd:DataSourceID>a4701ec2-a2bf-4f00-a373-e0ef6d3046c3</rd:DataSourceID>
@@ -2786,6 +2786,8 @@
     </ReportParameter>
     <ReportParameter Name="Site">
       <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
       <Prompt>Site</Prompt>
     </ReportParameter>
     <ReportParameter Name="Division">

@@ -3,7 +3,10 @@
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
     <DataSource Name="Weaving">
-      <DataSourceReference>DSBCL</DataSourceReference>
+      <ConnectionProperties>
+        <DataProvider>SQL</DataProvider>
+        <ConnectString>=Parameters!DatabaseConnectionString.Value</ConnectString>
+      </ConnectionProperties>
       <rd:SecurityType>None</rd:SecurityType>
       <rd:DataSourceID>a4701ec2-a2bf-4f00-a373-e0ef6d3046c3</rd:DataSourceID>
     </DataSource>
@@ -25,35 +28,38 @@
           <QueryParameter Name="@ToDate">
             <Value>=Parameters!ToDate.Value</Value>
           </QueryParameter>
-          <QueryParameter Name="@DocumentType">
-            <Value>=Parameters!DocumentType.Value</Value>
-          </QueryParameter>
           <QueryParameter Name="@Buyer">
             <Value>=Parameters!Buyer.Value</Value>
           </QueryParameter>
-          <QueryParameter Name="@Currency">
-            <Value>=Parameters!Currency.Value</Value>
+          <QueryParameter Name="@DocumentType">
+            <Value>=Parameters!DocumentType.Value</Value>
           </QueryParameter>
           <QueryParameter Name="@ProductNature">
             <Value>=Parameters!ProductNature.Value</Value>
           </QueryParameter>
-          <QueryParameter Name="@ProductCategory">
-            <Value>=Parameters!ProductCategory.Value</Value>
+          <QueryParameter Name="@Currency">
+            <Value>=Parameters!Currency.Value</Value>
           </QueryParameter>
           <QueryParameter Name="@ProductType">
             <Value>=Parameters!ProductType.Value</Value>
           </QueryParameter>
-          <QueryParameter Name="@ProductCollection">
-            <Value>=Parameters!ProductCollection.Value</Value>
-          </QueryParameter>
-          <QueryParameter Name="@ProductQuality">
-            <Value>=Parameters!ProductQuality.Value</Value>
-          </QueryParameter>
           <QueryParameter Name="@ProductGroup">
             <Value>=Parameters!ProductGroup.Value</Value>
           </QueryParameter>
+          <QueryParameter Name="@ProductCustomGroup">
+            <Value>=Parameters!ProductCustomGroup.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@ProductCollection">
+            <Value>=Parameters!ProductCollection.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@Product">
+            <Value>=Parameters!Product.Value</Value>
+          </QueryParameter>
           <QueryParameter Name="@ProductStyle">
             <Value>=Parameters!ProductStyle.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@ProductCategory">
+            <Value>=Parameters!ProductCategory.Value</Value>
           </QueryParameter>
           <QueryParameter Name="@ProductDesign">
             <Value>=Parameters!ProductDesign.Value</Value>
@@ -61,20 +67,20 @@
           <QueryParameter Name="@ProductShape">
             <Value>=Parameters!ProductShape.Value</Value>
           </QueryParameter>
+          <QueryParameter Name="@ProductQuality">
+            <Value>=Parameters!ProductQuality.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@ProductDivisionId">
+            <Value>=Parameters!ProductDivisionId.Value</Value>
+          </QueryParameter>
           <QueryParameter Name="@ProductSize">
             <Value>=Parameters!ProductSize.Value</Value>
           </QueryParameter>
           <QueryParameter Name="@ProductInvoiceGroup">
             <Value>=Parameters!ProductInvoiceGroup.Value</Value>
           </QueryParameter>
-          <QueryParameter Name="@ProductCustomGroup">
-            <Value>=Parameters!ProductCustomGroup.Value</Value>
-          </QueryParameter>
           <QueryParameter Name="@ProductTag">
             <Value>=Parameters!ProductTag.Value</Value>
-          </QueryParameter>
-          <QueryParameter Name="@Product">
-            <Value>=Parameters!Product.Value</Value>
           </QueryParameter>
           <QueryParameter Name="@SaleOrderHeaderId">
             <Value>=Parameters!SaleOrderHeaderId.Value</Value>
@@ -82,18 +88,11 @@
           <QueryParameter Name="@ReportType">
             <Value>=Parameters!ReportType.Value</Value>
           </QueryParameter>
-          <QueryParameter Name="@ProductDivisionId">
-            <Value>=Parameters!ProductDivisionId.Value</Value>
-          </QueryParameter>
         </QueryParameters>
         <CommandType>StoredProcedure</CommandType>
-        <CommandText>web.ProcSaleOrderReport</CommandText>
+        <CommandText>Web.ProcSaleOrderReport</CommandText>
       </Query>
       <Fields>
-        <Field Name="SiteId">
-          <DataField>SiteId</DataField>
-          <rd:TypeName>System.Int32</rd:TypeName>
-        </Field>
         <Field Name="DivisionId">
           <DataField>DivisionId</DataField>
           <rd:TypeName>System.Int32</rd:TypeName>
@@ -102,6 +101,10 @@
           <DataField>SaleOrderHeaderId</DataField>
           <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
+        <Field Name="DocNo">
+          <DataField>DocNo</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
         <Field Name="DocumentTypeName">
           <DataField>DocumentTypeName</DataField>
           <rd:TypeName>System.String</rd:TypeName>
@@ -109,10 +112,6 @@
         <Field Name="DocDate">
           <DataField>DocDate</DataField>
           <rd:TypeName>System.DateTime</rd:TypeName>
-        </Field>
-        <Field Name="DocNo">
-          <DataField>DocNo</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="DueDate">
           <DataField>DueDate</DataField>
@@ -138,6 +137,10 @@
           <DataField>ShipAddress</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
+        <Field Name="Rate">
+          <DataField>Rate</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
         <Field Name="Currency">
           <DataField>Currency</DataField>
           <rd:TypeName>System.String</rd:TypeName>
@@ -158,9 +161,17 @@
           <DataField>CreditDays</DataField>
           <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
+        <Field Name="Amount">
+          <DataField>Amount</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
         <Field Name="TermsAndConditions">
           <DataField>TermsAndConditions</DataField>
           <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="SiteId">
+          <DataField>SiteId</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
         <Field Name="SaleOrderLineId">
           <DataField>SaleOrderLineId</DataField>
@@ -178,6 +189,10 @@
           <DataField>DeliveryQty</DataField>
           <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
+        <Field Name="ReportName">
+          <DataField>ReportName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
         <Field Name="DeliveryUnit">
           <DataField>DeliveryUnit</DataField>
           <rd:TypeName>System.String</rd:TypeName>
@@ -186,13 +201,9 @@
           <DataField>LineDueDate</DataField>
           <rd:TypeName>System.DateTime</rd:TypeName>
         </Field>
-        <Field Name="Rate">
-          <DataField>Rate</DataField>
-          <rd:TypeName>System.Decimal</rd:TypeName>
-        </Field>
-        <Field Name="Amount">
-          <DataField>Amount</DataField>
-          <rd:TypeName>System.Decimal</rd:TypeName>
+        <Field Name="ReportTitle">
+          <DataField>ReportTitle</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="LineRemark">
           <DataField>LineRemark</DataField>
@@ -225,18 +236,6 @@
         <Field Name="RatePerPcs">
           <DataField>RatePerPcs</DataField>
           <rd:TypeName>System.Decimal</rd:TypeName>
-        </Field>
-        <Field Name="ProductTypeName">
-          <DataField>ProductTypeName</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="ReportName">
-          <DataField>ReportName</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="ReportTitle">
-          <DataField>ReportTitle</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="SiteName">
           <DataField>SiteName</DataField>

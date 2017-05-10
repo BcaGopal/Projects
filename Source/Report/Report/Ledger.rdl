@@ -4,6 +4,20 @@
     <ReportItems>
       <Subreport Name="CompanyDetail">
         <ReportName>CompanyDetail</ReportName>
+        <Parameters>
+          <Parameter Name="SiteId">
+            <Value>=First(Fields!SiteId.Value, "DsMain")</Value>
+          </Parameter>
+          <Parameter Name="DivisionId">
+            <Value>=First(Fields!DivisionId.Value, "DsMain")</Value>
+          </Parameter>
+          <Parameter Name="DatabaseConnectionString">
+            <Value>=Parameters!DatabaseConnectionString.Value</Value>
+          </Parameter>
+          <Parameter Name="PrintedBy">
+            <Value>=Parameters!PrintedBy.Value</Value>
+          </Parameter>
+        </Parameters>
         <Left>0.01875in</Left>
         <Height>0.31945in</Height>
         <Width>7.46229in</Width>
@@ -29,16 +43,16 @@
               <Width>0.52013in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>3.15554in</Width>
+              <Width>2.86387in</Width>
             </TablixColumn>
             <TablixColumn>
               <Width>0.78039in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>0.71683in</Width>
+              <Width>0.80016in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>0.75972in</Width>
+              <Width>0.96805in</Width>
             </TablixColumn>
           </TablixColumns>
           <TablixRows>
@@ -570,7 +584,7 @@
                           <Style>Solid</Style>
                         </Border>
                         <BackgroundColor>=iif(RowNumber(nothing) Mod 2 , "White","WhiteSmoke")</BackgroundColor>
-                        <VerticalAlign>Middle</VerticalAlign>
+                        <VerticalAlign>Top</VerticalAlign>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
@@ -606,7 +620,7 @@
                           <Style>Solid</Style>
                         </Border>
                         <BackgroundColor>=iif(RowNumber(nothing) Mod 2 , "White","WhiteSmoke")</BackgroundColor>
-                        <VerticalAlign>Middle</VerticalAlign>
+                        <VerticalAlign>Top</VerticalAlign>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
@@ -641,7 +655,7 @@
                           <Style>Solid</Style>
                         </Border>
                         <BackgroundColor>=iif(RowNumber(nothing) Mod 2 , "White","WhiteSmoke")</BackgroundColor>
-                        <VerticalAlign>Middle</VerticalAlign>
+                        <VerticalAlign>Top</VerticalAlign>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
@@ -659,7 +673,12 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>= Fields!Narration1.Value + System.Environment.NewLine + Fields!Narration2.Value</Value>
+                              <Value>= Fields!Narration1.Value +iif(Fields!Narration2.Value &lt;&gt; "",System.Environment.NewLine,"")
+   +iif(Fields!Narration2.Value &lt;&gt; "",Fields!Narration2.Value,"")
+   +iif(Fields!ChqNo.Value &lt;&gt; "",System.Environment.NewLine,"")
+   +iif(Fields!ChqNo.Value &lt;&gt; "",Fields!ChqNo.Value,"")
+   +iif(Fields!LineNarration.Value &lt;&gt; "",System.Environment.NewLine,"")
+   +iif(Fields!LineNarration.Value &lt;&gt; "",Fields!LineNarration.Value,"")</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>8pt</FontSize>
@@ -713,13 +732,14 @@
                           <Style>Solid</Style>
                         </Border>
                         <BackgroundColor>=iif(RowNumber(nothing) Mod 2 , "White","WhiteSmoke")</BackgroundColor>
-                        <VerticalAlign>Middle</VerticalAlign>
+                        <VerticalAlign>Top</VerticalAlign>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
                         <PaddingBottom>2pt</PaddingBottom>
                       </Style>
                     </Textbox>
+                    <rd:Selected>true</rd:Selected>
                   </CellContents>
                 </TablixCell>
                 <TablixCell>
@@ -750,13 +770,14 @@
                           <Style>Solid</Style>
                         </Border>
                         <BackgroundColor>=iif(RowNumber(nothing) Mod 2 , "White","WhiteSmoke")</BackgroundColor>
-                        <VerticalAlign>Middle</VerticalAlign>
+                        <VerticalAlign>Top</VerticalAlign>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
                         <PaddingBottom>2pt</PaddingBottom>
                       </Style>
                     </Textbox>
+                    <rd:Selected>true</rd:Selected>
                   </CellContents>
                 </TablixCell>
                 <TablixCell>
@@ -787,13 +808,14 @@
                           <Style>Solid</Style>
                         </Border>
                         <BackgroundColor>=iif(RowNumber(nothing) Mod 2 , "White","WhiteSmoke")</BackgroundColor>
-                        <VerticalAlign>Middle</VerticalAlign>
+                        <VerticalAlign>Top</VerticalAlign>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
                         <PaddingBottom>2pt</PaddingBottom>
                       </Style>
                     </Textbox>
+                    <rd:Selected>true</rd:Selected>
                   </CellContents>
                 </TablixCell>
               </TablixCells>
@@ -2286,6 +2308,14 @@
         <Field Name="DivisionText">
           <DataField>DivisionText</DataField>
           <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="ChqNo">
+          <DataField>ChqNo</DataField>
+          <rd:UserDefined>true</rd:UserDefined>
+        </Field>
+        <Field Name="LineNarration">
+          <DataField>LineNarration</DataField>
+          <rd:UserDefined>true</rd:UserDefined>
         </Field>
       </Fields>
     </DataSet>

@@ -12,7 +12,7 @@
               <Width>0.26577in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>1.86677in</Width>
+              <Width>2.10635in</Width>
             </TablixColumn>
           </TablixColumns>
           <TablixRows>
@@ -592,7 +592,7 @@
         <Top>0.68473in</Top>
         <Left>0.03122in</Left>
         <Height>1.10833in</Height>
-        <Width>2.86796in</Width>
+        <Width>3.10754in</Width>
         <Style>
           <Border>
             <Style>None</Style>
@@ -1489,13 +1489,13 @@
         <TablixBody>
           <TablixColumns>
             <TablixColumn>
-              <Width>0.65306in</Width>
+              <Width>0.67389in</Width>
             </TablixColumn>
             <TablixColumn>
               <Width>0.18752in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>1.67704in</Width>
+              <Width>1.38295in</Width>
             </TablixColumn>
           </TablixColumns>
           <TablixRows>
@@ -2074,9 +2074,9 @@
         </TablixRowHierarchy>
         <DataSetName>DsMain</DataSetName>
         <Top>0.67848in</Top>
-        <Left>2.94571in</Left>
+        <Left>3.20821in</Left>
         <Height>1.1084in</Height>
-        <Width>2.51762in</Width>
+        <Width>2.24436in</Width>
         <ZIndex>2</ZIndex>
         <Style>
           <Border>
@@ -2263,6 +2263,14 @@
       </Tablix>
       <Subreport Name="Subreport3">
         <ReportName>CompanyDetail_HalfLandscap</ReportName>
+        <Parameters>
+          <Parameter Name="SiteId">
+            <Value>=First(Fields!Siteid.Value, "DsMain")</Value>
+          </Parameter>
+          <Parameter Name="DivisionId">
+            <Value>=First(Fields!DivisionId.Value, "DsMain")</Value>
+          </Parameter>
+        </Parameters>
         <Top>0.05694in</Top>
         <Left>0.01643in</Left>
         <Height>0.28373in</Height>
@@ -2591,6 +2599,14 @@
       </Textbox>
       <Subreport Name="Subreport4">
         <ReportName>CompanyDetail_HalfLandscap</ReportName>
+        <Parameters>
+          <Parameter Name="SiteId">
+            <Value>=First(Fields!Siteid.Value, "DsMain")</Value>
+          </Parameter>
+          <Parameter Name="DivisionId">
+            <Value>=First(Fields!DivisionId.Value, "DsMain")</Value>
+          </Parameter>
+        </Parameters>
         <Top>0.04554in</Top>
         <Left>5.79334in</Left>
         <Height>0.28373in</Height>
@@ -2963,137 +2979,6 @@
                 </TablixCell>
               </TablixCells>
             </TablixRow>
-            <TablixRow>
-              <Height>0.1875in</Height>
-              <TablixCells>
-                <TablixCell>
-                  <CellContents>
-                    <Textbox Name="Textbox6">
-                      <CanGrow>true</CanGrow>
-                      <KeepTogether>true</KeepTogether>
-                      <Paragraphs>
-                        <Paragraph>
-                          <TextRuns>
-                            <TextRun>
-                              <Value />
-                              <Style>
-                                <FontFamily>Tahoma</FontFamily>
-                                <FontSize>9pt</FontSize>
-                                <FontWeight>Bold</FontWeight>
-                              </Style>
-                            </TextRun>
-                          </TextRuns>
-                          <Style />
-                        </Paragraph>
-                      </Paragraphs>
-                      <rd:DefaultName>Textbox6</rd:DefaultName>
-                      <Style>
-                        <Border>
-                          <Style>None</Style>
-                        </Border>
-                        <PaddingLeft>2pt</PaddingLeft>
-                        <PaddingRight>2pt</PaddingRight>
-                        <PaddingTop>2pt</PaddingTop>
-                        <PaddingBottom>2pt</PaddingBottom>
-                      </Style>
-                    </Textbox>
-                  </CellContents>
-                </TablixCell>
-                <TablixCell>
-                  <CellContents>
-                    <Textbox Name="Textbox7">
-                      <CanGrow>true</CanGrow>
-                      <KeepTogether>true</KeepTogether>
-                      <Paragraphs>
-                        <Paragraph>
-                          <TextRuns>
-                            <TextRun>
-                              <Value />
-                              <Style>
-                                <FontFamily>Tahoma</FontFamily>
-                                <FontSize>8pt</FontSize>
-                                <FontWeight>Bold</FontWeight>
-                              </Style>
-                            </TextRun>
-                          </TextRuns>
-                          <Style>
-                            <TextAlign>Center</TextAlign>
-                          </Style>
-                        </Paragraph>
-                      </Paragraphs>
-                      <rd:DefaultName>Textbox7</rd:DefaultName>
-                      <Style>
-                        <Border>
-                          <Style>None</Style>
-                        </Border>
-                        <PaddingLeft>2pt</PaddingLeft>
-                        <PaddingRight>2pt</PaddingRight>
-                        <PaddingTop>2pt</PaddingTop>
-                        <PaddingBottom>2pt</PaddingBottom>
-                      </Style>
-                    </Textbox>
-                  </CellContents>
-                </TablixCell>
-                <TablixCell>
-                  <CellContents>
-                    <Textbox Name="Textbox22">
-                      <CanGrow>true</CanGrow>
-                      <KeepTogether>true</KeepTogether>
-                      <Paragraphs>
-                        <Paragraph>
-                          <TextRuns>
-                            <TextRun>
-                              <Value />
-                              <Style>
-                                <FontFamily>tahoma</FontFamily>
-                                <FontSize>9pt</FontSize>
-                                <FontWeight>Bold</FontWeight>
-                              </Style>
-                            </TextRun>
-                          </TextRuns>
-                          <Style>
-                            <TextAlign>Center</TextAlign>
-                          </Style>
-                        </Paragraph>
-                      </Paragraphs>
-                      <rd:DefaultName>Textbox22</rd:DefaultName>
-                      <Style>
-                        <Border>
-                          <Style>None</Style>
-                        </Border>
-                        <PaddingLeft>2pt</PaddingLeft>
-                        <PaddingRight>2pt</PaddingRight>
-                        <PaddingTop>2pt</PaddingTop>
-                        <PaddingBottom>2pt</PaddingBottom>
-                      </Style>
-                    </Textbox>
-                  </CellContents>
-                </TablixCell>
-              </TablixCells>
-            </TablixRow>
-            <TablixRow>
-              <Height>0.25in</Height>
-              <TablixCells>
-                <TablixCell>
-                  <CellContents>
-                    <Subreport Name="HalfGatePassPrint">
-                      <ReportName>HalfGatePassPrint</ReportName>
-                      <Visibility>
-                        <Hidden>=IIF(First(Fields!GatePassHeaderId.Value, "DsMain") IS NOTHING,true,false)</Hidden>
-                      </Visibility>
-                      <Style>
-                        <Border>
-                          <Style>None</Style>
-                        </Border>
-                      </Style>
-                    </Subreport>
-                    <ColSpan>3</ColSpan>
-                  </CellContents>
-                </TablixCell>
-                <TablixCell />
-                <TablixCell />
-              </TablixCells>
-            </TablixRow>
           </TablixRows>
         </TablixBody>
         <TablixColumnHierarchy>
@@ -3107,18 +2992,12 @@
           <TablixMembers>
             <TablixMember />
             <TablixMember />
-            <TablixMember />
-            <TablixMember>
-              <Visibility>
-                <Hidden>=IIF(First(Fields!GatePassHeaderId.Value, "DsMain") IS NOTHING,true,false)</Hidden>
-              </Visibility>
-            </TablixMember>
           </TablixMembers>
         </TablixRowHierarchy>
         <DataSetName>DsMain</DataSetName>
         <Top>4.40768in</Top>
         <Left>5.82844in</Left>
-        <Height>0.91042in</Height>
+        <Height>0.47292in</Height>
         <Width>5.37568in</Width>
         <ZIndex>11</ZIndex>
         <Style>
@@ -3134,10 +3013,10 @@
               <Width>0.73542in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>0.15119in</Width>
+              <Width>0.26577in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>1.8876in</Width>
+              <Width>2.10635in</Width>
             </TablixColumn>
           </TablixColumns>
           <TablixRows>
@@ -3717,7 +3596,7 @@
         <Top>0.68232in</Top>
         <Left>5.80031in</Left>
         <Height>1.10833in</Height>
-        <Width>2.77421in</Width>
+        <Width>3.10754in</Width>
         <ZIndex>12</ZIndex>
         <Style>
           <Border>
@@ -3729,13 +3608,13 @@
         <TablixBody>
           <TablixColumns>
             <TablixColumn>
-              <Width>0.6357in</Width>
+              <Width>0.67389in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>0.17016in</Width>
+              <Width>0.18752in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>1.76142in</Width>
+              <Width>1.38295in</Width>
             </TablixColumn>
           </TablixColumns>
           <TablixRows>
@@ -4314,9 +4193,9 @@
         </TablixRowHierarchy>
         <DataSetName>DsMain</DataSetName>
         <Top>0.67607in</Top>
-        <Left>8.6398in</Left>
+        <Left>8.9773in</Left>
         <Height>1.1084in</Height>
-        <Width>2.56728in</Width>
+        <Width>2.24436in</Width>
         <ZIndex>13</ZIndex>
         <Style>
           <Border>
@@ -8040,289 +7919,56 @@
           </Border>
         </Style>
       </Tablix>
+      <Rectangle Name="Rectangle1">
+        <ReportItems>
+          <Subreport Name="HalfGatePassPrint">
+            <ReportName>HalfGatePassPrint</ReportName>
+            <Parameters>
+              <Parameter Name="Id">
+                <Value>=First(Fields!GatePassHeaderId.Value, "DsMain")</Value>
+              </Parameter>
+              <Parameter Name="PrintedBy">
+                <Value>=Parameters!PrintedBy.Value</Value>
+              </Parameter>
+              <Parameter Name="DatabaseConnectionString">
+                <Value>=Parameters!DatabaseConnectionString.Value</Value>
+              </Parameter>
+              <Parameter Name="RefDocNo">
+                <Value>=First(Fields!OrderNO.Value, "DsMain")</Value>
+              </Parameter>
+            </Parameters>
+            <Top>0.03125in</Top>
+            <Left>0.03125in</Left>
+            <Height>0.23244in</Height>
+            <Width>5.38387in</Width>
+            <Visibility>
+              <Hidden>=IIF(First(Fields!GatePassHeaderId.Value, "DsMain") IS NOTHING,true,false)</Hidden>
+            </Visibility>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+            </Style>
+          </Subreport>
+        </ReportItems>
+        <KeepTogether>true</KeepTogether>
+        <Top>4.92792in</Top>
+        <Left>5.77532in</Left>
+        <Height>0.28125in</Height>
+        <Width>5.42762in</Width>
+        <ZIndex>19</ZIndex>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+        </Style>
+      </Rectangle>
     </ReportItems>
-    <Height>5.36333in</Height>
+    <Height>5.26958in</Height>
     <Style />
   </Body>
   <Width>11.26067in</Width>
   <Page>
-    <PageHeader>
-      <Height>0.61458in</Height>
-      <PrintOnFirstPage>true</PrintOnFirstPage>
-      <PrintOnLastPage>true</PrintOnLastPage>
-      <ReportItems>
-        <Textbox Name="ReportTitle3">
-          <CanGrow>true</CanGrow>
-          <KeepTogether>true</KeepTogether>
-          <Paragraphs>
-            <Paragraph>
-              <TextRuns>
-                <TextRun>
-                  <Value>=First(Fields!ReportTitle.Value, "DsMain")</Value>
-                  <Style>
-                    <FontFamily>Tahoma</FontFamily>
-                    <FontSize>14pt</FontSize>
-                    <FontWeight>Bold</FontWeight>
-                  </Style>
-                </TextRun>
-              </TextRuns>
-              <Style>
-                <TextAlign>Center</TextAlign>
-              </Style>
-            </Paragraph>
-          </Paragraphs>
-          <rd:DefaultName>ReportTitle</rd:DefaultName>
-          <Top>0.02569in</Top>
-          <Left>0.0413in</Left>
-          <Height>0.25in</Height>
-          <Width>5.40001in</Width>
-          <Visibility>
-            <Hidden>=iif(Globals!PageNumber=1,True,False)</Hidden>
-          </Visibility>
-          <Style>
-            <Border>
-              <Style>None</Style>
-            </Border>
-            <TopBorder>
-              <Color>Black</Color>
-              <Style>Solid</Style>
-              <Width>1pt</Width>
-            </TopBorder>
-            <BottomBorder>
-              <Color>Black</Color>
-              <Style>Solid</Style>
-              <Width>1pt</Width>
-            </BottomBorder>
-            <PaddingLeft>2pt</PaddingLeft>
-            <PaddingRight>2pt</PaddingRight>
-            <PaddingTop>2pt</PaddingTop>
-            <PaddingBottom>2pt</PaddingBottom>
-          </Style>
-        </Textbox>
-        <Textbox Name="Textbox4">
-          <CanGrow>true</CanGrow>
-          <KeepTogether>true</KeepTogether>
-          <Paragraphs>
-            <Paragraph>
-              <TextRuns>
-                <TextRun>
-                  <Value>="Name : " + First(Fields!JobWorkerName.Value, "DsMain")</Value>
-                  <Style>
-                    <FontFamily>Tahoma</FontFamily>
-                    <FontSize>9pt</FontSize>
-                    <FontWeight>Bold</FontWeight>
-                  </Style>
-                </TextRun>
-              </TextRuns>
-              <Style />
-            </Paragraph>
-          </Paragraphs>
-          <rd:DefaultName>Textbox4</rd:DefaultName>
-          <Top>0.31597in</Top>
-          <Left>0.0413in</Left>
-          <Height>0.25in</Height>
-          <Width>2.97298in</Width>
-          <ZIndex>1</ZIndex>
-          <Visibility>
-            <Hidden>=iif(Globals!PageNumber=1,True,False)</Hidden>
-          </Visibility>
-          <Style>
-            <Border>
-              <Style>None</Style>
-            </Border>
-            <BottomBorder>
-              <Color>Black</Color>
-              <Style>Solid</Style>
-              <Width>1pt</Width>
-            </BottomBorder>
-            <PaddingLeft>2pt</PaddingLeft>
-            <PaddingRight>2pt</PaddingRight>
-            <PaddingTop>2pt</PaddingTop>
-            <PaddingBottom>2pt</PaddingBottom>
-          </Style>
-        </Textbox>
-        <Textbox Name="Textbox8">
-          <CanGrow>true</CanGrow>
-          <KeepTogether>true</KeepTogether>
-          <Paragraphs>
-            <Paragraph>
-              <TextRuns>
-                <TextRun>
-                  <Value>="Order No : " + First(Fields!OrderNO.Value, "DsMain")</Value>
-                  <Style>
-                    <FontFamily>Tahoma</FontFamily>
-                    <FontSize>9pt</FontSize>
-                    <FontWeight>Bold</FontWeight>
-                  </Style>
-                </TextRun>
-              </TextRuns>
-              <Style />
-            </Paragraph>
-          </Paragraphs>
-          <rd:DefaultName>Textbox4</rd:DefaultName>
-          <Top>0.31597in</Top>
-          <Left>3.08373in</Left>
-          <Height>0.25in</Height>
-          <Width>2.35758in</Width>
-          <ZIndex>2</ZIndex>
-          <Visibility>
-            <Hidden>=iif(Globals!PageNumber=1,True,False)</Hidden>
-          </Visibility>
-          <Style>
-            <Border>
-              <Style>None</Style>
-            </Border>
-            <BottomBorder>
-              <Color>Black</Color>
-              <Style>Solid</Style>
-              <Width>1pt</Width>
-            </BottomBorder>
-            <PaddingLeft>2pt</PaddingLeft>
-            <PaddingRight>2pt</PaddingRight>
-            <PaddingTop>2pt</PaddingTop>
-            <PaddingBottom>2pt</PaddingBottom>
-          </Style>
-        </Textbox>
-        <Textbox Name="ReportTitle4">
-          <CanGrow>true</CanGrow>
-          <KeepTogether>true</KeepTogether>
-          <Paragraphs>
-            <Paragraph>
-              <TextRuns>
-                <TextRun>
-                  <Value>=First(Fields!ReportTitle.Value, "DsMain")</Value>
-                  <Style>
-                    <FontFamily>Tahoma</FontFamily>
-                    <FontSize>14pt</FontSize>
-                    <FontWeight>Bold</FontWeight>
-                  </Style>
-                </TextRun>
-              </TextRuns>
-              <Style>
-                <TextAlign>Center</TextAlign>
-              </Style>
-            </Paragraph>
-          </Paragraphs>
-          <rd:DefaultName>ReportTitle</rd:DefaultName>
-          <Top>0.02986in</Top>
-          <Left>5.80533in</Left>
-          <Height>0.25in</Height>
-          <Width>5.40001in</Width>
-          <ZIndex>3</ZIndex>
-          <Visibility>
-            <Hidden>=iif(Globals!PageNumber=1,True,False)</Hidden>
-          </Visibility>
-          <Style>
-            <Border>
-              <Style>None</Style>
-            </Border>
-            <TopBorder>
-              <Color>Black</Color>
-              <Style>Solid</Style>
-              <Width>1pt</Width>
-            </TopBorder>
-            <BottomBorder>
-              <Color>Black</Color>
-              <Style>Solid</Style>
-              <Width>1pt</Width>
-            </BottomBorder>
-            <PaddingLeft>2pt</PaddingLeft>
-            <PaddingRight>2pt</PaddingRight>
-            <PaddingTop>2pt</PaddingTop>
-            <PaddingBottom>2pt</PaddingBottom>
-          </Style>
-        </Textbox>
-        <Textbox Name="Textbox5">
-          <CanGrow>true</CanGrow>
-          <KeepTogether>true</KeepTogether>
-          <Paragraphs>
-            <Paragraph>
-              <TextRuns>
-                <TextRun>
-                  <Value>="Name : " + First(Fields!JobWorkerName.Value, "DsMain")</Value>
-                  <Style>
-                    <FontFamily>Tahoma</FontFamily>
-                    <FontSize>9pt</FontSize>
-                    <FontWeight>Bold</FontWeight>
-                  </Style>
-                </TextRun>
-              </TextRuns>
-              <Style />
-            </Paragraph>
-          </Paragraphs>
-          <rd:DefaultName>Textbox4</rd:DefaultName>
-          <Top>0.32014in</Top>
-          <Left>5.80533in</Left>
-          <Height>0.25in</Height>
-          <Width>2.97298in</Width>
-          <ZIndex>4</ZIndex>
-          <Visibility>
-            <Hidden>=iif(Globals!PageNumber=1,True,False)</Hidden>
-          </Visibility>
-          <Style>
-            <Border>
-              <Style>None</Style>
-            </Border>
-            <BottomBorder>
-              <Color>Black</Color>
-              <Style>Solid</Style>
-              <Width>1pt</Width>
-            </BottomBorder>
-            <PaddingLeft>2pt</PaddingLeft>
-            <PaddingRight>2pt</PaddingRight>
-            <PaddingTop>2pt</PaddingTop>
-            <PaddingBottom>2pt</PaddingBottom>
-          </Style>
-        </Textbox>
-        <Textbox Name="Textbox9">
-          <CanGrow>true</CanGrow>
-          <KeepTogether>true</KeepTogether>
-          <Paragraphs>
-            <Paragraph>
-              <TextRuns>
-                <TextRun>
-                  <Value>="Order No : " + First(Fields!OrderNO.Value, "DsMain")</Value>
-                  <Style>
-                    <FontFamily>Tahoma</FontFamily>
-                    <FontSize>9pt</FontSize>
-                    <FontWeight>Bold</FontWeight>
-                  </Style>
-                </TextRun>
-              </TextRuns>
-              <Style />
-            </Paragraph>
-          </Paragraphs>
-          <rd:DefaultName>Textbox4</rd:DefaultName>
-          <Top>0.32014in</Top>
-          <Left>8.84776in</Left>
-          <Height>0.25in</Height>
-          <Width>2.35758in</Width>
-          <ZIndex>5</ZIndex>
-          <Visibility>
-            <Hidden>=iif(Globals!PageNumber=1,True,False)</Hidden>
-          </Visibility>
-          <Style>
-            <Border>
-              <Style>None</Style>
-            </Border>
-            <BottomBorder>
-              <Color>Black</Color>
-              <Style>Solid</Style>
-              <Width>1pt</Width>
-            </BottomBorder>
-            <PaddingLeft>2pt</PaddingLeft>
-            <PaddingRight>2pt</PaddingRight>
-            <PaddingTop>2pt</PaddingTop>
-            <PaddingBottom>2pt</PaddingBottom>
-          </Style>
-        </Textbox>
-      </ReportItems>
-      <Style>
-        <Border>
-          <Style>None</Style>
-        </Border>
-      </Style>
-    </PageHeader>
     <PageFooter>
       <Height>0.31766in</Height>
       <PrintOnFirstPage>true</PrintOnFirstPage>
@@ -8616,7 +8262,10 @@
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
     <DataSource Name="DyeingCancelPrint">
-      <DataSourceReference>DataSourceMain</DataSourceReference>
+      <ConnectionProperties>
+        <DataProvider>SQL</DataProvider>
+        <ConnectString>=Parameters!DatabaseConnectionString.Value</ConnectString>
+      </ConnectionProperties>
       <rd:SecurityType>None</rd:SecurityType>
       <rd:DataSourceID>727bb65e-cc51-4d28-a097-a8ea7d087931</rd:DataSourceID>
     </DataSource>
@@ -9070,3 +8719,4 @@ PtQeVUENmewh02zjEWZuZuLElNvBS6gDSXQMHP8A5UE5f6lWFPkR2q6ZG8HZI8xgvruK93SMJUsHJ61z
   <rd:ReportUnitType>Inch</rd:ReportUnitType>
   <rd:ReportID>f1b70379-da78-4ea9-bab5-cbb93d10df58</rd:ReportID>
 </Report>
+

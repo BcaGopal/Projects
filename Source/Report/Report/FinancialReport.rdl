@@ -1153,7 +1153,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!CancelAmount.Value</Value>
+                              <Value>=iif(Fields!CancelAmount.Value &lt;&gt; 0, formatnumber(Fields!CancelAmount.Value,2) ,"-")</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>8.5pt</FontSize>
@@ -1391,7 +1391,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Sum(Fields!CancelAmount.Value)</Value>
+                              <Value>=iif(sum(Fields!CancelAmount.Value) &lt;&gt; 0, formatnumber(sum(Fields!CancelAmount.Value),2) ,"-")</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>8.5pt</FontSize>
@@ -1420,6 +1420,7 @@
                       </Style>
                     </Textbox>
                     <ColSpan>2</ColSpan>
+                    <rd:Selected>true</rd:Selected>
                   </CellContents>
                 </TablixCell>
                 <TablixCell />

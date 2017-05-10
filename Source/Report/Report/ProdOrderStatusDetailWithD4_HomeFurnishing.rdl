@@ -22,6 +22,9 @@
           <QueryParameter Name="@ReportType">
             <Value>=Parameters!ReportType.Value</Value>
           </QueryParameter>
+			<QueryParameter Name="@DocumentCategory">
+				<Value>=Parameters!DocumentCategory.Value</Value>
+			</QueryParameter>
           <QueryParameter Name="@Division">
             <Value>=Parameters!Division.Value</Value>
           </QueryParameter>
@@ -4997,6 +5000,12 @@
       <AllowBlank>true</AllowBlank>
       <Prompt>Report Type</Prompt>
     </ReportParameter>
+	  <ReportParameter Name="DocumentCategory">
+		  <DataType>String</DataType>
+		  <Nullable>true</Nullable>
+		  <AllowBlank>true</AllowBlank>
+		  <Prompt>Document Category</Prompt>
+	  </ReportParameter>
     <ReportParameter Name="Division">
       <DataType>String</DataType>
       <Nullable>true</Nullable>

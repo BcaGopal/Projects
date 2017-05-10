@@ -20,6 +20,7 @@ using EmailContents;
 using Model.ViewModel;
 using Model.ViewModels;
 using AutoMapper;
+using Presentation;
 
 namespace Web.Controllers
 {
@@ -222,7 +223,8 @@ namespace Web.Controllers
                 Header.Status = (int)StatusConstants.Drafted;
                 new JobReceiveHeaderService(_unitOfWork).Update(Header);
                 _unitOfWork.Save();
-                throw ex;
+                return Redirect(ReturnUrl).Warning(ex.Message.ToString());
+                //throw ex;
             }
 
             return Redirect(ReturnUrl);

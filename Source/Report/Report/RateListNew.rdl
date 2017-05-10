@@ -1653,6 +1653,9 @@
           <QueryParameter Name="@ToDate">
             <Value>=Parameters!ToDate.Value</Value>
           </QueryParameter>
+          <QueryParameter Name="@IsSample">
+            <Value>=Parameters!IsSample.Value</Value>
+          </QueryParameter>
         </QueryParameters>
         <CommandType>StoredProcedure</CommandType>
         <CommandText>Web.spRep_RateListNew</CommandText>
@@ -1833,6 +1836,12 @@
       <Nullable>true</Nullable>
       <AllowBlank>true</AllowBlank>
       <Prompt>To Date</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="IsSample">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Is Sample</Prompt>
     </ReportParameter>
   </ReportParameters>
   <Code>

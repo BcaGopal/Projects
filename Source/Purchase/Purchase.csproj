@@ -246,6 +246,7 @@
     <Compile Include="App_Start\UnityMvcActivator.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminSetupController.cs" />
+    <Compile Include="Controllers\GetNewDocNoController.cs" />
     <Compile Include="Controllers\PurchaseQuotationSettingsController.cs" />
     <Compile Include="Controllers\PurchaseQuotationLineController.cs" />
     <Compile Include="Controllers\PurchaseQuotationHeaderController.cs" />

@@ -52,6 +52,9 @@
           <QueryParameter Name="@StatusOnDate">
             <Value>=Parameters!StatusOnDate.Value</Value>
           </QueryParameter>
+			<QueryParameter Name="@PCSType">
+				<Value>=Parameters!PCSType.Value</Value>
+			</QueryParameter>
         </QueryParameters>
         <CommandType>StoredProcedure</CommandType>
         <CommandText>Web.spRep_WeavingRegister</CommandText>
@@ -6532,6 +6535,12 @@
       <AllowBlank>true</AllowBlank>
       <Prompt>Status On Date</Prompt>
     </ReportParameter>
+	  <ReportParameter Name="PCSType">
+		  <DataType>String</DataType>
+		  <Nullable>true</Nullable>
+		  <AllowBlank>true</AllowBlank>
+		  <Prompt>PCS Type</Prompt>
+	  </ReportParameter>
   </ReportParameters>
   <EmbeddedImages>
     <EmbeddedImage Name="SuryaLogo">

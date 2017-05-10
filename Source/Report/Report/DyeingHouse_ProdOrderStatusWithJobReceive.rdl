@@ -452,7 +452,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=iif(Fields!Dimension1TypeName.Value &lt;&gt; "",max(Fields!Dimension1TypeName.Value),"Dimension 1")</Value>
+                                  <Value>=iif(Fields!Dimension1TypeName.Value &lt;&gt; "",max(Fields!Dimension1TypeName.Value),"Shade")</Value>
                                   <Style>
                                     <FontFamily>Tahoma</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -490,7 +490,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=iif(Fields!Dimension2TypeName.Value &lt;&gt; "",max(Fields!Dimension2TypeName.Value),"Dimension 2")</Value>
+                                  <Value>=iif(Fields!Dimension2TypeName.Value &lt;&gt; "",max(Fields!Dimension2TypeName.Value),"Design")</Value>
                                   <Style>
                                     <FontFamily>Tahoma</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -1320,7 +1320,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!OverDueDays.Value</Value>
+                                  <Value>=iif(Fields!OverDueDays.Value &lt;&gt; 0,Fields!OverDueDays.Value," ")</Value>
                                   <Style>
                                     <FontFamily>Tahoma</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -1345,6 +1345,7 @@
                             <PaddingBottom>2pt</PaddingBottom>
                           </Style>
                         </Textbox>
+                        <rd:Selected>true</rd:Selected>
                       </CellContents>
                     </TablixCell>
                     <TablixCell>
@@ -4531,7 +4532,6 @@
                             <PaddingBottom>2pt</PaddingBottom>
                           </Style>
                         </Textbox>
-                        <rd:Selected>true</rd:Selected>
                       </CellContents>
                     </TablixCell>
                   </TablixCells>

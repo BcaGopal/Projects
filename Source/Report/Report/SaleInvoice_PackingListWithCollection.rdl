@@ -6294,7 +6294,10 @@
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
     <DataSource Name="DsMain">
-      <DataSourceReference>DSBC</DataSourceReference>
+      <ConnectionProperties>
+        <DataProvider>SQL</DataProvider>
+        <ConnectString>=Parameters!DatabaseConnectionString.Value</ConnectString>
+      </ConnectionProperties>
       <rd:SecurityType>None</rd:SecurityType>
       <rd:DataSourceID>f6d2ffd6-1e0e-44b6-97e2-41ea71a36526</rd:DataSourceID>
     </DataSource>

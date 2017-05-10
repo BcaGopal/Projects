@@ -76,6 +76,9 @@
           <QueryParameter Name="@Dimension4">
             <Value>=Parameters!Dimension4.Value</Value>
           </QueryParameter>
+          <QueryParameter Name="@DocumentCategory">
+            <Value>=Parameters!DocumentCategory.Value</Value>
+          </QueryParameter>
         </QueryParameters>
         <CommandType>StoredProcedure</CommandType>
         <CommandText>Web.spRep_ProdOrderStatus</CommandText>
@@ -4283,6 +4286,12 @@
       <Nullable>true</Nullable>
       <AllowBlank>true</AllowBlank>
       <Prompt>Dimension4</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="DocumentCategory">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Document Category</Prompt>
     </ReportParameter>
   </ReportParameters>
   <EmbeddedImages>

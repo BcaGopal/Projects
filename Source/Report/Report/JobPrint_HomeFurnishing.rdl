@@ -17,7 +17,7 @@
           </TablixColumns>
           <TablixRows>
             <TablixRow>
-              <Height>0.1975in</Height>
+              <Height>0.22528in</Height>
               <TablixCells>
                 <TablixCell>
                   <CellContents>
@@ -31,7 +31,7 @@
                               <Value>=Fields!PartyCaption.Value</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
-                                <FontSize>8pt</FontSize>
+                                <FontSize>9pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
                             </TextRun>
@@ -68,7 +68,7 @@
                               <Value>:</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
-                                <FontSize>8pt</FontSize>
+                                <FontSize>9pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
                                 <Format>0.0000;(0.0000);'-'</Format>
                                 <Color>#4d4d4d</Color>
@@ -109,7 +109,7 @@
                               <Value>=Fields!Jobworker.Value</Value>
                               <Style>
                                 <FontFamily>tahoma</FontFamily>
-                                <FontSize>8pt</FontSize>
+                                <FontSize>9pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
                             </TextRun>
@@ -139,7 +139,7 @@
               </TablixCells>
             </TablixRow>
             <TablixRow>
-              <Height>0.20792in</Height>
+              <Height>0.2357in</Height>
               <TablixCells>
                 <TablixCell>
                   <CellContents>
@@ -153,7 +153,7 @@
                               <Value>Address</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
-                                <FontSize>8pt</FontSize>
+                                <FontSize>9pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
                             </TextRun>
@@ -186,7 +186,7 @@
                               <Value>:</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
-                                <FontSize>8pt</FontSize>
+                                <FontSize>9pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
                                 <Color>#4d4d4d</Color>
                               </Style>
@@ -222,7 +222,7 @@
                               <Value>=Fields!Address.Value</Value>
                               <Style>
                                 <FontFamily>tahoma</FontFamily>
-                                <FontSize>8pt</FontSize>
+                                <FontSize>9pt</FontSize>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -247,7 +247,7 @@
               </TablixCells>
             </TablixRow>
             <TablixRow>
-              <Height>0.21833in</Height>
+              <Height>0.24611in</Height>
               <TablixCells>
                 <TablixCell>
                   <CellContents>
@@ -261,7 +261,7 @@
                               <Value>Mobile No.</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
-                                <FontSize>8pt</FontSize>
+                                <FontSize>9pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
                             </TextRun>
@@ -294,7 +294,7 @@
                               <Value>:</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
-                                <FontSize>8pt</FontSize>
+                                <FontSize>9pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
                                 <Color>#4d4d4d</Color>
                               </Style>
@@ -330,7 +330,7 @@
                               <Value>=Fields!MobileNo.Value</Value>
                               <Style>
                                 <FontFamily>tahoma</FontFamily>
-                                <FontSize>8pt</FontSize>
+                                <FontSize>9pt</FontSize>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -355,7 +355,7 @@
               </TablixCells>
             </TablixRow>
             <TablixRow>
-              <Height>0.20583in</Height>
+              <Height>0.23361in</Height>
               <TablixCells>
                 <TablixCell>
                   <CellContents>
@@ -369,7 +369,7 @@
                               <Value>Tin No</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
-                                <FontSize>8pt</FontSize>
+                                <FontSize>9pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
                             </TextRun>
@@ -402,7 +402,7 @@
                               <Value>:</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
-                                <FontSize>8pt</FontSize>
+                                <FontSize>9pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
                                 <Color>#4d4d4d</Color>
                               </Style>
@@ -438,7 +438,7 @@
                               <Value>=Fields!TinNo.Value</Value>
                               <Style>
                                 <FontFamily>tahoma</FontFamily>
-                                <FontSize>8pt</FontSize>
+                                <FontSize>9pt</FontSize>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -463,7 +463,7 @@
               </TablixCells>
             </TablixRow>
             <TablixRow>
-              <Height>0.22667in</Height>
+              <Height>0.25445in</Height>
               <TablixCells>
                 <TablixCell>
                   <CellContents>
@@ -477,7 +477,7 @@
                               <Value>PAN No</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
-                                <FontSize>8pt</FontSize>
+                                <FontSize>9pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
                             </TextRun>
@@ -510,7 +510,7 @@
                               <Value>:</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
-                                <FontSize>8pt</FontSize>
+                                <FontSize>9pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
                                 <Color>#4d4d4d</Color>
                               </Style>
@@ -546,7 +546,7 @@
                               <Value>=Fields!PANNo.Value</Value>
                               <Style>
                                 <FontFamily>tahoma</FontFamily>
-                                <FontSize>8pt</FontSize>
+                                <FontSize>9pt</FontSize>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -571,7 +571,7 @@
               </TablixCells>
             </TablixRow>
             <TablixRow>
-              <Height>0.19792in</Height>
+              <Height>0.2257in</Height>
               <TablixCells>
                 <TablixCell>
                   <CellContents>
@@ -585,7 +585,7 @@
                               <Value>Sales Tax Group</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
-                                <FontSize>8pt</FontSize>
+                                <FontSize>9pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
                             </TextRun>
@@ -618,7 +618,7 @@
                               <Value>:</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
-                                <FontSize>8pt</FontSize>
+                                <FontSize>9pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
                                 <Color>#4d4d4d</Color>
                               </Style>
@@ -654,7 +654,7 @@
                               <Value>=Fields!ChargeGroupPersonName.Value</Value>
                               <Style>
                                 <FontFamily>tahoma</FontFamily>
-                                <FontSize>8pt</FontSize>
+                                <FontSize>9pt</FontSize>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -692,7 +692,11 @@
             <TablixMember />
             <TablixMember />
             <TablixMember />
-            <TablixMember />
+            <TablixMember>
+              <Visibility>
+                <Hidden>=iif(max(fields!TinNo.Value) &lt;&gt; "",False,True)</Hidden>
+              </Visibility>
+            </TablixMember>
             <TablixMember>
               <Visibility>
                 <Hidden>=iif(max(fields!PANNo.Value) &lt;&gt; "",False,True)</Hidden>
@@ -708,7 +712,7 @@
         <DataSetName>DsMain</DataSetName>
         <Top>0.68473in</Top>
         <Left>0.03122in</Left>
-        <Height>1.25417in</Height>
+        <Height>1.42084in</Height>
         <Width>4.29198in</Width>
         <Style>
           <Border>
@@ -745,7 +749,7 @@
                               <Value>Order No</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
-                                <FontSize>8pt</FontSize>
+                                <FontSize>9pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
                             </TextRun>
@@ -814,7 +818,7 @@
                               <Value>=Fields!DocNo.Value</Value>
                               <Style>
                                 <FontFamily>tahoma</FontFamily>
-                                <FontSize>8pt</FontSize>
+                                <FontSize>9pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
                             </TextRun>
@@ -854,7 +858,7 @@
                               <Value>Date</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
-                                <FontSize>8pt</FontSize>
+                                <FontSize>9pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
                             </TextRun>
@@ -923,7 +927,7 @@
                               <Value>=Fields!DocDate.Value</Value>
                               <Style>
                                 <FontFamily>tahoma</FontFamily>
-                                <FontSize>8pt</FontSize>
+                                <FontSize>9pt</FontSize>
                                 <Format>dd/MMM/yy</Format>
                               </Style>
                             </TextRun>
@@ -963,7 +967,7 @@
                               <Value>Due Date</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
-                                <FontSize>8pt</FontSize>
+                                <FontSize>9pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
                             </TextRun>
@@ -1032,7 +1036,7 @@
                               <Value>=Fields!DueDate.Value</Value>
                               <Style>
                                 <FontFamily>tahoma</FontFamily>
-                                <FontSize>8pt</FontSize>
+                                <FontSize>9pt</FontSize>
                                 <Format>dd/MMM/yy</Format>
                               </Style>
                             </TextRun>
@@ -1072,7 +1076,7 @@
                               <Value>Order By</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
-                                <FontSize>8pt</FontSize>
+                                <FontSize>9pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
                             </TextRun>
@@ -1147,7 +1151,7 @@
                               <Value>=Fields!OrderBy.Value</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
-                                <FontSize>8pt</FontSize>
+                                <FontSize>9pt</FontSize>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -1186,7 +1190,7 @@
                               <Value>Godown</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
-                                <FontSize>8pt</FontSize>
+                                <FontSize>9pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
                             </TextRun>
@@ -1261,7 +1265,7 @@
                               <Value>=Fields!GodownName.Value</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
-                                <FontSize>8pt</FontSize>
+                                <FontSize>9pt</FontSize>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -1300,7 +1304,7 @@
                               <Value>Currency</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
-                                <FontSize>8pt</FontSize>
+                                <FontSize>9pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
                             </TextRun>
@@ -1374,7 +1378,7 @@
                               <Value>=fields!CurrencyName.Value</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
-                                <FontSize>8pt</FontSize>
+                                <FontSize>9pt</FontSize>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -1384,6 +1388,119 @@
                         </Paragraph>
                       </Paragraphs>
                       <rd:DefaultName>Textbox175</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Style>None</Style>
+                        </Border>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+              </TablixCells>
+            </TablixRow>
+            <TablixRow>
+              <Height>0.19792in</Height>
+              <TablixCells>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox194">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>Process</Value>
+                              <Style>
+                                <FontFamily>Tahoma</FontFamily>
+                                <FontSize>9pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox194</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Style>None</Style>
+                        </Border>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox195">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>:</Value>
+                              <Style>
+                                <FontFamily>Tahoma</FontFamily>
+                                <FontSize>8pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                                <Color>#4d4d4d</Color>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Center</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox195</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Style>None</Style>
+                        </Border>
+                        <TopBorder>
+                          <Color>Black</Color>
+                          <Style>None</Style>
+                          <Width>1pt</Width>
+                        </TopBorder>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="ProcessName">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Fields!ProcessName.Value</Value>
+                              <Style>
+                                <FontFamily>Tahoma</FontFamily>
+                                <FontSize>9pt</FontSize>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Left</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>ProcessName</rd:DefaultName>
                       <Style>
                         <Border>
                           <Style>None</Style>
@@ -1423,12 +1540,17 @@
                 <Hidden>=iif(max(fields!CurrencyName.Value) &lt;&gt; "",False,True)</Hidden>
               </Visibility>
             </TablixMember>
+            <TablixMember>
+              <Visibility>
+                <Hidden>=iif(max(fields!ProcessName.Value) &lt;&gt; "",False,True)</Hidden>
+              </Visibility>
+            </TablixMember>
           </TablixMembers>
         </TablixRowHierarchy>
         <DataSetName>DsMain</DataSetName>
         <Top>0.67848in</Top>
         <Left>4.57071in</Left>
-        <Height>1.26042in</Height>
+        <Height>1.45834in</Height>
         <Width>2.98886in</Width>
         <ZIndex>1</ZIndex>
         <Style>
@@ -1512,6 +1634,46 @@
                             <TablixCells>
                               <TablixCell>
                                 <CellContents>
+                                  <Textbox Name="Textbox201">
+                                    <CanGrow>true</CanGrow>
+                                    <KeepTogether>true</KeepTogether>
+                                    <Paragraphs>
+                                      <Paragraph>
+                                        <TextRuns>
+                                          <TextRun>
+                                            <Value />
+                                            <Style>
+                                              <FontFamily>tahoma</FontFamily>
+                                              <FontSize>9pt</FontSize>
+                                              <FontWeight>Bold</FontWeight>
+                                            </Style>
+                                          </TextRun>
+                                        </TextRuns>
+                                        <Style>
+                                          <TextAlign>Left</TextAlign>
+                                        </Style>
+                                      </Paragraph>
+                                    </Paragraphs>
+                                    <rd:DefaultName>Textbox201</rd:DefaultName>
+                                    <Style>
+                                      <Border>
+                                        <Style>None</Style>
+                                      </Border>
+                                      <PaddingLeft>2pt</PaddingLeft>
+                                      <PaddingRight>2pt</PaddingRight>
+                                      <PaddingTop>2pt</PaddingTop>
+                                      <PaddingBottom>2pt</PaddingBottom>
+                                    </Style>
+                                  </Textbox>
+                                </CellContents>
+                              </TablixCell>
+                            </TablixCells>
+                          </TablixRow>
+                          <TablixRow>
+                            <Height>0.24688in</Height>
+                            <TablixCells>
+                              <TablixCell>
+                                <CellContents>
                                   <Textbox Name="Textbox44">
                                     <CanGrow>true</CanGrow>
                                     <KeepTogether>true</KeepTogether>
@@ -1554,53 +1716,6 @@
                               </TablixCell>
                             </TablixCells>
                           </TablixRow>
-                          <TablixRow>
-                            <Height>0.24688in</Height>
-                            <TablixCells>
-                              <TablixCell>
-                                <CellContents>
-                                  <Textbox Name="Textbox45">
-                                    <CanGrow>true</CanGrow>
-                                    <KeepTogether>true</KeepTogether>
-                                    <Paragraphs>
-                                      <Paragraph>
-                                        <TextRuns>
-                                          <TextRun>
-                                            <Value>Terms &amp; Conditions : </Value>
-                                            <Style>
-                                              <FontFamily>tahoma</FontFamily>
-                                              <FontSize>9pt</FontSize>
-                                              <FontWeight>Bold</FontWeight>
-                                            </Style>
-                                          </TextRun>
-                                          <TextRun>
-                                            <Value>=Fields!TermsAndConditions.Value</Value>
-                                            <Style>
-                                              <FontFamily>tahoma</FontFamily>
-                                              <FontSize>9pt</FontSize>
-                                            </Style>
-                                          </TextRun>
-                                        </TextRuns>
-                                        <Style>
-                                          <TextAlign>Left</TextAlign>
-                                        </Style>
-                                      </Paragraph>
-                                    </Paragraphs>
-                                    <rd:DefaultName>Textbox40</rd:DefaultName>
-                                    <Style>
-                                      <Border>
-                                        <Style>None</Style>
-                                      </Border>
-                                      <PaddingLeft>2pt</PaddingLeft>
-                                      <PaddingRight>2pt</PaddingRight>
-                                      <PaddingTop>2pt</PaddingTop>
-                                      <PaddingBottom>2pt</PaddingBottom>
-                                    </Style>
-                                  </Textbox>
-                                </CellContents>
-                              </TablixCell>
-                            </TablixCells>
-                          </TablixRow>
                         </TablixRows>
                       </TablixBody>
                       <TablixColumnHierarchy>
@@ -1611,7 +1726,11 @@
                       <TablixRowHierarchy>
                         <TablixMembers>
                           <TablixMember />
-                          <TablixMember />
+                          <TablixMember>
+                            <Visibility>
+                              <Hidden>=iif(fields!Remark.Value ="",True,False)</Hidden>
+                            </Visibility>
+                          </TablixMember>
                         </TablixMembers>
                       </TablixRowHierarchy>
                       <Style>
@@ -1626,20 +1745,6 @@
                   <CellContents>
                     <Subreport Name="TransactionChargesPrint">
                       <ReportName>TransactionChargesPrint</ReportName>
-                      <Parameters>
-                        <Parameter Name="Id">
-                          <Value>=Fields!JobOrderHeaderId.Value</Value>
-                        </Parameter>
-                        <Parameter Name="TableName">
-                          <Value>=Fields!TableName.Value</Value>
-                        </Parameter>
-                        <Parameter Name="DatabaseConnectionString">
-                          <Value>=Parameters!DatabaseConnectionString.Value</Value>
-                        </Parameter>
-                        <Parameter Name="PrintedBy">
-                          <Value>=Parameters!PrintedBy.Value</Value>
-                        </Parameter>
-                      </Parameters>
                       <ZIndex>11</ZIndex>
                       <Visibility>
                         <Hidden>=IIF(max(Fields!NetAmount.Value) &gt; 0,false,True)</Hidden>
@@ -1659,18 +1764,25 @@
               <TablixCells>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox121">
+                    <Textbox Name="Textbox45">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value />
+                              <Value>Terms &amp; Conditions : </Value>
                               <Style>
                                 <FontFamily>tahoma</FontFamily>
                                 <FontSize>9pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
+                              </Style>
+                            </TextRun>
+                            <TextRun>
+                              <Value>=Fields!TermsAndConditions.Value</Value>
+                              <Style>
+                                <FontFamily>tahoma</FontFamily>
+                                <FontSize>9pt</FontSize>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -1679,7 +1791,7 @@
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox121</rd:DefaultName>
+                      <rd:DefaultName>Textbox40</rd:DefaultName>
                       <Style>
                         <Border>
                           <Style>None</Style>
@@ -1690,41 +1802,10 @@
                         <PaddingBottom>2pt</PaddingBottom>
                       </Style>
                     </Textbox>
+                    <ColSpan>2</ColSpan>
                   </CellContents>
                 </TablixCell>
-                <TablixCell>
-                  <CellContents>
-                    <Textbox Name="Textbox5">
-                      <CanGrow>true</CanGrow>
-                      <KeepTogether>true</KeepTogether>
-                      <Paragraphs>
-                        <Paragraph>
-                          <TextRuns>
-                            <TextRun>
-                              <Value />
-                              <Style>
-                                <FontFamily>Tahoma</FontFamily>
-                                <FontSize>9pt</FontSize>
-                                <FontWeight>Bold</FontWeight>
-                              </Style>
-                            </TextRun>
-                          </TextRuns>
-                          <Style />
-                        </Paragraph>
-                      </Paragraphs>
-                      <rd:DefaultName>Textbox5</rd:DefaultName>
-                      <Style>
-                        <Border>
-                          <Style>None</Style>
-                        </Border>
-                        <PaddingLeft>2pt</PaddingLeft>
-                        <PaddingRight>2pt</PaddingRight>
-                        <PaddingTop>2pt</PaddingTop>
-                        <PaddingBottom>2pt</PaddingBottom>
-                      </Style>
-                    </Textbox>
-                  </CellContents>
-                </TablixCell>
+                <TablixCell />
               </TablixCells>
             </TablixRow>
             <TablixRow>
@@ -1820,8 +1901,8 @@
           </TablixMembers>
         </TablixRowHierarchy>
         <DataSetName>DsMain</DataSetName>
-        <Top>5.84726in</Top>
-        <Left>0.0125in</Left>
+        <Top>6.08476in</Top>
+        <Left>0.025in</Left>
         <Height>0.99375in</Height>
         <Width>7.98431in</Width>
         <ZIndex>3</ZIndex>
@@ -1833,20 +1914,6 @@
       </Tablix>
       <Subreport Name="Subreport3">
         <ReportName>CompanyDetail</ReportName>
-        <Parameters>
-          <Parameter Name="SiteId">
-            <Value>=Fields!Siteid.Value</Value>
-          </Parameter>
-          <Parameter Name="DivisionId">
-            <Value>=Fields!DivisionId.Value</Value>
-          </Parameter>
-          <Parameter Name="DatabaseConnectionString">
-            <Value>=Parameters!DatabaseConnectionString.Value</Value>
-          </Parameter>
-          <Parameter Name="PrintedBy">
-            <Value>=Parameters!PrintedBy.Value</Value>
-          </Parameter>
-        </Parameters>
         <Top>0.03194in</Top>
         <Left>0.01643in</Left>
         <Height>0.28373in</Height>
@@ -1987,20 +2054,6 @@
                   <CellContents>
                     <Subreport Name="HalfGatePassPrint">
                       <ReportName>HalfGatePassPrint</ReportName>
-                      <Parameters>
-                        <Parameter Name="Id">
-                          <Value>=Parameters!Id.Value</Value>
-                        </Parameter>
-                        <Parameter Name="PrintedBy">
-                          <Value>=Parameters!PrintedBy.Value</Value>
-                        </Parameter>
-                        <Parameter Name="DatabaseConnectionString">
-                          <Value>=Parameters!DatabaseConnectionString.Value</Value>
-                        </Parameter>
-                        <Parameter Name="RefDocNo">
-                          <Value>=Fields!DocNo.Value</Value>
-                        </Parameter>
-                      </Parameters>
                       <Visibility>
                         <Hidden>=IIF(First(Fields!GatePassHeaderId.Value, "DsMain") IS NOTHING,true,false)</Hidden>
                       </Visibility>
@@ -2037,7 +2090,7 @@
           </TablixMembers>
         </TablixRowHierarchy>
         <DataSetName>DsMain</DataSetName>
-        <Top>6.87574in</Top>
+        <Top>7.12574in</Top>
         <Left>0.05in</Left>
         <Height>0.4375in</Height>
         <Width>5.37568in</Width>
@@ -2133,7 +2186,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Product </Value>
+                              <Value>=fields!ProductCaption.Value</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>9pt</FontSize>
@@ -2566,14 +2619,13 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!ProductName.Value +
-iif(Fields!Specification.Value &lt;&gt; "",System.Environment.NewLine,"")+
+                              <Value>=Fields!ProductName.Value+iif(Fields!Specification.Value &lt;&gt; "","&lt;br&gt;","")+
 iif(Fields!Specification.Value &lt;&gt; "",Fields!Specification.Value,"")+
-iif(Fields!DimensionCnt.Value =1 or Fields!DimensionCnt.Value=2  or Fields!DimensionCnt.Value=3  or Fields!DimensionCnt.Value=4,System.Environment.NewLine,"")+
+iif(Fields!DimensionCnt.Value =1 or Fields!DimensionCnt.Value=2  or Fields!DimensionCnt.Value=3  or Fields!DimensionCnt.Value=4,"&lt;br&gt;","")+
 iif(Fields!DimensionCnt.Value =1 or Fields!DimensionCnt.Value=2  or Fields!DimensionCnt.Value=3  or Fields!DimensionCnt.Value=4 ,iif(Fields!D1Cnt.Value &lt;&gt; 0,Fields!Dimension1Name.Value,iif(Fields!D2Cnt.Value &lt;&gt; 0,Fields!Dimension2Name.Value,iif(Fields!D3Cnt.Value &lt;&gt; 0,Fields!Dimension3Name.Value,iif(Fields!D4Cnt.Value &lt;&gt; 0,Fields!Dimension4Name.Value,"")))),"")+
 iif(Fields!DimensionCnt.Value=2,",","")+
 iif(Fields!DimensionCnt.Value=2  or Fields!DimensionCnt.Value=3  or Fields!DimensionCnt.Value=4 ,iif(Fields!D2Cnt.Value &lt;&gt; 0,Fields!Dimension2Name.Value,iif(Fields!D3Cnt.Value &lt;&gt; 0,Fields!Dimension3Name.Value,iif(Fields!D4Cnt.Value &lt;&gt; 0,Fields!Dimension4Name.Value,""))),"")+
-iif(Fields!DimensionCnt.Value=3  or Fields!DimensionCnt.Value=4,System.Environment.NewLine,"")+
+iif(Fields!DimensionCnt.Value=3  or Fields!DimensionCnt.Value=4,"&lt;Br&gt;","")+
 iif(Fields!DimensionCnt.Value=3  or Fields!DimensionCnt.Value=4 ,iif(Fields!D3Cnt.Value &lt;&gt; 0,Fields!Dimension3Name.Value,iif(Fields!D4Cnt.Value &lt;&gt; 0,Fields!Dimension4Name.Value,"")),"")+
 iif(Fields!DimensionCnt.Value=4,",","")+
 iif(Fields!DimensionCnt.Value=4 ,iif(Fields!Dimension4Name.Value &lt;&gt; "",Fields!Dimension4Name.Value,""),"")</Value>
@@ -3069,7 +3121,7 @@ iif(Fields!DimensionCnt.Value=4 ,iif(Fields!Dimension4Name.Value &lt;&gt; "",Fie
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=iif(Fields!Qty.Value &lt;&gt; 0, formatnumber(Fields!Qty.Value,Fields!DecimalPlaces.Value),"-")</Value>
+                              <Value>=iif(sum(Fields!Qty.Value) &lt;&gt; 0, formatnumber(sum(Fields!Qty.Value),max(Fields!DecimalPlaces.Value)),"-")</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>8.5pt</FontSize>
@@ -3302,13 +3354,11 @@ iif(Fields!DimensionCnt.Value=4 ,iif(Fields!Dimension4Name.Value &lt;&gt; "",Fie
             <TablixMember>
               <Group Name="Details" />
             </TablixMember>
-            <TablixMember>
-              <KeepWithGroup>Before</KeepWithGroup>
-            </TablixMember>
+            <TablixMember />
           </TablixMembers>
         </TablixRowHierarchy>
         <DataSetName>DsMain</DataSetName>
-        <Top>1.96542in</Top>
+        <Top>2.17792in</Top>
         <Left>0.01872in</Left>
         <Height>0.82292in</Height>
         <Width>7.9781in</Width>
@@ -3404,7 +3454,7 @@ iif(Fields!DimensionCnt.Value=4 ,iif(Fields!Dimension4Name.Value &lt;&gt; "",Fie
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Product </Value>
+                              <Value>=fields!ProductCaption.Value</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>9pt</FontSize>
@@ -3802,8 +3852,18 @@ iif(Fields!DimensionCnt.Value=4 ,iif(Fields!Dimension4Name.Value &lt;&gt; "",Fie
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!ProductName.Value +
-Code.DimensionName(Fields!Dimension1Name.Value,Fields!Dimension2Name.Value,Fields!Dimension3Name.Value,Fields!Dimension4Name.Value,Fields!Specification.Value, Fields!DimensionCnt.Value,Fields!D1Cnt.Value,Fields!D2Cnt.Value,Fields!D3Cnt.Value,Fields!D4Cnt.Value)</Value>
+                              <Value>=Fields!ProductName.Value+iif(Fields!Specification.Value &lt;&gt; "","&lt;br&gt;","")+
+iif(Fields!Specification.Value &lt;&gt; "",Fields!Specification.Value,"")+
+iif(Fields!DimensionCnt.Value =1 or Fields!DimensionCnt.Value=2  or Fields!DimensionCnt.Value=3  or Fields!DimensionCnt.Value=4,"&lt;br&gt;","")+
+iif(Fields!DimensionCnt.Value =1 or Fields!DimensionCnt.Value=2  or Fields!DimensionCnt.Value=3  or Fields!DimensionCnt.Value=4 ,iif(Fields!D1Cnt.Value &lt;&gt; 0,Fields!Dimension1Name.Value,iif(Fields!D2Cnt.Value &lt;&gt; 0,Fields!Dimension2Name.Value,iif(Fields!D3Cnt.Value &lt;&gt; 0,Fields!Dimension3Name.Value,iif(Fields!D4Cnt.Value &lt;&gt; 0,Fields!Dimension4Name.Value,"")))),"")+
+iif(Fields!DimensionCnt.Value=2,",","")+
+iif(Fields!DimensionCnt.Value=2  or Fields!DimensionCnt.Value=3  or Fields!DimensionCnt.Value=4 ,iif(Fields!D2Cnt.Value &lt;&gt; 0,Fields!Dimension2Name.Value,iif(Fields!D3Cnt.Value &lt;&gt; 0,Fields!Dimension3Name.Value,iif(Fields!D4Cnt.Value &lt;&gt; 0,Fields!Dimension4Name.Value,""))),"")+
+iif(Fields!DimensionCnt.Value=3  or Fields!DimensionCnt.Value=4,"&lt;Br&gt;","")+
+iif(Fields!DimensionCnt.Value=3  or Fields!DimensionCnt.Value=4 ,iif(Fields!D3Cnt.Value &lt;&gt; 0,Fields!Dimension3Name.Value,iif(Fields!D4Cnt.Value &lt;&gt; 0,Fields!Dimension4Name.Value,"")),"")+
+iif(Fields!DimensionCnt.Value=4,",","")+
+iif(Fields!DimensionCnt.Value=4 ,iif(Fields!Dimension4Name.Value &lt;&gt; "",Fields!Dimension4Name.Value,""),"")
+'Code.DimensionName(Fields!Dimension1Name.Value,Fields!Dimension2Name.Value,Fields!Dimension3Name.Value,Fields!Dimension4Name.Value,Fields!Specification.Value, Fields!DimensionCnt.Value,Fields!D1Cnt.Value,Fields!D2Cnt.Value,Fields!D3Cnt.Value,Fields!D4Cnt.Value)</Value>
+                              <MarkupType>HTML</MarkupType>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>8.5pt</FontSize>
@@ -4218,7 +4278,7 @@ Code.DimensionName(Fields!Dimension1Name.Value,Fields!Dimension2Name.Value,Field
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Microsoft.VisualBasic.Interaction.iif(Fields!Qty.Value &lt;&gt; 0, Microsoft.VisualBasic.Strings.formatnumber(Fields!Qty.Value, Fields!DecimalPlaces.Value), "-")</Value>
+                              <Value>=iif(sum(Fields!Qty.Value) &lt;&gt; 0, formatnumber(sum(Fields!Qty.Value),max(Fields!DecimalPlaces.Value)),"-")</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>8.5pt</FontSize>
@@ -4450,13 +4510,11 @@ Code.DimensionName(Fields!Dimension1Name.Value,Fields!Dimension2Name.Value,Field
             <TablixMember>
               <Group Name="Details2" />
             </TablixMember>
-            <TablixMember>
-              <KeepWithGroup>Before</KeepWithGroup>
-            </TablixMember>
+            <TablixMember />
           </TablixMembers>
         </TablixRowHierarchy>
         <DataSetName>DsMain</DataSetName>
-        <Top>2.81322in</Top>
+        <Top>3.02572in</Top>
         <Left>0.03626in</Left>
         <Height>0.82292in</Height>
         <Width>7.96055in</Width>
@@ -4477,13 +4535,13 @@ Code.DimensionName(Fields!Dimension1Name.Value,Fields!Dimension2Name.Value,Field
               <Width>0.42948in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>2.16027in</Width>
+              <Width>2.60819in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>1.14823in</Width>
+              <Width>0.83573in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>0.72115in</Width>
+              <Width>0.59615in</Width>
             </TablixColumn>
             <TablixColumn>
               <Width>0.59927in</Width>
@@ -4546,7 +4604,7 @@ Code.DimensionName(Fields!Dimension1Name.Value,Fields!Dimension2Name.Value,Field
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Product </Value>
+                              <Value>=fields!ProductCaption.Value</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>9pt</FontSize>
@@ -4841,7 +4899,17 @@ Code.DimensionName(Fields!Dimension1Name.Value,Fields!Dimension2Name.Value,Field
                           <TextRuns>
                             <TextRun>
                               <Value>=Fields!ProductName.Value +
-Code.DimensionName(Fields!Dimension1Name.Value,Fields!Dimension2Name.Value,Fields!Dimension3Name.Value,Fields!Dimension4Name.Value,Fields!Specification.Value, Fields!DimensionCnt.Value,Fields!D1Cnt.Value,Fields!D2Cnt.Value,Fields!D3Cnt.Value,Fields!D4Cnt.Value)</Value>
+iif(Fields!Specification.Value &lt;&gt; "","&lt;Br/&gt;","")+
+iif(Fields!Specification.Value &lt;&gt; "",Fields!Specification.Value,"")+
+iif(Fields!DimensionCnt.Value =1 or Fields!DimensionCnt.Value=2  or Fields!DimensionCnt.Value=3  or Fields!DimensionCnt.Value=4,"&lt;Br/&gt;","")+
+iif(Fields!DimensionCnt.Value =1 or Fields!DimensionCnt.Value=2  or Fields!DimensionCnt.Value=3  or Fields!DimensionCnt.Value=4 ,iif(Fields!D1Cnt.Value &lt;&gt; 0,Fields!Dimension1Name.Value,iif(Fields!D2Cnt.Value &lt;&gt; 0,Fields!Dimension2Name.Value,iif(Fields!D3Cnt.Value &lt;&gt; 0,Fields!Dimension3Name.Value,iif(Fields!D4Cnt.Value &lt;&gt; 0,Fields!Dimension4Name.Value,"")))),"")+
+iif(Fields!DimensionCnt.Value=2 or Fields!DimensionCnt.Value=4," , ","")+
+iif(Fields!DimensionCnt.Value=2  or Fields!DimensionCnt.Value=3  or Fields!DimensionCnt.Value=4 ,iif(Fields!D2Cnt.Value &lt;&gt; 0,Fields!Dimension2Name.Value,iif(Fields!D3Cnt.Value &lt;&gt; 0,Fields!Dimension3Name.Value,iif(Fields!D4Cnt.Value &lt;&gt; 0,Fields!Dimension4Name.Value,""))),"")+
+iif(Fields!DimensionCnt.Value=3  or Fields!DimensionCnt.Value=4,"&lt;Br/&gt;","")+
+iif(Fields!DimensionCnt.Value=3  or Fields!DimensionCnt.Value=4 ,iif(Fields!D3Cnt.Value &lt;&gt; 0,Fields!Dimension3Name.Value,iif(Fields!D4Cnt.Value &lt;&gt; 0,Fields!Dimension4Name.Value,"")),"")+
+iif(Fields!DimensionCnt.Value=4," , ","")+
+iif(Fields!DimensionCnt.Value=4 ,iif(Fields!Dimension4Name.Value &lt;&gt; "",Fields!Dimension4Name.Value,""),"")</Value>
+                              <MarkupType>HTML</MarkupType>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>8.5pt</FontSize>
@@ -4850,6 +4918,7 @@ Code.DimensionName(Fields!Dimension1Name.Value,Fields!Dimension2Name.Value,Field
                           </TextRuns>
                           <Style>
                             <TextAlign>Left</TextAlign>
+                            <LineHeight>2pt</LineHeight>
                           </Style>
                         </Paragraph>
                       </Paragraphs>
@@ -5182,7 +5251,7 @@ Code.DimensionName(Fields!Dimension1Name.Value,Fields!Dimension2Name.Value,Field
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Microsoft.VisualBasic.Interaction.iif(Fields!Qty.Value &lt;&gt; 0, Microsoft.VisualBasic.Strings.formatnumber(Fields!Qty.Value, Fields!DecimalPlaces.Value), "-")</Value>
+                              <Value>=iif(sum(Fields!Qty.Value) &lt;&gt; 0, formatnumber(sum(Fields!Qty.Value),max(Fields!DecimalPlaces.Value)),"-")</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontWeight>Bold</FontWeight>
@@ -5364,16 +5433,14 @@ Code.DimensionName(Fields!Dimension1Name.Value,Fields!Dimension2Name.Value,Field
             <TablixMember>
               <Group Name="Details3" />
             </TablixMember>
-            <TablixMember>
-              <KeepWithGroup>Before</KeepWithGroup>
-            </TablixMember>
+            <TablixMember />
           </TablixMembers>
         </TablixRowHierarchy>
         <DataSetName>DsMain</DataSetName>
-        <Top>4.35557in</Top>
+        <Top>4.59307in</Top>
         <Left>0.02209in</Left>
         <Height>0.70834in</Height>
-        <Width>7.9747in</Width>
+        <Width>7.98512in</Width>
         <ZIndex>8</ZIndex>
         <Visibility>
           <Hidden>=IIF(Max(Fields!LotCnt.Value) = 0 And Max(Fields!DealUnitCnt.Value) = 0 and max(fields!ProdOrderCnt.Value) &gt;0, False, True)</Hidden>
@@ -5463,7 +5530,7 @@ Code.DimensionName(Fields!Dimension1Name.Value,Fields!Dimension2Name.Value,Field
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Product </Value>
+                              <Value>=Fields!ProductCaption.Value</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>9pt</FontSize>
@@ -5787,15 +5854,24 @@ Code.DimensionName(Fields!Dimension1Name.Value,Fields!Dimension2Name.Value,Field
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="ProductName4">
+                    <Textbox Name="Textbox1">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!ProductName.Value +
-Code.DimensionName(Fields!Dimension1Name.Value,Fields!Dimension2Name.Value,Fields!Dimension3Name.Value,Fields!Dimension4Name.Value,Fields!Specification.Value, Fields!DimensionCnt.Value,Fields!D1Cnt.Value,Fields!D2Cnt.Value,Fields!D3Cnt.Value,Fields!D4Cnt.Value)</Value>
+                              <Value>=Fields!ProductName.Value+iif(Fields!Specification.Value &lt;&gt; "","&lt;br&gt;","")+
+iif(Fields!Specification.Value &lt;&gt; "",Fields!Specification.Value,"")+
+iif(Fields!DimensionCnt.Value =1 or Fields!DimensionCnt.Value=2  or Fields!DimensionCnt.Value=3  or Fields!DimensionCnt.Value=4,"&lt;br&gt;","")+
+iif(Fields!DimensionCnt.Value =1 or Fields!DimensionCnt.Value=2  or Fields!DimensionCnt.Value=3  or Fields!DimensionCnt.Value=4 ,iif(Fields!D1Cnt.Value &lt;&gt; 0,Fields!Dimension1Name.Value,iif(Fields!D2Cnt.Value &lt;&gt; 0,Fields!Dimension2Name.Value,iif(Fields!D3Cnt.Value &lt;&gt; 0,Fields!Dimension3Name.Value,iif(Fields!D4Cnt.Value &lt;&gt; 0,Fields!Dimension4Name.Value,"")))),"")+
+iif(Fields!DimensionCnt.Value=2,",","")+
+iif(Fields!DimensionCnt.Value=2  or Fields!DimensionCnt.Value=3  or Fields!DimensionCnt.Value=4 ,iif(Fields!D2Cnt.Value &lt;&gt; 0,Fields!Dimension2Name.Value,iif(Fields!D3Cnt.Value &lt;&gt; 0,Fields!Dimension3Name.Value,iif(Fields!D4Cnt.Value &lt;&gt; 0,Fields!Dimension4Name.Value,""))),"")+
+iif(Fields!DimensionCnt.Value=3  or Fields!DimensionCnt.Value=4,"&lt;Br&gt;","")+
+iif(Fields!DimensionCnt.Value=3  or Fields!DimensionCnt.Value=4 ,iif(Fields!D3Cnt.Value &lt;&gt; 0,Fields!Dimension3Name.Value,iif(Fields!D4Cnt.Value &lt;&gt; 0,Fields!Dimension4Name.Value,"")),"")+
+iif(Fields!DimensionCnt.Value=4,",","")+
+iif(Fields!DimensionCnt.Value=4 ,iif(Fields!Dimension4Name.Value &lt;&gt; "",Fields!Dimension4Name.Value,""),"")</Value>
+                              <MarkupType>HTML</MarkupType>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>8.5pt</FontSize>
@@ -5807,7 +5883,7 @@ Code.DimensionName(Fields!Dimension1Name.Value,Fields!Dimension2Name.Value,Field
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>ProductName</rd:DefaultName>
+                      <rd:DefaultName>Textbox1</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -6216,7 +6292,7 @@ Code.DimensionName(Fields!Dimension1Name.Value,Fields!Dimension2Name.Value,Field
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Microsoft.VisualBasic.Interaction.iif(Fields!Qty.Value &lt;&gt; 0, Microsoft.VisualBasic.Strings.formatnumber(Fields!Qty.Value, Fields!DecimalPlaces.Value), "-")</Value>
+                              <Value>=iif(sum(Fields!Qty.Value) &lt;&gt; 0, formatnumber(sum(Fields!Qty.Value),max(Fields!DecimalPlaces.Value)),"-")</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>8.5pt</FontSize>
@@ -6403,13 +6479,11 @@ Code.DimensionName(Fields!Dimension1Name.Value,Fields!Dimension2Name.Value,Field
             <TablixMember>
               <Group Name="Details4" />
             </TablixMember>
-            <TablixMember>
-              <KeepWithGroup>Before</KeepWithGroup>
-            </TablixMember>
+            <TablixMember />
           </TablixMembers>
         </TablixRowHierarchy>
         <DataSetName>DsMain</DataSetName>
-        <Top>3.65072in</Top>
+        <Top>3.88822in</Top>
         <Left>0.02001in</Left>
         <Height>0.67709in</Height>
         <Width>7.98722in</Width>
@@ -6496,7 +6570,7 @@ Code.DimensionName(Fields!Dimension1Name.Value,Fields!Dimension2Name.Value,Field
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Product </Value>
+                              <Value>=fields!ProductCaption.Value</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>9pt</FontSize>
@@ -6755,8 +6829,17 @@ Code.DimensionName(Fields!Dimension1Name.Value,Fields!Dimension2Name.Value,Field
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!ProductName.Value +
-Code.DimensionName(Fields!Dimension1Name.Value,Fields!Dimension2Name.Value,Fields!Dimension3Name.Value,Fields!Dimension4Name.Value,Fields!Specification.Value, Fields!DimensionCnt.Value,Fields!D1Cnt.Value,Fields!D2Cnt.Value,Fields!D3Cnt.Value,Fields!D4Cnt.Value)</Value>
+                              <Value>=Fields!ProductName.Value+iif(Fields!Specification.Value &lt;&gt; "","&lt;br&gt;","")+
+iif(Fields!Specification.Value &lt;&gt; "",Fields!Specification.Value,"")+
+iif(Fields!DimensionCnt.Value =1 or Fields!DimensionCnt.Value=2  or Fields!DimensionCnt.Value=3  or Fields!DimensionCnt.Value=4,"&lt;br&gt;","")+
+iif(Fields!DimensionCnt.Value =1 or Fields!DimensionCnt.Value=2  or Fields!DimensionCnt.Value=3  or Fields!DimensionCnt.Value=4 ,iif(Fields!D1Cnt.Value &lt;&gt; 0,Fields!Dimension1Name.Value,iif(Fields!D2Cnt.Value &lt;&gt; 0,Fields!Dimension2Name.Value,iif(Fields!D3Cnt.Value &lt;&gt; 0,Fields!Dimension3Name.Value,iif(Fields!D4Cnt.Value &lt;&gt; 0,Fields!Dimension4Name.Value,"")))),"")+
+iif(Fields!DimensionCnt.Value=2,",","")+
+iif(Fields!DimensionCnt.Value=2  or Fields!DimensionCnt.Value=3  or Fields!DimensionCnt.Value=4 ,iif(Fields!D2Cnt.Value &lt;&gt; 0,Fields!Dimension2Name.Value,iif(Fields!D3Cnt.Value &lt;&gt; 0,Fields!Dimension3Name.Value,iif(Fields!D4Cnt.Value &lt;&gt; 0,Fields!Dimension4Name.Value,""))),"")+
+iif(Fields!DimensionCnt.Value=3  or Fields!DimensionCnt.Value=4,"&lt;Br&gt;","")+
+iif(Fields!DimensionCnt.Value=3  or Fields!DimensionCnt.Value=4 ,iif(Fields!D3Cnt.Value &lt;&gt; 0,Fields!Dimension3Name.Value,iif(Fields!D4Cnt.Value &lt;&gt; 0,Fields!Dimension4Name.Value,"")),"")+
+iif(Fields!DimensionCnt.Value=4,",","")+
+iif(Fields!DimensionCnt.Value=4 ,iif(Fields!Dimension4Name.Value &lt;&gt; "",Fields!Dimension4Name.Value,""),"")</Value>
+                              <MarkupType>HTML</MarkupType>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>8.5pt</FontSize>
@@ -7021,7 +7104,7 @@ Code.DimensionName(Fields!Dimension1Name.Value,Fields!Dimension2Name.Value,Field
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Microsoft.VisualBasic.Interaction.iif(Fields!Qty.Value &lt;&gt; 0, Microsoft.VisualBasic.Strings.formatnumber(Fields!Qty.Value, Fields!DecimalPlaces.Value), "-")</Value>
+                              <Value>=iif(sum(Fields!Qty.Value) &lt;&gt; 0, formatnumber(sum(Fields!Qty.Value),max(Fields!DecimalPlaces.Value)),"-")</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>8.5pt</FontSize>
@@ -7201,18 +7284,15 @@ Code.DimensionName(Fields!Dimension1Name.Value,Fields!Dimension2Name.Value,Field
           <TablixMembers>
             <TablixMember>
               <KeepWithGroup>After</KeepWithGroup>
-              <RepeatOnNewPage>true</RepeatOnNewPage>
             </TablixMember>
             <TablixMember>
               <Group Name="Details5" />
             </TablixMember>
-            <TablixMember>
-              <KeepWithGroup>Before</KeepWithGroup>
-            </TablixMember>
+            <TablixMember />
           </TablixMembers>
         </TablixRowHierarchy>
         <DataSetName>DsMain</DataSetName>
-        <Top>5.0778in</Top>
+        <Top>5.3278in</Top>
         <Left>0.02558in</Left>
         <Height>0.70834in</Height>
         <Width>7.97125in</Width>
@@ -7227,10 +7307,10 @@ Code.DimensionName(Fields!Dimension1Name.Value,Fields!Dimension2Name.Value,Field
         </Style>
       </Tablix>
     </ReportItems>
-    <Height>7.33893in</Height>
+    <Height>7.57991in</Height>
     <Style />
   </Body>
-  <Width>8.58836in</Width>
+  <Width>8.03848in</Width>
   <Page>
     <PageHeader>
       <Height>0.61458in</Height>
@@ -7533,10 +7613,7 @@ Code.DimensionName(Fields!Dimension1Name.Value,Fields!Dimension2Name.Value,Field
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
     <DataSource Name="DyeingCancelPrint">
-      <ConnectionProperties>
-        <DataProvider>SQL</DataProvider>
-        <ConnectString>=Parameters!DatabaseConnectionString.Value</ConnectString>
-      </ConnectionProperties>
+      <DataSourceReference>DataSourceMain</DataSourceReference>
       <rd:SecurityType>None</rd:SecurityType>
       <rd:DataSourceID>727bb65e-cc51-4d28-a097-a8ea7d087931</rd:DataSourceID>
     </DataSource>
@@ -7572,10 +7649,6 @@ Code.DimensionName(Fields!Dimension1Name.Value,Fields!Dimension2Name.Value,Field
         </Field>
         <Field Name="MobileNo">
           <DataField>MobileNo</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="CityName">
-          <DataField>CityName</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="DocDate">
@@ -7789,6 +7862,10 @@ Code.DimensionName(Fields!Dimension1Name.Value,Fields!Dimension2Name.Value,Field
         <Field Name="ProdOrderCnt">
           <DataField>ProdOrderCnt</DataField>
           <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="ProductCaption">
+          <DataField>ProductCaption</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
         </Field>
       </Fields>
     </DataSet>

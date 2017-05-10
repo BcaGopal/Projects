@@ -516,7 +516,7 @@
         <Top>0.73473in</Top>
         <Left>0.05493in</Left>
         <Height>0.45in</Height>
-        <Width>7.95839in</Width>
+        <Width>7.95838in</Width>
         <Style>
           <Border>
             <Style>None</Style>
@@ -550,7 +550,7 @@
           </TablixColumns>
           <TablixRows>
             <TablixRow>
-              <Height>0.23958in</Height>
+              <Height>0.21875in</Height>
               <TablixCells>
                 <TablixCell>
                   <CellContents>
@@ -577,16 +577,11 @@
                       <rd:DefaultName>Textbox55</rd:DefaultName>
                       <Style>
                         <Border>
-                          <Style>None</Style>
+                          <Color>Silver</Color>
+                          <Style>Solid</Style>
                         </Border>
-                        <TopBorder>
-                          <Style>Solid</Style>
-                        </TopBorder>
-                        <BottomBorder>
-                          <Style>Solid</Style>
-                        </BottomBorder>
                         <BackgroundColor>LightGrey</BackgroundColor>
-                        <VerticalAlign>Middle</VerticalAlign>
+                        <VerticalAlign>Top</VerticalAlign>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
@@ -618,16 +613,11 @@
                       <rd:DefaultName>Textbox251</rd:DefaultName>
                       <Style>
                         <Border>
-                          <Style>None</Style>
+                          <Color>Silver</Color>
+                          <Style>Solid</Style>
                         </Border>
-                        <TopBorder>
-                          <Style>Solid</Style>
-                        </TopBorder>
-                        <BottomBorder>
-                          <Style>Solid</Style>
-                        </BottomBorder>
                         <BackgroundColor>LightGrey</BackgroundColor>
-                        <VerticalAlign>Middle</VerticalAlign>
+                        <VerticalAlign>Top</VerticalAlign>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
@@ -676,16 +666,11 @@
                       <rd:DefaultName>Textbox304</rd:DefaultName>
                       <Style>
                         <Border>
-                          <Style>None</Style>
+                          <Color>Silver</Color>
+                          <Style>Solid</Style>
                         </Border>
-                        <TopBorder>
-                          <Style>Solid</Style>
-                        </TopBorder>
-                        <BottomBorder>
-                          <Style>Solid</Style>
-                        </BottomBorder>
                         <BackgroundColor>LightGrey</BackgroundColor>
-                        <VerticalAlign>Middle</VerticalAlign>
+                        <VerticalAlign>Top</VerticalAlign>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
@@ -719,16 +704,11 @@
                       <rd:DefaultName>Textbox353</rd:DefaultName>
                       <Style>
                         <Border>
-                          <Style>None</Style>
+                          <Color>Silver</Color>
+                          <Style>Solid</Style>
                         </Border>
-                        <TopBorder>
-                          <Style>Solid</Style>
-                        </TopBorder>
-                        <BottomBorder>
-                          <Style>Solid</Style>
-                        </BottomBorder>
                         <BackgroundColor>LightGrey</BackgroundColor>
-                        <VerticalAlign>Middle</VerticalAlign>
+                        <VerticalAlign>Top</VerticalAlign>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
@@ -777,16 +757,11 @@
                       <rd:DefaultName>Textbox26</rd:DefaultName>
                       <Style>
                         <Border>
-                          <Style>None</Style>
+                          <Color>Silver</Color>
+                          <Style>Solid</Style>
                         </Border>
-                        <TopBorder>
-                          <Style>Solid</Style>
-                        </TopBorder>
-                        <BottomBorder>
-                          <Style>Solid</Style>
-                        </BottomBorder>
                         <BackgroundColor>LightGrey</BackgroundColor>
-                        <VerticalAlign>Middle</VerticalAlign>
+                        <VerticalAlign>Top</VerticalAlign>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
@@ -835,16 +810,11 @@
                       <rd:DefaultName>Textbox37</rd:DefaultName>
                       <Style>
                         <Border>
-                          <Style>None</Style>
+                          <Color>Silver</Color>
+                          <Style>Solid</Style>
                         </Border>
-                        <TopBorder>
-                          <Style>Solid</Style>
-                        </TopBorder>
-                        <BottomBorder>
-                          <Style>Solid</Style>
-                        </BottomBorder>
                         <BackgroundColor>LightGrey</BackgroundColor>
-                        <VerticalAlign>Middle</VerticalAlign>
+                        <VerticalAlign>Top</VerticalAlign>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
@@ -878,16 +848,11 @@
                       <rd:DefaultName>Textbox28</rd:DefaultName>
                       <Style>
                         <Border>
-                          <Style>None</Style>
+                          <Color>Silver</Color>
+                          <Style>Solid</Style>
                         </Border>
-                        <TopBorder>
-                          <Style>Solid</Style>
-                        </TopBorder>
-                        <BottomBorder>
-                          <Style>Solid</Style>
-                        </BottomBorder>
                         <BackgroundColor>LightGrey</BackgroundColor>
-                        <VerticalAlign>Middle</VerticalAlign>
+                        <VerticalAlign>Top</VerticalAlign>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
@@ -929,8 +894,11 @@
                           <Color>LightGrey</Color>
                           <Style>Solid</Style>
                         </Border>
+                        <RightBorder>
+                          <Style>None</Style>
+                        </RightBorder>
                         <BackgroundColor>=iif(RowNumber(nothing) Mod 2 , "White","WhiteSmoke")</BackgroundColor>
-                        <VerticalAlign>Middle</VerticalAlign>
+                        <VerticalAlign>Top</VerticalAlign>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
@@ -976,14 +944,6 @@
                           <Color>LightGrey</Color>
                           <Style>Solid</Style>
                         </BottomBorder>
-                        <LeftBorder>
-                          <Color>LightGrey</Color>
-                          <Style>Solid</Style>
-                        </LeftBorder>
-                        <RightBorder>
-                          <Color>LightGrey</Color>
-                          <Style>Solid</Style>
-                        </RightBorder>
                         <BackgroundColor>=iif(RowNumber(nothing) Mod 2 , "White","WhiteSmoke")</BackgroundColor>
                         <VerticalAlign>Middle</VerticalAlign>
                         <PaddingLeft>2pt</PaddingLeft>
@@ -1028,14 +988,6 @@
                           <Color>LightGrey</Color>
                           <Style>Solid</Style>
                         </BottomBorder>
-                        <LeftBorder>
-                          <Color>LightGrey</Color>
-                          <Style>Solid</Style>
-                        </LeftBorder>
-                        <RightBorder>
-                          <Color>LightGrey</Color>
-                          <Style>Solid</Style>
-                        </RightBorder>
                         <BackgroundColor>=iif(RowNumber(nothing) Mod 2 , "White","WhiteSmoke")</BackgroundColor>
                         <VerticalAlign>Middle</VerticalAlign>
                         <PaddingLeft>2pt</PaddingLeft>
@@ -1080,14 +1032,6 @@
                           <Color>LightGrey</Color>
                           <Style>Solid</Style>
                         </BottomBorder>
-                        <LeftBorder>
-                          <Color>LightGrey</Color>
-                          <Style>Solid</Style>
-                        </LeftBorder>
-                        <RightBorder>
-                          <Color>LightGrey</Color>
-                          <Style>Solid</Style>
-                        </RightBorder>
                         <BackgroundColor>=iif(RowNumber(nothing) Mod 2 , "White","WhiteSmoke")</BackgroundColor>
                         <VerticalAlign>Middle</VerticalAlign>
                         <PaddingLeft>2pt</PaddingLeft>
@@ -1132,12 +1076,8 @@
                           <Color>LightGrey</Color>
                           <Style>Solid</Style>
                         </BottomBorder>
-                        <LeftBorder>
-                          <Color>LightGrey</Color>
-                          <Style>Solid</Style>
-                        </LeftBorder>
                         <RightBorder>
-                          <Color>LightGrey</Color>
+                          <Color>Silver</Color>
                           <Style>Solid</Style>
                         </RightBorder>
                         <BackgroundColor>=iif(RowNumber(nothing) Mod 2 , "White","WhiteSmoke")</BackgroundColor>
@@ -1186,7 +1126,7 @@
                           <Style>None</Style>
                         </BottomBorder>
                         <BackgroundColor>=iif(RowNumber(nothing) Mod 2 , "White","WhiteSmoke")</BackgroundColor>
-                        <VerticalAlign>Middle</VerticalAlign>
+                        <VerticalAlign>Top</VerticalAlign>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
@@ -1212,13 +1152,12 @@
                               </Style>
                             </TextRun>
                             <TextRun>
-                              <Value>=Code.DimensionName(Fields!Dimension1Name.Value,Fields!Dimension2Name.Value,Fields!Dimension3Name.Value,Fields!Dimension4Name.Value,Fields!DimensionCnt.Value,Fields!D1Cnt.Value,Fields!D2Cnt.Value,Fields!D3Cnt.Value,Fields!D4Cnt.Value)
-=iif(fields!DimensionCnt.Value =1 or fields!DimensionCnt.Value=2  or fields!DimensionCnt.Value=3  or fields!DimensionCnt.Value=4,System.Environment.NewLine,"")+
+                              <Value>=iif(fields!DimensionCnt.Value =1 or fields!DimensionCnt.Value=2  or fields!DimensionCnt.Value=3  or fields!DimensionCnt.Value=4,System.Environment.NewLine,"")+
 iif(fields!DimensionCnt.Value =1 or fields!DimensionCnt.Value=2  or fields!DimensionCnt.Value=3  or fields!DimensionCnt.Value=4 ,iif(Fields!D1Cnt.Value &lt;&gt; 0,Fields!Dimension1Name.Value,iif(Fields!D2Cnt.Value &lt;&gt; 0,Fields!Dimension2Name.Value,iif(Fields!D3Cnt.Value &lt;&gt; 0,Fields!Dimension3Name.Value,iif(Fields!D4Cnt.Value &lt;&gt; 0,Fields!Dimension4Name.Value,"")))),"")+
 iif(fields!DimensionCnt.Value=2  or fields!DimensionCnt.Value=3  or fields!DimensionCnt.Value=4,",","")+
 iif(fields!DimensionCnt.Value=2  or fields!DimensionCnt.Value=3  or fields!DimensionCnt.Value=4 ,iif(Fields!D2Cnt.Value &lt;&gt; 0,Fields!Dimension2Name.Value,iif(Fields!D3Cnt.Value &lt;&gt; 0,Fields!Dimension3Name.Value,iif(Fields!D4Cnt.Value &lt;&gt; 0,Fields!Dimension4Name.Value,""))),"")+
 iif(fields!DimensionCnt.Value=3  or fields!DimensionCnt.Value=4,System.Environment.NewLine,"")+
-iif(fields!DimensionCnt.Value=3  or fields!DimensionCnt.Value=4 ,iif(D3Cnt &lt;&gt; 0,Fields!Dimension3Name.Value,iif(Fields!D4Cnt.Value &lt;&gt; 0,Fields!Dimension4Name.Value,"")),"")+
+iif(fields!DimensionCnt.Value=3  or fields!DimensionCnt.Value=4 ,iif(fields!D3Cnt.Value &lt;&gt; 0,Fields!Dimension3Name.Value,iif(Fields!D4Cnt.Value &lt;&gt; 0,Fields!Dimension4Name.Value,"")),"")+
 iif(fields!DimensionCnt.Value=4,",","")+
 iif(fields!DimensionCnt.Value=4 ,iif(Fields!Dimension4Name.Value &lt;&gt; "",Fields!Dimension4Name.Value,""),"")</Value>
                               <Style>
@@ -1288,7 +1227,7 @@ iif(fields!DimensionCnt.Value=4 ,iif(Fields!Dimension4Name.Value &lt;&gt; "",Fie
                           <Style>Solid</Style>
                         </RightBorder>
                         <BackgroundColor>=iif(RowNumber(nothing) Mod 2 , "White","WhiteSmoke")</BackgroundColor>
-                        <VerticalAlign>Middle</VerticalAlign>
+                        <VerticalAlign>Top</VerticalAlign>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
@@ -1336,7 +1275,7 @@ iif(fields!DimensionCnt.Value=4 ,iif(Fields!Dimension4Name.Value &lt;&gt; "",Fie
                           <Style>Solid</Style>
                         </RightBorder>
                         <BackgroundColor>=iif(RowNumber(nothing) Mod 2 , "White","WhiteSmoke")</BackgroundColor>
-                        <VerticalAlign>Middle</VerticalAlign>
+                        <VerticalAlign>Top</VerticalAlign>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
@@ -1384,7 +1323,7 @@ iif(fields!DimensionCnt.Value=4 ,iif(Fields!Dimension4Name.Value &lt;&gt; "",Fie
                           <Style>Solid</Style>
                         </RightBorder>
                         <BackgroundColor>=iif(RowNumber(nothing) Mod 2 , "White","WhiteSmoke")</BackgroundColor>
-                        <VerticalAlign>Middle</VerticalAlign>
+                        <VerticalAlign>Top</VerticalAlign>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
@@ -1432,7 +1371,7 @@ iif(fields!DimensionCnt.Value=4 ,iif(Fields!Dimension4Name.Value &lt;&gt; "",Fie
                           <Style>Solid</Style>
                         </RightBorder>
                         <BackgroundColor>=iif(RowNumber(nothing) Mod 2 , "White","WhiteSmoke")</BackgroundColor>
-                        <VerticalAlign>Middle</VerticalAlign>
+                        <VerticalAlign>Top</VerticalAlign>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
@@ -1480,7 +1419,7 @@ iif(fields!DimensionCnt.Value=4 ,iif(Fields!Dimension4Name.Value &lt;&gt; "",Fie
                           <Style>Solid</Style>
                         </RightBorder>
                         <BackgroundColor>=iif(RowNumber(nothing) Mod 2 , "White","WhiteSmoke")</BackgroundColor>
-                        <VerticalAlign>Middle</VerticalAlign>
+                        <VerticalAlign>Top</VerticalAlign>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
@@ -1819,14 +1758,14 @@ iif(fields!DimensionCnt.Value=4 ,iif(Fields!Dimension4Name.Value &lt;&gt; "",Fie
               <TablixCells>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox31">
+                    <Textbox Name="Textbox6">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Total</Value>
+                              <Value />
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>9pt</FontSize>
@@ -1839,7 +1778,7 @@ iif(fields!DimensionCnt.Value=4 ,iif(Fields!Dimension4Name.Value &lt;&gt; "",Fie
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox31</rd:DefaultName>
+                      <rd:DefaultName>Textbox6</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -1853,20 +1792,18 @@ iif(fields!DimensionCnt.Value=4 ,iif(Fields!Dimension4Name.Value &lt;&gt; "",Fie
                         <PaddingBottom>2pt</PaddingBottom>
                       </Style>
                     </Textbox>
-                    <ColSpan>2</ColSpan>
                   </CellContents>
                 </TablixCell>
-                <TablixCell />
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox34">
+                    <Textbox Name="Textbox5">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=iif(Sum(Fields!Requiredqty.Value) &lt;&gt; 0, formatnumber(sum(Fields!Requiredqty.Value),max(Fields!DecimalPlaces.Value)) ,"-")</Value>
+                              <Value>="Total :      "+iif(Sum(Fields!Requiredqty.Value) &lt;&gt; 0, formatnumber(sum(Fields!Requiredqty.Value),max(Fields!DecimalPlaces.Value)) ,"-")</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>9pt</FontSize>
@@ -1879,37 +1816,24 @@ iif(fields!DimensionCnt.Value=4 ,iif(Fields!Dimension4Name.Value &lt;&gt; "",Fie
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox34</rd:DefaultName>
+                      <rd:DefaultName>Textbox5</rd:DefaultName>
                       <Style>
                         <Border>
-                          <Style>None</Style>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
                         </Border>
-                        <TopBorder>
-                          <Color>LightGrey</Color>
-                          <Style>Solid</Style>
-                        </TopBorder>
-                        <BottomBorder>
-                          <Color>LightGrey</Color>
-                          <Style>Solid</Style>
-                        </BottomBorder>
-                        <LeftBorder>
-                          <Color>LightGrey</Color>
-                          <Style>Solid</Style>
-                        </LeftBorder>
-                        <RightBorder>
-                          <Color>LightGrey</Color>
-                          <Style>Solid</Style>
-                        </RightBorder>
                         <BackgroundColor>LightGrey</BackgroundColor>
-                        <VerticalAlign>Middle</VerticalAlign>
+                        <VerticalAlign>Top</VerticalAlign>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
                         <PaddingBottom>2pt</PaddingBottom>
                       </Style>
                     </Textbox>
+                    <ColSpan>2</ColSpan>
                   </CellContents>
                 </TablixCell>
+                <TablixCell />
                 <TablixCell>
                   <CellContents>
                     <Textbox Name="Textbox35">
@@ -1919,7 +1843,7 @@ iif(fields!DimensionCnt.Value=4 ,iif(Fields!Dimension4Name.Value &lt;&gt; "",Fie
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value />
+                              <Value>=iif(sum(Fields!ProdPlanqty.Value) &lt;&gt; 0, formatnumber(sum(Fields!ProdPlanqty.Value),max(Fields!DecimalPlaces.Value)) ,"-")</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>9pt</FontSize>
@@ -1961,61 +1885,10 @@ iif(fields!DimensionCnt.Value=4 ,iif(Fields!Dimension4Name.Value &lt;&gt; "",Fie
                         <PaddingBottom>2pt</PaddingBottom>
                       </Style>
                     </Textbox>
+                    <ColSpan>2</ColSpan>
                   </CellContents>
                 </TablixCell>
-                <TablixCell>
-                  <CellContents>
-                    <Textbox Name="Textbox36">
-                      <CanGrow>true</CanGrow>
-                      <KeepTogether>true</KeepTogether>
-                      <Paragraphs>
-                        <Paragraph>
-                          <TextRuns>
-                            <TextRun>
-                              <Value>=iif(sum(Fields!ProdPlanqty.Value) &lt;&gt; 0, formatnumber(sum(Fields!ProdPlanqty.Value),max(Fields!DecimalPlaces.Value)) ,"-")</Value>
-                              <Style>
-                                <FontFamily>Tahoma</FontFamily>
-                                <FontSize>9pt</FontSize>
-                                <FontWeight>Bold</FontWeight>
-                              </Style>
-                            </TextRun>
-                          </TextRuns>
-                          <Style>
-                            <TextAlign>Right</TextAlign>
-                          </Style>
-                        </Paragraph>
-                      </Paragraphs>
-                      <rd:DefaultName>Textbox36</rd:DefaultName>
-                      <Style>
-                        <Border>
-                          <Style>None</Style>
-                        </Border>
-                        <TopBorder>
-                          <Color>LightGrey</Color>
-                          <Style>Solid</Style>
-                        </TopBorder>
-                        <BottomBorder>
-                          <Color>LightGrey</Color>
-                          <Style>Solid</Style>
-                        </BottomBorder>
-                        <LeftBorder>
-                          <Color>LightGrey</Color>
-                          <Style>Solid</Style>
-                        </LeftBorder>
-                        <RightBorder>
-                          <Color>LightGrey</Color>
-                          <Style>Solid</Style>
-                        </RightBorder>
-                        <BackgroundColor>LightGrey</BackgroundColor>
-                        <VerticalAlign>Middle</VerticalAlign>
-                        <PaddingLeft>2pt</PaddingLeft>
-                        <PaddingRight>2pt</PaddingRight>
-                        <PaddingTop>2pt</PaddingTop>
-                        <PaddingBottom>2pt</PaddingBottom>
-                      </Style>
-                    </Textbox>
-                  </CellContents>
-                </TablixCell>
+                <TablixCell />
                 <TablixCell>
                   <CellContents>
                     <Textbox Name="Textbox39">
@@ -2190,8 +2063,8 @@ iif(fields!DimensionCnt.Value=4 ,iif(Fields!Dimension4Name.Value &lt;&gt; "",Fie
         <DataSetName>DsMain</DataSetName>
         <Top>1.24458in</Top>
         <Left>0.05493in</Left>
-        <Height>1.02083in</Height>
-        <Width>7.95839in</Width>
+        <Height>1in</Height>
+        <Width>7.9584in</Width>
         <ZIndex>1</ZIndex>
         <Style>
           <Border>
@@ -2742,7 +2615,7 @@ iif(fields!DimensionCnt.Value=4 ,iif(Fields!Dimension4Name.Value &lt;&gt; "",Fie
         <Top>2.50777in</Top>
         <Left>0.04243in</Left>
         <Height>0.67918in</Height>
-        <Width>7.91881in</Width>
+        <Width>7.9188in</Width>
         <ZIndex>2</ZIndex>
         <Style>
           <Border>
@@ -3117,7 +2990,7 @@ iif(fields!DimensionCnt.Value=4 ,iif(Fields!Dimension4Name.Value &lt;&gt; "",Fie
       </Style>
     </PageHeader>
     <PageFooter>
-      <Height>0.33597in</Height>
+      <Height>0.2943in</Height>
       <PrintOnFirstPage>true</PrintOnFirstPage>
       <PrintOnLastPage>true</PrintOnLastPage>
       <ReportItems>
@@ -3163,8 +3036,8 @@ iif(fields!DimensionCnt.Value=4 ,iif(Fields!Dimension4Name.Value &lt;&gt; "",Fie
           </Paragraphs>
           <rd:DefaultName>Textbox18</rd:DefaultName>
           <Top>0.02639in</Top>
-          <Left>5.09261in</Left>
-          <Height>0.25in</Height>
+          <Left>5.36761in</Left>
+          <Height>0.20833in</Height>
           <Width>2.57802in</Width>
           <Style>
             <Border>
@@ -3207,7 +3080,7 @@ iif(fields!DimensionCnt.Value=4 ,iif(Fields!Dimension4Name.Value &lt;&gt; "",Fie
           <rd:DefaultName>Textbox19</rd:DefaultName>
           <Top>0.02778in</Top>
           <Left>0.09715in</Left>
-          <Height>0.25in</Height>
+          <Height>0.20833in</Height>
           <Width>1.92288in</Width>
           <ZIndex>1</ZIndex>
           <Style>
@@ -3247,8 +3120,8 @@ iif(fields!DimensionCnt.Value=4 ,iif(Fields!Dimension4Name.Value &lt;&gt; "",Fie
             </Paragraph>
           </Paragraphs>
           <rd:DefaultName>Textbox19</rd:DefaultName>
-          <Top>0.06382in</Top>
-          <Left>2.36499in</Left>
+          <Top>0.02632in</Top>
+          <Left>2.53999in</Left>
           <Height>0.20833in</Height>
           <Width>2.60625in</Width>
           <ZIndex>2</ZIndex>
@@ -3470,6 +3343,12 @@ iif(fields!DimensionCnt.Value=4 ,iif(Fields!Dimension4Name.Value &lt;&gt; "",Fie
       <AllowBlank>true</AllowBlank>
       <Prompt>DatabaseConnectionString</Prompt>
     </ReportParameter>
+    <ReportParameter Name="ReportTitle">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>ReportTitle</Prompt>
+    </ReportParameter>
   </ReportParameters>
   <Code>
     Function RupeesToWord(ByVal MyNumber)
@@ -3690,22 +3569,7 @@ iif(fields!DimensionCnt.Value=4 ,iif(Fields!Dimension4Name.Value &lt;&gt; "",Fie
     End Function
 
 
-
-Public Function DimensionName(Dimension1Name,Dimension2Name,Dimension3Name,Dimension4Name,DimensionCnt,D1Cnt,D2Cnt,D3Cnt,D4Cnt)
-    dim str as String
-
-str=iif(DimensionCnt =1 or DimensionCnt=2  or DimensionCnt=3  or DimensionCnt=4,System.Environment.NewLine,"")+
-iif(DimensionCnt =1 or DimensionCnt=2  or DimensionCnt=3  or DimensionCnt=4 ,iif(D1Cnt &lt;&gt; 0,Dimension1Name,iif(D2Cnt &lt;&gt; 0,Dimension2Name,iif(D3Cnt &lt;&gt; 0,Dimension3Name,iif(D4Cnt &lt;&gt; 0,Dimension4Name,"")))),"")+
-iif(DimensionCnt=2  or DimensionCnt=3  or DimensionCnt=4,",","")+
-iif(DimensionCnt=2  or DimensionCnt=3  or DimensionCnt=4 ,iif(D2Cnt &lt;&gt; 0,Dimension2Name,iif(D3Cnt &lt;&gt; 0,Dimension3Name,iif(D4Cnt &lt;&gt; 0,Dimension4Name,""))),"")+
-iif(DimensionCnt=3  or DimensionCnt=4,System.Environment.NewLine,"")+
-iif(DimensionCnt=3  or DimensionCnt=4 ,iif(D3Cnt &lt;&gt; 0,Dimension3Name,iif(D4Cnt &lt;&gt; 0,Dimension4Name,"")),"")+
-iif(DimensionCnt=4,",","")+
-iif(DimensionCnt=4 ,iif(Dimension4Name &lt;&gt; "",Dimension4Name,""),"")
-
-    Return str 
-    End Function  
-  </Code>
+</Code>
   <EmbeddedImages>
     <EmbeddedImage Name="SuryaLogo">
       <MIMEType>image/jpeg</MIMEType>

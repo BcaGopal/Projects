@@ -1987,6 +1987,7 @@ Fields!OpeningUndyedQty.Value + Fields!UndyedIssQty.Value
                             <PaddingBottom>2pt</PaddingBottom>
                           </Style>
                         </Textbox>
+                        <rd:Selected>true</rd:Selected>
                       </CellContents>
                     </TablixCell>
                     <TablixCell>

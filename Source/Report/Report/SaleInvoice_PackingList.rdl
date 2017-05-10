@@ -78,14 +78,14 @@
                 <TablixCell />
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox34">
+                    <Textbox Name="Textbox1">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Buyer (If Other than Consignee)</Value>
+                              <Value />
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>8pt</FontSize>
@@ -96,7 +96,7 @@
                           <Style />
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox34</rd:DefaultName>
+                      <rd:DefaultName>Textbox1</rd:DefaultName>
                       <Style>
                         <Border>
                           <Style>None</Style>
@@ -117,6 +117,7 @@
                       </Style>
                     </Textbox>
                     <ColSpan>5</ColSpan>
+                    <rd:Selected>true</rd:Selected>
                   </CellContents>
                 </TablixCell>
                 <TablixCell />
@@ -1952,7 +1953,7 @@
           </TablixMembers>
         </TablixRowHierarchy>
         <Top>0.00667in</Top>
-        <Height>3.09375in</Height>
+        <Height>3.09378in</Height>
         <Width>7.46895in</Width>
         <Style>
           <Border>

@@ -52,6 +52,9 @@
           <QueryParameter Name="@StatusOnDate">
             <Value>=Parameters!StatusOnDate.Value</Value>
           </QueryParameter>
+          <QueryParameter Name="@PCSType">
+            <Value>=Parameters!PCSType.Value</Value>
+          </QueryParameter>
         </QueryParameters>
         <CommandType>StoredProcedure</CommandType>
         <CommandText>Web.spRep_WeavingRegister</CommandText>
@@ -226,7 +229,8 @@
           <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
         <Field Name="SilkQty">
-          <Value>SilkQty</Value>
+          <DataField>SilkQty</DataField>
+          <rd:UserDefined>true</rd:UserDefined>
         </Field>
       </Fields>
     </DataSet>
@@ -2070,7 +2074,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!YarnQty.Value+Fields!SilkQty.Value</Value>
+                                  <Value>=Val(Fields!YarnQty.Value)+Val(Fields!SilkQty.Value)</Value>
                                   <Style>
                                     <FontFamily>Tahoma</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -3450,7 +3454,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Sum(Fields!YarnQty.Value+Fields!SilkQty.Value)</Value>
+                                  <Value>=sum(Val(Fields!YarnQty.Value))+sum(Val(Fields!SilkQty.Value))</Value>
                                   <Style>
                                     <FontFamily>Tahoma</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -3480,6 +3484,7 @@
                           </Style>
                         </Textbox>
                         <ColSpan>2</ColSpan>
+                        <rd:Selected>true</rd:Selected>
                       </CellContents>
                     </TablixCell>
                     <TablixCell />
@@ -5344,7 +5349,6 @@
                             <PaddingBottom>2pt</PaddingBottom>
                           </Style>
                         </Textbox>
-                        <rd:Selected>true</rd:Selected>
                       </CellContents>
                     </TablixCell>
                     <TablixCell>
@@ -6198,7 +6202,7 @@
         <Height>5.6in</Height>
         <Style />
       </Body>
-      <Width>13.33132in</Width>
+      <Width>13.36257in</Width>
       <Page>
         <PageHeader>
           <Height>0.29042in</Height>
@@ -6379,6 +6383,7 @@
                 </Paragraph>
               </Paragraphs>
               <rd:DefaultName>Textbox168</rd:DefaultName>
+              <Top>0in</Top>
               <Left>1.924in</Left>
               <Height>0.19444in</Height>
               <Width>1.06058in</Width>
@@ -6690,6 +6695,7 @@
                 </Paragraph>
               </Paragraphs>
               <rd:DefaultName>Textbox168</rd:DefaultName>
+              <Top>0in</Top>
               <Left>6.76083in</Left>
               <Height>0.22222in</Height>
               <Width>1.06058in</Width>
@@ -6920,6 +6926,7 @@
                 </Paragraph>
               </Paragraphs>
               <rd:DefaultName>Textbox168</rd:DefaultName>
+              <Top>0in</Top>
               <Left>10.54352in</Left>
               <Height>0.22222in</Height>
               <Width>1.40752in</Width>
@@ -6997,6 +7004,7 @@
                 </Paragraph>
               </Paragraphs>
               <rd:DefaultName>Textbox168</rd:DefaultName>
+              <Top>0in</Top>
               <Left>12.02048in</Left>
               <Height>0.19444in</Height>
               <Width>1.27854in</Width>
@@ -7343,6 +7351,12 @@
       <Nullable>true</Nullable>
       <AllowBlank>true</AllowBlank>
       <Prompt>Status On Date</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="PCSType">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>PCS Type</Prompt>
     </ReportParameter>
   </ReportParameters>
   <EmbeddedImages>
