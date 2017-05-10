@@ -984,7 +984,7 @@
         <Top>0.74083in</Top>
         <Left>0.04469in</Left>
         <Height>1.5in</Height>
-        <Width>7.82905in</Width>
+        <Width>7.82906in</Width>
         <ZIndex>3</ZIndex>
         <Visibility>
           <Hidden>=iif(Globals!RenderFormat.Name &lt;&gt; "PDF",True,False)</Hidden>
@@ -1285,6 +1285,9 @@
           <QueryParameter Name="@ProductDivisionId">
             <Value>=Parameters!ProductDivisionId.Value</Value>
           </QueryParameter>
+          <QueryParameter Name="@StockType">
+            <Value>=Parameters!StockType.Value</Value>
+          </QueryParameter>
         </QueryParameters>
         <CommandType>StoredProcedure</CommandType>
         <CommandText>Web.spRep_MaterialReceiveSummary</CommandText>
@@ -1529,6 +1532,12 @@
       <Nullable>true</Nullable>
       <AllowBlank>true</AllowBlank>
       <Prompt>Product Division Id</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="StockType">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Stock Type</Prompt>
     </ReportParameter>
   </ReportParameters>
   <Code>

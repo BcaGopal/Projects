@@ -70,6 +70,9 @@
           <QueryParameter Name="@ReportType">
             <Value>=Parameters!ReportType.Value</Value>
           </QueryParameter>
+          <QueryParameter Name="@Rate">
+            <Value>=Parameters!Rate.Value</Value>
+          </QueryParameter>
         </QueryParameters>
         <CommandType>StoredProcedure</CommandType>
         <CommandText>Web.spRep_CarpetFinishingInvoiceReport</CommandText>
@@ -2938,6 +2941,12 @@
       <Nullable>true</Nullable>
       <AllowBlank>true</AllowBlank>
       <Prompt>Report Type</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="Rate">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Rate</Prompt>
     </ReportParameter>
   </ReportParameters>
   <EmbeddedImages>

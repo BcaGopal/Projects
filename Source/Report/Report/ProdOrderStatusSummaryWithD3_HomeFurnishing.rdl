@@ -22,6 +22,9 @@
           <QueryParameter Name="@ReportType">
             <Value>=Parameters!ReportType.Value</Value>
           </QueryParameter>
+          <QueryParameter Name="@DocumentCategory">
+            <Value>=Parameters!DocumentCategory.Value</Value>
+          </QueryParameter>
           <QueryParameter Name="@Division">
             <Value>=Parameters!Division.Value</Value>
           </QueryParameter>
@@ -1323,7 +1326,6 @@
                             <PaddingBottom>2pt</PaddingBottom>
                           </Style>
                         </Textbox>
-                        <rd:Selected>true</rd:Selected>
                       </CellContents>
                     </TablixCell>
                     <TablixCell>
@@ -1446,7 +1448,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>="Cancel" + System.Environment.NewLine + Fields!UnitName.Value</Value>
+                                  <Value>="Plan"+ System.Environment.NewLine +"Cancel" + System.Environment.NewLine + Fields!UnitName.Value</Value>
                                   <Style>
                                     <FontFamily>Tahoma</FontFamily>
                                     <FontSize>9pt</FontSize>
@@ -1520,7 +1522,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>="Balance" + System.Environment.NewLine + Fields!UnitName.Value</Value>
+                                  <Value>="Plan"+ System.Environment.NewLine +"Balance" + System.Environment.NewLine + Fields!UnitName.Value</Value>
                                   <Style>
                                     <FontFamily>Tahoma</FontFamily>
                                     <FontSize>9pt</FontSize>
@@ -1546,6 +1548,7 @@
                             <PaddingBottom>2pt</PaddingBottom>
                           </Style>
                         </Textbox>
+                        <rd:Selected>true</rd:Selected>
                       </CellContents>
                     </TablixCell>
                   </TablixCells>
@@ -3545,6 +3548,12 @@
       <Nullable>true</Nullable>
       <AllowBlank>true</AllowBlank>
       <Prompt>Report Type</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="DocumentCategory">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Document Category</Prompt>
     </ReportParameter>
     <ReportParameter Name="Division">
       <DataType>String</DataType>

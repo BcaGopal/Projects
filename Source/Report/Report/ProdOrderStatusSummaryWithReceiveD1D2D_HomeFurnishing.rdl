@@ -31,6 +31,9 @@
           <QueryParameter Name="@DocumentType">
             <Value>=Parameters!DocumentType.Value</Value>
           </QueryParameter>
+          <QueryParameter Name="@DocumentCategory">
+            <Value>=Parameters!DocumentCategory.Value</Value>
+          </QueryParameter>
           <QueryParameter Name="@StatusOnDate">
             <Value>=Parameters!StatusOnDate.Value</Value>
           </QueryParameter>
@@ -1420,7 +1423,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>="Cancel" + System.Environment.NewLine + Fields!UnitName.Value</Value>
+                                  <Value>="Plan"+ System.Environment.NewLine +"Cancel" + System.Environment.NewLine + Fields!UnitName.Value</Value>
                                   <Style>
                                     <FontFamily>Tahoma</FontFamily>
                                     <FontSize>9pt</FontSize>
@@ -1494,7 +1497,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>="Balance" + System.Environment.NewLine + Fields!UnitName.Value</Value>
+                                  <Value>="Plan"+System.Environment.NewLine+"Balance" + System.Environment.NewLine + Fields!UnitName.Value</Value>
                                   <Style>
                                     <FontFamily>Tahoma</FontFamily>
                                     <FontSize>9pt</FontSize>
@@ -3591,7 +3594,7 @@
             <DataSetName>DsMain</DataSetName>
             <Top>3.74583in</Top>
             <Left>0.025in</Left>
-            <Height>1.33334in</Height>
+            <Height>1.33333in</Height>
             <Width>10.97911in</Width>
             <ZIndex>3</ZIndex>
             <Visibility>
@@ -3715,7 +3718,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>="Cancel" + System.Environment.NewLine + Fields!UnitName.Value</Value>
+                                  <Value>="Plan"+System.Environment.NewLine+"Cancel" + System.Environment.NewLine + Fields!UnitName.Value</Value>
                                   <Style>
                                     <FontFamily>Tahoma</FontFamily>
                                     <FontSize>9pt</FontSize>
@@ -3789,7 +3792,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>="Balance" + System.Environment.NewLine + Fields!UnitName.Value</Value>
+                                  <Value>="Plan"+System.Environment.NewLine+"Balance" + System.Environment.NewLine + Fields!UnitName.Value</Value>
                                   <Style>
                                     <FontFamily>Tahoma</FontFamily>
                                     <FontSize>9pt</FontSize>
@@ -5740,7 +5743,7 @@
             <Top>5.125in</Top>
             <Left>0.04793in</Left>
             <Height>1.33334in</Height>
-            <Width>10.94576in</Width>
+            <Width>10.94577in</Width>
             <ZIndex>4</ZIndex>
             <Visibility>
               <Hidden>=IIF(max(Fields!DimensionCnt.Value) = "1", False, True)</Hidden>
@@ -5823,7 +5826,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>="Cancel" + System.Environment.NewLine + Fields!UnitName.Value</Value>
+                                  <Value>="Plan"+System.Environment.NewLine+"Cancel" + System.Environment.NewLine + Fields!UnitName.Value</Value>
                                   <Style>
                                     <FontFamily>Tahoma</FontFamily>
                                     <FontSize>9pt</FontSize>
@@ -5897,7 +5900,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>="Balance" + System.Environment.NewLine + Fields!UnitName.Value</Value>
+                                  <Value>="Plan"+ System.Environment.NewLine +"Balance" + System.Environment.NewLine + Fields!UnitName.Value</Value>
                                   <Style>
                                     <FontFamily>Tahoma</FontFamily>
                                     <FontSize>9pt</FontSize>
@@ -5923,6 +5926,7 @@
                             <PaddingBottom>2pt</PaddingBottom>
                           </Style>
                         </Textbox>
+                        <rd:Selected>true</rd:Selected>
                       </CellContents>
                     </TablixCell>
                     <TablixCell>
@@ -7990,6 +7994,12 @@
       <Nullable>true</Nullable>
       <AllowBlank>true</AllowBlank>
       <Prompt>Document Type</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="DocumentCategory">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Document Category</Prompt>
     </ReportParameter>
     <ReportParameter Name="StatusOnDate">
       <DataType>String</DataType>

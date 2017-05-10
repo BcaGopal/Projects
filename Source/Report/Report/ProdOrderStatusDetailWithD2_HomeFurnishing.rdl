@@ -19,6 +19,9 @@
           <QueryParameter Name="@Site">
             <Value>=Parameters!Site.Value</Value>
           </QueryParameter>
+			<QueryParameter Name="@DocumentCategory">
+				<Value>=Parameters!DocumentCategory.Value</Value>
+			</QueryParameter>
           <QueryParameter Name="@ReportType">
             <Value>=Parameters!ReportType.Value</Value>
           </QueryParameter>
@@ -4575,6 +4578,12 @@
       <AllowBlank>true</AllowBlank>
       <Prompt>Site</Prompt>
     </ReportParameter>
+	  <ReportParameter Name="DocumentCategory">
+		  <DataType>String</DataType>
+		  <Nullable>true</Nullable>
+		  <AllowBlank>true</AllowBlank>
+		  <Prompt>Document Category</Prompt>
+	  </ReportParameter>
     <ReportParameter Name="ReportType">
       <DataType>String</DataType>
       <Nullable>true</Nullable>

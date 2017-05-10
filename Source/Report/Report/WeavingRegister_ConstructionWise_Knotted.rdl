@@ -52,6 +52,9 @@
           <QueryParameter Name="@StatusOnDate">
             <Value>=Parameters!StatusOnDate.Value</Value>
           </QueryParameter>
+          <QueryParameter Name="@PCSType">
+            <Value>=Parameters!PCSType.Value</Value>
+          </QueryParameter>
         </QueryParameters>
         <CommandType>StoredProcedure</CommandType>
         <CommandText>Web.spRep_WeavingRegister</CommandText>
@@ -2032,7 +2035,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!YarnQty.Value</Value>
+                                  <Value>=Fields!YarnQty.Value+Fields!SilkQty.Value</Value>
                                   <Style>
                                     <FontFamily>Tahoma</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -3591,7 +3594,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Sum(Fields!YarnQty.Value)</Value>
+                                  <Value>=Sum(Fields!YarnQty.Value)+Sum(Fields!SilkQty.Value)</Value>
                                   <Style>
                                     <FontFamily>Tahoma</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -3621,6 +3624,7 @@
                           </Style>
                         </Textbox>
                         <ColSpan>2</ColSpan>
+                        <rd:Selected>true</rd:Selected>
                       </CellContents>
                     </TablixCell>
                     <TablixCell />
@@ -6782,6 +6786,12 @@
       <Nullable>true</Nullable>
       <AllowBlank>true</AllowBlank>
       <Prompt>Status On Date</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="PCSType">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>PCS Type</Prompt>
     </ReportParameter>
   </ReportParameters>
   <EmbeddedImages>
