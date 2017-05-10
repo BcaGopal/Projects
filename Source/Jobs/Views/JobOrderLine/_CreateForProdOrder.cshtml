@@ -48,6 +48,7 @@
                 @Html.HiddenFor(m => m.DivisionId)
                 @Html.HiddenFor(m => m.ProductId)
                 @Html.HiddenFor(m => m.JobOrderSettings.isPostedInStock)
+                @Html.HiddenFor(m => m.JobOrderSettings.ExcessQtyAllowedPer)
                 @Html.HiddenFor(m => m.JobOrderSettings.ProcessId)
                 @Html.HiddenFor(m => m.JobOrderSettings.SqlProcConsumption)
                 @Html.HiddenFor(m => m.JobOrderSettings.CalculationId)
@@ -835,7 +836,14 @@ else
 
 
         $('#Qty').keyup(function () {
-            if (($('#ProdOrderBalanceQty').val() - $('#Qty').val()) < 0 && $('#ProdOrderLineId').val()>0) {
+            var ExcessQtyAllowed = 0;
+            if ($('#JobOrderSettings_ExcessQtyAllowedPer').val() != null && $('#JobOrderSettings_ExcessQtyAllowedPer').val() != 0)
+            {
+                ExcessQtyAllowed = $('#ProdOrderBalanceQty').val() * $('#JobOrderSettings_ExcessQtyAllowedPer').val()/100;
+            }
+            
+
+            if (($('#ProdOrderBalanceQty').val() - $('#Qty').val() + ExcessQtyAllowed) < 0 && $('#ProdOrderLineId').val()>0) {
                 $('#submit', '.modal-body').attr('disabled', 'disabled');
                 if ($(this).closest('div.col-md-4 col-sm-10').find('span#cerror').length == 0)
                 {

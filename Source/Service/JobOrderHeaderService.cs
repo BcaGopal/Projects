@@ -392,6 +392,7 @@ namespace Service
 
             IEnumerable<WeavingOrderWizardViewModel> temp = (from p in PendingProdOrderList
                                                              where (string.IsNullOrEmpty(settings.filterProductCategories) ? 1 == 1 : ProductCategories.Contains(p.ProductCategoryId.ToString()))
+                                                             orderby p.ProdOrderLineId
                                                              select p).ToList();
 
 

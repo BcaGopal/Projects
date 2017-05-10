@@ -233,7 +233,7 @@ $(document).on('change', '.Calculation', ChargeCalculation);
 
 function ChargeCalculation() {
 
-
+    
     var SubTotalProduct = 0;
     var SubTotalFooter = 0;
     for (var i = 0; i < ProductFields.length; i++) {
@@ -293,7 +293,7 @@ function ChargeCalculation() {
     function EvalExpression(IncludedCharges, ChargeCalculation, selector) {
         var Rate;
 
-        if (!IncludedCharges) {
+        if (IncludedCharges) {
 
             var Params = IncludedCharges.split(',');
 
@@ -301,18 +301,22 @@ function ChargeCalculation() {
 
             $.each(Params, function (i, val) {
 
-                var Elem = selector + Params;
+                var Elem = selector + val;
 
                 ParamDict.push({ id: val, text: $(Elem).val() });
             })
 
+            var CalExpr = ChargeCalculation;
+
             $.each(ParamDict, function (i, val) {
 
-                ChargeCalculation.replace(val.id, val.text);
+                var replace = '/' + val.id + '/gi';
+
+                CalExpr = CalExpr.replace(new RegExp(val.id, 'ig'), val.text);
 
             })
 
-            Rate = parseFloat(eval(ChargeCalculation));
+            Rate = parseFloat(eval(CalExpr));
 
         }
         else {

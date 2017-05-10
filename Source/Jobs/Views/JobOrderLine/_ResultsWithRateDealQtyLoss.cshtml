@@ -18,6 +18,7 @@
             <div class="form-horizontal modal-body">
                 @Html.HiddenFor(m => m.JobOrderSettings.isVisibleRate)
                 @Html.HiddenFor(m => m.JobOrderSettings.ProcessId)
+                @Html.HiddenFor(m => m.JobOrderSettings.ExcessQtyAllowedPer)
                 <div style="padding-right:15px">
                     <div class="row">
 
@@ -256,7 +257,13 @@
 
         var OrderQty = parseFloat($div.find('input.OrderQty').val()) || 0;
 
-        var bal = (OrderQty) - (ProdQty);
+        var ExcessQtyAllowed = 0;
+        if ($('#JobOrderSettings_ExcessQtyAllowedPer').val() != null && $('#JobOrderSettings_ExcessQtyAllowedPer').val() != 0) {
+            ExcessQtyAllowed = ProdQty * $('#JobOrderSettings_ExcessQtyAllowedPer').val() / 100;
+        }
+
+        var bal = (OrderQty) - (ProdQty + ExcessQtyAllowed);
+        //var bal = (OrderQty) - (ProdQty);
 
         if (bal > 0) {
             if (!$('#modform').find('.modal-body #errormsg').length) {

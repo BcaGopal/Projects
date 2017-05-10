@@ -696,7 +696,7 @@ namespace Service
                             && (string.IsNullOrEmpty(vm.Dimension3Id) ? 1 == 1 : Dimension3.Contains(p.Dimension3Id.ToString()))
                             && (string.IsNullOrEmpty(vm.Dimension4Id) ? 1 == 1 : Dimension4.Contains(p.Dimension4Id.ToString()))
                             && (string.IsNullOrEmpty(vm.ProductGroupId) ? 1 == 1 : ProductGroupIdArr.Contains(tab2.ProductGroupId.ToString()))
-                            //&& tab1.ProcessId == Settings.ProcessId
+                            && tab1.ProcessId == joborder.ProcessId
                             && tab.DocDate <= joborder.DocDate
                             && (string.IsNullOrEmpty(Settings.filterContraSites) ? p.SiteId == joborder.SiteId : ContraSites.Contains(p.SiteId.ToString()))
                             && (string.IsNullOrEmpty(Settings.filterProductCategories) ? 1 == 1 : ProductCategoryIdArr.Contains(tab2.ProductCategoryId.ToString()))
@@ -753,7 +753,7 @@ namespace Service
                             && (string.IsNullOrEmpty(vm.Dimension3Id) ? 1 == 1 : Dimension3.Contains(p.Dimension3Id.ToString()))
                             && (string.IsNullOrEmpty(vm.Dimension4Id) ? 1 == 1 : Dimension4.Contains(p.Dimension4Id.ToString()))
                             && (string.IsNullOrEmpty(vm.ProductGroupId) ? 1 == 1 : ProductGroupIdArr.Contains(tab2.ProductGroupId.ToString()))
-                            //&& tab1.ProcessId == Settings.ProcessId
+                            && tab1.ProcessId == joborder.ProcessId
                             && (string.IsNullOrEmpty(Settings.filterProductCategories) ? 1 == 1 : ProductCategoryIdArr.Contains(tab2.ProductCategoryId.ToString()))
                             && p.BalanceQty > 0
                             select new JobOrderLineViewModel
@@ -1122,6 +1122,7 @@ namespace Service
 
 
             var list = (from p in db.ViewProdOrderBalance
+                        join Pol in db.ProdOrderLine on p.ProdOrderLineId equals Pol.ProdOrderLineId into ProdOrderLineTable from ProdOrderLineTab in ProdOrderLineTable.DefaultIfEmpty()
                         join Pt in db.Product on p.ProductId equals Pt.ProductId into ProductTable
                         from ProductTab in ProductTable.DefaultIfEmpty()
                         join Fp in db.FinishedProduct on p.ProductId equals Fp.ProductId into FinishedProductTable
@@ -1140,6 +1141,7 @@ namespace Service
                         && (string.IsNullOrEmpty(settings.filterProductTypes) ? 1 == 1 : ProductTypes.Contains("|" + ProductTab.ProductGroup.ProductTypeId.ToString() + "|"))
                         && (string.IsNullOrEmpty(settings.FilterProductDivision) ? 1 == 1 : ProductDivision.Contains("|" + ProductTab.DivisionId.ToString() + "|"))
                         && (string.IsNullOrEmpty(settings.filterProductCategories) ? 1 == 1 : ProductCategory.Contains("|" + FinishedProductTab.ProductCategoryId.ToString() + "|"))
+                        && ProdOrderLineTab.ProcessId == JobOrderHeader.ProcessId
                         orderby p.ProdOrderNo
                         select new ComboBoxResult
                         {

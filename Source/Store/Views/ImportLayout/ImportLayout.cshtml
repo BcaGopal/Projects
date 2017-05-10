@@ -26,6 +26,13 @@
             cursor: inherit;
             display: block;
         }
+
+    .form-horizontal .control-label {
+        text-align: left !important; /* !important added for priority in SO snippet. */
+        font-weight: normal !important;
+        padding-top: 0;
+        padding-bottom: 0;
+    }
 </style>
 @*@using (Html.BeginForm(Model.ImportHeader.Action, Model.ImportHeader.Controller, FormMethod.Post, new { enctype = "multipart/form-data", target = "_blank" }))*@
 @using (Html.BeginForm("Import", "Import", FormMethod.Post, new { enctype = "multipart/form-data" }))
@@ -70,14 +77,14 @@
                         <div id="@(key + item.Key.IsCollapse)d" class="panel-collapse collapse @(item.Key.IsCollapse?"":"in")" role="tabpanel" aria-labelledby="@( key + item.Key.IsCollapse)h">
                             <div class="panel-body">
                                 <div class="row">
-                                    <div class="col-md-12">
+                                    @*<div class="col-md-12">
                                         <div class="form-group">
-                                            @Html.Label("Column Name", new { @class = "control-label col-xs-4" })
+                                            @Html.Label("Column Name", new { @class = "control-label col-xs-4"})
                                             <div class="col-xs-6">
                                                 @Html.Label("Data Type", new { @class = "control-label col-xs-6" })
                                             </div>
                                         </div>
-                                    </div>
+                                    </div>*@
                                     @foreach (var temp in item)
                                     {
                                             <div class="col-md-12" style="display:@(temp.IsVisible ? "" : "none")">
@@ -230,6 +237,7 @@
                 var NoofChar=this.NoOfCharToEnter;
                 var elementId= '#' + this.FieldName;
                 var bool=this.DataType=="Single Select"?false:true
+                alert(!this.SqlProcGetSet);
                 if(!this.SqlProcGetSet)
                     CustomSelectFunction($(elementId), getFunction, setFunction, ' ', bool, NoofChar);
                 else
