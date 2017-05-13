@@ -805,6 +805,7 @@ namespace Module
                         CREATE INDEX IX_CompanyId
 	                        ON Web.CompanySettings (CompanyId)
                         ";
+                    ExecuteQuery(mQry);
 
 
                     mQry = @" INSERT INTO Web.CompanySettings (CompanyId, CreatedBy, ModifiedBy, CreatedDate, ModifiedDate)
@@ -823,6 +824,71 @@ namespace Module
 
 
             AddFields("ProductTypeSettings", "ImportMenuId", "Int","Menus");
+            AddFields("SaleInvoiceSettings", "IsVisibleCreditDays", "Bit");
+
+            AddFields("JobReceiveLines", "ProductId", "Int","Products");
+            AddFields("JobReceiveLines", "Dimension1Id", "Int", "Dimension1");
+            AddFields("JobReceiveLines", "Dimension2Id", "Int", "Dimension2");
+            AddFields("JobReceiveLines", "Dimension3Id", "Int", "Dimension3");
+            AddFields("JobReceiveLines", "Dimension4Id", "Int", "Dimension4");
+            AddFields("JobInvoiceLines", "DiscountAmt", "Decimal(18,4)");
+
+
+
+            try
+            {
+                if ((int)ExecuteScaler("SELECT Count(*) AS Cnt FROM INFORMATION_SCHEMA.Tables WHERE TABLE_NAME = 'ChargeGroupSettings'") == 0)
+                {
+                    mQry = @"CREATE TABLE Web.ChargeGroupSettings
+	                        (
+	                        ChargeGroupSettingsId    INT IDENTITY NOT NULL,
+	                        ChargeTypeId             INT NOT NULL,
+	                        ChargeGroupPersonId      INT NOT NULL,
+	                        ChargeGroupProductId     INT NOT NULL,
+	                        ChargableLedgerAccountId INT NOT NULL,
+	                        ChargePer                DECIMAL (18, 4) NOT NULL,
+	                        ChargeLedgerAccountId    INT NOT NULL,
+	                        CreatedBy                NVARCHAR (max),
+	                        ModifiedBy               NVARCHAR (max),
+	                        CreatedDate              DATETIME NOT NULL,
+	                        ModifiedDate             DATETIME NOT NULL,
+	                        OMSId                    NVARCHAR (50),
+	                        CONSTRAINT [PK_Web.ChargeGroupSettings] PRIMARY KEY (ChargeGroupSettingsId),
+	                        CONSTRAINT [FK_Web.ChargeGroupSettings_Web.LedgerAccounts_ChargableLedgerAccountId] FOREIGN KEY (ChargableLedgerAccountId) REFERENCES Web.LedgerAccounts (LedgerAccountId),
+	                        CONSTRAINT [FK_Web.ChargeGroupSettings_Web.ChargeGroupPersons_ChargeGroupPersonId] FOREIGN KEY (ChargeGroupPersonId) REFERENCES Web.ChargeGroupPersons (ChargeGroupPersonId),
+	                        CONSTRAINT [FK_Web.ChargeGroupSettings_Web.ChargeGroupProducts_ChargeGroupProductId] FOREIGN KEY (ChargeGroupProductId) REFERENCES Web.ChargeGroupProducts (ChargeGroupProductId),
+	                        CONSTRAINT [FK_Web.ChargeGroupSettings_Web.LedgerAccounts_ChargeLedgerAccountId] FOREIGN KEY (ChargeLedgerAccountId) REFERENCES Web.LedgerAccounts (LedgerAccountId),
+	                        CONSTRAINT [FK_Web.ChargeGroupSettings_Web.ChargeTypes_ChargeTypeId] FOREIGN KEY (ChargeTypeId) REFERENCES Web.ChargeTypes (ChargeTypeId)
+	                        )
+
+
+                        CREATE INDEX IX_ChargeTypeId
+	                        ON Web.ChargeGroupSettings (ChargeTypeId)
+
+
+                        CREATE INDEX IX_ChargeGroupPersonId
+	                        ON Web.ChargeGroupSettings (ChargeGroupPersonId)
+
+
+                        CREATE INDEX IX_ChargeGroupProductId
+	                        ON Web.ChargeGroupSettings (ChargeGroupProductId)
+
+
+                        CREATE INDEX IX_ChargableLedgerAccountId
+	                        ON Web.ChargeGroupSettings (ChargableLedgerAccountId)
+
+
+                        CREATE INDEX IX_ChargeLedgerAccountId
+	                        ON Web.ChargeGroupSettings (ChargeLedgerAccountId)
+                        ";
+                    ExecuteQuery(mQry);
+                }
+            }
+            catch (Exception ex)
+            {
+                RecordError(ex);
+            }
+
 
             
             return RedirectToAction("Module", "Menu");

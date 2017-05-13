@@ -29,6 +29,26 @@ namespace Model.Models
         public int? ProductUidId { get; set; }
         public virtual ProductUid ProductUid { get; set; }
 
+        [ForeignKey("Product"), Display(Name = "Product")]
+        public int? ProductId { get; set; }
+        public virtual Product Product { get; set; }
+
+        [ForeignKey("Dimension1"), Display(Name = "Dimension1")]
+        public int? Dimension1Id { get; set; }
+        public virtual Dimension1 Dimension1 { get; set; }
+
+        [ForeignKey("Dimension2"), Display(Name = "Dimension2")]
+        public int? Dimension2Id { get; set; }
+        public virtual Dimension2 Dimension2 { get; set; }
+
+        [ForeignKey("Dimension3"), Display(Name = "Dimension3")]
+        public int? Dimension3Id { get; set; }
+        public virtual Dimension3 Dimension3 { get; set; }
+
+        [ForeignKey("Dimension4"), Display(Name = "Dimension4")]
+        public int? Dimension4Id { get; set; }
+        public virtual Dimension4 Dimension4 { get; set; }
+
         [Display(Name = "Job Order"), Required]
         [ForeignKey("JobOrderLine")]
         [Index("IX_JobReceiveLine_Unique", IsUnique = true, Order = 2)]
@@ -51,9 +71,8 @@ namespace Model.Models
         [Display(Name = "Unit Conversion Multiplier"), Required]
         public Decimal UnitConversionMultiplier { get; set; }
 
-        [ForeignKey("Product"), Display(Name = "Machine")]
+        [Display(Name = "Machine")]
         public int? MachineId { get; set; }
-        public virtual Product Product { get; set; }
 
         [Display(Name = "Loss %")]
         public decimal LossPer { get; set; }

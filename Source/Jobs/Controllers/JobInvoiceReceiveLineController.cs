@@ -220,14 +220,18 @@ namespace Web
                         ReceiveLine.CreatedBy = User.Identity.Name;
                         ReceiveLine.ModifiedBy = User.Identity.Name;
 
-                        if (LineStatus.ContainsKey(ReceiveLine.JobOrderLineId))
+                        if (ReceiveLine.JobOrderLineId != null)
                         {
-                            LineStatus[ReceiveLine.JobOrderLineId] = LineStatus[ReceiveLine.JobOrderLineId] + 1;
+                            if (LineStatus.ContainsKey((int)ReceiveLine.JobOrderLineId))
+                            {
+                                LineStatus[(int)ReceiveLine.JobOrderLineId] = LineStatus[(int)ReceiveLine.JobOrderLineId] + 1;
+                            }
+                            else
+                            {
+                                LineStatus.Add((int)ReceiveLine.JobOrderLineId, ReceiveLine.Qty + ReceiveLine.LossQty);
+                            }
                         }
-                        else
-                        {
-                            LineStatus.Add(ReceiveLine.JobOrderLineId, ReceiveLine.Qty + ReceiveLine.LossQty);
-                        }
+
 
                         if (JobOrderLine.ProductUidId.HasValue && JobOrderLine.ProductUidId.Value > 0)
                         {
@@ -1245,7 +1249,10 @@ namespace Web
                     Status.ObjectState = Model.ObjectState.Added;
                     db.JobInvoiceLineStatus.Add(Status);
 
-                    new JobOrderLineStatusService(_unitOfWork).UpdateJobQtyOnInvoiceReceive(ReceiveLine.JobOrderLineId, InvoiceLine.JobInvoiceLineId, InvoiceHeader.DocDate, (ReceiveLine.Qty + ReceiveLine.LossQty), InvoiceLine.UnitConversionMultiplier, ref db, true);
+                    if (ReceiveLine.JobOrderLineId != null)
+                    {
+                        new JobOrderLineStatusService(_unitOfWork).UpdateJobQtyOnInvoiceReceive((int)ReceiveLine.JobOrderLineId, InvoiceLine.JobInvoiceLineId, InvoiceHeader.DocDate, (ReceiveLine.Qty + ReceiveLine.LossQty), InvoiceLine.UnitConversionMultiplier, ref db, true);
+                    }
 
 
                     db.JobInvoiceLine.Add(InvoiceLine);
@@ -1685,7 +1692,10 @@ namespace Web
                     temp1.ObjectState = Model.ObjectState.Modified;
                     db.JobInvoiceLine.Add(temp1);
 
-                    new JobOrderLineStatusService(_unitOfWork).UpdateJobQtyOnInvoiceReceive(temprec.JobOrderLineId, temp1.JobInvoiceLineId, InvoiceHeader.DocDate, (temprec.Qty + temprec.LossQty), temp1.UnitConversionMultiplier, ref db, true);
+                    if (temprec.JobOrderLineId != null)
+                    {
+                        new JobOrderLineStatusService(_unitOfWork).UpdateJobQtyOnInvoiceReceive((int)temprec.JobOrderLineId, temp1.JobInvoiceLineId, InvoiceHeader.DocDate, (temprec.Qty + temprec.LossQty), temp1.UnitConversionMultiplier, ref db, true);
+                    }
 
                     if (InvoiceHeader.Status != (int)StatusConstants.Drafted && InvoiceHeader.Status != (int)StatusConstants.Import)
                     {
@@ -2000,7 +2010,10 @@ namespace Web
                     ExObj = Mapper.Map<JobReceiveLine>(JobReceiveLine),
                 });
 
-                new JobOrderLineStatusService(_unitOfWork).UpdateJobQtyOnInvoiceReceive(JobReceiveLine.JobOrderLineId, JobInvoiceLine.JobInvoiceLineId, header.DocDate, 0, JobInvoiceLine.UnitConversionMultiplier, ref db, true);
+                if (JobReceiveLine.JobOrderLineId != null)
+                {
+                    new JobOrderLineStatusService(_unitOfWork).UpdateJobQtyOnInvoiceReceive((int)JobReceiveLine.JobOrderLineId, JobInvoiceLine.JobInvoiceLineId, header.DocDate, 0, JobInvoiceLine.UnitConversionMultiplier, ref db, true);
+                }
 
                 JobInvoiceLineStatus Status = new JobInvoiceLineStatus();
                 Status.JobInvoiceLineId = JobInvoiceLine.JobInvoiceLineId;

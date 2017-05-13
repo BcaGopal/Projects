@@ -204,6 +204,7 @@ namespace Data.Models
         public DbSet<PurchaseOrderHeaderStatus> PurchaseOrderHeaderStatus { get; set; }
         public DbSet<ChargeGroupProduct> ChargeGroupProduct { get; set; }
         public DbSet<ChargeGroupPerson> ChargeGroupPerson { get; set; }
+        public DbSet<ChargeGroupSettings> ChargeGroupSettings { get; set; }
         public DbSet<JobWorker> JobWorker { get; set; }
         public DbSet<Machine> Machine { get; set; }
         public DbSet<Process> Process { get; set; }

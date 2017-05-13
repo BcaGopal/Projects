@@ -2122,9 +2122,9 @@ namespace Web
             return Json(new ProductUidService(_unitOfWork).IsProcessDone(ProductUidId, ProcessId));
         }
 
-        public JsonResult GetProductPrevProcess(int ProductId, int GodownId, int DocTypeId)
+        public JsonResult GetProductPrevProcess(int ProductId, int? GodownId, int DocTypeId)
         {
-            ProductPrevProcess ProductPrevProcess = new ProductService(_unitOfWork).FGetProductPrevProcess(ProductId, GodownId, DocTypeId);
+            ProductPrevProcess ProductPrevProcess = new ProductService(_unitOfWork).FGetProductPrevProcess(ProductId, (GodownId ?? 0), DocTypeId);
             List<ProductPrevProcess> ProductPrevProcessJson = new List<ProductPrevProcess>();
 
             if (ProductPrevProcess != null)

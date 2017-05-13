@@ -114,7 +114,8 @@ namespace Customize
 
                 for (int i = 0; i <= RecordList.Rows.Count - 1; i++)
                 {
-                    RecordList.Rows[i]["DocTypeId"] = form["DocTypeId"];
+                    //RecordList.Rows[i]["DocTypeId"] = form["DocTypeId"];
+                    RecordList.Rows[i]["DocTypeId"] = 631;
                     RecordList.Rows[i]["UserName"] = User.Identity.Name;
                     RecordList.Rows[i]["SiteId"] = (int)System.Web.HttpContext.Current.Session["SiteId"];
                     RecordList.Rows[i]["DivisionId"] = (int)System.Web.HttpContext.Current.Session["DivisionId"];
@@ -178,8 +179,6 @@ namespace Customize
             CreateSqlTableFromDataTable(RecordList, TempTableName, sqlConnection);
 
             
-
-
 
 
             
@@ -247,6 +246,8 @@ namespace Customize
             return Redirect(System.Configuration.ConfigurationManager.AppSettings["JobsDomain"] + "/" + "JobOrderHeader" + "/" + "Index" + "/" + id);
         }
 
+
+        
 
         public void CreateSqlTableFromDataTable(DataTable dt, string tablename, SqlConnection _connection)
         {

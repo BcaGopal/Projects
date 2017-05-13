@@ -6019,9 +6019,5 @@ namespace Web
 
             return Json(BinLocationJson);
         }
-
-
-
-
     }
 }
