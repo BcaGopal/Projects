@@ -712,7 +712,7 @@
         <DataSetName>DsMain</DataSetName>
         <Top>0.68473in</Top>
         <Left>0.03122in</Left>
-        <Height>1.42084in</Height>
+        <Height>1.42085in</Height>
         <Width>4.29198in</Width>
         <Style>
           <Border>
@@ -1916,9 +1916,12 @@
         <ReportName>CompanyDetail</ReportName>
         <Top>0.03194in</Top>
         <Left>0.01643in</Left>
-        <Height>0.28373in</Height>
+        <Height>0.12748in</Height>
         <Width>7.98038in</Width>
         <ZIndex>4</ZIndex>
+        <Visibility>
+          <Hidden>=iif(max(fields!Status.Value)&lt;&gt;"0",False,true)</Hidden>
+        </Visibility>
         <Style>
           <Border>
             <Style>None</Style>
@@ -7306,6 +7309,22 @@ iif(Fields!DimensionCnt.Value=4 ,iif(Fields!Dimension4Name.Value &lt;&gt; "",Fie
           </Border>
         </Style>
       </Tablix>
+      <Subreport Name="ProvisionalCompanyDetail">
+        <ReportName>ProvisionalCompanyDetail</ReportName>
+        <Top>0.1875in</Top>
+        <Left>0.05049in</Left>
+        <Height>0.11428in</Height>
+        <Width>7.94632in</Width>
+        <ZIndex>11</ZIndex>
+        <Visibility>
+          <Hidden>=iif(max(fields!Status.Value)&lt;&gt;"0",true,false)</Hidden>
+        </Visibility>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+        </Style>
+      </Subreport>
     </ReportItems>
     <Height>7.57991in</Height>
     <Style />

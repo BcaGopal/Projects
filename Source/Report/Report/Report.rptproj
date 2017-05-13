@@ -1041,8 +1041,24 @@
       <FullPath>OrderToBeIssue.rdl</FullPath>
     </ProjectItem>
     <ProjectItem>
+      <Name>OrderToBeIssue_New.rdl</Name>
+      <FullPath>OrderToBeIssue_New.rdl</FullPath>
+    </ProjectItem>
+    <ProjectItem>
+      <Name>OrderToBeIssue_NewWithOutAsonDate.rdl</Name>
+      <FullPath>OrderToBeIssue_NewWithOutAsonDate.rdl</FullPath>
+    </ProjectItem>
+    <ProjectItem>
       <Name>OrderToBeIssue1.rdl</Name>
       <FullPath>OrderToBeIssue1.rdl</FullPath>
+    </ProjectItem>
+    <ProjectItem>
+      <Name>OrderToBeIssueSummary_New.rdl</Name>
+      <FullPath>OrderToBeIssueSummary_New.rdl</FullPath>
+    </ProjectItem>
+    <ProjectItem>
+      <Name>OrderToBeIssueSummary_NewWithOutAsonDate.rdl</Name>
+      <FullPath>OrderToBeIssueSummary_NewWithOutAsonDate.rdl</FullPath>
     </ProjectItem>
     <ProjectItem>
       <Name>Packing_Print.rdl</Name>
@@ -2241,6 +2257,10 @@
       <FullPath>TestDocumentPrint.rdl</FullPath>
     </ProjectItem>
     <ProjectItem>
+      <Name>TestingReport.rdl</Name>
+      <FullPath>TestingReport.rdl</FullPath>
+    </ProjectItem>
+    <ProjectItem>
       <Name>TimeIncentive_Print.rdl</Name>
       <FullPath>TimeIncentive_Print.rdl</FullPath>
     </ProjectItem>
@@ -2680,20 +2700,40 @@
       <FullPath>XWeavingOrderStatus.rdl</FullPath>
     </ProjectItem>
     <ProjectItem>
-      <Name>OrderToBeIssueSummary_NewWithOutAsonDate.rdl</Name>
-      <FullPath>OrderToBeIssueSummary_NewWithOutAsonDate.rdl</FullPath>
+      <Name>SaleOrderStatusSummary1.rdl</Name>
+      <FullPath>SaleOrderStatusSummary1.rdl</FullPath>
     </ProjectItem>
     <ProjectItem>
-      <Name>OrderToBeIssueSummary_New.rdl</Name>
-      <FullPath>OrderToBeIssueSummary_New.rdl</FullPath>
+      <Name>SaleOrderBalanceReport1.rdl</Name>
+      <FullPath>SaleOrderBalanceReport1.rdl</FullPath>
     </ProjectItem>
     <ProjectItem>
-      <Name>OrderToBeIssue_New.rdl</Name>
-      <FullPath>OrderToBeIssue_New.rdl</FullPath>
+      <Name>JobPrint_HomeFurnishing.rdl</Name>
+      <FullPath>JobPrint_HomeFurnishing.rdl</FullPath>
     </ProjectItem>
     <ProjectItem>
-      <Name>OrderToBeIssue_NewWithOutAsonDate.rdl</Name>
-      <FullPath>OrderToBeIssue_NewWithOutAsonDate.rdl</FullPath>
+      <Name>JobCancelPrint_HomeFurnishing.rdl</Name>
+      <FullPath>JobCancelPrint_HomeFurnishing.rdl</FullPath>
+    </ProjectItem>
+    <ProjectItem>
+      <Name>JobReceivePrint_HomeFurnishing.rdl</Name>
+      <FullPath>JobReceivePrint_HomeFurnishing.rdl</FullPath>
+    </ProjectItem>
+    <ProjectItem>
+      <Name>JobinvoicePrint_Homefurnishing.rdl</Name>
+      <FullPath>JobinvoicePrint_Homefurnishing.rdl</FullPath>
+    </ProjectItem>
+    <ProjectItem>
+      <Name>JobPrint.rdl</Name>
+      <FullPath>JobPrint.rdl</FullPath>
+    </ProjectItem>
+    <ProjectItem>
+      <Name>WorkInvoicePrint.rdl</Name>
+      <FullPath>WorkInvoicePrint.rdl</FullPath>
+    </ProjectItem>
+    <ProjectItem>
+      <Name>LedgerAccountNameWise.rdl</Name>
+      <FullPath>LedgerAccountNameWise.rdl</FullPath>
     </ProjectItem>
   </Reports>
   <Configurations>

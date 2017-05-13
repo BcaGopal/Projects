@@ -2141,6 +2141,7 @@
                             <PaddingBottom>2pt</PaddingBottom>
                           </Style>
                         </Textbox>
+                        <rd:Selected>true</rd:Selected>
                       </CellContents>
                     </TablixCell>
                     <TablixCell>
@@ -2981,14 +2982,6 @@
                             </TablixMember>
                             <TablixMember>
                               <Group Name="Details" />
-                              <SortExpressions>
-                                <SortExpression>
-                                  <Value>=Fields!OrderDate.Value</Value>
-                                </SortExpression>
-                                <SortExpression>
-                                  <Value>=Fields!OrderNo.Value</Value>
-                                </SortExpression>
-                              </SortExpressions>
                             </TablixMember>
                           </TablixMembers>
                         </TablixMember>
