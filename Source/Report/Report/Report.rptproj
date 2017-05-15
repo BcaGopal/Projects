@@ -88,6 +88,14 @@
       <MimeType>text/plain</MimeType>
     </ResourceProjectItem>
     <ProjectItem>
+      <Name>CarpetPhysicalstockSymmary.rdl</Name>
+      <FullPath>CarpetPhysicalstockSymmary.rdl</FullPath>
+    </ProjectItem>
+    <ProjectItem>
+      <Name>CarpetPhysicalstockSymmary1.rdl</Name>
+      <FullPath>CarpetPhysicalstockSymmary1.rdl</FullPath>
+    </ProjectItem>
+    <ProjectItem>
       <Name>CarpetPurchaseOrderBalanceAgeingSummary.rdl</Name>
       <FullPath>CarpetPurchaseOrderBalanceAgeingSummary.rdl</FullPath>
     </ProjectItem>
@@ -280,6 +288,14 @@
       <FullPath>Country.rdl</FullPath>
     </ProjectItem>
     <ProjectItem>
+      <Name>CreditorsOutStandingAgeingAnalysisDetail.rdl</Name>
+      <FullPath>CreditorsOutStandingAgeingAnalysisDetail.rdl</FullPath>
+    </ProjectItem>
+    <ProjectItem>
+      <Name>CreditorsOutStandingAgeingAnalysisSummary.rdl</Name>
+      <FullPath>CreditorsOutStandingAgeingAnalysisSummary.rdl</FullPath>
+    </ProjectItem>
+    <ProjectItem>
       <Name>Currency.rdl</Name>
       <FullPath>Currency.rdl</FullPath>
     </ProjectItem>
@@ -464,6 +480,10 @@
       <FullPath>Example.rdl</FullPath>
     </ProjectItem>
     <ProjectItem>
+      <Name>FinishedStockSummary.rdl</Name>
+      <FullPath>FinishedStockSummary.rdl</FullPath>
+    </ProjectItem>
+    <ProjectItem>
       <Name>FinishProductReport.rdl</Name>
       <FullPath>FinishProductReport.rdl</FullPath>
     </ProjectItem>
@@ -513,6 +533,10 @@
       <FullPath>HisabOfPurja2.rdl</FullPath>
     </ProjectItem>
     <ProjectItem>
+      <Name>JobCancelPrint_HomeFurnishing.rdl</Name>
+      <FullPath>JobCancelPrint_HomeFurnishing.rdl</FullPath>
+    </ProjectItem>
+    <ProjectItem>
       <Name>JobGoodsReturn_Print.rdl</Name>
       <FullPath>JobGoodsReturn_Print.rdl</FullPath>
     </ProjectItem>
@@ -535,6 +559,10 @@
     <ProjectItem>
       <Name>JobInvoiceDetail1.rdl</Name>
       <FullPath>JobInvoiceDetail1.rdl</FullPath>
+    </ProjectItem>
+    <ProjectItem>
+      <Name>JobinvoicePrint_Homefurnishing.rdl</Name>
+      <FullPath>JobinvoicePrint_Homefurnishing.rdl</FullPath>
     </ProjectItem>
     <ProjectItem>
       <Name>JobInvoiceProductWiseDetail.rdl</Name>
@@ -817,6 +845,14 @@
       <FullPath>JobOrderSummary_WithDimensions.rdl</FullPath>
     </ProjectItem>
     <ProjectItem>
+      <Name>JobPrint.rdl</Name>
+      <FullPath>JobPrint.rdl</FullPath>
+    </ProjectItem>
+    <ProjectItem>
+      <Name>JobPrint_HomeFurnishing.rdl</Name>
+      <FullPath>JobPrint_HomeFurnishing.rdl</FullPath>
+    </ProjectItem>
+    <ProjectItem>
       <Name>JobReceiveBalance.rdl</Name>
       <FullPath>JobReceiveBalance.rdl</FullPath>
     </ProjectItem>
@@ -839,6 +875,10 @@
     <ProjectItem>
       <Name>JobReceiveDetail.rdl</Name>
       <FullPath>JobReceiveDetail.rdl</FullPath>
+    </ProjectItem>
+    <ProjectItem>
+      <Name>JobReceivePrint_HomeFurnishing.rdl</Name>
+      <FullPath>JobReceivePrint_HomeFurnishing.rdl</FullPath>
     </ProjectItem>
     <ProjectItem>
       <Name>JobReceiveProductWiseDetail.rdl</Name>
@@ -891,6 +931,10 @@
     <ProjectItem>
       <Name>LedgerAccountGroups.rdl</Name>
       <FullPath>LedgerAccountGroups.rdl</FullPath>
+    </ProjectItem>
+    <ProjectItem>
+      <Name>LedgerAccountNameWise.rdl</Name>
+      <FullPath>LedgerAccountNameWise.rdl</FullPath>
     </ProjectItem>
     <ProjectItem>
       <Name>LedgerAccounts.rdl</Name>
@@ -1059,6 +1103,30 @@
     <ProjectItem>
       <Name>OrderToBeIssueSummary_NewWithOutAsonDate.rdl</Name>
       <FullPath>OrderToBeIssueSummary_NewWithOutAsonDate.rdl</FullPath>
+    </ProjectItem>
+    <ProjectItem>
+      <Name>OutStandingCreditorsFIFODetail.rdl</Name>
+      <FullPath>OutStandingCreditorsFIFODetail.rdl</FullPath>
+    </ProjectItem>
+    <ProjectItem>
+      <Name>OutStandingCreditorsFIFODetailSummary.rdl</Name>
+      <FullPath>OutStandingCreditorsFIFODetailSummary.rdl</FullPath>
+    </ProjectItem>
+    <ProjectItem>
+      <Name>OutStandingDebitorsAgeingAnalysisDetailFIFO.rdl</Name>
+      <FullPath>OutStandingDebitorsAgeingAnalysisDetailFIFO.rdl</FullPath>
+    </ProjectItem>
+    <ProjectItem>
+      <Name>OutStandingDebitorsDetailFIFO.rdl</Name>
+      <FullPath>OutStandingDebitorsDetailFIFO.rdl</FullPath>
+    </ProjectItem>
+    <ProjectItem>
+      <Name>OutStandingDebitorsSummaryFIFO.rdl</Name>
+      <FullPath>OutStandingDebitorsSummaryFIFO.rdl</FullPath>
+    </ProjectItem>
+    <ProjectItem>
+      <Name>OutStansingDebitorsAgeingAnalysisFIFO.rdl</Name>
+      <FullPath>OutStansingDebitorsAgeingAnalysisFIFO.rdl</FullPath>
     </ProjectItem>
     <ProjectItem>
       <Name>Packing_Print.rdl</Name>
@@ -1950,6 +2018,10 @@
       <FullPath>SaleOrderBalance_AgeingAnalysis.rdl</FullPath>
     </ProjectItem>
     <ProjectItem>
+      <Name>SaleOrderBalanceReport1.rdl</Name>
+      <FullPath>SaleOrderBalanceReport1.rdl</FullPath>
+    </ProjectItem>
+    <ProjectItem>
       <Name>SaleOrderBalanceSummary.rdl</Name>
       <FullPath>SaleOrderBalanceSummary.rdl</FullPath>
     </ProjectItem>
@@ -1987,6 +2059,10 @@
     <ProjectItem>
       <Name>SaleOrderStatus.rdl</Name>
       <FullPath>SaleOrderStatus.rdl</FullPath>
+    </ProjectItem>
+    <ProjectItem>
+      <Name>SaleOrderStatusSummary1.rdl</Name>
+      <FullPath>SaleOrderStatusSummary1.rdl</FullPath>
     </ProjectItem>
     <ProjectItem>
       <Name>SaleOrderStatusWithAmt.rdl</Name>
@@ -2684,6 +2760,10 @@
       <FullPath>WeavingRegister_CostCenterWise.rdl</FullPath>
     </ProjectItem>
     <ProjectItem>
+      <Name>WorkInvoicePrint.rdl</Name>
+      <FullPath>WorkInvoicePrint.rdl</FullPath>
+    </ProjectItem>
+    <ProjectItem>
       <Name>XMaterialIssueReport_DoubleDimension.rdl</Name>
       <FullPath>XMaterialIssueReport_DoubleDimension.rdl</FullPath>
     </ProjectItem>
@@ -2700,40 +2780,8 @@
       <FullPath>XWeavingOrderStatus.rdl</FullPath>
     </ProjectItem>
     <ProjectItem>
-      <Name>SaleOrderStatusSummary1.rdl</Name>
-      <FullPath>SaleOrderStatusSummary1.rdl</FullPath>
-    </ProjectItem>
-    <ProjectItem>
-      <Name>SaleOrderBalanceReport1.rdl</Name>
-      <FullPath>SaleOrderBalanceReport1.rdl</FullPath>
-    </ProjectItem>
-    <ProjectItem>
-      <Name>JobPrint_HomeFurnishing.rdl</Name>
-      <FullPath>JobPrint_HomeFurnishing.rdl</FullPath>
-    </ProjectItem>
-    <ProjectItem>
-      <Name>JobCancelPrint_HomeFurnishing.rdl</Name>
-      <FullPath>JobCancelPrint_HomeFurnishing.rdl</FullPath>
-    </ProjectItem>
-    <ProjectItem>
-      <Name>JobReceivePrint_HomeFurnishing.rdl</Name>
-      <FullPath>JobReceivePrint_HomeFurnishing.rdl</FullPath>
-    </ProjectItem>
-    <ProjectItem>
-      <Name>JobinvoicePrint_Homefurnishing.rdl</Name>
-      <FullPath>JobinvoicePrint_Homefurnishing.rdl</FullPath>
-    </ProjectItem>
-    <ProjectItem>
-      <Name>JobPrint.rdl</Name>
-      <FullPath>JobPrint.rdl</FullPath>
-    </ProjectItem>
-    <ProjectItem>
-      <Name>WorkInvoicePrint.rdl</Name>
-      <FullPath>WorkInvoicePrint.rdl</FullPath>
-    </ProjectItem>
-    <ProjectItem>
-      <Name>LedgerAccountNameWise.rdl</Name>
-      <FullPath>LedgerAccountNameWise.rdl</FullPath>
+      <Name>ExcessInventoryStatus.rdl</Name>
+      <FullPath>ExcessInventoryStatus.rdl</FullPath>
     </ProjectItem>
   </Reports>
   <Configurations>
