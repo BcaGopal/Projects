@@ -158,6 +158,8 @@ namespace Web
             vm.SiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
             vm.DocTypeId = id;
             vm.CreatedDate = DateTime.Now;
+            List<DocumentTypeAttributeViewModel> tem = new DocumentTypeService(_unitOfWork).GetAttributeForDocumentType(id).ToList();
+            vm.DocumentTypeAttributes = tem;
 
             //Getting Settings
             var settings = new SaleInvoiceSettingService(_unitOfWork).GetSaleInvoiceSettingForDocument(id, vm.DivisionId, vm.SiteId);
@@ -181,6 +183,11 @@ namespace Web
                 vm.GodownId = settings.GodownId;
                 vm.ProcessId = settings.ProcessId;
             }
+
+            vm.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(vm.DocTypeId);
+
+            vm.BuyerDocTypeId = new DocumentTypeService(_unitOfWork).Find(MasterDocTypeConstants.Customer).DocumentTypeId;
+            vm.FinancierDocTypeId = new DocumentTypeService(_unitOfWork).Find(MasterDocTypeConstants.Financier).DocumentTypeId;
 
             vm.SaleInvoiceSettings = Mapper.Map<SaleInvoiceSetting, SaleInvoiceSettingsViewModel>(settings);
             ViewBag.Mode = "Add";
@@ -255,6 +262,41 @@ namespace Web
                     saleinvoiceheaderdetail.ModifiedBy = User.Identity.Name;
                     saleinvoiceheaderdetail.Status = (int)StatusConstants.Drafted;
                     _SaleInvoiceHeaderService.Create(saleinvoiceheaderdetail);
+
+
+                    if (vm.DocumentTypeAttributes != null)
+                    {
+                        foreach (var pta in vm.DocumentTypeAttributes)
+                        {
+
+                            SaleInvoiceHeaderAttributes SaleInvoiceHeaderAttribute = (from A in db.SaleInvoiceHeaderAttributes
+                                                                                      where A.SaleInvoiceHeaderId == saleinvoiceheaderdetail.SaleInvoiceHeaderId && A.DocumentTypeAttributeId == pta.DocumentTypeAttributeId
+                                                                                      select A).FirstOrDefault();
+
+                            if (SaleInvoiceHeaderAttribute != null)
+                            {
+                                SaleInvoiceHeaderAttribute.SaleInvoiceHeaderAttributeValue = pta.DefaultValue;
+                                SaleInvoiceHeaderAttribute.ObjectState = Model.ObjectState.Modified;
+                                _unitOfWork.Repository<SaleInvoiceHeaderAttributes>().Add(SaleInvoiceHeaderAttribute);
+                            }
+                            else
+                            {
+                                SaleInvoiceHeaderAttributes pa = new SaleInvoiceHeaderAttributes()
+                                {
+                                    SaleInvoiceHeaderAttributeValue = pta.DefaultValue,
+                                    SaleInvoiceHeaderId = saleinvoiceheaderdetail.SaleInvoiceHeaderId,
+                                    DocumentTypeAttributeId = pta.DocumentTypeAttributeId,
+                                    CreatedBy = User.Identity.Name,
+                                    ModifiedBy = User.Identity.Name,
+                                    CreatedDate = DateTime.Now,
+                                    ModifiedDate = DateTime.Now
+
+                                };
+                                pa.ObjectState = Model.ObjectState.Added;
+                                _unitOfWork.Repository<SaleInvoiceHeaderAttributes>().Add(pa);
+                            }
+                        }
+                    }
 
                     try
                     {
@@ -340,6 +382,40 @@ namespace Web
                         StockHeader.ModifiedDate = DateTime.Now;
                         StockHeader.ModifiedBy = User.Identity.Name;
                         new StockHeaderService(_unitOfWork).Update(StockHeader);
+                    }
+
+                    if (vm.DocumentTypeAttributes != null)
+                    {
+                        foreach (var pta in vm.DocumentTypeAttributes)
+                        {
+
+                            SaleInvoiceHeaderAttributes SaleInvoiceHeaderAttribute = (from A in db.SaleInvoiceHeaderAttributes
+                                                                                      where A.SaleInvoiceHeaderId == saleinvoiceheaderdetail.SaleInvoiceHeaderId && A.DocumentTypeAttributeId == pta.DocumentTypeAttributeId
+                                                                                      select A).FirstOrDefault();
+
+                            if (SaleInvoiceHeaderAttribute != null)
+                            {
+                                SaleInvoiceHeaderAttribute.SaleInvoiceHeaderAttributeValue = pta.DefaultValue;
+                                SaleInvoiceHeaderAttribute.ObjectState = Model.ObjectState.Modified;
+                                _unitOfWork.Repository<SaleInvoiceHeaderAttributes>().Add(SaleInvoiceHeaderAttribute);
+                            }
+                            else
+                            {
+                                SaleInvoiceHeaderAttributes pa = new SaleInvoiceHeaderAttributes()
+                                {
+                                    SaleInvoiceHeaderAttributeValue = pta.DefaultValue,
+                                    SaleInvoiceHeaderId = saleinvoiceheaderdetail.SaleInvoiceHeaderId,
+                                    DocumentTypeAttributeId = pta.DocumentTypeAttributeId,
+                                    CreatedBy = User.Identity.Name,
+                                    ModifiedBy = User.Identity.Name,
+                                    CreatedDate = DateTime.Now,
+                                    ModifiedDate = DateTime.Now
+
+                                };
+                                pa.ObjectState = Model.ObjectState.Added;
+                                _unitOfWork.Repository<SaleInvoiceHeaderAttributes>().Add(pa);
+                            }
+                        }
                     }
 
                     
@@ -458,6 +534,9 @@ namespace Web
             vm.DeliveryTermsId = DispactchHeader.DeliveryTermsId;
             vm.GodownId = packingHeader.GodownId;
 
+            List<DocumentTypeAttributeViewModel> tem = _SaleInvoiceHeaderService.GetAttributeForSaleInvoiceHeader(id).ToList();
+            vm.DocumentTypeAttributes = tem;
+
             //Getting Settings
             var settings = new SaleInvoiceSettingService(_unitOfWork).GetSaleInvoiceSettingForDocument(s.DocTypeId, vm.DivisionId, vm.SiteId);
 
@@ -474,6 +553,11 @@ namespace Web
             {
                 vm.ProcessId = settings.ProcessId;
             }
+
+            vm.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(vm.DocTypeId);
+
+            vm.BuyerDocTypeId = new DocumentTypeService(_unitOfWork).Find(MasterDocTypeConstants.Customer).DocumentTypeId;
+            vm.FinancierDocTypeId = new DocumentTypeService(_unitOfWork).Find(MasterDocTypeConstants.Financier).DocumentTypeId;
 
 
             vm.SaleInvoiceSettings = Mapper.Map<SaleInvoiceSetting, SaleInvoiceSettingsViewModel>(settings);
@@ -527,7 +611,9 @@ namespace Web
             {
                 return View("~/Views/Shared/InValidSettings.cshtml");
             }
-            vm.SaleInvoiceSettings = Mapper.Map<SaleInvoiceSetting, SaleInvoiceSettingsViewModel>(settings);            
+            vm.SaleInvoiceSettings = Mapper.Map<SaleInvoiceSetting, SaleInvoiceSettingsViewModel>(settings);
+
+            vm.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(vm.DocTypeId);
             PrepareViewBag(s.DocTypeId);
 
             if (String.IsNullOrEmpty(transactionType) || transactionType == "detail")
@@ -621,10 +707,19 @@ namespace Web
                 SaleDispatchHeader Sd = (from H in db.SaleDispatchHeader where H.SaleDispatchHeaderId == Si.SaleDispatchHeaderId select H).FirstOrDefault();
                 PackingHeader Ph = (from H in db.PackingHeader where H.PackingHeaderId == Sd.PackingHeaderId select H).FirstOrDefault();
                 LedgerHeader LH = (from H in db.LedgerHeader where H.LedgerHeaderId == Si.LedgerHeaderId select H).FirstOrDefault();
+                StockHeader SH = (from H in db.StockHeader where H.StockHeaderId == Sd.StockHeaderId select H).FirstOrDefault();
 
 
                 new StockService(_unitOfWork).DeleteStockForDocHeader(Sd.SaleDispatchHeaderId, Sd.DocTypeId, Sd.SiteId, Sd.DivisionId, db);
                 new LedgerService(_unitOfWork).DeleteLedgerForDocHeader(Si.SaleInvoiceHeaderId, Si.DocTypeId, Si.SiteId, Si.DivisionId);
+
+                var attributes = (from A in db.SaleInvoiceHeaderAttributes where A.SaleInvoiceHeaderId == vm.id select A).ToList();
+
+                foreach (var ite2 in attributes)
+                {
+                    ite2.ObjectState = Model.ObjectState.Deleted;
+                    db.SaleInvoiceHeaderAttributes.Remove(ite2);
+                }
 
 
                 var GatePassHEader = (from p in db.GatePassHeader
@@ -749,6 +844,10 @@ namespace Web
                     db.LedgerHeader.Remove(LH);
                 }
 
+                SH.ObjectState = Model.ObjectState.Deleted;
+                db.StockHeader.Attach(SH);
+                db.StockHeader.Remove(SH);
+
                 //Commit the DB
                 try
                 {
@@ -820,6 +919,7 @@ namespace Web
             #endregion
 
             return RedirectToAction("Detail", new { id = id, IndexType = IndexType, transactionType = string.IsNullOrEmpty(TransactionType) ? "submit" : TransactionType });
+
         }
 
 

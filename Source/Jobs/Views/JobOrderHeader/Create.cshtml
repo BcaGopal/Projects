@@ -384,7 +384,7 @@
                             <div class="col-md-6" style='display:@(Model.JobOrderSettings.isVisibleFinancier?"":"none")'>
                                 @Html.HiddenFor(m => m.JobOrderSettings.isVisibleFinancier)
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.FinancierId, "Financier", new { @class = "control-label col-md-4 col-sm-2" })
+                                    @Html.LabelFor(model => model.FinancierId, "Supplier Code", new { @class = "control-label col-md-4 col-sm-2" })
                                     <div class="col-md-7 col-sm-10">
                                         @Html.TextBoxFor(m => m.FinancierId, new { @class = "form-control" })
                                         @Html.ValidationMessageFor(m => m.FinancierId, "", new { @class = "text-danger" })
@@ -1230,7 +1230,7 @@
         CustomSelectFunction($("#DocumentShipMethodId"), '/ComboHelpList/GetDocumentShipMethods', '/ComboHelpList/SetSingleDocumentShipMethod', ' ', false, 0);
         CustomSelectFunction($("#TransporterId"), '/ComboHelpList/GetTransporters', '/ComboHelpList/SetSinglePerson', ' ', false, 0);
         CustomSelectFunction($("#AgentId"), '/ComboHelpList/GetAgents', '/ComboHelpList/SetSinglePerson', ' ', false, 0);
-        CustomSelectFunction($("#FinancierId"), '/ComboHelpList/GetFinanciers', '/ComboHelpList/SetSinglePerson', ' ', false, 0);
+        CustomSelectFunction($("#FinancierId"), '/ComboHelpList/GetFinanciers', '/ComboHelpList/SetSinglePerson', ' ', false, 0, $('#ProcessId').val());
         CustomSelectFunction($("#SalesExecutiveId"), '/ComboHelpList/GetSalesExecutives', '/ComboHelpList/SetSinglePerson', ' ', false, 0);
         CustomSelectFunction($("#ProcessId"), '/ComboHelpList/GetProcessWithChildProcess', '/ComboHelpList/SetSingleProcess', ' ', false,0, $('#JobOrderSettings_ProcessId').val());
 

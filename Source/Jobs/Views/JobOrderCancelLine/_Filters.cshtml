@@ -23,6 +23,7 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             @Html.LabelFor(model => model.JobOrderId, (Model.DocumentTypeSettings.ContraDocTypeCaption ?? "Order No."), new { @class = "control-label col-md-4 col-sm-2" })
+                            @Html.HiddenFor(m => m.DocumentTypeSettings.ContraDocTypeCaption)
                             <div class="col-md-7 col-sm-10">
                                 @Html.TextBoxFor(model => model.JobOrderId, new { @class = "form-control required" })
                                 @Html.ValidationMessageFor(model => model.JobOrderId, "", new { @class = "text-danger" })
@@ -32,6 +33,7 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             @Html.LabelFor(model => model.ProductId, (Model.DocumentTypeSettings.ProductCaption ?? "Product"), new { @class = "control-label col-md-4 col-sm-2 " })
+                            @Html.HiddenFor(m => m.DocumentTypeSettings.ProductCaption)
                             <div class="col-md-7 col-sm-10">
                                 @Html.TextBoxFor(model => model.ProductId, new { @class = "form-control required" })
                                 @Html.ValidationMessageFor(model => model.ProductId, "", new { @class = "text-danger" })
@@ -44,6 +46,7 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             @Html.LabelFor(model => model.ProductGroupId, (Model.DocumentTypeSettings.ProductGroupCaption ?? "Product Group"), new { @class = "control-label col-md-4 col-sm-2" })
+                            @Html.HiddenFor(m => m.DocumentTypeSettings.ProductGroupCaption)
                             <div class="col-md-7 col-sm-10">
                                 @Html.TextBoxFor(model => model.ProductGroupId, new { @class = "form-control required" })
                                 @Html.ValidationMessageFor(model => model.ProductGroupId, "", new { @class = "text-danger" })
@@ -52,9 +55,10 @@
                     </div>
 
 
-                    <div class="col-md-6">
+                    <div class="col-md-6" style="display:@(Model.JobOrderSettings.isVisibleDimension1?"":"none")">
                         <div class="form-group">
                             @Html.LabelFor(model => model.Dimension1Id, (Model.DocumentTypeSettings.Dimension1Caption ?? "Dimension1"), new { @class = "control-label col-md-4 col-sm-2 " })
+                            @Html.HiddenFor(m => m.DocumentTypeSettings.Dimension1Caption)
                             <div class="col-md-7 col-sm-10">
                                 @Html.TextBoxFor(model => model.Dimension1Id, new { @class = "form-control required" })
                                 @Html.ValidationMessageFor(model => model.Dimension1Id, "", new { @class = "text-danger" })
@@ -62,18 +66,20 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-6" style="display:@(Model.JobOrderSettings.isVisibleDimension2?"":"none")">
                         <div class="form-group">
                             @Html.LabelFor(model => model.Dimension2Id, (Model.DocumentTypeSettings.Dimension2Caption ?? "Dimension2"), new { @class = "control-label col-md-4 col-sm-2" })
+                            @Html.HiddenFor(m => m.DocumentTypeSettings.Dimension2Caption)
                             <div class="col-md-7 col-sm-10">
                                 @Html.TextBoxFor(model => model.Dimension2Id, new { @class = "form-control required" })
                                 @Html.ValidationMessageFor(model => model.Dimension2Id, "", new { @class = "text-danger" })
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-6" style="display:@(Model.JobOrderSettings.isVisibleDimension3?"":"none")">
                         <div class="form-group">
                             @Html.LabelFor(model => model.Dimension3Id, (Model.DocumentTypeSettings.Dimension3Caption ?? "Dimension3"), new { @class = "control-label col-md-4 col-sm-2 " })
+                            @Html.HiddenFor(m => m.DocumentTypeSettings.Dimension3Caption)
                             <div class="col-md-7 col-sm-10">
                                 @Html.TextBoxFor(model => model.Dimension3Id, new { @class = "form-control required" })
                                 @Html.ValidationMessageFor(model => model.Dimension3Id, "", new { @class = "text-danger" })
@@ -81,9 +87,10 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-6" style="display:@(Model.JobOrderSettings.isVisibleDimension4?"":"none")">
                         <div class="form-group">
                             @Html.LabelFor(model => model.Dimension4Id, (Model.DocumentTypeSettings.Dimension4Caption ?? "Dimension4"), new { @class = "control-label col-md-4 col-sm-2" })
+                            @Html.HiddenFor(m => m.DocumentTypeSettings.Dimension4Caption)
                             <div class="col-md-7 col-sm-10">
                                 @Html.TextBoxFor(model => model.Dimension4Id, new { @class = "form-control required" })
                                 @Html.ValidationMessageFor(model => model.Dimension4Id, "", new { @class = "text-danger" })

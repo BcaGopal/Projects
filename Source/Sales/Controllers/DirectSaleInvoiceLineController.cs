@@ -101,6 +101,7 @@ namespace Web
         public ActionResult _ResultsPost(DirectSaleInvoiceListViewModel vm)
         {
             int Cnt = 0;
+            Dictionary<int, decimal> LineStatus = new Dictionary<int, decimal>();
 
             SaleInvoiceHeader Sh = new SaleInvoiceHeaderService(_unitOfWork).FindDirectSaleInvoice(vm.DirectSaleInvoiceLineViewModel.FirstOrDefault().SaleInvoiceHeaderId);
 
@@ -313,6 +314,11 @@ namespace Web
                         linedetail.RewardPoints = item.RewardPoints;
                         _SaleInvoiceLineDetailService.Create(linedetail);
 
+                        if (Pl.SaleOrderLineId != null)
+                        {
+                            LineStatus.Add((int)Pl.SaleOrderLineId, line.Qty);
+                        }
+
 
                         LineList.Add(new LineDetailListViewModel { Amount = line.Amount, Rate = line.Rate, LineTableId = line.SaleInvoiceLineId, HeaderTableId = item.SaleInvoiceHeaderId, PersonID = Sh.BillToBuyerId });
 
@@ -322,6 +328,8 @@ namespace Web
                 }
 
                 new SaleDispatchHeaderService(_unitOfWork).Update(Dh);
+
+                new SaleOrderLineStatusService(_unitOfWork).UpdateSaleQtyInvoiceMultiple(LineStatus, Sh.DocDate);
 
                 new ChargesCalculationService(_unitOfWork).CalculateCharges(LineList, vm.DirectSaleInvoiceLineViewModel.FirstOrDefault().SaleInvoiceHeaderId, CalculationId, MaxLineId, out LineCharges, out HeaderChargeEdit, out HeaderCharges, "Web.SaleInvoiceHeaderCharges", "Web.SaleInvoiceLineCharges", out PersonCount, Sh.DocTypeId, Sh.SiteId, Sh.DivisionId);
 
@@ -612,6 +620,11 @@ namespace Web
                     Sl.ObjectState = Model.ObjectState.Added;
                     _SaleInvoiceLineService.Create(Sl);
 
+                    if (Pl.SaleOrderLineId != null)
+                    {
+                        new SaleOrderLineStatusService(_unitOfWork).UpdateSaleQtyOnInvoice((int)Pl.SaleOrderLineId, Sl.SaleInvoiceLineId, Sh.DocDate, Pl.Qty);
+                    }
+
 
 
                     if (svm.linecharges != null)
@@ -822,6 +835,11 @@ namespace Web
 
                     Sid.RewardPoints = svm.RewardPoints;
                     _SaleInvoiceLineDetailService.Update(Sid);
+
+                    if (Pl.SaleOrderLineId != null)
+                    {
+                        new SaleOrderLineStatusService(_unitOfWork).UpdateSaleQtyOnInvoice((int)Pl.SaleOrderLineId, Sl.SaleInvoiceLineId, Sh.DocDate, Pl.Qty);
+                    }
 
 
                     LogList.Add(new LogTypeViewModel
@@ -1106,6 +1124,10 @@ namespace Web
 
             StockId = Dl.StockId;
 
+            if (Pl.SaleOrderLineId != null)
+            {
+                new SaleOrderLineStatusService(_unitOfWork).UpdateSaleQtyOnInvoice((int)Pl.SaleOrderLineId, Sid.SaleInvoiceLineId, Sh.DocDate, 0);
+            }
             _SaleInvoiceLineDetailService.Delete(Sid);
             _SaleInvoiceLineService.Delete(Sl);
             _SaleDispatchLineService.Delete(Dl);

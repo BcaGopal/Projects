@@ -999,14 +999,6 @@ namespace Web
                     context.CostCenter.Remove(GeneratedCostCenter);
                 }
 
-                if (StockHeaderId != null)
-                {
-                    var StockHeader = (from p in context.StockHeader
-                                       where p.StockHeaderId == StockHeaderId
-                                       select p).FirstOrDefault();
-                    StockHeader.ObjectState = Model.ObjectState.Deleted;
-                    context.StockHeader.Remove(StockHeader);
-                }
 
 
                 var settings = new SaleQuotationSettingsService(_unitOfWork).GetSaleQuotationSettingsForDocument(SaleQuotationHeader.DocTypeId, SaleQuotationHeader.DivisionId, SaleQuotationHeader.SiteId);

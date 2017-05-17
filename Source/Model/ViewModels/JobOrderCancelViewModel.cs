@@ -94,6 +94,7 @@ namespace Model.ViewModel
         public string Dimension3Id { get; set; }
         public string Dimension4Id { get; set; }
         public DocumentTypeSettingsViewModel DocumentTypeSettings { get; set; }
+        public JobOrderSettingsViewModel JobOrderSettings { get; set; }
     }
     public class JobOrderCancelMasterDetailModel
     {

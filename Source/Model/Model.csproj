@@ -111,8 +111,10 @@
     <Compile Include="Models\Dimension3Type.cs" />
     <Compile Include="Models\Dimension4.cs" />
     <Compile Include="Models\Dimension3.cs" />
+    <Compile Include="Models\DocumentTypeAttributes.cs" />
     <Compile Include="Models\DocumentTypeSettings.cs" />
     <Compile Include="Models\FeetConversionToCms.cs" />
+    <Compile Include="Models\SaleInvoiceHeaderAttributes.cs" />
     <Compile Include="Models\PersonRole.cs" />
     <Compile Include="Models\ProductTypeSettings.cs" />
     <Compile Include="Models\PersonSettings.cs" />
@@ -207,6 +209,7 @@
     <Compile Include="Models\CarpetSkuSettings.cs" />
     <Compile Include="Models\Shift.cs" />
     <Compile Include="Models\SubReport.cs" />
+    <Compile Include="ViewModels\DocumentTypeAttributeViewModel.cs" />
     <Compile Include="ViewModels\ImportHeaderViewModel.cs" />
     <Compile Include="ViewModels\ImportLineViewModel.cs" />
     <Compile Include="ViewModels\PersonRoleViewModel.cs" />

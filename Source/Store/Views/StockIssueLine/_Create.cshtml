@@ -238,6 +238,18 @@
                         </div>
                     </div>
 
+                    <div class="col-md-6" style="display:@(Model.StockHeaderSettings.isVisibleReferenceDocId?"":"none")">
+                        @Html.HiddenFor(m => m.StockHeaderSettings.isVisibleReferenceDocId)
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.ReferenceDocId, "Ref Doc No.", new { @class = "control-label col-md-4 col-sm-2 " })
+                            <div class="col-md-7 col-sm-10">
+                                @Html.TextBoxFor(model => model.ReferenceDocId, new { @class = "form-control col-xs-7" })
+                                @Html.ValidationMessageFor(model => model.ReferenceDocId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+
+
 
                     <div class="col-md-6">
                         <div class="form-group">
@@ -286,6 +298,7 @@
         CustomSelectFunction($("#Dimension2Id"), '/ComboHelpList/GetDimension2', '/ComboHelpList/SetSingleDimension2', ' ', false, 1);
         CustomSelectFunction($("#CostCenterId"), '/StockIssueLine/GetLineCostCenters', '/ComboHelpList/SetSingleCostCenter', ' ', false, 1,$('#StockHeaderId','.modal-body').val());
         CustomSelectFunction($("#FromProcessId"), '/ComboHelpList/GetProcess', '/ComboHelpList/SetSingleProcess', ' ', false, 1);
+        CustomSelectFunction($("#ReferenceDocId"), '/StockIssueLine/GetCustomReferenceDocIds', '/StockIssueLine/SetSingleReferenceDocId', ' ', false, 0,$('#StockHeaderId','.modal-body').val());
         CustomSelectFunctionForStockIn($("#StockInId"), '/StockIssueLine/GetStockInForProduct', '/ComboHelpList/SetSingleStockIn', ' ', false, 0,$('#StockHeaderId','.modal-body').val(),$("#ProductId").val(),$("#Dimension1Id").val(),$("#Dimension2Id").val());
 
 

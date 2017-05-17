@@ -29,6 +29,7 @@ namespace Service
         IQueryable<SaleInvoiceHeaderIndexViewModel> GetSaleInvoiceHeaderList(int id, string Uname);
         IQueryable<SaleInvoiceHeaderIndexViewModel> GetSaleInvoiceHeaderListPendingToSubmit(int id, string Uname);
         IQueryable<SaleInvoiceHeaderIndexViewModel> GetSaleInvoiceHeaderListPendingToReview(int id, string Uname);
+        
         void Update(SaleInvoiceHeader s);
         string GetMaxDocNo();
         SaleInvoiceHeader FindByDocNo(string Docno);
@@ -43,6 +44,7 @@ namespace Service
         int PrevId(int id);
         SaleInvoiceHeader FindDirectSaleInvoice(int id);
         IQueryable<ComboBoxResult> GetCustomPerson(int Id, string term);
+        IEnumerable<DocumentTypeAttributeViewModel> GetAttributeForSaleInvoiceHeader(int id);
     }
     public class SaleInvoiceHeaderService : ISaleInvoiceHeaderService
     {
@@ -412,6 +414,28 @@ namespace Service
               );
 
             return list;
+        }
+
+
+        public IEnumerable<DocumentTypeAttributeViewModel> GetAttributeForSaleInvoiceHeader(int id)
+        {
+            var Header = db.SaleInvoiceHeader.Find(id);
+
+            var temp = from p in db.DocumentTypeAttribute
+                       join t in db.SaleInvoiceHeaderAttributes on p.DocumentTypeAttributeId equals t.DocumentTypeAttributeId into table
+                       from tab in table.Where(m => m.SaleInvoiceHeaderId == id).DefaultIfEmpty()
+                       where (p.DocumentTypeId == Header.DocTypeId)
+                       select new DocumentTypeAttributeViewModel
+                       {
+                           ListItem = p.ListItem,
+                           DataType = p.DataType,
+                           DefaultValue = tab.SaleInvoiceHeaderAttributeValue,
+                           Name = p.Name,
+                           DocumentTypeAttributeId = p.DocumentTypeAttributeId,
+                           DocumentAttributeId = (int?)tab.SaleInvoiceHeaderAttributeId ?? 0
+                       };
+
+            return temp;
         }
 
     }

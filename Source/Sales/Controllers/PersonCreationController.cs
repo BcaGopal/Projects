@@ -55,6 +55,7 @@ namespace Web
             PersonViewModel p = new PersonViewModel();
             p.IsActive = true;
             p.DocTypeId = DocTypeId;
+            ViewBag.Name = new DocumentTypeService(_unitOfWork).Find(DocTypeId).DocumentTypeName;
 
             if (id != null && id !=0)
             {
@@ -175,12 +176,12 @@ namespace Web
                     int ProspectDocTypeId = new DocumentTypeService(_unitOfWork).Find(MasterDocTypeConstants.Prospect).DocumentTypeId;
                     if (person.DocTypeId == ProspectDocTypeId)
                     {
-                        int BuyerDocTypeId = new DocumentTypeService(_unitOfWork).Find(MasterDocTypeConstants.Buyer).DocumentTypeId;
+                        int CustomerDocTypeId = new DocumentTypeService(_unitOfWork).Find(MasterDocTypeConstants.Customer).DocumentTypeId;
 
                         PersonRole personrole1 = new PersonRole();
                         personrole.PersonRoleId = -2;
                         personrole1.PersonId = person.PersonID;
-                        personrole1.RoleDocTypeId = BuyerDocTypeId;
+                        personrole1.RoleDocTypeId = CustomerDocTypeId;
                         personrole1.CreatedDate = DateTime.Now;
                         personrole1.ModifiedDate = DateTime.Now;
                         personrole1.CreatedBy = User.Identity.Name;

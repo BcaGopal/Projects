@@ -93,6 +93,12 @@ namespace Model.ViewModels
         [Display(Name = "Person")]
         public int? PersonId { get; set; }
         public string PersonName { get; set; }
+
+        public int? ReferenceDocTypeId { get; set; }
+
+        public int? ReferenceDocId { get; set; }
+
+        public int? ReferenceDocLineId { get; set; }
     }
 
     public class StockReceiveMasterDetailModel

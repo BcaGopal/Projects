@@ -178,13 +178,26 @@
                         <div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.BillToBuyerId, "Bill To", new { @class = "control-label col-md-4 col-sm-2" })
+                                    @Html.LabelFor(model => model.SaleToBuyerId, (Model.DocumentTypeSettings.PartyCaption ?? "Sale To Party"), new { @class = "control-label col-md-4 col-sm-2" })
+                                    <div class="col-md-7 col-sm-10">
+                                        <div class="col-xs-11" style="padding:0px;">
+                                            @Html.TextBoxFor(m => m.SaleToBuyerId, null, new { @class = "form-control required" })
+                                            @Html.ValidationMessageFor(m => m.SaleToBuyerId, "", new { @class = "text-danger" })
+                                        </div>
+                                        <div class="col-xs-1" style="padding:0px">
+                                            @Html.ActionLink("...", "_Create", "PersonCreation", new { id = "id", DocTypeId = Model.BuyerDocTypeId }, new { data_modalCustom2 = "", id = "CustomerDetail", @class = "btn btn-info btn-flat ", @title = "For Order", @data_toggle = "tooltip" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.BillToBuyerId, "Bill To A/c", new { @class = "control-label col-md-4 col-sm-2" })
                                     <div class="col-md-7 col-sm-10">
                                         @Html.TextAreaFor(m => m.BillToBuyerId, new { @class = "form-control col-xs-6" })
                                         @Html.ValidationMessageFor(m => m.BillToBuyerId, "", new { @class = "text-danger" })
                                         <span title='SaleOrder' class='label label-danger' id="PersonLedgerBalance" style='font-weight:bold'>0</span>
-
-
 
                                         @*<div class="input-group">
                                             @Html.TextAreaFor(m => m.BillToBuyerId, new { @class = "form-control col-xs-6" })
@@ -194,23 +207,6 @@
                                                 <span title='SaleOrder' class='label label-danger' id="PersonLedgerBalance" style='font-weight:bold'>0</span>
                                             </span>
                                         </div>*@
-                                    </div>
-                                </div>
-                            </div>
-
-                            
-
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    @Html.LabelFor(model => model.SaleToBuyerId, "Sale To", new { @class = "control-label col-md-4 col-sm-2" })
-                                    <div class="col-md-7 col-sm-10">
-                                        <div class="input-group">
-                                            @Html.TextBoxFor(m => m.SaleToBuyerId, new { @class = "form-control col-xs-6" })
-                                            @Html.ValidationMessageFor(m => m.SaleToBuyerId, "", new { @class = "text-danger" })
-                                            <span class="input-group-btn">
-                                                @Html.ActionLink("...", "_Create", "PersonCreation", new { id = "id" }, new { data_modalCustom2 = "", id = "CustomerDetail", @class = "btn btn-default ", @title = "For Order", @data_toggle = "tooltip" })
-                                            </span>
-                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -265,13 +261,18 @@
                         </div>
 
                         <div>
-                            <div class="col-md-6" style="display:@(Model.SaleInvoiceSettings.isVisibleFinancier ? "" : "none")">
+                            <div class="col-md-6" style='display:@(Model.SaleInvoiceSettings.isVisibleFinancier?"":"none")'>
                                 @Html.HiddenFor(m => m.SaleInvoiceSettings.isVisibleFinancier)
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.FinancierId, "Financier", new { @class = "control-label col-md-4 col-sm-2" })
                                     <div class="col-md-7 col-sm-10">
-                                        @Html.TextAreaFor(m => m.FinancierId, new { @class = "form-control col-xs-6" })
-                                        @Html.ValidationMessageFor(m => m.FinancierId, "", new { @class = "text-danger" })
+                                        <div class="col-xs-11" style="padding:0px;">
+                                            @Html.TextBoxFor(m => m.FinancierId, null, new { @class = "form-control " })
+                                            @Html.ValidationMessageFor(m => m.FinancierId, "", new { @class = "text-danger" })
+                                        </div>
+                                        <div class="col-xs-1" style="padding:0px">
+                                            @Html.ActionLink("...", "_Create", "PersonCreation", new { id = "id", DocTypeId = Model.FinancierDocTypeId }, new { data_modalCustom2 = "", id = "CustomerDetail", @class = "btn btn-info btn-flat ", @title = "For Order", @data_toggle = "tooltip" })
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -289,6 +290,43 @@
 
 
                         <div>
+                            @if (Model.DocumentTypeAttributes != null)
+                            {
+                                for (int i = 0; i < Model.DocumentTypeAttributes.Count; i++)
+                                {
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            @Html.Label(Model.DocumentTypeAttributes[i].Name, new { @class = "control-label col-md-4 col-sm-2" })
+                                            @Html.HiddenFor(m => Model.DocumentTypeAttributes[i].Name)
+                                            @Html.HiddenFor(m => Model.DocumentTypeAttributes[i].DocumentAttributeId)
+                                            @Html.HiddenFor(m => Model.DocumentTypeAttributes[i].DocumentTypeAttributeId)
+                                            @if (Model.DocumentTypeAttributes[i].DataType == "List")
+                                            {
+                                                List<SelectListItem> tem = new List<SelectListItem>();
+                                                foreach (string item in (Model.DocumentTypeAttributes[i].ListItem).Split(',').ToList())
+                                                {
+                                                    tem.Add(new SelectListItem { Text = item, Value = item, Selected = (Model.DocumentTypeAttributes[i].DefaultValue == item ? true : false) });
+                                                }
+
+
+                                                <div class="col-md-7 col-sm-10">
+                                                    @Html.DropDownListFor(m => Model.DocumentTypeAttributes[i].DefaultValue, new SelectList(tem as System.Collections.IEnumerable, "Value", "Text", Model.DocumentTypeAttributes[i].DefaultValue)," ", new { @class = "form-control col-xs-6 height" })
+                                                    @*<input type="text" name="@(item.Name)s" value=@item.DefaultValue class="form-control col-xs-6" />*@
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                <div class="col-md-7 col-sm-10">
+                                                    @Html.TextBoxFor(m => Model.DocumentTypeAttributes[i].DefaultValue, new { @class = "form-control col-xs-6" })
+                                                    @*<input type="text" name="@(item.Name)s" value=@item.DefaultValue class="form-control col-xs-6" />*@
+                                                </div>
+                                            }
+
+                                        </div>
+                                    </div>
+                                }
+                            }
+
                             
                             <div class="col-md-6">
                                 <div class="form-group">
@@ -299,6 +337,13 @@
                                     </div>
                                 </div>
                             </div>
+
+
+
+
+                            
+
+
                         </div>
                         
                         <div>
@@ -860,11 +905,13 @@
         CustomSelectFunction($("#BillToBuyerId"), '/DirectSaleInvoiceHeader/GetCustomPerson', '/ComboHelpList/SetSinglePerson', ' ', false, 1,$('#DocTypeId').val());
         CustomSelectFunction($("#SaleToBuyerId"), '/DirectSaleInvoiceHeader/GetCustomPerson', '/ComboHelpList/SetSinglePerson', ' ', false, 1,$('#DocTypeId').val());
         CustomSelectFunction($("#AgentId"), '/ComboHelpList/GetPerson', '/ComboHelpList/GetPerson', ' ', false, 0);
-        CustomSelectFunction($("#FinancierId"), '/ComboHelpList/GetFinanciers', '/ComboHelpList/SetSinglePerson', ' ', false, 0);
+        CustomSelectFunction($("#FinancierId"), '/ComboHelpList/GetFinanciers', '/ComboHelpList/SetSinglePerson', ' ', false, 0,$('#ProcessId').val());
         CustomSelectFunction($("#SalesExecutiveId"), '/ComboHelpList/GetSalesExecutives', '/ComboHelpList/SetSinglePerson', ' ', false, 0);
 
         //Adding Hidden Input Fields
         AddFields();
+
+        $("#BillToBuyerId").select2("focus");
 
         //Calling the function to load the table data/ Line information
         LoadProducts();
@@ -893,6 +940,8 @@
     {
         $(document).find('a#btnCreate').removeAttr('href').removeAttr('data-modal');
     }
+
+    
 
 
     //$('#CustomerDetail').on('click', function () {
@@ -1023,8 +1072,10 @@
                 return false;
             }
 
-            var SaleToBuyerId =  $("#SaleToBuyerId").val()
+            //var SaleToBuyerId =  $("#SaleToBuyerId").val()
+            var SaleToBuyerId =  0;
             var NewUrl = this.href.replace("id",SaleToBuyerId);
+
 
             $.ajax({
                 url: NewUrl,
@@ -1052,9 +1103,9 @@
                     success: function (result) {
                         if (result.success) {
                             $('#myModal').modal('hide');
-                            CustomSelectFunction($("#SaleToBuyerId"), '/ComboHelpList/GetPerson', '/ComboHelpList/SetSinglePerson', ' ', false, 0);
+                            //CustomSelectFunction($("#SaleToBuyerId"), '/ComboHelpList/GetPerson', '/ComboHelpList/SetSinglePerson', ' ', false, 0);
                             //$('#SaleToBuyerId').keydown();
-                            $("#SaleToBuyerId").select2('data', { id: result.PersonId, text: result.Name });
+                            //$("#SaleToBuyerId").select2('data', { id: result.PersonId, text: result.Name });
                         } else {
                             $('#myModalContent').html(result);
                             bindForm();

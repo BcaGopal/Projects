@@ -41,9 +41,11 @@ namespace Model.Models
         public bool? isVisibleLotNo { get; set; }
         public bool? isMandatoryProcessLine { get; set; }
         public bool? isVisibleProcessLine { get; set; }
+        public bool? isVisibleProcessHeader { get; set; }
         public bool? isPostedInStockProcess { get; set; }
         public bool? isPostedInLedger { get; set; }
         public bool? isProductHelpFromStockProcess { get; set; }
+        public bool? isVisibleReferenceDocId { get; set; }
         public int? AdjLedgerAccountId { get; set; }
 
         public bool? isVisibleMaterialRequest { get; set; }
@@ -71,6 +73,9 @@ namespace Model.Models
 
         [MaxLength(100)]
         public string SqlProcStockProcessBalance { get; set; }
+
+        [MaxLength(100)]
+        public string SqlProcHelpListReferenceDocId { get; set; }
 
         public string filterProductTypes { get; set; }
         public string filterContraSites { get; set; }

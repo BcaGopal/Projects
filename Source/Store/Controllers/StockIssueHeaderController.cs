@@ -1691,9 +1691,9 @@ namespace Web
 
         }
 
-        public ActionResult GetCustomPerson(string searchTerm, int pageSize, int pageNum, int filter)//DocTypeId
+        public ActionResult GetCustomPerson(string searchTerm, int pageSize, int pageNum, int filter, int? filter2)//DocTypeId
         {
-            var Query = _StockHeaderService.GetCustomPerson(filter, searchTerm);
+            var Query = _StockHeaderService.GetCustomPerson(filter, searchTerm, filter2);
             var temp = Query.Skip(pageSize * (pageNum - 1))
                 .Take(pageSize)
                 .ToList();

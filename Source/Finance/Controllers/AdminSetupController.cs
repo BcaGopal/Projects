@@ -343,6 +343,7 @@ namespace Web
                                         {
                                             ActionName = p.ActionName,
                                             ControllerId = t.ControllerId,
+                                            ControllerName = t.ControllerName
                                         }
                                  );
 
@@ -351,43 +352,47 @@ namespace Web
             List<ControllerActionList> DBActions = new List<ControllerActionList>();
 
             DBActions = (from p in db.ControllerAction
-                         where p.PubModuleName == ProjectConstants.Finance
+                         //where p.PubModuleName == ProjectConstants.Finance
                          select new ControllerActionList
                          {
                              ActionId = p.ControllerActionId,
                              ActionName = p.ActionName,
                              ControllerId = p.ControllerId,
+                             ControllerName = p.ControllerName,
                              IsActive = p.IsActive
                          }).ToList();
 
 
 
             var PendingToUpdate = (from p in MapControllerActions
-                                   join t in DBActions on new { ActName = p.ActionName, ContId = p.ControllerId } equals new { ActName = t.ActionName, ContId = t.ControllerId } into table
+                                   join t in DBActions on new { ActName = p.ActionName, ContId = p.ControllerName } equals new { ActName = t.ActionName, ContId = t.ControllerName } into table
                                    from DBA in table.DefaultIfEmpty()
                                    where DBA == null
                                    select new ControllerActionList
                                    {
                                        ActionName = p.ActionName,
-                                       ControllerId = p.ControllerId
+                                       ControllerId = p.ControllerId,
+                                       ControllerName = p.ControllerName
                                    }).ToList();
 
             var PendingToDeActivate = (from p in DBActions
-                                       join t in MapControllerActions on new { ActName = p.ActionName, ContId = p.ControllerId } equals new { ActName = t.ActionName, ContId = t.ControllerId } into table
+                                       join t in MapControllerActions on new { ActName = p.ActionName, ContId = p.ControllerName } equals new { ActName = t.ActionName, ContId = t.ControllerName } into table
                                        from MCA in table.DefaultIfEmpty()
                                        where MCA == null
                                        select new ControllerActionList
                                        {
                                            ActionName = p.ActionName,
                                            ControllerId = p.ControllerId,
+                                           ControllerName = p.ControllerName
                                        }).ToList();
 
             var PendingToActivate = (from p in MapControllerActions
-                                     join t in DBActions.Where(m => m.IsActive == false) on new { ActName = p.ActionName, ContId = p.ControllerId } equals new { ActName = t.ActionName, ContId = t.ControllerId }
+                                     join t in DBActions.Where(m => m.IsActive == false) on new { ActName = p.ActionName, ContId = p.ControllerName } equals new { ActName = t.ActionName, ContId = t.ControllerName }
                                      select new ControllerActionList
                                      {
                                          ActionName = p.ActionName,
-                                         ControllerId = p.ControllerId
+                                         ControllerId = p.ControllerId,
+                                         ControllerName = p.ControllerName
                                      }).ToList();
 
 
@@ -398,6 +403,7 @@ namespace Web
                 temp.ActionName = item.ActionName;
                 temp.IsActive = true;
                 temp.ControllerId = item.ControllerId;
+                temp.ControllerName = item.ControllerName;
                 temp.PubModuleName = ProjectConstants.Finance;
                 temp.ObjectState = Model.ObjectState.Added;
                 temp.CreatedBy = User.Identity.Name;

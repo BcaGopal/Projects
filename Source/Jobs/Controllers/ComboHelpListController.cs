@@ -6058,9 +6058,9 @@ namespace Web
         }
 
 
-        public JsonResult GetFinanciers(string searchTerm, int pageSize, int pageNum)
+        public JsonResult GetFinanciers(string searchTerm, int pageSize, int pageNum, int? filter)
         {
-            var Query = cbl.GetFinanciers(searchTerm);
+            var Query = cbl.GetFinanciers(searchTerm, filter);
             var temp = Query.Skip(pageSize * (pageNum - 1)).Take(pageSize).ToList();
 
             var count = Query.Count();
