@@ -1390,6 +1390,12 @@
           <QueryParameter Name="@ProductDivisionId">
             <Value>=Parameters!ProductDivisionId.Value</Value>
           </QueryParameter>
+			<QueryParameter Name="@ProductCustomGroup">
+				<Value>=Parameters!ProductCustomGroup.Value</Value>
+			</QueryParameter>
+			<QueryParameter Name="@SampleRecord">
+				<Value>=Parameters!SampleRecord.Value</Value>
+			</QueryParameter>
           <QueryParameter Name="@Product">
             <Value>=Parameters!Product.Value</Value>
           </QueryParameter>
@@ -1638,6 +1644,18 @@
       <AllowBlank>true</AllowBlank>
       <Prompt>Product Division Id</Prompt>
     </ReportParameter>
+	  <ReportParameter Name="ProductCustomGroup">
+		  <DataType>String</DataType>
+		  <Nullable>true</Nullable>
+		  <AllowBlank>true</AllowBlank>
+		  <Prompt>Product Custom Group</Prompt>
+	  </ReportParameter>
+	  <ReportParameter Name="SampleRecord">
+		  <DataType>String</DataType>
+		  <Nullable>true</Nullable>
+		  <AllowBlank>true</AllowBlank>
+		  <Prompt>Sample Record</Prompt>
+	  </ReportParameter>
     <ReportParameter Name="Product">
       <DataType>String</DataType>
       <Nullable>true</Nullable>

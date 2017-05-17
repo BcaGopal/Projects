@@ -43,6 +43,9 @@
           <QueryParameter Name="@ProductDivisionId">
             <Value>=Parameters!ProductDivisionId.Value</Value>
           </QueryParameter>
+          <QueryParameter Name="@SampleRecord">
+            <Value>=Parameters!SampleRecord.Value</Value>
+          </QueryParameter>
           <QueryParameter Name="@ReportOn">
             <Value>=Parameters!ReportOn.Value</Value>
           </QueryParameter>
@@ -110,6 +113,10 @@
         <Field Name="ReportTitle">
           <DataField>ReportTitle</DataField>
           <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="DecimalPlaces">
+          <DataField>DecimalPlaces</DataField>
+          <rd:UserDefined>true</rd:UserDefined>
         </Field>
       </Fields>
     </DataSet>
@@ -1704,7 +1711,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=iif(Fields!SaleOrderQty.Value &lt;&gt; 0, formatnumber(Fields!SaleOrderQty.Value,0) ,"-")</Value>
+                                  <Value>=iif(Fields!SaleOrderQty.Value &lt;&gt; 0, formatnumber(Fields!SaleOrderQty.Value,fields!DecimalPlaces.Value) ,"-")</Value>
                                   <Style>
                                     <FontFamily>Tahoma</FontFamily>
                                     <FontSize>9pt</FontSize>
@@ -1740,7 +1747,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=iif(Fields!AdjustedStock.Value &lt;&gt; 0, formatnumber(Fields!AdjustedStock.Value,0) ,"-")</Value>
+                                  <Value>=iif(Fields!AdjustedStock.Value &lt;&gt; 0, formatnumber(Fields!AdjustedStock.Value,fields!DecimalPlaces.Value) ,"-")</Value>
                                   <Style>
                                     <FontFamily>Tahoma</FontFamily>
                                     <FontSize>9pt</FontSize>
@@ -1776,7 +1783,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=iif(Fields!AdjustedOnLoom.Value &lt;&gt; 0, formatnumber(Fields!AdjustedOnLoom.Value,0) ,"-")</Value>
+                                  <Value>=iif(Fields!AdjustedOnLoom.Value &lt;&gt; 0, formatnumber(Fields!AdjustedOnLoom.Value,fields!DecimalPlaces.Value) ,"-")</Value>
                                   <Style>
                                     <FontFamily>Tahoma</FontFamily>
                                     <FontSize>9pt</FontSize>
@@ -1812,7 +1819,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=iif(Fields!AdjustedToBeIssue.Value &lt;&gt; 0, formatnumber(Fields!AdjustedToBeIssue.Value,0) ,"-")</Value>
+                                  <Value>=iif(Fields!AdjustedToBeIssue.Value &lt;&gt; 0, formatnumber(Fields!AdjustedToBeIssue.Value,fields!DecimalPlaces.Value) ,"-")</Value>
                                   <Style>
                                     <FontFamily>Tahoma</FontFamily>
                                     <FontSize>9pt</FontSize>
@@ -1848,7 +1855,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=iif(Fields!ExcessStock.Value &lt;&gt; 0, formatnumber(Fields!ExcessStock.Value,0) ,"-")</Value>
+                                  <Value>=iif(Fields!ExcessStock.Value &lt;&gt; 0, formatnumber(Fields!ExcessStock.Value,fields!DecimalPlaces.Value) ,"-")</Value>
                                   <Style>
                                     <FontFamily>Tahoma</FontFamily>
                                     <FontSize>9pt</FontSize>
@@ -1884,7 +1891,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=iif(Fields!ExcessOnLoom.Value &lt;&gt; 0, formatnumber(Fields!ExcessOnLoom.Value,0) ,"-")</Value>
+                                  <Value>=iif(Fields!ExcessOnLoom.Value &lt;&gt; 0, formatnumber(Fields!ExcessOnLoom.Value,fields!DecimalPlaces.Value) ,"-")</Value>
                                   <Style>
                                     <FontFamily>Tahoma</FontFamily>
                                     <FontSize>9pt</FontSize>
@@ -1920,7 +1927,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=iif(Fields!ExcessToBeIssue.Value &lt;&gt; 0, formatnumber(Fields!ExcessToBeIssue.Value,0) ,"-")</Value>
+                                  <Value>=iif(Fields!ExcessToBeIssue.Value &lt;&gt; 0, formatnumber(Fields!ExcessToBeIssue.Value,fields!DecimalPlaces.Value) ,"-")</Value>
                                   <Style>
                                     <FontFamily>Tahoma</FontFamily>
                                     <FontSize>9pt</FontSize>
@@ -2011,7 +2018,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=iif(sum(Fields!SaleOrderQty.Value) &lt;&gt; 0,formatnumber(sum(Fields!SaleOrderQty.Value), 0), "-")</Value>
+                                  <Value>=iif(sum(Fields!SaleOrderQty.Value) &lt;&gt; 0,formatnumber(sum(Fields!SaleOrderQty.Value),max(fields!DecimalPlaces.Value)), "-")</Value>
                                   <Style>
                                     <FontFamily>Tahoma</FontFamily>
                                     <FontSize>9pt</FontSize>
@@ -2061,7 +2068,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=iif(sum(Fields!AdjustedStock.Value) &lt;&gt; 0, Microsoft.VisualBasic.Strings.formatnumber(sum(Fields!AdjustedStock.Value), 0), "-")</Value>
+                                  <Value>=iif(sum(Fields!AdjustedStock.Value) &lt;&gt; 0, Microsoft.VisualBasic.Strings.formatnumber(sum(Fields!AdjustedStock.Value),max(fields!DecimalPlaces.Value)), "-")</Value>
                                   <Style>
                                     <FontFamily>Tahoma</FontFamily>
                                     <FontSize>9pt</FontSize>
@@ -2111,7 +2118,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Microsoft.VisualBasic.Interaction.iif(sum(Fields!AdjustedOnLoom.Value) &lt;&gt; 0, Microsoft.VisualBasic.Strings.formatnumber(sum(Fields!AdjustedOnLoom.Value), 0), "-")</Value>
+                                  <Value>=Microsoft.VisualBasic.Interaction.iif(sum(Fields!AdjustedOnLoom.Value) &lt;&gt; 0, Microsoft.VisualBasic.Strings.formatnumber(sum(Fields!AdjustedOnLoom.Value),max(fields!DecimalPlaces.Value)), "-")</Value>
                                   <Style>
                                     <FontFamily>Tahoma</FontFamily>
                                     <FontSize>9pt</FontSize>
@@ -2161,7 +2168,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Microsoft.VisualBasic.Interaction.iif(sum(Fields!AdjustedToBeIssue.Value) &lt;&gt; 0, Microsoft.VisualBasic.Strings.formatnumber(sum(Fields!AdjustedToBeIssue.Value), 0), "-")</Value>
+                                  <Value>=Microsoft.VisualBasic.Interaction.iif(sum(Fields!AdjustedToBeIssue.Value) &lt;&gt; 0, Microsoft.VisualBasic.Strings.formatnumber(sum(Fields!AdjustedToBeIssue.Value),max(fields!DecimalPlaces.Value)), "-")</Value>
                                   <Style>
                                     <FontFamily>Tahoma</FontFamily>
                                     <FontSize>9pt</FontSize>
@@ -2211,7 +2218,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Microsoft.VisualBasic.Interaction.iif(sum(Fields!ExcessStock.Value) &lt;&gt; 0, Microsoft.VisualBasic.Strings.formatnumber(sum(Fields!ExcessStock.Value), 0), "-")</Value>
+                                  <Value>=Microsoft.VisualBasic.Interaction.iif(sum(Fields!ExcessStock.Value) &lt;&gt; 0, Microsoft.VisualBasic.Strings.formatnumber(sum(Fields!ExcessStock.Value),max(fields!DecimalPlaces.Value)), "-")</Value>
                                   <Style>
                                     <FontFamily>Tahoma</FontFamily>
                                     <FontSize>9pt</FontSize>
@@ -2261,7 +2268,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Microsoft.VisualBasic.Interaction.iif(sum(Fields!ExcessOnLoom.Value) &lt;&gt; 0, Microsoft.VisualBasic.Strings.formatnumber(sum(Fields!ExcessOnLoom.Value), 0), "-")</Value>
+                                  <Value>=Microsoft.VisualBasic.Interaction.iif(sum(Fields!ExcessOnLoom.Value) &lt;&gt; 0, Microsoft.VisualBasic.Strings.formatnumber(sum(Fields!ExcessOnLoom.Value),max(fields!DecimalPlaces.Value)), "-")</Value>
                                   <Style>
                                     <FontFamily>Tahoma</FontFamily>
                                     <FontSize>9pt</FontSize>
@@ -2311,7 +2318,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Microsoft.VisualBasic.Interaction.iif(sum(Fields!ExcessToBeIssue.Value) &lt;&gt; 0, Microsoft.VisualBasic.Strings.formatnumber(sum(Fields!ExcessToBeIssue.Value), 0), "-")</Value>
+                                  <Value>=Microsoft.VisualBasic.Interaction.iif(sum(Fields!ExcessToBeIssue.Value) &lt;&gt; 0, Microsoft.VisualBasic.Strings.formatnumber(sum(Fields!ExcessToBeIssue.Value),max(fields!DecimalPlaces.Value)), "-")</Value>
                                   <Style>
                                     <FontFamily>Tahoma</FontFamily>
                                     <FontSize>9pt</FontSize>
@@ -2820,6 +2827,12 @@
       <Nullable>true</Nullable>
       <AllowBlank>true</AllowBlank>
       <Prompt>Product Division Id</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="SampleRecord">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Sample Record</Prompt>
     </ReportParameter>
     <ReportParameter Name="ReportOn">
       <DataType>String</DataType>

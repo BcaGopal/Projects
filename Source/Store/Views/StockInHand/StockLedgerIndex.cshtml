@@ -203,7 +203,7 @@
     var url = '@Url.Action("GetStockLedgerJson", "StockInHand")';
     url += '?ProductId=' + @ViewBag.ProductId + '&Dim1=' + @ViewBag.Dim1 +
            '&Dim2=' + @ViewBag.Dim2 + '&Process=' + @ViewBag.Process +
-           '&LotNo=' + @ViewBag.LotNo + '&Godown=' + @ViewBag.Godown;
+           '&LotNo=' + @ViewBag.LotNo + '&Godown=' + @ViewBag.Godown+'';
 
     $(document).ready(function () {
         $.ajax({
