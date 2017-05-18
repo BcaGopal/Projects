@@ -2831,7 +2831,7 @@ iif(Fields!DimensionCnt.Value=4 ,iif(Fields!Dimension4Name.Value &lt;&gt; "",Fie
         <Width>7.88248in</Width>
         <ZIndex>3</ZIndex>
         <Visibility>
-          <Hidden>=iif(max(fields!Status.Value)&lt;&gt;"0",False,true)</Hidden>
+          <Hidden>=iif(max(Fields!Status.Value)&lt;&gt;"0",False,True)</Hidden>
         </Visibility>
         <Style>
           <Border>
@@ -7838,7 +7838,10 @@ iif(Fields!DimensionCnt.Value=4 ,iif(Fields!Dimension4Name.Value &lt;&gt; "",Fie
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
     <DataSource Name="DyeingReceiptPrint">
-      <DataSourceReference>DataSourceMain</DataSourceReference>
+      <ConnectionProperties>
+        <DataProvider>SQL</DataProvider>
+        <ConnectString>Data Source=192.168.2.22;Initial Catalog=HomeFurnishing;Integrated Security=False;User Id=sa; pwd=</ConnectString>
+      </ConnectionProperties>
       <rd:SecurityType>None</rd:SecurityType>
       <rd:DataSourceID>727bb65e-cc51-4d28-a097-a8ea7d087931</rd:DataSourceID>
     </DataSource>

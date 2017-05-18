@@ -6,13 +6,13 @@
         <TablixBody>
           <TablixColumns>
             <TablixColumn>
-              <Width>1.05432in</Width>
+              <Width>0.74182in</Width>
             </TablixColumn>
             <TablixColumn>
               <Width>0.14583in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>3.38646in</Width>
+              <Width>3.78229in</Width>
             </TablixColumn>
           </TablixColumns>
           <TablixRows>
@@ -592,7 +592,7 @@
         <Top>0.68473in</Top>
         <Left>0.05493in</Left>
         <Height>1.07083in</Height>
-        <Width>4.58661in</Width>
+        <Width>4.66994in</Width>
         <Style>
           <Border>
             <Style>None</Style>
@@ -603,7 +603,7 @@
         <TablixBody>
           <TablixColumns>
             <TablixColumn>
-              <Width>0.28027in</Width>
+              <Width>0.22819in</Width>
             </TablixColumn>
             <TablixColumn>
               <Width>0.90946in</Width>
@@ -612,7 +612,7 @@
               <Width>0.80041in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>1.84899in</Width>
+              <Width>1.90107in</Width>
             </TablixColumn>
             <TablixColumn>
               <Width>0.70811in</Width>
@@ -2316,6 +2316,181 @@ iif(Fields!DimensionCnt.Value=4 ,iif(Fields!Dimension4Name.Value &lt;&gt; "",Fie
               </TablixCells>
             </TablixRow>
             <TablixRow>
+              <Height>0.16667in</Height>
+              <TablixCells>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox72">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value />
+                              <Style>
+                                <FontFamily>Tahoma</FontFamily>
+                                <FontSize>9pt</FontSize>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox72</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Style>None</Style>
+                        </Border>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox74">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value />
+                              <Style>
+                                <FontFamily>Tahoma</FontFamily>
+                                <FontSize>9pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                                <Color>#4d4d4d</Color>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Center</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox74</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Style>None</Style>
+                        </Border>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox82">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value />
+                              <Style>
+                                <FontFamily>Tahoma</FontFamily>
+                                <FontSize>9pt</FontSize>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Left</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox82</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Style>None</Style>
+                        </Border>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox83">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value />
+                              <Style>
+                                <FontFamily>Tahoma</FontFamily>
+                                <FontSize>9pt</FontSize>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Left</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox83</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Style>None</Style>
+                        </Border>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox88">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value />
+                              <Style>
+                                <FontSize>9pt</FontSize>
+                                <Color>#4d4d4d</Color>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Left</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox88</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Style>None</Style>
+                        </Border>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+              </TablixCells>
+            </TablixRow>
+            <TablixRow>
               <Height>0.22292in</Height>
               <TablixCells>
                 <TablixCell>
@@ -2509,12 +2684,13 @@ iif(Fields!DimensionCnt.Value=4 ,iif(Fields!Dimension4Name.Value &lt;&gt; "",Fie
             <TablixMember />
             <TablixMember />
             <TablixMember />
+            <TablixMember />
           </TablixMembers>
         </TablixRowHierarchy>
         <DataSetName>DsMain</DataSetName>
-        <Top>6.52652in</Top>
+        <Top>6.42652in</Top>
         <Left>0.05493in</Left>
-        <Height>0.51252in</Height>
+        <Height>0.67919in</Height>
         <Width>7.85819in</Width>
         <ZIndex>2</ZIndex>
         <Style>
@@ -2527,18 +2703,18 @@ iif(Fields!DimensionCnt.Value=4 ,iif(Fields!Dimension4Name.Value &lt;&gt; "",Fie
         <TablixBody>
           <TablixColumns>
             <TablixColumn>
-              <Width>0.93602in</Width>
+              <Width>1.39435in</Width>
             </TablixColumn>
             <TablixColumn>
               <Width>0.0954in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>3.33625in</Width>
+              <Width>2.9925in</Width>
             </TablixColumn>
           </TablixColumns>
           <TablixRows>
             <TablixRow>
-              <Height>0.25in</Height>
+              <Height>0.20833in</Height>
               <TablixCells>
                 <TablixCell>
                   <CellContents>
@@ -2754,7 +2930,7 @@ iif(Fields!DimensionCnt.Value=4 ,iif(Fields!Dimension4Name.Value &lt;&gt; "",Fie
               </TablixCells>
             </TablixRow>
             <TablixRow>
-              <Height>0.25in</Height>
+              <Height>0.21875in</Height>
               <TablixCells>
                 <TablixCell>
                   <CellContents>
@@ -2892,8 +3068,8 @@ iif(Fields!DimensionCnt.Value=4 ,iif(Fields!Dimension4Name.Value &lt;&gt; "",Fie
         <DataSetName>DsMain</DataSetName>
         <Top>5.32057in</Top>
         <Left>0.04583in</Left>
-        <Height>0.71042in</Height>
-        <Width>4.36767in</Width>
+        <Height>0.6375in</Height>
+        <Width>4.48225in</Width>
         <ZIndex>3</ZIndex>
         <Style>
           <Border>
@@ -2905,10 +3081,10 @@ iif(Fields!DimensionCnt.Value=4 ,iif(Fields!Dimension4Name.Value &lt;&gt; "",Fie
         <TablixBody>
           <TablixColumns>
             <TablixColumn>
-              <Width>1.12012in</Width>
+              <Width>1.20345in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>0.19698in</Width>
+              <Width>0.10323in</Width>
             </TablixColumn>
             <TablixColumn>
               <Width>1.87491in</Width>
@@ -3377,7 +3553,7 @@ iif(Fields!DimensionCnt.Value=4 ,iif(Fields!Dimension4Name.Value &lt;&gt; "",Fie
         <Top>0.67848in</Top>
         <Left>4.76942in</Left>
         <Height>0.90522in</Height>
-        <Width>3.19201in</Width>
+        <Width>3.18159in</Width>
         <ZIndex>4</ZIndex>
         <Style>
           <Border>
@@ -4809,7 +4985,7 @@ iif(Fields!DimensionCnt.Value=4 ,iif(Fields!Dimension4Name.Value &lt;&gt; "",Fie
           </Tablix>
         </ReportItems>
         <KeepTogether>true</KeepTogether>
-        <Top>7.0875in</Top>
+        <Top>7.1375in</Top>
         <Left>0.04218in</Left>
         <Height>1.47916in</Height>
         <Width>7.87718in</Width>
@@ -4827,7 +5003,7 @@ iif(Fields!DimensionCnt.Value=4 ,iif(Fields!Dimension4Name.Value &lt;&gt; "",Fie
         <TablixBody>
           <TablixColumns>
             <TablixColumn>
-              <Width>0.32456in</Width>
+              <Width>0.24123in</Width>
             </TablixColumn>
             <TablixColumn>
               <Width>0.95327in</Width>
@@ -4836,7 +5012,7 @@ iif(Fields!DimensionCnt.Value=4 ,iif(Fields!Dimension4Name.Value &lt;&gt; "",Fie
               <Width>0.97098in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>2.3529in</Width>
+              <Width>2.43623in</Width>
             </TablixColumn>
             <TablixColumn>
               <Width>0.87868in</Width>
@@ -5877,7 +6053,7 @@ iif(Fields!DimensionCnt.Value=4 ,iif(Fields!Dimension4Name.Value &lt;&gt; "",Fie
         <TablixBody>
           <TablixColumns>
             <TablixColumn>
-              <Width>0.31006in</Width>
+              <Width>0.25798in</Width>
             </TablixColumn>
             <TablixColumn>
               <Width>0.97178in</Width>
@@ -5886,7 +6062,7 @@ iif(Fields!DimensionCnt.Value=4 ,iif(Fields!Dimension4Name.Value &lt;&gt; "",Fie
               <Width>0.87315in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>2.06756in</Width>
+              <Width>2.11964in</Width>
             </TablixColumn>
             <TablixColumn>
               <Width>0.78085in</Width>
@@ -7089,7 +7265,7 @@ iif(Fields!DimensionCnt.Value=4 ,iif(Fields!Dimension4Name.Value &lt;&gt; "",Fie
         <TablixBody>
           <TablixColumns>
             <TablixColumn>
-              <Width>0.44361in</Width>
+              <Width>0.29778in</Width>
             </TablixColumn>
             <TablixColumn>
               <Width>1.19909in</Width>
@@ -7098,7 +7274,7 @@ iif(Fields!DimensionCnt.Value=4 ,iif(Fields!Dimension4Name.Value &lt;&gt; "",Fie
               <Width>1.09003in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>2.34695in</Width>
+              <Width>2.5032in</Width>
             </TablixColumn>
             <TablixColumn>
               <Width>0.99773in</Width>
@@ -7997,7 +8173,7 @@ iif(Fields!DimensionCnt.Value=4 ,iif(Fields!Dimension4Name.Value &lt;&gt; "",Fie
         <Top>4.39479in</Top>
         <Left>0.02386in</Left>
         <Height>0.83334in</Height>
-        <Width>7.93756in</Width>
+        <Width>7.94798in</Width>
         <ZIndex>11</ZIndex>
         <Visibility>
           <Hidden>=IIF(max(Fields!LotNoCnt.Value) = 0 and max(Fields!LossCnt.Value) = 0 ,false,true)</Hidden>
@@ -8025,7 +8201,7 @@ iif(Fields!DimensionCnt.Value=4 ,iif(Fields!Dimension4Name.Value &lt;&gt; "",Fie
         </Style>
       </Subreport>
     </ReportItems>
-    <Height>8.60417in</Height>
+    <Height>8.65625in</Height>
     <Style />
   </Body>
   <Width>7.99268in</Width>

@@ -509,7 +509,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Cost Center</Value>
+                              <Value>=max(fields!CostCenterCaption.Value)</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>9pt</FontSize>
@@ -531,6 +531,7 @@
                         <BottomBorder>
                           <Style>Solid</Style>
                         </BottomBorder>
+                        <BackgroundColor>LightGrey</BackgroundColor>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
@@ -548,7 +549,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Job Worker</Value>
+                              <Value>=max(fields!PartyCaption.Value)</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>9pt</FontSize>
@@ -570,6 +571,7 @@
                         <BottomBorder>
                           <Style>Solid</Style>
                         </BottomBorder>
+                        <BackgroundColor>LightGrey</BackgroundColor>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
@@ -611,6 +613,7 @@
                         <BottomBorder>
                           <Style>Solid</Style>
                         </BottomBorder>
+                        <BackgroundColor>LightGrey</BackgroundColor>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
@@ -652,6 +655,7 @@
                         <BottomBorder>
                           <Style>Solid</Style>
                         </BottomBorder>
+                        <BackgroundColor>LightGrey</BackgroundColor>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
@@ -689,6 +693,7 @@
                         <Border>
                           <Style>None</Style>
                         </Border>
+                        <BackgroundColor>=iif(RowNumber(nothing) Mod 2 , "White","WhiteSmoke")</BackgroundColor>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
@@ -721,6 +726,7 @@
                         <Border>
                           <Style>None</Style>
                         </Border>
+                        <BackgroundColor>=iif(RowNumber(nothing) Mod 2 , "White","WhiteSmoke")</BackgroundColor>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
@@ -755,6 +761,7 @@
                         <Border>
                           <Style>None</Style>
                         </Border>
+                        <BackgroundColor>=iif(RowNumber(nothing) Mod 2 , "White","WhiteSmoke")</BackgroundColor>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
@@ -789,6 +796,7 @@
                         <Border>
                           <Style>None</Style>
                         </Border>
+                        <BackgroundColor>=iif(RowNumber(nothing) Mod 2 , "White","WhiteSmoke")</BackgroundColor>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
@@ -826,6 +834,7 @@
                         <Border>
                           <Style>None</Style>
                         </Border>
+                        <BackgroundColor>=iif(RowNumber(nothing) Mod 2 , "White","WhiteSmoke")</BackgroundColor>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
@@ -858,6 +867,7 @@
                         <Border>
                           <Style>None</Style>
                         </Border>
+                        <BackgroundColor>=iif(RowNumber(nothing) Mod 2 , "White","WhiteSmoke")</BackgroundColor>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
@@ -892,6 +902,7 @@
                         <Border>
                           <Style>None</Style>
                         </Border>
+                        <BackgroundColor>=iif(RowNumber(nothing) Mod 2 , "White","WhiteSmoke")</BackgroundColor>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
@@ -926,6 +937,7 @@
                         <Border>
                           <Style>None</Style>
                         </Border>
+                        <BackgroundColor>=iif(RowNumber(nothing) Mod 2 , "White","WhiteSmoke")</BackgroundColor>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
@@ -2303,6 +2315,10 @@
           <DataField>jobworkername</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
+        <Field Name="HeaderCostCenterName">
+          <DataField>HeaderCostCenterName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
         <Field Name="ChqNo">
           <DataField>ChqNo</DataField>
           <rd:TypeName>System.String</rd:TypeName>
@@ -2329,7 +2345,7 @@
         </Field>
         <Field Name="ReportName">
           <DataField>ReportName</DataField>
-          <rd:TypeName>System.Int32</rd:TypeName>
+          <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="ReportTitle">
           <DataField>ReportTitle</DataField>
@@ -2338,6 +2354,14 @@
         <Field Name="SubReportProcList">
           <DataField>SubReportProcList</DataField>
           <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="PartyCaption">
+          <DataField>PartyCaption</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CostCenterCaption">
+          <DataField>CostCenterCaption</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
         </Field>
       </Fields>
       <rd:DataSetInfo>
@@ -2632,4 +2656,3 @@ EEAAAQQQQAABBBCIgwABQBxakToggAACCCCAAAIIIBAoQAAQCMVpCCCAAAIIIIAAAgjEQYAAIA6tSB0Q
   <rd:ReportUnitType>Inch</rd:ReportUnitType>
   <rd:ReportID>f1b70379-da78-4ea9-bab5-cbb93d10df58</rd:ReportID>
 </Report>
-
