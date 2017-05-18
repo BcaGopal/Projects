@@ -499,7 +499,16 @@
         CustomSelectFunction($("#CostCenterId"), '/ComboHelpList/GetCostCenter', '/ComboHelpList/SetSingleCostCenter', ' ', false, 1);
         CustomSelectFunction($("#MachineId"), '/ComboHelpList/GetMachine', '/ComboHelpList/SetSingleMachine', ' ', false, 1);
 
-        $('#PersonId').select2("focus");
+
+        if ($("#ProcessId").is(":hidden") == false)
+        {
+            $('#ProcessId').select2('focus');
+        }
+        else{
+            $('#PersonId').select2('focus');
+        }
+
+        //$('#PersonId').select2("focus");
         //Calling the function to load the table data/ Line information
         LoadProducts();
 
@@ -562,7 +571,7 @@
                                 +"              <div class='row'>"
                                 +"                  <div class='block' style='width:25%'>"+(item.ProductName==null?" ":"<strong>"+item.ProductName+"</strong>")
                                 +"                      "+(item.Specification==null?" ": "<div>"+ item.Specification +"</div>")
-                                +"                          <div>"+(item.Dimension1Name==null?" ":item.Dimension1Name+",")+(item.Dimension2Name==null?" ":item.Dimension2Name)+"</div>"
+                                +"                          <div>"+(item.Dimension1Name==null?" ":item.Dimension1Name+",")+(item.Dimension2Name==null?" ":item.Dimension2Name+",")+(item.Dimension3Name==null?" ":item.Dimension3Name+",")+(item.Dimension4Name==null?" ":item.Dimension4Name)+"</div>"
                                 +"                          <div>"+((item.DueDate==null)?" ":"<span title='DueDate' class='label label-danger' style=''>"+formatDate('d/m/Y',new Date(parseInt(item.DueDate.substr(6))))+"</span>")
                                 +"                          </div>"
                                 +                           (item.RequisitionHeaderDocNo==null?" ":"<span class='' style='font-weight:bold'>Request No: "+item.RequisitionHeaderDocNo+"</span>")
@@ -635,7 +644,7 @@
                                 +"              <div class='row'>"
                                 +"                  <div class='block' style='width:30%'>"+(item.ProductName==null?" ":"<strong>"+item.ProductName+"</strong>")
                                 +"                      "+(item.Specification==null?" ": "<div>" +item.Specification+"</div>")
-                                +"                          <div>"+(item.Dimension1Name==null?" ":item.Dimension1Name+",")+(item.Dimension2Name==null?" ":item.Dimension2Name)+"</div>"
+                                +"                          <div>"+(item.Dimension1Name==null?" ":item.Dimension1Name+",")+(item.Dimension2Name==null?" ":item.Dimension2Name+",")+(item.Dimension3Name==null?" ":item.Dimension3Name+",")+(item.Dimension4Name==null?" ":item.Dimension4Name)+"</div>"
                                 +"                          <div>"+((item.DueDate==null)?" ":"<span title='DueDate' class='label label-danger' style=''>"+formatDate('d/m/Y',new Date(parseInt(item.DueDate.substr(6))))+"</span>")
                                 +"                          </div>"
                                 +                           (item.RequisitionHeaderDocNo==null?" ":"<span title='DueDate' class='' style='font-weight:bold'>Request No: "+item.RequisitionHeaderDocNo+"</span>")

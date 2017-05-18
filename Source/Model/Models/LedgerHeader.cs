@@ -68,7 +68,9 @@ namespace Model.Models
         [ForeignKey("Godown")]
         public int ? GodownId { get; set; }
         public virtual Godown Godown { get; set; }
-        
+
+        [Display(Name = "DrCr"), MaxLength(2)]
+        public string DrCr { get; set; }
         public string  Narration { get; set; }
 
         [Display(Name = "Remark")]

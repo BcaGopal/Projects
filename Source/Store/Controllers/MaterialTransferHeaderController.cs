@@ -170,6 +170,8 @@ namespace Web
 
             p.DocTypeId = id;
 
+            p.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(p.DocTypeId);
+
 
 
             p.DocNo = new DocumentTypeService(_unitOfWork).FGetNewDocNo("DocNo", ConfigurationManager.AppSettings["DataBaseSchema"] + ".StockHeaders", p.DocTypeId, p.DocDate, p.DivisionId, p.SiteId);
@@ -531,7 +533,7 @@ namespace Web
                 return View("~/Views/Shared/InValidSettings.cshtml");
             }
             s.StockHeaderSettings = Mapper.Map<StockHeaderSettings, StockHeaderSettingsViewModel>(settings);
-
+            s.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(s.DocTypeId);
 
             ViewBag.Mode = "Edit";
             PrepareViewBag(s.DocTypeId);
@@ -575,7 +577,7 @@ namespace Web
                 return RedirectToAction("CreateForMaterialTransfer", "StockHeaderSettings", new { id = s.DocTypeId }).Warning("Please create Material Transfer settings");
             }
             s.StockHeaderSettings = Mapper.Map<StockHeaderSettings, StockHeaderSettingsViewModel>(settings);
-
+            s.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(s.DocTypeId);
 
             PrepareViewBag(s.DocTypeId);
             if (s == null)

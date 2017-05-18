@@ -46,6 +46,10 @@ namespace Model.Models
         public bool? isPostedInLedger { get; set; }
         public bool? isProductHelpFromStockProcess { get; set; }
         public bool? isVisibleReferenceDocId { get; set; }
+
+        public bool? isMandatoryProductUID { get; set; }
+
+
         public int? AdjLedgerAccountId { get; set; }
 
         public bool? isVisibleMaterialRequest { get; set; }

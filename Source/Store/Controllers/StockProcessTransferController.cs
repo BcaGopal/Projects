@@ -1094,6 +1094,8 @@ namespace Web
                         StockProcessIssueViewModel.Specification = item.Specification;
                         StockProcessIssueViewModel.Dimension1Id = item.Dimension1Id;
                         StockProcessIssueViewModel.Dimension2Id = item.Dimension2Id;
+                        StockProcessIssueViewModel.Dimension3Id = item.Dimension3Id;
+                        StockProcessIssueViewModel.Dimension4Id = item.Dimension4Id;
                         StockProcessIssueViewModel.CreatedBy = User.Identity.Name;
                         StockProcessIssueViewModel.CreatedDate = DateTime.Now;
                         StockProcessIssueViewModel.ModifiedBy = User.Identity.Name;
@@ -1157,6 +1159,8 @@ namespace Web
                         StockProcessReceiveViewModel.Specification = item.Specification;
                         StockProcessReceiveViewModel.Dimension1Id = item.Dimension1Id;
                         StockProcessReceiveViewModel.Dimension2Id = item.Dimension2Id;
+                        StockProcessReceiveViewModel.Dimension3Id = item.Dimension3Id;
+                        StockProcessReceiveViewModel.Dimension4Id = item.Dimension4Id;
                         StockProcessReceiveViewModel.CreatedBy = User.Identity.Name;
                         StockProcessReceiveViewModel.CreatedDate = DateTime.Now;
                         StockProcessReceiveViewModel.ModifiedBy = User.Identity.Name;
@@ -1179,6 +1183,8 @@ namespace Web
                         line.ProductId = item.ProductId;
                         line.Dimension1Id = item.Dimension1Id;
                         line.Dimension2Id = item.Dimension2Id;
+                        line.Dimension3Id = item.Dimension3Id;
+                        line.Dimension4Id = item.Dimension4Id;
                         line.Specification = item.Specification;
                         line.CostCenterId = item.ToCostCenterId;
                         line.Qty = item.Qty;

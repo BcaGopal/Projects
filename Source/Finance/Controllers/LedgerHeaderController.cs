@@ -76,7 +76,8 @@ namespace Web
             ViewBag.Name = new DocumentTypeService(_unitOfWork).Find(DocTypeId).DocumentTypeName;
             ViewBag.id = DocTypeId;
             ViewBag.VoucherType = new DocumentTypeService(_unitOfWork).Find(DocTypeId).VoucherType;
-            ViewBag.Nature = new DocumentTypeService(_unitOfWork).Find(DocTypeId).Nature;
+
+            string Nature = "";
 
             if (LedgerHeaderId != null && LedgerHeaderId != 0)
             {
@@ -85,13 +86,30 @@ namespace Web
                 {
                     ViewBag.LedgerAccountNature = new LedgerAccountService(_unitOfWork).GetLedgerAccountnature((int)Header.LedgerAccountId);
                 }
+
+                if (Header.DrCr != null)
+                {
+                    Nature = Header.DrCr;
+                }
+                else
+                {
+                    Nature = new DocumentTypeService(_unitOfWork).Find(Header.DocTypeId).Nature;
+                }
             }
+
+            ViewBag.Nature = Nature;
 
             List<SelectListItem> shwBal = new List<SelectListItem>();
             shwBal.Add(new SelectListItem { Text = LedgerHeaderAdjustmentTypeConstants.Payment, Value = LedgerHeaderAdjustmentTypeConstants.Payment });
             shwBal.Add(new SelectListItem { Text = LedgerHeaderAdjustmentTypeConstants.Advance, Value = LedgerHeaderAdjustmentTypeConstants.Advance });
 
             ViewBag.AdjustmentTypeList = new SelectList(shwBal, "Value", "Text");
+
+            List<SelectListItem> DrCr = new List<SelectListItem>();
+            DrCr.Add(new SelectListItem { Text = NatureConstants.Debit, Value = NatureConstants.Debit });
+            DrCr.Add(new SelectListItem { Text = NatureConstants.Credit, Value = NatureConstants.Credit });
+
+            ViewBag.DrCrList = new SelectList(DrCr, "Value", "Text");
 
 
         }
@@ -164,6 +182,11 @@ namespace Web
                 return View("~/Views/Shared/InValidSettings.cshtml");
             }
             vm.LedgerSetting = Mapper.Map<LedgerSetting, LedgerSettingViewModel>(settings);
+
+            DocumentType DocType = new DocumentTypeService(_unitOfWork).Find(id);
+            vm.DrCr = DocType.Nature;
+
+
 
             vm.DocTypeId = id;
             vm.ProcessId = settings.ProcessId;
@@ -335,6 +358,7 @@ namespace Web
                     temp.ProcessId = pt.ProcessId;
                     temp.GodownId = pt.GodownId;
                     temp.LedgerAccountId = pt.LedgerAccountId;
+                    temp.DrCr = pt.DrCr;
                     temp.Narration = pt.Narration;
                     temp.ModifiedDate = DateTime.Now;
                     temp.ModifiedBy = User.Identity.Name;
@@ -343,7 +367,20 @@ namespace Web
 
                     if (UpdateLedgerPosting && temp.LedgerAccountId != LedgerAccountId)
                     {
-                        string Nature = new DocumentTypeService(_unitOfWork).Find(temp.DocTypeId).Nature;
+                        //string Nature = new DocumentTypeService(_unitOfWork).Find(temp.DocTypeId).Nature;
+
+
+                        string Nature = "";
+
+                        if (temp.DrCr != null)
+                        {
+                            Nature = temp.DrCr;
+                        }
+                        else
+                        {
+                            Nature = new DocumentTypeService(_unitOfWork).Find(temp.DocTypeId).Nature;
+                        }
+
                         var Ledgers = (from p in db.Ledger
                                        where (p.LedgerAccountId == LedgerAccountId || p.ContraLedgerAccountId == LedgerAccountId) && p.LedgerHeaderId == temp.LedgerHeaderId
                                        select p).ToList();
@@ -888,7 +925,19 @@ namespace Web
                 List<LogTypeViewModel> LogList = new List<LogTypeViewModel>();
 
                 var temp = db.LedgerHeader.Find(vm.id);
-                string Nature = db.DocumentType.Find(temp.DocTypeId).Nature;
+                //string Nature = db.DocumentType.Find(temp.DocTypeId).Nature;
+
+                string Nature = "";
+
+                if (temp.DrCr != null)
+                {
+                    Nature = temp.DrCr;
+                }
+                else
+                {
+                    Nature = new DocumentTypeService(_unitOfWork).Find(temp.DocTypeId).Nature;
+                }
+
                 HeaderCostCenterId = temp.CostCenterId;
 
                 LogList.Add(new LogTypeViewModel

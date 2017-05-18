@@ -21,6 +21,8 @@ namespace Model.DatabaseViews
         public int ProductId { get; set; }
         public int? Dimension1Id { get; set; }
         public int? Dimension2Id { get; set; }
+        public int? Dimension3Id { get; set; }
+        public int? Dimension4Id { get; set; }
         public string LotNo { get; set; }
         public Decimal BalanceQty { get; set; }
         public int DivisionId { get; set; }

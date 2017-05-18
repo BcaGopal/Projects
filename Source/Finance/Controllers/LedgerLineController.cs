@@ -55,7 +55,21 @@ namespace Web
         public void PrepareViewBag(int Id)
         {
             LedgerHeader Header = new LedgerHeaderService(_unitOfWork).Find(Id);
-            ViewBag.Nature = new DocumentTypeService(_unitOfWork).Find(Header.DocTypeId).Nature;
+            //ViewBag.Nature = new DocumentTypeService(_unitOfWork).Find(Header.DocTypeId).Nature;
+
+
+            string Nature = "";
+
+            if (Header.DrCr != null)
+            {
+                Nature = Header.DrCr;
+            }
+            else
+            {
+                Nature = new DocumentTypeService(_unitOfWork).Find(Header.DocTypeId).Nature;
+            }
+            ViewBag.Nature = Nature;
+
             if (Header.LedgerAccountId != null)
             {
                 ViewBag.LedgerAccountNature = new LedgerAccountService(_unitOfWork).GetLedgerAccountnature((int)Header.LedgerAccountId);
@@ -124,6 +138,20 @@ namespace Web
 
             var settings = new LedgerSettingService(_unitOfWork).GetLedgerSettingForDocument(H.DocTypeId, H.DivisionId, H.SiteId);
             s.LedgerSetting = Mapper.Map<LedgerSetting, LedgerSettingViewModel>(settings);
+
+            s.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(H.DocTypeId);
+
+            if (settings.isVisibleReferenceDocTypeId == false)
+            {
+                if (settings.filterReferenceDocTypes != null)
+                {
+                    if (!settings.filterReferenceDocTypes.Contains(","))
+                    {
+                        s.ReferenceDocTypeId = Convert.ToInt32(settings.filterReferenceDocTypes);
+                    }
+                }
+            }
+
             ViewBag.LineMode = "Create";
             return PartialView("_Create", s);
         }
@@ -133,7 +161,17 @@ namespace Web
         public ActionResult _CreatePost(LedgersViewModel svm)
         {
             LedgerHeader header = new LedgerHeaderService(_unitOfWork).Find(svm.LedgerHeaderId);
-            string Nature = new DocumentTypeService(_unitOfWork).Find(header.DocTypeId).Nature;
+            //string Nature = new DocumentTypeService(_unitOfWork).Find(header.DocTypeId).Nature;
+            string Nature = "";
+
+            if (header.DrCr != null)
+            {
+                Nature = header.DrCr;
+            }
+            else{
+                Nature = new DocumentTypeService(_unitOfWork).Find(header.DocTypeId).Nature;
+            }
+
             //Ledger line = Mapper.Map<LedgersViewModel, Ledger>(svm);
 
             if (svm.LedgerLineId <= 0)
@@ -197,6 +235,8 @@ namespace Web
                     LedgerLine.BaseValue = svm.BaseValue;
                     LedgerLine.ReferenceId = svm.ReferenceId;
                     LedgerLine.ProductUidId = svm.ProductUidId;
+                    LedgerLine.ReferenceDocTypeId = svm.ReferenceDocTypeId;
+                    LedgerLine.ReferenceDocId = svm.ReferenceDocId;
                     LedgerLine.CreatedDate = DateTime.Now;
                     LedgerLine.ModifiedDate = DateTime.Now;
                     LedgerLine.CreatedBy = User.Identity.Name;
@@ -402,6 +442,8 @@ namespace Web
                     LedgerLine.BaseValue = svm.BaseValue;
                     LedgerLine.ReferenceId = svm.ReferenceId;
                     LedgerLine.ProductUidId = svm.ProductUidId;
+                    LedgerLine.ReferenceDocTypeId = svm.ReferenceDocTypeId;
+                    LedgerLine.ReferenceDocId = svm.ReferenceDocId;
                     LedgerLine.ModifiedDate = DateTime.Now;
                     LedgerLine.ModifiedBy = User.Identity.Name;
                     LedgerLine.ObjectState = Model.ObjectState.Modified;
@@ -660,6 +702,7 @@ namespace Web
             ViewBag.AccountType = new LedgerHeaderService(_unitOfWork).GetLedgerAccountType(temp.ContraLedgerAccountId ?? 0);
             //Getting Settings
             var settings = new LedgerSettingService(_unitOfWork).GetLedgerSettingForDocument(H.DocTypeId, H.DivisionId, H.SiteId);
+            temp.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(H.DocTypeId);
 
             temp.LedgerSetting = Mapper.Map<LedgerSetting, LedgerSettingViewModel>(settings);
 
@@ -739,6 +782,7 @@ namespace Web
             //Getting Settings
             var settings = new LedgerSettingService(_unitOfWork).GetLedgerSettingForDocument(H.DocTypeId, H.DivisionId, H.SiteId);
             temp.LedgerSetting = Mapper.Map<LedgerSetting, LedgerSettingViewModel>(settings);
+            temp.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(H.DocTypeId);
             return PartialView("_Create", temp);
         }
 
@@ -770,7 +814,18 @@ namespace Web
                 List<LogTypeViewModel> LogList = new List<LogTypeViewModel>();
 
                 LedgerHeader header = db.LedgerHeader.Find(vm.LedgerHeaderId);
-                string Nature = new DocumentTypeService(_unitOfWork).Find(header.DocTypeId).Nature;
+                //string Nature = new DocumentTypeService(_unitOfWork).Find(header.DocTypeId).Nature;
+
+                string Nature = "";
+
+                if (header.DrCr != null)
+                {
+                    Nature = header.DrCr;
+                }
+                else
+                {
+                    Nature = new DocumentTypeService(_unitOfWork).Find(header.DocTypeId).Nature;
+                }
 
                 int LedgerLineId = vm.LedgerLineId;
                 LedgerLine Line = db.LedgerLine.Find(LedgerLineId);
@@ -1042,6 +1097,39 @@ namespace Web
         public JsonResult GetProductUidValidation(string ProductUID)
         {
             return Json(new ProductUidService(_unitOfWork).ValidateUID(ProductUID), JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult GetReferenceDocIds(string searchTerm, int pageSize, int pageNum, int filter)//DocTypeId
+        {
+            var Query = new LedgerLineService(_unitOfWork).GetReferenceDocIds(filter, searchTerm);
+            var temp = Query.Skip(pageSize * (pageNum - 1))
+                .Take(pageSize)
+                .ToList();
+
+            var count = Query.Count();
+
+            ComboBoxPagedResult Data = new ComboBoxPagedResult();
+            Data.Results = temp;
+            Data.Total = count;
+
+            return new JsonpResult
+            {
+                Data = Data,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+
+        public JsonResult SetSingleReferenceDocIds(int Ids, int ReferenceDocTypeId)
+        {
+             var temp = new LedgerLineService(_unitOfWork).SetReferenceDocIds(Ids, ReferenceDocTypeId);
+
+            ComboBoxResult ReferenceDocIdJson = new ComboBoxResult();
+
+            ReferenceDocIdJson.id = temp.id;
+            ReferenceDocIdJson.text = temp.text;
+
+            return Json(ReferenceDocIdJson);
         }
 
     }

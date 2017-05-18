@@ -144,6 +144,10 @@ namespace Web
                     temp.isVisibleLineCostCenter = pt.isVisibleLineCostCenter;
                     temp.isVisibleRefNo = pt.isVisibleRefNo;
                     temp.isVisibleProductUid = pt.isVisibleProductUid;
+                    temp.isVisibleReferenceDocId = pt.isVisibleReferenceDocId;
+                    temp.isVisibleReferenceDocTypeId = pt.isVisibleReferenceDocTypeId;
+                    temp.isVisibleDrCr = pt.isVisibleDrCr;
+                    temp.filterReferenceDocTypes = pt.filterReferenceDocTypes;
                     temp.SqlProcDocumentPrint = pt.SqlProcDocumentPrint;
                     temp.SqlProcDocumentPrint_AfterApprove = pt.SqlProcDocumentPrint_AfterApprove;
                     temp.SqlProcDocumentPrint_AfterSubmit = pt.SqlProcDocumentPrint_AfterSubmit;                    
@@ -274,6 +278,10 @@ namespace Web
                     temp.isVisibleLineCostCenter = pt.isVisibleLineCostCenter;
                     temp.isVisibleRefNo = pt.isVisibleRefNo;
                     temp.isVisibleProductUid = pt.isVisibleProductUid;
+                    temp.isVisibleReferenceDocId = pt.isVisibleReferenceDocId;
+                    temp.isVisibleReferenceDocTypeId = pt.isVisibleReferenceDocTypeId;
+                    temp.isVisibleDrCr = pt.isVisibleDrCr;
+                    temp.filterReferenceDocTypes = pt.filterReferenceDocTypes;
                     temp.SqlProcDocumentPrint = pt.SqlProcDocumentPrint;
                     temp.SqlProcDocumentPrint_AfterApprove = pt.SqlProcDocumentPrint_AfterApprove;
                     temp.SqlProcDocumentPrint_AfterSubmit = pt.SqlProcDocumentPrint_AfterSubmit;

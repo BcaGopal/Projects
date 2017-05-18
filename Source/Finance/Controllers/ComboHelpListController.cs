@@ -1435,6 +1435,26 @@ namespace Web
             };
         }
 
+        public JsonResult SetCostCenter(string Ids)
+        {
+            string[] subStr = Ids.Split(',');
+            List<ComboBoxResult> ProductJson = new List<ComboBoxResult>();
+            for (int i = 0; i < subStr.Length; i++)
+            {
+                int temp = Convert.ToInt32(subStr[i]);
+                //IEnumerable<Product> products = db.Products.Take(3);
+                IEnumerable<CostCenter> prod = from p in db.CostCenter
+                                               where p.CostCenterId == temp
+                                               select p;
+                ProductJson.Add(new ComboBoxResult()
+                {
+                    id = prod.FirstOrDefault().CostCenterId.ToString(),
+                    text = prod.FirstOrDefault().CostCenterName
+                });
+            }
+            return Json(ProductJson);
+        }
+
         public ActionResult GetCostCenterWithDocType(string searchTerm, int pageSize, int pageNum)
         {
             int SiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];

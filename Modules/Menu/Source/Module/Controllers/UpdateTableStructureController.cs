@@ -837,6 +837,9 @@ namespace Module
             AddFields("JobReceiveLines", "Dimension4Id", "Int", "Dimension4");
             AddFields("JobInvoiceLines", "DiscountAmt", "Decimal(18,4)");
 
+            AddFields("LedgerHeaders", "DrCr", "nvarchar(2)");
+            AddFields("LedgerSettings", "isVisibleDrCr", "BIT");
+
 
 
             try
@@ -903,7 +906,14 @@ namespace Module
 
 
             AddFields("StockHeaderSettings", "isVisibleProcessHeader", "BIT");
+            AddFields("StockHeaderSettings", "isMandatoryProductUID", "BIT");
 
+            AddFields("DocumentTypeSettings", "ReferenceDocTypeCaption", "nvarchar(50)");
+            AddFields("DocumentTypeSettings", "ReferenceDocIdCaption", "nvarchar(50)");
+
+            AddFields("LedgerSettings", "isVisibleReferenceDocId", "BIT");
+            AddFields("LedgerSettings", "isVisibleReferenceDocTypeId", "BIT");
+            AddFields("LedgerSettings", "filterReferenceDocTypes", "nvarchar(Max)");
 
 
 

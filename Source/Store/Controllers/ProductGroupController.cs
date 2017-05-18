@@ -45,7 +45,12 @@ namespace Web
         {
             //return RedirectToAction("Create");
             ViewBag.id = id;
-            ViewBag.Name = new ProductTypeService(_unitOfWork).Find(id).ProductTypeName;
+            var settings = new ProductTypeSettingsService(_unitOfWork).GetProductTypeSettingsForDocument(id);
+            string ProductTypeName = new ProductTypeService(_unitOfWork).Find(id).ProductTypeName;
+            ViewBag.Name = (settings.ProductGroupCaption ?? "Product Group") + "-" + ProductTypeName;
+
+
+            //ViewBag.Name = new ProductTypeService(_unitOfWork).Find(id).ProductTypeName;
             var p = _ProductGroupService.GetProductGroupList(id);
             return View(p);
         }
@@ -75,7 +80,11 @@ namespace Web
             vm.IsActive = true;
             vm.ProductTypeId = id;
             ViewBag.id = id;
-            ViewBag.Name = new ProductTypeService(_unitOfWork).Find(id).ProductTypeName;
+            var settings = new ProductTypeSettingsService(_unitOfWork).GetProductTypeSettingsForDocument(id);
+            string ProductTypeName = new ProductTypeService(_unitOfWork).Find(vm.ProductTypeId).ProductTypeName;
+            ViewBag.Name = (settings.ProductGroupCaption ?? "Product Group") + "-" + ProductTypeName;
+            ViewBag.ProductGroupCaption = settings.ProductGroupCaption ?? "Product Group";
+            //ViewBag.Name = new ProductTypeService(_unitOfWork).Find(id).ProductTypeName;
             return View("Create", vm);
 
         }
@@ -189,7 +198,13 @@ namespace Web
                 return HttpNotFound();
             }
             ViewBag.id = pt.ProductTypeId;
-            ViewBag.Name = new ProductTypeService(_unitOfWork).Find(pt.ProductTypeId).ProductTypeName;
+
+            var settings = new ProductTypeSettingsService(_unitOfWork).GetProductTypeSettingsForDocument(pt.ProductTypeId);
+            string ProductTypeName = new ProductTypeService(_unitOfWork).Find(pt.ProductTypeId).ProductTypeName;
+            ViewBag.Name = (settings.ProductGroupCaption ?? "Product Group") + "-" + ProductTypeName;
+            ViewBag.ProductGroupCaption = settings.ProductGroupCaption ?? "Product Group";
+
+            //ViewBag.Name = new ProductTypeService(_unitOfWork).Find(pt.ProductTypeId).ProductTypeName;
             return View("Create", pt);
         }
 

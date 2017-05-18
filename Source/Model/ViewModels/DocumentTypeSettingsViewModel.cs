@@ -58,6 +58,11 @@ namespace Model.ViewModel
 
         [MaxLength(50)]
         public string SpecificationCaption { get; set; }
+        [MaxLength(50)]
+        public string ReferenceDocTypeCaption { get; set; }
+
+        [MaxLength(50)]
+        public string ReferenceDocIdCaption { get; set; }
 
         public string CreatedBy { get; set; }
         public string ModifiedBy { get; set; }

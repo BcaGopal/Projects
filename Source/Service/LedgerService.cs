@@ -162,6 +162,8 @@ namespace Service
                         BaseValue=p.BaseValue,
                         BaseRate=p.BaseRate,
                         ReferenceDocNo = tab2.DocNo,
+                        ReferenceDocTypeId = p.ReferenceDocTypeId,
+                        ReferenceDocId = p.ReferenceDocId,
                         ChqNo = p.ChqNo,
                         DueDate = p.ChqDate,
                         CostCenterId = p.CostCenterId,

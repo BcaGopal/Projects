@@ -228,6 +228,8 @@ namespace Web
                     templine.ProductUidId = s.ProductUidId;
                     templine.Dimension1Id = s.Dimension1Id;
                     templine.Dimension2Id = s.Dimension2Id;
+                    templine.Dimension3Id = s.Dimension3Id;
+                    templine.Dimension4Id = s.Dimension4Id;
                     templine.LotNo = s.LotNo;
                     templine.ProcessId = s.ProcessId;
                     templine.ProductUidId = s.ProductUidId;

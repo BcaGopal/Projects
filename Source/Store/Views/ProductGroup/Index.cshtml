@@ -16,7 +16,7 @@
 <div class="panel panel-default">
     <div class="panel-heading">
         <h3>
-            <span style="font-family: Calibri,sans-serif,Verdana;font-weight:bold" class="black"><span class="glyphicon glyphicon-list black"></span> Product Group List-@ViewBag.Name</span>
+            <span style="font-family: Calibri,sans-serif,Verdana;font-weight:bold" class="black"><span class="glyphicon glyphicon-list black"></span> @ViewBag.Name List</span>
         </h3>
         <hr style="margin-top:0px;margin-bottom:0px" />
 
@@ -52,7 +52,7 @@
         @Html.Grid(Model).Columns(columns =>
    {
        columns.Add(foo => foo.ProductGroupId, true);
-       columns.Add(foo => foo.ProductGroupName).Sortable(true).Titled("Product Group Name").Filterable(true).Css("modal-link");
+       columns.Add(foo => foo.ProductGroupName).Sortable(true).Titled("Name").Filterable(true).Css("modal-link");
        columns.Add(m => m.IsSystemDefine).Sortable(true).Titled("System Defined");
        columns.Add(m => m.IsActive).Sortable(true).Titled("Is Active").Filterable(true);
        columns.Add(true).RenderValueAs(m => "<a href='/ProductGroup/Edit/" + m.ProductGroupId + "' hidden class='RecEditurl'></a><a href='/ProductGroup/Delete/" + m.ProductGroupId + "' hidden class='RecDelurl'></a>");

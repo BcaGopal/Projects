@@ -247,7 +247,13 @@ namespace Web
 
             p.PerkViewModel = Perks;
             p.UnitConversionForId = settings.UnitConversionForId;
-            p.ProcessId = settings.ProcessId;
+
+            if (settings.isVisibleProcessHeader == false)
+            {
+                p.ProcessId = settings.ProcessId;
+            }
+
+
             p.TermsAndConditions = settings.TermsAndConditions;
 
             PrepareViewBag(id);

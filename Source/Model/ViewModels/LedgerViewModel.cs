@@ -129,6 +129,9 @@ namespace Model.ViewModels
         public int? ReferenceId { get; set; }
         public string ReferenceDocNo { get; set; }
 
+        public int? ReferenceDocId { get; set; }
+        public int? ReferenceDocTypeId { get; set; }
+
         public string ContraText { get; set; }
         [Display(Name = "Chq No"), MaxLength(10)]
         public string ChqNo { get; set; }
@@ -138,6 +141,7 @@ namespace Model.ViewModels
         public int DocumentCategoryId { get; set; }
         public string Remark { get; set; }
         public LedgerSettingViewModel LedgerSetting { get; set; }
+        public DocumentTypeSettingsViewModel DocumentTypeSettings { get; set; }
 
         public int? ProductUidId { get; set; }
 

@@ -110,6 +110,33 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.isVisibleReferenceDocTypeId, "Reference Doc Type", new { @class = "control-label col-xs-6" })
+                                    <div class="col-xs-4" style=" padding-top:4px">
+                                        @Html.CheckBoxFor(m => m.isVisibleReferenceDocTypeId, new { @class = "checkbox col-xs-2" })
+                                        @Html.ValidationMessageFor(model => model.isVisibleReferenceDocTypeId)
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.isVisibleReferenceDocId, "Reference Doc Id", new { @class = "control-label col-xs-6" })
+                                    <div class="col-xs-4" style=" padding-top:4px">
+                                        @Html.CheckBoxFor(m => m.isVisibleReferenceDocId, new { @class = "checkbox col-xs-2" })
+                                        @Html.ValidationMessageFor(model => model.isVisibleReferenceDocId)
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.isVisibleDrCr, "Dr.Cr.", new { @class = "control-label col-xs-6" })
+                                    <div class="col-xs-4" style=" padding-top:4px">
+                                        @Html.CheckBoxFor(m => m.isVisibleDrCr, new { @class = "checkbox col-xs-2" })
+                                        @Html.ValidationMessageFor(model => model.isVisibleDrCr)
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -212,6 +239,16 @@
                         </div>
 
                         <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.filterReferenceDocTypes, "Reference Doc Type", new { @class = "control-label col-xs-4" })
+                                    <div class="col-xs-6">
+                                        @Html.TextBoxFor(m => m.filterReferenceDocTypes, new { @class = "form-control col-xs-6" })
+                                        @Html.ValidationMessageFor(m => m.filterReferenceDocTypes, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+
                             <div class="col-md-6">
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.filterDocTypeCostCenter, "Costcenter Type", new { @class = "control-label col-xs-4" })
@@ -383,6 +420,7 @@
         CustomSelectFunction($("#filterLedgerAccountGroupLines"), '/ComboHelpList/GetLedgerAccountGroups', '/ComboHelpList/SetLedgerAccountGroups', ' ', true, 1);
         CustomSelectFunction($("#filterLedgerAccountGroupHeaders"), '/ComboHelpList/GetLedgerAccountGroups', '/ComboHelpList/SetLedgerAccountGroups', ' ', true, 1);
         CustomSelectFunction($("#filterContraDocTypes"), '/ComboHelpList/GetDocumentType', '/ComboHelpList/SetDocumentType', ' ', true, 1);
+        CustomSelectFunction($("#filterReferenceDocTypes"), '/ComboHelpList/GetDocumentType', '/ComboHelpList/SetDocumentType', ' ', true, 1);
         CustomSelectFunction($("#filterContraDivisions"), '/ComboHelpList/GetDivision', '/ComboHelpList/SetDivision', ' ', true, 1);
         CustomSelectFunction($("#filterContraSites"), '/ComboHelpList/GetSite', '/ComboHelpList/SetSite', ' ', true, 1);
         CustomSelectFunction($("#filterPersonProcessHeaders"), '/ComboHelpList/GetProcess', '/ComboHelpList/SetProcess', ' ', true, 1);

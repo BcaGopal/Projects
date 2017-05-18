@@ -125,6 +125,8 @@ namespace Web
                         line.ProductId = item.ProductId;
                         line.Dimension1Id = item.Dimension1Id;
                         line.Dimension2Id = item.Dimension2Id;
+                        line.Dimension3Id = item.Dimension3Id;
+                        line.Dimension4Id = item.Dimension4Id;
                         line.Specification = item.Specification;
                         line.CostCenterId = item.CostCenterId;
                         line.Qty = item.Qty;
@@ -411,8 +413,10 @@ namespace Web
                     templine.RequisitionLineId = s.RequisitionLineId;
                     templine.Specification = s.Specification;
                     templine.Dimension1Id = s.Dimension1Id;
-                    templine.CostCenterId = s.CostCenterId;
                     templine.Dimension2Id = s.Dimension2Id;
+                    templine.Dimension3Id = s.Dimension3Id;
+                    templine.Dimension4Id = s.Dimension4Id;
+                    templine.CostCenterId = s.CostCenterId;
                     templine.DocNature = StockNatureConstants.Issue;
                     templine.Rate = s.Rate;
                     templine.Amount = s.Amount;

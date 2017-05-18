@@ -180,6 +180,8 @@ namespace Web
                         StockProcessViewModel.Specification = item.Specification;
                         StockProcessViewModel.Dimension1Id = item.Dimension1Id;
                         StockProcessViewModel.Dimension2Id = item.Dimension2Id;
+                        StockProcessViewModel.Dimension3Id = item.Dimension3Id;
+                        StockProcessViewModel.Dimension4Id = item.Dimension4Id;
                         StockProcessViewModel.CreatedBy = User.Identity.Name;
                         StockProcessViewModel.CreatedDate = DateTime.Now;
                         StockProcessViewModel.ModifiedBy = User.Identity.Name;
@@ -209,8 +211,10 @@ namespace Web
                         line.Rate = (decimal)item.Rate;
                         line.Amount = Math.Round((decimal)item.Rate * item.Qty, Settings.LineRoundOff??0);
                         line.Dimension1Id = item.Dimension1Id;
-                        line.DocNature = StockNatureConstants.Receive;
                         line.Dimension2Id = item.Dimension2Id;
+                        line.Dimension3Id = item.Dimension3Id;
+                        line.Dimension4Id = item.Dimension4Id;
+                        line.DocNature = StockNatureConstants.Receive;
                         line.CostCenterId = item.CostCenterId;
                         line.FromProcessId = item.FromProcessId;
                         line.Specification = item.Specification;
@@ -473,6 +477,8 @@ namespace Web
                     StockProcessViewModel.Specification = s.Specification;
                     StockProcessViewModel.Dimension1Id = s.Dimension1Id;
                     StockProcessViewModel.Dimension2Id = s.Dimension2Id;
+                    StockProcessViewModel.Dimension3Id = s.Dimension3Id;
+                    StockProcessViewModel.Dimension4Id = s.Dimension4Id;
                     StockProcessViewModel.Remark = s.Remark;
                     StockProcessViewModel.Status = temp.Status;
                     StockProcessViewModel.CreatedBy = temp.CreatedBy;
@@ -626,6 +632,8 @@ namespace Web
                         StockProcessViewModel.Specification = templine.Specification;
                         StockProcessViewModel.Dimension1Id = templine.Dimension1Id;
                         StockProcessViewModel.Dimension2Id = templine.Dimension2Id;
+                        StockProcessViewModel.Dimension3Id = templine.Dimension3Id;
+                        StockProcessViewModel.Dimension4Id = templine.Dimension4Id;
                         StockProcessViewModel.Remark = s.Remark;
                         StockProcessViewModel.Status = temp.Status;
                         StockProcessViewModel.CreatedBy = templine.CreatedBy;

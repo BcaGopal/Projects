@@ -63,7 +63,7 @@ namespace Service
         IQueryable<ComboBoxResult> GetDimension2ForReceive(int id, string term);
         IQueryable<ComboBoxResult> GetDimension1ForReceive(int id, string term);
 
-        IEnumerable<ComboBoxResult> GetPendingStockInForIssue(int id, int ProductId, int? Dimension1Id, int? Dimension2Id, string term);
+        IEnumerable<ComboBoxResult> GetPendingStockInForIssue(int id, int? ProductId, int? Dimension1Id, int? Dimension2Id, int? Dimension3Id, int? Dimension4Id, string term);
 
         IQueryable<ComboBoxResult> GetCustomProductGroups(int Id, string term);
         IQueryable<ComboBoxResult> GetCustomReferenceDocIds(int Id, string term);
@@ -124,6 +124,8 @@ namespace Service
                             RequisitionHeaderDocNo = p.RequisitionLine.RequisitionHeader.DocNo,
                             Dimension1Id = p.Dimension1Id,
                             Dimension2Id = p.Dimension2Id,
+                            Dimension3Id = p.Dimension3Id,
+                            Dimension4Id = p.Dimension4Id,
                             Specification = p.Specification,
                             Rate = p.Rate,
                             Weight  = p.Weight,
@@ -167,6 +169,8 @@ namespace Service
                             RequisitionHeaderDocNo = p.RequisitionLine.RequisitionHeader.DocNo,
                             Dimension1Id = p.Dimension1Id,
                             Dimension2Id = p.Dimension2Id,
+                            Dimension3Id = p.Dimension3Id,
+                            Dimension4Id = p.Dimension4Id,
                             Specification = p.Specification,
                             Rate = p.Rate,
                             Weight = p.Weight,
@@ -225,6 +229,8 @@ namespace Service
                             RequisitionBalanceQty = p.Qty + tab2.BalanceQty,
                             Dimension1Id = p.Dimension1Id,
                             Dimension2Id = p.Dimension2Id,
+                            Dimension3Id = p.Dimension3Id,
+                            Dimension4Id = p.Dimension4Id,
                             Specification = p.Specification,
                             Rate = p.Rate,
                             Weight = p.Weight,
@@ -283,6 +289,8 @@ namespace Service
                         Specification = p.Specification,
                         Dimension1Name = p.Dimension1.Dimension1Name,
                         Dimension2Name = p.Dimension2.Dimension2Name,
+                        Dimension3Name = p.Dimension3.Dimension3Name,
+                        Dimension4Name = p.Dimension4.Dimension4Name,
                         LotNo = p.LotNo,
                         RequisitionHeaderDocNo = p.RequisitionLine.RequisitionHeader.DocNo,
                         Qty = p.Qty,
@@ -316,6 +324,8 @@ namespace Service
                         Specification = p.Specification,
                         Dimension1Name = p.Dimension1.Dimension1Name,
                         Dimension2Name = p.Dimension2.Dimension2Name,
+                        Dimension3Name = p.Dimension3.Dimension3Name,
+                        Dimension4Name = p.Dimension4.Dimension4Name,
                         LotNo = p.LotNo,
                         RequisitionHeaderDocNo = p.RequisitionLine.RequisitionHeader.DocNo,
                         Qty = p.Qty,
@@ -351,6 +361,8 @@ namespace Service
                         Specification = p.Specification,
                         Dimension1Name = p.Dimension1.Dimension1Name,
                         Dimension2Name = p.Dimension2.Dimension2Name,
+                        Dimension3Name = p.Dimension3.Dimension3Name,
+                        Dimension4Name = p.Dimension4.Dimension4Name,
                         LotNo = p.LotNo,
                         RequisitionHeaderDocNo = p.RequisitionLine.RequisitionHeader.DocNo,
                         Qty = p.Qty,
@@ -572,6 +584,8 @@ namespace Service
                             RequisitionHeaderDocNo = p.RequisitionLine.RequisitionHeader.DocNo,
                             Dimension1Id = p.Dimension1Id,
                             Dimension2Id = p.Dimension2Id,
+                            Dimension3Id = p.Dimension3Id,
+                            Dimension4Id = p.Dimension4Id,
                             Specification = p.Specification,
                             Rate = p.Rate,
                             Amount = p.Amount,
@@ -627,6 +641,8 @@ namespace Service
                             RequisitionHeaderDocNo = p.RequisitionLine.RequisitionHeader.DocNo,
                             Dimension1Id = p.Dimension1Id,
                             Dimension2Id = p.Dimension2Id,
+                            Dimension3Id = p.Dimension3Id,
+                            Dimension4Id = p.Dimension4Id,
                             Specification = p.Specification,
                             Rate = p.Rate,
                             Amount = p.Amount,
@@ -2007,7 +2023,7 @@ namespace Service
 
         }
 
-        public IEnumerable<ComboBoxResult> GetPendingStockInForIssue(int StockHeaderId, int ProductId, int? Dimension1Id, int? Dimension2Id, string term)
+        public IEnumerable<ComboBoxResult> GetPendingStockInForIssue(int StockHeaderId, int? ProductId, int? Dimension1Id, int? Dimension2Id, int? Dimension3Id, int? Dimension4Id, string term)
         {
 
             var StockHeader = new StockHeaderService(_unitOfWork).Find(StockHeaderId);
@@ -2034,21 +2050,36 @@ namespace Service
                     from Dimension1Tab in Dimension1Table.DefaultIfEmpty()
                     join D2 in db.Dimension2 on p.Dimension2Id equals D2.Dimension2Id into Dimension2Table
                     from Dimension2Tab in Dimension2Table.DefaultIfEmpty()
+                    join D3 in db.Dimension3 on p.Dimension3Id equals D3.Dimension3Id into Dimension3Table
+                    from Dimension3Tab in Dimension3Table.DefaultIfEmpty()
+                    join D4 in db.Dimension4 on p.Dimension4Id equals D4.Dimension4Id into Dimension4Table
+                    from Dimension4Tab in Dimension4Table.DefaultIfEmpty()
                     where p.BalanceQty > 0
-                    && p.ProductId == ProductId
+                    && (ProductId == null || ProductId == 0 ? 1 == 1 : p.ProductId == ProductId)
                     && (Dimension1Id == null ? 1 == 1 : p.Dimension1Id == Dimension1Id)
                     && (Dimension2Id == null ? 1 == 1 : p.Dimension2Id == Dimension2Id)
+                    && (Dimension3Id == null ? 1 == 1 : p.Dimension3Id == Dimension3Id)
+                    && (Dimension4Id == null ? 1 == 1 : p.Dimension4Id == Dimension4Id)
                     && (string.IsNullOrEmpty(settings.filterContraSites) ? p.SiteId == CurrentSiteId : contraSites.Contains(p.SiteId.ToString()))
                     && (string.IsNullOrEmpty(settings.filterContraDivisions) ? p.DivisionId == CurrentDivisionId : contraDivisions.Contains(p.DivisionId.ToString()))
-                    && (string.IsNullOrEmpty(term) ? 1 == 1 : p.StockInNo.ToLower().Contains(term.ToLower()))
+                    && (string.IsNullOrEmpty(term) ? 1 == 1 : p.StockInNo.ToLower().Contains(term.ToLower())
+                        || string.IsNullOrEmpty(term) ? 1 == 1 : ProductTab.ProductName.ToLower().Contains(term.ToLower())
+                        || string.IsNullOrEmpty(term) ? 1 == 1 : Dimension1Tab.Dimension1Name.ToLower().Contains(term.ToLower())
+                        || string.IsNullOrEmpty(term) ? 1 == 1 : Dimension2Tab.Dimension2Name.ToLower().Contains(term.ToLower())
+                        || string.IsNullOrEmpty(term) ? 1 == 1 : Dimension3Tab.Dimension3Name.ToLower().Contains(term.ToLower())
+                        || string.IsNullOrEmpty(term) ? 1 == 1 : Dimension4Tab.Dimension4Name.ToLower().Contains(term.ToLower())
+                        )
                     select new ComboBoxResult
                     {
                         id = p.StockInId.ToString(),
                         text = p.StockInNo,
-                        TextProp1 = "Lot No :" + p.LotNo,
-                        TextProp2 = "Balance :" + p.BalanceQty,
-                        AProp1 = ProductTab.ProductName + ", " + Dimension1Tab.Dimension1Name + ", " + Dimension2Tab.Dimension2Name,
-                        AProp2 = "Date :" + p.StockInDate
+                        TextProp1 = "Balance :" + p.BalanceQty,
+                        TextProp2 = "Date :" + p.StockInDate + ((p.LotNo == null) ? "" : "," + p.LotNo),
+                        AProp1 = ProductTab.ProductName ,
+                        AProp2 = ((Dimension1Tab.Dimension1Name == null) ? "" : Dimension1Tab.Dimension1Name) + 
+                                    ((Dimension2Tab.Dimension2Name == null) ? "" : "," + Dimension2Tab.Dimension2Name) +
+                                    ((Dimension3Tab.Dimension3Name == null) ? "" : "," + Dimension3Tab.Dimension3Name) +
+                                    ((Dimension4Tab.Dimension4Name == null) ? "" : "," + Dimension4Tab.Dimension4Name)
                     });
         }
 

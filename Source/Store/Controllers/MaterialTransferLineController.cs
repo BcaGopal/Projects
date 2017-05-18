@@ -116,6 +116,11 @@ namespace Web
                 {
                     ModelState.AddModelError("FromProcessId", "The Process field is required");
                 }
+
+                if (svm.StockHeaderSettings.isMandatoryProductUID == true && svm.StockHeaderSettings.isVisibleProductUID == true)
+                {
+                    ModelState.AddModelError("ProductUidId", "Product Uid field is required");
+                }
             }
             bool BeforeSave = true;
             try
@@ -181,6 +186,8 @@ namespace Web
                     StockViewModel_Issue.Specification = s.Specification;
                     StockViewModel_Issue.Dimension1Id = s.Dimension1Id;
                     StockViewModel_Issue.Dimension2Id = s.Dimension2Id;
+                    StockViewModel_Issue.Dimension3Id = s.Dimension3Id;
+                    StockViewModel_Issue.Dimension4Id = s.Dimension4Id;
                     StockViewModel_Issue.Remark = s.Remark;
                     StockViewModel_Issue.Status = temp.Status;
                     StockViewModel_Issue.ProductUidId = svm.ProductUidId;
@@ -231,6 +238,8 @@ namespace Web
                     StockViewModel_Receive.Specification = s.Specification;
                     StockViewModel_Receive.Dimension1Id = s.Dimension1Id;
                     StockViewModel_Receive.Dimension2Id = s.Dimension2Id;
+                    StockViewModel_Receive.Dimension3Id = s.Dimension3Id;
+                    StockViewModel_Receive.Dimension4Id = s.Dimension4Id;
                     StockViewModel_Receive.Remark = s.Remark;
                     StockViewModel_Receive.Status = temp.Status;
                     StockViewModel_Receive.ProductUidId = svm.ProductUidId;
@@ -368,6 +377,8 @@ namespace Web
                     templine.Specification = s.Specification;
                     templine.Dimension1Id = s.Dimension1Id;
                     templine.Dimension2Id = s.Dimension2Id;
+                    templine.Dimension3Id = s.Dimension3Id;
+                    templine.Dimension4Id = s.Dimension4Id;
                     templine.Rate = s.Rate;
                     templine.Amount = s.Amount;
                     templine.LotNo = s.LotNo;
@@ -423,6 +434,8 @@ namespace Web
                         StockViewModel_Issue.Specification = templine.Specification;
                         StockViewModel_Issue.Dimension1Id = templine.Dimension1Id;
                         StockViewModel_Issue.Dimension2Id = templine.Dimension2Id;
+                        StockViewModel_Issue.Dimension3Id = templine.Dimension3Id;
+                        StockViewModel_Issue.Dimension4Id = templine.Dimension4Id;
                         StockViewModel_Issue.Remark = s.Remark;
                         StockViewModel_Issue.ProductUidId = s.ProductUidId;
                         StockViewModel_Issue.Status = temp.Status;
@@ -474,6 +487,8 @@ namespace Web
                         StockViewModel_Receive.Specification = s.Specification;
                         StockViewModel_Receive.Dimension1Id = s.Dimension1Id;
                         StockViewModel_Receive.Dimension2Id = s.Dimension2Id;
+                        StockViewModel_Receive.Dimension3Id = s.Dimension3Id;
+                        StockViewModel_Receive.Dimension4Id = s.Dimension4Id;
                         StockViewModel_Receive.Remark = s.Remark;
                         StockViewModel_Receive.ProductUidId = s.ProductUidId;
                         StockViewModel_Receive.Status = temp.Status;

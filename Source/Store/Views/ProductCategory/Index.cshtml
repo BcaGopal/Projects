@@ -15,12 +15,12 @@
 <div class="panel panel-default">
     <div class="panel-heading">
         <h3>
-            <span style="font-family: Calibri,sans-serif,Verdana;font-weight:bold" class="black"><span class="glyphicon glyphicon-list black"></span> Product Category List-@ViewBag.Name</span>
+            <span style="font-family: Calibri,sans-serif,Verdana;font-weight:bold" class="black"><span class="glyphicon glyphicon-list black"></span> @ViewBag.Name List</span>
         </h3>
         <hr style="margin-top:0px;margin-bottom:0px" />
 
         <div class="panel-info">
-            <h4 style="padding:5px 0 0 0;margin:0px">
+            @*<h4 style="padding:5px 0 0 0;margin:0px">
                 @Html.ActionLink(" ", " ", " ", null, new { @class = "glyphicon glyphicon-refresh toolbar", @title = "Refresh Page", @data_toggle = "tooltip", @id = "RefreshPage" })
                 @Html.ActionLink(" ", "Create", "ProductCategory", new { id = @ViewBag.id }, new { @class = "glyphicon glyphicon-plus toolbar", @title = "Add New", @data_toggle = "tooltip" })
                 @Html.ActionLink(" ", "Print", "ProductCategory", null, new { @class = "glyphicon glyphicon-print toolbar", @title = "Print", @data_toggle = "tooltip" })
@@ -29,7 +29,22 @@
                 @Html.ActionLink(" ", "ProductTypeIndex", "ProductCategory", null, new { @class = "glyphicon glyphicon-list toolbar right", @title = "List", @data_toggle = "tooltip" })                
                 @Html.ActionLink(" ", "Index", "ProductCategoryProcessSettings", null, new { @class = "glyphicon glyphicon-cog toolbar right", @title = "Default Settings", @data_toggle = "tooltip", @id = "Settings", target = "_blank" })
                 @Html.ActionLink(" ", "", "", null, new { @class = "glyphicon glyphicon-export toolbar right", @title = "Export", @data_toggle = "tooltip" })
-            </h4>
+            </h4>*@
+            <div class="btn-group">
+                @Html.ActionLink(" ", "Create", "ProductCategory", new { id = @ViewBag.id }, new { @class = "cbtn btn-circle glyphicon glyphicon-plus toolbar", @title = "Add New", @data_toggle = "tooltip" })
+                @Html.ActionLink(" ", "Print", "ProductCategory", null, new { @class = "cbtn btn-circle glyphicon glyphicon-print toolbar", @title = "Print", @data_toggle = "tooltip" })
+                @Html.ActionLink(" ", "Delete", "ProductCategory", null, new { @class = "cbtn btn-circle glyphicon glyphicon-trash toolbar", @title = "Delete", @data_toggle = "tooltip", @id = "DeleteRecord", @data_modalDelete = "" })
+            </div>
+            <div class="btn-group">
+                <a class="cbtn btn-circle glyphicon glyphicon-option-horizontal dropdown-toggle" aria-expanded="false" style="padding-top: 6px;padding-bottom: 6px;" href="#" data-toggle="dropdown" id="dropdownMenu1">
+                </a>
+                <ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu1">
+                    <li><a href="@Url.Action("Index", "ProductCategoryProcessSettings")"><span class="glyphicon glyphicon-cog"> </span>&nbsp;&nbsp;Settings</a></li>
+                    <li><a href="@Url.Action("ProductTypeIndex", "ProductCategory")"><span class="glyphicon glyphicon-list"> </span>&nbsp;&nbsp;List</a></li>
+                    <li role="separator" class="divider"></li>
+                    <li><a href="@Url.Action("Report", "ProductCategory")"><span class="glyphicon glyphicon-stats"> </span>&nbsp;&nbsp;Report</a></li>
+                </ul>
+            </div>
         </div>
 
     </div>

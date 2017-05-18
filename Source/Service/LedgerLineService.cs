@@ -284,6 +284,30 @@ namespace Service
         }
 
 
+        public IQueryable<ComboBoxResult> GetReferenceDocIds(int Id, string term)
+        {
+            SqlParameter SqlParameterDocTypeId = new SqlParameter("@DocTypeId", Id);
+
+            IQueryable<ComboBoxResult> ComboBoxResult = db.Database.SqlQuery<ComboBoxResult>("" + ConfigurationManager.AppSettings["DataBaseSchema"] + ".spGetHelpListReferenceDocIds" + " @DocTypeId", SqlParameterDocTypeId).ToList().AsQueryable();
+
+            return (from p in ComboBoxResult
+                    where (string.IsNullOrEmpty(term) ? 1 == 1 : p.text.ToLower().Contains(term.ToLower()))
+                    select new ComboBoxResult
+                    {
+                        id = p.id,
+                        text = p.text,
+                    });
+        }
+
+        public ComboBoxResult SetReferenceDocIds(int Id, int DocTypeId)
+        {
+            SqlParameter SqlParameterDocId = new SqlParameter("@DocId", Id);
+            SqlParameter SqlParameterDocTypeId = new SqlParameter("@DocTypeId", DocTypeId);
+
+            ComboBoxResult ComboBoxResult = db.Database.SqlQuery<ComboBoxResult>("" + ConfigurationManager.AppSettings["DataBaseSchema"] + ".spSetHelpListReferenceDocIds" + " @DocTypeId, @DocId", SqlParameterDocTypeId, SqlParameterDocId).FirstOrDefault();
+
+            return ComboBoxResult;
+        }
 
     }
 

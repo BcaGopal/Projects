@@ -78,6 +78,11 @@ namespace Web
                     pt.ObjectState = Model.ObjectState.Added;
                     _CostCenterService.Create(pt);
 
+
+                    CostCenterStatus Cs = new CostCenterStatus();
+                    Cs.CostCenterId = pt.CostCenterId;
+                    new CostCenterStatusService(_unitOfWork).Create(Cs);
+
                     try
                     {
                         _unitOfWork.Save();

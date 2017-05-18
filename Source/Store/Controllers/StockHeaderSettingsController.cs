@@ -166,6 +166,7 @@ namespace Web
                     temp.SqlProcDocumentPrint = pt.SqlProcDocumentPrint;
                     temp.SqlProcHelpListReferenceDocId = pt.SqlProcHelpListReferenceDocId;
                     temp.isVisibleMaterialRequest = pt.isVisibleMaterialRequest;
+                    temp.isMandatoryProductUID = pt.isMandatoryProductUID;
                     temp.PersonFieldHeading = pt.PersonFieldHeading;
                     temp.NoOfPrintCopies = pt.NoOfPrintCopies;
                     temp.isVisibleStockIn = pt.isVisibleStockIn;
@@ -335,6 +336,7 @@ namespace Web
                     temp.PersonFieldHeading = pt.PersonFieldHeading;
                     temp.NoOfPrintCopies = pt.NoOfPrintCopies;
                     temp.isVisibleStockIn = pt.isVisibleStockIn;
+                    temp.isMandatoryProductUID = pt.isMandatoryProductUID;
 
                     temp.ModifiedDate = DateTime.Now;
                     temp.ModifiedBy = User.Identity.Name;
@@ -501,6 +503,7 @@ namespace Web
                     temp.PersonFieldHeading = pt.PersonFieldHeading;
                     temp.isProductHelpFromStockProcess = pt.isProductHelpFromStockProcess;
                     temp.isVisibleStockIn = pt.isVisibleStockIn;
+                    temp.isMandatoryProductUID = pt.isMandatoryProductUID;
 
                     temp.ModifiedDate = DateTime.Now;
                     temp.ModifiedBy = User.Identity.Name;
@@ -666,6 +669,7 @@ namespace Web
                     temp.isVisibleMaterialRequest = pt.isVisibleMaterialRequest;
                     temp.PersonFieldHeading = pt.PersonFieldHeading;
                     temp.isVisibleStockIn = pt.isVisibleStockIn;
+                    temp.isMandatoryProductUID = pt.isMandatoryProductUID;
 
                     temp.ModifiedDate = DateTime.Now;
                     temp.ModifiedBy = User.Identity.Name;
@@ -833,6 +837,7 @@ namespace Web
                     temp.PersonFieldHeading = pt.PersonFieldHeading;
                     temp.NoOfPrintCopies = pt.NoOfPrintCopies;
                     temp.isVisibleStockIn = pt.isVisibleStockIn;
+                    temp.isMandatoryProductUID = pt.isMandatoryProductUID;
 
                     temp.ModifiedDate = DateTime.Now;
                     temp.ModifiedBy = User.Identity.Name;
@@ -998,6 +1003,7 @@ namespace Web
                     temp.SqlProcHelpListReferenceDocId = pt.SqlProcHelpListReferenceDocId;
                     temp.PersonFieldHeading = pt.PersonFieldHeading;
                     temp.isVisibleStockIn = pt.isVisibleStockIn;
+                    temp.isMandatoryProductUID = pt.isMandatoryProductUID;
 
                     temp.ModifiedDate = DateTime.Now;
                     temp.ModifiedBy = User.Identity.Name;
@@ -1152,6 +1158,7 @@ namespace Web
                     temp.PersonFieldHeading = pt.PersonFieldHeading;
                     temp.filterContraProductDivisions = pt.filterContraProductDivisions;
                     temp.isVisibleStockIn = pt.isVisibleStockIn;
+                    temp.isMandatoryProductUID = pt.isMandatoryProductUID;
 
                     temp.ModifiedDate = DateTime.Now;
                     temp.ModifiedBy = User.Identity.Name;
@@ -1322,6 +1329,7 @@ namespace Web
                     temp.PersonFieldHeading = pt.PersonFieldHeading;
                     temp.NoOfPrintCopies = pt.NoOfPrintCopies;
                     temp.isVisibleStockIn = pt.isVisibleStockIn;
+                    temp.isMandatoryProductUID = pt.isMandatoryProductUID;
 
                     temp.ModifiedDate = DateTime.Now;
                     temp.ModifiedBy = User.Identity.Name;

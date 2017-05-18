@@ -69,6 +69,19 @@ namespace Model.ViewModels
         public int? Dimension2Id { get; set; }
         public string Dimension2Name { get; set; }
 
+
+
+
+
+        [Display(Name = "Dimension3")]
+        public int? Dimension3Id { get; set; }
+        public string Dimension3Name { get; set; }
+
+        [Display(Name = "Dimension4")]
+        public int? Dimension4Id { get; set; }
+        public string Dimension4Name { get; set; }
+
+
         [MaxLength(50)]
         public string Specification { get; set; }
         public decimal? Rate { get; set; }

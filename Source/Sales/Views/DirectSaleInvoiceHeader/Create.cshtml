@@ -911,7 +911,9 @@
         //Adding Hidden Input Fields
         AddFields();
 
-        $("#BillToBuyerId").select2("focus");
+        $('.btn-flat').attr('tabindex', '-1');
+
+        $("#SaleToBuyerId").select2("focus");
 
         //Calling the function to load the table data/ Line information
         LoadProducts();

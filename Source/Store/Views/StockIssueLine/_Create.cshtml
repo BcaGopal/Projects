@@ -90,6 +90,19 @@
                             </div>
                         </div>
                     </div>
+
+
+                    <div class="col-md-6" style="display:@(Model.StockHeaderSettings.isVisibleStockIn?"":"none")">
+                        @Html.HiddenFor(m => m.StockHeaderSettings.isVisibleStockIn)
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.StockInId, "Stock In", new { @class = "control-label col-md-4 col-sm-2" })
+                            <div class="col-md-7 col-sm-10">
+                                @Html.TextBoxFor(model => model.StockInId, new { @class = "form-control col-xs-7 required" })
+                                @Html.ValidationMessageFor(model => model.StockInId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="col-md-6">
                         <div class="form-group">
                             @Html.LabelFor(model => model.ProductId, (Model.DocumentTypeSettings.ProductCaption ?? "Product"), new { @class = "control-label col-md-4 col-sm-2 " })
@@ -107,17 +120,20 @@
                     <div class="col-md-6" style="display:@(Model.StockHeaderSettings.isVisibleSpecification?"":"none")">
                         @Html.HiddenFor(m => m.StockHeaderSettings.isVisibleSpecification)
                         <div class="form-group">
-                            @Html.LabelFor(model => model.Specification, "Specification", new { @class = "control-label col-md-4 col-sm-2" })
+                            @Html.LabelFor(model => model.Specification, (Model.DocumentTypeSettings.SpecificationCaption ?? "Specification"), new { @class = "control-label col-md-4 col-sm-2" })
+                            @Html.HiddenFor(m => m.DocumentTypeSettings.SpecificationCaption)
                             <div class="col-md-7 col-sm-10">
                                 @Html.TextBoxFor(model => model.Specification, new { @class = "form-control col-xs-7 required" })
                                 @Html.ValidationMessageFor(model => model.Specification, "", new { @class = "text-danger" })
                             </div>
                         </div>
                     </div>
+                    
                     <div class="col-md-6" style="display:@(Model.StockHeaderSettings.isVisibleDimension1?"":"none")">
                         @Html.HiddenFor(m => m.StockHeaderSettings.isVisibleDimension1)
                         <div class="form-group">
                             @Html.LabelFor(model => model.Dimension1Id, (Model.DocumentTypeSettings.Dimension1Caption ?? "Dimension1"), new { @class = "control-label col-md-4 col-sm-2" })
+                            @Html.HiddenFor(m => m.DocumentTypeSettings.Dimension1Caption)
                             <div class="col-md-7 col-sm-10">
                                 @Html.TextBoxFor(model => model.Dimension1Id, new { @class = "form-control col-xs-7 required" })
                                 @Html.ValidationMessageFor(model => model.Dimension1Id, "", new { @class = "text-danger" })
@@ -129,6 +145,7 @@
                         @Html.HiddenFor(m => m.StockHeaderSettings.isVisibleDimension2)
                         <div class="form-group">
                             @Html.LabelFor(model => model.Dimension2Id, (Model.DocumentTypeSettings.Dimension2Caption ?? "Dimension2"), new { @class = "control-label col-md-4 col-sm-2" })
+                            @Html.HiddenFor(m => m.DocumentTypeSettings.Dimension2Caption)
                             <div class="col-md-7 col-sm-10">
                                 @Html.TextBoxFor(model => model.Dimension2Id, new { @class = "form-control col-xs-7 required" })
                                 @Html.ValidationMessageFor(model => model.Dimension2Id, "", new { @class = "text-danger" })
@@ -136,16 +153,33 @@
                         </div>
                     </div>
 
-                    <div class="col-md-6" style="display:@(Model.StockHeaderSettings.isVisibleStockIn?"":"none")">
-                        @Html.HiddenFor(m => m.StockHeaderSettings.isVisibleStockIn)
+
+                    <div class="col-md-6" style="display:@(Model.StockHeaderSettings.isVisibleDimension3?"":"none")">
+                        @Html.HiddenFor(m => m.StockHeaderSettings.isVisibleDimension3)
                         <div class="form-group">
-                            @Html.LabelFor(model => model.StockInId, "Stock In", new { @class = "control-label col-md-4 col-sm-2" })
+                            @Html.LabelFor(model => model.Dimension3Id, (Model.DocumentTypeSettings.Dimension3Caption ?? "Dimension3"), new { @class = "control-label col-md-4 col-sm-2" })
+                            @Html.HiddenFor(m => m.DocumentTypeSettings.Dimension3Caption)
                             <div class="col-md-7 col-sm-10">
-                                @Html.TextBoxFor(model => model.StockInId, new { @class = "form-control col-xs-7 required" })
-                                @Html.ValidationMessageFor(model => model.StockInId, "", new { @class = "text-danger" })
+                                @Html.TextBoxFor(model => model.Dimension3Id, new { @class = "form-control col-xs-7 required" })
+                                @Html.ValidationMessageFor(model => model.Dimension3Id, "", new { @class = "text-danger" })
                             </div>
                         </div>
                     </div>
+                    <div class="col-md-6" style="display:@(Model.StockHeaderSettings.isVisibleDimension4?"":"none")">
+                        @Html.HiddenFor(m => m.StockHeaderSettings.isVisibleDimension4)
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Dimension4Id, (Model.DocumentTypeSettings.Dimension4Caption ?? "Dimension4"), new { @class = "control-label col-md-4 col-sm-2" })
+                            @Html.HiddenFor(m => m.DocumentTypeSettings.Dimension4Caption)
+                            <div class="col-md-7 col-sm-10">
+                                @Html.TextBoxFor(model => model.Dimension4Id, new { @class = "form-control col-xs-7 required" })
+                                @Html.ValidationMessageFor(model => model.Dimension4Id, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
 
                     <div class="col-md-6" style="display:@(Model.StockHeaderSettings.isVisibleLotNo?"":"none")">
                         @Html.HiddenFor(m => m.StockHeaderSettings.isVisibleLotNo)
@@ -161,7 +195,8 @@
                     <div class="col-md-6" style="display:@(Model.StockHeaderSettings.isVisibleLineCostCenter?"":"none")">
                         @Html.HiddenFor(m => m.StockHeaderSettings.isVisibleLineCostCenter)
                         <div class="form-group">
-                            @Html.LabelFor(model => model.CostCenterId, "CostCenter", new { @class = "control-label col-md-4 col-sm-2" })
+                            @Html.LabelFor(model => model.CostCenterId, (Model.DocumentTypeSettings.CostCenterCaption ?? "Cost Center"), new { @class = "control-label col-md-4 col-sm-2" })
+                            @Html.HiddenFor(m => m.DocumentTypeSettings.Dimension4Caption)
                             <div class="col-md-7 col-sm-10">
                                 @Html.TextBoxFor(model => model.CostCenterId, new { @class = "form-control col-xs-7 required" })
                                 @Html.ValidationMessageFor(model => model.CostCenterId, "", new { @class = "text-danger" })
@@ -293,16 +328,18 @@
 <script type="text/javascript">
 
     $(document).ready(function () {
-        CustomSelectFunction($("#ProductId"), '/StockIssueLine/GetProductsHelpList', '/ComboHelpList/SetSingleProducts', ' ', false, 3,$('#StockHeaderId','.modal-body').val());
-        CustomSelectFunction($("#Dimension1Id"), '/ComboHelpList/GetDimension1', '/ComboHelpList/SetSingleDimension1', ' ', false, 1);
-        CustomSelectFunction($("#Dimension2Id"), '/ComboHelpList/GetDimension2', '/ComboHelpList/SetSingleDimension2', ' ', false, 1);
-        CustomSelectFunction($("#CostCenterId"), '/StockIssueLine/GetLineCostCenters', '/ComboHelpList/SetSingleCostCenter', ' ', false, 1,$('#StockHeaderId','.modal-body').val());
-        CustomSelectFunction($("#FromProcessId"), '/ComboHelpList/GetProcess', '/ComboHelpList/SetSingleProcess', ' ', false, 1);
+        CustomSelectFunction($("#ProductId"), '/StockIssueLine/GetProductsHelpList', '/ComboHelpList/SetSingleProducts', ' ', false, 0,$('#StockHeaderId','.modal-body').val());
+        CustomSelectFunction($("#Dimension1Id"), '/ComboHelpList/GetDimension1', '/ComboHelpList/SetSingleDimension1', ' ', false, 0);
+        CustomSelectFunction($("#Dimension2Id"), '/ComboHelpList/GetDimension2', '/ComboHelpList/SetSingleDimension2', ' ', false, 0);
+        CustomSelectFunction($("#Dimension3Id"), '/ComboHelpList/GetDimension3', '/ComboHelpList/SetSingleDimension3', ' ', false, 0);
+        CustomSelectFunction($("#Dimension4Id"), '/ComboHelpList/GetDimension4', '/ComboHelpList/SetSingleDimension4', ' ', false, 0);
+        CustomSelectFunction($("#CostCenterId"), '/StockIssueLine/GetLineCostCenters', '/ComboHelpList/SetSingleCostCenter', ' ', false, 0,$('#StockHeaderId','.modal-body').val());
+        CustomSelectFunction($("#FromProcessId"), '/ComboHelpList/GetProcess', '/ComboHelpList/SetSingleProcess', ' ', false, 0);
         CustomSelectFunction($("#ReferenceDocId"), '/StockIssueLine/GetCustomReferenceDocIds', '/StockIssueLine/SetSingleReferenceDocId', ' ', false, 0,$('#StockHeaderId','.modal-body').val());
-        CustomSelectFunctionForStockIn($("#StockInId"), '/StockIssueLine/GetStockInForProduct', '/ComboHelpList/SetSingleStockIn', ' ', false, 0,$('#StockHeaderId','.modal-body').val(),$("#ProductId").val(),$("#Dimension1Id").val(),$("#Dimension2Id").val());
+        CustomSelectFunctionForStockIn($("#StockInId"), '/StockIssueLine/GetStockInForProduct', '/ComboHelpList/SetSingleStockIn', ' ', false, 0,$('#StockHeaderId','.modal-body').val(),$("#ProductId").val(),$("#Dimension1Id").val(),$("#Dimension2Id").val(),$("#Dimension3Id").val(),$("#Dimension4Id").val());
 
 
-        function CustomSelectFunctionForStockIn(ElementId, GetAction, SetAction, placehold, IsMultiple,MinLength,StockHeaderId,ProductId,Dimension1Id,Dimension2Id) {
+        function CustomSelectFunctionForStockIn(ElementId, GetAction, SetAction, placehold, IsMultiple,MinLength,StockHeaderId,ProductId,Dimension1Id,Dimension2Id,Dimension3Id,Dimension4Id) {
             var geturl = GetAction;
             //The url we will send our get request to
             var attendeeUrl = GetAction;
@@ -332,6 +369,8 @@
                             ProductId:ProductId,
                             Dimension1Id:Dimension1Id,
                             Dimension2Id:Dimension2Id,
+                            Dimension3Id:Dimension3Id,
+                            Dimension4Id:Dimension4Id,
                         };
                     },
                     results: function (data, page) {
@@ -396,8 +435,8 @@
 
         }
 
-        $("#ProductId,#Dimension1Id,#Dimension2Id").change(function(){
-            CustomSelectFunctionForStockIn($("#StockInId"), '/StockIssueLine/GetStockInForProduct', '/ComboHelpList/SetSingleStockIn', ' ', false, 0,$('#StockHeaderId','.modal-body').val(),$("#ProductId").val(),$("#Dimension1Id").val(),$("#Dimension2Id").val());
+        $("#ProductId,#Dimension1Id,#Dimension2Id,#Dimension3Id,#Dimension4Id").change(function(){
+            CustomSelectFunctionForStockIn($("#StockInId"), '/StockIssueLine/GetStockInForProduct', '/ComboHelpList/SetSingleStockIn', ' ', false, 0,$('#StockHeaderId','.modal-body').val(),$("#ProductId").val(),$("#Dimension1Id").val(),$("#Dimension2Id").val(),$("#Dimension3Id").val(),$("#Dimension4Id").val());
         });
 
         $("#StockInId").change(function(){
@@ -418,13 +457,43 @@
                     if (data != null)
                     {
                         $("#StockInBalanceQty").val(data.BalanceQty);
-
-                        if ($("#Qty").val() > $("#StockInBalanceQty").val())
+                        $("#Qty").val(data.BalanceQty);
+                        $("#LotNo").val(data.LotNo);
+                        $("#ProductId").select2('data', { id: data.ProductId, text: data.ProductName});
+                        if (data.Dimension1Id != null)
                         {
-                            $("#Qty").val(data.BalanceQty);
+                            $("#Dimension1Id").select2('data', { id: data.Dimension1Id, text: data.Dimension1Name});
+                        }
+                        else{
+                            $("#Dimension1Id").select2('data', { id: '', text: ''});
+                        }
+                        if (data.Dimension2Id != null)
+                        {
+                            $("#Dimension2Id").select2('data', { id: data.Dimension2Id, text: data.Dimension2Name});
+                        }
+                        else{
+                            $("#Dimension2Id").select2('data', { id: '', text: ''});
+                        }
+                        if (data.Dimension3Id != null)
+                        {
+                            $("#Dimension3Id").select2('data', { id: data.Dimension3Id, text: data.Dimension3Name});
+                        }
+                        else{
+                            $("#Dimension3Id").select2('data', { id: '', text: ''});
+                        }
+                        if (data.Dimension4Id != null)
+                        {
+                            $("#Dimension4Id").select2('data', { id: data.Dimension4Id, text: data.Dimension4Name});
+                        }
+                        else{
+                            $("#Dimension4Id").select2('data', { id: '', text: ''});
                         }
 
-                        $("#LotNo").val(data.LotNo);
+                        $("#ProductId").attr('readonly', 'true');
+                        $("#Dimension1Id").attr('readonly', 'true');
+                        $("#Dimension2Id").attr('readonly', 'true');
+                        $("#Dimension3Id").attr('readonly', 'true');
+                        $("#Dimension4Id").attr('readonly', 'true');
                     }
                     else{
                         $("#StockInBalanceQty").val(0);
@@ -441,6 +510,12 @@
         else {
             $("#StockInBalanceQty").val(0);
             $("#LotNo").val("");
+            
+            $("#ProductId").removeAttr('readonly');
+            $("#Dimension1Id").removeAttr('readonly');
+            $("#Dimension2Id").removeAttr('readonly');
+            $("#Dimension3Id").removeAttr('readonly');
+            $("#Dimension4Id").removeAttr('readonly');
         }
     }
 
@@ -525,6 +600,15 @@
             var Prod='@Model.RequiredProductName';
             $("#acProducts").val(Prod).attr('readonly','true');
             $('#StockInId').attr('readonly','true');
+
+            if ($('#StockInId').val() > 0)
+            {
+                $("#ProductId").attr('readonly', 'true');
+                $("#Dimension1Id").attr('readonly', 'true');
+                $("#Dimension2Id").attr('readonly', 'true');
+                $("#Dimension3Id").attr('readonly', 'true');
+                $("#Dimension4Id").attr('readonly', 'true');
+            }
         }
 
 
