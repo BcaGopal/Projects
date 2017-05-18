@@ -270,6 +270,8 @@ namespace Web
                         line.Rate = item.Rate ?? 0;
                         line.Sr = Serial++;
                         line.Amount = (line.Qty * line.Rate);
+                        line.ReferenceDocId = item.ReferenceDocId;
+                        line.ReferenceDocTypeId = item.ReferenceDocTypeId;
                         line.CreatedDate = DateTime.Now;
                         line.ModifiedDate = DateTime.Now;
                         line.CreatedBy = User.Identity.Name;
@@ -847,6 +849,8 @@ namespace Web
                     templine.Qty = s.Qty;
                     templine.Weight  = s.Weight;
                     templine.Remark = s.Remark;
+                    templine.ReferenceDocId = s.ReferenceDocId;
+                    templine.ReferenceDocTypeId = s.ReferenceDocTypeId;
 
                     templine.ModifiedDate = DateTime.Now;
                     templine.ModifiedBy = User.Identity.Name;

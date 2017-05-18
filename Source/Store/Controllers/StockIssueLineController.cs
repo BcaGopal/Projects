@@ -267,6 +267,8 @@ namespace Web
                         line.DocNature = StockNatureConstants.Issue;
                         line.Rate = item.Rate ?? 0;
                         line.Amount = (line.Qty * line.Rate);
+                        line.ReferenceDocId = item.ReferenceDocId;
+                        line.ReferenceDocTypeId = item.ReferenceDocTypeId;
                         line.CreatedDate = DateTime.Now;
                         line.ModifiedDate = DateTime.Now;
                         line.CreatedBy = User.Identity.Name;
@@ -896,6 +898,8 @@ namespace Web
                     templine.Weight = s.Weight;
                     templine.StockInId = s.StockInId;
                     templine.Remark = s.Remark;
+                    templine.ReferenceDocId = s.ReferenceDocId;
+                    templine.ReferenceDocTypeId = s.ReferenceDocTypeId;
 
                     templine.ModifiedDate = DateTime.Now;
                     templine.ModifiedBy = User.Identity.Name;
@@ -1445,6 +1449,38 @@ namespace Web
             };
         }
 
+        public ActionResult GetCustomReferenceDocIds(string searchTerm, int pageSize, int pageNum, int filter)//StockHeaderId
+        {
+            var Query = _StockLineService.GetCustomReferenceDocIds(filter, searchTerm);
+            var temp = Query.Skip(pageSize * (pageNum - 1))
+                .Take(pageSize)
+                .ToList();
+
+            var count = Query.Count();
+
+            ComboBoxPagedResult Data = new ComboBoxPagedResult();
+            Data.Results = temp;
+            Data.Total = count;
+
+            return new JsonpResult
+            {
+                Data = Data,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+
+        public JsonResult SetSingleReferenceDocId(int StockLineId)
+        {
+            ComboBoxResult ReferenceDocIdJson = new ComboBoxResult();
+
+            var ReferenceDocs = _StockLineService.SetCustomReferenceDocIds(StockLineId);
+
+            ReferenceDocIdJson.id = ReferenceDocs.id;
+            ReferenceDocIdJson.text = ReferenceDocs.text;
+
+            return Json(ReferenceDocIdJson);
+        }
 
         protected override void Dispose(bool disposing)
         {

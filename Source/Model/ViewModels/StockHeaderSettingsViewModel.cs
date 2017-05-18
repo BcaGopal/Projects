@@ -41,16 +41,19 @@ namespace Model.ViewModel
         public bool isVisibleLotNo { get; set; }
         public bool isMandatoryProcessLine { get; set; }
         public bool isVisibleProcessLine { get; set; }
+        public bool isVisibleProcessHeader { get; set; }
         public bool isPostedInStockProcess { get; set; }
         public bool isVisibleMaterialRequest { get; set; }
         public bool isVisibleStockIn { get; set; }
         public bool isPostedInLedger { get; set; }
         public bool isProductHelpFromStockProcess { get; set; }
+        public bool isVisibleReferenceDocId { get; set; }
         public int ?  AdjLedgerAccountId { get; set; }
         [MaxLength(100)]
         public string SqlProcDocumentPrint { get; set; }
         public string SqlFuncCurrentStock { get; set; }
         public string SqlProcGatePass { get; set; }
+        public string SqlProcHelpListReferenceDocId { get; set; }
         public string filterProductTypes { get; set; }
         public string filterProductGroups { get; set; }
         public string filterProducts { get; set; }

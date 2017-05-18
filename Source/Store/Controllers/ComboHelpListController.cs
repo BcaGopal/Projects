@@ -3343,6 +3343,22 @@ namespace Web
             };
         }
 
+        public ActionResult GetProcessWithChildProcess(string searchTerm, int pageSize, int pageNum, int? filter)
+        {
+            var productCacheKeyHint = ConfigurationManager.AppSettings["ProcessCacheKeyHint"];
+            AutoCompleteComboBoxRepositoryAndHelper ar = new AutoCompleteComboBoxRepositoryAndHelper(cbl.GetProcessWithChildProcessHelpList(filter), productCacheKeyHint, RefreshData.RefreshProductData);
+            if (RefreshData.RefreshProductData == true) { RefreshData.RefreshProductData = false; }
+
+            List<ComboBoxList> prodLst = ar.GetListForComboBox(searchTerm, pageSize, pageNum);
+            int prodCount = ar.GetCountForComboBox(searchTerm, pageSize, pageNum);
+            ComboBoxPagedResult pagedAttendees = ar.TranslateToComboBoxFormat(prodLst, prodCount);
+            return new JsonpResult
+            {
+                Data = pagedAttendees,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
         public JsonResult SetSingleProcess(int Ids)
         {
             ComboBoxResult ProductJson = new ComboBoxResult();
@@ -6019,5 +6035,40 @@ namespace Web
 
             return Json(BinLocationJson);
         }
+
+
+
+
+
+
+
+
+
+        public ActionResult GetSelect2Data(string searchTerm, int pageSize, int pageNum, string SqlProcGet)
+        {
+            return new JsonpResult
+            {
+                Data = cbl.GetSelect2HelpList(SqlProcGet, searchTerm, pageSize, pageNum),
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        //public JsonResult SetSelct2Data(string Ids, string SqlProcSet)
+        //{
+        //    return Json( new ComboHelpListService().SetSelct2Data(Ids, SqlProcSet));
+        //}
+
+        //public JsonResult SetSingleSelect2Data(int Ids, string SqlProcSet)
+        //{
+        //    return Json(cbl.SetSingleSelect2Data(Ids, SqlProcSet));
+
+        //}
+
+        //public ActionResult SetDate(string Proc)
+        //{
+        //    return Json(cbl.SetDate(Proc), JsonRequestBehavior.AllowGet);
+        //}
+
+
     }
 }

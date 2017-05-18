@@ -66,6 +66,8 @@ namespace Service
         IEnumerable<ComboBoxResult> GetPendingStockInForIssue(int id, int ProductId, int? Dimension1Id, int? Dimension2Id, string term);
 
         IQueryable<ComboBoxResult> GetCustomProductGroups(int Id, string term);
+        IQueryable<ComboBoxResult> GetCustomReferenceDocIds(int Id, string term);
+        ComboBoxResult SetCustomReferenceDocIds(int StockLineId);
 
     }
 
@@ -134,7 +136,9 @@ namespace Service
                             PersonId = p.StockHeader.PersonId,
                             CostCenterId = p.CostCenterId,
                             LockReason = p.LockReason,
-                            ProductCode = tab.ProductCode
+                            ProductCode = tab.ProductCode,
+                            ReferenceDocId = p.ReferenceDocId,
+                            ReferenceDocTypeId = p.ReferenceDocTypeId
                         }).FirstOrDefault();
 
             return temp;
@@ -176,6 +180,8 @@ namespace Service
                             PersonName = (PerTab == null ? "" : PerTab.Name + " | " + PerTab.Code),
                             CostCenterId = p.CostCenterId,
                             LockReason = p.LockReason,
+                            ReferenceDocId = p.ReferenceDocId,
+                            ReferenceDocTypeId = p.ReferenceDocTypeId
                         }
 
                         ).FirstOrDefault();
@@ -234,9 +240,11 @@ namespace Service
                             StockInId = p.StockInId,
                             StockInNo = p.StockIn.StockHeader.DocNo,
                             LockReason = p.LockReason,
-                        }
+                            ReferenceDocId = p.ReferenceDocId,
+                            ReferenceDocTypeId = p.ReferenceDocTypeId
+                        }).FirstOrDefault();
 
-                        ).FirstOrDefault();
+
 
 
             if (temp.RequisitionLineId != null)
@@ -2070,6 +2078,52 @@ namespace Service
                         id = p.ProductGroupId.ToString(),
                         text = p.ProductGroupName,
                     });
+        }
+
+
+        public IQueryable<ComboBoxResult> GetCustomReferenceDocIds(int Id, string term)
+        {
+            var StockHeader = new StockHeaderService(_unitOfWork).Find(Id);
+
+            var settings = new StockHeaderSettingsService(_unitOfWork).GetStockHeaderSettingsForDocument(StockHeader.DocTypeId, StockHeader.DivisionId, StockHeader.SiteId);
+
+            SqlParameter SqlParameterPersonIdId = new SqlParameter("@PersonId", StockHeader.PersonId);
+            SqlParameter SqlParameterProcessId = new SqlParameter("@ProcessId", StockHeader.ProcessId);
+
+
+            //IEnumerable<ComboBoxResult> ComboBoxResult1 = db.Database.SqlQuery<ComboBoxResult>(settings.SqlProcHelpListReferenceDocId + " @PersonId, @ProcessId", SqlParameterPersonIdId, SqlParameterProcessId).ToList();
+            IQueryable<ComboBoxResult> ComboBoxResult = db.Database.SqlQuery<ComboBoxResult>(settings.SqlProcHelpListReferenceDocId + " @PersonId, @ProcessId", SqlParameterPersonIdId, SqlParameterProcessId).ToList().AsQueryable();
+
+            return (from p in ComboBoxResult
+                    where (string.IsNullOrEmpty(term) ? 1 == 1 : p.text.ToLower().Contains(term.ToLower()))
+                    select new ComboBoxResult
+                    {
+                        id = p.id,
+                        text = p.text,
+                    });
+        }
+
+        public ComboBoxResult SetCustomReferenceDocIds(int StockLineId)
+        {
+            var StockLine = new StockLineService(_unitOfWork).Find(StockLineId);
+            var StockHeader = new StockHeaderService(_unitOfWork).Find(StockLine.StockHeaderId);
+
+            var settings = new StockHeaderSettingsService(_unitOfWork).GetStockHeaderSettingsForDocument(StockHeader.DocTypeId, StockHeader.DivisionId, StockHeader.SiteId);
+
+            SqlParameter SqlParameterPersonIdId = new SqlParameter("@PersonId", StockHeader.PersonId);
+            SqlParameter SqlParameterProcessId = new SqlParameter("@ProcessId", StockHeader.ProcessId);
+
+            IEnumerable<ComboBoxResult> ComboBoxResult = db.Database.SqlQuery<ComboBoxResult>("" + ConfigurationManager.AppSettings["DataBaseSchema"] + settings.SqlProcHelpListReferenceDocId + "@PersonId, @ProcessId", SqlParameterPersonIdId, SqlParameterProcessId).ToList();
+
+
+            return (from p in ComboBoxResult
+                    where p.id == StockLine.ReferenceDocId.ToString()
+                    select new ComboBoxResult
+                    {
+                        id = p.id,
+                        text = p.text,
+                    }).FirstOrDefault();
+
         }
 
         public void Dispose()

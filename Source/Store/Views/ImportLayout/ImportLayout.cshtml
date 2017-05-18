@@ -232,12 +232,13 @@
             if (this.DataType == "Multi Select"||this.DataType=="Single Select" && !(this.ListItem))
             {
                 
-                var getFunction= '/ComboHelpList/' + this.ServiceFuncGet;
-                var setFunction= '/ComboHelpList/' + this.ServiceFuncSet;
+                //var getFunction= '/ComboHelpList/' + this.ServiceFuncGet;
+                var getFunction= '/ComboHelpList/GetPerson'
+                //var setFunction= '/ComboHelpList/' + this.ServiceFuncSet;
+                var setFunction= '/ComboHelpList/SetSinglePerson';
                 var NoofChar=this.NoOfCharToEnter;
                 var elementId= '#' + this.FieldName;
                 var bool=this.DataType=="Single Select"?false:true
-                alert(!this.SqlProcGetSet);
                 if(!this.SqlProcGetSet)
                     CustomSelectFunction($(elementId), getFunction, setFunction, ' ', bool, NoofChar);
                 else

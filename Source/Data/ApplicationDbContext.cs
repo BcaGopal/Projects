@@ -108,6 +108,7 @@ namespace Data.Models
         public DbSet<JobOrderPerk> JobOrderPerk { get; set; }
         public DbSet<JobOrderSettings> JobOrderSettings { get; set; }
         public DbSet<DocumentTypeSettings> DocumentTypeSettings { get; set; }
+        public DbSet<DocumentTypeAttribute> DocumentTypeAttribute { get; set; }
         public DbSet<LedgerSetting> LedgerSetting { get; set; }
         public DbSet<PurchaseOrderSetting> PurchaseOrderSetting { get; set; }
         public DbSet<PurchaseQuotationSetting> PurchaseQuotationSetting { get; set; }
@@ -386,6 +387,7 @@ namespace Data.Models
         public DbSet<SaleDispatchLine> SaleDispatchLine { get; set; }
         public DbSet<SaleInvoiceHeader> SaleInvoiceHeader { get; set; }
         public DbSet<SaleInvoiceHeaderDetail> SaleInvoiceHeaderDetail { get; set; }
+        public DbSet<SaleInvoiceHeaderAttributes> SaleInvoiceHeaderAttributes { get; set; }
         public DbSet<SaleInvoiceLine> SaleInvoiceLine { get; set; }
         public DbSet<SaleInvoiceLineDetail> SaleInvoiceLineDetail { get; set; }
         public DbSet<DispatchWaybillHeader> DispatchWaybillHeader { get; set; }

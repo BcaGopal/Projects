@@ -49,7 +49,14 @@ namespace Service
 
             int Id = db.Database.SqlQuery<int>("" + ConfigurationManager.AppSettings["DataBaseSchema"] + ".spGetNextPreviousId @UserName, @ForAction, @HeaderTableName, @HeaderTablePkFieldName, @DocId, @DocTypeId, @NextPrevious", SqlParameterUserName, SqlParameterForAction, SqlParameterHeaderTableName,SqlParameterHeaderTablePkFieldName,SqlParameterDocId,SqlParameterDocTypeId,SqlParameterNextPrevious).FirstOrDefault();
 
-            return Id;
+            if (Id == 0)
+            {
+                return DocId;
+            }
+            else
+            {
+                return Id;
+            }
         }
 
         public int GetNextPrevIdWithoutDivisionAndSite(int DocId, int DocTypeId, string UserName, string ForAction, string HeaderTableName, string HeaderTablePK, string NextPrev)

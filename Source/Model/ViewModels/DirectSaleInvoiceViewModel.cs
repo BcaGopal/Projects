@@ -63,6 +63,7 @@ namespace Model.ViewModels
         public string DeliveryTermsName { get; set; }       
         public int Status { get; set; }
         public SaleInvoiceSettingsViewModel SaleInvoiceSettings { get; set; }
+        public DocumentTypeSettingsViewModel DocumentTypeSettings { get; set; }
         public int? SaleDispatchHeaderId { get; set; }
         public string SaleDispatchHeaderDocNo { get; set; }
 
@@ -88,6 +89,10 @@ namespace Model.ViewModels
         public string ShipMethodName { get; set; }
         public DateTime CreatedDate { get; set; }
         public string CreatedBy { get; set; }
+
+        public int BuyerDocTypeId { get; set; }
+        public int? FinancierDocTypeId { get; set; }
+        public List<DocumentTypeAttributeViewModel> DocumentTypeAttributes { get; set; }
 
 
     }

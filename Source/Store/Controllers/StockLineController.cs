@@ -131,6 +131,8 @@ namespace Web
                         line.DocNature = StockNatureConstants.Issue;
                         line.Rate = item.Rate ?? 0;
                         line.Amount = (line.Qty * line.Rate);
+                        line.ReferenceDocId = item.ReferenceDocId;
+                        line.ReferenceDocTypeId = item.ReferenceDocTypeId;
                         line.CreatedDate = DateTime.Now;
                         line.ModifiedDate = DateTime.Now;
                         line.CreatedBy = User.Identity.Name;
@@ -419,6 +421,8 @@ namespace Web
                     templine.Remark = s.Remark;
                     templine.Qty = s.Qty;
                     templine.Remark = s.Remark;
+                    templine.ReferenceDocId = s.ReferenceDocId;
+                    templine.ReferenceDocTypeId = s.ReferenceDocTypeId;
 
                     templine.ModifiedDate = DateTime.Now;
                     templine.ModifiedBy = User.Identity.Name;

@@ -151,5 +151,14 @@ namespace Model.Models
 
         [MaxLength(10)]
         public string ProductUidStatus { get; set; }
+
+        [ForeignKey("ReferenceDocType"), Display(Name = "ReferenceDocType")]
+        public int? ReferenceDocTypeId { get; set; }
+        public virtual DocumentType ReferenceDocType { get; set; }
+
+        public int? ReferenceDocId { get; set; }
+
+        public int? ReferenceDocLineId { get; set; }
+
     }
 }

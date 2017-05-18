@@ -59,7 +59,8 @@
 
                     <div class="col-md-6">
                         <div class="form-group">
-                            @Html.LabelFor(model => model.JobOrderLineId, "Order No.", new { @class = "control-label col-md-4 col-sm-2" })
+                            @Html.LabelFor(model => model.JobOrderLineId, (Model.DocumentTypeSettings.ContraDocTypeCaption ?? "Order No."), new { @class = "control-label col-md-4 col-sm-2" })
+                            @Html.HiddenFor(m => m.DocumentTypeSettings.ContraDocTypeCaption)
                             <div class="col-md-7 col-sm-10">
                                 @Html.TextBox("     ", "", new { @class = "form-control", @id = "autocompleteorder" })
                                 @Html.ValidationMessageFor(model => model.JobOrderLineId, "", new { @class = "text-danger" })

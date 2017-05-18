@@ -23,7 +23,7 @@
     @Html.HiddenFor(m => m.StockHeaderId)
     @Html.HiddenFor(m => m.DocTypeId)
     @Html.HiddenFor(m => m.CreatedDate)
-    @Html.HiddenFor(m => m.ProcessId)
+    @*@Html.HiddenFor(m => m.ProcessId)*@
     @Html.HiddenFor(m => m.StockHeaderSettings.ProcessId)
     @Html.HiddenFor(m => m.StockHeaderSettings.isPostedInStockProcess)
 
@@ -138,22 +138,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    @if (Model.StockHeaderSettings.PersonFieldHeading != null)
-                                    {
-                                        @Html.LabelFor(model => model.PersonId, Model.StockHeaderSettings.PersonFieldHeading.ToString(), new { @class = "control-label col-md-4 col-sm-2" })
-                                    }
-                                    else
-                                    {
-                                        @Html.LabelFor(model => model.PersonId, "Receive from Person", new { @class = "control-label col-md-4 col-sm-2" })
-                                    }
-                                    <div class="col-md-7 col-sm-10">
-                                        @Html.TextBoxFor(m => m.PersonId, new { @class = "form-control col-xs-6 required" })
-                                        @Html.ValidationMessageFor(m => m.PersonId, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
-                            </div>
+
 
                             @*<div class="col-md-6">
                                     <div class="form-group">
@@ -173,6 +158,33 @@
                                     </div>
                                 </div>*@
 
+                            <div class="col-md-6" style='display:@(Model.StockHeaderSettings.isVisibleProcessHeader ? "" : "none")'>
+                                <div class="form-group">
+                                    @Html.HiddenFor(m => m.StockHeaderSettings.isVisibleProcessHeader)
+                                    @Html.LabelFor(model => model.ProcessId, "Process", new { @class = "control-label col-md-4 col-sm-2" })
+                                    <div class="col-md-7 col-sm-10">
+                                        @Html.TextBoxFor(m => m.ProcessId, new { @class = "form-control required"  })
+                                        @Html.ValidationMessageFor(m => m.ProcessId, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    @if (Model.StockHeaderSettings.PersonFieldHeading != null)
+                                    {
+                                        @Html.LabelFor(model => model.PersonId, Model.StockHeaderSettings.PersonFieldHeading.ToString(), new { @class = "control-label col-md-4 col-sm-2" })
+                                    }
+                                    else
+                                    {
+                                        @Html.LabelFor(model => model.PersonId, "Receive from Person", new { @class = "control-label col-md-4 col-sm-2" })
+                                    }
+                                    <div class="col-md-7 col-sm-10">
+                                        @Html.TextBoxFor(m => m.PersonId, new { @class = "form-control col-xs-6 required" })
+                                        @Html.ValidationMessageFor(m => m.PersonId, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
 
                             <div class="col-md-6">
                                 <div class="form-group">
@@ -437,9 +449,11 @@
             
         }
 
+        CustomSelectFunction($("#ProcessId"), '/ComboHelpList/GetProcessWithChildProcess', '/ComboHelpList/SetSingleProcess', ' ', false,0, $('#StockHeaderSettings_ProcessId').val());
         //CustomSelectFunction($("#ProcessId"), '/ComboHelpList/GetProcess', '/ComboHelpList/SetSingleProcess', ' ', false, 1);
         //CustomSelectFunction($("#PersonId"), '/ComboHelpList/GetPersonWithProcess', '/ComboHelpList/SetSinglePerson', ' ', false, 1,$('#ProcessId').val());
-        CustomSelectFunction($("#PersonId"), '/StockReceiveHeader/GetCustomPerson', '/ComboHelpList/SetSinglePerson', ' ', false, 1,$('#DocTypeId').val());
+        //CustomSelectFunction($("#PersonId"), '/StockReceiveHeader/GetCustomPerson', '/ComboHelpList/SetSinglePerson', ' ', false, 1,$('#DocTypeId').val());
+        CustomSelectFunctionWithMultipleFilters($("#PersonId"), '/StockReceiveHeader/GetCustomPerson', '/ComboHelpList/SetSinglePerson', ' ', false, 0,$('#DocTypeId').val(),$('#ProcessId').val());
         CustomSelectFunction($("#GodownId"), '/ComboHelpList/GetGodown', '/ComboHelpList/SetSingleGodown', ' ', false, 1);
         CustomSelectFunction($("#CostCenterId"), '/ComboHelpList/GetCostCenter', '/ComboHelpList/SetSingleCostCenter', ' ', false, 1);
         CustomSelectFunction($("#MachineId"), '/ComboHelpList/GetMachine', '/ComboHelpList/SetSingleMachine', ' ', false, 1);
@@ -447,6 +461,10 @@
         $('#PersonId').select2("focus");
         //Calling the function to load the table data/ Line information
         LoadProducts();
+
+        $("#ProcessId").change(function(){
+            CustomSelectFunctionWithMultipleFilters($("#PersonId"), '/StockReceiveHeader/GetCustomPerson', '/ComboHelpList/SetSinglePerson', ' ', false, 0,$('#DocTypeId').val(),$('#ProcessId').val());
+        });
 
         //Adding Hidden Input Fields
         AddFields();

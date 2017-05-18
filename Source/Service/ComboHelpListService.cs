@@ -188,14 +188,11 @@ namespace Service
         IQueryable<ComboBoxResult> GetDocumentShipMethods(string term);
         IQueryable<ComboBoxResult> GetTransporters(string term);
         IQueryable<ComboBoxResult> GetAgents(string term);
-        IQueryable<ComboBoxResult> GetFinanciers(string term);
+        IQueryable<ComboBoxResult> GetFinanciers(string term, int? filter);
         IQueryable<ComboBoxResult> GetSalesExecutives(string term);
         IQueryable<ComboBoxResult> GetChargeGroupProducts(string term);
         IQueryable<ComboBoxResult> GetBinLocations(string term, int filter);
 
-
-        
-        
     }
 
     public class ComboHelpListService : IComboHelpListService
@@ -2787,24 +2784,53 @@ namespace Service
             return list;
         }
 
-        public IQueryable<ComboBoxResult> GetFinanciers(string term)
+        //public IQueryable<ComboBoxResult> GetFinanciers(string term)
+        //{
+        //    int FinancierDocTypeId = 0;
+        //    var DocumentType = (from D in db.DocumentType where D.DocumentTypeName == MasterDocTypeConstants.Financier select D).FirstOrDefault();
+        //    if (DocumentType != null)
+        //    {
+        //        FinancierDocTypeId = DocumentType.DocumentTypeId;
+        //    }
+
+        //    var list = (from D in db.Persons
+        //                join Pr in db.PersonRole on D.PersonID equals Pr.PersonId into PersonRoleTable
+        //                from PersonRoleTab in PersonRoleTable.DefaultIfEmpty()
+        //                where D.IsActive == true && PersonRoleTab.RoleDocTypeId == FinancierDocTypeId
+        //                orderby D.Name
+        //                select new ComboBoxResult
+        //                {
+        //                    id = D.PersonID.ToString(),
+        //                    text = D.Name
+        //                }
+        //      );
+
+        //    return list;
+        //}
+
+
+        public IQueryable<ComboBoxResult> GetFinanciers(string term, int? filter)
         {
-            int FinancierDocTypeId = 0;
-            var DocumentType = (from D in db.DocumentType where D.DocumentTypeName == MasterDocTypeConstants.Financier select D).FirstOrDefault();
-            if (DocumentType != null)
+            int FinancierDocCategoryId = 0;
+            var DocumentCategory = (from D in db.DocumentCategory where D.DocumentCategoryName == TransactionDocCategoryConstants.Financier select D).FirstOrDefault();
+            if (DocumentCategory != null)
             {
-                FinancierDocTypeId = DocumentType.DocumentTypeId;
+                FinancierDocCategoryId = DocumentCategory.DocumentCategoryId;
             }
 
             var list = (from D in db.Persons
                         join Pr in db.PersonRole on D.PersonID equals Pr.PersonId into PersonRoleTable
                         from PersonRoleTab in PersonRoleTable.DefaultIfEmpty()
-                        where D.IsActive == true && PersonRoleTab.RoleDocTypeId == FinancierDocTypeId
-                        orderby D.Name
+                        join Dt in db.DocumentType on PersonRoleTab.RoleDocTypeId equals Dt.DocumentTypeId into DocumentTypeTable from DocumentTypeTab in DocumentTypeTable.DefaultIfEmpty()
+                        join Pp in db.PersonProcess on D.PersonID equals Pp.PersonId into PersonProcessTable from PersonProcessTab in PersonProcessTable.DefaultIfEmpty()
+                        where D.IsActive == true && DocumentTypeTab.DocumentCategoryId == FinancierDocCategoryId
+                        && (filter == null ? 1 == 1 : PersonProcessTab.ProcessId == filter)
+                        group new { D } by new { D.PersonID } into Result
+                        orderby Result.Max(m => m.D.Name)
                         select new ComboBoxResult
                         {
-                            id = D.PersonID.ToString(),
-                            text = D.Name
+                            id = Result.Key.PersonID.ToString(),
+                            text = Result.Max(m => m.D.Name + "," + m.D.Suffix + "|" + m.D.Code),
                         }
               );
 
@@ -2882,28 +2908,34 @@ namespace Service
 
         public IEnumerable<ComboBoxList> GetProcessWithChildProcessHelpList(int? filter)
         {
-            var temp1 = from p in db.Process
-                       where ((filter == null || filter == 0) ? 1 == 1 : p.ParentProcessId == filter)
-                       orderby p.ProcessName
-                       select new ComboBoxList
-                       {
-                           Id = p.ProcessId,
-                           PropFirst = p.ProcessName
-                       };
+            //var temp1 = from p in db.Process
+            //           where ((filter == null || filter == 0) ? 1 == 1 : p.ParentProcessId == filter)
+            //           orderby p.ProcessName
+            //           select new ComboBoxList
+            //           {
+            //               Id = p.ProcessId,
+            //               PropFirst = p.ProcessName
+            //           };
 
-            var temp2 = from p in db.Process
-                        where p.ProcessId == filter
-                        orderby p.ProcessName
-                        select new ComboBoxList
-                        {
-                            Id = p.ProcessId,
-                            PropFirst = p.ProcessName
-                        };
+            //var temp2 = from p in db.Process
+            //            where p.ProcessId == filter
+            //            orderby p.ProcessName
+            //            select new ComboBoxList
+            //            {
+            //                Id = p.ProcessId,
+            //                PropFirst = p.ProcessName
+            //            };
 
-            var temp = temp1.Union(temp2).Distinct().OrderBy(i => i.PropFirst);
+            //var temp = temp1.Union(temp2).Distinct().OrderBy(i => i.PropFirst);
 
-            return temp;
+            SqlParameter SqlParameterProcessId = new SqlParameter("@ProcessId", filter ?? 0);
+
+            IEnumerable<ComboBoxList> ProcessList = db.Database.SqlQuery<ComboBoxList>("" + ConfigurationManager.AppSettings["DataBaseSchema"] + ".spGetHelpListProcessWithChildProcess @ProcessId", SqlParameterProcessId).ToList();
+
+            return ProcessList;
         }
+
+
     }
 }
 

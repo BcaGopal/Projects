@@ -183,6 +183,10 @@
     <Compile Include="Migrations\201705081251573_ChargeGroupSettings.Designer.cs">
       <DependentUpon>201705081251573_ChargeGroupSettings.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201705150532553_SaleInvoiceHeaderAttributes.cs" />
+    <Compile Include="Migrations\201705150532553_SaleInvoiceHeaderAttributes.Designer.cs">
+      <DependentUpon>201705150532553_SaleInvoiceHeaderAttributes.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="NotificationApplicationDbContext.cs" />
     <Compile Include="LoginApplicationDbContext.cs" />
@@ -297,6 +301,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201705081251573_ChargeGroupSettings.resx">
       <DependentUpon>201705081251573_ChargeGroupSettings.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201705150532553_SaleInvoiceHeaderAttributes.resx">
+      <DependentUpon>201705150532553_SaleInvoiceHeaderAttributes.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

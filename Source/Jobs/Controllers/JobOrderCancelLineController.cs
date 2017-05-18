@@ -64,6 +64,10 @@ namespace Web
             JobOrderCancelFilterViewModel vm = new JobOrderCancelFilterViewModel();
             vm.JobOrderCancelHeaderId = id;
             JobOrderCancelHeader Header = new JobOrderCancelHeaderService(_unitOfWork).Find(id);
+
+            var settings = new JobOrderSettingsService(_unitOfWork).GetJobOrderSettingsForDocument(Header.DocTypeId, Header.DivisionId, Header.SiteId);
+            vm.JobOrderSettings = Mapper.Map<JobOrderSettings, JobOrderSettingsViewModel>(settings);
+
             vm.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(Header.DocTypeId);
             vm.JobWorkerId = sid;
             return PartialView("_Filters", vm);

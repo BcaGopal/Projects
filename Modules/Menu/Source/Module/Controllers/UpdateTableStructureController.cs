@@ -777,6 +777,10 @@ namespace Module
 
             AddFields("SaleOrderLines", "FreeQty", "Decimal(18,4)");
 
+            AddFields("SaleDispatchSettings", "isVisibleFreeQty", "BIT");
+
+            AddFields("StockLines", "StockInId", "Int","Stocks");
+
 
             try
             {
@@ -890,7 +894,91 @@ namespace Module
             }
 
 
-            
+            AddFields("StockHeaderSettings", "IsVisibleReferenceDocId", "Int");
+            AddFields("StockHeaderSettings", "SqlProcHelpListReferenceDocId", "nvarchar(100)");
+
+            AddFields("StockLines", "ReferenceDocTypeId", "Int","DocumentTypes");
+            AddFields("StockLines", "ReferenceDocId", "Int");
+            AddFields("StockLines", "ReferenceDocLineId", "Int");
+
+
+            AddFields("StockHeaderSettings", "isVisibleProcessHeader", "BIT");
+
+
+
+
+            try
+            {
+                if ((int)ExecuteScaler("SELECT Count(*) AS Cnt FROM INFORMATION_SCHEMA.Tables WHERE TABLE_NAME = 'DocumentTypeAttributes'") == 0)
+                {
+                    mQry = @"CREATE TABLE Web.DocumentTypeAttributes
+	                        (
+	                        DocumentTypeAttributeId INT IDENTITY NOT NULL,
+	                        Name                    NVARCHAR (max) NOT NULL,
+	                        IsMandatory             BIT NOT NULL,
+	                        DataType                NVARCHAR (max),
+	                        ListItem                NVARCHAR (max),
+	                        DefaultValue            NVARCHAR (max),
+	                        IsActive                BIT NOT NULL,
+	                        DocumentTypeId          INT NOT NULL,
+	                        CreatedBy               NVARCHAR (max),
+	                        ModifiedBy              NVARCHAR (max),
+	                        CreatedDate             DATETIME NOT NULL,
+	                        ModifiedDate            DATETIME NOT NULL,
+	                        OMSId                   NVARCHAR (50),
+	                        CONSTRAINT [PK_Web.DocumentTypeAttributes] PRIMARY KEY (DocumentTypeAttributeId),
+	                        CONSTRAINT [FK_Web.DocumentTypeAttributes_Web.DocumentTypes_DocumentTypeId] FOREIGN KEY (DocumentTypeId) REFERENCES Web.DocumentTypes (DocumentTypeId)
+	                        )
+
+
+                        CREATE INDEX IX_DocumentTypeId
+	                        ON Web.DocumentTypeAttributes (DocumentTypeId)                        ";
+                    ExecuteQuery(mQry);
+                }
+            }
+            catch (Exception ex)
+            {
+                RecordError(ex);
+            }
+
+
+
+            try
+            {
+                if ((int)ExecuteScaler("SELECT Count(*) AS Cnt FROM INFORMATION_SCHEMA.Tables WHERE TABLE_NAME = 'SaleInvoiceHeaderAttributes'") == 0)
+                {
+                    mQry = @"CREATE TABLE Web.SaleInvoiceHeaderAttributes
+	                        (
+	                        SaleInvoiceHeaderAttributeId    INT IDENTITY NOT NULL,
+	                        SaleInvoiceHeaderId             INT NOT NULL,
+	                        DocumentTypeAttributeId         INT NOT NULL,
+	                        SaleInvoiceHeaderAttributeValue NVARCHAR (max),
+	                        CreatedBy                       NVARCHAR (max),
+	                        ModifiedBy                      NVARCHAR (max),
+	                        CreatedDate                     DATETIME NOT NULL,
+	                        ModifiedDate                    DATETIME NOT NULL,
+	                        OMSId                           NVARCHAR (50),
+	                        CONSTRAINT [PK_Web.SaleInvoiceHeaderAttributes] PRIMARY KEY (SaleInvoiceHeaderAttributeId),
+	                        CONSTRAINT [FK_Web.SaleInvoiceHeaderAttributes_Web.SaleInvoiceHeaders_SaleInvoiceHeaderId] FOREIGN KEY (SaleInvoiceHeaderId) REFERENCES Web.SaleInvoiceHeaders (SaleInvoiceHeaderId),
+	                        CONSTRAINT [FK_Web.SaleInvoiceHeaderAttributes_Web.DocumentTypeAttributes_DocumentTypeAttributeId] FOREIGN KEY (DocumentTypeAttributeId) REFERENCES Web.DocumentTypeAttributes (DocumentTypeAttributeId)
+	                        )
+
+
+                        CREATE INDEX IX_SaleInvoiceHeaderId
+	                        ON Web.SaleInvoiceHeaderAttributes (SaleInvoiceHeaderId)
+
+
+                        CREATE INDEX IX_DocumentTypeAttributeId
+	                        ON Web.SaleInvoiceHeaderAttributes (DocumentTypeAttributeId) ";
+                    ExecuteQuery(mQry);
+                }
+            }
+            catch (Exception ex)
+            {
+                RecordError(ex);
+            }
+
+
             return RedirectToAction("Module", "Menu");
         }
 

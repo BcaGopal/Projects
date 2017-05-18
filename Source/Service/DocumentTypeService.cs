@@ -13,6 +13,7 @@ using System.Data.SqlClient;
 using System.Configuration;
 using System.Data.Entity.Core.Objects;
 using Model.ViewModels;
+using Model.ViewModel;
 
 
 namespace Service
@@ -33,6 +34,8 @@ namespace Service
         Task<DocumentType> FindAsync(int id);
         int NextId(int id);
         int PrevId(int id);
+
+        IEnumerable<DocumentTypeAttributeViewModel> GetAttributeForDocumentType(int DocumentTypeId);
     }
 
     public class DocumentTypeService : IDocumentTypeService
@@ -239,6 +242,21 @@ namespace Service
             {
                 return DateTime.Now;
             }
+        }
+
+        public IEnumerable<DocumentTypeAttributeViewModel> GetAttributeForDocumentType(int DocumentTypeId)
+        {
+            return (from p in _unitOfWork.Repository<DocumentTypeAttribute>().Instance
+                    where p.DocumentTypeId == DocumentTypeId
+                    select new DocumentTypeAttributeViewModel
+                    {
+                        DataType = p.DataType,
+                        ListItem = p.ListItem,
+                        DefaultValue = p.DefaultValue,
+                        Name = p.Name,
+                        DocumentTypeAttributeId = p.DocumentTypeAttributeId,
+                        DocumentTypeId = p.DocumentTypeId,
+                    });
         }
     }
 }

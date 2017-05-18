@@ -174,6 +174,12 @@ namespace Model.ViewModel
         public string StockInNo { get; set; }
         public bool Issue { get; set; }
         public string LockReason { get; set; }
+
+        public int? ReferenceDocTypeId { get; set; }
+
+        public int? ReferenceDocId { get; set; }
+
+        public int? ReferenceDocLineId { get; set; }
     }
 
 
