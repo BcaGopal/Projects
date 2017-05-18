@@ -19,6 +19,12 @@
           <QueryParameter Name="@AsOnDate">
             <Value>=Parameters!AsOnDate.Value</Value>
           </QueryParameter>
+			<QueryParameter Name="@Product">
+				<Value>=Parameters!Product.Value</Value>
+			</QueryParameter>
+			<QueryParameter Name="@ProdOrderHeaderId">
+				<Value>=Parameters!ProdOrderHeaderId.Value</Value>
+			</QueryParameter>
           <QueryParameter Name="@FromDate">
             <Value>=Parameters!FromDate.Value</Value>
           </QueryParameter>
@@ -6679,6 +6685,18 @@
       <AllowBlank>true</AllowBlank>
       <Prompt>As On Date</Prompt>
     </ReportParameter>
+	  <ReportParameter Name="Product">
+		  <DataType>String</DataType>
+		  <Nullable>true</Nullable>
+		  <AllowBlank>true</AllowBlank>
+		  <Prompt>Product</Prompt>
+	  </ReportParameter>
+	  <ReportParameter Name="ProdOrderHeaderId">
+		  <DataType>String</DataType>
+		  <Nullable>true</Nullable>
+		  <AllowBlank>true</AllowBlank>
+		  <Prompt>Prod Order HeaderId</Prompt>
+	  </ReportParameter>
     <ReportParameter Name="FromDate">
       <DataType>String</DataType>
       <Nullable>true</Nullable>

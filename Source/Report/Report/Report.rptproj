@@ -480,6 +480,18 @@
       <FullPath>Example.rdl</FullPath>
     </ProjectItem>
     <ProjectItem>
+      <Name>ExcessInventoryStatus.rdl</Name>
+      <FullPath>ExcessInventoryStatus.rdl</FullPath>
+    </ProjectItem>
+    <ProjectItem>
+      <Name>FinishedProductConsumption_HomeFurnishing.rdl</Name>
+      <FullPath>FinishedProductConsumption_HomeFurnishing.rdl</FullPath>
+    </ProjectItem>
+    <ProjectItem>
+      <Name>FinishedProductConsumptionNew_HomeFurnishing.rdl</Name>
+      <FullPath>FinishedProductConsumptionNew_HomeFurnishing.rdl</FullPath>
+    </ProjectItem>
+    <ProjectItem>
       <Name>FinishedStockSummary.rdl</Name>
       <FullPath>FinishedStockSummary.rdl</FullPath>
     </ProjectItem>
@@ -2780,8 +2792,28 @@
       <FullPath>XWeavingOrderStatus.rdl</FullPath>
     </ProjectItem>
     <ProjectItem>
-      <Name>ExcessInventoryStatus.rdl</Name>
-      <FullPath>ExcessInventoryStatus.rdl</FullPath>
+      <Name>StoreIssuePrint_HomeFurnishing.rdl</Name>
+      <FullPath>StoreIssuePrint_HomeFurnishing.rdl</FullPath>
+    </ProjectItem>
+    <ProjectItem>
+      <Name>JobOrderReportWithoutProdorder_HomeFurnishing.rdl</Name>
+      <FullPath>JobOrderReportWithoutProdorder_HomeFurnishing.rdl</FullPath>
+    </ProjectItem>
+    <ProjectItem>
+      <Name>MaterialIssueReport_D1D2.rdl</Name>
+      <FullPath>MaterialIssueReport_D1D2.rdl</FullPath>
+    </ProjectItem>
+    <ProjectItem>
+      <Name>MaterialIssueReport_D3D4.rdl</Name>
+      <FullPath>MaterialIssueReport_D3D4.rdl</FullPath>
+    </ProjectItem>
+    <ProjectItem>
+      <Name>WeavingDefaulterReport_Status.rdl</Name>
+      <FullPath>WeavingDefaulterReport_Status.rdl</FullPath>
+    </ProjectItem>
+    <ProjectItem>
+      <Name>WeavingRetentionStatusReport.rdl</Name>
+      <FullPath>WeavingRetentionStatusReport.rdl</FullPath>
     </ProjectItem>
   </Reports>
   <Configurations>
