@@ -240,6 +240,9 @@
     <Compile Include="Controllers\ComboHelpListController.cs" />
     <Compile Include="Controllers\GetNewDocNoController.cs" />
     <Compile Include="Controllers\PromoCodeController.cs" />
+    <Compile Include="Controllers\SaleDeliveryHeaderController.cs" />
+    <Compile Include="Controllers\SaleDeliveryLineController.cs" />
+    <Compile Include="Controllers\SaleDeliverySettingsController.cs" />
     <Compile Include="Controllers\SaleEnquiryHeaderController.cs" />
     <Compile Include="Controllers\SaleEnquiryLineController.cs" />
     <Compile Include="Controllers\SaleEnquiryProductMappingController.cs" />
@@ -1761,6 +1764,15 @@
     <Content Include="Views\SaleQuotationSettings\Delete.cshtml" />
     <Content Include="Views\SaleQuotationSettings\Details.cshtml" />
     <Content Include="Views\SaleQuotationSettings\Edit.cshtml" />
+    <Content Include="Views\SaleDeliveryHeader\_Reason.cshtml" />
+    <Content Include="Views\SaleDeliveryHeader\Create.cshtml" />
+    <Content Include="Views\SaleDeliveryHeader\DocumentTypeList.cshtml" />
+    <Content Include="Views\SaleDeliveryHeader\Index.cshtml" />
+    <Content Include="Views\SaleDeliveryLine\_Create.cshtml" />
+    <Content Include="Views\SaleDeliveryLine\_Index.cshtml" />
+    <Content Include="Views\SaleDeliveryLine\_OrderFilters.cshtml" />
+    <Content Include="Views\SaleDeliveryLine\_Results.cshtml" />
+    <Content Include="Views\SaleDeliverySetting\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

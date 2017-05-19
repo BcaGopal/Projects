@@ -250,7 +250,14 @@ namespace Web
         void JobReceiveEvents_BranchValidation(object sender, JobEventArgs EventArgs, ref ApplicationDbContext db)
         {
             var JobReceiveHeaders = db.JobReceiveHeader.AsNoTracking().Where(m => m.JobReceiveHeaderId == EventArgs.DocId).FirstOrDefault();
-            int WeavingReceiveDocTypeId = db.DocumentType.AsNoTracking().Where(m => m.DocumentTypeName == TransactionDoctypeConstants.WeavingBazar).FirstOrDefault().DocumentTypeId;
+            int WeavingReceiveDocTypeId = 0;
+            var temp = db.DocumentType.AsNoTracking().Where(m => m.DocumentTypeName == TransactionDoctypeConstants.WeavingBazar).FirstOrDefault();
+            if (temp != null)
+            {
+                WeavingReceiveDocTypeId = temp.DocumentTypeId;
+            }
+
+            
 
             if (JobReceiveHeaders.SiteId == MainSiteId && JobReceiveHeaders.DocTypeId == WeavingReceiveDocTypeId)
             {
