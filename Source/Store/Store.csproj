@@ -958,6 +958,7 @@
     <Content Include="Views\ImportLayout\ImportLayout.cshtml" />
     <Content Include="Views\Import\Error.cshtml" />
     <Content Include="Views\Import\Sucess.cshtml" />
+    <Content Include="Views\StockInHand\ProductNatureIndex.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

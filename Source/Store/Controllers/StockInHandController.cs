@@ -36,13 +36,22 @@ namespace Web
         }
 
 
-        public ActionResult ProductTypeIndex()
+        public ActionResult ProductTypeIndex(int Id)
         {
 
-            var pt = new ProductTypeService(_unitOfWork).GetRawAndOtherMaterialProductTypes().Where(m => m.IsActive != false).ToList();
+            //var pt = new ProductTypeService(_unitOfWork).GetRawAndOtherMaterialProductTypes().Where(m => m.IsActive != false).ToList();
+            var pt = new ProductTypeService(_unitOfWork).GetProductTypes(Id).Where(m => m.IsActive != false).ToList();
+            
 
             return View("ProductTypeIndex", pt);
         }
+
+        public ActionResult ProductNatureIndex()
+        {
+            var pt = new ProductNatureService(_unitOfWork).GetProductNatureList().ToList();
+            return View("ProductNatureIndex", pt);
+        }
+
 
 
         public ActionResult GetStockInHand(int id)
