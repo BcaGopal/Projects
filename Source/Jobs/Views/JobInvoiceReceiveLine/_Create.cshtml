@@ -169,14 +169,14 @@
                         <div class="form-group">
                             @Html.LabelFor(model => model.JobQty, "Qty", new { @class = "control-label col-md-4 col-sm-2" })
                             <div class="col-md-7 col-sm-10" style="padding:0px">
-                            <div class="col-xs-7" style="padding-right:0px;">
-                                @Html.TextBoxFor(model => model.JobQty, new { @class = "form-control required cusrightnormal JobQuantity" })
-                                @Html.ValidationMessageFor(model => model.JobQty, "", new { @class = "text-danger" })
-                            </div>
-                            <div class="col-xs-5" style="padding-left:0px">
-                                @Html.TextBoxFor(m => m.UnitId, new { @class = "form-control  cusleftnormal", @readonly = "true" })
-                            </div>
+                                <div class="col-xs-7" style="padding-right:0px;">
+                                    @Html.TextBoxFor(model => model.JobQty, new { @class = "form-control required cusrightnormal JobQuantity" })
+                                    @Html.ValidationMessageFor(model => model.JobQty, "", new { @class = "text-danger" })
                                 </div>
+                                <div class="col-xs-5" style="padding-left:0px">
+                                    @Html.TextBoxFor(m => m.UnitId, new { @class = "form-control  cusleftnormal", @readonly = "true" })
+                                </div>
+                            </div>
                         </div>
                     </div>
 
@@ -190,7 +190,25 @@
                         </div>
                     </div>
 
+
                     <div class="col-md-6" style="display:@(Model.JobInvoiceSettings.isVisibleRateDiscountPer ? "" : "none")">
+                        @Html.HiddenFor(m => m.JobInvoiceSettings.isVisibleRateDiscountPer)
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.RateDiscountPer, "Rate Disc %", new { @class = "control-label col-md-4 col-sm-2" })
+                            <div class="col-md-7 col-sm-10" style="padding:0px">
+                                <div class="col-xs-4" style="padding-right:0px;">
+                                    @Html.TextBoxFor(model => model.RateDiscountPer, new { @class = "form-control  text-right " })
+                                    @Html.ValidationMessageFor(model => model.RateDiscountPer, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="col-xs-8" style="padding-left:0px">
+                                    @Html.TextBoxFor(model => model.RateDiscountAmt, new { @class = "form-control  text-right " })
+                                    @Html.ValidationMessageFor(model => model.RateDiscountAmt, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    @*<div class="col-md-6" style="display:@(Model.JobInvoiceSettings.isVisibleRateDiscountPer ? "" : "none")">
                         @Html.HiddenFor(m => m.JobInvoiceSettings.isVisibleRateDiscountPer)
                         <div class="form-group">
                             @Html.LabelFor(model => model.RateDiscountPer, "Rate Disc %", new { @class = "control-label col-md-4 col-sm-2 " })
@@ -199,7 +217,7 @@
                                 @Html.ValidationMessageFor(model => model.RateDiscountPer, "", new { @class = "text-danger" })
                             </div>
                         </div>
-                    </div>
+                    </div>*@
 
                     <div class="col-md-6" style="display:@(Model.JobInvoiceSettings.isVisibleLoss ? "" : "none")">
                         <div class="form-group">
@@ -850,9 +868,20 @@ else
             $('#DealQty').val(parseFloat($('#PassQty').val() * $('#UnitConversionMultiplier').val()).toFixed($('#DealUnitDecimalPlaces').val()));
         }
 
+
         if ($('#RateDiscountPer').val() != 0 && $('#RateDiscountPer').val() != null && $('#RateDiscountPer').val() != '') 
         {
-            var NetRate = $('#Rate').val() - ($('#Rate').val() * $('#RateDiscountPer').val() / 100)
+            $('#RateDiscountAmt').val() = $('#Rate').val() * $('#RateDiscountPer').val() / 100
+            $('#RateDiscountAmt').attr('readonly', 'true');
+        }
+        else{
+            $('#RateDiscountAmt').removeAttr('readonly');
+        }
+
+
+        if ($('#RateDiscountAmt').val() != 0 && $('#RateDiscountAmt').val() != null && $('#RateDiscountAmt').val() != '') 
+        {
+            var NetRate = $('#Rate').val() - $('#RateDiscountAmt').val()
             $('#Amount').val(($('#DealQty').val() * NetRate).toFixed(2));
         }
         else{

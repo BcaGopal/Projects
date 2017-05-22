@@ -678,7 +678,7 @@ namespace Web
                                           where ProductUids.Contains(p.ProductUIDId)
                                           select p).ToList();
 
-                foreach (var item in vm.JobReceiveLineViewModel.Where(m => m.DocQty > 0))
+                foreach (var item in vm.JobReceiveLineViewModel.Where(m => m.ReceiveQty + m.LossQty > 0))
                 {
                     //var temp = (from L in db.JobOrderLine
                     //            join H in db.JobOrderHeader on L.JobOrderHeaderId equals H.JobOrderHeaderId into JobOrderHeaderTable

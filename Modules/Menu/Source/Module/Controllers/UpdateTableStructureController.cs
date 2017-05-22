@@ -835,7 +835,7 @@ namespace Module
             AddFields("JobReceiveLines", "Dimension2Id", "Int", "Dimension2");
             AddFields("JobReceiveLines", "Dimension3Id", "Int", "Dimension3");
             AddFields("JobReceiveLines", "Dimension4Id", "Int", "Dimension4");
-            AddFields("JobInvoiceLines", "DiscountAmt", "Decimal(18,4)");
+            AddFields("JobInvoiceLines", "RateDiscountAmt", "Decimal(18,4)");
 
             AddFields("LedgerHeaders", "DrCr", "nvarchar(2)");
             AddFields("LedgerSettings", "isVisibleDrCr", "BIT");

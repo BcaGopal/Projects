@@ -52,13 +52,15 @@ namespace Web
 
         }
 
-        public ActionResult Create(int? LedgerAccountGroupId, int? LedgerAccountId)
+        public ActionResult Create(int? LedgerAccountGroupId, int? LedgerAccountId, string returnUrl)
         {
 
             if (LedgerAccountGroupId.HasValue && LedgerAccountGroupId.Value > 0)
                 System.Web.HttpContext.Current.Session["LedgerAccountGroupId"] = LedgerAccountGroupId.Value;
             if (LedgerAccountId.HasValue && LedgerAccountId.Value > 0)
                 System.Web.HttpContext.Current.Session["LedgerAccountId"] = LedgerAccountId.Value;
+            if (returnUrl != null)
+                System.Web.HttpContext.Current.Session["returnUrl"] = returnUrl;
 
             string UserName = User.Identity.Name;
 
@@ -86,17 +88,21 @@ namespace Web
         {
             int? LedgerAccountGroupId = null;
             int? LedgerAccountId = null;
+            string returnUrl = "";
             if (System.Web.HttpContext.Current.Session["LedgerAccountGroupId"] != null)
                 LedgerAccountGroupId = (int)System.Web.HttpContext.Current.Session["LedgerAccountGroupId"];
 
             if (System.Web.HttpContext.Current.Session["LedgerAccountId"] != null)
                 LedgerAccountId = (int)System.Web.HttpContext.Current.Session["LedgerAccountId"];
 
+            if (System.Web.HttpContext.Current.Session["returnUrl"] != null)
+                returnUrl = (string)System.Web.HttpContext.Current.Session["returnUrl"];
+
             if (!vm.FromDate.HasValue)
-                ModelState.AddModelError("FromDate", "The From date field is required.");
+                ModelState.AddModelError("FromDate", "From date field is required.");
 
             if (!vm.ToDate.HasValue)
-                ModelState.AddModelError("ToDate", "The To date field is required.");
+                ModelState.AddModelError("ToDate", "To date field is required.");
 
             if (ModelState.IsValid)
             {
@@ -119,15 +125,18 @@ namespace Web
                         return View("Create", vm);
                     }
 
-                    System.Web.HttpContext.Current.Session.Remove("LedgerAccountGroupId");
-                    System.Web.HttpContext.Current.Session.Remove("LedgerAccountId");
+                    //System.Web.HttpContext.Current.Session.Remove("LedgerAccountGroupId");
+                    //System.Web.HttpContext.Current.Session.Remove("LedgerAccountId");
 
-                    if (LedgerAccountGroupId.HasValue && LedgerAccountGroupId.Value > 0)
-                        return RedirectToAction("GetSubTrialBalance", "TrialBalance", new { id = LedgerAccountGroupId }).Success("Data saved successfully");
-                    else if (LedgerAccountId.HasValue && LedgerAccountId.Value > 0)
-                        return RedirectToAction("GetLedgerBalance", "TrialBalance", new { id = LedgerAccountId }).Success("Data saved successfully");
-                    else
-                        return RedirectToAction("GetTrialBalance", "TrialBalance").Success("Data saved successfully");
+
+                    return Redirect(System.Configuration.ConfigurationManager.AppSettings["CurrentDomain"] + returnUrl);
+
+                    //if (LedgerAccountGroupId.HasValue && LedgerAccountGroupId.Value > 0)
+                    //    return RedirectToAction("GetSubTrialBalance", "TrialBalance", new { id = LedgerAccountGroupId }).Success("Data saved successfully");
+                    //else if (LedgerAccountId.HasValue && LedgerAccountId.Value > 0)
+                    //    return RedirectToAction("GetLedgerBalance", "TrialBalance", new { id = LedgerAccountId }).Success("Data saved successfully");
+                    //else
+                    //    return RedirectToAction("GetTrialBalance", "TrialBalance").Success("Data saved successfully");
                 }
                 else
                 {
@@ -147,15 +156,17 @@ namespace Web
                         return View("Create", vm);
                     }
 
-                    System.Web.HttpContext.Current.Session.Remove("LedgerAccountGroupId");
-                    System.Web.HttpContext.Current.Session.Remove("LedgerAccountId");
+                    //System.Web.HttpContext.Current.Session.Remove("LedgerAccountGroupId");
+                    //System.Web.HttpContext.Current.Session.Remove("LedgerAccountId");
 
-                    if (LedgerAccountGroupId.HasValue && LedgerAccountGroupId.Value > 0)
-                        return RedirectToAction("GetSubTrialBalance", "TrialBalance", new { id = LedgerAccountGroupId }).Success("Data saved successfully");
-                    else if (LedgerAccountId.HasValue && LedgerAccountId.Value > 0)
-                        return RedirectToAction("GetLedgerBalance", "TrialBalance", new { id = LedgerAccountId }).Success("Data saved successfully");
-                    else
-                        return RedirectToAction("GetTrialBalance", "TrialBalance").Success("Data saved successfully");
+                    return Redirect(System.Configuration.ConfigurationManager.AppSettings["CurrentDomain"] + returnUrl);
+
+                    //if (LedgerAccountGroupId.HasValue && LedgerAccountGroupId.Value > 0)
+                    //    return RedirectToAction("GetSubTrialBalance", "TrialBalance", new { id = LedgerAccountGroupId }).Success("Data saved successfully");
+                    //else if (LedgerAccountId.HasValue && LedgerAccountId.Value > 0)
+                    //    return RedirectToAction("GetLedgerBalance", "TrialBalance", new { id = LedgerAccountId }).Success("Data saved successfully");
+                    //else
+                    //    return RedirectToAction("GetTrialBalance", "TrialBalance").Success("Data saved successfully");
 
                 }
 

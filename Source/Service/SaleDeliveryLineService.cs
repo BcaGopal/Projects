@@ -154,6 +154,8 @@ namespace Service
 
         public IEnumerable<SaleDeliveryLineViewModel> GetSaleInvoicesForFilters(SaleDeliveryFilterViewModel vm)
         {
+            var SaleDeliveryHeader = new SaleDeliveryHeaderService(_unitOfWork).Find(vm.SaleDeliveryHeaderId);
+
             string[] ProductIdArr = null;
             if (!string.IsNullOrEmpty(vm.ProductId)) { ProductIdArr = vm.ProductId.Split(",".ToCharArray()); }
             else { ProductIdArr = new string[] { "NA" }; }
@@ -181,7 +183,8 @@ namespace Service
                         from tab1 in table1.DefaultIfEmpty()
                         join product in db.Product on p.ProductId equals product.ProductId into table2
                         from tab2 in table2.DefaultIfEmpty()
-                        where (string.IsNullOrEmpty(vm.ProductId) ? 1 == 1 : ProductIdArr.Contains(p.ProductId.ToString()))
+                        where p.SaleToBuyerId == SaleDeliveryHeader.SaleToBuyerId
+                        && (string.IsNullOrEmpty(vm.ProductId) ? 1 == 1 : ProductIdArr.Contains(p.ProductId.ToString()))
                         && (string.IsNullOrEmpty(vm.SaleInvoiceHeaderId) ? 1 == 1 : SaleInvoiceIdArr.Contains(p.SaleInvoiceHeaderId.ToString()))
                         && (string.IsNullOrEmpty(vm.ProductGroupId) ? 1 == 1 : ProductGroupIdArr.Contains(tab2.ProductGroupId.ToString()))
                         && (string.IsNullOrEmpty(vm.Dimension1Id) ? 1 == 1 : Dimension1IdArr.Contains(p.Dimension1Id.ToString()))

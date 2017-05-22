@@ -47,7 +47,7 @@ namespace Model.Models
         [Display(Name = "Deal Qty")]
         public decimal DealQty { get; set; }
         public decimal? RateDiscountPer { get; set; }
-        public decimal? DiscountAmt { get; set; }
+        public decimal? RateDiscountAmt { get; set; }
         public DateTime? MfgDate { get; set; }
         
         [Display(Name = "Rate")]

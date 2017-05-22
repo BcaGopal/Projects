@@ -24,7 +24,6 @@ var AddDeductEnum = {
     OverRide: 2,
 }
 
-
 function AddCalculationFields(DocHeaderId, DebugMode, CalculationId, HeaderCTable, LineCTable, MaxLinId, DocumentType, SiteId, DivisionId) {
 
     $.ajax({
@@ -97,31 +96,31 @@ function DrawProductFields(DebugMode) {
             temp += "<div class='col-md-6' style='display:" + (ProductFields[i].IsVisible ? "" : "none") + "'>"
                 + "      <div class='form-group'>"
                 + "             <label class='control-label col-md-4 col-sm-2'>" + ProductFields[i].ChargeName + "</label> <div class='col-md-7 col-sm-10'><input class='form-control Calculation text-right' id='CALL_" + ProductFields[i].ChargeCode + "' name='linecharges[" + i + "].Amount' type='text' value='" + ProductFields[i].Amount + "'></div> "
-                //+ "             <label class='control-label col-md-4 col-sm-2'>" + ProductFields[i].ChargeName + "</label> <div class='col-md-7 col-sm-10'><input class='form-control Calculation text-right' id='CALL_" + ProductFields[i].ChargeCode + "' name='CALL_" + ProductFields[i].ChargeCode + "' type='text' value='" + ProductFields[i].Amount + "'></div> "
+                //+ "             <label class='control-label col-xs-4'>" + ProductFields[i].ChargeName + "</label> <div class='col-xs-7'><input class='form-control Calculation text-right' id='CALL_" + ProductFields[i].ChargeCode + "' name='CALL_" + ProductFields[i].ChargeCode + "' type='text' value='" + ProductFields[i].Amount + "'></div> "
                 + "     </div>"
                 + " </div>"
         }
         else {
             temp += "<div class='col-md-6' style='display:" + (ProductFields[i].IsVisible || DebugMode ? "" : "none") + "'>"
-          + "      <div class='form-group'>"
-          + "         <label class='control-label col-md-4 col-sm-2'>" + ProductFields[i].ChargeName + "</label> "
-          + "                <div class='col-md-7 col-sm-10'>"
-          + "                <div class='col-xs-2' style='padding:0px;'>"
-          + "                    <input class='form-control cusrightnormal Calculation text-right' id='CALL_" + ProductFields[i].ChargeCode + "RATE' name='linecharges[" + i + "].RATE'   type='text' value='" + ProductFields[i].Rate + "'   />"
-          //+ "                    <input class='form-control cusrightnormal Calculation text-right' id='CALL_" + ProductFields[i].ChargeCode + "RATE' name='CALL_" + ProductFields[i].ChargeCode + "RATE'   type='text' value='" + ProductFields[i].Rate + "'   />"
-          + "                 </div>"
-          + "                  <div></div>"
-          + "                 <div class='col-xs-5' style='padding:0px'>"
-          //+ "                     <input class='form-control cusleftnormal Calculation text-right' id='CALL_" + ProductFields[i].ChargeCode + "' name='CALL_" + ProductFields[i].ChargeCode + "'   type='text' value='" + ProductFields[i].Amount + "'  />"
-          + "                     <input class='form-control cusleftnormal Calculation text-right' id='CALL_" + ProductFields[i].ChargeCode + "' name='linecharges[" + i + "].Amount'   type='text' value='" + ProductFields[i].Amount + "'  />"
-          + "                 </div>"
-          + "          </div>"
-          + "          </div>"
-          + "     </div>"
+            + "      <div class='form-group'>"
+            + "         <label class='control-label col-md-4 col-sm-2'>" + ProductFields[i].ChargeName + "</label> "
+            + "                <div class='col-md-7 col-sm-10'>"
+            + "                <div class='col-xs-4' style='padding:0px;'>"
+            + "                    <input class='form-control cusrightnormal Calculation text-right' id='CALL_" + ProductFields[i].ChargeCode + "RATE' name='linecharges[" + i + "].RATE'   type='text' value='" + ProductFields[i].Rate + "'   />"
+            //+ "                    <input class='form-control cusrightnormal Calculation text-right' id='CALL_" + ProductFields[i].ChargeCode + "RATE' name='CALL_" + ProductFields[i].ChargeCode + "RATE'   type='text' value='" + ProductFields[i].Rate + "'   />"
+            + "                 </div>"
+            + "                  <div></div>"
+            + "                 <div class='col-xs-8' style='padding:0px'>"
+            //+ "                     <input class='form-control cusleftnormal Calculation text-right' id='CALL_" + ProductFields[i].ChargeCode + "' name='CALL_" + ProductFields[i].ChargeCode + "'   type='text' value='" + ProductFields[i].Amount + "'  />"
+            + "                     <input class='form-control cusleftnormal Calculation text-right' id='CALL_" + ProductFields[i].ChargeCode + "' name='linecharges[" + i + "].Amount'   type='text' value='" + ProductFields[i].Amount + "'  />"
+            + "                 </div>"
+            + "          </div>"
+            + "     </div>"
+            + "     </div>"
         }
         temp += "<div class='col-md-6' style='display:" + (DebugMode ? ("") : ("none")) + "'>"
                 + "      <div class='form-group'>"
-                + "         <label class='control-label col-md-4 col-sm-2'>X" + ProductFields[i].ChargeName + "</label> <div class='col-md-7 col-sm-10'><input class='form-control Calculation text-right' id='XCALL_" + ProductFields[i].ChargeCode + "' name='XCALL_" + ProductFields[i].ChargeCode + "' type='text' value='" + ProductFields[i].Amount + "' /></div> "
+                + "         <label class='control-label col-xs-4'>X" + ProductFields[i].ChargeName + "</label> <div class='col-xs-7'><input class='form-control Calculation text-right' id='XCALL_" + ProductFields[i].ChargeCode + "' name='XCALL_" + ProductFields[i].ChargeCode + "' type='text' value='" + ProductFields[i].Amount + "' /></div> "
                 + "     </div>"
                 + " </div>"
 
@@ -141,11 +140,10 @@ function DrawProductFields(DebugMode) {
         temp += "<input type='hidden' value='" + (ProductFields[i].Sr == null ? "" : ProductFields[i].Sr) + "' name='linecharges[" + i + "].Sr' />"
         temp += "<input type='hidden' value='" + (ProductFields[i].Id == null ? "" : ProductFields[i].Id) + "' name='linecharges[" + i + "].Id' />"
 
-
     }
     var varXAmount = document.getElementById('Amount').value ? document.getElementById('Amount').value : 0;
 
-    temp += "  <input type='hidden' value='" + varXAmount + "' id='xAmount' class='form-control col-md-7 col-sm-10 required text-right' />  "
+    temp += "  <input type='hidden' value='" + varXAmount + "' id='xAmount' class='form-control col-xs-7 required text-right' />  "
     //temp += "<hr/>"
     $(temp).appendTo('.modal-body .row:last');
 }
@@ -156,11 +154,11 @@ function DrawFooterFields(DebugMode) {
         if (FooterFields[i].RateType == RateTypeEnum.NA) {
 
             temp += "<div class='col-md-6' style='display:" + (DebugMode ? ("") : ("none")) + "'>"
-              + "      <div class='form-group'>"
-              //+ "         <label class='control-label col-md-4 col-sm-2'>" + FooterFields[i].ChargeName + "</label> <div class='col-md-7 col-sm-10'><input class='form-control Calculation text-right' id='CALH_" + FooterFields[i].ChargeCode + "' name='CALH_" + FooterFields[i].ChargeCode + "' type='text' value='" + FooterFields[i].Amount + "'></div> "
-              + "         <label class='control-label col-md-4 col-sm-2'>" + FooterFields[i].ChargeName + "</label> <div class='col-md-7 col-sm-10'><input class='form-control Calculation text-right' id='CALH_" + FooterFields[i].ChargeCode + "' name='footercharges[" + i + "].Amount' type='text' value='" + FooterFields[i].Amount + "'></div> "
-              + "     </div>"
-              + " </div>"
+             + "      <div class='form-group'>"
+             //+ "         <label class='control-label col-xs-4'>" + FooterFields[i].ChargeName + "</label> <div class='col-xs-7'><input class='form-control Calculation text-right' id='CALH_" + FooterFields[i].ChargeCode + "' name='CALH_" + FooterFields[i].ChargeCode + "' type='text' value='" + FooterFields[i].Amount + "'></div> "
+             + "         <label class='control-label col-md-4 col-sm-2'>" + FooterFields[i].ChargeName + "</label> <div class='col-md-7 col-sm-10'><input class='form-control Calculation text-right' id='CALH_" + FooterFields[i].ChargeCode + "' name='footercharges[" + i + "].Amount' type='text' value='" + FooterFields[i].Amount + "'></div> "
+             + "     </div>"
+             + " </div>"
             if (FooterFields[i].ProductChargeId != null || FooterFields[i].ChargeTypeId == ChargeTypeEnum.Amount) {
                 temp += "<div class='col-md-6' style='display:" + (DebugMode ? ("") : ("none")) + "'>"
                  + "      <div class='form-group'>"
@@ -171,41 +169,41 @@ function DrawFooterFields(DebugMode) {
         }
         else {
             temp += "<div class='col-md-6' style='display:" + (DebugMode ? ("") : ("none")) + "'>"
-           + "          <div class='form-group'>"
-           + "              <label class='control-label col-md-4 col-sm-2'>" + FooterFields[i].ChargeName + "</label> "
-           + "                <div class='col-md-7 col-sm-10'>"
-           + "                <div class='col-xs-2' style='padding:0px;'>"
-           //+ "                    <input class='form-control cusrightnormal Calculation text-right' id='CALH_" + FooterFields[i].ChargeCode + "RATE' name='CALH_" + FooterFields[i].ChargeCode + "RATE'   type='text' value='" + FooterFields[i].Rate + "'   />"
-           + "                    <input class='form-control cusrightnormal Calculation text-right' id='CALH_" + FooterFields[i].ChargeCode + "RATE' name='footercharges[" + i + "].Rate'   type='text' value='" + FooterFields[i].Rate + "'   />"
-           + "                 </div>"
-           + "                  <div></div>"
-           + "                 <div class='col-xs-5' style='padding:0px'>"
-           //+ "                     <input class='form-control cusleftnormal Calculation text-right' id='CALH_" + FooterFields[i].ChargeCode + "' name='CALH_" + FooterFields[i].ChargeCode + "'   type='text' value='" + FooterFields[i].Amount + "'  />"
-           + "                     <input class='form-control cusleftnormal Calculation text-right' id='CALH_" + FooterFields[i].ChargeCode + "' name='footercharges[" + i + "].Amount'   type='text' value='" + FooterFields[i].Amount + "'  />"
-           + "                 </div>"
-           + "          </div>"
-           + "          </div>"
-           + "     </div>"
+            + "          <div class='form-group'>"
+            + "              <label class='control-label col-md-4 col-sm-2'>" + FooterFields[i].ChargeName + "</label> "
+            + "                <div class='col-md-7 col-sm-10'>"
+            + "                <div class='col-xs-4' style='padding:0px;'>"
+            //+ "                    <input class='form-control cusrightnormal Calculation text-right' id='CALH_" + FooterFields[i].ChargeCode + "RATE' name='CALH_" + FooterFields[i].ChargeCode + "RATE'   type='text' value='" + FooterFields[i].Rate + "'   />"
+            + "                    <input class='form-control cusrightnormal Calculation text-right' id='CALH_" + FooterFields[i].ChargeCode + "RATE' name='footercharges[" + i + "].Rate'   type='text' value='" + FooterFields[i].Rate + "'   />"
+            + "                 </div>"
+            + "                  <div></div>"
+            + "                 <div class='col-xs-8' style='padding:0px'>"
+            //+ "                     <input class='form-control cusleftnormal Calculation text-right' id='CALH_" + FooterFields[i].ChargeCode + "' name='CALH_" + FooterFields[i].ChargeCode + "'   type='text' value='" + FooterFields[i].Amount + "'  />"
+            + "                     <input class='form-control cusleftnormal Calculation text-right' id='CALH_" + FooterFields[i].ChargeCode + "' name='footercharges[" + i + "].Amount'   type='text' value='" + FooterFields[i].Amount + "'  />"
+            + "                 </div>"
+            + "          </div>"
+            + "     </div>"
+            + "     </div>"
             if (FooterFields[i].ProductChargeId != null || FooterFields[i].ChargeTypeId == ChargeTypeEnum.Amount) {
                 temp += "<div class='col-md-6' style='display:" + (DebugMode ? ("") : ("none")) + "'>"
                + "          <div class='form-group'>"
                + "              <label class='control-label col-md-4 col-sm-2'>X" + FooterFields[i].ChargeName + "</label> "
                + "                <div class='col-md-7 col-sm-10'>"
-               + "                <div class='col-xs-2' style='padding:0px;'>"
+               + "                <div class='col-xs-4' style='padding:0px;'>"
                + "                    <input class='form-control cusrightnormal Calculation text-right' id='XCALH_" + FooterFields[i].ChargeCode + "RATE' name='XCALH_" + FooterFields[i].ChargeCode + "RATE'   type='text' value='" + FooterFields[i].Rate + "'   />"
                + "                 </div>"
                + "                  <div></div>"
-               + "                 <div class='col-xs-5' style='padding:0px'>"
+               + "                 <div class='col-xs-8' style='padding:0px'>"
                + "                     <input class='form-control cusleftnormal Calculation text-right' id='XCALH_" + FooterFields[i].ChargeCode + "' name='XCALH_" + FooterFields[i].ChargeCode + "'   type='text' value='" + FooterFields[i].Amount + "'  />"
                + "                 </div>"
                + "          </div>"
-               + "          </div>"
+               + "     </div>"
                + "     </div>"
             }
         }
-        temp += "<input type='hidden' id='CALH_" + FooterFields[i].ChargeCode + "ACCR' value='" + (FooterFields[i].LedgerAccountCrId == null ? "" : FooterFields[i].LedgerAccountCrId) + "' name='footercharges[" + i + "].LedgerAccountCrId'/>"
-        temp += "<input type='hidden' id='CALH_" + FooterFields[i].ChargeCode + "ACDR' value='" + (FooterFields[i].LedgerAccountDrId == null ? "" : FooterFields[i].LedgerAccountDrId) + "' name='footercharges[" + i + "].LedgerAccountDrId'/>"
-        temp += "<input type='hidden' id='CALH_" + FooterFields[i].ChargeCode + "CLAC' value='" + (FooterFields[i].ContraLedgerAccountId == null ? "" : FooterFields[i].ContraLedgerAccountId) + "' name='footercharges[" + i + "].ContraLedgerAccountId'/>"
+        temp += "<input type='hidden' id='CALH_" + FooterFields[i].ChargeCode + "ACCR' value='" + (FooterFields[i].LedgerAccountCrId == null ? "" : FooterFields[i].LedgerAccountCrId) + "'   name='footercharges[" + i + "].LedgerAccountCrId' />"
+        temp += "<input type='hidden' id='CALH_" + FooterFields[i].ChargeCode + "ACDR' value='" + (FooterFields[i].LedgerAccountDrId == null ? "" : FooterFields[i].LedgerAccountDrId) + "'   name='footercharges[" + i + "].LedgerAccountDrId' />"
+        temp += "<input type='hidden' id='CALH_" + FooterFields[i].ChargeCode + "CLAC' value='" + (FooterFields[i].ContraLedgerAccountId == null ? "" : FooterFields[i].ContraLedgerAccountId) + "'   name='footercharges[" + i + "].ContraLedgerAccountId' />"
         temp += "<input type='hidden' value='" + (FooterFields[i].AddDeduct == null ? "" : FooterFields[i].AddDeduct) + "' name='footercharges[" + i + "].AddDeduct' />"
         temp += "<input type='hidden' value='" + (FooterFields[i].AffectCost == null ? "" : FooterFields[i].AffectCost) + "' name='footercharges[" + i + "].AffectCost' />"
         temp += "<input type='hidden' value='" + (FooterFields[i].CalculateOnId == null ? "" : FooterFields[i].CalculateOnId) + "' name='footercharges[" + i + "].CalculateOnId' />"
@@ -219,7 +217,6 @@ function DrawFooterFields(DebugMode) {
         temp += "<input type='hidden' value='" + (FooterFields[i].RateType == null ? "" : FooterFields[i].RateType) + "' name='footercharges[" + i + "].RateType' />"
         temp += "<input type='hidden' value='" + (FooterFields[i].Sr == null ? "" : FooterFields[i].Sr) + "' name='footercharges[" + i + "].Sr' />"
         temp += "<input type='hidden' value='" + (FooterFields[i].Id == null ? "" : FooterFields[i].Id) + "' name='footercharges[" + i + "].Id' />"
-
 
     }
     temp += "</div>"
@@ -236,7 +233,7 @@ $(document).on('change', '.Calculation', ChargeCalculation);
 
 function ChargeCalculation() {
 
-
+    
     var SubTotalProduct = 0;
     var SubTotalFooter = 0;
     for (var i = 0; i < ProductFields.length; i++) {
@@ -290,10 +287,10 @@ function ChargeCalculation() {
             SubTotalProduct = parseFloat($(selector).val());
         }
 
+
     }
 
-
-     function EvalExpression(IncludedCharges, ChargeCalculation, selector) {
+    function EvalExpression(IncludedCharges, ChargeCalculation, selector) {
         var Rate;
 
         if (IncludedCharges) {
@@ -425,6 +422,7 @@ function ChargeCalculation() {
         }
 
     }
+
 
 };
 
@@ -577,6 +575,7 @@ function LoadCharges(DocHeaderId, HeaderTable, LineTable, EditUrl) {
     })
 
 }
+
 
 
 function LoadNewCharges(DocHeaderId, HeaderTable, LineTable, EditUrl) {
