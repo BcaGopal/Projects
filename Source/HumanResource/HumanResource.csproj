@@ -358,7 +358,7 @@
     <Content Include="Content\DataTables\images\sort_desc_disabled.png" />
     <Content Include="Content\DataTables\swf\flashExport.swf" />
     <Content Include="Content\IconCss.css" />
-    <Content Include="Helpers\CustomHelpers.cs" />
+    <Compile Include="Helpers\CustomHelpers.cs" />
     <Compile Include="Helpers\FlashMessageExtensions.cs" />
     <Compile Include="Helpers\JsonpResult.cs" />
     <Compile Include="Helpers\ListExtensions.cs" />

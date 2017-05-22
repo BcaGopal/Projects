@@ -287,6 +287,7 @@
     <Compile Include="Controllers\StockHeaderController.cs" />
     <Compile Include="Controllers\ExcessMaterialLineController.cs" />
     <Compile Include="Controllers\ExcessMaterialSettingsController.cs" />
+    <Compile Include="Controllers\StockProcessDisplayController.cs" />
     <Compile Include="Controllers\StockInHandDisplayController.cs" />
     <Compile Include="Controllers\StockLineController.cs" />
     <Compile Include="Controllers\StockProcessTransferController.cs" />
@@ -964,6 +965,10 @@
     <Content Include="Views\StockInHandDisplay\ProductTypeIndex.cshtml" />
     <Content Include="Views\StockInHandDisplay\StockInHandIndex.cshtml" />
     <Content Include="Views\StockInHandDisplay\StockLedgerIndex.cshtml" />
+    <Content Include="Views\StockProcessDisplay\ProductNatureIndex.cshtml" />
+    <Content Include="Views\StockProcessDisplay\ProductTypeIndex.cshtml" />
+    <Content Include="Views\StockProcessDisplay\StockInHandIndex.cshtml" />
+    <Content Include="Views\StockProcessDisplay\StockLedgerIndex.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

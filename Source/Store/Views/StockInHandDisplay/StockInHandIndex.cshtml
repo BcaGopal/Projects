@@ -48,10 +48,10 @@
 <div class="panel panel-default">
    <div class="panel-heading">
         <h3>
-            <span style="font-family: Calibri,sans-serif,Verdana;font-weight:bold" class="black"><span class="glyphicon glyphicon-list black"></span> Stock In Hand </span>
+            <span style="font-family: Calibri,sans-serif,Verdana;font-weight:bold" class="black"><span class="glyphicon glyphicon-list black"></span> Stock In Hand Display </span>
             <span style="font-family: Calibri,sans-serif,Verdana;font-size:medium" class="black"> @ViewBag.FilterRemark </span> 
                 @Html.ActionLink(" ", "ProductTypeIndex", "StockInHand", null, new { @class = "cbtn btn-circle glyphicon glyphicon-list right rightMargin", @title = "List", @data_toggle = "tooltip" })
-                @Html.ActionLink(" ", "Create", "StockInHandSetting", new { ProductTypeId = @ViewBag.id }, new { @class = "cbtn btn-circle glyphicon glyphicon-cog toolbar right rightMargin", @title = "List", @data_toggle = "tooltip" })
+                @Html.ActionLink(" ", "Create", "StockInHandSetting", new { ProductTypeId = @ViewBag.id, ControllerName = @ViewBag.ControllerName }, new { @class = "cbtn btn-circle glyphicon glyphicon-cog toolbar right rightMargin", @title = "List", @data_toggle = "tooltip" })
                 @Html.ActionLink(" ", " ", " ", null, new { @class = "cbtn btn-circle glyphicon glyphicon-refresh toolbar right rightMargin", @title = "Refresh Page", @data_toggle = "tooltip", @id = "RefreshPage" })
                 @*@Html.ActionLink(" ", "GeneratePrints", "StockInHand", new { ActionName = "StockInHand", Id = @ViewBag.id }, new { @class = "cbtn btn-circle glyphicon glyphicon-print toolbar right rightMargin", @title = "Print", @data_toggle = "tooltip", @id = "PrintRecord" })*@
                 @Html.ActionLink(" ", "", "", null, new { @class = "cbtn btn-circle glyphicon glyphicon-print toolbar right rightMargin", @title = "Print", @data_toggle = "tooltip", @id = "PrintRecord" })
@@ -94,19 +94,19 @@
     //Columns Specification
     var columns = [];
     if (GroupOnProduct > -1)
-        columns.push({ id: "ProductName", name: "@ViewBag.ProductNameCaption", field: "ProductName", headerCssClass: "Bold", minWidth: 150, hasTotalName: true })
+        columns.push({ id: "ProductName", name: "@ViewBag.ProductNameCaption", field: "ProductName", headerCssClass: "Bold", minWidth: 50, hasTotalName: true })
 
     if (GroupOnDimension1 > -1)
-        columns.push({ id: "Dimension1Name", name: "@ViewBag.Dimension1Caption", field: "Dimension1Name", headerCssClass: "Bold", minWidth: 70 })
+        columns.push({ id: "Dimension1Name", name: "@ViewBag.Dimension1Caption", field: "Dimension1Name", headerCssClass: "Bold", minWidth: 50 })
 
     if (GroupOnDimension2 > -1)
-        columns.push({ id: "Dimension2Name", name: "@ViewBag.Dimension2Caption", field: "Dimension2Name", headerCssClass: "Bold", minWidth: 70 })
+        columns.push({ id: "Dimension2Name", name: "@ViewBag.Dimension2Caption", field: "Dimension2Name", headerCssClass: "Bold", minWidth: 50 })
 
     if (GroupOnDimension3 > -1)
-        columns.push({ id: "Dimension3Name", name: "@ViewBag.Dimension3Caption", field: "Dimension3Name", headerCssClass: "Bold", minWidth: 70 })
+        columns.push({ id: "Dimension3Name", name: "@ViewBag.Dimension3Caption", field: "Dimension3Name", headerCssClass: "Bold", minWidth: 50 })
 
     if (GroupOnDimension4 > -1)
-        columns.push({ id: "Dimension4Name", name: "@ViewBag.Dimension4Caption", field: "Dimension4Name", headerCssClass: "Bold", minWidth: 70 })
+        columns.push({ id: "Dimension4Name", name: "@ViewBag.Dimension4Caption", field: "Dimension4Name", headerCssClass: "Bold", minWidth: 50 })
 
     if (GroupOnProcess > -1)
         columns.push({ id: "ProcessName", name: "Process", field: "ProcessName", headerCssClass: "Bold", minWidth: 100 })

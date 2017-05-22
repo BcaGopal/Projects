@@ -40,6 +40,8 @@ namespace Web
             List<SelectListItem> temp = new List<SelectListItem>();
             temp.Add(new SelectListItem { Text = StockInHandGroupOnConstants.Dimension1, Value = StockInHandGroupOnConstants.Dimension1 });
             temp.Add(new SelectListItem { Text = StockInHandGroupOnConstants.Dimension2, Value = StockInHandGroupOnConstants.Dimension2 });
+            temp.Add(new SelectListItem { Text = StockInHandGroupOnConstants.Dimension3, Value = StockInHandGroupOnConstants.Dimension3 });
+            temp.Add(new SelectListItem { Text = StockInHandGroupOnConstants.Dimension4, Value = StockInHandGroupOnConstants.Dimension4 });
             temp.Add(new SelectListItem { Text = StockInHandGroupOnConstants.Godown, Value = StockInHandGroupOnConstants.Godown });
             temp.Add(new SelectListItem { Text = StockInHandGroupOnConstants.LotNo, Value = StockInHandGroupOnConstants.LotNo });
             temp.Add(new SelectListItem { Text = StockInHandGroupOnConstants.Process, Value = StockInHandGroupOnConstants.Process });
@@ -59,7 +61,7 @@ namespace Web
 
         }
 
-        public ActionResult Create(int? LedgerAccountGroupId, int? LedgerAccountId, int ProductTypeId)
+        public ActionResult Create(int? LedgerAccountGroupId, int? LedgerAccountId, int ProductTypeId,string ControllerName)
         {
 
             //if (LedgerAccountGroupId.HasValue && LedgerAccountGroupId.Value > 0)
@@ -68,6 +70,7 @@ namespace Web
             //    System.Web.HttpContext.Current.Session["LedgerAccountId"] = LedgerAccountId.Value;
             ViewBag.id = ProductTypeId;
             System.Web.HttpContext.Current.Session["ProductTypeId"] = ProductTypeId;
+            System.Web.HttpContext.Current.Session["ControllerName"] = ControllerName.ToString();
 
             string UserName = User.Identity.Name;
 
@@ -104,6 +107,7 @@ namespace Web
             //LedgerAccountId=(int)System.Web.HttpContext.Current.Session["LedgerAccountId"];
 
             int ProductTypeId = (int)System.Web.HttpContext.Current.Session["ProductTypeId"];
+            string ControllerName= (string)System.Web.HttpContext.Current.Session["ControllerName"];
             ViewBag.id = ProductTypeId;
 
             if (!vm.FromDate.HasValue)
@@ -145,7 +149,19 @@ namespace Web
                     //    return RedirectToAction("GetLedgerBalance", "StockInHand", new { id = LedgerAccountId }).Success("Data saved successfully");
                     //else
                     System.Web.HttpContext.Current.Session.Remove("ProductTypeId");
-                    return RedirectToAction("GetStockInHand", "StockInHand", new { id = ProductTypeId }).Success("Data saved successfully");
+                    System.Web.HttpContext.Current.Session.Remove("ControllerName");
+                    if (ControllerName == "StockProcessDisplay")
+                    {
+                        return RedirectToAction("GetStockInHand", "StockProcessDisplay", new { id = ProductTypeId }).Success("Data saved successfully");
+                    }
+                    else if (ControllerName == "StockInHandDisplay")
+                    {
+                        return RedirectToAction("GetStockInHand", "StockInHandDisplay", new { id = ProductTypeId }).Success("Data saved successfully");
+                    }
+                    else
+                    {
+                        return RedirectToAction("GetStockInHand", "StockInHand", new { id = ProductTypeId }).Success("Data saved successfully");
+                    }
                 }
                 else
                 {
@@ -174,7 +190,20 @@ namespace Web
                     //    return RedirectToAction("GetLedgerBalance", "StockInHand", new { id = LedgerAccountId }).Success("Data saved successfully");
                     //else
                     System.Web.HttpContext.Current.Session.Remove("ProductTypeId");
-                    return RedirectToAction("GetStockInHand", "StockInHand", new { id = ProductTypeId }).Success("Data saved successfully");
+                    System.Web.HttpContext.Current.Session.Remove("ControllerName");
+                    if (ControllerName == "StockProcessDisplay")
+                    {
+                        return RedirectToAction("GetStockInHand", "StockProcessDisplay", new { id = ProductTypeId }).Success("Data saved successfully");
+                    }
+                    else if (ControllerName == "StockInHandDisplay")
+                    {
+                        return RedirectToAction("GetStockInHand", "StockInHandDisplay", new { id = ProductTypeId }).Success("Data saved successfully");
+                    }
+                    else
+                    {
+                        return RedirectToAction("GetStockInHand", "StockInHand", new { id = ProductTypeId }).Success("Data saved successfully");
+                    }
+                   // return RedirectToAction("GetStockInHand", "StockInHand", new { id = ProductTypeId }).Success("Data saved successfully");
 
                 }
 

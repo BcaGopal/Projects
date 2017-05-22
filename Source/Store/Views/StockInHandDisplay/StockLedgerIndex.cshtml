@@ -78,26 +78,26 @@
     var columns=[];
 
     columns.push({
-        id: "DocDate", name: "DocDate", field: "DocDate", width: 150
-        ,headerCssClass: "Bold", minWidth: 100,
+        id: "DocDate", name: "DocDate", field: "DocDate", width: 85
+        ,headerCssClass: "Bold", minWidth: 85,
     }, {
-        id: "TransactionType", name: "Doc.Type", field: "TransactionType", width: 175
-        , headerCssClass: "Bold",minWidth: 150
+        id: "TransactionType", name: "Doc.Type", field: "TransactionType", width: 130
+        , headerCssClass: "Bold",minWidth: 130
     }, {
-        id: "DocNo", name: "Doc.No", field: "DocNo", width: 150
-        ,headerCssClass: "Bold", minWidth: 110
+        id: "DocNo", name: "Doc.No", field: "DocNo", width: 75
+        ,headerCssClass: "Bold", minWidth: 75
     },{
-        id: "PartyName", name: "Particulars", field: "PartyName", width: 300
-        , headerCssClass: "Bold",minWidth: 250, hasTotalName: true
+        id: "PartyName", name: "Particulars", field: "PartyName", width: 180
+        , headerCssClass: "Bold",minWidth: 180, hasTotalName: true
     }, {
         id: "RecQty", name: "Receive", field: "RecQty", width: 75, hasTotal: true
-        , cssClass: "text-right", headerCssClass: "text-right Bold",minWidth: 70, formatter: DecimalFormatter
+        , cssClass: "text-right", headerCssClass: "text-right Bold",minWidth: 100, formatter: DecimalFormatter
     }, {
         id: "IssQty", name: "Issue", field: "IssQty", width: 75, hasTotal: true
-        , cssClass: "text-right", headerCssClass: "text-right Bold",minWidth: 70, formatter: DecimalFormatter
+        , cssClass: "text-right", headerCssClass: "text-right Bold",minWidth: 100, formatter: DecimalFormatter
     }, {
         id: "BalQty", name: "Balance", field: "Balance", width: 75, hasTotal: true
-        , cssClass: "text-right", headerCssClass: "text-right Bold",minWidth: 70, formatter: DecimalFormatter
+        , cssClass: "text-right", headerCssClass: "text-right Bold",minWidth: 100, formatter: DecimalFormatter
     });
 
     function DecimalFormatter(row, cell, value, columnDef, dataContext) {

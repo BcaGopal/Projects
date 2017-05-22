@@ -67,7 +67,7 @@ namespace Web
             List<string> UserRoles = (List<string>)System.Web.HttpContext.Current.Session["Roles"];
             if (settings == null)
             {
-                return RedirectToAction("Create", "StockInHandSetting", new { ProductTypeId = id }).Warning("Please create Stock In Hand settings");
+                return RedirectToAction("Create", "StockInHandSetting", new { ProductTypeId = id, ControllerName = "StockProcessDisplay" }).Warning("Please create Stock In Hand settings");
             }
 
             string FromDate = settings.ToDate.HasValue ? settings.FromDate.Value.ToString("dd/MMM/yyyy") : "";
@@ -126,6 +126,7 @@ namespace Web
 
             ViewBag.FilterRemark = "( From Date : " + FromDate + " To Date : " + ToDate + " Product Type : "+ ProductType.ProductTypeName +" )";
             ViewBag.id = id;
+            ViewBag.ControllerName = "StockInHandDisplay";
             ViewBag.GroupOn = settings.GroupOn;
             //if(settings.DisplayType==DisplayTypeConstants.Balance)
             return View("StockInHandIndex");
