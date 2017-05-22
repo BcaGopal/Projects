@@ -1685,6 +1685,7 @@ namespace Web
                     temp1.IncentiveRate = temprec.IncentiveRate;
                     temp1.IncentiveAmt = temprec.IncentiveAmt;
                     temp1.RateDiscountPer = svm.RateDiscountPer;
+                    temp1.RateDiscountAmt = svm.RateDiscountAmt;
                     temp1.MfgDate = svm.MfgDate;
 
                     temp1.ModifiedDate = DateTime.Now;

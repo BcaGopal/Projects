@@ -676,6 +676,7 @@ namespace Service
                         IncentiveRate = tab.IncentiveRate,
                         PenaltyRate = tab.PenaltyRate,
                         RateDiscountPer = p.RateDiscountPer,
+                        RateDiscountAmt = p.RateDiscountAmt,
                         MfgDate = p.MfgDate,
                         LockReason = p.LockReason,
                     }

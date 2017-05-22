@@ -49,6 +49,8 @@ namespace Model.Models
         public int? Dimension4Id { get; set; }
         public virtual Dimension4 Dimension4 { get; set; }
 
+        public string Specification { get; set; }
+
         [Display(Name = "Job Order"), Required]
         [ForeignKey("JobOrderLine")]
         [Index("IX_JobReceiveLine_Unique", IsUnique = true, Order = 2)]
