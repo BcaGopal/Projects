@@ -48,6 +48,7 @@ namespace Model.ViewModel
         public bool isPostedInLedger { get; set; }
         public bool isProductHelpFromStockProcess { get; set; }
         public bool isVisibleReferenceDocId { get; set; }
+        public bool isMandatoryProductUID { get; set; }
         public int ?  AdjLedgerAccountId { get; set; }
         [MaxLength(100)]
         public string SqlProcDocumentPrint { get; set; }

@@ -15,7 +15,7 @@
         <div class="panel-heading">
 
             <h3>
-                <span style="font-family: Calibri,sans-serif,Verdana;font-weight:bold" class="black"><span class="glyphicon glyphicon-file black"></span> Product Category</span>
+                <span style="font-family: Calibri,sans-serif,Verdana;font-weight:bold" class="black"><span class="glyphicon glyphicon-file black"></span> @ViewBag.Name </span>
                 @if (@Model.IsSystemDefine)
                 {
                     <input type="submit" value="Save" class="btn btn-primary right" id="submit" style="width: 90px; background-color: #2980b9;margin-left:20px" disabled="disabled" />
@@ -44,7 +44,7 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group" style="margin-top:15px">
-                            @Html.LabelFor(model => model.ProductCategoryName, "Product Category", new { @class = "control-label col-md-4 col-sm-2" })
+                            @Html.LabelFor(model => model.ProductCategoryName, (string)@ViewBag.ProductCategoryCaption, new { @class = "control-label col-md-4 col-sm-2" })
                             <div class="col-md-7 col-sm-10">
                                 @Html.TextBoxFor(m => m.ProductCategoryName, null, new { @class = "form-control col-xs-6 required" })
                                 @Html.ValidationMessageFor(m => m.ProductCategoryName, null, new { @class = "has-error" })

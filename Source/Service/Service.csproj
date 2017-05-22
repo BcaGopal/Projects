@@ -117,6 +117,9 @@
     <Compile Include="PersonRoleService.cs" />
     <Compile Include="ImportHeaderService.cs" />
     <Compile Include="ImportLineService.cs" />
+    <Compile Include="SaleDeliveryHeaderService.cs" />
+    <Compile Include="SaleDeliverySettingsService.cs" />
+    <Compile Include="SaleDeliveryLineService.cs" />
     <Compile Include="SaleQuotationHeaderChargeService.cs" />
     <Compile Include="SaleInvoiceLineDetailService.cs" />
     <Compile Include="SaleQuotationHeaderDetailService.cs" />

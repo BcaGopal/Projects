@@ -167,6 +167,8 @@ namespace Web
                         StockViewModel.Specification = item.Specification;
                         StockViewModel.Dimension1Id = item.Dimension1Id;
                         StockViewModel.Dimension2Id = item.Dimension2Id;
+                        StockViewModel.Dimension3Id = item.Dimension3Id;
+                        StockViewModel.Dimension4Id = item.Dimension4Id;
                         StockViewModel.ProductUidId = item.ProductUidId;
                         StockViewModel.CreatedBy = User.Identity.Name;
                         StockViewModel.CreatedDate = DateTime.Now;
@@ -236,6 +238,8 @@ namespace Web
                             StockProcessViewModel.Specification = item.Specification;
                             StockProcessViewModel.Dimension1Id = item.Dimension1Id;
                             StockProcessViewModel.Dimension2Id = item.Dimension2Id;
+                            StockProcessViewModel.Dimension3Id = item.Dimension3Id;
+                            StockProcessViewModel.Dimension4Id = item.Dimension4Id;
                             StockProcessViewModel.ProductUidId = item.ProductUidId;
                             StockProcessViewModel.CreatedBy = User.Identity.Name;
                             StockProcessViewModel.CreatedDate = DateTime.Now;
@@ -261,6 +265,8 @@ namespace Web
                         line.ProductId = item.ProductId;
                         line.Dimension1Id = item.Dimension1Id;
                         line.Dimension2Id = item.Dimension2Id;
+                        line.Dimension3Id = item.Dimension3Id;
+                        line.Dimension4Id = item.Dimension4Id;
                         line.Specification = item.Specification;
                         line.CostCenterId = item.CostCenterId;
                         line.Qty = item.Qty;
@@ -530,6 +536,8 @@ namespace Web
                     StockViewModel.Specification = s.Specification;
                     StockViewModel.Dimension1Id = s.Dimension1Id;
                     StockViewModel.Dimension2Id = s.Dimension2Id;
+                    StockViewModel.Dimension3Id = s.Dimension3Id;
+                    StockViewModel.Dimension4Id = s.Dimension4Id;
                     StockViewModel.Remark = s.Remark;
                     StockViewModel.Status = temp.Status;
                     StockViewModel.ProductUidId = svm.ProductUidId;
@@ -588,6 +596,8 @@ namespace Web
                         StockProcessViewModel.Specification = s.Specification;
                         StockProcessViewModel.Dimension1Id = s.Dimension1Id;
                         StockProcessViewModel.Dimension2Id = s.Dimension2Id;
+                        StockProcessViewModel.Dimension3Id = s.Dimension3Id;
+                        StockProcessViewModel.Dimension4Id = s.Dimension4Id;
                         StockProcessViewModel.Remark = s.Remark;
                         StockProcessViewModel.ProductUidId = svm.ProductUidId;
                         StockProcessViewModel.Status = temp.Status;
@@ -778,6 +788,8 @@ namespace Web
                         StockViewModel.Specification = templine.Specification;
                         StockViewModel.Dimension1Id = templine.Dimension1Id;
                         StockViewModel.Dimension2Id = templine.Dimension2Id;
+                        StockViewModel.Dimension3Id = templine.Dimension3Id;
+                        StockViewModel.Dimension4Id = templine.Dimension4Id;
                         StockViewModel.Remark = s.Remark;
                         StockViewModel.ProductUidId = svm.ProductUidId;
                         StockViewModel.Status = temp.Status;
@@ -836,6 +848,8 @@ namespace Web
                         StockProcessViewModel.Specification = templine.Specification;
                         StockProcessViewModel.Dimension1Id = templine.Dimension1Id;
                         StockProcessViewModel.Dimension2Id = templine.Dimension2Id;
+                        StockProcessViewModel.Dimension3Id = templine.Dimension3Id;
+                        StockProcessViewModel.Dimension4Id = templine.Dimension4Id;
                         StockProcessViewModel.Remark = s.Remark;
                         StockProcessViewModel.ProductUidId = svm.ProductUidId;
                         StockProcessViewModel.Status = temp.Status;
@@ -886,8 +900,10 @@ namespace Web
                     templine.RequisitionLineId = s.RequisitionLineId;
                     templine.Specification = s.Specification;
                     templine.Dimension1Id = s.Dimension1Id;
-                    templine.CostCenterId = s.CostCenterId;
                     templine.Dimension2Id = s.Dimension2Id;
+                    templine.Dimension3Id = s.Dimension3Id;
+                    templine.Dimension4Id = s.Dimension4Id;
+                    templine.CostCenterId = s.CostCenterId;
                     templine.DocNature = StockNatureConstants.Issue;
                     templine.Rate = s.Rate;
                     templine.Amount = s.Amount;
@@ -1376,9 +1392,9 @@ namespace Web
             };
         }
 
-        public ActionResult GetStockInForProduct(string searchTerm, int pageSize, int pageNum, int StockHeaderId, int ProductId, int? Dimension1Id, int? Dimension2Id)//DocTypeId
+        public ActionResult GetStockInForProduct(string searchTerm, int pageSize, int pageNum, int StockHeaderId, int? ProductId, int? Dimension1Id, int? Dimension2Id, int? Dimension3Id, int? Dimension4Id)//DocTypeId
         {
-            var Query = _StockLineService.GetPendingStockInForIssue(StockHeaderId, ProductId, Dimension1Id, Dimension2Id, searchTerm);
+            var Query = _StockLineService.GetPendingStockInForIssue(StockHeaderId, ProductId, Dimension1Id, Dimension2Id, Dimension3Id, Dimension4Id, searchTerm);
             var temp = Query.Skip(pageSize * (pageNum - 1))
                 .Take(pageSize)
                 .ToList();
@@ -1398,12 +1414,32 @@ namespace Web
 
         public JsonResult GetStockInDetailJson(int StockInId)
         {
-            var temp = (from L in db.ViewStockInBalance
-                        where L.StockInId == StockInId
+            var temp = (from p in db.ViewStockInBalance
+                        join pt in db.Product on p.ProductId equals pt.ProductId into ProductTable
+                        from ProductTab in ProductTable.DefaultIfEmpty()
+                        join D1 in db.Dimension1 on p.Dimension1Id equals D1.Dimension1Id into Dimension1Table
+                        from Dimension1Tab in Dimension1Table.DefaultIfEmpty()
+                        join D2 in db.Dimension2 on p.Dimension2Id equals D2.Dimension2Id into Dimension2Table
+                        from Dimension2Tab in Dimension2Table.DefaultIfEmpty()
+                        join D3 in db.Dimension3 on p.Dimension3Id equals D3.Dimension3Id into Dimension3Table
+                        from Dimension3Tab in Dimension3Table.DefaultIfEmpty()
+                        join D4 in db.Dimension4 on p.Dimension4Id equals D4.Dimension4Id into Dimension4Table
+                        from Dimension4Tab in Dimension4Table.DefaultIfEmpty()
+                        where p.StockInId == StockInId
                         select new
                         {
-                            BalanceQty = L.BalanceQty,
-                            LotNo = L.LotNo
+                            ProductId = p.ProductId,
+                            ProductName = ProductTab.ProductName,
+                            Dimension1Id = p.Dimension1Id,
+                            Dimension1Name = Dimension1Tab.Dimension1Name,
+                            Dimension2Id = p.Dimension2Id,
+                            Dimension2Name = Dimension2Tab.Dimension2Name,
+                            Dimension3Id = p.Dimension3Id,
+                            Dimension3Name = Dimension3Tab.Dimension3Name,
+                            Dimension4Id = p.Dimension4Id,
+                            Dimension4Name = Dimension4Tab.Dimension4Name,
+                            BalanceQty = p.BalanceQty,
+                            LotNo = p.LotNo
                         }).FirstOrDefault();
 
             if (temp != null)

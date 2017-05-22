@@ -2374,16 +2374,14 @@ namespace Service
             string DivId = "|" + CurrentDivisionId.ToString() + "|";
             string SiteId = "|" + CurrentSiteId.ToString() + "|";
 
-            var list = (from b in db.Persons
+
+            var list = (from E in db.Employee
+                        join b in db.Persons on E.PersonID equals b.PersonID
                         join bus in db.BusinessEntity on b.PersonID equals bus.PersonID into BusinessEntityTable
                         from BusinessEntityTab in BusinessEntityTable.DefaultIfEmpty()
-                        join p in db.PersonRole on b.PersonID equals p.PersonId into PersonRoleTable
-                        from PersonRoleTab in PersonRoleTable.DefaultIfEmpty()
-                        join DT in db.DocumentType on PersonRoleTab.RoleDocTypeId equals DT.DocumentTypeId into DocumentTypeTable
-                        from DocumentTypeTab in DocumentTypeTable.DefaultIfEmpty()
                         join pp in db.PersonProcess on b.PersonID equals pp.PersonId into PersonProcessTable
                         from PersonProcessTab in PersonProcessTable.DefaultIfEmpty()
-                        where PersonProcessTab.ProcessId == Processid && DocumentTypeTab.DocumentTypeName=="Employee"
+                        where PersonProcessTab.ProcessId == Processid 
                         && (string.IsNullOrEmpty(term) ? 1 == 1 : (b.Name.ToLower().Contains(term.ToLower()) || b.Code.ToLower().Contains(term.ToLower())))
                         && BusinessEntityTab.DivisionIds.IndexOf(DivId) != -1
                         && BusinessEntityTab.SiteIds.IndexOf(SiteId) != -1
@@ -2393,7 +2391,29 @@ namespace Service
                             id = b.PersonID.ToString(),
                             text = b.Name + " | " + b.Code
                         }
-              );
+  );
+
+
+            //var list = (from b in db.Persons
+            //            join bus in db.BusinessEntity on b.PersonID equals bus.PersonID into BusinessEntityTable
+            //            from BusinessEntityTab in BusinessEntityTable.DefaultIfEmpty()
+            //            join p in db.PersonRole on b.PersonID equals p.PersonId into PersonRoleTable
+            //            from PersonRoleTab in PersonRoleTable.DefaultIfEmpty()
+            //            join DT in db.DocumentType on PersonRoleTab.RoleDocTypeId equals DT.DocumentTypeId into DocumentTypeTable
+            //            from DocumentTypeTab in DocumentTypeTable.DefaultIfEmpty()
+            //            join pp in db.PersonProcess on b.PersonID equals pp.PersonId into PersonProcessTable
+            //            from PersonProcessTab in PersonProcessTable.DefaultIfEmpty()
+            //            where PersonProcessTab.ProcessId == Processid //&& DocumentTypeTab.DocumentTypeName=="Employee"
+            //            && (string.IsNullOrEmpty(term) ? 1 == 1 : (b.Name.ToLower().Contains(term.ToLower()) || b.Code.ToLower().Contains(term.ToLower())))
+            //            && BusinessEntityTab.DivisionIds.IndexOf(DivId) != -1
+            //            && BusinessEntityTab.SiteIds.IndexOf(SiteId) != -1
+            //            orderby b.Name
+            //            select new ComboBoxResult
+            //            {
+            //                id = b.PersonID.ToString(),
+            //                text = b.Name + " | " + b.Code
+            //            }
+            //  );
 
             //var list = (from b in db.Employee
             //            join bus in db.BusinessEntity on b.PersonID equals bus.PersonID into BusinessEntityTable

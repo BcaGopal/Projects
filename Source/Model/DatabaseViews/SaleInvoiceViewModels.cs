@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Model.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -167,6 +168,29 @@ namespace Model.DatabaseViews
         public string SaleDispatchNo { get; set; }
         public int SiteId { get; set; }
         public int DivisionId { get; set; }
+    }
+
+    [Table("ViewSaleInvoiceBalanceForDelivery")]
+    public class ViewSaleInvoiceBalanceForDelivery
+    {
+        [Key]
+        public int SaleInvoiceLineId { get; set; }
+        public decimal BalanceQty { get; set; }
+        public decimal Rate { get; set; }
+        public decimal BalanceAmount { get; set; }
+        public int SaleInvoiceHeaderId { get; set; }
+        public int? Dimension1Id { get; set; }
+        public virtual Dimension1 Dimension1 { get; set; }
+        public int? Dimension2Id { get; set; }
+        public virtual Dimension2 Dimension2 { get; set; }
+        public int SiteId { get; set; }
+        public int DivisionId { get; set; }
+        public string SaleInvoiceNo { get; set; }
+        public int SaleToBuyerId { get; set; }
+        public int ProductId { get; set; }
+        public virtual Product Product { get; set; }
+        public int BuyerId { get; set; }
+        public DateTime OrderDate { get; set; }
     }
 
 }

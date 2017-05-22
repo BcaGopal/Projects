@@ -114,6 +114,7 @@
                         @Html.HiddenFor(m => m.StockHeaderSettings.isVisibleDimension1)
                         <div class="form-group">
                             @Html.LabelFor(model => model.Dimension1Id, (Model.DocumentTypeSettings.Dimension1Caption ?? "Dimension1"), new { @class = "control-label col-md-4 col-sm-2" })
+                            @Html.HiddenFor(m => m.DocumentTypeSettings.Dimension1Caption)
                             <div class="col-md-7 col-sm-10">
                                 @Html.TextBoxFor(model => model.Dimension1Id, new { @class = "form-control col-xs-7 required" })
                                 @Html.ValidationMessageFor(model => model.Dimension1Id, "", new { @class = "text-danger" })
@@ -125,12 +126,37 @@
                         @Html.HiddenFor(m => m.StockHeaderSettings.isVisibleDimension2)
                         <div class="form-group">
                             @Html.LabelFor(model => model.Dimension2Id, (Model.DocumentTypeSettings.Dimension2Caption ?? "Dimension2"), new { @class = "control-label col-md-4 col-sm-2" })
+                            @Html.HiddenFor(m => m.DocumentTypeSettings.Dimension2Caption)
                             <div class="col-md-7 col-sm-10">
                                 @Html.TextBoxFor(model => model.Dimension2Id, new { @class = "form-control col-xs-7 required" })
                                 @Html.ValidationMessageFor(model => model.Dimension2Id, "", new { @class = "text-danger" })
                             </div>
                         </div>
                     </div>
+
+                    <div class="col-md-6" style="display:@(Model.StockHeaderSettings.isVisibleDimension3?"":"none")">
+                        @Html.HiddenFor(m => m.StockHeaderSettings.isVisibleDimension3)
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Dimension3Id, (Model.DocumentTypeSettings.Dimension3Caption ?? "Dimension3"), new { @class = "control-label col-md-4 col-sm-2" })
+                            @Html.HiddenFor(m => m.DocumentTypeSettings.Dimension3Caption)
+                            <div class="col-md-7 col-sm-10">
+                                @Html.TextBoxFor(model => model.Dimension3Id, new { @class = "form-control col-xs-7 required" })
+                                @Html.ValidationMessageFor(model => model.Dimension3Id, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6" style="display:@(Model.StockHeaderSettings.isVisibleDimension4?"":"none")">
+                        @Html.HiddenFor(m => m.StockHeaderSettings.isVisibleDimension4)
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Dimension4Id, (Model.DocumentTypeSettings.Dimension4Caption ?? "Dimension4"), new { @class = "control-label col-md-4 col-sm-2" })
+                            @Html.HiddenFor(m => m.DocumentTypeSettings.Dimension4Caption)
+                            <div class="col-md-7 col-sm-10">
+                                @Html.TextBoxFor(model => model.Dimension4Id, new { @class = "form-control col-xs-7 required" })
+                                @Html.ValidationMessageFor(model => model.Dimension4Id, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="col-md-6" style="display:@(Model.StockHeaderSettings.isVisibleLotNo?"":"none")">
                         @Html.HiddenFor(m => m.StockHeaderSettings.isVisibleLotNo)
                         <div class="form-group">
@@ -252,10 +278,12 @@
 
     $(document).ready(function () {
         //CustomSelectFunction($("#ProductId"), '/ComboHelpList/GetCustomProducts', '/ComboHelpList/SetSingleProducts', 'Enter Product Name', false, 3);
-        CustomSelectFunction($("#Dimension1Id"), '/ComboHelpList/GetDimension1', '/ComboHelpList/SetSingleDimension1', 'Enter Dimension1', false, 1);
-        CustomSelectFunction($("#Dimension2Id"), '/ComboHelpList/GetDimension2', '/ComboHelpList/SetSingleDimension2', 'Enter Dimension2 ', false, 1);
-        CustomSelectFunction($("#CostCenterId"), '/StockLine/GetLineCostCenters', '/ComboHelpList/SetSingleCostCenter', 'Enter CostCenter ', false, 1,$('#StockHeaderId','.modal-body').val());
-        CustomSelectFunction($("#FromProcessId"), '/ComboHelpList/GetProcess', '/ComboHelpList/SetSingleProcess', 'Enter Process Name', false, 1);
+        CustomSelectFunction($("#Dimension1Id"), '/ComboHelpList/GetDimension1', '/ComboHelpList/SetSingleDimension1', ' ', false, 0);
+        CustomSelectFunction($("#Dimension2Id"), '/ComboHelpList/GetDimension2', '/ComboHelpList/SetSingleDimension2', ' ', false, 0);
+        CustomSelectFunction($("#Dimension3Id"), '/ComboHelpList/GetDimension3', '/ComboHelpList/SetSingleDimension3', ' ', false, 0);
+        CustomSelectFunction($("#Dimension4Id"), '/ComboHelpList/GetDimension4', '/ComboHelpList/SetSingleDimension4', ' ', false, 0);
+        CustomSelectFunction($("#CostCenterId"), '/StockLine/GetLineCostCenters', '/ComboHelpList/SetSingleCostCenter', ' ', false, 0,$('#StockHeaderId','.modal-body').val());
+        CustomSelectFunction($("#FromProcessId"), '/ComboHelpList/GetProcess', '/ComboHelpList/SetSingleProcess', ' ', false, 0);
 
 
 

@@ -749,6 +749,9 @@
     <Content Include="Views\PaymentCancelWizard\DocumentTypeList.cshtml" />
     <Content Include="Views\PaymentCancelWizard\PaymentCancelWizard.cshtml" />
     <Content Include="Views\LogHistory\_LogHistory.cshtml" />
+    <Content Include="Views\TrialBalance\ProfitAndLoss.cshtml" />
+    <Content Include="Views\TrialBalance\LedgerGroupBalance.cshtml" />
+    <Content Include="Views\TrialBalance\BalanceSheet.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

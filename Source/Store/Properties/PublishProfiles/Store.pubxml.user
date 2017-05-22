@@ -31,16 +31,16 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/06/2015 12:00:56</publishTime>
     </File>
     <File Include="bin/Core.dll">
-      <publishTime>05/15/2017 11:46:13</publishTime>
+      <publishTime>05/17/2017 09:59:06</publishTime>
     </File>
     <File Include="bin/CustomEventHandlers.dll">
-      <publishTime>05/15/2017 11:46:47</publishTime>
+      <publishTime>05/18/2017 11:37:07</publishTime>
     </File>
     <File Include="bin/Data.dll">
-      <publishTime>05/15/2017 11:46:20</publishTime>
+      <publishTime>05/18/2017 11:36:42</publishTime>
     </File>
     <File Include="bin/DocumentEvents.dll">
-      <publishTime>05/15/2017 11:46:44</publishTime>
+      <publishTime>05/18/2017 11:37:05</publishTime>
     </File>
     <File Include="bin/Elmah.dll">
       <publishTime>09/22/2016 11:24:00</publishTime>
@@ -127,19 +127,19 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/22/2016 11:23:54</publishTime>
     </File>
     <File Include="bin/Model.dll">
-      <publishTime>05/15/2017 11:46:16</publishTime>
+      <publishTime>05/18/2017 11:36:36</publishTime>
     </File>
     <File Include="bin/Models.Login.dll">
-      <publishTime>05/15/2017 11:46:15</publishTime>
+      <publishTime>05/17/2017 09:59:07</publishTime>
     </File>
     <File Include="bin/Models.Tasks.dll">
-      <publishTime>05/15/2017 11:46:14</publishTime>
+      <publishTime>05/17/2017 09:59:06</publishTime>
     </File>
     <File Include="bin/Newtonsoft.Json.dll">
       <publishTime>09/22/2016 11:23:06</publishTime>
     </File>
     <File Include="bin/Notifier.dll">
-      <publishTime>05/15/2017 11:46:45</publishTime>
+      <publishTime>05/18/2017 11:37:05</publishTime>
     </File>
     <File Include="bin/Owin.dll">
       <publishTime>09/22/2016 11:22:43</publishTime>
@@ -151,7 +151,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/22/2016 10:54:21</publishTime>
     </File>
     <File Include="bin/Reports.dll">
-      <publishTime>05/15/2017 15:47:24</publishTime>
+      <publishTime>05/18/2017 11:37:10</publishTime>
     </File>
     <File Include="bin/Reports/CompanyDetail.rdlc">
       <publishTime>09/22/2016 10:54:49</publishTime>
@@ -319,10 +319,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/22/2016 10:54:50</publishTime>
     </File>
     <File Include="bin/Service.dll">
-      <publishTime>05/15/2017 15:47:20</publishTime>
+      <publishTime>05/18/2017 11:37:04</publishTime>
     </File>
     <File Include="bin/Store.dll">
-      <publishTime>05/15/2017 15:47:26</publishTime>
+      <publishTime>05/18/2017 11:37:15</publishTime>
     </File>
     <File Include="bin/Surya.India.Reports.dll">
       <publishTime>01/01/0001 00:00:00</publishTime>
@@ -1732,7 +1732,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/31/2017 18:52:22</publishTime>
     </File>
     <File Include="Views/MaterialTransferHeader/Create.cshtml">
-      <publishTime>03/03/2017 17:14:18</publishTime>
+      <publishTime>05/17/2017 16:16:37</publishTime>
     </File>
     <File Include="Views/MaterialTransferHeader/Detail.cshtml">
       <publishTime>09/22/2016 10:54:58</publishTime>
@@ -1741,13 +1741,13 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/22/2016 10:54:58</publishTime>
     </File>
     <File Include="Views/MaterialTransferHeader/Index.cshtml">
-      <publishTime>03/03/2017 17:14:18</publishTime>
+      <publishTime>05/17/2017 14:25:29</publishTime>
     </File>
     <File Include="Views/MaterialTransferHeader/_Reason.cshtml">
       <publishTime>09/28/2016 14:57:49</publishTime>
     </File>
     <File Include="Views/MaterialTransferLine/_Create.cshtml">
-      <publishTime>02/23/2017 09:40:59</publishTime>
+      <publishTime>05/17/2017 17:27:24</publishTime>
     </File>
     <File Include="Views/MaterialTransferSettings/Create.cshtml">
       <publishTime>01/01/0001 00:00:00</publishTime>
@@ -1828,7 +1828,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>02/02/2017 14:18:33</publishTime>
     </File>
     <File Include="Views/Product/CreateMaterial.cshtml">
-      <publishTime>04/12/2017 18:56:47</publishTime>
+      <publishTime>05/17/2017 09:54:32</publishTime>
     </File>
     <File Include="Views/Product/Index.cshtml">
       <publishTime>01/17/2017 15:45:03</publishTime>
@@ -1852,10 +1852,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/22/2016 10:54:58</publishTime>
     </File>
     <File Include="Views/ProductCategory/Create.cshtml">
-      <publishTime>04/24/2017 13:24:39</publishTime>
+      <publishTime>05/17/2017 17:50:22</publishTime>
     </File>
     <File Include="Views/ProductCategory/Index.cshtml">
-      <publishTime>04/24/2017 13:24:39</publishTime>
+      <publishTime>05/17/2017 16:29:16</publishTime>
     </File>
     <File Include="Views/ProductCategory/ProductTypeIndex.cshtml">
       <publishTime>05/04/2017 18:41:17</publishTime>
@@ -1912,10 +1912,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>10/07/2016 09:58:32</publishTime>
     </File>
     <File Include="Views/ProductGroup/Create.cshtml">
-      <publishTime>02/02/2017 14:18:33</publishTime>
+      <publishTime>05/17/2017 17:50:44</publishTime>
     </File>
     <File Include="Views/ProductGroup/Index.cshtml">
-      <publishTime>01/27/2017 10:27:14</publishTime>
+      <publishTime>05/17/2017 16:18:24</publishTime>
     </File>
     <File Include="Views/ProductGroup/ProductTypeIndex.cshtml">
       <publishTime>05/04/2017 18:46:22</publishTime>
@@ -2167,7 +2167,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/22/2016 10:54:58</publishTime>
     </File>
     <File Include="Views/StockHeader/Create.cshtml">
-      <publishTime>05/15/2017 11:42:18</publishTime>
+      <publishTime>05/17/2017 18:30:21</publishTime>
     </File>
     <File Include="Views/StockHeader/Detail.cshtml">
       <publishTime>01/01/0001 00:00:00</publishTime>
@@ -2191,7 +2191,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>05/15/2017 14:47:24</publishTime>
     </File>
     <File Include="Views/StockHeaderSettings/CreateForMaterialTransfer.cshtml">
-      <publishTime>01/31/2017 11:40:29</publishTime>
+      <publishTime>05/17/2017 14:56:04</publishTime>
     </File>
     <File Include="Views/StockHeaderSettings/CreateForProcessTransfer.cshtml">
       <publishTime>05/15/2017 14:47:24</publishTime>
@@ -2212,7 +2212,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>04/21/2017 14:25:33</publishTime>
     </File>
     <File Include="Views/StockInHand/StockLedgerIndex.cshtml">
-      <publishTime>04/21/2017 14:25:33</publishTime>
+      <publishTime>05/17/2017 08:31:41</publishTime>
     </File>
     <File Include="Views/StockInHand/TrialBalanceIndex.cshtml">
       <publishTime>01/01/0001 00:00:00</publishTime>
@@ -2221,7 +2221,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/22/2016 10:54:58</publishTime>
     </File>
     <File Include="Views/StockIssueHeader/Create.cshtml">
-      <publishTime>05/15/2017 15:46:31</publishTime>
+      <publishTime>05/17/2017 18:29:45</publishTime>
     </File>
     <File Include="Views/StockIssueHeader/Detail.cshtml">
       <publishTime>09/22/2016 10:54:58</publishTime>
@@ -2236,7 +2236,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/28/2016 14:57:49</publishTime>
     </File>
     <File Include="Views/StockIssueLine/_Create.cshtml">
-      <publishTime>05/10/2017 14:49:05</publishTime>
+      <publishTime>05/18/2017 11:05:38</publishTime>
     </File>
     <File Include="Views/StockIssueLine/_Filters.cshtml">
       <publishTime>01/20/2017 09:31:44</publishTime>
@@ -2245,7 +2245,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/29/2016 11:10:33</publishTime>
     </File>
     <File Include="Views/StockLine/_Create.cshtml">
-      <publishTime>01/03/2017 19:19:34</publishTime>
+      <publishTime>05/17/2017 17:44:57</publishTime>
     </File>
     <File Include="Views/StockLine/_Filters.cshtml">
       <publishTime>12/23/2016 16:54:54</publishTime>
@@ -2272,7 +2272,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/22/2016 10:54:59</publishTime>
     </File>
     <File Include="Views/StockReceiveHeader/Create.cshtml">
-      <publishTime>05/15/2017 15:45:38</publishTime>
+      <publishTime>05/17/2017 18:29:50</publishTime>
     </File>
     <File Include="Views/StockReceiveHeader/Detail.cshtml">
       <publishTime>09/22/2016 10:54:59</publishTime>
@@ -2287,7 +2287,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/28/2016 14:57:49</publishTime>
     </File>
     <File Include="Views/StockReceiveLine/_Create.cshtml">
-      <publishTime>12/12/2016 16:52:35</publishTime>
+      <publishTime>05/17/2017 16:45:25</publishTime>
     </File>
     <File Include="Views/StockReceiveLine/_Filters.cshtml">
       <publishTime>01/18/2017 19:27:07</publishTime>
@@ -2323,7 +2323,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/22/2016 10:54:58</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>01/05/2017 10:51:37</publishTime>
+      <publishTime>05/17/2017 10:00:11</publishTime>
     </File>
   </ItemGroup>
 </Project>

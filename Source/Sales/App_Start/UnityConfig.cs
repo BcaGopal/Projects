@@ -192,6 +192,13 @@ namespace Sales.App_Start
             container.RegisterType<IRepository<SaleDispatchLine>, Repository<SaleDispatchLine>>();
             container.RegisterType<Service.ISaleDispatchLineService, Service.SaleDispatchLineService>(new PerRequestLifetimeManager());
 
+
+            container.RegisterType<IRepository<SaleDeliveryHeader>, Repository<SaleDeliveryHeader>>();
+            container.RegisterType<Service.ISaleDeliveryHeaderService, Service.SaleDeliveryHeaderService>(new PerRequestLifetimeManager());
+
+            container.RegisterType<IRepository<SaleDeliveryLine>, Repository<SaleDeliveryLine>>();
+            container.RegisterType<Service.ISaleDeliveryLineService, Service.SaleDeliveryLineService>(new PerRequestLifetimeManager());
+
             container.RegisterType<IRepository<SaleInvoiceHeader>, Repository<SaleInvoiceHeader>>();
             container.RegisterType<Service.ISaleInvoiceHeaderService, Service.SaleInvoiceHeaderService>(new PerRequestLifetimeManager());
 
@@ -218,6 +225,8 @@ namespace Sales.App_Start
             container.RegisterType<ISaleDispatchReturnLineService, SaleDispatchReturnLineService>(new PerRequestLifetimeManager());
 
             container.RegisterType<ISaleDispatchSettingService, SaleDispatchSettingService>(new PerRequestLifetimeManager());
+            
+            container.RegisterType<ISaleDeliverySettingService, SaleDeliverySettingService>(new PerRequestLifetimeManager());
 
             container.RegisterType<IRepository<Manufacturer>, Repository<Manufacturer>>();
             container.RegisterType<IManufacturerService, ManufacturerService>(new PerRequestLifetimeManager());
@@ -336,6 +345,12 @@ namespace Sales.App_Start
             Mapper.CreateMap<SaleDispatchHeader, DocumentUniqueId>();
             Mapper.CreateMap<SaleDispatchHeaderIndexViewModel, DocumentUniqueId>();
 
+
+            Mapper.CreateMap<SaleDeliveryHeaderViewModel, DocumentUniqueId>();
+            Mapper.CreateMap<SaleDeliveryHeader, DocumentUniqueId>();
+            Mapper.CreateMap<SaleDeliveryHeaderIndexViewModel, DocumentUniqueId>();
+
+
             Mapper.CreateMap<DispatchWaybillHeader, DocumentUniqueId>();
             Mapper.CreateMap<DispatchWaybillHeaderViewModel, DocumentUniqueId>();
 
@@ -448,6 +463,9 @@ namespace Sales.App_Start
             Mapper.CreateMap<SaleDispatchHeaderViewModel, SaleDispatchHeader>();
             Mapper.CreateMap<SaleDispatchHeader, SaleDispatchHeaderViewModel>();
 
+            Mapper.CreateMap<SaleDeliveryHeaderViewModel, SaleDeliveryHeader>();
+            Mapper.CreateMap<SaleDeliveryHeader, SaleDeliveryHeaderViewModel>();
+
 
             Mapper.CreateMap<DirectSaleInvoiceLineViewModel, SaleInvoiceLine>();
             Mapper.CreateMap<SaleInvoiceLine, DirectSaleInvoiceLineViewModel>();
@@ -485,6 +503,9 @@ namespace Sales.App_Start
             Mapper.CreateMap<SaleDispatchLineViewModel, SaleDispatchLine>();
             Mapper.CreateMap<SaleDispatchLine, SaleDispatchLineViewModel>();
 
+            Mapper.CreateMap<SaleDeliveryLineViewModel, SaleDeliveryLine>();
+            Mapper.CreateMap<SaleDeliveryLine, SaleDeliveryLineViewModel>();
+
 
             Mapper.CreateMap<SaleInvoiceHeader, SaleInvoiceHeaderIndexViewModel>();
             Mapper.CreateMap<SaleInvoiceHeaderIndexViewModel, SaleInvoiceHeader>();
@@ -510,6 +531,9 @@ namespace Sales.App_Start
 
             Mapper.CreateMap<SaleDispatchSetting, SaleDispatchSettingsViewModel>();
             Mapper.CreateMap<SaleDispatchSettingsViewModel, SaleDispatchSetting>();
+
+            Mapper.CreateMap<SaleDeliverySetting, SaleDeliverySettingsViewModel>();
+            Mapper.CreateMap<SaleDeliverySettingsViewModel, SaleDeliverySetting>();
 
             Mapper.CreateMap<SaleDispatchReturnHeader, SaleDispatchReturnHeaderViewModel>();
             Mapper.CreateMap<SaleDispatchReturnHeaderViewModel, SaleDispatchReturnHeader>();

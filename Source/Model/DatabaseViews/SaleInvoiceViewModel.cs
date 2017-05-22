@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Model.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -16,4 +17,6 @@ namespace Model.DatabaseViews
         public string SaleInvoiceNo { get; set; }
         public DateTime DocDate { get; set; }
     }
+
+
 }

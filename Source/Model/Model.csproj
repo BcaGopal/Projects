@@ -114,6 +114,9 @@
     <Compile Include="Models\DocumentTypeAttributes.cs" />
     <Compile Include="Models\DocumentTypeSettings.cs" />
     <Compile Include="Models\FeetConversionToCms.cs" />
+    <Compile Include="Models\SaleDeliveryHeader.cs" />
+    <Compile Include="Models\SaleDeliveryLine.cs" />
+    <Compile Include="Models\SaleDeliverySetting.cs" />
     <Compile Include="Models\SaleInvoiceHeaderAttributes.cs" />
     <Compile Include="Models\PersonRole.cs" />
     <Compile Include="Models\ProductTypeSettings.cs" />
@@ -214,6 +217,8 @@
     <Compile Include="ViewModels\ImportLineViewModel.cs" />
     <Compile Include="ViewModels\PersonRoleViewModel.cs" />
     <Compile Include="ViewModels\ImportMasterViewModel.cs" />
+    <Compile Include="ViewModels\SaleDeliverySettingsViewModel.cs" />
+    <Compile Include="ViewModels\SaleDeliveryViewModel.cs" />
     <Compile Include="ViewModels\SaleQuotationHeaderViewModel.cs" />
     <Compile Include="ViewModels\SaleQuotationLineViewModel.cs" />
     <Compile Include="ViewModels\SaleQuotationSettingsViewModel.cs" />
@@ -624,7 +629,7 @@
     <Compile Include="ViewModels\LedgerEventArgs.cs" />
     <Compile Include="ViewModels\SaleDeliveryCancelViewModel.cs" />
     <Compile Include="ViewModels\JobOrderInspectionRequestSettingsViewModel.cs" />
-    <Compile Include="ViewModels\SaleDeliverySettingsViewModel.cs" />
+    <Compile Include="ViewModels\SaleDeliveryOrderSettingsViewModel.cs" />
     <Compile Include="ViewModels\StockEventArgs.cs" />
     <Compile Include="ViewModels\ExcessMaterialViewModel.cs" />
     <Compile Include="ViewModels\ExcessMaterialSettingsViewModel.cs" />

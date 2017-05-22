@@ -52,7 +52,18 @@ namespace Model.Models
 
         [ForeignKey("Dimension2"), Display(Name = "Dimension2")]
         public int? Dimension2Id { get; set; }
-        public virtual Dimension2 Dimension2 { get; set; }        
+        public virtual Dimension2 Dimension2 { get; set; }
+
+
+
+        [ForeignKey("Dimension3"), Display(Name = "Dimension3")]
+        public int? Dimension3Id { get; set; }
+        public virtual Dimension3 Dimension3 { get; set; }
+
+        [ForeignKey("Dimension4"), Display(Name = "Dimension4")]
+        public int? Dimension4Id { get; set; }
+        public virtual Dimension4 Dimension4 { get; set; }      
+
       
         [Display(Name = "Created By")]
         public string CreatedBy { get; set; }

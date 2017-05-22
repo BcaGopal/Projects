@@ -168,7 +168,11 @@ namespace Web
                 return View("~/Views/Shared/InValidSettings.cshtml");
             }
             p.StockHeaderSettings = Mapper.Map<StockHeaderSettings, StockHeaderSettingsViewModel>(settings);
-            p.ProcessId = settings.ProcessId;
+
+            if (settings.isVisibleProcessHeader == false)
+            {
+                p.ProcessId = settings.ProcessId;
+            }
 
             if (System.Web.HttpContext.Current.Session["DefaultGodownId"] != null)
                 p.GodownId = (int)System.Web.HttpContext.Current.Session["DefaultGodownId"];

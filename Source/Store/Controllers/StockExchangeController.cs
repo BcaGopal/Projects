@@ -1254,6 +1254,8 @@ namespace Web
                         StockViewModel.Specification = item.Specification;
                         StockViewModel.Dimension1Id = item.Dimension1Id;
                         StockViewModel.Dimension2Id = item.Dimension2Id;
+                        StockViewModel.Dimension3Id = item.Dimension3Id;
+                        StockViewModel.Dimension4Id = item.Dimension4Id;
                         StockViewModel.ProductUidId = item.ProductUidId;
                         StockViewModel.CreatedBy = User.Identity.Name;
                         StockViewModel.CreatedDate = DateTime.Now;
@@ -1323,6 +1325,8 @@ namespace Web
                             StockProcessViewModel.Specification = item.Specification;
                             StockProcessViewModel.Dimension1Id = item.Dimension1Id;
                             StockProcessViewModel.Dimension2Id = item.Dimension2Id;
+                            StockProcessViewModel.Dimension3Id = item.Dimension3Id;
+                            StockProcessViewModel.Dimension4Id = item.Dimension4Id;
                             StockProcessViewModel.ProductUidId = item.ProductUidId;
                             StockProcessViewModel.CreatedBy = User.Identity.Name;
                             StockProcessViewModel.CreatedDate = DateTime.Now;
@@ -1348,6 +1352,8 @@ namespace Web
                         line.ProductId = item.ProductId;
                         line.Dimension1Id = item.Dimension1Id;
                         line.Dimension2Id = item.Dimension2Id;
+                        line.Dimension3Id = item.Dimension3Id;
+                        line.Dimension4Id = item.Dimension4Id;
                         line.Specification = item.Specification;
                         line.Qty = item.QtyIss;
                         line.CostCenterId = item.CostCenterId;
@@ -1424,6 +1430,8 @@ namespace Web
                         StockViewModel.Specification = item.Specification;
                         StockViewModel.Dimension1Id = item.Dimension1Id;
                         StockViewModel.Dimension2Id = item.Dimension2Id;
+                        StockViewModel.Dimension3Id = item.Dimension3Id;
+                        StockViewModel.Dimension4Id = item.Dimension4Id;
                         StockViewModel.ProductUidId = item.ProductUidId;
                         StockViewModel.CreatedBy = User.Identity.Name;
                         StockViewModel.CreatedDate = DateTime.Now;
@@ -1493,6 +1501,8 @@ namespace Web
                             StockProcessViewModel.Specification = item.Specification;
                             StockProcessViewModel.Dimension1Id = item.Dimension1Id;
                             StockProcessViewModel.Dimension2Id = item.Dimension2Id;
+                            StockProcessViewModel.Dimension3Id = item.Dimension3Id;
+                            StockProcessViewModel.Dimension4Id = item.Dimension4Id;
                             StockProcessViewModel.ProductUidId = item.ProductUidId;
                             StockProcessViewModel.CreatedBy = User.Identity.Name;
                             StockProcessViewModel.CreatedDate = DateTime.Now;
@@ -1518,6 +1528,8 @@ namespace Web
                         line.ProductId = item.ProductId;
                         line.Dimension1Id = item.Dimension1Id;
                         line.Dimension2Id = item.Dimension2Id;
+                        line.Dimension3Id = item.Dimension3Id;
+                        line.Dimension4Id = item.Dimension4Id;
                         line.Specification = item.Specification;
                         line.Qty = item.QtyRec;
                         line.CostCenterId = item.CostCenterId;
@@ -1939,6 +1951,8 @@ namespace Web
                     StockViewModel.Specification = s.Specification;
                     StockViewModel.Dimension1Id = s.Dimension1Id;
                     StockViewModel.Dimension2Id = s.Dimension2Id;
+                    StockViewModel.Dimension3Id = s.Dimension3Id;
+                    StockViewModel.Dimension4Id = s.Dimension4Id;
                     StockViewModel.Remark = s.Remark;
                     StockViewModel.ProductUidId = svm.ProductUidId;
                     StockViewModel.Status = temp.Status;
@@ -2001,6 +2015,8 @@ namespace Web
                         StockProcessViewModel.Specification = s.Specification;
                         StockProcessViewModel.Dimension1Id = s.Dimension1Id;
                         StockProcessViewModel.Dimension2Id = s.Dimension2Id;
+                        StockProcessViewModel.Dimension3Id = s.Dimension3Id;
+                        StockProcessViewModel.Dimension4Id = s.Dimension4Id;
                         StockProcessViewModel.Remark = s.Remark;
                         StockProcessViewModel.ProductUidId = svm.ProductUidId;
                         StockProcessViewModel.Status = temp.Status;
@@ -2169,6 +2185,8 @@ namespace Web
                         StockViewModel.Specification = templine.Specification;
                         StockViewModel.Dimension1Id = templine.Dimension1Id;
                         StockViewModel.Dimension2Id = templine.Dimension2Id;
+                        StockViewModel.Dimension3Id = templine.Dimension3Id;
+                        StockViewModel.Dimension4Id = templine.Dimension4Id;
                         StockViewModel.Remark = s.Remark;
                         StockViewModel.Status = temp.Status;
                         StockViewModel.ProductUidId = svm.ProductUidId;                        
@@ -2224,6 +2242,8 @@ namespace Web
                         StockProcessViewModel.Specification = templine.Specification;
                         StockProcessViewModel.Dimension1Id = templine.Dimension1Id;
                         StockProcessViewModel.Dimension2Id = templine.Dimension2Id;
+                        StockProcessViewModel.Dimension3Id = templine.Dimension3Id;
+                        StockProcessViewModel.Dimension4Id = templine.Dimension4Id;
                         StockProcessViewModel.Remark = s.Remark;
                         StockProcessViewModel.ProductUidId = svm.ProductUidId;
                         StockProcessViewModel.Status = temp.Status;
@@ -2249,8 +2269,10 @@ namespace Web
                     templine.RequisitionLineId = s.RequisitionLineId;
                     templine.Specification = s.Specification;
                     templine.Dimension1Id = s.Dimension1Id;
-                    templine.CostCenterId = s.CostCenterId;
                     templine.Dimension2Id = s.Dimension2Id;
+                    templine.Dimension3Id = s.Dimension3Id;
+                    templine.Dimension4Id = s.Dimension4Id;
+                    templine.CostCenterId = s.CostCenterId;
                     templine.DocNature = StockNatureConstants.Issue;
                     templine.Rate = s.Rate;
                     templine.Amount = s.Amount;

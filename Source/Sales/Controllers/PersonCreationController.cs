@@ -63,17 +63,20 @@ namespace Web
             }
             else
             {
-                NewDocNoViewModel NewPersonCode = db.Database.SqlQuery<NewDocNoViewModel>("" + System.Configuration.ConfigurationManager.AppSettings["DataBaseSchema"] + ".GetNewPersonCode ").FirstOrDefault();
-                if (NewPersonCode != null)
-                {
-                    p.Code = NewPersonCode.NewDocNo;
-                }
+                //NewDocNoViewModel NewPersonCode = db.Database.SqlQuery<NewDocNoViewModel>("" + System.Configuration.ConfigurationManager.AppSettings["DataBaseSchema"] + ".GetNewPersonCode ").FirstOrDefault();
+                //if (NewPersonCode != null)
+                //{
+                //    p.Code = NewPersonCode.NewDocNo;
+                //}
 
-                NewDocNoViewModel NewPersonSuffix = db.Database.SqlQuery<NewDocNoViewModel>("" + System.Configuration.ConfigurationManager.AppSettings["DataBaseSchema"] + ".GetNewPersonSuffix ").FirstOrDefault();
-                if (NewPersonSuffix != null)
-                {
-                    p.Suffix = NewPersonSuffix.NewDocNo;
-                }
+                //NewDocNoViewModel NewPersonSuffix = db.Database.SqlQuery<NewDocNoViewModel>("" + System.Configuration.ConfigurationManager.AppSettings["DataBaseSchema"] + ".GetNewPersonSuffix ").FirstOrDefault();
+                //if (NewPersonSuffix != null)
+                //{
+                //    p.Suffix = NewPersonSuffix.NewDocNo;
+                //}
+
+                p.Code = new PersonService(_unitOfWork).GetMaxCode();
+                p.Suffix = new PersonService(_unitOfWork).GetMaxCode();
             }
 
             return PartialView("_Create", p);

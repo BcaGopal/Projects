@@ -51,7 +51,8 @@
                         @Html.HiddenFor(m => m.LedgerSetting.isVisibleLineCostCenter)
                         @Html.HiddenFor(m => m.LedgerSetting.isMandatoryLineCostCenter)
                         <div class="form-group">
-                            @Html.LabelFor(model => model.CostCenterId, "Cost Center", new { @class = "control-label col-md-4 col-sm-2" })
+                            @Html.LabelFor(model => model.CostCenterId, (Model.DocumentTypeSettings.CostCenterCaption ?? "Cost Center"), new { @class = "control-label col-md-4 col-sm-2" })
+                            @Html.HiddenFor(m => m.DocumentTypeSettings.CostCenterCaption)
                             <div class="col-md-7 col-sm-10">
                                 @Html.TextBoxFor(m => m.CostCenterId, new { @class = "form-control" })
                                 @Html.ValidationMessageFor(model => model.CostCenterId, "", new { @class = "text-danger" })
@@ -113,6 +114,8 @@
                         </div>
                     </div>
 
+
+
                     @if (ViewBag.LedgerAccountNature == LedgerAccountTypeConstants.Bank)
                     {
 
@@ -145,6 +148,30 @@
                             <div class="col-md-7 col-sm-10">
                                 @Html.TextBoxFor(model => model.ProductUidName, new { @class = "form-control" })
                                 @Html.ValidationMessageFor(model => model.ProductUidId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6" style="display:@(Model.LedgerSetting.isVisibleReferenceDocTypeId?"":"none")">
+                        @Html.HiddenFor(m => m.LedgerSetting.isVisibleReferenceDocTypeId)
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.ReferenceDocTypeId, (Model.DocumentTypeSettings.ReferenceDocTypeCaption ?? "Reference Doc Type"), new { @class = "control-label col-md-4 col-sm-2" })
+                            @Html.HiddenFor(m => m.DocumentTypeSettings.ReferenceDocTypeCaption)
+                            <div class="col-md-7 col-sm-10">
+                                @Html.TextBoxFor(model => model.ReferenceDocTypeId, new { @class = "form-control col-xs-7 " })
+                                @Html.ValidationMessageFor(model => model.ReferenceDocTypeId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6" style="display:@(Model.LedgerSetting.isVisibleReferenceDocId?"":"none")">
+                        @Html.HiddenFor(m => m.LedgerSetting.isVisibleReferenceDocId)
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.ReferenceDocId, (Model.DocumentTypeSettings.ReferenceDocIdCaption ?? "Reference Doc No."), new { @class = "control-label col-md-4 col-sm-2" })
+                            @Html.HiddenFor(m => m.DocumentTypeSettings.ReferenceDocIdCaption)
+                            <div class="col-md-7 col-sm-10">
+                                @Html.TextBoxFor(model => model.ReferenceDocId, new { @class = "form-control col-xs-7 " })
+                                @Html.ValidationMessageFor(model => model.ReferenceDocId, "", new { @class = "text-danger" })
                             </div>
                         </div>
                     </div>
@@ -185,8 +212,10 @@
     var TChqNo=parseInt($('#ChqNo').val());
 
     $(document).ready(function () {
-        CustomSelectFunction($("#LedgerAccountId"), '/LedgerLine/GetLedgerAccount', '/ComboHelpList/SetSingleAccount', 'Enter Account', false, 1,$('#LedgerHeaderId','.modal-body').val());
-        CustomSelectFunction($("#CostCenterId"), '/LedgerLine/GetCostCenters', '/ComboHelpList/SetSingleCostCenter', 'Cost Center', false, 1,$('#LedgerHeaderId','.modal-body').val());
+        CustomSelectFunction($("#LedgerAccountId"), '/LedgerLine/GetLedgerAccount', '/ComboHelpList/SetSingleAccount', ' ', false, 0,$('#LedgerHeaderId','.modal-body').val());
+        CustomSelectFunction($("#CostCenterId"), '/LedgerLine/GetCostCenters', '/ComboHelpList/SetSingleCostCenter', ' ', false, 0,$('#LedgerHeaderId','.modal-body').val());
+        CustomSelectFunction($("#ReferenceDocTypeId"), '/ComboHelpList/GetDocumentType', '/ComboHelpList/SetDocumentType', ' ', false, 0);
+        CustomSelectFunctionForReference($("#ReferenceDocId"), '/LedgerLine/GetReferenceDocIds', '/LedgerLine/SetSingleReferenceDocIds', ' ', false, 0,$("#ReferenceDocTypeId").val());
 
 
         $('.datepicker').datepicker({
@@ -194,6 +223,72 @@
             "setDate": new Date(),
             "autoclose": true
         })
+
+        $('#ReferenceDocTypeId').change(function()
+        {
+            CustomSelectFunctionForReference($("#ReferenceDocId"), '/LedgerLine/GetReferenceDocIds', '/LedgerLine/SetSingleReferenceDocIds', ' ', false, 0,$("#ReferenceDocTypeId").val());
+        })
+
+
+        function CustomSelectFunctionForReference(ElementId, GetAction, SetAction, placehold, IsMultiple,MinLength,filterid) 
+        {
+            var geturl = GetAction;
+            //The url we will send our get request to
+            var attendeeUrl = GetAction;
+            var pageSize = 20;
+    
+            ElementId.select2(
+            {
+        
+                placeholder: placehold,
+                //Does the user have to enter any data before sending the ajax request
+                minimumInputLength: MinLength,
+                allowClear: true,
+                multiple: IsMultiple,
+                ajax: {
+                    //How long the user has to pause their typing before sending the next request
+                    quietMillis: 150,
+                    //The url of the json service
+                    url: attendeeUrl,
+                    dataType: 'jsonp',
+                    //Our search term and what page we are on
+                    data: function (term, page) {
+                        return {
+                            pageSize: pageSize,
+                            pageNum: page,
+                            searchTerm: term,
+                            filter:filterid
+                        };
+                    },
+                    results: function (data, page) {
+                        //Used to determine whether or not there are more results available,
+                        //and if requests for more data should be sent in the infinite scrolling
+                        var more = (page * pageSize) < data.Total;
+                        return { results: data.Results, more: more };
+                    }
+                },
+                initSelection: function (element, callback) {
+
+                    var xval = element.val();
+                    if (xval != 0)
+                    {
+                        $.ajax({
+                            cache: false,
+                            type: "POST",
+                            url: SetAction,
+                            data: { Ids: element.val(), ReferenceDocTypeId : $("#ReferenceDocTypeId").val() },
+                            success: function (data) {
+                                callback(data);
+                            },
+                            error: function (xhr, ajaxOptions, thrownError) {
+                                alert('Failed to Retrive Qty' + thrownError);
+                            }
+                        })
+                    }
+                }
+            });
+        }
+
 
         var id=@Model.LedgerLineId;
 

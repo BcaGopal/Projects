@@ -69,6 +69,7 @@ namespace Service
                         DocNo = p.DocNo,
                         DocTypeId = p.DocTypeId,
                         LedgerAccountId = p.LedgerAccountId,
+                        DrCr = p.DrCr,
                         LedgerHeaderId = p.LedgerHeaderId,
                         CostCenterId = p.CostCenterId,
                         Narration = p.Narration,

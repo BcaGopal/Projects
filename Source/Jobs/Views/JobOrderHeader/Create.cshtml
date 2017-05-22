@@ -1216,12 +1216,12 @@
             $(document).find('a#btnCreateF').removeAttr('href').removeAttr('data-modal').attr("disabled","disabled");
 
         //CustomSelectFunction($("#JobWorkerId"), '/ComboHelpList/GetJobWorkersWithProcess', '/ComboHelpList/SetSingleJobWorker', ' ', false, 1,$('#ProcessId').val());
-        CustomSelectFunction($("#JobWorkerId"), '/JobOrderHeader/GetCustomPerson', '/ComboHelpList/SetSinglePerson', ' ', false, 1,$('#DocTypeId').val());
-        CustomSelectFunction($("#MachineId"), '/ComboHelpList/GetMachine', '/ComboHelpList/SetSingleMachine', ' ', false, 1);
+        CustomSelectFunction($("#JobWorkerId"), '/JobOrderHeader/GetCustomPerson', '/ComboHelpList/SetSinglePerson', ' ', false, 0,$('#DocTypeId').val());
+        CustomSelectFunction($("#MachineId"), '/ComboHelpList/GetMachine', '/ComboHelpList/SetSingleMachine', ' ', false, 0);
         //CustomSelectFunction($("#BillToPartyId"), '/ComboHelpList/GetJobWorkersWithProcess', '/ComboHelpList/SetSingleJobWorker', ' ', false, 1,$('#ProcessId').val());
-        CustomSelectFunction($("#BillToPartyId"), '/JobOrderHeader/GetCustomPerson', '/ComboHelpList/SetSinglePerson', ' ', false, 1,$('#DocTypeId').val());
-        CustomSelectFunction($("#OrderById"), '/ComboHelpList/GetEmployeeWithProcess', '/ComboHelpList/SetSingleEmployee', ' ', false, 1, $('#ProcessId').val());
-        CustomSelectFunction($("#GodownId"), '/ComboHelpList/GetGodown', '/ComboHelpList/SetSingleGodown', ' ', false, 1);
+        CustomSelectFunction($("#BillToPartyId"), '/JobOrderHeader/GetCustomPerson', '/ComboHelpList/SetSinglePerson', ' ', false, 0,$('#DocTypeId').val());
+        CustomSelectFunction($("#OrderById"), '/ComboHelpList/GetEmployeeWithProcess', '/ComboHelpList/SetSingleEmployee', ' ', false, 0, $('#ProcessId').val());
+        CustomSelectFunction($("#GodownId"), '/ComboHelpList/GetGodown', '/ComboHelpList/SetSingleGodown', ' ', false, 0);
         CustomSelectFunction($("#DeliveryTermsId"), '/ComboHelpList/GetDeliveryTerms', '/ComboHelpList/SetSingleDeliveryTerm', ' ', false, 0);
         CustomSelectFunction($("#ShipToAddressId"), '/ComboHelpList/GetAddresses', '/ComboHelpList/SetSingleAddress', ' ', false, 0);
         CustomSelectFunction($("#CurrencyId"), '/ComboHelpList/GetCurrencies', '/ComboHelpList/SetSingleCurrency', ' ', false, 0);
@@ -1235,7 +1235,19 @@
         CustomSelectFunction($("#ProcessId"), '/ComboHelpList/GetProcessWithChildProcess', '/ComboHelpList/SetSingleProcess', ' ', false,0, $('#JobOrderSettings_ProcessId').val());
 
 
-        $('#JobWorkerId').select2('focus');
+        $("#ProcessId").change(function(){
+            CustomSelectFunction($("#OrderById"), '/ComboHelpList/GetEmployeeWithProcess', '/ComboHelpList/SetSingleEmployee', ' ', false, 0, $('#ProcessId').val());
+        });
+
+        if ($("#ProcessId").is(":hidden") == false)
+        {
+            $('#ProcessId').select2('focus');
+        }
+        else{
+            $('#JobWorkerId').select2('focus');
+        }
+
+
         //Calling the function to load the table data/ Line information
         LoadProducts();
 

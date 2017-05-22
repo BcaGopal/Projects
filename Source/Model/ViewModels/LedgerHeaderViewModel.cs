@@ -50,6 +50,7 @@ namespace Model.ViewModel
         public string AdjustmentType { get; set; }
         public string Narration { get; set; }
         public string NarrationName { get; set; }
+        public string DrCr { get; set; }
 
         [Display(Name = "Remark")]
         public string Remark { get; set; }

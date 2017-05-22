@@ -29,7 +29,11 @@ namespace Model.ViewModel
         public bool isMandatoryProcess { get; set; }
         public bool isVisibleGodown { get; set; }
         public bool isMandatoryGodown { get; set; }
-        public bool isVisibleProductUid { get; set; }        
+        public bool isVisibleProductUid { get; set; }
+        public bool isVisibleReferenceDocId { get; set; }
+        public bool isVisibleReferenceDocTypeId { get; set; }
+        public bool isVisibleDrCr { get; set; }
+        public string filterReferenceDocTypes { get; set; }
         public string filterLedgerAccountGroupHeaders { get; set; }
         public string filterLedgerAccountGroupLines { get; set; }
         public string filterPersonProcessHeaders { get; set; }
