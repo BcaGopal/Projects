@@ -190,17 +190,19 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-6">
+                            <div class="col-md-6" style="display:@(Model.LedgerSetting.isVisibleAdjustmentType?"":"none")">
+                                @Html.HiddenFor(m => m.LedgerSetting.isVisibleAdjustmentType)
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.AdjustmentType, "Adjustment Type", new { @class = "control-label col-md-4 col-sm-2" })
                                     <div class="col-md-7 col-sm-10">
-                                        @Html.DropDownListFor(m => m.AdjustmentType, new SelectList(ViewBag.AdjustmentTypeList as System.Collections.IEnumerable, "Value", "Text"),"", new { @class = "form-control col-xs-6 height" })
+                                        @Html.DropDownListFor(m => m.AdjustmentType, new SelectList(ViewBag.AdjustmentTypeList as System.Collections.IEnumerable, "Value", "Text"), "", new { @class = "form-control col-xs-6 height" })
                                         @Html.ValidationMessageFor(m => m.AdjustmentType, null, new { @class = "has-error" })
                                     </div>
                                 </div>
                             </div>
 
-                            <div class="col-md-6">
+                            <div class="col-md-6" style="display:@(Model.LedgerSetting.isVisiblePaymentFor?"":"none")">
+                                @Html.HiddenFor(m => m.LedgerSetting.isVisiblePaymentFor)
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.PaymentFor, "Payment For", new { @class = "control-label col-md-4 col-sm-2" })
                                     <div class="col-md-7 col-sm-10">
@@ -209,6 +211,32 @@
                                     </div>
                                 </div>
                             </div>
+
+                            <div class="col-md-6" style="display:@(Model.LedgerSetting.isVisiblePartyDocNo?"":"none")">
+                                @Html.HiddenFor(m => m.LedgerSetting.isVisiblePartyDocNo)
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.PartyDocNo, (Model.LedgerSetting.PartyDocNoCaption ?? "Party Doc No"), new { @class = "control-label col-md-4 col-sm-2" })
+                                    @Html.HiddenFor(m => m.LedgerSetting.PartyDocNoCaption)
+                                    <div class="col-md-7 col-sm-10">
+                                        @Html.TextBoxFor(m => m.PartyDocNo, new { @class = "form-control  col-xs-6" })
+                                        @Html.ValidationMessageFor(model => model.PartyDocNo, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6" style="display:@(Model.LedgerSetting.isVisiblePartyDocDate?"":"none")">
+                                @Html.HiddenFor(m => m.LedgerSetting.isVisiblePartyDocDate)
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.PartyDocDate, (Model.LedgerSetting.PartyDocDateCaption ?? "Party Doc Date"), new { @class = "control-label col-md-4 col-sm-2" })
+                                    @Html.HiddenFor(m => m.LedgerSetting.PartyDocDateCaption)
+                                    <div class="col-md-7 col-sm-10">
+                                        @Html.TextBoxFor(m => m.PartyDocDate, "{0:dd/MMMM/yyyy}", new { @class = "datepickerWithNFD form-control col-xs-6" })
+                                        @Html.ValidationMessageFor(model => model.PartyDocDate, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+
+
                             <div class="col-md-6" style="display:@(Model.LedgerSetting.isVisibleProcess?"":"none")">
                                 @Html.HiddenFor(m => m.LedgerSetting.isVisibleProcess)
                                 @Html.HiddenFor(m => m.LedgerSetting.isMandatoryProcess)
@@ -479,6 +507,7 @@ else
     function LoadProducts() {
         var groupId=@Model.LedgerHeaderId;
         var status='@Model.Status';
+        var IsVisibleLedgerAdj='@Model.LedgerSetting.isVisibleLedgerAdj';
         var LineEditUrl;
         var LineDeleteUrl;
         if(status==StatusContstantsEnum.Drafted)
@@ -511,7 +540,7 @@ else
                 if(data.length!=0)
                 {
                     $.each(data, function (index, item) {
-                        row += " <div class='row crow grid-body' style='margin-left:0px;margin-right:0px'><div class='col-xs-1 row-index' style='width: 5%'>"+srno+"<input type='hidden' class='id' value='"+item.LedgerHeaderId+"' /></div><div class='col-xs-10' style='width:88%'><div class='row'><div class='col-sm-4'>"+(item.LedgerAccountName==null?" ":"<strong>"+item.LedgerAccountName+"</strong>")+"  <div>  </div></div>            <div class='col-sm-2'>"+(item.ReferenceDocNo==null?" ":item.ReferenceDocNo)+"</div> <div class='col-sm-2'>"+(item.CostCenterName==null?" ":item.CostCenterName)+"</div>  <div class='col-sm-2 text-right number'  >"+(item.Amount==null?" ":item.Amount.toFixed(2))+"</div>     <div class='col-sm-2 text-center'>"+(item.ChqNo==null?" ":"ChqNo-"+item.ChqNo)+"<br /> "+(item.DueDate==null?" ":"ChqDt-"+formatDate('d/m/Y',new Date(parseInt(item.DueDate.substr(6)))))+" </div>                         </div></div><div class='col-xs-1' style='width: 5%'><a class='glyphicon glyphicon-trash icon-Cus-Size' delete='' href='"+LineDeleteUrl+item.LedgerLineId+"'></a><a  edit='' href='"+LineEditUrl+item.LedgerLineId+"'></a></div></div><hr style='margin-top:0px;margin-bottom:0px'/></div>";
+                        row += " <div class='row crow grid-body' style='margin-left:0px;margin-right:0px'><div class='col-xs-1 row-index' style='width: 5%'>"+srno+"<input type='hidden' class='id' value='"+item.LedgerHeaderId+"' /></div><div class='col-xs-10' style='width:88%'><div class='row'><div class='col-sm-4'>"+(item.LedgerAccountName==null?" ":"<strong>"+item.LedgerAccountName+"</strong>")+"  <div>  </div></div>            <div class='col-sm-2'>"+(item.ReferenceDocNo==null?" ":item.ReferenceDocNo)+"</div> <div class='col-sm-2'>"+(item.CostCenterName==null?" ":item.CostCenterName)+"</div>  <div class='col-sm-2 text-right number'  >"+(item.Amount==null?" ":item.Amount.toFixed(2))+"</div>     <div class='col-sm-2 text-center'>"+(item.ChqNo==null?" ":"ChqNo-"+item.ChqNo)+"<br /> "+(item.DueDate==null?" ":"ChqDt-"+formatDate('d/m/Y',new Date(parseInt(item.DueDate.substr(6)))))+" </div>                         </div></div><div class='col-xs-1' style='width: 5%'><a class='glyphicon glyphicon-trash icon-Cus-Size' delete='' href='"+LineDeleteUrl+item.LedgerLineId+"'></a><a  edit='' href='"+LineEditUrl+item.LedgerLineId+"'></a>"+(IsVisibleLedgerAdj=='False' ?" ":" <a  style='padding:3px;' class='glyphicon glyphicon-edit' data-modal='' delete='' href='/LedgerLine/_LedgerAdj/"+item.LedgerLineId+"' ></a>")+"</div></div><hr style='margin-top:0px;margin-bottom:0px'/></div>";
 
                         AmountCount+=item.Amount;
                         srno++;

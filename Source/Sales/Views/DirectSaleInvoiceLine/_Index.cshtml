@@ -75,6 +75,7 @@
     </div>
 
     @{
+        
         var groupId = ViewBag.SaleInvoiceHeaderId;
         int status = ViewBag.Status;
         var LineEditUrl = "";
@@ -116,7 +117,6 @@
         @{var srno = 1;}
         @foreach (var item in Model)
         {
-
              <div class='row crow grid-body' style='margin-left:0px;margin-right:0px' id='@item.SaleDispatchLineId '>
                      <div class='row-index block'  style='width:5%'>@srno<input type='hidden' class='id' value='@item.SaleDispatchLineId' /></div>
                                  <div class='block'  style='width:90%'>

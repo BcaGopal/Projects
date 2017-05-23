@@ -1174,6 +1174,20 @@ namespace Module
             }
 
 
+            AddFields("LedgerSettings", "PartyDocNoCaption", "nvarchar(50)");
+            AddFields("LedgerSettings", "PartyDocDateCaption", "nvarchar(50)");
+
+            AddFields("JobReceiveLines", "Specification", "nvarchar(50)");
+
+            AddFields("LedgerSettings", "isVisibleAdjustmentType", "BIT");
+            AddFields("LedgerSettings", "isVisiblePaymentFor", "BIT");
+            AddFields("LedgerSettings", "isVisiblePartyDocNo", "BIT");
+            AddFields("LedgerSettings", "isVisiblePartyDocDate", "BIT");
+
+            AddFields("LedgerHeaders", "PartyDocNo", "nvarchar(50)");
+            AddFields("LedgerHeaders", "PartyDocDate", "DateTime");
+            AddFields("LedgerSettings", "isVisibleLedgerAdj", "BIT");
+
 
             return RedirectToAction("Module", "Menu");
         }

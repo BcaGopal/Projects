@@ -94,6 +94,7 @@
     <Compile Include="DatabaseViews\SaleDeliveryOrderViewModels.cs" />
     <Compile Include="DatabaseViews\SaleEnquiryViewModels.cs" />
     <Compile Include="DatabaseViews\ViewDesignColourConsumption.cs" />
+    <Compile Include="DatabaseViews\ViewLedgerBalance.cs" />
     <Compile Include="DatabaseViews\ViewProductBuyer.cs" />
     <Compile Include="DatabaseViews\ViewStockInBalance.cs" />
     <Compile Include="DatabaseViews\_Users.cs" />

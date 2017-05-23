@@ -401,6 +401,7 @@ namespace Data.Models
         public DbSet<SaleInvoiceReturnHeader> SaleInvoiceReturnHeader { get; set; }
         public DbSet<SaleInvoiceReturnLine> SaleInvoiceReturnLine { get; set; }
         public DbSet<ViewSaleDispatchBalance> ViewSaleDispatchBalance { get; set; }
+        public DbSet<ViewLedgerBalance> ViewLedgerBalance { get; set; }
         public DbSet<ViewSaleInvoiceBalance> ViewSaleInvoiceBalance { get; set; }
         public DbSet<SaleInvoiceReturnHeaderCharge> SaleInvoiceReturnHeaderCharge { get; set; }
         public DbSet<SaleInvoiceReturnLineCharge> SaleInvoiceReturnLineCharge { get; set; }

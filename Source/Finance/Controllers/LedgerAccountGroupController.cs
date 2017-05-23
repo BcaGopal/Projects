@@ -140,6 +140,7 @@ namespace Web
                     temp.LedgerAccountGroupName = pt.LedgerAccountGroupName;
                     temp.LedgerAccountNature = pt.LedgerAccountNature;
                     temp.LedgerAccountType = pt.LedgerAccountType;
+                    temp.ParentLedgerAccountGroupId = pt.ParentLedgerAccountGroupId;
                     temp.IsActive = pt.IsActive;
                     temp.ModifiedDate = DateTime.Now;
                     temp.ModifiedBy = User.Identity.Name;

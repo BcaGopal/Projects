@@ -1403,7 +1403,7 @@ namespace Web
                 item.ObjectState = Model.ObjectState.Added;
                 db.Stock.Add(item);
 
-                StockBalance StockBalance = new StockBalanceService(_unitOfWork).Find(item.ProductId, item.Dimension1Id, item.Dimension2Id, item.ProcessId, item.LotNo, item.GodownId, item.CostCenterId);
+                StockBalance StockBalance = new StockBalanceService(_unitOfWork).Find(item.ProductId, item.Dimension1Id, item.Dimension2Id, item.Dimension3Id, item.Dimension4Id, item.ProcessId, item.LotNo, item.GodownId, item.CostCenterId);
 
                 if (StockBalance == null)
                 {
