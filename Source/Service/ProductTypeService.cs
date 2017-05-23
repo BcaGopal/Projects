@@ -203,6 +203,15 @@ namespace Service
             return pt;
         }
 
+        public IEnumerable<ProductType> GetProductTypes(int Id)
+        {
+            var pt = (from p in db.ProductTypes
+                      where p.ProductNatureId == Id 
+                      select p
+                        );
+
+            return pt;
+        }
 
         public ProductType Add(ProductType pt)
         {

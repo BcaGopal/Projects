@@ -7,6 +7,7 @@ using Service;
 using Model.ViewModel;
 using System.Xml;
 
+
 namespace HumanResource.Controllers
 {
     public class LogHistoryController : System.Web.Mvc.Controller

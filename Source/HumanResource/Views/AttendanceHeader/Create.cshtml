@@ -321,11 +321,9 @@
 
 
         $(function () {
-
             $("#DocNo").on("change", function () {
-                $(this). ({ name: 'AttendanceHeader', value: $(this).val(), doctype: $("#DocTypeId").val() });
+                $(this).DuplicateCheckForCreate({ name: 'AttendanceHeader', value: $(this).val(), doctype: $("#DocTypeId").val() });
             });
-
         });
 
         var id=@Model.AttendanceHeaderId;
@@ -352,19 +350,19 @@
     })
     $('a#PrintRecord').click(function (e) {
 
-        var editiiid = $('#PurchaseOrderHeaderId').val();
+        var editiiid = $('#AttendanceHeaderId').val();
 
 
         var Status = $('#Status').val();
         var url;
         if (Status == StatusContstantsEnum.Drafted) {
-            url = '@Url.Action("Print", "PurchaseOrderHeader")' + "/" + editiiid;
+            url = '@Url.Action("Print", "AttendanceHeader")' + "/" + editiiid;
         }
         else if (Status == StatusContstantsEnum.Submitted || Status == StatusContstantsEnum.Modified ) {
-            url = '@Url.Action("PrintAfter_Submit", "PurchaseOrderHeader")' + "/" + editiiid;
+            url = '@Url.Action("PrintAfter_Submit", "AttendanceHeader")' + "/" + editiiid;
         }
         else if ( Status == StatusContstantsEnum.Closed ) {
-            url = '@Url.Action("PrintAfter_Approve", "PurchaseOrderHeader")' + "/" + editiiid;
+            url = '@Url.Action("PrintAfter_Approve", "AttendanceHeader")' + "/" + editiiid;
         }
         $(this).attr('href', url);
         return;

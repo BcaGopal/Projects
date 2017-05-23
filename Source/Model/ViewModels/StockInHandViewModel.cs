@@ -29,6 +29,10 @@ namespace Model.ViewModel
         public string Dimension1Name { get; set; }
         public int ? Dimension2Id { get; set; }
         public string Dimension2Name { get; set; }
+        public int? Dimension3Id { get; set; }
+        public string Dimension3Name { get; set; }
+        public int? Dimension4Id { get; set; }
+        public string Dimension4Name { get; set; }
         public string ProcessName { get; set; }
         public string Dimension1TypeName { get; set; }
         public string Dimension2TypeName { get; set; }

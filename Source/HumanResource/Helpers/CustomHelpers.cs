@@ -1,6 +1,4 @@
-using Core.Common;
-using System.Collections.Generic;
-using System.Linq.Expressions;
+﻿using Core.Common;
 using System.Xml;
 
 namespace System.Web.Mvc.Html
@@ -10,37 +8,9 @@ namespace System.Web.Mvc.Html
         public static MvcHtmlString ValidationLog(this HtmlHelper helper, string Log)
         {
             if (!string.IsNullOrEmpty(Log))
-                return new MvcHtmlString("<div class='alert alert-danger' role='alert' style='margin:0px;text-align:center' id='ExcAlert'> " + Log + " </div>");
+                return  new MvcHtmlString("<div class='alert alert-danger' role='alert' style='margin:0px;text-align:center' id='ExcAlert'> " + Log + " </div>");
             else
                 return new MvcHtmlString("");
-        }
-
-        public static MvcHtmlString NumericBoxFor<TModel, TProperty>(this HtmlHelper<TModel> htmlHelper, Expression<Func<TModel, TProperty>> expression, object htmlAttributes)
-        {
-
-            var htmlAttr = HtmlHelper.AnonymousObjectToHtmlAttributes(htmlAttributes);
-            htmlAttr.Add("autocomplete", "off");
-            bool roundOff = false;
-            object dp;
-            roundOff = htmlAttr.TryGetValue("roundOff", out dp);
-            //htmlAttr["class"] = htmlAttr["class"] + " number";
-            int iRoundOff = 2;
-            if (htmlAttr.ContainsKey("roundOff") && roundOff)
-            {
-                htmlAttr.Add("onchange", "if($(this).val())$(this).val(parseFloat(eval($(this).val())).toFixed(" + Convert.ToInt32(dp) + "))");
-                htmlAttr.Remove("roundOff");
-                iRoundOff = Convert.ToInt32(dp);
-            }
-            else
-                htmlAttr.Add("onchange", "if($(this).val())$(this).val(parseFloat(eval($(this).val())).toFixed(2))");
-
-            //if (htmlAttr.ContainsKey("number"))
-            //{
-            //    htmlAttr["type"] = "number";
-            //    htmlAttr.Remove("number");
-            //}
-
-            return htmlHelper.TextBoxFor(expression, "{0:N" + iRoundOff + "}", htmlAttr);
         }
 
         public static MvcHtmlString FormatXmlString(this HtmlHelper helper, string XmlString, int ActivityType)

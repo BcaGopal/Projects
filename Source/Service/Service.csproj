@@ -127,6 +127,7 @@
     <Compile Include="SaleQuotationLineChargeService.cs" />
     <Compile Include="SaleQuotationLineService.cs" />
     <Compile Include="SaleQuotationSettingsService.cs" />
+    <Compile Include="StockProcessDisplayService.cs" />
     <Compile Include="WeavingReceiveQaCombinedService.cs" />
     <Compile Include="JobReceiveQaLineExtendedService.cs" />
     <Compile Include="PackingLineExtendedService.cs" />

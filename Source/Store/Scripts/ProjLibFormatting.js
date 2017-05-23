@@ -40,6 +40,8 @@ var StockInHandGroupOnConstants = {
     Product: "Product",
     Dimension1: "Dimension1",
     Dimension2: "Dimension2",
+    Dimension3: "Dimension3",
+    Dimension4: "Dimension4",
     LotNo: "LotNo",
 
 }
