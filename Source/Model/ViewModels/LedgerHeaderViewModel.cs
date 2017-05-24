@@ -48,6 +48,9 @@ namespace Model.ViewModel
 
         [MaxLength(20)]
         public string AdjustmentType { get; set; }
+
+        public string PartyDocNo { get; set; }
+        public DateTime? PartyDocDate { get; set; }
         public string Narration { get; set; }
         public string NarrationName { get; set; }
         public string DrCr { get; set; }

@@ -93,9 +93,9 @@
                     </div>
                     <div class="col-md-6" style="display:@(Model.SaleInvoiceSettings.isVisibleDimension1 ? "" : "none")">
                         @Html.HiddenFor(m => m.SaleInvoiceSettings.isVisibleDimension1)
-                        @Html.HiddenFor(m => m.DocumentTypeSettings.Dimension1Caption)
                         <div class="form-group">
                             @Html.LabelFor(model => model.Dimension1Id, (Model.DocumentTypeSettings.Dimension1Caption ?? "Dimension1"), new { @class = "control-label col-md-4 col-sm-2" })
+                            @Html.HiddenFor(m => m.DocumentTypeSettings.Dimension1Caption)
                             <div class="col-md-7 col-sm-10">
                                 @Html.TextBoxFor(model => model.Dimension1Id, new { @class = "form-control col-xs-7" })
                                 @Html.ValidationMessageFor(model => model.Dimension1Id, "", new { @class = "text-danger" })

@@ -87,6 +87,9 @@ namespace Model.Models
 
         public int? ReferenceDocId { get; set; }
 
+        [MaxLength(50)]
+        public string PartyDocNo { get; set; }
+        public DateTime? PartyDocDate { get; set; }
 
         [MaxLength(20)]
         public string AdjustmentType { get; set; }

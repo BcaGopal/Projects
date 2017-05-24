@@ -36,6 +36,12 @@ namespace Model.Models
         public bool? isVisibleProductUid { get; set; }
         public bool? isVisibleDrCr { get; set; }
 
+        public bool? isVisibleAdjustmentType { get; set; }
+        public bool? isVisiblePaymentFor { get; set; }
+        public bool? isVisiblePartyDocNo { get; set; }
+        public bool? isVisiblePartyDocDate { get; set; }
+        public bool? isVisibleLedgerAdj { get; set; }
+
 
         public bool? isVisibleReferenceDocId { get; set; }
         public bool? isVisibleReferenceDocTypeId { get; set; }
@@ -68,6 +74,12 @@ namespace Model.Models
 
         [MaxLength(50, ErrorMessage = "{0} Can not exceed {1} characters")]
         public string BaseRateText { get; set; }
+
+        [MaxLength(50)]
+        public string PartyDocNoCaption { get; set; }
+        [MaxLength(50)]
+        public string PartyDocDateCaption { get; set; }
+
 
         [ForeignKey("WizardMenu")]
         [Display(Name = "WizardMenu")]

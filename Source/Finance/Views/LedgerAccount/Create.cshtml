@@ -72,7 +72,7 @@
                         <div class="form-group">
                             @Html.LabelFor(model => model.LedgerAccountGroupId, "Account Group", new { @class = "control-label col-xs-4" })
                             <div class="col-xs-6">
-                                @Html.TextBoxFor(m => m.LedgerAccountGroupId, new { @class = "form-control col-xs-6 required" })
+                                @Html.TextBoxFor(m => m.LedgerAccountGroupId, new { @class = "form-control col-xs-6 " })
                                 @Html.ValidationMessageFor(model => model.LedgerAccountGroupId)
                             </div>
                         </div>

@@ -757,6 +757,10 @@
       <FullPath>JobOrderRateAmendmentReport_SingleDimension.rdl</FullPath>
     </ProjectItem>
     <ProjectItem>
+      <Name>JobOrderReportWithoutProdorder_HomeFurnishing.rdl</Name>
+      <FullPath>JobOrderReportWithoutProdorder_HomeFurnishing.rdl</FullPath>
+    </ProjectItem>
+    <ProjectItem>
       <Name>JobOrderStatus.rdl</Name>
       <FullPath>JobOrderStatus.rdl</FullPath>
     </ProjectItem>
@@ -975,6 +979,14 @@
     <ProjectItem>
       <Name>MaterialIssueForWeaving.rdl</Name>
       <FullPath>MaterialIssueForWeaving.rdl</FullPath>
+    </ProjectItem>
+    <ProjectItem>
+      <Name>MaterialIssueReport_D1D2.rdl</Name>
+      <FullPath>MaterialIssueReport_D1D2.rdl</FullPath>
+    </ProjectItem>
+    <ProjectItem>
+      <Name>MaterialIssueReport_D3D4.rdl</Name>
+      <FullPath>MaterialIssueReport_D3D4.rdl</FullPath>
     </ProjectItem>
     <ProjectItem>
       <Name>MaterialIssueReport_DoubleDimension.rdl</Name>
@@ -2233,6 +2245,10 @@
       <FullPath>StoreIssuePrint_DoubleDimensionReadyLatex.rdl</FullPath>
     </ProjectItem>
     <ProjectItem>
+      <Name>StoreIssuePrint_HomeFurnishing.rdl</Name>
+      <FullPath>StoreIssuePrint_HomeFurnishing.rdl</FullPath>
+    </ProjectItem>
+    <ProjectItem>
       <Name>StoreIssuePrint_SingleDimension.rdl</Name>
       <FullPath>StoreIssuePrint_SingleDimension.rdl</FullPath>
     </ProjectItem>
@@ -2533,6 +2549,10 @@
       <FullPath>WeavingContractorStatus.rdl</FullPath>
     </ProjectItem>
     <ProjectItem>
+      <Name>WeavingDefaulterReport_Status.rdl</Name>
+      <FullPath>WeavingDefaulterReport_Status.rdl</FullPath>
+    </ProjectItem>
+    <ProjectItem>
       <Name>WeavingExchangeMaterialPrint.rdl</Name>
       <FullPath>WeavingExchangeMaterialPrint.rdl</FullPath>
     </ProjectItem>
@@ -2772,6 +2792,10 @@
       <FullPath>WeavingRegister_CostCenterWise.rdl</FullPath>
     </ProjectItem>
     <ProjectItem>
+      <Name>WeavingRetentionStatusReport.rdl</Name>
+      <FullPath>WeavingRetentionStatusReport.rdl</FullPath>
+    </ProjectItem>
+    <ProjectItem>
       <Name>WorkInvoicePrint.rdl</Name>
       <FullPath>WorkInvoicePrint.rdl</FullPath>
     </ProjectItem>
@@ -2792,28 +2816,8 @@
       <FullPath>XWeavingOrderStatus.rdl</FullPath>
     </ProjectItem>
     <ProjectItem>
-      <Name>StoreIssuePrint_HomeFurnishing.rdl</Name>
-      <FullPath>StoreIssuePrint_HomeFurnishing.rdl</FullPath>
-    </ProjectItem>
-    <ProjectItem>
-      <Name>JobOrderReportWithoutProdorder_HomeFurnishing.rdl</Name>
-      <FullPath>JobOrderReportWithoutProdorder_HomeFurnishing.rdl</FullPath>
-    </ProjectItem>
-    <ProjectItem>
-      <Name>MaterialIssueReport_D1D2.rdl</Name>
-      <FullPath>MaterialIssueReport_D1D2.rdl</FullPath>
-    </ProjectItem>
-    <ProjectItem>
-      <Name>MaterialIssueReport_D3D4.rdl</Name>
-      <FullPath>MaterialIssueReport_D3D4.rdl</FullPath>
-    </ProjectItem>
-    <ProjectItem>
-      <Name>WeavingDefaulterReport_Status.rdl</Name>
-      <FullPath>WeavingDefaulterReport_Status.rdl</FullPath>
-    </ProjectItem>
-    <ProjectItem>
-      <Name>WeavingRetentionStatusReport.rdl</Name>
-      <FullPath>WeavingRetentionStatusReport.rdl</FullPath>
+      <Name>JobRateList.rdl</Name>
+      <FullPath>JobRateList.rdl</FullPath>
     </ProjectItem>
   </Reports>
   <Configurations>

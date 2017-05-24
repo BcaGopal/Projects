@@ -72,6 +72,8 @@ namespace Service
                         DrCr = p.DrCr,
                         LedgerHeaderId = p.LedgerHeaderId,
                         CostCenterId = p.CostCenterId,
+                        PartyDocNo = p.PartyDocNo,
+                        PartyDocDate = p.PartyDocDate,
                         Narration = p.Narration,
                         Remark = p.Remark,
                         SiteId = p.SiteId,

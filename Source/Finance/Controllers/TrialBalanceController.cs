@@ -277,6 +277,7 @@ namespace Web
             int DivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
             int SiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
 
+
             var DocumentType = new DocumentTypeService(_unitOfWork).Find(DocTypeId);
 
 

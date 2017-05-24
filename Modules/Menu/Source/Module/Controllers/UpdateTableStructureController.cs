@@ -836,7 +836,7 @@ namespace Module
             AddFields("JobReceiveLines", "Dimension2Id", "Int", "Dimension2");
             AddFields("JobReceiveLines", "Dimension3Id", "Int", "Dimension3");
             AddFields("JobReceiveLines", "Dimension4Id", "Int", "Dimension4");
-            AddFields("JobInvoiceLines", "DiscountAmt", "Decimal(18,4)");
+            AddFields("JobInvoiceLines", "RateDiscountAmt", "Decimal(18,4)");
 
             AddFields("LedgerHeaders", "DrCr", "nvarchar(2)");
             AddFields("LedgerSettings", "isVisibleDrCr", "BIT");
@@ -988,6 +988,206 @@ namespace Module
             {
                 RecordError(ex);
             }
+
+
+            try
+            {
+                if ((int)ExecuteScaler("SELECT Count(*) AS Cnt FROM INFORMATION_SCHEMA.Tables WHERE TABLE_NAME = 'SaleDeliveryHeaders'") == 0)
+                {
+                    mQry = @"CREATE TABLE Web.SaleDeliveryHeaders
+	                        (
+	                        SaleDeliveryHeaderId     INT IDENTITY NOT NULL,
+	                        DocTypeId                INT NOT NULL,
+	                        DocDate                  DATETIME NOT NULL,
+	                        DocNo                    NVARCHAR (20) NOT NULL,
+	                        DivisionId               INT NOT NULL,
+	                        SiteId                   INT NOT NULL,
+	                        SaleToBuyerId            INT NOT NULL,
+	                        DeliverToPerson          NVARCHAR (100),
+	                        DeliverToPersonReference NVARCHAR (20),
+	                        ShipToPartyAddress       NVARCHAR (250),
+	                        GatePassHeaderId         INT,
+	                        Remark                   NVARCHAR (max),
+	                        Status                   INT NOT NULL,
+	                        ReviewCount              INT,
+	                        ReviewBy                 NVARCHAR (max),
+	                        CreatedBy                NVARCHAR (max),
+	                        ModifiedBy               NVARCHAR (max),
+	                        CreatedDate              DATETIME NOT NULL,
+	                        ModifiedDate             DATETIME NOT NULL,
+	                        OMSId                    NVARCHAR (50),
+	                        CONSTRAINT [PK_Web..SaleDeliveryHeaders] PRIMARY KEY (SaleDeliveryHeaderId),
+	                        CONSTRAINT [FK_Web.SaleDeliveryHeaders_Web.Divisions_DivisionId] FOREIGN KEY (DivisionId) REFERENCES Web.Divisions (DivisionId),
+	                        CONSTRAINT [FK_Web.SaleDeliveryHeaders_Web.DocumentTypes_DocTypeId] FOREIGN KEY (DocTypeId) REFERENCES Web.DocumentTypes (DocumentTypeId),
+	                        CONSTRAINT [FK_Web.SaleDeliveryHeaders_Web.GatePassHeaders_GatePassHeaderId] FOREIGN KEY (GatePassHeaderId) REFERENCES Web.GatePassHeaders (GatePassHeaderId),
+	                        CONSTRAINT [FK_Web.SaleDeliveryHeaders_Web.People_SaleToBuyerId] FOREIGN KEY (SaleToBuyerId) REFERENCES Web.People (PersonID),
+	                        CONSTRAINT [FK_Web.SaleDeliveryHeaders_Web.Sites_SiteId] FOREIGN KEY (SiteId) REFERENCES Web.Sites (SiteId)
+	                        )
+
+
+                        CREATE UNIQUE INDEX IX_SaleDeliveryHeader_DocID
+	                        ON Web.SaleDeliveryHeaders (DocTypeId, DocNo, DivisionId, SiteId)
+
+
+                        CREATE INDEX IX_SaleToBuyerId
+	                        ON Web.SaleDeliveryHeaders (SaleToBuyerId)
+
+
+                        CREATE INDEX IX_GatePassHeaderId
+	                        ON Web.SaleDeliveryHeaders (GatePassHeaderId) ";
+                    ExecuteQuery(mQry);
+                }
+            }
+            catch (Exception ex)
+            {
+                RecordError(ex);
+            }
+
+
+
+            try
+            {
+                if ((int)ExecuteScaler("SELECT Count(*) AS Cnt FROM INFORMATION_SCHEMA.Tables WHERE TABLE_NAME = 'SaleDeliveryLines'") == 0)
+                {
+                    mQry = @"CREATE TABLE Web.SaleDeliveryLines
+	                        (
+	                        SaleDeliveryLineId       INT IDENTITY NOT NULL,
+	                        SaleDeliveryHeaderId     INT NOT NULL,
+	                        SaleInvoiceLineId        INT NOT NULL,
+	                        Qty                      DECIMAL (18, 4) NOT NULL,
+	                        DealUnitId               NVARCHAR (3) NOT NULL,
+	                        UnitConversionMultiplier DECIMAL (18, 4) NOT NULL,
+	                        DealQty                  DECIMAL (18, 4) NOT NULL,
+	                        Remark                   NVARCHAR (max),
+	                        CreatedBy                NVARCHAR (max),
+	                        ModifiedBy               NVARCHAR (max),
+	                        CreatedDate              DATETIME NOT NULL,
+	                        ModifiedDate             DATETIME NOT NULL,
+	                        OMSId                    NVARCHAR (50),
+	                        LockReason               NVARCHAR (max),
+	                        CONSTRAINT [PK_Web..SaleDeliveryLines] PRIMARY KEY (SaleDeliveryLineId),
+	                        CONSTRAINT [FK_Web.SaleDeliveryLines_Web.Units_DealUnitId] FOREIGN KEY (DealUnitId) REFERENCES Web.Units (UnitId),
+	                        CONSTRAINT [FK_Web.SaleDeliveryLines_Web.SaleDeliveryHeaders_SaleDeliveryHeaderId] FOREIGN KEY (SaleDeliveryHeaderId) REFERENCES Web.SaleDeliveryHeaders (SaleDeliveryHeaderId),
+	                        CONSTRAINT [FK_Web.SaleDeliveryLines_Web.SaleInvoiceLines_SaleInvoiceLineId] FOREIGN KEY (SaleInvoiceLineId) REFERENCES Web.SaleInvoiceLines (SaleInvoiceLineId)
+	                        )
+
+
+                        CREATE INDEX IX_SaleDeliveryHeaderId
+	                        ON Web.SaleDeliveryLines (SaleDeliveryHeaderId)
+
+
+                        CREATE INDEX IX_SaleInvoiceLineId
+	                        ON Web.SaleDeliveryLines (SaleInvoiceLineId)
+
+
+                        CREATE INDEX IX_DealUnitId
+	                        ON Web.SaleDeliveryLines (DealUnitId) ";
+                    ExecuteQuery(mQry);
+                }
+            }
+            catch (Exception ex)
+            {
+                RecordError(ex);
+            }
+
+
+
+            try
+            {
+                if ((int)ExecuteScaler("SELECT Count(*) AS Cnt FROM INFORMATION_SCHEMA.Tables WHERE TABLE_NAME = 'SaleDeliverySettings'") == 0)
+                {
+                    mQry = @"CREATE TABLE Web.SaleDeliverySettings
+	                        (
+	                        SaleDeliverySettingId             INT IDENTITY NOT NULL,
+	                        DocTypeId                         INT NOT NULL,
+	                        SiteId                            INT NOT NULL,
+	                        DivisionId                        INT NOT NULL,
+	                        isVisibleDimension1               BIT,
+	                        isVisibleDimension2               BIT,
+	                        isVisibleDimension3               BIT,
+	                        isVisibleDimension4               BIT,
+	                        filterLedgerAccountGroups         NVARCHAR (max),
+	                        filterLedgerAccounts              NVARCHAR (max),
+	                        filterProductTypes                NVARCHAR (max),
+	                        filterProductGroups               NVARCHAR (max),
+	                        filterProducts                    NVARCHAR (max),
+	                        filterContraDocTypes              NVARCHAR (max),
+	                        filterContraSites                 NVARCHAR (max),
+	                        filterContraDivisions             NVARCHAR (max),
+	                        filterPersonRoles                 NVARCHAR (max),
+	                        SqlProcDocumentPrint              NVARCHAR (100),
+	                        SqlProcDocumentPrint_AfterSubmit  NVARCHAR (100),
+	                        SqlProcDocumentPrint_AfterApprove NVARCHAR (100),
+	                        SqlProcGatePass                   NVARCHAR (100),
+	                        UnitConversionForId               TINYINT,
+	                        ImportMenuId                      INT,
+	                        ExportMenuId                      INT,
+	                        isVisibleDealUnit                 BIT,
+	                        isVisibleProductUid               BIT,
+	                        ProcessId                         INT,
+	                        CreatedBy                         NVARCHAR (max),
+	                        ModifiedBy                        NVARCHAR (max),
+	                        CreatedDate                       DATETIME NOT NULL,
+	                        ModifiedDate                      DATETIME NOT NULL,
+	                        CONSTRAINT [PK_Web..SaleDeliverySettings] PRIMARY KEY (SaleDeliverySettingId),
+	                        CONSTRAINT [FK_Web.SaleDeliverySettings_Web.Divisions_DivisionId] FOREIGN KEY (DivisionId) REFERENCES Web.Divisions (DivisionId),
+	                        CONSTRAINT [FK_Web.SaleDeliverySettings_Web.DocumentTypes_DocTypeId] FOREIGN KEY (DocTypeId) REFERENCES Web.DocumentTypes (DocumentTypeId),
+	                        CONSTRAINT [FK_Web.SaleDeliverySettings_Web.Menus_ExportMenuId] FOREIGN KEY (ExportMenuId) REFERENCES Web.Menus (MenuId),
+	                        CONSTRAINT [FK_Web.SaleDeliverySettings_Web.Menus_ImportMenuId] FOREIGN KEY (ImportMenuId) REFERENCES Web.Menus (MenuId),
+	                        CONSTRAINT [FK_Web.SaleDeliverySettings_Web.Processes_ProcessId] FOREIGN KEY (ProcessId) REFERENCES Web.Processes (ProcessId),
+	                        CONSTRAINT [FK_Web.SaleDeliverySettings_Web.Sites_SiteId] FOREIGN KEY (SiteId) REFERENCES Web.Sites (SiteId),
+	                        CONSTRAINT [FK_Web.SaleDeliverySettings_Web.UnitConversionFors_UnitConversionForId] FOREIGN KEY (UnitConversionForId) REFERENCES Web.UnitConversionFors (UnitconversionForId)
+	                        )
+
+
+                        CREATE INDEX IX_DocTypeId
+	                        ON Web.SaleDeliverySettings (DocTypeId)
+
+
+                        CREATE INDEX IX_SiteId
+	                        ON Web.SaleDeliverySettings (SiteId)
+
+
+                        CREATE INDEX IX_DivisionId
+	                        ON Web.SaleDeliverySettings (DivisionId)
+
+
+                        CREATE INDEX IX_UnitConversionForId
+	                        ON Web.SaleDeliverySettings (UnitConversionForId)
+
+
+                        CREATE INDEX IX_ImportMenuId
+	                        ON Web.SaleDeliverySettings (ImportMenuId)
+
+
+                        CREATE INDEX IX_ExportMenuId
+	                        ON Web.SaleDeliverySettings (ExportMenuId)
+
+
+                        CREATE INDEX IX_ProcessId
+	                        ON Web.SaleDeliverySettings (ProcessId) ";
+                    ExecuteQuery(mQry);
+                }
+            }
+            catch (Exception ex)
+            {
+                RecordError(ex);
+            }
+
+
+            AddFields("LedgerSettings", "PartyDocNoCaption", "nvarchar(50)");
+            AddFields("LedgerSettings", "PartyDocDateCaption", "nvarchar(50)");
+
+            AddFields("JobReceiveLines", "Specification", "nvarchar(50)");
+
+            AddFields("LedgerSettings", "isVisibleAdjustmentType", "BIT");
+            AddFields("LedgerSettings", "isVisiblePaymentFor", "BIT");
+            AddFields("LedgerSettings", "isVisiblePartyDocNo", "BIT");
+            AddFields("LedgerSettings", "isVisiblePartyDocDate", "BIT");
+
+            AddFields("LedgerHeaders", "PartyDocNo", "nvarchar(50)");
+            AddFields("LedgerHeaders", "PartyDocDate", "DateTime");
+            AddFields("LedgerSettings", "isVisibleLedgerAdj", "BIT");
 
 
             return RedirectToAction("Module", "Menu");

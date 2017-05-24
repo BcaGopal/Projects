@@ -117,6 +117,9 @@
     <Compile Include="PersonRoleService.cs" />
     <Compile Include="ImportHeaderService.cs" />
     <Compile Include="ImportLineService.cs" />
+    <Compile Include="SaleDeliveryHeaderService.cs" />
+    <Compile Include="SaleDeliverySettingsService.cs" />
+    <Compile Include="SaleDeliveryLineService.cs" />
     <Compile Include="SaleQuotationHeaderChargeService.cs" />
     <Compile Include="SaleInvoiceLineDetailService.cs" />
     <Compile Include="SaleQuotationHeaderDetailService.cs" />
@@ -124,6 +127,7 @@
     <Compile Include="SaleQuotationLineChargeService.cs" />
     <Compile Include="SaleQuotationLineService.cs" />
     <Compile Include="SaleQuotationSettingsService.cs" />
+    <Compile Include="StockProcessDisplayService.cs" />
     <Compile Include="WeavingReceiveQaCombinedService.cs" />
     <Compile Include="JobReceiveQaLineExtendedService.cs" />
     <Compile Include="PackingLineExtendedService.cs" />

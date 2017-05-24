@@ -188,4 +188,26 @@ namespace Model.ViewModels
         public string CostCenter { get; set; }
     }
 
+
+    public class LedgerToAdjustViewModel
+    {
+        public int LedgerId { get; set; }
+
+        public Decimal Amount { get; set; }
+        public string DrCr { get; set; }
+        public List<PendingLedgerViewModel> LedgerViewModel { get; set; }
+        public LedgerSettingViewModel LedgerSetting { get; set; }
+    }
+
+    public class PendingLedgerViewModel
+    {
+        public int LedgerId { get; set; }
+        public string LedgerHeaderDocNo { get; set; }
+        public DateTime LedgerHeaderDocDate { get; set; }
+        public string PartyDocNo { get; set; }
+        public DateTime? PartyDocDate { get; set; }
+        public Decimal BillAmount { get; set; }
+        public Decimal? AdjustedAmount { get; set; }
+        public bool IsSelected { get; set; }
+    }
 }

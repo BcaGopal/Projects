@@ -157,6 +157,7 @@ namespace Model.ViewModels
         [Display(Name = "Reward Points")]
         public Decimal? RewardPoints { get; set; }
 
+        public byte UnitDecimalPlaces { get; set; }
 
         [Display(Name = "Weight")]
         public Decimal? Weight { get; set; }
@@ -193,7 +194,6 @@ namespace Model.ViewModels
         public int SiteId { get; set; }
         public int DivisionId { get; set; }
         public bool ? IsSaleBased { get; set; }
-        public int unitDecimalPlaces { get; set; }
         public int DealunitDecimalPlaces { get; set; }
 
     }

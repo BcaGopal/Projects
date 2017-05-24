@@ -54,7 +54,7 @@
         <h3>
             <span style="font-family: Calibri,sans-serif,Verdana;font-weight:bold" class="black"><span class="glyphicon glyphicon-list black"></span> @ViewBag.Name</span>
             <span style="font-family: Calibri,sans-serif,Verdana;font-size:medium" class="black"> @ViewBag.FilterRemark </span> 
-            @Html.ActionLink(" ", "Create", "TrialBalanceSetting", null, new { @class = "cbtn btn-circle glyphicon glyphicon-cog toolbar right rightMargin", @title = "List", @data_toggle = "tooltip" })
+            @Html.ActionLink(" ", "Create", "TrialBalanceSetting", new { returnUrl = Request.RawUrl }, new { @class = "cbtn btn-circle glyphicon glyphicon-cog toolbar right rightMargin", @title = "List", @data_toggle = "tooltip" })
             @Html.ActionLink(" ", " ", " ", null, new { @class = "cbtn btn-circle glyphicon glyphicon-refresh toolbar right rightMargin", @title = "Refresh Page", @data_toggle = "tooltip", @id = "RefreshPage" })
             @Html.ActionLink(" ", "GeneratePrints", "TrialBalance", new { ActionName = "LedgerBalance", LedgerAccountGroupId = @ViewBag.id }, new { @class = "cbtn btn-circle glyphicon glyphicon-print toolbar right rightMargin", @title = "Print", @data_toggle = "tooltip", @id = "PrintRecord" })
             <input type="text" id="txtSearch2" class="right toolbar small" placeholder="Search" style="height:25px;margin:5px;max-width:20%">

@@ -143,6 +143,7 @@ namespace Model.ViewModel
         public Decimal PenaltyAmt { get; set; }
         public decimal PenaltyRate { get; set; }
         public Decimal? RateDiscountPer { get; set; }
+        public Decimal? RateDiscountAmt { get; set; }
         public DateTime? MfgDate { get; set; }
 
         [Display(Name = "Lot No."), MaxLength(10)]

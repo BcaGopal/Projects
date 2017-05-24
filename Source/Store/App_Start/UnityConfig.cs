@@ -216,6 +216,8 @@ namespace Store.App_Start
 
             container.RegisterType<IStockInHandService, StockInHandService>(new PerRequestLifetimeManager());
 
+            container.RegisterType<IStockProcessDisplayService, StockProcessDisplayService>(new PerRequestLifetimeManager());
+
             container.RegisterType<IStockInHandSettingService, StockInHandSettingService>(new PerRequestLifetimeManager());
 
             container.RegisterType<IRequisitionSettingService, RequisitionSettingService>(new PerRequestLifetimeManager());

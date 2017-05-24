@@ -147,6 +147,13 @@ namespace Web
                     temp.isVisibleReferenceDocId = pt.isVisibleReferenceDocId;
                     temp.isVisibleReferenceDocTypeId = pt.isVisibleReferenceDocTypeId;
                     temp.isVisibleDrCr = pt.isVisibleDrCr;
+                    temp.isVisibleAdjustmentType = pt.isVisibleAdjustmentType;
+                    temp.isVisiblePaymentFor = pt.isVisiblePaymentFor;
+                    temp.isVisiblePartyDocNo = pt.isVisiblePartyDocNo;
+                    temp.isVisiblePartyDocDate = pt.isVisiblePartyDocDate;
+                    temp.isVisibleLedgerAdj = pt.isVisibleLedgerAdj;
+                    temp.PartyDocNoCaption = pt.PartyDocNoCaption;
+                    temp.PartyDocDateCaption = pt.PartyDocDateCaption;
                     temp.filterReferenceDocTypes = pt.filterReferenceDocTypes;
                     temp.SqlProcDocumentPrint = pt.SqlProcDocumentPrint;
                     temp.SqlProcDocumentPrint_AfterApprove = pt.SqlProcDocumentPrint_AfterApprove;
@@ -281,6 +288,13 @@ namespace Web
                     temp.isVisibleReferenceDocId = pt.isVisibleReferenceDocId;
                     temp.isVisibleReferenceDocTypeId = pt.isVisibleReferenceDocTypeId;
                     temp.isVisibleDrCr = pt.isVisibleDrCr;
+                    temp.isVisibleAdjustmentType = pt.isVisibleAdjustmentType;
+                    temp.isVisiblePaymentFor = pt.isVisiblePaymentFor;
+                    temp.isVisiblePartyDocNo = pt.isVisiblePartyDocNo;
+                    temp.isVisiblePartyDocDate = pt.isVisiblePartyDocDate;
+                    temp.isVisibleLedgerAdj = pt.isVisibleLedgerAdj;
+                    temp.PartyDocNoCaption = pt.PartyDocNoCaption;
+                    temp.PartyDocDateCaption = pt.PartyDocDateCaption;
                     temp.filterReferenceDocTypes = pt.filterReferenceDocTypes;
                     temp.SqlProcDocumentPrint = pt.SqlProcDocumentPrint;
                     temp.SqlProcDocumentPrint_AfterApprove = pt.SqlProcDocumentPrint_AfterApprove;

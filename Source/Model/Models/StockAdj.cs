@@ -29,12 +29,10 @@ namespace Model.Models
 
         [Display(Name = "Division"), Required]
         [ForeignKey("Division")]
-        [Index("IX_Stock_DocID", IsUnique = true, Order = 3)]
         public int DivisionId { get; set; }
         public virtual Division Division { get; set; }
 
         [ForeignKey("Site"), Display(Name = "Site")]
-        [Index("IX_Stock_DocID", IsUnique = true, Order = 4)]
         public int SiteId { get; set; }
         public virtual Site Site { get; set; }
 

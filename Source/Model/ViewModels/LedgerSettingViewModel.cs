@@ -33,6 +33,14 @@ namespace Model.ViewModel
         public bool isVisibleReferenceDocId { get; set; }
         public bool isVisibleReferenceDocTypeId { get; set; }
         public bool isVisibleDrCr { get; set; }
+
+
+        public bool isVisibleAdjustmentType { get; set; }
+        public bool isVisiblePaymentFor { get; set; }
+        public bool isVisiblePartyDocNo { get; set; }
+        public bool isVisiblePartyDocDate { get; set; }
+        public bool isVisibleLedgerAdj { get; set; }
+
         public string filterReferenceDocTypes { get; set; }
         public string filterLedgerAccountGroupHeaders { get; set; }
         public string filterLedgerAccountGroupLines { get; set; }
@@ -45,6 +53,8 @@ namespace Model.ViewModel
         public string SqlProcReferenceNo { get; set; }
         public string BaseValueText { get; set; }
         public string BaseRateText { get; set; }
+        public string PartyDocNoCaption { get; set; }
+        public string PartyDocDateCaption { get; set; }
         public int? ProcessId { get; set; }
         public string ProcessName { get; set; }
         public int? WizardMenuId { get; set; }       

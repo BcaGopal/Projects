@@ -145,6 +145,8 @@ namespace Core.Common
         public const string Product = "Product";
         public const string Dimension1 = "Dimension1";
         public const string Dimension2 = "Dimension2";
+        public const string Dimension3 = "Dimension3";
+        public const string Dimension4 = "Dimension4";
         public const string LotNo = "LotNo";
     }
     public class LedgerHeaderAdjustmentTypeConstants

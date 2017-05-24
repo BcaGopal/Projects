@@ -137,6 +137,51 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.isVisibleAdjustmentType, "Adjustment Type", new { @class = "control-label col-xs-6" })
+                                    <div class="col-xs-4" style=" padding-top:4px">
+                                        @Html.CheckBoxFor(m => m.isVisibleAdjustmentType, new { @class = "checkbox col-xs-2" })
+                                        @Html.ValidationMessageFor(model => model.isVisibleAdjustmentType)
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.isVisiblePaymentFor, "Payment For", new { @class = "control-label col-xs-6" })
+                                    <div class="col-xs-4" style=" padding-top:4px">
+                                        @Html.CheckBoxFor(m => m.isVisiblePaymentFor, new { @class = "checkbox col-xs-2" })
+                                        @Html.ValidationMessageFor(model => model.isVisiblePaymentFor)
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.isVisiblePartyDocNo, "Party Doc No", new { @class = "control-label col-xs-6" })
+                                    <div class="col-xs-4" style=" padding-top:4px">
+                                        @Html.CheckBoxFor(m => m.isVisiblePartyDocNo, new { @class = "checkbox col-xs-2" })
+                                        @Html.ValidationMessageFor(model => model.isVisiblePartyDocNo)
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.isVisiblePartyDocDate, "Party Doc Date", new { @class = "control-label col-xs-6" })
+                                    <div class="col-xs-4" style=" padding-top:4px">
+                                        @Html.CheckBoxFor(m => m.isVisiblePartyDocDate, new { @class = "checkbox col-xs-2" })
+                                        @Html.ValidationMessageFor(model => model.isVisiblePartyDocDate)
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.isVisibleLedgerAdj, "Ledger Adjustment", new { @class = "control-label col-xs-6" })
+                                    <div class="col-xs-4" style=" padding-top:4px">
+                                        @Html.CheckBoxFor(m => m.isVisibleLedgerAdj, new { @class = "checkbox col-xs-2" })
+                                        @Html.ValidationMessageFor(model => model.isVisibleLedgerAdj)
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -403,6 +448,27 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.PartyDocDateCaption, "Party Doc Date Caption", new { @class = "control-label col-xs-4" })
+                                    <div class="col-xs-6">
+                                        @Html.TextBoxFor(m => m.PartyDocDateCaption, new { @class = "form-control col-xs-6" })
+                                        @Html.ValidationMessageFor(m => m.PartyDocDateCaption, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.PartyDocNoCaption, "Party Doc No Caption", new { @class = "control-label col-xs-4" })
+                                    <div class="col-xs-6">
+                                        @Html.TextBoxFor(m => m.PartyDocNoCaption, new { @class = "form-control col-xs-6" })
+                                        @Html.ValidationMessageFor(m => m.PartyDocNoCaption, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
 

@@ -19,7 +19,7 @@ namespace Service
         StockBalance Create(StockBalance pt);
         void Delete(int id);
         void Update(StockBalance pt);
-        StockBalance Find(int ProductId, int? Dimension1Id, int? Dimension2Id, int? ProcessId, string LotNo, int GodownId, int? CostCenterId);
+        StockBalance Find(int ProductId, int? Dimension1Id, int? Dimension2Id, int? Dimension3Id, int? Dimension4Id, int? ProcessId, string LotNo, int GodownId, int? CostCenterId);
 
         void UpdateStockBalance(Stock Stock);
     }
@@ -85,7 +85,7 @@ namespace Service
             throw new NotImplementedException();
         }
 
-        public StockBalance Find(int ProductId, int? Dimension1Id, int? Dimension2Id, int? ProcessId, string LotNo, int GodownId, int? CostCenterId)
+        public StockBalance Find(int ProductId, int? Dimension1Id, int? Dimension2Id, int? Dimension3Id, int? Dimension4Id, int? ProcessId, string LotNo, int GodownId, int? CostCenterId)
         {
             //StockBalance stockbalance = (from L in db.StockBalance
             //                             where L.ProductId == ProductId && L.Dimension1Id == Dimension1Id && L.Dimension2Id == Dimension2Id && L.ProcessId == ProcessId && L.LotNo == LotNo && L.GodownId == GodownId && L.CostCenterId == CostCenterId
@@ -93,6 +93,8 @@ namespace Service
             StockBalance stockbalance = _unitOfWork.Repository<StockBalance>().Query().Get().Where(i => i.ProductId == ProductId && 
                     i.Dimension1Id == Dimension1Id &&
                     i.Dimension2Id == Dimension2Id &&
+                    i.Dimension3Id == Dimension3Id &&
+                    i.Dimension4Id == Dimension4Id &&
                     i.ProcessId == ProcessId &&
                     i.LotNo == LotNo &&
                     i.GodownId == GodownId &&
@@ -103,7 +105,7 @@ namespace Service
 
         public void UpdateStockBalance(Stock Stock)
         {
-            StockBalance StockBalance = new StockBalanceService(_unitOfWork).Find(Stock.ProductId, Stock.Dimension1Id, Stock.Dimension2Id, Stock.ProcessId, Stock.LotNo, Stock.GodownId, Stock.CostCenterId);
+            StockBalance StockBalance = new StockBalanceService(_unitOfWork).Find(Stock.ProductId, Stock.Dimension1Id, Stock.Dimension2Id, Stock.Dimension3Id, Stock.Dimension4Id, Stock.ProcessId, Stock.LotNo, Stock.GodownId, Stock.CostCenterId);
 
             if (StockBalance == null)
             {
@@ -112,6 +114,8 @@ namespace Service
                 StockBalance_NewRecord.ProductId = Stock.ProductId;
                 StockBalance_NewRecord.Dimension1Id = Stock.Dimension1Id;
                 StockBalance_NewRecord.Dimension2Id = Stock.Dimension2Id;
+                StockBalance_NewRecord.Dimension3Id = Stock.Dimension3Id;
+                StockBalance_NewRecord.Dimension4Id = Stock.Dimension4Id;
                 StockBalance_NewRecord.ProcessId = Stock.ProcessId;
                 StockBalance_NewRecord.GodownId = Stock.GodownId;
                 StockBalance_NewRecord.CostCenterId = Stock.CostCenterId;

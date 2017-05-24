@@ -359,6 +359,8 @@ namespace Web
                     temp.GodownId = pt.GodownId;
                     temp.LedgerAccountId = pt.LedgerAccountId;
                     temp.DrCr = pt.DrCr;
+                    temp.PartyDocNo = pt.PartyDocNo;
+                    temp.PartyDocDate = pt.PartyDocDate;
                     temp.Narration = pt.Narration;
                     temp.ModifiedDate = DateTime.Now;
                     temp.ModifiedBy = User.Identity.Name;

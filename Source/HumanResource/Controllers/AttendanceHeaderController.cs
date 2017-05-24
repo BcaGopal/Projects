@@ -712,7 +712,7 @@ namespace Web
 
                     if (!string.IsNullOrEmpty(IsContinue) && IsContinue == "True")
                     {
-                        int nextId = new NextPrevIdService(_unitOfWork).GetNextPrevId(Id, pd.DocTypeId, User.Identity.Name, ForActionConstants.PendingToSubmit, "Web.PurchaseOrderHeaders", "PurchaseOrderHeaderId", PrevNextConstants.Next);
+                        int nextId = new NextPrevIdService(_unitOfWork).GetNextPrevId(Id, pd.DocTypeId, User.Identity.Name, ForActionConstants.PendingToSubmit, "Web.AttendanceHeaders", "AttendanceHeaderId", PrevNextConstants.Next);
 
                         if (nextId == 0)
                         {
@@ -722,10 +722,10 @@ namespace Web
                             else
                                 return RedirectToAction("Index", new { id = pd.DocTypeId, IndexType = IndexType });
                         }
-                        return RedirectToAction("Detail", new { id = nextId, TransactionType = "submitContinue", IndexType = IndexType }).Success("Purchase Order " + pd.DocNo + " submitted successfully.");
+                        return RedirectToAction("Detail", new { id = nextId, TransactionType = "submitContinue", IndexType = IndexType }).Success("Attendance " + pd.DocNo + " submitted successfully.");
                     }
                     else
-                        return RedirectToAction("Index", new { id = pd.DocTypeId, IndexType = IndexType }).Success("Purchase Order " + pd.DocNo + " submitted successfully.");
+                        return RedirectToAction("Index", new { id = pd.DocTypeId, IndexType = IndexType }).Success("Attendance " + pd.DocNo + " submitted successfully.");
                 }
                 else
                     return RedirectToAction("Index", new { id = pd.DocTypeId, IndexType = IndexType }).Warning("Record can be submitted by user " + pd.ModifiedBy + " only.");
