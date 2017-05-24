@@ -374,13 +374,24 @@
         var StandardSizeData = $("#StandardSizeId").select2("data"); 
         var StandardSizeNameText = StandardSizeData.text;
 
+        var ManufacturingSizeNameText="";
+
+        if($("#ManufacturingSizeId").select2("data")!=null )
+        {
+            var ManufacturingSizeData = $("#ManufacturingSizeId").select2("data"); 
+            ManufacturingSizeNameText= ManufacturingSizeData.text;
+        }
+
         var ColourData = $("#ColourId").select2("data"); 
         var ColourNameText = ColourData.text;
+
+        //alert(StandardSizeNameText);
+        //alert(ManufacturingSizeNameText);
 
         $.ajax({
             url: "/CarpetMaster/GetCustomProductName",
             type: "POST",
-            data: { ProductGroupName : ProductGroupNameText, StandardSizeName : StandardSizeNameText, ColourName: ColourNameText },
+            data: {ProductGroupName : ProductGroupNameText, StandardSizeName : StandardSizeNameText, ManufacturingSizeName : ManufacturingSizeNameText, ColourName: ColourNameText },
             dataType: "json",
             success: function (data) {
                 $("#ProductCode").val(data.ProductName);
@@ -401,6 +412,7 @@
         CreateCustomProductName();
     });
 
+
     $("#StandardSizeId").change(function () {
         if ($("#StandardSizeId").val() == null || $("#StandardSizeId").val() == 0)
         {
@@ -417,7 +429,7 @@
             //$("#ProductCode").val(code);
             //$("#ProductName").val(code);
             //CreateProductName();
-            CreateCustomProductName();
+            //CreateCustomProductName();
         }
 
         var data = $("#StandardSizeId").select2("data"); delete data.element;
@@ -439,6 +451,7 @@
                 $('#MapSizeId').select2('data',{id:data.ProductMapSizeId,text:(data.ProductMapSizeName ==null?"" :data.ProductMapSizeName)})
 
                 //$("#FinishingSizeId").select2('data', "/ComboHelpList/SetSingleSize/2");
+                CreateCustomProductName();
             },
             error: function (result) {
                 alert("No Records Found");
@@ -457,10 +470,26 @@
                 cdata = $('#ManufacturingSizeId').select2('data').text;
                 $("#FinishingSizeId").select2('data', { id: cid, text: cdata });
             }
-
+            
         });
 
+        //CreateCustomProductName();
+
     })
+
+
+    $('#ManufacturingSizeId').change(function () {
+        var parr = [];
+        if ($('#FinishingSizeId').text() == "" || $('#FinishingSizeId').val() == null || $('#FinishingSizeId').val() == 0) {
+
+            var cid = $("#ManufacturingSizeId").val();
+            var selections = (JSON.stringify($('#ManufacturingSizeId').select2('data')));
+            cdata = $('#ManufacturingSizeId').select2('data').text;
+            $("#FinishingSizeId").select2('data', { id: cid, text: cdata });
+        }
+
+        CreateCustomProductName();
+    });
 
 
     function GetStandardSizeList(Id, GetAction, SetAction, placehold, multiple, length) {

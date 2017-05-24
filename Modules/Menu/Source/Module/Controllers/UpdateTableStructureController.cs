@@ -157,6 +157,7 @@ namespace Module
             AddFields("PackingLines", "FreeQty", "Decimal(18,4)");
             AddFields("SaleOrderLines", "FreeQty", "Decimal(18,4)");
 
+            AddFields("CarpetSkuSettings", "NameBaseOnSize", "nvarchar(50)");
 
             try
             {

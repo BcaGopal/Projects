@@ -1075,7 +1075,6 @@
                         <PaddingBottom>2pt</PaddingBottom>
                       </Style>
                     </Textbox>
-                    <rd:Selected>true</rd:Selected>
                   </CellContents>
                 </TablixCell>
                 <TablixCell>
@@ -4578,10 +4577,7 @@
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
     <DataSource Name="TrialBalance">
-      <ConnectionProperties>
-        <DataProvider>SQL</DataProvider>
-        <ConnectString>=Parameters!DatabaseConnectionString.Value</ConnectString>
-      </ConnectionProperties>
+      <DataSourceReference>DSL</DataSourceReference>
       <rd:SecurityType>None</rd:SecurityType>
       <rd:DataSourceID>dd7af43a-86ea-4bb9-8747-c50ac43bbbc6</rd:DataSourceID>
     </DataSource>

@@ -802,14 +802,14 @@ namespace Service
             DesignColourConsumptionHeaderViewModel svm = (from p in db.ViewDesignColourConsumption
                                                           where p.BomProductId == ProductId
                                                           select new DesignColourConsumptionHeaderViewModel
-                                                    {
-                                                        BaseProductId =  p.BomProductId,
-                                                        ProductGroupId = p.ProductGroupId,
-                                                        ProductGroupName = p.ProductGroupName,
-                                                        ColourId = p.ColourId,
-                                                        ColourName = p.ColourName,
-                                                        Weight = p.Weight
-                                                    }).FirstOrDefault();
+                                                          {
+                                                              BaseProductId = p.BomProductId,
+                                                              ProductGroupId = p.ProductGroupId,
+                                                              ProductGroupName = p.ProductGroupName,
+                                                              ColourId = p.ColourId,
+                                                              ColourName = p.ColourName,
+                                                              Weight = p.Weight
+                                                          }).ToList().FirstOrDefault();
 
             if (svm != null)
             {

@@ -65,6 +65,7 @@ namespace Model.Models
 
         public string UnitConversions { get; set; }
 
+        public string NameBaseOnSize { get; set; }        
 
         [Display(Name = "Created By")]
         public string CreatedBy { get; set; }
