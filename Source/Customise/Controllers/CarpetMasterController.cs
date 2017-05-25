@@ -3737,12 +3737,22 @@ namespace Web
             return PartialView("EditProductProcess", vm);
         }
 
-        public JsonResult GetCustomProductName(string ProductGroupName, string StandardSizeName, string ColourName)
+        public JsonResult GetCustomProductName(string ProductGroupName, string StandardSizeName, string ManufacturingSizeName, string ColourName)
         {
+            int DivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
+            int SiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
+            CarpetSkuSettings temp = new CarpetSkuSettingsService(_unitOfWork).GetCarpetSkuSettings(DivisionId, SiteId);
+
+            string SizeName = "";
+            if (temp.NameBaseOnSize == "ManufacturingSizeName")
+                SizeName = ManufacturingSizeName;
+            else
+                SizeName = StandardSizeName;
 
             SqlParameter SqlParameterProductGroupName = new SqlParameter("@ProductGroupName", ProductGroupName);
-            SqlParameter SqlParameterStandardSizeName = new SqlParameter("@StandardSizeName", StandardSizeName);
+            SqlParameter SqlParameterStandardSizeName = new SqlParameter("@StandardSizeName", SizeName);
             SqlParameter SqlParameterColourName = new SqlParameter("@ColourName", ColourName);
+
 
             FirstProductName CustomProductName = db.Database.SqlQuery<FirstProductName>("" + ConfigurationManager.AppSettings["DataBaseSchema"] + ".sp_GetCustomCarpetSkuName @ProductGroupName, @StandardSizeName, @ColourName", SqlParameterProductGroupName, SqlParameterStandardSizeName, SqlParameterColourName).FirstOrDefault();
 
