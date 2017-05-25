@@ -90,6 +90,8 @@ namespace Store.App_Start
             container.RegisterType<IRepository<PersonAddress>, Repository<PersonAddress>>();
             container.RegisterType<IPersonAddressService, PersonAddressService>(new PerRequestLifetimeManager());
 
+            container.RegisterType<IPersonOpeningService, PersonOpeningService>(new PerRequestLifetimeManager());
+
             container.RegisterType<IRepository<PersonContact>, Repository<PersonContact>>();
             container.RegisterType<IPersonContactService, PersonContactService>(new PerRequestLifetimeManager());
 

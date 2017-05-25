@@ -1188,6 +1188,12 @@ namespace Module
             AddFields("LedgerHeaders", "PartyDocDate", "DateTime");
             AddFields("LedgerSettings", "isVisibleLedgerAdj", "BIT");
 
+            AddFields("PersonSettings", "isVisibleAadharNo", "BIT");
+            AddFields("PersonSettings", "isMandatoryAadharNo", "BIT");
+            AddFields("PersonSettings", "isVisiblePersonAddressDetail", "BIT");
+            AddFields("PersonSettings", "isVisiblePersonOpeningDetail", "BIT");
+            
+
 
             return RedirectToAction("Module", "Menu");
         }

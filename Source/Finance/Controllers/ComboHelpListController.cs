@@ -5426,6 +5426,26 @@ namespace Web
             return Json(MenuJson);
         }
 
+        public JsonResult SetSingleLedger(int Ids)
+        {
+            ComboBoxResult LedgerJson = new ComboBoxResult();
+
+            var prod = from L in db.Ledger
+                       join H in db.LedgerHeader on L.LedgerHeaderId equals H.LedgerHeaderId into LedgerHeaderTable
+                       from LedgerHeaderTab in LedgerHeaderTable.DefaultIfEmpty()
+                       where L.LedgerId == Ids
+                       select new
+                       {
+                           LedgerId = L.LedgerId,
+                           LedgerHeaderDocNo = LedgerHeaderTab.DocNo
+                       };
+
+            LedgerJson.id = prod.FirstOrDefault().LedgerId.ToString();
+            LedgerJson.text = prod.FirstOrDefault().LedgerHeaderDocNo;
+
+            return Json(LedgerJson);
+        }
+
 
     }
 }

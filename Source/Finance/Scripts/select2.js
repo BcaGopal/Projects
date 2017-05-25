@@ -359,6 +359,22 @@ the specific language governing permissions and limitations under the Apache Lic
         markup.push(escapeMarkup(text.substring(match + tl, text.length)));
     }
 
+    function markMatchCustom(text, term, markup, escapeMarkup) {
+        var match = text.toUpperCase().indexOf(term.toUpperCase()),
+            tl = term.length;
+
+        if (match < 0) {
+            markup.push(escapeMarkup(text));
+            return;
+        }
+
+        markup.push(escapeMarkup(text.substring(0, match)));
+        markup.push("<span class='select2-match'>");
+        markup.push(escapeMarkup(text.substring(match, match + tl)));
+        markup.push("</span>");
+        markup.push(escapeMarkup(text.substring(match + tl, text.length)));
+    }
+
     function defaultEscapeMarkup(markup) {
         var replace_map = {
             '\\': '&#92;',
@@ -833,7 +849,7 @@ the specific language governing permissions and limitations under the Apache Lic
 
                     populate=function(results, container, depth) {
 
-                        var i, l, result, selectable, disabled, compound, node, label, innerContainer, formatted;
+                        var i, l, result, selectable, disabled, compound, node, label, innerContainer, formatted,formattedAp1,formattedAp2,formattedTexProp1,formattedTexProp2;
 
                         results = opts.sortResults(results, container, query);
 
@@ -861,6 +877,48 @@ the specific language governing permissions and limitations under the Apache Lic
                             if (formatted!==undefined) {
                                 label.html(formatted);
                             }
+
+                            //if (result.QtyCount !== null && result.QtyCount !== undefined)
+                            //    label.append(" (<small><span class='AInfo'>BalQty:" + result.QtyCount + "</span><small/>)");
+
+                            if (result.AProp1)
+                                {
+                            formattedAp1 = opts.formatResultCustom(result.AProp1, label, query, self.opts.escapeMarkup);
+                            if (formattedAp1 !== undefined)
+                            {
+                                label.append("<br /><span class='AInfo'>"+formattedAp1+"</span>");
+                            }
+                            }
+                            if (result.AProp2)
+                                {
+                            formattedAp2 = opts.formatResultCustom(result.AProp2, label, query, self.opts.escapeMarkup);
+                            if (formattedAp2 && formattedAp1) {
+                                label.append(", <span class='AInfo'>"+formattedAp2+"</span>");
+                            }
+                            else if (formattedAp2)
+                            {
+                                label.append("<br /> <span class='AInfo'>" + formattedAp2+"</span>");
+                            }
+                            }
+                            if (result.TextProp1)
+                                {
+                            formattedTexProp1 = opts.formatResultCustom(result.TextProp1, label, query, self.opts.escapeMarkup);
+                            if (formattedTexProp1) {
+                                label.append("<br /><span class='AInfo'>" +formattedTexProp1+"</span>");
+                            }
+                            }
+                            if (result.TextProp2)
+                                {
+                            formattedTexProp2 = opts.formatResultCustom(result.TextProp2, label, query, self.opts.escapeMarkup);
+                            if (formattedTexProp2) {
+                                label.append("<br /> <span class='AInfo'>" + formattedTexProp2+"</span>");
+                            }
+                            }
+                            //if (result.text2 !== null && result.text2 !== undefined)
+                            //    label.append("<br /><span>Balance Qty:" + result.text2 + "</span>");
+                            //label.append("<br /><span>Dim1,Dim2</span>");
+                            //label.append("<br /><span>Specification</span>");
+                            
 
                             node.append(label);
 
@@ -3075,6 +3133,11 @@ the specific language governing permissions and limitations under the Apache Lic
         formatResult: function(result, container, query, escapeMarkup) {
             var markup=[];
             markMatch(result.text, query.term, markup, escapeMarkup);
+            return markup.join("");
+        },
+        formatResultCustom: function(text, container, query, escapeMarkup) {
+            var markup=[];
+            markMatchCustom(text, query.term, markup, escapeMarkup);
             return markup.join("");
         },
         formatSelection: function (data, container, escapeMarkup) {

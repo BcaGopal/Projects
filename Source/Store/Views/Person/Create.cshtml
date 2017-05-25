@@ -27,6 +27,7 @@
     @Html.HiddenFor(m => m.PersonRegistrationPanNoID)
     @Html.HiddenFor(m => m.PersonRegistrationCstNoID)
     @Html.HiddenFor(m => m.PersonRegistrationTinNoID)
+    @Html.HiddenFor(m => m.PersonRegistrationAadharNoID)
     @Html.HiddenFor(m => m.CreatedBy)
     @Html.HiddenFor(m => m.CreatedDate)
     @Html.HiddenFor(m => m.LedgerAccountGroupId)
@@ -300,6 +301,21 @@
                                     </div>
                                 </div>
                             </div>
+
+
+                            <div class="col-md-6" style="display:@(Model.PersonSettings.isVisibleAadharNo ? "" : "none")">
+                                @Html.HiddenFor(m => m.PersonSettings.isVisibleAadharNo)
+                                @Html.HiddenFor(m => m.PersonSettings.isMandatoryAadharNo)
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.AadharNo, "Aadhar No.", new { @class = "control-label col-xs-4" })
+                                    <div class="col-xs-6">
+                                        @Html.TextBoxFor(model => model.AadharNo, null, new { @class = "form-control col-xs-6 " + (Model.PersonSettings.isMandatoryAadharNo ? "required" : "") })
+                                        @Html.ValidationMessageFor(model => model.AadharNo)
+                                    </div>
+                                </div>
+                            </div>
+
+
                             <div class="col-md-6" style="display:@(Model.PersonSettings.isVisibleGuarantor ? "" : "none")">
                                 @Html.HiddenFor(m => m.PersonSettings.isVisibleGuarantor)
                                 @Html.HiddenFor(m => m.PersonSettings.isMandatoryGuarantor)
@@ -501,6 +517,60 @@
                         </table>
                     </div>
                 }
+                
+
+                @if (Model.PersonSettings.isVisiblePersonAddressDetail)
+                {
+                    @Html.HiddenFor(m => m.PersonSettings.isVisiblePersonAddressDetail)
+                    <hr />
+                    <div class="row">
+                        <h4 class="col-md-12 black" style="margin-top:15px">
+                            <span class="glyphicon glyphicon-shopping-cart"></span>
+                            Person Address
+                        </h4>
+                    </div>
+                    <div class="panel-info">
+                        <h5 style="padding:5px 0 3px 0;margin:0px;font-weight:bold">
+                            <span class="glyphicon glyphicon-plus-sign"></span>
+                            @Html.ActionLink("Add New Row ", "_Create", "PersonAddress", new { id = @Model.PersonID }, new { data_modal = "", id = "btnCreate", @class = "toolbar", @title = "Add New", @data_toggle = "tooltip" })
+                        </h5>
+                    </div>
+                    <div style="padding-right:15px">
+                        <table class="table table-hover ctable">
+                            <thead id="PersonAddressHeader">
+                            </thead>
+                            <tbody id="PersonAddressDetail"></tbody>
+                        </table>
+                    </div>
+                }
+                
+
+
+                @if (Model.PersonSettings.isVisiblePersonOpeningDetail)
+                {
+                    <hr />
+                    <div class="row">
+                        <h4 class="col-md-12 black" style="margin-top:15px">
+                            <span class="glyphicon glyphicon-shopping-cart"></span>
+                            Person Opening
+                        </h4>
+                    </div>
+
+                    <div class="panel-info">
+                        <h5 style="padding:5px 0 3px 0;margin:0px;font-weight:bold">
+                            <span class="glyphicon glyphicon-plus-sign"></span>
+                            @Html.ActionLink("Add New Row ", "_Create", "PersonOpening", new { id = @Model.PersonID }, new { data_modal = "", id = "btnCreate", @class = "toolbar", @title = "Add New", @data_toggle = "tooltip" })
+                        </h5>
+                    </div>
+
+                    <div style="padding-right:15px">
+                        <table class="table table-hover ctable">
+                            <thead id="PersonOpeningHeader">
+                            </thead>
+                            <tbody id="PersonOpeningDetail"></tbody>
+                        </table>
+                    </div>
+                }
 
 
             </div>
@@ -543,6 +613,8 @@
         LoadPersonContact();
         LoadPersonBankDetail();
         LoadPersonProcess();
+        LoadPersonAddress();
+        LoadPersonOpening();
         enableModalTransitions();
 
         form_clean = $("form").serialize();
@@ -577,6 +649,8 @@
         LoadPersonContact();
         LoadPersonBankDetail();
         LoadPersonProcess();
+        LoadPersonAddress();
+        LoadPersonOpening();
     });
 
 
@@ -683,12 +757,78 @@
     }
 
 
+    //Loading the Table data or Line Information
+    function LoadPersonAddress() {
+        var groupId=@Model.PersonID;
 
+        var link="/PersonAddress/Index/"+groupId;
+
+        $.ajax({
+            url: link,
+            type: "GET",
+            success: function (data) {
+                var row = "";
+                var srno=1;
+                var head="<tr style='background-color:#428bca'>  <th style='width:10px'><input type='hidden'  /></th> <th style='width:10px'>Serial</th><th class='center'> Address Type</th>   <th class='center'> Address</th>   <th class='center'>City</th>     <th style='width:10px'></th>       <th style='width:10px'></th>  </tr>"
+                if(data.length!=0)
+                {
+                    $.each(data, function (index, item) {
+                        row += "<tr><td><input type='hidden' class='id' value='" + item.PersonAddressId + "'/></td> <td>"+ srno +"</td> <td>" + (item.AddressType==null ? "" :item.AddressType )+ "</td>        <td>" + (item.Address==null ? "" :item.Address )+ "</td>        <td>" + ( item.CityName==null?"" : item.CityName )+ "</td>  <td><a class='hidden' Modify href='/PersonAddress/_Edit/"+item.PersonAddressId+"' ></a></td>       <td><a class='glyphicon glyphicon-trash' data-modal='' delete='' href='/PersonAddress/_Edit/"+item.PersonAddressId+"' ></a></td>  </tr>";
+                        srno++;
+                    });
+                }
+                else
+                {
+                    row+="<tr><td>No Items Found.</td></tr>";
+                }
+                $("#PersonAddressHeader").html(head);
+                $("#PersonAddressDetail").html(row);
+            },
+            error: function () {
+                alert("Error");
+            }
+        });
+    }
+
+
+
+    //Loading the Table data or Line Information
+    function LoadPersonOpening() {
+        var groupId=@Model.PersonID;
+
+        var link="/PersonOpening/Index/"+groupId;
+
+        $.ajax({
+            url: link,
+            type: "GET",
+            success: function (data) {
+                var row = "";
+                var srno=1;
+                var head="<tr style='background-color:#428bca'>  <th style='width:10px'><input type='hidden'  /></th> <th style='width:10px'>Serial</th><th class='center'> Party Doc No</th>   <th class='center'> Party Doc Date</th>   <th class='center'> Amount</th>   <th style='width:10px'></th>       <th style='width:10px'></th>  </tr>"
+                if(data.length!=0)
+                {
+                    $.each(data, function (index, item) {
+                        row += "<tr><td><input type='hidden' class='id' value='" + item.LedgerHeaderId + "'/></td> <td>"+ srno +"</td> <td>" + (item.PartyDocNo==null ? "" :item.PartyDocNo )+ "</td>        <td>" + (item.PartyDocDate==null ? "" :formatDate('d/m/Y',new Date(parseInt(item.PartyDocDate.substr(6)))) )+ "</td>        <td>" + (item.Amount==null ? "" :item.Amount ) + " " + ( item.DrCr==null?"" : item.DrCr )+ "</td>        <td><a class='hidden' Modify href='/PersonOpening/_Edit/"+item.LedgerHeaderId+"' ></a></td>       <td><a class='glyphicon glyphicon-trash' data-modal='' delete='' href='/PersonOpening/_Edit/"+item.LedgerHeaderId+"' ></a></td>  </tr>";
+                        srno++;
+                    });
+                }
+                else
+                {
+                    row+="<tr><td>No Items Found.</td></tr>";
+                }
+                $("#PersonOpeningHeader").html(head);
+                $("#PersonOpeningDetail").html(row);
+            },
+            error: function () {
+                alert("Error");
+            }
+        });
+    }
 
 
 
     //For Populating Modal PopUp on DoubleClick Of Row
-    $('#BankAccoutDetail,#PersonProcessDetail,#Result').on("dblclick",'tr',function(){
+    $('#BankAccoutDetail,#PersonProcessDetail,#PersonAddressDetail,#PersonOpeningDetail,#Result').on("dblclick",'tr',function(){
         var text = $(this).find(".id").val();
         var editurl=$(this).find('a[Modify]').attr('href');
 

@@ -67,6 +67,10 @@ namespace Model.ViewModels
         [MaxLength(40)]
         public string TinNo { get; set; }
 
+        [Display(Name = "Aadhar No")]
+        [MaxLength(40)]
+        public string AadharNo { get; set; }
+
         public int? ParentId { get; set; }
         public string ParentName { get; set; }
 
@@ -102,6 +106,7 @@ namespace Model.ViewModels
         public int? PersonRegistrationPanNoID { get; set; }
         public int? PersonRegistrationCstNoID { get; set; }
         public int? PersonRegistrationTinNoID { get; set; }
+        public int? PersonRegistrationAadharNoID { get; set; }
 
         [MaxLength(100)]
         public string ImageFolderName { get; set; }

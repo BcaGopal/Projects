@@ -753,6 +753,7 @@
     <Content Include="Views\TrialBalance\LedgerGroupBalance.cshtml" />
     <Content Include="Views\TrialBalance\BalanceSheet.cshtml" />
     <Content Include="Views\LedgerLine\_LedgerAdj.cshtml" />
+    <Content Include="Views\LedgerLine\_LedgerAdj_Single.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

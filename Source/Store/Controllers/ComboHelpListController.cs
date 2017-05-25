@@ -5858,7 +5858,7 @@ namespace Web
 
         public JsonResult GetSalesTaxGroupParty(string searchTerm, int pageSize, int pageNum)
         {
-            var Query = cbl.GetSalesTaxGroupParty(searchTerm);
+            var Query = cbl.GetSalesTaxGroupPerson(searchTerm);
             var temp = Query.Skip(pageSize * (pageNum - 1)).Take(pageSize).ToList();
 
             var count = Query.Count();
@@ -5878,12 +5878,12 @@ namespace Web
         {
             ComboBoxResult SalesTaxGroupPartyJson = new ComboBoxResult();
 
-            SalesTaxGroupParty SalesTaxGroupParty = (from b in db.SalesTaxGroupParty
-                                 where b.SalesTaxGroupPartyId == Ids
+            ChargeGroupPerson SalesTaxGroupParty = (from b in db.ChargeGroupPerson
+                                 where b.ChargeGroupPersonId == Ids
                                  select b).FirstOrDefault();
 
-            SalesTaxGroupPartyJson.id = SalesTaxGroupParty.SalesTaxGroupPartyId.ToString();
-            SalesTaxGroupPartyJson.text = SalesTaxGroupParty.SalesTaxGroupPartyName;
+            SalesTaxGroupPartyJson.id = SalesTaxGroupParty.ChargeGroupPersonId.ToString();
+            SalesTaxGroupPartyJson.text = SalesTaxGroupParty.ChargeGroupPersonName;
 
             return Json(SalesTaxGroupPartyJson);
         }

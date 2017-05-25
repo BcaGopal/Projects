@@ -133,6 +133,16 @@ namespace Web
         {
             ViewBag.Name = new DocumentTypeService(_unitOfWork).Find(id).DocumentTypeName;
             ViewBag.id = id;
+
+            List<SelectListItem> AddressType = new List<SelectListItem>();
+            AddressType.Add(new SelectListItem { Text = AddressTypeConstants.Permanent, Value = AddressTypeConstants.Permanent });
+            AddressType.Add(new SelectListItem { Text = AddressTypeConstants.Temporary, Value = AddressTypeConstants.Temporary });
+            AddressType.Add(new SelectListItem { Text = AddressTypeConstants.Work, Value = AddressTypeConstants.Work });
+            AddressType.Add(new SelectListItem { Text = AddressTypeConstants.Office, Value = AddressTypeConstants.Office });
+            AddressType.Add(new SelectListItem { Text = AddressTypeConstants.Godown, Value = AddressTypeConstants.Godown });
+
+            ViewBag.AddressTypeList = new SelectList(AddressType, "Value", "Text");
+
         }
 
        public ActionResult Create(int id)
@@ -215,6 +225,10 @@ namespace Web
                 {
                     ModelState.AddModelError("PanNo", "The PanNo field is required");
                 }
+                if (settings.isVisibleAadharNo == true && settings.isMandatoryAadharNo == true && (PersonVm.AadharNo == null || PersonVm.AadharNo == ""))
+                {
+                    ModelState.AddModelError("AadharNo", "The AadharNo field is required");
+                }
                 if (settings.isVisibleGuarantor == true && settings.isMandatoryGuarantor == true && (PersonVm.GuarantorId == null || PersonVm.GuarantorId == 0))
                 {
                     ModelState.AddModelError("GuarantorId", "The Guarantor field is required");
@@ -282,7 +296,7 @@ namespace Web
                     _BusinessEntityService.Create(businessentity);
 
 
-                    personaddress.AddressType = AddressTypeConstants.Work;
+                    personaddress.AddressType = null;
                     personaddress.CreatedDate = DateTime.Now;
                     personaddress.ModifiedDate = DateTime.Now;
                     personaddress.CreatedBy = User.Identity.Name;
@@ -372,6 +386,20 @@ namespace Web
                         PersonRegistration personregistration = new PersonRegistration();
                         personregistration.RegistrationType = PersonRegistrationType.TinNo;
                         personregistration.RegistrationNo = PersonVm.TinNo;
+                        personregistration.CreatedDate = DateTime.Now;
+                        personregistration.ModifiedDate = DateTime.Now;
+                        personregistration.CreatedBy = User.Identity.Name;
+                        personregistration.ModifiedBy = User.Identity.Name;
+                        personregistration.ObjectState = Model.ObjectState.Added;
+                        _PersonRegistrationService.Create(personregistration);
+                    }
+
+
+                    if (PersonVm.AadharNo != "" && PersonVm.AadharNo != null)
+                    {
+                        PersonRegistration personregistration = new PersonRegistration();
+                        personregistration.RegistrationType = PersonRegistrationType.AadharNo;
+                        personregistration.RegistrationNo = PersonVm.AadharNo;
                         personregistration.CreatedDate = DateTime.Now;
                         personregistration.ModifiedDate = DateTime.Now;
                         personregistration.CreatedBy = User.Identity.Name;
@@ -534,6 +562,7 @@ namespace Web
                     PersonRegistration PersonPan = _PersonRegistrationService.Find(PersonVm.PersonRegistrationPanNoID ?? 0);
                     PersonRegistration PersonCst = _PersonRegistrationService.Find(PersonVm.PersonRegistrationCstNoID ?? 0);
                     PersonRegistration PersonTin = _PersonRegistrationService.Find(PersonVm.PersonRegistrationTinNoID ?? 0);
+                    PersonRegistration PersonAadhar = _PersonRegistrationService.Find(PersonVm.PersonRegistrationAadharNoID ?? 0);
 
 
                     PersonAddress ExRec = new PersonAddress();
@@ -740,6 +769,38 @@ namespace Web
                             personregistration.PersonId = PersonVm.PersonID;
                             personregistration.RegistrationType = PersonRegistrationType.TinNo;
                             personregistration.RegistrationNo = PersonVm.TinNo;
+                            personregistration.CreatedDate = DateTime.Now;
+                            personregistration.ModifiedDate = DateTime.Now;
+                            personregistration.CreatedBy = User.Identity.Name;
+                            personregistration.ModifiedBy = User.Identity.Name;
+                            personregistration.ObjectState = Model.ObjectState.Added;
+                            _PersonRegistrationService.Create(personregistration);
+                        }
+                    }
+
+
+
+
+                    if (PersonVm.AadharNo != null && PersonVm.AadharNo != "")
+                    {
+                        if (PersonTin != null)
+                        {
+                            PersonTin.RegistrationNo = PersonVm.AadharNo;
+                            _PersonRegistrationService.Update(PersonTin);
+
+                            LogList.Add(new LogTypeViewModel
+                            {
+                                ExObj = ExRecP,
+                                Obj = PersonTin,
+                            });
+
+                        }
+                        else
+                        {
+                            PersonRegistration personregistration = new PersonRegistration();
+                            personregistration.PersonId = PersonVm.PersonID;
+                            personregistration.RegistrationType = PersonRegistrationType.AadharNo;
+                            personregistration.RegistrationNo = PersonVm.AadharNo;
                             personregistration.CreatedDate = DateTime.Now;
                             personregistration.ModifiedDate = DateTime.Now;
                             personregistration.CreatedBy = User.Identity.Name;

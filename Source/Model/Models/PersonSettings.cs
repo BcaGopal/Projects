@@ -28,6 +28,7 @@ namespace Model.Models
         public bool? isVisibleCstNo { get; set; }
         public bool? isVisibleTinNo { get; set; }
         public bool? isVisiblePanNo { get; set; }
+        public bool? isVisibleAadharNo { get; set; }
         public bool? isVisibleSalesTaxGroup { get; set; }
         public bool? isVisibleGuarantor { get; set; }
         public bool? isVisibleParent { get; set; }
@@ -42,6 +43,8 @@ namespace Model.Models
         public bool? isVisibleContactPersonDetail { get; set; }
         public bool? isVisibleBankAccountDetail { get; set; }
         public bool? isVisiblePersonProcessDetail { get; set; }
+        public bool? isVisiblePersonAddressDetail { get; set; }
+        public bool? isVisiblePersonOpeningDetail { get; set; }
 
 
         public bool? isMandatoryAddress { get; set; }
@@ -58,6 +61,7 @@ namespace Model.Models
         public bool? isMandatorySalesTaxGroup { get; set; }
         public bool? isMandatoryCstNo { get; set; }
         public bool? isMandatoryTinNo { get; set; }
+        public bool? isMandatoryAadharNo { get; set; }
         public bool? isMandatoryCreditDays { get; set; }
         public bool? isMandatoryCreditLimit { get; set; }
 

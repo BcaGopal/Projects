@@ -34,6 +34,9 @@ namespace Model.Models
         [Display(Name = "JobWorker Doc. No."), MaxLength(20)]
         public string JobWorkerDocNo { get; set; }
 
+        [Display(Name = "Job Worker Doc Date"), Required]
+        public DateTime? JobWorkerDocDate { get; set; }
+
         [Display(Name = "Division"),Required ]
         [ForeignKey("Division")]
         [Index("IX_JobInvoiceHeader_DocID", IsUnique = true, Order = 3)]

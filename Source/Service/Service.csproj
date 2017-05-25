@@ -114,6 +114,7 @@
     <Compile Include="Dimension3Service.cs" />
     <Compile Include="FeetConversionToCmsService.cs" />
     <Compile Include="DocumentTypeSettingsService.cs" />
+    <Compile Include="PersonOpeningService.cs" />
     <Compile Include="PersonRoleService.cs" />
     <Compile Include="ImportHeaderService.cs" />
     <Compile Include="ImportLineService.cs" />

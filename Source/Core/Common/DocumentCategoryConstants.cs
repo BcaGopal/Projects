@@ -158,6 +158,9 @@ namespace Core.Common
 
     public class TransactionDoctypeConstants
     {
+        //---------------------  Finance
+        public const string Opening = "Opening Balance";
+
         //---------------------  Sale 
         public const string SaleOrder = "Sale Order";
         public const string SaleOrderCancel = "Sale Order Cancel";

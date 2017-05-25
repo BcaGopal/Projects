@@ -106,6 +106,7 @@ namespace Service
                         ProcessId=p.ProcessId,                        
                         DocTypeId = p.DocTypeId,
                         JobWorkerDocNo=p.JobWorkerDocNo,
+                        JobWorkerDocDate=p.JobWorkerDocDate,
                         Remark = p.Remark,
                         SiteId = p.SiteId,
                         Status = p.Status,

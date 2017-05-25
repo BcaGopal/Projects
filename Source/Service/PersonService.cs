@@ -310,8 +310,6 @@ namespace Service
             PersonViewModel Personviewmodel = (from b in db.Persons
                                                      join bus in db.BusinessEntity on b.PersonID equals bus.PersonID into BusinessEntityTable
                                                      from BusinessEntityTab in BusinessEntityTable.DefaultIfEmpty()
-                                                     join pa in db.PersonAddress on b.PersonID equals pa.PersonId into PersonAddressTable
-                                                     from PersonAddressTab in PersonAddressTable.DefaultIfEmpty()
                                                      join ac in db.LedgerAccount on b.PersonID equals ac.PersonId into AccountTable
                                                      from AccountTab in AccountTable.DefaultIfEmpty()
                                                      where b.PersonID == id
@@ -325,9 +323,6 @@ namespace Service
                                                          Phone = b.Phone,
                                                          Mobile = b.Mobile,
                                                          Email = b.Email,
-                                                         Address = PersonAddressTab.Address,
-                                                         CityId = PersonAddressTab.CityId,
-                                                         Zipcode = PersonAddressTab.Zipcode,
                                                          TdsCategoryId = BusinessEntityTab.TdsCategoryId,
                                                          TdsGroupId = BusinessEntityTab.TdsGroupId,
                                                          IsSisterConcern = BusinessEntityTab.IsSisterConcern,
@@ -340,7 +335,6 @@ namespace Service
                                                          SalesTaxGroupPartyName = BusinessEntityTab.SalesTaxGroupParty.SalesTaxGroupPartyName,
                                                          CreatedBy = b.CreatedBy,
                                                          CreatedDate = b.CreatedDate,
-                                                         PersonAddressID = PersonAddressTab.PersonAddressID,
                                                          AccountId = AccountTab.LedgerAccountId,
                                                          DivisionIds = BusinessEntityTab.DivisionIds,
                                                          SiteIds = BusinessEntityTab.SiteIds,
@@ -350,24 +344,25 @@ namespace Service
                                                      }
                    ).FirstOrDefault();
 
-            //var PersonProcess = (from pp in db.PersonProcess
-            //                     where pp.PersonId == id
-            //                     select new
-            //                     {
-            //                         ProcessId = pp.ProcessId
-            //                     }).ToList();
 
-            //foreach (var item in PersonProcess)
-            //{
-            //    if (JobWorkerviewmodel.ProcessIds == "" || JobWorkerviewmodel.ProcessIds == null)
-            //    {
-            //        JobWorkerviewmodel.ProcessIds = item.ProcessId.ToString();
-            //    }
-            //    else
-            //    {
-            //        JobWorkerviewmodel.ProcessIds = JobWorkerviewmodel.ProcessIds + "," + item.ProcessId.ToString();
-            //    }
-            //}
+            var PersonAddress = (from Pa in db.PersonAddress
+                                 where Pa.PersonId == id && Pa.AddressType == null
+                                 select new
+                                 {
+                                     Address = Pa.Address,
+                                     CityId = Pa.CityId,
+                                     Zipcode = Pa.Zipcode,
+                                     PersonAddressID = Pa.PersonAddressID,
+                                 }).FirstOrDefault();
+
+            if (Personviewmodel != null)
+            {
+                Personviewmodel.PersonAddressID = PersonAddress.PersonAddressID;
+                Personviewmodel.Address = PersonAddress.Address;
+                Personviewmodel.CityId = PersonAddress.CityId;
+                Personviewmodel.Zipcode = PersonAddress.Zipcode;
+            }
+
 
             var PersonRegistration = (from pp in db.PersonRegistration
                                       where pp.PersonId == id
@@ -377,6 +372,8 @@ namespace Service
                                           RregistrationType = pp.RegistrationType,
                                           RregistrationNo = pp.RegistrationNo
                                       }).ToList();
+
+
 
             if (PersonRegistration != null)
             {
@@ -398,6 +395,12 @@ namespace Service
                     {
                         Personviewmodel.PersonRegistrationTinNoID = item.PersonRegistrationId;
                         Personviewmodel.TinNo = item.RregistrationNo;
+                    }
+
+                    if (item.RregistrationType == PersonRegistrationType.AadharNo)
+                    {
+                        Personviewmodel.PersonRegistrationAadharNoID = item.PersonRegistrationId;
+                        Personviewmodel.AadharNo = item.RregistrationNo;
                     }
                 }
             }

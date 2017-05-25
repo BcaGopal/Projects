@@ -28,16 +28,16 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/22/2016 11:23:20</publishTime>
     </File>
     <File Include="bin/Core.dll">
-      <publishTime>05/23/2017 14:44:59</publishTime>
+      <publishTime>05/25/2017 10:07:01</publishTime>
     </File>
     <File Include="bin/CustomEventHandlers.dll">
-      <publishTime>05/23/2017 14:45:34</publishTime>
+      <publishTime>05/25/2017 10:07:33</publishTime>
     </File>
     <File Include="bin/Data.dll">
-      <publishTime>05/23/2017 14:45:09</publishTime>
+      <publishTime>05/25/2017 10:07:07</publishTime>
     </File>
     <File Include="bin/DocumentEvents.dll">
-      <publishTime>05/23/2017 14:45:10</publishTime>
+      <publishTime>05/25/2017 10:07:31</publishTime>
     </File>
     <File Include="bin/Elmah.dll">
       <publishTime>09/22/2016 11:24:00</publishTime>
@@ -52,7 +52,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/22/2016 11:24:09</publishTime>
     </File>
     <File Include="bin/Finance.dll">
-      <publishTime>05/23/2017 14:45:41</publishTime>
+      <publishTime>05/25/2017 10:07:39</publishTime>
     </File>
     <File Include="bin/GridMvc.dll">
       <publishTime>09/22/2016 11:24:54</publishTime>
@@ -127,19 +127,19 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/22/2016 11:23:54</publishTime>
     </File>
     <File Include="bin/Model.dll">
-      <publishTime>05/23/2017 14:45:04</publishTime>
+      <publishTime>05/25/2017 10:07:03</publishTime>
     </File>
     <File Include="bin/Models.Login.dll">
-      <publishTime>05/23/2017 14:45:03</publishTime>
+      <publishTime>05/25/2017 10:07:02</publishTime>
     </File>
     <File Include="bin/Models.Tasks.dll">
-      <publishTime>05/23/2017 14:45:02</publishTime>
+      <publishTime>05/25/2017 10:07:01</publishTime>
     </File>
     <File Include="bin/Newtonsoft.Json.dll">
       <publishTime>09/22/2016 11:23:06</publishTime>
     </File>
     <File Include="bin/Notifier.dll">
-      <publishTime>05/23/2017 14:45:32</publishTime>
+      <publishTime>05/25/2017 10:07:31</publishTime>
     </File>
     <File Include="bin/Owin.dll">
       <publishTime>09/22/2016 11:22:43</publishTime>
@@ -151,7 +151,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/22/2016 10:54:21</publishTime>
     </File>
     <File Include="bin/Reports.dll">
-      <publishTime>05/23/2017 14:45:38</publishTime>
+      <publishTime>05/25/2017 10:07:35</publishTime>
     </File>
     <File Include="bin/Reports/CompanyDetail.rdlc">
       <publishTime>09/22/2016 10:54:49</publishTime>
@@ -316,7 +316,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/22/2016 10:54:50</publishTime>
     </File>
     <File Include="bin/Service.dll">
-      <publishTime>05/23/2017 14:45:31</publishTime>
+      <publishTime>05/25/2017 10:07:30</publishTime>
     </File>
     <File Include="bin/System.Web.Helpers.dll">
       <publishTime>09/22/2016 11:23:54</publishTime>
@@ -418,16 +418,16 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/22/2016 10:54:33</publishTime>
     </File>
     <File Include="Content/css/select2-spinner.gif">
-      <publishTime>09/22/2016 10:54:33</publishTime>
+      <publishTime>09/22/2016 10:54:56</publishTime>
     </File>
     <File Include="Content/css/select2.css">
-      <publishTime>09/22/2016 10:54:33</publishTime>
+      <publishTime>09/22/2016 10:54:56</publishTime>
     </File>
     <File Include="Content/css/select2.png">
-      <publishTime>09/22/2016 10:54:33</publishTime>
+      <publishTime>09/22/2016 10:54:56</publishTime>
     </File>
     <File Include="Content/css/select2x2.png">
-      <publishTime>09/22/2016 10:54:33</publishTime>
+      <publishTime>09/22/2016 10:54:56</publishTime>
     </File>
     <File Include="Content/DataTables/css/autoFill.bootstrap.css">
       <publishTime>09/22/2016 10:54:33</publishTime>
@@ -1138,7 +1138,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/22/2016 10:54:34</publishTime>
     </File>
     <File Include="Scripts/FunctionForMultiSelect.js">
-      <publishTime>09/22/2016 10:54:34</publishTime>
+      <publishTime>05/25/2017 09:19:48</publishTime>
     </File>
     <File Include="Scripts/gridmvc.js">
       <publishTime>12/07/2016 17:34:17</publishTime>
@@ -1240,10 +1240,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/22/2016 10:54:34</publishTime>
     </File>
     <File Include="Scripts/select2.js">
-      <publishTime>09/22/2016 10:54:34</publishTime>
+      <publishTime>09/22/2016 10:54:54</publishTime>
     </File>
     <File Include="Scripts/select2.min.js">
-      <publishTime>09/22/2016 10:54:34</publishTime>
+      <publishTime>09/22/2016 10:54:54</publishTime>
     </File>
     <File Include="Scripts/Slick/lib/firebugx.js">
       <publishTime>09/22/2016 10:54:34</publishTime>
@@ -1426,7 +1426,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/22/2016 10:54:34</publishTime>
     </File>
     <File Include="Views/LedgerHeader/Create.cshtml">
-      <publishTime>05/23/2017 10:59:18</publishTime>
+      <publishTime>05/24/2017 18:11:15</publishTime>
     </File>
     <File Include="Views/LedgerHeader/Detail.cshtml">
       <publishTime>09/22/2016 10:54:34</publishTime>
@@ -1441,10 +1441,13 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/22/2016 10:54:34</publishTime>
     </File>
     <File Include="Views/LedgerLine/_Create.cshtml">
-      <publishTime>05/23/2017 13:41:55</publishTime>
+      <publishTime>05/24/2017 11:43:04</publishTime>
     </File>
     <File Include="Views/LedgerLine/_LedgerAdj.cshtml">
-      <publishTime>05/23/2017 14:27:48</publishTime>
+      <publishTime>05/24/2017 17:40:10</publishTime>
+    </File>
+    <File Include="Views/LedgerLine/_LedgerAdj_Single.cshtml">
+      <publishTime>05/25/2017 10:06:00</publishTime>
     </File>
     <File Include="Views/LedgerSetting/Create.cshtml">
       <publishTime>05/23/2017 10:42:44</publishTime>

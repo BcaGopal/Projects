@@ -543,6 +543,7 @@ namespace Service
                     {
 
                         ProductName = tab2.ProductName,
+                        ProductGroupName = tab2.ProductGroup.ProductGroupName,
                         Amount = p.Amount,
                         Rate = p.Rate,
                         Qty = p.Qty,

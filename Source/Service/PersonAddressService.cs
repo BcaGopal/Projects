@@ -8,6 +8,7 @@ using System;
 using Model;
 using System.Threading.Tasks;
 using Data.Models;
+using Model.ViewModels;
 
 
 namespace Service
@@ -24,6 +25,7 @@ namespace Service
         IEnumerable<PersonAddress> GetPersonAddressList();
         void Detach(PersonAddress pc);
         IEnumerable<PersonAddress> GetPersonAddressList(int personId);
+        IEnumerable<PersonAddressViewModel> GetPersonAddressListForIndex(int personId);
         Task<IEquatable<PersonAddress>> GetAsync();
         Task<PersonAddress> FindAsync(int id);
         PersonAddress GetShipAddressByPersonId(int Pid);
@@ -105,8 +107,23 @@ namespace Service
         public IEnumerable<PersonAddress> GetPersonAddressList(int personId)
         {
             var so = _unitOfWork.Repository<PersonAddress>().Query()
-                        .Include(m => m.Person)
                         .Get().Where(m => m.Person.PersonID == personId).ToList();
+            return so;
+        }
+
+        public IEnumerable<PersonAddressViewModel> GetPersonAddressListForIndex(int personId)
+        {
+            var so = (from L in db.PersonAddress
+                      where L.PersonId == personId && L.AddressType != null
+                      select new PersonAddressViewModel
+                      {
+                          PersonAddressId = L.PersonAddressID,
+                          AddressType = L.AddressType,
+                          Address = L.Address,
+                          CityId = L.CityId,
+                          CityName = L.City.CityName,
+                          Zipcode = L.Zipcode
+                      }).ToList();
             return so;
         }
 

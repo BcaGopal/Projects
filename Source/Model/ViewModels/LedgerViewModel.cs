@@ -192,7 +192,6 @@ namespace Model.ViewModels
     public class LedgerToAdjustViewModel
     {
         public int LedgerId { get; set; }
-
         public Decimal Amount { get; set; }
         public string DrCr { get; set; }
         public List<PendingLedgerViewModel> LedgerViewModel { get; set; }
@@ -201,13 +200,34 @@ namespace Model.ViewModels
 
     public class PendingLedgerViewModel
     {
+        public int? LedgerAdjId { get; set; }
         public int LedgerId { get; set; }
         public string LedgerHeaderDocNo { get; set; }
         public DateTime LedgerHeaderDocDate { get; set; }
         public string PartyDocNo { get; set; }
-        public DateTime? PartyDocDate { get; set; }
+        public DateTime PartyDocDate { get; set; }
         public Decimal BillAmount { get; set; }
+        public Decimal BalanceAmount { get; set; }
         public Decimal? AdjustedAmount { get; set; }
         public bool IsSelected { get; set; }
+    }
+
+    public class LedgerToAdjustViewModel_Single
+    {
+        public int LedgerLineId { get; set; }
+        public int LedgerId { get; set; }
+        public Decimal Amount { get; set; }
+        public Decimal BalanceAmount { get; set; }
+        public string DrCr { get; set; }
+        public int LedgerId_Adjusted { get; set; }
+        public string LedgerHeaderDocNo_Adjusted { get; set; }
+        public DateTime LedgerHeaderDocDate_Adjusted { get; set; }
+        public string PartyDocNo_Adjusted { get; set; }
+        public DateTime? PartyDocDate_Adjusted { get; set; }
+        public Decimal BillAmount_Adjusted { get; set; }
+        public Decimal BalanceAmount_Adjusted { get; set; }
+        public Decimal? AdjustedAmount { get; set; }
+        public LedgerSettingViewModel LedgerSetting { get; set; }
+        public List<PendingLedgerViewModel> LedgerViewModel { get; set; }
     }
 }

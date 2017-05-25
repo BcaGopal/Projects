@@ -43,6 +43,9 @@ namespace Model.ViewModel
         [Display(Name = "JobWorker Doc. No."), MaxLength(20)]
         public string JobWorkerDocNo { get; set; }
 
+        [Display(Name = "Job Worker Doc Date"), Required]
+        public DateTime? JobWorkerDocDate { get; set; }
+
         [Display(Name = "Job Receive By"), Range(1, int.MaxValue, ErrorMessage = "Job Receive field is required")]
         public int JobReceiveById { get; set; }
         public string JobReceiveByName { get; set; }

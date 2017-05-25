@@ -352,6 +352,7 @@ namespace Web
                     temp.DocDate = pt.DocDate;
                     temp.JobWorkerId = pt.JobWorkerId;
                     temp.JobWorkerDocNo = pt.JobWorkerDocNo;
+                    temp.JobWorkerDocDate = pt.JobWorkerDocDate;
                     temp.ProcessId = pt.ProcessId;
                     temp.FinancierId = pt.FinancierId;
                     temp.ModifiedDate = DateTime.Now;
