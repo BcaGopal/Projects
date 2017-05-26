@@ -31,9 +31,9 @@ namespace Model.Models
         public int? GuarantorId { get; set; }
         public virtual Person Guarantor { get; set; }
 
-        [ForeignKey("SalesTaxGroupParty"), Display(Name = "Sales Tax Group Party")]
+        [ForeignKey("SalesTaxGroupParty")]
         public int? SalesTaxGroupPartyId { get; set; }
-        public virtual SalesTaxGroupParty SalesTaxGroupParty { get; set; }
+        public virtual ChargeGroupPerson SalesTaxGroupParty { get; set; }
 
         [Display(Name = "Is Sister Concern ?")]
         public Boolean IsSisterConcern { get; set; }

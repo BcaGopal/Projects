@@ -25,6 +25,9 @@ namespace Model.ViewModel
         [Display(Name = "JobWorker Doc. No."), MaxLength(20)]
         public string JobWorkerDocNo { get; set; }
 
+        public int? SalesTaxGroupPersonId { get; set; }
+        public string SalesTaxGroupPersonName { get; set; }
+
         [Display(Name = "Job Worker Doc Date"), Required]
         public DateTime? JobWorkerDocDate { get; set; }
 
@@ -130,6 +133,8 @@ namespace Model.ViewModel
         public decimal ReceiptBalQty { get; set; }
         public decimal OrderBalanceQty { get; set; }
         public string Specification { get; set; }
+        public int? SalesTaxGroupProductId { get; set; }
+        public int? SalesTaxGroupPersonId { get; set; }
         public decimal Qty { get; set; }
         [Display(Name = "Job Qty")]
         public decimal JobQty { get; set; }

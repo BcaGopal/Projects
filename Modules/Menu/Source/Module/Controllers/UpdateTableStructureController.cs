@@ -1193,6 +1193,12 @@ namespace Module
             AddFields("PersonSettings", "isMandatoryAadharNo", "BIT");
             AddFields("PersonSettings", "isVisiblePersonAddressDetail", "BIT");
             AddFields("PersonSettings", "isVisiblePersonOpeningDetail", "BIT");
+
+
+            AddFields("JobInvoiceSettings", "isVisibleSalesTaxGroupProduct", "BIT");
+            AddFields("JobInvoiceSettings", "isVisibleSalesTaxGroupPerson", "BIT");
+            AddFields("JobInvoiceLines", "SalesTaxGroupProductId", "Int", "ChargeGroupProducts");
+            AddFields("JobInvoiceHeaders", "SalesTaxGroupPersonId", "Int", "ChargeGroupPerson");
             
 
 

@@ -15,6 +15,10 @@ namespace Core.Common
         public const string Journal = "Journal";
     }
 
+
+
+
+
     public class TransactionDocCategoryConstants
     {
         //---------------------  Sale 

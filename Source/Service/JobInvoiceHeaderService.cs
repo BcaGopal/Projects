@@ -35,6 +35,7 @@ namespace Service
         int PrevId(int id);
         string GetMaxDocNo();
         IQueryable<ComboBoxResult> GetCustomPerson(int Id, string term);
+        PersonViewModel GetJobWorkerDetail(int id);
     }
 
     public class JobInvoiceHeaderService : IJobInvoiceHeaderService
@@ -113,6 +114,7 @@ namespace Service
                         JobWorkerId=p.JobWorkerId,
                         FinancierId = p.FinancierId,
                         JobReceiveHeaderId=p.JobReceiveHeaderId,
+                        SalesTaxGroupPersonId = p.SalesTaxGroupPersonId,
                         ModifiedBy=p.ModifiedBy,
                         LockReason=p.LockReason,
                         CreatedBy=p.CreatedBy,
@@ -282,6 +284,19 @@ namespace Service
               );
 
             return list;
+        }
+
+        public PersonViewModel GetJobWorkerDetail(int id)
+        {
+            var temp = (from b in db.BusinessEntity
+                        where b.PersonID == id
+                        select new PersonViewModel
+                        {
+                            SalesTaxGroupPartyId = b.SalesTaxGroupPartyId,
+                            SalesTaxGroupPartyName = b.SalesTaxGroupParty.ChargeGroupPersonName
+                        }).FirstOrDefault();
+
+            return (temp);
         }
 
         public void Dispose()

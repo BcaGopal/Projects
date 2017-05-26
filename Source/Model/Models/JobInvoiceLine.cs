@@ -83,6 +83,14 @@ namespace Model.Models
         public int? CostCenterId { get; set; }
         public virtual CostCenter CostCenter { get; set; }
 
+
+
+        [ForeignKey("SalesTaxGroupProduct"), Display(Name = "Sales Tax Group Product")]
+        public int? SalesTaxGroupProductId { get; set; }
+        public virtual ChargeGroupProduct SalesTaxGroupProduct { get; set; }
+
+
+
         [MaxLength(50)]
         public string OMSId { get; set; }
     }

@@ -184,6 +184,7 @@ namespace Service
         IQueryable<ComboBoxResult> GetAddresses(string term);
         IQueryable<ComboBoxResult> GetCurrencies(string term);
         IQueryable<ComboBoxResult> GetSalesTaxGroupPerson(string term);
+        IQueryable<ComboBoxResult> GetSalesTaxGroupProduct(string term);
         IQueryable<ComboBoxResult> GetShipMethods(string term);
         IQueryable<ComboBoxResult> GetDocumentShipMethods(string term);
         IQueryable<ComboBoxResult> GetTransporters(string term);
@@ -2725,6 +2726,22 @@ namespace Service
 
             return list;
         }
+
+        public IQueryable<ComboBoxResult> GetSalesTaxGroupProduct(string term)
+        {
+            var list = (from D in db.ChargeGroupProduct
+                        where D.IsActive == true
+                        orderby D.ChargeGroupProductName
+                        select new ComboBoxResult
+                        {
+                            id = D.ChargeGroupProductId.ToString(),
+                            text = D.ChargeGroupProductName
+                        }
+              );
+
+            return list;
+        }
+
 
 
         public IQueryable<ComboBoxResult> GetShipMethods(string term)

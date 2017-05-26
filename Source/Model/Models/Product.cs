@@ -74,7 +74,7 @@ namespace Model.Models
         [ForeignKey("SalesTaxGroupProduct")]
         [Display(Name = "SalesTaxGroupProduct")]
         public int ? SalesTaxGroupProductId { get; set; }
-        public virtual SalesTaxGroupProduct SalesTaxGroupProduct { get; set; }
+        public virtual ChargeGroupProduct SalesTaxGroupProduct { get; set; }
 
         [ForeignKey("DrawBackTariffHead")]
         [Display(Name = "DrawBack Tarif fHead")]

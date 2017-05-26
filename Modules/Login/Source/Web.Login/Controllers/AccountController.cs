@@ -181,7 +181,7 @@ namespace Login.Controllers
                                     return View("UserPermissionError");
                                 }
 
-                                var UserRef = db.UserReferral.Where(m => m.ToUser == user.Email).ToList().LastOrDefault();
+                                var UserRef = db.UserReferral.Where(m => m.ToUser == user.Email).OrderBy(m => m.CreatedDate).ToList().LastOrDefault();
                                 if (UserRef != null)
                                     RoleId = UserRef.RoleId;
 
@@ -279,7 +279,7 @@ namespace Login.Controllers
         [AllowAnonymous]
         public async Task<ActionResult> Register(string RetUrl, int aid = 0, string uid = "", string rflid = "", string rfeid = "", string utype = "")
         {
-
+        
             if (!ValidateInviteParameters(aid, rflid, rfeid, utype, uid))
             {
                 return View("InviteOnly");
@@ -483,7 +483,7 @@ namespace Login.Controllers
 
                     var UserRefree = db.Users.Find(UserRefreeId);
 
-                    if (Application != null && UserRefree != null && UserReferral != null && UserTyp != null && (UserReferral.IsActive == true && UserReferral.CreatedDate.AddHours(3) > DateTime.Now) && UserReferral.ToUser == UserId)
+                    if (Application != null && UserRefree != null && UserReferral != null && UserTyp != null && UserReferral.IsActive == true  && UserReferral.ToUser == UserId)
                     {
                         Valid = true;
                     }

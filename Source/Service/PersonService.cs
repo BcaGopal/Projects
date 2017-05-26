@@ -332,7 +332,7 @@ namespace Service
                                                          IsActive = b.IsActive,
                                                          LedgerAccountGroupId = AccountTab.LedgerAccountGroupId,
                                                          SalesTaxGroupPartyId = BusinessEntityTab.SalesTaxGroupPartyId,
-                                                         SalesTaxGroupPartyName = BusinessEntityTab.SalesTaxGroupParty.SalesTaxGroupPartyName,
+                                                         SalesTaxGroupPartyName = BusinessEntityTab.SalesTaxGroupParty.ChargeGroupPersonName,
                                                          CreatedBy = b.CreatedBy,
                                                          CreatedDate = b.CreatedDate,
                                                          AccountId = AccountTab.LedgerAccountId,

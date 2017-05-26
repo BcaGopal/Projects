@@ -1656,6 +1656,11 @@ namespace Web
             }
         }
 
+        public JsonResult GetJobWorkerDetailJson(int JobWorkerId)
+        {
+            return Json(new JobInvoiceHeaderService(_unitOfWork).GetJobWorkerDetail(JobWorkerId));
+        }
+
     }
 
 

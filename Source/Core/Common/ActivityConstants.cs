@@ -196,6 +196,8 @@ namespace Core.Common
     public class LedgerAccountConstants
     {
         public const string Sale = "Sale";
+        public const string Party = "|PARTY|";
+        public const string Charge = "|CHARGE|";
     }
 
     public class SizeTypeConstants

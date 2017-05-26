@@ -206,6 +206,18 @@
                                 </div>
                             </div>
 
+                            <div class="col-md-6" style="display:@(Model.JobInvoiceSettings.isVisibleSalesTaxGroupPerson  ? "" : "none")">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.SalesTaxGroupPersonId, "Sales Tax Group Person", new { @class = "control-label col-md-4 col-sm-2" })
+                                    @Html.HiddenFor(m => m.JobInvoiceSettings.isVisibleSalesTaxGroupPerson)
+                                    <div class="col-md-7 col-sm-10">
+                                        @Html.TextBoxFor(m => m.SalesTaxGroupPersonId, null, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(m => m.SalesTaxGroupPersonId, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+
+
 
                         </div>
                         <div>
@@ -649,6 +661,7 @@
     $(document).ready(function () {
         //CustomSelectFunction($("#JobWorkerId"), '/ComboHelpList/GetJobWorkersWithProcess', '/ComboHelpList/SetSingleJobWorker', ' ', false, 1,$('#ProcessId').val());
         CustomSelectFunction($("#JobWorkerId"), '/JobInvoiceHeader/GetCustomPerson', '/ComboHelpList/SetSinglePerson', ' ', false, 0, $('#DocTypeId').val());
+        CustomSelectFunction($("#SalesTaxGroupPersonId"), '/ComboHelpList/GetSalesTaxGroupPerson', '/ComboHelpList/SetSingleSalesTaxGroupPerson', ' ', false, 0);
 
         //Calling the function to load the table data/ Line information
         LoadProducts();
@@ -657,6 +670,32 @@
         AddFields();
 
         $("#JobWorkerId").select2('focus');
+
+
+        $("#JobWorkerId").change(GetJobWorkerDetail);
+
+
+        function GetJobWorkerDetail() {
+            var ProcessProgress = $("#Product detail loading progress");
+            ProcessProgress.show();
+            if ($("#JobWorkerId").val() != 0 && $("#JobWorkerId").val() != null) {
+                $.ajax({
+                    cache: false,
+                    type: "POST",
+                    url: "@(Url.Action("GetJobWorkerDetailJson"))",
+                    data: { JobWorkerId: $("#JobWorkerId").val() },
+                success: function (data) {
+                    (data.SalesTaxGroupPartyId == null) ? (1 == 1) : ($("#SalesTaxGroupPersonId").select2("data", { id: data.SalesTaxGroupPartyId, text: data.SalesTaxGroupPartyName }));
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert('Failed to retrieve product details.' + thrownError);
+                }
+            });
+        }
+        else {
+            $("#SalesTaxGroupPersonId").select2("data", { id: '', text: '' })
+        }
+    }
 
 
         //Adding Charges on Doc Load

@@ -163,6 +163,8 @@ namespace Web
                     temp.isVisibleDealUnit = pt.isVisibleDealUnit;
                     temp.isVisibleWeight = pt.isVisibleWeight;
                     temp.isVisibleCostCenter = pt.isVisibleCostCenter;
+                    temp.isVisibleSalesTaxGroupPerson = pt.isVisibleSalesTaxGroupPerson;
+                    temp.isVisibleSalesTaxGroupProduct = pt.isVisibleSalesTaxGroupProduct;
 
 
                     temp.isVisibleIncentive = pt.isVisibleIncentive;
@@ -354,6 +356,8 @@ namespace Web
                     temp.isVisibleRateDiscountPer = pt.isVisibleRateDiscountPer;
                     temp.isVisibleMfgDate = pt.isVisibleMfgDate;
                     temp.isVisibleFinancier = pt.isVisibleFinancier;
+                    temp.isVisibleSalesTaxGroupPerson = pt.isVisibleSalesTaxGroupPerson;
+                    temp.isVisibleSalesTaxGroupProduct = pt.isVisibleSalesTaxGroupProduct;
                     temp.SqlProcDocumentPrint = pt.SqlProcDocumentPrint;
                     temp.DocumentPrint = pt.DocumentPrint;
                     temp.isAutoCreateJobReceive = pt.isAutoCreateJobReceive;
@@ -520,6 +524,8 @@ namespace Web
                     temp.isVisibleRateDiscountPer = pt.isVisibleRateDiscountPer;
                     temp.isVisibleMfgDate = pt.isVisibleMfgDate;
                     temp.isVisibleFinancier = pt.isVisibleFinancier;
+                    temp.isVisibleSalesTaxGroupPerson = pt.isVisibleSalesTaxGroupPerson;
+                    temp.isVisibleSalesTaxGroupProduct = pt.isVisibleSalesTaxGroupProduct;
                     temp.SqlProcDocumentPrint = pt.SqlProcDocumentPrint;
                     temp.DocumentPrint = pt.DocumentPrint;
                     temp.isAutoCreateJobReceive = pt.isAutoCreateJobReceive;
@@ -696,6 +702,8 @@ namespace Web
                     temp.isVisibleRateDiscountPer = pt.isVisibleRateDiscountPer;
                     temp.isVisibleMfgDate = pt.isVisibleMfgDate;
                     temp.isVisibleFinancier = pt.isVisibleFinancier;
+                    temp.isVisibleSalesTaxGroupPerson = pt.isVisibleSalesTaxGroupPerson;
+                    temp.isVisibleSalesTaxGroupProduct = pt.isVisibleSalesTaxGroupProduct;
                     temp.SqlProcDocumentPrint = pt.SqlProcDocumentPrint;
                     temp.DocumentPrint = pt.DocumentPrint;
                     temp.isAutoCreateJobReceive = pt.isAutoCreateJobReceive;
