@@ -164,6 +164,7 @@ namespace Web
                     temp.isVisiblePersonProcessDetail = pt.isVisiblePersonProcessDetail;
                     temp.isVisiblePersonAddressDetail = pt.isVisiblePersonAddressDetail;
                     temp.isVisiblePersonOpeningDetail = pt.isVisiblePersonOpeningDetail;
+                    temp.isVisibleLedgerAccountGroup = pt.isVisibleLedgerAccountGroup;
                     temp.isMandatoryAddress = pt.isMandatoryAddress;
                     temp.isMandatoryCity = pt.isMandatoryCity;
                     temp.isMandatoryZipCode = pt.isMandatoryZipCode;

@@ -1266,7 +1266,14 @@ namespace Web
             var DlUnit = new UnitService(_unitOfWork).Find((DealUnitId == null) ? product.UnitId : DealUnitId.DealUnitId);
 
 
-            return Json(new { ProductId = product.ProductId, StandardCost = product.StandardCost, UnitId = product.UnitId, UnitName = product.UnitName, DealUnitId = (DealUnitId == null) ? product.UnitId : DealUnitId.DealUnitId, DealUnitDecimalPlaces = DlUnit.DecimalPlaces, Specification = product.ProductSpecification, ProductCode = product.ProductCode, ProductName = product.ProductName });
+            return Json(new { ProductId = product.ProductId, StandardCost = product.StandardCost, UnitId = product.UnitId, UnitName = product.UnitName, DealUnitId = (DealUnitId == null) ? product.UnitId : DealUnitId.DealUnitId, DealUnitDecimalPlaces = DlUnit.DecimalPlaces, Specification = product.ProductSpecification, ProductCode = product.ProductCode, ProductName = product.ProductName, Dimension1Id = product.DefaultDimension1Id, Dimension1Name = product.DefaultDimension1Name,
+                              Dimension2Id = product.DefaultDimension2Id,
+                              Dimension2Name = product.DefaultDimension2Name,
+                              Dimension3Id = product.DefaultDimension3Id,
+                              Dimension3Name = product.DefaultDimension3Name,
+                              Dimension4Id = product.DefaultDimension4Id,
+                              Dimension4Name = product.DefaultDimension4Name
+            });
         }
 
         public JsonResult GetSaleOrders(int id, string term, int Limit)
@@ -1503,6 +1510,41 @@ namespace Web
         {
             List<ComboBoxResult> PromoCode = _SaleInvoiceLineService.FGetPromoCodeList(ProductId, BuyerId, DocDate).ToList();
             return Json(PromoCode);
+        }
+
+        public ActionResult GetProductUidHelpList(string searchTerm, int pageSize, int pageNum, int filter)//SaleInvoiceHeaderId
+        {
+            List<ComboBoxResult> ProductUidJson = _SaleInvoiceLineService.FGetProductUidHelpList(filter, searchTerm).ToList();
+
+            var count = ProductUidJson.Count();
+
+            ComboBoxPagedResult Data = new ComboBoxPagedResult();
+            Data.Results = ProductUidJson;
+            Data.Total = count;
+
+            return new JsonpResult
+            {
+                Data = Data,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        public JsonResult SetSingleProductUid(string  Ids)
+        {
+            ComboBoxResult ProductUidJson = new ComboBoxResult();
+
+            var ProductUid = from L in db.ProductUid
+                                where L.ProductUidName == Ids
+                                select new
+                                {
+                                    id = L.ProductUidName,
+                                    text = L.ProductUidName
+                                };
+
+            ProductUidJson.id = ProductUid.FirstOrDefault().id;
+            ProductUidJson.text = ProductUid.FirstOrDefault().text;
+
+            return Json(ProductUidJson);
         }
     }
 }

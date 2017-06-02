@@ -267,7 +267,7 @@ namespace Web
 
                     int CurrentDivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
                     int CurrentSiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
-
+                    Site MainSite = new SiteService(_unitOfWork).FindBySiteName("Main");
 
                     string Divisions = PersonVm.DivisionIds;
                     if (Divisions != null)
@@ -281,10 +281,10 @@ namespace Web
 
                     businessentity.DivisionIds = Divisions;
 
-                    string Sites = PersonVm.SiteIds ;
+                    string Sites = PersonVm.SiteIds;
                     if (Sites != null)
-                    { 
-                        Sites = "|" + Sites.Replace(",", "|,|") + "|"; 
+                    {
+                        Sites = "|" + Sites.Replace(",", "|,|") + "|";
                     }
                     else
                     {

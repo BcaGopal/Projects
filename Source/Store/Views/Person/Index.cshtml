@@ -58,8 +58,11 @@
            {
                columns.Add(m => m.PersonId, true);
                columns.Add(m => m.Name).Sortable(true).Titled("Person Name").Filterable(true).Sortable(true);
+               columns.Add(m => m.Suffix).Sortable(true).Titled("Suffix").Filterable(true).Sortable(true);
                columns.Add(m => m.Code).Sortable(true).Titled("Code").Filterable(true).Sortable(true);
+               columns.Add(m => m.Address).Sortable(true).Titled("Address").Filterable(true).Sortable(true);
                columns.Add(m => m.Mobile).Sortable(true).Titled("Mobile No.").Filterable(true).Sortable(true);
+               columns.Add(m => m.Email).Sortable(true).Titled("Email").Filterable(true).Sortable(true);
                columns.Add(true).RenderValueAs(m => "<a href='/Person/Edit/" + m.PersonId + "?DocTypeId=" + m.DocTypeId + "' hidden class='RecEditurl'></a><a href='/Person/Delete/" + m.PersonId + "' hidden class='RecDelurl'></a>");
            }).WithPaging(25).EmptyText("No records found.").Sortable().Filterable().WithMultipleFilters()
     </div>

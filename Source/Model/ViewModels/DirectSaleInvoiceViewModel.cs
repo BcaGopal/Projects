@@ -62,6 +62,7 @@ namespace Model.ViewModels
         public int DeliveryTermsId { get; set; }
         public string DeliveryTermsName { get; set; }       
         public int Status { get; set; }
+        public string TermsAndConditions { get; set; }
         public SaleInvoiceSettingsViewModel SaleInvoiceSettings { get; set; }
         public DocumentTypeSettingsViewModel DocumentTypeSettings { get; set; }
         public int? SaleDispatchHeaderId { get; set; }

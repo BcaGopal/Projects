@@ -265,7 +265,6 @@ $(document).ready(function () {
     }
 
     $(document).on("click", "a[data-modalDelete],a[data-modalCopy]", function (e) {
-
         if (this.href)
             $('#myModalContent').load(this.href, function () {
                 $('#myModal').modal({
@@ -1293,7 +1292,6 @@ $(function () {
     });
 
     $('a#DeleteRecord').click(function (e) {
-
         var tes = DeleteValidation();
 
         var url = $('table.grid-table .grid-row.grid-row-selected').find('a.RecDelurl:hidden').attr('href');

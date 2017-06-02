@@ -356,6 +356,9 @@ namespace Web
 
             ViewBag.ProductNatureName = new ProductNatureService(_unitOfWork).Find(id).ProductNatureName;
 
+
+
+
             if (producttype.Count() == 0)
             {
                 ViewBag.PrevLink = Request.UrlReferrer.ToString();
@@ -369,13 +372,11 @@ namespace Web
         }
 
 
-        // GET: /ProductMaster/
+         //GET: /ProductMaster/
 
-        public ActionResult MaterialIndex(int id)//// Changed To ProductTypeId
+        public ActionResult MaterialIndex(int id, string IndexFilterParameter)//// Changed To ProductTypeId
         {
-            var Product = _ProductService.GetProductListForMaterial(id);
-            ViewBag.Name = new ProductTypeService(_unitOfWork).Find(id).ProductTypeName;
-            ViewBag.id = id;
+            IQueryable<ProductIndexViewModel> Product = null;
 
             var settings = new ProductTypeSettingsService(_unitOfWork).GetProductTypeSettingsForDocument(id);
             if (settings != null)
@@ -383,8 +384,87 @@ namespace Web
                 ViewBag.ImportMenuId = settings.ImportMenuId;
             }
 
+            if (IndexFilterParameter == "" || IndexFilterParameter == null)
+            {
+                if (settings != null)
+                {
+                    IndexFilterParameter = settings.IndexFilterParameter;
+                }
+            }
+
+            if (IndexFilterParameter == IndexFilterParameterConstants.Active)
+            {
+                Product = _ProductService.GetProductListForMaterial(id).Where(m => m.IsActive == true && m.DiscontinueDate == null);
+            }
+            else if (IndexFilterParameter == IndexFilterParameterConstants.Discontinue)
+            {
+                Product = _ProductService.GetProductListForMaterial(id).Where(m => m.DiscontinueDate != null);
+            }
+            else if (IndexFilterParameter == IndexFilterParameterConstants.InActive)
+            {
+                Product = _ProductService.GetProductListForMaterial(id).Where(m => m.IsActive == false);
+            }
+            else
+            {
+                Product = _ProductService.GetProductListForMaterial(id);
+            }
+
+
+
+
+
+            ViewBag.Name = new ProductTypeService(_unitOfWork).Find(id).ProductTypeName;
+            ViewBag.id = id;
+
+
+
             return View(Product);
         }
+
+        //public ActionResult MaterialIndex_Active(int id)
+        //{
+        //    var Product = _ProductService.GetProductListForMaterial(id).Where(m => m.IsActive == true && m.DiscontinueDate == null);
+        //    ViewBag.Name = new ProductTypeService(_unitOfWork).Find(id).ProductTypeName;
+        //    ViewBag.id = id;
+
+        //    var settings = new ProductTypeSettingsService(_unitOfWork).GetProductTypeSettingsForDocument(id);
+        //    if (settings != null)
+        //    {
+        //        ViewBag.ImportMenuId = settings.ImportMenuId;
+        //    }
+
+        //    return View(Product);
+        //}
+
+        //public ActionResult MaterialIndex_Discontinue(int id)
+        //{
+        //    var Product = _ProductService.GetProductListForMaterial(id).Where(m => m.DiscontinueDate != null);
+        //    ViewBag.Name = new ProductTypeService(_unitOfWork).Find(id).ProductTypeName;
+        //    ViewBag.id = id;
+
+        //    var settings = new ProductTypeSettingsService(_unitOfWork).GetProductTypeSettingsForDocument(id);
+        //    if (settings != null)
+        //    {
+        //        ViewBag.ImportMenuId = settings.ImportMenuId;
+        //    }
+
+        //    return View(Product);
+        //}
+
+        //public ActionResult MaterialIndex_InActive(int id)
+        //{
+        //    var Product = _ProductService.GetProductListForMaterial(id).Where(m => m.IsActive == false);
+        //    ViewBag.Name = new ProductTypeService(_unitOfWork).Find(id).ProductTypeName;
+        //    ViewBag.id = id;
+
+        //    var settings = new ProductTypeSettingsService(_unitOfWork).GetProductTypeSettingsForDocument(id);
+        //    if (settings != null)
+        //    {
+        //        ViewBag.ImportMenuId = settings.ImportMenuId;
+        //    }
+
+        //    return View(Product);
+        //}
 
 
 
@@ -476,6 +556,12 @@ namespace Web
                     pt1.DivisionId = pvm.DivisionId;
                     pt1.ProfitMargin = pvm.ProfitMargin;
                     pt1.CarryingCost = pvm.CarryingCost;
+                    pt1.DefaultDimension1Id = pvm.DefaultDimension1Id;
+                    pt1.DefaultDimension2Id = pvm.DefaultDimension2Id;
+                    pt1.DefaultDimension3Id = pvm.DefaultDimension3Id;
+                    pt1.DefaultDimension4Id = pvm.DefaultDimension4Id;
+                    pt1.DiscontinueDate = pvm.DiscontinueDate;
+                    pt1.DiscontinueReason = pvm.DiscontinueReason;
                     pt1.CreatedDate = DateTime.Now;
                     pt1.ModifiedDate = DateTime.Now;
                     pt1.CreatedBy = User.Identity.Name;
@@ -699,6 +785,12 @@ namespace Web
                     pt.SalesTaxGroupProductId = pvm.SalesTaxGroupProductId;
                     pt.ProfitMargin = pvm.ProfitMargin;
                     pt.CarryingCost = pvm.CarryingCost;
+                    pt.DefaultDimension1Id = pvm.DefaultDimension1Id;
+                    pt.DefaultDimension2Id = pvm.DefaultDimension2Id;
+                    pt.DefaultDimension3Id = pvm.DefaultDimension3Id;
+                    pt.DefaultDimension4Id = pvm.DefaultDimension4Id;
+                    pt1.DiscontinueDate = pvm.DiscontinueDate;
+                    pt1.DiscontinueReason = pvm.DiscontinueReason;
                     pt.Tags = pvm.Tags;
                     pt.UnitId = pvm.UnitId;
                     pt.IsActive = pvm.IsActive;

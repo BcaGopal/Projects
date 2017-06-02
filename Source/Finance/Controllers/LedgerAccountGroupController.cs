@@ -94,6 +94,13 @@ namespace Web
         {
             LedgerAccountGroup pt = vm;
 
+            if (vm.ParentLedgerAccountGroupId == null || vm.ParentLedgerAccountGroupId == 0)
+            {
+                string message = "Under Group is required.";
+                ModelState.AddModelError("", message);
+                PrepareViewBag(vm);
+                return View("Create", vm);
+            }
 
             if (ModelState.IsValid)
             {
@@ -306,6 +313,11 @@ namespace Web
 
             return Redirect((string)System.Configuration.ConfigurationManager.AppSettings["CustomizeDomain"] + "/Report_ReportPrint/ReportPrint/?MenuId=" + Dt.ReportMenuId);
 
+        }
+
+        public JsonResult GetParentGroupDetailJson(int ParentLedgerGroupId)
+        {
+            return Json(new LedgerAccountGroupService(_unitOfWork).GetParentGroupDetail(ParentLedgerGroupId));
         }
 
         protected override void Dispose(bool disposing)

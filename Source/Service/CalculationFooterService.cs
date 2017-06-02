@@ -99,7 +99,7 @@ namespace Service
 
             var Query = (from p in db.CalculationFooter
                         where p.CalculationId == id
-                        orderby p.CalculationFooterLineId
+                        orderby p.Sr
                         select new CalculationFooterViewModel
                         {
                             AddDeduct = p.AddDeduct,

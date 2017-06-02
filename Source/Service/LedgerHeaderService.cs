@@ -153,6 +153,7 @@ namespace Service
                         ReviewCount = g.Max(m => m.p.ReviewCount),
                         ReviewBy = g.Max(m => m.p.ReviewBy),
                         Reviewed = (SqlFunctions.CharIndex(Uname, g.Max(m => m.p.ReviewBy)) > 0),
+                        TotalAmount = g.Max(m => m.ProTab.Amount),
                     });
         }
 

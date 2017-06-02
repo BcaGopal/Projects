@@ -74,6 +74,7 @@ namespace Model.ViewModel
         public bool? Reviewed { get; set; }
         public string LockReason { get; set; }
         public decimal? TotalQty { get; set; }
+        public decimal? TotalAmount { get; set; }
         public int? DecimalPlaces { get; set; }
     }
 

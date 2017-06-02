@@ -45,6 +45,7 @@ namespace Model.Models
         public bool? isVisiblePersonProcessDetail { get; set; }
         public bool? isVisiblePersonAddressDetail { get; set; }
         public bool? isVisiblePersonOpeningDetail { get; set; }
+        public bool? isVisibleLedgerAccountGroup { get; set; }
 
 
         public bool? isMandatoryAddress { get; set; }

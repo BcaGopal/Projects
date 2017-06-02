@@ -27,6 +27,7 @@ namespace Model.ViewModel
 
         public bool isVisibleFreeQty { get; set; }
         public bool isVisibleRewardPoints { get; set; }
+        public bool isVisibleTermsAndConditions { get; set; }
 
         public bool isVisibleLotNo { get; set; }
         public bool CalculateDiscountOnRate { get; set; }
@@ -76,7 +77,8 @@ namespace Model.ViewModel
 
         public int? ProcessId { get; set; }
 
-
+        [MaxLength(100)]
+        public string SqlProcProductUidHelpList { get; set; }
         /// <summary>
         /// DocId will be passed as a parameter in specified procedure.
         /// Procedure should have only one parameter of type int.

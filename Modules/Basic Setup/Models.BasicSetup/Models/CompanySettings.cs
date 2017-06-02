@@ -15,6 +15,7 @@ namespace Models.Company.Models
         public bool? isVisibleTask { get; set; }
         public bool? isVisibleNotification { get; set; }
         public bool? isVisibleGodownSelection { get; set; }
+        public bool? isVisibleCompanyName { get; set; }
         public string SiteCaption { get; set; }
         public string DivisionCaption { get; set; }
         public string GodownCaption { get; set; }

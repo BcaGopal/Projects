@@ -62,6 +62,17 @@ namespace Model.Models
         public bool? isVisibleProductProcessDetail { get; set; }
 
 
+
+        public bool? isVisibleDefaultDimension1 { get; set; }
+        public bool? isVisibleDefaultDimension2 { get; set; }
+        public bool? isVisibleDefaultDimension3 { get; set; }
+        public bool? isVisibleDefaultDimension4 { get; set; }
+        public bool? isVisibleDiscontinueDate { get; set; }
+
+
+        [MaxLength(20)]
+        public string IndexFilterParameter { get; set; }
+
         public string ProductNameCaption { get; set; }
         public string ProductCodeCaption { get; set; }
         public string ProductDescriptionCaption { get; set; }

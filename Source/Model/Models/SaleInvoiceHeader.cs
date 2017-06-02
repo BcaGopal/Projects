@@ -97,8 +97,7 @@ namespace Model.Models
         public virtual SaleDispatchHeader SaleDispatchHeader { get; set; }
         public bool CalculateDiscountOnRate { get; set; }
 
-
-
+        public string TermsAndConditions { get; set; }
         public int? ReviewCount { get; set; }
         public string ReviewBy { get; set; }
 

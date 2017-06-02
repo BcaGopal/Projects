@@ -147,6 +147,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\Admin Setup\Source\Module\bin\Services.AdminSetup.dll</HintPath>
     </Reference>
+    <Reference Include="Services.BasicSetup">
+      <HintPath>..\..\..\Basic Setup\Services.BasicSetup\bin\Debug\Services.BasicSetup.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />

@@ -31,6 +31,7 @@ namespace Model.Models
         public bool? isVisibleSalesExecutive { get; set; }
         public bool? isVisibleFreeQty { get; set; }
         public bool? isVisibleRewardPoints { get; set; }
+        public bool? isVisibleTermsAndConditions { get; set; }
 
         public bool CalculateDiscountOnRate { get; set; }
         public string filterLedgerAccountGroups { get; set; }
@@ -50,6 +51,9 @@ namespace Model.Models
         [ForeignKey("SaleDispatchDocType"), Display(Name = "Goods ReceiptId")]
         public int? SaleDispatchDocTypeId { get; set; }
         public virtual DocumentType SaleDispatchDocType { get; set; }
+
+        [MaxLength(100)]
+        public string SqlProcProductUidHelpList { get; set; }
 
         [ForeignKey("Calculation")]
         public int CalculationId { get; set; }

@@ -69,6 +69,8 @@ namespace Calculations.App_Start
             container.RegisterType<ICalculationHeaderLedgerAccountService, CalculationHeaderLedgerAccountService>(new PerRequestLifetimeManager());
             container.RegisterType<ICalculationLineLedgerAccountService, CalculationLineLedgerAccountService>(new PerRequestLifetimeManager());
 
+            container.RegisterType<IDuplicateDocumentCheckService, DuplicateDocumentCheckService>(new PerRequestLifetimeManager());
+
 
             //Registering Mappers::::
 

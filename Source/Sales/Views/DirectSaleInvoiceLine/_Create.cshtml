@@ -35,6 +35,7 @@
                 @Html.HiddenFor(m => m.SaleDispatchLineId)
                 @Html.HiddenFor(m => m.PackingLineId)
                 @Html.HiddenFor(m => m.SaleInvoiceSettings.CalculationId)
+                @Html.HiddenFor(m => m.SaleInvoiceSettings.SqlProcProductUidHelpList)
                 @Html.HiddenFor(m => m.DocTypeId)
                 @Html.HiddenFor(m=>m.UnitId)
                 @Html.HiddenFor(m => m.SaleToBuyerId)
@@ -408,6 +409,15 @@
         CustomSelectFunction($("#Dimension2Id"), '/ComboHelpList/GetDimension2', '/ComboHelpList/SetSingleDimension2', ' ', false, 1);
         CustomSelectFunction($("#GodownId"), '/ComboHelpList/GetGodown', '/ComboHelpList/SetSingleGodown', ' ', false, 1);
         CustomSelectFunctionForPromoCode($("#PromoCodeId"), '/DirectSaleInvoiceLine/GetPromoCodeIdList', '/ComboHelpList/SetSinglePromoCode', ' ', false, 0, 0, $("#SaleToBuyerId").val(), $("#DocDate").val());
+
+
+        if ($('#SaleInvoiceSettings_SqlProcProductUidHelpList', '.modal-body').val() != null && $('#SaleInvoiceSettings_SqlProcProductUidHelpList', '.modal-body').val() != "")
+        {
+            CustomSelectFunction($("#ProductUidName"), '/DirectSaleInvoiceLine/GetProductUidHelpList', '/DirectSaleInvoiceLine/SetSingleProductUid', ' ', false, 0, $('#SaleInvoiceHeaderId', '.modal-body').val());
+        }
+
+
+
         
 
         var IsSaved=false;
@@ -567,6 +577,24 @@
                         $("#DealUnitId").val(data.DealUnitId);
                         $("#UnitName").val(data.UnitName);
                         $("#Specification").val(data.Specification);
+
+                        if (data.Dimension1Id != 0 && data.Dimension1Id != "" && data.Dimension1Id != null) {
+                            $("#Dimension1Id").select2("data", { id: data.Dimension1Id, text: data.Dimension1Name });
+                        }
+
+                        if (data.Dimension2Id != 0 && data.Dimension2Id != "" && data.Dimension2Id != null) {
+                            $("#Dimension2Id").select2("data", { id: data.Dimension2Id, text: data.Dimension2Name });
+                        }
+
+                        if (data.Dimension3Id != 0 && data.Dimension3Id != "" && data.Dimension3Id != null) {
+                            $("#Dimension3Id").select2("data", { id: data.Dimension3Id, text: data.Dimension3Name });
+                        }
+
+                        if (data.Dimension4Id != 0 && data.Dimension4Id != "" && data.Dimension4Id != null) {
+                            $("#Dimension4Id").select2("data", { id: data.Dimension4Id, text: data.Dimension4Name });
+                        }
+
+
                         GetUnitConversionMultiplier();
                         CustomSelectFunctionForPromoCode($("#PromoCodeId"), '/DirectSaleInvoiceLine/GetPromoCodeIdList', '/ComboHelpList/SetSinglePromoCode', ' ', false, 0, $("#ProductId").val(), $("#SaleToBuyerId").val(), $("#DocDate").val());
                         GetFirstPromoCode();

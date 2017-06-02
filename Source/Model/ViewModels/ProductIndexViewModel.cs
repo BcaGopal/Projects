@@ -50,6 +50,7 @@ namespace Model.ViewModels
 
         [Display(Name = "Is Active ?")]
         public Boolean IsActive { get; set; }
+        public DateTime? DiscontinueDate { get; set; }
     }
 
     public class ProductViewModel
@@ -220,6 +221,22 @@ namespace Model.ViewModels
         public Decimal? ProfitMargin { get; set; }
         public Decimal? CarryingCost { get; set; }
         public int ProductSKUId { get; set; }
+
+
+        public int? DefaultDimension1Id { get; set; }
+        public string DefaultDimension1Name { get; set; }
+        public int? DefaultDimension2Id { get; set; }
+        public string DefaultDimension2Name { get; set; }
+
+        public int? DefaultDimension3Id { get; set; }
+        public string DefaultDimension3Name { get; set; }
+
+        public int? DefaultDimension4Id { get; set; }
+        public string DefaultDimension4Name { get; set; }
+
+        public DateTime? DiscontinueDate { get; set; }
+        public string DiscontinueReason { get; set; }
+
     }
 
     public class MaterialViewModel : ProductViewModel

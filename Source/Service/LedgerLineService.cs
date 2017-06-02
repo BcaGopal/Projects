@@ -32,7 +32,7 @@ namespace Service
         int PrevId(int id);
       //  LedgerLine FindByLedgerHeader(int id);
         IEnumerable<LedgerLine> FindByLedgerHeader(int id);
-        IQueryable<ComboBoxResult> GetLedgerAccounts(string term, string AccGroups, string Process);
+        IQueryable<ComboBoxResult> GetLedgerAccounts(string term, string AccGroups, string ExcludeAccGroups, string Process);
         IQueryable<ComboBoxResult> GetCostCenters(string term, string DocTypes, string Process);
         IQueryable<ComboBoxResult> GetLedgerIds_Adusted(int Id, string term);
     }
@@ -207,13 +207,16 @@ namespace Service
 
 
 
-        public IQueryable<ComboBoxResult> GetLedgerAccounts(string term, string AccGroups, string Process)
+        public IQueryable<ComboBoxResult> GetLedgerAccounts(string term, string AccGroups, string ExcludeAccGroups, string Process)
         {          
 
             string[] ContraAccGroups = null;
             if (!string.IsNullOrEmpty(AccGroups)) { ContraAccGroups = AccGroups.Split(",".ToCharArray()); }
             else { ContraAccGroups = new string[] { "NA" }; }
 
+            string[] ExcludeContraAccGroups = null;
+            if (!string.IsNullOrEmpty(ExcludeAccGroups)) { ExcludeContraAccGroups = ExcludeAccGroups.Split(",".ToCharArray()); }
+            else { ExcludeContraAccGroups = new string[] { "NA" }; }
 
             string[] ContraProcess = null;
             if (!string.IsNullOrEmpty(Process)) { ContraProcess = Process.Split(",".ToCharArray()); }
@@ -232,6 +235,7 @@ namespace Service
                         from tab in table.DefaultIfEmpty()
                         join t3 in db.PersonProcess on tab.PersonID equals t3.PersonId into table3 from perproc in table3.DefaultIfEmpty()
                         where (string.IsNullOrEmpty(AccGroups) ? 1 == 1 : ContraAccGroups.Contains(p.LedgerAccountGroupId.ToString()))
+                        && (string.IsNullOrEmpty(ExcludeAccGroups) ? 1 == 1 : !ExcludeContraAccGroups.Contains(p.LedgerAccountGroupId.ToString()))
                         && p.IsActive == true
                         && (string.IsNullOrEmpty(term) ? 1 == 1 : (p.LedgerAccountName.ToLower().Contains(term.ToLower())) 
                             || tab.Code.ToLower().Contains(term.ToLower())

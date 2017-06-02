@@ -30,7 +30,6 @@
     @Html.HiddenFor(m => m.PersonRegistrationAadharNoID)
     @Html.HiddenFor(m => m.CreatedBy)
     @Html.HiddenFor(m => m.CreatedDate)
-    @Html.HiddenFor(m => m.LedgerAccountGroupId)
     @Html.HiddenFor(m => m.ImageFileName)
     @Html.HiddenFor(m => m.ImageFolderName)
 
@@ -408,6 +407,18 @@
                                 </div>
                             </div>
 
+
+                            <div class="col-md-6" style="display:@(Model.PersonSettings.isVisibleLedgerAccountGroup ? "" : "none")">
+                                @Html.HiddenFor(m => m.PersonSettings.isVisibleLedgerAccountGroup)
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.LedgerAccountGroupId, "Ledger A/c Group", new { @class = "control-label col-xs-4" })
+                                    <div class="col-xs-6">
+                                        @Html.TextBoxFor(m => m.LedgerAccountGroupId, new { @class = "form-control col-xs-6 height required" })
+                                        @Html.ValidationMessageFor(model => model.LedgerAccountGroupId, null, new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+
                             <div class="col-md-6" style="display:@(Model.PersonSettings.isVisibleTags ? "" : "none")">
                                 @Html.HiddenFor(m => m.PersonSettings.isVisibleTags)
                                 <div class="form-group">
@@ -592,11 +603,12 @@
 
 <script type="text/javascript">
     CustomSelectFunction($("#CityId"), '/ComboHelpList/GetCity', '/ComboHelpList/SetSingleCity', ' ', false, 0);
-    CustomSelectFunction($("#GuarantorId"), '/ComboHelpList/GetPerson', '/ComboHelpList/SetSinglePerson', ' ', false, 3);
-    CustomSelectFunction($("#ParentId"), '/ComboHelpList/GetPersons', '/ComboHelpList/SetSinglePerson', ' ', false, 3);
+    CustomSelectFunction($("#GuarantorId"), '/ComboHelpList/GetPerson', '/ComboHelpList/SetSinglePerson', ' ', false, 0);
+    CustomSelectFunction($("#ParentId"), '/ComboHelpList/GetPersons', '/ComboHelpList/SetSinglePerson', ' ', false, 0);
     CustomSelectFunction($("#TdsGroupId"), '/ComboHelpList/GetTdsGroup', '/ComboHelpList/SetSingleTdsGroup', ' ', false, 0);
     CustomSelectFunction($("#TdsCategoryId"), '/ComboHelpList/GetTdsCategory', '/ComboHelpList/SetSingleTdsCategory', ' ', false, 0);
     CustomSelectFunction($("#SalesTaxGroupPartyId"), '/ComboHelpList/GetSalesTaxGroupParty', '/ComboHelpList/SetSingleSalesTaxGroupParty', ' ', false, 0);
+    CustomSelectFunction($("#LedgerAccountGroupId"), '/ComboHelpList/GetLedgerAccountGroups', '/ComboHelpList/SetSingleLedgerAccountGroup', ' ', false, 0);
 
     //For Multi Selection Help
     CustomSelectFunction($("#DivisionIds"), '/ComboHelpList/GetDivision', '/ComboHelpList/SetDivision', ' ', true, 0);
@@ -804,11 +816,11 @@
             success: function (data) {
                 var row = "";
                 var srno=1;
-                var head="<tr style='background-color:#428bca'>  <th style='width:10px'><input type='hidden'  /></th> <th style='width:10px'>Serial</th><th class='center'> Party Doc No</th>   <th class='center'> Party Doc Date</th>   <th class='center'> Amount</th>   <th style='width:10px'></th>       <th style='width:10px'></th>  </tr>"
+                var head="<tr style='background-color:#428bca'>  <th style='width:10px'><input type='hidden'  /></th> <th style='width:10px'>Serial</th><th class='center'> Party Doc No</th>   <th class='center'> Party Doc Date</th>   <th class='center'> Site</th>   <th class='center'> Division</th>   <th class='center'> Amount</th>   <th class='center'> Narration</th>   <th style='width:10px'></th>       <th style='width:10px'></th>  </tr>"
                 if(data.length!=0)
                 {
                     $.each(data, function (index, item) {
-                        row += "<tr><td><input type='hidden' class='id' value='" + item.LedgerHeaderId + "'/></td> <td>"+ srno +"</td> <td>" + (item.PartyDocNo==null ? "" :item.PartyDocNo )+ "</td>        <td>" + (item.PartyDocDate==null ? "" :formatDate('d/m/Y',new Date(parseInt(item.PartyDocDate.substr(6)))) )+ "</td>        <td>" + (item.Amount==null ? "" :item.Amount ) + " " + ( item.DrCr==null?"" : item.DrCr )+ "</td>        <td><a class='hidden' Modify href='/PersonOpening/_Edit/"+item.LedgerHeaderId+"' ></a></td>       <td><a class='glyphicon glyphicon-trash' data-modal='' delete='' href='/PersonOpening/_Edit/"+item.LedgerHeaderId+"' ></a></td>  </tr>";
+                        row += "<tr><td><input type='hidden' class='id' value='" + item.LedgerHeaderId + "'/></td> <td>"+ srno +"</td> <td>" + (item.PartyDocNo==null ? "" :item.PartyDocNo )+ "</td>        <td>" + (item.PartyDocDate==null ? "" :formatDate('d/m/Y',new Date(parseInt(item.PartyDocDate.substr(6)))) )+ "</td>        <td>" + (item.SiteName==null ? "" :item.SiteName )+ "</td>        <td>" + (item.DivisionName==null ? "" :item.DivisionName)+ "</td>        <td>" + (item.Amount==null ? "" :item.Amount ) + " " + ( item.DrCr==null?"" : item.DrCr )+ "</td>        <td>" + (item.Narration==null ? "" :item.Narration)+ "</td>        <td><a class='hidden' Modify href='/PersonOpening/_Edit/"+item.LedgerHeaderId+"' ></a></td>       <td><a class='glyphicon glyphicon-trash' data-modal='' delete='' href='/PersonOpening/_Edit/"+item.LedgerHeaderId+"' ></a></td>  </tr>";
                         srno++;
                     });
                 }

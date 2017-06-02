@@ -123,7 +123,9 @@ namespace Web
                     temp.filterContraSites = pt.filterContraSites;
                     temp.filterDocTypeCostCenter = pt.filterDocTypeCostCenter;
                     temp.filterLedgerAccountGroupHeaders = pt.filterLedgerAccountGroupHeaders;
+                    temp.filterExcludeLedgerAccountGroupHeaders = pt.filterExcludeLedgerAccountGroupHeaders;
                     temp.filterLedgerAccountGroupLines = pt.filterLedgerAccountGroupLines;
+                    temp.filterExcludeLedgerAccountGroupLines = pt.filterExcludeLedgerAccountGroupLines;
                     temp.isMandatoryChqNo = pt.isMandatoryChqNo;
                     temp.BaseRateText = pt.BaseRateText;
                     temp.BaseValueText = pt.BaseValueText;
@@ -152,6 +154,7 @@ namespace Web
                     temp.isVisiblePartyDocNo = pt.isVisiblePartyDocNo;
                     temp.isVisiblePartyDocDate = pt.isVisiblePartyDocDate;
                     temp.isVisibleLedgerAdj = pt.isVisibleLedgerAdj;
+                    temp.IsAutoDocNo = pt.IsAutoDocNo;
                     temp.PartyDocNoCaption = pt.PartyDocNoCaption;
                     temp.PartyDocDateCaption = pt.PartyDocDateCaption;
                     temp.filterReferenceDocTypes = pt.filterReferenceDocTypes;
@@ -265,7 +268,9 @@ namespace Web
                     temp.filterContraSites = pt.filterContraSites;
                     temp.filterDocTypeCostCenter = pt.filterDocTypeCostCenter;
                     temp.filterLedgerAccountGroupHeaders = pt.filterLedgerAccountGroupHeaders;
+                    temp.filterExcludeLedgerAccountGroupHeaders = pt.filterExcludeLedgerAccountGroupHeaders;
                     temp.filterLedgerAccountGroupLines = pt.filterLedgerAccountGroupLines;
+                    temp.filterExcludeLedgerAccountGroupLines = pt.filterExcludeLedgerAccountGroupLines;
                     temp.isMandatoryChqNo = pt.isMandatoryChqNo;
                     temp.BaseRateText = pt.BaseRateText;
                     temp.BaseValueText = pt.BaseValueText;
@@ -293,6 +298,7 @@ namespace Web
                     temp.isVisiblePartyDocNo = pt.isVisiblePartyDocNo;
                     temp.isVisiblePartyDocDate = pt.isVisiblePartyDocDate;
                     temp.isVisibleLedgerAdj = pt.isVisibleLedgerAdj;
+                    temp.IsAutoDocNo = pt.IsAutoDocNo;
                     temp.PartyDocNoCaption = pt.PartyDocNoCaption;
                     temp.PartyDocDateCaption = pt.PartyDocDateCaption;
                     temp.filterReferenceDocTypes = pt.filterReferenceDocTypes;

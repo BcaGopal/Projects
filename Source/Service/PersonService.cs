@@ -244,8 +244,17 @@ namespace Service
 
         public IQueryable<PersonIndexViewModel> GetPersonListForIndex(int id)
         {
+            var PersonAddress = from Pa in db.PersonAddress
+                                group new { Pa } by new { Pa.PersonId } into Result
+                                select new
+                                {
+                                    PersonId = Result.Key.PersonId,
+                                    Address = Result.Max(m => m.Pa.Address)
+                                };
+
             var temp = from p in db.Persons
                        join Pr in db.PersonRole on p.PersonID equals Pr.PersonId into PersonRoleTable from PersonRoleTab in PersonRoleTable.DefaultIfEmpty()
+                       join Pa in PersonAddress on p.PersonID equals Pa.PersonId into PersonAddressTable from PersonAddressTab in PersonAddressTable.DefaultIfEmpty()
                        where PersonRoleTab.RoleDocTypeId == id
                        orderby p.Name
                        select new PersonIndexViewModel
@@ -253,8 +262,11 @@ namespace Service
                            PersonId = p.PersonID,
                            DocTypeId = PersonRoleTab.RoleDocTypeId,
                            Name = p.Name,
+                           Suffix = p.Suffix,
                            Code = p.Code,
-                           Mobile = p.Mobile
+                           Mobile = p.Mobile,
+                           Email = p.Email,
+                           Address = PersonAddressTab.Address
                        };
 
             return temp;

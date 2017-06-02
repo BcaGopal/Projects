@@ -1,6 +1,7 @@
 ﻿
 // New namespace imports:
 
+using Model.ViewModel;
 using System;
 namespace Model.ViewModels
 {
@@ -21,5 +22,6 @@ namespace Model.ViewModels
         public Decimal Amount { get; set; }
         public string DrCr { get; set; }
         public string Narration { get; set; }
+        public LedgerSettingViewModel LedgerSetting { get; set; }
     }
 }

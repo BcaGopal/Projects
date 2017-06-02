@@ -74,7 +74,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    @*<div class="col-md-6">
                         <div class="form-group">
                             @Html.LabelFor(model => model.LedgerAccountDrId, "Ledger A/c (Dr.)", new { @class = "control-label col-xs-4" })
                             <div class="col-xs-7">
@@ -82,11 +82,11 @@
                                 @Html.ValidationMessageFor(model => model.LedgerAccountDrId, "", new { @class = "text-danger" })
                             </div>
                         </div>
-                    </div>                                  
+                    </div>*@                                  
                 </div>
 
                 <div class="row">
-                    <div class="col-md-6">
+                    @*<div class="col-md-6">
                         <div class="form-group">
                             @Html.LabelFor(model => model.LedgerAccountCrId, "Ledger A/c (Cr.)", new { @class = "control-label col-xs-4" })
                             <div class="col-xs-7">
@@ -94,7 +94,7 @@
                                 @Html.ValidationMessageFor(model => model.LedgerAccountCrId, "", new { @class = "text-danger" })
                             </div>
                         </div>
-                    </div>   
+                    </div>*@   
                     <div class="col-md-6">
                         <div class="form-group">
                             @Html.LabelFor(model => model.CostCenterId, "Cost Center", new { @class = "control-label col-xs-4" })
@@ -219,7 +219,7 @@
         CustomSelectFunction($("#CostCenterId"), '/ComboHelpList/GetCostCenterWithDocType', '/ComboHelpList/SetSingleCostCenter', ' ', false, 1);
         CustomSelectFunction($("#ChargeTypeId"), '/ComboHelpList/GetChargeTypeList', '/ComboHelpList/SetSingleChargeType', ' ', false, 1);   
         CustomSelectFunction($("#ChargeId"), '/ComboHelpList/GetChargeList', '/ComboHelpList/SetSingleCharge', ' ', false, 1); 
-        CustomSelectFunction($("#IncludedCharges"), '/ComboHelpList/GetChargeListWithCode', '/ComboHelpList/SetChargeWithCode', ' ', true, 1);
+        //CustomSelectFunction($("#IncludedCharges"), '/ComboHelpList/GetChargeListWithCode', '/ComboHelpList/SetChargeWithCode', ' ', true, 1);
         CustomSelectFunction($("#ParentChargeId"), '/ComboHelpList/GetChargeList', '/ComboHelpList/SetSingleCharge', ' ', false, 1); 
     })
 

@@ -72,7 +72,8 @@
                columns.Add(foo => foo.DocDate).Sortable(true).Titled("Doc.Date").Format("{0:dd/MMM/yyyy}").Filterable(true).SetWidth("10%");
                columns.Add(m => m.DocNo).Sortable(true).Titled("Doc.No").Filterable(true).Sortable(true).SetWidth("10%");
                columns.Add(m => m.LedgerAccountName).Titled("Debit A/C").Filterable(true).Sortable(true).SetWidth("15%");
-               columns.Add(m => m.AccountName).Titled("Account Name").Filterable(true).Sortable(true).SetWidth("23%");               
+               columns.Add(m => m.AccountName).Titled("Account Name").Filterable(true).Sortable(true).SetWidth("23%");
+               columns.Add().RenderValueAs(m => CustomHelpers.RenderTotal(m.TotalAmount, 2)).Sanitized(false).Encoded(false).Titled("Total Amount").SetWidth("10%");
                columns.Add(m => m.Narration).Sortable(true).Filterable(true).Titled("Narration").SetWidth("23%");
                columns.Add().Sanitized(false).Encoded(false).RenderValueAs(m => CustomHelpers.RenderStatus(m.Status)).Titled("Status").SetWidth("8%");
                columns.Add().Titled("").Encoded(false).Sanitized(false).RenderValueAs(m => CustomHelpers.RenderUserImage(m.ModifiedBy)).Titled("User").SetWidth("5%").Css("UserImageIndex");
@@ -84,8 +85,3 @@
 
 
 
-<script type="text/javascript">
-    $(document).ready(function () {
-        enableModalTransitions();
-    })
-</script>

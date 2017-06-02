@@ -97,7 +97,7 @@ namespace Service
         {
             var Query = (from p in db.CalculationProduct
                         where p.CalculationId == id
-                        orderby p.CalculationProductId
+                        orderby p.Sr
                         select new CalculationProductViewModel
                         {
                             AddDeduct = p.AddDeduct,

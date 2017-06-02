@@ -15,12 +15,14 @@
         line-height: 35px;
     }
 
-      .totals 
-      {
-      font-weight: bold;
-      text-align:right;
-      color: black;
-              font-size:14px;
+
+
+    
+     .totals {
+        font-weight: bold;
+        text-align: right;
+        color: black;
+        font-size: 14px;
     }
           .Bold 
         {
@@ -31,8 +33,9 @@
 
     .slick-row.ui-widget-content, .slick-cell {
         height: 30px;
-                font-size:14px;
+        font-size: 14px;
         line-height: 30px;
+        white-space: normal;
     }
 
     #myGrid * {
@@ -41,6 +44,12 @@
 
     .hidden {
         display: none;
+    }
+
+    .word-wrap {
+        white-space: normal;
+        overflow: auto;
+        height: 120px;
     }
 
       .rightMargin {
@@ -83,13 +92,15 @@
 
     //Columns Specification
         columns = [
-       { id: "DocDate", name: "DocDate", field: "DocDate", headerCssClass: "Bold", width: 200, minWidth: 100, hasTotalName: true },
-       { id: "DocType", name: "Doc.Type", field: "DocumentTypeShortName", headerCssClass: "Bold", width: 50, minWidth: 50 },
-       { id: "DocNo", name: "Doc.No", field: "DocNo", headerCssClass: "Bold", width: 200, minWidth: 100 },
-       { id: "Narration", name: "Narration", field: "Narration", headerCssClass: "Bold", width: 300, minWidth: 150, formatter: NarrationFormatter },
+       { id: "DocDate", name: "DocDate", field: "DocDate", headerCssClass: "Bold", width: 110, minWidth: 100, hasTotalName: true },
+       { id: "DocType", name: "Doc.Type", field: "DocumentTypeShortName", headerCssClass: "Bold", width: 110, minWidth: 50 },
+       { id: "Site", name: "Site", field: "SiteText", headerCssClass: "Bold", width: 150, minWidth: 50 },
+       { id: "Division", name: "Division", field: "DivisionText", headerCssClass: "Bold", width: 100, minWidth: 50 },
+       { id: "DocNo", name: "Doc.No", field: "DocNo", headerCssClass: "Bold", width: 100, minWidth: 100 },
+       { id: "Narration", name: "Narration", field: "Narration", headerCssClass: "Bold", cssClass: "word-wrap", width: 300, minWidth: 150, formatter: NarrationFormatter },
        { id: "AmDr", name: "Amount Dr", field: "AmtDr", cssClass: "text-right", headerCssClass: "text-right Bold", width: 150, minWidth: 100, hasTotal: true },
        { id: "AmCr", name: "Amount Cr", field: "AmtCr", cssClass: "text-right", headerCssClass: "text-right Bold", width: 150, minWidth: 100, hasTotal: true },
-       { id: "Balance", name: "Balance", field: "Balance", cssClass: "text-right", headerCssClass: "text-right Bold", width: 150, minWidth: 100, hasTotal: true },
+       { id: "Balance", name: "Balance", field: "Balance", cssClass: "text-right", headerCssClass: "text-right Bold", width: 150, minWidth: 100, hasTotal: false },
        { id: "BalType", name: "", field: "BalanceType", headerCssClass: "Bold", width: 30, minWidth: 30 },
         ];
 

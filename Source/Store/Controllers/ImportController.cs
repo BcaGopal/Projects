@@ -32,23 +32,51 @@ namespace Customize
         private ApplicationDbContext db = new ApplicationDbContext();
         protected IUnitOfWork _unitOfWork;
         IImportLineService _ImportLineService;
-        public ImportController(IUnitOfWork unitOfWork, IImportLineService line)
+        IImportHeaderService _ImportHeaderservice;
+        public ImportController(IUnitOfWork unitOfWork, IImportLineService line, IImportHeaderService ImportHeaderServ)
         {
             _unitOfWork = unitOfWork;
             _ImportLineService = line;
+            _ImportHeaderservice = ImportHeaderServ;
         }
 
         [HttpGet]
-        public ActionResult Import(int MenuId)
+        public ActionResult Import(int MenuId, int id)//id == DocTypeId
         {
             Menu menu = new MenuService(_unitOfWork).Find(MenuId);
-            return RedirectToAction("ImportLayout", "ImportLayout", new { name = menu.MenuName });
+            ImportHeader header = _ImportHeaderservice.GetImportHeaderByName(menu.MenuName);
+            List<ImportLine> lines = _ImportLineService.GetImportLineList(header.ImportHeaderId).ToList();
+
+            Dictionary<int, string> DefaultValues = TempData["ImportLayoutDefaultValues"] as Dictionary<int, string>;
+            TempData["ImportLayoutDefaultValues"] = DefaultValues;
+            foreach (var item in lines)
+            {
+                if (DefaultValues != null && DefaultValues.ContainsKey(item.ImportLineId))
+                {
+                    item.DefaultValue = DefaultValues[item.ImportLineId];
+                }
+            }
+
+            ImportMasterViewModel vm = new ImportMasterViewModel();
+
+            if (TempData["closeOnSelectOption"] != null)
+                vm.closeOnSelect = (bool)TempData["closeOnSelectOption"];
+
+            vm.ImportHeader = header;
+            vm.ImportLine = lines;
+            vm.ImportHeaderId = header.ImportHeaderId;
+            vm.DocTypeId = id;
+
+            return View(vm);
         }
 
         [HttpPost]
-        public ActionResult Import(FormCollection form, int ImportHeaderId)
+        public ActionResult Import(FormCollection form, ImportMasterViewModel vm)
         {
             string[] StrArr = new string[] { };
+
+            int ImportHeaderId = vm.ImportHeaderId;
+            int DocTypeId = vm.DocTypeId;
 
             string ErrorText = "";
             //string WarningText = "";
@@ -60,125 +88,116 @@ namespace Customize
                 return View("Index");
             }
 
-
-            DataTable RecordList = new DataTable();
-
-            var file = Request.Files[0];
-            string filePath = Request.MapPath(ConfigurationManager.AppSettings["ExcelFilePath"] + file.FileName);
-            file.SaveAs(filePath);
-
-            if (System.IO.Path.GetExtension(file.FileName).ToUpper() == ".XLS" || System.IO.Path.GetExtension(file.FileName).ToUpper() == ".XLSX")
-            {
-                var excel = new ExcelQueryFactory();
-                excel.FileName = filePath;
-
-                RecordList = exceldata(filePath);
-
-                //var temp = (from c in excel.Worksheet() select c).ToList();
-
-                //RecordList = ConvertAnonymousToDataTable(filePath);
-
-                //RecordList = temp.CopyToDataTable<DataRow>();
-                //temp.CopyToDataTable<DataRow>(RecordList, LoadOption.OverwriteChanges);
-                //RecordList = (from c in excel.Worksheet<DataTable>() select c).FirstOrDefault();
-            }
-            else if (System.IO.Path.GetExtension(file.FileName).ToUpper() == ".TXT")
-            {
-                RecordList = GetDataSourceFromFile(filePath);
-            }
-            else
-            {
-                ModelState.AddModelError("", "File is not in correct format.");
-                return View("Index");
-            }
-
-
-            if (RecordList.Rows.Count == 0)
-            {
-                ModelState.AddModelError("", "There is no records to import.");
-                return View("Index");
-            }
-
+            string ConnectionString = (string)System.Web.HttpContext.Current.Session["DefaultConnectionString"];
+            SqlConnection sqlConnection = new SqlConnection(ConnectionString);
+            sqlConnection.Open();
+            
             var ImportHeader = new ImportHeaderService(_unitOfWork).Find(ImportHeaderId);
-            var ImportLineList = _ImportLineService.GetImportLineList(ImportHeaderId);
 
-
-
-
-            if (ImportLineList.Count() > 0)
+            for (int filecnt = 0; filecnt <= Request.Files.Count - 1; filecnt++)
             {
-                RecordList.Columns.Add("DocTypeId");
-                RecordList.Columns.Add("UserName");
-                RecordList.Columns.Add("SiteId");
-                RecordList.Columns.Add("DivisionId");
+                var file = Request.Files[filecnt];
+                string filePath = Request.MapPath(ConfigurationManager.AppSettings["ExcelFilePath"] +  file.FileName);
+                file.SaveAs(filePath);
 
-                for (int i = 0; i <= RecordList.Rows.Count - 1; i++)
+                DataTable RecordList = new DataTable();
+
+                if (System.IO.Path.GetExtension(file.FileName).ToUpper() == ".XLS" || System.IO.Path.GetExtension(file.FileName).ToUpper() == ".XLSX")
                 {
-                    //RecordList.Rows[i]["DocTypeId"] = form["DocTypeId"];
-                    RecordList.Rows[i]["DocTypeId"] = 631;
-                    RecordList.Rows[i]["UserName"] = User.Identity.Name;
-                    RecordList.Rows[i]["SiteId"] = (int)System.Web.HttpContext.Current.Session["SiteId"];
-                    RecordList.Rows[i]["DivisionId"] = (int)System.Web.HttpContext.Current.Session["DivisionId"];
+                    var excel = new ExcelQueryFactory();
+                    excel.FileName = filePath;
+
+                    RecordList = exceldata(filePath);
+                }
+                else if (System.IO.Path.GetExtension(file.FileName).ToUpper() == ".TXT")
+                {
+                    RecordList = GetDataSourceFromFile(filePath);
+                }
+                else
+                {
+                    ModelState.AddModelError("", "File is not in correct format.");
+                    return View("Index");
                 }
 
-                foreach(var ImportLine in ImportLineList)
+
+                if (RecordList.Rows.Count == 0)
                 {
-                    if (RecordList.Columns.Contains(ImportLine.FieldName) == false)
+                    ModelState.AddModelError("", "There is no records to import.");
+                    return View("Index");
+                }
+
+
+                var ImportLineList = _ImportLineService.GetImportLineList(ImportHeaderId).Where(m => m.FileNo == (filecnt + 1));
+
+
+
+                if (ImportLineList.Count() > 0)
+                {
+                    RecordList.Columns.Add("DocTypeId");
+                    RecordList.Columns.Add("UserName");
+                    RecordList.Columns.Add("SiteId");
+                    RecordList.Columns.Add("DivisionId");
+
+                    for (int i = 0; i <= RecordList.Rows.Count - 1; i++)
                     {
-                        RecordList.Columns.Add(ImportLine.FieldName);
+                        //RecordList.Rows[i]["DocTypeId"] = form["DocTypeId"];
+                        RecordList.Rows[i]["DocTypeId"] = DocTypeId;
+                        RecordList.Rows[i]["UserName"] = User.Identity.Name;
+                        RecordList.Rows[i]["SiteId"] = (int)System.Web.HttpContext.Current.Session["SiteId"];
+                        RecordList.Rows[i]["DivisionId"] = (int)System.Web.HttpContext.Current.Session["DivisionId"];
+                    }
+
+                    foreach(var ImportLine in ImportLineList)
+                    {
+                        if (RecordList.Columns.Contains(ImportLine.FieldName) == false)
+                        {
+                            RecordList.Columns.Add(ImportLine.FieldName);
+
+                            for (int i = 0; i <= RecordList.Rows.Count - 1; i++)
+                            {
+                                RecordList.Rows[i][ImportLine.FieldName] = form[ImportLine.FieldName];
+                            }
+                        }
+                    }
+                }
+
+
+
+                foreach (var ImportLine in ImportLineList)
+                {
+                    if (ImportLine.IsMandatory == true)
+                    {
+                        if (RecordList.Columns.Contains(ImportLine.FieldName) == false)
+                        {
+                            ModelState.AddModelError("", ImportLine.FieldName + " is manadatary, but file does not containt this column.");
+                            return View("Index");
+                        }
 
                         for (int i = 0; i <= RecordList.Rows.Count - 1; i++)
                         {
-                            RecordList.Rows[i][ImportLine.FieldName] = form[ImportLine.FieldName];
+                            if (RecordList.Rows[i][ImportLine.FieldName] == "")
+                            {
+                                ModelState.AddModelError("", ImportLine.FieldName + " is manadatary, it is blank at row no." + i.ToString());
+                                return View("Index");
+                            }
                         }
                     }
-                }
-            }
 
-
-
-            foreach (var ImportLine in ImportLineList)
-            {
-                if (ImportLine.IsMandatory == true)
-                {
-                    if (RecordList.Columns.Contains(ImportLine.FieldName) == false)
+                    if (ImportLine.MaxLength > 0)
                     {
-                        ModelState.AddModelError("", ImportLine.FieldName + " is manadatary, but file does not containt this column.");
-                        return View("Index");
-                    }
-
-                    for (int i = 0; i <= RecordList.Rows.Count - 1; i++)
-                    {
-                        if (RecordList.Rows[i][ImportLine.FieldName] == "")
+                        for (int i = 0; i <= RecordList.Rows.Count - 1; i++)
                         {
-                            ModelState.AddModelError("", ImportLine.FieldName + " is manadatary, it is blank at row no." + i.ToString());
-                            return View("Index");
+                            if (RecordList.Rows[i][ImportLine.FieldName].ToString().Length > ImportLine.MaxLength)
+                            {
+                                ModelState.AddModelError("", ImportLine.FieldName + " should be maximum length of " + ImportLine.MaxLength + ", it is exceeding at row no." + i.ToString());
+                                return View("Index");
+                            }
                         }
                     }
                 }
-
-                if (ImportLine.MaxLength > 0)
-                {
-                    for (int i = 0; i <= RecordList.Rows.Count - 1; i++)
-                    {
-                        if (RecordList.Rows[i][ImportLine.FieldName].ToString().Length > ImportLine.MaxLength)
-                        {
-                            ModelState.AddModelError("", ImportLine.FieldName + " should be maximum length of " + ImportLine.MaxLength + ", it is exceeding at row no." + i.ToString());
-                            return View("Index");
-                        }
-                    }
-                }
+                string TempTableName = "#TempTable_" + (filecnt + 1).ToString();
+                CreateSqlTableFromDataTable(RecordList, TempTableName, sqlConnection);
             }
-
-
-
-            string ConnectionString = (string)System.Web.HttpContext.Current.Session["DefaultConnectionString"];
-            SqlConnection sqlConnection = new SqlConnection(ConnectionString);
-
-            string TempTableName = "#TempTable";
-            CreateSqlTableFromDataTable(RecordList, TempTableName, sqlConnection);
-
-            
 
 
             
@@ -190,7 +209,13 @@ namespace Customize
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Connection = sqlConnection;
-                    cmd.Parameters.AddWithValue("@TableName", TempTableName);
+
+                    for (int filecnt = 0; filecnt <= Request.Files.Count - 1; filecnt++)
+                    {
+                        cmd.Parameters.AddWithValue("@TableName_" + (filecnt + 1).ToString(), "#TempTable_" + (filecnt + 1).ToString());
+                    }
+
+
                     cmd.CommandTimeout = 1000;
                     using (SqlDataAdapter adp = new SqlDataAdapter(cmd))
                     {
@@ -273,7 +298,7 @@ namespace Customize
             cmd.CommandType = CommandType.Text;
             cmd.CommandText = table;
             cmd.Connection = _connection;
-            _connection.Open();
+            //_connection.Open();
             cmd.ExecuteNonQuery();
             //_connection.Close();
 
@@ -414,6 +439,12 @@ namespace Customize
             conn.Close();
             return dtexcel;
 
+        }
+
+        public JsonResult SetSelectOption(bool Checked)
+        {
+            TempData["closeOnSelectOption"] = Checked;
+            return Json(new { success = true });
         }
 
 

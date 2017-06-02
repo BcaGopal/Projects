@@ -65,6 +65,7 @@ namespace Service
         IEnumerable<ComboBoxResult> GetPendingDispatchForInvoice(int id, string term);
 
         IEnumerable<ComboBoxResult> FGetPromoCodeList(int ProductId, int BuyerId, DateTime DocDate);
+        IEnumerable<ComboBoxResult> FGetProductUidHelpList(int Id, string term);
     }
 
     public class SaleInvoiceLineService : ISaleInvoiceLineService
@@ -1130,6 +1131,33 @@ namespace Service
 
 
             return SaleInvoiceLineViewModelWithRate;
+        }
+
+        public IEnumerable<ComboBoxResult> FGetProductUidHelpList(int Id, string term)
+        {
+            var SaleInvoiceHeader = new SaleInvoiceHeaderService(_unitOfWork).FindDirectSaleInvoice(Id);
+
+            var settings = new SaleInvoiceSettingService(_unitOfWork).GetSaleInvoiceSettingForDocument(SaleInvoiceHeader.DocTypeId, SaleInvoiceHeader.DivisionId, SaleInvoiceHeader.SiteId);
+
+            IEnumerable<ComboBoxResult> ProductUidList = db.Database.SqlQuery<ComboBoxResult>(settings.SqlProcProductUidHelpList).ToList();
+
+
+            var temp = (from P in ProductUidList
+                        where (string.IsNullOrEmpty(term) ? 1 == 1 : P.text.ToLower().Contains(term.ToLower())
+                        || (string.IsNullOrEmpty(term) ? 1 == 1 : P.AProp1.ToLower().Contains(term.ToLower()))
+                        || (string.IsNullOrEmpty(term) ? 1 == 1 : P.AProp2.ToLower().Contains(term.ToLower()))
+                        )
+                        select new ComboBoxResult
+                        {
+                            id = P.id,
+                            text = P.text,
+                            TextProp1 = P.TextProp1,
+                            TextProp2 = P.TextProp2,
+                            AProp1 = P.AProp1,
+                            AProp2 = P.AProp2
+                        }).ToList();
+
+            return temp;
         }
 
         

@@ -84,7 +84,7 @@
     @CustomHelpers.RenderStatusFilters(ViewBag.PendingToSubmit, ViewBag.PendingToReview, ControllerName, ViewBag.id, ViewBag.IndexStatus)*@
     </div>
 
-    <div class="panel-info" style="padding-left:5px;padding-top:2px">
+    <div class="panel-info" style="padding-left: 5px; padding-top: 2px; font-size: 12px">
         @if (ViewBag.IsPostedInStock == true)
         {
             @Html.Grid(Model).Columns(columns =>
@@ -94,10 +94,12 @@
                columns.Add().Encoded(false).Sanitized(false).SetWidth("5%").RenderValueAs(m => CustomHelpers.RenderCheckBox());
                columns.Add(foo => foo.DocDate).Sortable(true).Titled("Invoice Date").Format("{0:dd/MMM/yyyy}").Filterable(true);
                columns.Add(m => m.DocNo).Sortable(true).Titled("Invoice No.").Filterable(true).Sortable(true);
-               columns.Add(m => m.JobWorkerDocNo).Sortable(true).Titled("Ref. No").Filterable(true).Sortable(true);
+               columns.Add(m => m.JobWorkerDocNo).Sortable(true).Titled("Party Doc No").Filterable(true).Sortable(true);
+               columns.Add(foo => foo.JobWorkerDocDate).Sortable(true).Titled("Party Doc Date").Format("{0:dd/MMM/yyyy}").Filterable(true);
                columns.Add(m => m.JobWorkerName).Sortable(true).Filterable(true).Titled("Party");
                columns.Add(m => m.GodownName).Sortable(true).Filterable(true).Titled("Godown");
-               columns.Add().RenderValueAs(m => CustomHelpers.RenderTotal(m.TotalQty, m.DecimalPlaces)).Sanitized(false).Encoded(false).Titled("TotalQty");
+               columns.Add().RenderValueAs(m => CustomHelpers.RenderTotal(m.TotalQty, m.DecimalPlaces)).Sanitized(false).Encoded(false).Titled("Tota lQty");
+               columns.Add().RenderValueAs(m => CustomHelpers.RenderTotal(m.TotalAmount, 2)).Sanitized(false).Encoded(false).Titled("Total Amount");
                columns.Add().Sanitized(false).Encoded(false).RenderValueAs(m => CustomHelpers.RenderStatus(m.Status)).Titled("Status");
                columns.Add().Titled("").Encoded(false).Sanitized(false).RenderValueAs(m => CustomHelpers.RenderUserImage(m.ModifiedBy)).Titled("User").SetWidth("5%").Css("UserImageIndex");
                columns.Add().Encoded(false).Sanitized(false).RenderValueAs(m => CustomHelpers.RenderActionColumn(ControllerName, m.JobInvoiceHeaderId, m.Status, m.Reviewed, m.ReviewCount, (string)ViewBag.IndexStatus)).SetWidth(20).Css("icon-Cus-Size");
@@ -113,9 +115,11 @@
                columns.Add().Encoded(false).Sanitized(false).SetWidth("5%").RenderValueAs(m => CustomHelpers.RenderCheckBox());
                columns.Add(foo => foo.DocDate).Sortable(true).Titled("Invoice Date").Format("{0:dd/MMM/yyyy}").Filterable(true);
                columns.Add(m => m.DocNo).Sortable(true).Titled("Invoice No.").Filterable(true).Sortable(true);
-               columns.Add(m => m.JobWorkerDocNo).Sortable(true).Titled("Ref. No").Filterable(true).Sortable(true);
+               columns.Add(m => m.JobWorkerDocNo).Sortable(true).Titled("Party Doc No").Filterable(true).Sortable(true);
+               columns.Add(foo => foo.JobWorkerDocDate).Sortable(true).Titled("Party Doc Date").Format("{0:dd/MMM/yyyy}").Filterable(true);
                columns.Add(m => m.JobWorkerName).Sortable(true).Filterable(true).Titled("Party");
-               columns.Add().RenderValueAs(m => CustomHelpers.RenderTotal(m.TotalQty, m.DecimalPlaces)).Sanitized(false).Encoded(false).Titled("TotalQty");
+               columns.Add().RenderValueAs(m => CustomHelpers.RenderTotal(m.TotalQty, m.DecimalPlaces)).Sanitized(false).Encoded(false).Titled("Total Qty");
+               columns.Add().RenderValueAs(m => CustomHelpers.RenderTotal(m.TotalAmount, 2)).Sanitized(false).Encoded(false).Titled("Total Amount");
                columns.Add().Sanitized(false).Encoded(false).RenderValueAs(m => CustomHelpers.RenderStatus(m.Status)).Titled("Status");
                columns.Add().Titled("").Encoded(false).Sanitized(false).RenderValueAs(m => CustomHelpers.RenderUserImage(m.ModifiedBy)).Titled("User").SetWidth("5%").Css("UserImageIndex");
                columns.Add().Encoded(false).Sanitized(false).RenderValueAs(m => CustomHelpers.RenderActionColumn(ControllerName, m.JobInvoiceHeaderId, m.Status, m.Reviewed, m.ReviewCount, (string)ViewBag.IndexStatus)).SetWidth(20).Css("icon-Cus-Size");

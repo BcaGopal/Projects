@@ -103,6 +103,7 @@
     <Compile Include="ProductUidService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SalesTaxGroupProductService.cs" />
+    <Compile Include="CompanyService.cs" />
     <Compile Include="SiteService.cs" />
     <Compile Include="StateService.cs" />
     <Compile Include="StockAdjService.cs" />

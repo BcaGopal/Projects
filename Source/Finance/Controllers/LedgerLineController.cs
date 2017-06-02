@@ -1067,7 +1067,7 @@ namespace Web
 
             var Settings = new LedgerSettingService(_unitOfWork).GetLedgerSettingForDocument(Ledger.DocTypeId, Ledger.DivisionId, Ledger.SiteId);
 
-            var Query = new LedgerLineService(_unitOfWork).GetLedgerAccounts(searchTerm, Settings.filterLedgerAccountGroupLines, (Ledger.ProcessId.HasValue ? Ledger.ProcessId.ToString() : Settings.filterPersonProcessLines));
+            var Query = new LedgerLineService(_unitOfWork).GetLedgerAccounts(searchTerm, Settings.filterLedgerAccountGroupLines, Settings.filterExcludeLedgerAccountGroupLines, (Ledger.ProcessId.HasValue ? Ledger.ProcessId.ToString() : Settings.filterPersonProcessLines));
 
             var temp = Query.Skip(pageSize * (pageNum - 1)).Take(pageSize).ToList();
 

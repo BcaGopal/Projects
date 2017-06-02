@@ -144,6 +144,10 @@ namespace Model.ViewModels
         public int DocTypeId { get; set; }
         public string Name { get; set; }
         public string Code { get; set; }
+        public string Suffix { get; set; }
         public string Mobile { get; set; }
+        public string Email { get; set; }
+        public string Address { get; set; }
+
     }
 }

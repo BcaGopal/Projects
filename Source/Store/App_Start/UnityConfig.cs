@@ -252,6 +252,8 @@ namespace Store.App_Start
 
             container.RegisterType<IExcessMaterialSettingsService, ExcessMaterialSettingsService>(new PerRequestLifetimeManager());
 
+            container.RegisterType<ILedgerSettingService, LedgerSettingService>(new PerRequestLifetimeManager());
+
 
             //Registering Mappers:
 
@@ -383,6 +385,10 @@ namespace Store.App_Start
 
             Mapper.CreateMap<ProductGroupProcessSettings, ProductGroupProcessSettingsViewModel>();
             Mapper.CreateMap<ProductGroupProcessSettingsViewModel, ProductGroupProcessSettings>();
+
+            Mapper.CreateMap<LedgerSetting, LedgerSettingViewModel>();
+            Mapper.CreateMap<LedgerSettingViewModel, LedgerSetting>();
+
 
             Mapper.CreateMap<Dimension1, Dimension1ViewModel>();
             Mapper.CreateMap<Dimension1ViewModel, Dimension1>();

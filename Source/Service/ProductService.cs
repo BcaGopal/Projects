@@ -81,6 +81,12 @@ namespace Service
                         StandardCost = p.StandardCost,
                         ProfitMargin = p.ProfitMargin,
                         CarryingCost = p.CarryingCost,
+                        DefaultDimension1Id = p.DefaultDimension1Id,
+                        DefaultDimension2Id = p.DefaultDimension2Id,
+                        DefaultDimension3Id = p.DefaultDimension3Id,
+                        DefaultDimension4Id = p.DefaultDimension4Id,
+                        DiscontinueDate = p.DiscontinueDate,
+                        DiscontinueReason = p.DiscontinueReason,
                         Tags = p.Tags,
                         UnitId = p.UnitId,
                         IsActive = p.IsActive,
@@ -126,6 +132,14 @@ namespace Service
                            IsSystemDefine = p.IsSystemDefine,
                            StandardWeight = p.StandardWeight,
                            ProductSpecification = p.ProductSpecification,
+                           DefaultDimension1Id = p.DefaultDimension1Id,
+                           DefaultDimension1Name = p.DefaultDimension1.Dimension1Name,
+                           DefaultDimension2Id = p.DefaultDimension2Id,
+                           DefaultDimension2Name = p.DefaultDimension2.Dimension2Name,
+                           DefaultDimension3Id = p.DefaultDimension3Id,
+                           DefaultDimension3Name = p.DefaultDimension3.Dimension3Name,
+                           DefaultDimension4Id = p.DefaultDimension4Id,
+                           DefaultDimension4Name = p.DefaultDimension4.Dimension4Name,
                            //ColourId = p.ColourId,
                            //DescriptionOfGoodsId = p.DescriptionOfGoodsId,
                            //OriginCountryId = p.OriginCountryId
@@ -338,7 +352,8 @@ namespace Service
                             ProductName = p.ProductName,
                             ProductGroupName = tab.ProductGroupName,
                             IsActive = p.IsActive,
-                            IsSystemDefine = p.IsSystemDefine
+                            IsSystemDefine = p.IsSystemDefine,
+                            DiscontinueDate = p.DiscontinueDate
 
                         });
             return temp;

@@ -194,7 +194,7 @@ namespace Service
                            DocDate = p.DocDate,
                            SaleInvoiceHeaderId = p.SaleInvoiceHeaderId,
                            DocNo = p.DocNo,
-                           BillToBuyerName = t.Name,
+                           BillToBuyerName = t.Name + ", " + t.Suffix + " [" + t.Code + "]",
                            Status = p.Status,
                            ModifiedBy = p.ModifiedBy,
                            ReviewCount = p.ReviewCount,

@@ -15,6 +15,7 @@ using Models.BasicSetup.ViewModels;
 using System;
 using System.IO;
 using System.Data;
+using Services.BasicSetup;
 
 namespace Module
 {
@@ -26,14 +27,16 @@ namespace Module
         private readonly IModuleService _moduleService;
         private readonly IUserBookMarkService _userBookMarkService;
         private readonly ICompanySettingsService _CompanySettingsService;
+        private readonly ICompanyService _CompanyService;
         private readonly IRolesControllerActionService _rolesControllerAcitonService;
-        public SiteSelectionController(ISiteSelectionService SiteSelectionServ, IUserRolesService userRolesService, IModuleService moduleServ, ICompanySettingsService CompanySettingsServ,
+        public SiteSelectionController(ISiteSelectionService SiteSelectionServ, ICompanyService CompanyServ, IUserRolesService userRolesService, IModuleService moduleServ, ICompanySettingsService CompanySettingsServ,
             IUserBookMarkService userBookmarkServ, IRolesControllerActionService rolesControllerActServ)
         {
             _siteSelectionService = SiteSelectionServ;
             _userRolesService = userRolesService;
             _moduleService = moduleServ;
             _CompanySettingsService = CompanySettingsServ;
+            _CompanyService = CompanyServ;
             _userBookMarkService = userBookmarkServ;
             _rolesControllerAcitonService = rolesControllerActServ;
         }
@@ -271,11 +274,14 @@ namespace Module
 
             Site S = _siteSelectionService.GetSite(SiteId);
             Division D = _siteSelectionService.GetDivision(DivisionId);
-            
+            Company C = _CompanyService.Find((int)D.CompanyId);
+
+            System.Web.HttpContext.Current.Session["CompanyId"] = C.CompanyId;
+
 
             System.Web.HttpContext.Current.Session[SessionNameConstants.LoginDivisionId] = DivisionId;
             System.Web.HttpContext.Current.Session[SessionNameConstants.LoginSiteId] = SiteId;
-            System.Web.HttpContext.Current.Session[SessionNameConstants.CompanyName] = S.SiteName;
+            System.Web.HttpContext.Current.Session[SessionNameConstants.CompanyName] = C.CompanyName;
             System.Web.HttpContext.Current.Session[SessionNameConstants.SiteName] = S.SiteName;
             System.Web.HttpContext.Current.Session[SessionNameConstants.SiteShortName] = S.SiteCode;
             System.Web.HttpContext.Current.Session[SessionNameConstants.SiteAddress] = S.Address;

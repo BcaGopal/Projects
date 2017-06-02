@@ -15,10 +15,9 @@
             @Html.AntiForgeryToken()
 
             @Html.HiddenFor(model => model.PersonId)
+            @Html.HiddenFor(model => model.LedgerSetting.IsAutoDocNo)
             @Html.HiddenFor(m => m.LedgerHeaderId)
             @Html.HiddenFor(m => m.DocTypeId)
-            @Html.HiddenFor(m => m.SiteId)
-            @Html.HiddenFor(m => m.DivisionId)
 
             <div class="form-horizontal modal-body">
 
@@ -67,6 +66,26 @@
 
                     <div class="col-md-6">
                         <div class="form-group">
+                            @Html.LabelFor(model => model.SiteId, "Site", new { @class = "control-label col-md-4 col-sm-2" })
+                            <div class="col-md-7 col-sm-10">
+                                @Html.TextBoxFor(model => model.SiteId, new { @class = "form-control required" })
+                                @Html.ValidationMessageFor(model => model.SiteId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.DivisionId, "Division", new { @class = "control-label col-md-4 col-sm-2" })
+                            <div class="col-md-7 col-sm-10">
+                                @Html.TextBoxFor(model => model.DivisionId, new { @class = "form-control required" })
+                                @Html.ValidationMessageFor(model => model.DivisionId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
                             @Html.LabelFor(model => model.DrCr, "Dr Cr", new { @class = "control-label col-md-4 col-sm-2" })
                             <div class="col-md-7 col-sm-10">
                                 @Html.DropDownListFor(m => m.DrCr, new SelectList(ViewBag.DrCrList as System.Collections.IEnumerable, "Value", "Text"), "", new { @class = "form-control col-xs-6 height" })
@@ -108,7 +127,8 @@
 
     <script type="text/javascript">
         $(document).ready(function () {
-            CustomSelectFunction($("#CityId"), '/ComboHelpList/GetCity', '/ComboHelpList/SetSingleCity', ' ', false, 0);
+            CustomSelectFunction($("#SiteId"), '/ComboHelpList/GetSites', '/ComboHelpList/SetSingleSite', ' ', false, 0);
+            CustomSelectFunction($("#DivisionId"), '/ComboHelpList/GetDivisions', '/ComboHelpList/SetSingleDivision', ' ', false, 0);
 
             $('.datepicker').datepicker({
                 format: 'dd/MM/yyyy',
@@ -116,7 +136,7 @@
                 "autoclose": true
             })
 
-            $("#DocDate").focus();
+            $("#PartyDocNo").focus();
 
             var id=@Model.LedgerHeaderId;
             

@@ -53,6 +53,18 @@
                 </ul>
             </div>
 
+
+            <div class="btn-group toolbar right">
+                <a class="cbtn btn-circle glyphicon glyphicon-option-horizontal dropdown-toggle" aria-expanded="false" style="padding-top: 6px;padding-bottom: 6px;" href="#" data-toggle="dropdown" id="FilterType">
+                </a>
+                <ul class="dropdown-menu pull-right" aria-labelledby="FilterType">
+                    <li><a href="@Url.Action("MaterialIndex", "Product", new { @id = @ViewBag.id })"><span class="glyphicon glyphicon-list"> </span>&nbsp;&nbsp;All</a></li>
+                    <li><a href="@Url.Action("MaterialIndex", "Product", new { @id = @ViewBag.id, IndexFilterParameter = IndexFilterParameterConstants.Active })"><span class="glyphicon glyphicon-list"> </span>&nbsp;&nbsp;Active</a></li>
+                    <li><a href="@Url.Action("MaterialIndex", "Product", new { @id = @ViewBag.id, IndexFilterParameter = IndexFilterParameterConstants.InActive })"><span class="glyphicon glyphicon-list"> </span>&nbsp;&nbsp;Inactive</a></li>
+                    <li><a href="@Url.Action("MaterialIndex", "Product", new { @id = @ViewBag.id, IndexFilterParameter = IndexFilterParameterConstants.Discontinue })"><span class="glyphicon glyphicon-list"> </span>&nbsp;&nbsp;Discontinue</a></li>
+                </ul>
+            </div>
+
         </div>
     </div>
     <div class="panel panel-body"  style="padding-left:5px;padding-top:2px">
@@ -64,7 +76,6 @@
        columns.Add(foo => foo.ProductName).Sortable(true).Titled("Name").Format("{0:dd/MMM/yyyy}").Filterable(true);
        columns.Add(foo => foo.ProductCode).Sortable(true).Titled("Code").Format("{0:dd/MMM/yyyy}").Filterable(true);
        columns.Add(foo => foo.ProductGroupName).Sortable(true).Titled("Product Group").Format("{0:dd/MMM/yyyy}").Filterable(true);
-       columns.Add(m => m.IsSystemDefine).Sortable(true).Titled("System Defined");
        columns.Add(m => m.IsActive).Sortable(true).Titled("Is Active").Filterable(true);
        columns.Add(true).RenderValueAs(m => "<a href='/Product/EditMaterial/" + m.ProductId + "' hidden class='RecEditurl'></a><a href='/Product/DeleteMaterial/" + m.ProductId + "' hidden class='RecDelurl'></a>");
    }).WithPaging(25).EmptyText("No records found.")

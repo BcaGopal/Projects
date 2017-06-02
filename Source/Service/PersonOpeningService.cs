@@ -54,19 +54,24 @@ namespace Service
         }
         public IEnumerable<PersonOpeningViewModel> GetPersonOpeningListForIndex(int personId)
         {
+            int OpeningDocCategoryId = new DocumentCategoryService(_unitOfWork).FindByName(TransactionDocCategoryConstants.Opening).DocumentCategoryId;
+
             IEnumerable<PersonOpeningViewModel> vm = (from H in db.LedgerHeader
                                                       join L in db.Ledger on H.LedgerHeaderId equals L.LedgerHeaderId into LedgerTable
                                                       from LedgerTab in LedgerTable.DefaultIfEmpty()
-                                                      where LedgerTab.LedgerAccount.PersonId == personId
+                                                      where LedgerTab.LedgerAccount.PersonId == personId && H.DocType.DocumentCategoryId == OpeningDocCategoryId
                                                       select new PersonOpeningViewModel
                                                       {
                                                           LedgerHeaderId = H.LedgerHeaderId,
                                                           DocDate = H.DocDate,
                                                           DocNo = H.DocNo,
                                                           PartyDocNo = H.PartyDocNo,
-                                                          PartyDocDate = H.PartyDocDate,
+                                                          PartyDocDate = H.PartyDocDate ?? H.DocDate,
                                                           Amount = LedgerTab.AmtDr != 0 ? LedgerTab.AmtDr : LedgerTab.AmtCr ,
                                                           DrCr = LedgerTab.AmtDr != 0 ? NatureConstants.Debit : NatureConstants.Credit,
+                                                          SiteName = H.Site.SiteName,
+                                                          DivisionName = H.Division.DivisionName,
+                                                          Narration = H.Narration
                                                       }).ToList();
             return vm;
         }

@@ -13,6 +13,7 @@ using Presentation;
 using System.Text;
 using System.Collections.Generic;
 using System.Configuration;
+using Model.ViewModel;
 
 namespace Web
 {
@@ -26,12 +27,16 @@ namespace Web
         IUnitOfWork _unitOfWork;
         IExceptionHandlingService _exception;
 
+        List<string> UserRoles = new List<string>();
+
         public PersonOpeningController(IPersonOpeningService PersonOpening, IPersonService Person, IUnitOfWork unitOfWork, IExceptionHandlingService exec)
         {
             _PersonOpeningService = PersonOpening;
             _PersonService = Person;
             _unitOfWork = unitOfWork;
             _exception = exec;
+
+            UserRoles = (List<string>)System.Web.HttpContext.Current.Session["Roles"];
         }
 
         [HttpGet]
@@ -59,10 +64,37 @@ namespace Web
             s.PersonId = Id;
 
             s.DocTypeId = new DocumentTypeService(_unitOfWork).Find(TransactionDoctypeConstants.Opening).DocumentTypeId;
-            s.DocDate = DateTime.Now;
+            //s.DocDate = DateTime.Now;
+
+            DateTime TodayDate = DateTime.Now;
+            var temp = (from Be in db.BusinessSession where TodayDate >= Be.FromDate && TodayDate <= Be.UptoDate select Be).FirstOrDefault();
+            if (temp != null)
+            {
+                s.DocDate = temp.FromDate.AddDays(-1);
+            }
+            else
+            {
+                s.DocDate = DateTime.Now;
+            }
+
+
             s.DivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
             s.SiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
             s.DocNo = new DocumentTypeService(_unitOfWork).FGetNewDocNo("DocNo", ConfigurationManager.AppSettings["DataBaseSchema"] + ".LedgerHeaders", s.DocTypeId, s.DocDate, s.DivisionId, s.SiteId);
+
+
+            var settings = new LedgerSettingService(_unitOfWork).GetLedgerSettingForDocument(s.DocTypeId, s.DivisionId, s.SiteId);
+
+            if (settings == null && UserRoles.Contains("Admin"))
+            {
+                return RedirectToAction("Create", "LedgerSetting", new { id = s.DocTypeId }).Warning("Please create Ledger settings");
+            }
+            else if (settings == null && !UserRoles.Contains("Admin"))
+            {
+                return View("~/Views/Shared/InValidSettings.cshtml");
+            }
+            s.LedgerSetting = Mapper.Map<LedgerSetting, LedgerSettingViewModel>(settings);
+
             PrepareViewBag();
             return PartialView("_Create", s);
         }
@@ -71,11 +103,21 @@ namespace Web
         [ValidateAntiForgeryToken]
         public ActionResult _CreatePost(PersonOpeningViewModel svm)
         {
-
-
             if (ModelState.IsValid)
             {
                 LedgerAccount LedgerAccount = new LedgerAccountService(_unitOfWork).GetLedgerAccountByPersondId(svm.PersonId);
+
+                var temp = (from H in db.LedgerHeader
+                            where H.DocTypeId == svm.DocTypeId && H.DocNo == svm.DocNo && H.SiteId == svm.SiteId && H.DivisionId == svm.DivisionId
+                            select H).FirstOrDefault();
+
+                if (temp != null)
+                {
+                    if (svm.LedgerSetting.IsAutoDocNo == true)
+                    {
+                        svm.DocNo = new DocumentTypeService(_unitOfWork).FGetNewDocNo("DocNo", ConfigurationManager.AppSettings["DataBaseSchema"] + ".LedgerHeaders", svm.DocTypeId, svm.DocDate, svm.DivisionId, svm.SiteId);
+                    }
+                }
 
 
                 if(svm.LedgerHeaderId == 0)
@@ -177,6 +219,8 @@ namespace Web
                     Ledger Ledger = new LedgerService(_unitOfWork).FindForLedgerHeader(svm.LedgerHeaderId).FirstOrDefault();
 
 
+                    Header.SiteId = svm.SiteId;
+                    Header.DivisionId = svm.DivisionId;
                     Header.DocNo = svm.DocNo;
                     Header.DocTypeId = svm.DocTypeId;
                     Header.DocDate = svm.DocDate;

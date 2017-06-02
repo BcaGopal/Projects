@@ -127,6 +127,36 @@ namespace Model.Models
         public DateTime ModifiedDate { get; set; }
 
 
+        [ForeignKey("DefaultDimension1")]
+        [Display(Name = "Default Dimension1")]
+        public int? DefaultDimension1Id { get; set; }
+        public virtual Dimension1 DefaultDimension1 { get; set; }
+
+
+        [ForeignKey("DefaultDimension2")]
+        [Display(Name = "Default Dimension2")]
+        public int? DefaultDimension2Id { get; set; }
+        public virtual Dimension2 DefaultDimension2 { get; set; }
+
+        [ForeignKey("DefaultDimension3")]
+        [Display(Name = "Default Dimension3")]
+        public int? DefaultDimension3Id { get; set; }
+        public virtual Dimension3 DefaultDimension3 { get; set; }
+
+        [ForeignKey("DefaultDimension4")]
+        [Display(Name = "Default Dimension4")]
+        public int? DefaultDimension4Id { get; set; }
+        public virtual Dimension4 DefaultDimension4 { get; set; }
+
+
+
+        public DateTime? DiscontinueDate { get; set; }
+        public string DiscontinueReason { get; set; }
+
+
+
+
+
 
         [ForeignKey("DocumentType")]
         public int ? ReferenceDocTypeId { get; set; }
