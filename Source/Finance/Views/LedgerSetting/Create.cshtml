@@ -265,7 +265,7 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.filterLedgerAccountGroupHeaders, "Ledger A/C Header", new { @class = "control-label col-xs-4" })
+                                    @Html.LabelFor(model => model.filterLedgerAccountGroupHeaders, "Ledger A/C Group Header", new { @class = "control-label col-xs-4" })
                                     <div class="col-xs-6">
                                         @Html.TextBoxFor(m => m.filterLedgerAccountGroupHeaders, new { @class = "form-control col-xs-6" })
                                         @Html.ValidationMessageFor(m => m.filterLedgerAccountGroupHeaders, "", new { @class = "text-danger" })
@@ -274,13 +274,34 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.filterLedgerAccountGroupLines, "Ledger A/C Line", new { @class = "control-label col-xs-4" })
+                                    @Html.LabelFor(model => model.filterExcludeLedgerAccountGroupHeaders, "Exclude Ledger A/C Group Header", new { @class = "control-label col-xs-4" })
+                                    <div class="col-xs-6">
+                                        @Html.TextBoxFor(m => m.filterExcludeLedgerAccountGroupHeaders, new { @class = "form-control col-xs-6" })
+                                        @Html.ValidationMessageFor(m => m.filterExcludeLedgerAccountGroupHeaders, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.filterLedgerAccountGroupLines, "Ledger A/C Group Line", new { @class = "control-label col-xs-4" })
                                     <div class="col-xs-6">
                                         @Html.TextBoxFor(m => m.filterLedgerAccountGroupLines, new { @class = "form-control col-xs-6" })
                                         @Html.ValidationMessageFor(m => m.filterLedgerAccountGroupLines, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
                             </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.filterExcludeLedgerAccountGroupLines, "Exclude Ledger A/C Group Line", new { @class = "control-label col-xs-4" })
+                                    <div class="col-xs-6">
+                                        @Html.TextBoxFor(m => m.filterExcludeLedgerAccountGroupLines, new { @class = "form-control col-xs-6" })
+                                        @Html.ValidationMessageFor(m => m.filterExcludeLedgerAccountGroupLines, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
 
                         <div class="row">
@@ -467,6 +488,15 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.IsAutoDocNo, "Auto Doc No", new { @class = "control-label col-xs-6" })
+                                    <div class="col-xs-4" style=" padding-top:4px">
+                                        @Html.CheckBoxFor(m => m.IsAutoDocNo, new { @class = "checkbox col-xs-2" })
+                                        @Html.ValidationMessageFor(model => model.IsAutoDocNo)
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
                     </div>
@@ -484,7 +514,9 @@
     $(function () {
         CustomSelectFunction($("#filterDocTypeCostCenter"), '/ComboHelpList/GetDocumentType', '/ComboHelpList/SetDocumentType', ' ', true, 1);
         CustomSelectFunction($("#filterLedgerAccountGroupLines"), '/ComboHelpList/GetLedgerAccountGroups', '/ComboHelpList/SetLedgerAccountGroups', ' ', true, 1);
+        CustomSelectFunction($("#filterExcludeLedgerAccountGroupLines"), '/ComboHelpList/GetLedgerAccountGroups', '/ComboHelpList/SetLedgerAccountGroups', ' ', true, 1);
         CustomSelectFunction($("#filterLedgerAccountGroupHeaders"), '/ComboHelpList/GetLedgerAccountGroups', '/ComboHelpList/SetLedgerAccountGroups', ' ', true, 1);
+        CustomSelectFunction($("#filterExcludeLedgerAccountGroupHeaders"), '/ComboHelpList/GetLedgerAccountGroups', '/ComboHelpList/SetLedgerAccountGroups', ' ', true, 1);
         CustomSelectFunction($("#filterContraDocTypes"), '/ComboHelpList/GetDocumentType', '/ComboHelpList/SetDocumentType', ' ', true, 1);
         CustomSelectFunction($("#filterReferenceDocTypes"), '/ComboHelpList/GetDocumentType', '/ComboHelpList/SetDocumentType', ' ', true, 1);
         CustomSelectFunction($("#filterContraDivisions"), '/ComboHelpList/GetDivision', '/ComboHelpList/SetDivision', ' ', true, 1);

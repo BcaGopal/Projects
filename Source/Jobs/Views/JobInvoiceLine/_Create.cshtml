@@ -44,6 +44,7 @@
                 @Html.HiddenFor(m => m.JobReceiveLineId)
                 @Html.HiddenFor(m => m.ProductId)
                 @Html.HiddenFor(m => m.JobWorkerId)
+                @Html.HiddenFor(m => m.SalesTaxGroupPersonId)
                 @Html.HiddenFor(m => m.JobInvoiceSettings.isPostedInStock)
                 @Html.HiddenFor(m => m.JobInvoiceSettings.ProcessId)
                 @Html.HiddenFor(m => m.JobInvoiceSettings.SqlProcConsumption)
@@ -77,10 +78,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
 
-
-                <div class="row">
                     <div class="col-md-6" style="display:@(Model.JobInvoiceSettings.isVisibleSpecification ? "" : "none")">
                         @Html.HiddenFor(m => m.JobInvoiceSettings.isVisibleSpecification)
                         <div class="form-group">
@@ -102,9 +100,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="row">
                     <div class="col-md-6" style="display:@(Model.JobInvoiceSettings.isVisibleDimension2?"":"none")">
                         @Html.HiddenFor(m => m.JobInvoiceSettings.isVisibleDimension2)
                         @Html.HiddenFor(m => m.DocumentTypeSettings.Dimension2Caption)
@@ -128,9 +124,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="row">
                     <div class="col-md-6" style="display:@(Model.JobInvoiceSettings.isVisibleDimension4?"":"none")">
                         @Html.HiddenFor(m => m.JobInvoiceSettings.isVisibleDimension4)
                         @Html.HiddenFor(m => m.DocumentTypeSettings.Dimension4Caption)
@@ -153,23 +147,33 @@
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="row">
+                    <div class="col-md-6" style="display:@(Model.JobInvoiceSettings.isVisibleSalesTaxGroupProduct?"":"none")">
+                        @Html.HiddenFor(m => m.JobInvoiceSettings.isVisibleSalesTaxGroupProduct)
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.SalesTaxGroupProductId, "Sales Tax Group Product", new { @class = "control-label col-md-4 col-sm-2" })
+                            <div class="col-md-7 col-sm-10">
+                                @Html.TextBoxFor(model => model.SalesTaxGroupProductId, new { @class = "form-control required" })
+                                @Html.ValidationMessageFor(model => model.SalesTaxGroupProductId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="col-md-6">
                         <div class="form-group">
                             @Html.LabelFor(model => model.Qty, "Qty", new { @class = "control-label col-md-4 col-sm-2" })
                             <div class="col-md-7 col-sm-10" style="padding:0px">
-                            <div class="col-xs-7" style="padding-right:0px;">
-                                @Html.TextBoxFor(model => model.Qty, new { @class = "form-control required cusrightnormal text-right" })
-                                @Html.ValidationMessageFor(model => model.Qty, "", new { @class = "text-danger" })
-                            </div>
-                            <div class="col-xs-5" style="padding-left:0px">
-                                @Html.TextBoxFor(m => m.UnitId, new { @class = "form-control col-xs-2 cusleftnormal", @readonly = "true" })
-                            </div>
+                                <div class="col-xs-7" style="padding-right:0px;">
+                                    @Html.TextBoxFor(model => model.Qty, new { @class = "form-control required cusrightnormal text-right" })
+                                    @Html.ValidationMessageFor(model => model.Qty, "", new { @class = "text-danger" })
                                 </div>
+                                <div class="col-xs-5" style="padding-left:0px">
+                                    @Html.TextBoxFor(m => m.UnitId, new { @class = "form-control col-xs-2 cusleftnormal", @readonly = "true" })
+                                </div>
+                            </div>
                         </div>
                     </div>
+
                     <div class="col-md-6">
                         <div class="form-group">
                             @Html.LabelFor(model => model.Rate, "Rate", new { @class = "control-label col-md-4 col-sm-2" })
@@ -180,11 +184,6 @@
                         </div>
                     </div>
 
-                </div>
-
-
-
-                <div class="row">
                     <div class="col-md-6" style="display:@(Model.JobInvoiceSettings.isVisibleDealUnit ? "" : "none")">
                         @Html.HiddenFor(m => m.JobInvoiceSettings.isVisibleDealUnit)
                         <div class="form-group">
@@ -201,6 +200,7 @@
                             </div>
                         </div>
                     </div>
+
                     <div class="col-md-6" style="display:@(Model.JobInvoiceSettings.isVisibleDealUnit ? "" : "none")">
                         <div class="form-group">
                             @Html.LabelFor(model => model.DealQty, "Deal Qty", new { @class = "control-label col-md-4 col-sm-2" })
@@ -211,10 +211,6 @@
                         </div>
                     </div>
 
-
-
-                </div>
-                <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
                             @Html.LabelFor(model => model.Amount, "Amount", new { @class = "control-label col-md-4 col-sm-2" })
@@ -224,6 +220,7 @@
                             </div>
                         </div>
                     </div>
+
                     <div class="col-md-6">
                         <div class="form-group">
                             @Html.LabelFor(model => model.Remark, "Remark", new { @class = "control-label col-md-4 col-sm-2" })
@@ -295,7 +292,8 @@ else
 
     $(document).ready(function () {
 
-        CustomSelectFunction($("#CostCenterId"), '/ComboHelpList/GetCostCenter', '/ComboHelpList/SetSingleCostCenter', ' ', false, 1);
+        CustomSelectFunction($("#CostCenterId"), '/ComboHelpList/GetCostCenter', '/ComboHelpList/SetSingleCostCenter', ' ', false, 0);
+        CustomSelectFunction($("#SalesTaxGroupProductId"), '/ComboHelpList/GetSalesTaxGroupProduct', '/ComboHelpList/SetSingleSalesTaxGroupProduct', ' ', false, 0);
 
 
         var IsSaved=false;
@@ -487,6 +485,7 @@ else
                         $("#Dimension4Name").val(data.Dimension4Name);
 
                         (data.CostCenterId==null)?(1==1):($("#CostCenterId").select2("data", {id: data.CostCenterId, text: data.CostCenterName}));
+                        (data.SalesTaxGroupProductId==null)?(1==1):($("#SalesTaxGroupProductId").select2("data", {id: data.SalesTaxGroupProductId, text: data.SalesTaxGroupProductName}));
                         if(JobWorkerVisibile=="False")
                             $("#JobWorkerId",".modal-body").val(data.JobWorkerId);
 
@@ -497,6 +496,8 @@ else
 
                         LockFields();
 
+
+                        GetChargeRates('@Model.JobInvoiceSettings.CalculationId',$('#DocTypeId','.modal-body').val(),$('#SiteId','.modal-body').val(),$('#DivisionId','.modal-body').val(),$('#SalesTaxGroupPersonId','.modal-body').val(),$('#SalesTaxGroupProductId','.modal-body').val())
                         ChargeCalculation();
 
                     },
@@ -521,6 +522,7 @@ else
                 $("#Dimension2Name").val("");
                 $("#Dimension3Name").val("");
                 $("#Dimension4Name").val("");
+                $("#SalesTaxGroupProductId").select2("data", {id: '', text: ''})
                 if(JobWorkerVisibile=="False")
                     $("#JobWorkerId",".modal-body").val(0);
                 UnLockFields();

@@ -24,5 +24,8 @@ namespace Model.ViewModel
         public string BalanceType { get; set; }
         public int DocHeaderId { get; set; }
         public decimal ? AmtCr { get; set; }
+
+        public string SiteText { get; set; }
+        public string DivisionText { get; set; }
     }
 }

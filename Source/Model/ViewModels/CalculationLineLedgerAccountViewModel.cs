@@ -37,6 +37,8 @@ namespace Model.ViewModel
         public int? CostCenterId { get; set; }
         public string CostCenterName { get; set; }
 
+        public int? Sr { get; set; }
+
 
     }
 

@@ -246,6 +246,26 @@ namespace Web
 
             #endregion
 
+
+            if (vm.LedgerSetting != null)
+            {
+                if (vm.LedgerHeaderId <= 0)
+                {
+                    var temp = (from H in db.LedgerHeader
+                                where H.DocTypeId == vm.DocTypeId && H.DocNo == vm.DocNo && H.SiteId == vm.SiteId && H.DivisionId == vm.DivisionId
+                                select H).FirstOrDefault();
+
+                    if (temp != null)
+                    {
+                        if (vm.LedgerSetting.IsAutoDocNo == true)
+                        {
+                            vm.DocNo = new DocumentTypeService(_unitOfWork).FGetNewDocNo("DocNo", ConfigurationManager.AppSettings["DataBaseSchema"] + ".LedgerHeaders", vm.DocTypeId, vm.DocDate, vm.DivisionId, vm.SiteId);
+                        }
+                    }
+                }
+            }
+
+
             LedgerHeader pt = AutoMapper.Mapper.Map<LedgerHeaderViewModel, LedgerHeader>(vm);
 
             if (vm.LedgerHeaderId <= 0)
@@ -255,7 +275,6 @@ namespace Web
 
             if (vm.LedgerSetting != null)
             {
-
                 if (vm.LedgerSetting.isVisibleHeaderCostCenter == true && vm.LedgerSetting.isMandatoryHeaderCostCenter == true && !vm.CostCenterId.HasValue)
                 {
                     ModelState.AddModelError("CostCenterId", "The CostCenter field is required");
@@ -1269,9 +1288,9 @@ namespace Web
 
             var Settings = new LedgerSettingService(_unitOfWork).GetLedgerSettingForDocument(filter, DivisionId, SiteId);
 
-            var temp = new LedgerLineService(_unitOfWork).GetLedgerAccounts(searchTerm, Settings.filterLedgerAccountGroupHeaders, Settings.filterPersonProcessHeaders).Skip(pageSize * (pageNum - 1)).Take(pageSize).ToList();
+            var temp = new LedgerLineService(_unitOfWork).GetLedgerAccounts(searchTerm, Settings.filterLedgerAccountGroupHeaders, Settings.filterExcludeLedgerAccountGroupHeaders, Settings.filterPersonProcessHeaders).Skip(pageSize * (pageNum - 1)).Take(pageSize).ToList();
 
-            var count = new LedgerLineService(_unitOfWork).GetLedgerAccounts(searchTerm, Settings.filterLedgerAccountGroupHeaders, Settings.filterPersonProcessHeaders).Count();
+            var count = new LedgerLineService(_unitOfWork).GetLedgerAccounts(searchTerm, Settings.filterLedgerAccountGroupHeaders, Settings.filterExcludeLedgerAccountGroupHeaders, Settings.filterPersonProcessHeaders).Count();
 
             ComboBoxPagedResult Data = new ComboBoxPagedResult();
             Data.Results = temp;

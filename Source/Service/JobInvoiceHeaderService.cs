@@ -35,6 +35,7 @@ namespace Service
         int PrevId(int id);
         string GetMaxDocNo();
         IQueryable<ComboBoxResult> GetCustomPerson(int Id, string term);
+        PersonViewModel GetJobWorkerDetail(int id);
     }
 
     public class JobInvoiceHeaderService : IJobInvoiceHeaderService
@@ -106,12 +107,14 @@ namespace Service
                         ProcessId=p.ProcessId,                        
                         DocTypeId = p.DocTypeId,
                         JobWorkerDocNo=p.JobWorkerDocNo,
+                        JobWorkerDocDate=p.JobWorkerDocDate,
                         Remark = p.Remark,
                         SiteId = p.SiteId,
                         Status = p.Status,
                         JobWorkerId=p.JobWorkerId,
                         FinancierId = p.FinancierId,
                         JobReceiveHeaderId=p.JobReceiveHeaderId,
+                        SalesTaxGroupPersonId = p.SalesTaxGroupPersonId,
                         ModifiedBy=p.ModifiedBy,
                         LockReason=p.LockReason,
                         CreatedBy=p.CreatedBy,
@@ -184,9 +187,25 @@ namespace Service
             int SiteId=(int)System.Web.HttpContext.Current.Session["SiteId"];
             int DivisionId=(int)System.Web.HttpContext.Current.Session["DivisionId"];
 
-            List<string> UserRoles = (List<string>)System.Web.HttpContext.Current.Session["Roles"]; 
+            List<string> UserRoles = (List<string>)System.Web.HttpContext.Current.Session["Roles"];
+
+
+            var TempJobInvoiceHeaderCharges = from H in db.JobInvoiceHeader
+                                               join Hc in db.JobInvoiceHeaderCharges on H.JobInvoiceHeaderId equals Hc.HeaderTableId into JobInvoiceHeaderChargesTable
+                                               from JobInvoiceHeaderChargesTab in JobInvoiceHeaderChargesTable.DefaultIfEmpty()
+                                               join C in db.Charge on JobInvoiceHeaderChargesTab.ChargeId equals C.ChargeId into ChargeTable
+                                               from ChargeTab in ChargeTable.DefaultIfEmpty()
+                                               where H.SiteId == SiteId && H.DivisionId == DivisionId && H.DocTypeId == id && ChargeTab.ChargeName == "Net Amount"
+                                               select new
+                                               {
+                                                   JobInvoiceHeaderId = H.JobInvoiceHeaderId,
+                                                   NetAmount = JobInvoiceHeaderChargesTab.Amount
+                                               };
+
 
             return (from p in db.JobInvoiceHeader
+                    join Hc in TempJobInvoiceHeaderCharges on p.JobInvoiceHeaderId equals Hc.JobInvoiceHeaderId into JobInvoiceHeaderChargesTable
+                    from JobInvoiceHeaderChargesTab in JobInvoiceHeaderChargesTable.DefaultIfEmpty()
                     orderby p.DocDate descending, p.DocNo descending
                     where p.SiteId == SiteId && p.DivisionId == DivisionId && p.DocTypeId == id
                     && (AutoReceipt ? p.JobReceiveHeaderId!=null : 1==1)
@@ -199,13 +218,15 @@ namespace Service
                         Remark=p.Remark,
                         Status=p.Status,
                         JobWorkerDocNo=p.JobWorkerDocNo,
-                        JobWorkerName=p.JobWorker.Name,
+                        JobWorkerName=p.JobWorker.Name + ", " + p.JobWorker.Suffix + " [" + p.JobWorker.Code + "]",
+                        JobWorkerDocDate = p.JobWorkerDocDate,
                         ModifiedBy=p.ModifiedBy,
                         ReviewCount=p.ReviewCount,
                         GodownName = AutoReceipt ? p.JobReceiveHeader.Godown.GodownName :"",
                         ReviewBy=p.ReviewBy,
                         Reviewed = (SqlFunctions.CharIndex(Uname, p.ReviewBy) > 0),
                         TotalQty = p.JobInvoiceLines.Sum(m => m.Qty),
+                        TotalAmount = JobInvoiceHeaderChargesTab.NetAmount ?? (p.JobInvoiceLines.Sum(m => m.Amount)),
                         DecimalPlaces = (from o in p.JobInvoiceLines
                                          join rl in db.JobReceiveLine on o.JobReceiveLineId equals rl.JobReceiveLineId
                                          join ol in db.JobOrderLine on rl.JobOrderLineId equals ol.JobOrderLineId
@@ -276,11 +297,24 @@ namespace Service
                         select new ComboBoxResult
                         {
                             id = Result.Key.PersonID.ToString(),
-                            text = Result.Max(m => m.p.Name + "|" + m.p.Code),
+                            text = Result.Max(m => m.p.Name + ", " + m.p.Suffix + " [" + m.p.Code + "]"),
                         }
               );
 
             return list;
+        }
+
+        public PersonViewModel GetJobWorkerDetail(int id)
+        {
+            var temp = (from b in db.BusinessEntity
+                        where b.PersonID == id
+                        select new PersonViewModel
+                        {
+                            SalesTaxGroupPartyId = b.SalesTaxGroupPartyId,
+                            SalesTaxGroupPartyName = b.SalesTaxGroupParty.ChargeGroupPersonName
+                        }).FirstOrDefault();
+
+            return (temp);
         }
 
         public void Dispose()

@@ -426,6 +426,8 @@ namespace Service
                             Dimension4Name = tab.Dimension4.Dimension4Name,
                             ProductId = tab.ProductId,
                             ProductName = tab.Product.ProductName,
+                            SalesTaxGroupProductId = tab.Product.SalesTaxGroupProductId,
+                            SalesTaxGroupProductName = tab.Product.SalesTaxGroupProduct.ChargeGroupProductName,
                             Specification = tab.Specification,
                             LotNo = p.LotNo,
                             UnitConversionMultiplier = tab.UnitConversionMultiplier,

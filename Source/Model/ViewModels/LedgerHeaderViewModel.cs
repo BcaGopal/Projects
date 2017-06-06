@@ -57,6 +57,8 @@ namespace Model.ViewModel
 
         [Display(Name = "Remark")]
         public string Remark { get; set; }
+
+        public Decimal? TotalAmount { get; set; }
         public int Status { get; set; }
         public int DocumentCategoryId { get; set; }
 

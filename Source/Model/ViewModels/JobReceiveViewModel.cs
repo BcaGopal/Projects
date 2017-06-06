@@ -190,6 +190,9 @@ namespace Model.ViewModel
 
         public int? StockId { get; set; }
 
+        public int? SalesTaxGroupProductId { get; set; }
+        public string SalesTaxGroupProductName { get; set; }
+
         public int? StockProcessId { get; set; }
 
         [Display(Name = "Remark")]

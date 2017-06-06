@@ -83,6 +83,8 @@ namespace Finance.App_Start
             container.RegisterType<IRepository<LedgerAccount>, Repository<LedgerAccount>>();
             container.RegisterType<ILedgerAccountService, LedgerAccountService>(new PerRequestLifetimeManager());
 
+            container.RegisterType<ILedgerAccountOpeningService, LedgerAccountOpeningService>(new PerRequestLifetimeManager());
+
             container.RegisterType<IRepository<LedgerAccountGroup>, Repository<LedgerAccountGroup>>();
             container.RegisterType<ILedgerAccountGroupService, LedgerAccountGroupService>(new PerRequestLifetimeManager());
 

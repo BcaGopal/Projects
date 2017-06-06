@@ -90,8 +90,8 @@ namespace Service
             int DivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
 
             Records=(from p in db.CalculationLineLedgerAccount
+                     join l in db.CalculationProduct on p.CalculationProductId equals l.CalculationProductId into CalculationProductTable from CalculationProductTab in CalculationProductTable.DefaultIfEmpty()
                     where p.CalculationId == id && p.DocTypeId==DocTypeId && p.SiteId==SiteId && p.DivisionId==DivisionId
-                    orderby p.CalculationLineLedgerAccountId
                     select new CalculationLineLedgerAccountViewModel
                     {
                         CalculationId = p.CalculationId,
@@ -109,6 +109,7 @@ namespace Service
                         LedgerAccountDrName = p.LedgerAccountDr.LedgerAccountName,
                         ContraLedgerAccountName = p.ContraLedgerAccount.LedgerAccountName,
                         ContraLedgerAccountId = p.ContraLedgerAccountId,
+                        Sr = CalculationProductTab.Sr
                     }).ToList();
 
             var PendingRecords = (from p in db.CalculationProduct
@@ -124,12 +125,13 @@ namespace Service
                                       CostCenterId = p.CostCenterId,
                                       CostCenterName = p.CostCenter.CostCenterName,
                                       DocTypeId = DocTypeId,
+                                      Sr = p.Sr
                                   });
 
             foreach (var item in PendingRecords)
                 Records.Add(item);
 
-            return (Records);
+            return (Records.OrderBy(m => m.Sr));
         }
 
         public CalculationLineLedgerAccount Create(CalculationLineLedgerAccount pt)

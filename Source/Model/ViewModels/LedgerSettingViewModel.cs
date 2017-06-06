@@ -34,7 +34,7 @@ namespace Model.ViewModel
         public bool isVisibleReferenceDocTypeId { get; set; }
         public bool isVisibleDrCr { get; set; }
 
-
+        public bool IsAutoDocNo { get; set; }
         public bool isVisibleAdjustmentType { get; set; }
         public bool isVisiblePaymentFor { get; set; }
         public bool isVisiblePartyDocNo { get; set; }
@@ -43,7 +43,9 @@ namespace Model.ViewModel
 
         public string filterReferenceDocTypes { get; set; }
         public string filterLedgerAccountGroupHeaders { get; set; }
+        public string filterExcludeLedgerAccountGroupHeaders { get; set; }
         public string filterLedgerAccountGroupLines { get; set; }
+        public string filterExcludeLedgerAccountGroupLines { get; set; }
         public string filterPersonProcessHeaders { get; set; }
         public string filterPersonProcessLines { get; set; }
         public string filterDocTypeCostCenter { get; set; }

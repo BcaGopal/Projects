@@ -90,6 +90,7 @@ namespace Service
                           isVisibleNotification = p.isVisibleNotification,
                           isVisibleTask = p.isVisibleTask,
                           isVisibleGodownSelection = p.isVisibleGodownSelection,
+                          isVisibleCompanyName = p.isVisibleCompanyName,
                           GodownCaption = p.GodownCaption,
                           SiteCaption = p.SiteCaption,
                           DivisionCaption = p.DivisionCaption,

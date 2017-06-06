@@ -90,6 +90,8 @@ namespace Store.App_Start
             container.RegisterType<IRepository<PersonAddress>, Repository<PersonAddress>>();
             container.RegisterType<IPersonAddressService, PersonAddressService>(new PerRequestLifetimeManager());
 
+            container.RegisterType<IPersonOpeningService, PersonOpeningService>(new PerRequestLifetimeManager());
+
             container.RegisterType<IRepository<PersonContact>, Repository<PersonContact>>();
             container.RegisterType<IPersonContactService, PersonContactService>(new PerRequestLifetimeManager());
 
@@ -250,6 +252,8 @@ namespace Store.App_Start
 
             container.RegisterType<IExcessMaterialSettingsService, ExcessMaterialSettingsService>(new PerRequestLifetimeManager());
 
+            container.RegisterType<ILedgerSettingService, LedgerSettingService>(new PerRequestLifetimeManager());
+
 
             //Registering Mappers:
 
@@ -381,6 +385,10 @@ namespace Store.App_Start
 
             Mapper.CreateMap<ProductGroupProcessSettings, ProductGroupProcessSettingsViewModel>();
             Mapper.CreateMap<ProductGroupProcessSettingsViewModel, ProductGroupProcessSettings>();
+
+            Mapper.CreateMap<LedgerSetting, LedgerSettingViewModel>();
+            Mapper.CreateMap<LedgerSettingViewModel, LedgerSetting>();
+
 
             Mapper.CreateMap<Dimension1, Dimension1ViewModel>();
             Mapper.CreateMap<Dimension1ViewModel, Dimension1>();

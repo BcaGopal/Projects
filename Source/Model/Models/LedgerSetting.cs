@@ -47,13 +47,17 @@ namespace Model.Models
         public bool? isVisibleReferenceDocTypeId { get; set; }
         public string filterReferenceDocTypes { get; set; }
         public string filterLedgerAccountGroupHeaders { get; set; }
+        public string filterExcludeLedgerAccountGroupHeaders { get; set; }
         public string filterPersonProcessHeaders { get; set; }
         public string filterPersonProcessLines { get; set; }
         public string filterLedgerAccountGroupLines { get; set; }
+        public string filterExcludeLedgerAccountGroupLines { get; set; }
         public string filterDocTypeCostCenter { get; set; }
         public string filterContraDocTypes { get; set; }
         public string filterContraSites { get; set; }
         public string filterContraDivisions { get; set; }
+
+        public bool IsAutoDocNo { get; set; }
         public string SqlProcReferenceNo { get; set; }
 
         [ForeignKey("Process"), Display(Name = "Process")]

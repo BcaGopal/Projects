@@ -241,9 +241,11 @@
     <Compile Include="Controllers\Dimension2Controller.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Controllers\PersonOpeningController.cs" />
     <Compile Include="Controllers\PersonBankAccountController.cs" />
     <Compile Include="Controllers\PersonContactController.cs" />
     <Compile Include="Controllers\PersonController.cs" />
+    <Compile Include="Controllers\PersonAddressController.cs" />
     <Compile Include="Controllers\PersonProcessController.cs" />
     <Compile Include="Controllers\ProductCategoryController.cs" />
     <Compile Include="Controllers\ProductCategoryProcessSettingsController.cs" />
@@ -282,7 +284,6 @@
     <Compile Include="Controllers\RateConversionLineController.cs" />
     <Compile Include="Controllers\ExcessMaterialHeaderController.cs" />
     <Compile Include="Controllers\PersonSettingsController.cs" />
-    <Compile Include="Controllers\ImportLayoutController.cs" />
     <Compile Include="Controllers\ImportController.cs" />
     <Compile Include="Controllers\StockHeaderController.cs" />
     <Compile Include="Controllers\ExcessMaterialLineController.cs" />
@@ -957,7 +958,7 @@
     <Content Include="Views\ProductCategoryProcessSettings\Create.cshtml" />
     <Content Include="Views\ProductCategoryProcessSettings\Index.cshtml" />
     <Content Include="Views\ProductCategorySettings\Create.cshtml" />
-    <Content Include="Views\ImportLayout\ImportLayout.cshtml" />
+    <Content Include="Views\Import\Import.cshtml" />
     <Content Include="Views\Import\Error.cshtml" />
     <Content Include="Views\Import\Sucess.cshtml" />
     <Content Include="Views\StockInHand\ProductNatureIndex.cshtml" />
@@ -969,6 +970,8 @@
     <Content Include="Views\StockProcessDisplay\ProductTypeIndex.cshtml" />
     <Content Include="Views\StockProcessDisplay\StockInHandIndex.cshtml" />
     <Content Include="Views\StockProcessDisplay\StockLedgerIndex.cshtml" />
+    <Content Include="Views\PersonAddress\_Create.cshtml" />
+    <Content Include="Views\PersonOpening\_Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

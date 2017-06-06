@@ -152,6 +152,16 @@
 
                             <div class="col-md-6">
                                 <div class="form-group">
+                                    @Html.LabelFor(model => model.isVisibleAadharNo, "Aadhar No.", new { @class = "control-label col-xs-6" })
+                                    <div class="col-xs-4" style=" padding-top:4px">
+                                        @Html.CheckBoxFor(m => m.isVisibleAadharNo, new { @class = "checkbox col-xs-2" })
+                                        @Html.ValidationMessageFor(model => model.isVisibleAadharNo)
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
                                     @Html.LabelFor(model => model.isVisibleSalesTaxGroup, "Sales Tax Group", new { @class = "control-label col-xs-6" })
                                     <div class="col-xs-4" style=" padding-top:4px">
                                         @Html.CheckBoxFor(m => m.isVisibleSalesTaxGroup, new { @class = "checkbox col-xs-2" })
@@ -303,6 +313,38 @@
                                     </div>
                                 </div>
                             </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.isVisiblePersonAddressDetail, "Person Address Detail", new { @class = "control-label col-xs-6" })
+                                    <div class="col-xs-4" style=" padding-top:4px">
+                                        @Html.CheckBoxFor(m => m.isVisiblePersonAddressDetail, new { @class = "checkbox col-xs-2" })
+                                        @Html.ValidationMessageFor(model => model.isVisiblePersonAddressDetail)
+                                    </div>
+                                </div>
+                            </div>
+                        </div> 
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.isVisiblePersonOpeningDetail, "Person Opening Detail", new { @class = "control-label col-xs-6" })
+                                    <div class="col-xs-4" style=" padding-top:4px">
+                                        @Html.CheckBoxFor(m => m.isVisiblePersonOpeningDetail, new { @class = "checkbox col-xs-2" })
+                                        @Html.ValidationMessageFor(model => model.isVisiblePersonOpeningDetail)
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.isVisibleLedgerAccountGroup, "Ledger Account Group", new { @class = "control-label col-xs-6" })
+                                    <div class="col-xs-4" style=" padding-top:4px">
+                                        @Html.CheckBoxFor(m => m.isVisibleLedgerAccountGroup, new { @class = "checkbox col-xs-2" })
+                                        @Html.ValidationMessageFor(model => model.isVisibleLedgerAccountGroup)
+                                    </div>
+                                </div>
+                            </div>
                         </div> 
                     </div>
                 </div>
@@ -376,6 +418,16 @@
                                     <div class="col-xs-4" style=" padding-top:4px">
                                         @Html.CheckBoxFor(m => m.isMandatoryPanNo, new { @class = "checkbox col-xs-2" })
                                         @Html.ValidationMessageFor(model => model.isMandatoryPanNo)
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.isMandatoryAadharNo, "Aadhar No.", new { @class = "control-label col-xs-6" })
+                                    <div class="col-xs-4" style=" padding-top:4px">
+                                        @Html.CheckBoxFor(m => m.isMandatoryAadharNo, new { @class = "checkbox col-xs-2" })
+                                        @Html.ValidationMessageFor(model => model.isMandatoryAadharNo)
                                     </div>
                                 </div>
                             </div>

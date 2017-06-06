@@ -5426,6 +5426,90 @@ namespace Web
             return Json(MenuJson);
         }
 
+        public JsonResult SetSingleLedger(int Ids)
+        {
+            ComboBoxResult LedgerJson = new ComboBoxResult();
+
+            var prod = from L in db.Ledger
+                       join H in db.LedgerHeader on L.LedgerHeaderId equals H.LedgerHeaderId into LedgerHeaderTable
+                       from LedgerHeaderTab in LedgerHeaderTable.DefaultIfEmpty()
+                       where L.LedgerId == Ids
+                       select new
+                       {
+                           LedgerId = L.LedgerId,
+                           LedgerHeaderDocNo = LedgerHeaderTab.DocNo
+                       };
+
+            LedgerJson.id = prod.FirstOrDefault().LedgerId.ToString();
+            LedgerJson.text = prod.FirstOrDefault().LedgerHeaderDocNo;
+
+            return Json(LedgerJson);
+        }
+
+
+        public JsonResult GetSites(string searchTerm, int pageSize, int pageNum)
+        {
+            var Query = cbl.GetSites(searchTerm);
+            var temp = Query.Skip(pageSize * (pageNum - 1)).Take(pageSize).ToList();
+
+            var count = Query.Count();
+
+            ComboBoxPagedResult Data = new ComboBoxPagedResult();
+            Data.Results = temp;
+            Data.Total = count;
+
+            return new JsonpResult
+            {
+                Data = Data,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+        public JsonResult SetSingleSite(int Ids)
+        {
+            ComboBoxResult SiteJson = new ComboBoxResult();
+
+            Site Site = (from b in db.Site
+                         where b.SiteId == Ids
+                         select b).FirstOrDefault();
+
+            SiteJson.id = Site.SiteId.ToString();
+            SiteJson.text = Site.SiteName;
+
+            return Json(SiteJson);
+        }
+
+
+        public JsonResult GetDivisions(string searchTerm, int pageSize, int pageNum)
+        {
+            var Query = cbl.GetDivisions(searchTerm);
+            var temp = Query.Skip(pageSize * (pageNum - 1)).Take(pageSize).ToList();
+
+            var count = Query.Count();
+
+            ComboBoxPagedResult Data = new ComboBoxPagedResult();
+            Data.Results = temp;
+            Data.Total = count;
+
+            return new JsonpResult
+            {
+                Data = Data,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+        public JsonResult SetSingleDivision(int Ids)
+        {
+            ComboBoxResult DivisionJson = new ComboBoxResult();
+
+            Division Division = (from b in db.Divisions
+                                 where b.DivisionId == Ids
+                                 select b).FirstOrDefault();
+
+            DivisionJson.id = Division.DivisionId.ToString();
+            DivisionJson.text = Division.DivisionName;
+
+            return Json(DivisionJson);
+        }
+
 
     }
 }

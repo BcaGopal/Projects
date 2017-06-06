@@ -167,6 +167,16 @@ namespace Web
                     temp.isVisibleLotManagement = pt.isVisibleLotManagement;
                     temp.isVisibleConsumptionDetail = pt.isVisibleConsumptionDetail;
                     temp.isVisibleProductProcessDetail = pt.isVisibleProductProcessDetail;
+
+
+                    temp.isVisibleDefaultDimension1 = pt.isVisibleDefaultDimension1;
+                    temp.isVisibleDefaultDimension2 = pt.isVisibleDefaultDimension2;
+                    temp.isVisibleDefaultDimension3 = pt.isVisibleDefaultDimension3;
+                    temp.isVisibleDefaultDimension4 = pt.isVisibleDefaultDimension4;
+
+                    temp.isVisibleDiscontinueDate = pt.isVisibleDiscontinueDate;
+
+                    temp.IndexFilterParameter = pt.IndexFilterParameter;
                     temp.ProductNameCaption = pt.ProductNameCaption;
                     temp.ProductCodeCaption = pt.ProductCodeCaption;
                     temp.ProductDescriptionCaption = pt.ProductDescriptionCaption;

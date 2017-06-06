@@ -9,6 +9,7 @@ using Models.Company.ViewModels;
 using AdminSetup.Models.Models;
 using AdminSetup.Models.ViewModels;
 using Components.Logging;
+using Services.BasicSetup;
 
 namespace Module.App_Start
 {
@@ -63,6 +64,7 @@ namespace Module.App_Start
             container.RegisterType<IUsersService, UsersService>(new PerRequestLifetimeManager());
             container.RegisterType<ILogger, LogActivity>(new PerRequestLifetimeManager());
             container.RegisterType<ICompanySettingsService, CompanySettingsService>(new PerRequestLifetimeManager());
+            container.RegisterType<ICompanyService, CompanyService>(new PerRequestLifetimeManager());
 
             container.RegisterType<IRepository<MenuModule>, Repository<MenuModule>>();
             container.RegisterType<IRepository<ActivityLog>, Repository<ActivityLog>>();
@@ -73,6 +75,7 @@ namespace Module.App_Start
             container.RegisterType<IRepository<ControllerAction>, Repository<ControllerAction>>();
             container.RegisterType<IRepository<RolesControllerAction>, Repository<RolesControllerAction>>();
             container.RegisterType<IRepository<CompanySettings>, Repository<CompanySettings>>();
+            container.RegisterType<IRepository<Company>, Repository<Company>>();
 
 
             Mapper.Initialize(cfg => { cfg.CreateMap<Site, SiteViewModel>();

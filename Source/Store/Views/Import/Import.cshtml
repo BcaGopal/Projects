@@ -58,6 +58,7 @@
 
             @Html.AntiForgeryToken()
             @Html.HiddenFor(m => m.ImportHeaderId)
+            @Html.HiddenFor(m => m.DocTypeId)
             <div class="form-horizontal" role="form">
                 @Html.ValidationSummary(true)
 
@@ -172,7 +173,7 @@
                                             </div>
                                     }
                                         <div class="col-md-12">
-                                            <div class="form-group">
+                                            @*<div class="form-group">
                                                 <div style="position:relative;">
                                                     <a class='btn btn-primary ' href='javascript:;'>
                                                         Choose File...
@@ -181,7 +182,20 @@
                                                     &nbsp;
                                                     <span class='label label-info' id="upload-file-info"></span>
                                                 </div>
+                                            </div>*@
+
+                                            <div class="form-group">
+                                                @*@Html.Label("", "Select File", new { @class = "control-label file-input-button" })*@
+                                                <div class="col-md-10">
+                                                    <div class="row">
+                                                        <div class="col-md-3" style="padding-top:8px">
+                                                            <input type="file" name="FileUpload1" />
+                                                        </div>
+                                                    </div>
+                                                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                                </div>
                                             </div>
+
                                         </div>
                                     </div>
 
@@ -231,20 +245,21 @@
 
             if (this.DataType == "Multi Select"||this.DataType=="Single Select" && !(this.ListItem))
             {
-                
-                //var getFunction= '/ComboHelpList/' + this.ServiceFuncGet;
-                var getFunction= '/ComboHelpList/GetPerson'
-                //var setFunction= '/ComboHelpList/' + this.ServiceFuncSet;
-                var setFunction= '/ComboHelpList/SetSinglePerson';
-                var NoofChar=this.NoOfCharToEnter;
+                var getFunction= '/ComboHelpList/GetSelect2Data';
+                //var getFunction= '/ComboHelpList/GetPerson'
+                var setFunction= '/ComboHelpList/SetSingleSelect2Data';
+                //var setFunction= '/ComboHelpList/SetSinglePerson';
+                var NoofChar=0;
                 var elementId= '#' + this.FieldName;
                 var bool=this.DataType=="Single Select"?false:true
+
+
+
                 if(!this.SqlProcGetSet)
                     CustomSelectFunction($(elementId), getFunction, setFunction, ' ', bool, NoofChar);
                 else
                     CustomSelectFunction2($(elementId), getFunction, setFunction, ' ', bool, NoofChar,this.SqlProcGetSet,(closeOnSelect=='True' ? false:true ));
 
-                //alert(elementId+" "+getFunction+" "+setFunction)
             }
             else if(this.DataType=="Date" )
             {

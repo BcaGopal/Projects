@@ -45,15 +45,17 @@ namespace Service
             string DivisionId = Settings.DivisionIds;
             string AsOnDate = Settings.ToDate.HasValue ? Settings.ToDate.Value.ToString("dd/MMM/yyyy") : "";
             string CostCenter = Settings.CostCenter;
+            bool ShowZeroBalance = Settings.ShowZeroBalance;
 
             SqlParameter SqlParameterSiteId = new SqlParameter("@Site", !string.IsNullOrEmpty(SiteId) ? SiteId : (object)DBNull.Value);
             SqlParameter SqlParameterDivisionId = new SqlParameter("@Division", !string.IsNullOrEmpty(DivisionId) ? DivisionId : (object)DBNull.Value);
             SqlParameter SqlParameterDate = new SqlParameter("@AsOnDate", AsOnDate);
             SqlParameter SqlParameterCostCenter = new SqlParameter("@CostCenter", !string.IsNullOrEmpty(CostCenter) ? CostCenter : (object)DBNull.Value);
+            SqlParameter SqlParameterShowZeroBalance = new SqlParameter("@ShowZeroBalance", ShowZeroBalance);
 
             IEnumerable<TrialBalanceViewModel> TrialBalanceList;
 
-            TrialBalanceList = db.Database.SqlQuery<TrialBalanceViewModel>("" + ConfigurationManager.AppSettings["DataBaseSchema"] + ".spTrialBalance @Site, @Division, @AsOnDate, @CostCenter", SqlParameterSiteId, SqlParameterDivisionId, SqlParameterDate, SqlParameterCostCenter).ToList();
+            TrialBalanceList = db.Database.SqlQuery<TrialBalanceViewModel>("" + ConfigurationManager.AppSettings["DataBaseSchema"] + ".spTrialBalance @Site, @Division, @AsOnDate, @CostCenter, @ShowZeroBalance", SqlParameterSiteId, SqlParameterDivisionId, SqlParameterDate, SqlParameterCostCenter, SqlParameterShowZeroBalance).ToList();
 
             return TrialBalanceList;
 
@@ -142,6 +144,7 @@ namespace Service
             string DivisionId = Settings.DivisionIds;
             string AsOnDate = Settings.ToDate.HasValue ? Settings.ToDate.Value.ToString("dd/MMM/yyyy") : "";
             string CostCenter = Settings.CostCenter;
+            bool ShowZeroBalance = Settings.ShowZeroBalance;
             string LedgerAccountGroupId = null;
             if (id.HasValue && id.Value > 0)
             {
@@ -154,8 +157,9 @@ namespace Service
             SqlParameter SqlParameterDate = new SqlParameter("@AsOnDate", AsOnDate);
             SqlParameter SqlParameterLedgerAccountGroupId = new SqlParameter("LedgerAccountGroupId", !string.IsNullOrEmpty(LedgerAccountGroupId) ? LedgerAccountGroupId : (object)DBNull.Value);
             SqlParameter SqlParameterCostCenter = new SqlParameter("@CostCenter", !string.IsNullOrEmpty(CostCenter) ? CostCenter : (object)DBNull.Value);
+            SqlParameter SqlParameterShowZeroBalance = new SqlParameter("@ShowZeroBalance", ShowZeroBalance);
 
-            IEnumerable<SubTrialBalanceViewModel> TrialBalanceList = db.Database.SqlQuery<SubTrialBalanceViewModel>("" + ConfigurationManager.AppSettings["DataBaseSchema"] + ".spSubTrialBalance @Site, @Division, @AsOnDate, @LedgerAccountGroupId, @CostCenter", SqlParameterSiteId, SqlParameterDivisionId, SqlParameterDate, SqlParameterLedgerAccountGroupId, SqlParameterCostCenter).ToList();
+            IEnumerable<SubTrialBalanceViewModel> TrialBalanceList = db.Database.SqlQuery<SubTrialBalanceViewModel>("" + ConfigurationManager.AppSettings["DataBaseSchema"] + ".spSubTrialBalance @Site, @Division, @AsOnDate, @LedgerAccountGroupId, @CostCenter, @ShowZeroBalance", SqlParameterSiteId, SqlParameterDivisionId, SqlParameterDate, SqlParameterLedgerAccountGroupId, SqlParameterCostCenter, SqlParameterShowZeroBalance).ToList();
 
 
             return TrialBalanceList;

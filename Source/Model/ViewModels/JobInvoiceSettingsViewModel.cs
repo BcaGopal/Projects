@@ -33,6 +33,8 @@ namespace Model.ViewModel
         public bool isVisibleDealUnit { get; set; }
         public bool isVisibleWeight { get; set; }
         public bool isVisibleCostCenter { get; set; }
+        public bool isVisibleSalesTaxGroupPerson { get; set; }
+        public bool isVisibleSalesTaxGroupProduct { get; set; }
         public bool isVisibleHeaderJobWorker { get; set; }
         public bool isVisibleIncentive { get; set; }
         public bool isVisiblePenalty { get; set; }

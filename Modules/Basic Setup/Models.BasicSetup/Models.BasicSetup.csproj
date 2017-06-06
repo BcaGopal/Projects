@@ -119,6 +119,7 @@
     <Compile Include="Models\SalesTaxGroupParty.cs" />
     <Compile Include="Models\SalesTaxGroupProduct.cs" />
     <Compile Include="Models\ServiceTaxCategory.cs" />
+    <Compile Include="Models\Company.cs" />
     <Compile Include="Models\Site.cs" />
     <Compile Include="Models\PaymentMode.cs" />
     <Compile Include="Models\State.cs" />

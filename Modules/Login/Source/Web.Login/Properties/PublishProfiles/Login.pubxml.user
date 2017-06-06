@@ -34,7 +34,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>12/18/2015 10:12:15</publishTime>
     </File>
     <File Include="bin/Login.dll">
-      <publishTime>05/02/2017 09:58:07</publishTime>
+      <publishTime>05/29/2017 12:19:04</publishTime>
     </File>
     <File Include="bin/Mailer.dll">
       <publishTime>10/18/2016 09:43:37</publishTime>

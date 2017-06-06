@@ -57,6 +57,7 @@ namespace Data
         public DbSet<UserRole> UserRole { get; set; }
         public DbSet<ControllerAction> ControllerAction { get; set; }
         public DbSet<Menu> Menu { get; set; }
+        public DbSet<Company> Company { get; set; }
         public DbSet<CompanySettings> CompanySettings { get; set; }
         public DbSet<MenuModule> MenuModule { get; set; }
         public DbSet<MvcController> MvcController { get; set; }

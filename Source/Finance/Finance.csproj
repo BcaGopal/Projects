@@ -260,6 +260,7 @@
     <Compile Include="Controllers\PersonBankAccountController.cs" />
     <Compile Include="Controllers\PersonContactController.cs" />
     <Compile Include="Controllers\PersonContactTypeController.cs" />
+    <Compile Include="Controllers\LedgerAccountOpeningController.cs" />
     <Compile Include="Controllers\ReasonController.cs" />
     <Compile Include="Controllers\Report_DocumentPrintController.cs" />
     <Compile Include="Controllers\Report_ReportPrintController.cs" />
@@ -753,6 +754,8 @@
     <Content Include="Views\TrialBalance\LedgerGroupBalance.cshtml" />
     <Content Include="Views\TrialBalance\BalanceSheet.cshtml" />
     <Content Include="Views\LedgerLine\_LedgerAdj.cshtml" />
+    <Content Include="Views\LedgerLine\_LedgerAdj_Single.cshtml" />
+    <Content Include="Views\LedgerAccountOpening\_Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

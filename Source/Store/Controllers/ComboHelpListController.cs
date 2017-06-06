@@ -5858,7 +5858,7 @@ namespace Web
 
         public JsonResult GetSalesTaxGroupParty(string searchTerm, int pageSize, int pageNum)
         {
-            var Query = cbl.GetSalesTaxGroupParty(searchTerm);
+            var Query = cbl.GetSalesTaxGroupPerson(searchTerm);
             var temp = Query.Skip(pageSize * (pageNum - 1)).Take(pageSize).ToList();
 
             var count = Query.Count();
@@ -5878,12 +5878,12 @@ namespace Web
         {
             ComboBoxResult SalesTaxGroupPartyJson = new ComboBoxResult();
 
-            SalesTaxGroupParty SalesTaxGroupParty = (from b in db.SalesTaxGroupParty
-                                 where b.SalesTaxGroupPartyId == Ids
+            ChargeGroupPerson SalesTaxGroupParty = (from b in db.ChargeGroupPerson
+                                 where b.ChargeGroupPersonId == Ids
                                  select b).FirstOrDefault();
 
-            SalesTaxGroupPartyJson.id = SalesTaxGroupParty.SalesTaxGroupPartyId.ToString();
-            SalesTaxGroupPartyJson.text = SalesTaxGroupParty.SalesTaxGroupPartyName;
+            SalesTaxGroupPartyJson.id = SalesTaxGroupParty.ChargeGroupPersonId.ToString();
+            SalesTaxGroupPartyJson.text = SalesTaxGroupParty.ChargeGroupPersonName;
 
             return Json(SalesTaxGroupPartyJson);
         }
@@ -6036,6 +6036,35 @@ namespace Web
             return Json(BinLocationJson);
         }
 
+        public JsonResult GetProductIndexFilterParameter(string searchTerm, int pageSize, int pageNum)
+        {
+            var Query = cbl.GetProductIndexFilterParameter(searchTerm);
+            var temp = Query.Skip(pageSize * (pageNum - 1)).Take(pageSize).ToList();
+
+            var count = Query.Count();
+
+            ComboBoxPagedResult Data = new ComboBoxPagedResult();
+            Data.Results = temp;
+            Data.Total = count;
+
+            return new JsonpResult
+            {
+                Data = Data,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+
+        public JsonResult SetSingleIndexFilterParameter(string Ids)
+        {
+            ComboBoxResult IndexFilterParameterJson = new ComboBoxResult();
+
+            IndexFilterParameterJson.id = Ids;
+            IndexFilterParameterJson.text = Ids;
+
+            return Json(IndexFilterParameterJson);
+        }
+
 
 
 
@@ -6053,21 +6082,83 @@ namespace Web
             };
         }
 
-        //public JsonResult SetSelct2Data(string Ids, string SqlProcSet)
-        //{
-        //    return Json( new ComboHelpListService().SetSelct2Data(Ids, SqlProcSet));
-        //}
+        public JsonResult SetSelct2Data(string Ids, string SqlProcSet)
+        {
+            return Json(cbl.SetSelct2Data(Ids, SqlProcSet));
+        }
 
-        //public JsonResult SetSingleSelect2Data(int Ids, string SqlProcSet)
-        //{
-        //    return Json(cbl.SetSingleSelect2Data(Ids, SqlProcSet));
+        public JsonResult SetSingleSelect2Data(int Ids, string SqlProcSet)
+        {
+            return Json(cbl.SetSingleSelect2Data(Ids, SqlProcSet));
+        }
 
-        //}
 
-        //public ActionResult SetDate(string Proc)
-        //{
-        //    return Json(cbl.SetDate(Proc), JsonRequestBehavior.AllowGet);
-        //}
+
+
+
+
+        public JsonResult GetSites(string searchTerm, int pageSize, int pageNum)
+        {
+            var Query = cbl.GetSites(searchTerm);
+            var temp = Query.Skip(pageSize * (pageNum - 1)).Take(pageSize).ToList();
+
+            var count = Query.Count();
+
+            ComboBoxPagedResult Data = new ComboBoxPagedResult();
+            Data.Results = temp;
+            Data.Total = count;
+
+            return new JsonpResult
+            {
+                Data = Data,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+        public JsonResult SetSingleSite(int Ids)
+        {
+            ComboBoxResult SiteJson = new ComboBoxResult();
+
+            Site Site = (from b in db.Site
+                         where b.SiteId == Ids
+                         select b).FirstOrDefault();
+
+            SiteJson.id = Site.SiteId.ToString();
+            SiteJson.text = Site.SiteName;
+
+            return Json(SiteJson);
+        }
+
+
+        public JsonResult GetDivisions(string searchTerm, int pageSize, int pageNum)
+        {
+            var Query = cbl.GetDivisions(searchTerm);
+            var temp = Query.Skip(pageSize * (pageNum - 1)).Take(pageSize).ToList();
+
+            var count = Query.Count();
+
+            ComboBoxPagedResult Data = new ComboBoxPagedResult();
+            Data.Results = temp;
+            Data.Total = count;
+
+            return new JsonpResult
+            {
+                Data = Data,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+        public JsonResult SetSingleDivision(int Ids)
+        {
+            ComboBoxResult DivisionJson = new ComboBoxResult();
+
+            Division Division = (from b in db.Divisions
+                         where b.DivisionId == Ids
+                         select b).FirstOrDefault();
+
+            DivisionJson.id = Division.DivisionId.ToString();
+            DivisionJson.text = Division.DivisionName;
+
+            return Json(DivisionJson);
+        }
 
 
     }

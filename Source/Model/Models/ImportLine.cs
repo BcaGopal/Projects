@@ -48,6 +48,7 @@ namespace Model.Models
         public bool IsMandatory { get; set; }
         public string PlaceHolder { get; set; }
         public string ToolTip { get; set; }
+        public int FileNo { get; set; }
 
         [Display(Name = "Created By")]
         public string CreatedBy { get; set; }

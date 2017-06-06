@@ -917,6 +917,9 @@ namespace Module
             AddFields("LedgerSettings", "filterReferenceDocTypes", "nvarchar(Max)");
 
 
+            AddFields("CompanySettings", "isVisibleCompanyName", "BIT");
+
+
 
             try
             {
@@ -1188,6 +1191,49 @@ namespace Module
             AddFields("LedgerHeaders", "PartyDocNo", "nvarchar(50)");
             AddFields("LedgerHeaders", "PartyDocDate", "DateTime");
             AddFields("LedgerSettings", "isVisibleLedgerAdj", "BIT");
+
+            AddFields("PersonSettings", "isVisibleAadharNo", "BIT");
+            AddFields("PersonSettings", "isMandatoryAadharNo", "BIT");
+            AddFields("PersonSettings", "isVisiblePersonAddressDetail", "BIT");
+            AddFields("PersonSettings", "isVisiblePersonOpeningDetail", "BIT");
+
+
+            AddFields("JobInvoiceSettings", "isVisibleSalesTaxGroupProduct", "BIT");
+            AddFields("JobInvoiceSettings", "isVisibleSalesTaxGroupPerson", "BIT");
+            AddFields("JobInvoiceLines", "SalesTaxGroupProductId", "Int", "ChargeGroupProducts");
+            AddFields("JobInvoiceHeaders", "SalesTaxGroupPersonId", "Int", "ChargeGroupPerson");
+
+
+            AddFields("SaleInvoiceSettings", "SqlProcProductUidHelpList", "nvarchar(100)");
+
+            AddFields("LedgerSettings", "IsAutoDocNo", "BIT NOT NULL DEFAULT(0)");
+
+            AddFields("LedgerSettings", "filterExcludeLedgerAccountGroupHeaders", "nvarchar(Max)");
+            AddFields("LedgerSettings", "filterExcludeLedgerAccountGroupLines", "nvarchar(Max)");
+            AddFields("PersonSettings", "isVisibleLedgerAccountGroup", "BIT");
+
+
+
+            AddFields("ProductTypeSettings", "isVisibleDefaultDimension1", "BIT");
+            AddFields("ProductTypeSettings", "isVisibleDefaultDimension2", "BIT");
+            AddFields("ProductTypeSettings", "isVisibleDefaultDimension3", "BIT");
+            AddFields("ProductTypeSettings", "isVisibleDefaultDimension4", "BIT");
+
+
+            AddFields("Products", "DefaultDimension1Id", "Int", "Dimension1");
+            AddFields("Products", "DefaultDimension2Id", "Int", "Dimension2");
+            AddFields("Products", "DefaultDimension3Id", "Int", "Dimension3");
+            AddFields("Products", "DefaultDimension4Id", "Int", "Dimension4");
+
+
+            AddFields("SaleInvoiceHeaders", "TermsAndConditions", "nvarchar(Max)");
+            AddFields("SaleInvoiceSettings", "isVisibleTermsAndConditions", "BIT");
+
+            AddFields("ProductTypeSettings", "isVisibleDiscontinueDate", "BIT");
+            AddFields("Products", "DiscontinueDate", "DateTime");
+            AddFields("Products", "DiscontinueReason", "nvarchar(Max)");
+
+            AddFields("ProductTypeSettings", "IndexFilterParameter", "nvarchar(20)");
 
 
             return RedirectToAction("Module", "Menu");

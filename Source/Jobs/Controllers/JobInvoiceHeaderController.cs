@@ -338,6 +338,7 @@ namespace Web
                     temp.DocDate = pt.DocDate;
                     temp.JobWorkerId = pt.JobWorkerId;
                     temp.JobWorkerDocNo = pt.JobWorkerDocNo;
+                    temp.JobWorkerDocDate = pt.JobWorkerDocDate;
                     temp.ProcessId = pt.ProcessId;
                     temp.ModifiedDate = DateTime.Now;
                     temp.ModifiedBy = User.Identity.Name;
@@ -1653,6 +1654,11 @@ namespace Web
                 Ledger.ObjectState = Model.ObjectState.Added;
                 Context.Ledger.Add(Ledger);
             }
+        }
+
+        public JsonResult GetJobWorkerDetailJson(int JobWorkerId)
+        {
+            return Json(new JobInvoiceHeaderService(_unitOfWork).GetJobWorkerDetail(JobWorkerId));
         }
 
     }

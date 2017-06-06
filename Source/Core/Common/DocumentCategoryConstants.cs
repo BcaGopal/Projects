@@ -15,6 +15,10 @@ namespace Core.Common
         public const string Journal = "Journal";
     }
 
+
+
+
+
     public class TransactionDocCategoryConstants
     {
         //---------------------  Sale 
@@ -143,6 +147,7 @@ namespace Core.Common
         public const string CarpetFinishingInvoice = "Carpet Finishing Invoice";
 
 
+        public const string Opening = "Opening Balance";
 
 
         //For Masters
@@ -154,10 +159,17 @@ namespace Core.Common
         public const string DebitNote = "Debit Note";
         public const string CreditNote = "Credit Note";
         public const string Report = "Report";
+
+
+
+
     }
 
     public class TransactionDoctypeConstants
     {
+        //---------------------  Finance
+        public const string Opening = "Opening Balance";
+
         //---------------------  Sale 
         public const string SaleOrder = "Sale Order";
         public const string SaleOrderCancel = "Sale Order Cancel";
@@ -578,6 +590,15 @@ namespace Core.Common
     {
         public const string SaleOrder = "Sale Order";
         public const string ProdOrder = "Prod Order";
+    }
+
+
+    public class IndexFilterParameterConstants
+    {
+        public const string All = "All";
+        public const string Active = "Active";
+        public const string InActive = "InActive";
+        public const string Discontinue = "Discontinue";
     }
 
     public class NatureConstants

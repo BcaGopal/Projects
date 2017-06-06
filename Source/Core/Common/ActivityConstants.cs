@@ -168,6 +168,10 @@ namespace Core.Common
     public class AddressTypeConstants
     {
         public const string Work = "Work";
+        public const string Office = "Office";
+        public const string Permanent = "Permanent";
+        public const string Temporary = "Temporary";
+        public const string Godown = "Godown";
     }
     public class LedgerAccountTypeConstants
     {
@@ -192,6 +196,8 @@ namespace Core.Common
     public class LedgerAccountConstants
     {
         public const string Sale = "Sale";
+        public const string Party = "|PARTY|";
+        public const string Charge = "|CHARGE|";
     }
 
     public class SizeTypeConstants
@@ -206,6 +212,7 @@ namespace Core.Common
         public const string PANNo = "PAN No";
         public const string ServiceTaxNo = "Service Tax No";
         public const string KYCNo = "KYC No";
+        public const string AadharNo = "Aadhar No";
     }
 
     public class ProcessConstants

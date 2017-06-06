@@ -817,13 +817,13 @@ namespace Service
             int SiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
             int DivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
 
-            var settings = new JobReceiveSettingsService(_unitOfWork).GetJobReceiveSettingsForDocument(JobRecHead.DocTypeId, JobRecHead.DivisionId, JobRecHead.SiteId);
+            //var settings = new JobReceiveSettingsService(_unitOfWork).GetJobReceiveSettingsForDocument(JobRecHead.DocTypeId, JobRecHead.DivisionId, JobRecHead.SiteId);
 
-            int[] ContraDocTypes = { };
-            if (!string.IsNullOrEmpty(settings.filterContraDocTypes))
-            {
-                ContraDocTypes = settings.filterContraDocTypes.Split(',').Select(Int32.Parse).ToArray();
-            }
+            //int[] ContraDocTypes = { };
+            //if (!string.IsNullOrEmpty(settings.filterContraDocTypes))
+            //{
+            //    ContraDocTypes = settings.filterContraDocTypes.Split(',').Select(Int32.Parse).ToArray();
+            //}
 
 
             var UidStatus = (from p in db.ProductUid

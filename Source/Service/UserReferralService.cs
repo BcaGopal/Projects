@@ -48,7 +48,7 @@ namespace Service
             uref.CreatedBy = UserName;
             uref.CreatedDate = DateTime.Now;
             uref.IsActive = true;
-            uref.ToUser = ToUser;
+            uref.ToUser = ToUser.Trim();
             uref.RoleId = RoleId;
             uref.ModifiedBy = UserName;
             uref.ModifiedDate = DateTime.Now;

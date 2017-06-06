@@ -97,7 +97,7 @@ namespace Service
         {
             var Query = (from p in db.CalculationProduct
                         where p.CalculationId == id
-                        orderby p.CalculationProductId
+                        orderby p.Sr
                         select new CalculationProductViewModel
                         {
                             AddDeduct = p.AddDeduct,
@@ -222,6 +222,83 @@ namespace Service
                     }
                         );
         }
+
+        public IEnumerable<CalculationProductViewModel> GetCalculationProductListWithChargeGroupSettings(int CalculationID, int DocumentTypeId, int SiteId, int DivisionId, int? ChargeGroupPersonId, int? ChargeGroupProductId)
+        {
+            var ChargeGroupSettings = from C in db.ChargeGroupSettings
+                                      where C.ChargeGroupPersonId == ChargeGroupPersonId && C.ChargeGroupProductId == ChargeGroupProductId
+                                      select C;
+
+            int ChargeLedgerAccountId = new LedgerAccountService(_unitOfWork).Find(LedgerAccountConstants.Charge).LedgerAccountId;
+
+            return (from p in db.CalculationProduct
+                    join t in db.CalculationLineLedgerAccount.Where(m => m.DocTypeId == DocumentTypeId && m.SiteId == SiteId && m.DivisionId == DivisionId) on p.CalculationProductId equals t.CalculationProductId into table1
+                    join Cgs in ChargeGroupSettings on p.ChargeTypeId equals Cgs.ChargeTypeId into ChargeGroupSettingsTable
+                    from ChargeGroupSettingsTab in ChargeGroupSettingsTable.DefaultIfEmpty()
+                    from tab1 in table1.DefaultIfEmpty()
+                    where p.CalculationId == CalculationID
+                    orderby p.Sr
+                    select new CalculationProductViewModel
+                    {
+                        AddDeduct = p.AddDeduct,
+                        AffectCost = p.AffectCost,
+                        CalculateOnId = p.CalculateOnId,
+                        CalculateOnName = p.CalculateOn.ChargeName,
+                        CalculateOnCode = p.CalculateOn.ChargeCode,
+                        CalculationId = p.CalculationId,
+                        CalculationName = p.Calculation.CalculationName,
+                        ChargeId = p.ChargeId,
+                        ChargeName = p.Charge.ChargeName,
+                        ChargeCode = p.Charge.ChargeCode,
+                        ChargeTypeId = p.ChargeTypeId,
+                        ChargeTypeName = p.ChargeType.ChargeTypeName,
+                        CostCenterId = p.CostCenterId,
+                        CostCenterName = p.CostCenter.CostCenterName,
+                        IncludedInBase = p.IncludedInBase,
+                        LedgerAccountCrId = (tab1.LedgerAccountCrId == ChargeLedgerAccountId ? ChargeGroupSettingsTab.ChargeLedgerAccountId : tab1.LedgerAccountCrId),
+                        LedgerAccountCrName = tab1.LedgerAccountCr.LedgerAccountName,
+                        LedgerAccountDrId = (tab1.LedgerAccountDrId == ChargeLedgerAccountId ? ChargeGroupSettingsTab.ChargeLedgerAccountId : tab1.LedgerAccountDrId),
+                        LedgerAccountDrName = tab1.LedgerAccountDr.LedgerAccountName,
+                        ContraLedgerAccountId = tab1.ContraLedgerAccountId,
+                        ContraLedgerAccountName = tab1.ContraLedgerAccount.LedgerAccountName,
+                        Rate = ChargeGroupSettingsTab.ChargePer,
+                        Sr = p.Sr,
+                        RateType = p.RateType,
+                        IsVisible = p.IsVisible,
+                        Amount = p.Amount,
+                        ParentChargeId = p.ParentChargeId,
+                        ElementId = "CALL_" + p.Charge.ChargeCode,
+                        IncludedCharges = p.IncludedCharges,
+                        IncludedChargesCalculation = p.IncludedChargesCalculation,
+                    });
+
+        }
+
+        public IEnumerable<CalculationProductViewModel> GetChargeRates(int CalculationID, int DocumentTypeId, int SiteId, int DivisionId, int? ChargeGroupPersonId, int? ChargeGroupProductId)
+        {
+            var ChargeGroupSettings = from C in db.ChargeGroupSettings
+                                      where C.ChargeGroupPersonId == ChargeGroupPersonId && C.ChargeGroupProductId == ChargeGroupProductId
+                                      select C;
+
+            int ChargeLedgerAccountId = new LedgerAccountService(_unitOfWork).Find(LedgerAccountConstants.Charge).LedgerAccountId;
+
+
+            return (from p in db.CalculationProduct
+                    join t in db.CalculationLineLedgerAccount.Where(m => m.DocTypeId == DocumentTypeId && m.SiteId == SiteId && m.DivisionId == DivisionId) on p.CalculationProductId equals t.CalculationProductId into table1
+                    from tab1 in table1.DefaultIfEmpty()
+                    join Cgs in ChargeGroupSettings on p.ChargeTypeId equals Cgs.ChargeTypeId into ChargeGroupSettingsTable
+                    from ChargeGroupSettingsTab in ChargeGroupSettingsTable.DefaultIfEmpty()
+                    where p.CalculationId == CalculationID
+                    orderby p.Sr
+                    select new CalculationProductViewModel
+                    {
+                        LedgerAccountCrId = (tab1.LedgerAccountCrId == ChargeLedgerAccountId ? ChargeGroupSettingsTab.ChargeLedgerAccountId : tab1.LedgerAccountCrId),
+                        LedgerAccountDrId = (tab1.LedgerAccountDrId == ChargeLedgerAccountId ? ChargeGroupSettingsTab.ChargeLedgerAccountId : tab1.LedgerAccountDrId),
+                        Rate = (Decimal?)ChargeGroupSettingsTab.ChargePer ?? 0,
+                    });
+
+        }
+
 
         public CalculationProduct Add(CalculationProduct pt)
         {

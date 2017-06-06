@@ -78,8 +78,8 @@ namespace Web
                     s.ModifiedDate = DateTime.Now;
                     s.CreatedBy = User.Identity.Name;
                     s.ModifiedBy = User.Identity.Name;
-                    s.DivisionId = 6;
-                    s.SiteId = 17;
+                    s.SiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
+                    s.DivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
                     s.ObjectState = Model.ObjectState.Added;
 
                     _CalculationLineLedgerAccountService.Create(s);

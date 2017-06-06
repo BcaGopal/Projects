@@ -147,6 +147,7 @@ namespace Web
                     temp.isVisibleCstNo = pt.isVisibleCstNo;
                     temp.isVisibleTinNo = pt.isVisibleTinNo;
                     temp.isVisiblePanNo = pt.isVisiblePanNo;
+                    temp.isVisibleAadharNo = pt.isVisibleAadharNo;
                     temp.isVisibleSalesTaxGroup = pt.isVisibleSalesTaxGroup;
                     temp.isVisibleGuarantor = pt.isVisibleGuarantor;
                     temp.isVisibleParent = pt.isVisibleParent;
@@ -161,6 +162,9 @@ namespace Web
                     temp.isVisibleContactPersonDetail = pt.isVisibleContactPersonDetail;
                     temp.isVisibleBankAccountDetail = pt.isVisibleBankAccountDetail;
                     temp.isVisiblePersonProcessDetail = pt.isVisiblePersonProcessDetail;
+                    temp.isVisiblePersonAddressDetail = pt.isVisiblePersonAddressDetail;
+                    temp.isVisiblePersonOpeningDetail = pt.isVisiblePersonOpeningDetail;
+                    temp.isVisibleLedgerAccountGroup = pt.isVisibleLedgerAccountGroup;
                     temp.isMandatoryAddress = pt.isMandatoryAddress;
                     temp.isMandatoryCity = pt.isMandatoryCity;
                     temp.isMandatoryZipCode = pt.isMandatoryZipCode;
@@ -169,6 +173,7 @@ namespace Web
                     temp.isMandatoryPanNo = pt.isMandatoryPanNo;
                     temp.isMandatoryCstNo = pt.isMandatoryCstNo;
                     temp.isMandatoryTinNo = pt.isMandatoryTinNo;
+                    temp.isMandatoryAadharNo = pt.isMandatoryAadharNo;
                     temp.isMandatoryTdsCategory = pt.isMandatoryTdsCategory;
                     temp.isMandatoryTdsGroup = pt.isMandatoryTdsGroup;
                     temp.isMandatoryCreditDays = pt.isMandatoryCreditDays;

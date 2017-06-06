@@ -339,6 +339,19 @@
                             </div>
 
 
+                            <div class="col-md-6" style="display:@(Model.SaleInvoiceSettings.isVisibleTermsAndConditions ? "" : "none")">
+                                @Html.HiddenFor(m => m.SaleInvoiceSettings.isVisibleTermsAndConditions)
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.TermsAndConditions, "Terms & Conditions", new { @class = "control-label col-md-4 col-sm-2" })
+                                    <div class="col-md-7 col-sm-10">
+                                        @Html.TextAreaFor(m => m.TermsAndConditions, new { @class = "form-control col-xs-6" })
+                                        @Html.ValidationMessageFor(m => m.TermsAndConditions, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+
+
+
 
 
                             
@@ -426,10 +439,10 @@
                                 <div class="col-xs-1 text-left">
                                     Srl.
                                 </div>
-                                <div class="col-xs-10">
+                                <div class="col-xs-11">
                                     <div class="row">
 
-                                        <div class="col-sm-2">
+                                        <div class="col-sm-4">
                                             Charge
                                         </div>
 
@@ -440,11 +453,11 @@
                                             Add/Deduct
                                         </div>
                                         @*Rate*@
-                                        <div class="col-sm-2 text-right">
+                                        <div class="col-sm-1 text-right">
                                             Rate
                                         </div>
                                         @*Amount*@
-                                        <div class="col-sm-3 text-right">
+                                        <div class="col-sm-2 text-right">
                                             Amount
                                         </div>
                                         @*Remark*@

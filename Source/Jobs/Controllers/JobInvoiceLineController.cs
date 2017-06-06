@@ -421,6 +421,7 @@ namespace Web
             s.DocTypeId = H.DocTypeId;
             s.SiteId = H.SiteId;
             s.DivisionId = H.DivisionId;
+            s.SalesTaxGroupPersonId = H.SalesTaxGroupPersonId;
 
             if (JobWorkerId.HasValue)
                 s.JobWorkerId = JobWorkerId.Value;
@@ -647,6 +648,7 @@ namespace Web
                     temp1.Amount = svm.Amount;
                     temp1.JobReceiveLineId = svm.JobReceiveLineId;
                     temp1.UnitConversionMultiplier = svm.UnitConversionMultiplier;
+                    temp1.SalesTaxGroupProductId = svm.SalesTaxGroupProductId;
                     temp1.DealQty = svm.DealQty;
                     temp1.DealUnitId = svm.DealUnitId;
                     temp1.Remark = svm.Remark;

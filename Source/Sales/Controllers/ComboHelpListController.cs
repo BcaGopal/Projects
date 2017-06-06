@@ -1328,7 +1328,7 @@ namespace Web
                                        select p;
 
             ProductJson.id = prod.FirstOrDefault().PersonID.ToString();
-            ProductJson.text = prod.FirstOrDefault().Name;
+            ProductJson.text =  prod.FirstOrDefault().Name + ", " + prod.FirstOrDefault().Suffix + " [" + prod.FirstOrDefault().Code + "]";
 
             return Json(ProductJson);
         }

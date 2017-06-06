@@ -68,7 +68,7 @@ namespace Web
 
             bool error = false;
             string ErrorMsg = "";
-            foreach (var user in UserEmails.Split(','))
+            foreach (var user in UserEmails.Trim().Split(','))
             {
 
                 UserReferral uref = _UserReferralService.Create(User.Identity.Name, user, UserRole);

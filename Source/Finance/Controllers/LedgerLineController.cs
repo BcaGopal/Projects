@@ -838,23 +838,33 @@ namespace Web
 
                 var LedgerIds = Ledgers.Select(m => m.LedgerId).ToArray();
 
-                LedgerAdj LedgerAdjs = new LedgerAdj();
+                //LedgerAdj LedgerAdjs = new LedgerAdj();
 
-                if (Nature == NatureConstants.Credit)
-                {
-                    var crLedger = Ledgers.Where(m => m.LedgerLineId == Line.LedgerLineId && m.LedgerAccountId == Line.LedgerAccountId && m.AmtDr > 0).FirstOrDefault();
-                    LedgerAdjs = db.LedgerAdj.Where(m => m.DrLedgerId == crLedger.LedgerId && m.LedgerId == Line.ReferenceId).FirstOrDefault();
-                }
-                else
-                {
-                    var drLedger = Ledgers.Where(m => m.LedgerLineId == Line.LedgerLineId && m.LedgerAccountId == Line.LedgerAccountId && m.AmtCr > 0).FirstOrDefault();
-                    LedgerAdjs = db.LedgerAdj.Where(m => m.CrLedgerId == drLedger.LedgerId && m.LedgerId == Line.ReferenceId).FirstOrDefault();
-                }
+                //if (Nature == NatureConstants.Credit)
+                //{
+                //    var crLedger = Ledgers.Where(m => m.LedgerLineId == Line.LedgerLineId && m.LedgerAccountId == Line.LedgerAccountId && m.AmtDr > 0).FirstOrDefault();
+                //    LedgerAdjs = db.LedgerAdj.Where(m => m.DrLedgerId == crLedger.LedgerId && m.LedgerId == Line.ReferenceId).FirstOrDefault();
+                //}
+                //else
+                //{
+                //    var drLedger = Ledgers.Where(m => m.LedgerLineId == Line.LedgerLineId && m.LedgerAccountId == Line.LedgerAccountId && m.AmtCr > 0).FirstOrDefault();
+                //    LedgerAdjs = db.LedgerAdj.Where(m => m.CrLedgerId == drLedger.LedgerId && m.LedgerId == Line.ReferenceId).FirstOrDefault();
+                //}
 
-                if (Line.ReferenceId.HasValue && Line.ReferenceId.Value > 0)
+                //if (Line.ReferenceId.HasValue && Line.ReferenceId.Value > 0)
+                //{
+                //    LedgerAdjs.ObjectState = Model.ObjectState.Deleted;
+                //    db.LedgerAdj.Remove(LedgerAdjs);
+                //}
+
+                foreach (var item in Ledgers)
                 {
-                    LedgerAdjs.ObjectState = Model.ObjectState.Deleted;
-                    db.LedgerAdj.Remove(LedgerAdjs);
+                    var LedgerAdjList = (from L in db.LedgerAdj where L.DrLedgerId == item.LedgerId || L.CrLedgerId == item.LedgerId select L).ToList();
+                    foreach(var LedgerAdj in LedgerAdjList)
+                    {
+                        LedgerAdj.ObjectState = Model.ObjectState.Deleted;
+                        db.LedgerAdj.Remove(LedgerAdj);
+                    }
                 }
 
                 foreach (var item in Ledgers)
@@ -1057,7 +1067,7 @@ namespace Web
 
             var Settings = new LedgerSettingService(_unitOfWork).GetLedgerSettingForDocument(Ledger.DocTypeId, Ledger.DivisionId, Ledger.SiteId);
 
-            var Query = new LedgerLineService(_unitOfWork).GetLedgerAccounts(searchTerm, Settings.filterLedgerAccountGroupLines, (Ledger.ProcessId.HasValue ? Ledger.ProcessId.ToString() : Settings.filterPersonProcessLines));
+            var Query = new LedgerLineService(_unitOfWork).GetLedgerAccounts(searchTerm, Settings.filterLedgerAccountGroupLines, Settings.filterExcludeLedgerAccountGroupLines, (Ledger.ProcessId.HasValue ? Ledger.ProcessId.ToString() : Settings.filterPersonProcessLines));
 
             var temp = Query.Skip(pageSize * (pageNum - 1)).Take(pageSize).ToList();
 
@@ -1181,13 +1191,13 @@ namespace Web
                 Decimal PendingToAdjustAmount = s.Amount;
                 foreach (var item in PendingLedgerViewModel)
                 {
-                    if (item.BillAmount <= PendingToAdjustAmount)
+                    if (item.BalanceAmount <= PendingToAdjustAmount)
                     {
                         item.IsSelected = true;
-                        item.AdjustedAmount = item.BillAmount;
-                        PendingToAdjustAmount = PendingToAdjustAmount - item.BillAmount;
+                        item.AdjustedAmount = item.BalanceAmount;
+                        PendingToAdjustAmount = PendingToAdjustAmount - item.BalanceAmount;
                     }
-                    else if (item.BillAmount > PendingToAdjustAmount && PendingToAdjustAmount > 0)
+                    else if (item.BalanceAmount > PendingToAdjustAmount && PendingToAdjustAmount > 0)
                     {
                         item.IsSelected = true;
                         item.AdjustedAmount = PendingToAdjustAmount;
@@ -1284,7 +1294,7 @@ namespace Web
                 {
                     string message = _exception.HandleException(ex);
                     ModelState.AddModelError("", message);
-                    return PartialView("_EditWithSKU", svm);
+                    return PartialView("_LedgerAdj_Single", svm);
                 }
 
                 return Json(new { success = true });
@@ -1292,6 +1302,225 @@ namespace Web
             }
 
             return PartialView("_LedgerAdj", svm);
+        }
+
+
+        [HttpGet]
+        public ActionResult _LedgerAdj_Single(int id)
+        {
+            LedgerLine Line = new LedgerLineService(_unitOfWork).Find(id);
+            LedgerHeader Header = new LedgerHeaderService(_unitOfWork).Find(Line.LedgerHeaderId);
+            LedgerToAdjustViewModel_Single s = new LedgerToAdjustViewModel_Single();
+
+            s.LedgerLineId = id;
+            s.PartyDocDate_Adjusted = null;
+
+            var temp = (from L in db.Ledger
+                        join Ld in db.ViewLedgerBalance on L.LedgerId equals Ld.LedgerId into LedgerBalanceTable from LedgerBalanceTab in LedgerBalanceTable.DefaultIfEmpty()
+                        where L.LedgerLineId == id && L.LedgerAccountId == Line.LedgerAccountId
+                        select new
+                        {
+                            LedgerId = L.LedgerId,
+                            Amount = L.AmtDr > 0 ? L.AmtDr : L.AmtCr,
+                            BalanceAmount = (Decimal?)LedgerBalanceTab.Balance ?? 0,
+                            DrCr = L.AmtDr > 0 ? NatureConstants.Debit : NatureConstants.Credit
+                        }).FirstOrDefault();
+
+            if (temp != null)
+            {
+                s.LedgerId = temp.LedgerId;
+                s.Amount = temp.Amount;
+                s.BalanceAmount = temp.BalanceAmount;
+                s.DrCr = temp.DrCr;
+            }
+            
+            var settings = new LedgerSettingService(_unitOfWork).GetLedgerSettingForDocument(Header.DocTypeId, Header.DivisionId, Header.SiteId);
+            s.LedgerSetting = Mapper.Map<LedgerSetting, LedgerSettingViewModel>(settings);
+
+
+
+            List<PendingLedgerViewModel> LedgerAdjustedList = null;
+            if (s.DrCr == NatureConstants.Debit)
+            {
+                LedgerAdjustedList = (from L in db.LedgerAdj
+                                      join Ld in db.Ledger on L.CrLedgerId equals Ld.LedgerId into LedgerTable
+                                      from LedgerTab in LedgerTable.DefaultIfEmpty()
+                                      join H in db.LedgerHeader on LedgerTab.LedgerHeaderId equals H.LedgerHeaderId into LedgerHeaderTable
+                                      from LedgerHeaderTab in LedgerHeaderTable.DefaultIfEmpty()
+                                      where L.DrLedgerId == s.LedgerId
+                                      select new PendingLedgerViewModel
+                                      {
+                                          LedgerAdjId = L.LedgerAdjId,
+                                          LedgerId = LedgerTab.LedgerId,
+                                          LedgerHeaderDocNo = LedgerHeaderTab.DocNo,
+                                          LedgerHeaderDocDate = LedgerHeaderTab.DocDate,
+                                          PartyDocNo = LedgerHeaderTab.PartyDocNo,
+                                          PartyDocDate = LedgerHeaderTab.PartyDocDate ?? LedgerHeaderTab.DocDate,
+                                          BillAmount = LedgerTab.AmtCr,
+                                          AdjustedAmount = L.Amount
+                                      }).ToList();
+            }
+
+
+            if (s.DrCr == NatureConstants.Credit)
+            {
+                LedgerAdjustedList = (from L in db.LedgerAdj
+                                      join Ld in db.Ledger on L.DrLedgerId equals Ld.LedgerId into LedgerTable
+                                      from LedgerTab in LedgerTable.DefaultIfEmpty()
+                                      join H in db.LedgerHeader on LedgerTab.LedgerHeaderId equals H.LedgerHeaderId into LedgerHeaderTable
+                                      from LedgerHeaderTab in LedgerHeaderTable.DefaultIfEmpty()
+                                      where L.CrLedgerId == s.LedgerId
+                                      select new PendingLedgerViewModel
+                                      {
+                                          LedgerAdjId = L.LedgerAdjId,
+                                          LedgerId = LedgerTab.LedgerId,
+                                          LedgerHeaderDocNo = LedgerHeaderTab.DocNo,
+                                          LedgerHeaderDocDate = LedgerHeaderTab.DocDate,
+                                          PartyDocNo = LedgerHeaderTab.PartyDocNo,
+                                          PartyDocDate = LedgerHeaderTab.PartyDocDate ?? LedgerHeaderTab.DocDate,
+                                          BillAmount = LedgerTab.AmtDr,
+                                          AdjustedAmount = L.Amount
+                                      }).ToList();
+            }
+
+            s.LedgerViewModel = LedgerAdjustedList;
+
+            ViewBag.Name = new LedgerAccountService(_unitOfWork).Find(Line.LedgerAccountId).LedgerAccountName + "  " + "Amount : " + Line.Amount.ToString();
+
+
+            if (s == null)
+            {
+                return HttpNotFound();
+            }
+            return PartialView("_LedgerAdj_Single", s);
+        }
+
+        public ActionResult GetLedgerIds_Adusted(string searchTerm, int pageSize, int pageNum, int filter)//DocTypeId
+        {
+            var Query = new LedgerLineService(_unitOfWork).GetLedgerIds_Adusted(filter, searchTerm);
+            var temp = Query.Skip(pageSize * (pageNum - 1))
+                .Take(pageSize)
+                .ToList();
+
+            var count = Query.Count();
+
+            ComboBoxPagedResult Data = new ComboBoxPagedResult();
+            Data.Results = temp;
+            Data.Total = count;
+
+            return new JsonpResult
+            {
+                Data = Data,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        public JsonResult GetLedgerIds_AdustedDetailJson(int LedgerId)
+        {
+            var temp = (from L in db.Ledger
+                        join V in db.ViewLedgerBalance on L.LedgerId equals V.LedgerId into LedgerBalanceTable from LedgerBalanceTab in LedgerBalanceTable.DefaultIfEmpty()
+                        join H in db.LedgerHeader on L.LedgerHeaderId equals H.LedgerHeaderId into LedgerHeaderTable from LedgerHeaderTab in LedgerHeaderTable.DefaultIfEmpty()
+                        where L.LedgerId == LedgerId
+                        select new PendingLedgerViewModel
+                        {
+                            LedgerHeaderDocNo = LedgerHeaderTab.DocNo,
+                            LedgerHeaderDocDate = LedgerHeaderTab.DocDate,
+                            PartyDocNo = LedgerHeaderTab.PartyDocNo,
+                            PartyDocDate = LedgerHeaderTab.PartyDocDate ?? LedgerHeaderTab.DocDate,
+                            BalanceAmount = LedgerBalanceTab.Balance,
+                            BillAmount = L.AmtDr != 0 ? L.AmtDr : L.AmtCr
+                        }).FirstOrDefault();
+
+            if (temp != null)
+            {
+                return Json(temp);
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult _LedgerAdj_Single(LedgerToAdjustViewModel_Single svm)
+        {
+            if (svm.BalanceAmount < svm.AdjustedAmount)
+            {
+                string message = "Adjusted Amount is geated then balance amount.";
+                TempData["CSEXCL"] += message;
+                return PartialView("_LedgerAdj_Single", svm);
+            }
+
+            if (svm.BalanceAmount_Adjusted < svm.AdjustedAmount)
+            {
+                string message = "Adjusted Amount is geated then selected bill balance amount.";
+                TempData["CSEXCL"] += message;
+                return PartialView("_LedgerAdj_Single", svm);
+            }
+
+
+
+            if (ModelState.IsValid)
+            {
+                int SiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
+
+
+                if (svm.AdjustedAmount != 0 && svm.AdjustedAmount != null)
+                {
+                    LedgerAdj Adj = new LedgerAdj();
+                    if (svm.DrCr == NatureConstants.Debit)
+                    {
+                        Adj.DrLedgerId = svm.LedgerId;
+                        Adj.CrLedgerId = svm.LedgerId_Adjusted;
+                    }
+                    else
+                    {
+                        Adj.CrLedgerId = svm.LedgerId;
+                        Adj.DrLedgerId = svm.LedgerId_Adjusted;
+                    }
+
+                    Adj.Amount = svm.AdjustedAmount ?? 0;
+                    Adj.SiteId = SiteId;
+                    Adj.CreatedDate = DateTime.Now;
+                    Adj.ModifiedDate = DateTime.Now;
+                    Adj.CreatedBy = User.Identity.Name;
+                    Adj.ModifiedBy = User.Identity.Name;
+                    Adj.ObjectState = Model.ObjectState.Added;
+                    db.LedgerAdj.Add(Adj);
+                }
+
+                try
+                {
+                    db.SaveChanges();
+                }
+
+                catch (Exception ex)
+                {
+                    string message = _exception.HandleException(ex);
+                    ModelState.AddModelError("", message);
+                    return PartialView("_LedgerAdj_Single", svm);
+                }
+
+                //return Json(new { success = true });
+                return RedirectToAction("_LedgerAdj_Single", new { id = svm.LedgerLineId });
+
+            }
+
+            return PartialView("_LedgerAdj", svm);
+        }
+
+
+        [HttpGet]
+        public ActionResult _LedgerAdj_DeletePost(int id)//LedgerAdjId
+        {
+            LedgerAdj Adj = db.LedgerAdj.Find(id);
+            Adj.ObjectState = Model.ObjectState.Deleted;
+            db.LedgerAdj.Add(Adj);
+            db.SaveChanges();
+
+            return Json(new { success = true }, JsonRequestBehavior.AllowGet);
         }
 
     }

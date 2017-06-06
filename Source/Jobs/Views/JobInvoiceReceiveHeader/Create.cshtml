@@ -194,6 +194,16 @@
                                 </div>
                             </div>
 
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.JobWorkerDocDate, (Model.DocumentTypeSettings.PartyCaption ?? "Party") + " Doc Date", new { @class = "control-label col-md-4 col-sm-2" })
+                                    <div class="col-md-7 col-sm-10">
+                                        @Html.TextBoxFor(m => m.JobWorkerDocDate, "{0:dd/MMMM/yyyy}", new { @class = "datepicker form-control " })
+                                        @Html.ValidationMessageFor(m => m.JobWorkerDocDate, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
                        
 
@@ -230,7 +240,7 @@
                             <div class="col-md-6" style="display:@(Model.JobInvoiceSettings.isVisibleFinancier?"":"none")">
                                 @Html.HiddenFor(m => m.JobInvoiceSettings.isVisibleFinancier)
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.FinancierId, "Financier", new { @class = "control-label col-md-4 col-sm-2" })
+                                    @Html.LabelFor(model => model.FinancierId, "Supplier Code", new { @class = "control-label col-md-4 col-sm-2" })
                                     <div class="col-md-7 col-sm-10">
                                         @Html.TextBoxFor(m => m.FinancierId, new { @class = "form-control " })
                                         @Html.ValidationMessageFor(m => m.FinancierId, "", new { @class = "text-danger" })
@@ -760,9 +770,9 @@
     var form_clean;
     $(document).ready(function () {
         //CustomSelectFunction($("#JobWorkerId"), '/ComboHelpList/GetJobWorkersWithProcess', '/ComboHelpList/SetSingleJobWorker', ' ', false, 1,$('#ProcessId').val());
-        CustomSelectFunction($("#JobWorkerId"), '/JobInvoiceReceiveHeader/GetCustomPerson', '/ComboHelpList/SetSinglePerson', ' ', false, 1,$('#DocTypeId').val());
-        CustomSelectFunction($("#GodownId"), '/ComboHelpList/GetGodown', '/ComboHelpList/SetSingleGodown', ' ', false, 1);
-        CustomSelectFunction($("#JobReceiveById"), '/ComboHelpList/GetEmployees', '/ComboHelpList/SetSingleEmployee', ' ', false, 1);
+        CustomSelectFunction($("#JobWorkerId"), '/JobInvoiceReceiveHeader/GetCustomPerson', '/ComboHelpList/SetSinglePerson', ' ', false, 0,$('#DocTypeId').val());
+        CustomSelectFunction($("#GodownId"), '/ComboHelpList/GetGodown', '/ComboHelpList/SetSingleGodown', ' ', false, 0);
+        CustomSelectFunction($("#JobReceiveById"), '/ComboHelpList/GetEmployees', '/ComboHelpList/SetSingleEmployee', ' ', false, 0);
         CustomSelectFunction($("#FinancierId"), '/ComboHelpList/GetFinanciers', '/ComboHelpList/SetSinglePerson', ' ', false, 0);
         //Calling the function to load the table data/ Line information
         LoadProducts();
@@ -791,6 +801,7 @@
         var ProductCaption='@Model.DocumentTypeSettings.ProductCaption';
         var ProductUidCaption='@Model.DocumentTypeSettings.ProductUidCaption';
         var SpecificationCaption='@Model.DocumentTypeSettings.SpecificationCaption';
+        var ProductGroupCaption='@Model.DocumentTypeSettings.ProductGroupCaption';
         var status='@Model.Status';
         var LineEditUrl;
         var LineDeleteUrl;
@@ -835,6 +846,7 @@
                             +"              <div class='row'>"
                             +"                  <div class='block' style='width:20%'>"+(item.ProductName==null?" ":"<strong>"+item.ProductName+"</strong>")
                             +"                      <div>"+(item.Specification==null?" ":SpecificationCaption + " " + item.Specification)+"</div>"
+                            +"                      <div>"+(item.ProductGroupName==null?" ":ProductGroupCaption + " " + item.ProductGroupName)+"</div>"
                             +"                          <div>"+(item.Dimension1Name==null?" ":item.Dimension1Name+",")+(item.Dimension2Name==null?" ":item.Dimension2Name)+(item.Dimension3Name==null?" ":item.Dimension3Name)+(item.Dimension4Name==null?" ":item.Dimension4Name)+"</div>"
                             +"                          <div>"+((item.DueDate==null)?" ":"<span title='DueDate' class='label label-danger' style='font-weight:bold'>"+formatDate('d/m/Y',new Date(parseInt(item.DueDate.substr(6))))+"</span>")
                             +"                          </div>"

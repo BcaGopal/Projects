@@ -67,6 +67,13 @@
                         @*<li style="font-size:12px;padding:8px 8px;text-align:center" class="hidden-lg hidden-md hidden-sm"><a href="/SiteSelection/SiteSelection/" style="padding:0px"><span>@System.Web.HttpContext.Current.Session[SessionNameConstants.SiteShortName]</span><br /><span>@System.Web.HttpContext.Current.Session[SessionNameConstants.DivisionName]</span></a></li>*@
                         <li style="font-size:12px;text-align:center" class="hidden-lg hidden-md hidden-sm dropdown"><a href="@Defaultdomain/SiteSelection/SiteSelection/" style="padding-top:10px;padding-bottom:10px;line-height:15px"><span>@System.Web.HttpContext.Current.Session[ProjLib.Constants.SessionNameConstants.SiteShortName]</span><br /><span>@System.Web.HttpContext.Current.Session[ProjLib.Constants.SessionNameConstants.DivisionName]</span></a></li>
                     </ul>
+
+                    <ul class="nav navbar-nav" style="text-align:center">
+                        @if (((Models.BasicSetup.ViewModels.CompanySettingsViewModel)Session["CompanySettings"]).isVisibleCompanyName ?? false)
+                        {
+                            <li style="text-align:center;font-size:x-large"><a href="#"><span>@System.Web.HttpContext.Current.Session[SessionNameConstants.CompanyName]</span></a></li>
+                        }
+                    </ul>
                 </div>
 
 

@@ -105,7 +105,7 @@ namespace Web
 
                     new  BusinessEntityService(_unitOfWork).Create(businessentity);
 
-                    personaddress.AddressType = AddressTypeConstants.Work;
+                    personaddress.AddressType = null;
                     personaddress.CreatedDate = DateTime.Now;
                     personaddress.ModifiedDate = DateTime.Now;
                     personaddress.CreatedBy = User.Identity.Name;

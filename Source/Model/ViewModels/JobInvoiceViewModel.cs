@@ -25,6 +25,13 @@ namespace Model.ViewModel
         [Display(Name = "JobWorker Doc. No."), MaxLength(20)]
         public string JobWorkerDocNo { get; set; }
 
+        public int? SalesTaxGroupPersonId { get; set; }
+        public string SalesTaxGroupPersonName { get; set; }
+
+        [Display(Name = "Job Worker Doc Date"), Required]
+        public DateTime? JobWorkerDocDate { get; set; }
+
+
         [Display(Name = "Division"), Required]        
         public int DivisionId { get; set; }
         public string DivisionName { get; set; }
@@ -67,6 +74,7 @@ namespace Model.ViewModel
         public bool? Reviewed { get; set; }
         public string LockReason { get; set; }
         public decimal? TotalQty { get; set; }
+        public decimal? TotalAmount { get; set; }
         public int? DecimalPlaces { get; set; }
     }
 
@@ -126,6 +134,8 @@ namespace Model.ViewModel
         public decimal ReceiptBalQty { get; set; }
         public decimal OrderBalanceQty { get; set; }
         public string Specification { get; set; }
+        public int? SalesTaxGroupProductId { get; set; }
+        public int? SalesTaxGroupPersonId { get; set; }
         public decimal Qty { get; set; }
         [Display(Name = "Job Qty")]
         public decimal JobQty { get; set; }
@@ -193,6 +203,7 @@ namespace Model.ViewModel
 
         public int JobInvoiceLineId { get; set; }
         public string ProductName { get; set; }
+        public string ProductGroupName { get; set; }
         public string JobOrderDocNo { get; set; }
         public decimal Qty { get; set; }
         public Decimal DealQty { get; set; }

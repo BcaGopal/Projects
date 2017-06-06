@@ -32,8 +32,9 @@ namespace Service
         int PrevId(int id);
       //  LedgerLine FindByLedgerHeader(int id);
         IEnumerable<LedgerLine> FindByLedgerHeader(int id);
-        IQueryable<ComboBoxResult> GetLedgerAccounts(string term, string AccGroups, string Process);
-        IQueryable<ComboBoxResult> GetCostCenters(string term, string DocTypes, string Process);        
+        IQueryable<ComboBoxResult> GetLedgerAccounts(string term, string AccGroups, string ExcludeAccGroups, string Process);
+        IQueryable<ComboBoxResult> GetCostCenters(string term, string DocTypes, string Process);
+        IQueryable<ComboBoxResult> GetLedgerIds_Adusted(int Id, string term);
     }
 
     public class LedgerLineService : ILedgerLineService
@@ -206,13 +207,16 @@ namespace Service
 
 
 
-        public IQueryable<ComboBoxResult> GetLedgerAccounts(string term, string AccGroups, string Process)
+        public IQueryable<ComboBoxResult> GetLedgerAccounts(string term, string AccGroups, string ExcludeAccGroups, string Process)
         {          
 
             string[] ContraAccGroups = null;
             if (!string.IsNullOrEmpty(AccGroups)) { ContraAccGroups = AccGroups.Split(",".ToCharArray()); }
             else { ContraAccGroups = new string[] { "NA" }; }
 
+            string[] ExcludeContraAccGroups = null;
+            if (!string.IsNullOrEmpty(ExcludeAccGroups)) { ExcludeContraAccGroups = ExcludeAccGroups.Split(",".ToCharArray()); }
+            else { ExcludeContraAccGroups = new string[] { "NA" }; }
 
             string[] ContraProcess = null;
             if (!string.IsNullOrEmpty(Process)) { ContraProcess = Process.Split(",".ToCharArray()); }
@@ -231,7 +235,11 @@ namespace Service
                         from tab in table.DefaultIfEmpty()
                         join t3 in db.PersonProcess on tab.PersonID equals t3.PersonId into table3 from perproc in table3.DefaultIfEmpty()
                         where (string.IsNullOrEmpty(AccGroups) ? 1 == 1 : ContraAccGroups.Contains(p.LedgerAccountGroupId.ToString()))
-                        && (string.IsNullOrEmpty(term) ? 1 == 1 : (p.LedgerAccountName.ToLower().Contains(term.ToLower())) || tab.Code.ToLower().Contains(term.ToLower()))
+                        && (string.IsNullOrEmpty(ExcludeAccGroups) ? 1 == 1 : !ExcludeContraAccGroups.Contains(p.LedgerAccountGroupId.ToString()))
+                        && p.IsActive == true
+                        && (string.IsNullOrEmpty(term) ? 1 == 1 : (p.LedgerAccountName.ToLower().Contains(term.ToLower())) 
+                            || tab.Code.ToLower().Contains(term.ToLower())
+                            || tab.Suffix.ToLower().Contains(term.ToLower()))
                         && (tab2 == null || ((string.IsNullOrEmpty(Process) ? 1 == 1 : ContraProcess.Contains(perproc.ProcessId.ToString())) && tab2.DivisionIds.IndexOf(DivId) != -1
                         && tab2.SiteIds.IndexOf(SiteId) != -1))
                         select new ComboBoxResult
@@ -308,6 +316,28 @@ namespace Service
 
             return ComboBoxResult;
         }
+
+
+        public IQueryable<ComboBoxResult> GetLedgerIds_Adusted(int Id, string term)
+        {
+            SqlParameter SqlParameterLedgerId = new SqlParameter("@LedgerId", Id);
+            var PendingLedgerViewModel = db.Database.SqlQuery<PendingLedgerViewModel>("" + ConfigurationManager.AppSettings["DataBaseSchema"] + ".sp_GetLedgerToAdjust @LedgerId", SqlParameterLedgerId).ToList().AsQueryable();
+
+            return (from p in PendingLedgerViewModel
+                    where (string.IsNullOrEmpty(term) ? 1 == 1 : p.LedgerHeaderDocNo.ToLower().Contains(term.ToLower())
+                    || string.IsNullOrEmpty(term) ? 1 == 1 : p.PartyDocNo.ToLower().Contains(term.ToLower()))
+                    && p.BillAmount - p.AdjustedAmount > 0
+                    select new ComboBoxResult
+                    {
+                        id = p.LedgerId.ToString(),
+                        text = p.LedgerHeaderDocNo,
+                        AProp1 = "Party Doc No : " +  p.PartyDocNo,
+                        AProp2 = "Party Doc Date : " + p.PartyDocDate,
+                        TextProp1 = "Balance Amount : " + p.BalanceAmount,
+                        TextProp2 = "Bill Amount : " + p.BillAmount
+                    });
+        }
+
 
     }
 

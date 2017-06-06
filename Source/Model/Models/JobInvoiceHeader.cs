@@ -34,6 +34,9 @@ namespace Model.Models
         [Display(Name = "JobWorker Doc. No."), MaxLength(20)]
         public string JobWorkerDocNo { get; set; }
 
+        [Display(Name = "Job Worker Doc Date"), Required]
+        public DateTime? JobWorkerDocDate { get; set; }
+
         [Display(Name = "Division"),Required ]
         [ForeignKey("Division")]
         [Index("IX_JobInvoiceHeader_DocID", IsUnique = true, Order = 3)]
@@ -72,6 +75,12 @@ namespace Model.Models
         public virtual JobReceiveHeader JobReceiveHeader { get; set; }
 
         public int? CreditDays { get; set; }
+
+
+        [ForeignKey("SalesTaxGroupPerson")]
+        [Display(Name = "SalesTaxGroupPerson")]
+        public int? SalesTaxGroupPersonId { get; set; }
+        public virtual ChargeGroupPerson SalesTaxGroupPerson { get; set; }
 
         [Display(Name = "Remark")]
         public string Remark { get; set; }

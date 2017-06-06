@@ -360,6 +360,7 @@ namespace Web
                     saleinvoiceheaderdetail.FinancierId = vm.FinancierId;
                     saleinvoiceheaderdetail.SalesExecutiveId = vm.SalesExecutiveId;
                     saleinvoiceheaderdetail.Remark = vm.Remark;
+                    saleinvoiceheaderdetail.TermsAndConditions = vm.TermsAndConditions;
                     saleinvoiceheaderdetail.ModifiedDate = DateTime.Now;
                     saleinvoiceheaderdetail.ModifiedBy = User.Identity.Name;
                     _SaleInvoiceHeaderService.Update(saleinvoiceheaderdetail);
@@ -844,9 +845,13 @@ namespace Web
                     db.LedgerHeader.Remove(LH);
                 }
 
-                SH.ObjectState = Model.ObjectState.Deleted;
-                db.StockHeader.Attach(SH);
-                db.StockHeader.Remove(SH);
+                if (SH != null)
+                {
+                    SH.ObjectState = Model.ObjectState.Deleted;
+                    db.StockHeader.Attach(SH);
+                    db.StockHeader.Remove(SH);
+                }
+
 
                 //Commit the DB
                 try

@@ -19,6 +19,7 @@
     @Html.AntiForgeryToken()
     @Html.HiddenFor(m => m.SiteId)
     @Html.HiddenFor(m => m.Status)
+    @Html.HiddenFor(m => m.LedgerSetting.IsAutoDocNo)
     @Html.HiddenFor(m => m.DivisionId)
     @Html.HiddenFor(m => m.LedgerHeaderId)
     @Html.HiddenFor(m => m.DocumentCategoryId)
@@ -369,6 +370,8 @@
 
     <script type="text/javascript">
 
+
+
         //For Populating Modal PopUp on DoubleClick Of Row
         $('#gbody').on("dblclick",'.grid-body',function(){
             var text = $(this).find(".id").val();
@@ -453,6 +456,14 @@ else
 
         //Adding Hidden Input Fields
         AddFields();
+
+        if ($("#LedgerSetting_IsAutoDocNo").val() == "True")
+        {
+            $("#DocNo").prop('readonly', true);
+        }
+        else{
+            $("#DocNo").removeAttr("readonly");
+        }
 
         //Calling the function to load the table data/ Line information
         var id=@Model.LedgerHeaderId;
@@ -540,7 +551,7 @@ else
                 if(data.length!=0)
                 {
                     $.each(data, function (index, item) {
-                        row += " <div class='row crow grid-body' style='margin-left:0px;margin-right:0px'><div class='col-xs-1 row-index' style='width: 5%'>"+srno+"<input type='hidden' class='id' value='"+item.LedgerHeaderId+"' /></div><div class='col-xs-10' style='width:88%'><div class='row'><div class='col-sm-4'>"+(item.LedgerAccountName==null?" ":"<strong>"+item.LedgerAccountName+"</strong>")+"  <div>  </div></div>            <div class='col-sm-2'>"+(item.ReferenceDocNo==null?" ":item.ReferenceDocNo)+"</div> <div class='col-sm-2'>"+(item.CostCenterName==null?" ":item.CostCenterName)+"</div>  <div class='col-sm-2 text-right number'  >"+(item.Amount==null?" ":item.Amount.toFixed(2))+"</div>     <div class='col-sm-2 text-center'>"+(item.ChqNo==null?" ":"ChqNo-"+item.ChqNo)+"<br /> "+(item.DueDate==null?" ":"ChqDt-"+formatDate('d/m/Y',new Date(parseInt(item.DueDate.substr(6)))))+" </div>                         </div></div><div class='col-xs-1' style='width: 5%'><a class='glyphicon glyphicon-trash icon-Cus-Size' delete='' href='"+LineDeleteUrl+item.LedgerLineId+"'></a><a  edit='' href='"+LineEditUrl+item.LedgerLineId+"'></a>"+(IsVisibleLedgerAdj=='False' ?" ":" <a  style='padding:3px;' class='glyphicon glyphicon-edit' data-modal='' delete='' href='/LedgerLine/_LedgerAdj/"+item.LedgerLineId+"' ></a>")+"</div></div><hr style='margin-top:0px;margin-bottom:0px'/></div>";
+                        row += " <div class='row crow grid-body' style='margin-left:0px;margin-right:0px'><div class='col-xs-1 row-index' style='width: 5%'>"+srno+"<input type='hidden' class='id' value='"+item.LedgerHeaderId+"' /></div><div class='col-xs-10' style='width:88%'><div class='row'><div class='col-sm-4'>"+(item.LedgerAccountName==null?" ":"<strong>"+item.LedgerAccountName+"</strong>")+"  <div>  </div></div>            <div class='col-sm-2'>"+(item.ReferenceDocNo==null?" ":item.ReferenceDocNo)+"</div> <div class='col-sm-2'>"+(item.CostCenterName==null?" ":item.CostCenterName)+"</div>  <div class='col-sm-2 text-right number'  >"+(item.Amount==null?" ":item.Amount.toFixed(2))+"</div>     <div class='col-sm-2 text-center'>"+(item.ChqNo==null?" ":"ChqNo-"+item.ChqNo)+"<br /> "+(item.DueDate==null?" ":"ChqDt-"+formatDate('d/m/Y',new Date(parseInt(item.DueDate.substr(6)))))+" </div>                         </div></div><div class='col-xs-1' style='width: 5%'><a class='glyphicon glyphicon-trash ' delete='' href='"+LineDeleteUrl+item.LedgerLineId+"'></a><a  edit='' href='"+LineEditUrl+item.LedgerLineId+"'></a>"+(IsVisibleLedgerAdj=='False' ?" ":" <a  style='padding:3px;' class='glyphicon glyphicon-edit' data-modal='' delete='' href='/LedgerLine/_LedgerAdj_Single/"+item.LedgerLineId+"' ></a>")+"</div></div><hr style='margin-top:0px;margin-bottom:0px'/></div>";
 
                         AmountCount+=item.Amount;
                         srno++;

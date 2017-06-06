@@ -138,6 +138,15 @@ namespace Service
             return pt;
         }
 
+        public LedgerAccountGroup GetParentGroupDetail(int id)
+        {
+            var temp = (from b in db.LedgerAccountGroup
+                        where b.LedgerAccountGroupId == id
+                        select b).FirstOrDefault();
+
+            return (temp);
+        }
+
         public void Dispose()
         {
         }

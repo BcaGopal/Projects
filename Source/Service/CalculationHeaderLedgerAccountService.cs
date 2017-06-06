@@ -113,8 +113,8 @@ namespace Service
 
 
             Records = (from p in db.CalculationHeaderLedgerAccount
+                       join f in db.CalculationFooter on p.CalculationFooterId equals f.CalculationFooterLineId into CalculationFooterTable from CalculationFooterTab in CalculationFooterTable.DefaultIfEmpty()
                        where p.CalculationId == id && p.DocTypeId == DocTypeId && p.SiteId == SiteId && p.DivisionId == DivisionId
-                       orderby p.CalculationHeaderLedgerAccountId
                        select new CalculationHeaderLedgerAccountViewModel
                        {
                            CalculationFooterId = p.CalculationFooterId,
@@ -132,6 +132,7 @@ namespace Service
                            LedgerAccountDrName = p.LedgerAccountDr.LedgerAccountName,
                            ContraLedgerAccountName = p.ContraLedgerAccount.LedgerAccountName,
                            ContraLedgerAccountId = p.ContraLedgerAccountId,
+                           Sr = CalculationFooterTab.Sr
                        }).ToList();
 
             var PendingRecords = (from p in db.CalculationFooter
@@ -147,12 +148,13 @@ namespace Service
                                       CostCenterId = p.CostCenterId,
                                       CostCenterName = p.CostCenter.CostCenterName,
                                       DocTypeId = DocTypeId,
+                                      Sr = p.Sr
                                   });
 
             foreach (var item in PendingRecords)
                 Records.Add(item);
 
-            return (Records);
+            return (Records.OrderBy(m => m.Sr));
 
         }
 

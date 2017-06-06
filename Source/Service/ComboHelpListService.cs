@@ -35,7 +35,7 @@ namespace Service
         IEnumerable<ComboBoxList> GetTransporterHelpList();
         IEnumerable<ComboBoxList> GetSupplierHelpList();
         IEnumerable<ComboBoxList> GetMenuHelpList();
-        IEnumerable<CustomComboBoxResult> GetSelect2HelpList(string SqlProcGet, string searchTerm, int pageSize, int pageNum);
+        CustomComboBoxPagedResult GetSelect2HelpList(string SqlProcGet, string searchTerm, int pageSize, int pageNum);
         IEnumerable<ComboBoxList> GetJobWorkerHelpList();
         IEnumerable<ComboBoxList> GetJobWorkerHelpList_WithProcess(int ProcessId);
         IEnumerable<ComboBoxList> GetEmployeeHelpList();
@@ -184,6 +184,7 @@ namespace Service
         IQueryable<ComboBoxResult> GetAddresses(string term);
         IQueryable<ComboBoxResult> GetCurrencies(string term);
         IQueryable<ComboBoxResult> GetSalesTaxGroupPerson(string term);
+        IQueryable<ComboBoxResult> GetSalesTaxGroupProduct(string term);
         IQueryable<ComboBoxResult> GetShipMethods(string term);
         IQueryable<ComboBoxResult> GetDocumentShipMethods(string term);
         IQueryable<ComboBoxResult> GetTransporters(string term);
@@ -192,6 +193,13 @@ namespace Service
         IQueryable<ComboBoxResult> GetSalesExecutives(string term);
         IQueryable<ComboBoxResult> GetChargeGroupProducts(string term);
         IQueryable<ComboBoxResult> GetBinLocations(string term, int filter);
+        IQueryable<ComboBoxResult> GetSites(string term);
+        IQueryable<ComboBoxResult> GetDivisions(string term);
+        IEnumerable<ComboBoxResult> GetProductIndexFilterParameter(string term);
+
+        List<ComboBoxResult> SetSelct2Data(string Id, string SqlProcSet);
+        ComboBoxResult SetSingleSelect2Data(int Id, string SqlProcSet);
+
 
     }
 
@@ -2230,44 +2238,44 @@ namespace Service
             return PersonCustomGrouplist;
         }
 
-        public IEnumerable<CustomComboBoxResult> GetSelect2HelpList(string SqlProcGet, string searchTerm, int pageSize, int pageNum)
-        {
+        //public IEnumerable<CustomComboBoxPagedResult> GetSelect2HelpList(string SqlProcGet, string searchTerm, int pageSize, int pageNum)
+        //{
 
-            //int SiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
-            //int DivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
+        //    //int SiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
+        //    //int DivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
 
-            //SqlParameter SqlParameterIds = new SqlParameter("@Ids", DBNull.Value);
-            //SqlParameter SqlParameterSearchString = new SqlParameter("@SearchString", searchTerm);
-            //SqlParameter SqlParameterPageSize = new SqlParameter("@PageSize", pageSize);
-            //SqlParameter SqlParameterPageNo = new SqlParameter("@PageNo", pageNum - 1);
-            //SqlParameter SqlParameterSiteId = new SqlParameter("@SiteId", SiteId);
-            //SqlParameter SqlParameterDivisionId = new SqlParameter("@DivisionId", DivisionId);
+        //    //SqlParameter SqlParameterIds = new SqlParameter("@Ids", DBNull.Value);
+        //    //SqlParameter SqlParameterSearchString = new SqlParameter("@SearchString", searchTerm);
+        //    //SqlParameter SqlParameterPageSize = new SqlParameter("@PageSize", pageSize);
+        //    //SqlParameter SqlParameterPageNo = new SqlParameter("@PageNo", pageNum - 1);
+        //    //SqlParameter SqlParameterSiteId = new SqlParameter("@SiteId", SiteId);
+        //    //SqlParameter SqlParameterDivisionId = new SqlParameter("@DivisionId", DivisionId);
 
-            //IEnumerable<CustomComboBoxResult> Select2List = db.Database.SqlQuery<CustomComboBoxResult>(SqlProcGet + " @Ids, @SearchString, @PageSize, @PageNo, @SiteId, @DivisionId", SqlParameterIds, SqlParameterSearchString, SqlParameterPageSize, SqlParameterPageNo,SqlParameterSiteId,SqlParameterDivisionId).ToList();
+        //    //IEnumerable<CustomComboBoxResult> Select2List = db.Database.SqlQuery<CustomComboBoxResult>(SqlProcGet + " @Ids, @SearchString, @PageSize, @PageNo, @SiteId, @DivisionId", SqlParameterIds, SqlParameterSearchString, SqlParameterPageSize, SqlParameterPageNo,SqlParameterSiteId,SqlParameterDivisionId).ToList();
 
-            //return Select2List;
+        //    //return Select2List;
 
-            int SiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
-            int DivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
+        //    int SiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
+        //    int DivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
 
-            //SqlParameter SqlParameterIds = new SqlParameter("@Ids", DBNull.Value);
-            //SqlParameter SqlParameterSearchString = new SqlParameter("@SearchString", searchTerm);
-            //SqlParameter SqlParameterPageSize = new SqlParameter("@PageSize", pageSize);
-            //SqlParameter SqlParameterPageNo = new SqlParameter("@PageNo", pageNum - 1);
-            //SqlParameter SqlParameterSiteId = new SqlParameter("@SiteId", SiteId);
-            //SqlParameter SqlParameterDivisionId = new SqlParameter("@DivisionId", DivisionId);
+        //    //SqlParameter SqlParameterIds = new SqlParameter("@Ids", DBNull.Value);
+        //    //SqlParameter SqlParameterSearchString = new SqlParameter("@SearchString", searchTerm);
+        //    //SqlParameter SqlParameterPageSize = new SqlParameter("@PageSize", pageSize);
+        //    //SqlParameter SqlParameterPageNo = new SqlParameter("@PageNo", pageNum - 1);
+        //    //SqlParameter SqlParameterSiteId = new SqlParameter("@SiteId", SiteId);
+        //    //SqlParameter SqlParameterDivisionId = new SqlParameter("@DivisionId", DivisionId);
 
-            if (SqlProcGet.Contains(" ") == true)
-                SqlProcGet = SqlProcGet + " ,";
+        //    if (SqlProcGet.Contains(" ") == true)
+        //        SqlProcGet = SqlProcGet + " ,";
 
-            string mQry;
+        //    string mQry;
 
-            mQry = " " + SqlProcGet + " @SearchString = '" + searchTerm + "', @PageSize =" + pageSize.ToString() + ", @PageNo =" + (pageNum - 1).ToString() + ", @SiteId= " + SiteId.ToString() + ", @DivisionId= " + DivisionId.ToString();
-            IEnumerable<CustomComboBoxResult> Select2List = db.Database.SqlQuery<CustomComboBoxResult>(mQry).ToList();
+        //    mQry = " " + SqlProcGet + " @SearchString = '" + searchTerm + "', @PageSize =" + pageSize.ToString() + ", @PageNo =" + (pageNum - 1).ToString() + ", @SiteId= " + SiteId.ToString() + ", @DivisionId= " + DivisionId.ToString();
+        //    IEnumerable<CustomComboBoxPagedResult> Select2List = db.Database.SqlQuery<ComboBoxResult>(mQry).ToList();
 
-            return Select2List;
+        //    return Select2List;
 
-        }
+        //}
 
         public IQueryable<ComboBoxResult> GetJobWorkerHelpListWithProcessFilter(int Processid, string term)
         {
@@ -2726,6 +2734,22 @@ namespace Service
             return list;
         }
 
+        public IQueryable<ComboBoxResult> GetSalesTaxGroupProduct(string term)
+        {
+            var list = (from D in db.ChargeGroupProduct
+                        where D.IsActive == true
+                        orderby D.ChargeGroupProductName
+                        select new ComboBoxResult
+                        {
+                            id = D.ChargeGroupProductId.ToString(),
+                            text = D.ChargeGroupProductName
+                        }
+              );
+
+            return list;
+        }
+
+
 
         public IQueryable<ComboBoxResult> GetShipMethods(string term)
         {
@@ -2850,7 +2874,7 @@ namespace Service
                         select new ComboBoxResult
                         {
                             id = Result.Key.PersonID.ToString(),
-                            text = Result.Max(m => m.D.Name + "," + m.D.Suffix + "|" + m.D.Code),
+                            text = Result.Max(m => m.D.Name + ", " + m.D.Suffix + " [" + m.D.Code + "]"),
                         }
               );
 
@@ -2874,7 +2898,7 @@ namespace Service
                         select new ComboBoxResult
                         {
                             id = D.PersonID.ToString(),
-                            text = D.Name
+                            text = D.Name + ", " + D.Suffix + " [" + D.Code + "]"
                         }
               );
 
@@ -2954,6 +2978,106 @@ namespace Service
 
             return ProcessList;
         }
+
+        public IQueryable<ComboBoxResult> GetSites(string term)
+        {
+            var list = (from D in db.Site
+                        where (string.IsNullOrEmpty(term) ? 1 == 1 : (D.SiteName.ToLower().Contains(term.ToLower())))
+                        orderby D.SiteName
+                        select new ComboBoxResult
+                        {
+                            id = D.SiteId.ToString(),
+                            text = D.SiteName
+                        }
+              );
+            return list;
+        }
+
+        public IQueryable<ComboBoxResult> GetDivisions(string term)
+        {
+            var list = (from D in db.Divisions
+                        where (string.IsNullOrEmpty(term) ? 1 == 1 : (D.DivisionName.ToLower().Contains(term.ToLower())))
+                        orderby D.DivisionName
+                        select new ComboBoxResult
+                        {
+                            id = D.DivisionId.ToString(),
+                            text = D.DivisionName
+                        }
+              );
+            return list;
+        }
+
+
+
+
+
+
+        public IEnumerable<ComboBoxResult> GetProductIndexFilterParameter(string term)
+        {
+            List<ComboBoxResult> ResultList = new List<ComboBoxResult>();
+            ResultList.Add(new ComboBoxResult { id = IndexFilterParameterConstants.All, text = IndexFilterParameterConstants.All });
+            ResultList.Add(new ComboBoxResult { id = IndexFilterParameterConstants.Active, text = IndexFilterParameterConstants.Active });
+            ResultList.Add(new ComboBoxResult { id = IndexFilterParameterConstants.InActive, text = IndexFilterParameterConstants.InActive });
+            ResultList.Add(new ComboBoxResult { id = IndexFilterParameterConstants.Discontinue, text = IndexFilterParameterConstants.Discontinue });
+
+
+            var list = (from D in ResultList
+                        where (string.IsNullOrEmpty(term) ? 1 == 1 : (D.text.ToLower().Contains(term.ToLower())))
+                        orderby D.text
+                        select new ComboBoxResult
+                        {
+                            id = D.id,
+                            text = D.text
+                        }
+              );
+            return list;
+        }
+
+
+        #region "For Sql Procedure Help"
+
+        public CustomComboBoxPagedResult GetSelect2HelpList(string SqlProcGet, string searchTerm, int pageSize, int pageNum)
+        {
+            int SiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
+            int DivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
+
+            if (SqlProcGet.Contains(" ") == true)
+                SqlProcGet = SqlProcGet + " ,";
+
+            string mQry;
+
+            mQry = " " + SqlProcGet + " @SearchString = '" + searchTerm + "', @PageSize =" + pageSize.ToString() + ", @PageNo =" + (pageNum - 1).ToString() + ", @SiteId= " + SiteId.ToString() + ", @DivisionId= " + DivisionId.ToString();
+            IEnumerable<CustomComboBoxResult> Select2List = db.Database.SqlQuery<CustomComboBoxResult>(mQry).ToList();
+
+            CustomComboBoxPagedResult pagedAttendees = new CustomComboBoxPagedResult();
+            pagedAttendees.Results = Select2List.ToList();
+            pagedAttendees.Total = Select2List.Count() > 0 ? Select2List.FirstOrDefault().RecCount : 0;
+
+            return pagedAttendees;
+
+        }
+
+
+        public List<ComboBoxResult> SetSelct2Data(string Id, string SqlProcSet)
+        {
+            if (SqlProcSet.Contains(" ") == true)
+                SqlProcSet = SqlProcSet + " ,";
+
+
+            List<ComboBoxResult> ProductJson = db.Database.SqlQuery<ComboBoxResult>(" " + SqlProcSet + " @Ids = \'" + Id + "\'").ToList();
+
+            return ProductJson;
+        }
+
+        public ComboBoxResult SetSingleSelect2Data(int Id, string SqlProcSet)
+        {
+            SqlParameter SqlParameterDocId = new SqlParameter("@Ids", Id);
+            ComboBoxResult ProductJson = db.Database.SqlQuery<ComboBoxResult>(" " + SqlProcSet + " @Ids ", SqlParameterDocId).FirstOrDefault();
+
+            return ProductJson;
+        }
+
+        #endregion
 
 
     }
