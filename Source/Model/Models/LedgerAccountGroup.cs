@@ -22,6 +22,9 @@ namespace Model.Models
         [Index("IX_LedgerAccountGroup_LedgerAccountGroupName", IsUnique = true)]
         public string LedgerAccountGroupName { get; set; }
 
+        public Byte? Weightage { get; set; }
+        
+
         [Display(Name = "Is Active ?")]
         public Boolean IsActive { get; set; }
         [Display(Name = "Is System Define ?")]

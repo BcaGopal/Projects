@@ -2869,6 +2869,9 @@ namespace Service
                         join Pp in db.PersonProcess on D.PersonID equals Pp.PersonId into PersonProcessTable from PersonProcessTab in PersonProcessTable.DefaultIfEmpty()
                         where D.IsActive == true && DocumentTypeTab.DocumentCategoryId == FinancierDocCategoryId
                         && (filter == null ? 1 == 1 : PersonProcessTab.ProcessId == filter)
+                        && (string.IsNullOrEmpty(term) ? 1 == 1 : D.Name.ToLower().Contains(term.ToLower())
+                            || string.IsNullOrEmpty(term) ? 1 == 1 : D.Code.ToLower().Contains(term.ToLower())
+                            || string.IsNullOrEmpty(term) ? 1 == 1 : D.Suffix.ToLower().Contains(term.ToLower()))
                         group new { D } by new { D.PersonID } into Result
                         orderby Result.Max(m => m.D.Name)
                         select new ComboBoxResult
@@ -2894,6 +2897,9 @@ namespace Service
                         join Pr in db.PersonRole on D.PersonID equals Pr.PersonId into PersonRoleTable
                         from PersonRoleTab in PersonRoleTable.DefaultIfEmpty()
                         where D.IsActive == true && PersonRoleTab.RoleDocTypeId == SalesExecutiveDocTypeId
+                             && (string.IsNullOrEmpty(term) ? 1 == 1 : D.Name.ToLower().Contains(term.ToLower())
+                            || string.IsNullOrEmpty(term) ? 1 == 1 : D.Code.ToLower().Contains(term.ToLower())
+                            || string.IsNullOrEmpty(term) ? 1 == 1 : D.Suffix.ToLower().Contains(term.ToLower()))
                         orderby D.Name
                         select new ComboBoxResult
                         {

@@ -244,7 +244,7 @@ namespace Service
                         && tab2.SiteIds.IndexOf(SiteId) != -1))
                         select new ComboBoxResult
                         {
-                            text=p.LedgerAccountName + (tab2==null? "" : " | " + tab.Suffix +" | " + tab.Code),
+                            text=p.LedgerAccountName + (tab2==null ? "" : ", " + tab.Suffix +" [" + tab.Code + "]"),
                             id=p.LedgerAccountId.ToString(),
                         });
 

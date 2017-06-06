@@ -141,7 +141,7 @@ namespace Service
                         DocNo = g.Max(m => m.p.DocNo),
                         DocTypeName = g.Max(m => m.p.DocType.DocumentTypeName),
                         //LedgerAccountName = g.Max(m => m.p.LedgerAccount.LedgerAccountName) + " {" + g.Max(m => m.p.LedgerAccount.LedgerAccountSuffix) + "}",
-                        LedgerAccountName = g.Max(m => m.p.LedgerAccount.LedgerAccountName + "," + m.p.LedgerAccount.LedgerAccountSuffix),
+                        LedgerAccountName = g.Max(m => m.p.LedgerAccount.LedgerAccountName + ", " + (m.p.LedgerAccount.PersonId != null ? m.p.LedgerAccount.Person.Suffix + " [" + m.p.LedgerAccount.Person.Code + "]" : m.p.LedgerAccount.LedgerAccountSuffix)),
                         Narration = g.Max(m => m.p.Narration),
                         ModifiedBy = g.Max(m => m.p.ModifiedBy),
                         Remark = g.Max(m => m.p.Remark),
@@ -149,11 +149,12 @@ namespace Service
                         Status = g.Max(m => m.p.Status),
                         LedgerHeaderId = g.Max(m => m.p.LedgerHeaderId),
                         //AccountName = g.Max(m => m.ProTab.LedgerAccount.LedgerAccountName) + " {" + g.Max(m => m.ProTab.LedgerAccount.LedgerAccountSuffix) + "}",
-                        AccountName = g.Max(m => m.ProTab.LedgerAccount.LedgerAccountName + "," + m.ProTab.LedgerAccount.LedgerAccountSuffix),
+                        //AccountName = g.Max(m => m.ProTab.LedgerAccount.LedgerAccountName + "," + m.ProTab.LedgerAccount.LedgerAccountSuffix),
+                        AccountName = g.Max(m => m.ProTab.LedgerAccount.LedgerAccountName + ", " + (m.ProTab.LedgerAccount.PersonId != null ? m.ProTab.LedgerAccount.Person.Suffix + " [" + m.ProTab.LedgerAccount.Person.Code + "]" : m.ProTab.LedgerAccount.LedgerAccountSuffix)),
                         ReviewCount = g.Max(m => m.p.ReviewCount),
                         ReviewBy = g.Max(m => m.p.ReviewBy),
                         Reviewed = (SqlFunctions.CharIndex(Uname, g.Max(m => m.p.ReviewBy)) > 0),
-                        TotalAmount = g.Max(m => m.ProTab.Amount),
+                        TotalAmount = g.Sum(m => m.ProTab.Amount),
                     });
         }
 

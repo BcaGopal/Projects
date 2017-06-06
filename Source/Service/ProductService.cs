@@ -131,6 +131,7 @@ namespace Service
                            IsActive = p.IsActive,
                            IsSystemDefine = p.IsSystemDefine,
                            StandardWeight = p.StandardWeight,
+                           SaleRate = p.SaleRate,
                            ProductSpecification = p.ProductSpecification,
                            DefaultDimension1Id = p.DefaultDimension1Id,
                            DefaultDimension1Name = p.DefaultDimension1.Dimension1Name,

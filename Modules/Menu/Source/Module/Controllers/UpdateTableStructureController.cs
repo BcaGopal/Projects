@@ -1233,7 +1233,14 @@ namespace Module
             AddFields("Products", "DiscontinueDate", "DateTime");
             AddFields("Products", "DiscontinueReason", "nvarchar(Max)");
 
+
+            AddFields("CostCenters", "ProductUidId", "Int","ProductUids");
+            AddFields("SaleDispatchLines", "CostCenterId", "Int", "CostCenters");
+
             AddFields("ProductTypeSettings", "IndexFilterParameter", "nvarchar(20)");
+
+            AddFields("LedgerAccountGroups", "Weightage", "Byte");
+            AddFields("Ledgers", "Priority", "Int");
 
 
             return RedirectToAction("Module", "Menu");

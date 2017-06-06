@@ -64,6 +64,11 @@ namespace Model.Models
         public int? ReferenceDocId { get; set; }
         public string ReferenceDocNo { get; set; }
 
+        [ForeignKey("ProductUid"), Display(Name = "ProductUid")]
+        public int? ProductUidId { get; set; }
+        public virtual ProductUid ProductUid { get; set; }
+
+
         [Display(Name = "Created By")]
         public string CreatedBy { get; set; }
 

@@ -63,7 +63,7 @@
                 @Html.ValidationSummary(true)
 
                 <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-                    @foreach (var item in Model.ImportLine.GroupBy(m => new { m.Type, m.IsCollapse }).OrderBy(m => m.Key.Type))
+                    @foreach (var item in Model.ImportLine.GroupBy(m => new { m.Type, m.FileNo, m.IsCollapse }).OrderBy(m => m.Key.FileNo))
                     {
                         Regex rexp = new Regex(@"[\d\W]");
                         string key = rexp.Replace(item.Key.Type, "");

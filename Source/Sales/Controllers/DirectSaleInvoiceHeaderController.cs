@@ -1352,6 +1352,7 @@ namespace Web
 
 
             LedgerHeaderViewModel.LedgerHeaderId = pd.LedgerHeaderId ?? 0;
+            LedgerHeaderViewModel.DocHeaderId = pd.SaleInvoiceHeaderId;
             LedgerHeaderViewModel.DocTypeId = pd.DocTypeId;
             LedgerHeaderViewModel.ProcessId  = Settings.ProcessId;
             LedgerHeaderViewModel.DocDate = pd.DocDate;

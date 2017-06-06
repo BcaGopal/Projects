@@ -399,8 +399,6 @@ namespace Web
 
                 if (ModelState.IsValid)
                 {
-                    int ProcessId = new ProcessService(_unitOfWork).Find(ProcessConstants.FullFinishing).ProcessId;
-
                     SaleInvoiceReturnLine s = Mapper.Map<SaleInvoiceReturnLineViewModel, SaleInvoiceReturnLine>(svm);
                     s.Sr = _SaleInvoiceReturnLineService.GetMaxSr(s.SaleInvoiceReturnHeaderId);
                     s.DiscountPer = svm.DiscountPer;
@@ -429,13 +427,13 @@ namespace Web
                     StockViewModel.DivisionId = SaleDispatchReturnHeader.DivisionId;
                     StockViewModel.SiteId = SaleDispatchReturnHeader.SiteId;
                     StockViewModel.CurrencyId = null;
-                    StockViewModel.HeaderProcessId = ProcessId;
+                    StockViewModel.HeaderProcessId = null;
                     StockViewModel.PersonId = SaleDispatchReturnHeader.BuyerId;
                     StockViewModel.ProductId = svm.ProductId;
                     StockViewModel.HeaderFromGodownId = null;
                     StockViewModel.HeaderGodownId = SaleDispatchReturnHeader.GodownId;
                     StockViewModel.GodownId = SaleDispatchReturnHeader.GodownId;
-                    StockViewModel.ProcessId = ProcessId;
+                    StockViewModel.ProcessId = null;
                     StockViewModel.LotNo = null;
                     StockViewModel.CostCenterId = null;
                     StockViewModel.Qty_Iss = 0;

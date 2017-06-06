@@ -1388,14 +1388,15 @@ namespace Web
 
         public JsonResult SetSingleAccount(int Ids)
         {
-            ComboBoxResult ProductJson = new ComboBoxResult();
-
-            IEnumerable<LedgerAccount> prod = from p in db.LedgerAccount
-                                              where p.LedgerAccountId == Ids
-                                              select p;
-
-            ProductJson.id = prod.FirstOrDefault().LedgerAccountId.ToString();
-            ProductJson.text = prod.FirstOrDefault().LedgerAccountName;
+            ComboBoxResult ProductJson = (from p in db.LedgerAccount
+                       join s in db.Persons on p.PersonId equals s.PersonID into PersonTable
+                       from PersonTab in PersonTable.DefaultIfEmpty()
+                       where p.LedgerAccountId == Ids
+                       select new ComboBoxResult
+                       {
+                           id = p.LedgerAccountId.ToString(),
+                           text = p.LedgerAccountName + ", " + (PersonTab.PersonID != null ? PersonTab.Suffix + " [" + PersonTab.Code + "]" : p.LedgerAccountSuffix)
+                       }).FirstOrDefault();
 
             return Json(ProductJson);
         }

@@ -107,15 +107,18 @@ namespace Web
             {
                 LedgerAccount LedgerAccount = new LedgerAccountService(_unitOfWork).GetLedgerAccountByPersondId(svm.PersonId);
 
-                var temp = (from H in db.LedgerHeader
-                            where H.DocTypeId == svm.DocTypeId && H.DocNo == svm.DocNo && H.SiteId == svm.SiteId && H.DivisionId == svm.DivisionId
-                            select H).FirstOrDefault();
-
-                if (temp != null)
+                if (svm.LedgerHeaderId <= 0)
                 {
-                    if (svm.LedgerSetting.IsAutoDocNo == true)
+                    var temp = (from H in db.LedgerHeader
+                                where H.DocTypeId == svm.DocTypeId && H.DocNo == svm.DocNo && H.SiteId == svm.SiteId && H.DivisionId == svm.DivisionId
+                                select H).FirstOrDefault();
+
+                    if (temp != null)
                     {
-                        svm.DocNo = new DocumentTypeService(_unitOfWork).FGetNewDocNo("DocNo", ConfigurationManager.AppSettings["DataBaseSchema"] + ".LedgerHeaders", svm.DocTypeId, svm.DocDate, svm.DivisionId, svm.SiteId);
+                        if (svm.LedgerSetting.IsAutoDocNo == true)
+                        {
+                            svm.DocNo = new DocumentTypeService(_unitOfWork).FGetNewDocNo("DocNo", ConfigurationManager.AppSettings["DataBaseSchema"] + ".LedgerHeaders", svm.DocTypeId, svm.DocDate, svm.DivisionId, svm.SiteId);
+                        }
                     }
                 }
 
@@ -290,6 +293,18 @@ namespace Web
         public ActionResult _Edit(int id)//LedgerHeaderId
         {
             PersonOpeningViewModel temp = _PersonOpeningService.GetPersonOpeningForEdit(id);
+
+            var settings = new LedgerSettingService(_unitOfWork).GetLedgerSettingForDocument(temp.DocTypeId, temp.DivisionId, temp.SiteId);
+
+            if (settings == null && UserRoles.Contains("Admin"))
+            {
+                return RedirectToAction("Create", "LedgerSetting", new { id = temp.DocTypeId }).Warning("Please create Ledger settings");
+            }
+            else if (settings == null && !UserRoles.Contains("Admin"))
+            {
+                return View("~/Views/Shared/InValidSettings.cshtml");
+            }
+            temp.LedgerSetting = Mapper.Map<LedgerSetting, LedgerSettingViewModel>(settings);
             
             if (temp == null)
             {

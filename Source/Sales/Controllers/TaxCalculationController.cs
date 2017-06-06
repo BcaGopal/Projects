@@ -202,10 +202,10 @@ namespace Web
         {
             foreach (var item in temp)
             {
-                var header = new JobOrderHeaderChargeService(_unitOfWork).Find(item.Id);
+                var header = new SaleInvoiceHeaderChargeService(_unitOfWork).Find(item.Id);
                 header.Rate = item.Rate;
                 header.Amount = item.Amount;
-                new JobOrderHeaderChargeService(_unitOfWork).Update(header);
+                new SaleInvoiceHeaderChargeService(_unitOfWork).Update(header);
             }
 
             try

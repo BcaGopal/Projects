@@ -23,7 +23,7 @@ namespace Model.Models
         public string LedgerAccountName { get; set; }
 
         [Display(Name = "Suffix")]
-        [MaxLength(20), Required]
+        [MaxLength(100), Required]
         [Index("IX_LedgerAccount_LedgerAccountName", IsUnique = true, Order = 2)]
         public string LedgerAccountSuffix { get; set; }
 

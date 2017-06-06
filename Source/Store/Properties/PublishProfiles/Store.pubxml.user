@@ -31,16 +31,16 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/06/2015 12:00:56</publishTime>
     </File>
     <File Include="bin/Core.dll">
-      <publishTime>05/30/2017 17:44:00</publishTime>
+      <publishTime>06/02/2017 14:20:14</publishTime>
     </File>
     <File Include="bin/CustomEventHandlers.dll">
-      <publishTime>05/31/2017 21:12:46</publishTime>
+      <publishTime>06/02/2017 14:21:03</publishTime>
     </File>
     <File Include="bin/Data.dll">
-      <publishTime>05/31/2017 21:12:21</publishTime>
+      <publishTime>06/02/2017 14:20:37</publishTime>
     </File>
     <File Include="bin/DocumentEvents.dll">
-      <publishTime>05/31/2017 21:12:44</publishTime>
+      <publishTime>06/02/2017 14:21:00</publishTime>
     </File>
     <File Include="bin/Elmah.dll">
       <publishTime>09/22/2016 11:24:00</publishTime>
@@ -127,19 +127,19 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/22/2016 11:23:54</publishTime>
     </File>
     <File Include="bin/Model.dll">
-      <publishTime>05/31/2017 21:12:14</publishTime>
+      <publishTime>06/02/2017 14:20:24</publishTime>
     </File>
     <File Include="bin/Models.Login.dll">
-      <publishTime>05/30/2017 17:44:02</publishTime>
+      <publishTime>06/02/2017 14:20:15</publishTime>
     </File>
     <File Include="bin/Models.Tasks.dll">
-      <publishTime>05/30/2017 17:44:01</publishTime>
+      <publishTime>06/02/2017 14:20:15</publishTime>
     </File>
     <File Include="bin/Newtonsoft.Json.dll">
       <publishTime>09/22/2016 11:23:06</publishTime>
     </File>
     <File Include="bin/Notifier.dll">
-      <publishTime>05/31/2017 21:12:45</publishTime>
+      <publishTime>06/02/2017 14:21:01</publishTime>
     </File>
     <File Include="bin/Owin.dll">
       <publishTime>09/22/2016 11:22:43</publishTime>
@@ -151,7 +151,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/22/2016 10:54:21</publishTime>
     </File>
     <File Include="bin/Reports.dll">
-      <publishTime>05/31/2017 21:12:52</publishTime>
+      <publishTime>06/02/2017 14:21:06</publishTime>
     </File>
     <File Include="bin/Reports/CompanyDetail.rdlc">
       <publishTime>09/22/2016 10:54:49</publishTime>
@@ -319,10 +319,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/22/2016 10:54:50</publishTime>
     </File>
     <File Include="bin/Service.dll">
-      <publishTime>05/31/2017 21:12:43</publishTime>
+      <publishTime>06/02/2017 14:20:59</publishTime>
     </File>
     <File Include="bin/Store.dll">
-      <publishTime>05/31/2017 21:12:56</publishTime>
+      <publishTime>06/02/2017 14:24:19</publishTime>
     </File>
     <File Include="bin/Surya.India.Reports.dll">
       <publishTime>01/01/0001 00:00:00</publishTime>
@@ -1837,13 +1837,13 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>02/02/2017 14:18:33</publishTime>
     </File>
     <File Include="Views/Product/CreateMaterial.cshtml">
-      <publishTime>05/17/2017 09:54:32</publishTime>
+      <publishTime>06/02/2017 09:52:48</publishTime>
     </File>
     <File Include="Views/Product/Index.cshtml">
       <publishTime>01/17/2017 15:45:03</publishTime>
     </File>
     <File Include="Views/Product/MaterialIndex.cshtml">
-      <publishTime>05/31/2017 16:15:32</publishTime>
+      <publishTime>06/02/2017 10:56:26</publishTime>
     </File>
     <File Include="Views/Product/ProductCategoryIndex.cshtml">
       <publishTime>09/22/2016 10:54:58</publishTime>
@@ -2038,7 +2038,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/27/2017 10:27:14</publishTime>
     </File>
     <File Include="Views/ProductTypeSettings/Create.cshtml">
-      <publishTime>04/12/2017 16:23:32</publishTime>
+      <publishTime>06/02/2017 11:13:22</publishTime>
     </File>
     <File Include="Views/ProductUidHeader/Create.cshtml">
       <publishTime>09/22/2016 10:54:58</publishTime>

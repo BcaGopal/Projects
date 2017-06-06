@@ -568,6 +568,14 @@
         }
 
 
+        $('#SaleToBuyerId').change(function () {
+            var cid = $("#SaleToBuyerId").val();
+            var cdata = $('#SaleToBuyerId').select2('data').text;
+
+            $("#BillToBuyerId").select2('data', { id: cid, text: cdata });
+        });
+
+
         $('#BillToBuyerId').change(function () {
             var cid = $("#BillToBuyerId").val();
             var cdata = $('#BillToBuyerId').select2('data').text;
