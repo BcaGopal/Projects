@@ -187,6 +187,12 @@ namespace Web
             {
                 if (svm.SaleEnquiryLineId <= 0)
                 {
+                    ProductBuyer BP = new ProductBuyerService(_unitOfWork).Find (temp.SaleToBuyerId,svm.BuyerSpecification, svm.BuyerSpecification1, svm.BuyerSpecification2, svm.BuyerSpecification3);
+
+                    if (BP != null)
+                    {
+                        s.ProductId = BP.ProductId;
+                    }
                     s.CreatedDate = DateTime.Now;
                     s.ModifiedDate = DateTime.Now;
                     s.CreatedBy = User.Identity.Name;

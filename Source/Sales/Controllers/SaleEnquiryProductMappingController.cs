@@ -15,6 +15,7 @@ using AutoMapper;
 using System.Xml.Linq;
 using Model.ViewModels;
 using Presentation.Helper;
+using System.Data.SqlClient;
 
 namespace Web
 {
@@ -199,6 +200,21 @@ namespace Web
             ProductBuyerSettings ProductBuyerSettings = new ProductBuyerSettingsService(_unitOfWork).GetProductBuyerSettings(H.DivisionId, H.SiteId);
             s.ProductBuyerSettings = Mapper.Map<ProductBuyerSettings, ProductBuyerSettingsViewModel>(ProductBuyerSettings);
 
+            if (temp.DealUnitId=="MT2")
+            {
+
+                string SizeinFeet = "";
+               
+               using (SqlConnection sqlConnection = new SqlConnection((string)System.Web.HttpContext.Current.Session["DefaultConnectionString"]))
+                {
+                    sqlConnection.Open();
+                    SqlCommand Totalf = new SqlCommand("SELECT Web.FGetSizeinFeet('" + Extended.BuyerSpecification1 + "')", sqlConnection);
+
+                    SizeinFeet = Convert.ToString(Totalf.ExecuteScalar() == DBNull.Value ? "" : Totalf.ExecuteScalar());
+                }
+
+                ViewBag.SizeinFeet = "Feet :"+ SizeinFeet;
+            }
 
             return View("Create", s);
         }     
