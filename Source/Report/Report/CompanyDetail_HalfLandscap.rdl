@@ -22,10 +22,9 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>CompanyName</rd:DefaultName>
-        <Top>0.0125in</Top>
-        <Left>0.74458in</Left>
+        <Left>0.80708in</Left>
         <Height>0.16667in</Height>
-        <Width>2.01973in</Width>
+        <Width>2.96695in</Width>
         <Style>
           <Border>
             <Style>None</Style>
@@ -55,10 +54,10 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>CompanyAddress</rd:DefaultName>
-        <Top>0.14723in</Top>
-        <Left>0.75139in</Left>
+        <Top>0.23473in</Top>
+        <Left>0.81389in</Left>
         <Height>0.56527in</Height>
-        <Width>2.03375in</Width>
+        <Width>2.94625in</Width>
         <ZIndex>1</ZIndex>
         <Style>
           <Border>
@@ -71,20 +70,6 @@
           <PaddingBottom>2pt</PaddingBottom>
         </Style>
       </Textbox>
-      <Image Name="SuryaLogo">
-        <Source>Embedded</Source>
-        <Value>SuryaLogo</Value>
-        <Sizing>FitProportional</Sizing>
-        <Top>0.0125in</Top>
-        <Height>0.7in</Height>
-        <Width>0.71875in</Width>
-        <ZIndex>2</ZIndex>
-        <Style>
-          <Border>
-            <Style>None</Style>
-          </Border>
-        </Style>
-      </Image>
       <Textbox Name="CompanyTinNo2">
         <KeepTogether>true</KeepTogether>
         <Paragraphs>
@@ -108,11 +93,10 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>CompanyTinNo</rd:DefaultName>
-        <Top>0.0125in</Top>
-        <Left>3.43375in</Left>
-        <Height>0.7in</Height>
-        <Width>2.01042in</Width>
-        <ZIndex>3</ZIndex>
+        <Left>3.82958in</Left>
+        <Height>0.8in</Height>
+        <Width>1.67709in</Width>
+        <ZIndex>2</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -120,11 +104,24 @@
           <VerticalAlign>Top</VerticalAlign>
         </Style>
       </Textbox>
+      <Image Name="SuryaLogo">
+        <Source>External</Source>
+        <Value>="file:"+ Fields!CompanyLogoPath.Value</Value>
+        <Sizing>FitProportional</Sizing>
+        <Height>0.8in</Height>
+        <Width>0.8in</Width>
+        <ZIndex>3</ZIndex>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+        </Style>
+      </Image>
     </ReportItems>
-    <Height>0.75417in</Height>
+    <Height>0.84167in</Height>
     <Style />
   </Body>
-  <Width>5.50917in</Width>
+  <Width>5.57167in</Width>
   <Page>
     <PageHeight>11.69in</PageHeight>
     <PageWidth>8.27in</PageWidth>
@@ -191,6 +188,14 @@
         </Field>
         <Field Name="CompanyFaxNo">
           <DataField>CompanyFaxNo</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CompanyCountry">
+          <DataField>CompanyCountry</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CompanyLogoPath">
+          <DataField>CompanyLogoPath</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
       </Fields>

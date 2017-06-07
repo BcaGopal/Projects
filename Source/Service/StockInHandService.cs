@@ -235,10 +235,8 @@ namespace Service
 
 
             IEnumerable<StockLedgerViewModel> StockInHandList = db.Database.SqlQuery<StockLedgerViewModel>("Web.spStockLedger  @Site, @Division, @FromDate, @ToDate, @GroupOn, @Product, @Godown, @Process, @Dimension1, @Dimension2", SqlParameterSiteId, SqlParameterDivisionId, SqlParameterFromDate, SqlParameterToDate, SqlParameterGroupOn, SqlParameterProduct, SqlParameterGodown, SqlParameterProcess, SqlParameterDimension1, SqlParameterDimension2).ToList();
-
+            
             return StockInHandList;
-
-
         }
 
         public IEnumerable<StockLedgerViewModel> GetStockLedger(int? ProductId, int? Dim1, int? Dim2, int? Dim3, int? Dim4, int? Process, string LotNo, int? Godown, string UserName)

@@ -218,7 +218,7 @@ namespace Web
         {
             //return Json(new { data = _StockInHandService.GetStockLedger(ProductId, Dim1, Dim2, Process, LotNo, Godown, User.Identity.Name) }, JsonRequestBehavior.AllowGet);
             var T = Json(new { data = _StockInHandService.GetStockLedger(ProductId, Dim1, Dim2, Dim3, Dim4, Process, LotNo, Godown, User.Identity.Name).ToList() }, JsonRequestBehavior.AllowGet);
-            T.MaxJsonLength = int.MaxValue;
+            T.MaxJsonLength = int.MaxValue;           
             return T;
 
         }
