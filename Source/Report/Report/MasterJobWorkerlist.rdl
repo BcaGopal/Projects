@@ -360,7 +360,6 @@
                         <PaddingBottom>2pt</PaddingBottom>
                       </Style>
                     </Textbox>
-                    <rd:Selected>true</rd:Selected>
                   </CellContents>
                 </TablixCell>
                 <TablixCell>
@@ -553,7 +552,7 @@
           </TablixColumns>
           <TablixRows>
             <TablixRow>
-              <Height>0.24045in</Height>
+              <Height>0.21962in</Height>
               <TablixCells>
                 <TablixCell>
                   <CellContents>
@@ -695,7 +694,7 @@
               </TablixCells>
             </TablixRow>
             <TablixRow>
-              <Height>0.25in</Height>
+              <Height>0.21875in</Height>
               <TablixCells>
                 <TablixCell>
                   <CellContents>
@@ -1022,7 +1021,7 @@
         </TablixRowHierarchy>
         <Top>0.72742in</Top>
         <Left>0.02329in</Left>
-        <Height>1.16319in</Height>
+        <Height>1.11111in</Height>
         <Width>7.95568in</Width>
         <ZIndex>2</ZIndex>
         <Visibility>
