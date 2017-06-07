@@ -9,3 +9,4 @@ packages
 /Source/Database/Database.jfm
 *.rds
 *.data
+*.suo
