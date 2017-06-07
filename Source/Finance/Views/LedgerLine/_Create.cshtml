@@ -191,10 +191,12 @@
 
 
                 <div class="modal-footer " style="padding: 19px 20px 0 20px; border-top:1px solid #8E8888">
+                    <a id="CopyLastTransaction" href="#">
+                        <small style="text-align:center;font-weight:bold">@ViewBag.LastTransaction</small>
+                    </a>
                     @if (ViewBag.LineMode == "Edit" || ViewBag.LineMode == "Create")
                     {
                         <button class="btn custom left" name="Command:Edit" type="submit" id="submit"><h2 style="margin:0px"><span class="glyphicon glyphicon-floppy-disk black"></span> </h2></button>}
-                    <small style="text-align:center;font-weight:bold">@ViewBag.LedgerLastTransaction</small>
                     @if (ViewBag.LineMode == "Delete")
                     {
                         <button class="btn custom" name="Command:Delete" id="delete" type="submit"><h2 style="margin:0px"><span class="glyphicon glyphicon-trash black"></span> </h2></button>}
@@ -668,5 +670,33 @@ else
 
 
     }
+
+
+    $("#CopyLastTransaction").click(function(){
+        var ProcessProgress = $("Last Transaction detail loading progress");
+        ProcessProgress.show();
+        $.ajax({
+            cache: false,
+            type: "POST",
+            url: "@(Url.Action("GetLastTransactionDetailJson"))",
+            data: { LedgerHeaderId: $("#LedgerHeaderId").val()},
+
+        success: function (data) {
+            if (data != null)
+            {
+                if (data.CostCenterId != 0 && data.CostCenterId != null)
+                {
+                    $("#CostCenterId").select2("data", { id: data.CostCenterId, text: data.CostCenterName });
+                }
+                $("#LedgerAccountId").select2("data", { id: data.LedgerAccountId, text: data.LedgerAccountName });
+                $("#Amount").focus()
+            }
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+            alert('Failed to retrieve Last Transaction details.' + thrownError);
+            ProcessProgress.hide();
+        }
+    });
+    }); 
 
 </script>

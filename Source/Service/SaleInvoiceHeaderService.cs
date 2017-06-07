@@ -182,10 +182,23 @@ namespace Service
             var DivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
             var SiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
 
+            var TempSaleInvoiceHeaderCharges = from H in db.SaleInvoiceHeader
+                                              join Hc in db.SaleInvoiceHeaderCharge on H.SaleInvoiceHeaderId equals Hc.HeaderTableId into SaleInvoiceHeaderChargesTable
+                                              from SaleInvoiceHeaderChargesTab in SaleInvoiceHeaderChargesTable.DefaultIfEmpty()
+                                              join C in db.Charge on SaleInvoiceHeaderChargesTab.ChargeId equals C.ChargeId into ChargeTable
+                                              from ChargeTab in ChargeTable.DefaultIfEmpty()
+                                              where H.SiteId == SiteId && H.DivisionId == DivisionId && H.DocTypeId == id && ChargeTab.ChargeName == "Net Amount"
+                                              select new
+                                              {
+                                                  SaleInvoiceHeaderId = H.SaleInvoiceHeaderId,
+                                                  NetAmount = SaleInvoiceHeaderChargesTab.Amount
+                                              };
+
 
             var temp = from p in db.SaleInvoiceHeader
                        join t in db.Persons on p.BillToBuyerId equals t.PersonID
-                      
+                       join Hc in TempSaleInvoiceHeaderCharges on p.SaleInvoiceHeaderId equals Hc.SaleInvoiceHeaderId into SaleInvoiceHeaderChargesTable
+                       from SaleInvoiceHeaderChargesTab in SaleInvoiceHeaderChargesTable.DefaultIfEmpty()
                        orderby p.DocDate descending, p.DocNo descending
                        where p.DivisionId == DivisionId && p.SiteId == SiteId && p.DocTypeId == id
                        select new SaleInvoiceHeaderIndexViewModel
@@ -204,6 +217,15 @@ namespace Service
                            GatePassHeaderId = p.SaleDispatchHeader.GatePassHeader.GatePassHeaderId,
                            GatePassDocDate = p.SaleDispatchHeader.GatePassHeader.DocDate,
                            GatePassStatus = (p.SaleDispatchHeader.GatePassHeader.Status != null ? p.SaleDispatchHeader.GatePassHeader.Status : 0),
+                           TotalQty = p.SaleInvoiceLines.Sum(m => m.Qty),
+                           TotalAmount = SaleInvoiceHeaderChargesTab.NetAmount ?? (p.SaleInvoiceLines.Sum(m => m.Amount)),
+                           DecimalPlaces = (from o in p.SaleInvoiceLines
+                                            join rl in db.SaleDispatchLine on o.SaleDispatchLineId equals rl.SaleDispatchLineId
+                                            join ol in db.PackingLine on rl.PackingLineId equals ol.PackingLineId
+                                            join prod in db.Product on ol.ProductId equals prod.ProductId
+                                            join u in db.Units on prod.UnitId equals u.UnitId
+                                            select u.DecimalPlaces).Max(),
+
                        };
             return temp;
         }

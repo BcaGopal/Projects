@@ -49,6 +49,7 @@ namespace Service
         Decimal GetUnitConversionMultiplier(Decimal FromQty, string FromUnitId, Decimal Length, Decimal Width, Decimal? Height, string ToUnitId, ApplicationDbContext db);
 
         ProductDimensions GetProductDimensions(int ProductId, string DealUnitId, int DocTypeId);
+        string FGetNewCode(int ProductTypeId, string ProcName);
     }
 
 
@@ -713,6 +714,29 @@ namespace Service
 
             return ProductDimensions;
         }
+
+        public string FGetNewCode(int ProductTypeId, string ProcName)
+        {
+            SqlParameter SqlParameterProductTypeId = new SqlParameter("@ProductTypeId", ProductTypeId);
+
+            if (ProcName != "" && ProcName != null)
+            {
+                NewCodeViewModel NewCodeViewModel = db.Database.SqlQuery<NewCodeViewModel>(ProcName + " @ProductTypeId ", SqlParameterProductTypeId).FirstOrDefault();
+
+                if (NewCodeViewModel != null)
+                {
+                    return NewCodeViewModel.NewCode;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            else
+            {
+                return null;
+            }
+        }
     }
 
     public class UnitConversionMultiplier
@@ -782,6 +806,8 @@ public class dbProductService : IdbProductService
         return Data;
 
     }
+
+
 
 
 

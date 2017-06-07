@@ -35,6 +35,7 @@ namespace Service
         IQueryable<ComboBoxResult> GetLedgerAccounts(string term, string AccGroups, string ExcludeAccGroups, string Process);
         IQueryable<ComboBoxResult> GetCostCenters(string term, string DocTypes, string Process);
         IQueryable<ComboBoxResult> GetLedgerIds_Adusted(int Id, string term);
+        LedgersViewModel GetLastTransactionDetail(int LedgerHeaderId);
     }
 
     public class LedgerLineService : ILedgerLineService
@@ -336,6 +337,23 @@ namespace Service
                         TextProp1 = "Balance Amount : " + p.BalanceAmount,
                         TextProp2 = "Bill Amount : " + p.BillAmount
                     });
+        }
+
+        public LedgersViewModel GetLastTransactionDetail(int LedgerHeaderId)
+        {
+            LedgersViewModel LastTransactionDetail = (from L in db.LedgerLine
+                                                                orderby L.LedgerLineId descending
+                                                                where L.LedgerHeaderId == LedgerHeaderId
+                                                                select new LedgersViewModel
+                                                                {
+                                                                    LedgerAccountId = L.LedgerAccountId,
+                                                                    LedgerAccountName = L.LedgerAccount.LedgerAccountName,
+                                                                    CostCenterId = L.CostCenterId,
+                                                                    CostCenterName = L.CostCenter.CostCenterName,
+                                                                    Amount = L.Amount
+                                                                }).FirstOrDefault();
+
+            return LastTransactionDetail;
         }
 
 

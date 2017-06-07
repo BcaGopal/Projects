@@ -1969,7 +1969,7 @@ namespace Web
             //    UnitId = product.UnitId
             //});            
 
-            var DealUnitId = _JobOrderLineService.GetJobOrderLineListForIndex(JobOrderId).OrderByDescending(m => m.JobOrderLineId).FirstOrDefault();
+            var DealUnit = _JobOrderLineService.GetJobOrderLineListForIndex(JobOrderId).OrderByDescending(m => m.JobOrderLineId).FirstOrDefault();
 
             //Decimal Rate = _JobOrderLineService.GetJobRate(JobOrderId, ProductId);
 
@@ -1993,7 +1993,18 @@ namespace Web
 
             var Settings = new JobOrderSettingsService(_unitOfWork).GetJobOrderSettingsForDocument(Record.DocTypeId, Record.DivisionId, Record.SiteId);
 
-            var DlUnit = new UnitService(_unitOfWork).Find(!string.IsNullOrEmpty(Settings.JobUnitId) ? Settings.JobUnitId : ((DealUnitId == null) ? (Settings.DealUnitId == null ? product.UnitId : Settings.DealUnitId) : DealUnitId.DealUnitId));
+            //var DlUnit = new UnitService(_unitOfWork).Find(!string.IsNullOrEmpty(Settings.JobUnitId) ? Settings.JobUnitId : ((DealUnit == null) ? (Settings.DealUnitId == null ? product.UnitId : Settings.DealUnitId) : DealUnit.DealUnitId));
+
+            Unit DlUnit = new Unit();
+            if (Settings.isVisibleDealUnit == false)
+            {
+                DlUnit = new UnitService(_unitOfWork).Find((!string.IsNullOrEmpty(Settings.JobUnitId) ? Settings.JobUnitId : product.UnitId));
+            }
+            else
+            {
+                DlUnit = new UnitService(_unitOfWork).Find(!string.IsNullOrEmpty(Settings.JobUnitId) ? Settings.JobUnitId : ((DealUnit == null) ? (Settings.DealUnitId == null ? product.UnitId : Settings.DealUnitId) : DealUnit.DealUnitId));
+            }
+
 
             return Json(new { ProductId = product.ProductId, 
                 StandardCost = Rate, 
@@ -2001,7 +2012,8 @@ namespace Web
                 Incentive = Incentive, 
                 Loss = Loss, 
                 UnitId = (!string.IsNullOrEmpty(Settings.JobUnitId) ? Settings.JobUnitId : product.UnitId), 
-                DealUnitId = !string.IsNullOrEmpty(Settings.JobUnitId) ? Settings.JobUnitId : ((DealUnitId == null) ? (Settings.DealUnitId == null ? product.UnitId : Settings.DealUnitId) : DealUnitId.DealUnitId), 
+                //DealUnitId = !string.IsNullOrEmpty(Settings.JobUnitId) ? Settings.JobUnitId : ((DealUnit == null) ? (Settings.DealUnitId == null ? product.UnitId : Settings.DealUnitId) : DealUnit.DealUnitId), 
+                DealUnitId = DlUnit.UnitId, 
                 DealUnitDecimalPlaces = DlUnit.DecimalPlaces, 
                 Specification = product.ProductSpecification });
         }

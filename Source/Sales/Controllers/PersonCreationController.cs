@@ -140,6 +140,7 @@ namespace Web
                     account.LedgerAccountName = person.Name;
                     account.LedgerAccountSuffix = person.Suffix;
                     account.LedgerAccountGroupId = PersonVm.LedgerAccountGroupId;
+                    account.IsActive = true;
                     account.CreatedDate = DateTime.Now;
                     account.ModifiedDate = DateTime.Now;
                     account.CreatedBy = User.Identity.Name;

@@ -70,7 +70,7 @@ namespace Web
             {
                 Nature = new DocumentTypeService(_unitOfWork).Find(Header.DocTypeId).Nature;
             }
-            ViewBag.Nature = Nature;
+            ViewBag.Nature = Nature ?? "";
 
             if (Header.LedgerAccountId != null)
             {
@@ -109,17 +109,7 @@ namespace Web
 
             ViewBag.LedgerAccountName = H.LedgerAccount.LedgerAccountName;
 
-            var LedgerLine = (from p in db.LedgerLine
-                              where p.LedgerHeaderId == Id
-                              orderby p.LedgerLineId descending
-                              select new
-                              {
-                                  Name = p.LedgerAccount.LedgerAccountName,
-                                  Amount = p.Amount,
-                              }).FirstOrDefault();
 
-            if (LedgerLine != null)
-                ViewBag.LedgerLastTransaction = "Last Line -Name : " + LedgerLine.Name + ", " + "Amount : " + LedgerLine.Amount.ToString("0.00");
 
             PrepareViewBag(Id);
             s.DocumentCategoryId = catid;
@@ -152,6 +142,25 @@ namespace Web
                         s.ReferenceDocTypeId = Convert.ToInt32(settings.filterReferenceDocTypes);
                     }
                 }
+            }
+
+            var LedgerLine = (from p in db.LedgerLine
+                              where p.LedgerHeaderId == Id
+                              orderby p.LedgerLineId descending
+                              select new
+                              {
+                                  Name = p.LedgerAccount.LedgerAccountName,
+                                  CostCenterName = p.CostCenter.CostCenterName,
+                                  Amount = p.Amount,
+                              }).FirstOrDefault();
+
+            if (LedgerLine != null)
+            {
+                ViewBag.LastTransaction = "Last Line -Name : " + LedgerLine.Name + (LedgerLine.CostCenterName != null ? ", " + "Cost Center : " + LedgerLine.CostCenterName : "") + ", " + "Amount : " + LedgerLine.Amount.ToString("0.00");
+            }
+            else
+            {
+                ViewBag.LastTransaction = "";
             }
 
             ViewBag.LineMode = "Create";
@@ -1142,6 +1151,12 @@ namespace Web
             ReferenceDocIdJson.text = temp.text;
 
             return Json(ReferenceDocIdJson);
+        }
+
+        public JsonResult GetLastTransactionDetailJson(int LedgerHeaderId)
+        {
+            var LastTransactionDetail = new LedgerLineService(_unitOfWork).GetLastTransactionDetail(LedgerHeaderId);
+            return Json(LastTransactionDetail);
         }
 
 

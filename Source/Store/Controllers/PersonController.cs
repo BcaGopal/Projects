@@ -149,7 +149,11 @@ namespace Web
        {
             PersonViewModel p = new PersonViewModel();
             p.IsActive = true;
-            p.Code = new PersonService(_unitOfWork).GetMaxCode();
+            //p.Code = new PersonService(_unitOfWork).GetMaxCode();
+
+            int CurrentDivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
+            int CurrentSiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
+
             p.DocTypeId = id;
             PrepareViewBag(id);
 
@@ -168,6 +172,8 @@ namespace Web
             p.SiteIds = System.Web.HttpContext.Current.Session["SiteId"].ToString();
             p.PersonSettings = Mapper.Map<PersonSettings, PersonSettingsViewModel>(settings);
             p.LedgerAccountGroupId = settings.LedgerAccountGroupId;
+            p.Code = new PersonService(_unitOfWork).FGetNewCode(p.DocTypeId, CurrentDivisionId, CurrentSiteId, settings.SqlProcPersonCode);
+
 
             return View("Create", p);
         }

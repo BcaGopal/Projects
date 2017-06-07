@@ -78,7 +78,8 @@ namespace Model.Models
         public virtual Process DefaultProcess { get; set; }
 
 
-
+        [MaxLength(100)]
+        public string SqlProcPersonCode { get; set; }
 
         [Display(Name = "Created By")]
         public string CreatedBy { get; set; }

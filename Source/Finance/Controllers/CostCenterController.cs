@@ -42,7 +42,8 @@ namespace Web
 
         public ActionResult Index()
         {
-            var CostCenter = _CostCenterService.GetCostCenterList().ToList();
+            int DocTypeId = new DocumentTypeService(_unitOfWork).Find(MasterDocTypeConstants.CostCenter).DocumentTypeId;
+            var CostCenter = _CostCenterService.GetCostCenterList().ToList().Where(m => m.DocTypeId == DocTypeId);
             return View(CostCenter);
         }
 
@@ -65,12 +66,14 @@ namespace Web
         {
             CostCenter pt = vm;
 
+            int DocTypeId = new DocumentTypeService(_unitOfWork).Find(MasterDocTypeConstants.CostCenter).DocumentTypeId;
 
             if (ModelState.IsValid)
             {
                 if (vm.CostCenterId <= 0)
                 {
                     pt.IsActive = true;
+                    pt.DocTypeId = DocTypeId;
                     pt.CreatedDate = DateTime.Now;
                     pt.ModifiedDate = DateTime.Now;
                     pt.CreatedBy = User.Identity.Name;

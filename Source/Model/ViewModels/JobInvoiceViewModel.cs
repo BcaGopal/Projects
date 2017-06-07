@@ -28,7 +28,7 @@ namespace Model.ViewModel
         public int? SalesTaxGroupPersonId { get; set; }
         public string SalesTaxGroupPersonName { get; set; }
 
-        [Display(Name = "Job Worker Doc Date"), Required]
+        [Display(Name = "Job Worker Doc Date")]
         public DateTime? JobWorkerDocDate { get; set; }
 
 

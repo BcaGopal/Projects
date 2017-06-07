@@ -108,6 +108,7 @@ namespace Model.ViewModels
         public int? ContentId { get; set; }
         public virtual ProductContentHeader Content { get; set; }
         public int ColourId { get; set; }
+        public string ColourIdList { get; set; }
  
         [ForeignKey("Country"),Required,Display(Name="Origin Country")]
         public int? OriginCountryId { get; set; }

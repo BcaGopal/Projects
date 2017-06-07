@@ -183,6 +183,7 @@ namespace Web
                     temp.ProductSpecificationCaption = pt.ProductSpecificationCaption;
                     temp.ProductGroupCaption = pt.ProductGroupCaption;
                     temp.ProductCategoryCaption = pt.ProductCategoryCaption;
+                    temp.SqlProcProductCode = pt.SqlProcProductCode;
 
                     temp.ModifiedDate = DateTime.Now;
                     temp.ModifiedBy = User.Identity.Name;

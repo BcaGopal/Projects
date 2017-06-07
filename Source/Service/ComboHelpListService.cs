@@ -2723,6 +2723,7 @@ namespace Service
         {
             var list = (from D in db.ChargeGroupPerson
                         where D.IsActive == true
+                        && (string.IsNullOrEmpty(term) ? 1 == 1 : (D.ChargeGroupPersonName.ToLower().Contains(term.ToLower())))
                         orderby D.ChargeGroupPersonName
                         select new ComboBoxResult
                         {
