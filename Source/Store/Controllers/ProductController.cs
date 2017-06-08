@@ -514,6 +514,7 @@ namespace Web
             }
             p.ProductTypeSettings = Mapper.Map<ProductTypeSettings, ProductTypeSettingsViewModel>(settings);
             p.UnitId = settings.UnitId;
+            p.ProductCode = new ProductService(_unitOfWork).FGetNewCode((int)p.ProductTypeId, settings.SqlProcProductCode);
 
             PrepareMaterialViewBag(null);
             return View("CreateMaterial", p);
@@ -834,31 +835,34 @@ namespace Web
                         new ProductSiteDetailService(_unitOfWork).Update(psd);
                     }
 
-                    foreach (var pta in pvm.ProductTypeAttributes)
+                    if (pvm.ProductTypeAttributes != null)
                     {
-                        ProductAttributes productattribute = new ProductAttributeService(_unitOfWork).Find(pt.ProductId, pta.ProductTypeAttributeId);
+                        foreach (var pta in pvm.ProductTypeAttributes)
+                        {
+                            ProductAttributes productattribute = new ProductAttributeService(_unitOfWork).Find(pt.ProductId, pta.ProductTypeAttributeId);
 
-                        if (productattribute != null)
-                        {
-                            productattribute.ProductAttributeValue = pta.DefaultValue;
-                            productattribute.ObjectState = Model.ObjectState.Modified;
-                            new ProductAttributeService(_unitOfWork).Update(productattribute);
-                        }
-                        else
-                        {
-                            ProductAttributes pa = new ProductAttributes()
+                            if (productattribute != null)
                             {
-                                ProductAttributeValue = pta.DefaultValue,
-                                ProductId = pt.ProductId,
-                                ProductTypeAttributeId = pta.ProductTypeAttributeId,
-                                CreatedBy = User.Identity.Name,
-                                ModifiedBy = User.Identity.Name,
-                                CreatedDate = DateTime.Now,
-                                ModifiedDate = DateTime.Now
+                                productattribute.ProductAttributeValue = pta.DefaultValue;
+                                productattribute.ObjectState = Model.ObjectState.Modified;
+                                new ProductAttributeService(_unitOfWork).Update(productattribute);
+                            }
+                            else
+                            {
+                                ProductAttributes pa = new ProductAttributes()
+                                {
+                                    ProductAttributeValue = pta.DefaultValue,
+                                    ProductId = pt.ProductId,
+                                    ProductTypeAttributeId = pta.ProductTypeAttributeId,
+                                    CreatedBy = User.Identity.Name,
+                                    ModifiedBy = User.Identity.Name,
+                                    CreatedDate = DateTime.Now,
+                                    ModifiedDate = DateTime.Now
 
-                            };
-                            pa.ObjectState = Model.ObjectState.Added;
-                            new ProductAttributeService(_unitOfWork).Create(pa);
+                                };
+                                pa.ObjectState = Model.ObjectState.Added;
+                                new ProductAttributeService(_unitOfWork).Create(pa);
+                            }
                         }
                     }
 

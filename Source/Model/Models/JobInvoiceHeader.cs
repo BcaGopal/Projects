@@ -34,7 +34,7 @@ namespace Model.Models
         [Display(Name = "JobWorker Doc. No."), MaxLength(20)]
         public string JobWorkerDocNo { get; set; }
 
-        [Display(Name = "Job Worker Doc Date"), Required]
+        [Display(Name = "Job Worker Doc Date")]
         public DateTime? JobWorkerDocDate { get; set; }
 
         [Display(Name = "Division"),Required ]

@@ -74,6 +74,7 @@ namespace Model.ViewModel
         public string ProductSpecificationCaption { get; set; }
         public string ProductGroupCaption { get; set; }
         public string ProductCategoryCaption { get; set; }
+        public string SqlProcProductCode { get; set; }
 
     }
 }

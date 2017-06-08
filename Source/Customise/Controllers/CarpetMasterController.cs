@@ -3739,6 +3739,12 @@ namespace Web
 
         public JsonResult GetCustomProductName(string ProductGroupName, string StandardSizeName, string ManufacturingSizeName, string ColourName)
         {
+            FirstProductName CustomProductName = MakeCustomProductName(ProductGroupName, StandardSizeName, ManufacturingSizeName, ColourName);
+            return Json(CustomProductName);
+        }
+
+        public FirstProductName MakeCustomProductName(string ProductGroupName, string StandardSizeName, string ManufacturingSizeName, string ColourName)
+        {
             int DivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
             int SiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
             CarpetSkuSettings temp = new CarpetSkuSettingsService(_unitOfWork).GetCarpetSkuSettings(DivisionId, SiteId);
@@ -3753,11 +3759,14 @@ namespace Web
             SqlParameter SqlParameterStandardSizeName = new SqlParameter("@StandardSizeName", SizeName);
             SqlParameter SqlParameterColourName = new SqlParameter("@ColourName", ColourName);
 
-
             FirstProductName CustomProductName = db.Database.SqlQuery<FirstProductName>("" + ConfigurationManager.AppSettings["DataBaseSchema"] + ".sp_GetCustomCarpetSkuName @ProductGroupName, @StandardSizeName, @ColourName", SqlParameterProductGroupName, SqlParameterStandardSizeName, SqlParameterColourName).FirstOrDefault();
 
-            return Json(CustomProductName);
+            return CustomProductName;
         }
+
+
+
+
 
         public Decimal GetUnitConversionQty(int SizeId, string ToUnit, string Attribute = null)
         {
@@ -3788,6 +3797,64 @@ namespace Web
                     return 0;
                 }
             }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditSizePostWithMultipleColours(CarpetMasterViewModel vm, FormCollection collection)
+        {
+            string[] ColourArr = vm.ColourIdList.Split(',');
+
+
+            for (int i = 0; i <= ColourArr.Length - 1; i++)
+            {
+                vm.ColourId = Convert.ToInt32(ColourArr[i]);
+
+
+                var ProductGroup = new ProductGroupService(_unitOfWork).Find(vm.ProductGroupId);
+                var StandardSize = new SizeService(_unitOfWork).Find(vm.StandardSizeId);
+                var ManufacturingSize = new SizeService(_unitOfWork).Find(vm.ManufacturingSizeId);
+                var Colour = new ColourService(_unitOfWork).Find(vm.ColourId);
+
+                var ProductResult = MakeCustomProductName(ProductGroup.ProductGroupName, StandardSize.SizeName, ManufacturingSize.SizeName, Colour.ColourName);
+                vm.ProductCode = ProductResult.ProductName;
+                vm.ProductName = ProductResult.ProductName;
+
+                EditSizePost(vm, collection);
+            }
+            CarpetMasterViewModel temp = new CarpetMasterViewModel();
+            temp.ProductCategoryId = vm.ProductCategoryId;
+            temp.ProductCollectionId = vm.ProductCollectionId;
+            temp.ProductQualityId = vm.ProductQualityId;
+            temp.ProductDesignId = vm.ProductDesignId;
+            temp.ProductInvoiceGroupId = vm.ProductInvoiceGroupId;
+            temp.ProductStyleId = vm.ProductStyleId;
+            temp.ProductManufacturerId = vm.ProductManufacturerId;
+            temp.DrawBackTariffHeadId = vm.DrawBackTariffHeadId;
+            temp.ProcessSequenceHeaderId = vm.ProcessSequenceHeaderId;
+            temp.ProductionRemark = vm.ProductionRemark;
+            temp.ProductGroupId = vm.ProductGroupId;
+            temp.ProductGroupName = vm.ProductGroupName;
+            temp.DivisionId = vm.DivisionId;
+            temp.OriginCountryId = vm.OriginCountryId;
+            temp.ProductDesignPatternId = vm.ProductDesignPatternId;
+            temp.ColourId = vm.ColourId;
+            temp.ContentId = vm.ContentId;
+            temp.FaceContentId = vm.FaceContentId;
+            temp.SampleId = vm.SampleId;
+            temp.CounterNo = vm.CounterNo;
+            temp.DescriptionOfGoodsId = vm.DescriptionOfGoodsId;
+            temp.StandardCost = vm.StandardCost;
+            temp.StandardWeight = vm.StandardWeight;
+            temp.GrossWeight = vm.GrossWeight;
+            temp.DivisionId = vm.DivisionId;
+            temp.OriginCountryId = vm.OriginCountryId;
+            temp.Tags = vm.Tags;
+            temp.ImageFileName = vm.ImageFileName;
+            temp.ImageFolderName = vm.ImageFolderName;
+            temp.IsSample = vm.IsSample;
+
+            return RedirectToAction("AddSize", temp);
         }
 
         protected override void Dispose(bool disposing)

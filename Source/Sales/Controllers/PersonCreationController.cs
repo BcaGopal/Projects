@@ -63,21 +63,15 @@ namespace Web
             }
             else
             {
-                //NewDocNoViewModel NewPersonCode = db.Database.SqlQuery<NewDocNoViewModel>("" + System.Configuration.ConfigurationManager.AppSettings["DataBaseSchema"] + ".GetNewPersonCode ").FirstOrDefault();
-                //if (NewPersonCode != null)
-                //{
-                //    p.Code = NewPersonCode.NewDocNo;
-                //}
-
-                //NewDocNoViewModel NewPersonSuffix = db.Database.SqlQuery<NewDocNoViewModel>("" + System.Configuration.ConfigurationManager.AppSettings["DataBaseSchema"] + ".GetNewPersonSuffix ").FirstOrDefault();
-                //if (NewPersonSuffix != null)
-                //{
-                //    p.Suffix = NewPersonSuffix.NewDocNo;
-                //}
-
                 p.Code = new PersonService(_unitOfWork).GetMaxCode();
                 p.Suffix = new PersonService(_unitOfWork).GetMaxCode();
             }
+
+            var settings = new PersonSettingsService(_unitOfWork).GetPersonSettingsForDocument(DocTypeId);
+
+            p.DivisionIds = System.Web.HttpContext.Current.Session["DivisionId"].ToString();
+            p.SiteIds = System.Web.HttpContext.Current.Session["SiteId"].ToString();
+            p.LedgerAccountGroupId = settings.LedgerAccountGroupId;
 
             return PartialView("_Create", p);
         }
@@ -103,6 +97,35 @@ namespace Web
                     person.ObjectState = Model.ObjectState.Added;
                     new PersonService(_unitOfWork).Create(person);
 
+
+                    int CurrentDivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
+                    int CurrentSiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
+
+                    string Divisions = PersonVm.DivisionIds;
+                    if (Divisions != null)
+                    {
+                        Divisions = "|" + Divisions.Replace(",", "|,|") + "|";
+                    }
+                    else
+                    {
+                        Divisions = "|" + CurrentDivisionId.ToString() + "|";
+                    }
+
+                    businessentity.DivisionIds = Divisions;
+
+                    string Sites = PersonVm.SiteIds;
+                    if (Sites != null)
+                    {
+                        Sites = "|" + Sites.Replace(",", "|,|") + "|";
+                    }
+                    else
+                    {
+                        Sites = "|" + CurrentSiteId.ToString() + "|";
+                    }
+
+                    businessentity.SiteIds = Sites;
+
+
                     new  BusinessEntityService(_unitOfWork).Create(businessentity);
 
                     personaddress.AddressType = null;
@@ -116,7 +139,8 @@ namespace Web
 
                     account.LedgerAccountName = person.Name;
                     account.LedgerAccountSuffix = person.Suffix;
-                    account.LedgerAccountGroupId = new LedgerAccountGroupService(_unitOfWork).Find(LedgerAccountGroupConstants.SundryCreditors).LedgerAccountGroupId;
+                    account.LedgerAccountGroupId = PersonVm.LedgerAccountGroupId;
+                    account.IsActive = true;
                     account.CreatedDate = DateTime.Now;
                     account.ModifiedDate = DateTime.Now;
                     account.CreatedBy = User.Identity.Name;

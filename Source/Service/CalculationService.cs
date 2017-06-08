@@ -232,6 +232,7 @@ namespace Service
             {
                 LedgerHeader LedgerHeader = new LedgerHeader();
 
+                LedgerHeader.DocHeaderId = LedgerHeaderViewModel.DocHeaderId;
                 LedgerHeader.DocTypeId = LedgerHeaderViewModel.DocTypeId;
                 LedgerHeader.ProcessId  = LedgerHeaderViewModel.ProcessId;
                 LedgerHeader.DocDate = LedgerHeaderViewModel.DocDate;
@@ -251,6 +252,7 @@ namespace Service
             {
                 LedgerHeader LedgerHeader = new LedgerHeaderService(_unitOfWork).Find((int)LedgerHeaderViewModel.LedgerHeaderId);
 
+                LedgerHeader.DocHeaderId = LedgerHeaderViewModel.DocHeaderId;
                 LedgerHeader.DocTypeId = LedgerHeaderViewModel.DocTypeId;
                 LedgerHeader.ProcessId = LedgerHeaderViewModel.ProcessId;
                 LedgerHeader.DocDate = LedgerHeaderViewModel.DocDate;
@@ -330,15 +332,58 @@ namespace Service
 
             IEnumerable<LedgerPostingViewModel> LedgerCombind = LedgerHeaderAmtDr.Union(LedgerHeaderAmtCr).Union(LedgerLineAmtDr).Union(LedgerLineAmtCr);
 
-            IEnumerable<LedgerPostingViewModel> LedgerPost = from L in LedgerCombind
-                                                             group new { L } by new { L.LedgerAccountId, L.ContraLedgerAccountId, L.CostCenterId } into Result
+            //IEnumerable<LedgerPostingViewModel> LedgerPost = from L in LedgerCombind
+            //                                                 group new { L } by new { L.LedgerAccountId, L.ContraLedgerAccountId, L.CostCenterId } into Result
+            //                                                 select new LedgerPostingViewModel
+            //                                                 {
+            //                                                     LedgerAccountId = Result.Key.LedgerAccountId,
+            //                                                     ContraLedgerAccountId = Result.Key.ContraLedgerAccountId,
+            //                                                     CostCenterId = Result.Key.CostCenterId,
+            //                                                     AmtDr = Result.Sum(i => i.L.AmtDr),
+            //                                                     AmtCr = Result.Sum(i => i.L.AmtCr)
+            //                                                 };
+
+
+            IEnumerable<LedgerPostingViewModel> LedgerPost1 = from L in LedgerCombind
+                                                             join Ca in db.LedgerAccount on L.ContraLedgerAccountId equals Ca.LedgerAccountId into ContraLedgerAccountTable
+                                                             from ContraLedgerAccountTab in ContraLedgerAccountTable.DefaultIfEmpty()
+                                                              join Cag in db.LedgerAccountGroup on ContraLedgerAccountTab.LedgerAccountGroupId equals Cag.LedgerAccountGroupId into ContraLedgerAccountGroupTable
+                                                              from ContraLedgerAccountGroupTab in ContraLedgerAccountGroupTable.DefaultIfEmpty()
+                                                              group new { L, ContraLedgerAccountGroupTab } by new { L.LedgerAccountId, L.ContraLedgerAccountId, L.CostCenterId } into Result
                                                              select new LedgerPostingViewModel
                                                              {
                                                                  LedgerAccountId = Result.Key.LedgerAccountId,
                                                                  ContraLedgerAccountId = Result.Key.ContraLedgerAccountId,
+                                                                 ContraLedgerAccountWeightage = Result.Max(i => i.ContraLedgerAccountGroupTab.Weightage ?? 0),
                                                                  CostCenterId = Result.Key.CostCenterId,
                                                                  AmtDr = Result.Sum(i => i.L.AmtDr),
                                                                  AmtCr = Result.Sum(i => i.L.AmtCr)
+                                                             };
+
+
+            IEnumerable<LedgerPostingViewModel> LedgerPost2 = from L in LedgerPost1
+                                                              group new { L } by new { L.LedgerAccountId, L.CostCenterId } into Result
+                                                              select new LedgerPostingViewModel
+                                                              {
+                                                                  LedgerAccountId = Result.Key.LedgerAccountId,
+                                                                  ContraLedgerAccountWeightage = Result.Max(i => i.L.ContraLedgerAccountWeightage ?? 0),
+                                                                  CostCenterId = Result.Key.CostCenterId,
+                                                                  AmtDr = Result.Sum(i => i.L.AmtDr) - Result.Sum(i => i.L.AmtCr) > 0 ? Result.Sum(i => i.L.AmtDr) - Result.Sum(i => i.L.AmtCr) : 0,
+                                                                  AmtCr = Result.Sum(i => i.L.AmtCr) - Result.Sum(i => i.L.AmtDr) > 0 ? Result.Sum(i => i.L.AmtCr) - Result.Sum(i => i.L.AmtDr) : 0,
+                                                              };
+
+            IEnumerable<LedgerPostingViewModel> LedgerPost = from L2 in LedgerPost2
+                                                             join L1 in LedgerPost1 on new { A1 = L2.LedgerAccountId, A2 = L2.CostCenterId, A3 = L2.ContraLedgerAccountWeightage } equals new { A1 = L1.LedgerAccountId, A2 = L1.CostCenterId, A3 = L1.ContraLedgerAccountWeightage } into LedgerPost1Table
+                                                             from LedgerPost1Tab in LedgerPost1Table.DefaultIfEmpty()
+                                                             group new { LedgerPost1Tab, L2 } by new { L2.LedgerAccountId, L2.CostCenterId } into Result
+                                                             select new LedgerPostingViewModel
+                                                             {
+                                                                 LedgerAccountId = Result.Key.LedgerAccountId,
+                                                                 ContraLedgerAccountId = Result.Max(i => i.LedgerPost1Tab.ContraLedgerAccountId),
+                                                                 CostCenterId = Result.Key.CostCenterId,
+                                                                 AmtDr = Result.Max(i => i.L2.AmtDr),
+                                                                 AmtCr = Result.Max(i => i.L2.AmtCr)
+
                                                              };
 
 

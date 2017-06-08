@@ -65,7 +65,9 @@ namespace Model.ViewModel
         public string LedgerAccountGroupName { get; set; }
 
         public int? DefaultProcessId { get; set; }
-        public string DefaultProcessName { get; set; }      
+        public string DefaultProcessName { get; set; }
+
+        public string SqlProcPersonCode { get; set; }
 
     }
 }

@@ -192,6 +192,27 @@ namespace Web
             return PartialView("_Reason", vm);
         }
 
+        private ActionResult Remove(int id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            LedgerAccount LedgerAccount = _LedgerAccountService.Find(id);
+            if (LedgerAccount == null)
+            {
+                return HttpNotFound();
+            }
+
+
+            ReasonViewModel vm = new ReasonViewModel()
+            {
+                id = id,
+            };
+
+            return PartialView("_Reason", vm);
+        }
+
         // POST: /LedgerAccountMaster/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]

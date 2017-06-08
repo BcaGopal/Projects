@@ -10,4 +10,9 @@ namespace Model.ViewModels
     {
         public string NewDocNo { get; set; }
     }
+
+    public class NewCodeViewModel
+    {
+        public string NewCode { get; set; }
+    }
 }

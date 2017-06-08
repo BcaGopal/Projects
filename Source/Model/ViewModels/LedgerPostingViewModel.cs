@@ -15,6 +15,7 @@ namespace Model.ViewModels
         public int LedgerAccountId { get; set; }
 
         public int? ContraLedgerAccountId { get; set; }
+        public Byte? ContraLedgerAccountWeightage { get; set; }
 
         public int? CostCenterId { get; set; }
 

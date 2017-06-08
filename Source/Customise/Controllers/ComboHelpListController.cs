@@ -7946,21 +7946,21 @@ namespace Web
         }
 
 
-        public ActionResult GetSelect2Data(string searchTerm, int pageSize, int pageNum, string SqlProcGet)
-        {
+        //public ActionResult GetSelect2Data(string searchTerm, int pageSize, int pageNum, string SqlProcGet)
+        //{
 
-            IEnumerable<CustomComboBoxResult> Select2List = cbl.GetSelect2HelpList(SqlProcGet, searchTerm, pageSize, pageNum);
+        //    IEnumerable<CustomComboBoxResult> Select2List = cbl.GetSelect2HelpList(SqlProcGet, searchTerm, pageSize, pageNum);
 
-            CustomComboBoxPagedResult pagedAttendees = new CustomComboBoxPagedResult();
-            pagedAttendees.Results = Select2List.ToList();
-            pagedAttendees.Total = Select2List.Count() > 0 ? Select2List.FirstOrDefault().RecCount : 0;
-            //Return the data as a jsonp result
-            return new JsonpResult
-            {
-                Data = pagedAttendees,
-                JsonRequestBehavior = JsonRequestBehavior.AllowGet
-            };
-        }
+        //    CustomComboBoxPagedResult pagedAttendees = new CustomComboBoxPagedResult();
+        //    pagedAttendees.Results = Select2List.ToList();
+        //    pagedAttendees.Total = Select2List.Count() > 0 ? Select2List.FirstOrDefault().RecCount : 0;
+        //    //Return the data as a jsonp result
+        //    return new JsonpResult
+        //    {
+        //        Data = pagedAttendees,
+        //        JsonRequestBehavior = JsonRequestBehavior.AllowGet
+        //    };
+        //}
 
         public JsonResult SetSelct2Data(string Ids, string SqlProcSet)
         {

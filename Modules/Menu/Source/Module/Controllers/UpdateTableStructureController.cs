@@ -1233,7 +1233,64 @@ namespace Module
             AddFields("Products", "DiscontinueDate", "DateTime");
             AddFields("Products", "DiscontinueReason", "nvarchar(Max)");
 
+
+            AddFields("CostCenters", "ProductUidId", "Int","ProductUids");
+            AddFields("SaleDispatchLines", "CostCenterId", "Int", "CostCenters");
+
             AddFields("ProductTypeSettings", "IndexFilterParameter", "nvarchar(20)");
+
+            AddFields("LedgerAccountGroups", "Weightage", "Byte");
+            AddFields("Ledgers", "Priority", "Int");
+
+
+            try
+            {
+                if ((int)ExecuteScaler("SELECT Count(*) AS Cnt FROM INFORMATION_SCHEMA.Tables WHERE TABLE_NAME = 'DiscountTypes'") == 0)
+                {
+                    mQry = @" CREATE TABLE Web.DiscountTypes
+	                        (
+	                        DiscountTypeId   INT IDENTITY NOT NULL,
+	                        DocTypeId        INT NOT NULL,
+	                        DiscountTypeName NVARCHAR (50) NOT NULL,
+	                        Rate             DECIMAL (18, 4) NOT NULL,
+	                        IsActive         BIT DEFAULT ((1)) NOT NULL,
+	                        CreatedBy        NVARCHAR (max),
+	                        ModifiedBy       NVARCHAR (max),
+	                        CreatedDate      DATETIME NOT NULL,
+	                        ModifiedDate     DATETIME NOT NULL,
+	                        OMSId            NVARCHAR (50),
+	                        CONSTRAINT [PK_Web.DiscountTypes] PRIMARY KEY (DiscountTypeId)
+	                        CONSTRAINT [FK_Web.DiscountTypes_Web.DocumentTypes_DocTypeId] FOREIGN KEY (DocTypeId) REFERENCES Web.DocumentTypes (DocumentTypeId)
+	                        )
+
+                        CREATE UNIQUE INDEX IX_DiscountType_DiscountTypeName
+	                        ON Web.DiscountTypes (DiscountTypeName)
+	                        WITH (FILLFACTOR = 90)
+                        ";
+                    ExecuteQuery(mQry);
+                }
+            }
+            catch (Exception ex)
+            {
+                RecordError(ex);
+            }
+
+            AddFields("ProductTypeSettings", "isPostedInStock", "BIT Default(1)");
+            AddFields("PackingLines", "Sr", "Int");
+            AddFields("SaleDispatchLines", "Sr", "Int");
+            AddFields("SaleDispatchLines", "DiscountTypeId", "Int", "DiscountTypes");
+
+
+            AddFields("ChargeGroupSettings", "ProcessId", "Int", "Processes");
+
+            AddFields("ProductTypeSettings", "SqlProcProductCode", "nvarchar(100)");
+            AddFields("PersonSettings", "SqlProcPersonCode", "nvarchar(100)");
+
+
+            AddFields("Sites", "ReportHeaderTextLeft", "nvarchar(Max)");
+            AddFields("Sites", "ReportHeaderTextRight", "nvarchar(Max)");
+            
+            
 
 
             return RedirectToAction("Module", "Menu");

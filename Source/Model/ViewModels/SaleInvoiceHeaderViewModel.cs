@@ -171,6 +171,10 @@ namespace Model.ViewModels
         public string GatePassDocNo { get; set; }
         public int GatePassStatus { get; set; }
         public DateTime? GatePassDocDate { get; set; }
+        public decimal? TotalQty { get; set; }
+        public decimal? TotalAmount { get; set; }
+        public int? DecimalPlaces { get; set; }
+
     }
     public class SaleInvoiceHeaderIndexViewModelForEdit : SaleInvoiceHeaderIndexViewModel
     {

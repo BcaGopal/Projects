@@ -225,7 +225,7 @@ namespace Service
                        LedgerLineId = p.LedgerLineId,
                        LedgerHeaderId = p.LedgerHeaderId,
                        LedgerAccountId = p.LedgerAccountId,
-                       LedgerAccountName = p.LedgerAccount.LedgerAccountName + "," + p.LedgerAccount.LedgerAccountSuffix,
+                       LedgerAccountName = p.LedgerAccount.LedgerAccountName + ", " + (p.LedgerAccount.PersonId != null ? p.LedgerAccount.Person.Suffix + " [" + p.LedgerAccount.Person.Code + "]" : p.LedgerAccount.LedgerAccountSuffix),
                        ReferenceId = p.ReferenceId,
                        ReferenceDocNo = tab2.DocNo,
                        ChqNo = p.ChqNo,
@@ -234,6 +234,7 @@ namespace Service
                        Amount = p.Amount,
                        CostCenterName=p.CostCenter.CostCenterName,
                    };
+
 
         }
      

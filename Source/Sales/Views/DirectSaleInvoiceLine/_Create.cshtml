@@ -405,7 +405,7 @@
         var DocID = $('#SaleInvoiceHeaderId', '.modal-body').val();
 
         CustomSelectFunction($("#ProductId"), '/DirectSaleInvoiceLine/GetCustomProducts', '/ComboHelpList/SetSingleProducts', ' ', false, 0, DocID);
-        CustomSelectFunction($("#Dimension1Id"), '/ComboHelpList/GetDimension1', '/ComboHelpList/SetSingleDimension1', ' ', false, 1);
+        CustomSelectFunction($("#Dimension1Id"), '/ComboHelpList/GetDimension1', '/ComboHelpList/SetSingleDimension1', ' ', false, 0);
         CustomSelectFunction($("#Dimension2Id"), '/ComboHelpList/GetDimension2', '/ComboHelpList/SetSingleDimension2', ' ', false, 1);
         CustomSelectFunction($("#GodownId"), '/ComboHelpList/GetGodown', '/ComboHelpList/SetSingleGodown', ' ', false, 1);
         CustomSelectFunctionForPromoCode($("#PromoCodeId"), '/DirectSaleInvoiceLine/GetPromoCodeIdList', '/ComboHelpList/SetSinglePromoCode', ' ', false, 0, 0, $("#SaleToBuyerId").val(), $("#DocDate").val());
@@ -572,7 +572,7 @@
                     data: { ProductId: $("#ProductId").val(),SaleInvoiceHeaderId:$("#SaleInvoiceHeaderId","#modform").val()},
                     success: function (data) {
                         $("#ProductCode").val(data.ProductCode);
-                        $("#Rate").val(data.StandardCost);
+                        $("#Rate").val(data.SaleRate);
                         $("#UnitId").val(data.UnitId);
                         $("#DealUnitId").val(data.DealUnitId);
                         $("#UnitName").val(data.UnitName);

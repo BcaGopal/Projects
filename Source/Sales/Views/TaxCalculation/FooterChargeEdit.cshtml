@@ -90,7 +90,7 @@
 
 
 
-@if (ViewBag.ChargeType==TransactionDocCategoryConstants.JobOrder)
+@if (ViewBag.ChargeType == TransactionDocCategoryConstants.SaleInvoice)
 { 
 
 
@@ -100,7 +100,7 @@
 
     LoadCalculationFooter(headerid,"Web.JobOrderHeaderCharges","Web.JobOrderLineCharges");
 
-
+    
     $(function(){
         var url = '/TaxCalculation/PostJOCalculationFields';
         $('form#modform').attr('action',url);

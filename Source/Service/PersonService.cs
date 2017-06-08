@@ -10,6 +10,7 @@ using Model;
 using System.Threading.Tasks;
 using Data.Models;
 using Model.ViewModels;
+using System.Data.SqlClient;
 
 namespace Service
 {
@@ -45,7 +46,7 @@ namespace Service
         int NextId(int id);
         int PrevId(int id);
         PersonViewModel GetPersonViewModelForEdit(int id);
-
+        string FGetNewCode(int DocTypeId, int DivisionId, int SiteId, string ProcName);
 
     }
 
@@ -434,6 +435,32 @@ namespace Service
 
             return Personviewmodel;
 
+        }
+
+
+        public string FGetNewCode(int DocTypeId, int DivisionId, int SiteId, string ProcName)
+        {
+            SqlParameter SqlParameterDocTypeId = new SqlParameter("@DocTypeId", DocTypeId);
+            SqlParameter SqlParameterDivisionId = new SqlParameter("@DivisionId", DivisionId);
+            SqlParameter SqlParameterSiteId = new SqlParameter("@SiteId", SiteId);
+
+            if (ProcName != "" && ProcName != null)
+            {
+                NewCodeViewModel NewCodeViewModel = db.Database.SqlQuery<NewCodeViewModel>(ProcName + " @DocTypeId , @DivisionId , @SiteId ", SqlParameterDocTypeId, SqlParameterDivisionId, SqlParameterSiteId).FirstOrDefault();
+
+                if (NewCodeViewModel != null)
+                {
+                    return NewCodeViewModel.NewCode;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            else
+            {
+                return null;
+            }
         }
     }
 

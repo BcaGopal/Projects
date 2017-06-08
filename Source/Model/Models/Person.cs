@@ -27,7 +27,7 @@ namespace Model.Models
         [MaxLength(100,ErrorMessage ="{0} can not exceed {1} characters"), Required]
         public string Name { get; set; }
 
-        [MaxLength(20, ErrorMessage = "{0} can not exceed {1} characters"), Required]
+        [MaxLength(100, ErrorMessage = "{0} can not exceed {1} characters"), Required]
         public string Suffix { get; set; }
 
         [Index("IX_Person_Code", IsUnique = true)]

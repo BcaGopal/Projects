@@ -76,9 +76,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
                             @Html.LabelFor(model => model.ManufacturingSizeId, "Manufacturing Size", new { @class = "control-label col-md-4 col-sm-2" })
@@ -98,9 +96,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="row">
                     <div class="col-md-6" style="display:@(Model.CarpetSkuSettings.isVisibleStencilSize ? "" : "none")">
                         @Html.HiddenFor(m => m.CarpetSkuSettings.isVisibleStencilSize)
                         <div class="form-group">
@@ -121,9 +117,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
                             @Html.LabelFor(model => model.ProductCode, "Product Code", new { @class = "control-label col-md-4 col-sm-2" })
@@ -143,9 +137,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
                             @Html.LabelFor(model => model.ProductDescription, "Product Description", new { @class = "control-label col-md-4 col-sm-2" })
@@ -165,15 +157,21 @@
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="row">
                     <div class="col-md-6" style="display:@(Model.CarpetSkuSettings.isVisibleColour ? "none" : "")">
                         @Html.HiddenFor(m => m.CarpetSkuSettings.isVisibleColour)
                         <div class="form-group">
                             @Html.LabelFor(model => model.ColourId, "Colour", new { @class = "control-label col-md-4 col-sm-2" })
                             <div class="col-md-7 col-sm-10">
-                                @Html.TextBoxFor(model => model.ColourId, new { @class = "form-control col-xs-7 height required" })
+                                @if (Model.ProductId == 0 && Model.CarpetSkuSettings.isVisibleColour == false)
+                                {
+                                    @Html.HiddenFor(m => m.ColourId)
+                                    @Html.TextBoxFor(model => model.ColourIdList, new { @class = "form-control col-xs-7 height required" })
+                                }
+                                else
+                                {
+                                    @Html.TextBoxFor(model => model.ColourId, new { @class = "form-control col-xs-7 height required" })
+                                }
                             </div>
                         </div>
                     </div>
@@ -317,7 +315,18 @@
     CustomSelectFunction($("#FinishingSizeId"), '/ComboHelpList/GetSize', '/ComboHelpList/SetSingleSize', ' ', false, 0);
     CustomSelectFunction($("#StencilSizeId"), '/ComboHelpList/GetSize', '/ComboHelpList/SetSingleSize', ' ', false, 0);
     CustomSelectFunction($("#MapSizeId"), '/ComboHelpList/GetSize', '/ComboHelpList/SetSingleSize', ' ', false, 0);
-    CustomSelectFunction($("#ColourId"), '/ComboHelpList/GetColours', '/ComboHelpList/SetSingleColour', ' ', false, 0);
+
+
+    var id=@Model.ProductId;
+    var IsVisibleColour= '@Model.CarpetSkuSettings.isVisibleColour';
+    if (id == 0 && IsVisibleColour == "False")
+    {
+        CustomSelectFunction($("#ColourIdList"), '/ComboHelpList/GetColours', '/ComboHelpList/SetSingleColour', ' ', true, 0);
+    }
+    else{
+        CustomSelectFunction($("#ColourId"), '/ComboHelpList/GetColours', '/ComboHelpList/SetSingleColour', ' ', false, 0);
+    }
+
 
     //GetProductShapeShortName();
 
@@ -328,6 +337,12 @@
         
         //GetProductShapeShortName();
     
+    });
+
+
+    $("#ColourIdList").change(function(){
+        var url = '/CarpetMaster/EditSizePostWithMultipleColours';
+        $('form#modform').attr('action',url);
     });
 
     var IsSaved=false;
@@ -435,31 +450,31 @@
         var data = $("#StandardSizeId").select2("data"); delete data.element;
         var getsize = $("#StandardSizeId").val();
         var prodcategory=$('#ProductCategoryId').val();
-        $.ajax({
-            url: "/ProductSize/GetCommonSizes",
-            type: "GET",
-            data: { size: getsize,productcategoryid:prodcategory },
-            dataType: "json",
-            success: function (data) {
+        //$.ajax({
+        //    url: "/ProductSize/GetCommonSizes",
+        //    type: "GET",
+        //    data: { size: getsize,productcategoryid:prodcategory },
+        //    dataType: "json",
+        //    success: function (data) {
 
-                $("#ManufacturingSizeId").select2('data', { id: data.ProductManufacturingSizeId, text: (data.ProductManufacturingSizeName == null ? "" : data.ProductManufacturingSizeName) });
-                $("#FinishingSizeId").select2('data', { id: data.FinishingSizeId, text: (data.FinishingSizeName == null ? "" : data.FinishingSizeName) });
-                if (data.ProductStencilId != null && data.ProductStencilId != 0)
-                {
-                    $('#StencilSizeId').select2('data',{id:data.ProductStencilId,text:(data.ProductStencilSizeName ==null?"" :data.ProductStencilSizeName)});
-                }
-                $('#MapSizeId').select2('data',{id:data.ProductMapSizeId,text:(data.ProductMapSizeName ==null?"" :data.ProductMapSizeName)})
+        //        $("#ManufacturingSizeId").select2('data', { id: data.ProductManufacturingSizeId, text: (data.ProductManufacturingSizeName == null ? "" : data.ProductManufacturingSizeName) });
+        //        $("#FinishingSizeId").select2('data', { id: data.FinishingSizeId, text: (data.FinishingSizeName == null ? "" : data.FinishingSizeName) });
+        //        if (data.ProductStencilId != null && data.ProductStencilId != 0)
+        //        {
+        //            $('#StencilSizeId').select2('data',{id:data.ProductStencilId,text:(data.ProductStencilSizeName ==null?"" :data.ProductStencilSizeName)});
+        //        }
+        //        $('#MapSizeId').select2('data',{id:data.ProductMapSizeId,text:(data.ProductMapSizeName ==null?"" :data.ProductMapSizeName)})
 
-                //$("#FinishingSizeId").select2('data', "/ComboHelpList/SetSingleSize/2");
-                CreateCustomProductName();
-            },
-            error: function (result) {
-                alert("No Records Found");
-            },
-            results: function (data, page) {
-                return { results: data };
-            }
-        });
+        //        //$("#FinishingSizeId").select2('data', "/ComboHelpList/SetSingleSize/2");
+        //        CreateCustomProductName();
+        //    },
+        //    error: function (result) {
+        //        alert("No Records Found");
+        //    },
+        //    results: function (data, page) {
+        //        return { results: data };
+        //    }
+        //});
 
         $('#ManufacturingSizeId').change(function () {
             var parr = [];

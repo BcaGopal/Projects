@@ -497,6 +497,8 @@ namespace Web
 
             PackingHeader Ph = new PackingHeaderService(_unitOfWork).Find(Dh.PackingHeaderId.Value);
 
+            var settings = new SaleInvoiceSettingService(_unitOfWork).GetSaleInvoiceSettingForDocument(Sh.DocTypeId, Sh.DivisionId, Sh.SiteId);
+
             if (svm.SaleInvoiceLineId <= 0)
             {
                 ViewBag.LineMode = "Create";
@@ -544,7 +546,7 @@ namespace Web
                     StockViewModel.DivisionId = Dh.DivisionId;
                     StockViewModel.SiteId = Dh.SiteId;
                     StockViewModel.CurrencyId = null;
-                    StockViewModel.HeaderProcessId = null;
+                    StockViewModel.HeaderProcessId = settings.ProcessId;
                     StockViewModel.PersonId = Dh.SaleToBuyerId;
                     StockViewModel.ProductId = Sl.ProductId;
                     StockViewModel.HeaderFromGodownId = null;
@@ -1266,7 +1268,7 @@ namespace Web
             var DlUnit = new UnitService(_unitOfWork).Find((DealUnitId == null) ? product.UnitId : DealUnitId.DealUnitId);
 
 
-            return Json(new { ProductId = product.ProductId, StandardCost = product.StandardCost, UnitId = product.UnitId, UnitName = product.UnitName, DealUnitId = (DealUnitId == null) ? product.UnitId : DealUnitId.DealUnitId, DealUnitDecimalPlaces = DlUnit.DecimalPlaces, Specification = product.ProductSpecification, ProductCode = product.ProductCode, ProductName = product.ProductName, Dimension1Id = product.DefaultDimension1Id, Dimension1Name = product.DefaultDimension1Name,
+            return Json(new { ProductId = product.ProductId, StandardCost = product.StandardCost, SaleRate = product.SaleRate, UnitId = product.UnitId, UnitName = product.UnitName, DealUnitId = (DealUnitId == null) ? product.UnitId : DealUnitId.DealUnitId, DealUnitDecimalPlaces = DlUnit.DecimalPlaces, Specification = product.ProductSpecification, ProductCode = product.ProductCode, ProductName = product.ProductName, Dimension1Id = product.DefaultDimension1Id, Dimension1Name = product.DefaultDimension1Name,
                               Dimension2Id = product.DefaultDimension2Id,
                               Dimension2Name = product.DefaultDimension2Name,
                               Dimension3Id = product.DefaultDimension3Id,

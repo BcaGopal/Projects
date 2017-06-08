@@ -44,6 +44,10 @@ namespace Model.Models
         public int? StockInId { get; set; }
         public virtual Stock StockIn { get; set; }
 
+        [ForeignKey("CostCenter"), Display(Name = "Cost Center")]
+        public int? CostCenterId { get; set; }
+        public virtual CostCenter CostCenter { get; set; }
+
         public ICollection<SaleInvoiceLine> SaleInvoiceLines { get; set; }
 
         [Display(Name = "Remark")]

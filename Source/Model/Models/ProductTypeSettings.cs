@@ -80,6 +80,9 @@ namespace Model.Models
         public string ProductGroupCaption { get; set; }
         public string ProductCategoryCaption { get; set; }
 
+        [MaxLength(100)]
+        public string SqlProcProductCode { get; set; }
+
 
         [ForeignKey("ImportMenu")]
         [Display(Name = "ImportMenu")]
