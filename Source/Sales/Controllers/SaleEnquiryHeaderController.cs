@@ -762,7 +762,7 @@ namespace Web
                     pd.LockReason = "Sale order is created for enquiry.Now you can't modify enquiry, changes can be done in sale order.";
                     _SaleEnquiryHeaderService.Update(pd);
 
-                    CreateSaleOrder(Id);
+                    //CreateSaleOrder(Id);
 
                     _unitOfWork.Save();
 

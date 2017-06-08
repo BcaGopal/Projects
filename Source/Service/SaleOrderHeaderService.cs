@@ -26,6 +26,7 @@ namespace Service
 
         SaleOrderHeaderIndexViewModel GetSaleOrderHeaderVM(int id);
         SaleOrderHeader Find(int id);
+        SaleOrderHeader Find_ByReferenceDocId(int ReferenceDocTypeId, int ReferenceDocId);
         IQueryable<SaleOrderHeaderIndexViewModel> GetSaleOrderHeaderList(int id, string Uname);
         IQueryable<SaleOrderHeaderIndexViewModel> GetSaleOrderHeaderListPendingToSubmit(int id, string Uname);
         IQueryable<SaleOrderHeaderIndexViewModel> GetSaleOrderHeaderListPendingToReview(int id, string Uname);
@@ -178,8 +179,12 @@ namespace Service
         {
             return _unitOfWork.Repository<SaleOrderHeader>().Find(id);
         }
+        
 
-
+        public SaleOrderHeader Find_ByReferenceDocId(int ReferenceDocTypeId, int ReferenceDocId)
+        {
+            return _unitOfWork.Repository<SaleOrderHeader>().Query().Get().Where(m => m.ReferenceDocTypeId == ReferenceDocTypeId && m.ReferenceDocId == ReferenceDocId).FirstOrDefault();            
+        }
 
         public IQueryable<SaleOrderHeaderIndexViewModel> GetSaleOrderHeaderList(int id, string Uname)
         {

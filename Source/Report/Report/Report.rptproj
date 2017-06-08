@@ -869,6 +869,10 @@
       <FullPath>JobPrint_HomeFurnishing.rdl</FullPath>
     </ProjectItem>
     <ProjectItem>
+      <Name>JobRateList.rdl</Name>
+      <FullPath>JobRateList.rdl</FullPath>
+    </ProjectItem>
+    <ProjectItem>
       <Name>JobReceiveBalance.rdl</Name>
       <FullPath>JobReceiveBalance.rdl</FullPath>
     </ProjectItem>
@@ -2425,6 +2429,10 @@
       <FullPath>Unitlist.rdl</FullPath>
     </ProjectItem>
     <ProjectItem>
+      <Name>VATDiffrenceRegister_Auto.rdl</Name>
+      <FullPath>VATDiffrenceRegister_Auto.rdl</FullPath>
+    </ProjectItem>
+    <ProjectItem>
       <Name>WashingCancelPrint.rdl</Name>
       <FullPath>WashingCancelPrint.rdl</FullPath>
     </ProjectItem>
@@ -2816,8 +2824,8 @@
       <FullPath>XWeavingOrderStatus.rdl</FullPath>
     </ProjectItem>
     <ProjectItem>
-      <Name>JobRateList.rdl</Name>
-      <FullPath>JobRateList.rdl</FullPath>
+      <Name>VehicleStockForBank_Auto.rdl</Name>
+      <FullPath>VehicleStockForBank_Auto.rdl</FullPath>
     </ProjectItem>
   </Reports>
   <Configurations>

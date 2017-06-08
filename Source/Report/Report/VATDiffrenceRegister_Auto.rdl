@@ -181,7 +181,7 @@
                   <Width>0.66445in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.53125in</Width>
+                  <Width>1.41666in</Width>
                 </TablixColumn>
                 <TablixColumn>
                   <Width>0.84879in</Width>
@@ -193,7 +193,7 @@
                   <Width>1.85417in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.77575in</Width>
+                  <Width>0.89317in</Width>
                 </TablixColumn>
                 <TablixColumn>
                   <Width>0.6875in</Width>
@@ -211,7 +211,7 @@
                   <Width>0.67217in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.59375in</Width>
+                  <Width>0.69793in</Width>
                 </TablixColumn>
                 <TablixColumn>
                   <Width>0.77084in</Width>
@@ -440,22 +440,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Pre Vat</Value>
-                                  <Style>
-                                    <FontFamily>Tahoma</FontFamily>
-                                    <FontSize>8pt</FontSize>
-                                    <FontWeight>Bold</FontWeight>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Right</TextAlign>
-                              </Style>
-                            </Paragraph>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>Sale</Value>
+                                  <Value>Sale's Taxable Amt</Value>
                                   <Style>
                                     <FontFamily>Tahoma</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -492,7 +477,22 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Vat Sale</Value>
+                                  <Value>VAT</Value>
+                                  <Style>
+                                    <FontFamily>Tahoma</FontFamily>
+                                    <FontSize>8pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Right</TextAlign>
+                              </Style>
+                            </Paragraph>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>(Sale)</Value>
                                   <Style>
                                     <FontFamily>Tahoma</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -529,7 +529,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Telco </Value>
+                                  <Value>Party</Value>
                                   <Style>
                                     <FontFamily>Tahoma</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -577,7 +577,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Purch</Value>
+                                  <Value>Purchase</Value>
                                   <Style>
                                     <FontFamily>Tahoma</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -625,7 +625,22 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Pre Vat Purchase</Value>
+                                  <Value>Purchase's</Value>
+                                  <Style>
+                                    <FontFamily>Tahoma</FontFamily>
+                                    <FontSize>8pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Right</TextAlign>
+                              </Style>
+                            </Paragraph>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>Taxable Amt</Value>
                                   <Style>
                                     <FontFamily>Tahoma</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -662,7 +677,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Vat </Value>
+                                  <Value>VAT </Value>
                                   <Style>
                                     <FontFamily>Tahoma</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -677,7 +692,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Purchase</Value>
+                                  <Value>(Purchase)</Value>
                                   <Style>
                                     <FontFamily>Tahoma</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -2572,7 +2587,6 @@
                           </Style>
                         </Textbox>
                         <ColSpan>2</ColSpan>
-                        <rd:Selected>true</rd:Selected>
                       </CellContents>
                     </TablixCell>
                     <TablixCell />
@@ -2640,7 +2654,7 @@
             <Top>3.79583in</Top>
             <Left>0.07026in</Left>
             <Height>1.38542in</Height>
-            <Width>13.05473in</Width>
+            <Width>13.16174in</Width>
             <Style>
               <Border>
                 <Style>None</Style>

@@ -67,7 +67,6 @@ namespace Service
         public ProductBuyer Find(int BuyerId, string BuyerSpecification, string BuyerSpecification1, string BuyerSpecification2, string BuyerSpecification3)
         {
             return ProductBuyerRepository.Get().Where(i => i.BuyerId == BuyerId && i.BuyerSpecification == BuyerSpecification && i.BuyerSpecification1 == BuyerSpecification1 && i.BuyerSpecification2 == BuyerSpecification2 && i.BuyerSpecification3 == BuyerSpecification3).FirstOrDefault();
-            //return ProductBuyerRepository.Get().Where(i => i.BuyerId == BuyerId && i.BuyerSpecification == BuyerSpecification && i.BuyerSpecification2 == BuyerSpecification2 && i.BuyerSpecification3 == BuyerSpecification3).FirstOrDefault();
         }
 
         public ProductBuyer Create(ProductBuyer pt)
