@@ -450,31 +450,31 @@
         var data = $("#StandardSizeId").select2("data"); delete data.element;
         var getsize = $("#StandardSizeId").val();
         var prodcategory=$('#ProductCategoryId').val();
-        //$.ajax({
-        //    url: "/ProductSize/GetCommonSizes",
-        //    type: "GET",
-        //    data: { size: getsize,productcategoryid:prodcategory },
-        //    dataType: "json",
-        //    success: function (data) {
+        $.ajax({
+            url: "/ProductSize/GetCommonSizes",
+            type: "GET",
+            data: { size: getsize,productcategoryid:prodcategory },
+            dataType: "json",
+            success: function (data) {
 
-        //        $("#ManufacturingSizeId").select2('data', { id: data.ProductManufacturingSizeId, text: (data.ProductManufacturingSizeName == null ? "" : data.ProductManufacturingSizeName) });
-        //        $("#FinishingSizeId").select2('data', { id: data.FinishingSizeId, text: (data.FinishingSizeName == null ? "" : data.FinishingSizeName) });
-        //        if (data.ProductStencilId != null && data.ProductStencilId != 0)
-        //        {
-        //            $('#StencilSizeId').select2('data',{id:data.ProductStencilId,text:(data.ProductStencilSizeName ==null?"" :data.ProductStencilSizeName)});
-        //        }
-        //        $('#MapSizeId').select2('data',{id:data.ProductMapSizeId,text:(data.ProductMapSizeName ==null?"" :data.ProductMapSizeName)})
+                $("#ManufacturingSizeId").select2('data', { id: data.ProductManufacturingSizeId, text: (data.ProductManufacturingSizeName == null ? "" : data.ProductManufacturingSizeName) });
+                $("#FinishingSizeId").select2('data', { id: data.FinishingSizeId, text: (data.FinishingSizeName == null ? "" : data.FinishingSizeName) });
+                if (data.ProductStencilId != null && data.ProductStencilId != 0)
+                {
+                    $('#StencilSizeId').select2('data',{id:data.ProductStencilId,text:(data.ProductStencilSizeName ==null?"" :data.ProductStencilSizeName)});
+                }
+                $('#MapSizeId').select2('data',{id:data.ProductMapSizeId,text:(data.ProductMapSizeName ==null?"" :data.ProductMapSizeName)})
 
-        //        //$("#FinishingSizeId").select2('data', "/ComboHelpList/SetSingleSize/2");
-        //        CreateCustomProductName();
-        //    },
-        //    error: function (result) {
-        //        alert("No Records Found");
-        //    },
-        //    results: function (data, page) {
-        //        return { results: data };
-        //    }
-        //});
+                //$("#FinishingSizeId").select2('data', "/ComboHelpList/SetSingleSize/2");
+                CreateCustomProductName();
+            },
+            error: function (result) {
+                alert("No Records Found");
+            },
+            results: function (data, page) {
+                return { results: data };
+            }
+        });
 
         $('#ManufacturingSizeId').change(function () {
             var parr = [];

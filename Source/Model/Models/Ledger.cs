@@ -51,9 +51,12 @@ namespace Model.Models
         [MaxLength(250)]
         public string Narration { get; set; }
 
+        public DateTime? BankDate { get; set; }
+
         public string ContraText { get; set; }
         [Display(Name = "Chq No"), MaxLength(10)]
         public string ChqNo { get; set; }
+        public DateTime? ChqDate { get; set; }
 
         [Display(Name = "DueDate")]
         public DateTime ? DueDate { get; set; }

@@ -1289,6 +1289,9 @@ namespace Module
 
             AddFields("Sites", "ReportHeaderTextLeft", "nvarchar(Max)");
             AddFields("Sites", "ReportHeaderTextRight", "nvarchar(Max)");
+
+            AddFields("Ledgers", "ChqDate", "DATETIME");
+            AddFields("Ledgers", "BankDate", "DATETIME");
             
             
 

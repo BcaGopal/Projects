@@ -89,7 +89,7 @@ namespace Web.Controllers
                 }
 
 
-                if (_ProductService.FindProduct(SaleOrderRecord.Product) == null)
+                if (_ProductService.Find(SaleOrderRecord.Product) == null)
                 {
                     if (!strSku.ToString().Contains("" + SaleOrderRecord.Product))
                     {

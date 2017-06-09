@@ -270,6 +270,7 @@
     <Compile Include="Controllers\TdsGroupController.cs" />
     <Compile Include="Controllers\TrialBalanceController.cs" />
     <Compile Include="Controllers\TrialBalanceSettingController.cs" />
+    <Compile Include="Controllers\BankReconciliationController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -756,6 +757,9 @@
     <Content Include="Views\LedgerLine\_LedgerAdj.cshtml" />
     <Content Include="Views\LedgerLine\_LedgerAdj_Single.cshtml" />
     <Content Include="Views\LedgerAccountOpening\_Create.cshtml" />
+    <Content Include="Views\BankReconciliation\BankReconciliation.cshtml" />
+    <Content Include="Views\BankReconciliation\_Filters.cshtml" />
+    <Content Include="Views\BankReconciliation\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
