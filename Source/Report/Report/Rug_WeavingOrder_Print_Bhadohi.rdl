@@ -4533,7 +4533,7 @@ Fields!DealUnit.Value</Value>
             </TablixMember>
           </TablixMembers>
         </TablixRowHierarchy>
-        <Top>13.88174in</Top>
+        <Top>14.13174in</Top>
         <Left>0.09756in</Left>
         <Height>0.32292in</Height>
         <Width>7.05984in</Width>
@@ -4634,7 +4634,54 @@ Fields!DealUnit.Value</Value>
               </TablixCells>
             </TablixRow>
             <TablixRow>
-              <Height>1.64583in</Height>
+              <Height>0.25in</Height>
+              <TablixCells>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="DesignCon">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>Consumption Not Fill For :  </Value>
+                              <Style>
+                                <FontFamily>Tahoma</FontFamily>
+                                <FontSize>9pt</FontSize>
+                              </Style>
+                            </TextRun>
+                            <TextRun>
+                              <Value>=Fields!DesignCon.Value</Value>
+                              <Style>
+                                <FontFamily>Tahoma</FontFamily>
+                                <FontSize>9pt</FontSize>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>DesignCon</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Style>None</Style>
+                        </Border>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                    <ColSpan>3</ColSpan>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell />
+                <TablixCell />
+              </TablixCells>
+            </TablixRow>
+            <TablixRow>
+              <Height>1.40625in</Height>
               <TablixCells>
                 <TablixCell>
                   <CellContents>
@@ -4661,7 +4708,7 @@ Fields!DealUnit.Value</Value>
                         </TablixColumns>
                         <TablixRows>
                           <TablixRow>
-                            <Height>1.64583in</Height>
+                            <Height>1.40625in</Height>
                             <TablixCells>
                               <TablixCell>
                                 <CellContents>
@@ -5591,6 +5638,11 @@ Fields!DealUnit.Value</Value>
             <TablixMember />
             <TablixMember>
               <Visibility>
+                <Hidden>=iif(Fields!DesignCon.Value="",true,False)</Hidden>
+              </Visibility>
+            </TablixMember>
+            <TablixMember>
+              <Visibility>
                 <Hidden>=iif(Fields!Requisition.Value =0,true,false)</Hidden>
               </Visibility>
             </TablixMember>
@@ -5602,11 +5654,12 @@ Fields!DealUnit.Value</Value>
             <TablixMember />
           </TablixMembers>
         </TablixRowHierarchy>
+        <DataSetName>DsMain</DataSetName>
         <PageBreak>
           <BreakLocation>End</BreakLocation>
         </PageBreak>
         <Top>3.66749in</Top>
-        <Height>4.04891in</Height>
+        <Height>4.05933in</Height>
         <Width>7.36137in</Width>
         <ZIndex>8</ZIndex>
         <Style>
@@ -5687,6 +5740,53 @@ Fields!DealUnit.Value</Value>
                         </Paragraph>
                       </Paragraphs>
                       <rd:DefaultName>Remark</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Style>None</Style>
+                        </Border>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                    <ColSpan>3</ColSpan>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell />
+                <TablixCell />
+              </TablixCells>
+            </TablixRow>
+            <TablixRow>
+              <Height>0.25in</Height>
+              <TablixCells>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="DesignCon1">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>Consumption Not Fill For : </Value>
+                              <Style>
+                                <FontFamily>Tahoma</FontFamily>
+                                <FontSize>9pt</FontSize>
+                              </Style>
+                            </TextRun>
+                            <TextRun>
+                              <Value>=Fields!DesignCon.Value</Value>
+                              <Style>
+                                <FontFamily>Tahoma</FontFamily>
+                                <FontSize>9pt</FontSize>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>DesignCon1</rd:DefaultName>
                       <Style>
                         <Border>
                           <Style>None</Style>
@@ -6502,18 +6602,24 @@ Fields!DealUnit.Value</Value>
             <TablixMember />
             <TablixMember>
               <Visibility>
+                <Hidden>=iif(Fields!DesignCon.Value="",true,False)</Hidden>
+              </Visibility>
+            </TablixMember>
+            <TablixMember>
+              <Visibility>
                 <Hidden>=iif(Fields!Requisition.Value =0,true,false)</Hidden>
               </Visibility>
             </TablixMember>
             <TablixMember />
           </TablixMembers>
         </TablixRowHierarchy>
+        <DataSetName>DsMain</DataSetName>
         <PageBreak>
           <BreakLocation>End</BreakLocation>
         </PageBreak>
         <Top>11.36958in</Top>
         <Left>0.05917in</Left>
-        <Height>2.44165in</Height>
+        <Height>2.69165in</Height>
         <Width>7.30763in</Width>
         <ZIndex>9</ZIndex>
         <Style>
@@ -8651,7 +8757,7 @@ Fields!DealUnit.Value</Value>
         </Style>
       </Tablix>
     </ReportItems>
-    <Height>14.20466in</Height>
+    <Height>14.48591in</Height>
     <Style />
   </Body>
   <Width>7.38145in</Width>
@@ -9001,6 +9107,10 @@ Fields!DealUnit.Value</Value>
           <DataField>CreatedDate</DataField>
           <rd:TypeName>System.DateTime</rd:TypeName>
         </Field>
+        <Field Name="ProductUidName">
+          <DataField>ProductUidName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
         <Field Name="RecArea">
           <DataField>RecArea</DataField>
           <rd:TypeName>System.Decimal</rd:TypeName>
@@ -9092,6 +9202,10 @@ Fields!DealUnit.Value</Value>
         <Field Name="ApproveDate">
           <DataField>ApproveDate</DataField>
           <rd:TypeName>System.DateTime</rd:TypeName>
+        </Field>
+        <Field Name="DesignCon">
+          <DataField>DesignCon</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="Status">
           <DataField>Status</DataField>

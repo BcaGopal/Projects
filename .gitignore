@@ -10,3 +10,4 @@ packages
 *.rds
 *.data
 *.suo
+/Source/Report/Report/*.rsd

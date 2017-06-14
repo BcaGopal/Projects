@@ -7962,6 +7962,15 @@ namespace Web
         //    };
         //}
 
+        public ActionResult GetSelect2Data(string searchTerm, int pageSize, int pageNum, string SqlProcGet)
+        {
+            return new JsonpResult
+            {
+                Data = cbl.GetSelect2HelpList(SqlProcGet, searchTerm, pageSize, pageNum),
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
         public JsonResult SetSelct2Data(string Ids, string SqlProcSet)
         {
 

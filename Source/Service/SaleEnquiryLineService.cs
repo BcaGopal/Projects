@@ -118,6 +118,32 @@ namespace Service
             return _unitOfWork.Repository<SaleEnquiryLine>().Query().Get().Where(m => m.SaleEnquiryHeaderId == HeaderId).ToList();
         }
 
+        public IEnumerable<SaleEnquiryLine> GetSaleEnquiryLineListForSaleOrder(int HeaderId)
+        {
+            //return _unitOfWork.Repository<SaleEnquiryLine>().Query().Get().Where(m => m.SaleEnquiryHeaderId == HeaderId).ToList();
+
+            return (from p in db.SaleEnquiryLine
+                    join t in db.SaleOrderLine on p.SaleEnquiryLineId equals t.ReferenceDocLineId into table
+                    from tab in table.DefaultIfEmpty()
+                    where p.SaleEnquiryHeaderId == HeaderId && tab.SaleOrderLineId == null 
+                    select new SaleEnquiryLine
+                    {
+                        Amount = p.Amount,
+                        DealQty = p.DealQty,
+                        DealUnitId = p.DealUnitId,
+                        DueDate = p.DueDate,
+                        ProductId = p.ProductId,
+                        Qty = p.Qty,
+                        Rate = p.Rate,
+                        SaleEnquiryHeaderId = p.SaleEnquiryHeaderId,
+                        SaleEnquiryLineId = p.SaleEnquiryLineId
+                    }
+
+
+    );
+
+        }
+
         public SaleEnquiryLineViewModel GetSaleEnquiryLineModel(int id)
         {
             //return _unitOfWork.Repository<SaleEnquiryLine>().Query().Get().Where(m => m.SaleEnquiryLineId == id).FirstOrDefault();
