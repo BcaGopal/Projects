@@ -728,16 +728,16 @@ namespace Web
                 return RedirectToAction("Index", new { id = s.DocTypeId, IndexType = IndexType });
             }
 
-            var SaleOrderHeader = (from H in context.SaleOrderHeader
-                                   where H.ReferenceDocId == s.SaleEnquiryHeaderId && H.ReferenceDocTypeId == s.DocTypeId
-                                   select H).FirstOrDefault();
+            //var SaleOrderHeader = (from H in context.SaleOrderHeader
+            //                       where H.ReferenceDocId == s.SaleEnquiryHeaderId && H.ReferenceDocTypeId == s.DocTypeId
+            //                       select H).FirstOrDefault();
 
-            if (SaleOrderHeader != null)
-            {
-                string message = "Sale Order is created for this enquiry.It can not be submit now.You can delete sale order and then submit this enquiry.";
-                TempData["CSEXC"] += message;
-                return RedirectToAction("Index", new { id = s.DocTypeId, IndexType = IndexType });
-            }
+            //if (SaleOrderHeader != null)
+            //{
+            //    string message = "Sale Order is created for this enquiry.It can not be submit now.You can delete sale order and then submit this enquiry.";
+            //    TempData["CSEXC"] += message;
+            //    return RedirectToAction("Index", new { id = s.DocTypeId, IndexType = IndexType });
+            //}
 
             return RedirectToAction("Detail", new { id = id, IndexType = IndexType, transactionType = string.IsNullOrEmpty(TransactionType) ? "submit" : TransactionType });
         }
@@ -1051,38 +1051,45 @@ namespace Web
             }
             else
             {
-                IEnumerable<SaleEnquiryLine> LineList = new SaleEnquiryLineService(_unitOfWork).GetSaleEnquiryLineListForSaleOrder(SaleEnquiryHeaderId);
+                IEnumerable<SaleEnquiryLine> LineList = new SaleEnquiryLineService(_unitOfWork).GetSaleEnquiryLineListForHeader(SaleEnquiryHeaderId);
                 int i = 0;
                 foreach (SaleEnquiryLine Line in LineList)
                 {
-                    SaleOrderLine OrderLine = new SaleOrderLine();
-                    OrderLine.SaleOrderHeaderId = EnquiSaleOrderHeaderryHeader.SaleOrderHeaderId;
-                    OrderLine.SaleOrderLineId = i;
-                    i = i - 1;
-                    OrderLine.DueDate = Line.DueDate;
-                    OrderLine.ProductId = Line.ProductId ?? 0;
-                    OrderLine.Specification = Line.Specification;
-                    OrderLine.Dimension1Id = Line.Dimension1Id;
-                    OrderLine.Dimension2Id = Line.Dimension2Id;
-                    OrderLine.Qty = Line.Qty;
-                    OrderLine.DealQty = Line.DealQty;
-                    OrderLine.DealUnitId = Line.DealUnitId;
-                    OrderLine.UnitConversionMultiplier = Line.UnitConversionMultiplier;
-                    OrderLine.Rate = Line.Rate;
-                    OrderLine.Amount = Line.Amount;
-                    OrderLine.Remark = Line.Remark;
-                    OrderLine.ReferenceDocTypeId = EnquiryHeader.DocTypeId;
-                    OrderLine.ReferenceDocLineId = Line.SaleEnquiryLineId;
-                    OrderLine.CreatedDate = DateTime.Now;
-                    OrderLine.ModifiedDate = DateTime.Now;
-                    OrderLine.CreatedBy = User.Identity.Name;
-                    OrderLine.ModifiedBy = User.Identity.Name;
-                    new SaleOrderLineService(_unitOfWork).Create(OrderLine);
 
-                    new SaleOrderLineStatusService(_unitOfWork).CreateLineStatus(OrderLine.SaleOrderLineId);
 
-                    Line.LockReason = "Sale order is created for enquiry.Now you can't modify enquiry, changes can be done in sale order.";
-                    new SaleEnquiryLineService(_unitOfWork).Update(Line);
+                    SaleOrderLine SaleOrderLine = new SaleOrderLineService(_unitOfWork).Find_ByReferenceDocLineId(EnquiryHeader.DocTypeId, Line.SaleEnquiryLineId);
+
+                    if (SaleOrderLine == null)
+                    {
+                        SaleOrderLine OrderLine = new SaleOrderLine();
+                        OrderLine.SaleOrderHeaderId = EnquiSaleOrderHeaderryHeader.SaleOrderHeaderId;
+                        OrderLine.SaleOrderLineId = i;
+                        i = i - 1;
+                        OrderLine.DueDate = Line.DueDate;
+                        OrderLine.ProductId = Line.ProductId ?? 0;
+                        OrderLine.Specification = Line.Specification;
+                        OrderLine.Dimension1Id = Line.Dimension1Id;
+                        OrderLine.Dimension2Id = Line.Dimension2Id;
+                        OrderLine.Qty = Line.Qty;
+                        OrderLine.DealQty = Line.DealQty;
+                        OrderLine.DealUnitId = Line.DealUnitId;
+                        OrderLine.UnitConversionMultiplier = Line.UnitConversionMultiplier;
+                        OrderLine.Rate = Line.Rate;
+                        OrderLine.Amount = Line.Amount;
+                        OrderLine.Remark = Line.Remark;
+                        OrderLine.ReferenceDocTypeId = EnquiryHeader.DocTypeId;
+                        OrderLine.ReferenceDocLineId = Line.SaleEnquiryLineId;
+                        OrderLine.CreatedDate = DateTime.Now;
+                        OrderLine.ModifiedDate = DateTime.Now;
+                        OrderLine.CreatedBy = User.Identity.Name;
+                        OrderLine.ModifiedBy = User.Identity.Name;
+                        new SaleOrderLineService(_unitOfWork).Create(OrderLine);
+
+                        new SaleOrderLineStatusService(_unitOfWork).CreateLineStatus(OrderLine.SaleOrderLineId);
+
+                        Line.LockReason = "Sale order is created for enquiry.Now you can't modify enquiry, changes can be done in sale order.";
+                        new SaleEnquiryLineService(_unitOfWork).Update(Line);
+                    }
                 }
             }
         }

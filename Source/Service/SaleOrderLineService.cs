@@ -129,6 +129,11 @@ namespace Service
             return _unitOfWork.Repository<SaleOrderLine>().Find(id);
         }
 
+        public SaleOrderLine Find_ByReferenceDocLineId(int ReferenceDocTypeId, int ReferenceDocLineId)
+        {
+            return _unitOfWork.Repository<SaleOrderLine>().Query().Get().Where(m => m.ReferenceDocTypeId == ReferenceDocTypeId && m.ReferenceDocLineId == ReferenceDocLineId).FirstOrDefault();
+        }
+
         public IEnumerable<SaleOrderLineIndexViewModel> GetSaleOrderLineList(int SaleOrderHeaderId)
         {
             //return _unitOfWork.Repository<SaleOrderLine>().Query().Include(m => m.Product).Include(m=>m.SaleOrderHeader).Get().Where(m => m.SaleOrderHeaderId == SaleOrderHeaderId).ToList();
