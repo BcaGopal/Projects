@@ -1,4 +1,5 @@
 ﻿@model Model.ViewModels.CarpetMasterViewModel
+
 <div class="modal-content">
     <div class="modal-header" style="border-bottom: 1px solid #8E8888">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true"> <span class="glyphicon glyphicon-remove"></span></button>
@@ -7,7 +8,7 @@
         </h3>
     </div>
     <div>
-        @using (Html.BeginForm("EditSizePost", "CarpetMaster", FormMethod.Post, new { @class = "modal-form", id = "modform" }))
+        @using (Html.BeginForm("EditSizePost", "CarpetMaster", FormMethod.Post, new { @class = "modal-form",id="modform"}))
         {
 
             @Html.HiddenFor(m => m.ProductCategoryId)
@@ -22,31 +23,31 @@
             @Html.HiddenFor(m => m.DrawBackTariffHeadId)
             @Html.HiddenFor(m => m.ProductGroupId)
             @Html.HiddenFor(m => m.ProductGroupName)
-            @Html.HiddenFor(m => m.ContentId)
-            @Html.HiddenFor(m => m.FaceContentId)
-            @Html.HiddenFor(m => m.DescriptionOfGoodsId)
-            @Html.HiddenFor(m => m.SampleId)
-            @Html.HiddenFor(m => m.StandardCost)
-            @Html.HiddenFor(m => m.StandardWeight)
-            @Html.HiddenFor(m => m.GrossWeight)
-            @Html.HiddenFor(m => m.Tags)
+            @Html.HiddenFor(m=>m.ContentId)
+            @Html.HiddenFor(m=>m.FaceContentId)
+            @Html.HiddenFor(m=>m.DescriptionOfGoodsId)
+            @Html.HiddenFor(m=>m.SampleId)
+            @Html.HiddenFor(m=>m.StandardCost)
+            @Html.HiddenFor(m=>m.StandardWeight)
+            @Html.HiddenFor(m=>m.GrossWeight)
+            @Html.HiddenFor(m=>m.Tags)
             @Html.HiddenFor(m => m.SiteId)
             @Html.HiddenFor(m => m.DivisionId)
-            @Html.HiddenFor(m => m.ProductId)
-            @Html.HiddenFor(m => m.ProductDesignPatternId)
-            @Html.HiddenFor(m => m.CounterNo)
-            @Html.HiddenFor(m => m.OriginCountryId)
-            @Html.HiddenFor(m => m.ImageFolderName)
-            @Html.HiddenFor(m => m.ImageFileName)
-            @Html.HiddenFor(m => m.ProductSupplierId)
-            @Html.HiddenFor(m => m.SupplierId)
-            @Html.HiddenFor(m => m.LeadTime)
-            @Html.HiddenFor(m => m.MinimumOrderQty)
-            @Html.HiddenFor(m => m.MaximumOrderQty)
-            @Html.HiddenFor(m => m.Cost)
-            @Html.HiddenFor(m => m.IsSample)
-            @Html.HiddenFor(m => m.TraceType)
-            @Html.HiddenFor(m => m.MapType)
+            @Html.HiddenFor(m=>m.ProductId)
+            @Html.HiddenFor(m=>m.ProductDesignPatternId)
+            @Html.HiddenFor(m=>m.CounterNo)
+            @Html.HiddenFor(m=>m.OriginCountryId)
+            @Html.HiddenFor(m=>m.ImageFolderName)
+            @Html.HiddenFor(m=>m.ImageFileName)
+            @Html.HiddenFor(m=>m.ProductSupplierId)
+            @Html.HiddenFor(m=>m.SupplierId)
+            @Html.HiddenFor(m=>m.LeadTime)
+            @Html.HiddenFor(m=>m.MinimumOrderQty)
+            @Html.HiddenFor(m=>m.MaximumOrderQty)
+            @Html.HiddenFor(m=>m.Cost)            
+            @Html.HiddenFor(m=>m.IsSample)
+            @Html.HiddenFor(m=>m.TraceType)
+            @Html.HiddenFor(m=>m.MapType)
             @Html.HiddenFor(m => m.CarpetSkuSettings.UnitConversions)
             @Html.HiddenFor(m => m.CarpetSkuSettings.PerimeterSizeTypeId)
 
@@ -54,16 +55,18 @@
 
             <div class="form-horizontal  modal-body">
                 @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
                             @Html.LabelFor(model => model.ProductShapeId, "Shape", new { @class = "control-label col-md-4 col-sm-2" })
                             <div class="col-md-7 col-sm-10">
-                                @Html.DropDownListFor(model => model.ProductShapeId, new SelectList(ViewBag.ProductShapeList as System.Collections.IEnumerable, "ProductShapeId", "ProductShapeName"), string.Empty, new { @class = "form-control col-xs-7 height required" })
+                                @Html.DropDownListFor(model => model.ProductShapeId, new SelectList(ViewBag.ProductShapeList as System.Collections.IEnumerable, "ProductShapeId", "ProductShapeName"),string.Empty, new { @class = "form-control col-xs-7 height required" })
                                 @Html.ValidationMessageFor(m => m.ProductShapeId)
                             </div>
                         </div>
                     </div>
+
                     <div class="col-md-6">
                         <div class="form-group">
                             @Html.LabelFor(model => model.StandardSizeId, "Standard Size", new { @class = "control-label col-md-4 col-sm-2" })
@@ -73,6 +76,7 @@
                             </div>
                         </div>
                     </div>
+
                     <div class="col-md-6">
                         <div class="form-group">
                             @Html.LabelFor(model => model.ManufacturingSizeId, "Manufacturing Size", new { @class = "control-label col-md-4 col-sm-2" })
@@ -82,6 +86,7 @@
                             </div>
                         </div>
                     </div>
+
                     <div class="col-md-6">
                         <div class="form-group">
                             @Html.LabelFor(model => model.FinishingSizeId, "Finishing Size", new { @class = "control-label col-md-4 col-sm-2" })
@@ -91,6 +96,7 @@
                             </div>
                         </div>
                     </div>
+
                     <div class="col-md-6" style="display:@(Model.CarpetSkuSettings.isVisibleStencilSize ? "" : "none")">
                         @Html.HiddenFor(m => m.CarpetSkuSettings.isVisibleStencilSize)
                         <div class="form-group">
@@ -101,6 +107,7 @@
                             </div>
                         </div>
                     </div>
+
                     <div class="col-md-6">
                         <div class="form-group">
                             @Html.LabelFor(model => model.MapSizeId, "Map Size", new { @class = "control-label col-md-4 col-sm-2" })
@@ -110,6 +117,7 @@
                             </div>
                         </div>
                     </div>
+
                     <div class="col-md-6">
                         <div class="form-group">
                             @Html.LabelFor(model => model.ProductCode, "Product Code", new { @class = "control-label col-md-4 col-sm-2" })
@@ -119,6 +127,7 @@
                             </div>
                         </div>
                     </div>
+
                     <div class="col-md-6">
                         <div class="form-group">
                             @Html.LabelFor(model => model.ProductName, "Product Name", new { @class = "control-label col-md-4 col-sm-2" })
@@ -128,6 +137,7 @@
                             </div>
                         </div>
                     </div>
+
                     <div class="col-md-6">
                         <div class="form-group">
                             @Html.LabelFor(model => model.ProductDescription, "Product Description", new { @class = "control-label col-md-4 col-sm-2" })
@@ -137,6 +147,7 @@
                             </div>
                         </div>
                     </div>
+
                     <div class="col-md-6" style="display:@(Model.CarpetSkuSettings.isVisibleMapScale ? "" : "none")">
                         @Html.HiddenFor(m => m.CarpetSkuSettings.isVisibleMapScale)
                         <div class="form-group">
@@ -146,6 +157,7 @@
                             </div>
                         </div>
                     </div>
+
                     <div class="col-md-6" style="display:@(Model.CarpetSkuSettings.isVisibleColour ? "none" : "")">
                         @Html.HiddenFor(m => m.CarpetSkuSettings.isVisibleColour)
                         <div class="form-group">
@@ -163,6 +175,7 @@
                             </div>
                         </div>
                     </div>
+
                     <div class="col-md-6" style="display:@(Model.CarpetSkuSettings.isVisibleCBM ? "" : "none")">
                         @Html.HiddenFor(m => m.CarpetSkuSettings.isVisibleCBM)
                         <div class="form-group">
@@ -173,109 +186,114 @@
                         </div>
                     </div>
                 </div>
-                @*<div class="row">
-                        <div>
-                            <div class="row" style=" padding-right: 30px; margin-right: 15px;">
-                                <div class="col-md-12">
-                                    <div class="form-group" style="margin-top:15px">
-                                        @Html.LabelFor(model => model.StandardSizeId, "Standard Size", new { @class = "control-label col-xs-5" })
-                                        <div class="col-xs-6">
-                                            @Html.TextBoxFor(model => model.StandardSizeId, null, new { @class = "form-control col-xs-7 height required" })
-                                            @Html.ValidationMessageFor(model => model.StandardSizeId, "", new { @class = "text-danger" })
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row" style=" padding-right: 30px; margin-right: 15px;">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        @Html.LabelFor(model => model.ManufacturingSizeId, "Manufacturing Size", new { @class = "control-label col-xs-5" })
-                                        <div class="col-xs-6">
-                                            @Html.TextBoxFor(model => model.ManufacturingSizeId, null, new { @class = "form-control col-xs-7 height required" })
-                                            @Html.ValidationMessageFor(model => model.ManufacturingSizeId, "", new { @class = "text-danger" })
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row" style=" padding-right: 30px; margin-right: 15px;">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        @Html.LabelFor(model => model.FinishingSizeId, "Finishing Size", new { @class = "control-label col-xs-5" })
-                                        <div class="col-xs-6">
-                                            @Html.TextBoxFor(model => model.FinishingSizeId, null, new { @class = "form-control col-xs-7 height required" })
-                                            @Html.ValidationMessageFor(model => model.FinishingSizeId, "", new { @class = "text-danger" })
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row" style=" padding-right: 30px; margin-right: 15px;">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        @Html.LabelFor(model => model.StencilSizeId, "Stencil Size", new { @class = "control-label col-xs-5" })
-                                        <div class="col-xs-6">
-                                            @Html.TextBoxFor(model => model.StencilSizeId, null, new { @class = "form-control col-xs-7 height required" })
-                                            @Html.ValidationMessageFor(model => model.StencilSizeId, "", new { @class = "text-danger" })
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row" style=" padding-right: 30px; margin-right: 15px;">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        @Html.LabelFor(model => model.MapSizeId, "Map Size", new { @class = "control-label col-xs-5" })
-                                        <div class="col-xs-6">
-                                            @Html.TextBoxFor(model => model.MapSizeId, null, new { @class = "form-control col-xs-7 height required" })
-                                            @Html.ValidationMessageFor(model => model.MapSizeId, "", new { @class = "text-danger" })
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row" style=" padding-right: 30px; margin-right: 15px;">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        @Html.LabelFor(model => model.ProductCode, "Product Code", new { @class = "control-label col-xs-5" })
-                                        <div class="col-xs-6">
-                                            @Html.TextBoxFor(model => model.ProductCode, null, new { @class = "form-control col-xs-7 height required" })
-                                            @Html.ValidationMessageFor(model => model.ProductCode, "", new { @class = "text-danger" })
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row" style=" padding-right: 30px; margin-right: 15px;">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        @Html.LabelFor(model => model.ProductName, "Product Name", new { @class = "control-label col-xs-5" })
-                                        <div class="col-xs-6">
-                                            @Html.TextBoxFor(model => model.ProductName, null, new { @class = "form-control col-xs-7 height required" })
-                                            @Html.ValidationMessageFor(model => model.ProductName, "", new { @class = "text-danger" })
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row" style=" padding-right: 30px; margin-right: 15px;">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        @Html.LabelFor(model => model.ProductDescription, "Product Description", new { @class = "control-label col-xs-5" })
-                                        <div class="col-xs-6">
-                                            @Html.TextBoxFor(model => model.ProductDescription, null, new { @class = "form-control col-xs-7 height required" })
-                                            @Html.ValidationMessageFor(model => model.ProductDescription, "", new { @class = "text-danger" })
-                                        </div>
+
+                @*<div class="row">                   
+                    <div>
+                        <div class="row" style=" padding-right: 30px; margin-right: 15px;">
+                            <div class="col-md-12">
+                                <div class="form-group" style="margin-top:15px">
+                                    @Html.LabelFor(model => model.StandardSizeId, "Standard Size", new { @class = "control-label col-xs-5" })
+                                    <div class="col-xs-6">
+                                        @Html.TextBoxFor(model => model.StandardSizeId, null, new { @class = "form-control col-xs-7 height required" })
+                                        @Html.ValidationMessageFor(model => model.StandardSizeId, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
                             </div>
                         </div>
+                        <div class="row" style=" padding-right: 30px; margin-right: 15px;">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.ManufacturingSizeId, "Manufacturing Size", new { @class = "control-label col-xs-5" })
+                                    <div class="col-xs-6">
+                                        @Html.TextBoxFor(model => model.ManufacturingSizeId, null, new { @class = "form-control col-xs-7 height required" })
+                                        @Html.ValidationMessageFor(model => model.ManufacturingSizeId, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style=" padding-right: 30px; margin-right: 15px;">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.FinishingSizeId, "Finishing Size", new { @class = "control-label col-xs-5" })
+                                    <div class="col-xs-6">
+                                        @Html.TextBoxFor(model => model.FinishingSizeId, null, new { @class = "form-control col-xs-7 height required" })
+                                        @Html.ValidationMessageFor(model => model.FinishingSizeId, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style=" padding-right: 30px; margin-right: 15px;">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.StencilSizeId, "Stencil Size", new { @class = "control-label col-xs-5" })
+                                    <div class="col-xs-6">
+                                        @Html.TextBoxFor(model => model.StencilSizeId, null, new { @class = "form-control col-xs-7 height required" })
+                                        @Html.ValidationMessageFor(model => model.StencilSizeId, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style=" padding-right: 30px; margin-right: 15px;">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.MapSizeId, "Map Size", new { @class = "control-label col-xs-5" })
+                                    <div class="col-xs-6">
+                                        @Html.TextBoxFor(model => model.MapSizeId, null, new { @class = "form-control col-xs-7 height required" })
+                                        @Html.ValidationMessageFor(model => model.MapSizeId, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style=" padding-right: 30px; margin-right: 15px;">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.ProductCode, "Product Code", new { @class = "control-label col-xs-5" })
+                                    <div class="col-xs-6">
+                                        @Html.TextBoxFor(model => model.ProductCode, null, new { @class = "form-control col-xs-7 height required" })
+                                        @Html.ValidationMessageFor(model => model.ProductCode, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style=" padding-right: 30px; margin-right: 15px;">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.ProductName, "Product Name", new { @class = "control-label col-xs-5" })
+                                    <div class="col-xs-6">
+                                        @Html.TextBoxFor(model => model.ProductName, null, new { @class = "form-control col-xs-7 height required" })
+                                        @Html.ValidationMessageFor(model => model.ProductName, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style=" padding-right: 30px; margin-right: 15px;">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.ProductDescription, "Product Description", new { @class = "control-label col-xs-5" })
+                                    <div class="col-xs-6">
+                                        @Html.TextBoxFor(model => model.ProductDescription, null, new { @class = "form-control col-xs-7 height required" })
+                                        @Html.ValidationMessageFor(model => model.ProductDescription, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
-                    </div>*@
+                </div>*@
                 <div class="modal-footer " style="padding: 19px 20px 0 20px; border-top:1px solid #8E8888">
                     <button class="btn custom left" name="Command:Edit" type="submit"><h2 style="margin:0px" id="submit"><span class="glyphicon glyphicon-floppy-disk black"></span> </h2></button>
+
                     <button class="btn custom" name="Command:Delete" id="delete" type="submit"><h2 style="margin:0px"><span class="glyphicon glyphicon-trash black"></span> </h2></button>
 
+
                 </div>
+
 
             </div>
         }
     </div>
 </div>
+
 <script type="text/javascript">
     $(function()
     {
@@ -287,6 +305,7 @@
     });
     });
 </script>
+
 <script type="text/javascript">
 
     var ProductShapeShortName = "";
@@ -315,9 +334,9 @@
         GetStandardSizeList($("#StandardSizeId"), '/CarpetMaster/GetSize', '/ComboHelpList/SetSingleSize', ' ', false, 0);
         $("#StandardSizeId").select2("data", { id: "", text: "" });
 
-
+        
         //GetProductShapeShortName();
-
+    
     });
 
 
@@ -359,7 +378,7 @@
         }
     })
 
-
+    
 
 
 
@@ -367,18 +386,18 @@
     {
         var ProductGroupNameText = $("#ProductGroupName").val();
 
-        var StandardSizeData = $("#StandardSizeId").select2("data");
+        var StandardSizeData = $("#StandardSizeId").select2("data"); 
         var StandardSizeNameText = StandardSizeData.text;
 
         var ManufacturingSizeNameText="";
 
         if($("#ManufacturingSizeId").select2("data")!=null )
         {
-            var ManufacturingSizeData = $("#ManufacturingSizeId").select2("data");
+            var ManufacturingSizeData = $("#ManufacturingSizeId").select2("data"); 
             ManufacturingSizeNameText= ManufacturingSizeData.text;
         }
 
-        var ColourData = $("#ColourId").select2("data");
+        var ColourData = $("#ColourId").select2("data"); 
         var ColourNameText = ColourData.text;
 
         //alert(StandardSizeNameText);
@@ -466,7 +485,7 @@
                 cdata = $('#ManufacturingSizeId').select2('data').text;
                 $("#FinishingSizeId").select2('data', { id: cid, text: cdata });
             }
-
+            
         });
 
         //CreateCustomProductName();
@@ -546,7 +565,7 @@
         });
     }
 
-
+    
     function GetProductShapeShortName(){
         $.ajax({
             cache:false,

@@ -186,6 +186,7 @@ namespace Core.Common
         public const string Liabilities = "Liability";
         public const string Income = "Income";
         public const string Expenditure = "Expense";
+        public const string Bank = "Bank";
     }
 
     public class LedgerAccountGroupConstants
