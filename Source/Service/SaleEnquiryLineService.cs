@@ -21,7 +21,7 @@ namespace Service
         SaleEnquiryLine GetSaleEnquiryLine(int id);
 
         IEnumerable<SaleEnquiryLine> GetSaleEnquiryLineListForHeader(int HeaderId);
-
+        
         SaleEnquiryLineViewModel GetSaleEnquiryLineModel(int id);
         SaleEnquiryLine Find(int id);
         SaleEnquiryLine Find_WithLineDetail(int SaleEnquiryHeaderId, string BuyerSpecification, string BuyerSpecification1, string BuyerSpecification2, string BuyerSpecification3);
