@@ -322,6 +322,7 @@ namespace Web
                         Ledger.AmtCr = LedgerLine.Amount;
                     }
                     Ledger.ChqNo = LedgerLine.ChqNo;
+                    Ledger.ChqDate = LedgerLine.ChqDate;
                     Ledger.ContraLedgerAccountId = header.LedgerAccountId;
                     Ledger.CostCenterId = LedgerLine.CostCenterId;
                     Ledger.DueDate = LedgerLine.ChqDate;
@@ -339,15 +340,15 @@ namespace Web
                         LedgerAdj LedgerAdj = new LedgerAdj();
                         if (Nature == NatureConstants.Credit)
                         {
-                            LedgerAdj.LedgerId = (int)LedgerLine.ReferenceId;
+                            //LedgerAdj.LedgerId = (int)LedgerLine.ReferenceId;
                             LedgerAdj.DrLedgerId = Ledger.LedgerId;
-                            LedgerAdj.CrLedgerId = null;
+                            LedgerAdj.CrLedgerId = (int)LedgerLine.ReferenceId;
                         }
                         else
                         {
-                            LedgerAdj.LedgerId = (int)LedgerLine.ReferenceId;
+                            //LedgerAdj.LedgerId = (int)LedgerLine.ReferenceId;
                             LedgerAdj.CrLedgerId = Ledger.LedgerId;
-                            LedgerAdj.DrLedgerId = null;
+                            LedgerAdj.DrLedgerId = (int)LedgerLine.ReferenceId;
                         }
 
                         LedgerAdj.Amount = LedgerLine.Amount;
@@ -378,6 +379,8 @@ namespace Web
                     ContraLedger.LedgerLineId = LedgerLine.LedgerLineId;
                     ContraLedger.LedgerAccountId = header.LedgerAccountId.Value;
                     ContraLedger.ContraLedgerAccountId = LedgerLine.LedgerAccountId;
+                    ContraLedger.ChqNo = LedgerLine.ChqNo;
+                    ContraLedger.ChqDate = LedgerLine.ChqDate;
                     ContraLedger.ObjectState = Model.ObjectState.Added;
                     db.Ledger.Add(ContraLedger);
                     #endregion
@@ -548,17 +551,17 @@ namespace Web
 
                         if (Nature == NatureConstants.Credit)
                         {
-                            LedgerAdj = db.LedgerAdj.Where(m => m.DrLedgerId == Ledger.LedgerId && m.LedgerId == LedgerLine.ReferenceId).FirstOrDefault();
-                            LedgerAdj.LedgerId = (int)LedgerLine.ReferenceId;
+                            LedgerAdj = db.LedgerAdj.Where(m => m.DrLedgerId == Ledger.LedgerId && m.CrLedgerId == LedgerLine.ReferenceId).FirstOrDefault();
+                            //LedgerAdj.LedgerId = (int)LedgerLine.ReferenceId;
                             LedgerAdj.DrLedgerId = Ledger.LedgerId;
-                            LedgerAdj.CrLedgerId = null;
+                            LedgerAdj.CrLedgerId = (int)LedgerLine.ReferenceId;
                         }
                         else
                         {
-                            LedgerAdj = db.LedgerAdj.Where(m => m.CrLedgerId == Ledger.LedgerId && m.LedgerId == LedgerLine.ReferenceId).FirstOrDefault();
-                            LedgerAdj.LedgerId = (int)LedgerLine.ReferenceId;
+                            LedgerAdj = db.LedgerAdj.Where(m => m.CrLedgerId == Ledger.LedgerId && m.DrLedgerId == LedgerLine.ReferenceId).FirstOrDefault();
+                            //LedgerAdj.LedgerId = (int)LedgerLine.ReferenceId;
                             LedgerAdj.CrLedgerId = Ledger.LedgerId;
-                            LedgerAdj.DrLedgerId = null;
+                            LedgerAdj.DrLedgerId = (int)LedgerLine.ReferenceId;
                         }
 
                         LedgerAdj.Amount = LedgerLine.Amount;
@@ -1328,6 +1331,8 @@ namespace Web
             LedgerToAdjustViewModel_Single s = new LedgerToAdjustViewModel_Single();
 
             s.LedgerLineId = id;
+            s.LedgerAccountId = Line.LedgerAccountId;
+            s.LedgerHeaderId = Line.LedgerHeaderId;
             s.PartyDocDate_Adjusted = null;
 
             var temp = (from L in db.Ledger
@@ -1410,9 +1415,9 @@ namespace Web
             return PartialView("_LedgerAdj_Single", s);
         }
 
-        public ActionResult GetLedgerIds_Adusted(string searchTerm, int pageSize, int pageNum, int filter)//DocTypeId
+        public ActionResult GetLedgerIds_Adusted(string searchTerm, int pageSize, int pageNum, int? filter, string filter2, int filter3)//DocTypeId
         {
-            var Query = new LedgerLineService(_unitOfWork).GetLedgerIds_Adusted(filter, searchTerm);
+            var Query = new LedgerLineService(_unitOfWork).GetLedgerIds_Adusted(filter, filter2, filter3, searchTerm);
             var temp = Query.Skip(pageSize * (pageNum - 1))
                 .Take(pageSize)
                 .ToList();
@@ -1443,7 +1448,9 @@ namespace Web
                             PartyDocNo = LedgerHeaderTab.PartyDocNo,
                             PartyDocDate = LedgerHeaderTab.PartyDocDate ?? LedgerHeaderTab.DocDate,
                             BalanceAmount = LedgerBalanceTab.Balance,
-                            BillAmount = L.AmtDr != 0 ? L.AmtDr : L.AmtCr
+                            BillAmount = L.AmtDr != 0 ? L.AmtDr : L.AmtCr,
+                            LedgerAccountId = L.LedgerAccountId,
+                            LedgerAccountName = L.LedgerAccount.LedgerAccountName
                         }).FirstOrDefault();
 
             if (temp != null)

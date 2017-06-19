@@ -107,6 +107,7 @@
     <Compile Include="Models\ActivityLog.cs" />
     <Compile Include="Models\BinLocation.cs" />
     <Compile Include="Models\ChargeGroupSettings.cs" />
+    <Compile Include="Models\ImportMessage.cs" />
     <Compile Include="Models\CompanySettings.cs" />
     <Compile Include="Models\Dimension4Type.cs" />
     <Compile Include="Models\Dimension3Type.cs" />

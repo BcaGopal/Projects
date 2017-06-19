@@ -94,6 +94,7 @@ namespace Data.Models
 
 
         //Master Models        
+        public DbSet<ImportMessage> ImportMessage { get; set; }
         public DbSet<PromoCode> PromoCode { get; set; }
         public DbSet<CalculationHeaderLedgerAccount> CalculationHeaderLedgerAccount { get; set; }
         public DbSet<CalculationLineLedgerAccount> CalculationLineLedgerAccount { get; set; }

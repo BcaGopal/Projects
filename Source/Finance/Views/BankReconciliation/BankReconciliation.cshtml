@@ -319,7 +319,7 @@
                 $('#sFilter').html(GenerateFiltersForHtml());
                 var tab = $('#example').DataTable();
                 tab.ajax.reload();
-
+                GetBalanceAsPerBooks();
                 return false;
 
             });
@@ -342,6 +342,7 @@
             self.TransactionType = Filters.TransactionType ? Filters.TransactionType : null;
             self.FromDate = Filters.FromDate ? Filters.FromDate : null;
             self.ToDate = Filters.ToDate ? Filters.ToDate : null;
+
         }
 
         function GenerateFiltersForHtml() {
@@ -355,8 +356,10 @@
         }
 
 
-        var LedgerAccountId = @ViewBag.LedgerAccountId
+        var LedgerAccountId = @ViewBag.LedgerAccountId;
+        
         function GetBalanceAsPerBooks() {
+            var ToDate = Filters.ToDate ? Filters.ToDate : null;
             var table = $('#example').DataTable();
             var BalanceAsPerBooks = 0;
             var BalanceAsPerBank = 0;
@@ -369,7 +372,7 @@
                     async : false,
                     type: "POST",
                     url: "@(Url.Action("GetBalanceAsPerBooksJson"))",
-                    data: { LedgerAccountId: LedgerAccountId },
+                    data: { LedgerAccountId: LedgerAccountId, ToDate : ToDate },
                 success: function (data) {
                     BalanceAsPerBooks = data;
                 },
@@ -384,7 +387,7 @@
                     async : false,
                     type: "POST",
                     url: "@(Url.Action("GetBalanceAsPerBankJson"))",
-                    data: { LedgerAccountId: LedgerAccountId },
+                    data: { LedgerAccountId: LedgerAccountId, ToDate : ToDate },
                 success: function (data) {
                     BalanceAsPerBank = data;
                 },

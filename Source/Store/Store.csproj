@@ -972,6 +972,7 @@
     <Content Include="Views\StockProcessDisplay\StockLedgerIndex.cshtml" />
     <Content Include="Views\PersonAddress\_Create.cshtml" />
     <Content Include="Views\PersonOpening\_Create.cshtml" />
+    <Content Include="Views\Import\Result.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

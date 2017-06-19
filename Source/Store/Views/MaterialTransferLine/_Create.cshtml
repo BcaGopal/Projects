@@ -35,6 +35,7 @@
                 @Html.HiddenFor(m => m.RequisitionLineId)
                 @Html.HiddenFor(m => m.FromGodownId)
                 @Html.HiddenFor(m => m.DocTypeId)
+                @Html.HiddenFor(m => m.StockHeaderSettings.SqlProcProductUidHelpList)
                 @Html.HiddenFor(m => m.RequisitionBalanceQty)
                 @Html.HiddenFor(m => m.ProductUidId)
                 <div class="row">
@@ -215,6 +216,11 @@
         CustomSelectFunction($("#Dimension4Id"), '/ComboHelpList/GetDimension4', '/ComboHelpList/SetSingleDimension4', ' ', false, 0);
         CustomSelectFunction($("#FromProcessId"), '/ComboHelpList/GetProcess', '/ComboHelpList/SetSingleProcess', ' ', false, 0);
         $("#ProductId").select2("focus");
+
+        if ($('#StockHeaderSettings_SqlProcProductUidHelpList', '.modal-body').val() != null && $('#StockHeaderSettings_SqlProcProductUidHelpList', '.modal-body').val() != "")
+        {
+            CustomSelectFunction($("#ProductUidIdName"), '/MaterialTransferLine/GetProductUidHelpList', '/MaterialTransferLine/SetSingleProductUid', ' ', false, 0, $('#StockHeaderId', '.modal-body').val());
+        }
 
 
         $('#ProductUidIdName').on('change',function(e){

@@ -57,6 +57,7 @@ namespace Customize
                 }
             }
 
+
             ImportMasterViewModel vm = new ImportMasterViewModel();
 
             if (TempData["closeOnSelectOption"] != null)
@@ -75,6 +76,8 @@ namespace Customize
         {
             string[] StrArr = new string[] { };
 
+            //int MenuId = Convert.ToInt32(Request.QueryString["MenuId"]);
+
             int ImportHeaderId = vm.ImportHeaderId;
             int DocTypeId = vm.DocTypeId;
 
@@ -85,7 +88,7 @@ namespace Customize
             {
                 ViewBag.id = form["DocTypeId"];
                 ModelState.AddModelError("", "Please select file.");
-                return View("Index");
+                return View("Import", vm);
             }
 
             string ConnectionString = (string)System.Web.HttpContext.Current.Session["DefaultConnectionString"];
@@ -116,14 +119,14 @@ namespace Customize
                 else
                 {
                     ModelState.AddModelError("", "File is not in correct format.");
-                    return View("Index");
+                    return View("Import", vm);
                 }
 
 
                 if (RecordList.Rows.Count == 0)
                 {
                     ModelState.AddModelError("", "There is no records to import.");
-                    return View("Index");
+                    return View("Import", vm);
                 }
 
 
@@ -133,6 +136,7 @@ namespace Customize
 
                 if (ImportLineList.Count() > 0)
                 {
+                    RecordList.Columns.Add("ImportHeaderId");
                     RecordList.Columns.Add("DocTypeId");
                     RecordList.Columns.Add("UserName");
                     RecordList.Columns.Add("SiteId");
@@ -141,21 +145,25 @@ namespace Customize
                     for (int i = 0; i <= RecordList.Rows.Count - 1; i++)
                     {
                         //RecordList.Rows[i]["DocTypeId"] = form["DocTypeId"];
+                        RecordList.Rows[i]["ImportHeaderId"] = vm.ImportHeaderId;
                         RecordList.Rows[i]["DocTypeId"] = DocTypeId;
                         RecordList.Rows[i]["UserName"] = User.Identity.Name;
                         RecordList.Rows[i]["SiteId"] = (int)System.Web.HttpContext.Current.Session["SiteId"];
                         RecordList.Rows[i]["DivisionId"] = (int)System.Web.HttpContext.Current.Session["DivisionId"];
                     }
 
-                    foreach(var ImportLine in ImportLineList)
+                    foreach (var ImportLine in ImportLineList)
                     {
-                        if (RecordList.Columns.Contains(ImportLine.FieldName) == false)
+                        if (ImportLine.DataType == "Input-Text" || ImportLine.DataType == "Input-Number" || ImportLine.DataType == "Input-Date" || ImportLine.DataType == "Single Select" || ImportLine.DataType == "Multi Select")
                         {
-                            RecordList.Columns.Add(ImportLine.FieldName);
-
-                            for (int i = 0; i <= RecordList.Rows.Count - 1; i++)
+                            if (RecordList.Columns.Contains(ImportLine.FieldName) == false)
                             {
-                                RecordList.Rows[i][ImportLine.FieldName] = form[ImportLine.FieldName];
+                                RecordList.Columns.Add(ImportLine.FieldName);
+
+                                for (int i = 0; i <= RecordList.Rows.Count - 1; i++)
+                                {
+                                    RecordList.Rows[i][ImportLine.FieldName] = form[ImportLine.FieldName];
+                                }
                             }
                         }
                     }
@@ -165,12 +173,12 @@ namespace Customize
 
                 foreach (var ImportLine in ImportLineList)
                 {
-                    if (ImportLine.IsMandatory == true)
+                    if (ImportLine.IsMandatory == true && ImportLine.FileNo == filecnt + 1)
                     {
                         if (RecordList.Columns.Contains(ImportLine.FieldName) == false)
                         {
-                            ModelState.AddModelError("", ImportLine.FieldName + " is manadatary, but file does not containt this column.");
-                            return View("Index");
+                            ModelState.AddModelError("", ImportLine.FieldName + " is manadatary for file " + ImportLine.Type  + ", but file does not containt this column.");
+                            return View("Import", vm);
                         }
 
                         for (int i = 0; i <= RecordList.Rows.Count - 1; i++)
@@ -178,7 +186,7 @@ namespace Customize
                             if (RecordList.Rows[i][ImportLine.FieldName] == "")
                             {
                                 ModelState.AddModelError("", ImportLine.FieldName + " is manadatary, it is blank at row no." + i.ToString());
-                                return View("Index");
+                                return View("Import", vm);
                             }
                         }
                     }
@@ -190,7 +198,7 @@ namespace Customize
                             if (RecordList.Rows[i][ImportLine.FieldName].ToString().Length > ImportLine.MaxLength)
                             {
                                 ModelState.AddModelError("", ImportLine.FieldName + " should be maximum length of " + ImportLine.MaxLength + ", it is exceeding at row no." + i.ToString());
-                                return View("Index");
+                                return View("Import", vm);
                             }
                         }
                     }
@@ -225,52 +233,80 @@ namespace Customize
                 }
             }
 
-            List<ImportErrors> ImportErrorList = new List<ImportErrors>();
 
-            if (ds.Tables[0].Rows.Count == 0)
+            List<ImportMessage> MsgList = new List<ImportMessage>();
+            if (ds.Tables.Count > 0)
             {
-                ViewBag.id = form["DocTypeId"];
-                return View("Sucess");
-            }
-            else
-            {
-                for (int j = 0; j <= ds.Tables[0].Rows.Count - 1; j++)
+                for (int i = 0; i <= ds.Tables[0].Rows.Count - 1; i++)
                 {
-                    if (ds.Tables[0].Rows[j]["ErrorText"].ToString() != "")
-                    {
-                        ErrorText = ErrorText + ds.Tables[0].Rows[j]["ErrorText"].ToString() + "." + Environment.NewLine;
-                    }
-
-
-
-                    ImportErrors ImportError = new ImportErrors();
-                    ImportError.ErrorText = ds.Tables[0].Rows[j]["ErrorText"].ToString();
-                    ImportError.BarCodes = ds.Tables[0].Rows[j]["Head"].ToString();
-                    ImportErrorList.Add(ImportError);
+                    ImportMessage Msg = new ImportMessage();
+                    Msg.Head = ds.Tables[0].Rows[i]["Head"].ToString();
+                    Msg.Value = ds.Tables[0].Rows[i]["Value"].ToString();
+                    Msg.ValueType = ds.Tables[0].Rows[i]["ValueType"].ToString();
+                    MsgList.Add(Msg);
                 }
-
-                if (ErrorText != "")
-                {
-                    ViewBag.Error = ErrorText; // +WarningText;
-                    ViewBag.id = form["DocTypeId"];
-                    //string DataTableSessionVarName = "";
-                    //DataTableSessionVarName = User.Identity.Name.ToString() + "ImportData" + form["DocTypeId"].ToString();
-                    //Session[DataTableSessionVarName] = dataTable;
-                    return View("Error", ImportErrorList);
-                }
-
-
-                return View("Sucess");
-
             }
+
+            return View("Result", MsgList);
+
+
+            //if (ds.Tables.Count == 0)
+            //{
+            //    ViewBag.id = form["DocTypeId"];
+            //    return View("Sucess");
+            //}
+
+            //List<ImportErrors> ImportErrorList = new List<ImportErrors>();
+
+            //if (ds.Tables[0].Rows.Count == 0)
+            //{
+            //    ViewBag.id = form["DocTypeId"];
+            //    return View("Sucess");
+            //}
+            //else
+            //{
+            //    for (int j = 0; j <= ds.Tables[0].Rows.Count - 1; j++)
+            //    {
+            //        if (ds.Tables[0].Rows[j]["ErrorText"].ToString() != "")
+            //        {
+            //            ErrorText = ErrorText + ds.Tables[0].Rows[j]["ErrorText"].ToString() + "." + Environment.NewLine;
+            //        }
+
+
+
+            //        ImportErrors ImportError = new ImportErrors();
+            //        ImportError.ErrorText = ds.Tables[0].Rows[j]["ErrorText"].ToString();
+            //        ImportError.BarCodes = ds.Tables[0].Rows[j]["Head"].ToString();
+            //        ImportErrorList.Add(ImportError);
+            //    }
+
+            //    if (ErrorText != "")
+            //    {
+            //        ViewBag.Error = ErrorText; // +WarningText;
+            //        ViewBag.id = form["DocTypeId"];
+            //        //string DataTableSessionVarName = "";
+            //        //DataTableSessionVarName = User.Identity.Name.ToString() + "ImportData" + form["DocTypeId"].ToString();
+            //        //Session[DataTableSessionVarName] = dataTable;
+            //        return View("Error", ImportErrorList);
+            //    }
+
+
+            //    return View("Sucess");
+
+            //}
         }
 
 
-        public ActionResult ReturnToRoute(int id)//Document Type Id
-        {
-            return Redirect(System.Configuration.ConfigurationManager.AppSettings["JobsDomain"] + "/" + "JobOrderHeader" + "/" + "Index" + "/" + id);
-        }
+        //public ActionResult ReturnToRoute(int id)//Document Type Id
+        //{
+        //    return Redirect(System.Configuration.ConfigurationManager.AppSettings["JobsDomain"] + "/" + "JobOrderHeader" + "/" + "Index" + "/" + id);
+        //}
 
+
+        //public ImportMessage RetImportMessageModel(string Message)
+        //{
+
+        //}
 
         
 

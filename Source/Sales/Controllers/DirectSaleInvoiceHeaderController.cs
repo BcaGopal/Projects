@@ -1618,6 +1618,38 @@ namespace Web
 
         }
 
+        public ActionResult Import(int id)//Document Type Id
+        {
+            //ControllerAction ca = new ControllerActionService(_unitOfWork).Find(id);
+
+            int DivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
+            int SiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
+
+            var settings = new SaleInvoiceSettingService(_unitOfWork).GetSaleInvoiceSettingForDocument(id, DivisionId, SiteId);
+
+            if (settings != null)
+            {
+                if (settings.ImportMenuId != null)
+                {
+                    MenuViewModel menuviewmodel = new MenuService(_unitOfWork).GetMenu((int)settings.ImportMenuId);
+
+                    if (menuviewmodel == null)
+                    {
+                        return View("~/Views/Shared/UnderImplementation.cshtml");
+                    }
+                    else if (!string.IsNullOrEmpty(menuviewmodel.URL))
+                    {
+                        return Redirect(System.Configuration.ConfigurationManager.AppSettings[menuviewmodel.URL] + "/" + menuviewmodel.ControllerName + "/" + menuviewmodel.ActionName + "/" + id + "?MenuId=" + menuviewmodel.MenuId);
+                    }
+                    else
+                    {
+                        return RedirectToAction(menuviewmodel.ActionName, menuviewmodel.ControllerName, new { MenuId = menuviewmodel.MenuId, id = id });
+                    }
+                }
+            }
+            return RedirectToAction("Index", new { id = id });
+        }
+
         public ActionResult GetCustomPerson(string searchTerm, int pageSize, int pageNum, int filter)//DocTypeId
         {
             var Query = _SaleInvoiceHeaderService.GetCustomPerson(filter, searchTerm);

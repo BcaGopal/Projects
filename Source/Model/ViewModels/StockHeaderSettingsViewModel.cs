@@ -54,6 +54,7 @@ namespace Model.ViewModel
         public string SqlProcDocumentPrint { get; set; }
         public string SqlFuncCurrentStock { get; set; }
         public string SqlProcGatePass { get; set; }
+        public string SqlProcProductUidHelpList { get; set; }
         public string SqlProcHelpListReferenceDocId { get; set; }
         public string filterProductTypes { get; set; }
         public string filterProductGroups { get; set; }

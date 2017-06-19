@@ -168,6 +168,7 @@ namespace Web
                     temp.isUniqueCostCenter = pt.isUniqueCostCenter;
                     temp.PersonWiseCostCenter = pt.PersonWiseCostCenter;
                     temp.SqlProcGenProductUID = pt.SqlProcGenProductUID;
+                    temp.SqlProcProductUidHelpList = pt.SqlProcProductUidHelpList;
                     temp.Perks = pt.Perks;
                     temp.filterContraDivisions = pt.filterContraDivisions;
                     temp.isVisibleProcessLine = pt.isVisibleProcessLine;
@@ -377,6 +378,7 @@ namespace Web
                     temp.isVisibleGodown = pt.isVisibleGodown;
                     temp.CalculationId = pt.CalculationId;
                     temp.SqlProcGenProductUID = pt.SqlProcGenProductUID;
+                    temp.SqlProcProductUidHelpList = pt.SqlProcProductUidHelpList;
                     temp.Perks = pt.Perks;
                     temp.DueDays = pt.DueDays;
                     temp.filterContraDivisions = pt.filterContraDivisions;
@@ -576,6 +578,7 @@ namespace Web
                     temp.isMandatoryProductUID = pt.isMandatoryProductUID;
                     temp.CalculationId = pt.CalculationId;
                     temp.SqlProcGenProductUID = pt.SqlProcGenProductUID;
+                    temp.SqlProcProductUidHelpList = pt.SqlProcProductUidHelpList;
                     temp.Perks = pt.Perks;
                     temp.filterContraDivisions = pt.filterContraDivisions;
                     temp.filterPersonRoles = pt.filterPersonRoles;

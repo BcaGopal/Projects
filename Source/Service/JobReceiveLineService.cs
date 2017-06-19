@@ -50,6 +50,7 @@ namespace Service
         string GetReasons(int filter);
         List<ComboBoxResult> SetReason(string Ids);
         IEnumerable<JobReceiveLine> ProductUidsExist(int JobReceiveHeaderId, int? ProductUid);
+        IEnumerable<ComboBoxResult> FGetProductUidHelpList(int Id, string term);
     }
 
     public class JobReceiveLineService : IJobReceiveLineService
@@ -976,6 +977,36 @@ namespace Service
             }
             return ProductJson;
         }
+
+
+        public IEnumerable<ComboBoxResult> FGetProductUidHelpList(int Id, string term)
+        {
+            var JobReceiveHeader = new JobReceiveHeaderService(_unitOfWork).Find(Id);
+
+            var settings = new JobReceiveSettingsService(_unitOfWork).GetJobReceiveSettingsForDocument(JobReceiveHeader.DocTypeId, JobReceiveHeader.DivisionId, JobReceiveHeader.SiteId);
+
+            SqlParameter SQLJobReceiveHeaderId = new SqlParameter("@JobReceiveHeaderId", Id);
+            IEnumerable<ComboBoxResult> ProductUidList = db.Database.SqlQuery<ComboBoxResult>(settings.SqlProcProductUidHelpList + " @JobReceiveHeaderId", SQLJobReceiveHeaderId).ToList();
+
+
+            var temp = (from P in ProductUidList
+                        where (string.IsNullOrEmpty(term) ? 1 == 1 : P.text.ToLower().Contains(term.ToLower())
+                        || (string.IsNullOrEmpty(term) ? 1 == 1 : P.AProp1.ToLower().Contains(term.ToLower()))
+                        || (string.IsNullOrEmpty(term) ? 1 == 1 : P.AProp2.ToLower().Contains(term.ToLower()))
+                        )
+                        select new ComboBoxResult
+                        {
+                            id = P.id,
+                            text = P.text,
+                            TextProp1 = P.TextProp1,
+                            TextProp2 = P.TextProp2,
+                            AProp1 = P.AProp1,
+                            AProp2 = P.AProp2
+                        }).ToList();
+
+            return temp;
+        }
+
 
 
 

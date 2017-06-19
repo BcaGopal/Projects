@@ -179,6 +179,16 @@ if (typeof Slick === "undefined") {
         var counter_rows_rendered = 0;
         var counter_rows_removed = 0;
 
+
+        //Cust Variables
+        //var cPrevRow_Bottom = 0
+        //var cPrevRow_Height = 0
+        var cPrev_RowBottom = 0
+        var cPrev_RowHeight = 0
+        var xRow = 0
+        var totalRowHeight=0
+
+
         // These two variables work around a bug with inertial scrolling in Webkit/Blink on Mac.
         // See http://crbug.com/312427.
         var rowNodeFromLastMouseWheelEvent;  // this node must not be deleted while inertial scrolling
@@ -1299,6 +1309,7 @@ if (typeof Slick === "undefined") {
             invalidateAllRows();
             updateRowCount();
             if (scrollToTop) {
+                //console.log("--------Scroll To Top.-------------")
                 scrollTo(0);
             }
         }
@@ -1361,6 +1372,24 @@ if (typeof Slick === "undefined") {
         // Rendering / Scrolling
 
         function getRowTop(row) {
+            //alert("rowHeight : " + options.rowHeight.toString());
+            //alert("row : " + row.toString());
+            //alert("offset : " + offset.toString());
+            //alert("Calculated Value : " + (options.rowHeight * row - offset).toString());
+            //cPrevRow_Top = options.rowHeight * row - offset;
+            //cPrevRow_Height = options.rowHeight;
+            //alert("prev ro top  : " + cPrevRow_Top.toString());
+            //alert("prev ro height : " + cPrevRow_Height.toString());
+            //alert("Top : " + cPrev_RowBottom.toString());            
+            //console.log("cPrev_RowBottom : " + cPrev_RowBottom.toString())
+            //console.log("rowHeight : " + options.rowHeight.toString() + " row : " + row.toString() + " offset : " + offset.toString() + " cPrev_RowBottom : " + cPrev_RowBottom.toString() + " Calculated Value : " + (options.rowHeight * row - offset).toString())
+            //return cPrev_RowBottom;
+
+            //alert("rowHeight : " + options.rowHeight.toString());
+            //alert("row : " + row.toString());
+            //alert("offset : " + offset.toString());
+
+            //console.log("rowHeight : " + options.rowHeight.toString() + "row : " + row.toString() + "offset : " + offset.toString() + "Calculated Value : " + (options.rowHeight * row - offset).toString())
             return options.rowHeight * row - offset;
         }
 
@@ -1378,6 +1407,17 @@ if (typeof Slick === "undefined") {
             offset = Math.round(page * cj);
             var newScrollTop = y - offset;
 
+
+            //cPrev_RowBottom = 0;
+            //cPrev_RowHeight = 0;
+            //invalidateAllRows();
+            //render();
+            //invalidate();
+            //var range = getVisibleRange(newScrollTop);
+            //cleanupRows(range);
+            //updateRowPositions();
+
+
             if (offset != oldOffset) {
                 var range = getVisibleRange(newScrollTop);
                 cleanupRows(range);
@@ -1385,6 +1425,7 @@ if (typeof Slick === "undefined") {
             }
 
             if (prevScrollTop != newScrollTop) {
+                
                 vScrollDir = (prevScrollTop + oldOffset < newScrollTop + offset) ? 1 : -1;
                 $viewport[0].scrollTop = (lastRenderedScrollTop = scrollTop = prevScrollTop = newScrollTop);
 
@@ -1440,7 +1481,7 @@ if (typeof Slick === "undefined") {
         function appendRowHtml(stringArray, row, range, dataLength) {
             var d = getDataItem(row);
             var dataLoading = row < dataLength && !d;
-            var rowCss = "slick-row" +
+            var rowCss = "slick-row " +
                 (dataLoading ? " loading" : "") +
                 (row === activeRow ? " active" : "") +
                 (row % 2 == 1 ? " odd" : " even");
@@ -1455,14 +1496,98 @@ if (typeof Slick === "undefined") {
                 rowCss += " " + metadata.cssClasses;
             }
 
-            stringArray.push("<div class='ui-widget-content " + rowCss + "' style='top:" + getRowTop(row) + "px'>");
+            var style = "";
+            //style = "height:60px;position: ";
+            
+            //var rowHeight = 25
+            //for (var i = 0, ii = columns.length; i < ii; i++) {
+            //    var m = columns[i];
+            //    var value = getDataItemValueForColumn(d, m);
+            //    if (value != null) {
+            //        if (value.length > 60) {
+            //            rowHeight = 90;
+            //            //options.rowHeight = rowHeight;
+            //        }
+            //        if (value.length > 30) {
+            //            if (rowHeight < 60)
+            //            {
+            //                rowHeight = 60;
+            //                //options.rowHeight = rowHeight;
+            //            }
+            //        }
+            //        if (value.length <= 30) {
+            //            if (rowHeight < 30) {
+            //                rowHeight = 25;
+            //                //options.rowHeight = rowHeight;
+            //            }
+            //        }
+            //        //alert(options.rowHeight.toString() + " Changed." )
+            //        //alert(m.width);
+            //    }
+            //}
+
+
+            //if (row = 0) { rowHeight = 25 }
+            //if (row = 1) { rowHeight = 50 }
+            //if (row = 2) { rowHeight = 75 }
+            //if (row = 3) { rowHeight = 100 }
+            //if (row = 4) { rowHeight = 125 }
+            //if (row = 5) { rowHeight = 150 }
+            //if (row = 6) { rowHeight = 175 }
+            //if (row = 7) { rowHeight = 200 }
+
+            //if (row == 2)
+            //{
+            //    rowHeight = 50;
+            //}
+            //else if (row == 3)
+            //{
+            //    rowHeight = 25;
+            //}
+            //else if (row == 4)
+            //{
+            //    rowHeight = 50;
+            //}
+            //else if (row == 4) {
+            //    rowHeight = 75;
+            //}
+            //else {
+            //    rowHeight = 25;
+            //}
+
+            //rowHeight = 50;
+
+
+
+            //cPrev_RowHeight = options.rowHeight
+            //options.rowHeight = rowHeight;
+            //if (row < xRow)               
+            //    cPrev_RowBottom = cPrev_RowBottom - rowHeight;              
+            //else
+            //    cPrev_RowBottom = cPrev_RowBottom + rowHeight;
+            //xRow = row;
+
+            //cPrev_RowHeight = options.rowHeight
+            //options.rowHeight = rowHeight
+            //cPrev_RowBottom = cPrev_RowBottom + cPrev_RowHeight
+
+          
+
+
+            //options.rowHeight = rowHeight;
+            //alert("Row Height for row :" + row.toString() + " is " + options.rowHeight.toString());
+            //options.rowHeight = rowHeight;
+            style = "height:" + options.rowHeight.toString() + "px";
+            stringArray.push("<div class='ui-widget-content " + rowCss + "' style='top:" + getRowTop(row) + "px;" + style + "'>");
 
             var colspan, m;
             for (var i = 0, ii = columns.length; i < ii; i++) {
+                
                 m = columns[i];
                 colspan = 1;
                 if (metadata && metadata.columns) {
                     var columnData = metadata.columns[m.id] || metadata.columns[i];
+                    
                     colspan = (columnData && columnData.colspan) || 1;
                     if (colspan === "*") {
                         colspan = ii - i;
@@ -1495,6 +1620,7 @@ if (typeof Slick === "undefined") {
                 cellCss += (" active");
             }
 
+
             // TODO:  merge them together in the setter
             for (var key in cellCssClasses) {
                 if (cellCssClasses[key][row] && cellCssClasses[key][row][m.id]) {
@@ -1502,7 +1628,25 @@ if (typeof Slick === "undefined") {
                 }
             }
 
-            stringArray.push("<div class='" + cellCss + "'>");
+
+            var rowHeight = (options.rowHeight - cellHeightDiff);
+            var style = "";
+            style = "height:" + rowHeight.toString() + "px";
+            //if (item) {
+            //    var value = getDataItemValueForColumn(item, m);
+            //    if (value != null) {
+            //        if (value.length > 60) {
+            //            style = "height:90px";
+            //        }
+            //        if (value.length > 30)
+            //        {
+            //            style = "height:60px";
+            //        }
+            //    }
+            //}
+
+            //stringArray.push("<div class='" + cellCss + "'>");
+            stringArray.push("<div class='" + cellCss + "' style='" + style + "'>");
 
             // if there is a corresponding row (if not, this is the Add New row or this data hasn't been loaded yet)
             if (item) {
@@ -1912,12 +2056,30 @@ if (typeof Slick === "undefined") {
                 needToReselectCell = false,
                 dataLength = getDataLength();
 
+
             for (var i = range.top, ii = range.bottom; i <= ii; i++) {
+                var d = getDataItem(i);
+                for (var j = 0, jj = columns.length; j < jj; j++) {
+                    var m = columns[j];
+                    var value = getDataItemValueForColumn(d, m);
+                    if (value != null) {
+                        if (value.length > 100) {
+                            options.rowHeight = 70;
+                        }
+                    }
+                }
+            }
+
+            for (var i = range.top, ii = range.bottom; i <= ii; i++) {
+            //var i = 0;
+            //ii = range.bottom;
+            //for (i = ii ; i >= range.top; i--) {
                 if (rowsCache[i]) {
                     continue;
                 }
                 renderedRows++;
                 rows.push(i);
+                //Akash
 
                 // Create an entry right away so that appendRowHtml() can
                 // start populatating it.
@@ -1934,8 +2096,16 @@ if (typeof Slick === "undefined") {
                     // Column indices of cell nodes that have been rendered, but not yet indexed in
                     // cellNodesByColumnIdx.  These are in the same order as cell nodes added at the
                     // end of the row.
-                    "cellRenderQueue": []
+                    "cellRenderQueue": [],
+
+                    "rowTop" : null
                 };
+
+
+
+
+
+
 
                 appendRowHtml(stringArray, i, range, dataLength);
                 if (activeCellNode && activeRow === i) {
@@ -2469,7 +2639,6 @@ if (typeof Slick === "undefined") {
             if (!cellExists(row, cell)) {
                 return null;
             }
-
             var y1 = getRowTop(row);
             var y2 = y1 + options.rowHeight - 1;
             var x1 = 0;

@@ -45,6 +45,7 @@ namespace Service
         IQueryable<ComboBoxResult> GetProdOrderHelpListForProduct(int Id, string term);
 
         IEnumerable<ComboBoxResult> GetPendingProdOrderForProductUid(int JobOrderHeaderId, int ProductUidId, string term);
+        IEnumerable<ComboBoxResult> FGetProductUidHelpList(int Id, string term);
     }
 
     public class JobOrderLineService : IJobOrderLineService
@@ -1238,6 +1239,34 @@ namespace Service
                             AProp2 = p.Dimension3.Dimension3Name + (string.IsNullOrEmpty(p.Dimension3.Dimension3Name) ? "" : ",") + p.Dimension4.Dimension4Name,
                         });
             return list;
+        }
+
+        public IEnumerable<ComboBoxResult> FGetProductUidHelpList(int Id, string term)
+        {
+            var JobOrderHeader = new JobOrderHeaderService(_unitOfWork).Find(Id);
+
+            var settings = new JobOrderSettingsService(_unitOfWork).GetJobOrderSettingsForDocument(JobOrderHeader.DocTypeId, JobOrderHeader.DivisionId, JobOrderHeader.SiteId);
+
+            SqlParameter SQLJobOrderHeaderId = new SqlParameter("@JobOrderHeaderId", Id);
+            IEnumerable<ComboBoxResult> ProductUidList = db.Database.SqlQuery<ComboBoxResult>(settings.SqlProcProductUidHelpList + " @JobOrderHeaderId", SQLJobOrderHeaderId).ToList();
+
+
+            var temp = (from P in ProductUidList
+                        where (string.IsNullOrEmpty(term) ? 1 == 1 : P.text.ToLower().Contains(term.ToLower())
+                        || (string.IsNullOrEmpty(term) ? 1 == 1 : P.AProp1.ToLower().Contains(term.ToLower()))
+                        || (string.IsNullOrEmpty(term) ? 1 == 1 : P.AProp2.ToLower().Contains(term.ToLower()))
+                        )
+                        select new ComboBoxResult
+                        {
+                            id = P.id,
+                            text = P.text,
+                            TextProp1 = P.TextProp1,
+                            TextProp2 = P.TextProp2,
+                            AProp1 = P.AProp1,
+                            AProp2 = P.AProp2
+                        }).ToList();
+
+            return temp;
         }
 
         public void Dispose()

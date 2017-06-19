@@ -34,6 +34,7 @@
                 @Html.HiddenFor(m => m.UnitDecimalPlaces)
                 @Html.HiddenFor(m => m.ProductUidId)
                 @Html.HiddenFor(m => m.DealUnitDecimalPlaces)
+                @Html.HiddenFor(m => m.JobReceiveSettings.SqlProcProductUidHelpList)
                 @Html.HiddenFor(m => m.JobReceiveSettings.ProcessId)
                 @Html.HiddenFor(m => m.JobReceiveSettings.SqlProcConsumption)
                 @Html.HiddenFor(m => m.JobReceiveSettings.isPostedInStock)
@@ -321,8 +322,13 @@
 
 
     $(document).ready(function () {
-        CustomSelectFunction($("#ProductId"), '/ComboHelpList/GetProducts', '/ComboHelpList/SetSingleProducts', 'Enter Product', false, 3);
-        CustomSelectFunction($("#MachineId"), '/ComboHelpList/GetMachine', '/ComboHelpList/SetSingleMachine', ' ', false, 1);
+        CustomSelectFunction($("#ProductId"), '/ComboHelpList/GetProducts', '/ComboHelpList/SetSingleProducts', ' ', false, 0);
+        CustomSelectFunction($("#MachineId"), '/ComboHelpList/GetMachine', '/ComboHelpList/SetSingleMachine', ' ', false, 0);
+
+        if ($('#JobReceiveSettings_SqlProcProductUidHelpList', '.modal-body').val() != null && $('#JobReceiveSettings_SqlProcProductUidHelpList', '.modal-body').val() != "")
+        {
+            CustomSelectFunction($("#ProductUidName"), '/JobReceiveLine/GetProductUidHelpList', '/JobReceiveLine/SetSingleProductUid', ' ', false, 0, $('#JobReceiveHeaderId', '.modal-body').val());
+        }
 
         if($('#ProductUidId').val())
         {

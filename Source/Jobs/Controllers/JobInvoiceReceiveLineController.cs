@@ -2299,5 +2299,55 @@ namespace Web
 
 
         }
+
+
+        public ActionResult GetProductUidHelpList(string searchTerm, int pageSize, int pageNum, int filter)//SaleInvoiceHeaderId
+        {
+            JobInvoiceHeader Header = new JobInvoiceHeaderService(_unitOfWork).Find(filter);
+            List<ComboBoxResult> ProductUidJson = null;
+
+            //if (Header.JobReceiveHeaderId != null && Header.JobReceiveHeaderId != 0)
+            //{
+            //    ProductUidJson = _JobReceiveLineService.FGetProductUidHelpList((int)Header.JobReceiveHeaderId, searchTerm).ToList();
+            //}
+            //else
+            //{
+            //    ProductUidJson = _JobInvoiceLineService.FGetProductUidHelpList(filter, searchTerm).ToList();
+            //}
+            ProductUidJson = _JobInvoiceLineService.FGetProductUidHelpList(filter, searchTerm).ToList();
+
+
+            var count = ProductUidJson.Count();
+
+            ComboBoxPagedResult Data = new ComboBoxPagedResult();
+            Data.Results = ProductUidJson;
+            Data.Total = count;
+
+            return new JsonpResult
+            {
+                Data = Data,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        public JsonResult SetSingleProductUid(string Ids)
+        {
+            ComboBoxResult ProductUidJson = new ComboBoxResult();
+
+            var ProductUid = from L in db.ProductUid
+                             where L.ProductUidName == Ids
+                             select new
+                             {
+                                 id = L.ProductUidName,
+                                 text = L.ProductUidName
+                             };
+
+            ProductUidJson.id = ProductUid.FirstOrDefault().id;
+            ProductUidJson.text = ProductUid.FirstOrDefault().text;
+
+            return Json(ProductUidJson);
+        }
+
+
     }
 }

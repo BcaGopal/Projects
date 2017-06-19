@@ -1292,8 +1292,41 @@ namespace Module
 
             AddFields("Ledgers", "ChqDate", "DATETIME");
             AddFields("Ledgers", "BankDate", "DATETIME");
-            
-            
+
+
+            try
+            {
+                if ((int)ExecuteScaler("SELECT Count(*) AS Cnt FROM INFORMATION_SCHEMA.Tables WHERE TABLE_NAME = 'ImportMessages'") == 0)
+                {
+                    mQry = @"CREATE TABLE Web.ImportMessages
+	                        (
+	                            ImportMessageId INT IDENTITY NOT NULL,
+	                            ImportKey       NVARCHAR (50),
+	                            ImportHeaderId  INT NOT NULL,
+                                SqlProcedure    NVARCHAR (100),
+	                            RecordId        NVARCHAR (100),
+	                            Head            NVARCHAR (max),
+	                            Value           NVARCHAR (max),
+	                            ValueType       NVARCHAR (max),
+	                            Remark          NVARCHAR (max),
+	                            IsActive        BIT NOT NULL,
+	                            CreatedBy       NVARCHAR (max),
+	                            CreatedDate     DATETIME NOT NULL,
+	                            CONSTRAINT [PK_Web.ImportMessages] PRIMARY KEY (ImportMessageId)
+	                        )";
+                    ExecuteQuery(mQry);
+                }
+            }
+            catch (Exception ex)
+            {
+                RecordError(ex);
+            }
+
+
+            AddFields("JobOrderSettings", "SqlProcProductUidHelpList", "nvarchar(100)");
+            AddFields("JobReceiveSettings", "SqlProcProductUidHelpList", "nvarchar(100)");
+            AddFields("JobInvoiceSettings", "SqlProcProductUidHelpList", "nvarchar(100)");
+            AddFields("StockHeaderSettings", "SqlProcProductUidHelpList", "nvarchar(100)");
 
 
             return RedirectToAction("Module", "Menu");

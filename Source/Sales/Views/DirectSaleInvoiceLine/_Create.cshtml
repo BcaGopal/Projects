@@ -723,7 +723,10 @@
                 $('#Amount').val(($('#DealQty').val() * TempRate).toFixed(2));
             }
             else{
-                $('#DiscountAmount').val(TempAmount * $('#DiscountPer').val() / 100);
+                if ($('#DiscountPer').val() != 0 && $('#DiscountPer').val() != null && $('#DiscountPer').val() != '')
+                {
+                    $('#DiscountAmount').val(TempAmount * $('#DiscountPer').val() / 100);
+                }
                 $('#Amount').val((TempAmount - $('#DiscountAmount').val()).toFixed(2));
             }
 

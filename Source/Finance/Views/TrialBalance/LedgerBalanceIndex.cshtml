@@ -7,6 +7,9 @@
 <link href="~/Content/Slick/css/smoothness/jquery-ui-1.8.16.custom.css" rel="stylesheet" />
 <link href="~/Content/Slick/slick-default-theme.css" rel="stylesheet" />
 
+
+
+
 <style type="text/css">
     .slick-header-column.ui-state-default {
         background-color: #428bca;
@@ -16,27 +19,31 @@
     }
 
 
+    /*.slick-row.ui-widget-content, .slick-row {
+        position:relative  ;
+    }*/
 
-    
-     .totals {
+    .totals; {
         font-weight: bold;
         text-align: right;
         color: black;
         font-size: 14px;
     }
-          .Bold 
-        {
-            font-weight: bold;
-            color:  black;
-                    font-size:14px;
-        }
+          
+    .Bold {
+        font-weight: bold;
+        color:  black;
+        font-size:14px;
+    }
+
 
     .slick-row.ui-widget-content, .slick-cell {
-        height: 30px;
-        font-size: 14px;
+        height: 60px;
+        font-size: 12px;
         line-height: 30px;
         white-space: normal;
     }
+
 
     #myGrid * {
         box-sizing: content-box !important;
@@ -47,9 +54,11 @@
     }
 
     .word-wrap {
+        line-height:15px;
+        font-size : 11px;
         white-space: normal;
-        overflow: auto;
-        height: 120px;
+        /*overflow :auto  ;
+        height: 120px;*/
     }
 
       .rightMargin {
@@ -145,6 +154,7 @@
             $("<span></span>").text((getColumnTotal(args.column.field, grid.getData())).toFixed(2))
                .appendTo(args.node);
             $(args.node).addClass("totals");
+            //looping(args.column.field, grid.getData())
         }
         else if (args.column.hasTotalName) {
             $(args.node).empty();
@@ -163,6 +173,8 @@
                 window.location.href = '/TrialBalance/DocumentMenu/?DocTypeId=' + DocTypeId + '&DocId=' + DocId;
         }
     });
+
+
 
 
     //Functionality for search events
@@ -221,8 +233,8 @@
         // if you don't want the items that are not visible (due to being filtered out
         // or being on a different page) to stay selected, pass 'false' to the second arg
         dataView.syncGridSelection(grid, true);
-
         grid.init();
+
     }
 
     $('#myGrid').on('dblclick', '.ui-widget-content.slick-row', function () {
@@ -250,4 +262,38 @@
         return total;
     }
 
+
+    //var normalHeight = 25;
+    //var expandedHeight = 100;
+
+    //var options = {
+    //    rowHeight: normalHeight
+    //};
+    //var dataView = new Slick.Data.DataView();
+    //var grid = new Slick.Grid("#myGrid", dataView, columns, options);
+    //grid.updateOptions = function (expanded) {
+    //    var columns = grid.getColumns();
+    //    //if (!expandMedia) {
+    //    //    options['rowHeight'] = normalHeight;
+    //    //} else {
+    //    //    options['rowHeight'] = expandedHeight;
+    //    //}
+    //    options['rowHeight'] = "100px";
+    //    grid.setOptions(options);
+    //    grid.invalidate();
+    //    grid.render();
+    //    grid.init();
+    //}
+
+    function looping(columns, data) {
+        //var rowIdx = data.getLength();
+        //var total = 0;
+        //var dataArr = data.getItems();
+        //while (rowIdx--) {
+        //    if (dataArr[rowIdx][columns] != null)
+        //    {
+        //        //alert(dataArr[rowIdx][columns]);
+        //    }
+        //}
+    }
 </script>

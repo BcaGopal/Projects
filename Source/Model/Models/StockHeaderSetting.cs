@@ -80,6 +80,9 @@ namespace Model.Models
 
         [MaxLength(100)]
         public string SqlProcHelpListReferenceDocId { get; set; }
+        [MaxLength(100)]
+        public string SqlProcProductUidHelpList { get; set; }
+
 
         public string filterProductTypes { get; set; }
         public string filterContraSites { get; set; }

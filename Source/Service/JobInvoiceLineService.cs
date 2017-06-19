@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using Data.Models;
 using Model.ViewModel;
 using Model.ViewModels;
+using System.Data.SqlClient;
 
 namespace Service
 {
@@ -45,6 +46,7 @@ namespace Service
         ComboBoxPagedResult GetPendingProductsForJobInvoice(string searchTerm, int pageSize, int pageNum, int filter);
         ComboBoxPagedResult GetPendingJobOrdersForInvoice(string searchTerm, int pageSize, int pageNum, int filter);
         int GetMaxSr(int id);
+        IEnumerable<ComboBoxResult> FGetProductUidHelpList(int Id, string term);
     }
 
     public class JobInvoiceLineService : IJobInvoiceLineService
@@ -1402,6 +1404,34 @@ namespace Service
             else
                 return true;
 
+        }
+
+        public IEnumerable<ComboBoxResult> FGetProductUidHelpList(int Id, string term)
+        {
+            var JobInvoiceHeader = new JobInvoiceHeaderService(_unitOfWork).Find(Id);
+
+            var settings = new JobInvoiceSettingsService(_unitOfWork).GetJobInvoiceSettingsForDocument(JobInvoiceHeader.DocTypeId, JobInvoiceHeader.DivisionId, JobInvoiceHeader.SiteId);
+
+            SqlParameter SQLJobInvoiceHeaderId = new SqlParameter("@JobInvoiceHeaderId", Id);
+            IEnumerable<ComboBoxResult> ProductUidList = db.Database.SqlQuery<ComboBoxResult>(settings.SqlProcProductUidHelpList + " @JobInvoiceHeaderId", SQLJobInvoiceHeaderId).ToList();
+
+
+            var temp = (from P in ProductUidList
+                        where (string.IsNullOrEmpty(term) ? 1 == 1 : P.text.ToLower().Contains(term.ToLower())
+                        || (string.IsNullOrEmpty(term) ? 1 == 1 : P.AProp1.ToLower().Contains(term.ToLower()))
+                        || (string.IsNullOrEmpty(term) ? 1 == 1 : P.AProp2.ToLower().Contains(term.ToLower()))
+                        )
+                        select new ComboBoxResult
+                        {
+                            id = P.id,
+                            text = P.text,
+                            TextProp1 = P.TextProp1,
+                            TextProp2 = P.TextProp2,
+                            AProp1 = P.AProp1,
+                            AProp2 = P.AProp2
+                        }).ToList();
+
+            return temp;
         }
 
 

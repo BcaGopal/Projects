@@ -146,6 +146,7 @@ namespace Web
                     temp.SqlProcGenProductUID = pt.SqlProcGenProductUID;
                     temp.SqlProcDocumentPrint_AfterApprove = pt.SqlProcDocumentPrint_AfterApprove;
                     temp.SqlProcDocumentPrint_AfterSubmit = pt.SqlProcDocumentPrint_AfterSubmit;
+                    temp.SqlProcProductUidHelpList = pt.SqlProcProductUidHelpList;
                     temp.DocumentPrint = pt.DocumentPrint;
                     temp.isPostedInStock = pt.isPostedInStock;                   
                     temp.isVisibleLoss = pt.isVisibleLoss;                    
@@ -346,6 +347,7 @@ namespace Web
                     temp.DocumentPrint = pt.DocumentPrint;
                     temp.SqlProcDocumentPrint_AfterSubmit = pt.SqlProcDocumentPrint_AfterSubmit;
                     temp.SqlProcGenProductUID = pt.SqlProcGenProductUID;
+                    temp.SqlProcProductUidHelpList = pt.SqlProcProductUidHelpList;
                     temp.isPostedInStockVirtual = pt.isPostedInStockVirtual;
                     temp.isVisibleDimension1 = pt.isVisibleDimension1;
                     temp.isVisibleDimension2 = pt.isVisibleDimension2;

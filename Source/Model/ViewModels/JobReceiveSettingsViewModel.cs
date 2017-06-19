@@ -36,6 +36,7 @@ namespace Model.ViewModel
         public bool IsMandatoryWeight { get; set; }
         public string SqlProcConsumption { get; set; }
         public string SqlProcDocumentPrint { get; set; }
+        public string SqlProcProductUidHelpList { get; set; }
         public string DocumentPrint { get; set; }
         public byte UnitConversionForId { get; set; }
         public string UnitConversionForName { get; set; }

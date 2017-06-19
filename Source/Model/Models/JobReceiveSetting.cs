@@ -78,6 +78,8 @@ namespace Model.Models
         /// </summary>
         [MaxLength(100)]
         public string SqlProcDocumentPrint_AfterApprove { get; set; }
+        [MaxLength(100)]
+        public string SqlProcProductUidHelpList { get; set; }
 
         [MaxLength(100)]
         public string DocumentPrint { get; set; }

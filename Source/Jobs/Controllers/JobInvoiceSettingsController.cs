@@ -146,6 +146,7 @@ namespace Web
                     temp.filterProductTypes = pt.filterProductTypes;
                     temp.isMandatoryMachine = pt.isMandatoryMachine;
                     temp.SqlProcGenProductUID = pt.SqlProcGenProductUID;
+                    temp.SqlProcProductUidHelpList = pt.SqlProcProductUidHelpList;
                     temp.isVisibleHeaderJobWorker = pt.isVisibleHeaderJobWorker;
                     temp.isPostedInStock = pt.isPostedInStock;
                     temp.isVisibleLoss = pt.isVisibleLoss;
@@ -333,6 +334,7 @@ namespace Web
                     temp.filterProductTypes = pt.filterProductTypes;
                     temp.isMandatoryMachine = pt.isMandatoryMachine;
                     temp.SqlProcGenProductUID = pt.SqlProcGenProductUID;
+                    temp.SqlProcProductUidHelpList = pt.SqlProcProductUidHelpList;
                     temp.isPostedInStock = pt.isPostedInStock;
                     temp.isVisibleLoss = pt.isVisibleLoss;
                     temp.SqlProcConsumption = pt.SqlProcConsumption;
@@ -508,6 +510,7 @@ namespace Web
                     temp.isPostedInStock = pt.isPostedInStock;
                     temp.isVisibleLoss = pt.isVisibleLoss;
                     temp.SqlProcConsumption = pt.SqlProcConsumption;
+                    temp.SqlProcProductUidHelpList = pt.SqlProcProductUidHelpList;
                     temp.JobReceiveDocTypeId = pt.JobReceiveDocTypeId;
                     temp.isVisibleHeaderJobWorker = pt.isVisibleHeaderJobWorker;
                     temp.isPostedInStockProcess = pt.isPostedInStockProcess;
@@ -688,6 +691,7 @@ namespace Web
                     temp.isPostedInStock = pt.isPostedInStock;
                     temp.isVisibleLoss = pt.isVisibleLoss;
                     temp.SqlProcConsumption = pt.SqlProcConsumption;
+                    temp.SqlProcProductUidHelpList = pt.SqlProcProductUidHelpList;
                     temp.isPostedInStockProcess = pt.isPostedInStockProcess;
                     temp.isPostedInStockVirtual = pt.isPostedInStockVirtual;
                     temp.isVisibleDimension1 = pt.isVisibleDimension1;
