@@ -122,6 +122,7 @@ namespace Model.ViewModels
         public decimal Amount { get; set; }
         public decimal AmountCr { get; set; }
         public decimal AmountDr { get; set; }
+        public string DrCr { get; set; }
 
         [MaxLength(250)]
         public string Narration { get; set; }

@@ -63,8 +63,25 @@
     </div>
 
     <div class="panel-info" style="padding-left:5px;padding-top:2px; font-size :small ">
-
-        @Html.Grid(Model).Columns(columns =>
+        @if (ViewBag.IsVisibleLineDrCr == true)
+        {
+            @Html.Grid(Model).Columns(columns =>
+           {
+               columns.Add().Encoded(false).Sanitized(false).SetWidth("3%").RenderValueAs(m => CustomHelpers.RenderCheckBox());
+               columns.Add(m => m.LedgerHeaderId, true).Css("Header_Id");
+               columns.Add(m => m.Status, true);
+               columns.Add(foo => foo.DocDate).Sortable(true).Titled("Doc.Date").Format("{0:dd/MMM/yyyy}").Filterable(true).SetWidth("10%");
+               columns.Add(m => m.DocNo).Sortable(true).Titled("Doc.No").Filterable(true).Sortable(true).SetWidth("10%");
+               columns.Add(m => m.Narration).Sortable(true).Filterable(true).Titled("Narration").SetWidth("70%");
+               columns.Add().Sanitized(false).Encoded(false).RenderValueAs(m => CustomHelpers.RenderStatus(m.Status)).Titled("Status").SetWidth("8%");
+               columns.Add().Titled("").Encoded(false).Sanitized(false).RenderValueAs(m => CustomHelpers.RenderUserImage(m.ModifiedBy)).Titled("User").SetWidth("5%").Css("UserImageIndex");
+               columns.Add().Encoded(false).Sanitized(false).RenderValueAs(m => CustomHelpers.RenderActionColumn(ControllerName, m.LedgerHeaderId, m.Status, m.Reviewed, m.ReviewCount, (string)ViewBag.IndexStatus)).SetWidth(20).Css("icon-Cus-Size");
+               columns.Add(true).RenderValueAs(m => CustomHelpers.RenderHEDActionLink(ControllerName, m.LedgerHeaderId, m.Status, IndexStatus));
+           }).WithPaging(25).EmptyText("No records found.").Sortable().Filterable().WithMultipleFilters()
+        }
+        else
+        {
+            @Html.Grid(Model).Columns(columns =>
            {
                columns.Add().Encoded(false).Sanitized(false).SetWidth("3%").RenderValueAs(m => CustomHelpers.RenderCheckBox());
                columns.Add(m => m.LedgerHeaderId, true).Css("Header_Id");
@@ -80,6 +97,7 @@
                columns.Add().Encoded(false).Sanitized(false).RenderValueAs(m => CustomHelpers.RenderActionColumn(ControllerName, m.LedgerHeaderId, m.Status, m.Reviewed, m.ReviewCount, (string)ViewBag.IndexStatus)).SetWidth(20).Css("icon-Cus-Size");
                columns.Add(true).RenderValueAs(m => CustomHelpers.RenderHEDActionLink(ControllerName, m.LedgerHeaderId, m.Status, IndexStatus));
            }).WithPaging(25).EmptyText("No records found.").Sortable().Filterable().WithMultipleFilters()
+        }
     </div>
 </div>
 

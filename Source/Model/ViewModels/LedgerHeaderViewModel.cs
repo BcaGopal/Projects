@@ -36,7 +36,7 @@ namespace Model.ViewModel
         public int SiteId { get; set; }
         public string SiteName{ get; set; }
 
-        [Display(Name = "LedgerAccount"),Required]        
+        [Display(Name = "LedgerAccount")]        
         public int? LedgerAccountId { get; set; }
         public string LedgerAccountName { get; set; }
         public int? CostCenterId { get; set; }

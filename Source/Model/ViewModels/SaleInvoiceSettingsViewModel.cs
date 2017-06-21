@@ -44,6 +44,8 @@ namespace Model.ViewModel
         public string DocTypePackingHeaderName { get; set; }
         public int? SaleDispatchDocTypeId { get; set; }
         public string SaleDispatchDocTypeName { get; set; }
+        public int? SaleInvoiceReturnDocTypeId { get; set; }
+        public string SaleInvoiceReturnDocTypeName { get; set; }
         public int CalculationId { get; set; }
         public string CalculationName { get; set; }
 

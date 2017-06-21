@@ -34,7 +34,7 @@
 
                 @Html.AntiForgeryToken()
 
-                @Html.HiddenFor(m => m.ContraLedgerAccountId)
+                @*@Html.HiddenFor(m => m.ContraLedgerAccountId)*@
                 @Html.HiddenFor(m => m.LedgerHeaderId)
                 @Html.HiddenFor(m => m.LedgerId)
                 @Html.HiddenFor(m => m.LedgerLineId)
@@ -46,6 +46,17 @@
 
 
                 <div class="row">
+
+                    <div class="col-md-6" style="display:@(Model.LedgerSetting.isVisibleLineDrCr?"":"none")">
+                        @Html.HiddenFor(m => m.LedgerSetting.isVisibleLineDrCr)
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.DrCr, "Dr./Cr.", new { @class = "control-label col-md-4 col-sm-2 " })
+                            <div class="col-md-7 col-sm-10">
+                                @Html.DropDownListFor(m => m.DrCr, new SelectList(ViewBag.DrCrList as System.Collections.IEnumerable, "Value", "Text"), " ", new { @class = "form-control col-xs-6 height" })
+                                @Html.ValidationMessageFor(model => model.DrCr, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
 
                     <div class="col-md-6" style="display:@(Model.LedgerSetting.isVisibleLineCostCenter?"":"none")">
                         @Html.HiddenFor(m => m.LedgerSetting.isVisibleLineCostCenter)
@@ -69,6 +80,10 @@
                             </div>
                         </div>
                     </div>
+
+
+
+
 
 
                     <div class="col-md-6" style="display:@(!string.IsNullOrEmpty(Model.LedgerSetting.BaseValueText)?"":"none")">
@@ -107,7 +122,8 @@
 
                     <div class="col-md-6">
                         <div class="form-group">
-                            @Html.LabelFor(model => model.Amount, (((string)ViewBag.Nature).ToUpper() == "CR" ? "Amount Dr" : "Amount Cr"), new { @class = "control-label col-md-4 col-sm-2" })
+                            @*@Html.LabelFor(model => model.Amount, (((string)ViewBag.Nature).ToUpper() == "CR" ? "Amount Dr" : "Amount Cr"), new { @class = "control-label col-md-4 col-sm-2" })*@
+                            @Html.LabelFor(model => model.Amount, (((string)ViewBag.Nature).ToUpper() == "CR" ? "Amount Dr" : (((string)ViewBag.Nature).ToUpper() == "DR" ? "Amount Cr" : "Amount" )), new { @class = "control-label col-md-4 col-sm-2" })
                             <div class="col-md-7 col-sm-10">
                                 @Html.TextBoxFor(model => model.Amount, new { @class = "form-control col-xs-7 required" })
                                 @Html.ValidationMessageFor(model => model.Amount, "", new { @class = "text-danger" })
@@ -175,6 +191,8 @@
                             </div>
                         </div>
                     </div>
+
+
 
                     <div class="col-md-6">
                         <div class="form-group">
@@ -813,5 +831,27 @@ else
         }
     });
     }); 
+
+
+    $("#DrCr").focusout(GetBalanceAmount);
+
+    function GetBalanceAmount() {
+        var ProcessProgress = $("#Product detail loading progress");
+        ProcessProgress.show();
+        if ($("#DrCr").val() != 0 && $("#DrCr").val() != null) {
+            $.ajax({
+                cache: false,
+                type: "POST",
+                url: "@(Url.Action("GetBalanceAmountJson"))",
+                data: { LedgerHeaderId: $("#LedgerHeaderId").val(), DrCr: $("#DrCr").val() },
+            success: function (data) {
+                $("#Amount").val(data);
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert('Failed to retrieve product details.' + thrownError);
+            }
+        });
+    }
+    }
 
 </script>

@@ -109,6 +109,7 @@ namespace Model.ViewModel
         public Decimal RateAfterDiscount { get; set; }
 
         public Decimal? Weight { get; set; }
+        public int? GodownId { get; set; }
 
         public bool CalculateDiscountOnRate { get; set; }
 

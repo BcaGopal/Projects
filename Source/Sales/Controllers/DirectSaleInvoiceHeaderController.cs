@@ -31,7 +31,7 @@ namespace Web
 
         private ApplicationDbContext db = new ApplicationDbContext();
         private bool EventException = false;
-        
+
         List<string> UserRoles = new List<string>();
         ActiivtyLogViewModel LogVm = new ActiivtyLogViewModel();
 
@@ -59,7 +59,7 @@ namespace Web
                 SaleInvoiceEvents Obj = new SaleInvoiceEvents();
             }
 
-             UserRoles = (List<string>)System.Web.HttpContext.Current.Session["Roles"];
+            UserRoles = (List<string>)System.Web.HttpContext.Current.Session["Roles"];
 
             //Log Initialization
             LogVm.SessionId = 0;
@@ -81,8 +81,8 @@ namespace Web
             ViewBag.AdminSetting = UserRoles.Contains("Admin").ToString();
             var DivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
             var SiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
-            var settings = new SaleInvoiceSettingService(_unitOfWork).GetSaleInvoiceSettingForDocument(id, DivisionId,SiteId);
-            if(settings !=null)
+            var settings = new SaleInvoiceSettingService(_unitOfWork).GetSaleInvoiceSettingForDocument(id, DivisionId, SiteId);
+            if (settings != null)
             {
                 ViewBag.ImportMenuId = settings.ImportMenuId;
                 ViewBag.SqlProcDocumentPrint = settings.SqlProcDocumentPrint;
@@ -312,19 +312,19 @@ namespace Web
                         return View("Create", vm);
                     }
 
-                     LogActivity.LogActivityDetail(LogVm.Map(new ActiivtyLogViewModel
-                    {
-                        DocTypeId = saleinvoiceheaderdetail.DocTypeId,
-                        DocId = saleinvoiceheaderdetail.SaleInvoiceHeaderId,
-                        ActivityType = (int)ActivityTypeContants.Added,
-                        DocNo = saleinvoiceheaderdetail.DocNo,
-                        DocDate = saleinvoiceheaderdetail.DocDate,
-                        DocStatus = saleinvoiceheaderdetail.Status,
-                    }));
+                    LogActivity.LogActivityDetail(LogVm.Map(new ActiivtyLogViewModel
+                   {
+                       DocTypeId = saleinvoiceheaderdetail.DocTypeId,
+                       DocId = saleinvoiceheaderdetail.SaleInvoiceHeaderId,
+                       ActivityType = (int)ActivityTypeContants.Added,
+                       DocNo = saleinvoiceheaderdetail.DocNo,
+                       DocDate = saleinvoiceheaderdetail.DocDate,
+                       DocStatus = saleinvoiceheaderdetail.Status,
+                   }));
 
 
                     return RedirectToAction("Modify", new { id = saleinvoiceheaderdetail.SaleInvoiceHeaderId }).Success("Data saved Successfully");
-                } 
+                }
                 #endregion
 
                 #region EditRecord
@@ -419,7 +419,7 @@ namespace Web
                         }
                     }
 
-                    
+
 
 
                     packingHeader.BuyerId = vm.SaleToBuyerId;
@@ -465,7 +465,7 @@ namespace Web
                     }));
 
                     return RedirectToAction("Index", new { id = vm.DocTypeId }).Success("Data saved successfully");
-                } 
+                }
                 #endregion
 
             }
@@ -802,17 +802,17 @@ namespace Web
                 }
 
 
-                
+
                 var ledges = (from L in db.Ledger where L.LedgerHeaderId == Si.LedgerHeaderId select L).ToList();
-                    foreach (var item in ledges)
-                    {
-                        item.ObjectState = Model.ObjectState.Deleted;
-                        db.Ledger.Attach(item);
-                        db.Ledger.Remove(item);
-                    }
+                foreach (var item in ledges)
+                {
+                    item.ObjectState = Model.ObjectState.Deleted;
+                    db.Ledger.Attach(item);
+                    db.Ledger.Remove(item);
+                }
 
 
-                   
+
 
 
                 var headercharges = (from L in db.SaleInvoiceHeaderCharge where L.HeaderTableId == Si.SaleInvoiceHeaderId select L).ToList();
@@ -824,7 +824,7 @@ namespace Web
                     db.SaleInvoiceHeaderCharge.Remove(citem);
                 }
 
-                
+
 
                 Si.ObjectState = Model.ObjectState.Deleted;
                 db.SaleInvoiceHeader.Attach(Si);
@@ -875,7 +875,7 @@ namespace Web
                     DocId = Si.SaleInvoiceHeaderId,
                     ActivityType = (int)ActivityTypeContants.Deleted,
                     UserRemark = vm.Reason,
-                    DocNo = Si.DocNo,                    
+                    DocNo = Si.DocNo,
                     DocDate = Si.DocDate,
                     DocStatus = Si.Status,
                 }));
@@ -1001,7 +1001,7 @@ namespace Web
                                 GPHeader.Remark = pd.Remark;
                                 GPHeader.PersonId = pd.SaleToBuyerId;
                                 GPHeader.SiteId = pd.SiteId;
-                                GPHeader.GodownId = Ph.GodownId ;
+                                GPHeader.GodownId = Ph.GodownId;
                                 GPHeader.ReferenceDocTypeId = pd.DocTypeId;
                                 GPHeader.ReferenceDocId = pd.SaleInvoiceHeaderId;
                                 GPHeader.ReferenceDocNo = pd.DocNo;
@@ -1091,8 +1091,8 @@ namespace Web
 
 
 
-                    
-                    
+
+
                     #region "Ledger Posting"
                     try
                     {
@@ -1106,16 +1106,16 @@ namespace Web
                     }
                     #endregion
 
-                     try
+                    try
                     {
                         SaleInvoiceDocEvents.onHeaderSubmitEvent(this, new SaleEventArgs(Id), ref db);
                     }
-                     catch (Exception ex)
-                     {
-                         string message = _exception.HandleException(ex);
-                         TempData["CSEXC"] += message;
-                         EventException = true;
-                     }
+                    catch (Exception ex)
+                    {
+                        string message = _exception.HandleException(ex);
+                        TempData["CSEXC"] += message;
+                        EventException = true;
+                    }
 
 
                     try
@@ -1152,7 +1152,7 @@ namespace Web
                         DocDate = pd.DocDate,
                         DocStatus = pd.Status,
                     }));
-               
+
                     return RedirectToAction("Index", new { id = pd.DocTypeId, IndexType = IndexType }).Success("Record submitted successfully.");
                 }
                 else
@@ -1178,7 +1178,7 @@ namespace Web
                 {
                     foreach (var item in Ids.Split(',').Select(Int32.Parse))
                     {
-                        TimePlanValidation = true;                       
+                        TimePlanValidation = true;
 
                         SaleInvoiceHeader pd = new SaleInvoiceHeaderService(_unitOfWork).FindDirectSaleInvoice(item);
                         SaleDispatchHeader Dh = _SaleDispatchHeaderService.Find(pd.SaleDispatchHeaderId.Value);
@@ -1204,66 +1204,66 @@ namespace Web
 
                             if ((TimePlanValidation || Continue))
                             {
-                                    if (!String.IsNullOrEmpty(Settings.SqlProcGatePass) && Dh.Status == (int)StatusConstants.Submitted && !Dh.GatePassHeaderId.HasValue)
+                                if (!String.IsNullOrEmpty(Settings.SqlProcGatePass) && Dh.Status == (int)StatusConstants.Submitted && !Dh.GatePassHeaderId.HasValue)
+                                {
+
+                                    SqlParameter SqlParameterUserId = new SqlParameter("@Id", pd.SaleDispatchHeaderId.Value);
+                                    IEnumerable<GatePassGeneratedViewModel> GatePasses = db.Database.SqlQuery<GatePassGeneratedViewModel>(Settings.SqlProcGatePass + " @Id", SqlParameterUserId).ToList();
+
+                                    if (Dh.GatePassHeaderId == null)
                                     {
-
-                                        SqlParameter SqlParameterUserId = new SqlParameter("@Id", pd.SaleDispatchHeaderId.Value);
-                                        IEnumerable<GatePassGeneratedViewModel> GatePasses = db.Database.SqlQuery<GatePassGeneratedViewModel>(Settings.SqlProcGatePass + " @Id", SqlParameterUserId).ToList();
-
-                                        if (Dh.GatePassHeaderId == null)
-                                        {
-                                            SqlParameter DocDate = new SqlParameter("@DocDate", DateTime.Now.Date);
-                                            DocDate.SqlDbType = SqlDbType.DateTime;
-                                            SqlParameter Godown = new SqlParameter("@GodownId", Ph.GodownId);
-                                            SqlParameter DocType = new SqlParameter("@DocTypeId", GatePassDocTypeID);
-                                            GatePassHeader GPHeader = new GatePassHeader();
-                                            GPHeader.CreatedBy = User.Identity.Name;
-                                            GPHeader.CreatedDate = DateTime.Now;
-                                            GPHeader.DivisionId = pd.DivisionId;
-                                            GPHeader.DocDate = DateTime.Now.Date;
-                                            GPHeader.DocNo = db.Database.SqlQuery<string>("Web.GetNewDocNoGatePass @DocTypeId, @DocDate, @GodownId ", DocType, DocDate, Godown).FirstOrDefault();
-                                            GPHeader.DocTypeId = GatePassDocTypeID;
-                                            GPHeader.ModifiedBy = User.Identity.Name;
-                                            GPHeader.ModifiedDate = DateTime.Now;
-                                            GPHeader.Remark = pd.Remark;
-                                            GPHeader.PersonId = pd.SaleToBuyerId;
-                                            GPHeader.SiteId = pd.SiteId;
-                                            GPHeader.GodownId = Ph.GodownId;
-                                            GPHeader.GatePassHeaderId = PK++;
-                                            GPHeader.ReferenceDocTypeId = pd.DocTypeId;
-                                            GPHeader.ReferenceDocId = pd.SaleInvoiceHeaderId; 
-                                            GPHeader.ReferenceDocNo = pd.DocNo;
-                                            GPHeader.ObjectState = Model.ObjectState.Added;
-                                            db.GatePassHeader.Add(GPHeader);
+                                        SqlParameter DocDate = new SqlParameter("@DocDate", DateTime.Now.Date);
+                                        DocDate.SqlDbType = SqlDbType.DateTime;
+                                        SqlParameter Godown = new SqlParameter("@GodownId", Ph.GodownId);
+                                        SqlParameter DocType = new SqlParameter("@DocTypeId", GatePassDocTypeID);
+                                        GatePassHeader GPHeader = new GatePassHeader();
+                                        GPHeader.CreatedBy = User.Identity.Name;
+                                        GPHeader.CreatedDate = DateTime.Now;
+                                        GPHeader.DivisionId = pd.DivisionId;
+                                        GPHeader.DocDate = DateTime.Now.Date;
+                                        GPHeader.DocNo = db.Database.SqlQuery<string>("Web.GetNewDocNoGatePass @DocTypeId, @DocDate, @GodownId ", DocType, DocDate, Godown).FirstOrDefault();
+                                        GPHeader.DocTypeId = GatePassDocTypeID;
+                                        GPHeader.ModifiedBy = User.Identity.Name;
+                                        GPHeader.ModifiedDate = DateTime.Now;
+                                        GPHeader.Remark = pd.Remark;
+                                        GPHeader.PersonId = pd.SaleToBuyerId;
+                                        GPHeader.SiteId = pd.SiteId;
+                                        GPHeader.GodownId = Ph.GodownId;
+                                        GPHeader.GatePassHeaderId = PK++;
+                                        GPHeader.ReferenceDocTypeId = pd.DocTypeId;
+                                        GPHeader.ReferenceDocId = pd.SaleInvoiceHeaderId;
+                                        GPHeader.ReferenceDocNo = pd.DocNo;
+                                        GPHeader.ObjectState = Model.ObjectState.Added;
+                                        db.GatePassHeader.Add(GPHeader);
                                         //new GatePassHeaderService(_unitOfWork).Create(GPHeader);                                   
-                                       
+
 
 
                                         foreach (GatePassGeneratedViewModel GatepassLine in GatePasses)
-                                            {
-                                                GatePassLine Gline = new GatePassLine();
-                                                Gline.CreatedBy = User.Identity.Name;
-                                                Gline.CreatedDate = DateTime.Now;
-                                                Gline.GatePassHeaderId = GPHeader.GatePassHeaderId;
-                                                Gline.ModifiedBy = User.Identity.Name;
-                                                Gline.ModifiedDate = DateTime.Now;
-                                                Gline.Product = GatepassLine.ProductName;
-                                                Gline.Qty = GatepassLine.Qty;
-                                                Gline.Specification = GatepassLine.Specification;
-                                                Gline.UnitId = GatepassLine.UnitId;
-                                                // new GatePassLineService(_unitOfWork).Create(Gline);
-                                                Gline.ObjectState = Model.ObjectState.Added;
-                                                db.GatePassLine.Add(Gline);
-                                            }
-
-                                            Dh.GatePassHeaderId = GPHeader.GatePassHeaderId;
-                                            Dh.ObjectState = Model.ObjectState.Modified;
-                                            db.SaleDispatchHeader.Add(Dh);
-                                            SaleinvoiceIds += pd.SaleInvoiceHeaderId + ", ";
+                                        {
+                                            GatePassLine Gline = new GatePassLine();
+                                            Gline.CreatedBy = User.Identity.Name;
+                                            Gline.CreatedDate = DateTime.Now;
+                                            Gline.GatePassHeaderId = GPHeader.GatePassHeaderId;
+                                            Gline.ModifiedBy = User.Identity.Name;
+                                            Gline.ModifiedDate = DateTime.Now;
+                                            Gline.Product = GatepassLine.ProductName;
+                                            Gline.Qty = GatepassLine.Qty;
+                                            Gline.Specification = GatepassLine.Specification;
+                                            Gline.UnitId = GatepassLine.UnitId;
+                                            // new GatePassLineService(_unitOfWork).Create(Gline);
+                                            Gline.ObjectState = Model.ObjectState.Added;
+                                            db.GatePassLine.Add(Gline);
                                         }
 
-                                        db.SaveChanges();
+                                        Dh.GatePassHeaderId = GPHeader.GatePassHeaderId;
+                                        Dh.ObjectState = Model.ObjectState.Modified;
+                                        db.SaleDispatchHeader.Add(Dh);
+                                        SaleinvoiceIds += pd.SaleInvoiceHeaderId + ", ";
                                     }
+
+                                    db.SaveChanges();
+                                }
                             }
                             else
                                 TempData["CSEXC"] += ExceptionMsg;
@@ -1354,7 +1354,7 @@ namespace Web
             LedgerHeaderViewModel.LedgerHeaderId = pd.LedgerHeaderId ?? 0;
             LedgerHeaderViewModel.DocHeaderId = pd.SaleInvoiceHeaderId;
             LedgerHeaderViewModel.DocTypeId = pd.DocTypeId;
-            LedgerHeaderViewModel.ProcessId  = Settings.ProcessId;
+            LedgerHeaderViewModel.ProcessId = Settings.ProcessId;
             LedgerHeaderViewModel.DocDate = pd.DocDate;
             LedgerHeaderViewModel.DocNo = pd.DocNo;
             LedgerHeaderViewModel.DivisionId = pd.DivisionId;
@@ -1701,10 +1701,350 @@ namespace Web
             }
             base.Dispose(disposing);
         }
+
+        [HttpGet]
+        public ActionResult _CreateInvoiceReturn(int id)
+        {
+            InvoiceReturn InvoiceReturn = new InvoiceReturn();
+            InvoiceReturn.SaleInvoiceHeaderId = id;
+            ViewBag.ReasonList = new ReasonService(_unitOfWork).GetReasonList(TransactionDocCategoryConstants.SaleInvoiceReturn).ToList();
+            InvoiceReturn.DocDate = DateTime.Now;
+            return PartialView("_InvoiceReturn", InvoiceReturn);
+        }
+
+        [HttpPost]
+        //[ValidateAntiForgeryToken]
+        public ActionResult _CreateInvoiceReturnPost(InvoiceReturn svm)
+        {
+            int Cnt = 0;
+            int Serial = 0;
+            int pk = 0;
+            int Gpk = 0;
+            int PersonCount = 0;
+            bool HeaderChargeEdit = false;
+
+            SaleInvoiceHeader SaleInvoiceHeader = new SaleInvoiceHeaderService(_unitOfWork).FindDirectSaleInvoice(svm.SaleInvoiceHeaderId);
+            SaleDispatchHeader SaleDispatchHeader = new SaleDispatchHeaderService(_unitOfWork).Find(SaleInvoiceHeader.SaleDispatchHeaderId ?? 0);
+            var DispatchLine = new SaleDispatchLineService(_unitOfWork).GetSaleDispatchLineList(SaleDispatchHeader.SaleDispatchHeaderId);
+
+
+            var SaleInvoiceSettings = new SaleInvoiceSettingService(_unitOfWork).GetSaleInvoiceSettingForDocument(SaleInvoiceHeader.DocTypeId, SaleInvoiceHeader.DivisionId, SaleInvoiceHeader.SiteId);
+            int InvoiceRetHeaderDocTypeId = 0;
+
+            if (SaleInvoiceSettings.SaleInvoiceReturnDocTypeId == null)
+            {
+                string message = "Invoice Return Document Type is not difined in settings.";
+                ModelState.AddModelError("", message);
+                return PartialView("_InvoiceReturn", svm);
+            }
+            else
+            {
+                InvoiceRetHeaderDocTypeId = (int)SaleInvoiceSettings.SaleInvoiceReturnDocTypeId;
+            }
+
+
+            if (ModelState.IsValid)
+            {
+                var SaleInvoiceLineList = (from p in db.ViewSaleInvoiceBalance
+                                           join l in db.SaleInvoiceLine on p.SaleInvoiceLineId equals l.SaleInvoiceLineId into linetable
+                                           from linetab in linetable.DefaultIfEmpty()
+                                           join t in db.SaleInvoiceHeader on p.SaleInvoiceHeaderId equals t.SaleInvoiceHeaderId into table
+                                           from tab in table.DefaultIfEmpty()
+                                           join t1 in db.SaleDispatchLine on p.SaleDispatchLineId equals t1.SaleDispatchLineId into table1
+                                           from tab1 in table1.DefaultIfEmpty()
+                                           join packtab in db.PackingLine on tab1.PackingLineId equals packtab.PackingLineId
+                                           join product in db.Product on p.ProductId equals product.ProductId into table2
+                                           from tab2 in table2.DefaultIfEmpty()
+                                           where p.SaleInvoiceHeaderId == SaleInvoiceHeader.SaleInvoiceHeaderId
+                                           && p.BalanceQty > 0
+                                           select new SaleInvoiceReturnLineViewModel
+                                           {
+                                               Dimension1Name = packtab.Dimension1.Dimension1Name,
+                                               Dimension2Name = packtab.Dimension2.Dimension2Name,
+                                               Specification = packtab.Specification,
+                                               InvoiceBalQty = p.BalanceQty,
+                                               Qty = p.BalanceQty,
+                                               SaleInvoiceHeaderDocNo = tab.DocNo,
+                                               ProductName = tab2.ProductName,
+                                               ProductId = p.ProductId,
+                                               GodownId = tab1.GodownId,
+                                               SaleInvoiceLineId = p.SaleInvoiceLineId,
+                                               UnitId = tab2.UnitId,
+                                               UnitConversionMultiplier = linetab.UnitConversionMultiplier ?? 0,
+                                               DealUnitId = linetab.DealUnitId,
+                                               Rate = linetab.Rate,
+                                               RateAfterDiscount = packtab.SaleOrderLine == null ? 0 : (packtab.SaleOrderLine.Amount / packtab.SaleOrderLine.DealQty),
+                                               unitDecimalPlaces = tab2.Unit.DecimalPlaces,
+                                               DealunitDecimalPlaces = linetab.DealUnit.DecimalPlaces,
+                                               DiscountPer = linetab.DiscountPer,
+                                               ProductUidName = packtab.ProductUid.ProductUidName,
+                                           }).ToList();
+                
+                if (SaleInvoiceLineList.Sum(i => i.InvoiceBalQty) > 0)
+                {
+                    SaleInvoiceSetting Settings = new SaleInvoiceSettingService(_unitOfWork).GetSaleInvoiceSettingForDocument(InvoiceRetHeaderDocTypeId, SaleInvoiceHeader.DivisionId, SaleInvoiceHeader.SiteId);
+
+                    SaleDispatchReturnHeader GoodsRetHeader = new SaleDispatchReturnHeader();
+                    GoodsRetHeader.DocTypeId = (int)Settings.DocTypeDispatchReturnId;
+                    GoodsRetHeader.DocDate = svm.DocDate;
+                    GoodsRetHeader.DocNo = new DocumentTypeService(_unitOfWork).FGetNewDocNo("DocNo", ConfigurationManager.AppSettings["DataBaseSchema"] + ".SaleDispatchReturnHeaders", GoodsRetHeader.DocTypeId, svm.DocDate, SaleInvoiceHeader.DivisionId, SaleInvoiceHeader.SiteId);
+                    GoodsRetHeader.SiteId = SaleInvoiceHeader.SiteId;
+                    GoodsRetHeader.DivisionId = SaleInvoiceHeader.DivisionId;
+                    GoodsRetHeader.BuyerId = SaleInvoiceHeader.SaleToBuyerId;
+                    GoodsRetHeader.ReasonId = svm.ReasonId;
+                    GoodsRetHeader.GodownId = DispatchLine.FirstOrDefault().GodownId;
+                    GoodsRetHeader.Remark = svm.Remark;
+                    GoodsRetHeader.CreatedDate = DateTime.Now;
+                    GoodsRetHeader.ModifiedDate = DateTime.Now;
+                    GoodsRetHeader.CreatedBy = User.Identity.Name;
+                    GoodsRetHeader.ModifiedBy = User.Identity.Name;
+                    GoodsRetHeader.ObjectState = Model.ObjectState.Added;
+                    new SaleDispatchReturnHeaderService(_unitOfWork).Create(GoodsRetHeader);
+
+                    SaleInvoiceReturnHeader InvoiceRetHeader = new SaleInvoiceReturnHeader();
+                    InvoiceRetHeader.DocTypeId = InvoiceRetHeaderDocTypeId;
+                    InvoiceRetHeader.DocDate = svm.DocDate;
+                    InvoiceRetHeader.DocNo = new DocumentTypeService(_unitOfWork).FGetNewDocNo("DocNo", ConfigurationManager.AppSettings["DataBaseSchema"] + ".SaleInvoiceHeaders", InvoiceRetHeader.DocTypeId, svm.DocDate, SaleInvoiceHeader.DivisionId, SaleInvoiceHeader.SiteId);
+                    InvoiceRetHeader.BuyerId = SaleInvoiceHeader.SaleToBuyerId;
+                    InvoiceRetHeader.SiteId = SaleInvoiceHeader.SiteId;
+                    InvoiceRetHeader.DivisionId = SaleInvoiceHeader.DivisionId;
+                    InvoiceRetHeader.BuyerId = SaleInvoiceHeader.SaleToBuyerId;
+                    InvoiceRetHeader.CurrencyId = SaleInvoiceHeader.CurrencyId;
+                    InvoiceRetHeader.ReasonId = svm.ReasonId;
+                    InvoiceRetHeader.Remark = svm.Remark;
+                    InvoiceRetHeader.CreatedDate = DateTime.Now;
+                    InvoiceRetHeader.ModifiedDate = DateTime.Now;
+                    InvoiceRetHeader.CreatedBy = User.Identity.Name;
+                    InvoiceRetHeader.ModifiedBy = User.Identity.Name;
+                    InvoiceRetHeader.SaleDispatchReturnHeaderId = GoodsRetHeader.SaleDispatchReturnHeaderId;
+                    InvoiceRetHeader.ObjectState = Model.ObjectState.Added;
+                    new SaleInvoiceReturnHeaderService(_unitOfWork).Create(InvoiceRetHeader);
+
+                    int CalculationId = Settings.CalculationId;
+
+                    //IEnumerable<SaleInvoiceLine> SaleInvoiceLineList = new SaleInvoiceLineService(_unitOfWork).GetSaleInvoiceLineList(Sh.SaleInvoiceHeaderId);
+
+
+
+                    List<LineDetailListViewModel> LineList = new List<LineDetailListViewModel>();
+                    List<HeaderChargeViewModel> HeaderCharges = new List<HeaderChargeViewModel>();
+                    List<LineChargeViewModel> LineCharges = new List<LineChargeViewModel>();
+
+
+                    foreach (var item in SaleInvoiceLineList)
+                    {
+                        decimal balqty = (from p in db.ViewSaleInvoiceBalance
+                                          where p.SaleInvoiceLineId == item.SaleInvoiceLineId
+                                          select p.BalanceQty).FirstOrDefault();
+
+
+                        if (item.Qty > 0 && item.Qty <= balqty)
+                        {
+                            SaleInvoiceReturnLine line = new SaleInvoiceReturnLine();
+                            //var receipt = new SaleDispatchLineService(_unitOfWork).Find(item.SaleDispatchLineId );
+
+
+                            line.SaleInvoiceReturnHeaderId = InvoiceRetHeader.SaleInvoiceReturnHeaderId;
+                            line.SaleInvoiceLineId = item.SaleInvoiceLineId;
+                            line.Qty = item.Qty;
+                            line.Sr = Serial++;
+                            line.DiscountPer = item.DiscountPer;
+                            line.Rate = item.Rate;
+                            line.DealQty = item.UnitConversionMultiplier * item.Qty;
+                            line.DealUnitId = item.DealUnitId;
+                            line.UnitConversionMultiplier = item.UnitConversionMultiplier;
+                            line.Amount = item.Rate * line.DealQty;
+
+                            line.Remark = item.Remark;
+                            line.CreatedDate = DateTime.Now;
+                            line.ModifiedDate = DateTime.Now;
+                            line.CreatedBy = User.Identity.Name;
+                            line.ModifiedBy = User.Identity.Name;
+                            line.SaleInvoiceReturnLineId = pk;
+
+
+                            SaleDispatchReturnLine GLine = Mapper.Map<SaleInvoiceReturnLine, SaleDispatchReturnLine>(line);
+                            GLine.SaleDispatchLineId = new SaleInvoiceLineService(_unitOfWork).Find(line.SaleInvoiceLineId).SaleDispatchLineId;
+                            GLine.SaleDispatchReturnHeaderId = GoodsRetHeader.SaleDispatchReturnHeaderId;
+                            GLine.SaleDispatchReturnLineId = Gpk;
+                            GLine.Qty = line.Qty;
+                            GLine.GodownId = (int)item.GodownId;
+                            GLine.ObjectState = Model.ObjectState.Added;
+
+
+                            SaleDispatchLine SaleDispatchLine = new SaleDispatchLineService(_unitOfWork).Find(GLine.SaleDispatchLineId);
+                            PackingLine PackingLin = new PackingLineService(_unitOfWork).Find(SaleDispatchLine.PackingLineId);
+
+                            StockViewModel StockViewModel = new StockViewModel();
+
+
+                            if (Cnt == 0)
+                            {
+                                StockViewModel.StockHeaderId = GoodsRetHeader.StockHeaderId ?? 0;
+                            }
+                            else
+                            {
+                                if (GoodsRetHeader.StockHeaderId != null && GoodsRetHeader.StockHeaderId != 0)
+                                {
+                                    StockViewModel.StockHeaderId = (int)GoodsRetHeader.StockHeaderId;
+                                }
+                                else
+                                {
+                                    StockViewModel.StockHeaderId = -1;
+                                }
+
+                            }
+
+                            StockViewModel.StockId = -Cnt;
+
+                            StockViewModel.DocHeaderId = GoodsRetHeader.SaleDispatchReturnHeaderId;
+                            StockViewModel.DocLineId = SaleDispatchLine.SaleDispatchLineId;
+                            StockViewModel.DocTypeId = GoodsRetHeader.DocTypeId;
+                            StockViewModel.StockHeaderDocDate = GoodsRetHeader.DocDate;
+                            StockViewModel.StockDocDate = GoodsRetHeader.DocDate;
+                            StockViewModel.DocNo = GoodsRetHeader.DocNo;
+                            StockViewModel.DivisionId = GoodsRetHeader.DivisionId;
+                            StockViewModel.SiteId = GoodsRetHeader.SiteId;
+                            StockViewModel.CurrencyId = null;
+                            StockViewModel.PersonId = GoodsRetHeader.BuyerId;
+                            StockViewModel.ProductId = PackingLin.ProductId;
+                            StockViewModel.HeaderFromGodownId = null;
+                            StockViewModel.HeaderGodownId = GLine.GodownId;
+                            StockViewModel.HeaderProcessId = null;
+                            StockViewModel.GodownId = (int)GLine.GodownId;
+                            StockViewModel.Remark = svm.Remark;
+                            StockViewModel.Status = 0;
+                            StockViewModel.ProcessId = null;
+                            StockViewModel.LotNo = null;
+                            StockViewModel.CostCenterId = null;
+                            StockViewModel.Qty_Iss = 0;
+                            StockViewModel.Qty_Rec = GLine.Qty;
+                            StockViewModel.Rate = null;
+                            StockViewModel.ExpiryDate = null;
+                            StockViewModel.Specification = PackingLin.Specification;
+                            StockViewModel.Dimension1Id = PackingLin.Dimension1Id;
+                            StockViewModel.Dimension2Id = PackingLin.Dimension2Id;
+                            StockViewModel.CreatedBy = User.Identity.Name;
+                            StockViewModel.CreatedDate = DateTime.Now;
+                            StockViewModel.ModifiedBy = User.Identity.Name;
+                            StockViewModel.ModifiedDate = DateTime.Now;
+
+                            string StockPostingError = "";
+                            StockPostingError = new StockService(_unitOfWork).StockPost(ref StockViewModel);
+
+                            if (StockPostingError != "")
+                            {
+                                string message = StockPostingError;
+                                ModelState.AddModelError("", message);
+                                return PartialView("_InvoiceReturn", svm);
+                            }
+
+
+                            if (Cnt == 0)
+                            {
+                                GoodsRetHeader.StockHeaderId = StockViewModel.StockHeaderId;
+                            }
+
+
+                            GLine.StockId = StockViewModel.StockId;
+
+
+                            new SaleDispatchReturnLineService(_unitOfWork).Create(GLine);
+
+                            line.SaleDispatchReturnLineId = GLine.SaleDispatchReturnLineId;
+                            line.ObjectState = Model.ObjectState.Added;
+                            new SaleInvoiceReturnLineService(_unitOfWork).Create(line);
+
+                            LineList.Add(new LineDetailListViewModel { Amount = line.Amount, Rate = line.Rate, LineTableId = line.SaleInvoiceReturnLineId, HeaderTableId = item.SaleInvoiceReturnHeaderId, PersonID = InvoiceRetHeader.BuyerId, DealQty = line.DealQty });
+                            Gpk++;
+                            pk++;
+
+                            Cnt = Cnt + 1;
+                        }
+                    }
+
+                    if (CalculationId != null)
+                    {
+                        new ChargesCalculationService(_unitOfWork).CalculateCharges(LineList, InvoiceRetHeader.SaleInvoiceReturnHeaderId, (int)CalculationId, null, out LineCharges, out HeaderChargeEdit, out HeaderCharges, "Web.SaleInvoiceReturnHeaderCharges", "Web.SaleInvoiceReturnLineCharges", out PersonCount, InvoiceRetHeader.DocTypeId, InvoiceRetHeader.SiteId, InvoiceRetHeader.DivisionId);
+                    }
+
+                    // Saving Charges
+                    foreach (var item in LineCharges)
+                    {
+                        SaleInvoiceReturnLineCharge PoLineCharge = Mapper.Map<LineChargeViewModel, SaleInvoiceReturnLineCharge>(item);
+                        PoLineCharge.ObjectState = Model.ObjectState.Added;
+                        new SaleInvoiceReturnLineChargeService(_unitOfWork).Create(PoLineCharge);
+                    }
+
+
+                    //Saving Header charges
+                    for (int i = 0; i < HeaderCharges.Count(); i++)
+                    {
+                        SaleInvoiceReturnHeaderCharge POHeaderCharge = Mapper.Map<HeaderChargeViewModel, SaleInvoiceReturnHeaderCharge>(HeaderCharges[i]);
+                        POHeaderCharge.HeaderTableId = InvoiceRetHeader.SaleInvoiceReturnHeaderId;
+                        POHeaderCharge.PersonID = InvoiceRetHeader.BuyerId;
+                        POHeaderCharge.ObjectState = Model.ObjectState.Added;
+                        new SaleInvoiceReturnHeaderChargeService(_unitOfWork).Create(POHeaderCharge);
+                    }
+
+                    try
+                    {
+                        _unitOfWork.Save();
+                    }
+                    catch (Exception ex)
+                    {
+                        string message = _exception.HandleException(ex);
+                        ModelState.AddModelError("", message);
+                        return PartialView("_InvoiceReturn", svm);
+                    }
+
+                    LogActivity.LogActivityDetail(LogVm.Map(new ActiivtyLogViewModel
+                    {
+                        DocTypeId = SaleInvoiceHeader.DocTypeId,
+                        DocId = InvoiceRetHeader.SaleInvoiceReturnHeaderId,
+                        ActivityType = (int)ActivityTypeContants.MultipleCreate,
+                        DocNo = SaleInvoiceHeader.DocNo,
+                        DocDate = SaleInvoiceHeader.DocDate,
+                        DocStatus = SaleInvoiceHeader.Status,
+                    }));
+
+
+                    //return Json(new { success = true });
+                    //return Redirect(System.Configuration.ConfigurationManager.AppSettings["SaleDomain"] + "/SaleInvoiceReturnHeader/Submit/" + InvoiceRetHeader.SaleInvoiceReturnHeaderId);
+                    //return Redirect(System.Configuration.ConfigurationManager.AppSettings["SaleDomain"] + "/DirectSaleInvoiceHeader/_InvoiceReturnSubmit/" + InvoiceRetHeader.SaleInvoiceReturnHeaderId);
+                    //return RedirectToAction("Index", new { id = SaleInvoiceHeader.DocTypeId, IndexType = "All" }).Success("Record submitted successfully.");
+                    return Json(new { success = true, Url = "/SaleInvoiceReturnHeader/Submit/" + InvoiceRetHeader.SaleInvoiceReturnHeaderId });
+
+
+                }
+            }
+            else
+            {
+                string message = "Balance is 0 for this invoice.";
+                ModelState.AddModelError("", message);
+                return PartialView("_InvoiceReturn", svm);
+            }
+            return PartialView("_InvoiceReturn", svm);
+        }
+
+        public ActionResult _InvoiceReturnSubmit(int id)
+        {
+            return Redirect(System.Configuration.ConfigurationManager.AppSettings["SaleDomain"] + "/SaleInvoiceReturnHeader/Submit/" + id);
+        }
     }
+
 
     public class PersonLedgerBalance
     {
         public Decimal Balance { get; set; }
+    }
+
+    public class InvoiceReturn
+    {
+        public int SaleInvoiceHeaderId { get; set; }
+        public DateTime DocDate { get; set; }
+        public int ReasonId { get; set; }
+        public string ReasonName { get; set; }
+        public string Remark { get; set; }
     }
 }

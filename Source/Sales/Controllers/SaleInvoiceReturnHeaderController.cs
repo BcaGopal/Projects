@@ -819,6 +819,7 @@ namespace Web
                 List<LogTypeViewModel> LogList = new List<LogTypeViewModel>();
 
                 int? StockHeaderId = 0;
+                int? LedgerHeaderId = 0;
 
                 var temp = _SaleInvoiceReturnHeaderService.Find(vm.id);
                 var DispatchRetHeaderId = temp.SaleDispatchReturnHeaderId;
@@ -830,7 +831,7 @@ namespace Web
 
                 var line = new SaleInvoiceReturnLineService(_unitOfWork).GetLineListForIndex(vm.id);
 
-
+                LedgerHeaderId = temp.LedgerHeaderId;
 
                 foreach (var item in line)
                 {
@@ -859,6 +860,17 @@ namespace Web
 
                 _SaleInvoiceReturnHeaderService.Delete(vm.id);
 
+                if (LedgerHeaderId.HasValue)
+                {
+                    var LedgerList = new LedgerService(_unitOfWork).FindForLedgerHeader((int)LedgerHeaderId);
+
+                    foreach(Ledger Ledger in LedgerList)
+                    {
+                        new LedgerService(_unitOfWork).Delete(Ledger.LedgerId);
+                    }
+
+                    new LedgerHeaderService(_unitOfWork).Delete((int)LedgerHeaderId);
+                }
 
 
                 List<int> StockIdList = new List<int>();

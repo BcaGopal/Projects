@@ -171,6 +171,7 @@ namespace Web
                     temp.CalculateDiscountOnRate = pt.CalculateDiscountOnRate;
                     temp.DocTypePackingHeaderId = pt.DocTypePackingHeaderId;
                     temp.SaleDispatchDocTypeId = pt.SaleDispatchDocTypeId;
+                    temp.SaleInvoiceReturnDocTypeId = pt.SaleInvoiceReturnDocTypeId;
                     temp.SqlProcGatePass = pt.SqlProcGatePass;
                     temp.UnitConversionForId = pt.UnitConversionForId;
                     temp.ImportMenuId = pt.ImportMenuId;

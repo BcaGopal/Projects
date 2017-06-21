@@ -82,6 +82,7 @@ namespace Web
             var settings = new SaleDeliverySettingService(_unitOfWork).GetSaleDeliverySettingForDocument(id,DivisionId,SiteId);
             if(settings !=null)
             {
+                ViewBag.WizardId = settings.WizardMenuId;
                 ViewBag.ImportMenuId = settings.ImportMenuId;
                 ViewBag.SqlProcDocumentPrint = settings.SqlProcDocumentPrint;
                 ViewBag.ExportMenuId = settings.ExportMenuId;
@@ -285,6 +286,7 @@ namespace Web
                     SaleDeliveryheader.SaleToBuyerId = vm.SaleToBuyerId;
                     SaleDeliveryheader.DeliverToPerson = vm.DeliverToPerson;
                     SaleDeliveryheader.DeliverToPersonReference = vm.DeliverToPersonReference;
+                    SaleDeliveryheader.ShipToPartyAddress = vm.ShipToPartyAddress;
                     SaleDeliveryheader.Remark = vm.Remark;
                     SaleDeliveryheader.ModifiedDate = DateTime.Now;
                     SaleDeliveryheader.ModifiedBy = User.Identity.Name;
@@ -834,8 +836,11 @@ namespace Web
 
                         if (!String.IsNullOrEmpty(Settings.SqlProcGatePass))
                         {
-
-                            int GodownId = (int)System.Web.HttpContext.Current.Session["DefaultGodownId"];
+                            int GodownId = 0;
+                            if (System.Web.HttpContext.Current.Session["DefaultGodownId"] != null)
+                            {
+                                GodownId = (int)System.Web.HttpContext.Current.Session["DefaultGodownId"];
+                            }
                             var Dispatch = (from H in db.SaleDeliveryHeader
                                             join L in db.SaleDeliveryLine on H.SaleDeliveryHeaderId equals L.SaleDeliveryHeaderId into SaleDeliveryLineTable
                                             from SaleDeliveryLineTab in SaleDeliveryLineTable.DefaultIfEmpty()
@@ -1458,6 +1463,54 @@ namespace Web
                 Data = Data,
                 JsonRequestBehavior = JsonRequestBehavior.AllowGet
             };
+        }
+
+        public ActionResult Wizard(int id)//Document Type Id
+        {
+            //ControllerAction ca = new ControllerActionService(_unitOfWork).Find(id);
+            SaleDeliveryHeaderViewModel vm = new SaleDeliveryHeaderViewModel();
+
+            vm.DivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
+            vm.SiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
+
+            var settings = new SaleDeliverySettingService(_unitOfWork).GetSaleDeliverySettingForDocument(id, vm.DivisionId, vm.SiteId);
+
+            if (settings != null)
+            {
+                if (settings.WizardMenuId != null)
+                {
+                    MenuViewModel menuviewmodel = new MenuService(_unitOfWork).GetMenu((int)settings.WizardMenuId);
+
+                    if (menuviewmodel == null)
+                    {
+                        return View("~/Views/Shared/UnderImplementation.cshtml");
+                    }
+                    else if (!string.IsNullOrEmpty(menuviewmodel.URL))
+                    {
+                        return Redirect(System.Configuration.ConfigurationManager.AppSettings[menuviewmodel.URL] + "/" + menuviewmodel.ControllerName + "/" + menuviewmodel.ActionName + "/" + id + "?MenuId=" + menuviewmodel.MenuId);
+                    }
+                    else
+                    {
+                        return RedirectToAction(menuviewmodel.ActionName, menuviewmodel.ControllerName, new { MenuId = menuviewmodel.MenuId, id = menuviewmodel.RouteId });
+                    }
+                }
+            }
+            return RedirectToAction("Index", new { id = id });
+        }
+
+        public JsonResult GetBuyerDetailJson(int SaleToBuyerId)
+        {
+            var PersonAddress = (from P in db.Persons
+                                 join Pa in db.PersonAddress on P.PersonID equals Pa.PersonId into PersonAddressTable
+                                 from PersonAddressTab in PersonAddressTable.DefaultIfEmpty()
+                                 where P.PersonID == SaleToBuyerId
+                                 select new
+                                 {
+                                     PersonId = P.PersonID,
+                                     Address = PersonAddressTab.Address
+                                 }).FirstOrDefault();
+
+            return Json(PersonAddress);
         }
 
         #region submitValidation

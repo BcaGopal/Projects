@@ -31,6 +31,7 @@ namespace Core.Common
         public const string PackingReceive = "Packing Receive";
 
         public const string SaleInvoice = "Sale Invoice";
+        public const string SaleInvoiceReturn = "Sale Invoice Return";
 
         public const string DispatchWaybill = "Dispatch Waybill";
         public const string CustomDetail = "Custom Detail";

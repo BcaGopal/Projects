@@ -52,6 +52,11 @@ namespace Model.Models
         public int? SaleDispatchDocTypeId { get; set; }
         public virtual DocumentType SaleDispatchDocType { get; set; }
 
+        [ForeignKey("SaleInvoiceReturnDocType")]
+        public int? SaleInvoiceReturnDocTypeId { get; set; }
+        public virtual DocumentType SaleInvoiceReturnDocType { get; set; }
+
+
         [MaxLength(100)]
         public string SqlProcProductUidHelpList { get; set; }
 

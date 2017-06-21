@@ -323,6 +323,7 @@ $(document).ready(function () {
                     if (result.success) {
                         $('#myModalContent').html("");
                         $('#myModal').modal('hide');
+                        
                         //Refresh
                         if ($(form).attr("data-pageReload") == "true")
                         { location.reload(); }

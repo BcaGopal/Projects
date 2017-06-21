@@ -569,6 +569,7 @@ namespace Data.Models
         public DbSet<ViewProdOrderLine> ViewProdOrderLine { get; set; }
         public DbSet<ViewProdOrderBalance> ViewProdOrderBalance { get; set; }
         public DbSet<ViewProdOrderBalanceForMPlan> ViewProdOrderBalanceForMPlan { get; set; }
+        public DbSet<ViewSaleInvoiceBalanceForDelivery> ViewSaleInvoiceBalanceForDelivery { get; set; }
 
         public DbSet<ViewJobOrderHeader> ViewJobOrderHeader { get; set; }
         public DbSet<ViewJobOrderLine> ViewJobOrderLine { get; set; }
@@ -603,7 +604,6 @@ namespace Data.Models
         public DbSet<ViewSaleEnquiryBalance> ViewSaleEnquiryBalance { get; set; }
         public DbSet<ViewSaleEnquiryBalanceForQuotation> ViewSaleEnquiryBalanceForQuotation { get; set; }
 
-        public DbSet<ViewSaleInvoiceBalanceForDelivery> ViewSaleInvoiceBalanceForDelivery { get; set; }
 
         public DbSet<ViewStockInBalance> ViewStockInBalance { get; set; }
         public DbSet<ViewProductBuyer> ViewProductBuyer { get; set; }

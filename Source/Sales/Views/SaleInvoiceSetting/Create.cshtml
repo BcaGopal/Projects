@@ -541,6 +541,16 @@
                                     </div>
                                 </div>
                             </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.SaleInvoiceReturnDocTypeId, "Return Doc Type", new { @class = "control-label col-xs-4" })
+                                    <div class="col-xs-6">
+                                        @Html.TextBoxFor(m => m.SaleInvoiceReturnDocTypeId, new { @class = "form-control col-xs-6" })
+                                        @Html.ValidationMessageFor(m => m.SaleInvoiceReturnDocTypeId, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
                         <div class="row">
@@ -653,6 +663,7 @@
         CustomSelectFunction($("#filterContraSites"), '/ComboHelpList/GetSite', '/ComboHelpList/SetSite', ' ', true, 1);
         CustomSelectFunction($("#DocTypePackingHeaderId"), '/ComboHelpList/GetDocumentType', '/ComboHelpList/SetSingleDocumentType', ' ', false, 1);
         CustomSelectFunction($("#SaleDispatchDocTypeId"), '/ComboHelpList/GetDocumentType', '/ComboHelpList/SetSingleDocumentType', ' ', false, 1);
+        CustomSelectFunction($("#SaleInvoiceReturnDocTypeId"), '/ComboHelpList/GetDocumentType', '/ComboHelpList/SetSingleDocumentType', ' ', false, 1);
         CustomSelectFunction($("#ImportMenuId"), '/ComboHelpList/GetMenus', '/ComboHelpList/SetSingleMenu', ' ', false, 1);
         CustomSelectFunction($("#ProcessId"), '/ComboHelpList/GetProcess', '/ComboHelpList/SetSingleProcess', ' ', false, 1);
         CustomSelectFunction($("#filterPersonRoles"), '/ComboHelpList/GetPersonRoles', '/ComboHelpList/SetPersonRole', ' ', true, 0);

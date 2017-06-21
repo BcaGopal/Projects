@@ -79,6 +79,12 @@ namespace Model.Models
         public virtual Menu ImportMenu { get; set; }
 
 
+        [ForeignKey("WizardMenu")]
+        [Display(Name = "WizardMenu")]
+        public int? WizardMenuId { get; set; }
+        public virtual Menu WizardMenu { get; set; }
+
+
         [ForeignKey("ExportMenu")]
         [Display(Name = "ExportMenu")]
         public int? ExportMenuId { get; set; }

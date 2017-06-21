@@ -38,6 +38,8 @@ namespace Model.Models
         [Display(Name = "Unit Conversion Multiplier"), Required]
         public Decimal UnitConversionMultiplier { get; set; }
 
+        public int Sr { get; set; }
+
 
         [Display(Name = "Deal Qty"), Required]
         public Decimal DealQty { get; set; }

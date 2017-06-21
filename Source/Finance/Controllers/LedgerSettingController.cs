@@ -149,6 +149,7 @@ namespace Web
                     temp.isVisibleReferenceDocId = pt.isVisibleReferenceDocId;
                     temp.isVisibleReferenceDocTypeId = pt.isVisibleReferenceDocTypeId;
                     temp.isVisibleDrCr = pt.isVisibleDrCr;
+                    temp.isVisibleLineDrCr = pt.isVisibleLineDrCr;
                     temp.isVisibleAdjustmentType = pt.isVisibleAdjustmentType;
                     temp.isVisiblePaymentFor = pt.isVisiblePaymentFor;
                     temp.isVisiblePartyDocNo = pt.isVisiblePartyDocNo;
@@ -293,6 +294,7 @@ namespace Web
                     temp.isVisibleReferenceDocId = pt.isVisibleReferenceDocId;
                     temp.isVisibleReferenceDocTypeId = pt.isVisibleReferenceDocTypeId;
                     temp.isVisibleDrCr = pt.isVisibleDrCr;
+                    temp.isVisibleLineDrCr = pt.isVisibleLineDrCr;
                     temp.isVisibleAdjustmentType = pt.isVisibleAdjustmentType;
                     temp.isVisiblePaymentFor = pt.isVisiblePaymentFor;
                     temp.isVisiblePartyDocNo = pt.isVisiblePartyDocNo;

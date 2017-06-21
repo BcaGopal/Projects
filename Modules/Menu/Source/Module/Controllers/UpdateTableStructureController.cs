@@ -1327,6 +1327,14 @@ namespace Module
             AddFields("JobReceiveSettings", "SqlProcProductUidHelpList", "nvarchar(100)");
             AddFields("JobInvoiceSettings", "SqlProcProductUidHelpList", "nvarchar(100)");
             AddFields("StockHeaderSettings", "SqlProcProductUidHelpList", "nvarchar(100)");
+            AddFields("SaleDispatchReturnLines", "GodownId", "Int","Godowns");
+            AddFields("SaleInvoiceSettings", "SaleInvoiceReturnDocTypeId", "Int", "DocumentTypes");
+
+            AddFields("LedgerSettings", "isVisibleLineDrCr", "Bit");
+            AddFields("LedgerLines", "DrCr", "nvarchar(2)");
+
+            AddFields("SaleDeliveryLines", "Sr", "int");
+            AddFields("SaleDeliverySettings", "WizardMenuId", "int","Menus");
 
 
             return RedirectToAction("Module", "Menu");
