@@ -2064,7 +2064,7 @@ if (typeof Slick === "undefined") {
                     var value = getDataItemValueForColumn(d, m);
                     if (value != null) {
                         if (value.length > 100) {
-                            options.rowHeight = 70;
+                            options.rowHeight = 80;
                         }
                     }
                 }

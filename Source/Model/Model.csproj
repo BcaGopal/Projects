@@ -218,6 +218,7 @@
     <Compile Include="ViewModels\DocumentTypeAttributeViewModel.cs" />
     <Compile Include="ViewModels\ImportHeaderViewModel.cs" />
     <Compile Include="ViewModels\ImportLineViewModel.cs" />
+    <Compile Include="ViewModels\ImportMessageViewModel.cs" />
     <Compile Include="ViewModels\LedgerAccountOpeningViewModel.cs" />
     <Compile Include="ViewModels\PersonOpeningViewModel.cs" />
     <Compile Include="ViewModels\PersonAddressViewModel.cs" />

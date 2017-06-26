@@ -37,7 +37,6 @@ namespace Web
 
         private void SaleInvoiceEvents_afterHeaderSubmitEvent(object sender, SaleEventArgs EventArgs, ref ApplicationDbContext db)
         {
-            throw new NotImplementedException();
         }
 
 
@@ -47,28 +46,34 @@ namespace Web
 
             string ConnectionString = (string)System.Web.HttpContext.Current.Session["DefaultConnectionString"];
 
-            try
+            SaleInvoiceHeader Header = db.SaleInvoiceHeader.Find(Id);
+            string DocumentTypeName = db.DocumentType.Find(Header.DocTypeId).DocumentTypeName;
+
+            if (DocumentTypeName == "Weaving Cloth Sale Invoice")
             {
-                using (SqlConnection sqlConnection = new SqlConnection(ConnectionString))
+                try
                 {
-                    sqlConnection.Open();
-
-
-                    using (SqlCommand cmd = new SqlCommand("Web.sp_CreatePurchaseOnBranch"))
+                    using (SqlConnection sqlConnection = new SqlConnection(ConnectionString))
                     {
-                        cmd.CommandType = CommandType.StoredProcedure;
-                        cmd.Connection = sqlConnection;
-                        cmd.Parameters.AddWithValue("@SaleInvoiceHeaderId", Id);
-                        cmd.CommandTimeout = 1000;
-                        cmd.ExecuteNonQuery();
+                        sqlConnection.Open();
+
+
+                        using (SqlCommand cmd = new SqlCommand("Web.sp_CreatePurchaseOnBranch"))
+                        {
+                            cmd.CommandType = CommandType.StoredProcedure;
+                            cmd.Connection = sqlConnection;
+                            cmd.Parameters.AddWithValue("@SaleInvoiceHeaderId", Id);
+                            cmd.CommandTimeout = 1000;
+                            cmd.ExecuteNonQuery();
+                        }
+
                     }
-
                 }
-            }
 
-            catch (Exception ex)
-            {
-                throw ex;
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
             }
         }
 

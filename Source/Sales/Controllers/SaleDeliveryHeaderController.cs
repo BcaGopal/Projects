@@ -1058,7 +1058,12 @@ namespace Web
                             {
                                 if (!String.IsNullOrEmpty(Settings.SqlProcGatePass) && Dh.Status == (int)StatusConstants.Submitted && !Dh.GatePassHeaderId.HasValue)
                                 {
-                                    int GodownId = (int)System.Web.HttpContext.Current.Session["DefaultGodownId"];
+                                    int GodownId = 0;
+                                    if (System.Web.HttpContext.Current.Session["DefaultGodownId"] != null)
+                                    {
+                                        GodownId = (int)System.Web.HttpContext.Current.Session["DefaultGodownId"];
+                                    }
+
                                     var Dispatch = (from H in db.SaleDeliveryHeader
                                                     join L in db.SaleDeliveryLine on H.SaleDeliveryHeaderId equals L.SaleDeliveryHeaderId into SaleDeliveryLineTable
                                                     from SaleDeliveryLineTab in SaleDeliveryLineTable.DefaultIfEmpty()
@@ -1097,7 +1102,7 @@ namespace Web
                                         GPHeader.Remark = Dh.Remark;
                                         GPHeader.PersonId =Dh.SaleToBuyerId;
                                         GPHeader.SiteId = Dh.SiteId;
-                                        GPHeader.GodownId = 0;
+                                        GPHeader.GodownId = GodownId;
                                         GPHeader.GatePassHeaderId = PK++;
                                         GPHeader.ReferenceDocTypeId = Dh.DocTypeId;
                                         GPHeader.ReferenceDocId =Dh.SaleDeliveryHeaderId;
@@ -1132,6 +1137,14 @@ namespace Web
                                     }
 
                                     db.SaveChanges();
+                                }
+                                else
+                                {
+                                    if (Dh.Status != (int)StatusConstants.Submitted)
+                                    {
+                                        string message = "Record must be submitted before generating gatepass.";
+                                        return Json(new { success = "Error", data = message }, JsonRequestBehavior.AllowGet);
+                                    }
                                 }
                             }
                             else

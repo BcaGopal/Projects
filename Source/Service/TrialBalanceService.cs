@@ -233,6 +233,7 @@ namespace Service
             string FromDate = Settings.FromDate.HasValue ? Settings.FromDate.Value.ToString("dd/MMM/yyyy") : "";
             string ToDate = Settings.ToDate.HasValue ? Settings.ToDate.Value.ToString("dd/MMM/yyyy") : "";
             string CostCenter = Settings.CostCenter;
+            bool ShowContraAccount = Settings.ShowContraAccount;
 
             SqlParameter SqlParameterSiteId = new SqlParameter("@Site", !string.IsNullOrEmpty(SiteId) ? SiteId : (object)DBNull.Value);
             SqlParameter SqlParameterDivisionId = new SqlParameter("@Division", !string.IsNullOrEmpty(DivisionId) ? DivisionId : (object)DBNull.Value);
@@ -240,8 +241,9 @@ namespace Service
             SqlParameter SqlParameterToDate = new SqlParameter("@ToDate", ToDate);
             SqlParameter SqlParameterLedgerAccountId = new SqlParameter("@LedgerAccountId", id);
             SqlParameter SqlParameterCostCenter = new SqlParameter("@CostCenter", !string.IsNullOrEmpty(CostCenter) ? CostCenter : (object)DBNull.Value);
+            SqlParameter SqlParameterShowContraAccount = new SqlParameter("@ShowContraAccount", ShowContraAccount);
 
-            IEnumerable<LedgerBalanceViewModel> TrialBalanceList = db.Database.SqlQuery<LedgerBalanceViewModel>("" + ConfigurationManager.AppSettings["DataBaseSchema"] + ".spLedger @Site, @Division, @FromDate, @ToDate, @LedgerAccountId, @CostCenter", SqlParameterSiteId, SqlParameterDivisionId, SqlParameterFromDate, SqlParameterToDate, SqlParameterLedgerAccountId, SqlParameterCostCenter).ToList();
+            IEnumerable<LedgerBalanceViewModel> TrialBalanceList = db.Database.SqlQuery<LedgerBalanceViewModel>("" + ConfigurationManager.AppSettings["DataBaseSchema"] + ".spLedger @Site, @Division, @FromDate, @ToDate, @LedgerAccountId, @CostCenter, @ShowContraAccount", SqlParameterSiteId, SqlParameterDivisionId, SqlParameterFromDate, SqlParameterToDate, SqlParameterLedgerAccountId, SqlParameterCostCenter, SqlParameterShowContraAccount).ToList();
 
 
             return TrialBalanceList;

@@ -68,6 +68,7 @@ namespace Model.ViewModels
         public int? SaleDispatchHeaderId { get; set; }
         public string SaleDispatchHeaderDocNo { get; set; }
 
+        public string LockReason { get; set; }
         public string Mobile { get; set; }
 
         [MaxLength(100)]
@@ -94,7 +95,7 @@ namespace Model.ViewModels
         public int BuyerDocTypeId { get; set; }
         public int? FinancierDocTypeId { get; set; }
         public List<DocumentTypeAttributeViewModel> DocumentTypeAttributes { get; set; }
-
+        public string DocumentInfo { get; set; }
 
     }
    
@@ -139,6 +140,7 @@ namespace Model.ViewModels
         public string Specification { get; set; }
         public string LotNo { get; set; }
         public string BaleNo { get; set; }
+        public string LockReason { get; set; }
 
         [Display(Name = "Qty"), Required]
         public Decimal Qty { get; set; }

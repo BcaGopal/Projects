@@ -121,10 +121,21 @@ namespace Service
         }
         public IQueryable<SaleInvoiceReturnHeaderViewModel> GetSaleInvoiceReturnHeaderList(int id, string Uname)
         {
-
             var DivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
             var SiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
-            List<string> UserRoles = (List<string>)System.Web.HttpContext.Current.Session["Roles"]; 
+            List<string> UserRoles = (List<string>)System.Web.HttpContext.Current.Session["Roles"];
+
+
+
+            var SaleInvoiceList = (from L in db.SaleInvoiceReturnLine
+                                   where L.SaleInvoiceReturnHeader.SiteId == SiteId && L.SaleInvoiceReturnHeader.DivisionId == DivisionId && L.SaleInvoiceReturnHeader.DocTypeId == id
+                                   group new { L } by new { L.SaleInvoiceReturnHeaderId } into Result
+                                   select new
+                                   {
+                                       SaleInvoiceReturnHeaderId = Result.Key.SaleInvoiceReturnHeaderId,
+                                       SaleInvoiceDocNo = Result.Max(i => i.L.SaleInvoiceLine.SaleInvoiceHeader.DocNo)
+                                   });
+
 
             var pt = (from p in db.SaleInvoiceReturnHeader
                       join t3 in db._Users on p.ModifiedBy equals t3.UserName into table3
@@ -133,6 +144,8 @@ namespace Service
                       from tab in table.DefaultIfEmpty()
                       join t1 in db.Persons on p.BuyerId equals t1.PersonID into table2
                       from tab2 in table2.DefaultIfEmpty()
+                      join Sil in SaleInvoiceList on p.SaleInvoiceReturnHeaderId equals Sil.SaleInvoiceReturnHeaderId into SaleInvoiceListTable
+                      from SaleInvoiceListTab in SaleInvoiceListTable.DefaultIfEmpty()
                       orderby p.DocDate descending, p.DocNo descending
                       where p.SiteId == SiteId && p.DivisionId == DivisionId && p.DocTypeId == id 
                       select new SaleInvoiceReturnHeaderViewModel
@@ -149,8 +162,8 @@ namespace Service
                           ReviewCount = p.ReviewCount,
                           ReviewBy = p.ReviewBy,
                           Reviewed = (SqlFunctions.CharIndex(Uname, p.ReviewBy) > 0),
-                      }
-                         );
+                          SaleInvoiceDocNo = SaleInvoiceListTab.SaleInvoiceDocNo
+                      });
             return pt;
         }
 

@@ -68,6 +68,9 @@ namespace Customize
             vm.ImportHeaderId = header.ImportHeaderId;
             vm.DocTypeId = id;
 
+            int ImportMessageCnt = (from H in db.ImportMessage where H.ImportHeaderId == header.ImportHeaderId && H.IsActive == true && H.ValueType == "Error" select H).Count();
+            ViewBag.ImportMessageCnt = ImportMessageCnt;
+
             return View(vm);
         }
 
@@ -80,6 +83,8 @@ namespace Customize
 
             int ImportHeaderId = vm.ImportHeaderId;
             int DocTypeId = vm.DocTypeId;
+
+
 
             string ErrorText = "";
             //string WarningText = "";
@@ -484,7 +489,35 @@ namespace Customize
         }
 
 
-       
+        [HttpGet]
+        public ActionResult _ImportMessages(int id)
+        {
+            ImportMessageViewModel temp = new ImportMessageViewModel();
+            List<ImportMessage> ImportMessage = (from H in db.ImportMessage where H.ImportHeaderId == id && H.IsActive == true && H.ValueType == "Error" select H).ToList();
+            
+            ImportHeader Header = _ImportHeaderservice.Find(id);
 
+            temp.ImportHeaderId = id;
+            temp.ImportMessage = ImportMessage;
+            ViewBag.Name = Header.ImportName;
+
+            if (temp == null)
+            {
+                return HttpNotFound();
+            }
+            return PartialView("_ImportMessages", temp);
+        }
+
+        [HttpGet]
+        public ActionResult __ImportMessages_DeletePost(int id)//LedgerAdjId
+        {
+            ImportMessage ImportMessage = db.ImportMessage.Find(id);
+            ImportMessage.IsActive = false;
+            ImportMessage.ObjectState = Model.ObjectState.Modified;
+            db.ImportMessage.Add(ImportMessage);
+            db.SaveChanges();
+
+            return Json(new { success = true }, JsonRequestBehavior.AllowGet);
+        }
     }
 }

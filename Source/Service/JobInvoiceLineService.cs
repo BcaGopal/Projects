@@ -681,7 +681,7 @@ namespace Service
                         PenaltyRate = tab.PenaltyRate,
                         RateDiscountPer = p.RateDiscountPer,
                         RateDiscountAmt = p.RateDiscountAmt,
-                        MfgDate = p.MfgDate,
+                        MfgDate = tab.MfgDate,
                         LockReason = p.LockReason,
                     }
                         ).FirstOrDefault();

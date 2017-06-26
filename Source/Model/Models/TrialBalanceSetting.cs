@@ -17,6 +17,7 @@ namespace Model.Models
         public DateTime ? ToDate { get; set; }
         public string DivisionIds { get; set; }
         public bool ShowZeroBalance { get; set; }
+        public bool ShowContraAccount { get; set; }
         public string SiteIds { get; set; }
         public string CostCenter { get; set; }
         public string DisplayType { get; set; }

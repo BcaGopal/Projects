@@ -505,6 +505,14 @@ namespace Web
             SaleDispatchHeader DispactchHeader = _SaleDispatchHeaderService.Find(s.SaleDispatchHeaderId.Value);
             PackingHeader packingHeader = _PackingHeaderService.Find(DispactchHeader.PackingHeaderId.Value);
 
+            var SaleInvoiceReturn = db.SaleInvoiceReturnLine.Where(i => i.SaleInvoiceLine.SaleInvoiceHeaderId == id).FirstOrDefault();
+            if (SaleInvoiceReturn != null)
+            {
+                s.LockReason = "Invoice is cancelled.";
+            }
+
+            DirectSaleInvoiceHeaderViewModel vm = new DirectSaleInvoiceHeaderViewModel();
+
             #region DocTypeTimeLineValidation
             try
             {
@@ -528,12 +536,19 @@ namespace Web
                 return RedirectToAction("DetailInformation", new { id = id, IndexType = IndexType });
             }
 
-            DirectSaleInvoiceHeaderViewModel vm = new DirectSaleInvoiceHeaderViewModel();
+            
 
             vm = Mapper.Map<SaleInvoiceHeader, DirectSaleInvoiceHeaderViewModel>(s);
             vm.SaleToBuyerId = DispactchHeader.SaleToBuyerId;
             vm.DeliveryTermsId = DispactchHeader.DeliveryTermsId;
             vm.GodownId = packingHeader.GodownId;
+
+
+            //var SaleInvoiceReturn = db.SaleInvoiceReturnLine.Where(i => i.SaleInvoiceLine.SaleInvoiceHeaderId == id).FirstOrDefault();
+            //if (SaleInvoiceReturn != null)
+            //{
+            //    vm.LockReason = "Invoice is cancelled.";
+            //}
 
             List<DocumentTypeAttributeViewModel> tem = _SaleInvoiceHeaderService.GetAttributeForSaleInvoiceHeader(id).ToList();
             vm.DocumentTypeAttributes = tem;
@@ -600,6 +615,12 @@ namespace Web
             vm.SaleToBuyerId = DispactchHeader.SaleToBuyerId;
             vm.DeliveryTermsId = DispactchHeader.DeliveryTermsId;
             vm.GodownId = packingHeader.GodownId;
+
+            var SaleInvoiceReturn = db.SaleInvoiceReturnLine.Where(i => i.SaleInvoiceLine.SaleInvoiceHeaderId == id).FirstOrDefault();
+            if (SaleInvoiceReturn != null)
+            {
+                vm.LockReason = "Invoice is cancelled.";
+            }
 
             //Getting Settings
             var settings = new SaleInvoiceSettingService(_unitOfWork).GetSaleInvoiceSettingForDocument(s.DocTypeId, s.DivisionId, s.SiteId);
@@ -711,8 +732,24 @@ namespace Web
                 StockHeader SH = (from H in db.StockHeader where H.StockHeaderId == Sd.StockHeaderId select H).FirstOrDefault();
 
 
-                new StockService(_unitOfWork).DeleteStockForDocHeader(Sd.SaleDispatchHeaderId, Sd.DocTypeId, Sd.SiteId, Sd.DivisionId, db);
-                new LedgerService(_unitOfWork).DeleteLedgerForDocHeader(Si.SaleInvoiceHeaderId, Si.DocTypeId, Si.SiteId, Si.DivisionId);
+                //IEnumerable<Stock> StockList = (from L in db.Stock where L.StockHeaderId == Sd.StockHeaderId select L).ToList();
+                //foreach(Stock Stock in StockList)
+                //{
+                //    Stock.ObjectState = Model.ObjectState.Deleted;
+                //    db.Stock.Remove(Stock);
+                //}
+
+                IEnumerable<Ledger> LedgerList = (from L in db.Ledger where L.LedgerHeaderId == Si.LedgerHeaderId select L).ToList();
+                foreach (Ledger Ledger in LedgerList)
+                {
+                    Ledger.ObjectState = Model.ObjectState.Deleted;
+                    db.Ledger.Remove(Ledger);
+                }
+
+
+
+                //new StockService(_unitOfWork).DeleteStockForDocHeader(Sd.SaleDispatchHeaderId, Sd.DocTypeId, Sd.SiteId, Sd.DivisionId, db);
+                //new LedgerService(_unitOfWork).DeleteLedgerForDocHeader(Si.SaleInvoiceHeaderId, Si.DocTypeId, Si.SiteId, Si.DivisionId);
 
                 var attributes = (from A in db.SaleInvoiceHeaderAttributes where A.SaleInvoiceHeaderId == vm.id select A).ToList();
 
@@ -759,36 +796,40 @@ namespace Web
                     foreach (var citem in linecharges)
                     {
                         citem.ObjectState = Model.ObjectState.Deleted;
-                        db.SaleInvoiceLineCharge.Attach(citem);
+                        //db.SaleInvoiceLineCharge.Attach(citem);
                         db.SaleInvoiceLineCharge.Remove(citem);
                     }
 
-                    try
+                    SaleInvoiceLineDetail LineDetail = (from L in db.SaleInvoiceLineDetail where L.SaleInvoiceLineId == item.SaleInvoiceLineId select L).FirstOrDefault();
+                    if (LineDetail != null)
                     {
-                        SaleInvoiceLineDetail LineDetail = (from L in db.SaleInvoiceLineDetail where L.SaleInvoiceLineId == item.SaleInvoiceLineId select L).FirstOrDefault();
                         LineDetail.ObjectState = Model.ObjectState.Deleted;
-                        db.SaleInvoiceLineDetail.Attach(LineDetail);
+                        //db.SaleInvoiceLineDetail.Attach(LineDetail);
                         db.SaleInvoiceLineDetail.Remove(LineDetail);
+                    }
 
-                        item.ObjectState = Model.ObjectState.Deleted;
-                        db.SaleInvoiceLine.Attach(item);
-                        db.SaleInvoiceLine.Remove(item);
-                    }
-                    catch (Exception e)
-                    {
-                        string str = e.Message;
-                    }
+
+                    item.ObjectState = Model.ObjectState.Deleted;
+                    //db.SaleInvoiceLine.Attach(item);
+                    db.SaleInvoiceLine.Remove(item);
 
                 }
 
 
+                List<int> StockIdList = new List<int>();
 
-                var SaleDispatchLine = (from L in db.SaleDispatchLine where L.SaleDispatchHeaderId == Si.SaleDispatchHeaderId select L).ToList();
+
+                var SaleDispatchLine = (from L in db.SaleDispatchLine where L.SaleDispatchHeaderId == Sd.SaleDispatchHeaderId select L).ToList();
 
                 foreach (var item in SaleDispatchLine)
                 {
+                    if (item.StockId != null)
+                    {
+                        StockIdList.Add((int)item.StockId);
+                    }
+
                     item.ObjectState = Model.ObjectState.Deleted;
-                    db.SaleDispatchLine.Attach(item);
+                    //db.SaleDispatchLine.Attach(item);
                     db.SaleDispatchLine.Remove(item);
                 }
 
@@ -797,19 +838,27 @@ namespace Web
                 foreach (var item in PackingLine)
                 {
                     item.ObjectState = Model.ObjectState.Deleted;
-                    db.PackingLine.Attach(item);
+                    //db.PackingLine.Attach(item);
                     db.PackingLine.Remove(item);
                 }
 
 
-
-                var ledges = (from L in db.Ledger where L.LedgerHeaderId == Si.LedgerHeaderId select L).ToList();
-                foreach (var item in ledges)
+                foreach (var item in StockIdList)
                 {
-                    item.ObjectState = Model.ObjectState.Deleted;
-                    db.Ledger.Attach(item);
-                    db.Ledger.Remove(item);
+                    Stock Stock = db.Stock.Find(item);
+                    Stock.ObjectState = Model.ObjectState.Deleted;
+                    //db.Stock.Attach(Stock);
+                    db.Stock.Remove(Stock);
                 }
+
+
+                //var ledges = (from L in db.Ledger where L.LedgerHeaderId == Si.LedgerHeaderId select L).ToList();
+                //foreach (var item in ledges)
+                //{
+                //    item.ObjectState = Model.ObjectState.Deleted;
+                //    db.Ledger.Attach(item);
+                //    db.Ledger.Remove(item);
+                //}
 
 
 
@@ -820,35 +869,35 @@ namespace Web
                 foreach (var citem in headercharges)
                 {
                     citem.ObjectState = Model.ObjectState.Deleted;
-                    db.SaleInvoiceHeaderCharge.Attach(citem);
+                    //db.SaleInvoiceHeaderCharge.Attach(citem);
                     db.SaleInvoiceHeaderCharge.Remove(citem);
                 }
 
 
 
                 Si.ObjectState = Model.ObjectState.Deleted;
-                db.SaleInvoiceHeader.Attach(Si);
+                //db.SaleInvoiceHeader.Attach(Si);
                 db.SaleInvoiceHeader.Remove(Si);
 
                 Sd.ObjectState = Model.ObjectState.Deleted;
-                db.SaleDispatchHeader.Attach(Sd);
+                //db.SaleDispatchHeader.Attach(Sd);
                 db.SaleDispatchHeader.Remove(Sd);
 
                 Ph.ObjectState = Model.ObjectState.Deleted;
-                db.PackingHeader.Attach(Ph);
+                //db.PackingHeader.Attach(Ph);
                 db.PackingHeader.Remove(Ph);
 
                 if (LH != null)
                 {
                     LH.ObjectState = Model.ObjectState.Deleted;
-                    db.LedgerHeader.Attach(LH);
+                    //db.LedgerHeader.Attach(LH);
                     db.LedgerHeader.Remove(LH);
                 }
 
                 if (SH != null)
                 {
                     SH.ObjectState = Model.ObjectState.Deleted;
-                    db.StockHeader.Attach(SH);
+                    //db.StockHeader.Attach(SH);
                     db.StockHeader.Remove(SH);
                 }
 
@@ -1804,7 +1853,7 @@ namespace Web
                     SaleInvoiceReturnHeader InvoiceRetHeader = new SaleInvoiceReturnHeader();
                     InvoiceRetHeader.DocTypeId = InvoiceRetHeaderDocTypeId;
                     InvoiceRetHeader.DocDate = svm.DocDate;
-                    InvoiceRetHeader.DocNo = new DocumentTypeService(_unitOfWork).FGetNewDocNo("DocNo", ConfigurationManager.AppSettings["DataBaseSchema"] + ".SaleInvoiceHeaders", InvoiceRetHeader.DocTypeId, svm.DocDate, SaleInvoiceHeader.DivisionId, SaleInvoiceHeader.SiteId);
+                    InvoiceRetHeader.DocNo = new DocumentTypeService(_unitOfWork).FGetNewDocNo("DocNo", ConfigurationManager.AppSettings["DataBaseSchema"] + ".SaleInvoiceReturnHeaders", InvoiceRetHeader.DocTypeId, svm.DocDate, SaleInvoiceHeader.DivisionId, SaleInvoiceHeader.SiteId);
                     InvoiceRetHeader.BuyerId = SaleInvoiceHeader.SaleToBuyerId;
                     InvoiceRetHeader.SiteId = SaleInvoiceHeader.SiteId;
                     InvoiceRetHeader.DivisionId = SaleInvoiceHeader.DivisionId;

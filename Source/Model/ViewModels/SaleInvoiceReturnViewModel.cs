@@ -56,7 +56,9 @@ namespace Model.ViewModel
         public int ReasonId { get; set; }
         public string ReasonName { get; set; }
         public int ? SaleDispatchReturnHeaderId { get; set; }
-        
+
+        public string SaleInvoiceDocNo { get; set; }
+
         public int GodownId { get; set; }
         public SaleInvoiceSettingsViewModel SaleInvoiceSettings { get; set; }
         public string ModifiedBy { get; set; }

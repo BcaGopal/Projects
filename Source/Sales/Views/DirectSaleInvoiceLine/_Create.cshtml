@@ -194,14 +194,14 @@
                         <div class="form-group">
                             @Html.LabelFor(model => model.DealUnitId, "Deal Unit& Multiplier", new { @class = "control-label col-md-4 col-sm-2" })
                             <div class="col-md-7 col-sm-10" style="padding:0px;">
-                            <div class="col-xs-7" style="padding-right:0px">
-                                @Html.DropDownListFor(model => model.DealUnitId, new SelectList(ViewBag.DeliveryUnitList as System.Collections.IEnumerable, "UnitId", "UnitName"), new { @class = "form-control height cusrightnormal required" })
-                                @Html.ValidationMessageFor(model => model.DealUnitId, "", new { @class = "text-danger" })
-                            </div>
-                            <div class="col-xs-5" style="padding-left:0px">
-                                @Html.TextBoxFor(model => model.UnitConversionMultiplier, new { @class = "form-control cusleftnormal required text-right" })
-                                @Html.ValidationMessageFor(model => model.UnitConversionMultiplier, "", new { @class = "text-danger" })
-                            </div>
+                                <div class="col-xs-7" style="padding-right:0px">
+                                    @Html.DropDownListFor(model => model.DealUnitId, new SelectList(ViewBag.DeliveryUnitList as System.Collections.IEnumerable, "UnitId", "UnitName"), new { @class = "form-control height cusrightnormal required" })
+                                    @Html.ValidationMessageFor(model => model.DealUnitId, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="col-xs-5" style="padding-left:0px">
+                                    @Html.TextBoxFor(model => model.UnitConversionMultiplier, new { @class = "form-control cusleftnormal required text-right" })
+                                    @Html.ValidationMessageFor(model => model.UnitConversionMultiplier, "", new { @class = "text-danger" })
+                                </div>
                            </div>
                         </div>
                     </div>
@@ -231,11 +231,11 @@
                         <div class="form-group">
                             @Html.LabelFor(model => model.DiscountPer, "Discount %", new { @class = "control-label col-md-4 col-sm-2" })
                             <div class="col-md-7 col-sm-10" style="padding:0px;">
-                                <div class="col-xs-5">
-                                    @Html.TextBoxFor(model => model.DiscountPer, new { @class = "form-control col-xs-7 text-right" })
+                                <div class="col-xs-5" style="padding-right:0px">
+                                    @Html.TextBoxFor(model => model.DiscountPer, new { @class = "form-control col-xs-5 text-right" })
                                     @Html.ValidationMessageFor(model => model.DiscountPer, "", new { @class = "text-danger" })
                                 </div>
-                                <div class="col-xs-7">
+                                <div class="col-xs-7" style="padding-left:0px">
                                     @Html.TextBoxFor(model => model.DiscountAmount, new { @class = "form-control col-xs-7 text-right" })
                                     @Html.ValidationMessageFor(model => model.DiscountAmount, "", new { @class = "text-danger" })
                                 </div>

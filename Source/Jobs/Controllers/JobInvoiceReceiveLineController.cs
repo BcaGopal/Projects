@@ -1542,6 +1542,7 @@ namespace Web
                     temprec.Weight = svm.Weight;
                     temprec.IncentiveAmt = svm.IncentiveAmt;
                     temprec.PenaltyAmt = svm.PenaltyAmt;
+                    temprec.MfgDate = svm.MfgDate;
                     temprec.ModifiedDate = DateTime.Now;
                     temprec.ModifiedBy = User.Identity.Name;
 
@@ -1686,7 +1687,6 @@ namespace Web
                     temp1.IncentiveAmt = temprec.IncentiveAmt;
                     temp1.RateDiscountPer = svm.RateDiscountPer;
                     temp1.RateDiscountAmt = svm.RateDiscountAmt;
-                    temp1.MfgDate = svm.MfgDate;
 
                     temp1.ModifiedDate = DateTime.Now;
                     temp1.ModifiedBy = User.Identity.Name;

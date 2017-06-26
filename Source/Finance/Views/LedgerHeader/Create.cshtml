@@ -518,8 +518,11 @@ else
         var groupId=@Model.LedgerHeaderId;
         var status='@Model.Status';
         var IsVisibleLedgerAdj='@Model.LedgerSetting.isVisibleLedgerAdj';
+        var HeaderLegdgerAccountId='@Model.LedgerAccountId';
         var LineEditUrl;
         var LineDeleteUrl;
+        var ColourDr="";
+        var ColourCr="";
         if(status==StatusContstantsEnum.Drafted)
         {
             LineEditUrl="/LedgerLine/_ModifyLine/";
@@ -540,6 +543,8 @@ else
         var unit=true;
         var prevunit;
         var decimal=0;
+        var AmountSumDr=0;
+        var AmountSumCr=0;
         $.ajax({
             url: link,
             type: "GET",
@@ -555,26 +560,80 @@ else
                         AmountCount+=item.Amount;
                         srno++;
 
+                        
+                        if (item.DrCr == "Dr")
+                        {
+                            AmountSumDr+=item.Amount;
+                        }
+                        if (item.DrCr == "Cr")
+                        {
+                            AmountSumCr+=item.Amount;
+                        }
                     });
-                    row+="<div class='row tfooter' style='padding-top:10px;'>"
-                        +"  <div class='col-xs-1' style='width: 5%'>"
-                        +"  </div>"
-                        +"  <div class='col-xs-10' style='width:88%'>"
-                        +"      <div class='row'> "
-                        +"          <div class='col-sm-4'><strong>Total</strong>"
-                        +"          </div>"
-                        +"      <div class='col-sm-2 text-right'> "
-                        +"      </div> "
-                        +"      <div class='col-sm-2 text-right'>"
-                        +"      </div> "
-                        +"      <div class='col-sm-2 text-right'>"
-                        +"          <strong class='number'>"+AmountCount.toFixed(2)+"</strong>"
-                        +"      </div>"
-                        +"      <div class='col-sm-2 text-right'>"
-                        +"      </div> "
-                        +"  </div>"
-                        +"</div>"
-                        +"<div class='col-xs-1' style='width:5%'></div>"
+
+                    if (AmountSumDr != AmountSumCr)
+                    {
+                        if (AmountSumDr > AmountSumCr)
+                        {
+                            ColourDr = "red";
+                            ColourCr = "green";
+                        }
+                        if (AmountSumCr > AmountSumDr)
+                        {
+                            ColourCr = "red";
+                            ColourDr = "green";
+                        }
+                    }
+                    else{
+                        ColourCr = "black";
+                        ColourDr = "black";
+                    }
+
+                    if (HeaderLegdgerAccountId == null || HeaderLegdgerAccountId == '' || HeaderLegdgerAccountId == 0)
+                    {
+                        row+="<div class='row tfooter' style='padding-top:10px;'>"
+                            +"  <div class='col-xs-1' style='width: 5%'>"
+                            +"  </div>"
+                            +"  <div class='col-xs-10' style='width:88%'>"
+                            +"      <div class='row'> "
+                            +"          <div class='col-sm-4'><strong>Total</strong>"
+                            +"          </div>"
+                            +"      <div class='col-sm-2 text-right'> "
+                            +"      </div> "
+                            +"      <div class='col-sm-2 text-right'>"
+                            +"      </div> "
+                            +"      <div class='col-sm-2 text-right' style='color:"+ ColourCr +"'>"
+                            +"          <strong>Cr : </strong><strong class='number'>"+AmountSumCr.toFixed(2)+"</strong>"
+                            +"      </div>"
+                            +"      <div class='col-sm-2 text-right' style='color:"+ ColourDr +"'>"
+                            +"          <strong>Dr : </strong><strong class='number'>"+AmountSumDr.toFixed(2)+"</strong>"
+                            +"      </div> "
+                            +"  </div>"
+                            +"</div>"
+                            +"<div class='col-xs-1' style='width:5%'></div>"
+                    }
+                    else{
+                        row+="<div class='row tfooter' style='padding-top:10px;'>"
+                            +"  <div class='col-xs-1' style='width: 5%'>"
+                            +"  </div>"
+                            +"  <div class='col-xs-10' style='width:88%'>"
+                            +"      <div class='row'> "
+                            +"          <div class='col-sm-4'><strong>Total</strong>"
+                            +"          </div>"
+                            +"      <div class='col-sm-2 text-right'> "
+                            +"      </div> "
+                            +"      <div class='col-sm-2 text-right'>"
+                            +"      </div> "
+                            +"      <div class='col-sm-2 text-right'>"
+                            +"          <strong class='number'>"+AmountCount.toFixed(2)+"</strong>"
+                            +"      </div>"
+                            +"      <div class='col-sm-2 text-right'>"
+                            +"      </div> "
+                            +"  </div>"
+                            +"</div>"
+                            +"<div class='col-xs-1' style='width:5%'></div>"
+                    }
+
 
                     $('#DocNo').attr('readonly','true');
                 }

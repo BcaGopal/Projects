@@ -34,10 +34,19 @@
         padding-bottom: 0;
     }
 </style>
-@*@using (Html.BeginForm(Model.ImportHeader.Action, Model.ImportHeader.Controller, FormMethod.Post, new { enctype = "multipart/form-data", target = "_blank" }))*@
+
+<!-- modal placeholder-->
+<div id='myModal' class='modal fade in'>
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div id='myModalContent'></div>
+        </div>
+    </div>
+</div>
+
 @using (Html.BeginForm("Import", "Import", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
-    <div class="panel panel-default">
+<div class="panel panel-default">
 
         <div class="panel-heading">
             <h4>
@@ -64,6 +73,13 @@
                 @Html.ValidationSummary(true)
 
                 <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                    
+                    @if (ViewBag.ImportMessageCnt > 0)
+                    {
+                        <div class="alert alert-warning">
+                            <strong>System has got some errors last time in  @Model.ImportHeader.ImportName  @Html.ActionLink("View Errors ", "_ImportMessages", "Import", new { id = @Model.ImportHeaderId }, new { data_modal = "", id = "btnCreate", @class = "toolbar", @title = "View Errors", @data_toggle = "tooltip", @Styles = "colour:red" })</strong>
+                        </div>
+                    }
 
                     @for (int i = 0; i < Model.ImportLine.Count(); i++)
                     {
@@ -216,7 +232,6 @@
 
         </div>
     </div>
-
 }
 <script type="text/javascript">
 
@@ -231,6 +246,10 @@
 
             tdate = $("#DocDate").val();
         });
+
+        $(document).ready(function(){
+            enableModalTransitions();
+        })
 
         var students =@Html.Raw(Json.Encode(Model.ImportLine));
         var closeOnSelect='@Model.closeOnSelect';
@@ -274,10 +293,11 @@
 
 
         $(':submit').click(function(){
-
+            
 
             if($('input.has-error').length)
             {
+                
                 alertify.error(message = "Please select all the mandatory fields", wait = '0')
                 return false;
             }
@@ -294,6 +314,7 @@
                         poarr.push(value.text);
                     });
                     $(hiddenId).val(poarr);
+                    
                 }
                 if (this.DataType=="Single Select")
                 {

@@ -22,7 +22,7 @@
     </div>
     <div>
         @Html.ValidationLog((string)TempData["CSEXCL"])
-        @using (Html.BeginForm("_CreateInvoiceReturnPost", "DirectSaleInvoiceHeader", FormMethod.Post, new { enctype = "multipart/form-data", id = "modform" }))
+        @using (Html.BeginForm("_CreateInvoiceReturnPost", "DirectSaleInvoiceHeader", FormMethod.Post, new { enctype = "multipart/form-data", id = "modform", data_pageReload = "true" }))
         {
 
             <div class="form-horizontal modal-body">

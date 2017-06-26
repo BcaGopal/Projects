@@ -973,6 +973,7 @@
     <Content Include="Views\PersonAddress\_Create.cshtml" />
     <Content Include="Views\PersonOpening\_Create.cshtml" />
     <Content Include="Views\Import\Result.cshtml" />
+    <Content Include="Views\Import\_ImportMessages.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

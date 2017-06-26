@@ -120,7 +120,7 @@ namespace Module
             AddFields("JobInvoiceHeaders", "FinancierId", "INT");
 
             AddFields("JobInvoiceLines", "RateDiscountPer", "Decimal(18,4)");
-            AddFields("JobInvoiceLines", "MfgDate", "DATETIME");
+            AddFields("JobReceiveLines", "MfgDate", "DATETIME");
 
             AddFields("DocumentTypeSettings", "CostCenterCaption", "NVARCHAR (50)");
             AddFields("DocumentTypeSettings", "SpecificationCaption", "NVARCHAR (50)");
@@ -1331,10 +1331,20 @@ namespace Module
             AddFields("SaleInvoiceSettings", "SaleInvoiceReturnDocTypeId", "Int", "DocumentTypes");
 
             AddFields("LedgerSettings", "isVisibleLineDrCr", "Bit");
+
             AddFields("LedgerLines", "DrCr", "nvarchar(2)");
 
             AddFields("SaleDeliveryLines", "Sr", "int");
             AddFields("SaleDeliverySettings", "WizardMenuId", "int","Menus");
+
+
+            AddFields("TrialBalanceSettings", "ShowContraAccount", "Bit");
+
+
+            DropFields("JobInvoiceLines", "MfgDate");
+
+            AddFields("Stocks", "MfgDate", "DateTime");
+            AddFields("ProductUids", "MfgDate", "DateTime");
 
 
             return RedirectToAction("Module", "Menu");
@@ -1362,6 +1372,23 @@ namespace Module
                         mQry = " ALTER TABLE Web." + TableName + "  ADD CONSTRAINT [FK_Web." + TableName + "_Web." + ForeignKeyTable + "_" + FieldName + "] FOREIGN KEY (" + FieldName + ") REFERENCES Web." + ForeignKeyTable + "(" + ForeignKeyTablePrimaryField + ")";
                         ExecuteQuery(mQry);
                     }
+                }
+            }
+            catch (Exception ex)
+            {
+                RecordError(ex);
+            }
+        }
+
+
+        public void DropFields(string TableName, string FieldName)
+        {
+            try
+            {
+                if ((int)ExecuteScaler("SELECT Count(*) AS Cnt FROM INFORMATION_SCHEMA.Columns WHERE COLUMN_NAME =  '" + FieldName + "' AND TABLE_NAME = '" + TableName + "'") != 0)
+                {
+                    mQry = "ALTER TABLE Web." + TableName + " DROP COLUMN " + FieldName + " ";
+                    ExecuteQuery(mQry);
                 }
             }
             catch (Exception ex)
