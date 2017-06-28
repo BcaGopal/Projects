@@ -123,6 +123,7 @@ namespace Model.Models
         public bool? isVisibleForSaleOrder { get; set; }
         public bool? isVisibleWeight { get; set; }
         public bool? isVisibleCreditDays { get; set; }
+        public bool? isVisibleShipToPartyAddress { get; set; }
 
 
         [ForeignKey("Currency")]

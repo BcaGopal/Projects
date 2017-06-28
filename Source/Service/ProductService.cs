@@ -95,6 +95,7 @@ namespace Service
                         ImageFileName = p.ImageFileName,
                         ImageFolderName = p.ImageFolderName,
                         ReferenceDocId = p.ReferenceDocId,
+                        SalesTaxProductCodeId = p.SalesTaxProductCodeId
                     }).FirstOrDefault();
         }
 

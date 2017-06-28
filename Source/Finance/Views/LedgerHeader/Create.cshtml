@@ -165,7 +165,7 @@
                                 </div>
                             </div>*@
 
-                            <div class="col-md-6" style="display:@(Model.LedgerSetting.isVisibleLineDrCr?"none":"")">
+                            <div class="col-md-6" style="display:@(Model.LedgerSetting.isVisibleLineDrCr && Model.LedgerAccountId == null ? "none" : "")">
                                 @Html.HiddenFor(m => m.LedgerSetting.isVisibleLineDrCr)
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.LedgerAccountId, "Ledger A/C", new { @class = "control-label col-md-4 col-sm-2" })
@@ -602,12 +602,12 @@ else
                             +"      </div> "
                             +"      <div class='col-sm-2 text-right'>"
                             +"      </div> "
-                            +"      <div class='col-sm-2 text-right' style='color:"+ ColourCr +"'>"
-                            +"          <strong>Cr : </strong><strong class='number'>"+AmountSumCr.toFixed(2)+"</strong>"
-                            +"      </div>"
                             +"      <div class='col-sm-2 text-right' style='color:"+ ColourDr +"'>"
                             +"          <strong>Dr : </strong><strong class='number'>"+AmountSumDr.toFixed(2)+"</strong>"
                             +"      </div> "
+                            +"      <div class='col-sm-2 text-right' style='color:"+ ColourCr +"'>"
+                            +"          <strong>Cr : </strong><strong class='number'>"+AmountSumCr.toFixed(2)+"</strong>"
+                            +"      </div>"
                             +"  </div>"
                             +"</div>"
                             +"<div class='col-xs-1' style='width:5%'></div>"

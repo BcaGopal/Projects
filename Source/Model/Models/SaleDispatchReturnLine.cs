@@ -48,7 +48,7 @@ namespace Model.Models
         public int? StockId { get; set; }
         public virtual Stock Stock { get; set; }
 
-        [Display(Name = "Godown"), Required]
+        [Display(Name = "Godown")]
         [ForeignKey("Godown")]
         public int? GodownId { get; set; }
         public virtual Godown Godown { get; set; }

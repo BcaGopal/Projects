@@ -47,7 +47,7 @@
 
                 <div class="row">
 
-                    <div class="col-md-6" style="display:@(Model.LedgerSetting.isVisibleLineDrCr?"":"none")">
+                    <div class="col-md-6" style="display:@(Model.LedgerSetting.isVisibleLineDrCr && Model.ContraLedgerAccountId == null ? "" : "none")">
                         @Html.HiddenFor(m => m.LedgerSetting.isVisibleLineDrCr)
                         <div class="form-group">
                             @Html.LabelFor(model => model.DrCr, "Dr./Cr.", new { @class = "control-label col-md-4 col-sm-2 " })

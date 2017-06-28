@@ -259,6 +259,9 @@ namespace Model.ViewModels
         public virtual BinLocation BinLocation { get; set; }
 
 
+        public int? SalesTaxProductCodeId { get; set; }
+
+
         [ForeignKey("Site")]
         [Display(Name = "Site")]
         public int SiteId { get; set; }

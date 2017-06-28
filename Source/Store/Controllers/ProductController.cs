@@ -529,15 +529,26 @@ namespace Web
         public ActionResult PostMaterial(MaterialViewModel pvm)
         {
             Product pt1 = new Product();
-            ProductGroup group = new ProductGroupService(_unitOfWork).Find(pvm.ProductGroupId);
-            ProductType Type = new ProductTypeService(_unitOfWork).Find(group.ProductTypeId);
 
+            
             if (pvm.ProductGroupId <= 0)
             {
                 ModelState.AddModelError("ProductGroupId", "Product Group field is required");
             }
+
+            ProductTypeSettings settings = new ProductTypeSettings();
+
+            if (pvm.ProductTypeId != null)
+            {
+                settings = new ProductTypeSettingsService(_unitOfWork).GetProductTypeSettingsForDocument((int)pvm.ProductTypeId);
+            }
+
             if (ModelState.IsValid)
             {
+                ProductGroup group = new ProductGroupService(_unitOfWork).Find(pvm.ProductGroupId);
+                ProductType Type = new ProductTypeService(_unitOfWork).Find(group.ProductTypeId);
+
+
                 //Checking for Create or Edit(<=0 =====>CREATE)
                 if (pvm.ProductId <= 0)
                 {
@@ -563,6 +574,7 @@ namespace Web
                     pt1.DefaultDimension4Id = pvm.DefaultDimension4Id;
                     pt1.DiscontinueDate = pvm.DiscontinueDate;
                     pt1.DiscontinueReason = pvm.DiscontinueReason;
+                    pt1.SalesTaxProductCodeId = pvm.SalesTaxProductCodeId;
                     pt1.CreatedDate = DateTime.Now;
                     pt1.ModifiedDate = DateTime.Now;
                     pt1.CreatedBy = User.Identity.Name;
@@ -764,7 +776,22 @@ namespace Web
                         ActivityType = (int)ActivityTypeContants.Added,
                     }));
 
-                    return RedirectToAction("CreateMaterial", new { id = group.ProductTypeId }).Success("Data saved successfully");
+
+                    if (settings != null)
+                    {
+                        if (settings.isVisibleConsumptionDetail == true || settings.isVisibleProductProcessDetail == true)
+                        {
+                            return RedirectToAction("EditMaterial", new { id = pt1.ProductId }).Success("Data saved Successfully");
+                        }
+                        else
+                        {
+                            return RedirectToAction("CreateMaterial", new { id = group.ProductTypeId }).Success("Data saved successfully");
+                        }
+                    }
+                    else
+                    {
+                        return RedirectToAction("CreateMaterial", new { id = group.ProductTypeId }).Success("Data saved successfully");
+                    }
                 }
                 else
                 {
@@ -790,8 +817,9 @@ namespace Web
                     pt.DefaultDimension2Id = pvm.DefaultDimension2Id;
                     pt.DefaultDimension3Id = pvm.DefaultDimension3Id;
                     pt.DefaultDimension4Id = pvm.DefaultDimension4Id;
-                    pt1.DiscontinueDate = pvm.DiscontinueDate;
-                    pt1.DiscontinueReason = pvm.DiscontinueReason;
+                    pt.DiscontinueDate = pvm.DiscontinueDate;
+                    pt.DiscontinueReason = pvm.DiscontinueReason;
+                    pt.SalesTaxProductCodeId = pvm.SalesTaxProductCodeId;
                     pt.Tags = pvm.Tags;
                     pt.UnitId = pvm.UnitId;
                     pt.IsActive = pvm.IsActive;
@@ -1109,6 +1137,13 @@ namespace Web
                         ExObj = item,
                     });
                     new ProductSiteDetailService(_unitOfWork).Delete(item.ProductSiteDetailId);
+                }
+
+                IEnumerable<ProductAttributes> Pa = new ProductAttributeService(_unitOfWork).GetProductAttributesWithPid(vm.id);
+
+                foreach (ProductAttributes item in Pa)
+                {
+                    new ProductAttributeService(_unitOfWork).Delete(item.ProductAttributeId);
                 }
 
                 _ProductService.Delete(vm.id);
@@ -1480,6 +1515,19 @@ namespace Web
                 }
             }
             return RedirectToAction("Index", new { id = id });
+        }
+
+        public JsonResult GetProductGroupDetailJson(int ProductGroupId)
+        {
+            var ProductGroupDetail = (from Pg in db.ProductGroups
+                                      where Pg.ProductGroupId == ProductGroupId
+                                      select new
+                                      {
+                                          DefaultSalesTaxProductCodeId = Pg.DefaultSalesTaxProductCodeId,
+                                          DefaultSalesTaxProductCodeName = Pg.DefaultSalesTaxProductCode.Code
+                                      }).FirstOrDefault();
+
+            return Json(ProductGroupDetail);
         }
 
         protected override void Dispose(bool disposing)

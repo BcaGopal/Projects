@@ -68,6 +68,8 @@ namespace Model.ViewModels
         public int? SaleDispatchHeaderId { get; set; }
         public string SaleDispatchHeaderDocNo { get; set; }
 
+        public string ShipToPartyAddress { get; set; }
+
         public string LockReason { get; set; }
         public string Mobile { get; set; }
 

@@ -276,6 +276,16 @@
                                     </div>
                                 </div>
                             </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.isVisibleSalesTaxProductCode, "Sales Tax Product Code", new { @class = "control-label col-xs-6" })
+                                    <div class="col-xs-4" style=" padding-top:4px">
+                                        @Html.CheckBoxFor(m => m.isVisibleSalesTaxProductCode, new { @class = "checkbox col-xs-2" })
+                                        @Html.ValidationMessageFor(model => model.isVisibleSalesTaxProductCode)
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -548,6 +558,18 @@
                                     <div class="col-xs-6">
                                         @Html.TextBoxFor(m => m.Dimension4Caption, null, new { @class = "form-control col-xs-6 " })
                                         @Html.ValidationMessageFor(m => m.Dimension4Caption)
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.SalesTaxProductCodeCaption, "Sales Tax Product Code", new { @class = "control-label col-xs-4" })
+                                    <div class="col-xs-6">
+                                        @Html.TextBoxFor(m => m.SalesTaxProductCodeCaption, null, new { @class = "form-control col-xs-6 " })
+                                        @Html.ValidationMessageFor(m => m.SalesTaxProductCodeCaption)
                                     </div>
                                 </div>
                             </div>

@@ -151,7 +151,7 @@ namespace Module
             AddFields("JobOrderSettings", "isVisibleProcessHeader", "BIT");
 
 
-            AddFields("SaleInvoiceLine", "RateRemark", "nvarchar(Max)");
+            AddFields("SaleInvoiceLines", "RateRemark", "nvarchar(Max)");
             AddFields("SaleInvoiceHeaderDetail", "Insurance", "Decimal(18,4)");
 
             AddFields("PackingLines", "FreeQty", "Decimal(18,4)");
@@ -1239,7 +1239,7 @@ namespace Module
 
             AddFields("ProductTypeSettings", "IndexFilterParameter", "nvarchar(20)");
 
-            AddFields("LedgerAccountGroups", "Weightage", "Byte");
+            AddFields("LedgerAccountGroups", "Weightage", "TINYINT");
             AddFields("Ledgers", "Priority", "Int");
 
 
@@ -1345,6 +1345,47 @@ namespace Module
 
             AddFields("Stocks", "MfgDate", "DateTime");
             AddFields("ProductUids", "MfgDate", "DateTime");
+
+
+
+            try
+            {
+                if ((int)ExecuteScaler("SELECT Count(*) AS Cnt FROM INFORMATION_SCHEMA.Tables WHERE TABLE_NAME = 'SalesTaxProductCodes'") == 0)
+                {
+                    mQry = @"CREATE TABLE Web.SalesTaxProductCodes
+	                            (
+	                            SalesTaxProductCodeId INT IDENTITY NOT NULL,
+	                            Code                  NVARCHAR (50) NOT NULL,
+	                            Description           NVARCHAR (max),
+	                            IsActive              BIT NOT NULL,
+	                            CreatedBy             NVARCHAR (max),
+	                            ModifiedBy            NVARCHAR (max),
+	                            CreatedDate           DATETIME NOT NULL,
+	                            ModifiedDate          DATETIME NOT NULL,
+	                            OMSId                 NVARCHAR (50),
+	                            CONSTRAINT [PK_Web.SalesTaxProductCodes] PRIMARY KEY (SalesTaxProductCodeId)
+	                            )
+
+                            CREATE UNIQUE INDEX IX_SalesTaxProduct_SalesTaxProductCode
+	                            ON Web.SalesTaxProductCodes (Code)
+                            ";
+                    ExecuteQuery(mQry);
+                }
+            }
+            catch (Exception ex)
+            {
+                RecordError(ex);
+            }
+
+
+
+
+            AddFields("Products", "SalesTaxProductCodeId", "Int", "SalesTaxProductCodes");
+            AddFields("ProductGroups", "DefaultSalesTaxProductCodeId", "Int", "SalesTaxProductCodes");
+            AddFields("ProductTypeSettings", "isVisibleSalesTaxProductCode", "Bit");
+            AddFields("ProductTypeSettings", "SalesTaxProductCodeCaption", "nvarchar(Max)");
+
+            AddFields("SaleInvoiceSettings", "isVisibleShipToPartyAddress", "Bit");
 
 
             return RedirectToAction("Module", "Menu");

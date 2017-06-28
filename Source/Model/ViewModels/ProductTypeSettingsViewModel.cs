@@ -66,6 +66,7 @@ namespace Model.ViewModel
 
 
         public bool isVisibleDiscontinueDate { get; set; }
+        public bool isVisibleSalesTaxProductCode { get; set; }
 
         public string IndexFilterParameter { get; set; }
         public string ProductNameCaption { get; set; }
@@ -74,6 +75,7 @@ namespace Model.ViewModel
         public string ProductSpecificationCaption { get; set; }
         public string ProductGroupCaption { get; set; }
         public string ProductCategoryCaption { get; set; }
+        public string SalesTaxProductCodeCaption { get; set; }
         public string SqlProcProductCode { get; set; }
 
     }

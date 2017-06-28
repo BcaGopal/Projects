@@ -204,6 +204,7 @@ namespace Data.Models
         public DbSet<SaleOrderLineStatus> SaleOrderLineStatus { get; set; }
         public DbSet<RequisitionLineStatus> RequisitionLineStatus { get; set; }
         public DbSet<PurchaseOrderHeaderStatus> PurchaseOrderHeaderStatus { get; set; }
+        public DbSet<SalesTaxProductCode> SalesTaxProductCode { get; set; }
         public DbSet<ChargeGroupProduct> ChargeGroupProduct { get; set; }
         public DbSet<ChargeGroupPerson> ChargeGroupPerson { get; set; }
         public DbSet<ChargeGroupSettings> ChargeGroupSettings { get; set; }

@@ -471,6 +471,8 @@ namespace Core.Common
         public const string Godown = "Godown";
         public const string Gate = "Gate";
         public const string LeaveType = "Leave Type";
+        public const string SalesTaxProductCode = "Sales Tax Product Code";
+        
 
         public const string Task = "Task";
         public const string DAR = "DAR";

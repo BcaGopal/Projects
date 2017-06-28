@@ -195,6 +195,7 @@ namespace Web
                     temp.isVisibleRewardPoints = pt.isVisibleRewardPoints;
                     temp.isVisibleCreditDays = pt.isVisibleCreditDays;
                     temp.isVisibleTermsAndConditions = pt.isVisibleTermsAndConditions;
+                    temp.isVisibleShipToPartyAddress = pt.isVisibleShipToPartyAddress;
                     temp.CurrencyId = pt.CurrencyId;
                     temp.DeliveryTermsId = pt.DeliveryTermsId;
                     temp.ShipMethodId = pt.ShipMethodId;
@@ -375,6 +376,7 @@ namespace Web
                     temp.isVisibleRewardPoints = pt.isVisibleRewardPoints;
                     temp.isVisibleCreditDays = pt.isVisibleCreditDays;
                     temp.isVisibleTermsAndConditions = pt.isVisibleTermsAndConditions;
+                    temp.isVisibleShipToPartyAddress = pt.isVisibleShipToPartyAddress;
                     temp.CurrencyId = pt.CurrencyId;
                     temp.DeliveryTermsId = pt.DeliveryTermsId;
                     temp.ShipMethodId = pt.ShipMethodId;

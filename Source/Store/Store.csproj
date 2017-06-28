@@ -234,6 +234,7 @@
     <Compile Include="App_Start\UnityMvcActivator.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminSetupController.cs" />
+    <Compile Include="Controllers\SalesTaxProductCodeController.cs" />
     <Compile Include="Controllers\ComboHelpListController.cs" />
     <Compile Include="Controllers\GatePassCheckController.cs" />
     <Compile Include="Controllers\Dimension4Controller.cs" />
@@ -974,6 +975,9 @@
     <Content Include="Views\PersonOpening\_Create.cshtml" />
     <Content Include="Views\Import\Result.cshtml" />
     <Content Include="Views\Import\_ImportMessages.cshtml" />
+    <Content Include="Views\SalesTaxProductCode\_Reason.cshtml" />
+    <Content Include="Views\SalesTaxProductCode\Create.cshtml" />
+    <Content Include="Views\SalesTaxProductCode\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

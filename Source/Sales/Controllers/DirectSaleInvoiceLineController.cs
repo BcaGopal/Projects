@@ -549,6 +549,7 @@ namespace Web
                     StockViewModel.HeaderProcessId = settings.ProcessId;
                     StockViewModel.PersonId = Dh.SaleToBuyerId;
                     StockViewModel.ProductId = Sl.ProductId;
+                    StockViewModel.ProductUidId = svm.ProductUidId;
                     StockViewModel.HeaderFromGodownId = null;
                     StockViewModel.HeaderGodownId = null;
                     StockViewModel.GodownId = Dl.GodownId;
@@ -746,6 +747,7 @@ namespace Web
                         StockViewModel.HeaderProcessId = null;
                         StockViewModel.PersonId = Dh.SaleToBuyerId;
                         StockViewModel.ProductId = Sl.ProductId;
+                        StockViewModel.ProductUidId = svm.ProductUidId;
                         StockViewModel.HeaderFromGodownId = null;
                         StockViewModel.HeaderGodownId = null;
                         StockViewModel.GodownId = svm.GodownId;

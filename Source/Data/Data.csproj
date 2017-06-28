@@ -195,6 +195,10 @@
     <Compile Include="Migrations\201706130446066_ImportMessages.Designer.cs">
       <DependentUpon>201706130446066_ImportMessages.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201706280905584_SalesTaxProductCode.cs" />
+    <Compile Include="Migrations\201706280905584_SalesTaxProductCode.Designer.cs">
+      <DependentUpon>201706280905584_SalesTaxProductCode.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="NotificationApplicationDbContext.cs" />
     <Compile Include="LoginApplicationDbContext.cs" />
@@ -318,6 +322,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201706130446066_ImportMessages.resx">
       <DependentUpon>201706130446066_ImportMessages.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201706280905584_SalesTaxProductCode.resx">
+      <DependentUpon>201706280905584_SalesTaxProductCode.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -133,7 +133,7 @@ namespace Web
             PrepareViewBag(Id);
             s.DocumentCategoryId = catid;
             s.LedgerHeaderId = Id;
-            //s.ContraLedgerAccountId = Laid;
+            s.ContraLedgerAccountId = Laid;
             s.DueDate = tempduedate;
             if (!string.IsNullOrEmpty(tempchequeno))
             {
@@ -749,6 +749,9 @@ namespace Web
         private ActionResult _Modify(int id)
         {
             LedgersViewModel temp = _LedgerService.GetLedgerVm(id);
+
+            
+
             if (temp == null)
             {
                 return HttpNotFound();
@@ -782,6 +785,7 @@ namespace Web
             if (H.LedgerAccountId != null)
             {
                 ViewBag.LedgerAccountName = H.LedgerAccount.LedgerAccountName;
+                temp.ContraLedgerAccountId = H.LedgerAccountId;
             }
             else
             {

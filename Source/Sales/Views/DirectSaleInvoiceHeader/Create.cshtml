@@ -261,6 +261,16 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="col-md-6" style="display:@(Model.SaleInvoiceSettings.isVisibleShipToPartyAddress ? "" : "none")">
+                                    @Html.HiddenFor(m => m.SaleInvoiceSettings.isVisibleShipToPartyAddress)
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.ShipToPartyAddress, "Ship To Address", new { @class = "control-label col-md-4 col-sm-2" })
+                                        <div class="col-md-7 col-sm-10">
+                                            @Html.TextAreaFor(m => m.ShipToPartyAddress, new { @class = "form-control col-xs-6" })
+                                            @Html.ValidationMessageFor(m => m.ShipToPartyAddress, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             <div>
                                 <div class="col-md-6" style='display:@(Model.SaleInvoiceSettings.isVisibleFinancier?"":"none")'>

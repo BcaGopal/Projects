@@ -69,6 +69,7 @@ namespace Model.ViewModel
 
         public bool isVisibleFinancier { get; set; }
         public bool isVisibleSalesExecutive { get; set; }
+        public bool isVisibleShipToPartyAddress { get; set; }
 
         public int? CurrencyId { get; set; }
         public int? DeliveryTermsId { get; set; }

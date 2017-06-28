@@ -488,6 +488,7 @@ namespace Service
                          join L in db.SaleEnquiryLine on Le.SaleEnquiryLineId equals L.SaleEnquiryLineId into SaleEnquiryLineTable from SaleEnquiryLineTab in SaleEnquiryLineTable.DefaultIfEmpty()
                          join H in db.SaleEnquiryHeader on SaleEnquiryLineTab.SaleEnquiryHeaderId equals H.SaleEnquiryHeaderId into SaleEnquiryHeaderTable from SaleEnquiryHeaderTab in SaleEnquiryHeaderTable.DefaultIfEmpty()
                          where SaleEnquiryHeaderTab.SaleToBuyerId == filter && Le.BuyerSpecification != null
+                         && (string.IsNullOrEmpty(term) ? 1 == 1 : Le.BuyerSpecification .ToLower().Contains(term.ToLower()))
                          group new  { Le } by new { Le.BuyerSpecification } into Result
                          orderby Result.Key.BuyerSpecification
                          select new ComboBoxResult
@@ -506,6 +507,7 @@ namespace Service
                         join H in db.SaleEnquiryHeader on SaleEnquiryLineTab.SaleEnquiryHeaderId equals H.SaleEnquiryHeaderId into SaleEnquiryHeaderTable
                         from SaleEnquiryHeaderTab in SaleEnquiryHeaderTable.DefaultIfEmpty()
                         where SaleEnquiryHeaderTab.SaleToBuyerId == filter && Le.BuyerSpecification1 != null
+                        && (string.IsNullOrEmpty(term) ? 1 == 1 : Le.BuyerSpecification1.ToLower().Contains(term.ToLower()))
                         group new { Le } by new { Le.BuyerSpecification1 } into Result
                         orderby Result.Key.BuyerSpecification1
                         select new ComboBoxResult
@@ -524,6 +526,7 @@ namespace Service
                         join H in db.SaleEnquiryHeader on SaleEnquiryLineTab.SaleEnquiryHeaderId equals H.SaleEnquiryHeaderId into SaleEnquiryHeaderTable
                         from SaleEnquiryHeaderTab in SaleEnquiryHeaderTable.DefaultIfEmpty()
                         where SaleEnquiryHeaderTab.SaleToBuyerId == filter && Le.BuyerSpecification2 != null
+                        && (string.IsNullOrEmpty(term) ? 1 == 1 : Le.BuyerSpecification2.ToLower().Contains(term.ToLower()))
                         group new { Le } by new { Le.BuyerSpecification2 } into Result
                         orderby Result.Key.BuyerSpecification2
                         select new ComboBoxResult
@@ -542,6 +545,7 @@ namespace Service
                         join H in db.SaleEnquiryHeader on SaleEnquiryLineTab.SaleEnquiryHeaderId equals H.SaleEnquiryHeaderId into SaleEnquiryHeaderTable
                         from SaleEnquiryHeaderTab in SaleEnquiryHeaderTable.DefaultIfEmpty()
                         where SaleEnquiryHeaderTab.SaleToBuyerId == filter && Le.BuyerSpecification3 != null
+                        && (string.IsNullOrEmpty(term) ? 1 == 1 : Le.BuyerSpecification3.ToLower().Contains(term.ToLower()))
                         group new { Le } by new { Le.BuyerSpecification3 } into Result
                         orderby Result.Key.BuyerSpecification3
                         select new ComboBoxResult

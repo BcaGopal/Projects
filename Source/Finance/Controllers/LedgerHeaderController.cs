@@ -761,6 +761,45 @@ namespace Web
                             EventException = true;
                         }
 
+
+                        int? DrWeightage = null;
+                        int? CrWeightage = null;
+                        int? ContraLedgerAccountDrId = null;
+                        int? ContraLedgerAccountCrId = null;
+
+                        if (LedgerLineList != null)
+                        {
+                            DrWeightage = (from L in db.LedgerLine
+                                                         join A in db.LedgerAccount on L.LedgerAccountId equals A.LedgerAccountId into LedgerAccountTable
+                                                         from LedgerAccountTab in LedgerAccountTable.DefaultIfEmpty()
+                                                         where L.LedgerHeaderId == pd.LedgerHeaderId && L.DrCr == NatureConstants.Debit
+                                                         group new { L, LedgerAccountTab } by new { L.LedgerAccountId } into Result
+                                                         select new
+                                                         {
+                                                             Weightage = Result.Max(i => i.LedgerAccountTab.LedgerAccountGroup.Weightage)
+                                                         }).FirstOrDefault().Weightage;
+
+                            CrWeightage = (from L in db.LedgerLine
+                                                join A in db.LedgerAccount on L.LedgerAccountId equals A.LedgerAccountId into LedgerAccountTable
+                                                from LedgerAccountTab in LedgerAccountTable.DefaultIfEmpty()
+                                                where L.LedgerHeaderId == pd.LedgerHeaderId && L.DrCr == NatureConstants.Credit
+                                                group new { L, LedgerAccountTab } by new { L.LedgerAccountId } into Result
+                                                select new
+                                                {
+                                                    Weightage = Result.Max(i => i.LedgerAccountTab.LedgerAccountGroup.Weightage)
+                                                }).FirstOrDefault().Weightage;
+
+                            ContraLedgerAccountDrId = (from L in db.LedgerLine where L.LedgerHeaderId == pd.LedgerHeaderId && L.DrCr == NatureConstants.Debit 
+                                                        && L.LedgerAccount.LedgerAccountGroup.Weightage == DrWeightage
+                                                    select L).FirstOrDefault().LedgerAccountId;
+
+                            ContraLedgerAccountCrId = (from L in db.LedgerLine
+                                                            where L.LedgerHeaderId == pd.LedgerHeaderId && L.DrCr == NatureConstants.Credit
+                                                                && L.LedgerAccount.LedgerAccountGroup.Weightage == CrWeightage
+                                                            select L).FirstOrDefault().LedgerAccountId;
+                        }
+
+
                         foreach(var LedgerLine in LedgerLineList)
                         {
                             #region LedgerSave
@@ -768,15 +807,17 @@ namespace Web
 
                             if (LedgerLine.DrCr == NatureConstants.Credit)
                             {
-                                Ledger.AmtDr = LedgerLine.Amount;
+                                Ledger.AmtCr = LedgerLine.Amount;
+                                Ledger.ContraLedgerAccountId = ContraLedgerAccountDrId;
                             }
                             else if (LedgerLine.DrCr == NatureConstants.Debit)
                             {
-                                Ledger.AmtCr = LedgerLine.Amount;
+                                Ledger.AmtDr = LedgerLine.Amount;
+                                Ledger.ContraLedgerAccountId = ContraLedgerAccountCrId;
                             }
                             Ledger.ChqNo = LedgerLine.ChqNo;
                             Ledger.ChqDate = LedgerLine.ChqDate;
-                            Ledger.ContraLedgerAccountId = null;
+                            
                             Ledger.CostCenterId = LedgerLine.CostCenterId;
                             Ledger.DueDate = LedgerLine.ChqDate;
                             Ledger.LedgerAccountId = LedgerLine.LedgerAccountId;

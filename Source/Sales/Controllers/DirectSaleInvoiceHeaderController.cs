@@ -186,8 +186,26 @@ namespace Web
 
             vm.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(vm.DocTypeId);
 
-            vm.BuyerDocTypeId = new DocumentTypeService(_unitOfWork).Find(MasterDocTypeConstants.Customer).DocumentTypeId;
-            vm.FinancierDocTypeId = new DocumentTypeService(_unitOfWork).Find(MasterDocTypeConstants.Financier).DocumentTypeId;
+
+            int CustomerDoctypeId = 0;
+            int? FinancierDocTypeId = null;
+
+            if (new DocumentTypeService(_unitOfWork).Find(MasterDocTypeConstants.Customer) != null)
+            {
+                CustomerDoctypeId = new DocumentTypeService(_unitOfWork).Find(MasterDocTypeConstants.Customer).DocumentTypeId;
+            }
+            else if (new DocumentTypeService(_unitOfWork).Find(MasterDocTypeConstants.Customer) != null)
+            {
+                CustomerDoctypeId = new DocumentTypeService(_unitOfWork).Find(MasterDocTypeConstants.Buyer).DocumentTypeId;
+            }
+
+            if (new DocumentTypeService(_unitOfWork).Find(MasterDocTypeConstants.Financier) != null)
+            {
+                FinancierDocTypeId = new DocumentTypeService(_unitOfWork).Find(MasterDocTypeConstants.Financier).DocumentTypeId;
+            }
+
+            vm.BuyerDocTypeId = CustomerDoctypeId;
+            vm.FinancierDocTypeId = FinancierDocTypeId;
 
             vm.SaleInvoiceSettings = Mapper.Map<SaleInvoiceSetting, SaleInvoiceSettingsViewModel>(settings);
             ViewBag.Mode = "Add";
@@ -368,6 +386,7 @@ namespace Web
 
                     saledispatchheader.DocDate = vm.DocDate;
                     saledispatchheader.SaleToBuyerId = vm.SaleToBuyerId;
+                    saledispatchheader.ShipToPartyAddress = vm.ShipToPartyAddress;
                     saledispatchheader.Remark = vm.Remark;
                     saledispatchheader.ModifiedDate = DateTime.Now;
                     saledispatchheader.ModifiedBy = User.Identity.Name;
@@ -541,6 +560,7 @@ namespace Web
             vm = Mapper.Map<SaleInvoiceHeader, DirectSaleInvoiceHeaderViewModel>(s);
             vm.SaleToBuyerId = DispactchHeader.SaleToBuyerId;
             vm.DeliveryTermsId = DispactchHeader.DeliveryTermsId;
+            vm.ShipToPartyAddress = DispactchHeader.ShipToPartyAddress;
             vm.GodownId = packingHeader.GodownId;
 
 
@@ -572,8 +592,25 @@ namespace Web
 
             vm.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(vm.DocTypeId);
 
-            vm.BuyerDocTypeId = new DocumentTypeService(_unitOfWork).Find(MasterDocTypeConstants.Customer).DocumentTypeId;
-            vm.FinancierDocTypeId = new DocumentTypeService(_unitOfWork).Find(MasterDocTypeConstants.Financier).DocumentTypeId;
+            int CustomerDoctypeId = 0;
+            int? FinancierDocTypeId = null;
+
+            if (new DocumentTypeService(_unitOfWork).Find(MasterDocTypeConstants.Customer) != null)
+            {
+                CustomerDoctypeId = new DocumentTypeService(_unitOfWork).Find(MasterDocTypeConstants.Customer).DocumentTypeId;
+            }
+            else if (new DocumentTypeService(_unitOfWork).Find(MasterDocTypeConstants.Customer) != null)
+            {
+                CustomerDoctypeId = new DocumentTypeService(_unitOfWork).Find(MasterDocTypeConstants.Buyer).DocumentTypeId;
+            }
+
+            if (new DocumentTypeService(_unitOfWork).Find(MasterDocTypeConstants.Financier) != null)
+            {
+                FinancierDocTypeId = new DocumentTypeService(_unitOfWork).Find(MasterDocTypeConstants.Financier).DocumentTypeId;
+            }
+
+            vm.BuyerDocTypeId = CustomerDoctypeId;
+            vm.FinancierDocTypeId = FinancierDocTypeId;
 
 
             vm.SaleInvoiceSettings = Mapper.Map<SaleInvoiceSetting, SaleInvoiceSettingsViewModel>(settings);
@@ -1957,9 +1994,10 @@ namespace Web
                             StockViewModel.CurrencyId = null;
                             StockViewModel.PersonId = GoodsRetHeader.BuyerId;
                             StockViewModel.ProductId = PackingLin.ProductId;
+                            StockViewModel.ProductUidId = PackingLin.ProductUidId;
                             StockViewModel.HeaderFromGodownId = null;
                             StockViewModel.HeaderGodownId = GLine.GodownId;
-                            StockViewModel.HeaderProcessId = null;
+                            StockViewModel.HeaderProcessId = Settings.ProcessId;
                             StockViewModel.GodownId = (int)GLine.GodownId;
                             StockViewModel.Remark = svm.Remark;
                             StockViewModel.Status = 0;

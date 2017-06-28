@@ -56,6 +56,9 @@ namespace Store.App_Start
             
             container.RegisterType<IExceptionHandlingService, ExceptionHandlingService>(new PerRequestLifetimeManager());
 
+            container.RegisterType<IRepository<SalesTaxProductCode>, Repository<SalesTaxProductCode>>();
+            container.RegisterType<ISalesTaxProductCodeService, SalesTaxProductCodeService>(new PerRequestLifetimeManager());
+
             container.RegisterType<IRepository<ImportHeader>, Repository<ImportHeader>>();
             container.RegisterType<IImportHeaderService, ImportHeaderService>(new PerRequestLifetimeManager());
 

@@ -233,7 +233,6 @@ $(document).on('change', '.Calculation', ChargeCalculation);
 
 function ChargeCalculation() {
 
-    
     var SubTotalProduct = 0;
     var SubTotalFooter = 0;
     for (var i = 0; i < ProductFields.length; i++) {
@@ -337,6 +336,7 @@ function ChargeCalculation() {
         if (FooterFields[i].ChargeTypeId == ChargeTypeEnum.SUBTOTAL) {
 
             $(selector).val(Number(SubTotalFooter).toFixed(2));
+
         }
         else if (FooterFields[i].ChargeTypeId == ChargeTypeEnum.Amount) {
             if ($.isNumeric($('#Amount').val())) {

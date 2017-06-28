@@ -22,11 +22,16 @@ namespace Model.Models
         [MaxLength(50, ErrorMessage = "ProductGroup Name cannot exceed 50 characters"), Required]
         [Index("IX_ProductGroup_ProductGroupName", IsUnique = true)]
         public string ProductGroupName { get; set; }
-      
+
         [ForeignKey("ProductType")]
         [Display(Name = "Product Type")]
         public int ProductTypeId { get; set; }
         public virtual ProductType ProductType { get; set; }
+
+        [ForeignKey("DefaultSalesTaxProductCode")]
+        [Display(Name = "Default Sales Tax Product Code")]
+        public int? DefaultSalesTaxProductCodeId { get; set; }
+        public virtual SalesTaxProductCode DefaultSalesTaxProductCode { get; set; }
 
         [Display(Name = "Is System Define ?")]
         public Boolean IsSystemDefine { get; set; }

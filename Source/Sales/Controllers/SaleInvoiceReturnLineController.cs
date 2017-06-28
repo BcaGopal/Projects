@@ -363,8 +363,8 @@ namespace Web
         //[ValidateAntiForgeryToken]
         public ActionResult _CreatePost(SaleInvoiceReturnLineViewModel svm)
         {
-
             SaleInvoiceReturnHeader temp = new SaleInvoiceReturnHeaderService(_unitOfWork).Find(svm.SaleInvoiceReturnHeaderId);
+            var settings = new SaleInvoiceSettingService(_unitOfWork).GetSaleInvoiceSettingForDocument(temp.DocTypeId, temp.DivisionId, temp.SiteId);
 
             if (svm.SaleInvoiceReturnLineId <= 0)
             {
@@ -427,9 +427,10 @@ namespace Web
                     StockViewModel.DivisionId = SaleDispatchReturnHeader.DivisionId;
                     StockViewModel.SiteId = SaleDispatchReturnHeader.SiteId;
                     StockViewModel.CurrencyId = null;
-                    StockViewModel.HeaderProcessId = null;
+                    StockViewModel.HeaderProcessId = settings.ProcessId;
                     StockViewModel.PersonId = SaleDispatchReturnHeader.BuyerId;
                     StockViewModel.ProductId = svm.ProductId;
+                    StockViewModel.ProductUidId = svm.ProductUidId;
                     StockViewModel.HeaderFromGodownId = null;
                     StockViewModel.HeaderGodownId = SaleDispatchReturnHeader.GodownId;
                     StockViewModel.GodownId = SaleDispatchReturnHeader.GodownId;
@@ -558,8 +559,6 @@ namespace Web
             {
                 List<LogTypeViewModel> LogList = new List<LogTypeViewModel>();
 
-                int ProcessId = new ProcessService(_unitOfWork).Find(ProcessConstants.FullFinishing).ProcessId;
-
                 int status = temp.Status;
                 StringBuilder logstring = new StringBuilder();
 
@@ -636,13 +635,14 @@ namespace Web
                     StockViewModel.DivisionId = SaleDispatchReturnHeader.DivisionId;
                     StockViewModel.SiteId = SaleDispatchReturnHeader.SiteId;
                     StockViewModel.CurrencyId = null;
-                    StockViewModel.HeaderProcessId = ProcessId;
+                    StockViewModel.HeaderProcessId = settings.ProcessId;
                     StockViewModel.PersonId = SaleDispatchReturnHeader.BuyerId;
                     StockViewModel.ProductId = svm.ProductId;
+                    StockViewModel.ProductUidId = svm.ProductUidId;
                     StockViewModel.HeaderFromGodownId = null;
                     StockViewModel.HeaderGodownId = SaleDispatchReturnHeader.GodownId;
                     StockViewModel.GodownId = SaleDispatchReturnHeader.GodownId;
-                    StockViewModel.ProcessId = ProcessId;
+                    StockViewModel.ProcessId = null;
                     StockViewModel.LotNo = null;
                     StockViewModel.CostCenterId = null;
                     StockViewModel.Qty_Iss = 0;
