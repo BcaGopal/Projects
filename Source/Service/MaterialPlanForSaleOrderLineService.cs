@@ -162,6 +162,7 @@ namespace Service
                             SaleOrderLineId = p.SaleOrderLineId,  
                             Specification=p.Specification,
                             UnitName=p.UnitName,
+                            BomDetailExists =p.BomDetailExists,
                         }).ToList();
             return resu;
         }

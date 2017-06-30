@@ -43,6 +43,24 @@
                         <div class="form-horizontal">
                             @Html.ValidationSummary(true)                                                                       
 
+
+                            @{
+                                var count = Model.MaterialPlanLineViewModel.Where(m => m.BomDetailExists == false).Count();
+                                string message;
+                                if (count > 0)
+                                {
+                                    message = count + " records dont have consumption";
+                                }
+                                else
+                                {
+                                    message = "";
+                                }
+                            }
+                            @if (count > 0)
+                            {
+                                <div id="alertzone" class="alert alert-danger" style="font-weight:bold"> &hellip; @message</div>
+                            }
+
                             <div class="panel panel-default" id="grid">
                                 <div class="panel-heading headrow" style="background-image: -webkit-linear-gradient(top, #428bca 0%, #428bca 100%);color:white">
                                     <div class="row grid-head">
@@ -76,13 +94,14 @@
                                 </div>
                                 <div class="panel-info" id="gbody-modal">
                                     @{decimal BalanceCount=0;}
+                                    @{decimal ConsumptionCount = 0;}
                                     @for (int i = 0; i < Model.MaterialPlanLineViewModel.Count(); i++)
                                     {
 
 
 
 
-                                        <div class='row crow grid-body' style='margin-left:0px;margin-right:0px'>
+                                        <div class='row crow grid-body' style='margin-left:0px;margin-right:0px;@(!Model.MaterialPlanLineViewModel[i].BomDetailExists?"color:red":"")'>
 
 
                                             <div class='block row-index' style='width:5%'>
@@ -102,6 +121,7 @@
                                                 @Html.HiddenFor(m=>m.MaterialPlanLineViewModel[i].BalanceQtyForPlan)
                                                 @Html.HiddenFor(m=>m.MaterialPlanLineViewModel[i].UnitName)
                                                 @Html.HiddenFor(m => m.MaterialPlanLineViewModel[i].Specification)
+                                                @Html.HiddenFor(m => m.MaterialPlanLineViewModel[i].BomDetailExists, new { @class = "form-control text-right BomDetailExists" })
                                                 @(i + 1)
                                             </div>
                                             <div class='block pull-middle' style='width:94%'>
@@ -142,7 +162,8 @@
                                                         </div>
                                                         <div class='block text-right' style='width:15%'>
                                                             @(Model.MaterialPlanLineViewModel[i].BalanceQtyForPlan)
-                                                            @{BalanceCount += Model.MaterialPlanLineViewModel[i].BalanceQtyForPlan;}
+                                                            @{BalanceCount += Model.MaterialPlanLineViewModel[i].BalanceQtyForPlan;}                                                                                                                        
+                                                            @{ConsumptionCount += Model.MaterialPlanLineViewModel[i].BalanceQtyForPlan;}
                                                         </div>
                                                         <div class='block text-right pull-middle' style='width:15%'>
                                                             @Html.TextBoxFor(m => Model.MaterialPlanLineViewModel[i].Qty, new { @class = "form-control text-right stockplanQty" })
@@ -213,7 +234,15 @@
                     </div>
                 </div>
                 <div class="modal-footer " style="padding: 19px 20px 0 20px; border-top:1px solid #8E8888">
-                    <button class="btn custom" name="Command:Edit" type="submit"><h2 style="margin:0px" id="submit" title="Proceed"><span class="glyphicon glyphicon-arrow-right black black"></span> </h2></button>
+                    @if (count > 0)
+                    {
+                        <button class="btn custom" name="Command:Edit" type="submit" id="submit1" disabled="disabled"><h2 style="margin:0px" title="Proceed"><span class="glyphicon glyphicon-arrow-right black"></span> </h2></button>
+                    }
+                    else
+                    {
+                        <button class="btn custom" name="Command:Edit" type="submit" id="submit1"><h2 style="margin:0px" title="Proceed"><span class="glyphicon glyphicon-arrow-right black"></span> </h2></button>
+                    }
+                    
                 </div>
             </div>
         }
@@ -224,19 +253,62 @@
 <script type="text/javascript">
 
     $('.stockplanQty').keyup(function () {
-        var Count = 0;       
+        var ConsumptionValidation = false;
+        var Count = 0;
 
         $('.row.crow.grid-body', '.modal-body').each(function () {
-            if($(this).find('input.stockplanQty').val())
-            {
+            if ($(this).find('input.stockplanQty').val()) {
                 Count += parseFloat($(this).find('input.stockplanQty').val());
             }
+
+
+            //alert($(this).find('input.stockplanQty').val());
+            //alert($(this).find('input.BomDetailExists').val());
+            if ($(this).find('input.stockplanQty').val() != 0 && $(this).find('input.BomDetailExists').val() == 'False') {
+                ConsumptionValidation = true;
+               //alert(ConsumptionValidation);
+            }
+
         })
-
         $('#QtyCount', '.modal-body').text(Count);
+        
 
+        if (ConsumptionValidation == false)
+        {
+            $('#alertzone').remove();
+            $('#submit1').prop('disabled', false);
+        }
+        else {
+            $('#alertzone').show();
+            $('#submit1').prop('disabled', true);
+        }
 
     })
+
+
+
+
+</script>
+
+
+<script type="text/javascript">
+
+    //$('.stockplanQty').keyup(function () {
+    //    var Count = 0;       
+
+    //    $('.row.crow.grid-body', '.modal-body').each(function () {
+    //        if($(this).find('input.stockplanQty').val())
+    //        {
+    //            Count += parseFloat($(this).find('input.stockplanQty').val());
+    //        }
+    //    })
+
+    //    $('#QtyCount', '.modal-body').text(Count);
+
+
+    //})
+
+
 
     CustomSelectFunction($(".ProdHelpList"), '/ComboHelpList/GetProducts', '/ComboHelpList/SetSingleProducts', ' ', false, 0);
     

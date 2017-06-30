@@ -772,7 +772,10 @@ namespace Web
                             prod.ProductDesignPatternId = vm.ProductDesignPatternId;
                             prod.OriginCountryId = vm.OriginCountryId;
 
-                            prod.ColourId = vm.ColourId;
+                            if (vm.CarpetSkuSettings.isVisibleColour == true)
+                            {
+                                prod.ColourId = vm.ColourId;
+                            }
 
                             prod.ProductInvoiceGroupId = vm.ProductInvoiceGroupId;
                             prod.ProductStyleId = vm.ProductStyleId;
