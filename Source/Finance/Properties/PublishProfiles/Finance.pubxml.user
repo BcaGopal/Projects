@@ -28,16 +28,16 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/22/2016 11:23:20</publishTime>
     </File>
     <File Include="bin/Core.dll">
-      <publishTime>06/22/2017 10:58:05</publishTime>
+      <publishTime>06/28/2017 19:11:21</publishTime>
     </File>
     <File Include="bin/CustomEventHandlers.dll">
-      <publishTime>06/26/2017 21:30:29</publishTime>
+      <publishTime>06/28/2017 19:14:36</publishTime>
     </File>
     <File Include="bin/Data.dll">
-      <publishTime>06/26/2017 21:30:02</publishTime>
+      <publishTime>06/28/2017 19:11:31</publishTime>
     </File>
     <File Include="bin/DocumentEvents.dll">
-      <publishTime>06/26/2017 21:30:26</publishTime>
+      <publishTime>06/28/2017 19:14:34</publishTime>
     </File>
     <File Include="bin/Elmah.dll">
       <publishTime>09/22/2016 11:24:00</publishTime>
@@ -52,7 +52,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/22/2016 11:24:09</publishTime>
     </File>
     <File Include="bin/Finance.dll">
-      <publishTime>06/26/2017 21:30:37</publishTime>
+      <publishTime>06/29/2017 18:18:51</publishTime>
     </File>
     <File Include="bin/GridMvc.dll">
       <publishTime>09/22/2016 11:24:54</publishTime>
@@ -127,19 +127,19 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/22/2016 11:23:54</publishTime>
     </File>
     <File Include="bin/Model.dll">
-      <publishTime>06/26/2017 21:29:54</publishTime>
+      <publishTime>06/28/2017 19:11:25</publishTime>
     </File>
     <File Include="bin/Models.Login.dll">
-      <publishTime>06/22/2017 10:58:06</publishTime>
+      <publishTime>06/28/2017 19:11:24</publishTime>
     </File>
     <File Include="bin/Models.Tasks.dll">
-      <publishTime>06/22/2017 10:58:06</publishTime>
+      <publishTime>06/28/2017 19:11:22</publishTime>
     </File>
     <File Include="bin/Newtonsoft.Json.dll">
       <publishTime>09/22/2016 11:23:06</publishTime>
     </File>
     <File Include="bin/Notifier.dll">
-      <publishTime>06/26/2017 21:30:27</publishTime>
+      <publishTime>06/29/2017 18:18:48</publishTime>
     </File>
     <File Include="bin/Owin.dll">
       <publishTime>09/22/2016 11:22:43</publishTime>
@@ -151,7 +151,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/22/2016 10:54:21</publishTime>
     </File>
     <File Include="bin/Reports.dll">
-      <publishTime>06/26/2017 21:30:33</publishTime>
+      <publishTime>06/28/2017 19:14:40</publishTime>
     </File>
     <File Include="bin/Reports/CompanyDetail.rdlc">
       <publishTime>09/22/2016 10:54:49</publishTime>
@@ -316,7 +316,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/22/2016 10:54:50</publishTime>
     </File>
     <File Include="bin/Service.dll">
-      <publishTime>06/26/2017 21:30:25</publishTime>
+      <publishTime>06/28/2017 19:14:33</publishTime>
     </File>
     <File Include="bin/System.Web.Helpers.dll">
       <publishTime>09/22/2016 11:23:54</publishTime>
@@ -1282,7 +1282,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/22/2016 10:54:34</publishTime>
     </File>
     <File Include="Scripts/Slick/slick.grid.js">
-      <publishTime>06/21/2017 17:22:29</publishTime>
+      <publishTime>06/29/2017 16:15:01</publishTime>
     </File>
     <File Include="Scripts/Slick/slick.remotemodel.js">
       <publishTime>09/22/2016 10:54:34</publishTime>
@@ -1654,7 +1654,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>04/21/2017 14:25:33</publishTime>
     </File>
     <File Include="Views/TrialBalance/LedgerBalanceIndex.cshtml">
-      <publishTime>06/19/2017 10:29:18</publishTime>
+      <publishTime>06/29/2017 17:42:38</publishTime>
     </File>
     <File Include="Views/TrialBalance/LedgerGroupBalance.cshtml">
       <publishTime>05/19/2017 13:51:30</publishTime>
@@ -1663,7 +1663,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>04/21/2017 14:25:33</publishTime>
     </File>
     <File Include="Views/TrialBalance/SubTrialBalanceIndex.cshtml">
-      <publishTime>06/15/2017 13:50:13</publishTime>
+      <publishTime>06/29/2017 18:18:05</publishTime>
     </File>
     <File Include="Views/TrialBalance/SubTrialBalanceSummaryIndex.cshtml">
       <publishTime>05/19/2017 13:50:35</publishTime>

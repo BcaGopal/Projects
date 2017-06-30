@@ -757,7 +757,6 @@ else
 
             var data=InitializePopoverForWashingReceive(this,$("#ProductUidName").val(),'@Model.JobInvoiceSettings.isPostedInStock',$('#JobReceiveHeaderId').val(),TransactionTypeConstantsEnum.Receive,'@Model.JobInvoiceSettings.ProcessId');
 
-
             if(!data.status)
             {
                 $(this).popover('show');

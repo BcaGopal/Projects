@@ -159,12 +159,12 @@ namespace Customize
 
                     foreach (var ImportLine in ImportLineList)
                     {
-                        if (ImportLine.DataType == "Input-Text" || ImportLine.DataType == "Input-Number" || ImportLine.DataType == "Input-Date" || ImportLine.DataType == "Single Select" || ImportLine.DataType == "Multi Select")
+                        if (RecordList.Columns.Contains(ImportLine.FieldName) == false && ImportLine.FileNo == filecnt + 1)
                         {
-                            if (RecordList.Columns.Contains(ImportLine.FieldName) == false)
-                            {
-                                RecordList.Columns.Add(ImportLine.FieldName);
+                            RecordList.Columns.Add(ImportLine.FieldName);
 
+                            if (ImportLine.DataType == "Input-Text" || ImportLine.DataType == "Input-Number" || ImportLine.DataType == "Input-Date" || ImportLine.DataType == "Single Select" || ImportLine.DataType == "Multi Select")
+                            {
                                 for (int i = 0; i <= RecordList.Rows.Count - 1; i++)
                                 {
                                     RecordList.Rows[i][ImportLine.FieldName] = form[ImportLine.FieldName];
