@@ -106,6 +106,7 @@ namespace Model.ViewModels
     public class PendingSaleOrderFromProc
     {
 
+
         public int SaleOrderLineId { get; set; }
         public decimal BalanceQty { get; set; }
         public decimal Rate { get; set; }
@@ -120,6 +121,8 @@ namespace Model.ViewModels
         public int ProductGroupId { get; set; }
         public string UnitName { get; set; }
         public string Specification { get; set; }
+
+        public bool BomDetailExists { get; set; }
 
         [Display(Name = "Dimension1")]
         [ForeignKey("Dimension1")]
