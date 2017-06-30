@@ -68,6 +68,7 @@ namespace Model.Models
         public bool? isVisibleDefaultDimension3 { get; set; }
         public bool? isVisibleDefaultDimension4 { get; set; }
         public bool? isVisibleDiscontinueDate { get; set; }
+        public bool? isVisibleSalesTaxProductCode { get; set; }
 
 
         [MaxLength(20)]
@@ -79,6 +80,7 @@ namespace Model.Models
         public string ProductSpecificationCaption { get; set; }
         public string ProductGroupCaption { get; set; }
         public string ProductCategoryCaption { get; set; }
+        public string SalesTaxProductCodeCaption { get; set; }
 
         [MaxLength(100)]
         public string SqlProcProductCode { get; set; }

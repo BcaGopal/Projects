@@ -171,6 +171,7 @@ namespace Web
                     temp.CalculateDiscountOnRate = pt.CalculateDiscountOnRate;
                     temp.DocTypePackingHeaderId = pt.DocTypePackingHeaderId;
                     temp.SaleDispatchDocTypeId = pt.SaleDispatchDocTypeId;
+                    temp.SaleInvoiceReturnDocTypeId = pt.SaleInvoiceReturnDocTypeId;
                     temp.SqlProcGatePass = pt.SqlProcGatePass;
                     temp.UnitConversionForId = pt.UnitConversionForId;
                     temp.ImportMenuId = pt.ImportMenuId;
@@ -194,6 +195,7 @@ namespace Web
                     temp.isVisibleRewardPoints = pt.isVisibleRewardPoints;
                     temp.isVisibleCreditDays = pt.isVisibleCreditDays;
                     temp.isVisibleTermsAndConditions = pt.isVisibleTermsAndConditions;
+                    temp.isVisibleShipToPartyAddress = pt.isVisibleShipToPartyAddress;
                     temp.CurrencyId = pt.CurrencyId;
                     temp.DeliveryTermsId = pt.DeliveryTermsId;
                     temp.ShipMethodId = pt.ShipMethodId;
@@ -374,6 +376,7 @@ namespace Web
                     temp.isVisibleRewardPoints = pt.isVisibleRewardPoints;
                     temp.isVisibleCreditDays = pt.isVisibleCreditDays;
                     temp.isVisibleTermsAndConditions = pt.isVisibleTermsAndConditions;
+                    temp.isVisibleShipToPartyAddress = pt.isVisibleShipToPartyAddress;
                     temp.CurrencyId = pt.CurrencyId;
                     temp.DeliveryTermsId = pt.DeliveryTermsId;
                     temp.ShipMethodId = pt.ShipMethodId;

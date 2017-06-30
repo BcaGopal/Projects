@@ -147,9 +147,9 @@ namespace Service
             //            ).FirstOrDefault();
 
             return (from p in db.LedgerLine
-                    join t in db.Ledger on p.ReferenceId equals t.LedgerId into table
-                    from tab in table.DefaultIfEmpty()
-                    join t2 in db.LedgerHeader on tab.LedgerHeaderId equals t2.LedgerHeaderId into table2
+                    join Led in db.Ledger on p.ReferenceId equals Led.LedgerId into LedgerReferenceTable
+                    from LedgerReferenceTab in LedgerReferenceTable.DefaultIfEmpty()
+                    join t2 in db.LedgerHeader on LedgerReferenceTab.LedgerHeaderId equals t2.LedgerHeaderId into table2
                     from tab2 in table2.DefaultIfEmpty()
                     where p.LedgerLineId == id
                     select new LedgersViewModel
@@ -159,22 +159,20 @@ namespace Service
                         LedgerHeaderId = p.LedgerHeaderId,
                         LedgerAccountId = p.LedgerAccountId,
                         ReferenceId = p.ReferenceId,
-                        BaseValue=p.BaseValue,
-                        BaseRate=p.BaseRate,
+                        BaseValue = p.BaseValue,
+                        BaseRate = p.BaseRate,
                         ReferenceDocNo = tab2.DocNo,
                         ReferenceDocTypeId = p.ReferenceDocTypeId,
                         ReferenceDocId = p.ReferenceDocId,
                         ChqNo = p.ChqNo,
                         DueDate = p.ChqDate,
                         CostCenterId = p.CostCenterId,
-                        Remark=p.Remark,
+                        Remark = p.Remark,
                         ProductUidId = p.ProductUidId,
                         ProductUidName = p.ProductUid.ProductUidName,
-                        LockReason=p.LockReason,
-
+                        LockReason = p.LockReason,
+                        DrCr = p.DrCr
                     }).FirstOrDefault();
-
-
         }
 
         public void Delete(int id)
@@ -232,6 +230,7 @@ namespace Service
                        DueDate = p.ChqDate,
                        CostCenterId = p.CostCenterId,
                        Amount = p.Amount,
+                       DrCr = p.DrCr,
                        CostCenterName=p.CostCenter.CostCenterName,
                    };
 

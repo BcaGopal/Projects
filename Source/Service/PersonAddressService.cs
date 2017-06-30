@@ -55,7 +55,7 @@ namespace Service
         public PersonAddress GetShipAddressByPersonId(int personId)
         {
             //return personAddressRepository.Include(r => r.Person).Get().Where(i => i.Person.PersonID == personId).FirstOrDefault();
-            var add = _unitOfWork.Repository<PersonAddress>().Query().Include(m => m.Person).Get().Where(m => m.Person.PersonID  == personId);
+            var add = _unitOfWork.Repository<PersonAddress>().Query().Get().Where(m => m.Person.PersonID  == personId);
             return add.FirstOrDefault();
         }
 

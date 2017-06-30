@@ -68,6 +68,7 @@ namespace Service
         IQueryable<ComboBoxResult> GetCustomProductGroups(int Id, string term);
         IQueryable<ComboBoxResult> GetCustomReferenceDocIds(int Id, string term);
         ComboBoxResult SetCustomReferenceDocIds(int StockLineId);
+        IEnumerable<ComboBoxResult> FGetProductUidHelpList(int Id, string term);
 
     }
 
@@ -2155,6 +2156,34 @@ namespace Service
                         text = p.text,
                     }).FirstOrDefault();
 
+        }
+
+        public IEnumerable<ComboBoxResult> FGetProductUidHelpList(int Id, string term)
+        {
+            var StockHeader = new StockHeaderService(_unitOfWork).Find(Id);
+
+            var settings = new StockHeaderSettingsService(_unitOfWork).GetStockHeaderSettingsForDocument(StockHeader.DocTypeId, StockHeader.DivisionId, StockHeader.SiteId);
+
+            SqlParameter SQLStockHeaderId = new SqlParameter("@StockHeaderId", Id);
+            IEnumerable<ComboBoxResult> ProductUidList = db.Database.SqlQuery<ComboBoxResult>(settings.SqlProcProductUidHelpList + " @StockHeaderId", SQLStockHeaderId).ToList();
+
+
+            var temp = (from P in ProductUidList
+                        where (string.IsNullOrEmpty(term) ? 1 == 1 : P.text.ToLower().Contains(term.ToLower())
+                        || (string.IsNullOrEmpty(term) ? 1 == 1 : P.AProp1.ToLower().Contains(term.ToLower()))
+                        || (string.IsNullOrEmpty(term) ? 1 == 1 : P.AProp2.ToLower().Contains(term.ToLower()))
+                        )
+                        select new ComboBoxResult
+                        {
+                            id = P.id,
+                            text = P.text,
+                            TextProp1 = P.TextProp1,
+                            TextProp2 = P.TextProp2,
+                            AProp1 = P.AProp1,
+                            AProp2 = P.AProp2
+                        }).ToList();
+
+            return temp;
         }
 
         public void Dispose()

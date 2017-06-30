@@ -34,6 +34,7 @@
                 @Html.HiddenFor(m => m.ProdOrderBalanceQty)
                 @Html.HiddenFor(m => m.GodownId)
                 @Html.HiddenFor(m => m.ProductUidId)
+                @Html.HiddenFor(m => m.JobOrderSettings.SqlProcProductUidHelpList)
                 @Html.HiddenFor(m => m.JobOrderSettings.isPostedInStock)
                 @Html.HiddenFor(m => m.JobOrderSettings.ProcessId)
                 @Html.HiddenFor(m => m.JobOrderSettings.SqlProcConsumption)
@@ -357,11 +358,16 @@ else
 
     $(document).ready(function () {
         //CustomSelectFunction($("#ProductId"), '/ComboHelpList/GetProducts', '/ComboHelpList/SetSingleProducts', 'Enter Product Name', false, 3);
-        CustomSelectFunction($("#Dimension1Id"), '/ComboHelpList/GetDimension1', '/ComboHelpList/SetSingleDimension1', ' ', false, 1);
-        CustomSelectFunction($("#Dimension2Id"), '/ComboHelpList/GetDimension2', '/ComboHelpList/SetSingleDimension2', ' ', false, 1);
-        CustomSelectFunction($("#Dimension3Id"), '/ComboHelpList/GetDimension3', '/ComboHelpList/SetSingleDimension3', ' ', false, 1);
-        CustomSelectFunction($("#Dimension4Id"), '/ComboHelpList/GetDimension4', '/ComboHelpList/SetSingleDimension4', ' ', false, 1);
-        CustomSelectFunction($("#FromProcessId"), '/ComboHelpList/GetProcess', '/ComboHelpList/SetSingleProcess', 'Enter Process Name', false, 1);
+        CustomSelectFunction($("#Dimension1Id"), '/ComboHelpList/GetDimension1', '/ComboHelpList/SetSingleDimension1', ' ', false, 0);
+        CustomSelectFunction($("#Dimension2Id"), '/ComboHelpList/GetDimension2', '/ComboHelpList/SetSingleDimension2', ' ', false, 0);
+        CustomSelectFunction($("#Dimension3Id"), '/ComboHelpList/GetDimension3', '/ComboHelpList/SetSingleDimension3', ' ', false, 0);
+        CustomSelectFunction($("#Dimension4Id"), '/ComboHelpList/GetDimension4', '/ComboHelpList/SetSingleDimension4', ' ', false, 0);
+        CustomSelectFunction($("#FromProcessId"), '/ComboHelpList/GetProcess', '/ComboHelpList/SetSingleProcess', ' ', false, 0);
+
+        if ($('#JobOrderSettings_SqlProcProductUidHelpList', '.modal-body').val() != null && $('#JobOrderSettings_SqlProcProductUidHelpList', '.modal-body').val() != "")
+        {
+            CustomSelectFunction($("#ProductUidName"), '/JobOrderLine/GetProductUidHelpList', '/JobOrderLine/SetSingleProductUid', ' ', false, 0, $('#JobOrderHeaderId', '.modal-body').val());
+        }
 
         var DocID = $('#JobOrderHeaderId', '.modal-body').val();
         var URL = '/JobOrderLine/GetCustomProducts/'+ DocID;

@@ -26,6 +26,8 @@ namespace Web
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
+
+        List<string> UserRoles = new List<string>();
         IProductService _ProductService;
         IFinishedProductService _FinishedProductService;
         IProductGroupService _ProductGroupService;
@@ -41,6 +43,8 @@ namespace Web
             _ProductGroupService = group;
             _ProductSizeService = size;
             _exception = exec;
+
+            UserRoles = (List<string>)System.Web.HttpContext.Current.Session["Roles"];
         }
 
         public void PrepareDivisionViewBag()
@@ -412,11 +416,22 @@ namespace Web
             vm.DivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
             vm.SiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
             vm.IsActive = true;
-            CarpetSkuSettings temp = new CarpetSkuSettingsService(_unitOfWork).GetCarpetSkuSettings(vm.DivisionId, vm.SiteId);
-            vm.CarpetSkuSettings = Mapper.Map<CarpetSkuSettings, CarpetSkuSettingsViewModel>(temp);
+            CarpetSkuSettings settings = new CarpetSkuSettingsService(_unitOfWork).GetCarpetSkuSettings(vm.DivisionId, vm.SiteId);
+
+
+            if (settings == null && UserRoles.Contains("Admin"))
+            {
+                return RedirectToAction("Create", "CarpetSkuSettings").Warning("Please create Carpet Sku settings");
+            }
+            else if (settings == null && !UserRoles.Contains("Admin"))
+            {
+                return View("~/Views/Shared/InValidSettings.cshtml");
+            }
+
+            vm.CarpetSkuSettings = Mapper.Map<CarpetSkuSettings, CarpetSkuSettingsViewModel>(settings);
             //For Setting Default Values because these fields are mandatory
-            vm.ProductDesignId = temp.ProductDesignId;
-            vm.OriginCountryId = temp.OriginCountryId;
+            vm.ProductDesignId = settings.ProductDesignId;
+            vm.OriginCountryId = settings.OriginCountryId;
             PrepareViewBag(null);
             return View(vm);
         }

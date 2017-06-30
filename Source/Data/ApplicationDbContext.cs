@@ -94,6 +94,7 @@ namespace Data.Models
 
 
         //Master Models        
+        public DbSet<ImportMessage> ImportMessage { get; set; }
         public DbSet<PromoCode> PromoCode { get; set; }
         public DbSet<CalculationHeaderLedgerAccount> CalculationHeaderLedgerAccount { get; set; }
         public DbSet<CalculationLineLedgerAccount> CalculationLineLedgerAccount { get; set; }
@@ -203,6 +204,7 @@ namespace Data.Models
         public DbSet<SaleOrderLineStatus> SaleOrderLineStatus { get; set; }
         public DbSet<RequisitionLineStatus> RequisitionLineStatus { get; set; }
         public DbSet<PurchaseOrderHeaderStatus> PurchaseOrderHeaderStatus { get; set; }
+        public DbSet<SalesTaxProductCode> SalesTaxProductCode { get; set; }
         public DbSet<ChargeGroupProduct> ChargeGroupProduct { get; set; }
         public DbSet<ChargeGroupPerson> ChargeGroupPerson { get; set; }
         public DbSet<ChargeGroupSettings> ChargeGroupSettings { get; set; }
@@ -568,6 +570,7 @@ namespace Data.Models
         public DbSet<ViewProdOrderLine> ViewProdOrderLine { get; set; }
         public DbSet<ViewProdOrderBalance> ViewProdOrderBalance { get; set; }
         public DbSet<ViewProdOrderBalanceForMPlan> ViewProdOrderBalanceForMPlan { get; set; }
+        public DbSet<ViewSaleInvoiceBalanceForDelivery> ViewSaleInvoiceBalanceForDelivery { get; set; }
 
         public DbSet<ViewJobOrderHeader> ViewJobOrderHeader { get; set; }
         public DbSet<ViewJobOrderLine> ViewJobOrderLine { get; set; }
@@ -602,7 +605,6 @@ namespace Data.Models
         public DbSet<ViewSaleEnquiryBalance> ViewSaleEnquiryBalance { get; set; }
         public DbSet<ViewSaleEnquiryBalanceForQuotation> ViewSaleEnquiryBalanceForQuotation { get; set; }
 
-        public DbSet<ViewSaleInvoiceBalanceForDelivery> ViewSaleInvoiceBalanceForDelivery { get; set; }
 
         public DbSet<ViewStockInBalance> ViewStockInBalance { get; set; }
         public DbSet<ViewProductBuyer> ViewProductBuyer { get; set; }

@@ -35,6 +35,7 @@ namespace Model.Models
         public bool? isMandatoryGodown { get; set; }
         public bool? isVisibleProductUid { get; set; }
         public bool? isVisibleDrCr { get; set; }
+        public bool? isVisibleLineDrCr { get; set; }
 
         public bool? isVisibleAdjustmentType { get; set; }
         public bool? isVisiblePaymentFor { get; set; }

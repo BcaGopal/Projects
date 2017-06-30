@@ -240,5 +240,24 @@ namespace Model.ViewModels
         public string LogReason { get; set; }
     }
 
+    [Serializable]
+    public class SaleDeliveryWizardViewModel
+    {
+        public int DocTypeId { get; set; }
+        public string DocNo { get; set; }
+        public string Date { get; set; }
+        public int? SaleToBuyerId { get; set; }
+        public string SaleToBuyerName { get; set; }
+        public decimal BalanceQty { get; set; }
+        public decimal Qty { get; set; }
+        public int SaleInvoiceLineId { get; set; }
+        public decimal Amount { get; set; }
+    }
+
+    public class SaleDeliveryWizardMasterDetailModel
+    {
+        public List<SaleDeliveryWizardViewModel> SaleDeliveryWizardViewModel { get; set; }
+    }
+
 
 }

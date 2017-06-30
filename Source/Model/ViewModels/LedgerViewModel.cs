@@ -122,6 +122,7 @@ namespace Model.ViewModels
         public decimal Amount { get; set; }
         public decimal AmountCr { get; set; }
         public decimal AmountDr { get; set; }
+        public string DrCr { get; set; }
 
         [MaxLength(250)]
         public string Narration { get; set; }
@@ -202,6 +203,8 @@ namespace Model.ViewModels
     {
         public int? LedgerAdjId { get; set; }
         public int LedgerId { get; set; }
+        public int LedgerAccountId { get; set; }
+        public string LedgerAccountName { get; set; }
         public string LedgerHeaderDocNo { get; set; }
         public DateTime LedgerHeaderDocDate { get; set; }
         public string PartyDocNo { get; set; }
@@ -215,6 +218,8 @@ namespace Model.ViewModels
     public class LedgerToAdjustViewModel_Single
     {
         public int LedgerLineId { get; set; }
+        public int LedgerHeaderId { get; set; }
+        public int LedgerAccountId { get; set; }
         public int LedgerId { get; set; }
         public Decimal Amount { get; set; }
         public Decimal BalanceAmount { get; set; }

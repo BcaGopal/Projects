@@ -37,39 +37,11 @@ namespace Web
 
         private void SaleDeliveryEvents_afterHeaderSubmitEvent(object sender, SaleEventArgs EventArgs, ref ApplicationDbContext db)
         {
-            throw new NotImplementedException();
         }
 
 
         void SaleDeliveryEvents__onHeaderSubmit(object sender, SaleEventArgs EventArgs, ref ApplicationDbContext db)
         {
-            int Id = EventArgs.DocId;
-
-            string ConnectionString = (string)System.Web.HttpContext.Current.Session["DefaultConnectionString"];
-
-            try
-            {
-                using (SqlConnection sqlConnection = new SqlConnection(ConnectionString))
-                {
-                    sqlConnection.Open();
-
-
-                    using (SqlCommand cmd = new SqlCommand("Web.sp_CreatePurchaseOnBranch"))
-                    {
-                        cmd.CommandType = CommandType.StoredProcedure;
-                        cmd.Connection = sqlConnection;
-                        cmd.Parameters.AddWithValue("@SaleDeliveryHeaderId", Id);
-                        cmd.CommandTimeout = 1000;
-                        cmd.ExecuteNonQuery();
-                    }
-
-                }
-            }
-
-            catch (Exception ex)
-            {
-                throw ex;
-            }
         }
 
         bool SaleDeliveryEvents__beforeLineSaveDataValidation(object sender, SaleEventArgs EventArgs, ref ApplicationDbContext db)

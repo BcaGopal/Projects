@@ -56,7 +56,9 @@ namespace Model.ViewModel
         public int ReasonId { get; set; }
         public string ReasonName { get; set; }
         public int ? SaleDispatchReturnHeaderId { get; set; }
-        
+
+        public string SaleInvoiceDocNo { get; set; }
+
         public int GodownId { get; set; }
         public SaleInvoiceSettingsViewModel SaleInvoiceSettings { get; set; }
         public string ModifiedBy { get; set; }
@@ -109,6 +111,7 @@ namespace Model.ViewModel
         public Decimal RateAfterDiscount { get; set; }
 
         public Decimal? Weight { get; set; }
+        public int? GodownId { get; set; }
 
         public bool CalculateDiscountOnRate { get; set; }
 

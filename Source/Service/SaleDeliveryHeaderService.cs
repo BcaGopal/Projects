@@ -34,6 +34,7 @@ namespace Service
         IQueryable<SaleDeliveryHeaderIndexViewModel> GetSaleDeliveryHeaderListPendingToReview(int id, string Uname);
 
         IQueryable<ComboBoxResult> GetCustomPerson(int Id, string term);
+        IEnumerable<SaleDeliveryWizardViewModel> GetSaleInvoiceForSaleDeliveryWizard(int DocTypeId);//DocTypeId
     }
     public class SaleDeliveryHeaderService : ISaleDeliveryHeaderService
     {
@@ -182,6 +183,23 @@ namespace Service
               );
 
             return list;
+        }
+
+        public IEnumerable<SaleDeliveryWizardViewModel> GetSaleInvoiceForSaleDeliveryWizard(int DocTypeId)//DocTypeId
+        {
+            int SiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
+            int DivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
+
+            var settings = new SaleDeliverySettingService(_unitOfWork).GetSaleDeliverySettingForDocument(DocTypeId, DivisionId, SiteId);
+
+            SqlParameter SqlParameterSiteId = new SqlParameter("@SiteId", SiteId);
+            SqlParameter SqlParameterDivisionId = new SqlParameter("@DivisionId", DivisionId);
+            SqlParameter SqlParameterDocTypeId = new SqlParameter("@DocumentTypeId", DocTypeId);
+
+            IEnumerable<SaleDeliveryWizardViewModel> temp = db.Database.SqlQuery<SaleDeliveryWizardViewModel>("Web.sp_GetSaleInvoiceForSaleDeliveryWizard @SiteId, @DivisionId, @DocumentTypeId", SqlParameterSiteId, SqlParameterDivisionId, SqlParameterDocTypeId).ToList();
+
+            return temp;
+
         }
 
         public void Dispose()

@@ -127,6 +127,7 @@ namespace Model.Models
         public virtual StockProcess StockProcess { get; set; }
 
         public ICollection<JobInvoiceLine> JobInvoiceLines { get; set; }
+        public DateTime? MfgDate { get; set; }
         public int? Sr { get; set; }
 
         [Display(Name = "Created By")]
@@ -143,6 +144,8 @@ namespace Model.Models
 
         [Display(Name = "Lock Reason")]
         public string LockReason { get; set; }
+
+        
 
 
         [MaxLength(50)]

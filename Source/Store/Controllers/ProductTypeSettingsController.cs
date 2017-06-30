@@ -175,6 +175,7 @@ namespace Web
                     temp.isVisibleDefaultDimension4 = pt.isVisibleDefaultDimension4;
 
                     temp.isVisibleDiscontinueDate = pt.isVisibleDiscontinueDate;
+                    temp.isVisibleSalesTaxProductCode = pt.isVisibleSalesTaxProductCode;
 
                     temp.IndexFilterParameter = pt.IndexFilterParameter;
                     temp.ProductNameCaption = pt.ProductNameCaption;
@@ -183,6 +184,7 @@ namespace Web
                     temp.ProductSpecificationCaption = pt.ProductSpecificationCaption;
                     temp.ProductGroupCaption = pt.ProductGroupCaption;
                     temp.ProductCategoryCaption = pt.ProductCategoryCaption;
+                    temp.SalesTaxProductCodeCaption = pt.SalesTaxProductCodeCaption;
                     temp.SqlProcProductCode = pt.SqlProcProductCode;
 
                     temp.ModifiedDate = DateTime.Now;

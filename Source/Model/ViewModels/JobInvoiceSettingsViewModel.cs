@@ -51,6 +51,7 @@ namespace Model.ViewModel
         public string SqlProcConsumption { get; set; }
         [MaxLength(100)]
         public string SqlProcDocumentPrint { get; set; }
+        public string SqlProcProductUidHelpList { get; set; }
 
         [MaxLength(100)]
         public string DocumentPrint { get; set; }

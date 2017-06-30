@@ -120,7 +120,7 @@ namespace Module
             AddFields("JobInvoiceHeaders", "FinancierId", "INT");
 
             AddFields("JobInvoiceLines", "RateDiscountPer", "Decimal(18,4)");
-            AddFields("JobInvoiceLines", "MfgDate", "DATETIME");
+            AddFields("JobReceiveLines", "MfgDate", "DATETIME");
 
             AddFields("DocumentTypeSettings", "CostCenterCaption", "NVARCHAR (50)");
             AddFields("DocumentTypeSettings", "SpecificationCaption", "NVARCHAR (50)");
@@ -151,7 +151,7 @@ namespace Module
             AddFields("JobOrderSettings", "isVisibleProcessHeader", "BIT");
 
 
-            AddFields("SaleInvoiceLine", "RateRemark", "nvarchar(Max)");
+            AddFields("SaleInvoiceLines", "RateRemark", "nvarchar(Max)");
             AddFields("SaleInvoiceHeaderDetail", "Insurance", "Decimal(18,4)");
 
             AddFields("PackingLines", "FreeQty", "Decimal(18,4)");
@@ -1239,7 +1239,7 @@ namespace Module
 
             AddFields("ProductTypeSettings", "IndexFilterParameter", "nvarchar(20)");
 
-            AddFields("LedgerAccountGroups", "Weightage", "Byte");
+            AddFields("LedgerAccountGroups", "Weightage", "TINYINT");
             AddFields("Ledgers", "Priority", "Int");
 
 
@@ -1292,8 +1292,100 @@ namespace Module
 
             AddFields("Ledgers", "ChqDate", "DATETIME");
             AddFields("Ledgers", "BankDate", "DATETIME");
-            
-            
+
+
+            try
+            {
+                if ((int)ExecuteScaler("SELECT Count(*) AS Cnt FROM INFORMATION_SCHEMA.Tables WHERE TABLE_NAME = 'ImportMessages'") == 0)
+                {
+                    mQry = @"CREATE TABLE Web.ImportMessages
+	                        (
+	                            ImportMessageId INT IDENTITY NOT NULL,
+	                            ImportKey       NVARCHAR (50),
+	                            ImportHeaderId  INT NOT NULL,
+                                SqlProcedure    NVARCHAR (100),
+	                            RecordId        NVARCHAR (100),
+	                            Head            NVARCHAR (max),
+	                            Value           NVARCHAR (max),
+	                            ValueType       NVARCHAR (max),
+	                            Remark          NVARCHAR (max),
+	                            IsActive        BIT NOT NULL,
+	                            CreatedBy       NVARCHAR (max),
+	                            CreatedDate     DATETIME NOT NULL,
+	                            CONSTRAINT [PK_Web.ImportMessages] PRIMARY KEY (ImportMessageId)
+	                        )";
+                    ExecuteQuery(mQry);
+                }
+            }
+            catch (Exception ex)
+            {
+                RecordError(ex);
+            }
+
+
+            AddFields("JobOrderSettings", "SqlProcProductUidHelpList", "nvarchar(100)");
+            AddFields("JobReceiveSettings", "SqlProcProductUidHelpList", "nvarchar(100)");
+            AddFields("JobInvoiceSettings", "SqlProcProductUidHelpList", "nvarchar(100)");
+            AddFields("StockHeaderSettings", "SqlProcProductUidHelpList", "nvarchar(100)");
+            AddFields("SaleDispatchReturnLines", "GodownId", "Int","Godowns");
+            AddFields("SaleInvoiceSettings", "SaleInvoiceReturnDocTypeId", "Int", "DocumentTypes");
+
+            AddFields("LedgerSettings", "isVisibleLineDrCr", "Bit");
+
+            AddFields("LedgerLines", "DrCr", "nvarchar(2)");
+
+            AddFields("SaleDeliveryLines", "Sr", "int");
+            AddFields("SaleDeliverySettings", "WizardMenuId", "int","Menus");
+
+
+            AddFields("TrialBalanceSettings", "ShowContraAccount", "Bit");
+
+
+            DropFields("JobInvoiceLines", "MfgDate");
+
+            AddFields("Stocks", "MfgDate", "DateTime");
+            AddFields("ProductUids", "MfgDate", "DateTime");
+
+
+
+            try
+            {
+                if ((int)ExecuteScaler("SELECT Count(*) AS Cnt FROM INFORMATION_SCHEMA.Tables WHERE TABLE_NAME = 'SalesTaxProductCodes'") == 0)
+                {
+                    mQry = @"CREATE TABLE Web.SalesTaxProductCodes
+	                            (
+	                            SalesTaxProductCodeId INT IDENTITY NOT NULL,
+	                            Code                  NVARCHAR (50) NOT NULL,
+	                            Description           NVARCHAR (max),
+	                            IsActive              BIT NOT NULL,
+	                            CreatedBy             NVARCHAR (max),
+	                            ModifiedBy            NVARCHAR (max),
+	                            CreatedDate           DATETIME NOT NULL,
+	                            ModifiedDate          DATETIME NOT NULL,
+	                            OMSId                 NVARCHAR (50),
+	                            CONSTRAINT [PK_Web.SalesTaxProductCodes] PRIMARY KEY (SalesTaxProductCodeId)
+	                            )
+
+                            CREATE UNIQUE INDEX IX_SalesTaxProduct_SalesTaxProductCode
+	                            ON Web.SalesTaxProductCodes (Code)
+                            ";
+                    ExecuteQuery(mQry);
+                }
+            }
+            catch (Exception ex)
+            {
+                RecordError(ex);
+            }
+
+
+
+
+            AddFields("Products", "SalesTaxProductCodeId", "Int", "SalesTaxProductCodes");
+            AddFields("ProductGroups", "DefaultSalesTaxProductCodeId", "Int", "SalesTaxProductCodes");
+            AddFields("ProductTypeSettings", "isVisibleSalesTaxProductCode", "Bit");
+            AddFields("ProductTypeSettings", "SalesTaxProductCodeCaption", "nvarchar(Max)");
+
+            AddFields("SaleInvoiceSettings", "isVisibleShipToPartyAddress", "Bit");
 
 
             return RedirectToAction("Module", "Menu");
@@ -1321,6 +1413,23 @@ namespace Module
                         mQry = " ALTER TABLE Web." + TableName + "  ADD CONSTRAINT [FK_Web." + TableName + "_Web." + ForeignKeyTable + "_" + FieldName + "] FOREIGN KEY (" + FieldName + ") REFERENCES Web." + ForeignKeyTable + "(" + ForeignKeyTablePrimaryField + ")";
                         ExecuteQuery(mQry);
                     }
+                }
+            }
+            catch (Exception ex)
+            {
+                RecordError(ex);
+            }
+        }
+
+
+        public void DropFields(string TableName, string FieldName)
+        {
+            try
+            {
+                if ((int)ExecuteScaler("SELECT Count(*) AS Cnt FROM INFORMATION_SCHEMA.Columns WHERE COLUMN_NAME =  '" + FieldName + "' AND TABLE_NAME = '" + TableName + "'") != 0)
+                {
+                    mQry = "ALTER TABLE Web." + TableName + " DROP COLUMN " + FieldName + " ";
+                    ExecuteQuery(mQry);
                 }
             }
             catch (Exception ex)

@@ -961,6 +961,41 @@ namespace Web
             }
         }
 
+        public ActionResult GetProductUidHelpList(string searchTerm, int pageSize, int pageNum, int filter)//SaleInvoiceHeaderId
+        {
+            List<ComboBoxResult> ProductUidJson = _StockLineService.FGetProductUidHelpList(filter, searchTerm).ToList();
+
+            var count = ProductUidJson.Count();
+
+            ComboBoxPagedResult Data = new ComboBoxPagedResult();
+            Data.Results = ProductUidJson;
+            Data.Total = count;
+
+            return new JsonpResult
+            {
+                Data = Data,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        public JsonResult SetSingleProductUid(string Ids)
+        {
+            ComboBoxResult ProductUidJson = new ComboBoxResult();
+
+            var ProductUid = from L in db.ProductUid
+                             where L.ProductUidName == Ids
+                             select new
+                             {
+                                 id = L.ProductUidName,
+                                 text = L.ProductUidName
+                             };
+
+            ProductUidJson.id = ProductUid.FirstOrDefault().id;
+            ProductUidJson.text = ProductUid.FirstOrDefault().text;
+
+            return Json(ProductUidJson);
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (!string.IsNullOrEmpty((string)TempData["CSEXC"]))

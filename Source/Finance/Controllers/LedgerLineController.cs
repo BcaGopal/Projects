@@ -62,20 +62,34 @@ namespace Web
 
             string Nature = "";
 
-            if (Header.DrCr != null)
+            if (Header.LedgerAccountId != null)
             {
-                Nature = Header.DrCr;
+                if (Header.DrCr != null)
+                {
+                    Nature = Header.DrCr;
+                }
+                else
+                {
+                    Nature = new DocumentTypeService(_unitOfWork).Find(Header.DocTypeId).Nature;
+                }
             }
             else
             {
-                Nature = new DocumentTypeService(_unitOfWork).Find(Header.DocTypeId).Nature;
+                Nature = "";
             }
+
             ViewBag.Nature = Nature ?? "";
 
             if (Header.LedgerAccountId != null)
             {
                 ViewBag.LedgerAccountNature = new LedgerAccountService(_unitOfWork).GetLedgerAccountnature((int)Header.LedgerAccountId);
             }
+
+            List<SelectListItem> DrCr = new List<SelectListItem>();
+            DrCr.Add(new SelectListItem { Text = NatureConstants.Debit, Value = NatureConstants.Debit });
+            DrCr.Add(new SelectListItem { Text = NatureConstants.Credit, Value = NatureConstants.Credit });
+
+            ViewBag.DrCrList = new SelectList(DrCr, "Value", "Text");
         }
 
         [HttpGet]
@@ -87,29 +101,34 @@ namespace Web
         }
 
         [HttpGet]
-        public ActionResult CreateLine(int Id, int Laid, int catid, DateTime? tempduedate, string tempchequeno)
+        public ActionResult CreateLine(int Id, int? Laid, int catid, DateTime? tempduedate, string tempchequeno)
         {
             return _Create(Id, Laid, catid, tempduedate, tempchequeno, null);
         }
 
         [HttpGet]
-        public ActionResult CreateLineAfter_Submit(int Id, int Laid, int catid, DateTime? tempduedate, string tempchequeno)
+        public ActionResult CreateLineAfter_Submit(int Id, int? Laid, int catid, DateTime? tempduedate, string tempchequeno)
         {
             return _Create(Id, Laid, catid, tempduedate, tempchequeno, null);
         }
 
 
-        public ActionResult _Create(int Id, int Laid, int catid, DateTime? tempduedate, string tempchequeno, int? TAID) //Id ==>Sale Order Header Id
+        public ActionResult _Create(int Id, int? Laid, int catid, DateTime? tempduedate, string tempchequeno, int? TAID) //Id ==>Sale Order Header Id
         {
 
             LedgersViewModel s = new LedgersViewModel();
-            ViewBag.AccountType = new LedgerHeaderService(_unitOfWork).GetLedgerAccountType(Laid);
+            //ViewBag.AccountType = new LedgerHeaderService(_unitOfWork).GetLedgerAccountType(Laid);
             LedgerHeader H = db.LedgerHeader.Find(Id);
             db.Entry<LedgerHeader>(H).Reference(m => m.LedgerAccount).Load();
 
-            ViewBag.LedgerAccountName = H.LedgerAccount.LedgerAccountName;
-
-
+            if (H.LedgerAccountId != null)
+            {
+                ViewBag.LedgerAccountName = H.LedgerAccount.LedgerAccountName;
+            }
+            else
+            {
+                ViewBag.LedgerAccountName = null;
+            }
 
             PrepareViewBag(Id);
             s.DocumentCategoryId = catid;
@@ -144,6 +163,37 @@ namespace Web
                 }
             }
 
+
+
+            if ((settings.isVisibleLineDrCr ?? false) == true)
+            {
+                Decimal TotalAmountDr = 0;
+                Decimal TotalAmountCr = 0;
+
+                if (db.LedgerLine.Where(m => m.DrCr == NatureConstants.Debit && m.LedgerHeaderId == Id).Count() > 0)
+                {
+                    TotalAmountDr = db.LedgerLine.Where(m => m.DrCr == NatureConstants.Debit && m.LedgerHeaderId == Id).Sum(m => m.Amount);
+                }
+
+                if (db.LedgerLine.Where(m => m.DrCr == NatureConstants.Credit && m.LedgerHeaderId == Id).Count() > 0)
+                {
+                    TotalAmountCr = db.LedgerLine.Where(m => m.DrCr == NatureConstants.Credit && m.LedgerHeaderId == Id).Sum(m => m.Amount);
+                }
+
+
+                if (TotalAmountCr > TotalAmountDr)
+                {
+                    s.DrCr = NatureConstants.Debit;
+                }
+                if (TotalAmountDr > TotalAmountCr)
+                {
+                    s.DrCr = NatureConstants.Credit;
+                }
+            }
+
+
+
+
             var LedgerLine = (from p in db.LedgerLine
                               where p.LedgerHeaderId == Id
                               orderby p.LedgerLineId descending
@@ -175,13 +225,22 @@ namespace Web
             //string Nature = new DocumentTypeService(_unitOfWork).Find(header.DocTypeId).Nature;
             string Nature = "";
 
-            if (header.DrCr != null)
+            if (svm.DrCr == null)
             {
-                Nature = header.DrCr;
+                if (header.DrCr != null)
+                {
+                    Nature = header.DrCr;
+                }
+                else
+                {
+                    Nature = new DocumentTypeService(_unitOfWork).Find(header.DocTypeId).Nature;
+                }
             }
-            else{
-                Nature = new DocumentTypeService(_unitOfWork).Find(header.DocTypeId).Nature;
+            else
+            {
+                Nature = svm.DrCr;
             }
+
 
             //Ledger line = Mapper.Map<LedgersViewModel, Ledger>(svm);
 
@@ -207,6 +266,10 @@ namespace Web
                 if (svm.LedgerSetting.isVisibleRefNo == true && svm.LedgerSetting.isMandatoryRefNo == true && !svm.ReferenceId.HasValue)
                 {
                     ModelState.AddModelError("ReferenceId", "The Reference No field is required");
+                }
+                if (svm.LedgerSetting.isVisibleLineDrCr && (string.IsNullOrEmpty(svm.DrCr)))
+                {
+                    ModelState.AddModelError("DrCr", "The DrCr field is required");
                 }
             }
 
@@ -248,6 +311,7 @@ namespace Web
                     LedgerLine.ProductUidId = svm.ProductUidId;
                     LedgerLine.ReferenceDocTypeId = svm.ReferenceDocTypeId;
                     LedgerLine.ReferenceDocId = svm.ReferenceDocId;
+                    LedgerLine.DrCr = svm.DrCr;
                     LedgerLine.CreatedDate = DateTime.Now;
                     LedgerLine.ModifiedDate = DateTime.Now;
                     LedgerLine.CreatedBy = User.Identity.Name;
@@ -309,78 +373,85 @@ namespace Web
                     }
 
 
-                    #region LedgerSave
-                    Ledger Ledger = new Ledger();
-
-                    if (Nature == NatureConstants.Credit)
+                    if (header.LedgerAccountId != null)
                     {
-                        Ledger.AmtDr = LedgerLine.Amount;
+                        #region LedgerSave
+                        Ledger Ledger = new Ledger();
 
-                    }
-                    else if (Nature == NatureConstants.Debit)
-                    {
-                        Ledger.AmtCr = LedgerLine.Amount;
-                    }
-                    Ledger.ChqNo = LedgerLine.ChqNo;
-                    Ledger.ContraLedgerAccountId = header.LedgerAccountId;
-                    Ledger.CostCenterId = LedgerLine.CostCenterId;
-                    Ledger.DueDate = LedgerLine.ChqDate;
-                    Ledger.LedgerAccountId = LedgerLine.LedgerAccountId;
-                    Ledger.LedgerHeaderId = LedgerLine.LedgerHeaderId;
-                    Ledger.LedgerLineId = LedgerLine.LedgerLineId;
-                    Ledger.ProductUidId = LedgerLine.ProductUidId;
-                    Ledger.Narration = header.Narration + LedgerLine.Remark;
-                    Ledger.ObjectState = Model.ObjectState.Added;
-                    Ledger.LedgerId = 1;
-                    db.Ledger.Add(Ledger);
-
-                    if (LedgerLine.ReferenceId != null)
-                    {
-                        LedgerAdj LedgerAdj = new LedgerAdj();
                         if (Nature == NatureConstants.Credit)
                         {
-                            LedgerAdj.LedgerId = (int)LedgerLine.ReferenceId;
-                            LedgerAdj.DrLedgerId = Ledger.LedgerId;
-                            LedgerAdj.CrLedgerId = null;
+                            Ledger.AmtDr = LedgerLine.Amount;
+
                         }
-                        else
+                        else if (Nature == NatureConstants.Debit)
                         {
-                            LedgerAdj.LedgerId = (int)LedgerLine.ReferenceId;
-                            LedgerAdj.CrLedgerId = Ledger.LedgerId;
-                            LedgerAdj.DrLedgerId = null;
+                            Ledger.AmtCr = LedgerLine.Amount;
                         }
+                        Ledger.ChqNo = LedgerLine.ChqNo;
+                        Ledger.ChqDate = LedgerLine.ChqDate;
+                        Ledger.ContraLedgerAccountId = header.LedgerAccountId;
+                        Ledger.CostCenterId = LedgerLine.CostCenterId;
+                        Ledger.DueDate = LedgerLine.ChqDate;
+                        Ledger.LedgerAccountId = LedgerLine.LedgerAccountId;
+                        Ledger.LedgerHeaderId = LedgerLine.LedgerHeaderId;
+                        Ledger.LedgerLineId = LedgerLine.LedgerLineId;
+                        Ledger.ProductUidId = LedgerLine.ProductUidId;
+                        Ledger.Narration = header.Narration + LedgerLine.Remark;
+                        Ledger.ObjectState = Model.ObjectState.Added;
+                        Ledger.LedgerId = 1;
+                        db.Ledger.Add(Ledger);
 
-                        LedgerAdj.Amount = LedgerLine.Amount;
-                        LedgerAdj.SiteId = header.SiteId;
-                        LedgerAdj.CreatedDate = DateTime.Now;
-                        LedgerAdj.ModifiedDate = DateTime.Now;
-                        LedgerAdj.CreatedBy = User.Identity.Name;
-                        LedgerAdj.ModifiedBy = User.Identity.Name;
-                        LedgerAdj.ObjectState = Model.ObjectState.Added;
-                        db.LedgerAdj.Add(LedgerAdj);
+                        if (LedgerLine.ReferenceId != null)
+                        {
+                            LedgerAdj LedgerAdj = new LedgerAdj();
+                            if (Nature == NatureConstants.Credit)
+                            {
+                                //LedgerAdj.LedgerId = (int)LedgerLine.ReferenceId;
+                                LedgerAdj.DrLedgerId = Ledger.LedgerId;
+                                LedgerAdj.CrLedgerId = (int)LedgerLine.ReferenceId;
+                            }
+                            else
+                            {
+                                //LedgerAdj.LedgerId = (int)LedgerLine.ReferenceId;
+                                LedgerAdj.CrLedgerId = Ledger.LedgerId;
+                                LedgerAdj.DrLedgerId = (int)LedgerLine.ReferenceId;
+                            }
+
+                            LedgerAdj.Amount = LedgerLine.Amount;
+                            LedgerAdj.SiteId = header.SiteId;
+                            LedgerAdj.CreatedDate = DateTime.Now;
+                            LedgerAdj.ModifiedDate = DateTime.Now;
+                            LedgerAdj.CreatedBy = User.Identity.Name;
+                            LedgerAdj.ModifiedBy = User.Identity.Name;
+                            LedgerAdj.ObjectState = Model.ObjectState.Added;
+                            db.LedgerAdj.Add(LedgerAdj);
+                        }
+                        #endregion
+
+                        #region ContraLedgerSave
+                        Ledger ContraLedger = new Ledger();
+                        if (Nature == NatureConstants.Credit)
+                        {
+                            ContraLedger.AmtCr = LedgerLine.Amount;
+
+                        }
+                        else if (Nature == NatureConstants.Debit)
+                        {
+                            ContraLedger.AmtDr = LedgerLine.Amount;
+                        }
+                        ContraLedger.LedgerHeaderId = header.LedgerHeaderId;
+                        ContraLedger.CostCenterId = header.CostCenterId;
+                        ContraLedger.LedgerLineId = LedgerLine.LedgerLineId;
+                        ContraLedger.LedgerAccountId = header.LedgerAccountId.Value;
+                        ContraLedger.ContraLedgerAccountId = LedgerLine.LedgerAccountId;
+                        ContraLedger.ChqNo = LedgerLine.ChqNo;
+                        ContraLedger.ChqDate = LedgerLine.ChqDate;
+                        ContraLedger.ObjectState = Model.ObjectState.Added;
+                        db.Ledger.Add(ContraLedger);
+                        #endregion
                     }
-                    #endregion
 
 
-                    #region ContraLedgerSave
-                    Ledger ContraLedger = new Ledger();
-                    if (Nature == NatureConstants.Credit)
-                    {
-                        ContraLedger.AmtCr = LedgerLine.Amount;
-
-                    }
-                    else if (Nature == NatureConstants.Debit)
-                    {
-                        ContraLedger.AmtDr = LedgerLine.Amount;
-                    }
-                    ContraLedger.LedgerHeaderId = header.LedgerHeaderId;
-                    ContraLedger.CostCenterId = header.CostCenterId;
-                    ContraLedger.LedgerLineId = LedgerLine.LedgerLineId;
-                    ContraLedger.LedgerAccountId = header.LedgerAccountId.Value;
-                    ContraLedger.ContraLedgerAccountId = LedgerLine.LedgerAccountId;
-                    ContraLedger.ObjectState = Model.ObjectState.Added;
-                    db.Ledger.Add(ContraLedger);
-                    #endregion
 
                     try
                     {
@@ -453,6 +524,7 @@ namespace Web
                     LedgerLine.BaseValue = svm.BaseValue;
                     LedgerLine.ReferenceId = svm.ReferenceId;
                     LedgerLine.ProductUidId = svm.ProductUidId;
+                    LedgerLine.DrCr = svm.DrCr;
                     LedgerLine.ReferenceDocTypeId = svm.ReferenceDocTypeId;
                     LedgerLine.ReferenceDocId = svm.ReferenceDocId;
                     LedgerLine.ModifiedDate = DateTime.Now;
@@ -516,85 +588,85 @@ namespace Web
                         }
                     }
 
-
-                    #region LedgerSave
-                    Ledger Ledger = new Ledger();
-
-                    if (Nature == NatureConstants.Credit)
+                    if (header.LedgerAccountId != null)
                     {
-                        Ledger = db.Ledger.Where(m => m.LedgerLineId == LedgerLine.LedgerLineId && m.LedgerAccountId == XLedgerAccountId && m.AmtDr > 0).FirstOrDefault();
-                        Ledger.AmtDr = LedgerLine.Amount;
-                    }
-                    else if (Nature == NatureConstants.Debit)
-                    {
-                        Ledger = db.Ledger.Where(m => m.LedgerLineId == LedgerLine.LedgerLineId && m.LedgerAccountId == XLedgerAccountId && m.AmtCr > 0).FirstOrDefault();
-                        Ledger.AmtCr = LedgerLine.Amount;
-                    }
-                    Ledger.ChqNo = LedgerLine.ChqNo;
-                    Ledger.ContraLedgerAccountId = header.LedgerAccountId;
-                    Ledger.CostCenterId = LedgerLine.CostCenterId;
-                    Ledger.DueDate = LedgerLine.ChqDate;
-                    Ledger.LedgerAccountId = LedgerLine.LedgerAccountId;
-                    Ledger.LedgerHeaderId = LedgerLine.LedgerHeaderId;
-                    Ledger.LedgerLineId = LedgerLine.LedgerLineId;
-                    Ledger.Narration = header.Narration + LedgerLine.Remark;
-                    Ledger.ProductUidId = LedgerLine.ProductUidId;
-                    Ledger.ObjectState = Model.ObjectState.Modified;
-                    db.Ledger.Add(Ledger);
-
-                    if (LedgerLine.ReferenceId != null)
-                    {
-                        LedgerAdj LedgerAdj = new LedgerAdj();
+                        #region LedgerSave
+                        Ledger Ledger = new Ledger();
 
                         if (Nature == NatureConstants.Credit)
                         {
-                            LedgerAdj = db.LedgerAdj.Where(m => m.DrLedgerId == Ledger.LedgerId && m.LedgerId == LedgerLine.ReferenceId).FirstOrDefault();
-                            LedgerAdj.LedgerId = (int)LedgerLine.ReferenceId;
-                            LedgerAdj.DrLedgerId = Ledger.LedgerId;
-                            LedgerAdj.CrLedgerId = null;
+                            Ledger = db.Ledger.Where(m => m.LedgerLineId == LedgerLine.LedgerLineId && m.LedgerAccountId == XLedgerAccountId && m.AmtDr > 0).FirstOrDefault();
+                            Ledger.AmtDr = LedgerLine.Amount;
                         }
-                        else
+                        else if (Nature == NatureConstants.Debit)
                         {
-                            LedgerAdj = db.LedgerAdj.Where(m => m.CrLedgerId == Ledger.LedgerId && m.LedgerId == LedgerLine.ReferenceId).FirstOrDefault();
-                            LedgerAdj.LedgerId = (int)LedgerLine.ReferenceId;
-                            LedgerAdj.CrLedgerId = Ledger.LedgerId;
-                            LedgerAdj.DrLedgerId = null;
+                            Ledger = db.Ledger.Where(m => m.LedgerLineId == LedgerLine.LedgerLineId && m.LedgerAccountId == XLedgerAccountId && m.AmtCr > 0).FirstOrDefault();
+                            Ledger.AmtCr = LedgerLine.Amount;
                         }
+                        Ledger.ChqNo = LedgerLine.ChqNo;
+                        Ledger.ContraLedgerAccountId = header.LedgerAccountId;
+                        Ledger.CostCenterId = LedgerLine.CostCenterId;
+                        Ledger.DueDate = LedgerLine.ChqDate;
+                        Ledger.LedgerAccountId = LedgerLine.LedgerAccountId;
+                        Ledger.LedgerHeaderId = LedgerLine.LedgerHeaderId;
+                        Ledger.LedgerLineId = LedgerLine.LedgerLineId;
+                        Ledger.Narration = header.Narration + LedgerLine.Remark;
+                        Ledger.ProductUidId = LedgerLine.ProductUidId;
+                        Ledger.ObjectState = Model.ObjectState.Modified;
+                        db.Ledger.Add(Ledger);
 
-                        LedgerAdj.Amount = LedgerLine.Amount;
-                        LedgerAdj.SiteId = header.SiteId;
-                        LedgerAdj.CreatedDate = DateTime.Now;
-                        LedgerAdj.ModifiedDate = DateTime.Now;
-                        LedgerAdj.CreatedBy = User.Identity.Name;
-                        LedgerAdj.ModifiedBy = User.Identity.Name;
-                        LedgerAdj.ObjectState = Model.ObjectState.Modified;
-                        db.LedgerAdj.Add(LedgerAdj);
+                        if (LedgerLine.ReferenceId != null)
+                        {
+                            LedgerAdj LedgerAdj = new LedgerAdj();
+
+                            if (Nature == NatureConstants.Credit)
+                            {
+                                LedgerAdj = db.LedgerAdj.Where(m => m.DrLedgerId == Ledger.LedgerId && m.CrLedgerId == LedgerLine.ReferenceId).FirstOrDefault();
+                                //LedgerAdj.LedgerId = (int)LedgerLine.ReferenceId;
+                                LedgerAdj.DrLedgerId = Ledger.LedgerId;
+                                LedgerAdj.CrLedgerId = (int)LedgerLine.ReferenceId;
+                            }
+                            else
+                            {
+                                LedgerAdj = db.LedgerAdj.Where(m => m.CrLedgerId == Ledger.LedgerId && m.DrLedgerId == LedgerLine.ReferenceId).FirstOrDefault();
+                                //LedgerAdj.LedgerId = (int)LedgerLine.ReferenceId;
+                                LedgerAdj.CrLedgerId = Ledger.LedgerId;
+                                LedgerAdj.DrLedgerId = (int)LedgerLine.ReferenceId;
+                            }
+
+                            LedgerAdj.Amount = LedgerLine.Amount;
+                            LedgerAdj.SiteId = header.SiteId;
+                            LedgerAdj.CreatedDate = DateTime.Now;
+                            LedgerAdj.ModifiedDate = DateTime.Now;
+                            LedgerAdj.CreatedBy = User.Identity.Name;
+                            LedgerAdj.ModifiedBy = User.Identity.Name;
+                            LedgerAdj.ObjectState = Model.ObjectState.Modified;
+                            db.LedgerAdj.Add(LedgerAdj);
+                        }
+                        #endregion
+
+                        #region ContraLedgerSave
+                        Ledger ContraLedger = new Ledger();
+                        if (Nature == NatureConstants.Credit)
+                        {
+                            ContraLedger = db.Ledger.Where(m => m.LedgerLineId == LedgerLine.LedgerLineId && m.LedgerAccountId == header.LedgerAccountId && m.AmtCr > 0).FirstOrDefault();
+                            ContraLedger.AmtCr = LedgerLine.Amount;
+
+                        }
+                        else if (Nature == NatureConstants.Debit)
+                        {
+                            ContraLedger = db.Ledger.Where(m => m.LedgerLineId == LedgerLine.LedgerLineId && m.LedgerAccountId == header.LedgerAccountId && m.AmtDr > 0).FirstOrDefault();
+                            ContraLedger.AmtDr = LedgerLine.Amount;
+                        }
+                        ContraLedger.LedgerHeaderId = header.LedgerHeaderId;
+                        ContraLedger.CostCenterId = header.CostCenterId;
+                        ContraLedger.LedgerLineId = LedgerLine.LedgerLineId;
+                        ContraLedger.LedgerAccountId = header.LedgerAccountId.Value;
+                        ContraLedger.ContraLedgerAccountId = LedgerLine.LedgerAccountId;
+                        ContraLedger.ObjectState = Model.ObjectState.Modified;
+                        db.Ledger.Add(ContraLedger);
+                        #endregion
                     }
-                    #endregion
-
-
-                    #region ContraLedgerSave
-                    Ledger ContraLedger = new Ledger();
-                    if (Nature == NatureConstants.Credit)
-                    {
-                        ContraLedger = db.Ledger.Where(m => m.LedgerLineId == LedgerLine.LedgerLineId && m.LedgerAccountId == header.LedgerAccountId && m.AmtCr > 0).FirstOrDefault();
-                        ContraLedger.AmtCr = LedgerLine.Amount;
-
-                    }
-                    else if (Nature == NatureConstants.Debit)
-                    {
-                        ContraLedger = db.Ledger.Where(m => m.LedgerLineId == LedgerLine.LedgerLineId && m.LedgerAccountId == header.LedgerAccountId && m.AmtDr > 0).FirstOrDefault();
-                        ContraLedger.AmtDr = LedgerLine.Amount;
-                    }
-                    ContraLedger.LedgerHeaderId = header.LedgerHeaderId;
-                    ContraLedger.CostCenterId = header.CostCenterId;
-                    ContraLedger.LedgerLineId = LedgerLine.LedgerLineId;
-                    ContraLedger.LedgerAccountId = header.LedgerAccountId.Value;
-                    ContraLedger.ContraLedgerAccountId = LedgerLine.LedgerAccountId;
-                    ContraLedger.ObjectState = Model.ObjectState.Modified;
-                    db.Ledger.Add(ContraLedger);
-                    #endregion
-
 
                     LogList.Add(new LogTypeViewModel
                     {
@@ -677,6 +749,9 @@ namespace Web
         private ActionResult _Modify(int id)
         {
             LedgersViewModel temp = _LedgerService.GetLedgerVm(id);
+
+            
+
             if (temp == null)
             {
                 return HttpNotFound();
@@ -707,10 +782,18 @@ namespace Web
 
             db.Entry<LedgerHeader>(H).Reference(m => m.LedgerAccount).Load();
 
-            ViewBag.LedgerAccountName = H.LedgerAccount.LedgerAccountName;
+            if (H.LedgerAccountId != null)
+            {
+                ViewBag.LedgerAccountName = H.LedgerAccount.LedgerAccountName;
+                temp.ContraLedgerAccountId = H.LedgerAccountId;
+            }
+            else
+            {
+                ViewBag.LedgerAccountName = null;
+            }
 
             PrepareViewBag(temp.LedgerHeaderId);
-            ViewBag.AccountType = new LedgerHeaderService(_unitOfWork).GetLedgerAccountType(temp.ContraLedgerAccountId ?? 0);
+            //ViewBag.AccountType = new LedgerHeaderService(_unitOfWork).GetLedgerAccountType(temp.ContraLedgerAccountId ?? 0);
             //Getting Settings
             var settings = new LedgerSettingService(_unitOfWork).GetLedgerSettingForDocument(H.DocTypeId, H.DivisionId, H.SiteId);
             temp.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(H.DocTypeId);
@@ -829,13 +912,20 @@ namespace Web
 
                 string Nature = "";
 
-                if (header.DrCr != null)
+                if (vm.DrCr == null)
                 {
-                    Nature = header.DrCr;
+                    if (header.DrCr != null)
+                    {
+                        Nature = header.DrCr;
+                    }
+                    else
+                    {
+                        Nature = new DocumentTypeService(_unitOfWork).Find(header.DocTypeId).Nature;
+                    }
                 }
                 else
                 {
-                    Nature = new DocumentTypeService(_unitOfWork).Find(header.DocTypeId).Nature;
+                    Nature = vm.DrCr;
                 }
 
                 int LedgerLineId = vm.LedgerLineId;
@@ -1328,6 +1418,8 @@ namespace Web
             LedgerToAdjustViewModel_Single s = new LedgerToAdjustViewModel_Single();
 
             s.LedgerLineId = id;
+            s.LedgerAccountId = Line.LedgerAccountId;
+            s.LedgerHeaderId = Line.LedgerHeaderId;
             s.PartyDocDate_Adjusted = null;
 
             var temp = (from L in db.Ledger
@@ -1410,9 +1502,9 @@ namespace Web
             return PartialView("_LedgerAdj_Single", s);
         }
 
-        public ActionResult GetLedgerIds_Adusted(string searchTerm, int pageSize, int pageNum, int filter)//DocTypeId
+        public ActionResult GetLedgerIds_Adusted(string searchTerm, int pageSize, int pageNum, int? filter, string filter2, int filter3)//DocTypeId
         {
-            var Query = new LedgerLineService(_unitOfWork).GetLedgerIds_Adusted(filter, searchTerm);
+            var Query = new LedgerLineService(_unitOfWork).GetLedgerIds_Adusted(filter, filter2, filter3, searchTerm);
             var temp = Query.Skip(pageSize * (pageNum - 1))
                 .Take(pageSize)
                 .ToList();
@@ -1443,7 +1535,9 @@ namespace Web
                             PartyDocNo = LedgerHeaderTab.PartyDocNo,
                             PartyDocDate = LedgerHeaderTab.PartyDocDate ?? LedgerHeaderTab.DocDate,
                             BalanceAmount = LedgerBalanceTab.Balance,
-                            BillAmount = L.AmtDr != 0 ? L.AmtDr : L.AmtCr
+                            BillAmount = L.AmtDr != 0 ? L.AmtDr : L.AmtCr,
+                            LedgerAccountId = L.LedgerAccountId,
+                            LedgerAccountName = L.LedgerAccount.LedgerAccountName
                         }).FirstOrDefault();
 
             if (temp != null)
@@ -1537,6 +1631,51 @@ namespace Web
 
             return Json(new { success = true }, JsonRequestBehavior.AllowGet);
         }
+
+        public JsonResult GetBalanceAmountJson(int LedgerHeaderId, string DrCr)
+        {
+            Decimal TotalAmountDr = 0;
+            Decimal TotalAmountCr = 0;
+            Decimal Amount = 0;
+
+            if (db.LedgerLine.Where(m => m.DrCr == NatureConstants.Debit && m.LedgerHeaderId == LedgerHeaderId).Count() > 0)
+            {
+                TotalAmountDr = db.LedgerLine.Where(m => m.DrCr == NatureConstants.Debit && m.LedgerHeaderId == LedgerHeaderId).Sum(m => m.Amount);
+            }
+
+            if (db.LedgerLine.Where(m => m.DrCr == NatureConstants.Credit && m.LedgerHeaderId == LedgerHeaderId).Count() > 0)
+            {
+                TotalAmountCr = db.LedgerLine.Where(m => m.DrCr == NatureConstants.Credit && m.LedgerHeaderId == LedgerHeaderId).Sum(m => m.Amount);
+            }
+
+
+            if (TotalAmountCr > TotalAmountDr)
+            {
+                if (DrCr == NatureConstants.Debit)
+                {
+                    Amount = TotalAmountCr - TotalAmountDr;
+                }
+                else
+                {
+                    Amount = 0;
+                }
+            }
+            if (TotalAmountDr > TotalAmountCr)
+            {
+                if (DrCr == NatureConstants.Credit)
+                {
+                    Amount = TotalAmountDr - TotalAmountCr;
+                }
+                else
+                {
+                    Amount = 0;
+                }
+            }
+
+            return Json(Amount);
+        }
+
+
 
     }
 

@@ -58,7 +58,9 @@ namespace Model.Models
         public int? ProductUidId { get; set; }
         public virtual ProductUid ProductUid { get; set; }
 
-        
+        [Display(Name = "DrCr"), MaxLength(2)]
+        public string DrCr { get; set; }
+
         [Display(Name = "Remark")]
         public string Remark { get; set; }
 

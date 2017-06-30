@@ -110,6 +110,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AccountService.cs" />
+    <Compile Include="SalesTaxProductCodeService.cs" />
     <Compile Include="Dimension4Service.cs" />
     <Compile Include="Dimension3Service.cs" />
     <Compile Include="FeetConversionToCmsService.cs" />

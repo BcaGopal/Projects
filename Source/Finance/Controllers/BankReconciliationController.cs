@@ -83,6 +83,7 @@ namespace Web
                             && (Fvm.TransactionType == "All" ? 1 == 1 : L.BankDate == null)
                             && (Fvm.FromDate == null ? 1 == 1 : L.LedgerHeader.DocDate >= Fvm.FromDate)
                             && (Fvm.ToDate == null ? 1 == 1 : L.LedgerHeader.DocDate <= Fvm.ToDate)
+                            orderby L.LedgerHeader.DocDate, L.LedgerHeader.DocNo
                         select new BankReconciliationViewModel
                         {
                             LedgerId = L.LedgerId,
@@ -137,11 +138,12 @@ namespace Web
             return PartialView("_Filters", Fvm);
         }
 
-        public JsonResult GetBalanceAsPerBooksJson(int LedgerAccountId)
+        public JsonResult GetBalanceAsPerBooksJson(int LedgerAccountId, DateTime? ToDate)
         {
             Decimal Balance = 0;
             var temp = (from L in db.Ledger
                         where L.LedgerAccountId == LedgerAccountId
+                        && (ToDate == null ? 1 == 1 : L.LedgerHeader.DocDate <= ToDate)
                         group new { L } by new { L.LedgerAccountId } into Result
                         select new
                         {
@@ -155,11 +157,12 @@ namespace Web
             return Json(Balance);
         }
 
-        public JsonResult GetBalanceAsPerBankJson(int LedgerAccountId)
+        public JsonResult GetBalanceAsPerBankJson(int LedgerAccountId, DateTime? ToDate)
         {
             Decimal Balance = 0;
             var temp = (from L in db.Ledger
                         where L.LedgerAccountId == LedgerAccountId && L.BankDate != null
+                        && (ToDate == null ? 1 == 1 : L.LedgerHeader.DocDate <= ToDate)
                         group new { L } by new { L.LedgerAccountId } into Result
                         select new
                         {

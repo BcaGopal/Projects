@@ -34,6 +34,7 @@ namespace Model.ViewModel
         public bool isVisibleFromProdOrder { get; set; }
         public string SqlProcConsumption { get; set; }
         public string SqlProcDocumentPrint { get; set; }
+        public string SqlProcProductUidHelpList { get; set; }
         public string DocumentPrint { get; set; }
         public string SqlProcGatePass { get; set; }
         public byte UnitConversionForId { get; set; }

@@ -107,6 +107,8 @@
     <Compile Include="Models\ActivityLog.cs" />
     <Compile Include="Models\BinLocation.cs" />
     <Compile Include="Models\ChargeGroupSettings.cs" />
+    <Compile Include="Models\SalesTaxProductCode.cs" />
+    <Compile Include="Models\ImportMessage.cs" />
     <Compile Include="Models\CompanySettings.cs" />
     <Compile Include="Models\Dimension4Type.cs" />
     <Compile Include="Models\Dimension3Type.cs" />
@@ -217,6 +219,7 @@
     <Compile Include="ViewModels\DocumentTypeAttributeViewModel.cs" />
     <Compile Include="ViewModels\ImportHeaderViewModel.cs" />
     <Compile Include="ViewModels\ImportLineViewModel.cs" />
+    <Compile Include="ViewModels\ImportMessageViewModel.cs" />
     <Compile Include="ViewModels\LedgerAccountOpeningViewModel.cs" />
     <Compile Include="ViewModels\PersonOpeningViewModel.cs" />
     <Compile Include="ViewModels\PersonAddressViewModel.cs" />

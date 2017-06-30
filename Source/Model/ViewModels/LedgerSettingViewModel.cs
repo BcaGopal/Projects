@@ -33,6 +33,7 @@ namespace Model.ViewModel
         public bool isVisibleReferenceDocId { get; set; }
         public bool isVisibleReferenceDocTypeId { get; set; }
         public bool isVisibleDrCr { get; set; }
+        public bool isVisibleLineDrCr { get; set; }
 
         public bool IsAutoDocNo { get; set; }
         public bool isVisibleAdjustmentType { get; set; }

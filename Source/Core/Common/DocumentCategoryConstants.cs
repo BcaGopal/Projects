@@ -31,6 +31,7 @@ namespace Core.Common
         public const string PackingReceive = "Packing Receive";
 
         public const string SaleInvoice = "Sale Invoice";
+        public const string SaleInvoiceReturn = "Sale Invoice Return";
 
         public const string DispatchWaybill = "Dispatch Waybill";
         public const string CustomDetail = "Custom Detail";
@@ -470,6 +471,8 @@ namespace Core.Common
         public const string Godown = "Godown";
         public const string Gate = "Gate";
         public const string LeaveType = "Leave Type";
+        public const string SalesTaxProductCode = "Sales Tax Product Code";
+        
 
         public const string Task = "Task";
         public const string DAR = "DAR";

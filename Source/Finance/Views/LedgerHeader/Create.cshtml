@@ -165,7 +165,8 @@
                                 </div>
                             </div>*@
 
-                            <div class="col-md-6">
+                            <div class="col-md-6" style="display:@(Model.LedgerSetting.isVisibleLineDrCr && Model.LedgerAccountId == null ? "none" : "")">
+                                @Html.HiddenFor(m => m.LedgerSetting.isVisibleLineDrCr)
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.LedgerAccountId, "Ledger A/C", new { @class = "control-label col-md-4 col-sm-2" })
                                     @if (Model.LedgerSetting.isVisibleDrCr)
@@ -176,7 +177,7 @@
                                                 @Html.ValidationMessageFor(m => m.LedgerAccountId, "", new { @class = "text-danger" })
                                             </div>
                                             <div class="col-xs-3" style="padding:0px">
-                                                @Html.DropDownListFor(m => m.DrCr, new SelectList(ViewBag.DrCrList as System.Collections.IEnumerable, "Value", "Text"), new { @class = "form-control col-xs-6 height" })
+                                                @Html.DropDownListFor(m => m.DrCr, new SelectList(ViewBag.DrCrList as System.Collections.IEnumerable, "Value", "Text"), " ", new { @class = "form-control col-xs-6 height" })
                                                 @Html.ValidationMessageFor(model => model.DrCr, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
@@ -333,7 +334,7 @@
                                             </div>
                                             @*Amount*@
                                             <div class="col-sm-2 text-right">
-                                                @(ViewBag.Nature == NatureConstants.Credit ? "Amount Dr" : "Amount Cr")
+                                                @(ViewBag.Nature == NatureConstants.Credit ? "Amount Dr" : (ViewBag.Nature == NatureConstants.Debit ? "Amount Cr" : "Amount"))
                                             </div>
 
                                             @*Remark*@
@@ -342,9 +343,7 @@
 
                                                 <div class="col-sm-2 text-center">
                                                     Cheque No
-
                                                 </div>
-
                                             }
                                         </div>
                                     </div>
@@ -519,8 +518,11 @@ else
         var groupId=@Model.LedgerHeaderId;
         var status='@Model.Status';
         var IsVisibleLedgerAdj='@Model.LedgerSetting.isVisibleLedgerAdj';
+        var HeaderLegdgerAccountId='@Model.LedgerAccountId';
         var LineEditUrl;
         var LineDeleteUrl;
+        var ColourDr="";
+        var ColourCr="";
         if(status==StatusContstantsEnum.Drafted)
         {
             LineEditUrl="/LedgerLine/_ModifyLine/";
@@ -541,6 +543,8 @@ else
         var unit=true;
         var prevunit;
         var decimal=0;
+        var AmountSumDr=0;
+        var AmountSumCr=0;
         $.ajax({
             url: link,
             type: "GET",
@@ -551,31 +555,85 @@ else
                 if(data.length!=0)
                 {
                     $.each(data, function (index, item) {
-                        row += " <div class='row crow grid-body' style='margin-left:0px;margin-right:0px'><div class='col-xs-1 row-index' style='width: 5%'>"+srno+"<input type='hidden' class='id' value='"+item.LedgerHeaderId+"' /></div><div class='col-xs-10' style='width:88%'><div class='row'><div class='col-sm-4'>"+(item.LedgerAccountName==null?" ":"<strong>"+item.LedgerAccountName+"</strong>")+"  <div>  </div></div>            <div class='col-sm-2'>"+(item.ReferenceDocNo==null?" ":item.ReferenceDocNo)+"</div> <div class='col-sm-2'>"+(item.CostCenterName==null?" ":item.CostCenterName)+"</div>  <div class='col-sm-2 text-right number'  >"+(item.Amount==null?" ":item.Amount.toFixed(2))+"</div>     <div class='col-sm-2 text-center'>"+(item.ChqNo==null?" ":"ChqNo-"+item.ChqNo)+"<br /> "+(item.DueDate==null?" ":"ChqDt-"+formatDate('d/m/Y',new Date(parseInt(item.DueDate.substr(6)))))+" </div>                         </div></div><div class='col-xs-1' style='width: 5%'><a class='glyphicon glyphicon-trash ' delete='' href='"+LineDeleteUrl+item.LedgerLineId+"'></a><a  edit='' href='"+LineEditUrl+item.LedgerLineId+"'></a>"+(IsVisibleLedgerAdj=='False' ?" ":" <a  style='padding:3px;' class='glyphicon glyphicon-edit' data-modal='' delete='' href='/LedgerLine/_LedgerAdj_Single/"+item.LedgerLineId+"' ></a>")+"</div></div><hr style='margin-top:0px;margin-bottom:0px'/></div>";
+                        row += " <div class='row crow grid-body' style='margin-left:0px;margin-right:0px'><div class='col-xs-1 row-index' style='width: 5%'>"+srno+"<input type='hidden' class='id' value='"+item.LedgerHeaderId+"' /></div><div class='col-xs-10' style='width:88%'><div class='row'><div class='col-sm-4'>"+(item.LedgerAccountName==null?" ":"<strong>"+item.LedgerAccountName+"</strong>")+"  <div>  </div></div>            <div class='col-sm-2'>"+(item.ReferenceDocNo==null?" ":item.ReferenceDocNo)+"</div> <div class='col-sm-2'>"+(item.CostCenterName==null?" ":item.CostCenterName)+"</div>  <div class='col-sm-2 text-right number'  >"+(item.Amount==null?" ":item.Amount.toFixed(2))+ "</div>   <div class='col-sm-1'>"+(item.DrCr==null?" ":item.DrCr)+ "</div>       <div class='col-sm-2 text-center'>"+(item.ChqNo==null?" ":"ChqNo-"+item.ChqNo)+"<br /> "+(item.DueDate==null?" ":"ChqDt-"+formatDate('d/m/Y',new Date(parseInt(item.DueDate.substr(6)))))+" </div>                         </div></div><div class='col-xs-1' style='width: 5%'><a class='glyphicon glyphicon-trash ' delete='' href='"+LineDeleteUrl+item.LedgerLineId+"'></a><a  edit='' href='"+LineEditUrl+item.LedgerLineId+"'></a>"+(IsVisibleLedgerAdj=='False' ?" ":" <a  style='padding:3px;' class='glyphicon glyphicon-edit' data-modal='' delete='' href='/LedgerLine/_LedgerAdj_Single/"+item.LedgerLineId+"' ></a>")+"</div></div><hr style='margin-top:0px;margin-bottom:0px'/></div>";
 
                         AmountCount+=item.Amount;
                         srno++;
 
+                        
+                        if (item.DrCr == "Dr")
+                        {
+                            AmountSumDr+=item.Amount;
+                        }
+                        if (item.DrCr == "Cr")
+                        {
+                            AmountSumCr+=item.Amount;
+                        }
                     });
-                    row+="<div class='row tfooter' style='padding-top:10px;'>"
-                        +"  <div class='col-xs-1' style='width: 5%'>"
-                        +"  </div>"
-                        +"  <div class='col-xs-10' style='width:88%'>"
-                        +"      <div class='row'> "
-                        +"          <div class='col-sm-4'><strong>Total</strong>"
-                        +"          </div>"
-                        +"      <div class='col-sm-2 text-right'> "
-                        +"      </div> "
-                        +"      <div class='col-sm-2 text-right'>"
-                        +"      </div> "
-                        +"      <div class='col-sm-2 text-right'>"
-                        +"          <strong class='number'>"+AmountCount.toFixed(2)+"</strong>"
-                        +"      </div>"
-                        +"      <div class='col-sm-2 text-right'>"
-                        +"      </div> "
-                        +"  </div>"
-                        +"</div>"
-                        +"<div class='col-xs-1' style='width:5%'></div>"
+
+                    if (AmountSumDr != AmountSumCr)
+                    {
+                        if (AmountSumDr > AmountSumCr)
+                        {
+                            ColourDr = "red";
+                            ColourCr = "green";
+                        }
+                        if (AmountSumCr > AmountSumDr)
+                        {
+                            ColourCr = "red";
+                            ColourDr = "green";
+                        }
+                    }
+                    else{
+                        ColourCr = "black";
+                        ColourDr = "black";
+                    }
+
+                    if (HeaderLegdgerAccountId == null || HeaderLegdgerAccountId == '' || HeaderLegdgerAccountId == 0)
+                    {
+                        row+="<div class='row tfooter' style='padding-top:10px;'>"
+                            +"  <div class='col-xs-1' style='width: 5%'>"
+                            +"  </div>"
+                            +"  <div class='col-xs-10' style='width:88%'>"
+                            +"      <div class='row'> "
+                            +"          <div class='col-sm-4'><strong>Total</strong>"
+                            +"          </div>"
+                            +"      <div class='col-sm-2 text-right'> "
+                            +"      </div> "
+                            +"      <div class='col-sm-2 text-right'>"
+                            +"      </div> "
+                            +"      <div class='col-sm-2 text-right' style='color:"+ ColourDr +"'>"
+                            +"          <strong>Dr : </strong><strong class='number'>"+AmountSumDr.toFixed(2)+"</strong>"
+                            +"      </div> "
+                            +"      <div class='col-sm-2 text-right' style='color:"+ ColourCr +"'>"
+                            +"          <strong>Cr : </strong><strong class='number'>"+AmountSumCr.toFixed(2)+"</strong>"
+                            +"      </div>"
+                            +"  </div>"
+                            +"</div>"
+                            +"<div class='col-xs-1' style='width:5%'></div>"
+                    }
+                    else{
+                        row+="<div class='row tfooter' style='padding-top:10px;'>"
+                            +"  <div class='col-xs-1' style='width: 5%'>"
+                            +"  </div>"
+                            +"  <div class='col-xs-10' style='width:88%'>"
+                            +"      <div class='row'> "
+                            +"          <div class='col-sm-4'><strong>Total</strong>"
+                            +"          </div>"
+                            +"      <div class='col-sm-2 text-right'> "
+                            +"      </div> "
+                            +"      <div class='col-sm-2 text-right'>"
+                            +"      </div> "
+                            +"      <div class='col-sm-2 text-right'>"
+                            +"          <strong class='number'>"+AmountCount.toFixed(2)+"</strong>"
+                            +"      </div>"
+                            +"      <div class='col-sm-2 text-right'>"
+                            +"      </div> "
+                            +"  </div>"
+                            +"</div>"
+                            +"<div class='col-xs-1' style='width:5%'></div>"
+                    }
+
 
                     $('#DocNo').attr('readonly','true');
                 }

@@ -34,7 +34,7 @@ namespace Service
         IEnumerable<LedgerLine> FindByLedgerHeader(int id);
         IQueryable<ComboBoxResult> GetLedgerAccounts(string term, string AccGroups, string ExcludeAccGroups, string Process);
         IQueryable<ComboBoxResult> GetCostCenters(string term, string DocTypes, string Process);
-        IQueryable<ComboBoxResult> GetLedgerIds_Adusted(int Id, string term);
+        IQueryable<ComboBoxResult> GetLedgerIds_Adusted(int? Id, string Nature, int filter3, string term);
         LedgersViewModel GetLastTransactionDetail(int LedgerHeaderId);
     }
 
@@ -319,24 +319,67 @@ namespace Service
         }
 
 
-        public IQueryable<ComboBoxResult> GetLedgerIds_Adusted(int Id, string term)
+        public IQueryable<ComboBoxResult> GetLedgerIds_Adusted(int? Id, string Nature, int filter3, string term)
         {
-            SqlParameter SqlParameterLedgerId = new SqlParameter("@LedgerId", Id);
-            var PendingLedgerViewModel = db.Database.SqlQuery<PendingLedgerViewModel>("" + ConfigurationManager.AppSettings["DataBaseSchema"] + ".sp_GetLedgerToAdjust @LedgerId", SqlParameterLedgerId).ToList().AsQueryable();
+            var Header = new LedgerHeaderService(_unitOfWork).Find(filter3);
+
+            int CurrentSiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
+            int CurrentDivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
+
+            string DivId = "|" + CurrentDivisionId.ToString() + "|";
+            string SiteId = "|" + CurrentSiteId.ToString() + "|";
+
+            var Settings = new LedgerSettingService(_unitOfWork).GetLedgerSettingForDocument(Header.DocTypeId, Header.DivisionId, Header.SiteId);
+
+            string[] ContraAccGroups = null;
+            if (!string.IsNullOrEmpty(Settings.filterLedgerAccountGroupLines)) { ContraAccGroups = Settings.filterLedgerAccountGroupLines.Split(",".ToCharArray()); }
+            else { ContraAccGroups = new string[] { "NA" }; }
+
+            string[] ExcludeContraAccGroups = null;
+            if (!string.IsNullOrEmpty(Settings.filterExcludeLedgerAccountGroupLines)) { ExcludeContraAccGroups = Settings.filterExcludeLedgerAccountGroupLines.Split(",".ToCharArray()); }
+            else { ExcludeContraAccGroups = new string[] { "NA" }; }
+
+
+            SqlParameter SqlParameterLedgerAccountId = new SqlParameter("@LedgerAccountId", Id);
+            SqlParameter SqlParameterNature = new SqlParameter("@Nature", Nature);
+
+
+            var PendingLedgerViewModel = db.Database.SqlQuery<PendingLedgerViewModel>("" + ConfigurationManager.AppSettings["DataBaseSchema"] + ".sp_GetLedgerToAdjust @LedgerAccountId, @Nature", SqlParameterLedgerAccountId, SqlParameterNature).ToList().AsQueryable();
+
 
             return (from p in PendingLedgerViewModel
                     where (string.IsNullOrEmpty(term) ? 1 == 1 : p.LedgerHeaderDocNo.ToLower().Contains(term.ToLower())
-                    || string.IsNullOrEmpty(term) ? 1 == 1 : p.PartyDocNo.ToLower().Contains(term.ToLower()))
-                    && p.BillAmount - p.AdjustedAmount > 0
+                    || string.IsNullOrEmpty(term) ? 1 == 1 : p.PartyDocNo.ToLower().Contains(term.ToLower())
+                    || string.IsNullOrEmpty(term) ? 1 == 1 : p.LedgerAccountName.ToLower().Contains(term.ToLower()))
                     select new ComboBoxResult
                     {
                         id = p.LedgerId.ToString(),
                         text = p.LedgerHeaderDocNo,
-                        AProp1 = "Party Doc No : " +  p.PartyDocNo,
-                        AProp2 = "Party Doc Date : " + p.PartyDocDate,
+                        AProp1 = p.LedgerAccountName,
+                        AProp2 = "Party Doc No : " + p.PartyDocNo + ", Party Doc Date : " + p.PartyDocDate,
                         TextProp1 = "Balance Amount : " + p.BalanceAmount,
                         TextProp2 = "Bill Amount : " + p.BillAmount
                     });
+
+
+            //return (from p in PendingLedgerViewModel
+            //        join A in db.LedgerAccount on p.LedgerAccountId equals A.LedgerAccountId into LedgerAccountTable
+            //        from LedgerAccountTab in LedgerAccountTable.DefaultIfEmpty()
+            //        where (string.IsNullOrEmpty(term) ? 1 == 1 : p.LedgerHeaderDocNo.ToLower().Contains(term.ToLower())
+            //        || string.IsNullOrEmpty(term) ? 1 == 1 : p.PartyDocNo.ToLower().Contains(term.ToLower())
+            //        || string.IsNullOrEmpty(term) ? 1 == 1 : p.LedgerAccountName.ToLower().Contains(term.ToLower()))
+            //        && (string.IsNullOrEmpty(Settings.filterLedgerAccountGroupLines) ? 1 == 1 : ContraAccGroups.Contains(LedgerAccountTab.LedgerAccountGroupId.ToString()))
+            //        && (string.IsNullOrEmpty(Settings.filterExcludeLedgerAccountGroupLines) ? 1 == 1 : !ExcludeContraAccGroups.Contains(LedgerAccountTab.LedgerAccountGroupId.ToString()))
+            //        && LedgerAccountTab.IsActive == true
+            //        select new ComboBoxResult
+            //        {
+            //            id = p.LedgerId.ToString(),
+            //            text = p.LedgerHeaderDocNo,
+            //            AProp1 = p.LedgerAccountName,
+            //            AProp2 = "Party Doc No : " + p.PartyDocNo + ", Party Doc Date : " + p.PartyDocDate,
+            //            TextProp1 = "Balance Amount : " + p.BalanceAmount,
+            //            TextProp2 = "Bill Amount : " + p.BillAmount
+            //        }).ToList().AsQueryable();
         }
 
         public LedgersViewModel GetLastTransactionDetail(int LedgerHeaderId)

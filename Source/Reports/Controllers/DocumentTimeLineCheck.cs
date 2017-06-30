@@ -107,6 +107,7 @@ namespace Reports.Controllers
 
                             if (!string.IsNullOrEmpty(Args.LockReason))
                             {
+                                Continue = false;
                                 Msg += "Record Locked: " + Args.LockReason + ". <br />";
                             }
 
@@ -138,6 +139,7 @@ namespace Reports.Controllers
 
                             if (!string.IsNullOrEmpty(Args.LockReason))
                             {
+                                Continue = false;
                                 Msg += "Record Locked: " + Args.LockReason + ". <br />";
                             }
 
@@ -192,6 +194,7 @@ namespace Reports.Controllers
 
             if (!string.IsNullOrEmpty(Args.LockReason))
             {
+                Continue = false;
                 Msg += "Record Locked: " + Args.LockReason + ". \n";
             }
 

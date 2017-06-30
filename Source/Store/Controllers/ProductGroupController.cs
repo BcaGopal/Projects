@@ -84,6 +84,8 @@ namespace Web
             string ProductTypeName = new ProductTypeService(_unitOfWork).Find(vm.ProductTypeId).ProductTypeName;
             ViewBag.Name = (settings.ProductGroupCaption ?? "Product Group") + "-" + ProductTypeName;
             ViewBag.ProductGroupCaption = settings.ProductGroupCaption ?? "Product Group";
+            ViewBag.SalesTaxProductCodeCaption = "Default " + (settings.SalesTaxProductCodeCaption ?? "Sales Tax Product Code");
+            ViewBag.IsVisibleSalesTaxProductCode = settings.isVisibleSalesTaxProductCode ?? false;
             //ViewBag.Name = new ProductTypeService(_unitOfWork).Find(id).ProductTypeName;
             return View("Create", vm);
 
@@ -97,6 +99,7 @@ namespace Web
         public ActionResult Post(ProductGroup vm)
         {
             ProductGroup pt = vm;
+            var settings = new ProductTypeSettingsService(_unitOfWork).GetProductTypeSettingsForDocument(vm.ProductTypeId);
             if (ModelState.IsValid)
             {
                 if (vm.ProductGroupId <= 0)
@@ -121,6 +124,9 @@ namespace Web
                         ModelState.AddModelError("", message);
                         ViewBag.id = vm.ProductTypeId;
                         ViewBag.Name = new ProductTypeService(_unitOfWork).Find(vm.ProductTypeId).ProductTypeName;
+                        ViewBag.ProductGroupCaption = settings.ProductGroupCaption ?? "Product Group";
+                        ViewBag.SalesTaxProductCodeCaption = "Default " + (settings.SalesTaxProductCodeCaption ?? "Sales Tax Product Code");
+                        ViewBag.IsVisibleSalesTaxProductCode = settings.isVisibleSalesTaxProductCode ?? false;
                         return View("Create", vm);
                     }
 
@@ -143,6 +149,7 @@ namespace Web
 
                     temp.ProductGroupName = pt.ProductGroupName;
                     temp.ProductTypeId = pt.ProductTypeId;
+                    temp.DefaultSalesTaxProductCodeId = pt.DefaultSalesTaxProductCodeId;
                     temp.IsActive = pt.IsActive;
                     temp.ModifiedDate = DateTime.Now;
                     temp.ModifiedBy = User.Identity.Name;
@@ -167,6 +174,9 @@ namespace Web
                         ModelState.AddModelError("", message);
                         ViewBag.id = pt.ProductTypeId;
                         ViewBag.Name = new ProductTypeService(_unitOfWork).Find(pt.ProductTypeId).ProductTypeName;
+                        ViewBag.ProductGroupCaption = settings.ProductGroupCaption ?? "Product Group";
+                        ViewBag.SalesTaxProductCodeCaption = "Default " + (settings.SalesTaxProductCodeCaption ?? "Sales Tax Product Code");
+                        ViewBag.IsVisibleSalesTaxProductCode = settings.isVisibleSalesTaxProductCode ?? false;
                         return View("Create", pt);
                     }
 
@@ -203,6 +213,9 @@ namespace Web
             string ProductTypeName = new ProductTypeService(_unitOfWork).Find(pt.ProductTypeId).ProductTypeName;
             ViewBag.Name = (settings.ProductGroupCaption ?? "Product Group") + "-" + ProductTypeName;
             ViewBag.ProductGroupCaption = settings.ProductGroupCaption ?? "Product Group";
+            ViewBag.SalesTaxProductCodeCaption = "Default " + (settings.SalesTaxProductCodeCaption ?? "Sales Tax Product Code");
+            ViewBag.IsVisibleSalesTaxProductCode = settings.isVisibleSalesTaxProductCode ?? false;
+
 
             //ViewBag.Name = new ProductTypeService(_unitOfWork).Find(pt.ProductTypeId).ProductTypeName;
             return View("Create", pt);

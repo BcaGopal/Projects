@@ -47,6 +47,11 @@ namespace Model.Models
         [ForeignKey("Stock")]
         public int? StockId { get; set; }
         public virtual Stock Stock { get; set; }
+
+        [Display(Name = "Godown")]
+        [ForeignKey("Godown")]
+        public int? GodownId { get; set; }
+        public virtual Godown Godown { get; set; }
         public int ? Sr { get; set; }
 
         [Display(Name = "Lock Reason")]

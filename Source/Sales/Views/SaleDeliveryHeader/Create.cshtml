@@ -163,6 +163,18 @@
 
                             <div class="col-md-6">
                                 <div class="form-group">
+                                    @Html.LabelFor(model => model.ShipToPartyAddress, "Delivery Address", new { @class = "control-label col-xs-4" })
+                                    <div class="col-xs-6">
+                                        @Html.TextAreaFor(m => m.ShipToPartyAddress, new { @class = "form-control col-xs-6" })
+                                        @Html.ValidationMessageFor(m => m.ShipToPartyAddress, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                            <div class="col-md-6">
+                                <div class="form-group">
                                     @Html.LabelFor(model => model.Remark, "Remark", new { @class = "control-label col-xs-4" })
                                     <div class="col-xs-6">
                                         @Html.TextAreaFor(m => m.Remark, new { @class = "form-control col-xs-6" })
@@ -171,9 +183,6 @@
                                 </div>
                             </div>
                         </div>
-
-                        
-
                     </div>
                 </div>
 
@@ -492,7 +501,28 @@
 
 
 
+    $("#SaleToBuyerId").change(GetBuyerDetail);
 
+    function GetBuyerDetail() {
+        var ProcessProgress = $("#Product detail loading progress");
+        ProcessProgress.show();
+        if ($("#SaleToBuyerId").val() != 0 && $("#SaleToBuyerId").val() != null) {
+            $.ajax({
+                cache: false,
+                type: "POST",
+                url: "@(Url.Action("GetBuyerDetailJson"))",
+                data: { SaleToBuyerId: $("#SaleToBuyerId").val() },
+            success: function (data) {
+                if (data != null)
+                {
+                    $("#ShipToPartyAddress").val(data.Address);
+                }
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert('Failed to retrieve product details.' + thrownError);
+            }
+        });
+    }}
 
 
     ////To focus on the first element on modal load

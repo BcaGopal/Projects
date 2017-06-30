@@ -303,6 +303,7 @@
     <Compile Include="Controllers\SaleOrderLineController.cs" />
     <Compile Include="Controllers\SaleOrderQtyAmendmentLineController.cs" />
     <Compile Include="Controllers\SaleOrderSettingsController.cs" />
+    <Compile Include="Controllers\SaleDeliveryWizardController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -1773,6 +1774,9 @@
     <Content Include="Views\SaleDeliveryLine\_OrderFilters.cshtml" />
     <Content Include="Views\SaleDeliveryLine\_Results.cshtml" />
     <Content Include="Views\SaleDeliverySetting\Create.cshtml" />
+    <Content Include="Views\DirectSaleInvoiceHeader\_InvoiceReturn.cshtml" />
+    <Content Include="Views\SaleDeliveryWizard\Create.cshtml" />
+    <Content Include="Views\SaleDeliveryWizard\CreateSaleDelivery.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

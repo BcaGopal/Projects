@@ -192,6 +192,7 @@ namespace Service
         IQueryable<ComboBoxResult> GetFinanciers(string term, int? filter);
         IQueryable<ComboBoxResult> GetSalesExecutives(string term);
         IQueryable<ComboBoxResult> GetChargeGroupProducts(string term);
+        IQueryable<ComboBoxResult> GetSalesTaxProductCodes(string term);
         IQueryable<ComboBoxResult> GetBinLocations(string term, int filter);
         IQueryable<ComboBoxResult> GetSites(string term);
         IQueryable<ComboBoxResult> GetDivisions(string term);
@@ -2921,6 +2922,21 @@ namespace Service
                         {
                             id = D.ChargeGroupProductId.ToString(),
                             text = D.ChargeGroupProductName
+                        }
+              );
+            return list;
+        }
+
+
+        public IQueryable<ComboBoxResult> GetSalesTaxProductCodes(string term)
+        {
+            var list = (from D in db.SalesTaxProductCode
+                        where (string.IsNullOrEmpty(term) ? 1 == 1 : (D.Code.ToLower().Contains(term.ToLower())))
+                        orderby D.Code
+                        select new ComboBoxResult
+                        {
+                            id = D.SalesTaxProductCodeId.ToString(),
+                            text = D.Code
                         }
               );
             return list;

@@ -105,6 +105,8 @@ namespace Model.Models
 
         [MaxLength(100)]
         public string SqlProcGatePass { get; set; }
+        [MaxLength(100)]
+        public string SqlProcProductUidHelpList { get; set; }
         public string filterLedgerAccountGroups { get; set; }
         public string filterLedgerAccounts { get; set; }
        
