@@ -2057,18 +2057,18 @@ if (typeof Slick === "undefined") {
                 dataLength = getDataLength();
 
 
-            for (var i = range.top, ii = range.bottom; i <= ii; i++) {
-                var d = getDataItem(i);
-                for (var j = 0, jj = columns.length; j < jj; j++) {
-                    var m = columns[j];
-                    var value = getDataItemValueForColumn(d, m);
-                    if (value != null) {
-                        if (value.length > 100) {
-                            options.rowHeight = 80;
-                        }
-                    }
-                }
-            }
+            //for (var i = range.top, ii = range.bottom; i <= ii; i++) {
+            //    var d = getDataItem(i);
+            //    for (var j = 0, jj = columns.length; j < jj; j++) {
+            //        var m = columns[j];
+            //        var value = getDataItemValueForColumn(d, m);
+            //        if (value != null) {
+            //            if (value.length > 100) {
+            //                options.rowHeight = 80;
+            //            }
+            //        }
+            //    }
+            //}
 
             for (var i = range.top, ii = range.bottom; i <= ii; i++) {
             //var i = 0;

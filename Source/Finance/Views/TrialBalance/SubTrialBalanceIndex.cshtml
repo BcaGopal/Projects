@@ -135,6 +135,7 @@
     function myFilter(item, args) {
         if (args.searchString != "" && (item["LedgerAccountName"]).toLowerCase().indexOf(args.searchString.toLowerCase()) == -1) {
             return false;
+
         }
         return true;
     }

@@ -947,6 +947,11 @@ namespace Service
                 temp.ErrorType = "InvalidID";
                 temp.ErrorMessage = "Barcode does not exist Current Division";
             }
+            else if (temp.CurrenctProcessId != JobRecHead.ProcessId)
+            {
+                temp.ErrorType = "InvalidID";
+                temp.ErrorMessage = "Barcode does not belong to this Process ";
+            }
             else if (PostedInStock == true)
             {
                 if (temp.CurrenctGodownId != null)
