@@ -254,6 +254,7 @@
     <Compile Include="Controllers\CarpetMasterController.cs" />
     <Compile Include="Controllers\FeetConversionToCmsController .cs" />
     <Compile Include="Controllers\JobReceiveQaPenaltyController.cs" />
+    <Compile Include="Controllers\PackingSettingsController.cs" />
     <Compile Include="Controllers\WeavingInvoiceController.cs" />
     <Compile Include="Controllers\WeavingReceiveQACombinedController.cs" />
     <Compile Include="Controllers\PackingHeaderWithBuyerDetailController.cs" />
@@ -1380,6 +1381,7 @@
     <Content Include="Views\WeavingInvoice\Summary.cshtml" />
     <Content Include="Views\SaleInvoiceLine\UpdateRatesDesignWise.cshtml" />
     <Content Include="Views\WeavingReceiveQACombined\Consumption.cshtml" />
+    <Content Include="Views\PackingSetting\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

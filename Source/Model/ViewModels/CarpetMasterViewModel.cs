@@ -163,6 +163,9 @@ namespace Model.ViewModels
         public decimal? MaximumOrderQty { get; set; }
         public decimal? Cost { get; set; }
         public Decimal? CBM { get; set; }
+
+        public int? SalesTaxProductCodeId { get; set; }
+        public string SalesTaxProductCodeName { get; set; }
         public CarpetSkuSettingsViewModel CarpetSkuSettings { get; set; }
 
     }

@@ -169,7 +169,7 @@ namespace Web
             }
             p.StockHeaderSettings = Mapper.Map<StockHeaderSettings, StockHeaderSettingsViewModel>(settings);
 
-            if (settings.isVisibleProcessHeader == false)
+            if (settings.isVisibleProcessHeader ?? false == false)
             {
                 p.ProcessId = settings.ProcessId;
             }

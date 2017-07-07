@@ -144,6 +144,7 @@ namespace Web
                     temp.isVisiblePhone = pt.isVisiblePhone;
                     temp.isVisibleMobile = pt.isVisibleMobile;
                     temp.isVisibleEMail = pt.isVisibleEMail;
+                    temp.isVisibleGstNo = pt.isVisibleGstNo;
                     temp.isVisibleCstNo = pt.isVisibleCstNo;
                     temp.isVisibleTinNo = pt.isVisibleTinNo;
                     temp.isVisiblePanNo = pt.isVisiblePanNo;
@@ -171,6 +172,7 @@ namespace Web
                     temp.isMandatoryMobile = pt.isMandatoryMobile;
                     temp.isMandatoryEmail = pt.isMandatoryEmail;
                     temp.isMandatoryPanNo = pt.isMandatoryPanNo;
+                    temp.isMandatoryGstNo = pt.isMandatoryGstNo;
                     temp.isMandatoryCstNo = pt.isMandatoryCstNo;
                     temp.isMandatoryTinNo = pt.isMandatoryTinNo;
                     temp.isMandatoryAadharNo = pt.isMandatoryAadharNo;

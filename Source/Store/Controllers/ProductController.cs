@@ -1146,6 +1146,14 @@ namespace Web
                     new ProductAttributeService(_unitOfWork).Delete(item.ProductAttributeId);
                 }
 
+
+                IEnumerable<BomDetail> Bd = new BomDetailService(_unitOfWork).GetBomDetailList(vm.id);
+
+                foreach (BomDetail item in Bd)
+                {
+                    new BomDetailService(_unitOfWork).Delete(item.BomDetailId);
+                }
+
                 _ProductService.Delete(vm.id);
                 XElement Modifications = new ModificationsCheckService().CheckChanges(LogList);
                 try

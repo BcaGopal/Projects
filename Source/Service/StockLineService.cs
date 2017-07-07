@@ -1720,7 +1720,7 @@ namespace Service
                 UID.ErrorType = "Status";
                 UID.ErrorMessage = "BarCode is already added.";
             }
-            else if (UID.Status != "Receive")
+            else if (UID.Status != "Receive" && UID.Status != "Gen")
             {
                 UID.ErrorType = "Status";
                 UID.ErrorMessage = "The Status of the Barcode is " + UID.Status;

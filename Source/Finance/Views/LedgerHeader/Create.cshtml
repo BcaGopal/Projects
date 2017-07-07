@@ -102,7 +102,8 @@
                         <li><a href="@Url.Action("Email", "LedgerHeader")"><span class="glyphicon glyphicon-envelope"> </span> Email</a></li>
                         <li role="separator" class="divider"></li>
                         <li><a target="_blank" href="@Url.Action("Report", "LedgerHeader", new { id = @ViewBag.id })"><span class="glyphicon glyphicon-th"> </span> Report</a></li>
-                        </ul>
+                        @*<li><a id="Cancel" data-modal="" href="@Url.Action("_CreateCancel", "LedgerHeader", new { id = Model.LedgerHeaderId })"><span class="glyphicon glyphicon-remove"> </span> Cancel</a></li>*@
+                    </ul>
              </div>
             </div>
         </div>

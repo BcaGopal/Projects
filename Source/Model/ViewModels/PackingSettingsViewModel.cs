@@ -31,6 +31,8 @@ namespace Model.ViewModel
         public string filterContraSites { get; set; }
         public string filterContraDivisions { get; set; }
         public string filterPersonRoles { get; set; }
+        public string filterLedgerAccountGroups { get; set; }
+        public string filterLedgerAccounts { get; set; }
 
         [MaxLength(100)]
         public string SqlProcDocumentPrint { get; set; }

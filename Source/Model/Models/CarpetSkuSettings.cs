@@ -45,6 +45,7 @@ namespace Model.Models
         public bool? isVisibleTraceType { get; set; }
         public bool? isVisibleMapType { get; set; }
         public bool? isVisibleStencilSize { get; set; }
+        public bool? isVisibleSalesTaxProductCode { get; set; }
 
 
 
@@ -65,7 +66,10 @@ namespace Model.Models
 
         public string UnitConversions { get; set; }
 
-        public string NameBaseOnSize { get; set; }        
+        public string NameBaseOnSize { get; set; }
+        
+        [MaxLength(50)]
+        public string SalesTaxProductCodeCaption { get; set; }
 
         [Display(Name = "Created By")]
         public string CreatedBy { get; set; }

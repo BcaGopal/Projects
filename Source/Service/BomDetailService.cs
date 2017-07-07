@@ -81,7 +81,7 @@ namespace Service
         private readonly IUnitOfWorkForService _unitOfWork;
         private readonly Repository<BomDetail> _BomDetailRepository;
         RepositoryQuery<BomDetail> BomDetailRepository;
-        int OverTuftProcessId = 0;
+        //int OverTuftProcessId = 0;
 
 
         public BomDetailService(IUnitOfWorkForService unitOfWork)
@@ -90,11 +90,11 @@ namespace Service
             _BomDetailRepository = new Repository<BomDetail>(db);
             BomDetailRepository = new RepositoryQuery<BomDetail>(_BomDetailRepository);
 
-            var OverTuftProcess = new ProcessService(_unitOfWork).Find(ProcessConstants.OverTuft);
-            if (OverTuftProcess != null)
-            {
-                OverTuftProcessId = OverTuftProcess.ProcessId;
-            }
+            //var OverTuftProcess = new ProcessService(_unitOfWork).Find(ProcessConstants.OverTuft);
+            //if (OverTuftProcess != null)
+            //{
+            //    OverTuftProcessId = OverTuftProcess.ProcessId;
+            //}
         }
 
         public BomDetail Find(int id)
@@ -286,6 +286,13 @@ namespace Service
                 }
             }
 
+            int OverTuftProcessId = 0;
+            var OverTuftProcess = new ProcessService(_unitOfWork).Find(ProcessConstants.OverTuft);
+            if (OverTuftProcess != null)
+            {
+                OverTuftProcessId = OverTuftProcess.ProcessId;
+            }
+
             IEnumerable<DesignConsumptionLineViewModel> svm = (from b in db.BomDetail
                                                                join d in db.Dimension1 on b.Dimension1Id equals d.Dimension1Id into Dimension1Table
                                                                from Dimension1Tab in Dimension1Table.DefaultIfEmpty()
@@ -419,6 +426,14 @@ namespace Service
                 }
             }
 
+            int OverTuftProcessId = 0;
+            var OverTuftProcess = new ProcessService(_unitOfWork).Find(ProcessConstants.OverTuft);
+            if (OverTuftProcess != null)
+            {
+                OverTuftProcessId = OverTuftProcess.ProcessId;
+            }
+
+
             IEnumerable<DesignConsumptionLineViewModel> svm = (from b in db.BomDetail
                                                                join d in db.Dimension1 on b.Dimension1Id equals d.Dimension1Id into Dimension1Table
                                                                from Dimension1Tab in Dimension1Table.DefaultIfEmpty()
@@ -473,6 +488,13 @@ namespace Service
                 Weight = Temp.Weight;
             }
 
+            int OverTuftProcessId = 0;
+            var OverTuftProcess = new ProcessService(_unitOfWork).Find(ProcessConstants.OverTuft);
+            if (OverTuftProcess != null)
+            {
+                OverTuftProcessId = OverTuftProcess.ProcessId;
+            }
+
 
             IEnumerable<ProductConsumptionLineViewModel> svm = (from b in db.BomDetail
                                                                 join d in db.Dimension1 on b.Dimension1Id equals d.Dimension1Id into Dimension1Table
@@ -521,6 +543,14 @@ namespace Service
 
         public IEnumerable<DesignConsumptionLineViewModel> GetDesignConsumptionOverTuftContentForIndex(int BaseProductId)
         {
+            int OverTuftProcessId = 0;
+            var OverTuftProcess = new ProcessService(_unitOfWork).Find(ProcessConstants.OverTuft);
+            if (OverTuftProcess != null)
+            {
+                OverTuftProcessId = OverTuftProcess.ProcessId;
+            }
+
+
             IEnumerable<DesignConsumptionLineViewModel> svm = (from b in db.BomDetail
                                                                join d in db.Dimension1 on b.Dimension1Id equals d.Dimension1Id into Dimension1Table
                                                                from Dimension1Tab in Dimension1Table.DefaultIfEmpty()
@@ -548,6 +578,14 @@ namespace Service
 
         public IEnumerable<ProductConsumptionLineViewModel> GetDesignConsumptionOverTuftContentForIndexForProduct(int BaseProductId)
         {
+            int OverTuftProcessId = 0;
+            var OverTuftProcess = new ProcessService(_unitOfWork).Find(ProcessConstants.OverTuft);
+            if (OverTuftProcess != null)
+            {
+                OverTuftProcessId = OverTuftProcess.ProcessId;
+            }
+
+
             IEnumerable<ProductConsumptionLineViewModel> svm = (from b in db.BomDetail
                                                                 join d in db.Dimension1 on b.Dimension1Id equals d.Dimension1Id into Dimension1Table
                                                                 from Dimension1Tab in Dimension1Table.DefaultIfEmpty()

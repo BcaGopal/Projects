@@ -398,6 +398,12 @@ namespace Service
                         Personviewmodel.PanNo = item.RregistrationNo;
                     }
 
+                    if (item.RregistrationType == PersonRegistrationType.GstNo)
+                    {
+                        Personviewmodel.PersonRegistrationGstNoID = item.PersonRegistrationId;
+                        Personviewmodel.GstNo = item.RregistrationNo;
+                    }
+
                     if (item.RregistrationType == PersonRegistrationType.CstNo)
                     {
                         Personviewmodel.PersonRegistrationCstNoID = item.PersonRegistrationId;

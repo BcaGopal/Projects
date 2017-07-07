@@ -760,6 +760,7 @@
     <Content Include="Views\BankReconciliation\BankReconciliation.cshtml" />
     <Content Include="Views\BankReconciliation\_Filters.cshtml" />
     <Content Include="Views\BankReconciliation\Index.cshtml" />
+    <Content Include="Views\LedgerHeader\_DocumentCancel.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -1,25 +1,30 @@
-﻿using Microsoft.Owin.Security;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
-using System.Web;
+using System.Net;
 using System.Web.Mvc;
-using Data;
+using Core.Common;
+using Model.Models;
 using Data.Models;
 using Service;
-using Core;
-using Model.Models;
-using System.Configuration;
-using System.Text;
-using Data.Infrastructure;
-using Core.Common;
-using Core.Attributes;
-using System.Data;
-using System.Data.SqlClient;
-using Model.ViewModel;
-using System.Net;
-using Model.ViewModels;
 using Presentation.Helper;
+using Data.Infrastructure;
+using Presentation.ViewModels;
+using AutoMapper;
+using Microsoft.AspNet.Identity;
+using System.Configuration;
+using Presentation;
+using Model.ViewModel;
+using System.Data.SqlClient;
+using System.Xml.Linq;
+using CustomEventArgs;
+using DocumentEvents;
+using JobOrderDocumentEvents;
+using Reports.Reports;
+using Reports.Controllers;
+using Model.ViewModels;
+
 
 namespace Web.Controllers
 {
@@ -55,12 +60,12 @@ namespace Web.Controllers
             respStreamReader.Close();
             myResp.Close();
 
-            return View();
+            return RedirectToAction("SendSms").Success("Sms send successfully.");
         }
 
-        public ActionResult GetPerson(string searchTerm, int pageSize, int pageNum, int filter)
+        public ActionResult GetPerson(string searchTerm, int pageSize, int pageNum, int? filter)
         {
-            var Query = GetPerson(searchTerm, filter);
+            var Query = GetPersonList(searchTerm, filter);
             var temp = Query.Skip(pageSize * (pageNum - 1)).Take(pageSize).ToList();
 
             var count = Query.Count();
@@ -76,7 +81,7 @@ namespace Web.Controllers
             };
         }
 
-        public IQueryable<ComboBoxResult> GetPerson(string term, int filter)
+        public IQueryable<ComboBoxResult> GetPersonList(string term, int? filter)
         {
             var list = (from Le in db.Persons
                         where (string.IsNullOrEmpty(term) ? 1 == 1 : Le.Name.ToLower().Contains(term.ToLower()))

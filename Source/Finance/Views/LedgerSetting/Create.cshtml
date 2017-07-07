@@ -499,6 +499,15 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
+                                    @Html.LabelFor(model => model.CancelDocTypeId, "Cancel Doc Type", new { @class = "control-label col-xs-4" })
+                                    <div class="col-xs-6">
+                                        @Html.TextBoxFor(m => m.CancelDocTypeId, new { @class = "form-control col-xs-6" })
+                                        @Html.ValidationMessageFor(m => m.CancelDocTypeId, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
                                     @Html.LabelFor(model => model.IsAutoDocNo, "Auto Doc No", new { @class = "control-label col-xs-6" })
                                     <div class="col-xs-4" style=" padding-top:4px">
                                         @Html.CheckBoxFor(m => m.IsAutoDocNo, new { @class = "checkbox col-xs-2" })
@@ -534,6 +543,7 @@
         CustomSelectFunction($("#ProcessId"), '/ComboHelpList/GetProcess', '/ComboHelpList/SetSingleProcess', ' ', false, 1);
         CustomSelectFunction($("#WizardMenuId"), '/ComboHelpList/GetMenus', '/ComboHelpList/SetSingleMenu', ' ', false, 1);
         CustomSelectFunction($("#filterPersonProcessLines"), '/ComboHelpList/GetProcess', '/ComboHelpList/SetProcess', ' ', true, 1);
+        CustomSelectFunction($("#CancelDocTypeIds"), '/ComboHelpList/GetDocumentType', '/ComboHelpList/SetDocumentType', ' ', false, 0);
     });
 
 

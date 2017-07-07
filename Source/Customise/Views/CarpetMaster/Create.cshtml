@@ -355,6 +355,17 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="col-md-6" style="display:@(Model.CarpetSkuSettings.isVisibleSalesTaxProductCode ? "" : "none")">
+                                @Html.HiddenFor(m => m.CarpetSkuSettings.isVisibleSalesTaxProductCode)
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.SalesTaxProductCodeId, (Model.CarpetSkuSettings.SalesTaxProductCodeCaption ?? "Sales Tax Product Code"), new { @class = "control-label col-md-4 col-sm-2" })
+                                    @Html.HiddenFor(m => m.CarpetSkuSettings.SalesTaxProductCodeCaption)
+                                    <div class="col-md-7 col-sm-10">
+                                        @Html.TextBoxFor(m => m.SalesTaxProductCodeId, null, new { @class = "form-control col-xs-6" })
+                                        @Html.ValidationMessageFor(model => model.SalesTaxProductCodeId, null, new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -636,6 +647,7 @@
         CustomSelectFunction($("#SampleId"), '/ComboHelpList/GetProducts', '/ComboHelpList/SetSingleProducts', ' ', false, 1);
         CustomSelectFunction($("#SupplierId"), '/ComboHelpList/GetSuppliers', '/ComboHelpList/SetSingleSupplier', ' ', false, 1);
         CustomSelectFunction($("#ColourId"), '/ComboHelpList/GetColours', '/ComboHelpList/SetSingleColour', ' ', false, 1);
+        CustomSelectFunction($("#SalesTaxProductCodeId"), '/ComboHelpList/GetSalesTaxProductCodes', '/ComboHelpList/SetSingleSalesTaxProductCode', ' ', false, 0);
         $("#Tags").select2({tags: true,tokenSeparators: [',', ' ']});
         //Calling the function to load the table data/ Line information
         LoadProducts();
@@ -728,6 +740,38 @@
         $("#StandardSizeId").select2("focus");
     });
 
+
+    $("#ProductCategoryId").change(GetProductCategoryDetail);
+
+    function GetProductCategoryDetail() {
+        var ProcessProgress = $("#Product detail loading progress");
+        ProcessProgress.show();
+        if ($("#ProductCategoryId").val() != 0 && $("#ProductCategoryId").val() != null) {
+            $.ajax({
+                cache: false,
+                type: "POST",
+                url: "@(Url.Action("GetProductCategoryDetailJson"))",
+                data: { ProductCategoryId: $("#ProductCategoryId").val() },
+            success: function (data) {
+                if (data != null)
+                {
+                    if (data.DefaultSalesTaxProductCodeId != null)
+                    {
+                        $("#SalesTaxProductCodeId").select2('data', { id: data.DefaultSalesTaxProductCodeId, text: data.DefaultSalesTaxProductCodeName });
+                    }
+                    else{
+                        $("#SalesTaxProductCodeId").select2('data', { id: '', text: '' });
+                    }
+                }
+                else{
+                    $("#SalesTaxProductCodeId").select2('data', { id: '', text: '' });
+                }
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert('Failed to retrieve product details.' + thrownError);
+            }
+        });
+    }}
 
 
     //Loading the Table data or Line Information

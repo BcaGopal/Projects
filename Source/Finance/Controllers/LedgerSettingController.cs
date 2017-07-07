@@ -158,6 +158,7 @@ namespace Web
                     temp.IsAutoDocNo = pt.IsAutoDocNo;
                     temp.PartyDocNoCaption = pt.PartyDocNoCaption;
                     temp.PartyDocDateCaption = pt.PartyDocDateCaption;
+                    temp.CancelDocTypeId = pt.CancelDocTypeId;
                     temp.filterReferenceDocTypes = pt.filterReferenceDocTypes;
                     temp.SqlProcDocumentPrint = pt.SqlProcDocumentPrint;
                     temp.SqlProcDocumentPrint_AfterApprove = pt.SqlProcDocumentPrint_AfterApprove;
@@ -304,6 +305,7 @@ namespace Web
                     temp.PartyDocNoCaption = pt.PartyDocNoCaption;
                     temp.PartyDocDateCaption = pt.PartyDocDateCaption;
                     temp.filterReferenceDocTypes = pt.filterReferenceDocTypes;
+                    temp.CancelDocTypeId = pt.CancelDocTypeId;
                     temp.SqlProcDocumentPrint = pt.SqlProcDocumentPrint;
                     temp.SqlProcDocumentPrint_AfterApprove = pt.SqlProcDocumentPrint_AfterApprove;
                     temp.SqlProcDocumentPrint_AfterSubmit = pt.SqlProcDocumentPrint_AfterSubmit;

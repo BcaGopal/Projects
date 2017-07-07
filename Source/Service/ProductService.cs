@@ -192,7 +192,7 @@ namespace Service
                            MapType = tab.MapType,
                            MapScale = tab.MapScale,
                            CBM = p.CBM,
-
+                           SalesTaxProductCodeId = p.SalesTaxProductCodeId
                        };
 
 

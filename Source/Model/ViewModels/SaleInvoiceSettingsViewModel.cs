@@ -80,6 +80,8 @@ namespace Model.ViewModel
 
         public int? ProcessId { get; set; }
 
+        public bool DoNotUpdateProductUidStatus { get; set; }
+
         [MaxLength(100)]
         public string SqlProcProductUidHelpList { get; set; }
         /// <summary>

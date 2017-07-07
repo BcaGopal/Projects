@@ -27,6 +27,11 @@ namespace Model.Models
         public int ProductTypeId { get; set; }
         public virtual ProductType ProductType { get; set; }
 
+        [ForeignKey("DefaultSalesTaxProductCode")]
+        [Display(Name = "Default Sales Tax Product Code")]
+        public int? DefaultSalesTaxProductCodeId { get; set; }
+        public virtual SalesTaxProductCode DefaultSalesTaxProductCode { get; set; }
+
         [Display(Name = "Is System Define ?")]
         public Boolean IsSystemDefine { get; set; }
 

@@ -373,15 +373,15 @@
 
     <script type="text/javascript">
 
-        $('#DocDate').change(function(){
+        //$('#DocDate').change(function(){
 
-            $.get("/StockHeader/GetDocNo",{Date:$(this).val(),DocTypeId:$('#DocTypeId').val(),SiteId:$('#SiteId').val(),DivisionId:$('#DivisionId').val()},function(data,Stat,xhr){
+        //    $.get("/StockHeader/GetDocNo",{Date:$(this).val(),DocTypeId:$('#DocTypeId').val(),SiteId:$('#SiteId').val(),DivisionId:$('#DivisionId').val()},function(data,Stat,xhr){
 
-                $('#DocNo').val(data);
+        //        $('#DocNo').val(data);
 
-            })
+        //    })
 
-        })
+        //})
 
         //Reloading the table contents on modal hide
         $('#myModal').on('hidden.bs.modal', function () {

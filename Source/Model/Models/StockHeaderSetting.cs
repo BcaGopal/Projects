@@ -10,6 +10,10 @@ namespace Model.Models
 {
     public class StockHeaderSettings : EntityBase, IHistoryLog
     {
+        public StockHeaderSettings()
+        {
+            isPostedInStock = true;
+        }
 
         [Key]
         public int StockHeaderSettingsId { get; set; }
@@ -42,6 +46,10 @@ namespace Model.Models
         public bool? isMandatoryProcessLine { get; set; }
         public bool? isVisibleProcessLine { get; set; }
         public bool? isVisibleProcessHeader { get; set; }
+
+
+        public bool isPostedInStock { get; set; }
+
         public bool? isPostedInStockProcess { get; set; }
         public bool? isPostedInLedger { get; set; }
         public bool? isProductHelpFromStockProcess { get; set; }

@@ -25,6 +25,7 @@ namespace Model.Models
         public bool? isVisiblePhone { get; set; }
         public bool? isVisibleMobile { get; set; }
         public bool? isVisibleEMail { get; set; }
+        public bool? isVisibleGstNo { get; set; }
         public bool? isVisibleCstNo { get; set; }
         public bool? isVisibleTinNo { get; set; }
         public bool? isVisiblePanNo { get; set; }
@@ -60,6 +61,7 @@ namespace Model.Models
 
 
         public bool? isMandatorySalesTaxGroup { get; set; }
+        public bool? isMandatoryGstNo { get; set; }
         public bool? isMandatoryCstNo { get; set; }
         public bool? isMandatoryTinNo { get; set; }
         public bool? isMandatoryAadharNo { get; set; }

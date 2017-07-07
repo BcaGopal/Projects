@@ -219,6 +219,10 @@ namespace Web
                 {
                     ModelState.AddModelError("Email", "The Email field is required");
                 }
+                if (settings.isVisibleGstNo == true && settings.isMandatoryGstNo == true && (PersonVm.GstNo == null || PersonVm.GstNo == ""))
+                {
+                    ModelState.AddModelError("GstNo", "The GstNo field is required");
+                }
                 if (settings.isVisibleCstNo == true && settings.isMandatoryCstNo == true && (PersonVm.CstNo == null || PersonVm.CstNo == ""))
                 {
                     ModelState.AddModelError("CstNo", "The CstNo field is required");
@@ -379,6 +383,19 @@ namespace Web
                         PersonRegistration personregistration = new PersonRegistration();
                         personregistration.RegistrationType = PersonRegistrationType.CstNo;
                         personregistration.RegistrationNo = PersonVm.CstNo;
+                        personregistration.CreatedDate = DateTime.Now;
+                        personregistration.ModifiedDate = DateTime.Now;
+                        personregistration.CreatedBy = User.Identity.Name;
+                        personregistration.ModifiedBy = User.Identity.Name;
+                        personregistration.ObjectState = Model.ObjectState.Added;
+                        _PersonRegistrationService.Create(personregistration);
+                    }
+
+                    if (PersonVm.GstNo != "" && PersonVm.GstNo != null)
+                    {
+                        PersonRegistration personregistration = new PersonRegistration();
+                        personregistration.RegistrationType = PersonRegistrationType.GstNo;
+                        personregistration.RegistrationNo = PersonVm.GstNo;
                         personregistration.CreatedDate = DateTime.Now;
                         personregistration.ModifiedDate = DateTime.Now;
                         personregistration.CreatedBy = User.Identity.Name;
@@ -567,6 +584,7 @@ namespace Web
                     LedgerAccount account = _AccountService.Find(PersonVm.AccountId);
                     PersonRegistration PersonPan = _PersonRegistrationService.Find(PersonVm.PersonRegistrationPanNoID ?? 0);
                     PersonRegistration PersonCst = _PersonRegistrationService.Find(PersonVm.PersonRegistrationCstNoID ?? 0);
+                    PersonRegistration PersonGst = _PersonRegistrationService.Find(PersonVm.PersonRegistrationGstNoID ?? 0);
                     PersonRegistration PersonTin = _PersonRegistrationService.Find(PersonVm.PersonRegistrationTinNoID ?? 0);
                     PersonRegistration PersonAadhar = _PersonRegistrationService.Find(PersonVm.PersonRegistrationAadharNoID ?? 0);
 
@@ -743,6 +761,38 @@ namespace Web
                             personregistration.PersonId = PersonVm.PersonID;
                             personregistration.RegistrationType = PersonRegistrationType.CstNo;
                             personregistration.RegistrationNo = PersonVm.CstNo;
+                            personregistration.CreatedDate = DateTime.Now;
+                            personregistration.ModifiedDate = DateTime.Now;
+                            personregistration.CreatedBy = User.Identity.Name;
+                            personregistration.ModifiedBy = User.Identity.Name;
+                            personregistration.ObjectState = Model.ObjectState.Added;
+                            _PersonRegistrationService.Create(personregistration);
+                        }
+                    }
+
+
+
+
+                    if (PersonVm.GstNo != null && PersonVm.GstNo != "")
+                    {
+                        if (PersonGst != null)
+                        {
+                            PersonGst.RegistrationNo = PersonVm.GstNo;
+                            _PersonRegistrationService.Update(PersonGst);
+
+                            LogList.Add(new LogTypeViewModel
+                            {
+                                ExObj = ExRecP,
+                                Obj = PersonGst,
+                            });
+
+                        }
+                        else
+                        {
+                            PersonRegistration personregistration = new PersonRegistration();
+                            personregistration.PersonId = PersonVm.PersonID;
+                            personregistration.RegistrationType = PersonRegistrationType.GstNo;
+                            personregistration.RegistrationNo = PersonVm.GstNo;
                             personregistration.CreatedDate = DateTime.Now;
                             personregistration.ModifiedDate = DateTime.Now;
                             personregistration.CreatedBy = User.Identity.Name;

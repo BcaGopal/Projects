@@ -234,8 +234,13 @@ namespace Model.ViewModels
         public int? DefaultDimension4Id { get; set; }
         public string DefaultDimension4Name { get; set; }
 
+        public int? SalesTaxProductCodeId { get; set; }
+        public string SalesTaxProductCodeName { get; set; }
+
         public DateTime? DiscontinueDate { get; set; }
         public string DiscontinueReason { get; set; }
+
+
 
     }
 

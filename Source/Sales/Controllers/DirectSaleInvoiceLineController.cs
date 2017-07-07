@@ -220,17 +220,6 @@ namespace Web
 
 
 
-
-
-
-
-
-
-
-
-
-
-
                         Pl.BaleNo = item.BaleNo;
                         Pl.DealQty = item.Qty * item.UnitConversionMultiplier ?? 0;
                         Pl.DealUnitId = item.DealUnitId;
@@ -593,6 +582,47 @@ namespace Web
 
 
 
+
+                    if (svm.ProductUidId != null && svm.ProductUidId > 0)
+                    {
+                        ProductUid Produid = new ProductUidService(_unitOfWork).Find((int)svm.ProductUidId);
+
+
+                        Pl.ProductUidLastTransactionDocId = Produid.LastTransactionDocId;
+                        Pl.ProductUidLastTransactionDocDate = Produid.LastTransactionDocDate;
+                        Pl.ProductUidLastTransactionDocNo = Produid.LastTransactionDocNo;
+                        Pl.ProductUidLastTransactionDocTypeId = Produid.LastTransactionDocTypeId;
+                        Pl.ProductUidLastTransactionPersonId = Produid.LastTransactionPersonId;
+                        Pl.ProductUidStatus = Produid.Status;
+                        Pl.ProductUidCurrentProcessId = Produid.CurrenctProcessId;
+                        Pl.ProductUidCurrentGodownId = Produid.CurrenctGodownId;
+
+
+                        if ((settings.DoNotUpdateProductUidStatus ?? false) == false)
+                        {
+                            Produid.LastTransactionDocId = Ph.PackingHeaderId;
+                            Produid.LastTransactionDocNo = Ph.DocNo;
+                            Produid.LastTransactionDocTypeId = Ph.DocTypeId;
+                            Produid.LastTransactionDocDate = Ph.DocDate;
+                            Produid.LastTransactionPersonId = Ph.JobWorkerId;
+                            Produid.CurrenctGodownId = Ph.GodownId;
+                            Produid.CurrenctProcessId = settings.ProcessId;
+                            Produid.Status = ProductUidStatusConstants.Issue;
+
+                            if (Produid.ProcessesDone == null)
+                            {
+                                Produid.ProcessesDone = "|" + settings.ProcessId.ToString() + "|";
+                            }
+                            else
+                            {
+                                Produid.ProcessesDone = Produid.ProcessesDone + ",|" + settings.ProcessId.ToString() + "|";
+                            }
+
+                            new ProductUidService(_unitOfWork).Update(Produid);
+                        }
+                    }
+
+
                     Pl.PackingHeaderId = Ph.PackingHeaderId;
                     Pl.CreatedBy = User.Identity.Name;
                     Pl.CreatedDate = DateTime.Now;
@@ -777,8 +807,6 @@ namespace Web
                             return PartialView("_Create", svm);
                         }
                     }
-
-
 
 
 
@@ -1102,6 +1130,8 @@ namespace Web
 
             int status = Sh.Status;
 
+            var settings = new SaleInvoiceSettingService(_unitOfWork).GetSaleInvoiceSettingForDocument(Sh.DocTypeId, Sh.DivisionId, Sh.SiteId);
+
             PackingLine Pl = _PackingLineService.Find(vm.PackingLineId.Value);
 
             SaleDispatchLine Dl = _SaleDispatchLineService.Find(vm.SaleDispatchLineId);
@@ -1109,6 +1139,40 @@ namespace Web
             SaleInvoiceLine Sl = _SaleInvoiceLineService.Find(vm.SaleInvoiceLineId);
 
             SaleInvoiceLineDetail Sid = _SaleInvoiceLineDetailService.Find(vm.SaleInvoiceLineId);
+
+
+            if (vm.ProductUidId != null && vm.ProductUidId != 0)
+            {
+                ProductUid ProductUid = (from p in db.ProductUid
+                                         where p.ProductUIDId == vm.ProductUidId
+                                         select p).FirstOrDefault();
+
+                if (!(Pl.ProductUidLastTransactionDocNo == ProductUid.LastTransactionDocNo && Pl.ProductUidLastTransactionDocTypeId == ProductUid.LastTransactionDocTypeId))
+                {
+                    if (settings.DoNotUpdateProductUidStatus ?? false == false)
+                    {
+                        if ((Ph.DocNo != ProductUid.LastTransactionDocNo || Ph.DocTypeId != ProductUid.LastTransactionDocTypeId))
+                        {
+                            ModelState.AddModelError("", "Bar Code Can't be deleted because this is already Proceed to another process.");
+                            PrepareViewBag();
+                            return PartialView("_Create", vm);
+                        }
+
+
+                        ProductUid.LastTransactionDocDate = Pl.ProductUidLastTransactionDocDate;
+                        ProductUid.LastTransactionDocId = Pl.ProductUidLastTransactionDocId;
+                        ProductUid.LastTransactionDocNo = Pl.ProductUidLastTransactionDocNo;
+                        ProductUid.LastTransactionDocTypeId = Pl.ProductUidLastTransactionDocTypeId;
+                        ProductUid.LastTransactionPersonId = Pl.ProductUidLastTransactionPersonId;
+                        ProductUid.CurrenctGodownId = Pl.ProductUidCurrentGodownId;
+                        ProductUid.CurrenctProcessId = Pl.ProductUidCurrentProcessId;
+                        ProductUid.Status = Pl.ProductUidStatus;
+                        ProductUid.ObjectState = Model.ObjectState.Modified;
+
+                        db.ProductUid.Add(ProductUid);
+                    }
+                }
+            }
 
             LogList.Add(new LogTypeViewModel
             {

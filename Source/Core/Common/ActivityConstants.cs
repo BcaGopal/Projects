@@ -210,6 +210,7 @@ namespace Core.Common
     {
         public const string TinNo = "Tin No";
         public const string CstNo = "Cst No";
+        public const string GstNo = "Gst No";
         public const string PANNo = "PAN No";
         public const string ServiceTaxNo = "Service Tax No";
         public const string KYCNo = "KYC No";

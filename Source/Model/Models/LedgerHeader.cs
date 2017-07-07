@@ -91,6 +91,11 @@ namespace Model.Models
         public string PartyDocNo { get; set; }
         public DateTime? PartyDocDate { get; set; }
 
+
+        [ForeignKey("ForLedgerHeader")]
+        public int? ForLedgerHeaderId { get; set; }
+        public virtual LedgerHeader ForLedgerHeader { get; set; }
+
         [MaxLength(20)]
         public string AdjustmentType { get; set; }
         public int? ReviewCount { get; set; }

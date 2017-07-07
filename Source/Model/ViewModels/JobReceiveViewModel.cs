@@ -272,6 +272,12 @@ namespace Model.ViewModel
         [Display(Name = "Product Group")]
         public string ProductGroupId { get; set; }
         public string CostCenterId { get; set; }
+
+        public string Dimension1Id { get; set; }
+        public string Dimension2Id { get; set; }
+
+        public string Dimension3Id { get; set; }
+        public string Dimension4Id { get; set; }
         public JobReceiveSettingsViewModel JobReceiveSettings { get; set; }
         public DocumentTypeSettingsViewModel DocumentTypeSettings { get; set; }
     }
