@@ -23,6 +23,7 @@ namespace Model.Models
         public virtual Division Division { get; set; }
         public bool? isVisibleCostCenter { get; set; }
         public bool? isMandatoryCostCenter { get; set; }
+        public bool? isVisibleProductUID { get; set; }
         public bool? isVisibleDimension1 { get; set; }
         public bool? isVisibleDimension2 { get; set; }
         public bool? isVisibleDimension3 { get; set; }
@@ -30,6 +31,7 @@ namespace Model.Models
         public string filterProductTypes { get; set; }
         public string filterProductGroups { get; set; }
         public string filterProducts { get; set; }
+        public string filterProductDivision { get; set; }
         public string filterContraDocTypes { get; set; }
         public string filterContraSites { get; set; }
         public string filterContraDivisions { get; set; }

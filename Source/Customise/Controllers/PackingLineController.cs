@@ -145,6 +145,10 @@ namespace Web
             PackingHeader H = new PackingHeaderService(_unitOfWork).GetPackingHeader(Id);
             PackingLineViewModel s = new PackingLineViewModel();
 
+            var settings = new PackingSettingService(_unitOfWork).GetPackingSettingForDocument(H.DocTypeId, H.DivisionId, H.SiteId);
+            s.PackingSettings = Mapper.Map<PackingSetting, PackingSettingsViewModel>(settings);
+            s.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(H.DocTypeId);
+
             s.PackingHeaderId = H.PackingHeaderId;
             s.DealUnitId = H.DealUnitId;
             s.DealUnitName = new UnitService(_unitOfWork).Find(s.DealUnitId).UnitName;
@@ -695,8 +699,18 @@ namespace Web
 
             PackingHeader H = new PackingHeaderService(_unitOfWork).GetPackingHeader(temp.PackingHeaderId);
             ViewBag.DocNo = H.DocNo;
+
+
+
             PackingLineViewModel s = _PackingLineService.GetPackingLineViewModelForLineId(id);
             s.DocTypeId = H.DocTypeId;
+
+            //Getting Settings
+            var settings = new PackingSettingService(_unitOfWork).GetPackingSettingForDocument(H.DocTypeId, H.DivisionId, H.SiteId);
+
+            s.PackingSettings = Mapper.Map<PackingSetting, PackingSettingsViewModel>(settings);
+            s.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(H.DocTypeId);
+
             PrepareViewBag(s);           
             return PartialView("_Create", s);
         }
@@ -773,6 +787,13 @@ namespace Web
             PackingHeader H = new PackingHeaderService(_unitOfWork).GetPackingHeader(temp.PackingHeaderId);
             ViewBag.DocNo = H.DocNo;
             PackingLineViewModel s = _PackingLineService.GetPackingLineViewModelForLineId(id);
+
+            //Getting Settings
+            var settings = new PackingSettingService(_unitOfWork).GetPackingSettingForDocument(H.DocTypeId, H.DivisionId, H.SiteId);
+
+            s.PackingSettings = Mapper.Map<PackingSetting, PackingSettingsViewModel>(settings);
+            s.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(H.DocTypeId);
+
             PrepareViewBag(s);            
             return PartialView("_Create", s);
         }
@@ -1978,6 +1999,26 @@ namespace Web
             {
                 return null;
             }
+        }
+
+        public ActionResult GetCustomProducts(string searchTerm, int pageSize, int pageNum, int filter)//DocTypeId
+        {
+            var Query = _PackingLineService.GetCustomProducts(filter, searchTerm);
+            var temp = Query.Skip(pageSize * (pageNum - 1))
+                .Take(pageSize)
+                .ToList();
+
+            var count = Query.Count();
+
+            ComboBoxPagedResult Data = new ComboBoxPagedResult();
+            Data.Results = temp;
+            Data.Total = count;
+
+            return new JsonpResult
+            {
+                Data = Data,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
         }
 
 

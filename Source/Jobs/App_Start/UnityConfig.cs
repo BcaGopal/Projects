@@ -260,6 +260,9 @@ namespace Jobs.App_Start
             Mapper.CreateMap<Perk, PerkViewModel>();
             Mapper.CreateMap<PerkViewModel, Perk>();
 
+            Mapper.CreateMap<LineChargeViewModel, CalculationProduct>().ForMember(m => m.CalculationProductId , x => x.Ignore());
+            Mapper.CreateMap<CalculationProduct, LineChargeViewModel>().ForMember(m => m.Id, x => x.Ignore());
+
             Mapper.CreateMap<LineChargeViewModel, JobOrderLineCharge>().ForMember(m => m.Id, x => x.Ignore());
             Mapper.CreateMap<JobOrderLineCharge, LineChargeViewModel>().ForMember(m => m.Id, x => x.Ignore());
 

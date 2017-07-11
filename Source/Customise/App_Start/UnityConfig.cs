@@ -106,6 +106,8 @@ namespace Customise.App_Start
             container.RegisterType<IRepository<PackingLine>, Repository<PackingLine>>();
             container.RegisterType<Service.IPackingLineService, Service.PackingLineService>(new PerRequestLifetimeManager());
 
+            container.RegisterType<IPackingSettingService, PackingSettingService>(new PerRequestLifetimeManager());
+
             container.RegisterType<IRepository<PersonAddress>, Repository<PersonAddress>>();
             container.RegisterType<IPersonAddressService, PersonAddressService>(new PerRequestLifetimeManager());
 
@@ -547,6 +549,10 @@ namespace Customise.App_Start
 
             Mapper.CreateMap<ProductCategoryProcessSettings, ProductCategoryProcessSettingsViewModel>();
             Mapper.CreateMap<ProductCategoryProcessSettingsViewModel, ProductCategoryProcessSettings>();
+
+            Mapper.CreateMap<PackingSetting, PackingSettingsViewModel>();
+            Mapper.CreateMap<PackingSettingsViewModel, PackingSetting>();
+
 
 
 

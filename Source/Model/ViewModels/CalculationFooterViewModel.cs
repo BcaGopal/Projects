@@ -83,9 +83,13 @@ namespace Model.ViewModel
     public class ReferenceLineChargeViewModel
     {
         public int LineId { get; set; }
-        public List<JobOrderHeaderCharge> HeaderCharges { get; set; }
-        public List<JobOrderLineCharge> Linecharges { get; set; }
+        //public List<JobOrderHeaderCharge> HeaderCharges { get; set; }
+        //public List<JobOrderLineCharge> Linecharges { get; set; }
+
+        public List<CalculationFooter> HeaderCharges { get; set; }
+        public List<CalculationProduct> Linecharges { get; set; }
         public decimal PenaltyAmt { get; set; }
+        public int? ChargeGroupProductId { get; set; }
     }
 
 }

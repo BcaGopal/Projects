@@ -978,6 +978,8 @@
     <Content Include="Views\SalesTaxProductCode\_Reason.cshtml" />
     <Content Include="Views\SalesTaxProductCode\Create.cshtml" />
     <Content Include="Views\SalesTaxProductCode\Index.cshtml" />
+    <Content Include="Views\StockIssueLine\_FiltersStockIn.cshtml" />
+    <Content Include="Views\StockIssueLine\_ResultsStockIn.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

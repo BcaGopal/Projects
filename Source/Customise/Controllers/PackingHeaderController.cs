@@ -218,6 +218,26 @@ namespace Web
             p.SiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
             p.DocNo = _PackingHeaderService.GetMaxDocNo();
             p.ShipMethodId = new ShipMethodService(_unitOfWork).Find("By Sea").ShipMethodId;
+
+            int DocTypeId = 0;
+            var DocType = new DocumentTypeService(_unitOfWork).GetDocumentTypeList(TransactionDocCategoryConstants.PackingReceive).FirstOrDefault();
+            if (DocType != null)
+            {
+                DocTypeId = DocType.DocumentTypeId;
+            }
+
+            //Getting Settings
+            var settings = new PackingSettingService(_unitOfWork).GetPackingSettingForDocument(DocTypeId, p.DivisionId, p.SiteId);
+
+            if (settings == null && UserRoles.Contains("Admin"))
+            {
+                return RedirectToAction("Create", "PackingSetting", new { id = DocTypeId }).Warning("Please create Packing settings");
+            }
+            else if (settings == null && !UserRoles.Contains("Admin"))
+            {
+                return View("~/Views/Shared/InValidSettings.cshtml");
+            }
+
             PrepareViewBag(p);
             ViewBag.Mode = "Add";
             return View(p);
@@ -430,6 +450,22 @@ namespace Web
             }
             PrepareViewBag(svm);
             ViewBag.Mode = "Edit";
+
+            //Getting Settings
+            var settings = new PackingSettingService(_unitOfWork).GetPackingSettingForDocument(svm.DocTypeId, svm.DivisionId, svm.SiteId);
+
+            if (settings == null && UserRoles.Contains("Admin"))
+            {
+                return RedirectToAction("Create", "PackingSetting", new { id = svm.DocTypeId }).Warning("Please create Packing settings");
+            }
+            else if (settings == null && !UserRoles.Contains("Admin"))
+            {
+                return View("~/Views/Shared/InValidSettings.cshtml");
+            }
+
+            svm.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(svm.DocTypeId);
+
+
 
             if (!(System.Web.HttpContext.Current.Request.UrlReferrer.PathAndQuery).Contains("Create"))
                 LogActivity.LogActivityDetail(LogVm.Map(new ActiivtyLogViewModel

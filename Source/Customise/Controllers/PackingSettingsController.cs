@@ -155,9 +155,11 @@ namespace Web
                     temp.filterProductTypes = pt.filterProductTypes;
                     temp.filterContraDivisions = pt.filterContraDivisions;
                     temp.filterContraSites = pt.filterContraSites;
+                    temp.filterProductDivision = pt.filterProductDivision;
                     temp.filterPersonRoles = pt.filterPersonRoles;
                     temp.SqlProcDocumentPrint_AfterApprove = pt.SqlProcDocumentPrint_AfterApprove;
                     temp.SqlProcDocumentPrint_AfterSubmit = pt.SqlProcDocumentPrint_AfterSubmit;
+                    temp.isVisibleProductUID = pt.isVisibleProductUID;
                     temp.isVisibleDimension1 = pt.isVisibleDimension1;
                     temp.isVisibleDimension2 = pt.isVisibleDimension2;
                     temp.isVisibleDimension3 = pt.isVisibleDimension3;
@@ -198,7 +200,7 @@ namespace Web
                         xEModifications = Modifications,
                     }));
 
-                    return RedirectToAction("Index", "DirectPackingHeader", new { id = vm.DocTypeId }).Success("Data saved successfully");
+                    return RedirectToAction("Index", "PackingHeader", new { id = vm.DocTypeId }).Success("Data saved successfully");
 
                 }
 

@@ -82,6 +82,15 @@ namespace Service
                 }
 
 
+                
+                if (LineCharges[i].IncludedChargesCalculation != null) 
+                {
+                    Decimal Rate = EvalExpression(LineCharges[i].IncludedCharges, LineCharges[i].IncludedChargesCalculation, Line);
+                    Decimal Amt = ((Line[selector] * 100) / (100 + Rate)) ?? 0;
+                    Line[selector] = Math.Round(Amt,2);
+                }
+
+
                 if (LineCharges[i].AddDeduct == (int)AddDeductEnum.Add)
                 {
                     SubTotalProduct = (SubTotalProduct + Line[selector] ?? 0);
@@ -472,6 +481,26 @@ namespace Service
             TEmpHeaderCharges = new List<HeaderChargeViewModel>();
             TempLineCharges = new List<LineChargeViewModel>();
 
+        }
+
+        public decimal EvalExpression(string IncludedCharges, string IncludedChargesCalculation, Dictionary<string, decimal?> Line) 
+        {
+            decimal Rate = 0;
+
+            if (IncludedCharges != null && IncludedCharges != "") 
+            {
+                string[] Params = IncludedCharges.Split(',');
+
+                for(int i = 0; i <= Params.Length - 1; i++ )
+                {
+                    Rate = Rate + (Line[Params[i]] ?? 0);
+                }
+            }
+            else {
+                Rate = 0;
+            }
+
+            return Rate;
         }
 
 

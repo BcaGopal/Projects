@@ -1405,7 +1405,7 @@ namespace Module
             AddFields("SaleDeliverySettings", "WizardMenuId", "int","Menus");
 
 
-            AddFields("TrialBalanceSettings", "ShowContraAccount", "Bit");
+            AddFields("TrialBalanceSettings", "ShowContraAccount", "BIT NOT NULL DEFAULT(1)");
 
 
             DropFields("JobInvoiceLines", "MfgDate");
@@ -1473,6 +1473,11 @@ namespace Module
             AddFields("SaleInvoiceSettings", "DoNotUpdateProductUidStatus", "BIT");
 
             AddFields("StockHeaderSettings", "isPostedInStock", "BIT NOT NULL DEFAULT(1)");
+
+            AddFields("PackingSettings", "isVisibleProductUID", "BIT");
+
+            AddFields("PackingSettings", "filterProductDivision", "nvarchar(Max)");
+            
 
             return RedirectToAction("Module", "Menu");
         }

@@ -496,8 +496,7 @@ else
 
                         LockFields();
 
-
-                        GetChargeRates('@Model.JobInvoiceSettings.CalculationId',$('#DocTypeId','.modal-body').val(),$('#SiteId','.modal-body').val(),$('#DivisionId','.modal-body').val(),$('#SalesTaxGroupPersonId','.modal-body').val(),$('#SalesTaxGroupProductId','.modal-body').val())
+                        GetChargeRates('@Model.JobInvoiceSettings.CalculationId',$('#DocTypeId','.modal-body').val(),$('#SiteId','.modal-body').val(),$('#DivisionId','.modal-body').val(),$('#JobInvoiceSettings_ProcessId','.modal-body').val(),$('#SalesTaxGroupPersonId','.modal-body').val(),$('#SalesTaxGroupProductId','.modal-body').val())
                         ChargeCalculation();
 
                     },
@@ -561,7 +560,7 @@ else
         $(function() {
             $("#acProducts").autocomplete({
                 delay: 500,
-                minLength: 3,
+                minLength: 0,
                 source: function(request,response){
 
                     //var matcher = new RegExp( $.ui.autocomplete.escapeRegex( request.term ), "i" );

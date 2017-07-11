@@ -138,6 +138,39 @@ namespace Customize
                 var ImportLineList = _ImportLineService.GetImportLineList(ImportHeaderId).Where(m => m.FileNo == (filecnt + 1));
 
 
+                foreach (var ImportLine in ImportLineList)
+                {
+                    if (ImportLine.IsVisible == true && RecordList.Columns.Contains(ImportLine.FieldName) == false && ImportLine.FileNo == filecnt + 1)
+                    {
+                        ModelState.AddModelError("", ImportLine.FieldName + " is manadatary for file " + ImportLine.Type + ", but file does not containt this column.");
+                        return View("Import", vm);
+                    }
+
+                    if (ImportLine.IsMandatory == true && ImportLine.FileNo == filecnt + 1)
+                    {
+                        for (int i = 0; i <= RecordList.Rows.Count - 1; i++)
+                        {
+                            if (RecordList.Rows[i][ImportLine.FieldName] == "" || RecordList.Rows[i][ImportLine.FieldName] == null)
+                            {
+                                ModelState.AddModelError("", ImportLine.FieldName + " is manadatary, it is blank at row no." + i.ToString());
+                                return View("Import", vm);
+                            }
+                        }
+                    }
+
+                    if (ImportLine.MaxLength > 0)
+                    {
+                        for (int i = 0; i <= RecordList.Rows.Count - 1; i++)
+                        {
+                            if (RecordList.Rows[i][ImportLine.FieldName].ToString().Length > ImportLine.MaxLength)
+                            {
+                                ModelState.AddModelError("", ImportLine.FieldName + " should be maximum length of " + ImportLine.MaxLength + ", it is exceeding at row no." + i.ToString());
+                                return View("Import", vm);
+                            }
+                        }
+                    }
+                }
+
 
                 if (ImportLineList.Count() > 0)
                 {
@@ -176,38 +209,7 @@ namespace Customize
 
 
 
-                foreach (var ImportLine in ImportLineList)
-                {
-                    if (ImportLine.IsMandatory == true && ImportLine.FileNo == filecnt + 1)
-                    {
-                        if (RecordList.Columns.Contains(ImportLine.FieldName) == false)
-                        {
-                            ModelState.AddModelError("", ImportLine.FieldName + " is manadatary for file " + ImportLine.Type  + ", but file does not containt this column.");
-                            return View("Import", vm);
-                        }
 
-                        for (int i = 0; i <= RecordList.Rows.Count - 1; i++)
-                        {
-                            if (RecordList.Rows[i][ImportLine.FieldName] == "")
-                            {
-                                ModelState.AddModelError("", ImportLine.FieldName + " is manadatary, it is blank at row no." + i.ToString());
-                                return View("Import", vm);
-                            }
-                        }
-                    }
-
-                    if (ImportLine.MaxLength > 0)
-                    {
-                        for (int i = 0; i <= RecordList.Rows.Count - 1; i++)
-                        {
-                            if (RecordList.Rows[i][ImportLine.FieldName].ToString().Length > ImportLine.MaxLength)
-                            {
-                                ModelState.AddModelError("", ImportLine.FieldName + " should be maximum length of " + ImportLine.MaxLength + ", it is exceeding at row no." + i.ToString());
-                                return View("Import", vm);
-                            }
-                        }
-                    }
-                }
                 string TempTableName = "#TempTable_" + (filecnt + 1).ToString();
                 CreateSqlTableFromDataTable(RecordList, TempTableName, sqlConnection);
             }
