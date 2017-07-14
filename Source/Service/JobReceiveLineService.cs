@@ -101,6 +101,23 @@ namespace Service
             if (!string.IsNullOrEmpty(vm.ProductGroupId)) { ProductGroupIdArr = vm.ProductGroupId.Split(",".ToCharArray()); }
             else { ProductGroupIdArr = new string[] { "NA" }; }
 
+            string[] Dimension1 = null;
+            if (!string.IsNullOrEmpty(vm.Dimension1Id)) { Dimension1 = vm.Dimension1Id.Split(",".ToCharArray()); }
+            else { Dimension1 = new string[] { "NA" }; }
+
+            string[] Dimension2 = null;
+            if (!string.IsNullOrEmpty(vm.Dimension2Id)) { Dimension2 = vm.Dimension2Id.Split(",".ToCharArray()); }
+            else { Dimension2 = new string[] { "NA" }; }
+
+
+            string[] Dimension3 = null;
+            if (!string.IsNullOrEmpty(vm.Dimension3Id)) { Dimension3 = vm.Dimension3Id.Split(",".ToCharArray()); }
+            else { Dimension3 = new string[] { "NA" }; }
+
+            string[] Dimension4 = null;
+            if (!string.IsNullOrEmpty(vm.Dimension4Id)) { Dimension4 = vm.Dimension4Id.Split(",".ToCharArray()); }
+            else { Dimension4 = new string[] { "NA" }; }
+
             string[] ContraSites = null;
             if (!string.IsNullOrEmpty(settings.filterContraSites)) { ContraSites = settings.filterContraSites.Split(",".ToCharArray()); }
             else { ContraSites = new string[] { "NA" }; }
@@ -120,7 +137,11 @@ namespace Service
                         && (string.IsNullOrEmpty(vm.JobOrderHeaderId) ? 1 == 1 : SaleOrderIdArr.Contains(p.JobOrderHeaderId.ToString()))
                         && (string.IsNullOrEmpty(vm.CostCenterId) ? 1 == 1 : CostCenterIdArr.Contains(tab.CostCenterId.ToString()))
                         && (string.IsNullOrEmpty(vm.ProductGroupId) ? 1 == 1 : ProductGroupIdArr.Contains(tab2.ProductGroupId.ToString()))
-                         && (string.IsNullOrEmpty(settings.filterContraSites) ? p.SiteId == JobReceive.SiteId : ContraSites.Contains(p.SiteId.ToString()))
+                        && (string.IsNullOrEmpty(vm.Dimension1Id) ? 1 == 1 : Dimension1.Contains(p.Dimension1Id.ToString()))
+                        && (string.IsNullOrEmpty(vm.Dimension2Id) ? 1 == 1 : Dimension2.Contains(p.Dimension2Id.ToString()))
+                        && (string.IsNullOrEmpty(vm.Dimension3Id) ? 1 == 1 : Dimension3.Contains(p.Dimension3Id.ToString()))
+                        && (string.IsNullOrEmpty(vm.Dimension4Id) ? 1 == 1 : Dimension4.Contains(p.Dimension4Id.ToString()))
+                        && (string.IsNullOrEmpty(settings.filterContraSites) ? p.SiteId == JobReceive.SiteId : ContraSites.Contains(p.SiteId.ToString()))
                         && (string.IsNullOrEmpty(settings.filterContraDivisions) ? p.DivisionId == JobReceive.DivisionId : ContraDivisions.Contains(p.DivisionId.ToString()))
                         && p.BalanceQty > 0 && p.JobWorkerId == vm.JobWorkerId && tab.DocDate <= JobReceive.DocDate
                         orderby tab.DocDate, tab.DocNo, tab1.Sr

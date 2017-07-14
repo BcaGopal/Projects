@@ -140,6 +140,7 @@ namespace Web
                     fp.ProductManufacturerId = item.ProductManufacturerId;
                     fp.ProcessSequenceHeaderId = item.ProcessSequenceHeaderId;
                     fp.DescriptionOfGoodsId = item.DescriptionOfGoodsId;
+                    fp.SalesTaxProductCodeId = item.SalesTaxProductCodeId;
                     fp.ContentId = item.ContentId;
                     fp.FaceContentId = item.FaceContentId;
                     fp.SalesTaxGroupProductId = item.SalesTaxGroupProductId;
@@ -471,6 +472,7 @@ namespace Web
                     ProductDesignPatternId = productInfo.ProductDesignPatternId,
                     ColourId = productInfo.ColourId ?? 0,
                     DescriptionOfGoodsId = productInfo.DescriptionOfGoodsId,
+                    SalesTaxProductCodeId = productInfo.SalesTaxProductCodeId,
                     ContentId = productInfo.ContentId,
                     FaceContentId = productInfo.FaceContentId,
                     SampleId = productInfo.SampleId,
@@ -801,6 +803,7 @@ namespace Web
                             //prod.ProductShapeId = vm.ProductShapeId;
 
                             prod.DescriptionOfGoodsId = vm.DescriptionOfGoodsId;
+                            prod.SalesTaxProductCodeId = vm.SalesTaxProductCodeId;
                             prod.ContentId = vm.ContentId;
                             prod.StandardCost = vm.StandardCost;
                             prod.FaceContentId = vm.FaceContentId;
@@ -1576,6 +1579,7 @@ namespace Web
             vm.ProductShapeId = temp.ProductShapeId;
             vm.ColourId = (int)temp.ColourId;
             vm.DescriptionOfGoodsId = temp.DescriptionOfGoodsId;
+            vm.SalesTaxProductCodeId = temp.SalesTaxProductCodeId;
             vm.OriginCountryId = temp.OriginCountryId;
             vm.TraceType = temp.TraceType;
             vm.MapType = temp.MapType;
@@ -1665,6 +1669,7 @@ namespace Web
                     pro.SampleId = vm.SampleId;
                     pro.CounterNo = vm.CounterNo;
                     pro.DescriptionOfGoodsId = vm.DescriptionOfGoodsId;
+                    pro.SalesTaxProductCodeId = vm.SalesTaxProductCodeId;
                     pro.StandardCost = vm.StandardCost;
                     pro.StandardWeight = vm.StandardWeight;
                     pro.GrossWeight = vm.GrossWeight;
@@ -2368,6 +2373,7 @@ namespace Web
                     temp.SampleId = vm.SampleId;
                     temp.CounterNo = vm.CounterNo;
                     temp.DescriptionOfGoodsId = vm.DescriptionOfGoodsId;
+                    temp.SalesTaxProductCodeId = vm.SalesTaxProductCodeId;
                     temp.StandardCost = vm.StandardCost;
                     temp.StandardWeight = vm.StandardWeight;
                     temp.GrossWeight = vm.GrossWeight;
@@ -3862,6 +3868,7 @@ namespace Web
             temp.SampleId = vm.SampleId;
             temp.CounterNo = vm.CounterNo;
             temp.DescriptionOfGoodsId = vm.DescriptionOfGoodsId;
+            temp.SalesTaxProductCodeId = vm.SalesTaxProductCodeId;
             temp.StandardCost = vm.StandardCost;
             temp.StandardWeight = vm.StandardWeight;
             temp.GrossWeight = vm.GrossWeight;
@@ -3873,6 +3880,19 @@ namespace Web
             temp.IsSample = vm.IsSample;
 
             return RedirectToAction("AddSize", temp);
+        }
+
+        public JsonResult GetProductCategoryDetailJson(int ProductCategoryId)
+        {
+            var ProductCategoryDetail = (from Pg in db.ProductCategory
+                                      where Pg.ProductCategoryId == ProductCategoryId
+                                      select new
+                                      {
+                                          DefaultSalesTaxProductCodeId = Pg.DefaultSalesTaxProductCodeId,
+                                          DefaultSalesTaxProductCodeName = Pg.DefaultSalesTaxProductCode.Code
+                                      }).FirstOrDefault();
+
+            return Json(ProductCategoryDetail);
         }
 
         protected override void Dispose(bool disposing)

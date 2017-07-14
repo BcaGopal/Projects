@@ -62,6 +62,15 @@ namespace Web
             return PartialView("_Filters", vm);
         }
 
+        public ActionResult _ForStockIn(int id)
+        {
+            StockInFiltersForIssue vm = new StockInFiltersForIssue();
+            StockHeader Header = new StockHeaderService(_unitOfWork).Find(id);
+            vm.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(Header.DocTypeId);
+            vm.StockHeaderId = id;
+            return PartialView("_FiltersStockIn", vm);
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult _FilterPost(RequisitionFiltersForIssue vm, string All)
@@ -74,6 +83,21 @@ namespace Web
             var Header = new StockHeaderService(_unitOfWork).Find(vm.StockHeaderId);
             svm.StockHeaderSettings = Mapper.Map<StockHeaderSettings, StockHeaderSettingsViewModel>(new StockHeaderSettingsService(_unitOfWork).GetStockHeaderSettingsForDocument(Header.DocTypeId, Header.DivisionId, Header.SiteId));
             return PartialView("_Results", svm);
+
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult _FilterPostStockIn(StockInFiltersForIssue vm)
+        {
+            List<StockLineViewModel> temp = _StockLineService.GetStockInForFilters(vm).ToList();
+
+            StockMasterDetailModel svm = new StockMasterDetailModel();
+            svm.StockLineViewModel = temp;
+            //Getting Settings           
+            var Header = new StockHeaderService(_unitOfWork).Find(vm.StockHeaderId);
+            svm.StockHeaderSettings = Mapper.Map<StockHeaderSettings, StockHeaderSettingsViewModel>(new StockHeaderSettingsService(_unitOfWork).GetStockHeaderSettingsForDocument(Header.DocTypeId, Header.DivisionId, Header.SiteId));
+            return PartialView("_ResultsStockIn", svm);
 
         }
 
@@ -259,9 +283,23 @@ namespace Web
                             line.StockProcessId = StockProcessViewModel.StockProcessId;
                         }
 
+                        if (item.StockInId != null)
+                        {
+                            StockAdj Adj_IssQty = new StockAdj();
+                            Adj_IssQty.StockAdjId = -Cnt;
+                            Adj_IssQty.StockInId = (int)item.StockInId;
+                            Adj_IssQty.StockOutId = (int)line.StockId;
+                            Adj_IssQty.DivisionId = Header.DivisionId;
+                            Adj_IssQty.SiteId = Header.SiteId;
+                            Adj_IssQty.AdjustedQty = item.Qty;
+                            Adj_IssQty.ObjectState = Model.ObjectState.Added;
+                            db.StockAdj.Add(Adj_IssQty);
+                        }
+
 
                         line.StockHeaderId = item.StockHeaderId;
                         line.RequisitionLineId = item.RequisitionLineId;
+                        line.StockInId = item.StockInId;
                         line.ProductId = item.ProductId;
                         line.Dimension1Id = item.Dimension1Id;
                         line.Dimension2Id = item.Dimension2Id;
@@ -355,7 +393,6 @@ namespace Web
             return PartialView("_Results", vm);
 
         }
-
 
 
 
@@ -1333,6 +1370,7 @@ namespace Web
             return Json(_StockLineService.GetProductHelpListForFilters(id, PersonId, term, Limit), JsonRequestBehavior.AllowGet);
         }
 
+
         public JsonResult GetProductsHelpList(string searchTerm, int pageSize, int pageNum, int filter)//filter:PersonId
         {
             var Query = _StockLineService.GetProductHelpList(filter, searchTerm);
@@ -1392,9 +1430,9 @@ namespace Web
             };
         }
 
-        public ActionResult GetStockInForProduct(string searchTerm, int pageSize, int pageNum, int StockHeaderId, int? ProductId, int? Dimension1Id, int? Dimension2Id, int? Dimension3Id, int? Dimension4Id)//DocTypeId
+        public ActionResult GetStockInForProduct(string searchTerm, int pageSize, int pageNum, int filter, int? ProductId, int? Dimension1Id, int? Dimension2Id, int? Dimension3Id, int? Dimension4Id)//DocTypeId
         {
-            var Query = _StockLineService.GetPendingStockInForIssue(StockHeaderId, ProductId, Dimension1Id, Dimension2Id, Dimension3Id, Dimension4Id, searchTerm);
+            var Query = _StockLineService.GetPendingStockInForIssue(filter, ProductId, Dimension1Id, Dimension2Id, Dimension3Id, Dimension4Id, searchTerm);
             var temp = Query.Skip(pageSize * (pageNum - 1))
                 .Take(pageSize)
                 .ToList();
@@ -1466,6 +1504,26 @@ namespace Web
         }
 
         public ActionResult GetCustomProductGroups(string searchTerm, int pageSize, int pageNum, int filter)//DocTypeId
+        {
+            var Query = _StockLineService.GetCustomProductGroups(filter, searchTerm);
+            var temp = Query.Skip(pageSize * (pageNum - 1))
+                .Take(pageSize)
+                .ToList();
+
+            var count = Query.Count();
+
+            ComboBoxPagedResult Data = new ComboBoxPagedResult();
+            Data.Results = temp;
+            Data.Total = count;
+
+            return new JsonpResult
+            {
+                Data = Data,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        public ActionResult GetCustomProductForStockIn(string searchTerm, int pageSize, int pageNum, int filter)//DocTypeId
         {
             var Query = _StockLineService.GetCustomProductGroups(filter, searchTerm);
             var temp = Query.Skip(pageSize * (pageNum - 1))

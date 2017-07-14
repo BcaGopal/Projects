@@ -196,6 +196,7 @@ namespace Web
                     temp.isVisibleCreditDays = pt.isVisibleCreditDays;
                     temp.isVisibleTermsAndConditions = pt.isVisibleTermsAndConditions;
                     temp.isVisibleShipToPartyAddress = pt.isVisibleShipToPartyAddress;
+                    temp.DoNotUpdateProductUidStatus = pt.DoNotUpdateProductUidStatus;
                     temp.CurrencyId = pt.CurrencyId;
                     temp.DeliveryTermsId = pt.DeliveryTermsId;
                     temp.ShipMethodId = pt.ShipMethodId;
@@ -377,6 +378,7 @@ namespace Web
                     temp.isVisibleCreditDays = pt.isVisibleCreditDays;
                     temp.isVisibleTermsAndConditions = pt.isVisibleTermsAndConditions;
                     temp.isVisibleShipToPartyAddress = pt.isVisibleShipToPartyAddress;
+                    temp.DoNotUpdateProductUidStatus = pt.DoNotUpdateProductUidStatus;
                     temp.CurrencyId = pt.CurrencyId;
                     temp.DeliveryTermsId = pt.DeliveryTermsId;
                     temp.ShipMethodId = pt.ShipMethodId;

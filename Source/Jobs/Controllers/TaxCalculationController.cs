@@ -95,9 +95,9 @@ namespace Web
 
 
 
-        public JsonResult GetChargeRates(int? CalculationId, int DocTypeId, int SiteId, int DivisionId, int? ChargeGroupPersonId, int? ChargeGroupProductId)
+        public JsonResult GetChargeRates(int? CalculationId, int DocTypeId, int SiteId, int DivisionId, int ProcessId, int? ChargeGroupPersonId, int? ChargeGroupProductId)
         {
-            return Json(new CalculationProductService(_unitOfWork).GetChargeRates(CalculationId ?? 0, DocTypeId, SiteId, DivisionId, ChargeGroupPersonId, ChargeGroupProductId).ToList());
+            return Json(new CalculationProductService(_unitOfWork).GetChargeRates(CalculationId ?? 0, DocTypeId, SiteId, DivisionId, ProcessId, ChargeGroupPersonId, ChargeGroupProductId).ToList());
         }
 
 

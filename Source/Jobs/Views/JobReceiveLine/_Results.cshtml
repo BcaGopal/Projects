@@ -335,7 +335,6 @@
     });
 
     $('.ToOrder').click(function () {
-
         var $Hidiv = $(this).closest('div.row.crow');
 
 
@@ -349,10 +348,12 @@
 
         if ($div.find('input.ReceiveQty').val() && $div.find('input.ReceiveQty').val() > 0) {
             $div.find('input.ReceiveQty').val(0);
+            $div.find('input.PassQty').val(0);
         }
 
         else {
             $div.find('input.ReceiveQty').val(OrderQty.toFixed(unitDecPlaces));
+            $div.find('input.PassQty').val(OrderQty.toFixed(unitDecPlaces));
         }
 
 
@@ -360,9 +361,10 @@
     })
 
     $('#ToOrder').click(function () {
-        
+
         if (reset) {
-            $('div.row.crow', "#gbody.panel-info").each(function (index) {
+            $('div.row.crow', "#gbody-modal.panel-info").each(function (index) {
+
 
                 var $Hidiv = $(this);
 
@@ -374,18 +376,17 @@
 
 
                 $Hidiv.find('input.ReceiveQty').val(OrderQty.toFixed(unitDecPlaces));
+                $Hidiv.find('input.PassQty').val(OrderQty.toFixed(unitDecPlaces));
 
             })
             reset = false;
         }
         else if (!reset) {
-            $('div.row.crow', "#gbody.panel-info").each(function (index) {
-
+            $('div.row.crow', "#gbody-modal.panel-info").each(function (index) {
                 var $Hidiv = $(this);
 
-
-
                 $Hidiv.find('input.ReceiveQty').val(0);
+                $Hidiv.find('input.PassQty').val(0);
 
             })
             reset = true;

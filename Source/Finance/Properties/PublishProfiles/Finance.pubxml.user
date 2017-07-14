@@ -28,16 +28,16 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/22/2016 11:23:20</publishTime>
     </File>
     <File Include="bin/Core.dll">
-      <publishTime>06/28/2017 19:11:21</publishTime>
+      <publishTime>07/05/2017 08:53:12</publishTime>
     </File>
     <File Include="bin/CustomEventHandlers.dll">
-      <publishTime>06/28/2017 19:14:36</publishTime>
+      <publishTime>07/05/2017 14:33:56</publishTime>
     </File>
     <File Include="bin/Data.dll">
-      <publishTime>06/28/2017 19:11:31</publishTime>
+      <publishTime>07/05/2017 14:33:32</publishTime>
     </File>
     <File Include="bin/DocumentEvents.dll">
-      <publishTime>06/28/2017 19:14:34</publishTime>
+      <publishTime>07/05/2017 14:33:54</publishTime>
     </File>
     <File Include="bin/Elmah.dll">
       <publishTime>09/22/2016 11:24:00</publishTime>
@@ -52,7 +52,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/22/2016 11:24:09</publishTime>
     </File>
     <File Include="bin/Finance.dll">
-      <publishTime>06/29/2017 18:18:51</publishTime>
+      <publishTime>07/05/2017 14:34:00</publishTime>
     </File>
     <File Include="bin/GridMvc.dll">
       <publishTime>09/22/2016 11:24:54</publishTime>
@@ -127,19 +127,19 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/22/2016 11:23:54</publishTime>
     </File>
     <File Include="bin/Model.dll">
-      <publishTime>06/28/2017 19:11:25</publishTime>
+      <publishTime>07/05/2017 14:33:29</publishTime>
     </File>
     <File Include="bin/Models.Login.dll">
-      <publishTime>06/28/2017 19:11:24</publishTime>
+      <publishTime>07/05/2017 08:53:13</publishTime>
     </File>
     <File Include="bin/Models.Tasks.dll">
-      <publishTime>06/28/2017 19:11:22</publishTime>
+      <publishTime>07/05/2017 08:53:13</publishTime>
     </File>
     <File Include="bin/Newtonsoft.Json.dll">
       <publishTime>09/22/2016 11:23:06</publishTime>
     </File>
     <File Include="bin/Notifier.dll">
-      <publishTime>06/29/2017 18:18:48</publishTime>
+      <publishTime>07/05/2017 14:33:55</publishTime>
     </File>
     <File Include="bin/Owin.dll">
       <publishTime>09/22/2016 11:22:43</publishTime>
@@ -151,7 +151,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/22/2016 10:54:21</publishTime>
     </File>
     <File Include="bin/Reports.dll">
-      <publishTime>06/28/2017 19:14:40</publishTime>
+      <publishTime>07/05/2017 14:33:58</publishTime>
     </File>
     <File Include="bin/Reports/CompanyDetail.rdlc">
       <publishTime>09/22/2016 10:54:49</publishTime>
@@ -316,7 +316,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/22/2016 10:54:50</publishTime>
     </File>
     <File Include="bin/Service.dll">
-      <publishTime>06/28/2017 19:14:33</publishTime>
+      <publishTime>07/05/2017 14:33:54</publishTime>
     </File>
     <File Include="bin/System.Web.Helpers.dll">
       <publishTime>09/22/2016 11:23:54</publishTime>
@@ -1438,7 +1438,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>05/30/2017 14:40:37</publishTime>
     </File>
     <File Include="Views/LedgerHeader/Create.cshtml">
-      <publishTime>06/26/2017 11:27:23</publishTime>
+      <publishTime>07/04/2017 17:14:20</publishTime>
     </File>
     <File Include="Views/LedgerHeader/Detail.cshtml">
       <publishTime>09/22/2016 10:54:34</publishTime>
@@ -1462,7 +1462,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>06/12/2017 18:43:44</publishTime>
     </File>
     <File Include="Views/LedgerSetting/Create.cshtml">
-      <publishTime>06/20/2017 09:51:49</publishTime>
+      <publishTime>07/04/2017 18:07:25</publishTime>
     </File>
     <File Include="Views/LedgerSetting/CreateForCancel.cshtml">
       <publishTime>09/22/2016 10:54:34</publishTime>

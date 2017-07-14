@@ -54,6 +54,18 @@
                 </div>
 
                 <div class="row">
+                    <div class="col-md-6" style="display:@(ViewBag.IsVisibleSalesTaxProductCode ? "" : "none")">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.DefaultSalesTaxProductCodeId, (string)@ViewBag.SalesTaxProductCodeCaption, new { @class = "control-label col-xs-4" })
+                            <div class="col-md-7 col-sm-10">
+                                @Html.TextBoxFor(m => m.DefaultSalesTaxProductCodeId, null, new { @class = "form-control col-xs-6 " })
+                                @Html.ValidationMessageFor(m => m.DefaultSalesTaxProductCodeId, null, new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
                             @Html.LabelFor(model => model.IsActive, "Is Active", new { @class = "control-label col-md-4 col-sm-2" })
@@ -83,6 +95,10 @@
 </script>
 
 <script type="text/javascript">
+
+    $(document).ready(function () {
+        CustomSelectFunction($("#DefaultSalesTaxProductCodeId"), '/ComboHelpList/GetSalesTaxProductCodes', '/ComboHelpList/SetSingleSalesTaxProductCode', ' ', false, 0);
+    });
 
      var IsSaved=false;
     var ValidationCount=0;

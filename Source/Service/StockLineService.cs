@@ -69,6 +69,8 @@ namespace Service
         IQueryable<ComboBoxResult> GetCustomReferenceDocIds(int Id, string term);
         ComboBoxResult SetCustomReferenceDocIds(int StockLineId);
         IEnumerable<ComboBoxResult> FGetProductUidHelpList(int Id, string term);
+        IEnumerable<StockLineViewModel> GetStockInForFilters(StockInFiltersForIssue vm);
+
 
     }
 
@@ -1720,7 +1722,7 @@ namespace Service
                 UID.ErrorType = "Status";
                 UID.ErrorMessage = "BarCode is already added.";
             }
-            else if (UID.Status != "Receive")
+            else if (UID.Status != "Receive" && UID.Status != "Gen")
             {
                 UID.ErrorType = "Status";
                 UID.ErrorMessage = "The Status of the Barcode is " + UID.Status;
@@ -2183,6 +2185,103 @@ namespace Service
                             AProp2 = P.AProp2
                         }).ToList();
 
+            return temp;
+        }
+
+
+        public IEnumerable<StockLineViewModel> GetStockInForFilters(StockInFiltersForIssue vm)
+        {
+
+            var Stock = new StockHeaderService(_unitOfWork).Find(vm.StockHeaderId);
+
+            var settings = new StockHeaderSettingsService(_unitOfWork).GetStockHeaderSettingsForDocument(Stock.DocTypeId, Stock.DivisionId, Stock.SiteId);
+
+
+            string[] ProductTypes = null;
+            if (!string.IsNullOrEmpty(settings.filterProductTypes)) { ProductTypes = settings.filterProductTypes.Split(",".ToCharArray()); }
+            else { ProductTypes = new string[] { "NA" }; }
+
+            string[] ContraSites = null;
+            if (!string.IsNullOrEmpty(settings.filterContraSites)) { ContraSites = settings.filterContraSites.Split(",".ToCharArray()); }
+            else { ContraSites = new string[] { "NA" }; }
+
+            string[] ContraDivisions = null;
+            if (!string.IsNullOrEmpty(settings.filterContraDivisions)) { ContraDivisions = settings.filterContraDivisions.Split(",".ToCharArray()); }
+            else { ContraDivisions = new string[] { "NA" }; }
+
+
+            string[] ProductIdArr = null;
+            if (!string.IsNullOrEmpty(vm.ProductId)) { ProductIdArr = vm.ProductId.Split(",".ToCharArray()); }
+            else { ProductIdArr = new string[] { "NA" }; }
+
+            string[] StockInIdArr = null;
+            if (!string.IsNullOrEmpty(vm.StockInId)) { StockInIdArr = vm.StockInId.Split(",".ToCharArray()); }
+            else { StockInIdArr = new string[] { "NA" }; }
+
+            string[] ProductGroupIdArr = null;
+            if (!string.IsNullOrEmpty(vm.ProductGroupId)) { ProductGroupIdArr = vm.ProductGroupId.Split(",".ToCharArray()); }
+            else { ProductGroupIdArr = new string[] { "NA" }; }
+
+            string[] Dim1IdArr = null;
+            if (!string.IsNullOrEmpty(vm.Dimension1Id)) { Dim1IdArr = vm.Dimension1Id.Split(",".ToCharArray()); }
+            else { Dim1IdArr = new string[] { "NA" }; }
+
+            string[] Dim2IdArr = null;
+            if (!string.IsNullOrEmpty(vm.Dimension2Id)) { Dim2IdArr = vm.Dimension2Id.Split(",".ToCharArray()); }
+            else { Dim2IdArr = new string[] { "NA" }; }
+
+            string[] Dim3IdArr = null;
+            if (!string.IsNullOrEmpty(vm.Dimension3Id)) { Dim3IdArr = vm.Dimension3Id.Split(",".ToCharArray()); }
+            else { Dim3IdArr = new string[] { "NA" }; }
+
+            string[] Dim4IdArr = null;
+            if (!string.IsNullOrEmpty(vm.Dimension4Id)) { Dim4IdArr = vm.Dimension4Id.Split(",".ToCharArray()); }
+            else { Dim4IdArr = new string[] { "NA" }; }
+
+            string[] CostCenterArr = null;
+            if (!string.IsNullOrEmpty(vm.CostCenterId)) { CostCenterArr = vm.CostCenterId.Split(",".ToCharArray()); }
+            else { CostCenterArr = new string[] { "NA" }; }
+
+            var temp = (from p in db.ViewStockInBalance
+                        join S in db.Stock on p.StockInId equals S.StockId into StockTable
+                        from StockTab in StockTable.DefaultIfEmpty()
+                        where (string.IsNullOrEmpty(vm.ProductId) ? 1 == 1 : ProductIdArr.Contains(p.ProductId.ToString()))
+                        && (string.IsNullOrEmpty(vm.StockInId) ? 1 == 1 : StockInIdArr.Contains(p.StockInId.ToString()))
+                        && (string.IsNullOrEmpty(vm.ProductGroupId) ? 1 == 1 : ProductGroupIdArr.Contains(StockTab.Product.ProductGroup.ProductGroupId.ToString()))
+                        && (string.IsNullOrEmpty(vm.Dimension1Id) ? 1 == 1 : Dim1IdArr.Contains(p.Dimension1Id.ToString()))
+                        && (string.IsNullOrEmpty(vm.Dimension2Id) ? 1 == 1 : Dim2IdArr.Contains(p.Dimension2Id.ToString()))
+                        && (string.IsNullOrEmpty(vm.Dimension3Id) ? 1 == 1 : Dim3IdArr.Contains(p.Dimension3Id.ToString()))
+                        && (string.IsNullOrEmpty(vm.Dimension4Id) ? 1 == 1 : Dim4IdArr.Contains(p.Dimension4Id.ToString()))
+                        && (string.IsNullOrEmpty(vm.CostCenterId) ? 1 == 1 : CostCenterArr.Contains(StockTab.CostCenterId.ToString()))
+                        && (string.IsNullOrEmpty(settings.filterProductTypes) ? 1 == 1 : ProductTypes.Contains(StockTab.Product.ProductGroup.ProductTypeId.ToString()))
+                        && (string.IsNullOrEmpty(settings.filterContraSites) ? 1 == 1 : ContraSites.Contains(StockTab.StockHeader.SiteId.ToString()))
+                        && (string.IsNullOrEmpty(settings.filterContraDivisions) ? 1 == 1 : ContraDivisions.Contains(StockTab.StockHeader.DivisionId.ToString()))
+                        && p.BalanceQty > 0
+                        orderby p.ProductId, p.Dimension1Id, p.Dimension2Id, p.Dimension3Id, p.Dimension4Id
+                        select new StockLineViewModel
+                        {
+                            Dimension1Name = StockTab.Dimension1.Dimension1Name,
+                            Dimension2Name = StockTab.Dimension2.Dimension2Name,
+                            Dimension3Name = StockTab.Dimension3.Dimension3Name,
+                            Dimension4Name = StockTab.Dimension4.Dimension4Name,
+                            Dimension1Id = p.Dimension1Id,
+                            Dimension2Id = p.Dimension2Id,
+                            Dimension3Id = p.Dimension3Id,
+                            Dimension4Id = p.Dimension4Id,
+                            ProcessId = StockTab.ProcessId,
+                            Specification = StockTab.Specification,
+                            StockInBalanceQty = p.BalanceQty,
+                            Qty = p.BalanceQty,
+                            StockInNo = StockTab.StockHeader.DocNo,
+                            ProductName = StockTab.Product.ProductName,
+                            ProductId = p.ProductId,
+                            CostCenterId = StockTab.CostCenterId,
+                            StockHeaderId = vm.StockHeaderId,
+                            StockInId = p.StockInId,
+                            UnitId = StockTab.Product.UnitId,
+                            UnitName = StockTab.Product.Unit.UnitName,
+                            UnitDecimalPlaces = StockTab.Product.Unit.DecimalPlaces,
+                        });
             return temp;
         }
 

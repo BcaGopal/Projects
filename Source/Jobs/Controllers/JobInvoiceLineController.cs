@@ -17,6 +17,7 @@ using CustomEventArgs;
 using DocumentEvents;
 using Reports.Controllers;
 using Presentation.Helper;
+using System.Data.Entity;
 namespace Web
 {
 
@@ -219,6 +220,8 @@ namespace Web
                             RefIds.Add(new LineReferenceIds { LineId = line.JobInvoiceLineId, RefLineId = line.JobReceiveLineId });
                             pk++;
 
+
+
                         }
                     }
 
@@ -230,21 +233,266 @@ namespace Web
                     int[] RecLineIds = null;
                     RecLineIds = RefIds.Select(m => m.RefLineId).ToArray();
 
+
+                    //temp = (from p in db.JobReceiveLine
+                    //        where RecLineIds.Contains(p.JobReceiveLineId)
+                    //        join t in db.JobOrderLine on p.JobOrderLineId equals t.JobOrderLineId into JobOrderLineTable
+                    //        from JobOrderLineTab in JobOrderLineTable.DefaultIfEmpty()
+                    //        join LineCharge in db.JobOrderLineCharge on p.JobOrderLineId equals LineCharge.LineTableId into JobOrderLineChargeTable
+                    //        from JobOrderLineChargeTab in JobOrderLineChargeTable.DefaultIfEmpty()
+                    //        join HeaderCharge in db.JobOrderHeaderCharges on JobOrderLineTab.JobOrderHeaderId equals HeaderCharge.HeaderTableId into JobOrderHeaderChargeTable
+                    //        from JObOrderHeaderChargeTab in JobOrderHeaderChargeTable.DefaultIfEmpty()
+                    //        join rqa in db.JobReceiveQALine on p.JobReceiveLineId equals rqa.JobReceiveLineId into qatable
+                    //        from qatab in qatable.DefaultIfEmpty()
+                    //        group new { p, JobOrderLineChargeTab, JObOrderHeaderChargeTab, qatab } by new { p.JobReceiveLineId } into g
+                    //        select new ReferenceLineChargeViewModel
+                    //        {
+                    //            LineId = g.Key.JobReceiveLineId,
+                    //            HeaderCharges = g.Select(m => m.JObOrderHeaderChargeTab).ToList(),
+                    //            Linecharges = g.Select(m => m.JobOrderLineChargeTab).ToList(),
+                    //            PenaltyAmt = g.Select(m => m.p.PenaltyAmt - (m.p.IncentiveAmt ?? 0)).FirstOrDefault() + ((g.Select(m => m.qatab).FirstOrDefault() == null) ? 0 : g.Select(m => m.qatab.PenaltyAmt).FirstOrDefault()),
+                    //        }).ToList();
+
                     temp = (from p in db.JobReceiveLine
                             where RecLineIds.Contains(p.JobReceiveLineId)
-                            join t in db.JobOrderLine on p.JobOrderLineId equals t.JobOrderLineId into JobOrderLineTable from JobOrderLineTab in JobOrderLineTable.DefaultIfEmpty()
-                            join LineCharge in db.JobOrderLineCharge on p.JobOrderLineId equals LineCharge.LineTableId into JobOrderLineChargeTable from JobOrderLineChargeTab in JobOrderLineChargeTable.DefaultIfEmpty()
-                            join HeaderCharge in db.JobOrderHeaderCharges on JobOrderLineTab.JobOrderHeaderId equals HeaderCharge.HeaderTableId into JobOrderHeaderChargeTable from JObOrderHeaderChargeTab in JobOrderHeaderChargeTable.DefaultIfEmpty()
                             join rqa in db.JobReceiveQALine on p.JobReceiveLineId equals rqa.JobReceiveLineId into qatable
                             from qatab in qatable.DefaultIfEmpty()
-                            group new { p, JobOrderLineChargeTab, JObOrderHeaderChargeTab, qatab } by new { p.JobReceiveLineId } into g
+                            group new { p, qatab } by new { p.JobReceiveLineId } into g
                             select new ReferenceLineChargeViewModel
                             {
                                 LineId = g.Key.JobReceiveLineId,
-                                HeaderCharges = g.Select(m => m.JObOrderHeaderChargeTab).ToList(),
-                                Linecharges = g.Select(m => m.JobOrderLineChargeTab).ToList(),
-                                PenaltyAmt = g.Select(m => m.p.PenaltyAmt - (m.p.IncentiveAmt ?? 0)).FirstOrDefault() + ((g.Select(m => m.qatab).FirstOrDefault() == null) ? 0 : g.Select(m => m.qatab.PenaltyAmt).FirstOrDefault()),                                
+                                PenaltyAmt = g.Select(m => m.p.PenaltyAmt - (m.p.IncentiveAmt ?? 0)).FirstOrDefault() + ((g.Select(m => m.qatab).FirstOrDefault() == null) ? 0 : g.Select(m => m.qatab.PenaltyAmt).FirstOrDefault()),
+                                ChargeGroupProductId = g.Select(m => m.p.JobOrderLine.Product.SalesTaxGroupProductId).FirstOrDefault(),
                             }).ToList();
+
+
+
+                    
+                    //foreach (var item in temp)
+                    //{
+                    //    List<CalculationProductViewModel> ChargeRates = new List<CalculationProductViewModel>();
+                    //    ChargeRates = new CalculationProductService(_unitOfWork).GetChargeRates(CalculationId, Header.DocTypeId, Header.SiteId, Header.DivisionId, Header.ProcessId, Header.SalesTaxGroupPersonId, item.ChargeGroupProductId).ToList();
+                    //    List<CalculationProduct> LineChargeList = new List<CalculationProduct>();
+                    //    LineChargeList = (from L in db.CalculationProduct where L.CalculationId == CalculationId select L).ToList();
+
+
+                    //    foreach (var LineC in LineChargeList)
+                    //    {
+                    //        foreach (var Ct in ChargeRates)
+                    //        {
+                    //            if (LineC.ChargeId == Ct.ChargeId)
+                    //            {
+                    //                LineC.Rate = Ct.Rate;
+                    //                LineC.LedgerAccountCrId = Ct.LedgerAccountCrId;
+                    //                LineC.LedgerAccountDrId = Ct.LedgerAccountDrId;
+                    //            }
+                    //        }
+                    //    }
+
+                    //    item.Linecharges = new List<CalculationProduct>();
+                    //    item.Linecharges.AddRange(LineChargeList);
+
+                    //    List<CalculationFooter> HeaderChargeList = (from L in db.CalculationFooter where L.CalculationId == CalculationId select L).ToList();
+                    //    item.HeaderCharges = HeaderChargeList;
+                    //}
+
+                    List<CalculationProduct> LineChargeListCollection = (from L in db.CalculationProduct where L.CalculationId == CalculationId select L).ToList();
+                    foreach (var item in temp)
+                    {
+                        List<CalculationProductViewModel> ChargeRates = new List<CalculationProductViewModel>();
+                        ChargeRates = new CalculationProductService(_unitOfWork).GetChargeRates(CalculationId, Header.DocTypeId, Header.SiteId, Header.DivisionId, Header.ProcessId, Header.SalesTaxGroupPersonId, item.ChargeGroupProductId).ToList();
+                        //List<CalculationProduct> LineChargeList = new List<CalculationProduct>();
+                        //LineChargeList = (from L in db.CalculationProduct where L.CalculationId == CalculationId select L).ToList();
+                        item.Linecharges = new List<CalculationProduct>();
+
+                        foreach (var LineC in LineChargeListCollection)
+                        {
+                            foreach (var Ct in ChargeRates)
+                            {
+                                if (LineC.ChargeId == Ct.ChargeId)
+                                {
+                                    CalculationProduct Cp = new CalculationProduct();
+                                    Cp.CalculationProductId  =   LineC.CalculationProductId;
+                                    Cp.CalculationId = LineC.CalculationId;
+                                    Cp.Sr = LineC.Sr;
+                                    Cp.ChargeId = LineC.ChargeId;
+                                    Cp.AddDeduct = LineC.AddDeduct;
+                                    Cp.AffectCost = LineC.AffectCost;
+                                    Cp.ChargeTypeId = LineC.ChargeTypeId;
+                                    Cp.CalculateOnId = LineC.CalculateOnId;
+                                    Cp.CostCenterId = LineC.CostCenterId;
+                                    Cp.RateType = LineC.RateType;
+                                    Cp.IncludedInBase = LineC.IncludedInBase;
+                                    Cp.ParentChargeId = LineC.ParentChargeId;
+                                    Cp.Rate = Ct.Rate;
+                                    Cp.Amount = LineC.Amount;
+                                    Cp.RoundOff = LineC.RoundOff;
+                                    Cp.LedgerAccountDrId = Ct.LedgerAccountDrId;
+                                    Cp.LedgerAccountCrId = Ct.LedgerAccountCrId;
+                                    Cp.PersonId = LineC.PersonId;
+                                    Cp.IncludedCharges = LineC.IncludedCharges;
+                                    Cp.IncludedChargesCalculation = LineC.IncludedChargesCalculation;
+                                    Cp.IsVisible = LineC.IsVisible;
+                                    Cp.IsActive = LineC.IsActive;
+                                    Cp.CreatedBy = LineC.CreatedBy;
+                                    Cp.ModifiedBy = LineC.ModifiedBy;
+                                    Cp.CreatedDate = LineC.CreatedDate;
+                                    Cp.ModifiedDate = LineC.ModifiedDate;
+
+
+
+                                    //Cp.Rate = Ct.Rate;
+                                    //Cp.LedgerAccountCrId = Ct.LedgerAccountCrId;
+                                    //Cp.LedgerAccountDrId = Ct.LedgerAccountDrId;
+                                    item.Linecharges.Add(Cp);
+                                }
+                            }
+                        }
+
+
+                        List<CalculationFooter> HeaderChargeList = (from L in db.CalculationFooter where L.CalculationId == CalculationId select L).ToList();
+                        item.HeaderCharges = HeaderChargeList;
+                    }
+
+
+
+
+                    //for (int i = 0; i <= temp.Count - 1; i++)
+                    //{
+                    //    List<CalculationProductViewModel> ChargeRates = new CalculationProductService(_unitOfWork).GetChargeRates(CalculationId, Header.DocTypeId, Header.SiteId, Header.DivisionId, Header.ProcessId, Header.SalesTaxGroupPersonId, temp[i].ChargeGroupProductId).ToList();
+                    //    temp[i].Linecharges = (from L in db.CalculationProduct where L.CalculationId == CalculationId select L).ToList();
+
+                    //    for (int j = 0; j <= temp[i].Linecharges.Count - 1; j++)
+                    //    {
+                    //        for (int k = 0; k <= ChargeRates.Count() - 1; k++)
+                    //        {
+                    //            if (temp[i].Linecharges[j].ChargeId == ChargeRates[k].ChargeId)
+                    //            {
+                    //                temp[i].Linecharges[j].Rate = ChargeRates[k].Rate;
+                    //                temp[i].Linecharges[j].LedgerAccountCrId = ChargeRates[k].LedgerAccountCrId;
+                    //                temp[i].Linecharges[j].LedgerAccountDrId = ChargeRates[k].LedgerAccountDrId;
+                    //            }
+                    //        }
+                    //    }
+
+
+                    //    List<CalculationFooter> HeaderChargeList = (from L in db.CalculationFooter where L.CalculationId == CalculationId select L).ToList();
+                    //    temp[i].HeaderCharges = HeaderChargeList;
+                    //}
+
+
+
+
+                    //IEnumerable<JobOrderLineCharge> SettingLineCharges = (from L in db.JobReceiveLine
+                    //                                                      join H in db.JobReceiveHeader on L.JobReceiveHeaderId equals H.JobReceiveHeaderId into JobReceiveHeaderTable
+                    //                                                      from JobReceiveHeaderTab in JobReceiveHeaderTable.DefaultIfEmpty()
+                    //                                                      join Jol in db.JobOrderLine on L.JobOrderLineId equals Jol.JobOrderLineId into JobOrderLineTable
+                    //                                                      from JobOrderLineTab in JobOrderLineTable.DefaultIfEmpty()
+                    //                                                      join Prod in db.Product on L.ProductId equals Prod.ProductId into ProductTable
+                    //                                                      from ProductTab in ProductTable.DefaultIfEmpty()
+                    //                                                      join Cgs in db.ChargeGroupSettings
+                    //                                                           on new { A1 = ProductTab.SalesTaxGroupProductId ?? 0, A2 = JobOrderLineTab.JobOrderHeader.SalesTaxGroupPersonId ?? 0, JobReceiveHeaderTab.ProcessId }
+                    //                                                           equals new { A1 = Cgs.ChargeGroupProductId, A2 = Cgs.ChargeGroupPersonId, Cgs.ProcessId } into ChargeGroupSettingsTable
+                    //                                                      from ChargeGroupSettingsTab in ChargeGroupSettingsTable.DefaultIfEmpty()
+                    //                                                      join LineCharge in db.JobOrderLineCharge on L.JobOrderLineId equals LineCharge.LineTableId into JobOrderLineChargeTable
+                    //                                                      from JobOrderLineChargeTab in JobOrderLineChargeTable.DefaultIfEmpty()
+                    //                                                      join Cp in db.CalculationProduct.Where(m => m.CalculationId == CalculationId) on JobOrderLineChargeTab.ChargeId equals Cp.ChargeId into CalculationProductTable
+                    //                                                      from CalculationProductTab in CalculationProductTable.DefaultIfEmpty()
+                    //                                                      where RecLineIds.Contains(L.JobReceiveLineId) && CalculationProductTab.CalculationProductId != null
+                    //                                                      select new
+                    //                                                      {
+                    //                                                          Id = JobOrderLineChargeTab.Id,
+                    //                                                          HeaderTableId = JobOrderLineChargeTab.HeaderTableId,
+                    //                                                          LineTableId = JobOrderLineChargeTab.LineTableId,
+                    //                                                          Sr = CalculationProductTab.Sr,
+                    //                                                          ChargeId = CalculationProductTab.ChargeId,
+                    //                                                          AddDeduct = CalculationProductTab.AddDeduct,
+                    //                                                          AffectCost = CalculationProductTab.AffectCost,
+                    //                                                          ChargeTypeId = CalculationProductTab.ChargeTypeId,
+                    //                                                          CalculateOnId = CalculationProductTab.CalculateOnId,
+                    //                                                          PersonID = JobReceiveHeaderTab.JobWorkerId,
+                    //                                                          LedgerAccountDrId = CalculationProductTab.LedgerAccountDrId,
+                    //                                                          LedgerAccountCrId = CalculationProductTab.LedgerAccountCrId,
+                    //                                                          CostCenterId = CalculationProductTab.CostCenterId,
+                    //                                                          RateType = CalculationProductTab.RateType,
+                    //                                                          IncludedInBase = CalculationProductTab.IncludedInBase,
+                    //                                                          ParentChargeId = CalculationProductTab.ParentChargeId,
+                    //                                                          Rate = (Decimal?)ChargeGroupSettingsTab.ChargePer ?? 0,
+                    //                                                          Amount = (Decimal?)CalculationProductTab.Amount ?? 0,
+                    //                                                          DealQty = JobOrderLineTab.DealQty,
+                    //                                                          IsVisible = CalculationProductTab.IsVisible,
+                    //                                                          IncludedCharges = CalculationProductTab.IncludedCharges,
+                    //                                                          IncludedChargesCalculation = CalculationProductTab.IncludedChargesCalculation
+                    //                                                      }).AsEnumerable().Select(x => new JobOrderLineCharge
+                    //                          {
+                    //                              Id = x.Id,
+                    //                              HeaderTableId = x.HeaderTableId,
+                    //                              LineTableId = x.LineTableId,
+                    //                              Sr = x.Sr,
+                    //                              ChargeId = x.ChargeId,
+                    //                              AddDeduct = x.AddDeduct,
+                    //                              AffectCost = x.AffectCost,
+                    //                              ChargeTypeId = x.ChargeTypeId,
+                    //                              CalculateOnId = x.CalculateOnId,
+                    //                              PersonID = x.PersonID,
+                    //                              LedgerAccountDrId = x.LedgerAccountDrId,
+                    //                              LedgerAccountCrId = x.LedgerAccountCrId,
+                    //                              CostCenterId = x.CostCenterId,
+                    //                              RateType = x.RateType,
+                    //                              IncludedInBase = x.IncludedInBase,
+                    //                              ParentChargeId = x.ParentChargeId,
+                    //                              Rate = x.Rate,
+                    //                              Amount = x.Amount,
+                    //                              DealQty = x.DealQty,
+                    //                              IsVisible = x.IsVisible,
+                    //                              IncludedCharges = x.IncludedCharges,
+                    //                              IncludedChargesCalculation = x.IncludedChargesCalculation
+                    //                          }).ToList();
+
+
+
+
+
+
+                    //IEnumerable<JobOrderLineCharge> SettingLineCharges123 = (from L in db.JobReceiveLine
+                    //                                                      join H in db.JobReceiveHeader on L.JobReceiveHeaderId equals H.JobReceiveHeaderId into JobReceiveHeaderTable
+                    //                                                      from JobReceiveHeaderTab in JobReceiveHeaderTable.DefaultIfEmpty()
+                    //                                                      join Jol in db.JobOrderLine on L.JobOrderLineId equals Jol.JobOrderLineId into JobOrderLineTable
+                    //                                                      from JobOrderLineTab in JobOrderLineTable.DefaultIfEmpty()
+                    //                                                      join Prod in db.Product on L.ProductId equals Prod.ProductId into ProductTable
+                    //                                                      from ProductTab in ProductTable.DefaultIfEmpty()
+                    //                                                      join Cgs in db.ChargeGroupSettings
+                    //                                                           on new { A1 = ProductTab.SalesTaxGroupProductId ?? 0, A2 = JobOrderLineTab.JobOrderHeader.SalesTaxGroupPersonId ?? 0, JobReceiveHeaderTab.ProcessId }
+                    //                                                           equals new { A1 = Cgs.ChargeGroupProductId, A2 = Cgs.ChargeGroupPersonId, Cgs.ProcessId } into ChargeGroupSettingsTable
+                    //                                                      from ChargeGroupSettingsTab in ChargeGroupSettingsTable.DefaultIfEmpty()
+                    //                                                      join LineCharge in db.JobOrderLineCharge on L.JobOrderLineId equals LineCharge.LineTableId into JobOrderLineChargeTable
+                    //                                                      from JobOrderLineChargeTab in JobOrderLineChargeTable.DefaultIfEmpty()
+                    //                                                      join Cp in db.CalculationProduct.Where(m => m.CalculationId == CalculationId) on JobOrderLineChargeTab.ChargeId equals Cp.ChargeId into CalculationProductTable
+                    //                                                      from CalculationProductTab in CalculationProductTable.DefaultIfEmpty()
+                    //                                                      where RecLineIds.Contains(L.JobReceiveLineId) && CalculationProductTab.CalculationProductId != null
+                    //                                                      select JobOrderLineChargeTab);
+
+                    //temp = (from p in db.JobReceiveLine
+                    //        where RecLineIds.Contains(p.JobReceiveLineId)
+                    //        join t in db.JobOrderLine on p.JobOrderLineId equals t.JobOrderLineId into JobOrderLineTable
+                    //        from JobOrderLineTab in JobOrderLineTable.DefaultIfEmpty()
+                    //        join LineCharge in db.JobOrderLineCharge on p.JobOrderLineId equals LineCharge.LineTableId into JobOrderLineChargeTable
+                    //        from JobOrderLineChargeTab in JobOrderLineChargeTable.DefaultIfEmpty()
+                    //        join HeaderCharge in db.JobOrderHeaderCharges on JobOrderLineTab.JobOrderHeaderId equals HeaderCharge.HeaderTableId into JobOrderHeaderChargeTable
+                    //        from JObOrderHeaderChargeTab in JobOrderHeaderChargeTable.DefaultIfEmpty()
+                    //        join rqa in db.JobReceiveQALine on p.JobReceiveLineId equals rqa.JobReceiveLineId into qatable
+                    //        from qatab in qatable.DefaultIfEmpty()
+                    //        group new { p, JobOrderLineChargeTab, JObOrderHeaderChargeTab, qatab } by new { p.JobReceiveLineId } into g
+                    //        select new ReferenceLineChargeViewModel
+                    //        {
+                    //            LineId = g.Key.JobReceiveLineId,
+                    //            HeaderCharges = g.Select(m => m.JObOrderHeaderChargeTab).ToList(),
+                    //            Linecharges = g.Select(m => m.JobOrderLineChargeTab).ToList(),
+                    //            PenaltyAmt = g.Select(m => m.p.PenaltyAmt - (m.p.IncentiveAmt ?? 0)).FirstOrDefault() + ((g.Select(m => m.qatab).FirstOrDefault() == null) ? 0 : g.Select(m => m.qatab.PenaltyAmt).FirstOrDefault()),
+                    //        }).ToList();
+
+
+
 
                     var LineListWithReferences = (from p in LineList
                                                   join t in RefIds on p.LineTableId equals t.LineId
@@ -261,7 +509,7 @@ namespace Web
                                                       Rate = p.Rate,
                                                       CostCenterId = p.CostCenterId,
                                                       Penalty = LineLis == null ? 0 : LineLis.PenaltyAmt,
-                                                      RLineCharges = (LineLis == null || LineLis.Linecharges.FirstOrDefault() == null ? null : Mapper.Map<List<LineChargeViewModel>>(LineLis.Linecharges.GroupBy(m => m.Id).Select(m => m.FirstOrDefault()))),
+                                                      RLineCharges = (LineLis == null || LineLis.Linecharges.FirstOrDefault() == null ? null : Mapper.Map<List<LineChargeViewModel>>(LineLis.Linecharges.GroupBy(m => m.CalculationProductId).Select(m => m.FirstOrDefault()))),
                                                   }).ToList();
 
 
@@ -1176,6 +1424,33 @@ namespace Web
         public JsonResult GetCustomProducts(int id, int? JobWorkerId, string term, int Limit)//Indent Header ID
         {
             return Json(_JobInvoiceLineService.GetProductHelpList(id, JobWorkerId, term, Limit), JsonRequestBehavior.AllowGet);
+        }
+
+        public IEnumerable<CalculationProductViewModel> GetChargeRates(int CalculationID, int DocumentTypeId, int SiteId, int DivisionId, int ProcessId, int? ChargeGroupPersonId, int? ChargeGroupProductId)
+        {
+            var ChargeGroupSettings = from C in db.ChargeGroupSettings
+                                      where C.ChargeGroupPersonId == ChargeGroupPersonId && C.ChargeGroupProductId == ChargeGroupProductId && C.ProcessId == ProcessId
+                                      select C;
+
+            int ChargeLedgerAccountId = new LedgerAccountService(_unitOfWork).Find(LedgerAccountConstants.Charge).LedgerAccountId;
+
+
+            return (from p in db.CalculationProduct
+                    join t in db.CalculationLineLedgerAccount.Where(m => m.DocTypeId == DocumentTypeId && m.SiteId == SiteId && m.DivisionId == DivisionId) on p.CalculationProductId equals t.CalculationProductId into table1
+                    from tab1 in table1.DefaultIfEmpty()
+                    join Cgs in ChargeGroupSettings on p.ChargeTypeId equals Cgs.ChargeTypeId into ChargeGroupSettingsTable
+                    from ChargeGroupSettingsTab in ChargeGroupSettingsTable.DefaultIfEmpty()
+                    where p.CalculationId == CalculationID
+                    orderby p.Sr
+                    select new CalculationProductViewModel
+                    {
+                        
+                        ChargeId = p.ChargeId,
+                        LedgerAccountCrId = (tab1.LedgerAccountCrId == ChargeLedgerAccountId ? ChargeGroupSettingsTab.ChargeLedgerAccountId : tab1.LedgerAccountCrId),
+                        LedgerAccountDrId = (tab1.LedgerAccountDrId == ChargeLedgerAccountId ? ChargeGroupSettingsTab.ChargeLedgerAccountId : tab1.LedgerAccountDrId),
+                        Rate = (Decimal?)ChargeGroupSettingsTab.ChargePer ?? 0,
+                    });
+
         }
 
 

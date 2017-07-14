@@ -1298,6 +1298,73 @@ namespace Module
 
             try
             {
+                if ((int)ExecuteScaler("SELECT Count(*) AS Cnt FROM INFORMATION_SCHEMA.Tables WHERE TABLE_NAME = 'ImportHeaders'") == 0)
+                {
+                    mQry = @"CREATE TABLE Web.ImportHeaders
+	                        (
+	                        ImportHeaderId INT IDENTITY NOT NULL,
+	                        ImportName     NVARCHAR (max),
+	                        SqlProc        NVARCHAR (max),
+	                        Notes          NVARCHAR (max),
+	                        CreatedBy      NVARCHAR (max),
+	                        ModifiedBy     NVARCHAR (max),
+	                        CreatedDate    DATETIME NOT NULL,
+	                        ModifiedDate   DATETIME NOT NULL,
+	                        FileType       NVARCHAR (10),
+	                        CONSTRAINT [PK_Web.ImportHeaders] PRIMARY KEY (ImportHeaderId)
+	                        )";
+                    ExecuteQuery(mQry);
+                }
+            }
+            catch (Exception ex)
+            {
+                RecordError(ex);
+            }
+
+
+            try
+            {
+                if ((int)ExecuteScaler("SELECT Count(*) AS Cnt FROM INFORMATION_SCHEMA.Tables WHERE TABLE_NAME = 'ImportLines'") == 0)
+                {
+                    mQry = @"CREATE TABLE Web.ImportLines
+	                        (
+	                        ImportLineId    INT IDENTITY NOT NULL,
+	                        ImportHeaderId  INT NOT NULL,
+	                        DisplayName     NVARCHAR (max) NOT NULL,
+	                        FieldName       NVARCHAR (max) NOT NULL,
+	                        DataType        NVARCHAR (max) NOT NULL,
+	                        Type            NVARCHAR (max) NOT NULL,
+	                        ListItem        NVARCHAR (max),
+	                        DefaultValue    NVARCHAR (max),
+	                        IsVisible       BIT NOT NULL,
+	                        SqlProcGetSet   NVARCHAR (100),
+	                        Serial          INT NOT NULL,
+	                        NoOfCharToEnter INT,
+	                        SqlParameter    NVARCHAR (max),
+	                        IsCollapse      BIT NOT NULL,
+	                        IsMandatory     BIT NOT NULL,
+	                        PlaceHolder     NVARCHAR (max),
+	                        ToolTip         NVARCHAR (max),
+	                        CreatedBy       NVARCHAR (max),
+	                        ModifiedBy      NVARCHAR (max),
+	                        CreatedDate     DATETIME NOT NULL,
+	                        ModifiedDate    DATETIME NOT NULL,
+	                        MaxLength       INT,
+	                        FileNo          INT NOT NULL,
+	                        CONSTRAINT [PK_Web.ImportLines] PRIMARY KEY (ImportLineId),
+	                        CONSTRAINT [FK_Web.ImportLines_Web.ImportHeaders_ImportHeaderId] FOREIGN KEY (ImportHeaderId) REFERENCES Web.ImportHeaders (ImportHeaderId)
+	                        )";
+                    ExecuteQuery(mQry);
+                }
+            }
+            catch (Exception ex)
+            {
+                RecordError(ex);
+            }
+
+
+            try
+            {
                 if ((int)ExecuteScaler("SELECT Count(*) AS Cnt FROM INFORMATION_SCHEMA.Tables WHERE TABLE_NAME = 'ImportMessages'") == 0)
                 {
                     mQry = @"CREATE TABLE Web.ImportMessages
@@ -1340,7 +1407,7 @@ namespace Module
             AddFields("SaleDeliverySettings", "WizardMenuId", "int","Menus");
 
 
-            AddFields("TrialBalanceSettings", "ShowContraAccount", "Bit");
+            AddFields("TrialBalanceSettings", "ShowContraAccount", "BIT NOT NULL DEFAULT(1)");
 
 
             DropFields("JobInvoiceLines", "MfgDate");
@@ -1385,10 +1452,34 @@ namespace Module
             AddFields("Products", "SalesTaxProductCodeId", "Int", "SalesTaxProductCodes");
             AddFields("ProductGroups", "DefaultSalesTaxProductCodeId", "Int", "SalesTaxProductCodes");
             AddFields("ProductTypeSettings", "isVisibleSalesTaxProductCode", "Bit");
-            AddFields("ProductTypeSettings", "SalesTaxProductCodeCaption", "nvarchar(Max)");
+            AddFields("ProductTypeSettings", "SalesTaxProductCodeCaption", "nvarchar(50)");
 
             AddFields("SaleInvoiceSettings", "isVisibleShipToPartyAddress", "Bit");
 
+
+            AddFields("PersonSettings", "isVisibleGstNo", "Bit");
+            AddFields("PersonSettings", "isMandatoryGstNo", "Bit");
+
+            AddFields("LedgerHeaders", "ForLedgerHeaderId", "Int", "LedgerHeaders");
+            AddFields("LedgerSettings", "CancelDocTypeId", "Int","DocumentTypes");
+
+
+            AddFields("CarpetSkuSettings", "isVisibleSalesTaxProductCode", "Bit");
+            AddFields("CarpetSkuSettings", "SalesTaxProductCodeCaption", "nvarchar(50)");
+
+            AddFields("ProductCategories", "DefaultSalesTaxProductCodeId", "Int", "SalesTaxProductCodes");
+
+            AddFields("PackingSettings", "filterLedgerAccountGroups", "nvarchar(Max)");
+            AddFields("PackingSettings", "filterLedgerAccounts", "nvarchar(Max)");
+
+            AddFields("SaleInvoiceSettings", "DoNotUpdateProductUidStatus", "BIT");
+
+            AddFields("StockHeaderSettings", "isPostedInStock", "BIT NOT NULL DEFAULT(1)");
+
+            AddFields("PackingSettings", "isVisibleProductUID", "BIT");
+
+            AddFields("PackingSettings", "filterProductDivision", "nvarchar(Max)");
+            
 
             return RedirectToAction("Module", "Menu");
         }

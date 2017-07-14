@@ -2095,8 +2095,6 @@ namespace Web
         {
             JobReceiveLine s = Mapper.Map<JobReceiveLineViewModel, JobReceiveLine>(svm);
             JobReceiveHeader temp = new JobReceiveHeaderService(_unitOfWork).Find(s.JobReceiveHeaderId);
-            var Productids = (from p in db.ProductUid where p.ProductUidName == svm.ProductUidName select p).FirstOrDefault();
-            var Productuids = new JobReceiveLineService(_unitOfWork).ProductUidsExist(s.JobReceiveHeaderId, Productids.ProductUIDId).FirstOrDefault();            
             bool BeforeSave = true;
             try
             {
@@ -2155,10 +2153,20 @@ namespace Web
             {
                 ModelState.AddModelError("DocQty", "DocQty exceeding BalanceQty");
             }
-            if (Productuids != null)
+
+            if (svm.ProductUidName != null && svm.ProductUidName != "")
             {
-                ModelState.AddModelError("ProductUidId", "Already Received");
+                var Productids = (from p in db.ProductUid where p.ProductUidName == svm.ProductUidName select p).FirstOrDefault();
+                if (Productids != null)
+                {
+                    var Productuids = new JobReceiveLineService(_unitOfWork).ProductUidsExist(s.JobReceiveHeaderId, Productids.ProductUIDId).FirstOrDefault();
+                    if (Productuids != null)
+                    {
+                        ModelState.AddModelError("ProductUidId", "Already Received");
+                    }
+                }
             }
+
 
             if (settings.LossPer != null)
             {
@@ -3262,14 +3270,22 @@ namespace Web
 
             var DocType = db.DocumentType.Where(m => m.DocumentTypeName == TransactionDoctypeConstants.TraceMapReceive).FirstOrDefault();
 
-            if (Header.DocTypeId == DocType.DocumentTypeId)
+            if (DocType != null)
             {
-                return Json(new JobOrderHeaderService(_unitOfWork).GetPendingJobOrdersWithPatternMatchTraceMapReceive(Header.JobWorkerId, Header.ProcessId, term, Limit).ToList());
+                if (Header.DocTypeId == DocType.DocumentTypeId)
+                {
+                    return Json(new JobOrderHeaderService(_unitOfWork).GetPendingJobOrdersWithPatternMatchTraceMapReceive(Header.JobWorkerId, Header.ProcessId, term, Limit).ToList());
+                }
+                else
+                {
+                    return Json(new JobOrderHeaderService(_unitOfWork).GetPendingJobOrdersWithPatternMatch(Header.JobWorkerId, term, Limit).ToList());
+                }
             }
             else
             {
                 return Json(new JobOrderHeaderService(_unitOfWork).GetPendingJobOrdersWithPatternMatch(Header.JobWorkerId, term, Limit).ToList());
             }
+            
         }
 
         public JsonResult GetOrderDetail(int OrderId, int ReceiveId)

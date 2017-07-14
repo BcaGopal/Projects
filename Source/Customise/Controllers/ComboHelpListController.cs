@@ -8273,5 +8273,56 @@ namespace Web
 
             return Json(ReasonJson);
         }
+
+
+
+        public JsonResult GetSalesTaxProductCodes(string searchTerm, int pageSize, int pageNum)
+        {
+            var Query = cbl.GetSalesTaxProductCodes(searchTerm);
+            var temp = Query.Skip(pageSize * (pageNum - 1)).Take(pageSize).ToList();
+
+            var count = Query.Count();
+
+            ComboBoxPagedResult Data = new ComboBoxPagedResult();
+            Data.Results = temp;
+            Data.Total = count;
+
+            return new JsonpResult
+            {
+                Data = Data,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+        public JsonResult SetSingleSalesTaxProductCode(int Ids)
+        {
+            ComboBoxResult SalesTaxProductCodeJson = new ComboBoxResult();
+
+            SalesTaxProductCode SalesTaxProductCode = (from b in db.SalesTaxProductCode
+                                                       where b.SalesTaxProductCodeId == Ids
+                                                       select b).FirstOrDefault();
+
+            SalesTaxProductCodeJson.id = SalesTaxProductCode.SalesTaxProductCodeId.ToString();
+            SalesTaxProductCodeJson.text = SalesTaxProductCode.Code;
+
+            return Json(SalesTaxProductCodeJson);
+        }
+        public JsonResult SetSalesTaxProductCode(string Ids)
+        {
+            string[] subStr = Ids.Split(',');
+            List<ComboBoxResult> ProductJson = new List<ComboBoxResult>();
+            for (int i = 0; i < subStr.Length; i++)
+            {
+                int temp = Convert.ToInt32(subStr[i]);
+                IEnumerable<SalesTaxProductCode> prod = from p in db.SalesTaxProductCode
+                                                        where p.SalesTaxProductCodeId == temp
+                                                        select p;
+                ProductJson.Add(new ComboBoxResult()
+                {
+                    id = prod.FirstOrDefault().SalesTaxProductCodeId.ToString(),
+                    text = prod.FirstOrDefault().Code
+                });
+            }
+            return Json(ProductJson);
+        }
     }
 }

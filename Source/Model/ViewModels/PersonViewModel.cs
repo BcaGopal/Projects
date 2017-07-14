@@ -59,6 +59,10 @@ namespace Model.ViewModels
         [MaxLength(40)]
         public string PanNo { get; set; }
 
+        [Display(Name = "GST No")]
+        [MaxLength(40)]
+        public string GstNo { get; set; }
+
         [Display(Name = "CST No")]
         [MaxLength(40)]
         public string CstNo { get; set; }
@@ -105,6 +109,7 @@ namespace Model.ViewModels
         public string Tags { get; set; }
         public int? PersonRegistrationPanNoID { get; set; }
         public int? PersonRegistrationCstNoID { get; set; }
+        public int? PersonRegistrationGstNoID { get; set; }
         public int? PersonRegistrationTinNoID { get; set; }
         public int? PersonRegistrationAadharNoID { get; set; }
 

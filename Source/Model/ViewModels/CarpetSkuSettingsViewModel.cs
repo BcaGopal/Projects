@@ -41,7 +41,7 @@ namespace Model.ViewModel
         public bool isVisibleTraceType { get; set; }
         public bool isVisibleMapType { get; set; }
         public bool isVisibleStencilSize { get; set; }
-
+        public bool isVisibleSalesTaxProductCode { get; set; }
 
 
         public int? ProductDesignId { get; set; }
@@ -54,7 +54,7 @@ namespace Model.ViewModel
         public string PerimeterSizeTypeName { get; set; }
 
 
-
+        public string SalesTaxProductCodeCaption { get; set; }
         public string UnitConversions { get; set; }
 
 

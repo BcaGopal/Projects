@@ -2183,7 +2183,7 @@ namespace Web
 
         public ActionResult GetCustomProducts(string searchTerm, int pageSize, int pageNum, int filter)//DocTypeId
         {
-            var Query = _PackingLineService.GetCustomProducts(filter, searchTerm);
+            var Query = _PackingLineService.GetCustomProductsWithBuyerSku(filter, searchTerm);
             var temp = Query.Skip(pageSize * (pageNum - 1))
                 .Take(pageSize)
                 .ToList();

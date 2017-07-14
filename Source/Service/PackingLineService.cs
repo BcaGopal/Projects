@@ -50,6 +50,7 @@ namespace Service
         Decimal FGetPendingDeliveryOrderQtyForDispatch(int SaleDeliveryOrderilneId);
 
         bool FSaleOrderProductMatchWithPacking(int SaleOrderLineId, int ProductId);
+        IQueryable<ComboBoxResult> GetCustomProductsWithBuyerSku(int Id, string term);
         IQueryable<ComboBoxResult> GetCustomProducts(int Id, string term);
 
         IEnumerable<PendingOrderListForPacking> FGetPendingOrderListForPackingForProductUid(int ProductUidId, int BuyerId);
@@ -683,7 +684,7 @@ namespace Service
             }
         }
 
-        public IQueryable<ComboBoxResult> GetCustomProducts(int Id, string term)
+        public IQueryable<ComboBoxResult> GetCustomProductsWithBuyerSku(int Id, string term)
         {
 
             var PackingHeader = new PackingHeaderService(_unitOfWork).Find(Id);
@@ -731,6 +732,44 @@ namespace Service
                         id = pb.ProductId.ToString(),
                         text = ProductTab.ProductName,
                         AProp1 = pb.ProductName
+                    });
+        }
+
+        public IQueryable<ComboBoxResult> GetCustomProducts(int Id, string term)
+        {
+
+            var Packing = new PackingHeaderService(_unitOfWork).Find(Id);
+
+            var settings = new PackingSettingService(_unitOfWork).GetPackingSettingForDocument(Packing.DocTypeId, Packing.DivisionId, Packing.SiteId);
+
+            string[] ProductTypes = null;
+            if (!string.IsNullOrEmpty(settings.filterProductTypes)) { ProductTypes = settings.filterProductTypes.Split(",".ToCharArray()); }
+            else { ProductTypes = new string[] { "NA" }; }
+
+            string[] Products = null;
+            if (!string.IsNullOrEmpty(settings.filterProducts)) { Products = settings.filterProducts.Split(",".ToCharArray()); }
+            else { Products = new string[] { "NA" }; }
+
+            string[] ProductGroups = null;
+            if (!string.IsNullOrEmpty(settings.filterProductGroups)) { ProductGroups = settings.filterProductGroups.Split(",".ToCharArray()); }
+            else { ProductGroups = new string[] { "NA" }; }
+
+            string[] ProductDivisions = null;
+            if (!string.IsNullOrEmpty(settings.filterProductDivision)) { ProductDivisions = settings.filterProductDivision.Split(",".ToCharArray()); }
+            else { ProductDivisions = new string[] { "NA" }; }
+
+            return (from p in db.Product
+                    where (string.IsNullOrEmpty(settings.filterProductTypes) ? 1 == 1 : ProductTypes.Contains(p.ProductGroup.ProductTypeId.ToString()))
+                    && (string.IsNullOrEmpty(settings.filterProducts) ? 1 == 1 : Products.Contains(p.ProductId.ToString()))
+                    && (string.IsNullOrEmpty(settings.filterProductGroups) ? 1 == 1 : ProductGroups.Contains(p.ProductGroupId.ToString()))
+                    && (string.IsNullOrEmpty(settings.filterProductDivision) ? 1 == 1 : ProductDivisions.Contains(p.DivisionId.ToString()))
+                    && (string.IsNullOrEmpty(term) ? 1 == 1 : p.ProductName.ToLower().Contains(term.ToLower()))
+                    && p.IsActive == true
+                    orderby p.ProductName
+                    select new ComboBoxResult
+                    {
+                        id = p.ProductId.ToString(),
+                        text = p.ProductName,
                     });
         }
 

@@ -162,6 +162,8 @@ namespace Web
                     temp.isVisibleTraceType = pt.isVisibleTraceType;
                     temp.isVisibleMapType = pt.isVisibleMapType;
                     temp.isVisibleStencilSize = pt.isVisibleStencilSize;
+                    temp.isVisibleSalesTaxProductCode = pt.isVisibleSalesTaxProductCode;
+                    temp.SalesTaxProductCodeCaption = pt.SalesTaxProductCodeCaption;
                     temp.ModifiedDate = DateTime.Now;
                     temp.ModifiedBy = User.Identity.Name;
                     temp.ObjectState = Model.ObjectState.Modified;

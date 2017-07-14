@@ -80,6 +80,8 @@ namespace Model.ViewModels
         public bool? Reviewed { get; set; }
         public int? ReviewCount { get; set; }
         public string LockReason { get; set; }
+
+        public DocumentTypeSettingsViewModel DocumentTypeSettings { get; set; }
     }
 
     public class PackingLineViewModel 
@@ -201,6 +203,8 @@ namespace Model.ViewModels
         public Decimal? Height { get; set; }
 
         public int? DimensionUnitDecimalPlaces { get; set; }
+        public PackingSettingsViewModel PackingSettings { get; set; }
+        public DocumentTypeSettingsViewModel DocumentTypeSettings { get; set; }
 
 
 

@@ -1142,7 +1142,7 @@ namespace Service
                         && (string.IsNullOrEmpty(settings.filterProductTypes) ? 1 == 1 : ProductTypes.Contains("|" + ProductTab.ProductGroup.ProductTypeId.ToString() + "|"))
                         && (string.IsNullOrEmpty(settings.FilterProductDivision) ? 1 == 1 : ProductDivision.Contains("|" + ProductTab.DivisionId.ToString() + "|"))
                         && (string.IsNullOrEmpty(settings.filterProductCategories) ? 1 == 1 : ProductCategory.Contains("|" + FinishedProductTab.ProductCategoryId.ToString() + "|"))
-                        && ProdOrderLineTab.ProcessId == JobOrderHeader.ProcessId
+                        //&& ProdOrderLineTab.ProcessId == JobOrderHeader.ProcessId
                         orderby p.ProdOrderNo
                         select new ComboBoxResult
                         {

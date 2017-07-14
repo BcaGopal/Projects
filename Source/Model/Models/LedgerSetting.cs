@@ -91,6 +91,14 @@ namespace Model.Models
         public int? WizardMenuId { get; set; }
         public virtual Menu WizardMenu { get; set; }
 
+
+
+        [ForeignKey("CancelDocType"), Display(Name = "Cancel Type")]
+        public int? CancelDocTypeId { get; set; }
+        public virtual DocumentType CancelDocType { get; set; }
+
+
+
         [Display(Name = "Created By")]
         public string CreatedBy { get; set; }
 

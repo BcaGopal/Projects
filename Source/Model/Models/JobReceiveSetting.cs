@@ -15,11 +15,15 @@ namespace Model.Models
         public int JobReceiveSettingsId { get; set; }
 
         [ForeignKey("DocType"), Display(Name = "Order Type")]
+        [Index("IX_JobReceiveSettings_DocID", IsUnique = true, Order = 1)]
         public int DocTypeId { get; set; }
-        public virtual DocumentType DocType { get; set; }      
+        public virtual DocumentType DocType { get; set; }
 
+        [Index("IX_JobReceiveSettings_DocID", IsUnique = true, Order = 2)]
         public int SiteId { get; set; }
         public virtual Site Site { get; set; }
+        
+        [Index("IX_JobReceiveSettings_DocID", IsUnique = true, Order = 3)]
         public int DivisionId { get; set; }
         public virtual Division Division { get; set; }
         public bool? isVisibleMachine { get; set; }

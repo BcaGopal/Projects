@@ -26,6 +26,10 @@ namespace Model.Models
         public virtual ChargeGroupPerson ChargeGroupPerson { get; set; }
 
 
+        [ForeignKey("Process"), Display(Name = "Process")]
+        public int ProcessId { get; set; }
+        public virtual Process Process { get; set; }
+
 
         [Display(Name = "Charge Group Product")]
         [ForeignKey("ChargeGroupProduct")]

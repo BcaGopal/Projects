@@ -274,10 +274,10 @@ namespace Service
 
         }
 
-        public IEnumerable<CalculationProductViewModel> GetChargeRates(int CalculationID, int DocumentTypeId, int SiteId, int DivisionId, int? ChargeGroupPersonId, int? ChargeGroupProductId)
+        public IEnumerable<CalculationProductViewModel> GetChargeRates(int CalculationID, int DocumentTypeId, int SiteId, int DivisionId, int ProcessId, int? ChargeGroupPersonId, int? ChargeGroupProductId)
         {
             var ChargeGroupSettings = from C in db.ChargeGroupSettings
-                                      where C.ChargeGroupPersonId == ChargeGroupPersonId && C.ChargeGroupProductId == ChargeGroupProductId
+                                      where C.ChargeGroupPersonId == ChargeGroupPersonId && C.ChargeGroupProductId == ChargeGroupProductId && C.ProcessId == ProcessId
                                       select C;
 
             int ChargeLedgerAccountId = new LedgerAccountService(_unitOfWork).Find(LedgerAccountConstants.Charge).LedgerAccountId;
@@ -292,6 +292,7 @@ namespace Service
                     orderby p.Sr
                     select new CalculationProductViewModel
                     {
+                        ChargeId = p.ChargeId,
                         LedgerAccountCrId = (tab1.LedgerAccountCrId == ChargeLedgerAccountId ? ChargeGroupSettingsTab.ChargeLedgerAccountId : tab1.LedgerAccountCrId),
                         LedgerAccountDrId = (tab1.LedgerAccountDrId == ChargeLedgerAccountId ? ChargeGroupSettingsTab.ChargeLedgerAccountId : tab1.LedgerAccountDrId),
                         Rate = (Decimal?)ChargeGroupSettingsTab.ChargePer ?? 0,

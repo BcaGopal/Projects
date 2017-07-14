@@ -1586,6 +1586,189 @@ namespace Web
         }
 
         #endregion submitValidation
+
+
+
+
+
+        [HttpGet]
+        public ActionResult _DocumentCancel(int id)
+        {
+            DocumentCancelViewModel DocumentCancel = new DocumentCancelViewModel();
+            DocumentCancel.HeaderId = id;
+            LedgerHeader Header = new LedgerHeaderService(_unitOfWork).Find(id);
+            var Settings = new LedgerSettingService(_unitOfWork).GetLedgerSettingForDocument(Header.DocTypeId, Header.DivisionId, Header.SiteId);
+            string CancelDocCategoryName = (from D in db.DocumentType
+                                            where D.DocumentTypeId == Settings.CancelDocTypeId
+                                            select new { DocumentCategoryName = D.DocumentCategory.DocumentCategoryName }).FirstOrDefault().DocumentCategoryName;
+            ViewBag.ReasonList = new ReasonService(_unitOfWork).GetReasonList(CancelDocCategoryName).ToList();
+            DocumentCancel.DocDate = DateTime.Now;
+            return PartialView("_DocumentCancel", DocumentCancel);
+        }
+
+        [HttpPost]
+        //[ValidateAntiForgeryToken]
+        public ActionResult _DocumentCancelPost(DocumentCancelViewModel svm)
+        {
+            int LedgerLinePK = 0;
+            int LedgerPK = 0;
+
+            LedgerHeader Header = new LedgerHeaderService(_unitOfWork).Find(svm.HeaderId);
+
+            var Settings = new LedgerSettingService(_unitOfWork).GetLedgerSettingForDocument(Header.DocTypeId, Header.DivisionId, Header.SiteId);
+            int CancelDocTypeId = 0;
+
+            if (Settings.CancelDocTypeId == null)
+            {
+                string message = "Invoice Return Document Type is not difined in settings.";
+                ModelState.AddModelError("", message);
+                return PartialView("_InvoiceReturn", svm);
+            }
+            else
+            {
+                CancelDocTypeId = (int)Settings.CancelDocTypeId;
+            }
+
+
+            if (ModelState.IsValid)
+            {
+                var LedgerLineList = new LedgerLineService(_unitOfWork).FindByLedgerHeader(Header.LedgerHeaderId);
+
+                if (LedgerLineList.Count() > 0)
+                {
+                    LedgerHeader CancelHeader = new LedgerHeader();
+                    CancelHeader.DocTypeId = CancelDocTypeId;
+                    CancelHeader.DocDate = svm.DocDate;
+                    CancelHeader.DocNo = new DocumentTypeService(_unitOfWork).FGetNewDocNo("DocNo", ConfigurationManager.AppSettings["DataBaseSchema"] + ".LedgerHeaders", CancelHeader.DocTypeId, svm.DocDate, Header.DivisionId, Header.SiteId);
+                    CancelHeader.SiteId = Header.SiteId;
+                    CancelHeader.DivisionId = Header.DivisionId;
+                    CancelHeader.LedgerAccountId = Header.LedgerAccountId;
+                    CancelHeader.Remark = svm.Remark;
+                    CancelHeader.ForLedgerHeaderId = Header.LedgerHeaderId;
+                    CancelHeader.CreatedDate = DateTime.Now;
+                    CancelHeader.ModifiedDate = DateTime.Now;
+                    CancelHeader.CreatedBy = User.Identity.Name;
+                    CancelHeader.ModifiedBy = User.Identity.Name;
+                    CancelHeader.ObjectState = Model.ObjectState.Added;
+                    new LedgerHeaderService(_unitOfWork).Create(CancelHeader);
+
+
+
+                    foreach (var item in LedgerLineList)
+                    {
+                        LedgerLine Line = new LedgerLine();
+                        Line.LedgerHeaderId = CancelHeader.LedgerHeaderId;
+                        Line.LedgerAccountId = item.LedgerAccountId;
+                        Line.ChqNo = item.ChqNo;
+                        Line.ChqDate = item.ChqDate;
+                        Line.CostCenterId = item.CostCenterId;
+                        Line.ProductUidId = item.ProductUidId;
+
+                        if (item.DrCr == NatureConstants.Debit)
+                        {
+                            Line.DrCr = NatureConstants.Credit;
+                        }
+                        else if (item.DrCr == NatureConstants.Credit)
+                        {
+                            Line.DrCr = NatureConstants.Debit;
+                        }
+                        else if (item.DrCr == null)
+                        {
+                            Line.DrCr = null;
+                        }
+
+                        Line.Amount = item.Amount;
+                        Line.Remark = item.Remark;
+                        Line.CreatedDate = DateTime.Now;
+                        Line.ModifiedDate = DateTime.Now;
+                        Line.CreatedBy = User.Identity.Name;
+                        Line.ModifiedBy = User.Identity.Name;
+                        Line.LedgerLineId = LedgerLinePK;
+                        Line.ObjectState = Model.ObjectState.Added;
+                        new LedgerLineService(_unitOfWork).Create(Line);
+
+                        LedgerLinePK++;
+                    }
+
+
+                    var LedgerList = new LedgerService(_unitOfWork).FindForLedgerHeader(Header.LedgerHeaderId);
+                    foreach (var item in LedgerList)
+                    {
+                        Ledger Ledger = new Ledger();
+                        Ledger.LedgerHeaderId = CancelHeader.LedgerHeaderId;
+                        Ledger.LedgerAccountId = item.LedgerAccountId;
+                        Ledger.ContraLedgerAccountId = item.ContraLedgerAccountId;
+                        Ledger.CostCenterId = item.CostCenterId;
+                        Ledger.AmtDr = item.AmtCr;
+                        Ledger.AmtCr = item.AmtDr;
+                        Ledger.ChqNo = item.ChqNo;
+                        Ledger.ChqDate = item.ChqDate;
+                        Ledger.ProductUidId = item.ProductUidId;
+                        Ledger.LedgerId = LedgerPK;
+                        Ledger.ObjectState = Model.ObjectState.Added;
+                        new LedgerService(_unitOfWork).Create(Ledger);
+
+                        LedgerAdj LedgerAdj = new LedgerAdj();
+                        if (item.AmtDr > 0)
+                        {
+                            LedgerAdj.DrLedgerId = item.LedgerId;
+                            LedgerAdj.CrLedgerId = Ledger.LedgerId;
+                            LedgerAdj.Amount = -item.AmtDr;
+                        }
+                        else
+                        {
+                            LedgerAdj.CrLedgerId = Ledger.LedgerId;
+                            LedgerAdj.DrLedgerId = item.LedgerId;
+                            LedgerAdj.Amount = -item.AmtCr;
+                        }
+
+                        LedgerAdj.SiteId = Header.SiteId;
+                        LedgerAdj.CreatedDate = DateTime.Now;
+                        LedgerAdj.ModifiedDate = DateTime.Now;
+                        LedgerAdj.CreatedBy = User.Identity.Name;
+                        LedgerAdj.ModifiedBy = User.Identity.Name;
+                        LedgerAdj.ObjectState = Model.ObjectState.Added;
+                        db.LedgerAdj.Add(LedgerAdj);
+
+                        LedgerPK++;
+                    }
+
+
+
+
+                    try
+                    {
+                        _unitOfWork.Save();
+                    }
+                    catch (Exception ex)
+                    {
+                        string message = _exception.HandleException(ex);
+                        ModelState.AddModelError("", message);
+                        return PartialView("_DocumentCancel", svm);
+                    }
+
+                    LogActivity.LogActivityDetail(LogVm.Map(new ActiivtyLogViewModel
+                    {
+                        DocTypeId = CancelHeader.DocTypeId,
+                        DocId = CancelHeader.LedgerHeaderId,
+                        ActivityType = (int)ActivityTypeContants.MultipleCreate,
+                        DocNo = CancelHeader.DocNo,
+                        DocDate = CancelHeader.DocDate,
+                        DocStatus = CancelHeader.Status,
+                    }));
+
+                    return Json(new { success = true, Url = "/LedgerHeader/Submit/" + CancelHeader.LedgerHeaderId });
+                }
+            }
+            else
+            {
+                string message = "Balance is 0 for this invoice.";
+                ModelState.AddModelError("", message);
+                return PartialView("_DocumentCancel", svm);
+            }
+            return PartialView("_DocumentCancel", svm);
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (!string.IsNullOrEmpty((string)TempData["CSEXC"]))

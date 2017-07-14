@@ -60,6 +60,7 @@ namespace Model.ViewModel
         public string PartyDocDateCaption { get; set; }
         public int? ProcessId { get; set; }
         public string ProcessName { get; set; }
+        public int? CancelDocTypeId { get; set; }
         public int? WizardMenuId { get; set; }       
         [MaxLength(100)]
         public string SqlProcDocumentPrint { get; set; }
