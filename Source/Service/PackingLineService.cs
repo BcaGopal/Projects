@@ -222,6 +222,8 @@ namespace Service
             return (from L in db.PackingLine
                     join P in db.FinishedProduct on L.ProductId equals P.ProductId into ProductTable
                     from ProductTab in ProductTable.DefaultIfEmpty()
+                    join PL in db.PackingLineExtended on L.PackingLineId equals PL.PackingLineId into PLTable
+                    from PLTab in PLTable.DefaultIfEmpty()
                     join Pig in db.ProductInvoiceGroup on ProductTab.ProductInvoiceGroupId equals Pig.ProductInvoiceGroupId into ProductInvoiceGroupTable
                     from ProductInvoiceGroupTab in ProductInvoiceGroupTable.DefaultIfEmpty()
                     join S in db.SaleOrderLine on L.SaleOrderLineId equals S.SaleOrderLineId into SaleOrderLineTable
@@ -230,6 +232,8 @@ namespace Service
                     from SaleOrderHeaderTab in SaleOrderHeaderTable.DefaultIfEmpty()
                     join Du in db.Units on L.DealUnitId equals Du.UnitId into DeliveryUnitTable
                     from DeliveryUnitTab in DeliveryUnitTable.DefaultIfEmpty()
+                    join Du1 in db.Units on DeliveryUnitTab.DimensionUnitId equals Du1.UnitId into Du1Table
+                    from Du1Tab in Du1Table.DefaultIfEmpty()
                     join Pu in db.ProductUid on L.ProductUidId equals Pu.ProductUIDId into ProductUidTable
                     from ProductUidTab in ProductUidTable.DefaultIfEmpty()
                     orderby L.PackingLineId
@@ -242,6 +246,7 @@ namespace Service
                         ProductUidName = ProductUidTab.ProductUidName,
                         ProductId = L.ProductId,
                         ProductName = ProductTab.ProductName,
+                        LotNo  = L.LotNo,
                         ProductInvoiceGroupId = ProductTab.ProductInvoiceGroupId,
                         ProductInvoiceGroupName = ProductInvoiceGroupTab.ProductInvoiceGroupName,
                         Qty = L.Qty,
@@ -251,9 +256,12 @@ namespace Service
                         SaleDeliveryOrderNo = L.SaleDeliveryOrderLine.SaleDeliveryOrderHeader.DocNo,
                         DealUnitId = L.DealUnitId,
                         DealUnitName = DeliveryUnitTab.UnitName,
+                        DimensionUnitDecimalPlaces= Du1Tab.DecimalPlaces,
                         DealQty = L.DealQty,
                         BaleNo = L.BaleNo,
-                        BaleCount = L.BaleCount,
+                        Length =PLTab.Length,
+                        Width  = PLTab.Width,
+                        Height = PLTab.Height,
                         GrossWeight = L.GrossWeight,
                         NetWeight = L.NetWeight,
                         Remark = L.Remark,

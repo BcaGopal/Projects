@@ -219,7 +219,20 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.LotNo , new { @class = "control-label col-xs-4" })
+                                        <div class="col-xs-7">
+                                            @Html.TextBoxFor(model => model.LotNo, new { @class = "form-control col-xs-7" })
+                                            @Html.ValidationMessageFor(model => model.LotNo)
+                                        </div>
+                                    </div>
+                                </div>
 
+                            </div>
+
+
+                            <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         @Html.LabelFor(model => model.Qty, new { @class = "control-label col-xs-4" })
@@ -230,10 +243,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
 
-
-                            <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         @Html.LabelFor(model => model.DealQty, "Deal Qty (" + @Html.DisplayFor(model => model.DealUnitName) + ")", new { @class = "control-label col-xs-4" })
@@ -244,6 +254,9 @@
                                         </div>
                                     </div>
                                 </div>
+                            </div>
+
+                            <div class="row">
 
                                 <div class="col-md-6">
                                     <div class="form-group">
@@ -254,9 +267,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
 
-                            <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         @Html.LabelFor(model => model.NetWeight, new { @class = "control-label col-xs-4" })
@@ -267,6 +278,11 @@
                                     </div>
                                 </div>
 
+
+                            </div>
+
+                            <div class="row">
+
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         @Html.LabelFor(model => model.Remark, new { @class = "control-label col-xs-4" })
@@ -276,18 +292,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
 
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        @Html.LabelFor(model => model.SealNo, new { @class = "control-label col-xs-4" })
-                                        <div class="col-xs-7">
-                                            @Html.TextBoxFor(model => model.SealNo, new { @class = "form-control col-xs-7" })
-                                            @Html.ValidationMessageFor(model => model.SealNo)
-                                        </div>
-                                    </div>
-                                </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         @Html.LabelFor(model => model.RateRemark, new { @class = "control-label col-xs-4" })
@@ -306,6 +311,16 @@
                                         <div class="col-xs-7">
                                             @Html.DropDownList("SaleDeliveryOrderLineId", Enumerable.Empty<SelectListItem>(), new { @class = "form-control col-xs-7 height" })
                                             <span id="DeliveryOrderValidation" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.SealNo, new { @class = "control-label col-xs-4" })
+                                        <div class="col-xs-7">
+                                            @Html.TextBoxFor(model => model.SealNo, new { @class = "form-control col-xs-7" })
+                                            @Html.ValidationMessageFor(model => model.SealNo)
                                         </div>
                                     </div>
                                 </div>
@@ -465,7 +480,7 @@
             $('#ProductId').prop('readonly', true);
             $("#Qty").prop('readonly', true);
             $('#ProductInvoiceGroupId').prop('readonly', true);
-            $("#BaleNo").focus() ;
+            $("#Length").focus() ;
         }
     })
 
@@ -549,8 +564,8 @@
                         Validate_Product();
 
                         $('#ProductId').prop('readonly', true);
-                        $("#BaleNo").focus();
-                        $("#BaleNo").select();
+                        $("#Length").focus();
+                        $("#Length").select();
                     }
                     else {
                         $("#ProductUidId").val("");
@@ -833,7 +848,7 @@
             data: { PackingHeaderId: $("#PackingHeaderId").val(), ProductInvoiceGroupId: $("#ProductInvoiceGroupId").val(), SaleOrderLineId: $("#SaleOrderLineId").val(), BaleNoPatternId: BaleNoPattern,DealQty: $("#DealQty").val()},
             success: function (data) {
                 $("#BaleNo").val(data[0].NewBaleNo);
-                $("#BaleNo").select();
+                $("#Length").select();
             },
             error: function (xhr, ajaxOptions, thrownError) {
                 alert('Failed to retrieve Bale No.' + thrownError);
@@ -1063,7 +1078,7 @@
 
     function QtyValidation()
     {
-        if ($('#UnitConversionMultiplier').val() > 0.25 && $('#Qty').val() > 1 && $('#DealUnitId').val() != 'PCS' && $('#DealUnitId').val() != 'KG')
+        if ($('#UnitConversionMultiplier').val() > 5.25 && $('#Qty').val() > 1 && $('#DealUnitId').val() != 'PCS' && $('#DealUnitId').val() != 'KG')
         {
             $("#QtyValidation").text("Packed Qty can not be greater then 1 for "+ $("#ProductId").select2('data').text +".");
             //alert($('#UnitConversionMultiplier').val());

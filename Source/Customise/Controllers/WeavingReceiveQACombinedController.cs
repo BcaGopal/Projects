@@ -215,25 +215,27 @@ namespace Web
                         return View("Create", vm);
                     }
 
-
-                    ProductUid ProductUid = new ProductUidService(_unitOfWork).Find(vm.ProductUidName);
-                    ProductUid.ModifiedDate = DateTime.Now;
-                    if ( ProductUid.GenDocId ==0 )
+                    if (vm.ProductUidName != null)
                     {
-                        ProductUid.GenDocId = JobReceiveHeader.JobReceiveHeaderId;
-                    }                   
+                        ProductUid ProductUid = new ProductUidService(_unitOfWork).Find(vm.ProductUidName);
+                        ProductUid.ModifiedDate = DateTime.Now;
+                        if (ProductUid.GenDocId == 0)
+                        {
+                            ProductUid.GenDocId = JobReceiveHeader.JobReceiveHeaderId;
+                        }
 
-                    ProductUid.CurrenctProcessId = JobReceiveHeader.ProcessId;
-                    ProductUid.CurrenctGodownId = JobReceiveHeader.GodownId;
-                    ProductUid.Status = ProductUidStatusConstants.Receive;
-                    ProductUid.LastTransactionDocId = JobReceiveHeader.JobReceiveHeaderId;
-                    ProductUid.LastTransactionDocNo = JobReceiveHeader.DocNo;
-                    ProductUid.LastTransactionDocTypeId = JobReceiveHeader.DocTypeId;
-                    ProductUid.LastTransactionDocDate = JobReceiveHeader.DocDate;
-                    ProductUid.LastTransactionPersonId = JobReceiveHeader.JobWorkerId;
+                        ProductUid.CurrenctProcessId = JobReceiveHeader.ProcessId;
+                        ProductUid.CurrenctGodownId = JobReceiveHeader.GodownId;
+                        ProductUid.Status = ProductUidStatusConstants.Receive;
+                        ProductUid.LastTransactionDocId = JobReceiveHeader.JobReceiveHeaderId;
+                        ProductUid.LastTransactionDocNo = JobReceiveHeader.DocNo;
+                        ProductUid.LastTransactionDocTypeId = JobReceiveHeader.DocTypeId;
+                        ProductUid.LastTransactionDocDate = JobReceiveHeader.DocDate;
+                        ProductUid.LastTransactionPersonId = JobReceiveHeader.JobWorkerId;
 
-                    ProductUid.ObjectState = Model.ObjectState.Modified;
-                    db1.ProductUid.Add(ProductUid);
+                        ProductUid.ObjectState = Model.ObjectState.Modified;
+                        db1.ProductUid.Add(ProductUid);
+                    }
 
                     try
                     {

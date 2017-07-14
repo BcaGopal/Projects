@@ -35,6 +35,7 @@ namespace Service
         DesignColourConsumptionHeaderViewModel GetDesignColourConsumptionHeaderViewModel(int ProductId);
         ProductConsumptionHeaderViewModel GetDesignConsumptionHeaderViewModelForProduct(int ProductId);
         IEnumerable<DesignConsumptionLineViewModel> GetDesignConsumptionFaceContentForIndex(int BaseProductId);
+        IEnumerable<DesignConsumptionLineViewModel> GetConsumptionForIndex(int BaseProductId);
         IEnumerable<ProductConsumptionLineViewModel> GetDesignConsumptionFaceContentForIndexForProduct(int BaseProductId);
         IEnumerable<DesignConsumptionLineViewModel> GetDesignConsumptionOtherContentForIndex(int BaseProductId);
         IEnumerable<ProductConsumptionLineViewModel> GetDesignConsumptionOtherContentForIndexForProduct(int BaseProductId);
@@ -244,6 +245,40 @@ namespace Service
         public Task<BomDetail> FindAsync(int id)
         {
             throw new NotImplementedException();
+        }
+
+        
+
+     public IEnumerable<DesignConsumptionLineViewModel> GetConsumptionForIndex(int BaseProductId)
+        {
+
+            IEnumerable<DesignConsumptionLineViewModel> svm = (from b in db.BomDetail
+                                                               join d in db.Dimension1 on b.Dimension1Id equals d.Dimension1Id into Dimension1Table
+                                                               from Dimension1Tab in Dimension1Table.DefaultIfEmpty()
+                                                               join p in db.Product on b.ProductId equals p.ProductId into ProductTable
+                                                               from ProductTab in ProductTable.DefaultIfEmpty()
+                                                               join pg in db.ProductGroups on ProductTab.ProductGroupId equals pg.ProductGroupId into ProductGroupTable
+                                                               from ProductGroupTab in ProductGroupTable.DefaultIfEmpty()
+                                                               join U in db.Units on ProductTab.UnitId equals U.UnitId into UnitTable
+                                                               from UnitTab in UnitTable.DefaultIfEmpty()
+                                                               where b.BaseProductId == BaseProductId 
+                                                               select new DesignConsumptionLineViewModel
+                                                               {
+                                                                   BomDetailId = b.BomDetailId,
+                                                                   BaseProductId = b.BaseProductId,
+                                                                   ProductId = b.ProductId,
+                                                                   ProductName = ProductTab.ProductName,
+                                                                   Dimension1Name = Dimension1Tab.Dimension1Name,
+                                                                   ProductGroupName = ProductGroupTab.ProductGroupName,
+                                                                   Qty = b.Qty,
+                                                                   UnitName = UnitTab.UnitName
+                                                               }).ToList();
+
+
+
+
+
+            return svm;
         }
 
         public IEnumerable<DesignConsumptionLineViewModel> GetDesignConsumptionFaceContentForIndex(int BaseProductId)

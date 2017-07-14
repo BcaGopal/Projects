@@ -39,6 +39,7 @@ namespace Model.ViewModel
         public int JobReceiveById { get; set; }
         public int? ProductUidId { get; set; }
         public string ProductUidName { get; set; }
+        public string LotNo { get; set; }
         public int ProductId { get; set; }
         public string ProductName { get; set; }
         public string ProductQualityName { get; set; }

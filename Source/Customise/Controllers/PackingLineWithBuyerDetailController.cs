@@ -248,7 +248,7 @@ namespace Web
                     StockViewModel_Issue.HeaderGodownId = null;
                     StockViewModel_Issue.GodownId = packingheader.GodownId;
                     StockViewModel_Issue.ProcessId = packingline.FromProcessId;
-                    StockViewModel_Issue.LotNo = null;
+                    StockViewModel_Issue.LotNo = packingline.LotNo;
                     StockViewModel_Issue.CostCenterId = null;
                     StockViewModel_Issue.Qty_Iss = packingline.Qty;
                     StockViewModel_Issue.Qty_Rec = 0;
@@ -296,7 +296,8 @@ namespace Web
                     StockViewModel_Receive.HeaderGodownId = null;
                     StockViewModel_Receive.GodownId = packingheader.GodownId;
                     StockViewModel_Receive.ProcessId = new ProcessService(_unitOfWork).Find(ProcessConstants.Packing).ProcessId;
-                    StockViewModel_Receive.LotNo = packingheader.DocNo;
+                    //StockViewModel_Receive.LotNo = packingheader.DocNo;
+                    StockViewModel_Receive.LotNo = packingline.LotNo ;
                     StockViewModel_Receive.CostCenterId = null;
                     StockViewModel_Receive.Qty_Iss = 0;
                     StockViewModel_Receive.Qty_Rec = packingline.Qty;
@@ -592,6 +593,7 @@ namespace Web
                     packingline.NetWeight = svm.NetWeight;
                     packingline.Remark = svm.Remark;
                     packingline.SealNo = svm.SealNo;
+                    packingline.DealQty = svm.DealQty;
                     packingline.RateRemark = svm.RateRemark;
                     packingline.ModifiedDate = DateTime.Now;
                     packingline.ModifiedBy = User.Identity.Name;
@@ -1142,7 +1144,7 @@ namespace Web
                 return ValidationMsg;
             }
 
-            if (svm.UnitConversionMultiplier > (Decimal)0.25 && svm.Qty > 1 && svm.DealUnitId != UnitConstants.Pieces && svm.DealUnitId != UnitConstants.Kgs)
+            if (svm.UnitConversionMultiplier > (Decimal)5.25 && svm.Qty > 1 && svm.DealUnitId != UnitConstants.Pieces && svm.DealUnitId != UnitConstants.Kgs)
             {
                 ValidationMsg = "Packed Qty can not be greater then 1.";
                 return ValidationMsg;
@@ -2080,11 +2082,13 @@ namespace Web
 
             var settings = new PackingSettingService(_unitOfWork).GetPackingSettingForDocument(Header.DocTypeId, Header.DivisionId, Header.SiteId);
 
+            var Buyer = new BuyerService(_unitOfWork).Find(Header.BuyerId);
+
             if (settings != null)
             {
-                if (settings.ExtraSaleOrderNo != null)
+                if (Buyer.ExtraSaleOrderHeaderId != null)
                 {
-                    SaleOrderHeader SaleOrderHeader = new SaleOrderHeaderService(_unitOfWork).FindByDocNo(settings.ExtraSaleOrderNo);
+                    SaleOrderHeader SaleOrderHeader = new SaleOrderHeaderService(_unitOfWork).Find((int)Buyer.ExtraSaleOrderHeaderId);
                     if (SaleOrderHeader != null)
                     {
                         SaleOrderLine Line = new SaleOrderLine();

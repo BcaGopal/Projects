@@ -137,6 +137,7 @@ namespace Module
             AddFields("JobOrderHeaders", "FinancierId", "Int", "People");
             AddFields("JobOrderHeaders", "SalesExecutiveId", "Int", "People");
 
+            AddFields("Buyers", "ExtraSaleOrderHeaderId", "Int", "SaleOrderHeaders");
 
             AddFields("SaleOrderSettings", "isVisibleFinancier", "BIT");
             AddFields("SaleOrderSettings", "isVisibleSalesExecutive", "BIT");
@@ -158,6 +159,8 @@ namespace Module
             AddFields("SaleOrderLines", "FreeQty", "Decimal(18,4)");
 
             AddFields("CarpetSkuSettings", "NameBaseOnSize", "nvarchar(50)");
+
+            AddFields("WeavingRetensions", "ProductQualityId", "INT", "ProductQualities");
 
             try
             {

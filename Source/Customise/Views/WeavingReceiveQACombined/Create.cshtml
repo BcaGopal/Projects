@@ -184,6 +184,16 @@
                                         </div>
                                     </div>
 
+                                    <div class="col-md-6" style="display:@(Model.JobReceiveSettings.isVisibleLotNo ? "" : "none")">
+                                        @Html.HiddenFor(m => m.JobReceiveSettings.isVisibleLotNo)
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.LotNo, "Lot No", new { @class = "control-label col-md-4 col-sm-2" })                                           
+                                            <div class="col-md-7 col-sm-10">
+                                                @Html.TextBoxFor(m => m.LotNo, new { @class = "form-control ", @readonly = "true" })
+                                                @Html.ValidationMessageFor(m => m.LotNo, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                    </div>
 
                                     <div class="col-md-6">
                                         <div class="form-group">
@@ -231,7 +241,7 @@
 
                                     <div class="col-md-6" >
                                         <div class="form-group">
-                                            @Html.LabelFor(model => model.OrderLength, "Order Size (L X W)", new { @class = "control-label col-md-4 col-sm-2" })
+                                            @Html.LabelFor(model => model.OrderLength, "Order Size (W X L)", new { @class = "control-label col-md-4 col-sm-2" })
                                             <div class="col-md-7 col-sm-10">
                                                 <div class="col-xs-5" style="padding:0px">
                                                     @Html.TextBoxFor(m => m.OrderLength, null, new { @class = "form-control ", @readonly = "true" })
@@ -251,7 +261,7 @@
 
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            @Html.LabelFor(model => model.Length, "Actual Size (L X W)", new { @class = "control-label col-md-4 col-sm-2" })
+                                            @Html.LabelFor(model => model.Length, "Actual Size (W X L)", new { @class = "control-label col-md-4 col-sm-2" })
                                             <div class="col-md-7 col-sm-10">
                                                 <div class="col-xs-5" style="padding:0px">
                                                     @Html.TextBoxFor(m => m.Length, null, new { @class = "form-control " })
@@ -682,6 +692,7 @@
                     $("#ProductId").val(data.ProductId);
                     $("#ProductUidId").val(data.ProductUIDId);
                     $("#ProductUidName").val(data.ProductUidName);
+                    $("#LotNo").val(data.ProductUidName);
                     $("#Qty").val(1);
                     $('#ExcessStockQty').text("Balance:"+data.BalanceQty);
                     $("#BalanceQty").val(data.BalanceQty);
@@ -703,6 +714,7 @@
                     $("#JobOrderHeaderDocNo").val("");
                     $("#ProductId").val("");
                     $("#ProductUidId").val("");
+                    $("#LotNo").val("");
                     $("#Qty").val(0);
                     $("#BalanceQty").val(0);
                     $("#Rate").val(0);
@@ -1013,9 +1025,13 @@
         if ($('#ProductUidName').val() == null || $('#ProductUidName').val() == "")
         {
             $('#Qty').removeAttr('readonly');
+            $('#LotNo').removeAttr('readonly');
         }
         else{
+            $('#Qty').val('1');
             $('#Qty').attr('readonly', 'true');
+            $('#LotNo').attr('readonly', 'true');
+            $('#LotNo').val($('#ProductUidName').val());
         }
     });
 

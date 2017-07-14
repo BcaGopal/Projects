@@ -34,6 +34,11 @@ namespace Model.Models
         public int? ProductCategoryId { get; set; }
         public virtual ProductCategory ProductCategory { get; set; }
 
+        [ForeignKey("ProductQuality")]
+        [Display(Name = "Product Quality")]
+        public int? ProductQualityId { get; set; }
+        public virtual ProductQuality ProductQuality { get; set; }
+
         [ForeignKey("Person")]
         [Display(Name = "Person")]
         public int? PersonId { get; set; }
