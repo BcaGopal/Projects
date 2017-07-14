@@ -159,6 +159,8 @@ namespace Module
 
             AddFields("CarpetSkuSettings", "NameBaseOnSize", "nvarchar(50)");
 
+            AddFields("WeavingRetensions", "ProductQualityId", "INT", "ProductQualities");
+
             try
             {
                 if ((int)ExecuteScaler("SELECT Count(*) AS Cnt FROM INFORMATION_SCHEMA.Tables WHERE TABLE_NAME = 'SaleQuotationHeaders'") == 0)

@@ -957,7 +957,7 @@ namespace Service
                             ProcessId = tab3.ProcessId,
                             Specification = tab3.Specification,
                             RequisitionBalanceQty = p.BalanceQty,
-                            Qty = p.BalanceQty,
+                            Qty = 0,
                             RequisitionHeaderDocNo = tab.DocNo,
                             ProductName = tab2.ProductName,
                             ProductId = p.ProductId,

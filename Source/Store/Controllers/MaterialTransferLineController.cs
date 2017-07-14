@@ -928,7 +928,7 @@ namespace Web
 
             
 
-            if (ProductPrevProcess != null)
+            if (ProductPrevProcess != null && ProductPrevProcess.ProcessId !=null )
             {
                 string ProcessName = new ProcessService(_unitOfWork).Find((int)ProductPrevProcess.ProcessId).ProcessName;
                 ProductPrevProcessJson.Add(new ProductPrevProcess()

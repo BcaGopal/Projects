@@ -112,12 +112,11 @@ namespace Service
             JobReceiveLine.Qty = pt.Qty;
             JobReceiveLine.LossQty = 0;
             JobReceiveLine.PassQty = pt.Qty;
-            JobReceiveLine.LotNo = null;
             JobReceiveLine.UnitConversionMultiplier = JobOrderLine.UnitConversionMultiplier;
             JobReceiveLine.DealQty = JobReceiveLine.Qty * JobReceiveLine.UnitConversionMultiplier;
             JobReceiveLine.DealUnitId = pt.DealUnitId;
             JobReceiveLine.Weight = pt.Weight;
-            JobReceiveLine.LotNo = null;
+            JobReceiveLine.LotNo = pt.LotNo;
             JobReceiveLine.Sr = 1;
             JobReceiveLine.CreatedDate = DateTime.Now;
             JobReceiveLine.ModifiedDate = DateTime.Now;
@@ -171,7 +170,7 @@ namespace Service
                 db.StockProcess.Add(StockProcess);
             }
 
-            if (pt.ProductUidId == null && jobreceivesetting.SqlProcGenProductUID !=null )
+            if (pt.ProductUidId == null && pt.ProductUidName != null && jobreceivesetting.SqlProcGenProductUID !=null )
             {
                 ProductUidHeader ProductUidHeader = new ProductUidHeader();
                 ProductUidHeader.ProductId = pt.ProductId;
@@ -412,12 +411,11 @@ namespace Service
             JobReceiveLine.Qty = pt.Qty;
             JobReceiveLine.LossQty = 0;
             JobReceiveLine.PassQty = pt.Qty;
-            JobReceiveLine.LotNo = null;
+            JobReceiveLine.LotNo = pt.LotNo;
             JobReceiveLine.UnitConversionMultiplier = pt.UnitConversionMultiplier;
             JobReceiveLine.DealQty = pt.DealQty;
             JobReceiveLine.DealUnitId = pt.DealUnitId;
             JobReceiveLine.Weight = pt.Weight;
-            JobReceiveLine.LotNo = null;
             JobReceiveLine.Sr = 1;
             JobReceiveLine.ModifiedBy = UserName;
             JobReceiveLine.ModifiedDate = DateTime.Now;
@@ -580,6 +578,7 @@ namespace Service
                                                                          ProductUidName = JobReceiveLineTab.ProductUid.ProductUidName,
                                                                          ProductId = JobOrderLineTab.ProductId,
                                                                          ProductName = JobOrderLineTab.Product.ProductName,
+                                                                         LotNo= JobReceiveLineTab.LotNo,
                                                                          Qty = JobReceiveLineTab.Qty,
                                                                          UnitId = JobOrderLineTab.Product.UnitId,
                                                                          DealUnitId = JobReceiveLineTab.DealUnitId,
@@ -884,7 +883,7 @@ namespace Service
                         from Dimension1Tab in Dimension1Table.DefaultIfEmpty()
                         join D2 in db.Dimension2 on p.Dimension2Id equals D2.Dimension2Id into Dimension2Table
                         from Dimension2Tab in Dimension2Table.DefaultIfEmpty()
-                        where p.BalanceQty > 0
+                        where p.BalanceQty > 0 && JWTab.IsSisterConcern ==false
                         && ((string.IsNullOrEmpty(term) ? 1 == 1 : p.JobOrderNo.ToLower().Contains(term.ToLower()))
                         || (string.IsNullOrEmpty(term) ? 1 == 1 : ProductTab.ProductName.ToLower().Contains(term.ToLower()))
                         || (string.IsNullOrEmpty(term) ? 1 == 1 : Dimension1Tab.Dimension1Name.ToLower().Contains(term.ToLower()))

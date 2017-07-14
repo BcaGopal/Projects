@@ -159,6 +159,9 @@ namespace Model.ViewModels
         [Display(Name = "Seal No")]
         public string SealNo { get; set; }
 
+        [Display(Name = "Lot No")]
+        public string LotNo { get; set; }
+
         [Display(Name = "Rate Remark")]
         public string RateRemark { get; set; }
         public string Specification { get; set; }
