@@ -58,6 +58,8 @@ namespace Model.Models
         public bool? isPostedInStockVirtual { get; set; }
 
 
+        public bool? isVisibleStockIn { get; set; }
+
         public bool? isVisibleDeliveryTerms { get; set; }
         public bool? isVisibleShipToAddress { get; set; }
         public bool? isVisibleCurrency { get; set; }

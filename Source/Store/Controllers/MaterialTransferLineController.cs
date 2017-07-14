@@ -264,6 +264,22 @@ namespace Web
                     s.ModifiedBy = User.Identity.Name;
 
 
+                    if (svm.StockInId != null)
+                    {
+                        StockAdj Adj_IssQty = new StockAdj();
+                        Adj_IssQty.StockInId = (int)svm.StockInId;
+                        Adj_IssQty.StockOutId = (int)s.FromStockId;
+                        Adj_IssQty.DivisionId = temp.DivisionId;
+                        Adj_IssQty.SiteId = temp.SiteId;
+                        Adj_IssQty.AdjustedQty = s.Qty;
+                        Adj_IssQty.ObjectState = Model.ObjectState.Added;
+                        db.StockAdj.Add(Adj_IssQty);
+                        //new StockAdjService(_unitOfWork).Create(Adj_IssQty);
+                    }
+
+                    s.StockInId = svm.StockInId;
+
+
                     if (s.ProductUidId != null && s.ProductUidId > 0)
                     {
                         //ProductUid Produid = new ProductUidService(_unitOfWork).Find(svm.ProductUidId ?? 0);
@@ -371,6 +387,8 @@ namespace Web
                     StockLine ExRec = new StockLine();
                     ExRec = Mapper.Map<StockLine>(templine);
 
+
+
                     templine.ProductId = s.ProductId;
                     templine.ProductUidId = s.ProductUidId;
                     templine.RequisitionLineId = s.RequisitionLineId;
@@ -386,6 +404,7 @@ namespace Web
                     templine.Remark = s.Remark;
                     templine.Qty = s.Qty;
                     templine.Weight  = s.Weight;
+                    templine.StockInId = s.StockInId;
                     templine.Remark = s.Remark;
 
                     templine.ModifiedDate = DateTime.Now;
@@ -507,6 +526,31 @@ namespace Web
                         }
                     }
 
+
+
+                    StockAdj Adj = (from L in db.StockAdj
+                                    where L.StockOutId == templine.StockId
+                                    select L).FirstOrDefault();
+
+                    if (Adj != null)
+                    {
+                        Adj.ObjectState = Model.ObjectState.Deleted;
+                        db.StockAdj.Remove(Adj);
+                        //new StockAdjService(_unitOfWork).Delete(Adj);
+                    }
+
+                    if (svm.StockInId != null)
+                    {
+                        StockAdj Adj_IssQty = new StockAdj();
+                        Adj_IssQty.StockInId = (int)svm.StockInId;
+                        Adj_IssQty.StockOutId = (int)templine.FromStockId;
+                        Adj_IssQty.DivisionId = temp.DivisionId;
+                        Adj_IssQty.SiteId = temp.SiteId;
+                        Adj_IssQty.AdjustedQty = svm.Qty;
+                        Adj_IssQty.ObjectState = Model.ObjectState.Added;
+                        db.StockAdj.Add(Adj_IssQty);
+                        //new StockAdjService(_unitOfWork).Create(Adj_IssQty);
+                    }
 
                     if (temp.Status != (int)StatusConstants.Drafted && temp.Status != (int)StatusConstants.Import)
                     {
@@ -803,6 +847,18 @@ namespace Web
 
                 if (FromStockId != null)
                 {
+                    StockAdj Adj = (from L in db.StockAdj
+                                    where L.StockOutId == FromStockId
+                                    select L).FirstOrDefault();
+
+                    if (Adj != null)
+                    {
+                        //new StockAdjService(_unitOfWork).Delete(Adj);
+                        Adj.ObjectState = Model.ObjectState.Deleted;
+                        db.StockAdj.Remove(Adj);
+                    }
+
+
                     new StockService(_unitOfWork).DeleteStockDB((int)FromStockId, ref db, true);
                 }
 
@@ -994,6 +1050,99 @@ namespace Web
             ProductUidJson.text = ProductUid.FirstOrDefault().text;
 
             return Json(ProductUidJson);
+        }
+
+        public ActionResult GetStockInForProduct(string searchTerm, int pageSize, int pageNum, int filter, int? ProductId, int? Dimension1Id, int? Dimension2Id, int? Dimension3Id, int? Dimension4Id)//DocTypeId
+        {
+            var Query = _StockLineService.GetPendingStockInForIssue(filter, ProductId, Dimension1Id, Dimension2Id, Dimension3Id, Dimension4Id, searchTerm);
+            var temp = Query.Skip(pageSize * (pageNum - 1))
+                .Take(pageSize)
+                .ToList();
+
+            var count = Query.Count();
+
+            ComboBoxPagedResult Data = new ComboBoxPagedResult();
+            Data.Results = temp;
+            Data.Total = count;
+
+            return new JsonpResult
+            {
+                Data = Data,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        public ActionResult GetStockInHeader(string searchTerm, int pageSize, int pageNum, int filter)
+        {
+            var Query = _StockLineService.GetPendingStockInHeaderForIssue(filter, searchTerm);
+            var temp = Query.Skip(pageSize * (pageNum - 1))
+                .Take(pageSize)
+                .ToList();
+
+            var count = Query.Count();
+
+            ComboBoxPagedResult Data = new ComboBoxPagedResult();
+            Data.Results = temp;
+            Data.Total = count;
+
+            return new JsonpResult
+            {
+                Data = Data,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        public JsonResult GetStockInDetailJson(int StockInId)
+        {
+            var temp = (from p in db.ViewStockInBalance
+                        join pt in db.Product on p.ProductId equals pt.ProductId into ProductTable
+                        from ProductTab in ProductTable.DefaultIfEmpty()
+                        join D1 in db.Dimension1 on p.Dimension1Id equals D1.Dimension1Id into Dimension1Table
+                        from Dimension1Tab in Dimension1Table.DefaultIfEmpty()
+                        join D2 in db.Dimension2 on p.Dimension2Id equals D2.Dimension2Id into Dimension2Table
+                        from Dimension2Tab in Dimension2Table.DefaultIfEmpty()
+                        join D3 in db.Dimension3 on p.Dimension3Id equals D3.Dimension3Id into Dimension3Table
+                        from Dimension3Tab in Dimension3Table.DefaultIfEmpty()
+                        join D4 in db.Dimension4 on p.Dimension4Id equals D4.Dimension4Id into Dimension4Table
+                        from Dimension4Tab in Dimension4Table.DefaultIfEmpty()
+                        where p.StockInId == StockInId
+                        select new
+                        {
+                            ProductId = p.ProductId,
+                            ProductName = ProductTab.ProductName,
+                            Dimension1Id = p.Dimension1Id,
+                            Dimension1Name = Dimension1Tab.Dimension1Name,
+                            Dimension2Id = p.Dimension2Id,
+                            Dimension2Name = Dimension2Tab.Dimension2Name,
+                            Dimension3Id = p.Dimension3Id,
+                            Dimension3Name = Dimension3Tab.Dimension3Name,
+                            Dimension4Id = p.Dimension4Id,
+                            Dimension4Name = Dimension4Tab.Dimension4Name,
+                            BalanceQty = p.BalanceQty,
+                            LotNo = p.LotNo
+                        }).FirstOrDefault();
+
+            if (temp != null)
+            {
+                return Json(temp);
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public JsonResult GetStockInBalance(int StockInId)
+        {
+            var temp = (from L in db.ViewStockInBalance where L.StockInId == StockInId select L).FirstOrDefault();
+            if (temp != null)
+            {
+                return Json(temp.BalanceQty, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return Json(0, JsonRequestBehavior.AllowGet);
+            }
         }
 
         protected override void Dispose(bool disposing)

@@ -140,10 +140,13 @@ namespace Customize
 
                 foreach (var ImportLine in ImportLineList)
                 {
-                    if (ImportLine.IsVisible == true && RecordList.Columns.Contains(ImportLine.FieldName) == false && ImportLine.FileNo == filecnt + 1)
+                    if (ImportLine.DataType != "Input-Text" && ImportLine.DataType != "Input-Number" && ImportLine.DataType != "Input-Date" && ImportLine.DataType != "Single Select" && ImportLine.DataType != "Multi Select")
                     {
-                        ModelState.AddModelError("", ImportLine.FieldName + " is manadatary for file " + ImportLine.Type + ", but file does not containt this column.");
-                        return View("Import", vm);
+                        if (ImportLine.IsVisible == true && RecordList.Columns.Contains(ImportLine.FieldName) == false && ImportLine.FileNo == filecnt + 1)
+                        {
+                            ModelState.AddModelError("", ImportLine.FieldName + " is manadatary for file " + ImportLine.Type + ", but file does not containt this column.");
+                            return View("Import", vm);
+                        }
                     }
 
                     if (ImportLine.IsMandatory == true && ImportLine.FileNo == filecnt + 1)

@@ -163,6 +163,7 @@ namespace Data.Models
         public DbSet<City> City { get; set; }
         public DbSet<DocumentStatus> DocumentStatus { get; set; }
         public DbSet<Company> Company { get; set; }
+        public DbSet<CompanySettings> CompanySettings { get; set; }
         public DbSet<BusinessSession> BusinessSession { get; set; }
         public DbSet<CostCenter> CostCenter { get; set; }
         public DbSet<Country> Country { get; set; }
@@ -218,6 +219,7 @@ namespace Data.Models
         public DbSet<ShipMethod> ShipMethod { get; set; }
         public DbSet<DocumentShipMethod> DocumentShipMethod { get; set; }
         public DbSet<Site> Site { get; set; }
+        public DbSet<SiteDivisionSettings> SiteDivisionSettings { get; set; }
         public DbSet<State> State { get; set; }
         public DbSet<Unit> Units { get; set; }
         public DbSet<UnitConversion> UnitConversion { get; set; }

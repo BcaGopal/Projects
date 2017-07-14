@@ -5790,6 +5790,61 @@ namespace Web
             return Json(StockInJson);
         }
 
+        public JsonResult SetSingleStockHeader(int Ids)
+        {
+            ComboBoxResult StockHeaderJson = new ComboBoxResult();
+
+            var StockHeader = from H in db.StockHeader 
+                              where H.StockHeaderId == Ids
+                              select new
+                              {
+                                  StockHeaderId = H.StockHeaderId,
+                                  StockHeaderNo = H.DocNo
+                              };
+
+            StockHeaderJson.id = StockHeader.FirstOrDefault().StockHeaderId.ToString();
+            StockHeaderJson.text = StockHeader.FirstOrDefault().StockHeaderNo;
+
+            return Json(StockHeaderJson);
+        }
+
+        public JsonResult SetStockHeader(string Ids)
+        {
+            string[] subStr = Ids.Split(',');
+            List<ComboBoxResult> ProductJson = new List<ComboBoxResult>();
+            for (int i = 0; i < subStr.Length; i++)
+            {
+                int temp = Convert.ToInt32(subStr[i]);
+                IEnumerable<StockHeader> prod = from p in db.StockHeader
+                                                where p.StockHeaderId == temp
+                                                 select p;
+                ProductJson.Add(new ComboBoxResult()
+                {
+                    id = prod.FirstOrDefault().StockHeaderId.ToString(),
+                    text = prod.FirstOrDefault().DocNo
+                });
+            }
+            return Json(ProductJson);
+        }
+
+        public JsonResult SetLotNo(string Ids)
+        {
+            string[] subStr = Ids.Split(',');
+            List<ComboBoxResult> ProductJson = new List<ComboBoxResult>();
+            for (int i = 0; i < subStr.Length; i++)
+            {
+                string temp = subStr[i];
+                ProductJson.Add(new ComboBoxResult()
+                {
+                    id = temp.ToString(),
+                    text = temp.ToString(),
+                });
+            }
+            return Json(ProductJson);
+        }
+
+
+
         public JsonResult GetTdsGroup(string searchTerm, int pageSize, int pageNum)
         {
             var Query = cbl.GetTdsGroups(searchTerm);

@@ -159,11 +159,11 @@ namespace Web
             //Getting Settings
             var settings = new ExcessMaterialSettingsService(_unitOfWork,context).GetExcessMaterialSettingsForDocument(id, p.DivisionId, p.SiteId);
 
-            if (settings == null && UserRoles.Contains("Admin"))
+            if (settings == null && UserRoles.Contains("SysAdmin"))
             {
                 return RedirectToAction("Create", "ExcessMaterialSettings", new { id = id }).Warning("Please create Material Issue settings");
             }
-            else if (settings == null && !UserRoles.Contains("Admin"))
+            else if (settings == null && !UserRoles.Contains("SysAdmin"))
             {
                 return View("~/Views/Shared/InValidSettings.cshtml");
             }
@@ -478,11 +478,11 @@ namespace Web
             //Job Order Settings
             var settings = new ExcessMaterialSettingsService(_unitOfWork,context).GetExcessMaterialSettingsForDocument(s.DocTypeId, s.DivisionId, s.SiteId);
 
-            if (settings == null && UserRoles.Contains("Admin"))
+            if (settings == null && UserRoles.Contains("SysAdmin"))
             {
                 return RedirectToAction("Create", "ExcessMaterialSettings", new { id = s.DocTypeId }).Warning("Please create Material Issue settings");
             }
-            else if (settings == null && !UserRoles.Contains("Admin"))
+            else if (settings == null && !UserRoles.Contains("SysAdmin"))
             {
                 return View("~/Views/Shared/InValidSettings.cshtml");
             }

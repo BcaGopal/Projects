@@ -125,7 +125,7 @@ namespace Web
             SaleInvoiceHeader H = new SaleInvoiceHeaderService(_unitOfWork).GetSaleInvoiceHeaderDetail(Id);
             SaleInvoiceLineViewModel s = new SaleInvoiceLineViewModel();
             s.SaleInvoiceHeaderId = H.SaleInvoiceHeaderId;
-            s.SalesTaxGroupId = 1;
+            s.SalesTaxGroupProductId = 1;
             ViewBag.DocNo = H.DocNo;
             ViewBag.Status = H.Status;
             PrepareViewBag(null);

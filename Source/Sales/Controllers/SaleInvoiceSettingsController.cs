@@ -63,7 +63,7 @@ namespace Web
 
         public ActionResult Create(int id)//DocTypeId
         {
-            if (!UserRoles.Contains("Admin"))
+            if (!UserRoles.Contains("SysAdmin"))
             {
                 return View("~/Views/Shared/InValidSettings.cshtml");
             }
@@ -181,7 +181,7 @@ namespace Web
                     temp.isVisibleDealUnit = pt.isVisibleDealUnit;
                     temp.isVisibleShipMethod = pt.isVisibleShipMethod;
                     temp.isVisibleSpecification = pt.isVisibleSpecification;
-                    temp.isVisibleSalesTaxGroup = pt.isVisibleSalesTaxGroup;
+                    temp.isVisibleSalesTaxGroupPerson = pt.isVisibleSalesTaxGroupPerson;
                     temp.isVisibleProductUid = pt.isVisibleProductUid;
                     temp.isVisibleProductCode = pt.isVisibleProductCode;
                     temp.isVisibleBaleNo = pt.isVisibleBaleNo;
@@ -201,7 +201,7 @@ namespace Web
                     temp.DeliveryTermsId = pt.DeliveryTermsId;
                     temp.ShipMethodId = pt.ShipMethodId;
                     temp.ProcessId = pt.ProcessId;
-                    temp.SalesTaxGroupId = pt.SalesTaxGroupId;
+                    temp.SalesTaxGroupPersonId = pt.SalesTaxGroupPersonId;
                     temp.GodownId = pt.GodownId;
                     temp.ModifiedDate = DateTime.Now;
                     temp.ModifiedBy = User.Identity.Name;
@@ -251,7 +251,7 @@ namespace Web
 
         public ActionResult CreateForReturn(int id)//DocTypeId
         {
-            if (!UserRoles.Contains("Admin"))
+            if (!UserRoles.Contains("SysAdmin"))
             {
                 return View("~/Views/Shared/InValidSettings.cshtml");
             }
@@ -364,7 +364,7 @@ namespace Web
                     temp.isVisibleDealUnit = pt.isVisibleDealUnit;
                     temp.isVisibleShipMethod = pt.isVisibleShipMethod;
                     temp.isVisibleSpecification = pt.isVisibleSpecification;
-                    temp.isVisibleSalesTaxGroup = pt.isVisibleSalesTaxGroup;
+                    temp.isVisibleSalesTaxGroupPerson = pt.isVisibleSalesTaxGroupPerson;
                     temp.isVisibleProductUid = pt.isVisibleProductUid;
                     temp.isVisibleProductCode = pt.isVisibleProductCode;
                     temp.isVisibleBaleNo = pt.isVisibleBaleNo;
@@ -383,7 +383,7 @@ namespace Web
                     temp.DeliveryTermsId = pt.DeliveryTermsId;
                     temp.ShipMethodId = pt.ShipMethodId;
                     temp.ProcessId = pt.ProcessId;
-                    temp.SalesTaxGroupId = pt.SalesTaxGroupId;
+                    temp.SalesTaxGroupPersonId = pt.SalesTaxGroupPersonId;
                     temp.GodownId = pt.GodownId;
                     temp.ModifiedDate = DateTime.Now;
                     temp.ModifiedBy = User.Identity.Name;

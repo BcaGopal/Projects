@@ -183,11 +183,11 @@ namespace Web
             //Getting Settings
             var settings = new LedgerSettingService(_unitOfWork).GetLedgerSettingForDocument(id, vm.DivisionId, vm.SiteId);
 
-            if (settings == null && UserRoles.Contains("Admin"))
+            if (settings == null && UserRoles.Contains("SysAdmin"))
             {
                 return RedirectToAction("Create", "LedgerSetting", new { id = id }).Warning("Please create Ledger settings");
             }
-            else if (settings == null && !UserRoles.Contains("Admin"))
+            else if (settings == null && !UserRoles.Contains("SysAdmin"))
             {
                 return View("~/Views/Shared/InValidSettings.cshtml");
             }
@@ -591,11 +591,11 @@ namespace Web
             //Job Order Settings
             var settings = new LedgerSettingService(_unitOfWork).GetLedgerSettingForDocument(pt.DocTypeId, pt.DivisionId, pt.SiteId);
 
-            if (settings == null && UserRoles.Contains("Admin"))
+            if (settings == null && UserRoles.Contains("SysAdmin"))
             {
                 return RedirectToAction("Create", "LedgerSetting", new { id = pt.DocTypeId }).Warning("Please create Ledger settings");
             }
-            else if (settings == null && !UserRoles.Contains("Admin"))
+            else if (settings == null && !UserRoles.Contains("SysAdmin"))
             {
                 return View("~/Views/Shared/InValidSettings.cshtml");
             }

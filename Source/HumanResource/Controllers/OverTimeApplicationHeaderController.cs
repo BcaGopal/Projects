@@ -189,11 +189,11 @@ namespace Web
             //Getting Settings
             //var settings = new PurchaseOrderSettingService(_unitOfWork).GetPurchaseOrderSettingForDocument(id, vm.DivisionId, vm.SiteId);
 
-            /*if (settings == null && UserRoles.Contains("Admin"))
+            /*if (settings == null && UserRoles.Contains("SysAdmin"))
             {
                 return RedirectToAction("Create", "PurchaseOrderSetting", new { id = id }).Warning("Please create Purchase Order settings");
             }
-            else if (settings == null && !UserRoles.Contains("Admin"))
+            else if (settings == null && !UserRoles.Contains("SysAdmin"))
             {
                 return View("~/Views/Shared/InValidSettings.cshtml");
             }
@@ -494,11 +494,11 @@ namespace Web
             //Job Order Settings
             //var settings = new PurchaseOrderSettingService(_unitOfWork).GetPurchaseOrderSettingForDocument(pt.DocTypeId, pt.DivisionId, pt.SiteId);
 
-            /*if (settings == null && UserRoles.Contains("Admin"))
+            /*if (settings == null && UserRoles.Contains("SysAdmin"))
             {
                 return RedirectToAction("Create", "PurchaseOrderSetting", new { id = pt.DocTypeId }).Warning("Please create Purchase Order settings");
             }
-            else if (settings == null && !UserRoles.Contains("Admin"))
+            else if (settings == null && !UserRoles.Contains("SysAdmin"))
             {
                 return View("~/Views/Shared/InValidSettings.cshtml");
             }*/

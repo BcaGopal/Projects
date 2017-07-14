@@ -143,6 +143,8 @@ namespace Model.ViewModel
         public int? OrderDocTypeId { get; set; }
         public int? OrderHeaderId { get; set; }
 
+        public int? StockInId { get; set; }
+        public string StockInNo { get; set; }
 
         public int? Dimension1Id { get; set; }
         public string Dimension1Name { get; set; }
@@ -228,6 +230,7 @@ namespace Model.ViewModel
         public bool IsProcessDone { get; set; }
         public decimal? Incentive { get; set; }
         public decimal? Penalty { get; set; }
+        public Decimal? StockInBalanceQty { get; set; }
     }
 
     public class JobOrderHeaderListViewModel
@@ -253,6 +256,32 @@ namespace Model.ViewModel
         public int JobWorkerId { get; set; }
         [Display(Name = "Production Order")]
         public string ProdOrderHeaderId { get; set; }
+        [Display(Name = "Product")]
+        public string ProductId { get; set; }
+        [Display(Name = "Product Group")]
+        public string ProductGroupId { get; set; }
+
+
+        public string Dimension1Id { get; set; }
+        public string Dimension2Id { get; set; }
+
+        public string Dimension3Id { get; set; }
+        public string Dimension4Id { get; set; }
+
+
+        public string DealUnitId { get; set; }
+        public decimal Rate { get; set; }
+        public JobOrderSettingsViewModel JobOrderSettings { get; set; }
+        public DocumentTypeSettingsViewModel DocumentTypeSettings { get; set; }
+
+    }
+
+    public class JobOrderLineFilterForStockInViewModel
+    {
+        public int JobOrderHeaderId { get; set; }
+        public int JobWorkerId { get; set; }
+        [Display(Name = "Stock In")]
+        public string StockInHeaderId { get; set; }
         [Display(Name = "Product")]
         public string ProductId { get; set; }
         [Display(Name = "Product Group")]

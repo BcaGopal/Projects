@@ -217,11 +217,11 @@ namespace Web
             SaleOrderSettings temp = new SaleOrderSettingsService(_unitOfWork).GetSaleOrderSettings(id, s.DivisionId, s.SiteId);
             s.SaleOrderSettings = Mapper.Map<SaleOrderSettings, SaleOrderSettingsViewModel>(temp);
 
-            if (temp == null && UserRoles.Contains("Admin"))
+            if (temp == null && UserRoles.Contains("SysAdmin"))
             {
                 return RedirectToAction("CreateForCancel", "SaleOrderSettings", new { id = s.DocTypeId }).Warning("Please create Sale order Cancel settings");
             }
-            else if (temp == null && !UserRoles.Contains("Admin"))
+            else if (temp == null && !UserRoles.Contains("SysAdmin"))
             {
                 return View("~/Views/Shared/InValidSettings.cshtml");
             }
@@ -442,11 +442,11 @@ namespace Web
 
             var settings = new SaleOrderSettingsService(_unitOfWork).GetSaleOrderSettings(s.DocTypeId, s.DivisionId, s.SiteId);
 
-            if (settings == null && UserRoles.Contains("Admin"))
+            if (settings == null && UserRoles.Contains("SysAdmin"))
             {
                 return RedirectToAction("CreateForCancel", "SaleOrderSettings", new { id = s.DocTypeId }).Warning("Please create Sale order Cancel settings");
             }
-            else if (settings == null && !UserRoles.Contains("Admin"))
+            else if (settings == null && !UserRoles.Contains("SysAdmin"))
             {
                 return View("~/Views/Shared/InValidSettings.cshtml");
             }

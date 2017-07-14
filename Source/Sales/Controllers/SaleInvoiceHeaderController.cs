@@ -156,11 +156,11 @@ namespace Web
             //Getting Settings
             var settings = new SaleInvoiceSettingService(_unitOfWork).GetSaleInvoiceSettingForDocument(id, vm.DivisionId, vm.SiteId);
 
-            if (settings == null && UserRoles.Contains("Admin"))
+            if (settings == null && UserRoles.Contains("SysAdmin"))
             {
                 return RedirectToAction("Create", "SaleInvoiceSetting", new { id = id }).Warning("Please create Sale Invoice settings");
             }
-            else if (settings == null && !UserRoles.Contains("Admin"))
+            else if (settings == null && !UserRoles.Contains("SysAdmin"))
             {
                 return View("~/Views/Shared/InValidSettings.cshtml");
             }
@@ -171,7 +171,7 @@ namespace Web
                 vm.ShipMethodId = settings.ShipMethodId;
                 vm.DeliveryTermsId = settings.DeliveryTermsId;
                 vm.CurrencyId = settings.CurrencyId;
-                vm.SalesTaxGroupId = settings.SalesTaxGroupId;
+                vm.SalesTaxGroupPersonId = settings.SalesTaxGroupPersonId;
                 vm.GodownId = settings.GodownId;
                 vm.ProcessId = settings.ProcessId;
             }
@@ -392,11 +392,11 @@ namespace Web
             //Getting Settings
             var settings = new SaleInvoiceSettingService(_unitOfWork).GetSaleInvoiceSettingForDocument(s.DocTypeId, vm.DivisionId, vm.SiteId);
 
-            if (settings == null && UserRoles.Contains("Admin"))
+            if (settings == null && UserRoles.Contains("SysAdmin"))
             {
                 return RedirectToAction("Create", "SaleInvoiceSetting", new { id = s.DocTypeId }).Warning("Please create Sale Invoice settings");
             }
-            else if (settings == null && !UserRoles.Contains("Admin"))
+            else if (settings == null && !UserRoles.Contains("SysAdmin"))
             {
                 return View("~/Views/Shared/InValidSettings.cshtml");
             }
@@ -446,11 +446,11 @@ namespace Web
             //Getting Settings
             var settings = new SaleInvoiceSettingService(_unitOfWork).GetSaleInvoiceSettingForDocument(s.DocTypeId, s.DivisionId, s.SiteId);
 
-            if (settings == null && UserRoles.Contains("Admin"))
+            if (settings == null && UserRoles.Contains("SysAdmin"))
             {
                 return RedirectToAction("Create", "SaleInvoiceSetting", new { id = id }).Warning("Please create Sale Invoice settings");
             }
-            else if (settings == null && !UserRoles.Contains("Admin"))
+            else if (settings == null && !UserRoles.Contains("SysAdmin"))
             {
                 return View("~/Views/Shared/InValidSettings.cshtml");
             }

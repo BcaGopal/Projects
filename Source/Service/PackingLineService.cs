@@ -253,6 +253,7 @@ namespace Service
                         DealUnitName = DeliveryUnitTab.UnitName,
                         DealQty = L.DealQty,
                         BaleNo = L.BaleNo,
+                        BaleCount = L.BaleCount,
                         GrossWeight = L.GrossWeight,
                         NetWeight = L.NetWeight,
                         Remark = L.Remark,

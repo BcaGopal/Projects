@@ -50,9 +50,11 @@ namespace Model.Models
         [Display(Name = "Qty"), Required]
         public Decimal Qty { get; set; }
         
-        [ForeignKey("SalesTaxGroup"), Display(Name = "Sales Tax Group ")]
-        public int? SalesTaxGroupId { get; set; }
-        public virtual SalesTaxGroup SalesTaxGroup { get; set; }
+
+        [ForeignKey("SalesTaxGroupProduct"), Display(Name = "Sales Tax Group Product")]
+        public int? SalesTaxGroupProductId { get; set; }
+        public virtual ChargeGroupProduct SalesTaxGroupProduct { get; set; }
+
 
         [ForeignKey("ProductInvoiceGroup"), Display(Name = "Product Invoice Group")]
         public int? ProductInvoiceGroupId { get; set; }

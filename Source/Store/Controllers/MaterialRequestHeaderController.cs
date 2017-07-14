@@ -150,11 +150,11 @@ namespace Web
             //Getting Settings
             var settings = new MaterialRequestSettingsService(_unitOfWork).GetMaterialRequestSettingsForDocument(id, p.DivisionId, p.SiteId);
 
-            if (settings == null && UserRoles.Contains("Admin"))
+            if (settings == null && UserRoles.Contains("SysAdmin"))
             {
                 return RedirectToAction("Create", "MaterialRequestSettings", new { id = id }).Warning("Please create Material Request settings");
             }
-            else if (settings == null && !UserRoles.Contains("Admin"))
+            else if (settings == null && !UserRoles.Contains("SysAdmin"))
             {
                 return View("~/Views/Shared/InValidSettings.cshtml");
             }
@@ -449,11 +449,11 @@ namespace Web
             //Job Order Settings
             var settings = new MaterialRequestSettingsService(_unitOfWork).GetMaterialRequestSettingsForDocument(s.DocTypeId, s.DivisionId, s.SiteId);
 
-            if (settings == null && UserRoles.Contains("Admin"))
+            if (settings == null && UserRoles.Contains("SysAdmin"))
             {
                 return RedirectToAction("Create", "MaterialRequestSettings", new { id = s.DocTypeId }).Warning("Please create Material Request settings");
             }
-            else if (settings == null && !UserRoles.Contains("Admin"))
+            else if (settings == null && !UserRoles.Contains("SysAdmin"))
             {
                 return View("~/Views/Shared/InValidSettings.cshtml");
             }

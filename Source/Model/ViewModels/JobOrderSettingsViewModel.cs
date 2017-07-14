@@ -28,6 +28,8 @@ namespace Model.ViewModel
         public bool isVisibleDimension3 { get; set; }
         public bool isVisibleDimension4 { get; set; }
 
+        public bool isVisibleStockIn { get; set; }
+
         public bool isVisibleLoss { get; set; }
         public bool isVisibleDealUnit { get; set; }
         public bool isVisibleUncountableQty { get; set; }

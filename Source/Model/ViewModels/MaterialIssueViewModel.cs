@@ -258,13 +258,14 @@ namespace Model.ViewModel
     {
         public int StockHeaderId { get; set; }
         public string ProductId { get; set; }
-        public string StockInId { get; set; }
+        public string StockInHeaderId { get; set; }
         public string ProductGroupId { get; set; }
         public string CostCenterId { get; set; }
         public string Dimension1Id { get; set; }
         public string Dimension2Id { get; set; }
         public string Dimension3Id { get; set; }
         public string Dimension4Id { get; set; }
+        public string LotNo { get; set; }
         public DocumentTypeSettingsViewModel DocumentTypeSettings { get; set; }
     }
 

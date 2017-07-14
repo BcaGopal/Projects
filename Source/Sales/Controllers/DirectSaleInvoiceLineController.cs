@@ -425,6 +425,7 @@ namespace Web
             s.DivisionId = H.DivisionId;
             s.SaleToBuyerId = H.SaleToBuyerId;
             s.DocDate = H.DocDate;
+            s.SalesTaxGroupPersonId = H.SalesTaxGroupPersonId;
 
 
             var LastInvoiceLine = (from L in db.SaleInvoiceLine
@@ -1340,7 +1341,8 @@ namespace Web
                               Dimension3Id = product.DefaultDimension3Id,
                               Dimension3Name = product.DefaultDimension3Name,
                               Dimension4Id = product.DefaultDimension4Id,
-                              Dimension4Name = product.DefaultDimension4Name
+                              Dimension4Name = product.DefaultDimension4Name,
+                              SalesTaxGroupProductId = product.SalesTaxGroupProductId
             });
         }
 

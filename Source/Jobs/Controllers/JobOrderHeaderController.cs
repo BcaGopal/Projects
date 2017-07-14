@@ -197,11 +197,11 @@ namespace Web
             //Getting Settings
             var settings = new JobOrderSettingsService(_unitOfWork).GetJobOrderSettingsForDocument(id, p.DivisionId, p.SiteId);
 
-            if (settings == null && UserRoles.Contains("Admin"))
+            if (settings == null && UserRoles.Contains("SysAdmin"))
             {
                 return RedirectToAction("Create", "JobOrderSettings", new { id = id }).Warning("Please create job order settings");
             }
-            else if (settings == null && !UserRoles.Contains("Admin"))
+            else if (settings == null && !UserRoles.Contains("SysAdmin"))
             {
                 return View("~/Views/Shared/InValidSettings.cshtml");
             }
@@ -897,11 +897,11 @@ namespace Web
             //Job Order Settings
             var settings = new JobOrderSettingsService(_unitOfWork).GetJobOrderSettingsForDocument(s.DocTypeId, s.DivisionId, s.SiteId);
 
-            if (settings == null && UserRoles.Contains("Admin"))
+            if (settings == null && UserRoles.Contains("SysAdmin"))
             {
                 return RedirectToAction("Create", "JobOrderSettings", new { id = s.DocTypeId }).Warning("Please create job order settings");
             }
-            else if (settings == null && !UserRoles.Contains("Admin"))
+            else if (settings == null && !UserRoles.Contains("SysAdmin"))
             {
                 return View("~/Views/Shared/InValidSettings.cshtml");
             }
@@ -1226,6 +1226,16 @@ namespace Web
 
                     if (item.StockId != null)
                     {
+                        StockAdj Adj = (from L in context.StockAdj
+                                        where L.StockOutId == item.StockId
+                                        select L).FirstOrDefault();
+
+                        if (Adj != null)
+                        {
+                            Adj.ObjectState = Model.ObjectState.Deleted;
+                            context.StockAdj.Remove(Adj);
+                        }
+
                         StockIdList.Add((int)item.StockId);
                     }
 

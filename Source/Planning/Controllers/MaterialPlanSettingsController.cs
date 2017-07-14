@@ -50,7 +50,7 @@ namespace Web
         
         public ActionResult Create(int id)//DocTypeId
         {
-            if (!UserRoles.Contains("Admin"))
+            if (!UserRoles.Contains("SysAdmin"))
             {
                 return View("~/Views/Shared/InValidSettings.cshtml");
             }
@@ -200,7 +200,7 @@ namespace Web
 
         public ActionResult CreateForCancel(int id)//DocTypeId
         {
-            if (!UserRoles.Contains("Admin"))
+            if (!UserRoles.Contains("SysAdmin"))
             {
                 return View("~/Views/Shared/InValidSettings.cshtml");
             }

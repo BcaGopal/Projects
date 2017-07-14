@@ -159,11 +159,11 @@ namespace Web
 
             var settings = new PersonSettingsService(_unitOfWork).GetPersonSettingsForDocument(id);
 
-            if (settings == null && UserRoles.Contains("Admin"))
+            if (settings == null && UserRoles.Contains("SysAdmin"))
             {
                 return RedirectToAction("Create", "PersonSettings", new { id = id }).Warning("Please create Person settings");
             }
-            else if (settings == null && !UserRoles.Contains("Admin"))
+            else if (settings == null && !UserRoles.Contains("SysAdmin"))
             {
                 return View("~/Views/Shared/InValidSettings.cshtml");
             }
@@ -1031,11 +1031,11 @@ namespace Web
 
             var settings = new PersonSettingsService(_unitOfWork).GetPersonSettingsForDocument(DocTypeId);
 
-            if (settings == null && UserRoles.Contains("Admin"))
+            if (settings == null && UserRoles.Contains("SysAdmin"))
             {
                 return RedirectToAction("Create", "PersonSettings", new { id = DocTypeId }).Warning("Please create Person settings");
             }
-            else if (settings == null && !UserRoles.Contains("Admin"))
+            else if (settings == null && !UserRoles.Contains("SysAdmin"))
             {
                 return View("~/Views/Shared/InValidSettings.cshtml");
             }

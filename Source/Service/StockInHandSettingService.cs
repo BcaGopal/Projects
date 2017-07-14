@@ -21,6 +21,14 @@ namespace Service
         void Update(StockInHandSetting pt);
         StockInHandSetting Add(StockInHandSetting pt);
         StockInHandSetting GetTrailBalanceSetting(string UserName);
+
+        StockInHandSetting GetTrailBalanceSetting(string UserName, int ProductTypeId);
+        StockInHandSetting GetTrailBalanceSetting(int ProductTypeId);
+
+        StockInHandSetting GetTrailBalanceSetting(string UserName, int ProductTypeId,string Routeid);
+
+        StockInHandSetting GetTrailBalanceSetting(int ProductTypeId, string Routeid);
+        
     }
 
     public class StockInHandSettingService : IStockInHandSettingService
@@ -75,6 +83,48 @@ namespace Service
 
             return (from p in db.StockInHandSetting
                     where p.UserName == UserName
+                    select p
+                        ).FirstOrDefault();
+
+        }
+
+        public StockInHandSetting GetTrailBalanceSetting(string UserName, int ProductTypeId)
+        {
+
+            return (from p in db.StockInHandSetting
+                    where p.UserName == UserName && p.ProductTypeId == ProductTypeId
+                    select p
+                        ).FirstOrDefault();
+
+        }
+
+
+        
+        public StockInHandSetting GetTrailBalanceSetting( int ProductTypeId)
+        {
+
+            return (from p in db.StockInHandSetting
+                    where p.ProductTypeId == ProductTypeId
+                    select p
+                        ).FirstOrDefault();
+
+        }
+
+        public StockInHandSetting GetTrailBalanceSetting(string UserName, int ProductTypeId,string Routeid)
+        {
+
+            return (from p in db.StockInHandSetting
+                    where p.UserName == UserName && p.ProductTypeId == ProductTypeId && p.TableName== Routeid
+                    select p
+                        ).FirstOrDefault();
+
+        }
+
+        public StockInHandSetting GetTrailBalanceSetting(int ProductTypeId,string Routeid)
+        {
+
+            return (from p in db.StockInHandSetting
+                    where p.ProductTypeId == ProductTypeId && p.TableName== Routeid
                     select p
                         ).FirstOrDefault();
 

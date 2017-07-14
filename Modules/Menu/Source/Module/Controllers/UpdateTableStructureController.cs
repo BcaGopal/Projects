@@ -919,6 +919,9 @@ namespace Module
 
             AddFields("CompanySettings", "isVisibleCompanyName", "BIT");
 
+            AddFields("JobOrderLines", "StockInId", "Int", "Stocks");
+            AddFields("JobOrderSettings", "isVisibleStockIn", "Bit");
+
 
 
             try
@@ -1287,8 +1290,6 @@ namespace Module
             AddFields("PersonSettings", "SqlProcPersonCode", "nvarchar(100)");
 
 
-            AddFields("Sites", "ReportHeaderTextLeft", "nvarchar(Max)");
-            AddFields("Sites", "ReportHeaderTextRight", "nvarchar(Max)");
 
             AddFields("Ledgers", "ChqDate", "DATETIME");
             AddFields("Ledgers", "BankDate", "DATETIME");
@@ -1477,7 +1478,117 @@ namespace Module
             AddFields("PackingSettings", "isVisibleProductUID", "BIT");
 
             AddFields("PackingSettings", "filterProductDivision", "nvarchar(Max)");
+
+
+            try
+            {
+                if ((int)ExecuteScaler("SELECT Count(*)  FROM Web.AspNetRoles WHERE Name = 'SysAdmin'") == 0)
+                {
+                    mQry = @"INSERT INTO Web.AspNetRoles (Id, Name)
+                            VALUES ('3aa1e14b-aee8-4721-b7dc-180d67b09310', 'SysAdmin')";
+                    ExecuteQuery(mQry);
+                }
+            }
+            catch (Exception ex)
+            {
+                RecordError(ex);
+            }
+
+            AddFields("ProductGroups", "DefaultSalesTaxGroupProductId", "Int", "ChargeGroupProducts");
+
+            AddFields("PackingLines", "BaleCount", "Int");
+            AddFields("PackingSettings", "isVisibleBaleCount", "Bit");
+
+            AddFields("PackingSettings", "ProcessId", "Int","Processes");
+
+
+            try
+            {
+                if ((int)ExecuteScaler("SELECT Count(*) AS Cnt FROM INFORMATION_SCHEMA.Tables WHERE TABLE_NAME = 'SiteDivisionSettings'") == 0)
+                {
+                    mQry = @"CREATE TABLE Web.SiteDivisionSettings
+	                        (
+	                        SiteDivisionSettingsId INT IDENTITY NOT NULL,
+	                        SiteId                 INT NOT NULL,
+	                        DivisionId             INT NOT NULL,
+	                        StartDate              DATETIME NOT NULL,
+	                        EndDate                DATETIME,
+	                        ReportHeaderTextLeft   NVARCHAR (max),
+	                        ReportHeaderTextRight  NVARCHAR (max),
+	                        IsApplicableVAT        BIT DEFAULT ((0)) NOT NULL,
+	                        IsApplicableGST        BIT DEFAULT ((1)) NOT NULL,
+	                        CreatedBy              NVARCHAR (max),
+	                        ModifiedBy             NVARCHAR (max),
+	                        CreatedDate            DATETIME NOT NULL,
+	                        ModifiedDate           DATETIME NOT NULL,
+	                        CONSTRAINT [PK_Web.SiteDivisionSettings] PRIMARY KEY (SiteDivisionSettingsId),
+	                        CONSTRAINT [FK_Web.SiteDivisionSettings_Web.Divisions_DivisionId] FOREIGN KEY (DivisionId) REFERENCES Web.Divisions (DivisionId),
+	                        CONSTRAINT [FK_Web.SiteDivisionSettings_Web.Sites_SiteId] FOREIGN KEY (SiteId) REFERENCES Web.Sites (SiteId)
+	                        )
+                        
+
+                        CREATE INDEX IX_SiteId
+	                        ON Web.SiteDivisionSettings (SiteId)
+                        
+
+                        CREATE INDEX IX_DivisionId
+	                        ON Web.SiteDivisionSettings (DivisionId)
+                        ";
+                    ExecuteQuery(mQry);
+                }
+            }
+            catch (Exception ex)
+            {
+                RecordError(ex);
+            }
+
+
+            DropFields("Sites", "ReportHeaderTextLeft");
+            DropFields("Sites", "ReportHeaderTextRight");
+
+
             
+
+            try
+            {
+                mQry = @"INSERT INTO Web.SiteDivisionSettings (SiteId, DivisionId, StartDate, EndDate, ReportHeaderTextLeft, ReportHeaderTextRight, IsApplicableVAT, IsApplicableGST, CreatedBy, ModifiedBy, CreatedDate, ModifiedDate)
+                    SELECT S.SiteId, D.DivisionId, '01/Apr/1900' AS StartDate, '30/Jun/2017' AS EndDate, NULL AS ReportHeaderTextLeft, 
+                    NULL AS ReportHeaderTextRight, 1 AS IsApplicableVAT, 0 AS IsApplicableGST, 'System' AS CreatedBy, 'System' AS ModifiedBy, 
+                    getdate() AS CreatedDate, getdate() AS ModifiedDate
+                    FROM Web.Sites S
+                    LEFT JOIN Web.Divisions D ON 1 = 1
+                    LEFT JOIN Web.SiteDivisionSettings Sds ON S.SiteId = Sds.SiteId
+				                    AND D.DivisionId = Sds.DivisionId
+				                    AND Sds.StartDate < '01/Jul/2017'
+                    WHERE Sds.SiteDivisionSettingsId IS NULL
+
+                    UNION ALL 
+
+                    SELECT S.SiteId, D.DivisionId, '01/Jul/2017' AS StartDate, NULL AS EndDate, NULL AS ReportHeaderTextLeft, 
+                    NULL AS ReportHeaderTextRight, 0 AS IsApplicableVAT, 1 AS IsApplicableGST, 'System' AS CreatedBy, 'System' AS ModifiedBy, 
+                    getdate() AS CreatedDate, getdate() AS ModifiedDate
+                    FROM Web.Sites S
+                    LEFT JOIN Web.Divisions D ON 1 = 1
+                    LEFT JOIN Web.SiteDivisionSettings Sds ON S.SiteId = Sds.SiteId
+				                    AND D.DivisionId = Sds.DivisionId
+				                    AND Sds.StartDate >= '01/Jul/2017'
+                    WHERE Sds.SiteDivisionSettingsId IS NULL";
+                ExecuteQuery(mQry);
+            }
+            catch (Exception ex)
+            {
+                RecordError(ex);
+            }
+
+
+            DropFields("SaleInvoiceLines", "SalesTaxGroupId");
+            DropFields("SaleInvoiceSettings", "SalesTaxGroupId");
+
+            RenameFields("SaleInvoiceSettings", "isVisibleSalesTaxGroup", "isVisibleSalesTaxGroupPerson");
+
+            AddFields("SaleInvoiceLines", "SalesTaxGroupProductId", "Int", "ChargeGroupProduct");
+            AddFields("SaleInvoiceHeaders", "SalesTaxGroupPersonId", "Int", "ChargeGroupPersons");
+            AddFields("SaleInvoiceSettings", "SalesTaxGroupPersonId", "Int", "ChargeGroupPersons");
 
             return RedirectToAction("Module", "Menu");
         }
@@ -1515,11 +1626,63 @@ namespace Module
 
         public void DropFields(string TableName, string FieldName)
         {
+            string Foreign_Key_Name = "";
+            string Index_Name = "";
             try
             {
                 if ((int)ExecuteScaler("SELECT Count(*) AS Cnt FROM INFORMATION_SCHEMA.Columns WHERE COLUMN_NAME =  '" + FieldName + "' AND TABLE_NAME = '" + TableName + "'") != 0)
                 {
+                    mQry = @"SELECT fk.name AS FK_name
+                                FROM sys.objects o1
+                                INNER JOIN sys.foreign_keys fk ON o1.object_id = fk.parent_object_id
+                                INNER JOIN sys.foreign_key_columns fkc ON fk.object_id = fkc.constraint_object_id
+                                INNER JOIN sys.columns c1 ON fkc.parent_object_id = c1.object_id
+                                    AND fkc.parent_column_id = c1.column_id
+                                WHERE o1.name = '" + TableName + "' AND c1.name = '" + FieldName + "'";
+                    Foreign_Key_Name = (string)ExecuteScaler(mQry);
+                    if (Foreign_Key_Name != null && Foreign_Key_Name != "")
+                    {
+                        mQry = "ALTER TABLE Web." + TableName + " DROP CONSTRAINT " + "[" + Foreign_Key_Name + "]";
+                        ExecuteQuery(mQry);
+                    }
+
+
+                    mQry = @"SELECT ind.name
+                            FROM sys.indexes ind 
+                            INNER JOIN sys.index_columns ic ON  ind.object_id = ic.object_id and ind.index_id = ic.index_id 
+                            INNER JOIN sys.columns col ON ic.object_id = col.object_id and ic.column_id = col.column_id 
+                            INNER JOIN sys.tables t ON ind.object_id = t.object_id 
+                            WHERE ind.is_primary_key = 0 
+                            AND ind.is_unique = 0 
+                            AND ind.is_unique_constraint = 0 
+                            AND t.is_ms_shipped = 0 
+                            AND t.name =  '" + TableName + "' AND col.name = '" + FieldName + "'";
+                    Index_Name = (string)ExecuteScaler(mQry);
+                    if (Index_Name != null && Index_Name != "")
+                    {
+                        mQry = "DROP Index Web." + TableName + "." + "[" + Index_Name + "]";
+                        ExecuteQuery(mQry);
+                    }
+
+
                     mQry = "ALTER TABLE Web." + TableName + " DROP COLUMN " + FieldName + " ";
+                    ExecuteQuery(mQry);
+                }
+            }
+            catch (Exception ex)
+            {
+                RecordError(ex);
+            }
+        }
+
+
+        public void RenameFields(string TableName, string OldFieldName, string NewFieldName)
+        {
+            try
+            {
+                if ((int)ExecuteScaler("SELECT Count(*) AS Cnt FROM INFORMATION_SCHEMA.Columns WHERE COLUMN_NAME =  '" + OldFieldName + "' AND TABLE_NAME = '" + TableName + "'") > 0)
+                {
+                    mQry = "EXEC sp_rename 'Web." + TableName + "." + OldFieldName + "', '" + NewFieldName + "', 'COLUMN'";
                     ExecuteQuery(mQry);
                 }
             }

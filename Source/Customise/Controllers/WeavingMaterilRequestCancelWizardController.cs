@@ -40,11 +40,11 @@ namespace Web
             var settings = new RequisitionSettingService(_unitOfWork).GetRequisitionSettingForDocument(Id, DivisionId, SiteId);
 
             List<string> UserRoles = (List<string>)System.Web.HttpContext.Current.Session["Roles"];
-            if (settings == null && UserRoles.Contains("Admin"))
+            if (settings == null && UserRoles.Contains("SysAdmin"))
             {
                 return RedirectToAction("CreateRequisitionCancel", "RequisitionSetting", new { id = Id });
             }
-            else if (settings == null && !UserRoles.Contains("Admin"))
+            else if (settings == null && !UserRoles.Contains("SysAdmin"))
             {
                 return View("~/Views/Shared/InValidSettings.cshtml");
             }

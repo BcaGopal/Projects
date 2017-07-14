@@ -637,6 +637,10 @@
                         {
                             @Html.ActionLink(" ", "_ForProdOrder", "JobOrderLine", new { id = @Model.JobOrderHeaderId, jid = @Model.JobWorkerId }, new { data_modal = "", id = "btnCreateF", @class = "cbtn btn-circle glyphicon glyphicon-link toolbar right", @title = "For ProductionOrder", @data_toggle = "tooltip", @data_detailDeleted = "true" })
                         }
+                        @if (Model.JobOrderSettings.isVisibleStockIn)
+                        {
+                            @Html.ActionLink(" ", "_ForStockIn", "JobOrderLine", new { id = @Model.JobOrderHeaderId, jid = @Model.JobWorkerId }, new { data_modal = "", id = "btnCreateF", @class = "cbtn btn-circle glyphicon glyphicon-link toolbar right", @title = "For ProductionOrder", @data_toggle = "tooltip", @data_detailDeleted = "true" })
+                        }
                     </div>
                 </div>
 

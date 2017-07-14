@@ -24,6 +24,7 @@ namespace Model.ViewModel
         public bool isVisibleDimension3 { get; set; }
         public bool isVisibleDimension4 { get; set; }
         public bool isVisibleProductUID { get; set; }
+        public bool isVisibleBaleCount { get; set; }           
 
         public string filterProductTypes { get; set; }
         public string filterProductGroups { get; set; }
@@ -35,6 +36,9 @@ namespace Model.ViewModel
         public string filterPersonRoles { get; set; }
         public string filterLedgerAccountGroups { get; set; }
         public string filterLedgerAccounts { get; set; }
+
+        public int? ProcessId { get; set; }
+        public string ProcessName { get; set; }        
 
         [MaxLength(100)]
         public string SqlProcDocumentPrint { get; set; }

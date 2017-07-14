@@ -280,6 +280,7 @@ namespace Service
 
             var Query = (from ur in _RoleRepository.Instance
                          where (string.IsNullOrEmpty(searchTerm) ? 1 == 1 : (ur.Name.ToLower().Contains(searchTerm.ToLower())))
+                         && ur.Name != "SysAdmin"
                          orderby ur.Name
                          select new ComboBoxResult
                          {

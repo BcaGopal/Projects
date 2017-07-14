@@ -141,6 +141,8 @@ function DrawProductFields(DebugMode) {
         temp += "<input type='hidden' value='" + (ProductFields[i].RateType == null ? "" : ProductFields[i].RateType) + "' name='linecharges[" + i + "].RateType' />"
         temp += "<input type='hidden' value='" + (ProductFields[i].Sr == null ? "" : ProductFields[i].Sr) + "' name='linecharges[" + i + "].Sr' />"
         temp += "<input type='hidden' value='" + (ProductFields[i].Id == null ? "" : ProductFields[i].Id) + "' name='linecharges[" + i + "].Id' />"
+        temp += "<input type='hidden' value='" + (ProductFields[i].IncludedCharges == null ? "" : ProductFields[i].IncludedCharges) + "' name='linecharges[" + i + "].IncludedCharges' />"
+        temp += "<input type='hidden' value='" + (ProductFields[i].IncludedChargesCalculation == null ? "" : ProductFields[i].IncludedChargesCalculation) + "' name='linecharges[" + i + "].IncludedChargesCalculation' />"
 
     }
     var varXAmount = document.getElementById('Amount').value ? document.getElementById('Amount').value : 0;
@@ -219,6 +221,8 @@ function DrawFooterFields(DebugMode) {
         temp += "<input type='hidden' value='" + (FooterFields[i].RateType == null ? "" : FooterFields[i].RateType) + "' name='footercharges[" + i + "].RateType' />"
         temp += "<input type='hidden' value='" + (FooterFields[i].Sr == null ? "" : FooterFields[i].Sr) + "' name='footercharges[" + i + "].Sr' />"
         temp += "<input type='hidden' value='" + (FooterFields[i].Id == null ? "" : FooterFields[i].Id) + "' name='footercharges[" + i + "].Id' />"
+        temp += "<input type='hidden' value='" + (FooterFields[i].IncludedCharges == null ? "" : FooterFields[i].IncludedCharges) + "' name='footercharges[" + i + "].IncludedCharges' />"
+        temp += "<input type='hidden' value='" + (FooterFields[i].IncludedChargesCalculation == null ? "" : FooterFields[i].IncludedChargesCalculation) + "' name='footercharges[" + i + "].IncludedChargesCalculation' />"
 
     }
     temp += "</div>"

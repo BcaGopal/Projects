@@ -913,7 +913,7 @@ namespace Web
             }
             temp.JobOrderInspectionRequestSettings = Mapper.Map<JobOrderInspectionRequestSettings, JobOrderInspectionRequestSettingsViewModel>(settings);
             temp.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(header.DocTypeId);
-            if (string.IsNullOrEmpty(temp.LockReason) || UserRoles.Contains("Admin"))
+            if (string.IsNullOrEmpty(temp.LockReason))
                 ViewBag.LineMode = "Edit";
             else
                 TempData["CSEXCL"] += temp.LockReason;

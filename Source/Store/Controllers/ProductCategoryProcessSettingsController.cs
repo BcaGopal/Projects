@@ -62,7 +62,7 @@ namespace Web
 
         public ActionResult Create(int id)//ProductCategoryId
         {
-            if (!UserRoles.Contains("Admin"))
+            if (!UserRoles.Contains("SysAdmin"))
             {
                 return View("~/Views/Shared/InValidSettings.cshtml");
             }
@@ -179,7 +179,7 @@ namespace Web
 
         public ActionResult Edit(int id)//ProductCategoryProcessSettingsId
         {
-            if (!UserRoles.Contains("Admin"))
+            if (!UserRoles.Contains("SysAdmin"))
             {
                 return View("~/Views/Shared/InValidSettings.cshtml");
             }

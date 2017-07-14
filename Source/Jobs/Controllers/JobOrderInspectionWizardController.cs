@@ -76,11 +76,11 @@
 //            //Getting Settings
 //            var settings = new JobOrderInspectionSettingsService(db).GetJobOrderInspectionSettingsForDocument(id, vm.DivisionId, vm.SiteId);
 
-//            if (settings == null && UserRoles.Contains("Admin"))
+//            if (settings == null && UserRoles.Contains("SysAdmin"))
 //            {
 //                return RedirectToAction("CreateJobOrderInspection", "JobOrderInspectionSettings", new { id = id }).Warning("Please create Purchase order cancel settings");
 //            }
-//            else if (settings == null && !UserRoles.Contains("Admin"))
+//            else if (settings == null && !UserRoles.Contains("SysAdmin"))
 //            {
 //                return View("~/Views/Shared/InValidSettings.cshtml");
 //            }

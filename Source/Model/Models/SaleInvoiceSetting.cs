@@ -117,7 +117,7 @@ namespace Model.Models
         public bool? isVisibleDealUnit { get; set; }
         public bool? isVisibleShipMethod { get; set; }
         public bool? isVisibleSpecification { get; set; }
-        public bool? isVisibleSalesTaxGroup { get; set; }
+        public bool? isVisibleSalesTaxGroupPerson { get; set; }
         public bool? isVisibleProductUid { get; set; }
         public bool? isVisibleProductCode { get; set; }
         public bool? isVisibleBaleNo { get; set; }
@@ -144,9 +144,11 @@ namespace Model.Models
         [ForeignKey("ShipMethod")]
         public int ShipMethodId { get; set; }
         public virtual ShipMethod ShipMethod { get; set; }
-        [ForeignKey("SalesTaxGroup")]
-        public int SalesTaxGroupId { get; set; }
-        public virtual SalesTaxGroup SalesTaxGroup { get; set; }
+
+        [ForeignKey("SalesTaxGroupPerson")]
+        [Display(Name = "SalesTaxGroupPerson")]
+        public int? SalesTaxGroupPersonId { get; set; }
+        public virtual ChargeGroupPerson SalesTaxGroupPerson { get; set; }
 
 
         [ForeignKey("Godown")]

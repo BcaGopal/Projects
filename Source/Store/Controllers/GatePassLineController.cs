@@ -422,7 +422,7 @@ namespace Web
             if ((TimePlanValidation || Continue))
                 ViewBag.LineMode = "Edit";
 
-            //if (string.IsNullOrEmpty(temp.LockReason) || UserRoles.Contains("Admin"))
+            //if (string.IsNullOrEmpty(temp.LockReason))
             //    ViewBag.LineMode = "Edit";
             //else
             //    TempData["CSEXCL"] += temp.LockReason;

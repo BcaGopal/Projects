@@ -142,11 +142,11 @@ namespace Web
             //Getting Settings
             var settings = new JobOrderInspectionSettingsService(db).GetJobOrderInspectionSettingsForDocument(id, vm.DivisionId, vm.SiteId);
 
-            if (settings == null && UserRoles.Contains("Admin"))
+            if (settings == null && UserRoles.Contains("SysAdmin"))
             {
                 return RedirectToAction("Create", "JobOrderInspectionSettings", new { id = id }).Warning("Please create job Inspection settings");
             }
-            else if (settings == null && !UserRoles.Contains("Admin"))
+            else if (settings == null && !UserRoles.Contains("SysAdmin"))
             {
                 return View("~/Views/Shared/InValidSettings.cshtml");
             }
@@ -468,11 +468,11 @@ namespace Web
             var settings = new JobOrderInspectionSettingsService(db).GetJobOrderInspectionSettingsForDocument(pt.DocTypeId, pt.DivisionId, pt.SiteId);
             pt.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(pt.DocTypeId);
 
-            if (settings == null && UserRoles.Contains("Admin"))
+            if (settings == null && UserRoles.Contains("SysAdmin"))
             {
                 return RedirectToAction("Create", "JobOrderInspectionSettings", new { id = pt.DocTypeId }).Warning("Please create job Inspection settings");
             }
-            else if (settings == null && !UserRoles.Contains("Admin"))
+            else if (settings == null && !UserRoles.Contains("SysAdmin"))
             {
                 return View("~/Views/Shared/InValidSettings.cshtml");
             }
@@ -512,11 +512,11 @@ namespace Web
             //Job Inspection Settings
             var settings = new JobOrderInspectionSettingsService(db).GetJobOrderInspectionSettingsForDocument(pt.DocTypeId, pt.DivisionId, pt.SiteId);
 
-            if (settings == null && UserRoles.Contains("Admin"))
+            if (settings == null && UserRoles.Contains("SysAdmin"))
             {
                 return RedirectToAction("Create", "JobOrderInspectionSettings", new { id = pt.DocTypeId }).Warning("Please create job Inspection settings");
             }
-            else if (settings == null && !UserRoles.Contains("Admin"))
+            else if (settings == null && !UserRoles.Contains("SysAdmin"))
             {
                 return View("~/Views/Shared/InValidSettings.cshtml");
             }

@@ -70,11 +70,11 @@ namespace Web
 
             var settings = new MaterialPlanSettingsService(_unitOfWork).GetMaterialPlanSettingsForDocument(Id, DivisionId, SiteId);
 
-            if (settings == null && UserRoles.Contains("Admin"))
+            if (settings == null && UserRoles.Contains("SysAdmin"))
             {
                 return RedirectToAction("Create", "MaterialPlanSettings", new { id = Id });
             }
-            else if (settings == null && !UserRoles.Contains("Admin"))
+            else if (settings == null && !UserRoles.Contains("SysAdmin"))
             {
                 return View("~/Views/Shared/InValidSettings.cshtml");
             }

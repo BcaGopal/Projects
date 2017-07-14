@@ -420,11 +420,11 @@ namespace Web
             CarpetSkuSettings settings = new CarpetSkuSettingsService(_unitOfWork).GetCarpetSkuSettings(vm.DivisionId, vm.SiteId);
 
 
-            if (settings == null && UserRoles.Contains("Admin"))
+            if (settings == null && UserRoles.Contains("SysAdmin"))
             {
                 return RedirectToAction("Create", "CarpetSkuSettings").Warning("Please create Carpet Sku settings");
             }
-            else if (settings == null && !UserRoles.Contains("Admin"))
+            else if (settings == null && !UserRoles.Contains("SysAdmin"))
             {
                 return View("~/Views/Shared/InValidSettings.cshtml");
             }

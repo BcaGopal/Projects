@@ -33,6 +33,11 @@ namespace Model.Models
         public int? DefaultSalesTaxProductCodeId { get; set; }
         public virtual SalesTaxProductCode DefaultSalesTaxProductCode { get; set; }
 
+        [ForeignKey("DefaultSalesTaxGroupProduct")]
+        [Display(Name = "Default Sales Tax Group Product")]
+        public int? DefaultSalesTaxGroupProductId { get; set; }
+        public virtual ChargeGroupProduct DefaultSalesTaxGroupProduct { get; set; }
+
         [Display(Name = "Is System Define ?")]
         public Boolean IsSystemDefine { get; set; }
 

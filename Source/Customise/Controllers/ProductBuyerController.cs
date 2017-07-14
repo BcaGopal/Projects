@@ -70,11 +70,11 @@ namespace Web
             List<string> UserRoles = new List<string>();
             UserRoles = (List<string>)System.Web.HttpContext.Current.Session["Roles"];
 
-            if (Settings == null && UserRoles.Contains("Admin"))
+            if (Settings == null && UserRoles.Contains("SysAdmin"))
             {
                 return RedirectToAction("Create", "ProductBuyerSettings").Warning("Please create Product Buyer settings");
             }
-            else if (Settings == null && !UserRoles.Contains("Admin"))
+            else if (Settings == null && !UserRoles.Contains("SysAdmin"))
             {
                 return View("~/Views/Shared/InValidSettings.cshtml");
             }
@@ -202,11 +202,11 @@ namespace Web
             List<string> UserRoles = new List<string>();
             UserRoles = (List<string>)System.Web.HttpContext.Current.Session["Roles"];
 
-            if (Settings == null && UserRoles.Contains("Admin"))
+            if (Settings == null && UserRoles.Contains("SysAdmin"))
             {
                 return RedirectToAction("Create", "ProductBuyerSettings").Warning("Please create Product Buyer settings");
             }
-            else if (Settings == null && !UserRoles.Contains("Admin"))
+            else if (Settings == null && !UserRoles.Contains("SysAdmin"))
             {
                 return View("~/Views/Shared/InValidSettings.cshtml");
             }

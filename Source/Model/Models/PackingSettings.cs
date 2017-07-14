@@ -27,7 +27,8 @@ namespace Model.Models
         public bool? isVisibleDimension1 { get; set; }
         public bool? isVisibleDimension2 { get; set; }
         public bool? isVisibleDimension3 { get; set; }
-        public bool? isVisibleDimension4 { get; set; }           
+        public bool? isVisibleDimension4 { get; set; }
+        public bool? isVisibleBaleCount { get; set; }           
         public string filterProductTypes { get; set; }
         public string filterProductGroups { get; set; }
         public string filterProducts { get; set; }
@@ -38,6 +39,10 @@ namespace Model.Models
         public string filterPersonRoles { get; set; }
         public string filterLedgerAccountGroups { get; set; }
         public string filterLedgerAccounts { get; set; }
+
+        [ForeignKey("Process")]
+        public int? ProcessId { get; set; }
+        public virtual Process Process { get; set; }
         
         /// <summary>
         /// DocId will be passed as a parameter in specified procedure.

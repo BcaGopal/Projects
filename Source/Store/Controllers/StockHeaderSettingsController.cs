@@ -50,8 +50,8 @@ namespace Web
         // GET: /StockHeaderSettingsMaster/Create
 
         public ActionResult Create(int id)//DocTypeId
-        {            
-            if (!UserRoles.Contains("Admin"))
+        {
+            if (!UserRoles.Contains("SysAdmin"))
             {
                 return View("~/Views/Shared/InValidSettings.cshtml");
             }
@@ -218,8 +218,8 @@ namespace Web
 
 
         public ActionResult CreateStockHeader(int id)//DocTypeId
-        {            
-            if (!UserRoles.Contains("Admin"))
+        {
+            if (!UserRoles.Contains("SysAdmin"))
             {
                 return View("~/Views/Shared/InValidSettings.cshtml");
             }
@@ -386,8 +386,8 @@ namespace Web
 
 
         public ActionResult CreateForReceive(int id)//DocTypeId
-        {            
-            if (!UserRoles.Contains("Admin"))
+        {
+            if (!UserRoles.Contains("SysAdmin"))
             {
                 return View("~/Views/Shared/InValidSettings.cshtml");
             }
@@ -555,7 +555,7 @@ namespace Web
 
         public ActionResult CreateForExchange(int id)//DocTypeId
         {
-            if (!UserRoles.Contains("Admin"))
+            if (!UserRoles.Contains("SysAdmin"))
             {
                 return View("~/Views/Shared/InValidSettings.cshtml");
             }
@@ -722,8 +722,8 @@ namespace Web
 
 
         public ActionResult CreateForProcessTransfer(int id)//DocTypeId
-        {            
-            if (!UserRoles.Contains("Admin"))
+        {
+            if (!UserRoles.Contains("SysAdmin"))
             {
                 return View("~/Views/Shared/InValidSettings.cshtml");
             }
@@ -890,8 +890,8 @@ namespace Web
 
 
         public ActionResult CreateForRateConversion(int id)//DocTypeId
-        {            
-            if (!UserRoles.Contains("Admin"))
+        {
+            if (!UserRoles.Contains("SysAdmin"))
             {
                 return View("~/Views/Shared/InValidSettings.cshtml");
             }
@@ -1056,8 +1056,8 @@ namespace Web
 
 
         public ActionResult CreateForJobConsumption(int id)//DocTypeId
-        {            
-            if (!UserRoles.Contains("Admin"))
+        {
+            if (!UserRoles.Contains("SysAdmin"))
             {
                 return View("~/Views/Shared/InValidSettings.cshtml");
             }
@@ -1217,8 +1217,8 @@ namespace Web
 
 
         public ActionResult CreateForMaterialTransfer(int id)//DocTypeId
-        {            
-            if (!UserRoles.Contains("Admin"))
+        {
+            if (!UserRoles.Contains("SysAdmin"))
             {
                 return View("~/Views/Shared/InValidSettings.cshtml");
             }

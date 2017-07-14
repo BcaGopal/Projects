@@ -64,6 +64,8 @@ namespace Service
         IQueryable<ComboBoxResult> GetDimension1ForReceive(int id, string term);
 
         IEnumerable<ComboBoxResult> GetPendingStockInForIssue(int id, int? ProductId, int? Dimension1Id, int? Dimension2Id, int? Dimension3Id, int? Dimension4Id, string term);
+        IEnumerable<ComboBoxResult> GetPendingStockInHeaderForIssue(int StockHeaderId, string term);
+        IEnumerable<ComboBoxResult> GetLotNo(int StockHeaderId, string term);
 
         IQueryable<ComboBoxResult> GetCustomProductGroups(int Id, string term);
         IQueryable<ComboBoxResult> GetCustomReferenceDocIds(int Id, string term);
@@ -143,7 +145,9 @@ namespace Service
                             LockReason = p.LockReason,
                             ProductCode = tab.ProductCode,
                             ReferenceDocId = p.ReferenceDocId,
-                            ReferenceDocTypeId = p.ReferenceDocTypeId
+                            ReferenceDocTypeId = p.ReferenceDocTypeId,
+                            StockInId = p.StockInId,
+                            StockInNo = p.StockIn.StockHeader.DocNo
                         }).FirstOrDefault();
 
             return temp;
@@ -2047,6 +2051,7 @@ namespace Service
 
 
             return (from p in db.ViewStockInBalance
+                    join L in db.Stock on p.StockInId equals L.StockId into StockTable from StockTab in StockTable.DefaultIfEmpty()
                     join pt in db.Product on p.ProductId equals pt.ProductId into ProductTable
                     from ProductTab in ProductTable.DefaultIfEmpty()
                     join D1 in db.Dimension1 on p.Dimension1Id equals D1.Dimension1Id into Dimension1Table
@@ -2075,7 +2080,7 @@ namespace Service
                     select new ComboBoxResult
                     {
                         id = p.StockInId.ToString(),
-                        text = p.StockInNo,
+                        text = StockTab.StockHeader.DocType.DocumentTypeShortName + "-" + p.StockInNo,
                         TextProp1 = "Balance :" + p.BalanceQty,
                         TextProp2 = "Date :" + p.StockInDate + ((p.LotNo == null) ? "" : "," + p.LotNo),
                         AProp1 = ProductTab.ProductName ,
@@ -2083,6 +2088,81 @@ namespace Service
                                     ((Dimension2Tab.Dimension2Name == null) ? "" : "," + Dimension2Tab.Dimension2Name) +
                                     ((Dimension3Tab.Dimension3Name == null) ? "" : "," + Dimension3Tab.Dimension3Name) +
                                     ((Dimension4Tab.Dimension4Name == null) ? "" : "," + Dimension4Tab.Dimension4Name)
+                    });
+        }
+
+
+        public IEnumerable<ComboBoxResult> GetPendingStockInHeaderForIssue(int StockHeaderId, string term)
+        {
+
+            var StockHeader = new StockHeaderService(_unitOfWork).Find(StockHeaderId);
+
+            var settings = new StockHeaderSettingsService(_unitOfWork).GetStockHeaderSettingsForDocument(StockHeader.DocTypeId, StockHeader.DivisionId, StockHeader.SiteId);
+
+
+            string[] contraSites = null;
+            if (!string.IsNullOrEmpty(settings.filterContraSites)) { contraSites = settings.filterContraSites.Split(",".ToCharArray()); }
+            else { contraSites = new string[] { "NA" }; }
+
+            string[] contraDivisions = null;
+            if (!string.IsNullOrEmpty(settings.filterContraDivisions)) { contraDivisions = settings.filterContraDivisions.Split(",".ToCharArray()); }
+            else { contraDivisions = new string[] { "NA" }; }
+
+            int CurrentSiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
+            int CurrentDivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
+
+
+            return (from p in db.ViewStockInBalance
+                    join L in db.Stock on p.StockInId equals L.StockId into StockTable
+                    from StockTab in StockTable.DefaultIfEmpty()
+                    where p.BalanceQty > 0
+                    && (string.IsNullOrEmpty(settings.filterContraSites) ? p.SiteId == CurrentSiteId : contraSites.Contains(p.SiteId.ToString()))
+                    && (string.IsNullOrEmpty(settings.filterContraDivisions) ? p.DivisionId == CurrentDivisionId : contraDivisions.Contains(p.DivisionId.ToString()))
+                    && (string.IsNullOrEmpty(term) ? 1 == 1 : p.StockInNo.ToLower().Contains(term.ToLower()))
+                    group new { p, StockTab } by new { StockTab.StockHeaderId } into Result
+                    select new ComboBoxResult
+                    {
+                        id = Result.Key.StockHeaderId.ToString(),
+                        text = Result.Max(i => i.StockTab.StockHeader.DocType.DocumentTypeShortName + "-" + i.StockTab.StockHeader.DocNo),
+                        TextProp1 = "Date :" + Result.Max(i => i.StockTab.StockHeader.DocDate),
+                        TextProp2 = "Balance :" + Result.Sum(i => i.p.BalanceQty),
+                        AProp1 = "Process :" + Result.Max(i => i.StockTab.StockHeader.Process.ProcessName),
+                    });
+        }
+
+
+        public IEnumerable<ComboBoxResult> GetLotNo(int StockHeaderId, string term)
+        {
+            var StockHeader = new StockHeaderService(_unitOfWork).Find(StockHeaderId);
+
+            var settings = new StockHeaderSettingsService(_unitOfWork).GetStockHeaderSettingsForDocument(StockHeader.DocTypeId, StockHeader.DivisionId, StockHeader.SiteId);
+
+
+            string[] contraSites = null;
+            if (!string.IsNullOrEmpty(settings.filterContraSites)) { contraSites = settings.filterContraSites.Split(",".ToCharArray()); }
+            else { contraSites = new string[] { "NA" }; }
+
+            string[] contraDivisions = null;
+            if (!string.IsNullOrEmpty(settings.filterContraDivisions)) { contraDivisions = settings.filterContraDivisions.Split(",".ToCharArray()); }
+            else { contraDivisions = new string[] { "NA" }; }
+
+            int CurrentSiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
+            int CurrentDivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
+
+
+            return (from p in db.ViewStockInBalance
+                    join L in db.Stock on p.StockInId equals L.StockId into StockTable
+                    from StockTab in StockTable.DefaultIfEmpty()
+                    where p.LotNo != null && p.BalanceQty > 0
+                    && (string.IsNullOrEmpty(settings.filterContraSites) ? p.SiteId == CurrentSiteId : contraSites.Contains(p.SiteId.ToString()))
+                    && (string.IsNullOrEmpty(settings.filterContraDivisions) ? p.DivisionId == CurrentDivisionId : contraDivisions.Contains(p.DivisionId.ToString()))
+                    && (string.IsNullOrEmpty(term) ? 1 == 1 : p.StockInNo.ToLower().Contains(term.ToLower()))
+                    group new { p, StockTab } by new { StockTab.LotNo } into Result
+                    select new ComboBoxResult
+                    {
+                        id = Result.Key.LotNo.ToString(),
+                        text = Result.Max(i => i.StockTab.LotNo),
+                        TextProp1 = "Balance :" + Result.Sum(i => i.p.BalanceQty),
                     });
         }
 
@@ -2215,7 +2295,7 @@ namespace Service
             else { ProductIdArr = new string[] { "NA" }; }
 
             string[] StockInIdArr = null;
-            if (!string.IsNullOrEmpty(vm.StockInId)) { StockInIdArr = vm.StockInId.Split(",".ToCharArray()); }
+            if (!string.IsNullOrEmpty(vm.StockInHeaderId)) { StockInIdArr = vm.StockInHeaderId.Split(",".ToCharArray()); }
             else { StockInIdArr = new string[] { "NA" }; }
 
             string[] ProductGroupIdArr = null;
@@ -2242,17 +2322,23 @@ namespace Service
             if (!string.IsNullOrEmpty(vm.CostCenterId)) { CostCenterArr = vm.CostCenterId.Split(",".ToCharArray()); }
             else { CostCenterArr = new string[] { "NA" }; }
 
+            string[] LotNoArr = null;
+            if (!string.IsNullOrEmpty(vm.LotNo)) { LotNoArr = vm.LotNo.Split(",".ToCharArray()); }
+            else { LotNoArr = new string[] { "NA" }; }
+
+
             var temp = (from p in db.ViewStockInBalance
                         join S in db.Stock on p.StockInId equals S.StockId into StockTable
                         from StockTab in StockTable.DefaultIfEmpty()
                         where (string.IsNullOrEmpty(vm.ProductId) ? 1 == 1 : ProductIdArr.Contains(p.ProductId.ToString()))
-                        && (string.IsNullOrEmpty(vm.StockInId) ? 1 == 1 : StockInIdArr.Contains(p.StockInId.ToString()))
+                        && (string.IsNullOrEmpty(vm.StockInHeaderId) ? 1 == 1 : StockInIdArr.Contains(StockTab.StockHeaderId.ToString()))
                         && (string.IsNullOrEmpty(vm.ProductGroupId) ? 1 == 1 : ProductGroupIdArr.Contains(StockTab.Product.ProductGroup.ProductGroupId.ToString()))
                         && (string.IsNullOrEmpty(vm.Dimension1Id) ? 1 == 1 : Dim1IdArr.Contains(p.Dimension1Id.ToString()))
                         && (string.IsNullOrEmpty(vm.Dimension2Id) ? 1 == 1 : Dim2IdArr.Contains(p.Dimension2Id.ToString()))
                         && (string.IsNullOrEmpty(vm.Dimension3Id) ? 1 == 1 : Dim3IdArr.Contains(p.Dimension3Id.ToString()))
                         && (string.IsNullOrEmpty(vm.Dimension4Id) ? 1 == 1 : Dim4IdArr.Contains(p.Dimension4Id.ToString()))
                         && (string.IsNullOrEmpty(vm.CostCenterId) ? 1 == 1 : CostCenterArr.Contains(StockTab.CostCenterId.ToString()))
+                        && (string.IsNullOrEmpty(vm.LotNo) ? 1 == 1 : LotNoArr.Contains(p.LotNo.ToString()))
                         && (string.IsNullOrEmpty(settings.filterProductTypes) ? 1 == 1 : ProductTypes.Contains(StockTab.Product.ProductGroup.ProductTypeId.ToString()))
                         && (string.IsNullOrEmpty(settings.filterContraSites) ? 1 == 1 : ContraSites.Contains(StockTab.StockHeader.SiteId.ToString()))
                         && (string.IsNullOrEmpty(settings.filterContraDivisions) ? 1 == 1 : ContraDivisions.Contains(StockTab.StockHeader.DivisionId.ToString()))
@@ -2269,6 +2355,7 @@ namespace Service
                             Dimension3Id = p.Dimension3Id,
                             Dimension4Id = p.Dimension4Id,
                             ProcessId = StockTab.ProcessId,
+                            LotNo = p.LotNo,
                             Specification = StockTab.Specification,
                             StockInBalanceQty = p.BalanceQty,
                             Qty = p.BalanceQty,
@@ -2280,7 +2367,7 @@ namespace Service
                             StockInId = p.StockInId,
                             UnitId = StockTab.Product.UnitId,
                             UnitName = StockTab.Product.Unit.UnitName,
-                            UnitDecimalPlaces = StockTab.Product.Unit.DecimalPlaces,
+                            UnitDecimalPlaces = (byte?)StockTab.Product.Unit.DecimalPlaces ?? 0,
                         });
             return temp;
         }

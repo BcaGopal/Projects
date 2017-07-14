@@ -39,6 +39,8 @@
                 @Html.HiddenFor(m => m.DocTypeId)
                 @Html.HiddenFor(m=>m.UnitId)
                 @Html.HiddenFor(m => m.SaleToBuyerId)
+                @Html.HiddenFor(m => m.SalesTaxGroupPersonId)
+                @Html.HiddenFor(m => m.SaleInvoiceSettings.ProcessId)
                 @Html.HiddenFor(m => m.DocDate)
                 @Html.HiddenFor(m => m.SiteId)
                 @Html.HiddenFor(m => m.DivisionId)
@@ -115,6 +117,18 @@
                             </div>
                         </div>
                     </div>
+
+                    <div class="col-md-6" style="display:@(Model.SaleInvoiceSettings.isVisibleSalesTaxGroupProduct ? "" : "none")">
+                        @Html.HiddenFor(m => m.SaleInvoiceSettings.isVisibleSalesTaxGroupProduct)
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.SalesTaxGroupProductId, "Sales Tax Group Product", new { @class = "control-label col-md-4 col-sm-2" })
+                            <div class="col-md-7 col-sm-10">
+                                @Html.TextBoxFor(model => model.SalesTaxGroupProductId, new { @class = "form-control required" })
+                                @Html.ValidationMessageFor(model => model.SalesTaxGroupProductId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="col-md-6" style="display:@(Model.SaleInvoiceSettings.isVisibleLotNo ? "" : "none")">
                         @Html.HiddenFor(m => m.SaleInvoiceSettings.isVisibleLotNo)
                         <div class="form-group">
@@ -340,6 +354,8 @@
 
     //var cachearray={};
 
+    
+
     function CustomSelectFunctionForPromoCode(ElementId, GetAction, SetAction, placehold, IsMultiple,MinLength,ProductId, BuyerId, DocDate) {
         var geturl = GetAction;
         //The url we will send our get request to
@@ -405,6 +421,7 @@
         var DocID = $('#SaleInvoiceHeaderId', '.modal-body').val();
 
         CustomSelectFunction($("#ProductId"), '/DirectSaleInvoiceLine/GetCustomProducts', '/ComboHelpList/SetSingleProducts', ' ', false, 0, DocID);
+        CustomSelectFunction($("#SalesTaxGroupProductId"), '/ComboHelpList/GetSalesTaxGroupProduct', '/ComboHelpList/SetSingleSalesTaxGroupProduct', ' ', false, 0);
         CustomSelectFunction($("#Dimension1Id"), '/ComboHelpList/GetDimension1', '/ComboHelpList/SetSingleDimension1', ' ', false, 0);
         CustomSelectFunction($("#Dimension2Id"), '/ComboHelpList/GetDimension2', '/ComboHelpList/SetSingleDimension2', ' ', false, 1);
         CustomSelectFunction($("#GodownId"), '/ComboHelpList/GetGodown', '/ComboHelpList/SetSingleGodown', ' ', false, 1);
@@ -598,11 +615,13 @@
                             $("#Dimension4Id").select2("data", { id: data.Dimension4Id, text: data.Dimension4Name });
                         }
 
+                        (data.SalesTaxGroupProductId==null)?(1==1):($("#SalesTaxGroupProductId").select2("data", {id: data.SalesTaxGroupProductId, text: data.SalesTaxGroupProductName}));
 
                         GetUnitConversionMultiplier();
                         CustomSelectFunctionForPromoCode($("#PromoCodeId"), '/DirectSaleInvoiceLine/GetPromoCodeIdList', '/ComboHelpList/SetSinglePromoCode', ' ', false, 0, $("#ProductId").val(), $("#SaleToBuyerId").val(), $("#DocDate").val());
                         GetFirstPromoCode();
-                        Validate_PromoCode()
+                        Validate_PromoCode();
+                        GetChargeRates('@Model.SaleInvoiceSettings.CalculationId',$('#DocTypeId','.modal-body').val(),$('#SiteId','.modal-body').val(),$('#DivisionId','.modal-body').val(),$('#SaleInvoiceSettings_ProcessId','.modal-body').val(),$('#SalesTaxGroupPersonId','.modal-body').val(),$('#SalesTaxGroupProductId','.modal-body').val());
                     },
                     error: function (xhr, ajaxOptions, thrownError) {
                         alert('Failed to retrieve product details.' + thrownError);

@@ -19,5 +19,14 @@ namespace Model.Models
         public string SiteIds { get; set; }
         public string GroupOn { get; set; }
         public string ShowBalance { get; set; }
+
+        [Display(Name = "Show Opening")]
+        public Boolean ShowOpening { get; set; }
+        public int? ProductTypeId { get; set; }
+
+        public string TableName { get; set; }
+
+
+
     }
 }

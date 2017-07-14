@@ -154,13 +154,13 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-6" style="display:@(Model.SaleInvoiceSettings.isVisibleSalesTaxGroup ? "" : "none")">
-                                @Html.HiddenFor(m => m.SaleInvoiceSettings.isVisibleSalesTaxGroup)
+                            <div class="col-md-6" style="display:@(Model.SaleInvoiceSettings.isVisibleSalesTaxGroupPerson ? "" : "none")">
+                                @Html.HiddenFor(m => m.SaleInvoiceSettings.isVisibleSalesTaxGroupPerson)
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.SalesTaxGroupId, "Sales Tax Group", new { @class = "control-label col-xs-4" })
+                                    @Html.LabelFor(model => model.SalesTaxGroupPersonId, "Sales Tax Group Person", new { @class = "control-label col-md-4 col-sm-2" })
                                     <div class="col-md-7 col-sm-10">
-                                        @Html.DropDownListFor(m => m.SalesTaxGroupId, new SelectList(ViewBag.SalesTaxGroupList as System.Collections.IEnumerable, "ChargeGroupPersonId", "ChargeGroupPersonName"), new { @class = "form-control col-xs-6 " })
-                                        @Html.ValidationMessageFor(m => m.SalesTaxGroupId, "", new { @class = "text-danger" })
+                                        @Html.DropDownListFor(m => m.SalesTaxGroupPersonId, new SelectList(ViewBag.SalesTaxGroupList as System.Collections.IEnumerable, "ChargeGroupPersonId", "ChargeGroupPersonName"), new { @class = "form-control col-xs-6 required" })
+                                        @Html.ValidationMessageFor(m => m.SalesTaxGroupPersonId, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
                             </div>

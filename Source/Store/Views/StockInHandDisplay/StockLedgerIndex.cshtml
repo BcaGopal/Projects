@@ -205,13 +205,14 @@
     var Dimension2Id = '@ViewBag.Dim2';
     var Dimension3Id = '@ViewBag.Dim3';
     var Dimension4Id ='@ViewBag.Dim4';
-    var LotNo ='@ViewBag.LotNo';
+    var LotNo = '@ViewBag.LotNo';
+    var PersonId = '@ViewBag.PersonId';
 
 
     var url = '@Url.Action("GetStockLedgerJson", "StockInHandDisplay")';
    url += '?ProductId=' + ProductId + '&Dim1=' + Dimension1Id +
            '&Dim2=' + Dimension2Id +'&Dim3=' + Dimension3Id +'&Dim4=' + Dimension4Id + '&Process=' + ProcessId +
-           '&LotNo=' + LotNo + '&Godown=' + GodownId+'';
+           '&LotNo=' + LotNo + '&Godown=' + GodownId + '&PersonId=' + PersonId + '';
 
     @*var url = '/StockInHandDisplay/GetStockLedgerJson?ProductId=' +@ViewBag.ProductId +'&Godown=' +@ViewBag.Godown +'&Process=' +@ViewBag.Process +'&Dim1=' +@ViewBag.Dim1 +'&Dim2=' +@ViewBag.Dim2 +'&Dim3=' +@ViewBag.Dim3 +'&Dim4=' +@ViewBag.Dim4 +'&LotNo=' +@ViewBag.LotNo +'';*@
     @*var url = '@Url.Action("GetStockLedgerJson", "StockInHandDisplay", new { ProductId = ViewBag.ProductId, Dim1 = ViewBag.Dim1, Dim2 = ViewBag.Dim2, Dim3 = "1011", Dim4 = ViewBag.Dim4, Process = ViewBag.Process, LotNo = ViewBag.LotNo ,Godown = ViewBag.Godown })';*@

@@ -122,6 +122,11 @@ namespace Model.Models
 
         public int? Sr { get; set; }
 
+        [Display(Name = "StockIn")]
+        [ForeignKey("StockIn")]
+        public int? StockInId { get; set; }
+        public virtual Stock StockIn { get; set; }
+
 
         [Display(Name = "Created By")]
         public string CreatedBy { get; set; }

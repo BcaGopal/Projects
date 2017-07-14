@@ -125,6 +125,8 @@ namespace Model.ViewModels
         [Display(Name = "Bale No."), MaxLength(10)]
         public string BaleNo { get; set; }
 
+        public int? BaleCount { get; set; }
+
         [Display(Name = "From Process")]
         public int? FromProcessId { get; set; }
         public string FromProcess { get; set; }

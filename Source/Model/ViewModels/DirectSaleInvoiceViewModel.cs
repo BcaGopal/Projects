@@ -31,13 +31,12 @@ namespace Model.ViewModels
         public string SiteName { get; set; }
         public int? AgentId { get; set; }
         public string AgentName { get; set; }
-        public int SalesTaxGroupId { get; set; }
-        public string SalesTaxGroupName { get; set; }
 
         [Display(Name = "Sale To Buyer")]
         public int SaleToBuyerId { get; set; }
         public string SaleToBuyerName { get; set; }
 
+        public int? SalesTaxGroupPersonId { get; set; }
         public int? GatePassHeaderId { get; set; }
 
         [Display(Name = "Bill To Buyer")]
@@ -144,6 +143,9 @@ namespace Model.ViewModels
         public string BaleNo { get; set; }
         public string LockReason { get; set; }
 
+        public int? SalesTaxGroupProductId { get; set; }
+        public int? SalesTaxGroupPersonId { get; set; }
+
         [Display(Name = "Qty"), Required]
         public Decimal Qty { get; set; }
         public Decimal BalanceQty { get; set; }
@@ -162,7 +164,7 @@ namespace Model.ViewModels
         [Display(Name = "Reward Points")]
         public Decimal? RewardPoints { get; set; }
 
-        public byte UnitDecimalPlaces { get; set; }
+        public byte unitDecimalPlaces { get; set; }
 
         [Display(Name = "Weight")]
         public Decimal? Weight { get; set; }

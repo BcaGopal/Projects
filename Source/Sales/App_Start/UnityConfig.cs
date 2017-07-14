@@ -267,6 +267,9 @@ namespace Sales.App_Start
             Mapper.CreateMap<BuyerViewModel, LedgerAccount>();
             Mapper.CreateMap<LedgerAccount, BuyerViewModel>();
 
+            Mapper.CreateMap<LineChargeViewModel, SaleInvoiceLineCharge>().ForMember(m => m.Id, x => x.Ignore());
+            Mapper.CreateMap<SaleInvoiceLineCharge, LineChargeViewModel>().ForMember(m => m.Id, x => x.Ignore());
+
 
 
 

@@ -63,9 +63,6 @@ namespace Model.ViewModels
         public int GodownId { get; set; }
         public string GodownName { get; set; }
 
-        [Display(Name = "Sales Tax Group ")]
-        public int? SalesTaxGroupId { get; set; }
-        public string SalesTaxGroupName { get; set; }
 
         public string DescriptionOfGoodsName { get; set; }
 
@@ -74,7 +71,8 @@ namespace Model.ViewModels
         public int? ProductInvoiceGroupId { get; set; }
         public string ProductInvoiceGroupName { get; set; }
 
-
+        public int? SalesTaxGroupProductId { get; set; }
+        public string SalesTaxGroupProductName { get; set; }
 
         public string BaleNo { get; set; }
 

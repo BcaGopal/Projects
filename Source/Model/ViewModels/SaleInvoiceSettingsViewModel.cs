@@ -57,7 +57,8 @@ namespace Model.ViewModel
         public bool isVisibleDealUnit { get; set; }
         public bool isVisibleShipMethod { get; set; }
         public bool isVisibleSpecification { get; set; }
-        public bool isVisibleSalesTaxGroup { get; set; }
+        public bool isVisibleSalesTaxGroupPerson { get; set; }
+        public bool isVisibleSalesTaxGroupProduct { get; set; }
 
         public bool isVisibleProductUid { get; set; }
         public bool isVisibleProductCode { get; set; }
@@ -74,7 +75,7 @@ namespace Model.ViewModel
         public int? CurrencyId { get; set; }
         public int? DeliveryTermsId { get; set; }
         public int? ShipMethodId { get; set; }
-        public int? SalesTaxGroupId { get; set; }
+        public int? SalesTaxGroupPersonId { get; set; }
 
         public int? GodownId { get; set; }
 

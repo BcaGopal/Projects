@@ -148,6 +148,7 @@ namespace Core.Common
         public const string Dimension3 = "Dimension3";
         public const string Dimension4 = "Dimension4";
         public const string LotNo = "LotNo";
+        public const string Person = "Person";
     }
     public class LedgerHeaderAdjustmentTypeConstants
     {

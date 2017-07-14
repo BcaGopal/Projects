@@ -85,6 +85,11 @@ namespace Model.Models
         public int? SalesExecutiveId { get; set; }
         public virtual Person SalesExecutive { get; set; }
 
+        [ForeignKey("SalesTaxGroupPerson")]
+        [Display(Name = "SalesTaxGroupPerson")]
+        public int? SalesTaxGroupPersonId { get; set; }
+        public virtual ChargeGroupPerson SalesTaxGroupPerson { get; set; }
+
 
         [Display(Name = "Remark")]
         public string Remark { get; set; }

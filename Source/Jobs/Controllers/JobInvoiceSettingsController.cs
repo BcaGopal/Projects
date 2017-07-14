@@ -51,7 +51,7 @@ namespace Web
         public ActionResult Create(int id)//DocTypeId
         {
             List<string> UserRoles = (List<string>)System.Web.HttpContext.Current.Session["Roles"];
-            if (!UserRoles.Contains("Admin"))
+            if (!UserRoles.Contains("SysAdmin"))
             {
                 return View("~/Views/Shared/InValidSettings.cshtml");
             }
@@ -237,7 +237,7 @@ namespace Web
         public ActionResult CreateInvoiceReceive(int id)//DocTypeId
         {
             List<string> UserRoles = (List<string>)System.Web.HttpContext.Current.Session["Roles"];
-            if (!UserRoles.Contains("Admin"))
+            if (!UserRoles.Contains("SysAdmin"))
             {
                 return View("~/Views/Shared/InValidSettings.cshtml");
             }
@@ -587,7 +587,7 @@ namespace Web
         public ActionResult CreateJobInvoiceReturn(int id)//DocTypeId
         {
             List<string> UserRoles = (List<string>)System.Web.HttpContext.Current.Session["Roles"];
-            if (!UserRoles.Contains("Admin"))
+            if (!UserRoles.Contains("SysAdmin"))
             {
                 return View("~/Views/Shared/InValidSettings.cshtml");
             }

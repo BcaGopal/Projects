@@ -925,7 +925,7 @@ namespace Web
                         Adj_IssQty.DivisionId = temp.DivisionId;
                         Adj_IssQty.SiteId = temp.SiteId;
                         Adj_IssQty.AdjustedQty = svm.Qty;
-                        Adj.ObjectState = Model.ObjectState.Added;
+                        Adj_IssQty.ObjectState = Model.ObjectState.Added;
                         db.StockAdj.Add(Adj_IssQty);
                         //new StockAdjService(_unitOfWork).Create(Adj_IssQty);
                     }
@@ -1433,6 +1433,46 @@ namespace Web
         public ActionResult GetStockInForProduct(string searchTerm, int pageSize, int pageNum, int filter, int? ProductId, int? Dimension1Id, int? Dimension2Id, int? Dimension3Id, int? Dimension4Id)//DocTypeId
         {
             var Query = _StockLineService.GetPendingStockInForIssue(filter, ProductId, Dimension1Id, Dimension2Id, Dimension3Id, Dimension4Id, searchTerm);
+            var temp = Query.Skip(pageSize * (pageNum - 1))
+                .Take(pageSize)
+                .ToList();
+
+            var count = Query.Count();
+
+            ComboBoxPagedResult Data = new ComboBoxPagedResult();
+            Data.Results = temp;
+            Data.Total = count;
+
+            return new JsonpResult
+            {
+                Data = Data,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        public ActionResult GetStockInHeader(string searchTerm, int pageSize, int pageNum, int filter)
+        {
+            var Query = _StockLineService.GetPendingStockInHeaderForIssue(filter, searchTerm);
+            var temp = Query.Skip(pageSize * (pageNum - 1))
+                .Take(pageSize)
+                .ToList();
+
+            var count = Query.Count();
+
+            ComboBoxPagedResult Data = new ComboBoxPagedResult();
+            Data.Results = temp;
+            Data.Total = count;
+
+            return new JsonpResult
+            {
+                Data = Data,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        public ActionResult GetLotNo(string searchTerm, int pageSize, int pageNum, int filter)
+        {
+            var Query = _StockLineService.GetLotNo(filter, searchTerm);
             var temp = Query.Skip(pageSize * (pageNum - 1))
                 .Take(pageSize)
                 .ToList();
