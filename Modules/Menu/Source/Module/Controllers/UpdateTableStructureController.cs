@@ -137,6 +137,7 @@ namespace Module
             AddFields("JobOrderHeaders", "FinancierId", "Int", "People");
             AddFields("JobOrderHeaders", "SalesExecutiveId", "Int", "People");
 
+            AddFields("Buyers", "ExtraSaleOrderHeaderId", "Int", "SaleOrderHeaders");
 
             AddFields("SaleOrderSettings", "isVisibleFinancier", "BIT");
             AddFields("SaleOrderSettings", "isVisibleSalesExecutive", "BIT");

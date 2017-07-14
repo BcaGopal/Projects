@@ -70,6 +70,19 @@ namespace Web
             var settings = new ProductTypeSettingsService(_unitOfWork).GetProductTypeSettingsForDocument(ProductTypeId);
             s.ProductTypeSettings = Mapper.Map<ProductTypeSettings, ProductTypeSettingsViewModel>(settings);
 
+            var MainContens = _BomDetailService.GetConsumptionForIndex(Id);
+            var LastMainContentLine = (from L in MainContens
+                                       orderby L.BomDetailId descending
+                                       select new
+                                       {
+                                           BomDetailId = L.BomDetailId,
+                                           ProductId = L.ProductId
+                                       }).FirstOrDefault();
+            if (LastMainContentLine != null)
+            {
+                s.ProductId = LastMainContentLine.ProductId;
+            }
+
             PrepareViewBag(s);
             return PartialView("_Create", s);
         }
