@@ -68,11 +68,36 @@ namespace Web
             return PartialView("_Filters", vm);
         }
 
+        public ActionResult _ForStockProcess(int id, int sid)
+        {
+            StockProcessFiltersForReceive vm = new StockProcessFiltersForReceive();
+            StockHeader Header = new StockHeaderService(_unitOfWork).Find(id);
+            vm.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(Header.DocTypeId);
+            vm.StockHeaderId = id;
+            vm.PersonId = sid;
+            return PartialView("_FiltersStockProcess", vm);
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult _FilterPost(RequisitionFiltersForReceive vm)
         {
             List<StockReceiveLineViewModel> temp = _StockLineService.GetRequisitionsForReceive(vm).ToList();
+
+            StockReceiveMasterDetailModel svm = new StockReceiveMasterDetailModel();
+            svm.StockLineViewModel = temp;
+            //Getting Settings           
+            var Header = new StockHeaderService(_unitOfWork).Find(vm.StockHeaderId);
+            svm.StockHeaderSettings = Mapper.Map<StockHeaderSettings, StockHeaderSettingsViewModel>(new StockHeaderSettingsService(_unitOfWork).GetStockHeaderSettingsForDocument(Header.DocTypeId, Header.DivisionId, Header.SiteId));
+            return PartialView("_Results", svm);
+
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult _FilterPostStockProcess(StockProcessFiltersForReceive vm)
+        {
+            List<StockReceiveLineViewModel> temp = _StockLineService.GetStockProcessForReceive(vm).ToList();
 
             StockReceiveMasterDetailModel svm = new StockReceiveMasterDetailModel();
             svm.StockLineViewModel = temp;
@@ -755,21 +780,21 @@ namespace Web
                         StockViewModel.HeaderFromGodownId = null;
                         StockViewModel.HeaderGodownId = temp.GodownId;
                         StockViewModel.GodownId = temp.GodownId ?? 0;
-                        StockViewModel.LotNo = templine.LotNo;
-                        StockViewModel.CostCenterId = templine.CostCenterId;
+                        StockViewModel.LotNo = s.LotNo;
+                        StockViewModel.CostCenterId = s.CostCenterId;
                         StockViewModel.ProcessId = temp.ProcessId;
                         StockViewModel.HeaderProcessId = temp.ProcessId;
                         StockViewModel.Qty_Iss = 0;
                         StockViewModel.Qty_Rec = s.Qty;
                         StockViewModel.Weight_Iss = 0;
                         StockViewModel.Weight_Rec = s.Weight;
-                        StockViewModel.Rate = templine.Rate;
+                        StockViewModel.Rate = s.Rate;
                         StockViewModel.ExpiryDate = null;
-                        StockViewModel.Specification = templine.Specification;
-                        StockViewModel.Dimension1Id = templine.Dimension1Id;
-                        StockViewModel.Dimension2Id = templine.Dimension2Id;
-                        StockViewModel.Dimension3Id = templine.Dimension3Id;
-                        StockViewModel.Dimension4Id = templine.Dimension4Id;
+                        StockViewModel.Specification = s.Specification;
+                        StockViewModel.Dimension1Id = s.Dimension1Id;
+                        StockViewModel.Dimension2Id = s.Dimension2Id;
+                        StockViewModel.Dimension3Id = s.Dimension3Id;
+                        StockViewModel.Dimension4Id = s.Dimension4Id;
                         StockViewModel.Remark = s.Remark;
                         StockViewModel.ProductUidId = svm.ProductUidId;
                         StockViewModel.Status = temp.Status;
@@ -814,19 +839,19 @@ namespace Web
                         StockProcessViewModel.HeaderGodownId = temp.GodownId;
                         StockProcessViewModel.GodownId = temp.GodownId ?? 0;
                         StockProcessViewModel.ProcessId = temp.ProcessId;
-                        StockProcessViewModel.LotNo = templine.LotNo;
-                        StockProcessViewModel.CostCenterId = templine.CostCenterId;
+                        StockProcessViewModel.LotNo = s.LotNo;
+                        StockProcessViewModel.CostCenterId = s.CostCenterId;
                         StockProcessViewModel.Qty_Iss = s.Qty;
                         StockProcessViewModel.Qty_Rec = 0;
                         StockProcessViewModel.Weight_Iss = s.Weight;
                         StockProcessViewModel.Weight_Rec = 0;
-                        StockProcessViewModel.Rate = templine.Rate;
+                        StockProcessViewModel.Rate = s.Rate;
                         StockProcessViewModel.ExpiryDate = null;
-                        StockProcessViewModel.Specification = templine.Specification;
-                        StockProcessViewModel.Dimension1Id = templine.Dimension1Id;
-                        StockProcessViewModel.Dimension2Id = templine.Dimension2Id;
-                        StockProcessViewModel.Dimension3Id = templine.Dimension3Id;
-                        StockProcessViewModel.Dimension4Id = templine.Dimension4Id;
+                        StockProcessViewModel.Specification = s.Specification;
+                        StockProcessViewModel.Dimension1Id = s.Dimension1Id;
+                        StockProcessViewModel.Dimension2Id = s.Dimension2Id;
+                        StockProcessViewModel.Dimension3Id = s.Dimension3Id;
+                        StockProcessViewModel.Dimension4Id = s.Dimension4Id;
                         StockProcessViewModel.Remark = s.Remark;
                         StockProcessViewModel.ProductUidId = svm.ProductUidId;
                         StockProcessViewModel.Status = temp.Status;
@@ -1321,6 +1346,24 @@ namespace Web
 
         }
 
+        public JsonResult GetStockProcessBalanceForLine(string searchTerm, int pageSize, int pageNum, int filter)//filter:PersonId
+        {
+            var Query = _StockLineService.GetStockProcessBalanceForReceive(filter, searchTerm);
+
+            var temp = Query.Skip(pageSize * (pageNum - 1)).Take(pageSize).ToList();
+            var count = Query.Count();
+
+            ComboBoxPagedResult Data = new ComboBoxPagedResult();
+            Data.Results = temp;
+            Data.Total = count;
+
+            return new JsonpResult
+            {
+                Data = Data,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
         public JsonResult GetProductsForLine(string searchTerm, int pageSize, int pageNum, int filter)//filter:PersonId
         {
             var Query = _StockLineService.GetProductsForReceiveLine(filter, searchTerm);
@@ -1337,7 +1380,6 @@ namespace Web
                 Data = Data,
                 JsonRequestBehavior = JsonRequestBehavior.AllowGet
             };
-
         }
 
         public JsonResult GetDimension1(string searchTerm, int pageSize, int pageNum, int filter)//filter:PersonId
@@ -1402,6 +1444,51 @@ namespace Web
         public JsonResult ValidateBarCode(string ProductUId, int StockHeader)
         {
             return Json(_StockLineService.ValidateBarCodeOnStockReceive(ProductUId, StockHeader), JsonRequestBehavior.AllowGet);
+        }
+
+
+        public JsonResult GetStockProcessBalanceDetailJson(int StockProcessBalanceId)
+        {
+            var temp = (from p in db.ViewStockProcessBalance
+                        join pt in db.Product on p.ProductId equals pt.ProductId into ProductTable
+                        from ProductTab in ProductTable.DefaultIfEmpty()
+                        join D1 in db.Dimension1 on p.Dimension1Id equals D1.Dimension1Id into Dimension1Table
+                        from Dimension1Tab in Dimension1Table.DefaultIfEmpty()
+                        join D2 in db.Dimension2 on p.Dimension2Id equals D2.Dimension2Id into Dimension2Table
+                        from Dimension2Tab in Dimension2Table.DefaultIfEmpty()
+                        join D3 in db.Dimension3 on p.Dimension3Id equals D3.Dimension3Id into Dimension3Table
+                        from Dimension3Tab in Dimension3Table.DefaultIfEmpty()
+                        join D4 in db.Dimension4 on p.Dimension4Id equals D4.Dimension4Id into Dimension4Table
+                        from Dimension4Tab in Dimension4Table.DefaultIfEmpty()
+                        join P in db.Process on p.ProcessId equals P.ProcessId into ProcessTable
+                        from ProcessTab in ProcessTable.DefaultIfEmpty()
+                        where p.StockProcessBalanceId == StockProcessBalanceId
+                        select new
+                        {
+                            ProductId = p.ProductId,
+                            ProductName = ProductTab.ProductName,
+                            Dimension1Id = p.Dimension1Id,
+                            Dimension1Name = Dimension1Tab.Dimension1Name,
+                            Dimension2Id = p.Dimension2Id,
+                            Dimension2Name = Dimension2Tab.Dimension2Name,
+                            Dimension3Id = p.Dimension3Id,
+                            Dimension3Name = Dimension3Tab.Dimension3Name,
+                            Dimension4Id = p.Dimension4Id,
+                            Dimension4Name = Dimension4Tab.Dimension4Name,
+                            BalanceQty = p.BalanceQty,
+                            LotNo = p.LotNo,
+                            ProcessId = p.ProcessId,
+                            ProcessName = ProcessTab.ProcessName
+                        }).FirstOrDefault();
+
+            if (temp != null)
+            {
+                return Json(temp);
+            }
+            else
+            {
+                return null;
+            }
         }
 
 

@@ -336,6 +336,7 @@ namespace Web
                     temp.Remark = pt.Remark;
                     temp.DocNo = pt.DocNo;
                     temp.DocDate = pt.DocDate;
+                    temp.SalesTaxGroupPersonId = pt.SalesTaxGroupPersonId;
                     temp.JobWorkerId = pt.JobWorkerId;
                     temp.JobWorkerDocNo = pt.JobWorkerDocNo;
                     temp.JobWorkerDocDate = pt.JobWorkerDocDate;

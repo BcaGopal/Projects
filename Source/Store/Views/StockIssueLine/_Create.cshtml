@@ -488,12 +488,21 @@
                         else{
                             $("#Dimension4Id").select2('data', { id: '', text: ''});
                         }
+                        if (data.ProcessId != null)
+                        {
+                            $("#FromProcessId").select2('data', { id: data.ProcessId, text: data.ProcessName});
+                        }
+                        else{
+                            $("#FromProcessId").select2('data', { id: '', text: ''});
+                        }
 
                         $("#ProductId").attr('readonly', 'true');
                         $("#Dimension1Id").attr('readonly', 'true');
                         $("#Dimension2Id").attr('readonly', 'true');
                         $("#Dimension3Id").attr('readonly', 'true');
                         $("#Dimension4Id").attr('readonly', 'true');
+                        $("#FromProcessId").attr('readonly', 'true');
+                        $("#LotNo").attr('readonly', 'true');
                     }
                     else{
                         $("#StockInBalanceQty").val(0);
@@ -516,6 +525,8 @@
             $("#Dimension2Id").removeAttr('readonly');
             $("#Dimension3Id").removeAttr('readonly');
             $("#Dimension4Id").removeAttr('readonly');
+            $("#LotNo").removeAttr('readonly');
+            $("#FromProcessId").removeAttr('readonly');
         }
     }
 

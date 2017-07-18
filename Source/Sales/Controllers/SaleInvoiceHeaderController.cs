@@ -283,6 +283,7 @@ namespace Web
                     saleinvoiceheaderdetail.DocNo = vm.DocNo;
                     saleinvoiceheaderdetail.FinancierId = vm.FinancierId;
                     saleinvoiceheaderdetail.SalesExecutiveId = vm.SalesExecutiveId;
+                    saleinvoiceheaderdetail.SalesTaxGroupPersonId = vm.SalesTaxGroupPersonId;
                     saleinvoiceheaderdetail.Remark = vm.Remark;
                     saleinvoiceheaderdetail.ModifiedDate = DateTime.Now;
                     saleinvoiceheaderdetail.ModifiedBy = User.Identity.Name;

@@ -124,6 +124,7 @@ namespace Model.ViewModel
         public Decimal Qty { get; set; }
         public Decimal ExcessStockQty { get; set; }
         public Decimal ? RequisitionBalanceQty { get; set; }
+        public Decimal? StockProcessBalanceQty { get; set; }
 
         public Decimal? StockInBalanceQty { get; set; }
 
@@ -170,6 +171,8 @@ namespace Model.ViewModel
         public MaterialTransferSettingsViewModel MaterialTransferSettings { get; set; }
         //public JobConsumptionSettingsViewModel JobConsumptionSettings { get; set; }
         //public RateConversionSettingsViewModel RateConversionSettings { get; set; }
+        public int? StockProcessBalanceId { get; set; }
+
         public int? GodownId { get; set; }
         public int? FromGodownId { get; set; }
         public int? ProcessId { get; set; }

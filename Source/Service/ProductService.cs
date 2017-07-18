@@ -125,7 +125,7 @@ namespace Service
                            UnitName = p.Unit.UnitName,
                            ProductName = p.ProductName,
                            ProductCode = p.ProductCode,
-                           SalesTaxGroupProductId = p.SalesTaxGroupProductId,
+                           SalesTaxGroupProductId = p.SalesTaxGroupProductId ?? p.ProductGroup.DefaultSalesTaxGroupProductId,
                            DivisionId = p.DivisionId,
                            DivisionName = p.Division.DivisionName,
                            ProductGroupId = (int)p.ProductGroupId,

@@ -1467,7 +1467,7 @@ namespace Service
                     from Dimension3Tab in Dimension3Table.DefaultIfEmpty()
                     join D4 in db.Dimension4 on p.Dimension4Id equals D4.Dimension4Id into Dimension4Table
                     from Dimension4Tab in Dimension4Table.DefaultIfEmpty()
-                    where p.BalanceQty > 0
+                    where p.BalanceQty > 0 && StockTab.GodownId == JobOrderHeader.GodownId
                     && (ProductId == null || ProductId == 0 ? 1 == 1 : p.ProductId == ProductId)
                     && (Dimension1Id == null ? 1 == 1 : p.Dimension1Id == Dimension1Id)
                     && (Dimension2Id == null ? 1 == 1 : p.Dimension2Id == Dimension2Id)
@@ -1476,6 +1476,7 @@ namespace Service
                     && (string.IsNullOrEmpty(settings.filterContraSites) ? p.SiteId == CurrentSiteId : contraSites.Contains(p.SiteId.ToString()))
                     && (string.IsNullOrEmpty(settings.filterContraDivisions) ? p.DivisionId == CurrentDivisionId : contraDivisions.Contains(p.DivisionId.ToString()))
                     && (string.IsNullOrEmpty(term) ? 1 == 1 : p.StockInNo.ToLower().Contains(term.ToLower())
+                        || string.IsNullOrEmpty(term) ? 1 == 1 : StockTab.StockHeader.DocType.DocumentTypeShortName.ToLower().Contains(term.ToLower())
                         || string.IsNullOrEmpty(term) ? 1 == 1 : ProductTab.ProductName.ToLower().Contains(term.ToLower())
                         || string.IsNullOrEmpty(term) ? 1 == 1 : Dimension1Tab.Dimension1Name.ToLower().Contains(term.ToLower())
                         || string.IsNullOrEmpty(term) ? 1 == 1 : Dimension2Tab.Dimension2Name.ToLower().Contains(term.ToLower())
@@ -1518,10 +1519,13 @@ namespace Service
             return (from p in db.ViewStockInBalance
                     join L in db.Stock on p.StockInId equals L.StockId into StockTable
                     from StockTab in StockTable.DefaultIfEmpty()
-                    where p.BalanceQty > 0
+                    where p.BalanceQty > 0 && StockTab.GodownId == JobOrderHeader.GodownId
                     && (string.IsNullOrEmpty(settings.filterContraSites) ? p.SiteId == CurrentSiteId : contraSites.Contains(p.SiteId.ToString()))
                     && (string.IsNullOrEmpty(settings.filterContraDivisions) ? p.DivisionId == CurrentDivisionId : contraDivisions.Contains(p.DivisionId.ToString()))
-                    && (string.IsNullOrEmpty(term) ? 1 == 1 : p.StockInNo.ToLower().Contains(term.ToLower()))
+                    && (string.IsNullOrEmpty(term) ? 1 == 1 : p.StockInNo.ToLower().Contains(term.ToLower())
+                        || string.IsNullOrEmpty(term) ? 1 == 1 : StockTab.StockHeader.DocType.DocumentTypeShortName.ToLower().Contains(term.ToLower())
+                        || string.IsNullOrEmpty(term) ? 1 == 1 : StockTab.StockHeader.Process.ProcessName.ToLower().Contains(term.ToLower())
+                    )
                     group new { p, StockTab } by new { StockTab.StockHeaderId } into Result
                     select new ComboBoxResult
                     {

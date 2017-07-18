@@ -234,6 +234,7 @@
     <Compile Include="Controllers\ComboHelpListController.cs" />
     <Compile Include="Controllers\DataTables.cs" />
     <Compile Include="Controllers\GetNewDocNoController.cs" />
+    <Compile Include="Controllers\SaleInvoiceHeaderChargeController.cs" />
     <Compile Include="Controllers\SmsController.cs" />
     <Compile Include="Controllers\ProductRateGroupWizardController.cs" />
     <Compile Include="Controllers\DuplicateDocumentCheckController.cs" />
@@ -571,6 +572,17 @@
     <Content Include="Scripts\DataTables\responsive.foundation.min.js" />
     <Content Include="Scripts\DataTables\responsive.jqueryui.js" />
     <Content Include="Scripts\DataTables\responsive.jqueryui.min.js" />
+    <Content Include="Scripts\DatatableTest\buttons.dataTables.min.css" />
+    <Content Include="Scripts\DatatableTest\buttons.flash.min.js" />
+    <Content Include="Scripts\DatatableTest\buttons.html5.min.js" />
+    <Content Include="Scripts\DatatableTest\buttons.print.min.js" />
+    <Content Include="Scripts\DatatableTest\dataTables.buttons.min.js" />
+    <Content Include="Scripts\DatatableTest\jquery-1.12.4.js" />
+    <Content Include="Scripts\DatatableTest\jquery.dataTables.min.css" />
+    <Content Include="Scripts\DatatableTest\jquery.dataTables.min.js" />
+    <Content Include="Scripts\DatatableTest\jszip.min.js" />
+    <Content Include="Scripts\DatatableTest\pdfmake.min.js" />
+    <Content Include="Scripts\DatatableTest\vfs_fonts.js" />
     <Content Include="Scripts\FunctionForMultiSelect.js" />
     <Content Include="Scripts\gridmvc.js" />
     <Content Include="Scripts\gridmvc.lang.ru.js" />
@@ -880,6 +892,13 @@
     <Content Include="Views\JobOrderLine\_ResultsWithRateLoss.cshtml" />
     <Content Include="Views\Sms\SendSms.cshtml" />
     <Content Include="Views\JobOrderLine\_FiltersStockIn.cshtml" />
+    <Content Include="Views\SaleInvoiceHeaderCharge\Delete.cshtml" />
+    <Content Include="Views\SaleInvoiceHeaderCharge\Edit.cshtml" />
+    <Content Include="Views\SaleInvoiceHeaderCharge\PendingToApprove.cshtml" />
+    <Content Include="Views\SaleInvoiceHeaderCharge\PendingToSubmit.cshtml" />
+    <Content Include="Views\SaleInvoiceHeaderCharge\ReportLayout.cshtml" />
+    <Content Include="Views\SaleInvoiceHeaderCharge\SaleInvoiceHeaderCharges.cshtml" />
+    <Content Include="Views\SaleInvoiceHeaderCharge\_Filters.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

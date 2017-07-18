@@ -1330,7 +1330,7 @@ namespace Web
             };
         }
 
-        public ActionResult GetFirstStockInForProduct(int SaleDispatchHeaderId, int ProductId, int Dimension1Id, int? Dimension2Id)//DocTypeId
+        public ActionResult GetFirstStockInForProduct(int SaleDispatchHeaderId, int ProductId, int? Dimension1Id, int? Dimension2Id)//DocTypeId
         {
             var Query = _SaleDispatchLineService.GetPendingStockInForDispatch(SaleDispatchHeaderId, ProductId, Dimension1Id, Dimension2Id, "");
             var temp = Query.ToList();
@@ -1355,7 +1355,7 @@ namespace Web
             }
         }
 
-        public ActionResult GetStockInForProduct(string searchTerm, int pageSize, int pageNum, int SaleDispatchHeaderId, int ProductId, int Dimension1Id, int? Dimension2Id)//DocTypeId
+        public ActionResult GetStockInForProduct(string searchTerm, int pageSize, int pageNum, int SaleDispatchHeaderId, int ProductId, int? Dimension1Id, int? Dimension2Id)//DocTypeId
         {
             var Query = _SaleDispatchLineService.GetPendingStockInForDispatch(SaleDispatchHeaderId, ProductId, Dimension1Id, Dimension2Id, searchTerm);
             var temp = Query.Skip(pageSize * (pageNum - 1))

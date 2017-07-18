@@ -408,4 +408,7 @@ namespace Core.Common
         public const string GatePassCreate = "GatePassCreate";
         public const string GatePassCancel = "GatePassCancel";
     }
+
+
+
 }

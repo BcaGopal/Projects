@@ -609,6 +609,7 @@ namespace Data.Models
 
 
         public DbSet<ViewStockInBalance> ViewStockInBalance { get; set; }
+        public DbSet<ViewStockProcessBalance> ViewStockProcessBalance { get; set; }
         public DbSet<ViewProductBuyer> ViewProductBuyer { get; set; }
         public DbSet<ViewSaleOrderBalanceForCancellation> ViewSaleOrderBalanceForCancellation { get; set; }
 

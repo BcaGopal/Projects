@@ -414,10 +414,10 @@
                             else if (Model.Status == (int)StatusConstants.Approved)
                             { Action = "CreateLineAfter_Approve"; }
                         }
-                        @Html.ActionLink("Add New Row ", Action, "DirectSaleInvoiceLine", new { id = @Model.SaleInvoiceHeaderId, IsSaleBased = false }, new { data_modal = "", id = "btnCreate", @class = "toolbar", @title = "Add New", @data_toggle = "tooltip", @data_detailDisabled = "true" })/
+                        @Html.ActionLink("Add New Row ", Action, "DirectSaleInvoiceLine", new { id = @Model.SaleInvoiceHeaderId, IsSaleBased = false }, new { data_modal = "", id = "btnCreate", @class = "toolbar", @title = "Add New", @data_toggle = "tooltip", @data_detailDisabled = "true" })
                         @if (Model.SaleInvoiceSettings.isVisibleForSaleOrder)
                         {
-                            @Html.ActionLink("For Sale Order", Action, "DirectSaleInvoiceLine", new { id = @Model.SaleInvoiceHeaderId, IsSaleBased = true }, new { data_modal = "", id = "btnCreate", @class = "toolbar", @title = "Add New", @data_toggle = "tooltip", @data_detailDisabled = "true" })
+                            @Html.ActionLink("/For Sale Order", Action, "DirectSaleInvoiceLine", new { id = @Model.SaleInvoiceHeaderId, IsSaleBased = true }, new { data_modal = "", id = "btnCreate", @class = "toolbar", @title = "Add New", @data_toggle = "tooltip", @data_detailDisabled = "true" })
                         }
                     </div>
                     <div class="btn-group right" style="padding-right:15px">

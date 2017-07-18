@@ -644,12 +644,12 @@ else
                 (item.spec==null)?(""):($("<br /><span class='small' style='font-weight:bold'></span>").text(item.spec).appendTo($a));
                 (item.dim1==null && item.dim2==null)?(""):($("<br /><span class='small'></span>").text(item.dim1+","+item.dim2).appendTo($a));
                 (item.JO==null)?(""):($("<br /><span class='small'></span>").text("Order:"+item.JO+",").appendTo($a));
-                if (item.JRE && item.JRE!=null) {
-                    ($("<span class='small'></span>").text("Receive:"+item.JRE).appendTo($a));
-                }
-                else if(item.JR && item.JR==null)
-                {
+                if (item.JR && item.JR!=null) {
                     ($("<span class='small'></span>").text("Receive:"+item.JR).appendTo($a));
+                }
+                else if(item.JRE && item.JRE==null)
+                {
+                    ($("<span class='small'></span>").text("Receive:"+item.JRE).appendTo($a));
                 }
 
                 return $("<li></li>").append($a).appendTo(ul);

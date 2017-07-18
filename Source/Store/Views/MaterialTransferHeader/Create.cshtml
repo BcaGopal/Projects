@@ -216,8 +216,21 @@
                             { Action = "CreateLineAfter_Submit"; }
                         }
                         @Html.ActionLink("Add New Row", Action, "MaterialTransferLine", new { id = @Model.StockHeaderId }, new { data_modal = "", id = "btnCreate", @class = "toolbar", @title = "Add New", @data_toggle = "tooltip", @data_detailDisabled = "true" })
-                        </div>
                     </div>
+                    @if (Model.StockHeaderSettings.isVisibleMaterialRequest || Model.StockHeaderSettings.isVisibleStockIn)
+                    {
+                        <div class="btn-group right" style="padding-right:15px">
+                            <a class="cbtn btn-circle glyphicon glyphicon-link dropdown-toggle" aria-expanded="false" style="padding-top: 6px;padding-bottom: 6px;" href="#" data-toggle="dropdown" id="dropdownMenu1">
+                            </a>
+                            <ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu1">
+                                @if (Model.StockHeaderSettings.isVisibleStockIn)
+                                {
+                                    <li><a id="btnCreateFP" data-modal="" href="@Url.Action("_ForStockIn", "MaterialTransferLine", new { id = @Model.StockHeaderId })"><span class="glyphicon glyphicon-user"> </span> For Stock-In</a></li>
+                                }
+                            </ul>
+                        </div>
+                    }
+                </div>
                 <div style="padding-right:15px">
 
                     <div class="panel panel-default" id="grid">

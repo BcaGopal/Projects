@@ -621,7 +621,8 @@
                         CustomSelectFunctionForPromoCode($("#PromoCodeId"), '/DirectSaleInvoiceLine/GetPromoCodeIdList', '/ComboHelpList/SetSinglePromoCode', ' ', false, 0, $("#ProductId").val(), $("#SaleToBuyerId").val(), $("#DocDate").val());
                         GetFirstPromoCode();
                         Validate_PromoCode();
-                        GetChargeRates('@Model.SaleInvoiceSettings.CalculationId',$('#DocTypeId','.modal-body').val(),$('#SiteId','.modal-body').val(),$('#DivisionId','.modal-body').val(),$('#SaleInvoiceSettings_ProcessId','.modal-body').val(),$('#SalesTaxGroupPersonId','.modal-body').val(),$('#SalesTaxGroupProductId','.modal-body').val());
+                        //GetChargeRates('@Model.SaleInvoiceSettings.CalculationId',$('#DocTypeId','.modal-body').val(),$('#SiteId','.modal-body').val(),$('#DivisionId','.modal-body').val(),$('#SaleInvoiceSettings_ProcessId','.modal-body').val(),$('#SalesTaxGroupPersonId','.modal-body').val(),$('#SalesTaxGroupProductId','.modal-body').val());
+                        ChargeCalculation();
                     },
                     error: function (xhr, ajaxOptions, thrownError) {
                         alert('Failed to retrieve product details.' + thrownError);

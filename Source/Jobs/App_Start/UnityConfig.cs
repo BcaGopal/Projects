@@ -46,6 +46,8 @@ namespace Jobs.App_Start
             // TODO: Register your types here
             // container.RegisterType<IProductRepository, ProductRepository>();
 
+            container.RegisterType<IRepository<SaleInvoiceHeaderCharge>, Repository<SaleInvoiceHeaderCharge>>();
+            container.RegisterType<ISaleInvoiceHeaderChargeService, SaleInvoiceHeaderChargeService>(new PerRequestLifetimeManager());
             
             container.RegisterType<AccountController>(new InjectionConstructor());
             //container.RegisterType<ApplicationDbContext, ApplicationDbContext>("New");

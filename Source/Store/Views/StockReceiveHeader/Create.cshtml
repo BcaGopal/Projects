@@ -272,7 +272,7 @@
                         @Html.ActionLink("Add New Row", Action, "StockReceiveLine", new { id = @Model.StockHeaderId }, new { data_modal = "", id = "btnCreate", @class = "toolbar", @title = "Add New", @data_toggle = "tooltip", @data_detailDisabled = "true" })
                     </div>
                     <div class="btn-group right" style="padding-right:15px">
-                        @Html.ActionLink(" ", "_ForReceive", "StockReceiveLine", new { id = @Model.StockHeaderId, sid = @Model.PersonId }, new { data_modal = "", id = "btnCreateF", @class = "cbtn btn-circle glyphicon glyphicon-link toolbar right", @title = "For Issue", @data_toggle = "tooltip", @data_detailDeleted = "true" })
+                        @Html.ActionLink(" ", "_ForStockProcess", "StockReceiveLine", new { id = @Model.StockHeaderId, sid = @Model.PersonId }, new { data_modal = "", id = "btnCreateF", @class = "cbtn btn-circle glyphicon glyphicon-link toolbar right", @title = "For Issue", @data_toggle = "tooltip", @data_detailDeleted = "true" })
                         </div>
                     </div>
                 <div style="padding-right:15px">

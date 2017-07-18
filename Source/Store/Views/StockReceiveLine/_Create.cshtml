@@ -50,7 +50,8 @@
                 @Html.HiddenFor(m => m.StockHeaderSettings.ProcessId)
                 @Html.HiddenFor(m => m.StockHeaderSettings.isPostedInStockProcess)
                 @Html.HiddenFor(m => m.PersonId)
-                @Html.HiddenFor(m => m.RequisitionBalanceQty)
+                @Html.HiddenFor(m => m.StockProcessBalanceQty)
+                @Html.HiddenFor(m => m.StockHeaderSettings.isProductHelpFromStockProcess)
 
 
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
@@ -68,8 +69,19 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             @Html.LabelFor(model => model.ProductId, (Model.DocumentTypeSettings.ProductCaption ?? "Product"), new { @class = "control-label col-md-4 col-sm-2 " })
+                            @Html.HiddenFor(m => m.DocumentTypeSettings.ProductCaption)
                             <div class="col-md-7 col-sm-10">
-                                @Html.TextBoxFor(model => model.ProductId, new { @class = "form-control col-xs-7 required" })
+                                @if (Model.StockHeaderSettings.isProductHelpFromStockProcess && Model.StockLineId == 0)
+                                {
+                                    @Html.TextBoxFor(model => model.StockProcessBalanceId, new { @class = "form-control col-xs-7 required" })
+                                    <div style="display:none">
+                                        @Html.HiddenFor(model => model.ProductId)
+                                    </div>
+                                }
+                                else
+                                {
+                                    @Html.TextBoxFor(model => model.ProductId, new { @class = "form-control col-xs-7 required" })
+                                }
                                 @Html.ValidationMessageFor(model => model.ProductId, "", new { @class = "text-danger" })
                                 @*<span id="status" class="text-danger"></span>*@
                             </div>
@@ -148,7 +160,7 @@
                     <div class="col-md-6" style="display:@(Model.StockHeaderSettings.isVisibleLotNo?"":"none")">
                         @Html.HiddenFor(m => m.StockHeaderSettings.isVisibleLotNo)
                         <div class="form-group">
-                            @Html.LabelFor(model => model.LotNo, "LotNo", new { @class = "control-label col-md-4 col-sm-2" })
+                            @Html.LabelFor(model => model.LotNo, "Lot No.", new { @class = "control-label col-md-4 col-sm-2" })
                             <div class="col-md-7 col-sm-10">
                                 @Html.TextBoxFor(model => model.LotNo, new { @class = "form-control col-xs-7 required" })
                                 @Html.ValidationMessageFor(model => model.LotNo, "", new { @class = "text-danger" })
@@ -275,6 +287,7 @@
         CustomSelectFunction($("#Dimension4Id"), '/ComboHelpList/GetDimension4', '/ComboHelpList/SetSingleDimension4', ' ', false, 0);
         CustomSelectFunction($("#CostCenterId"), '/StockReceiveLine/GetLineCostCenters', '/ComboHelpList/SetSingleCostCenter', ' ', false, 0,$('#StockHeaderId','.modal-body').val());
         CustomSelectFunction($("#FromProcessId"), '/ComboHelpList/GetProcess', '/ComboHelpList/SetSingleProcess', ' ', false, 0);
+        CustomSelectFunction($("#StockProcessBalanceId"), '/StockReceiveLine/GetStockProcessBalanceForLine', '/ComboHelpList/SetSingleProcess', ' ', false, 0, $('#StockHeaderId','.modal-body').val());
         $("#ProductId").focus();
 
 
@@ -374,6 +387,97 @@
         })
 
 
+        $("#StockProcessBalanceId").change(function(){
+            Validate_StockProcessBalanceId();
+        });
+
+        function Validate_StockProcessBalanceId() {
+            var ProcessProgress = $("#Stock In detail loading progress");
+            ProcessProgress.show();
+            if ($("#StockInId").val() != "")
+            {
+                $.ajax({
+                    cache: false,
+                    type: "POST",
+                    url: "@(Url.Action("GetStockProcessBalanceDetailJson"))",
+                    data: { StockProcessBalanceId: $("#StockProcessBalanceId").val()},
+                success: function (data) {
+                    if (data != null)
+                    {
+                        $("#StockProcessBalanceQty").val(data.BalanceQty);
+                        $("#Qty").val(data.BalanceQty);
+                        $("#LotNo").val(data.LotNo);
+                        $("#ProductId").select2('data', { id: data.ProductId, text: data.ProductName});
+                        if (data.Dimension1Id != null)
+                        {
+                            $("#Dimension1Id").select2('data', { id: data.Dimension1Id, text: data.Dimension1Name});
+                        }
+                        else{
+                            $("#Dimension1Id").select2('data', { id: '', text: ''});
+                        }
+                        if (data.Dimension2Id != null)
+                        {
+                            $("#Dimension2Id").select2('data', { id: data.Dimension2Id, text: data.Dimension2Name});
+                        }
+                        else{
+                            $("#Dimension2Id").select2('data', { id: '', text: ''});
+                        }
+                        if (data.Dimension3Id != null)
+                        {
+                            $("#Dimension3Id").select2('data', { id: data.Dimension3Id, text: data.Dimension3Name});
+                        }
+                        else{
+                            $("#Dimension3Id").select2('data', { id: '', text: ''});
+                        }
+                        if (data.Dimension4Id != null)
+                        {
+                            $("#Dimension4Id").select2('data', { id: data.Dimension4Id, text: data.Dimension4Name});
+                        }
+                        else{
+                            $("#Dimension4Id").select2('data', { id: '', text: ''});
+                        }
+                        if (data.ProcessId != null)
+                        {
+                            $("#FromProcessId").select2('data', { id: data.ProcessId, text: data.ProcessName});
+                        }
+                        else{
+                            $("#FromProcessId").select2('data', { id: '', text: ''});
+                        }
+
+                        $("#ProductId").attr('readonly', 'true');
+                        $("#Dimension1Id").attr('readonly', 'true');
+                        $("#Dimension2Id").attr('readonly', 'true');
+                        $("#Dimension3Id").attr('readonly', 'true');
+                        $("#Dimension4Id").attr('readonly', 'true');
+                        $("#FromProcessId").attr('readonly', 'true');
+                        $("#LotNo").attr('readonly', 'true');
+                    }
+                    else{
+                        $("#StockProcessBalanceQty").val(0);
+                        $("#LotNo").val("");
+                    }
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert('Failed to retrieve Stock In details.' + thrownError);
+                    ProcessProgress.hide();
+                }
+            });
+
+        }
+        else {
+            $("#StockProcessBalanceQty").val(0);
+            $("#LotNo").val("");
+            $("#ProductId").removeAttr('readonly');
+            $("#Dimension1Id").removeAttr('readonly');
+            $("#Dimension2Id").removeAttr('readonly');
+            $("#Dimension3Id").removeAttr('readonly');
+            $("#Dimension4Id").removeAttr('readonly');
+            $("#LotNo").removeAttr('readonly');
+            $("#FromProcessId").removeAttr('readonly');
+        }
+    }
+
+
 
         //$('#ProductUidIdName').on('change',function(e){
 
@@ -397,6 +501,18 @@
         {
             var tex='@Model.RequisitionHeaderDocNo';
             $("#acrequsorders").val(tex);
+
+            if ($("#StockHeaderSettings_isProductHelpFromStockProcess").val() == "True")
+            {
+                $("#ProductId").attr('readonly', 'true');
+                $("#Dimension1Id").attr('readonly', 'true');
+                $("#Dimension2Id").attr('readonly', 'true');
+                $("#Dimension3Id").attr('readonly', 'true');
+                $("#Dimension4Id").attr('readonly', 'true');
+                $("#FromProcessId").attr('readonly', 'true');
+                $("#LotNo").attr('readonly', 'true');
+                $("#Qty").attr('readonly', 'true');
+            }
         }
 
 
