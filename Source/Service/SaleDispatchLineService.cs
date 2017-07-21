@@ -50,7 +50,7 @@ namespace Service
 
         IEnumerable<ComboBoxResult> GetPendingOrdersForDispatch(int id, string term);
 
-        IEnumerable<ComboBoxResult> GetPendingStockInForDispatch(int id, int ProductId, int? Dimension1Id, int? Dimension2Id, string term);
+        IEnumerable<ComboBoxResult> GetPendingStockInForDispatch(int id, int ProductId, int GodownId, int? Dimension1Id, int? Dimension2Id, string term);
 
 
     }
@@ -511,7 +511,7 @@ namespace Service
                         );
         }
 
-        public IEnumerable<ComboBoxResult> GetPendingStockInForDispatch(int SaleDispatchHeaderId, int ProductId, int? Dimension1Id, int? Dimension2Id, string term)
+        public IEnumerable<ComboBoxResult> GetPendingStockInForDispatch(int SaleDispatchHeaderId, int GodownId, int ProductId, int? Dimension1Id, int? Dimension2Id, string term)
         {
 
             var SaleDispatchHeader = new SaleDispatchHeaderService(_unitOfWork).Find(SaleDispatchHeaderId);
@@ -532,6 +532,7 @@ namespace Service
 
             SqlParameter SqlParameterSaleDispatchHeaderId = new SqlParameter("@SaleDispatchHeaderId", SaleDispatchHeaderId);
             SqlParameter SqlParameterProductId = new SqlParameter("@ProductId", ProductId);
+            SqlParameter SqlParameterGodownId = new SqlParameter("@GodownId", GodownId);
             SqlParameter SqlParameterDimension1Id = new SqlParameter("@Dimension1Id", Dimension1Id);
             SqlParameter SqlParameterDimension2Id = new SqlParameter("@Dimension2Id", Dimension2Id);
 
@@ -546,7 +547,7 @@ namespace Service
             }
 
 
-            IEnumerable<PendingStockInForDispatch> PendingStockInForDispatch = db.Database.SqlQuery<PendingStockInForDispatch>("" + ConfigurationManager.AppSettings["DataBaseSchema"] + ".spGetHelpListPendingStockInForDispatch @SaleDispatchHeaderId, @ProductId, @Dimension1Id, @Dimension2Id", SqlParameterSaleDispatchHeaderId, SqlParameterProductId, SqlParameterDimension1Id, SqlParameterDimension2Id).ToList();
+            IEnumerable<PendingStockInForDispatch> PendingStockInForDispatch = db.Database.SqlQuery<PendingStockInForDispatch>("" + ConfigurationManager.AppSettings["DataBaseSchema"] + ".spGetHelpListPendingStockInForDispatch @SaleDispatchHeaderId, @GodownId, @ProductId, @Dimension1Id, @Dimension2Id", SqlParameterSaleDispatchHeaderId, SqlParameterGodownId, SqlParameterProductId, SqlParameterDimension1Id, SqlParameterDimension2Id).ToList();
 
 
             return (from p in PendingStockInForDispatch

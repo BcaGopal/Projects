@@ -114,6 +114,8 @@ namespace Model.ViewModel
         public string SalesExecutiveName { get; set; }
         public bool IsDoorDelivery { get; set; }
 
+        public List<DocumentTypeHeaderAttributeViewModel> DocumentTypeHeaderAttributes { get; set; }
+
         public Decimal? PayTermAdvancePer { get; set; }
         public Decimal? PayTermOnDeliveryPer { get; set; }
         public Decimal? PayTermOnDueDatePer { get; set; }
@@ -231,6 +233,10 @@ namespace Model.ViewModel
         public decimal? Incentive { get; set; }
         public decimal? Penalty { get; set; }
         public Decimal? StockInBalanceQty { get; set; }
+
+        public int? SalesTaxGroupProductId { get; set; }
+        public string SalesTaxGroupProductName { get; set; }
+        
     }
 
     public class JobOrderHeaderListViewModel

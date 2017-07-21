@@ -23,11 +23,11 @@ namespace Model.Models
         public virtual GatePassHeader  GatePassHeader { get; set; }
 
         [Display(Name = "Product"), Required]        
-        [MaxLength(100)]
+        [MaxLength(255)]
         public string Product { get; set; }
-        
 
-        [MaxLength(50)]
+
+        [MaxLength(255)]
         public string Specification { get; set; }
         
         [Display(Name = "Qty"), Required]

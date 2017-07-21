@@ -40,46 +40,49 @@ namespace Web
                            where p.DocumentTypeName == TransactionDoctypeConstants.WeavingExchange
                            select p).FirstOrDefault();
 
-            var IssueLineCostCenterRecords = (from p in DbContext.StockLine
-                                              join t in DbContext.StockHeader on p.StockHeaderId equals t.StockHeaderId
-                                              where CostCenterIds.Contains(p.CostCenterId) && t.DocTypeId == DocType.DocumentTypeId
-                                              && p.StockHeaderId != EventArgs.DocId
-                                              select p).ToList();
+            if (DocType != null)
+            { 
+                var IssueLineCostCenterRecords = (from p in DbContext.StockLine
+                                                  join t in DbContext.StockHeader on p.StockHeaderId equals t.StockHeaderId
+                                                  where CostCenterIds.Contains(p.CostCenterId) && t.DocTypeId == DocType.DocumentTypeId
+                                                  && p.StockHeaderId != EventArgs.DocId
+                                                  select p).ToList();
 
 
-            var IssueProductCount = (from p in IssueLineCostCenterRecords
-                                     group p by p.CostCenterId into g
-                                     select g).ToList();
+                var IssueProductCount = (from p in IssueLineCostCenterRecords
+                                         group p by p.CostCenterId into g
+                                         select g).ToList();
 
-            DbContext.Dispose();
+                DbContext.Dispose();
 
-            if (StockHeader.DocTypeId == DocType.DocumentTypeId)
-            {
-
-                var CostCenterRecords = (from p in db.CostCenterStatusExtended
-                                         where CostCenterIds.Contains(p.CostCenterId)
-                                         select p).ToList();
-
-                var GroupedTemp = (from p in Temp
-                                   group p by new { p.CostCenterId } into g
-                                   select g).ToList();
-
-                foreach (var item in GroupedTemp)
+                if (StockHeader.DocTypeId == DocType.DocumentTypeId)
                 {
-                    if (StockHeader.DocTypeId == DocType.DocumentTypeId && item.Sum(m => m.Qty) != 0)
-                    {
-                        if (item.Max(m => m.CostCenterId).HasValue)
-                        {
-                            var CostCenterStatus = (CostCenterRecords.Where(m => m.CostCenterId == item.Max(x => x.CostCenterId))).FirstOrDefault();
 
-                            if (CostCenterStatus != null)
+                    var CostCenterRecords = (from p in db.CostCenterStatusExtended
+                                             where CostCenterIds.Contains(p.CostCenterId)
+                                             select p).ToList();
+
+                    var GroupedTemp = (from p in Temp
+                                       group p by new { p.CostCenterId } into g
+                                       select g).ToList();
+
+                    foreach (var item in GroupedTemp)
+                    {
+                        if (StockHeader.DocTypeId == DocType.DocumentTypeId && item.Sum(m => m.Qty) != 0)
+                        {
+                            if (item.Max(m => m.CostCenterId).HasValue)
                             {
-                                CostCenterStatus.MaterialIssueQty = (CostCenterStatus.MaterialIssueQty ?? 0) - item.Where(m => m.DocNature == StockNatureConstants.Issue).Sum(m => m.Qty);
-                                CostCenterStatus.MaterialReturnQty = (CostCenterStatus.MaterialReturnQty ?? 0) - item.Where(m => m.DocNature == StockNatureConstants.Receive).Sum(m => m.Qty);
-                                CostCenterStatus.MaterialIssueDate = StockHeader.DocDate;
-                                CostCenterStatus.MaterialIssueProductCount = (IssueProductCount.Count == 0) ? 0 : IssueProductCount.Where(m => m.Key == CostCenterStatus.CostCenterId).FirstOrDefault().Select(m => m.RequisitionLineId).Distinct().Count();
-                                CostCenterStatus.ObjectState = Model.ObjectState.Modified;
-                                db.CostCenterStatusExtended.Add(CostCenterStatus);
+                                var CostCenterStatus = (CostCenterRecords.Where(m => m.CostCenterId == item.Max(x => x.CostCenterId))).FirstOrDefault();
+
+                                if (CostCenterStatus != null)
+                                {
+                                    CostCenterStatus.MaterialIssueQty = (CostCenterStatus.MaterialIssueQty ?? 0) - item.Where(m => m.DocNature == StockNatureConstants.Issue).Sum(m => m.Qty);
+                                    CostCenterStatus.MaterialReturnQty = (CostCenterStatus.MaterialReturnQty ?? 0) - item.Where(m => m.DocNature == StockNatureConstants.Receive).Sum(m => m.Qty);
+                                    CostCenterStatus.MaterialIssueDate = StockHeader.DocDate;
+                                    CostCenterStatus.MaterialIssueProductCount = (IssueProductCount.Count == 0) ? 0 : IssueProductCount.Where(m => m.Key == CostCenterStatus.CostCenterId).FirstOrDefault().Select(m => m.RequisitionLineId).Distinct().Count();
+                                    CostCenterStatus.ObjectState = Model.ObjectState.Modified;
+                                    db.CostCenterStatusExtended.Add(CostCenterStatus);
+                                }
                             }
                         }
                     }
@@ -103,47 +106,51 @@ namespace Web
                            where p.DocumentTypeName == TransactionDoctypeConstants.WeavingExchange
                            select p).FirstOrDefault();
 
-            var IssueLineCostCenterRecords = (from p in DbContext.StockLine
-                                              join t in DbContext.StockHeader on p.StockHeaderId equals t.StockHeaderId
-                                              where CostCenterIds.Contains(p.CostCenterId) && t.DocTypeId == DocType.DocumentTypeId
-                                              select p).ToList();
 
-            IssueLineCostCenterRecords.AddRange(Temp);
-
-
-            var IssueProductCount = (from p in IssueLineCostCenterRecords
-                                     group p by p.CostCenterId into g
-                                     select g).ToList();
-            DbContext.Dispose();
-
-            if (StockHeader.DocTypeId == DocType.DocumentTypeId)
+            if (DocType != null)
             {
+                var IssueLineCostCenterRecords = (from p in DbContext.StockLine
+                                                  join t in DbContext.StockHeader on p.StockHeaderId equals t.StockHeaderId
+                                                  where CostCenterIds.Contains(p.CostCenterId) && t.DocTypeId == DocType.DocumentTypeId
+                                                  select p).ToList();
 
-                var CostCenterRecords = (from p in db.CostCenterStatusExtended
-                                         where CostCenterIds.Contains(p.CostCenterId)
-                                         select p).ToList();
+                IssueLineCostCenterRecords.AddRange(Temp);
 
-                var GroupedTemp = (from p in Temp
-                                   group p by new { p.CostCenterId } into g
-                                   select g).ToList();
 
-                foreach (var item in GroupedTemp)
+                var IssueProductCount = (from p in IssueLineCostCenterRecords
+                                         group p by p.CostCenterId into g
+                                         select g).ToList();
+                DbContext.Dispose();
+
+                if (StockHeader.DocTypeId == DocType.DocumentTypeId)
                 {
 
-                    if (StockHeader.DocTypeId == DocType.DocumentTypeId && item.Sum(m => m.Qty) != 0)
-                    {
-                        if (item.Max(m => m.CostCenterId).HasValue)
-                        {
-                            var CostCenterStatus = (CostCenterRecords.Where(m => m.CostCenterId == item.Max(x => x.CostCenterId))).FirstOrDefault();
+                    var CostCenterRecords = (from p in db.CostCenterStatusExtended
+                                             where CostCenterIds.Contains(p.CostCenterId)
+                                             select p).ToList();
 
-                            if (CostCenterStatus != null)
+                    var GroupedTemp = (from p in Temp
+                                       group p by new { p.CostCenterId } into g
+                                       select g).ToList();
+
+                    foreach (var item in GroupedTemp)
+                    {
+
+                        if (StockHeader.DocTypeId == DocType.DocumentTypeId && item.Sum(m => m.Qty) != 0)
+                        {
+                            if (item.Max(m => m.CostCenterId).HasValue)
                             {
-                                CostCenterStatus.MaterialIssueQty = (CostCenterStatus.MaterialIssueQty ?? 0) + item.Where(m => m.DocNature == StockNatureConstants.Issue).Sum(m => m.Qty);
-                                CostCenterStatus.MaterialReturnQty = (CostCenterStatus.MaterialReturnQty ?? 0) + item.Where(m => m.DocNature == StockNatureConstants.Receive).Sum(m => m.Qty);
-                                CostCenterStatus.MaterialIssueDate = StockHeader.DocDate;
-                                CostCenterStatus.MaterialReturnDate = StockHeader.DocDate;
-                                CostCenterStatus.ObjectState = Model.ObjectState.Modified;
-                                db.CostCenterStatusExtended.Add(CostCenterStatus);
+                                var CostCenterStatus = (CostCenterRecords.Where(m => m.CostCenterId == item.Max(x => x.CostCenterId))).FirstOrDefault();
+
+                                if (CostCenterStatus != null)
+                                {
+                                    CostCenterStatus.MaterialIssueQty = (CostCenterStatus.MaterialIssueQty ?? 0) + item.Where(m => m.DocNature == StockNatureConstants.Issue).Sum(m => m.Qty);
+                                    CostCenterStatus.MaterialReturnQty = (CostCenterStatus.MaterialReturnQty ?? 0) + item.Where(m => m.DocNature == StockNatureConstants.Receive).Sum(m => m.Qty);
+                                    CostCenterStatus.MaterialIssueDate = StockHeader.DocDate;
+                                    CostCenterStatus.MaterialReturnDate = StockHeader.DocDate;
+                                    CostCenterStatus.ObjectState = Model.ObjectState.Modified;
+                                    db.CostCenterStatusExtended.Add(CostCenterStatus);
+                                }
                             }
                         }
                     }
@@ -178,57 +185,61 @@ namespace Web
                            where p.DocumentTypeName == TransactionDoctypeConstants.WeavingExchange
                            select p).FirstOrDefault();
 
-            var IssueLineCostCenterRecords = (from p in DbContext.StockLine
-                                              join t in DbContext.StockHeader on p.StockHeaderId equals t.StockHeaderId
-                                              where p.CostCenterId == Temp.CostCenterId && t.DocTypeId == DocType.DocumentTypeId
-                                              && p.StockLineId != EventArgs.DocLineId && p.DocNature == Temp.DocNature
-                                              select p).ToList();
 
-            IssueLineCostCenterRecords.Add(Temp);
-
-
-            var IssueProductCount = (from p in IssueLineCostCenterRecords
-                                     select p.RequisitionLineId).Distinct().Count();
-
-            DbContext.Dispose();
-
-            if (StockHeader.DocTypeId == DocType.DocumentTypeId && Temp.Qty != 0)
+            if (DocType != null)
             {
-                if (Temp.CostCenterId.HasValue)
-                {
-                    var CostCenterStatus = db.CostCenterStatusExtended.Find(Temp.CostCenterId);
+                var IssueLineCostCenterRecords = (from p in DbContext.StockLine
+                                                  join t in DbContext.StockHeader on p.StockHeaderId equals t.StockHeaderId
+                                                  where p.CostCenterId == Temp.CostCenterId && t.DocTypeId == DocType.DocumentTypeId
+                                                  && p.StockLineId != EventArgs.DocLineId && p.DocNature == Temp.DocNature
+                                                  select p).ToList();
 
-                    if (CostCenterStatus != null && EventArgs.DocLineId <= 0)
+                IssueLineCostCenterRecords.Add(Temp);
+
+
+                var IssueProductCount = (from p in IssueLineCostCenterRecords
+                                         select p.RequisitionLineId).Distinct().Count();
+
+                DbContext.Dispose();
+
+                if (StockHeader.DocTypeId == DocType.DocumentTypeId && Temp.Qty != 0)
+                {
+                    if (Temp.CostCenterId.HasValue)
                     {
-                        if (Temp.DocNature == StockNatureConstants.Issue)
+                        var CostCenterStatus = db.CostCenterStatusExtended.Find(Temp.CostCenterId);
+
+                        if (CostCenterStatus != null && EventArgs.DocLineId <= 0)
                         {
-                            CostCenterStatus.MaterialIssueQty = IssueLineCostCenterRecords.Select(m => m.Qty).Sum();
-                            CostCenterStatus.MaterialIssueDate = StockHeader.DocDate;
+                            if (Temp.DocNature == StockNatureConstants.Issue)
+                            {
+                                CostCenterStatus.MaterialIssueQty = IssueLineCostCenterRecords.Select(m => m.Qty).Sum();
+                                CostCenterStatus.MaterialIssueDate = StockHeader.DocDate;
+                            }
+                            else if (Temp.DocNature == StockNatureConstants.Receive)
+                            {
+                                CostCenterStatus.MaterialReturnQty = IssueLineCostCenterRecords.Select(m => m.Qty).Sum();
+                                CostCenterStatus.MaterialReturnDate = StockHeader.DocDate;
+                            }
+                            CostCenterStatus.MaterialIssueProductCount = IssueProductCount;
+                            CostCenterStatus.ObjectState = Model.ObjectState.Modified;
+                            db.CostCenterStatusExtended.Add(CostCenterStatus);
                         }
-                        else if (Temp.DocNature == StockNatureConstants.Receive)
+                        else if (CostCenterStatus != null && EventArgs.DocLineId > 0)
                         {
-                            CostCenterStatus.MaterialReturnQty = IssueLineCostCenterRecords.Select(m => m.Qty).Sum();
-                            CostCenterStatus.MaterialReturnDate = StockHeader.DocDate;
+                            if (Temp.DocNature == StockNatureConstants.Issue)
+                            {
+                                CostCenterStatus.MaterialIssueQty = IssueLineCostCenterRecords.Select(m => m.Qty).Sum();
+                                CostCenterStatus.MaterialIssueDate = StockHeader.DocDate;
+                            }
+                            else if (Temp.DocNature == StockNatureConstants.Receive)
+                            {
+                                CostCenterStatus.MaterialReturnQty = IssueLineCostCenterRecords.Select(m => m.Qty).Sum();
+                                CostCenterStatus.MaterialReturnDate = StockHeader.DocDate;
+                            }
+                            CostCenterStatus.MaterialIssueProductCount = IssueProductCount;
+                            CostCenterStatus.ObjectState = Model.ObjectState.Modified;
+                            db.CostCenterStatusExtended.Add(CostCenterStatus);
                         }
-                        CostCenterStatus.MaterialIssueProductCount = IssueProductCount;
-                        CostCenterStatus.ObjectState = Model.ObjectState.Modified;
-                        db.CostCenterStatusExtended.Add(CostCenterStatus);
-                    }
-                    else if (CostCenterStatus != null && EventArgs.DocLineId > 0)
-                    {
-                        if (Temp.DocNature == StockNatureConstants.Issue)
-                        {
-                            CostCenterStatus.MaterialIssueQty = IssueLineCostCenterRecords.Select(m => m.Qty).Sum();
-                            CostCenterStatus.MaterialIssueDate = StockHeader.DocDate;
-                        }
-                        else if (Temp.DocNature == StockNatureConstants.Receive)
-                        {
-                            CostCenterStatus.MaterialReturnQty = IssueLineCostCenterRecords.Select(m => m.Qty).Sum();
-                            CostCenterStatus.MaterialReturnDate = StockHeader.DocDate;
-                        }
-                        CostCenterStatus.MaterialIssueProductCount = IssueProductCount;
-                        CostCenterStatus.ObjectState = Model.ObjectState.Modified;
-                        db.CostCenterStatusExtended.Add(CostCenterStatus);
                     }
                 }
             }

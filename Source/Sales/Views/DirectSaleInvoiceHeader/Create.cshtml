@@ -158,28 +158,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div>
-                                <div class="col-md-6" style="display:@(Model.SaleInvoiceSettings.isVisibleAgent ? "" : "none")">
-                                    @Html.HiddenFor(m => m.SaleInvoiceSettings.isVisibleAgent)
-                                    <div class="form-group">
-                                        @Html.LabelFor(model => model.AgentId, "Agent", new { @class = "control-label col-md-4 col-sm-2" })
-                                        <div class="col-md-7 col-sm-10">
-                                            @Html.TextBoxFor(m => m.AgentId, null, new { @class = "form-control col-xs-6 " })
-                                            @Html.ValidationMessageFor(m => m.AgentId, "", new { @class = "text-danger" })
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6" style="display:@(Model.SaleInvoiceSettings.isVisibleSalesTaxGroupPerson ? "" : "none")">
-                                    @Html.HiddenFor(m => m.SaleInvoiceSettings.isVisibleSalesTaxGroupPerson)
-                                    <div class="form-group">
-                                        @Html.LabelFor(model => model.SalesTaxGroupPersonId, "Sales Tax Group Person", new { @class = "control-label col-md-4 col-sm-2" })
-                                        <div class="col-md-7 col-sm-10">
-                                            @Html.DropDownListFor(m => m.SalesTaxGroupPersonId, new SelectList(ViewBag.SalesTaxGroupList as System.Collections.IEnumerable, "ChargeGroupPersonId", "ChargeGroupPersonName"), new { @class = "form-control col-xs-6 required" })
-                                            @Html.ValidationMessageFor(m => m.SalesTaxGroupPersonId, "", new { @class = "text-danger" })
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            
                             <div>
 
                             </div>
@@ -236,6 +215,28 @@
                                         <div class="col-md-7 col-sm-10">
                                             @Html.DropDownListFor(m => m.CurrencyId, new SelectList(ViewBag.CurrencyList as System.Collections.IEnumerable, "ID", "Name"), new { @class = "height form-control col-xs-6 " })
                                             @Html.ValidationMessageFor(m => m.CurrencyId, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="col-md-6" style="display:@(Model.SaleInvoiceSettings.isVisibleAgent ? "" : "none")">
+                                    @Html.HiddenFor(m => m.SaleInvoiceSettings.isVisibleAgent)
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.AgentId, "Agent", new { @class = "control-label col-md-4 col-sm-2" })
+                                        <div class="col-md-7 col-sm-10">
+                                            @Html.TextBoxFor(m => m.AgentId, null, new { @class = "form-control col-xs-6 " })
+                                            @Html.ValidationMessageFor(m => m.AgentId, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6" style="display:@(Model.SaleInvoiceSettings.isVisibleSalesTaxGroupPerson ? "" : "none")">
+                                    @Html.HiddenFor(m => m.SaleInvoiceSettings.isVisibleSalesTaxGroupPerson)
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.SalesTaxGroupPersonId, "Sales Tax Group Person", new { @class = "control-label col-md-4 col-sm-2" })
+                                        <div class="col-md-7 col-sm-10">
+                                            @Html.TextBoxFor(m => m.SalesTaxGroupPersonId, null, new { @class = "form-control col-xs-6 " })
+                                            @Html.ValidationMessageFor(m => m.SalesTaxGroupPersonId, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
                                 </div>
@@ -301,38 +302,33 @@
                             </div>
 
                             <div>
-                                @if (Model.DocumentTypeAttributes != null)
+                                                           @if (Model.DocumentTypeHeaderAttributes != null)
                                 {
-                                    for (int i = 0; i < Model.DocumentTypeAttributes.Count; i++)
+                                    for (int i = 0; i < Model.DocumentTypeHeaderAttributes.Count; i++)
                                     {
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                @Html.Label(Model.DocumentTypeAttributes[i].Name, new { @class = "control-label col-md-4 col-sm-2" })
-                                                @Html.HiddenFor(m => Model.DocumentTypeAttributes[i].Name)
-                                                @Html.HiddenFor(m => Model.DocumentTypeAttributes[i].DocumentAttributeId)
-                                                @Html.HiddenFor(m => Model.DocumentTypeAttributes[i].DocumentTypeAttributeId)
-                                                @if (Model.DocumentTypeAttributes[i].DataType == "List")
+                                                @Html.Label(Model.DocumentTypeHeaderAttributes[i].Name, new { @class = "control-label col-md-4 col-sm-2" })
+                                                @Html.HiddenFor(m => Model.DocumentTypeHeaderAttributes[i].Name)
+                                                @Html.HiddenFor(m => Model.DocumentTypeHeaderAttributes[i].DocumentTypeHeaderAttributeId)
+                                                @if (Model.DocumentTypeHeaderAttributes[i].DataType == "List")
                                                 {
                                                     List<SelectListItem> tem = new List<SelectListItem>();
-                                                    foreach (string item in (Model.DocumentTypeAttributes[i].ListItem).Split(',').ToList())
+                                                    foreach (string item in (Model.DocumentTypeHeaderAttributes[i].ListItem).Split(',').ToList())
                                                     {
-                                                        tem.Add(new SelectListItem { Text = item, Value = item, Selected = (Model.DocumentTypeAttributes[i].DefaultValue == item ? true : false) });
+                                                        tem.Add(new SelectListItem { Text = item, Value = item, Selected = (Model.DocumentTypeHeaderAttributes[i].Value == item ? true : false) });
                                                     }
 
-
                                                     <div class="col-md-7 col-sm-10">
-                                                        @Html.DropDownListFor(m => Model.DocumentTypeAttributes[i].DefaultValue, new SelectList(tem as System.Collections.IEnumerable, "Value", "Text", Model.DocumentTypeAttributes[i].DefaultValue), " ", new { @class = "form-control col-xs-6 height" })
-                                                        @*<input type="text" name="@(item.Name)s" value=@item.DefaultValue class="form-control col-xs-6" />*@
+                                                        @Html.DropDownListFor(m => Model.DocumentTypeHeaderAttributes[i].Value, new SelectList(tem as System.Collections.IEnumerable, "Value", "Text", Model.DocumentTypeHeaderAttributes[i].Value), " ", new { @class = "form-control col-xs-6 height" })
                                                     </div>
                                                 }
                                                 else
                                                 {
                                                     <div class="col-md-7 col-sm-10">
-                                                        @Html.TextBoxFor(m => Model.DocumentTypeAttributes[i].DefaultValue, new { @class = "form-control col-xs-6" })
-                                                        @*<input type="text" name="@(item.Name)s" value=@item.DefaultValue class="form-control col-xs-6" />*@
+                                                        @Html.TextBoxFor(m => Model.DocumentTypeHeaderAttributes[i].Value, new { @class = "form-control col-xs-6" })
                                                     </div>
                                                 }
-
                                             </div>
                                         </div>
                                     }
@@ -579,6 +575,8 @@
             var cdata = $('#SaleToBuyerId').select2('data').text;
 
             $("#BillToBuyerId").select2('data', { id: cid, text: cdata });
+            GetPersonLedgerBalance();
+            GetPersonDetail();
         });
 
 
@@ -587,10 +585,10 @@
             var cdata = $('#BillToBuyerId').select2('data').text;
 
 
-            if (cdata != 'Cash A/c' && cdata != 'Bank A/c')
-            {
-                $("#SaleToBuyerId").select2('data', { id: cid, text: cdata });
-            }
+            //if (cdata != 'Cash A/c' && cdata != 'Bank A/c')
+            //{
+            //    $("#SaleToBuyerId").select2('data', { id: cid, text: cdata });
+            //}
 
             
 
@@ -943,6 +941,7 @@
         CustomSelectFunction($("#AgentId"), '/ComboHelpList/GetPerson', '/ComboHelpList/GetPerson', ' ', false, 0);
         CustomSelectFunction($("#FinancierId"), '/ComboHelpList/GetFinanciers', '/ComboHelpList/SetSinglePerson', ' ', false, 0,$('#ProcessId').val());
         CustomSelectFunction($("#SalesExecutiveId"), '/ComboHelpList/GetSalesExecutives', '/ComboHelpList/SetSinglePerson', ' ', false, 0);
+        CustomSelectFunction($("#SalesTaxGroupPersonId"), '/ComboHelpList/GetSalesTaxGroupPerson', '/ComboHelpList/SetSingleSalesTaxGroupPerson', ' ', false, 0);
         //CustomSelectFunction($("#SalesTaxGroupPersonId"), '/ComboHelpList/GetSalesTaxGroupPerson', '/ComboHelpList/SetSingleSalesTaxGroupPerson', ' ', false, 0);
 
         //Adding Hidden Input Fields

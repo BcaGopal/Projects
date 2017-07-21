@@ -963,40 +963,7 @@ namespace Module
 
 
 
-            try
-            {
-                if ((int)ExecuteScaler("SELECT Count(*) AS Cnt FROM INFORMATION_SCHEMA.Tables WHERE TABLE_NAME = 'SaleInvoiceHeaderAttributes'") == 0)
-                {
-                    mQry = @"CREATE TABLE Web.SaleInvoiceHeaderAttributes
-	                        (
-	                        SaleInvoiceHeaderAttributeId    INT IDENTITY NOT NULL,
-	                        SaleInvoiceHeaderId             INT NOT NULL,
-	                        DocumentTypeAttributeId         INT NOT NULL,
-	                        SaleInvoiceHeaderAttributeValue NVARCHAR (max),
-	                        CreatedBy                       NVARCHAR (max),
-	                        ModifiedBy                      NVARCHAR (max),
-	                        CreatedDate                     DATETIME NOT NULL,
-	                        ModifiedDate                    DATETIME NOT NULL,
-	                        OMSId                           NVARCHAR (50),
-	                        CONSTRAINT [PK_Web.SaleInvoiceHeaderAttributes] PRIMARY KEY (SaleInvoiceHeaderAttributeId),
-	                        CONSTRAINT [FK_Web.SaleInvoiceHeaderAttributes_Web.SaleInvoiceHeaders_SaleInvoiceHeaderId] FOREIGN KEY (SaleInvoiceHeaderId) REFERENCES Web.SaleInvoiceHeaders (SaleInvoiceHeaderId),
-	                        CONSTRAINT [FK_Web.SaleInvoiceHeaderAttributes_Web.DocumentTypeAttributes_DocumentTypeAttributeId] FOREIGN KEY (DocumentTypeAttributeId) REFERENCES Web.DocumentTypeAttributes (DocumentTypeAttributeId)
-	                        )
-
-
-                        CREATE INDEX IX_SaleInvoiceHeaderId
-	                        ON Web.SaleInvoiceHeaderAttributes (SaleInvoiceHeaderId)
-
-
-                        CREATE INDEX IX_DocumentTypeAttributeId
-	                        ON Web.SaleInvoiceHeaderAttributes (DocumentTypeAttributeId) ";
-                    ExecuteQuery(mQry);
-                }
-            }
-            catch (Exception ex)
-            {
-                RecordError(ex);
-            }
+ 
 
 
             try
@@ -1589,9 +1556,171 @@ namespace Module
 
             RenameFields("SaleInvoiceSettings", "isVisibleSalesTaxGroup", "isVisibleSalesTaxGroupPerson");
 
-            AddFields("SaleInvoiceLines", "SalesTaxGroupProductId", "Int", "ChargeGroupProduct");
+            AddFields("SaleInvoiceLines", "SalesTaxGroupProductId", "Int", "ChargeGroupProducts");
             AddFields("SaleInvoiceHeaders", "SalesTaxGroupPersonId", "Int", "ChargeGroupPersons");
             AddFields("SaleInvoiceSettings", "SalesTaxGroupPersonId", "Int", "ChargeGroupPersons");
+
+
+            AddFields("SaleInvoiceSettings", "isVisibleSalesTaxGroupProduct", "Bit");
+
+            AddFields("JobInvoiceSettings", "SalesTaxGroupPersonId", "Int", "ChargeGroupPersons");
+
+
+
+            try
+            {
+                if ((int)ExecuteScaler("SELECT Count(*) AS Cnt FROM INFORMATION_SCHEMA.Tables WHERE TABLE_NAME = 'DocumentTypeHeaderAttributes'") == 0)
+                {
+                    mQry = @"CREATE TABLE Web.DocumentTypeHeaderAttributes
+	                    (
+	                    DocumentTypeHeaderAttributeId INT IDENTITY NOT NULL,
+	                    DocumentTypeId                INT NOT NULL,
+	                    Sr                            INT NOT NULL,
+	                    Name                          NVARCHAR (max) NOT NULL,
+	                    IsMandatory                   BIT NOT NULL,
+	                    DataType                      NVARCHAR (max),
+	                    ListItem                      NVARCHAR (max),
+	                    Value                         NVARCHAR (max),
+	                    IsActive                      BIT NOT NULL,
+	                    CreatedBy                     NVARCHAR (max),
+	                    ModifiedBy                    NVARCHAR (max),
+	                    CreatedDate                   DATETIME NOT NULL,
+	                    ModifiedDate                  DATETIME NOT NULL,
+	                    OMSId                         NVARCHAR (50),
+	                    CONSTRAINT [PK_Web.DocumentTypeHeaderAttributes] PRIMARY KEY (DocumentTypeHeaderAttributeId),
+	                    CONSTRAINT [FK_Web.DocumentTypeHeaderAttributes_Web.DocumentType_DocumentTypeId] FOREIGN KEY (DocumentTypeId) REFERENCES Web.DocumentTypes (DocumentTypeId)
+	                    )
+
+                    CREATE INDEX IX_DocumentTypeId
+	                    ON Web.DocumentTypeHeaderAttributes (DocumentTypeId)";
+                    ExecuteQuery(mQry);
+                }
+            }
+            catch (Exception ex)
+            {
+                RecordError(ex);
+            }
+
+
+            try
+            {
+                if ((int)ExecuteScaler("SELECT Count(*) AS Cnt FROM INFORMATION_SCHEMA.Tables WHERE TABLE_NAME = 'JobOrderHeaderAttributes'") == 0)
+                {
+                    mQry = @"CREATE TABLE Web.JobOrderHeaderAttributes
+	                            (
+	                            Id                            INT IDENTITY NOT NULL,
+	                            HeaderTableId                 INT NOT NULL,
+	                            DocumentTypeHeaderAttributeId INT NOT NULL,
+	                            Value                         NVARCHAR (max),
+	                            CONSTRAINT [PK_Web.JobOrderHeaderAttributes] PRIMARY KEY (Id),
+	                            CONSTRAINT [FK_Web.JobOrderHeaderAttributes_Web.DocumentTypeHeaderAttributes_DocumentTypeHeaderAttributeId] FOREIGN KEY (DocumentTypeHeaderAttributeId) REFERENCES Web.DocumentTypeHeaderAttributes (DocumentTypeHeaderAttributeId),
+	                            CONSTRAINT [FK_Web.JobOrderHeaderAttributes_Web.JobOrderHeaders_HeaderTableId] FOREIGN KEY (HeaderTableId) REFERENCES Web.JobOrderHeaders (JobOrderHeaderId)
+	                            )
+
+                            CREATE INDEX IX_HeaderTableId
+	                            ON Web.JobOrderHeaderAttributes (HeaderTableId)
+
+                            CREATE INDEX IX_DocumentTypeHeaderAttributeId
+	                            ON Web.JobOrderHeaderAttributes (DocumentTypeHeaderAttributeId)";
+                    ExecuteQuery(mQry);
+                }
+            }
+            catch (Exception ex)
+            {
+                RecordError(ex);
+            }
+
+
+
+            try
+            {
+                if ((int)ExecuteScaler("SELECT Count(*) AS Cnt FROM INFORMATION_SCHEMA.Tables WHERE TABLE_NAME = 'JobInvoiceHeaderAttributes'") == 0)
+                {
+                    mQry = @"CREATE TABLE Web.JobInvoiceHeaderAttributes
+	                        (
+	                        Id                            INT IDENTITY NOT NULL,
+	                        HeaderTableId                 INT NOT NULL,
+	                        DocumentTypeHeaderAttributeId INT NOT NULL,
+	                        Value                         NVARCHAR (max),
+	                        CONSTRAINT [PK_Web.JobInvoiceHeaderAttributes] PRIMARY KEY (Id),
+	                        CONSTRAINT [FK_Web.JobInvoiceHeaderAttributes_Web.DocumentTypeHeaderAttributes_DocumentTypeHeaderAttributeId] FOREIGN KEY (DocumentTypeHeaderAttributeId) REFERENCES Web.DocumentTypeHeaderAttributes (DocumentTypeHeaderAttributeId),
+	                        CONSTRAINT [FK_Web.JobInvoiceHeaderAttributes_Web.JobInvoiceHeaders_HeaderTableId] FOREIGN KEY (HeaderTableId) REFERENCES Web.JobInvoiceHeaders (JobInvoiceHeaderId)
+	                        )
+
+                            CREATE INDEX IX_HeaderTableId
+	                            ON Web.JobInvoiceHeaderAttributes (HeaderTableId)
+
+                            CREATE INDEX IX_DocumentTypeHeaderAttributeId
+	                            ON Web.JobInvoiceHeaderAttributes (DocumentTypeHeaderAttributeId)";
+                    ExecuteQuery(mQry);
+                }
+            }
+            catch (Exception ex)
+            {
+                RecordError(ex);
+            }
+
+
+
+            try
+            {
+                if ((int)ExecuteScaler("SELECT Count(*) AS Cnt FROM INFORMATION_SCHEMA.Tables WHERE TABLE_NAME = 'StockHeaderAttributes'") == 0)
+                {
+                    mQry = @"CREATE TABLE Web.StockHeaderAttributes
+	                        (
+	                        Id                            INT IDENTITY NOT NULL,
+	                        HeaderTableId                 INT NOT NULL,
+	                        DocumentTypeHeaderAttributeId INT NOT NULL,
+	                        Value                         NVARCHAR (max),
+	                        CONSTRAINT [PK_Web.StockHeaderAttributes] PRIMARY KEY (Id),
+	                        CONSTRAINT [FK_Web.StockHeaderAttributes_Web.DocumentTypeHeaderAttributes_DocumentTypeHeaderAttributeId] FOREIGN KEY (DocumentTypeHeaderAttributeId) REFERENCES Web.DocumentTypeHeaderAttributes (DocumentTypeHeaderAttributeId),
+	                        CONSTRAINT [FK_Web.StockHeaderAttributes_Web.StockHeaders_HeaderTableId] FOREIGN KEY (HeaderTableId) REFERENCES Web.StockHeaders (StockHeaderId)
+	                        )
+
+                            CREATE INDEX IX_HeaderTableId
+	                            ON Web.StockHeaderAttributes (HeaderTableId)
+
+                            CREATE INDEX IX_DocumentTypeHeaderAttributeId
+	                            ON Web.StockHeaderAttributes (DocumentTypeHeaderAttributeId)";
+                    ExecuteQuery(mQry);
+                }
+            }
+            catch (Exception ex)
+            {
+                RecordError(ex);
+            }
+
+
+
+            try
+            {
+                if ((int)ExecuteScaler("SELECT Count(*) AS Cnt FROM INFORMATION_SCHEMA.Tables WHERE TABLE_NAME = 'SaleInvoiceHeaderAttributes'") == 0)
+                {
+                    mQry = @"CREATE TABLE Web.SaleInvoiceHeaderAttributes
+	                        (
+	                        Id                            INT IDENTITY NOT NULL,
+	                        HeaderTableId                 INT NOT NULL,
+	                        DocumentTypeHeaderAttributeId INT NOT NULL,
+	                        Value                         NVARCHAR (max),
+	                        CONSTRAINT [PK_Web.SaleInvoiceHeaderAttributes] PRIMARY KEY (Id),
+	                        CONSTRAINT [FK_Web.SaleInvoiceHeaderAttributes_Web.DocumentTypeHeaderAttributes_DocumentTypeHeaderAttributeId] FOREIGN KEY (DocumentTypeHeaderAttributeId) REFERENCES Web.DocumentTypeHeaderAttributes (DocumentTypeHeaderAttributeId),
+	                        CONSTRAINT [FK_Web.SaleInvoiceHeaderAttributes_Web.SaleInvoiceHeaders_HeaderTableId] FOREIGN KEY (HeaderTableId) REFERENCES Web.SaleInvoiceHeaders (SaleInvoiceHeaderId)
+	                        )
+
+                            CREATE INDEX IX_HeaderTableId
+	                            ON Web.SaleInvoiceHeaderAttributes (HeaderTableId)
+
+                            CREATE INDEX IX_DocumentTypeHeaderAttributeId
+	                            ON Web.SaleInvoiceHeaderAttributes (DocumentTypeHeaderAttributeId)";
+                    ExecuteQuery(mQry);
+                }
+            }
+            catch (Exception ex)
+            {
+                RecordError(ex);
+            }
+
+            AddFields("ProductUids", "ProductUidSpecification1", "NVARCHAR(Max)");
 
             return RedirectToAction("Module", "Menu");
         }

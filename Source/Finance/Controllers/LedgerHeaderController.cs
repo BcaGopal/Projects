@@ -420,8 +420,8 @@ namespace Web
                                        select p).ToList();
 
                         //UpdatingLedgerPosting::
-                        //foreach (var item in Ledgers.Where(m => m.ContraLedgerAccountId == LedgerAccountId && Nature == NatureConstants.Credit ? m.AmtDr > 0 : m.AmtCr > 0))
-                        foreach (var item in Ledgers.Where(m => m.ContraLedgerAccountId == LedgerAccountId))
+                        foreach (var item in Ledgers.Where(m => m.ContraLedgerAccountId == LedgerAccountId && (Nature == NatureConstants.Credit ? m.AmtDr > 0 : m.AmtCr > 0)))
+                        //foreach (var item in Ledgers.Where(m => m.ContraLedgerAccountId == LedgerAccountId))
                         {
                             item.ContraLedgerAccountId = temp.LedgerAccountId;
                             item.ObjectState = Model.ObjectState.Modified;
@@ -429,8 +429,8 @@ namespace Web
                         }
 
                         //UpdatingContraLedgerPosting::
-                        //foreach (var item in Ledgers.Where(m => m.LedgerAccountId == LedgerAccountId && Nature == NatureConstants.Credit ? m.AmtCr > 0 : m.AmtDr > 0))
-                        foreach (var item in Ledgers.Where(m => m.LedgerAccountId == LedgerAccountId))
+                        foreach (var item in Ledgers.Where(m => m.LedgerAccountId == LedgerAccountId && (Nature == NatureConstants.Credit ? m.AmtCr > 0 : m.AmtDr > 0)))
+                        //foreach (var item in Ledgers.Where(m => m.LedgerAccountId == LedgerAccountId))
                         {
                             item.LedgerAccountId = temp.LedgerAccountId.Value;
                             item.ObjectState = Model.ObjectState.Modified;

@@ -158,8 +158,8 @@ namespace Web
             vm.SiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
             vm.DocTypeId = id;
             vm.CreatedDate = DateTime.Now;
-            List<DocumentTypeAttributeViewModel> tem = new DocumentTypeService(_unitOfWork).GetAttributeForDocumentType(id).ToList();
-            vm.DocumentTypeAttributes = tem;
+            List<DocumentTypeHeaderAttributeViewModel> tem = new DocumentTypeService(_unitOfWork).GetDocumentTypeHeaderAttribute(id).ToList();
+            vm.DocumentTypeHeaderAttributes = tem;
 
             //Getting Settings
             var settings = new SaleInvoiceSettingService(_unitOfWork).GetSaleInvoiceSettingForDocument(id, vm.DivisionId, vm.SiteId);
@@ -282,18 +282,18 @@ namespace Web
                     _SaleInvoiceHeaderService.Create(saleinvoiceheaderdetail);
 
 
-                    if (vm.DocumentTypeAttributes != null)
+                    if (vm.DocumentTypeHeaderAttributes != null)
                     {
-                        foreach (var pta in vm.DocumentTypeAttributes)
+                        foreach (var pta in vm.DocumentTypeHeaderAttributes)
                         {
 
                             SaleInvoiceHeaderAttributes SaleInvoiceHeaderAttribute = (from A in db.SaleInvoiceHeaderAttributes
-                                                                                      where A.SaleInvoiceHeaderId == saleinvoiceheaderdetail.SaleInvoiceHeaderId && A.DocumentTypeAttributeId == pta.DocumentTypeAttributeId
+                                                                                      where A.HeaderTableId == saleinvoiceheaderdetail.SaleInvoiceHeaderId && A.DocumentTypeHeaderAttributeId == pta.DocumentTypeHeaderAttributeId
                                                                                       select A).FirstOrDefault();
 
                             if (SaleInvoiceHeaderAttribute != null)
                             {
-                                SaleInvoiceHeaderAttribute.SaleInvoiceHeaderAttributeValue = pta.DefaultValue;
+                                SaleInvoiceHeaderAttribute.Value = pta.Value;
                                 SaleInvoiceHeaderAttribute.ObjectState = Model.ObjectState.Modified;
                                 _unitOfWork.Repository<SaleInvoiceHeaderAttributes>().Add(SaleInvoiceHeaderAttribute);
                             }
@@ -301,14 +301,9 @@ namespace Web
                             {
                                 SaleInvoiceHeaderAttributes pa = new SaleInvoiceHeaderAttributes()
                                 {
-                                    SaleInvoiceHeaderAttributeValue = pta.DefaultValue,
-                                    SaleInvoiceHeaderId = saleinvoiceheaderdetail.SaleInvoiceHeaderId,
-                                    DocumentTypeAttributeId = pta.DocumentTypeAttributeId,
-                                    CreatedBy = User.Identity.Name,
-                                    ModifiedBy = User.Identity.Name,
-                                    CreatedDate = DateTime.Now,
-                                    ModifiedDate = DateTime.Now
-
+                                    Value = pta.Value,
+                                    HeaderTableId = saleinvoiceheaderdetail.SaleInvoiceHeaderId,
+                                    DocumentTypeHeaderAttributeId = pta.DocumentTypeHeaderAttributeId,
                                 };
                                 pa.ObjectState = Model.ObjectState.Added;
                                 _unitOfWork.Repository<SaleInvoiceHeaderAttributes>().Add(pa);
@@ -405,18 +400,18 @@ namespace Web
                         new StockHeaderService(_unitOfWork).Update(StockHeader);
                     }
 
-                    if (vm.DocumentTypeAttributes != null)
+                    if (vm.DocumentTypeHeaderAttributes != null)
                     {
-                        foreach (var pta in vm.DocumentTypeAttributes)
+                        foreach (var pta in vm.DocumentTypeHeaderAttributes)
                         {
 
                             SaleInvoiceHeaderAttributes SaleInvoiceHeaderAttribute = (from A in db.SaleInvoiceHeaderAttributes
-                                                                                      where A.SaleInvoiceHeaderId == saleinvoiceheaderdetail.SaleInvoiceHeaderId && A.DocumentTypeAttributeId == pta.DocumentTypeAttributeId
+                                                                                      where A.HeaderTableId == saleinvoiceheaderdetail.SaleInvoiceHeaderId && A.DocumentTypeHeaderAttributeId == pta.DocumentTypeHeaderAttributeId
                                                                                       select A).FirstOrDefault();
 
                             if (SaleInvoiceHeaderAttribute != null)
                             {
-                                SaleInvoiceHeaderAttribute.SaleInvoiceHeaderAttributeValue = pta.DefaultValue;
+                                SaleInvoiceHeaderAttribute.Value = pta.Value;
                                 SaleInvoiceHeaderAttribute.ObjectState = Model.ObjectState.Modified;
                                 _unitOfWork.Repository<SaleInvoiceHeaderAttributes>().Add(SaleInvoiceHeaderAttribute);
                             }
@@ -424,14 +419,9 @@ namespace Web
                             {
                                 SaleInvoiceHeaderAttributes pa = new SaleInvoiceHeaderAttributes()
                                 {
-                                    SaleInvoiceHeaderAttributeValue = pta.DefaultValue,
-                                    SaleInvoiceHeaderId = saleinvoiceheaderdetail.SaleInvoiceHeaderId,
-                                    DocumentTypeAttributeId = pta.DocumentTypeAttributeId,
-                                    CreatedBy = User.Identity.Name,
-                                    ModifiedBy = User.Identity.Name,
-                                    CreatedDate = DateTime.Now,
-                                    ModifiedDate = DateTime.Now
-
+                                    Value = pta.Value,
+                                    HeaderTableId = saleinvoiceheaderdetail.SaleInvoiceHeaderId,
+                                    DocumentTypeHeaderAttributeId = pta.DocumentTypeHeaderAttributeId,
                                 };
                                 pa.ObjectState = Model.ObjectState.Added;
                                 _unitOfWork.Repository<SaleInvoiceHeaderAttributes>().Add(pa);
@@ -571,8 +561,8 @@ namespace Web
             //    vm.LockReason = "Invoice is cancelled.";
             //}
 
-            List<DocumentTypeAttributeViewModel> tem = _SaleInvoiceHeaderService.GetAttributeForSaleInvoiceHeader(id).ToList();
-            vm.DocumentTypeAttributes = tem;
+            List<DocumentTypeHeaderAttributeViewModel> tem = _SaleInvoiceHeaderService.GetDocumentHeaderAttribute(id).ToList();
+            vm.DocumentTypeHeaderAttributes = tem;
 
             //Getting Settings
             var settings = new SaleInvoiceSettingService(_unitOfWork).GetSaleInvoiceSettingForDocument(s.DocTypeId, vm.DivisionId, vm.SiteId);
@@ -789,7 +779,7 @@ namespace Web
                 //new StockService(_unitOfWork).DeleteStockForDocHeader(Sd.SaleDispatchHeaderId, Sd.DocTypeId, Sd.SiteId, Sd.DivisionId, db);
                 //new LedgerService(_unitOfWork).DeleteLedgerForDocHeader(Si.SaleInvoiceHeaderId, Si.DocTypeId, Si.SiteId, Si.DivisionId);
 
-                var attributes = (from A in db.SaleInvoiceHeaderAttributes where A.SaleInvoiceHeaderId == vm.id select A).ToList();
+                var attributes = (from A in db.SaleInvoiceHeaderAttributes where A.HeaderTableId == vm.id select A).ToList();
 
                 foreach (var ite2 in attributes)
                 {
@@ -1501,7 +1491,8 @@ namespace Web
                                 {
                                     CreditDays = B.CreaditDays ?? 0,
                                     CreditLimit = B.CreaditLimit ?? 0,
-                                    SalesTaxGroupPartyId = B.SalesTaxGroupPartyId
+                                    SalesTaxGroupPartyId = B.SalesTaxGroupPartyId,
+                                    SalesTaxGroupPartyName = B.SalesTaxGroupParty.ChargeGroupPersonName
                                 }).FirstOrDefault();
 
             return Json(PersonDetail);

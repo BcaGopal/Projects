@@ -76,6 +76,7 @@ namespace Model.ViewModel
         public decimal? TotalQty { get; set; }
         public decimal? TotalAmount { get; set; }
         public int? DecimalPlaces { get; set; }
+        public List<DocumentTypeHeaderAttributeViewModel> DocumentTypeHeaderAttributes { get; set; }
     }
 
 

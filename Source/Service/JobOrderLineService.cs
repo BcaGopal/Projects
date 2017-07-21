@@ -519,6 +519,8 @@ namespace Service
                             DealUnitDecimalPlaces = t1.DealUnit.DecimalPlaces,
                             Rate = p.Rate,
                             JobOrderHeaderDocNo = p.JobOrderNo,
+                            SalesTaxGroupProductId = t2.SalesTaxGroupProductId ?? t2.ProductGroup.DefaultSalesTaxGroupProductId,
+                            SalesTaxGroupProductName = t2.SalesTaxGroupProduct.ChargeGroupProductName ?? t2.ProductGroup.DefaultSalesTaxGroupProduct.ChargeGroupProductName,
                             CostCenterId = t1.JobOrderHeader.CostCenterId != null ? t1.JobOrderHeader.CostCenterId : null,
                             CostCenterName = t1.JobOrderHeader.CostCenterId != null ? t1.JobOrderHeader.CostCenter.CostCenterName : null,
 

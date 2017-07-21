@@ -340,6 +340,17 @@
                                 </div>
                             </div>
 
+                            <div class="col-md-6" style="display:@(Model.PersonSettings.isVisibleParent ? "" : "none")">
+                                @Html.HiddenFor(m => m.PersonSettings.isVisibleParent)
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.ParentId, "Parent", new { @class = "control-label col-xs-4" })
+                                    <div class="col-xs-6">
+                                        @Html.TextBoxFor(m => m.ParentId, new { @class = "form-control col-xs-6 height" + (Model.PersonSettings.isMandatoryGuarantor ? "required" : "") })
+                                        @Html.ValidationMessageFor(model => model.ParentId)
+                                    </div>
+                                </div>
+                            </div>
+
                             <div class="col-md-6" style="display:@(Model.PersonSettings.isVisibleTdsCategory ? "" : "none")">
                                 @Html.HiddenFor(m => m.PersonSettings.isVisibleTdsCategory)
                                 @Html.HiddenFor(m => m.PersonSettings.isMandatoryTdsCategory)
@@ -617,7 +628,7 @@
 <script type="text/javascript">
     CustomSelectFunction($("#CityId"), '/ComboHelpList/GetCity', '/ComboHelpList/SetSingleCity', ' ', false, 0);
     CustomSelectFunction($("#GuarantorId"), '/ComboHelpList/GetPerson', '/ComboHelpList/SetSinglePerson', ' ', false, 0);
-    CustomSelectFunction($("#ParentId"), '/ComboHelpList/GetPersons', '/ComboHelpList/SetSinglePerson', ' ', false, 0);
+    CustomSelectFunction($("#ParentId"), '/ComboHelpList/GetPerson', '/ComboHelpList/SetSinglePerson', ' ', false, 0);
     CustomSelectFunction($("#TdsGroupId"), '/ComboHelpList/GetTdsGroup', '/ComboHelpList/SetSingleTdsGroup', ' ', false, 0);
     CustomSelectFunction($("#TdsCategoryId"), '/ComboHelpList/GetTdsCategory', '/ComboHelpList/SetSingleTdsCategory', ' ', false, 0);
     CustomSelectFunction($("#SalesTaxGroupPartyId"), '/ComboHelpList/GetSalesTaxGroupParty', '/ComboHelpList/SetSingleSalesTaxGroupParty', ' ', false, 0);

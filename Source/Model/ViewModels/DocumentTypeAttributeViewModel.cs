@@ -10,11 +10,10 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Model.ViewModel
 {
     [Serializable]
-    public class DocumentTypeAttributeViewModel 
+    public class DocumentTypeHeaderAttributeViewModel 
     {      
         [Key]       
-        public int DocumentTypeAttributeId { get; set; }
-        public int DocumentAttributeId { get; set; }
+        public int DocumentTypeHeaderAttributeId { get; set; }
 
         [Required]
         public string Name { get; set; }
@@ -28,25 +27,13 @@ namespace Model.ViewModel
         [Display(Name = "List Item")]
         public string ListItem { get; set; }
 
-        public string DefaultValue { get; set; }
+        public string Value { get; set; }
 
         public bool IsActive { get; set; }
 
         [NotMapped]
         public string PreviousFieldId { get; set; }
 
-        //[ForeignKey("DocumentType")]
         public int DocumentTypeId { get; set; }
-        //public virtual DocumentType DocumentType { get; set; }
-
-        //[Display(Name = "Created By")]
-        //public string CreatedBy { get; set; }
-        //[Display(Name = "Modified By")]
-        //public string ModifiedBy { get; set; }
-        //[Display(Name = "Created Date")]
-        //public DateTime CreatedDate { get; set; }
-        //[Display(Name = "Modified Date")]
-        //public DateTime ModifiedDate { get; set; }
-
     }
 }

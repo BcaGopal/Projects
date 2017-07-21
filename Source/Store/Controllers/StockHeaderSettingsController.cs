@@ -165,6 +165,7 @@ namespace Web
                     temp.isVisibleReferenceDocId = pt.isVisibleReferenceDocId;
                     temp.filterContraProductDivisions = pt.filterContraProductDivisions;
                     temp.SqlProcDocumentPrint = pt.SqlProcDocumentPrint;
+                    temp.SqlProcGatePass = pt.SqlProcGatePass;
                     temp.SqlProcHelpListReferenceDocId = pt.SqlProcHelpListReferenceDocId;
                     temp.isVisibleMaterialRequest = pt.isVisibleMaterialRequest;
                     temp.isMandatoryProductUID = pt.isMandatoryProductUID;
@@ -334,6 +335,7 @@ namespace Web
                     temp.SqlProcDocumentPrint = pt.SqlProcDocumentPrint;
                     temp.SqlProcHelpListReferenceDocId = pt.SqlProcHelpListReferenceDocId;
                     temp.filterContraProductDivisions = pt.filterContraProductDivisions;
+                    temp.SqlProcGatePass = pt.SqlProcGatePass;
                     temp.isVisibleMaterialRequest = pt.isVisibleMaterialRequest;
                     temp.PersonFieldHeading = pt.PersonFieldHeading;
                     temp.NoOfPrintCopies = pt.NoOfPrintCopies;
@@ -504,6 +506,7 @@ namespace Web
                     temp.SqlProcHelpListReferenceDocId = pt.SqlProcHelpListReferenceDocId;
                     temp.isVisibleMaterialRequest = pt.isVisibleMaterialRequest;
                     temp.PersonFieldHeading = pt.PersonFieldHeading;
+                    temp.SqlProcGatePass = pt.SqlProcGatePass;
                     temp.isProductHelpFromStockProcess = pt.isProductHelpFromStockProcess;
                     temp.isVisibleStockIn = pt.isVisibleStockIn;
                     temp.isMandatoryProductUID = pt.isMandatoryProductUID;
@@ -672,6 +675,7 @@ namespace Web
                     temp.SqlProcProductUidHelpList = pt.SqlProcProductUidHelpList;
                     temp.isVisibleMaterialRequest = pt.isVisibleMaterialRequest;
                     temp.PersonFieldHeading = pt.PersonFieldHeading;
+                    temp.SqlProcGatePass = pt.SqlProcGatePass;
                     temp.isVisibleStockIn = pt.isVisibleStockIn;
                     temp.isMandatoryProductUID = pt.isMandatoryProductUID;
 
@@ -838,6 +842,7 @@ namespace Web
                     temp.SqlProcDocumentPrint = pt.SqlProcDocumentPrint;
                     temp.SqlProcHelpListReferenceDocId = pt.SqlProcHelpListReferenceDocId;
                     temp.SqlProcProductUidHelpList = pt.SqlProcProductUidHelpList;
+                    temp.SqlProcGatePass = pt.SqlProcGatePass;
                     temp.isVisibleMaterialRequest = pt.isVisibleMaterialRequest;
                     temp.PersonFieldHeading = pt.PersonFieldHeading;
                     temp.NoOfPrintCopies = pt.NoOfPrintCopies;
@@ -1006,6 +1011,7 @@ namespace Web
                     temp.isVisibleProcessHeader = pt.isVisibleProcessHeader;
                     temp.SqlProcDocumentPrint = pt.SqlProcDocumentPrint;
                     temp.SqlProcHelpListReferenceDocId = pt.SqlProcHelpListReferenceDocId;
+                    temp.SqlProcGatePass = pt.SqlProcGatePass;
                     temp.SqlProcProductUidHelpList = pt.SqlProcProductUidHelpList;
                     temp.PersonFieldHeading = pt.PersonFieldHeading;
                     temp.isVisibleStockIn = pt.isVisibleStockIn;
@@ -1162,6 +1168,7 @@ namespace Web
                     temp.SqlProcDocumentPrint = pt.SqlProcDocumentPrint;
                     temp.SqlProcHelpListReferenceDocId = pt.SqlProcHelpListReferenceDocId;
                     temp.SqlProcProductUidHelpList = pt.SqlProcProductUidHelpList;
+                    temp.SqlProcGatePass = pt.SqlProcGatePass;
                     temp.PersonFieldHeading = pt.PersonFieldHeading;
                     temp.filterContraProductDivisions = pt.filterContraProductDivisions;
                     temp.isVisibleStockIn = pt.isVisibleStockIn;
@@ -1332,6 +1339,7 @@ namespace Web
                     temp.SqlProcDocumentPrint = pt.SqlProcDocumentPrint;
                     temp.SqlProcHelpListReferenceDocId = pt.SqlProcHelpListReferenceDocId;
                     temp.SqlProcProductUidHelpList = pt.SqlProcProductUidHelpList;
+                    temp.SqlProcGatePass = pt.SqlProcGatePass;
                     temp.isVisibleMaterialRequest = pt.isVisibleMaterialRequest;
                     temp.isVisibleReferenceDocId = pt.isVisibleReferenceDocId;
                     temp.PersonFieldHeading = pt.PersonFieldHeading;

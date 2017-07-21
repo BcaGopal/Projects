@@ -21,8 +21,7 @@ namespace Service
         IEnumerable<ChargeGroupProduct> GetPagedList(int pageNumber, int pageSize, out int totalRecords);
         void Update(ChargeGroupProduct pt);
         ChargeGroupProduct Add(ChargeGroupProduct pt);
-        IQueryable<ChargeGroupProduct> GetChargeGroupProductList(int id);
-        IEnumerable<ChargeGroupProduct> GetChargeGroupProductList(string chargetypename);        
+        IQueryable<ChargeGroupProduct> GetChargeGroupProductList();
         Task<IEquatable<ChargeGroupProduct>> GetAsync();
         Task<ChargeGroupProduct> FindAsync(int id);
         int NextId(int id,int ctypeid);
@@ -89,21 +88,9 @@ namespace Service
             return so;
         }
 
-        public IQueryable<ChargeGroupProduct> GetChargeGroupProductList(int id)
+        public IQueryable<ChargeGroupProduct> GetChargeGroupProductList()
         {
             var pt = (from p in db.ChargeGroupProduct
-                      where p.ChargeTypeId==id
-                          orderby p.ChargeGroupProductName
-                          select p
-                          );
-
-            return pt;
-        }
-
-        public IEnumerable<ChargeGroupProduct> GetChargeGroupProductList(string chargetypename)
-        {
-            var pt = (from p in db.ChargeGroupProduct
-                      where p.ChargeType.ChargeTypeName == chargetypename
                       orderby p.ChargeGroupProductName
                       select p
                           );
@@ -124,14 +111,12 @@ namespace Service
             if (id != 0)
             {
                 temp = (from p in db.ChargeGroupProduct
-                        where p.ChargeTypeId==ctypeid
                         orderby p.ChargeGroupProductName
                         select p.ChargeGroupProductId).AsEnumerable().SkipWhile(p => p != id).Skip(1).FirstOrDefault();
             }
             else
             {
                 temp = (from p in db.ChargeGroupProduct
-                        where p.ChargeTypeId==ctypeid
                         orderby p.ChargeGroupProductName
                         select p.ChargeGroupProductId).FirstOrDefault();
             }
@@ -149,14 +134,12 @@ namespace Service
             {
 
                 temp = (from p in db.ChargeGroupProduct
-                        where p.ChargeTypeId==ctypeid
                         orderby p.ChargeGroupProductName
                         select p.ChargeGroupProductId).AsEnumerable().TakeWhile(p => p != id).LastOrDefault();
             }
             else
             {
                 temp = (from p in db.ChargeGroupProduct
-                        where p.ChargeTypeId==ctypeid
                         orderby p.ChargeGroupProductName
                         select p.ChargeGroupProductId).AsEnumerable().LastOrDefault();
             }

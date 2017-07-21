@@ -576,9 +576,9 @@ namespace Service
                         SaleOrderLineId = p.SaleOrderLineId,
                         Weight = p.Weight,
                         FreeQty = Pl.FreeQty,
-                        RewardPoints = SaleInvoiceLineDetailTab.RewardPoints
-                    }
-                        ).FirstOrDefault();
+                        RewardPoints = SaleInvoiceLineDetailTab.RewardPoints,
+                        SalesTaxGroupProductId = p.SalesTaxGroupProductId
+                    }).FirstOrDefault();
 
         }
 
@@ -1102,7 +1102,7 @@ namespace Service
 
 
             List<DirectSaleInvoiceLineViewModel> SaleInvoiceLineViewModelWithRate = (from L in SaleInvoiceLineViewModel
-                                                                                     join Pl in ProductRateList on new {L.ProductId, L.Dimension1Id, L.Dimension2Id } equals new { Pl.ProductId, Pl.Dimension1Id, Pl.Dimension2Id } into ProductRateListTable
+                                                                                     join Pl in ProductRateList on new { A1 = L.ProductId, A2 = L.Dimension1Id, A3 = L.Dimension2Id, A4 = L.SaleDispatchLineId } equals new { A1 = Pl.ProductId, A2 = Pl.Dimension1Id, A3 = Pl.Dimension2Id, A4 = Pl.SaleDispatchLineId ?? 0 } into ProductRateListTable
                                                                                      from ProductRateListTab in ProductRateListTable.DefaultIfEmpty()
                                                                                      select new DirectSaleInvoiceLineViewModel
                                                                                      {

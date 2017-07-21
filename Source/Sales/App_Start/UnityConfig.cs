@@ -455,8 +455,8 @@ namespace Sales.App_Start
             Mapper.CreateMap<DirectSaleInvoiceHeaderViewModel, SaleDispatchHeader>();
             Mapper.CreateMap<SaleDispatchHeader, DirectSaleInvoiceHeaderViewModel>();
 
-            Mapper.CreateMap<DocumentTypeAttributeViewModel, DocumentTypeAttribute>();
-            Mapper.CreateMap<DocumentTypeAttribute, DocumentTypeAttributeViewModel>();
+            Mapper.CreateMap<DocumentTypeHeaderAttributeViewModel, DocumentTypeHeaderAttribute>();
+            Mapper.CreateMap<DocumentTypeHeaderAttribute, DocumentTypeHeaderAttributeViewModel>();
 
 
 

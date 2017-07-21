@@ -14,7 +14,7 @@ using Model.ViewModel;
 using System.Xml.Linq;
 using DocumentEvents;
 using CustomEventArgs;
-using JobOrderDocumentEvents;
+using GatePassDocumentEvents;
 using Reports.Controllers;
 
 namespace Web
@@ -138,9 +138,9 @@ namespace Web
             //{
 
             //    if (svm.GatePassLineId <= 0)
-            //        BeforeSave = JobOrderDocEvents.beforeLineSaveEvent(this, new JobEventArgs(svm.GatePassHeaderId, EventModeConstants.Add), ref db);
+            //        BeforeSave = GatePassDocEvents.beforeLineSaveEvent(this, new JobEventArgs(svm.GatePassHeaderId, EventModeConstants.Add), ref db);
             //    else
-            //        BeforeSave = JobOrderDocEvents.beforeLineSaveEvent(this, new JobEventArgs(svm.GatePassHeaderId, EventModeConstants.Edit), ref db);
+            //        BeforeSave = GatePassDocEvents.beforeLineSaveEvent(this, new JobEventArgs(svm.GatePassHeaderId, EventModeConstants.Edit), ref db);
 
             //}
             //catch (Exception ex)
@@ -155,13 +155,23 @@ namespace Web
             #endregion
 
 
-            if (svm.Qty <= 0 || svm.Product=="" || svm.Product==null || svm.UnitId==null || svm.UnitId=="")
+            if (svm.Product=="" || svm.Product==null)
             {
-                
                 ModelState.AddModelError("Product", "The Product is required");
-                ModelState.AddModelError("UnitId", "The Unit Name is required");
-                ModelState.AddModelError("Qty", "The Qty is required");
             }
+
+            if (svm.Qty <= 0 )
+            {
+                ModelState.AddModelError("UnitId", "The Qty is required");
+            }
+
+            if (svm.UnitId == "" || svm.UnitId == null)
+            {
+                ModelState.AddModelError("UnitId", "The Unit Name is required");
+            }
+
+
+
             if(PD.ToList().Count()!=0)
             {
                 ModelState.AddModelError("Product",svm.Product +" "+ svm.Specification + " already exist");
@@ -208,7 +218,7 @@ namespace Web
                     db.GatePassHeader.Add(temp);
                     //try
                     //{
-                    //    JobOrderDocEvents.onLineSaveEvent(this, new JobEventArgs(s.GatePassHeaderId, s.GatePassLineId, EventModeConstants.Add), ref db);
+                    //    GatePassDocEvents.onLineSaveEvent(this, new JobEventArgs(s.GatePassHeaderId, s.GatePassLineId, EventModeConstants.Add), ref db);
                     //}
                     //catch (Exception ex)
                     //{
@@ -235,7 +245,7 @@ namespace Web
 
                     //try
                     //{
-                    //    JobOrderDocEvents.afterLineSaveEvent(this, new JobEventArgs(s.GatePassHeaderId, s.GatePassHeaderId, EventModeConstants.Add), ref db);
+                    //    GatePassDocEvents.afterLineSaveEvent(this, new JobEventArgs(s.GatePassHeaderId, s.GatePassHeaderId, EventModeConstants.Add), ref db);
                     //}
                     //catch (Exception ex)
                     //{
@@ -306,7 +316,7 @@ namespace Web
 
                     //try
                     //{
-                    //    JobOrderDocEvents.onLineSaveEvent(this, new JobEventArgs(s.GatePassHeaderId, templine.GatePassLineId, EventModeConstants.Edit), ref db);
+                    //    GatePassDocEvents.onLineSaveEvent(this, new JobEventArgs(s.GatePassHeaderId, templine.GatePassLineId, EventModeConstants.Edit), ref db);
                     //}
                     //catch (Exception ex)
                     //{
@@ -332,7 +342,7 @@ namespace Web
 
                     try
                     {
-                        JobOrderDocEvents.afterLineSaveEvent(this, new JobEventArgs(s.GatePassHeaderId, templine.GatePassLineId, EventModeConstants.Edit), ref db);
+                        GatePassDocEvents.afterLineSaveEvent(this, new JobEventArgs(s.GatePassHeaderId, templine.GatePassLineId, EventModeConstants.Edit), ref db);
                     }
                     catch (Exception ex)
                     {
@@ -498,7 +508,7 @@ namespace Web
             bool BeforeSave = true;
             try
             {
-                BeforeSave = JobOrderDocEvents.beforeLineDeleteEvent(this, new JobEventArgs(vm.GatePassHeaderId, vm.GatePassLineId), ref db);
+                BeforeSave = GatePassDocEvents.beforeLineDeleteEvent(this, new JobEventArgs(vm.GatePassHeaderId, vm.GatePassLineId), ref db);
             }
             catch (Exception ex)
             {
@@ -529,7 +539,7 @@ namespace Web
                     Obj = Mapper.Map<GatePassLine>(GatePassLine),
                 });
 
-                //_JobOrderLineService.Delete(JobOrderLine);
+                //_GatePassLineService.Delete(GatePassLine);
                 GatePassLine.ObjectState = Model.ObjectState.Deleted;
                 db.GatePassLine.Remove(GatePassLine);
 
@@ -550,7 +560,7 @@ namespace Web
 
                 //try
                 //{
-                //    JobOrderDocEvents.onLineDeleteEvent(this, new JobEventArgs(GatePassLine.GatePassHeaderId, GatePassLine.GatePassLineId), ref db);
+                //    GatePassDocEvents.onLineDeleteEvent(this, new JobEventArgs(GatePassLine.GatePassHeaderId, GatePassLine.GatePassLineId), ref db);
                 //}
                 //catch (Exception ex)
                 //{
@@ -579,7 +589,7 @@ namespace Web
 
                 try
                 {
-                    JobOrderDocEvents.afterLineDeleteEvent(this, new JobEventArgs(GatePassLine.GatePassHeaderId, GatePassLine.GatePassLineId), ref db);
+                    GatePassDocEvents.afterLineDeleteEvent(this, new JobEventArgs(GatePassLine.GatePassHeaderId, GatePassLine.GatePassLineId), ref db);
                 }
                 catch (Exception ex)
                 {
@@ -622,7 +632,7 @@ namespace Web
 
         //    var DealUnitId = _GatePassLineService.GetGatePassLineListForIndex(GatePassId).OrderByDescending(m => m.GatePassLineId).FirstOrDefault();
 
-        //    //Decimal Rate = _JobOrderLineService.GetJobRate(JobOrderId, ProductId);
+        //    //Decimal Rate = _GatePassLineService.GetJobRate(GatePassId, ProductId);
 
         //    Decimal Rate = 0;
         //    Decimal Discount = 0;
@@ -645,11 +655,11 @@ namespace Web
         //        DealUnitDecimalPlaces = DlUnit.DecimalPlaces, 
         //        Specification = product.ProductSpecification });
         //}
-        //public JsonResult getunitconversiondetailjson(int prodid, string UnitId, string DealUnitId, int JobOrderId)
+        //public JsonResult getunitconversiondetailjson(int prodid, string UnitId, string DealUnitId, int GatePassId)
         //{
 
 
-        //    var Header = new JobOrderHeaderService(_unitOfWork).Find(JobOrderId);
+        //    var Header = new GatePassHeaderService(_unitOfWork).Find(GatePassId);
 
         //    int DOctypeId = Header.DocTypeId;
         //    int siteId = Header.SiteId;
@@ -684,15 +694,15 @@ namespace Web
         //    return Json(new ProdOrderHeaderService(_unitOfWork).GetPendingProdOrders(ProductId).ToList());
         //}
 
-        //public JsonResult GetProdOrderDetail(int ProdOrderLineId, int JobOrderHeaderId)
+        //public JsonResult GetProdOrderDetail(int ProdOrderLineId, int GatePassHeaderId)
         //{
         //    var temp = new ProdOrderLineService(_unitOfWork).GetProdOrderDetailBalance(ProdOrderLineId);
 
-        //    var DealUnitId = _JobOrderLineService.GetJobOrderLineListForIndex(JobOrderHeaderId).OrderByDescending(m => m.JobOrderLineId).FirstOrDefault();
+        //    var DealUnitId = _GatePassLineService.GetGatePassLineListForIndex(GatePassHeaderId).OrderByDescending(m => m.GatePassLineId).FirstOrDefault();
 
-        //    var Record = new JobOrderHeaderService(_unitOfWork).Find(JobOrderHeaderId);
+        //    var Record = new GatePassHeaderService(_unitOfWork).Find(GatePassHeaderId);
 
-        //    var Settings = new JobOrderSettingsService(_unitOfWork).GetJobOrderSettingsForDocument(Record.DocTypeId, Record.DivisionId, Record.SiteId);
+        //    var Settings = new GatePassSettingsService(_unitOfWork).GetGatePassSettingsForDocument(Record.DocTypeId, Record.DivisionId, Record.SiteId);
 
         //    var DlUnit = new UnitService(_unitOfWork).Find((DealUnitId == null) ? (Settings.DealUnitId == null ? temp.UnitId : Settings.DealUnitId) : DealUnitId.DealUnitId);
         //    temp.DealunitDecimalPlaces = DlUnit.DecimalPlaces;
@@ -701,10 +711,10 @@ namespace Web
         //    return Json(temp);
         //}
 
-        //public JsonResult GetProdOrderForBarCode(int ProdUId, int JobOrderHeaderId)
+        //public JsonResult GetProdOrderForBarCode(int ProdUId, int GatePassHeaderId)
         //{
         //    var temp = new ProdOrderLineService(_unitOfWork).GetProdOrderForProdUid(ProdUId);
-        //    var detail = GetProdOrderDetail(temp.ProdOrderLineId, JobOrderHeaderId);
+        //    var detail = GetProdOrderDetail(temp.ProdOrderLineId, GatePassHeaderId);
 
         //    return Json(new { ProdOrder = temp, Detail = detail });
         //}
@@ -715,15 +725,15 @@ namespace Web
 
         //    //string DocTypes = new MaterialPlanSettingsService(_unitOfWork).GetMaterialPlanSettingsForDocument(id, DivisionId, SiteId).filterContraDocTypes;
 
-        //    return Json(_JobOrderLineService.GetPendingProdOrdersWithPatternMatch(id, term, Limit), JsonRequestBehavior.AllowGet);
+        //    return Json(_GatePassLineService.GetPendingProdOrdersWithPatternMatch(id, term, Limit), JsonRequestBehavior.AllowGet);
         //}
 
         //public JsonResult GetPendingProdOrdersHelpList(string searchTerm, int pageSize, int pageNum, int filter)//Order Header ID
         //{
 
-        //    var temp = _JobOrderLineService.GetPendingProdOrderHelpList(filter, searchTerm).Skip(pageSize * (pageNum - 1)).Take(pageSize).ToList();
+        //    var temp = _GatePassLineService.GetPendingProdOrderHelpList(filter, searchTerm).Skip(pageSize * (pageNum - 1)).Take(pageSize).ToList();
 
-        //    var count = _JobOrderLineService.GetPendingProdOrderHelpList(filter, searchTerm).Count();
+        //    var count = _GatePassLineService.GetPendingProdOrderHelpList(filter, searchTerm).Count();
 
         //    ComboBoxPagedResult Data = new ComboBoxPagedResult();
         //    Data.Results = temp;
@@ -739,7 +749,7 @@ namespace Web
 
         //public JsonResult GetCustomProducts(int id, string term)//Indent Header ID
         //{
-        //    return Json(_JobOrderLineService.GetProductHelpList(id, term), JsonRequestBehavior.AllowGet);
+        //    return Json(_GatePassLineService.GetProductHelpList(id, term), JsonRequestBehavior.AllowGet);
         //}
 
         //public ActionResult SetFlagForAllowRepeatProcess()

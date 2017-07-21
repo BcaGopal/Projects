@@ -68,6 +68,9 @@ namespace Store.App_Start
             container.RegisterType<IRepository<Godown>, Repository<Godown>>();
             container.RegisterType<IGodownService, GodownService>(new PerRequestLifetimeManager());
 
+            container.RegisterType<IRepository<ChargeGroupSettings>, Repository<ChargeGroupSettings>>();
+            container.RegisterType<IChargeGroupSettingsService, ChargeGroupSettingsService>(new PerRequestLifetimeManager());
+
             container.RegisterType<IRepository<StockHeaderSettings>, Repository<StockHeaderSettings>>();
             container.RegisterType<IStockHeaderSettingsService, StockHeaderSettingsService>(new PerRequestLifetimeManager());
 
@@ -420,6 +423,7 @@ namespace Store.App_Start
             Mapper.CreateMap<Dimension1, Dimension1>();
             Mapper.CreateMap<Dimension2, Dimension2>();
             Mapper.CreateMap<Godown, Godown>();
+            Mapper.CreateMap<ChargeGroupSettings, ChargeGroupSettings>();
             Mapper.CreateMap<Process, Process>();
             Mapper.CreateMap<ProcessSequenceHeader, ProcessSequenceHeader>();
             Mapper.CreateMap<ProcessSequenceLine, ProcessSequenceLine>();

@@ -208,7 +208,6 @@
                        
 
                         <div>
-                          
                             <div class="col-md-6">
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.JobReceiveById, "Goods Received By", new { @class = "control-label col-md-4 col-sm-2" })
@@ -228,9 +227,18 @@
                                     </div>
                                 </div>
                             </div>
-                           
                         </div>
 
+                        <div class="col-md-6" style="display:@(Model.JobInvoiceSettings.isVisibleSalesTaxGroupPerson  ? "" : "none")">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.SalesTaxGroupPersonId, "Sales Tax Group Person", new { @class = "control-label col-md-4 col-sm-2" })
+                                @Html.HiddenFor(m => m.JobInvoiceSettings.isVisibleSalesTaxGroupPerson)
+                                <div class="col-md-7 col-sm-10">
+                                    @Html.TextBoxFor(m => m.SalesTaxGroupPersonId, null, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(m => m.SalesTaxGroupPersonId, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
 
 
 
@@ -247,6 +255,38 @@
                                     </div>
                                 </div>
                             </div>
+
+                            @if (Model.DocumentTypeHeaderAttributes != null)
+                            {
+                                for (int i = 0; i < Model.DocumentTypeHeaderAttributes.Count; i++)
+                                {
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            @Html.Label(Model.DocumentTypeHeaderAttributes[i].Name, new { @class = "control-label col-md-4 col-sm-2" })
+                                            @Html.HiddenFor(m => Model.DocumentTypeHeaderAttributes[i].Name)
+                                            @Html.HiddenFor(m => Model.DocumentTypeHeaderAttributes[i].DocumentTypeHeaderAttributeId)
+                                            @if (Model.DocumentTypeHeaderAttributes[i].DataType == "List")
+                                            {
+                                                List<SelectListItem> tem = new List<SelectListItem>();
+                                                foreach (string item in (Model.DocumentTypeHeaderAttributes[i].ListItem).Split(',').ToList())
+                                                {
+                                                    tem.Add(new SelectListItem { Text = item, Value = item, Selected = (Model.DocumentTypeHeaderAttributes[i].Value == item ? true : false) });
+                                                }
+
+                                                <div class="col-md-7 col-sm-10">
+                                                    @Html.DropDownListFor(m => Model.DocumentTypeHeaderAttributes[i].Value, new SelectList(tem as System.Collections.IEnumerable, "Value", "Text", Model.DocumentTypeHeaderAttributes[i].Value), " ", new { @class = "form-control col-xs-6 height" })
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                <div class="col-md-7 col-sm-10">
+                                                    @Html.TextBoxFor(m => Model.DocumentTypeHeaderAttributes[i].Value, new { @class = "form-control col-xs-6" })
+                                                </div>
+                                            }
+                                        </div>
+                                    </div>
+                                }
+                            }
 
                             <div class="col-md-6">
                                 <div class="form-group">
@@ -774,6 +814,7 @@
         CustomSelectFunction($("#GodownId"), '/ComboHelpList/GetGodown', '/ComboHelpList/SetSingleGodown', ' ', false, 0);
         CustomSelectFunction($("#JobReceiveById"), '/ComboHelpList/GetEmployees', '/ComboHelpList/SetSingleEmployee', ' ', false, 0);
         CustomSelectFunction($("#FinancierId"), '/ComboHelpList/GetFinanciers', '/ComboHelpList/SetSinglePerson', ' ', false, 0,$('#ProcessId').val());
+        CustomSelectFunction($("#SalesTaxGroupPersonId"), '/ComboHelpList/GetSalesTaxGroupPerson', '/ComboHelpList/SetSingleSalesTaxGroupPerson', ' ', false, 0);
         //Calling the function to load the table data/ Line information
         LoadProducts();
 
@@ -784,6 +825,32 @@
         AddFields();
 
         $("#JobWorkerId").select2('focus');
+
+
+        $("#JobWorkerId").change(GetJobWorkerDetail);
+
+
+        function GetJobWorkerDetail() {
+            var ProcessProgress = $("#Product detail loading progress");
+            ProcessProgress.show();
+            if ($("#JobWorkerId").val() != 0 && $("#JobWorkerId").val() != null) {
+                $.ajax({
+                    cache: false,
+                    type: "POST",
+                    url: "@(Url.Action("GetJobWorkerDetailJson"))",
+                    data: { JobWorkerId: $("#JobWorkerId").val() },
+                success: function (data) {
+                    (data.SalesTaxGroupPartyId == null) ? (1 == 1) : ($("#SalesTaxGroupPersonId").select2("data", { id: data.SalesTaxGroupPartyId, text: data.SalesTaxGroupPartyName }));
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert('Failed to retrieve product details.' + thrownError);
+                }
+            });
+        }
+        else {
+                $("#SalesTaxGroupPersonId").select2("data", { id: '', text: '' })
+        }
+    }
 
 
         //Adding Charges on Doc Load

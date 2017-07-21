@@ -350,9 +350,9 @@ namespace Service
                         ProductUidIdName = p.ProductUid.ProductUidName,
                         FromProcessName = p.FromProcess.ProcessName,
                         CostCenterName = p.CostCenter.CostCenterName,
-
-                    }
-                        );
+                        StockInId = p.StockInId,
+                        StockInNo = p.StockIn.StockHeader.DocNo,
+                    });
 
         }
 

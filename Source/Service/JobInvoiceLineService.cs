@@ -683,8 +683,8 @@ namespace Service
                         RateDiscountAmt = p.RateDiscountAmt,
                         MfgDate = tab.MfgDate,
                         LockReason = p.LockReason,
-                    }
-                        ).FirstOrDefault();
+                        SalesTaxGroupProductId = p.SalesTaxGroupProductId
+                    }).FirstOrDefault();
         }
 
         //public JobInvoiceLineViewModel GetJobInvoiceLineBalance(int id)

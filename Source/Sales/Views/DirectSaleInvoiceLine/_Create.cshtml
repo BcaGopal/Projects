@@ -354,7 +354,7 @@
 
     //var cachearray={};
 
-    
+
 
     function CustomSelectFunctionForPromoCode(ElementId, GetAction, SetAction, placehold, IsMultiple,MinLength,ProductId, BuyerId, DocDate) {
         var geturl = GetAction;
@@ -435,7 +435,7 @@
 
 
 
-        
+
 
         var IsSaved=false;
         var ValidationCount=0;
@@ -553,6 +553,9 @@
             Validate_ProductUid();
         });
 
+        $('#SalesTaxGroupProductId').change(function(){
+            Validate_SalesTaxGroupProductId();
+        })
 
 
         function Validation_ProductCode()
@@ -580,7 +583,6 @@
                 });
             }
         }
-
 
         function Validate_Product()
         {
@@ -621,8 +623,12 @@
                         CustomSelectFunctionForPromoCode($("#PromoCodeId"), '/DirectSaleInvoiceLine/GetPromoCodeIdList', '/ComboHelpList/SetSinglePromoCode', ' ', false, 0, $("#ProductId").val(), $("#SaleToBuyerId").val(), $("#DocDate").val());
                         GetFirstPromoCode();
                         Validate_PromoCode();
-                        //GetChargeRates('@Model.SaleInvoiceSettings.CalculationId',$('#DocTypeId','.modal-body').val(),$('#SiteId','.modal-body').val(),$('#DivisionId','.modal-body').val(),$('#SaleInvoiceSettings_ProcessId','.modal-body').val(),$('#SalesTaxGroupPersonId','.modal-body').val(),$('#SalesTaxGroupProductId','.modal-body').val());
-                        ChargeCalculation();
+
+                        if ($('#SiteId','.modal-body').val() == 1)
+                        {
+                            GetChargeRates('@Model.SaleInvoiceSettings.CalculationId',$('#DocTypeId','.modal-body').val(),$('#SiteId','.modal-body').val(),$('#DivisionId','.modal-body').val(),$('#SaleInvoiceSettings_ProcessId','.modal-body').val(),$('#SalesTaxGroupPersonId','.modal-body').val(),$('#SalesTaxGroupProductId','.modal-body').val());
+                        }
+                        Calculation();
                     },
                     error: function (xhr, ajaxOptions, thrownError) {
                         alert('Failed to retrieve product details.' + thrownError);
@@ -630,6 +636,18 @@
                 });
             }
         }
+
+
+
+        function Validate_SalesTaxGroupProductId()
+        {
+            if ($("#SalesTaxGroupProductId").val() != 0 && $("#SalesTaxGroupProductId").val() != null) {
+                GetChargeRates('@Model.SaleInvoiceSettings.CalculationId',$('#DocTypeId','.modal-body').val(),$('#SiteId','.modal-body').val(),$('#DivisionId','.modal-body').val(),$('#SaleInvoiceSettings_ProcessId','.modal-body').val(),$('#SalesTaxGroupPersonId','.modal-body').val(),$('#SalesTaxGroupProductId','.modal-body').val());
+                Calculation();
+            }
+        }
+
+
 
         function Validate_PromoCode()
         {
@@ -640,13 +658,13 @@
                     type: "POST",
                     url: "@(Url.Action("GetPromoCodeDicount"))",
                     data: { PromoCodeId: $("#PromoCodeId").val()},
-                success: function (data) {
-                    $("#DiscountPer").val(data.DiscountPer);
-                    $("#DiscountAmount").val(data.FlatDiscount);
-                },
-                error: function (xhr, ajaxOptions, thrownError) {
-                    alert('Failed to Validate PromoCode.' + thrownError);
-                }
+                    success: function (data) {
+                        $("#DiscountPer").val(data.DiscountPer);
+                        $("#DiscountAmount").val(data.FlatDiscount);
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        alert('Failed to Validate PromoCode.' + thrownError);
+                    }
                 });
                 $("#DiscountPer").attr('readonly','true');
                 $("#DiscountAmount").attr('readonly','true');
@@ -659,7 +677,7 @@
                 $("#DiscountAmount").val(0);
             }
             Calculation();
-    }
+        }
 
         function GetFirstPromoCode()
         {
@@ -669,17 +687,17 @@
                 type: "POST",
                 url: "@(Url.Action("GetFirstPromoCode"))",
                 data: { ProductId: $("#ProductId").val(), BuyerId: $("#SaleToBuyerId").val(), DocDate: $("#DocDate").val()},
-            success: function (data) {
-                if (data.length > 0)
-                {
-                    $("#PromoCodeId").select2("data", { id: data[0].id, text: data[0].text });
+                success: function (data) {
+                    if (data.length > 0)
+                    {
+                        $("#PromoCodeId").select2("data", { id: data[0].id, text: data[0].text });
+                    }
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert('Failed to Get First Promo Code.' + thrownError);
                 }
-            },
-            error: function (xhr, ajaxOptions, thrownError) {
-                alert('Failed to Get First Promo Code.' + thrownError);
-            }
-        });
-    }
+            });
+        }
 
 
 

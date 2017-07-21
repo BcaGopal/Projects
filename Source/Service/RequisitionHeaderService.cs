@@ -235,6 +235,40 @@ namespace Service
         }
 
 
+        public IQueryable<ComboBoxResult> GetDimension3ForExchange(int id, string term)
+        {
+
+            return (from p in db.RequisitionLine
+                    join t in db.RequisitionHeader on p.RequisitionHeaderId equals t.RequisitionHeaderId
+                    where t.PersonId == id && (string.IsNullOrEmpty(term) ? 1 == 1 : p.Dimension3.Dimension3Name.ToLower().Contains(term.ToLower()))
+                    group p by p.Dimension3Id into g
+                    orderby g.Max(m => m.Dimension3.Dimension3Name)
+                    select new ComboBoxResult
+                    {
+                        text = g.Max(m => m.Dimension3.Dimension3Name),
+                        id = g.Key.ToString(),
+                    });
+
+        }
+
+
+        public IQueryable<ComboBoxResult> GetDimension4ForExchange(int id, string term)
+        {
+
+            return (from p in db.RequisitionLine
+                    join t in db.RequisitionHeader on p.RequisitionHeaderId equals t.RequisitionHeaderId
+                    where t.PersonId == id && (string.IsNullOrEmpty(term) ? 1 == 1 : p.Dimension4.Dimension4Name.ToLower().Contains(term.ToLower()))
+                    group p by p.Dimension4Id into g
+                    orderby g.Max(m => m.Dimension4.Dimension4Name)
+                    select new ComboBoxResult
+                    {
+                        text = g.Max(m => m.Dimension4.Dimension4Name),
+                        id = g.Key.ToString(),
+                    });
+
+        }
+
+
         public IQueryable<ComboBoxResult> GetCustomPerson(int Id, string term)
         {
             int DocTypeId = Id;

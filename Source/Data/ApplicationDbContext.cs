@@ -109,7 +109,7 @@ namespace Data.Models
         public DbSet<JobOrderPerk> JobOrderPerk { get; set; }
         public DbSet<JobOrderSettings> JobOrderSettings { get; set; }
         public DbSet<DocumentTypeSettings> DocumentTypeSettings { get; set; }
-        public DbSet<DocumentTypeAttribute> DocumentTypeAttribute { get; set; }
+        public DbSet<DocumentTypeHeaderAttribute> DocumentTypeHeaderAttribute { get; set; }
         public DbSet<LedgerSetting> LedgerSetting { get; set; }
         public DbSet<PurchaseOrderSetting> PurchaseOrderSetting { get; set; }
         public DbSet<PurchaseQuotationSetting> PurchaseQuotationSetting { get; set; }
@@ -198,6 +198,7 @@ namespace Data.Models
         public DbSet<JobOrderLineStatus> JobOrderLineStatus { get; set; }
         public DbSet<JobOrderLineExtended> JobOrderLineExtended { get; set; }
         public DbSet<JobReceiveLineStatus> JobReceiveLineStatus { get; set; }
+        public DbSet<JobOrderHeaderAttributes> JobOrderHeaderAttributes { get; set; }
         public DbSet<JobOrderHeaderStatus> JobOrderHeaderStatus { get; set; }
         public DbSet<ProdOrderLineStatus> ProdOrderLineStatus { get; set; }
         public DbSet<ProdOrderHeaderStatus> ProdOrderHeaderStatus { get; set; }
@@ -442,6 +443,7 @@ namespace Data.Models
         public DbSet<JobReturnLine> JobReturnLine { get; set; }
         public DbSet<JobReturnBom> JobReturnBom { get; set; }
         public DbSet<JobInvoiceHeader> JobInvoiceHeader { get; set; }
+        public DbSet<JobInvoiceHeaderAttributes> JobInvoiceHeaderAttributes { get; set; }
         public DbSet<JobInvoiceLine> JobInvoiceLine { get; set; }
 
         public DbSet<JobInvoiceReturnHeader> JobInvoiceReturnHeader { get; set; }
@@ -515,6 +517,7 @@ namespace Data.Models
 
         //Stock Models
         public DbSet<StockHeader> StockHeader { get; set; }
+        public DbSet<StockHeaderAttributes> StockHeaderAttributes { get; set; }
         public DbSet<StockLine> StockLine { get; set; }
         public DbSet<Stock> Stock { get; set; }
         public DbSet<StockBalance> StockBalance { get; set; }

@@ -150,6 +150,10 @@ namespace Web
             p.SiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
             p.CreatedDate = DateTime.Now;
 
+            List<DocumentTypeHeaderAttributeViewModel> tem = new DocumentTypeService(_unitOfWork).GetDocumentTypeHeaderAttribute(id).ToList();
+            p.DocumentTypeHeaderAttributes = tem;
+
+
             //Getting Settings
             var settings = new StockHeaderSettingsService(_unitOfWork).GetStockHeaderSettingsForDocument(id, p.DivisionId, p.SiteId);
 
@@ -253,6 +257,36 @@ namespace Web
                     s.ObjectState = Model.ObjectState.Added;
                     db.StockHeader.Add(s);
                     //_StockHeaderService.Create(s);
+
+
+                    if (svm.DocumentTypeHeaderAttributes != null)
+                    {
+                        foreach (var Attributes in svm.DocumentTypeHeaderAttributes)
+                        {
+                            StockHeaderAttributes StockHeaderAttribute = (from A in db.StockHeaderAttributes
+                                                                                where A.HeaderTableId == s.StockHeaderId
+                                                                                && A.DocumentTypeHeaderAttributeId == Attributes.DocumentTypeHeaderAttributeId
+                                                                                select A).FirstOrDefault();
+
+                            if (StockHeaderAttribute != null)
+                            {
+                                StockHeaderAttribute.Value = Attributes.Value;
+                                StockHeaderAttribute.ObjectState = Model.ObjectState.Modified;
+                                db.StockHeaderAttributes.Add(StockHeaderAttribute);
+                            }
+                            else
+                            {
+                                StockHeaderAttributes HeaderAttribute = new StockHeaderAttributes()
+                                {
+                                    HeaderTableId = s.StockHeaderId,
+                                    Value = Attributes.Value,
+                                    DocumentTypeHeaderAttributeId = Attributes.DocumentTypeHeaderAttributeId,
+                                };
+                                HeaderAttribute.ObjectState = Model.ObjectState.Added;
+                                db.StockHeaderAttributes.Add(HeaderAttribute);
+                            }
+                        }
+                    }
 
                     try
                     {
@@ -405,6 +439,38 @@ namespace Web
                     }
 
 
+                    if (svm.DocumentTypeHeaderAttributes != null)
+                    {
+                        foreach (var Attributes in svm.DocumentTypeHeaderAttributes)
+                        {
+
+                            StockHeaderAttributes StockHeaderAttribute = (from A in db.StockHeaderAttributes
+                                                                                where A.HeaderTableId == s.StockHeaderId
+                                                                                && A.DocumentTypeHeaderAttributeId == Attributes.DocumentTypeHeaderAttributeId
+                                                                                select A).FirstOrDefault();
+
+                            if (StockHeaderAttribute != null)
+                            {
+                                StockHeaderAttribute.Value = Attributes.Value;
+                                StockHeaderAttribute.ObjectState = Model.ObjectState.Modified;
+                                db.StockHeaderAttributes.Add(StockHeaderAttribute);
+                            }
+                            else
+                            {
+                                StockHeaderAttributes HeaderAttribute = new StockHeaderAttributes()
+                                {
+                                    Value = Attributes.Value,
+                                    HeaderTableId = s.StockHeaderId,
+                                    DocumentTypeHeaderAttributeId = Attributes.DocumentTypeHeaderAttributeId,
+                                };
+                                HeaderAttribute.ObjectState = Model.ObjectState.Added;
+                                db.StockHeaderAttributes.Add(HeaderAttribute);
+                            }
+                        }
+                    }
+
+
+
                     XElement Modifications = new ModificationsCheckService().CheckChanges(LogList);
 
                     try
@@ -534,6 +600,9 @@ namespace Web
             }
             s.StockHeaderSettings = Mapper.Map<StockHeaderSettings, StockHeaderSettingsViewModel>(settings);
             s.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(s.DocTypeId);
+
+            List<DocumentTypeHeaderAttributeViewModel> tem = _StockHeaderService.GetDocumentHeaderAttribute(id).ToList();
+            s.DocumentTypeHeaderAttributes = tem;
 
             ViewBag.Mode = "Edit";
             PrepareViewBag(s.DocTypeId);
@@ -723,6 +792,14 @@ namespace Web
                 var ProdUidRecords = (from p in db.ProductUid
                                       where ProdUids.Contains(p.ProductUIDId)
                                       select p).ToList();
+
+                var attributes = (from A in db.StockHeaderAttributes where A.HeaderTableId == vm.id select A).ToList();
+
+                foreach (var ite2 in attributes)
+                {
+                    ite2.ObjectState = Model.ObjectState.Deleted;
+                    db.StockHeaderAttributes.Remove(ite2);
+                }
 
 
                 //Mark ObjectState.Delete to all the Purchase Order Lines. 

@@ -860,6 +860,7 @@ namespace Web
                     Sl.DealQty = svm.DealQty;
                     Sl.DealUnitId = svm.DealUnitId;
                     Sl.Rate = svm.Rate;
+                    Sl.SalesTaxGroupProductId = svm.SalesTaxGroupProductId;
                     Sl.Remark = svm.Remark;
                     Sl.ModifiedDate = DateTime.Now;
                     Sl.ModifiedBy = User.Identity.Name;
@@ -1342,7 +1343,8 @@ namespace Web
                               Dimension3Name = product.DefaultDimension3Name,
                               Dimension4Id = product.DefaultDimension4Id,
                               Dimension4Name = product.DefaultDimension4Name,
-                              SalesTaxGroupProductId = product.SalesTaxGroupProductId
+                              SalesTaxGroupProductId = product.SalesTaxGroupProductId,
+                              SalesTaxGroupProductName = product.SalesTaxGroupProductName
             });
         }
 

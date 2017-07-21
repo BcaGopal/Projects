@@ -43,11 +43,9 @@ namespace Web
 
         // GET: /ChargeGroupProductMaster/
 
-        public ActionResult Index(int id)//ChargeTypeId
+        public ActionResult Index()
         {
-            var ChargeGroupProduct = _ChargeGroupProductService.GetChargeGroupProductList(id);
-            ViewBag.id = id;
-            ViewBag.Name = new ChargeTypeService(_unitOfWork).Find(id).ChargeTypeName;
+            var ChargeGroupProduct = _ChargeGroupProductService.GetChargeGroupProductList();
             return View(ChargeGroupProduct);
         }
 
@@ -60,13 +58,10 @@ namespace Web
 
         // GET: /ChargeGroupProductMaster/Create
 
-        public ActionResult Create(int id)
+        public ActionResult Create()
         {
             ChargeGroupProduct vm = new ChargeGroupProduct();
-            vm.ChargeTypeId = id;
             vm.IsActive = true;
-            ViewBag.id = id;
-            ViewBag.Name = new ChargeTypeService(_unitOfWork).Find(id).ChargeTypeName;
             return View("Create", vm);
         }
 
@@ -108,15 +103,11 @@ namespace Web
                     {
                         string message = _exception.HandleException(ex);
                         ModelState.AddModelError("", message);
-                        ViewBag.id = pt.ChargeTypeId;
-                        ViewBag.Name = new ChargeTypeService(_unitOfWork).Find(pt.ChargeTypeId).ChargeTypeName;
                         return View("Create", pt);
 
                     }
 
-                    ViewBag.id = pt.ChargeTypeId;
-                    ViewBag.Name = new ChargeTypeService(_unitOfWork).Find(pt.ChargeTypeId).ChargeTypeName;
-                    return RedirectToAction("Create", new { id = pt.ChargeTypeId }).Success("Data saved successfully");
+                    return RedirectToAction("Create").Success("Data saved successfully");
 
                 }
                 else
@@ -149,8 +140,6 @@ namespace Web
                     {
                         string message = _exception.HandleException(ex);
                         ModelState.AddModelError("", message);
-                        ViewBag.id = pt.ChargeTypeId;
-                        ViewBag.Name = new ChargeTypeService(_unitOfWork).Find(pt.ChargeTypeId).ChargeTypeName;
                         return View("Create", pt);
                     }
 
@@ -161,13 +150,9 @@ namespace Web
                     "",
                     User.Identity.Name, temp.ChargeGroupProductName, Modifications);
 
-                    ViewBag.id = pt.ChargeTypeId;
-                    ViewBag.Name = new ChargeTypeService(_unitOfWork).Find(pt.ChargeTypeId).ChargeTypeName;
-                    return RedirectToAction("Index", new { id = pt.ChargeTypeId }).Success("Data saved successfully");
+                    return RedirectToAction("Index").Success("Data saved successfully");
                 }
             }
-            ViewBag.id = pt.ChargeTypeId;
-            ViewBag.Name = new ChargeTypeService(_unitOfWork).Find(pt.ChargeTypeId).ChargeTypeName;
             return View("Create", pt);
         }
 
@@ -181,8 +166,6 @@ namespace Web
             {
                 return HttpNotFound();
             }
-            ViewBag.id = pt.ChargeTypeId;
-            ViewBag.Name = new ChargeTypeService(_unitOfWork).Find(pt.ChargeTypeId).ChargeTypeName;
             return View("Create", pt);
         }
 

@@ -35,36 +35,26 @@ namespace Web
             _unitOfWork = unitOfWork;
             _exception = exec;
         }
-        public ActionResult ChargeTypeIndex()
-        {
-            var chargetype = new ChargeTypeService(_unitOfWork).GetPersonChargeTypeList().ToList();
-            return View("ChargeTypeIndex", chargetype);
-        }
+
         // GET: /ChargeGroupPersonMaster/
 
-        public ActionResult Index(int id)//ChargeTypeId
+        public ActionResult Index()
         {
-            var chargeGroupPerson = _ChargeGroupPersonService.GetChargeGroupPersonList(id);
-            ViewBag.id = id;
-            ViewBag.Name = new ChargeTypeService(_unitOfWork).Find(id).ChargeTypeName;
+            var chargeGroupPerson = _ChargeGroupPersonService.GetChargeGroupPersonList(0);
             return View(chargeGroupPerson);
         }
 
         private void PrepareViewBag()
         {
-            ViewBag.ChargeTypeList = new ChargeTypeService(_unitOfWork).GetChargeTypeList().ToList();
         }
 
 
         // GET: /ChargeGroupPersonMaster/Create
 
-        public ActionResult Create(int id)
+        public ActionResult Create()
         {
             ChargeGroupPerson vm = new ChargeGroupPerson();
-            vm.ChargeTypeId = id;
             vm.IsActive = true;
-            ViewBag.id = id;
-            ViewBag.Name = new ChargeTypeService(_unitOfWork).Find(id).ChargeTypeName;
             return View("Create", vm);
         }
 
@@ -106,15 +96,11 @@ namespace Web
                     {
                         string message = _exception.HandleException(ex);
                         ModelState.AddModelError("", message);
-                        ViewBag.id = pt.ChargeTypeId;
-                        ViewBag.Name = new ChargeTypeService(_unitOfWork).Find(pt.ChargeTypeId).ChargeTypeName;
                         return View("Create", pt);
 
                     }
 
-                    ViewBag.id = pt.ChargeTypeId;
-                    ViewBag.Name = new ChargeTypeService(_unitOfWork).Find(pt.ChargeTypeId).ChargeTypeName;
-                    return RedirectToAction("Create", new { id = pt.ChargeTypeId }).Success("Data saved successfully");
+                    return RedirectToAction("Create").Success("Data saved successfully");
 
                 }
                 else
@@ -148,8 +134,6 @@ namespace Web
                     {
                         string message = _exception.HandleException(ex);
                         ModelState.AddModelError("", message);
-                        ViewBag.id = pt.ChargeTypeId;
-                        ViewBag.Name = new ChargeTypeService(_unitOfWork).Find(pt.ChargeTypeId).ChargeTypeName;
                         return View("Create", pt);
                     }
 
@@ -160,16 +144,12 @@ namespace Web
                     "",
                     User.Identity.Name, temp.ChargeGroupPersonName, Modifications);
 
-                    ViewBag.id = pt.ChargeTypeId;
-                    ViewBag.Name = new ChargeTypeService(_unitOfWork).Find(pt.ChargeTypeId).ChargeTypeName;
-                    return RedirectToAction("Index", new { id = pt.ChargeTypeId }).Success("Data saved successfully");
+                    return RedirectToAction("Index").Success("Data saved successfully");
 
 
                 }
 
             }
-            ViewBag.id = pt.ChargeTypeId;
-            ViewBag.Name = new ChargeTypeService(_unitOfWork).Find(pt.ChargeTypeId).ChargeTypeName;
             return View("Create", pt);
         }
 
@@ -183,8 +163,6 @@ namespace Web
             {
                 return HttpNotFound();
             }
-            ViewBag.id = pt.ChargeTypeId;
-            ViewBag.Name = new ChargeTypeService(_unitOfWork).Find(pt.ChargeTypeId).ChargeTypeName;
             return View("Create", pt);
         }
 

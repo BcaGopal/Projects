@@ -95,7 +95,7 @@ namespace Model.ViewModels
 
         public int BuyerDocTypeId { get; set; }
         public int? FinancierDocTypeId { get; set; }
-        public List<DocumentTypeAttributeViewModel> DocumentTypeAttributes { get; set; }
+        public List<DocumentTypeHeaderAttributeViewModel> DocumentTypeHeaderAttributes { get; set; }
         public string DocumentInfo { get; set; }
 
     }

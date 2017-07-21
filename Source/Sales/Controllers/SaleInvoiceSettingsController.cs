@@ -182,6 +182,7 @@ namespace Web
                     temp.isVisibleShipMethod = pt.isVisibleShipMethod;
                     temp.isVisibleSpecification = pt.isVisibleSpecification;
                     temp.isVisibleSalesTaxGroupPerson = pt.isVisibleSalesTaxGroupPerson;
+                    temp.isVisibleSalesTaxGroupProduct = pt.isVisibleSalesTaxGroupProduct;
                     temp.isVisibleProductUid = pt.isVisibleProductUid;
                     temp.isVisibleProductCode = pt.isVisibleProductCode;
                     temp.isVisibleBaleNo = pt.isVisibleBaleNo;
@@ -365,6 +366,7 @@ namespace Web
                     temp.isVisibleShipMethod = pt.isVisibleShipMethod;
                     temp.isVisibleSpecification = pt.isVisibleSpecification;
                     temp.isVisibleSalesTaxGroupPerson = pt.isVisibleSalesTaxGroupPerson;
+                    temp.isVisibleSalesTaxGroupProduct = pt.isVisibleSalesTaxGroupProduct;
                     temp.isVisibleProductUid = pt.isVisibleProductUid;
                     temp.isVisibleProductCode = pt.isVisibleProductCode;
                     temp.isVisibleBaleNo = pt.isVisibleBaleNo;

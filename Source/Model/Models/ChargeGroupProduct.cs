@@ -19,12 +19,6 @@ namespace Model.Models
         public string ChargeGroupProductName { get; set; }
 
 
-        [Display(Name = "Charge Type")]
-        public int ChargeTypeId { get; set; }
-        [ForeignKey("ChargeTypeId")]
-        public virtual ChargeType ChargeType { get; set; }
-
-
         [Display(Name = "Is Active ?")]
         public Boolean IsActive { get; set; }
         [Display(Name = "Is System Define ?")]

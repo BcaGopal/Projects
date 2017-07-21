@@ -93,6 +93,8 @@ namespace Model.ViewModel
 
         public decimal? TotalQty { get; set; }
         public int? DecimalPlaces { get; set; }
+
+        public List<DocumentTypeHeaderAttributeViewModel> DocumentTypeHeaderAttributes { get; set; }
     }
 
 
@@ -282,6 +284,7 @@ namespace Model.ViewModel
         public string Dimension2Id { get; set; }
         public string CostCenterId { get; set; }
         public string RequisitionHeaderId { get; set; }
+        public DocumentTypeSettingsViewModel DocumentTypeSettings { get; set; }
     }
 
     public class FiltersForProcessTransfer

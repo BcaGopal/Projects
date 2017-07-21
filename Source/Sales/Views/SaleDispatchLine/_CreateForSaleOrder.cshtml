@@ -247,7 +247,7 @@
 
     //var cachearray={};
 
-    function CustomSelectFunctionForStockIn(ElementId, GetAction, SetAction, placehold, IsMultiple,MinLength,SaleDispatchHeaderId,ProductId,Dimension1Id,Dimension2Id) {
+    function CustomSelectFunctionForStockIn(ElementId, GetAction, SetAction, placehold, IsMultiple,MinLength,SaleDispatchHeaderId,GodownId,ProductId,Dimension1Id,Dimension2Id) {
         var geturl = GetAction;
         //The url we will send our get request to
         var attendeeUrl = GetAction;
@@ -274,6 +274,7 @@
                         pageNum: page,
                         searchTerm: term,
                         SaleDispatchHeaderId:SaleDispatchHeaderId,
+                        GodownId:GodownId,
                         ProductId:ProductId,
                         Dimension1Id:Dimension1Id,
                         Dimension2Id:Dimension2Id,
@@ -373,14 +374,14 @@
         var DocID = $('#SaleDispatchHeaderId', '.modal-body').val();
 
         //CustomSelectFunction($("#ProductId"), '/SaleDispatchLine/GetCustomProducts', '/ComboHelpList/SetSingleProducts', ' ', false, 0, DocID);
-        CustomSelectFunction($("#Dimension1Id"), '/ComboHelpList/GetDimension1', '/ComboHelpList/SetSingleDimension1', ' ', false, 1);
-        CustomSelectFunction($("#Dimension2Id"), '/ComboHelpList/GetDimension2', '/ComboHelpList/SetSingleDimension2', ' ', false, 1);
-        CustomSelectFunction($("#GodownId"), '/ComboHelpList/GetGodown', '/ComboHelpList/SetSingleGodown', ' ', false, 1);
+        CustomSelectFunction($("#Dimension1Id"), '/ComboHelpList/GetDimension1', '/ComboHelpList/SetSingleDimension1', ' ', false, 0);
+        CustomSelectFunction($("#Dimension2Id"), '/ComboHelpList/GetDimension2', '/ComboHelpList/SetSingleDimension2', ' ', false, 0);
+        CustomSelectFunction($("#GodownId"), '/ComboHelpList/GetGodown', '/ComboHelpList/SetSingleGodown', ' ', false, 0);
         //CustomSelectFunction($("#SaleOrderLineId"), '/SaleDispatchLine/GetSaleOrderForProduct', '/SaleDispatchLine/SetSingleSaleOrderLine', ' ', false, 0);
         var SaleToBuyerId = $('#SaleToBuyerId').val();
         CustomSelectFunction($("#SaleOrderLineId"), '/SaleDispatchLine/GetSaleOrderForProduct', '/SaleDispatchLine/SetSingleSaleOrderLine', ' ', false, 0, DocID);
         //CustomSelectFunctionForStockIn($("#StockInId"), '/SaleDispatchLine/GetStockInForProduct', '/SaleDispatchLine/SetSingleStockIn', ' ', false, 0,SaleDispatchHeaderId,ProductId,Dimension1Id,Dimension1Id);
-        CustomSelectFunctionForStockIn($("#StockInId"), '/SaleDispatchLine/GetStockInForProduct', '/SaleDispatchLine/SetSingleStockIn', ' ', false, 0,$("#SaleDispatchHeaderId").val(),$("#ProductId").val(),$("#Dimension1Id").val(),$("#Dimension2Id").val());
+        CustomSelectFunctionForStockIn($("#StockInId"), '/SaleDispatchLine/GetStockInForProduct', '/SaleDispatchLine/SetSingleStockIn', ' ', false, 0,$("#SaleDispatchHeaderId").val(),$("#GodownId").val(),$("#ProductId").val(),$("#Dimension1Id").val(),$("#Dimension2Id").val());
 
 
 
@@ -479,7 +480,10 @@
             }
         }
 
-
+        $("#GodownId").change(function(){
+            $("#StockInId").select2("data", { id: "", text: "" });
+            CustomSelectFunctionForStockIn($("#StockInId"), '/SaleDispatchLine/GetStockInForProduct', '/SaleDispatchLine/SetSingleStockIn', ' ', false, 0,$("#SaleDispatchHeaderId").val(),$("#GodownId").val(),$("#ProductId").val(),$("#Dimension1Id").val(),$("#Dimension2Id").val());
+        });
 
         $("#ProductUidName").change(function(){
             Validate_ProductUid();
@@ -526,7 +530,7 @@
                             $("#UnitName").val(data.UnitName);
                             $("#Specification").val(data.Specification);
                             Calculation();
-                            CustomSelectFunctionForStockIn($("#StockInId"), '/SaleDispatchLine/GetStockInForProduct', '/SaleDispatchLine/SetSingleStockIn', ' ', false, 0,$("#SaleDispatchHeaderId").val(),$("#ProductId").val(),$("#Dimension1Id").val(),$("#Dimension2Id").val());
+                            CustomSelectFunctionForStockIn($("#StockInId"), '/SaleDispatchLine/GetStockInForProduct', '/SaleDispatchLine/SetSingleStockIn', ' ', false, 0,$("#SaleDispatchHeaderId").val(),$("#GodownId").val(),$("#ProductId").val(),$("#Dimension1Id").val(),$("#Dimension2Id").val());
                             GetFirstStockIn();
 
 
@@ -616,7 +620,7 @@
                         cache: false,
                         type: "POST",
                         url: "@(Url.Action("GetFirstStockInForProduct"))",
-                        data: { SaleDispatchHeaderId: $("#SaleDispatchHeaderId").val(), ProductId: $("#ProductId").val(), Dimension1Id: $("#Dimension1Id").val(), Dimension2Id: $("#Dimension2Id").val()},
+                        data: { SaleDispatchHeaderId: $("#SaleDispatchHeaderId").val(), GodownId: $("#GodownId").val(), ProductId: $("#ProductId").val(), Dimension1Id: $("#Dimension1Id").val(), Dimension2Id: $("#Dimension2Id").val()},
                     success: function (data) {
                         if (data != null && data != "")
                         {

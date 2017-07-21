@@ -44,7 +44,7 @@ namespace Service
         int PrevId(int id);
         SaleInvoiceHeader FindDirectSaleInvoice(int id);
         IQueryable<ComboBoxResult> GetCustomPerson(int Id, string term);
-        IEnumerable<DocumentTypeAttributeViewModel> GetAttributeForSaleInvoiceHeader(int id);
+        IEnumerable<DocumentTypeHeaderAttributeViewModel> GetDocumentHeaderAttribute(int id);
     }
     public class SaleInvoiceHeaderService : ISaleInvoiceHeaderService
     {
@@ -439,22 +439,21 @@ namespace Service
         }
 
 
-        public IEnumerable<DocumentTypeAttributeViewModel> GetAttributeForSaleInvoiceHeader(int id)
+        public IEnumerable<DocumentTypeHeaderAttributeViewModel> GetDocumentHeaderAttribute(int id)
         {
             var Header = db.SaleInvoiceHeader.Find(id);
 
-            var temp = from p in db.DocumentTypeAttribute
-                       join t in db.SaleInvoiceHeaderAttributes on p.DocumentTypeAttributeId equals t.DocumentTypeAttributeId into table
-                       from tab in table.Where(m => m.SaleInvoiceHeaderId == id).DefaultIfEmpty()
-                       where (p.DocumentTypeId == Header.DocTypeId)
-                       select new DocumentTypeAttributeViewModel
+            var temp = from Dta in db.DocumentTypeHeaderAttribute
+                       join Ha in db.SaleInvoiceHeaderAttributes on Dta.DocumentTypeHeaderAttributeId equals Ha.DocumentTypeHeaderAttributeId into HeaderAttributeTable
+                       from HeaderAttributeTab in HeaderAttributeTable.Where(m => m.HeaderTableId == id).DefaultIfEmpty()
+                       where (Dta.DocumentTypeId == Header.DocTypeId)
+                       select new DocumentTypeHeaderAttributeViewModel
                        {
-                           ListItem = p.ListItem,
-                           DataType = p.DataType,
-                           DefaultValue = tab.SaleInvoiceHeaderAttributeValue,
-                           Name = p.Name,
-                           DocumentTypeAttributeId = p.DocumentTypeAttributeId,
-                           DocumentAttributeId = (int?)tab.SaleInvoiceHeaderAttributeId ?? 0
+                           ListItem = Dta.ListItem,
+                           DataType = Dta.DataType,
+                           Value = HeaderAttributeTab.Value,
+                           Name = Dta.Name,
+                           DocumentTypeHeaderAttributeId = Dta.DocumentTypeHeaderAttributeId,
                        };
 
             return temp;

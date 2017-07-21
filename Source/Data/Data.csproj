@@ -203,6 +203,18 @@
     <Compile Include="Migrations\201707130934082_SiteDivisionSettings.Designer.cs">
       <DependentUpon>201707130934082_SiteDivisionSettings.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201707191057432_DocumentTypeHeaderAttributes.cs" />
+    <Compile Include="Migrations\201707191057432_DocumentTypeHeaderAttributes.Designer.cs">
+      <DependentUpon>201707191057432_DocumentTypeHeaderAttributes.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201707191114489_Attr.cs" />
+    <Compile Include="Migrations\201707191114489_Attr.Designer.cs">
+      <DependentUpon>201707191114489_Attr.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201707191237268_Attributes.cs" />
+    <Compile Include="Migrations\201707191237268_Attributes.Designer.cs">
+      <DependentUpon>201707191237268_Attributes.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="NotificationApplicationDbContext.cs" />
     <Compile Include="LoginApplicationDbContext.cs" />
@@ -332,6 +344,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201707130934082_SiteDivisionSettings.resx">
       <DependentUpon>201707130934082_SiteDivisionSettings.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201707191057432_DocumentTypeHeaderAttributes.resx">
+      <DependentUpon>201707191057432_DocumentTypeHeaderAttributes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201707191114489_Attr.resx">
+      <DependentUpon>201707191114489_Attr.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201707191237268_Attributes.resx">
+      <DependentUpon>201707191237268_Attributes.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
