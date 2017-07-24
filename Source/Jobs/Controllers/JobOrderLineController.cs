@@ -306,7 +306,7 @@ namespace Web
                             StockViewModel.GodownId = (int)Header.GodownId;
                             StockViewModel.Remark = Header.Remark;
                             StockViewModel.Status = Header.Status;
-                            StockViewModel.ProcessId = Header.ProcessId;
+                            StockViewModel.ProcessId = item.FromProcessId;
                             StockViewModel.LotNo = null;
                             StockViewModel.CostCenterId = Header.CostCenterId;
                             StockViewModel.Qty_Iss = item.Qty;
@@ -443,6 +443,7 @@ namespace Web
                         line.Dimension3Id = item.Dimension3Id;
                         line.Dimension4Id = item.Dimension4Id;
                         line.Specification = item.Specification;
+                        line.FromProcessId= item.FromProcessId;
                         line.Qty = item.Qty;
                         line.UnitId = item.UnitId;
                         line.Sr = Serial++;
