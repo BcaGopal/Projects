@@ -3,10 +3,7 @@
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
     <DataSource Name="Weaving">
-      <ConnectionProperties>
-        <DataProvider>SQL</DataProvider>
-        <ConnectString>=Parameters!DatabaseConnectionString.Value</ConnectString>
-      </ConnectionProperties>
+      <DataSourceReference>DSBCL</DataSourceReference>
       <rd:SecurityType>None</rd:SecurityType>
       <rd:DataSourceID>a4701ec2-a2bf-4f00-a373-e0ef6d3046c3</rd:DataSourceID>
     </DataSource>
@@ -232,6 +229,10 @@
         <Field Name="ModifiedDate">
           <DataField>ModifiedDate</DataField>
           <rd:TypeName>System.DateTime</rd:TypeName>
+        </Field>
+        <Field Name="ProductTypeName">
+          <DataField>ProductTypeName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="RatePerPcs">
           <DataField>RatePerPcs</DataField>
@@ -7892,7 +7893,7 @@
             <Top>6.71354in</Top>
             <Left>0.03247in</Left>
             <Height>2.88542in</Height>
-            <Width>7.42473in</Width>
+            <Width>7.42475in</Width>
             <ZIndex>5</ZIndex>
             <Visibility>
               <Hidden>=IIF(Sum(Fields!DeliveryQty.Value) &lt;&gt;0, True,False)</Hidden>

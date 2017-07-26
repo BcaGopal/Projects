@@ -433,11 +433,15 @@ namespace Web
                              {
                                  ProductName = p.Product.ProductName,
                                  Qty = p.Qty,
+                                 ProductId=p.ProductId,
                              }).FirstOrDefault();
 
             if (LastTrRec != null)
+            { 
                 ViewBag.StockLastTransaction = "Last Line -Product : " + LastTrRec.ProductName + ", " + "Qty : " + LastTrRec.Qty;
-
+                s.ProductId = LastTrRec.ProductId;
+            }
+               
             return PartialView("_Create", s);
         }
 

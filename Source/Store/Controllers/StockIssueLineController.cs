@@ -182,7 +182,7 @@ namespace Web
                         StockViewModel.Remark = Header.Remark;
                         StockViewModel.Status = Header.Status;
                         StockViewModel.ProcessId = item.ProcessId;
-                        StockViewModel.LotNo = null;
+                        StockViewModel.LotNo = item.LotNo;
                         StockViewModel.CostCenterId = (item.CostCenterId == null ? Header.CostCenterId : item.CostCenterId);
                         StockViewModel.Qty_Iss = item.Qty;
                         StockViewModel.Qty_Rec = 0;
@@ -253,7 +253,7 @@ namespace Web
                             StockProcessViewModel.Remark = Header.Remark;
                             StockProcessViewModel.Status = Header.Status;
                             StockProcessViewModel.ProcessId = Header.ProcessId;
-                            StockProcessViewModel.LotNo = null;
+                            StockProcessViewModel.LotNo = item.LotNo;
                             StockProcessViewModel.CostCenterId = (item.CostCenterId == null ? Header.CostCenterId : item.CostCenterId);
                             StockProcessViewModel.Qty_Iss = 0;
                             StockProcessViewModel.Qty_Rec = item.Qty;
@@ -303,6 +303,7 @@ namespace Web
                         line.ProductId = item.ProductId;
                         line.Dimension1Id = item.Dimension1Id;
                         line.Dimension2Id = item.Dimension2Id;
+                        line.LotNo = item.LotNo;
                         line.Dimension3Id = item.Dimension3Id;
                         line.Dimension4Id = item.Dimension4Id;
                         line.Specification = item.Specification;
@@ -808,7 +809,7 @@ namespace Web
                         StockViewModel.HeaderGodownId = temp.GodownId;
                         StockViewModel.GodownId = temp.GodownId ?? 0;
 
-                        StockViewModel.LotNo = templine.LotNo;
+                        StockViewModel.LotNo = s.LotNo;
                         StockViewModel.CostCenterId = (s.CostCenterId == null ? temp.CostCenterId : s.CostCenterId);
 
 

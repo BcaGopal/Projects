@@ -6,31 +6,22 @@
         <TablixBody>
           <TablixColumns>
             <TablixColumn>
-              <Width>0.8in</Width>
+              <Width>2.11458in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>0.8in</Width>
+              <Width>1.11458in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>0.8in</Width>
+              <Width>1.125in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>0.8in</Width>
+              <Width>0.95833in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>0.8in</Width>
+              <Width>1.02083in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>0.8in</Width>
-            </TablixColumn>
-            <TablixColumn>
-              <Width>0.8in</Width>
-            </TablixColumn>
-            <TablixColumn>
-              <Width>0.8in</Width>
-            </TablixColumn>
-            <TablixColumn>
-              <Width>0.7in</Width>
+              <Width>1.02083in</Width>
             </TablixColumn>
           </TablixColumns>
           <TablixRows>
@@ -39,14 +30,88 @@
               <TablixCells>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Yarn1Title">
+                    <Textbox Name="Textbox1">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!Yarn1Title.Value</Value>
+                              <Value>Material </Value>
+                              <Style>
+                                <FontFamily>Tahoma</FontFamily>
+                                <FontSize>8pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox1</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Style>None</Style>
+                        </Border>
+                        <TopBorder>
+                          <Style>Solid</Style>
+                        </TopBorder>
+                        <BackgroundColor>LightGrey</BackgroundColor>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox8">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>Shade</Value>
+                              <Style>
+                                <FontFamily>Tahoma</FontFamily>
+                                <FontSize>8pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox8</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Style>None</Style>
+                        </Border>
+                        <TopBorder>
+                          <Style>Solid</Style>
+                        </TopBorder>
+                        <BackgroundColor>LightGrey</BackgroundColor>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox5">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>Required Qty</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>8pt</FontSize>
@@ -59,18 +124,456 @@
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Yarn1Title</rd:DefaultName>
+                      <rd:DefaultName>Textbox5</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Style>None</Style>
+                        </Border>
+                        <TopBorder>
+                          <Style>Solid</Style>
+                        </TopBorder>
+                        <BackgroundColor>LightGrey</BackgroundColor>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox34">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>Dt:</Value>
+                              <Style>
+                                <FontFamily>Tahoma</FontFamily>
+                                <FontSize>8pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Left</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox34</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Style>None</Style>
+                        </Border>
+                        <TopBorder>
+                          <Style>Solid</Style>
+                        </TopBorder>
+                        <BackgroundColor>LightGrey</BackgroundColor>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox35">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>Dt:</Value>
+                              <Style>
+                                <FontFamily>Tahoma</FontFamily>
+                                <FontSize>8pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Left</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox34</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Style>None</Style>
+                        </Border>
+                        <TopBorder>
+                          <Style>Solid</Style>
+                        </TopBorder>
+                        <BackgroundColor>LightGrey</BackgroundColor>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox36">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>Dt:</Value>
+                              <Style>
+                                <FontFamily>Tahoma</FontFamily>
+                                <FontSize>8pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Left</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox34</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Style>None</Style>
+                        </Border>
+                        <TopBorder>
+                          <Style>Solid</Style>
+                        </TopBorder>
+                        <BackgroundColor>LightGrey</BackgroundColor>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+              </TablixCells>
+            </TablixRow>
+            <TablixRow>
+              <Height>0.25in</Height>
+              <TablixCells>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox27">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value />
+                              <Style>
+                                <FontFamily>Tahoma</FontFamily>
+                                <FontSize>8pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox27</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Style>None</Style>
+                        </Border>
+                        <BottomBorder>
+                          <Style>Solid</Style>
+                        </BottomBorder>
+                        <BackgroundColor>LightGrey</BackgroundColor>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox28">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value />
+                              <Style>
+                                <FontFamily>Tahoma</FontFamily>
+                                <FontSize>8pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox28</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Style>None</Style>
+                        </Border>
+                        <BottomBorder>
+                          <Style>Solid</Style>
+                        </BottomBorder>
+                        <BackgroundColor>LightGrey</BackgroundColor>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox29">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value />
+                              <Style>
+                                <FontFamily>Tahoma</FontFamily>
+                                <FontSize>8pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox29</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Style>None</Style>
+                        </Border>
+                        <BottomBorder>
+                          <Style>Solid</Style>
+                        </BottomBorder>
+                        <BackgroundColor>LightGrey</BackgroundColor>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox4">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>Issue/Ret. Qty</Value>
+                              <Style>
+                                <FontFamily>Tahoma</FontFamily>
+                                <FontSize>8pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Left</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox4</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Style>None</Style>
+                        </Border>
+                        <TopBorder>
+                          <Style>None</Style>
+                        </TopBorder>
+                        <BottomBorder>
+                          <Style>Solid</Style>
+                        </BottomBorder>
+                        <BackgroundColor>LightGrey</BackgroundColor>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox6">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>Issue/Ret. Qty</Value>
+                              <Style>
+                                <FontFamily>Tahoma</FontFamily>
+                                <FontSize>8pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Left</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox4</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Style>None</Style>
+                        </Border>
+                        <TopBorder>
+                          <Style>None</Style>
+                        </TopBorder>
+                        <BottomBorder>
+                          <Style>Solid</Style>
+                        </BottomBorder>
+                        <BackgroundColor>LightGrey</BackgroundColor>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox7">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>Issue/Ret. Qty</Value>
+                              <Style>
+                                <FontFamily>Tahoma</FontFamily>
+                                <FontSize>8pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Left</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox4</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Style>None</Style>
+                        </Border>
+                        <TopBorder>
+                          <Style>None</Style>
+                        </TopBorder>
+                        <BottomBorder>
+                          <Style>Solid</Style>
+                        </BottomBorder>
+                        <BackgroundColor>LightGrey</BackgroundColor>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+              </TablixCells>
+            </TablixRow>
+            <TablixRow>
+              <Height>0.2in</Height>
+              <TablixCells>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="ProductGroupName">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Fields!ProductGroupName.Value</Value>
+                              <Style>
+                                <FontFamily>Tahoma</FontFamily>
+                                <FontSize>8pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>ProductGroupName</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
                           <Style>Solid</Style>
                         </Border>
-                        <TopBorder>
-                          <Color>Black</Color>
-                        </TopBorder>
-                        <BottomBorder>
-                          <Color>Black</Color>
-                        </BottomBorder>
+                        <BackgroundColor>=iif(RowNumber(nothing) Mod 2 , "White","WhiteSmoke")</BackgroundColor>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                    <ColSpan>3</ColSpan>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell />
+                <TablixCell />
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox10">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value />
+                              <Style>
+                                <FontFamily>Tahoma</FontFamily>
+                                <FontSize>8pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Left</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox10</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </Border>
                         <BackgroundColor>=iif(RowNumber(nothing) Mod 2 , "White","WhiteSmoke")</BackgroundColor>
                         <VerticalAlign>Middle</VerticalAlign>
                         <PaddingLeft>2pt</PaddingLeft>
@@ -83,39 +586,32 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Yarn2Title">
+                    <Textbox Name="Textbox16">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!Yarn2Title.Value</Value>
+                              <Value />
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>8pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
-                                <Format>0.000;(0.000);'-'</Format>
                               </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
-                            <TextAlign>Right</TextAlign>
+                            <TextAlign>Left</TextAlign>
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Yarn2Title</rd:DefaultName>
+                      <rd:DefaultName>Textbox16</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
                           <Style>Solid</Style>
                         </Border>
-                        <TopBorder>
-                          <Color>Black</Color>
-                        </TopBorder>
-                        <BottomBorder>
-                          <Color>Black</Color>
-                        </BottomBorder>
                         <BackgroundColor>=iif(RowNumber(nothing) Mod 2 , "White","WhiteSmoke")</BackgroundColor>
                         <VerticalAlign>Middle</VerticalAlign>
                         <PaddingLeft>2pt</PaddingLeft>
@@ -128,14 +624,14 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Yarn3Title">
+                    <Textbox Name="Textbox39">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!Yarn3Title.Value</Value>
+                              <Value />
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>8pt</FontSize>
@@ -144,286 +640,16 @@
                             </TextRun>
                           </TextRuns>
                           <Style>
-                            <TextAlign>Right</TextAlign>
+                            <TextAlign>Left</TextAlign>
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Yarn3Title</rd:DefaultName>
+                      <rd:DefaultName>Textbox39</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
                           <Style>Solid</Style>
                         </Border>
-                        <TopBorder>
-                          <Color>Black</Color>
-                        </TopBorder>
-                        <BottomBorder>
-                          <Color>Black</Color>
-                        </BottomBorder>
-                        <BackgroundColor>=iif(RowNumber(nothing) Mod 2 , "White","WhiteSmoke")</BackgroundColor>
-                        <VerticalAlign>Middle</VerticalAlign>
-                        <PaddingLeft>2pt</PaddingLeft>
-                        <PaddingRight>2pt</PaddingRight>
-                        <PaddingTop>2pt</PaddingTop>
-                        <PaddingBottom>2pt</PaddingBottom>
-                      </Style>
-                    </Textbox>
-                  </CellContents>
-                </TablixCell>
-                <TablixCell>
-                  <CellContents>
-                    <Textbox Name="Yarn4Title">
-                      <CanGrow>true</CanGrow>
-                      <KeepTogether>true</KeepTogether>
-                      <Paragraphs>
-                        <Paragraph>
-                          <TextRuns>
-                            <TextRun>
-                              <Value>=Fields!Yarn4Title.Value</Value>
-                              <Style>
-                                <FontFamily>Tahoma</FontFamily>
-                                <FontSize>8pt</FontSize>
-                                <FontWeight>Bold</FontWeight>
-                              </Style>
-                            </TextRun>
-                          </TextRuns>
-                          <Style>
-                            <TextAlign>Right</TextAlign>
-                          </Style>
-                        </Paragraph>
-                      </Paragraphs>
-                      <rd:DefaultName>Yarn4Title</rd:DefaultName>
-                      <Style>
-                        <Border>
-                          <Color>LightGrey</Color>
-                          <Style>Solid</Style>
-                        </Border>
-                        <TopBorder>
-                          <Color>Black</Color>
-                        </TopBorder>
-                        <BottomBorder>
-                          <Color>Black</Color>
-                        </BottomBorder>
-                        <BackgroundColor>=iif(RowNumber(nothing) Mod 2 , "White","WhiteSmoke")</BackgroundColor>
-                        <VerticalAlign>Middle</VerticalAlign>
-                        <PaddingLeft>2pt</PaddingLeft>
-                        <PaddingRight>2pt</PaddingRight>
-                        <PaddingTop>2pt</PaddingTop>
-                        <PaddingBottom>2pt</PaddingBottom>
-                      </Style>
-                    </Textbox>
-                  </CellContents>
-                </TablixCell>
-                <TablixCell>
-                  <CellContents>
-                    <Textbox Name="Yarn5Title">
-                      <CanGrow>true</CanGrow>
-                      <KeepTogether>true</KeepTogether>
-                      <Paragraphs>
-                        <Paragraph>
-                          <TextRuns>
-                            <TextRun>
-                              <Value>=Fields!Yarn5Title.Value</Value>
-                              <Style>
-                                <FontFamily>Tahoma</FontFamily>
-                                <FontSize>8pt</FontSize>
-                                <FontWeight>Bold</FontWeight>
-                              </Style>
-                            </TextRun>
-                          </TextRuns>
-                          <Style>
-                            <TextAlign>Right</TextAlign>
-                          </Style>
-                        </Paragraph>
-                      </Paragraphs>
-                      <rd:DefaultName>Yarn5Title</rd:DefaultName>
-                      <Style>
-                        <Border>
-                          <Color>LightGrey</Color>
-                          <Style>Solid</Style>
-                        </Border>
-                        <TopBorder>
-                          <Color>Black</Color>
-                        </TopBorder>
-                        <BottomBorder>
-                          <Color>Black</Color>
-                        </BottomBorder>
-                        <BackgroundColor>=iif(RowNumber(nothing) Mod 2 , "White","WhiteSmoke")</BackgroundColor>
-                        <VerticalAlign>Middle</VerticalAlign>
-                        <PaddingLeft>2pt</PaddingLeft>
-                        <PaddingRight>2pt</PaddingRight>
-                        <PaddingTop>2pt</PaddingTop>
-                        <PaddingBottom>2pt</PaddingBottom>
-                      </Style>
-                    </Textbox>
-                  </CellContents>
-                </TablixCell>
-                <TablixCell>
-                  <CellContents>
-                    <Textbox Name="Yarn6Title">
-                      <CanGrow>true</CanGrow>
-                      <KeepTogether>true</KeepTogether>
-                      <Paragraphs>
-                        <Paragraph>
-                          <TextRuns>
-                            <TextRun>
-                              <Value>=Fields!Yarn6Title.Value</Value>
-                              <Style>
-                                <FontFamily>Tahoma</FontFamily>
-                                <FontSize>8pt</FontSize>
-                                <FontWeight>Bold</FontWeight>
-                              </Style>
-                            </TextRun>
-                          </TextRuns>
-                          <Style>
-                            <TextAlign>Right</TextAlign>
-                          </Style>
-                        </Paragraph>
-                      </Paragraphs>
-                      <rd:DefaultName>Yarn6Title</rd:DefaultName>
-                      <Style>
-                        <Border>
-                          <Color>LightGrey</Color>
-                          <Style>Solid</Style>
-                        </Border>
-                        <TopBorder>
-                          <Color>Black</Color>
-                        </TopBorder>
-                        <BottomBorder>
-                          <Color>Black</Color>
-                        </BottomBorder>
-                        <BackgroundColor>=iif(RowNumber(nothing) Mod 2 , "White","WhiteSmoke")</BackgroundColor>
-                        <VerticalAlign>Middle</VerticalAlign>
-                        <PaddingLeft>2pt</PaddingLeft>
-                        <PaddingRight>2pt</PaddingRight>
-                        <PaddingTop>2pt</PaddingTop>
-                        <PaddingBottom>2pt</PaddingBottom>
-                      </Style>
-                    </Textbox>
-                  </CellContents>
-                </TablixCell>
-                <TablixCell>
-                  <CellContents>
-                    <Textbox Name="Yarn7Title">
-                      <CanGrow>true</CanGrow>
-                      <KeepTogether>true</KeepTogether>
-                      <Paragraphs>
-                        <Paragraph>
-                          <TextRuns>
-                            <TextRun>
-                              <Value>=Fields!Yarn7Title.Value</Value>
-                              <Style>
-                                <FontFamily>Tahoma</FontFamily>
-                                <FontSize>8pt</FontSize>
-                                <FontWeight>Bold</FontWeight>
-                              </Style>
-                            </TextRun>
-                          </TextRuns>
-                          <Style>
-                            <TextAlign>Right</TextAlign>
-                          </Style>
-                        </Paragraph>
-                      </Paragraphs>
-                      <rd:DefaultName>Yarn7Title</rd:DefaultName>
-                      <Style>
-                        <Border>
-                          <Color>LightGrey</Color>
-                          <Style>Solid</Style>
-                        </Border>
-                        <TopBorder>
-                          <Color>Black</Color>
-                        </TopBorder>
-                        <BottomBorder>
-                          <Color>Black</Color>
-                        </BottomBorder>
-                        <BackgroundColor>=iif(RowNumber(nothing) Mod 2 , "White","WhiteSmoke")</BackgroundColor>
-                        <VerticalAlign>Middle</VerticalAlign>
-                        <PaddingLeft>2pt</PaddingLeft>
-                        <PaddingRight>2pt</PaddingRight>
-                        <PaddingTop>2pt</PaddingTop>
-                        <PaddingBottom>2pt</PaddingBottom>
-                      </Style>
-                    </Textbox>
-                  </CellContents>
-                </TablixCell>
-                <TablixCell>
-                  <CellContents>
-                    <Textbox Name="Yarn8Title">
-                      <CanGrow>true</CanGrow>
-                      <KeepTogether>true</KeepTogether>
-                      <Paragraphs>
-                        <Paragraph>
-                          <TextRuns>
-                            <TextRun>
-                              <Value>=Fields!Yarn8Title.Value</Value>
-                              <Style>
-                                <FontFamily>Tahoma</FontFamily>
-                                <FontSize>8pt</FontSize>
-                                <FontWeight>Bold</FontWeight>
-                              </Style>
-                            </TextRun>
-                          </TextRuns>
-                          <Style>
-                            <TextAlign>Right</TextAlign>
-                          </Style>
-                        </Paragraph>
-                      </Paragraphs>
-                      <rd:DefaultName>Yarn8Title</rd:DefaultName>
-                      <Style>
-                        <Border>
-                          <Color>LightGrey</Color>
-                          <Style>Solid</Style>
-                        </Border>
-                        <TopBorder>
-                          <Color>Black</Color>
-                        </TopBorder>
-                        <BottomBorder>
-                          <Color>Black</Color>
-                        </BottomBorder>
-                        <BackgroundColor>=iif(RowNumber(nothing) Mod 2 , "White","WhiteSmoke")</BackgroundColor>
-                        <VerticalAlign>Middle</VerticalAlign>
-                        <PaddingLeft>2pt</PaddingLeft>
-                        <PaddingRight>2pt</PaddingRight>
-                        <PaddingTop>2pt</PaddingTop>
-                        <PaddingBottom>2pt</PaddingBottom>
-                      </Style>
-                    </Textbox>
-                  </CellContents>
-                </TablixCell>
-                <TablixCell>
-                  <CellContents>
-                    <Textbox Name="Textbox71">
-                      <CanGrow>true</CanGrow>
-                      <KeepTogether>true</KeepTogether>
-                      <Paragraphs>
-                        <Paragraph>
-                          <TextRuns>
-                            <TextRun>
-                              <Value>Other</Value>
-                              <Style>
-                                <FontFamily>Tahoma</FontFamily>
-                                <FontSize>8pt</FontSize>
-                                <FontWeight>Bold</FontWeight>
-                              </Style>
-                            </TextRun>
-                          </TextRuns>
-                          <Style>
-                            <TextAlign>Right</TextAlign>
-                          </Style>
-                        </Paragraph>
-                      </Paragraphs>
-                      <rd:DefaultName>Textbox71</rd:DefaultName>
-                      <Style>
-                        <Border>
-                          <Color>LightGrey</Color>
-                          <Style>Solid</Style>
-                        </Border>
-                        <TopBorder>
-                          <Color>Black</Color>
-                        </TopBorder>
-                        <BottomBorder>
-                          <Color>Black</Color>
-                        </BottomBorder>
                         <BackgroundColor>=iif(RowNumber(nothing) Mod 2 , "White","WhiteSmoke")</BackgroundColor>
                         <VerticalAlign>Middle</VerticalAlign>
                         <PaddingLeft>2pt</PaddingLeft>
@@ -441,27 +667,24 @@
               <TablixCells>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Yarn1Qty">
+                    <Textbox Name="ProductName">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!Yarn1Qty.Value</Value>
+                              <Value>=Fields!ProductName.Value</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>8pt</FontSize>
-                                <Format>0.000;-0.000;'-'</Format>
                               </Style>
                             </TextRun>
                           </TextRuns>
-                          <Style>
-                            <TextAlign>Right</TextAlign>
-                          </Style>
+                          <Style />
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Yarn1Qty</rd:DefaultName>
+                      <rd:DefaultName>ProductName</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -479,27 +702,24 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Yarn2Qty">
+                    <Textbox Name="Dimension1Name">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!Yarn2Qty.Value</Value>
+                              <Value>=Fields!Dimension1Name.Value</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>8pt</FontSize>
-                                <Format>0.000;-0.000;'-'</Format>
                               </Style>
                             </TextRun>
                           </TextRuns>
-                          <Style>
-                            <TextAlign>Right</TextAlign>
-                          </Style>
+                          <Style />
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Yarn2Qty</rd:DefaultName>
+                      <rd:DefaultName>Dimension1Name</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -517,18 +737,18 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Yarn3Qty">
+                    <Textbox Name="ReqQty">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!Yarn3Qty.Value</Value>
+                              <Value>=Fields!ReqQty.Value</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>8pt</FontSize>
-                                <Format>0.000;-0.000;'-'</Format>
+                                <Format>0.000;(0.000);'-'</Format>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -537,7 +757,7 @@
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Yarn3Qty</rd:DefaultName>
+                      <rd:DefaultName>ReqQty</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -555,27 +775,26 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Yarn4Qty">
+                    <Textbox Name="Textbox12">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!Yarn4Qty.Value</Value>
+                              <Value />
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>8pt</FontSize>
-                                <Format>0.000;-0.000;'-'</Format>
                               </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
-                            <TextAlign>Right</TextAlign>
+                            <TextAlign>Left</TextAlign>
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Yarn4Qty</rd:DefaultName>
+                      <rd:DefaultName>Textbox12</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -593,27 +812,26 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Yarn5Qty">
+                    <Textbox Name="Textbox18">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Sum(Fields!Yarn5Qty.Value)</Value>
+                              <Value />
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>8pt</FontSize>
-                                <Format>0.000;-0.000;'-'</Format>
                               </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
-                            <TextAlign>Right</TextAlign>
+                            <TextAlign>Left</TextAlign>
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Yarn5Qty</rd:DefaultName>
+                      <rd:DefaultName>Textbox18</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -631,27 +849,26 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Yarn6Qty">
+                    <Textbox Name="Textbox40">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Sum(Fields!Yarn6Qty.Value)</Value>
+                              <Value />
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>8pt</FontSize>
-                                <Format>0.000;-0.000;'-'</Format>
                               </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
-                            <TextAlign>Right</TextAlign>
+                            <TextAlign>Left</TextAlign>
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Yarn6Qty</rd:DefaultName>
+                      <rd:DefaultName>Textbox40</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -667,20 +884,71 @@
                     </Textbox>
                   </CellContents>
                 </TablixCell>
+              </TablixCells>
+            </TablixRow>
+            <TablixRow>
+              <Height>0.25in</Height>
+              <TablixCells>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Yarn7Qty">
+                    <Textbox Name="Textbox15">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Sum(Fields!Yarn7Qty.Value)</Value>
+                              <Value>="Total " + Fields!ProductGroupName.Value + " @ " + 
+Format(Round(sum(Fields!ReqQty.Value)/Max(Fields!OrderArea.Value),3))</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>8pt</FontSize>
-                                <Format>0.000;-0.000;'-'</Format>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox15</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>Silver</Color>
+                          <Style>None</Style>
+                        </Border>
+                        <TopBorder>
+                          <Style>Solid</Style>
+                        </TopBorder>
+                        <BottomBorder>
+                          <Style>Solid</Style>
+                        </BottomBorder>
+                        <BackgroundColor>LightGrey</BackgroundColor>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                    <ColSpan>2</ColSpan>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell />
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox17">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=sum(Fields!ReqQty.Value)</Value>
+                              <Style>
+                                <FontFamily>Tahoma</FontFamily>
+                                <FontSize>8pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                                <Format>0.000;(0.000);'-'</Format>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -689,13 +957,19 @@
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Yarn7Qty</rd:DefaultName>
+                      <rd:DefaultName>Textbox17</rd:DefaultName>
                       <Style>
                         <Border>
-                          <Color>LightGrey</Color>
-                          <Style>Solid</Style>
+                          <Color>Silver</Color>
+                          <Style>None</Style>
                         </Border>
-                        <BackgroundColor>=iif(RowNumber(nothing) Mod 2 , "White","WhiteSmoke")</BackgroundColor>
+                        <TopBorder>
+                          <Style>Solid</Style>
+                        </TopBorder>
+                        <BottomBorder>
+                          <Style>Solid</Style>
+                        </BottomBorder>
+                        <BackgroundColor>LightGrey</BackgroundColor>
                         <VerticalAlign>Middle</VerticalAlign>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
@@ -707,33 +981,39 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Yarn8Qty">
+                    <Textbox Name="Textbox13">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Sum(Fields!Yarn8Qty.Value)</Value>
+                              <Value />
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>8pt</FontSize>
-                                <Format>0.000;-0.000;'-'</Format>
+                                <FontWeight>Bold</FontWeight>
                               </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
-                            <TextAlign>Right</TextAlign>
+                            <TextAlign>Left</TextAlign>
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Yarn8Qty</rd:DefaultName>
+                      <rd:DefaultName>Textbox13</rd:DefaultName>
                       <Style>
                         <Border>
-                          <Color>LightGrey</Color>
-                          <Style>Solid</Style>
+                          <Color>Silver</Color>
+                          <Style>None</Style>
                         </Border>
-                        <BackgroundColor>=iif(RowNumber(nothing) Mod 2 , "White","WhiteSmoke")</BackgroundColor>
+                        <TopBorder>
+                          <Style>Solid</Style>
+                        </TopBorder>
+                        <BottomBorder>
+                          <Style>Solid</Style>
+                        </BottomBorder>
+                        <BackgroundColor>LightGrey</BackgroundColor>
                         <VerticalAlign>Middle</VerticalAlign>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
@@ -745,33 +1025,83 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="OtherQty">
+                    <Textbox Name="Textbox19">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!OtherQty.Value</Value>
+                              <Value />
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>8pt</FontSize>
-                                <Format>0.000;-0.000;'-'</Format>
+                                <FontWeight>Bold</FontWeight>
                               </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
-                            <TextAlign>Right</TextAlign>
+                            <TextAlign>Left</TextAlign>
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>OtherQty</rd:DefaultName>
+                      <rd:DefaultName>Textbox19</rd:DefaultName>
                       <Style>
                         <Border>
-                          <Color>LightGrey</Color>
-                          <Style>Solid</Style>
+                          <Color>Silver</Color>
+                          <Style>None</Style>
                         </Border>
-                        <BackgroundColor>=iif(RowNumber(nothing) Mod 2 , "White","WhiteSmoke")</BackgroundColor>
+                        <TopBorder>
+                          <Style>Solid</Style>
+                        </TopBorder>
+                        <BottomBorder>
+                          <Style>Solid</Style>
+                        </BottomBorder>
+                        <BackgroundColor>LightGrey</BackgroundColor>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox41">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value />
+                              <Style>
+                                <FontFamily>Tahoma</FontFamily>
+                                <FontSize>8pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Left</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox41</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>Silver</Color>
+                          <Style>None</Style>
+                        </Border>
+                        <TopBorder>
+                          <Style>Solid</Style>
+                        </TopBorder>
+                        <BottomBorder>
+                          <Style>Solid</Style>
+                        </BottomBorder>
+                        <BackgroundColor>LightGrey</BackgroundColor>
                         <VerticalAlign>Middle</VerticalAlign>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
@@ -793,25 +1123,40 @@
             <TablixMember />
             <TablixMember />
             <TablixMember />
-            <TablixMember />
-            <TablixMember />
-            <TablixMember />
           </TablixMembers>
         </TablixColumnHierarchy>
         <TablixRowHierarchy>
           <TablixMembers>
+            <TablixMember />
+            <TablixMember />
             <TablixMember>
-              <Group Name="Details" />
+              <Group Name="ProductGroupName">
+                <GroupExpressions>
+                  <GroupExpression>=Fields!ProductGroupName.Value</GroupExpression>
+                </GroupExpressions>
+              </Group>
+              <SortExpressions>
+                <SortExpression>
+                  <Value>=Fields!ProductGroupName.Value</Value>
+                </SortExpression>
+              </SortExpressions>
               <TablixMembers>
-                <TablixMember />
-                <TablixMember />
+                <TablixMember>
+                  <KeepWithGroup>After</KeepWithGroup>
+                </TablixMember>
+                <TablixMember>
+                  <Group Name="Details" />
+                </TablixMember>
+                <TablixMember>
+                  <KeepWithGroup>Before</KeepWithGroup>
+                </TablixMember>
               </TablixMembers>
             </TablixMember>
           </TablixMembers>
         </TablixRowHierarchy>
         <DataSetName>DsMain</DataSetName>
-        <Height>0.45in</Height>
-        <Width>7.1in</Width>
+        <Height>1.15in</Height>
+        <Width>7.35415in</Width>
         <Style>
           <Border>
             <Style>None</Style>
@@ -819,10 +1164,10 @@
         </Style>
       </Tablix>
     </ReportItems>
-    <Height>0.48125in</Height>
+    <Height>1.15in</Height>
     <Style />
   </Body>
-  <Width>7.1in</Width>
+  <Width>7.35416in</Width>
   <Page>
     <PageHeight>11.69in</PageHeight>
     <PageWidth>8.27in</PageWidth>
@@ -850,100 +1195,72 @@
           </QueryParameter>
         </QueryParameters>
         <CommandType>StoredProcedure</CommandType>
-        <CommandText>Web.ProcWeavingOrderPrint4</CommandText>
+        <CommandText>Web.ProcWeavingOrder_Print1_ForOT_Column</CommandText>
       </Query>
       <Fields>
-        <Field Name="ReferenceDocId">
-          <DataField>ReferenceDocId</DataField>
+        <Field Name="JobOrderHeaderId">
+          <DataField>JobOrderHeaderId</DataField>
           <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
         <Field Name="SiteId">
           <DataField>SiteId</DataField>
           <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
-        <Field Name="Qty">
-          <DataField>Qty</DataField>
-          <rd:TypeName>System.Decimal</rd:TypeName>
+        <Field Name="ProductId">
+          <DataField>ProductId</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
-        <Field Name="Yarn1Qty">
-          <DataField>Yarn1Qty</DataField>
-          <rd:TypeName>System.Decimal</rd:TypeName>
+        <Field Name="ProductName">
+          <DataField>ProductName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="Yarn2Qty">
-          <DataField>Yarn2Qty</DataField>
-          <rd:TypeName>System.Decimal</rd:TypeName>
+        <Field Name="Dimension1Id">
+          <DataField>Dimension1Id</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
         <Field Name="DivisionId">
           <DataField>DivisionId</DataField>
           <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
-        <Field Name="Yarn3Qty">
-          <DataField>Yarn3Qty</DataField>
-          <rd:TypeName>System.Decimal</rd:TypeName>
+        <Field Name="Unit">
+          <DataField>Unit</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="Yarn4Qty">
-          <DataField>Yarn4Qty</DataField>
-          <rd:TypeName>System.Decimal</rd:TypeName>
+        <Field Name="ProductGroupName">
+          <DataField>ProductGroupName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="Yarn5Qty">
-          <DataField>Yarn5Qty</DataField>
-          <rd:TypeName>System.Decimal</rd:TypeName>
+        <Field Name="Dimension1Name">
+          <DataField>Dimension1Name</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="ReportName">
           <DataField>ReportName</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="Yarn6Qty">
-          <DataField>Yarn6Qty</DataField>
-          <rd:TypeName>System.Decimal</rd:TypeName>
-        </Field>
-        <Field Name="Yarn7Qty">
-          <DataField>Yarn7Qty</DataField>
-          <rd:TypeName>System.Decimal</rd:TypeName>
+        <Field Name="OrderArea">
+          <DataField>OrderArea</DataField>
+          <rd:TypeName>System.Double</rd:TypeName>
         </Field>
         <Field Name="ReportTitle">
           <DataField>ReportTitle</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="Yarn8Qty">
-          <DataField>Yarn8Qty</DataField>
+        <Field Name="CancelQty">
+          <DataField>CancelQty</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="NetReqQty">
+          <DataField>NetReqQty</DataField>
           <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
-        <Field Name="OtherQty">
-          <DataField>OtherQty</DataField>
+        <Field Name="ReqQty">
+          <DataField>ReqQty</DataField>
           <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
-        <Field Name="Yarn1Title">
-          <DataField>Yarn1Title</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="Yarn2Title">
-          <DataField>Yarn2Title</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="Yarn3Title">
-          <DataField>Yarn3Title</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="Yarn4Title">
-          <DataField>Yarn4Title</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="Yarn5Title">
-          <DataField>Yarn5Title</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="Yarn6Title">
-          <DataField>Yarn6Title</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="Yarn7Title">
-          <DataField>Yarn7Title</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="Yarn8Title">
-          <DataField>Yarn8Title</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
+        <Field Name="SubReportProcList">
+          <DataField>SubReportProcList</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
       </Fields>
       <rd:DataSetInfo>
