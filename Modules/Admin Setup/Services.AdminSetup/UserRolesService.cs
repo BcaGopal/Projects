@@ -215,7 +215,7 @@ namespace Service
         {
             var RolesList = (from p in ((ApplicationDbContext)_context).UserRole
                              join t in ((ApplicationDbContext)_context).Roles on p.RoleId equals t.Id
-                             where p.UserId == UserId && p.ExpiryDate == null
+                             where p.UserId == UserId && p.ExpiryDate == null && t.Name != "SysAdmin"
                              select new
                              {
                                  id = p.RoleId,

@@ -36,8 +36,7 @@ namespace Model.Models
         [ForeignKey("DefaultDivision")]
         public int? DefaultDivisionId { get; set; }
         public virtual Division DefaultDivision { get; set; }
-        public string ReportHeaderTextLeft { get; set; }
-        public string ReportHeaderTextRight { get; set; }
+
 
         [Display(Name = "Is Active ?")]
         public Boolean IsActive { get; set; }

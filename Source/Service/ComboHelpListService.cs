@@ -185,6 +185,7 @@ namespace Service
         IQueryable<ComboBoxResult> GetCurrencies(string term);
         IQueryable<ComboBoxResult> GetSalesTaxGroupPerson(string term);
         IQueryable<ComboBoxResult> GetSalesTaxGroupProduct(string term);
+        IQueryable<ComboBoxResult> GetChargeType(string term);
         IQueryable<ComboBoxResult> GetShipMethods(string term);
         IQueryable<ComboBoxResult> GetDocumentShipMethods(string term);
         IQueryable<ComboBoxResult> GetTransporters(string term);
@@ -196,6 +197,7 @@ namespace Service
         IQueryable<ComboBoxResult> GetBinLocations(string term, int filter);
         IQueryable<ComboBoxResult> GetSites(string term);
         IQueryable<ComboBoxResult> GetDivisions(string term);
+        IQueryable<ComboBoxResult> GetPerson(string term);
         IEnumerable<ComboBoxResult> GetProductIndexFilterParameter(string term);
 
         List<ComboBoxResult> SetSelct2Data(string Id, string SqlProcSet);
@@ -2745,6 +2747,39 @@ namespace Service
                         {
                             id = D.ChargeGroupProductId.ToString(),
                             text = D.ChargeGroupProductName
+                        }
+              );
+
+            return list;
+        }
+
+
+        public IQueryable<ComboBoxResult> GetChargeType(string term)
+        {
+            var list = (from D in db.ChargeType
+                        where D.IsActive == true
+                        && (string.IsNullOrEmpty(term) ? 1 == 1 : (D.ChargeTypeName.ToLower().Contains(term.ToLower())))
+                        orderby D.ChargeTypeName
+                        select new ComboBoxResult
+                        {
+                            id = D.ChargeTypeId.ToString(),
+                            text = D.ChargeTypeName
+                        }
+              );
+
+            return list;
+        }
+
+        public IQueryable<ComboBoxResult> GetPerson(string term)
+        {
+            var list = (from D in db.Persons
+                        where D.IsActive == true
+                        && (string.IsNullOrEmpty(term) ? 1 == 1 : (D.Name.ToLower().Contains(term.ToLower())))
+                        orderby D.Name
+                        select new ComboBoxResult
+                        {
+                            id = D.PersonID.ToString(),
+                            text = D.Name
                         }
               );
 

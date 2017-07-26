@@ -50,6 +50,291 @@ namespace Web
             LogVm.User = System.Web.HttpContext.Current.Request.RequestContext.HttpContext.User.Identity.Name;
         }
 
+        public ActionResult _ForStockIn(int id)
+        {
+            StockInFiltersForIssue vm = new StockInFiltersForIssue();
+            StockHeader Header = new StockHeaderService(_unitOfWork).Find(id);
+            vm.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(Header.DocTypeId);
+            vm.StockHeaderId = id;
+            return PartialView("_FiltersStockIn", vm);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult _FilterPostStockIn(StockInFiltersForIssue vm)
+        {
+            List<StockLineViewModel> temp = _StockLineService.GetStockInForFilters(vm).ToList();
+
+            StockMasterDetailModel svm = new StockMasterDetailModel();
+            svm.StockLineViewModel = temp;
+            //Getting Settings           
+            var Header = new StockHeaderService(_unitOfWork).Find(vm.StockHeaderId);
+            svm.StockHeaderSettings = Mapper.Map<StockHeaderSettings, StockHeaderSettingsViewModel>(new StockHeaderSettingsService(_unitOfWork).GetStockHeaderSettingsForDocument(Header.DocTypeId, Header.DivisionId, Header.SiteId));
+            return PartialView("_ResultsStockIn", svm);
+
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult _ResultsPost(StockMasterDetailModel vm)
+        {
+            int Cnt = 0;
+            int pk = 0;
+            int Serial = _StockLineService.GetMaxSr(vm.StockLineViewModel.FirstOrDefault().StockHeaderId);
+            Dictionary<int, decimal> LineStatus = new Dictionary<int, decimal>();
+            StockHeader Header = new StockHeaderService(_unitOfWork).Find(vm.StockLineViewModel.FirstOrDefault().StockHeaderId);
+
+            StockHeaderSettings Settings = new StockHeaderSettingsService(_unitOfWork).GetStockHeaderSettingsForDocument(Header.DocTypeId, Header.DivisionId, Header.SiteId);
+
+
+            if (Settings.isMandatoryLineCostCenter == true && vm.StockLineViewModel.Where(m => m.CostCenterId == null).Any())
+            {
+                ModelState.AddModelError("", "CostCenter is mandatory");
+            }
+
+            decimal Qty = vm.StockLineViewModel.Where(m => m.Rate > 0).Sum(m => m.Qty);
+
+            bool BeforeSave = true;
+            try
+            {
+                BeforeSave = MaterialTransferDocEvents.beforeLineSaveBulkEvent(this, new StockEventArgs(vm.StockLineViewModel.FirstOrDefault().StockHeaderId), ref db);
+            }
+            catch (Exception ex)
+            {
+                string message = _exception.HandleException(ex);
+                TempData["CSEXC"] += message;
+                EventException = true;
+            }
+
+            if (!BeforeSave)
+                ModelState.AddModelError("", "Validation failed before save");
+
+            if (ModelState.IsValid && BeforeSave && !EventException)
+            {
+                foreach (var item in vm.StockLineViewModel)
+                {
+                    //if (item.Qty > 0 &&  ((Settings.isMandatoryRate.HasValue && Settings.isMandatoryRate == true )? item.Rate > 0 : 1 == 1))
+                    if (item.Qty > 0)
+                    {
+                        StockLine line = new StockLine();
+
+                        StockViewModel StockViewModel_Issue = new StockViewModel();
+
+                        StockViewModel_Issue.StockId = -Cnt;
+                        StockViewModel_Issue.StockHeaderId = Header.StockHeaderId;
+                        StockViewModel_Issue.DocHeaderId = Header.StockHeaderId;
+                        StockViewModel_Issue.DocLineId = line.StockLineId;
+                        StockViewModel_Issue.DocTypeId = Header.DocTypeId;
+                        StockViewModel_Issue.StockHeaderDocDate = Header.DocDate;
+                        StockViewModel_Issue.StockDocDate = Header.DocDate;
+                        StockViewModel_Issue.DocNo = Header.DocNo;
+                        StockViewModel_Issue.DivisionId = Header.DivisionId;
+                        StockViewModel_Issue.SiteId = Header.SiteId;
+                        StockViewModel_Issue.CurrencyId = null;
+                        StockViewModel_Issue.PersonId = Header.PersonId;
+                        StockViewModel_Issue.ProductId = item.ProductId;
+                        StockViewModel_Issue.HeaderFromGodownId = null;
+                        StockViewModel_Issue.HeaderGodownId = Header.GodownId;
+                        StockViewModel_Issue.HeaderProcessId = Header.ProcessId;
+                        StockViewModel_Issue.GodownId = (int)Header.FromGodownId;
+                        StockViewModel_Issue.Remark = Header.Remark;
+                        StockViewModel_Issue.Status = Header.Status;
+                        StockViewModel_Issue.ProcessId = item.ProcessId;
+                        StockViewModel_Issue.LotNo = null;
+                        StockViewModel_Issue.CostCenterId = (item.CostCenterId == null ? Header.CostCenterId : item.CostCenterId);
+                        StockViewModel_Issue.Qty_Iss = item.Qty;
+                        StockViewModel_Issue.Qty_Rec = 0;
+                        StockViewModel_Issue.Rate = item.Rate;
+                        StockViewModel_Issue.ExpiryDate = null;
+                        StockViewModel_Issue.Specification = item.Specification;
+                        StockViewModel_Issue.Dimension1Id = item.Dimension1Id;
+                        StockViewModel_Issue.Dimension2Id = item.Dimension2Id;
+                        StockViewModel_Issue.Dimension3Id = item.Dimension3Id;
+                        StockViewModel_Issue.Dimension4Id = item.Dimension4Id;
+                        StockViewModel_Issue.ProductUidId = item.ProductUidId;
+                        StockViewModel_Issue.CreatedBy = User.Identity.Name;
+                        StockViewModel_Issue.CreatedDate = DateTime.Now;
+                        StockViewModel_Issue.ModifiedBy = User.Identity.Name;
+                        StockViewModel_Issue.ModifiedDate = DateTime.Now;
+
+                        string StockPostingError = "";
+                        StockPostingError = new StockService(_unitOfWork).StockPostDB(ref StockViewModel_Issue, ref db);
+
+                        if (StockPostingError != "")
+                        {
+                            string message = StockPostingError;
+                            ModelState.AddModelError("", message);
+                            return PartialView("_Results", vm);
+                        }
+
+                        line.FromStockId = StockViewModel_Issue.StockId;
+
+
+                        Cnt = Cnt + 1;
+                        StockViewModel StockViewModel_Receive = new StockViewModel();
+                        StockViewModel_Receive.StockId = -Cnt;
+                        StockViewModel_Receive.StockHeaderId = Header.StockHeaderId;
+                        StockViewModel_Receive.DocHeaderId = Header.StockHeaderId;
+                        StockViewModel_Receive.DocLineId = line.StockLineId;
+                        StockViewModel_Receive.DocTypeId = Header.DocTypeId;
+                        StockViewModel_Receive.StockHeaderDocDate = Header.DocDate;
+                        StockViewModel_Receive.StockDocDate = Header.DocDate;
+                        StockViewModel_Receive.DocNo = Header.DocNo;
+                        StockViewModel_Receive.DivisionId = Header.DivisionId;
+                        StockViewModel_Receive.SiteId = Header.SiteId;
+                        StockViewModel_Receive.CurrencyId = null;
+                        StockViewModel_Receive.PersonId = Header.PersonId;
+                        StockViewModel_Receive.ProductId = item.ProductId;
+                        StockViewModel_Receive.HeaderFromGodownId = null;
+                        StockViewModel_Receive.HeaderGodownId = Header.GodownId;
+                        StockViewModel_Receive.HeaderProcessId = Header.ProcessId;
+                        StockViewModel_Receive.GodownId = (int)Header.GodownId;
+                        StockViewModel_Receive.Remark = Header.Remark;
+                        StockViewModel_Receive.Status = Header.Status;
+                        StockViewModel_Receive.ProcessId = item.ProcessId;
+                        StockViewModel_Receive.LotNo = null;
+                        StockViewModel_Receive.CostCenterId = (item.CostCenterId == null ? Header.CostCenterId : item.CostCenterId);
+                        StockViewModel_Receive.Qty_Iss = 0;
+                        StockViewModel_Receive.Qty_Rec = item.Qty;
+                        StockViewModel_Receive.Rate = item.Rate;
+                        StockViewModel_Receive.ExpiryDate = null;
+                        StockViewModel_Receive.Specification = item.Specification;
+                        StockViewModel_Receive.Dimension1Id = item.Dimension1Id;
+                        StockViewModel_Receive.Dimension2Id = item.Dimension2Id;
+                        StockViewModel_Receive.Dimension3Id = item.Dimension3Id;
+                        StockViewModel_Receive.Dimension4Id = item.Dimension4Id;
+                        StockViewModel_Receive.ProductUidId = item.ProductUidId;
+                        StockViewModel_Receive.CreatedBy = User.Identity.Name;
+                        StockViewModel_Receive.CreatedDate = DateTime.Now;
+                        StockViewModel_Receive.ModifiedBy = User.Identity.Name;
+                        StockViewModel_Receive.ModifiedDate = DateTime.Now;
+
+                        StockPostingError = new StockService(_unitOfWork).StockPostDB(ref StockViewModel_Receive, ref db);
+
+                        if (StockPostingError != "")
+                        {
+                            string message = StockPostingError;
+                            ModelState.AddModelError("", message);
+                            return PartialView("_Results", vm);
+                        }
+
+                        line.StockId = StockViewModel_Receive.StockId;
+
+
+                        
+
+                        if (item.StockInId != null)
+                        {
+                            StockAdj Adj_IssQty = new StockAdj();
+                            Adj_IssQty.StockAdjId = -Cnt;
+                            Adj_IssQty.StockInId = (int)item.StockInId;
+                            Adj_IssQty.StockOutId = (int)line.FromStockId;
+                            Adj_IssQty.DivisionId = Header.DivisionId;
+                            Adj_IssQty.SiteId = Header.SiteId;
+                            Adj_IssQty.AdjustedQty = item.Qty;
+                            Adj_IssQty.ObjectState = Model.ObjectState.Added;
+                            db.StockAdj.Add(Adj_IssQty);
+                        }
+
+
+                        line.StockHeaderId = Header.StockHeaderId;
+                        line.RequisitionLineId = item.RequisitionLineId;
+                        line.StockInId = item.StockInId;
+                        line.ProductId = item.ProductId;
+                        line.Dimension1Id = item.Dimension1Id;
+                        line.Dimension2Id = item.Dimension2Id;
+                        line.Dimension3Id = item.Dimension3Id;
+                        line.Dimension4Id = item.Dimension4Id;
+                        line.Specification = item.Specification;
+                        line.CostCenterId = item.CostCenterId;
+                        line.FromProcessId = item.ProcessId;
+                        line.Qty = item.Qty;
+                        line.DocNature = StockNatureConstants.Issue;
+                        line.Rate = item.Rate ?? 0;
+                        line.Amount = (line.Qty * line.Rate);
+                        line.ReferenceDocId = item.ReferenceDocId;
+                        line.ReferenceDocTypeId = item.ReferenceDocTypeId;
+                        line.CreatedDate = DateTime.Now;
+                        line.ModifiedDate = DateTime.Now;
+                        line.CreatedBy = User.Identity.Name;
+                        line.ModifiedBy = User.Identity.Name;
+                        line.StockLineId = pk;
+                        line.Sr = Serial++;
+                        line.ObjectState = Model.ObjectState.Added;
+                        //_StockLineService.Create(line);
+                        db.StockLine.Add(line);
+                        pk++;
+                        Cnt = Cnt + 1;
+                        if (line.RequisitionLineId.HasValue)
+                            LineStatus.Add(line.RequisitionLineId.Value, line.Qty);
+                    }
+
+                }
+                new RequisitionLineStatusService(_unitOfWork).UpdateRequisitionQtyIssueMultiple(LineStatus, Header.DocDate, ref db);
+                //new StockHeaderService(_unitOfWork).Update(Header);
+
+                if (Header.Status != (int)StatusConstants.Drafted && Header.Status != (int)StatusConstants.Import)
+                {
+                    Header.Status = (int)StatusConstants.Modified;
+                    Header.ModifiedBy = User.Identity.Name;
+                    Header.ModifiedDate = DateTime.Now;
+                }
+
+                Header.ObjectState = Model.ObjectState.Modified;
+                db.StockHeader.Add(Header);
+
+                try
+                {
+                    MaterialTransferDocEvents.onLineSaveBulkEvent(this, new StockEventArgs(vm.StockLineViewModel.FirstOrDefault().StockHeaderId), ref db);
+                }
+                catch (Exception ex)
+                {
+                    string message = _exception.HandleException(ex);
+                    TempData["CSEXCL"] += message;
+                    EventException = true;
+                }
+
+                try
+                {
+                    if (EventException)
+                    { throw new Exception(); }
+                    db.SaveChanges();
+                }
+
+                catch (Exception ex)
+                {
+                    string message = _exception.HandleException(ex);
+                    TempData["CSEXCL"] += message;
+                    return PartialView("_Results", vm);
+                }
+
+                try
+                {
+                    MaterialTransferDocEvents.afterLineSaveBulkEvent(this, new StockEventArgs(vm.StockLineViewModel.FirstOrDefault().StockHeaderId), ref db);
+                }
+                catch (Exception ex)
+                {
+                    string message = _exception.HandleException(ex);
+                    TempData["CSEXC"] += message;
+                }
+
+                LogActivity.LogActivityDetail(LogVm.Map(new ActiivtyLogViewModel
+                {
+                    DocTypeId = Header.DocTypeId,
+                    DocId = Header.StockHeaderId,
+                    ActivityType = (int)ActivityTypeContants.MultipleCreate,
+                    DocNo = Header.DocNo,
+                    DocDate = Header.DocDate,
+                    DocStatus = Header.Status,
+                }));
+
+                return Json(new { success = true });
+
+            }
+            return PartialView("_Results", vm);
+
+        }
+
         [HttpGet]
         public JsonResult Index(int id)
         {
@@ -264,6 +549,22 @@ namespace Web
                     s.ModifiedBy = User.Identity.Name;
 
 
+                    if (svm.StockInId != null)
+                    {
+                        StockAdj Adj_IssQty = new StockAdj();
+                        Adj_IssQty.StockInId = (int)svm.StockInId;
+                        Adj_IssQty.StockOutId = (int)s.FromStockId;
+                        Adj_IssQty.DivisionId = temp.DivisionId;
+                        Adj_IssQty.SiteId = temp.SiteId;
+                        Adj_IssQty.AdjustedQty = s.Qty;
+                        Adj_IssQty.ObjectState = Model.ObjectState.Added;
+                        db.StockAdj.Add(Adj_IssQty);
+                        //new StockAdjService(_unitOfWork).Create(Adj_IssQty);
+                    }
+
+                    s.StockInId = svm.StockInId;
+
+
                     if (s.ProductUidId != null && s.ProductUidId > 0)
                     {
                         //ProductUid Produid = new ProductUidService(_unitOfWork).Find(svm.ProductUidId ?? 0);
@@ -371,6 +672,8 @@ namespace Web
                     StockLine ExRec = new StockLine();
                     ExRec = Mapper.Map<StockLine>(templine);
 
+
+
                     templine.ProductId = s.ProductId;
                     templine.ProductUidId = s.ProductUidId;
                     templine.RequisitionLineId = s.RequisitionLineId;
@@ -386,6 +689,7 @@ namespace Web
                     templine.Remark = s.Remark;
                     templine.Qty = s.Qty;
                     templine.Weight  = s.Weight;
+                    templine.StockInId = s.StockInId;
                     templine.Remark = s.Remark;
 
                     templine.ModifiedDate = DateTime.Now;
@@ -422,20 +726,20 @@ namespace Web
                         StockViewModel_Issue.HeaderFromGodownId = null;
                         StockViewModel_Issue.HeaderGodownId = temp.FromGodownId;
                         StockViewModel_Issue.GodownId = temp.FromGodownId ?? 0;
-                        StockViewModel_Issue.ProcessId = templine.FromProcessId;
-                        StockViewModel_Issue.LotNo = templine.LotNo;
+                        StockViewModel_Issue.ProcessId = s.FromProcessId;
+                        StockViewModel_Issue.LotNo = s.LotNo;
                         StockViewModel_Issue.CostCenterId = temp.CostCenterId;
                         StockViewModel_Issue.Qty_Iss = s.Qty;
                         StockViewModel_Issue.Qty_Rec = 0;
                         StockViewModel_Issue.Weight_Iss = s.Weight;
                         StockViewModel_Issue.Weight_Rec = 0;
-                        StockViewModel_Issue.Rate = templine.Rate;
+                        StockViewModel_Issue.Rate = s.Rate;
                         StockViewModel_Issue.ExpiryDate = null;
-                        StockViewModel_Issue.Specification = templine.Specification;
-                        StockViewModel_Issue.Dimension1Id = templine.Dimension1Id;
-                        StockViewModel_Issue.Dimension2Id = templine.Dimension2Id;
-                        StockViewModel_Issue.Dimension3Id = templine.Dimension3Id;
-                        StockViewModel_Issue.Dimension4Id = templine.Dimension4Id;
+                        StockViewModel_Issue.Specification = s.Specification;
+                        StockViewModel_Issue.Dimension1Id = s.Dimension1Id;
+                        StockViewModel_Issue.Dimension2Id = s.Dimension2Id;
+                        StockViewModel_Issue.Dimension3Id = s.Dimension3Id;
+                        StockViewModel_Issue.Dimension4Id = s.Dimension4Id;
                         StockViewModel_Issue.Remark = s.Remark;
                         StockViewModel_Issue.ProductUidId = s.ProductUidId;
                         StockViewModel_Issue.Status = temp.Status;
@@ -507,6 +811,31 @@ namespace Web
                         }
                     }
 
+
+
+                    StockAdj Adj = (from L in db.StockAdj
+                                    where L.StockOutId == templine.StockId
+                                    select L).FirstOrDefault();
+
+                    if (Adj != null)
+                    {
+                        Adj.ObjectState = Model.ObjectState.Deleted;
+                        db.StockAdj.Remove(Adj);
+                        //new StockAdjService(_unitOfWork).Delete(Adj);
+                    }
+
+                    if (svm.StockInId != null)
+                    {
+                        StockAdj Adj_IssQty = new StockAdj();
+                        Adj_IssQty.StockInId = (int)svm.StockInId;
+                        Adj_IssQty.StockOutId = (int)templine.FromStockId;
+                        Adj_IssQty.DivisionId = temp.DivisionId;
+                        Adj_IssQty.SiteId = temp.SiteId;
+                        Adj_IssQty.AdjustedQty = svm.Qty;
+                        Adj_IssQty.ObjectState = Model.ObjectState.Added;
+                        db.StockAdj.Add(Adj_IssQty);
+                        //new StockAdjService(_unitOfWork).Create(Adj_IssQty);
+                    }
 
                     if (temp.Status != (int)StatusConstants.Drafted && temp.Status != (int)StatusConstants.Import)
                     {
@@ -803,11 +1132,34 @@ namespace Web
 
                 if (FromStockId != null)
                 {
+                    StockAdj Adj = (from L in db.StockAdj
+                                    where L.StockOutId == FromStockId
+                                    select L).FirstOrDefault();
+
+                    if (Adj != null)
+                    {
+                        //new StockAdjService(_unitOfWork).Delete(Adj);
+                        Adj.ObjectState = Model.ObjectState.Deleted;
+                        db.StockAdj.Remove(Adj);
+                    }
+
+
                     new StockService(_unitOfWork).DeleteStockDB((int)FromStockId, ref db, true);
                 }
 
                 if (StockId != null)
                 {
+                    StockAdj Adj = (from L in db.StockAdj
+                                    where L.StockOutId == StockId
+                                    select L).FirstOrDefault();
+
+                    if (Adj != null)
+                    {
+                        //new StockAdjService(_unitOfWork).Delete(Adj);
+                        Adj.ObjectState = Model.ObjectState.Deleted;
+                        db.StockAdj.Remove(Adj);
+                    }
+
                     new StockService(_unitOfWork).DeleteStockDB((int)StockId, ref db, true);
                 }
 
@@ -994,6 +1346,103 @@ namespace Web
             ProductUidJson.text = ProductUid.FirstOrDefault().text;
 
             return Json(ProductUidJson);
+        }
+
+        public ActionResult GetStockInForProduct(string searchTerm, int pageSize, int pageNum, int filter, int? ProductId, int? Dimension1Id, int? Dimension2Id, int? Dimension3Id, int? Dimension4Id)//DocTypeId
+        {
+            var Query = _StockLineService.GetPendingStockInForIssue(filter, ProductId, Dimension1Id, Dimension2Id, Dimension3Id, Dimension4Id, searchTerm);
+            var temp = Query.Skip(pageSize * (pageNum - 1))
+                .Take(pageSize)
+                .ToList();
+
+            var count = Query.Count();
+
+            ComboBoxPagedResult Data = new ComboBoxPagedResult();
+            Data.Results = temp;
+            Data.Total = count;
+
+            return new JsonpResult
+            {
+                Data = Data,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        public ActionResult GetStockInHeader(string searchTerm, int pageSize, int pageNum, int filter)
+        {
+            var Query = _StockLineService.GetPendingStockInHeaderForIssue(filter, searchTerm);
+            var temp = Query.Skip(pageSize * (pageNum - 1))
+                .Take(pageSize)
+                .ToList();
+
+            var count = Query.Count();
+
+            ComboBoxPagedResult Data = new ComboBoxPagedResult();
+            Data.Results = temp;
+            Data.Total = count;
+
+            return new JsonpResult
+            {
+                Data = Data,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        public JsonResult GetStockInDetailJson(int StockInId)
+        {
+            var temp = (from p in db.ViewStockInBalance
+                        join S in db.Stock on p.StockInId equals S.StockId into StockTable
+                        from StockTab in StockTable.DefaultIfEmpty()
+                        join pt in db.Product on p.ProductId equals pt.ProductId into ProductTable
+                        from ProductTab in ProductTable.DefaultIfEmpty()
+                        join D1 in db.Dimension1 on p.Dimension1Id equals D1.Dimension1Id into Dimension1Table
+                        from Dimension1Tab in Dimension1Table.DefaultIfEmpty()
+                        join D2 in db.Dimension2 on p.Dimension2Id equals D2.Dimension2Id into Dimension2Table
+                        from Dimension2Tab in Dimension2Table.DefaultIfEmpty()
+                        join D3 in db.Dimension3 on p.Dimension3Id equals D3.Dimension3Id into Dimension3Table
+                        from Dimension3Tab in Dimension3Table.DefaultIfEmpty()
+                        join D4 in db.Dimension4 on p.Dimension4Id equals D4.Dimension4Id into Dimension4Table
+                        from Dimension4Tab in Dimension4Table.DefaultIfEmpty()
+                        where p.StockInId == StockInId
+                        select new
+                        {
+                            ProductId = p.ProductId,
+                            ProductName = ProductTab.ProductName,
+                            Dimension1Id = p.Dimension1Id,
+                            Dimension1Name = Dimension1Tab.Dimension1Name,
+                            Dimension2Id = p.Dimension2Id,
+                            Dimension2Name = Dimension2Tab.Dimension2Name,
+                            Dimension3Id = p.Dimension3Id,
+                            Dimension3Name = Dimension3Tab.Dimension3Name,
+                            Dimension4Id = p.Dimension4Id,
+                            Dimension4Name = Dimension4Tab.Dimension4Name,
+                            BalanceQty = p.BalanceQty,
+                            LotNo = p.LotNo,
+                            ProcessId = StockTab.ProcessId,
+                            ProcessName = StockTab.Process.ProcessName
+                        }).FirstOrDefault();
+
+            if (temp != null)
+            {
+                return Json(temp);
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public JsonResult GetStockInBalance(int StockInId)
+        {
+            var temp = (from L in db.ViewStockInBalance where L.StockInId == StockInId select L).FirstOrDefault();
+            if (temp != null)
+            {
+                return Json(temp.BalanceQty, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return Json(0, JsonRequestBehavior.AllowGet);
+            }
         }
 
         protected override void Dispose(bool disposing)

@@ -93,6 +93,8 @@ namespace Model.ViewModel
 
         public decimal? TotalQty { get; set; }
         public int? DecimalPlaces { get; set; }
+
+        public List<DocumentTypeHeaderAttributeViewModel> DocumentTypeHeaderAttributes { get; set; }
     }
 
 
@@ -124,6 +126,7 @@ namespace Model.ViewModel
         public Decimal Qty { get; set; }
         public Decimal ExcessStockQty { get; set; }
         public Decimal ? RequisitionBalanceQty { get; set; }
+        public Decimal? StockProcessBalanceQty { get; set; }
 
         public Decimal? StockInBalanceQty { get; set; }
 
@@ -170,6 +173,8 @@ namespace Model.ViewModel
         public MaterialTransferSettingsViewModel MaterialTransferSettings { get; set; }
         //public JobConsumptionSettingsViewModel JobConsumptionSettings { get; set; }
         //public RateConversionSettingsViewModel RateConversionSettings { get; set; }
+        public int? StockProcessBalanceId { get; set; }
+
         public int? GodownId { get; set; }
         public int? FromGodownId { get; set; }
         public int? ProcessId { get; set; }
@@ -258,13 +263,14 @@ namespace Model.ViewModel
     {
         public int StockHeaderId { get; set; }
         public string ProductId { get; set; }
-        public string StockInId { get; set; }
+        public string StockInHeaderId { get; set; }
         public string ProductGroupId { get; set; }
         public string CostCenterId { get; set; }
         public string Dimension1Id { get; set; }
         public string Dimension2Id { get; set; }
         public string Dimension3Id { get; set; }
         public string Dimension4Id { get; set; }
+        public string LotNo { get; set; }
         public DocumentTypeSettingsViewModel DocumentTypeSettings { get; set; }
     }
 
@@ -278,6 +284,7 @@ namespace Model.ViewModel
         public string Dimension2Id { get; set; }
         public string CostCenterId { get; set; }
         public string RequisitionHeaderId { get; set; }
+        public DocumentTypeSettingsViewModel DocumentTypeSettings { get; set; }
     }
 
     public class FiltersForProcessTransfer

@@ -23,10 +23,10 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
-                            @Html.LabelFor(model => model.StockInId, "Stock In", new { @class = "control-label col-md-4 col-sm-2" })
+                            @Html.LabelFor(model => model.StockInHeaderId, "Stock In No.", new { @class = "control-label col-md-4 col-sm-2" })
                             <div class="col-md-7 col-sm-10">
-                                @Html.TextBoxFor(model => model.StockInId, new { @class = "form-control col-xs-7 required" })
-                                @Html.ValidationMessageFor(model => model.StockInId, "", new { @class = "text-danger" })
+                                @Html.TextBoxFor(model => model.StockInHeaderId, new { @class = "form-control col-xs-7 required" })
+                                @Html.ValidationMessageFor(model => model.StockInHeaderId, "", new { @class = "text-danger" })
                             </div>
                         </div>
                     </div>
@@ -113,6 +113,19 @@
                     </div>
                 </div>
 
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.LotNo, "Lot No.", new { @class = "control-label col-md-4 col-sm-2" })
+                            <div class="col-md-7 col-sm-10">
+                                @Html.TextBoxFor(model => model.LotNo, new { @class = "form-control col-xs-7 required" })
+                                @Html.ValidationMessageFor(model => model.LotNo, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
                 <div class="modal-footer " style="padding: 19px 20px 0 20px; border-top:1px solid #8E8888">
                     <button class="btn custom" type="submit" id="submit"><h2 style="margin:0px" title="Proceed"><span class="glyphicon glyphicon-arrow-right black"></span> </h2><div>Proceed</div></button>
                 </div>
@@ -140,7 +153,8 @@
         CustomSelectFunction($("#Dimension3Id"), '/ComboHelpList/GetDimension3', '/ComboHelpList/SetDimension3', ' ', true, 0);
         CustomSelectFunction($("#Dimension4Id"), '/ComboHelpList/GetDimension4', '/ComboHelpList/SetDimension4', ' ', true, 0);
         CustomSelectFunction($("#CostCenterId"), '/StockIssueLine/GetCostCenters', '/ComboHelpList/SetCostCenter', ' ', true, 0, PerId);
-        CustomSelectFunction($("#StockInId"), '/StockIssueLine/GetStockInForProduct', '/ComboHelpList/SetSingleStockIn', ' ', true, 0, $('#StockHeaderId').val());
+        CustomSelectFunction($("#StockInHeaderId"), '/StockIssueLine/GetStockInHeader', '/ComboHelpList/SetStockHeader', ' ', true, 0, $('#StockHeaderId').val());
+        CustomSelectFunction($("#LotNo"), '/StockIssueLine/GetLotNo', '/ComboHelpList/SetLotNo', ' ', true, 0, $('#StockHeaderId').val());
     });
 
     //$('#Allsubmit').on('click', function () {

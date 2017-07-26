@@ -20,7 +20,7 @@ using System.Data.SqlClient;
 using System.Xml.Linq;
 using CustomEventArgs;
 using DocumentEvents;
-using JobOrderDocumentEvents;
+using GatePassDocumentEvents;
 using Reports.Reports;
 using Reports.Controllers;
 using Model.ViewModels;
@@ -50,9 +50,9 @@ namespace Web
             _GatePassHeaderService = GatePassHeaderService;
             _exception = exec;
             _unitOfWork = unitOfWork;
-            if (!JobOrderEvents.Initialized)
+            if (!GatePassEvents.Initialized)
             {
-                JobOrderEvents Obj = new JobOrderEvents();
+                GatePassEvents Obj = new GatePassEvents();
             }
 
             UserRoles = (List<string>)System.Web.HttpContext.Current.Session["Roles"];
@@ -65,7 +65,7 @@ namespace Web
 
         }
 
-        // GET: /JobOrderHeader/
+        // GET: /GatePassHeader/
 
 
         public ActionResult DocumentTypeIndex(int id)//DocumentCategoryId
@@ -145,7 +145,7 @@ namespace Web
 
         //    string GenDocId = "";
 
-        //    JobOrderHeader header = _JobOrderHeaderService.Find(id);
+        //    GatePassHeader header = _GatePassHeaderService.Find(id);
         //    GenDocId = header.DocTypeId.ToString() + '-' + header.DocNo;
         //    //return RedirectToAction("PrintBarCode", "Report_BarcodePrint", new { GenHeaderId = id });
         //    return Redirect((string)System.Configuration.ConfigurationManager.AppSettings["CustomizeDomain"] + "/Report_BarcodePrint/PrintBarCode/?GenHeaderId=" + GenDocId + "&queryString=" + GenDocId);
@@ -157,19 +157,18 @@ namespace Web
         //public JsonResult GetJobWorkerHelpList(int Processid, string term)//Order Header ID
         //{
 
-        //    return Json(_JobOrderHeaderService.GetJobWorkerHelpList(Processid, term), JsonRequestBehavior.AllowGet);
+        //    return Json(_GatePassHeaderService.GetJobWorkerHelpList(Processid, term), JsonRequestBehavior.AllowGet);
         //}
 
 
-        // GET: /JobOrderHeader/Create
+        // GET: /GatePassHeader/Create
 
         public ActionResult Create(int id)//DocumentTypeId
         {
-            int GoDownId = (int)System.Web.HttpContext.Current.Session["DefaultGodownId"];            
             SqlParameter DocDate = new SqlParameter("@DocDate", DateTime.Now.Date);
             DocDate.SqlDbType = SqlDbType.DateTime;
-            SqlParameter Godown = new SqlParameter("@GodownId", GoDownId);
-            SqlParameter DocType = new SqlParameter("@DocTypeId", id);
+            //SqlParameter Godown = new SqlParameter("@GodownId", GoDownId);
+            //SqlParameter DocType = new SqlParameter("@DocTypeId", id);
             GatePassHeaderViewModel p = new GatePassHeaderViewModel();    
             p.DocDate = DateTime.Now;        
             p.CreatedDate = DateTime.Now;
@@ -177,7 +176,12 @@ namespace Web
             p.SiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];            
             p.DocTypeId = id;
             PrepareViewBag(id);
-            p.GodownId = GoDownId;
+
+            if (System.Web.HttpContext.Current.Session["DefaultGodownId"] != null)
+            {
+                p.GodownId = (int)System.Web.HttpContext.Current.Session["DefaultGodownId"];
+            }
+
             //p.DocNo = context.Database.SqlQuery<string>("Web.GetNewDocNoGatePass @DocTypeId, @DocDate, @GodownId ", DocType, DocDate, Godown).FirstOrDefault();
             ViewBag.Mode = "Add";
             ViewBag.Name = new DocumentTypeService(_unitOfWork).Find(id).DocumentTypeName;
@@ -198,9 +202,9 @@ namespace Web
             {
 
                 if (svm.GatePassHeaderId <= 0)
-                    BeforeSave = JobOrderDocEvents.beforeHeaderSaveEvent(this, new JobEventArgs(svm.GatePassHeaderId,EventModeConstants.Add), ref context);
+                    BeforeSave = GatePassDocEvents.beforeHeaderSaveEvent(this, new JobEventArgs(svm.GatePassHeaderId, EventModeConstants.Add), ref context);
                 else
-                    BeforeSave = JobOrderDocEvents.beforeHeaderSaveEvent(this, new JobEventArgs(svm.GatePassHeaderId, EventModeConstants.Edit), ref context);
+                    BeforeSave = GatePassDocEvents.beforeHeaderSaveEvent(this, new JobEventArgs(svm.GatePassHeaderId, EventModeConstants.Edit), ref context);
 
             }
             catch (Exception ex)
@@ -259,7 +263,7 @@ namespace Web
                     context.GatePassHeader.Add(s);
                     try
                     {
-                        JobOrderDocEvents.onHeaderSaveEvent(this, new JobEventArgs(s.GatePassHeaderId, EventModeConstants.Add), ref context);
+                        GatePassDocEvents.onHeaderSaveEvent(this, new JobEventArgs(s.GatePassHeaderId, EventModeConstants.Add), ref context);
                     }
                     catch (Exception ex)
                     {
@@ -290,7 +294,7 @@ namespace Web
 
                     try
                     {
-                        JobOrderDocEvents.afterHeaderSaveEvent(this, new JobEventArgs(s.GatePassHeaderId, EventModeConstants.Add), ref context);
+                        GatePassDocEvents.afterHeaderSaveEvent(this, new JobEventArgs(s.GatePassHeaderId, EventModeConstants.Add), ref context);
                     }
                     catch (Exception ex)
                     {
@@ -345,7 +349,7 @@ namespace Web
                     temp.ModifiedBy = User.Identity.Name;
                     temp.ObjectState = Model.ObjectState.Modified;
                     context.GatePassHeader.Add(temp);
-                    //_JobOrderHeaderService.Update(temp);
+                    //_GatePassHeaderService.Update(temp);
                     
 
 
@@ -359,7 +363,7 @@ namespace Web
 
                     try
                     {
-                        JobOrderDocEvents.onHeaderSaveEvent(this, new JobEventArgs(s.GatePassHeaderId, EventModeConstants.Edit), ref context);
+                        GatePassDocEvents.onHeaderSaveEvent(this, new JobEventArgs(s.GatePassHeaderId, EventModeConstants.Edit), ref context);
                     }
                     catch (Exception ex)
                     {
@@ -390,7 +394,7 @@ namespace Web
 
                     try
                     {
-                        JobOrderDocEvents.afterHeaderSaveEvent(this, new JobEventArgs(s.GatePassHeaderId, EventModeConstants.Edit), ref context);
+                        GatePassDocEvents.afterHeaderSaveEvent(this, new JobEventArgs(s.GatePassHeaderId, EventModeConstants.Edit), ref context);
                     }
                     catch (Exception ex)
                     {
@@ -489,7 +493,7 @@ namespace Web
 
 
 
-        // GET: /JobOrderHeader/Edit/5
+        // GET: /GatePassHeader/Edit/5
         private ActionResult Edit(int id, string IndexType)
         {
             ViewBag.IndexStatus = IndexType;
@@ -518,9 +522,9 @@ namespace Web
             //}
 
             //Job Order Settings
-         
 
-           // s.JobOrderSettings = Mapper.Map<JobOrderSettings, JobOrderSettingsViewModel>(settings);
+
+            // s.GatePassSettings = Mapper.Map<GatePassSettings, GatePassSettingsViewModel>(settings);
 
             ////Perks
            // s.PerkViewModel = new PerkService(_unitOfWork).GetPerkListForDocumentTypeForEdit(id).ToList();
@@ -528,8 +532,8 @@ namespace Web
             //if (s.PerkViewModel.Count == 0)
             //{
             //    List<PerkViewModel> Perks = new List<PerkViewModel>();
-            //    if (s.JobOrderSettings.Perks != null)
-            //        foreach (var item in s.JobOrderSettings.Perks.Split(',').ToList())
+            //    if (s.GatePassSettings.Perks != null)
+            //        foreach (var item in s.GatePassSettings.Perks.Split(',').ToList())
             //        {
             //            PerkViewModel temp = Mapper.Map<Perk, PerkViewModel>(new PerkService(_unitOfWork).Find(Convert.ToInt32(item)));
 
@@ -680,7 +684,7 @@ namespace Web
 
             try
             {
-                BeforeSave = JobOrderDocEvents.beforeHeaderDeleteEvent(this, new JobEventArgs(vm.id), ref context);
+                BeforeSave = GatePassDocEvents.beforeHeaderDeleteEvent(this, new JobEventArgs(vm.id), ref context);
             }
             catch (Exception ex)
             {
@@ -716,7 +720,7 @@ namespace Web
 
                 try
                 {
-                    JobOrderDocEvents.onHeaderDeleteEvent(this, new JobEventArgs(vm.id), ref context);
+                    GatePassDocEvents.onHeaderDeleteEvent(this, new JobEventArgs(vm.id), ref context);
                 }
                 catch (Exception ex)
                 {
@@ -735,12 +739,12 @@ namespace Web
                     });
 
 
-                  
 
 
-                    //var linecharges = new JobOrderLineChargeService(_unitOfWork).GetCalculationProductList(item.JobOrderLineId);
+
+                    //var linecharges = new GatePassLineChargeService(_unitOfWork).GetCalculationProductList(item.GatePassLineId);
                     //foreach (var citem in linecharges)
-                    //    new JobOrderLineChargeService(_unitOfWork).Delete(citem.Id);
+                    //    new GatePassLineChargeService(_unitOfWork).Delete(citem.Id);
 
                     item.ObjectState = Model.ObjectState.Deleted;
                     context.GatePassLine.Remove(item);
@@ -750,7 +754,7 @@ namespace Web
                
 
                 // Now delete the Purhcase Order Header
-                //_JobOrderHeaderService.Delete(JobOrderHeader);
+                //_GatePassHeaderService.Delete(GatePassHeader);
 
                 int ReferenceDocId = GatePassHeader.GatePassHeaderId;
                 int ReferenceDocTypeId = GatePassHeader.DocTypeId;
@@ -782,7 +786,7 @@ namespace Web
 
                 try
                 {
-                    JobOrderDocEvents.afterHeaderDeleteEvent(this, new JobEventArgs(vm.id), ref context);
+                    GatePassDocEvents.afterHeaderDeleteEvent(this, new JobEventArgs(vm.id), ref context);
                 }
                 catch (Exception ex)
                 {
@@ -844,7 +848,7 @@ namespace Web
             bool BeforeSave = true;
             try
             {
-                BeforeSave = JobOrderDocEvents.beforeHeaderSubmitEvent(this, new JobEventArgs(Id), ref context);
+                BeforeSave = GatePassDocEvents.beforeHeaderSubmitEvent(this, new JobEventArgs(Id), ref context);
             }
             catch (Exception ex)
             {
@@ -863,7 +867,7 @@ namespace Web
             {
                 int Cnt = 0;
                 int CountUid = 0;
-                //JobOrderHeader pd = new JobOrderHeaderService(_unitOfWork).Find(Id);              
+                //GatePassHeader pd = new GatePassHeaderService(_unitOfWork).Find(Id);              
 
                 int ActivityType;
                 if (User.Identity.Name == pd.ModifiedBy || UserRoles.Contains("Admin"))
@@ -876,7 +880,7 @@ namespace Web
                     context.GatePassHeader.Add(pd);
                     try
                     {
-                        JobOrderDocEvents.onHeaderSubmitEvent(this, new JobEventArgs(Id), ref context);
+                        GatePassDocEvents.onHeaderSubmitEvent(this, new JobEventArgs(Id), ref context);
                     }
                     catch (Exception ex)
                     {
@@ -906,7 +910,7 @@ namespace Web
 
                     try
                     {
-                        JobOrderDocEvents.afterHeaderSubmitEvent(this, new JobEventArgs(Id), ref context);
+                        GatePassDocEvents.afterHeaderSubmitEvent(this, new JobEventArgs(Id), ref context);
                     }
                     catch (Exception ex)
                     {
@@ -980,7 +984,7 @@ namespace Web
 
                 try
                 {
-                    JobOrderDocEvents.onHeaderReviewEvent(this, new JobEventArgs(Id), ref context);
+                    GatePassDocEvents.onHeaderReviewEvent(this, new JobEventArgs(Id), ref context);
                 }
                 catch (Exception ex)
                 {
@@ -992,7 +996,7 @@ namespace Web
 
                 try
                 {
-                    JobOrderDocEvents.afterHeaderReviewEvent(this, new JobEventArgs(Id), ref context);
+                    GatePassDocEvents.afterHeaderReviewEvent(this, new JobEventArgs(Id), ref context);
                 }
                 catch (Exception ex)
                 {
@@ -1015,12 +1019,12 @@ namespace Web
 
                 //if (!string.IsNullOrEmpty(IsContinue) && IsContinue == "True")
                 //{
-                //    JobOrderHeader HEader = _JobOrderHeaderService.Find(Id);
+                //    GatePassHeader HEader = _GatePassHeaderService.Find(Id);
 
-                //    int nextId = new NextPrevIdService(_unitOfWork).GetNextPrevId(Id, HEader.DocTypeId, User.Identity.Name, ForActionConstants.PendingToReview, "Web.JobOrderHeaders", "JobOrderHeaderId", PrevNextConstants.Next);
+                //    int nextId = new NextPrevIdService(_unitOfWork).GetNextPrevId(Id, HEader.DocTypeId, User.Identity.Name, ForActionConstants.PendingToReview, "Web.GatePassHeaders", "GatePassHeaderId", PrevNextConstants.Next);
                 //    if (nextId == 0)
                 //    {
-                //        var PendingtoSubmitCount = _JobOrderHeaderService.GetJobOrderHeaderListPendingToReview(HEader.DocTypeId, User.Identity.Name).Count();
+                //        var PendingtoSubmitCount = _GatePassHeaderService.GetGatePassHeaderListPendingToReview(HEader.DocTypeId, User.Identity.Name).Count();
                 //        if (PendingtoSubmitCount > 0)
                 //            return RedirectToAction("Index_PendingToReview", new { id = HEader.DocTypeId });
                 //        else

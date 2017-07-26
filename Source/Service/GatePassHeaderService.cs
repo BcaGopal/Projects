@@ -336,6 +336,7 @@ namespace Service
                         ModifiedBy = p.ModifiedBy,
                         CreatedDate = p.CreatedDate,
                         OrderById = p.OrderById,
+                        ReferenceDocId = p.ReferenceDocId
                     }
                         ).FirstOrDefault();
         }

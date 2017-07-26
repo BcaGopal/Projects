@@ -25,6 +25,22 @@ namespace Model.ViewModels
     }
 
 
+    public class StockProcessFiltersForReceive
+    {
+        public int StockHeaderId { get; set; }
+        public int PersonId { get; set; }
+        public string ProductId { get; set; }
+        public string ProductGroupId { get; set; }
+        public string Dimension1Id { get; set; }
+        public string Dimension2Id { get; set; }
+        public string Dimension3Id { get; set; }
+        public string Dimension4Id { get; set; }
+        public string CostCenterId { get; set; }
+        public string StockProcessInHeaderId { get; set; }
+        public DocumentTypeSettingsViewModel DocumentTypeSettings { get; set; }
+    }
+
+
 
     public class StockReceiveLineViewModel
     {

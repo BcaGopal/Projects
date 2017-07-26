@@ -450,6 +450,23 @@
         var QtyCount=0;
         var DealQtyCount=0;
         var AmountCount=0;
+        var LineEditUrl;
+        var LineDeleteUrl;
+        if(status==StatusContstantsEnum.Drafted||status==StatusContstantsEnum.Import)
+        {
+            LineEditUrl="/StockReceiveLine/_ModifyLine/";
+            LineDeleteUrl="/StockReceiveLine/_DeleteLine/";
+        }
+        else if(status==StatusContstantsEnum.Submitted || status == StatusContstantsEnum.Modified )
+        {
+            LineEditUrl="/StockReceiveLine/_ModifyLineAfterSubmit/";
+            LineDeleteUrl="/StockReceiveLine/_DeleteLine_AfterSubmit/";
+        }
+        else
+        {
+            LineEditUrl="/StockReceiveLine/_Detail/";
+            LineDeleteUrl="/StockReceiveLine/_Detail/";
+        }      
         var unit=true;
         var dunit=true;
         var prevunit;
@@ -474,6 +491,7 @@
                             +"                  <div class='block' style='width:25%'>"+(item.ProductName==null?" ":"<strong>"+item.ProductName+"</strong>")
                             +"                      <br />"+(item.Specification==null?" ":item.Specification)
                             +"                          <p>"+(item.Dimension1Name==null?" ":item.Dimension1Name+",")+(item.Dimension2Name==null?" ":item.Dimension2Name)+"</p>"
+                            +"                          <p>"+(item.Dimension3Name==null?" ":item.Dimension3Name+",")+(item.Dimension4Name==null?" ":item.Dimension4Name)+"</p>"
                             +"                          <div>"+((item.DueDate==null)?" ":"<span title='DueDate' class='label label-danger' style=''>"+formatDate('d/m/Y',new Date(parseInt(item.DueDate.substr(6))))+"</span>")
                             +"                          </div>"
                             +                           (item.RequisitionHeaderDocNo==null?" ":"<span title='DueDate' class='' style='font-weight:bold'>Request No: "+item.RequisitionHeaderDocNo+"</span>")
@@ -492,7 +510,8 @@
                             +"                   </div>"
                             +"              </div>"
                             +"          </div>"
-                            +"      <div class='block'  style='width:5%'>"
+                            +"      <div class='block'  style='width:5%'><a class='glyphicon glyphicon-trash icon-Cus-Size' data-modal='' data-detailDisabled='true' delete='' href='"+LineDeleteUrl+item.StockLineId+"'></a>"
+                            +"          <a  edit='' href='"+LineEditUrl+item.StockLineId+"'></a>"
                             +"      </div>"
                             +"  </div>"
                             +"<hr style='margin-top:0px;margin-bottom:0px'/>";
@@ -560,6 +579,23 @@
         var QtyCount=0;
         var DealQtyCount=0;
         var AmountCount=0;
+        var LineEditUrl;
+        var LineDeleteUrl;
+        if(status==StatusContstantsEnum.Drafted||status==StatusContstantsEnum.Import)
+        {
+            LineEditUrl="/StockIssueLine/_ModifyLine/";
+            LineDeleteUrl="/StockIssueLine/_DeleteLine/";
+        }
+        else if(status==StatusContstantsEnum.Submitted || status == StatusContstantsEnum.Modified )
+        {
+            LineEditUrl="/StockIssueLine/_ModifyLineAfterSubmit/";
+            LineDeleteUrl="/StockIssueLine/_DeleteLine_AfterSubmit/";
+        }
+        else
+        {
+            LineEditUrl="/StockIssueLine/_Detail/";
+            LineDeleteUrl="/StockIssueLine/_Detail/";
+        }     
         var unit=true;
         var dunit=true;
         var prevunit;
@@ -584,6 +620,7 @@
                             +"                  <div class='block' style='width:25%'>"+(item.ProductName==null?" ":"<strong>"+item.ProductName+"</strong>")
                             +"                      <br />"+(item.Specification==null?" ":item.Specification)
                             +"                          <p>"+(item.Dimension1Name==null?" ":item.Dimension1Name+",")+(item.Dimension2Name==null?" ":item.Dimension2Name)+"</p>"
+                            +"                          <p>"+(item.Dimension3Name==null?" ":item.Dimension3Name+",")+(item.Dimension4Name==null?" ":item.Dimension4Name)+"</p>"
                             +"                          <div>"+((item.DueDate==null)?" ":"<span title='DueDate' class='label label-danger' style=''>"+formatDate('d/m/Y',new Date(parseInt(item.DueDate.substr(6))))+"</span>")
                             +"                          </div>"
                             +                           (item.RequisitionHeaderDocNo==null?" ":"<span title='DueDate' class='' style='font-weight:bold'>Request No: "+item.RequisitionHeaderDocNo+"</span>")
@@ -602,7 +639,8 @@
                             +"                   </div>"
                             +"              </div>"
                             +"          </div>"
-                            +"      <div class='block'  style='width:5%'>"
+                            +"      <div class='block'  style='width:5%'><a class='glyphicon glyphicon-trash icon-Cus-Size' data-modal='' data-detailDisabled='true' delete='' href='"+LineDeleteUrl+item.StockLineId+"'></a>"
+                            +"          <a  edit='' href='"+LineEditUrl+item.StockLineId+"'></a>"
                             +"      </div>"
                             +"  </div>"
                             +"<hr style='margin-top:0px;margin-bottom:0px'/>";

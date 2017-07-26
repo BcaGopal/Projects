@@ -257,11 +257,11 @@ namespace Web
 
 
             //ProductBuyerSettings ProductBuyerSettings = new ProductBuyerSettingsService(_unitOfWork).GetProductBuyerSettings(p.DivisionId, p.SiteId);
-            //if (ProductBuyerSettings == null && UserRoles.Contains("Admin"))
+            //if (ProductBuyerSettings == null && UserRoles.Contains("SysAdmin"))
             //{
             //    return RedirectToAction("Create", "ProductBuyerSettings").Warning("Please create Product Buyer settings");
             //}
-            //else if (ProductBuyerSettings == null && !UserRoles.Contains("Admin"))
+            //else if (ProductBuyerSettings == null && !UserRoles.Contains("SysAdmin"))
             //{
             //    return View("~/Views/Shared/InValidSettings.cshtml");
             //}
@@ -432,11 +432,11 @@ namespace Web
             SaleEnquiryHeader header = _SaleEnquiryHeaderService.Find(id);
 
             //ProductBuyerSettings ProductBuyerSettings = new ProductBuyerSettingsService(_unitOfWork).GetProductBuyerSettings(header.DivisionId, header.SiteId);
-            //if (ProductBuyerSettings == null && UserRoles.Contains("Admin"))
+            //if (ProductBuyerSettings == null && UserRoles.Contains("SysAdmin"))
             //{
             //    return RedirectToAction("Create", "ProductBuyerSettings").Warning("Please create Product Buyer settings");
             //}
-            //else if (ProductBuyerSettings == null && !UserRoles.Contains("Admin"))
+            //else if (ProductBuyerSettings == null && !UserRoles.Contains("SysAdmin"))
             //{
             //    return View("~/Views/Shared/InValidSettings.cshtml");
             //}

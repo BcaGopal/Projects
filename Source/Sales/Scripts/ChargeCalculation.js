@@ -228,7 +228,22 @@ function DrawFooterFields(DebugMode) {
 $(document).on('change', '.Calculation', ChargeCalculation);
 
 
-
+function GetChargeRates(CalculationId, DocumentType, SiteId, DivisionId, ProcessId, ChargeGroupPersonId, ChargeGroupProductId) {
+    $.ajax({
+        async: false,
+        cache: false,
+        type: 'POST',
+        url: "/TaxCalculation/GetChargeRates/",
+        data: { CalculationId: CalculationId, DocTypeId: DocumentType, SiteId: SiteId, DivisionId: DivisionId, ProcessId: ProcessId, ChargeGroupPersonId: ChargeGroupPersonId, ChargeGroupProductId: ChargeGroupProductId },
+        success: function (data) {
+            ProductCharges = data;
+            AssignValuesToChargeRates();
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+            alert('Failed to retrive calculationproduct' + thrownError);
+        },
+    });
+}
 
 
 function ChargeCalculation() {
@@ -448,6 +463,23 @@ function DeletingProductCharges() {
     $(FSel).trigger('change');
 
 
+}
+
+
+function AssignValuesToChargeRates() {
+    for (var i = 0; i < ProductFields.length; i++) {
+        ProductFields[i].Rate = ProductCharges[i].Rate;
+        ProductFields[i].LedgerAccountCrId = ProductCharges[i].LedgerAccountCrId;
+        ProductFields[i].LedgerAccountDrId = ProductCharges[i].LedgerAccountDrId;
+
+        var selectorRate = "#CALL_" + ProductFields[i].ChargeCode + "RATE";
+        var LedgerAccCr = "#CALL_" + ProductFields[i].ChargeCode + "ACCR";
+        var LedgerAccDr = "#CALL_" + ProductFields[i].ChargeCode + "ACDR";
+
+        $(selectorRate).val(ProductFields[i].Rate);
+        $(LedgerAccCr).val(ProductFields[i].LedgerAccountCrId);
+        $(LedgerAccDr).val(ProductFields[i].LedgerAccountDrId);
+    }
 }
 
 function AssignValuesToCharges() {

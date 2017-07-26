@@ -11,6 +11,7 @@ function CustomSelectFunction(ElementId, GetAction, SetAction, placehold, IsMult
     var attendeeUrl = GetAction;
     var pageSize = 20;
     
+
     ElementId.select2(
     {
         

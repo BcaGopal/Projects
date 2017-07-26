@@ -51,7 +51,7 @@ namespace Web
         public ActionResult Create(int id)//DocTypeId
         {
             List<string> UserRoles = (List<string>)System.Web.HttpContext.Current.Session["Roles"];
-            if (!UserRoles.Contains("Admin"))
+            if (!UserRoles.Contains("SysAdmin"))
             {
                 return View("~/Views/Shared/InValidSettings.cshtml");
             }
@@ -176,6 +176,7 @@ namespace Web
                     temp.isVisibleFinancier = pt.isVisibleFinancier;
                     temp.isGenerateProductUid = pt.isGenerateProductUid;
 
+                    temp.SalesTaxGroupPersonId = pt.SalesTaxGroupPersonId;
                     temp.SqlProcDocumentPrint = pt.SqlProcDocumentPrint;
                     temp.DocumentPrint = pt.DocumentPrint;
                     temp.isAutoCreateJobReceive = pt.isAutoCreateJobReceive;
@@ -237,7 +238,7 @@ namespace Web
         public ActionResult CreateInvoiceReceive(int id)//DocTypeId
         {
             List<string> UserRoles = (List<string>)System.Web.HttpContext.Current.Session["Roles"];
-            if (!UserRoles.Contains("Admin"))
+            if (!UserRoles.Contains("SysAdmin"))
             {
                 return View("~/Views/Shared/InValidSettings.cshtml");
             }
@@ -367,6 +368,7 @@ namespace Web
                     temp.filterContraSites = pt.filterContraSites;
                     temp.filterContraDivisions = pt.filterContraDivisions;
                     temp.filterPersonRoles = pt.filterPersonRoles;
+                    temp.SalesTaxGroupPersonId = pt.SalesTaxGroupPersonId;
                     temp.ImportMenuId = pt.ImportMenuId;
                     temp.WizardMenuId = pt.WizardMenuId;
                     temp.CalculationId = pt.CalculationId;
@@ -535,6 +537,7 @@ namespace Web
                     temp.isGenerateProductUid = pt.isGenerateProductUid;
                     temp.filterContraSites = pt.filterContraSites;
                     temp.filterContraDivisions = pt.filterContraDivisions;
+                    temp.SalesTaxGroupPersonId = pt.SalesTaxGroupPersonId;
                     temp.ImportMenuId = pt.ImportMenuId;
                     temp.WizardMenuId = pt.WizardMenuId;
                     temp.CalculationId = pt.CalculationId;
@@ -587,7 +590,7 @@ namespace Web
         public ActionResult CreateJobInvoiceReturn(int id)//DocTypeId
         {
             List<string> UserRoles = (List<string>)System.Web.HttpContext.Current.Session["Roles"];
-            if (!UserRoles.Contains("Admin"))
+            if (!UserRoles.Contains("SysAdmin"))
             {
                 return View("~/Views/Shared/InValidSettings.cshtml");
             }
@@ -712,6 +715,7 @@ namespace Web
                     temp.DocumentPrint = pt.DocumentPrint;
                     temp.isAutoCreateJobReceive = pt.isAutoCreateJobReceive;
                     temp.isGenerateProductUid = pt.isGenerateProductUid;
+                    temp.SalesTaxGroupPersonId = pt.SalesTaxGroupPersonId;
                     temp.filterContraSites = pt.filterContraSites;
                     temp.filterContraDivisions = pt.filterContraDivisions;
                     temp.ImportMenuId = pt.ImportMenuId;

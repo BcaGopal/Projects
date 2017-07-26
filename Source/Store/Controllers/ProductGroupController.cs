@@ -150,6 +150,7 @@ namespace Web
                     temp.ProductGroupName = pt.ProductGroupName;
                     temp.ProductTypeId = pt.ProductTypeId;
                     temp.DefaultSalesTaxProductCodeId = pt.DefaultSalesTaxProductCodeId;
+                    temp.DefaultSalesTaxGroupProductId = pt.DefaultSalesTaxGroupProductId;
                     temp.IsActive = pt.IsActive;
                     temp.ModifiedDate = DateTime.Now;
                     temp.ModifiedBy = User.Identity.Name;

@@ -503,11 +503,11 @@ namespace Web
             //Job Order Settings
             var settings = new JobOrderSettingsService(_unitOfWork).GetJobOrderSettingsForDocument(pt.DocTypeId, pt.DivisionId, pt.SiteId);
 
-            if (settings == null && UserRoles.Contains("Admin"))
+            if (settings == null && UserRoles.Contains("SysAdmin"))
             {
                 return RedirectToAction("Create", "JobOrderSettings", new { id = pt.DocTypeId }).Warning("Please create job order settings");
             }
-            else if (settings == null && !UserRoles.Contains("Admin"))
+            else if (settings == null && !UserRoles.Contains("SysAdmin"))
             {
                 return View("~/Views/Shared/InValidSettings.cshtml");
             }

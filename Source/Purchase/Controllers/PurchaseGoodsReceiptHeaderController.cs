@@ -134,11 +134,11 @@ namespace Web
             //Getting Settings
             var settings = new PurchaseGoodsReceiptSettingService(_unitOfWork).GetPurchaseGoodsReceiptSettingForDocument(id, vm.DivisionId, vm.SiteId);
 
-            if (settings == null && UserRoles.Contains("Admin"))
+            if (settings == null && UserRoles.Contains("SysAdmin"))
             {
                 return RedirectToAction("Create", "PurchaseGoodsReceiptSetting", new { id = id }).Warning("Please create Purchase receipt settings");
             }
-            else if (settings == null && !UserRoles.Contains("Admin"))
+            else if (settings == null && !UserRoles.Contains("SysAdmin"))
             {
                 return View("~/Views/Shared/InValidSettings.cshtml");
             }
@@ -442,11 +442,11 @@ namespace Web
 
             var settings = new PurchaseGoodsReceiptSettingService(_unitOfWork).GetPurchaseGoodsReceiptSettingForDocument(pt.DocTypeId, pt.DivisionId, pt.SiteId);
 
-            if (settings == null && UserRoles.Contains("Admin"))
+            if (settings == null && UserRoles.Contains("SysAdmin"))
             {
                 return RedirectToAction("Create", "PurchaseGoodsReceiptSetting", new { id = pt.DocTypeId }).Warning("Please create Purchase receipt settings");
             }
-            else if (settings == null && !UserRoles.Contains("Admin"))
+            else if (settings == null && !UserRoles.Contains("SysAdmin"))
             {
                 return View("~/Views/Shared/InValidSettings.cshtml");
             }
@@ -533,11 +533,11 @@ namespace Web
 
             var settings = new PurchaseGoodsReceiptSettingService(_unitOfWork).GetPurchaseGoodsReceiptSettingForDocument(pt.DocTypeId, pt.DivisionId, pt.SiteId);
 
-            if (settings == null && UserRoles.Contains("Admin"))
+            if (settings == null && UserRoles.Contains("SysAdmin"))
             {
                 return RedirectToAction("Create", "PurchaseGoodsReceiptSetting", new { id = pt.DocTypeId }).Warning("Please create Purchase receipt settings");
             }
-            else if (settings == null && !UserRoles.Contains("Admin"))
+            else if (settings == null && !UserRoles.Contains("SysAdmin"))
             {
                 return View("~/Views/Shared/InValidSettings.cshtml");
             }

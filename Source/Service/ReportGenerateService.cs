@@ -105,10 +105,24 @@ namespace Service
                     if (Dt.Rows[0]["DivisionId"].ToString() == "" && Dt.Rows[0]["SiteId"].ToString() == "")
                         queryCompanyDetail = "Web.ProcCompanyDetail '" + (int)System.Web.HttpContext.Current.Session[SessionNameConstants.LoginSiteId] + "'";
                     else if (Dt.Rows[0]["DivisionId"].ToString() != "" && Dt.Rows[0]["SiteId"].ToString() == "")
-
-                        queryCompanyDetail = "Web.ProcCompanyDetail NULL , '" + Dt.Rows[0]["DivisionId"].ToString() + "'";
+                        if (Dt.Columns.Contains("DocDate"))
+                        {
+                            queryCompanyDetail = "Web.ProcCompanyDetail NULL , '" + Dt.Rows[0]["DivisionId"].ToString() + "', '" + Dt.Rows[0]["DocDate"].ToString() + "'";
+                        }
+                        else
+                        {
+                            queryCompanyDetail = "Web.ProcCompanyDetail NULL , '" + Dt.Rows[0]["DivisionId"].ToString() + "'";
+                        }
                     else
-                        queryCompanyDetail = "Web.ProcCompanyDetail '" + Dt.Rows[0]["SiteId"].ToString() + "', '" + Dt.Rows[0]["DivisionId"].ToString() + "'";
+                        if (Dt.Columns.Contains("DocDate"))
+                        {
+                            queryCompanyDetail = "Web.ProcCompanyDetail '" + Dt.Rows[0]["SiteId"].ToString() + "', '" + Dt.Rows[0]["DivisionId"].ToString() + "', '" + Dt.Rows[0]["DocDate"].ToString() + "'";
+                        }
+                        else
+                        {
+                            queryCompanyDetail = "Web.ProcCompanyDetail '" + Dt.Rows[0]["SiteId"].ToString() + "', '" + Dt.Rows[0]["DivisionId"].ToString() + "'";
+                        }
+
                 }
                 else
                 {

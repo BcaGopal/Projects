@@ -143,11 +143,11 @@ namespace Web
             //Getting Settings
             var jobreceivesettings = new JobReceiveSettingsService(_unitOfWork).GetJobReceiveSettingsForDocument(id, vm.DivisionId, vm.SiteId);
 
-            if (jobreceivesettings == null && UserRoles.Contains("Admin"))
+            if (jobreceivesettings == null && UserRoles.Contains("SysAdmin"))
             {
                 return RedirectToAction("Create", "JobReceiveSettings", new { id = id }).Warning("Please create job Inspection settings");
             }
-            else if (jobreceivesettings == null && !UserRoles.Contains("Admin"))
+            else if (jobreceivesettings == null && !UserRoles.Contains("SysAdmin"))
             {
                 return View("~/Views/Shared/InValidSettings.cshtml");
             }
@@ -159,11 +159,11 @@ namespace Web
 
             var jobreceiveqasettings = new JobReceiveQASettingsService(db).GetJobReceiveQASettingsForDocument(id, vm.DivisionId, vm.SiteId);
 
-            if (jobreceiveqasettings == null && UserRoles.Contains("Admin"))
+            if (jobreceiveqasettings == null && UserRoles.Contains("SysAdmin"))
             {
                 return RedirectToAction("Create", "JobReceiveQaSettings", new { id = id }).Warning("Please create job Inspection settings");
             }
-            else if (jobreceiveqasettings == null && !UserRoles.Contains("Admin"))
+            else if (jobreceiveqasettings == null && !UserRoles.Contains("SysAdmin"))
             {
                 return View("~/Views/Shared/InValidSettings.cshtml");
             }
@@ -366,11 +366,11 @@ namespace Web
             //Getting Settings
             var jobreceivesettings = new JobReceiveSettingsService(_unitOfWork).GetJobReceiveSettingsForDocument(pt.DocTypeId, pt.DivisionId, pt.SiteId);
 
-            if (jobreceivesettings == null && UserRoles.Contains("Admin"))
+            if (jobreceivesettings == null && UserRoles.Contains("SysAdmin"))
             {
                 return RedirectToAction("Create", "JobReceiveSettings", new { id = id }).Warning("Please create job Inspection settings");
             }
-            else if (jobreceivesettings == null && !UserRoles.Contains("Admin"))
+            else if (jobreceivesettings == null && !UserRoles.Contains("SysAdmin"))
             {
                 return View("~/Views/Shared/InValidSettings.cshtml");
             }
@@ -382,11 +382,11 @@ namespace Web
 
             var jobreceiveqasettings = new JobReceiveQASettingsService(db).GetJobReceiveQASettingsForDocument(pt.DocTypeId, pt.DivisionId, pt.SiteId);
 
-            if (jobreceiveqasettings == null && UserRoles.Contains("Admin"))
+            if (jobreceiveqasettings == null && UserRoles.Contains("SysAdmin"))
             {
                 return RedirectToAction("Create", "JobReceiveQaSettings", new { id = id }).Warning("Please create job Inspection settings");
             }
-            else if (jobreceiveqasettings == null && !UserRoles.Contains("Admin"))
+            else if (jobreceiveqasettings == null && !UserRoles.Contains("SysAdmin"))
             {
                 return View("~/Views/Shared/InValidSettings.cshtml");
             }
@@ -973,11 +973,11 @@ namespace Web
             //Job Receive Settings
             var settings = new JobReceiveSettingsService(_unitOfWork).GetJobReceiveSettingsForDocument(pt.DocTypeId, pt.DivisionId, pt.SiteId);
 
-            if (settings == null && UserRoles.Contains("Admin"))
+            if (settings == null && UserRoles.Contains("SysAdmin"))
             {
                 return RedirectToAction("Create", "JobReceiveSettings", new { id = pt.DocTypeId }).Warning("Please create job receive settings");
             }
-            else if (settings == null && !UserRoles.Contains("Admin"))
+            else if (settings == null && !UserRoles.Contains("SysAdmin"))
             {
                 return View("~/Views/Shared/InValidSettings.cshtml");
             }
@@ -988,11 +988,11 @@ namespace Web
 
             var jobreceiveqasettings = new JobReceiveQASettingsService(db).GetJobReceiveQASettingsForDocument(pt.DocTypeId, pt.DivisionId, pt.SiteId);
 
-            if (jobreceiveqasettings == null && UserRoles.Contains("Admin"))
+            if (jobreceiveqasettings == null && UserRoles.Contains("SysAdmin"))
             {
                 return RedirectToAction("Create", "JobReceiveQaSettings", new { id = id }).Warning("Please create job Inspection settings");
             }
-            else if (jobreceiveqasettings == null && !UserRoles.Contains("Admin"))
+            else if (jobreceiveqasettings == null && !UserRoles.Contains("SysAdmin"))
             {
                 return View("~/Views/Shared/InValidSettings.cshtml");
             }

@@ -72,11 +72,11 @@ namespace Web
 
             var settings = new ProductTypeSettingsService(_unitOfWork).GetProductTypeSettingsForDocument(id);
 
-            if (settings == null && UserRoles.Contains("Admin"))
+            if (settings == null && UserRoles.Contains("SysAdmin"))
             {
                 return RedirectToAction("Create", "ProductTypeSettings", new { id = id }).Warning("Please create Product Type Settings");
             }
-            else if (settings == null && !UserRoles.Contains("Admin"))
+            else if (settings == null && !UserRoles.Contains("SysAdmin"))
             {
                 return View("~/Views/Shared/InValidSettings.cshtml");
             }
@@ -209,11 +209,11 @@ namespace Web
             {
                 var settings = new ProductTypeSettingsService(_unitOfWork).GetProductTypeSettingsForDocument((int)pt.ProductTypeId);
 
-                if (settings == null && UserRoles.Contains("Admin"))
+                if (settings == null && UserRoles.Contains("SysAdmin"))
                 {
                     return RedirectToAction("Create", "ProductTypeSettings", new { id = id }).Warning("Please create Product Type Settings");
                 }
-                else if (settings == null && !UserRoles.Contains("Admin"))
+                else if (settings == null && !UserRoles.Contains("SysAdmin"))
                 {
                     return View("~/Views/Shared/InValidSettings.cshtml");
                 }

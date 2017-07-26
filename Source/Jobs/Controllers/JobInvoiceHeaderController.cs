@@ -166,19 +166,47 @@ namespace Web
             vm.DivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
             vm.SiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
             vm.CreatedDate = DateTime.Now;
+
+            List<DocumentTypeHeaderAttributeViewModel> tem = new DocumentTypeService(_unitOfWork).GetDocumentTypeHeaderAttribute(id).ToList();
+            vm.DocumentTypeHeaderAttributes = tem;
+
             //Getting Settings
             var settings = new JobInvoiceSettingsService(_unitOfWork).GetJobInvoiceSettingsForDocument(id, vm.DivisionId, vm.SiteId);
 
-            if (settings == null && UserRoles.Contains("Admin"))
+            if (settings == null && UserRoles.Contains("SysAdmin"))
             {
                 return RedirectToAction("Create", "JobInvoiceSettings", new { id = id }).Warning("Please create job order settings");
             }
-            else if (settings == null && !UserRoles.Contains("Admin"))
+            else if (settings == null && !UserRoles.Contains("SysAdmin"))
             {
                 return View("~/Views/Shared/InValidSettings.cshtml");
             }
 
             vm.JobInvoiceSettings = Mapper.Map<JobInvoiceSettings, JobInvoiceSettingsViewModel>(settings);
+
+            if (settings != null)
+            {
+                if (settings.CalculationId != null)
+                {
+                    var CalculationHeaderLedgerAccount = (from H in db.CalculationHeaderLedgerAccount where H.CalculationId == settings.CalculationId && H.DocTypeId == id && H.SiteId == vm.SiteId && H.DivisionId == vm.DivisionId select H).FirstOrDefault();
+                    var CalculationLineLedgerAccount = (from H in db.CalculationLineLedgerAccount where H.CalculationId == settings.CalculationId && H.DocTypeId == id && H.SiteId == vm.SiteId && H.DivisionId == vm.DivisionId select H).FirstOrDefault();
+
+                    if (CalculationHeaderLedgerAccount == null && CalculationLineLedgerAccount == null && UserRoles.Contains("SysAdmin"))
+                    {
+                        return RedirectToAction("Create", "JobInvoiceSettings", new { id = id }).Warning("Ledger posting settings is not defined for current site and division.");
+                    }
+                    else if (CalculationHeaderLedgerAccount == null && CalculationLineLedgerAccount == null && !UserRoles.Contains("SysAdmin"))
+                    {
+                        return View("~/Views/Shared/InValidSettings.cshtml").Warning("Ledger posting settings is not defined for current site and division.");
+                    }
+                }
+            }
+
+
+            if (settings != null)
+            {
+                vm.SalesTaxGroupPersonId = settings.SalesTaxGroupPersonId;
+            }
 
             vm.ProcessId = settings.ProcessId;
             vm.DocDate = DateTime.Now;
@@ -264,6 +292,36 @@ namespace Web
                     //_JobInvoiceHeaderService.Create(pt);
                     db.JobInvoiceHeader.Add(pt);
 
+
+                    if (vm.DocumentTypeHeaderAttributes != null)
+                    {
+                        foreach (var Attributes in vm.DocumentTypeHeaderAttributes)
+                        {
+                            JobInvoiceHeaderAttributes JobInvoiceHeaderAttribute = (from A in db.JobInvoiceHeaderAttributes
+                                                                                    where A.HeaderTableId == pt.JobInvoiceHeaderId
+                                                                                && A.DocumentTypeHeaderAttributeId == Attributes.DocumentTypeHeaderAttributeId
+                                                                                select A).FirstOrDefault();
+
+                            if (JobInvoiceHeaderAttribute != null)
+                            {
+                                JobInvoiceHeaderAttribute.Value = Attributes.Value;
+                                JobInvoiceHeaderAttribute.ObjectState = Model.ObjectState.Modified;
+                                db.JobInvoiceHeaderAttributes.Add(JobInvoiceHeaderAttribute);
+                            }
+                            else
+                            {
+                                JobInvoiceHeaderAttributes HeaderAttribute = new JobInvoiceHeaderAttributes()
+                                {
+                                    HeaderTableId = pt.JobInvoiceHeaderId,
+                                    Value = Attributes.Value,
+                                    DocumentTypeHeaderAttributeId = Attributes.DocumentTypeHeaderAttributeId,
+                                };
+                                HeaderAttribute.ObjectState = Model.ObjectState.Added;
+                                db.JobInvoiceHeaderAttributes.Add(HeaderAttribute);
+                            }
+                        }
+                    }
+
                     try
                     {
                         JobInvoiceDocEvents.onHeaderSaveEvent(this, new JobEventArgs(pt.JobInvoiceHeaderId, EventModeConstants.Add), ref db);
@@ -336,6 +394,7 @@ namespace Web
                     temp.Remark = pt.Remark;
                     temp.DocNo = pt.DocNo;
                     temp.DocDate = pt.DocDate;
+                    temp.SalesTaxGroupPersonId = pt.SalesTaxGroupPersonId;
                     temp.JobWorkerId = pt.JobWorkerId;
                     temp.JobWorkerDocNo = pt.JobWorkerDocNo;
                     temp.JobWorkerDocDate = pt.JobWorkerDocDate;
@@ -351,6 +410,36 @@ namespace Web
                         ExObj = ExRec,
                         Obj = temp,
                     });
+
+                    if (vm.DocumentTypeHeaderAttributes != null)
+                    {
+                        foreach (var Attributes in vm.DocumentTypeHeaderAttributes)
+                        {
+
+                            JobInvoiceHeaderAttributes JobInvoiceHeaderAttribute = (from A in db.JobInvoiceHeaderAttributes
+                                                                                    where A.HeaderTableId == temp.JobInvoiceHeaderId
+                                                                                && A.DocumentTypeHeaderAttributeId == Attributes.DocumentTypeHeaderAttributeId
+                                                                                select A).FirstOrDefault();
+
+                            if (JobInvoiceHeaderAttribute != null)
+                            {
+                                JobInvoiceHeaderAttribute.Value = Attributes.Value;
+                                JobInvoiceHeaderAttribute.ObjectState = Model.ObjectState.Modified;
+                                db.JobInvoiceHeaderAttributes.Add(JobInvoiceHeaderAttribute);
+                            }
+                            else
+                            {
+                                JobInvoiceHeaderAttributes HeaderAttribute = new JobInvoiceHeaderAttributes()
+                                {
+                                    Value = Attributes.Value,
+                                    HeaderTableId = temp.JobInvoiceHeaderId,
+                                    DocumentTypeHeaderAttributeId = Attributes.DocumentTypeHeaderAttributeId,
+                                };
+                                HeaderAttribute.ObjectState = Model.ObjectState.Added;
+                                db.JobInvoiceHeaderAttributes.Add(HeaderAttribute);
+                            }
+                        }
+                    }
 
 
                     XElement Modifications = new ModificationsCheckService().CheckChanges(LogList);
@@ -513,17 +602,21 @@ namespace Web
             //Job Order Settings
             var settings = new JobInvoiceSettingsService(_unitOfWork).GetJobInvoiceSettingsForDocument(pt.DocTypeId, pt.DivisionId, pt.SiteId);
 
-            if (settings == null && UserRoles.Contains("Admin"))
+            if (settings == null && UserRoles.Contains("SysAdmin"))
             {
                 return RedirectToAction("Create", "JobInvoiceSettings", new { id = pt.DocTypeId }).Warning("Please create job Invoice settings");
             }
-            else if (settings == null && !UserRoles.Contains("Admin"))
+            else if (settings == null && !UserRoles.Contains("SysAdmin"))
             {
                 return View("~/Views/Shared/InValidSettings.cshtml");
             }
 
             pt.JobInvoiceSettings = Mapper.Map<JobInvoiceSettings, JobInvoiceSettingsViewModel>(settings);
             pt.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(pt.DocTypeId);
+
+            List<DocumentTypeHeaderAttributeViewModel> tem = _JobInvoiceHeaderService.GetDocumentHeaderAttribute(id).ToList();
+            pt.DocumentTypeHeaderAttributes = tem;
+
             PrepareViewBag(pt.DocTypeId);
             if (pt == null)
             {
@@ -995,6 +1088,15 @@ namespace Web
 
                 new JobOrderLineStatusService(_unitOfWork).DeleteJobQtyOnInvoiceMultiple(temp.JobInvoiceHeaderId, ref db);
                 new JobReceiveLineStatusService(_unitOfWork).DeleteJobReceiveQtyOnInvoiceMultiple(temp.JobInvoiceHeaderId, ref db);
+
+
+                var attributes = (from A in db.JobInvoiceHeaderAttributes where A.HeaderTableId == vm.id select A).ToList();
+
+                foreach (var ite2 in attributes)
+                {
+                    ite2.ObjectState = Model.ObjectState.Deleted;
+                    db.JobInvoiceHeaderAttributes.Remove(ite2);
+                }
 
 
                 //var LedgerHeaders = new LedgerHeaderService(_unitOfWork).FindByDocNoHeader(temp.DocNo, temp.DocTypeId, temp.SiteId, temp.DivisionId );

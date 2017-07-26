@@ -21,8 +21,7 @@ namespace Service
         IEnumerable<ChargeGroupPerson> GetPagedList(int pageNumber, int pageSize, out int totalRecords);
         void Update(ChargeGroupPerson pt);
         ChargeGroupPerson Add(ChargeGroupPerson pt);
-        IQueryable<ChargeGroupPerson> GetChargeGroupPersonList(int ChargeTypeId);
-        IEnumerable<ChargeGroupPerson> GetChargeGroupPersonList(string chargetypename);        
+        IQueryable<ChargeGroupPerson> GetChargeGroupPersonList(int id);
         Task<IEquatable<ChargeGroupPerson>> GetAsync();
         Task<ChargeGroupPerson> FindAsync(int id);
         int NextId(int id,int ctypeid);
@@ -88,10 +87,9 @@ namespace Service
             return so;
         }
 
-        public IQueryable<ChargeGroupPerson> GetChargeGroupPersonList(int ChargeTypeId)
+        public IQueryable<ChargeGroupPerson> GetChargeGroupPersonList(int id)
         {
             var pt = (from p in db.ChargeGroupPerson
-                      where p.ChargeTypeId == ChargeTypeId
                           orderby p.ChargeGroupPersonName
                           select p
                           );
@@ -99,16 +97,7 @@ namespace Service
             return pt;
         }
 
-        public IEnumerable<ChargeGroupPerson> GetChargeGroupPersonList(string chargetypename)
-        {
-            var pt = (from p in db.ChargeGroupPerson
-                      where p.ChargeType.ChargeTypeName == chargetypename
-                      orderby p.ChargeGroupPersonName
-                      select p
-                          );
 
-            return pt;
-        }
 
 
         public ChargeGroupPerson Add(ChargeGroupPerson pt)
@@ -123,14 +112,12 @@ namespace Service
             if (id != 0)
             {
                 temp = (from p in db.ChargeGroupPerson
-                        where p.ChargeTypeId==ctypeid
                         orderby p.ChargeGroupPersonName
                         select p.ChargeGroupPersonId).AsEnumerable().SkipWhile(p => p != id).Skip(1).FirstOrDefault();
             }
             else
             {
                 temp = (from p in db.ChargeGroupPerson
-                        where p.ChargeTypeId==ctypeid
                         orderby p.ChargeGroupPersonName
                         select p.ChargeGroupPersonId).FirstOrDefault();
             }
@@ -148,14 +135,12 @@ namespace Service
             {
 
                 temp = (from p in db.ChargeGroupPerson
-                        where p.ChargeTypeId==ctypeid
                         orderby p.ChargeGroupPersonName
                         select p.ChargeGroupPersonId).AsEnumerable().TakeWhile(p => p != id).LastOrDefault();
             }
             else
             {
                 temp = (from p in db.ChargeGroupPerson
-                        where p.ChargeTypeId==ctypeid
                         orderby p.ChargeGroupPersonName
                         select p.ChargeGroupPersonId).AsEnumerable().LastOrDefault();
             }

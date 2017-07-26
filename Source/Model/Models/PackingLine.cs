@@ -73,6 +73,9 @@ namespace Model.Models
         [Display(Name = "Lot No."), MaxLength(50)]
         public string LotNo { get; set; }
 
+        [Display(Name = "Bale Count")]
+        public int? BaleCount { get; set; }
+
         [ForeignKey("FromProcess"), Display(Name = "From Process")]
         public int? FromProcessId { get; set; }
         public virtual Process FromProcess { get; set; }

@@ -149,11 +149,11 @@ namespace Web
             //Getting Settings
             var settings = new SaleDispatchSettingService(_unitOfWork).GetSaleDispatchSettingForDocument(id, vm.DivisionId, vm.SiteId);
 
-            if (settings == null && UserRoles.Contains("Admin"))
+            if (settings == null && UserRoles.Contains("SysAdmin"))
             {
                 return RedirectToAction("CreateSaleDispatchReturn", "SaleDispatchSetting", new { id = id }).Warning("Please create goods return settings");
             }
-            else if (settings == null && !UserRoles.Contains("Admin"))
+            else if (settings == null && !UserRoles.Contains("SysAdmin"))
             {
                 return View("~/Views/Shared/InValidSettings.cshtml");
             }
@@ -421,11 +421,11 @@ namespace Web
 
             var settings = new SaleDispatchSettingService(_unitOfWork).GetSaleDispatchSettingForDocument(pt.DocTypeId, pt.DivisionId, pt.SiteId);
 
-            if (settings == null && UserRoles.Contains("Admin"))
+            if (settings == null && UserRoles.Contains("SysAdmin"))
             {
                 return RedirectToAction("CreateSaleDispatchReturn", "SaleDispatchSetting", new { id = pt.DocTypeId }).Warning("Please create Purchase goods return settings");
             }
-            else if (settings == null && !UserRoles.Contains("Admin"))
+            else if (settings == null && !UserRoles.Contains("SysAdmin"))
             {
                 return View("~/Views/Shared/InValidSettings.cshtml");
             }
@@ -495,11 +495,11 @@ namespace Web
 
             var settings = new SaleDispatchSettingService(_unitOfWork).GetSaleDispatchSettingForDocument(pt.DocTypeId, pt.DivisionId, pt.SiteId);
 
-            if (settings == null && UserRoles.Contains("Admin"))
+            if (settings == null && UserRoles.Contains("SysAdmin"))
             {
                 return RedirectToAction("CreateSaleDispatchReturn", "SaleDispatchSetting", new { id = pt.DocTypeId }).Warning("Please create Purchase goods return settings");
             }
-            else if (settings == null && !UserRoles.Contains("Admin"))
+            else if (settings == null && !UserRoles.Contains("SysAdmin"))
             {
                 return View("~/Views/Shared/InValidSettings.cshtml");
             }

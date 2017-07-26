@@ -193,15 +193,17 @@ namespace Web
             p.CreatedDate = DateTime.Now;
             p.DivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
             p.SiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
+            List<DocumentTypeHeaderAttributeViewModel> tem = new DocumentTypeService(_unitOfWork).GetDocumentTypeHeaderAttribute(id).ToList();
+            p.DocumentTypeHeaderAttributes = tem;
 
             //Getting Settings
             var settings = new JobOrderSettingsService(_unitOfWork).GetJobOrderSettingsForDocument(id, p.DivisionId, p.SiteId);
 
-            if (settings == null && UserRoles.Contains("Admin"))
+            if (settings == null && UserRoles.Contains("SysAdmin"))
             {
                 return RedirectToAction("Create", "JobOrderSettings", new { id = id }).Warning("Please create job order settings");
             }
-            else if (settings == null && !UserRoles.Contains("Admin"))
+            else if (settings == null && !UserRoles.Contains("SysAdmin"))
             {
                 return View("~/Views/Shared/InValidSettings.cshtml");
             }
@@ -454,6 +456,35 @@ namespace Web
                             context.JobOrderPerk.Add(perk);
 
                             perkpid++;
+                        }
+                    }
+
+                    if (svm.DocumentTypeHeaderAttributes != null)
+                    {
+                        foreach (var Attributes in svm.DocumentTypeHeaderAttributes)
+                        {
+                            JobOrderHeaderAttributes JobOrderHeaderAttribute = (from A in context.JobOrderHeaderAttributes
+                                                                                      where A.HeaderTableId == s.JobOrderHeaderId 
+                                                                                      && A.DocumentTypeHeaderAttributeId == Attributes.DocumentTypeHeaderAttributeId
+                                                                                      select A).FirstOrDefault();
+
+                            if (JobOrderHeaderAttribute != null)
+                            {
+                                JobOrderHeaderAttribute.Value = Attributes.Value;
+                                JobOrderHeaderAttribute.ObjectState = Model.ObjectState.Modified;
+                                context.JobOrderHeaderAttributes.Add(JobOrderHeaderAttribute);
+                            }
+                            else
+                            {
+                                JobOrderHeaderAttributes HeaderAttribute = new JobOrderHeaderAttributes()
+                                {
+                                    HeaderTableId = s.JobOrderHeaderId,
+                                    Value = Attributes.Value,
+                                    DocumentTypeHeaderAttributeId = Attributes.DocumentTypeHeaderAttributeId,
+                                };
+                                HeaderAttribute.ObjectState = Model.ObjectState.Added;
+                                context.JobOrderHeaderAttributes.Add(HeaderAttribute);
+                            }
                         }
                     }
 
@@ -718,6 +749,38 @@ namespace Web
                         new StockService(_unitOfWork).UpdateStockGodownId(temp.StockHeaderId, temp.GodownId, context);
 
 
+
+                    if (svm.DocumentTypeHeaderAttributes != null)
+                    {
+                        foreach (var Attributes in svm.DocumentTypeHeaderAttributes)
+                        {
+
+                            JobOrderHeaderAttributes JobOrderHeaderAttribute = (from A in context.JobOrderHeaderAttributes
+                                                                                      where A.HeaderTableId == s.JobOrderHeaderId 
+                                                                                      && A.DocumentTypeHeaderAttributeId == Attributes.DocumentTypeHeaderAttributeId
+                                                                                      select A).FirstOrDefault();
+
+                            if (JobOrderHeaderAttribute != null)
+                            {
+                                JobOrderHeaderAttribute.Value = Attributes.Value;
+                                JobOrderHeaderAttribute.ObjectState = Model.ObjectState.Modified;
+                                context.JobOrderHeaderAttributes.Add(JobOrderHeaderAttribute);
+                            }
+                            else
+                            {
+                                JobOrderHeaderAttributes HeaderAttribute = new JobOrderHeaderAttributes()
+                                {
+                                    Value = Attributes.Value,
+                                    HeaderTableId = s.JobOrderHeaderId,
+                                    DocumentTypeHeaderAttributeId = Attributes.DocumentTypeHeaderAttributeId,
+                                };
+                                HeaderAttribute.ObjectState = Model.ObjectState.Added;
+                                context.JobOrderHeaderAttributes.Add(HeaderAttribute);
+                            }
+                        }
+                    }
+
+
                     LogList.Add(new LogTypeViewModel
                     {
                         ExObj = ExRec,
@@ -897,17 +960,20 @@ namespace Web
             //Job Order Settings
             var settings = new JobOrderSettingsService(_unitOfWork).GetJobOrderSettingsForDocument(s.DocTypeId, s.DivisionId, s.SiteId);
 
-            if (settings == null && UserRoles.Contains("Admin"))
+            if (settings == null && UserRoles.Contains("SysAdmin"))
             {
                 return RedirectToAction("Create", "JobOrderSettings", new { id = s.DocTypeId }).Warning("Please create job order settings");
             }
-            else if (settings == null && !UserRoles.Contains("Admin"))
+            else if (settings == null && !UserRoles.Contains("SysAdmin"))
             {
                 return View("~/Views/Shared/InValidSettings.cshtml");
             }
 
             s.JobOrderSettings = Mapper.Map<JobOrderSettings, JobOrderSettingsViewModel>(settings);
             s.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(s.DocTypeId);
+
+            List<DocumentTypeHeaderAttributeViewModel> tem = _JobOrderHeaderService.GetDocumentHeaderAttribute(id).ToList();
+            s.DocumentTypeHeaderAttributes = tem;
 
             ////Perks
             s.PerkViewModel = new PerkService(_unitOfWork).GetPerkListForDocumentTypeForEdit(id).ToList();
@@ -1193,6 +1259,14 @@ namespace Web
                 List<int> StockIdList = new List<int>();
                 List<int> StockProcessIdList = new List<int>();
 
+                var attributes = (from A in context.JobOrderHeaderAttributes where A.HeaderTableId == vm.id select A).ToList();
+
+                foreach (var ite2 in attributes)
+                {
+                    ite2.ObjectState = Model.ObjectState.Deleted;
+                    context.JobOrderHeaderAttributes.Remove(ite2);
+                }
+
                 new ProdOrderLineStatusService(_unitOfWork).DeleteProdQtyOnJobOrderMultiple(JobOrderHeader.JobOrderHeaderId, ref context, true);
 
                 foreach (var item in LineChargeRecords)
@@ -1226,6 +1300,16 @@ namespace Web
 
                     if (item.StockId != null)
                     {
+                        StockAdj Adj = (from L in context.StockAdj
+                                        where L.StockOutId == item.StockId
+                                        select L).FirstOrDefault();
+
+                        if (Adj != null)
+                        {
+                            Adj.ObjectState = Model.ObjectState.Deleted;
+                            context.StockAdj.Remove(Adj);
+                        }
+
                         StockIdList.Add((int)item.StockId);
                     }
 

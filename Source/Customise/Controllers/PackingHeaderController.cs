@@ -229,11 +229,11 @@ namespace Web
             //Getting Settings
             var settings = new PackingSettingService(_unitOfWork).GetPackingSettingForDocument(DocTypeId, p.DivisionId, p.SiteId);
 
-            if (settings == null && UserRoles.Contains("Admin"))
+            if (settings == null && UserRoles.Contains("SysAdmin"))
             {
                 return RedirectToAction("Create", "PackingSetting", new { id = DocTypeId }).Warning("Please create Packing settings");
             }
-            else if (settings == null && !UserRoles.Contains("Admin"))
+            else if (settings == null && !UserRoles.Contains("SysAdmin"))
             {
                 return View("~/Views/Shared/InValidSettings.cshtml");
             }
@@ -454,11 +454,11 @@ namespace Web
             //Getting Settings
             var settings = new PackingSettingService(_unitOfWork).GetPackingSettingForDocument(svm.DocTypeId, svm.DivisionId, svm.SiteId);
 
-            if (settings == null && UserRoles.Contains("Admin"))
+            if (settings == null && UserRoles.Contains("SysAdmin"))
             {
                 return RedirectToAction("Create", "PackingSetting", new { id = svm.DocTypeId }).Warning("Please create Packing settings");
             }
-            else if (settings == null && !UserRoles.Contains("Admin"))
+            else if (settings == null && !UserRoles.Contains("SysAdmin"))
             {
                 return View("~/Views/Shared/InValidSettings.cshtml");
             }
@@ -1176,6 +1176,26 @@ namespace Web
                 }
             }
             return RedirectToAction("Index", new { id = id });
+        }
+
+        public ActionResult GetCustomPerson(string searchTerm, int pageSize, int pageNum, int filter)//DocTypeId
+        {
+            var Query = _PackingHeaderService.GetCustomPerson(filter, searchTerm);
+            var temp = Query.Skip(pageSize * (pageNum - 1))
+                .Take(pageSize)
+                .ToList();
+
+            var count = Query.Count();
+
+            ComboBoxPagedResult Data = new ComboBoxPagedResult();
+            Data.Results = temp;
+            Data.Total = count;
+
+            return new JsonpResult
+            {
+                Data = Data,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
         }
 
     }

@@ -42,6 +42,7 @@ namespace Service
         IEnumerable<StockLineViewModel> GetRequisitionsForFilters(RequisitionFiltersForIssue vm, bool All);
         IEnumerable<StockExchangeLineViewModel> GetRequisitionsForExchange(RequisitionFiltersForExchange vm);
         IEnumerable<StockReceiveLineViewModel> GetRequisitionsForReceive(RequisitionFiltersForReceive vm);
+        IEnumerable<StockReceiveLineViewModel> GetStockProcessForReceive(StockProcessFiltersForReceive vm);
         IEnumerable<ComboBoxList> GetPendingCostCenterHelpList(int Id, int PersonId, string term);
         decimal GetExcessStock(int ProductId, int? Dim1, int? Dim2, int? ProcId, string Lot, int MaterilIssueId, string ProcName);
         decimal GetExcessStockForTransfer(int ProductId, int? Dim1, int? Dim2, int? ProcId, string Lot, int MaterilIssueId, string ProcName);
@@ -64,12 +65,15 @@ namespace Service
         IQueryable<ComboBoxResult> GetDimension1ForReceive(int id, string term);
 
         IEnumerable<ComboBoxResult> GetPendingStockInForIssue(int id, int? ProductId, int? Dimension1Id, int? Dimension2Id, int? Dimension3Id, int? Dimension4Id, string term);
+        IEnumerable<ComboBoxResult> GetPendingStockInHeaderForIssue(int StockHeaderId, string term);
+        IEnumerable<ComboBoxResult> GetLotNo(int StockHeaderId, string term);
 
         IQueryable<ComboBoxResult> GetCustomProductGroups(int Id, string term);
         IQueryable<ComboBoxResult> GetCustomReferenceDocIds(int Id, string term);
         ComboBoxResult SetCustomReferenceDocIds(int StockLineId);
         IEnumerable<ComboBoxResult> FGetProductUidHelpList(int Id, string term);
         IEnumerable<StockLineViewModel> GetStockInForFilters(StockInFiltersForIssue vm);
+        IEnumerable<ComboBoxResult> GetStockProcessBalanceForReceive(int StockHeaderId, string term);
 
 
     }
@@ -143,7 +147,9 @@ namespace Service
                             LockReason = p.LockReason,
                             ProductCode = tab.ProductCode,
                             ReferenceDocId = p.ReferenceDocId,
-                            ReferenceDocTypeId = p.ReferenceDocTypeId
+                            ReferenceDocTypeId = p.ReferenceDocTypeId,
+                            StockInId = p.StockInId,
+                            StockInNo = p.StockIn.StockHeader.DocNo
                         }).FirstOrDefault();
 
             return temp;
@@ -344,9 +350,9 @@ namespace Service
                         ProductUidIdName = p.ProductUid.ProductUidName,
                         FromProcessName = p.FromProcess.ProcessName,
                         CostCenterName = p.CostCenter.CostCenterName,
-
-                    }
-                        );
+                        StockInId = p.StockInId,
+                        StockInNo = p.StockIn.StockHeader.DocNo,
+                    });
 
         }
 
@@ -1264,6 +1270,148 @@ namespace Service
         }
 
 
+        public IEnumerable<StockReceiveLineViewModel> GetStockProcessForReceive(StockProcessFiltersForReceive vm)
+        {
+            var Stock = new StockHeaderService(_unitOfWork).Find(vm.StockHeaderId);
+
+            var settings = new StockHeaderSettingsService(_unitOfWork).GetStockHeaderSettingsForDocument(Stock.DocTypeId, Stock.DivisionId, Stock.SiteId);
+
+            string[] ProductTypes = null;
+            if (!string.IsNullOrEmpty(settings.filterProductTypes)) { ProductTypes = settings.filterProductTypes.Split(",".ToCharArray()); }
+            else { ProductTypes = new string[] { "NA" }; }
+
+            string[] ContraSites = null;
+            if (!string.IsNullOrEmpty(settings.filterContraSites)) { ContraSites = settings.filterContraSites.Split(",".ToCharArray()); }
+            else { ContraSites = new string[] { "NA" }; }
+
+            string[] ContraDivisions = null;
+            if (!string.IsNullOrEmpty(settings.filterContraDivisions)) { ContraDivisions = settings.filterContraDivisions.Split(",".ToCharArray()); }
+            else { ContraDivisions = new string[] { "NA" }; }
+
+            string[] ProductIdArr = null;
+            if (!string.IsNullOrEmpty(vm.ProductId)) { ProductIdArr = vm.ProductId.Split(",".ToCharArray()); }
+            else { ProductIdArr = new string[] { "NA" }; }
+
+            //string[] StockProcessInHeaderIdArr = null;
+            //if (!string.IsNullOrEmpty(vm.StockProcessInHeaderId)) { StockProcessInHeaderIdArr = vm.StockProcessInHeaderId.Split(",".ToCharArray()); }
+            //else { StockProcessInHeaderIdArr = new string[] { "NA" }; }
+
+            string[] ProductGroupIdArr = null;
+            if (!string.IsNullOrEmpty(vm.ProductGroupId)) { ProductGroupIdArr = vm.ProductGroupId.Split(",".ToCharArray()); }
+            else { ProductGroupIdArr = new string[] { "NA" }; }
+
+            string[] Dim1IdArr = null;
+            if (!string.IsNullOrEmpty(vm.Dimension1Id)) { Dim1IdArr = vm.Dimension1Id.Split(",".ToCharArray()); }
+            else { Dim1IdArr = new string[] { "NA" }; }
+
+            string[] Dim2IdArr = null;
+            if (!string.IsNullOrEmpty(vm.Dimension2Id)) { Dim2IdArr = vm.Dimension2Id.Split(",".ToCharArray()); }
+            else { Dim2IdArr = new string[] { "NA" }; }
+
+            string[] Dim3IdArr = null;
+            if (!string.IsNullOrEmpty(vm.Dimension3Id)) { Dim3IdArr = vm.Dimension3Id.Split(",".ToCharArray()); }
+            else { Dim3IdArr = new string[] { "NA" }; }
+
+            string[] Dim4IdArr = null;
+            if (!string.IsNullOrEmpty(vm.Dimension4Id)) { Dim4IdArr = vm.Dimension4Id.Split(",".ToCharArray()); }
+            else { Dim4IdArr = new string[] { "NA" }; }
+
+
+            string[] CostCenterArr = null;
+            if (!string.IsNullOrEmpty(vm.CostCenterId)) { CostCenterArr = vm.CostCenterId.Split(",".ToCharArray()); }
+            else { CostCenterArr = new string[] { "NA" }; }
+
+            var temp2 = (from L in db.StockProcess
+                         where L.StockHeader.PersonId == vm.PersonId 
+                         select new
+                         {
+                             Dimension1Name = L.Dimension1.Dimension1Name,
+                             Dimension2Name = L.Dimension2.Dimension2Name,
+                             Dimension3Name = L.Dimension3.Dimension3Name,
+                             Dimension4Name = L.Dimension4.Dimension4Name,
+                             Specification = L.Specification,
+                             Dimension1Id = L.Dimension1Id,
+                             Dimension2Id = L.Dimension2Id,
+                             Dimension3Id = L.Dimension3Id,
+                             Dimension4Id = L.Dimension4Id,
+                             ProcessId = L.ProcessId,
+                             ProductName = L.Product.ProductName,
+                             ProductId = L.ProductId,
+                             CostCenterId = L.CostCenterId,
+                             CostCenterName = L.CostCenter.CostCenterName,
+                             StockHeaderId = vm.StockHeaderId,
+                             UnitId = L.Product.UnitId,
+                             UnitName = L.Product.Unit.UnitName,
+                             UnitDecimalPlaces = L.Product.Unit.DecimalPlaces,
+                             ProductGroupId = L.Product.ProductGroupId,
+                             ProductTypeId = L.Product.ProductGroup.ProductTypeId,
+                             SiteId = L.StockHeader.SiteId,
+                             DivisionId = L.StockHeader.DivisionId,
+                             Qty_Iss = L.Qty_Iss,
+                             Qty_Rec = L.Qty_Rec
+                         });
+
+            if (!string.IsNullOrEmpty(vm.ProductId))
+                temp2 = temp2.Where(m => ProductIdArr.Contains(m.ProductId.ToString()));
+
+            if (!string.IsNullOrEmpty(vm.ProductGroupId))
+                temp2 = temp2.Where(m => ProductGroupIdArr.Contains(m.ProductGroupId.ToString()));
+
+            if (!string.IsNullOrEmpty(vm.Dimension1Id))
+                temp2 = temp2.Where(m => Dim1IdArr.Contains(m.Dimension1Id.ToString()));
+
+            if (!string.IsNullOrEmpty(vm.Dimension2Id))
+                temp2 = temp2.Where(m => Dim2IdArr.Contains(m.Dimension2Id.ToString()));
+
+            if (!string.IsNullOrEmpty(vm.Dimension3Id))
+                temp2 = temp2.Where(m => Dim3IdArr.Contains(m.Dimension3Id.ToString()));
+
+            if (!string.IsNullOrEmpty(vm.Dimension4Id))
+                temp2 = temp2.Where(m => Dim4IdArr.Contains(m.Dimension4Id.ToString()));
+
+            if (!string.IsNullOrEmpty(vm.CostCenterId))
+                temp2 = temp2.Where(m => CostCenterArr.Contains(m.CostCenterId.ToString()));
+
+            if (!string.IsNullOrEmpty(settings.filterProductTypes))
+                temp2 = temp2.Where(m => ProductTypes.Contains(m.ProductTypeId.ToString()));
+
+            if (!string.IsNullOrEmpty(settings.filterContraSites))
+                temp2 = temp2.Where(m => ContraSites.Contains(m.SiteId.ToString()));
+
+            if (!string.IsNullOrEmpty(settings.filterContraDivisions))
+                temp2 = temp2.Where(m => ContraDivisions.Contains(m.DivisionId.ToString()));
+
+
+            var GRecords = from p in temp2
+                           group p by new { p.ProductId, p.Dimension1Id, p.Dimension2Id, p.Dimension3Id, p.Dimension4Id } into g
+                           where g.Sum(m => m.Qty_Rec) - g.Sum(m => m.Qty_Iss) > 0
+                           select new StockReceiveLineViewModel
+                           {
+                               Dimension1Name = g.Max(m => m.Dimension1Name),
+                               Dimension2Name = g.Max(m => m.Dimension2Name),
+                               Dimension3Name = g.Max(m => m.Dimension3Name),
+                               Dimension4Name = g.Max(m => m.Dimension4Name),
+                               Specification = g.Max(m => m.Specification),
+                               Dimension1Id = g.Max(m => m.Dimension1Id),
+                               Dimension2Id = g.Max(m => m.Dimension2Id),
+                               Dimension3Id = g.Max(m => m.Dimension3Id),
+                               Dimension4Id = g.Max(m => m.Dimension4Id),
+                               ProcessId = g.Max(m => m.ProcessId),
+                               ProductName = g.Max(m => m.ProductName),
+                               ProductId = g.Max(m => m.ProductId),
+                               CostCenterId = g.Max(m => m.CostCenterId),
+                               CostCenterName = g.Max(m => m.CostCenterName),
+                               StockHeaderId = vm.StockHeaderId,
+                               UnitId = g.Max(m => m.UnitId),
+                               UnitName = g.Max(m => m.UnitName),
+                               UnitDecimalPlaces = g.Max(m => m.UnitDecimalPlaces),
+                               RequisitionBalanceQty = g.Sum(m => m.Qty_Rec) - g.Sum(m => m.Qty_Iss),
+                           };
+
+            return GRecords.ToList();
+        }
+
+
         public decimal GetExcessStock(int ProductId, int? Dim1, int? Dim2, int? ProcId, string Lot, int MaterilIssueId, string ProcName)
         {
             StockHeader Header = new StockHeaderService(_unitOfWork).Find(MaterilIssueId);
@@ -1894,6 +2042,125 @@ namespace Service
 
         }
 
+        //public IQueryable<ComboBoxResult> GetProductsForReceiveLine(int id, string term)
+        //{
+
+        //    var StockHeader = db.StockHeader.Find(id);
+
+        //    var settings = new StockHeaderSettingsService(_unitOfWork).GetStockHeaderSettingsForDocument(StockHeader.DocTypeId, StockHeader.DivisionId, StockHeader.SiteId);
+
+        //    string[] ProductTypes = null;
+        //    if (!string.IsNullOrEmpty(settings.filterProductTypes)) { ProductTypes = settings.filterProductTypes.Split(",".ToCharArray()); }
+        //    else { ProductTypes = new string[] { "NA" }; }
+
+        //    string[] Products = null;
+        //    if (!string.IsNullOrEmpty(settings.filterProducts)) { Products = settings.filterProducts.Split(",".ToCharArray()); }
+        //    else { Products = new string[] { "NA" }; }
+
+        //    string[] ProductGroups = null;
+        //    if (!string.IsNullOrEmpty(settings.filterProductGroups)) { ProductGroups = settings.filterProductGroups.Split(",".ToCharArray()); }
+        //    else { ProductGroups = new string[] { "NA" }; }
+
+        //    if (settings.isProductHelpFromStockProcess == true)
+        //    {
+        //        var Query = from p in db.StockProcess
+        //                    where p.StockHeader.ProcessId == StockHeader.ProcessId && p.StockHeader.PersonId == StockHeader.PersonId
+        //                    join t in db.Product on p.ProductId equals t.ProductId
+        //                    join t2 in db.ProductGroups on t.ProductGroupId equals t2.ProductGroupId
+        //                    into pgtable
+        //                    from pg in pgtable.DefaultIfEmpty()
+        //                    join t3 in db.ProductTypes on pg.ProductTypeId equals t3.ProductTypeId
+        //                    into pttable
+        //                    from pt in pttable.DefaultIfEmpty()
+        //                    select new
+        //                    {
+        //                        ProductId = p.ProductId,
+        //                        ProductName = t.ProductName,
+        //                        Dimension1Id = p.Dimension1Id,
+        //                        Dimension1Name = p.Dimension1.Dimension1Name,
+        //                        Dimension2Id = p.Dimension2Id,
+        //                        Dimension2Name = p.Dimension2.Dimension2Name,
+        //                        Dimension3Id = p.Dimension3Id,
+        //                        Dimension3Name = p.Dimension3.Dimension3Name,
+        //                        Dimension4Id = p.Dimension4Id,
+        //                        Dimension4Name = p.Dimension4.Dimension4Name,
+        //                        ProductTypeId = pt.ProductTypeId,
+        //                        ProductGroupId = pg.ProductGroupId,
+        //                        BalanceQty = p.Qty_Rec - p.Qty_Iss,
+        //                    };
+
+        //        if (!string.IsNullOrEmpty(settings.filterProductTypes))
+        //            Query = Query.Where(m => ProductTypes.Contains(m.ProductTypeId.ToString()));
+
+        //        if (!string.IsNullOrEmpty(settings.filterProducts))
+        //            Query = Query.Where(m => Products.Contains(m.ProductId.ToString()));
+
+        //        if (!string.IsNullOrEmpty(settings.filterProductGroups))
+        //            Query = Query.Where(m => ProductGroups.Contains(m.ProductGroupId.ToString()));
+
+        //        if (!string.IsNullOrEmpty(term))
+        //            Query = Query.Where(m => m.ProductName.ToLower().Contains(term.ToLower()));
+
+        //        return (from p in Query
+        //                group p by new {p.ProductId, p.Dimension1Id, p.Dimension2Id, p.Dimension3Id, p.Dimension4Id}
+        //                    into g
+        //                    where g.Sum(m => m.BalanceQty) > 0
+        //                    orderby g.Max(m => m.ProductName)
+        //                    select new ComboBoxResult
+        //                    {
+        //                        text = g.Max(m => m.ProductName).ToString(),
+        //                        id = g.Key.ProductId.ToString(),
+        //                        AProp2 = "BalQty: " + g.Sum(m => m.BalanceQty).ToString(),
+        //                        AProp1 = g.Max(m => m.Dimension1Name == null ? "" : m.Dimension1Name).ToString() + 
+        //                                g.Max(m => m.Dimension2Name == null ? "" : m.Dimension2Name).ToString() + 
+        //                                g.Max(m => m.Dimension3Name == null ? "" : m.Dimension3Name).ToString() + 
+        //                                g.Max(m => m.Dimension4Name == null ? "" : m.Dimension4Name).ToString()
+        //                    });
+
+        //                                //        AProp1 = g.Max((m => m.Dimension1Name == null) ? "" : m.Dimension1Name) +
+        //                                //((Dimension2Tab.Dimension2Name == null) ? "" : "," + Dimension2Tab.Dimension2Name) +
+        //                                //((Dimension3Tab.Dimension3Name == null) ? "" : "," + Dimension3Tab.Dimension3Name) +
+        //                                //((Dimension4Tab.Dimension4Name == null) ? "" : "," + Dimension4Tab.Dimension4Name)
+
+        //    }
+        //    else
+        //    {
+        //        var Query = from p in db.Product
+        //                    join t in db.ProductGroups on p.ProductGroupId equals t.ProductGroupId
+        //                    orderby p.ProductName
+        //                    select new
+        //                    {
+        //                        ProductName = p.ProductName,
+        //                        ProductId = p.ProductId,
+        //                        ProductTypeId = t.ProductTypeId,
+        //                        ProductGroupId = p.ProductGroupId,
+        //                    };
+
+
+        //        if (!string.IsNullOrEmpty(settings.filterProductTypes))
+        //            Query = Query.Where(m => ProductTypes.Contains(m.ProductTypeId.ToString()));
+
+        //        if (!string.IsNullOrEmpty(settings.filterProducts))
+        //            Query = Query.Where(m => Products.Contains(m.ProductId.ToString()));
+
+        //        if (!string.IsNullOrEmpty(settings.filterProductGroups))
+        //            Query = Query.Where(m => ProductGroups.Contains(m.ProductGroupId.ToString()));
+
+        //        if (!string.IsNullOrEmpty(term))
+        //            Query = Query.Where(m => m.ProductName.ToLower().Contains(term.ToLower()));
+
+        //        return (from p in Query
+        //                select new ComboBoxResult
+        //                {
+        //                    id = p.ProductId.ToString(),
+        //                    text = p.ProductName,
+        //                });
+        //    }
+
+        //}
+
+
+
         public IQueryable<ComboBoxResult> GetProductsForReceiveLine(int id, string term)
         {
 
@@ -1913,84 +2180,36 @@ namespace Service
             if (!string.IsNullOrEmpty(settings.filterProductGroups)) { ProductGroups = settings.filterProductGroups.Split(",".ToCharArray()); }
             else { ProductGroups = new string[] { "NA" }; }
 
-            if (settings.isProductHelpFromStockProcess == true)
-            {
-                var Query = from p in db.StockProcess
-                            where p.StockHeader.ProcessId == StockHeader.ProcessId && p.StockHeader.PersonId == StockHeader.PersonId
-                            join t in db.Product on p.ProductId equals t.ProductId
-                            join t2 in db.ProductGroups on t.ProductGroupId equals t2.ProductGroupId
-                            into pgtable
-                            from pg in pgtable.DefaultIfEmpty()
-                            join t3 in db.ProductTypes on pg.ProductTypeId equals t3.ProductTypeId
-                            into pttable
-                            from pt in pttable.DefaultIfEmpty()
-                            select new
-                            {
-                                ProductId = p.ProductId,
-                                ProductName = t.ProductName,
-                                ProductTypeId = pt.ProductTypeId,
-                                ProductGroupId = pg.ProductGroupId,
-                                BalanceQty = p.Qty_Rec - p.Qty_Iss,
-                            };
-
-                if (!string.IsNullOrEmpty(settings.filterProductTypes))
-                    Query = Query.Where(m => ProductTypes.Contains(m.ProductTypeId.ToString()));
-
-                if (!string.IsNullOrEmpty(settings.filterProducts))
-                    Query = Query.Where(m => Products.Contains(m.ProductId.ToString()));
-
-                if (!string.IsNullOrEmpty(settings.filterProductGroups))
-                    Query = Query.Where(m => ProductGroups.Contains(m.ProductGroupId.ToString()));
-
-                if (!string.IsNullOrEmpty(term))
-                    Query = Query.Where(m => m.ProductName.ToLower().Contains(term.ToLower()));
-
-                return (from p in Query
-                        group p by p.ProductId
-                            into g
-                            where g.Sum(m => m.BalanceQty) > 0
-                            orderby g.Max(m => m.ProductName)
-                            select new ComboBoxResult
-                            {
-                                text = g.Max(m => m.ProductName),
-                                id = g.Key.ToString(),
-                                AProp1 = "BalQty: " + g.Sum(m => m.BalanceQty).ToString(),
-                            });
-
-            }
-            else
-            {
-                var Query = from p in db.Product
-                            join t in db.ProductGroups on p.ProductGroupId equals t.ProductGroupId
-                            orderby p.ProductName
-                            select new
-                            {
-                                ProductName = p.ProductName,
-                                ProductId = p.ProductId,
-                                ProductTypeId = t.ProductTypeId,
-                                ProductGroupId = p.ProductGroupId,
-                            };
-
-
-                if (!string.IsNullOrEmpty(settings.filterProductTypes))
-                    Query = Query.Where(m => ProductTypes.Contains(m.ProductTypeId.ToString()));
-
-                if (!string.IsNullOrEmpty(settings.filterProducts))
-                    Query = Query.Where(m => Products.Contains(m.ProductId.ToString()));
-
-                if (!string.IsNullOrEmpty(settings.filterProductGroups))
-                    Query = Query.Where(m => ProductGroups.Contains(m.ProductGroupId.ToString()));
-
-                if (!string.IsNullOrEmpty(term))
-                    Query = Query.Where(m => m.ProductName.ToLower().Contains(term.ToLower()));
-
-                return (from p in Query
-                        select new ComboBoxResult
+            var Query = from p in db.Product
+                        join t in db.ProductGroups on p.ProductGroupId equals t.ProductGroupId
+                        orderby p.ProductName
+                        select new
                         {
-                            id = p.ProductId.ToString(),
-                            text = p.ProductName,
-                        });
-            }
+                            ProductName = p.ProductName,
+                            ProductId = p.ProductId,
+                            ProductTypeId = t.ProductTypeId,
+                            ProductGroupId = p.ProductGroupId,
+                        };
+
+
+            if (!string.IsNullOrEmpty(settings.filterProductTypes))
+                Query = Query.Where(m => ProductTypes.Contains(m.ProductTypeId.ToString()));
+
+            if (!string.IsNullOrEmpty(settings.filterProducts))
+                Query = Query.Where(m => Products.Contains(m.ProductId.ToString()));
+
+            if (!string.IsNullOrEmpty(settings.filterProductGroups))
+                Query = Query.Where(m => ProductGroups.Contains(m.ProductGroupId.ToString()));
+
+            if (!string.IsNullOrEmpty(term))
+                Query = Query.Where(m => m.ProductName.ToLower().Contains(term.ToLower()));
+
+            return (from p in Query
+                    select new ComboBoxResult
+                    {
+                        id = p.ProductId.ToString(),
+                        text = p.ProductName,
+                    });
 
         }
 
@@ -2031,6 +2250,17 @@ namespace Service
 
             var StockHeader = new StockHeaderService(_unitOfWork).Find(StockHeaderId);
 
+            int GodownId = 0;
+
+            if (StockHeader.FromGodownId != null)
+            {
+                GodownId = (int)StockHeader.FromGodownId;
+            }
+            else if (StockHeader.GodownId != null)
+            {
+                GodownId = (int)StockHeader.GodownId;
+            }
+
             var settings = new StockHeaderSettingsService(_unitOfWork).GetStockHeaderSettingsForDocument(StockHeader.DocTypeId, StockHeader.DivisionId, StockHeader.SiteId);
 
 
@@ -2047,6 +2277,7 @@ namespace Service
 
 
             return (from p in db.ViewStockInBalance
+                    join L in db.Stock on p.StockInId equals L.StockId into StockTable from StockTab in StockTable.DefaultIfEmpty()
                     join pt in db.Product on p.ProductId equals pt.ProductId into ProductTable
                     from ProductTab in ProductTable.DefaultIfEmpty()
                     join D1 in db.Dimension1 on p.Dimension1Id equals D1.Dimension1Id into Dimension1Table
@@ -2057,7 +2288,7 @@ namespace Service
                     from Dimension3Tab in Dimension3Table.DefaultIfEmpty()
                     join D4 in db.Dimension4 on p.Dimension4Id equals D4.Dimension4Id into Dimension4Table
                     from Dimension4Tab in Dimension4Table.DefaultIfEmpty()
-                    where p.BalanceQty > 0
+                    where p.BalanceQty > 0 && StockTab.GodownId == GodownId
                     && (ProductId == null || ProductId == 0 ? 1 == 1 : p.ProductId == ProductId)
                     && (Dimension1Id == null ? 1 == 1 : p.Dimension1Id == Dimension1Id)
                     && (Dimension2Id == null ? 1 == 1 : p.Dimension2Id == Dimension2Id)
@@ -2071,18 +2302,121 @@ namespace Service
                         || string.IsNullOrEmpty(term) ? 1 == 1 : Dimension2Tab.Dimension2Name.ToLower().Contains(term.ToLower())
                         || string.IsNullOrEmpty(term) ? 1 == 1 : Dimension3Tab.Dimension3Name.ToLower().Contains(term.ToLower())
                         || string.IsNullOrEmpty(term) ? 1 == 1 : Dimension4Tab.Dimension4Name.ToLower().Contains(term.ToLower())
+                        || string.IsNullOrEmpty(term) ? 1 == 1 : StockTab.StockHeader.DocType.DocumentTypeShortName.ToLower().Contains(term.ToLower())
+                        || string.IsNullOrEmpty(term) ? 1 == 1 : StockTab.Process.ProcessName.ToLower().Contains(term.ToLower())
+                        || string.IsNullOrEmpty(term) ? 1 == 1 : StockTab.LotNo.ToLower().Contains(term.ToLower())
                         )
                     select new ComboBoxResult
                     {
                         id = p.StockInId.ToString(),
-                        text = p.StockInNo,
-                        TextProp1 = "Balance :" + p.BalanceQty,
+                        text = StockTab.StockHeader.DocType.DocumentTypeShortName + "-" + p.StockInNo,
+                        TextProp1 = "Balance :" + p.BalanceQty  + ((StockTab.ProcessId == null) ? "" : "," + StockTab.Process.ProcessName),
                         TextProp2 = "Date :" + p.StockInDate + ((p.LotNo == null) ? "" : "," + p.LotNo),
                         AProp1 = ProductTab.ProductName ,
                         AProp2 = ((Dimension1Tab.Dimension1Name == null) ? "" : Dimension1Tab.Dimension1Name) + 
                                     ((Dimension2Tab.Dimension2Name == null) ? "" : "," + Dimension2Tab.Dimension2Name) +
                                     ((Dimension3Tab.Dimension3Name == null) ? "" : "," + Dimension3Tab.Dimension3Name) +
                                     ((Dimension4Tab.Dimension4Name == null) ? "" : "," + Dimension4Tab.Dimension4Name)
+                    });
+        }
+
+
+        public IEnumerable<ComboBoxResult> GetPendingStockInHeaderForIssue(int StockHeaderId, string term)
+        {
+
+            var StockHeader = new StockHeaderService(_unitOfWork).Find(StockHeaderId);
+
+            var settings = new StockHeaderSettingsService(_unitOfWork).GetStockHeaderSettingsForDocument(StockHeader.DocTypeId, StockHeader.DivisionId, StockHeader.SiteId);
+
+            int GodownId = 0;
+
+            if (StockHeader.FromGodownId != null)
+            {
+                GodownId = (int)StockHeader.FromGodownId;
+            }
+            else if (StockHeader.GodownId != null)
+            {
+                GodownId = (int)StockHeader.GodownId;
+            }
+
+
+            string[] contraSites = null;
+            if (!string.IsNullOrEmpty(settings.filterContraSites)) { contraSites = settings.filterContraSites.Split(",".ToCharArray()); }
+            else { contraSites = new string[] { "NA" }; }
+
+            string[] contraDivisions = null;
+            if (!string.IsNullOrEmpty(settings.filterContraDivisions)) { contraDivisions = settings.filterContraDivisions.Split(",".ToCharArray()); }
+            else { contraDivisions = new string[] { "NA" }; }
+
+            int CurrentSiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
+            int CurrentDivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
+
+
+            return (from p in db.ViewStockInBalance
+                    join L in db.Stock on p.StockInId equals L.StockId into StockTable
+                    from StockTab in StockTable.DefaultIfEmpty()
+                    where p.BalanceQty > 0 && StockTab.GodownId == GodownId
+                    && (string.IsNullOrEmpty(settings.filterContraSites) ? p.SiteId == CurrentSiteId : contraSites.Contains(p.SiteId.ToString()))
+                    && (string.IsNullOrEmpty(settings.filterContraDivisions) ? p.DivisionId == CurrentDivisionId : contraDivisions.Contains(p.DivisionId.ToString()))
+                    && (string.IsNullOrEmpty(term) ? 1 == 1 : p.StockInNo.ToLower().Contains(term.ToLower())
+                        || string.IsNullOrEmpty(term) ? 1 == 1 : StockTab.StockHeader.DocType.DocumentTypeShortName.ToLower().Contains(term.ToLower())
+                        || string.IsNullOrEmpty(term) ? 1 == 1 : StockTab.StockHeader.Process.ProcessName.ToLower().Contains(term.ToLower())
+                    )
+                    group new { p, StockTab } by new { StockTab.StockHeaderId } into Result
+                    select new ComboBoxResult
+                    {
+                        id = Result.Key.StockHeaderId.ToString(),
+                        text = Result.Max(i => i.StockTab.StockHeader.DocType.DocumentTypeShortName + "-" + i.StockTab.StockHeader.DocNo),
+                        TextProp1 = "Date :" + Result.Max(i => i.StockTab.StockHeader.DocDate),
+                        TextProp2 = "Balance :" + Result.Sum(i => i.p.BalanceQty),
+                        AProp1 = "Process :" + Result.Max(i => i.StockTab.StockHeader.Process.ProcessName),
+                    });
+        }
+
+
+        public IEnumerable<ComboBoxResult> GetLotNo(int StockHeaderId, string term)
+        {
+            var StockHeader = new StockHeaderService(_unitOfWork).Find(StockHeaderId);
+
+            var settings = new StockHeaderSettingsService(_unitOfWork).GetStockHeaderSettingsForDocument(StockHeader.DocTypeId, StockHeader.DivisionId, StockHeader.SiteId);
+
+            int GodownId = 0;
+
+            if (StockHeader.FromGodownId != null)
+            {
+                GodownId = (int)StockHeader.FromGodownId;
+            }
+            else if (StockHeader.GodownId != null)
+            {
+                GodownId = (int)StockHeader.GodownId;
+            }
+
+
+            string[] contraSites = null;
+            if (!string.IsNullOrEmpty(settings.filterContraSites)) { contraSites = settings.filterContraSites.Split(",".ToCharArray()); }
+            else { contraSites = new string[] { "NA" }; }
+
+            string[] contraDivisions = null;
+            if (!string.IsNullOrEmpty(settings.filterContraDivisions)) { contraDivisions = settings.filterContraDivisions.Split(",".ToCharArray()); }
+            else { contraDivisions = new string[] { "NA" }; }
+
+            int CurrentSiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
+            int CurrentDivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
+
+
+            return (from p in db.ViewStockInBalance
+                    join L in db.Stock on p.StockInId equals L.StockId into StockTable
+                    from StockTab in StockTable.DefaultIfEmpty()
+                    where p.LotNo != null && p.BalanceQty > 0 && StockTab.GodownId == GodownId
+                    && (string.IsNullOrEmpty(settings.filterContraSites) ? p.SiteId == CurrentSiteId : contraSites.Contains(p.SiteId.ToString()))
+                    && (string.IsNullOrEmpty(settings.filterContraDivisions) ? p.DivisionId == CurrentDivisionId : contraDivisions.Contains(p.DivisionId.ToString()))
+                    && (string.IsNullOrEmpty(term) ? 1 == 1 : p.LotNo.ToLower().Contains(term.ToLower()))
+                    group new { p, StockTab } by new { StockTab.LotNo } into Result
+                    select new ComboBoxResult
+                    {
+                        id = Result.Key.LotNo.ToString(),
+                        text = Result.Max(i => i.StockTab.LotNo),
+                        TextProp1 = "Balance :" + Result.Sum(i => i.p.BalanceQty),
                     });
         }
 
@@ -2215,7 +2549,7 @@ namespace Service
             else { ProductIdArr = new string[] { "NA" }; }
 
             string[] StockInIdArr = null;
-            if (!string.IsNullOrEmpty(vm.StockInId)) { StockInIdArr = vm.StockInId.Split(",".ToCharArray()); }
+            if (!string.IsNullOrEmpty(vm.StockInHeaderId)) { StockInIdArr = vm.StockInHeaderId.Split(",".ToCharArray()); }
             else { StockInIdArr = new string[] { "NA" }; }
 
             string[] ProductGroupIdArr = null;
@@ -2242,17 +2576,23 @@ namespace Service
             if (!string.IsNullOrEmpty(vm.CostCenterId)) { CostCenterArr = vm.CostCenterId.Split(",".ToCharArray()); }
             else { CostCenterArr = new string[] { "NA" }; }
 
+            string[] LotNoArr = null;
+            if (!string.IsNullOrEmpty(vm.LotNo)) { LotNoArr = vm.LotNo.Split(",".ToCharArray()); }
+            else { LotNoArr = new string[] { "NA" }; }
+
+
             var temp = (from p in db.ViewStockInBalance
                         join S in db.Stock on p.StockInId equals S.StockId into StockTable
                         from StockTab in StockTable.DefaultIfEmpty()
                         where (string.IsNullOrEmpty(vm.ProductId) ? 1 == 1 : ProductIdArr.Contains(p.ProductId.ToString()))
-                        && (string.IsNullOrEmpty(vm.StockInId) ? 1 == 1 : StockInIdArr.Contains(p.StockInId.ToString()))
+                        && (string.IsNullOrEmpty(vm.StockInHeaderId) ? 1 == 1 : StockInIdArr.Contains(StockTab.StockHeaderId.ToString()))
                         && (string.IsNullOrEmpty(vm.ProductGroupId) ? 1 == 1 : ProductGroupIdArr.Contains(StockTab.Product.ProductGroup.ProductGroupId.ToString()))
                         && (string.IsNullOrEmpty(vm.Dimension1Id) ? 1 == 1 : Dim1IdArr.Contains(p.Dimension1Id.ToString()))
                         && (string.IsNullOrEmpty(vm.Dimension2Id) ? 1 == 1 : Dim2IdArr.Contains(p.Dimension2Id.ToString()))
                         && (string.IsNullOrEmpty(vm.Dimension3Id) ? 1 == 1 : Dim3IdArr.Contains(p.Dimension3Id.ToString()))
                         && (string.IsNullOrEmpty(vm.Dimension4Id) ? 1 == 1 : Dim4IdArr.Contains(p.Dimension4Id.ToString()))
                         && (string.IsNullOrEmpty(vm.CostCenterId) ? 1 == 1 : CostCenterArr.Contains(StockTab.CostCenterId.ToString()))
+                        && (string.IsNullOrEmpty(vm.LotNo) ? 1 == 1 : LotNoArr.Contains(p.LotNo.ToString()))
                         && (string.IsNullOrEmpty(settings.filterProductTypes) ? 1 == 1 : ProductTypes.Contains(StockTab.Product.ProductGroup.ProductTypeId.ToString()))
                         && (string.IsNullOrEmpty(settings.filterContraSites) ? 1 == 1 : ContraSites.Contains(StockTab.StockHeader.SiteId.ToString()))
                         && (string.IsNullOrEmpty(settings.filterContraDivisions) ? 1 == 1 : ContraDivisions.Contains(StockTab.StockHeader.DivisionId.ToString()))
@@ -2269,6 +2609,7 @@ namespace Service
                             Dimension3Id = p.Dimension3Id,
                             Dimension4Id = p.Dimension4Id,
                             ProcessId = StockTab.ProcessId,
+                            LotNo = p.LotNo,
                             Specification = StockTab.Specification,
                             StockInBalanceQty = p.BalanceQty,
                             Qty = p.BalanceQty,
@@ -2280,9 +2621,62 @@ namespace Service
                             StockInId = p.StockInId,
                             UnitId = StockTab.Product.UnitId,
                             UnitName = StockTab.Product.Unit.UnitName,
-                            UnitDecimalPlaces = StockTab.Product.Unit.DecimalPlaces,
+                            UnitDecimalPlaces = (byte?)StockTab.Product.Unit.DecimalPlaces ?? 0,
                         });
             return temp;
+        }
+
+        public IEnumerable<ComboBoxResult> GetStockProcessBalanceForReceive(int StockHeaderId, string term)
+        {
+            var StockHeader = new StockHeaderService(_unitOfWork).Find(StockHeaderId);
+
+            var settings = new StockHeaderSettingsService(_unitOfWork).GetStockHeaderSettingsForDocument(StockHeader.DocTypeId, StockHeader.DivisionId, StockHeader.SiteId);
+
+
+            string[] contraSites = null;
+            if (!string.IsNullOrEmpty(settings.filterContraSites)) { contraSites = settings.filterContraSites.Split(",".ToCharArray()); }
+            else { contraSites = new string[] { "NA" }; }
+
+            string[] contraDivisions = null;
+            if (!string.IsNullOrEmpty(settings.filterContraDivisions)) { contraDivisions = settings.filterContraDivisions.Split(",".ToCharArray()); }
+            else { contraDivisions = new string[] { "NA" }; }
+
+            int CurrentSiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
+            int CurrentDivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
+
+
+            return (from p in db.ViewStockProcessBalance
+                    join pt in db.Product on p.ProductId equals pt.ProductId into ProductTable
+                    from ProductTab in ProductTable.DefaultIfEmpty()
+                    join D1 in db.Dimension1 on p.Dimension1Id equals D1.Dimension1Id into Dimension1Table
+                    from Dimension1Tab in Dimension1Table.DefaultIfEmpty()
+                    join D2 in db.Dimension2 on p.Dimension2Id equals D2.Dimension2Id into Dimension2Table
+                    from Dimension2Tab in Dimension2Table.DefaultIfEmpty()
+                    join D3 in db.Dimension3 on p.Dimension3Id equals D3.Dimension3Id into Dimension3Table
+                    from Dimension3Tab in Dimension3Table.DefaultIfEmpty()
+                    join D4 in db.Dimension4 on p.Dimension4Id equals D4.Dimension4Id into Dimension4Table
+                    from Dimension4Tab in Dimension4Table.DefaultIfEmpty()
+                    where p.BalanceQty > 0 && p.PersonId == StockHeader.PersonId && p.ProcessId == StockHeader.ProcessId
+                    && (string.IsNullOrEmpty(settings.filterContraSites) ? p.SiteId == CurrentSiteId : contraSites.Contains(p.SiteId.ToString()))
+                    && (string.IsNullOrEmpty(settings.filterContraDivisions) ? p.DivisionId == CurrentDivisionId : contraDivisions.Contains(p.DivisionId.ToString()))
+                    && (string.IsNullOrEmpty(term) ? 1 == 1 : ProductTab.ProductName.ToLower().Contains(term.ToLower())
+                        || string.IsNullOrEmpty(term) ? 1 == 1 : Dimension1Tab.Dimension1Name.ToLower().Contains(term.ToLower())
+                        || string.IsNullOrEmpty(term) ? 1 == 1 : Dimension2Tab.Dimension2Name.ToLower().Contains(term.ToLower())
+                        || string.IsNullOrEmpty(term) ? 1 == 1 : Dimension3Tab.Dimension3Name.ToLower().Contains(term.ToLower())
+                        || string.IsNullOrEmpty(term) ? 1 == 1 : Dimension4Tab.Dimension4Name.ToLower().Contains(term.ToLower())
+                        || string.IsNullOrEmpty(term) ? 1 == 1 : p.LotNo.ToLower().Contains(term.ToLower())
+                        )
+                    select new ComboBoxResult
+                    {
+                        id = p.StockProcessBalanceId.ToString(),
+                        text = ProductTab.ProductName,
+                        TextProp1 = "Balance :" + p.BalanceQty,
+                        AProp1 = ((Dimension1Tab.Dimension1Name == null) ? "" : Dimension1Tab.Dimension1Name) +
+                                    ((Dimension2Tab.Dimension2Name == null) ? "" : "," + Dimension2Tab.Dimension2Name) +
+                                    ((Dimension3Tab.Dimension3Name == null) ? "" : "," + Dimension3Tab.Dimension3Name) +
+                                    ((Dimension4Tab.Dimension4Name == null) ? "" : "," + Dimension4Tab.Dimension4Name),
+                        AProp2 = ((p.LotNo == null) ? "" : "Lot No." + p.LotNo)
+                    });
         }
 
         public void Dispose()

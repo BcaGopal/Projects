@@ -73,6 +73,13 @@
 
                 @Html.ValidationSummary(true)
                 <div>
+                    @if (Model.ReferenceDocId != null)
+                    {
+                        <div class="alert alert-info" style="text-align:center;">
+                            <strong>Locked : Gate Pass is auto generated from other entry.</strong>
+                        </div>
+                    }
+
                     <h4 class="col-md-12 black">
                         <span class="glyphicon glyphicon-align-justify"></span>
                         1.Gate Pass Details
@@ -338,7 +345,7 @@
         @*if('@Model.JobOrderSettings.isMandatoryProductUID'=="True")
             $(document).find('a#btnCreateF').removeAttr('href').removeAttr('data-modal').attr("disabled","disabled");*@
 
-      CustomSelectFunction($("#PersonId"), '/ComboHelpList/GetJobWorkers', '/ComboHelpList/SetSingleJobWorker', ' ', false, 1);
+      CustomSelectFunction($("#PersonId"), '/ComboHelpList/GetPerson', '/ComboHelpList/SetSinglePerson', ' ', false, 1);
       CustomSelectFunction($("#OrderById"), '/ComboHelpList/GetEmployees', '/ComboHelpList/SetSingleEmployee', ' ', false, 1);
       CustomSelectFunction($("#GodownId"), '/ComboHelpList/GetGodown', '/ComboHelpList/SetSingleGodown', ' ', false, 1);
       

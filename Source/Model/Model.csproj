@@ -96,6 +96,7 @@
     <Compile Include="DatabaseViews\ViewDesignColourConsumption.cs" />
     <Compile Include="DatabaseViews\ViewLedgerBalance.cs" />
     <Compile Include="DatabaseViews\ViewProductBuyer.cs" />
+    <Compile Include="DatabaseViews\ViewStockProcessBalance.cs" />
     <Compile Include="DatabaseViews\ViewStockInBalance.cs" />
     <Compile Include="DatabaseViews\_Users.cs" />
     <Compile Include="DatabaseViews\ViewMaterialRequestViewModels.cs" />
@@ -106,7 +107,14 @@
     <Compile Include="DatabaseViews\StockVirtual.cs" />
     <Compile Include="Models\ActivityLog.cs" />
     <Compile Include="Models\BinLocation.cs" />
+    <Compile Include="Models\DocumentLineAttributes.cs" />
+    <Compile Include="Models\DocumentHeaderAttributes.cs" />
     <Compile Include="Models\ChargeGroupSettings.cs" />
+    <Compile Include="Models\JobInvoiceHeaderAttributes.cs" />
+    <Compile Include="Models\StockHeaderAttributes.cs" />
+    <Compile Include="Models\SaleInvoiceHeaderAttributes.cs" />
+    <Compile Include="Models\JobOrderHeaderAttributes.cs" />
+    <Compile Include="Models\SiteDivisionSettings.cs" />
     <Compile Include="Models\SalesTaxProductCode.cs" />
     <Compile Include="Models\ImportMessage.cs" />
     <Compile Include="Models\CompanySettings.cs" />
@@ -114,13 +122,12 @@
     <Compile Include="Models\Dimension3Type.cs" />
     <Compile Include="Models\Dimension4.cs" />
     <Compile Include="Models\Dimension3.cs" />
-    <Compile Include="Models\DocumentTypeAttributes.cs" />
+    <Compile Include="Models\DocumentTypeHeaderAttribute.cs" />
     <Compile Include="Models\DocumentTypeSettings.cs" />
     <Compile Include="Models\FeetConversionToCms.cs" />
     <Compile Include="Models\SaleDeliveryHeader.cs" />
     <Compile Include="Models\SaleDeliveryLine.cs" />
     <Compile Include="Models\SaleDeliverySetting.cs" />
-    <Compile Include="Models\SaleInvoiceHeaderAttributes.cs" />
     <Compile Include="Models\PersonRole.cs" />
     <Compile Include="Models\ProductTypeSettings.cs" />
     <Compile Include="Models\PersonSettings.cs" />
@@ -216,6 +223,7 @@
     <Compile Include="Models\Shift.cs" />
     <Compile Include="Models\SubReport.cs" />
     <Compile Include="ViewModels\BankReconciliationViewModel.cs" />
+    <Compile Include="ViewModels\Dimension1.cs" />
     <Compile Include="ViewModels\DocumentCancelViewModel.cs" />
     <Compile Include="ViewModels\SmsViewModel.cs" />
     <Compile Include="ViewModels\DocumentTypeAttributeViewModel.cs" />
@@ -234,7 +242,7 @@
     <Compile Include="ViewModels\SaleQuotationSettingsViewModel.cs" />
     <Compile Include="ViewModels\WeavingReceiveQACombinedViewModel.cs" />
     <Compile Include="ViewModels\CopyProductViewModel.cs" />
-    <Compile Include="ViewModels\Dimension1.cs" />
+    <Compile Include="ViewModels\ChargeGroupSettingsViewModel.cs" />
     <Compile Include="ViewModels\Dimension2.cs" />
     <Compile Include="ViewModels\Dimension3.cs" />
     <Compile Include="ViewModels\Dimension4.cs" />

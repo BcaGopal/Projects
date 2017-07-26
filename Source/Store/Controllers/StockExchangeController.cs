@@ -163,11 +163,11 @@ namespace Web
             //Getting Settings
             var settings = new StockHeaderSettingsService(_unitOfWork).GetStockHeaderSettingsForDocument(id, p.DivisionId, p.SiteId);
 
-            if (settings == null && UserRoles.Contains("Admin"))
+            if (settings == null && UserRoles.Contains("SysAdmin"))
             {
                 return RedirectToAction("CreateForExchange", "StockHeaderSettings", new { id = id }).Warning("Please create Material Exchange settings");
             }
-            else if (settings == null && !UserRoles.Contains("Admin"))
+            else if (settings == null && !UserRoles.Contains("SysAdmin"))
             {
                 return View("~/Views/Shared/InValidSettings.cshtml");
             }
@@ -471,11 +471,11 @@ namespace Web
             //Job Order Settings
             var settings = new StockHeaderSettingsService(_unitOfWork).GetStockHeaderSettingsForDocument(s.DocTypeId, s.DivisionId, s.SiteId);
 
-            if (settings == null && UserRoles.Contains("Admin"))
+            if (settings == null && UserRoles.Contains("SysAdmin"))
             {
                 return RedirectToAction("CreateForExchange", "StockHeaderSettings", new { id = s.DocTypeId }).Warning("Please create Material Issue settings");
             }
-            else if (settings == null && !UserRoles.Contains("Admin"))
+            else if (settings == null && !UserRoles.Contains("SysAdmin"))
             {
                 return View("~/Views/Shared/InValidSettings.cshtml");
             }
@@ -691,6 +691,16 @@ namespace Web
 
                     if (item.StockId != null)
                     {
+                        StockAdj Adj = (from L in db.StockAdj
+                                        where L.StockOutId == item.StockId
+                                        select L).FirstOrDefault();
+
+                        if (Adj != null)
+                        {
+                            Adj.ObjectState = Model.ObjectState.Deleted;
+                            db.StockAdj.Remove(Adj);
+                        }
+
                         StockIdList.Add((int)item.StockId);
                     }
 
@@ -1148,6 +1158,8 @@ namespace Web
         public ActionResult _ForExchange(int id, int sid)
         {
             RequisitionFiltersForExchange vm = new RequisitionFiltersForExchange();
+            StockHeader Header = new StockHeaderService(_unitOfWork).Find(id);
+            vm.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(Header.DocTypeId);
             vm.StockHeaderId = id;
             vm.PersonId = sid;
             return PartialView("_Filters", vm);
@@ -1734,6 +1746,44 @@ namespace Web
         }
 
 
+        public JsonResult GetDimension3(string searchTerm, int pageSize, int pageNum, int filter)//filter:PersonId
+        {
+            var temp = new RequisitionHeaderService(_unitOfWork).GetDimension3ForExchange(filter, searchTerm).Skip(pageSize * (pageNum - 1)).Take(pageSize).ToList();
+
+            var count = new RequisitionHeaderService(_unitOfWork).GetDimension3ForExchange(filter, searchTerm).Count();
+
+            ComboBoxPagedResult Data = new ComboBoxPagedResult();
+            Data.Results = temp;
+            Data.Total = count;
+
+            return new JsonpResult
+            {
+                Data = Data,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+
+        }
+
+
+        public JsonResult GetDimension4(string searchTerm, int pageSize, int pageNum, int filter)//filter:PersonId
+        {
+            var temp = new RequisitionHeaderService(_unitOfWork).GetDimension4ForExchange(filter, searchTerm).Skip(pageSize * (pageNum - 1)).Take(pageSize).ToList();
+
+            var count = new RequisitionHeaderService(_unitOfWork).GetDimension4ForExchange(filter, searchTerm).Count();
+
+            ComboBoxPagedResult Data = new ComboBoxPagedResult();
+            Data.Results = temp;
+            Data.Total = count;
+
+            return new JsonpResult
+            {
+                Data = Data,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+
+        }
+
+
         [HttpGet]
         private ActionResult PrintOut(int id, string SqlProcForPrint)
         {
@@ -1834,6 +1884,7 @@ namespace Web
             //Getting Settings
             var settings = new StockHeaderSettingsService(_unitOfWork).GetStockHeaderSettingsForDocument(H.DocTypeId, H.DivisionId, H.SiteId);
             s.StockHeaderSettings = Mapper.Map<StockHeaderSettings, StockHeaderSettingsViewModel>(settings);
+            s.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(H.DocTypeId);
             s.PersonId = H.PersonId;
             s.StockHeaderId = H.StockHeaderId;
             s.GodownId = H.GodownId;
@@ -1971,6 +2022,24 @@ namespace Web
                     }
 
                     s.StockId = StockViewModel.StockId;
+
+                    if (svm.Issue)
+                    {
+                        if (svm.StockInId != null)
+                        {
+                            StockAdj Adj_IssQty = new StockAdj();
+                            Adj_IssQty.StockInId = (int)svm.StockInId;
+                            Adj_IssQty.StockOutId = (int)s.StockId;
+                            Adj_IssQty.DivisionId = temp.DivisionId;
+                            Adj_IssQty.SiteId = temp.SiteId;
+                            Adj_IssQty.AdjustedQty = s.Qty;
+                            Adj_IssQty.ObjectState = Model.ObjectState.Added;
+                            db.StockAdj.Add(Adj_IssQty);
+                            //new StockAdjService(_unitOfWork).Create(Adj_IssQty);
+                        }
+
+                        s.StockInId = svm.StockInId;
+                    }
 
 
 
@@ -2259,6 +2328,34 @@ namespace Web
                         {
                             ModelState.AddModelError("", StockProcessPostingError);
                             return PartialView("_Create", svm);
+                        }
+                    }
+
+
+                    if (svm.Issue)
+                    {
+                        StockAdj Adj = (from L in db.StockAdj
+                                        where L.StockOutId == templine.StockId
+                                        select L).FirstOrDefault();
+
+                        if (Adj != null)
+                        {
+                            Adj.ObjectState = Model.ObjectState.Deleted;
+                            db.StockAdj.Remove(Adj);
+                            //new StockAdjService(_unitOfWork).Delete(Adj);
+                        }
+
+                        if (svm.StockInId != null)
+                        {
+                            StockAdj Adj_IssQty = new StockAdj();
+                            Adj_IssQty.StockInId = (int)svm.StockInId;
+                            Adj_IssQty.StockOutId = (int)templine.StockId;
+                            Adj_IssQty.DivisionId = temp.DivisionId;
+                            Adj_IssQty.SiteId = temp.SiteId;
+                            Adj_IssQty.AdjustedQty = svm.Qty;
+                            Adj_IssQty.ObjectState = Model.ObjectState.Added;
+                            db.StockAdj.Add(Adj_IssQty);
+                            //new StockAdjService(_unitOfWork).Create(Adj_IssQty);
                         }
                     }
 
@@ -2657,6 +2754,50 @@ namespace Web
                 Data = Data,
                 JsonRequestBehavior = JsonRequestBehavior.AllowGet
             };
+        }
+
+        public JsonResult GetStockInDetailJson(int StockInId)
+        {
+            var temp = (from p in db.ViewStockInBalance
+                        join S in db.Stock on p.StockInId equals S.StockId into StockTable
+                        from StockTab in StockTable.DefaultIfEmpty()
+                        join pt in db.Product on p.ProductId equals pt.ProductId into ProductTable
+                        from ProductTab in ProductTable.DefaultIfEmpty()
+                        join D1 in db.Dimension1 on p.Dimension1Id equals D1.Dimension1Id into Dimension1Table
+                        from Dimension1Tab in Dimension1Table.DefaultIfEmpty()
+                        join D2 in db.Dimension2 on p.Dimension2Id equals D2.Dimension2Id into Dimension2Table
+                        from Dimension2Tab in Dimension2Table.DefaultIfEmpty()
+                        join D3 in db.Dimension3 on p.Dimension3Id equals D3.Dimension3Id into Dimension3Table
+                        from Dimension3Tab in Dimension3Table.DefaultIfEmpty()
+                        join D4 in db.Dimension4 on p.Dimension4Id equals D4.Dimension4Id into Dimension4Table
+                        from Dimension4Tab in Dimension4Table.DefaultIfEmpty()
+                        where p.StockInId == StockInId
+                        select new
+                        {
+                            ProductId = p.ProductId,
+                            ProductName = ProductTab.ProductName,
+                            Dimension1Id = p.Dimension1Id,
+                            Dimension1Name = Dimension1Tab.Dimension1Name,
+                            Dimension2Id = p.Dimension2Id,
+                            Dimension2Name = Dimension2Tab.Dimension2Name,
+                            Dimension3Id = p.Dimension3Id,
+                            Dimension3Name = Dimension3Tab.Dimension3Name,
+                            Dimension4Id = p.Dimension4Id,
+                            Dimension4Name = Dimension4Tab.Dimension4Name,
+                            BalanceQty = p.BalanceQty,
+                            LotNo = p.LotNo,
+                            ProcessId = StockTab.ProcessId,
+                            ProcessName = StockTab.Process.ProcessName
+                        }).FirstOrDefault();
+
+            if (temp != null)
+            {
+                return Json(temp);
+            }
+            else
+            {
+                return null;
+            }
         }
 
         #region submitValidation

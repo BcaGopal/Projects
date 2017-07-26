@@ -146,11 +146,11 @@ namespace Web
             //Getting Settings
             var settings = new RequisitionSettingService(_unitOfWork).GetRequisitionSettingForDocument(id, vm.DivisionId, vm.SiteId);
 
-            if (settings == null && UserRoles.Contains("Admin"))
+            if (settings == null && UserRoles.Contains("SysAdmin"))
             {
                 return RedirectToAction("CreateRequisitionCancel", "RequisitionSetting", new { id = id }).Warning("Please create requisition settings");
             }
-            else if (settings == null && !UserRoles.Contains("Admin"))
+            else if (settings == null && !UserRoles.Contains("SysAdmin"))
             {
                 return View("~/Views/Shared/InValidSettings.cshtml");
             }
@@ -441,11 +441,11 @@ namespace Web
             //Getting Settings
             var settings = new RequisitionSettingService(_unitOfWork).GetRequisitionSettingForDocument(pt.DocTypeId, pt.DivisionId, pt.SiteId);
 
-            if (settings == null && UserRoles.Contains("Admin"))
+            if (settings == null && UserRoles.Contains("SysAdmin"))
             {
                 return RedirectToAction("CreateRequisitionCancel", "RequisitionSetting", new { id = pt.DocTypeId }).Warning("Please create job order settings");
             }
-            else if (settings == null && !UserRoles.Contains("Admin"))
+            else if (settings == null && !UserRoles.Contains("SysAdmin"))
             {
                 return View("~/Views/Shared/InValidSettings.cshtml");
             }

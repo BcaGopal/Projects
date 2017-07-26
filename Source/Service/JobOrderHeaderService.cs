@@ -40,6 +40,7 @@ namespace Service
         string ValidateCostCenter(int DocTypeId, int HeaderId, int JobWorkerId, string CostCenterName);
         JobOrderLineProgressViewModel GetLineProgressDetail(int JobOrderLineId);
         IQueryable<ComboBoxResult> GetCustomPerson(int Id, string term);
+        IEnumerable<DocumentTypeHeaderAttributeViewModel> GetDocumentHeaderAttribute(int id);
     }
     public class JobOrderHeaderService : IJobOrderHeaderService
     {
@@ -632,6 +633,27 @@ namespace Service
               );
 
             return list;
+        }
+
+
+        public IEnumerable<DocumentTypeHeaderAttributeViewModel> GetDocumentHeaderAttribute(int id)
+        {
+            var Header = db.JobOrderHeader.Find(id);
+
+            var temp = from Dta in db.DocumentTypeHeaderAttribute
+                       join Ha in db.JobOrderHeaderAttributes on Dta.DocumentTypeHeaderAttributeId equals Ha.DocumentTypeHeaderAttributeId into HeaderAttributeTable
+                       from HeaderAttributeTab in HeaderAttributeTable.Where(m => m.HeaderTableId == id).DefaultIfEmpty()
+                       where (Dta.DocumentTypeId == Header.DocTypeId)
+                       select new DocumentTypeHeaderAttributeViewModel
+                       {
+                           ListItem = Dta.ListItem,
+                           DataType = Dta.DataType,
+                           Value = HeaderAttributeTab.Value,
+                           Name = Dta.Name,
+                           DocumentTypeHeaderAttributeId = Dta.DocumentTypeHeaderAttributeId,
+                       };
+
+            return temp;
         }
 
         public void Dispose()

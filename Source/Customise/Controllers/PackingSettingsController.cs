@@ -63,7 +63,7 @@ namespace Web
 
         public ActionResult Create(int id)//DocTypeId
         {
-            if (!UserRoles.Contains("Admin"))
+            if (!UserRoles.Contains("SysAdmin"))
             {
                 return View("~/Views/Shared/InValidSettings.cshtml");
             }
@@ -157,6 +157,7 @@ namespace Web
                     temp.filterContraSites = pt.filterContraSites;
                     temp.filterProductDivision = pt.filterProductDivision;
                     temp.filterPersonRoles = pt.filterPersonRoles;
+                    temp.ProcessId = pt.ProcessId;
                     temp.SqlProcDocumentPrint_AfterApprove = pt.SqlProcDocumentPrint_AfterApprove;
                     temp.SqlProcDocumentPrint_AfterSubmit = pt.SqlProcDocumentPrint_AfterSubmit;
                     temp.isVisibleProductUID = pt.isVisibleProductUID;
@@ -164,6 +165,7 @@ namespace Web
                     temp.isVisibleDimension2 = pt.isVisibleDimension2;
                     temp.isVisibleDimension3 = pt.isVisibleDimension3;
                     temp.isVisibleDimension4 = pt.isVisibleDimension4;
+                    temp.isVisibleBaleCount = pt.isVisibleBaleCount;
                     temp.SqlProcDocumentPrint = pt.SqlProcDocumentPrint;
                     temp.ImportMenuId = pt.ImportMenuId;
                     temp.ModifiedDate = DateTime.Now;

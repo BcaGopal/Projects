@@ -147,14 +147,17 @@ namespace Web
             vm.SiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
             vm.CreatedDate = DateTime.Now;
 
+            List<DocumentTypeHeaderAttributeViewModel> tem = new DocumentTypeService(_unitOfWork).GetDocumentTypeHeaderAttribute(id).ToList();
+            vm.DocumentTypeHeaderAttributes = tem;
+
             //Getting Settings
             var settings = new JobInvoiceSettingsService(_unitOfWork).GetJobInvoiceSettingsForDocument(id, vm.DivisionId, vm.SiteId);
 
-            if (settings == null && UserRoles.Contains("Admin"))
+            if (settings == null && UserRoles.Contains("SysAdmin"))
             {
                 return RedirectToAction("CreateInvoiceReceive", "JobInvoiceSettings", new { id = id }).Warning("Please create job Invoice Receive settings");
             }
-            else if (settings == null && !UserRoles.Contains("Admin"))
+            else if (settings == null && !UserRoles.Contains("SysAdmin"))
             {
                 return View("~/Views/Shared/InValidSettings.cshtml");
             }
@@ -165,6 +168,11 @@ namespace Web
 
             if (System.Web.HttpContext.Current.Session["DefaultGodownId"] != null)
                 vm.GodownId = (int)System.Web.HttpContext.Current.Session["DefaultGodownId"];
+
+            if (settings != null)
+            {
+                vm.SalesTaxGroupPersonId = settings.SalesTaxGroupPersonId;
+            }
 
             vm.ProcessId = settings.ProcessId;
             vm.DocDate = DateTime.Now;
@@ -269,6 +277,36 @@ namespace Web
                     db.JobInvoiceHeader.Add(pt);
                     //_JobInvoiceHeaderService.Create(pt);     
 
+                    if (vm.DocumentTypeHeaderAttributes != null)
+                    {
+                        foreach (var Attributes in vm.DocumentTypeHeaderAttributes)
+                        {
+                            JobInvoiceHeaderAttributes JobInvoiceHeaderAttribute = (from A in db.JobInvoiceHeaderAttributes
+                                                                                    where A.HeaderTableId == pt.JobInvoiceHeaderId
+                                                                                && A.DocumentTypeHeaderAttributeId == Attributes.DocumentTypeHeaderAttributeId
+                                                                                    select A).FirstOrDefault();
+
+                            if (JobInvoiceHeaderAttribute != null)
+                            {
+                                JobInvoiceHeaderAttribute.Value = Attributes.Value;
+                                JobInvoiceHeaderAttribute.ObjectState = Model.ObjectState.Modified;
+                                db.JobInvoiceHeaderAttributes.Add(JobInvoiceHeaderAttribute);
+                            }
+                            else
+                            {
+                                JobInvoiceHeaderAttributes HeaderAttribute = new JobInvoiceHeaderAttributes()
+                                {
+                                    HeaderTableId = pt.JobInvoiceHeaderId,
+                                    Value = Attributes.Value,
+                                    DocumentTypeHeaderAttributeId = Attributes.DocumentTypeHeaderAttributeId,
+                                };
+                                HeaderAttribute.ObjectState = Model.ObjectState.Added;
+                                db.JobInvoiceHeaderAttributes.Add(HeaderAttribute);
+                            }
+                        }
+                    }
+
+
                     try
                     {
                         JobInvoiceReceiveDocEvents.onHeaderSaveEvent(this, new JobEventArgs(pt.JobInvoiceHeaderId, EventModeConstants.Add), ref db);
@@ -354,6 +392,7 @@ namespace Web
                     temp.JobWorkerDocNo = pt.JobWorkerDocNo;
                     temp.JobWorkerDocDate = pt.JobWorkerDocDate;
                     temp.ProcessId = pt.ProcessId;
+                    temp.SalesTaxGroupPersonId = pt.SalesTaxGroupPersonId;
                     temp.FinancierId = pt.FinancierId;
                     temp.ModifiedDate = DateTime.Now;
                     temp.ModifiedBy = User.Identity.Name;
@@ -413,6 +452,36 @@ namespace Web
                         StockHeader.ObjectState = Model.ObjectState.Modified;
                         db.StockHeader.Add(StockHeader);
 
+                    }
+
+                    if (vm.DocumentTypeHeaderAttributes != null)
+                    {
+                        foreach (var Attributes in vm.DocumentTypeHeaderAttributes)
+                        {
+
+                            JobInvoiceHeaderAttributes JobInvoiceHeaderAttribute = (from A in db.JobInvoiceHeaderAttributes
+                                                                                    where A.HeaderTableId == temp.JobInvoiceHeaderId
+                                                                                && A.DocumentTypeHeaderAttributeId == Attributes.DocumentTypeHeaderAttributeId
+                                                                                    select A).FirstOrDefault();
+
+                            if (JobInvoiceHeaderAttribute != null)
+                            {
+                                JobInvoiceHeaderAttribute.Value = Attributes.Value;
+                                JobInvoiceHeaderAttribute.ObjectState = Model.ObjectState.Modified;
+                                db.JobInvoiceHeaderAttributes.Add(JobInvoiceHeaderAttribute);
+                            }
+                            else
+                            {
+                                JobInvoiceHeaderAttributes HeaderAttribute = new JobInvoiceHeaderAttributes()
+                                {
+                                    Value = Attributes.Value,
+                                    HeaderTableId = temp.JobInvoiceHeaderId,
+                                    DocumentTypeHeaderAttributeId = Attributes.DocumentTypeHeaderAttributeId,
+                                };
+                                HeaderAttribute.ObjectState = Model.ObjectState.Added;
+                                db.JobInvoiceHeaderAttributes.Add(HeaderAttribute);
+                            }
+                        }
                     }
 
                     XElement Modifications = new ModificationsCheckService().CheckChanges(LogList);
@@ -582,17 +651,20 @@ namespace Web
             //Job Order Settings
             var settings = new JobInvoiceSettingsService(_unitOfWork).GetJobInvoiceSettingsForDocument(pt.DocTypeId, pt.DivisionId, pt.SiteId);
 
-            if (settings == null && UserRoles.Contains("Admin"))
+            if (settings == null && UserRoles.Contains("SysAdmin"))
             {
                 return RedirectToAction("Create", "JobInvoiceSettings", new { id = pt.DocTypeId }).Warning("Please create job Invoice settings");
             }
-            else if (settings == null && !UserRoles.Contains("Admin"))
+            else if (settings == null && !UserRoles.Contains("SysAdmin"))
             {
                 return View("~/Views/Shared/InValidSettings.cshtml");
             }
 
             pt.JobInvoiceSettings = Mapper.Map<JobInvoiceSettings, JobInvoiceSettingsViewModel>(settings);
             pt.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(pt.DocTypeId);
+
+            List<DocumentTypeHeaderAttributeViewModel> tem = _JobInvoiceHeaderService.GetDocumentHeaderAttribute(id).ToList();
+            pt.DocumentTypeHeaderAttributes = tem;
 
             PrepareViewBag(pt.DocTypeId);
             if (pt == null)
@@ -1036,6 +1108,15 @@ namespace Web
                 {
                     ExObj = Mapper.Map<JobInvoiceHeader>(temp),
                 });
+
+                var attributes = (from A in db.JobInvoiceHeaderAttributes where A.HeaderTableId == vm.id select A).ToList();
+
+                foreach (var ite2 in attributes)
+                {
+                    ite2.ObjectState = Model.ObjectState.Deleted;
+                    db.JobInvoiceHeaderAttributes.Remove(ite2);
+                }
+
 
                 var temp2 = (from p in db.JobReceiveHeader
                              where p.JobReceiveHeaderId == temp.JobReceiveHeaderId
@@ -1565,6 +1646,11 @@ namespace Web
                 Data = Data,
                 JsonRequestBehavior = JsonRequestBehavior.AllowGet
             };
+        }
+
+        public JsonResult GetJobWorkerDetailJson(int JobWorkerId)
+        {
+            return Json(new JobInvoiceHeaderService(_unitOfWork).GetJobWorkerDetail(JobWorkerId));
         }
 
         #region submitValidation

@@ -31,6 +31,7 @@ namespace Service
         List<String> GetProcGenProductUids(int DocTypeId, decimal Qty, int DivisionId, int SiteId);
         JobOrderLineViewModel GetLineDetailFromUId(string UID);
         IEnumerable<JobOrderLineViewModel> GetProdOrdersForFilters(JobOrderLineFilterViewModel vm);
+        IEnumerable<JobOrderLineViewModel> GetJobOrderForStockInFilters(JobOrderLineFilterForStockInViewModel vm);
         IQueryable<ComboBoxResult> GetPendingProdOrderHelpList(int Id, string term);//PurchaseOrderHeaderId
 
         IEnumerable<ProdOrderHeaderListViewModel> GetPendingProdOrdersWithPatternMatch(int Id, string term, int Limiter);
@@ -46,6 +47,9 @@ namespace Service
 
         IEnumerable<ComboBoxResult> GetPendingProdOrderForProductUid(int JobOrderHeaderId, int ProductUidId, string term);
         IEnumerable<ComboBoxResult> FGetProductUidHelpList(int Id, string term);
+
+        IEnumerable<ComboBoxResult> GetPendingStockInForIssue(int id, int? ProductId, int? Dimension1Id, int? Dimension2Id, int? Dimension3Id, int? Dimension4Id, string term);
+        IEnumerable<ComboBoxResult> GetPendingStockInHeaderForIssue(int StockHeaderId, string term);
     }
 
     public class JobOrderLineService : IJobOrderLineService
@@ -123,6 +127,8 @@ namespace Service
                             UnitDecimalPlaces = p.Unit.DecimalPlaces,
                             DealUnitDecimalPlaces = p.DealUnit.DecimalPlaces,
                             Specification = p.Specification,
+                            StockInId = p.StockInId,
+                            StockInNo = p.StockIn.StockHeader.DocNo
                         }).FirstOrDefault();
 
             temp.ProdOrderBalanceQty = (new ProdOrderLineService(_unitOfWork).GetProdOrderBalance(temp.ProdOrderLineId)) + temp.Qty;
@@ -513,6 +519,8 @@ namespace Service
                             DealUnitDecimalPlaces = t1.DealUnit.DecimalPlaces,
                             Rate = p.Rate,
                             JobOrderHeaderDocNo = p.JobOrderNo,
+                            SalesTaxGroupProductId = t2.SalesTaxGroupProductId ?? t2.ProductGroup.DefaultSalesTaxGroupProductId,
+                            SalesTaxGroupProductName = t2.SalesTaxGroupProduct.ChargeGroupProductName ?? t2.ProductGroup.DefaultSalesTaxGroupProduct.ChargeGroupProductName,
                             CostCenterId = t1.JobOrderHeader.CostCenterId != null ? t1.JobOrderHeader.CostCenterId : null,
                             CostCenterName = t1.JobOrderHeader.CostCenterId != null ? t1.JobOrderHeader.CostCenter.CostCenterName : null,
 
@@ -783,6 +791,165 @@ namespace Service
                                 UnitConversionMultiplier = 1,
                                 UnitDecimalPlaces = tab2.Unit.DecimalPlaces,
                                 DealUnitDecimalPlaces = tab2.Unit.DecimalPlaces,
+                            }
+
+                        );
+                return temp;
+            }
+
+        }
+
+
+
+        public IEnumerable<JobOrderLineViewModel> GetJobOrderForStockInFilters(JobOrderLineFilterForStockInViewModel vm)
+        {
+            byte? UnitConvForId = new JobOrderHeaderService(_unitOfWork).Find(vm.JobOrderHeaderId).UnitConversionForId;
+
+            var joborder = new JobOrderHeaderService(_unitOfWork).Find(vm.JobOrderHeaderId);
+
+            var Settings = new JobOrderSettingsService(_unitOfWork).GetJobOrderSettingsForDocument(joborder.DocTypeId, joborder.DivisionId, joborder.SiteId);
+
+
+            string[] ContraSites = null;
+            if (!string.IsNullOrEmpty(Settings.filterContraSites)) { ContraSites = Settings.filterContraSites.Split(",".ToCharArray()); }
+            else { ContraSites = new string[] { "NA" }; }
+
+            string[] ContraDivisions = null;
+            if (!string.IsNullOrEmpty(Settings.filterContraDivisions)) { ContraDivisions = Settings.filterContraDivisions.Split(",".ToCharArray()); }
+            else { ContraDivisions = new string[] { "NA" }; }
+
+
+            string[] ProductIdArr = null;
+            if (!string.IsNullOrEmpty(vm.ProductId)) { ProductIdArr = vm.ProductId.Split(",".ToCharArray()); }
+            else { ProductIdArr = new string[] { "NA" }; }
+
+            string[] SaleOrderIdArr = null;
+            if (!string.IsNullOrEmpty(vm.StockInHeaderId)) { SaleOrderIdArr = vm.StockInHeaderId.Split(",".ToCharArray()); }
+            else { SaleOrderIdArr = new string[] { "NA" }; }
+
+            string[] Dimension1 = null;
+            if (!string.IsNullOrEmpty(vm.Dimension1Id)) { Dimension1 = vm.Dimension1Id.Split(",".ToCharArray()); }
+            else { Dimension1 = new string[] { "NA" }; }
+
+            string[] Dimension2 = null;
+            if (!string.IsNullOrEmpty(vm.Dimension2Id)) { Dimension2 = vm.Dimension2Id.Split(",".ToCharArray()); }
+            else { Dimension2 = new string[] { "NA" }; }
+
+
+            string[] Dimension3 = null;
+            if (!string.IsNullOrEmpty(vm.Dimension3Id)) { Dimension3 = vm.Dimension3Id.Split(",".ToCharArray()); }
+            else { Dimension3 = new string[] { "NA" }; }
+
+            string[] Dimension4 = null;
+            if (!string.IsNullOrEmpty(vm.Dimension4Id)) { Dimension4 = vm.Dimension4Id.Split(",".ToCharArray()); }
+            else { Dimension4 = new string[] { "NA" }; }
+
+            string[] ProductGroupIdArr = null;
+            if (!string.IsNullOrEmpty(vm.ProductGroupId)) { ProductGroupIdArr = vm.ProductGroupId.Split(",".ToCharArray()); }
+            else { ProductGroupIdArr = new string[] { "NA" }; }
+
+
+            string[] ProductCategoryIdArr = null;
+            if (!string.IsNullOrEmpty(Settings.filterProductCategories)) { ProductCategoryIdArr = Settings.filterProductCategories.Split(",".ToCharArray()); }
+            else { ProductCategoryIdArr = new string[] { "NA" }; }
+
+
+            if (!string.IsNullOrEmpty(vm.DealUnitId))
+            {
+                Unit Dealunit = new UnitService(_unitOfWork).Find(vm.DealUnitId);
+
+                var temp = (from L in db.ViewStockInBalance
+                            join S in db.Stock on L.StockInId equals S.StockId into StockTable
+                            from StockTab in StockTable.DefaultIfEmpty()
+                            join Uc in db.UnitConversion on new { p1 = L.ProductId, DU1 = vm.DealUnitId, U1 = UnitConvForId ?? 0 } equals new { p1 = Uc.ProductId ?? 0, DU1 = Uc.ToUnitId, U1 = Uc.UnitConversionForId } into UnitConversionTable
+                            from UnitConversionTab in UnitConversionTable.DefaultIfEmpty()
+                            where (string.IsNullOrEmpty(vm.ProductId) ? 1 == 1 : ProductIdArr.Contains(L.ProductId.ToString()))
+                            && (string.IsNullOrEmpty(vm.StockInHeaderId) ? 1 == 1 : SaleOrderIdArr.Contains(StockTab.StockHeaderId.ToString()))
+                            && (string.IsNullOrEmpty(vm.Dimension1Id) ? 1 == 1 : Dimension1.Contains(L.Dimension1Id.ToString()))
+                            && (string.IsNullOrEmpty(vm.Dimension2Id) ? 1 == 1 : Dimension2.Contains(L.Dimension2Id.ToString()))
+                            && (string.IsNullOrEmpty(vm.Dimension3Id) ? 1 == 1 : Dimension3.Contains(L.Dimension3Id.ToString()))
+                            && (string.IsNullOrEmpty(vm.Dimension4Id) ? 1 == 1 : Dimension4.Contains(L.Dimension4Id.ToString()))
+                            && (string.IsNullOrEmpty(vm.ProductGroupId) ? 1 == 1 : ProductGroupIdArr.Contains(StockTab.Product.ProductGroupId.ToString()))
+                            && StockTab.DocDate <= joborder.DocDate
+                            && (string.IsNullOrEmpty(Settings.filterContraSites) ? L.SiteId == joborder.SiteId : ContraSites.Contains(L.SiteId.ToString()))
+                            && (string.IsNullOrEmpty(Settings.filterProductCategories) ? 1 == 1 : ProductCategoryIdArr.Contains(StockTab.Product.ProductCategoryId.ToString()))
+                            && (string.IsNullOrEmpty(Settings.filterContraDivisions) ? L.DivisionId == joborder.DivisionId : ContraDivisions.Contains(L.DivisionId.ToString()))
+                            && L.BalanceQty > 0
+                            orderby StockTab.DocDate, StockTab.StockHeader.DocNo
+                            select new JobOrderLineViewModel
+                            {
+                                Dimension1Name = StockTab.Dimension1.Dimension1Name,
+                                Dimension2Name = StockTab.Dimension2.Dimension2Name,
+                                Dimension3Name = StockTab.Dimension3.Dimension3Name,
+                                Dimension4Name = StockTab.Dimension4.Dimension4Name,
+                                Dimension1Id = L.Dimension1Id,
+                                Dimension2Id = L.Dimension2Id,
+                                Dimension3Id = L.Dimension3Id,
+                                Dimension4Id = L.Dimension4Id,
+                                Specification = StockTab.Specification,
+                                ProdOrderBalanceQty = L.BalanceQty,
+                                Qty = L.BalanceQty,
+                                Rate = vm.Rate,
+                                ProductName = StockTab.Product.ProductName,
+                                ProductId = L.ProductId,
+                                JobOrderHeaderId = vm.JobOrderHeaderId,
+                                StockInId = L.StockInId,
+                                StockInNo = StockTab.StockHeader.DocNo,
+                                UnitId = StockTab.Product.UnitId,
+                                LossQty = Settings.LossQty,
+                                NonCountedQty = Settings.NonCountedQty,
+                                DealUnitId = (vm.DealUnitId),
+                                UnitConversionMultiplier = Math.Round((UnitConversionTab == null ? 1 : UnitConversionTab.ToQty / UnitConversionTab.FromQty), (UnitConversionTab == null ? StockTab.Product.Unit.DecimalPlaces : Dealunit.DecimalPlaces)),
+                                UnitConversionException = UnitConversionTab == null ? true : false,
+                                UnitDecimalPlaces = StockTab.Product.Unit.DecimalPlaces,
+                                DealUnitDecimalPlaces = (UnitConversionTab == null ? StockTab.Product.Unit.DecimalPlaces : Dealunit.DecimalPlaces)
+                            }
+
+                        );
+                return temp;
+            }
+            else
+            {
+                var temp = (from L in db.ViewStockInBalance
+                            join S in db.Stock on L.StockInId equals S.StockId into StockTable
+                            from StockTab in StockTable.DefaultIfEmpty()
+                            where (string.IsNullOrEmpty(vm.ProductId) ? 1 == 1 : ProductIdArr.Contains(L.ProductId.ToString()))
+                            && (string.IsNullOrEmpty(vm.StockInHeaderId) ? 1 == 1 : SaleOrderIdArr.Contains(StockTab.StockHeaderId.ToString()))
+                            && (string.IsNullOrEmpty(vm.Dimension1Id) ? 1 == 1 : Dimension1.Contains(L.Dimension1Id.ToString()))
+                            && (string.IsNullOrEmpty(vm.Dimension2Id) ? 1 == 1 : Dimension2.Contains(L.Dimension2Id.ToString()))
+                            && (string.IsNullOrEmpty(vm.Dimension3Id) ? 1 == 1 : Dimension3.Contains(L.Dimension3Id.ToString()))
+                            && (string.IsNullOrEmpty(vm.Dimension4Id) ? 1 == 1 : Dimension4.Contains(L.Dimension4Id.ToString()))
+                            && (string.IsNullOrEmpty(vm.ProductGroupId) ? 1 == 1 : ProductGroupIdArr.Contains(StockTab.Product.ProductGroupId.ToString()))
+                            && StockTab.DocDate <= joborder.DocDate
+                            && (string.IsNullOrEmpty(Settings.filterContraSites) ? L.SiteId == joborder.SiteId : ContraSites.Contains(L.SiteId.ToString()))
+                            && (string.IsNullOrEmpty(Settings.filterProductCategories) ? 1 == 1 : ProductCategoryIdArr.Contains(StockTab.Product.ProductCategoryId.ToString()))
+                            && (string.IsNullOrEmpty(Settings.filterContraDivisions) ? L.DivisionId == joborder.DivisionId : ContraDivisions.Contains(L.DivisionId.ToString()))
+                            && L.BalanceQty > 0
+                            orderby StockTab.DocDate, StockTab.StockHeader.DocNo
+                            select new JobOrderLineViewModel
+                            {
+                                Dimension1Name = StockTab.Dimension1.Dimension1Name,
+                                Dimension2Name = StockTab.Dimension2.Dimension2Name,
+                                Dimension3Name = StockTab.Dimension3.Dimension3Name,
+                                Dimension4Name = StockTab.Dimension4.Dimension4Name,
+                                Dimension1Id = L.Dimension1Id,
+                                Dimension2Id = L.Dimension2Id,
+                                Dimension3Id = L.Dimension3Id,
+                                Dimension4Id = L.Dimension4Id,
+                                Specification = StockTab.Specification,
+                                ProdOrderBalanceQty = L.BalanceQty,
+                                Qty = L.BalanceQty,
+                                Rate = vm.Rate,
+                                ProductName = StockTab.Product.ProductName,
+                                ProductId = L.ProductId,
+                                JobOrderHeaderId = vm.JobOrderHeaderId,
+                                StockInId = L.StockInId,
+                                StockInNo = StockTab.StockHeader.DocNo,
+                                UnitId = StockTab.Product.UnitId,
+                                DealUnitId = StockTab.Product.UnitId,
+                                UnitConversionMultiplier = 1,
+                                UnitDecimalPlaces = StockTab.Product.Unit.DecimalPlaces,
+                                DealUnitDecimalPlaces = StockTab.Product.Unit.DecimalPlaces,
                             }
 
                         );
@@ -1267,6 +1434,109 @@ namespace Service
                         }).ToList();
 
             return temp;
+        }
+
+        public IEnumerable<ComboBoxResult> GetPendingStockInForIssue(int JobOrderHeaderId, int? ProductId, int? Dimension1Id, int? Dimension2Id, int? Dimension3Id, int? Dimension4Id, string term)
+        {
+
+            var JobOrderHeader = new JobOrderHeaderService(_unitOfWork).Find(JobOrderHeaderId);
+
+            var settings = new JobOrderSettingsService(_unitOfWork).GetJobOrderSettingsForDocument(JobOrderHeader.DocTypeId, JobOrderHeader.DivisionId, JobOrderHeader.SiteId);
+
+
+            string[] contraSites = null;
+            if (!string.IsNullOrEmpty(settings.filterContraSites)) { contraSites = settings.filterContraSites.Split(",".ToCharArray()); }
+            else { contraSites = new string[] { "NA" }; }
+
+            string[] contraDivisions = null;
+            if (!string.IsNullOrEmpty(settings.filterContraDivisions)) { contraDivisions = settings.filterContraDivisions.Split(",".ToCharArray()); }
+            else { contraDivisions = new string[] { "NA" }; }
+
+            int CurrentSiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
+            int CurrentDivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
+
+
+            return (from p in db.ViewStockInBalance
+                    join L in db.Stock on p.StockInId equals L.StockId into StockTable
+                    from StockTab in StockTable.DefaultIfEmpty()
+                    join pt in db.Product on p.ProductId equals pt.ProductId into ProductTable
+                    from ProductTab in ProductTable.DefaultIfEmpty()
+                    join D1 in db.Dimension1 on p.Dimension1Id equals D1.Dimension1Id into Dimension1Table
+                    from Dimension1Tab in Dimension1Table.DefaultIfEmpty()
+                    join D2 in db.Dimension2 on p.Dimension2Id equals D2.Dimension2Id into Dimension2Table
+                    from Dimension2Tab in Dimension2Table.DefaultIfEmpty()
+                    join D3 in db.Dimension3 on p.Dimension3Id equals D3.Dimension3Id into Dimension3Table
+                    from Dimension3Tab in Dimension3Table.DefaultIfEmpty()
+                    join D4 in db.Dimension4 on p.Dimension4Id equals D4.Dimension4Id into Dimension4Table
+                    from Dimension4Tab in Dimension4Table.DefaultIfEmpty()
+                    where p.BalanceQty > 0 && StockTab.GodownId == JobOrderHeader.GodownId
+                    && (ProductId == null || ProductId == 0 ? 1 == 1 : p.ProductId == ProductId)
+                    && (Dimension1Id == null ? 1 == 1 : p.Dimension1Id == Dimension1Id)
+                    && (Dimension2Id == null ? 1 == 1 : p.Dimension2Id == Dimension2Id)
+                    && (Dimension3Id == null ? 1 == 1 : p.Dimension3Id == Dimension3Id)
+                    && (Dimension4Id == null ? 1 == 1 : p.Dimension4Id == Dimension4Id)
+                    && (string.IsNullOrEmpty(settings.filterContraSites) ? p.SiteId == CurrentSiteId : contraSites.Contains(p.SiteId.ToString()))
+                    && (string.IsNullOrEmpty(settings.filterContraDivisions) ? p.DivisionId == CurrentDivisionId : contraDivisions.Contains(p.DivisionId.ToString()))
+                    && (string.IsNullOrEmpty(term) ? 1 == 1 : p.StockInNo.ToLower().Contains(term.ToLower())
+                        || string.IsNullOrEmpty(term) ? 1 == 1 : StockTab.StockHeader.DocType.DocumentTypeShortName.ToLower().Contains(term.ToLower())
+                        || string.IsNullOrEmpty(term) ? 1 == 1 : ProductTab.ProductName.ToLower().Contains(term.ToLower())
+                        || string.IsNullOrEmpty(term) ? 1 == 1 : Dimension1Tab.Dimension1Name.ToLower().Contains(term.ToLower())
+                        || string.IsNullOrEmpty(term) ? 1 == 1 : Dimension2Tab.Dimension2Name.ToLower().Contains(term.ToLower())
+                        || string.IsNullOrEmpty(term) ? 1 == 1 : Dimension3Tab.Dimension3Name.ToLower().Contains(term.ToLower())
+                        || string.IsNullOrEmpty(term) ? 1 == 1 : Dimension4Tab.Dimension4Name.ToLower().Contains(term.ToLower())
+                        )
+                    select new ComboBoxResult
+                    {
+                        id = p.StockInId.ToString(),
+                        text = StockTab.StockHeader.DocType.DocumentTypeShortName + "-" + p.StockInNo,
+                        TextProp1 = "Balance :" + p.BalanceQty,
+                        TextProp2 = "Date :" + p.StockInDate + ((p.LotNo == null) ? "" : "," + p.LotNo),
+                        AProp1 = ProductTab.ProductName,
+                        AProp2 = ((Dimension1Tab.Dimension1Name == null) ? "" : Dimension1Tab.Dimension1Name) +
+                                    ((Dimension2Tab.Dimension2Name == null) ? "" : "," + Dimension2Tab.Dimension2Name) +
+                                    ((Dimension3Tab.Dimension3Name == null) ? "" : "," + Dimension3Tab.Dimension3Name) +
+                                    ((Dimension4Tab.Dimension4Name == null) ? "" : "," + Dimension4Tab.Dimension4Name)
+                    });
+        }
+
+
+        public IEnumerable<ComboBoxResult> GetPendingStockInHeaderForIssue(int JobOrderHeaderId, string term)
+        {
+            var JobOrderHeader = new JobOrderHeaderService(_unitOfWork).Find(JobOrderHeaderId);
+
+            var settings = new JobOrderSettingsService(_unitOfWork).GetJobOrderSettingsForDocument(JobOrderHeader.DocTypeId, JobOrderHeader.DivisionId, JobOrderHeader.SiteId);
+
+            string[] contraSites = null;
+            if (!string.IsNullOrEmpty(settings.filterContraSites)) { contraSites = settings.filterContraSites.Split(",".ToCharArray()); }
+            else { contraSites = new string[] { "NA" }; }
+
+            string[] contraDivisions = null;
+            if (!string.IsNullOrEmpty(settings.filterContraDivisions)) { contraDivisions = settings.filterContraDivisions.Split(",".ToCharArray()); }
+            else { contraDivisions = new string[] { "NA" }; }
+
+            int CurrentSiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
+            int CurrentDivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
+
+
+            return (from p in db.ViewStockInBalance
+                    join L in db.Stock on p.StockInId equals L.StockId into StockTable
+                    from StockTab in StockTable.DefaultIfEmpty()
+                    where p.BalanceQty > 0 && StockTab.GodownId == JobOrderHeader.GodownId
+                    && (string.IsNullOrEmpty(settings.filterContraSites) ? p.SiteId == CurrentSiteId : contraSites.Contains(p.SiteId.ToString()))
+                    && (string.IsNullOrEmpty(settings.filterContraDivisions) ? p.DivisionId == CurrentDivisionId : contraDivisions.Contains(p.DivisionId.ToString()))
+                    && (string.IsNullOrEmpty(term) ? 1 == 1 : p.StockInNo.ToLower().Contains(term.ToLower())
+                        || string.IsNullOrEmpty(term) ? 1 == 1 : StockTab.StockHeader.DocType.DocumentTypeShortName.ToLower().Contains(term.ToLower())
+                        || string.IsNullOrEmpty(term) ? 1 == 1 : StockTab.StockHeader.Process.ProcessName.ToLower().Contains(term.ToLower())
+                    )
+                    group new { p, StockTab } by new { StockTab.StockHeaderId } into Result
+                    select new ComboBoxResult
+                    {
+                        id = Result.Key.StockHeaderId.ToString(),
+                        text = Result.Max(i => i.StockTab.StockHeader.DocType.DocumentTypeShortName + "-" + i.StockTab.StockHeader.DocNo),
+                        TextProp1 = "Date :" + Result.Max(i => i.StockTab.StockHeader.DocDate),
+                        TextProp2 = "Balance :" + Result.Sum(i => i.p.BalanceQty),
+                        AProp1 = "Process :" + Result.Max(i => i.StockTab.StockHeader.Process.ProcessName),
+                    });
         }
 
         public void Dispose()

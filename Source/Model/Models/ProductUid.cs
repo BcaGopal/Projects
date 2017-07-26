@@ -36,6 +36,9 @@ namespace Model.Models
         [Display(Name = "Product Uid Specification")]
         public string ProductUidSpecification { get; set; }
 
+        [Display(Name = "Product Uid Specification1")]
+        public string ProductUidSpecification1 { get; set; }
+
 
         [ForeignKey("Dimension1"), Display(Name = "Dimension1")]
         public int? Dimension1Id { get; set; }

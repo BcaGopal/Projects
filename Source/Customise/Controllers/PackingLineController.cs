@@ -534,6 +534,7 @@ namespace Web
                     int status = packingheader.Status;
 
 
+                    packingline.BaleCount = svm.BaleCount;
                     packingline.BaleNo = svm.BaleNo;
                     packingline.Specification = svm.Specification;
                     packingline.GrossWeight = svm.GrossWeight;
@@ -1415,8 +1416,25 @@ namespace Web
 
         public JsonResult GetProductDetailJson(int ProductId, int PackingHeaderId)
         {
-            var product = (from p in db.FinishedProduct
-                           join Pig in db.ProductInvoiceGroup on p.ProductInvoiceGroupId equals Pig.ProductInvoiceGroupId into ProductInvoiceGroupTable
+            //var product = (from p in db.FinishedProduct
+            //               join Pig in db.ProductInvoiceGroup on p.ProductInvoiceGroupId equals Pig.ProductInvoiceGroupId into ProductInvoiceGroupTable
+            //               from ProductInvoiceGroupTab in ProductInvoiceGroupTable.DefaultIfEmpty()
+            //               where p.ProductId == ProductId
+            //               select new
+            //               {
+            //                   UnitId = p.UnitId,
+            //                   ImageFolderName = p.ImageFolderName,
+            //                   ImageFileName = p.ImageFileName,
+            //                   ProductInvoiceGroupId = p.ProductInvoiceGroupId,
+            //                   ProductInvoiceGroupName = ProductInvoiceGroupTab.ProductInvoiceGroupName,
+            //                   IsSample = p.IsSample
+            //               }).FirstOrDefault();
+
+
+            var product = (from p in db.Product
+                           join Fp in db.FinishedProduct on p.ProductId equals Fp.ProductId into FinishedProductTable
+                           from FinishedProductTab in FinishedProductTable.DefaultIfEmpty()
+                           join Pig in db.ProductInvoiceGroup on FinishedProductTab.ProductInvoiceGroupId equals Pig.ProductInvoiceGroupId into ProductInvoiceGroupTable
                            from ProductInvoiceGroupTab in ProductInvoiceGroupTable.DefaultIfEmpty()
                            where p.ProductId == ProductId
                            select new
@@ -1424,9 +1442,9 @@ namespace Web
                                UnitId = p.UnitId,
                                ImageFolderName = p.ImageFolderName,
                                ImageFileName = p.ImageFileName,
-                               ProductInvoiceGroupId = p.ProductInvoiceGroupId,
+                               ProductInvoiceGroupId = FinishedProductTab.ProductInvoiceGroupId,
                                ProductInvoiceGroupName = ProductInvoiceGroupTab.ProductInvoiceGroupName,
-                               IsSample = p.IsSample
+                               IsSample = (bool?)FinishedProductTab.IsSample ?? false
                            }).FirstOrDefault();
 
 

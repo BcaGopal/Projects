@@ -158,11 +158,11 @@ namespace Web
             //Getting Settings
             var settings = new SaleDispatchSettingService(_unitOfWork).GetSaleDispatchSettingForDocument(id, vm.DivisionId, vm.SiteId);
 
-            if (settings == null && UserRoles.Contains("Admin"))
+            if (settings == null && UserRoles.Contains("SysAdmin"))
             {
                 return RedirectToAction("Create", "SaleDispatchSetting", new { id = id }).Warning("Please create Sale Dispatch settings");
             }
-            else if (settings == null && !UserRoles.Contains("Admin"))
+            else if (settings == null && !UserRoles.Contains("SysAdmin"))
             {
                 return View("~/Views/Shared/InValidSettings.cshtml");
             }
@@ -296,7 +296,7 @@ namespace Web
                     }
 
 
-
+                    saledispatchheader.DocNo = vm.DocNo;
                     saledispatchheader.DocDate = vm.DocDate;
                     saledispatchheader.SaleToBuyerId = vm.SaleToBuyerId;
                     saledispatchheader.Remark = vm.Remark;
@@ -305,13 +305,17 @@ namespace Web
                     _SaleDispatchHeaderService.Update(saledispatchheader);
 
 
-                    StockHeader.DocDate = vm.DocDate;
-                    StockHeader.PersonId = vm.SaleToBuyerId;
-                    StockHeader.GodownId = vm.GodownId;
-                    StockHeader.Remark = vm.Remark;
-                    StockHeader.ModifiedDate = DateTime.Now;
-                    StockHeader.ModifiedBy = User.Identity.Name;
-                    new StockHeaderService(_unitOfWork).Update(StockHeader);
+                    if (StockHeader != null)
+                    {
+                        StockHeader.DocDate = vm.DocDate;
+                        StockHeader.PersonId = vm.SaleToBuyerId;
+                        StockHeader.GodownId = vm.GodownId;
+                        StockHeader.Remark = vm.Remark;
+                        StockHeader.ModifiedDate = DateTime.Now;
+                        StockHeader.ModifiedBy = User.Identity.Name;
+                        new StockHeaderService(_unitOfWork).Update(StockHeader);
+                    }
+
                     
 
 
@@ -523,11 +527,11 @@ namespace Web
             //Getting Settings
             var settings = new SaleDispatchSettingService(_unitOfWork).GetSaleDispatchSettingForDocument(DispactchHeader.DocTypeId, vm.DivisionId, vm.SiteId);
 
-            if (settings == null && UserRoles.Contains("Admin"))
+            if (settings == null && UserRoles.Contains("SysAdmin"))
             {
                 return RedirectToAction("Create", "SaleDispatchSetting", new { id = DispactchHeader.DocTypeId }).Warning("Please create Sale Dispatch settings");
             }
-            else if (settings == null && !UserRoles.Contains("Admin"))
+            else if (settings == null && !UserRoles.Contains("SysAdmin"))
             {
                 return View("~/Views/Shared/InValidSettings.cshtml");
             }
@@ -596,11 +600,11 @@ namespace Web
             //Getting Settings
             var settings = new SaleDispatchSettingService(_unitOfWork).GetSaleDispatchSettingForDocument(DispactchHeader.DocTypeId, DispactchHeader.DivisionId, DispactchHeader.SiteId);
 
-            if (settings == null && UserRoles.Contains("Admin"))
+            if (settings == null && UserRoles.Contains("SysAdmin"))
             {
                 return RedirectToAction("Create", "SaleDispatchSetting", new { id = id }).Warning("Please create Sale Dispatch settings");
             }
-            else if (settings == null && !UserRoles.Contains("Admin"))
+            else if (settings == null && !UserRoles.Contains("SysAdmin"))
             {
                 return View("~/Views/Shared/InValidSettings.cshtml");
             }

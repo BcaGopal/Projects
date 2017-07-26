@@ -27,7 +27,7 @@
                     @foreach (var item in Model)
                     {
                         <div class="col-md-3 col-sm-4 col-xs-5 thumb">
-                            <a href="/StockInHandDisplay/GetStockInHand/@item.ProductTypeId">
+                            <a href="/StockInHandDisplay/GetStockInHand/@item.ProductTypeId?Routeid=@ViewBag.RouteId">
                                 <div class="thumbnail img-thumbnail">
                                     <img src="~/Uploads/@(item.ImageFolderName)/Medium/@(item.ImageFileName)" style="max-width:100%; height:auto;" />
                                     <div class="text-center black" style="font-family:'Arial Rounded MT';font-weight:bold;font-size:1.3em;color:black">@item.ProductTypeName</div>

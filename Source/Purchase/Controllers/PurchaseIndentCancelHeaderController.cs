@@ -171,11 +171,11 @@ namespace Web
             //Getting Settings
             var settings = new PurchaseIndentSettingService(_unitOfWork).GetPurchaseIndentSettingForDocument(id, s.DivisionId, s.SiteId);
 
-            if (settings == null && UserRoles.Contains("Admin"))
+            if (settings == null && UserRoles.Contains("SysAdmin"))
             {
                 return RedirectToAction("CreatePurchaseIndentCancel", "PurchaseIndentSetting", new { id = id }).Warning("Please create Purchase Indent cancel settings");
             }
-            else if (settings == null && !UserRoles.Contains("Admin"))
+            else if (settings == null && !UserRoles.Contains("SysAdmin"))
             {
                 return View("~/Views/Shared/InValidSettings.cshtml");
             }
@@ -449,11 +449,11 @@ namespace Web
             //Job Order Settings
             var settings = new PurchaseIndentSettingService(_unitOfWork).GetPurchaseIndentSettingForDocument(s.DocTypeId, svm.DivisionId, svm.SiteId);
 
-            if (settings == null && UserRoles.Contains("Admin"))
+            if (settings == null && UserRoles.Contains("SysAdmin"))
             {
                 return RedirectToAction("CreatePurchaseIndentCancel", "PurchaseIndentSetting", new { id = s.DocTypeId }).Warning("Please create Purchase Indent cancel settings");
             }
-            else if (settings == null && !UserRoles.Contains("Admin"))
+            else if (settings == null && !UserRoles.Contains("SysAdmin"))
             {
                 return View("~/Views/Shared/InValidSettings.cshtml");
             }

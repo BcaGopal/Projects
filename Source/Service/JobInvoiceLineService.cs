@@ -683,8 +683,8 @@ namespace Service
                         RateDiscountAmt = p.RateDiscountAmt,
                         MfgDate = tab.MfgDate,
                         LockReason = p.LockReason,
-                    }
-                        ).FirstOrDefault();
+                        SalesTaxGroupProductId = p.SalesTaxGroupProductId
+                    }).FirstOrDefault();
         }
 
         //public JobInvoiceLineViewModel GetJobInvoiceLineBalance(int id)
@@ -979,7 +979,7 @@ namespace Service
                              Dimension4Name = p.Dimension4.Dimension4Name,
                              JobOrderNo = p.JobOrderNo,
                              JobReceiveNo = t.DocNo,
-                             JobReceiveDocNo = t.JobWorkerDocNo,
+                             JobReceiveDocNo =  t.JobWorkerDocNo,
                              JobReceiveLineId = p.JobReceiveLineId,
                              Qty = p.BalanceQty,
                              ProductType = pg.ProductTypeId,

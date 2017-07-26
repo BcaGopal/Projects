@@ -501,6 +501,16 @@
                                 </div>
                             </div>
 
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.SqlProcGatePass, "SQL Proc GatePass", new { @class = "control-label col-xs-4" })
+                                    <div class="col-xs-6">
+                                        @Html.TextBoxFor(m => m.SqlProcGatePass, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(m => m.SqlProcGatePass, null, new { @class = "has-error" })
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                 </div>

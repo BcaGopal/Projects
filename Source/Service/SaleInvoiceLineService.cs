@@ -343,7 +343,7 @@ namespace Service
                                   PackingLineId = L.PackingLineId,
                                   LotNo = PackingHeaderTab.DocNo,
                                   GodownId = PackingHeaderTab.GodownId,
-                                  SalesTaxGroupId = ProductTab.SalesTaxGroupProductId,
+                                  SalesTaxGroupProductId = ProductTab.SalesTaxGroupProductId,
                                   SaleOrderLineId = L.SaleOrderLineId,
                                   ProductId = L.ProductId,
                                   ProductUidId = L.ProductUidId,
@@ -548,7 +548,7 @@ namespace Service
                         ProductName = Pl.Product.ProductName,
                         SaleOrderHeaderDocNo = p.SaleOrderLine.SaleOrderHeader.DocNo,
                         Qty = Pl.Qty,
-                        UnitDecimalPlaces = Pl.Product.Unit.DecimalPlaces,
+                        unitDecimalPlaces = Pl.Product.Unit.DecimalPlaces,
                         BalanceQty = (tab3 == null ? p.Qty : tab3.BalanceQty + p.Qty),
                         BaleNo = Pl.BaleNo,
                         UnitId = p.Product.UnitId,
@@ -576,9 +576,9 @@ namespace Service
                         SaleOrderLineId = p.SaleOrderLineId,
                         Weight = p.Weight,
                         FreeQty = Pl.FreeQty,
-                        RewardPoints = SaleInvoiceLineDetailTab.RewardPoints
-                    }
-                        ).FirstOrDefault();
+                        RewardPoints = SaleInvoiceLineDetailTab.RewardPoints,
+                        SalesTaxGroupProductId = p.SalesTaxGroupProductId
+                    }).FirstOrDefault();
 
         }
 
@@ -626,7 +626,7 @@ namespace Service
                             UnitName = tab2.Unit.UnitName,
                             DealUnitId = tab1.DealUnitId,
                             DealUnitName = tab1.DealUnit.UnitName,
-                            UnitDecimalPlaces = tab2.Unit.DecimalPlaces,
+                            unitDecimalPlaces = tab2.Unit.DecimalPlaces,
                             DealunitDecimalPlaces = tab1.DealUnit.DecimalPlaces,
                             DealQty = (!tab1.UnitConversionMultiplier.HasValue || tab1.UnitConversionMultiplier <= 0) ? p.BalanceQty : p.BalanceQty * tab1.UnitConversionMultiplier.Value,
                             UnitConversionMultiplier = tab1.UnitConversionMultiplier,
@@ -875,7 +875,7 @@ namespace Service
                                                              UnitConversionMultiplier = PackingLineTab.UnitConversionMultiplier,
                                                              DealUnitId = PackingLineTab.DealUnitId,
                                                              DealUnitName = PackingLineTab.DealUnit.UnitName,
-                                                             UnitDecimalPlaces = tab2.Unit.DecimalPlaces,
+                                                             unitDecimalPlaces = tab2.Unit.DecimalPlaces,
                                                              DealunitDecimalPlaces = PackingLineTab.DealUnit.DecimalPlaces,
                                                              Dimension1Id = p.Dimension1Id,
                                                              Dimension2Id = p.Dimension2Id,
@@ -1102,7 +1102,7 @@ namespace Service
 
 
             List<DirectSaleInvoiceLineViewModel> SaleInvoiceLineViewModelWithRate = (from L in SaleInvoiceLineViewModel
-                                                                                     join Pl in ProductRateList on new {L.ProductId, L.Dimension1Id, L.Dimension2Id } equals new { Pl.ProductId, Pl.Dimension1Id, Pl.Dimension2Id } into ProductRateListTable
+                                                                                     join Pl in ProductRateList on new { A1 = L.ProductId, A2 = L.Dimension1Id, A3 = L.Dimension2Id, A4 = L.SaleDispatchLineId } equals new { A1 = Pl.ProductId, A2 = Pl.Dimension1Id, A3 = Pl.Dimension2Id, A4 = Pl.SaleDispatchLineId ?? 0 } into ProductRateListTable
                                                                                      from ProductRateListTab in ProductRateListTable.DefaultIfEmpty()
                                                                                      select new DirectSaleInvoiceLineViewModel
                                                                                      {
@@ -1121,7 +1121,7 @@ namespace Service
                                                                                          UnitConversionMultiplier = L.UnitConversionMultiplier,
                                                                                          DealUnitId = L.DealUnitId,
                                                                                          DealUnitName = L.DealUnitName,
-                                                                                         UnitDecimalPlaces = L.UnitDecimalPlaces,
+                                                                                         unitDecimalPlaces = L.unitDecimalPlaces,
                                                                                          DealunitDecimalPlaces = L.DealunitDecimalPlaces,
                                                                                          Dimension1Id = L.Dimension1Id,
                                                                                          Dimension2Id = L.Dimension2Id,

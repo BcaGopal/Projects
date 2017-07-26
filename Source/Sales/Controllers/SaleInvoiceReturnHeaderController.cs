@@ -138,11 +138,11 @@ namespace Web
             //Getting Settings
             var settings = new SaleInvoiceSettingService(_unitOfWork).GetSaleInvoiceSettingForDocument(id, vm.DivisionId, vm.SiteId);
 
-            if (settings == null && UserRoles.Contains("Admin"))
+            if (settings == null && UserRoles.Contains("SysAdmin"))
             {
                 return RedirectToAction("CreateForReturn", "SaleInvoiceSetting", new { id = id }).Warning("Please create Sale invoice return settings");
             }
-            else if (settings == null && !UserRoles.Contains("Admin"))
+            else if (settings == null && !UserRoles.Contains("SysAdmin"))
             {
                 return View("~/Views/Shared/InValidSettings.cshtml");
             }
@@ -388,11 +388,11 @@ namespace Web
             //Job Order Settings
             var settings = new SaleInvoiceSettingService(_unitOfWork).GetSaleInvoiceSettingForDocument(pt.DocTypeId, pt.DivisionId, pt.SiteId);
 
-            if (settings == null && UserRoles.Contains("Admin"))
+            if (settings == null && UserRoles.Contains("SysAdmin"))
             {
                 return RedirectToAction("CreateForReturn", "SaleInvoiceSetting", new { id = pt.DocTypeId }).Warning("Please create Sale Invoice return settings");
             }
-            else if (settings == null && !UserRoles.Contains("Admin"))
+            else if (settings == null && !UserRoles.Contains("SysAdmin"))
             {
                 return View("~/Views/Shared/InValidSettings.cshtml");
             }
@@ -492,11 +492,11 @@ namespace Web
             //Job Order Settings
             var settings = new SaleInvoiceSettingService(_unitOfWork).GetSaleInvoiceSettingForDocument(pt.DocTypeId, pt.DivisionId, pt.SiteId);
 
-            if (settings == null && UserRoles.Contains("Admin"))
+            if (settings == null && UserRoles.Contains("SysAdmin"))
             {
                 return RedirectToAction("CreateForReturn", "SaleInvoiceSetting", new { id = pt.DocTypeId }).Warning("Please create Sale Invoice return settings");
             }
-            else if (settings == null && !UserRoles.Contains("Admin"))
+            else if (settings == null && !UserRoles.Contains("SysAdmin"))
             {
                 return View("~/Views/Shared/InValidSettings.cshtml");
             }

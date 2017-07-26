@@ -234,6 +234,8 @@
     <Compile Include="App_Start\UnityMvcActivator.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminSetupController.cs" />
+    <Compile Include="Controllers\ProductUidUpdationController.cs" />
+    <Compile Include="Controllers\ChargeGroupSettingsController.cs" />
     <Compile Include="Controllers\SalesTaxProductCodeController.cs" />
     <Compile Include="Controllers\ComboHelpListController.cs" />
     <Compile Include="Controllers\GatePassCheckController.cs" />
@@ -980,6 +982,13 @@
     <Content Include="Views\SalesTaxProductCode\Index.cshtml" />
     <Content Include="Views\StockIssueLine\_FiltersStockIn.cshtml" />
     <Content Include="Views\StockIssueLine\_ResultsStockIn.cshtml" />
+    <Content Include="Views\MaterialTransferLine\_FiltersStockIn.cshtml" />
+    <Content Include="Views\MaterialTransferLine\_ResultsStockIn.cshtml" />
+    <Content Include="Views\StockReceiveLine\_FiltersStockProcess.cshtml" />
+    <Content Include="Views\ChargeGroupSettings\_Reason.cshtml" />
+    <Content Include="Views\ChargeGroupSettings\Create.cshtml" />
+    <Content Include="Views\ChargeGroupSettings\Index.cshtml" />
+    <Content Include="Views\ProductUidUpdation\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

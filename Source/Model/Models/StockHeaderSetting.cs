@@ -58,6 +58,7 @@ namespace Model.Models
         public bool? isMandatoryProductUID { get; set; }
 
 
+
         public int? AdjLedgerAccountId { get; set; }
 
         public bool? isVisibleMaterialRequest { get; set; }

@@ -2288,16 +2288,21 @@ namespace Web
 
             var DocType = db.DocumentType.Where(m => m.DocumentTypeName == TransactionDoctypeConstants.TraceMapInvoice).FirstOrDefault();
 
-            if (Header.DocTypeId == DocType.DocumentTypeId)
+            if (DocType != null)
             {
-                return Json(_JobInvoiceLineService.GetProductHelpListForPendingTraceMapJobOrders(id, JobWorkerId, term, Limit), JsonRequestBehavior.AllowGet);
+                if (Header.DocTypeId == DocType.DocumentTypeId)
+                {
+                    return Json(_JobInvoiceLineService.GetProductHelpListForPendingTraceMapJobOrders(id, JobWorkerId, term, Limit), JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    return Json(_JobInvoiceLineService.GetProductHelpListForPendingJobOrders(id, JobWorkerId, term, Limit), JsonRequestBehavior.AllowGet);
+                }
             }
             else
             {
                 return Json(_JobInvoiceLineService.GetProductHelpListForPendingJobOrders(id, JobWorkerId, term, Limit), JsonRequestBehavior.AllowGet);
             }
-
-
         }
 
 

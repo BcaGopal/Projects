@@ -101,6 +101,12 @@ namespace Model.Models
         public string filterContraDivisions { get; set; }
         public string filterPersonRoles { get; set; }
 
+        [ForeignKey("SalesTaxGroupPerson")]
+        [Display(Name = "SalesTaxGroupPerson")]
+        public int? SalesTaxGroupPersonId { get; set; }
+        public virtual ChargeGroupPerson SalesTaxGroupPerson { get; set; }
+
+
         [ForeignKey("Process")]
         public int ProcessId { get; set; }
         public virtual Process Process { get; set; }

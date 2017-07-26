@@ -136,11 +136,11 @@ namespace Presentation
             //Getting Settings
             var settings = new MaterialPlanSettingsService(_unitOfWork).GetMaterialPlanSettingsForDocument(id, vm.DivisionId, vm.SiteId);
 
-            if (settings == null && UserRoles.Contains("Admin"))
+            if (settings == null && UserRoles.Contains("SysAdmin"))
             {
                 return RedirectToAction("Create", "MaterialPlanSettings", new { id = id }).Warning("Please create job order settings");
             }
-            else if (settings == null && !UserRoles.Contains("Admin"))
+            else if (settings == null && !UserRoles.Contains("SysAdmin"))
             {
                 return View("~/Views/Shared/InValidSettings.cshtml");
             }
@@ -389,11 +389,11 @@ namespace Presentation
 
             //Getting Settings
             var settings = new MaterialPlanSettingsService(_unitOfWork).GetMaterialPlanSettingsForDocument(pt.DocTypeId, vm.DivisionId, vm.SiteId);
-            if (settings == null && UserRoles.Contains("Admin"))
+            if (settings == null && UserRoles.Contains("SysAdmin"))
             {
                 return RedirectToAction("Create", "MaterialPlanSettings", new { id = pt.DocTypeId }).Warning("Please create Material plan settings");
             }
-            else if (settings == null && !UserRoles.Contains("Admin"))
+            else if (settings == null && !UserRoles.Contains("SysAdmin"))
             {
                 return View("~/Views/Shared/InValidSettings.cshtml");
             }
@@ -896,11 +896,11 @@ namespace Presentation
             }
             //Getting Settings
             var settings = new MaterialPlanSettingsService(_unitOfWork).GetMaterialPlanSettingsForDocument(pt.DocTypeId, vm.DivisionId, vm.SiteId);
-            if (settings == null && UserRoles.Contains("Admin"))
+            if (settings == null && UserRoles.Contains("SysAdmin"))
             {
                 return RedirectToAction("Create", "MaterialPlanSettings", new { id = pt.DocTypeId }).Warning("Please create Material plan settings");
             }
-            else if (settings == null && !UserRoles.Contains("Admin"))
+            else if (settings == null && !UserRoles.Contains("SysAdmin"))
             {
                 return View("~/Views/Shared/InValidSettings.cshtml");
             }

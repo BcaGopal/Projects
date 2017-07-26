@@ -8,10 +8,16 @@ using System.Threading.Tasks;
 
 namespace Model.Models
 {
-    public class DocumentTypeAttribute : EntityBase, IHistoryLog
+    public class DocumentTypeHeaderAttribute : EntityBase, IHistoryLog
     {      
         [Key]       
-        public int DocumentTypeAttributeId { get; set; }
+        public int DocumentTypeHeaderAttributeId { get; set; }
+
+        [ForeignKey("DocumentType")]
+        public int DocumentTypeId { get; set; }
+        public virtual DocumentType DocumentType { get; set; }
+
+        public int Sr { get; set; }
 
         [Required]
         public string Name { get; set; }
@@ -25,14 +31,9 @@ namespace Model.Models
         [Display(Name = "List Item")]
         public string ListItem { get; set; }
 
-        public string DefaultValue { get; set; }
+        public string Value { get; set; }
 
         public bool IsActive { get; set; }
-
-
-        [ForeignKey("DocumentType")]
-        public int DocumentTypeId { get; set; }
-        public virtual DocumentType DocumentType { get; set; }
 
         [Display(Name = "Created By")]
         public string CreatedBy { get; set; }

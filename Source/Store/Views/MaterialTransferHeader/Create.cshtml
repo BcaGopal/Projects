@@ -182,6 +182,38 @@
                                 </div>
                             </div>
 
+                            @if (Model.DocumentTypeHeaderAttributes != null)
+                            {
+                                for (int i = 0; i < Model.DocumentTypeHeaderAttributes.Count; i++)
+                                {
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            @Html.Label(Model.DocumentTypeHeaderAttributes[i].Name, new { @class = "control-label col-md-4 col-sm-2" })
+                                            @Html.HiddenFor(m => Model.DocumentTypeHeaderAttributes[i].Name)
+                                            @Html.HiddenFor(m => Model.DocumentTypeHeaderAttributes[i].DocumentTypeHeaderAttributeId)
+                                            @if (Model.DocumentTypeHeaderAttributes[i].DataType == "List")
+                                            {
+                                                List<SelectListItem> tem = new List<SelectListItem>();
+                                                foreach (string item in (Model.DocumentTypeHeaderAttributes[i].ListItem).Split(',').ToList())
+                                                {
+                                                    tem.Add(new SelectListItem { Text = item, Value = item, Selected = (Model.DocumentTypeHeaderAttributes[i].Value == item ? true : false) });
+                                                }
+
+                                                <div class="col-md-7 col-sm-10">
+                                                    @Html.DropDownListFor(m => Model.DocumentTypeHeaderAttributes[i].Value, new SelectList(tem as System.Collections.IEnumerable, "Value", "Text", Model.DocumentTypeHeaderAttributes[i].Value), " ", new { @class = "form-control col-xs-6 height" })
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                <div class="col-md-7 col-sm-10">
+                                                    @Html.TextBoxFor(m => Model.DocumentTypeHeaderAttributes[i].Value, new { @class = "form-control col-xs-6" })
+                                                </div>
+                                            }
+                                        </div>
+                                    </div>
+                                }
+                            }
+
                             <div class="col-md-6">
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.Remark, "Remark", new { @class = "control-label col-md-4 col-sm-2" })
@@ -216,8 +248,21 @@
                             { Action = "CreateLineAfter_Submit"; }
                         }
                         @Html.ActionLink("Add New Row", Action, "MaterialTransferLine", new { id = @Model.StockHeaderId }, new { data_modal = "", id = "btnCreate", @class = "toolbar", @title = "Add New", @data_toggle = "tooltip", @data_detailDisabled = "true" })
-                        </div>
                     </div>
+                    @if (Model.StockHeaderSettings.isVisibleMaterialRequest || Model.StockHeaderSettings.isVisibleStockIn)
+                    {
+                        <div class="btn-group right" style="padding-right:15px">
+                            <a class="cbtn btn-circle glyphicon glyphicon-link dropdown-toggle" aria-expanded="false" style="padding-top: 6px;padding-bottom: 6px;" href="#" data-toggle="dropdown" id="dropdownMenu1">
+                            </a>
+                            <ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu1">
+                                @if (Model.StockHeaderSettings.isVisibleStockIn)
+                                {
+                                    <li><a id="btnCreateFP" data-modal="" href="@Url.Action("_ForStockIn", "MaterialTransferLine", new { id = @Model.StockHeaderId })"><span class="glyphicon glyphicon-user"> </span> For Stock-In</a></li>
+                                }
+                            </ul>
+                        </div>
+                    }
+                </div>
                 <div style="padding-right:15px">
 
                     <div class="panel panel-default" id="grid">

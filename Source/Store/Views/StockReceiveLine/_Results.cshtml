@@ -25,6 +25,8 @@
             @Html.HiddenFor(m => m.StockHeaderSettings.isVisibleLotNo)
             @Html.HiddenFor(m => m.StockHeaderSettings.isVisibleDimension1)
             @Html.HiddenFor(m => m.StockHeaderSettings.isVisibleDimension2)
+            @Html.HiddenFor(m => m.StockHeaderSettings.isVisibleDimension3)
+            @Html.HiddenFor(m => m.StockHeaderSettings.isVisibleDimension4)
             <div class="form-horizontal modal-body">
 
                 <div style="padding-right:15px">
@@ -83,8 +85,12 @@
                                             @Html.HiddenFor(m => Model.StockLineViewModel[i].Specification)
                                             @Html.HiddenFor(m => Model.StockLineViewModel[i].Dimension1Name, new { @class = "Dim1Name" })
                                             @Html.HiddenFor(m => Model.StockLineViewModel[i].Dimension2Name, new { @class = "Dim2Name" })
+                                            @Html.HiddenFor(m => Model.StockLineViewModel[i].Dimension3Name, new { @class = "Dim3Name" })
+                                            @Html.HiddenFor(m => Model.StockLineViewModel[i].Dimension4Name, new { @class = "Dim4Name" })
                                             @Html.HiddenFor(m => Model.StockLineViewModel[i].Dimension1Id, new { @class = "Dim1Id" })
                                             @Html.HiddenFor(m => Model.StockLineViewModel[i].Dimension2Id, new { @class = "Dim2Id" })
+                                            @Html.HiddenFor(m => Model.StockLineViewModel[i].Dimension3Id, new { @class = "Dim3Id" })
+                                            @Html.HiddenFor(m => Model.StockLineViewModel[i].Dimension4Id, new { @class = "Dim4Id" })
                                             @Html.HiddenFor(m => Model.StockLineViewModel[i].ProcessId)
                                             @Html.HiddenFor(m => Model.StockLineViewModel[i].RequisitionLineId)
                                             @Html.HiddenFor(m => Model.StockLineViewModel[i].StockHeaderId)
@@ -116,6 +122,16 @@
                                                                 @if (!string.IsNullOrEmpty(Model.StockLineViewModel[i].Dimension2Name))
                                                                 {
                                                                     @Model.StockLineViewModel[i].Dimension2Name<span style="font-size:xx-small;cursor:pointer;padding-left:5px" class="text-info glyphicon glyphicon-pencil EditDim2"></span>}
+                                                            </div>
+                                                            <div class="block ReplacableDim3" style="width:50%;padding-left:15px;padding-right:0px">
+                                                                @if (!string.IsNullOrEmpty(Model.StockLineViewModel[i].Dimension3Name))
+                                                                {
+                                                                    @Model.StockLineViewModel[i].Dimension3Name<span style="font-size:xx-small;cursor:pointer;padding-left:5px" class="text-info glyphicon glyphicon-pencil EditDim3"></span> }
+                                                            </div>
+                                                            <div class="block ReplacableDim4" style="width:50%;padding-left:15px;padding-right:0px">
+                                                                @if (!string.IsNullOrEmpty(Model.StockLineViewModel[i].Dimension4Name))
+                                                                {
+                                                                    @Model.StockLineViewModel[i].Dimension4Name<span style="font-size:xx-small;cursor:pointer;padding-left:5px" class="text-info glyphicon glyphicon-pencil EditDim4"></span> }
                                                             </div>
                                                         </div>
 
@@ -193,6 +209,8 @@
         CustomSelectFunction($(".ProdHelpList"), '/ComboHelpList/GetProducts', '/ComboHelpList/SetSingleProducts', 'Enter Product', false, 3);
         CustomSelectFunction($(".Dime1HelpList"), '/ComboHelpList/GetDimension1', '/ComboHelpList/SetSingleDimension1', 'Enter Dimension1', false, 3);
         CustomSelectFunction($(".Dime2HelpList"), '/ComboHelpList/GetDimension2', '/ComboHelpList/SetSingleDimension2', 'Enter Dimension2', false, 3);
+        CustomSelectFunction($(".Dime3HelpList"), '/ComboHelpList/GetDimension3', '/ComboHelpList/SetSingleDimension3', 'Enter Dimension3', false, 3);
+        CustomSelectFunction($(".Dime4HelpList"), '/ComboHelpList/GetDimension4', '/ComboHelpList/SetSingleDimension4', 'Enter Dimension4', false, 3);
 
     })
 
@@ -361,5 +379,53 @@
 
 
 
+
+
+    $('.EditDim3').click(function () {
+
+        var $Block = $(this).closest('div.row.crow');
+        var Dim3Id = parseInt($Block.find('input.Dim3Id').val());
+        var Dim3Name = $Block.find('input.Dim3Name').val();
+
+
+
+        if (Dim3Id && Dim3Name) {
+
+            var Dim3ElemId = $Block.find('input.Dim3Id').attr('id');
+            var Dim3ElemName = $Block.find('input.Dim3Id').attr('name');
+
+            $Block.find('input.Dim3Id').remove();
+            var elem = '<input type="text" class="form-control multiple-modal Dime3HelpList Dim3Id" style="display:inline;" tabindex="-3" id="' + Dim3ElemId + '" name="' + Dim3ElemName + '"/>'
+
+            var Container = $Block.find('div.ReplacableDim3:first');
+            Container.html(elem);
+            CustomSelectFunction($(".Dime3HelpList", $Block), '/ComboHelpList/GetDimension3', '/ComboHelpList/SetSingleDimension3', 'Enter Dimension3', false, 3);
+            $('.Dime3HelpList', $Block).select2("data", { id: Dim3Id, text: Dim3Name });
+        }
+
+    })
+
+
+    $('.EditDim4').click(function () {
+
+        var $Block = $(this).closest('div.row.crow');
+        var Dim4Id = parseInt($Block.find('input.Dim4Id').val());
+        var Dim4Name = $Block.find('input.Dim4Name').val();
+
+
+
+        if (Dim4Id && Dim4Name) {
+            var Dim4ElemId = $Block.find('input.Dim4Id').attr('id');
+            var Dim4ElemName = $Block.find('input.Dim4Id').attr('name');
+
+            $Block.find('input.Dim4Id').remove();
+            var elem = '<input type="text" class="form-control multiple-modal Dime4HelpList Dim4Id" style="display:inline;" tabindex="-3" id="' + Dim4ElemId + '" name="' + Dim4ElemName + '"/>'
+            var Container = $Block.find('div.ReplacableDim4:first');
+            Container.html(elem);
+            CustomSelectFunction($(".Dime4HelpList", $Block), '/ComboHelpList/GetDimension3', '/ComboHelpList/SetSingleDimension3', 'Enter Dimension3', false, 3);
+            $('.Dime4HelpList', $Block).select2("data", { id: Dim4Id, text: Dim4Name });
+        }
+
+    })
 
 </script>

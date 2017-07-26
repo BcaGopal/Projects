@@ -17,10 +17,10 @@ namespace Service
     public interface IStockInHandService : IDisposable
     {
         IEnumerable<StockInHandViewModel> GetStockInHand(int id, string UserName);
-        IEnumerable<StockInHandViewModel> GetStockInHandDisplay(int id, string UserName);
+        IEnumerable<StockInHandViewModel> GetStockInHandDisplay(int id, string UserName,string Routeid);
         IEnumerable<StockLedgerViewModel> GetStockLedger(int ? ProductId, int ? Dim1, int ? Dim2, int ? Process, string LotNo, int ? Godown, string UserName);
 
-        IEnumerable<StockLedgerViewModel> GetStockLedger(int? ProductId, int? Dim1, int? Dim2, int? Dim3, int? Dim4, int? Process, string LotNo, int? Godown, string UserName);
+        IEnumerable<StockLedgerViewModel> GetStockLedger(int? ProductId, int? Dim1, int? Dim2, int? Dim3, int? Dim4, int? Process, string LotNo, int? Godown,int? PersonId, string UserName,int ProductTypeid,string Routeid);
     }
 
     public class StockInHandService : IStockInHandService
@@ -93,16 +93,24 @@ namespace Service
           
         }
 
-        public IEnumerable<StockInHandViewModel> GetStockInHandDisplay(int id, string UserName)
+        public IEnumerable<StockInHandViewModel> GetStockInHandDisplay(int id, string UserName,string Routeid)
         {
 
-            var Settings = new StockInHandSettingService(_unitOfWork).GetTrailBalanceSetting(UserName);
+            var Settings = new StockInHandSettingService(_unitOfWork).GetTrailBalanceSetting(UserName,id, Routeid);
+            if(Settings==null)
+            {
+                Settings= new StockInHandSettingService(_unitOfWork).GetTrailBalanceSetting(id, Routeid);
+            }
+
 
             SqlParameter SqlParameterGroupOn;
             SqlParameter SqlParameterSiteId;
             SqlParameter SqlParameterToDate;
             SqlParameter SqlParameterFromDate;
             SqlParameter SqlParameterShowBalance;
+            SqlParameter SqlParameterTableName;
+
+            int ShowOpening = (Settings.ShowOpening == true ? 1 : 0);
 
             if (string.IsNullOrEmpty(Settings.GroupOn))
                 SqlParameterGroupOn = new SqlParameter("@GroupOn", DBNull.Value);
@@ -136,6 +144,15 @@ namespace Service
             else
                 SqlParameterShowBalance = new SqlParameter("@ShowBalance", Settings.ShowBalance);
 
+           
+                
+            SqlParameter SqlParameterShowOpening = new SqlParameter("@ShowOpening",Convert.ToString(ShowOpening));
+
+            if (string.IsNullOrEmpty(Settings.TableName))
+                SqlParameterTableName = new SqlParameter("@TableName", DBNull.Value);
+            else
+                SqlParameterTableName = new SqlParameter("@TableName", Settings.TableName);
+
 
             SqlParameter SqlParameterProduct = new SqlParameter("@Product", DBNull.Value);
             SqlParameter SqlParameterGodown = new SqlParameter("@Godown", DBNull.Value);
@@ -147,8 +164,8 @@ namespace Service
             SqlParameter SqlParameterProdNature = new SqlParameter("@ProductNature", DBNull.Value);
             SqlParameter SqlParameterProdGroup = new SqlParameter("@ProductGroup", DBNull.Value);
             SqlParameter SqlParameterProdCustomGroup = new SqlParameter("@ProductCustomGroup", DBNull.Value);
-
-            IEnumerable<StockInHandViewModel> StockInHandList = db.Database.SqlQuery<StockInHandViewModel>("Web.spStockInHand_ForMultipleProductDisplay  @ProductType, @Site, @FromDate, @ToDate, @GroupOn, @ShowBalance, @Product, @Godown, @Process, @Dimension1, @Dimension2,@Dimension3, @Dimension4, @ProductNature, @ProductGroup, @ProductCustomGroup", SqlParameterProdType, SqlParameterSiteId, SqlParameterFromDate, SqlParameterToDate, SqlParameterGroupOn, SqlParameterShowBalance, SqlParameterProduct, SqlParameterGodown, SqlParameterProcess, SqlParameterDimension1, SqlParameterDimension2, SqlParameterDimension3, SqlParameterDimension4, SqlParameterProdNature, SqlParameterProdGroup, SqlParameterProdCustomGroup).ToList();
+            IEnumerable<StockInHandViewModel> StockInHandList = db.Database.SqlQuery<StockInHandViewModel>("Web.spStockInHandAndStockProcessDisplay  @ProductType, @Site, @FromDate, @ToDate, @GroupOn, @ShowBalance, @Product, @Godown, @Process, @Dimension1, @Dimension2, @ProductNature, @ProductGroup, @ProductCustomGroup,@Dimension3, @Dimension4, @ShowOpening, @TableName", SqlParameterProdType, SqlParameterSiteId, SqlParameterFromDate, SqlParameterToDate, SqlParameterGroupOn, SqlParameterShowBalance, SqlParameterProduct, SqlParameterGodown, SqlParameterProcess, SqlParameterDimension1, SqlParameterDimension2, SqlParameterProdNature, SqlParameterProdGroup, SqlParameterProdCustomGroup, SqlParameterDimension3, SqlParameterDimension4, SqlParameterShowOpening, SqlParameterTableName).ToList();
+            //IEnumerable<StockInHandViewModel> StockInHandList = db.Database.SqlQuery<StockInHandViewModel>("Web.spStockInHand_ForMultipleProductDisplay  @ProductType, @Site, @FromDate, @ToDate, @GroupOn, @ShowBalance, @Product, @Godown, @Process, @Dimension1, @Dimension2, @ProductNature, @ProductGroup, @ProductCustomGroup,@Dimension3, @Dimension4, @ShowOpening, @TableName", SqlParameterProdType, SqlParameterSiteId, SqlParameterFromDate, SqlParameterToDate, SqlParameterGroupOn, SqlParameterShowBalance, SqlParameterProduct, SqlParameterGodown, SqlParameterProcess, SqlParameterDimension1, SqlParameterDimension2, SqlParameterProdNature, SqlParameterProdGroup, SqlParameterProdCustomGroup, SqlParameterDimension3, SqlParameterDimension4, SqlParameterShowOpening, SqlParameterTableName).ToList();
 
             return StockInHandList;
 
@@ -239,11 +256,13 @@ namespace Service
             return StockInHandList;
         }
 
-        public IEnumerable<StockLedgerViewModel> GetStockLedger(int? ProductId, int? Dim1, int? Dim2, int? Dim3, int? Dim4, int? Process, string LotNo, int? Godown, string UserName)
+        public IEnumerable<StockLedgerViewModel> GetStockLedger(int? ProductId, int? Dim1, int? Dim2, int? Dim3, int? Dim4, int? Process, string LotNo, int? Godown,int? PersonId, string UserName, int ProductTypeid, string Routeid)
         {
-
-
-            var Settings = new StockInHandSettingService(_unitOfWork).GetTrailBalanceSetting(UserName);
+            var Settings = new StockInHandSettingService(_unitOfWork).GetTrailBalanceSetting(UserName, ProductTypeid, Routeid);
+            if (Settings == null)
+            {
+                Settings = new StockInHandSettingService(_unitOfWork).GetTrailBalanceSetting(ProductTypeid, Routeid);
+            }
 
             SqlParameter SqlParameterGroupOn;
             SqlParameter SqlParameterSiteId;
@@ -258,6 +277,8 @@ namespace Service
             SqlParameter SqlParameterDimension2;
             SqlParameter SqlParameterDimension3;
             SqlParameter SqlParameterDimension4;
+            SqlParameter SqlParameterPersonId;
+           
 
             if (string.IsNullOrEmpty(Settings.GroupOn))
                 SqlParameterGroupOn = new SqlParameter("@GroupOn", DBNull.Value);
@@ -324,15 +345,24 @@ namespace Service
                 SqlParameterDimension4 = new SqlParameter("@Dimension4", DBNull.Value);
             else
                 SqlParameterDimension4 = new SqlParameter("@Dimension4", Dim4);
-
+            if((!PersonId.HasValue))
+                SqlParameterPersonId = new SqlParameter("@PersonId", DBNull.Value);
+            else
+                SqlParameterPersonId = new SqlParameter("@PersonId", PersonId);
 
             SqlParameter SqlParameterProdNature = new SqlParameter("@ProductNature", DBNull.Value);
             SqlParameter SqlParameterProdGroup = new SqlParameter("@ProductGroup", DBNull.Value);
             SqlParameter SqlParameterProdCustomGroup = new SqlParameter("@ProductCustomGroup", DBNull.Value);
-
-
-            IEnumerable<StockLedgerViewModel> StockInHandList = db.Database.SqlQuery<StockLedgerViewModel>("Web.spStockLedger  @Site, @Division, @FromDate, @ToDate, @GroupOn, @Product, @Godown, @Process, @Dimension1, @Dimension2, @Dimension3, @Dimension4", SqlParameterSiteId, SqlParameterDivisionId, SqlParameterFromDate, SqlParameterToDate, SqlParameterGroupOn, SqlParameterProduct, SqlParameterGodown, SqlParameterProcess, SqlParameterDimension1, SqlParameterDimension2, SqlParameterDimension3, SqlParameterDimension4).ToList();
-
+            SqlParameter SqlParameterProductDivisionId = new SqlParameter("@ProductDivisionId", DBNull.Value);
+            IEnumerable<StockLedgerViewModel> StockInHandList = null;
+            if (Routeid == "Stock")
+            {
+                 StockInHandList = db.Database.SqlQuery<StockLedgerViewModel>("Web.spStockLedger  @Site, @Division, @FromDate, @ToDate, @GroupOn, @Product, @Godown, @Process, @Dimension1, @Dimension2, @Dimension3, @Dimension4", SqlParameterSiteId, SqlParameterDivisionId, SqlParameterFromDate, SqlParameterToDate, SqlParameterGroupOn, SqlParameterProduct, SqlParameterGodown, SqlParameterProcess, SqlParameterDimension1, SqlParameterDimension2, SqlParameterDimension3, SqlParameterDimension4).ToList();
+            }
+            else
+            {  
+               StockInHandList = db.Database.SqlQuery<StockLedgerViewModel>("Web.spStockProcessLedger  @Site, @Division, @FromDate, @ToDate, @GroupOn, @Product, @Godown, @Process, @Dimension1, @Dimension2, @Dimension3, @Dimension4,@ProductDivisionId,@PersonId", SqlParameterSiteId, SqlParameterDivisionId, SqlParameterFromDate, SqlParameterToDate, SqlParameterGroupOn, SqlParameterProduct, SqlParameterGodown, SqlParameterProcess, SqlParameterDimension1, SqlParameterDimension2, SqlParameterDimension3, SqlParameterDimension4, SqlParameterProductDivisionId, SqlParameterPersonId).ToList();
+            }
             return StockInHandList;
 
 

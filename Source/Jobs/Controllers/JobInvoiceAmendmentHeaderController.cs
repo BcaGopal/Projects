@@ -149,11 +149,11 @@ namespace Web
             //Getting Settings
             var settings = new JobInvoiceSettingsService(_unitOfWork).GetJobInvoiceSettingsForDocument(id, vm.DivisionId, vm.SiteId);
 
-            if (settings == null && UserRoles.Contains("Admin"))
+            if (settings == null && UserRoles.Contains("SysAdmin"))
             {
                 return RedirectToAction("CreateJobInvoiceAmendment", "JobInvoiceSettings", new { id = id }).Warning("Please create job amendment settings");
             }
-            else if (settings == null && !UserRoles.Contains("Admin"))
+            else if (settings == null && !UserRoles.Contains("SysAdmin"))
             {
                 return View("~/Views/Shared/InValidSettings.cshtml");
             }
@@ -501,11 +501,11 @@ namespace Web
             //Job Order Settings
             var settings = new JobInvoiceSettingsService(_unitOfWork).GetJobInvoiceSettingsForDocument(pt.DocTypeId, pt.DivisionId, pt.SiteId);
 
-            if (settings == null && UserRoles.Contains("Admin"))
+            if (settings == null && UserRoles.Contains("SysAdmin"))
             {
                 return RedirectToAction("Create", "JobInvoiceSettings", new { id = pt.DocTypeId }).Warning("Please create job order settings");
             }
-            else if (settings == null && !UserRoles.Contains("Admin"))
+            else if (settings == null && !UserRoles.Contains("SysAdmin"))
             {
                 return View("~/Views/Shared/InValidSettings.cshtml");
             }
@@ -546,11 +546,11 @@ namespace Web
 
             var settings = new JobInvoiceSettingsService(_unitOfWork).GetJobInvoiceSettingsForDocument(pt.DocTypeId, pt.DivisionId, pt.SiteId);
 
-            if (settings == null && UserRoles.Contains("Admin"))
+            if (settings == null && UserRoles.Contains("SysAdmin"))
             {
                 return RedirectToAction("CreateJobInvoiceAmendment", "JobInvoiceSettings", new { id = id }).Warning("Please create job amendment settings");
             }
-            else if (settings == null && !UserRoles.Contains("Admin"))
+            else if (settings == null && !UserRoles.Contains("SysAdmin"))
             {
                 return View("~/Views/Shared/InValidSettings.cshtml");
             }
@@ -815,7 +815,7 @@ namespace Web
             }
             JobInvoiceAmendmentHeader JobInvoiceAmendmentHeader = db.JobInvoiceAmendmentHeader.Find(id);
 
-            if (!string.IsNullOrEmpty(JobInvoiceAmendmentHeader.LockReason) && !UserRoles.Contains("Admin"))
+            if (!string.IsNullOrEmpty(JobInvoiceAmendmentHeader.LockReason))
             {
                 TempData["CSEXC"] += "Record Locked : " + JobInvoiceAmendmentHeader.LockReason;
                 return PartialView("AjaxError");

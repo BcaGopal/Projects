@@ -308,6 +308,7 @@ namespace Web
                         line.Dimension4Id = item.Dimension4Id;
                         line.Specification = item.Specification;
                         line.CostCenterId = item.CostCenterId;
+                        line.FromProcessId = item.ProcessId;
                         line.Qty = item.Qty;
                         line.DocNature = StockNatureConstants.Issue;
                         line.Rate = item.Rate ?? 0;
@@ -813,7 +814,7 @@ namespace Web
                         StockViewModel.CostCenterId = (s.CostCenterId == null ? temp.CostCenterId : s.CostCenterId);
 
 
-                        StockViewModel.ProcessId = templine.FromProcessId;
+                        StockViewModel.ProcessId = s.FromProcessId;
                         StockViewModel.HeaderProcessId = temp.ProcessId;
                         StockViewModel.Qty_Iss = s.Qty;
                         StockViewModel.Qty_Rec = 0;
@@ -821,13 +822,13 @@ namespace Web
                         StockViewModel.Weight_Iss = s.Weight;
                         StockViewModel.Weight_Rec = 0;
 
-                        StockViewModel.Rate = templine.Rate;
+                        StockViewModel.Rate = s.Rate;
                         StockViewModel.ExpiryDate = null;
-                        StockViewModel.Specification = templine.Specification;
-                        StockViewModel.Dimension1Id = templine.Dimension1Id;
-                        StockViewModel.Dimension2Id = templine.Dimension2Id;
-                        StockViewModel.Dimension3Id = templine.Dimension3Id;
-                        StockViewModel.Dimension4Id = templine.Dimension4Id;
+                        StockViewModel.Specification = s.Specification;
+                        StockViewModel.Dimension1Id = s.Dimension1Id;
+                        StockViewModel.Dimension2Id = s.Dimension2Id;
+                        StockViewModel.Dimension3Id = s.Dimension3Id;
+                        StockViewModel.Dimension4Id = s.Dimension4Id;
                         StockViewModel.Remark = s.Remark;
                         StockViewModel.ProductUidId = svm.ProductUidId;
                         StockViewModel.Status = temp.Status;
@@ -872,7 +873,7 @@ namespace Web
                         StockProcessViewModel.HeaderGodownId = temp.GodownId;
                         StockProcessViewModel.GodownId = temp.GodownId ?? 0;
                         StockProcessViewModel.ProcessId = temp.ProcessId;
-                        StockProcessViewModel.LotNo = templine.LotNo;
+                        StockProcessViewModel.LotNo = s.LotNo;
                         StockProcessViewModel.CostCenterId = (s.CostCenterId == null ? temp.CostCenterId : s.CostCenterId);
 
                         StockProcessViewModel.Qty_Iss = 0;
@@ -881,13 +882,13 @@ namespace Web
                         StockProcessViewModel.Weight_Iss = 0;
                         StockProcessViewModel.Weight_Rec = s.Weight;
 
-                        StockProcessViewModel.Rate = templine.Rate;
+                        StockProcessViewModel.Rate = s.Rate;
                         StockProcessViewModel.ExpiryDate = null;
-                        StockProcessViewModel.Specification = templine.Specification;
-                        StockProcessViewModel.Dimension1Id = templine.Dimension1Id;
-                        StockProcessViewModel.Dimension2Id = templine.Dimension2Id;
-                        StockProcessViewModel.Dimension3Id = templine.Dimension3Id;
-                        StockProcessViewModel.Dimension4Id = templine.Dimension4Id;
+                        StockProcessViewModel.Specification = s.Specification;
+                        StockProcessViewModel.Dimension1Id = s.Dimension1Id;
+                        StockProcessViewModel.Dimension2Id = s.Dimension2Id;
+                        StockProcessViewModel.Dimension3Id = s.Dimension3Id;
+                        StockProcessViewModel.Dimension4Id = s.Dimension4Id;
                         StockProcessViewModel.Remark = s.Remark;
                         StockProcessViewModel.ProductUidId = svm.ProductUidId;
                         StockProcessViewModel.Status = temp.Status;
@@ -926,7 +927,7 @@ namespace Web
                         Adj_IssQty.DivisionId = temp.DivisionId;
                         Adj_IssQty.SiteId = temp.SiteId;
                         Adj_IssQty.AdjustedQty = svm.Qty;
-                        Adj.ObjectState = Model.ObjectState.Added;
+                        Adj_IssQty.ObjectState = Model.ObjectState.Added;
                         db.StockAdj.Add(Adj_IssQty);
                         //new StockAdjService(_unitOfWork).Create(Adj_IssQty);
                     }
@@ -1451,9 +1452,50 @@ namespace Web
             };
         }
 
+        public ActionResult GetStockInHeader(string searchTerm, int pageSize, int pageNum, int filter)
+        {
+            var Query = _StockLineService.GetPendingStockInHeaderForIssue(filter, searchTerm);
+            var temp = Query.Skip(pageSize * (pageNum - 1))
+                .Take(pageSize)
+                .ToList();
+
+            var count = Query.Count();
+
+            ComboBoxPagedResult Data = new ComboBoxPagedResult();
+            Data.Results = temp;
+            Data.Total = count;
+
+            return new JsonpResult
+            {
+                Data = Data,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        public ActionResult GetLotNo(string searchTerm, int pageSize, int pageNum, int filter)
+        {
+            var Query = _StockLineService.GetLotNo(filter, searchTerm);
+            var temp = Query.Skip(pageSize * (pageNum - 1))
+                .Take(pageSize)
+                .ToList();
+
+            var count = Query.Count();
+
+            ComboBoxPagedResult Data = new ComboBoxPagedResult();
+            Data.Results = temp;
+            Data.Total = count;
+
+            return new JsonpResult
+            {
+                Data = Data,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
         public JsonResult GetStockInDetailJson(int StockInId)
         {
             var temp = (from p in db.ViewStockInBalance
+                        join S in db.Stock on p.StockInId equals S.StockId into StockTable from StockTab in StockTable.DefaultIfEmpty()
                         join pt in db.Product on p.ProductId equals pt.ProductId into ProductTable
                         from ProductTab in ProductTable.DefaultIfEmpty()
                         join D1 in db.Dimension1 on p.Dimension1Id equals D1.Dimension1Id into Dimension1Table
@@ -1478,7 +1520,9 @@ namespace Web
                             Dimension4Id = p.Dimension4Id,
                             Dimension4Name = Dimension4Tab.Dimension4Name,
                             BalanceQty = p.BalanceQty,
-                            LotNo = p.LotNo
+                            LotNo = p.LotNo,
+                            ProcessId = StockTab.ProcessId,
+                            ProcessName = StockTab.Process.ProcessName
                         }).FirstOrDefault();
 
             if (temp != null)

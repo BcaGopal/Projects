@@ -17,6 +17,8 @@ using Data.Models;
 using Model.Models;
 
 
+
+
 namespace Reports.Reports
 {
     public class DirectReportPrint
@@ -114,10 +116,13 @@ namespace Reports.Reports
 
         public byte[] DirectPrint(DataTable Data, string UserName, string ReportFileType = ReportFileTypeConstants.PDF)
         {
+
+            var SubReportDataList = new List<DataTable>();
+            var SubReportNameList = new List<string>();
             string mimtype;
             ReportGenerateService c = new ReportGenerateService();
             string mimetype = "";
-            return c.ReportGenerate(Data, out mimtype, ReportFileTypeConstants.PDF, null, null, null, null, UserName);
+            return c.ReportGenerate(Data, out mimtype, ReportFileTypeConstants.PDF, null, SubReportDataList, null, SubReportNameList, UserName);
 
         }
 
@@ -182,6 +187,120 @@ namespace Reports.Reports
             BAR = c.ReportGenerateCustom(out mimtype, ReportFileType, UserName, Params, ReportName);
 
             return BAR;
+
+
+        }
+
+        public byte[] rsDirectDocumentPrintDisplay(String ReportSQL,string Route, string UserName, int DocumentId = 0, string ReportFileType = ReportFileTypeConstants.PDF)
+        {
+            ApplicationDbContext DB = new ApplicationDbContext();
+            string ReportName = "";
+            List<ReportParameter> Params = new List<ReportParameter>();
+
+            var Settings = DB.StockInHandSetting.Where(m => m.ProductTypeId == DocumentId && m.UserName == UserName && m.TableName== Route).FirstOrDefault();
+            if (Settings == null)
+            {
+                Settings = DB.StockInHandSetting.Where(m => m.ProductTypeId == DocumentId && m.TableName== Route).FirstOrDefault();
+            }
+
+         
+
+            ReportParameter Param = new ReportParameter();
+            Param.Name = CustomStringOp.CleanCode("@GroupOn");
+            Param.Values.Add(Settings.GroupOn);
+            Params.Add(Param);
+
+            ReportParameter Param1 = new ReportParameter();
+            Param1.Name = CustomStringOp.CleanCode("@Site");
+            Param1.Values.Add(Settings.SiteIds);
+            Params.Add(Param1);
+
+            ReportParameter Param2 = new ReportParameter();
+            Param2.Name = CustomStringOp.CleanCode("@FromDate");
+            Param2.Values.Add((Settings.FromDate.ToString() != "" ? String.Format("{0:MMMM dd yyyy}", Settings.FromDate.ToString()) : "Null").ToString());
+            Params.Add(Param2);
+
+            ReportParameter Param3 = new ReportParameter();
+            Param3.Name = CustomStringOp.CleanCode("@ToDate");
+            Param3.Values.Add((Settings.ToDate.ToString() != "" ? String.Format("{0:MMMM dd yyyy}", Settings.ToDate.ToString()) : "Null").ToString());
+            Params.Add(Param3);
+
+            ReportParameter Param4 = new ReportParameter();
+            Param4.Name = CustomStringOp.CleanCode("@ProductType");
+            Param4.Values.Add(DocumentId.ToString());
+            Params.Add(Param4);
+
+            ReportParameter Param5 = new ReportParameter();
+            Param5.Name = CustomStringOp.CleanCode("@ShowBalance");
+            Param5.Values.Add(Settings.ShowBalance.ToString());
+            Params.Add(Param5);
+
+            ReportParameter Param6 = new ReportParameter();
+            Param6.Name = CustomStringOp.CleanCode("@ShowOpening");
+            Param6.Values.Add((Settings.ShowOpening == true ? 1 : 0).ToString());
+            Params.Add(Param6);
+
+           ReportParameter Param7 = new ReportParameter();
+            Param7.Name = CustomStringOp.CleanCode("@TableName");
+            Param7.Values.Add(Settings.TableName);
+            Params.Add(Param7);
+
+            ReportParameter rpUserName = new ReportParameter();
+            rpUserName.Name = "PrintedBy";
+            rpUserName.Values.Add(UserName);
+            Params.Add(rpUserName);
+
+
+
+            ReportParameter ConString = new ReportParameter();
+            ConString.Name = "DatabaseConnectionString";
+            ConString.Values.Add((string)System.Web.HttpContext.Current.Session["DefaultConnectionString"]);
+            //Data Source=192.168.2.17;Initial Catalog=RUG;Integrated Security=false; User Id=sa; pwd=
+            Params.Add(ConString);
+
+            var uid = Guid.NewGuid();
+            using (ApplicationDbContext context = new ApplicationDbContext())
+            {
+                foreach (var item in Params)
+                {
+                    ReportUIDValues rid = new ReportUIDValues();
+                    rid.UID = uid;
+                    rid.Type = item.Name;
+                    rid.Value = item.Values[0];
+
+                    rid.ObjectState = Model.ObjectState.Added;
+                    context.ReportUIDValues.Add(rid);
+                }
+                context.SaveChanges();
+            }
+
+            using (ApplicationDbContext context = new ApplicationDbContext())
+            {
+                ReportName = context.Database.SqlQuery<string>(ReportSQL.Replace("REPORTUID", uid.ToString())).FirstOrDefault();
+
+                var Items = context.ReportUIDValues.Where(m => m.UID == uid).ToList();
+
+                foreach (var item in Items)
+                {
+                    item.ObjectState = Model.ObjectState.Deleted;
+                    context.ReportUIDValues.Remove(item);
+                }
+                context.SaveChanges();
+            }
+
+            string mimtype;
+            ReportGenerateService c = new ReportGenerateService();
+            byte[] BAR;
+
+            BAR = c.ReportGenerateCustom(out mimtype, ReportFileType, UserName, Params, ReportName);
+
+            return BAR;
+
+            //if (mimtype == "application/vnd.ms-excel")
+            //    return File(BAR, mimtype, ReportName + ".xls");
+            //else
+            //    return File(BAR, mimtype);
+
 
 
         }

@@ -159,11 +159,11 @@ namespace Web
             //Getting Settings
             var settings = new SaleDeliverySettingService(_unitOfWork).GetSaleDeliverySettingForDocument(id, vm.DivisionId, vm.SiteId);
 
-            if (settings == null && UserRoles.Contains("Admin"))
+            if (settings == null && UserRoles.Contains("SysAdmin"))
             {
                 return RedirectToAction("Create", "SaleDeliverySetting", new { id = id }).Warning("Please create Sale Delivery settings");
             }
-            else if (settings == null && !UserRoles.Contains("Admin"))
+            else if (settings == null && !UserRoles.Contains("SysAdmin"))
             {
                 return View("~/Views/Shared/InValidSettings.cshtml");
             }
@@ -493,11 +493,11 @@ namespace Web
             //Getting Settings
             var settings = new SaleDeliverySettingService(_unitOfWork).GetSaleDeliverySettingForDocument(DeliveryHeader.DocTypeId, vm.DivisionId, vm.SiteId);
 
-            if (settings == null && UserRoles.Contains("Admin"))
+            if (settings == null && UserRoles.Contains("SysAdmin"))
             {
                 return RedirectToAction("Create", "SaleDeliverySetting", new { id = DeliveryHeader.DocTypeId }).Warning("Please create Sale Delivery settings");
             }
-            else if (settings == null && !UserRoles.Contains("Admin"))
+            else if (settings == null && !UserRoles.Contains("SysAdmin"))
             {
                 return View("~/Views/Shared/InValidSettings.cshtml");
             }
@@ -564,11 +564,11 @@ namespace Web
             //Getting Settings
             var settings = new SaleDeliverySettingService(_unitOfWork).GetSaleDeliverySettingForDocument(DeliveryHeader.DocTypeId, DeliveryHeader.DivisionId, DeliveryHeader.SiteId);
 
-            if (settings == null && UserRoles.Contains("Admin"))
+            if (settings == null && UserRoles.Contains("SysAdmin"))
             {
                 return RedirectToAction("Create", "SaleDeliverySetting", new { id = id }).Warning("Please create Sale Delivery settings");
             }
-            else if (settings == null && !UserRoles.Contains("Admin"))
+            else if (settings == null && !UserRoles.Contains("SysAdmin"))
             {
                 return View("~/Views/Shared/InValidSettings.cshtml");
             }

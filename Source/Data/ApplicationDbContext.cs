@@ -109,7 +109,7 @@ namespace Data.Models
         public DbSet<JobOrderPerk> JobOrderPerk { get; set; }
         public DbSet<JobOrderSettings> JobOrderSettings { get; set; }
         public DbSet<DocumentTypeSettings> DocumentTypeSettings { get; set; }
-        public DbSet<DocumentTypeAttribute> DocumentTypeAttribute { get; set; }
+        public DbSet<DocumentTypeHeaderAttribute> DocumentTypeHeaderAttribute { get; set; }
         public DbSet<LedgerSetting> LedgerSetting { get; set; }
         public DbSet<PurchaseOrderSetting> PurchaseOrderSetting { get; set; }
         public DbSet<PurchaseQuotationSetting> PurchaseQuotationSetting { get; set; }
@@ -163,6 +163,7 @@ namespace Data.Models
         public DbSet<City> City { get; set; }
         public DbSet<DocumentStatus> DocumentStatus { get; set; }
         public DbSet<Company> Company { get; set; }
+        public DbSet<CompanySettings> CompanySettings { get; set; }
         public DbSet<BusinessSession> BusinessSession { get; set; }
         public DbSet<CostCenter> CostCenter { get; set; }
         public DbSet<Country> Country { get; set; }
@@ -197,6 +198,7 @@ namespace Data.Models
         public DbSet<JobOrderLineStatus> JobOrderLineStatus { get; set; }
         public DbSet<JobOrderLineExtended> JobOrderLineExtended { get; set; }
         public DbSet<JobReceiveLineStatus> JobReceiveLineStatus { get; set; }
+        public DbSet<JobOrderHeaderAttributes> JobOrderHeaderAttributes { get; set; }
         public DbSet<JobOrderHeaderStatus> JobOrderHeaderStatus { get; set; }
         public DbSet<ProdOrderLineStatus> ProdOrderLineStatus { get; set; }
         public DbSet<ProdOrderHeaderStatus> ProdOrderHeaderStatus { get; set; }
@@ -218,6 +220,7 @@ namespace Data.Models
         public DbSet<ShipMethod> ShipMethod { get; set; }
         public DbSet<DocumentShipMethod> DocumentShipMethod { get; set; }
         public DbSet<Site> Site { get; set; }
+        public DbSet<SiteDivisionSettings> SiteDivisionSettings { get; set; }
         public DbSet<State> State { get; set; }
         public DbSet<Unit> Units { get; set; }
         public DbSet<UnitConversion> UnitConversion { get; set; }
@@ -440,6 +443,7 @@ namespace Data.Models
         public DbSet<JobReturnLine> JobReturnLine { get; set; }
         public DbSet<JobReturnBom> JobReturnBom { get; set; }
         public DbSet<JobInvoiceHeader> JobInvoiceHeader { get; set; }
+        public DbSet<JobInvoiceHeaderAttributes> JobInvoiceHeaderAttributes { get; set; }
         public DbSet<JobInvoiceLine> JobInvoiceLine { get; set; }
 
         public DbSet<JobInvoiceReturnHeader> JobInvoiceReturnHeader { get; set; }
@@ -513,6 +517,7 @@ namespace Data.Models
 
         //Stock Models
         public DbSet<StockHeader> StockHeader { get; set; }
+        public DbSet<StockHeaderAttributes> StockHeaderAttributes { get; set; }
         public DbSet<StockLine> StockLine { get; set; }
         public DbSet<Stock> Stock { get; set; }
         public DbSet<StockBalance> StockBalance { get; set; }
@@ -607,6 +612,7 @@ namespace Data.Models
 
 
         public DbSet<ViewStockInBalance> ViewStockInBalance { get; set; }
+        public DbSet<ViewStockProcessBalance> ViewStockProcessBalance { get; set; }
         public DbSet<ViewProductBuyer> ViewProductBuyer { get; set; }
         public DbSet<ViewSaleOrderBalanceForCancellation> ViewSaleOrderBalanceForCancellation { get; set; }
 

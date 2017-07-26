@@ -39,6 +39,7 @@ namespace Model.ViewModel
         public bool? Reviewed { get; set; }
         public DateTime CreatedDate { get; set; }
         public int? DecimalPlaces { get; set; }
+        public int? ReferenceDocId { get; set; }
     }
 
     public class GatePassHeaderViewModel1

@@ -474,6 +474,17 @@ namespace Web
                     StockViewModel.HeaderFromGodownId = null;
                     StockViewModel.HeaderGodownId = null;
                     StockViewModel.GodownId = Dl.GodownId;
+
+
+                    if (svm.StockInId != null)
+                    {
+                        var StockIn = (from L in db.Stock where L.StockId == svm.StockInId select L).FirstOrDefault();
+                        if (StockIn != null)
+                        {
+                            StockViewModel.ProcessId = StockIn.ProcessId;
+                        }
+                    }
+
                     //StockViewModel.ProcessId = Dl.FromProcessId;
                     StockViewModel.LotNo = svm.LotNo;
                     //StockViewModel.CostCenterId = svm.CostCenterId;
@@ -524,6 +535,7 @@ namespace Web
 
 
                     Pl.PackingHeaderId = Ph.PackingHeaderId;
+                    Pl.FromProcessId = StockViewModel.ProcessId;
                     Pl.CreatedBy = User.Identity.Name;
                     Pl.CreatedDate = DateTime.Now;
                     Pl.ModifiedBy = User.Identity.Name;
@@ -624,7 +636,20 @@ namespace Web
                         StockViewModel.HeaderFromGodownId = null;
                         StockViewModel.HeaderGodownId = null;
                         StockViewModel.GodownId = svm.GodownId;
+
+
+                        if (svm.StockInId != null)
+                        {
+                            var StockIn = (from L in db.Stock where L.StockId == svm.StockInId select L).FirstOrDefault();
+                            if (StockIn != null)
+                            {
+                                StockViewModel.ProcessId = StockIn.ProcessId;
+                            }
+                        }
                         //StockViewModel.ProcessId = Dl.FromProcessId;
+
+
+
                         StockViewModel.LotNo = svm.LotNo;
                         //StockViewModel.CostCenterId = Dh.CostCenterId;
                         StockViewModel.Qty_Iss = svm.Qty + (svm.LossQty ?? 0) + (svm.FreeQty ?? 0);
@@ -685,6 +710,14 @@ namespace Web
                     Pl.DealUnitId = svm.DealUnitId;
                     Pl.DealQty = svm.DealQty;
                     Pl.Remark = svm.Remark;
+                    if (svm.StockInId != null)
+                    {
+                        var StockIn = (from L in db.Stock where L.StockId == svm.StockInId select L).FirstOrDefault();
+                        if (StockIn != null)
+                        {
+                            Pl.FromProcessId = StockIn.ProcessId;
+                        }
+                    }
                     Pl.Specification = svm.Specification;
                     Pl.Dimension1Id = svm.Dimension1Id;
                     Pl.Dimension2Id = svm.Dimension2Id;
@@ -760,7 +793,7 @@ namespace Web
                 }
             }
             PrepareViewBag();
-            return PartialView("_Create", svm);
+            return PartialView("_CreateForSaleOrder", svm);
         }
 
 
@@ -1330,9 +1363,9 @@ namespace Web
             };
         }
 
-        public ActionResult GetFirstStockInForProduct(int SaleDispatchHeaderId, int ProductId, int Dimension1Id, int? Dimension2Id)//DocTypeId
+        public ActionResult GetFirstStockInForProduct(int SaleDispatchHeaderId, int GodownId, int ProductId, int? Dimension1Id, int? Dimension2Id)//DocTypeId
         {
-            var Query = _SaleDispatchLineService.GetPendingStockInForDispatch(SaleDispatchHeaderId, ProductId, Dimension1Id, Dimension2Id, "");
+            var Query = _SaleDispatchLineService.GetPendingStockInForDispatch(SaleDispatchHeaderId, GodownId, ProductId, Dimension1Id, Dimension2Id, "");
             var temp = Query.ToList();
 
             var count = Query.Count();
@@ -1355,9 +1388,9 @@ namespace Web
             }
         }
 
-        public ActionResult GetStockInForProduct(string searchTerm, int pageSize, int pageNum, int SaleDispatchHeaderId, int ProductId, int Dimension1Id, int? Dimension2Id)//DocTypeId
+        public ActionResult GetStockInForProduct(string searchTerm, int pageSize, int pageNum, int SaleDispatchHeaderId, int GodownId, int ProductId, int? Dimension1Id, int? Dimension2Id)//DocTypeId
         {
-            var Query = _SaleDispatchLineService.GetPendingStockInForDispatch(SaleDispatchHeaderId, ProductId, Dimension1Id, Dimension2Id, searchTerm);
+            var Query = _SaleDispatchLineService.GetPendingStockInForDispatch(SaleDispatchHeaderId, GodownId, ProductId, Dimension1Id, Dimension2Id, searchTerm);
             var temp = Query.Skip(pageSize * (pageNum - 1))
                 .Take(pageSize)
                 .ToList();

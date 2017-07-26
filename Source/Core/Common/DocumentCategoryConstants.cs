@@ -561,6 +561,7 @@ namespace Core.Common
         public const string CalculationLedgerAccount = "Calculation Ledger Account";
         public const string Charge = "Charge";
         public const string ChargeGroupProduct = "Charge Group Product";
+        public const string ChargeGroupSettings = "Charge Group Settings";
         public const string ChargeType = "Charge Type";
         public const string ProductConsumption = "Product Consumption";
         public const string ProductBuyer = "Product Buyer";

@@ -34,20 +34,29 @@ namespace Web
         }
         // GET: /DeliveryTermsMaster/       
 
-        private void PrepareViewBag()
+        private void PrepareViewBag(int ProductTypeId,string Routeid)
         {
-
+            var Caption= new ProductTypeSettingsService(_unitOfWork).GetProductTypeSettings(ProductTypeId);
+            
             List<SelectListItem> temp = new List<SelectListItem>();
-            temp.Add(new SelectListItem { Text = StockInHandGroupOnConstants.Dimension1, Value = StockInHandGroupOnConstants.Dimension1 });
-            temp.Add(new SelectListItem { Text = StockInHandGroupOnConstants.Dimension2, Value = StockInHandGroupOnConstants.Dimension2 });
-            temp.Add(new SelectListItem { Text = StockInHandGroupOnConstants.Dimension3, Value = StockInHandGroupOnConstants.Dimension3 });
-            temp.Add(new SelectListItem { Text = StockInHandGroupOnConstants.Dimension4, Value = StockInHandGroupOnConstants.Dimension4 });
-            temp.Add(new SelectListItem { Text = StockInHandGroupOnConstants.Godown, Value = StockInHandGroupOnConstants.Godown });
+            temp.Add(new SelectListItem { Text = Caption.Dimension1Caption.ToString()!="" ? Caption.Dimension1Caption.ToString() : StockInHandGroupOnConstants.Dimension1, Value = StockInHandGroupOnConstants.Dimension1 });
+            temp.Add(new SelectListItem { Text = Caption.Dimension2Caption.ToString() != "" ? Caption.Dimension2Caption.ToString() : StockInHandGroupOnConstants.Dimension2, Value = StockInHandGroupOnConstants.Dimension2 });
+            temp.Add(new SelectListItem { Text =Caption.Dimension3Caption.ToString() != "" ? Caption.Dimension3Caption.ToString() : StockInHandGroupOnConstants.Dimension3, Value = StockInHandGroupOnConstants.Dimension3 });
+            temp.Add(new SelectListItem { Text =Caption.Dimension4Caption.ToString() != "" ? Caption.Dimension4Caption.ToString() : StockInHandGroupOnConstants.Dimension4, Value = StockInHandGroupOnConstants.Dimension4 });
+            if (Routeid == "Stock")
+            {
+                temp.Add(new SelectListItem { Text = StockInHandGroupOnConstants.Godown, Value = StockInHandGroupOnConstants.Godown });
+            }
+            else
+            {
+                temp.Add(new SelectListItem { Text = StockInHandGroupOnConstants.Person, Value = StockInHandGroupOnConstants.Person });
+            }
             temp.Add(new SelectListItem { Text = StockInHandGroupOnConstants.LotNo, Value = StockInHandGroupOnConstants.LotNo });
             temp.Add(new SelectListItem { Text = StockInHandGroupOnConstants.Process, Value = StockInHandGroupOnConstants.Process });
             temp.Add(new SelectListItem { Text = StockInHandGroupOnConstants.Product, Value = StockInHandGroupOnConstants.Product });
-
             ViewBag.GroupOnList = new SelectList(temp, "Value", "Text");
+
+
 
             List<SelectListItem> shwBal = new List<SelectListItem>();
             shwBal.Add(new SelectListItem { Text = StockInHandShowBalanceConstants.GreaterThanZero, Value = StockInHandShowBalanceConstants.GreaterThanZero });
@@ -59,9 +68,14 @@ namespace Web
 
             ViewBag.ShowBalanceList = new SelectList(shwBal, "Value", "Text");
 
+        
+
+
+           
+
         }
 
-        public ActionResult Create(int? LedgerAccountGroupId, int? LedgerAccountId, int ProductTypeId,string ControllerName)
+        public ActionResult Create(int? LedgerAccountGroupId, int? LedgerAccountId, int ProductTypeId,string ControllerName,string Route)
         {
 
             //if (LedgerAccountGroupId.HasValue && LedgerAccountGroupId.Value > 0)
@@ -70,12 +84,13 @@ namespace Web
             //    System.Web.HttpContext.Current.Session["LedgerAccountId"] = LedgerAccountId.Value;
             ViewBag.id = ProductTypeId;
             System.Web.HttpContext.Current.Session["ProductTypeId"] = ProductTypeId;
+            System.Web.HttpContext.Current.Session["Route"] = Route;
             System.Web.HttpContext.Current.Session["ControllerName"] = ControllerName.ToString();
-
+            
             string UserName = User.Identity.Name;
 
-            var Settings = _StockInHandSettingService.GetTrailBalanceSetting(UserName);
-            PrepareViewBag();
+            var Settings = _StockInHandSettingService.GetTrailBalanceSetting(UserName, ProductTypeId, Route);
+            PrepareViewBag(ProductTypeId, Route);
             if (Settings == null)
             {
                 StockInHandSetting settings = new StockInHandSetting();
@@ -85,10 +100,14 @@ namespace Web
                 settings.FromDate = new DocumentTypeService(_unitOfWork).GetFinYearStart();
                 settings.GroupOn = StockInHandGroupOnConstants.Product;
                 settings.ShowBalance= StockInHandShowBalanceConstants.All;
+                settings.ProductTypeId = ProductTypeId;
+                settings.TableName = Route;
+                settings.ShowOpening = false;
                 return View("Create", settings);
             }
             else
             {
+                
                 return View("Create", Settings);
             }
 
@@ -108,6 +127,7 @@ namespace Web
 
             int ProductTypeId = (int)System.Web.HttpContext.Current.Session["ProductTypeId"];
             string ControllerName= (string)System.Web.HttpContext.Current.Session["ControllerName"];
+            string Routeid=(string)System.Web.HttpContext.Current.Session["Route"];
             ViewBag.id = ProductTypeId;
 
             if (!vm.FromDate.HasValue)
@@ -136,7 +156,7 @@ namespace Web
                     {
                         string message = _exception.HandleException(ex);
                         ModelState.AddModelError("", message);
-                        PrepareViewBag();
+                        PrepareViewBag(ProductTypeId, Routeid);
                         return View("Create", vm);
                     }
 
@@ -156,7 +176,7 @@ namespace Web
                     }
                     else if (ControllerName == "StockInHandDisplay")
                     {
-                        return RedirectToAction("GetStockInHand", "StockInHandDisplay", new { id = ProductTypeId }).Success("Data saved successfully");
+                        return RedirectToAction("GetStockInHand", "StockInHandDisplay", new { id = ProductTypeId, Routeid = Routeid }).Success("Data saved successfully");
                     }
                     else
                     {
@@ -177,7 +197,7 @@ namespace Web
                     {
                         string message = _exception.HandleException(ex);
                         ModelState.AddModelError("", message);
-                        PrepareViewBag();
+                        PrepareViewBag(ProductTypeId, Routeid);
                         return View("Create", vm);
                     }
 
@@ -197,7 +217,7 @@ namespace Web
                     }
                     else if (ControllerName == "StockInHandDisplay")
                     {
-                        return RedirectToAction("GetStockInHand", "StockInHandDisplay", new { id = ProductTypeId }).Success("Data saved successfully");
+                        return RedirectToAction("GetStockInHand", "StockInHandDisplay", new { id = ProductTypeId,Routeid = Routeid }).Success("Data saved successfully");
                     }
                     else
                     {
@@ -210,7 +230,7 @@ namespace Web
             }
             else
             {
-                PrepareViewBag();
+                PrepareViewBag(ProductTypeId, Routeid);
                 return View("Create", vm);
             }
         }

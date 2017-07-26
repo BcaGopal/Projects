@@ -52,8 +52,8 @@ namespace Web
         // GET: /JobOrderSettingsMaster/Create
 
         public ActionResult Create(int id)//DocTypeId
-        {            
-            if (!UserRoles.Contains("Admin"))
+        {
+            if (!UserRoles.Contains("SysAdmin"))
             {
                 return View("~/Views/Shared/InValidSettings.cshtml");
             }
@@ -191,6 +191,7 @@ namespace Web
                     temp.isVisibleLotNo = pt.isVisibleLotNo;
                     temp.isVisibleMachine = pt.isVisibleMachine;
                     temp.isVisibleProductUID = pt.isVisibleProductUID;
+                    temp.isVisibleStockIn = pt.isVisibleStockIn;
                     temp.isVisibleRate = pt.isVisibleRate;
                     temp.isVisibleDealUnit = pt.isVisibleDealUnit;
                     temp.isVisibleLineDueDate = pt.isVisibleLineDueDate;

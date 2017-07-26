@@ -36,9 +36,6 @@ namespace Model.Models
         public int ChargeGroupProductId { get; set; }
         public virtual ChargeGroupProduct ChargeGroupProduct { get; set; }
 
-        [ForeignKey("ChargableLedgerAccount")]
-        public int ChargableLedgerAccountId { get; set; }
-        public virtual LedgerAccount ChargableLedgerAccount { get; set; }
         public Decimal ChargePer { get; set; }
 
         [ForeignKey("ChargeLedgerAccount")]

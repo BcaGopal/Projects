@@ -156,6 +156,9 @@
                         </div>
                     </div>
 
+
+
+
                     <div class="col-md-6" style="display:@(Model.JobInvoiceSettings.isVisibleLotNo ? "" : "none")">
                         @Html.HiddenFor(m => m.JobInvoiceSettings.isVisibleLotNo)
                         <div class="form-group">
@@ -289,6 +292,17 @@
                         </div>
                     </div>
 
+                    <div class="col-md-6" style="display:@(Model.JobInvoiceSettings.isVisibleSalesTaxGroupProduct?"":"none")">
+                        @Html.HiddenFor(m => m.JobInvoiceSettings.isVisibleSalesTaxGroupProduct)
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.SalesTaxGroupProductId, "Sales Tax Group Product", new { @class = "control-label col-md-4 col-sm-2" })
+                            <div class="col-md-7 col-sm-10">
+                                @Html.TextBoxFor(model => model.SalesTaxGroupProductId, new { @class = "form-control required" })
+                                @Html.ValidationMessageFor(model => model.SalesTaxGroupProductId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="col-md-6" style="display:@(Model.JobInvoiceSettings.isVisiblePenalty ? "" : "none")">
                         <div class="form-group">
                             @Html.LabelFor(model => model.PenaltyRate, "Penality", new { @class = "control-label col-md-4 col-sm-2" })
@@ -411,6 +425,7 @@ else
 
     $(document).ready(function () {
         CustomSelectFunction($("#CostCenterId"), '/ComboHelpList/GetCostCenter', '/ComboHelpList/SetSingleCostCenter', ' ', false, 0);
+        CustomSelectFunction($("#SalesTaxGroupProductId"), '/ComboHelpList/GetSalesTaxGroupProduct', '/ComboHelpList/SetSingleSalesTaxGroupProduct', ' ', false, 0);
 
         if ($('#JobInvoiceSettings_SqlProcProductUidHelpList', '.modal-body').val() != null && $('#JobInvoiceSettings_SqlProcProductUidHelpList', '.modal-body').val() != "")
         {
@@ -592,6 +607,7 @@ else
                             $("#Dimension4Name").val(data.Dimension4Name)
                         }
 
+                        (data.SalesTaxGroupProductId==null)?(1==1):($("#SalesTaxGroupProductId").select2("data", {id: data.SalesTaxGroupProductId, text: data.SalesTaxGroupProductName}));
                         CopyOrderCharges(data.RHeaderCharges,data.RLineCharges);
 
                         //LockFields();

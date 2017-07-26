@@ -239,7 +239,7 @@ namespace Web
                 TempData["CSEXC"] += "Product is already created.";
             }
             
-            if(!SizeExists || UserRoles.Contains("Admin"))
+            if(!SizeExists)
             {
                 ViewBag.Mode = "Edit";
             }

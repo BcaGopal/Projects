@@ -267,6 +267,9 @@ namespace Sales.App_Start
             Mapper.CreateMap<BuyerViewModel, LedgerAccount>();
             Mapper.CreateMap<LedgerAccount, BuyerViewModel>();
 
+            Mapper.CreateMap<LineChargeViewModel, SaleInvoiceLineCharge>().ForMember(m => m.Id, x => x.Ignore());
+            Mapper.CreateMap<SaleInvoiceLineCharge, LineChargeViewModel>().ForMember(m => m.Id, x => x.Ignore());
+
 
 
 
@@ -452,8 +455,8 @@ namespace Sales.App_Start
             Mapper.CreateMap<DirectSaleInvoiceHeaderViewModel, SaleDispatchHeader>();
             Mapper.CreateMap<SaleDispatchHeader, DirectSaleInvoiceHeaderViewModel>();
 
-            Mapper.CreateMap<DocumentTypeAttributeViewModel, DocumentTypeAttribute>();
-            Mapper.CreateMap<DocumentTypeAttribute, DocumentTypeAttributeViewModel>();
+            Mapper.CreateMap<DocumentTypeHeaderAttributeViewModel, DocumentTypeHeaderAttribute>();
+            Mapper.CreateMap<DocumentTypeHeaderAttribute, DocumentTypeHeaderAttributeViewModel>();
 
 
 

@@ -183,11 +183,11 @@ namespace Web
             //Getting Settings
             var settings = new LedgerSettingService(_unitOfWork).GetLedgerSettingForDocument(id, vm.DivisionId, vm.SiteId);
 
-            if (settings == null && UserRoles.Contains("Admin"))
+            if (settings == null && UserRoles.Contains("SysAdmin"))
             {
                 return RedirectToAction("Create", "LedgerSetting", new { id = id }).Warning("Please create Ledger settings");
             }
-            else if (settings == null && !UserRoles.Contains("Admin"))
+            else if (settings == null && !UserRoles.Contains("SysAdmin"))
             {
                 return View("~/Views/Shared/InValidSettings.cshtml");
             }
@@ -420,8 +420,8 @@ namespace Web
                                        select p).ToList();
 
                         //UpdatingLedgerPosting::
-                        //foreach (var item in Ledgers.Where(m => m.ContraLedgerAccountId == LedgerAccountId && Nature == NatureConstants.Credit ? m.AmtDr > 0 : m.AmtCr > 0))
-                        foreach (var item in Ledgers.Where(m => m.ContraLedgerAccountId == LedgerAccountId))
+                        foreach (var item in Ledgers.Where(m => m.ContraLedgerAccountId == LedgerAccountId && (Nature == NatureConstants.Credit ? m.AmtDr > 0 : m.AmtCr > 0)))
+                        //foreach (var item in Ledgers.Where(m => m.ContraLedgerAccountId == LedgerAccountId))
                         {
                             item.ContraLedgerAccountId = temp.LedgerAccountId;
                             item.ObjectState = Model.ObjectState.Modified;
@@ -429,8 +429,8 @@ namespace Web
                         }
 
                         //UpdatingContraLedgerPosting::
-                        //foreach (var item in Ledgers.Where(m => m.LedgerAccountId == LedgerAccountId && Nature == NatureConstants.Credit ? m.AmtCr > 0 : m.AmtDr > 0))
-                        foreach (var item in Ledgers.Where(m => m.LedgerAccountId == LedgerAccountId))
+                        foreach (var item in Ledgers.Where(m => m.LedgerAccountId == LedgerAccountId && (Nature == NatureConstants.Credit ? m.AmtCr > 0 : m.AmtDr > 0)))
+                        //foreach (var item in Ledgers.Where(m => m.LedgerAccountId == LedgerAccountId))
                         {
                             item.LedgerAccountId = temp.LedgerAccountId.Value;
                             item.ObjectState = Model.ObjectState.Modified;
@@ -591,11 +591,11 @@ namespace Web
             //Job Order Settings
             var settings = new LedgerSettingService(_unitOfWork).GetLedgerSettingForDocument(pt.DocTypeId, pt.DivisionId, pt.SiteId);
 
-            if (settings == null && UserRoles.Contains("Admin"))
+            if (settings == null && UserRoles.Contains("SysAdmin"))
             {
                 return RedirectToAction("Create", "LedgerSetting", new { id = pt.DocTypeId }).Warning("Please create Ledger settings");
             }
-            else if (settings == null && !UserRoles.Contains("Admin"))
+            else if (settings == null && !UserRoles.Contains("SysAdmin"))
             {
                 return View("~/Views/Shared/InValidSettings.cshtml");
             }

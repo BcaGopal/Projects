@@ -280,11 +280,11 @@ namespace Planning.Controllers
             //Getting Settings
             var settings = new ProdOrderSettingsService(_unitOfWork).GetProdOrderSettingsForDocument(id, s.DivisionId, s.SiteId);
 
-            if (settings == null && UserRoles.Contains("Admin"))
+            if (settings == null && UserRoles.Contains("SysAdmin"))
             {
                 return RedirectToAction("CreateForCancel", "ProdOrderSettings", new { id = id }).Warning("Please create job order cancel settings");
             }
-            else if (settings == null && !UserRoles.Contains("Admin"))
+            else if (settings == null && !UserRoles.Contains("SysAdmin"))
             {
                 return View("~/Views/Shared/InValidSettings.cshtml");
             }
@@ -495,11 +495,11 @@ namespace Planning.Controllers
             }
             //Getting Settings
             var settings = new ProdOrderSettingsService(_unitOfWork).GetProdOrderSettingsForDocument(s.DocTypeId, s.DivisionId, s.SiteId);
-            if (settings == null && UserRoles.Contains("Admin"))
+            if (settings == null && UserRoles.Contains("SysAdmin"))
             {
                 return RedirectToAction("CreateForCancel", "ProdOrderSettings", new { id = s.DocTypeId }).Warning("Please create Prod Order cancel settings");
             }
-            else if (settings == null && !UserRoles.Contains("Admin"))
+            else if (settings == null && !UserRoles.Contains("SysAdmin"))
             {
                 return View("~/Views/Shared/InValidSettings.cshtml");
             }

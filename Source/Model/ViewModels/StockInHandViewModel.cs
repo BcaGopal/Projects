@@ -19,7 +19,7 @@ namespace Model.ViewModel
         public string ProductGroupName { get; set; }
         public int ? ProductId { get; set; }
         public string UnitName { get; set; }
-        public byte ? UnitDecimalPlaces { get; set; }
+        public int ? UnitDecimalPlaces { get; set; }
         public string SiteName { get; set; }
         public string DivisionName { get; set; }
         public string GodownName { get; set; }
@@ -40,6 +40,18 @@ namespace Model.ViewModel
         public decimal RecQty { get; set; }
         public decimal IssQty { get; set; }
         public decimal BalQty { get; set; }
+
+        public string ReportName { get; set; }
+        public string ReportTitle { get; set; }
+
+        public string SubReportProcList { get; set; }
+
+        public string Name { get; set; }
+
+        public int? PersonId { get; set; }
+
     }
+
+
 
 }

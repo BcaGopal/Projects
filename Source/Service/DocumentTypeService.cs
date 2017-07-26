@@ -35,7 +35,7 @@ namespace Service
         int NextId(int id);
         int PrevId(int id);
 
-        IEnumerable<DocumentTypeAttributeViewModel> GetAttributeForDocumentType(int DocumentTypeId);
+        IEnumerable<DocumentTypeHeaderAttributeViewModel> GetDocumentTypeHeaderAttribute(int DocumentTypeId);
     }
 
     public class DocumentTypeService : IDocumentTypeService
@@ -244,19 +244,21 @@ namespace Service
             }
         }
 
-        public IEnumerable<DocumentTypeAttributeViewModel> GetAttributeForDocumentType(int DocumentTypeId)
+        public IEnumerable<DocumentTypeHeaderAttributeViewModel> GetDocumentTypeHeaderAttribute(int DocumentTypeId)
         {
-            return (from p in _unitOfWork.Repository<DocumentTypeAttribute>().Instance
+            return (from p in _unitOfWork.Repository<DocumentTypeHeaderAttribute>().Instance
                     where p.DocumentTypeId == DocumentTypeId
-                    select new DocumentTypeAttributeViewModel
+                    select new DocumentTypeHeaderAttributeViewModel
                     {
                         DataType = p.DataType,
                         ListItem = p.ListItem,
-                        DefaultValue = p.DefaultValue,
+                        Value = p.Value,
                         Name = p.Name,
-                        DocumentTypeAttributeId = p.DocumentTypeAttributeId,
+                        DocumentTypeHeaderAttributeId = p.DocumentTypeHeaderAttributeId,
                         DocumentTypeId = p.DocumentTypeId,
                     });
         }
+
+
     }
 }
