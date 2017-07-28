@@ -22,10 +22,10 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>CompanyName</rd:DefaultName>
-        <Top>0.03541in</Top>
-        <Left>0.86958in</Left>
+        <Top>0.0125in</Top>
+        <Left>0.80708in</Left>
         <Height>0.16667in</Height>
-        <Width>2.01973in</Width>
+        <Width>2.97111in</Width>
         <Style>
           <Border>
             <Style>None</Style>
@@ -55,10 +55,10 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>CompanyAddress</rd:DefaultName>
-        <Top>0.17014in</Top>
-        <Left>0.87639in</Left>
-        <Height>0.56527in</Height>
-        <Width>2.03375in</Width>
+        <Top>0.17223in</Top>
+        <Left>0.83056in</Left>
+        <Height>0.6in</Height>
+        <Width>2.94763in</Width>
         <ZIndex>1</ZIndex>
         <Style>
           <Border>
@@ -77,10 +77,16 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>="TIN No.     : " + First(Fields!CompanyTinNo.Value, "DsMain") + System.Environment.NewLine
-                  +"CST No.     : " + First(Fields!CompanyCSTNo.Value, "DsMain") + System.Environment.NewLine
+                <Value>=iif(First(Fields!ReportHeaderTextRight1.Value, "DsMain") &lt;&gt; "",First(Fields!ReportHeaderTextRight1.Value, "DsMain"),"") +
+iif(First(Fields!ReportHeaderTextRight1.Value, "DsMain") &lt;&gt; "",System.Environment.NewLine,"") +
+iif(First(Fields!ReportHeaderTextRight2.Value, "DsMain") &lt;&gt; "",First(Fields!ReportHeaderTextRight2.Value, "DsMain"),"") +
+iif(First(Fields!ReportHeaderTextRight2.Value, "DsMain") &lt;&gt; "",System.Environment.NewLine,"") +
+iif(First(Fields!ReportHeaderTextRight2.Value, "DsMain") &lt;&gt; "",First(Fields!ReportHeaderTextRight3.Value, "DsMain"),"") +
+iif(First(Fields!ReportHeaderTextRight3.Value, "DsMain") &lt;&gt; "",System.Environment.NewLine,"") +
+iif(First(Fields!ReportHeaderTextRight4.Value, "DsMain") &lt;&gt; "",First(Fields!ReportHeaderTextRight4.Value, "DsMain"),"") +
+iif(First(Fields!ReportHeaderTextRight4.Value, "DsMain") &lt;&gt; "",System.Environment.NewLine,"") 
                   +"DIVISION : " + First(Fields!DivisionName.Value, "DsMain") + System.Environment.NewLine
-                  +"SITE          : " + First(Fields!SiteName.Value, "DsMain")</Value>
+                  +"SITE : " + First(Fields!SiteName.Value, "DsMain")</Value>
                 <Style>
                   <FontFamily>Tahoma</FontFamily>
                   <FontSize>8pt</FontSize>
@@ -89,15 +95,15 @@
               </TextRun>
             </TextRuns>
             <Style>
-              <TextAlign>Left</TextAlign>
+              <TextAlign>Right</TextAlign>
             </Style>
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>CompanyTinNo</rd:DefaultName>
-        <Top>0.03541in</Top>
-        <Left>3.43375in</Left>
-        <Height>0.7in</Height>
-        <Width>2.01042in</Width>
+        <Top>0.0125in</Top>
+        <Left>3.26499in</Left>
+        <Height>0.75in</Height>
+        <Width>2.26043in</Width>
         <ZIndex>2</ZIndex>
         <Style>
           <Border>
@@ -110,8 +116,10 @@
         <Source>External</Source>
         <Value>="file:"+ Fields!CompanyLogoPath.Value</Value>
         <Sizing>FitProportional</Sizing>
-        <Height>0.8in</Height>
-        <Width>0.8in</Width>
+        <Top>0.0125in</Top>
+        <Left>0.0125in</Left>
+        <Height>0.75973in</Height>
+        <Width>0.7668in</Width>
         <ZIndex>3</ZIndex>
         <Style>
           <Border>
@@ -120,10 +128,10 @@
         </Style>
       </Image>
     </ReportItems>
-    <Height>0.8in</Height>
+    <Height>0.8125in</Height>
     <Style />
   </Body>
-  <Width>5.50917in</Width>
+  <Width>5.56125in</Width>
   <Page>
     <PageHeight>11.69in</PageHeight>
     <PageWidth>8.27in</PageWidth>
@@ -191,6 +199,30 @@
         <Field Name="CompanyFaxNo">
           <DataField>CompanyFaxNo</DataField>
           <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CompanyCountry">
+          <DataField>CompanyCountry</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CompanyLogoPath">
+          <DataField>CompanyLogoPath</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="ReportHeaderTextRight1">
+          <DataField>ReportHeaderTextRight1</DataField>
+          <rd:UserDefined>true</rd:UserDefined>
+        </Field>
+        <Field Name="ReportHeaderTextRight2">
+          <DataField>ReportHeaderTextRight2</DataField>
+          <rd:UserDefined>true</rd:UserDefined>
+        </Field>
+        <Field Name="ReportHeaderTextRight3">
+          <DataField>ReportHeaderTextRight3</DataField>
+          <rd:UserDefined>true</rd:UserDefined>
+        </Field>
+        <Field Name="ReportHeaderTextRight4">
+          <DataField>ReportHeaderTextRight4</DataField>
+          <rd:UserDefined>true</rd:UserDefined>
         </Field>
       </Fields>
       <rd:DataSetInfo>
