@@ -61,24 +61,26 @@ namespace Model.Models
 
         public bool CalculateDiscountOnRate { get; set; }        
 
-        [ForeignKey("SalesTaxGroup")]
-        public int? SalesTaxGroupId { get; set; }
-        public virtual ChargeGroupPerson SalesTaxGroup { get; set; }
+        //[ForeignKey("SalesTaxGroup")]
+        //public int? SalesTaxGroupId { get; set; }
+        //public virtual ChargeGroupPerson SalesTaxGroup { get; set; }
 
-        [ForeignKey("SalesTaxGroupParty")]
-        public int? SalesTaxGroupPartyId { get; set; }
-        public virtual SalesTaxGroupParty SalesTaxGroupParty { get; set; }
+        //[ForeignKey("SalesTaxGroupParty")]
+        //public int? SalesTaxGroupPartyId { get; set; }
+        //public virtual SalesTaxGroupParty SalesTaxGroupParty { get; set; }
 
-        [Display(Name = "Currency"), Required]
-        [ForeignKey("Currency")]
-        public int CurrencyId { get; set; }
-        public virtual Currency Currency { get; set; }
+        //[Display(Name = "Currency"), Required]
+        //[ForeignKey("Currency")]
+        //public int CurrencyId { get; set; }
+        //public virtual Currency Currency { get; set; }
 
 
         [ForeignKey("SaleDispatchReturnHeader")]
         [Display(Name = "Sale Goods Return")]
         public int? SaleDispatchReturnHeaderId { get; set; }
         public virtual SaleDispatchReturnHeader SaleDispatchReturnHeader { get; set; }
+        [MaxLength(20)]
+        public string Nature { get; set; }
 
         [Display(Name = "Remark"),Required]
         public string Remark { get; set; }

@@ -30,7 +30,8 @@ namespace Service
         IQueryable<ComboBoxResult> GetPendingSaleEnquiryHelpList(int Id, string term);//PurchaseOrderHeaderId
 
         IEnumerable<SaleEnquiryHeaderListViewModel> GetPendingSaleEnquiriesWithPatternMatch(int Id, string term, int Limiter);
-        IEnumerable<ComboBoxList> GetProductHelpList(int Id, string term);
+        //IEnumerable<ComboBoxList> GetProductHelpList(int Id, string term);
+        IQueryable<ComboBoxResult> GetCustomProducts(int Id, string term);
         int GetMaxSr(int id);
 
         decimal GetUnitConversionForSaleEnquiryLine(int ProdLineId, byte UnitConvForId, string DealUnitId);
@@ -100,6 +101,10 @@ namespace Service
                             LockReason = p.LockReason,
                             Rate = p.Rate,
                             Amount = p.Amount,
+                            SalesTaxGroupProductId = p.SalesTaxGroupProductId,
+                            SalesTaxGroupPersonId = p.SaleQuotationHeader.SalesTaxGroupPersonId,
+                            DiscountPer = p.DiscountPer,
+                            DiscountAmount = p.DiscountAmount,
                             UnitId = p.Product.UnitId,
                             UnitName = p.Product.Unit.UnitName,
                             UnitConversionMultiplier = p.UnitConversionMultiplier ?? 0,
@@ -483,45 +488,83 @@ namespace Service
             return (list);
         }
 
-        public IEnumerable<ComboBoxList> GetProductHelpList(int Id, string term)
+        //public IEnumerable<ComboBoxList> GetProductHelpList(int Id, string term)
+        //{
+        //    var SaleQuotation = new SaleQuotationHeaderService(_unitOfWork).Find(Id);
+
+        //    var settings = new SaleQuotationSettingsService(_unitOfWork).GetSaleQuotationSettingsForDocument(SaleQuotation.DocTypeId, SaleQuotation.DivisionId, SaleQuotation.SiteId);
+
+        //    string settingProductTypes = "";
+        //    string settingProductDivision = "";
+
+
+        //    if (!string.IsNullOrEmpty(settings.filterProductTypes)) { settingProductTypes = "|" + settings.filterProductTypes.Replace(",", "|,|") + "|"; }
+        //    if (!string.IsNullOrEmpty(settings.FilterProductDivision)) { settingProductDivision = "|" + settings.FilterProductDivision.Replace(",", "|,|") + "|"; }
+
+
+        //    string[] ProductTypes = null;
+        //    if (!string.IsNullOrEmpty(settings.filterProductTypes)) { ProductTypes = settingProductTypes.Split(",".ToCharArray()); }
+        //    else { ProductTypes = new string[] { "NA" }; }
+
+        //    string[] ProductDivision = null;
+        //    if (!string.IsNullOrEmpty(settings.FilterProductDivision)) { ProductDivision = settingProductDivision.Split(",".ToCharArray()); }
+        //    else { ProductDivision = new string[] { "NA" }; }
+
+
+
+
+        //    var list = (from p in db.Product
+        //                join Fp in db.FinishedProduct on p.ProductId equals Fp.ProductId into FinishedProductTable from FinishedProductTab in FinishedProductTable.DefaultIfEmpty()
+        //                where (string.IsNullOrEmpty(term) ? 1 == 1 : p.ProductName.ToLower().Contains(term.ToLower()))
+        //                && (string.IsNullOrEmpty(settings.filterProductTypes) ? 1 == 1 : ProductTypes.Contains("|" + p.ProductGroup.ProductTypeId.ToString() + "|"))
+        //                && (string.IsNullOrEmpty(settings.FilterProductDivision) ? 1 == 1 : ProductDivision.Contains("|" + p.DivisionId.ToString() + "|"))
+        //                group new { p } by p.ProductId into g
+        //                select new ComboBoxList
+        //                {
+        //                    PropFirst = g.Max(m => m.p.ProductName),
+        //                    Id = g.Key,
+        //                }
+        //                  ).Take(20);
+
+        //    return list.ToList();
+        //}
+
+        public IQueryable<ComboBoxResult> GetCustomProducts(int Id, string term)
         {
             var SaleQuotation = new SaleQuotationHeaderService(_unitOfWork).Find(Id);
 
             var settings = new SaleQuotationSettingsService(_unitOfWork).GetSaleQuotationSettingsForDocument(SaleQuotation.DocTypeId, SaleQuotation.DivisionId, SaleQuotation.SiteId);
 
-            string settingProductTypes = "";
-            string settingProductDivision = "";
-
-
-            if (!string.IsNullOrEmpty(settings.filterProductTypes)) { settingProductTypes = "|" + settings.filterProductTypes.Replace(",", "|,|") + "|"; }
-            if (!string.IsNullOrEmpty(settings.FilterProductDivision)) { settingProductDivision = "|" + settings.FilterProductDivision.Replace(",", "|,|") + "|"; }
-
-
             string[] ProductTypes = null;
-            if (!string.IsNullOrEmpty(settings.filterProductTypes)) { ProductTypes = settingProductTypes.Split(",".ToCharArray()); }
+            if (!string.IsNullOrEmpty(settings.filterProductTypes)) { ProductTypes = settings.filterProductTypes.Split(",".ToCharArray()); }
             else { ProductTypes = new string[] { "NA" }; }
 
+            string[] ProductGroups = null;
+            if (!string.IsNullOrEmpty(settings.filterProductGroups)) { ProductGroups = settings.filterProductGroups.Split(",".ToCharArray()); }
+            else { ProductGroups = new string[] { "NA" }; }
+
             string[] ProductDivision = null;
-            if (!string.IsNullOrEmpty(settings.FilterProductDivision)) { ProductDivision = settingProductDivision.Split(",".ToCharArray()); }
+            if (!string.IsNullOrEmpty(settings.FilterProductDivision)) { ProductDivision = settings.FilterProductDivision.Split(",".ToCharArray()); }
             else { ProductDivision = new string[] { "NA" }; }
 
+            string[] ProductCategory = null;
+            if (!string.IsNullOrEmpty(settings.filterProductCategories)) { ProductCategory = settings.filterProductCategories.Split(",".ToCharArray()); }
+            else { ProductCategory = new string[] { "NA" }; }
 
-
-
-            var list = (from p in db.Product
-                        join Fp in db.FinishedProduct on p.ProductId equals Fp.ProductId into FinishedProductTable from FinishedProductTab in FinishedProductTable.DefaultIfEmpty()
-                        where (string.IsNullOrEmpty(term) ? 1 == 1 : p.ProductName.ToLower().Contains(term.ToLower()))
-                        && (string.IsNullOrEmpty(settings.filterProductTypes) ? 1 == 1 : ProductTypes.Contains("|" + p.ProductGroup.ProductTypeId.ToString() + "|"))
-                        && (string.IsNullOrEmpty(settings.FilterProductDivision) ? 1 == 1 : ProductDivision.Contains("|" + p.DivisionId.ToString() + "|"))
-                        group new { p } by p.ProductId into g
-                        select new ComboBoxList
-                        {
-                            PropFirst = g.Max(m => m.p.ProductName),
-                            Id = g.Key,
-                        }
-                          ).Take(20);
-
-            return list.ToList();
+            return (from p in db.Product
+                    where (string.IsNullOrEmpty(settings.filterProductTypes) ? 1 == 1 : ProductTypes.Contains(p.ProductGroup.ProductTypeId.ToString()))
+                    && (string.IsNullOrEmpty(settings.filterProductGroups) ? 1 == 1 : ProductGroups.Contains(p.ProductGroupId.ToString()))
+                    && (string.IsNullOrEmpty(settings.filterProductCategories) ? 1 == 1 : ProductCategory.Contains(p.ProductCategoryId.ToString()))
+                    && (string.IsNullOrEmpty(settings.FilterProductDivision) ? 1 == 1 : ProductDivision.Contains(p.DivisionId.ToString()))
+                    && (string.IsNullOrEmpty(term) ? 1 == 1 : p.ProductName.ToLower().Contains(term.ToLower())
+                        || string.IsNullOrEmpty(term) ? 1 == 1 : p.ProductGroup.ProductGroupName.ToLower().Contains(term.ToLower()))
+                    orderby p.ProductName
+                    select new ComboBoxResult
+                    {
+                        id = p.ProductId.ToString(),
+                        text = p.ProductName,
+                        AProp1 = p.ProductGroup.ProductGroupName,
+                    });
         }
 
         public int GetMaxSr(int id)

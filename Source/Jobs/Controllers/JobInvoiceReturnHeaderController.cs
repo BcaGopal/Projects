@@ -121,7 +121,6 @@ namespace Web
             ViewBag.Name = new DocumentTypeService(_unitOfWork).Find(id).DocumentTypeName;
             ViewBag.id = id;
             ViewBag.CurrencyList = new CurrencyService(_unitOfWork).GetCurrencyList().ToList();
-            ViewBag.SalesTaxGroupList = new ChargeGroupPersonService(_unitOfWork).GetChargeGroupPersonList((int)(ChargeTypeConstants.SalesTax)).ToList();
             ViewBag.ReasonList = new ReasonService(_unitOfWork).FindByDocumentType(id).ToList();
             var DivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
             var SiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
@@ -147,6 +146,12 @@ namespace Web
             vm.SiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
             vm.CreatedDate = DateTime.Now;
 
+            DocumentType DocType = new DocumentTypeService(_unitOfWork).Find(id);
+            if (DocType != null)
+            {
+                vm.Nature = DocType.Nature ?? TransactionNatureConstants.Return;
+            }
+
             //Getting Settings
             var settings = new JobInvoiceSettingsService(_unitOfWork).GetJobInvoiceSettingsForDocument(id, vm.DivisionId, vm.SiteId);
 
@@ -162,6 +167,11 @@ namespace Web
 
             if (System.Web.HttpContext.Current.Session["DefaultGodownId"] != null)
                 vm.GodownId = (int)System.Web.HttpContext.Current.Session["DefaultGodownId"];
+
+            if (settings != null)
+            {
+                vm.SalesTaxGroupPersonId = settings.SalesTaxGroupPersonId;
+            }
 
             vm.DocTypeId = id;
             vm.ProcessId = settings.ProcessId;
@@ -181,8 +191,11 @@ namespace Web
         {
             JobInvoiceReturnHeader pt = AutoMapper.Mapper.Map<JobInvoiceReturnHeaderViewModel, JobInvoiceReturnHeader>(vm);
 
-            if (vm.GodownId <= 0)
-                ModelState.AddModelError("GodownId", "The Godown field is required");
+            if (vm.Nature == TransactionNatureConstants.Return)
+            {
+                if (vm.GodownId <= 0)
+                    ModelState.AddModelError("GodownId", "The Godown field is required");
+            }
 
             #region BeforeSave
             bool BeforeSave = true;
@@ -233,26 +246,29 @@ namespace Web
                 #region CreateRecord
                 if (vm.JobInvoiceReturnHeaderId <= 0)
                 {
+                    if (vm.Nature == TransactionNatureConstants.Return)
+                    {
+                        JobReturnHeader GoodsRet = Mapper.Map<JobInvoiceReturnHeaderViewModel, JobReturnHeader>(vm);
 
-                    JobReturnHeader GoodsRet = Mapper.Map<JobInvoiceReturnHeaderViewModel, JobReturnHeader>(vm);
+                        GoodsRet.DocTypeId = vm.JobInvoiceSettings.JobReturnDocTypeId ?? 0;
+                        GoodsRet.DocNo = new DocumentTypeService(_unitOfWork).FGetNewDocNo("DocNo", ConfigurationManager.AppSettings["DataBaseSchema"] + ".JobReturnHeaders", GoodsRet.DocTypeId, vm.DocDate, vm.DivisionId, vm.SiteId);
+                        GoodsRet.CreatedDate = DateTime.Now;
+                        GoodsRet.ModifiedDate = DateTime.Now;
+                        GoodsRet.CreatedBy = User.Identity.Name;
+                        GoodsRet.ModifiedBy = User.Identity.Name;
+                        GoodsRet.Status = (int)StatusConstants.System;
+                        GoodsRet.ObjectState = Model.ObjectState.Added;
+                        db.JobReturnHeader.Add(GoodsRet);
+                        pt.JobReturnHeaderId = GoodsRet.JobReturnHeaderId;
+                        //new JobReturnHeaderService(_unitOfWork).Create(GoodsRet);
+                    }
 
-                    GoodsRet.DocTypeId = vm.JobInvoiceSettings.JobReturnDocTypeId ?? 0;
-                    GoodsRet.DocNo = new DocumentTypeService(_unitOfWork).FGetNewDocNo("DocNo", ConfigurationManager.AppSettings["DataBaseSchema"] + ".JobReturnHeaders", GoodsRet.DocTypeId, vm.DocDate, vm.DivisionId, vm.SiteId);
-                    GoodsRet.CreatedDate = DateTime.Now;
-                    GoodsRet.ModifiedDate = DateTime.Now;
-                    GoodsRet.CreatedBy = User.Identity.Name;
-                    GoodsRet.ModifiedBy = User.Identity.Name;
-                    GoodsRet.Status = (int)StatusConstants.System;
-                    GoodsRet.ObjectState = Model.ObjectState.Added;
-                    db.JobReturnHeader.Add(GoodsRet);
-                    //new JobReturnHeaderService(_unitOfWork).Create(GoodsRet);
 
                     //pt.CalculateDiscountOnRate = vm.CalculateDiscountOnRate;
                     pt.CreatedDate = DateTime.Now;
                     pt.ModifiedDate = DateTime.Now;
                     pt.CreatedBy = User.Identity.Name;
                     pt.ModifiedBy = User.Identity.Name;
-                    pt.JobReturnHeaderId = GoodsRet.JobReturnHeaderId;
                     pt.ObjectState = Model.ObjectState.Added;
                     //_JobInvoiceReturnHeaderService.Create(pt);
                     db.JobInvoiceReturnHeader.Add(pt);
@@ -328,7 +344,6 @@ namespace Web
 
 
                     //temp.CurrencyId = pt.CurrencyId;
-                    //temp.SalesTaxGroupId = pt.SalesTaxGroupId;
                     temp.Remark = pt.Remark;
                     temp.JobWorkerId = pt.JobWorkerId;
                     temp.DocNo = pt.DocNo;
@@ -355,11 +370,11 @@ namespace Web
 
                         GoodsRet.DocDate = temp.DocDate;
                         //GoodsRet.DocNo = temp.DocNo;
-                        GoodsRet.OrderById = vm.OrderById;
+                        GoodsRet.OrderById = (int)vm.OrderById;
                         GoodsRet.ReasonId = temp.ReasonId;
                         GoodsRet.JobWorkerId = temp.JobWorkerId;
                         GoodsRet.Remark = temp.Remark;
-                        GoodsRet.GodownId = vm.GodownId;
+                        GoodsRet.GodownId = (int)vm.GodownId;
                         //GoodsRet.Status = temp.Status;
 
                         GoodsRet.ObjectState = Model.ObjectState.Modified;
@@ -467,7 +482,7 @@ namespace Web
             #endregion
 
             PrepareViewBag(pt.DocTypeId);
-            pt.GodownId = new JobReturnHeaderService(_unitOfWork).Find(pt.JobReturnHeaderId ?? 0).GodownId;
+            //pt.GodownId = new JobReturnHeaderService(_unitOfWork).Find(pt.JobReturnHeaderId ?? 0).GodownId;
 
             if ((!TimePlanValidation && !Continue))
             {
@@ -558,7 +573,7 @@ namespace Web
             ViewBag.IndexStatus = IndexType;
 
             JobInvoiceReturnHeaderViewModel pt = _JobInvoiceReturnHeaderService.GetJobInvoiceReturnHeader(id);
-            pt.GodownId = new JobReturnHeaderService(_unitOfWork).Find(pt.JobReturnHeaderId ?? 0).GodownId;
+            //pt.GodownId = new JobReturnHeaderService(_unitOfWork).Find(pt.JobReturnHeaderId ?? 0).GodownId;
             //Job Order Settings
             var settings = new JobInvoiceSettingsService(_unitOfWork).GetJobInvoiceSettingsForDocument(pt.DocTypeId, pt.DivisionId, pt.SiteId);
 
@@ -1079,7 +1094,7 @@ namespace Web
                 List<LogTypeViewModel> LogList = new List<LogTypeViewModel>();
 
                 var temp = db.JobInvoiceReturnHeader.Find(vm.id);
-                var JobGoodsRetId = temp.JobReturnHeaderId;
+                int? JobReturnHeaderId = temp.JobReturnHeaderId;
 
                 try
                 {
@@ -1164,9 +1179,9 @@ namespace Web
                 List<int> StockIdList = new List<int>();
                 List<int> StockProcessIdList = new List<int>();
 
-                if (JobGoodsRetId.HasValue)
+                if (JobReturnHeaderId.HasValue)
                 {
-                    var JobReturn = db.JobReturnHeader.Find(JobGoodsRetId ?? 0);
+                    var JobReturn = db.JobReturnHeader.Find(JobReturnHeaderId ?? 0);
 
                     int? GatePassHeaderId = JobReturn.GatePassHeaderId;
 

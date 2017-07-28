@@ -782,8 +782,8 @@ namespace Web
                         StockViewModel.GodownId = temp.GodownId ?? 0;
                         StockViewModel.LotNo = s.LotNo;
                         StockViewModel.CostCenterId = s.CostCenterId;
-                        StockViewModel.ProcessId = temp.ProcessId;
-                        StockViewModel.HeaderProcessId = temp.ProcessId;
+                        StockViewModel.ProcessId = temp.ProcessId ?? s.FromProcessId;
+                        StockViewModel.HeaderProcessId = temp.ProcessId ;
                         StockViewModel.Qty_Iss = 0;
                         StockViewModel.Qty_Rec = s.Qty;
                         StockViewModel.Weight_Iss = 0;

@@ -96,28 +96,28 @@ namespace Service
         }
         public SaleInvoiceReturnHeaderViewModel GetSaleInvoiceReturnHeader(int id)
         {
-            return (from p in db.SaleInvoiceReturnHeader
-                    where p.SaleInvoiceReturnHeaderId == id
+            return (from H in db.SaleInvoiceReturnHeader
+                    where H.SaleInvoiceReturnHeaderId == id
                     select new SaleInvoiceReturnHeaderViewModel
                     {
-                        SaleInvoiceReturnHeaderId = p.SaleInvoiceReturnHeaderId,
-                        DivisionId = p.DivisionId,
-                        DocNo = p.DocNo,
-                        DocDate = p.DocDate,
-                        DocTypeId = p.DocTypeId,
-                        Remark = p.Remark,
-                        SiteId = p.SiteId,
-                        SaleDispatchReturnHeaderId=p.SaleDispatchReturnHeaderId,
-                        Status = p.Status,
-                        BuyerId = p.BuyerId,                        
-                        SalesTaxGroupId=p.SalesTaxGroupId,
-                        CurrencyId=p.CurrencyId,
-                        ReasonId=p.ReasonId,
-                        ModifiedBy=p.ModifiedBy,
-                        CreatedDate=p.CreatedDate,
-                    }
-
-                        ).FirstOrDefault();
+                        SaleInvoiceReturnHeaderId = H.SaleInvoiceReturnHeaderId,
+                        DivisionId = H.DivisionId,
+                        DocNo = H.DocNo,
+                        DocDate = H.DocDate,
+                        DocTypeId = H.DocTypeId,
+                        Remark = H.Remark,
+                        SiteId = H.SiteId,
+                        SaleDispatchReturnHeaderId=H.SaleDispatchReturnHeaderId,
+                        Status = H.Status,
+                        BuyerId = H.BuyerId,  
+                        GodownId = H.SaleDispatchReturnHeader.GodownId,
+                        //SalesTaxGroupId=H.SalesTaxGroupId,
+                        Nature = H.Nature,
+                        //CurrencyId=H.CurrencyId,
+                        ReasonId=H.ReasonId,
+                        ModifiedBy=H.ModifiedBy,
+                        CreatedDate=H.CreatedDate,
+                    }).FirstOrDefault();
         }
         public IQueryable<SaleInvoiceReturnHeaderViewModel> GetSaleInvoiceReturnHeaderList(int id, string Uname)
         {
@@ -283,7 +283,7 @@ namespace Service
                         select new ComboBoxResult
                         {
                             id = Result.Key.PersonID.ToString(),
-                            text = Result.Max(m => m.p.Name + "|" + m.p.Code),
+                            text = Result.Max(m => m.p.Name + ", " + m.p.Suffix + " [" + m.p.Code + "]"),
                         }
               );
 

@@ -94,6 +94,7 @@
                                                 @Html.HiddenFor(m => Model.JobReceiveLineViewModel[i].JobOrderHeaderDocNo)
                                                 @Html.HiddenFor(m => Model.JobReceiveLineViewModel[i].OrderBalanceQty)
                                                 @Html.HiddenFor(m => Model.JobReceiveLineViewModel[i].UnitId)
+                                                @Html.HiddenFor(m => Model.JobReceiveLineViewModel[i].ExcessReceiveAllowedAgainstOrderQty)
                                                 @Html.HiddenFor(m => m.JobReceiveLineViewModel[i].UnitDecimalPlaces, new { @class="UDec"})
 
                                                 @(i + 1)
@@ -267,28 +268,31 @@
         var DecPlaces = $HBlock.find('input.UDec:first').val();
         var ValidationMessage = "";
 
-        //Check that Pass Qty can not exceed Job Qty.
-        if (parseFloat($Block.find('.JobQuantity').val() - $Block.find('.PassQty').val()) < 0) {
 
-            ValidationMessage = "PassQty exceeding JobQty";
+        if ($Block.find('.ExcessReceiveAllowedAgainstOrderQty').val() == null || $Block.find('.ExcessReceiveAllowedAgainstOrderQty').val() == 0) {
+            //Check that Pass Qty can not exceed Job Qty.
+            if (parseFloat($Block.find('.JobQuantity').val() - $Block.find('.PassQty').val()) < 0) {
 
-        }
+                ValidationMessage = "PassQty exceeding JobQty";
 
-
-        //Check that Receive Qty can not exceed Job Qty.
-        if (parseFloat($Block.find('.JobQuantity').val() - $Block.find('.ReceiveQty').val()) < 0) {
-
-            ValidationMessage = "ReceiveQty exceeding JobQty";
-
-        }
+            }
 
 
+            //Check that Receive Qty can not exceed Job Qty.
+            if (parseFloat($Block.find('.JobQuantity').val() - $Block.find('.ReceiveQty').val()) < 0) {
 
-        //Check that Job Qty can not exceed Order Balance Qty.
-        if (($Block.find('.OrderBalanceQty').val() - $Block.find('.JobQuantity').val()) < 0) {
+                ValidationMessage = "ReceiveQty exceeding JobQty";
 
-            ValidationMessage = "JobQty exceeding Order Balance Qty";
+            }
 
+
+
+            //Check that Job Qty can not exceed Order Balance Qty.
+            if (($Block.find('.OrderBalanceQty').val() - $Block.find('.JobQuantity').val()) < 0) {
+
+                ValidationMessage = "JobQty exceeding Order Balance Qty";
+
+            }
         }
 
         if (!ValidationMessage == "") {

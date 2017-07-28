@@ -16,6 +16,8 @@ namespace Model.ViewModel
         public string Specification { get; set; }
         public string Dimension1Name { get; set; }
         public string Dimension2Name { get; set; }
+        public string Dimension3Name { get; set; }
+        public string Dimension4Name { get; set; }
         public int HeaderId { get; set; }
         public int LineId { get; set; }
         public decimal BalanceQty { get; set; }

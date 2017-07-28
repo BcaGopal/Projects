@@ -34,6 +34,7 @@
                 @Html.HiddenFor(m => m.UnitDecimalPlaces)
                 @Html.HiddenFor(m => m.ProductUidId)
                 @Html.HiddenFor(m => m.DealUnitDecimalPlaces)
+                @Html.HiddenFor(m => m.ExcessReceiveAllowedAgainstOrderQty)
                 @Html.HiddenFor(m => m.JobReceiveSettings.SqlProcProductUidHelpList)
                 @Html.HiddenFor(m => m.JobReceiveSettings.ProcessId)
                 @Html.HiddenFor(m => m.JobReceiveSettings.SqlProcConsumption)
@@ -184,7 +185,7 @@
                     </div>
 
 
-                    <div class="col-md-6" style="display:@(Model.JobReceiveSettings.isVisibleLoss?"":"none")">
+                    <div class="col-md-6">
                         <div class="form-group">
                             @Html.LabelFor(model => model.ReceiveQty, "Receive Qty", new { @class = "control-label col-md-4 col-sm-2 " })
                             <div class="col-md-7 col-sm-10">
@@ -406,6 +407,7 @@
                         $("#UnitId").val(data.UnitId);
                         $("#DealUnitId").val(data.DealUnitId);
                         $('#UnitConversionMultiplier').val(data.UnitConversionMultiplier);
+                        $('#ExcessReceiveAllowedAgainstOrderQty').val(data.ExcessReceiveAllowedAgainstOrderQty);
 
                         if(!$('#ProductUidId').val()){
                             $('#DocQty').val(data.Qty.toFixed(data.UnitDecimalPlaces));
@@ -750,30 +752,33 @@
 
         var ValidationMessage = "";
 
-        //Check that Pass Qty can not exceed Job Qty.
-        if (parseFloat($('#DocQty').val() - $('#PassQty').val()) < 0) {
+        if ($('#ExcessReceiveAllowedAgainstOrderQty').val() == null || $('#ExcessReceiveAllowedAgainstOrderQty').val() == 0)
+        {
+            //Check that Pass Qty can not exceed Job Qty.
+            if (parseFloat($('#DocQty').val() - $('#PassQty').val()) < 0) {
 
-            ValidationMessage="PassQty exceeding DocQty";
+                ValidationMessage="PassQty exceeding DocQty";
 
+            }
+
+
+            //Check that Receive Qty can not exceed Job Qty.
+            if (parseFloat($('#DocQty').val() - $('#ReceiveQty').val()) < 0) {
+
+                ValidationMessage="ReceiveQty exceeding DocQty";
+
+            }
+
+
+
+            //Check that Job Qty can not exceed Order Balance Qty.
+            if (($('#OrderBalanceQty').val() - $('#DocQty').val()) < 0) {
+
+                ValidationMessage="DocQty exceeding Order Balance Qty";
+
+            }
         }
 
-
-        //Check that Receive Qty can not exceed Job Qty.
-        if (parseFloat($('#DocQty').val() - $('#ReceiveQty').val()) < 0) {
-
-            ValidationMessage="ReceiveQty exceeding DocQty";
-
-        }
-
-
-
-        //Check that Job Qty can not exceed Order Balance Qty.
-        if (($('#OrderBalanceQty').val() - $('#DocQty').val()) < 0) {
-
-            ValidationMessage="DocQty exceeding Order Balance Qty";
-
-        }
-        
         //Check that Loss Qty can not exceed allowed Loss Percentage.
         if (allowedLossPer != null && allowedLossPer != "")
         {

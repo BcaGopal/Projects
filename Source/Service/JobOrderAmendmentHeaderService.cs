@@ -236,7 +236,7 @@ namespace Service
                         select new ComboBoxResult
                         {
                             id = Result.Key.PersonID.ToString(),
-                            text = Result.Max(m => m.p.Name + "|" + m.p.Code),
+                            text = Result.Max(m => m.p.Name + ", " + m.p.Suffix + " [" + m.p.Code + "]"),
                         }
               );
 

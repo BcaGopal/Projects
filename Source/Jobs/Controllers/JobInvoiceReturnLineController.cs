@@ -193,6 +193,7 @@ namespace Web
             List<LineChargeViewModel> LineCharges = new List<LineChargeViewModel>();
             Dictionary<int, decimal> LineStatus = new Dictionary<int, decimal>();
             Dictionary<int, decimal> LineStatusWeights = new Dictionary<int, decimal>();
+            List<LineReferenceIds> RefIds = new List<LineReferenceIds>();
 
             List<JobInvoiceReturnLineViewModel> BarCodeBased = new List<JobInvoiceReturnLineViewModel>();
 
@@ -232,7 +233,6 @@ namespace Web
 
             if (ModelState.IsValid && BeforeSave && !EventException)
             {
-                int ProcessId = new ProcessService(_unitOfWork).Find(ProcessConstants.FullFinishing).ProcessId;
 
 
                 var InvLineIds = vm.JobInvoiceReturnLineViewModel.Select(m => m.JobInvoiceLineId).ToArray();
@@ -365,10 +365,10 @@ namespace Web
                             StockViewModel.Rate = null;
                             StockViewModel.ExpiryDate = null;
                             StockViewModel.Specification = item.Specification;
-                            StockViewModel.Dimension1Id = item.Dimension1Id;
-                            StockViewModel.Dimension2Id = item.Dimension2Id;
-                            StockViewModel.Dimension3Id = item.Dimension3Id;
-                            StockViewModel.Dimension4Id = item.Dimension4Id;
+                            StockViewModel.Dimension1Id = JobOrderLine.Dimension1Id;
+                            StockViewModel.Dimension2Id = JobOrderLine.Dimension2Id;
+                            StockViewModel.Dimension3Id = JobOrderLine.Dimension3Id;
+                            StockViewModel.Dimension4Id = JobOrderLine.Dimension4Id;
                             StockViewModel.CreatedBy = User.Identity.Name;
                             StockViewModel.ProductUidId = RecRecord.ProductUidId;
                             StockViewModel.CreatedDate = DateTime.Now;
@@ -491,6 +491,7 @@ namespace Web
                         db.JobInvoiceReturnLine.Add(line);
 
                         LineList.Add(new LineDetailListViewModel { Amount = line.Amount, Rate = line.Rate, LineTableId = line.JobInvoiceReturnLineId, HeaderTableId = item.JobInvoiceReturnHeaderId, PersonID = Header.JobWorkerId, DealQty = line.DealQty });
+                        RefIds.Add(new LineReferenceIds { LineId = line.JobInvoiceReturnLineId, RefLineId = line.JobInvoiceLineId });
                         Gpk++;
                         pk++;
 
@@ -518,9 +519,43 @@ namespace Web
                 GoodsRetHeader.ObjectState = Model.ObjectState.Modified;
                 db.JobReturnHeader.Add(GoodsRetHeader);
 
+                int[] RecLineIds = null;
+                RecLineIds = RefIds.Select(m => m.RefLineId).ToArray();
+
+                var Charges = (from p in db.JobInvoiceLine
+                               where RecLineIds.Contains(p.JobInvoiceLineId)
+                               join LineCharge in db.JobInvoiceLineCharge on p.JobInvoiceLineId equals LineCharge.LineTableId
+                               join HeaderCharge in db.JobInvoiceHeaderCharges on p.JobInvoiceHeaderId equals HeaderCharge.HeaderTableId
+                               group new { p, LineCharge, HeaderCharge } by new { p.JobInvoiceLineId } into g
+                               select new
+                               {
+                                   LineId = g.Key.JobInvoiceLineId,
+                                   HeaderCharges = g.Select(m => m.HeaderCharge).ToList(),
+                                   Linecharges = g.Select(m => m.LineCharge).ToList(),
+                               }).ToList();
+
+
+
+                var LineListWithReferences = (from p in LineList
+                                              join t in RefIds on p.LineTableId equals t.LineId
+                                              join t2 in Charges on t.RefLineId equals t2.LineId into table
+                                              from LineLis in table.DefaultIfEmpty()
+                                              orderby p.LineTableId
+                                              select new LineDetailListViewModel
+                                              {
+                                                  Amount = p.Amount,
+                                                  DealQty = p.DealQty,
+                                                  HeaderTableId = p.HeaderTableId,
+                                                  LineTableId = p.LineTableId,
+                                                  PersonID = p.PersonID,
+                                                  Rate = p.Rate,
+                                                  CostCenterId = p.CostCenterId,
+                                                  RLineCharges = (LineLis == null ? null : Mapper.Map<List<LineChargeViewModel>>(LineLis.Linecharges)),
+                                              }).ToList();
+
                 new JobInvoiceLineStatusService(db).UpdateJobInvoiceQtyReturnMultiple(LineStatus, Header.DocDate, ref db, LineStatusWeights);
 
-                new ChargesCalculationService(_unitOfWork).CalculateCharges(LineList, vm.JobInvoiceReturnLineViewModel.FirstOrDefault().JobInvoiceReturnHeaderId, CalculationId, MaxLineId, out LineCharges, out HeaderChargeEdit, out HeaderCharges, "Web.JobInvoiceReturnHeaderCharges", "Web.JobInvoiceReturnLineCharges", out PersonCount, Header.DocTypeId, Header.SiteId, Header.DivisionId);
+                new ChargesCalculationService(_unitOfWork).CalculateCharges(LineListWithReferences, vm.JobInvoiceReturnLineViewModel.FirstOrDefault().JobInvoiceReturnHeaderId, CalculationId, MaxLineId, out LineCharges, out HeaderChargeEdit, out HeaderCharges, "Web.JobInvoiceReturnHeaderCharges", "Web.JobInvoiceReturnLineCharges", out PersonCount, Header.DocTypeId, Header.SiteId, Header.DivisionId);
 
                 //Saving Charges
                 foreach (var item in LineCharges)
@@ -1185,11 +1220,13 @@ namespace Web
 
             s.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(H.DocTypeId);
 
+            s.Nature = H.Nature;
             s.JobInvoiceReturnHeaderId = H.JobInvoiceReturnHeaderId;
             s.JobInvoiceReturnHeaderDocNo = H.DocNo;
             s.JobWorkerId = sid;
             s.DocTypeId = H.DocTypeId;
             s.DivisionId = H.DivisionId;
+
             s.SiteId = H.SiteId;
             ViewBag.LineMode = "Create";
             //PrepareViewBag(null);
@@ -1233,7 +1270,6 @@ namespace Web
             if (svm.JobInvoiceReturnLineId <= 0)
             {
 
-                JobReturnHeader JobReturnHeader = new JobReturnHeaderService(_unitOfWork).Find((int)temp.JobReturnHeaderId);
 
                 decimal balqty = (from p in db.JobInvoiceLine
                                   where p.JobInvoiceLineId == svm.JobInvoiceLineId
@@ -1256,8 +1292,6 @@ namespace Web
 
                 if (ModelState.IsValid && BeforeSave && !EventException)
                 {
-                    int ProcessId = new ProcessService(_unitOfWork).Find(ProcessConstants.FullFinishing).ProcessId;
-
                     JobInvoiceReturnLine s = Mapper.Map<JobInvoiceReturnLineViewModel, JobInvoiceReturnLine>(svm);
                     s.Sr = _JobInvoiceReturnLineService.GetMaxSr(s.JobInvoiceReturnHeaderId);
                     //s.DiscountPer = svm.DiscountPer;
@@ -1266,197 +1300,214 @@ namespace Web
                     s.CreatedBy = User.Identity.Name;
                     s.ModifiedBy = User.Identity.Name;
 
-                    JobReturnLine Gline = Mapper.Map<JobInvoiceReturnLine, JobReturnLine>(s);
-                    Gline.JobReceiveLineId = new JobInvoiceLineService(_unitOfWork).Find(s.JobInvoiceLineId).JobReceiveLineId;
-                    Gline.JobReturnHeaderId = temp.JobReturnHeaderId ?? 0;
-                    Gline.Qty = svm.Qty;
-                    Gline.Weight = svm.Weight;
 
-                    new JobInvoiceLineStatusService(db).UpdateJobInvoiceQtyOnReturn(s.JobInvoiceLineId, s.JobInvoiceReturnLineId, JobReturnHeader.DocDate, s.Qty, Gline.Weight, ref db);
-
-
-                    if (svm.JobInvoiceSettings.isPostedInStock)
+                    if (temp.JobReturnHeaderId.HasValue)
                     {
-                        StockViewModel StockViewModel = new StockViewModel();
-                        StockViewModel.StockHeaderId = JobReturnHeader.StockHeaderId ?? 0;
-                        StockViewModel.DocHeaderId = JobReturnHeader.JobReturnHeaderId;
-                        StockViewModel.DocLineId = Gline.JobReturnLineId;
-                        StockViewModel.DocTypeId = JobReturnHeader.DocTypeId;
-                        StockViewModel.StockHeaderDocDate = JobReturnHeader.DocDate;
-                        StockViewModel.StockDocDate = JobReturnHeader.DocDate;
-                        StockViewModel.DocNo = JobReturnHeader.DocNo;
-                        StockViewModel.DivisionId = JobReturnHeader.DivisionId;
-                        StockViewModel.SiteId = JobReturnHeader.SiteId;
-                        StockViewModel.CurrencyId = null;
-                        StockViewModel.HeaderProcessId = JobReturnHeader.ProcessId;
-                        StockViewModel.PersonId = JobReturnHeader.JobWorkerId;
-                        StockViewModel.ProductId = svm.ProductId;
-                        StockViewModel.HeaderFromGodownId = null;
-                        StockViewModel.HeaderGodownId = JobReturnHeader.GodownId;
-                        StockViewModel.GodownId = JobReturnHeader.GodownId;
-                        StockViewModel.ProcessId = JobReturnHeader.ProcessId;
-                        StockViewModel.LotNo = null;
-                        StockViewModel.CostCenterId = null;
-                        StockViewModel.Qty_Iss = Gline.Qty;
-                        StockViewModel.Qty_Rec = 0;
-                        StockViewModel.Rate = null;
-                        StockViewModel.ExpiryDate = null;
-                        StockViewModel.Specification = svm.Specification;
-                        StockViewModel.Dimension1Id = svm.Dimension1Id;
-                        StockViewModel.Dimension2Id = svm.Dimension2Id;
-                        StockViewModel.Dimension3Id = svm.Dimension3Id;
-                        StockViewModel.Dimension4Id = svm.Dimension4Id;
-                        StockViewModel.Remark = Gline.Remark;
-                        StockViewModel.ProductUidId = svm.ProductUidId;
-                        StockViewModel.Status = JobReturnHeader.Status;
-                        StockViewModel.CreatedBy = JobReturnHeader.CreatedBy;
-                        StockViewModel.CreatedDate = DateTime.Now;
-                        StockViewModel.ModifiedBy = JobReturnHeader.ModifiedBy;
-                        StockViewModel.ModifiedDate = DateTime.Now;
+                        JobReturnHeader JobReturnHeader = new JobReturnHeaderService(_unitOfWork).Find((int)temp.JobReturnHeaderId);
 
-                        string StockPostingError = "";
-                        StockPostingError = new StockService(_unitOfWork).StockPostDB(ref StockViewModel, ref db);
+                        JobReturnLine Gline = Mapper.Map<JobInvoiceReturnLine, JobReturnLine>(s);
+                        Gline.JobReceiveLineId = new JobInvoiceLineService(_unitOfWork).Find(s.JobInvoiceLineId).JobReceiveLineId;
+                        Gline.JobReturnHeaderId = temp.JobReturnHeaderId ?? 0;
+                        Gline.Qty = svm.Qty;
+                        Gline.Weight = svm.Weight;
 
-                        if (StockPostingError != "")
+                        new JobInvoiceLineStatusService(db).UpdateJobInvoiceQtyOnReturn(s.JobInvoiceLineId, s.JobInvoiceReturnLineId, JobReturnHeader.DocDate, s.Qty, Gline.Weight, ref db);
+
+
+                        if (svm.JobInvoiceSettings.isPostedInStock)
                         {
-                            ModelState.AddModelError("", StockPostingError);
-                            return PartialView("_Create", svm);
-                        }
+                            StockViewModel StockViewModel = new StockViewModel();
+                            StockViewModel.StockHeaderId = JobReturnHeader.StockHeaderId ?? 0;
+                            StockViewModel.DocHeaderId = JobReturnHeader.JobReturnHeaderId;
+                            StockViewModel.DocLineId = Gline.JobReturnLineId;
+                            StockViewModel.DocTypeId = JobReturnHeader.DocTypeId;
+                            StockViewModel.StockHeaderDocDate = JobReturnHeader.DocDate;
+                            StockViewModel.StockDocDate = JobReturnHeader.DocDate;
+                            StockViewModel.DocNo = JobReturnHeader.DocNo;
+                            StockViewModel.DivisionId = JobReturnHeader.DivisionId;
+                            StockViewModel.SiteId = JobReturnHeader.SiteId;
+                            StockViewModel.CurrencyId = null;
+                            StockViewModel.HeaderProcessId = JobReturnHeader.ProcessId;
+                            StockViewModel.PersonId = JobReturnHeader.JobWorkerId;
+                            StockViewModel.ProductId = svm.ProductId;
+                            StockViewModel.HeaderFromGodownId = null;
+                            StockViewModel.HeaderGodownId = JobReturnHeader.GodownId;
+                            StockViewModel.GodownId = JobReturnHeader.GodownId;
+                            StockViewModel.ProcessId = JobReturnHeader.ProcessId;
+                            StockViewModel.LotNo = null;
+                            StockViewModel.CostCenterId = null;
+                            StockViewModel.Qty_Iss = Gline.Qty;
+                            StockViewModel.Qty_Rec = 0;
+                            StockViewModel.Rate = null;
+                            StockViewModel.ExpiryDate = null;
+                            StockViewModel.Specification = svm.Specification;
+                            StockViewModel.Dimension1Id = svm.Dimension1Id;
+                            StockViewModel.Dimension2Id = svm.Dimension2Id;
+                            StockViewModel.Dimension3Id = svm.Dimension3Id;
+                            StockViewModel.Dimension4Id = svm.Dimension4Id;
+                            StockViewModel.Remark = Gline.Remark;
+                            StockViewModel.ProductUidId = svm.ProductUidId;
+                            StockViewModel.Status = JobReturnHeader.Status;
+                            StockViewModel.CreatedBy = JobReturnHeader.CreatedBy;
+                            StockViewModel.CreatedDate = DateTime.Now;
+                            StockViewModel.ModifiedBy = JobReturnHeader.ModifiedBy;
+                            StockViewModel.ModifiedDate = DateTime.Now;
 
-                        Gline.StockId = StockViewModel.StockId;
+                            string StockPostingError = "";
+                            StockPostingError = new StockService(_unitOfWork).StockPostDB(ref StockViewModel, ref db);
 
-                        if (JobReturnHeader.StockHeaderId == null)
-                        {
-                            JobReturnHeader.StockHeaderId = StockViewModel.StockHeaderId;
-                        }
-                    }
+                            if (StockPostingError != "")
+                            {
+                                ModelState.AddModelError("", StockPostingError);
+                                return PartialView("_Create", svm);
+                            }
 
+                            Gline.StockId = StockViewModel.StockId;
 
-
-                    if (svm.JobInvoiceSettings.isPostedInStockProcess)
-                    {
-                        StockProcessViewModel StockProcessViewModel = new StockProcessViewModel();
-
-                        if (JobReturnHeader.StockHeaderId != null && JobReturnHeader.StockHeaderId != 0)//If Transaction Header Table Has Stock Header Id Then It will Save Here.
-                        {
-                            StockProcessViewModel.StockHeaderId = (int)JobReturnHeader.StockHeaderId;
-                        }
-                        else if (svm.JobInvoiceSettings.isPostedInStock)//If Stok Header is already posted during stock posting then this statement will Execute.So theat Stock Header will not generate again.
-                        {
-                            StockProcessViewModel.StockHeaderId = -1;
-                        }
-                        else//If function will only post in stock process then this statement will execute.For Example Job consumption.
-                        {
-                            StockProcessViewModel.StockHeaderId = 0;
-                        }
-
-
-                        StockProcessViewModel.DocHeaderId = JobReturnHeader.JobReturnHeaderId;
-                        StockProcessViewModel.DocLineId = Gline.JobReturnLineId;
-                        StockProcessViewModel.DocTypeId = JobReturnHeader.DocTypeId;
-                        StockProcessViewModel.StockHeaderDocDate = JobReturnHeader.DocDate;
-                        StockProcessViewModel.StockProcessDocDate = JobReturnHeader.DocDate;
-                        StockProcessViewModel.DocNo = JobReturnHeader.DocNo;
-                        StockProcessViewModel.DivisionId = JobReturnHeader.DivisionId;
-                        StockProcessViewModel.SiteId = JobReturnHeader.SiteId;
-                        StockProcessViewModel.CurrencyId = null;
-                        StockProcessViewModel.HeaderProcessId = JobReturnHeader.ProcessId;
-                        StockProcessViewModel.PersonId = JobReturnHeader.JobWorkerId;
-                        StockProcessViewModel.ProductId = svm.ProductId;
-                        StockProcessViewModel.HeaderFromGodownId = null;
-                        StockProcessViewModel.HeaderGodownId = JobReturnHeader.GodownId;
-                        StockProcessViewModel.GodownId = JobReturnHeader.GodownId;
-                        StockProcessViewModel.ProcessId = JobReturnHeader.ProcessId;
-                        StockProcessViewModel.LotNo = null;
-                        StockProcessViewModel.CostCenterId = null;
-                        StockProcessViewModel.Qty_Iss = 0;
-                        StockProcessViewModel.Qty_Rec = Gline.Qty;
-                        StockProcessViewModel.Rate = null;
-                        StockProcessViewModel.ExpiryDate = null;
-                        StockProcessViewModel.Specification = svm.Specification;
-                        StockProcessViewModel.Dimension1Id = svm.Dimension1Id;
-                        StockProcessViewModel.Dimension2Id = svm.Dimension2Id;
-                        StockProcessViewModel.Dimension3Id = svm.Dimension3Id;
-                        StockProcessViewModel.Dimension4Id = svm.Dimension4Id;
-                        StockProcessViewModel.Remark = Gline.Remark;
-                        StockProcessViewModel.ProductUidId = svm.ProductUidId;
-                        StockProcessViewModel.Status = JobReturnHeader.Status;
-                        StockProcessViewModel.CreatedBy = JobReturnHeader.CreatedBy;
-                        StockProcessViewModel.CreatedDate = DateTime.Now;
-                        StockProcessViewModel.ModifiedBy = JobReturnHeader.ModifiedBy;
-                        StockProcessViewModel.ModifiedDate = DateTime.Now;
-
-                        string StockProcessPostingError = "";
-                        StockProcessPostingError = new StockProcessService(_unitOfWork).StockProcessPostDB(ref StockProcessViewModel, ref db);
-
-                        if (StockProcessPostingError != "")
-                        {
-                            ModelState.AddModelError("", StockProcessPostingError);
-                            return PartialView("_Create", svm);
-                        }
-
-                        Gline.StockProcessId = StockProcessViewModel.StockProcessId;
-
-                        if (svm.JobInvoiceSettings.isPostedInStock == false)
-                        {
                             if (JobReturnHeader.StockHeaderId == null)
                             {
-                                JobReturnHeader.StockHeaderId = StockProcessViewModel.StockHeaderId;
+                                JobReturnHeader.StockHeaderId = StockViewModel.StockHeaderId;
                             }
                         }
-                    }
-
-                    var JobReceiveLine = db.JobReceiveLine.Find(Gline.JobReceiveLineId);
-
-                    if (JobReceiveLine.ProductUidId.HasValue && JobReceiveLine.ProductUidId > 0)
-                    {
-                        ProductUid Uid = new ProductUidService(_unitOfWork).Find(JobReceiveLine.ProductUidId.Value);
 
 
 
-                        Gline.ProductUidLastTransactionDocId = Uid.LastTransactionDocId;
-                        Gline.ProductUidLastTransactionDocDate = Uid.LastTransactionDocDate;
-                        Gline.ProductUidLastTransactionDocNo = Uid.LastTransactionDocNo;
-                        Gline.ProductUidLastTransactionDocTypeId = Uid.LastTransactionDocTypeId;
-                        Gline.ProductUidLastTransactionPersonId = Uid.LastTransactionPersonId;
-                        Gline.ProductUidStatus = Uid.Status;
-                        Gline.ProductUidCurrentProcessId = Uid.CurrenctProcessId;
-                        Gline.ProductUidCurrentGodownId = Uid.CurrenctGodownId;
-
-
-
-                        if (JobReturnHeader.JobWorkerId == Uid.LastTransactionPersonId || JobReturnHeader.SiteId == 17)
+                        if (svm.JobInvoiceSettings.isPostedInStockProcess)
                         {
+                            StockProcessViewModel StockProcessViewModel = new StockProcessViewModel();
 
-                            Uid.LastTransactionDocId = JobReturnHeader.JobReturnHeaderId;
-                            Uid.LastTransactionDocDate = JobReturnHeader.DocDate;
-                            Uid.LastTransactionDocNo = JobReturnHeader.DocNo;
-                            Uid.LastTransactionDocTypeId = JobReturnHeader.DocTypeId;
-                            Uid.LastTransactionLineId = Gline.JobReturnLineId;
-                            Uid.LastTransactionPersonId = JobReturnHeader.JobWorkerId;
-                            Uid.Status = ProductUidStatusConstants.Return;
-                            Uid.CurrenctProcessId = JobReturnHeader.ProcessId;
+                            if (JobReturnHeader.StockHeaderId != null && JobReturnHeader.StockHeaderId != 0)//If Transaction Header Table Has Stock Header Id Then It will Save Here.
+                            {
+                                StockProcessViewModel.StockHeaderId = (int)JobReturnHeader.StockHeaderId;
+                            }
+                            else if (svm.JobInvoiceSettings.isPostedInStock)//If Stok Header is already posted during stock posting then this statement will Execute.So theat Stock Header will not generate again.
+                            {
+                                StockProcessViewModel.StockHeaderId = -1;
+                            }
+                            else//If function will only post in stock process then this statement will execute.For Example Job consumption.
+                            {
+                                StockProcessViewModel.StockHeaderId = 0;
+                            }
 
-                            var Site = new SiteService(_unitOfWork).FindByPerson(JobReturnHeader.JobWorkerId);
-                            if (Site != null)
-                                Uid.CurrenctGodownId = Site.DefaultGodownId;
-                            else
-                                Uid.CurrenctGodownId = null;
 
-                            Uid.ModifiedBy = User.Identity.Name;
-                            Uid.ModifiedDate = DateTime.Now;
-                            Uid.ObjectState = Model.ObjectState.Modified;
-                            db.ProductUid.Add(Uid);
+                            StockProcessViewModel.DocHeaderId = JobReturnHeader.JobReturnHeaderId;
+                            StockProcessViewModel.DocLineId = Gline.JobReturnLineId;
+                            StockProcessViewModel.DocTypeId = JobReturnHeader.DocTypeId;
+                            StockProcessViewModel.StockHeaderDocDate = JobReturnHeader.DocDate;
+                            StockProcessViewModel.StockProcessDocDate = JobReturnHeader.DocDate;
+                            StockProcessViewModel.DocNo = JobReturnHeader.DocNo;
+                            StockProcessViewModel.DivisionId = JobReturnHeader.DivisionId;
+                            StockProcessViewModel.SiteId = JobReturnHeader.SiteId;
+                            StockProcessViewModel.CurrencyId = null;
+                            StockProcessViewModel.HeaderProcessId = JobReturnHeader.ProcessId;
+                            StockProcessViewModel.PersonId = JobReturnHeader.JobWorkerId;
+                            StockProcessViewModel.ProductId = svm.ProductId;
+                            StockProcessViewModel.HeaderFromGodownId = null;
+                            StockProcessViewModel.HeaderGodownId = JobReturnHeader.GodownId;
+                            StockProcessViewModel.GodownId = JobReturnHeader.GodownId;
+                            StockProcessViewModel.ProcessId = JobReturnHeader.ProcessId;
+                            StockProcessViewModel.LotNo = null;
+                            StockProcessViewModel.CostCenterId = null;
+                            StockProcessViewModel.Qty_Iss = 0;
+                            StockProcessViewModel.Qty_Rec = Gline.Qty;
+                            StockProcessViewModel.Rate = null;
+                            StockProcessViewModel.ExpiryDate = null;
+                            StockProcessViewModel.Specification = svm.Specification;
+                            StockProcessViewModel.Dimension1Id = svm.Dimension1Id;
+                            StockProcessViewModel.Dimension2Id = svm.Dimension2Id;
+                            StockProcessViewModel.Dimension3Id = svm.Dimension3Id;
+                            StockProcessViewModel.Dimension4Id = svm.Dimension4Id;
+                            StockProcessViewModel.Remark = Gline.Remark;
+                            StockProcessViewModel.ProductUidId = svm.ProductUidId;
+                            StockProcessViewModel.Status = JobReturnHeader.Status;
+                            StockProcessViewModel.CreatedBy = JobReturnHeader.CreatedBy;
+                            StockProcessViewModel.CreatedDate = DateTime.Now;
+                            StockProcessViewModel.ModifiedBy = JobReturnHeader.ModifiedBy;
+                            StockProcessViewModel.ModifiedDate = DateTime.Now;
+
+                            string StockProcessPostingError = "";
+                            StockProcessPostingError = new StockProcessService(_unitOfWork).StockProcessPostDB(ref StockProcessViewModel, ref db);
+
+                            if (StockProcessPostingError != "")
+                            {
+                                ModelState.AddModelError("", StockProcessPostingError);
+                                return PartialView("_Create", svm);
+                            }
+
+                            Gline.StockProcessId = StockProcessViewModel.StockProcessId;
+
+                            if (svm.JobInvoiceSettings.isPostedInStock == false)
+                            {
+                                if (JobReturnHeader.StockHeaderId == null)
+                                {
+                                    JobReturnHeader.StockHeaderId = StockProcessViewModel.StockHeaderId;
+                                }
+                            }
+                        }
+
+                        var JobReceiveLine = db.JobReceiveLine.Find(Gline.JobReceiveLineId);
+
+                        if (JobReceiveLine.ProductUidId.HasValue && JobReceiveLine.ProductUidId > 0)
+                        {
+                            ProductUid Uid = new ProductUidService(_unitOfWork).Find(JobReceiveLine.ProductUidId.Value);
+
+
+
+                            Gline.ProductUidLastTransactionDocId = Uid.LastTransactionDocId;
+                            Gline.ProductUidLastTransactionDocDate = Uid.LastTransactionDocDate;
+                            Gline.ProductUidLastTransactionDocNo = Uid.LastTransactionDocNo;
+                            Gline.ProductUidLastTransactionDocTypeId = Uid.LastTransactionDocTypeId;
+                            Gline.ProductUidLastTransactionPersonId = Uid.LastTransactionPersonId;
+                            Gline.ProductUidStatus = Uid.Status;
+                            Gline.ProductUidCurrentProcessId = Uid.CurrenctProcessId;
+                            Gline.ProductUidCurrentGodownId = Uid.CurrenctGodownId;
+
+
+
+                            if (JobReturnHeader.JobWorkerId == Uid.LastTransactionPersonId || JobReturnHeader.SiteId == 17)
+                            {
+
+                                Uid.LastTransactionDocId = JobReturnHeader.JobReturnHeaderId;
+                                Uid.LastTransactionDocDate = JobReturnHeader.DocDate;
+                                Uid.LastTransactionDocNo = JobReturnHeader.DocNo;
+                                Uid.LastTransactionDocTypeId = JobReturnHeader.DocTypeId;
+                                Uid.LastTransactionLineId = Gline.JobReturnLineId;
+                                Uid.LastTransactionPersonId = JobReturnHeader.JobWorkerId;
+                                Uid.Status = ProductUidStatusConstants.Return;
+                                Uid.CurrenctProcessId = JobReturnHeader.ProcessId;
+
+                                var Site = new SiteService(_unitOfWork).FindByPerson(JobReturnHeader.JobWorkerId);
+                                if (Site != null)
+                                    Uid.CurrenctGodownId = Site.DefaultGodownId;
+                                else
+                                    Uid.CurrenctGodownId = null;
+
+                                Uid.ModifiedBy = User.Identity.Name;
+                                Uid.ModifiedDate = DateTime.Now;
+                                Uid.ObjectState = Model.ObjectState.Modified;
+                                db.ProductUid.Add(Uid);
+
+                            }
 
                         }
 
+
+                        Gline.ObjectState = Model.ObjectState.Added;
+                        db.JobReturnLine.Add(Gline);
+                        s.JobReturnLineId = Gline.JobReturnLineId;
+
+
+
+                        if (JobReturnHeader.Status != (int)StatusConstants.Drafted && JobReturnHeader.Status != (int)StatusConstants.Import)
+                        {
+                            JobReturnHeader.Status = (int)StatusConstants.Modified;
+                            JobReturnHeader.ModifiedBy = User.Identity.Name;
+                            JobReturnHeader.ModifiedDate = DateTime.Now;
+                            JobReturnHeader.ObjectState = Model.ObjectState.Modified;
+                            db.JobReturnHeader.Add(JobReturnHeader);
+                        }     
                     }
 
-
-                    Gline.ObjectState = Model.ObjectState.Added;
-                    db.JobReturnLine.Add(Gline);
-
-                    s.JobReturnLineId = Gline.JobReturnLineId;
                     s.ObjectState = Model.ObjectState.Added;
                     db.JobInvoiceReturnLine.Add(s);
 
@@ -1500,17 +1551,12 @@ namespace Web
                         temp2.Status = (int)StatusConstants.Modified;
                         temp2.ModifiedBy = User.Identity.Name;
                         temp2.ModifiedDate = DateTime.Now;
-
-                        //JobReturnHeader.Status = temp2.Status;
-                        JobReturnHeader.ModifiedBy = User.Identity.Name;
-                        JobReturnHeader.ModifiedDate = DateTime.Now;
                     }                  
 
                     temp2.ObjectState = Model.ObjectState.Modified;
                     db.JobInvoiceReturnHeader.Add(temp2);
 
-                    JobReturnHeader.ObjectState = Model.ObjectState.Modified;
-                    db.JobReturnHeader.Add(JobReturnHeader);
+
 
                     try
                     {
@@ -1559,13 +1605,12 @@ namespace Web
             {
                 List<LogTypeViewModel> LogList = new List<LogTypeViewModel>();
 
-                int ProcessId = new ProcessService(_unitOfWork).Find(ProcessConstants.FullFinishing).ProcessId;
 
                 int status = temp.Status;
                 StringBuilder logstring = new StringBuilder();
 
                 JobInvoiceReturnLine line = _JobInvoiceReturnLineService.Find(svm.JobInvoiceReturnLineId);
-                JobReturnHeader JobReturnHeader = new JobReturnHeaderService(_unitOfWork).Find((int)temp.JobReturnHeaderId);
+                
 
                 JobInvoiceReturnLine ExRec = new JobInvoiceReturnLine();
                 ExRec = Mapper.Map<JobInvoiceReturnLine>(line);
@@ -1585,6 +1630,7 @@ namespace Web
                     if (svm.Qty > 0)
                     {
                         //line.DiscountPer = svm.DiscountPer;
+                        //line.SalesTaxGroupProductId = svm.SalesTaxGroupProductId;
                         line.Remark = svm.Remark;
                         line.Qty = svm.Qty;
                         line.DealQty = svm.DealQty;
@@ -1603,128 +1649,138 @@ namespace Web
                         Obj = line,
                     });
 
-                    JobReturnLine GLine = new JobReturnLineService(_unitOfWork).Find(line.JobReturnLineId ?? 0);
 
-                    JobReturnLine ExRecR = new JobReturnLine();
-                    ExRecR = Mapper.Map<JobReturnLine>(GLine);
-
-                    GLine.Remark = line.Remark;
-                    GLine.Qty = line.Qty;
-                    GLine.DealQty = line.DealQty;
-                    GLine.Weight = svm.Weight;
-
-                    GLine.ObjectState = Model.ObjectState.Modified;
-                    //new JobReturnLineService(_unitOfWork).Update(GLine);
-                    db.JobReturnLine.Add(GLine);
-
-                    new JobInvoiceLineStatusService(db).UpdateJobInvoiceQtyOnReturn(line.JobInvoiceLineId, line.JobInvoiceReturnLineId, temp.DocDate, line.Qty, GLine.Weight, ref db);
-
-                    LogList.Add(new LogTypeViewModel
+                    if (temp.JobReturnHeaderId.HasValue)
                     {
-                        ExObj = ExRecR,
-                        Obj = GLine,
-                    });
+                        JobReturnHeader JobReturnHeader = new JobReturnHeaderService(_unitOfWork).Find((int)temp.JobReturnHeaderId);
+                        JobReturnLine GLine = new JobReturnLineService(_unitOfWork).Find(line.JobReturnLineId ?? 0);
 
+                        JobReturnLine ExRecR = new JobReturnLine();
+                        ExRecR = Mapper.Map<JobReturnLine>(GLine);
 
-                    if (GLine.StockId != null)
-                    {
-                        StockViewModel StockViewModel = new StockViewModel();
-                        StockViewModel.StockHeaderId = JobReturnHeader.StockHeaderId ?? 0;
-                        StockViewModel.StockId = GLine.StockId ?? 0;
-                        StockViewModel.DocHeaderId = JobReturnHeader.JobReturnHeaderId;
-                        StockViewModel.DocLineId = GLine.JobReceiveLineId;
-                        StockViewModel.DocTypeId = JobReturnHeader.DocTypeId;
-                        StockViewModel.StockHeaderDocDate = JobReturnHeader.DocDate;
-                        StockViewModel.StockDocDate = JobReturnHeader.DocDate;
-                        StockViewModel.DocNo = JobReturnHeader.DocNo;
-                        StockViewModel.DivisionId = JobReturnHeader.DivisionId;
-                        StockViewModel.SiteId = JobReturnHeader.SiteId;
-                        StockViewModel.CurrencyId = null;
-                        StockViewModel.HeaderProcessId = JobReturnHeader.ProcessId;
-                        StockViewModel.PersonId = JobReturnHeader.JobWorkerId;
-                        StockViewModel.ProductId = svm.ProductId;
-                        StockViewModel.HeaderFromGodownId = null;
-                        StockViewModel.HeaderGodownId = JobReturnHeader.GodownId;
-                        StockViewModel.GodownId = JobReturnHeader.GodownId;
-                        StockViewModel.ProcessId = JobReturnHeader.ProcessId;
-                        StockViewModel.LotNo = null;
-                        StockViewModel.CostCenterId = null;
-                        StockViewModel.Qty_Iss = svm.Qty;
-                        StockViewModel.Qty_Rec = 0;
-                        StockViewModel.Rate = null;
-                        StockViewModel.ExpiryDate = null;
-                        StockViewModel.Specification = svm.Specification;
-                        StockViewModel.Dimension1Id = svm.Dimension1Id;
-                        StockViewModel.Dimension2Id = svm.Dimension2Id;
-                        StockViewModel.Dimension3Id = svm.Dimension3Id;
-                        StockViewModel.Dimension4Id = svm.Dimension4Id;
-                        StockViewModel.Remark = GLine.Remark;
-                        StockViewModel.ProductUidId = svm.ProductUidId;
-                        StockViewModel.Status = JobReturnHeader.Status;
-                        StockViewModel.CreatedBy = JobReturnHeader.CreatedBy;
-                        StockViewModel.CreatedDate = JobReturnHeader.CreatedDate;
-                        StockViewModel.ModifiedBy = User.Identity.Name;
-                        StockViewModel.ModifiedDate = DateTime.Now;
+                        GLine.Remark = line.Remark;
+                        GLine.Qty = line.Qty;
+                        GLine.DealQty = line.DealQty;
+                        GLine.Weight = svm.Weight;
 
-                        string StockPostingError = "";
-                        StockPostingError = new StockService(_unitOfWork).StockPostDB(ref StockViewModel, ref db);
+                        GLine.ObjectState = Model.ObjectState.Modified;
+                        //new JobReturnLineService(_unitOfWork).Update(GLine);
+                        db.JobReturnLine.Add(GLine);
 
-                        if (StockPostingError != "")
+                        new JobInvoiceLineStatusService(db).UpdateJobInvoiceQtyOnReturn(line.JobInvoiceLineId, line.JobInvoiceReturnLineId, temp.DocDate, line.Qty, GLine.Weight, ref db);
+
+                        LogList.Add(new LogTypeViewModel
                         {
-                            ModelState.AddModelError("", StockPostingError);
-                            return PartialView("_Create", svm);
-                        }
-                    }
+                            ExObj = ExRecR,
+                            Obj = GLine,
+                        });
 
 
-                    if (GLine.StockProcessId != null)
-                    {
-                        StockProcessViewModel StockProcessViewModel = new StockProcessViewModel();
-                        StockProcessViewModel.StockHeaderId = JobReturnHeader.StockHeaderId ?? 0;
-                        StockProcessViewModel.StockProcessId = GLine.StockProcessId ?? 0;
-                        StockProcessViewModel.DocHeaderId = JobReturnHeader.JobReturnHeaderId;
-                        StockProcessViewModel.DocLineId = GLine.JobReceiveLineId;
-                        StockProcessViewModel.DocTypeId = JobReturnHeader.DocTypeId;
-                        StockProcessViewModel.StockHeaderDocDate = JobReturnHeader.DocDate;
-                        StockProcessViewModel.StockProcessDocDate = JobReturnHeader.DocDate;
-                        StockProcessViewModel.DocNo = JobReturnHeader.DocNo;
-                        StockProcessViewModel.DivisionId = JobReturnHeader.DivisionId;
-                        StockProcessViewModel.SiteId = JobReturnHeader.SiteId;
-                        StockProcessViewModel.CurrencyId = null;
-                        StockProcessViewModel.HeaderProcessId = JobReturnHeader.ProcessId;
-                        StockProcessViewModel.PersonId = JobReturnHeader.JobWorkerId;
-                        StockProcessViewModel.ProductId = svm.ProductId;
-                        StockProcessViewModel.HeaderFromGodownId = null;
-                        StockProcessViewModel.HeaderGodownId = JobReturnHeader.GodownId;
-                        StockProcessViewModel.GodownId = JobReturnHeader.GodownId;
-                        StockProcessViewModel.ProcessId = JobReturnHeader.ProcessId;
-                        StockProcessViewModel.LotNo = null;
-                        StockProcessViewModel.CostCenterId = null;
-                        StockProcessViewModel.Qty_Iss = 0;
-                        StockProcessViewModel.Qty_Rec = svm.Qty;
-                        StockProcessViewModel.Rate = null;
-                        StockProcessViewModel.ExpiryDate = null;
-                        StockProcessViewModel.Specification = svm.Specification;
-                        StockProcessViewModel.Dimension1Id = svm.Dimension1Id;
-                        StockProcessViewModel.Dimension2Id = svm.Dimension2Id;
-                        StockProcessViewModel.Dimension3Id = svm.Dimension3Id;
-                        StockProcessViewModel.Dimension4Id = svm.Dimension4Id;
-                        StockProcessViewModel.Remark = GLine.Remark;
-                        StockProcessViewModel.ProductUidId = svm.ProductUidId;
-                        StockProcessViewModel.Status = JobReturnHeader.Status;
-                        StockProcessViewModel.CreatedBy = JobReturnHeader.CreatedBy;
-                        StockProcessViewModel.CreatedDate = JobReturnHeader.CreatedDate;
-                        StockProcessViewModel.ModifiedBy = User.Identity.Name;
-                        StockProcessViewModel.ModifiedDate = DateTime.Now;
-
-                        string StockProcessPostingError = "";
-                        StockProcessPostingError = new StockProcessService(_unitOfWork).StockProcessPostDB(ref StockProcessViewModel, ref db);
-
-                        if (StockProcessPostingError != "")
+                        if (GLine.StockId != null)
                         {
-                            ModelState.AddModelError("", StockProcessPostingError);
-                            return PartialView("_Create", svm);
+                            StockViewModel StockViewModel = new StockViewModel();
+                            StockViewModel.StockHeaderId = JobReturnHeader.StockHeaderId ?? 0;
+                            StockViewModel.StockId = GLine.StockId ?? 0;
+                            StockViewModel.DocHeaderId = JobReturnHeader.JobReturnHeaderId;
+                            StockViewModel.DocLineId = GLine.JobReceiveLineId;
+                            StockViewModel.DocTypeId = JobReturnHeader.DocTypeId;
+                            StockViewModel.StockHeaderDocDate = JobReturnHeader.DocDate;
+                            StockViewModel.StockDocDate = JobReturnHeader.DocDate;
+                            StockViewModel.DocNo = JobReturnHeader.DocNo;
+                            StockViewModel.DivisionId = JobReturnHeader.DivisionId;
+                            StockViewModel.SiteId = JobReturnHeader.SiteId;
+                            StockViewModel.CurrencyId = null;
+                            StockViewModel.HeaderProcessId = JobReturnHeader.ProcessId;
+                            StockViewModel.PersonId = JobReturnHeader.JobWorkerId;
+                            StockViewModel.ProductId = svm.ProductId;
+                            StockViewModel.HeaderFromGodownId = null;
+                            StockViewModel.HeaderGodownId = JobReturnHeader.GodownId;
+                            StockViewModel.GodownId = JobReturnHeader.GodownId;
+                            StockViewModel.ProcessId = JobReturnHeader.ProcessId;
+                            StockViewModel.LotNo = null;
+                            StockViewModel.CostCenterId = null;
+                            StockViewModel.Qty_Iss = svm.Qty;
+                            StockViewModel.Qty_Rec = 0;
+                            StockViewModel.Rate = null;
+                            StockViewModel.ExpiryDate = null;
+                            StockViewModel.Specification = svm.Specification;
+                            StockViewModel.Dimension1Id = svm.Dimension1Id;
+                            StockViewModel.Dimension2Id = svm.Dimension2Id;
+                            StockViewModel.Dimension3Id = svm.Dimension3Id;
+                            StockViewModel.Dimension4Id = svm.Dimension4Id;
+                            StockViewModel.Remark = GLine.Remark;
+                            StockViewModel.ProductUidId = svm.ProductUidId;
+                            StockViewModel.Status = JobReturnHeader.Status;
+                            StockViewModel.CreatedBy = JobReturnHeader.CreatedBy;
+                            StockViewModel.CreatedDate = JobReturnHeader.CreatedDate;
+                            StockViewModel.ModifiedBy = User.Identity.Name;
+                            StockViewModel.ModifiedDate = DateTime.Now;
+
+                            string StockPostingError = "";
+                            StockPostingError = new StockService(_unitOfWork).StockPostDB(ref StockViewModel, ref db);
+
+                            if (StockPostingError != "")
+                            {
+                                ModelState.AddModelError("", StockPostingError);
+                                return PartialView("_Create", svm);
+                            }
                         }
+
+
+                        if (GLine.StockProcessId != null)
+                        {
+                            StockProcessViewModel StockProcessViewModel = new StockProcessViewModel();
+                            StockProcessViewModel.StockHeaderId = JobReturnHeader.StockHeaderId ?? 0;
+                            StockProcessViewModel.StockProcessId = GLine.StockProcessId ?? 0;
+                            StockProcessViewModel.DocHeaderId = JobReturnHeader.JobReturnHeaderId;
+                            StockProcessViewModel.DocLineId = GLine.JobReceiveLineId;
+                            StockProcessViewModel.DocTypeId = JobReturnHeader.DocTypeId;
+                            StockProcessViewModel.StockHeaderDocDate = JobReturnHeader.DocDate;
+                            StockProcessViewModel.StockProcessDocDate = JobReturnHeader.DocDate;
+                            StockProcessViewModel.DocNo = JobReturnHeader.DocNo;
+                            StockProcessViewModel.DivisionId = JobReturnHeader.DivisionId;
+                            StockProcessViewModel.SiteId = JobReturnHeader.SiteId;
+                            StockProcessViewModel.CurrencyId = null;
+                            StockProcessViewModel.HeaderProcessId = JobReturnHeader.ProcessId;
+                            StockProcessViewModel.PersonId = JobReturnHeader.JobWorkerId;
+                            StockProcessViewModel.ProductId = svm.ProductId;
+                            StockProcessViewModel.HeaderFromGodownId = null;
+                            StockProcessViewModel.HeaderGodownId = JobReturnHeader.GodownId;
+                            StockProcessViewModel.GodownId = JobReturnHeader.GodownId;
+                            StockProcessViewModel.ProcessId = JobReturnHeader.ProcessId;
+                            StockProcessViewModel.LotNo = null;
+                            StockProcessViewModel.CostCenterId = null;
+                            StockProcessViewModel.Qty_Iss = 0;
+                            StockProcessViewModel.Qty_Rec = svm.Qty;
+                            StockProcessViewModel.Rate = null;
+                            StockProcessViewModel.ExpiryDate = null;
+                            StockProcessViewModel.Specification = svm.Specification;
+                            StockProcessViewModel.Dimension1Id = svm.Dimension1Id;
+                            StockProcessViewModel.Dimension2Id = svm.Dimension2Id;
+                            StockProcessViewModel.Dimension3Id = svm.Dimension3Id;
+                            StockProcessViewModel.Dimension4Id = svm.Dimension4Id;
+                            StockProcessViewModel.Remark = GLine.Remark;
+                            StockProcessViewModel.ProductUidId = svm.ProductUidId;
+                            StockProcessViewModel.Status = JobReturnHeader.Status;
+                            StockProcessViewModel.CreatedBy = JobReturnHeader.CreatedBy;
+                            StockProcessViewModel.CreatedDate = JobReturnHeader.CreatedDate;
+                            StockProcessViewModel.ModifiedBy = User.Identity.Name;
+                            StockProcessViewModel.ModifiedDate = DateTime.Now;
+
+                            string StockProcessPostingError = "";
+                            StockProcessPostingError = new StockProcessService(_unitOfWork).StockProcessPostDB(ref StockProcessViewModel, ref db);
+
+                            if (StockProcessPostingError != "")
+                            {
+                                ModelState.AddModelError("", StockProcessPostingError);
+                                return PartialView("_Create", svm);
+                            }
+                        }
+
+                        JobReturnHeader.ModifiedBy = User.Identity.Name;
+                        JobReturnHeader.ModifiedDate = DateTime.Now;
+                        JobReturnHeader.ObjectState = Model.ObjectState.Modified;
+                        db.JobReturnHeader.Add(JobReturnHeader);
                     }
 
                     if (temp.Status != (int)StatusConstants.Drafted && temp.Status != (int)StatusConstants.Import)
@@ -1733,16 +1789,11 @@ namespace Web
                         temp.ModifiedBy = User.Identity.Name;
                         temp.ModifiedDate = DateTime.Now;
                         //JobReturnHeader.Status = temp.Status;
-                        JobReturnHeader.ModifiedBy = User.Identity.Name;
-                        JobReturnHeader.ModifiedDate = DateTime.Now;
                         //new JobInvoiceReturnHeaderService(_unitOfWork).Update(temp);
                     }
 
                     temp.ObjectState = Model.ObjectState.Modified;
                     db.JobInvoiceReturnHeader.Add(temp);
-
-                    JobReturnHeader.ObjectState = Model.ObjectState.Modified;
-                    db.JobReturnHeader.Add(JobReturnHeader);
 
 
                     if (svm.linecharges != null)
@@ -2008,19 +2059,10 @@ namespace Web
                     ExObj = Mapper.Map<JobInvoiceReturnLine>(JobInvoiceReturnLine),
                 });
 
-                JobReturnLine Gline = db.JobReturnLine.Find(JobInvoiceReturnLine.JobReturnLineId ?? 0);
-
-                LogList.Add(new LogTypeViewModel
-                {
-                    ExObj = Mapper.Map<JobReturnLine>(Gline),
-                });
-
                 JobInvoiceReturnHeader header = new JobInvoiceReturnHeaderService(db).Find(JobInvoiceReturnLine.JobInvoiceReturnHeaderId);
-                JobReturnHeader Gheader = new JobReturnHeaderService(_unitOfWork).Find(Gline.JobReturnHeaderId);
 
-                new JobInvoiceLineStatusService(db).UpdateJobInvoiceQtyOnReturn(JobInvoiceReturnLine.JobInvoiceLineId, JobInvoiceReturnLine.JobInvoiceReturnLineId, header.DocDate, 0, 0, ref db);
 
-                StockId = Gline.StockId;
+                int? JobReturnLineId = JobInvoiceReturnLine.JobReturnLineId;
 
                 var chargeslist = (from p in db.JobInvoiceReturnLineCharge
                                    where p.LineTableId == vm.JobInvoiceReturnLineId
@@ -2054,55 +2096,69 @@ namespace Web
 
                     header.ObjectState = Model.ObjectState.Modified;
                     db.JobInvoiceReturnHeader.Add(header);
+                }
 
-                    //Gheader.Status = (int)StatusConstants.Modified;
+                if (JobReturnLineId != null)
+                {
+                    JobReturnLine Gline = db.JobReturnLine.Find((int)JobReturnLineId);
+                    LogList.Add(new LogTypeViewModel
+                    {
+                        ExObj = Mapper.Map<JobReturnLine>(Gline),
+                    });
+                    JobReturnHeader Gheader = new JobReturnHeaderService(_unitOfWork).Find(Gline.JobReturnHeaderId);
+                    new JobInvoiceLineStatusService(db).UpdateJobInvoiceQtyOnReturn(JobInvoiceReturnLine.JobInvoiceLineId, JobInvoiceReturnLine.JobInvoiceReturnLineId, header.DocDate, 0, 0, ref db);
+                    StockId = Gline.StockId;
+
+                    var JobReceiveLine = new JobReceiveLineService(_unitOfWork).Find(Gline.JobReceiveLineId);
+
+                    if (JobReceiveLine.ProductUidId.HasValue)
+                    {
+                        //Service.ProductUidDetail ProductUidDetail = new ProductUidService(_unitOfWork).FGetProductUidLastValues(JobReceiveLine.ProductUidId.Value, "Job Return-" + vm.JobReturnHeaderId.ToString());
+
+                        ProductUid ProductUid = new ProductUidService(_unitOfWork).Find(JobReceiveLine.ProductUidId.Value);
+
+                        if (!(Gline.ProductUidLastTransactionDocNo == ProductUid.LastTransactionDocNo && Gline.ProductUidLastTransactionDocTypeId == ProductUid.LastTransactionDocTypeId) || Gheader.SiteId == 17)
+                        {
+
+                            if (Gheader.DocNo != ProductUid.LastTransactionDocNo || Gheader.DocTypeId != ProductUid.LastTransactionDocTypeId)
+                            {
+                                ModelState.AddModelError("", "Bar Code Can't be deleted because this is already Proceed to another process.");
+                                PrepareViewBag(vm);
+                                ViewBag.LineMode = "Delete";
+                                return PartialView("_Create", vm);
+                            }
+
+                            ProductUid.LastTransactionDocDate = Gline.ProductUidLastTransactionDocDate;
+                            ProductUid.LastTransactionDocId = Gline.ProductUidLastTransactionDocId;
+                            ProductUid.LastTransactionDocNo = Gline.ProductUidLastTransactionDocNo;
+                            ProductUid.LastTransactionDocTypeId = Gline.ProductUidLastTransactionDocTypeId;
+                            ProductUid.LastTransactionPersonId = Gline.ProductUidLastTransactionPersonId;
+                            ProductUid.CurrenctGodownId = Gline.ProductUidCurrentGodownId;
+                            ProductUid.CurrenctProcessId = Gline.ProductUidCurrentProcessId;
+                            ProductUid.Status = Gline.ProductUidStatus;
+
+                            //new ProductUidService(_unitOfWork).Update(ProductUid);
+                            ProductUid.ObjectState = Model.ObjectState.Modified;
+                            db.ProductUid.Add(ProductUid);
+
+                        }
+                    }
+
+                    Gline.ObjectState = Model.ObjectState.Deleted;
+                    db.JobReturnLine.Remove(Gline);
+
+                    if (StockId != null)
+                    {
+                        new StockService(_unitOfWork).DeleteStockDB((int)StockId, ref db, true);
+                    }
+
                     Gheader.ModifiedBy = User.Identity.Name;
                     Gheader.ModifiedDate = DateTime.Now;
                     db.JobReturnHeader.Add(Gheader);
                 }
 
-                var JobReceiveLine = new JobReceiveLineService(_unitOfWork).Find(Gline.JobReceiveLineId);
 
-                if (JobReceiveLine.ProductUidId.HasValue)
-                {
-                    //Service.ProductUidDetail ProductUidDetail = new ProductUidService(_unitOfWork).FGetProductUidLastValues(JobReceiveLine.ProductUidId.Value, "Job Return-" + vm.JobReturnHeaderId.ToString());
 
-                    ProductUid ProductUid = new ProductUidService(_unitOfWork).Find(JobReceiveLine.ProductUidId.Value);
-
-                    if (!(Gline.ProductUidLastTransactionDocNo == ProductUid.LastTransactionDocNo && Gline.ProductUidLastTransactionDocTypeId == ProductUid.LastTransactionDocTypeId) || Gheader.SiteId == 17)
-                    {
-
-                        if (Gheader.DocNo != ProductUid.LastTransactionDocNo || Gheader.DocTypeId != ProductUid.LastTransactionDocTypeId)
-                        {
-                            ModelState.AddModelError("", "Bar Code Can't be deleted because this is already Proceed to another process.");
-                            PrepareViewBag(vm);
-                            ViewBag.LineMode = "Delete";
-                            return PartialView("_Create", vm);
-                        }
-
-                        ProductUid.LastTransactionDocDate = Gline.ProductUidLastTransactionDocDate;
-                        ProductUid.LastTransactionDocId = Gline.ProductUidLastTransactionDocId;
-                        ProductUid.LastTransactionDocNo = Gline.ProductUidLastTransactionDocNo;
-                        ProductUid.LastTransactionDocTypeId = Gline.ProductUidLastTransactionDocTypeId;
-                        ProductUid.LastTransactionPersonId = Gline.ProductUidLastTransactionPersonId;
-                        ProductUid.CurrenctGodownId = Gline.ProductUidCurrentGodownId;
-                        ProductUid.CurrenctProcessId = Gline.ProductUidCurrentProcessId;
-                        ProductUid.Status = Gline.ProductUidStatus;
-
-                        //new ProductUidService(_unitOfWork).Update(ProductUid);
-                        ProductUid.ObjectState = Model.ObjectState.Modified;
-                        db.ProductUid.Add(ProductUid);
-
-                    }
-                }
-
-                Gline.ObjectState = Model.ObjectState.Deleted;
-                db.JobReturnLine.Remove(Gline);
-
-                if (StockId != null)
-                {
-                    new StockService(_unitOfWork).DeleteStockDB((int)StockId, ref db, true);
-                }
 
                 XElement Modifications = new ModificationsCheckService().CheckChanges(LogList);
 

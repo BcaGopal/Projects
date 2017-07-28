@@ -53,6 +53,7 @@ namespace Model.Models
         public bool? isVisibleShipMethod { get; set; }
 
         public bool? isVisibleSalesTaxGroupPerson { get; set; }
+        public bool? isVisibleSalesTaxGroupProduct { get; set; }
         public bool? isVisibleDoorDelivery { get; set; }
         public bool? isVisibleCreditDays { get; set; }
         public bool? isVisibleCostCenter { get; set; }
@@ -74,9 +75,10 @@ namespace Model.Models
         public bool? isVisiblePaymentTerms { get; set; }
         public bool? isUniqueCostCenter { get; set; }
         public bool? IsPersonWiseCostCenter { get; set; }
-        public bool isVisibleFromSaleEnquiry { get; set; }
-        public bool isVisibleAgent { get; set; }
-
+        public bool? isVisibleFromSaleEnquiry { get; set; }
+        public bool? isVisibleAgent { get; set; }
+        public bool? isVisibleDiscountPer { get; set; }
+        public bool? CalculateDiscountOnRate { get; set; }
 
         public string filterLedgerAccountGroups { get; set; }
         public string filterLedgerAccounts { get; set; }
@@ -144,6 +146,9 @@ namespace Model.Models
         public int? CalculationId { get; set; }
         public virtual Calculation Calculation { get; set; }
 
+        [ForeignKey("DocumentPrintReportHeader")]
+        public int? DocumentPrintReportHeaderId { get; set; }
+        public virtual ReportHeader DocumentPrintReportHeader { get; set; }
 
 
 

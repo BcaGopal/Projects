@@ -861,6 +861,47 @@ namespace Web
             if (svm.ReceiveQty <= 0)
                 ModelState.AddModelError("ReceiveQty", "The Rec Qty field is required");
 
+
+            #region "Tax Calculation Validation"
+            //SiteDivisionSettings SiteDivisionSettings = new SiteDivisionSettingsService(_unitOfWork).GetSiteDivisionSettings(InvoiceHeader.SiteId, InvoiceHeader.DivisionId, InvoiceHeader.DocDate);
+            //if (SiteDivisionSettings != null)
+            //{
+            //    if (SiteDivisionSettings.IsApplicableGST == true)
+            //    {
+            //        if (svm.SalesTaxGroupPersonId == 0 || svm.SalesTaxGroupPersonId == null)
+            //        {
+            //            ModelState.AddModelError("", "Sales Tax Group Person is not defined for party, it is required.");
+            //        }
+
+            //        if (svm.SalesTaxGroupProductId == 0 || svm.SalesTaxGroupProductId == null)
+            //        {
+            //            ModelState.AddModelError("", "Sales Tax Group Product is not defined for product, it is required.");
+            //        }
+
+            //        if (svm.SalesTaxGroupProductId != 0 && svm.SalesTaxGroupProductId != null && svm.SalesTaxGroupPersonId != 0 && svm.SalesTaxGroupPersonId != null && svm.JobInvoiceSettings.CalculationId != null)
+            //        {
+            //            IEnumerable<ChargeRateSettings> ChargeRateSettingsList = new CalculationProductService(_unitOfWork).GetChargeRateSettingForValidation((int)svm.JobInvoiceSettings.CalculationId, InvoiceHeader.DocTypeId, InvoiceHeader.SiteId, InvoiceHeader.DivisionId, InvoiceHeader.ProcessId, (int)svm.SalesTaxGroupPersonId, (int)svm.SalesTaxGroupProductId);
+
+            //            foreach (var item in ChargeRateSettingsList)
+            //            {
+            //                if (item.ChargeGroupSettingId == null)
+            //                {
+            //                    ModelState.AddModelError("", "Charge Group Setting is not defined for " + item.ChargeName + ".");
+            //                }
+
+            //                if (item.LedgerAccountCrName == LedgerAccountConstants.Charge || item.LedgerAccountDrName == LedgerAccountConstants.Charge)
+            //                {
+            //                    if (item.ChargeGroupSettingId != null && item.ChargePer != 0 && item.ChargePer != null && item.ChargeLedgerAccountId == null)
+            //                    {
+            //                        ModelState.AddModelError("", "Ledger account is not defined for " + item.ChargeName + " in charge group settings.");
+            //                    }
+            //                }
+            //            }
+            //        }
+            //    }
+            //}
+            #endregion
+
             if (svm.JobInvoiceLineId <= 0)
             {
                 ViewBag.LineMode = "Create";

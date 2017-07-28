@@ -76,6 +76,9 @@ namespace Model.Models
 
         [Display(Name = "Discount %")]
         public Decimal? DiscountPer { get; set; }
+        
+        [Display(Name = "Discount Amount")]
+        public Decimal? DiscountAmount { get; set; }
 
         [ForeignKey("ReferenceDocType"), Display(Name = "ReferenceDocType")]
         public int? ReferenceDocTypeId { get; set; }
@@ -83,9 +86,11 @@ namespace Model.Models
 
         public int? ReferenceDocLineId { get; set; }
 
+        [ForeignKey("SalesTaxGroupProduct"), Display(Name = "Sales Tax Group Product")]
+        public int? SalesTaxGroupProductId { get; set; }
+        public virtual ChargeGroupProduct SalesTaxGroupProduct { get; set; }
 
-        //[Display(Name="Sales Tax Group")]
-        //public int SalesTaxGroupId { get; set; }
+
         public int Sr { get; set; }
 
         [Display(Name = "Remark")]

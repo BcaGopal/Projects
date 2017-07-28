@@ -205,6 +205,18 @@ namespace Web
             if (!vm.JobWorkerId.HasValue || vm.JobWorkerId.Value <= 0)
                 ModelState.AddModelError("JobWorkerId", "The JobWorker field is required");
 
+            SiteDivisionSettings SiteDivisionSettings = new SiteDivisionSettingsService(_unitOfWork).GetSiteDivisionSettings(vm.SiteId, vm.DivisionId, vm.DocDate);
+            if (SiteDivisionSettings != null)
+            {
+                if (SiteDivisionSettings.IsApplicableGST == true)
+                {
+                    if (vm.SalesTaxGroupPersonId == 0 || vm.SalesTaxGroupPersonId == null)
+                    {
+                        ModelState.AddModelError("", "Sales Tax Group Person is not defined for party, it is required.");
+                    }
+                }
+            }
+
             #region BeforeSave
             try
             {
@@ -816,6 +828,8 @@ namespace Web
                     LedgerHeaderViewModel.DocNo = pd.DocNo;
                     LedgerHeaderViewModel.DivisionId = pd.DivisionId;
                     LedgerHeaderViewModel.SiteId = pd.SiteId;
+                    LedgerHeaderViewModel.PartyDocNo = pd.JobWorkerDocNo;
+                    LedgerHeaderViewModel.PartyDocDate = pd.JobWorkerDocDate;
                     LedgerHeaderViewModel.Narration = "";
                     LedgerHeaderViewModel.Remark = pd.Remark;
                     LedgerHeaderViewModel.CreatedBy = pd.CreatedBy;

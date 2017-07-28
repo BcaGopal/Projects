@@ -18,6 +18,9 @@ namespace Model.Models
         [Index("IX_ChargeGroupProduct_ChargeGroupProductName", IsUnique = true)]
         public string ChargeGroupProductName { get; set; }
 
+        [MaxLength(50)]
+        public string PrintingDescription { get; set; }
+
 
         [Display(Name = "Is Active ?")]
         public Boolean IsActive { get; set; }

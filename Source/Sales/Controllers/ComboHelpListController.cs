@@ -4531,6 +4531,24 @@ namespace Web
               return Json(ProductJson);
           }
 
+        public JsonResult SetSingleSaleInvoiceLine(int Ids)
+        {
+            ComboBoxResult SaleInvoiceJson = new ComboBoxResult();
+
+            var SaleInvoice = from L in db.SaleInvoiceLine
+                              where L.SaleInvoiceLineId == Ids
+                              select new
+                              {
+                                  SaleInvoiceLineId = L.SaleInvoiceLineId,
+                                  SaleInvoiceNo = L.SaleInvoiceHeader.DocNo
+                              };
+
+            SaleInvoiceJson.id = SaleInvoice.FirstOrDefault().ToString();
+            SaleInvoiceJson.text = SaleInvoice.FirstOrDefault().SaleInvoiceNo;
+
+            return Json(SaleInvoiceJson);
+        }
+
         public ActionResult GetPackings(string searchTerm, int pageSize, int pageNum)
           {
               //Get the paged results and the total count of the results for this query. ProductCacheKeyHint
@@ -5695,6 +5713,38 @@ namespace Web
                 });
             }
             return Json(ProductJson);
+        }
+
+        public JsonResult GetReason(string searchTerm, int pageSize, int pageNum, int filter)//filter:DocTypeId
+        {
+            var Query = cbl.GetReasonHelpListWithDocTypeFilter(filter, searchTerm);
+            var temp = Query.Skip(pageSize * (pageNum - 1)).Take(pageSize).ToList();
+
+            var count = Query.Count();
+
+            ComboBoxPagedResult Data = new ComboBoxPagedResult();
+            Data.Results = temp;
+            Data.Total = count;
+
+            return new JsonpResult
+            {
+                Data = Data,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        public JsonResult SetSingleReason(int Ids)
+        {
+            ComboBoxResult ReasonJson = new ComboBoxResult();
+
+            Reason reason = (from b in db.Reason
+                             where b.ReasonId == Ids
+                             select b).FirstOrDefault();
+
+            ReasonJson.id = reason.ReasonId.ToString();
+            ReasonJson.text = reason.ReasonName;
+
+            return Json(ReasonJson);
         }
 
 

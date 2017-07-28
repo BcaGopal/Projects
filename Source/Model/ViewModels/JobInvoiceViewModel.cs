@@ -173,6 +173,10 @@ namespace Model.ViewModel
         public List<JobInvoiceLineCharge> linecharges { get; set; }
         public List<JobInvoiceHeaderCharge> footercharges { get; set; }
 
+
+        public List<HeaderCharges> RHeaderCharges { get; set; }
+        public List<LineCharges> RLineCharges { get; set; }
+
         public int DocTypeId { get; set; }
         public string DocTypeName { get; set; }
 
@@ -188,7 +192,6 @@ namespace Model.ViewModel
         public string InvoiceDocNo { get; set; }
         public DateTime OrderDocDate { get; set; }
         public string LockReason { get; set; }
-
     }
 
 

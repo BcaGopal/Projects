@@ -222,6 +222,17 @@ namespace Web
         [ValidateAntiForgeryToken]
         public ActionResult CreatePost(DirectSaleInvoiceHeaderViewModel vm)
         {
+            SiteDivisionSettings SiteDivisionSettings = new SiteDivisionSettingsService(_unitOfWork).GetSiteDivisionSettings(vm.SiteId, vm.DivisionId, vm.DocDate);
+            if (SiteDivisionSettings != null)
+            {
+                if (SiteDivisionSettings.IsApplicableGST == true)
+                {
+                    if (vm.SalesTaxGroupPersonId == 0 || vm.SalesTaxGroupPersonId == null)
+                    {
+                        ModelState.AddModelError("", "Sales Tax Group Person is not defined for party, it is required.");
+                    }
+                }
+            }
 
             #region DocTypeTimeLineValidation
 
@@ -1888,7 +1899,7 @@ namespace Web
                     InvoiceRetHeader.SiteId = SaleInvoiceHeader.SiteId;
                     InvoiceRetHeader.DivisionId = SaleInvoiceHeader.DivisionId;
                     InvoiceRetHeader.BuyerId = SaleInvoiceHeader.SaleToBuyerId;
-                    InvoiceRetHeader.CurrencyId = SaleInvoiceHeader.CurrencyId;
+                    //InvoiceRetHeader.CurrencyId = SaleInvoiceHeader.CurrencyId;
                     InvoiceRetHeader.ReasonId = svm.ReasonId;
                     InvoiceRetHeader.Remark = svm.Remark;
                     InvoiceRetHeader.CreatedDate = DateTime.Now;

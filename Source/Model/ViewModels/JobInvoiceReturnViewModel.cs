@@ -34,8 +34,11 @@ namespace Model.ViewModel
         public int JobWorkerId { get; set; }
         public string JobWorkerName{ get; set; }
 
-        public int OrderById { get; set; }
+        public int? OrderById { get; set; }
         public string OrderByName { get; set; }
+
+        public int? SalesTaxGroupPersonId { get; set; }
+        public string SalesTaxGroupPersonName { get; set; }
 
         public bool CalculateDiscountOnRate { get; set; }        
 
@@ -49,7 +52,7 @@ namespace Model.ViewModel
         public int ? JobReturnHeaderId { get; set; }
         public int ProcessId { get; set; }
         public string ProcessName { get; set; }
-        public int GodownId { get; set; }
+        public int? GodownId { get; set; }
         public JobInvoiceSettingsViewModel JobInvoiceSettings { get; set; }
         public DocumentTypeSettingsViewModel DocumentTypeSettings { get; set; }
         public string ModifiedBy { get; set; }
@@ -64,6 +67,8 @@ namespace Model.ViewModel
         public DateTime? GatePassDocDate { get; set; }
         public int? GatePassHeaderId { get; set; }
         public string LockReason { get; set; }
+        public string Nature { get; set; }
+
 
     }
 
@@ -108,7 +113,9 @@ namespace Model.ViewModel
 
         public Decimal RateAfterDiscount { get; set; }
 
-        
+
+        public int? SalesTaxGroupProductId { get; set; }
+        public int? SalesTaxGroupPersonId { get; set; }
 
         public bool CalculateDiscountOnRate { get; set; }
 
@@ -147,6 +154,7 @@ namespace Model.ViewModel
         public string ProductUidName { get; set; }
         public string LockReason { get; set; }
         public decimal Weight { get; set; }
+        public string Nature { get; set; }
     }
     public class JobInvoiceReturnLineIndexViewModel
     {

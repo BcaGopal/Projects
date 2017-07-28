@@ -18,7 +18,8 @@ namespace Model.Models
         [Index("IX_ChargeGroupPerson_ChargeGroupPersonName", IsUnique = true)]
         public string ChargeGroupPersonName { get; set; }
 
-
+        [MaxLength(50)]
+        public string PrintingDescription { get; set; }
 
         [Display(Name = "Is Active ?")]
         public Boolean IsActive { get; set; }

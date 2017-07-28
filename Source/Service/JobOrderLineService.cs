@@ -35,13 +35,14 @@ namespace Service
         IQueryable<ComboBoxResult> GetPendingProdOrderHelpList(int Id, string term);//PurchaseOrderHeaderId
 
         IEnumerable<ProdOrderHeaderListViewModel> GetPendingProdOrdersWithPatternMatch(int Id, string term, int Limiter);
-        IEnumerable<ComboBoxList> GetProductHelpList(int Id, string term);
+        //IEnumerable<ComboBoxList> GetProductHelpList(int Id, string term);
         int GetMaxSr(int id);
         List<ComboBoxResult> GetBarCodesForWeavingWizard(int id, string term);
 
         IEnumerable<JobRate> GetJobRate(int JobOrderHeaderId, int ProductId);
         decimal GetUnitConversionForProdOrderLine(int ProdLineId, byte UnitConvForId, string DealUnitId);
         IQueryable<ComboBoxResult> GetCustomProductGroups(int Id, string term);
+        IQueryable<ComboBoxResult> GetCustomProducts(int Id, string term);
 
         IQueryable<ComboBoxResult> GetProdOrderHelpListForProduct(int Id, string term);
 
@@ -50,6 +51,7 @@ namespace Service
 
         IEnumerable<ComboBoxResult> GetPendingStockInForIssue(int id, int? ProductId, int? Dimension1Id, int? Dimension2Id, int? Dimension3Id, int? Dimension4Id, string term);
         IEnumerable<ComboBoxResult> GetPendingStockInHeaderForIssue(int StockHeaderId, string term);
+        Decimal? GetExcessReceiveAllowedAgainstOrderQty(int JobOrderLineId);
     }
 
     public class JobOrderLineService : IJobOrderLineService
@@ -436,6 +438,10 @@ namespace Service
             if (!string.IsNullOrEmpty(settings.filterContraDivisions)) { ContraDivisions = settings.filterContraDivisions.Split(",".ToCharArray()); }
             else { ContraDivisions = new string[] { "NA" }; }
 
+
+            Decimal? ExcessReceiveAllowedAgainstOrderQty = GetExcessReceiveAllowedAgainstOrderQty(id);
+
+
             return (from p in db.ViewJobOrderBalance
                     join t1 in db.JobOrderLine on p.JobOrderLineId equals t1.JobOrderLineId
                     join t2 in db.Product on p.ProductId equals t2.ProductId
@@ -470,9 +476,8 @@ namespace Service
                         UnitDecimalPlaces = t2.Unit.DecimalPlaces,
                         DealUnitDecimalPlaces = t1.DealUnit.DecimalPlaces,
                         Rate = p.Rate,
-
-                    }
-                        ).FirstOrDefault();
+                        ExcessReceiveAllowedAgainstOrderQty = ExcessReceiveAllowedAgainstOrderQty
+                    }).FirstOrDefault();
 
         }
 
@@ -895,6 +900,7 @@ namespace Service
                                 JobOrderHeaderId = vm.JobOrderHeaderId,
                                 StockInId = L.StockInId,
                                 StockInNo = StockTab.StockHeader.DocNo,
+                                FromProcessId = StockTab.ProcessId,
                                 UnitId = StockTab.Product.UnitId,
                                 LossQty = Settings.LossQty,
                                 NonCountedQty = Settings.NonCountedQty,
@@ -945,6 +951,7 @@ namespace Service
                                 JobOrderHeaderId = vm.JobOrderHeaderId,
                                 StockInId = L.StockInId,
                                 StockInNo = StockTab.StockHeader.DocNo,
+                                FromProcessId = StockTab.ProcessId,
                                 UnitId = StockTab.Product.UnitId,
                                 DealUnitId = StockTab.Product.UnitId,
                                 UnitConversionMultiplier = 1,
@@ -1097,51 +1104,92 @@ namespace Service
             return (list);
         }
 
-        public IEnumerable<ComboBoxList> GetProductHelpList(int Id, string term)
+        //public IEnumerable<ComboBoxList> GetProductHelpList(int Id, string term)
+        //{
+        //    var JobOrder = new JobOrderHeaderService(_unitOfWork).Find(Id);
+
+        //    var settings = new JobOrderSettingsService(_unitOfWork).GetJobOrderSettingsForDocument(JobOrder.DocTypeId, JobOrder.DivisionId, JobOrder.SiteId);
+
+        //    string settingProductTypes = "";
+        //    string settingProductDivision = "";
+        //    string settingProductCategory = "";
+
+
+        //    if (!string.IsNullOrEmpty(settings.filterProductTypes)) { settingProductTypes = "|" + settings.filterProductTypes.Replace(",", "|,|") + "|"; }
+        //    if (!string.IsNullOrEmpty(settings.FilterProductDivision)) { settingProductDivision = "|" + settings.FilterProductDivision.Replace(",", "|,|") + "|"; }
+        //    if (!string.IsNullOrEmpty(settings.filterProductCategories)) { settingProductCategory = "|" + settings.filterProductCategories.Replace(",", "|,|") + "|"; }
+
+
+        //    string[] ProductTypes = null;
+        //    if (!string.IsNullOrEmpty(settings.filterProductTypes)) { ProductTypes = settingProductTypes.Split(",".ToCharArray()); }
+        //    else { ProductTypes = new string[] { "NA" }; }
+
+        //    string[] ProductDivision = null;
+        //    if (!string.IsNullOrEmpty(settings.FilterProductDivision)) { ProductDivision = settingProductDivision.Split(",".ToCharArray()); }
+        //    else { ProductDivision = new string[] { "NA" }; }
+
+        //    string[] ProductCategory = null;
+        //    if (!string.IsNullOrEmpty(settings.filterProductCategories)) { ProductCategory = settingProductCategory.Split(",".ToCharArray()); }
+        //    else { ProductCategory = new string[] { "NA" }; }
+
+
+        //    var list = (from p in db.Product
+        //                join Fp in db.FinishedProduct on p.ProductId equals Fp.ProductId into FinishedProductTable from FinishedProductTab in FinishedProductTable.DefaultIfEmpty()
+        //                where (string.IsNullOrEmpty(term) ? 1 == 1 : p.ProductName.ToLower().Contains(term.ToLower()))
+        //                && (string.IsNullOrEmpty(settings.filterProductTypes) ? 1 == 1 : ProductTypes.Contains("|" + p.ProductGroup.ProductTypeId.ToString() + "|"))
+        //                && (string.IsNullOrEmpty(settings.FilterProductDivision) ? 1 == 1 : ProductDivision.Contains("|" + p.DivisionId.ToString() + "|"))
+        //                && (string.IsNullOrEmpty(settings.filterProductCategories) ? 1 == 1 : ProductCategory.Contains("|" + FinishedProductTab.ProductCategoryId.ToString() + "|"))
+        //                group new { p } by p.ProductId into g
+        //                select new ComboBoxList
+        //                {
+        //                    PropFirst = g.Max(m => m.p.ProductName),
+        //                    Id = g.Key,
+        //                }
+        //                  ).Take(20);
+
+        //    return list.ToList();
+        //}
+
+
+        public IQueryable<ComboBoxResult> GetCustomProducts(int Id, string term)
         {
             var JobOrder = new JobOrderHeaderService(_unitOfWork).Find(Id);
 
             var settings = new JobOrderSettingsService(_unitOfWork).GetJobOrderSettingsForDocument(JobOrder.DocTypeId, JobOrder.DivisionId, JobOrder.SiteId);
 
-            string settingProductTypes = "";
-            string settingProductDivision = "";
-            string settingProductCategory = "";
-
-
-            if (!string.IsNullOrEmpty(settings.filterProductTypes)) { settingProductTypes = "|" + settings.filterProductTypes.Replace(",", "|,|") + "|"; }
-            if (!string.IsNullOrEmpty(settings.FilterProductDivision)) { settingProductDivision = "|" + settings.FilterProductDivision.Replace(",", "|,|") + "|"; }
-            if (!string.IsNullOrEmpty(settings.filterProductCategories)) { settingProductCategory = "|" + settings.filterProductCategories.Replace(",", "|,|") + "|"; }
-
-
             string[] ProductTypes = null;
-            if (!string.IsNullOrEmpty(settings.filterProductTypes)) { ProductTypes = settingProductTypes.Split(",".ToCharArray()); }
+            if (!string.IsNullOrEmpty(settings.filterProductTypes)) { ProductTypes = settings.filterProductTypes.Split(",".ToCharArray()); }
             else { ProductTypes = new string[] { "NA" }; }
 
+            string[] ProductGroups = null;
+            if (!string.IsNullOrEmpty(settings.filterProductGroups)) { ProductGroups = settings.filterProductGroups.Split(",".ToCharArray()); }
+            else { ProductGroups = new string[] { "NA" }; }
+
             string[] ProductDivision = null;
-            if (!string.IsNullOrEmpty(settings.FilterProductDivision)) { ProductDivision = settingProductDivision.Split(",".ToCharArray()); }
+            if (!string.IsNullOrEmpty(settings.FilterProductDivision)) { ProductDivision = settings.FilterProductDivision.Split(",".ToCharArray()); }
             else { ProductDivision = new string[] { "NA" }; }
 
             string[] ProductCategory = null;
-            if (!string.IsNullOrEmpty(settings.filterProductCategories)) { ProductCategory = settingProductCategory.Split(",".ToCharArray()); }
+            if (!string.IsNullOrEmpty(settings.filterProductCategories)) { ProductCategory = settings.filterProductCategories.Split(",".ToCharArray()); }
             else { ProductCategory = new string[] { "NA" }; }
 
-
-            var list = (from p in db.Product
-                        join Fp in db.FinishedProduct on p.ProductId equals Fp.ProductId into FinishedProductTable from FinishedProductTab in FinishedProductTable.DefaultIfEmpty()
-                        where (string.IsNullOrEmpty(term) ? 1 == 1 : p.ProductName.ToLower().Contains(term.ToLower()))
-                        && (string.IsNullOrEmpty(settings.filterProductTypes) ? 1 == 1 : ProductTypes.Contains("|" + p.ProductGroup.ProductTypeId.ToString() + "|"))
-                        && (string.IsNullOrEmpty(settings.FilterProductDivision) ? 1 == 1 : ProductDivision.Contains("|" + p.DivisionId.ToString() + "|"))
-                        && (string.IsNullOrEmpty(settings.filterProductCategories) ? 1 == 1 : ProductCategory.Contains("|" + FinishedProductTab.ProductCategoryId.ToString() + "|"))
-                        group new { p } by p.ProductId into g
-                        select new ComboBoxList
-                        {
-                            PropFirst = g.Max(m => m.p.ProductName),
-                            Id = g.Key,
-                        }
-                          ).Take(20);
-
-            return list.ToList();
+            return (from p in db.Product
+                    where (string.IsNullOrEmpty(settings.filterProductTypes) ? 1 == 1 : ProductTypes.Contains(p.ProductGroup.ProductTypeId.ToString()))
+                    && (string.IsNullOrEmpty(settings.filterProductGroups) ? 1 == 1 : ProductGroups.Contains(p.ProductGroupId.ToString()))
+                    && (string.IsNullOrEmpty(settings.filterProductCategories) ? 1 == 1 : ProductCategory.Contains(p.ProductCategoryId.ToString()))
+                    && (string.IsNullOrEmpty(settings.FilterProductDivision) ? 1 == 1 : ProductDivision.Contains(p.DivisionId.ToString()))
+                    && (string.IsNullOrEmpty(term) ? 1 == 1 : p.ProductName.ToLower().Contains(term.ToLower())
+                        || string.IsNullOrEmpty(term) ? 1 == 1 : p.ProductGroup.ProductGroupName.ToLower().Contains(term.ToLower()))
+                    orderby p.ProductName
+                    select new ComboBoxResult
+                    {
+                        id = p.ProductId.ToString(),
+                        text = p.ProductName,
+                        AProp1 = p.ProductGroup.ProductGroupName,
+                    });
         }
+
+
 
         public int GetMaxSr(int id)
         {
@@ -1537,6 +1585,43 @@ namespace Service
                         TextProp2 = "Balance :" + Result.Sum(i => i.p.BalanceQty),
                         AProp1 = "Process :" + Result.Max(i => i.StockTab.StockHeader.Process.ProcessName),
                     });
+        }
+
+        public Decimal? GetExcessReceiveAllowedAgainstOrderQty(int JobOrderLineId)
+        {
+            Decimal? ExcessAllowedQty = null;
+
+
+            var JobOrder = (from L in db.JobOrderLine
+                            where L.JobOrderLineId == JobOrderLineId
+                            select new
+                            {
+                                SiteId = L.JobOrderHeader.SiteId,
+                                DivisionId = L.JobOrderHeader.DivisionId,
+                                ProcessId = L.JobOrderHeader.ProcessId,
+                                ProductId = L.ProductId,
+                                OrderQty = L.Qty
+                            }).FirstOrDefault();
+
+            if (JobOrder != null)
+            {
+                var ProductSiteDetail = (from Ps in db.ProductSiteDetail where Ps.ProductId == JobOrder.ProductId && Ps.SiteId == JobOrder.SiteId && Ps.DivisionId == JobOrder.DivisionId && Ps.ProcessId == JobOrder.ProcessId select Ps).FirstOrDefault();
+                if (ProductSiteDetail != null)
+                {
+                    if (ProductSiteDetail.ExcessReceiveAllowedAgainstOrderPer != null || ProductSiteDetail.ExcessReceiveAllowedAgainstOrderQty != null)
+                    {
+                        Decimal ExcessAllowedWithPer = JobOrder.OrderQty * (ProductSiteDetail.ExcessReceiveAllowedAgainstOrderPer ?? 0) / 100;
+                        Decimal ExcessAllowedWithQty = ProductSiteDetail.ExcessReceiveAllowedAgainstOrderQty ?? 0;
+
+                        if (ExcessAllowedWithPer > ExcessAllowedWithQty)
+                            ExcessAllowedQty = ExcessAllowedWithPer;
+                        else
+                            ExcessAllowedQty = ExcessAllowedWithQty;
+                    }
+                }
+            }
+
+            return ExcessAllowedQty;
         }
 
         public void Dispose()

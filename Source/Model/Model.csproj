@@ -111,6 +111,13 @@
     <Compile Include="Models\DocumentHeaderAttributes.cs" />
     <Compile Include="Models\ChargeGroupSettings.cs" />
     <Compile Include="Models\JobInvoiceHeaderAttributes.cs" />
+    <Compile Include="Models\ProductCategorySettings.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Models\ProductGroupSettings.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Models\SaleQuotationHeaderAttributes.cs" />
     <Compile Include="Models\StockHeaderAttributes.cs" />
     <Compile Include="Models\SaleInvoiceHeaderAttributes.cs" />
     <Compile Include="Models\JobOrderHeaderAttributes.cs" />
@@ -137,8 +144,6 @@
     <Compile Include="Models\JobReceiveQaPenalty.cs" />
     <Compile Include="Models\ProductGroupProcessSettings.cs" />
     <Compile Include="Models\ProductCategoryProcessSettings.cs" />
-    <Compile Include="Models\ProductGroupSettings.cs" />
-    <Compile Include="Models\ProductCategorySettings.cs" />
     <Compile Include="Models\ProductBuyerSettings.cs" />
     <Compile Include="Models\QAGroup.cs" />
     <Compile Include="Models\QAGroupLine.cs" />

@@ -236,52 +236,53 @@ namespace Service
         }
         public JobInvoiceReturnLineViewModel GetJobInvoiceReturnLine(int id)
         {
-            return (from p in db.JobInvoiceReturnLine
-                    join t in db.JobInvoiceLine on p.JobInvoiceLineId equals t.JobInvoiceLineId into table
-                    from tab in table.DefaultIfEmpty()
-                    join t4 in db.ViewJobInvoiceBalance on p.JobInvoiceLineId equals t4.JobInvoiceLineId into table4
-                    from tab4 in table4.DefaultIfEmpty()
-                    join t3 in db.JobReceiveLine on tab.JobReceiveLineId equals t3.JobReceiveLineId into table3
-                    from tab3 in table3.DefaultIfEmpty()
-                    join jo in db.JobOrderLine on tab3.JobOrderLineId equals jo.JobOrderLineId
-                    join t2 in db.JobInvoiceReturnHeader on p.JobInvoiceReturnHeaderId equals t2.JobInvoiceReturnHeaderId into table2
-                    from tab2 in table2.DefaultIfEmpty()
-                    join t in db.JobInvoiceHeader on tab.JobInvoiceHeaderId equals t.JobInvoiceHeaderId into table1
-                    from tab1 in table1.DefaultIfEmpty()
-                    where p.JobInvoiceReturnLineId == id
+            return (from L in db.JobInvoiceReturnLine
+                    join Jil in db.JobInvoiceLine on L.JobInvoiceLineId equals Jil.JobInvoiceLineId into JobInvoiceLineTable
+                    from JobInvoiceLineTab in JobInvoiceLineTable.DefaultIfEmpty()
+                    join VJil in db.ViewJobInvoiceBalance on L.JobInvoiceLineId equals VJil.JobInvoiceLineId into ViewJobInvoiceBalanceTable
+                    from ViewJobInvoiceBalanceTab in ViewJobInvoiceBalanceTable.DefaultIfEmpty()
+                    join Jrl in db.JobReceiveLine on JobInvoiceLineTab.JobReceiveLineId equals Jrl.JobReceiveLineId into JobReceiveLineTable
+                    from JobReceiveLineTab in JobReceiveLineTable.DefaultIfEmpty()
+                    join Jol in db.JobOrderLine on JobReceiveLineTab.JobOrderLineId equals Jol.JobOrderLineId
+                    join Jirh in db.JobInvoiceReturnHeader on L.JobInvoiceReturnHeaderId equals Jirh.JobInvoiceReturnHeaderId into JobInvoiceReturnHeaderTable
+                    from JobInvoiceReturnHeaderTab in JobInvoiceReturnHeaderTable.DefaultIfEmpty()
+                    join Jih in db.JobInvoiceHeader on JobInvoiceLineTab.JobInvoiceHeaderId equals Jih.JobInvoiceHeaderId into JobInvoiceHeaderTable
+                    from JobInvoiceHeaderTab in JobInvoiceHeaderTable.DefaultIfEmpty()
+                    where L.JobInvoiceReturnLineId == id
                     select new JobInvoiceReturnLineViewModel
                     {
-
-                        JobWorkerId = tab2.JobWorkerId,
-                        ProductId = jo.ProductId,
-                        JobInvoiceLineId = p.JobInvoiceLineId,
-                        JobInvoiceHeaderDocNo = tab1.DocNo,
-                        JobInvoiceReturnHeaderId = p.JobInvoiceReturnHeaderId,
-                        JobInvoiceReturnLineId = p.JobInvoiceReturnLineId,
-                        Rate = p.Rate,
-                        Amount = p.Amount,
-                        UnitConversionMultiplier = p.UnitConversionMultiplier,
-                        DealQty = p.DealQty,
-                        DealUnitId = p.DealUnitId,
-                        Qty = p.Qty,
-                        InvoiceBalQty = ((p.JobInvoiceLineId == null || tab3 == null) ? p.Qty : p.Qty + (tab4 == null ? 0 : tab4.BalanceQty)),
-                        Remark = p.Remark,
-                        UnitId = tab3.Product.UnitId,
-                        Dimension1Id = jo.Dimension1Id,
-                        Dimension1Name = jo.Dimension1.Dimension1Name,
-                        Dimension2Id = jo.Dimension2Id,
-                        Dimension2Name = jo.Dimension2.Dimension2Name,
-                        Dimension3Id = jo.Dimension3Id,
-                        Dimension3Name = jo.Dimension3.Dimension3Name,
-                        Dimension4Id = jo.Dimension4Id,
-                        Dimension4Name = jo.Dimension4.Dimension4Name,
-                        Specification = jo.Specification,
-                        LotNo = tab3.LotNo,
-                        LockReason = p.LockReason,
-                        ProductUidId = tab3.ProductUidId,
-                        ProductUidName = tab3.ProductUid.ProductUidName,
-                    }
-                        ).FirstOrDefault();
+                        JobWorkerId = JobInvoiceReturnHeaderTab.JobWorkerId,
+                        ProductId = Jol.ProductId,
+                        JobInvoiceLineId = L.JobInvoiceLineId,
+                        JobInvoiceHeaderDocNo = JobInvoiceHeaderTab.DocNo,
+                        JobInvoiceReturnHeaderId = L.JobInvoiceReturnHeaderId,
+                        JobInvoiceReturnLineId = L.JobInvoiceReturnLineId,
+                        Rate = L.Rate,
+                        Amount = L.Amount,
+                        UnitConversionMultiplier = L.UnitConversionMultiplier,
+                        DealQty = L.DealQty,
+                        DealUnitId = L.DealUnitId,
+                        Qty = L.Qty,
+                        InvoiceBalQty = ((L.JobInvoiceLineId == null || JobReceiveLineTab == null) ? L.Qty : L.Qty + (ViewJobInvoiceBalanceTab == null ? 0 : ViewJobInvoiceBalanceTab.BalanceQty)),
+                        Remark = L.Remark,
+                        UnitId = JobReceiveLineTab.Product.UnitId,
+                        Dimension1Id = Jol.Dimension1Id,
+                        Dimension1Name = Jol.Dimension1.Dimension1Name,
+                        Dimension2Id = Jol.Dimension2Id,
+                        Dimension2Name = Jol.Dimension2.Dimension2Name,
+                        Dimension3Id = Jol.Dimension3Id,
+                        Dimension3Name = Jol.Dimension3.Dimension3Name,
+                        Dimension4Id = Jol.Dimension4Id,
+                        Dimension4Name = Jol.Dimension4.Dimension4Name,
+                        Specification = Jol.Specification,
+                        LotNo = JobReceiveLineTab.LotNo,
+                        LockReason = L.LockReason,
+                        Nature = JobInvoiceReturnHeaderTab.Nature,
+                        ProductUidId = JobReceiveLineTab.ProductUidId,
+                        ProductUidName = JobReceiveLineTab.ProductUid.ProductUidName,
+                        SalesTaxGroupPersonId = L.JobInvoiceLine.JobInvoiceHeader.SalesTaxGroupPersonId,
+                        SalesTaxGroupProductId = L.JobInvoiceLine.SalesTaxGroupProductId
+                    }).FirstOrDefault();
         }
 
         public int NextId(int id)
@@ -449,7 +450,7 @@ namespace Service
 
         public JobInvoiceLineViewModel GetJobInvoiceLineBalance(int id)
         {
-            return (from b in db.ViewJobInvoiceBalance
+            var temp = (from b in db.ViewJobInvoiceBalance
                     join p in db.JobInvoiceLine on b.JobInvoiceLineId equals p.JobInvoiceLineId
                     join t in db.JobReceiveLine on p.JobReceiveLineId equals t.JobReceiveLineId into table
                     from tab in table.DefaultIfEmpty()
@@ -458,7 +459,6 @@ namespace Service
                     from tab2 in table2.DefaultIfEmpty()
                     join t in db.JobReceiveHeader on tab.JobReceiveHeaderId equals t.JobReceiveHeaderId into table1
                     from tab1 in table1.DefaultIfEmpty()
-
                     where p.JobInvoiceLineId == id
                     select new JobInvoiceLineViewModel
                     {
@@ -488,10 +488,41 @@ namespace Service
                         Dimension4Name = jo.Dimension4.Dimension4Name,
                         Specification = jo.Specification,
                         LotNo = tab.LotNo,
+                        SalesTaxGroupPersonId = p.JobInvoiceHeader.SalesTaxGroupPersonId,
+                        SalesTaxGroupProductId = p.SalesTaxGroupProductId,
                         //DiscountPer = p.DiscountPer
                         Weight = (tab.Weight / tab.Qty) * b.BalanceQty,
-                    }
-                        ).FirstOrDefault();
+                    }).FirstOrDefault();
+
+            var JobInvoiceLineId = (from p in db.JobInvoiceLine
+                                  where p.JobInvoiceLineId == temp.JobInvoiceLineId
+                                  select new { LineId = p.JobInvoiceLineId, HeaderId = p.JobInvoiceHeaderId }).FirstOrDefault();
+
+
+            var Charges = (from p in db.JobInvoiceLineCharge
+                           where p.LineTableId == JobInvoiceLineId.LineId
+                           join t in db.Charge on p.ChargeId equals t.ChargeId
+                           select new LineCharges
+                           {
+                               ChargeCode = t.ChargeCode,
+                               Rate = p.Rate,
+                               LedgerAccountCrId = p.LedgerAccountCrId,
+                               LedgerAccountDrId = p.LedgerAccountDrId,
+                           }).ToList();
+
+            var HeaderCharges = (from p in db.JobInvoiceHeaderCharges
+                                 where p.HeaderTableId == JobInvoiceLineId.HeaderId
+                                 join t in db.Charge on p.ChargeId equals t.ChargeId
+                                 select new HeaderCharges
+                                 {
+                                     ChargeCode = t.ChargeCode,
+                                     Rate = p.Rate,
+                                 }).ToList();
+
+            temp.RHeaderCharges = HeaderCharges;
+            temp.RLineCharges = Charges;
+
+            return (temp);
         }
 
 

@@ -321,6 +321,18 @@ namespace Web
                 }
             }
 
+            SiteDivisionSettings SiteDivisionSettings = new SiteDivisionSettingsService(_unitOfWork).GetSiteDivisionSettings(svm.SiteId, svm.DivisionId, svm.DocDate);
+            if (SiteDivisionSettings != null)
+            {
+                if (SiteDivisionSettings.IsApplicableGST == true)
+                {
+                    if (svm.SalesTaxGroupPersonId == 0 || svm.SalesTaxGroupPersonId == null)
+                    {
+                        ModelState.AddModelError("", "Sales Tax Group Person is not defined for party, it is required.");
+                    }
+                }
+            }
+
             if (!string.IsNullOrEmpty(svm.CostCenterName))
             {
                 string CostCenterValidation = _JobOrderHeaderService.ValidateCostCenter(svm.DocTypeId, svm.JobOrderHeaderId, svm.JobWorkerId, svm.CostCenterName);

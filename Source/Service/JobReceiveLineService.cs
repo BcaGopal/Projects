@@ -126,51 +126,69 @@ namespace Service
             if (!string.IsNullOrEmpty(settings.filterContraDivisions)) { ContraDivisions = settings.filterContraDivisions.Split(",".ToCharArray()); }
             else { ContraDivisions = new string[] { "NA" }; }
 
-            var temp = (from p in db.ViewJobOrderBalance
-                        join t in db.JobOrderHeader on p.JobOrderHeaderId equals t.JobOrderHeaderId into table
-                        from tab in table.DefaultIfEmpty()
-                        join product in db.Product on p.ProductId equals product.ProductId into table2
-                        from tab2 in table2.DefaultIfEmpty()
-                        join t1 in db.JobOrderLine on p.JobOrderLineId equals t1.JobOrderLineId into table1
-                        from tab1 in table1.DefaultIfEmpty()
-                        where (string.IsNullOrEmpty(vm.ProductId) ? 1 == 1 : ProductIdArr.Contains(p.ProductId.ToString()))
-                        && (string.IsNullOrEmpty(vm.JobOrderHeaderId) ? 1 == 1 : SaleOrderIdArr.Contains(p.JobOrderHeaderId.ToString()))
-                        && (string.IsNullOrEmpty(vm.CostCenterId) ? 1 == 1 : CostCenterIdArr.Contains(tab.CostCenterId.ToString()))
-                        && (string.IsNullOrEmpty(vm.ProductGroupId) ? 1 == 1 : ProductGroupIdArr.Contains(tab2.ProductGroupId.ToString()))
-                        && (string.IsNullOrEmpty(vm.Dimension1Id) ? 1 == 1 : Dimension1.Contains(p.Dimension1Id.ToString()))
-                        && (string.IsNullOrEmpty(vm.Dimension2Id) ? 1 == 1 : Dimension2.Contains(p.Dimension2Id.ToString()))
-                        && (string.IsNullOrEmpty(vm.Dimension3Id) ? 1 == 1 : Dimension3.Contains(p.Dimension3Id.ToString()))
-                        && (string.IsNullOrEmpty(vm.Dimension4Id) ? 1 == 1 : Dimension4.Contains(p.Dimension4Id.ToString()))
-                        && (string.IsNullOrEmpty(settings.filterContraSites) ? p.SiteId == JobReceive.SiteId : ContraSites.Contains(p.SiteId.ToString()))
-                        && (string.IsNullOrEmpty(settings.filterContraDivisions) ? p.DivisionId == JobReceive.DivisionId : ContraDivisions.Contains(p.DivisionId.ToString()))
-                        && p.BalanceQty > 0 && p.JobWorkerId == vm.JobWorkerId && tab.DocDate <= JobReceive.DocDate
-                        orderby tab.DocDate, tab.DocNo, tab1.Sr
+            //var TempProductSite = (from Vl in db.ViewJobOrderBalance
+            //                       join L in db.JobOrderLine on Vl.JobOrderLineId equals L.JobOrderLineId into JobOrderLineTable
+            //                       from JobOrderLineTab in JobOrderLineTable.DefaultIfEmpty()
+            //                       join H in db.JobOrderHeader on JobOrderLineTab.JobOrderHeaderId equals H.JobOrderHeaderId into JobOrderHeaderTable
+            //                       from JobOrderHeaderTab in JobOrderHeaderTable.DefaultIfEmpty()
+            //                       join Ps in db.ProductSiteDetail on new { A1 = JobOrderHeaderTab.SiteId, A2 = JobOrderHeaderTab.DivisionId, A3 = JobOrderHeaderTab.ProcessId, A4 = JobOrderLineTab.ProductId }
+            //                                 equals new { A1 = Ps.SiteId, A2 = Ps.DivisionId, A3 = (Ps.ProcessId ?? 0), A4 = Ps.ProductId } into ProductSiteTable
+            //                       from ProductSiteTab in ProductSiteTable.DefaultIfEmpty()
+            //                       select new
+            //                       {
+            //                           JobOrderLineId = Vl.JobOrderLineId,
+            //                           ExcessAllowedQty = JobOrderLineTab.Qty * (ProductSiteTab.ExcessReceiveAllowedAgainstOrderPer ?? 0) / 100 > (ProductSiteTab.ExcessReceiveAllowedAgainstOrderQty ?? 0) ? JobOrderLineTab.Qty * (ProductSiteTab.ExcessReceiveAllowedAgainstOrderPer ?? 0) / 100 : (ProductSiteTab.ExcessReceiveAllowedAgainstOrderQty ?? 0)
+            //                       }).ToList();
+
+            var temp = (from Vl in db.ViewJobOrderBalance
+                        join H in db.JobOrderHeader on Vl.JobOrderHeaderId equals H.JobOrderHeaderId into JobOrderHeaderTable
+                        from JobOrderHeaderTab in JobOrderHeaderTable.DefaultIfEmpty()
+                        join P in db.Product on Vl.ProductId equals P.ProductId into ProductTable
+                        from ProductTab in ProductTable.DefaultIfEmpty()
+                        join L in db.JobOrderLine on Vl.JobOrderLineId equals L.JobOrderLineId into JobOrderLineTable
+                        from JobOrderLineTab in JobOrderLineTable.DefaultIfEmpty()
+                        join Ps in db.ProductSiteDetail on new { A1 = JobOrderHeaderTab.SiteId, A2 = JobOrderHeaderTab.DivisionId, A3 = JobOrderHeaderTab.ProcessId, A4 = JobOrderLineTab.ProductId }
+                            equals new { A1 = Ps.SiteId, A2 = Ps.DivisionId, A3 = (Ps.ProcessId ?? 0), A4 = Ps.ProductId } into ProductSiteTable
+                            from ProductSiteTab in ProductSiteTable.DefaultIfEmpty()
+                        where (string.IsNullOrEmpty(vm.ProductId) ? 1 == 1 : ProductIdArr.Contains(Vl.ProductId.ToString()))
+                        && (string.IsNullOrEmpty(vm.JobOrderHeaderId) ? 1 == 1 : SaleOrderIdArr.Contains(Vl.JobOrderHeaderId.ToString()))
+                        && (string.IsNullOrEmpty(vm.CostCenterId) ? 1 == 1 : CostCenterIdArr.Contains(JobOrderHeaderTab.CostCenterId.ToString()))
+                        && (string.IsNullOrEmpty(vm.ProductGroupId) ? 1 == 1 : ProductGroupIdArr.Contains(ProductTab.ProductGroupId.ToString()))
+                        && (string.IsNullOrEmpty(vm.Dimension1Id) ? 1 == 1 : Dimension1.Contains(Vl.Dimension1Id.ToString()))
+                        && (string.IsNullOrEmpty(vm.Dimension2Id) ? 1 == 1 : Dimension2.Contains(Vl.Dimension2Id.ToString()))
+                        && (string.IsNullOrEmpty(vm.Dimension3Id) ? 1 == 1 : Dimension3.Contains(Vl.Dimension3Id.ToString()))
+                        && (string.IsNullOrEmpty(vm.Dimension4Id) ? 1 == 1 : Dimension4.Contains(Vl.Dimension4Id.ToString()))
+                        && (string.IsNullOrEmpty(settings.filterContraSites) ? Vl.SiteId == JobReceive.SiteId : ContraSites.Contains(Vl.SiteId.ToString()))
+                        && (string.IsNullOrEmpty(settings.filterContraDivisions) ? Vl.DivisionId == JobReceive.DivisionId : ContraDivisions.Contains(Vl.DivisionId.ToString()))
+                        && Vl.BalanceQty > 0 && Vl.JobWorkerId == vm.JobWorkerId && JobOrderHeaderTab.DocDate <= JobReceive.DocDate
+                        orderby JobOrderHeaderTab.DocDate, JobOrderHeaderTab.DocNo, JobOrderLineTab.Sr
                         select new JobReceiveLineViewModel
                         {
-                            Dimension1Name = tab1.Dimension1.Dimension1Name,
-                            Dimension2Name = tab1.Dimension2.Dimension2Name,
-                            Dimension3Name = tab1.Dimension3.Dimension3Name,
-                            Dimension4Name = tab1.Dimension4.Dimension4Name,
-                            Specification = tab1.Specification,
-                            OrderBalanceQty = p.BalanceQty,
-                            Qty = p.BalanceQty,
-                            DocQty = p.BalanceQty,
-                            ReceiveQty = p.BalanceQty,
-                            PassQty = p.BalanceQty,
-                            ProductName = tab2.ProductName,
-                            ProductId = p.ProductId,
+                            Dimension1Name = JobOrderLineTab.Dimension1.Dimension1Name,
+                            Dimension2Name = JobOrderLineTab.Dimension2.Dimension2Name,
+                            Dimension3Name = JobOrderLineTab.Dimension3.Dimension3Name,
+                            Dimension4Name = JobOrderLineTab.Dimension4.Dimension4Name,
+                            Specification = JobOrderLineTab.Specification,
+                            OrderBalanceQty = Vl.BalanceQty,
+                            Qty = Vl.BalanceQty,
+                            DocQty = Vl.BalanceQty,
+                            ReceiveQty = Vl.BalanceQty,
+                            PassQty = Vl.BalanceQty,
+                            ProductName = ProductTab.ProductName,
+                            ProductId = Vl.ProductId,
                             JobReceiveHeaderId = vm.JobReceiveHeaderId,
-                            JobOrderLineId = p.JobOrderLineId,
-                            UnitId = tab2.UnitId,
-                            JobOrderHeaderDocNo = p.JobOrderNo,
-                            DealUnitId = tab2.UnitId,
-                            UnitDecimalPlaces = tab2.Unit.DecimalPlaces,
-                            DealUnitDecimalPlaces = tab2.Unit.DecimalPlaces,
-                            JobOrderUidHeaderId = tab1.ProductUidHeaderId,
-                            ProductUidId = tab1.ProductUidId,
-                            CostCenterName = tab.CostCenter.CostCenterName,
-                            ProdOrderLineId = tab1.ProdOrderLineId,
-                            JobOrderHeaderId = tab1.JobOrderHeaderId,
+                            JobOrderLineId = Vl.JobOrderLineId,
+                            UnitId = ProductTab.UnitId,
+                            JobOrderHeaderDocNo = Vl.JobOrderNo,
+                            DealUnitId = ProductTab.UnitId,
+                            UnitDecimalPlaces = ProductTab.Unit.DecimalPlaces,
+                            DealUnitDecimalPlaces = ProductTab.Unit.DecimalPlaces,
+                            JobOrderUidHeaderId = JobOrderLineTab.ProductUidHeaderId,
+                            ProductUidId = JobOrderLineTab.ProductUidId,
+                            CostCenterName = JobOrderHeaderTab.CostCenter.CostCenterName,
+                            ProdOrderLineId = JobOrderLineTab.ProdOrderLineId,
+                            JobOrderHeaderId = JobOrderLineTab.JobOrderHeaderId,
+                            ExcessReceiveAllowedAgainstOrderQty = JobOrderLineTab.Qty * (ProductSiteTab.ExcessReceiveAllowedAgainstOrderPer ?? 0) / 100 > (ProductSiteTab.ExcessReceiveAllowedAgainstOrderQty ?? 0) ? JobOrderLineTab.Qty * (ProductSiteTab.ExcessReceiveAllowedAgainstOrderPer ?? 0) / 100 : (ProductSiteTab.ExcessReceiveAllowedAgainstOrderQty ?? 0)
                         }
                         );
             return temp;

@@ -55,7 +55,6 @@
                     </h3>
                     <div>
                         <div class="row">
-
                             <div class="col-md-6">
                                 <div class="form-group" style="margin-top:15px">
                                     @Html.LabelFor(model => model.isVisibleLotNo, "Lot No", new { @class = "control-label col-xs-6" })
@@ -76,11 +75,8 @@
                                 </div>
                             </div>
                         </div>
+                        
                         <div class="row">
-
-
-
-
                             <div class="col-md-6">
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.isVisibleProductUID, "Product Uid", new { @class = "control-label col-xs-6" })
@@ -115,18 +111,6 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.isVisibleLoss, "Loss", new { @class = "control-label col-xs-6" })
-                                    <div class="col-xs-4" style=" padding-top:4px">
-                                        @Html.CheckBoxFor(m => m.isVisibleLoss, new { @class = "checkbox col-xs-2" })
-                                        @Html.ValidationMessageFor(model => model.isVisibleLoss)
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
                                     @Html.LabelFor(model => model.isVisibleDimension3, "Dimension 3", new { @class = "control-label col-xs-6" })
                                     <div class="col-xs-4" style=" padding-top:4px">
                                         @Html.CheckBoxFor(m => m.isVisibleDimension3, new { @class = "checkbox col-xs-2" })
@@ -143,12 +127,24 @@
                                     </div>
                                 </div>
                             </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.isVisibleLoss, "Loss", new { @class = "control-label col-xs-6" })
+                                    <div class="col-xs-4" style=" padding-top:4px">
+                                        @Html.CheckBoxFor(m => m.isVisibleLoss, new { @class = "checkbox col-xs-2" })
+                                        @Html.ValidationMessageFor(model => model.isVisibleLoss)
+                                    </div>
+                                </div>
+                            </div>
                         </div> 
 
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.isVisibleHeaderJobWorker, "Header JobWorker", new { @class = "control-label col-xs-6" })
+                                    @Html.LabelFor(model => model.isVisibleHeaderJobWorker, "Header Party", new { @class = "control-label col-xs-6" })
                                     <div class="col-xs-4" style=" padding-top:4px">
                                         @Html.CheckBoxFor(m => m.isVisibleHeaderJobWorker, new { @class = "checkbox col-xs-2" })
                                         @Html.ValidationMessageFor(model => model.isVisibleHeaderJobWorker)

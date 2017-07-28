@@ -363,6 +363,7 @@ namespace Data.Models
 
         public DbSet<SaleQuotationSettings> SaleQuotationSettings { get; set; }
         public DbSet<SaleQuotationHeader> SaleQuotationHeader { get; set; }
+        public DbSet<SaleQuotationHeaderAttributes> SaleQuotationHeaderAttributes { get; set; }
         public DbSet<SaleQuotationHeaderDetail> SaleQuotationHeaderDetail { get; set; }
         public DbSet<SaleQuotationHeaderCharge> SaleQuotationHeaderCharge { get; set; }
         public DbSet<SaleQuotationLine> SaleQuotationLine { get; set; }

@@ -500,14 +500,57 @@ namespace Web
 
             if (svm.IsSaleBased == true && svm.SaleOrderLineId <= 0)
             {
-                ModelState.AddModelError("SaleOrderLineId", "Sale Order field is required");
+                ModelState.AddModelError("", "Sale Order field is required");
             }
 
             if (svm.Qty <= 0)
-                ModelState.AddModelError("Qty", "The Qty field is required");
+                ModelState.AddModelError("", "The Qty field is required");
 
             if (svm.GodownId <= 0)
-                ModelState.AddModelError("GodownId", "The Godown field is required");
+                ModelState.AddModelError("", "The Godown field is required");
+
+            
+            #region "Tax Calculation Validation"
+            //SiteDivisionSettings SiteDivisionSettings = new SiteDivisionSettingsService(_unitOfWork).GetSiteDivisionSettings(Sh.SiteId, Sh.DivisionId, Sh.DocDate);
+            //if (SiteDivisionSettings != null)
+            //{
+            //    if (SiteDivisionSettings.IsApplicableGST == true)
+            //    {
+            //        if (svm.SalesTaxGroupPersonId == 0 || svm.SalesTaxGroupPersonId == null)
+            //        {
+            //            ModelState.AddModelError("", "Sales Tax Group Person is not defined for party, it is required.");
+            //        }
+
+            //        if (svm.SalesTaxGroupProductId == 0 || svm.SalesTaxGroupProductId == null)
+            //        {
+            //            ModelState.AddModelError("", "Sales Tax Group Product is not defined for product, it is required.");
+            //        }
+
+            //        if (svm.SalesTaxGroupProductId != 0 && svm.SalesTaxGroupProductId != null && svm.SalesTaxGroupPersonId != 0 && svm.SalesTaxGroupPersonId != null && svm.SaleInvoiceSettings.CalculationId != null && svm.SaleInvoiceSettings.ProcessId != null)
+            //        {
+            //            IEnumerable<ChargeRateSettings> ChargeRateSettingsList = new CalculationProductService(_unitOfWork).GetChargeRateSettingForValidation((int)svm.SaleInvoiceSettings.CalculationId, Sh.DocTypeId, Sh.SiteId, Sh.DivisionId, (int)svm.SaleInvoiceSettings.ProcessId, (int)svm.SalesTaxGroupPersonId, (int)svm.SalesTaxGroupProductId);
+
+            //            foreach (var item in ChargeRateSettingsList)
+            //            {
+            //                if (item.ChargeGroupSettingId == null)
+            //                {
+            //                    ModelState.AddModelError("", "Charge Group Setting is not defined for " + item.ChargeName + ".");
+            //                }
+
+            //                if (item.LedgerAccountCrName == LedgerAccountConstants.Charge || item.LedgerAccountDrName == LedgerAccountConstants.Charge)
+            //                {
+            //                    if (item.ChargeGroupSettingId != null && item.ChargePer != 0 && item.ChargePer != null && item.ChargeLedgerAccountId == null)
+            //                    {
+            //                        ModelState.AddModelError("", "Ledger account is not defined for " + item.ChargeName + " in charge group settings.");
+            //                    }
+            //                }
+            //            }
+            //        }
+            //    }
+            //}
+            #endregion
+
+
 
             if (ModelState.IsValid)
             {

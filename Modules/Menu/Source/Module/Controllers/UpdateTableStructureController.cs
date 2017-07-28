@@ -1720,7 +1720,108 @@ namespace Module
                 RecordError(ex);
             }
 
+
+            try
+            {
+                if ((int)ExecuteScaler("SELECT Count(*) AS Cnt FROM INFORMATION_SCHEMA.Tables WHERE TABLE_NAME = 'ViewStockInBalance'") == 0)
+                {
+                    mQry = @"CREATE VIEW Web.ViewStockInBalance
+                                AS 
+                                SELECT L.StockId AS StockInId, H.DocNo AS StockInNo, H.DocDate AS StockInDate, 
+                                H.PersonId, L.ProductId, L.Dimension1Id, L.Dimension2Id, L.Dimension3Id, L.Dimension4Id, L.LotNo, 
+                                IsNull(L.Qty_Rec,0) - IsNull(VStockAdj.Qty,0) AS BalanceQty,
+                                H.DivisionId, H.SiteId
+                                FROM Web.Stocks L WITH (NoLock)
+                                LEFT JOIN Web.StockHeaders H WITH (NoLock) ON L.StockHeaderId = H.StockHeaderId
+                                LEFT JOIN (
+	                                SELECT L.StockInId, Sum(L.AdjustedQty) AS Qty
+	                                FROM Web.StockAdjs L WITH (NoLock)
+	                                GROUP BY L.StockInId
+                                ) AS VStockAdj ON L.StockId = VStockAdj.StockInId
+                                WHERE 1=1
+                                AND IsNull(L.Qty_Rec,0) > 0
+                                AND IsNull(L.Qty_Rec,0) - IsNull(VStockAdj.Qty,0) > 0";
+                    ExecuteQuery(mQry);
+                }
+            }
+            catch (Exception ex)
+            {
+                RecordError(ex);
+            }
+
+
+            try
+            {
+                if ((int)ExecuteScaler("SELECT Count(*) AS Cnt FROM INFORMATION_SCHEMA.Tables WHERE TABLE_NAME = 'SaleQuotationHeaderAttributes'") == 0)
+                {
+                    mQry = @"CREATE TABLE Web.SaleQuotationHeaderAttributes
+	                        (
+	                        Id                            INT IDENTITY NOT NULL,
+	                        HeaderTableId                 INT NOT NULL,
+	                        DocumentTypeHeaderAttributeId INT NOT NULL,
+	                        Value                         NVARCHAR (max),
+	                        CONSTRAINT [PK_Web.SaleQuotationHeaderAttributes] PRIMARY KEY (Id),
+	                        CONSTRAINT [FK_Web.SaleQuotationHeaderAttributes_Web.DocumentTypeHeaderAttributes_DocumentTypeHeaderAttributeId] FOREIGN KEY (DocumentTypeHeaderAttributeId) REFERENCES Web.DocumentTypeHeaderAttributes (DocumentTypeHeaderAttributeId),
+	                        CONSTRAINT [FK_Web.SaleQuotationHeaderAttributes_Web.SaleQuotationHeaders_HeaderTableId] FOREIGN KEY (HeaderTableId) REFERENCES Web.SaleQuotationHeaders (SaleQuotationHeaderId)
+	                        )
+
+                        CREATE INDEX IX_HeaderTableId
+	                        ON Web.SaleQuotationHeaderAttributes (HeaderTableId)
+
+                        CREATE INDEX IX_DocumentTypeHeaderAttributeId
+	                        ON Web.SaleQuotationHeaderAttributes (DocumentTypeHeaderAttributeId)";
+                    ExecuteQuery(mQry);
+                }
+            }
+            catch (Exception ex)
+            {
+                RecordError(ex);
+            }
+
             AddFields("ProductUids", "ProductUidSpecification1", "NVARCHAR(Max)");
+
+            AddFields("ProductSiteDetails", "ProcessId", "Int","Processes");
+            AddFields("ProductSiteDetails", "ExcessReceiveAllowedAgainstOrderQty", "Decimal(18,4)");
+            AddFields("ProductSiteDetails", "ExcessReceiveAllowedAgainstOrderPer", "Decimal(18,4)");
+
+
+            AddFields("SaleDispatchSettings", "DocumentPrintReportHeaderId", "Int", "ReportHeaders");
+            AddFields("SaleQuotationSettings", "DocumentPrintReportHeaderId", "Int", "ReportHeaders");
+            AddFields("SaleOrderSettings", "DocumentPrintReportHeaderId", "Int", "ReportHeaders");
+            AddFields("SaleEnquirySettings", "DocumentPrintReportHeaderId", "Int", "ReportHeaders");
+
+
+            AddFields("SaleQuotationSettings", "CalculateDiscountOnRate", "Bit");
+            AddFields("SaleQuotationSettings", "isVisibleDiscountPer", "Bit");
+
+            AddFields("SaleQuotationLines", "DiscountPer", "Decimal(18,4)");
+            AddFields("SaleQuotationLines", "DiscountAmount", "Decimal(18,4)");
+
+
+            AddFields("SaleQuotationLines", "SalesTaxGroupProductId", "Int", "ChargeGroupProducts");
+            AddFields("SaleQuotationSettings", "isVisibleSalesTaxGroupProduct", "Bit");
+
+            AddFields("ChargeTypes", "Category", "nvarchar(20)");
+
+            AddFields("JobOrderSettings", "isVisibleSalesTaxGroupProduct", "BIT");
+
+
+            AddFields("SiteDivisionSettings", "SalesTaxProductCodeCaption", "NVARCHAR(50)");
+            AddFields("SiteDivisionSettings", "SalesTaxCaption", "NVARCHAR(50)");
+            AddFields("SiteDivisionSettings", "SalesTaxGroupProductCaption", "NVARCHAR(50)");
+            AddFields("SiteDivisionSettings", "SalesTaxGroupPersonCaption", "NVARCHAR(50)");
+            AddFields("SiteDivisionSettings", "SalesTaxRegistrationCaption", "NVARCHAR(50)");
+
+            AddFields("ChargeGroupProducts", "PrintingDescription", "NVARCHAR(50)");
+            AddFields("ChargeGroupPersons", "PrintingDescription", "NVARCHAR(50)");
+
+
+            AddFields("ProductGroups", "RateDecimalPlaces", "Int Not Null DEFAULT(2)");
+
+            AddFields("JobInvoiceReturnHeaders", "Nature", "nvarchar(20) Not Null DEFAULT('Return')");
+            AddFields("SaleInvoiceReturnHeaders", "Nature", "nvarchar(20) Not Null DEFAULT('Return')");
+
+            AddFields("States", "StateCode", "nvarchar(20)");
 
             return RedirectToAction("Module", "Menu");
         }

@@ -324,7 +324,7 @@
                             <div class="col-md-6" style='display:@(Model.JobOrderSettings.isVisibleSalesTaxGroupPerson?"":"none")'>
                                 @Html.HiddenFor(m => m.JobOrderSettings.isVisibleSalesTaxGroupPerson)
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.SalesTaxGroupPersonId, "Sales Tax Group", new { @class = "control-label col-md-4 col-sm-2" })
+                                    @Html.LabelFor(model => model.SalesTaxGroupPersonId, "Sales Tax Group Person", new { @class = "control-label col-md-4 col-sm-2" })
                                     <div class="col-md-7 col-sm-10">
                                         @Html.TextBoxFor(m => m.SalesTaxGroupPersonId, new { @class = "form-control" })
                                         @Html.ValidationMessageFor(m => m.SalesTaxGroupPersonId, "", new { @class = "text-danger" })

@@ -98,7 +98,7 @@
 
             <div class="panel-info">
                 <div class="btn-group">
-                    @Html.ActionLink(" ", "Create", "SaleQuotationHeader", new { @id = @ViewBag.id }, new { @class = "cbtn btn-circle glyphicon glyphicon-plus", @title = "Add New", @data_toggle = "tooltip", target = "_blank" })
+                    @Html.ActionLink(" ", "Create", "SaleQuotationHeader", new { @id = @ViewBag.id }, new { @class = "cbtn btn-circle glyphicon glyphicon-plus", @title = "Add New", @data_toggle = "tooltip", target = "" })
                     @if (Model.SaleQuotationHeaderId > 0)
                     {
                     @Html.ActionLink(" ", EditAction, "SaleQuotationHeader", new { @id = Model.SaleQuotationHeaderId, IndexType = ViewBag.IndexStatus }, new { @class = "cbtn btn-circle glyphicon glyphicon-edit", @title = "Edit", @data_toggle = "tooltip" })
@@ -167,6 +167,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.SaleToBuyerId, (Model.DocumentTypeSettings.PartyCaption ?? "Party"), new { @class = "control-label col-md-4 col-sm-2" })
+                                    @Html.HiddenFor(m => m.DocumentTypeSettings.PartyCaption)
                                     <div class="col-md-7 col-sm-10">
                                         <div class="col-xs-11" style="padding:0px;">
                                             @Html.TextBoxFor(m => m.SaleToBuyerId, null, new { @class = "form-control required" })
@@ -239,7 +240,8 @@
                             <div class="col-md-6" style='display:@(Model.SaleQuotationSettings.isVisibleCostCenter?"":"none")'>
                                 @Html.HiddenFor(m => m.SaleQuotationSettings.isVisibleCostCenter)
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.CostCenterName, "Cost Center", new { @class = "control-label col-md-4 col-sm-2" })
+                                    @Html.LabelFor(model => model.CostCenterName, (Model.DocumentTypeSettings.CostCenterCaption ?? "Cost Center"), new { @class = "control-label col-md-4 col-sm-2" })
+                                    @Html.HiddenFor(m => m.DocumentTypeSettings.CostCenterCaption)
                                     <div class="col-md-7 col-sm-10">
                                         @Html.TextBoxFor(m => m.CostCenterName, new { @class = "form-control " })
                                         @Html.ValidationMessageFor(m => m.CostCenterName, "", new { @class = "text-danger" })
@@ -297,7 +299,7 @@
                             <div class="col-md-6" style='display:@(Model.SaleQuotationSettings.isVisibleSalesTaxGroupPerson?"":"none")'>
                                 @Html.HiddenFor(m => m.SaleQuotationSettings.isVisibleSalesTaxGroupPerson)
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.SalesTaxGroupPersonId, "Sales Tax Group", new { @class = "control-label col-md-4 col-sm-2" })
+                                    @Html.LabelFor(model => model.SalesTaxGroupPersonId, "Sales Tax Group Person", new { @class = "control-label col-md-4 col-sm-2" })
                                     <div class="col-md-7 col-sm-10">
                                         @Html.TextBoxFor(m => m.SalesTaxGroupPersonId, new { @class = "form-control" })
                                         @Html.ValidationMessageFor(m => m.SalesTaxGroupPersonId, "", new { @class = "text-danger" })
@@ -364,6 +366,40 @@
                                     </div>
                                 </div>
                             </div>
+
+                            @if (Model.DocumentTypeHeaderAttributes != null)
+                            {
+                                for (int i = 0; i < Model.DocumentTypeHeaderAttributes.Count; i++)
+                                {
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            @Html.Label(Model.DocumentTypeHeaderAttributes[i].Name, new { @class = "control-label col-md-4 col-sm-2" })
+                                            @Html.HiddenFor(m => Model.DocumentTypeHeaderAttributes[i].Name)
+                                            @Html.HiddenFor(m => Model.DocumentTypeHeaderAttributes[i].DocumentTypeHeaderAttributeId)
+                                            @if (Model.DocumentTypeHeaderAttributes[i].DataType == "List")
+                                            {
+                                                List<SelectListItem> tem = new List<SelectListItem>();
+                                                foreach (string item in (Model.DocumentTypeHeaderAttributes[i].ListItem).Split(',').ToList())
+                                                {
+                                                    tem.Add(new SelectListItem { Text = item, Value = item, Selected = (Model.DocumentTypeHeaderAttributes[i].Value == item ? true : false) });
+                                                }
+
+                                                <div class="col-md-7 col-sm-10">
+                                                    @Html.DropDownListFor(m => Model.DocumentTypeHeaderAttributes[i].Value, new SelectList(tem as System.Collections.IEnumerable, "Value", "Text", Model.DocumentTypeHeaderAttributes[i].Value), " ", new { @class = "form-control col-xs-6 height" })
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                <div class="col-md-7 col-sm-10">
+                                                    @Html.TextBoxFor(m => Model.DocumentTypeHeaderAttributes[i].Value, new { @class = "form-control col-xs-6" })
+                                                </div>
+                                            }
+                                        </div>
+                                    </div>
+                                }
+                            }
+
+
 
                             <div class="col-md-6">
                                 <div class="form-group">
@@ -535,6 +571,7 @@
             var cid = $("#SaleToBuyerId").val();
             var cdata = $('#SaleToBuyerId').select2('data').text;
             $("#BillToPartyId").select2('data', { id: cid, text: cdata });
+            GetPersonDetail();
         });
 
         //Reloading the table contents on modal hide
@@ -697,9 +734,9 @@
 
 
         //CustomSelectFunction($("#SaleToBuyerId"), '/ComboHelpList/GetSaleToBuyersWithProcess', '/ComboHelpList/SetSingleSaleToBuyer', ' ', false, 1,$('#ProcessId').val());
-        CustomSelectFunction($("#SaleToBuyerId"), '/SaleQuotationHeader/GetCustomPerson', '/ComboHelpList/SetSinglePerson', ' ', false, 1,$('#DocTypeId').val());
-        CustomSelectFunction($("#OrderById"), '/ComboHelpList/GetEmployeeWithProcess', '/ComboHelpList/SetSingleEmployee', ' ', false, 1, $('#ProcessId').val());
-        CustomSelectFunction($("#GodownId"), '/ComboHelpList/GetGodown', '/ComboHelpList/SetSingleGodown', ' ', false, 1);
+        CustomSelectFunction($("#SaleToBuyerId"), '/SaleQuotationHeader/GetCustomPerson', '/ComboHelpList/SetSinglePerson', ' ', false, 0,$('#DocTypeId').val());
+        CustomSelectFunction($("#OrderById"), '/ComboHelpList/GetEmployeeWithProcess', '/ComboHelpList/SetSingleEmployee', ' ', false, 0, $('#ProcessId').val());
+        CustomSelectFunction($("#GodownId"), '/ComboHelpList/GetGodown', '/ComboHelpList/SetSingleGodown', ' ', false, 0);
         CustomSelectFunction($("#DeliveryTermsId"), '/ComboHelpList/GetDeliveryTerms', '/ComboHelpList/SetSingleDeliveryTerm', ' ', false, 0);
         CustomSelectFunction($("#ShipToAddressId"), '/ComboHelpList/GetAddresses', '/ComboHelpList/SetSingleAddress', ' ', false, 0);
         CustomSelectFunction($("#CurrencyId"), '/ComboHelpList/GetCurrencies', '/ComboHelpList/SetSingleCurrency', ' ', false, 0);
@@ -708,7 +745,7 @@
         CustomSelectFunction($("#DocumentShipMethodId"), '/ComboHelpList/GetDocumentShipMethods', '/ComboHelpList/SetSingleDocumentShipMethod', ' ', false, 0);
         CustomSelectFunction($("#TransporterId"), '/ComboHelpList/GetTransporters', '/ComboHelpList/SetSinglePerson', ' ', false, 0);
         CustomSelectFunction($("#AgentId"), '/ComboHelpList/GetAgents', '/ComboHelpList/SetSinglePerson', ' ', false, 0);
-        CustomSelectFunction($("#FinancierId"), '/ComboHelpList/GetFinanciers', '/ComboHelpList/SetSinglePerson', ' ', false, 0);
+        CustomSelectFunction($("#FinancierId"), '/ComboHelpList/GetFinanciers', '/ComboHelpList/SetSinglePerson', ' ', false, 0, $('#ProcessId').val());
         CustomSelectFunction($("#SalesExecutiveId"), '/ComboHelpList/GetSalesExecutives', '/ComboHelpList/SetSinglePerson', ' ', false, 0);
 
 
@@ -730,6 +767,36 @@
     });
 
 
+
+    function GetPersonDetail()
+    {
+        if ($("#SaleToBuyerId").val() != 0 && $("#SaleToBuyerId").val() != null) 
+        {
+            $.ajax({
+                cache: false,
+                async: false,
+                type: "POST",
+                url: "@(Url.Action("GetPersonDetail"))",
+                data: { PersonId: $("#SaleToBuyerId").val() },
+            success: function (data) {
+                if (data != null)
+                {
+                    (data.SalesTaxGroupPartyId == null) ? (1 == 1) : ($("#SalesTaxGroupPersonId").select2("data", { id: data.SalesTaxGroupPartyId, text: data.SalesTaxGroupPartyName }));
+                }
+                else {
+                    $("#SalesTaxGroupPersonId").select2("data", { id: '', text: '' })
+                }
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert('Failed to retrieve Person Detail.' + thrownError);
+                ProcessProgress.hide();
+            }
+        });
+    }
+        else {
+            $("#SalesTaxGroupPersonId").select2("data", { id: '', text: '' })
+            }
+    }
 
 
 
@@ -790,7 +857,7 @@
                     success: function (result) {
                         if (result.success) {
                             $('#myModal').modal('hide');
-                            CustomSelectFunction($("#SaleToBuyerId"), '/ComboHelpList/GetPerson', '/ComboHelpList/SetSinglePerson', ' ', false, 0);
+                            //CustomSelectFunction($("#SaleToBuyerId"), '/ComboHelpList/GetPerson', '/ComboHelpList/SetSinglePerson', ' ', false, 0);
                             //$('#SaleToBuyerId').keydown();
                             $("#SaleToBuyerId").select2('data', { id: result.PersonId, text: result.Name });
                         } else {

@@ -17,12 +17,17 @@ namespace Model.Models
 
         [Key]
         public int StateId { get; set; }
+
+        [Display(Name = "Code")]
+        [MaxLength(20, ErrorMessage = "State Code cannot exceed 20 characters"), Required]
+        [Index("IX_State_StateCode", IsUnique = true)]
+        public string StateCode { get; set; }
+
         [Display (Name="Name")]
         [MaxLength(50, ErrorMessage = "State Name cannot exceed 50 characters"), Required]
         [Index("IX_State_StateName", IsUnique = true)]
         public string StateName { get; set; }
-      
-        
+
 
         [ForeignKey("Country")]
         [Display(Name = "Country")]

@@ -29,6 +29,17 @@ namespace Model.Models
         public string ReportHeaderTextLeft { get; set; }
         public string ReportHeaderTextRight { get; set; }
 
+        [MaxLength(50)]
+        public string SalesTaxProductCodeCaption { get; set; }
+        [MaxLength(50)]
+        public string SalesTaxCaption { get; set; }
+        [MaxLength(50)]
+        public string SalesTaxGroupProductCaption { get; set; }
+        [MaxLength(50)]
+        public string SalesTaxGroupPersonCaption { get; set; }
+        [MaxLength(50)]
+        public string SalesTaxRegistrationCaption { get; set; }
+
         [Display(Name = "Created By")]
         public string CreatedBy { get; set; }
 

@@ -236,7 +236,9 @@ namespace Model.ViewModel
 
         public int? SalesTaxGroupProductId { get; set; }
         public string SalesTaxGroupProductName { get; set; }
-        
+        public int? SalesTaxGroupPersonId { get; set; }
+
+        public Decimal? ExcessReceiveAllowedAgainstOrderQty { get; set; }
     }
 
     public class JobOrderHeaderListViewModel

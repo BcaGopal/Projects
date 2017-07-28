@@ -202,6 +202,11 @@ namespace Core.Common
         public const string Charge = "|CHARGE|";
     }
 
+    public class ChargeTypeCategoryConstants
+    {
+        public const string SalesTax = "Sales Tax";
+    }
+
     public class SizeTypeConstants
     {
         public const string Standard = "Standard";
@@ -247,6 +252,13 @@ namespace Core.Common
         public const string ToPay = "To Pay";
         public const string Paid = "Paid";
         public const string TobeBilled = "To be Billed";
+    }
+
+    public class TransactionNatureConstants
+    {
+        public const string Return = "Return";
+        public const string Debit = "Debit";
+        public const string Credit = "Credit";
     }
 
     public class ProductUidStatusConstants

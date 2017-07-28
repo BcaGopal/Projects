@@ -121,6 +121,7 @@ namespace Model.ViewModels
          public string PayTermDescription { get; set; }
 
        public IEnumerable<SaleQuotationLine>  SaleQuotationLine {get;set;}
+       public List<DocumentTypeHeaderAttributeViewModel> DocumentTypeHeaderAttributes { get; set; }
 
     }
     public class SaleQuotationHeaderListViewModel

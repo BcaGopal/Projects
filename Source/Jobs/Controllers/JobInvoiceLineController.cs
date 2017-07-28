@@ -697,17 +697,60 @@ namespace Web
 
             if (svm.JobReceiveLineId <= 0)
             {
-                ModelState.AddModelError("JobReceiveLineId", "Job Receive field is required");
+                ModelState.AddModelError("", "Job Receive field is required");
             }
 
             if (svm.DealQty <= 0)
             {
-                ModelState.AddModelError("DealQty", "DealQty field is required");
+                ModelState.AddModelError("", "DealQty field is required");
             }
             if (svm.Qty <= 0)
             {
-                ModelState.AddModelError("Qty", "Qty field is required");
+                ModelState.AddModelError("", "Qty field is required");
             }
+
+
+            #region "Tax Calculation Validation"
+            //SiteDivisionSettings SiteDivisionSettings = new SiteDivisionSettingsService(_unitOfWork).GetSiteDivisionSettings(temp.SiteId, temp.DivisionId, temp.DocDate);
+            //if (SiteDivisionSettings != null)
+            //{
+            //    if (SiteDivisionSettings.IsApplicableGST == true)
+            //    {
+            //        if (svm.SalesTaxGroupPersonId == 0 || svm.SalesTaxGroupPersonId == null)
+            //        {
+            //            ModelState.AddModelError("", "Sales Tax Group Person is not defined for party, it is required.");
+            //        }
+
+            //        if (svm.SalesTaxGroupProductId == 0 || svm.SalesTaxGroupProductId == null)
+            //        {
+            //            ModelState.AddModelError("", "Sales Tax Group Product is not defined for product, it is required.");
+            //        }
+
+            //        if (svm.SalesTaxGroupProductId != 0 && svm.SalesTaxGroupProductId != null && svm.SalesTaxGroupPersonId != 0 && svm.SalesTaxGroupPersonId != null && svm.JobInvoiceSettings.CalculationId != null)
+            //        {
+            //            IEnumerable<ChargeRateSettings> ChargeRateSettingsList = new CalculationProductService(_unitOfWork).GetChargeRateSettingForValidation((int)svm.JobInvoiceSettings.CalculationId, temp.DocTypeId, temp.SiteId, temp.DivisionId, temp.ProcessId, (int)svm.SalesTaxGroupPersonId, (int)svm.SalesTaxGroupProductId);
+
+            //            foreach (var item in ChargeRateSettingsList)
+            //            {
+            //                if (item.ChargeGroupSettingId == null)
+            //                {
+            //                    ModelState.AddModelError("", "Charge Group Setting is not defined for " + item.ChargeName + ".");
+            //                }
+
+            //                if (item.LedgerAccountCrName == LedgerAccountConstants.Charge || item.LedgerAccountDrName == LedgerAccountConstants.Charge)
+            //                {
+            //                    if (item.ChargeGroupSettingId != null && item.ChargePer != 0 && item.ChargePer != null && item.ChargeLedgerAccountId == null)
+            //                    {
+            //                        ModelState.AddModelError("", "Ledger account is not defined for " + item.ChargeName + " in charge group settings.");
+            //                    }
+            //                }
+            //            }
+            //        }
+            //    }
+            //}
+            #endregion
+
+
 
             if (svm.JobReceiveLineId <= 0)
             {
@@ -1425,35 +1468,5 @@ namespace Web
         {
             return Json(_JobInvoiceLineService.GetProductHelpList(id, JobWorkerId, term, Limit), JsonRequestBehavior.AllowGet);
         }
-
-        public IEnumerable<CalculationProductViewModel> GetChargeRates(int CalculationID, int DocumentTypeId, int SiteId, int DivisionId, int ProcessId, int? ChargeGroupPersonId, int? ChargeGroupProductId)
-        {
-            var ChargeGroupSettings = from C in db.ChargeGroupSettings
-                                      where C.ChargeGroupPersonId == ChargeGroupPersonId && C.ChargeGroupProductId == ChargeGroupProductId && C.ProcessId == ProcessId
-                                      select C;
-
-            int ChargeLedgerAccountId = new LedgerAccountService(_unitOfWork).Find(LedgerAccountConstants.Charge).LedgerAccountId;
-
-
-            return (from p in db.CalculationProduct
-                    join t in db.CalculationLineLedgerAccount.Where(m => m.DocTypeId == DocumentTypeId && m.SiteId == SiteId && m.DivisionId == DivisionId) on p.CalculationProductId equals t.CalculationProductId into table1
-                    from tab1 in table1.DefaultIfEmpty()
-                    join Cgs in ChargeGroupSettings on p.ChargeTypeId equals Cgs.ChargeTypeId into ChargeGroupSettingsTable
-                    from ChargeGroupSettingsTab in ChargeGroupSettingsTable.DefaultIfEmpty()
-                    where p.CalculationId == CalculationID
-                    orderby p.Sr
-                    select new CalculationProductViewModel
-                    {
-                        
-                        ChargeId = p.ChargeId,
-                        LedgerAccountCrId = (tab1.LedgerAccountCrId == ChargeLedgerAccountId ? ChargeGroupSettingsTab.ChargeLedgerAccountId : tab1.LedgerAccountCrId),
-                        LedgerAccountDrId = (tab1.LedgerAccountDrId == ChargeLedgerAccountId ? ChargeGroupSettingsTab.ChargeLedgerAccountId : tab1.LedgerAccountDrId),
-                        Rate = (Decimal?)ChargeGroupSettingsTab.ChargePer ?? 0,
-                    });
-
-        }
-
-
-
     }
 }

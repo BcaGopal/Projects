@@ -61,8 +61,8 @@ namespace Service
         IQueryable<ComboBoxResult> GetCostCentersForReceive(int id, string term);
         IQueryable<ComboBoxResult> GetProductsForReceiveFilters(int id, string term);
         IQueryable<ComboBoxResult> GetProductsForReceiveLine(int id, string term);
-        IQueryable<ComboBoxResult> GetDimension2ForReceive(int id, string term);
         IQueryable<ComboBoxResult> GetDimension1ForReceive(int id, string term);
+        IQueryable<ComboBoxResult> GetDimension2ForReceive(int id, string term);
 
         IEnumerable<ComboBoxResult> GetPendingStockInForIssue(int id, int? ProductId, int? Dimension1Id, int? Dimension2Id, int? Dimension3Id, int? Dimension4Id, string term);
         IEnumerable<ComboBoxResult> GetPendingStockInHeaderForIssue(int StockHeaderId, string term);
@@ -456,6 +456,13 @@ namespace Service
             string[] Dimension2IdArr = null;
             if (!string.IsNullOrEmpty(vm.Dimension2Id)) { Dimension2IdArr = vm.Dimension2Id.Split(",".ToCharArray()); }
 
+            string[] Dimension3IdArr = null;
+            if (!string.IsNullOrEmpty(vm.Dimension3Id)) { Dimension3IdArr = vm.Dimension3Id.Split(",".ToCharArray()); }
+
+            string[] Dimension4IdArr = null;
+            if (!string.IsNullOrEmpty(vm.Dimension4Id)) { Dimension4IdArr = vm.Dimension4Id.Split(",".ToCharArray()); }
+
+
             string[] CostCenterId = null;
             if (!string.IsNullOrEmpty(vm.CostCenterIds)) { CostCenterId = vm.CostCenterIds.Split(",".ToCharArray()); }
 
@@ -476,15 +483,21 @@ namespace Service
                         && (string.IsNullOrEmpty(vm.ProductGroupId) ? 1 == 1 : ProductGroupIdArr.Contains(H.ProductGroupId.ToString()))
                         && (string.IsNullOrEmpty(vm.Dimension1Id) ? 1 == 1 : Dimension1IdArr.Contains(H.Dimension1Id.ToString()))
                         && (string.IsNullOrEmpty(vm.Dimension2Id) ? 1 == 1 : Dimension2IdArr.Contains(H.Dimension2Id.ToString()))
+                        && (string.IsNullOrEmpty(vm.Dimension3Id) ? 1 == 1 : Dimension3IdArr.Contains(H.Dimension3Id.ToString()))
+                        && (string.IsNullOrEmpty(vm.Dimension4Id) ? 1 == 1 : Dimension4IdArr.Contains(H.Dimension4Id.ToString()))
                         && (string.IsNullOrEmpty(vm.CostCenterIds) ? 1 == 1 : CostCenterId.Contains(H.CostCenterId.ToString()))
                         && H.BalanceQty != 0
                        select new StockLineViewModel
                        {
                            StockHeaderId = vm.StockHeaderId,
-                           Dimension1Name = H.Dimension1Name,
                            Dimension1Id = H.Dimension1Id,
+                           Dimension1Name = H.Dimension1Name,
                            Dimension2Id = H.Dimension2Id,
                            Dimension2Name = H.Dimension2Name,
+                           Dimension3Id = H.Dimension3Id,
+                           Dimension3Name = H.Dimension3Name,
+                           Dimension4Id = H.Dimension4Id,
+                           Dimension4Name = H.Dimension4Name,
                            Specification = H.Specification,
                            Qty = H.BalanceQty,
                            BalanceQty = H.BalanceQty,
@@ -623,7 +636,9 @@ namespace Service
             IEnumerable<ProductBalanceForProcessViewModel> FifoSaleOrderLineList = db.Database.SqlQuery<ProductBalanceForProcessViewModel>("" + ConfigurationManager.AppSettings["DataBaseSchema"] + ".spStockProcessBalance  @UptoDate, @SiteId, @DivisionId, @PersonId, @ProcessId, @CostCenterId", SqlParameterUptoDate, SqlParameterSiteId, SqlParameterDivisionId, SqlParameterPersonId, SqlParameterProcessId, SqlParameterCostCenterId).ToList();
 
             temp.BalanceQty = (from p in FifoSaleOrderLineList
-                               where p.BalanceQty > 0 && p.Dimension1Id == temp.Dimension1Id && p.Dimension2Id == temp.Dimension2Id && p.Specification == temp.Specification && p.LotNo == temp.LotNo
+                               where p.BalanceQty > 0 && p.Dimension1Id == temp.Dimension1Id && p.Dimension2Id == temp.Dimension2Id
+                               && p.Dimension3Id == temp.Dimension3Id && p.Dimension4Id == temp.Dimension4Id
+                               && p.Specification == temp.Specification && p.LotNo == temp.LotNo
                                select p.BalanceQty).FirstOrDefault() + temp.Qty;
 
             return temp;
@@ -681,7 +696,9 @@ namespace Service
 
 
             temp.BalanceQty = (from p in FifoSaleOrderLineList
-                               where p.BalanceQty > 0 && p.Dimension1Id == temp.Dimension1Id && p.Dimension2Id == temp.Dimension2Id && p.Specification == temp.Specification && p.LotNo == temp.LotNo
+                               where p.BalanceQty > 0 && p.Dimension1Id == temp.Dimension1Id && p.Dimension2Id == temp.Dimension2Id
+                               && p.Dimension3Id == temp.Dimension3Id && p.Dimension4Id == temp.Dimension4Id
+                               && p.Specification == temp.Specification && p.LotNo == temp.LotNo
                                select p.BalanceQty).FirstOrDefault() + temp.Qty;
 
             return temp;
@@ -705,6 +722,10 @@ namespace Service
                         Dimension1Name = p.Dimension1.Dimension1Name,
                         Dimension2Id = p.Dimension2Id,
                         Dimension2Name = p.Dimension2.Dimension2Name,
+                        Dimension3Id = p.Dimension3Id,
+                        Dimension3Name = p.Dimension3.Dimension3Name,
+                        Dimension4Id = p.Dimension4Id,
+                        Dimension4Name = p.Dimension4.Dimension4Name,
                         ProductId = p.ProductId,
                         ProductName = p.Product.ProductName,
                         Specification = p.Specification,
@@ -746,6 +767,8 @@ namespace Service
                         || string.IsNullOrEmpty(term) ? 1 == 1 : t2.Specification.ToLower().Contains(term.ToLower())
                         || string.IsNullOrEmpty(term) ? 1 == 1 : p.Dimension1.Dimension1Name.ToLower().Contains(term.ToLower())
                         || string.IsNullOrEmpty(term) ? 1 == 1 : p.Dimension2.Dimension2Name.ToLower().Contains(term.ToLower())
+                        || string.IsNullOrEmpty(term) ? 1 == 1 : p.Dimension3.Dimension3Name.ToLower().Contains(term.ToLower())
+                        || string.IsNullOrEmpty(term) ? 1 == 1 : p.Dimension4.Dimension4Name.ToLower().Contains(term.ToLower())
                         || string.IsNullOrEmpty(term) ? 1 == 1 : p.RequisitionNo.ToLower().Contains(term.ToLower())
                         )
                         && (string.IsNullOrEmpty(settings.filterProductTypes) ? 1 == 1 : ProductTypes.Contains(p.Product.ProductGroup.ProductTypeId.ToString()))
@@ -760,6 +783,8 @@ namespace Service
                             Specification = t2.Specification,
                             Dimension1Name = p.Dimension1.Dimension1Name,
                             Dimension2Name = p.Dimension2.Dimension2Name,
+                            Dimension3Name = p.Dimension3.Dimension3Name,
+                            Dimension4Name = p.Dimension4.Dimension4Name,
                             HeaderDocNo = p.RequisitionNo,
                             LineId = p.RequisitionLineId,
                             BalanceQty = p.BalanceQty,
@@ -934,6 +959,14 @@ namespace Service
             if (!string.IsNullOrEmpty(vm.Dimension2Id)) { Dim2IdArr = vm.Dimension2Id.Split(",".ToCharArray()); }
             else { Dim2IdArr = new string[] { "NA" }; }
 
+            string[] Dim3IdArr = null;
+            if (!string.IsNullOrEmpty(vm.Dimension3Id)) { Dim3IdArr = vm.Dimension3Id.Split(",".ToCharArray()); }
+            else { Dim3IdArr = new string[] { "NA" }; }
+
+            string[] Dim4IdArr = null;
+            if (!string.IsNullOrEmpty(vm.Dimension4Id)) { Dim4IdArr = vm.Dimension4Id.Split(",".ToCharArray()); }
+            else { Dim4IdArr = new string[] { "NA" }; }
+
             string[] CostCenterArr = null;
             if (!string.IsNullOrEmpty(vm.CostCenterId)) { CostCenterArr = vm.CostCenterId.Split(",".ToCharArray()); }
             else { CostCenterArr = new string[] { "NA" }; }
@@ -950,18 +983,24 @@ namespace Service
                         && (string.IsNullOrEmpty(vm.ProductGroupId) ? 1 == 1 : ProductGroupIdArr.Contains(tab2.ProductGroupId.ToString()))
                         && (string.IsNullOrEmpty(vm.Dimension1Id) ? 1 == 1 : Dim1IdArr.Contains(tab3.Dimension1Id.ToString()))
                         && (string.IsNullOrEmpty(vm.Dimension2Id) ? 1 == 1 : Dim2IdArr.Contains(tab3.Dimension2Id.ToString()))
+                        && (string.IsNullOrEmpty(vm.Dimension3Id) ? 1 == 1 : Dim3IdArr.Contains(tab3.Dimension3Id.ToString()))
+                        && (string.IsNullOrEmpty(vm.Dimension4Id) ? 1 == 1 : Dim4IdArr.Contains(tab3.Dimension4Id.ToString()))
                         && (string.IsNullOrEmpty(vm.CostCenterId) ? 1 == 1 : CostCenterArr.Contains(tab.CostCenterId.ToString()))
                         && (string.IsNullOrEmpty(settings.filterProductTypes) ? 1 == 1 : ProductTypes.Contains(p.Product.ProductGroup.ProductTypeId.ToString()))
                          && (string.IsNullOrEmpty(settings.filterContraSites) ? 1 == 1 : ContraSites.Contains(tab.SiteId.ToString()))
                           && (string.IsNullOrEmpty(settings.filterContraDivisions) ? 1 == 1 : ContraDivisions.Contains(tab.DivisionId.ToString()))
                         && (All ? 1 == 1 : p.BalanceQty > 0) && p.PersonId == vm.PersonId
-                        orderby p.ProductId, p.Dimension1Id, p.Dimension2Id
+                        orderby p.ProductId, p.Dimension1Id, p.Dimension2Id, p.Dimension3Id, p.Dimension4Id
                         select new StockLineViewModel
                         {
                             Dimension1Name = tab3.Dimension1.Dimension1Name,
                             Dimension2Name = tab3.Dimension2.Dimension2Name,
+                            Dimension3Name = tab3.Dimension3.Dimension3Name,
+                            Dimension4Name = tab3.Dimension4.Dimension4Name,
                             Dimension1Id = p.Dimension1Id,
                             Dimension2Id = p.Dimension2Id,
+                            Dimension3Id = p.Dimension3Id,
+                            Dimension4Id = p.Dimension4Id,
                             ProcessId = tab3.ProcessId,
                             Specification = tab3.Specification,
                             RequisitionBalanceQty = p.BalanceQty,
@@ -1025,6 +1064,15 @@ namespace Service
             if (!string.IsNullOrEmpty(vm.Dimension2Id)) { Dim2IdArr = vm.Dimension2Id.Split(",".ToCharArray()); }
             else { Dim2IdArr = new string[] { "NA" }; }
 
+            string[] Dim3IdArr = null;
+            if (!string.IsNullOrEmpty(vm.Dimension3Id)) { Dim3IdArr = vm.Dimension3Id.Split(",".ToCharArray()); }
+            else { Dim3IdArr = new string[] { "NA" }; }
+
+            string[] Dim4IdArr = null;
+            if (!string.IsNullOrEmpty(vm.Dimension4Id)) { Dim4IdArr = vm.Dimension4Id.Split(",".ToCharArray()); }
+            else { Dim4IdArr = new string[] { "NA" }; }
+
+
             string[] CostCenterArr = null;
             if (!string.IsNullOrEmpty(vm.CostCenterId)) { CostCenterArr = vm.CostCenterId.Split(",".ToCharArray()); }
             else { CostCenterArr = new string[] { "NA" }; }
@@ -1039,6 +1087,8 @@ namespace Service
                         && (string.IsNullOrEmpty(vm.ProductGroupId) ? 1 == 1 : ProductGroupIdArr.Contains(p.Product.ProductGroupId.ToString()))
                         && (string.IsNullOrEmpty(vm.Dimension1Id) ? 1 == 1 : (stockline == null ? Dim1IdArr.Contains(p.Dimension1Id.ToString()) : Dim1IdArr.Contains(stockline.Dimension1Id.ToString())))
                         && (string.IsNullOrEmpty(vm.Dimension2Id) ? 1 == 1 : (stockline == null ? Dim2IdArr.Contains(p.Dimension2Id.ToString()) : Dim2IdArr.Contains(stockline.Dimension2Id.ToString())))
+                        && (string.IsNullOrEmpty(vm.Dimension3Id) ? 1 == 1 : (stockline == null ? Dim3IdArr.Contains(p.Dimension3Id.ToString()) : Dim3IdArr.Contains(stockline.Dimension3Id.ToString())))
+                        && (string.IsNullOrEmpty(vm.Dimension4Id) ? 1 == 1 : (stockline == null ? Dim4IdArr.Contains(p.Dimension4Id.ToString()) : Dim4IdArr.Contains(stockline.Dimension4Id.ToString())))
                         && (string.IsNullOrEmpty(vm.CostCenterId) ? 1 == 1 : CostCenterArr.Contains(tab.CostCenterId.ToString()))
                         && (string.IsNullOrEmpty(settings.filterProductTypes) ? 1 == 1 : ProductTypes.Contains(p.Product.ProductGroup.ProductTypeId.ToString()))
                          && (string.IsNullOrEmpty(settings.filterContraSites) ? 1 == 1 : ContraSites.Contains(tab.SiteId.ToString()))
@@ -1050,9 +1100,13 @@ namespace Service
                         {
                             Dimension1Name = (stockline == null ? p.Dimension1.Dimension1Name : stockline.Dimension1.Dimension1Name),
                             Dimension2Name = (stockline == null ? p.Dimension2.Dimension2Name : stockline.Dimension2.Dimension2Name),
+                            Dimension3Name = (stockline == null ? p.Dimension3.Dimension3Name : stockline.Dimension3.Dimension3Name),
+                            Dimension4Name = (stockline == null ? p.Dimension4.Dimension4Name : stockline.Dimension4.Dimension4Name),
                             Specification = (stockline == null ? p.Specification : stockline.Specification),
                             Dimension1Id = (stockline == null ? p.Dimension1Id : stockline.Dimension1Id),
                             Dimension2Id = (stockline == null ? p.Dimension2Id : stockline.Dimension2Id),
+                            Dimension3Id = (stockline == null ? p.Dimension3Id : stockline.Dimension3Id),
+                            Dimension4Id = (stockline == null ? p.Dimension4Id : stockline.Dimension4Id),
                             ProcessId = p.ProcessId,
                             RequisitionHeaderDocNo = tab.DocNo,
                             ProductName = (stockline == null ? p.Product.ProductName : stockline.Product.ProductName),
@@ -1115,6 +1169,14 @@ namespace Service
             string[] Dim2IdArr = null;
             if (!string.IsNullOrEmpty(vm.Dimension2Id)) { Dim2IdArr = vm.Dimension2Id.Split(",".ToCharArray()); }
             else { Dim2IdArr = new string[] { "NA" }; }
+
+            string[] Dim3IdArr = null;
+            if (!string.IsNullOrEmpty(vm.Dimension3Id)) { Dim3IdArr = vm.Dimension3Id.Split(",".ToCharArray()); }
+            else { Dim3IdArr = new string[] { "NA" }; }
+
+            string[] Dim4IdArr = null;
+            if (!string.IsNullOrEmpty(vm.Dimension4Id)) { Dim4IdArr = vm.Dimension4Id.Split(",".ToCharArray()); }
+            else { Dim4IdArr = new string[] { "NA" }; }
 
             string[] CostCenterArr = null;
             if (!string.IsNullOrEmpty(vm.CostCenterId)) { CostCenterArr = vm.CostCenterId.Split(",".ToCharArray()); }

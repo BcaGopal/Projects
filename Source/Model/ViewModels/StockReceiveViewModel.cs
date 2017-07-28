@@ -19,6 +19,8 @@ namespace Model.ViewModels
         public string ProductGroupId { get; set; }
         public string Dimension1Id { get; set; }
         public string Dimension2Id { get; set; }
+        public string Dimension3Id { get; set; }
+        public string Dimension4Id { get; set; }
         public string CostCenterId { get; set; }
         public string RequisitionHeaderId { get; set; }
         public DocumentTypeSettingsViewModel DocumentTypeSettings { get; set; }

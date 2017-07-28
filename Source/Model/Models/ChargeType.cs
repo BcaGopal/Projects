@@ -30,7 +30,9 @@ namespace Model.Models
 
         [MaxLength(100)]
         public string ImageFileName { get; set; }
-
+        
+        [MaxLength(20)]
+        public string Category { get; set; }
 
         [Display(Name = "Created By")]
         public string CreatedBy { get; set; }

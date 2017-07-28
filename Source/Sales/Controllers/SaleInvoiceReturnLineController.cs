@@ -12,6 +12,7 @@ using AutoMapper;
 using System.Text;
 using Model.ViewModel;
 using System.Xml.Linq;
+using Presentation.Helper;
 
 namespace Web
 {
@@ -55,6 +56,8 @@ namespace Web
             SaleInvoiceReturnLineFilterViewModel vm = new SaleInvoiceReturnLineFilterViewModel();
             vm.SaleInvoiceReturnHeaderId = id;
             vm.BuyerId = sid;
+            JobInvoiceReturnHeader Header = new JobInvoiceReturnHeaderService(db).Find(id);
+            vm.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(Header.DocTypeId);
             return PartialView("_Filters", vm);
         }
 
@@ -63,6 +66,8 @@ namespace Web
             SaleInvoiceReturnLineFilterViewModel vm = new SaleInvoiceReturnLineFilterViewModel();
             vm.SaleInvoiceReturnHeaderId = id;
             vm.BuyerId = sid;
+            JobInvoiceReturnHeader Header = new JobInvoiceReturnHeaderService(db).Find(id);
+            vm.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(Header.DocTypeId);
             return PartialView("_ReceiptFilters", vm);
         }
 
@@ -348,6 +353,10 @@ namespace Web
             var settings = new SaleInvoiceSettingService(_unitOfWork).GetSaleInvoiceSettingForDocument(H.DocTypeId, H.DivisionId, H.SiteId);
             s.SaleInvoiceSettings = Mapper.Map<SaleInvoiceSetting, SaleInvoiceSettingsViewModel>(settings);
 
+            s.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(H.DocTypeId);
+
+            s.Nature = H.Nature;
+
             s.SaleInvoiceReturnHeaderId = H.SaleInvoiceReturnHeaderId;
             s.SaleInvoiceReturnHeaderDocNo = H.DocNo;
             s.BuyerId = sid;
@@ -378,7 +387,6 @@ namespace Web
             if (svm.SaleInvoiceReturnLineId <= 0)
             {
 
-                SaleDispatchReturnHeader SaleDispatchReturnHeader = new SaleDispatchReturnHeaderService(_unitOfWork).Find((int)temp.SaleDispatchReturnHeaderId);
 
                 decimal balqty = (from p in db.SaleInvoiceLine
                                   where p.SaleInvoiceLineId == svm.SaleInvoiceLineId
@@ -407,67 +415,88 @@ namespace Web
                     s.CreatedBy = User.Identity.Name;
                     s.ModifiedBy = User.Identity.Name;
 
-                    SaleDispatchReturnLine Gline = Mapper.Map<SaleInvoiceReturnLine, SaleDispatchReturnLine>(s);
-                    Gline.SaleDispatchLineId = new SaleInvoiceLineService(_unitOfWork).Find(s.SaleInvoiceLineId).SaleDispatchLineId;
-                    Gline.SaleDispatchReturnHeaderId = temp.SaleDispatchReturnHeaderId ?? 0;
-                    Gline.Qty = svm.Qty;
-                    Gline.Weight = svm.Weight;
 
-
-
-
-                    StockViewModel StockViewModel = new StockViewModel();
-                    StockViewModel.StockHeaderId = SaleDispatchReturnHeader.StockHeaderId ?? 0;
-                    StockViewModel.DocHeaderId = SaleDispatchReturnHeader.SaleDispatchReturnHeaderId;
-                    StockViewModel.DocLineId = Gline.SaleDispatchReturnLineId;
-                    StockViewModel.DocTypeId = SaleDispatchReturnHeader.DocTypeId;
-                    StockViewModel.StockHeaderDocDate = SaleDispatchReturnHeader.DocDate;
-                    StockViewModel.StockDocDate = SaleDispatchReturnHeader.DocDate;
-                    StockViewModel.DocNo = SaleDispatchReturnHeader.DocNo;
-                    StockViewModel.DivisionId = SaleDispatchReturnHeader.DivisionId;
-                    StockViewModel.SiteId = SaleDispatchReturnHeader.SiteId;
-                    StockViewModel.CurrencyId = null;
-                    StockViewModel.HeaderProcessId = settings.ProcessId;
-                    StockViewModel.PersonId = SaleDispatchReturnHeader.BuyerId;
-                    StockViewModel.ProductId = svm.ProductId;
-                    StockViewModel.ProductUidId = svm.ProductUidId;
-                    StockViewModel.HeaderFromGodownId = null;
-                    StockViewModel.HeaderGodownId = SaleDispatchReturnHeader.GodownId;
-                    StockViewModel.GodownId = SaleDispatchReturnHeader.GodownId;
-                    StockViewModel.ProcessId = null;
-                    StockViewModel.LotNo = null;
-                    StockViewModel.CostCenterId = null;
-                    StockViewModel.Qty_Iss = 0;
-                    StockViewModel.Qty_Rec = Gline.Qty;
-                    StockViewModel.Weight_Iss = Gline.Weight;
-                    StockViewModel.Weight_Rec = 0;
-                    StockViewModel.Rate = null;
-                    StockViewModel.ExpiryDate = null;
-                    StockViewModel.Specification = svm.Specification;
-                    StockViewModel.Dimension1Id = svm.Dimension1Id;
-                    StockViewModel.Dimension2Id = svm.Dimension2Id;
-                    StockViewModel.Remark = svm.Remark;
-                    StockViewModel.Status = SaleDispatchReturnHeader.Status;
-                    StockViewModel.CreatedBy = SaleDispatchReturnHeader.CreatedBy;
-                    StockViewModel.CreatedDate = DateTime.Now;
-                    StockViewModel.ModifiedBy = SaleDispatchReturnHeader.ModifiedBy;
-                    StockViewModel.ModifiedDate = DateTime.Now;
-
-                    string StockPostingError = "";
-                    StockPostingError = new StockService(_unitOfWork).StockPost(ref StockViewModel);
-
-                    if (StockPostingError != "")
+                    if (temp.SaleDispatchReturnHeaderId.HasValue)
                     {
-                        ModelState.AddModelError("", StockPostingError);
-                        return PartialView("_Create", svm);
+                        SaleDispatchReturnHeader SaleDispatchReturnHeader = new SaleDispatchReturnHeaderService(_unitOfWork).Find((int)temp.SaleDispatchReturnHeaderId);
+
+                        SaleDispatchReturnLine Gline = Mapper.Map<SaleInvoiceReturnLine, SaleDispatchReturnLine>(s);
+                        Gline.SaleDispatchLineId = new SaleInvoiceLineService(_unitOfWork).Find(s.SaleInvoiceLineId).SaleDispatchLineId;
+                        Gline.SaleDispatchReturnHeaderId = temp.SaleDispatchReturnHeaderId ?? 0;
+                        Gline.Qty = svm.Qty;
+                        Gline.Weight = svm.Weight;
+
+
+
+
+                        StockViewModel StockViewModel = new StockViewModel();
+                        StockViewModel.StockHeaderId = SaleDispatchReturnHeader.StockHeaderId ?? 0;
+                        StockViewModel.DocHeaderId = SaleDispatchReturnHeader.SaleDispatchReturnHeaderId;
+                        StockViewModel.DocLineId = Gline.SaleDispatchReturnLineId;
+                        StockViewModel.DocTypeId = SaleDispatchReturnHeader.DocTypeId;
+                        StockViewModel.StockHeaderDocDate = SaleDispatchReturnHeader.DocDate;
+                        StockViewModel.StockDocDate = SaleDispatchReturnHeader.DocDate;
+                        StockViewModel.DocNo = SaleDispatchReturnHeader.DocNo;
+                        StockViewModel.DivisionId = SaleDispatchReturnHeader.DivisionId;
+                        StockViewModel.SiteId = SaleDispatchReturnHeader.SiteId;
+                        StockViewModel.CurrencyId = null;
+                        StockViewModel.HeaderProcessId = settings.ProcessId;
+                        StockViewModel.PersonId = SaleDispatchReturnHeader.BuyerId;
+                        StockViewModel.ProductId = svm.ProductId;
+                        StockViewModel.ProductUidId = svm.ProductUidId;
+                        StockViewModel.HeaderFromGodownId = null;
+                        StockViewModel.HeaderGodownId = SaleDispatchReturnHeader.GodownId;
+                        StockViewModel.GodownId = SaleDispatchReturnHeader.GodownId;
+                        StockViewModel.ProcessId = null;
+                        StockViewModel.LotNo = null;
+                        StockViewModel.CostCenterId = null;
+                        StockViewModel.Qty_Iss = 0;
+                        StockViewModel.Qty_Rec = Gline.Qty;
+                        StockViewModel.Weight_Iss = Gline.Weight;
+                        StockViewModel.Weight_Rec = 0;
+                        StockViewModel.Rate = null;
+                        StockViewModel.ExpiryDate = null;
+                        StockViewModel.Specification = svm.Specification;
+                        StockViewModel.Dimension1Id = svm.Dimension1Id;
+                        StockViewModel.Dimension2Id = svm.Dimension2Id;
+                        StockViewModel.Remark = svm.Remark;
+                        StockViewModel.Status = SaleDispatchReturnHeader.Status;
+                        StockViewModel.CreatedBy = SaleDispatchReturnHeader.CreatedBy;
+                        StockViewModel.CreatedDate = DateTime.Now;
+                        StockViewModel.ModifiedBy = SaleDispatchReturnHeader.ModifiedBy;
+                        StockViewModel.ModifiedDate = DateTime.Now;
+
+                        string StockPostingError = "";
+                        StockPostingError = new StockService(_unitOfWork).StockPost(ref StockViewModel);
+
+                        if (StockPostingError != "")
+                        {
+                            ModelState.AddModelError("", StockPostingError);
+                            return PartialView("_Create", svm);
+                        }
+
+                        Gline.StockId = StockViewModel.StockId;
+
+                        Gline.ObjectState = Model.ObjectState.Added;
+                        new SaleDispatchReturnLineService(_unitOfWork).Create(Gline);
+
+                        s.SaleDispatchReturnLineId = Gline.SaleDispatchReturnLineId;
+
+                        if (StockViewModel != null)
+                        {
+                            if (SaleDispatchReturnHeader.StockHeaderId == null)
+                            {
+                                SaleDispatchReturnHeader.StockHeaderId = StockViewModel.StockHeaderId;
+                            }
+
+                        }
+
+                        if (SaleDispatchReturnHeader.Status != (int)StatusConstants.Drafted)
+                        {
+                            SaleDispatchReturnHeader.Status = (int)StatusConstants.Modified;
+                        }
+                        new SaleDispatchReturnHeaderService(_unitOfWork).Update(SaleDispatchReturnHeader);
                     }
-
-                    Gline.StockId = StockViewModel.StockId;
-
-                    Gline.ObjectState = Model.ObjectState.Added;
-                    new SaleDispatchReturnLineService(_unitOfWork).Create(Gline);
-
-                    s.SaleDispatchReturnLineId = Gline.SaleDispatchReturnLineId;
                     s.ObjectState = Model.ObjectState.Added;
                     _SaleInvoiceReturnLineService.Create(s);
 
@@ -510,21 +539,12 @@ namespace Web
                     if (temp2.Status != (int)StatusConstants.Drafted)
                     {
                         temp2.Status = (int)StatusConstants.Modified;
-                        SaleDispatchReturnHeader.Status = temp2.Status;
                     }
 
-                    if (StockViewModel != null)
-                    {
-                        if (SaleDispatchReturnHeader.StockHeaderId == null && StockViewModel.StockHeaderId != 0)
-                        {
-                            SaleDispatchReturnHeader.StockHeaderId = StockViewModel.StockHeaderId;
-                        }
 
-                    }
 
 
                     new SaleInvoiceReturnHeaderService(_unitOfWork).Update(temp2);
-                    new SaleDispatchReturnHeaderService(_unitOfWork).Update(SaleDispatchReturnHeader);
                     try
                     {
                         _unitOfWork.Save();
@@ -563,7 +583,6 @@ namespace Web
                 StringBuilder logstring = new StringBuilder();
 
                 SaleInvoiceReturnLine line = _SaleInvoiceReturnLineService.Find(svm.SaleInvoiceReturnLineId);
-                SaleDispatchReturnHeader SaleDispatchReturnHeader = new SaleDispatchReturnHeaderService(_unitOfWork).Find((int)temp.SaleDispatchReturnHeaderId);
 
                 SaleInvoiceReturnLine ExRec = new SaleInvoiceReturnLine();
                 ExRec = Mapper.Map<SaleInvoiceReturnLine>(line);
@@ -602,80 +621,90 @@ namespace Web
                     });
 
 
-                    SaleDispatchReturnLine GLine = new SaleDispatchReturnLineService(_unitOfWork).Find(line.SaleDispatchReturnLineId ?? 0);
 
-                    SaleDispatchReturnLine ExRecR = new SaleDispatchReturnLine();
-                    ExRecR = Mapper.Map<SaleDispatchReturnLine>(GLine);
-
-
-                    GLine.Remark = line.Remark;
-                    GLine.Qty = line.Qty;
-                    GLine.DealQty = line.DealQty;
-                    GLine.Weight = line.Weight;
-
-                    GLine.ObjectState = Model.ObjectState.Modified;
-                    new SaleDispatchReturnLineService(_unitOfWork).Update(GLine);
-
-                    LogList.Add(new LogTypeViewModel
+                    if (temp.SaleDispatchReturnHeaderId.HasValue)
                     {
-                        ExObj = ExRecR,
-                        Obj = GLine,
-                    });
+                        SaleDispatchReturnHeader SaleDispatchReturnHeader = new SaleDispatchReturnHeaderService(_unitOfWork).Find((int)temp.SaleDispatchReturnHeaderId);
+
+                        SaleDispatchReturnLine GLine = new SaleDispatchReturnLineService(_unitOfWork).Find(line.SaleDispatchReturnLineId ?? 0);
+
+                        SaleDispatchReturnLine ExRecR = new SaleDispatchReturnLine();
+                        ExRecR = Mapper.Map<SaleDispatchReturnLine>(GLine);
 
 
-                    StockViewModel StockViewModel = new StockViewModel();
-                    StockViewModel.StockHeaderId = SaleDispatchReturnHeader.StockHeaderId ?? 0;
-                    StockViewModel.StockId = GLine.StockId ?? 0;
-                    StockViewModel.DocHeaderId = SaleDispatchReturnHeader.SaleDispatchReturnHeaderId;
-                    StockViewModel.DocLineId = GLine.SaleDispatchLineId;
-                    StockViewModel.DocTypeId = SaleDispatchReturnHeader.DocTypeId;
-                    StockViewModel.StockHeaderDocDate = SaleDispatchReturnHeader.DocDate;
-                    StockViewModel.StockDocDate = SaleDispatchReturnHeader.DocDate;
-                    StockViewModel.DocNo = SaleDispatchReturnHeader.DocNo;
-                    StockViewModel.DivisionId = SaleDispatchReturnHeader.DivisionId;
-                    StockViewModel.SiteId = SaleDispatchReturnHeader.SiteId;
-                    StockViewModel.CurrencyId = null;
-                    StockViewModel.HeaderProcessId = settings.ProcessId;
-                    StockViewModel.PersonId = SaleDispatchReturnHeader.BuyerId;
-                    StockViewModel.ProductId = svm.ProductId;
-                    StockViewModel.ProductUidId = svm.ProductUidId;
-                    StockViewModel.HeaderFromGodownId = null;
-                    StockViewModel.HeaderGodownId = SaleDispatchReturnHeader.GodownId;
-                    StockViewModel.GodownId = SaleDispatchReturnHeader.GodownId;
-                    StockViewModel.ProcessId = null;
-                    StockViewModel.LotNo = null;
-                    StockViewModel.CostCenterId = null;
-                    StockViewModel.Qty_Iss = 0;
-                    StockViewModel.Qty_Rec = svm.Qty;
-                    StockViewModel.Weight_Iss = svm.Weight;
-                    StockViewModel.Weight_Rec = 0;
-                    StockViewModel.Rate = null;
-                    StockViewModel.ExpiryDate = null;
-                    StockViewModel.Specification = svm.Specification;
-                    StockViewModel.Dimension1Id = svm.Dimension1Id;
-                    StockViewModel.Dimension2Id = svm.Dimension2Id;
-                    StockViewModel.Remark = svm.Remark;
-                    StockViewModel.Status = SaleDispatchReturnHeader.Status;
-                    StockViewModel.CreatedBy = SaleDispatchReturnHeader.CreatedBy;
-                    StockViewModel.CreatedDate = SaleDispatchReturnHeader.CreatedDate;
-                    StockViewModel.ModifiedBy = User.Identity.Name;
-                    StockViewModel.ModifiedDate = DateTime.Now;
+                        GLine.Remark = line.Remark;
+                        GLine.Qty = line.Qty;
+                        GLine.DealQty = line.DealQty;
+                        GLine.Weight = line.Weight;
 
-                    string StockPostingError = "";
-                    StockPostingError = new StockService(_unitOfWork).StockPost(ref StockViewModel);
+                        GLine.ObjectState = Model.ObjectState.Modified;
+                        new SaleDispatchReturnLineService(_unitOfWork).Update(GLine);
 
-                    if (StockPostingError != "")
-                    {
-                        ModelState.AddModelError("", StockPostingError);
-                        return PartialView("_Create", svm);
+                        LogList.Add(new LogTypeViewModel
+                        {
+                            ExObj = ExRecR,
+                            Obj = GLine,
+                        });
+
+
+                        StockViewModel StockViewModel = new StockViewModel();
+                        StockViewModel.StockHeaderId = SaleDispatchReturnHeader.StockHeaderId ?? 0;
+                        StockViewModel.StockId = GLine.StockId ?? 0;
+                        StockViewModel.DocHeaderId = SaleDispatchReturnHeader.SaleDispatchReturnHeaderId;
+                        StockViewModel.DocLineId = GLine.SaleDispatchLineId;
+                        StockViewModel.DocTypeId = SaleDispatchReturnHeader.DocTypeId;
+                        StockViewModel.StockHeaderDocDate = SaleDispatchReturnHeader.DocDate;
+                        StockViewModel.StockDocDate = SaleDispatchReturnHeader.DocDate;
+                        StockViewModel.DocNo = SaleDispatchReturnHeader.DocNo;
+                        StockViewModel.DivisionId = SaleDispatchReturnHeader.DivisionId;
+                        StockViewModel.SiteId = SaleDispatchReturnHeader.SiteId;
+                        StockViewModel.CurrencyId = null;
+                        StockViewModel.HeaderProcessId = settings.ProcessId;
+                        StockViewModel.PersonId = SaleDispatchReturnHeader.BuyerId;
+                        StockViewModel.ProductId = svm.ProductId;
+                        StockViewModel.ProductUidId = svm.ProductUidId;
+                        StockViewModel.HeaderFromGodownId = null;
+                        StockViewModel.HeaderGodownId = SaleDispatchReturnHeader.GodownId;
+                        StockViewModel.GodownId = SaleDispatchReturnHeader.GodownId;
+                        StockViewModel.ProcessId = null;
+                        StockViewModel.LotNo = null;
+                        StockViewModel.CostCenterId = null;
+                        StockViewModel.Qty_Iss = 0;
+                        StockViewModel.Qty_Rec = svm.Qty;
+                        StockViewModel.Weight_Iss = svm.Weight;
+                        StockViewModel.Weight_Rec = 0;
+                        StockViewModel.Rate = null;
+                        StockViewModel.ExpiryDate = null;
+                        StockViewModel.Specification = svm.Specification;
+                        StockViewModel.Dimension1Id = svm.Dimension1Id;
+                        StockViewModel.Dimension2Id = svm.Dimension2Id;
+                        StockViewModel.Remark = svm.Remark;
+                        StockViewModel.Status = SaleDispatchReturnHeader.Status;
+                        StockViewModel.CreatedBy = SaleDispatchReturnHeader.CreatedBy;
+                        StockViewModel.CreatedDate = SaleDispatchReturnHeader.CreatedDate;
+                        StockViewModel.ModifiedBy = User.Identity.Name;
+                        StockViewModel.ModifiedDate = DateTime.Now;
+
+                        string StockPostingError = "";
+                        StockPostingError = new StockService(_unitOfWork).StockPost(ref StockViewModel);
+
+                        if (StockPostingError != "")
+                        {
+                            ModelState.AddModelError("", StockPostingError);
+                            return PartialView("_Create", svm);
+                        }
+
+                        if (SaleDispatchReturnHeader.Status != (int)StatusConstants.Drafted)
+                        {
+                            SaleDispatchReturnHeader.Status = (int)StatusConstants.Modified;
+                            new SaleDispatchReturnHeaderService(_unitOfWork).Update(SaleDispatchReturnHeader);
+                        }
                     }
 
                     if (temp.Status != (int)StatusConstants.Drafted)
                     {
                         temp.Status = (int)StatusConstants.Modified;
-                        SaleDispatchReturnHeader.Status = temp.Status;
                         new SaleInvoiceReturnHeaderService(_unitOfWork).Update(temp);
-                        new SaleDispatchReturnHeaderService(_unitOfWork).Update(SaleDispatchReturnHeader);
                     }
 
 
@@ -786,6 +815,7 @@ namespace Web
             var settings = new SaleInvoiceSettingService(_unitOfWork).GetSaleInvoiceSettingForDocument(H.DocTypeId, H.DivisionId, H.SiteId);
 
             temp.SaleInvoiceSettings = Mapper.Map<SaleInvoiceSetting, SaleInvoiceSettingsViewModel>(settings);
+            temp.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(H.DocTypeId);
 
             if (temp == null)
             {
@@ -827,6 +857,7 @@ namespace Web
             var settings = new SaleInvoiceSettingService(_unitOfWork).GetSaleInvoiceSettingForDocument(H.DocTypeId, H.DivisionId, H.SiteId);
 
             temp.SaleInvoiceSettings = Mapper.Map<SaleInvoiceSetting, SaleInvoiceSettingsViewModel>(settings);
+            temp.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(H.DocTypeId);
 
             if (temp == null)
             {
@@ -874,14 +905,9 @@ namespace Web
                 ExObj = SaleInvoiceReturnLine,
             });
 
-            SaleDispatchReturnLine Gline = new SaleDispatchReturnLineService(_unitOfWork).Find(SaleInvoiceReturnLine.SaleDispatchReturnLineId ?? 0);
+            int? SaleDispatchReturnLineId = SaleInvoiceReturnLine.SaleDispatchReturnLineId;
 
-            LogList.Add(new LogTypeViewModel
-            {
-                ExObj = Gline,
-            });
 
-            StockId = Gline.StockId;
 
             var chargeslist = new SaleInvoiceReturnLineChargeService(_unitOfWork).GetCalculationProductList(vm.SaleInvoiceReturnLineId);
 
@@ -916,11 +942,26 @@ namespace Web
                 }
             }
 
-            new SaleDispatchReturnLineService(_unitOfWork).Delete(Gline);
 
-            if (StockId != null)
+            if (SaleDispatchReturnLineId != null)
             {
-                new StockService(_unitOfWork).DeleteStock((int)StockId);
+                SaleDispatchReturnLine Gline = new SaleDispatchReturnLineService(_unitOfWork).Find((int)SaleDispatchReturnLineId);
+
+                if (Gline != null)
+                {
+                    LogList.Add(new LogTypeViewModel
+                    {
+                        ExObj = Gline,
+                    });
+
+                    StockId = Gline.StockId;
+                    new SaleDispatchReturnLineService(_unitOfWork).Delete(Gline);
+
+                    if (StockId != null)
+                    {
+                        new StockService(_unitOfWork).DeleteStock((int)StockId);
+                    }
+                }
             }
             XElement Modifications = new ModificationsCheckService().CheckChanges(LogList);
             try
@@ -991,6 +1032,26 @@ namespace Web
         public JsonResult GetCustomProducts(int id, string term)//Indent Header ID
         {
             return Json(_SaleInvoiceReturnLineService.GetProductHelpList(id, term), JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult GetSaleInvoiceForProduct(string searchTerm, int pageSize, int pageNum, int filter)//SaleInvoiceReturnHeaderId
+        {
+            var Query = _SaleInvoiceReturnLineService.GetSaleInvoiceHelpListForProduct(filter, searchTerm);
+            var temp = Query.Skip(pageSize * (pageNum - 1))
+                .Take(pageSize)
+                .ToList();
+
+            var count = Query.Count();
+
+            ComboBoxPagedResult Data = new ComboBoxPagedResult();
+            Data.Results = temp;
+            Data.Total = count;
+
+            return new JsonpResult
+            {
+                Data = Data,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
         }
 
 

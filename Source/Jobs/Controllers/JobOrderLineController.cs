@@ -745,6 +745,7 @@ namespace Web
             s.DocTypeId = H.DocTypeId;
             s.SiteId = H.SiteId;
             s.DivisionId = H.DivisionId;
+            s.SalesTaxGroupPersonId = H.SalesTaxGroupPersonId;
             //if (date != null) s.DueDate = date??DateTime.Today;
             PrepareViewBag(s);
             ViewBag.LineMode = "Create";
@@ -825,6 +826,38 @@ namespace Web
             {
                 ModelState.AddModelError("DealQty", "DealQty field is required");
             }
+
+            #region "Tax Calculation Validation"
+            //SiteDivisionSettings SiteDivisionSettings = new SiteDivisionSettingsService(_unitOfWork).GetSiteDivisionSettings(temp.SiteId, temp.DivisionId, temp.DocDate);
+            //if (SiteDivisionSettings != null)
+            //{
+            //    if (SiteDivisionSettings.IsApplicableGST == true)
+            //    {
+            //        if (svm.SalesTaxGroupPersonId == 0 || svm.SalesTaxGroupPersonId == null)
+            //        {
+            //            ModelState.AddModelError("", "Sales Tax Group Person is not defined for party, it is required.");
+            //        }
+
+            //        if (svm.SalesTaxGroupProductId == 0 || svm.SalesTaxGroupProductId == null)
+            //        {
+            //            ModelState.AddModelError("", "Sales Tax Group Product is not defined for product, it is required.");
+            //        }
+
+            //        if (svm.SalesTaxGroupProductId != 0 && svm.SalesTaxGroupProductId != null && svm.SalesTaxGroupPersonId != 0 && svm.SalesTaxGroupPersonId != null && svm.JobOrderSettings.CalculationId != null)
+            //        {
+            //            IEnumerable<ChargeRateSettings> ChargeRateSettingsList = new CalculationProductService(_unitOfWork).GetChargeRateSettingForValidation((int)svm.JobOrderSettings.CalculationId, temp.DocTypeId, temp.SiteId, temp.DivisionId, temp.ProcessId, (int)svm.SalesTaxGroupPersonId, (int)svm.SalesTaxGroupProductId);
+
+            //            foreach (var item in ChargeRateSettingsList)
+            //            {
+            //                if (item.ChargeGroupSettingId == null)
+            //                {
+            //                    ModelState.AddModelError("", "Charge Group Setting is not defined for " + item.ChargeName + ".");
+            //                }
+            //            }
+            //        }
+            //    }
+            //}
+            #endregion
 
             JobOrderLine s = Mapper.Map<JobOrderLineViewModel, JobOrderLine>(svm);
 
@@ -1356,7 +1389,7 @@ namespace Web
                         Adj_IssQty.DivisionId = temp.DivisionId;
                         Adj_IssQty.SiteId = temp.SiteId;
                         Adj_IssQty.AdjustedQty = svm.Qty;
-                        Adj.ObjectState = Model.ObjectState.Added;
+                        Adj_IssQty.ObjectState = Model.ObjectState.Added;
                         db.StockAdj.Add(Adj_IssQty);
                         //new StockAdjService(_unitOfWork).Create(Adj_IssQty);
                     }
@@ -2115,6 +2148,7 @@ namespace Web
             }
 
 
+
             var Record = new JobOrderHeaderService(_unitOfWork).Find(JobOrderId);
 
             var Settings = new JobOrderSettingsService(_unitOfWork).GetJobOrderSettingsForDocument(Record.DocTypeId, Record.DivisionId, Record.SiteId);
@@ -2140,8 +2174,11 @@ namespace Web
                 UnitId = (!string.IsNullOrEmpty(Settings.JobUnitId) ? Settings.JobUnitId : product.UnitId), 
                 //DealUnitId = !string.IsNullOrEmpty(Settings.JobUnitId) ? Settings.JobUnitId : ((DealUnit == null) ? (Settings.DealUnitId == null ? product.UnitId : Settings.DealUnitId) : DealUnit.DealUnitId), 
                 DealUnitId = DlUnit.UnitId, 
-                DealUnitDecimalPlaces = DlUnit.DecimalPlaces, 
-                Specification = product.ProductSpecification });
+                DealUnitDecimalPlaces = DlUnit.DecimalPlaces,
+                Specification = product.ProductSpecification,
+                SalesTaxGroupProductId = product.SalesTaxGroupProductId,
+                SalesTaxGroupProductName = product.SalesTaxGroupProductName
+            });
         }
         public JsonResult getunitconversiondetailjson(int prodid, string UnitId, string DealUnitId, int JobOrderId)
         {
@@ -2236,10 +2273,10 @@ namespace Web
 
         }
 
-        public JsonResult GetCustomProducts(int id, string term)//Indent Header ID
-        {
-            return Json(_JobOrderLineService.GetProductHelpList(id, term), JsonRequestBehavior.AllowGet);
-        }
+        //public JsonResult GetCustomProducts(int id, string term)//Indent Header ID
+        //{
+        //    return Json(_JobOrderLineService.GetProductHelpList(id, term), JsonRequestBehavior.AllowGet);
+        //}
 
         public ActionResult SetFlagForAllowRepeatProcess()
         {
@@ -2415,6 +2452,26 @@ namespace Web
             return Json(ProductUidJson);
         }
 
+        public ActionResult GetCustomProducts(string searchTerm, int pageSize, int pageNum, int filter)//DocTypeId
+        {
+            var Query = _JobOrderLineService.GetCustomProducts(filter, searchTerm);
+            var temp = Query.Skip(pageSize * (pageNum - 1))
+                .Take(pageSize)
+                .ToList();
+
+            var count = Query.Count();
+
+            ComboBoxPagedResult Data = new ComboBoxPagedResult();
+            Data.Results = temp;
+            Data.Total = count;
+
+            return new JsonpResult
+            {
+                Data = Data,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
         public ActionResult GetStockInForProduct(string searchTerm, int pageSize, int pageNum, int filter, int? ProductId, int? Dimension1Id, int? Dimension2Id, int? Dimension3Id, int? Dimension4Id)//DocTypeId
         {
             var Query = _JobOrderLineService.GetPendingStockInForIssue(filter, ProductId, Dimension1Id, Dimension2Id, Dimension3Id, Dimension4Id, searchTerm);
@@ -2458,6 +2515,7 @@ namespace Web
         public JsonResult GetStockInDetailJson(int StockInId)
         {
             var temp = (from p in db.ViewStockInBalance
+                        join S in db.Stock on p.StockInId  equals S.StockId into StockTable from StockTab in StockTable.DefaultIfEmpty()
                         join pt in db.Product on p.ProductId equals pt.ProductId into ProductTable
                         from ProductTab in ProductTable.DefaultIfEmpty()
                         join D1 in db.Dimension1 on p.Dimension1Id equals D1.Dimension1Id into Dimension1Table
@@ -2482,7 +2540,9 @@ namespace Web
                             Dimension4Id = p.Dimension4Id,
                             Dimension4Name = Dimension4Tab.Dimension4Name,
                             BalanceQty = p.BalanceQty,
-                            LotNo = p.LotNo
+                            LotNo = p.LotNo,
+                            FromProcessId = StockTab.ProcessId,
+                            FromProcessName = StockTab.Process.ProcessName
                         }).FirstOrDefault();
 
             if (temp != null)

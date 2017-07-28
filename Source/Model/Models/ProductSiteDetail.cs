@@ -54,6 +54,13 @@ namespace Model.Models
         [Display(Name = "LOT Management")]
         public Boolean LotManagement { get; set; }
 
+        [ForeignKey("Process")]
+        [Display(Name = "Process")]
+        public int? ProcessId { get; set; }
+        public virtual Process Process { get; set; }
+        public Decimal? ExcessReceiveAllowedAgainstOrderQty { get; set; }
+        public Decimal? ExcessReceiveAllowedAgainstOrderPer { get; set; }
+
         [Display(Name = "Created By")]
         public string CreatedBy { get; set; }
 

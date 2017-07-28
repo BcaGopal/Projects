@@ -79,34 +79,34 @@ namespace Service
         }
         public JobInvoiceReturnHeaderViewModel GetJobInvoiceReturnHeader(int id)
         {
-            return (from p in db.JobInvoiceReturnHeader
-                    join t in db.JobReturnHeader on p.JobReturnHeaderId equals t.JobReturnHeaderId
-                    where p.JobInvoiceReturnHeaderId == id
+            return (from H in db.JobInvoiceReturnHeader
+                    join Hr in db.JobReturnHeader on H.JobReturnHeaderId equals Hr.JobReturnHeaderId into JobReturnHeaderTable from JobReturnHeaderTab in JobReturnHeaderTable.DefaultIfEmpty()
+                    where H.JobInvoiceReturnHeaderId == id
                     select new JobInvoiceReturnHeaderViewModel
                     {
-                        JobInvoiceReturnHeaderId = p.JobInvoiceReturnHeaderId,
-                        DivisionId = p.DivisionId,
-                        DocNo = p.DocNo,
-                        DocDate = p.DocDate,
-                        DocTypeId = p.DocTypeId,
-                        Remark = p.Remark,
-                        SiteId = p.SiteId,
-                        JobReturnHeaderId = t.JobReturnHeaderId,
-                        Status = p.Status,
-                        ProcessId=p.ProcessId,
-                        JobWorkerId = p.JobWorkerId,
-                        OrderById=t.OrderById,                        
-                        ReasonId = p.ReasonId,
-                        ModifiedBy = p.ModifiedBy,
-                        GatePassHeaderId = t.GatePassHeaderId,
-                        GatePassDocNo = t.GatePassHeader.DocNo,
-                        GatePassStatus = (t.GatePassHeader == null ? 0 : t.GatePassHeader.Status),
-                        GatePassDocDate = t.GatePassHeader.DocDate,
-                        CreatedDate = p.CreatedDate,
-                        LockReason = p.LockReason,
-                    }
-
-                        ).FirstOrDefault();
+                        JobInvoiceReturnHeaderId = H.JobInvoiceReturnHeaderId,
+                        DivisionId = H.DivisionId,
+                        DocNo = H.DocNo,
+                        DocDate = H.DocDate,
+                        DocTypeId = H.DocTypeId,
+                        Remark = H.Remark,
+                        SiteId = H.SiteId,
+                        JobReturnHeaderId = H.JobReturnHeaderId,
+                        Status = H.Status,
+                        ProcessId=H.ProcessId,
+                        JobWorkerId = H.JobWorkerId,
+                        OrderById = JobReturnHeaderTab.OrderById,                        
+                        GodownId = JobReturnHeaderTab.GodownId,
+                        ReasonId = H.ReasonId,
+                        ModifiedBy = H.ModifiedBy,
+                        Nature = H.Nature,
+                        GatePassHeaderId = JobReturnHeaderTab.GatePassHeaderId,
+                        GatePassDocNo = JobReturnHeaderTab.GatePassHeader.DocNo,
+                        GatePassStatus = (JobReturnHeaderTab.GatePassHeader == null ? 0 : JobReturnHeaderTab.GatePassHeader.Status),
+                        GatePassDocDate = JobReturnHeaderTab.GatePassHeader.DocDate,
+                        CreatedDate = H.CreatedDate,
+                        LockReason = H.LockReason,
+                    }).FirstOrDefault();
         }
         public IQueryable<JobInvoiceReturnHeaderViewModel> GetJobInvoiceReturnHeaderList(int id, string Uname)
         {
@@ -265,8 +265,7 @@ namespace Service
                         Dimension3Name = jo.Dimension3.Dimension3Name,
                         Dimension4Name = jo.Dimension4.Dimension4Name,
                         BalanceQty = p.BalanceQty,
-                    }
-                        ).Take(Limit);
+                    }).Take(Limit);
         }
 
         public IQueryable<ComboBoxResult> GetCustomPerson(int Id, string term)
@@ -303,7 +302,7 @@ namespace Service
                         select new ComboBoxResult
                         {
                             id = Result.Key.PersonID.ToString(),
-                            text = Result.Max(m => m.p.Name + "|" + m.p.Code),
+                            text = Result.Max(m => m.p.Name + ", " + m.p.Suffix + " [" + m.p.Code + "]"),
                         }
               );
 

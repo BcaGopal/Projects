@@ -39,40 +39,43 @@ namespace Web
 
             DbContext.Dispose();
 
-            if (StockHeader.DocTypeId == DocType.DocumentTypeId)
+            
+            if (DocType != null)
             {
-                var CostCenterIds = Temp.Select(m => m.CostCenterId).ToArray();
-
-                var CostCenterRecords = (from p in db.CostCenterStatusExtended
-                                         where CostCenterIds.Contains(p.CostCenterId)
-                                         select p).ToList();
-
-                var GroupedTemp = (from p in Temp
-                                   where p.CostCenterId != null
-                                   group p by new { p.CostCenterId } into g
-                                   select g).ToList();
-
-                foreach (var item in GroupedTemp)
+                if (StockHeader.DocTypeId == DocType.DocumentTypeId)
                 {
+                    var CostCenterIds = Temp.Select(m => m.CostCenterId).ToArray();
 
-                    if (StockHeader.DocTypeId == DocType.DocumentTypeId && item.Sum(m => m.Qty) != 0)
+                    var CostCenterRecords = (from p in db.CostCenterStatusExtended
+                                             where CostCenterIds.Contains(p.CostCenterId)
+                                             select p).ToList();
+
+                    var GroupedTemp = (from p in Temp
+                                       where p.CostCenterId != null
+                                       group p by new { p.CostCenterId } into g
+                                       select g).ToList();
+
+                    foreach (var item in GroupedTemp)
                     {
-                        if (item.Max(m => m.CostCenterId).HasValue)
-                        {
-                            var CostCenterStatus = (CostCenterRecords.Where(m => m.CostCenterId == item.Max(x => x.CostCenterId))).FirstOrDefault();
 
-                            if (CostCenterStatus != null)
+                        if (StockHeader.DocTypeId == DocType.DocumentTypeId && item.Sum(m => m.Qty) != 0)
+                        {
+                            if (item.Max(m => m.CostCenterId).HasValue)
                             {
-                                CostCenterStatus.ConsumptionAdjustmentQty = (CostCenterStatus.ConsumptionAdjustmentQty ?? 0) - item.Sum(m => m.Qty);
-                                CostCenterStatus.ConsumptionAdjustmentDate = StockHeader.DocDate;
-                                CostCenterStatus.ObjectState = Model.ObjectState.Modified;
-                                db.CostCenterStatusExtended.Add(CostCenterStatus);
+                                var CostCenterStatus = (CostCenterRecords.Where(m => m.CostCenterId == item.Max(x => x.CostCenterId))).FirstOrDefault();
+
+                                if (CostCenterStatus != null)
+                                {
+                                    CostCenterStatus.ConsumptionAdjustmentQty = (CostCenterStatus.ConsumptionAdjustmentQty ?? 0) - item.Sum(m => m.Qty);
+                                    CostCenterStatus.ConsumptionAdjustmentDate = StockHeader.DocDate;
+                                    CostCenterStatus.ObjectState = Model.ObjectState.Modified;
+                                    db.CostCenterStatusExtended.Add(CostCenterStatus);
+                                }
                             }
                         }
                     }
                 }
             }
-
         }
 
         void JobConsumptionEvents__onLineDelete(object sender, StockEventArgs EventArgs, ref ApplicationDbContext db)
@@ -88,19 +91,21 @@ namespace Web
 
             DbContext.Dispose();
 
-
-            if (StockHeader.DocTypeId == DocType.DocumentTypeId && Temp.Qty != 0)
+            if (DocType != null)
             {
-                if (Temp.CostCenterId.HasValue)
+                if (StockHeader.DocTypeId == DocType.DocumentTypeId && Temp.Qty != 0)
                 {
-                    var CostCenterStatus = db.CostCenterStatusExtended.Find(Temp.CostCenterId);
-
-                    if (CostCenterStatus != null)
+                    if (Temp.CostCenterId.HasValue)
                     {
-                        CostCenterStatus.ConsumptionAdjustmentQty = (CostCenterStatus.ConsumptionAdjustmentQty ?? 0) - Temp.Qty;
-                        CostCenterStatus.ConsumptionAdjustmentDate = StockHeader.DocDate;
-                        CostCenterStatus.ObjectState = Model.ObjectState.Modified;
-                        db.CostCenterStatusExtended.Add(CostCenterStatus);
+                        var CostCenterStatus = db.CostCenterStatusExtended.Find(Temp.CostCenterId);
+
+                        if (CostCenterStatus != null)
+                        {
+                            CostCenterStatus.ConsumptionAdjustmentQty = (CostCenterStatus.ConsumptionAdjustmentQty ?? 0) - Temp.Qty;
+                            CostCenterStatus.ConsumptionAdjustmentDate = StockHeader.DocDate;
+                            CostCenterStatus.ObjectState = Model.ObjectState.Modified;
+                            db.CostCenterStatusExtended.Add(CostCenterStatus);
+                        }
                     }
                 }
             }
@@ -123,33 +128,36 @@ namespace Web
 
             DbContext.Dispose();
 
-            if (StockHeader.DocTypeId == DocType.DocumentTypeId)
+            if (DocType != null)
             {
-                var CostCenterIds = Temp.Select(m => m.CostCenterId).ToArray();
-                var CostCenterRecords = (from p in db.CostCenterStatusExtended
-                                         where CostCenterIds.Contains(p.CostCenterId)
-                                         select p).ToList();
-
-                var GroupedTemp = (from p in Temp
-                                   where p.CostCenterId != null
-                                   group p by p.CostCenterId into g
-                                   select g).ToList();
-
-                foreach (var item in GroupedTemp)
+                if (StockHeader.DocTypeId == DocType.DocumentTypeId)
                 {
+                    var CostCenterIds = Temp.Select(m => m.CostCenterId).ToArray();
+                    var CostCenterRecords = (from p in db.CostCenterStatusExtended
+                                             where CostCenterIds.Contains(p.CostCenterId)
+                                             select p).ToList();
 
-                    if (StockHeader.DocTypeId == DocType.DocumentTypeId && item.Sum(m => m.Qty) != 0)
+                    var GroupedTemp = (from p in Temp
+                                       where p.CostCenterId != null
+                                       group p by p.CostCenterId into g
+                                       select g).ToList();
+
+                    foreach (var item in GroupedTemp)
                     {
-                        if (item.Max(m => m.CostCenterId).HasValue)
-                        {
-                            var CostCenterStatus = (CostCenterRecords.Where(m => m.CostCenterId == item.Max(x => x.CostCenterId))).FirstOrDefault();
 
-                            if (CostCenterStatus != null)
+                        if (StockHeader.DocTypeId == DocType.DocumentTypeId && item.Sum(m => m.Qty) != 0)
+                        {
+                            if (item.Max(m => m.CostCenterId).HasValue)
                             {
-                                CostCenterStatus.ConsumptionAdjustmentQty = (CostCenterStatus.ConsumptionAdjustmentQty ?? 0) + item.Sum(m => m.Qty);
-                                CostCenterStatus.ConsumptionAdjustmentDate = StockHeader.DocDate;
-                                CostCenterStatus.ObjectState = Model.ObjectState.Modified;
-                                db.CostCenterStatusExtended.Add(CostCenterStatus);
+                                var CostCenterStatus = (CostCenterRecords.Where(m => m.CostCenterId == item.Max(x => x.CostCenterId))).FirstOrDefault();
+
+                                if (CostCenterStatus != null)
+                                {
+                                    CostCenterStatus.ConsumptionAdjustmentQty = (CostCenterStatus.ConsumptionAdjustmentQty ?? 0) + item.Sum(m => m.Qty);
+                                    CostCenterStatus.ConsumptionAdjustmentDate = StockHeader.DocDate;
+                                    CostCenterStatus.ObjectState = Model.ObjectState.Modified;
+                                    db.CostCenterStatusExtended.Add(CostCenterStatus);
+                                }
                             }
                         }
                     }
@@ -184,33 +192,35 @@ namespace Web
 
             DbContext.Dispose();
 
-
-            if (StockHeader.DocTypeId == DocType.DocumentTypeId && Temp.Qty != 0)
+            if (DocType != null)
             {
-                if (Temp.CostCenterId.HasValue)
+                if (StockHeader.DocTypeId == DocType.DocumentTypeId && Temp.Qty != 0)
                 {
-                    var CostCenterStatus = db.CostCenterStatusExtended.Find(Temp.CostCenterId);
-
-                    if (CostCenterStatus != null && EventArgs.DocLineId <= 0)
+                    if (Temp.CostCenterId.HasValue)
                     {
-                        CostCenterStatus.ConsumptionAdjustmentQty = (CostCenterStatus.ConsumptionAdjustmentQty ?? 0) + Temp.Qty;
-                        CostCenterStatus.ConsumptionAdjustmentDate = StockHeader.DocDate;
-                        CostCenterStatus.ObjectState = Model.ObjectState.Modified;
-                        db.CostCenterStatusExtended.Add(CostCenterStatus);
-                    }
-                    else if (CostCenterStatus != null && EventArgs.DocLineId > 0)
-                    {
+                        var CostCenterStatus = db.CostCenterStatusExtended.Find(Temp.CostCenterId);
 
-                        var IssueLineCostCenterRecords = (from p in db.StockLine
-                                                          join t in db.StockHeader on p.StockHeaderId equals t.StockHeaderId
-                                                          where p.CostCenterId == Temp.CostCenterId && t.DocTypeId == DocType.DocumentTypeId
-                                                          && p.StockLineId != EventArgs.DocLineId
-                                                          select p).ToList();
+                        if (CostCenterStatus != null && EventArgs.DocLineId <= 0)
+                        {
+                            CostCenterStatus.ConsumptionAdjustmentQty = (CostCenterStatus.ConsumptionAdjustmentQty ?? 0) + Temp.Qty;
+                            CostCenterStatus.ConsumptionAdjustmentDate = StockHeader.DocDate;
+                            CostCenterStatus.ObjectState = Model.ObjectState.Modified;
+                            db.CostCenterStatusExtended.Add(CostCenterStatus);
+                        }
+                        else if (CostCenterStatus != null && EventArgs.DocLineId > 0)
+                        {
 
-                        CostCenterStatus.ConsumptionAdjustmentQty = IssueLineCostCenterRecords.Select(m => m.Qty).Sum() + Temp.Qty;
-                        CostCenterStatus.ConsumptionAdjustmentDate = StockHeader.DocDate;
-                        CostCenterStatus.ObjectState = Model.ObjectState.Modified;
-                        db.CostCenterStatusExtended.Add(CostCenterStatus);
+                            var IssueLineCostCenterRecords = (from p in db.StockLine
+                                                              join t in db.StockHeader on p.StockHeaderId equals t.StockHeaderId
+                                                              where p.CostCenterId == Temp.CostCenterId && t.DocTypeId == DocType.DocumentTypeId
+                                                              && p.StockLineId != EventArgs.DocLineId
+                                                              select p).ToList();
+
+                            CostCenterStatus.ConsumptionAdjustmentQty = IssueLineCostCenterRecords.Select(m => m.Qty).Sum() + Temp.Qty;
+                            CostCenterStatus.ConsumptionAdjustmentDate = StockHeader.DocDate;
+                            CostCenterStatus.ObjectState = Model.ObjectState.Modified;
+                            db.CostCenterStatusExtended.Add(CostCenterStatus);
+                        }
                     }
                 }
             }

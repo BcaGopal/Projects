@@ -217,6 +217,14 @@ namespace Model.ViewModel
         public int? Dimension2Id { get; set; }
         public string Dimension2Name { get; set; }
 
+
+        public int? Dimension3Id { get; set; }
+        public string Dimension3Name { get; set; }
+
+        public int? Dimension4Id { get; set; }
+        public string Dimension4Name { get; set; }
+
+
         public string Specification { get; set; }
 
         public decimal BalanceQty { get; set; }
@@ -240,6 +248,9 @@ namespace Model.ViewModel
         public string CostCenterIds { get; set; }
         public string Dimension1Id { get; set; }
         public string Dimension2Id { get; set; }
+        public string Dimension3Id { get; set; }
+        public string Dimension4Id { get; set; }
+
         public decimal Rate { get; set; }
         //public JobConsumptionSettingsViewModel JobConsumptionSettings { get; set; }
         public StockHeaderSettingsViewModel StockHeaderSettings { get; set; }
@@ -256,6 +267,8 @@ namespace Model.ViewModel
         public string CostCenterId { get; set; }
         public string Dimension1Id { get; set; }
         public string Dimension2Id { get; set; }
+        public string Dimension3Id { get; set; }
+        public string Dimension4Id { get; set; }
         public DocumentTypeSettingsViewModel DocumentTypeSettings { get; set; }
     }
 
@@ -282,6 +295,8 @@ namespace Model.ViewModel
         public string ProductGroupId { get; set; }
         public string Dimension1Id { get; set; }
         public string Dimension2Id { get; set; }
+        public string Dimension3Id { get; set; }
+        public string Dimension4Id { get; set; }
         public string CostCenterId { get; set; }
         public string RequisitionHeaderId { get; set; }
         public DocumentTypeSettingsViewModel DocumentTypeSettings { get; set; }

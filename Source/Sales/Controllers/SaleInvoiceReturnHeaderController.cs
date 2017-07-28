@@ -135,6 +135,13 @@ namespace Web
             vm.SiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
             vm.CreatedDate = DateTime.Now;
 
+            DocumentType DocType = new DocumentTypeService(_unitOfWork).Find(id);
+            if (DocType != null)
+            {
+                vm.Nature = DocType.Nature ?? TransactionNatureConstants.Return;
+            }
+
+
             //Getting Settings
             var settings = new SaleInvoiceSettingService(_unitOfWork).GetSaleInvoiceSettingForDocument(id, vm.DivisionId, vm.SiteId);
 
@@ -156,7 +163,7 @@ namespace Web
             {
                 vm.ProcessId = settings.ProcessId;
             }
-
+            vm.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(vm.DocTypeId);
             ViewBag.Mode = "Add";
             return View("Create", vm);
         }
@@ -170,8 +177,11 @@ namespace Web
         {
             SaleInvoiceReturnHeader pt = AutoMapper.Mapper.Map<SaleInvoiceReturnHeaderViewModel, SaleInvoiceReturnHeader>(vm);
 
-            if (vm.GodownId <= 0)
-                ModelState.AddModelError("GodownId", "The Godown field is required");
+            if (vm.Nature == TransactionNatureConstants.Return)
+            {
+                if (vm.GodownId <= 0)
+                    ModelState.AddModelError("GodownId", "The Godown field is required");
+            }
 
             #region DocTypeTimeLineValidation
 
@@ -201,22 +211,25 @@ namespace Web
                 #region CreateRecord
                 if (vm.SaleInvoiceReturnHeaderId <= 0)
                 {
-
-                    SaleDispatchReturnHeader GoodsRet = Mapper.Map<SaleInvoiceReturnHeaderViewModel, SaleDispatchReturnHeader>(vm);
-                    GoodsRet.DocTypeId = vm.SaleInvoiceSettings.DocTypeDispatchReturnId ?? 0;
-                    GoodsRet.CreatedDate = DateTime.Now;
-                    GoodsRet.ModifiedDate = DateTime.Now;
-                    GoodsRet.CreatedBy = User.Identity.Name;
-                    GoodsRet.ModifiedBy = User.Identity.Name;
-                    GoodsRet.ObjectState = Model.ObjectState.Added;
-                    new SaleDispatchReturnHeaderService(_unitOfWork).Create(GoodsRet);
+                    if (vm.Nature == TransactionNatureConstants.Return)
+                    {
+                        SaleDispatchReturnHeader GoodsRet = Mapper.Map<SaleInvoiceReturnHeaderViewModel, SaleDispatchReturnHeader>(vm);
+                        GoodsRet.DocTypeId = vm.SaleInvoiceSettings.DocTypeDispatchReturnId ?? 0;
+                        GoodsRet.CreatedDate = DateTime.Now;
+                        GoodsRet.ModifiedDate = DateTime.Now;
+                        GoodsRet.CreatedBy = User.Identity.Name;
+                        GoodsRet.ModifiedBy = User.Identity.Name;
+                        GoodsRet.ObjectState = Model.ObjectState.Added;
+                        new SaleDispatchReturnHeaderService(_unitOfWork).Create(GoodsRet);
+                        pt.SaleDispatchReturnHeaderId = GoodsRet.SaleDispatchReturnHeaderId;
+                    }
 
                     pt.CalculateDiscountOnRate = vm.CalculateDiscountOnRate;
                     pt.CreatedDate = DateTime.Now;
                     pt.ModifiedDate = DateTime.Now;
                     pt.CreatedBy = User.Identity.Name;
                     pt.ModifiedBy = User.Identity.Name;
-                    pt.SaleDispatchReturnHeaderId = GoodsRet.SaleDispatchReturnHeaderId;
+                    
                     pt.ObjectState = Model.ObjectState.Added;
                     _SaleInvoiceReturnHeaderService.Create(pt);
 
@@ -268,8 +281,8 @@ namespace Web
                         temp.Status = (int)StatusConstants.Modified;
 
 
-                    temp.CurrencyId = pt.CurrencyId;
-                    temp.SalesTaxGroupId = pt.SalesTaxGroupId;
+                    //temp.CurrencyId = pt.CurrencyId;
+                    //temp.SalesTaxGroupId = pt.SalesTaxGroupId;
                     temp.Remark = pt.Remark;
                     temp.BuyerId = pt.BuyerId;
                     temp.DocNo = pt.DocNo;
@@ -289,7 +302,7 @@ namespace Web
                         GoodsRet.ReasonId = temp.ReasonId;
                         GoodsRet.BuyerId = temp.BuyerId;
                         GoodsRet.Remark = temp.Remark;
-                        GoodsRet.GodownId = vm.GodownId;
+                        GoodsRet.GodownId = (int)vm.GodownId;
                         GoodsRet.Status = temp.Status;
 
                         GoodsRet.ObjectState = Model.ObjectState.Modified;
@@ -356,7 +369,7 @@ namespace Web
 
             SaleInvoiceReturnHeaderViewModel pt = _SaleInvoiceReturnHeaderService.GetSaleInvoiceReturnHeader(id);
             PrepareViewBag(pt.DocTypeId);
-            pt.GodownId = new SaleDispatchReturnHeaderService(_unitOfWork).Find(pt.SaleDispatchReturnHeaderId ?? 0).GodownId;
+            //pt.GodownId = new SaleDispatchReturnHeaderService(_unitOfWork).Find(pt.SaleDispatchReturnHeaderId ?? 0).GodownId;
 
             #region DocTypeTimeLineValidation
             try
@@ -397,6 +410,7 @@ namespace Web
                 return View("~/Views/Shared/InValidSettings.cshtml");
             }
             pt.SaleInvoiceSettings = Mapper.Map<SaleInvoiceSetting, SaleInvoiceSettingsViewModel>(settings);
+            pt.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(pt.DocTypeId);
 
             if (settings != null)
             {
@@ -488,7 +502,7 @@ namespace Web
             ViewBag.IndexStatus = IndexType;
 
             SaleInvoiceReturnHeaderViewModel pt = _SaleInvoiceReturnHeaderService.GetSaleInvoiceReturnHeader(id);
-            pt.GodownId = new SaleDispatchReturnHeaderService(_unitOfWork).Find(pt.SaleDispatchReturnHeaderId ?? 0).GodownId;
+            //pt.GodownId = new SaleDispatchReturnHeaderService(_unitOfWork).Find(pt.SaleDispatchReturnHeaderId ?? 0).GodownId;
             //Job Order Settings
             var settings = new SaleInvoiceSettingService(_unitOfWork).GetSaleInvoiceSettingForDocument(pt.DocTypeId, pt.DivisionId, pt.SiteId);
 
@@ -501,6 +515,7 @@ namespace Web
                 return View("~/Views/Shared/InValidSettings.cshtml");
             }
             pt.SaleInvoiceSettings = Mapper.Map<SaleInvoiceSetting, SaleInvoiceSettingsViewModel>(settings);
+            pt.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(pt.DocTypeId);
 
             PrepareViewBag(pt.DocTypeId);
             if (pt == null)

@@ -1981,11 +1981,12 @@ namespace Web
                     StockViewModel.CostCenterId = (s.CostCenterId);
                     StockViewModel.HeaderProcessId = temp.ProcessId;
 
-                    if (svm.Issue)
-                        StockViewModel.ProcessId = s.FromProcessId;
-                    else
-                        StockViewModel.ProcessId = temp.ProcessId;
+                    //if (svm.Issue)
+                    //    StockViewModel.ProcessId = s.FromProcessId;
+                    //else
+                    //    StockViewModel.ProcessId = temp.ProcessId;
 
+                    StockViewModel.ProcessId = s.FromProcessId;
                     if (svm.Issue)
                     {
                         StockViewModel.Qty_Iss = s.Qty;
@@ -2819,6 +2820,9 @@ namespace Web
         }
 
         #endregion submitValidation
+
+
+
         protected override void Dispose(bool disposing)
         {
             if (!string.IsNullOrEmpty((string)TempData["CSEXC"]))

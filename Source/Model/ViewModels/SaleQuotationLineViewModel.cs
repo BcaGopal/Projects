@@ -43,6 +43,12 @@ namespace Model.ViewModels
         [Required]
         public decimal  Amount { get; set; }
 
+        [Display(Name = "Discount %")]
+        public Decimal? DiscountPer { get; set; }
+
+        [Display(Name = "Discount Amount")]
+        public Decimal? DiscountAmount { get; set; }
+
         [Display(Name = "Remark")]
         public string Remark { get; set; }
 
@@ -111,6 +117,8 @@ namespace Model.ViewModels
         public bool IsRefBased { get; set; }
         public bool UnitConversionException { get; set; }
 
+        public int? SalesTaxGroupProductId { get; set; }
+        public int? SalesTaxGroupPersonId { get; set; }
 
 
     }

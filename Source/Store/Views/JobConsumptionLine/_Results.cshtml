@@ -26,6 +26,8 @@
             <div class="form-horizontal modal-body">
                 @Html.HiddenFor(m => m.StockHeaderSettings.isVisibleDimension1)
                 @Html.HiddenFor(m => m.StockHeaderSettings.isVisibleDimension2)
+                @Html.HiddenFor(m => m.StockHeaderSettings.isVisibleDimension3)
+                @Html.HiddenFor(m => m.StockHeaderSettings.isVisibleDimension4)
                 <div style="padding-right:15px">
                     <div class="row">
                         <div class="form-horizontal">
@@ -83,8 +85,12 @@
                                                 @Html.HiddenFor(m => Model.StockLineViewModel[i].Specification)
                                                 @Html.HiddenFor(m => Model.StockLineViewModel[i].Dimension1Name)
                                                 @Html.HiddenFor(m => Model.StockLineViewModel[i].Dimension2Name)
+                                                @Html.HiddenFor(m => Model.StockLineViewModel[i].Dimension3Name)
+                                                @Html.HiddenFor(m => Model.StockLineViewModel[i].Dimension4Name)
                                                 @Html.HiddenFor(m => Model.StockLineViewModel[i].Dimension1Id)
                                                 @Html.HiddenFor(m => Model.StockLineViewModel[i].Dimension2Id)
+                                                @Html.HiddenFor(m => Model.StockLineViewModel[i].Dimension3Id)
+                                                @Html.HiddenFor(m => Model.StockLineViewModel[i].Dimension4Id)
                                                 @Html.HiddenFor(m => Model.StockLineViewModel[i].CostCenterId)
                                                 @Html.HiddenFor(m => Model.StockLineViewModel[i].CostCenterName)
                                                 @Html.HiddenFor(m => Model.StockLineViewModel[i].StockHeaderId)
@@ -109,10 +115,12 @@
                                                         <p style="margin-bottom:0px">
                                                             @{
                                                 var Dim1 = (string.IsNullOrEmpty(Model.StockLineViewModel[i].Dimension1Name) || Model.StockHeaderSettings.isVisibleDimension1 == false) ? "" : Model.StockLineViewModel[i].Dimension1Name + ",";
-                                                var Dim2 = (string.IsNullOrEmpty(Model.StockLineViewModel[i].Dimension2Name) || Model.StockHeaderSettings.isVisibleDimension2 == false) ? "" : Model.StockLineViewModel[i].Dimension2Name + "<br />";
+                                                var Dim2 = (string.IsNullOrEmpty(Model.StockLineViewModel[i].Dimension2Name) || Model.StockHeaderSettings.isVisibleDimension2 == false) ? "" : Model.StockLineViewModel[i].Dimension2Name + ",";
+                                                var Dim3 = (string.IsNullOrEmpty(Model.StockLineViewModel[i].Dimension3Name) || Model.StockHeaderSettings.isVisibleDimension3 == false) ? "" : Model.StockLineViewModel[i].Dimension3Name + ",";
+                                                var Dim4 = (string.IsNullOrEmpty(Model.StockLineViewModel[i].Dimension4Name) || Model.StockHeaderSettings.isVisibleDimension4 == false) ? "" : Model.StockLineViewModel[i].Dimension4Name;
                                                             }
 
-                                                            @Dim1 @Dim2
+                                                            @Dim1 @Dim2 @Dim3 @Dim4
 
                                                             @(string.IsNullOrEmpty(Model.StockLineViewModel[i].Specification) ? "" : Model.StockLineViewModel[i].Specification)
                                                         </p>

@@ -144,7 +144,7 @@ namespace Customize
                     {
                         if (ImportLine.IsVisible == true && RecordList.Columns.Contains(ImportLine.FieldName) == false && ImportLine.FileNo == filecnt + 1)
                         {
-                            ModelState.AddModelError("", ImportLine.FieldName + " is manadatary for file " + ImportLine.Type + ", but file does not containt this column.");
+                            ModelState.AddModelError("", ImportLine.FieldName + " is manadatary for file " + ImportLine.Type + ", but file does not contain this column.");
                             return View("Import", vm);
                         }
                     }
@@ -153,9 +153,14 @@ namespace Customize
                     {
                         for (int i = 0; i <= RecordList.Rows.Count - 1; i++)
                         {
-                            if (RecordList.Rows[i][ImportLine.FieldName] == "" || RecordList.Rows[i][ImportLine.FieldName] == null)
+                            if (RecordList.Rows[i][ImportLine.FieldName] == null)
                             {
-                                ModelState.AddModelError("", ImportLine.FieldName + " is manadatary, it is blank at row no." + i.ToString());
+                                ModelState.AddModelError("", ImportLine.FieldName + " is manadatary, it is blank at row no." + (i + 2).ToString());
+                                return View("Import", vm);
+                            }
+                            else if (RecordList.Rows[i][ImportLine.FieldName].ToString() == "")
+                            {
+                                ModelState.AddModelError("", ImportLine.FieldName + " is manadatary, it is blank at row no." + (i + 2).ToString());
                                 return View("Import", vm);
                             }
                         }
@@ -167,7 +172,7 @@ namespace Customize
                         {
                             if (RecordList.Rows[i][ImportLine.FieldName].ToString().Length > ImportLine.MaxLength)
                             {
-                                ModelState.AddModelError("", ImportLine.FieldName + " should be maximum length of " + ImportLine.MaxLength + ", it is exceeding at row no." + i.ToString());
+                                ModelState.AddModelError("", ImportLine.FieldName + " should be maximum length of " + ImportLine.MaxLength + ", it is exceeding at row no." + (i + 2).ToString());
                                 return View("Import", vm);
                             }
                         }

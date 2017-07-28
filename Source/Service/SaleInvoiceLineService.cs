@@ -649,7 +649,6 @@ namespace Service
                     from tab2 in table2.DefaultIfEmpty()
                     join t in db.SaleDispatchHeader on tab.SaleDispatchHeaderId equals t.SaleDispatchHeaderId into table1
                     from tab1 in table1.DefaultIfEmpty()
-
                     where p.SaleInvoiceLineId == id
                     select new SaleInvoiceLineViewModel
                     {
@@ -666,6 +665,7 @@ namespace Service
                         DealUnitId = p.DealUnitId,
                         DealQty = p.DealQty,
                         UnitId = p.Product.UnitId,
+                        ProductName = p.Product.ProductName,
                         //Dimension1Id = p.Dimension1Id,
                         //Dimension1Name = p.Dimension1.Dimension1Name,
                         //Dimension2Id = p.Dimension2Id,
@@ -674,8 +674,7 @@ namespace Service
                         //LotNo = tab.LotNo,
                         //DiscountPer = p.DiscountPer
 
-                    }
-                        ).FirstOrDefault();
+                    }).FirstOrDefault();
         }
 
 

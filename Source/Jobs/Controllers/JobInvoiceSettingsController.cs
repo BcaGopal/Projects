@@ -174,6 +174,9 @@ namespace Web
                     temp.isVisibleRateDiscountPer = pt.isVisibleRateDiscountPer;
                     temp.isVisibleMfgDate = pt.isVisibleMfgDate;
                     temp.isVisibleFinancier = pt.isVisibleFinancier;
+
+
+
                     temp.isGenerateProductUid = pt.isGenerateProductUid;
 
                     temp.SalesTaxGroupPersonId = pt.SalesTaxGroupPersonId;
@@ -361,6 +364,7 @@ namespace Web
                     temp.isVisibleFinancier = pt.isVisibleFinancier;
                     temp.isVisibleSalesTaxGroupPerson = pt.isVisibleSalesTaxGroupPerson;
                     temp.isVisibleSalesTaxGroupProduct = pt.isVisibleSalesTaxGroupProduct;
+
                     temp.SqlProcDocumentPrint = pt.SqlProcDocumentPrint;
                     temp.DocumentPrint = pt.DocumentPrint;
                     temp.isAutoCreateJobReceive = pt.isAutoCreateJobReceive;

@@ -68,7 +68,9 @@ namespace Model.Models
 
         [MaxLength(50)]
         public string ReferenceDocIdCaption { get; set; }
-
+        
+        [MaxLength(50)]
+        public string DocIdCaption { get; set; }
 
         public string CreatedBy { get; set; }
         public string ModifiedBy { get; set; }

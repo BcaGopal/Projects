@@ -301,6 +301,30 @@ namespace Service
         }
 
 
+        public IEnumerable<ChargeRateSettings> GetChargeRateSettingForValidation(int CalculationId, int DocTypeId, int SiteId, int DivisionId, int ProcessId, int ChargeGroupPersonId, int ChargeGroupProductId)
+        {
+            IEnumerable<ChargeRateSettings> ChargeRateSettingsList = (from p in db.CalculationProduct
+                                                                      join t in db.CalculationLineLedgerAccount.Where(m => m.DocTypeId == DocTypeId && m.SiteId == SiteId && m.DivisionId == DivisionId) on p.CalculationProductId equals t.CalculationProductId into table1
+                                                                      from tab1 in table1.DefaultIfEmpty()
+                                                                      join Cgs in db.ChargeGroupSettings.Where(m => m.ChargeGroupPersonId == ChargeGroupPersonId
+                                                                             && m.ChargeGroupProductId == ChargeGroupProductId
+                                                                             && m.ProcessId == ProcessId) on p.ChargeTypeId equals Cgs.ChargeTypeId into ChargeGroupSettingsTable
+                                                                      from ChargeGroupSettingsTab in ChargeGroupSettingsTable.DefaultIfEmpty()
+                                                                      where p.CalculationId == CalculationId && p.ChargeType.Category == ChargeTypeCategoryConstants.SalesTax
+                                                                      select new ChargeRateSettings
+                                                                      {
+                                                                          ChargeId = p.ChargeId,
+                                                                          ChargeName = p.Charge.ChargeName,
+                                                                          LedgerAccountCrName = p.LedgerAccountCr.LedgerAccountName,
+                                                                          LedgerAccountDrName = p.LedgerAccountDr.LedgerAccountName,
+                                                                          ChargeGroupSettingId = ChargeGroupSettingsTab.ChargeGroupSettingsId,
+                                                                          ChargePer = ChargeGroupSettingsTab.ChargePer,
+                                                                          ChargeLedgerAccountId = ChargeGroupSettingsTab.ChargeLedgerAccountId,
+                                                                      }).ToList();
+            return ChargeRateSettingsList;
+        }
+
+
         public CalculationProduct Add(CalculationProduct pt)
         {
             _unitOfWork.Repository<CalculationProduct>().Insert(pt);
@@ -374,5 +398,16 @@ namespace Service
 
         //}
 
+    }
+
+    public class ChargeRateSettings
+    {
+        public int ChargeId { get; set; }
+        public string ChargeName { get; set; }
+        public string LedgerAccountDrName { get; set; }
+        public string LedgerAccountCrName { get; set; }
+        public int? ChargeGroupSettingId { get; set; }
+        public Decimal? ChargePer { get; set; }
+        public int? ChargeLedgerAccountId { get; set; }
     }
 }

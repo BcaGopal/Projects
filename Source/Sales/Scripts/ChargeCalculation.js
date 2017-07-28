@@ -302,6 +302,7 @@ function ChargeCalculation() {
         }
 
 
+
     }
 
     function EvalExpression(IncludedCharges, ChargeCalculation, selector) {

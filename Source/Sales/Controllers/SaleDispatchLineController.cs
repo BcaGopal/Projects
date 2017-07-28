@@ -349,6 +349,8 @@ namespace Web
             s.SaleDispatchSettings = Mapper.Map<SaleDispatchSetting, SaleDispatchSettingsViewModel>(settings);
             s.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(H.DocTypeId);
 
+
+
             s.IsSaleBased = IsSaleBased;
             s.SaleDispatchHeaderId = H.SaleDispatchHeaderId;
             s.SaleDispatchHeaderDocNo = H.DocNo;

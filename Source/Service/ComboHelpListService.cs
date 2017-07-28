@@ -2400,7 +2400,8 @@ namespace Service
                         select new ComboBoxResult
                         {
                             id = b.PersonID.ToString(),
-                            text = b.Name + " | " + b.Code
+                            //text = b.Name + " | " + b.Code
+                            text = b.Name + ", " + b.Suffix + " [" + b.Code + "]"
                         }
   );
 
@@ -2899,13 +2900,23 @@ namespace Service
                 FinancierDocCategoryId = DocumentCategory.DocumentCategoryId;
             }
 
+            int SiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
+            int DivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
+
+            string DivIdStr = "|" + DivisionId.ToString() + "|";
+            string SiteIdStr = "|" + SiteId.ToString() + "|";
+
             var list = (from D in db.Persons
+                        join bus in db.BusinessEntity on D.PersonID equals bus.PersonID into BusinessEntityTable
+                        from BusinessEntityTab in BusinessEntityTable.DefaultIfEmpty()
                         join Pr in db.PersonRole on D.PersonID equals Pr.PersonId into PersonRoleTable
                         from PersonRoleTab in PersonRoleTable.DefaultIfEmpty()
                         join Dt in db.DocumentType on PersonRoleTab.RoleDocTypeId equals Dt.DocumentTypeId into DocumentTypeTable from DocumentTypeTab in DocumentTypeTable.DefaultIfEmpty()
                         join Pp in db.PersonProcess on D.PersonID equals Pp.PersonId into PersonProcessTable from PersonProcessTab in PersonProcessTable.DefaultIfEmpty()
                         where D.IsActive == true && DocumentTypeTab.DocumentCategoryId == FinancierDocCategoryId
                         && (filter == null ? 1 == 1 : PersonProcessTab.ProcessId == filter)
+                        && (string.IsNullOrEmpty(BusinessEntityTab.DivisionIds) ? 1 == 1 : BusinessEntityTab.DivisionIds.IndexOf(DivIdStr) != -1)
+                        && (string.IsNullOrEmpty(BusinessEntityTab.SiteIds) ? 1 == 1 : BusinessEntityTab.SiteIds.IndexOf(SiteIdStr) != -1)
                         && (string.IsNullOrEmpty(term) ? 1 == 1 : D.Name.ToLower().Contains(term.ToLower())
                             || string.IsNullOrEmpty(term) ? 1 == 1 : D.Code.ToLower().Contains(term.ToLower())
                             || string.IsNullOrEmpty(term) ? 1 == 1 : D.Suffix.ToLower().Contains(term.ToLower()))
@@ -2930,11 +2941,21 @@ namespace Service
                 SalesExecutiveDocTypeId = DocumentType.DocumentTypeId;
             }
 
+            int SiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
+            int DivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
+
+            string DivIdStr = "|" + DivisionId.ToString() + "|";
+            string SiteIdStr = "|" + SiteId.ToString() + "|";
+
             var list = (from D in db.Persons
+                        join bus in db.BusinessEntity on D.PersonID equals bus.PersonID into BusinessEntityTable
+                        from BusinessEntityTab in BusinessEntityTable.DefaultIfEmpty()
                         join Pr in db.PersonRole on D.PersonID equals Pr.PersonId into PersonRoleTable
                         from PersonRoleTab in PersonRoleTable.DefaultIfEmpty()
                         where D.IsActive == true && PersonRoleTab.RoleDocTypeId == SalesExecutiveDocTypeId
-                             && (string.IsNullOrEmpty(term) ? 1 == 1 : D.Name.ToLower().Contains(term.ToLower())
+                            && (string.IsNullOrEmpty(BusinessEntityTab.DivisionIds) ? 1 == 1 : BusinessEntityTab.DivisionIds.IndexOf(DivIdStr) != -1)
+                            && (string.IsNullOrEmpty(BusinessEntityTab.SiteIds) ? 1 == 1 : BusinessEntityTab.SiteIds.IndexOf(SiteIdStr) != -1)
+                            && (string.IsNullOrEmpty(term) ? 1 == 1 : D.Name.ToLower().Contains(term.ToLower())
                             || string.IsNullOrEmpty(term) ? 1 == 1 : D.Code.ToLower().Contains(term.ToLower())
                             || string.IsNullOrEmpty(term) ? 1 == 1 : D.Suffix.ToLower().Contains(term.ToLower()))
                         orderby D.Name

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Core.Common;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -11,6 +12,10 @@ namespace Model.Models
     public class JobInvoiceReturnHeader : EntityBase, IHistoryLog
     {
 
+        public JobInvoiceReturnHeader()
+        {
+            Nature = TransactionNatureConstants.Return;
+        }
 
         [Key]        
         public int JobInvoiceReturnHeaderId { get; set; }
@@ -67,6 +72,13 @@ namespace Model.Models
         public int? JobReturnHeaderId { get; set; }
         public virtual JobReturnHeader JobReturnHeader { get; set; }
 
+        //[ForeignKey("SalesTaxGroupPerson")]
+        //[Display(Name = "SalesTaxGroupPerson")]
+        //public int? SalesTaxGroupPersonId { get; set; }
+        //public virtual ChargeGroupPerson SalesTaxGroupPerson { get; set; }
+
+        [MaxLength(20)]
+        public string Nature { get; set; }
 
         [Display(Name = "Remark"),Required]
         public string Remark { get; set; }

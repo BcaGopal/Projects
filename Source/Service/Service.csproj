@@ -111,6 +111,7 @@
   <ItemGroup>
     <Compile Include="AccountService.cs" />
     <Compile Include="ChargeGroupSettingsService.cs" />
+    <Compile Include="SiteDivisionSettingsService.cs" />
     <Compile Include="SalesTaxProductCodeService.cs" />
     <Compile Include="Dimension4Service.cs" />
     <Compile Include="Dimension3Service.cs" />

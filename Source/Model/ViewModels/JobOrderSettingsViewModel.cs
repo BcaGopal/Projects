@@ -65,6 +65,7 @@ namespace Model.ViewModel
         public bool isVisibleShipToAddress { get; set; }
         public bool isVisibleCurrency { get; set; }
         public bool isVisibleSalesTaxGroupPerson { get; set; }
+        public bool isVisibleSalesTaxGroupProduct { get; set; }
         public bool isVisibleShipMethod { get; set; }
         public bool isVisibleDocumentShipMethod { get; set; }
         public bool isVisibleTransporter { get; set; }

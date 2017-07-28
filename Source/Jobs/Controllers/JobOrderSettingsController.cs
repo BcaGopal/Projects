@@ -208,6 +208,7 @@ namespace Web
                     temp.isVisibleShipToAddress = pt.isVisibleShipToAddress;
                     temp.isVisibleCurrency = pt.isVisibleCurrency;
                     temp.isVisibleSalesTaxGroupPerson = pt.isVisibleSalesTaxGroupPerson;
+                    temp.isVisibleSalesTaxGroupProduct = pt.isVisibleSalesTaxGroupProduct;
                     temp.isVisibleShipMethod = pt.isVisibleShipMethod;
                     temp.isVisibleDocumentShipMethod = pt.isVisibleDocumentShipMethod;
                     temp.isVisibleTransporter = pt.isVisibleTransporter;
@@ -415,6 +416,7 @@ namespace Web
                     temp.isVisibleShipToAddress = pt.isVisibleShipToAddress;
                     temp.isVisibleCurrency = pt.isVisibleCurrency;
                     temp.isVisibleSalesTaxGroupPerson = pt.isVisibleSalesTaxGroupPerson;
+                    temp.isVisibleSalesTaxGroupProduct = pt.isVisibleSalesTaxGroupProduct;
                     temp.isVisibleShipMethod = pt.isVisibleShipMethod;
                     temp.isVisibleDocumentShipMethod = pt.isVisibleDocumentShipMethod;
                     temp.isVisibleTransporter = pt.isVisibleTransporter;
@@ -615,6 +617,7 @@ namespace Web
                     temp.isVisibleShipToAddress = pt.isVisibleShipToAddress;
                     temp.isVisibleCurrency = pt.isVisibleCurrency;
                     temp.isVisibleSalesTaxGroupPerson = pt.isVisibleSalesTaxGroupPerson;
+                    temp.isVisibleSalesTaxGroupProduct = pt.isVisibleSalesTaxGroupProduct;
                     temp.isVisibleShipMethod = pt.isVisibleShipMethod;
                     temp.isVisibleDocumentShipMethod = pt.isVisibleDocumentShipMethod;
                     temp.isVisibleTransporter = pt.isVisibleTransporter;

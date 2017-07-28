@@ -246,6 +246,7 @@ namespace Model.ViewModel
         public int? JobReceiveQALineId { get; set; }
         public int? JobReceiveQADocTypeId { get; set; }
         public int? QAGroupId { get; set; }
+        public Decimal? ExcessReceiveAllowedAgainstOrderQty { get; set; }
 
     }
 
@@ -258,6 +259,9 @@ namespace Model.ViewModel
     {
         public string ChargeCode { get; set; }
         public decimal ? Rate { get; set; }
+        public int? LedgerAccountDrId { get; set; }
+        public int? LedgerAccountCrId { get; set; }
+
     }
 
     public class JobReceiveLineFilterViewModel

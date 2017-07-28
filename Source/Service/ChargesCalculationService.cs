@@ -430,6 +430,10 @@ namespace Service
                         if (LineCharges.Where(m => m.ChargeId == LineCharg.ChargeId).Any())
                         {
                             LineCharges.Where(m => m.ChargeId == LineCharg.ChargeId).FirstOrDefault().Rate = LineCharg.Rate ?? 0;
+                            if (LineCharg.LedgerAccountCrId != null)
+                                LineCharges.Where(m => m.ChargeId == LineCharg.ChargeId).FirstOrDefault().LedgerAccountCrId = LineCharg.LedgerAccountCrId;
+                            if (LineCharg.LedgerAccountDrId != null)
+                                LineCharges.Where(m => m.ChargeId == LineCharg.ChargeId).FirstOrDefault().LedgerAccountDrId = LineCharg.LedgerAccountDrId;
                         }
                     }
                 }

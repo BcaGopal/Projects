@@ -158,14 +158,17 @@ namespace Web
                     temp.isVisibleCreditDays = pt.isVisibleCreditDays;
                     temp.isVisibleFinancier = pt.isVisibleFinancier;
                     temp.isVisibleSalesExecutive = pt.isVisibleSalesExecutive;
+                    temp.isVisibleSalesTaxGroupPerson = pt.isVisibleSalesTaxGroupPerson;
+                    temp.isVisibleSalesTaxGroupProduct = pt.isVisibleSalesTaxGroupProduct;
                     temp.isVisibleAgent = pt.isVisibleAgent;
                     temp.isVisiblePaymentTerms = pt.isVisiblePaymentTerms;
                     temp.isVisibleDeliveryTerms = pt.isVisibleDeliveryTerms;
                     temp.isVisibleCurrency = pt.isVisibleCurrency;
-                    temp.isVisibleSalesTaxGroupPerson = pt.isVisibleSalesTaxGroupPerson;
                     temp.isVisibleShipMethod = pt.isVisibleShipMethod;
                     temp.isVisibleDoorDelivery = pt.isVisibleDoorDelivery;
                     temp.isVisibleFromSaleEnquiry = pt.isVisibleFromSaleEnquiry;
+                    temp.isVisibleDiscountPer = pt.isVisibleDiscountPer;
+                    temp.CalculateDiscountOnRate = pt.CalculateDiscountOnRate;
                     temp.SqlProcDocumentPrint = pt.SqlProcDocumentPrint;
                     
 

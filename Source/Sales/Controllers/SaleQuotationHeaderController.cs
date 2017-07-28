@@ -34,7 +34,7 @@ namespace Web
     [Authorize]
     public class SaleQuotationHeaderController : System.Web.Mvc.Controller
     {
-        private ApplicationDbContext context = new ApplicationDbContext();
+        private ApplicationDbContext db = new ApplicationDbContext();
         private bool EventException = false;
 
         List<string> UserRoles = new List<string>();
@@ -138,7 +138,7 @@ namespace Web
             ViewBag.Name = DocType.DocumentTypeName;
             ViewBag.PartyCaption = DTS.PartyCaption;
             ViewBag.id = id;
-            ViewBag.UnitConvForList = (from p in context.UnitConversonFor
+            ViewBag.UnitConvForList = (from p in db.UnitConversonFor
                                        select p).ToList();
               ViewBag.AdminSetting =UserRoles.Contains("Admin").ToString();
             var DivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
@@ -186,6 +186,8 @@ namespace Web
             p.CreatedDate = DateTime.Now;
             p.DivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
             p.SiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
+            List<DocumentTypeHeaderAttributeViewModel> tem = new DocumentTypeService(_unitOfWork).GetDocumentTypeHeaderAttribute(id).ToList();
+            p.DocumentTypeHeaderAttributes = tem;
 
             //Getting Settings
             var settings = new SaleQuotationSettingsService(_unitOfWork).GetSaleQuotationSettingsForDocument(id, p.DivisionId, p.SiteId);
@@ -271,9 +273,9 @@ namespace Web
             {
 
                 if (svm.SaleQuotationHeaderId <= 0)
-                    BeforeSave = SaleQuotationDocEvents.beforeHeaderSaveEvent(this, new JobEventArgs(svm.SaleQuotationHeaderId, EventModeConstants.Add), ref context);
+                    BeforeSave = SaleQuotationDocEvents.beforeHeaderSaveEvent(this, new JobEventArgs(svm.SaleQuotationHeaderId, EventModeConstants.Add), ref db);
                 else
-                    BeforeSave = SaleQuotationDocEvents.beforeHeaderSaveEvent(this, new JobEventArgs(svm.SaleQuotationHeaderId, EventModeConstants.Edit), ref context);
+                    BeforeSave = SaleQuotationDocEvents.beforeHeaderSaveEvent(this, new JobEventArgs(svm.SaleQuotationHeaderId, EventModeConstants.Edit), ref db);
 
             }
             catch (Exception ex)
@@ -329,7 +331,7 @@ namespace Web
                                 var costcen = new CostCenterService(_unitOfWork).Find(s.CostCenterId.Value);
                                 costcen.ProcessId = svm.ProcessId;
                                 costcen.ObjectState = Model.ObjectState.Modified;
-                                context.CostCenter.Add(costcen);
+                                db.CostCenter.Add(costcen);
                                 //new CostCenterService(_unitOfWork).Update(costcen);
                             }
                         }
@@ -353,10 +355,10 @@ namespace Web
                             Cs.ParentCostCenterId = new ProcessService(_unitOfWork).Find(svm.ProcessId).CostCenterId;
                             Cs.ObjectState = Model.ObjectState.Added;
                             //new CostCenterService(_unitOfWork).Create(Cs);
-                            context.CostCenter.Add(Cs);
+                            db.CostCenter.Add(Cs);
                             s.CostCenterId = Cs.CostCenterId;
 
-                            new CostCenterStatusService(_unitOfWork).CreateLineStatus(Cs.CostCenterId, ref context, true);
+                            new CostCenterStatusService(_unitOfWork).CreateLineStatus(Cs.CostCenterId, ref db, true);
                             CostCenterGenerated = true;
 
                         }
@@ -370,18 +372,49 @@ namespace Web
                     s.ModifiedBy = User.Identity.Name;
                     s.Status = (int)StatusConstants.Drafted;
                     s.ObjectState = Model.ObjectState.Added;
-                    context.SaleQuotationHeader.Add(s);
+                    db.SaleQuotationHeader.Add(s);
 
 
                     sd.SaleQuotationHeaderId = s.SaleQuotationHeaderId;
                     sd.ObjectState = Model.ObjectState.Added;
-                    context.SaleQuotationHeaderDetail.Add(sd);
+                    db.SaleQuotationHeaderDetail.Add(sd);
 
-                    
+
+                    if (svm.DocumentTypeHeaderAttributes != null)
+                    {
+                        foreach (var pta in svm.DocumentTypeHeaderAttributes)
+                        {
+
+                            SaleQuotationHeaderAttributes SaleQuotationHeaderAttribute = (from A in db.SaleQuotationHeaderAttributes
+                                                                                          where A.HeaderTableId == s.SaleQuotationHeaderId && A.DocumentTypeHeaderAttributeId == pta.DocumentTypeHeaderAttributeId
+                                                                                      select A).FirstOrDefault();
+
+                            if (SaleQuotationHeaderAttribute != null)
+                            {
+                                SaleQuotationHeaderAttribute.Value = pta.Value;
+                                SaleQuotationHeaderAttribute.ObjectState = Model.ObjectState.Modified;
+                                //_unitOfWork.Repository<SaleQuotationHeaderAttributes>().Add(SaleQuotationHeaderAttribute);
+                                db.SaleQuotationHeaderAttributes.Add(SaleQuotationHeaderAttribute);
+                            }
+                            else
+                            {
+                                SaleQuotationHeaderAttributes HeaderAttribute = new SaleQuotationHeaderAttributes()
+                                {
+                                    Value = pta.Value,
+                                    HeaderTableId = s.SaleQuotationHeaderId,
+                                    DocumentTypeHeaderAttributeId = pta.DocumentTypeHeaderAttributeId,
+                                };
+                                HeaderAttribute.ObjectState = Model.ObjectState.Added;
+                                db.SaleQuotationHeaderAttributes.Add(HeaderAttribute);
+                                _unitOfWork.Repository<SaleQuotationHeaderAttributes>().Add(HeaderAttribute);
+                            }
+                        }
+                    }
+
 
                     try
                     {
-                        SaleQuotationDocEvents.onHeaderSaveEvent(this, new JobEventArgs(s.SaleQuotationHeaderId, EventModeConstants.Add), ref context);
+                        SaleQuotationDocEvents.onHeaderSaveEvent(this, new JobEventArgs(s.SaleQuotationHeaderId, EventModeConstants.Add), ref db);
                     }
                     catch (Exception ex)
                     {
@@ -396,7 +429,7 @@ namespace Web
                         if (EventException)
                         { throw new Exception(); }
                         //_unitOfWork.Save();
-                        context.SaveChanges();
+                        db.SaveChanges();
                     }
 
                     catch (Exception ex)
@@ -412,7 +445,7 @@ namespace Web
 
                     try
                     {
-                        SaleQuotationDocEvents.afterHeaderSaveEvent(this, new JobEventArgs(s.SaleQuotationHeaderId, EventModeConstants.Add), ref context);
+                        SaleQuotationDocEvents.afterHeaderSaveEvent(this, new JobEventArgs(s.SaleQuotationHeaderId, EventModeConstants.Add), ref db);
                     }
                     catch (Exception ex)
                     {
@@ -433,12 +466,12 @@ namespace Web
                     //Update DocId in COstCenter
                     if (s.CostCenterId.HasValue && CostCenterGenerated)
                     {
-                        var CC = context.CostCenter.Find(s.CostCenterId);
+                        var CC = db.CostCenter.Find(s.CostCenterId);
                         CC.ReferenceDocId = s.SaleQuotationHeaderId;
                         CC.ObjectState = Model.ObjectState.Modified;
-                        context.CostCenter.Add(CC);
+                        db.CostCenter.Add(CC);
 
-                        context.SaveChanges();
+                        db.SaveChanges();
                         //new CostCenterService(_unitOfWork).Update(CC);
                         //_unitOfWork.Save();
                     }
@@ -456,8 +489,8 @@ namespace Web
                 {
                     List<LogTypeViewModel> LogList = new List<LogTypeViewModel>();
 
-                    SaleQuotationHeader temp = context.SaleQuotationHeader.Find(s.SaleQuotationHeaderId);
-                    SaleQuotationHeaderDetail HeaderDetail = context.SaleQuotationHeaderDetail.Find(s.SaleQuotationHeaderId);
+                    SaleQuotationHeader temp = db.SaleQuotationHeader.Find(s.SaleQuotationHeaderId);
+                    SaleQuotationHeaderDetail HeaderDetail = db.SaleQuotationHeaderDetail.Find(s.SaleQuotationHeaderId);
 
                     SaleQuotationHeader ExRec = Mapper.Map<SaleQuotationHeader>(temp);
 
@@ -476,26 +509,26 @@ namespace Web
                             if (temp.CostCenterId.HasValue)
                             {
                                 //var costcen = new CostCenterService(_unitOfWork).Find(temp.CostCenterId.Value);
-                                var costcen = (from p in context.CostCenter
+                                var costcen = (from p in db.CostCenter
                                                where p.CostCenterId == temp.CostCenterId
                                                select p).FirstOrDefault();
                                 costcen.ProcessId = svm.ProcessId;
                                 costcen.LedgerAccountId = new LedgerAccountService(_unitOfWork).GetLedgerAccountByPersondId(svm.SaleToBuyerId).LedgerAccountId;
 
                                 costcen.ObjectState = Model.ObjectState.Modified;
-                                context.CostCenter.Add(costcen);
+                                db.CostCenter.Add(costcen);
                                 //new CostCenterService(_unitOfWork).Update(costcen);
                             }
                         }
                         else
                         {
 
-                            var ExistingCostCenter = context.CostCenter.Find(temp.CostCenterId);
+                            var ExistingCostCenter = db.CostCenter.Find(temp.CostCenterId);
 
                             ExistingCostCenter.CostCenterName = svm.CostCenterName;
                             ExistingCostCenter.ObjectState = Model.ObjectState.Modified;
 
-                            context.CostCenter.Add(ExistingCostCenter);
+                            db.CostCenter.Add(ExistingCostCenter);
                         }
 
                     }
@@ -516,7 +549,7 @@ namespace Web
                     temp.ModifiedDate = DateTime.Now;
                     temp.ModifiedBy = User.Identity.Name;
                     temp.ObjectState = Model.ObjectState.Modified;
-                    context.SaleQuotationHeader.Add(temp);
+                    db.SaleQuotationHeader.Add(temp);
                     //_SaleQuotationHeaderService.Update(temp);
 
 
@@ -533,7 +566,7 @@ namespace Web
                     HeaderDetail.SalesExecutiveId = sd.SalesExecutiveId;
                     HeaderDetail.CreditDays = sd.CreditDays;
                     HeaderDetail.ObjectState = Model.ObjectState.Modified;
-                    context.SaleQuotationHeaderDetail.Add(HeaderDetail);
+                    db.SaleQuotationHeaderDetail.Add(HeaderDetail);
 
 
                     LogList.Add(new LogTypeViewModel
@@ -543,6 +576,35 @@ namespace Web
                     });
 
 
+                    if (svm.DocumentTypeHeaderAttributes != null)
+                    {
+                        foreach (var pta in svm.DocumentTypeHeaderAttributes)
+                        {
+
+                            SaleQuotationHeaderAttributes SaleQuotationHeaderAttribute = (from A in db.SaleQuotationHeaderAttributes
+                                                                                          where A.HeaderTableId == temp.SaleQuotationHeaderId && A.DocumentTypeHeaderAttributeId == pta.DocumentTypeHeaderAttributeId
+                                                                                      select A).FirstOrDefault();
+
+                            if (SaleQuotationHeaderAttribute != null)
+                            {
+                                SaleQuotationHeaderAttribute.Value = pta.Value;
+                                SaleQuotationHeaderAttribute.ObjectState = Model.ObjectState.Modified;
+                                //_unitOfWork.Repository<SaleQuotationHeaderAttributes>().Add(SaleQuotationHeaderAttribute);
+                                db.SaleQuotationHeaderAttributes.Add(SaleQuotationHeaderAttribute);
+                            }
+                            else
+                            {
+                                SaleQuotationHeaderAttributes HeaderAttribute = new SaleQuotationHeaderAttributes()
+                                {
+                                    Value = pta.Value,
+                                    HeaderTableId = temp.SaleQuotationHeaderId,
+                                    DocumentTypeHeaderAttributeId = pta.DocumentTypeHeaderAttributeId,
+                                };
+                                HeaderAttribute.ObjectState = Model.ObjectState.Added;
+                                db.SaleQuotationHeaderAttributes.Add(HeaderAttribute);
+                            }
+                        }
+                    }
 
 
 
@@ -550,7 +612,7 @@ namespace Web
 
                     try
                     {
-                        SaleQuotationDocEvents.onHeaderSaveEvent(this, new JobEventArgs(s.SaleQuotationHeaderId, EventModeConstants.Edit), ref context);
+                        SaleQuotationDocEvents.onHeaderSaveEvent(this, new JobEventArgs(s.SaleQuotationHeaderId, EventModeConstants.Edit), ref db);
                     }
                     catch (Exception ex)
                     {
@@ -564,7 +626,7 @@ namespace Web
                         if (EventException)
                         { throw new Exception(); }
 
-                        context.SaveChanges();
+                        db.SaveChanges();
                         //_unitOfWork.Save();
                     }
 
@@ -581,7 +643,7 @@ namespace Web
 
                     try
                     {
-                        SaleQuotationDocEvents.afterHeaderSaveEvent(this, new JobEventArgs(s.SaleQuotationHeaderId, EventModeConstants.Edit), ref context);
+                        SaleQuotationDocEvents.afterHeaderSaveEvent(this, new JobEventArgs(s.SaleQuotationHeaderId, EventModeConstants.Edit), ref db);
                     }
                     catch (Exception ex)
                     {
@@ -733,6 +795,10 @@ namespace Web
                 return HttpNotFound();
             }
 
+
+            List<DocumentTypeHeaderAttributeViewModel> tem = _SaleQuotationHeaderService.GetDocumentHeaderAttribute(id).ToList();
+            s.DocumentTypeHeaderAttributes = tem;
+
             s.CalculationFooterChargeCount = new SaleQuotationHeaderChargeService(_unitOfWork).GetCalculationFooterList(id).Count();
 
             //ViewBag.transactionType = "detail";
@@ -854,7 +920,7 @@ namespace Web
 
             try
             {
-                BeforeSave = SaleQuotationDocEvents.beforeHeaderDeleteEvent(this, new JobEventArgs(vm.id), ref context);
+                BeforeSave = SaleQuotationDocEvents.beforeHeaderDeleteEvent(this, new JobEventArgs(vm.id), ref db);
             }
             catch (Exception ex)
             {
@@ -866,11 +932,18 @@ namespace Web
             if (!BeforeSave)
                 TempData["CSEXC"] += "Failed validation before delete";
 
-            var SaleQuotationHeader = (from p in context.SaleQuotationHeader
+            var SaleQuotationHeader = (from p in db.SaleQuotationHeader
                                   where p.SaleQuotationHeaderId == vm.id
                                   select p).FirstOrDefault();
 
 
+            var attributes = (from A in db.SaleQuotationHeaderAttributes where A.HeaderTableId == vm.id select A).ToList();
+
+            foreach (var ite2 in attributes)
+            {
+                ite2.ObjectState = Model.ObjectState.Deleted;
+                db.SaleQuotationHeaderAttributes.Remove(ite2);
+            }
 
 
 
@@ -891,7 +964,7 @@ namespace Web
 
                 //Then find all the Purchase Order Header Line associated with the above ProductType.
                 //var SaleQuotationLine = new SaleQuotationLineService(_unitOfWork).GetSaleQuotationLineforDelete(vm.id);
-                var SaleQuotationLine = (from p in context.SaleQuotationLine
+                var SaleQuotationLine = (from p in db.SaleQuotationLine
                                     where p.SaleQuotationHeaderId == vm.id
                                     select p).ToList();
 
@@ -899,18 +972,18 @@ namespace Web
 
 
 
-                var LineChargeRecords = (from p in context.SaleQuotationLineCharge
+                var LineChargeRecords = (from p in db.SaleQuotationLineCharge
                                          where JOLineIds.Contains(p.LineTableId)
                                          select p).ToList();
 
-                var HeaderChargeRecords = (from p in context.SaleQuotationHeaderCharge
+                var HeaderChargeRecords = (from p in db.SaleQuotationHeaderCharge
                                            where p.HeaderTableId == vm.id
                                            select p).ToList();
 
 
                 try
                 {
-                    SaleQuotationDocEvents.onHeaderDeleteEvent(this, new JobEventArgs(vm.id), ref context);
+                    SaleQuotationDocEvents.onHeaderDeleteEvent(this, new JobEventArgs(vm.id), ref db);
                 }
                 catch (Exception ex)
                 {
@@ -926,7 +999,7 @@ namespace Web
                 foreach (var item in LineChargeRecords)
                 {
                     item.ObjectState = Model.ObjectState.Deleted;
-                    context.SaleQuotationLineCharge.Remove(item);
+                    db.SaleQuotationLineCharge.Remove(item);
                 }
 
 
@@ -945,7 +1018,7 @@ namespace Web
 
 
                     item.ObjectState = Model.ObjectState.Deleted;
-                    context.SaleQuotationLine.Remove(item);
+                    db.SaleQuotationLine.Remove(item);
 
 
                 }
@@ -957,15 +1030,15 @@ namespace Web
                 foreach (var item in HeaderChargeRecords)
                 {
                     item.ObjectState = Model.ObjectState.Deleted;
-                    context.SaleQuotationHeaderCharge.Remove(item);
+                    db.SaleQuotationHeaderCharge.Remove(item);
                 }
 
-                var SaleQuotationHeaderDetail = (from p in context.SaleQuotationHeaderDetail
+                var SaleQuotationHeaderDetail = (from p in db.SaleQuotationHeaderDetail
                                             where p.SaleQuotationHeaderId == vm.id
                                             select p).FirstOrDefault();
 
                 SaleQuotationHeaderDetail.ObjectState = Model.ObjectState.Deleted;
-                context.SaleQuotationHeaderDetail.Remove(SaleQuotationHeaderDetail);
+                db.SaleQuotationHeaderDetail.Remove(SaleQuotationHeaderDetail);
 
                 // Now delete the Purhcase Order Header
                 //_SaleQuotationHeaderService.Delete(SaleQuotationHeader);
@@ -975,28 +1048,28 @@ namespace Web
 
 
                 SaleQuotationHeader.ObjectState = Model.ObjectState.Deleted;
-                context.SaleQuotationHeader.Remove(SaleQuotationHeader);
+                db.SaleQuotationHeader.Remove(SaleQuotationHeader);
 
 
                 //ForDeleting Generated CostCenter:::
 
-                var GeneratedCostCenter = (from p in context.CostCenter
+                var GeneratedCostCenter = (from p in db.CostCenter
                                            where p.ReferenceDocId == ReferenceDocId && p.ReferenceDocTypeId == ReferenceDocTypeId
                                            select p).FirstOrDefault();
 
                 if (GeneratedCostCenter != null)
                 {
-                    var CostCentrerStatusRecord = (from p in context.CostCenterStatus
+                    var CostCentrerStatusRecord = (from p in db.CostCenterStatus
                                                    where p.CostCenterId == GeneratedCostCenter.CostCenterId
                                                    select p).FirstOrDefault();
 
                     if (CostCentrerStatusRecord != null)
                     {
                         CostCentrerStatusRecord.ObjectState = Model.ObjectState.Deleted;
-                        context.CostCenterStatus.Remove(CostCentrerStatusRecord);
+                        db.CostCenterStatus.Remove(CostCentrerStatusRecord);
                     }
                     GeneratedCostCenter.ObjectState = Model.ObjectState.Deleted;
-                    context.CostCenter.Remove(GeneratedCostCenter);
+                    db.CostCenter.Remove(GeneratedCostCenter);
                 }
 
 
@@ -1013,7 +1086,7 @@ namespace Web
                     if (EventException)
                         throw new Exception();
 
-                    context.SaveChanges();
+                    db.SaveChanges();
                 }
 
                 catch (Exception ex)
@@ -1025,7 +1098,7 @@ namespace Web
 
                 try
                 {
-                    SaleQuotationDocEvents.afterHeaderDeleteEvent(this, new JobEventArgs(vm.id), ref context);
+                    SaleQuotationDocEvents.afterHeaderDeleteEvent(this, new JobEventArgs(vm.id), ref db);
                 }
                 catch (Exception ex)
                 {
@@ -1055,7 +1128,7 @@ namespace Web
         {
 
             #region DocTypeTimeLineValidation
-            SaleQuotationHeader s = context.SaleQuotationHeader.Find(id);
+            SaleQuotationHeader s = db.SaleQuotationHeader.Find(id);
             try
             {
                 TimePlanValidation = Submitvalidation(id, out ExceptionMsg);
@@ -1100,7 +1173,7 @@ namespace Web
             bool BeforeSave = true;
             try
             {
-                BeforeSave = SaleQuotationDocEvents.beforeHeaderSubmitEvent(this, new JobEventArgs(Id), ref context);
+                BeforeSave = SaleQuotationDocEvents.beforeHeaderSubmitEvent(this, new JobEventArgs(Id), ref db);
             }
             catch (Exception ex)
             {
@@ -1112,7 +1185,7 @@ namespace Web
             if (!BeforeSave)
                 TempData["CSEXC"] += "Falied validation before submit.";
 
-            SaleQuotationHeader pd = context.SaleQuotationHeader.Find(Id);
+            SaleQuotationHeader pd = db.SaleQuotationHeader.Find(Id);
 
 
             if (ModelState.IsValid && BeforeSave && !EventException)
@@ -1137,13 +1210,13 @@ namespace Web
                     //_SaleQuotationHeaderService.Update(pd);
                     pd.ReviewBy = null;
                     pd.ObjectState = Model.ObjectState.Modified;
-                    context.SaleQuotationHeader.Add(pd);
+                    db.SaleQuotationHeader.Add(pd);
 
 
 
                     try
                     {
-                        SaleQuotationDocEvents.onHeaderSubmitEvent(this, new JobEventArgs(Id), ref context);
+                        SaleQuotationDocEvents.onHeaderSubmitEvent(this, new JobEventArgs(Id), ref db);
                     }
                     catch (Exception ex)
                     {
@@ -1157,7 +1230,7 @@ namespace Web
                         if (EventException)
                         { throw new Exception(); }
 
-                        context.SaveChanges();
+                        db.SaveChanges();
                     }
 
                     catch (Exception ex)
@@ -1172,7 +1245,7 @@ namespace Web
 
                     try
                     {
-                        SaleQuotationDocEvents.afterHeaderSubmitEvent(this, new JobEventArgs(Id), ref context);
+                        SaleQuotationDocEvents.afterHeaderSubmitEvent(this, new JobEventArgs(Id), ref db);
                     }
                     catch (Exception ex)
                     {
@@ -1217,7 +1290,7 @@ namespace Web
         [MultipleButton(Name = "Command", Argument = "Review")]
         public ActionResult Reviewed(int Id, string IndexType, string UserRemark, string IsContinue)
         {
-            SaleQuotationHeader pd = context.SaleQuotationHeader.Find(Id);
+            SaleQuotationHeader pd = db.SaleQuotationHeader.Find(Id);
 
             if (ModelState.IsValid)
             {
@@ -1225,11 +1298,11 @@ namespace Web
                 pd.ReviewCount = (pd.ReviewCount ?? 0) + 1;
                 pd.ReviewBy += User.Identity.Name + ", ";
                 pd.ObjectState = Model.ObjectState.Modified;
-                context.SaleQuotationHeader.Add(pd);
+                db.SaleQuotationHeader.Add(pd);
 
                 try
                 {
-                    SaleQuotationDocEvents.onHeaderReviewEvent(this, new JobEventArgs(Id), ref context);
+                    SaleQuotationDocEvents.onHeaderReviewEvent(this, new JobEventArgs(Id), ref db);
                 }
                 catch (Exception ex)
                 {
@@ -1237,11 +1310,11 @@ namespace Web
                     TempData["CSEXC"] += message;
                 }
 
-                context.SaveChanges();
+                db.SaveChanges();
 
                 try
                 {
-                    SaleQuotationDocEvents.afterHeaderReviewEvent(this, new JobEventArgs(Id), ref context);
+                    SaleQuotationDocEvents.afterHeaderReviewEvent(this, new JobEventArgs(Id), ref db);
                 }
                 catch (Exception ex)
                 {
@@ -1466,15 +1539,134 @@ namespace Web
             }
             if (disposing)
             {
-                context.Dispose();
+                db.Dispose();
             }
             base.Dispose(disposing);
         }
 
 
+        //public ActionResult GeneratePrints(string Ids, int DocTypeId)
+        //{
+
+        //    if (!string.IsNullOrEmpty(Ids))
+        //    {
+        //        int SiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
+        //        int DivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
+
+        //        var Settings = new SaleQuotationSettingsService(_unitOfWork).GetSaleQuotationSettingsForDocument(DocTypeId, DivisionId, SiteId);
+
+        //        DataTable Dt = new DataTable();
+        //        String MainQuery = Settings.SqlProcDocumentPrint + " " + Ids.Split(',')[0];
+        //        using (SqlConnection sqlConnection = new SqlConnection((string)System.Web.HttpContext.Current.Session["DefaultConnectionString"]))
+        //        {
+        //            SqlDataAdapter sqlDataAapter = new SqlDataAdapter(MainQuery, sqlConnection);
+        //            sqlDataAapter.Fill(Dt);
+        //        }
+        //        string Reportname = "";
+        //        string path = "";
+        //        if (Dt.Rows.Count > 0)
+        //        {
+        //            Reportname = Dt.Rows[0]["ReportName"].ToString();
+        //            path = ConfigurationManager.AppSettings["PhysicalRDLCPath"] + ConfigurationManager.AppSettings["ReportsPathFromService"] + Dt.Rows[0]["ReportName"].ToString();
+        //        }
+        //        if (System.IO.File.Exists(path))
+        //        { 
+        //        string ReportSql = "";
+
+        //        if (!string.IsNullOrEmpty(Settings.DocumentPrint))
+        //            ReportSql = context.ReportHeader.Where((m) => m.ReportName == Settings.DocumentPrint).FirstOrDefault().ReportSQL;
+
+        //        try
+        //        {
+
+        //            List<byte[]> PdfStream = new List<byte[]>();
+        //            foreach (var item in Ids.Split(',').Select(Int32.Parse))
+        //            {
+        //                int Copies = 1;
+        //                int AdditionalCopies = Settings.NoOfPrintCopies ?? 0;
+
+        //                DirectReportPrint drp = new DirectReportPrint();
+
+        //                var pd = context.SaleQuotationHeader.Find(item);
+
+        //                LogActivity.LogActivityDetail(LogVm.Map(new ActiivtyLogViewModel
+        //                {
+        //                    DocTypeId = pd.DocTypeId,
+        //                    DocId = pd.SaleQuotationHeaderId,
+        //                    ActivityType = (int)ActivityTypeContants.Print,
+        //                    DocNo = pd.DocNo,
+        //                    DocDate = pd.DocDate,
+        //                    DocStatus = pd.Status,
+        //                }));
+
+        //                do
+        //                {
+        //                    byte[] Pdf;
+
+        //                    if (!string.IsNullOrEmpty(ReportSql))
+        //                    {
+        //                        Pdf = drp.rsDirectDocumentPrint(ReportSql, User.Identity.Name, item);
+        //                        PdfStream.Add(Pdf);
+        //                    }
+        //                    else
+        //                    {
+        //                        if (pd.Status == (int)StatusConstants.Drafted || pd.Status == (int)StatusConstants.Import || pd.Status == (int)StatusConstants.Modified)
+        //                        {
+        //                            //LogAct(item.ToString());
+        //                            Pdf = drp.DirectDocumentPrint(Settings.SqlProcDocumentPrint, User.Identity.Name, item);
+
+        //                            PdfStream.Add(Pdf);
+        //                        }
+        //                        else if (pd.Status == (int)StatusConstants.Submitted || pd.Status == (int)StatusConstants.ModificationSubmitted)
+        //                        {
+        //                            Pdf = drp.DirectDocumentPrint(Settings.SqlProcDocumentPrint_AfterSubmit, User.Identity.Name, item);
+
+        //                            PdfStream.Add(Pdf);
+        //                        }
+        //                        else
+        //                        {
+        //                            Pdf = drp.DirectDocumentPrint(Settings.SqlProcDocumentPrint_AfterApprove, User.Identity.Name, item);
+        //                            PdfStream.Add(Pdf);
+        //                        }
+        //                    }
+
+                            
+
+        //                    Copies--;
+
+        //                } while (Copies > 0);
+
+        //            }
+
+        //            PdfMerger pm = new PdfMerger();
+
+        //            byte[] Merge = pm.MergeFiles(PdfStream);
+
+        //            if (Merge != null)
+        //                return File(Merge, "application/pdf");
+
+        //        }
+
+        //        catch (Exception ex)
+        //        {
+        //            string message = _exception.HandleException(ex);
+        //            return Json(new { success = "Error", data = message }, JsonRequestBehavior.AllowGet);
+        //        }
+
+
+        //        return Json(new { success = "Success" }, JsonRequestBehavior.AllowGet);
+        //    }
+        //    return Json(new { success = "Error", data = "File Not Found. " }, JsonRequestBehavior.AllowGet);
+
+        //    }
+        //    return Json(new { success = "Error", data = "No Records Selected." }, JsonRequestBehavior.AllowGet);
+
+
+        //}
+
+
         public ActionResult GeneratePrints(string Ids, int DocTypeId)
         {
-
             if (!string.IsNullOrEmpty(Ids))
             {
                 int SiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
@@ -1482,26 +1674,10 @@ namespace Web
 
                 var Settings = new SaleQuotationSettingsService(_unitOfWork).GetSaleQuotationSettingsForDocument(DocTypeId, DivisionId, SiteId);
 
-                DataTable Dt = new DataTable();
-                String MainQuery = Settings.SqlProcDocumentPrint + " " + Ids.Split(',')[0];
-                using (SqlConnection sqlConnection = new SqlConnection((string)System.Web.HttpContext.Current.Session["DefaultConnectionString"]))
-                {
-                    SqlDataAdapter sqlDataAapter = new SqlDataAdapter(MainQuery, sqlConnection);
-                    sqlDataAapter.Fill(Dt);
-                }
-                string Reportname = "";
-                string path = "";
-                if (Dt.Rows.Count > 0)
-                {
-                    Reportname = Dt.Rows[0]["ReportName"].ToString();
-                    path = ConfigurationManager.AppSettings["PhysicalRDLCPath"] + ConfigurationManager.AppSettings["ReportsPathFromService"] + Dt.Rows[0]["ReportName"].ToString();
-                }
-                if (System.IO.File.Exists(path))
-                { 
                 string ReportSql = "";
 
-                if (!string.IsNullOrEmpty(Settings.DocumentPrint))
-                    ReportSql = context.ReportHeader.Where((m) => m.ReportName == Settings.DocumentPrint).FirstOrDefault().ReportSQL;
+                if (Settings.DocumentPrintReportHeaderId.HasValue)
+                    ReportSql = db.ReportHeader.Where((m) => m.ReportHeaderId == Settings.DocumentPrintReportHeaderId).FirstOrDefault().ReportSQL;
 
                 try
                 {
@@ -1509,12 +1685,9 @@ namespace Web
                     List<byte[]> PdfStream = new List<byte[]>();
                     foreach (var item in Ids.Split(',').Select(Int32.Parse))
                     {
-                        int Copies = 1;
-                        int AdditionalCopies = Settings.NoOfPrintCopies ?? 0;
 
                         DirectReportPrint drp = new DirectReportPrint();
-
-                        var pd = context.SaleQuotationHeader.Find(item);
+                        var pd = db.SaleQuotationHeader.Find(item);
 
                         LogActivity.LogActivityDetail(LogVm.Map(new ActiivtyLogViewModel
                         {
@@ -1526,43 +1699,36 @@ namespace Web
                             DocStatus = pd.Status,
                         }));
 
-                        do
-                        {
-                            byte[] Pdf;
+                        byte[] Pdf;
 
-                            if (!string.IsNullOrEmpty(ReportSql))
+                        if (!string.IsNullOrEmpty(ReportSql))
+                        {
+                            Pdf = drp.rsDirectDocumentPrint(ReportSql, User.Identity.Name, item);
+                            PdfStream.Add(Pdf);
+                        }
+                        else
+                        {
+
+                            if (pd.Status == (int)StatusConstants.Drafted || pd.Status == (int)StatusConstants.Modified || pd.Status == (int)StatusConstants.Import)
                             {
-                                Pdf = drp.rsDirectDocumentPrint(ReportSql, User.Identity.Name, item);
+                                //LogAct(item.ToString());
+                                Pdf = drp.DirectDocumentPrint(Settings.SqlProcDocumentPrint, User.Identity.Name, item);
+
                                 PdfStream.Add(Pdf);
                             }
-                            else
+                            else if (pd.Status == (int)StatusConstants.Submitted || pd.Status == (int)StatusConstants.ModificationSubmitted)
                             {
-                                if (pd.Status == (int)StatusConstants.Drafted || pd.Status == (int)StatusConstants.Import || pd.Status == (int)StatusConstants.Modified)
-                                {
-                                    //LogAct(item.ToString());
-                                    Pdf = drp.DirectDocumentPrint(Settings.SqlProcDocumentPrint, User.Identity.Name, item);
+                                Pdf = drp.DirectDocumentPrint(Settings.SqlProcDocumentPrint, User.Identity.Name, item);
 
-                                    PdfStream.Add(Pdf);
-                                }
-                                else if (pd.Status == (int)StatusConstants.Submitted || pd.Status == (int)StatusConstants.ModificationSubmitted)
-                                {
-                                    Pdf = drp.DirectDocumentPrint(Settings.SqlProcDocumentPrint_AfterSubmit, User.Identity.Name, item);
-
-                                    PdfStream.Add(Pdf);
-                                }
-                                else
-                                {
-                                    Pdf = drp.DirectDocumentPrint(Settings.SqlProcDocumentPrint_AfterApprove, User.Identity.Name, item);
-                                    PdfStream.Add(Pdf);
-                                }
+                                PdfStream.Add(Pdf);
+                            }
+                            else if (pd.Status == (int)StatusConstants.Approved)
+                            {
+                                Pdf = drp.DirectDocumentPrint(Settings.SqlProcDocumentPrint, User.Identity.Name, item);
+                                PdfStream.Add(Pdf);
                             }
 
-                            
-
-                            Copies--;
-
-                        } while (Copies > 0);
-
+                        }
                     }
 
                     PdfMerger pm = new PdfMerger();
@@ -1580,14 +1746,10 @@ namespace Web
                     return Json(new { success = "Error", data = message }, JsonRequestBehavior.AllowGet);
                 }
 
-
                 return Json(new { success = "Success" }, JsonRequestBehavior.AllowGet);
-            }
-            return Json(new { success = "Error", data = "File Not Found. " }, JsonRequestBehavior.AllowGet);
 
             }
             return Json(new { success = "Error", data = "No Records Selected." }, JsonRequestBehavior.AllowGet);
-
 
         }
 
@@ -1650,6 +1812,21 @@ namespace Web
                 Data = Data,
                 JsonRequestBehavior = JsonRequestBehavior.AllowGet
             };
+        }
+
+        public JsonResult GetPersonDetail(int PersonId)
+        {
+            var PersonDetail = (from B in db.BusinessEntity
+                                where B.PersonID == PersonId
+                                select new
+                                {
+                                    CreditDays = B.CreaditDays ?? 0,
+                                    CreditLimit = B.CreaditLimit ?? 0,
+                                    SalesTaxGroupPartyId = B.SalesTaxGroupPartyId,
+                                    SalesTaxGroupPartyName = B.SalesTaxGroupParty.ChargeGroupPersonName
+                                }).FirstOrDefault();
+
+            return Json(PersonDetail);
         }
 
     }

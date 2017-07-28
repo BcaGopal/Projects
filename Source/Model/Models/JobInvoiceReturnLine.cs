@@ -51,6 +51,9 @@ namespace Model.Models
         [Display(Name = "Amount"), Required]
         public Decimal Amount { get; set; }
 
+
+
+
         [Display(Name = "Remark")]
         public string Remark { get; set; }
         public int? Sr { get; set; }

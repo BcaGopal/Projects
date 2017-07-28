@@ -50,6 +50,7 @@ namespace Model.ViewModel
         public bool isVisibleCurrency { get; set; }
         public bool isVisibleShipMethod { get; set; }
         public bool isVisibleSalesTaxGroupPerson { get; set; }
+        public bool isVisibleSalesTaxGroupProduct { get; set; }
         public bool isVisibleDoorDelivery { get; set; }
         public bool isVisibleCreditDays { get; set; }
         public bool isVisibleCostCenter { get; set; }
@@ -75,8 +76,8 @@ namespace Model.ViewModel
         
         public bool isVisibleFromSaleEnquiry { get; set; }
         public bool isVisibleAgent { get; set; }
-
-
+        public bool isVisibleDiscountPer { get; set; }
+        public bool CalculateDiscountOnRate { get; set; }
         public string filterLedgerAccountGroups { get; set; }
         public string filterLedgerAccounts { get; set; }
         public string filterProductTypes { get; set; }

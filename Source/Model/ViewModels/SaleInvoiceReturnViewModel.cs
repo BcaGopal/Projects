@@ -31,12 +31,12 @@ namespace Model.ViewModel
         public int SiteId { get; set; }
         public string SiteName{ get; set; }
 
-        [Display(Name = "Currency"), Required]
-        public int CurrencyId { get; set; }
-        public string CurrencyName{ get; set; }
+        //[Display(Name = "Currency"), Required]
+        //public int CurrencyId { get; set; }
+        //public string CurrencyName{ get; set; }
       
-        public int? SalesTaxGroupId { get; set; }
-        public string SalesTaxGroupName { get; set; }
+        //public int? SalesTaxGroupId { get; set; }
+        //public string SalesTaxGroupName { get; set; }
 
         
         [Display(Name = "Buyer Name"),Range(1,int.MaxValue,ErrorMessage="The Buyer field is required"),Required]
@@ -59,8 +59,9 @@ namespace Model.ViewModel
 
         public string SaleInvoiceDocNo { get; set; }
 
-        public int GodownId { get; set; }
+        public int? GodownId { get; set; }
         public SaleInvoiceSettingsViewModel SaleInvoiceSettings { get; set; }
+        public DocumentTypeSettingsViewModel DocumentTypeSettings { get; set; }
         public string ModifiedBy { get; set; }
         public string CreatedBy { get; set; }
         public DateTime CreatedDate { get; set; }
@@ -68,6 +69,7 @@ namespace Model.ViewModel
         public string ReviewBy { get; set; }
         public bool? Reviewed { get; set; }
         public int? ReviewCount { get; set; }
+        public string Nature { get; set; }
     }
 
     public class SaleInvoiceReturnLineViewModel
@@ -125,9 +127,12 @@ namespace Model.ViewModel
         public string Remark { get; set; }
         public string Dimension1Name { get; set; }
         public string Dimension2Name { get; set; }
+        public string Dimension3Name { get; set; }
+        public string Dimension4Name { get; set; }
         public string Specification { get; set; }
         public string UnitId { get; set; }
         public SaleInvoiceSettingsViewModel SaleInvoiceSettings { get; set; }
+        public DocumentTypeSettingsViewModel DocumentTypeSettings { get; set; }
         public List<SaleInvoiceReturnLineCharge> linecharges { get; set; }
         public List<SaleInvoiceReturnHeaderCharge> footercharges { get; set; }
         public int unitDecimalPlaces { get; set; }
@@ -145,6 +150,7 @@ namespace Model.ViewModel
         public string SiteName { get; set; }
         public int? ProductUidId { get; set; }
         public string ProductUidName { get; set; }
+        public string Nature { get; set; }
     }
     public class SaleInvoiceReturnLineIndexViewModel
     {
@@ -191,6 +197,7 @@ namespace Model.ViewModel
         public string ProductId { get; set; }
         [Display(Name = "Product Group")]
         public string ProductGroupId { get; set; }
+        public DocumentTypeSettingsViewModel DocumentTypeSettings { get; set; }
     }
     public class SaleInvoiceReturnMasterDetailModel
     {

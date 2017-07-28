@@ -189,6 +189,34 @@ namespace Web
                     }
 
 
+                    if (PersonVm.GstNo != "" && PersonVm.GstNo != null)
+                    {
+                        PersonRegistration personregistration = new PersonRegistration();
+                        personregistration.RegistrationType = PersonRegistrationType.GstNo;
+                        personregistration.RegistrationNo = PersonVm.GstNo;
+                        personregistration.CreatedDate = DateTime.Now;
+                        personregistration.ModifiedDate = DateTime.Now;
+                        personregistration.CreatedBy = User.Identity.Name;
+                        personregistration.ModifiedBy = User.Identity.Name;
+                        personregistration.ObjectState = Model.ObjectState.Added;
+                        new PersonRegistrationService(_unitOfWork).Create(personregistration);
+                    }
+
+
+                    if (PersonVm.AadharNo != "" && PersonVm.AadharNo != null)
+                    {
+                        PersonRegistration personregistration = new PersonRegistration();
+                        personregistration.RegistrationType = PersonRegistrationType.AadharNo;
+                        personregistration.RegistrationNo = PersonVm.AadharNo;
+                        personregistration.CreatedDate = DateTime.Now;
+                        personregistration.ModifiedDate = DateTime.Now;
+                        personregistration.CreatedBy = User.Identity.Name;
+                        personregistration.ModifiedBy = User.Identity.Name;
+                        personregistration.ObjectState = Model.ObjectState.Added;
+                        new PersonRegistrationService(_unitOfWork).Create(personregistration);
+                    }
+
+
                     PersonRole personrole = new PersonRole();
                     personrole.PersonRoleId = -1;
                     personrole.PersonId = person.PersonID;
@@ -244,7 +272,8 @@ namespace Web
 
                     }
 
-                    return Json(new { success = true, PersonId = PersonVm.PersonID, Name = PersonVm.Name });
+                    return Json(new { success = true, PersonId = person.PersonID, Name = person.Name + ", " + person.Suffix + " [" + person.Code + "]" });
+                    
                 }
                 else
                 {
@@ -256,6 +285,9 @@ namespace Web
                     PersonRegistration PersonCst = new PersonRegistrationService(_unitOfWork).Find(PersonVm.PersonRegistrationCstNoID ?? 0);
                     PersonRegistration PersonTin = new PersonRegistrationService(_unitOfWork).Find(PersonVm.PersonRegistrationTinNoID ?? 0);
                     PersonRegistration PersonPAN = new PersonRegistrationService(_unitOfWork).Find(PersonVm.PersonRegistrationPanNoID ?? 0);
+                    PersonRegistration PersonGst = new PersonRegistrationService(_unitOfWork).Find(PersonVm.PersonRegistrationGstNoID ?? 0);
+                    PersonRegistration PersonAadhar = new PersonRegistrationService(_unitOfWork).Find(PersonVm.PersonRegistrationAadharNoID ?? 0);
+                    
 
 
                     person.IsActive = true;
@@ -346,6 +378,50 @@ namespace Web
                         }
                     }
 
+                    if (PersonVm.GstNo != null && PersonVm.GstNo != "")
+                    {
+                        if (PersonGst != null)
+                        {
+                            PersonGst.RegistrationNo = PersonVm.GstNo;
+                            new PersonRegistrationService(_unitOfWork).Update(PersonGst);
+                        }
+                        else
+                        {
+                            PersonRegistration personregistration = new PersonRegistration();
+                            personregistration.PersonId = PersonVm.PersonID;
+                            personregistration.RegistrationType = PersonRegistrationType.GstNo;
+                            personregistration.RegistrationNo = PersonVm.GstNo;
+                            personregistration.CreatedDate = DateTime.Now;
+                            personregistration.ModifiedDate = DateTime.Now;
+                            personregistration.CreatedBy = User.Identity.Name;
+                            personregistration.ModifiedBy = User.Identity.Name;
+                            personregistration.ObjectState = Model.ObjectState.Added;
+                            new PersonRegistrationService(_unitOfWork).Create(personregistration);
+                        }
+                    }
+
+                    if (PersonVm.AadharNo != null && PersonVm.AadharNo != "")
+                    {
+                        if (PersonAadhar != null)
+                        {
+                            PersonAadhar.RegistrationNo = PersonVm.AadharNo;
+                            new PersonRegistrationService(_unitOfWork).Update(PersonAadhar);
+                        }
+                        else
+                        {
+                            PersonRegistration personregistration = new PersonRegistration();
+                            personregistration.PersonId = PersonVm.PersonID;
+                            personregistration.RegistrationType = PersonRegistrationType.AadharNo;
+                            personregistration.RegistrationNo = PersonVm.AadharNo;
+                            personregistration.CreatedDate = DateTime.Now;
+                            personregistration.ModifiedDate = DateTime.Now;
+                            personregistration.CreatedBy = User.Identity.Name;
+                            personregistration.ModifiedBy = User.Identity.Name;
+                            personregistration.ObjectState = Model.ObjectState.Added;
+                            new PersonRegistrationService(_unitOfWork).Create(personregistration);
+                        }
+                    }
+
 
                     try
                     {
@@ -359,7 +435,7 @@ namespace Web
                         return View("Create", PersonVm);
                     }
 
-                    return Json(new { success = true, PersonId = PersonVm.PersonID, Name = PersonVm.Name });
+                    return Json(new { success = true, PersonId = person.PersonID, Name = person.Name + ", " + person.Suffix + " [" + person.Code + "]" });
                 }
             }
             return View(PersonVm);
@@ -462,6 +538,19 @@ namespace Web
                         PersonViewModel.PersonRegistrationPanNoID = item.PersonRegistrationId;
                         PersonViewModel.PanNo = item.RregistrationNo;
                     }
+
+                    if (item.RregistrationType == PersonRegistrationType.GstNo)
+                    {
+                        PersonViewModel.PersonRegistrationGstNoID = item.PersonRegistrationId;
+                        PersonViewModel.GstNo = item.RregistrationNo;
+                    }
+
+                    if (item.RregistrationType == PersonRegistrationType.AadharNo)
+                    {
+                        PersonViewModel.PersonRegistrationAadharNoID = item.PersonRegistrationId;
+                        PersonViewModel.AadharNo = item.RregistrationNo;
+                    }
+
                 }
             }
 

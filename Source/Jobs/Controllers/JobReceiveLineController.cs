@@ -690,6 +690,54 @@ namespace Web
                     //              where p.JobOrderLineId == item.JobOrderLineId
                     //              select p.BalanceQty).FirstOrDefault();
 
+
+
+                    if (item.OrderBalanceQty < item.ReceiveQty)
+                    {
+                        Decimal? ExcessAllowedQty = new JobOrderLineService(_unitOfWork).GetExcessReceiveAllowedAgainstOrderQty(item.JobOrderLineId);
+                        if (ExcessAllowedQty != null)
+                        {
+                            Decimal TotalReceiveQty = 0;
+                            var ReceiveLinesList = (from L in db.JobReceiveLine
+                                                    where L.JobOrderLineId == item.JobOrderLineId
+                                                    group new { L } by new { L.JobOrderLineId } into Result
+                                                    select new
+                                                    {
+                                                        Qty = Result.Sum(m => m.L.Qty)
+                                                    }).FirstOrDefault();
+                            if (ReceiveLinesList != null)
+                                TotalReceiveQty = ReceiveLinesList.Qty;
+
+                            TotalReceiveQty = TotalReceiveQty + item.ReceiveQty;
+                            var OrderLine = new JobOrderLineService(_unitOfWork).Find(item.JobOrderLineId);
+                            Decimal ExcessQty = TotalReceiveQty - OrderLine.Qty;
+
+                            if (ExcessQty > ExcessAllowedQty)
+                            {
+                                string message = "Qty exceeding allowed excess receive qty for product.";
+                                ModelState.AddModelError("", message);
+                                if (vm.JobReceiveSettings.isVisibleLoss == true && vm.JobReceiveSettings.IsVisiblePassQty == false && vm.JobReceiveSettings.isVisibleLotNo == false)
+                                {
+                                    return PartialView("_ResultsWithLossQty", vm);
+                                }
+                                if (vm.JobReceiveSettings.isVisibleLoss == false && vm.JobReceiveSettings.IsVisiblePassQty == false && vm.JobReceiveSettings.isVisibleLotNo == false)
+                                {
+                                    return PartialView("_ResultsWithQty", vm);
+                                }
+                                if (vm.JobReceiveSettings.isVisibleLoss == false && vm.JobReceiveSettings.IsVisiblePassQty == false && vm.JobReceiveSettings.isVisibleLotNo == true)
+                                {
+                                    return PartialView("_ResultsWithQtyLotNo", vm);
+                                }
+                                else
+                                {
+                                    return PartialView("_Results", vm);
+                                }
+                            }
+                        }
+                    }
+
+
+
                     var temp = JobOrderLineCostCenterRecords.Where(m => m.JoborderLineId == item.JobOrderLineId).FirstOrDefault();
 
                     var balqty = JobOrderLineBalanceQtyRecords.Where(m => m.LineId == item.JobOrderLineId).FirstOrDefault().BalQty;
@@ -2175,6 +2223,79 @@ namespace Web
                     ModelState.AddModelError("LossQty", "Loss Qty exceeding allowed loss % [" + settings.LossPer.ToString() + "]");
                 }
             }
+
+
+
+            if (svm.ProductId != 0 && svm.JobOrderLineId != null && svm.JobOrderLineId != 0)
+            {
+                if (svm.OrderBalanceQty < svm.ReceiveQty)
+                {
+                    Decimal? ExcessAllowedQty = new JobOrderLineService(_unitOfWork).GetExcessReceiveAllowedAgainstOrderQty(svm.JobOrderLineId);
+                    if (ExcessAllowedQty != null)
+                    {
+                        Decimal TotalReceiveQty = 0;
+                        var ReceiveLinesList = (from L in db.JobReceiveLine
+                                                where L.JobOrderLineId == svm.JobOrderLineId
+                                                group new { L } by new { L.JobOrderLineId } into Result
+                                                select new
+                                                {
+                                                    Qty = Result.Sum(m => m.L.Qty)
+                                                }).FirstOrDefault();
+                        if (ReceiveLinesList != null)
+                            TotalReceiveQty = ReceiveLinesList.Qty;
+
+                        TotalReceiveQty = TotalReceiveQty + svm.ReceiveQty;
+                        var JobOrderLine = new JobOrderLineService(_unitOfWork).Find(svm.JobOrderLineId);
+                        Decimal ExcessQty = TotalReceiveQty - JobOrderLine.Qty;
+
+                        if (ExcessQty > ExcessAllowedQty)
+                        {
+                            ModelState.AddModelError("Qty", "Qty exceeding allowed excess receive qty for product.");
+                        }
+                    }
+                }
+            }
+
+            //if (svm.ProductId != 0 && svm.JobOrderLineId != null && svm.JobOrderLineId != 0)
+            //{
+            //    var ProductSiteDetail = (from Ps in db.ProductSiteDetail where Ps.ProductId == svm.ProductId && Ps.SiteId == temp.SiteId && Ps.DivisionId == temp.DivisionId && Ps.ProcessId == temp.ProcessId select Ps).FirstOrDefault();
+            //    var JobOrderLine = new JobOrderLineService(_unitOfWork).Find(svm.JobOrderLineId);
+            //    Decimal TotalReceiveQty = 0;
+            //    var ReceiveLinesList = (from L in db.JobReceiveLine
+            //                       where L.JobOrderLineId == svm.JobOrderLineId
+            //                       group new { L } by new { L.JobOrderLineId } into Result
+            //                       select new
+            //                       {
+            //                           Qty = Result.Sum(m => m.L.Qty)
+            //                       }).FirstOrDefault();
+            //    if (ReceiveLinesList != null)
+            //        TotalReceiveQty = ReceiveLinesList.Qty;
+
+            //    TotalReceiveQty = TotalReceiveQty + svm.ReceiveQty;
+
+            //    if (ProductSiteDetail != null && JobOrderLine != null)
+            //    {
+            //        if (JobOrderLine.Qty < TotalReceiveQty)
+            //        {
+            //            if (ProductSiteDetail.ExcessReceiveAllowedAgainstOrderPer != null || ProductSiteDetail.ExcessReceiveAllowedAgainstOrderPer != 0 || ProductSiteDetail.ExcessReceiveAllowedAgainstOrderQty != 0 || ProductSiteDetail.ExcessReceiveAllowedAgainstOrderQty != 0)
+            //            {
+            //                Decimal ExcessQty = TotalReceiveQty - JobOrderLine.Qty;
+            //                Decimal ExcessAllowedWithPer = JobOrderLine.Qty * (ProductSiteDetail.ExcessReceiveAllowedAgainstOrderPer ?? 0) / 100;
+            //                Decimal ExcessAllowedWithQty = ProductSiteDetail.ExcessReceiveAllowedAgainstOrderQty ?? 0;
+            //                Decimal ExcessAllowedQty = 0;
+            //                if (ExcessAllowedWithPer > ExcessAllowedWithQty)
+            //                    ExcessAllowedQty = ExcessAllowedWithPer;
+            //                else
+            //                    ExcessAllowedQty = ExcessAllowedWithQty;
+
+            //                if (ExcessQty > ExcessAllowedQty)
+            //                {
+            //                    ModelState.AddModelError("Qty", "Qty exceeding allowed excess receive qty for product.");
+            //                }
+            //            }
+            //        }
+            //    }
+            //}
 
 
 

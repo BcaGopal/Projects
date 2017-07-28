@@ -454,6 +454,8 @@ namespace Service
                 LedgerHeader.DocNo = LedgerHeaderViewModel.DocNo;
                 LedgerHeader.DivisionId = LedgerHeaderViewModel.DivisionId;
                 LedgerHeader.SiteId = LedgerHeaderViewModel.SiteId;
+                LedgerHeader.PartyDocNo = LedgerHeaderViewModel.PartyDocNo;
+                LedgerHeader.PartyDocDate = LedgerHeaderViewModel.PartyDocDate;
                 LedgerHeader.Narration = LedgerHeaderViewModel.Narration;
                 LedgerHeader.Remark = LedgerHeaderViewModel.Remark;
                 LedgerHeader.CreatedBy = LedgerHeaderViewModel.CreatedBy;
@@ -479,6 +481,8 @@ namespace Service
                 LedgerHeader.DivisionId = LedgerHeaderViewModel.DivisionId;
                 LedgerHeader.ProcessId = LedgerHeaderViewModel.ProcessId;
                 LedgerHeader.SiteId = LedgerHeaderViewModel.SiteId;
+                LedgerHeader.PartyDocNo = LedgerHeaderViewModel.PartyDocNo;
+                LedgerHeader.PartyDocDate = LedgerHeaderViewModel.PartyDocDate;
                 LedgerHeader.Narration = LedgerHeaderViewModel.Narration;
                 LedgerHeader.Remark = LedgerHeaderViewModel.Remark;
                 LedgerHeader.ModifiedBy = LedgerHeaderViewModel.ModifiedBy;

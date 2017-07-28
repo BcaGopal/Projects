@@ -182,8 +182,21 @@ namespace Web
                         line.Rate = item.Rate;
                         line.DealQty = item.UnitConversionMultiplier * item.Qty;
                         line.DealUnitId = item.DealUnitId;
-                        line.Amount = line.DealQty * line.Rate;
+                        //line.Amount = line.DealQty * line.Rate;
                         line.UnitConversionMultiplier = item.UnitConversionMultiplier;
+                        line.DiscountPer = item.DiscountPer;
+                        if ((Settings.CalculateDiscountOnRate ?? false) == true)
+                        {
+                            var temprate = item.Rate - (item.Rate * item.DiscountPer / 100);
+                            line.DiscountAmount = (item.Rate * item.DiscountPer / 100) * line.DealQty;
+                            line.Amount = line.DealQty * temprate ?? 0;
+                        }
+                        else
+                        {
+                            var DiscountAmt = (item.Rate * line.DealQty) * item.DiscountPer / 100;
+                            line.DiscountAmount = DiscountAmt;
+                            line.Amount = (item.Rate * line.DealQty) - (DiscountAmt ?? 0);
+                        }
                         line.CreatedDate = DateTime.Now;
                         line.ModifiedDate = DateTime.Now;
                         line.CreatedBy = User.Identity.Name;
@@ -401,6 +414,7 @@ namespace Web
             s.DocTypeId = H.DocTypeId;
             s.SiteId = H.SiteId;
             s.DivisionId = H.DivisionId;
+            s.SalesTaxGroupPersonId = H.SalesTaxGroupPersonId;
             //if (date != null) s.DueDate = date??DateTime.Today;
             PrepareViewBag(s);
             ViewBag.LineMode = "Create";
@@ -636,6 +650,8 @@ namespace Web
                     templine.SaleEnquiryLineId = s.SaleEnquiryLineId;
                     templine.DealUnitId = s.DealUnitId;
                     templine.DealQty = s.DealQty;
+                    templine.DiscountPer = s.DiscountPer;
+                    templine.DiscountAmount = s.DiscountAmount;
                     templine.Rate = s.Rate;
                     templine.Amount = s.Amount;
                     templine.Remark = s.Remark;
@@ -647,7 +663,7 @@ namespace Web
                     templine.Dimension4Id = s.Dimension4Id;
                     templine.UnitConversionMultiplier = s.UnitConversionMultiplier;
                     templine.Specification = s.Specification;
-
+                    templine.SalesTaxGroupProductId = s.SalesTaxGroupProductId;
                     templine.ModifiedDate = DateTime.Now;
                     templine.ModifiedBy = User.Identity.Name;
                     templine.ObjectState = Model.ObjectState.Modified;
@@ -1139,7 +1155,9 @@ namespace Web
                 UnitId = product.UnitId,
                 DealUnitId = DlUnit.UnitId, 
                 DealUnitDecimalPlaces = DlUnit.DecimalPlaces, 
-                Specification = product.ProductSpecification });
+                Specification = product.ProductSpecification, 
+                SalesTaxGroupProductId = product.SalesTaxGroupProductId,
+                SalesTaxGroupProductName = product.SalesTaxGroupProductName});
         }
         public JsonResult getunitconversiondetailjson(int prodid, string UnitId, string DealUnitId, int SaleQuotationId)
         {
@@ -1226,9 +1244,29 @@ namespace Web
 
         }
 
-        public JsonResult GetCustomProducts(int id, string term)//Indent Header ID
+        //public JsonResult GetCustomProducts(int id, string term)//Indent Header ID
+        //{
+        //    return Json(_SaleQuotationLineService.GetProductHelpList(id, term), JsonRequestBehavior.AllowGet);
+        //}
+
+        public ActionResult GetCustomProducts(string searchTerm, int pageSize, int pageNum, int filter)//DocTypeId
         {
-            return Json(_SaleQuotationLineService.GetProductHelpList(id, term), JsonRequestBehavior.AllowGet);
+            var Query = _SaleQuotationLineService.GetCustomProducts(filter, searchTerm);
+            var temp = Query.Skip(pageSize * (pageNum - 1))
+                .Take(pageSize)
+                .ToList();
+
+            var count = Query.Count();
+
+            ComboBoxPagedResult Data = new ComboBoxPagedResult();
+            Data.Results = temp;
+            Data.Total = count;
+
+            return new JsonpResult
+            {
+                Data = Data,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
         }
 
         public ActionResult SetFlagForAllowRepeatProcess()

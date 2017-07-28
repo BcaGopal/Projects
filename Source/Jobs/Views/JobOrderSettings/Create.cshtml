@@ -309,10 +309,20 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.isVisibleSalesTaxGroupPerson, "Sales Tax Group", new { @class = "control-label col-xs-6" })
+                                    @Html.LabelFor(model => model.isVisibleSalesTaxGroupPerson, "Sales Tax Group Person", new { @class = "control-label col-xs-6" })
                                     <div class="col-xs-4" style=" padding-top:4px">
                                         @Html.CheckBoxFor(m => m.isVisibleSalesTaxGroupPerson, new { @class = "checkbox col-xs-2" })
                                         @Html.ValidationMessageFor(model => model.isVisibleSalesTaxGroupPerson)
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.isVisibleSalesTaxGroupProduct, "Sales Tax Group Product", new { @class = "control-label col-xs-6" })
+                                    <div class="col-xs-4" style=" padding-top:4px">
+                                        @Html.CheckBoxFor(m => m.isVisibleSalesTaxGroupProduct, new { @class = "checkbox col-xs-2" })
+                                        @Html.ValidationMessageFor(model => model.isVisibleSalesTaxGroupProduct)
                                     </div>
                                 </div>
                             </div>

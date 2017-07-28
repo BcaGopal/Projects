@@ -115,6 +115,11 @@ namespace Model.Models
         public int? SaleOrderDocTypeId { get; set; }
         public virtual DocumentType SaleOrderDocType { get; set; }
 
+        [ForeignKey("DocumentPrintReportHeader")]
+        public int? DocumentPrintReportHeaderId { get; set; }
+        public virtual ReportHeader DocumentPrintReportHeader { get; set; }
+
+
 
         [Display(Name = "Created By")]
         public string CreatedBy { get; set; }

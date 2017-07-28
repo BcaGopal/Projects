@@ -13,6 +13,7 @@ namespace Model.Models
         public ProductGroup()
         {
             Products = new List<Product>();
+            RateDecimalPlaces = 2;
         }
 
         [Key]
@@ -37,6 +38,8 @@ namespace Model.Models
         [Display(Name = "Default Sales Tax Group Product")]
         public int? DefaultSalesTaxGroupProductId { get; set; }
         public virtual ChargeGroupProduct DefaultSalesTaxGroupProduct { get; set; }
+
+        public int RateDecimalPlaces { get; set; }
 
         [Display(Name = "Is System Define ?")]
         public Boolean IsSystemDefine { get; set; }
