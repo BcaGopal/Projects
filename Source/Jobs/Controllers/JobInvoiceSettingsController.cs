@@ -178,6 +178,7 @@ namespace Web
 
 
                     temp.isGenerateProductUid = pt.isGenerateProductUid;
+                    temp.DocumentPrintReportHeaderId = pt.DocumentPrintReportHeaderId;
 
                     temp.SalesTaxGroupPersonId = pt.SalesTaxGroupPersonId;
                     temp.SqlProcDocumentPrint = pt.SqlProcDocumentPrint;
@@ -365,6 +366,7 @@ namespace Web
                     temp.isVisibleSalesTaxGroupPerson = pt.isVisibleSalesTaxGroupPerson;
                     temp.isVisibleSalesTaxGroupProduct = pt.isVisibleSalesTaxGroupProduct;
 
+                    temp.DocumentPrintReportHeaderId = pt.DocumentPrintReportHeaderId;
                     temp.SqlProcDocumentPrint = pt.SqlProcDocumentPrint;
                     temp.DocumentPrint = pt.DocumentPrint;
                     temp.isAutoCreateJobReceive = pt.isAutoCreateJobReceive;
@@ -542,6 +544,7 @@ namespace Web
                     temp.filterContraSites = pt.filterContraSites;
                     temp.filterContraDivisions = pt.filterContraDivisions;
                     temp.SalesTaxGroupPersonId = pt.SalesTaxGroupPersonId;
+                    temp.DocumentPrintReportHeaderId = pt.DocumentPrintReportHeaderId;
                     temp.ImportMenuId = pt.ImportMenuId;
                     temp.WizardMenuId = pt.WizardMenuId;
                     temp.CalculationId = pt.CalculationId;
@@ -723,6 +726,7 @@ namespace Web
                     temp.filterContraSites = pt.filterContraSites;
                     temp.filterContraDivisions = pt.filterContraDivisions;
                     temp.ImportMenuId = pt.ImportMenuId;
+                    temp.DocumentPrintReportHeaderId = pt.DocumentPrintReportHeaderId;
                     temp.WizardMenuId = pt.WizardMenuId;
                     temp.CalculationId = pt.CalculationId;
                     temp.NoOfPrintCopies = pt.NoOfPrintCopies;

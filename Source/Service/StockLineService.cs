@@ -2605,7 +2605,6 @@ namespace Service
             if (!string.IsNullOrEmpty(settings.filterContraDivisions)) { ContraDivisions = settings.filterContraDivisions.Split(",".ToCharArray()); }
             else { ContraDivisions = new string[] { "NA" }; }
 
-
             string[] ProductIdArr = null;
             if (!string.IsNullOrEmpty(vm.ProductId)) { ProductIdArr = vm.ProductId.Split(",".ToCharArray()); }
             else { ProductIdArr = new string[] { "NA" }; }
@@ -2646,7 +2645,8 @@ namespace Service
             var temp = (from p in db.ViewStockInBalance
                         join S in db.Stock on p.StockInId equals S.StockId into StockTable
                         from StockTab in StockTable.DefaultIfEmpty()
-                        where (string.IsNullOrEmpty(vm.ProductId) ? 1 == 1 : ProductIdArr.Contains(p.ProductId.ToString()))
+                        where StockTab.GodownId == Stock.GodownId
+                        && (string.IsNullOrEmpty(vm.ProductId) ? 1 == 1 : ProductIdArr.Contains(p.ProductId.ToString()))
                         && (string.IsNullOrEmpty(vm.StockInHeaderId) ? 1 == 1 : StockInIdArr.Contains(StockTab.StockHeaderId.ToString()))
                         && (string.IsNullOrEmpty(vm.ProductGroupId) ? 1 == 1 : ProductGroupIdArr.Contains(StockTab.Product.ProductGroup.ProductGroupId.ToString()))
                         && (string.IsNullOrEmpty(vm.Dimension1Id) ? 1 == 1 : Dim1IdArr.Contains(p.Dimension1Id.ToString()))

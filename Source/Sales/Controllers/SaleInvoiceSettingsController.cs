@@ -204,6 +204,7 @@ namespace Web
                     temp.ProcessId = pt.ProcessId;
                     temp.SalesTaxGroupPersonId = pt.SalesTaxGroupPersonId;
                     temp.GodownId = pt.GodownId;
+                    temp.DocumentPrintReportHeaderId = pt.DocumentPrintReportHeaderId;
                     temp.ModifiedDate = DateTime.Now;
                     temp.ModifiedBy = User.Identity.Name;
                     temp.ObjectState = Model.ObjectState.Modified;
@@ -386,6 +387,7 @@ namespace Web
                     temp.ShipMethodId = pt.ShipMethodId;
                     temp.ProcessId = pt.ProcessId;
                     temp.SalesTaxGroupPersonId = pt.SalesTaxGroupPersonId;
+                    temp.DocumentPrintReportHeaderId = pt.DocumentPrintReportHeaderId;
                     temp.GodownId = pt.GodownId;
                     temp.ModifiedDate = DateTime.Now;
                     temp.ModifiedBy = User.Identity.Name;

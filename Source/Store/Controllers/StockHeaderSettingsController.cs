@@ -172,7 +172,7 @@ namespace Web
                     temp.PersonFieldHeading = pt.PersonFieldHeading;
                     temp.NoOfPrintCopies = pt.NoOfPrintCopies;
                     temp.isVisibleStockIn = pt.isVisibleStockIn;
-
+                    temp.DocumentPrintReportHeaderId = pt.DocumentPrintReportHeaderId;
                     temp.ModifiedDate = DateTime.Now;
                     temp.ModifiedBy = User.Identity.Name;
                     temp.ObjectState = Model.ObjectState.Modified;
@@ -341,7 +341,7 @@ namespace Web
                     temp.NoOfPrintCopies = pt.NoOfPrintCopies;
                     temp.isVisibleStockIn = pt.isVisibleStockIn;
                     temp.isMandatoryProductUID = pt.isMandatoryProductUID;
-
+                    temp.DocumentPrintReportHeaderId = pt.DocumentPrintReportHeaderId;
                     temp.ModifiedDate = DateTime.Now;
                     temp.ModifiedBy = User.Identity.Name;
                     temp.ObjectState = Model.ObjectState.Modified;
@@ -510,7 +510,7 @@ namespace Web
                     temp.isProductHelpFromStockProcess = pt.isProductHelpFromStockProcess;
                     temp.isVisibleStockIn = pt.isVisibleStockIn;
                     temp.isMandatoryProductUID = pt.isMandatoryProductUID;
-
+                    temp.DocumentPrintReportHeaderId = pt.DocumentPrintReportHeaderId;
                     temp.ModifiedDate = DateTime.Now;
                     temp.ModifiedBy = User.Identity.Name;
                     temp.ObjectState = Model.ObjectState.Modified;
@@ -678,7 +678,7 @@ namespace Web
                     temp.SqlProcGatePass = pt.SqlProcGatePass;
                     temp.isVisibleStockIn = pt.isVisibleStockIn;
                     temp.isMandatoryProductUID = pt.isMandatoryProductUID;
-
+                    temp.DocumentPrintReportHeaderId = pt.DocumentPrintReportHeaderId;
                     temp.ModifiedDate = DateTime.Now;
                     temp.ModifiedBy = User.Identity.Name;
                     temp.ObjectState = Model.ObjectState.Modified;
@@ -848,7 +848,7 @@ namespace Web
                     temp.NoOfPrintCopies = pt.NoOfPrintCopies;
                     temp.isVisibleStockIn = pt.isVisibleStockIn;
                     temp.isMandatoryProductUID = pt.isMandatoryProductUID;
-
+                    temp.DocumentPrintReportHeaderId = pt.DocumentPrintReportHeaderId;
                     temp.ModifiedDate = DateTime.Now;
                     temp.ModifiedBy = User.Identity.Name;
                     temp.ObjectState = Model.ObjectState.Modified;
@@ -1016,7 +1016,7 @@ namespace Web
                     temp.PersonFieldHeading = pt.PersonFieldHeading;
                     temp.isVisibleStockIn = pt.isVisibleStockIn;
                     temp.isMandatoryProductUID = pt.isMandatoryProductUID;
-
+                    temp.DocumentPrintReportHeaderId = pt.DocumentPrintReportHeaderId;
                     temp.ModifiedDate = DateTime.Now;
                     temp.ModifiedBy = User.Identity.Name;
                     temp.ObjectState = Model.ObjectState.Modified;
@@ -1173,7 +1173,7 @@ namespace Web
                     temp.filterContraProductDivisions = pt.filterContraProductDivisions;
                     temp.isVisibleStockIn = pt.isVisibleStockIn;
                     temp.isMandatoryProductUID = pt.isMandatoryProductUID;
-
+                    temp.DocumentPrintReportHeaderId = pt.DocumentPrintReportHeaderId;
                     temp.ModifiedDate = DateTime.Now;
                     temp.ModifiedBy = User.Identity.Name;
                     temp.ObjectState = Model.ObjectState.Modified;
@@ -1346,7 +1346,7 @@ namespace Web
                     temp.NoOfPrintCopies = pt.NoOfPrintCopies;
                     temp.isVisibleStockIn = pt.isVisibleStockIn;
                     temp.isMandatoryProductUID = pt.isMandatoryProductUID;
-
+                    temp.DocumentPrintReportHeaderId = pt.DocumentPrintReportHeaderId;
                     temp.ModifiedDate = DateTime.Now;
                     temp.ModifiedBy = User.Identity.Name;
                     temp.ObjectState = Model.ObjectState.Modified;

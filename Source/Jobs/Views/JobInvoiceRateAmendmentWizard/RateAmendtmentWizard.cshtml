@@ -277,7 +277,6 @@
 
         $('a#Proceed').click(function () {
 
-            //alert($(this).attr('href'));
 
             $.ajax({
                 url: $(this).attr('href'),
@@ -457,7 +456,7 @@
                             tab.rows().every(function (rowIdx, tableLoop, rowLoop) {
                                 var data = this.data();
                                 var indx = GetIndexOfId(selected, data.JobInvoiceLineId);
-                                if (data.JobInvoiceLineId && data.OldRate - data.Rate != 0 && data.Rate != 0 && indx === -1) {
+                                if (data.JobInvoiceLineId && data.OldRate - data.Rate != 0 && indx === -1) {
                                     $(this.node()).addClass('selected');
                                     selected.push({ Id: data.JobInvoiceLineId, Rate: data.Rate });
                                 }

@@ -868,7 +868,8 @@ namespace Service
                             from StockTab in StockTable.DefaultIfEmpty()
                             join Uc in db.UnitConversion on new { p1 = L.ProductId, DU1 = vm.DealUnitId, U1 = UnitConvForId ?? 0 } equals new { p1 = Uc.ProductId ?? 0, DU1 = Uc.ToUnitId, U1 = Uc.UnitConversionForId } into UnitConversionTable
                             from UnitConversionTab in UnitConversionTable.DefaultIfEmpty()
-                            where (string.IsNullOrEmpty(vm.ProductId) ? 1 == 1 : ProductIdArr.Contains(L.ProductId.ToString()))
+                            where StockTab.GodownId == joborder.GodownId
+                            && (string.IsNullOrEmpty(vm.ProductId) ? 1 == 1 : ProductIdArr.Contains(L.ProductId.ToString()))
                             && (string.IsNullOrEmpty(vm.StockInHeaderId) ? 1 == 1 : SaleOrderIdArr.Contains(StockTab.StockHeaderId.ToString()))
                             && (string.IsNullOrEmpty(vm.Dimension1Id) ? 1 == 1 : Dimension1.Contains(L.Dimension1Id.ToString()))
                             && (string.IsNullOrEmpty(vm.Dimension2Id) ? 1 == 1 : Dimension2.Contains(L.Dimension2Id.ToString()))

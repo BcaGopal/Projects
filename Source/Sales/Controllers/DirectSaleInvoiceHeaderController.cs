@@ -1902,6 +1902,7 @@ namespace Web
                     //InvoiceRetHeader.CurrencyId = SaleInvoiceHeader.CurrencyId;
                     InvoiceRetHeader.ReasonId = svm.ReasonId;
                     InvoiceRetHeader.Remark = svm.Remark;
+                    InvoiceRetHeader.Nature = TransactionNatureConstants.Return;
                     InvoiceRetHeader.CreatedDate = DateTime.Now;
                     InvoiceRetHeader.ModifiedDate = DateTime.Now;
                     InvoiceRetHeader.CreatedBy = User.Identity.Name;

@@ -292,6 +292,37 @@
         }
 
 
+
+        var IsSaved=false;
+        var ValidationCount=0;
+
+        $(':submit').click(function(){
+            if(!IsSaved)
+            {
+                if(!ValidateData())
+                {
+                    return false;
+                }
+                IsSaved=true;
+                $('button:submit').attr('disabled','disabled');
+                return IsSaved;
+            }
+            else
+            {
+                alert("Already Processing.....");
+                return false;
+            }
+        });
+
+        function ValidateData() {
+            var ValidationMessage = "";
+
+            //Client Side Validaion.....
+
+            return  (ValidationMessage=="");
+
+        }
+
         $(':submit').click(function(){
             
 

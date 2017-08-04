@@ -758,7 +758,8 @@ namespace Web
                     //}
 
 
-                    if (item.DocQty > 0 && item.DocQty <= balqty && JobOrderLine.ProductUidHeaderId == null && JobOrderLine.ProductUidId == null)
+                    //if (item.DocQty > 0 && item.DocQty <= balqty && JobOrderLine.ProductUidHeaderId == null && JobOrderLine.ProductUidId == null)
+                    if (item.DocQty > 0 && JobOrderLine.ProductUidHeaderId == null && JobOrderLine.ProductUidId == null)
                     {
 
                         JobReceiveLine line = new JobReceiveLine();

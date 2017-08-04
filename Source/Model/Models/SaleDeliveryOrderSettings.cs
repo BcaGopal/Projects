@@ -41,6 +41,10 @@ namespace Model.Models
         public int? ProcessId { get; set; }
         public virtual Process Process { get; set; }
 
+        [ForeignKey("DocumentPrintReportHeader")]
+        public int? DocumentPrintReportHeaderId { get; set; }
+        public virtual ReportHeader DocumentPrintReportHeader { get; set; }
+
         
         [Display(Name = "Created By")]
         public string CreatedBy { get; set; }

@@ -1551,8 +1551,8 @@ namespace Module
             }
 
 
-            DropFields("SaleInvoiceLines", "SalesTaxGroupId");
-            DropFields("SaleInvoiceSettings", "SalesTaxGroupId");
+            //DropFields("SaleInvoiceLines", "SalesTaxGroupId");
+            //DropFields("SaleInvoiceSettings", "SalesTaxGroupId");
 
             RenameFields("SaleInvoiceSettings", "isVisibleSalesTaxGroup", "isVisibleSalesTaxGroupPerson");
 
@@ -1784,11 +1784,24 @@ namespace Module
             AddFields("ProductSiteDetails", "ExcessReceiveAllowedAgainstOrderQty", "Decimal(18,4)");
             AddFields("ProductSiteDetails", "ExcessReceiveAllowedAgainstOrderPer", "Decimal(18,4)");
 
-
-            AddFields("SaleDispatchSettings", "DocumentPrintReportHeaderId", "Int", "ReportHeaders");
+            
             AddFields("SaleQuotationSettings", "DocumentPrintReportHeaderId", "Int", "ReportHeaders");
             AddFields("SaleOrderSettings", "DocumentPrintReportHeaderId", "Int", "ReportHeaders");
             AddFields("SaleEnquirySettings", "DocumentPrintReportHeaderId", "Int", "ReportHeaders");
+            AddFields("SaleDeliverySettings", "DocumentPrintReportHeaderId", "Int", "ReportHeaders");
+            AddFields("SaleInvoiceSettings", "DocumentPrintReportHeaderId", "Int", "ReportHeaders");
+            AddFields("SaleDispatchSettings", "DocumentPrintReportHeaderId", "Int", "ReportHeaders");
+            AddFields("SaleDeliveryOrderSettings", "DocumentPrintReportHeaderId", "Int", "ReportHeaders");
+
+            AddFields("JobReceiveSettings", "DocumentPrintReportHeaderId", "Int", "ReportHeaders");
+            AddFields("JobOrderInspectionSettings", "DocumentPrintReportHeaderId", "Int", "ReportHeaders");
+            AddFields("JobOrderSettings", "DocumentPrintReportHeaderId", "Int", "ReportHeaders");
+            AddFields("JobOrderInspectionRequestSettings", "DocumentPrintReportHeaderId", "Int", "ReportHeaders");
+            AddFields("JobConsumptionSettings", "DocumentPrintReportHeaderId", "Int", "ReportHeaders");
+            AddFields("JobInvoiceSettings", "DocumentPrintReportHeaderId", "Int", "ReportHeaders");
+            AddFields("JobReceiveQASettings", "DocumentPrintReportHeaderId", "Int", "ReportHeaders");
+
+            AddFields("StockHeaderSettings", "DocumentPrintReportHeaderId", "Int", "ReportHeaders");
 
 
             AddFields("SaleQuotationSettings", "CalculateDiscountOnRate", "Bit");
@@ -1822,6 +1835,32 @@ namespace Module
             AddFields("SaleInvoiceReturnHeaders", "Nature", "nvarchar(20) Not Null DEFAULT('Return')");
 
             AddFields("States", "StateCode", "nvarchar(20)");
+            AddFields("Charges", "PrintingDescription", "nvarchar(50)");
+
+
+            try
+            {
+                if ((int)ExecuteScaler("SELECT Count(*) AS Cnt FROM Web.DocumentCategories WHERE DocumentCategoryName = 'Sales Tax Product Code'") == 0)
+                {
+                    mQry = @"INSERT INTO Web.DocumentCategories (DocumentCategoryName, IsActive, IsSystemDefine, OMSId)
+                            VALUES ('Sales Tax Product Code', 1, 0, NULL)";
+                    ExecuteQuery(mQry);
+                }
+
+                if ((int)ExecuteScaler("SELECT Count(*) AS Cnt FROM Web.DocumentTypes WHERE DocumentTypeName = 'Sales Tax Product Code'") == 0)
+                {
+                    mQry = @"INSERT INTO Web.DocumentTypes (DocumentTypeShortName, DocumentTypeName, DocumentCategoryId, ControllerActionId, DomainName, VoucherType, IsSystemDefine, IsActive, ReportMenuId, Nature, IconDisplayName, ImageFileName, ImageFolderName, SupportGatePass, CreatedBy, ModifiedBy, CreatedDate, ModifiedDate, DatabaseTableName, ControllerName, ActionNamePendingToSubmit, OMSId, isDivisionBased, isSiteBased, ControllerNameDetail, ActionNameDetail, ActionName, PrintTitle)
+                            VALUES ('STPC', 'Sales Tax Product Code', (SELECT DocumentCategoryId  FROM Web.DocumentCategories WHERE DocumentCategoryName = 'Sales Tax Product Code'), NULL, NULL, NULL, 1, 1, NULL, NULL, NULL, NULL, NULL, 0, 'Admin', 'Admin', '2015-06-18 18:56:12.907', '2015-06-18 18:56:12.907', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL)";
+                    ExecuteQuery(mQry);
+                }
+            }
+            catch (Exception ex)
+            {
+                RecordError(ex);
+            }
+
+
+
 
             return RedirectToAction("Module", "Menu");
         }

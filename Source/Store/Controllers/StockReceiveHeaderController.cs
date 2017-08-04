@@ -1197,6 +1197,83 @@ namespace Web
         }
 
 
+        //public ActionResult GeneratePrints(string Ids, int DocTypeId)
+        //{
+
+        //    if (!string.IsNullOrEmpty(Ids))
+        //    {
+        //        int SiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
+        //        int DivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
+
+        //        var Settings = new StockHeaderSettingsService(_unitOfWork).GetStockHeaderSettingsForDocument(DocTypeId, DivisionId, SiteId);
+
+        //        try
+        //        {
+
+        //            List<byte[]> PdfStream = new List<byte[]>();
+        //            foreach (var item in Ids.Split(',').Select(Int32.Parse))
+        //            {
+
+        //                DirectReportPrint drp = new DirectReportPrint();
+
+        //                var pd = context.StockHeader.Find(item);
+
+        //                LogActivity.LogActivityDetail(LogVm.Map(new ActiivtyLogViewModel
+        //                {
+        //                    DocTypeId = pd.DocTypeId,
+        //                    DocId = pd.StockHeaderId,
+        //                    ActivityType = (int)ActivityTypeContants.Print,
+        //                    DocNo = pd.DocNo,
+        //                    DocDate = pd.DocDate,
+        //                    DocStatus = pd.Status,
+        //                }));
+
+        //                byte[] Pdf;
+
+        //                if (pd.Status == (int)StatusConstants.Drafted || pd.Status == (int)StatusConstants.Modified || pd.Status == (int)StatusConstants.Import)
+        //                {
+        //                    //LogAct(item.ToString());
+        //                    Pdf = drp.DirectDocumentPrint(Settings.SqlProcDocumentPrint, User.Identity.Name, item);
+
+        //                    PdfStream.Add(Pdf);
+        //                }
+        //                else if (pd.Status == (int)StatusConstants.Submitted || pd.Status == (int)StatusConstants.ModificationSubmitted)
+        //                {
+        //                    Pdf = drp.DirectDocumentPrint(Settings.SqlProcDocumentPrint, User.Identity.Name, item);
+
+        //                    PdfStream.Add(Pdf);
+        //                }
+        //                else
+        //                {
+        //                    Pdf = drp.DirectDocumentPrint(Settings.SqlProcDocumentPrint, User.Identity.Name, item);
+        //                    PdfStream.Add(Pdf);
+        //                }
+
+        //            }
+
+        //            PdfMerger pm = new PdfMerger();
+
+        //            byte[] Merge = pm.MergeFiles(PdfStream);
+
+        //            if (Merge != null)
+        //                return File(Merge, "application/pdf");
+        //        }
+
+        //        catch (Exception ex)
+        //        {
+        //            string message = _exception.HandleException(ex);
+        //            return Json(new { success = "Error", data = message }, JsonRequestBehavior.AllowGet);
+        //        }
+
+
+
+        //        return Json(new { success = "Success" }, JsonRequestBehavior.AllowGet);
+
+        //    }
+        //    return Json(new { success = "Error", data = "No Records Selected." }, JsonRequestBehavior.AllowGet);
+
+        //}
+
         public ActionResult GeneratePrints(string Ids, int DocTypeId)
         {
 
@@ -1206,6 +1283,11 @@ namespace Web
                 int DivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
 
                 var Settings = new StockHeaderSettingsService(_unitOfWork).GetStockHeaderSettingsForDocument(DocTypeId, DivisionId, SiteId);
+
+                string ReportSql = "";
+
+                if (Settings.DocumentPrintReportHeaderId.HasValue)
+                    ReportSql = context.ReportHeader.Where((m) => m.ReportHeaderId == Settings.DocumentPrintReportHeaderId).FirstOrDefault().ReportSQL;
 
                 try
                 {
@@ -1229,24 +1311,31 @@ namespace Web
                         }));
 
                         byte[] Pdf;
-
-                        if (pd.Status == (int)StatusConstants.Drafted || pd.Status == (int)StatusConstants.Modified || pd.Status == (int)StatusConstants.Import)
+                        if (!string.IsNullOrEmpty(ReportSql))
                         {
-                            //LogAct(item.ToString());
-                            Pdf = drp.DirectDocumentPrint(Settings.SqlProcDocumentPrint, User.Identity.Name, item);
-
-                            PdfStream.Add(Pdf);
-                        }
-                        else if (pd.Status == (int)StatusConstants.Submitted || pd.Status == (int)StatusConstants.ModificationSubmitted)
-                        {
-                            Pdf = drp.DirectDocumentPrint(Settings.SqlProcDocumentPrint, User.Identity.Name, item);
-
+                            Pdf = drp.rsDirectDocumentPrint(ReportSql, User.Identity.Name, item);
                             PdfStream.Add(Pdf);
                         }
                         else
                         {
-                            Pdf = drp.DirectDocumentPrint(Settings.SqlProcDocumentPrint, User.Identity.Name, item);
-                            PdfStream.Add(Pdf);
+                            if (pd.Status == (int)StatusConstants.Drafted || pd.Status == (int)StatusConstants.Modified || pd.Status == (int)StatusConstants.Import)
+                            {
+                                //LogAct(item.ToString());
+                                Pdf = drp.DirectDocumentPrint(Settings.SqlProcDocumentPrint, User.Identity.Name, item);
+
+                                PdfStream.Add(Pdf);
+                            }
+                            else if (pd.Status == (int)StatusConstants.Submitted || pd.Status == (int)StatusConstants.ModificationSubmitted)
+                            {
+                                Pdf = drp.DirectDocumentPrint(Settings.SqlProcDocumentPrint, User.Identity.Name, item);
+
+                                PdfStream.Add(Pdf);
+                            }
+                            else
+                            {
+                                Pdf = drp.DirectDocumentPrint(Settings.SqlProcDocumentPrint, User.Identity.Name, item);
+                                PdfStream.Add(Pdf);
+                            }
                         }
 
                     }

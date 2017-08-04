@@ -23,6 +23,9 @@ namespace Model.Models
         [Display(Name = "Charge Code")]
         public string ChargeCode { get; set; }
 
+        [MaxLength(50)]
+        public string PrintingDescription { get; set; }
+
         public ICollection<State> States { get; set; }
         [Display(Name = "Is Active ?")]
         public Boolean IsActive { get; set; }

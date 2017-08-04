@@ -68,19 +68,24 @@ namespace Module
 
             var userInRoles = _userRolesService.GetUserRolesList(UserId);
 
-            string URoles = (string)System.Web.HttpContext.Current.Session["LoginUserRole"];
-
-            if (userInRoles.Count() <= 0 && !(_userRolesService.TryInsertUserRole(UserId, URoles)))
+            if (userInRoles.Count() == 0)
             {
-                AuthenticationManager.SignOut();
-                FormsAuthentication.SignOut();
-                Session.Abandon();
-                return View("NoRoles");
+                string URoles = (string)System.Web.HttpContext.Current.Session["LoginUserRole"];
+
+                if (userInRoles.Count() <= 0 && !(_userRolesService.TryInsertUserRole(UserId, URoles)))
+                {
+                    AuthenticationManager.SignOut();
+                    FormsAuthentication.SignOut();
+                    Session.Abandon();
+                    return View("NoRoles");
+                }
+
+
+
+                Session.Remove("LoginUserRole");
+
             }
 
-
-
-            Session.Remove("LoginUserRole");
 
             SiteSelectionViewModel vm = new SiteSelectionViewModel();
 

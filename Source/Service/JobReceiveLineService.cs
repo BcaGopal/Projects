@@ -298,51 +298,53 @@ namespace Service
         }
         public JobReceiveLineViewModel GetJobReceiveLine(int id)
         {
-            return (from p in db.JobReceiveLine
-                    join t in db.ViewJobOrderBalance on p.JobOrderLineId equals t.JobOrderLineId into table
-                    join jl in db.JobOrderLine on p.JobOrderLineId equals jl.JobOrderLineId
+            return (from L in db.JobReceiveLine
+                    join t in db.ViewJobOrderBalance on L.JobOrderLineId equals t.JobOrderLineId into table
+                    join jl in db.JobOrderLine on L.JobOrderLineId equals jl.JobOrderLineId
                     from tab in table.DefaultIfEmpty()
-                    where p.JobReceiveLineId == id
+                    join Ps in db.ProductSiteDetail on new { A1 = L.JobReceiveHeader.SiteId, A2 = L.JobReceiveHeader.DivisionId, A3 = L.JobReceiveHeader.ProcessId, A4 = L.JobOrderLine.ProductId }
+                            equals new { A1 = Ps.SiteId, A2 = Ps.DivisionId, A3 = (Ps.ProcessId ?? 0), A4 = Ps.ProductId } into ProductSiteTable
+                    from ProductSiteTab in ProductSiteTable.DefaultIfEmpty()
+                    where L.JobReceiveLineId == id
                     select new JobReceiveLineViewModel
                     {
                         JobOrderHeaderDocNo = jl.JobOrderHeader.DocNo,
-                        JobOrderLineId = p.JobOrderLineId,
-                        JobReceiveHeaderDocNo = p.JobReceiveHeader.DocNo,
-                        JobReceiveHeaderId = p.JobReceiveHeaderId,
-                        JobReceiveLineId = p.JobReceiveLineId,
+                        JobOrderLineId = L.JobOrderLineId,
+                        JobReceiveHeaderDocNo = L.JobReceiveHeader.DocNo,
+                        JobReceiveHeaderId = L.JobReceiveHeaderId,
+                        JobReceiveLineId = L.JobReceiveLineId,
                         ProductId = jl.ProductId,
                         Dimension1Name = jl.Dimension1.Dimension1Name,
                         Dimension2Name = jl.Dimension2.Dimension2Name,
                         Dimension3Name = jl.Dimension3.Dimension3Name,
                         Dimension4Name = jl.Dimension4.Dimension4Name,
                         Specification = jl.Specification,
-                        OrderBalanceQty = (tab == null ? 0 : tab.BalanceQty) + p.Qty + p.LossQty,
+                        OrderBalanceQty = (tab == null ? 0 : tab.BalanceQty) + L.Qty + L.LossQty,
                         UnitDecimalPlaces = jl.Unit.DecimalPlaces,
-                        DealUnitDecimalPlaces = p.DealUnit.DecimalPlaces,
-                        UnitConversionMultiplier = p.UnitConversionMultiplier,
+                        DealUnitDecimalPlaces = L.DealUnit.DecimalPlaces,
+                        UnitConversionMultiplier = L.UnitConversionMultiplier,
                         UnitId = jl.UnitId,
-                        MachineId = p.MachineId,
-                        DealUnitId = p.DealUnitId,
-                        DealQty = p.DealQty,
-                        ProductUidId = p.ProductUidId,
-                        ProductUidName = p.ProductUid.ProductUidName,
-                        IncentiveAmt = p.IncentiveAmt,
-                        IncentiveRate = p.IncentiveRate,
-                        LossQty = p.LossQty,
-                        LotNo = p.LotNo,
-                        PassQty = p.PassQty,
-                        PenaltyAmt = p.PenaltyAmt,
-                        PenaltyRate = p.PenaltyRate,
-                        DocQty = p.Qty + p.LossQty,
-                        ReceiveQty = p.Qty,
-                        Weight = p.Weight,
-                        Qty = p.Qty + p.LossQty,
-                        Remark = p.Remark,
+                        MachineId = L.MachineId,
+                        DealUnitId = L.DealUnitId,
+                        DealQty = L.DealQty,
+                        ProductUidId = L.ProductUidId,
+                        ProductUidName = L.ProductUid.ProductUidName,
+                        IncentiveAmt = L.IncentiveAmt,
+                        IncentiveRate = L.IncentiveRate,
+                        LossQty = L.LossQty,
+                        LotNo = L.LotNo,
+                        PassQty = L.PassQty,
+                        PenaltyAmt = L.PenaltyAmt,
+                        PenaltyRate = L.PenaltyRate,
+                        DocQty = L.Qty + L.LossQty,
+                        ReceiveQty = L.Qty,
+                        Weight = L.Weight,
+                        Qty = L.Qty + L.LossQty,
+                        Remark = L.Remark,
                         JobWorkerId = jl.JobOrderHeader.JobWorkerId,
-                        LockReason = p.LockReason,
-                    }
-                        ).FirstOrDefault();
-
+                        LockReason = L.LockReason,
+                        ExcessReceiveAllowedAgainstOrderQty = L.JobOrderLine.Qty * (ProductSiteTab.ExcessReceiveAllowedAgainstOrderPer ?? 0) / 100 > (ProductSiteTab.ExcessReceiveAllowedAgainstOrderQty ?? 0) ? L.JobOrderLine.Qty * (ProductSiteTab.ExcessReceiveAllowedAgainstOrderPer ?? 0) / 100 : (ProductSiteTab.ExcessReceiveAllowedAgainstOrderQty ?? 0)
+                    }).FirstOrDefault();
 
         }
 

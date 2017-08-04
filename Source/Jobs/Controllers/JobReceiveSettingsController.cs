@@ -194,7 +194,7 @@ namespace Web
                     temp.isVisibleByProductDimension4 = pt.isVisibleByProductDimension4;
 
 
-
+                    temp.DocumentPrintReportHeaderId = pt.DocumentPrintReportHeaderId;
                     temp.LossPer = pt.LossPer;
                     temp.SqlProcDocumentPrint = pt.SqlProcDocumentPrint;
                     temp.WizardMenuId = pt.WizardMenuId;
@@ -387,7 +387,7 @@ namespace Web
                     temp.SqlProcDocumentPrint = pt.SqlProcDocumentPrint;
                     temp.WizardMenuId = pt.WizardMenuId;
                     temp.ImportMenuId = pt.ImportMenuId;
-
+                    temp.DocumentPrintReportHeaderId = pt.DocumentPrintReportHeaderId;
 
 
                     temp.ModifiedDate = DateTime.Now;

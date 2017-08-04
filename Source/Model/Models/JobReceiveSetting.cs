@@ -144,6 +144,9 @@ namespace Model.Models
 
         public Decimal? LossPer { get; set; }
 
+        [ForeignKey("DocumentPrintReportHeader")]
+        public int? DocumentPrintReportHeaderId { get; set; }
+        public virtual ReportHeader DocumentPrintReportHeader { get; set; }
 
         [MaxLength(50)]
         public string ConsumptionProductCaption { get; set; }

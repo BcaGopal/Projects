@@ -171,7 +171,7 @@ namespace Web
                     temp.GodownId = pt.GodownId;
                     temp.ProcessId = pt.ProcessId;
                     temp.DeliveryTermsId = pt.DeliveryTermsId;
-                    
+                    temp.DocumentPrintReportHeaderId = pt.DocumentPrintReportHeaderId;
 
                     temp.ModifiedDate = DateTime.Now;
                     temp.ModifiedBy = User.Identity.Name;
@@ -321,6 +321,7 @@ namespace Web
                     temp.SqlProcDocumentPrint = pt.SqlProcDocumentPrint;
                     temp.UnitConversionForId = pt.UnitConversionForId;
                     temp.ProcessId = pt.ProcessId;
+                    temp.DocumentPrintReportHeaderId = pt.DocumentPrintReportHeaderId;
                     temp.ModifiedDate = DateTime.Now;
                     temp.ModifiedBy = User.Identity.Name;
                     temp.ObjectState = Model.ObjectState.Modified;

@@ -207,6 +207,10 @@ namespace Model.Models
         public int ? MaxDays { get; set; }
         public int ExcessQtyAllowedPer { get; set; }
         public int ? NoOfPrintCopies { get; set; }
+        
+        [ForeignKey("DocumentPrintReportHeader")]
+        public int? DocumentPrintReportHeaderId { get; set; }
+        public virtual ReportHeader DocumentPrintReportHeader { get; set; }
 
         [MaxLength(50)]
         public string NonCountedQtyCaption { get; set; }

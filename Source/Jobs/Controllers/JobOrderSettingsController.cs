@@ -222,7 +222,7 @@ namespace Web
                     temp.MaxDays = pt.MaxDays;
                     temp.AmountRoundOff = pt.AmountRoundOff;
                     temp.NoOfPrintCopies = pt.NoOfPrintCopies;
-
+                    temp.DocumentPrintReportHeaderId = pt.DocumentPrintReportHeaderId;
                     temp.ModifiedDate = DateTime.Now;
                     temp.ModifiedBy = User.Identity.Name;
                     temp.ObjectState = Model.ObjectState.Modified;
@@ -423,7 +423,7 @@ namespace Web
                     temp.isVisibleAgent = pt.isVisibleAgent;
                     temp.isVisibleDoorDelivery = pt.isVisibleDoorDelivery;
                     temp.isVisiblePaymentTerms = pt.isVisiblePaymentTerms;
-
+                    temp.DocumentPrintReportHeaderId = pt.DocumentPrintReportHeaderId;
                     temp.NonCountedQtyCaption = pt.NonCountedQtyCaption;
                     temp.SqlProcDocumentPrint = pt.SqlProcDocumentPrint;
                     temp.DocumentPrint = pt.DocumentPrint;
@@ -626,7 +626,7 @@ namespace Web
                     temp.isVisiblePaymentTerms = pt.isVisiblePaymentTerms;
                     temp.isVisibleFinancier = pt.isVisibleFinancier;
                     temp.isVisibleSalesExecutive = pt.isVisibleSalesExecutive;
-
+                    temp.DocumentPrintReportHeaderId = pt.DocumentPrintReportHeaderId;
                     temp.NonCountedQtyCaption = pt.NonCountedQtyCaption;
                     temp.SqlProcDocumentPrint = pt.SqlProcDocumentPrint;
                     temp.DocumentPrint = pt.DocumentPrint;

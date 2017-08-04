@@ -57,6 +57,10 @@ namespace Model.Models
         public bool? isLedgerPostingLineWise { get; set; }
         public bool? isGenerateProductUid { get; set; }
 
+        [ForeignKey("DocumentPrintReportHeader")]
+        public int? DocumentPrintReportHeaderId { get; set; }
+        public virtual ReportHeader DocumentPrintReportHeader { get; set; }
+
         /// <summary>
         /// DocId will be passed as a parameter in specified procedure.
         /// Procedure should have only one parameter of type int.
