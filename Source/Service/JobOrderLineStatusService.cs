@@ -276,7 +276,7 @@ namespace Service
             IsdA = Qty.Select(m => m.Key).ToArray();
 
             var temp = (from p in Context.JobReceiveLine
-                        where (IsdA).Contains(p.JobOrderLineId)
+                        where (IsdA).Contains(p.JobOrderLineId ?? 0)
                         group p by p.JobOrderLineId into g
                         select new
                         {
@@ -355,7 +355,7 @@ namespace Service
                         group new { t, p } by t.JobOrderLineId into g
                         select new
                         {
-                            LineId = g.Key,
+                            LineId = g.Key ?? 0,
                             Qty = g.Sum(m => m.t.Qty + m.t.LossQty),
                             UnitConvMul = g.Max(m => m.p.UnitConversionMultiplier)
                         }).ToList();
@@ -398,7 +398,7 @@ namespace Service
                         group p by p.JobOrderLineId into g
                         select new
                         {
-                            LineId = g.Key,
+                            LineId = g.Key ?? 0,
                             Qty = g.Sum(m => m.Qty),
                         }).ToList();
 
@@ -436,7 +436,7 @@ namespace Service
         {
             int LineId = (from p in Context.JobReceiveLine
                           where p.JobReceiveLineId == id
-                          select p.JobOrderLineId).FirstOrDefault();
+                          select p.JobOrderLineId ?? 0).FirstOrDefault();
 
 
             var temp = (from p in Context.JobInvoiceLine
@@ -476,7 +476,7 @@ namespace Service
                         group new { t, p } by t.JobOrderLineId into g
                         select new
                         {
-                            LineId = g.Key,
+                            LineId = g.Key ?? 0,
                             Qty = g.Sum(m => m.t.Qty),
                         }).ToList();
 
@@ -527,7 +527,7 @@ namespace Service
                          where (IsdA).Contains(p.JobReceiveLineId)
                          select new
                          {
-                             LineId = p.JobOrderLineId,
+                             LineId = p.JobOrderLineId ?? 0,
                              RecevLineId = p.JobReceiveLineId,
                          }).ToList();
 
@@ -576,7 +576,7 @@ namespace Service
         {
             int LineId = (from p in Context.JobReceiveLine
                           where p.JobReceiveLineId == id
-                          select p.JobOrderLineId).FirstOrDefault();
+                          select p.JobOrderLineId ?? 0).FirstOrDefault();
 
             var UnitConvMul = (from p in Context.JobOrderLine
                                where p.JobOrderLineId == LineId
@@ -619,7 +619,7 @@ namespace Service
                         group p by t.JobOrderLineId into g
                         select new
                         {
-                            LineId = g.Key,
+                            LineId = g.Key ?? 0,
                             Qty = g.Sum(m => m.Qty),
                         }).ToList();
 
@@ -729,7 +729,7 @@ namespace Service
                         group p by p.JobOrderLineId into g
                         select new
                         {
-                            LineId = g.Key,
+                            LineId = g.Key ?? 0,
                             Qty = g.Sum(m => m.Qty),
                         }).ToList();
 
@@ -807,7 +807,7 @@ namespace Service
                         group new { t, p } by t.JobOrderLineId into g
                         select new
                         {
-                            LineId = g.Key,
+                            LineId = g.Key ?? 0,
                             Qty = g.Sum(m => m.t.Qty+m.t.LossQty),
                         }).ToList();
 

@@ -208,9 +208,10 @@
                        
 
                         <div>
-                            <div class="col-md-6">
+                            <div class="col-md-6" style="display:@(Model.JobInvoiceSettings.isVisibleJobReceiveBy?"":"none")">
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.JobReceiveById, "Goods Received By", new { @class = "control-label col-md-4 col-sm-2" })
+                                    @Html.HiddenFor(m => m.JobInvoiceSettings.isVisibleJobReceiveBy)
                                     <div class="col-md-7 col-sm-10">
                                         @Html.TextBoxFor(m => m.JobReceiveById, new { @class = "form-control required" })
                                         @Html.ValidationMessageFor(m => m.JobReceiveById, "", new { @class = "text-danger" })
@@ -218,9 +219,10 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-6">
+                            <div class="col-md-6" style="display:@(Model.JobInvoiceSettings.isVisibleGodown?"":"none")">
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.GodownId, "Godown", new { @class = "control-label col-md-4 col-sm-2" })
+                                    @Html.HiddenFor(m => m.JobInvoiceSettings.isVisibleGodown)
                                     <div class="col-md-7 col-sm-10">
                                         @Html.TextBoxFor(m => m.GodownId, new { @class = "form-control required" })
                                         @Html.ValidationMessageFor(m => m.GodownId, "", new { @class = "text-danger" })

@@ -21,7 +21,7 @@
     @Html.HiddenFor(m => m.SiteId)
     @Html.HiddenFor(m => m.DivisionId)
     @Html.HiddenFor(m => m.StockHeaderId)
-    @Html.HiddenFor(m => m.ProcessId)
+    @*@Html.HiddenFor(m => m.ProcessId)*@
     @Html.HiddenFor(m => m.DocTypeId)
     @Html.HiddenFor(m => m.CreatedDate)
     @Html.HiddenFor(m => m.StockHeaderSettings.ProcessId)
@@ -112,6 +112,17 @@
                                 </div>
                             </div>
 
+                            <div class="col-md-6" style='display:@(Model.StockHeaderSettings.isVisibleProcessHeader ? "" : "none")'>
+                                <div class="form-group">
+                                    @Html.HiddenFor(m => m.StockHeaderSettings.isVisibleProcessHeader)
+                                    @Html.LabelFor(model => model.ProcessId, "Process", new { @class = "control-label col-md-4 col-sm-2" })
+                                    <div class="col-md-7 col-sm-10">
+                                        @Html.TextBoxFor(m => m.ProcessId, new { @class = "form-control col-xs-6 required" })
+                                        @Html.ValidationMessageFor(m => m.ProcessId, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+
                             <div class="col-md-6">
                                 <div class="form-group">
                                     @if (Model.StockHeaderSettings.PersonFieldHeading != null)
@@ -128,6 +139,8 @@
                                     </div>
                                 </div>
                             </div>
+
+
 
                             <div class="col-md-6" style="display:@(Model.StockHeaderSettings.isVisibleMachine ? "" : "none")">
                                 @Html.HiddenFor(m => m.StockHeaderSettings.isVisibleMachine)
@@ -331,11 +344,25 @@
             $(document).find('a#btnCreatePO').removeAttr('href').removeAttr('data-modal');
         }
 
+        CustomSelectFunction($("#ProcessId"), '/ComboHelpList/GetProcessWithChildProcess', '/ComboHelpList/SetSingleProcess', ' ', false,0, $('#StockHeaderSettings_ProcessId').val());
         //CustomSelectFunction($("#ProcessId"), '/ComboHelpList/GetProcess', '/ComboHelpList/SetSingleProcess', ' ', false, 1);
         //CustomSelectFunction($("#PersonId"), '/ComboHelpList/GetJobWorkersWithProcess', '/ComboHelpList/SetSinglePerson', ' ', false, 1,$("#ProcessId").val());
         CustomSelectFunction($("#PersonId"), '/JobConsumptionHeader/GetCustomPerson', '/ComboHelpList/SetSinglePerson', ' ', false, 1,$('#DocTypeId').val());
         CustomSelectFunction($("#CostCenterId"), '/ComboHelpList/GetCostCenter', '/ComboHelpList/SetSingleCostCenter', ' ', false, 1);
         CustomSelectFunction($("#MachineId"), '/ComboHelpList/GetMachine', '/ComboHelpList/SetSingleMachine', ' ', false, 1);
+
+
+        if ($("#ProcessId").is(":hidden") == false)
+        {
+            $('#ProcessId').select2('focus');
+        }
+        else{
+            $('#PersonId').select2('focus');
+        }
+
+        $("#ProcessId").change(function(){
+            CustomSelectFunctionWithMultipleFilters($("#PersonId"), '/StockIssueHeader/GetCustomPerson', '/ComboHelpList/SetSinglePerson', ' ', false, 0,$('#DocTypeId').val(),$('#ProcessId').val());
+        });
 
         //Calling the function to load the table data/ Line information
         LoadProducts();

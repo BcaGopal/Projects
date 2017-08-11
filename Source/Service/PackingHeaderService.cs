@@ -21,10 +21,20 @@ namespace Service
 
         PackingHeaderViewModel GetPackingHeaderViewModel(int id);
         PackingHeader Find(int id);
+        IQueryable<PackingHeaderIndexViewModel> GetPackingHeaderList(int id, string Uname);
+        IQueryable<PackingHeaderIndexViewModel> GetPackingHeaderListPendingToSubmit(int id, string Uname);
+        IQueryable<PackingHeaderIndexViewModel> GetPackingHeaderListPendingToReview(int id, string Uname);
+
+
+
         IQueryable<PackingHeaderViewModel> GetPackingHeaderList(string Uname);
         IQueryable<PackingHeaderViewModel> GetPackingHeaderListPendingToSubmit(string Uname);
         IQueryable<PackingHeaderViewModel> GetPackingHeaderListPendingToReview(string Uname);
-        
+
+
+
+
+
         void Update(PackingHeader s);
         string GetMaxDocNo();
         PackingHeader FindByDocNo(string Docno, int DivisionId, int SiteId);
@@ -195,39 +205,39 @@ namespace Service
             var SiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
 
             IQueryable<PackingHeaderViewModel> packingheaderlist = from H in db.PackingHeader
-                                                                   join B in db.Persons on H.BuyerId equals B.PersonID into BuyerTable
-                            from BuyerTab in BuyerTable.DefaultIfEmpty()
-                            orderby H.DocDate descending, H.DocNo descending
-                            where H.SiteId==SiteId && H.DivisionId==DivisionId 
-                            select new PackingHeaderViewModel
-                            {
-                                PackingHeaderId = H.PackingHeaderId,
-                                DocTypeId = H.DocTypeId,
-                                DocDate = H.DocDate,
-                                DocNo = H.DocNo,
-                                BuyerName = BuyerTab.Name,
-                                Remark = H.Remark,
-                                Status = H.Status,
-                                ModifiedBy=H.ModifiedBy,
-                                ReviewCount = H.ReviewCount,
-                                ReviewBy = H.ReviewBy,
-                                Reviewed = (SqlFunctions.CharIndex(Uname, H.ReviewBy) > 0),
-                            };
+                                                                        join B in db.Persons on H.BuyerId equals B.PersonID into BuyerTable
+                                                                        from BuyerTab in BuyerTable.DefaultIfEmpty()
+                                                                        orderby H.DocDate descending, H.DocNo descending
+                                                                        where H.SiteId == SiteId && H.DivisionId == DivisionId
+                                                                        select new PackingHeaderViewModel
+                                                                        {
+                                                                            PackingHeaderId = H.PackingHeaderId,
+                                                                            DocTypeId = H.DocTypeId,
+                                                                            DocDate = H.DocDate,
+                                                                            DocNo = H.DocNo,
+                                                                            BuyerName = BuyerTab.Name,
+                                                                            Remark = H.Remark,
+                                                                            Status = H.Status,
+                                                                            ModifiedBy = H.ModifiedBy,
+                                                                            ReviewCount = H.ReviewCount,
+                                                                            ReviewBy = H.ReviewBy,
+                                                                            Reviewed = (SqlFunctions.CharIndex(Uname, H.ReviewBy) > 0),
+                                                                        };
 
 
-            return packingheaderlist;                             
+            return packingheaderlist;
         }
 
         public IQueryable<PackingHeaderViewModel> GetPackingHeaderListPendingToSubmit(string Uname)
-       {
-           List<string> UserRoles = (List<string>)System.Web.HttpContext.Current.Session["Roles"];
-           var LedgerHeader = GetPackingHeaderList(Uname).AsQueryable();
+        {
+            List<string> UserRoles = (List<string>)System.Web.HttpContext.Current.Session["Roles"];
+            var LedgerHeader = GetPackingHeaderList(Uname).AsQueryable();
 
-           var PendingToSubmit = from p in LedgerHeader
-                                 where p.Status == (int)StatusConstants.Drafted || p.Status == (int)StatusConstants.Modified && (p.ModifiedBy == Uname || UserRoles.Contains("Admin"))
-                                 select p;
-           return PendingToSubmit;
-       }
+            var PendingToSubmit = from p in LedgerHeader
+                                  where p.Status == (int)StatusConstants.Drafted || p.Status == (int)StatusConstants.Modified && (p.ModifiedBy == Uname || UserRoles.Contains("Admin"))
+                                  select p;
+            return PendingToSubmit;
+        }
 
         public IQueryable<PackingHeaderViewModel> GetPackingHeaderListPendingToReview(string Uname)
         {
@@ -239,6 +249,11 @@ namespace Service
                                   select p;
             return PendingToReview;
         }
+
+
+
+
+
 
         public IQueryable<ComboBoxResult> GetCustomPerson(int Id, string term)
         {
@@ -278,6 +293,60 @@ namespace Service
               );
 
             return list;
+        }
+
+        //New Functions
+
+        public IQueryable<PackingHeaderIndexViewModel> GetPackingHeaderList(int id, string Uname)
+        {
+
+            var DivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
+            var SiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
+
+            IQueryable<PackingHeaderIndexViewModel> packingheaderlist = from H in db.PackingHeader
+                                                                        join B in db.Persons on H.BuyerId equals B.PersonID into BuyerTable
+                                                                        from BuyerTab in BuyerTable.DefaultIfEmpty()
+                                                                        orderby H.DocDate descending, H.DocNo descending
+                                                                        where H.SiteId == SiteId && H.DivisionId == DivisionId && H.DocTypeId == id
+                                                                        select new PackingHeaderIndexViewModel
+                                                                        {
+                                                                            PackingHeaderId = H.PackingHeaderId,
+                                                                            DocTypeId = H.DocTypeId,
+                                                                            DocDate = H.DocDate,
+                                                                            DocNo = H.DocNo,
+                                                                            BuyerName = BuyerTab.Name,
+                                                                            Remark = H.Remark,
+                                                                            Status = H.Status,
+                                                                            ModifiedBy = H.ModifiedBy,
+                                                                            ReviewCount = H.ReviewCount,
+                                                                            ReviewBy = H.ReviewBy,
+                                                                            Reviewed = (SqlFunctions.CharIndex(Uname, H.ReviewBy) > 0),
+                                                                        };
+
+
+            return packingheaderlist;
+        }
+
+        public IQueryable<PackingHeaderIndexViewModel> GetPackingHeaderListPendingToSubmit(int id, string Uname)
+        {
+            List<string> UserRoles = (List<string>)System.Web.HttpContext.Current.Session["Roles"];
+            var LedgerHeader = GetPackingHeaderList(id, Uname).AsQueryable();
+
+            var PendingToSubmit = from p in LedgerHeader
+                                  where p.Status == (int)StatusConstants.Drafted || p.Status == (int)StatusConstants.Modified && (p.ModifiedBy == Uname || UserRoles.Contains("Admin"))
+                                  select p;
+            return PendingToSubmit;
+        }
+
+        public IQueryable<PackingHeaderIndexViewModel> GetPackingHeaderListPendingToReview(int id, string Uname)
+        {
+            List<string> UserRoles = (List<string>)System.Web.HttpContext.Current.Session["Roles"];
+            var LedgerHeader = GetPackingHeaderList(id, Uname).AsQueryable();
+
+            var PendingToReview = from p in LedgerHeader
+                                  where p.Status == (int)StatusConstants.Submitted && (SqlFunctions.CharIndex(Uname, (p.ReviewBy ?? "")) == 0)
+                                  select p;
+            return PendingToReview;
         }
     }
 }

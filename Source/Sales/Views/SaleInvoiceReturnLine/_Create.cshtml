@@ -308,7 +308,7 @@ else
     $(document).ready(function () {
         var DocID = $('#SaleInvoiceReturnHeaderId', '.modal-body').val();
         CustomSelectFunction($("#ProductId"), '/ComboHelpList/GetProducts', '/ComboHelpList/SetSingleProducts', ' ', false, 0);
-        CustomSelectFunction($("#SaleInvoiceLineId"), '/SaleinvoiceReturnLine/GetSaleInvoiceForProduct', '/ComboHelpList/SetSingleSaleInvoiceLine', ' ', false, 0,DocID);
+        CustomSelectFunction($("#SaleInvoiceLineId"), '/SaleinvoiceReturnLine/GetSaleInvoiceForProduct', '/ComboHelpList/SetSingleJobOrderLine', ' ', false, 0,DocID);
 
 
         $("#SaleInvoiceLineId").change(GetSaleInvoiceDetail);

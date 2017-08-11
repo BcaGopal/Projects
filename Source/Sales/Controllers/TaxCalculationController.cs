@@ -157,11 +157,13 @@ namespace Web
             return PartialView("FooterChargeEdit", temp);
         }
 
+
+
         public ActionResult GetPIRHeaderChargeForEdit(int Id, string HeaderTable, string LineTable)//PurchaseOrderHeader Id
         {
 
             var temp = new PurchaseOrderHeaderChargeService(_unitOfWork).GetCalculationFooterListSProc(Id, HeaderTable, LineTable).ToList();
-            ViewBag.ChargeType = TransactionDocCategoryConstants.SaleInvoice;
+            ViewBag.ChargeType = TransactionDocCategoryConstants.SaleInvoiceReturn;
             return PartialView("FooterChargeEdit", temp);
         }
 
@@ -201,7 +203,7 @@ namespace Web
 
 
         [HttpPost]
-        public ActionResult PostJOCalculationFields(List<HeaderChargeViewModel> temp)
+        public ActionResult PostSICalculationFields(List<HeaderChargeViewModel> temp)
         {
             foreach (var item in temp)
             {
@@ -209,6 +211,36 @@ namespace Web
                 header.Rate = item.Rate;
                 header.Amount = item.Amount;
                 new SaleInvoiceHeaderChargeService(_unitOfWork).Update(header);
+            }
+
+            try
+            {
+                _unitOfWork.Save();
+            }
+
+            catch (Exception ex)
+            {
+                string message = _exception.HandleException(ex);
+                ModelState.AddModelError("", message);
+
+                return PartialView("FooterChargeEdit", temp);
+
+            }
+
+
+            return Json(new { success = true });
+        }
+
+
+        [HttpPost]
+        public ActionResult PostSIRCalculationFields(List<HeaderChargeViewModel> temp)
+        {
+            foreach (var item in temp)
+            {
+                var header = new SaleInvoiceReturnHeaderChargeService(_unitOfWork).Find(item.Id);
+                header.Rate = item.Rate;
+                header.Amount = item.Amount;
+                new SaleInvoiceReturnHeaderChargeService(_unitOfWork).Update(header);
             }
 
             try

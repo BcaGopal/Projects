@@ -248,6 +248,7 @@
     <Compile Include="Controllers\LogActivity.cs" />
     <Compile Include="Controllers\MultipleButtonHelper.cs" />
     <Compile Include="Controllers\NotificationController.cs" />
+    <Compile Include="Controllers\ChargeGroupPersonCalculationController.cs" />
     <Compile Include="Controllers\Report_DocumentPrintController.cs" />
     <Compile Include="Controllers\Report_ReportPrintController.cs" />
     <Compile Include="Global.asax.cs">

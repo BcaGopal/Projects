@@ -96,6 +96,7 @@
     <Compile Include="DatabaseViews\ViewDesignColourConsumption.cs" />
     <Compile Include="DatabaseViews\ViewLedgerBalance.cs" />
     <Compile Include="DatabaseViews\ViewProductBuyer.cs" />
+    <Compile Include="DatabaseViews\ViewPackingBalance.cs" />
     <Compile Include="DatabaseViews\ViewStockProcessBalance.cs" />
     <Compile Include="DatabaseViews\ViewStockInBalance.cs" />
     <Compile Include="DatabaseViews\_Users.cs" />
@@ -107,6 +108,7 @@
     <Compile Include="DatabaseViews\StockVirtual.cs" />
     <Compile Include="Models\ActivityLog.cs" />
     <Compile Include="Models\BinLocation.cs" />
+    <Compile Include="Models\ChargeGroupPersonCalculation.cs" />
     <Compile Include="Models\DocumentLineAttributes.cs" />
     <Compile Include="Models\DocumentHeaderAttributes.cs" />
     <Compile Include="Models\ChargeGroupSettings.cs" />
@@ -228,6 +230,7 @@
     <Compile Include="Models\Shift.cs" />
     <Compile Include="Models\SubReport.cs" />
     <Compile Include="ViewModels\BankReconciliationViewModel.cs" />
+    <Compile Include="ViewModels\ChargeGroupPersonCalculationViewModel.cs" />
     <Compile Include="ViewModels\Dimension1.cs" />
     <Compile Include="ViewModels\DocumentCancelViewModel.cs" />
     <Compile Include="ViewModels\SmsViewModel.cs" />

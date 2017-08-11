@@ -30,6 +30,17 @@
                             </div>
                         </div>
                     </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.PackingHeaderId, "Packing No.", new { @class = "control-label col-md-4 col-sm-2" })
+                            <div class="col-md-7 col-sm-10">
+                                @Html.TextBoxFor(model => model.PackingHeaderId, new { @class = "form-control col-xs-7 required" })
+                                @Html.ValidationMessageFor(model => model.PackingHeaderId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
                 <div class="row">
                     <div class="col-md-6">
@@ -72,6 +83,7 @@
 
     $(document).ready(function () {
         CustomSelectFunction($("#ProductGroupId"), '/ComboHelpList/GetProductGroup', '/ComboHelpList/SetProductGroup', 'Enter Group Name', true, 1);
+        CustomSelectFunction($("#PackingHeaderId"), '/DirectSaleInvoiceHeader/GetPackingHeader', '/ComboHelpList/SetStockHeader', ' ', true, 0, $('#SaleInvoiceHeaderId').val());
     });
 
     var DocID = $('#SaleInvoiceHeaderId', '.modal-body').val();

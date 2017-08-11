@@ -541,7 +541,7 @@ namespace Web
                         Sequence.Add(new BarCodeSequenceViewModelForReceive
                         {
                             JobReceiveHeaderId = item.JobReceiveHeaderId,
-                            JobOrderLineId = item.JobOrderLineId,
+                            JobOrderLineId = item.JobOrderLineId ?? 0,
                             ProductName = item.ProductName,
                             Qty = item.OrderBalanceQty,
                             BalanceQty = item.OrderBalanceQty,
@@ -691,52 +691,53 @@ namespace Web
                     //              select p.BalanceQty).FirstOrDefault();
 
 
-
-                    if (item.OrderBalanceQty < item.ReceiveQty)
+                    if (item.JobOrderLineId != null)
                     {
-                        Decimal? ExcessAllowedQty = new JobOrderLineService(_unitOfWork).GetExcessReceiveAllowedAgainstOrderQty(item.JobOrderLineId);
-                        if (ExcessAllowedQty != null)
+                        if (item.OrderBalanceQty < item.ReceiveQty)
                         {
-                            Decimal TotalReceiveQty = 0;
-                            var ReceiveLinesList = (from L in db.JobReceiveLine
-                                                    where L.JobOrderLineId == item.JobOrderLineId
-                                                    group new { L } by new { L.JobOrderLineId } into Result
-                                                    select new
-                                                    {
-                                                        Qty = Result.Sum(m => m.L.Qty)
-                                                    }).FirstOrDefault();
-                            if (ReceiveLinesList != null)
-                                TotalReceiveQty = ReceiveLinesList.Qty;
-
-                            TotalReceiveQty = TotalReceiveQty + item.ReceiveQty;
-                            var OrderLine = new JobOrderLineService(_unitOfWork).Find(item.JobOrderLineId);
-                            Decimal ExcessQty = TotalReceiveQty - OrderLine.Qty;
-
-                            if (ExcessQty > ExcessAllowedQty)
+                            Decimal? ExcessAllowedQty = new JobOrderLineService(_unitOfWork).GetExcessReceiveAllowedAgainstOrderQty((int)item.JobOrderLineId);
+                            if (ExcessAllowedQty != null)
                             {
-                                string message = "Qty exceeding allowed excess receive qty for product.";
-                                ModelState.AddModelError("", message);
-                                if (vm.JobReceiveSettings.isVisibleLoss == true && vm.JobReceiveSettings.IsVisiblePassQty == false && vm.JobReceiveSettings.isVisibleLotNo == false)
+                                Decimal TotalReceiveQty = 0;
+                                var ReceiveLinesList = (from L in db.JobReceiveLine
+                                                        where L.JobOrderLineId == item.JobOrderLineId
+                                                        group new { L } by new { L.JobOrderLineId } into Result
+                                                        select new
+                                                        {
+                                                            Qty = Result.Sum(m => m.L.Qty)
+                                                        }).FirstOrDefault();
+                                if (ReceiveLinesList != null)
+                                    TotalReceiveQty = ReceiveLinesList.Qty;
+
+                                TotalReceiveQty = TotalReceiveQty + item.ReceiveQty;
+                                var OrderLine = new JobOrderLineService(_unitOfWork).Find((int)item.JobOrderLineId);
+                                Decimal ExcessQty = TotalReceiveQty - OrderLine.Qty;
+
+                                if (ExcessQty > ExcessAllowedQty)
                                 {
-                                    return PartialView("_ResultsWithLossQty", vm);
-                                }
-                                if (vm.JobReceiveSettings.isVisibleLoss == false && vm.JobReceiveSettings.IsVisiblePassQty == false && vm.JobReceiveSettings.isVisibleLotNo == false)
-                                {
-                                    return PartialView("_ResultsWithQty", vm);
-                                }
-                                if (vm.JobReceiveSettings.isVisibleLoss == false && vm.JobReceiveSettings.IsVisiblePassQty == false && vm.JobReceiveSettings.isVisibleLotNo == true)
-                                {
-                                    return PartialView("_ResultsWithQtyLotNo", vm);
-                                }
-                                else
-                                {
-                                    return PartialView("_Results", vm);
+                                    string message = "Qty exceeding allowed excess receive qty for product.";
+                                    ModelState.AddModelError("", message);
+                                    if (vm.JobReceiveSettings.isVisibleLoss == true && vm.JobReceiveSettings.IsVisiblePassQty == false && vm.JobReceiveSettings.isVisibleLotNo == false)
+                                    {
+                                        return PartialView("_ResultsWithLossQty", vm);
+                                    }
+                                    if (vm.JobReceiveSettings.isVisibleLoss == false && vm.JobReceiveSettings.IsVisiblePassQty == false && vm.JobReceiveSettings.isVisibleLotNo == false)
+                                    {
+                                        return PartialView("_ResultsWithQty", vm);
+                                    }
+                                    if (vm.JobReceiveSettings.isVisibleLoss == false && vm.JobReceiveSettings.IsVisiblePassQty == false && vm.JobReceiveSettings.isVisibleLotNo == true)
+                                    {
+                                        return PartialView("_ResultsWithQtyLotNo", vm);
+                                    }
+                                    else
+                                    {
+                                        return PartialView("_Results", vm);
+                                    }
                                 }
                             }
                         }
+
                     }
-
-
 
                     var temp = JobOrderLineCostCenterRecords.Where(m => m.JoborderLineId == item.JobOrderLineId).FirstOrDefault();
 
@@ -781,7 +782,10 @@ namespace Web
                         line.CreatedBy = User.Identity.Name;
                         line.ModifiedBy = User.Identity.Name;
 
-                        LineStatus.Add(line.JobOrderLineId, (line.Qty + line.LossQty));
+                        if (line.JobOrderLineId != null)
+                        {
+                            LineStatus.Add((int)line.JobOrderLineId, (line.Qty + line.LossQty));
+                        }
 
 
                         if (Settings.isPostedInStock ?? false)
@@ -1183,7 +1187,7 @@ namespace Web
                         Sequence.Add(new BarCodeSequenceViewModelForReceive
                         {
                             JobReceiveHeaderId = item.JobReceiveHeaderId,
-                            JobOrderLineId = item.JobOrderLineId,
+                            JobOrderLineId = item.JobOrderLineId ?? 0,
                             ProductName = item.ProductName,
                             Qty = item.DocQty,
                             BalanceQty = item.OrderBalanceQty,
@@ -1594,14 +1598,18 @@ namespace Web
                             line.ModifiedBy = User.Identity.Name;
                             line.JobReceiveLineId = Pk++;
 
-                            if (LineStatus.ContainsKey(line.JobOrderLineId))
+                            if (line.JobOrderLineId != null)
                             {
-                                LineStatus[line.JobOrderLineId] = LineStatus[line.JobOrderLineId] + 1;
+                                if (LineStatus.ContainsKey((int)line.JobOrderLineId))
+                                {
+                                    LineStatus[(int)line.JobOrderLineId] = LineStatus[(int)line.JobOrderLineId] + 1;
+                                }
+                                else
+                                {
+                                    LineStatus.Add((int)line.JobOrderLineId, line.Qty + line.LossQty);
+                                }
                             }
-                            else
-                            {
-                                LineStatus.Add(line.JobOrderLineId, line.Qty + line.LossQty);
-                            }
+
 
                             if (JobOrderLine.ProductUidHeaderId.HasValue && JobOrderLine.ProductUidHeaderId.Value > 0)
                             {
@@ -2226,32 +2234,34 @@ namespace Web
             }
 
 
-
-            if (svm.ProductId != 0 && svm.JobOrderLineId != null && svm.JobOrderLineId != 0)
+            if (svm.JobOrderLineId != null)
             {
-                if (svm.OrderBalanceQty < svm.ReceiveQty)
+                if (svm.ProductId != 0 && svm.JobOrderLineId != null && svm.JobOrderLineId != 0)
                 {
-                    Decimal? ExcessAllowedQty = new JobOrderLineService(_unitOfWork).GetExcessReceiveAllowedAgainstOrderQty(svm.JobOrderLineId);
-                    if (ExcessAllowedQty != null)
+                    if (svm.OrderBalanceQty < svm.ReceiveQty)
                     {
-                        Decimal TotalReceiveQty = 0;
-                        var ReceiveLinesList = (from L in db.JobReceiveLine
-                                                where L.JobOrderLineId == svm.JobOrderLineId
-                                                group new { L } by new { L.JobOrderLineId } into Result
-                                                select new
-                                                {
-                                                    Qty = Result.Sum(m => m.L.Qty)
-                                                }).FirstOrDefault();
-                        if (ReceiveLinesList != null)
-                            TotalReceiveQty = ReceiveLinesList.Qty;
-
-                        TotalReceiveQty = TotalReceiveQty + svm.ReceiveQty;
-                        var JobOrderLine = new JobOrderLineService(_unitOfWork).Find(svm.JobOrderLineId);
-                        Decimal ExcessQty = TotalReceiveQty - JobOrderLine.Qty;
-
-                        if (ExcessQty > ExcessAllowedQty)
+                        Decimal? ExcessAllowedQty = new JobOrderLineService(_unitOfWork).GetExcessReceiveAllowedAgainstOrderQty((int)svm.JobOrderLineId);
+                        if (ExcessAllowedQty != null)
                         {
-                            ModelState.AddModelError("Qty", "Qty exceeding allowed excess receive qty for product.");
+                            Decimal TotalReceiveQty = 0;
+                            var ReceiveLinesList = (from L in db.JobReceiveLine
+                                                    where L.JobOrderLineId == svm.JobOrderLineId
+                                                    group new { L } by new { L.JobOrderLineId } into Result
+                                                    select new
+                                                    {
+                                                        Qty = Result.Sum(m => m.L.Qty)
+                                                    }).FirstOrDefault();
+                            if (ReceiveLinesList != null)
+                                TotalReceiveQty = ReceiveLinesList.Qty;
+
+                            TotalReceiveQty = TotalReceiveQty + svm.ReceiveQty;
+                            var JobOrderLine = new JobOrderLineService(_unitOfWork).Find((int)svm.JobOrderLineId);
+                            Decimal ExcessQty = TotalReceiveQty - JobOrderLine.Qty;
+
+                            if (ExcessQty > ExcessAllowedQty)
+                            {
+                                ModelState.AddModelError("Qty", "Qty exceeding allowed excess receive qty for product.");
+                            }
                         }
                     }
                 }
@@ -2307,8 +2317,8 @@ namespace Web
                     StockViewModel StockViewModel = new StockViewModel();
                     StockProcessViewModel StockProcessViewModel = new StockProcessViewModel();
 
-                    JobOrderLine JobOrderLine = new JobOrderLineService(_unitOfWork).Find(s.JobOrderLineId);
-                    JobOrderHeader JobOrderHeader = new JobOrderHeaderService(_unitOfWork).Find(JobOrderLine.JobOrderHeaderId);
+                    //JobOrderLine JobOrderLine = new JobOrderLineService(_unitOfWork).Find(s.JobOrderLineId);
+                    //JobOrderHeader JobOrderHeader = new JobOrderHeaderService(_unitOfWork).Find(JobOrderLine.JobOrderHeaderId);
 
                     s.Qty = svm.ReceiveQty;
                     s.Sr = _JobReceiveLineService.GetMaxSr(s.JobReceiveHeaderId);
@@ -2329,7 +2339,10 @@ namespace Web
 
                     decimal SettingsStockQty = (decimal)GetStockQtyFromSettings(s, settings.StockQty, "Qty");
 
-                    new JobOrderLineStatusService(_unitOfWork).UpdateJobQtyOnReceive(s.JobOrderLineId, s.JobReceiveLineId, temp.DocDate, s.Qty + s.LossQty, ref db);
+                    if (s.JobOrderLineId != null)
+                    {
+                        new JobOrderLineStatusService(_unitOfWork).UpdateJobQtyOnReceive((int)s.JobOrderLineId, s.JobReceiveLineId, temp.DocDate, s.Qty + s.LossQty, ref db);
+                    }
 
                     //Posting in Stock
                     if (svm.JobReceiveSettings.isPostedInStock)
@@ -2346,22 +2359,22 @@ namespace Web
                         StockViewModel.CurrencyId = null;
                         StockViewModel.HeaderProcessId = temp.ProcessId;
                         StockViewModel.PersonId = temp.JobWorkerId;
-                        StockViewModel.ProductId = JobOrderLine.ProductId;
+                        StockViewModel.ProductId = svm.ProductId;
                         StockViewModel.HeaderFromGodownId = null;
                         StockViewModel.HeaderGodownId = null;
                         StockViewModel.GodownId = temp.GodownId;
                         StockViewModel.ProcessId = temp.ProcessId;
                         StockViewModel.LotNo = s.LotNo;
-                        StockViewModel.CostCenterId = JobOrderHeader.CostCenterId;
+                        StockViewModel.CostCenterId = svm.CostCenterId;
                         StockViewModel.Qty_Iss = 0;
                         StockViewModel.Qty_Rec = SettingsStockQty;
-                        StockViewModel.Rate = JobOrderLine.Rate;
+                        StockViewModel.Rate = svm.Rate;
                         StockViewModel.ExpiryDate = null;
-                        StockViewModel.Specification = JobOrderLine.Specification;
-                        StockViewModel.Dimension1Id = JobOrderLine.Dimension1Id;
-                        StockViewModel.Dimension2Id = JobOrderLine.Dimension2Id;
-                        StockViewModel.Dimension3Id = JobOrderLine.Dimension3Id;
-                        StockViewModel.Dimension4Id = JobOrderLine.Dimension4Id;
+                        StockViewModel.Specification = svm.Specification;
+                        StockViewModel.Dimension1Id = svm.Dimension1Id;
+                        StockViewModel.Dimension2Id = svm.Dimension2Id;
+                        StockViewModel.Dimension3Id = svm.Dimension3Id;
+                        StockViewModel.Dimension4Id = svm.Dimension4Id;
                         StockViewModel.Remark = s.Remark;
                         StockViewModel.Status = temp.Status;
                         StockViewModel.ProductUidId = s.ProductUidId;
@@ -2415,22 +2428,22 @@ namespace Web
                         StockProcessViewModel.CurrencyId = null;
                         StockProcessViewModel.HeaderProcessId = temp.ProcessId;
                         StockProcessViewModel.PersonId = temp.JobWorkerId;
-                        StockProcessViewModel.ProductId = JobOrderLine.ProductId;
+                        StockProcessViewModel.ProductId = svm.ProductId;
                         StockProcessViewModel.HeaderFromGodownId = null;
                         StockProcessViewModel.HeaderGodownId = null;
                         StockProcessViewModel.GodownId = temp.GodownId;
                         StockProcessViewModel.ProcessId = temp.ProcessId;
                         StockProcessViewModel.LotNo = s.LotNo;
-                        StockProcessViewModel.CostCenterId = JobOrderHeader.CostCenterId;
+                        StockProcessViewModel.CostCenterId = svm.CostCenterId;
                         StockProcessViewModel.Qty_Iss = SettingsStockQty + svm.LossQty;
                         StockProcessViewModel.Qty_Rec = 0;
-                        StockProcessViewModel.Rate = JobOrderLine.Rate;
+                        StockProcessViewModel.Rate = svm.Rate;
                         StockProcessViewModel.ExpiryDate = null;
-                        StockProcessViewModel.Specification = JobOrderLine.Specification;
-                        StockProcessViewModel.Dimension1Id = JobOrderLine.Dimension1Id;
-                        StockProcessViewModel.Dimension2Id = JobOrderLine.Dimension2Id;
-                        StockProcessViewModel.Dimension3Id = JobOrderLine.Dimension3Id;
-                        StockProcessViewModel.Dimension4Id = JobOrderLine.Dimension4Id;
+                        StockProcessViewModel.Specification = svm.Specification;
+                        StockProcessViewModel.Dimension1Id = svm.Dimension1Id;
+                        StockProcessViewModel.Dimension2Id = svm.Dimension2Id;
+                        StockProcessViewModel.Dimension3Id = svm.Dimension3Id;
+                        StockProcessViewModel.Dimension4Id = svm.Dimension4Id;
                         StockProcessViewModel.Remark = s.Remark;
                         StockProcessViewModel.Status = temp.Status;
                         StockProcessViewModel.ProductUidId = s.ProductUidId;
@@ -2527,7 +2540,7 @@ namespace Web
                             StockProcessBomViewModel.GodownId = temp.GodownId;
                             StockProcessBomViewModel.ProcessId = temp.ProcessId;
                             StockProcessBomViewModel.LotNo = s.LotNo;
-                            StockProcessBomViewModel.CostCenterId = JobOrderHeader.CostCenterId;
+                            StockProcessBomViewModel.CostCenterId = svm.CostCenterId;
                             StockProcessBomViewModel.Qty_Iss = item.Qty;
                             StockProcessBomViewModel.Qty_Rec = 0;
                             StockProcessBomViewModel.Rate = 0;
@@ -2694,8 +2707,8 @@ namespace Web
                     ExRec = Mapper.Map<JobReceiveLine>(RecLine);
 
 
-                    JobOrderLine JobOrderLine = new JobOrderLineService(_unitOfWork).Find(s.JobOrderLineId);
-                    JobOrderHeader JobOrderHeader = new JobOrderHeaderService(_unitOfWork).Find(JobOrderLine.JobOrderHeaderId);
+                    //JobOrderLine JobOrderLine = new JobOrderLineService(_unitOfWork).Find(s.JobOrderLineId);
+                    //JobOrderHeader JobOrderHeader = new JobOrderHeaderService(_unitOfWork).Find(JobOrderLine.JobOrderHeaderId);
 
                     RecLine.PenaltyAmt = svm.PenaltyAmt;
                     RecLine.PenaltyRate = svm.PenaltyRate;
@@ -2730,23 +2743,23 @@ namespace Web
                         StockViewModel.CurrencyId = null;
                         StockViewModel.HeaderProcessId = temp.ProcessId;
                         StockViewModel.PersonId = temp.JobWorkerId;
-                        StockViewModel.ProductId = JobOrderLine.ProductId;
+                        StockViewModel.ProductId = svm.ProductId;
                         StockViewModel.HeaderFromGodownId = null;
                         StockViewModel.HeaderGodownId = temp.GodownId;
                         StockViewModel.GodownId = temp.GodownId;
                         StockViewModel.ProcessId = temp.ProcessId;
                         //StockViewModel.LotNo = JobOrderLine.LotNo;
                         StockViewModel.LotNo = svm.LotNo;
-                        StockViewModel.CostCenterId = JobOrderHeader.CostCenterId;
+                        StockViewModel.CostCenterId = svm.CostCenterId;
                         StockViewModel.Qty_Iss = 0;
                         StockViewModel.Qty_Rec = SettingsStockQty;
-                        StockViewModel.Rate = JobOrderLine.Rate;
+                        StockViewModel.Rate = svm.Rate;
                         StockViewModel.ExpiryDate = null;
-                        StockViewModel.Specification = JobOrderLine.Specification;
-                        StockViewModel.Dimension1Id = JobOrderLine.Dimension1Id;
-                        StockViewModel.Dimension2Id = JobOrderLine.Dimension2Id;
-                        StockViewModel.Dimension3Id = JobOrderLine.Dimension3Id;
-                        StockViewModel.Dimension4Id = JobOrderLine.Dimension4Id;
+                        StockViewModel.Specification = svm.Specification;
+                        StockViewModel.Dimension1Id = svm.Dimension1Id;
+                        StockViewModel.Dimension2Id = svm.Dimension2Id;
+                        StockViewModel.Dimension3Id = svm.Dimension3Id;
+                        StockViewModel.Dimension4Id = svm.Dimension4Id;
                         StockViewModel.Remark = svm.Remark;
                         StockViewModel.Status = temp.Status;
                         StockViewModel.ProductUidId = svm.ProductUidId;
@@ -2784,22 +2797,22 @@ namespace Web
                         StockProcessViewModel.CurrencyId = null;
                         StockProcessViewModel.HeaderProcessId = temp.ProcessId;
                         StockProcessViewModel.PersonId = temp.JobWorkerId;
-                        StockProcessViewModel.ProductId = JobOrderLine.ProductId;
+                        StockProcessViewModel.ProductId = svm.ProductId;
                         StockProcessViewModel.HeaderFromGodownId = null;
                         StockProcessViewModel.HeaderGodownId = temp.GodownId;
                         StockProcessViewModel.GodownId = temp.GodownId;
                         StockProcessViewModel.ProcessId = temp.ProcessId;
-                        StockProcessViewModel.LotNo = JobOrderLine.LotNo;
-                        StockProcessViewModel.CostCenterId = JobOrderHeader.CostCenterId;
+                        StockProcessViewModel.LotNo = svm.LotNo;
+                        StockProcessViewModel.CostCenterId = svm.CostCenterId;
                         StockProcessViewModel.Qty_Iss = SettingsStockQty + svm.LossQty;
                         StockProcessViewModel.Qty_Rec = 0;
-                        StockProcessViewModel.Rate = JobOrderLine.Rate;
+                        StockProcessViewModel.Rate = svm.Rate;
                         StockProcessViewModel.ExpiryDate = null;
-                        StockProcessViewModel.Specification = JobOrderLine.Specification;
-                        StockProcessViewModel.Dimension1Id = JobOrderLine.Dimension1Id;
-                        StockProcessViewModel.Dimension2Id = JobOrderLine.Dimension2Id;
-                        StockProcessViewModel.Dimension3Id = JobOrderLine.Dimension3Id;
-                        StockProcessViewModel.Dimension4Id = JobOrderLine.Dimension4Id;
+                        StockProcessViewModel.Specification = svm.Specification;
+                        StockProcessViewModel.Dimension1Id = svm.Dimension1Id;
+                        StockProcessViewModel.Dimension2Id = svm.Dimension2Id;
+                        StockProcessViewModel.Dimension3Id = svm.Dimension3Id;
+                        StockProcessViewModel.Dimension4Id = svm.Dimension4Id;
                         StockProcessViewModel.Remark = RecLine.Remark;
                         StockProcessViewModel.Status = temp.Status;
                         StockProcessViewModel.ProductUidId = svm.ProductUidId;
@@ -2823,8 +2836,10 @@ namespace Web
                     RecLine.ModifiedBy = User.Identity.Name;
                     RecLine.ObjectState = Model.ObjectState.Modified;
 
-
-                    new JobOrderLineStatusService(_unitOfWork).UpdateJobQtyOnReceive(s.JobOrderLineId, s.JobReceiveLineId, temp.DocDate, RecLine.Qty + RecLine.LossQty, ref db);
+                    if (s.JobOrderLineId != null)
+                    {
+                        new JobOrderLineStatusService(_unitOfWork).UpdateJobQtyOnReceive((int)s.JobOrderLineId, s.JobReceiveLineId, temp.DocDate, RecLine.Qty + RecLine.LossQty, ref db);
+                    }
 
                     //_JobReceiveLineService.Update(temp1);
 
@@ -2918,7 +2933,7 @@ namespace Web
                             StockProcessBomViewModel.GodownId = temp.GodownId;
                             StockProcessBomViewModel.ProcessId = temp.ProcessId;
                             StockProcessBomViewModel.LotNo = s.LotNo;
-                            StockProcessBomViewModel.CostCenterId = JobOrderHeader.CostCenterId;
+                            StockProcessBomViewModel.CostCenterId = svm.CostCenterId;
                             StockProcessBomViewModel.Qty_Iss = item.Qty;
                             StockProcessBomViewModel.Qty_Rec = 0;
                             StockProcessBomViewModel.Rate = 0;
@@ -3210,9 +3225,13 @@ namespace Web
                     ExObj = Mapper.Map<JobReceiveLine>(JobReceiveLine),
                 });
 
-                new JobOrderLineStatusService(_unitOfWork).UpdateJobQtyOnReceive(JobReceiveLine.JobOrderLineId, JobReceiveLine.JobReceiveLineId, header.DocDate, 0, ref db);
-                LineStatus.ObjectState = Model.ObjectState.Deleted;
-                db.JobReceiveLineStatus.Remove(LineStatus);
+                if (JobReceiveLine.JobOrderLineId != null)
+                {
+                    new JobOrderLineStatusService(_unitOfWork).UpdateJobQtyOnReceive((int)JobReceiveLine.JobOrderLineId, JobReceiveLine.JobReceiveLineId, header.DocDate, 0, ref db);
+                    LineStatus.ObjectState = Model.ObjectState.Deleted;
+                    db.JobReceiveLineStatus.Remove(LineStatus);
+                }
+
 
 
                 ProductUid ProductUid = (from p in db.ProductUid

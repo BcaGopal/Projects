@@ -78,7 +78,7 @@ namespace Web
         {
             SaleInvoiceFilterViewModel vm = new SaleInvoiceFilterViewModel();
             vm.SaleInvoiceHeaderId = id;
-            SaleInvoiceHeader H = new SaleInvoiceHeaderService(_unitOfWork).Find(id);
+            SaleInvoiceHeader H = db.SaleInvoiceHeader.Find(id);
             vm.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(H.DocTypeId);
             return PartialView("_OrderFilters", vm);
         }
@@ -107,12 +107,20 @@ namespace Web
 
             SaleDispatchHeader Dh = new SaleDispatchHeaderService(_unitOfWork).Find(Sh.SaleDispatchHeaderId.Value);
 
+
+
             SaleDispatchLine LastRecord = _SaleDispatchLineService.GetSaleDispatchLineList(Dh.SaleDispatchHeaderId).OrderByDescending(m => m.SaleDispatchLineId).FirstOrDefault();
 
             if (LastRecord == null)
             {
-                TempData["CSEXCL"] += "Please insert a record before creating from multiple";
-                return PartialView("_Results", vm);
+                if (vm.DirectSaleInvoiceLineViewModel.FirstOrDefault() != null)
+                {
+                    if (vm.DirectSaleInvoiceLineViewModel.FirstOrDefault().GodownId == null)
+                    {
+                        TempData["CSEXCL"] += "Please insert a record before creating from multiple";
+                        return PartialView("_Results", vm);
+                    }
+                }
             }
             PackingHeader Ph = new PackingHeaderService(_unitOfWork).Find(Dh.PackingHeaderId.Value);
 
@@ -145,6 +153,12 @@ namespace Web
                     {
 
                         PackingLine Pl = new PackingLine();
+
+                        if (item.PackingLineId != null)
+                        {
+                            Pl = new PackingLineService(_unitOfWork).Find((int)item.PackingLineId);
+                        }
+
                         SaleDispatchLine Dl = new SaleDispatchLine();
                         SaleInvoiceLine line = new SaleInvoiceLine();
 
@@ -181,7 +195,12 @@ namespace Web
                         StockViewModel.HeaderFromGodownId = null;
                         StockViewModel.HeaderGodownId = null;
                         StockViewModel.HeaderProcessId = null;
-                        StockViewModel.GodownId = (int)LastRecord.GodownId;
+
+                        if (item.GodownId != 0 && item.GodownId != null)
+                            StockViewModel.GodownId = item.GodownId;
+                        else
+                            StockViewModel.GodownId = (int)LastRecord.GodownId;
+
                         StockViewModel.Remark = Dh.Remark;
                         StockViewModel.Status = Dh.Status;
                         //StockViewModel.ProcessId = Dh.ProcessId;
@@ -219,28 +238,29 @@ namespace Web
 
 
 
-
-                        Pl.BaleNo = item.BaleNo;
-                        Pl.DealQty = item.Qty * item.UnitConversionMultiplier ?? 0;
-                        Pl.DealUnitId = item.DealUnitId;
-                        Pl.Dimension1Id = item.Dimension1Id;
-                        Pl.Dimension2Id = item.Dimension2Id;
-                        Pl.LotNo = item.LotNo;
-                        Pl.CreatedBy = User.Identity.Name;
-                        Pl.CreatedDate = DateTime.Now;
-                        Pl.ModifiedBy = User.Identity.Name;
-                        Pl.ModifiedDate = DateTime.Now;
-                        Pl.PackingHeaderId = Ph.PackingHeaderId;
-                        Pl.ProductId = item.ProductId;
-                        Pl.Qty = item.Qty;
-                        Pl.FreeQty = item.FreeQty;
-                        Pl.Remark = item.Remark;
-                        Pl.SaleOrderLineId = item.SaleOrderLineId;
-                        Pl.Specification = item.Specification;
-                        Pl.PackingLineId = PackingPrimaryKey++;
-                        Pl.ObjectState = Model.ObjectState.Added;
-                        _PackingLineService.Create(Pl);
-
+                        if (item.PackingLineId == null)
+                        {
+                            Pl.BaleNo = item.BaleNo;
+                            Pl.DealQty = item.Qty * item.UnitConversionMultiplier ?? 0;
+                            Pl.DealUnitId = item.DealUnitId;
+                            Pl.Dimension1Id = item.Dimension1Id;
+                            Pl.Dimension2Id = item.Dimension2Id;
+                            Pl.LotNo = item.LotNo;
+                            Pl.CreatedBy = User.Identity.Name;
+                            Pl.CreatedDate = DateTime.Now;
+                            Pl.ModifiedBy = User.Identity.Name;
+                            Pl.ModifiedDate = DateTime.Now;
+                            Pl.PackingHeaderId = Ph.PackingHeaderId;
+                            Pl.ProductId = item.ProductId;
+                            Pl.Qty = item.Qty;
+                            Pl.FreeQty = item.FreeQty;
+                            Pl.Remark = item.Remark;
+                            Pl.SaleOrderLineId = item.SaleOrderLineId;
+                            Pl.Specification = item.Specification;
+                            Pl.PackingLineId = PackingPrimaryKey++;
+                            Pl.ObjectState = Model.ObjectState.Added;
+                            _PackingLineService.Create(Pl);
+                        }
 
 
 
@@ -249,7 +269,12 @@ namespace Web
                         Dl.ModifiedBy = User.Identity.Name;
                         Dl.CreatedDate = DateTime.Now;
                         Dl.ModifiedDate = DateTime.Now;
-                        Dl.GodownId = LastRecord.GodownId;
+
+                        if (item.GodownId != 0 && item.GodownId != null)
+                            Dl.GodownId = item.GodownId;
+                        else
+                            Dl.GodownId = (int)LastRecord.GodownId;
+
                         Dl.PackingLineId = Pl.PackingLineId;
                         Dl.Remark = item.Remark;
                         Dl.SaleDispatchHeaderId = Dh.SaleDispatchHeaderId;
@@ -1244,7 +1269,11 @@ namespace Web
             _SaleInvoiceLineDetailService.Delete(Sid);
             _SaleInvoiceLineService.Delete(Sl);
             _SaleDispatchLineService.Delete(Dl);
-            _PackingLineService.Delete(Pl);
+
+            if (Pl.PackingHeaderId == Dh.PackingHeaderId)
+            {
+                _PackingLineService.Delete(Pl);
+            }
 
             if (StockId != null)
             {

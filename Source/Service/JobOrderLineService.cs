@@ -130,7 +130,9 @@ namespace Service
                             DealUnitDecimalPlaces = p.DealUnit.DecimalPlaces,
                             Specification = p.Specification,
                             StockInId = p.StockInId,
-                            StockInNo = p.StockIn.StockHeader.DocNo
+                            StockInNo = p.StockIn.StockHeader.DocNo,
+                            SalesTaxGroupProductId = p.SalesTaxGroupProductId,
+                            SalesTaxGroupPersonId = p.JobOrderHeader.SalesTaxGroupPersonId,
                         }).FirstOrDefault();
 
             temp.ProdOrderBalanceQty = (new ProdOrderLineService(_unitOfWork).GetProdOrderBalance(temp.ProdOrderLineId)) + temp.Qty;
@@ -504,9 +506,13 @@ namespace Service
                         where p.JobOrderLineId == id
                         select new JobOrderLineViewModel
                         {
+                            Dimension1Id = t1.Dimension1Id,
                             Dimension1Name = Dimension1Tab.Dimension1Name,
+                            Dimension2Id = t1.Dimension2Id,
                             Dimension2Name = Dimension2Tab.Dimension2Name,
+                            Dimension3Id = t1.Dimension3Id,
                             Dimension3Name = Dimension3Tab.Dimension3Name,
+                            Dimension4Id = t1.Dimension4Id,
                             Dimension4Name = Dimension4Tab.Dimension4Name,
                             LotNo = t1.LotNo,
                             Qty = p.BalanceQty,

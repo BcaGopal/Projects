@@ -123,8 +123,11 @@ namespace Service
             JobReceiveLine.CreatedBy = UserName;
             JobReceiveLine.ModifiedBy = UserName;
 
-            Dictionary<int, decimal> LineStatus = new Dictionary<int, decimal>();
-            LineStatus.Add(JobReceiveLine.JobOrderLineId, (JobReceiveLine.Qty + JobReceiveLine.LossQty));
+            if (JobReceiveLine.JobOrderLineId != null)
+            {
+                Dictionary<int, decimal> LineStatus = new Dictionary<int, decimal>();
+                LineStatus.Add((int)JobReceiveLine.JobOrderLineId, (JobReceiveLine.Qty + JobReceiveLine.LossQty));
+            }
 
             Stock Stock = new Stock();
             Stock.DocDate = JobReceiveHeader.DocDate;

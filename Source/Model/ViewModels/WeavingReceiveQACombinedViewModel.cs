@@ -43,7 +43,7 @@ namespace Model.ViewModel
         public int ProductId { get; set; }
         public string ProductName { get; set; }
         public string ProductQualityName { get; set; }
-        public int JobOrderLineId { get; set; }
+        public int? JobOrderLineId { get; set; }
         public string JobOrderHeaderDocNo { get; set; }
         public decimal Qty { get; set; }
         public decimal BalanceQty { get; set; }

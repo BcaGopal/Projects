@@ -28,7 +28,16 @@ namespace Model.Models
         public bool? isVisibleDimension2 { get; set; }
         public bool? isVisibleDimension3 { get; set; }
         public bool? isVisibleDimension4 { get; set; }
-        public bool? isVisibleBaleCount { get; set; }           
+        public bool? isVisibleBaleCount { get; set; }
+
+
+        public bool? isVisibleStockIn { get; set; }
+        public bool? isVisibleSpecification { get; set; }
+        public bool? isVisibleLotNo { get; set; }
+        public bool? isVisibleBaleNo { get; set; }
+        public bool? isVisibleDealUnit { get; set; }
+
+        public bool? IsMandatoryStockIn { get; set; }
         public string filterProductTypes { get; set; }
         public string filterProductGroups { get; set; }
         public string filterProducts { get; set; }
@@ -43,7 +52,12 @@ namespace Model.Models
         [ForeignKey("Process")]
         public int? ProcessId { get; set; }
         public virtual Process Process { get; set; }
-        
+
+        [ForeignKey("UnitConversionFor")]
+        [Display(Name = "Unit Conversion For Type")]
+        public byte? UnitConversionForId { get; set; }
+        public virtual UnitConversionFor UnitConversionFor { get; set; }
+
         /// <summary>
         /// DocId will be passed as a parameter in specified procedure.
         /// Procedure should have only one parameter of type int.
@@ -74,6 +88,12 @@ namespace Model.Models
         [Display(Name = "ImportMenu")]
         public int? ImportMenuId { get; set; }
         public virtual Menu ImportMenu { get; set; }
+
+        [ForeignKey("ExportMenu")]
+        [Display(Name = "ExportMenu")]
+        public int? ExportMenuId { get; set; }
+        public virtual Menu ExportMenu { get; set; }
+
 
 
         [Display(Name = "Created By")]

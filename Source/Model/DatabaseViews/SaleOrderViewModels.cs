@@ -91,6 +91,9 @@ namespace Model.DatabaseViews
         public int ProductId { get; set; }
         public virtual Product Product { get; set; }
 
+        public int SiteId { get; set; }
+        public int DivisionId { get; set; }
+
         public int? Dimension1Id { get; set; }
         public int? Dimension2Id { get; set; }
         public int BuyerId { get; set; }

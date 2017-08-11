@@ -551,7 +551,7 @@ namespace Service
                         select new
                         {
                             Rec = (from t in db.JobOrderLine                                   
-                                   join R in db.JobReceiveLine on new { A = t.JobOrderLineId, B = (int ?) Uid  } equals new { A = R.JobOrderLineId, B = R.ProductUidId } into Rtable
+                                   join R in db.JobReceiveLine on new { A = t.JobOrderLineId, B = (int ?) Uid  } equals new { A = R.JobOrderLineId ?? 0, B = R.ProductUidId } into Rtable
                                    from Rtab in Rtable.DefaultIfEmpty()
                                    join RT in db.JobReturnLine on Rtab.JobReceiveLineId equals RT.JobReceiveLineId into RTtable
                                    from RTtab in RTtable.DefaultIfEmpty()

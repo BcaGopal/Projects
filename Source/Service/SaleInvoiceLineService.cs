@@ -66,6 +66,9 @@ namespace Service
 
         IEnumerable<ComboBoxResult> FGetPromoCodeList(int ProductId, int BuyerId, DateTime DocDate);
         IEnumerable<ComboBoxResult> FGetProductUidHelpList(int Id, string term);
+        IEnumerable<ComboBoxResult> GetPendingPackingHeaderForSaleInvoice(int SaleInvoiceHeaderId, string term);
+
+        
     }
 
     public class SaleInvoiceLineService : ISaleInvoiceLineService
@@ -593,49 +596,102 @@ namespace Service
             if (!string.IsNullOrEmpty(vm.SaleOrderHeaderId)) { SaleOrderIdArr = vm.SaleOrderHeaderId.Split(",".ToCharArray()); }
             else { SaleOrderIdArr = new string[] { "NA" }; }
 
+            string[] PackingIdArr = null;
+            if (!string.IsNullOrEmpty(vm.PackingHeaderId)) { PackingIdArr = vm.PackingHeaderId.Split(",".ToCharArray()); }
+            else { PackingIdArr = new string[] { "NA" }; }
+
             string[] ProductGroupIdArr = null;
             if (!string.IsNullOrEmpty(vm.ProductGroupId)) { ProductGroupIdArr = vm.ProductGroupId.Split(",".ToCharArray()); }
             else { ProductGroupIdArr = new string[] { "NA" }; }
 
-            var temp = (from p in db.ViewSaleOrderBalance
-                        join t in db.SaleOrderHeader on p.SaleOrderHeaderId equals t.SaleOrderHeaderId into table
-                        from tab in table.DefaultIfEmpty()
-                        join t1 in db.SaleOrderLine on p.SaleOrderLineId equals t1.SaleOrderLineId into table1
-                        from tab1 in table1.DefaultIfEmpty()
-                        join product in db.Product on p.ProductId equals product.ProductId into table2
-                        from tab2 in table2.DefaultIfEmpty()
-                        where (string.IsNullOrEmpty(vm.ProductId) ? 1 == 1 : ProductIdArr.Contains(p.ProductId.ToString()))
-                        && (string.IsNullOrEmpty(vm.SaleOrderHeaderId) ? 1 == 1 : SaleOrderIdArr.Contains(p.SaleOrderHeaderId.ToString()))
-                        && (string.IsNullOrEmpty(vm.ProductGroupId) ? 1 == 1 : ProductGroupIdArr.Contains(tab2.ProductGroupId.ToString()))
-                        && p.BalanceQty > 0
-                        orderby p.SaleOrderLineId
-                        select new DirectSaleInvoiceLineViewModel
-                        {
-                            //ProductUidIdName = tab1.ProductUid != null ? tab1.ProductUid.ProductUidName : "",
-                            Dimension1Name = tab1.Dimension1.Dimension1Name,
-                            Dimension2Name = tab1.Dimension2.Dimension2Name,
-                            Specification = tab1.Specification,
-                            BalanceQty = p.BalanceQty,
-                            Qty = p.BalanceQty,
-                            SaleOrderHeaderDocNo = tab.DocNo,
-                            ProductName = tab2.ProductName,
-                            ProductId = p.ProductId,
-                            SaleInvoiceHeaderId = vm.SaleInvoiceHeaderId,
-                            SaleOrderLineId = p.SaleOrderLineId,
-                            UnitId = tab2.UnitId,
-                            UnitName = tab2.Unit.UnitName,
-                            DealUnitId = tab1.DealUnitId,
-                            DealUnitName = tab1.DealUnit.UnitName,
-                            unitDecimalPlaces = tab2.Unit.DecimalPlaces,
-                            DealunitDecimalPlaces = tab1.DealUnit.DecimalPlaces,
-                            DealQty = (!tab1.UnitConversionMultiplier.HasValue || tab1.UnitConversionMultiplier <= 0) ? p.BalanceQty : p.BalanceQty * tab1.UnitConversionMultiplier.Value,
-                            UnitConversionMultiplier = tab1.UnitConversionMultiplier,
-                            Rate = tab1.Rate,
-                            DiscountPer = tab1.DiscountPer,
-                        }
+            if (vm.PackingHeaderId != null)
+            {
+                var temp = (from p in db.ViewPackingBalance
+                            join t in db.PackingHeader on p.PackingHeaderId equals t.PackingHeaderId into table
+                            from tab in table.DefaultIfEmpty()
+                            join t1 in db.PackingLine on p.PackingLineId equals t1.PackingLineId into table1
+                            from tab1 in table1.DefaultIfEmpty()
+                            join product in db.Product on p.ProductId equals product.ProductId into table2
+                            from tab2 in table2.DefaultIfEmpty()
+                            where (string.IsNullOrEmpty(vm.ProductId) ? 1 == 1 : ProductIdArr.Contains(p.ProductId.ToString()))
+                            && (string.IsNullOrEmpty(vm.PackingHeaderId) ? 1 == 1 : PackingIdArr.Contains(p.PackingHeaderId.ToString()))
+                            && (string.IsNullOrEmpty(vm.ProductGroupId) ? 1 == 1 : ProductGroupIdArr.Contains(tab2.ProductGroupId.ToString()))
+                            && p.BalanceQty > 0
+                            orderby p.PackingLineId
+                            select new DirectSaleInvoiceLineViewModel
+                            {
+                                //ProductUidIdName = tab1.ProductUid != null ? tab1.ProductUid.ProductUidName : "",
+                                Dimension1Name = tab1.Dimension1.Dimension1Name,
+                                Dimension2Name = tab1.Dimension2.Dimension2Name,
+                                Specification = tab1.Specification,
+                                BalanceQty = p.BalanceQty,
+                                Qty = p.BalanceQty,
+                                PackingDocNo = tab.DocNo,
+                                ProductName = tab2.ProductName,
+                                ProductId = p.ProductId,
+                                SaleInvoiceHeaderId = vm.SaleInvoiceHeaderId,
+                                PackingLineId = p.PackingLineId,
+                                SaleOrderLineId = tab1.SaleOrderLineId,
+                                SaleOrderHeaderDocNo = tab1.SaleOrderLine.SaleOrderHeader.DocNo,
+                                UnitId = tab2.UnitId,
+                                UnitName = tab2.Unit.UnitName,
+                                DealUnitId = tab1.DealUnitId,
+                                DealUnitName = tab1.DealUnit.UnitName,
+                                unitDecimalPlaces = tab2.Unit.DecimalPlaces,
+                                DealunitDecimalPlaces = tab1.DealUnit.DecimalPlaces,
+                                DealQty = p.BalanceQty * tab1.UnitConversionMultiplier,
+                                UnitConversionMultiplier = tab1.UnitConversionMultiplier,
+                                Rate = tab1.SaleOrderLine.Rate,
+                                DiscountPer = tab1.SaleOrderLine.DiscountPer,
+                                GodownId = tab.GodownId
+                            });
 
-                        );
-            return temp;
+                return temp;
+            }
+            else
+            {
+                var temp = (from p in db.ViewSaleOrderBalance
+                            join t in db.SaleOrderHeader on p.SaleOrderHeaderId equals t.SaleOrderHeaderId into table
+                            from tab in table.DefaultIfEmpty()
+                            join t1 in db.SaleOrderLine on p.SaleOrderLineId equals t1.SaleOrderLineId into table1
+                            from tab1 in table1.DefaultIfEmpty()
+                            join product in db.Product on p.ProductId equals product.ProductId into table2
+                            from tab2 in table2.DefaultIfEmpty()
+                            where (string.IsNullOrEmpty(vm.ProductId) ? 1 == 1 : ProductIdArr.Contains(p.ProductId.ToString()))
+                            && (string.IsNullOrEmpty(vm.SaleOrderHeaderId) ? 1 == 1 : SaleOrderIdArr.Contains(p.SaleOrderHeaderId.ToString()))
+                            && (string.IsNullOrEmpty(vm.ProductGroupId) ? 1 == 1 : ProductGroupIdArr.Contains(tab2.ProductGroupId.ToString()))
+                            && p.BalanceQty > 0
+                            orderby p.SaleOrderLineId
+                            select new DirectSaleInvoiceLineViewModel
+                            {
+                                //ProductUidIdName = tab1.ProductUid != null ? tab1.ProductUid.ProductUidName : "",
+                                Dimension1Name = tab1.Dimension1.Dimension1Name,
+                                Dimension2Name = tab1.Dimension2.Dimension2Name,
+                                Specification = tab1.Specification,
+                                BalanceQty = p.BalanceQty,
+                                Qty = p.BalanceQty,
+                                SaleOrderHeaderDocNo = tab.DocNo,
+                                ProductName = tab2.ProductName,
+                                ProductId = p.ProductId,
+                                SaleInvoiceHeaderId = vm.SaleInvoiceHeaderId,
+                                SaleOrderLineId = p.SaleOrderLineId,
+                                UnitId = tab2.UnitId,
+                                UnitName = tab2.Unit.UnitName,
+                                DealUnitId = tab1.DealUnitId,
+                                DealUnitName = tab1.DealUnit.UnitName,
+                                unitDecimalPlaces = tab2.Unit.DecimalPlaces,
+                                DealunitDecimalPlaces = tab1.DealUnit.DecimalPlaces,
+                                DealQty = (!tab1.UnitConversionMultiplier.HasValue || tab1.UnitConversionMultiplier <= 0) ? p.BalanceQty : p.BalanceQty * tab1.UnitConversionMultiplier.Value,
+                                UnitConversionMultiplier = tab1.UnitConversionMultiplier,
+                                Rate = tab1.Rate,
+                                DiscountPer = tab1.DiscountPer,
+                            });
+
+                return temp;
+            }
+
+
+            
         }
 
 
@@ -1158,6 +1214,46 @@ namespace Service
 
             return temp;
         }
+
+        public IEnumerable<ComboBoxResult> GetPendingPackingHeaderForSaleInvoice(int SaleInvoiceHeaderId, string term)
+        {
+            //var SaleInvoiceHeader = new SaleInvoiceHeaderService(_unitOfWork).Find(SaleInvoiceHeaderId);
+            var SaleInvoiceHeader = db.SaleInvoiceHeader.Find(SaleInvoiceHeaderId);
+
+            var settings = new SaleInvoiceSettingService(_unitOfWork).GetSaleInvoiceSettingForDocument(SaleInvoiceHeader.DocTypeId, SaleInvoiceHeader.DivisionId, SaleInvoiceHeader.SiteId);
+
+            string[] contraSites = null;
+            if (!string.IsNullOrEmpty(settings.filterContraSites)) { contraSites = settings.filterContraSites.Split(",".ToCharArray()); }
+            else { contraSites = new string[] { "NA" }; }
+
+            string[] contraDivisions = null;
+            if (!string.IsNullOrEmpty(settings.filterContraDivisions)) { contraDivisions = settings.filterContraDivisions.Split(",".ToCharArray()); }
+            else { contraDivisions = new string[] { "NA" }; }
+
+            int CurrentSiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
+            int CurrentDivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
+
+
+            return (from p in db.ViewPackingBalance
+                    join L in db.PackingLine on p.PackingLineId equals L.PackingLineId into PackingLineTable
+                    from PackingLineTab in PackingLineTable.DefaultIfEmpty()
+                    where p.BalanceQty > 0
+                    && (string.IsNullOrEmpty(settings.filterContraSites) ? p.SiteId == CurrentSiteId : contraSites.Contains(p.SiteId.ToString()))
+                    && (string.IsNullOrEmpty(settings.filterContraDivisions) ? p.DivisionId == CurrentDivisionId : contraDivisions.Contains(p.DivisionId.ToString()))
+                    && (string.IsNullOrEmpty(term) ? 1 == 1 : p.PackingNo.ToLower().Contains(term.ToLower())
+                        || string.IsNullOrEmpty(term) ? 1 == 1 : PackingLineTab.PackingHeader.DocType.DocumentTypeShortName.ToLower().Contains(term.ToLower())
+                    )
+                    group new { p, StockTab = PackingLineTab } by new { PackingLineTab.PackingHeaderId } into Result
+                    select new ComboBoxResult
+                    {
+                        id = Result.Key.PackingHeaderId.ToString(),
+                        text = Result.Max(i => i.StockTab.PackingHeader.DocType.DocumentTypeShortName + "-" + i.StockTab.PackingHeader.DocNo),
+                        TextProp1 = "Date :" + Result.Max(i => i.StockTab.PackingHeader.DocDate),
+                        TextProp2 = "Balance :" + Result.Sum(i => i.p.BalanceQty),
+                    });
+        }
+
+        
 
         
         public void Dispose()

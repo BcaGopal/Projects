@@ -117,11 +117,15 @@ namespace Model.ViewModels
 
         [Display(Name = "Sale Dispatch")]
         public int SaleDispatchLineId { get; set; }
-        public int ? PackingLineId { get; set; }
 
         [Display(Name = "Sale Order")]
         public int? SaleOrderLineId { get; set; }
         public string SaleOrderHeaderDocNo { get; set; }
+
+
+        [Display(Name = "Packing No.")]
+        public int? PackingLineId { get; set; }
+        public string PackingDocNo { get; set; }
 
         public string SaleDispatchHeaderDocNo { get; set; }
 
@@ -256,6 +260,7 @@ namespace Model.ViewModels
         public int SaleInvoiceHeaderId { get; set; }        
         [Display(Name = "Sale Orders")]
         public string SaleOrderHeaderId { get; set; }
+        public string PackingHeaderId { get; set; }
         public string SaleDispatchHeaderId { get; set; }
 
         [Display(Name = "Product")]

@@ -21,11 +21,16 @@ namespace Model.ViewModel
         public string DivisionName { get; set; }
         public bool isVisibleMachine { get; set; }
         public bool isMandatoryMachine { get; set; }
+        public bool isMandatoryJobOrder { get; set; }
         public bool isVisibleProductUID { get; set; }
         public bool isVisibleDimension1 { get; set; }
         public bool isVisibleDimension2 { get; set; }
         public bool isVisibleDimension3 { get; set; }
         public bool isVisibleDimension4 { get; set; }
+
+        public bool IsVisiblePassQty { get; set; }
+        public bool IsVisibleQty { get; set; }
+        public bool IsVisibleRate { get; set; }
 
         public bool isVisibleLotNo { get; set; }
         public bool isVisibleSpecification { get; set; }
@@ -40,7 +45,10 @@ namespace Model.ViewModel
         public bool isVisiblePenalty { get; set; }
         public bool isVisibleRateDiscountPer { get; set; }
         public bool isVisibleFinancier { get; set; }
+        public bool isVisibleJobOrder { get; set; }
         public bool isVisibleMfgDate { get; set; }
+        public bool isVisibleGodown { get; set; }
+        public bool isVisibleJobReceiveBy { get; set; }
         public bool isPostedInStock { get; set; }
         public bool isPostedInStockProcess { get; set; }
         public bool isPostedInStockVirtual { get; set; }
@@ -81,6 +89,7 @@ namespace Model.ViewModel
 
         public int ? CalculationId { get; set; }
         public string CalculationName { get; set; }
+
 
         public int? SalesTaxGroupPersonId { get; set; }
         public string SalesTaxGroupPersonName { get; set; }

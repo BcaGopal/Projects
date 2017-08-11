@@ -77,7 +77,7 @@
        @CustomHelpers.RenderStatusFilters(ViewBag.PendingToSubmit, ViewBag.PendingToReview, ControllerName, ViewBag.id, ViewBag.IndexStatus)*@
 
     </div>
-    <div class="panel-info" style="padding-left:5px;padding-top:2px">
+    <div class="panel-info" style="padding-left:5px;padding-top:2px;font-size:12px">
         @Html.Grid(Model).Columns(columns =>
            {
                columns.Add(foo => foo.JobOrderInspectionRequestCancelHeaderId, true).Css("Header_Id");
@@ -85,13 +85,13 @@
                columns.Add().Encoded(false).Sanitized(false).SetWidth("5%").RenderValueAs(m => CustomHelpers.RenderCheckBox());
                columns.Add(foo => foo.DocDate).Sortable(true).Titled("Cancel Date").Format("{0:dd/MMM/yyyy}").Filterable(true);
                columns.Add(foo => foo.DocNo).Titled("Cancel No").Sortable(true).Filterable(true);
-               columns.Add(m => m.JobWorkerName).Titled("Party").Sortable(true).Filterable(true);               
+               columns.Add(m => m.JobWorkerName).Titled("Party").Sortable(true).Filterable(true);
                columns.Add(m => m.Remark).Titled("Remark").Sortable(true).Filterable(true).SetWidth("30%");
                columns.Add().Titled("Status").RenderValueAs(m => CustomHelpers.RenderStatus(m.Status));
                columns.Add().Titled("").Encoded(false).Sanitized(false).RenderValueAs(m => CustomHelpers.RenderUserImage(m.ModifiedBy)).Titled("User").SetWidth("5%").Css("UserImageIndex");
                columns.Add().Sanitized(false).Encoded(false).RenderValueAs(m => CustomHelpers.RenderActionColumn(ControllerName, m.JobOrderInspectionRequestCancelHeaderId, m.Status, m.Reviewed, m.ReviewCount, (string)ViewBag.IndexStatus)).SetWidth(20).Css("icon-Cus-Size");
                columns.Add(true).RenderValueAs(m => CustomHelpers.RenderHEDActionLink(ControllerName, m.JobOrderInspectionRequestCancelHeaderId, m.Status, IndexStatus));
            }).WithPaging(25).EmptyText("No records found.")
-
     </div>
+
 </div>

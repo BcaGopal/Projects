@@ -43,7 +43,7 @@
 
         @CustomHelpers.RenderStatusFilters(ViewBag.PendingToSubmit, ViewBag.PendingToReview, ControllerName, ViewBag.id, ViewBag.IndexStatus)
     </div>
-    <div class="panel-info" style="padding-left:5px;padding-top:2px">
+    <div class="panel-info" style="padding-left:5px;padding-top:2px;font-size:12px">
         @Html.Grid(Model).Columns(columns =>
            {
                columns.Add(foo => foo.SaleDeliveryOrderCancelHeaderId, true).Css("Header_Id");
@@ -59,6 +59,5 @@
                columns.Add().Encoded(false).Sanitized(false).RenderValueAs(m => CustomHelpers.RenderActionColumn(ControllerName, m.SaleDeliveryOrderCancelHeaderId, m.Status, m.Reviewed, m.ReviewCount, (string)ViewBag.IndexStatus)).SetWidth(20).Css("icon-Cus-Size");
                columns.Add(true).RenderValueAs(m => CustomHelpers.RenderHEDActionLink(ControllerName, m.SaleDeliveryOrderCancelHeaderId, m.Status, IndexStatus));
            }).WithPaging(25).EmptyText("No records found.")
-
     </div>
 </div>

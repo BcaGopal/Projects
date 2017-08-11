@@ -24,7 +24,14 @@ namespace Model.ViewModel
         public bool isVisibleDimension3 { get; set; }
         public bool isVisibleDimension4 { get; set; }
         public bool isVisibleProductUID { get; set; }
-        public bool isVisibleBaleCount { get; set; }           
+        public bool isVisibleBaleCount { get; set; }
+
+
+        public bool isVisibleStockIn { get; set; }
+        public bool isVisibleSpecification { get; set; }
+        public bool isVisibleLotNo { get; set; }
+        public bool isVisibleBaleNo { get; set; }
+        public bool isVisibleDealUnit { get; set; }
 
         public string filterProductTypes { get; set; }
         public string filterProductGroups { get; set; }
@@ -49,4 +56,6 @@ namespace Model.ViewModel
         [MaxLength(100)]
         public string SqlProcDocumentPrint_AfterApprove { get; set; }
     }
+
+    
 }

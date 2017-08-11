@@ -38,7 +38,7 @@
                 @Html.HiddenFor(m => m.JobOrderSettings.isPostedInStock)
                 @Html.HiddenFor(m => m.JobOrderSettings.ProcessId)
                 @Html.HiddenFor(m => m.JobOrderSettings.SqlProcConsumption)
-                @Html.HiddenFor(m => m.JobOrderSettings.CalculationId)
+                @Html.HiddenFor(m => m.CalculationId)
                 @Html.HiddenFor(m => m.JobOrderSettings.isPostedInStockProcess)
                 @Html.HiddenFor(m => m.JobOrderSettings.AmountRoundOff)
                 @Html.HiddenFor(m => m.DocTypeId)
@@ -357,7 +357,7 @@
 
             function AddCalculation(MaxLineId)
             {
-                AddCalculationFields(parseInt($('#JobOrderHeaderId').val()), false, '@Model.JobOrderSettings.CalculationId', "Web.JobOrderHeaderCharges", "Web.JobOrderLineCharges", MaxLineId, $('#DocTypeId','.modal-body').val(), $('#SiteId','.modal-body').val(),$('#DivisionId','.modal-body').val());
+                AddCalculationFields(parseInt($('#JobOrderHeaderId').val()), false, '@Model.CalculationId', "Web.JobOrderHeaderCharges", "Web.JobOrderLineCharges", MaxLineId, $('#DocTypeId','.modal-body').val(), $('#SiteId','.modal-body').val(),$('#DivisionId','.modal-body').val());
             }
 
         })
@@ -619,7 +619,7 @@ else
                             $("#LossQty").val(data.Loss);
 
                             (data.SalesTaxGroupProductId==null)?(1==1):($("#SalesTaxGroupProductId").select2("data", {id: data.SalesTaxGroupProductId, text: data.SalesTaxGroupProductName}));
-                            GetChargeRates('@Model.JobOrderSettings.CalculationId',$('#DocTypeId','.modal-body').val(),$('#SiteId','.modal-body').val(),$('#DivisionId','.modal-body').val(),$('#JobOrderSettings_ProcessId','.modal-body').val(),$('#SalesTaxGroupPersonId','.modal-body').val(),$('#SalesTaxGroupProductId','.modal-body').val())
+                            GetChargeRates('@Model.CalculationId',$('#DocTypeId','.modal-body').val(),$('#SiteId','.modal-body').val(),$('#DivisionId','.modal-body').val(),$('#JobOrderSettings_ProcessId','.modal-body').val(),$('#SalesTaxGroupPersonId','.modal-body').val(),$('#SalesTaxGroupProductId','.modal-body').val())
                             ChargeCalculation();
 
                             //Calculation.call();
@@ -634,7 +634,7 @@ else
                 function Validate_SalesTaxGroupProductId()
                 {
                     if ($("#SalesTaxGroupProductId").val() != 0 && $("#SalesTaxGroupProductId").val() != null) {
-                        GetChargeRates('@Model.JobOrderSettings.CalculationId',$('#DocTypeId','.modal-body').val(),$('#SiteId','.modal-body').val(),$('#DivisionId','.modal-body').val(),$('#SaleQuotationSettings_ProcessId','.modal-body').val(),$('#SalesTaxGroupPersonId','.modal-body').val(),$('#SalesTaxGroupProductId','.modal-body').val());
+                        GetChargeRates('@Model.CalculationId',$('#DocTypeId','.modal-body').val(),$('#SiteId','.modal-body').val(),$('#DivisionId','.modal-body').val(),$('#SaleQuotationSettings_ProcessId','.modal-body').val(),$('#SalesTaxGroupPersonId','.modal-body').val(),$('#SalesTaxGroupProductId','.modal-body').val());
                         Calculation();
                     }
                 }

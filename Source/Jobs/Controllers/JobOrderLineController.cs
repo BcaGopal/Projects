@@ -230,7 +230,17 @@ namespace Web
 
             decimal Qty = vm.JobOrderLineViewModel.Where(m => m.Rate > 0).Sum(m => m.Qty);
 
-            int CalculationId = Settings.CalculationId ?? 0;
+            //int CalculationId = Settings.CalculationId ?? 0;
+            int CalculationId = 0;
+
+            if (Header.SalesTaxGroupPersonId != null)
+                CalculationId = new ChargeGroupPersonCalculationService(_unitOfWork).GetChargeGroupPersonCalculation(Header.DocTypeId, (int)Header.SalesTaxGroupPersonId, Header.SiteId, Header.DivisionId) ?? 0;
+
+            if (CalculationId == 0)
+                CalculationId = Settings.CalculationId ?? 0;
+
+
+
             //List<string> uids = new List<string>();
 
             //if (!string.IsNullOrEmpty(Settings.SqlProcGenProductUID))
@@ -737,6 +747,14 @@ namespace Web
                 s.LossQty = settings.LossQty;
                 s.DealUnitId = settings.DealUnitId;
             }
+
+
+            if (H.SalesTaxGroupPersonId != null)
+                s.CalculationId = new ChargeGroupPersonCalculationService(_unitOfWork).GetChargeGroupPersonCalculation(H.DocTypeId, (int)H.SalesTaxGroupPersonId, H.SiteId, H.DivisionId);
+
+            if (s.CalculationId == null)
+                s.CalculationId = settings.CalculationId;
+
             s.GodownId = H.GodownId;
             s.AllowRepeatProcess = false;
             s.JobOrderHeaderId = H.JobOrderHeaderId;
@@ -1476,7 +1494,7 @@ namespace Web
                     }
 
 
-
+                    templine.SalesTaxGroupProductId = svm.SalesTaxGroupProductId;
                     templine.DueDate = s.DueDate;
                     templine.ProductId = s.ProductId;
                     templine.ProductUidId = s.ProductUidId;

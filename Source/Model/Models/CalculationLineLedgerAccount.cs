@@ -61,6 +61,20 @@ namespace Model.Models
         public virtual Site Site { get; set; }
 
 
+        public bool? IsVisibleLedgerAccountDr { get; set; }
+
+        [ForeignKey("filterLedgerAccountGroupsDr")]
+        [Display(Name = "filterLedgerAccountGroupsDr")]
+        public int? filterLedgerAccountGroupsDrId { get; set; }
+        public virtual LedgerAccountGroup filterLedgerAccountGroupsDr { get; set; }
+        public bool? IsVisibleLedgerAccountCr { get; set; }
+
+        [ForeignKey("filterLedgerAccountGroupsCr")]
+        [Display(Name = "filterLedgerAccountGroupsCr")]
+        public int? filterLedgerAccountGroupsCrId { get; set; }
+        public virtual LedgerAccountGroup filterLedgerAccountGroupsCr { get; set; }
+
+
         [Display(Name = "Created By")]
         public string CreatedBy { get; set; }
         [Display(Name = "Modified By")]

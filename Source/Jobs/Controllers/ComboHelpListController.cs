@@ -6181,6 +6181,74 @@ namespace Web
             return Json(StockInJson);
         }
 
+
+        public JsonResult GetLedgerAccountForGroup(string searchTerm, int pageSize, int pageNum, int? filter)
+        {
+            var Query = cbl.GetLedgerAccountForGroup(searchTerm, filter);
+            var temp = Query.Skip(pageSize * (pageNum - 1)).Take(pageSize).ToList();
+
+            var count = Query.Count();
+
+            ComboBoxPagedResult Data = new ComboBoxPagedResult();
+            Data.Results = temp;
+            Data.Total = count;
+
+            return new JsonpResult
+            {
+                Data = Data,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+        public JsonResult SetSingleLedgerAccount(int Ids)
+        {
+            ComboBoxResult LedgerAccountJson = new ComboBoxResult();
+
+            LedgerAccount LedgerAccount = (from b in db.LedgerAccount
+                                                       where b.LedgerAccountId == Ids
+                                                       select b).FirstOrDefault();
+
+            LedgerAccountJson.id = LedgerAccount.LedgerAccountId.ToString();
+            LedgerAccountJson.text = LedgerAccount.LedgerAccountName;
+
+            return Json(LedgerAccountJson);
+        }
+        public JsonResult SetLedgerAccount(string Ids)
+        {
+            string[] subStr = Ids.Split(',');
+            List<ComboBoxResult> ProductJson = new List<ComboBoxResult>();
+            for (int i = 0; i < subStr.Length; i++)
+            {
+                int temp = Convert.ToInt32(subStr[i]);
+                IEnumerable<LedgerAccount> prod = from p in db.LedgerAccount
+                                                       where p.LedgerAccountId == temp
+                                                       select p;
+                ProductJson.Add(new ComboBoxResult()
+                {
+                    id = prod.FirstOrDefault().LedgerAccountId.ToString(),
+                    text = prod.FirstOrDefault().LedgerAccountName
+                });
+            }
+            return Json(ProductJson);
+        }
+
+        public JsonResult SetSingleJobOrderLine(int Ids)
+        {
+            ComboBoxResult JobOrderJson = new ComboBoxResult();
+
+            var JobOrder = from L in db.JobOrderLine
+                              where L.JobOrderLineId == Ids
+                              select new
+                              {
+                                  JobOrderLineId = L.JobOrderLineId,
+                                  JobOrderNo = L.JobOrderHeader.DocNo
+                              };
+
+            JobOrderJson.id = JobOrder.FirstOrDefault().ToString();
+            JobOrderJson.text = JobOrder.FirstOrDefault().JobOrderNo;
+
+            return Json(JobOrderJson);
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (!string.IsNullOrEmpty((string)TempData["CSEXC"]))

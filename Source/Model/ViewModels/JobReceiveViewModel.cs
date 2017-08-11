@@ -158,7 +158,7 @@ namespace Model.ViewModel
         public string JobReceiveHeaderDocNo { get; set; }
 
         [Display(Name = "Job Order"), Required]
-        public int JobOrderLineId { get; set; }
+        public int? JobOrderLineId { get; set; }
         public string JobOrderHeaderDocNo { get; set; }
         public int? OrderDocTypeId { get; set; }
         public int? OrderHeaderId { get; set; }

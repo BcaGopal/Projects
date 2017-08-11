@@ -49,10 +49,11 @@
        {
             columns.Add(foo => foo.ChargeGroupSettingsId, true);
             columns.Add(model => model.ProcessName).Titled("Process").Filterable(true).Sanitized(false).Encoded(false).RenderValueAs(model => Html.ActionLink(model.ProcessName, "Edit", "ChargeGroupSettings", new { id = model.ChargeGroupSettingsId }, null).ToHtmlString());
-            columns.Add(foo => foo.ChargeTypeName, false).Titled("Charge Type");
-            columns.Add(foo => foo.ChargeGroupPersonName, false).Titled("Charge Group Person");
-            columns.Add(foo => foo.ChargeGroupProductName, false).Titled("Charge Group Product");
-            columns.Add(foo => foo.ChargeLedgerAccountName, false).Titled("Charge Ledger Account");
+            columns.Add(foo => foo.ChargeGroupPersonName, false).Titled("Charge Group Person").Filterable(true);
+            columns.Add(foo => foo.ChargeGroupProductName, false).Titled("Charge Group Product").Filterable(true);
+            columns.Add(foo => foo.ChargeTypeName, false).Titled("Charge Type").Filterable(true);
+            columns.Add(foo => foo.ChargeLedgerAccountName, false).Titled("Charge Ledger Account").Filterable(true);
+            columns.Add(foo => foo.ChargePer, false).Titled("Charge Ledger Account").Filterable(true);
             columns.Add(true).RenderValueAs(m => "<a href='/ChargeGroupSettings/Edit/" + m.ChargeGroupSettingsId + "' hidden class='RecEditurl'></a><a href='/ChargeGroupSettings/Delete/" + m.ChargeGroupSettingsId + "' hidden class='RecDelurl'></a>");
 
            }).WithPaging(25).EmptyText("No records found.")

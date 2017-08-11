@@ -126,8 +126,27 @@ function DrawProductFields(DebugMode) {
                 + "     </div>"
                 + " </div>"
 
-        temp += "<input type='hidden' id='CALL_" + ProductFields[i].ChargeCode + "ACCR' value='" + (ProductFields[i].LedgerAccountCrId == null ? "" : ProductFields[i].LedgerAccountCrId) + "'  name='linecharges[" + i + "].LedgerAccountCrId' />"
-        temp += "<input type='hidden' id='CALL_" + ProductFields[i].ChargeCode + "ACDR' value='" + (ProductFields[i].LedgerAccountDrId == null ? "" : ProductFields[i].LedgerAccountDrId) + "' name='linecharges[" + i + "].LedgerAccountDrId'  />"
+        temp += "<div class='col-md-6' style='display:" + (ProductFields[i].IsVisibleLedgerAccountDr ? ("") : ("none")) + "'>"
+                + "      <div class='form-group'>"
+                + "         <label class='control-label col-xs-4'>" + ProductFields[i].ChargeName + " A/C DR.</label> <div class='col-xs-7'><input class='form-control Calculation' id='CALL_" + ProductFields[i].ChargeCode + "ACDR' name='linecharges[" + i + "].LedgerAccountDrId' type='text' value='" + (ProductFields[i].LedgerAccountDrId == null ? "" : ProductFields[i].LedgerAccountDrId) + "' /></div> "
+                + "     </div>"
+                + " </div>"
+
+        temp += "<div class='col-md-6' style='display:" + (ProductFields[i].IsVisibleLedgerAccountCr ? ("") : ("none")) + "'>"
+                + "      <div class='form-group'>"
+                + "         <label class='control-label col-xs-4'>" + ProductFields[i].ChargeName + " A/C CR.</label> <div class='col-xs-7'><input class='form-control Calculation' id='CALL_" + ProductFields[i].ChargeCode + "ACCR' name='linecharges[" + i + "].LedgerAccountCrId' type='text' value='" + (ProductFields[i].LedgerAccountCrId == null ? "" : ProductFields[i].LedgerAccountCrId) + "' /></div> "
+                + "     </div>"
+                + " </div>"
+
+
+
+        temp += "<input type='hidden' value='" + (ProductFields[i].IsVisibleLedgerAccountDr == null ? "" : ProductFields[i].IsVisibleLedgerAccountDr) + "' name='linecharges[" + i + "].IsVisibleLedgerAccountDr' />"
+        temp += "<input type='hidden' value='" + (ProductFields[i].IsVisibleLedgerAccountCr == null ? "" : ProductFields[i].IsVisibleLedgerAccountCr) + "' name='linecharges[" + i + "].IsVisibleLedgerAccountCr' />"
+        temp += "<input type='hidden' value='" + (ProductFields[i].filterLedgerAccountGroupsDrId == null ? "" : ProductFields[i].filterLedgerAccountGroupsDrId) + "' name='linecharges[" + i + "].filterLedgerAccountGroupsDrId' />"
+        temp += "<input type='hidden' value='" + (ProductFields[i].filterLedgerAccountGroupsCrId == null ? "" : ProductFields[i].filterLedgerAccountGroupsCrId) + "' name='linecharges[" + i + "].filterLedgerAccountGroupsCrId' />"
+        //temp += "<input type='hidden' id='CALL_" + ProductFields[i].ChargeCode + "ACCR' value='" + (ProductFields[i].LedgerAccountCrId == null ? "" : ProductFields[i].LedgerAccountCrId) + "'  name='linecharges[" + i + "].LedgerAccountCrId' />"
+        //temp += "<input type='hidden' id='CALL_" + ProductFields[i].ChargeCode + "ACDR' value='" + (ProductFields[i].LedgerAccountDrId == null ? "" : ProductFields[i].LedgerAccountDrId) + "' name='linecharges[" + i + "].LedgerAccountDrId'  />"
+
         temp += "<input type='hidden' id='CALL_" + ProductFields[i].ChargeCode + "CLAC' value='" + (ProductFields[i].ContraLedgerAccountId == null ? "" : ProductFields[i].ContraLedgerAccountId) + "' name='linecharges[" + i + "].ContraLedgerAccountId' />"
         temp += "<input type='hidden' value='" + (ProductFields[i].AddDeduct == null ? "" : ProductFields[i].AddDeduct) + "' name='linecharges[" + i + "].AddDeduct' />"
         temp += "<input type='hidden' value='" + (ProductFields[i].AffectCost == null ? "" : ProductFields[i].AffectCost) + "' name='linecharges[" + i + "].AffectCost' />"
@@ -144,12 +163,18 @@ function DrawProductFields(DebugMode) {
         temp += "<input type='hidden' value='" + (ProductFields[i].IncludedCharges == null ? "" : ProductFields[i].IncludedCharges) + "' name='linecharges[" + i + "].IncludedCharges' />"
         temp += "<input type='hidden' value='" + (ProductFields[i].IncludedChargesCalculation == null ? "" : ProductFields[i].IncludedChargesCalculation) + "' name='linecharges[" + i + "].IncludedChargesCalculation' />"
 
+
     }
     var varXAmount = document.getElementById('Amount').value ? document.getElementById('Amount').value : 0;
 
     temp += "  <input type='hidden' value='" + varXAmount + "' id='xAmount' class='form-control col-xs-7 required text-right' />  "
     //temp += "<hr/>"
     $(temp).appendTo('.modal-body .row:last');
+
+    for (var i = 0; i < ProductFields.length; i++) {
+        CustomSelectFunction($('#CALL_' + ProductFields[i].ChargeCode + 'ACDR'), '/ComboHelpList/GetLedgerAccountForGroup', '/ComboHelpList/SetSingleLedgerAccount', ' ', false, 0, ProductFields[i].filterLedgerAccountGroupsDrId);
+        CustomSelectFunction($('#CALL_' + ProductFields[i].ChargeCode + 'ACCR'), '/ComboHelpList/GetLedgerAccountForGroup', '/ComboHelpList/SetSingleLedgerAccount', ' ', false, 0, ProductFields[i].filterLedgerAccountGroupsCrId);
+    }
 }
 //"+(DebugMode?"text":"hidden")+"
 function DrawFooterFields(DebugMode) {

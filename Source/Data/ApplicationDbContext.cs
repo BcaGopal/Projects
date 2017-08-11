@@ -209,6 +209,7 @@ namespace Data.Models
         public DbSet<SalesTaxProductCode> SalesTaxProductCode { get; set; }
         public DbSet<ChargeGroupProduct> ChargeGroupProduct { get; set; }
         public DbSet<ChargeGroupPerson> ChargeGroupPerson { get; set; }
+        public DbSet<ChargeGroupPersonCalculation> ChargeGroupPersonCalculation { get; set; }
         public DbSet<ChargeGroupSettings> ChargeGroupSettings { get; set; }
         public DbSet<JobWorker> JobWorker { get; set; }
         public DbSet<Machine> Machine { get; set; }
@@ -607,6 +608,7 @@ namespace Data.Models
         public DbSet<ViewSaleOrderHeader> ViewSaleOrderHeader { get; set; }
         public DbSet<ViewSaleOrderLine> ViewSaleOrderLine { get; set; }
         public DbSet<ViewSaleOrderBalance> ViewSaleOrderBalance { get; set; }
+        public DbSet<ViewPackingBalance> ViewPackingBalance { get; set; }
 
         public DbSet<ViewSaleEnquiryBalance> ViewSaleEnquiryBalance { get; set; }
         public DbSet<ViewSaleEnquiryBalanceForQuotation> ViewSaleEnquiryBalanceForQuotation { get; set; }

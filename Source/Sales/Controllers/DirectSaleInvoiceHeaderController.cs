@@ -2123,6 +2123,26 @@ namespace Web
         {
             return Redirect(System.Configuration.ConfigurationManager.AppSettings["SaleDomain"] + "/SaleInvoiceReturnHeader/Submit/" + id);
         }
+
+        public ActionResult GetPackingHeader(string searchTerm, int pageSize, int pageNum, int filter)
+        {
+            var Query = new SaleInvoiceLineService(_unitOfWork).GetPendingPackingHeaderForSaleInvoice(filter, searchTerm);
+            var temp = Query.Skip(pageSize * (pageNum - 1))
+                .Take(pageSize)
+                .ToList();
+
+            var count = Query.Count();
+
+            ComboBoxPagedResult Data = new ComboBoxPagedResult();
+            Data.Results = temp;
+            Data.Total = count;
+
+            return new JsonpResult
+            {
+                Data = Data,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
     }
 
 

@@ -140,7 +140,16 @@ namespace Web
                 throw new Exception("Calculation not configured in Invoice settings");
             }
 
-            int CalculationId = Settings.CalculationId ?? 0;
+
+
+            //int CalculationId = Settings.CalculationId ?? 0;
+            int CalculationId = 0;
+
+            if (Header.SalesTaxGroupPersonId != null)
+                CalculationId = new ChargeGroupPersonCalculationService(_unitOfWork).GetChargeGroupPersonCalculation(Header.DocTypeId, (int)Header.SalesTaxGroupPersonId, Header.SiteId, Header.DivisionId) ?? 0;
+
+            if (CalculationId == 0)
+                CalculationId = Settings.CalculationId ?? 0;
 
             List<LineDetailListViewModel> LineList = new List<LineDetailListViewModel>();
 
@@ -197,6 +206,11 @@ namespace Web
                         ReceiveLine.JobReceiveHeaderId = Header.JobReceiveHeaderId.Value;
                         ReceiveLine.JobOrderLineId = item.JobOrderLineId;
                         ReceiveLine.ProductUidId = JobOrderLine.ProductUidId;
+                        ReceiveLine.ProductId = JobOrderLine.ProductId;
+                        ReceiveLine.Dimension1Id = JobOrderLine.Dimension1Id;
+                        ReceiveLine.Dimension2Id = JobOrderLine.Dimension2Id;
+                        ReceiveLine.Dimension3Id = JobOrderLine.Dimension3Id;
+                        ReceiveLine.Dimension4Id = JobOrderLine.Dimension4Id;
                         ReceiveLine.Qty = item.ReceiveQty;
                         ReceiveLine.UnitConversionMultiplier = JobOrderLine.UnitConversionMultiplier;
                         ReceiveLine.DealUnitId = JobOrderLine.DealUnitId;
@@ -590,7 +604,10 @@ namespace Web
                         db.JobInvoiceLineStatus.Add(Status);
 
                         LineList.Add(new LineDetailListViewModel { Amount = line.Amount, Rate = line.Rate, LineTableId = line.JobInvoiceLineId, HeaderTableId = item.JobInvoiceHeaderId, PersonID = Header.JobWorkerId, DealQty = line.DealQty, CostCenterId = line.CostCenterId });
-                        RefIds.Add(new LineReferenceIds { LineId = line.JobInvoiceLineId, RefLineId = ReceiveLine.JobOrderLineId });
+                        if (ReceiveLine.JobOrderLineId != null)
+                        {
+                            RefIds.Add(new LineReferenceIds { LineId = line.JobInvoiceLineId, RefLineId = (int)ReceiveLine.JobOrderLineId });
+                        }
                         pk++;
 
                     }
@@ -802,6 +819,13 @@ namespace Web
             s.JobInvoiceSettings = Mapper.Map<JobInvoiceSettings, JobInvoiceSettingsViewModel>(settings);
 
             s.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(H.DocTypeId);
+            
+            if (H.SalesTaxGroupPersonId != null)
+                s.CalculationId = new ChargeGroupPersonCalculationService(_unitOfWork).GetChargeGroupPersonCalculation(H.DocTypeId, (int)H.SalesTaxGroupPersonId, H.SiteId, H.DivisionId);
+
+            if (s.CalculationId == null)
+                s.CalculationId = settings.CalculationId;
+
 
             s.DocTypeId = H.DocTypeId;
             s.SiteId = H.SiteId;
@@ -809,6 +833,14 @@ namespace Web
             s.DivisionId = H.DivisionId;
             s.JobWorkerId = JobWorkerId;
             s.JobInvoiceHeaderId = H.JobInvoiceHeaderId;
+            s.SalesTaxGroupPersonId = H.SalesTaxGroupPersonId;
+
+            if (settings.isVisibleJobOrder == true || settings.isMandatoryJobOrder == true)
+                s.ForOrder = true;
+            else
+                s.ForOrder = false;
+                
+
             PrepareViewBag(null);
             ViewBag.DocNo = H.DocNo;
             ViewBag.LineMode = "Create";
@@ -850,56 +882,63 @@ namespace Web
             var jobreceivesettings = new JobReceiveSettingsService(_unitOfWork).GetJobReceiveSettingsForDocument(ReceiveHeader.DocTypeId, ReceiveHeader.DivisionId, ReceiveHeader.SiteId);
 
 
-            if (svm.JobOrderLineId <= 0)
+            if (settings.isMandatoryJobOrder ?? true)
             {
-                ModelState.AddModelError("JobOrderLineId", "Job Order field is required");
+                if (svm.JobOrderLineId <= 0)
+                {
+                    ModelState.AddModelError("JobOrderLineId", "Job Order field is required");
+                }
             }
 
-            if (svm.JobQty <= 0)
-                ModelState.AddModelError("JobQty", "The Job Qty field is required");
+            if (settings.IsVisibleQty)
+            {
+                if (svm.JobQty <= 0)
+                    ModelState.AddModelError("JobQty", "The Job Qty field is required");
 
-            if (svm.ReceiveQty <= 0)
-                ModelState.AddModelError("ReceiveQty", "The Rec Qty field is required");
+                if (svm.ReceiveQty <= 0)
+                    ModelState.AddModelError("ReceiveQty", "The Rec Qty field is required");
+            }
+
 
 
             #region "Tax Calculation Validation"
-            //SiteDivisionSettings SiteDivisionSettings = new SiteDivisionSettingsService(_unitOfWork).GetSiteDivisionSettings(InvoiceHeader.SiteId, InvoiceHeader.DivisionId, InvoiceHeader.DocDate);
-            //if (SiteDivisionSettings != null)
-            //{
-            //    if (SiteDivisionSettings.IsApplicableGST == true)
-            //    {
-            //        if (svm.SalesTaxGroupPersonId == 0 || svm.SalesTaxGroupPersonId == null)
-            //        {
-            //            ModelState.AddModelError("", "Sales Tax Group Person is not defined for party, it is required.");
-            //        }
+            SiteDivisionSettings SiteDivisionSettings = new SiteDivisionSettingsService(_unitOfWork).GetSiteDivisionSettings(InvoiceHeader.SiteId, InvoiceHeader.DivisionId, InvoiceHeader.DocDate);
+            if (SiteDivisionSettings != null)
+            {
+                if (SiteDivisionSettings.IsApplicableGST == true)
+                {
+                    if (svm.SalesTaxGroupPersonId == 0 || svm.SalesTaxGroupPersonId == null)
+                    {
+                        ModelState.AddModelError("", "Sales Tax Group Person is not defined for party, it is required.");
+                    }
 
-            //        if (svm.SalesTaxGroupProductId == 0 || svm.SalesTaxGroupProductId == null)
-            //        {
-            //            ModelState.AddModelError("", "Sales Tax Group Product is not defined for product, it is required.");
-            //        }
+                    if (svm.SalesTaxGroupProductId == 0 || svm.SalesTaxGroupProductId == null)
+                    {
+                        ModelState.AddModelError("", "Sales Tax Group Product is not defined for product, it is required.");
+                    }
 
-            //        if (svm.SalesTaxGroupProductId != 0 && svm.SalesTaxGroupProductId != null && svm.SalesTaxGroupPersonId != 0 && svm.SalesTaxGroupPersonId != null && svm.JobInvoiceSettings.CalculationId != null)
-            //        {
-            //            IEnumerable<ChargeRateSettings> ChargeRateSettingsList = new CalculationProductService(_unitOfWork).GetChargeRateSettingForValidation((int)svm.JobInvoiceSettings.CalculationId, InvoiceHeader.DocTypeId, InvoiceHeader.SiteId, InvoiceHeader.DivisionId, InvoiceHeader.ProcessId, (int)svm.SalesTaxGroupPersonId, (int)svm.SalesTaxGroupProductId);
+                    if (svm.SalesTaxGroupProductId != 0 && svm.SalesTaxGroupProductId != null && svm.SalesTaxGroupPersonId != 0 && svm.SalesTaxGroupPersonId != null && svm.JobInvoiceSettings.CalculationId != null)
+                    {
+                        IEnumerable<ChargeRateSettings> ChargeRateSettingsList = new CalculationProductService(_unitOfWork).GetChargeRateSettingForValidation((int)svm.JobInvoiceSettings.CalculationId, InvoiceHeader.DocTypeId, InvoiceHeader.SiteId, InvoiceHeader.DivisionId, InvoiceHeader.ProcessId, (int)svm.SalesTaxGroupPersonId, (int)svm.SalesTaxGroupProductId);
 
-            //            foreach (var item in ChargeRateSettingsList)
-            //            {
-            //                if (item.ChargeGroupSettingId == null)
-            //                {
-            //                    ModelState.AddModelError("", "Charge Group Setting is not defined for " + item.ChargeName + ".");
-            //                }
+                        foreach (var item in ChargeRateSettingsList)
+                        {
+                            if (item.ChargeGroupSettingId == null)
+                            {
+                                ModelState.AddModelError("", "Charge Group Setting is not defined for " + item.ChargeName + ".");
+                            }
 
-            //                if (item.LedgerAccountCrName == LedgerAccountConstants.Charge || item.LedgerAccountDrName == LedgerAccountConstants.Charge)
-            //                {
-            //                    if (item.ChargeGroupSettingId != null && item.ChargePer != 0 && item.ChargePer != null && item.ChargeLedgerAccountId == null)
-            //                    {
-            //                        ModelState.AddModelError("", "Ledger account is not defined for " + item.ChargeName + " in charge group settings.");
-            //                    }
-            //                }
-            //            }
-            //        }
-            //    }
-            //}
+                            if (item.LedgerAccountCrName == LedgerAccountConstants.Charge || item.LedgerAccountDrName == LedgerAccountConstants.Charge)
+                            {
+                                if (item.ChargeGroupSettingId != null && item.ChargePer != 0 && item.ChargePer != null && item.ChargeLedgerAccountId == null)
+                                {
+                                    ModelState.AddModelError("", "Ledger account is not defined for " + item.ChargeName + " in charge group settings.");
+                                }
+                            }
+                        }
+                    }
+                }
+            }
             #endregion
 
             if (svm.JobInvoiceLineId <= 0)
@@ -919,8 +958,8 @@ namespace Web
                     StockViewModel StockViewModel = new StockViewModel();
                     StockProcessViewModel StockProcessViewModel = new StockProcessViewModel();
 
-                    JobOrderLine JobOrderLine = new JobOrderLineService(_unitOfWork).Find(ReceiveLine.JobOrderLineId);
-                    JobOrderHeader JobOrderHeader = new JobOrderHeaderService(_unitOfWork).Find(JobOrderLine.JobOrderHeaderId);
+                    //JobOrderLine JobOrderLine = new JobOrderLineService(_unitOfWork).Find(ReceiveLine.JobOrderLineId);
+                    //JobOrderHeader JobOrderHeader = new JobOrderHeaderService(_unitOfWork).Find(JobOrderLine.JobOrderHeaderId);
 
 
                     //Product Uid Generation
@@ -974,7 +1013,6 @@ namespace Web
                     }
 
 
-
                     ReceiveLine.Qty = svm.ReceiveQty;
                     ReceiveLine.LossQty = svm.LossQty;
                     ReceiveLine.JobReceiveHeaderId = ReceiveHeader.JobReceiveHeaderId;
@@ -1009,22 +1047,22 @@ namespace Web
                         StockViewModel.CurrencyId = null;
                         StockViewModel.HeaderProcessId = null;
                         StockViewModel.PersonId = ReceiveHeader.JobWorkerId;
-                        StockViewModel.ProductId = JobOrderLine.ProductId;
+                        StockViewModel.ProductId = svm.ProductId;
                         StockViewModel.HeaderFromGodownId = null;
                         StockViewModel.HeaderGodownId = null;
                         StockViewModel.GodownId = ReceiveHeader.GodownId;
                         StockViewModel.ProcessId = ReceiveHeader.ProcessId;
                         StockViewModel.LotNo = ReceiveLine.LotNo;
-                        StockViewModel.CostCenterId = JobOrderHeader.CostCenterId;
+                        StockViewModel.CostCenterId = svm.CostCenterId;
                         StockViewModel.Qty_Iss = 0;
                         StockViewModel.Qty_Rec = ReceiveLine.Qty;
-                        StockViewModel.Rate = JobOrderLine.Rate;
+                        StockViewModel.Rate = svm.Rate;
                         StockViewModel.ExpiryDate = null;
-                        StockViewModel.Specification = JobOrderLine.Specification;
-                        StockViewModel.Dimension1Id = JobOrderLine.Dimension1Id;
-                        StockViewModel.Dimension2Id = JobOrderLine.Dimension2Id;
-                        StockViewModel.Dimension3Id = JobOrderLine.Dimension3Id;
-                        StockViewModel.Dimension4Id = JobOrderLine.Dimension4Id;
+                        StockViewModel.Specification = svm.Specification;
+                        StockViewModel.Dimension1Id = svm.Dimension1Id;
+                        StockViewModel.Dimension2Id = svm.Dimension2Id;
+                        StockViewModel.Dimension3Id = svm.Dimension3Id;
+                        StockViewModel.Dimension4Id = svm.Dimension4Id;
                         StockViewModel.HeaderRemark = ReceiveHeader.Remark;
                         StockViewModel.Remark = ReceiveLine.Remark;
                         StockViewModel.ProductUidId = ReceiveLine.ProductUidId;
@@ -1080,22 +1118,22 @@ namespace Web
                         StockProcessViewModel.CurrencyId = null;
                         StockProcessViewModel.HeaderProcessId = null;
                         StockProcessViewModel.PersonId = ReceiveHeader.JobWorkerId;
-                        StockProcessViewModel.ProductId = JobOrderLine.ProductId;
+                        StockProcessViewModel.ProductId = svm.ProductId;
                         StockProcessViewModel.HeaderFromGodownId = null;
                         StockProcessViewModel.HeaderGodownId = null;
                         StockProcessViewModel.GodownId = ReceiveHeader.GodownId;
                         StockProcessViewModel.ProcessId = ReceiveHeader.ProcessId;
                         StockProcessViewModel.LotNo = ReceiveLine.LotNo;
-                        StockProcessViewModel.CostCenterId = JobOrderHeader.CostCenterId;
+                        StockProcessViewModel.CostCenterId = svm.CostCenterId;
                         StockProcessViewModel.Qty_Iss = ReceiveLine.Qty + ReceiveLine.LossQty;
                         StockProcessViewModel.Qty_Rec = 0;
-                        StockProcessViewModel.Rate = JobOrderLine.Rate;
+                        StockProcessViewModel.Rate = svm.Rate;
                         StockProcessViewModel.ExpiryDate = null;
-                        StockProcessViewModel.Specification = JobOrderLine.Specification;
-                        StockProcessViewModel.Dimension1Id = JobOrderLine.Dimension1Id;
-                        StockProcessViewModel.Dimension2Id = JobOrderLine.Dimension2Id;
-                        StockProcessViewModel.Dimension3Id = JobOrderLine.Dimension3Id;
-                        StockProcessViewModel.Dimension4Id = JobOrderLine.Dimension4Id;
+                        StockProcessViewModel.Specification = svm.Specification;
+                        StockProcessViewModel.Dimension1Id = svm.Dimension1Id;
+                        StockProcessViewModel.Dimension2Id = svm.Dimension2Id;
+                        StockProcessViewModel.Dimension3Id = svm.Dimension3Id;
+                        StockProcessViewModel.Dimension4Id = svm.Dimension4Id;
                         StockProcessViewModel.HeaderRemark = ReceiveHeader.Remark;
                         StockProcessViewModel.Remark = ReceiveLine.Remark;
                         StockProcessViewModel.ProductUidId = ReceiveLine.ProductUidId;
@@ -1180,7 +1218,7 @@ namespace Web
                             StockProcessBomViewModel.GodownId = ReceiveHeader.GodownId;
                             StockProcessBomViewModel.ProcessId = ReceiveHeader.ProcessId;
                             StockProcessBomViewModel.LotNo = ReceiveLine.LotNo;
-                            StockProcessBomViewModel.CostCenterId = JobOrderHeader.CostCenterId;
+                            StockProcessBomViewModel.CostCenterId = svm.CostCenterId;
                             StockProcessBomViewModel.Qty_Iss = item.Qty;
                             StockProcessBomViewModel.Qty_Rec = 0;
                             StockProcessBomViewModel.Rate = 0;
@@ -1268,7 +1306,7 @@ namespace Web
                     ReceiveLine.ObjectState = Model.ObjectState.Added;
                     db.JobReceiveLine.Add(ReceiveLine);
 
-                    new JobReceiveLineStatusService(_unitOfWork).CreateLineStatusWithInvoice(ReceiveLine.JobReceiveLineId, (ReceiveLine.PassQty + ReceiveLine.LossQty), (ReceiveLine.PassQty + ReceiveLine.LossQty) * JobOrderLine.UnitConversionMultiplier, InvoiceHeader.DocDate, ref db);
+                    new JobReceiveLineStatusService(_unitOfWork).CreateLineStatusWithInvoice(ReceiveLine.JobReceiveLineId, (ReceiveLine.PassQty + ReceiveLine.LossQty), (ReceiveLine.PassQty + ReceiveLine.LossQty) * svm.UnitConversionMultiplier, InvoiceHeader.DocDate, ref db);
 
 
 
@@ -1433,8 +1471,8 @@ namespace Web
 
 
 
-                    JobOrderLine JobOrderLine = new JobOrderLineService(_unitOfWork).Find(ReceiveLine.JobOrderLineId);
-                    JobOrderHeader JobOrderHeader = new JobOrderHeaderService(_unitOfWork).Find(JobOrderLine.JobOrderHeaderId);
+                    //JobOrderLine JobOrderLine = new JobOrderLineService(_unitOfWork).Find(ReceiveLine.JobOrderLineId);
+                    //JobOrderHeader JobOrderHeader = new JobOrderHeaderService(_unitOfWork).Find(JobOrderLine.JobOrderHeaderId);
 
 
                     if (svm.ProductUidId != null && settings.isGenerateProductUid == true)
@@ -1481,22 +1519,22 @@ namespace Web
                         StockViewModel.CurrencyId = null;
                         StockViewModel.HeaderProcessId = ReceiveHeader.ProcessId;
                         StockViewModel.PersonId = ReceiveHeader.JobWorkerId;
-                        StockViewModel.ProductId = JobOrderLine.ProductId;
+                        StockViewModel.ProductId = svm.ProductId;
                         StockViewModel.HeaderFromGodownId = null;
                         StockViewModel.HeaderGodownId = ReceiveHeader.GodownId;
                         StockViewModel.GodownId = ReceiveHeader.GodownId;
                         StockViewModel.ProcessId = ReceiveHeader.ProcessId;
-                        StockViewModel.LotNo = JobOrderLine.LotNo;
-                        StockViewModel.CostCenterId = JobOrderHeader.CostCenterId;
+                        StockViewModel.LotNo = svm.LotNo;
+                        StockViewModel.CostCenterId = svm.CostCenterId;
                         StockViewModel.Qty_Iss = 0;
                         StockViewModel.Qty_Rec = temprec.Qty;
-                        StockViewModel.Rate = JobOrderLine.Rate;
+                        StockViewModel.Rate = svm.Rate;
                         StockViewModel.ExpiryDate = null;
-                        StockViewModel.Specification = JobOrderLine.Specification;
-                        StockViewModel.Dimension1Id = JobOrderLine.Dimension1Id;
-                        StockViewModel.Dimension2Id = JobOrderLine.Dimension2Id;
-                        StockViewModel.Dimension3Id = JobOrderLine.Dimension3Id;
-                        StockViewModel.Dimension4Id = JobOrderLine.Dimension4Id;
+                        StockViewModel.Specification = svm.Specification;
+                        StockViewModel.Dimension1Id = svm.Dimension1Id;
+                        StockViewModel.Dimension2Id = svm.Dimension2Id;
+                        StockViewModel.Dimension3Id = svm.Dimension3Id;
+                        StockViewModel.Dimension4Id = svm.Dimension4Id;
                         StockViewModel.HeaderRemark = ReceiveHeader.Remark;
                         StockViewModel.Remark = svm.Remark;
                         StockViewModel.ProductUidId = temprec.ProductUidId;
@@ -1535,22 +1573,22 @@ namespace Web
                         StockProcessViewModel.CurrencyId = null;
                         StockProcessViewModel.HeaderProcessId = ReceiveHeader.ProcessId;
                         StockProcessViewModel.PersonId = ReceiveHeader.JobWorkerId;
-                        StockProcessViewModel.ProductId = JobOrderLine.ProductId;
+                        StockProcessViewModel.ProductId = svm.ProductId;
                         StockProcessViewModel.HeaderFromGodownId = null;
                         StockProcessViewModel.HeaderGodownId = ReceiveHeader.GodownId;
                         StockProcessViewModel.GodownId = ReceiveHeader.GodownId;
                         StockProcessViewModel.ProcessId = ReceiveHeader.ProcessId;
-                        StockProcessViewModel.LotNo = JobOrderLine.LotNo;
-                        StockProcessViewModel.CostCenterId = JobOrderHeader.CostCenterId;
+                        StockProcessViewModel.LotNo = svm.LotNo;
+                        StockProcessViewModel.CostCenterId = svm.CostCenterId;
                         StockProcessViewModel.Qty_Iss = svm.ReceiveQty + svm.LossQty;
                         StockProcessViewModel.Qty_Rec = 0;
-                        StockProcessViewModel.Rate = JobOrderLine.Rate;
+                        StockProcessViewModel.Rate = svm.Rate;
                         StockProcessViewModel.ExpiryDate = null;
-                        StockProcessViewModel.Specification = JobOrderLine.Specification;
-                        StockProcessViewModel.Dimension1Id = JobOrderLine.Dimension1Id;
-                        StockProcessViewModel.Dimension2Id = JobOrderLine.Dimension2Id;
-                        StockProcessViewModel.Dimension3Id = JobOrderLine.Dimension3Id;
-                        StockProcessViewModel.Dimension4Id = JobOrderLine.Dimension4Id;
+                        StockProcessViewModel.Specification = svm.Specification;
+                        StockProcessViewModel.Dimension1Id = svm.Dimension1Id;
+                        StockProcessViewModel.Dimension2Id = svm.Dimension2Id;
+                        StockProcessViewModel.Dimension3Id = svm.Dimension3Id;
+                        StockProcessViewModel.Dimension4Id = svm.Dimension4Id;
                         StockProcessViewModel.HeaderRemark = ReceiveHeader.Remark;
                         StockProcessViewModel.Remark = svm.Remark;
                         StockProcessViewModel.ProductUidId = temprec.ProductUidId;
@@ -1668,7 +1706,7 @@ namespace Web
                             StockProcessBomViewModel.GodownId = ReceiveHeader.GodownId;
                             StockProcessBomViewModel.ProcessId = ReceiveHeader.ProcessId;
                             StockProcessBomViewModel.LotNo = temprec.LotNo;
-                            StockProcessBomViewModel.CostCenterId = JobOrderHeader.CostCenterId;
+                            StockProcessBomViewModel.CostCenterId = svm.CostCenterId;
                             StockProcessBomViewModel.Qty_Iss = item.Qty;
                             StockProcessBomViewModel.Qty_Rec = 0;
                             StockProcessBomViewModel.Rate = 0;
@@ -1715,7 +1753,7 @@ namespace Web
 
 
 
-
+                    temp1.SalesTaxGroupProductId = svm.SalesTaxGroupProductId;
                     temp1.Amount = svm.Amount;
                     temp1.JobReceiveLineId = svm.JobReceiveLineId;
                     temp1.UnitConversionMultiplier = svm.UnitConversionMultiplier;
@@ -1782,6 +1820,8 @@ namespace Web
                         {
                             var productcharge = new JobInvoiceLineChargeService(_unitOfWork).Find(item.Id);
 
+                            productcharge.LedgerAccountDrId = item.LedgerAccountDrId;
+                            productcharge.LedgerAccountCrId = item.LedgerAccountCrId;
                             productcharge.Rate = item.Rate;
                             productcharge.Amount = item.Amount;
                             productcharge.DealQty = item.DealQty;
@@ -1930,6 +1970,11 @@ namespace Web
 
             PrepareViewBag(temp);
 
+            if (temp.JobOrderLineId != null)
+                temp.ForOrder = true;
+            else
+                temp.ForOrder = false;
+
 
             return PartialView("_Create", temp);
         }
@@ -1990,6 +2035,11 @@ namespace Web
             temp.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(H.DocTypeId);
 
             PrepareViewBag(temp);
+
+            if (temp.JobOrderLineId != null)
+                temp.ForOrder = true;
+            else
+                temp.ForOrder = false;
 
             return PartialView("_Create", temp);
         }
@@ -2272,19 +2322,38 @@ namespace Web
         {
             return Json(new JobOrderLineService(_unitOfWork).GetLineDetailForInvoice(OrderId, InvoiceId));
         }
-        public JsonResult GetProductDetailJson(int ProductId)
+        public JsonResult GetProductDetailJson(int ProductId, int JobInvoiceHeaderId)
         {
-            ProductViewModel product = new ProductService(_unitOfWork).GetProduct(ProductId);
-            List<Product> ProductJson = new List<Product>();
+            ProductViewModel Product = new ProductService(_unitOfWork).GetProduct(ProductId);
+            var LastRecord = _JobInvoiceLineService.GetLineListForIndex(JobInvoiceHeaderId).OrderByDescending(m => m.JobInvoiceLineId).FirstOrDefault();
+            var JobInvoiceHeader = new JobInvoiceHeaderService(_unitOfWork).Find(JobInvoiceHeaderId);
+            var Settings = new JobInvoiceSettingsService(_unitOfWork).GetJobInvoiceSettingsForDocument(JobInvoiceHeader.DocTypeId, JobInvoiceHeader.DivisionId, JobInvoiceHeader.SiteId);
 
-            ProductJson.Add(new Product()
+            Unit DealUnit = new Unit();
+            if (Settings.isVisibleDealUnit == false)
             {
-                ProductId = product.ProductId,
-                StandardCost = product.StandardCost,
-                UnitId = product.UnitId
-            });
+                DealUnit = new UnitService(_unitOfWork).Find(Product.UnitId);
+            }
+            else
+            {
+                if (LastRecord != null)
+                    DealUnit = new UnitService(_unitOfWork).Find(LastRecord.DealUnitId);
+                else
+                    DealUnit = new UnitService(_unitOfWork).Find(Product.UnitId);
+            }
 
-            return Json(ProductJson);
+
+            return Json(new
+            {
+                ProductId = Product.ProductId,
+                StandardCost = Product.StandardCost,
+                UnitId = Product.UnitId,
+                DealUnitId = DealUnit.UnitId,
+                DealUnitDecimalPlaces = DealUnit.DecimalPlaces,
+                Specification = Product.ProductSpecification,
+                SalesTaxGroupProductId = Product.SalesTaxGroupProductId,
+                SalesTaxGroupProductName = Product.SalesTaxGroupProductName
+            });
         }
 
         public JsonResult getunitconversiondetailjson(int productid, string unitid, string deliveryunitid)
@@ -2322,29 +2391,29 @@ namespace Web
         {
             return new JsonpResult { Data = _JobInvoiceLineService.GetPendingJobOrdersForInvoice(searchTerm, pageSize, pageNum, filter), JsonRequestBehavior = JsonRequestBehavior.AllowGet };
         }
-        public JsonResult GetCustomProducts(int id, int JobWorkerId, string term, int Limit)//Indent Header ID
-        {
+        //public JsonResult GetCustomProducts(int id, int JobWorkerId, string term, int Limit)//Indent Header ID
+        //{
 
-            var Header = db.JobInvoiceHeader.Find(id);
+        //    var Header = db.JobInvoiceHeader.Find(id);
 
-            var DocType = db.DocumentType.Where(m => m.DocumentTypeName == TransactionDoctypeConstants.TraceMapInvoice).FirstOrDefault();
+        //    var DocType = db.DocumentType.Where(m => m.DocumentTypeName == TransactionDoctypeConstants.TraceMapInvoice).FirstOrDefault();
 
-            if (DocType != null)
-            {
-                if (Header.DocTypeId == DocType.DocumentTypeId)
-                {
-                    return Json(_JobInvoiceLineService.GetProductHelpListForPendingTraceMapJobOrders(id, JobWorkerId, term, Limit), JsonRequestBehavior.AllowGet);
-                }
-                else
-                {
-                    return Json(_JobInvoiceLineService.GetProductHelpListForPendingJobOrders(id, JobWorkerId, term, Limit), JsonRequestBehavior.AllowGet);
-                }
-            }
-            else
-            {
-                return Json(_JobInvoiceLineService.GetProductHelpListForPendingJobOrders(id, JobWorkerId, term, Limit), JsonRequestBehavior.AllowGet);
-            }
-        }
+        //    if (DocType != null)
+        //    {
+        //        if (Header.DocTypeId == DocType.DocumentTypeId)
+        //        {
+        //            return Json(_JobInvoiceLineService.GetProductHelpListForPendingTraceMapJobOrders(id, JobWorkerId, term, Limit), JsonRequestBehavior.AllowGet);
+        //        }
+        //        else
+        //        {
+        //            return Json(_JobInvoiceLineService.GetProductHelpListForPendingJobOrders(id, JobWorkerId, term, Limit), JsonRequestBehavior.AllowGet);
+        //        }
+        //    }
+        //    else
+        //    {
+        //        return Json(_JobInvoiceLineService.GetProductHelpListForPendingJobOrders(id, JobWorkerId, term, Limit), JsonRequestBehavior.AllowGet);
+        //    }
+        //}
 
 
         public ActionResult GetProductUidHelpList(string searchTerm, int pageSize, int pageNum, int filter)//SaleInvoiceHeaderId
@@ -2392,6 +2461,66 @@ namespace Web
             ProductUidJson.text = ProductUid.FirstOrDefault().text;
 
             return Json(ProductUidJson);
+        }
+
+        public ActionResult GetCustomProducts(string searchTerm, int pageSize, int pageNum, int filter)//DocTypeId
+        {
+            var Query = _JobInvoiceLineService.GetCustomProducts(filter, searchTerm);
+            var temp = Query.Skip(pageSize * (pageNum - 1))
+                .Take(pageSize)
+                .ToList();
+
+            var count = Query.Count();
+
+            ComboBoxPagedResult Data = new ComboBoxPagedResult();
+            Data.Results = temp;
+            Data.Total = count;
+
+            return new JsonpResult
+            {
+                Data = Data,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        public ActionResult GetJobOrderForProduct(string searchTerm, int pageSize, int pageNum, int filter)//SaleInvoiceReturnHeaderId
+        {
+            var Query = _JobInvoiceLineService.GetJobOrderHelpListForProduct(filter, searchTerm);
+            var temp = Query.Skip(pageSize * (pageNum - 1))
+                .Take(pageSize)
+                .ToList();
+
+            var count = Query.Count();
+
+            ComboBoxPagedResult Data = new ComboBoxPagedResult();
+            Data.Results = temp;
+            Data.Total = count;
+
+            return new JsonpResult
+            {
+                Data = Data,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        public JsonResult SetSingleJobOrderLine(int Ids)
+        {
+            ComboBoxResult JobOrderJson = new ComboBoxResult();
+
+            var JobOrderLine = from L in db.JobOrderLine
+                                join H in db.JobOrderHeader on L.JobOrderHeaderId equals H.JobOrderHeaderId into JobOrderHeaderTable
+                                from JobOrderHeaderTab in JobOrderHeaderTable.DefaultIfEmpty()
+                                where L.JobOrderLineId == Ids
+                                select new
+                                {
+                                    JobOrderLineId = L.JobOrderLineId,
+                                    JobOrderNo = L.Product.ProductName
+                                };
+
+            JobOrderJson.id = JobOrderLine.FirstOrDefault().ToString();
+            JobOrderJson.text = JobOrderLine.FirstOrDefault().JobOrderNo;
+
+            return Json(JobOrderJson);
         }
 
 

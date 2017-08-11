@@ -2588,10 +2588,15 @@ namespace Service
         public IEnumerable<StockLineViewModel> GetStockInForFilters(StockInFiltersForIssue vm)
         {
 
-            var Stock = new StockHeaderService(_unitOfWork).Find(vm.StockHeaderId);
+            var StockHeader = new StockHeaderService(_unitOfWork).Find(vm.StockHeaderId);
 
-            var settings = new StockHeaderSettingsService(_unitOfWork).GetStockHeaderSettingsForDocument(Stock.DocTypeId, Stock.DivisionId, Stock.SiteId);
+            var settings = new StockHeaderSettingsService(_unitOfWork).GetStockHeaderSettingsForDocument(StockHeader.DocTypeId, StockHeader.DivisionId, StockHeader.SiteId);
 
+            int? GodownId = 0;
+            if (StockHeader.FromGodownId != null)
+                GodownId = StockHeader.FromGodownId;
+            else
+                GodownId = StockHeader.GodownId;
 
             string[] ProductTypes = null;
             if (!string.IsNullOrEmpty(settings.filterProductTypes)) { ProductTypes = settings.filterProductTypes.Split(",".ToCharArray()); }
@@ -2645,7 +2650,7 @@ namespace Service
             var temp = (from p in db.ViewStockInBalance
                         join S in db.Stock on p.StockInId equals S.StockId into StockTable
                         from StockTab in StockTable.DefaultIfEmpty()
-                        where StockTab.GodownId == Stock.GodownId
+                        where StockTab.GodownId == GodownId
                         && (string.IsNullOrEmpty(vm.ProductId) ? 1 == 1 : ProductIdArr.Contains(p.ProductId.ToString()))
                         && (string.IsNullOrEmpty(vm.StockInHeaderId) ? 1 == 1 : StockInIdArr.Contains(StockTab.StockHeaderId.ToString()))
                         && (string.IsNullOrEmpty(vm.ProductGroupId) ? 1 == 1 : ProductGroupIdArr.Contains(StockTab.Product.ProductGroup.ProductGroupId.ToString()))

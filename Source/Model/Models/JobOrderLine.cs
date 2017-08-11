@@ -143,6 +143,10 @@ namespace Model.Models
         [Display(Name = "Lock Reason")]
         public string LockReason { get; set; }
 
+        [ForeignKey("SalesTaxGroupProduct"), Display(Name = "Sales Tax Group Product")]
+        public int? SalesTaxGroupProductId { get; set; }
+        public virtual ChargeGroupProduct SalesTaxGroupProduct { get; set; }
+
 
         [MaxLength(50)]
         public string OMSId { get; set; }

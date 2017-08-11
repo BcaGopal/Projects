@@ -1217,6 +1217,16 @@ namespace Web
 
                         if (item.StockId != null)
                         {
+                            StockAdj Adj = (from L in db.StockAdj
+                                            where L.StockOutId == item.StockId
+                                            select L).FirstOrDefault();
+
+                            if (Adj != null)
+                            {
+                                Adj.ObjectState = Model.ObjectState.Deleted;
+                                db.StockAdj.Remove(Adj);
+                            }
+
                             StockIdList.Add((int)item.StockId);
                         }
 

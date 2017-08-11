@@ -52,6 +52,8 @@ namespace Service
 
         IEnumerable<ComboBoxResult> GetPendingStockInForDispatch(int id, int ProductId, int GodownId, int? Dimension1Id, int? Dimension2Id, string term);
 
+        
+
 
     }
 
@@ -585,6 +587,8 @@ namespace Service
             //            AProp2 = "Date :" + p.StockInDate
             //        });
         }
+
+        
 
         public void Dispose()
         {

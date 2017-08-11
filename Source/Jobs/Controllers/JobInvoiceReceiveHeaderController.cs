@@ -169,6 +169,38 @@ namespace Web
             if (System.Web.HttpContext.Current.Session["DefaultGodownId"] != null)
                 vm.GodownId = (int)System.Web.HttpContext.Current.Session["DefaultGodownId"];
 
+            if (vm.GodownId == null || vm.GodownId == 0)
+            {
+                Site Site = new SiteService(_unitOfWork).Find(vm.SiteId);
+                if (Site != null)
+                {
+                    if (Site.DefaultGodownId != null)
+                    {
+                        vm.GodownId = (int)Site.DefaultGodownId;
+                    }
+                }
+            }
+
+            JobReceiveHeader LastReceive = (from H in db.JobReceiveHeader where H.DocTypeId == settings.JobReceiveDocTypeId && H.SiteId == settings.SiteId
+                                            && H.DivisionId == settings.DivisionId
+                                            orderby H.DocDate descending, H.JobReceiveHeaderId descending select H).FirstOrDefault();
+            if (LastReceive != null)
+            {
+                if (LastReceive.JobReceiveById != null)
+                {
+                    vm.JobReceiveById = LastReceive.JobReceiveById;
+                }
+            }
+            else
+            {
+                Employee Employee = new EmployeeService(_unitOfWork).GetEmployeeList().FirstOrDefault();
+                if (Employee != null)
+                {
+                    vm.JobReceiveById = Employee.PersonID;
+                }
+            }
+
+
             if (settings != null)
             {
                 vm.SalesTaxGroupPersonId = settings.SalesTaxGroupPersonId;
@@ -823,6 +855,7 @@ namespace Web
                     LedgerHeaderViewModel LedgerHeaderViewModel = new LedgerHeaderViewModel();
 
                     LedgerHeaderViewModel.LedgerHeaderId = pd.LedgerHeaderId ?? 0;
+                    LedgerHeaderViewModel.DocHeaderId = pd.JobInvoiceHeaderId;
                     LedgerHeaderViewModel.DocTypeId = pd.DocTypeId;
                     LedgerHeaderViewModel.DocDate = pd.DocDate;
                     LedgerHeaderViewModel.DocNo = pd.DocNo;

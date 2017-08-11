@@ -1443,12 +1443,16 @@ namespace Web
                     vm.StockHeaderId = i;
                     vm.StockId = i;
 
-                    JobOrderLine JobOrderLine = new JobOrderLineService(_unitOfWork).Find(vm.JobOrderLineId);
-                    if (JobOrderLine.ProdOrderLineId !=null)
+                    if (vm.JobOrderLineId != null)
                     {
-                        ProdOrderLine ProdOrderLine = new ProdOrderLineService(_unitOfWork).Find((int)JobOrderLine.ProdOrderLineId);
-                        vm.JobOrderLineId = (int)ProdOrderLine.ReferenceDocLineId;
+                        JobOrderLine JobOrderLine = new JobOrderLineService(_unitOfWork).Find(vm.JobOrderLineId);
+                        if (JobOrderLine.ProdOrderLineId != null)
+                        {
+                            ProdOrderLine ProdOrderLine = new ProdOrderLineService(_unitOfWork).Find((int)JobOrderLine.ProdOrderLineId);
+                            vm.JobOrderLineId = (int)ProdOrderLine.ReferenceDocLineId;
+                        }
                     }
+
 
 
 

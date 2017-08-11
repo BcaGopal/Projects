@@ -39,7 +39,8 @@ namespace Model.Models
         public int? DefaultSalesTaxGroupProductId { get; set; }
         public virtual ChargeGroupProduct DefaultSalesTaxGroupProduct { get; set; }
 
-        public int RateDecimalPlaces { get; set; }
+        public Byte RateDecimalPlaces { get; set; }
+
 
         [Display(Name = "Is System Define ?")]
         public Boolean IsSystemDefine { get; set; }

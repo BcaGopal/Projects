@@ -10,6 +10,11 @@ namespace Model.Models
 {
     public class JobInvoiceSettings : EntityBase, IHistoryLog
     {
+        public JobInvoiceSettings()
+        {
+            IsVisibleQty = true;
+            IsVisibleRate = true;
+        }
 
         [Key]
         public int JobInvoiceSettingsId { get; set; }
@@ -24,6 +29,7 @@ namespace Model.Models
         public virtual Division Division { get; set; }
         public bool? isVisibleMachine { get; set; }
         public bool? isMandatoryMachine { get; set; }
+        public bool? isMandatoryJobOrder { get; set; }
         public bool? isVisibleProductUID { get; set; }
         public bool? isVisibleDimension1 { get; set; }
         public bool? isVisibleDimension2 { get; set; }
@@ -38,6 +44,11 @@ namespace Model.Models
         public bool? isVisibleHeaderJobWorker { get; set; }
         public bool? isVisibleSalesTaxGroupPerson { get; set; }
         public bool? isVisibleSalesTaxGroupProduct { get; set; }
+        public bool? isVisibleJobOrder { get; set; }
+
+
+        public bool? isVisibleGodown { get; set; }
+        public bool? isVisibleJobReceiveBy { get; set; }
 
 
         public bool? isVisibleIncentive { get; set; }
@@ -47,6 +58,10 @@ namespace Model.Models
         public bool? isVisibleFinancier { get; set; }
         public bool? isVisibleMfgDate { get; set; }
 
+
+        public bool? IsVisiblePassQty { get; set; }
+        public bool IsVisibleQty { get; set; }
+        public bool IsVisibleRate { get; set; }
 
 
 
@@ -134,6 +149,8 @@ namespace Model.Models
         [ForeignKey("Calculation")]
         public int ? CalculationId { get; set; }
         public virtual Calculation Calculation { get; set; }
+
+
 
         [ForeignKey("JobReceiveDocType"), Display(Name = "Order Type")]
         public int ? JobReceiveDocTypeId { get; set; }

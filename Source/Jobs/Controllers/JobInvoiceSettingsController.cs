@@ -145,6 +145,7 @@ namespace Web
                     temp.filterProducts = pt.filterProducts;
                     temp.filterProductTypes = pt.filterProductTypes;
                     temp.isMandatoryMachine = pt.isMandatoryMachine;
+                    temp.isMandatoryJobOrder = pt.isMandatoryJobOrder;
                     temp.SqlProcGenProductUID = pt.SqlProcGenProductUID;
                     temp.SqlProcProductUidHelpList = pt.SqlProcProductUidHelpList;
                     temp.isVisibleHeaderJobWorker = pt.isVisibleHeaderJobWorker;
@@ -168,12 +169,20 @@ namespace Web
                     temp.isVisibleSalesTaxGroupProduct = pt.isVisibleSalesTaxGroupProduct;
 
 
+                    temp.IsVisibleQty = pt.IsVisibleQty;
+                    temp.IsVisiblePassQty = pt.IsVisiblePassQty;
+                    temp.IsVisibleRate = pt.IsVisibleRate;
+
                     temp.isVisibleIncentive = pt.isVisibleIncentive;
                     temp.isVisiblePenalty = pt.isVisiblePenalty;
+                    temp.isVisibleJobOrder = pt.isVisibleJobOrder;
 
                     temp.isVisibleRateDiscountPer = pt.isVisibleRateDiscountPer;
                     temp.isVisibleMfgDate = pt.isVisibleMfgDate;
                     temp.isVisibleFinancier = pt.isVisibleFinancier;
+
+                    temp.isVisibleGodown = pt.isVisibleGodown;
+                    temp.isVisibleJobReceiveBy = pt.isVisibleJobReceiveBy;
 
 
 
@@ -338,6 +347,7 @@ namespace Web
                     temp.filterProducts = pt.filterProducts;
                     temp.filterProductTypes = pt.filterProductTypes;
                     temp.isMandatoryMachine = pt.isMandatoryMachine;
+                    temp.isMandatoryJobOrder = pt.isMandatoryJobOrder;
                     temp.SqlProcGenProductUID = pt.SqlProcGenProductUID;
                     temp.SqlProcProductUidHelpList = pt.SqlProcProductUidHelpList;
                     temp.isPostedInStock = pt.isPostedInStock;
@@ -360,11 +370,18 @@ namespace Web
                     temp.isVisibleCostCenter = pt.isVisibleCostCenter;
                     temp.isVisibleIncentive = pt.isVisibleIncentive;
                     temp.isVisiblePenalty = pt.isVisiblePenalty;
+                    temp.isVisibleJobOrder = pt.isVisibleJobOrder;
                     temp.isVisibleRateDiscountPer = pt.isVisibleRateDiscountPer;
                     temp.isVisibleMfgDate = pt.isVisibleMfgDate;
                     temp.isVisibleFinancier = pt.isVisibleFinancier;
                     temp.isVisibleSalesTaxGroupPerson = pt.isVisibleSalesTaxGroupPerson;
                     temp.isVisibleSalesTaxGroupProduct = pt.isVisibleSalesTaxGroupProduct;
+                    temp.isVisibleGodown = pt.isVisibleGodown;
+                    temp.isVisibleJobReceiveBy = pt.isVisibleJobReceiveBy;
+
+                    temp.IsVisibleQty = pt.IsVisibleQty;
+                    temp.IsVisiblePassQty = pt.IsVisiblePassQty;
+                    temp.IsVisibleRate = pt.IsVisibleRate;
 
                     temp.DocumentPrintReportHeaderId = pt.DocumentPrintReportHeaderId;
                     temp.SqlProcDocumentPrint = pt.SqlProcDocumentPrint;
@@ -514,6 +531,7 @@ namespace Web
                     temp.filterPersonRoles = pt.filterPersonRoles;
                     temp.BarcodeStatusUpdate = pt.BarcodeStatusUpdate;
                     temp.isMandatoryMachine = pt.isMandatoryMachine;
+                    temp.isMandatoryJobOrder = pt.isMandatoryJobOrder;
                     temp.SqlProcGenProductUID = pt.SqlProcGenProductUID;
                     temp.isPostedInStock = pt.isPostedInStock;
                     temp.isVisibleLoss = pt.isVisibleLoss;
@@ -532,11 +550,19 @@ namespace Web
                     temp.isVisibleProductUID = pt.isVisibleProductUID;
                     temp.isVisibleIncentive = pt.isVisibleIncentive;
                     temp.isVisiblePenalty = pt.isVisiblePenalty;
+                    temp.isVisibleJobOrder = pt.isVisibleJobOrder;
                     temp.isVisibleRateDiscountPer = pt.isVisibleRateDiscountPer;
                     temp.isVisibleMfgDate = pt.isVisibleMfgDate;
                     temp.isVisibleFinancier = pt.isVisibleFinancier;
                     temp.isVisibleSalesTaxGroupPerson = pt.isVisibleSalesTaxGroupPerson;
                     temp.isVisibleSalesTaxGroupProduct = pt.isVisibleSalesTaxGroupProduct;
+                    temp.isVisibleGodown = pt.isVisibleGodown;
+                    temp.isVisibleJobReceiveBy = pt.isVisibleJobReceiveBy;
+
+                    temp.IsVisibleQty = pt.IsVisibleQty;
+                    temp.IsVisiblePassQty = pt.IsVisiblePassQty;
+                    temp.IsVisibleRate = pt.IsVisibleRate;
+
                     temp.SqlProcDocumentPrint = pt.SqlProcDocumentPrint;
                     temp.DocumentPrint = pt.DocumentPrint;
                     temp.isAutoCreateJobReceive = pt.isAutoCreateJobReceive;
@@ -694,6 +720,7 @@ namespace Web
                     temp.filterProductTypes = pt.filterProductTypes;
                     temp.filterPersonRoles = pt.filterPersonRoles;
                     temp.isMandatoryMachine = pt.isMandatoryMachine;
+                    temp.isMandatoryJobOrder = pt.isMandatoryJobOrder;
                     temp.SqlProcGenProductUID = pt.SqlProcGenProductUID;
                     temp.SqlProcGatePass = pt.SqlProcGatePass;
                     temp.JobReturnDocTypeId = pt.JobReturnDocTypeId;
@@ -713,11 +740,19 @@ namespace Web
                     temp.isVisibleProductUID = pt.isVisibleProductUID;
                     temp.isVisibleIncentive = pt.isVisibleIncentive;
                     temp.isVisiblePenalty = pt.isVisiblePenalty;
+                    temp.isVisibleJobOrder = pt.isVisibleJobOrder;
                     temp.isVisibleRateDiscountPer = pt.isVisibleRateDiscountPer;
                     temp.isVisibleMfgDate = pt.isVisibleMfgDate;
                     temp.isVisibleFinancier = pt.isVisibleFinancier;
                     temp.isVisibleSalesTaxGroupPerson = pt.isVisibleSalesTaxGroupPerson;
                     temp.isVisibleSalesTaxGroupProduct = pt.isVisibleSalesTaxGroupProduct;
+                    temp.isVisibleGodown = pt.isVisibleGodown;
+                    temp.isVisibleJobReceiveBy = pt.isVisibleJobReceiveBy;
+
+                    temp.IsVisibleQty = pt.IsVisibleQty;
+                    temp.IsVisiblePassQty = pt.IsVisiblePassQty;
+                    temp.IsVisibleRate = pt.IsVisibleRate;
+
                     temp.SqlProcDocumentPrint = pt.SqlProcDocumentPrint;
                     temp.DocumentPrint = pt.DocumentPrint;
                     temp.isAutoCreateJobReceive = pt.isAutoCreateJobReceive;

@@ -61,8 +61,7 @@
     </div>
     <div class="panel-info" style="padding-left:5px;padding-top:2px;font-size:12px">
 
-     
-            @Html.Grid(Model).Columns(columns =>
+        @Html.Grid(Model).Columns(columns =>
            {
                columns.Add(m => m.GatePassHeaderId, true).Css("Header_Id");
                columns.Add(m => m.Status, true);
@@ -70,13 +69,13 @@
                columns.Add(foo => foo.DocDate).Sortable(true).Titled("GatePass Date").Format("{0:dd/MMM/yyyy}").Filterable(true);
                columns.Add(m => m.DocNo).Sortable(true).Titled("GatePass No.").Filterable(true).Sortable(true);
                columns.Add(m => m.Name).Sortable(true).Titled("JobWorker Name").Filterable(true).Sortable(true);
-               columns.Add(m => m.GodownName).Sortable(true).Filterable(true).Titled("Godown");              
+               columns.Add(m => m.GodownName).Sortable(true).Filterable(true).Titled("Godown");
                columns.Add().RenderValueAs(m => CustomHelpers.RenderTotal(m.TotalQty, m.DecimalPlaces)).Sanitized(false).Encoded(false).Titled("TotalQty");
                columns.Add().Sanitized(false).Encoded(false).RenderValueAs(m => CustomHelpers.RenderStatus(m.Status)).Titled("Status");
                columns.Add().Titled("").Encoded(false).Sanitized(false).RenderValueAs(m => CustomHelpers.RenderUserImage(m.ModifiedBy)).Titled("User").SetWidth("5%").Css("UserImageIndex");
                columns.Add().Encoded(false).Sanitized(false).RenderValueAs(m => CustomHelpers.RenderActionColumn(ControllerName, m.GatePassHeaderId, m.Status, m.Reviewed, m.ReviewCount, (string)ViewBag.IndexStatus)).SetWidth(20).Css("icon-Cus-Size");
                columns.Add(true).RenderValueAs(m => CustomHelpers.RenderHEDActionLink(ControllerName, m.GatePassHeaderId, m.Status, IndexStatus));
            }).WithPaging(25).EmptyText("No records found.")
-       
+
     </div>
 </div>

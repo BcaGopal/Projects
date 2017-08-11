@@ -203,6 +203,8 @@ namespace Service
         List<ComboBoxResult> SetSelct2Data(string Id, string SqlProcSet);
         ComboBoxResult SetSingleSelect2Data(int Id, string SqlProcSet);
 
+        IQueryable<ComboBoxResult> GetLedgerAccountForGroup(string term, int? filter);
+
 
     }
 
@@ -3109,6 +3111,30 @@ namespace Service
                             text = D.text
                         }
               );
+            return list;
+        }
+
+        public IQueryable<ComboBoxResult> GetLedgerAccountForGroup(string term, int? filter)
+        {
+            SqlParameter SqlParameterLedgerAccountGroupId = new SqlParameter("@LedgerAccountGroupId", filter);
+
+            if (filter == null)
+            {
+                SqlParameterLedgerAccountGroupId.Value = DBNull.Value;
+            }
+
+            IQueryable<ComboBoxResult> LedgerAccountList = db.Database.SqlQuery<ComboBoxResult>("" + ConfigurationManager.AppSettings["DataBaseSchema"] + ".spGetHelpListLedgerAccountForGroup @LedgerAccountGroupId", SqlParameterLedgerAccountGroupId).ToList().AsQueryable();
+
+            var list = (from D in LedgerAccountList
+                        where (string.IsNullOrEmpty(term) ? 1 == 1 : D.text.ToLower().Contains(term.ToLower()))
+                        orderby D.text
+                        select new ComboBoxResult
+                        {
+                            id = D.id .ToString(),
+                            text = D.text
+                        }
+              );
+
             return list;
         }
 

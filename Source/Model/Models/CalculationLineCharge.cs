@@ -93,6 +93,22 @@ namespace Model.Models
         public string IncludedCharges { get; set; }
         public string IncludedChargesCalculation { get; set; }
 
+
+
+        public bool? IsVisibleLedgerAccountDr { get; set; }
+
+        [ForeignKey("filterLedgerAccountGroupsDr")]
+        [Display(Name = "filterLedgerAccountGroupsDr")]
+        public int? filterLedgerAccountGroupsDrId { get; set; }
+        public virtual LedgerAccountGroup filterLedgerAccountGroupsDr { get; set; }
+        public bool? IsVisibleLedgerAccountCr { get; set; }
+
+        [ForeignKey("filterLedgerAccountGroupsCr")]
+        [Display(Name = "filterLedgerAccountGroupsCr")]
+        public int? filterLedgerAccountGroupsCrId { get; set; }
+        public virtual LedgerAccountGroup filterLedgerAccountGroupsCr { get; set; }
+
+
         [MaxLength(50)]
         public string OMSId { get; set; }
 

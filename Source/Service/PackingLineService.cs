@@ -42,18 +42,28 @@ namespace Service
 
         IEnumerable<PendingDeliveryOrderListForPacking> FGetPendingDeliveryOrderListForPacking(int ProductId, int BuyerId, int PackingLineId);
         Decimal FGetPendingOrderQtyForPacking(int SaleOrderLineId, int PackingLineId);
-
         Decimal FGetPendingOrderQtyForDispatch(int SaleOrderilneId);
 
-        Decimal FGetPendingDeliveryOrderQtyForPacking(int SaleDeliveryOrderLineId, int PackingLineId);
+        Decimal FGetPendingOrderQtyForPacking(int SaleOrderilneId);
 
+        Decimal FGetPendingDeliveryOrderQtyForPacking(int SaleDeliveryOrderLineId, int PackingLineId);
         Decimal FGetPendingDeliveryOrderQtyForDispatch(int SaleDeliveryOrderilneId);
+        Decimal FGetPendingDeliveryOrderQtyForPacking(int SaleDeliveryOrderilneId);
 
         bool FSaleOrderProductMatchWithPacking(int SaleOrderLineId, int ProductId);
         IQueryable<ComboBoxResult> GetCustomProductsWithBuyerSku(int Id, string term);
         IQueryable<ComboBoxResult> GetCustomProducts(int Id, string term);
 
         IEnumerable<PendingOrderListForPacking> FGetPendingOrderListForPackingForProductUid(int ProductUidId, int BuyerId);
+
+        IEnumerable<PackingLineViewModel> GetPackingLineListForIndex(int PackingHeaderId);
+        IEnumerable<PackingLineViewModel> GetSaleOrdersForFilters(PackingFilterViewModel vm);
+
+        IQueryable<ComboBoxResult> GetPendingProductsForPacking(int id, string term);//DocTypeId
+        IQueryable<ComboBoxResult> GetSaleOrderHelpListForProduct(int filter, string term);
+        IEnumerable<ComboBoxResult> GetPendingOrdersForPacking(int id, string term);
+        PackingLineViewModel GetPackingLineForEdit(int id);
+        IEnumerable<ComboBoxResult> GetPendingStockInForPacking(int id, int ProductId, int GodownId, int? Dimension1Id, int? Dimension2Id, string term);
     }
 
     public class PackingLineService : IPackingLineService
@@ -630,10 +640,26 @@ namespace Service
             }
         }
 
-
         public Decimal FGetPendingOrderQtyForDispatch(int SaleOrderilneId)
         {
             var temp = (from L in db.ViewSaleOrderBalance
+                        where L.SaleOrderLineId == SaleOrderilneId
+                        select L).FirstOrDefault();
+
+            if (temp != null)
+            {
+                return temp.BalanceQty;
+            }
+            else
+            {
+                return 0;
+            }
+        }
+
+
+        public Decimal FGetPendingOrderQtyForPacking(int SaleOrderilneId)
+        {
+            var temp = (from L in db.ViewSaleOrderBalanceForCancellation
                         where L.SaleOrderLineId == SaleOrderilneId
                         select L).FirstOrDefault();
 
@@ -667,8 +693,22 @@ namespace Service
 
         }
 
-
         public Decimal FGetPendingDeliveryOrderQtyForDispatch(int SaleDeliveryOrderilneId)
+        {
+            var temp = (from L in db.ViewSaleDeliveryOrderBalance
+                        where L.SaleDeliveryOrderLineId == SaleDeliveryOrderilneId
+                        select L).FirstOrDefault();
+
+            if (temp != null)
+            {
+                return temp.BalanceQty;
+            }
+            else
+            {
+                return 0;
+            }
+        }
+        public Decimal FGetPendingDeliveryOrderQtyForPacking(int SaleDeliveryOrderilneId)
         {
             var temp = (from L in db.ViewSaleDeliveryOrderBalance
                         where L.SaleDeliveryOrderLineId == SaleDeliveryOrderilneId
@@ -735,6 +775,9 @@ namespace Service
                     });
         }
 
+
+        //New Functions For New Packing
+
         public IQueryable<ComboBoxResult> GetCustomProducts(int Id, string term)
         {
 
@@ -771,6 +814,340 @@ namespace Service
                         id = p.ProductId.ToString(),
                         text = p.ProductName,
                     });
+        }
+
+        public IEnumerable<PackingLineViewModel> GetPackingLineListForIndex(int PackingHeaderId)
+        {
+            IEnumerable<PackingLineViewModel> PackingLineViewModel = (from l in db.PackingLine
+                                                                    join t1 in db.SaleOrderLine on l.SaleOrderLineId equals t1.SaleOrderLineId into table1
+                                                                    from tab1 in table1.DefaultIfEmpty()
+                                                                    join t2 in db.SaleOrderHeader on tab1.SaleOrderHeaderId equals t2.SaleOrderHeaderId into table2
+                                                                    from tab2 in table2.DefaultIfEmpty()
+                                                                    join t3 in db.ProductUid on l.ProductUidId equals t3.ProductUIDId into table3
+                                                                    from tab3 in table3.DefaultIfEmpty()
+                                                                    join u in db.Units on l.DealUnitId equals u.UnitId into DealUnitTable
+                                                                    from DealUnitTab in DealUnitTable.DefaultIfEmpty()
+                                                                    join Si in db.Stock on l.StockInId equals Si.StockId into StockInTable
+                                                                    from StockInTab in StockInTable.DefaultIfEmpty()
+                                                                    join Sih in db.StockHeader on StockInTab.StockHeaderId equals Sih.StockHeaderId into StockHeaderTable
+                                                                    from StockHeaderTab in StockHeaderTable.DefaultIfEmpty()
+                                                                    where l.PackingHeaderId == PackingHeaderId
+                                                                    orderby l.PackingLineId
+                                                                    select new PackingLineViewModel
+                                                                    {
+                                                                        PackingLineId = l.PackingLineId,
+                                                                        ProductName = l.Product.ProductName,
+                                                                        Dimension1Name = l.Dimension1.Dimension1Name,
+                                                                        Dimension2Name = l.Dimension2.Dimension2Name,
+                                                                        Specification = l.Specification,
+                                                                        SaleOrderNo = tab2.DocNo,
+                                                                        ProductUidName = tab3.ProductUidName,
+                                                                        BaleNo = l.BaleNo,
+                                                                        Qty = l.Qty,
+                                                                        UnitId = l.Product.UnitId,
+                                                                        DealQty = l.DealQty,
+                                                                        DealUnitId = DealUnitTab.UnitName,
+                                                                        DealUnitDecimalPlaces = l.DealUnit.DecimalPlaces,
+                                                                        unitDecimalPlaces = l.Product.Unit.DecimalPlaces,
+                                                                        StockInId = StockInTab.StockId,
+                                                                        StockInNo = StockHeaderTab.DocNo,
+                                                                        Remark = l.Remark,
+                                                                        PackingHeaderId = l.PackingHeaderId
+                                                                    }).Take(2000).ToList();
+
+            return PackingLineViewModel;
+        }
+
+        public IEnumerable<PackingLineViewModel> GetSaleOrdersForFilters(PackingFilterViewModel vm)
+        {
+            string[] ProductIdArr = null;
+            if (!string.IsNullOrEmpty(vm.ProductId)) { ProductIdArr = vm.ProductId.Split(",".ToCharArray()); }
+            else { ProductIdArr = new string[] { "NA" }; }
+
+            string[] Dimension1IdArr = null;
+            if (!string.IsNullOrEmpty(vm.Dimension1Id)) { Dimension1IdArr = vm.Dimension1Id.Split(",".ToCharArray()); }
+            else { Dimension1IdArr = new string[] { "NA" }; }
+
+            string[] Dimension2IdArr = null;
+            if (!string.IsNullOrEmpty(vm.Dimension2Id)) { Dimension2IdArr = vm.Dimension2Id.Split(",".ToCharArray()); }
+            else { Dimension2IdArr = new string[] { "NA" }; }
+
+            string[] SaleOrderIdArr = null;
+            if (!string.IsNullOrEmpty(vm.SaleOrderHeaderId)) { SaleOrderIdArr = vm.SaleOrderHeaderId.Split(",".ToCharArray()); }
+            else { SaleOrderIdArr = new string[] { "NA" }; }
+
+            string[] ProductGroupIdArr = null;
+            if (!string.IsNullOrEmpty(vm.ProductGroupId)) { ProductGroupIdArr = vm.ProductGroupId.Split(",".ToCharArray()); }
+            else { ProductGroupIdArr = new string[] { "NA" }; }
+
+            var temp = (from p in db.ViewSaleOrderBalanceForCancellation
+                        join t in db.SaleOrderHeader on p.SaleOrderHeaderId equals t.SaleOrderHeaderId into table
+                        from tab in table.DefaultIfEmpty()
+                        join t1 in db.SaleOrderLine on p.SaleOrderLineId equals t1.SaleOrderLineId into table1
+                        from tab1 in table1.DefaultIfEmpty()
+                        join product in db.Product on p.ProductId equals product.ProductId into table2
+                        from tab2 in table2.DefaultIfEmpty()
+                        where (string.IsNullOrEmpty(vm.ProductId) ? 1 == 1 : ProductIdArr.Contains(p.ProductId.ToString()))
+                        && (string.IsNullOrEmpty(vm.SaleOrderHeaderId) ? 1 == 1 : SaleOrderIdArr.Contains(p.SaleOrderHeaderId.ToString()))
+                        && (string.IsNullOrEmpty(vm.ProductGroupId) ? 1 == 1 : ProductGroupIdArr.Contains(tab2.ProductGroupId.ToString()))
+                        && (string.IsNullOrEmpty(vm.Dimension1Id) ? 1 == 1 : Dimension1IdArr.Contains(p.Dimension1Id.ToString()))
+                        && (string.IsNullOrEmpty(vm.Dimension2Id) ? 1 == 1 : Dimension2IdArr.Contains(p.Dimension2Id.ToString()))
+                        && p.BalanceQty > 0
+                        orderby p.SaleOrderLineId
+                        select new PackingLineViewModel
+                        {
+                            //ProductUidIdName = tab1.ProductUid != null ? tab1.ProductUid.ProductUidName : "",
+                            Dimension1Name = tab1.Dimension1.Dimension1Name,
+                            Dimension2Name = tab1.Dimension2.Dimension2Name,
+                            Specification = tab1.Specification,
+                            BalanceQty = p.BalanceQty,
+                            Qty = p.BalanceQty,
+                            SaleOrderNo = tab.DocNo,
+                            ProductName = tab2.ProductName,
+                            ProductId = p.ProductId,
+                            Dimension1Id = p.Dimension1Id,
+                            Dimension2Id = p.Dimension2Id,
+                            PackingHeaderId = vm.PackingHeaderId,
+                            SaleOrderLineId = p.SaleOrderLineId,
+                            UnitId = tab2.UnitId,
+                            UnitName = tab2.Unit.UnitName,
+                            DealUnitId = tab1.DealUnitId,
+                            DealUnitName = tab1.DealUnit.UnitName,
+                            unitDecimalPlaces = tab2.Unit.DecimalPlaces,
+                            DealUnitDecimalPlaces = tab1.DealUnit.DecimalPlaces,
+                            DealQty = (!tab1.UnitConversionMultiplier.HasValue || tab1.UnitConversionMultiplier <= 0) ? p.BalanceQty : p.BalanceQty * tab1.UnitConversionMultiplier.Value,
+                            UnitConversionMultiplier = tab1.UnitConversionMultiplier,
+                        }
+
+                        );
+            return temp;
+        }
+
+        public IEnumerable<ComboBoxResult> GetPendingStockInForPacking(int PackingHeaderId, int GodownId, int ProductId, int? Dimension1Id, int? Dimension2Id, string term)
+        {
+
+            var PackingHeader = new PackingHeaderService(_unitOfWork).Find(PackingHeaderId);
+
+            var settings = new PackingSettingService(_unitOfWork).GetPackingSettingForDocument(PackingHeader.DocTypeId, PackingHeader.DivisionId, PackingHeader.SiteId);
+
+
+            string[] contraSites = null;
+            if (!string.IsNullOrEmpty(settings.filterContraSites)) { contraSites = settings.filterContraSites.Split(",".ToCharArray()); }
+            else { contraSites = new string[] { "NA" }; }
+
+            string[] contraDivisions = null;
+            if (!string.IsNullOrEmpty(settings.filterContraDivisions)) { contraDivisions = settings.filterContraDivisions.Split(",".ToCharArray()); }
+            else { contraDivisions = new string[] { "NA" }; }
+
+            int CurrentSiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
+            int CurrentDivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
+
+            SqlParameter SqlParameterPackingHeaderId = new SqlParameter("@PackingHeaderId", PackingHeaderId);
+            SqlParameter SqlParameterProductId = new SqlParameter("@ProductId", ProductId);
+            SqlParameter SqlParameterGodownId = new SqlParameter("@GodownId", GodownId);
+            SqlParameter SqlParameterDimension1Id = new SqlParameter("@Dimension1Id", Dimension1Id);
+            SqlParameter SqlParameterDimension2Id = new SqlParameter("@Dimension2Id", Dimension2Id);
+
+            if (Dimension1Id == null)
+            {
+                SqlParameterDimension1Id.Value = DBNull.Value;
+            }
+
+            if (Dimension2Id == null)
+            {
+                SqlParameterDimension2Id.Value = DBNull.Value;
+            }
+
+
+            IEnumerable<PendingStockInForPacking> PendingStockInForPacking = db.Database.SqlQuery<PendingStockInForPacking>("" + ConfigurationManager.AppSettings["DataBaseSchema"] + ".spGetHelpListPendingStockInForPacking @PackingHeaderId, @GodownId, @ProductId, @Dimension1Id, @Dimension2Id", SqlParameterPackingHeaderId, SqlParameterGodownId, SqlParameterProductId, SqlParameterDimension1Id, SqlParameterDimension2Id).ToList();
+
+
+            return (from p in PendingStockInForPacking
+                    where (string.IsNullOrEmpty(settings.filterContraSites) ? p.SiteId == CurrentSiteId : contraSites.Contains(p.SiteId.ToString()))
+                    && (string.IsNullOrEmpty(settings.filterContraDivisions) ? p.DivisionId == CurrentDivisionId : contraDivisions.Contains(p.DivisionId.ToString()))
+                    && (string.IsNullOrEmpty(term) ? 1 == 1 : p.StockInNo.ToLower().Contains(term.ToLower()))
+                    select new ComboBoxResult
+                    {
+                        id = p.StockInId.ToString(),
+                        text = p.StockInNo,
+                        TextProp1 = "Lot No :" + p.LotNo,
+                        TextProp2 = "Balance :" + p.BalanceQty,
+                        AProp1 = p.ProductName + ", " + p.Dimension1Name + ", " + p.Dimension2Name,
+                        AProp2 = "Date :" + p.StockInDate
+                    });
+
+
+
+        }
+
+        public IEnumerable<ComboBoxResult> GetPendingOrdersForPacking(int id, string term)
+        {
+
+
+            var PackingHeader = new PackingHeaderService(_unitOfWork).Find(id);
+
+            var settings = new PackingSettingService(_unitOfWork).GetPackingSettingForDocument(PackingHeader.DocTypeId, PackingHeader.DivisionId, PackingHeader.SiteId);
+
+            string[] contraDocTypes = null;
+            if (!string.IsNullOrEmpty(settings.filterContraDocTypes)) { contraDocTypes = settings.filterContraDocTypes.Split(",".ToCharArray()); }
+            else { contraDocTypes = new string[] { "NA" }; }
+
+            string[] contraSites = null;
+            if (!string.IsNullOrEmpty(settings.filterContraSites)) { contraSites = settings.filterContraSites.Split(",".ToCharArray()); }
+            else { contraSites = new string[] { "NA" }; }
+
+            string[] contraDivisions = null;
+            if (!string.IsNullOrEmpty(settings.filterContraDivisions)) { contraDivisions = settings.filterContraDivisions.Split(",".ToCharArray()); }
+            else { contraDivisions = new string[] { "NA" }; }
+
+            int CurrentSiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
+            int CurrentDivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
+
+
+            return (from p in db.ViewSaleOrderBalanceForCancellation
+                    join t in db.SaleOrderHeader on p.SaleOrderHeaderId equals t.SaleOrderHeaderId into table
+                    from tab in table.DefaultIfEmpty()
+                    where p.BalanceQty > 0
+                    && (string.IsNullOrEmpty(settings.filterContraDocTypes) ? 1 == 1 : contraDocTypes.Contains(tab.DocTypeId.ToString()))
+                    && (string.IsNullOrEmpty(settings.filterContraSites) ? tab.SiteId == CurrentSiteId : contraSites.Contains(tab.SiteId.ToString()))
+                    && (string.IsNullOrEmpty(settings.filterContraDivisions) ? tab.DivisionId == CurrentDivisionId : contraDivisions.Contains(tab.DivisionId.ToString()))
+                    && (string.IsNullOrEmpty(term) ? 1 == 1 : p.SaleOrderNo.ToLower().Contains(term.ToLower()))
+                    group p by p.SaleOrderHeaderId into g
+                    select new ComboBoxResult
+                    {
+                        id = g.Key.ToString(),
+                        text = g.Max(m => m.SaleOrderNo),
+                    }
+                        );
+        }
+
+        public IQueryable<ComboBoxResult> GetPendingProductsForPacking(int id, string term)//DocTypeId
+        {
+
+            var Packing = new PackingHeaderService(_unitOfWork).Find(id);
+
+            var settings = new PackingSettingService(_unitOfWork).GetPackingSettingForDocument(Packing.DocTypeId, Packing.DivisionId, Packing.SiteId);
+
+            string[] ContraSites = null;
+            if (!string.IsNullOrEmpty(settings.filterContraSites)) { ContraSites = settings.filterContraSites.Split(",".ToCharArray()); }
+            else { ContraSites = new string[] { "NA" }; }
+
+            string[] ContraDivisions = null;
+            if (!string.IsNullOrEmpty(settings.filterContraDivisions)) { ContraDivisions = settings.filterContraDivisions.Split(",".ToCharArray()); }
+            else { ContraDivisions = new string[] { "NA" }; }
+
+            return (from p in db.ViewSaleOrderBalanceForCancellation
+                    join t in db.Product on p.ProductId equals t.ProductId into ProdTable
+                    from ProTab in ProdTable.DefaultIfEmpty()
+                    where p.BalanceQty > 0 && ProTab.ProductName.ToLower().Contains(term.ToLower()) && p.BuyerId == Packing.BuyerId
+                     && (string.IsNullOrEmpty(settings.filterContraSites) ? p.SiteId == Packing.SiteId : ContraSites.Contains(p.SiteId.ToString()))
+                     && (string.IsNullOrEmpty(settings.filterContraDivisions) ? p.DivisionId == Packing.DivisionId : ContraDivisions.Contains(p.DivisionId.ToString()))
+                     && (string.IsNullOrEmpty(term) ? 1 == 1 : ProTab.ProductName.ToLower().Contains(term.ToLower()))
+                    group new { p, ProTab } by p.ProductId into g
+                    orderby g.Key descending
+                    select new ComboBoxResult
+                    {
+                        id = g.Key.ToString(),
+                        text = g.Max(m => m.ProTab.ProductName)
+                    }
+                        );
+        }
+
+        public IQueryable<ComboBoxResult> GetSaleOrderHelpListForProduct(int filter, string term)
+        {
+            var PackingHeader = new PackingHeaderService(_unitOfWork).Find(filter);
+
+            var settings = new PackingSettingService(_unitOfWork).GetPackingSettingForDocument(PackingHeader.DocTypeId, PackingHeader.DivisionId, PackingHeader.SiteId);
+
+            string[] contraSites = null;
+            if (!string.IsNullOrEmpty(settings.filterContraSites)) { contraSites = settings.filterContraSites.Split(",".ToCharArray()); }
+            else { contraSites = new string[] { "NA" }; }
+
+            string[] contraDivisions = null;
+            if (!string.IsNullOrEmpty(settings.filterContraDivisions)) { contraDivisions = settings.filterContraDivisions.Split(",".ToCharArray()); }
+            else { contraDivisions = new string[] { "NA" }; }
+
+            string[] contraDocTypes = null;
+            if (!string.IsNullOrEmpty(settings.filterContraDocTypes)) { contraDocTypes = settings.filterContraDocTypes.Split(",".ToCharArray()); }
+            else { contraDocTypes = new string[] { "NA" }; }
+
+            int CurrentSiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
+            int CurrentDivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
+
+
+            var list = (from p in db.ViewSaleOrderBalanceForCancellation
+                        join t in db.SaleOrderHeader on p.SaleOrderHeaderId equals t.SaleOrderHeaderId
+                        join t2 in db.SaleOrderLine on p.SaleOrderLineId equals t2.SaleOrderLineId
+                        join pt in db.Product on p.ProductId equals pt.ProductId into ProductTable
+                        from ProductTab in ProductTable.DefaultIfEmpty()
+                        join D1 in db.Dimension1 on p.Dimension1Id equals D1.Dimension1Id into Dimension1Table
+                        from Dimension1Tab in Dimension1Table.DefaultIfEmpty()
+                        join D2 in db.Dimension2 on p.Dimension2Id equals D2.Dimension2Id into Dimension2Table
+                        from Dimension2Tab in Dimension2Table.DefaultIfEmpty()
+                        where p.BuyerId == PackingHeader.BuyerId
+                        && ((string.IsNullOrEmpty(term) ? 1 == 1 : p.SaleOrderNo.ToLower().Contains(term.ToLower()))
+                        || (string.IsNullOrEmpty(term) ? 1 == 1 : ProductTab.ProductName.ToLower().Contains(term.ToLower()))
+                        || (string.IsNullOrEmpty(term) ? 1 == 1 : Dimension1Tab.Dimension1Name.ToLower().Contains(term.ToLower()))
+                        || (string.IsNullOrEmpty(term) ? 1 == 1 : Dimension2Tab.Dimension2Name.ToLower().Contains(term.ToLower())))
+                        && (string.IsNullOrEmpty(settings.filterContraSites) ? p.SiteId == CurrentSiteId : contraSites.Contains(p.SiteId.ToString()))
+                        && (string.IsNullOrEmpty(settings.filterContraDivisions) ? p.DivisionId == CurrentDivisionId : contraDivisions.Contains(p.DivisionId.ToString()))
+                        && (string.IsNullOrEmpty(settings.filterContraDocTypes) ? 1 == 1 : contraDocTypes.Contains(t.DocTypeId.ToString()))
+                        orderby t.DocDate, t.DocNo
+                        select new ComboBoxResult
+                        {
+                            text = ProductTab.ProductName,
+                            id = p.SaleOrderLineId.ToString(),
+                            TextProp1 = "Order No: " + p.SaleOrderNo.ToString(),
+                            TextProp2 = "BalQty: " + p.BalanceQty.ToString(),
+                            AProp1 = Dimension1Tab.Dimension1Name,
+                            AProp2 = Dimension2Tab.Dimension2Name
+                        });
+
+            return list;
+        }
+
+        public PackingLineViewModel GetPackingLineForEdit(int id)
+        {
+
+            return (from Pl in db.PackingLine
+                    join t3 in db.ViewSaleOrderBalance on Pl.SaleOrderLineId equals t3.SaleOrderLineId into table3
+                    from tab3 in table3.DefaultIfEmpty()
+                    join Si in db.Stock on Pl.StockInId equals Si.StockId into StockInTable
+                    from StockInTab in StockInTable.DefaultIfEmpty()
+                    join Sih in db.StockHeader on StockInTab.StockHeaderId equals Sih.StockHeaderId into StockHeaderTable
+                    from StockHeaderTab in StockHeaderTable.DefaultIfEmpty()
+                    where Pl.PackingLineId == id
+                    select new PackingLineViewModel
+                    {
+                        ProductUidId = Pl.ProductUidId,
+                        ProductUidName = Pl.ProductUid.ProductUidName,
+                        ProductCode = Pl.Product.ProductCode,
+                        ProductId = Pl.ProductId,
+                        ProductName = Pl.Product.ProductName,
+                        SaleOrderNo = Pl.SaleOrderLine.SaleOrderHeader.DocNo,
+                        Qty = Pl.Qty,
+                        BalanceQty = (tab3 == null ? (decimal)Pl.PassQty : tab3.BalanceQty + (decimal)Pl.PassQty),
+                        BaleNo = Pl.BaleNo,
+                        UnitId = Pl.Product.UnitId,
+                        UnitName = Pl.Product.Unit.UnitName,
+                        DealUnitId = Pl.DealUnitId,
+                        DealUnitName = Pl.DealUnit.UnitName,
+                        DealQty = Pl.DealQty,
+                        Remark = Pl.Remark,
+                        Specification = Pl.Specification,
+                        Dimension1Id = Pl.Dimension1Id,
+                        Dimension2Id = Pl.Dimension2Id,
+                        LotNo = Pl.LotNo,
+                        UnitConversionMultiplier = Pl.UnitConversionMultiplier,
+                        PackingHeaderId = Pl.PackingHeaderId,
+                        PackingLineId = Pl.PackingLineId,
+                        SaleOrderLineId = Pl.SaleOrderLineId,
+                        Weight = Pl.NetWeight,
+                        StockInId = Pl.StockInId,
+                        StockInNo = StockHeaderTab.DocNo
+                    }
+                        ).FirstOrDefault();
+
         }
 
     }
@@ -816,6 +1193,20 @@ namespace Service
     public class PendingOrderQtyForPacking
     {
         public Decimal Qty { get; set; }
+    }
+
+    public class PendingStockInForPacking
+    {
+        public int StockInId { get; set; }
+        public string StockInNo { get; set; }
+        public string LotNo { get; set; }
+        public Decimal BalanceQty { get; set; }
+        public string ProductName { get; set; }
+        public string Dimension1Name { get; set; }
+        public string Dimension2Name { get; set; }
+        public DateTime StockInDate { get; set; }
+        public int SiteId { get; set; }
+        public int DivisionId { get; set; }
     }
 
 

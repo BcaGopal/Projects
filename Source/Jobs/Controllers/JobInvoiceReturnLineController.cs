@@ -479,8 +479,20 @@ namespace Web
                         }
 
 
-
-
+                        if (JobReceiveLine != null)
+                        {
+                            if (JobReceiveLine.StockId != null && JobReceiveLine.StockId != 0)
+                            {
+                                StockAdj Adj_IssQty = new StockAdj();
+                                Adj_IssQty.StockInId = (int)JobReceiveLine.StockId;
+                                Adj_IssQty.StockOutId = (int)GLine.StockId;
+                                Adj_IssQty.DivisionId = Header.DivisionId;
+                                Adj_IssQty.SiteId = Header.SiteId;
+                                Adj_IssQty.AdjustedQty = GLine.Qty;
+                                Adj_IssQty.ObjectState = Model.ObjectState.Added;
+                                db.StockAdj.Add(Adj_IssQty);
+                            }
+                        }
 
 
                         GLine.ObjectState = Model.ObjectState.Added;
@@ -1445,7 +1457,25 @@ namespace Web
                             }
                         }
 
+
+
                         var JobReceiveLine = db.JobReceiveLine.Find(Gline.JobReceiveLineId);
+
+                        if (JobReceiveLine != null)
+                        {
+                            if (JobReceiveLine.StockId != null && JobReceiveLine.StockId != 0)
+                            {
+                                StockAdj Adj_IssQty = new StockAdj();
+                                Adj_IssQty.StockInId = (int)JobReceiveLine.StockId;
+                                Adj_IssQty.StockOutId = (int)Gline.StockId;
+                                Adj_IssQty.DivisionId = temp.DivisionId;
+                                Adj_IssQty.SiteId = temp.SiteId;
+                                Adj_IssQty.AdjustedQty = s.Qty;
+                                Adj_IssQty.ObjectState = Model.ObjectState.Added;
+                                db.StockAdj.Add(Adj_IssQty);
+                            }
+                        }
+
 
                         if (JobReceiveLine.ProductUidId.HasValue && JobReceiveLine.ProductUidId > 0)
                         {
@@ -1781,6 +1811,36 @@ namespace Web
                         JobReturnHeader.ModifiedDate = DateTime.Now;
                         JobReturnHeader.ObjectState = Model.ObjectState.Modified;
                         db.JobReturnHeader.Add(JobReturnHeader);
+
+
+                        StockAdj Adj = (from L in db.StockAdj
+                                        where L.StockOutId == GLine.StockId
+                                        select L).FirstOrDefault();
+
+                        if (Adj != null)
+                        {
+                            Adj.ObjectState = Model.ObjectState.Deleted;
+                            db.StockAdj.Remove(Adj);
+                            //new StockAdjService(_unitOfWork).Delete(Adj);
+                        }
+
+                        var JobReceiveLine = db.JobReceiveLine.Find(GLine.JobReceiveLineId);
+
+                        if (JobReceiveLine != null)
+                        {
+                            if (JobReceiveLine.StockId != null && JobReceiveLine.StockId != 0)
+                            {
+                                StockAdj Adj_IssQty = new StockAdj();
+                                Adj_IssQty.StockInId = (int)JobReceiveLine.StockId;
+                                Adj_IssQty.StockOutId = (int)GLine.StockId;
+                                Adj_IssQty.DivisionId = temp.DivisionId;
+                                Adj_IssQty.SiteId = temp.SiteId;
+                                Adj_IssQty.AdjustedQty = svm.Qty;
+                                Adj_IssQty.ObjectState = Model.ObjectState.Added;
+                                db.StockAdj.Add(Adj_IssQty);
+                                //new StockAdjService(_unitOfWork).Create(Adj_IssQty);
+                            }
+                        }
                     }
 
                     if (temp.Status != (int)StatusConstants.Drafted && temp.Status != (int)StatusConstants.Import)
@@ -1794,6 +1854,10 @@ namespace Web
 
                     temp.ObjectState = Model.ObjectState.Modified;
                     db.JobInvoiceReturnHeader.Add(temp);
+
+
+
+
 
 
                     if (svm.linecharges != null)
@@ -2149,6 +2213,17 @@ namespace Web
 
                     if (StockId != null)
                     {
+                        StockAdj Adj = (from L in db.StockAdj
+                                        where L.StockOutId == StockId
+                                        select L).FirstOrDefault();
+
+                        if (Adj != null)
+                        {
+                            //new StockAdjService(_unitOfWork).Delete(Adj);
+                            Adj.ObjectState = Model.ObjectState.Deleted;
+                            db.StockAdj.Remove(Adj);
+                        }
+
                         new StockService(_unitOfWork).DeleteStockDB((int)StockId, ref db, true);
                     }
 

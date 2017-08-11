@@ -163,6 +163,7 @@ namespace Model.ViewModel
         public string Dimension4Name { get; set; }
 
 
+
         [MaxLength(50)]
         public string Specification { get; set; }
 
@@ -207,6 +208,8 @@ namespace Model.ViewModel
         public byte UnitDecimalPlaces { get; set; }
         public byte DealUnitDecimalPlaces { get; set; }
         public bool UnitConversionException { get; set; }
+
+        public int? CalculationId { get; set; }
 
         public int DocTypeId { get; set; }
         public string DocTypeName { get; set; }

@@ -81,6 +81,11 @@ namespace Model.ViewModels
         public int? ReviewCount { get; set; }
         public string LockReason { get; set; }
 
+        public int? ProcessId { get; set; }
+        public string ProcessName { get; set; }
+
+
+        public PackingSettingsViewModel PackingSettings { get; set; }
         public DocumentTypeSettingsViewModel DocumentTypeSettings { get; set; }
     }
 
@@ -99,10 +104,21 @@ namespace Model.ViewModels
         [Display(Name = "Product"), Required]
         public int ProductId { get; set; }
         public string ProductName { get; set; }
+        public string ProductCode { get; set; }
+
+
+        public int GodownId { get; set; }
+        public string GodownName { get; set; }
+        public int? Dimension1Id { get; set; }
+        public string Dimension1Name { get; set; }
+        public int? Dimension2Id { get; set; }
+        public string Dimension2Name { get; set; }
 
         [Display(Name = "Sale Order")]
         public int? SaleOrderLineId { get; set; }
         public string SaleOrderNo { get; set; }
+
+        public Decimal? Weight { get; set; }
 
         public int DocTypeId { get; set; }
 
@@ -114,18 +130,19 @@ namespace Model.ViewModels
         public int? ProductInvoiceGroupId { get; set; }
         public string ProductInvoiceGroupName { get; set; }
 
-        [Display(Name = "Godown")]
-        public int GodownId { get; set; }
-        [Display(Name = "Godown")]
-        public string GodownName { get; set; }
 
         [Display(Name = "Qty"), Required]
         public Decimal Qty { get; set; }
+        public int unitDecimalPlaces { get; set; }
+
+        public Decimal? BalanceQty { get; set; }
 
         [Display(Name = "Bale No."), MaxLength(10)]
         public string BaleNo { get; set; }
 
         public int? BaleCount { get; set; }
+
+        public Decimal? StockInBalanceQty { get; set; }
 
         [Display(Name = "From Process")]
         public int? FromProcessId { get; set; }
@@ -140,6 +157,7 @@ namespace Model.ViewModels
 
         [Display(Name = "Delivery Qty"), Required]
         public Decimal DealQty { get; set; }
+        public int? DealUnitDecimalPlaces { get; set; }
 
         [Display(Name = "Gross Wt."), Required]
         public Decimal GrossWeight { get; set; }
@@ -149,6 +167,7 @@ namespace Model.ViewModels
 
         [Display(Name = "Unit")]
         public string UnitId { get; set; }
+        public string UnitName { get; set; }
 
         [Display(Name = "Unit Conversion Multiplier")]
         public Decimal? UnitConversionMultiplier { get; set; }
@@ -169,9 +188,10 @@ namespace Model.ViewModels
         [Display(Name = "Rate Remark")]
         public string RateRemark { get; set; }
         public string Specification { get; set; }
-
+        public int SiteId { get; set; }
         public int DivisionId { get; set; }
 
+        public bool? IsSaleBased { get; set; }
         public bool IsSample { get; set; }
 
         public bool CreateExtraSaleOrder { get; set; }
@@ -208,6 +228,8 @@ namespace Model.ViewModels
         public PackingSettingsViewModel PackingSettings { get; set; }
         public DocumentTypeSettingsViewModel DocumentTypeSettings { get; set; }
 
+        public int? StockInId { get; set; }
+        public string StockInNo { get; set; }
 
 
 
@@ -243,5 +265,87 @@ namespace Model.ViewModels
 
         [Display(Name = "To Bale No"), Required]
         public int ToBaleNo { get; set; }
+    }
+
+    public class PackingHeaderIndexViewModel
+    {
+        [Key]
+        public int PackingHeaderId { get; set; }
+
+        public int DocTypeId { get; set; }
+        public string DocumentTypeName { get; set; }
+
+        [Display(Name = "Doc Date"), DisplayFormat(DataFormatString = "{0:dd/MMM/yyyy}"), Required(ErrorMessage = "Please select Packing Date")]
+        public DateTime DocDate { get; set; }
+
+        [Display(Name = "Order No"), MaxLength(20), Required(ErrorMessage = "The OrderNo Field is Required")]
+        public string DocNo { get; set; }
+
+        [Display(Name = "Division")]
+        public int DivisionId { get; set; }
+        public string DivisionName { get; set; }
+
+        [Display(Name = "Site")]
+        public int SiteId { get; set; }
+        public string SiteName { get; set; }
+
+        [Display(Name = "Buyer")]
+        public int BuyerId { get; set; }
+        public string BuyerName { get; set; }
+
+
+        public int Status { get; set; }
+
+        [Display(Name = "Remark")]
+        public string Remark { get; set; }
+
+        public string CreatedBy { get; set; }
+
+        [Display(Name = "Created Date"), DisplayFormat(DataFormatString = "{0:dd/MMM/yyyy}")]
+        public DateTime CreatedDate { get; set; }
+
+        [Display(Name = "Modified By")]
+        public string ModifiedBy { get; set; }
+
+        [Display(Name = "Modified Date"), DisplayFormat(DataFormatString = "{0:dd/MMM/yyyy}")]
+        public DateTime ModifiedDate { get; set; }
+        public string ReviewBy { get; set; }
+        public bool? Reviewed { get; set; }
+        public int? ReviewCount { get; set; }
+        public string LockReason { get; set; }
+    }
+
+    public class PackingFilterViewModel
+    {
+        public int PackingHeaderId { get; set; }
+        [Display(Name = "Sale Orders")]
+        public string SaleOrderHeaderId { get; set; }
+
+        [Display(Name = "Product")]
+        public string ProductId { get; set; }
+
+
+        public string Dimension1Id { get; set; }
+
+        public string Dimension2Id { get; set; }
+
+        public PackingSettingsViewModel PackingSettings { get; set; }
+        public DocumentTypeSettingsViewModel DocumentTypeSettings { get; set; }
+
+        [Display(Name = "Product Group")]
+        public string ProductGroupId { get; set; }
+
+    }
+
+    public class PackingListViewModel
+    {
+        public int PackingHeaderId { get; set; }
+        public int PackingLineId { get; set; }
+
+        public List<PackingLineViewModel> PackingLineViewModel { get; set; }
+
+        public string DocNo { get; set; }
+        public string Dimension1Name { get; set; }
+        public string Dimension2Name { get; set; }
     }
 }

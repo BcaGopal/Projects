@@ -97,6 +97,12 @@ namespace Model.Models
         [Display(Name = "Net Wt."), Required]
         public Decimal NetWeight { get; set; }
 
+        [Display(Name = "StockIn")]
+        [ForeignKey("StockIn")]
+        public int? StockInId { get; set; }
+        public virtual Stock StockIn { get; set; }
+
+
         [Display(Name = "Remark")]
         public string Remark { get; set; }
 

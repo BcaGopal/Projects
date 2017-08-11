@@ -94,22 +94,38 @@
 { 
 
 
-<script type="text/javascript">
+    <script type="text/javascript">
 
-    var headerid=@Model.FirstOrDefault().HeaderTableId;
+        var headerid=@Model.FirstOrDefault().HeaderTableId;
 
-    LoadCalculationFooter(headerid,"Web.JobOrderHeaderCharges","Web.JobOrderLineCharges");
+        LoadCalculationFooter(headerid,"Web.SaleInvoiceHeaderCharges","Web.SaleInvoiceLineCharges");
 
     
-    $(function(){
-        var url = '/TaxCalculation/PostJOCalculationFields';
-        $('form#modform').attr('action',url);
-    })
+        $(function(){
+            var url = '/TaxCalculation/PostSICalculationFields';
+            $('form#modform').attr('action',url);
+        })
 
-</script>
-    
-    
-    
+    </script>
+}
+
+@if (ViewBag.ChargeType == TransactionDocCategoryConstants.SaleInvoiceReturn)
+{
+
+
+    <script type="text/javascript">
+
+        var headerid=@Model.FirstOrDefault().HeaderTableId;
+
+        LoadCalculationFooter(headerid,"Web.SaleInvoiceReturnHeaderCharges","Web.SaleInvoiceReturnLineCharges");
+
+
+        $(function(){
+            var url = '/TaxCalculation/PostSIRCalculationFields';
+            $('form#modform').attr('action',url);
+        })
+
+    </script>
 }
 
 @if (ViewBag.ChargeType == TransactionDocCategoryConstants.JobInvoice)

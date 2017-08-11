@@ -94,6 +94,8 @@ namespace Model.Models
         [Display(Name = "Is Active ?")]
         public Boolean IsActive { get; set; }
 
+
+
         [Display(Name = "Created By")]
         public string CreatedBy { get; set; }
         [Display(Name = "Modified By")]

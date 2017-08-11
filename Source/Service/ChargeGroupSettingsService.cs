@@ -86,24 +86,24 @@ namespace Service
         public IEnumerable<ChargeGroupSettingsViewModel> GetChargeGroupSettingsList()
         {
             var pt = (from H in db.ChargeGroupSettings
+                      orderby H.ProcessId, H.ChargeGroupPersonId, H.ChargeGroupProductId, H.ChargeTypeId
                       select new ChargeGroupSettingsViewModel
                       {
                           ChargeGroupSettingsId = H.ChargeGroupSettingsId,
-                          ChargeTypeId = H.ChargeTypeId,
-                          ChargeTypeName = H.ChargeType.ChargeTypeName,
-                          ChargeGroupPersonId = H.ChargeGroupPersonId,
-                          ChargeGroupPersonName = H.ChargeGroupPerson.ChargeGroupPersonName,
                           ProcessId = H.ProcessId,
                           ProcessName = H.Process.ProcessName,
+                          ChargeGroupPersonId = H.ChargeGroupPersonId,
+                          ChargeGroupPersonName = H.ChargeGroupPerson.ChargeGroupPersonName,
                           ChargeGroupProductId = H.ChargeGroupProductId,
                           ChargeGroupProductName = H.ChargeGroupProduct.ChargeGroupProductName,
-                          ChargePer = H.ChargePer,
+                          ChargeTypeId = H.ChargeTypeId,
+                          ChargeTypeName = H.ChargeType.ChargeTypeName,
                           ChargeLedgerAccountId = H.ChargeLedgerAccountId,
                           ChargeLedgerAccountName = H.ChargeLedgerAccount.LedgerAccountName,
+                          ChargePer = H.ChargePer,
                           CreatedBy = H.CreatedBy,
                           ModifiedBy = H.ModifiedBy
                       }).ToList();
-
 
             return pt;
         }

@@ -895,7 +895,7 @@ namespace Service
                         join jretl in db.JobReturnLine on tab.JobReturnHeaderId equals jretl.JobReturnHeaderId into jrtltable from retline in jrtltable.DefaultIfEmpty()
                         join jrecl in db.JobReceiveLine on new { x = p.ProductUIDId, y = retline.JobReceiveLineId } equals new { x = jrecl.ProductUidId.Value, y = jrecl.JobReceiveLineId } into rectable
                         from recline in rectable.DefaultIfEmpty()
-                        join t2 in db.JobOrderLine on new { x = p.ProductUIDId, y = recline.JobOrderLineId } equals new { x = t2.ProductUidId.Value, y = t2.JobOrderLineId } into table2
+                        join t2 in db.JobOrderLine on new { x = p.ProductUIDId, y = recline.JobOrderLineId ?? 0 } equals new { x = t2.ProductUidId.Value, y = t2.JobOrderLineId } into table2
                         from tab2 in table2.DefaultIfEmpty()
                         join jh in db.JobOrderHeader on tab2.JobOrderHeaderId equals jh.JobOrderHeaderId
                         group new { p, tab2, jh } by tab2.JobOrderLineId into g

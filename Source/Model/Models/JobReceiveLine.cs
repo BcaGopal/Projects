@@ -30,7 +30,7 @@ namespace Model.Models
         public virtual ProductUid ProductUid { get; set; }
 
         [ForeignKey("Product"), Display(Name = "Product")]
-        public int? ProductId { get; set; }
+        public int ProductId { get; set; }
         public virtual Product Product { get; set; }
 
         [ForeignKey("Dimension1"), Display(Name = "Dimension1")]
@@ -51,10 +51,10 @@ namespace Model.Models
 
         public string Specification { get; set; }
 
-        [Display(Name = "Job Order"), Required]
+        [Display(Name = "Job Order")]
         [ForeignKey("JobOrderLine")]
         [Index("IX_JobReceiveLine_Unique", IsUnique = true, Order = 2)]
-        public int JobOrderLineId { get; set; }
+        public int? JobOrderLineId { get; set; }
         public virtual JobOrderLine JobOrderLine { get; set; }
 
         [Display(Name = "Qty"), Required]

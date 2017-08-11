@@ -59,6 +59,11 @@ namespace Model.ViewModel
         public int? ParentChargeId { get; set; }
         //public virtual CalculationProduct ParentCharge { get; set; }
 
+        public bool? IsVisibleLedgerAccountDr { get; set; }
+        public int? filterLedgerAccountGroupsDrId { get; set; }
+        public bool? IsVisibleLedgerAccountCr { get; set; }
+        public int? filterLedgerAccountGroupsCrId { get; set; }
+
         public decimal Rate { get; set; }
         public decimal Amount { get; set; }        
         public decimal ? DealQty { get; set; }

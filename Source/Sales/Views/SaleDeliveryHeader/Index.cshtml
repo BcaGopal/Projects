@@ -73,12 +73,11 @@
         @CustomHelpers.RenderStatusFilters(ViewBag.PendingToSubmit, ViewBag.PendingToReview, ControllerName, ViewBag.id, ViewBag.IndexStatus)*@
     </div>
 
-    <div class="panel-info" style="padding-left:5px;padding-top:2px">
-
+    <div class="panel-info" style="padding-left:5px;padding-top:2px;font-size:12px">
         @Html.Grid(Model).Columns(columns =>
            {
                columns.Add(m => m.SaleDeliveryHeaderId, true).Css("Header_Id");
-               columns.Add(m => m.Status, true); 
+               columns.Add(m => m.Status, true);
                columns.Add().Encoded(false).Sanitized(false).SetWidth("5%").RenderValueAs(m => CustomHelpers.RenderCheckBox("GpNo:" + m.GatePassDocNo + ",GpDate:" + m.GatePassDocDate, m.GatePassHeaderId, m.GatePassStatus));
                columns.Add(foo => foo.DocDate).Sortable(true).Titled("Delivery Date").Format("{0:dd/MMM/yyyy}").Filterable(true);
                columns.Add(m => m.DocNo).Sortable(true).Titled("Delivery No.").Filterable(true).Sortable(true);

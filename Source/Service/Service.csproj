@@ -110,6 +110,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AccountService.cs" />
+    <Compile Include="ChargeGroupPersonCalculationService.cs" />
     <Compile Include="ChargeGroupSettingsService.cs" />
     <Compile Include="SiteDivisionSettingsService.cs" />
     <Compile Include="SalesTaxProductCodeService.cs" />

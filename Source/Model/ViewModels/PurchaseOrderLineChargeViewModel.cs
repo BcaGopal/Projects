@@ -78,6 +78,13 @@ namespace Model.ViewModel
         public string IncludedCharges { get; set; }
         public string IncludedChargesCalculation { get; set; }
 
+        public bool? IsVisibleLedgerAccountDr { get; set; }
+        public int? filterLedgerAccountGroupsDrId { get; set; }
+        public string filterLedgerAccountGroupsDrName { get; set; }
+        public bool? IsVisibleLedgerAccountCr { get; set; }
+        public int? filterLedgerAccountGroupsCrId { get; set; }
+        public string filterLedgerAccountGroupsCrName { get; set; }
+
         [MaxLength(50)]
         public string OMSId { get; set; }
 

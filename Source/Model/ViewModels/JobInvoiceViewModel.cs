@@ -101,7 +101,7 @@ namespace Model.ViewModel
         public string JobOrderDocNo { get; set; }
 
         [Display(Name = "Job Order")]
-        public int JobOrderLineId { get; set; }
+        public int? JobOrderLineId { get; set; }
 
         [Display(Name = "Deal Unit")]
         public string DealUnitId { get; set; }
@@ -173,7 +173,7 @@ namespace Model.ViewModel
         public List<JobInvoiceLineCharge> linecharges { get; set; }
         public List<JobInvoiceHeaderCharge> footercharges { get; set; }
 
-
+        public int? CalculationId { get; set; }
         public List<HeaderCharges> RHeaderCharges { get; set; }
         public List<LineCharges> RLineCharges { get; set; }
 
@@ -192,6 +192,7 @@ namespace Model.ViewModel
         public string InvoiceDocNo { get; set; }
         public DateTime OrderDocDate { get; set; }
         public string LockReason { get; set; }
+        public bool ForOrder { get; set; }
     }
 
 

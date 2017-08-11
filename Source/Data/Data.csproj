@@ -219,6 +219,10 @@
     <Compile Include="Migrations\201707261520447_HeaderAttributes.Designer.cs">
       <DependentUpon>201707261520447_HeaderAttributes.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201708091332425_ChargeGroupPersonCalculation.cs" />
+    <Compile Include="Migrations\201708091332425_ChargeGroupPersonCalculation.Designer.cs">
+      <DependentUpon>201708091332425_ChargeGroupPersonCalculation.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="NotificationApplicationDbContext.cs" />
     <Compile Include="LoginApplicationDbContext.cs" />
@@ -360,6 +364,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201707261520447_HeaderAttributes.resx">
       <DependentUpon>201707261520447_HeaderAttributes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201708091332425_ChargeGroupPersonCalculation.resx">
+      <DependentUpon>201708091332425_ChargeGroupPersonCalculation.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

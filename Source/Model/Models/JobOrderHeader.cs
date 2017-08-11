@@ -186,6 +186,12 @@ namespace Model.Models
         public int? AgentId { get; set; }
         public virtual Person Agent { get; set; }
 
+        [ForeignKey("ReferenceDocType"), Display(Name = "ReferenceDocType")]
+        public int? ReferenceDocTypeId { get; set; }
+        public virtual DocumentType ReferenceDocType { get; set; }
+
+        public int? ReferenceDocId { get; set; }
+
         public Decimal? PayTermAdvancePer { get; set; }
         public Decimal? PayTermOnDeliveryPer { get; set; }
         public Decimal? PayTermOnDueDatePer { get; set; }

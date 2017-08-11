@@ -239,6 +239,8 @@
     <Compile Include="Controllers\BuyerController.cs" />
     <Compile Include="Controllers\ComboHelpListController.cs" />
     <Compile Include="Controllers\GetNewDocNoController.cs" />
+    <Compile Include="Controllers\PackingHeaderController.cs" />
+    <Compile Include="Controllers\PackingLineController.cs" />
     <Compile Include="Controllers\PromoCodeController.cs" />
     <Compile Include="Controllers\SaleDeliveryHeaderController.cs" />
     <Compile Include="Controllers\SaleDeliveryLineController.cs" />
@@ -1777,6 +1779,15 @@
     <Content Include="Views\DirectSaleInvoiceHeader\_InvoiceReturn.cshtml" />
     <Content Include="Views\SaleDeliveryWizard\Create.cshtml" />
     <Content Include="Views\SaleDeliveryWizard\CreateSaleDelivery.cshtml" />
+    <Content Include="Views\PackingHeader\Create.cshtml" />
+    <Content Include="Views\PackingHeader\DocumentTypeList.cshtml" />
+    <Content Include="Views\PackingHeader\Index.cshtml" />
+    <Content Include="Views\PackingHeader\_Reason.cshtml" />
+    <Content Include="Views\PackingLine\_Create.cshtml" />
+    <Content Include="Views\PackingLine\_CreateForSaleOrder.cshtml" />
+    <Content Include="Views\PackingLine\_Index.cshtml" />
+    <Content Include="Views\PackingLine\_OrderFilters.cshtml" />
+    <Content Include="Views\PackingLine\_Results.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

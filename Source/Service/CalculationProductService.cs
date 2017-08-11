@@ -182,45 +182,47 @@ namespace Service
         public IEnumerable<CalculationProductViewModel> GetCalculationProductList(int CalculationID, int DocumentTypeId, int SiteId, int DivisionId)
         {          
 
-            return (from p in db.CalculationProduct                    
-                    join t in db.CalculationLineLedgerAccount.Where(m=>m.DocTypeId==DocumentTypeId && m.SiteId == SiteId && m.DivisionId== DivisionId) on p.CalculationProductId equals t.CalculationProductId into table1 from tab1 in table1.DefaultIfEmpty()
-                    where p.CalculationId == CalculationID
-                    orderby p.Sr
+            return (from Cp in db.CalculationProduct                    
+                    join Clla in db.CalculationLineLedgerAccount.Where(m=>m.DocTypeId==DocumentTypeId && m.SiteId == SiteId && m.DivisionId== DivisionId) on Cp.CalculationProductId equals Clla.CalculationProductId into CalculationLineLedgerAccountTable from CalculationLineLedgerAccountTab in CalculationLineLedgerAccountTable.DefaultIfEmpty()
+                    where Cp.CalculationId == CalculationID
+                    orderby Cp.Sr
                     select new CalculationProductViewModel
                     {
-                        AddDeduct=p.AddDeduct,
-                        AffectCost=p.AffectCost,
-                        CalculateOnId=p.CalculateOnId,
-                        CalculateOnName=p.CalculateOn.ChargeName,
-                        CalculateOnCode=p.CalculateOn.ChargeCode,
-                        CalculationId=p.CalculationId,
-                        CalculationName=p.Calculation.CalculationName,
-                        ChargeId=p.ChargeId,
-                        ChargeName=p.Charge.ChargeName,
-                        ChargeCode=p.Charge.ChargeCode,
-                        ChargeTypeId=p.ChargeTypeId,
-                        ChargeTypeName=p.ChargeType.ChargeTypeName,
-                        CostCenterId=p.CostCenterId,
-                        CostCenterName=p.CostCenter.CostCenterName,
-                        IncludedInBase=p.IncludedInBase,
-                        LedgerAccountCrId=tab1.LedgerAccountCrId,
-                        LedgerAccountCrName = tab1.LedgerAccountCr.LedgerAccountName,
-                        LedgerAccountDrId = tab1.LedgerAccountDrId,
-                        LedgerAccountDrName = tab1.LedgerAccountDr.LedgerAccountName,
-                        ContraLedgerAccountId=tab1.ContraLedgerAccountId,
-                        ContraLedgerAccountName=tab1.ContraLedgerAccount.LedgerAccountName,
-                        Rate=p.Rate,
-                        Sr=p.Sr,
-                        RateType=p.RateType,
-                        IsVisible=p.IsVisible,
-                        Amount=p.Amount,
-                        ParentChargeId=p.ParentChargeId,
-                        ElementId="CALL_"+p.Charge.ChargeCode,
-                        IncludedCharges=p.IncludedCharges,
-                        IncludedChargesCalculation=p.IncludedChargesCalculation,
-
-                    }
-                        );
+                        AddDeduct = Cp.AddDeduct,
+                        AffectCost = Cp.AffectCost,
+                        CalculateOnId = Cp.CalculateOnId,
+                        CalculateOnName = Cp.CalculateOn.ChargeName,
+                        CalculateOnCode = Cp.CalculateOn.ChargeCode,
+                        CalculationId = Cp.CalculationId,
+                        CalculationName = Cp.Calculation.CalculationName,
+                        ChargeId = Cp.ChargeId,
+                        ChargeName = Cp.Charge.ChargeName,
+                        ChargeCode = Cp.Charge.ChargeCode,
+                        ChargeTypeId = Cp.ChargeTypeId,
+                        ChargeTypeName = Cp.ChargeType.ChargeTypeName,
+                        CostCenterId = Cp.CostCenterId,
+                        CostCenterName = Cp.CostCenter.CostCenterName,
+                        IncludedInBase = Cp.IncludedInBase,
+                        LedgerAccountCrId = CalculationLineLedgerAccountTab.LedgerAccountCrId,
+                        LedgerAccountCrName  =  CalculationLineLedgerAccountTab.LedgerAccountCr.LedgerAccountName,
+                        LedgerAccountDrId  =  CalculationLineLedgerAccountTab.LedgerAccountDrId,
+                        LedgerAccountDrName  =  CalculationLineLedgerAccountTab.LedgerAccountDr.LedgerAccountName,
+                        ContraLedgerAccountId = CalculationLineLedgerAccountTab.ContraLedgerAccountId,
+                        ContraLedgerAccountName = CalculationLineLedgerAccountTab.ContraLedgerAccount.LedgerAccountName,
+                        Rate = Cp.Rate,
+                        Sr = Cp.Sr,
+                        RateType = Cp.RateType,
+                        IsVisible = Cp.IsVisible,
+                        Amount = Cp.Amount,
+                        ParentChargeId = Cp.ParentChargeId,
+                        ElementId = "CALL_" + Cp.Charge.ChargeCode,
+                        IncludedCharges = Cp.IncludedCharges,
+                        IncludedChargesCalculation = Cp.IncludedChargesCalculation,
+                        IsVisibleLedgerAccountCr = CalculationLineLedgerAccountTab.IsVisibleLedgerAccountCr,
+                        IsVisibleLedgerAccountDr = CalculationLineLedgerAccountTab.IsVisibleLedgerAccountDr,
+                        filterLedgerAccountGroupsCrId = CalculationLineLedgerAccountTab.filterLedgerAccountGroupsCrId,
+                        filterLedgerAccountGroupsDrId = CalculationLineLedgerAccountTab.filterLedgerAccountGroupsDrId
+                    });
         }
 
         public IEnumerable<CalculationProductViewModel> GetCalculationProductListWithChargeGroupSettings(int CalculationID, int DocumentTypeId, int SiteId, int DivisionId, int? ChargeGroupPersonId, int? ChargeGroupProductId)

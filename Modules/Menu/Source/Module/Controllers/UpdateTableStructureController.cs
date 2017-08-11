@@ -1176,6 +1176,7 @@ namespace Module
             AddFields("JobInvoiceLines", "SalesTaxGroupProductId", "Int", "ChargeGroupProducts");
             AddFields("JobInvoiceHeaders", "SalesTaxGroupPersonId", "Int", "ChargeGroupPerson");
 
+            AddFields("JobOrderLines", "SalesTaxGroupProductId", "Int", "ChargeGroupProducts");
 
             AddFields("SaleInvoiceSettings", "SqlProcProductUidHelpList", "nvarchar(100)");
 
@@ -1860,7 +1861,136 @@ namespace Module
             }
 
 
+            AddFields("CalculationLineLedgerAccounts", "IsVisibleLedgerAccountDr", "BIT");
+            AddFields("CalculationLineLedgerAccounts", "IsVisibleLedgerAccountCr", "BIT");
+            AddFields("CalculationLineLedgerAccounts", "filterLedgerAccountGroupsDrId", "Int", "LedgerAccountGroups");
+            AddFields("CalculationLineLedgerAccounts", "filterLedgerAccountGroupsCrId", "Int", "LedgerAccountGroups");
 
+            AddFields("JobInvoiceLineCharges", "IsVisibleLedgerAccountDr", "BIT");
+            AddFields("JobInvoiceLineCharges", "IsVisibleLedgerAccountCr", "BIT");
+            AddFields("JobInvoiceLineCharges", "filterLedgerAccountGroupsDrId", "Int", "LedgerAccountGroups");
+            AddFields("JobInvoiceLineCharges", "filterLedgerAccountGroupsCrId", "Int", "LedgerAccountGroups");
+
+            AddFields("JobInvoiceRateAmendmentLineCharges", "IsVisibleLedgerAccountDr", "BIT");
+            AddFields("JobInvoiceRateAmendmentLineCharges", "IsVisibleLedgerAccountCr", "BIT");
+            AddFields("JobInvoiceRateAmendmentLineCharges", "filterLedgerAccountGroupsDrId", "Int", "LedgerAccountGroups");
+            AddFields("JobInvoiceRateAmendmentLineCharges", "filterLedgerAccountGroupsCrId", "Int", "LedgerAccountGroups");
+
+            AddFields("JobInvoiceReturnLineCharges", "IsVisibleLedgerAccountDr", "BIT");
+            AddFields("JobInvoiceReturnLineCharges", "IsVisibleLedgerAccountCr", "BIT");
+            AddFields("JobInvoiceReturnLineCharges", "filterLedgerAccountGroupsDrId", "Int", "LedgerAccountGroups");
+            AddFields("JobInvoiceReturnLineCharges", "filterLedgerAccountGroupsCrId", "Int", "LedgerAccountGroups");
+
+            AddFields("JobOrderLineCharges", "IsVisibleLedgerAccountDr", "BIT");
+            AddFields("JobOrderLineCharges", "IsVisibleLedgerAccountCr", "BIT");
+            AddFields("JobOrderLineCharges", "filterLedgerAccountGroupsDrId", "Int", "LedgerAccountGroups");
+            AddFields("JobOrderLineCharges", "filterLedgerAccountGroupsCrId", "Int", "LedgerAccountGroups");
+
+            AddFields("PurchaseInvoiceLineCharges", "IsVisibleLedgerAccountDr", "BIT");
+            AddFields("PurchaseInvoiceLineCharges", "IsVisibleLedgerAccountCr", "BIT");
+            AddFields("PurchaseInvoiceLineCharges", "filterLedgerAccountGroupsDrId", "Int", "LedgerAccountGroups");
+            AddFields("PurchaseInvoiceLineCharges", "filterLedgerAccountGroupsCrId", "Int", "LedgerAccountGroups");
+
+            AddFields("PurchaseInvoiceReturnLineCharges", "IsVisibleLedgerAccountDr", "BIT");
+            AddFields("PurchaseInvoiceReturnLineCharges", "IsVisibleLedgerAccountCr", "BIT");
+            AddFields("PurchaseInvoiceReturnLineCharges", "filterLedgerAccountGroupsDrId", "Int", "LedgerAccountGroups");
+            AddFields("PurchaseInvoiceReturnLineCharges", "filterLedgerAccountGroupsCrId", "Int", "LedgerAccountGroups");
+
+            AddFields("PurchaseOrderLineCharges", "IsVisibleLedgerAccountDr", "BIT");
+            AddFields("PurchaseOrderLineCharges", "IsVisibleLedgerAccountCr", "BIT");
+            AddFields("PurchaseOrderLineCharges", "filterLedgerAccountGroupsDrId", "Int", "LedgerAccountGroups");
+            AddFields("PurchaseOrderLineCharges", "filterLedgerAccountGroupsCrId", "Int", "LedgerAccountGroups");
+
+            AddFields("PurchaseOrderRateAmendmentLineCharges", "IsVisibleLedgerAccountDr", "BIT");
+            AddFields("PurchaseOrderRateAmendmentLineCharges", "IsVisibleLedgerAccountCr", "BIT");
+            AddFields("PurchaseOrderRateAmendmentLineCharges", "filterLedgerAccountGroupsDrId", "Int", "LedgerAccountGroups");
+            AddFields("PurchaseOrderRateAmendmentLineCharges", "filterLedgerAccountGroupsCrId", "Int", "LedgerAccountGroups");
+
+            AddFields("SaleInvoiceLineCharges", "IsVisibleLedgerAccountDr", "BIT");
+            AddFields("SaleInvoiceLineCharges", "IsVisibleLedgerAccountCr", "BIT");
+            AddFields("SaleInvoiceLineCharges", "filterLedgerAccountGroupsDrId", "Int", "LedgerAccountGroups");
+            AddFields("SaleInvoiceLineCharges", "filterLedgerAccountGroupsCrId", "Int", "LedgerAccountGroups");
+
+            AddFields("SaleInvoiceReturnLineCharges", "IsVisibleLedgerAccountDr", "BIT");
+            AddFields("SaleInvoiceReturnLineCharges", "IsVisibleLedgerAccountCr", "BIT");
+            AddFields("SaleInvoiceReturnLineCharges", "filterLedgerAccountGroupsDrId", "Int", "LedgerAccountGroups");
+            AddFields("SaleInvoiceReturnLineCharges", "filterLedgerAccountGroupsCrId", "Int", "LedgerAccountGroups");
+
+            AddFields("SaleQuotationLineCharges", "IsVisibleLedgerAccountDr", "BIT");
+            AddFields("SaleQuotationLineCharges", "IsVisibleLedgerAccountCr", "BIT");
+            AddFields("SaleQuotationLineCharges", "filterLedgerAccountGroupsDrId", "Int", "LedgerAccountGroups");
+            AddFields("SaleQuotationLineCharges", "filterLedgerAccountGroupsCrId", "Int", "LedgerAccountGroups");
+
+            AddFields("JobInvoiceSettings", "isVisibleGodown", "BIT");
+            AddFields("JobInvoiceSettings", "isVisibleJobReceiveBy", "BIT");
+
+            AddFields("PackingSettings", "IsMandatoryStockIn", "BIT");
+            AddFields("PackingSettings", "UnitConversionForId", "TINYINT", "UnitConversionFors");
+            AddFields("PackingSettings", "ExportMenuId", "INT", "Menus");
+
+
+            AddFields("PackingLines", "StockInId", "INT", "Stocks");
+
+
+            AddFields("PackingSettings", "isVisibleStockIn", "BIT");
+            AddFields("PackingSettings", "isVisibleSpecification", "BIT");
+            AddFields("PackingSettings", "isVisibleLotNo", "BIT");
+            AddFields("PackingSettings", "isVisibleBaleNo", "BIT");
+            AddFields("PackingSettings", "isVisibleDealUnit", "BIT");
+
+
+
+            try
+            {
+                if ((int)ExecuteScaler("SELECT Count(*) AS Cnt FROM INFORMATION_SCHEMA.Tables WHERE TABLE_NAME = 'ChargeGroupPersonCalculations'") == 0)
+                {
+                    mQry = @"CREATE TABLE Web.ChargeGroupPersonCalculations
+	                        (
+	                        ChargeGroupPersonCalculationId INT IDENTITY NOT NULL,
+	                        DocTypeId                      INT NOT NULL,
+	                        DivisionId                     INT,
+	                        SiteId                         INT,
+	                        ChargeGroupPersonId            INT NOT NULL,
+	                        CalculationId                  INT NOT NULL,
+	                        CreatedBy                      NVARCHAR (max),
+	                        ModifiedBy                     NVARCHAR (max),
+	                        CreatedDate                    DATETIME NOT NULL,
+	                        ModifiedDate                   DATETIME NOT NULL,
+	                        OMSId                          NVARCHAR (50),
+	                        CONSTRAINT [PK_Web.ChargeGroupPersonCalculations] PRIMARY KEY (ChargeGroupPersonCalculationId),
+	                        CONSTRAINT [FK_Web.ChargeGroupPersonCalculations_Web.Calculations_CalculationId] FOREIGN KEY (CalculationId) REFERENCES Web.Calculations (CalculationId),
+	                        CONSTRAINT [FK_Web.ChargeGroupPersonCalculations_Web.ChargeGroupPersons_ChargeGroupPersonId] FOREIGN KEY (ChargeGroupPersonId) REFERENCES Web.ChargeGroupPersons (ChargeGroupPersonId),
+	                        CONSTRAINT [FK_Web.ChargeGroupPersonCalculations_Web.Divisions_DivisionId] FOREIGN KEY (DivisionId) REFERENCES Web.Divisions (DivisionId),
+	                        CONSTRAINT [FK_Web.ChargeGroupPersonCalculations_Web.DocumentTypes_DocTypeId] FOREIGN KEY (DocTypeId) REFERENCES Web.DocumentTypes (DocumentTypeId),
+	                        CONSTRAINT [FK_Web.ChargeGroupPersonCalculations_Web.Sites_SiteId] FOREIGN KEY (SiteId) REFERENCES Web.Sites (SiteId)
+	                        )
+
+
+                        CREATE UNIQUE INDEX ChargeGroupPersonCalculation_DocID
+	                        ON Web.ChargeGroupPersonCalculations (DocTypeId, DivisionId, SiteId, ChargeGroupPersonId)
+
+
+                        CREATE INDEX IX_CalculationId
+	                        ON Web.ChargeGroupPersonCalculations (CalculationId)";
+                    ExecuteQuery(mQry);
+                }
+            }
+            catch (Exception ex)
+            {
+                RecordError(ex);
+            }
+
+            AddFields("JobInvoiceSettings", "isVisibleJobOrder", "BIT");
+            AddFields("JobInvoiceSettings", "isMandatoryJobOrder", "BIT");
+
+            AddFields("JobInvoiceSettings", "isVisiblePassQty", "BIT");
+            AddFields("JobInvoiceSettings", "isVisibleQty", "BIT DEFAULT ((1)) NOT NULL");
+            AddFields("JobInvoiceSettings", "isVisibleRate", "BIT DEFAULT ((1)) NOT NULL");
+
+            AddFields("JobOrderHeaders", "ReferenceDocTypeId", "Int","DocumentTypes");
+            AddFields("JobOrderHeaders", "ReferenceDocId", "Int");
+
+            ReCreateProcedures();
 
             return RedirectToAction("Module", "Menu");
         }
@@ -2003,6 +2133,43 @@ namespace Module
             }
 
             return val;
+        }
+
+
+        public void ReCreateProcedures()
+        {
+            try
+            {
+                mQry = @"IF OBJECT_ID ('Web.spGetHelpListLedgerAccountForGroup') IS NOT NULL
+	                        DROP PROCEDURE Web.spGetHelpListLedgerAccountForGroup
+                        CREATE PROCEDURE [Web].[spGetHelpListLedgerAccountForGroup]
+                        (
+	                        @LedgerAccountGroupId INT
+                        )
+                        AS
+
+                        WITH CTE AS  
+                        (    
+	                        SELECT Ag.LedgerAccountGroupId
+	                        FROM Web.LedgerAccountGroups Ag
+	                        WHERE 1=1
+	                        AND (@LedgerAccountGroupId IS NULL OR Ag.LedgerAccountGroupId = @LedgerAccountGroupId)   
+	                        UNION ALL      
+	                        SELECT Ag.LedgerAccountGroupId
+	                        FROM Web.LedgerAccountGroups Ag 
+	                        INNER JOIN CTE ON Ag.ParentLedgerAccountGroupId = CTE.LedgerAccountGroupId
+                        )      
+                        SELECT Convert(NVARCHAR,A.LedgerAccountId) AS [id], A.LedgerAccountName AS [text]
+                        FROM CTE T
+                        LEFT JOIN Web.LedgerAccounts A ON T.LedgerAccountGroupId = A.LedgerAccountGroupId    
+                        WHERE A.LedgerAccountId IS NOT NULL
+                        ORDER BY A.LedgerAccountName";
+                ExecuteQuery(mQry);
+            }
+            catch (Exception ex)
+            {
+                RecordError(ex);
+            }
         }
     }
 
