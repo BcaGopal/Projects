@@ -1034,6 +1034,22 @@ namespace Web
 
                 }
             }
+
+            var ModelStateErrorList = ModelState.Select(x => x.Value.Errors).Where(y => y.Count > 0).ToList();
+
+            if (ModelStateErrorList.Count > 0)
+            {
+                foreach (var ModelStateError in ModelStateErrorList)
+                {
+                    foreach (var item1 in ModelStateError)
+                    {
+                        ModelState.AddModelError("", item1.ErrorMessage);
+                    }
+                }
+            }
+                
+
+
             PrepareViewBag();
             return PartialView("_Create", svm);
         }

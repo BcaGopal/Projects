@@ -336,35 +336,59 @@ namespace Web
                     ModelState.AddModelError("StockInId", "Stock In field is required");
             }
 
+            if (svm.SaleOrderLineId != 0 && svm.SaleOrderLineId != null)
+            {
+                var SaleOrderBalance = (from L in db.ViewSaleOrderBalance where L.SaleOrderLineId == svm.SaleOrderLineId select L).FirstOrDefault();
+
+                if (SaleOrderBalance != null)
+                { 
+                    if (svm.Qty > SaleOrderBalance.BalanceQty)
+                    {
+                        ModelState.AddModelError("SaleOrderLineId", "Pack qty is greater then Order Qty.");
+                    }
+                }
+            }
+
+            if (svm.StockInId != 0 && svm.StockInId != null)
+            {
+                var StockINBalance = (from L in db.ViewStockInBalance where L.StockInId == svm.StockInId select L).FirstOrDefault();
+
+                if (StockINBalance != null)
+                {
+                    if (svm.Qty > StockINBalance.BalanceQty)
+                    {
+                        ModelState.AddModelError("StockInId", "Pack qty is greater then Stock Balance Qty.");
+                    }
+                }
+            }
+
+
 
             if (ModelState.IsValid)
             {
                 if (svm.PackingLineId <= 0)
                 {
-                    PackingLine Pl = Mapper.Map<PackingLineViewModel, PackingLine>(svm);
-
                     PackingLine Dl = Mapper.Map<PackingLineViewModel, PackingLine>(svm);
 
-                    StockViewModel StockViewModel = new StockViewModel();
-                    StockProcessViewModel StockProcessViewModel = new StockProcessViewModel();
+                    StockViewModel StockViewModel_Issue = new StockViewModel();
                     //Posting in Stock
 
-                    StockViewModel.StockHeaderId = Dh.StockHeaderId ?? 0;
-                    StockViewModel.DocHeaderId = Dh.PackingHeaderId;
-                    StockViewModel.DocLineId = Dl.PackingLineId;
-                    StockViewModel.DocTypeId = Dh.DocTypeId;
-                    StockViewModel.StockHeaderDocDate = Dh.DocDate;
-                    StockViewModel.StockDocDate = Dh.DocDate;
-                    StockViewModel.DocNo = Dh.DocNo;
-                    StockViewModel.DivisionId = Dh.DivisionId;
-                    StockViewModel.SiteId = Dh.SiteId;
-                    StockViewModel.CurrencyId = null;
-                    StockViewModel.HeaderProcessId = null;
-                    StockViewModel.PersonId = Dh.BuyerId;
-                    StockViewModel.ProductId = Pl.ProductId;
-                    StockViewModel.HeaderFromGodownId = null;
-                    StockViewModel.HeaderGodownId = null;
-                    StockViewModel.GodownId = Dh.GodownId;
+                    StockViewModel_Issue.StockHeaderId = Dh.StockHeaderId ?? 0;
+                    StockViewModel_Issue.DocHeaderId = Dh.PackingHeaderId;
+                    StockViewModel_Issue.DocLineId = Dl.PackingLineId;
+                    StockViewModel_Issue.DocTypeId = Dh.DocTypeId;
+                    StockViewModel_Issue.StockHeaderDocDate = Dh.DocDate;
+                    StockViewModel_Issue.StockDocDate = Dh.DocDate;
+                    StockViewModel_Issue.DocNo = Dh.DocNo;
+                    StockViewModel_Issue.DivisionId = Dh.DivisionId;
+                    StockViewModel_Issue.SiteId = Dh.SiteId;
+                    StockViewModel_Issue.CurrencyId = null;
+                    StockViewModel_Issue.HeaderProcessId = null;
+                    StockViewModel_Issue.PersonId = Dh.BuyerId;
+                    StockViewModel_Issue.ProductId = Dl.ProductId;
+                    StockViewModel_Issue.HeaderFromGodownId = null;
+                    StockViewModel_Issue.HeaderGodownId = null;
+                    StockViewModel_Issue.GodownId = Dh.GodownId;
 
 
                     if (svm.StockInId != null)
@@ -372,29 +396,29 @@ namespace Web
                         var StockIn = (from L in db.Stock where L.StockId == svm.StockInId select L).FirstOrDefault();
                         if (StockIn != null)
                         {
-                            StockViewModel.ProcessId = StockIn.ProcessId;
+                            StockViewModel_Issue.ProcessId = StockIn.ProcessId;
                         }
                     }
 
                     //StockViewModel.ProcessId = Dl.FromProcessId;
-                    StockViewModel.LotNo = svm.LotNo;
+                    StockViewModel_Issue.LotNo = svm.LotNo;
                     //StockViewModel.CostCenterId = svm.CostCenterId;
-                    StockViewModel.Qty_Iss = Pl.Qty + (Pl.LossQty ?? 0) + (Pl.FreeQty ?? 0);
-                    StockViewModel.Qty_Rec = 0;
-                    StockViewModel.Rate = 0;
-                    StockViewModel.ExpiryDate = null;
-                    StockViewModel.Specification = svm.Specification;
-                    StockViewModel.Dimension1Id = Pl.Dimension1Id;
-                    StockViewModel.Dimension2Id = Pl.Dimension2Id;
-                    StockViewModel.Remark = Dl.Remark;
-                    StockViewModel.Status = Dh.Status;
-                    StockViewModel.CreatedBy = Dh.CreatedBy;
-                    StockViewModel.CreatedDate = DateTime.Now;
-                    StockViewModel.ModifiedBy = Dh.ModifiedBy;
-                    StockViewModel.ModifiedDate = DateTime.Now;
+                    StockViewModel_Issue.Qty_Iss = Dl.Qty + (Dl.LossQty ?? 0) + (Dl.FreeQty ?? 0);
+                    StockViewModel_Issue.Qty_Rec = 0;
+                    StockViewModel_Issue.Rate = 0;
+                    StockViewModel_Issue.ExpiryDate = null;
+                    StockViewModel_Issue.Specification = svm.Specification;
+                    StockViewModel_Issue.Dimension1Id = Dl.Dimension1Id;
+                    StockViewModel_Issue.Dimension2Id = Dl.Dimension2Id;
+                    StockViewModel_Issue.Remark = Dl.Remark;
+                    StockViewModel_Issue.Status = Dh.Status;
+                    StockViewModel_Issue.CreatedBy = Dh.CreatedBy;
+                    StockViewModel_Issue.CreatedDate = DateTime.Now;
+                    StockViewModel_Issue.ModifiedBy = Dh.ModifiedBy;
+                    StockViewModel_Issue.ModifiedDate = DateTime.Now;
 
                     string StockPostingError = "";
-                    StockPostingError = new StockService(_unitOfWork).StockPost(ref StockViewModel);
+                    StockPostingError = new StockService(_unitOfWork).StockPost(ref StockViewModel_Issue);
 
                     if (StockPostingError != "")
                     {
@@ -402,16 +426,68 @@ namespace Web
                         return PartialView("_Create", svm);
                     }
 
-                    Dl.StockIssueId = StockViewModel.StockId;
+
+
+
+
+                    StockViewModel StockViewModel_Receive = new StockViewModel();
+                    //Posting in Stock
+
+                    StockViewModel_Receive.StockId = -1;
+                    StockViewModel_Receive.StockHeaderId = Dh.StockHeaderId ?? -1;
+                    StockViewModel_Receive.DocHeaderId = Dh.PackingHeaderId;
+                    StockViewModel_Receive.DocLineId = Dl.PackingLineId;
+                    StockViewModel_Receive.DocTypeId = Dh.DocTypeId;
+                    StockViewModel_Receive.StockHeaderDocDate = Dh.DocDate;
+                    StockViewModel_Receive.StockDocDate = Dh.DocDate;
+                    StockViewModel_Receive.DocNo = Dh.DocNo;
+                    StockViewModel_Receive.DivisionId = Dh.DivisionId;
+                    StockViewModel_Receive.SiteId = Dh.SiteId;
+                    StockViewModel_Receive.CurrencyId = null;
+                    StockViewModel_Receive.HeaderProcessId = null;
+                    StockViewModel_Receive.PersonId = Dh.BuyerId;
+                    StockViewModel_Receive.ProductId = Dl.ProductId;
+                    StockViewModel_Receive.HeaderFromGodownId = null;
+                    StockViewModel_Receive.HeaderGodownId = null;
+                    StockViewModel_Receive.GodownId = Dh.GodownId;
+
+                    Process PackingProcess = new ProcessService(_unitOfWork).Find(ProcessConstants.Packing);
+                    if (PackingProcess != null)
+                        StockViewModel_Receive.ProcessId = PackingProcess.ProcessId;
+
+                    StockViewModel_Receive.LotNo = svm.LotNo;
+                    //StockViewModel.CostCenterId = svm.CostCenterId;
+                    StockViewModel_Receive.Qty_Iss = 0;
+                    StockViewModel_Receive.Qty_Rec = Dl.Qty + (Dl.LossQty ?? 0) + (Dl.FreeQty ?? 0);
+                    StockViewModel_Receive.Rate = 0;
+                    StockViewModel_Receive.ExpiryDate = null;
+                    StockViewModel_Receive.Specification = svm.Specification;
+                    StockViewModel_Receive.Dimension1Id = Dl.Dimension1Id;
+                    StockViewModel_Receive.Dimension2Id = Dl.Dimension2Id;
+                    StockViewModel_Receive.Remark = Dl.Remark;
+                    StockViewModel_Receive.Status = Dh.Status;
+                    StockViewModel_Receive.CreatedBy = Dh.CreatedBy;
+                    StockViewModel_Receive.CreatedDate = DateTime.Now;
+                    StockViewModel_Receive.ModifiedBy = Dh.ModifiedBy;
+                    StockViewModel_Receive.ModifiedDate = DateTime.Now;
+
+                    StockPostingError = new StockService(_unitOfWork).StockPost(ref StockViewModel_Receive);
+
+                    if (StockPostingError != "")
+                    {
+                        ModelState.AddModelError("", StockPostingError);
+                        return PartialView("_Create", svm);
+                    }
+
+                    Dl.StockIssueId = StockViewModel_Issue.StockId;
+                    Dl.StockReceiveId = StockViewModel_Receive.StockId;
 
                     if (Dh.StockHeaderId == null)
                     {
-                        Dh.StockHeaderId = StockViewModel.StockHeaderId;
+                        Dh.StockHeaderId = StockViewModel_Issue.StockHeaderId;
                     }
 
-
-
-
+                    
                     if (svm.StockInId != null)
                     {
                         StockAdj Adj_IssQty = new StockAdj();
@@ -419,7 +495,7 @@ namespace Web
                         Adj_IssQty.StockOutId = (int)Dl.StockIssueId;
                         Adj_IssQty.DivisionId = Dh.DivisionId;
                         Adj_IssQty.SiteId = Dh.SiteId;
-                        Adj_IssQty.AdjustedQty = Pl.Qty + (Pl.LossQty ?? 0);
+                        Adj_IssQty.AdjustedQty = Dl.Qty + (Dl.LossQty ?? 0);
                         new StockAdjService(_unitOfWork).Create(Adj_IssQty);
                     }
 
@@ -427,8 +503,7 @@ namespace Web
 
 
                     Dl.PackingHeaderId = Dh.PackingHeaderId;
-                    Dl.FromProcessId = StockViewModel.ProcessId;
-                    Dl.PackingLineId = Pl.PackingLineId;
+                    Dl.FromProcessId = StockViewModel_Issue.ProcessId;
                     Dl.StockInId = svm.StockInId;
                     Dl.CreatedBy = User.Identity.Name;
                     Dl.CreatedDate = DateTime.Now;
@@ -438,14 +513,12 @@ namespace Web
                     _PackingLineService.Create(Dl);
 
 
-
-
-
                     if (Dh.Status != (int)StatusConstants.Drafted)
                     {
                         Dh.Status = (int)StatusConstants.Modified;
-                        new PackingHeaderService(_unitOfWork).Update(Dh);
                     }
+
+                    new PackingHeaderService(_unitOfWork).Update(Dh);
 
                     try
                     {
@@ -475,7 +548,7 @@ namespace Web
                     }));
 
 
-                    return RedirectToAction("_Create", new { id = Dh.PackingHeaderId, IsSaleBased = (Pl.SaleOrderLineId == null ? false : true) });
+                    return RedirectToAction("_Create", new { id = Dh.PackingHeaderId, IsSaleBased = (Dl.SaleOrderLineId == null ? false : true) });
                 }
                 else
                 {
@@ -523,14 +596,63 @@ namespace Web
                                 StockViewModel.ProcessId = StockIn.ProcessId;
                             }
                         }
-                        //StockViewModel.ProcessId = Dl.FromProcessId;
-
-
 
                         StockViewModel.LotNo = svm.LotNo;
                         //StockViewModel.CostCenterId = Dh.CostCenterId;
                         StockViewModel.Qty_Iss = svm.Qty;
                         StockViewModel.Qty_Rec = 0;
+                        StockViewModel.Rate = 0;
+                        StockViewModel.ExpiryDate = null;
+                        StockViewModel.Specification = svm.Specification;
+                        StockViewModel.Dimension1Id = svm.Dimension1Id;
+                        StockViewModel.Dimension2Id = svm.Dimension2Id;
+                        StockViewModel.Remark = svm.Remark;
+                        StockViewModel.Status = Dh.Status;
+                        StockViewModel.CreatedBy = Dl.CreatedBy;
+                        StockViewModel.CreatedDate = Dl.CreatedDate;
+                        StockViewModel.ModifiedBy = User.Identity.Name;
+                        StockViewModel.ModifiedDate = DateTime.Now;
+
+                        string StockPostingError = "";
+                        StockPostingError = new StockService(_unitOfWork).StockPost(ref StockViewModel);
+
+                        if (StockPostingError != "")
+                        {
+                            ModelState.AddModelError("", StockPostingError);
+                            return PartialView("_Create", svm);
+                        }
+                    }
+
+
+                    if (Dl.StockReceiveId != null)
+                    {
+                        StockViewModel StockViewModel = new StockViewModel();
+                        StockViewModel.StockHeaderId = Dh.StockHeaderId ?? 0;
+                        StockViewModel.StockId = Dl.StockReceiveId ?? 0;
+                        StockViewModel.DocHeaderId = Dl.PackingHeaderId;
+                        StockViewModel.DocLineId = Dl.PackingLineId;
+                        StockViewModel.DocTypeId = Dh.DocTypeId;
+                        StockViewModel.StockHeaderDocDate = Dh.DocDate;
+                        StockViewModel.StockDocDate = Dh.DocDate;
+                        StockViewModel.DocNo = Dh.DocNo;
+                        StockViewModel.DivisionId = Dh.DivisionId;
+                        StockViewModel.SiteId = Dh.SiteId;
+                        StockViewModel.CurrencyId = null;
+                        StockViewModel.HeaderProcessId = null;
+                        StockViewModel.PersonId = Dh.BuyerId;
+                        StockViewModel.ProductId = Dl.ProductId;
+                        StockViewModel.HeaderFromGodownId = null;
+                        StockViewModel.HeaderGodownId = null;
+                        StockViewModel.GodownId = Dh.GodownId;
+
+                        Process PackingProcess = new ProcessService(_unitOfWork).Find(ProcessConstants.Packing);
+                        if (PackingProcess != null)
+                            StockViewModel.ProcessId = PackingProcess.ProcessId;
+
+                        StockViewModel.LotNo = svm.LotNo;
+                        //StockViewModel.CostCenterId = Dh.CostCenterId;
+                        StockViewModel.Qty_Iss = 0;
+                        StockViewModel.Qty_Rec = svm.Qty;
                         StockViewModel.Rate = 0;
                         StockViewModel.ExpiryDate = null;
                         StockViewModel.Specification = svm.Specification;
@@ -813,6 +935,7 @@ namespace Web
             List<LogTypeViewModel> LogList = new List<LogTypeViewModel>();
 
             int? StockIssueId = 0;
+            int? StockReceiveId = 0;
 
             PackingHeader Dh = new PackingHeaderService(_unitOfWork).Find(vm.PackingHeaderId);
 
@@ -828,6 +951,7 @@ namespace Web
 
 
             StockIssueId = Dl.StockIssueId;
+            StockReceiveId = Dl.StockReceiveId;
 
 
             _PackingLineService.Delete(Dl);
@@ -844,6 +968,7 @@ namespace Web
                 }
 
                 new StockService(_unitOfWork).DeleteStock((int)StockIssueId);
+                new StockService(_unitOfWork).DeleteStock((int)StockReceiveId);
             }
 
 

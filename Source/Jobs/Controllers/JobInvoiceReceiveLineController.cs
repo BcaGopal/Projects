@@ -1968,6 +1968,11 @@ namespace Web
 
             temp.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(H.DocTypeId);
 
+            temp.DocTypeId = H.DocTypeId;
+            temp.SiteId = H.SiteId;
+            temp.DivisionId = H.DivisionId;
+            temp.SalesTaxGroupPersonId = H.SalesTaxGroupPersonId;
+
             PrepareViewBag(temp);
 
             if (temp.JobOrderLineId != null)

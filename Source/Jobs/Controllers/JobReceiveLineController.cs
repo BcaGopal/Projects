@@ -768,6 +768,11 @@ namespace Web
                         line.JobReceiveHeaderId = item.JobReceiveHeaderId;
                         line.JobOrderLineId = item.JobOrderLineId;
                         line.ProductUidId = JobOrderLine.ProductUidId;
+                        line.ProductId = JobOrderLine.ProductId;
+                        line.Dimension1Id = JobOrderLine.Dimension1Id;
+                        line.Dimension2Id = JobOrderLine.Dimension2Id;
+                        line.Dimension3Id = JobOrderLine.Dimension3Id;
+                        line.Dimension4Id = JobOrderLine.Dimension4Id;
                         line.Qty = item.ReceiveQty;
                         line.LossQty = item.LossQty;
                         line.PassQty = item.PassQty;
@@ -2710,6 +2715,11 @@ namespace Web
                     //JobOrderLine JobOrderLine = new JobOrderLineService(_unitOfWork).Find(s.JobOrderLineId);
                     //JobOrderHeader JobOrderHeader = new JobOrderHeaderService(_unitOfWork).Find(JobOrderLine.JobOrderHeaderId);
 
+                    RecLine.ProductId = svm.ProductId;
+                    RecLine.Dimension1Id = svm.Dimension1Id;
+                    RecLine.Dimension2Id = svm.Dimension2Id;
+                    RecLine.Dimension3Id = svm.Dimension3Id;
+                    RecLine.Dimension4Id = svm.Dimension4Id;
                     RecLine.PenaltyAmt = svm.PenaltyAmt;
                     RecLine.PenaltyRate = svm.PenaltyRate;
                     RecLine.Remark = svm.Remark;

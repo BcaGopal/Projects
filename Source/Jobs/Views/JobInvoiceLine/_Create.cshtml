@@ -363,6 +363,14 @@ else
         })
     });
 
+    $("#SalesTaxGroupProductId").change(function(){
+        Validate_SalesTaxGroupProduct();
+    });
+
+    function Validate_SalesTaxGroupProduct() {
+        GetChargeRates('@Model.JobInvoiceSettings.CalculationId',$('#DocTypeId','.modal-body').val(),$('#SiteId','.modal-body').val(),$('#DivisionId','.modal-body').val(),$('#JobInvoiceSettings_ProcessId','.modal-body').val(),$('#SalesTaxGroupPersonId','.modal-body').val(),$('#SalesTaxGroupProductId','.modal-body').val());
+    }
+
     function LockFields(){
         $('#acgoodsreceipt').attr('readonly','true');
         $("#Dimension1Name").attr('readonly','true');
@@ -528,6 +536,10 @@ else
             }
         }
         );
+
+
+
+
 
 
         function CopyOrderCharges(HeaderCharges,LineCharges)

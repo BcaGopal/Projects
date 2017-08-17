@@ -2713,6 +2713,7 @@ namespace Service
         {
             var list = (from D in db.Currency
                         where D.IsActive == true
+                        && (string.IsNullOrEmpty(term) ? 1 == 1 : (D.Name.ToLower().Contains(term.ToLower())))
                         orderby D.Name
                         select new ComboBoxResult
                         {
@@ -2745,6 +2746,7 @@ namespace Service
         {
             var list = (from D in db.ChargeGroupProduct
                         where D.IsActive == true
+                        && (string.IsNullOrEmpty(term) ? 1 == 1 : (D.ChargeGroupProductName.ToLower().Contains(term.ToLower())))
                         orderby D.ChargeGroupProductName
                         select new ComboBoxResult
                         {

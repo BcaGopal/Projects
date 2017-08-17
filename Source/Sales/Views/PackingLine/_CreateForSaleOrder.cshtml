@@ -537,10 +537,10 @@
                         {
                             $("#StockInBalanceQty").val(data.BalanceQty);
 
-                            if ($("#BalanceQty").val() > $("#StockInBalanceQty").val())
+                            if (parseFloat($("#BalanceQty").val()) > parseFloat($("#StockInBalanceQty").val()))
                             {
-                                $("#Qty").val(data.BalanceQty);
-                                $("#PassQty").val(data.BalanceQty);
+                                $("#Qty").val($("#StockInBalanceQty").val());
+                                $("#PassQty").val($("#StockInBalanceQty").val());
                             }
 
                             $("#LotNo").val(data.LotNo);

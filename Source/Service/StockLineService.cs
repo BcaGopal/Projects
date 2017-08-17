@@ -1644,6 +1644,19 @@ namespace Service
             //            id = g.Key.ToString(),
             //        });
 
+            var temp = from p in db.CostCenter
+                       where p.ProcessId == StockHeader.ProcessId
+                   && (p.LedgerAccount.PersonId == StockHeader.PersonId || p.ReferenceDocNo == "Weaving Defaulter")
+                   && (string.IsNullOrEmpty(term) ? 1 == 1 : p.CostCenterName.ToLower().Contains(term.ToLower()))
+                   && p.SiteId == SiteId && p.DivisionId == DivisionId && p.IsActive == true && p.Status != (int)StatusConstants.Closed
+                       group p by p.CostCenterId into g
+                       orderby g.Max(m => m.CostCenterName)
+                       select new ComboBoxResult
+                       {
+                           text = g.Max(m => m.CostCenterName),
+                           id = g.Key.ToString(),
+                       };
+
             return (from p in db.CostCenter
                     where p.ProcessId == StockHeader.ProcessId
                 && (p.LedgerAccount.PersonId == StockHeader.PersonId || p.ReferenceDocNo == "Weaving Defaulter")

@@ -108,13 +108,13 @@ function DrawProductFields(DebugMode) {
             + "         <label class='control-label col-md-4 col-sm-2'>" + ProductFields[i].ChargeName + "</label> "
             + "                <div class='col-md-7 col-sm-10'>"
             + "                <div class='col-xs-4' style='padding:0px;'>"
-            + "                    <input class='form-control cusrightnormal Calculation text-right' id='CALL_" + ProductFields[i].ChargeCode + "RATE' name='linecharges[" + i + "].RATE'   type='text' value='" + ProductFields[i].Rate + "'   />"
+            + "                    <input class='form-control cusrightnormal Calculation text-right' id='CALL_" + ProductFields[i].ChargeCode + "RATE' name='linecharges[" + i + "].RATE'   type='text' value='" + ProductFields[i].Rate + "' " + (ProductFields[i].ChargeTypeId == null ? "" : "readonly") + " />"
             //+ "                    <input class='form-control cusrightnormal Calculation text-right' id='CALL_" + ProductFields[i].ChargeCode + "RATE' name='CALL_" + ProductFields[i].ChargeCode + "RATE'   type='text' value='" + ProductFields[i].Rate + "'   />"
             + "                 </div>"
             + "                  <div></div>"
             + "                 <div class='col-xs-8' style='padding:0px'>"
             //+ "                     <input class='form-control cusleftnormal Calculation text-right' id='CALL_" + ProductFields[i].ChargeCode + "' name='CALL_" + ProductFields[i].ChargeCode + "'   type='text' value='" + ProductFields[i].Amount + "'  />"
-            + "                     <input class='form-control cusleftnormal Calculation text-right' id='CALL_" + ProductFields[i].ChargeCode + "' name='linecharges[" + i + "].Amount'   type='text' value='" + ProductFields[i].Amount + "'  />"
+            + "                     <input class='form-control cusleftnormal Calculation text-right' id='CALL_" + ProductFields[i].ChargeCode + "' name='linecharges[" + i + "].Amount'   type='text' value='" + ProductFields[i].Amount + "' " + (ProductFields[i].ChargeTypeId == null ? "" : "readonly") + "  />"
             + "                 </div>"
             + "          </div>"
             + "     </div>"
@@ -502,6 +502,7 @@ function DeletingProductCharges() {
 
 function AssignValuesToChargeRates() {
     for (var i = 0; i < ProductFields.length; i++) {
+
         ProductFields[i].Rate = ProductCharges[i].Rate;
         ProductFields[i].LedgerAccountCrId = ProductCharges[i].LedgerAccountCrId;
         ProductFields[i].LedgerAccountDrId = ProductCharges[i].LedgerAccountDrId;
