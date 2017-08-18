@@ -192,7 +192,7 @@ namespace Model.ViewModel
         public string InvoiceDocNo { get; set; }
         public DateTime OrderDocDate { get; set; }
         public string LockReason { get; set; }
-        public bool ForOrder { get; set; }
+        public string LineNature { get; set; }
     }
 
 
@@ -251,8 +251,15 @@ namespace Model.ViewModel
         public string JobReceiveHeaderId { get; set; }
         public int DocTypeId { get; set; }
         public string JobOrderHeaderId { get; set; }
+
         [Display(Name = "Product")]
         public string ProductId { get; set; }
+
+        public string Dimension1Id { get; set; }
+        public string Dimension2Id { get; set; }
+        public string Dimension3Id { get; set; }
+        public string Dimension4Id { get; set; }
+
         [Display(Name = "Product Group")]
         public string ProductGroupId { get; set; }
         public DateTime ? AsOnDate { get; set; }
@@ -323,6 +330,8 @@ namespace Model.ViewModel
         public Decimal TanaAmount { get; set; }
         public bool ValidationError { get; set; }
     }
+
+
 
 
 }

@@ -1990,7 +1990,11 @@ namespace Module
             AddFields("JobOrderHeaders", "ReferenceDocTypeId", "Int","DocumentTypes");
             AddFields("JobOrderHeaders", "ReferenceDocId", "Int");
 
+            AddFields("JobInvoiceSettings", "isVisibleJobReceive", "BIT");
+            AddFields("JobInvoiceSettings", "isMandatoryJobReceive", "BIT");
+
             ReCreateProcedures();
+            DataCorrection();
 
             return RedirectToAction("Module", "Menu");
         }
@@ -2164,6 +2168,102 @@ namespace Module
                         LEFT JOIN Web.LedgerAccounts A ON T.LedgerAccountGroupId = A.LedgerAccountGroupId    
                         WHERE A.LedgerAccountId IS NOT NULL
                         ORDER BY A.LedgerAccountName";
+                ExecuteQuery(mQry);
+            }
+            catch (Exception ex)
+            {
+                RecordError(ex);
+            }
+        }
+
+
+        public void DataCorrection()
+        {
+            try
+            {
+                mQry = @"UPDATE Web.JobReceiveLines
+                        SET Web.JobReceiveLines.ProductId = V1.ProductId
+                        FROM (
+	                        SELECT L.JobReceiveLineId, Jol.ProductId
+	                        FROM Web.JobReceiveLines L 
+	                        LEFT JOIN Web.JobOrderLines Jol ON L.JobOrderLineId = Jol.JobOrderLineId
+	                        WHERE L.JobOrderLineId IS NOT NULL
+	                        AND L.ProductId IS NULL
+                        ) AS V1 WHERE Web.JobReceiveLines.JobReceiveLineId = V1.JobReceiveLineId";
+                ExecuteQuery(mQry);
+            }
+            catch (Exception ex)
+            {
+                RecordError(ex);
+            }
+
+
+            try
+            {
+                mQry = @"UPDATE Web.JobReceiveLines
+                        SET Web.JobReceiveLines.Dimension1Id = V1.Dimension1Id
+                        FROM (
+	                        SELECT L.JobReceiveLineId, Jol.Dimension1Id
+	                        FROM Web.JobReceiveLines L 
+	                        LEFT JOIN Web.JobOrderLines Jol ON L.JobOrderLineId = Jol.JobOrderLineId
+	                        WHERE L.JobOrderLineId IS NOT NULL
+	                        AND L.Dimension1Id IS NULL AND Jol.Dimension1Id IS NOT NULL
+                        ) AS V1 WHERE Web.JobReceiveLines.JobReceiveLineId = V1.JobReceiveLineId";
+                ExecuteQuery(mQry);
+            }
+            catch (Exception ex)
+            {
+                RecordError(ex);
+            }
+
+            try
+            {
+                mQry = @"UPDATE Web.JobReceiveLines
+                        SET Web.JobReceiveLines.Dimension2Id = V1.Dimension2Id
+                        FROM (
+	                        SELECT L.JobReceiveLineId, Jol.Dimension2Id
+	                        FROM Web.JobReceiveLines L 
+	                        LEFT JOIN Web.JobOrderLines Jol ON L.JobOrderLineId = Jol.JobOrderLineId
+	                        WHERE L.JobOrderLineId IS NOT NULL
+	                        AND L.Dimension2Id IS NULL AND Jol.Dimension2Id IS NOT NULL
+                        ) AS V1 WHERE Web.JobReceiveLines.JobReceiveLineId = V1.JobReceiveLineId";
+                ExecuteQuery(mQry);
+            }
+            catch (Exception ex)
+            {
+                RecordError(ex);
+            }
+
+            try
+            {
+                mQry = @"UPDATE Web.JobReceiveLines
+                        SET Web.JobReceiveLines.Dimension3Id = V1.Dimension3Id
+                        FROM (
+	                        SELECT L.JobReceiveLineId, Jol.Dimension3Id
+	                        FROM Web.JobReceiveLines L 
+	                        LEFT JOIN Web.JobOrderLines Jol ON L.JobOrderLineId = Jol.JobOrderLineId
+	                        WHERE L.JobOrderLineId IS NOT NULL
+	                        AND L.Dimension3Id IS NULL AND Jol.Dimension3Id IS NOT NULL
+                        ) AS V1 WHERE Web.JobReceiveLines.JobReceiveLineId = V1.JobReceiveLineId";
+                ExecuteQuery(mQry);
+            }
+            catch (Exception ex)
+            {
+                RecordError(ex);
+            }
+
+
+            try
+            {
+                mQry = @"UPDATE Web.JobReceiveLines
+                        SET Web.JobReceiveLines.Dimension4Id = V1.Dimension4Id
+                        FROM (
+	                        SELECT L.JobReceiveLineId, Jol.Dimension4Id
+	                        FROM Web.JobReceiveLines L 
+	                        LEFT JOIN Web.JobOrderLines Jol ON L.JobOrderLineId = Jol.JobOrderLineId
+	                        WHERE L.JobOrderLineId IS NOT NULL
+	                        AND L.Dimension4Id IS NULL AND Jol.Dimension4Id IS NOT NULL
+                        ) AS V1 WHERE Web.JobReceiveLines.JobReceiveLineId = V1.JobReceiveLineId";
                 ExecuteQuery(mQry);
             }
             catch (Exception ex)

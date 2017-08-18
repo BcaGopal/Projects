@@ -33,17 +33,41 @@ namespace Web
         IUnitOfWork _unitOfWork;
         IExceptionHandlingService _exception;
 
-        //public GridReportController(IGridReportService GridReportService, IUnitOfWork unitOfWork, IExceptionHandlingService exec)
-        //{
-        //    _GridReportService = GridReportService;
-        //    _exception = exec;
-        //    _unitOfWork = unitOfWork;
-        //}
 
         public GridReportController(IUnitOfWork unitOfWork, IExceptionHandlingService exec)
         {
             _exception = exec;
             _unitOfWork = unitOfWork;
+        }
+
+        [HttpGet]
+        public ActionResult GridReportLayout(int MenuId)
+        {
+            Menu menu = new MenuService(_unitOfWork).Find(MenuId);
+
+            ReportHeader header = new ReportHeaderService(_unitOfWork).GetReportHeaderByName(menu.MenuName);
+            List<ReportLine> lines = new ReportLineService(_unitOfWork).GetReportLineList(header.ReportHeaderId).ToList();
+
+            Dictionary<int, string> DefaultValues = TempData["ReportLayoutDefaultValues"] as Dictionary<int, string>;
+            TempData["ReportLayoutDefaultValues"] = DefaultValues;
+            foreach (var item in lines)
+            {
+                if (DefaultValues != null && DefaultValues.ContainsKey(item.ReportLineId))
+                {
+                    item.DefaultValue = DefaultValues[item.ReportLineId];
+                }
+            }
+
+            ReportMasterViewModel vm = new ReportMasterViewModel();
+
+            if (TempData["closeOnSelectOption"] != null)
+                vm.closeOnSelect = (bool)TempData["closeOnSelectOption"];
+
+            vm.ReportHeader = header;
+            vm.ReportLine = lines;
+            vm.ReportHeaderId = header.ReportHeaderId;
+
+            return View(vm);
         }
 
         public JsonResult GridReportFill(FormCollection form)
@@ -171,39 +195,9 @@ namespace Web
             }
         }
 
-        public ActionResult GridReportLayout(int MenuId)
-        {
-            Menu menu = new MenuService(_unitOfWork).Find(MenuId);
-            return RedirectToAction("ReportLayout", "GridReport", new { name = menu.MenuName });
-        }
 
-        [HttpGet]
-        public ActionResult ReportLayout(string name)
-        {
-            ReportHeader header = new ReportHeaderService(_unitOfWork).GetReportHeaderByName(name);
-            List<ReportLine> lines = new ReportLineService(_unitOfWork).GetReportLineList(header.ReportHeaderId).ToList();
 
-            Dictionary<int, string> DefaultValues = TempData["ReportLayoutDefaultValues"] as Dictionary<int, string>;
-            TempData["ReportLayoutDefaultValues"] = DefaultValues;
-            foreach (var item in lines)
-            {
-                if (DefaultValues != null && DefaultValues.ContainsKey(item.ReportLineId))
-                {
-                    item.DefaultValue = DefaultValues[item.ReportLineId];
-                }
-            }
 
-            ReportMasterViewModel vm = new ReportMasterViewModel();
-
-            if (TempData["closeOnSelectOption"] != null)
-                vm.closeOnSelect = (bool)TempData["closeOnSelectOption"];
-
-            vm.ReportHeader = header;
-            vm.ReportLine = lines;
-            vm.ReportHeaderId = header.ReportHeaderId;
-
-            return View(vm);
-        }
         
         protected override void Dispose(bool disposing)
         {

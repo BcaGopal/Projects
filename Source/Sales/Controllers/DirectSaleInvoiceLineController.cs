@@ -1041,9 +1041,9 @@ namespace Web
             {
                 foreach (var ModelStateError in ModelStateErrorList)
                 {
-                    foreach (var item1 in ModelStateError)
+                    foreach (var Error in ModelStateError)
                     {
-                        ModelState.AddModelError("", item1.ErrorMessage);
+                        ModelState.AddModelError("", Error.ErrorMessage);
                     }
                 }
             }

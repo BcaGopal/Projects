@@ -30,6 +30,7 @@ namespace Model.Models
         public bool? isVisibleMachine { get; set; }
         public bool? isMandatoryMachine { get; set; }
         public bool? isMandatoryJobOrder { get; set; }
+        public bool? isMandatoryJobReceive { get; set; }
         public bool? isVisibleProductUID { get; set; }
         public bool? isVisibleDimension1 { get; set; }
         public bool? isVisibleDimension2 { get; set; }
@@ -45,6 +46,7 @@ namespace Model.Models
         public bool? isVisibleSalesTaxGroupPerson { get; set; }
         public bool? isVisibleSalesTaxGroupProduct { get; set; }
         public bool? isVisibleJobOrder { get; set; }
+        public bool? isVisibleJobReceive { get; set; }
 
 
         public bool? isVisibleGodown { get; set; }

@@ -45,10 +45,13 @@ namespace Service
         IEnumerable<JobReceiveProductHelpList> GetProductHelpListForPendingTraceMapJobOrders(int Id, int JobWorkerId, string term, int Limit);
         ComboBoxPagedResult GetPendingProductsForJobInvoice(string searchTerm, int pageSize, int pageNum, int filter);
         ComboBoxPagedResult GetPendingJobOrdersForInvoice(string searchTerm, int pageSize, int pageNum, int filter);
+        ComboBoxPagedResult GetPendingJobReceivesForInvoice(string searchTerm, int pageSize, int pageNum, int filter);
         int GetMaxSr(int id);
         IEnumerable<ComboBoxResult> FGetProductUidHelpList(int Id, string term);
         IEnumerable<ComboBoxResult> GetJobOrderHelpListForProduct(int Id, string term);
+        IEnumerable<ComboBoxResult> GetJobReceiveHelpListForProduct(int Id, string term);
         IQueryable<ComboBoxResult> GetCustomProducts(int Id, string term);
+        JobReceiveLineViewModel GetReceiveLineDetailForInvoice(int id, int InvoiceId);
     }
 
     public class JobInvoiceLineService : IJobInvoiceLineService
@@ -451,67 +454,128 @@ namespace Service
             if (!string.IsNullOrEmpty(vm.ProductId)) { ProductIdArr = vm.ProductId.Split(",".ToCharArray()); }
             else { ProductIdArr = new string[] { "NA" }; }
 
-            string[] SaleOrderIdArr = null;
-            if (!string.IsNullOrEmpty(vm.JobOrderHeaderId)) { SaleOrderIdArr = vm.JobOrderHeaderId.Split(",".ToCharArray()); }
-            else { SaleOrderIdArr = new string[] { "NA" }; }
+            string[] JobOrderHeaderIdArr = null;
+            if (!string.IsNullOrEmpty(vm.JobOrderHeaderId)) { JobOrderHeaderIdArr = vm.JobOrderHeaderId.Split(",".ToCharArray()); }
+            else { JobOrderHeaderIdArr = new string[] { "NA" }; }
+
+            string[] JobReceiveHeaderIdArr = null;
+            if (!string.IsNullOrEmpty(vm.JobReceiveHeaderId)) { JobReceiveHeaderIdArr = vm.JobReceiveHeaderId.Split(",".ToCharArray()); }
+            else { JobReceiveHeaderIdArr = new string[] { "NA" }; }
 
             string[] ProductGroupIdArr = null;
             if (!string.IsNullOrEmpty(vm.ProductGroupId)) { ProductGroupIdArr = vm.ProductGroupId.Split(",".ToCharArray()); }
             else { ProductGroupIdArr = new string[] { "NA" }; }
 
-            //ToChange View to get Joborders instead of goodsreceipts
-            var temp = (from p in db.ViewJobOrderBalance
-                        join t2 in db.JobOrderHeader on p.JobOrderHeaderId equals t2.JobOrderHeaderId into table5
-                        from tabl in table5.DefaultIfEmpty()
-                        join product in db.Product on p.ProductId equals product.ProductId into table2
-                        from tab2 in table2.DefaultIfEmpty()
-                        join t3 in db.JobOrderLine on p.JobOrderLineId equals t3.JobOrderLineId into table3
-                        from tab3 in table3.DefaultIfEmpty()
-                        where (string.IsNullOrEmpty(vm.ProductId) ? 1 == 1 : ProductIdArr.Contains(p.ProductId.ToString()))
-                        && (string.IsNullOrEmpty(vm.JobOrderHeaderId) ? 1 == 1 : SaleOrderIdArr.Contains(p.JobOrderHeaderId.ToString()))
-                        && (string.IsNullOrEmpty(vm.ProductGroupId) ? 1 == 1 : ProductGroupIdArr.Contains(tab2.ProductGroupId.ToString()))
-                         && (string.IsNullOrEmpty(settings.filterContraDocTypes) ? 1 == 1 : ContraDocTypes.Contains(tabl.DocTypeId.ToString()))
-                         && (string.IsNullOrEmpty(settings.filterContraSites) ? p.SiteId == JobInvoice.SiteId : ContraSites.Contains(p.SiteId.ToString()))
-                        && (string.IsNullOrEmpty(settings.filterContraDivisions) ? p.DivisionId == JobInvoice.DivisionId : ContraDivisions.Contains(p.DivisionId.ToString()))
-                        && p.JobWorkerId == vm.JobWorkerId && tab3.ProductUidHeaderId == null
-                        && p.BalanceQty > 0
-                        orderby tabl.DocDate, tabl.DocNo, tab3.Sr
-                        select new JobInvoiceLineViewModel
-                        {
-                            Dimension1Name = tab3.Dimension1.Dimension1Name,
-                            Dimension2Name = tab3.Dimension2.Dimension2Name,
-                            Dimension3Name = tab3.Dimension3.Dimension3Name,
-                            Dimension4Name = tab3.Dimension4.Dimension4Name,
-                            Specification = tab3.Specification,
-                            ReceiptBalQty = p.BalanceQty,
-                            OrderBalanceQty = p.BalanceQty,
-                            Qty = p.BalanceQty,
-                            JobQty = p.BalanceQty,
-                            ReceiveQty = p.BalanceQty,
-                            CostCenterId = tabl.CostCenterId,
-                            PassQty = p.BalanceQty,
-                            ProductName = tab2.ProductName,
-                            ProductId = p.ProductId,
-                            JobInvoiceHeaderId = vm.JobInvoiceHeaderId,
-                            JobOrderLineId = tab3.JobOrderLineId,
-                            ProductUidId = tab3.ProductUidId,
-                            ProductUidName = tab3.ProductUid.ProductUidName,
-                            UnitId = tab2.UnitId,
-                            UnitName = tab2.Unit.UnitName,
-                            DealUnitId = tab3.DealUnitId,
-                            DealUnitName = tab3.DealUnit.UnitName,
-                            JobWorkerId = p.JobWorkerId,
-                            DealQty = p.BalanceQty * tab3.UnitConversionMultiplier,
-                            Rate = tab3.Rate,
-                            UnitConversionMultiplier = tab3.UnitConversionMultiplier,
-                            JobOrderDocNo = tabl.DocNo,
-                            OrderDocDate = tabl.DocDate,
-                            UnitDecimalPlaces = tab2.Unit.DecimalPlaces,
-                            DealUnitDecimalPlaces = tab3.DealUnit.DecimalPlaces,
-                        }
-                        );
 
-            return temp;
+            if (vm.JobReceiveHeaderId != null)
+            {
+                var temp = (from VJRBal in db.ViewJobReceiveBalance
+                            join H in db.JobReceiveHeader on VJRBal.JobReceiveHeaderId equals H.JobReceiveHeaderId into JobReceiveHeaderTable
+                            from JobReceiveHeaderTab in JobReceiveHeaderTable.DefaultIfEmpty()
+                            join P in db.Product on VJRBal.ProductId equals P.ProductId into ProductTable
+                            from ProductTab in ProductTable.DefaultIfEmpty()
+                            join L in db.JobReceiveLine on VJRBal.JobReceiveLineId equals L.JobReceiveLineId into JobReceiveLineTable
+                            from JobReceiveLineTab in JobReceiveLineTable.DefaultIfEmpty()
+                            where (string.IsNullOrEmpty(vm.ProductId) ? 1 == 1 : ProductIdArr.Contains(VJRBal.ProductId.ToString()))
+                            && (string.IsNullOrEmpty(vm.JobReceiveHeaderId) ? 1 == 1 : JobReceiveHeaderIdArr.Contains(VJRBal.JobReceiveHeaderId.ToString()))
+                            && (string.IsNullOrEmpty(vm.ProductGroupId) ? 1 == 1 : ProductGroupIdArr.Contains(ProductTab.ProductGroupId.ToString()))
+                            && (string.IsNullOrEmpty(settings.filterContraDocTypes) ? 1 == 1 : ContraDocTypes.Contains(JobReceiveHeaderTab.DocTypeId.ToString()))
+                            && (string.IsNullOrEmpty(settings.filterContraSites) ? VJRBal.SiteId == JobInvoice.SiteId : ContraSites.Contains(VJRBal.SiteId.ToString()))
+                            && (string.IsNullOrEmpty(settings.filterContraDivisions) ? VJRBal.DivisionId == JobInvoice.DivisionId : ContraDivisions.Contains(VJRBal.DivisionId.ToString()))
+                            && (JobInvoice.JobWorkerId == null ? 1 == 1 : VJRBal.JobWorkerId == vm.JobWorkerId)
+                            && JobReceiveLineTab.ProductUidHeaderId == null
+                            && VJRBal.BalanceQty > 0
+                            orderby JobReceiveHeaderTab.DocDate, JobReceiveHeaderTab.DocNo, JobReceiveLineTab.Sr
+                            select new JobInvoiceLineViewModel
+                            {
+                                Dimension1Name = JobReceiveLineTab.Dimension1.Dimension1Name,
+                                Dimension2Name = JobReceiveLineTab.Dimension2.Dimension2Name,
+                                Dimension3Name = JobReceiveLineTab.Dimension3.Dimension3Name,
+                                Dimension4Name = JobReceiveLineTab.Dimension4.Dimension4Name,
+                                Specification = JobReceiveLineTab.Specification,
+                                ReceiptBalQty = VJRBal.BalanceQty,
+                                OrderBalanceQty = VJRBal.BalanceQty,
+                                Qty = VJRBal.BalanceQty,
+                                JobQty = VJRBal.BalanceQty,
+                                ReceiveQty = VJRBal.BalanceQty,
+                                CostCenterId = JobReceiveLineTab.JobOrderLine.JobOrderHeader.CostCenterId,
+                                PassQty = VJRBal.BalanceQty,
+                                ProductName = ProductTab.ProductName,
+                                ProductId = VJRBal.ProductId,
+                                JobInvoiceHeaderId = vm.JobInvoiceHeaderId,
+                                JobOrderLineId = JobReceiveLineTab.JobOrderLineId,
+                                ProductUidId = JobReceiveLineTab.ProductUidId,
+                                ProductUidName = JobReceiveLineTab.ProductUid.ProductUidName,
+                                UnitId = ProductTab.UnitId,
+                                UnitName = ProductTab.Unit.UnitName,
+                                DealUnitId = JobReceiveLineTab.DealUnitId,
+                                DealUnitName = JobReceiveLineTab.DealUnit.UnitName,
+                                JobWorkerId = VJRBal.JobWorkerId,
+                                DealQty = VJRBal.BalanceQty * JobReceiveLineTab.UnitConversionMultiplier,
+                                Rate = JobReceiveLineTab.JobOrderLine.Rate,
+                                UnitConversionMultiplier = JobReceiveLineTab.UnitConversionMultiplier,
+                                JobOrderDocNo = JobReceiveLineTab.JobOrderLine.JobOrderHeader.DocNo,
+                                OrderDocDate = JobReceiveLineTab.JobOrderLine.JobOrderHeader.DocDate,
+                                UnitDecimalPlaces = ProductTab.Unit.DecimalPlaces,
+                                DealUnitDecimalPlaces = JobReceiveLineTab.DealUnit.DecimalPlaces,
+                            });
+                return temp;
+            }
+            else
+            {
+                var temp = (from VJOBal in db.ViewJobOrderBalance
+                            join H in db.JobOrderHeader on VJOBal.JobOrderHeaderId equals H.JobOrderHeaderId into JobOrderHeaderTable
+                            from JobOrderHeaderTab in JobOrderHeaderTable.DefaultIfEmpty()
+                            join P in db.Product on VJOBal.ProductId equals P.ProductId into ProductTable
+                            from ProductTab in ProductTable.DefaultIfEmpty()
+                            join L in db.JobOrderLine on VJOBal.JobOrderLineId equals L.JobOrderLineId into JobOrderLineTable
+                            from JobOrderLineTab in JobOrderLineTable.DefaultIfEmpty()
+                            where (string.IsNullOrEmpty(vm.ProductId) ? 1 == 1 : ProductIdArr.Contains(VJOBal.ProductId.ToString()))
+                            && (string.IsNullOrEmpty(vm.JobOrderHeaderId) ? 1 == 1 : JobOrderHeaderIdArr.Contains(VJOBal.JobOrderHeaderId.ToString()))
+                            && (string.IsNullOrEmpty(vm.ProductGroupId) ? 1 == 1 : ProductGroupIdArr.Contains(ProductTab.ProductGroupId.ToString()))
+                            && (string.IsNullOrEmpty(settings.filterContraDocTypes) ? 1 == 1 : ContraDocTypes.Contains(JobOrderHeaderTab.DocTypeId.ToString()))
+                            && (string.IsNullOrEmpty(settings.filterContraSites) ? VJOBal.SiteId == JobInvoice.SiteId : ContraSites.Contains(VJOBal.SiteId.ToString()))
+                            && (string.IsNullOrEmpty(settings.filterContraDivisions) ? VJOBal.DivisionId == JobInvoice.DivisionId : ContraDivisions.Contains(VJOBal.DivisionId.ToString()))
+                            && (JobInvoice.JobWorkerId == null ? 1 == 1 : VJOBal.JobWorkerId == vm.JobWorkerId)
+                            && JobOrderLineTab.ProductUidHeaderId == null
+                            && VJOBal.BalanceQty > 0
+                            orderby JobOrderHeaderTab.DocDate, JobOrderHeaderTab.DocNo, JobOrderLineTab.Sr
+                            select new JobInvoiceLineViewModel
+                            {
+                                Dimension1Name = JobOrderLineTab.Dimension1.Dimension1Name,
+                                Dimension2Name = JobOrderLineTab.Dimension2.Dimension2Name,
+                                Dimension3Name = JobOrderLineTab.Dimension3.Dimension3Name,
+                                Dimension4Name = JobOrderLineTab.Dimension4.Dimension4Name,
+                                Specification = JobOrderLineTab.Specification,
+                                ReceiptBalQty = VJOBal.BalanceQty,
+                                OrderBalanceQty = VJOBal.BalanceQty,
+                                Qty = VJOBal.BalanceQty,
+                                JobQty = VJOBal.BalanceQty,
+                                ReceiveQty = VJOBal.BalanceQty,
+                                CostCenterId = JobOrderHeaderTab.CostCenterId,
+                                PassQty = VJOBal.BalanceQty,
+                                ProductName = ProductTab.ProductName,
+                                ProductId = VJOBal.ProductId,
+                                JobInvoiceHeaderId = vm.JobInvoiceHeaderId,
+                                JobOrderLineId = JobOrderLineTab.JobOrderLineId,
+                                ProductUidId = JobOrderLineTab.ProductUidId,
+                                ProductUidName = JobOrderLineTab.ProductUid.ProductUidName,
+                                UnitId = ProductTab.UnitId,
+                                UnitName = ProductTab.Unit.UnitName,
+                                DealUnitId = JobOrderLineTab.DealUnitId,
+                                DealUnitName = JobOrderLineTab.DealUnit.UnitName,
+                                JobWorkerId = VJOBal.JobWorkerId,
+                                DealQty = VJOBal.BalanceQty * JobOrderLineTab.UnitConversionMultiplier,
+                                Rate = JobOrderLineTab.Rate,
+                                UnitConversionMultiplier = JobOrderLineTab.UnitConversionMultiplier,
+                                JobOrderDocNo = JobOrderHeaderTab.DocNo,
+                                OrderDocDate = JobOrderHeaderTab.DocDate,
+                                UnitDecimalPlaces = ProductTab.Unit.DecimalPlaces,
+                                DealUnitDecimalPlaces = JobOrderLineTab.DealUnit.DecimalPlaces,
+                            });
+                return temp;
+            }
+            
         }
 
 
@@ -532,6 +596,54 @@ namespace Service
         }
         public IEnumerable<JobInvoiceLineIndexViewModel> GetLineListForIndex(int HeaderId)
         {
+            var temp =  (from L in db.JobInvoiceLine
+                    //join Jrl in db.JobReceiveLine on L.JobReceiveLineId equals Jrl.JobReceiveLineId into table
+                    //from tab in table.DefaultIfEmpty()
+                    //join Jol in db.JobOrderLine on tab.JobOrderLineId equals Jol.JobOrderLineId into table1
+                    //from tab1 in table1.DefaultIfEmpty()
+                    //join t in db.JobOrderHeader on tab1.JobOrderHeaderId equals t.JobOrderHeaderId into table3
+                    //from tab3 in table3.DefaultIfEmpty()
+                    //join t in db.Product on tab1.ProductId equals t.ProductId into table2
+                    //from tab2 in table2.DefaultIfEmpty()
+                    where L.JobInvoiceHeaderId == HeaderId
+                    orderby L.Sr
+                    select new JobInvoiceLineIndexViewModel
+                    {
+                        ProductName = L.JobReceiveLine.Product.ProductName,
+                        ProductGroupName = L.JobReceiveLine.Product.ProductGroup.ProductGroupName,
+                        Amount = L.Amount,
+                        Rate = L.Rate,
+                        Qty = L.Qty,
+                        JobOrderDocNo = L.JobReceiveLine.JobOrderLine.JobOrderHeader.DocNo,
+                        JobInvoiceLineId = L.JobInvoiceLineId,
+                        UnitId = L.JobReceiveLine.Product.UnitId,
+                        UnitName = L.JobReceiveLine.Product.Unit.UnitName,
+                        UnitDecimalPlaces = L.JobReceiveLine.Product.Unit.DecimalPlaces,
+                        ProductUidName = L.JobReceiveLine.ProductUid.ProductUidName,
+                        Specification = L.JobReceiveLine.JobOrderLine.Specification,
+                        Dimension1Name = L.JobReceiveLine.Dimension1.Dimension1Name,
+                        Dimension2Name = L.JobReceiveLine.Dimension2.Dimension2Name,
+                        Dimension3Name = L.JobReceiveLine.Dimension3.Dimension3Name,
+                        Dimension4Name = L.JobReceiveLine.Dimension4.Dimension4Name,
+                        LotNo = L.JobReceiveLine.LotNo,
+                        JobReceiveHeaderDocNo = L.JobReceiveLine.JobReceiveHeader.DocNo,
+                        JobOrderHeaderDocNo = L.JobReceiveLine.JobOrderLine.JobOrderHeader.DocNo,
+                        DealQty = L.DealQty,
+                        DealUnitId = L.DealUnitId,
+                        DealUnitName = L.DealUnit.UnitName,
+                        DealUnitDecimalPlaces = L.DealUnit.DecimalPlaces,
+                        Remark = L.Remark,
+                        OrderDocTypeId = L.JobReceiveLine.JobOrderLine.JobOrderHeader.DocTypeId,
+                        ReceiptDocTypeId = L.JobReceiveLine.JobReceiveHeader.DocTypeId,
+                        OrderHeaderId = L.JobReceiveLine.JobOrderLine.JobOrderHeaderId,
+                        ReceiptHeaderId = L.JobReceiveLine.JobReceiveHeaderId,
+                        OrderLineId = L.JobReceiveLine.JobOrderLineId,
+                        ReceiptLineId = L.JobReceiveLineId,
+                        IncentiveAmt = L.IncentiveAmt,
+                        IncentiveRate = L.IncentiveRate,
+                    });
+
+
             return (from L in db.JobInvoiceLine
                     //join Jrl in db.JobReceiveLine on L.JobReceiveLineId equals Jrl.JobReceiveLineId into table
                     //from tab in table.DefaultIfEmpty()
@@ -577,8 +689,7 @@ namespace Service
                         ReceiptLineId = L.JobReceiveLineId,
                         IncentiveAmt = L.IncentiveAmt,
                         IncentiveRate = L.IncentiveRate,
-                    }
-                        );
+                    });
         }
         public JobInvoiceLineViewModel GetJobInvoiceLine(int id)
         {
@@ -646,6 +757,7 @@ namespace Service
                         ProductUidId = L.JobReceiveLine.ProductUidId,
                         ProductUidName = L.JobReceiveLine.ProductUid.ProductUidName,
                         JobReceiveLineId = L.JobReceiveLineId,
+                        JobReceiveHeaderId = L.JobReceiveLine.JobReceiveHeaderId,
                         JobOrderDocNo = L.JobReceiveLine.JobOrderLine.JobOrderHeader.DocNo,
                         JobOrderLineId = L.JobReceiveLine.JobOrderLineId,
                         OrderBalanceQty = (ViewJobOrderBalanceTab.BalanceQty == null ? 0 : ViewJobOrderBalanceTab.BalanceQty) + L.JobReceiveLine.Qty + L.JobReceiveLine.LossQty,
@@ -1276,12 +1388,102 @@ namespace Service
                          join t2 in db.JobOrderLine on p.JobOrderLineId equals t2.JobOrderLineId
                          where
                          p.BalanceQty > 0 &&
-                         t2.ProductUidHeaderId == null &&
-                         p.JobWorkerId == JobInvoice.JobWorkerId
+                         t2.ProductUidHeaderId == null 
+                         && (p.JobWorkerId == null ? 1 == 1 : p.JobWorkerId == JobInvoice.JobWorkerId)
                          orderby t.DocDate, t.DocNo
                          select new
                          {
                              Id = p.JobOrderHeaderId,
+                             DocNo = t.DocNo,
+                             BalanceQty = p.BalanceQty,
+                             Date = p.OrderDate,
+                             DocTypeId = t.DocTypeId,
+                             SiteId = t.SiteId,
+                             DivisionId = t.DivisionId,
+                         }
+                          );
+
+            //Filters
+            if (!string.IsNullOrEmpty(settings.filterContraDocTypes))
+                Query = Query.Where(m => ContraDocTypes.Contains(m.DocTypeId.ToString()));
+
+            if (!string.IsNullOrEmpty(settings.filterContraSites))
+                Query = Query.Where(m => ContraSites.Contains(m.SiteId.ToString()));
+            else
+                Query = Query.Where(m => m.SiteId == JobInvoice
+                    .SiteId);
+
+            if (!string.IsNullOrEmpty(settings.filterContraDivisions))
+                Query = Query.Where(m => ContraDivisions.Contains(m.DivisionId.ToString()));
+            else
+                Query = Query.Where(m => m.DivisionId == JobInvoice.DivisionId);
+
+            DateTime Temp;
+
+            if (DateTime.TryParse(searchTerm, out Temp))
+            {
+                Query = Query.Where(m => m.Date == Temp);
+            }
+            else
+            {
+                Query = Query.Where(m => m.DocNo.ToLower().Contains(searchTerm.ToLower()));
+            }
+            var GQuery = (from p in Query
+                          group p by p.Id into g
+                          select new
+                          {
+                              Id = g.Key,
+                              DocNo = g.Max(m => m.DocNo),
+                              Date = g.Max(m => m.Date),
+                              BalanceQty = g.Sum(m => m.BalanceQty),
+                          });
+            var Recods = GQuery.OrderBy(m => m.DocNo).Skip(pageSize * (pageNum - 1)).Take(pageSize).ToList();
+            var Count = GQuery.Count();
+
+            return (new ComboBoxPagedResult
+            {
+                Results = Recods.Select(m => new ComboBoxResult { id = m.Id.ToString(), text = m.DocNo, TextProp1 = "Dated : " + m.Date.ToString("dd/MMM/yyyy"), TextProp2 = "Balance : " + m.BalanceQty.ToString() }).ToList(),
+                Total = Count,
+            });
+
+
+        }
+
+
+        public ComboBoxPagedResult GetPendingJobReceivesForInvoice(string searchTerm, int pageSize, int pageNum, int filter)//DocTypeId
+        {
+
+            var JobInvoice = new JobInvoiceHeaderService(_unitOfWork).Find(filter);
+
+            var settings = new JobInvoiceSettingsService(_unitOfWork).GetJobInvoiceSettingsForDocument(JobInvoice.DocTypeId, JobInvoice.DivisionId, JobInvoice.SiteId);
+
+            string[] ProductTypes = null;
+            if (!string.IsNullOrEmpty(settings.filterProductTypes)) { ProductTypes = settings.filterProductTypes.Split(",".ToCharArray()); }
+            else { ProductTypes = new string[] { "NA" }; }
+
+            string[] ContraSites = null;
+            if (!string.IsNullOrEmpty(settings.filterContraSites)) { ContraSites = settings.filterContraSites.Split(",".ToCharArray()); }
+            else { ContraSites = new string[] { "NA" }; }
+
+            string[] ContraDivisions = null;
+            if (!string.IsNullOrEmpty(settings.filterContraDivisions)) { ContraDivisions = settings.filterContraDivisions.Split(",".ToCharArray()); }
+            else { ContraDivisions = new string[] { "NA" }; }
+
+            string[] ContraDocTypes = null;
+            if (!string.IsNullOrEmpty(settings.filterContraDocTypes)) { ContraDocTypes = settings.filterContraDocTypes.Split(",".ToCharArray()); }
+            else { ContraDocTypes = new string[] { "NA" }; }
+
+            var Query = (from p in db.ViewJobReceiveBalance
+                         join t in db.JobReceiveHeader on p.JobReceiveHeaderId equals t.JobReceiveHeaderId
+                         join t2 in db.JobReceiveLine on p.JobReceiveLineId equals t2.JobReceiveLineId
+                         where
+                         p.BalanceQty > 0 &&
+                         t2.ProductUidHeaderId == null
+                         && (JobInvoice.JobWorkerId == null ? 1 == 1 : p.JobWorkerId == JobInvoice.JobWorkerId)
+                         orderby t.DocDate, t.DocNo
+                         select new
+                         {
+                             Id = p.JobReceiveHeaderId,
                              DocNo = t.DocNo,
                              BalanceQty = p.BalanceQty,
                              Date = p.OrderDate,
@@ -1508,6 +1710,134 @@ namespace Service
                                     ((JobOrderLineTab.Dimension3.Dimension3Name == null) ? "" : "," + JobOrderLineTab.Dimension3.Dimension3Name) +
                                     ((JobOrderLineTab.Dimension4.Dimension4Name == null) ? "" : "," + JobOrderLineTab.Dimension4.Dimension4Name)
                     });
+        }
+
+
+        public IEnumerable<ComboBoxResult> GetJobReceiveHelpListForProduct(int Id, string term)
+        {
+            var JobInvoiceHeader = new JobInvoiceHeaderService(_unitOfWork).Find(Id);
+
+            var settings = new JobInvoiceSettingsService(_unitOfWork).GetJobInvoiceSettingsForDocument(JobInvoiceHeader.DocTypeId, JobInvoiceHeader.DivisionId, JobInvoiceHeader.SiteId);
+
+            string[] contraSites = null;
+            if (!string.IsNullOrEmpty(settings.filterContraSites)) { contraSites = settings.filterContraSites.Split(",".ToCharArray()); }
+            else { contraSites = new string[] { "NA" }; }
+
+            string[] contraDivisions = null;
+            if (!string.IsNullOrEmpty(settings.filterContraDivisions)) { contraDivisions = settings.filterContraDivisions.Split(",".ToCharArray()); }
+            else { contraDivisions = new string[] { "NA" }; }
+
+            int CurrentSiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
+            int CurrentDivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
+
+
+            return (from VB in db.ViewJobReceiveBalance
+                    join L in db.JobReceiveLine on VB.JobReceiveLineId equals L.JobReceiveLineId into JobReceiveLineTable
+                    from JobReceiveLineTab in JobReceiveLineTable.DefaultIfEmpty()
+                    where VB.BalanceQty > 0 && JobReceiveLineTab.JobReceiveHeader.JobWorkerId == JobInvoiceHeader.JobWorkerId
+                    && (string.IsNullOrEmpty(settings.filterContraSites) ? VB.SiteId == CurrentSiteId : contraSites.Contains(VB.SiteId.ToString()))
+                    && (string.IsNullOrEmpty(settings.filterContraDivisions) ? VB.DivisionId == CurrentDivisionId : contraDivisions.Contains(VB.DivisionId.ToString()))
+                    && (string.IsNullOrEmpty(term) ? 1 == 1 : JobReceiveLineTab.JobReceiveHeader.DocNo.ToLower().Contains(term.ToLower())
+                        || string.IsNullOrEmpty(term) ? 1 == 1 : JobReceiveLineTab.JobReceiveHeader.DocType.DocumentTypeShortName.ToLower().Contains(term.ToLower())
+                        || string.IsNullOrEmpty(term) ? 1 == 1 : JobReceiveLineTab.Product.ProductName.ToLower().Contains(term.ToLower())
+                        || string.IsNullOrEmpty(term) ? 1 == 1 : JobReceiveLineTab.Dimension1.Dimension1Name.ToLower().Contains(term.ToLower())
+                        || string.IsNullOrEmpty(term) ? 1 == 1 : JobReceiveLineTab.Dimension2.Dimension2Name.ToLower().Contains(term.ToLower())
+                        || string.IsNullOrEmpty(term) ? 1 == 1 : JobReceiveLineTab.Dimension3.Dimension3Name.ToLower().Contains(term.ToLower())
+                        || string.IsNullOrEmpty(term) ? 1 == 1 : JobReceiveLineTab.Dimension4.Dimension4Name.ToLower().Contains(term.ToLower())
+                        )
+                    select new ComboBoxResult
+                    {
+                        id = VB.JobReceiveLineId.ToString(),
+                        text = JobReceiveLineTab.JobReceiveHeader.DocType.DocumentTypeShortName + "-" + JobReceiveLineTab.JobReceiveHeader.DocNo,
+                        TextProp1 = "Balance :" + VB.BalanceQty,
+                        TextProp2 = "Date :" + JobReceiveLineTab.JobReceiveHeader.DocDate,
+                        AProp1 = JobReceiveLineTab.Product.ProductName,
+                        AProp2 = ((JobReceiveLineTab.Dimension1.Dimension1Name == null) ? "" : JobReceiveLineTab.Dimension1.Dimension1Name) +
+                                    ((JobReceiveLineTab.Dimension2.Dimension2Name == null) ? "" : "," + JobReceiveLineTab.Dimension2.Dimension2Name) +
+                                    ((JobReceiveLineTab.Dimension3.Dimension3Name == null) ? "" : "," + JobReceiveLineTab.Dimension3.Dimension3Name) +
+                                    ((JobReceiveLineTab.Dimension4.Dimension4Name == null) ? "" : "," + JobReceiveLineTab.Dimension4.Dimension4Name)
+                    });
+        }
+
+
+        public JobReceiveLineViewModel GetReceiveLineDetailForInvoice(int id, int InvoiceId)
+        {
+            var Invoice = new JobInvoiceHeaderService(_unitOfWork).Find(InvoiceId);
+
+            var ReceiveLine = new JobReceiveLineService(_unitOfWork).Find(id);
+            var OrderLine = new JobOrderLineService(_unitOfWork).Find(ReceiveLine.JobOrderLineId ?? 0);
+
+
+            var temp = (from VJRBal in db.ViewJobReceiveBalance
+                        join L in db.JobReceiveLine on VJRBal.JobReceiveLineId equals L.JobReceiveLineId
+                        join P in db.Product on VJRBal.ProductId equals P.ProductId
+                        join D1 in db.Dimension1 on L.Dimension1Id equals D1.Dimension1Id into Dimension1Table
+                        from Dimension1Tab in Dimension1Table.DefaultIfEmpty()
+                        join D2 in db.Dimension2 on L.Dimension2Id equals D2.Dimension2Id into Dimension2Table
+                        from Dimension2Tab in Dimension2Table.DefaultIfEmpty()
+                        join D3 in db.Dimension3 on L.Dimension3Id equals D3.Dimension3Id into Dimension3Table
+                        from Dimension3Tab in Dimension3Table.DefaultIfEmpty()
+                        join D4 in db.Dimension4 on L.Dimension4Id equals D4.Dimension4Id into Dimension4Table
+                        from Dimension4Tab in Dimension4Table.DefaultIfEmpty()
+                        where VJRBal.JobReceiveLineId == id
+                        select new JobReceiveLineViewModel
+                        {
+                            Dimension1Id = L.Dimension1Id,
+                            Dimension1Name = Dimension1Tab.Dimension1Name,
+                            Dimension2Id = L.Dimension2Id,
+                            Dimension2Name = Dimension2Tab.Dimension2Name,
+                            Dimension3Id = L.Dimension3Id,
+                            Dimension3Name = Dimension3Tab.Dimension3Name,
+                            Dimension4Id = L.Dimension4Id,
+                            Dimension4Name = Dimension4Tab.Dimension4Name,
+                            LotNo = L.LotNo,
+                            Qty = VJRBal.BalanceQty,
+                            Specification = L.Specification,
+                            UnitId = L.JobOrderLine.UnitId,
+                            DealUnitId = L.DealUnitId,
+                            Amount = L.DealQty * L.JobOrderLine.Rate,
+                            DealQty = VJRBal.BalanceQty * L.UnitConversionMultiplier,
+                            UnitConversionMultiplier = L.UnitConversionMultiplier,
+                            UnitName = L.JobOrderLine.Unit.UnitName,
+                            DealUnitName = L.DealUnit.UnitName,
+                            ProductId = VJRBal.ProductId,
+                            ProductName = L.Product.ProductName,
+                            UnitDecimalPlaces = P.Unit.DecimalPlaces,
+                            DealUnitDecimalPlaces = L.DealUnit.DecimalPlaces,
+                            Rate = L.JobOrderLine.Rate,
+                            JobReceiveHeaderDocNo = VJRBal.JobReceiveNo,
+                            SalesTaxGroupProductId = P.SalesTaxGroupProductId ?? P.ProductGroup.DefaultSalesTaxGroupProductId,
+                            SalesTaxGroupProductName = P.SalesTaxGroupProduct.ChargeGroupProductName ?? P.ProductGroup.DefaultSalesTaxGroupProduct.ChargeGroupProductName,
+                            CostCenterId = L.JobOrderLine.JobOrderHeader.CostCenterId != null ? L.JobOrderLine.JobOrderHeader.CostCenterId : null,
+                            CostCenterName = L.JobOrderLine.JobOrderHeader.CostCenterId != null ? L.JobOrderLine.JobOrderHeader.CostCenter.CostCenterName : null,
+                        }).FirstOrDefault();
+
+            if (OrderLine != null)
+            {
+                var Charges = (from p in db.JobOrderLineCharge
+                               where p.LineTableId == OrderLine.JobOrderLineId
+                               join t in db.Charge on p.ChargeId equals t.ChargeId
+                               select new LineCharges
+                               {
+                                   ChargeCode = t.ChargeCode,
+                                   Rate = p.Rate,
+                               }).ToList();
+
+                var HeaderCharges = (from p in db.JobOrderHeaderCharges
+                                     where p.HeaderTableId == OrderLine.JobOrderHeaderId
+                                     join t in db.Charge on p.ChargeId equals t.ChargeId
+                                     select new HeaderCharges
+                                     {
+                                         ChargeCode = t.ChargeCode,
+                                         Rate = p.Rate,
+                                     }).ToList();
+
+                temp.RHeaderCharges = HeaderCharges;
+                temp.RLineCharges = Charges;
+            }
+
+            return temp;
+
         }
 
 

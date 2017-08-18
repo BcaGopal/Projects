@@ -65,13 +65,17 @@ namespace Web
 
         }
 
-        public ActionResult _ForOrder(int id, int JobworkrId)
+        public ActionResult _ForOrder(int id, int? JobworkrId)
         {
             JobInvoiceLineFilterViewModel vm = new JobInvoiceLineFilterViewModel();
-            vm.JobWorkerId = JobworkrId;
-            vm.JobInvoiceHeaderId = id;
+
             JobInvoiceHeader Header = new JobInvoiceHeaderService(_unitOfWork).Find(id);
+            JobInvoiceSettings Settings = new JobInvoiceSettingsService(_unitOfWork).GetJobInvoiceSettingsForDocument(Header.DocTypeId, Header.DivisionId, Header.SiteId);
+            if (JobworkrId.HasValue)
+                vm.JobWorkerId = JobworkrId.Value;
+            vm.JobInvoiceHeaderId = id;
             vm.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(Header.DocTypeId);
+            vm.JobInvoiceSettings = Mapper.Map<JobInvoiceSettingsViewModel>(Settings);
             return PartialView("_OrderFilters", vm);
         }
 
@@ -128,7 +132,7 @@ namespace Web
 
             JobInvoiceHeader Header = new JobInvoiceHeaderService(_unitOfWork).Find(vm.JobInvoiceLineViewModel.FirstOrDefault().JobInvoiceHeaderId);
 
-            JobReceiveHeader ReceiveHeader = new JobReceiveHeaderService(_unitOfWork).Find(Header.JobReceiveHeaderId.Value);
+            
 
             JobInvoiceSettings Settings = new JobInvoiceSettingsService(_unitOfWork).GetJobInvoiceSettingsForDocument(Header.DocTypeId, Header.DivisionId, Header.SiteId);
 
@@ -202,378 +206,394 @@ namespace Web
 
 
                         JobReceiveLine ReceiveLine = new JobReceiveLine();
-                        ReceiveLine.JobReceiveLineId = -Cnt;
-                        ReceiveLine.JobReceiveHeaderId = Header.JobReceiveHeaderId.Value;
-                        ReceiveLine.JobOrderLineId = item.JobOrderLineId;
-                        ReceiveLine.ProductUidId = JobOrderLine.ProductUidId;
-                        ReceiveLine.ProductId = JobOrderLine.ProductId;
-                        ReceiveLine.Dimension1Id = JobOrderLine.Dimension1Id;
-                        ReceiveLine.Dimension2Id = JobOrderLine.Dimension2Id;
-                        ReceiveLine.Dimension3Id = JobOrderLine.Dimension3Id;
-                        ReceiveLine.Dimension4Id = JobOrderLine.Dimension4Id;
-                        ReceiveLine.Qty = item.ReceiveQty;
-                        ReceiveLine.UnitConversionMultiplier = JobOrderLine.UnitConversionMultiplier;
-                        ReceiveLine.DealUnitId = JobOrderLine.DealUnitId;
-                        ReceiveLine.DealQty = ReceiveLine.UnitConversionMultiplier * ReceiveLine.Qty;
-                        ReceiveLine.LossQty = item.LossQty;
-                        ReceiveLine.PassQty = item.PassQty;
-                        ReceiveLine.Sr = Serial;
-                        if (JobOrderLineCharges.Where(m => m.LineTableId == item.JobOrderLineId && m.ChargeId == IncentiveId).FirstOrDefault() != null)
-                        {
-                            ReceiveLine.IncentiveRate = JobOrderLineCharges.Where(m => m.LineTableId == item.JobOrderLineId && m.ChargeId == IncentiveId).FirstOrDefault().Rate ?? 0;
-                            ReceiveLine.IncentiveAmt = ReceiveLine.IncentiveRate * item.DealQty;
-                        }
-                        if (JobOrderLineCharges.Where(m => m.LineTableId == item.JobOrderLineId && m.ChargeId == PenaltyId).FirstOrDefault() != null)
-                        {
-                            ReceiveLine.PenaltyRate = JobOrderLineCharges.Where(m => m.LineTableId == item.JobOrderLineId && m.ChargeId == PenaltyId).FirstOrDefault().Rate ?? 0;
-                            ReceiveLine.PenaltyAmt = ReceiveLine.PenaltyRate * item.DealQty;
-                        }
-                        ReceiveLine.LotNo = item.LotNo;
-                        ReceiveLine.CreatedDate = DateTime.Now;
-                        ReceiveLine.ModifiedDate = DateTime.Now;
-                        ReceiveLine.CreatedBy = User.Identity.Name;
-                        ReceiveLine.ModifiedBy = User.Identity.Name;
 
-                        if (ReceiveLine.JobOrderLineId != null)
+
+                        if (item.JobReceiveLineId == 0)
                         {
-                            if (LineStatus.ContainsKey((int)ReceiveLine.JobOrderLineId))
+                            JobReceiveHeader ReceiveHeader = new JobReceiveHeaderService(_unitOfWork).Find(Header.JobReceiveHeaderId.Value);
+
+                            ReceiveLine.JobReceiveLineId = -Cnt;
+                            ReceiveLine.JobReceiveHeaderId = Header.JobReceiveHeaderId.Value;
+                            ReceiveLine.JobOrderLineId = item.JobOrderLineId;
+                            ReceiveLine.ProductUidId = JobOrderLine.ProductUidId;
+                            ReceiveLine.ProductId = JobOrderLine.ProductId;
+                            ReceiveLine.Dimension1Id = JobOrderLine.Dimension1Id;
+                            ReceiveLine.Dimension2Id = JobOrderLine.Dimension2Id;
+                            ReceiveLine.Dimension3Id = JobOrderLine.Dimension3Id;
+                            ReceiveLine.Dimension4Id = JobOrderLine.Dimension4Id;
+                            ReceiveLine.Qty = item.ReceiveQty;
+                            ReceiveLine.UnitConversionMultiplier = JobOrderLine.UnitConversionMultiplier;
+                            ReceiveLine.DealUnitId = JobOrderLine.DealUnitId;
+                            ReceiveLine.DealQty = ReceiveLine.UnitConversionMultiplier * ReceiveLine.Qty;
+                            ReceiveLine.LossQty = item.LossQty;
+                            ReceiveLine.PassQty = item.PassQty;
+                            ReceiveLine.Sr = Serial;
+
+
+                            if (JobOrderLineCharges.Where(m => m.LineTableId == item.JobOrderLineId && m.ChargeId == IncentiveId).FirstOrDefault() != null)
                             {
-                                LineStatus[(int)ReceiveLine.JobOrderLineId] = LineStatus[(int)ReceiveLine.JobOrderLineId] + 1;
+                                ReceiveLine.IncentiveRate = JobOrderLineCharges.Where(m => m.LineTableId == item.JobOrderLineId && m.ChargeId == IncentiveId).FirstOrDefault().Rate ?? 0;
+                                ReceiveLine.IncentiveAmt = ReceiveLine.IncentiveRate * item.DealQty;
                             }
-                            else
+                            if (JobOrderLineCharges.Where(m => m.LineTableId == item.JobOrderLineId && m.ChargeId == PenaltyId).FirstOrDefault() != null)
                             {
-                                LineStatus.Add((int)ReceiveLine.JobOrderLineId, ReceiveLine.Qty + ReceiveLine.LossQty);
+                                ReceiveLine.PenaltyRate = JobOrderLineCharges.Where(m => m.LineTableId == item.JobOrderLineId && m.ChargeId == PenaltyId).FirstOrDefault().Rate ?? 0;
+                                ReceiveLine.PenaltyAmt = ReceiveLine.PenaltyRate * item.DealQty;
                             }
-                        }
+                            ReceiveLine.LotNo = item.LotNo;
+                            ReceiveLine.CreatedDate = DateTime.Now;
+                            ReceiveLine.ModifiedDate = DateTime.Now;
+                            ReceiveLine.CreatedBy = User.Identity.Name;
+                            ReceiveLine.ModifiedBy = User.Identity.Name;
 
-
-                        if (JobOrderLine.ProductUidId.HasValue && JobOrderLine.ProductUidId.Value > 0)
-                        {
-
-                            ProductUid Uid = new ProductUidService(_unitOfWork).Find(JobOrderLine.ProductUidId.Value);
-
-                            ReceiveLine.ProductUidLastTransactionDocId = Uid.LastTransactionDocId;
-                            ReceiveLine.ProductUidLastTransactionDocDate = Uid.LastTransactionDocDate;
-                            ReceiveLine.ProductUidLastTransactionDocNo = Uid.LastTransactionDocNo;
-                            ReceiveLine.ProductUidLastTransactionDocTypeId = Uid.LastTransactionDocTypeId;
-                            ReceiveLine.ProductUidLastTransactionPersonId = Uid.LastTransactionPersonId;
-                            ReceiveLine.ProductUidStatus = Uid.Status;
-                            ReceiveLine.ProductUidCurrentProcessId = Uid.CurrenctProcessId;
-                            ReceiveLine.ProductUidCurrentGodownId = Uid.CurrenctGodownId;
-
-                            if (Header.JobWorkerId == Uid.LastTransactionPersonId || Header.SiteId == 17)
+                            if (ReceiveLine.JobOrderLineId != null)
                             {
-
-                                Uid.LastTransactionDocId = ReceiveHeader.JobReceiveHeaderId;
-                                Uid.LastTransactionDocNo = ReceiveHeader.DocNo;
-                                Uid.LastTransactionDocTypeId = ReceiveHeader.DocTypeId;
-                                Uid.LastTransactionDocDate = ReceiveHeader.DocDate;
-                                Uid.LastTransactionPersonId = ReceiveHeader.JobWorkerId;
-                                Uid.CurrenctGodownId = ReceiveHeader.GodownId;
-                                Uid.CurrenctProcessId = ReceiveHeader.ProcessId;
-                                Uid.Status = (!string.IsNullOrEmpty(Settings.BarcodeStatusUpdate) ? Settings.BarcodeStatusUpdate : ProductUidStatusConstants.Receive);
-                                if (Uid.ProcessesDone == null)
+                                if (LineStatus.ContainsKey((int)ReceiveLine.JobOrderLineId))
                                 {
-                                    Uid.ProcessesDone = "|" + ReceiveHeader.ProcessId.ToString() + "|";
+                                    LineStatus[(int)ReceiveLine.JobOrderLineId] = LineStatus[(int)ReceiveLine.JobOrderLineId] + 1;
                                 }
                                 else
                                 {
-                                    Uid.ProcessesDone = Uid.ProcessesDone + ",|" + ReceiveHeader.ProcessId.ToString() + "|";
+                                    LineStatus.Add((int)ReceiveLine.JobOrderLineId, ReceiveLine.Qty + ReceiveLine.LossQty);
                                 }
-                                Uid.ObjectState = Model.ObjectState.Modified;
-                                db.ProductUid.Add(Uid);
-
                             }
 
-                        }
 
-
-                        if (Settings.isPostedInStock ?? false)
-                        {
-                            StockViewModel StockViewModel = new StockViewModel();
-
-                            if (Cnt == 0)
+                            if (JobOrderLine.ProductUidId.HasValue && JobOrderLine.ProductUidId.Value > 0)
                             {
-                                StockViewModel.StockHeaderId = ReceiveHeader.StockHeaderId ?? 0;
-                            }
-                            else
-                            {
-                                if (ReceiveHeader.StockHeaderId != null && ReceiveHeader.StockHeaderId != 0)
+
+                                ProductUid Uid = new ProductUidService(_unitOfWork).Find(JobOrderLine.ProductUidId.Value);
+
+                                ReceiveLine.ProductUidLastTransactionDocId = Uid.LastTransactionDocId;
+                                ReceiveLine.ProductUidLastTransactionDocDate = Uid.LastTransactionDocDate;
+                                ReceiveLine.ProductUidLastTransactionDocNo = Uid.LastTransactionDocNo;
+                                ReceiveLine.ProductUidLastTransactionDocTypeId = Uid.LastTransactionDocTypeId;
+                                ReceiveLine.ProductUidLastTransactionPersonId = Uid.LastTransactionPersonId;
+                                ReceiveLine.ProductUidStatus = Uid.Status;
+                                ReceiveLine.ProductUidCurrentProcessId = Uid.CurrenctProcessId;
+                                ReceiveLine.ProductUidCurrentGodownId = Uid.CurrenctGodownId;
+
+                                if (Header.JobWorkerId == Uid.LastTransactionPersonId || Header.SiteId == 17)
                                 {
-                                    StockViewModel.StockHeaderId = (int)ReceiveHeader.StockHeaderId;
+
+                                    Uid.LastTransactionDocId = ReceiveHeader.JobReceiveHeaderId;
+                                    Uid.LastTransactionDocNo = ReceiveHeader.DocNo;
+                                    Uid.LastTransactionDocTypeId = ReceiveHeader.DocTypeId;
+                                    Uid.LastTransactionDocDate = ReceiveHeader.DocDate;
+                                    Uid.LastTransactionPersonId = ReceiveHeader.JobWorkerId;
+                                    Uid.CurrenctGodownId = ReceiveHeader.GodownId;
+                                    Uid.CurrenctProcessId = ReceiveHeader.ProcessId;
+                                    Uid.Status = (!string.IsNullOrEmpty(Settings.BarcodeStatusUpdate) ? Settings.BarcodeStatusUpdate : ProductUidStatusConstants.Receive);
+                                    if (Uid.ProcessesDone == null)
+                                    {
+                                        Uid.ProcessesDone = "|" + ReceiveHeader.ProcessId.ToString() + "|";
+                                    }
+                                    else
+                                    {
+                                        Uid.ProcessesDone = Uid.ProcessesDone + ",|" + ReceiveHeader.ProcessId.ToString() + "|";
+                                    }
+                                    Uid.ObjectState = Model.ObjectState.Modified;
+                                    db.ProductUid.Add(Uid);
+
                                 }
-                                else
-                                {
-                                    StockViewModel.StockHeaderId = -1;
-                                }
+
                             }
 
-                            StockViewModel.StockId = -Cnt;
-                            StockViewModel.DocHeaderId = ReceiveHeader.JobReceiveHeaderId;
-                            StockViewModel.DocLineId = ReceiveLine.JobReceiveLineId;
-                            StockViewModel.DocTypeId = ReceiveHeader.DocTypeId;
-                            StockViewModel.StockHeaderDocDate = ReceiveHeader.DocDate;
-                            StockViewModel.StockDocDate = ReceiveHeader.DocDate;
-                            StockViewModel.DocNo = ReceiveHeader.DocNo;
-                            StockViewModel.DivisionId = ReceiveHeader.DivisionId;
-                            StockViewModel.SiteId = ReceiveHeader.SiteId;
-                            StockViewModel.CurrencyId = null;
-                            StockViewModel.PersonId = ReceiveHeader.JobWorkerId;
-                            StockViewModel.ProductId = JobOrderLine.ProductId;
-                            StockViewModel.HeaderFromGodownId = null;
-                            //Commented copying logic from single record entry
-                            //StockViewModel.HeaderGodownId = ReceiveHeader.GodownId;
-                            StockViewModel.HeaderGodownId = null;
-                            StockViewModel.HeaderProcessId = ReceiveHeader.ProcessId;
-                            StockViewModel.GodownId = (int)ReceiveHeader.GodownId;
-                            StockViewModel.HeaderRemark = ReceiveHeader.Remark;
-                            StockViewModel.Status = ReceiveHeader.Status;
-                            StockViewModel.ProcessId = ReceiveHeader.ProcessId;
-                            StockViewModel.LotNo = ReceiveLine.LotNo;
 
-                            if (temp != null)
+                            if (Settings.isPostedInStock ?? false)
                             {
-                                StockViewModel.CostCenterId = temp.CostCenterId;
-                                StockViewModel.Rate = temp.Rate;
-                            }
-                            StockViewModel.Qty_Iss = 0;
-                            StockViewModel.Qty_Rec = ReceiveLine.Qty;
-                            StockViewModel.ExpiryDate = null;
-                            StockViewModel.Specification = JobOrderLine.Specification;
-                            StockViewModel.Dimension1Id = JobOrderLine.Dimension1Id;
-                            StockViewModel.Dimension2Id = JobOrderLine.Dimension2Id;
-                            StockViewModel.Dimension3Id = JobOrderLine.Dimension3Id;
-                            StockViewModel.Dimension4Id = JobOrderLine.Dimension4Id;
-                            StockViewModel.ProductUidId = ReceiveLine.ProductUidId;
-                            StockViewModel.Remark = ReceiveLine.Remark;
-                            StockViewModel.Status = ReceiveHeader.Status;
-                            StockViewModel.CreatedBy = User.Identity.Name;
-                            StockViewModel.CreatedDate = DateTime.Now;
-                            StockViewModel.ModifiedBy = User.Identity.Name;
-                            StockViewModel.ModifiedDate = DateTime.Now;
+                                StockViewModel StockViewModel = new StockViewModel();
 
-                            string StockPostingError = "";
-                            StockPostingError = new StockService(_unitOfWork).StockPostDB(ref StockViewModel, ref db);
-
-                            if (StockPostingError != "")
-                            {
-                                string message = StockPostingError;
-                                ModelState.AddModelError("", message);
-                                return PartialView("_Results", vm);
-                            }
-
-                            if (Cnt == 0)
-                            {
-                                ReceiveHeader.StockHeaderId = StockViewModel.StockHeaderId;
-                            }
-                            ReceiveLine.StockId = StockViewModel.StockId;
-                        }
-
-
-                        if (Settings.isPostedInStockProcess ?? false)
-                        {
-                            StockProcessViewModel StockProcessViewModel = new StockProcessViewModel();
-
-                            if (ReceiveHeader.StockHeaderId != null && ReceiveHeader.StockHeaderId != 0)//If Transaction ReceiveHeader Table Has Stock ReceiveHeader Id Then It will Save Here.
-                            {
-                                StockProcessViewModel.StockHeaderId = (int)ReceiveHeader.StockHeaderId;
-                            }
-                            else if (Settings.isPostedInStock ?? false)//If Stok ReceiveHeader is already posted during stock posting then this statement will Execute.So theat Stock ReceiveHeader will not generate again.
-                            {
-                                StockProcessViewModel.StockHeaderId = -1;
-                            }
-                            else if (Cnt > 0)//If function will only post in stock process then after first iteration of loop the stock header id will go -1
-                            {
-                                StockProcessViewModel.StockHeaderId = -1;
-                            }
-                            else//If function will only post in stock process then this statement will execute.For Example Job consumption.
-                            {
-                                StockProcessViewModel.StockHeaderId = 0;
-                            }
-
-                            StockProcessViewModel.StockProcessId = -Cnt;
-                            StockProcessViewModel.DocHeaderId = ReceiveHeader.JobReceiveHeaderId;
-                            StockProcessViewModel.DocLineId = ReceiveLine.JobReceiveLineId;
-                            StockProcessViewModel.DocTypeId = ReceiveHeader.DocTypeId;
-                            StockProcessViewModel.StockHeaderDocDate = ReceiveHeader.DocDate;
-                            StockProcessViewModel.StockProcessDocDate = ReceiveHeader.DocDate;
-                            StockProcessViewModel.DocNo = ReceiveHeader.DocNo;
-                            StockProcessViewModel.DivisionId = ReceiveHeader.DivisionId;
-                            StockProcessViewModel.SiteId = ReceiveHeader.SiteId;
-                            StockProcessViewModel.CurrencyId = null;
-                            StockProcessViewModel.PersonId = ReceiveHeader.JobWorkerId;
-                            StockProcessViewModel.ProductId = JobOrderLine.ProductId;
-                            StockProcessViewModel.HeaderFromGodownId = null;
-                            //Commented copying single entry logic
-                            //StockProcessViewModel.HeaderProcessId = ReceiveHeader.ProcessId;
-                            //StockProcessViewModel.HeaderGodownId = ReceiveHeader.GodownId;
-                            StockProcessViewModel.HeaderGodownId = null;
-                            StockProcessViewModel.HeaderProcessId = null;
-                            StockProcessViewModel.GodownId = (int)ReceiveHeader.GodownId;
-                            StockProcessViewModel.HeaderRemark = ReceiveHeader.Remark;
-                            StockProcessViewModel.Status = ReceiveHeader.Status;
-                            StockProcessViewModel.ProcessId = ReceiveHeader.ProcessId;
-                            StockProcessViewModel.LotNo = ReceiveLine.LotNo;
-
-                            if (temp != null)
-                            {
-                                StockProcessViewModel.CostCenterId = temp.CostCenterId;
-                                StockProcessViewModel.Rate = temp.Rate;
-                            }
-                            StockProcessViewModel.Qty_Iss = ReceiveLine.Qty + ReceiveLine.LossQty;
-                            StockProcessViewModel.Qty_Rec = 0;
-                            StockProcessViewModel.ExpiryDate = null;
-                            StockProcessViewModel.Specification = JobOrderLine.Specification;
-                            StockProcessViewModel.Dimension1Id = JobOrderLine.Dimension1Id;
-                            StockProcessViewModel.Dimension2Id = JobOrderLine.Dimension2Id;
-                            StockProcessViewModel.Dimension3Id = JobOrderLine.Dimension3Id;
-                            StockProcessViewModel.Dimension4Id = JobOrderLine.Dimension4Id;
-                            StockProcessViewModel.Remark = ReceiveLine.Remark;
-                            StockProcessViewModel.ProductUidId = ReceiveLine.ProductUidId;
-                            StockProcessViewModel.Status = ReceiveHeader.Status;
-                            StockProcessViewModel.CreatedBy = User.Identity.Name;
-                            StockProcessViewModel.CreatedDate = DateTime.Now;
-                            StockProcessViewModel.ModifiedBy = User.Identity.Name;
-                            StockProcessViewModel.ModifiedDate = DateTime.Now;
-
-                            string StockProcessPostingError = "";
-                            StockProcessPostingError = new StockProcessService(_unitOfWork).StockProcessPostDB(ref StockProcessViewModel, ref db);
-
-                            if (StockProcessPostingError != "")
-                            {
-                                string message = StockProcessPostingError;
-                                ModelState.AddModelError("", message);
-                                return PartialView("_Results", vm);
-                            }
-
-                            if ((Settings.isPostedInStock ?? false) == false)
-                            {
                                 if (Cnt == 0)
                                 {
-                                    ReceiveHeader.StockHeaderId = StockProcessViewModel.StockHeaderId;
+                                    StockViewModel.StockHeaderId = ReceiveHeader.StockHeaderId ?? 0;
                                 }
-                            }
-
-                            ReceiveLine.StockProcessId = StockProcessViewModel.StockProcessId;
-                        }
-
-
-
-                        ReceiveLine.ObjectState = Model.ObjectState.Added;
-                        db.JobReceiveLine.Add(ReceiveLine);
-                        new JobReceiveLineStatusService(_unitOfWork).CreateLineStatusWithInvoice(ReceiveLine.JobReceiveLineId, ReceiveLine.PassQty, ReceiveLine.PassQty * JobOrderLine.UnitConversionMultiplier, ReceiveHeader.DocDate, ref db);
-
-
-                        #region BomPost
-
-                        //Saving BOMPOST Data
-                        //Saving BOMPOST Data
-                        //Saving BOMPOST Data
-                        //Saving BOMPOST Data
-                        if (!string.IsNullOrEmpty(Settings.SqlProcConsumption))
-                        {
-                            var BomPostList = _JobReceiveLineService.GetBomPostingDataForWeaving(item.ProductId, item.Dimension1Id, item.Dimension2Id, null, null, ReceiveHeader.ProcessId, item.PassQty, ReceiveHeader.DocTypeId, Settings.SqlProcConsumption, ReceiveLine.JobOrderLineId, ReceiveLine.Weight).ToList();
-
-                            foreach (var BomItem in BomPostList)
-                            {
-                                JobReceiveBom BomPost = new JobReceiveBom();
-                                BomPost.JobReceiveBomId = -Cnt1;
-                                BomPost.JobReceiveHeaderId = ReceiveHeader.JobReceiveHeaderId;
-                                BomPost.JobReceiveLineId = ReceiveLine.JobReceiveLineId;
-                                BomPost.CreatedBy = User.Identity.Name;
-                                BomPost.CreatedDate = DateTime.Now;
-                                BomPost.ModifiedBy = User.Identity.Name;
-                                BomPost.ModifiedDate = DateTime.Now;
-                                BomPost.ProductId = BomItem.ProductId;
-                                BomPost.Qty = Convert.ToDecimal(BomItem.Qty);
-
-
-                                StockProcessViewModel StockProcessBomViewModel = new StockProcessViewModel();
-                                if (ReceiveHeader.StockHeaderId != null && ReceiveHeader.StockHeaderId != 0)//If Transaction ReceiveHeader Table Has Stock ReceiveHeader Id Then It will Save Here.
+                                else
                                 {
-                                    StockProcessBomViewModel.StockHeaderId = (int)ReceiveHeader.StockHeaderId;
-                                }
-                                else if (Settings.isPostedInStock ?? false)//If Stok ReceiveHeader is already posted during stock posting then this statement will Execute.So theat Stock ReceiveHeader will not generate again.
-                                {
-                                    StockProcessBomViewModel.StockHeaderId = -1;
-                                }
-                                else if (Cnt1 > 0)//If function will only post in stock process then after first iteration of loop the stock header id will go -1
-                                {
-                                    StockProcessBomViewModel.StockHeaderId = -1;
-                                }
-                                else//If function will only post in stock process then this statement will execute.For Example Job consumption.
-                                {
-                                    StockProcessBomViewModel.StockHeaderId = 0;
+                                    if (ReceiveHeader.StockHeaderId != null && ReceiveHeader.StockHeaderId != 0)
+                                    {
+                                        StockViewModel.StockHeaderId = (int)ReceiveHeader.StockHeaderId;
+                                    }
+                                    else
+                                    {
+                                        StockViewModel.StockHeaderId = -1;
+                                    }
                                 }
 
-                                StockProcessBomViewModel.StockProcessId = -Cnt1;
-                                StockProcessBomViewModel.DocHeaderId = ReceiveHeader.JobReceiveHeaderId;
-                                StockProcessBomViewModel.DocLineId = ReceiveLine.JobReceiveLineId;
-                                StockProcessBomViewModel.DocTypeId = ReceiveHeader.DocTypeId;
-                                StockProcessBomViewModel.StockHeaderDocDate = ReceiveHeader.DocDate;
-                                StockProcessBomViewModel.StockProcessDocDate = ReceiveHeader.DocDate;
-                                StockProcessBomViewModel.DocNo = ReceiveHeader.DocNo;
-                                StockProcessBomViewModel.DivisionId = ReceiveHeader.DivisionId;
-                                StockProcessBomViewModel.SiteId = ReceiveHeader.SiteId;
-                                StockProcessBomViewModel.CurrencyId = null;
-                                StockProcessBomViewModel.HeaderProcessId = null;
-                                StockProcessBomViewModel.PersonId = ReceiveHeader.JobWorkerId;
-                                StockProcessBomViewModel.ProductId = BomItem.ProductId;
-                                StockProcessBomViewModel.HeaderFromGodownId = null;
-                                StockProcessBomViewModel.HeaderGodownId = null;
-                                StockProcessBomViewModel.GodownId = ReceiveHeader.GodownId;
-                                StockProcessBomViewModel.ProcessId = ReceiveHeader.ProcessId;
-                                StockProcessBomViewModel.LotNo = null;
-                                StockProcessBomViewModel.CostCenterId = JobOrderHeader.CostCenterId;
-                                StockProcessBomViewModel.Qty_Iss = BomItem.Qty;
-                                StockProcessBomViewModel.Qty_Rec = 0;
-                                StockProcessBomViewModel.Rate = 0;
-                                StockProcessBomViewModel.ExpiryDate = null;
-                                StockProcessBomViewModel.Specification = null;
-                                StockProcessBomViewModel.Dimension1Id = null;
-                                StockProcessBomViewModel.Dimension2Id = null;
-                                StockProcessBomViewModel.Dimension3Id = null;
-                                StockProcessBomViewModel.Dimension4Id = null;
-                                StockProcessBomViewModel.Remark = null;
-                                StockProcessBomViewModel.Status = ReceiveHeader.Status;
-                                StockProcessBomViewModel.CreatedBy = User.Identity.Name;
-                                StockProcessBomViewModel.CreatedDate = DateTime.Now;
-                                StockProcessBomViewModel.ModifiedBy = User.Identity.Name;
-                                StockProcessBomViewModel.ModifiedDate = DateTime.Now;
+                                StockViewModel.StockId = -Cnt;
+                                StockViewModel.DocHeaderId = ReceiveHeader.JobReceiveHeaderId;
+                                StockViewModel.DocLineId = ReceiveLine.JobReceiveLineId;
+                                StockViewModel.DocTypeId = ReceiveHeader.DocTypeId;
+                                StockViewModel.StockHeaderDocDate = ReceiveHeader.DocDate;
+                                StockViewModel.StockDocDate = ReceiveHeader.DocDate;
+                                StockViewModel.DocNo = ReceiveHeader.DocNo;
+                                StockViewModel.DivisionId = ReceiveHeader.DivisionId;
+                                StockViewModel.SiteId = ReceiveHeader.SiteId;
+                                StockViewModel.CurrencyId = null;
+                                StockViewModel.PersonId = ReceiveHeader.JobWorkerId;
+                                StockViewModel.ProductId = JobOrderLine.ProductId;
+                                StockViewModel.HeaderFromGodownId = null;
+                                //Commented copying logic from single record entry
+                                //StockViewModel.HeaderGodownId = ReceiveHeader.GodownId;
+                                StockViewModel.HeaderGodownId = null;
+                                StockViewModel.HeaderProcessId = ReceiveHeader.ProcessId;
+                                StockViewModel.GodownId = (int)ReceiveHeader.GodownId;
+                                StockViewModel.HeaderRemark = ReceiveHeader.Remark;
+                                StockViewModel.Status = ReceiveHeader.Status;
+                                StockViewModel.ProcessId = ReceiveHeader.ProcessId;
+                                StockViewModel.LotNo = ReceiveLine.LotNo;
 
-                                string StockProcessPostingError = "";
-                                StockProcessPostingError = new StockProcessService(_unitOfWork).StockProcessPostDB(ref StockProcessBomViewModel, ref db);
-
-                                if (StockProcessPostingError != "")
+                                if (temp != null)
                                 {
-                                    ModelState.AddModelError("", StockProcessPostingError);
+                                    StockViewModel.CostCenterId = temp.CostCenterId;
+                                    StockViewModel.Rate = temp.Rate;
+                                }
+                                StockViewModel.Qty_Iss = 0;
+                                StockViewModel.Qty_Rec = ReceiveLine.Qty;
+                                StockViewModel.ExpiryDate = null;
+                                StockViewModel.Specification = JobOrderLine.Specification;
+                                StockViewModel.Dimension1Id = JobOrderLine.Dimension1Id;
+                                StockViewModel.Dimension2Id = JobOrderLine.Dimension2Id;
+                                StockViewModel.Dimension3Id = JobOrderLine.Dimension3Id;
+                                StockViewModel.Dimension4Id = JobOrderLine.Dimension4Id;
+                                StockViewModel.ProductUidId = ReceiveLine.ProductUidId;
+                                StockViewModel.Remark = ReceiveLine.Remark;
+                                StockViewModel.Status = ReceiveHeader.Status;
+                                StockViewModel.CreatedBy = User.Identity.Name;
+                                StockViewModel.CreatedDate = DateTime.Now;
+                                StockViewModel.ModifiedBy = User.Identity.Name;
+                                StockViewModel.ModifiedDate = DateTime.Now;
+
+                                string StockPostingError = "";
+                                StockPostingError = new StockService(_unitOfWork).StockPostDB(ref StockViewModel, ref db);
+
+                                if (StockPostingError != "")
+                                {
+                                    string message = StockPostingError;
+                                    ModelState.AddModelError("", message);
                                     return PartialView("_Results", vm);
                                 }
 
-                                BomPost.StockProcessId = StockProcessBomViewModel.StockProcessId;
-                                BomPost.ObjectState = Model.ObjectState.Added;
-                                //new JobReceiveBomService(_unitOfWork).Create(BomPost);
-                                db.JobReceiveBom.Add(BomPost);
-
-
-                                if (Settings.isPostedInStock == false && Settings.isPostedInStockProcess == false)
+                                if (Cnt == 0)
                                 {
-                                    if (ReceiveHeader.StockHeaderId == null)
+                                    ReceiveHeader.StockHeaderId = StockViewModel.StockHeaderId;
+                                }
+                                ReceiveLine.StockId = StockViewModel.StockId;
+                            }
+
+
+                            if (Settings.isPostedInStockProcess ?? false)
+                            {
+                                StockProcessViewModel StockProcessViewModel = new StockProcessViewModel();
+
+                                if (ReceiveHeader.StockHeaderId != null && ReceiveHeader.StockHeaderId != 0)//If Transaction ReceiveHeader Table Has Stock ReceiveHeader Id Then It will Save Here.
+                                {
+                                    StockProcessViewModel.StockHeaderId = (int)ReceiveHeader.StockHeaderId;
+                                }
+                                else if (Settings.isPostedInStock ?? false)//If Stok ReceiveHeader is already posted during stock posting then this statement will Execute.So theat Stock ReceiveHeader will not generate again.
+                                {
+                                    StockProcessViewModel.StockHeaderId = -1;
+                                }
+                                else if (Cnt > 0)//If function will only post in stock process then after first iteration of loop the stock header id will go -1
+                                {
+                                    StockProcessViewModel.StockHeaderId = -1;
+                                }
+                                else//If function will only post in stock process then this statement will execute.For Example Job consumption.
+                                {
+                                    StockProcessViewModel.StockHeaderId = 0;
+                                }
+
+                                StockProcessViewModel.StockProcessId = -Cnt;
+                                StockProcessViewModel.DocHeaderId = ReceiveHeader.JobReceiveHeaderId;
+                                StockProcessViewModel.DocLineId = ReceiveLine.JobReceiveLineId;
+                                StockProcessViewModel.DocTypeId = ReceiveHeader.DocTypeId;
+                                StockProcessViewModel.StockHeaderDocDate = ReceiveHeader.DocDate;
+                                StockProcessViewModel.StockProcessDocDate = ReceiveHeader.DocDate;
+                                StockProcessViewModel.DocNo = ReceiveHeader.DocNo;
+                                StockProcessViewModel.DivisionId = ReceiveHeader.DivisionId;
+                                StockProcessViewModel.SiteId = ReceiveHeader.SiteId;
+                                StockProcessViewModel.CurrencyId = null;
+                                StockProcessViewModel.PersonId = ReceiveHeader.JobWorkerId;
+                                StockProcessViewModel.ProductId = JobOrderLine.ProductId;
+                                StockProcessViewModel.HeaderFromGodownId = null;
+                                //Commented copying single entry logic
+                                //StockProcessViewModel.HeaderProcessId = ReceiveHeader.ProcessId;
+                                //StockProcessViewModel.HeaderGodownId = ReceiveHeader.GodownId;
+                                StockProcessViewModel.HeaderGodownId = null;
+                                StockProcessViewModel.HeaderProcessId = null;
+                                StockProcessViewModel.GodownId = (int)ReceiveHeader.GodownId;
+                                StockProcessViewModel.HeaderRemark = ReceiveHeader.Remark;
+                                StockProcessViewModel.Status = ReceiveHeader.Status;
+                                StockProcessViewModel.ProcessId = ReceiveHeader.ProcessId;
+                                StockProcessViewModel.LotNo = ReceiveLine.LotNo;
+
+                                if (temp != null)
+                                {
+                                    StockProcessViewModel.CostCenterId = temp.CostCenterId;
+                                    StockProcessViewModel.Rate = temp.Rate;
+                                }
+                                StockProcessViewModel.Qty_Iss = ReceiveLine.Qty + ReceiveLine.LossQty;
+                                StockProcessViewModel.Qty_Rec = 0;
+                                StockProcessViewModel.ExpiryDate = null;
+                                StockProcessViewModel.Specification = JobOrderLine.Specification;
+                                StockProcessViewModel.Dimension1Id = JobOrderLine.Dimension1Id;
+                                StockProcessViewModel.Dimension2Id = JobOrderLine.Dimension2Id;
+                                StockProcessViewModel.Dimension3Id = JobOrderLine.Dimension3Id;
+                                StockProcessViewModel.Dimension4Id = JobOrderLine.Dimension4Id;
+                                StockProcessViewModel.Remark = ReceiveLine.Remark;
+                                StockProcessViewModel.ProductUidId = ReceiveLine.ProductUidId;
+                                StockProcessViewModel.Status = ReceiveHeader.Status;
+                                StockProcessViewModel.CreatedBy = User.Identity.Name;
+                                StockProcessViewModel.CreatedDate = DateTime.Now;
+                                StockProcessViewModel.ModifiedBy = User.Identity.Name;
+                                StockProcessViewModel.ModifiedDate = DateTime.Now;
+
+                                string StockProcessPostingError = "";
+                                StockProcessPostingError = new StockProcessService(_unitOfWork).StockProcessPostDB(ref StockProcessViewModel, ref db);
+
+                                if (StockProcessPostingError != "")
+                                {
+                                    string message = StockProcessPostingError;
+                                    ModelState.AddModelError("", message);
+                                    return PartialView("_Results", vm);
+                                }
+
+                                if ((Settings.isPostedInStock ?? false) == false)
+                                {
+                                    if (Cnt == 0)
                                     {
-                                        ReceiveHeader.StockHeaderId = StockProcessBomViewModel.StockHeaderId;
+                                        ReceiveHeader.StockHeaderId = StockProcessViewModel.StockHeaderId;
                                     }
                                 }
-                                Cnt1 = Cnt1 + 1;
+
+                                ReceiveLine.StockProcessId = StockProcessViewModel.StockProcessId;
                             }
+
+
+
+                            ReceiveLine.ObjectState = Model.ObjectState.Added;
+                            db.JobReceiveLine.Add(ReceiveLine);
+                            new JobReceiveLineStatusService(_unitOfWork).CreateLineStatusWithInvoice(ReceiveLine.JobReceiveLineId, ReceiveLine.PassQty, ReceiveLine.PassQty * JobOrderLine.UnitConversionMultiplier, ReceiveHeader.DocDate, ref db);
+
+
+                            #region BomPost
+
+                            //Saving BOMPOST Data
+                            //Saving BOMPOST Data
+                            //Saving BOMPOST Data
+                            //Saving BOMPOST Data
+                            if (!string.IsNullOrEmpty(Settings.SqlProcConsumption))
+                            {
+                                var BomPostList = _JobReceiveLineService.GetBomPostingDataForWeaving(item.ProductId, item.Dimension1Id, item.Dimension2Id, null, null, ReceiveHeader.ProcessId, item.PassQty, ReceiveHeader.DocTypeId, Settings.SqlProcConsumption, ReceiveLine.JobOrderLineId, ReceiveLine.Weight).ToList();
+
+                                foreach (var BomItem in BomPostList)
+                                {
+                                    JobReceiveBom BomPost = new JobReceiveBom();
+                                    BomPost.JobReceiveBomId = -Cnt1;
+                                    BomPost.JobReceiveHeaderId = ReceiveHeader.JobReceiveHeaderId;
+                                    BomPost.JobReceiveLineId = ReceiveLine.JobReceiveLineId;
+                                    BomPost.CreatedBy = User.Identity.Name;
+                                    BomPost.CreatedDate = DateTime.Now;
+                                    BomPost.ModifiedBy = User.Identity.Name;
+                                    BomPost.ModifiedDate = DateTime.Now;
+                                    BomPost.ProductId = BomItem.ProductId;
+                                    BomPost.Qty = Convert.ToDecimal(BomItem.Qty);
+
+
+                                    StockProcessViewModel StockProcessBomViewModel = new StockProcessViewModel();
+                                    if (ReceiveHeader.StockHeaderId != null && ReceiveHeader.StockHeaderId != 0)//If Transaction ReceiveHeader Table Has Stock ReceiveHeader Id Then It will Save Here.
+                                    {
+                                        StockProcessBomViewModel.StockHeaderId = (int)ReceiveHeader.StockHeaderId;
+                                    }
+                                    else if (Settings.isPostedInStock ?? false)//If Stok ReceiveHeader is already posted during stock posting then this statement will Execute.So theat Stock ReceiveHeader will not generate again.
+                                    {
+                                        StockProcessBomViewModel.StockHeaderId = -1;
+                                    }
+                                    else if (Cnt1 > 0)//If function will only post in stock process then after first iteration of loop the stock header id will go -1
+                                    {
+                                        StockProcessBomViewModel.StockHeaderId = -1;
+                                    }
+                                    else//If function will only post in stock process then this statement will execute.For Example Job consumption.
+                                    {
+                                        StockProcessBomViewModel.StockHeaderId = 0;
+                                    }
+
+                                    StockProcessBomViewModel.StockProcessId = -Cnt1;
+                                    StockProcessBomViewModel.DocHeaderId = ReceiveHeader.JobReceiveHeaderId;
+                                    StockProcessBomViewModel.DocLineId = ReceiveLine.JobReceiveLineId;
+                                    StockProcessBomViewModel.DocTypeId = ReceiveHeader.DocTypeId;
+                                    StockProcessBomViewModel.StockHeaderDocDate = ReceiveHeader.DocDate;
+                                    StockProcessBomViewModel.StockProcessDocDate = ReceiveHeader.DocDate;
+                                    StockProcessBomViewModel.DocNo = ReceiveHeader.DocNo;
+                                    StockProcessBomViewModel.DivisionId = ReceiveHeader.DivisionId;
+                                    StockProcessBomViewModel.SiteId = ReceiveHeader.SiteId;
+                                    StockProcessBomViewModel.CurrencyId = null;
+                                    StockProcessBomViewModel.HeaderProcessId = null;
+                                    StockProcessBomViewModel.PersonId = ReceiveHeader.JobWorkerId;
+                                    StockProcessBomViewModel.ProductId = BomItem.ProductId;
+                                    StockProcessBomViewModel.HeaderFromGodownId = null;
+                                    StockProcessBomViewModel.HeaderGodownId = null;
+                                    StockProcessBomViewModel.GodownId = ReceiveHeader.GodownId;
+                                    StockProcessBomViewModel.ProcessId = ReceiveHeader.ProcessId;
+                                    StockProcessBomViewModel.LotNo = null;
+                                    StockProcessBomViewModel.CostCenterId = JobOrderHeader.CostCenterId;
+                                    StockProcessBomViewModel.Qty_Iss = BomItem.Qty;
+                                    StockProcessBomViewModel.Qty_Rec = 0;
+                                    StockProcessBomViewModel.Rate = 0;
+                                    StockProcessBomViewModel.ExpiryDate = null;
+                                    StockProcessBomViewModel.Specification = null;
+                                    StockProcessBomViewModel.Dimension1Id = null;
+                                    StockProcessBomViewModel.Dimension2Id = null;
+                                    StockProcessBomViewModel.Dimension3Id = null;
+                                    StockProcessBomViewModel.Dimension4Id = null;
+                                    StockProcessBomViewModel.Remark = null;
+                                    StockProcessBomViewModel.Status = ReceiveHeader.Status;
+                                    StockProcessBomViewModel.CreatedBy = User.Identity.Name;
+                                    StockProcessBomViewModel.CreatedDate = DateTime.Now;
+                                    StockProcessBomViewModel.ModifiedBy = User.Identity.Name;
+                                    StockProcessBomViewModel.ModifiedDate = DateTime.Now;
+
+                                    string StockProcessPostingError = "";
+                                    StockProcessPostingError = new StockProcessService(_unitOfWork).StockProcessPostDB(ref StockProcessBomViewModel, ref db);
+
+                                    if (StockProcessPostingError != "")
+                                    {
+                                        ModelState.AddModelError("", StockProcessPostingError);
+                                        return PartialView("_Results", vm);
+                                    }
+
+                                    BomPost.StockProcessId = StockProcessBomViewModel.StockProcessId;
+                                    BomPost.ObjectState = Model.ObjectState.Added;
+                                    //new JobReceiveBomService(_unitOfWork).Create(BomPost);
+                                    db.JobReceiveBom.Add(BomPost);
+
+
+                                    if (Settings.isPostedInStock == false && Settings.isPostedInStockProcess == false)
+                                    {
+                                        if (ReceiveHeader.StockHeaderId == null)
+                                        {
+                                            ReceiveHeader.StockHeaderId = StockProcessBomViewModel.StockHeaderId;
+                                        }
+                                    }
+                                    Cnt1 = Cnt1 + 1;
+                                }
+                            }
+
+                            #endregion
+
+
+                            Cnt = Cnt + 1;
+
+                            ReceiveHeader.ModifiedBy = User.Identity.Name;
+                            ReceiveHeader.ModifiedDate = DateTime.Now;
+                            ReceiveHeader.ObjectState = Model.ObjectState.Modified;
+                            db.JobReceiveHeader.Add(ReceiveHeader);
+
+
+
+
+
                         }
-
-                        #endregion
-
-
-                        Cnt = Cnt + 1;
-
-                        ReceiveHeader.ObjectState = Model.ObjectState.Modified;
-                        db.JobReceiveHeader.Add(ReceiveHeader);
 
                         JobInvoiceLine line = new JobInvoiceLine();
                         line.JobInvoiceHeaderId = item.JobInvoiceHeaderId;
@@ -697,14 +717,11 @@ namespace Web
                     //ReceiveHeader.Status = (int)StatusConstants.Modified;
                     Header.ModifiedBy = User.Identity.Name;
                     Header.ModifiedDate = DateTime.Now;
-                    ReceiveHeader.ModifiedBy = User.Identity.Name;
-                    ReceiveHeader.ModifiedDate = DateTime.Now;
                 }
                 Header.ObjectState = Model.ObjectState.Modified;
                 db.JobInvoiceHeader.Add(Header);
 
-                ReceiveHeader.ObjectState = Model.ObjectState.Modified;
-                db.JobReceiveHeader.Add(ReceiveHeader);
+
 
                 new JobOrderLineStatusService(_unitOfWork).UpdateJobQtyInvoiceReceiveMultiple(LineStatus, Header.DocDate, ref db);
 
@@ -791,7 +808,7 @@ namespace Web
 
 
         [HttpGet]
-        public ActionResult CreateLine(int Id, int JobWorkerId)
+        public ActionResult CreateLine(int Id, int? JobWorkerId)
         {
             return _Create(Id, JobWorkerId);
         }
@@ -809,7 +826,7 @@ namespace Web
         }
 
 
-        public ActionResult _Create(int Id, int JobWorkerId) //Id ==>Job Invoice Header Id
+        public ActionResult _Create(int Id, int? JobWorkerId) //Id ==>Job Invoice Header Id
         {
             JobInvoiceHeader H = new JobInvoiceHeaderService(_unitOfWork).Find(Id);
             JobInvoiceLineViewModel s = new JobInvoiceLineViewModel();
@@ -831,15 +848,20 @@ namespace Web
             s.SiteId = H.SiteId;
             s.JobReceiveHeaderId = H.JobReceiveHeaderId.Value;
             s.DivisionId = H.DivisionId;
-            s.JobWorkerId = JobWorkerId;
+
+            if (JobWorkerId.HasValue)
+                s.JobWorkerId = JobWorkerId.Value;
+            
             s.JobInvoiceHeaderId = H.JobInvoiceHeaderId;
             s.SalesTaxGroupPersonId = H.SalesTaxGroupPersonId;
 
+            if (settings.isVisibleJobReceive == true || settings.isMandatoryJobReceive == true)
+                s.LineNature = LineNatureConstants.ForReceive;
             if (settings.isVisibleJobOrder == true || settings.isMandatoryJobOrder == true)
-                s.ForOrder = true;
+                s.LineNature = LineNatureConstants.ForOrder;
             else
-                s.ForOrder = false;
-                
+                s.LineNature = LineNatureConstants.Direct;
+
 
             PrepareViewBag(null);
             ViewBag.DocNo = H.DocNo;
@@ -874,7 +896,7 @@ namespace Web
             #endregion
 
             JobInvoiceLine InvoiceLine = Mapper.Map<JobInvoiceLineViewModel, JobInvoiceLine>(svm);
-            JobReceiveLine ReceiveLine = Mapper.Map<JobInvoiceLineViewModel, JobReceiveLine>(svm);
+            //JobReceiveLine ReceiveLine = Mapper.Map<JobInvoiceLineViewModel, JobReceiveLine>(svm);
             JobInvoiceHeader InvoiceHeader = new JobInvoiceHeaderService(_unitOfWork).Find(InvoiceLine.JobInvoiceHeaderId);
             JobReceiveHeader ReceiveHeader = new JobReceiveHeaderService(_unitOfWork).Find(InvoiceHeader.JobReceiveHeaderId.Value);
 
@@ -955,288 +977,201 @@ namespace Web
                 if (svm.JobInvoiceLineId <= 0)
                 {
 
-                    StockViewModel StockViewModel = new StockViewModel();
-                    StockProcessViewModel StockProcessViewModel = new StockProcessViewModel();
+                    JobReceiveLine ReceiveLine = new JobReceiveLine();
 
-                    //JobOrderLine JobOrderLine = new JobOrderLineService(_unitOfWork).Find(ReceiveLine.JobOrderLineId);
-                    //JobOrderHeader JobOrderHeader = new JobOrderHeaderService(_unitOfWork).Find(JobOrderLine.JobOrderHeaderId);
-
-
-                    //Product Uid Generation
-                    if (svm.ProductUidId == null && settings.isGenerateProductUid == true)
+                    if (svm.JobReceiveLineId == 0)
                     {
-                        ProductUidHeader ProductUidHeader = new ProductUidHeader();
-                        ProductUidHeader.ProductId = svm.ProductId;
-                        ProductUidHeader.GenDocId = ReceiveHeader.JobReceiveHeaderId;
-                        ProductUidHeader.GenDocNo = ReceiveHeader.DocNo;
-                        ProductUidHeader.GenDocTypeId = ReceiveHeader.DocTypeId;
-                        ProductUidHeader.GenDocDate = ReceiveHeader.DocDate;
-                        ProductUidHeader.GenPersonId = ReceiveHeader.JobWorkerId;
-                        ProductUidHeader.CreatedBy = User.Identity.Name;
-                        ProductUidHeader.CreatedDate = DateTime.Now;
-                        ProductUidHeader.ModifiedBy = User.Identity.Name;
-                        ProductUidHeader.ModifiedDate = DateTime.Now;
-                        ProductUidHeader.ObjectState = Model.ObjectState.Added;
-                        db.ProductUidHeader.Add(ProductUidHeader);
-                        ReceiveLine.ProductUidHeaderId = ProductUidHeader.ProductUidHeaderId;
+                   
+                        StockViewModel StockViewModel = new StockViewModel();
+                        StockProcessViewModel StockProcessViewModel = new StockProcessViewModel();
+
+                        //JobOrderLine JobOrderLine = new JobOrderLineService(_unitOfWork).Find(ReceiveLine.JobOrderLineId);
+                        //JobOrderHeader JobOrderHeader = new JobOrderHeaderService(_unitOfWork).Find(JobOrderLine.JobOrderHeaderId);
 
 
-
-                        ProductUid ProductUid = new ProductUid();
-                        ProductUid.ProductUidHeaderId = ProductUidHeader.ProductUidHeaderId;
-                        ProductUid.ProductUidName = svm.ProductUidName;
-                        ProductUid.ProductId = svm.ProductId;
-                        ProductUid.ProductUidSpecification = svm.Specification;
-                        ProductUid.IsActive = true;
-                        ProductUid.CreatedBy = User.Identity.Name;
-                        ProductUid.CreatedDate = DateTime.Now;
-                        ProductUid.ModifiedBy = User.Identity.Name;
-                        ProductUid.ModifiedDate = DateTime.Now;
-                        ProductUid.GenLineId = null;
-                        ProductUid.GenDocId = ReceiveHeader.JobReceiveHeaderId;
-                        ProductUid.GenDocNo = ReceiveHeader.DocNo;
-                        ProductUid.GenDocTypeId = ReceiveHeader.DocTypeId;
-                        ProductUid.GenDocDate = ReceiveHeader.DocDate;
-                        ProductUid.GenPersonId = ReceiveHeader.JobWorkerId;
-                        ProductUid.CurrenctProcessId = ReceiveHeader.ProcessId;
-                        ProductUid.CurrenctGodownId = ReceiveHeader.GodownId;
-                        ProductUid.Status = ProductUidStatusConstants.Receive;
-                        ProductUid.LastTransactionDocId = ReceiveHeader.JobReceiveHeaderId;
-                        ProductUid.LastTransactionDocNo = ReceiveHeader.DocNo;
-                        ProductUid.LastTransactionDocTypeId = ReceiveHeader.DocTypeId;
-                        ProductUid.LastTransactionDocDate = ReceiveHeader.DocDate;
-                        ProductUid.LastTransactionPersonId = ReceiveHeader.JobWorkerId;
-                        ProductUid.LastTransactionLineId = null;
-                        ProductUid.ObjectState = Model.ObjectState.Added;
-                        db.ProductUid.Add(ProductUid);
-                        ReceiveLine.ProductUidId = ProductUid.ProductUIDId;
-                    }
-
-
-                    ReceiveLine.Qty = svm.ReceiveQty;
-                    ReceiveLine.LossQty = svm.LossQty;
-                    ReceiveLine.JobReceiveHeaderId = ReceiveHeader.JobReceiveHeaderId;
-                    ReceiveLine.PassQty = svm.PassQty;
-                    ReceiveLine.Weight = svm.Weight;
-                    ReceiveLine.UnitConversionMultiplier = svm.UnitConversionMultiplier;
-                    ReceiveLine.DealUnitId = svm.DealUnitId;
-                    ReceiveLine.DealQty = svm.DealQty;
-                    ReceiveLine.IncentiveRate = svm.IncentiveRate;
-                    ReceiveLine.IncentiveAmt = svm.IncentiveAmt;
-                    ReceiveLine.PenaltyAmt = svm.PenaltyAmt;
-                    ReceiveLine.PenaltyRate = svm.PenaltyRate;
-                    ReceiveLine.LockReason = "Job invoice is created.";
-                    ReceiveLine.CreatedDate = DateTime.Now;
-                    ReceiveLine.ModifiedDate = DateTime.Now;
-                    ReceiveLine.CreatedBy = User.Identity.Name;
-                    ReceiveLine.ModifiedBy = User.Identity.Name;
-                    ReceiveLine.Sr = _JobReceiveLineService.GetMaxSr(ReceiveLine.JobReceiveHeaderId);
-
-                    //Posting in Stock
-                    if (settings.isPostedInStock.HasValue && settings.isPostedInStock == true)
-                    {
-                        StockViewModel.StockHeaderId = ReceiveHeader.StockHeaderId ?? 0;
-                        StockViewModel.DocHeaderId = ReceiveHeader.JobReceiveHeaderId;
-                        StockViewModel.DocLineId = ReceiveLine.JobReceiveLineId;
-                        StockViewModel.DocTypeId = ReceiveHeader.DocTypeId;
-                        StockViewModel.StockHeaderDocDate = ReceiveHeader.DocDate;
-                        StockViewModel.StockDocDate = ReceiveHeader.DocDate;
-                        StockViewModel.DocNo = ReceiveHeader.DocNo;
-                        StockViewModel.DivisionId = ReceiveHeader.DivisionId;
-                        StockViewModel.SiteId = ReceiveHeader.SiteId;
-                        StockViewModel.CurrencyId = null;
-                        StockViewModel.HeaderProcessId = null;
-                        StockViewModel.PersonId = ReceiveHeader.JobWorkerId;
-                        StockViewModel.ProductId = svm.ProductId;
-                        StockViewModel.HeaderFromGodownId = null;
-                        StockViewModel.HeaderGodownId = null;
-                        StockViewModel.GodownId = ReceiveHeader.GodownId;
-                        StockViewModel.ProcessId = ReceiveHeader.ProcessId;
-                        StockViewModel.LotNo = ReceiveLine.LotNo;
-                        StockViewModel.CostCenterId = svm.CostCenterId;
-                        StockViewModel.Qty_Iss = 0;
-                        StockViewModel.Qty_Rec = ReceiveLine.Qty;
-                        StockViewModel.Rate = svm.Rate;
-                        StockViewModel.ExpiryDate = null;
-                        StockViewModel.Specification = svm.Specification;
-                        StockViewModel.Dimension1Id = svm.Dimension1Id;
-                        StockViewModel.Dimension2Id = svm.Dimension2Id;
-                        StockViewModel.Dimension3Id = svm.Dimension3Id;
-                        StockViewModel.Dimension4Id = svm.Dimension4Id;
-                        StockViewModel.HeaderRemark = ReceiveHeader.Remark;
-                        StockViewModel.Remark = ReceiveLine.Remark;
-                        StockViewModel.ProductUidId = ReceiveLine.ProductUidId;
-                        StockViewModel.Status = ReceiveHeader.Status;
-                        StockViewModel.CreatedBy = ReceiveHeader.CreatedBy;
-                        StockViewModel.CreatedDate = DateTime.Now;
-                        StockViewModel.ModifiedBy = ReceiveHeader.ModifiedBy;
-                        StockViewModel.ModifiedDate = DateTime.Now;
-
-                        string StockPostingError = "";
-                        StockPostingError = new StockService(_unitOfWork).StockPostDB(ref StockViewModel, ref db);
-
-                        if (StockPostingError != "")
+                        //Product Uid Generation
+                        if (svm.ProductUidId == null && settings.isGenerateProductUid == true)
                         {
-                            ModelState.AddModelError("", StockPostingError);
-                            return PartialView("_Create", svm);
+                            ProductUidHeader ProductUidHeader = new ProductUidHeader();
+                            ProductUidHeader.ProductId = svm.ProductId;
+                            ProductUidHeader.GenDocId = ReceiveHeader.JobReceiveHeaderId;
+                            ProductUidHeader.GenDocNo = ReceiveHeader.DocNo;
+                            ProductUidHeader.GenDocTypeId = ReceiveHeader.DocTypeId;
+                            ProductUidHeader.GenDocDate = ReceiveHeader.DocDate;
+                            ProductUidHeader.GenPersonId = ReceiveHeader.JobWorkerId;
+                            ProductUidHeader.CreatedBy = User.Identity.Name;
+                            ProductUidHeader.CreatedDate = DateTime.Now;
+                            ProductUidHeader.ModifiedBy = User.Identity.Name;
+                            ProductUidHeader.ModifiedDate = DateTime.Now;
+                            ProductUidHeader.ObjectState = Model.ObjectState.Added;
+                            db.ProductUidHeader.Add(ProductUidHeader);
+                            ReceiveLine.ProductUidHeaderId = ProductUidHeader.ProductUidHeaderId;
+
+
+
+                            ProductUid ProductUid = new ProductUid();
+                            ProductUid.ProductUidHeaderId = ProductUidHeader.ProductUidHeaderId;
+                            ProductUid.ProductUidName = svm.ProductUidName;
+                            ProductUid.ProductId = svm.ProductId;
+                            ProductUid.ProductUidSpecification = svm.Specification;
+                            ProductUid.IsActive = true;
+                            ProductUid.CreatedBy = User.Identity.Name;
+                            ProductUid.CreatedDate = DateTime.Now;
+                            ProductUid.ModifiedBy = User.Identity.Name;
+                            ProductUid.ModifiedDate = DateTime.Now;
+                            ProductUid.GenLineId = null;
+                            ProductUid.GenDocId = ReceiveHeader.JobReceiveHeaderId;
+                            ProductUid.GenDocNo = ReceiveHeader.DocNo;
+                            ProductUid.GenDocTypeId = ReceiveHeader.DocTypeId;
+                            ProductUid.GenDocDate = ReceiveHeader.DocDate;
+                            ProductUid.GenPersonId = ReceiveHeader.JobWorkerId;
+                            ProductUid.CurrenctProcessId = ReceiveHeader.ProcessId;
+                            ProductUid.CurrenctGodownId = ReceiveHeader.GodownId;
+                            ProductUid.Status = ProductUidStatusConstants.Receive;
+                            ProductUid.LastTransactionDocId = ReceiveHeader.JobReceiveHeaderId;
+                            ProductUid.LastTransactionDocNo = ReceiveHeader.DocNo;
+                            ProductUid.LastTransactionDocTypeId = ReceiveHeader.DocTypeId;
+                            ProductUid.LastTransactionDocDate = ReceiveHeader.DocDate;
+                            ProductUid.LastTransactionPersonId = ReceiveHeader.JobWorkerId;
+                            ProductUid.LastTransactionLineId = null;
+                            ProductUid.ObjectState = Model.ObjectState.Added;
+                            db.ProductUid.Add(ProductUid);
+                            ReceiveLine.ProductUidId = ProductUid.ProductUIDId;
                         }
 
-                        ReceiveLine.StockId = StockViewModel.StockId;
 
-                        if (ReceiveHeader.StockHeaderId == null)
+                        ReceiveLine.Qty = svm.ReceiveQty;
+                        ReceiveLine.LossQty = svm.LossQty;
+                        ReceiveLine.JobReceiveHeaderId = ReceiveHeader.JobReceiveHeaderId;
+                        ReceiveLine.PassQty = svm.PassQty;
+                        ReceiveLine.Weight = svm.Weight;
+                        ReceiveLine.UnitConversionMultiplier = svm.UnitConversionMultiplier;
+                        ReceiveLine.DealUnitId = svm.DealUnitId;
+                        ReceiveLine.DealQty = svm.DealQty;
+                        ReceiveLine.IncentiveRate = svm.IncentiveRate;
+                        ReceiveLine.IncentiveAmt = svm.IncentiveAmt;
+                        ReceiveLine.PenaltyAmt = svm.PenaltyAmt;
+                        ReceiveLine.PenaltyRate = svm.PenaltyRate;
+                        ReceiveLine.LockReason = "Job invoice is created.";
+                        ReceiveLine.CreatedDate = DateTime.Now;
+                        ReceiveLine.ModifiedDate = DateTime.Now;
+                        ReceiveLine.CreatedBy = User.Identity.Name;
+                        ReceiveLine.ModifiedBy = User.Identity.Name;
+                        ReceiveLine.Sr = _JobReceiveLineService.GetMaxSr(ReceiveLine.JobReceiveHeaderId);
+
+                        //Posting in Stock
+                        if (settings.isPostedInStock.HasValue && settings.isPostedInStock == true)
                         {
-                            ReceiveHeader.StockHeaderId = StockViewModel.StockHeaderId;
-                        }
-                    }
+                            StockViewModel.StockHeaderId = ReceiveHeader.StockHeaderId ?? 0;
+                            StockViewModel.DocHeaderId = ReceiveHeader.JobReceiveHeaderId;
+                            StockViewModel.DocLineId = ReceiveLine.JobReceiveLineId;
+                            StockViewModel.DocTypeId = ReceiveHeader.DocTypeId;
+                            StockViewModel.StockHeaderDocDate = ReceiveHeader.DocDate;
+                            StockViewModel.StockDocDate = ReceiveHeader.DocDate;
+                            StockViewModel.DocNo = ReceiveHeader.DocNo;
+                            StockViewModel.DivisionId = ReceiveHeader.DivisionId;
+                            StockViewModel.SiteId = ReceiveHeader.SiteId;
+                            StockViewModel.CurrencyId = null;
+                            StockViewModel.HeaderProcessId = null;
+                            StockViewModel.PersonId = ReceiveHeader.JobWorkerId;
+                            StockViewModel.ProductId = svm.ProductId;
+                            StockViewModel.HeaderFromGodownId = null;
+                            StockViewModel.HeaderGodownId = null;
+                            StockViewModel.GodownId = ReceiveHeader.GodownId;
+                            StockViewModel.ProcessId = ReceiveHeader.ProcessId;
+                            StockViewModel.LotNo = ReceiveLine.LotNo;
+                            StockViewModel.CostCenterId = svm.CostCenterId;
+                            StockViewModel.Qty_Iss = 0;
+                            StockViewModel.Qty_Rec = ReceiveLine.Qty;
+                            StockViewModel.Rate = svm.Rate;
+                            StockViewModel.ExpiryDate = null;
+                            StockViewModel.Specification = svm.Specification;
+                            StockViewModel.Dimension1Id = svm.Dimension1Id;
+                            StockViewModel.Dimension2Id = svm.Dimension2Id;
+                            StockViewModel.Dimension3Id = svm.Dimension3Id;
+                            StockViewModel.Dimension4Id = svm.Dimension4Id;
+                            StockViewModel.HeaderRemark = ReceiveHeader.Remark;
+                            StockViewModel.Remark = ReceiveLine.Remark;
+                            StockViewModel.ProductUidId = ReceiveLine.ProductUidId;
+                            StockViewModel.Status = ReceiveHeader.Status;
+                            StockViewModel.CreatedBy = ReceiveHeader.CreatedBy;
+                            StockViewModel.CreatedDate = DateTime.Now;
+                            StockViewModel.ModifiedBy = ReceiveHeader.ModifiedBy;
+                            StockViewModel.ModifiedDate = DateTime.Now;
 
+                            string StockPostingError = "";
+                            StockPostingError = new StockService(_unitOfWork).StockPostDB(ref StockViewModel, ref db);
 
+                            if (StockPostingError != "")
+                            {
+                                ModelState.AddModelError("", StockPostingError);
+                                return PartialView("_Create", svm);
+                            }
 
+                            ReceiveLine.StockId = StockViewModel.StockId;
 
-                    //Posting in StockProcess
-                    if (settings.isPostedInStockProcess.HasValue && settings.isPostedInStockProcess == true)
-                    {
-                        if (ReceiveHeader.StockHeaderId != null && ReceiveHeader.StockHeaderId != 0)//If Transaction Header Table Has Stock Header Id Then It will Save Here.
-                        {
-                            StockProcessViewModel.StockHeaderId = (int)ReceiveHeader.StockHeaderId;
-                        }
-                        else if (settings.isPostedInStock.HasValue && settings.isPostedInStock == true)//If Stok Header is already posted during stock posting then this statement will Execute.So theat Stock Header will not generate again.
-                        {
-                            StockProcessViewModel.StockHeaderId = -1;
-                        }
-                        else//If function will only post in stock process then this statement will execute.For Example Job consumption.
-                        {
-                            StockProcessViewModel.StockHeaderId = 0;
-                        }
-                        StockProcessViewModel.DocHeaderId = ReceiveHeader.JobReceiveHeaderId;
-                        StockProcessViewModel.DocLineId = ReceiveLine.JobReceiveLineId;
-                        StockProcessViewModel.DocTypeId = ReceiveHeader.DocTypeId;
-                        StockProcessViewModel.StockHeaderDocDate = ReceiveHeader.DocDate;
-                        StockProcessViewModel.StockProcessDocDate = ReceiveHeader.DocDate;
-                        StockProcessViewModel.DocNo = ReceiveHeader.DocNo;
-                        StockProcessViewModel.DivisionId = ReceiveHeader.DivisionId;
-                        StockProcessViewModel.SiteId = ReceiveHeader.SiteId;
-                        StockProcessViewModel.CurrencyId = null;
-                        StockProcessViewModel.HeaderProcessId = null;
-                        StockProcessViewModel.PersonId = ReceiveHeader.JobWorkerId;
-                        StockProcessViewModel.ProductId = svm.ProductId;
-                        StockProcessViewModel.HeaderFromGodownId = null;
-                        StockProcessViewModel.HeaderGodownId = null;
-                        StockProcessViewModel.GodownId = ReceiveHeader.GodownId;
-                        StockProcessViewModel.ProcessId = ReceiveHeader.ProcessId;
-                        StockProcessViewModel.LotNo = ReceiveLine.LotNo;
-                        StockProcessViewModel.CostCenterId = svm.CostCenterId;
-                        StockProcessViewModel.Qty_Iss = ReceiveLine.Qty + ReceiveLine.LossQty;
-                        StockProcessViewModel.Qty_Rec = 0;
-                        StockProcessViewModel.Rate = svm.Rate;
-                        StockProcessViewModel.ExpiryDate = null;
-                        StockProcessViewModel.Specification = svm.Specification;
-                        StockProcessViewModel.Dimension1Id = svm.Dimension1Id;
-                        StockProcessViewModel.Dimension2Id = svm.Dimension2Id;
-                        StockProcessViewModel.Dimension3Id = svm.Dimension3Id;
-                        StockProcessViewModel.Dimension4Id = svm.Dimension4Id;
-                        StockProcessViewModel.HeaderRemark = ReceiveHeader.Remark;
-                        StockProcessViewModel.Remark = ReceiveLine.Remark;
-                        StockProcessViewModel.ProductUidId = ReceiveLine.ProductUidId;
-                        StockProcessViewModel.Status = ReceiveHeader.Status;
-                        StockProcessViewModel.CreatedBy = User.Identity.Name;
-                        StockProcessViewModel.CreatedDate = DateTime.Now;
-                        StockProcessViewModel.ModifiedBy = User.Identity.Name;
-                        StockProcessViewModel.ModifiedDate = DateTime.Now;
-
-                        string StockProcessPostingError = "";
-                        StockProcessPostingError = new StockProcessService(_unitOfWork).StockProcessPostDB(ref StockProcessViewModel, ref db);
-
-                        if (StockProcessPostingError != "")
-                        {
-                            ModelState.AddModelError("", StockProcessPostingError);
-                            return PartialView("_Create", svm);
-                        }
-
-                        ReceiveLine.StockProcessId = StockProcessViewModel.StockProcessId;
-
-                        if (settings.isPostedInStock == false)
-                        {
                             if (ReceiveHeader.StockHeaderId == null)
                             {
-                                ReceiveHeader.StockHeaderId = StockProcessViewModel.StockHeaderId;
+                                ReceiveHeader.StockHeaderId = StockViewModel.StockHeaderId;
                             }
                         }
-                    }
 
-                    #region BomPost
 
-                    //Saving BOMPOST Data
-                    //Saving BOMPOST Data
-                    //Saving BOMPOST Data
-                    //Saving BOMPOST Data
-                    if (!string.IsNullOrEmpty(svm.JobInvoiceSettings.SqlProcConsumption))
-                    {
-                        var BomPostList = _JobReceiveLineService.GetBomPostingDataForWeaving(svm.ProductId, svm.Dimension1Id, svm.Dimension2Id, null, null, ReceiveHeader.ProcessId, ReceiveLine.PassQty, ReceiveHeader.DocTypeId, svm.JobInvoiceSettings.SqlProcConsumption, ReceiveLine.JobOrderLineId, ReceiveLine.Weight).ToList();
 
-                        foreach (var item in BomPostList)
+
+                        //Posting in StockProcess
+                        if (settings.isPostedInStockProcess.HasValue && settings.isPostedInStockProcess == true)
                         {
-                            JobReceiveBom BomPost = new JobReceiveBom();
-                            BomPost.JobReceiveHeaderId = ReceiveHeader.JobReceiveHeaderId;
-                            BomPost.JobReceiveLineId = ReceiveLine.JobReceiveLineId;
-                            BomPost.CreatedBy = User.Identity.Name;
-                            BomPost.CreatedDate = DateTime.Now;
-                            BomPost.ModifiedBy = User.Identity.Name;
-                            BomPost.ModifiedDate = DateTime.Now;
-                            BomPost.ProductId = item.ProductId;
-                            BomPost.Qty = Convert.ToDecimal(item.Qty);
-
-
-
-                            StockProcessViewModel StockProcessBomViewModel = new StockProcessViewModel();
                             if (ReceiveHeader.StockHeaderId != null && ReceiveHeader.StockHeaderId != 0)//If Transaction Header Table Has Stock Header Id Then It will Save Here.
                             {
-                                StockProcessBomViewModel.StockHeaderId = (int)ReceiveHeader.StockHeaderId;
+                                StockProcessViewModel.StockHeaderId = (int)ReceiveHeader.StockHeaderId;
                             }
-                            else if (svm.JobInvoiceSettings.isPostedInStock)//If Stok Header is already posted during stock posting then this statement will Execute.So theat Stock Header will not generate again.
+                            else if (settings.isPostedInStock.HasValue && settings.isPostedInStock == true)//If Stok Header is already posted during stock posting then this statement will Execute.So theat Stock Header will not generate again.
                             {
-                                StockProcessBomViewModel.StockHeaderId = -1;
+                                StockProcessViewModel.StockHeaderId = -1;
                             }
                             else//If function will only post in stock process then this statement will execute.For Example Job consumption.
                             {
-                                StockProcessBomViewModel.StockHeaderId = 0;
+                                StockProcessViewModel.StockHeaderId = 0;
                             }
-                            StockProcessBomViewModel.StockProcessId = -1;
-                            StockProcessBomViewModel.DocHeaderId = ReceiveHeader.JobReceiveHeaderId;
-                            StockProcessBomViewModel.DocLineId = ReceiveLine.JobReceiveLineId;
-                            StockProcessBomViewModel.DocTypeId = ReceiveHeader.DocTypeId;
-                            StockProcessBomViewModel.StockHeaderDocDate = ReceiveHeader.DocDate;
-                            StockProcessBomViewModel.StockProcessDocDate = ReceiveHeader.DocDate;
-                            StockProcessBomViewModel.DocNo = ReceiveHeader.DocNo;
-                            StockProcessBomViewModel.DivisionId = ReceiveHeader.DivisionId;
-                            StockProcessBomViewModel.SiteId = ReceiveHeader.SiteId;
-                            StockProcessBomViewModel.CurrencyId = null;
-                            StockProcessBomViewModel.HeaderProcessId = null;
-                            StockProcessBomViewModel.PersonId = ReceiveHeader.JobWorkerId;
-                            StockProcessBomViewModel.ProductId = item.ProductId;
-                            StockProcessBomViewModel.HeaderFromGodownId = null;
-                            StockProcessBomViewModel.HeaderGodownId = null;
-                            StockProcessBomViewModel.GodownId = ReceiveHeader.GodownId;
-                            StockProcessBomViewModel.ProcessId = ReceiveHeader.ProcessId;
-                            StockProcessBomViewModel.LotNo = ReceiveLine.LotNo;
-                            StockProcessBomViewModel.CostCenterId = svm.CostCenterId;
-                            StockProcessBomViewModel.Qty_Iss = item.Qty;
-                            StockProcessBomViewModel.Qty_Rec = 0;
-                            StockProcessBomViewModel.Rate = 0;
-                            StockProcessBomViewModel.ExpiryDate = null;
-                            StockProcessBomViewModel.Specification = null;
-                            StockProcessBomViewModel.Dimension1Id = null;
-                            StockProcessBomViewModel.Dimension2Id = null;
-                            StockProcessBomViewModel.Dimension3Id = null;
-                            StockProcessBomViewModel.Dimension4Id = null;
-                            StockProcessBomViewModel.Remark = null;
-                            StockProcessBomViewModel.Status = ReceiveHeader.Status;
-                            StockProcessBomViewModel.CreatedBy = User.Identity.Name;
-                            StockProcessBomViewModel.CreatedDate = DateTime.Now;
-                            StockProcessBomViewModel.ModifiedBy = User.Identity.Name;
-                            StockProcessBomViewModel.ModifiedDate = DateTime.Now;
+                            StockProcessViewModel.DocHeaderId = ReceiveHeader.JobReceiveHeaderId;
+                            StockProcessViewModel.DocLineId = ReceiveLine.JobReceiveLineId;
+                            StockProcessViewModel.DocTypeId = ReceiveHeader.DocTypeId;
+                            StockProcessViewModel.StockHeaderDocDate = ReceiveHeader.DocDate;
+                            StockProcessViewModel.StockProcessDocDate = ReceiveHeader.DocDate;
+                            StockProcessViewModel.DocNo = ReceiveHeader.DocNo;
+                            StockProcessViewModel.DivisionId = ReceiveHeader.DivisionId;
+                            StockProcessViewModel.SiteId = ReceiveHeader.SiteId;
+                            StockProcessViewModel.CurrencyId = null;
+                            StockProcessViewModel.HeaderProcessId = null;
+                            StockProcessViewModel.PersonId = ReceiveHeader.JobWorkerId;
+                            StockProcessViewModel.ProductId = svm.ProductId;
+                            StockProcessViewModel.HeaderFromGodownId = null;
+                            StockProcessViewModel.HeaderGodownId = null;
+                            StockProcessViewModel.GodownId = ReceiveHeader.GodownId;
+                            StockProcessViewModel.ProcessId = ReceiveHeader.ProcessId;
+                            StockProcessViewModel.LotNo = ReceiveLine.LotNo;
+                            StockProcessViewModel.CostCenterId = svm.CostCenterId;
+                            StockProcessViewModel.Qty_Iss = ReceiveLine.Qty + ReceiveLine.LossQty;
+                            StockProcessViewModel.Qty_Rec = 0;
+                            StockProcessViewModel.Rate = svm.Rate;
+                            StockProcessViewModel.ExpiryDate = null;
+                            StockProcessViewModel.Specification = svm.Specification;
+                            StockProcessViewModel.Dimension1Id = svm.Dimension1Id;
+                            StockProcessViewModel.Dimension2Id = svm.Dimension2Id;
+                            StockProcessViewModel.Dimension3Id = svm.Dimension3Id;
+                            StockProcessViewModel.Dimension4Id = svm.Dimension4Id;
+                            StockProcessViewModel.HeaderRemark = ReceiveHeader.Remark;
+                            StockProcessViewModel.Remark = ReceiveLine.Remark;
+                            StockProcessViewModel.ProductUidId = ReceiveLine.ProductUidId;
+                            StockProcessViewModel.Status = ReceiveHeader.Status;
+                            StockProcessViewModel.CreatedBy = User.Identity.Name;
+                            StockProcessViewModel.CreatedDate = DateTime.Now;
+                            StockProcessViewModel.ModifiedBy = User.Identity.Name;
+                            StockProcessViewModel.ModifiedDate = DateTime.Now;
 
                             string StockProcessPostingError = "";
-                            StockProcessPostingError = new StockProcessService(_unitOfWork).StockProcessPostDB(ref StockProcessBomViewModel, ref db);
+                            StockProcessPostingError = new StockProcessService(_unitOfWork).StockProcessPostDB(ref StockProcessViewModel, ref db);
 
                             if (StockProcessPostingError != "")
                             {
@@ -1244,70 +1179,162 @@ namespace Web
                                 return PartialView("_Create", svm);
                             }
 
-                            BomPost.StockProcessId = StockProcessBomViewModel.StockProcessId;
-                            BomPost.ObjectState = Model.ObjectState.Added;
-                            db.JobReceiveBom.Add(BomPost);
-                            //new JobReceiveBomService(_unitOfWork).Create(BomPost);
+                            ReceiveLine.StockProcessId = StockProcessViewModel.StockProcessId;
 
-                            if (svm.JobInvoiceSettings.isPostedInStock == false && svm.JobInvoiceSettings.isPostedInStockProcess == false)
+                            if (settings.isPostedInStock == false)
                             {
                                 if (ReceiveHeader.StockHeaderId == null)
                                 {
-                                    ReceiveHeader.StockHeaderId = StockProcessBomViewModel.StockHeaderId;
+                                    ReceiveHeader.StockHeaderId = StockProcessViewModel.StockHeaderId;
                                 }
                             }
-
-
                         }
-                    }
 
-                    #endregion
+                        #region BomPost
 
-                    if (svm.ProductUidId != null && svm.ProductUidId > 0)
-                    {
-                        ProductUid Produid = (from p in db.ProductUid
-                                              where p.ProductUIDId == svm.ProductUidId
-                                              select p).FirstOrDefault();
-
-
-                        ReceiveLine.ProductUidLastTransactionDocId = Produid.LastTransactionDocId;
-                        ReceiveLine.ProductUidLastTransactionDocDate = Produid.LastTransactionDocDate;
-                        ReceiveLine.ProductUidLastTransactionDocNo = Produid.LastTransactionDocNo;
-                        ReceiveLine.ProductUidLastTransactionDocTypeId = Produid.LastTransactionDocTypeId;
-                        ReceiveLine.ProductUidLastTransactionPersonId = Produid.LastTransactionPersonId;
-                        ReceiveLine.ProductUidStatus = Produid.Status;
-                        ReceiveLine.ProductUidCurrentProcessId = Produid.CurrenctProcessId;
-                        ReceiveLine.ProductUidCurrentGodownId = Produid.CurrenctGodownId;
-
-
-
-                        Produid.LastTransactionDocId = ReceiveHeader.JobReceiveHeaderId;
-                        Produid.LastTransactionDocNo = ReceiveHeader.DocNo;
-                        Produid.LastTransactionDocTypeId = ReceiveHeader.DocTypeId;
-                        Produid.LastTransactionDocDate = ReceiveHeader.DocDate;
-                        Produid.LastTransactionPersonId = ReceiveHeader.JobWorkerId;
-                        Produid.CurrenctGodownId = ReceiveHeader.GodownId;
-                        Produid.CurrenctProcessId = ReceiveHeader.ProcessId;
-                        Produid.Status = (!string.IsNullOrEmpty(settings.BarcodeStatusUpdate) ? settings.BarcodeStatusUpdate : ProductUidStatusConstants.Receive);
-
-                        if (Produid.ProcessesDone == null)
+                        //Saving BOMPOST Data
+                        //Saving BOMPOST Data
+                        //Saving BOMPOST Data
+                        //Saving BOMPOST Data
+                        if (!string.IsNullOrEmpty(svm.JobInvoiceSettings.SqlProcConsumption))
                         {
-                            Produid.ProcessesDone = "|" + ReceiveHeader.ProcessId.ToString() + "|";
+                            var BomPostList = _JobReceiveLineService.GetBomPostingDataForWeaving(svm.ProductId, svm.Dimension1Id, svm.Dimension2Id, null, null, ReceiveHeader.ProcessId, ReceiveLine.PassQty, ReceiveHeader.DocTypeId, svm.JobInvoiceSettings.SqlProcConsumption, ReceiveLine.JobOrderLineId, ReceiveLine.Weight).ToList();
+
+                            foreach (var item in BomPostList)
+                            {
+                                JobReceiveBom BomPost = new JobReceiveBom();
+                                BomPost.JobReceiveHeaderId = ReceiveHeader.JobReceiveHeaderId;
+                                BomPost.JobReceiveLineId = ReceiveLine.JobReceiveLineId;
+                                BomPost.CreatedBy = User.Identity.Name;
+                                BomPost.CreatedDate = DateTime.Now;
+                                BomPost.ModifiedBy = User.Identity.Name;
+                                BomPost.ModifiedDate = DateTime.Now;
+                                BomPost.ProductId = item.ProductId;
+                                BomPost.Qty = Convert.ToDecimal(item.Qty);
+
+
+
+                                StockProcessViewModel StockProcessBomViewModel = new StockProcessViewModel();
+                                if (ReceiveHeader.StockHeaderId != null && ReceiveHeader.StockHeaderId != 0)//If Transaction Header Table Has Stock Header Id Then It will Save Here.
+                                {
+                                    StockProcessBomViewModel.StockHeaderId = (int)ReceiveHeader.StockHeaderId;
+                                }
+                                else if (svm.JobInvoiceSettings.isPostedInStock)//If Stok Header is already posted during stock posting then this statement will Execute.So theat Stock Header will not generate again.
+                                {
+                                    StockProcessBomViewModel.StockHeaderId = -1;
+                                }
+                                else//If function will only post in stock process then this statement will execute.For Example Job consumption.
+                                {
+                                    StockProcessBomViewModel.StockHeaderId = 0;
+                                }
+                                StockProcessBomViewModel.StockProcessId = -1;
+                                StockProcessBomViewModel.DocHeaderId = ReceiveHeader.JobReceiveHeaderId;
+                                StockProcessBomViewModel.DocLineId = ReceiveLine.JobReceiveLineId;
+                                StockProcessBomViewModel.DocTypeId = ReceiveHeader.DocTypeId;
+                                StockProcessBomViewModel.StockHeaderDocDate = ReceiveHeader.DocDate;
+                                StockProcessBomViewModel.StockProcessDocDate = ReceiveHeader.DocDate;
+                                StockProcessBomViewModel.DocNo = ReceiveHeader.DocNo;
+                                StockProcessBomViewModel.DivisionId = ReceiveHeader.DivisionId;
+                                StockProcessBomViewModel.SiteId = ReceiveHeader.SiteId;
+                                StockProcessBomViewModel.CurrencyId = null;
+                                StockProcessBomViewModel.HeaderProcessId = null;
+                                StockProcessBomViewModel.PersonId = ReceiveHeader.JobWorkerId;
+                                StockProcessBomViewModel.ProductId = item.ProductId;
+                                StockProcessBomViewModel.HeaderFromGodownId = null;
+                                StockProcessBomViewModel.HeaderGodownId = null;
+                                StockProcessBomViewModel.GodownId = ReceiveHeader.GodownId;
+                                StockProcessBomViewModel.ProcessId = ReceiveHeader.ProcessId;
+                                StockProcessBomViewModel.LotNo = ReceiveLine.LotNo;
+                                StockProcessBomViewModel.CostCenterId = svm.CostCenterId;
+                                StockProcessBomViewModel.Qty_Iss = item.Qty;
+                                StockProcessBomViewModel.Qty_Rec = 0;
+                                StockProcessBomViewModel.Rate = 0;
+                                StockProcessBomViewModel.ExpiryDate = null;
+                                StockProcessBomViewModel.Specification = null;
+                                StockProcessBomViewModel.Dimension1Id = null;
+                                StockProcessBomViewModel.Dimension2Id = null;
+                                StockProcessBomViewModel.Dimension3Id = null;
+                                StockProcessBomViewModel.Dimension4Id = null;
+                                StockProcessBomViewModel.Remark = null;
+                                StockProcessBomViewModel.Status = ReceiveHeader.Status;
+                                StockProcessBomViewModel.CreatedBy = User.Identity.Name;
+                                StockProcessBomViewModel.CreatedDate = DateTime.Now;
+                                StockProcessBomViewModel.ModifiedBy = User.Identity.Name;
+                                StockProcessBomViewModel.ModifiedDate = DateTime.Now;
+
+                                string StockProcessPostingError = "";
+                                StockProcessPostingError = new StockProcessService(_unitOfWork).StockProcessPostDB(ref StockProcessBomViewModel, ref db);
+
+                                if (StockProcessPostingError != "")
+                                {
+                                    ModelState.AddModelError("", StockProcessPostingError);
+                                    return PartialView("_Create", svm);
+                                }
+
+                                BomPost.StockProcessId = StockProcessBomViewModel.StockProcessId;
+                                BomPost.ObjectState = Model.ObjectState.Added;
+                                db.JobReceiveBom.Add(BomPost);
+                                //new JobReceiveBomService(_unitOfWork).Create(BomPost);
+
+                                if (svm.JobInvoiceSettings.isPostedInStock == false && svm.JobInvoiceSettings.isPostedInStockProcess == false)
+                                {
+                                    if (ReceiveHeader.StockHeaderId == null)
+                                    {
+                                        ReceiveHeader.StockHeaderId = StockProcessBomViewModel.StockHeaderId;
+                                    }
+                                }
+
+
+                            }
                         }
-                        else
+
+                        #endregion
+
+                        if (svm.ProductUidId != null && svm.ProductUidId > 0)
                         {
-                            Produid.ProcessesDone = Produid.ProcessesDone + ",|" + ReceiveHeader.ProcessId.ToString() + "|";
+                            ProductUid Produid = (from p in db.ProductUid
+                                                  where p.ProductUIDId == svm.ProductUidId
+                                                  select p).FirstOrDefault();
+
+
+                            ReceiveLine.ProductUidLastTransactionDocId = Produid.LastTransactionDocId;
+                            ReceiveLine.ProductUidLastTransactionDocDate = Produid.LastTransactionDocDate;
+                            ReceiveLine.ProductUidLastTransactionDocNo = Produid.LastTransactionDocNo;
+                            ReceiveLine.ProductUidLastTransactionDocTypeId = Produid.LastTransactionDocTypeId;
+                            ReceiveLine.ProductUidLastTransactionPersonId = Produid.LastTransactionPersonId;
+                            ReceiveLine.ProductUidStatus = Produid.Status;
+                            ReceiveLine.ProductUidCurrentProcessId = Produid.CurrenctProcessId;
+                            ReceiveLine.ProductUidCurrentGodownId = Produid.CurrenctGodownId;
+
+
+
+                            Produid.LastTransactionDocId = ReceiveHeader.JobReceiveHeaderId;
+                            Produid.LastTransactionDocNo = ReceiveHeader.DocNo;
+                            Produid.LastTransactionDocTypeId = ReceiveHeader.DocTypeId;
+                            Produid.LastTransactionDocDate = ReceiveHeader.DocDate;
+                            Produid.LastTransactionPersonId = ReceiveHeader.JobWorkerId;
+                            Produid.CurrenctGodownId = ReceiveHeader.GodownId;
+                            Produid.CurrenctProcessId = ReceiveHeader.ProcessId;
+                            Produid.Status = (!string.IsNullOrEmpty(settings.BarcodeStatusUpdate) ? settings.BarcodeStatusUpdate : ProductUidStatusConstants.Receive);
+
+                            if (Produid.ProcessesDone == null)
+                            {
+                                Produid.ProcessesDone = "|" + ReceiveHeader.ProcessId.ToString() + "|";
+                            }
+                            else
+                            {
+                                Produid.ProcessesDone = Produid.ProcessesDone + ",|" + ReceiveHeader.ProcessId.ToString() + "|";
+                            }
+
+                            Produid.ObjectState = Model.ObjectState.Modified;
+                            db.ProductUid.Add(Produid);
                         }
 
-                        Produid.ObjectState = Model.ObjectState.Modified;
-                        db.ProductUid.Add(Produid);
+                        ReceiveLine.ObjectState = Model.ObjectState.Added;
+                        db.JobReceiveLine.Add(ReceiveLine);
+
+                        new JobReceiveLineStatusService(_unitOfWork).CreateLineStatusWithInvoice(ReceiveLine.JobReceiveLineId, (ReceiveLine.PassQty + ReceiveLine.LossQty), (ReceiveLine.PassQty + ReceiveLine.LossQty) * svm.UnitConversionMultiplier, InvoiceHeader.DocDate, ref db);
                     }
-
-                    ReceiveLine.ObjectState = Model.ObjectState.Added;
-                    db.JobReceiveLine.Add(ReceiveLine);
-
-                    new JobReceiveLineStatusService(_unitOfWork).CreateLineStatusWithInvoice(ReceiveLine.JobReceiveLineId, (ReceiveLine.PassQty + ReceiveLine.LossQty), (ReceiveLine.PassQty + ReceiveLine.LossQty) * svm.UnitConversionMultiplier, InvoiceHeader.DocDate, ref db);
-
 
 
                     InvoiceLine.JobReceiveLineId = ReceiveLine.JobReceiveLineId;
@@ -1328,11 +1355,13 @@ namespace Web
                     Status.ObjectState = Model.ObjectState.Added;
                     db.JobInvoiceLineStatus.Add(Status);
 
-                    if (ReceiveLine.JobOrderLineId != null)
-                    {
-                        new JobOrderLineStatusService(_unitOfWork).UpdateJobQtyOnInvoiceReceive((int)ReceiveLine.JobOrderLineId, InvoiceLine.JobInvoiceLineId, InvoiceHeader.DocDate, (ReceiveLine.Qty + ReceiveLine.LossQty), InvoiceLine.UnitConversionMultiplier, ref db, true);
-                    }
+                    //if (ReceiveLine.JobOrderLineId != null)
+                    //{
+                    //    new JobOrderLineStatusService(_unitOfWork).UpdateJobQtyOnInvoiceReceive((int)ReceiveLine.JobOrderLineId, InvoiceLine.JobInvoiceLineId, InvoiceHeader.DocDate, (ReceiveLine.Qty + ReceiveLine.LossQty), InvoiceLine.UnitConversionMultiplier, ref db, true);
+                    //}
 
+                    new JobOrderLineStatusService(_unitOfWork).UpdateJobQtyOnInvoice(InvoiceLine.JobReceiveLineId, InvoiceLine.JobInvoiceLineId, InvoiceHeader.DocDate, InvoiceLine.Qty, InvoiceLine.UnitConversionMultiplier, ref db, true);
+                    new JobReceiveLineStatusService(_unitOfWork).UpdateJobReceiveQtyOnInvoice(InvoiceLine.JobReceiveLineId, InvoiceLine.JobInvoiceLineId, InvoiceHeader.DocDate, InvoiceLine.Qty, ref db, true);
 
                     db.JobInvoiceLine.Add(InvoiceLine);
 
@@ -1466,352 +1495,358 @@ namespace Web
 
                     int status = InvoiceHeader.Status;
 
-                    JobInvoiceLine temp1 = _JobInvoiceLineService.Find(svm.JobInvoiceLineId);
-                    JobReceiveLine temprec = _JobReceiveLineService.Find(svm.JobReceiveLineId);
+                    JobInvoiceLine InvoiceLine_Modify = _JobInvoiceLineService.Find(svm.JobInvoiceLineId);
+                    JobReceiveLine ReceiveLine_Modify = _JobReceiveLineService.Find(svm.JobReceiveLineId);
 
 
+                    if (InvoiceHeader.JobReceiveHeaderId == ReceiveLine_Modify.JobReceiveHeaderId)
+                    { 
+                        JobReceiveLine ExRecLine = new JobReceiveLine();
+                        ExRecLine = Mapper.Map<JobReceiveLine>(ReceiveLine_Modify);
+                        JobReceiveLine RecLine = new JobReceiveLine();
 
-                    //JobOrderLine JobOrderLine = new JobOrderLineService(_unitOfWork).Find(ReceiveLine.JobOrderLineId);
-                    //JobOrderHeader JobOrderHeader = new JobOrderHeaderService(_unitOfWork).Find(JobOrderLine.JobOrderHeaderId);
-
-
-                    if (svm.ProductUidId != null && settings.isGenerateProductUid == true)
-                    {
-                        ProductUidHeader ProductUidHeader = new ProductUidHeaderService(_unitOfWork).Find((int)temprec.ProductUidHeaderId);
-                        ProductUidHeader.ProductId = svm.ProductId;
-                        ProductUidHeader.Dimension1Id = svm.Dimension1Id;
-                        ProductUidHeader.Dimension2Id = svm.Dimension2Id;
-                        ProductUidHeader.Dimension3Id = svm.Dimension3Id;
-                        ProductUidHeader.Dimension4Id = svm.Dimension4Id;
-                        ProductUidHeader.ModifiedDate = DateTime.Now;
-                        ProductUidHeader.ModifiedBy = User.Identity.Name;
-                        ProductUidHeader.ObjectState = Model.ObjectState.Modified;
-                        db.ProductUidHeader.Add(ProductUidHeader);
-
-                        ProductUid ProductUid = new ProductUidService(_unitOfWork).Find((int)svm.ProductUidId);
-                        ProductUid.ProductUidName = svm.ProductUidName;
-                        ProductUid.ProductId = svm.ProductId;
-                        ProductUid.ProductUidSpecification = svm.Specification;
-                        ProductUid.Dimension1Id = svm.Dimension1Id;
-                        ProductUid.Dimension2Id = svm.Dimension2Id;
-                        ProductUid.Dimension3Id = svm.Dimension3Id;
-                        ProductUid.Dimension4Id = svm.Dimension4Id;
-                        ProductUid.ModifiedDate = DateTime.Now;
-                        ProductUid.ModifiedBy = User.Identity.Name;
-                        ProductUid.ObjectState = Model.ObjectState.Modified;
-                        db.ProductUid.Add(ProductUid);
-                    }
-
-
-                    if (temprec.StockId != null)
-                    {
-                        StockViewModel StockViewModel = new StockViewModel();
-                        StockViewModel.StockHeaderId = ReceiveHeader.StockHeaderId ?? 0;
-                        StockViewModel.StockId = temprec.StockId ?? 0;
-                        StockViewModel.DocHeaderId = temprec.JobReceiveHeaderId;
-                        StockViewModel.DocLineId = temprec.JobReceiveLineId;
-                        StockViewModel.DocTypeId = ReceiveHeader.DocTypeId;
-                        StockViewModel.StockHeaderDocDate = ReceiveHeader.DocDate;
-                        StockViewModel.StockDocDate = ReceiveHeader.DocDate;
-                        StockViewModel.DocNo = ReceiveHeader.DocNo;
-                        StockViewModel.DivisionId = ReceiveHeader.DivisionId;
-                        StockViewModel.SiteId = ReceiveHeader.SiteId;
-                        StockViewModel.CurrencyId = null;
-                        StockViewModel.HeaderProcessId = ReceiveHeader.ProcessId;
-                        StockViewModel.PersonId = ReceiveHeader.JobWorkerId;
-                        StockViewModel.ProductId = svm.ProductId;
-                        StockViewModel.HeaderFromGodownId = null;
-                        StockViewModel.HeaderGodownId = ReceiveHeader.GodownId;
-                        StockViewModel.GodownId = ReceiveHeader.GodownId;
-                        StockViewModel.ProcessId = ReceiveHeader.ProcessId;
-                        StockViewModel.LotNo = svm.LotNo;
-                        StockViewModel.CostCenterId = svm.CostCenterId;
-                        StockViewModel.Qty_Iss = 0;
-                        StockViewModel.Qty_Rec = temprec.Qty;
-                        StockViewModel.Rate = svm.Rate;
-                        StockViewModel.ExpiryDate = null;
-                        StockViewModel.Specification = svm.Specification;
-                        StockViewModel.Dimension1Id = svm.Dimension1Id;
-                        StockViewModel.Dimension2Id = svm.Dimension2Id;
-                        StockViewModel.Dimension3Id = svm.Dimension3Id;
-                        StockViewModel.Dimension4Id = svm.Dimension4Id;
-                        StockViewModel.HeaderRemark = ReceiveHeader.Remark;
-                        StockViewModel.Remark = svm.Remark;
-                        StockViewModel.ProductUidId = temprec.ProductUidId;
-                        StockViewModel.Status = ReceiveHeader.Status;
-                        StockViewModel.CreatedBy = temprec.CreatedBy;
-                        StockViewModel.CreatedDate = temprec.CreatedDate;
-                        StockViewModel.ModifiedBy = User.Identity.Name;
-                        StockViewModel.ModifiedDate = DateTime.Now;
-
-                        string StockPostingError = "";
-                        StockPostingError = new StockService(_unitOfWork).StockPostDB(ref StockViewModel, ref db);
-
-                        if (StockPostingError != "")
+                        LogList.Add(new LogTypeViewModel
                         {
-                            ModelState.AddModelError("", StockPostingError);
-                            return PartialView("_Create", svm);
-                        }
-                    }
+                            ExObj = ExRecLine,
+                            Obj = ReceiveLine_Modify,
+                        });
 
 
+                        //JobOrderLine JobOrderLine = new JobOrderLineService(_unitOfWork).Find(ReceiveLine.JobOrderLineId);
+                        //JobOrderHeader JobOrderHeader = new JobOrderHeaderService(_unitOfWork).Find(JobOrderLine.JobOrderHeaderId);
 
 
-                    if (temprec.StockProcessId != null)
-                    {
-                        StockProcessViewModel StockProcessViewModel = new StockProcessViewModel();
-                        StockProcessViewModel.StockHeaderId = ReceiveHeader.StockHeaderId ?? 0;
-                        StockProcessViewModel.StockProcessId = temprec.StockProcessId ?? 0;
-                        StockProcessViewModel.DocHeaderId = temprec.JobReceiveHeaderId;
-                        StockProcessViewModel.DocLineId = temprec.JobReceiveLineId;
-                        StockProcessViewModel.DocTypeId = ReceiveHeader.DocTypeId;
-                        StockProcessViewModel.StockHeaderDocDate = ReceiveHeader.DocDate;
-                        StockProcessViewModel.StockProcessDocDate = ReceiveHeader.DocDate;
-                        StockProcessViewModel.DocNo = ReceiveHeader.DocNo;
-                        StockProcessViewModel.DivisionId = ReceiveHeader.DivisionId;
-                        StockProcessViewModel.SiteId = ReceiveHeader.SiteId;
-                        StockProcessViewModel.CurrencyId = null;
-                        StockProcessViewModel.HeaderProcessId = ReceiveHeader.ProcessId;
-                        StockProcessViewModel.PersonId = ReceiveHeader.JobWorkerId;
-                        StockProcessViewModel.ProductId = svm.ProductId;
-                        StockProcessViewModel.HeaderFromGodownId = null;
-                        StockProcessViewModel.HeaderGodownId = ReceiveHeader.GodownId;
-                        StockProcessViewModel.GodownId = ReceiveHeader.GodownId;
-                        StockProcessViewModel.ProcessId = ReceiveHeader.ProcessId;
-                        StockProcessViewModel.LotNo = svm.LotNo;
-                        StockProcessViewModel.CostCenterId = svm.CostCenterId;
-                        StockProcessViewModel.Qty_Iss = svm.ReceiveQty + svm.LossQty;
-                        StockProcessViewModel.Qty_Rec = 0;
-                        StockProcessViewModel.Rate = svm.Rate;
-                        StockProcessViewModel.ExpiryDate = null;
-                        StockProcessViewModel.Specification = svm.Specification;
-                        StockProcessViewModel.Dimension1Id = svm.Dimension1Id;
-                        StockProcessViewModel.Dimension2Id = svm.Dimension2Id;
-                        StockProcessViewModel.Dimension3Id = svm.Dimension3Id;
-                        StockProcessViewModel.Dimension4Id = svm.Dimension4Id;
-                        StockProcessViewModel.HeaderRemark = ReceiveHeader.Remark;
-                        StockProcessViewModel.Remark = svm.Remark;
-                        StockProcessViewModel.ProductUidId = temprec.ProductUidId;
-                        StockProcessViewModel.Status = ReceiveHeader.Status;
-                        StockProcessViewModel.CreatedBy = temprec.CreatedBy;
-                        StockProcessViewModel.CreatedDate = temprec.CreatedDate;
-                        StockProcessViewModel.ModifiedBy = User.Identity.Name;
-                        StockProcessViewModel.ModifiedDate = DateTime.Now;
-
-                        string StockProcessPostingError = "";
-                        StockProcessPostingError = new StockProcessService(_unitOfWork).StockProcessPostDB(ref StockProcessViewModel, ref db);
-
-                        if (StockProcessPostingError != "")
+                        if (svm.ProductUidId != null && settings.isGenerateProductUid == true)
                         {
-                            ModelState.AddModelError("", StockProcessPostingError);
-                            return PartialView("_Create", svm);
-                        }
-                    }
+                            ProductUidHeader ProductUidHeader = new ProductUidHeaderService(_unitOfWork).Find((int)ReceiveLine_Modify.ProductUidHeaderId);
+                            ProductUidHeader.ProductId = svm.ProductId;
+                            ProductUidHeader.Dimension1Id = svm.Dimension1Id;
+                            ProductUidHeader.Dimension2Id = svm.Dimension2Id;
+                            ProductUidHeader.Dimension3Id = svm.Dimension3Id;
+                            ProductUidHeader.Dimension4Id = svm.Dimension4Id;
+                            ProductUidHeader.ModifiedDate = DateTime.Now;
+                            ProductUidHeader.ModifiedBy = User.Identity.Name;
+                            ProductUidHeader.ObjectState = Model.ObjectState.Modified;
+                            db.ProductUidHeader.Add(ProductUidHeader);
 
-                    temprec.PenaltyAmt = svm.PenaltyAmt;
-                    temprec.PenaltyRate = svm.PenaltyRate;
-                    temprec.IncentiveRate = svm.IncentiveRate;
-                    temprec.Remark = svm.Remark;
-                    temprec.UnitConversionMultiplier = svm.UnitConversionMultiplier;
-                    temprec.DealUnitId = svm.DealUnitId;
-                    temprec.DealQty = svm.DealQty;
-                    temprec.Qty = svm.ReceiveQty;
-                    temprec.LossQty = svm.LossQty;
-                    temprec.PassQty = svm.PassQty;
-                    temprec.Weight = svm.Weight;
-                    temprec.IncentiveAmt = svm.IncentiveAmt;
-                    temprec.PenaltyAmt = svm.PenaltyAmt;
-                    temprec.MfgDate = svm.MfgDate;
-                    temprec.ModifiedDate = DateTime.Now;
-                    temprec.ModifiedBy = User.Identity.Name;
-
-
-                    temprec.ObjectState = Model.ObjectState.Modified;
-                    db.JobReceiveLine.Add(temprec);
-
-
-                    //_JobReceiveLineService.Update(temprec);
-
-
-
-
-
-
-
-
-                    #region BomPost
-
-                    //Saving BOMPOST Data
-                    //Saving BOMPOST Data
-                    //Saving BOMPOST Data
-                    //Saving BOMPOST Data
-
-                    if (!string.IsNullOrEmpty(svm.JobInvoiceSettings.SqlProcConsumption))
-                    {
-                        IEnumerable<JobReceiveBom> OldBomList = new JobReceiveBomService(_unitOfWork).GetBomForLine(temprec.JobReceiveLineId);
-
-                        foreach (var item in OldBomList)
-                        {
-                            if (item.StockProcessId != null)
-                            {
-                                new StockProcessService(_unitOfWork).Delete((int)item.StockProcessId);
-                            }
-                            new JobReceiveBomService(_unitOfWork).Delete(item.JobReceiveBomId);
+                            ProductUid ProductUid = new ProductUidService(_unitOfWork).Find((int)svm.ProductUidId);
+                            ProductUid.ProductUidName = svm.ProductUidName;
+                            ProductUid.ProductId = svm.ProductId;
+                            ProductUid.ProductUidSpecification = svm.Specification;
+                            ProductUid.Dimension1Id = svm.Dimension1Id;
+                            ProductUid.Dimension2Id = svm.Dimension2Id;
+                            ProductUid.Dimension3Id = svm.Dimension3Id;
+                            ProductUid.Dimension4Id = svm.Dimension4Id;
+                            ProductUid.ModifiedDate = DateTime.Now;
+                            ProductUid.ModifiedBy = User.Identity.Name;
+                            ProductUid.ObjectState = Model.ObjectState.Modified;
+                            db.ProductUid.Add(ProductUid);
                         }
 
 
-                        var BomPostList = _JobReceiveLineService.GetBomPostingDataForWeaving(svm.ProductId, svm.Dimension1Id, svm.Dimension2Id, null, null, ReceiveHeader.ProcessId, ReceiveLine.PassQty, ReceiveHeader.DocTypeId, svm.JobInvoiceSettings.SqlProcConsumption, svm.JobOrderLineId, temprec.Weight).ToList();
-
-                        foreach (var item in BomPostList)
+                        if (ReceiveLine_Modify.StockId != null)
                         {
-                            JobReceiveBom BomPost = new JobReceiveBom();
-                            BomPost.JobReceiveHeaderId = ReceiveHeader.JobReceiveHeaderId;
-                            BomPost.JobReceiveLineId = temprec.JobReceiveLineId;
-                            BomPost.CreatedBy = User.Identity.Name;
-                            BomPost.CreatedDate = DateTime.Now;
-                            BomPost.ModifiedBy = User.Identity.Name;
-                            BomPost.ModifiedDate = DateTime.Now;
-                            BomPost.ProductId = item.ProductId;
-                            BomPost.Qty = Convert.ToDecimal(item.Qty);
+                            StockViewModel StockViewModel = new StockViewModel();
+                            StockViewModel.StockHeaderId = ReceiveHeader.StockHeaderId ?? 0;
+                            StockViewModel.StockId = ReceiveLine_Modify.StockId ?? 0;
+                            StockViewModel.DocHeaderId = ReceiveLine_Modify.JobReceiveHeaderId;
+                            StockViewModel.DocLineId = ReceiveLine_Modify.JobReceiveLineId;
+                            StockViewModel.DocTypeId = ReceiveHeader.DocTypeId;
+                            StockViewModel.StockHeaderDocDate = ReceiveHeader.DocDate;
+                            StockViewModel.StockDocDate = ReceiveHeader.DocDate;
+                            StockViewModel.DocNo = ReceiveHeader.DocNo;
+                            StockViewModel.DivisionId = ReceiveHeader.DivisionId;
+                            StockViewModel.SiteId = ReceiveHeader.SiteId;
+                            StockViewModel.CurrencyId = null;
+                            StockViewModel.HeaderProcessId = ReceiveHeader.ProcessId;
+                            StockViewModel.PersonId = ReceiveHeader.JobWorkerId;
+                            StockViewModel.ProductId = svm.ProductId;
+                            StockViewModel.HeaderFromGodownId = null;
+                            StockViewModel.HeaderGodownId = ReceiveHeader.GodownId;
+                            StockViewModel.GodownId = ReceiveHeader.GodownId;
+                            StockViewModel.ProcessId = ReceiveHeader.ProcessId;
+                            StockViewModel.LotNo = svm.LotNo;
+                            StockViewModel.CostCenterId = svm.CostCenterId;
+                            StockViewModel.Qty_Iss = 0;
+                            StockViewModel.Qty_Rec = ReceiveLine_Modify.Qty;
+                            StockViewModel.Rate = svm.Rate;
+                            StockViewModel.ExpiryDate = null;
+                            StockViewModel.Specification = svm.Specification;
+                            StockViewModel.Dimension1Id = svm.Dimension1Id;
+                            StockViewModel.Dimension2Id = svm.Dimension2Id;
+                            StockViewModel.Dimension3Id = svm.Dimension3Id;
+                            StockViewModel.Dimension4Id = svm.Dimension4Id;
+                            StockViewModel.HeaderRemark = ReceiveHeader.Remark;
+                            StockViewModel.Remark = svm.Remark;
+                            StockViewModel.ProductUidId = ReceiveLine_Modify.ProductUidId;
+                            StockViewModel.Status = ReceiveHeader.Status;
+                            StockViewModel.CreatedBy = ReceiveLine_Modify.CreatedBy;
+                            StockViewModel.CreatedDate = ReceiveLine_Modify.CreatedDate;
+                            StockViewModel.ModifiedBy = User.Identity.Name;
+                            StockViewModel.ModifiedDate = DateTime.Now;
+
+                            string StockPostingError = "";
+                            StockPostingError = new StockService(_unitOfWork).StockPostDB(ref StockViewModel, ref db);
+
+                            if (StockPostingError != "")
+                            {
+                                ModelState.AddModelError("", StockPostingError);
+                                return PartialView("_Create", svm);
+                            }
+                        }
 
 
 
-                            StockProcessViewModel StockProcessBomViewModel = new StockProcessViewModel();
-                            if (ReceiveHeader.StockHeaderId != null && ReceiveHeader.StockHeaderId != 0)//If Transaction Header Table Has Stock Header Id Then It will Save Here.
-                            {
-                                StockProcessBomViewModel.StockHeaderId = (int)ReceiveHeader.StockHeaderId;
-                            }
-                            else if (svm.JobInvoiceSettings.isPostedInStock)//If Stok Header is already posted during stock posting then this statement will Execute.So theat Stock Header will not generate again.
-                            {
-                                StockProcessBomViewModel.StockHeaderId = -1;
-                            }
-                            else//If function will only post in stock process then this statement will execute.For Example Job consumption.
-                            {
-                                StockProcessBomViewModel.StockHeaderId = 0;
-                            }
-                            StockProcessBomViewModel.DocHeaderId = ReceiveHeader.JobReceiveHeaderId;
-                            StockProcessBomViewModel.DocLineId = temprec.JobReceiveLineId;
-                            StockProcessBomViewModel.DocTypeId = ReceiveHeader.DocTypeId;
-                            StockProcessBomViewModel.StockHeaderDocDate = ReceiveHeader.DocDate;
-                            StockProcessBomViewModel.StockProcessDocDate = ReceiveHeader.DocDate;
-                            StockProcessBomViewModel.DocNo = ReceiveHeader.DocNo;
-                            StockProcessBomViewModel.DivisionId = ReceiveHeader.DivisionId;
-                            StockProcessBomViewModel.SiteId = ReceiveHeader.SiteId;
-                            StockProcessBomViewModel.CurrencyId = null;
-                            StockProcessBomViewModel.HeaderProcessId = null;
-                            StockProcessBomViewModel.PersonId = ReceiveHeader.JobWorkerId;
-                            StockProcessBomViewModel.ProductId = item.ProductId;
-                            StockProcessBomViewModel.HeaderFromGodownId = null;
-                            StockProcessBomViewModel.HeaderGodownId = null;
-                            StockProcessBomViewModel.GodownId = ReceiveHeader.GodownId;
-                            StockProcessBomViewModel.ProcessId = ReceiveHeader.ProcessId;
-                            StockProcessBomViewModel.LotNo = temprec.LotNo;
-                            StockProcessBomViewModel.CostCenterId = svm.CostCenterId;
-                            StockProcessBomViewModel.Qty_Iss = item.Qty;
-                            StockProcessBomViewModel.Qty_Rec = 0;
-                            StockProcessBomViewModel.Rate = 0;
-                            StockProcessBomViewModel.ExpiryDate = null;
-                            StockProcessBomViewModel.Specification = null;
-                            StockProcessBomViewModel.Dimension1Id = null;
-                            StockProcessBomViewModel.Dimension2Id = null;
-                            StockProcessBomViewModel.Dimension3Id = null;
-                            StockProcessBomViewModel.Dimension4Id = null;
-                            StockProcessBomViewModel.Remark = null;
-                            StockProcessBomViewModel.Status = ReceiveHeader.Status;
-                            StockProcessBomViewModel.CreatedBy = User.Identity.Name;
-                            StockProcessBomViewModel.CreatedDate = DateTime.Now;
-                            StockProcessBomViewModel.ModifiedBy = User.Identity.Name;
-                            StockProcessBomViewModel.ModifiedDate = DateTime.Now;
+
+                        if (ReceiveLine_Modify.StockProcessId != null)
+                        {
+                            StockProcessViewModel StockProcessViewModel = new StockProcessViewModel();
+                            StockProcessViewModel.StockHeaderId = ReceiveHeader.StockHeaderId ?? 0;
+                            StockProcessViewModel.StockProcessId = ReceiveLine_Modify.StockProcessId ?? 0;
+                            StockProcessViewModel.DocHeaderId = ReceiveLine_Modify.JobReceiveHeaderId;
+                            StockProcessViewModel.DocLineId = ReceiveLine_Modify.JobReceiveLineId;
+                            StockProcessViewModel.DocTypeId = ReceiveHeader.DocTypeId;
+                            StockProcessViewModel.StockHeaderDocDate = ReceiveHeader.DocDate;
+                            StockProcessViewModel.StockProcessDocDate = ReceiveHeader.DocDate;
+                            StockProcessViewModel.DocNo = ReceiveHeader.DocNo;
+                            StockProcessViewModel.DivisionId = ReceiveHeader.DivisionId;
+                            StockProcessViewModel.SiteId = ReceiveHeader.SiteId;
+                            StockProcessViewModel.CurrencyId = null;
+                            StockProcessViewModel.HeaderProcessId = ReceiveHeader.ProcessId;
+                            StockProcessViewModel.PersonId = ReceiveHeader.JobWorkerId;
+                            StockProcessViewModel.ProductId = svm.ProductId;
+                            StockProcessViewModel.HeaderFromGodownId = null;
+                            StockProcessViewModel.HeaderGodownId = ReceiveHeader.GodownId;
+                            StockProcessViewModel.GodownId = ReceiveHeader.GodownId;
+                            StockProcessViewModel.ProcessId = ReceiveHeader.ProcessId;
+                            StockProcessViewModel.LotNo = svm.LotNo;
+                            StockProcessViewModel.CostCenterId = svm.CostCenterId;
+                            StockProcessViewModel.Qty_Iss = svm.ReceiveQty + svm.LossQty;
+                            StockProcessViewModel.Qty_Rec = 0;
+                            StockProcessViewModel.Rate = svm.Rate;
+                            StockProcessViewModel.ExpiryDate = null;
+                            StockProcessViewModel.Specification = svm.Specification;
+                            StockProcessViewModel.Dimension1Id = svm.Dimension1Id;
+                            StockProcessViewModel.Dimension2Id = svm.Dimension2Id;
+                            StockProcessViewModel.Dimension3Id = svm.Dimension3Id;
+                            StockProcessViewModel.Dimension4Id = svm.Dimension4Id;
+                            StockProcessViewModel.HeaderRemark = ReceiveHeader.Remark;
+                            StockProcessViewModel.Remark = svm.Remark;
+                            StockProcessViewModel.ProductUidId = ReceiveLine_Modify.ProductUidId;
+                            StockProcessViewModel.Status = ReceiveHeader.Status;
+                            StockProcessViewModel.CreatedBy = ReceiveLine_Modify.CreatedBy;
+                            StockProcessViewModel.CreatedDate = ReceiveLine_Modify.CreatedDate;
+                            StockProcessViewModel.ModifiedBy = User.Identity.Name;
+                            StockProcessViewModel.ModifiedDate = DateTime.Now;
 
                             string StockProcessPostingError = "";
-                            StockProcessPostingError = new StockProcessService(_unitOfWork).StockProcessPostDB(ref StockProcessBomViewModel, ref db);
+                            StockProcessPostingError = new StockProcessService(_unitOfWork).StockProcessPostDB(ref StockProcessViewModel, ref db);
 
                             if (StockProcessPostingError != "")
                             {
                                 ModelState.AddModelError("", StockProcessPostingError);
                                 return PartialView("_Create", svm);
                             }
+                        }
 
-                            BomPost.StockProcessId = StockProcessBomViewModel.StockProcessId;
+                        ReceiveLine_Modify.PenaltyAmt = svm.PenaltyAmt;
+                        ReceiveLine_Modify.PenaltyRate = svm.PenaltyRate;
+                        ReceiveLine_Modify.IncentiveRate = svm.IncentiveRate;
+                        ReceiveLine_Modify.Remark = svm.Remark;
+                        ReceiveLine_Modify.UnitConversionMultiplier = svm.UnitConversionMultiplier;
+                        ReceiveLine_Modify.DealUnitId = svm.DealUnitId;
+                        ReceiveLine_Modify.DealQty = svm.DealQty;
+                        ReceiveLine_Modify.Qty = svm.ReceiveQty;
+                        ReceiveLine_Modify.LossQty = svm.LossQty;
+                        ReceiveLine_Modify.PassQty = svm.PassQty;
+                        ReceiveLine_Modify.Weight = svm.Weight;
+                        ReceiveLine_Modify.IncentiveAmt = svm.IncentiveAmt;
+                        ReceiveLine_Modify.PenaltyAmt = svm.PenaltyAmt;
+                        ReceiveLine_Modify.MfgDate = svm.MfgDate;
+                        ReceiveLine_Modify.ModifiedDate = DateTime.Now;
+                        ReceiveLine_Modify.ModifiedBy = User.Identity.Name;
 
-                            BomPost.ObjectState = Model.ObjectState.Added;
-                            //new JobReceiveBomService(_unitOfWork).Create(BomPost);
-                            db.JobReceiveBom.Add(BomPost);
 
-                            if (svm.JobInvoiceSettings.isPostedInStock == false && svm.JobInvoiceSettings.isPostedInStockProcess == false)
+                        ReceiveLine_Modify.ObjectState = Model.ObjectState.Modified;
+                        db.JobReceiveLine.Add(ReceiveLine_Modify);
+
+                        if (ReceiveLine_Modify.JobOrderLineId != null)
+                        {
+                            new JobOrderLineStatusService(_unitOfWork).UpdateJobQtyOnReceive((int)ReceiveLine_Modify.JobOrderLineId, ReceiveLine_Modify.JobReceiveLineId, ReceiveHeader.DocDate, RecLine.Qty + RecLine.LossQty, ref db);
+                        }
+
+
+                        //_JobReceiveLineService.Update(temprec);
+
+                        #region BomPost
+
+                        //Saving BOMPOST Data
+                        //Saving BOMPOST Data
+                        //Saving BOMPOST Data
+                        //Saving BOMPOST Data
+
+                        if (!string.IsNullOrEmpty(svm.JobInvoiceSettings.SqlProcConsumption))
+                        {
+                            IEnumerable<JobReceiveBom> OldBomList = new JobReceiveBomService(_unitOfWork).GetBomForLine(ReceiveLine_Modify.JobReceiveLineId);
+
+                            foreach (var item in OldBomList)
                             {
-                                if (ReceiveHeader.StockHeaderId == null)
+                                if (item.StockProcessId != null)
                                 {
-                                    ReceiveHeader.StockHeaderId = StockProcessBomViewModel.StockHeaderId;
+                                    new StockProcessService(_unitOfWork).Delete((int)item.StockProcessId);
+                                }
+                                new JobReceiveBomService(_unitOfWork).Delete(item.JobReceiveBomId);
+                            }
+
+
+                            var BomPostList = _JobReceiveLineService.GetBomPostingDataForWeaving(svm.ProductId, svm.Dimension1Id, svm.Dimension2Id, null, null, ReceiveHeader.ProcessId, ReceiveLine_Modify.PassQty, ReceiveHeader.DocTypeId, svm.JobInvoiceSettings.SqlProcConsumption, svm.JobOrderLineId, ReceiveLine_Modify.Weight).ToList();
+
+                            foreach (var item in BomPostList)
+                            {
+                                JobReceiveBom BomPost = new JobReceiveBom();
+                                BomPost.JobReceiveHeaderId = ReceiveHeader.JobReceiveHeaderId;
+                                BomPost.JobReceiveLineId = ReceiveLine_Modify.JobReceiveLineId;
+                                BomPost.CreatedBy = User.Identity.Name;
+                                BomPost.CreatedDate = DateTime.Now;
+                                BomPost.ModifiedBy = User.Identity.Name;
+                                BomPost.ModifiedDate = DateTime.Now;
+                                BomPost.ProductId = item.ProductId;
+                                BomPost.Qty = Convert.ToDecimal(item.Qty);
+
+
+
+                                StockProcessViewModel StockProcessBomViewModel = new StockProcessViewModel();
+                                if (ReceiveHeader.StockHeaderId != null && ReceiveHeader.StockHeaderId != 0)//If Transaction Header Table Has Stock Header Id Then It will Save Here.
+                                {
+                                    StockProcessBomViewModel.StockHeaderId = (int)ReceiveHeader.StockHeaderId;
+                                }
+                                else if (svm.JobInvoiceSettings.isPostedInStock)//If Stok Header is already posted during stock posting then this statement will Execute.So theat Stock Header will not generate again.
+                                {
+                                    StockProcessBomViewModel.StockHeaderId = -1;
+                                }
+                                else//If function will only post in stock process then this statement will execute.For Example Job consumption.
+                                {
+                                    StockProcessBomViewModel.StockHeaderId = 0;
+                                }
+                                StockProcessBomViewModel.DocHeaderId = ReceiveHeader.JobReceiveHeaderId;
+                                StockProcessBomViewModel.DocLineId = ReceiveLine_Modify.JobReceiveLineId;
+                                StockProcessBomViewModel.DocTypeId = ReceiveHeader.DocTypeId;
+                                StockProcessBomViewModel.StockHeaderDocDate = ReceiveHeader.DocDate;
+                                StockProcessBomViewModel.StockProcessDocDate = ReceiveHeader.DocDate;
+                                StockProcessBomViewModel.DocNo = ReceiveHeader.DocNo;
+                                StockProcessBomViewModel.DivisionId = ReceiveHeader.DivisionId;
+                                StockProcessBomViewModel.SiteId = ReceiveHeader.SiteId;
+                                StockProcessBomViewModel.CurrencyId = null;
+                                StockProcessBomViewModel.HeaderProcessId = null;
+                                StockProcessBomViewModel.PersonId = ReceiveHeader.JobWorkerId;
+                                StockProcessBomViewModel.ProductId = item.ProductId;
+                                StockProcessBomViewModel.HeaderFromGodownId = null;
+                                StockProcessBomViewModel.HeaderGodownId = null;
+                                StockProcessBomViewModel.GodownId = ReceiveHeader.GodownId;
+                                StockProcessBomViewModel.ProcessId = ReceiveHeader.ProcessId;
+                                StockProcessBomViewModel.LotNo = ReceiveLine_Modify.LotNo;
+                                StockProcessBomViewModel.CostCenterId = svm.CostCenterId;
+                                StockProcessBomViewModel.Qty_Iss = item.Qty;
+                                StockProcessBomViewModel.Qty_Rec = 0;
+                                StockProcessBomViewModel.Rate = 0;
+                                StockProcessBomViewModel.ExpiryDate = null;
+                                StockProcessBomViewModel.Specification = null;
+                                StockProcessBomViewModel.Dimension1Id = null;
+                                StockProcessBomViewModel.Dimension2Id = null;
+                                StockProcessBomViewModel.Dimension3Id = null;
+                                StockProcessBomViewModel.Dimension4Id = null;
+                                StockProcessBomViewModel.Remark = null;
+                                StockProcessBomViewModel.Status = ReceiveHeader.Status;
+                                StockProcessBomViewModel.CreatedBy = User.Identity.Name;
+                                StockProcessBomViewModel.CreatedDate = DateTime.Now;
+                                StockProcessBomViewModel.ModifiedBy = User.Identity.Name;
+                                StockProcessBomViewModel.ModifiedDate = DateTime.Now;
+
+                                string StockProcessPostingError = "";
+                                StockProcessPostingError = new StockProcessService(_unitOfWork).StockProcessPostDB(ref StockProcessBomViewModel, ref db);
+
+                                if (StockProcessPostingError != "")
+                                {
+                                    ModelState.AddModelError("", StockProcessPostingError);
+                                    return PartialView("_Create", svm);
+                                }
+
+                                BomPost.StockProcessId = StockProcessBomViewModel.StockProcessId;
+
+                                BomPost.ObjectState = Model.ObjectState.Added;
+                                //new JobReceiveBomService(_unitOfWork).Create(BomPost);
+                                db.JobReceiveBom.Add(BomPost);
+
+                                if (svm.JobInvoiceSettings.isPostedInStock == false && svm.JobInvoiceSettings.isPostedInStockProcess == false)
+                                {
+                                    if (ReceiveHeader.StockHeaderId == null)
+                                    {
+                                        ReceiveHeader.StockHeaderId = StockProcessBomViewModel.StockHeaderId;
+                                    }
                                 }
                             }
                         }
+
+                        #endregion
+
+                        ReceiveHeader.ModifiedBy = User.Identity.Name;
+                        ReceiveHeader.ModifiedDate = DateTime.Now;
+                        ReceiveHeader.ObjectState = Model.ObjectState.Modified;
+                        db.JobReceiveHeader.Add(ReceiveHeader);
+
+
                     }
 
-                    #endregion
 
+                    InvoiceLine_Modify.SalesTaxGroupProductId = svm.SalesTaxGroupProductId;
+                    InvoiceLine_Modify.Amount = svm.Amount;
+                    InvoiceLine_Modify.JobReceiveLineId = svm.JobReceiveLineId;
+                    InvoiceLine_Modify.UnitConversionMultiplier = svm.UnitConversionMultiplier;
+                    InvoiceLine_Modify.Qty = svm.PassQty;
+                    InvoiceLine_Modify.DealQty = svm.DealQty;
+                    InvoiceLine_Modify.DealUnitId = svm.DealUnitId;
+                    InvoiceLine_Modify.Remark = svm.Remark;
+                    InvoiceLine_Modify.Rate = svm.Rate;
+                    InvoiceLine_Modify.IncentiveRate = svm.IncentiveRate;
+                    InvoiceLine_Modify.IncentiveAmt = svm.IncentiveAmt;
+                    InvoiceLine_Modify.RateDiscountPer = svm.RateDiscountPer;
+                    InvoiceLine_Modify.RateDiscountAmt = svm.RateDiscountAmt;
 
+                    InvoiceLine_Modify.ModifiedDate = DateTime.Now;
+                    InvoiceLine_Modify.ModifiedBy = User.Identity.Name;
+                    InvoiceLine_Modify.ObjectState = Model.ObjectState.Modified;
+                    db.JobInvoiceLine.Add(InvoiceLine_Modify);
 
+                    //if (ReceiveLine_Modify.JobOrderLineId != null)
+                    //{
+                    //    new JobOrderLineStatusService(_unitOfWork).UpdateJobQtyOnInvoiceReceive((int)ReceiveLine_Modify.JobOrderLineId, InvoiceLine_Modify.JobInvoiceLineId, InvoiceHeader.DocDate, (ReceiveLine_Modify.Qty + ReceiveLine_Modify.LossQty), InvoiceLine_Modify.UnitConversionMultiplier, ref db, true);
+                    //}
 
-                    temp1.SalesTaxGroupProductId = svm.SalesTaxGroupProductId;
-                    temp1.Amount = svm.Amount;
-                    temp1.JobReceiveLineId = svm.JobReceiveLineId;
-                    temp1.UnitConversionMultiplier = svm.UnitConversionMultiplier;
-                    temp1.Qty = svm.PassQty;
-                    temp1.DealQty = svm.DealQty;
-                    temp1.DealUnitId = svm.DealUnitId;
-                    temp1.Remark = svm.Remark;
-                    temp1.Rate = svm.Rate;
-                    temp1.IncentiveRate = temprec.IncentiveRate;
-                    temp1.IncentiveAmt = temprec.IncentiveAmt;
-                    temp1.RateDiscountPer = svm.RateDiscountPer;
-                    temp1.RateDiscountAmt = svm.RateDiscountAmt;
+                    new JobOrderLineStatusService(_unitOfWork).UpdateJobQtyOnInvoice(InvoiceLine_Modify.JobReceiveLineId, InvoiceLine_Modify.JobInvoiceLineId, InvoiceHeader.DocDate, InvoiceLine_Modify.Qty, InvoiceLine_Modify.UnitConversionMultiplier, ref db, true);
+                    new JobReceiveLineStatusService(_unitOfWork).UpdateJobReceiveQtyOnInvoice(InvoiceLine_Modify.JobReceiveLineId, InvoiceLine_Modify.JobInvoiceLineId, InvoiceHeader.DocDate, InvoiceLine_Modify.Qty, ref db, true);
 
-                    temp1.ModifiedDate = DateTime.Now;
-                    temp1.ModifiedBy = User.Identity.Name;
-                    temp1.ObjectState = Model.ObjectState.Modified;
-                    db.JobInvoiceLine.Add(temp1);
-
-                    if (temprec.JobOrderLineId != null)
-                    {
-                        new JobOrderLineStatusService(_unitOfWork).UpdateJobQtyOnInvoiceReceive((int)temprec.JobOrderLineId, temp1.JobInvoiceLineId, InvoiceHeader.DocDate, (temprec.Qty + temprec.LossQty), temp1.UnitConversionMultiplier, ref db, true);
-                    }
 
                     if (InvoiceHeader.Status != (int)StatusConstants.Drafted && InvoiceHeader.Status != (int)StatusConstants.Import)
                     {
                         InvoiceHeader.Status = (int)StatusConstants.Modified;
                         InvoiceHeader.ModifiedBy = User.Identity.Name;
                         InvoiceHeader.ModifiedDate = DateTime.Now;
-                        ReceiveHeader.ModifiedBy = User.Identity.Name;
-                        ReceiveHeader.ModifiedDate = DateTime.Now;
+
                     }
 
                     InvoiceHeader.ObjectState = Model.ObjectState.Modified;
-                    ReceiveHeader.ObjectState = Model.ObjectState.Modified;
-
                     db.JobInvoiceHeader.Add(InvoiceHeader);
-                    db.JobReceiveHeader.Add(ReceiveHeader);
-
+                    
 
                     JobInvoiceLine ExRec = new JobInvoiceLine();
-                    ExRec = Mapper.Map<JobInvoiceLine>(temp1);
+                    ExRec = Mapper.Map<JobInvoiceLine>(InvoiceLine_Modify);
 
                     LogList.Add(new LogTypeViewModel
                     {
                         ExObj = ExRec,
-                        Obj = temp1,
+                        Obj = InvoiceLine_Modify,
                     });
 
-
-                    JobReceiveLine ExRecLine = new JobReceiveLine();
-                    ExRecLine = Mapper.Map<JobReceiveLine>(temprec);
-                    JobReceiveLine RecLine = new JobReceiveLine();
-
-                    LogList.Add(new LogTypeViewModel
-                    {
-                        ExObj = ExRecLine,
-                        Obj = temprec,
-                    });
 
 
 
@@ -1850,7 +1885,7 @@ namespace Web
 
                     try
                     {
-                        JobInvoiceReceiveDocEvents.onLineSaveEvent(this, new JobEventArgs(temp1.JobInvoiceHeaderId, temp1.JobInvoiceLineId, EventModeConstants.Edit), ref db);
+                        JobInvoiceReceiveDocEvents.onLineSaveEvent(this, new JobEventArgs(InvoiceLine_Modify.JobInvoiceHeaderId, InvoiceLine_Modify.JobInvoiceLineId, EventModeConstants.Edit), ref db);
                     }
                     catch (Exception ex)
                     {
@@ -1875,7 +1910,7 @@ namespace Web
 
                     try
                     {
-                        JobInvoiceReceiveDocEvents.afterLineSaveEvent(this, new JobEventArgs(temp1.JobInvoiceHeaderId, temp1.JobInvoiceLineId, EventModeConstants.Edit), ref db);
+                        JobInvoiceReceiveDocEvents.afterLineSaveEvent(this, new JobEventArgs(InvoiceLine_Modify.JobInvoiceHeaderId, InvoiceLine_Modify.JobInvoiceLineId, EventModeConstants.Edit), ref db);
                     }
                     catch (Exception ex)
                     {
@@ -1889,7 +1924,7 @@ namespace Web
                     {
                         DocTypeId = InvoiceHeader.DocTypeId,
                         DocId = InvoiceHeader.JobInvoiceHeaderId,
-                        DocLineId = temp1.JobInvoiceLineId,
+                        DocLineId = InvoiceLine_Modify.JobInvoiceLineId,
                         ActivityType = (int)ActivityTypeContants.Modified,
                         DocNo = InvoiceHeader.DocNo,
                         DocDate = InvoiceHeader.DocDate,
@@ -1975,10 +2010,12 @@ namespace Web
 
             PrepareViewBag(temp);
 
-            if (temp.JobOrderLineId != null)
-                temp.ForOrder = true;
+            if (H.JobReceiveHeaderId != temp.JobReceiveHeaderId)
+                temp.LineNature = LineNatureConstants.ForReceive;
+            else if (temp.JobOrderLineId != null)
+                temp.LineNature = LineNatureConstants.ForOrder;
             else
-                temp.ForOrder = false;
+                temp.LineNature = LineNatureConstants.Direct;
 
 
             return PartialView("_Create", temp);
@@ -2041,10 +2078,12 @@ namespace Web
 
             PrepareViewBag(temp);
 
-            if (temp.JobOrderLineId != null)
-                temp.ForOrder = true;
+            if (H.JobReceiveHeaderId != temp.JobReceiveHeaderId)
+                temp.LineNature = LineNatureConstants.ForReceive;
+            else if (temp.JobOrderLineId != null)
+                temp.LineNature = LineNatureConstants.ForOrder;
             else
-                temp.ForOrder = false;
+                temp.LineNature = LineNatureConstants.Direct;
 
             return PartialView("_Create", temp);
         }
@@ -2072,56 +2111,31 @@ namespace Web
 
             if (BeforeSave && !EventException)
             {
-
                 int? StockId = 0;
                 int? StockProcessId = 0;
                 List<LogTypeViewModel> LogList = new List<LogTypeViewModel>();
 
 
-                JobInvoiceLine JobInvoiceLine = (from p in db.JobInvoiceLine
-                                                 where p.JobInvoiceLineId == vm.JobInvoiceLineId
-                                                 select p).FirstOrDefault();
-
-
-                JobReceiveLine JobReceiveLine = (from p in db.JobReceiveLine
-                                                 where p.JobReceiveLineId == JobInvoiceLine.JobReceiveLineId
-                                                 select p).FirstOrDefault();
-
-                JobReceiveLineStatus LineStatus = (from p in db.JobReceiveLineStatus
-                                                   where p.JobReceiveLineId == JobReceiveLine.JobReceiveLineId
-                                                   select p).FirstOrDefault();
-
-                LineStatus.ObjectState = Model.ObjectState.Deleted;
-                db.JobReceiveLineStatus.Remove(LineStatus);
-
-                JobInvoiceHeader header = new JobInvoiceHeaderService(_unitOfWork).Find(JobInvoiceLine.JobInvoiceHeaderId);
-                JobReceiveHeader Receiveheader = new JobReceiveHeaderService(_unitOfWork).Find(JobReceiveLine.JobReceiveHeaderId);
+                JobInvoiceLine InvoiceLine = db.JobInvoiceLine.Find(vm.JobInvoiceLineId);
+                JobInvoiceHeader InvoiceHeader = db.JobInvoiceHeader.Find(InvoiceLine.JobInvoiceHeaderId);
+                JobReceiveLine ReceiveLine = db.JobReceiveLine.Find(InvoiceLine.JobReceiveLineId);
+                JobReceiveHeader ReceiveHeader = db.JobReceiveHeader.Find(InvoiceHeader.JobReceiveHeaderId ?? 0);
 
                 LogList.Add(new LogTypeViewModel
                 {
-                    ExObj = Mapper.Map<JobInvoiceLine>(JobInvoiceLine),
+                    ExObj = Mapper.Map<JobInvoiceLine>(InvoiceLine),
                 });
-
-                LogList.Add(new LogTypeViewModel
-                {
-                    ExObj = Mapper.Map<JobReceiveLine>(JobReceiveLine),
-                });
-
-                if (JobReceiveLine.JobOrderLineId != null)
-                {
-                    new JobOrderLineStatusService(_unitOfWork).UpdateJobQtyOnInvoiceReceive((int)JobReceiveLine.JobOrderLineId, JobInvoiceLine.JobInvoiceLineId, header.DocDate, 0, JobInvoiceLine.UnitConversionMultiplier, ref db, true);
-                }
 
                 JobInvoiceLineStatus Status = new JobInvoiceLineStatus();
-                Status.JobInvoiceLineId = JobInvoiceLine.JobInvoiceLineId;
+                Status.JobInvoiceLineId = InvoiceLine.JobInvoiceLineId;
                 db.JobInvoiceLineStatus.Attach(Status);
-                Status.ObjectState = Model.ObjectState.Deleted;
 
+                Status.ObjectState = Model.ObjectState.Deleted;
                 db.JobInvoiceLineStatus.Remove(Status);
 
                 //_JobInvoiceLineService.Delete(JobInvoiceLine);
-                JobInvoiceLine.ObjectState = Model.ObjectState.Deleted;
-                db.JobInvoiceLine.Remove(JobInvoiceLine);
+                InvoiceLine.ObjectState = Model.ObjectState.Deleted;
+                db.JobInvoiceLine.Remove(InvoiceLine);
 
                 var chargeslist = (from p in db.JobInvoiceLineCharge
                                    where p.LineTableId == vm.JobInvoiceLineId
@@ -2147,111 +2161,135 @@ namespace Web
                         //new JobInvoiceHeaderChargeService(_unitOfWork).Update(footer);
                     }
 
-
-
-                StockId = JobReceiveLine.StockId;
-                StockProcessId = JobReceiveLine.StockProcessId;
-
-                if (vm.ProductUidId != null && vm.ProductUidId != 0)
+                if (InvoiceHeader.Status != (int)StatusConstants.Drafted && InvoiceHeader.Status != (int)StatusConstants.Import)
                 {
-                    ProductUid ProductUid = (from p in db.ProductUid
-                                             where p.ProductUIDId == vm.ProductUidId
-                                             select p).FirstOrDefault();
+                    InvoiceHeader.Status = (int)StatusConstants.Modified;
+                    InvoiceHeader.ModifiedBy = User.Identity.Name;
+                    InvoiceHeader.ModifiedDate = DateTime.Now;
+                    InvoiceHeader.ObjectState = Model.ObjectState.Modified;
+                    db.JobInvoiceHeader.Add(InvoiceHeader);
 
-                    if (!(JobReceiveLine.ProductUidLastTransactionDocNo == ProductUid.LastTransactionDocNo && JobReceiveLine.ProductUidLastTransactionDocTypeId == ProductUid.LastTransactionDocTypeId) || header.SiteId == 17)
+
+                }
+
+
+                if (ReceiveLine.JobReceiveHeaderId == InvoiceHeader.JobReceiveHeaderId)
+                {
+                    JobReceiveLineStatus LineStatus = (from p in db.JobReceiveLineStatus
+                                                        where p.JobReceiveLineId == ReceiveLine.JobReceiveLineId
+                                                        select p).FirstOrDefault();
+
+                    LineStatus.ObjectState = Model.ObjectState.Deleted;
+                    db.JobReceiveLineStatus.Remove(LineStatus);
+
+                    JobReceiveHeader Receiveheader = new JobReceiveHeaderService(_unitOfWork).Find(ReceiveLine.JobReceiveHeaderId);
+
+
+
+                    LogList.Add(new LogTypeViewModel
                     {
+                        ExObj = Mapper.Map<JobReceiveLine>(ReceiveLine),
+                    });
 
-
-                        if ((Receiveheader.DocNo != ProductUid.LastTransactionDocNo || Receiveheader.DocTypeId != ProductUid.LastTransactionDocTypeId))
-                        {
-                            ModelState.AddModelError("", "Bar Code Can't be deleted because this is already Proceed to another process.");
-                            PrepareViewBag(vm);
-                            return PartialView("_Create", vm);
-                        }
-
-
-                        ProductUid.LastTransactionDocDate = JobReceiveLine.ProductUidLastTransactionDocDate;
-                        ProductUid.LastTransactionDocId = JobReceiveLine.ProductUidLastTransactionDocId;
-                        ProductUid.LastTransactionDocNo = JobReceiveLine.ProductUidLastTransactionDocNo;
-                        ProductUid.LastTransactionDocTypeId = JobReceiveLine.ProductUidLastTransactionDocTypeId;
-                        ProductUid.LastTransactionPersonId = JobReceiveLine.ProductUidLastTransactionPersonId;
-                        ProductUid.CurrenctGodownId = JobReceiveLine.ProductUidCurrentGodownId;
-                        ProductUid.CurrenctProcessId = JobReceiveLine.ProductUidCurrentProcessId;
-                        ProductUid.Status = JobReceiveLine.ProductUidStatus;
-
-                        ProductUid.ObjectState = Model.ObjectState.Modified;
-
-                        db.ProductUid.Add(ProductUid);
-
-                        new StockUidService(_unitOfWork).DeleteStockUidForDocLineDB(Receiveheader.JobReceiveHeaderId, Receiveheader.DocTypeId, Receiveheader.SiteId, Receiveheader.DivisionId, ref db);
-
+                    if (ReceiveLine.JobOrderLineId != null)
+                    {
+                        new JobOrderLineStatusService(_unitOfWork).UpdateJobQtyOnInvoiceReceive((int)ReceiveLine.JobOrderLineId, InvoiceLine.JobInvoiceLineId, InvoiceHeader.DocDate, 0, InvoiceLine.UnitConversionMultiplier, ref db, true);
                     }
-                }
 
-                JobReceiveLine.ObjectState = Model.ObjectState.Deleted;
-                db.JobReceiveLine.Remove(JobReceiveLine);
+                    StockId = ReceiveLine.StockId;
+                    StockProcessId = ReceiveLine.StockProcessId;
 
-                if (StockId != null)
-                {
-                    new StockService(_unitOfWork).DeleteStockDB((int)StockId, ref db, true);
-                }
+                    if (vm.ProductUidId != null && vm.ProductUidId != 0)
+                    {
+                        ProductUid ProductUid = (from p in db.ProductUid
+                                                    where p.ProductUIDId == vm.ProductUidId
+                                                    select p).FirstOrDefault();
 
-                if (StockProcessId != null)
-                {
-                    new StockProcessService(_unitOfWork).DeleteStockProcessDB((int)StockProcessId, ref db, true);
-                }
+                        if (!(ReceiveLine.ProductUidLastTransactionDocNo == ProductUid.LastTransactionDocNo && ReceiveLine.ProductUidLastTransactionDocTypeId == ProductUid.LastTransactionDocTypeId) || InvoiceHeader.SiteId == 17)
+                        {
 
 
-                if (header.Status != (int)StatusConstants.Drafted && header.Status != (int)StatusConstants.Import)
-                {
-                    header.Status = (int)StatusConstants.Modified;
-                    header.ModifiedBy = User.Identity.Name;
-                    header.ModifiedDate = DateTime.Now;
+                            if ((Receiveheader.DocNo != ProductUid.LastTransactionDocNo || Receiveheader.DocTypeId != ProductUid.LastTransactionDocTypeId))
+                            {
+                                ModelState.AddModelError("", "Bar Code Can't be deleted because this is already Proceed to another process.");
+                                PrepareViewBag(vm);
+                                return PartialView("_Create", vm);
+                            }
 
-                    header.ObjectState = Model.ObjectState.Modified;
+
+                            ProductUid.LastTransactionDocDate = ReceiveLine.ProductUidLastTransactionDocDate;
+                            ProductUid.LastTransactionDocId = ReceiveLine.ProductUidLastTransactionDocId;
+                            ProductUid.LastTransactionDocNo = ReceiveLine.ProductUidLastTransactionDocNo;
+                            ProductUid.LastTransactionDocTypeId = ReceiveLine.ProductUidLastTransactionDocTypeId;
+                            ProductUid.LastTransactionPersonId = ReceiveLine.ProductUidLastTransactionPersonId;
+                            ProductUid.CurrenctGodownId = ReceiveLine.ProductUidCurrentGodownId;
+                            ProductUid.CurrenctProcessId = ReceiveLine.ProductUidCurrentProcessId;
+                            ProductUid.Status = ReceiveLine.ProductUidStatus;
+
+                            ProductUid.ObjectState = Model.ObjectState.Modified;
+
+                            db.ProductUid.Add(ProductUid);
+
+                            new StockUidService(_unitOfWork).DeleteStockUidForDocLineDB(Receiveheader.JobReceiveHeaderId, Receiveheader.DocTypeId, Receiveheader.SiteId, Receiveheader.DivisionId, ref db);
+
+                        }
+                    }
+
+                    ReceiveLine.ObjectState = Model.ObjectState.Deleted;
+                    db.JobReceiveLine.Remove(ReceiveLine);
+
+                    if (StockId != null)
+                    {
+                        new StockService(_unitOfWork).DeleteStockDB((int)StockId, ref db, true);
+                    }
+
+                    if (StockProcessId != null)
+                    {
+                        new StockProcessService(_unitOfWork).DeleteStockProcessDB((int)StockProcessId, ref db, true);
+                    }
+
+
+
 
                     //Receiveheader.Status = (int)StatusConstants.Modified;
                     Receiveheader.ModifiedDate = DateTime.Now;
                     Receiveheader.ModifiedBy = User.Identity.Name;
-
                     Receiveheader.ObjectState = Model.ObjectState.Modified;
-
-                    db.JobInvoiceHeader.Add(header);
                     db.JobReceiveHeader.Add(Receiveheader);
-                }
 
 
+                    var Boms = (from p in db.JobReceiveBom
+                                where p.JobReceiveLineId == vm.JobReceiveLineId
+                                select p).ToList();
 
-                var Boms = (from p in db.JobReceiveBom
-                            where p.JobReceiveLineId == vm.JobReceiveLineId
-                            select p).ToList();
+                    var StockProcessIds = Boms.Select(m => m.StockProcessId).ToArray();
 
-                var StockProcessIds = Boms.Select(m => m.StockProcessId).ToArray();
+                    var StockProcRecorcds = (from p in db.StockProcess
+                                                where StockProcessIds.Contains(p.StockProcessId)
+                                                select p).ToList();
 
-                var StockProcRecorcds = (from p in db.StockProcess
-                                         where StockProcessIds.Contains(p.StockProcessId)
-                                         select p).ToList();
-
-                foreach (var item in Boms)
-                {
-
-                    if (item.StockProcessId != null)
+                    foreach (var item in Boms)
                     {
-                        var TempStockProcess = StockProcRecorcds.Where(m => m.StockProcessId == item.StockProcessId).FirstOrDefault();
-                        TempStockProcess.ObjectState = Model.ObjectState.Deleted;
-                        db.StockProcess.Remove(TempStockProcess);
-                    }
 
-                    item.ObjectState = Model.ObjectState.Deleted;
-                    db.JobReceiveBom.Remove(item);
+                        if (item.StockProcessId != null)
+                        {
+                            var TempStockProcess = StockProcRecorcds.Where(m => m.StockProcessId == item.StockProcessId).FirstOrDefault();
+                            TempStockProcess.ObjectState = Model.ObjectState.Deleted;
+                            db.StockProcess.Remove(TempStockProcess);
+                        }
+
+                        item.ObjectState = Model.ObjectState.Deleted;
+                        db.JobReceiveBom.Remove(item);
+                    }
                 }
+
 
 
                 XElement Modifications = new ModificationsCheckService().CheckChanges(LogList);
 
                 try
                 {
-                    JobInvoiceReceiveDocEvents.onLineDeleteEvent(this, new JobEventArgs(JobInvoiceLine.JobInvoiceHeaderId, JobInvoiceLine.JobInvoiceLineId), ref db);
+                    JobInvoiceReceiveDocEvents.onLineDeleteEvent(this, new JobEventArgs(InvoiceLine.JobInvoiceHeaderId, InvoiceLine.JobInvoiceLineId), ref db);
                 }
                 catch (Exception ex)
                 {
@@ -2278,7 +2316,7 @@ namespace Web
 
                 try
                 {
-                    JobInvoiceReceiveDocEvents.afterLineDeleteEvent(this, new JobEventArgs(JobInvoiceLine.JobInvoiceHeaderId, JobInvoiceLine.JobInvoiceLineId), ref db);
+                    JobInvoiceReceiveDocEvents.afterLineDeleteEvent(this, new JobEventArgs(InvoiceLine.JobInvoiceHeaderId, InvoiceLine.JobInvoiceLineId), ref db);
                 }
                 catch (Exception ex)
                 {
@@ -2288,14 +2326,14 @@ namespace Web
 
                 LogActivity.LogActivityDetail(LogVm.Map(new ActiivtyLogViewModel
                 {
-                    DocTypeId = header.DocTypeId,
-                    DocId = header.JobInvoiceHeaderId,
-                    DocLineId = JobInvoiceLine.JobInvoiceLineId,
+                    DocTypeId = InvoiceHeader.DocTypeId,
+                    DocId = InvoiceHeader.JobInvoiceHeaderId,
+                    DocLineId = InvoiceLine.JobInvoiceLineId,
                     ActivityType = (int)ActivityTypeContants.Deleted,
-                    DocNo = header.DocNo,
-                    DocDate = header.DocDate,
+                    DocNo = InvoiceHeader.DocNo,
+                    DocDate = InvoiceHeader.DocDate,
                     xEModifications = Modifications,
-                    DocStatus = header.Status,
+                    DocStatus = InvoiceHeader.Status,
                 }));
             }
 
@@ -2327,6 +2365,12 @@ namespace Web
         {
             return Json(new JobOrderLineService(_unitOfWork).GetLineDetailForInvoice(OrderId, InvoiceId));
         }
+
+        public JsonResult GetReceiveDetail(int OrderId, int InvoiceId)
+        {
+            return Json(new JobOrderLineService(_unitOfWork).GetLineDetailForInvoice(OrderId, InvoiceId));
+        }
+
         public JsonResult GetProductDetailJson(int ProductId, int JobInvoiceHeaderId)
         {
             ProductViewModel Product = new ProductService(_unitOfWork).GetProduct(ProductId);
@@ -2396,6 +2440,17 @@ namespace Web
         {
             return new JsonpResult { Data = _JobInvoiceLineService.GetPendingJobOrdersForInvoice(searchTerm, pageSize, pageNum, filter), JsonRequestBehavior = JsonRequestBehavior.AllowGet };
         }
+
+        public JsonResult GetPendingJobReceives(string searchTerm, int pageSize, int pageNum, int filter)//DocTypeId
+        {
+            return new JsonpResult { Data = _JobInvoiceLineService.GetPendingJobReceivesForInvoice(searchTerm, pageSize, pageNum, filter), JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+        }
+
+        //public JsonResult GetPendingJobReceive(int id, string term)//DocTypeId
+        //{
+        //    return Json(_JobInvoiceLineService.GetPendingJobReceive(id, term), JsonRequestBehavior.AllowGet);
+        //}
+
         //public JsonResult GetCustomProducts(int id, int JobWorkerId, string term, int Limit)//Indent Header ID
         //{
 
@@ -2529,5 +2584,48 @@ namespace Web
         }
 
 
+        public ActionResult GetJobReceiveForProduct(string searchTerm, int pageSize, int pageNum, int filter)
+        {
+            var Query = _JobInvoiceLineService.GetJobReceiveHelpListForProduct(filter, searchTerm);
+            var temp = Query.Skip(pageSize * (pageNum - 1))
+                .Take(pageSize)
+                .ToList();
+
+            var count = Query.Count();
+
+            ComboBoxPagedResult Data = new ComboBoxPagedResult();
+            Data.Results = temp;
+            Data.Total = count;
+
+            return new JsonpResult
+            {
+                Data = Data,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        public JsonResult SetSingleJobReceiveLine(int Ids)
+        {
+            ComboBoxResult JobReceiveJson = new ComboBoxResult();
+
+            var JobReceiveLine = from L in db.JobReceiveLine
+                                 join H in db.JobReceiveHeader on L.JobReceiveHeaderId equals H.JobReceiveHeaderId into JobReceiveHeaderTable
+                                 from JobReceiveHeaderTab in JobReceiveHeaderTable.DefaultIfEmpty()
+                                 where L.JobReceiveLineId == Ids
+                                 select new
+                                 {
+                                     JobReceiveLineId = L.JobReceiveLineId,
+                                     JobReceiveNo = L.Product.ProductName
+                                 };
+
+            JobReceiveJson.id = JobReceiveLine.FirstOrDefault().ToString();
+            JobReceiveJson.text = JobReceiveLine.FirstOrDefault().JobReceiveNo;
+
+            return Json(JobReceiveJson);
+        }
+
+
     }
+
+
 }

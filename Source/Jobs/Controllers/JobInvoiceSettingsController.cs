@@ -146,6 +146,7 @@ namespace Web
                     temp.filterProductTypes = pt.filterProductTypes;
                     temp.isMandatoryMachine = pt.isMandatoryMachine;
                     temp.isMandatoryJobOrder = pt.isMandatoryJobOrder;
+                    temp.isMandatoryJobReceive = pt.isMandatoryJobReceive;
                     temp.SqlProcGenProductUID = pt.SqlProcGenProductUID;
                     temp.SqlProcProductUidHelpList = pt.SqlProcProductUidHelpList;
                     temp.isVisibleHeaderJobWorker = pt.isVisibleHeaderJobWorker;
@@ -176,6 +177,7 @@ namespace Web
                     temp.isVisibleIncentive = pt.isVisibleIncentive;
                     temp.isVisiblePenalty = pt.isVisiblePenalty;
                     temp.isVisibleJobOrder = pt.isVisibleJobOrder;
+                    temp.isVisibleJobReceive = pt.isVisibleJobOrder;
 
                     temp.isVisibleRateDiscountPer = pt.isVisibleRateDiscountPer;
                     temp.isVisibleMfgDate = pt.isVisibleMfgDate;
@@ -348,6 +350,7 @@ namespace Web
                     temp.filterProductTypes = pt.filterProductTypes;
                     temp.isMandatoryMachine = pt.isMandatoryMachine;
                     temp.isMandatoryJobOrder = pt.isMandatoryJobOrder;
+                    temp.isMandatoryJobReceive = pt.isMandatoryJobReceive;
                     temp.SqlProcGenProductUID = pt.SqlProcGenProductUID;
                     temp.SqlProcProductUidHelpList = pt.SqlProcProductUidHelpList;
                     temp.isPostedInStock = pt.isPostedInStock;
@@ -371,6 +374,7 @@ namespace Web
                     temp.isVisibleIncentive = pt.isVisibleIncentive;
                     temp.isVisiblePenalty = pt.isVisiblePenalty;
                     temp.isVisibleJobOrder = pt.isVisibleJobOrder;
+                    temp.isVisibleJobReceive = pt.isVisibleJobOrder;
                     temp.isVisibleRateDiscountPer = pt.isVisibleRateDiscountPer;
                     temp.isVisibleMfgDate = pt.isVisibleMfgDate;
                     temp.isVisibleFinancier = pt.isVisibleFinancier;
@@ -532,6 +536,7 @@ namespace Web
                     temp.BarcodeStatusUpdate = pt.BarcodeStatusUpdate;
                     temp.isMandatoryMachine = pt.isMandatoryMachine;
                     temp.isMandatoryJobOrder = pt.isMandatoryJobOrder;
+                    temp.isMandatoryJobReceive = pt.isMandatoryJobReceive;
                     temp.SqlProcGenProductUID = pt.SqlProcGenProductUID;
                     temp.isPostedInStock = pt.isPostedInStock;
                     temp.isVisibleLoss = pt.isVisibleLoss;
@@ -551,6 +556,7 @@ namespace Web
                     temp.isVisibleIncentive = pt.isVisibleIncentive;
                     temp.isVisiblePenalty = pt.isVisiblePenalty;
                     temp.isVisibleJobOrder = pt.isVisibleJobOrder;
+                    temp.isVisibleJobReceive = pt.isVisibleJobOrder;
                     temp.isVisibleRateDiscountPer = pt.isVisibleRateDiscountPer;
                     temp.isVisibleMfgDate = pt.isVisibleMfgDate;
                     temp.isVisibleFinancier = pt.isVisibleFinancier;
@@ -721,6 +727,7 @@ namespace Web
                     temp.filterPersonRoles = pt.filterPersonRoles;
                     temp.isMandatoryMachine = pt.isMandatoryMachine;
                     temp.isMandatoryJobOrder = pt.isMandatoryJobOrder;
+                    temp.isMandatoryJobReceive = pt.isMandatoryJobReceive;
                     temp.SqlProcGenProductUID = pt.SqlProcGenProductUID;
                     temp.SqlProcGatePass = pt.SqlProcGatePass;
                     temp.JobReturnDocTypeId = pt.JobReturnDocTypeId;
@@ -741,6 +748,7 @@ namespace Web
                     temp.isVisibleIncentive = pt.isVisibleIncentive;
                     temp.isVisiblePenalty = pt.isVisiblePenalty;
                     temp.isVisibleJobOrder = pt.isVisibleJobOrder;
+                    temp.isVisibleJobReceive = pt.isVisibleJobOrder;
                     temp.isVisibleRateDiscountPer = pt.isVisibleRateDiscountPer;
                     temp.isVisibleMfgDate = pt.isVisibleMfgDate;
                     temp.isVisibleFinancier = pt.isVisibleFinancier;

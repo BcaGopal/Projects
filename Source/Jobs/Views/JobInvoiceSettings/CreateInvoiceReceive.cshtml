@@ -296,7 +296,17 @@
                             </div>
                         </div>
 
-
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.isVisibleJobReceive, "Job Receive", new { @class = "control-label col-xs-6" })
+                                    <div class="col-xs-4" style=" padding-top:4px">
+                                        @Html.CheckBoxFor(m => m.isVisibleJobReceive, new { @class = "checkbox col-xs-2" })
+                                        @Html.ValidationMessageFor(model => model.isVisibleJobReceive)
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -325,6 +335,18 @@
                                     <div class="col-xs-4" style=" padding-top:4px">
                                         @Html.CheckBoxFor(m => m.isMandatoryJobOrder, new { @class = "checkbox col-xs-2" })
                                         @Html.ValidationMessageFor(model => model.isMandatoryJobOrder)
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group" style="margin-top:15px">
+                                    @Html.LabelFor(model => model.isMandatoryJobReceive, "Job Receive", new { @class = "control-label col-xs-6" })
+                                    <div class="col-xs-4" style=" padding-top:4px">
+                                        @Html.CheckBoxFor(m => m.isMandatoryJobReceive, new { @class = "checkbox col-xs-2" })
+                                        @Html.ValidationMessageFor(model => model.isMandatoryJobReceive)
                                     </div>
                                 </div>
                             </div>

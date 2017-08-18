@@ -26,9 +26,9 @@ namespace Service
         void Update(JobInvoiceHeader pt);
         JobInvoiceHeader Add(JobInvoiceHeader pt);
         JobInvoiceHeaderViewModel GetJobInvoiceHeader(int id);//HeadeRId
-        IQueryable<JobInvoiceHeaderViewModel> GetJobInvoiceHeaderList(int id, string Uname,bool AutoReceipt);
-        IQueryable<JobInvoiceHeaderViewModel> GetJobInvoiceHeaderListPendingToSubmit(int id, string Uname, bool AutoReceipt);
-        IQueryable<JobInvoiceHeaderViewModel> GetJobInvoiceHeaderListPendingToReview(int id, string Uname, bool AutoReceipt);
+        IQueryable<JobInvoiceHeaderViewModel> GetJobInvoiceHeaderList(int id, string Uname);
+        IQueryable<JobInvoiceHeaderViewModel> GetJobInvoiceHeaderListPendingToSubmit(int id, string Uname);
+        IQueryable<JobInvoiceHeaderViewModel> GetJobInvoiceHeaderListPendingToReview(int id, string Uname);
         Task<IEquatable<JobInvoiceHeader>> GetAsync();
         Task<JobInvoiceHeader> FindAsync(int id);
         int NextId(int id);
@@ -182,7 +182,7 @@ namespace Service
             return (maxVal + 1).ToString();
         }
 
-        public IQueryable<JobInvoiceHeaderViewModel> GetJobInvoiceHeaderList(int id, string Uname, bool AutoReceipt)
+        public IQueryable<JobInvoiceHeaderViewModel> GetJobInvoiceHeaderList(int id, string Uname)
         {
 
             int SiteId=(int)System.Web.HttpContext.Current.Session["SiteId"];
@@ -209,7 +209,6 @@ namespace Service
                     from JobInvoiceHeaderChargesTab in JobInvoiceHeaderChargesTable.DefaultIfEmpty()
                     orderby p.DocDate descending, p.DocNo descending
                     where p.SiteId == SiteId && p.DivisionId == DivisionId && p.DocTypeId == id
-                    && (AutoReceipt ? p.JobReceiveHeaderId!=null : 1==1)
                     select new JobInvoiceHeaderViewModel
                     {
                         DocDate=p.DocDate,
@@ -223,7 +222,7 @@ namespace Service
                         JobWorkerDocDate = p.JobWorkerDocDate,
                         ModifiedBy=p.ModifiedBy,
                         ReviewCount=p.ReviewCount,
-                        GodownName = AutoReceipt ? p.JobReceiveHeader.Godown.GodownName :"",
+                        GodownName = p.JobReceiveHeader.Godown.GodownName,
                         ReviewBy=p.ReviewBy,
                         Reviewed = (SqlFunctions.CharIndex(Uname, p.ReviewBy) > 0),
                         TotalQty = p.JobInvoiceLines.Sum(m => m.Qty),
@@ -238,11 +237,11 @@ namespace Service
         }
 
 
-        public IQueryable<JobInvoiceHeaderViewModel> GetJobInvoiceHeaderListPendingToSubmit(int id, string Uname, bool AutoReceipt)
+        public IQueryable<JobInvoiceHeaderViewModel> GetJobInvoiceHeaderListPendingToSubmit(int id, string Uname)
         {
 
             List<string> UserRoles = (List<string>)System.Web.HttpContext.Current.Session["Roles"];
-            var JobOrderHeader = GetJobInvoiceHeaderList(id, Uname,AutoReceipt).AsQueryable();
+            var JobOrderHeader = GetJobInvoiceHeaderList(id, Uname).AsQueryable();
 
             var PendingToSubmit = from p in JobOrderHeader
                                   where p.Status == (int)StatusConstants.Drafted || p.Status == (int)StatusConstants.Import || p.Status == (int)StatusConstants.Modified && (p.ModifiedBy == Uname || UserRoles.Contains("Admin"))
@@ -251,11 +250,11 @@ namespace Service
 
         }
 
-        public IQueryable<JobInvoiceHeaderViewModel> GetJobInvoiceHeaderListPendingToReview(int id, string Uname, bool AutoReceipt)
+        public IQueryable<JobInvoiceHeaderViewModel> GetJobInvoiceHeaderListPendingToReview(int id, string Uname)
         {
 
             List<string> UserRoles = (List<string>)System.Web.HttpContext.Current.Session["Roles"];
-            var JobOrderHeader = GetJobInvoiceHeaderList(id, Uname, AutoReceipt).AsQueryable();
+            var JobOrderHeader = GetJobInvoiceHeaderList(id, Uname).AsQueryable();
 
             var PendingToReview = from p in JobOrderHeader
                                   where p.Status == (int)StatusConstants.Submitted && (SqlFunctions.CharIndex(Uname, (p.ReviewBy ?? "")) == 0)

@@ -106,7 +106,7 @@ namespace Web
             {
                 return RedirectToAction("Index_PendingToReview", new { id });
             }
-            IQueryable<JobInvoiceHeaderViewModel> JobInvoiceHeader = _JobInvoiceHeaderService.GetJobInvoiceHeaderList(id, User.Identity.Name, true);
+            IQueryable<JobInvoiceHeaderViewModel> JobInvoiceHeader = _JobInvoiceHeaderService.GetJobInvoiceHeaderList(id, User.Identity.Name);
             PrepareViewBag(id);
             ViewBag.PendingToSubmit = PendingToSubmitCount(id);
             ViewBag.PendingToReview = PendingToReviewCount(id);
@@ -117,7 +117,7 @@ namespace Web
 
         public ActionResult Index_PendingToSubmit(int id)
         {
-            IQueryable<JobInvoiceHeaderViewModel> p = _JobInvoiceHeaderService.GetJobInvoiceHeaderListPendingToSubmit(id, User.Identity.Name, true);
+            IQueryable<JobInvoiceHeaderViewModel> p = _JobInvoiceHeaderService.GetJobInvoiceHeaderListPendingToSubmit(id, User.Identity.Name);
 
             PrepareViewBag(id);
             ViewBag.PendingToSubmit = PendingToSubmitCount(id);
@@ -127,7 +127,7 @@ namespace Web
         }
         public ActionResult Index_PendingToReview(int id)
         {
-            IQueryable<JobInvoiceHeaderViewModel> p = _JobInvoiceHeaderService.GetJobInvoiceHeaderListPendingToReview(id, User.Identity.Name, true);
+            IQueryable<JobInvoiceHeaderViewModel> p = _JobInvoiceHeaderService.GetJobInvoiceHeaderListPendingToReview(id, User.Identity.Name);
             PrepareViewBag(id);
             ViewBag.PendingToSubmit = PendingToSubmitCount(id);
             ViewBag.PendingToReview = PendingToReviewCount(id);
@@ -228,26 +228,40 @@ namespace Web
 
             var Settings = new JobInvoiceSettingsService(_unitOfWork).GetJobInvoiceSettingsForDocument(pt.DocTypeId, vm.DivisionId, vm.SiteId);
 
-            if (vm.GodownId <= 0)
-                ModelState.AddModelError("GodownId", "The Godown field is required");
-
-            if (vm.JobReceiveById <= 0)
-                ModelState.AddModelError("JobReceiveById", "The Job Receiveby field is required");
-
-            if (!vm.JobWorkerId.HasValue || vm.JobWorkerId.Value <= 0)
-                ModelState.AddModelError("JobWorkerId", "The JobWorker field is required");
-
-            SiteDivisionSettings SiteDivisionSettings = new SiteDivisionSettingsService(_unitOfWork).GetSiteDivisionSettings(vm.SiteId, vm.DivisionId, vm.DocDate);
-            if (SiteDivisionSettings != null)
+            if ((Settings.isVisibleGodown ?? false) == true)
             {
-                if (SiteDivisionSettings.IsApplicableGST == true)
+                if (vm.GodownId <= 0)
+                    ModelState.AddModelError("GodownId", "The Godown field is required");
+            }
+
+            if ((Settings.isVisibleJobReceiveBy ?? false) == true)
+            {
+                if (vm.JobReceiveById <= 0)
+                    ModelState.AddModelError("JobReceiveById", "The Job Receiveby field is required");
+            }
+
+            if ((Settings.isVisibleHeaderJobWorker ?? false) == true)
+            {
+                if (!vm.JobWorkerId.HasValue || vm.JobWorkerId.Value <= 0)
+                    ModelState.AddModelError("JobWorkerId", "The JobWorker field is required");
+            }
+
+            if (vm.JobWorkerId != null && vm.JobWorkerId != 0)
+            {
+                SiteDivisionSettings SiteDivisionSettings = new SiteDivisionSettingsService(_unitOfWork).GetSiteDivisionSettings(vm.SiteId, vm.DivisionId, vm.DocDate);
+                if (SiteDivisionSettings != null)
                 {
-                    if (vm.SalesTaxGroupPersonId == 0 || vm.SalesTaxGroupPersonId == null)
+                    if (SiteDivisionSettings.IsApplicableGST == true)
                     {
-                        ModelState.AddModelError("", "Sales Tax Group Person is not defined for party, it is required.");
+                        if (vm.SalesTaxGroupPersonId == 0 || vm.SalesTaxGroupPersonId == null)
+                        {
+                            ModelState.AddModelError("", "Sales Tax Group Person is not defined for party, it is required.");
+                        }
                     }
                 }
             }
+
+
 
             #region BeforeSave
             try
@@ -299,18 +313,27 @@ namespace Web
                 #region CreateRecord
                 if (vm.JobInvoiceHeaderId <= 0)
                 {
-                    pt2.DocTypeId = Settings.JobReceiveDocTypeId.Value;
-                    pt2.CreatedBy = User.Identity.Name;
-                    pt2.CreatedDate = DateTime.Now;
-                    pt2.DocNo = new DocumentTypeService(_unitOfWork).FGetNewDocNo("DocNo", ConfigurationManager.AppSettings["DataBaseSchema"] + ".JobReceiveHeaders", pt2.DocTypeId, vm.DocDate, vm.DivisionId, vm.SiteId);
-                    pt2.ModifiedBy = User.Identity.Name;
-                    pt2.ModifiedDate = DateTime.Now;
-                    pt2.Status = (int)StatusConstants.System;
-                    pt2.ObjectState = Model.ObjectState.Added;
-                    db.JobReceiveHeader.Add(pt2);
-                    //_JobReceiveHeaderService.Create(pt2);
+                    if (vm.JobWorkerId != null && vm.JobWorkerId != 0)
+                    {
+                        if (Settings.JobReceiveDocTypeId != null)
+                        {
+                            pt2.DocTypeId = Settings.JobReceiveDocTypeId.Value;
+                        }
+                        else
+                        {
+                            pt2.DocTypeId = vm.DocTypeId;
+                        }
+                        pt2.CreatedBy = User.Identity.Name;
+                        pt2.CreatedDate = DateTime.Now;
+                        pt2.DocNo = new DocumentTypeService(_unitOfWork).FGetNewDocNo("DocNo", ConfigurationManager.AppSettings["DataBaseSchema"] + ".JobReceiveHeaders", pt2.DocTypeId, vm.DocDate, vm.DivisionId, vm.SiteId);
+                        pt2.ModifiedBy = User.Identity.Name;
+                        pt2.ModifiedDate = DateTime.Now;
+                        pt2.Status = (int)StatusConstants.System;
+                        pt2.ObjectState = Model.ObjectState.Added;
+                        db.JobReceiveHeader.Add(pt2);
+                        pt.JobReceiveHeaderId = pt2.JobReceiveHeaderId;
+                    }
 
-                    pt.JobReceiveHeaderId = pt2.JobReceiveHeaderId;
                     pt.DivisionId = vm.DivisionId;
                     pt.SiteId = vm.SiteId;
                     pt.CreatedDate = DateTime.Now;
@@ -414,12 +437,62 @@ namespace Web
                     JobInvoiceHeader ExRec = new JobInvoiceHeader();
                     ExRec = Mapper.Map<JobInvoiceHeader>(temp);
 
-                    JobReceiveHeader temp2 = _JobReceiveHeaderService.Find(temp.JobReceiveHeaderId.Value);
+                    if (temp.JobReceiveHeaderId != null)
+                    {
+                        JobReceiveHeader temp2 = _JobReceiveHeaderService.Find(temp.JobReceiveHeaderId.Value);
+                        GodownChanged = (temp2.GodownId == vm.GodownId) ? false : true;
 
-                    GodownChanged = (temp2.GodownId == vm.GodownId) ? false : true;
+                        JobReceiveHeader ExRecR = new JobReceiveHeader();
+                        ExRecR = Mapper.Map<JobReceiveHeader>(temp2);
 
-                    JobReceiveHeader ExRecR = new JobReceiveHeader();
-                    ExRecR = Mapper.Map<JobReceiveHeader>(temp2);
+                        temp2.DocDate = vm.DocDate;
+                        //temp2.DocNo = vm.DocNo;
+                        temp2.JobWorkerDocNo = vm.JobWorkerDocNo;
+                        temp2.ProcessId = vm.ProcessId;
+                        temp2.JobWorkerId = vm.JobWorkerId.Value;
+                        temp2.JobReceiveById = vm.JobReceiveById;
+                        temp2.GodownId = vm.GodownId;
+                        temp2.Remark = vm.Remark;
+                        temp2.ModifiedDate = DateTime.Now;
+                        temp2.ModifiedBy = User.Identity.Name;
+                        temp2.ObjectState = Model.ObjectState.Modified;
+                        db.JobReceiveHeader.Add(temp2);
+
+                        if (GodownChanged)
+                            new StockService(_unitOfWork).UpdateStockGodownId(temp2.StockHeaderId, temp2.GodownId, db);
+
+                        LogList.Add(new LogTypeViewModel
+                        {
+                            ExObj = ExRecR,
+                            Obj = temp2,
+                        });
+
+
+                        if (temp2.StockHeaderId != null)
+                        {
+                            StockHeader StockHeader = (from p in db.StockHeader
+                                                       where p.StockHeaderId == temp2.StockHeaderId
+                                                       select p).FirstOrDefault();
+
+                            StockHeader.DocTypeId = temp2.DocTypeId;
+                            StockHeader.DocDate = temp2.DocDate;
+                            StockHeader.DocNo = temp2.DocNo;
+                            StockHeader.DivisionId = temp2.DivisionId;
+                            StockHeader.SiteId = temp2.SiteId;
+                            StockHeader.ProcessId = temp2.ProcessId;
+                            StockHeader.GodownId = temp2.GodownId;
+                            StockHeader.Remark = temp2.Remark;
+                            StockHeader.Status = temp2.Status;
+                            StockHeader.ModifiedBy = temp2.ModifiedBy;
+                            StockHeader.ModifiedDate = temp2.ModifiedDate;
+
+                            StockHeader.ObjectState = Model.ObjectState.Modified;
+                            db.StockHeader.Add(StockHeader);
+
+                        }
+                    }
+
+
 
                     int status = temp.Status;
 
@@ -451,52 +524,6 @@ namespace Web
                     });
 
 
-                    temp2.DocDate = vm.DocDate;
-                    //temp2.DocNo = vm.DocNo;
-                    temp2.JobWorkerDocNo = vm.JobWorkerDocNo;
-                    temp2.ProcessId = vm.ProcessId;
-                    temp2.JobWorkerId = vm.JobWorkerId.Value;
-                    temp2.JobReceiveById = vm.JobReceiveById;
-                    temp2.GodownId = vm.GodownId;
-                    temp2.Remark = vm.Remark;
-                    temp2.ModifiedDate = DateTime.Now;
-                    temp2.ModifiedBy = User.Identity.Name;
-                    temp2.ObjectState = Model.ObjectState.Modified;
-                    db.JobReceiveHeader.Add(temp2);
-                    //_JobReceiveHeaderService.Update(temp2);
-
-                    if (GodownChanged)
-                        new StockService(_unitOfWork).UpdateStockGodownId(temp2.StockHeaderId, temp2.GodownId, db);
-
-                    LogList.Add(new LogTypeViewModel
-                    {
-                        ExObj = ExRecR,
-                        Obj = temp2,
-                    });
-
-
-                    if (temp2.StockHeaderId != null)
-                    {
-                        StockHeader StockHeader = (from p in db.StockHeader
-                                                   where p.StockHeaderId == temp2.StockHeaderId
-                                                   select p).FirstOrDefault();
-
-                        StockHeader.DocTypeId = temp2.DocTypeId;
-                        StockHeader.DocDate = temp2.DocDate;
-                        StockHeader.DocNo = temp2.DocNo;
-                        StockHeader.DivisionId = temp2.DivisionId;
-                        StockHeader.SiteId = temp2.SiteId;
-                        StockHeader.ProcessId = temp2.ProcessId;
-                        StockHeader.GodownId = temp2.GodownId;
-                        StockHeader.Remark = temp2.Remark;
-                        StockHeader.Status = temp2.Status;
-                        StockHeader.ModifiedBy = temp2.ModifiedBy;
-                        StockHeader.ModifiedDate = temp2.ModifiedDate;
-
-                        StockHeader.ObjectState = Model.ObjectState.Modified;
-                        db.StockHeader.Add(StockHeader);
-
-                    }
 
                     if (vm.DocumentTypeHeaderAttributes != null)
                     {
@@ -583,6 +610,20 @@ namespace Web
                 }
                 #endregion
             }
+
+            var ModelStateErrorList = ModelState.Select(x => x.Value.Errors).Where(y => y.Count > 0).ToList();
+
+            if (ModelStateErrorList.Count > 0)
+            {
+                foreach (var ModelStateError in ModelStateErrorList)
+                {
+                    foreach (var Error in ModelStateError)
+                    {
+                        ModelState.AddModelError("", Error.ErrorMessage);
+                    }
+                }
+            }
+
             PrepareViewBag(vm.DocTypeId);
             ViewBag.Mode = "Add";
             return View("Create", vm);
@@ -688,9 +729,14 @@ namespace Web
                 return RedirectToAction("DetailInformation", new { id = id, IndexType = IndexType });
             }
 
-            JobReceiveHeader Pt2 = _JobReceiveHeaderService.Find(pt.JobReceiveHeaderId.Value);
-            pt.GodownId = Pt2.GodownId;
-            pt.JobReceiveById = Pt2.JobReceiveById;
+
+            if (pt.JobReceiveHeaderId != null)
+            {
+                JobReceiveHeader Pt2 = _JobReceiveHeaderService.Find((int)pt.JobReceiveHeaderId);
+                pt.GodownId = Pt2.GodownId;
+                pt.JobReceiveById = Pt2.JobReceiveById;
+            }
+
 
             //Job Order Settings
             var settings = new JobInvoiceSettingsService(_unitOfWork).GetJobInvoiceSettingsForDocument(pt.DocTypeId, pt.DivisionId, pt.SiteId);
@@ -1545,11 +1591,11 @@ namespace Web
 
         public int PendingToSubmitCount(int id)
         {
-            return (_JobInvoiceHeaderService.GetJobInvoiceHeaderListPendingToSubmit(id, User.Identity.Name, true)).Count();
+            return (_JobInvoiceHeaderService.GetJobInvoiceHeaderListPendingToSubmit(id, User.Identity.Name)).Count();
         }
         public int PendingToReviewCount(int id)
         {
-            return (_JobInvoiceHeaderService.GetJobInvoiceHeaderListPendingToReview(id, User.Identity.Name, true)).Count();
+            return (_JobInvoiceHeaderService.GetJobInvoiceHeaderListPendingToReview(id, User.Identity.Name)).Count();
         }
 
 

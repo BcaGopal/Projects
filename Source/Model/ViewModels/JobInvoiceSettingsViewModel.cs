@@ -22,6 +22,7 @@ namespace Model.ViewModel
         public bool isVisibleMachine { get; set; }
         public bool isMandatoryMachine { get; set; }
         public bool isMandatoryJobOrder { get; set; }
+        public bool isMandatoryJobReceive { get; set; }
         public bool isVisibleProductUID { get; set; }
         public bool isVisibleDimension1 { get; set; }
         public bool isVisibleDimension2 { get; set; }
@@ -46,6 +47,7 @@ namespace Model.ViewModel
         public bool isVisibleRateDiscountPer { get; set; }
         public bool isVisibleFinancier { get; set; }
         public bool isVisibleJobOrder { get; set; }
+        public bool isVisibleJobReceive { get; set; }
         public bool isVisibleMfgDate { get; set; }
         public bool isVisibleGodown { get; set; }
         public bool isVisibleJobReceiveBy { get; set; }

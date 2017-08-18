@@ -108,7 +108,7 @@ namespace Web
             if (settings != null)
                 ViewBag.HeaderJobWorker = settings.isVisibleHeaderJobWorker;
 
-            IQueryable<JobInvoiceHeaderViewModel> JobInvoiceHeader = _JobInvoiceHeaderService.GetJobInvoiceHeaderList(id, User.Identity.Name, false);
+            IQueryable<JobInvoiceHeaderViewModel> JobInvoiceHeader = _JobInvoiceHeaderService.GetJobInvoiceHeaderList(id, User.Identity.Name);
             PrepareViewBag(id);
             ViewBag.PendingToSubmit = PendingToSubmitCount(id);
             ViewBag.PendingToReview = PendingToReviewCount(id);
@@ -128,7 +128,7 @@ namespace Web
                 ViewBag.HeaderJobWorker = settings.isVisibleHeaderJobWorker;
 
 
-            IQueryable<JobInvoiceHeaderViewModel> p = _JobInvoiceHeaderService.GetJobInvoiceHeaderListPendingToSubmit(id, User.Identity.Name, false);
+            IQueryable<JobInvoiceHeaderViewModel> p = _JobInvoiceHeaderService.GetJobInvoiceHeaderListPendingToSubmit(id, User.Identity.Name);
 
             PrepareViewBag(id);
             ViewBag.PendingToSubmit = PendingToSubmitCount(id);
@@ -148,7 +148,7 @@ namespace Web
                 ViewBag.HeaderJobWorker = settings.isVisibleHeaderJobWorker;
 
 
-            IQueryable<JobInvoiceHeaderViewModel> p = _JobInvoiceHeaderService.GetJobInvoiceHeaderListPendingToReview(id, User.Identity.Name, false);
+            IQueryable<JobInvoiceHeaderViewModel> p = _JobInvoiceHeaderService.GetJobInvoiceHeaderListPendingToReview(id, User.Identity.Name);
             PrepareViewBag(id);
             ViewBag.PendingToSubmit = PendingToSubmitCount(id);
             ViewBag.PendingToReview = PendingToReviewCount(id);
@@ -1370,11 +1370,11 @@ namespace Web
 
         public int PendingToSubmitCount(int id)
         {
-            return (_JobInvoiceHeaderService.GetJobInvoiceHeaderListPendingToSubmit(id, User.Identity.Name, false)).Count();
+            return (_JobInvoiceHeaderService.GetJobInvoiceHeaderListPendingToSubmit(id, User.Identity.Name)).Count();
         }
         public int PendingToReviewCount(int id)
         {
-            return (_JobInvoiceHeaderService.GetJobInvoiceHeaderListPendingToReview(id, User.Identity.Name, false)).Count();
+            return (_JobInvoiceHeaderService.GetJobInvoiceHeaderListPendingToReview(id, User.Identity.Name)).Count();
         }
 
         public ActionResult Import(int id)//Document Type Id

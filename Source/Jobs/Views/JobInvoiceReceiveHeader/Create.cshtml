@@ -172,8 +172,9 @@
                             </div>
                         </div>
                         <div>
-
-                            <div class="col-md-6">
+                            
+                            <div class="col-md-6" style="display:@(Model.JobInvoiceSettings.isVisibleHeaderJobWorker?"":"none")">
+                                @Html.HiddenFor(m => m.JobInvoiceSettings.isVisibleHeaderJobWorker)
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.JobWorkerId, (Model.DocumentTypeSettings.PartyCaption ?? "Party"), new { @class = "control-label col-md-4 col-sm-2" })
                                     @Html.HiddenFor(m => m.DocumentTypeSettings.PartyCaption)
@@ -184,7 +185,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-6">
+                            <div class="col-md-6" style="display:@(Model.JobInvoiceSettings.isVisibleHeaderJobWorker?"":"none")">
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.JobWorkerDocNo, (Model.DocumentTypeSettings.PartyCaption ?? "Party") + " Doc No", new { @class = "control-label col-md-4 col-sm-2" })
                                     <div class="col-md-7 col-sm-10">
@@ -194,7 +195,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-6">
+                            <div class="col-md-6" style="display:@(Model.JobInvoiceSettings.isVisibleHeaderJobWorker?"":"none")">
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.JobWorkerDocDate, (Model.DocumentTypeSettings.PartyCaption ?? "Party") + " Doc Date", new { @class = "control-label col-md-4 col-sm-2" })
                                     <div class="col-md-7 col-sm-10">

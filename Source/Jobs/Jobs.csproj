@@ -914,7 +914,7 @@
     <Content Include="Views\JobOrderLine\_ResultsWithRateLoss.cshtml" />
     <Content Include="Views\Sms\SendSms.cshtml" />
     <Content Include="Views\JobOrderLine\_FiltersStockIn.cshtml" />
-    <Content Include="Views\GridReport\ReportLayout.cshtml" />
+    <Content Include="Views\GridReport\GridReportLayout.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

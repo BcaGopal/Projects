@@ -1445,7 +1445,7 @@ namespace Web
 
                     if (vm.JobOrderLineId != null)
                     {
-                        JobOrderLine JobOrderLine = new JobOrderLineService(_unitOfWork).Find(vm.JobOrderLineId);
+                        JobOrderLine JobOrderLine = new JobOrderLineService(_unitOfWork).Find(vm.JobOrderLineId ?? 0);
                         if (JobOrderLine.ProdOrderLineId != null)
                         {
                             ProdOrderLine ProdOrderLine = new ProdOrderLineService(_unitOfWork).Find((int)JobOrderLine.ProdOrderLineId);

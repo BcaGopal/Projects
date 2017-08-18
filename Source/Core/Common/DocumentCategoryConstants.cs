@@ -623,4 +623,11 @@ namespace Core.Common
         public const string ReOpen = "ReOpen";
         public const string Close = "Close";
     }
+
+    public class LineNatureConstants
+    {
+        public const string Direct = "Direct";
+        public const string ForOrder = "For Order";
+        public const string ForReceive = "For Receive";
+    }
 }
