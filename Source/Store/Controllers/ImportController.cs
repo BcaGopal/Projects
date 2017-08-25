@@ -147,7 +147,21 @@ namespace Customize
                             ModelState.AddModelError("", ImportLine.FieldName + " is manadatary for file " + ImportLine.Type + ", but file does not contain this column.");
                             return View("Import", vm);
                         }
+
+                        if (RecordList.Columns.Contains(ImportLine.FieldName))
+                        {
+                            if (ImportLine.DataType == "Number" && (RecordList.Columns[ImportLine.FieldName].DataType.Name.ToString() != "Decimal"
+                                         && RecordList.Columns[ImportLine.FieldName].DataType.Name.ToString() != "Double"
+                                         && RecordList.Columns[ImportLine.FieldName].DataType.Name.ToString() != "Float"
+                                         && RecordList.Columns[ImportLine.FieldName].DataType.Name.ToString() != "Int"))
+                            {
+                                ModelState.AddModelError("", ImportLine.FieldName + " should be number for file " + ImportLine.Type + ".");
+                                return View("Import", vm);
+                            }
+                        }
                     }
+
+
 
                     if (ImportLine.IsMandatory == true && ImportLine.FileNo == filecnt + 1)
                     {

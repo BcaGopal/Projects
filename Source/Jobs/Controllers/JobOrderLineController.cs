@@ -1715,6 +1715,23 @@ namespace Web
                 }
 
             }
+
+            var ModelStateErrorList = ModelState.Select(x => x.Value.Errors).Where(y => y.Count > 0).ToList();
+            string Messsages = "";
+            if (ModelStateErrorList.Count > 0)
+            {
+                foreach (var ModelStateError in ModelStateErrorList)
+                {
+                    foreach (var Error in ModelStateError)
+                    {
+                        if (!Messsages.Contains(Error.ErrorMessage))
+                            Messsages = Error.ErrorMessage + System.Environment.NewLine;
+                    }
+                }
+                if (Messsages != "")
+                    ModelState.AddModelError("", Messsages);
+            }
+
             PrepareViewBag(svm);
             if (svm.ProdOrderLineId != null)
             {
@@ -1761,6 +1778,12 @@ namespace Web
             temp.JobOrderSettings = Mapper.Map<JobOrderSettings, JobOrderSettingsViewModel>(settings);
 
             temp.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(H.DocTypeId);
+
+            if (H.SalesTaxGroupPersonId != null)
+                temp.CalculationId = new ChargeGroupPersonCalculationService(_unitOfWork).GetChargeGroupPersonCalculation(H.DocTypeId, (int)H.SalesTaxGroupPersonId, H.SiteId, H.DivisionId);
+
+            if (temp.CalculationId == null)
+                temp.CalculationId = settings.CalculationId;
 
             //ViewBag.DocNo = H.DocNo;
             temp.GodownId = H.GodownId;
@@ -1844,6 +1867,12 @@ namespace Web
             }
             PrepareViewBag(temp);
             //ViewBag.LineMode = "Delete";
+
+            if (H.SalesTaxGroupPersonId != null)
+                temp.CalculationId = new ChargeGroupPersonCalculationService(_unitOfWork).GetChargeGroupPersonCalculation(H.DocTypeId, (int)H.SalesTaxGroupPersonId, H.SiteId, H.DivisionId);
+
+            if (temp.CalculationId == null)
+                temp.CalculationId = settings.CalculationId;
 
             #region DocTypeTimeLineValidation
             try
@@ -2240,6 +2269,7 @@ namespace Web
         public JsonResult GetProdOrderDetail(int ProdOrderLineId, int JobOrderHeaderId)
         {
             var temp = new ProdOrderLineService(_unitOfWork).GetProdOrderDetailBalance(ProdOrderLineId);
+            var product = new ProductService(_unitOfWork).Find(temp.ProductId);
 
             var DealUnitId = _JobOrderLineService.GetJobOrderLineListForIndex(JobOrderHeaderId).OrderByDescending(m => m.JobOrderLineId).FirstOrDefault();
 
@@ -2247,7 +2277,19 @@ namespace Web
 
             var Settings = new JobOrderSettingsService(_unitOfWork).GetJobOrderSettingsForDocument(Record.DocTypeId, Record.DivisionId, Record.SiteId);
 
-            var DlUnit = new UnitService(_unitOfWork).Find((DealUnitId == null) ? (Settings.DealUnitId == null ? temp.UnitId : Settings.DealUnitId) : DealUnitId.DealUnitId);
+            //var DlUnit = new UnitService(_unitOfWork).Find((DealUnitId == null) ? (Settings.DealUnitId == null ? temp.UnitId : Settings.DealUnitId) : DealUnitId.DealUnitId);
+            Unit DlUnit = new Unit();
+            if (Settings.isVisibleDealUnit == false)
+            {
+                DlUnit = new UnitService(_unitOfWork).Find((!string.IsNullOrEmpty(Settings.JobUnitId) ? Settings.JobUnitId : product.UnitId));
+            }
+            else
+            {
+                DlUnit = new UnitService(_unitOfWork).Find((DealUnitId == null) ? (Settings.DealUnitId == null ? temp.UnitId : Settings.DealUnitId) : DealUnitId.DealUnitId);
+            }
+
+
+
             temp.DealunitDecimalPlaces = DlUnit.DecimalPlaces;
             temp.DealUnitId = DlUnit.UnitId;
 

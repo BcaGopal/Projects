@@ -48,6 +48,7 @@
     @Html.HiddenFor(m=>m.JobInvoiceSettings.SqlProcConsumption)
     @Html.HiddenFor(m=>m.JobInvoiceSettings.isPostedInStock)
     @Html.HiddenFor(m=>m.JobInvoiceSettings.isPostedInStockProcess)
+    
     <div class="panel panel-default">
         <div class="panel-heading">
 
@@ -340,7 +341,20 @@
                             else if (Model.Status == (int)StatusConstants.Approved)
                             { Action = "CreateLineAfter_Approve"; }
                         }
-                        @Html.ActionLink("Add New Row ", Action, "JobInvoiceReceiveLine", new { id = @Model.JobInvoiceHeaderId, JobWorkerId = @Model.JobWorkerId }, new { data_modal = "", id = "btnCreate", @class = "toolbar", @title = "Add New", @data_toggle = "tooltip", @data_detailDisabled = "true" })
+
+
+                        @{string LineNature = "";
+                          if (Model.JobInvoiceSettings.isVisibleJobReceive == true || Model.JobInvoiceSettings.isMandatoryJobReceive == true)
+                          { LineNature = LineNatureConstants.ForReceive; }
+                          else if (Model.JobInvoiceSettings.isVisibleJobOrder == true || Model.JobInvoiceSettings.isMandatoryJobOrder == true)
+                          { LineNature = LineNatureConstants.ForOrder; }
+                          else
+                          { LineNature = LineNatureConstants.Direct; }
+                        }
+
+
+                        @Html.ActionLink("Add New Row ", Action, "JobInvoiceReceiveLine", new { id = @Model.JobInvoiceHeaderId, JobWorkerId = @Model.JobWorkerId, LineNature = LineNature }, new { data_modal = "", id = "btnCreate", @class = "toolbar", @title = "Add New", @data_toggle = "tooltip", @data_detailDisabled = "true" })/
+                        @Html.ActionLink("Additional Charges", Action, "JobInvoiceReceiveLine", new { id = @Model.JobInvoiceHeaderId, JobWorkerId = @Model.JobWorkerId, LineNature = LineNatureConstants.AdditionalCharges }, new { data_modal = "", id = "btnCreate", @class = "toolbar", @title = "Add New", @data_toggle = "tooltip", @data_detailDisabled = "true" })
                         </div>
                       <div class="btn-group right" style="padding-right:15px">
                       @Html.ActionLink(" ", "_ForOrder", "JobInvoiceReceiveLine", new { id = @Model.JobInvoiceHeaderId, JobworkrId = @Model.JobWorkerId }, new { data_modal = "", id = "btnCreateFP", @class = "cbtn btn-circle glyphicon glyphicon-link toolbar right", @title = "For Order", @data_toggle = "tooltip", @data_detailDeleted = "true" })

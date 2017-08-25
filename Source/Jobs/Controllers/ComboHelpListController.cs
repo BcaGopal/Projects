@@ -6249,6 +6249,24 @@ namespace Web
             return Json(JobOrderJson);
         }
 
+        public JsonResult GetAdditionalCharges(string searchTerm, int pageSize, int pageNum)
+        {
+            var Query = cbl.GetAdditionalCharges(searchTerm);
+            var temp = Query.Skip(pageSize * (pageNum - 1)).Take(pageSize).ToList();
+
+            var count = Query.Count();
+
+            ComboBoxPagedResult Data = new ComboBoxPagedResult();
+            Data.Results = temp;
+            Data.Total = count;
+
+            return new JsonpResult
+            {
+                Data = Data,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (!string.IsNullOrEmpty((string)TempData["CSEXC"]))

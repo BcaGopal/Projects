@@ -482,6 +482,9 @@ function DeletingProductCharges() {
     $('#Rate').val(0);
     $('#Rate').trigger('keyup');
 
+    $('#Amount').val(0);
+    $('#Amount').trigger('keyup');
+
     for (i = 0; i < ProductFields.length; i++) {
         var selector = "#CALL_" + ProductFields[i].ChargeCode;
         var selectorRate = "#CALL_" + ProductFields[i].ChargeCode + "RATE";
@@ -491,7 +494,6 @@ function DeletingProductCharges() {
 
         $(selector).val(0);
         $(selectorRate).val(0);
-
     }
 
     $(FSel).trigger('change');

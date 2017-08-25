@@ -70,6 +70,8 @@ function CustomSelectFunction(ElementId, GetAction, SetAction, placehold, IsMult
     //})
 
 
+    
+
     function SetProducts() {
         //alert("set product called");
         Id.select2("data", [{ id: "1", text: "arpit" }, { id: "2", text: "akash" }]);

@@ -298,6 +298,7 @@ namespace Service
                         LedgerAccountCrId = (tab1.LedgerAccountCrId == ChargeLedgerAccountId ? ChargeGroupSettingsTab.ChargeLedgerAccountId : tab1.LedgerAccountCrId),
                         LedgerAccountDrId = (tab1.LedgerAccountDrId == ChargeLedgerAccountId ? ChargeGroupSettingsTab.ChargeLedgerAccountId : tab1.LedgerAccountDrId),
                         Rate = (Decimal?)ChargeGroupSettingsTab.ChargePer ?? 0,
+                        ChargeTypeId = ChargeGroupSettingsTab.ChargeTypeId
                     });
 
         }

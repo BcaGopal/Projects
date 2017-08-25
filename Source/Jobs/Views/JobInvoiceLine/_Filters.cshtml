@@ -22,10 +22,10 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
-                            @Html.LabelFor(model => model.AsOnDate, "As On Date", new { @class = "control-label col-md-4 col-sm-2" })
+                            @Html.LabelFor(model => model.ReceiveAsOnDate, "As On Date", new { @class = "control-label col-md-4 col-sm-2" })
                             <div class="col-md-7 col-sm-10">
-                                @Html.TextBoxFor(m => m.AsOnDate, "{0:dd/MMMM/yyyy}", new { @class = "datepicker form-control required" })
-                                @Html.ValidationMessageFor(model => model.AsOnDate, "", new { @class = "text-danger" })
+                                @Html.TextBoxFor(m => m.ReceiveAsOnDate, "{0:dd/MMMM/yyyy}", new { @class = "datepicker form-control required" })
+                                @Html.ValidationMessageFor(model => model.ReceiveAsOnDate, "", new { @class = "text-danger" })
                             </div>
                         </div>
                     </div>

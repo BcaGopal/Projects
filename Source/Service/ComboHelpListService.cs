@@ -205,6 +205,8 @@ namespace Service
 
         IQueryable<ComboBoxResult> GetLedgerAccountForGroup(string term, int? filter);
 
+        IQueryable<ComboBoxResult> GetAdditionalCharges(string term);
+
 
     }
 
@@ -3134,6 +3136,29 @@ namespace Service
                         {
                             id = D.id .ToString(),
                             text = D.text
+                        }
+              );
+
+            return list;
+        }
+
+        public IQueryable<ComboBoxResult> GetAdditionalCharges(string term)
+        {
+            int AdditionalChargesProductNatureId = 0;
+            var ProductNature = (from Pt in db.ProductNature where Pt.ProductNatureName == ProductNatureConstants.AdditionalCharges select Pt).FirstOrDefault();
+            if (ProductNature != null)
+            {
+                AdditionalChargesProductNatureId = ProductNature.ProductNatureId;
+            }
+
+            var list = (from P in db.Product
+                        where P.IsActive == true && P.ProductGroup.ProductType.ProductNatureId == AdditionalChargesProductNatureId
+                        && (string.IsNullOrEmpty(term) ? 1 == 1 : P.ProductName.ToLower().Contains(term.ToLower()))
+                        orderby P.ProductName
+                        select new ComboBoxResult
+                        {
+                            id = P.ProductId.ToString(),
+                            text = P.ProductName,
                         }
               );
 

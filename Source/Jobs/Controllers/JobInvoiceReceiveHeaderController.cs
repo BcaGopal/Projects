@@ -612,17 +612,23 @@ namespace Web
             }
 
             var ModelStateErrorList = ModelState.Select(x => x.Value.Errors).Where(y => y.Count > 0).ToList();
-
+            string Messsages = "";
             if (ModelStateErrorList.Count > 0)
             {
                 foreach (var ModelStateError in ModelStateErrorList)
                 {
                     foreach (var Error in ModelStateError)
                     {
-                        ModelState.AddModelError("", Error.ErrorMessage);
+                        if (!Messsages.Contains(Error.ErrorMessage))
+                            Messsages = Error.ErrorMessage  + System.Environment.NewLine;
                     }
                 }
+                if (Messsages != "")
+                    ModelState.AddModelError("", Messsages);
             }
+
+
+
 
             PrepareViewBag(vm.DocTypeId);
             ViewBag.Mode = "Add";
@@ -1214,10 +1220,7 @@ namespace Web
                 var temp2 = (from p in db.JobReceiveHeader
                              where p.JobReceiveHeaderId == temp.JobReceiveHeaderId
                              select p).FirstOrDefault();
-                LogList.Add(new LogTypeViewModel
-                {
-                    ExObj = Mapper.Map<JobReceiveHeader>(temp2),
-                });
+
 
                 var line = (from p in db.JobInvoiceLine
                             where p.JobInvoiceHeaderId == vm.id
@@ -1291,133 +1294,142 @@ namespace Web
                 db.JobInvoiceHeader.Remove(temp);
 
 
-                StockHeaderId = temp2.StockHeaderId;
-
-                var line2 = (from p in db.JobReceiveLine
-                             where p.JobReceiveHeaderId == temp2.JobReceiveHeaderId
-                             select p).ToList();
-
-                var JRLineIds = line2.Select(m => m.JobReceiveLineId).ToArray();
-
-                var JobReceiveLineStatusRecords = (from p in db.JobReceiveLineStatus
-                                                   where JRLineIds.Contains(p.JobReceiveLineId ?? 0)
-                                                   select p).ToList();
-
-                var ProductUids = line2.Select(m => m.ProductUidId).ToArray();
-
-                var BarCodeRecords = (from p in db.ProductUid
-                                      where ProductUids.Contains(p.ProductUIDId)
-                                      select p).ToList();
-
-                List<int> StockIdList = new List<int>();
-                List<int> StockProcessIdList = new List<int>();
-
-                foreach (var item in JobReceiveLineStatusRecords)
-                {
-                    item.ObjectState = Model.ObjectState.Deleted;
-                    db.JobReceiveLineStatus.Remove(item);
-                }
-
-
-                foreach (var item in line2)
+                if (temp2 != null)
                 {
                     LogList.Add(new LogTypeViewModel
                     {
-                        ExObj = Mapper.Map<JobReceiveLine>(item),
+                        ExObj = Mapper.Map<JobReceiveHeader>(temp2),
                     });
 
-                    if (item.StockId != null)
+                    StockHeaderId = temp2.StockHeaderId;
+
+                    var line2 = (from p in db.JobReceiveLine
+                                 where p.JobReceiveHeaderId == temp2.JobReceiveHeaderId
+                                 select p).ToList();
+
+                    var JRLineIds = line2.Select(m => m.JobReceiveLineId).ToArray();
+
+                    var JobReceiveLineStatusRecords = (from p in db.JobReceiveLineStatus
+                                                       where JRLineIds.Contains(p.JobReceiveLineId ?? 0)
+                                                       select p).ToList();
+
+                    var ProductUids = line2.Select(m => m.ProductUidId).ToArray();
+
+                    var BarCodeRecords = (from p in db.ProductUid
+                                          where ProductUids.Contains(p.ProductUIDId)
+                                          select p).ToList();
+
+                    List<int> StockIdList = new List<int>();
+                    List<int> StockProcessIdList = new List<int>();
+
+                    foreach (var item in JobReceiveLineStatusRecords)
                     {
-                        StockIdList.Add((int)item.StockId);
+                        item.ObjectState = Model.ObjectState.Deleted;
+                        db.JobReceiveLineStatus.Remove(item);
                     }
 
-                    if (item.StockProcessId != null)
+
+                    foreach (var item in line2)
                     {
-                        StockProcessIdList.Add((int)item.StockProcessId);
-                    }
-
-                    var Productuid = item.ProductUidId;
-
-
-
-                    if (Productuid != null && Productuid != 0)
-                    {
-                        ProductUid ProductUid = BarCodeRecords.Where(m => m.ProductUIDId == Productuid).FirstOrDefault();
-
-                        if (!(item.ProductUidLastTransactionDocNo == ProductUid.LastTransactionDocNo && item.ProductUidLastTransactionDocTypeId == ProductUid.LastTransactionDocTypeId) || temp.SiteId == 17)
+                        LogList.Add(new LogTypeViewModel
                         {
+                            ExObj = Mapper.Map<JobReceiveLine>(item),
+                        });
 
-                            if ((temp2.DocNo != ProductUid.LastTransactionDocNo || temp2.DocTypeId != ProductUid.LastTransactionDocTypeId))
-                            {
-                                ModelState.AddModelError("", "Bar Code Can't be deleted because this is already Proceed to another process.");
-                                return PartialView("_Reason", vm);
-                            }
-
-
-
-                            ProductUid.LastTransactionDocDate = item.ProductUidLastTransactionDocDate;
-                            ProductUid.LastTransactionDocId = item.ProductUidLastTransactionDocId;
-                            ProductUid.LastTransactionDocNo = item.ProductUidLastTransactionDocNo;
-                            ProductUid.LastTransactionDocTypeId = item.ProductUidLastTransactionDocTypeId;
-                            ProductUid.LastTransactionPersonId = item.ProductUidLastTransactionPersonId;
-                            ProductUid.CurrenctGodownId = item.ProductUidCurrentGodownId;
-                            ProductUid.CurrenctProcessId = item.ProductUidCurrentProcessId;
-                            ProductUid.Status = item.ProductUidStatus;
-                            if (!string.IsNullOrEmpty(ProductUid.ProcessesDone))
-                                ProductUid.ProcessesDone = ProductUid.ProcessesDone.Replace("|" + temp2.ProcessId.ToString() + "|", "");
-                            ProductUid.ModifiedBy = User.Identity.Name;
-                            ProductUid.ModifiedDate = DateTime.Now;
-
-                            ProductUid.ObjectState = Model.ObjectState.Modified;
-                            db.ProductUid.Add(ProductUid);
-
-                            new StockUidService(_unitOfWork).DeleteStockUidForDocLineDB(item.JobReceiveHeaderId, temp2.DocTypeId, temp2.SiteId, temp2.DivisionId, ref db);
-
+                        if (item.StockId != null)
+                        {
+                            StockIdList.Add((int)item.StockId);
                         }
+
+                        if (item.StockProcessId != null)
+                        {
+                            StockProcessIdList.Add((int)item.StockProcessId);
+                        }
+
+                        var Productuid = item.ProductUidId;
+
+
+
+                        if (Productuid != null && Productuid != 0)
+                        {
+                            ProductUid ProductUid = BarCodeRecords.Where(m => m.ProductUIDId == Productuid).FirstOrDefault();
+
+                            if (!(item.ProductUidLastTransactionDocNo == ProductUid.LastTransactionDocNo && item.ProductUidLastTransactionDocTypeId == ProductUid.LastTransactionDocTypeId) || temp.SiteId == 17)
+                            {
+
+                                if ((temp2.DocNo != ProductUid.LastTransactionDocNo || temp2.DocTypeId != ProductUid.LastTransactionDocTypeId))
+                                {
+                                    ModelState.AddModelError("", "Bar Code Can't be deleted because this is already Proceed to another process.");
+                                    return PartialView("_Reason", vm);
+                                }
+
+
+
+                                ProductUid.LastTransactionDocDate = item.ProductUidLastTransactionDocDate;
+                                ProductUid.LastTransactionDocId = item.ProductUidLastTransactionDocId;
+                                ProductUid.LastTransactionDocNo = item.ProductUidLastTransactionDocNo;
+                                ProductUid.LastTransactionDocTypeId = item.ProductUidLastTransactionDocTypeId;
+                                ProductUid.LastTransactionPersonId = item.ProductUidLastTransactionPersonId;
+                                ProductUid.CurrenctGodownId = item.ProductUidCurrentGodownId;
+                                ProductUid.CurrenctProcessId = item.ProductUidCurrentProcessId;
+                                ProductUid.Status = item.ProductUidStatus;
+                                if (!string.IsNullOrEmpty(ProductUid.ProcessesDone))
+                                    ProductUid.ProcessesDone = ProductUid.ProcessesDone.Replace("|" + temp2.ProcessId.ToString() + "|", "");
+                                ProductUid.ModifiedBy = User.Identity.Name;
+                                ProductUid.ModifiedDate = DateTime.Now;
+
+                                ProductUid.ObjectState = Model.ObjectState.Modified;
+                                db.ProductUid.Add(ProductUid);
+
+                                new StockUidService(_unitOfWork).DeleteStockUidForDocLineDB(item.JobReceiveHeaderId, temp2.DocTypeId, temp2.SiteId, temp2.DivisionId, ref db);
+
+                            }
+                        }
+
+
+                        item.ObjectState = Model.ObjectState.Deleted;
+                        db.JobReceiveLine.Remove(item);
                     }
 
+                    var Boms = (from p in db.JobReceiveBom
+                                where p.JobReceiveHeaderId == temp2.JobReceiveHeaderId
+                                select p).ToList();
 
-                    item.ObjectState = Model.ObjectState.Deleted;
-                    db.JobReceiveLine.Remove(item);
-                }
+                    var StockProcessIds = Boms.Select(m => m.StockProcessId).ToArray();
 
-                var Boms = (from p in db.JobReceiveBom
-                            where p.JobReceiveHeaderId == temp2.JobReceiveHeaderId
-                            select p).ToList();
+                    var StockProcessRecords = (from p in db.StockProcess
+                                               where StockProcessIds.Contains(p.StockProcessId)
+                                               select p).ToList();
 
-                var StockProcessIds = Boms.Select(m => m.StockProcessId).ToArray();
-
-                var StockProcessRecords = (from p in db.StockProcess
-                                           where StockProcessIds.Contains(p.StockProcessId)
-                                           select p).ToList();
-
-                foreach (var item2 in Boms)
-                {
-                    if (item2.StockProcessId != null)
+                    foreach (var item2 in Boms)
                     {
-                        var StockProcessRec = StockProcessRecords.Where(m => m.StockProcessId == item2.StockProcessId).FirstOrDefault();
-                        StockProcessRec.ObjectState = Model.ObjectState.Deleted;
-                        db.StockProcess.Remove(StockProcessRec);
+                        if (item2.StockProcessId != null)
+                        {
+                            var StockProcessRec = StockProcessRecords.Where(m => m.StockProcessId == item2.StockProcessId).FirstOrDefault();
+                            StockProcessRec.ObjectState = Model.ObjectState.Deleted;
+                            db.StockProcess.Remove(StockProcessRec);
+                        }
+                        item2.ObjectState = Model.ObjectState.Deleted;
+                        db.JobReceiveBom.Remove(item2);
                     }
-                    item2.ObjectState = Model.ObjectState.Deleted;
-                    db.JobReceiveBom.Remove(item2);
+
+                    new StockService(_unitOfWork).DeleteStockDBMultiple(StockIdList, ref db, true);
+
+                    new StockProcessService(_unitOfWork).DeleteStockProcessDBMultiple(StockProcessIdList, ref db, true);
+
+                    temp2.ObjectState = Model.ObjectState.Deleted;
+                    db.JobReceiveHeader.Remove(temp2);
+
+                    if (StockHeaderId != null)
+                    {
+                        var STockHeader = (from p in db.StockHeader
+                                           where p.StockHeaderId == StockHeaderId
+                                           select p).FirstOrDefault();
+                        STockHeader.ObjectState = Model.ObjectState.Deleted;
+                        db.StockHeader.Remove(STockHeader);
+                    }
                 }
 
-                new StockService(_unitOfWork).DeleteStockDBMultiple(StockIdList, ref db, true);
-
-                new StockProcessService(_unitOfWork).DeleteStockProcessDBMultiple(StockProcessIdList, ref db, true);
-
-                temp2.ObjectState = Model.ObjectState.Deleted;
-                db.JobReceiveHeader.Remove(temp2);
-
-                if (StockHeaderId != null)
-                {
-                    var STockHeader = (from p in db.StockHeader
-                                       where p.StockHeaderId == StockHeaderId
-                                       select p).FirstOrDefault();
-                    STockHeader.ObjectState = Model.ObjectState.Deleted;
-                    db.StockHeader.Remove(STockHeader);
-                }
 
                 XElement Modifications = new ModificationsCheckService().CheckChanges(LogList);
 

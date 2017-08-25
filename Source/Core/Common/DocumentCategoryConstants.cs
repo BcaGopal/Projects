@@ -628,6 +628,18 @@ namespace Core.Common
     {
         public const string Direct = "Direct";
         public const string ForOrder = "For Order";
+        public const string AdditionalCharges = "Additional Charges";
         public const string ForReceive = "For Receive";
+    }
+
+
+    public class DtConstants
+    {
+        public class JobOrder
+        {
+            public int DocumentTypeId = 1;
+            public string DocumentTypeShortName = "Jo";
+            public string DocumentTypeName = "Job Order";
+        }
     }
 }

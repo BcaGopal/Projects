@@ -29,6 +29,8 @@ namespace Model.ViewModel
         public bool isVisibleDimension3 { get; set; }
         public bool isVisibleDimension4 { get; set; }
 
+        public bool isVisibleProcessHeader { get; set; }
+
         public bool IsVisiblePassQty { get; set; }
         public bool IsVisibleQty { get; set; }
         public bool IsVisibleRate { get; set; }

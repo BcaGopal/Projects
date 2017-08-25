@@ -226,10 +226,10 @@
         dataView.setFilter(myFilter);
         dataView.endUpdate();
 
+        $('#txtSearch2').keyup();
         // if you don't want the items that are not visible (due to being filtered out
         // or being on a different page) to stay selected, pass 'false' to the second arg
         dataView.syncGridSelection(grid, true);
-
         grid.init();
     }
 

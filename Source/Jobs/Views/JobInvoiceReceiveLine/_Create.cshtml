@@ -26,7 +26,7 @@
 
                 @Html.AntiForgeryToken()
 
-                @Html.HiddenFor(model => model.JobReceiveLineId)
+                @*@Html.HiddenFor(model => model.JobReceiveLineId)*@
                 @Html.HiddenFor(m => m.JobInvoiceHeaderId)
                 @Html.HiddenFor(m => m.JobReceiveHeaderId)
                 @*@Html.HiddenFor(m => m.JobOrderLineId)*@
@@ -88,6 +88,8 @@
 
                     @if (Model.LineNature == LineNatureConstants.ForReceive)
                     {
+                        @Html.HiddenFor(m => m.ProductId)
+                        @Html.HiddenFor(m => m.JobOrderLineId)
                         <div class="col-md-6">
                             <div class="form-group">
                                 @Html.LabelFor(model => model.JobReceiveLineId, (Model.DocumentTypeSettings.ProductCaption ?? "Product"), new { @class = "control-label col-md-4 col-sm-10" })
@@ -124,12 +126,13 @@
                     }
                     else if (Model.LineNature == LineNatureConstants.ForOrder)
                     {
+                        @Html.HiddenFor(m => m.ProductId)
+                        @Html.HiddenFor(m => m.JobReceiveLineId)
                         <div class="col-md-6">
                             <div class="form-group">
                                 @Html.LabelFor(model => model.JobOrderLineId, (Model.DocumentTypeSettings.ProductCaption ?? "Product"), new { @class = "control-label col-md-4 col-sm-10" })
                                 @Html.HiddenFor(m => m.DocumentTypeSettings.ProductCaption)
                                 <div class="col-md-7 col-sm-10">
-                                    @Html.HiddenFor(m => m.ProductId)
                                     @Html.TextBoxFor(model => model.JobOrderLineId, new { @class = "form-control  required" })
                                     @Html.ValidationMessageFor(model => model.JobOrderLineId, "", new { @class = "text-danger" })
                                 </div>
@@ -149,6 +152,8 @@
                     }
                     else
                     {
+                        @Html.HiddenFor(m => m.JobOrderLineId)
+                        @Html.HiddenFor(m => m.JobReceiveLineId)
                         <div class="col-md-6">
                             <div class="form-group">
                                 @Html.LabelFor(model => model.ProductId, (Model.DocumentTypeSettings.ProductCaption ?? "Product"), new { @class = "control-label col-md-4 col-sm-10" })
@@ -162,7 +167,7 @@
                     }
 
 
-                    <div class="col-md-6" style="display:@(Model.JobInvoiceSettings.isVisibleDimension1 ? "" : "none")">
+                    <div class="col-md-6" style="display:@(Model.JobInvoiceSettings.isVisibleDimension1 && Model.LineNature != LineNatureConstants.AdditionalCharges ? "" : "none")">
                         @Html.HiddenFor(m => m.JobInvoiceSettings.isVisibleDimension1)
                         @Html.HiddenFor(m => m.DocumentTypeSettings.Dimension1Caption)
                         <div class="form-group">
@@ -175,7 +180,7 @@
                     </div>
 
 
-                    <div class="col-md-6" style="display:@(Model.JobInvoiceSettings.isVisibleDimension2 ? "" : "none")">
+                    <div class="col-md-6" style="display:@(Model.JobInvoiceSettings.isVisibleDimension2 && Model.LineNature != LineNatureConstants.AdditionalCharges ? "" : "none")">
                         @Html.HiddenFor(m => m.JobInvoiceSettings.isVisibleDimension2)
                         @Html.HiddenFor(m => m.DocumentTypeSettings.Dimension2Caption)
                         <div class="form-group">
@@ -187,7 +192,7 @@
                         </div>
                     </div>
 
-                    <div class="col-md-6" style="display:@(Model.JobInvoiceSettings.isVisibleDimension3 ? "" : "none")">
+                    <div class="col-md-6" style="display:@(Model.JobInvoiceSettings.isVisibleDimension3 && Model.LineNature != LineNatureConstants.AdditionalCharges ? "" : "none")">
                         @Html.HiddenFor(m => m.JobInvoiceSettings.isVisibleDimension3)
                         @Html.HiddenFor(m => m.DocumentTypeSettings.Dimension3Caption)
                         <div class="form-group">
@@ -199,7 +204,7 @@
                         </div>
                     </div>
 
-                    <div class="col-md-6" style="display:@(Model.JobInvoiceSettings.isVisibleDimension4 ? "" : "none")">
+                    <div class="col-md-6" style="display:@(Model.JobInvoiceSettings.isVisibleDimension4 && Model.LineNature != LineNatureConstants.AdditionalCharges ? "" : "none")">
                         @Html.HiddenFor(m => m.JobInvoiceSettings.isVisibleDimension4)
                         @Html.HiddenFor(m => m.DocumentTypeSettings.Dimension4Caption)
                         <div class="form-group">
@@ -239,7 +244,7 @@
 
 
 
-                    <div class="col-md-6" style="display:@(Model.JobInvoiceSettings.isVisibleLotNo ? "" : "none")">
+                    <div class="col-md-6" style="display:@(Model.JobInvoiceSettings.isVisibleLotNo && Model.LineNature != LineNatureConstants.AdditionalCharges ? "" : "none")">
                         @Html.HiddenFor(m => m.JobInvoiceSettings.isVisibleLotNo)
                         <div class="form-group">
                             @Html.LabelFor(model => model.LotNo, "Lot No", new { @class = "control-label col-md-4 col-sm-2 " })
@@ -250,10 +255,10 @@
                         </div>
                     </div>
 
-                    <div class="col-md-6" style="display:@(Model.JobInvoiceSettings.IsVisibleQty ? "" : "none")">
+                    <div class="col-md-6" style="display:@(Model.JobInvoiceSettings.isVisibleLoss ? "" : "none")">
                         @Html.HiddenFor(m => m.JobInvoiceSettings.IsVisibleQty)
                         <div class="form-group">
-                            @Html.LabelFor(model => model.JobQty, "Qty", new { @class = "control-label col-md-4 col-sm-2" })
+                            @Html.LabelFor(model => model.JobQty, "Doc Qty", new { @class = "control-label col-md-4 col-sm-2" })
                             <div class="col-md-7 col-sm-10" style="padding:0px">
                                 <div class="col-xs-7" style="padding-right:0px;">
                                     @Html.TextBoxFor(model => model.JobQty, new { @class = "form-control required  text-right cusrightnormal JobQuantity" })
@@ -266,34 +271,7 @@
                         </div>
                     </div>
 
-                    <div class="col-md-6" style="display:@(Model.JobInvoiceSettings.IsVisibleRate ? "" : "none")">
-                        @Html.HiddenFor(m => m.JobInvoiceSettings.IsVisibleRate)
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.Rate, "Rate", new { @class = "control-label col-md-4 col-sm-2" })
-                            <div class="col-md-7 col-sm-10">
-                                @Html.TextBoxFor(model => model.Rate, new { @class = "form-control  required text-right" })
-                                @Html.ValidationMessageFor(model => model.Rate, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-                    </div>
 
-
-                    <div class="col-md-6" style="display:@(Model.JobInvoiceSettings.isVisibleRateDiscountPer ? "" : "none")">
-                        @Html.HiddenFor(m => m.JobInvoiceSettings.isVisibleRateDiscountPer)
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.RateDiscountPer, "Rate Disc %", new { @class = "control-label col-md-4 col-sm-2" })
-                            <div class="col-md-7 col-sm-10" style="padding:0px">
-                                <div class="col-xs-4" style="padding-right:0px;">
-                                    @Html.TextBoxFor(model => model.RateDiscountPer, new { @class = "form-control  text-right " })
-                                    @Html.ValidationMessageFor(model => model.RateDiscountPer, "", new { @class = "text-danger" })
-                                </div>
-                                <div class="col-xs-8" style="padding-left:0px">
-                                    @Html.TextBoxFor(model => model.RateDiscountAmt, new { @class = "form-control  text-right " })
-                                    @Html.ValidationMessageFor(model => model.RateDiscountAmt, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-                        </div>
-                    </div>
 
                     @*<div class="col-md-6" style="display:@(Model.JobInvoiceSettings.isVisibleRateDiscountPer ? "" : "none")">
                         @Html.HiddenFor(m => m.JobInvoiceSettings.isVisibleRateDiscountPer)
@@ -306,7 +284,7 @@
                         </div>
                     </div>*@
 
-                    <div class="col-md-6" style="display:@(Model.JobInvoiceSettings.isVisibleLoss ? "" : "none")">
+                    <div class="col-md-6" style="display:@(Model.JobInvoiceSettings.isVisibleLoss && Model.LineNature != LineNatureConstants.AdditionalCharges ? "" : "none")">
                         <div class="form-group">
                             @Html.LabelFor(model => model.ReceiveQty, "Receive Qty", new { @class = "control-label col-md-4 col-sm-2 " })
                             <div class="col-md-7 col-sm-10">
@@ -316,7 +294,7 @@
                         </div>
                     </div>
 
-                    <div class="col-md-6" style="display:@(Model.JobInvoiceSettings.isVisibleLoss ? "" : "none")">
+                    <div class="col-md-6" style="display:@(Model.JobInvoiceSettings.isVisibleLoss && Model.LineNature != LineNatureConstants.AdditionalCharges ? "" : "none")">
                         @Html.HiddenFor(m => m.JobInvoiceSettings.isVisibleLoss)
                         <div class="form-group">
                             @Html.LabelFor(model => model.LossQty, "Loss Qty", new { @class = "control-label col-md-4 col-sm-2" })
@@ -329,10 +307,10 @@
 
 
 
-                    <div class="col-md-6" style="display:@(Model.JobInvoiceSettings.IsVisiblePassQty ? "" : "none")">
+                    <div class="col-md-6" style="display:@(Model.LineNature != LineNatureConstants.AdditionalCharges ? "" : "none")">
                         @Html.HiddenFor(m => m.JobInvoiceSettings.IsVisiblePassQty)
                         <div class="form-group">
-                            @Html.LabelFor(model => model.PassQty, "Pass Qty", new { @class = "control-label col-md-4 col-sm-2 " })
+                            @Html.LabelFor(model => model.PassQty, "Invoice Qty", new { @class = "control-label col-md-4 col-sm-2 " })
                             <div class="col-md-7 col-sm-10">
                                 @Html.TextBoxFor(model => model.PassQty, new { @class = "form-control  text-right required" })
                                 @Html.ValidationMessageFor(model => model.PassQty, "", new { @class = "text-danger" })
@@ -340,7 +318,7 @@
                         </div>
                     </div>
 
-                    <div class="col-md-6" style="display:@(Model.JobInvoiceSettings.isVisibleDealUnit ? "" : "none")">
+                    <div class="col-md-6" style="display:@(Model.JobInvoiceSettings.isVisibleDealUnit && Model.LineNature != LineNatureConstants.AdditionalCharges ? "" : "none")">
                         @Html.HiddenFor(m => m.JobInvoiceSettings.isVisibleDealUnit)
                         <div class="form-group">
                             @Html.LabelFor(model => model.DealUnitId, "Deal Unit& Multiplier", new { @class = "control-label col-md-4 col-sm-2" })
@@ -357,7 +335,7 @@
                         </div>
                     </div>
 
-                    <div class="col-md-6" style="display:@(Model.JobInvoiceSettings.isVisibleDealUnit ? "" : "none")">
+                    <div class="col-md-6" style="display:@(Model.JobInvoiceSettings.isVisibleDealUnit && Model.LineNature != LineNatureConstants.AdditionalCharges ? "" : "none")">
                         <div class="form-group">
                             @Html.LabelFor(model => model.DealQty, "Deal Qty", new { @class = "control-label col-md-4 col-sm-2" })
                             <div class="col-md-7 col-sm-10">
@@ -366,6 +344,36 @@
                             </div>
                         </div>
                     </div>
+
+
+                    <div class="col-md-6" style="display:@(Model.LineNature != LineNatureConstants.AdditionalCharges ? "" : "none")">
+                        @Html.HiddenFor(m => m.JobInvoiceSettings.IsVisibleRate)
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Rate, "Rate", new { @class = "control-label col-md-4 col-sm-2" })
+                            <div class="col-md-7 col-sm-10">
+                                @Html.TextBoxFor(model => model.Rate, new { @class = "form-control  required text-right" })
+                                @Html.ValidationMessageFor(model => model.Rate, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6" style="display:@(Model.JobInvoiceSettings.isVisibleRateDiscountPer && Model.LineNature != LineNatureConstants.AdditionalCharges ? "" : "none")">
+                        @Html.HiddenFor(m => m.JobInvoiceSettings.isVisibleRateDiscountPer)
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.RateDiscountPer, "Rate Disc %", new { @class = "control-label col-md-4 col-sm-2" })
+                            <div class="col-md-7 col-sm-10" style="padding:0px">
+                                <div class="col-xs-4" style="padding-right:0px;">
+                                    @Html.TextBoxFor(model => model.RateDiscountPer, new { @class = "form-control  text-right " })
+                                    @Html.ValidationMessageFor(model => model.RateDiscountPer, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="col-xs-8" style="padding-left:0px">
+                                    @Html.TextBoxFor(model => model.RateDiscountAmt, new { @class = "form-control  text-right " })
+                                    @Html.ValidationMessageFor(model => model.RateDiscountAmt, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="col-md-6">
                         <div class="form-group">
                             @Html.LabelFor(model => model.Amount, "Amount", new { @class = "control-label col-md-4 col-sm-2" })
@@ -387,7 +395,7 @@
                         </div>
                     </div>
 
-                    <div class="col-md-6" style="display:@(Model.JobInvoiceSettings.isVisiblePenalty ? "" : "none")">
+                    <div class="col-md-6" style="display:@(Model.JobInvoiceSettings.isVisiblePenalty && Model.LineNature != LineNatureConstants.AdditionalCharges ? "" : "none")">
                         <div class="form-group">
                             @Html.LabelFor(model => model.PenaltyRate, "Penality", new { @class = "control-label col-md-4 col-sm-2" })
                             <div class="col-md-7 col-sm-10" style="padding:0px">
@@ -403,7 +411,7 @@
                         </div>
                     </div>
 
-                    <div class="col-md-6" style="display:@(Model.JobInvoiceSettings.isVisibleIncentive ? "" : "none")">
+                    <div class="col-md-6" style="display:@(Model.JobInvoiceSettings.isVisibleIncentive && Model.LineNature != LineNatureConstants.AdditionalCharges ? "" : "none")">
                         <div class="form-group">
                             @Html.LabelFor(model => model.IncentiveRate, "Incentive", new { @class = "control-label col-md-4 col-sm-2" })
                             <div class="col-md-7 col-sm-10" style="padding:0px">
@@ -420,7 +428,7 @@
                     </div>
 
 
-                    <div class="col-md-6" style="display:@(Model.JobInvoiceSettings.isVisibleWeight ? "" : "none")">
+                    <div class="col-md-6" style="display:@(Model.JobInvoiceSettings.isVisibleWeight && Model.LineNature != LineNatureConstants.AdditionalCharges ? "" : "none")">
                         @Html.HiddenFor(m => m.JobInvoiceSettings.isVisibleWeight)
                         <div class="form-group">
                             @Html.LabelFor(model => model.Weight, "Weight", new { @class = "control-label col-md-4 col-sm-2" })
@@ -431,7 +439,7 @@
                         </div>
                     </div>
 
-                    <div class="col-md-6" style="display:@(Model.JobInvoiceSettings.isVisibleMfgDate ? "" : "none")">
+                    <div class="col-md-6" style="display:@(Model.JobInvoiceSettings.isVisibleMfgDate && Model.LineNature != LineNatureConstants.AdditionalCharges ? "" : "none")">
                         @Html.HiddenFor(m => m.JobInvoiceSettings.isVisibleMfgDate)
                         <div class="form-group">
                             @Html.LabelFor(model => model.MfgDate, "Mfg. Date", new { @class = "control-label col-md-4 col-sm-2" })
@@ -520,6 +528,9 @@ else
         CustomSelectFunction($("#Dimension3Id"), '/ComboHelpList/GetDimension3', '/ComboHelpList/SetSingleDimension3', ' ', false, 0);
         CustomSelectFunction($("#Dimension4Id"), '/ComboHelpList/GetDimension4', '/ComboHelpList/SetSingleDimension4', ' ', false, 0);
 
+
+        
+
         if ($('#LineNature', '.modal-body').val() == "For Receive")
         {
             CustomSelectFunction($("#JobReceiveLineId"), '/JobInvoiceReceiveLine/GetJobReceiveForProduct', '/JobInvoiceReceiveLine/SetSingleJobReceiveLine', ' ', false, 0,DocID);
@@ -528,7 +539,11 @@ else
         {
             CustomSelectFunction($("#JobOrderLineId"), '/JobInvoiceReceiveLine/GetJobOrderForProduct', '/JobInvoiceReceiveLine/SetSingleJobOrderLine', ' ', false, 0,DocID);
         }
-        else if ($('#LineNature', '.modal-body').val() == "Direct")
+        else if ($('#LineNature', '.modal-body').val() == "Additional Charges")
+        {
+            CustomSelectFunction($("#ProductId"), '/ComboHelpList/GetAdditionalCharges', '/ComboHelpList/SetSingleProducts', ' ', false, 0,DocID);
+        }
+        else 
         {
             CustomSelectFunction($("#ProductId"), '/JobInvoiceReceiveLine/GetCustomProducts', '/ComboHelpList/SetSingleProducts', ' ', false, 0,DocID);
         }
@@ -778,6 +793,7 @@ else
                 data: { ReceiveId: $("#JobReceiveLineId").val(),InvoiceId: $("#JobInvoiceHeaderId",'.modal-body').val()},
             success: function (data) {
                 $('#JobReceiveDocNo').val(data.JobReceiveHeaderDocNo);
+                $('#JobOrderDocNo').val(data.JobOrderHeaderDocNo);
                 $('#UnitDecimalPlaces').val(data.UnitDecimalPlaces);
                 $('#DealUnitDecimalPlaces').val(data.DealUnitDecimalPlaces);
 
@@ -926,7 +942,10 @@ else
                         }
                     }
                     $('#ProductId').val(data.data.ProductId);
-                    $('#JobOrderLineId').val(data.data.LastTransactionDocLineId);
+                    //$('#JobOrderLineId').val(data.data.LastTransactionDocLineId);
+
+                    $("#JobOrderLineId").select2('data', { id: data.data.LastTransactionDocLineId, text: data.data.ProductName});
+                    $('#JobOrderLineId').attr("readonly","true");
                     Validate_JobOrderLine();
                 }
                 else
@@ -1251,9 +1270,10 @@ else
             $("#acorder").val(tex);
             $("#acProducts").val(Prod).attr('readonly','true');*@
             $("#JobOrderLineId").attr('readonly', 'true');
+            $("#JobReceiveLineId").attr('readonly', 'true');
             $("#ProductId").attr('readonly', 'true');
 
-            if ($("#ForOrder").val() == 'True')
+            if ($('#LineNature', '.modal-body').val() == "For Receive" || $('#LineNature', '.modal-body').val() == "For Order" )
             {
                 $("#Dimension1Id").attr('readonly', 'true');
                 $("#Dimension2Id").attr('readonly', 'true');
@@ -1272,24 +1292,27 @@ else
                     type: "POST",
                     url: "@(Url.Action("GetProductDetailJson"))",
                     data: { ProductId: $("#ProductId").val(),JobInvoiceHeaderId: $("#JobInvoiceHeaderId").val() },
-                success: function (data) {
-                    $("#Rate").val(data.StandardCost);
-                    $("#Rate").val(data.StandardCost);
-                    $("#UnitId").val(data.UnitId);
-                    $("#DealUnitId").val(data.DealUnitId);
-                    $('#Specification').val(data.Specification);
-                    decimalplaces = data.DealUnitDecimalPlaces;
-                    GetUnitConversionMultiplier();
-                    
-                    (data.SalesTaxGroupProductId==null)?(1==1):($("#SalesTaxGroupProductId").select2("data", {id: data.SalesTaxGroupProductId, text: data.SalesTaxGroupProductName}));
-                    GetChargeRates('@Model.CalculationId',$('#DocTypeId','.modal-body').val(),$('#SiteId','.modal-body').val(),$('#DivisionId','.modal-body').val(),$('#JobInvoiceSettings_ProcessId','.modal-body').val(),$('#SalesTaxGroupPersonId','.modal-body').val(),$('#SalesTaxGroupProductId','.modal-body').val())
-                    ChargeCalculation();
-                },
-                error: function (xhr, ajaxOptions, thrownError) {
-                    alert('Failed to retrieve product details.' + thrownError);
-                }
-            });
-        }}
+                    success: function (data) {
+                        if (data.StandardCost != null)
+                        {
+                            $("#Rate").val(data.StandardCost);
+                        }
+                            
+                        $("#UnitId").val(data.UnitId);
+                        $("#DealUnitId").val(data.DealUnitId);
+                        $('#Specification').val(data.Specification);
+                        decimalplaces = data.DealUnitDecimalPlaces;
+                        GetUnitConversionMultiplier();
+
+                        (data.SalesTaxGroupProductId==null)?(1==1):($("#SalesTaxGroupProductId").select2("data", {id: data.SalesTaxGroupProductId, text: data.SalesTaxGroupProductName}));
+                        GetChargeRates('@Model.CalculationId',$('#DocTypeId','.modal-body').val(),$('#SiteId','.modal-body').val(),$('#DivisionId','.modal-body').val(),$('#JobInvoiceSettings_ProcessId','.modal-body').val(),$('#SalesTaxGroupPersonId','.modal-body').val(),$('#SalesTaxGroupProductId','.modal-body').val())
+                        ChargeCalculation();
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        alert('Failed to retrieve product details.' + thrownError);
+                    }
+                });
+            }}
 
 
         function GetUnitConversionMultiplier() {
@@ -1318,6 +1341,18 @@ else
         }
 
     });
+
+    $('#SalesTaxGroupProductId').change(function(){
+        Validate_SalesTaxGroupProductId();
+    })
+
+    function Validate_SalesTaxGroupProductId()
+    {
+        if ($("#SalesTaxGroupProductId").val() != 0 && $("#SalesTaxGroupProductId").val() != null) {
+            GetChargeRates('@Model.CalculationId',$('#DocTypeId','.modal-body').val(),$('#SiteId','.modal-body').val(),$('#DivisionId','.modal-body').val(),$('#JobInvoiceSettings_ProcessId','.modal-body').val(),$('#SalesTaxGroupPersonId','.modal-body').val(),$('#SalesTaxGroupProductId','.modal-body').val())
+            Calculation();
+        }
+    }
 
 
     $('#JobQty').focusout(function(){
@@ -1351,7 +1386,7 @@ else
         }
 
 
-        if ($('#RateDiscountPer').val() != 0 && $('#RateDiscountPer').val() != null && $('#RateDiscountPer').val() != '') 
+        if ($('#RateDiscountPer').val() != 0 && $('#RateDiscountPer').val() != null && $('#RateDiscountPer').val() != '')
         {
             $('#RateDiscountAmt').val() = $('#Rate').val() * $('#RateDiscountPer').val() / 100
             $('#RateDiscountAmt').attr('readonly', 'true');
@@ -1362,7 +1397,7 @@ else
 
         if ($('#Rate').val() != 0 && $('#Rate').val() != null)
         {
-            if ($('#RateDiscountAmt').val() != 0 && $('#RateDiscountAmt').val() != null && $('#RateDiscountAmt').val() != '') 
+            if ($('#RateDiscountAmt').val() != 0 && $('#RateDiscountAmt').val() != null && $('#RateDiscountAmt').val() != '')
             {
                 var NetRate = $('#Rate').val() - $('#RateDiscountAmt').val()
                 $('#Amount').val(($('#DealQty').val() * NetRate).toFixed(2));

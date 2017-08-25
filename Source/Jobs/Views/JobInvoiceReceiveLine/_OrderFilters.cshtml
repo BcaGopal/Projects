@@ -112,6 +112,16 @@
                             </div>
                         </div>
                     </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.ReceiveAsOnDate, "As On Date", new { @class = "control-label col-md-4 col-sm-2" })
+                            <div class="col-md-7 col-sm-10">
+                                @Html.TextBoxFor(m => m.ReceiveAsOnDate, "{0:dd/MMMM/yyyy}", new { @class = "datepicker form-control required" })
+                                @Html.ValidationMessageFor(model => model.ReceiveAsOnDate, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="modal-footer " style="padding: 19px 20px 0 20px; border-top:1px solid #8E8888">
@@ -128,15 +138,24 @@
 <script type="text/javascript">
 
     $(document).ready(function () {
-        CustomSelectFunction($("#ProductGroupId"), '/ComboHelpList/GetProductGroup', '/ComboHelpList/SetProductGroup', ' ', true, 1);
-        CustomSelectFunction($("#JobOrderHeaderId"), '/JobInvoiceReceiveLine/GetPendingJobOrders', '/ComboHelpList/SetJobOrders', ' ', true, 1, $('#JobInvoiceHeaderId', '.modal-body').val());
-        CustomSelectFunction($("#JobReceiveHeaderId"), '/JobInvoiceReceiveLine/GetPendingJobReceives', '/ComboHelpList/SetJobReceive', ' ', true, 1, $('#JobInvoiceHeaderId', '.modal-body').val());
-        CustomSelectFunction($("#ProductId"), '/JobInvoiceReceiveLine/GetPendingJobOrderProducts', '/ComboHelpList/SetJobOrders', ' ', true, 1, $('#JobInvoiceHeaderId', '.modal-body').val());
+        CustomSelectFunction($("#ProductGroupId"), '/ComboHelpList/GetProductGroup', '/ComboHelpList/SetProductGroup', ' ', true, 0);
+        CustomSelectFunction($("#JobOrderHeaderId"), '/JobInvoiceReceiveLine/GetPendingJobOrders', '/ComboHelpList/SetJobOrders', ' ', true, 0, $('#JobInvoiceHeaderId', '.modal-body').val());
+        CustomSelectFunction($("#JobReceiveHeaderId"), '/JobInvoiceReceiveLine/GetPendingJobReceives', '/ComboHelpList/SetJobReceive', ' ', true, 0, $('#JobInvoiceHeaderId', '.modal-body').val());
+        CustomSelectFunction($("#ProductId"), '/JobInvoiceReceiveLine/GetPendingJobOrderProducts', '/ComboHelpList/SetJobOrders', ' ', true, 0, $('#JobInvoiceHeaderId', '.modal-body').val());
 
         CustomSelectFunction($("#Dimension1Id"), '/ComboHelpList/GetDimension1', '/ComboHelpList/SetSingleDimension1', ' ', false, 0);
         CustomSelectFunction($("#Dimension2Id"), '/ComboHelpList/GetDimension2', '/ComboHelpList/SetSingleDimension2', ' ', false, 0);
         CustomSelectFunction($("#Dimension3Id"), '/ComboHelpList/GetDimension3', '/ComboHelpList/SetSingleDimension3', ' ', false, 0);
         CustomSelectFunction($("#Dimension4Id"), '/ComboHelpList/GetDimension4', '/ComboHelpList/SetSingleDimension4', ' ', false, 0);
+
+
+
+        $('.datepicker').datepicker({
+            format: 'dd/MM/yyyy',
+            "setDate": new Date(),
+            "autoclose": true
+        })
+
     });
 
 </script>

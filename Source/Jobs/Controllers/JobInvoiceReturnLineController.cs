@@ -16,6 +16,7 @@ using JobInvoiceReturnDocumentEvents;
 using CustomEventArgs;
 using DocumentEvents;
 using Reports.Controllers;
+using Presentation.Helper;
 
 namespace Web
 {
@@ -1290,9 +1291,13 @@ namespace Web
                 {
                     ModelState.AddModelError("Qty", "Qty Exceeding Invoice Qty");
                 }
-                if (svm.Qty == 0)
+
+                if (svm.Nature != TransactionNatureConstants.Debit)
                 {
-                    ModelState.AddModelError("Qty", "Please Check Qty");
+                    if (svm.Qty == 0)
+                    {
+                        ModelState.AddModelError("Qty", "Please Check Qty");
+                    }
                 }
 
                 if (svm.JobInvoiceLineId <= 0)
@@ -1627,6 +1632,24 @@ namespace Web
                     }
                     return RedirectToAction("_Create", new { id = s.JobInvoiceReturnHeaderId, sid = svm.JobWorkerId });
                 }
+                else
+                {
+                    var ModelStateErrorList = ModelState.Select(x => x.Value.Errors).Where(y => y.Count > 0).ToList();
+                    string Messsages = "";
+                    if (ModelStateErrorList.Count > 0)
+                    {
+                        foreach (var ModelStateError in ModelStateErrorList)
+                        {
+                            foreach (var Error in ModelStateError)
+                            {
+                                if (!Messsages.Contains(Error.ErrorMessage))
+                                    Messsages = Error.ErrorMessage + System.Environment.NewLine;
+                            }
+                        }
+                        if (Messsages != "")
+                            ModelState.AddModelError("", Messsages);
+                    }
+                }
                 return PartialView("_Create", svm);
 
 
@@ -1657,17 +1680,14 @@ namespace Web
 
                 if (ModelState.IsValid)
                 {
-                    if (svm.Qty > 0)
-                    {
-                        //line.DiscountPer = svm.DiscountPer;
-                        //line.SalesTaxGroupProductId = svm.SalesTaxGroupProductId;
-                        line.Remark = svm.Remark;
-                        line.Qty = svm.Qty;
-                        line.DealQty = svm.DealQty;
-                        line.Amount = svm.Amount;
-                        line.ModifiedBy = User.Identity.Name;
-                        line.ModifiedDate = DateTime.Now;
-                    }
+                    //line.DiscountPer = svm.DiscountPer;
+                    //line.SalesTaxGroupProductId = svm.SalesTaxGroupProductId;
+                    line.Remark = svm.Remark;
+                    line.Qty = svm.Qty;
+                    line.DealQty = svm.DealQty;
+                    line.Amount = svm.Amount;
+                    line.ModifiedBy = User.Identity.Name;
+                    line.ModifiedDate = DateTime.Now;
 
                     line.ObjectState = Model.ObjectState.Modified;
                     db.JobInvoiceReturnLine.Add(line);
@@ -2335,6 +2355,47 @@ namespace Web
             {
                 return Json(new { Success = false });
             }
+        }
+
+
+        public ActionResult GetJobInvoiceForProduct(string searchTerm, int pageSize, int pageNum, int filter)
+        {
+            var Query = _JobInvoiceReturnLineService.GetJobInvoiceHelpListForProduct(filter, searchTerm);
+            var temp = Query.Skip(pageSize * (pageNum - 1))
+                .Take(pageSize)
+                .ToList();
+
+            var count = Query.Count();
+
+            ComboBoxPagedResult Data = new ComboBoxPagedResult();
+            Data.Results = temp;
+            Data.Total = count;
+
+            return new JsonpResult
+            {
+                Data = Data,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        public JsonResult SetSingleJobInvoiceLine(int Ids)
+        {
+            ComboBoxResult JobInvoiceJson = new ComboBoxResult();
+
+            var JobInvoiceLine = from L in db.JobInvoiceLine
+                                 join H in db.JobInvoiceHeader on L.JobInvoiceHeaderId equals H.JobInvoiceHeaderId into JobInvoiceHeaderTable
+                                 from JobInvoiceHeaderTab in JobInvoiceHeaderTable.DefaultIfEmpty()
+                                 where L.JobInvoiceLineId == Ids
+                                 select new
+                                 {
+                                     JobInvoiceLineId = L.JobInvoiceLineId,
+                                     JobInvoiceNo = L.JobReceiveLine.Product.ProductName
+                                 };
+
+            JobInvoiceJson.id = JobInvoiceLine.FirstOrDefault().ToString();
+            JobInvoiceJson.text = JobInvoiceLine.FirstOrDefault().JobInvoiceNo;
+
+            return Json(JobInvoiceJson);
         }
 
 

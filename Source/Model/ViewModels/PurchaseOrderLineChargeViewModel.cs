@@ -103,6 +103,7 @@ namespace Model.ViewModel
         public decimal Incentive { get; set; }
         public decimal Penalty { get; set; }
         public int ? CostCenterId { get; set; }
+        public List<CalculationProductViewModel> ChargeRates { get; set; }
         public List<LineChargeViewModel> RLineCharges { get; set; }
         public List<HeaderChargeViewModel> RHeaderCharges { get; set; }
     }

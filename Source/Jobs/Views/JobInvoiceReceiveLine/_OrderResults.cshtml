@@ -120,6 +120,8 @@
                                                 @Html.HiddenFor(m => m.JobInvoiceLineViewModel[i].JobWorkerId)
                                                 @Html.HiddenFor(m => Model.JobInvoiceLineViewModel[i].CostCenterId)
                                                 @Html.HiddenFor(m => Model.JobInvoiceLineViewModel[i].UnitId)
+                                                @Html.HiddenFor(m => Model.JobInvoiceLineViewModel[i].SalesTaxGroupProductId)
+                                                @Html.HiddenFor(m => Model.JobInvoiceLineViewModel[i].SalesTaxGroupPersonId)
                                                 @Html.HiddenFor(m => Model.JobInvoiceLineViewModel[i].UnitConversionMultiplier, new { @class = "UConv" })
                                                 @Html.HiddenFor(m => m.JobInvoiceLineViewModel[i].UnitDecimalPlaces, new { @class = "UDec" })
                                                 @Html.HiddenFor(m => m.JobInvoiceLineViewModel[i].DealUnitDecimalPlaces, new { @class = "DUDec" })

@@ -80,6 +80,13 @@ namespace Model.ViewModel
         public int RefLineId { get; set; }
     }
 
+
+    public class LineChargeRates
+    {
+        public int LineId { get; set; }
+        public List<CalculationProductViewModel> ChargeRates { get; set; }
+    }
+
     public class ReferenceLineChargeViewModel
     {
         public int LineId { get; set; }

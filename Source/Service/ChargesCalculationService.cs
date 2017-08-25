@@ -438,6 +438,26 @@ namespace Service
                     }
                 }
 
+
+                if (line.ChargeRates != null)
+                {
+                    foreach (var ChRate in line.ChargeRates)
+                    {
+                        if (ChRate.ChargeTypeId != null)
+                        {
+                            if (LineCharges.Where(m => m.ChargeId == ChRate.ChargeId).Any())
+                            {
+                                LineCharges.Where(m => m.ChargeId == ChRate.ChargeId).FirstOrDefault().Rate = ChRate.Rate;
+                                if (ChRate.LedgerAccountCrId != null)
+                                    LineCharges.Where(m => m.ChargeId == ChRate.ChargeId).FirstOrDefault().LedgerAccountCrId = ChRate.LedgerAccountCrId;
+                                if (ChRate.LedgerAccountDrId != null)
+                                    LineCharges.Where(m => m.ChargeId == ChRate.ChargeId).FirstOrDefault().LedgerAccountDrId = ChRate.LedgerAccountDrId;
+                            }
+                        }
+                    }
+                }
+
+
                 //Creating Dictionary
                 if (line.LineTableId == 0)
                 {

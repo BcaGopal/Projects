@@ -105,6 +105,7 @@ namespace Core.Common
         public const string OtherMaterial = "Other Material";
         public const string FinishedMaterial = "Finished Material";
         public const string Machine = "Machine";
+        public const string AdditionalCharges = "Addition/Deduction";
     }
 
     public class UnitConstants
@@ -257,8 +258,8 @@ namespace Core.Common
     public class TransactionNatureConstants
     {
         public const string Return = "Return";
-        public const string Debit = "Debit";
-        public const string Credit = "Credit";
+        public const string Debit = "Debit Note";
+        public const string Credit = "Credit Note";
     }
 
     public class ProductUidStatusConstants

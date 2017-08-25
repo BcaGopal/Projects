@@ -223,8 +223,8 @@ namespace Service
             if (!string.IsNullOrEmpty(settings.filterContraDocTypes))
                 query = query.Where(m => ContraDocTypes.Contains(m.DocTypeId.ToString()));
 
-            if (vm.AsOnDate.HasValue)
-                query = query.Where(m => m.DocDate <= vm.AsOnDate.Value);
+            if (vm.ReceiveAsOnDate.HasValue)
+                query = query.Where(m => m.DocDate <= vm.ReceiveAsOnDate.Value);
 
 
             return (from p in query
@@ -397,8 +397,8 @@ namespace Service
             if (!string.IsNullOrEmpty(settings.filterContraDocTypes))
                 query = query.Where(m => ContraDocTypes.Contains(m.DocTypeId.ToString()));
 
-            if (vm.AsOnDate.HasValue)
-                query = query.Where(m => m.DocDate <= vm.AsOnDate.Value);
+            if (vm.ReceiveAsOnDate.HasValue)
+                query = query.Where(m => m.DocDate <= vm.ReceiveAsOnDate.Value);
 
 
             return (from p in query
@@ -467,7 +467,7 @@ namespace Service
             else { ProductGroupIdArr = new string[] { "NA" }; }
 
 
-            if (vm.JobReceiveHeaderId != null)
+            if (vm.JobReceiveHeaderId != null || vm.ReceiveAsOnDate != null)
             {
                 var temp = (from VJRBal in db.ViewJobReceiveBalance
                             join H in db.JobReceiveHeader on VJRBal.JobReceiveHeaderId equals H.JobReceiveHeaderId into JobReceiveHeaderTable
@@ -483,6 +483,7 @@ namespace Service
                             && (string.IsNullOrEmpty(settings.filterContraSites) ? VJRBal.SiteId == JobInvoice.SiteId : ContraSites.Contains(VJRBal.SiteId.ToString()))
                             && (string.IsNullOrEmpty(settings.filterContraDivisions) ? VJRBal.DivisionId == JobInvoice.DivisionId : ContraDivisions.Contains(VJRBal.DivisionId.ToString()))
                             && (JobInvoice.JobWorkerId == null ? 1 == 1 : VJRBal.JobWorkerId == vm.JobWorkerId)
+                            && (vm.ReceiveAsOnDate == null ? 1 == 1 : JobReceiveHeaderTab.DocDate <= vm.ReceiveAsOnDate)
                             && JobReceiveLineTab.ProductUidHeaderId == null
                             && VJRBal.BalanceQty > 0
                             orderby JobReceiveHeaderTab.DocDate, JobReceiveHeaderTab.DocNo, JobReceiveLineTab.Sr
@@ -504,6 +505,9 @@ namespace Service
                                 ProductId = VJRBal.ProductId,
                                 JobInvoiceHeaderId = vm.JobInvoiceHeaderId,
                                 JobOrderLineId = JobReceiveLineTab.JobOrderLineId,
+                                JobOrderDocNo = JobReceiveLineTab.JobOrderLine.JobOrderHeader.DocNo,
+                                JobReceiveLineId = JobReceiveLineTab.JobReceiveLineId,
+                                JobReceiveDocNo = JobReceiveLineTab.JobReceiveHeader.DocNo,
                                 ProductUidId = JobReceiveLineTab.ProductUidId,
                                 ProductUidName = JobReceiveLineTab.ProductUid.ProductUidName,
                                 UnitId = ProductTab.UnitId,
@@ -514,10 +518,11 @@ namespace Service
                                 DealQty = VJRBal.BalanceQty * JobReceiveLineTab.UnitConversionMultiplier,
                                 Rate = JobReceiveLineTab.JobOrderLine.Rate,
                                 UnitConversionMultiplier = JobReceiveLineTab.UnitConversionMultiplier,
-                                JobOrderDocNo = JobReceiveLineTab.JobOrderLine.JobOrderHeader.DocNo,
                                 OrderDocDate = JobReceiveLineTab.JobOrderLine.JobOrderHeader.DocDate,
                                 UnitDecimalPlaces = ProductTab.Unit.DecimalPlaces,
                                 DealUnitDecimalPlaces = JobReceiveLineTab.DealUnit.DecimalPlaces,
+                                SalesTaxGroupProductId = JobReceiveLineTab.Product.SalesTaxGroupProductId ?? JobReceiveLineTab.Product.ProductGroup.DefaultSalesTaxGroupProductId,
+                                SalesTaxGroupPersonId = JobInvoice.SalesTaxGroupPersonId,
                             });
                 return temp;
             }
@@ -572,6 +577,8 @@ namespace Service
                                 OrderDocDate = JobOrderHeaderTab.DocDate,
                                 UnitDecimalPlaces = ProductTab.Unit.DecimalPlaces,
                                 DealUnitDecimalPlaces = JobOrderLineTab.DealUnit.DecimalPlaces,
+                                SalesTaxGroupProductId = JobOrderLineTab.Product.SalesTaxGroupProductId ?? JobOrderLineTab.Product.ProductGroup.DefaultSalesTaxGroupProductId,
+                                SalesTaxGroupPersonId = JobInvoice.SalesTaxGroupPersonId,
                             });
                 return temp;
             }
@@ -756,6 +763,7 @@ namespace Service
                         ProductName = L.JobReceiveLine.Product.ProductName,
                         ProductUidId = L.JobReceiveLine.ProductUidId,
                         ProductUidName = L.JobReceiveLine.ProductUid.ProductUidName,
+                        JobReceiveDocNo = L.JobReceiveLine.JobReceiveHeader.DocNo,
                         JobReceiveLineId = L.JobReceiveLineId,
                         JobReceiveHeaderId = L.JobReceiveLine.JobReceiveHeaderId,
                         JobOrderDocNo = L.JobReceiveLine.JobOrderLine.JobOrderHeader.DocNo,
@@ -765,7 +773,7 @@ namespace Service
                         DealUnitDecimalPlaces = L.DealUnit.DecimalPlaces,
                         LossQty = L.JobReceiveLine.LossQty,
                         LotNo = L.JobReceiveLine.LotNo,
-                        PassQty = L.JobReceiveLine.PassQty,
+                        PassQty = L.Qty,
                         JobQty = L.JobReceiveLine.Qty + L.JobReceiveLine.LossQty,
                         ReceiveQty = L.JobReceiveLine.Qty,
                         Remark = L.Remark,
@@ -797,7 +805,8 @@ namespace Service
                         MfgDate = L.JobReceiveLine.MfgDate,
                         LockReason = L.LockReason,
                         SalesTaxGroupPersonId = L.JobInvoiceHeader.SalesTaxGroupPersonId,
-                        SalesTaxGroupProductId = L.SalesTaxGroupProductId
+                        SalesTaxGroupProductId = L.SalesTaxGroupProductId,
+                        ProductNatureName = L.JobReceiveLine.Product.ProductGroup.ProductType.ProductNature.ProductNatureName
                     }).FirstOrDefault();
         }
 
@@ -1748,10 +1757,10 @@ namespace Service
                     select new ComboBoxResult
                     {
                         id = VB.JobReceiveLineId.ToString(),
-                        text = JobReceiveLineTab.JobReceiveHeader.DocType.DocumentTypeShortName + "-" + JobReceiveLineTab.JobReceiveHeader.DocNo,
+                        text = JobReceiveLineTab.Product.ProductName,
                         TextProp1 = "Balance :" + VB.BalanceQty,
                         TextProp2 = "Date :" + JobReceiveLineTab.JobReceiveHeader.DocDate,
-                        AProp1 = JobReceiveLineTab.Product.ProductName,
+                        AProp1 = JobReceiveLineTab.JobReceiveHeader.DocType.DocumentTypeShortName + "-" + JobReceiveLineTab.JobReceiveHeader.DocNo,
                         AProp2 = ((JobReceiveLineTab.Dimension1.Dimension1Name == null) ? "" : JobReceiveLineTab.Dimension1.Dimension1Name) +
                                     ((JobReceiveLineTab.Dimension2.Dimension2Name == null) ? "" : "," + JobReceiveLineTab.Dimension2.Dimension2Name) +
                                     ((JobReceiveLineTab.Dimension3.Dimension3Name == null) ? "" : "," + JobReceiveLineTab.Dimension3.Dimension3Name) +
@@ -1806,6 +1815,7 @@ namespace Service
                             DealUnitDecimalPlaces = L.DealUnit.DecimalPlaces,
                             Rate = L.JobOrderLine.Rate,
                             JobReceiveHeaderDocNo = VJRBal.JobReceiveNo,
+                            JobOrderHeaderDocNo = L.JobOrderLine.JobOrderHeader.DocNo,
                             SalesTaxGroupProductId = P.SalesTaxGroupProductId ?? P.ProductGroup.DefaultSalesTaxGroupProductId,
                             SalesTaxGroupProductName = P.SalesTaxGroupProduct.ChargeGroupProductName ?? P.ProductGroup.DefaultSalesTaxGroupProduct.ChargeGroupProductName,
                             CostCenterId = L.JobOrderLine.JobOrderHeader.CostCenterId != null ? L.JobOrderLine.JobOrderHeader.CostCenterId : null,

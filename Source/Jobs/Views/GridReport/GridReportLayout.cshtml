@@ -9,7 +9,7 @@
 <style type="text/css">
     .grid {
         width: 1140px;
-        height: 370px;
+        height: 470px;
     }
 
     .text-right {
@@ -24,6 +24,21 @@
     .header-text {
         font-size: 13px;
     }
+
+    /*.ui-grid-viewport .ui-grid-cell-contents {
+        word-wrap: break-word;
+        white-space: normal !important;
+    }
+
+    .ui-grid-row, .ui-grid-cell {
+        height: auto !important;
+    }
+
+        .ui-grid-row div[role=row] {
+            display: flex;
+            align-content: stretch;
+        }*/
+
 
 
 </style>
@@ -41,6 +56,10 @@
     <script src="http://ui-grid.info/docs/grunt-scripts/csv.js"></script>
     <script src="http://ui-grid.info/docs/grunt-scripts/pdfmake.js"></script>
     <script src="http://ui-grid.info/docs/grunt-scripts/vfs_fonts.js"></script>
+
+    
+
+
     @*<script src="~/Scripts/pdfmake/pdfmake.min.js"></script>
     <script src="~/Scripts/pdfmake/vfs_fonts.js"></script>*@
     <script src="~/Scripts/app.js"></script>
@@ -55,7 +74,11 @@
             <div class="panel-heading">
                 <h4>
                     <span> @Model.ReportHeader.ReportName </span>
-                    <input type="submit" value="Fill" ng-click="BindData()" class="btn btn-primary btn-sm CurveBorder height" style="float : right ; width:5em; background-color: #2980b9" />
+                    <input type="submit" value="Fill" ng-click="BindData()" class="btn btn-primary btn-sm CurveBorder height" data-toggle="collapse" data-target="#ReportFilters" style="float : right ; width:5em; background-color: #2980b9" />
+                    <span role="button" data-toggle="collapse" href="#ReportFilters" aria-expanded="false" aria-controls="ReportFilters" id="ShowFilters">
+                        <span  class="btn btn-primary btn-sm CurveBorder height" style="float : right ; width:5em; background-color: #2980b9; margin-right:2px" />
+                        Filters
+                    </span>
                 </h4>
             </div>
             <form action="/" id="registerSubmit">
@@ -68,12 +91,12 @@
                             <strong>Notes: </strong> @Model.ReportHeader.Notes
                         </div>
                     }
-
+                    
                     @Html.AntiForgeryToken()
                     @Html.HiddenFor(m => m.ReportHeaderId)
                     @Html.HiddenFor(m => m.ReportHeader.Controller)
                     @Html.HiddenFor(m => m.ReportHeader.Action)
-                    <div class="form-horizontal" role="form">
+                    <div class="form-horizontal" role="form" id="ReportFilters">
                         @Html.ValidationSummary(true)
                         <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
                             @foreach (var item in Model.ReportLine.GroupBy(m => new { m.Type, m.IsCollapse }).OrderBy(m => m.Key.Type))
@@ -82,7 +105,7 @@
                                 string key = rexp.Replace(item.Key.Type, "");
                                 <div class="panel-heading" role="tab" id="@( key + item.Key.IsCollapse)h">
                                     <h4 class="panel-title">
-                                        <span role="button" data-toggle="collapse" data-parent="#accordion" href="#@(key + item.Key.IsCollapse)d" aria-expanded="@(item.Key.IsCollapse?"false":"true")" aria-controls="@(key + item.Key.IsCollapse)d">
+                                        <span role="button" data-toggle="collapse" data-parent="#accordion" href="#@(key + item.Key.IsCollapse)d" aria-expanded="true" aria-controls="@(key + item.Key.IsCollapse)d">
                                             <span style="color:black" class="glyphicon glyphicon-@(item.Key.IsCollapse?"plus-sign":"minus-sign") collapse_Ico"></span>
                                             @(item.Key.Type)
                                         </span>
@@ -204,7 +227,7 @@
         
   
 
-        <div ui-grid="gridOptions" ng-if="gridOptions" ui-grid-exporter ui-grid-resize-columns ui-grid-move-columns ui-grid-cellnav class="grid" style="margin-top:0px"></div>
+        <div ui-grid="gridOptions" ng-if="gridOptions" ui-grid-exporter ui-grid-resize-columns ui-grid-move-columns ui-grid-cellnav ui-grid-pinning class="grid" style="margin-top:0px"></div>
     </div>
 
 </body>
@@ -227,6 +250,8 @@
         //    GenerateDataTable();           
         //    return false;
         //})
+
+
 
 
         $(function () {

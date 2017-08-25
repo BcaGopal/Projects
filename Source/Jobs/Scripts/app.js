@@ -1,14 +1,12 @@
 var app = angular.module('app', ['ngTouch', 'ui.grid', 'ui.grid.resizeColumns', 'ui.grid.grouping', 'ui.grid.moveColumns',
-    'ui.grid.selection', 'ui.grid.exporter', 'ui.grid.cellNav']);
+    'ui.grid.selection', 'ui.grid.exporter', 'ui.grid.cellNav', 'ui.grid.pinning']);
 
-app.controller('MainCtrl', ['$scope', '$log', '$http', 'uiGridConstants',
+app.controller('MainCtrl', ['$scope', '$log', '$http', 'uiGridConstants', 'uiGridGroupingConstants',
 
   function ($scope, $log, $http, uiGridConstants) {
 
       
       //$scope.gridOptions = {};
-
-
 
 
       $scope.gridOptions = {
@@ -33,7 +31,7 @@ app.controller('MainCtrl', ['$scope', '$log', '$http', 'uiGridConstants',
           exporterPdfOrientation: 'portrait',
           exporterPdfPageSize: 'LETTER',
           exporterPdfMaxGridWidth: 500,
-
+          
 
           exporterCsvLinkElement: angular.element(document.querySelectorAll(".custom-csv-link-location")),
           onRegisterApi: function (gridApi) {
@@ -43,6 +41,25 @@ app.controller('MainCtrl', ['$scope', '$log', '$http', 'uiGridConstants',
       
 
 
+      function GetColumnWidth(results,j) {
+          var ColWidth = 130;
+          if (results.Data[0][j]["Value"] != null) {
+              if ((results.Data[0][j]["Value"].length * 10).toString() != "NaN") {
+                  ColWidth = results.Data[0][j]["Value"].length * 10;
+              }
+              else {
+                  ColWidth = results.Data[0][j]["Key"].length * 10
+              }
+          }
+          else {
+              ColWidth = results.Data[0][j]["Key"].length * 10
+          }
+
+          if (ColWidth < 130)
+              ColWidth = 130;
+
+          return ColWidth;
+      }
 
 
       $scope.BindData = function ()
@@ -64,13 +81,15 @@ app.controller('MainCtrl', ['$scope', '$log', '$http', 'uiGridConstants',
 
                           $.each(columnsIn, function (key, value) {
                               if (columnsIn[j]["Key"] != "SysParamType") {
+                                  var ColWidth = GetColumnWidth(results, j);
+
                                   $scope.gridOptions.columnDefs.push({
                                       field: columnsIn[j]["Key"], aggregationType: columnsIn[j]["Value"],
                                       cellClass: (columnsIn[j]["Value"] == null ? 'cell-text' : 'text-right cell-text'),
                                       aggregationHideLabel: true, headerCellClass: (columnsIn[j]["Value"] == null ? 'header-text' : 'text-right header-text'),
                                       footerCellClass: (columnsIn[j]["Value"] == null ? '' : 'text-right '),
-                                      width: 130
-                                      
+                                      width: ColWidth,
+                                      enablePinning: true,
                                   });
                                 }
                               j++;
@@ -98,6 +117,7 @@ app.controller('MainCtrl', ['$scope', '$log', '$http', 'uiGridConstants',
                           $scope.gridOptions.data = rowDataSet;
 
                           $scope.gridApi.grid.refresh();
+
                       }
                   }
                   else if (!result.Success) {
@@ -109,6 +129,8 @@ app.controller('MainCtrl', ['$scope', '$log', '$http', 'uiGridConstants',
                   alert('Something went wrong');
               }
           });
+
+          
       }
 
   }

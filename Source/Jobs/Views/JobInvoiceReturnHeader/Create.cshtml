@@ -139,7 +139,8 @@
                 @Html.HiddenFor(m => m.DocTypeId)
                 @Html.HiddenFor(m => m.CreatedDate)
                 @Html.HiddenFor(m => m.Status)
-                @Html.HiddenFor(m=>m.ProcessId)
+                @*@Html.HiddenFor(m=>m.ProcessId)*@
+                @Html.HiddenFor(m => m.JobInvoiceSettings.ProcessId)
                 @Html.HiddenFor(m => m.Nature)
                 @Html.HiddenFor(m => m.JobInvoiceSettings.JobReturnDocTypeId)
                 
@@ -184,7 +185,18 @@
                                 </div>
                             </div>
                         </div>
-                        <div>
+                    <div>
+
+                        <div class="col-md-6" style='display:@(Model.JobInvoiceSettings.isVisibleProcessHeader?"":"none")'>
+                            <div class="form-group">
+                                @Html.HiddenFor(m => m.JobInvoiceSettings.isVisibleProcessHeader)
+                                @Html.LabelFor(model => model.ProcessId, "Process", new { @class = "control-label col-md-4 col-sm-2" })
+                                <div class="col-md-7 col-sm-10">
+                                    @Html.TextBoxFor(m => m.ProcessId, new { @class = "form-control required"  })
+                                    @Html.ValidationMessageFor(m => m.ProcessId, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
 
                             <div class="col-md-6">
                                 <div class="form-group">
@@ -467,9 +479,14 @@
             $(document).find('a#btnCreateFP').removeAttr('href').removeAttr('data-modal');
             $("#btnCreateF").attr('disabled','disabled');
             $("#btnCreateFP").attr('disabled','disabled');
+            
 
         }
 
+        if(id>0)
+        {
+            $('#ProcessId').attr('readonly','true');
+        }
 
         //Reloading the table contents on modal hide
         $('#myModal').on('hidden.bs.modal', function () {
@@ -656,9 +673,22 @@
     CustomSelectFunction($("#GodownId"), '/ComboHelpList/GetSiteGodown', '/ComboHelpList/SetSingleGodown', ' ', false, 0);
     CustomSelectFunction($("#OrderById"), '/ComboHelpList/GetEmployeeWithProcess', '/ComboHelpList/SetSingleEmployee', ' ', false, 0, $('#ProcessId').val());
     CustomSelectFunction($("#ReasonId"), '/ComboHelpList/GetReason', '/ComboHelpList/SetSingleReason', ' ', false, 0, $('#DocTypeId').val());
+    CustomSelectFunction($("#ProcessId"), '/ComboHelpList/GetProcessWithChildProcess', '/ComboHelpList/SetSingleProcess', ' ', false,0, $('#JobInvoiceSettings_ProcessId').val());
 
     $("#DocNo").on("change", function () {
         $(this).DuplicateCheckForCreate({ name: 'JobOrderHeader', value: $(this).val(), doctype: $("#DocTypeId").val() });
+    });
+
+    if ($("#ProcessId").is(":hidden") == false)
+    {
+        $('#ProcessId').select2('focus');
+    }
+    else{
+        $('#JobWorkerId').select2('focus');
+    }
+
+    $("#ProcessId").change(function(){
+        CustomSelectFunctionWithMultipleFilters($("#JobWorkerId"), '/JobInvoiceReturnHeader/GetCustomPerson', '/ComboHelpList/SetSinglePerson', ' ', false, 0,$('#DocTypeId').val(),$('#ProcessId').val());
     });
 
 </script>

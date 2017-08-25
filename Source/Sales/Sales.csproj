@@ -32,6 +32,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -273,6 +274,7 @@
     <Compile Include="Controllers\SaleInvoiceReturnHeaderController.cs" />
     <Compile Include="Controllers\SaleInvoiceReturnLineController.cs" />
     <Compile Include="Controllers\SaleInvoiceSettingsController.cs" />
+    <Compile Include="Controllers\SaleOrderExcelImportController.cs" />
     <Compile Include="Controllers\SaleQuotationHeaderController.cs" />
     <Compile Include="Controllers\SaleQuotationLineController.cs" />
     <Compile Include="Controllers\SaleQuotationSettingsController.cs" />
@@ -299,7 +301,6 @@
     <Compile Include="Controllers\SaleDeliveryOrderLineController.cs" />
     <Compile Include="Controllers\SaleOrderCancelLineController.cs" />
     <Compile Include="Controllers\ProductBuyersExcelImportController.cs" />
-    <Compile Include="Controllers\SaleOrderExcelImportController.cs" />
     <Compile Include="Controllers\SaleDeliveryOrderHeaderController.cs" />
     <Compile Include="Controllers\SaleOrderHeaderController.cs" />
     <Compile Include="Controllers\SaleOrderLineController.cs" />
@@ -1578,9 +1579,6 @@
     <Content Include="Views\SaleOrderCancelLine\Delete.cshtml" />
     <Content Include="Views\SaleOrderCancelLine\Edit.cshtml" />
     <Content Include="Views\SaleOrderCancelLine\Index.cshtml" />
-    <Content Include="Views\SaleOrderExcelImport\Index.cshtml" />
-    <Content Include="Views\SaleOrderExcelImport\SaleOrderExcelImport.cshtml" />
-    <Content Include="Views\SaleOrderExcelImport\Sucess.cshtml" />
     <Content Include="Views\SaleOrderHeader\_Reason.cshtml" />
     <Content Include="Views\SaleOrderHeader\Create.cshtml" />
     <Content Include="Views\SaleOrderHeader\Delete.cshtml" />
@@ -1788,6 +1786,9 @@
     <Content Include="Views\PackingLine\_Index.cshtml" />
     <Content Include="Views\PackingLine\_OrderFilters.cshtml" />
     <Content Include="Views\PackingLine\_Results.cshtml" />
+    <Content Include="Views\SaleOrderExcelImport\Index.cshtml" />
+    <Content Include="Views\SaleOrderExcelImport\SaleOrderExcelImport.cshtml" />
+    <Content Include="Views\SaleOrderExcelImport\Sucess.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -31,7 +31,7 @@ namespace Service
         Task<JobInvoiceReturnHeader> FindAsync(int id);
         int NextId(int id);
         int PrevId(int id);
-        IQueryable<ComboBoxResult> GetCustomPerson(int Id, string term);
+        IQueryable<ComboBoxResult> GetCustomPerson(int Id, string term, int? ProcessId = null);
     }
 
     public class JobInvoiceReturnHeaderService : IJobInvoiceReturnHeaderService
@@ -268,7 +268,7 @@ namespace Service
                     }).Take(Limit);
         }
 
-        public IQueryable<ComboBoxResult> GetCustomPerson(int Id, string term)
+        public IQueryable<ComboBoxResult> GetCustomPerson(int Id, string term, int? ProcessId = null)
         {
             int DocTypeId = Id;
             int SiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
@@ -291,7 +291,7 @@ namespace Service
                         from PersonProcessTab in PersonProcessTable.DefaultIfEmpty()
                         join pr in db.PersonRole on p.PersonID equals pr.PersonId into PersonRoleTable
                         from PersonRoleTab in PersonRoleTable.DefaultIfEmpty()
-                        where PersonProcessTab.ProcessId == settings.ProcessId
+                        where (ProcessId == null ? 1 == 1 : PersonProcessTab.ProcessId == ProcessId)
                         && (string.IsNullOrEmpty(term) ? 1 == 1 : (p.Name.ToLower().Contains(term.ToLower()) || p.Code.ToLower().Contains(term.ToLower())))
                         && (string.IsNullOrEmpty(settings.filterPersonRoles) ? 1 == 1 : PersonRoles.Contains(PersonRoleTab.RoleDocTypeId.ToString()))
                         && BusinessEntityTab.DivisionIds.IndexOf(DivIdStr) != -1

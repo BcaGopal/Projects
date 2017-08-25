@@ -47,7 +47,7 @@ namespace Model.Models
         public bool? isVisibleSalesTaxGroupProduct { get; set; }
         public bool? isVisibleJobOrder { get; set; }
         public bool? isVisibleJobReceive { get; set; }
-
+        public bool? isVisibleProcessHeader { get; set; }
 
         public bool? isVisibleGodown { get; set; }
         public bool? isVisibleJobReceiveBy { get; set; }

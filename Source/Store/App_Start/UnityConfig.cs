@@ -46,6 +46,9 @@ namespace Store.App_Start
             // TODO: Register your types here
             // container.RegisterType<IProductRepository, ProductRepository>();
 
+
+
+
             
             container.RegisterType<AccountController>(new InjectionConstructor());
             //container.RegisterType<ApplicationDbContext, ApplicationDbContext>("New");

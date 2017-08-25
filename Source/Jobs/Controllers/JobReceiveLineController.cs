@@ -1591,6 +1591,11 @@ namespace Web
                                 line.JobOrderLineId = JobOrderLine.JobOrderLineId;
                             }
                             line.ProductUidId = BarCodes;
+                            line.ProductId = JobOrderLine.ProductId;
+                            line.Dimension1Id = JobOrderLine.Dimension1Id;
+                            line.Dimension2Id = JobOrderLine.Dimension2Id;
+                            line.Dimension3Id = JobOrderLine.Dimension3Id;
+                            line.Dimension4Id = JobOrderLine.Dimension4Id;
                             line.Qty = 1;
                             line.PassQty = line.Qty;
                             line.DealUnitId = JobOrderLine.DealUnitId;

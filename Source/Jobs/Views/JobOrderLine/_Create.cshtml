@@ -113,6 +113,7 @@
                         @Html.HiddenFor(m => m.JobOrderSettings.isVisibleDimension1)
                         <div class="form-group">
                             @Html.LabelFor(model => model.Dimension1Id, (Model.DocumentTypeSettings.Dimension1Caption ?? "Dimension1"), new { @class = "control-label col-md-4 col-sm-2" })
+                            @Html.HiddenFor(m => m.DocumentTypeSettings.Dimension1Caption)
                             <div class="col-md-7 col-sm-10">
                                 @Html.TextBoxFor(model => model.Dimension1Id, new { @class = "form-control col-xs-7 required" })
                                 @Html.ValidationMessageFor(model => model.Dimension1Id, "", new { @class = "text-danger" })
@@ -124,6 +125,7 @@
                         @Html.HiddenFor(m => m.JobOrderSettings.isVisibleDimension2)
                         <div class="form-group">
                             @Html.LabelFor(model => model.Dimension2Id, (Model.DocumentTypeSettings.Dimension2Caption ?? "Dimension2"), new { @class = "control-label col-md-4 col-sm-2" })
+                            @Html.HiddenFor(m => m.DocumentTypeSettings.Dimension2Caption)
                             <div class="col-md-7 col-sm-10">
                                 @Html.TextBoxFor(model => model.Dimension2Id, new { @class = "form-control col-xs-7 required" })
                                 @Html.ValidationMessageFor(model => model.Dimension2Id, "", new { @class = "text-danger" })
@@ -138,6 +140,7 @@
                         @Html.HiddenFor(m => m.JobOrderSettings.isVisibleDimension3)
                         <div class="form-group">
                             @Html.LabelFor(model => model.Dimension3Id, (Model.DocumentTypeSettings.Dimension3Caption ?? "Dimension3"), new { @class = "control-label col-md-4 col-sm-2" })
+                            @Html.HiddenFor(m => m.DocumentTypeSettings.Dimension3Caption)
                             <div class="col-md-7 col-sm-10">
                                 @Html.TextBoxFor(model => model.Dimension3Id, new { @class = "form-control col-xs-7 required" })
                                 @Html.ValidationMessageFor(model => model.Dimension3Id, "", new { @class = "text-danger" })
@@ -148,6 +151,7 @@
                         @Html.HiddenFor(m => m.JobOrderSettings.isVisibleDimension4)
                         <div class="form-group">
                             @Html.LabelFor(model => model.Dimension4Id, (Model.DocumentTypeSettings.Dimension4Caption ?? "Dimension4"), new { @class = "control-label col-md-4 col-sm-2" })
+                            @Html.HiddenFor(m => m.DocumentTypeSettings.Dimension4Caption)
                             <div class="col-md-7 col-sm-10">
                                 @Html.TextBoxFor(model => model.Dimension4Id, new { @class = "form-control col-xs-7 required" })
                                 @Html.ValidationMessageFor(model => model.Dimension4Id, "", new { @class = "text-danger" })
@@ -584,8 +588,8 @@ else
 
     <script type="text/javascript">
 
-        var decimalplaces='@Model.DealUnitDecimalPlaces';
-        var AmountRoundOff='@Model.JobOrderSettings.AmountRoundOff';
+    var decimalplaces='@Model.DealUnitDecimalPlaces';
+    var AmountRoundOff='@Model.JobOrderSettings.AmountRoundOff';
 
         $(function(){
 
@@ -596,6 +600,13 @@ else
                 Validate_SalesTaxGroupProductId();
             })
 
+            function Validate_SalesTaxGroupProductId()
+            {
+                if ($("#SalesTaxGroupProductId").val() != 0 && $("#SalesTaxGroupProductId").val() != null) {
+                    GetChargeRates('@Model.CalculationId',$('#DocTypeId','.modal-body').val(),$('#SiteId','.modal-body').val(),$('#DivisionId','.modal-body').val(),$('#JobOrderSettings_ProcessId','.modal-body').val(),$('#SalesTaxGroupPersonId','.modal-body').val(),$('#SalesTaxGroupProductId','.modal-body').val())
+                    Calculation();
+                }
+            }
 
             function GetProductDetail() {
                 var ProcessProgress = $("#Product detail loading progress");
@@ -605,134 +616,128 @@ else
                         cache: false,
                         type: "POST",
                         url: "@(Url.Action("GetProductDetailJson"))",
-                        data: { ProductId: $("#ProductId").val(),JobOrderId: $("#JobOrderHeaderId").val() },
-                        success: function (data) {
-                            $("#Rate").val(data.StandardCost);
-                            $("#UnitId").val(data.UnitId);
-                            $("#DealUnitId").val(data.DealUnitId);
-                            $('#Specification').val(data.Specification);
-                            decimalplaces=data.DealUnitDecimalPlaces;
-                            GetUnitConversionMultiplier.call();
+                    data: { ProductId: $("#ProductId").val(),JobOrderId: $("#JobOrderHeaderId").val() },
+                    success: function (data) {
+                        $("#Rate").val(data.StandardCost);
+                        $("#UnitId").val(data.UnitId);
+                        $("#DealUnitId").val(data.DealUnitId);
+                        $('#Specification').val(data.Specification);
+                        decimalplaces=data.DealUnitDecimalPlaces;
+                        GetUnitConversionMultiplier.call();
 
-                            //$("#CALL_INCENTRATE").val(data.Discount);
-                            $("#CALL_INCENTRATE").val(data.Incentive).trigger('change');
-                            $("#LossQty").val(data.Loss);
+                        //$("#CALL_INCENTRATE").val(data.Discount);
+                        $("#CALL_INCENTRATE").val(data.Incentive).trigger('change');
+                        $("#LossQty").val(data.Loss);
 
-                            (data.SalesTaxGroupProductId==null)?(1==1):($("#SalesTaxGroupProductId").select2("data", {id: data.SalesTaxGroupProductId, text: data.SalesTaxGroupProductName}));
-                            GetChargeRates('@Model.CalculationId',$('#DocTypeId','.modal-body').val(),$('#SiteId','.modal-body').val(),$('#DivisionId','.modal-body').val(),$('#JobOrderSettings_ProcessId','.modal-body').val(),$('#SalesTaxGroupPersonId','.modal-body').val(),$('#SalesTaxGroupProductId','.modal-body').val())
-                            ChargeCalculation();
+                        (data.SalesTaxGroupProductId==null)?(1==1):($("#SalesTaxGroupProductId").select2("data", {id: data.SalesTaxGroupProductId, text: data.SalesTaxGroupProductName}));
+                        GetChargeRates('@Model.CalculationId',$('#DocTypeId','.modal-body').val(),$('#SiteId','.modal-body').val(),$('#DivisionId','.modal-body').val(),$('#JobOrderSettings_ProcessId','.modal-body').val(),$('#SalesTaxGroupPersonId','.modal-body').val(),$('#SalesTaxGroupProductId','.modal-body').val())
+                        ChargeCalculation();
 
-                            //Calculation.call();
-                        },
-                        error: function (xhr, ajaxOptions, thrownError) {
-                            alert('Failed to retrieve product details.' + thrownError);
-                        }
-                    });
-                }
-
-
-                function Validate_SalesTaxGroupProductId()
-                {
-                    if ($("#SalesTaxGroupProductId").val() != 0 && $("#SalesTaxGroupProductId").val() != null) {
-                        GetChargeRates('@Model.CalculationId',$('#DocTypeId','.modal-body').val(),$('#SiteId','.modal-body').val(),$('#DivisionId','.modal-body').val(),$('#SaleQuotationSettings_ProcessId','.modal-body').val(),$('#SalesTaxGroupPersonId','.modal-body').val(),$('#SalesTaxGroupProductId','.modal-body').val());
-                        Calculation();
+                        //Calculation.call();
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        alert('Failed to retrieve product details.' + thrownError);
                     }
-                }
+                });
+            }
 
-                if (($("#ProductUidId").val() == 0 || $("#ProductUidId").val() == null || $("#ProductUidId").val() == "") &&
-                        ($("#StockInId").val() == 0 || $("#StockInId").val() == null || $("#StockInId").val() == "")) {
-                    $.ajax({
-                        cache: false,
-                        type: "POST",
-                        url: "@(Url.Action("GetProductPrevProcess"))",
-                        data: { ProductId: $("#ProductId").val(), GodownId: $("#GodownId").val(), DocTypeId: $("#DocTypeId").val() },
-                        success: function (data) {
-                            $("#FromProcessId").val(data[0].ProcessId);
+
+
+
+            if (($("#ProductUidId").val() == 0 || $("#ProductUidId").val() == null || $("#ProductUidId").val() == "") &&
+                    ($("#StockInId").val() == 0 || $("#StockInId").val() == null || $("#StockInId").val() == "")) {
+                $.ajax({
+                    cache: false,
+                    type: "POST",
+                    url: "@(Url.Action("GetProductPrevProcess"))",
+                    data: { ProductId: $("#ProductId").val(), GodownId: $("#GodownId").val(), DocTypeId: $("#DocTypeId").val() },
+                    success: function (data) {
+                        $("#FromProcessId").val(data[0].ProcessId);
                     },
                     error: function (xhr, ajaxOptions, thrownError) {
                         ProcessProgress.hide();
                     }
                 });
             }
-            }
+        }
 
 
-            function GetUnitConversionMultiplier() {
+        function GetUnitConversionMultiplier() {
 
-                if ($("#UnitId").val() == $("#DealUnitId").val()) {
-                    $("#UnitConversionMultiplier").val(1);
-                    $.ajax({
-                        cache: false,
-                        type: "POST",
-                        url: "@(Url.Action("GetUnitConversionDetailJson"))",
-                        data: { prodid: $("#ProductId").val(), UnitId: $("#UnitId").val(), DealUnitId: $("#DealUnitId").val(),JobOrderId:$('#JobOrderHeaderId').val() },
-
-                        success: function (data) {
-                            decimalplaces=data.DecimalPlace;
-                        },
-                        error: function (xhr, ajaxOptions, thrownError) {
-                            alert('Failed to retrieve Unit conversion details.' + thrownError);
-                        }
-                    });
-                    Calculation.call();
-                }
-                else {
-                    $.ajax({
-                        cache: false,
-                        type: "POST",
-                        url: "@(Url.Action("GetUnitConversionDetailJson"))",
-                        data: { prodid: $("#ProductId").val(), UnitId: $("#UnitId").val(), DealUnitId: $("#DealUnitId").val(),JobOrderId:$('#JobOrderHeaderId').val() },
-
-                        success: function (data) {
-                            $("#UnitConversionMultiplier").val(data.Value);
-                            decimalplaces=data.DecimalPlace;
-                            Calculation.call();
-                        },
-                        error: function (xhr, ajaxOptions, thrownError) {
-                            alert('Failed to retrieve Unit conversion details.' + thrownError);
-                        }
-                    });
-                }
-            }
-
-
-            function Calculation() {
-                if ($('#UnitConversionMultiplier').val() != 0) {
-                    $('#DealQty').val(($('#Qty').val() * $('#UnitConversionMultiplier').val()).toFixed(decimalplaces))
-                }
-                //else
-                //{
-                //    $('#DealQty').val(0);
-                //}
-                
-                if(AmountRoundOff)
-                    $('#Amount').val(($('#DealQty').val() * $('#Rate').val()).toFixed(AmountRoundOff));
-                else
-                    $('#Amount').val(($('#DealQty').val() * $('#Rate').val()).toFixed(2));
-
-                ChargeCalculation();
-            }
-
-            function AssignAllowRepeatProcessFlag(){
+            if ($("#UnitId").val() == $("#DealUnitId").val()) {
+                $("#UnitConversionMultiplier").val(1);
                 $.ajax({
-                    cache:false,
+                    cache: false,
                     type: "POST",
-                    url:"@(Url.Action("SetFlagForAllowRepeatProcess"))",
-                    success:function(data){
-                        if (data.toString().toUpperCase()== "TRUE")
-                        {
-                            $("#AllowRepeatProcess").val(data);
-                        }
-                        else{
-                            $("#AllowRepeatProcess").val(false);
-                        }
+                    url: "@(Url.Action("GetUnitConversionDetailJson"))",
+                    data: { prodid: $("#ProductId").val(), UnitId: $("#UnitId").val(), DealUnitId: $("#DealUnitId").val(),JobOrderId:$('#JobOrderHeaderId').val() },
 
+                    success: function (data) {
+                        decimalplaces=data.DecimalPlace;
                     },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        alert('Failed to retrieve Unit conversion details.' + thrownError);
+                    }
+                });
+                Calculation.call();
+            }
+            else {
+                $.ajax({
+                    cache: false,
+                    type: "POST",
+                    url: "@(Url.Action("GetUnitConversionDetailJson"))",
+                    data: { prodid: $("#ProductId").val(), UnitId: $("#UnitId").val(), DealUnitId: $("#DealUnitId").val(),JobOrderId:$('#JobOrderHeaderId').val() },
+
+                    success: function (data) {
+                        $("#UnitConversionMultiplier").val(data.Value);
+                        decimalplaces=data.DecimalPlace;
+                        Calculation.call();
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        alert('Failed to retrieve Unit conversion details.' + thrownError);
+                    }
+                });
+            }
+        }
+
+
+        function Calculation() {
+            if ($('#UnitConversionMultiplier').val() != 0) {
+                $('#DealQty').val(($('#Qty').val() * $('#UnitConversionMultiplier').val()).toFixed(decimalplaces))
+            }
+            //else
+            //{
+            //    $('#DealQty').val(0);
+            //}
+
+            if(AmountRoundOff)
+                $('#Amount').val(($('#DealQty').val() * $('#Rate').val()).toFixed(AmountRoundOff));
+            else
+                $('#Amount').val(($('#DealQty').val() * $('#Rate').val()).toFixed(2));
+
+            ChargeCalculation();
+        }
+
+        function AssignAllowRepeatProcessFlag(){
+            $.ajax({
+                cache:false,
+                type: "POST",
+                url:"@(Url.Action("SetFlagForAllowRepeatProcess"))",
+                success:function(data){
+                    if (data.toString().toUpperCase()== "TRUE")
+                    {
+                        $("#AllowRepeatProcess").val(data);
+                    }
+                    else{
+                        $("#AllowRepeatProcess").val(false);
+                    }
+
+                },
                 error:function(xhr,ajaxOptions,thrownError){
                     alert('Failed to Retrive Repeat Process Flag'+thrownError);
                 }
             })
-            }
+        }
 
         $('#AllowRepeatProcess').click(function(){
             AssignAllowRepeatProcessFlag()
@@ -757,88 +762,88 @@ else
                     type: "POST",
                     url: "@(Url.Action("GetStockInDetailJson"))",
                     data: { StockInId: $("#StockInId").val()},
-                success: function (data) {
-                    if (data != null)
-                    {
-                        $("#StockInBalanceQty").val(data.BalanceQty);
-                        $("#Qty").val(data.BalanceQty);
-                        $("#LotNo").val(data.LotNo);
-                        $("#ProductId").select2('data', { id: data.ProductId, text: data.ProductName});
-                        if (data.Dimension1Id != null)
+                    success: function (data) {
+                        if (data != null)
                         {
-                            $("#Dimension1Id").select2('data', { id: data.Dimension1Id, text: data.Dimension1Name});
-                        }
-                        else{
-                            $("#Dimension1Id").select2('data', { id: '', text: ''});
-                        }
-                        if (data.Dimension2Id != null)
-                        {
-                            $("#Dimension2Id").select2('data', { id: data.Dimension2Id, text: data.Dimension2Name});
-                        }
-                        else{
-                            $("#Dimension2Id").select2('data', { id: '', text: ''});
-                        }
-                        if (data.Dimension3Id != null)
-                        {
-                            $("#Dimension3Id").select2('data', { id: data.Dimension3Id, text: data.Dimension3Name});
-                        }
-                        else{
-                            $("#Dimension3Id").select2('data', { id: '', text: ''});
-                        }
-                        if (data.Dimension4Id != null)
-                        {
-                            $("#Dimension4Id").select2('data', { id: data.Dimension4Id, text: data.Dimension4Name});
-                        }
-                        else{
-                            $("#Dimension4Id").select2('data', { id: '', text: ''});
-                        }
-                        if (data.FromProcessId != null)
-                        {
-                            $("#FromProcessId").select2('data', { id: data.FromProcessId, text: data.FromProcessName});
-                        }
-                        else{
-                            $("#FromProcessId").select2('data', { id: '', text: ''});
-                        }
+                            $("#StockInBalanceQty").val(data.BalanceQty);
+                            $("#Qty").val(data.BalanceQty);
+                            $("#LotNo").val(data.LotNo);
+                            $("#ProductId").select2('data', { id: data.ProductId, text: data.ProductName});
+                            if (data.Dimension1Id != null)
+                            {
+                                $("#Dimension1Id").select2('data', { id: data.Dimension1Id, text: data.Dimension1Name});
+                            }
+                            else{
+                                $("#Dimension1Id").select2('data', { id: '', text: ''});
+                            }
+                            if (data.Dimension2Id != null)
+                            {
+                                $("#Dimension2Id").select2('data', { id: data.Dimension2Id, text: data.Dimension2Name});
+                            }
+                            else{
+                                $("#Dimension2Id").select2('data', { id: '', text: ''});
+                            }
+                            if (data.Dimension3Id != null)
+                            {
+                                $("#Dimension3Id").select2('data', { id: data.Dimension3Id, text: data.Dimension3Name});
+                            }
+                            else{
+                                $("#Dimension3Id").select2('data', { id: '', text: ''});
+                            }
+                            if (data.Dimension4Id != null)
+                            {
+                                $("#Dimension4Id").select2('data', { id: data.Dimension4Id, text: data.Dimension4Name});
+                            }
+                            else{
+                                $("#Dimension4Id").select2('data', { id: '', text: ''});
+                            }
+                            if (data.FromProcessId != null)
+                            {
+                                $("#FromProcessId").select2('data', { id: data.FromProcessId, text: data.FromProcessName});
+                            }
+                            else{
+                                $("#FromProcessId").select2('data', { id: '', text: ''});
+                            }
 
-                        $("#ProductId").attr('readonly', 'true');
-                        $("#Dimension1Id").attr('readonly', 'true');
-                        $("#Dimension2Id").attr('readonly', 'true');
-                        $("#Dimension3Id").attr('readonly', 'true');
-                        $("#Dimension4Id").attr('readonly', 'true');
-                        $("#FromProcessId").attr('readonly', 'true');
-                        GetProductDetail()
+                            $("#ProductId").attr('readonly', 'true');
+                            $("#Dimension1Id").attr('readonly', 'true');
+                            $("#Dimension2Id").attr('readonly', 'true');
+                            $("#Dimension3Id").attr('readonly', 'true');
+                            $("#Dimension4Id").attr('readonly', 'true');
+                            $("#FromProcessId").attr('readonly', 'true');
+                            GetProductDetail()
+                        }
+                        else{
+                            $("#StockInBalanceQty").val(0);
+                            $("#LotNo").val("");
+                        }
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        alert('Failed to retrieve Stock In details.' + thrownError);
+                        ProcessProgress.hide();
                     }
-                    else{
-                        $("#StockInBalanceQty").val(0);
-                        $("#LotNo").val("");
-                    }
-                },
-                error: function (xhr, ajaxOptions, thrownError) {
-                    alert('Failed to retrieve Stock In details.' + thrownError);
-                    ProcessProgress.hide();
-                }
-            });
+                });
 
+            }
+            else {
+                $("#StockInBalanceQty").val(0);
+                $("#LotNo").val("");
+
+                $("#ProductId").removeAttr('readonly');
+                $("#Dimension1Id").removeAttr('readonly');
+                $("#Dimension2Id").removeAttr('readonly');
+                $("#Dimension3Id").removeAttr('readonly');
+                $("#Dimension4Id").removeAttr('readonly');
+            }
         }
-        else {
-            $("#StockInBalanceQty").val(0);
-        $("#LotNo").val("");
-            
-        $("#ProductId").removeAttr('readonly');
-        $("#Dimension1Id").removeAttr('readonly');
-        $("#Dimension2Id").removeAttr('readonly');
-        $("#Dimension3Id").removeAttr('readonly');
-        $("#Dimension4Id").removeAttr('readonly');
-        }
-    }
-        
-
-        })
 
 
-        $("#ProductId,#Dimension1Id,#Dimension2Id,#Dimension3Id,#Dimension4Id").change(function(){
-            CustomSelectFunctionForStockIn($("#StockInId"), '/StockIssueLine/GetStockInForProduct', '/ComboHelpList/SetSingleStockIn', ' ', false, 0,$('#StockHeaderId','.modal-body').val(),$("#ProductId").val(),$("#Dimension1Id").val(),$("#Dimension2Id").val(),$("#Dimension3Id").val(),$("#Dimension4Id").val());
-        });
+    })
+
+
+    $("#ProductId,#Dimension1Id,#Dimension2Id,#Dimension3Id,#Dimension4Id").change(function(){
+        CustomSelectFunctionForStockIn($("#StockInId"), '/StockIssueLine/GetStockInForProduct', '/ComboHelpList/SetSingleStockIn', ' ', false, 0,$('#StockHeaderId','.modal-body').val(),$("#ProductId").val(),$("#Dimension1Id").val(),$("#Dimension2Id").val(),$("#Dimension3Id").val(),$("#Dimension4Id").val());
+    });
 
 
 

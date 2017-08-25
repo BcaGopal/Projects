@@ -89,7 +89,9 @@ namespace Model.ViewModel
 
         [Display(Name = "Job Invoice"), Required]
         public int JobInvoiceHeaderId { get; set; }
-        public virtual JobInvoiceHeader JobInvoiceHeader { get; set; }                
+        public virtual JobInvoiceHeader JobInvoiceHeader { get; set; }
+
+
         public int JobWorkerId { get; set; }
         public string JobWorkerName { get; set; }
         [Required]
@@ -132,6 +134,7 @@ namespace Model.ViewModel
         public string Dimension3Name { get; set; }
         public int? Dimension4Id { get; set; }
         public string Dimension4Name { get; set; }
+        public string ProductNatureName { get; set; }
         public decimal ReceiptBalQty { get; set; }
         public decimal OrderBalanceQty { get; set; }
         public string Specification { get; set; }
@@ -262,7 +265,7 @@ namespace Model.ViewModel
 
         [Display(Name = "Product Group")]
         public string ProductGroupId { get; set; }
-        public DateTime ? AsOnDate { get; set; }
+        public DateTime ? ReceiveAsOnDate { get; set; }
         public string JobWorkerIds { get; set; }
         public JobInvoiceSettingsViewModel JobInvoiceSettings { get; set; }
         public DocumentTypeSettingsViewModel DocumentTypeSettings { get; set; }

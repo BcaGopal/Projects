@@ -1993,6 +1993,8 @@ namespace Module
             AddFields("JobInvoiceSettings", "isVisibleJobReceive", "BIT");
             AddFields("JobInvoiceSettings", "isMandatoryJobReceive", "BIT");
 
+            AddFields("JobInvoiceSettings", "isVisibleProcessHeader", "BIT");
+
             ReCreateProcedures();
             DataCorrection();
 
@@ -2270,6 +2272,18 @@ namespace Module
             {
                 RecordError(ex);
             }
+
+
+            try
+            {
+                mQry = @"UPDATE Web.JobInvoiceSettings SET isVisibleHeaderJobWorker = 1";
+                ExecuteQuery(mQry);
+            }
+            catch (Exception ex)
+            {
+                RecordError(ex);
+            }
+
         }
     }
 
