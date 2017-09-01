@@ -1,4 +1,4 @@
-﻿@model Model.Models.LedgerAccount
+﻿@model Model.ViewModels.LedgerAccountViewModel
 
 @{
     ViewBag.Title = "Create";
@@ -89,6 +89,20 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.SalesTaxGroupProductId, "Sales Tax Group Product", new { @class = "control-label col-xs-4" })
+                            <div class="col-xs-6">
+                                @Html.TextBoxFor(m => m.SalesTaxGroupProductId, new { @class = "form-control col-xs-6 " })
+                                @Html.ValidationMessageFor(model => model.SalesTaxGroupProductId)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
@@ -131,7 +145,8 @@
 <script type="text/javascript">
 
 
-    CustomSelectFunction($("#LedgerAccountGroupId"), '/ComboHelpList/GetLedgerAccountGroups', '/ComboHelpList/SetSingleLedgerAccountGroup', ' ', false, 1);
+    CustomSelectFunction($("#LedgerAccountGroupId"), '/ComboHelpList/GetLedgerAccountGroups', '/ComboHelpList/SetSingleLedgerAccountGroup', ' ', false, 0);
+    CustomSelectFunction($("#SalesTaxGroupProductId"), '/ComboHelpList/GetSalesTaxGroupProduct', '/ComboHelpList/SetSingleSalesTaxGroupProduct', ' ', false, 0);
 
     $(document).ready(function () {
         LoadLedgerAccountOpening();

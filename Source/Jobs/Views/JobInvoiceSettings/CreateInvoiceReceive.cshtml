@@ -67,7 +67,7 @@
                             </div>
 
                             <div class="col-md-6">
-                                <div class="form-group">
+                                <div class="form-group" style="margin-top:15px">
                                     @Html.LabelFor(model => model.isVisibleMachine, "Machine", new { @class = "control-label col-xs-6" })
                                     <div class="col-xs-4" style=" padding-top:4px">
                                         @Html.CheckBoxFor(m => m.isVisibleMachine, new { @class = "checkbox col-xs-2" })
@@ -306,6 +306,60 @@
                                     </div>
                                 </div>
                             </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.isVisibleHeaderJobWorker, "Header JobWorker", new { @class = "control-label col-xs-6" })
+                                    <div class="col-xs-4" style=" padding-top:4px">
+                                        @Html.CheckBoxFor(m => m.isVisibleHeaderJobWorker, new { @class = "checkbox col-xs-2" })
+                                        @Html.ValidationMessageFor(model => model.isVisibleHeaderJobWorker)
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.IsVisibleAdditionalCharges, "Additional Charges", new { @class = "control-label col-xs-6" })
+                                    <div class="col-xs-4" style=" padding-top:4px">
+                                        @Html.CheckBoxFor(m => m.IsVisibleAdditionalCharges, new { @class = "checkbox col-xs-2" })
+                                        @Html.ValidationMessageFor(model => model.IsVisibleAdditionalCharges)
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.IsVisibleReceiveQty, "Receive Qty", new { @class = "control-label col-xs-6" })
+                                    <div class="col-xs-4" style=" padding-top:4px">
+                                        @Html.CheckBoxFor(m => m.IsVisibleReceiveQty, new { @class = "checkbox col-xs-2" })
+                                        @Html.ValidationMessageFor(model => model.IsVisibleReceiveQty)
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.IsVisibleDocQty, "Doc Qty", new { @class = "control-label col-xs-6" })
+                                    <div class="col-xs-4" style=" padding-top:4px">
+                                        @Html.CheckBoxFor(m => m.IsVisibleDocQty, new { @class = "checkbox col-xs-2" })
+                                        @Html.ValidationMessageFor(model => model.IsVisibleDocQty)
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.IsVisiblePassQty, "Pass Qty", new { @class = "control-label col-xs-6" })
+                                    <div class="col-xs-4" style=" padding-top:4px">
+                                        @Html.CheckBoxFor(m => m.IsVisiblePassQty, new { @class = "checkbox col-xs-2" })
+                                        @Html.ValidationMessageFor(model => model.IsVisiblePassQty)
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -342,7 +396,7 @@
 
                         <div class="row">
                             <div class="col-md-6">
-                                <div class="form-group" style="margin-top:15px">
+                                <div class="form-group">
                                     @Html.LabelFor(model => model.isMandatoryJobReceive, "Job Receive", new { @class = "control-label col-xs-6" })
                                     <div class="col-xs-4" style=" padding-top:4px">
                                         @Html.CheckBoxFor(m => m.isMandatoryJobReceive, new { @class = "checkbox col-xs-2" })

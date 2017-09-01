@@ -92,6 +92,7 @@ namespace Service
                         ProcessName=p.Process.ProcessName,
                         Status=p.Status,
                         JobWorkerDocNo=p.JobWorkerDocNo,
+                        JobWorkerDocDate = p.JobWorkerDocDate,
                         SiteId=p.SiteId,
                         SiteName=p.Site.SiteName,
                         JobReceiveHeaderId=p.JobReceiveHeaderId,
@@ -103,8 +104,7 @@ namespace Service
                         ModifiedBy=p.ModifiedBy,
                         LockReason=p.LockReason,
                         CreatedDate=p.CreatedDate,
-                    }
-                        ).FirstOrDefault();
+                    }).FirstOrDefault();
         }
 
         public void Delete(int id)
@@ -148,8 +148,9 @@ namespace Service
                         JobReceiveHeaderId=p.JobReceiveHeaderId,
                         DocDate = p.DocDate,
                         JobWorkerDocNo=p.JobWorkerDocNo,
+                        JobWorkerDocDate = p.JobWorkerDocDate,
                         DocNo = p.DocNo,
-                        JobWorkerName=p.JobWorker.Name,
+                        JobWorkerName = p.JobWorker.Name + ", " + p.JobWorker.Suffix + " [" + p.JobWorker.Code + "]",
                         DocTypeName = p.DocType.DocumentTypeName,
                         Remark = p.Remark,
                         Status=p.Status,
@@ -238,6 +239,7 @@ namespace Service
                         JobReceiveHeaderId = p.JobReceiveHeaderId,
                         DocNo = tab.DocNo,
                         JobWorkerDocNo = tab.JobWorkerDocNo,
+                        JobWorkerDocDate = tab.JobWorkerDocDate,
                         Dimension1Name = tab1.Dimension1.Dimension1Name,
                         Dimension2Name = tab1.Dimension2.Dimension2Name,
                         Dimension3Name = tab1.Dimension3.Dimension3Name,

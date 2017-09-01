@@ -54,7 +54,7 @@ namespace Web
                                        select p).ToList();
 
             ViewBag.DeliveryUnitList = new UnitService(_unitOfWork).GetUnitList().ToList();
-            ViewBag.SalesTaxGroupList = new ChargeGroupPersonService(_unitOfWork).GetChargeGroupPersonList((int)(ChargeTypeConstants.SalesTax)).ToList();
+            ViewBag.SalesTaxGroupList = new ChargeGroupPersonService(_unitOfWork).GetChargeGroupPersonList((int)(TaxTypeConstants.SalesTax)).ToList();
             ViewBag.DeliveryTermsList = new DeliveryTermsService(_unitOfWork).GetDeliveryTermsList().ToList();
 
             ViewBag.id = s.DocTypeId;

@@ -482,6 +482,7 @@
                             {
                                 $("#Dimension2Id").select2("data", { id: data.Dimension2Id, text: data.Dimension2Name });
                             }
+
                             $("#Qty").val(data.BalanceQty);
                             $("#PassQty").val(data.BalanceQty);
                             $("#BalanceQty").val(data.BalanceQty);
@@ -536,6 +537,8 @@
                         if (data != null)
                         {
                             $("#StockInBalanceQty").val(data.BalanceQty);
+
+                            
 
                             if (parseFloat($("#BalanceQty").val()) > parseFloat($("#StockInBalanceQty").val()))
                             {

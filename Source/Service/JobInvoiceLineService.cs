@@ -467,7 +467,7 @@ namespace Service
             else { ProductGroupIdArr = new string[] { "NA" }; }
 
 
-            if (vm.JobReceiveHeaderId != null || vm.ReceiveAsOnDate != null)
+            if ((settings.isVisibleJobReceive ?? false))
             {
                 var temp = (from VJRBal in db.ViewJobReceiveBalance
                             join H in db.JobReceiveHeader on VJRBal.JobReceiveHeaderId equals H.JobReceiveHeaderId into JobReceiveHeaderTable
@@ -603,55 +603,9 @@ namespace Service
         }
         public IEnumerable<JobInvoiceLineIndexViewModel> GetLineListForIndex(int HeaderId)
         {
-            var temp =  (from L in db.JobInvoiceLine
-                    //join Jrl in db.JobReceiveLine on L.JobReceiveLineId equals Jrl.JobReceiveLineId into table
-                    //from tab in table.DefaultIfEmpty()
-                    //join Jol in db.JobOrderLine on tab.JobOrderLineId equals Jol.JobOrderLineId into table1
-                    //from tab1 in table1.DefaultIfEmpty()
-                    //join t in db.JobOrderHeader on tab1.JobOrderHeaderId equals t.JobOrderHeaderId into table3
-                    //from tab3 in table3.DefaultIfEmpty()
-                    //join t in db.Product on tab1.ProductId equals t.ProductId into table2
-                    //from tab2 in table2.DefaultIfEmpty()
-                    where L.JobInvoiceHeaderId == HeaderId
-                    orderby L.Sr
-                    select new JobInvoiceLineIndexViewModel
-                    {
-                        ProductName = L.JobReceiveLine.Product.ProductName,
-                        ProductGroupName = L.JobReceiveLine.Product.ProductGroup.ProductGroupName,
-                        Amount = L.Amount,
-                        Rate = L.Rate,
-                        Qty = L.Qty,
-                        JobOrderDocNo = L.JobReceiveLine.JobOrderLine.JobOrderHeader.DocNo,
-                        JobInvoiceLineId = L.JobInvoiceLineId,
-                        UnitId = L.JobReceiveLine.Product.UnitId,
-                        UnitName = L.JobReceiveLine.Product.Unit.UnitName,
-                        UnitDecimalPlaces = L.JobReceiveLine.Product.Unit.DecimalPlaces,
-                        ProductUidName = L.JobReceiveLine.ProductUid.ProductUidName,
-                        Specification = L.JobReceiveLine.JobOrderLine.Specification,
-                        Dimension1Name = L.JobReceiveLine.Dimension1.Dimension1Name,
-                        Dimension2Name = L.JobReceiveLine.Dimension2.Dimension2Name,
-                        Dimension3Name = L.JobReceiveLine.Dimension3.Dimension3Name,
-                        Dimension4Name = L.JobReceiveLine.Dimension4.Dimension4Name,
-                        LotNo = L.JobReceiveLine.LotNo,
-                        JobReceiveHeaderDocNo = L.JobReceiveLine.JobReceiveHeader.DocNo,
-                        JobOrderHeaderDocNo = L.JobReceiveLine.JobOrderLine.JobOrderHeader.DocNo,
-                        DealQty = L.DealQty,
-                        DealUnitId = L.DealUnitId,
-                        DealUnitName = L.DealUnit.UnitName,
-                        DealUnitDecimalPlaces = L.DealUnit.DecimalPlaces,
-                        Remark = L.Remark,
-                        OrderDocTypeId = L.JobReceiveLine.JobOrderLine.JobOrderHeader.DocTypeId,
-                        ReceiptDocTypeId = L.JobReceiveLine.JobReceiveHeader.DocTypeId,
-                        OrderHeaderId = L.JobReceiveLine.JobOrderLine.JobOrderHeaderId,
-                        ReceiptHeaderId = L.JobReceiveLine.JobReceiveHeaderId,
-                        OrderLineId = L.JobReceiveLine.JobOrderLineId,
-                        ReceiptLineId = L.JobReceiveLineId,
-                        IncentiveAmt = L.IncentiveAmt,
-                        IncentiveRate = L.IncentiveRate,
-                    });
-
-
             return (from L in db.JobInvoiceLine
+                    join La in db.LedgerAccount on L.JobReceiveLine.ProductId equals La.ProductId into LedgerAccountTable
+                    from LedgerAccountTab in LedgerAccountTable.DefaultIfEmpty()
                     //join Jrl in db.JobReceiveLine on L.JobReceiveLineId equals Jrl.JobReceiveLineId into table
                     //from tab in table.DefaultIfEmpty()
                     //join Jol in db.JobOrderLine on tab.JobOrderLineId equals Jol.JobOrderLineId into table1
@@ -665,7 +619,7 @@ namespace Service
                     select new JobInvoiceLineIndexViewModel
                     {
                         ProductName = L.JobReceiveLine.Product.ProductName,
-                        ProductGroupName = L.JobReceiveLine.Product.ProductGroup.ProductGroupName,
+                        ProductGroupName = LedgerAccountTab.LedgerAccountGroup.LedgerAccountGroupName ?? L.JobReceiveLine.Product.ProductGroup.ProductGroupName,
                         Amount = L.Amount,
                         Rate = L.Rate,
                         Qty = L.Qty,
@@ -1397,8 +1351,8 @@ namespace Service
                          join t2 in db.JobOrderLine on p.JobOrderLineId equals t2.JobOrderLineId
                          where
                          p.BalanceQty > 0 &&
-                         t2.ProductUidHeaderId == null 
-                         && (p.JobWorkerId == null ? 1 == 1 : p.JobWorkerId == JobInvoice.JobWorkerId)
+                         t2.ProductUidHeaderId == null
+                         && (JobInvoice.JobWorkerId == null ? 1 == 1 : p.JobWorkerId == JobInvoice.JobWorkerId)
                          orderby t.DocDate, t.DocNo
                          select new
                          {
@@ -1429,14 +1383,18 @@ namespace Service
 
             DateTime Temp;
 
-            if (DateTime.TryParse(searchTerm, out Temp))
+            if (searchTerm != null && searchTerm != "")
             {
-                Query = Query.Where(m => m.Date == Temp);
+                if (DateTime.TryParse(searchTerm, out Temp))
+                {
+                    Query = Query.Where(m => m.Date == Temp);
+                }
+                else
+                {
+                    Query = Query.Where(m => m.DocNo.ToLower().Contains(searchTerm.ToLower()));
+                }
             }
-            else
-            {
-                Query = Query.Where(m => m.DocNo.ToLower().Contains(searchTerm.ToLower()));
-            }
+
             var GQuery = (from p in Query
                           group p by p.Id into g
                           select new
@@ -1519,13 +1477,16 @@ namespace Service
 
             DateTime Temp;
 
-            if (DateTime.TryParse(searchTerm, out Temp))
+            if (searchTerm != null && searchTerm != "")
             {
-                Query = Query.Where(m => m.Date == Temp);
-            }
-            else
-            {
-                Query = Query.Where(m => m.DocNo.ToLower().Contains(searchTerm.ToLower()));
+                if (DateTime.TryParse(searchTerm, out Temp))
+                {
+                    Query = Query.Where(m => m.Date == Temp);
+                }
+                else
+                {
+                    Query = Query.Where(m => m.DocNo.ToLower().Contains(searchTerm.ToLower()));
+                }
             }
             var GQuery = (from p in Query
                           group p by p.Id into g
@@ -1663,6 +1624,8 @@ namespace Service
 
 
             return (from p in db.Product
+                    join La in db.LedgerAccount on p.ProductId equals La.ProductId into LedgerAccountTable
+                    from LedgerAccountTab in LedgerAccountTable.DefaultIfEmpty()
                     where (string.IsNullOrEmpty(settings.filterProductTypes) ? 1 == 1 : ProductTypes.Contains(p.ProductGroup.ProductTypeId.ToString()))
                     && (string.IsNullOrEmpty(settings.filterProductGroups) ? 1 == 1 : ProductGroups.Contains(p.ProductGroupId.ToString()))
                     && (string.IsNullOrEmpty(term) ? 1 == 1 : p.ProductName.ToLower().Contains(term.ToLower())
@@ -1672,7 +1635,7 @@ namespace Service
                     {
                         id = p.ProductId.ToString(),
                         text = p.ProductName,
-                        AProp1 = p.ProductGroup.ProductGroupName,
+                        AProp1 = LedgerAccountTab.LedgerAccountGroup.LedgerAccountGroupName ??  p.ProductGroup.ProductGroupName,
                     });
         }
         public IEnumerable<ComboBoxResult> GetJobOrderHelpListForProduct(int Id, string term)

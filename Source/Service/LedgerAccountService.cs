@@ -9,6 +9,7 @@ using System;
 using Model;
 using System.Threading.Tasks;
 using Data.Models;
+using Model.ViewModels;
 
 namespace Service
 {
@@ -29,6 +30,7 @@ namespace Service
         Task<IEquatable<LedgerAccount>> GetAsync();
         Task<LedgerAccount> FindAsync(int id);
         string GetLedgerAccountnature(int LedgerAccountId);
+        LedgerAccountViewModel GetLedgerAccountForEdit(int LedgerAccountId);
         int NextId(int id);
         int PrevId(int id);
     }
@@ -164,6 +166,27 @@ namespace Service
                         from LedgerAccountGroupTab in LedgerAccountGroupTable.DefaultIfEmpty()
                         where L.LedgerAccountId == LedgerAccountId
                         select new { LedgerAccountNature = LedgerAccountGroupTab.LedgerAccountNature }).FirstOrDefault().LedgerAccountNature;
+        }
+
+
+        public LedgerAccountViewModel GetLedgerAccountForEdit(int LedgerAccountId)
+        {
+            return (from L in db.LedgerAccount
+                    where L.LedgerAccountId == LedgerAccountId
+                    select new LedgerAccountViewModel
+                    {
+                        LedgerAccountId = L.LedgerAccountId,
+                        LedgerAccountName = L.LedgerAccountName,
+                        LedgerAccountSuffix = L.LedgerAccountSuffix,
+                        PersonId = L.PersonId,
+                        LedgerAccountGroupId = L.LedgerAccountGroupId,
+                        SalesTaxGroupProductId = L.Product.SalesTaxGroupProductId,
+                        IsActive = L.IsActive,
+                        IsSystemDefine = L.IsSystemDefine,
+                        CreatedBy = L.CreatedBy,
+                        ModifiedBy = L.ModifiedBy,
+                        CreatedDate = L.CreatedDate,
+                    }).FirstOrDefault();
         }
 
 

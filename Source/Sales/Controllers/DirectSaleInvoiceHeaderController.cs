@@ -75,7 +75,7 @@ namespace Web
             ViewBag.DealUnitList = new UnitService(_unitOfWork).GetUnitList().ToList();
             ViewBag.ShipMethodList = new ShipMethodService(_unitOfWork).GetShipMethodList().ToList();
             ViewBag.CurrencyList = new CurrencyService(_unitOfWork).GetCurrencyList().ToList();
-            ViewBag.SalesTaxGroupList = new ChargeGroupPersonService(_unitOfWork).GetChargeGroupPersonList((int)(ChargeTypeConstants.SalesTax)).ToList();
+            ViewBag.SalesTaxGroupList = new ChargeGroupPersonService(_unitOfWork).GetChargeGroupPersonList((int)(TaxTypeConstants.SalesTax)).ToList();
             ViewBag.DeliveryTermsList = new DeliveryTermsService(_unitOfWork).GetDeliveryTermsList().ToList();
 
             ViewBag.AdminSetting = UserRoles.Contains("Admin").ToString();
@@ -526,13 +526,21 @@ namespace Web
             SaleDispatchHeader DispactchHeader = _SaleDispatchHeaderService.Find(s.SaleDispatchHeaderId.Value);
             PackingHeader packingHeader = _PackingHeaderService.Find(DispactchHeader.PackingHeaderId.Value);
 
+
+            DirectSaleInvoiceHeaderViewModel vm = new DirectSaleInvoiceHeaderViewModel();
+
+
+
             var SaleInvoiceReturn = db.SaleInvoiceReturnLine.Where(i => i.SaleInvoiceLine.SaleInvoiceHeaderId == id).FirstOrDefault();
             if (SaleInvoiceReturn != null)
             {
-                s.LockReason = "Invoice is cancelled.";
+                var ReturnNature = (from H in db.SaleInvoiceReturnHeader where H.SaleInvoiceReturnHeaderId == SaleInvoiceReturn.SaleInvoiceReturnHeaderId select new { DocTypeNature = H.DocType.Nature }).FirstOrDefault().DocTypeNature;
+                if (ReturnNature == TransactionNatureConstants.Credit)
+                    s.LockReason = "Credit Note is generated for this invoice.";
+                else
+                    s.LockReason = "Invoice is cancelled.";
             }
 
-            DirectSaleInvoiceHeaderViewModel vm = new DirectSaleInvoiceHeaderViewModel();
 
             #region DocTypeTimeLineValidation
             try
@@ -564,6 +572,8 @@ namespace Web
             vm.DeliveryTermsId = DispactchHeader.DeliveryTermsId;
             vm.ShipToPartyAddress = DispactchHeader.ShipToPartyAddress;
             vm.GodownId = packingHeader.GodownId;
+
+
 
 
             //var SaleInvoiceReturn = db.SaleInvoiceReturnLine.Where(i => i.SaleInvoiceLine.SaleInvoiceHeaderId == id).FirstOrDefault();
@@ -658,7 +668,11 @@ namespace Web
             var SaleInvoiceReturn = db.SaleInvoiceReturnLine.Where(i => i.SaleInvoiceLine.SaleInvoiceHeaderId == id).FirstOrDefault();
             if (SaleInvoiceReturn != null)
             {
-                vm.LockReason = "Invoice is cancelled.";
+                var ReturnNature = (from H in db.SaleInvoiceReturnHeader where H.SaleInvoiceReturnHeaderId == SaleInvoiceReturn.SaleInvoiceReturnHeaderId select new { DocTypeNature = H.DocType.Nature }).FirstOrDefault().DocTypeNature;
+                if (ReturnNature == TransactionNatureConstants.Credit)
+                    vm.LockReason = "Credit Note is generated for this invoice.";
+                else
+                    vm.LockReason = "Invoice is cancelled.";
             }
 
             //Getting Settings

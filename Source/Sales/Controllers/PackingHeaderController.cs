@@ -71,7 +71,7 @@ namespace Web
             ViewBag.DealUnitList = new UnitService(_unitOfWork).GetUnitList().ToList();
             ViewBag.ShipMethodList = new ShipMethodService(_unitOfWork).GetShipMethodList().ToList();
             ViewBag.CurrencyList = new CurrencyService(_unitOfWork).GetCurrencyList().ToList();
-            ViewBag.SalesTaxGroupList = new ChargeGroupPersonService(_unitOfWork).GetChargeGroupPersonList((int)(ChargeTypeConstants.SalesTax)).ToList();
+            ViewBag.SalesTaxGroupList = new ChargeGroupPersonService(_unitOfWork).GetChargeGroupPersonList((int)(TaxTypeConstants.SalesTax)).ToList();
             ViewBag.DeliveryTermsList = new DeliveryTermsService(_unitOfWork).GetDeliveryTermsList().ToList();
 
             var DivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];

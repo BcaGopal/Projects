@@ -2721,8 +2721,66 @@ namespace Service
             if (!string.IsNullOrEmpty(settings.filterContraDivisions)) { contraDivisions = settings.filterContraDivisions.Split(",".ToCharArray()); }
             else { contraDivisions = new string[] { "NA" }; }
 
+            string[] ProductTypes = null;
+            if (!string.IsNullOrEmpty(settings.filterProductTypes)) { ProductTypes = settings.filterProductTypes.Split(",".ToCharArray()); }
+            else { ProductTypes = new string[] { "NA" }; }
+
+            string[] ProductGroups = null;
+            if (!string.IsNullOrEmpty(settings.filterProductGroups)) { ProductGroups = settings.filterProductGroups.Split(",".ToCharArray()); }
+            else { ProductGroups = new string[] { "NA" }; }
+
+            string[] Products = null;
+            if (!string.IsNullOrEmpty(settings.filterProducts)) { Products = settings.filterProducts.Split(",".ToCharArray()); }
+            else { Products = new string[] { "NA" }; }
+
+
             int CurrentSiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
             int CurrentDivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
+
+
+            //var StockProcessBalance = (from H in db.StockHeader.Where(i => i.ProcessId == StockHeader.ProcessId && i.PersonId == StockHeader.PersonId)
+            //                           join L in db.StockProcess on H.StockHeaderId equals L.StockHeaderId into StockProcessTable
+            //                           from StockProcessTab in StockProcessTable.DefaultIfEmpty()
+            //                           where (string.IsNullOrEmpty(settings.filterContraSites) ? H.SiteId == CurrentSiteId : contraSites.Contains(H.SiteId.ToString()))
+            //        && (string.IsNullOrEmpty(settings.filterContraDivisions) ? H.DivisionId == CurrentDivisionId : contraDivisions.Contains(H.DivisionId.ToString()))
+            //        && (string.IsNullOrEmpty(settings.filterProductTypes) ? 1 == 1 : ProductTypes.Contains(StockProcessTab.Product.ProductGroup.ProductTypeId.ToString()))
+            //        && (string.IsNullOrEmpty(settings.filterProductGroups) ? 1 == 1 : ProductGroups.Contains(StockProcessTab.Product.ProductGroupId.ToString()))
+            //        && (string.IsNullOrEmpty(settings.filterProducts) ? 1 == 1 : Products.Contains(StockProcessTab.ProductId.ToString()))
+            //        && (string.IsNullOrEmpty(term) ? 1 == 1 : StockProcessTab.Product.ProductName.ToLower().Contains(term.ToLower())
+            //            || string.IsNullOrEmpty(term) ? 1 == 1 : StockProcessTab.Dimension1.Dimension1Name.ToLower().Contains(term.ToLower())
+            //            || string.IsNullOrEmpty(term) ? 1 == 1 : StockProcessTab.Dimension2.Dimension2Name.ToLower().Contains(term.ToLower())
+            //            || string.IsNullOrEmpty(term) ? 1 == 1 : StockProcessTab.Dimension3.Dimension3Name.ToLower().Contains(term.ToLower())
+            //            || string.IsNullOrEmpty(term) ? 1 == 1 : StockProcessTab.Dimension4.Dimension4Name.ToLower().Contains(term.ToLower())
+            //            || string.IsNullOrEmpty(term) ? 1 == 1 : StockProcessTab.LotNo.ToLower().Contains(term.ToLower()))
+            //                           group new { H, StockProcessTab } by new
+            //                           {
+            //                               H.SiteId,
+            //                               H.DivisionId,
+            //                               H.PersonId,
+            //                               StockProcessTab.ProcessId,
+            //                               StockProcessTab.ProductId,
+            //                               StockProcessTab.Dimension1Id,
+            //                               StockProcessTab.Dimension2Id,
+            //                               StockProcessTab.Dimension3Id,
+            //                               StockProcessTab.Dimension4Id,
+            //                               StockProcessTab.LotNo
+            //                           } into Result
+            //                           where Result.Sum(i => i.StockProcessTab.Qty_Rec - i.StockProcessTab.Qty_Iss) > 0
+            //                           select new ComboBoxResult
+            //                           {
+            //                               id = Result.Max(i => i.StockProcessTab.StockProcessId).ToString(),
+            //                               text = Result.Max(i => i.StockProcessTab.Product.ProductName),
+            //                               TextProp1 = "Balance :" + Result.Sum(i => i.StockProcessTab.Qty_Rec - i.StockProcessTab.Qty_Iss),
+            //                               AProp1 = Result.Max(i => i.StockProcessTab.Dimension1.Dimension1Name == null ? "" : i.StockProcessTab.Dimension1.Dimension1Name) +
+            //                                        Result.Max(i => i.StockProcessTab.Dimension2.Dimension2Name == null ? "" : i.StockProcessTab.Dimension2.Dimension2Name) +
+            //                                        Result.Max(i => i.StockProcessTab.Dimension3.Dimension3Name == null ? "" : i.StockProcessTab.Dimension3.Dimension3Name) +
+            //                                        Result.Max(i => i.StockProcessTab.Dimension4.Dimension4Name == null ? "" : i.StockProcessTab.Dimension4.Dimension4Name),
+            //                               AProp2 = Result.Max(i => i.StockProcessTab.LotNo == null ? "" : i.StockProcessTab.LotNo)
+            //                           });
+
+            //return StockProcessBalance;
+
+
 
 
             return (from p in db.ViewStockProcessBalance
@@ -2739,6 +2797,9 @@ namespace Service
                     where p.BalanceQty > 0 && p.PersonId == StockHeader.PersonId && p.ProcessId == StockHeader.ProcessId
                     && (string.IsNullOrEmpty(settings.filterContraSites) ? p.SiteId == CurrentSiteId : contraSites.Contains(p.SiteId.ToString()))
                     && (string.IsNullOrEmpty(settings.filterContraDivisions) ? p.DivisionId == CurrentDivisionId : contraDivisions.Contains(p.DivisionId.ToString()))
+                    && (string.IsNullOrEmpty(settings.filterProductTypes) ? 1 == 1 : ProductTypes.Contains(ProductTab.ProductGroup.ProductTypeId.ToString()))
+                    && (string.IsNullOrEmpty(settings.filterProductGroups) ? 1 == 1 : ProductGroups.Contains(ProductTab.ProductGroupId.ToString()))
+                    && (string.IsNullOrEmpty(settings.filterProducts) ? 1 == 1 : Products.Contains(ProductTab.ProductId.ToString()))
                     && (string.IsNullOrEmpty(term) ? 1 == 1 : ProductTab.ProductName.ToLower().Contains(term.ToLower())
                         || string.IsNullOrEmpty(term) ? 1 == 1 : Dimension1Tab.Dimension1Name.ToLower().Contains(term.ToLower())
                         || string.IsNullOrEmpty(term) ? 1 == 1 : Dimension2Tab.Dimension2Name.ToLower().Contains(term.ToLower())

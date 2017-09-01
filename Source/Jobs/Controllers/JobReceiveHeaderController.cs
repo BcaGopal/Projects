@@ -313,6 +313,7 @@ namespace Web
                     temp.DocDate = vm.DocDate;
                     temp.DocNo = vm.DocNo;
                     temp.JobWorkerDocNo = vm.JobWorkerDocNo;
+                    temp.JobWorkerDocDate = vm.JobWorkerDocDate;
                     temp.ProcessId = vm.ProcessId;
                     temp.JobWorkerId = vm.JobWorkerId;
                     temp.JobReceiveById = vm.JobReceiveById;

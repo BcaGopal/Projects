@@ -85,6 +85,10 @@
 
                                             <div class='block row-index' style='width:5%'>
                                                 @Html.HiddenFor(m => Model.JobReceiveLineViewModel[i].ProductId)
+                                                @Html.HiddenFor(m => Model.JobReceiveLineViewModel[i].Dimension1Id)
+                                                @Html.HiddenFor(m => Model.JobReceiveLineViewModel[i].Dimension2Id)
+                                                @Html.HiddenFor(m => Model.JobReceiveLineViewModel[i].Dimension3Id)
+                                                @Html.HiddenFor(m => Model.JobReceiveLineViewModel[i].Dimension4Id)
                                                 @Html.HiddenFor(m => Model.JobReceiveLineViewModel[i].DealUnitId)
                                                 @Html.HiddenFor(m => Model.JobReceiveLineViewModel[i].ProductName)
                                                 @Html.HiddenFor(m => Model.JobReceiveLineViewModel[i].Specification)

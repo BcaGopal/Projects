@@ -55,6 +55,9 @@ namespace Model.Models
 
         [Display(Name = "JobWorker Doc. No."), MaxLength(20)]
         public string JobWorkerDocNo { get; set; }
+        
+        [Display(Name = "Job Worker Doc Date")]
+        public DateTime? JobWorkerDocDate { get; set; }
 
         [ForeignKey("JobReceiveBy"), Display(Name = "Job Receive By")]
         public int JobReceiveById { get; set; }

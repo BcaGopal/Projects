@@ -141,6 +141,9 @@ namespace Finance.App_Start
             //Registering Mappers:
 
 
+            Mapper.CreateMap<LedgerAccount, LedgerAccountViewModel>();
+            Mapper.CreateMap<LedgerAccountViewModel, LedgerAccount>();
+
             Mapper.CreateMap<Person, PersonContactViewModel>();
             Mapper.CreateMap<PersonContactViewModel, Person>();
 

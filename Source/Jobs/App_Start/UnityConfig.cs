@@ -292,6 +292,13 @@ namespace Jobs.App_Start
             Mapper.CreateMap<HeaderChargeViewModel, JobInvoiceReturnHeaderCharge>().ForMember(m => m.Id, x => x.Ignore());
             Mapper.CreateMap<JobInvoiceReturnHeaderCharge, HeaderChargeViewModel>().ForMember(m => m.Id, x => x.Ignore());
 
+            Mapper.CreateMap<HeaderChargeViewModel, JobInvoiceAmendmentHeaderCharge>().ForMember(m => m.Id, x => x.Ignore());
+            Mapper.CreateMap<JobInvoiceAmendmentHeaderCharge, HeaderChargeViewModel>().ForMember(m => m.Id, x => x.Ignore());
+
+            Mapper.CreateMap<LineChargeViewModel, JobInvoiceRateAmendmentLineCharge>().ForMember(m => m.Id, x => x.Ignore());
+            Mapper.CreateMap<JobInvoiceRateAmendmentLineCharge, LineChargeViewModel>().ForMember(m => m.Id, x => x.Ignore());
+
+
 
             Mapper.CreateMap<JobReceiveHeader, JobReceiveHeaderViewModel>();
             Mapper.CreateMap<JobReceiveHeaderViewModel, JobReceiveHeader>();

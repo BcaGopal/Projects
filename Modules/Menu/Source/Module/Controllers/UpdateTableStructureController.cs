@@ -1830,7 +1830,7 @@ namespace Module
             AddFields("ChargeGroupPersons", "PrintingDescription", "NVARCHAR(50)");
 
 
-            AddFields("ProductGroups", "RateDecimalPlaces", "Int Not Null DEFAULT(2)");
+            AddFields("ProductGroups", "RateDecimalPlaces", "TINYINT Not Null DEFAULT(2)");
 
             AddFields("JobInvoiceReturnHeaders", "Nature", "nvarchar(20) Not Null DEFAULT('Return')");
             AddFields("SaleInvoiceReturnHeaders", "Nature", "nvarchar(20) Not Null DEFAULT('Return')");
@@ -1994,6 +1994,17 @@ namespace Module
             AddFields("JobInvoiceSettings", "isMandatoryJobReceive", "BIT");
 
             AddFields("JobInvoiceSettings", "isVisibleProcessHeader", "BIT");
+
+            AddFields("LedgerAccounts", "ProductId", "Int","Products");
+
+
+            DropFields("JobInvoiceSettings", "IsVisibleQty");
+
+            AddFields("JobInvoiceSettings", "IsVisibleDocQty", "Bit");
+            AddFields("JobInvoiceSettings", "IsVisibleReceiveQty", "Bit");
+            AddFields("JobInvoiceSettings", "IsVisibleAdditionalCharges", "Bit");
+
+            AddFields("JobReceiveHeaders", "JobWorkerDocDate", "DATETIME");
 
             ReCreateProcedures();
             DataCorrection();
@@ -2274,9 +2285,85 @@ namespace Module
             }
 
 
+
             try
             {
-                mQry = @"UPDATE Web.JobInvoiceSettings SET isVisibleHeaderJobWorker = 1";
+                if ((int)ExecuteScaler("SELECT Count(*)  FROM Web.ProductNatures WHERE ProductNatureName = 'Ledger Account'") == 0)
+                {
+                    mQry = @"INSERT INTO Web.ProductNatures (ProductNatureName, IsActive, IsSystemDefine, CreatedBy, ModifiedBy, CreatedDate, ModifiedDate)
+                            VALUES ('Ledger Account', 1, 0, 'System', 'System', getdate(), getdate())";
+                    ExecuteQuery(mQry);
+                }
+            }
+            catch (Exception ex)
+            {
+                RecordError(ex);
+            }
+
+            try
+            {
+                if ((int)ExecuteScaler("SELECT Count(*)  FROM Web.ProductTypes WHERE ProductTypeName = 'Ledger Account'") == 0)
+                {
+                    mQry = @"INSERT INTO Web.ProductTypes (ProductTypeName, ProductNatureId, IsCustomUI, IsActive, IsPostedInStock, IsSystemDefine, CreatedBy, ModifiedBy, CreatedDate, ModifiedDate)
+                            VALUES ('Ledger Account', (SELECT ProductNatureId  FROM Web.ProductNatures WHERE ProductNatureName = 'Ledger Account'), 0, 1, 1, 0, 'System', 'System', getdate(), getdate())";
+                    ExecuteQuery(mQry);
+                }
+            }
+            catch (Exception ex)
+            {
+                RecordError(ex);
+            }
+
+
+            try
+            {
+                if ((int)ExecuteScaler("SELECT Count(*)  FROM Web.ProductGroups WHERE ProductGroupName = 'Ledger Account'") == 0)
+                {
+                    mQry = @"INSERT INTO Web.ProductGroups (ProductGroupName, ProductTypeId, IsSystemDefine, IsActive, CreatedBy, ModifiedBy, CreatedDate, ModifiedDate, RateDecimalPlaces)
+                            VALUES ('Ledger Account', (SELECT ProductTypeId  FROM Web.ProductTypes WHERE ProductTypeName = 'Ledger Account'), 0, 1, 'System', 'System', getdate(), getdate(), 2)";
+                    ExecuteQuery(mQry);
+                }
+            }
+            catch (Exception ex)
+            {
+                RecordError(ex);
+            }
+
+
+            try
+            {
+                if ((int)ExecuteScaler("SELECT CHARACTER_MAXIMUM_LENGTH  FROM INFORMATION_SCHEMA.Columns WHERE TABLE_NAME = 'Products' AND COLUMN_NAME = 'ProductName'") == 50)
+                {
+                    mQry = @"ALTER TABLE Web.Products ALTER COLUMN ProductName NVARCHAR(100) NOT NULL";
+                    ExecuteQuery(mQry);
+                }
+            }
+            catch (Exception ex)
+            {
+                RecordError(ex);
+            }
+
+
+            try
+            {
+                mQry = @"INSERT INTO Web.Products (ProductCode, ProductName, ProductDescription, ProductSpecification, StandardCost, ProductGroupId, SalesTaxGroupProductId, DrawBackTariffHeadId, UnitId, DivisionId, ImageFolderName, ImageFileName, StandardWeight, Tags, CBM, IsActive, IsSystemDefine, CreatedBy, ModifiedBy, CreatedDate, ModifiedDate, ReferenceDocTypeId, ReferenceDocId, OMSId, Discriminator, PurchaseProduction, CheckSum, ProductPhotoName, Photo, GrossWeight, ProfitMargin, CarryingCost, DocTypeId, ProductCategoryId, SaleRate, Dimension1, DefaultDimension1Id, DefaultDimension2Id, DefaultDimension3Id, DefaultDimension4Id, DiscontinueDate, DiscontinueReason, SalesTaxProductCodeId)
+                        SELECT SubString(A.LedgerAccountName,1,50) AS ProductCode, A.LedgerAccountName, A.LedgerAccountName,
+                        NULL AS ProductSpecification, 0 AS StandardCost, 
+                        (SELECT ProductGroupId  FROM Web.ProductGroups WHERE ProductGroupName  = 'Ledger Account') AS ProductGroupId, 
+                        (SELECT ChargeGroupProductId  FROM Web.ChargeGroupProducts WHERE ChargeGroupProductName = 'GST 5%') AS SalesTaxGroupProductId, 
+                        NULL AS DrawBackTariffHeadId, 'Nos' AS UnitId, 1 AS DivisionId, 
+                        NULL AS ImageFolderName, NULL AS ImageFileName, 0 AS StandardWeight, NULL AS Tags, NULL AS CBM, 
+                        1 AS IsActive, 1 AS IsSystemDefine, A.CreatedBy, A.ModifiedBy, A.CreatedDate, A.ModifiedDate, 
+                        NULL AS ReferenceDocTypeId, NULL AS ReferenceDocId, NULL AS OMSId, NULL AS Discriminator, 
+                        NULL AS PurchaseProduction, NULL AS CheckSum, NULL AS ProductPhotoName, NULL AS Photo, 
+                        0 AS GrossWeight, 0 AS ProfitMargin, 0 AS CarryingCost, 
+                        NULL AS DocTypeId, NULL AS ProductCategoryId, 0 AS SaleRate, NULL AS Dimension1, 
+                        NULL AS DefaultDimension1Id, NULL AS DefaultDimension2Id, NULL AS DefaultDimension3Id, NULL AS DefaultDimension4Id, 
+                        NULL AS DiscontinueDate, NULL AS DiscontinueReason, NULL AS SalesTaxProductCodeId
+                        FROM Web.LedgerAccounts A
+                        LEFT JOIN Web.Products P ON A.LedgerAccountName = P.ProductName
+                        WHERE A.PersonId IS NULL
+                        AND P.ProductId IS NULL";
                 ExecuteQuery(mQry);
             }
             catch (Exception ex)
@@ -2284,8 +2371,23 @@ namespace Module
                 RecordError(ex);
             }
 
+            try
+            {
+                mQry = @"UPDATE Web.LedgerAccounts
+                        SET Web.LedgerAccounts.ProductId = V1.ProductId
+                        FROM (
+	                        SELECT A.LedgerAccountId, P.ProductId
+	                        FROM Web.LedgerAccounts A
+	                        LEFT JOIN Web.Products P ON A.LedgerAccountName = P.ProductName
+	                        WHERE A.ProductId IS NULL
+	                        AND P.ProductId IS NOT NULL
+                        ) AS V1 WHERE Web.LedgerAccounts.LedgerAccountId = V1.LedgerAccountId";
+                ExecuteQuery(mQry);
+            }
+            catch (Exception ex)
+            {
+                RecordError(ex);
+            }
         }
     }
-
-
 }

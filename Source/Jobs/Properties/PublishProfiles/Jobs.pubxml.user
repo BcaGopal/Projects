@@ -37,28 +37,28 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/22/2016 11:23:20</publishTime>
     </File>
     <File Include="bin/Core.dll">
-      <publishTime>08/23/2017 12:00:58</publishTime>
+      <publishTime>09/01/2017 09:54:55</publishTime>
     </File>
     <File Include="bin/Core.pdb">
-      <publishTime>08/23/2017 12:00:58</publishTime>
+      <publishTime>09/01/2017 09:54:55</publishTime>
     </File>
     <File Include="bin/CustomEventHandlers.dll">
-      <publishTime>08/24/2017 13:42:43</publishTime>
+      <publishTime>09/01/2017 09:55:42</publishTime>
     </File>
     <File Include="bin/CustomEventHandlers.pdb">
-      <publishTime>08/24/2017 13:42:43</publishTime>
+      <publishTime>09/01/2017 09:55:42</publishTime>
     </File>
     <File Include="bin/Data.dll">
-      <publishTime>08/24/2017 13:42:15</publishTime>
+      <publishTime>09/01/2017 09:55:12</publishTime>
     </File>
     <File Include="bin/Data.pdb">
-      <publishTime>08/24/2017 13:42:15</publishTime>
+      <publishTime>09/01/2017 09:55:12</publishTime>
     </File>
     <File Include="bin/DocumentEvents.dll">
-      <publishTime>08/24/2017 13:42:40</publishTime>
+      <publishTime>09/01/2017 09:55:13</publishTime>
     </File>
     <File Include="bin/DocumentEvents.pdb">
-      <publishTime>08/24/2017 13:42:40</publishTime>
+      <publishTime>09/01/2017 09:55:13</publishTime>
     </File>
     <File Include="bin/Elmah.dll">
       <publishTime>09/22/2016 11:24:00</publishTime>
@@ -82,10 +82,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/22/2016 11:23:54</publishTime>
     </File>
     <File Include="bin/Jobs.dll">
-      <publishTime>08/24/2017 14:14:32</publishTime>
+      <publishTime>09/01/2017 09:56:54</publishTime>
     </File>
     <File Include="bin/Jobs.pdb">
-      <publishTime>08/24/2017 14:14:32</publishTime>
+      <publishTime>09/01/2017 09:56:54</publishTime>
     </File>
     <File Include="bin/log4net.dll">
       <publishTime>09/22/2016 11:22:41</publishTime>
@@ -166,49 +166,49 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/22/2016 11:23:54</publishTime>
     </File>
     <File Include="bin/Model.dll">
-      <publishTime>08/24/2017 13:42:06</publishTime>
+      <publishTime>09/01/2017 09:55:03</publishTime>
     </File>
     <File Include="bin/Model.pdb">
-      <publishTime>08/24/2017 13:42:06</publishTime>
+      <publishTime>09/01/2017 09:55:03</publishTime>
     </File>
     <File Include="bin/Models.Login.dll">
-      <publishTime>08/23/2017 12:01:00</publishTime>
+      <publishTime>09/01/2017 09:54:56</publishTime>
     </File>
     <File Include="bin/Models.Login.pdb">
-      <publishTime>08/23/2017 12:00:59</publishTime>
+      <publishTime>09/01/2017 09:54:56</publishTime>
     </File>
     <File Include="bin/Models.Tasks.dll">
-      <publishTime>08/23/2017 12:00:59</publishTime>
+      <publishTime>09/01/2017 09:54:55</publishTime>
     </File>
     <File Include="bin/Models.Tasks.pdb">
-      <publishTime>08/23/2017 12:00:59</publishTime>
+      <publishTime>09/01/2017 09:54:55</publishTime>
     </File>
     <File Include="bin/Newtonsoft.Json.dll">
       <publishTime>09/22/2016 11:23:06</publishTime>
     </File>
     <File Include="bin/Notifier.dll">
-      <publishTime>08/24/2017 13:42:41</publishTime>
+      <publishTime>09/01/2017 09:55:41</publishTime>
     </File>
     <File Include="bin/Notifier.pdb">
-      <publishTime>08/24/2017 13:42:41</publishTime>
+      <publishTime>09/01/2017 09:55:41</publishTime>
     </File>
     <File Include="bin/Owin.dll">
       <publishTime>09/22/2016 11:22:43</publishTime>
     </File>
     <File Include="bin/ProjLib.dll">
-      <publishTime>08/23/2017 12:00:58</publishTime>
+      <publishTime>09/01/2017 09:54:54</publishTime>
     </File>
     <File Include="bin/ProjLib.pdb">
-      <publishTime>08/23/2017 12:00:58</publishTime>
+      <publishTime>09/01/2017 09:54:54</publishTime>
     </File>
     <File Include="bin/Remotion.Data.Linq.dll">
       <publishTime>09/22/2016 10:54:21</publishTime>
     </File>
     <File Include="bin/Reports.dll">
-      <publishTime>08/24/2017 13:42:46</publishTime>
+      <publishTime>09/01/2017 09:56:13</publishTime>
     </File>
     <File Include="bin/Reports.pdb">
-      <publishTime>08/24/2017 13:42:46</publishTime>
+      <publishTime>09/01/2017 09:56:13</publishTime>
     </File>
     <File Include="bin/Reports/CompanyDetail.rdlc">
       <publishTime>09/22/2016 10:54:49</publishTime>
@@ -373,10 +373,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/22/2016 10:54:50</publishTime>
     </File>
     <File Include="bin/Service.dll">
-      <publishTime>08/24/2017 13:42:39</publishTime>
+      <publishTime>09/01/2017 09:55:35</publishTime>
     </File>
     <File Include="bin/Service.pdb">
-      <publishTime>08/24/2017 13:42:38</publishTime>
+      <publishTime>09/01/2017 09:55:35</publishTime>
     </File>
     <File Include="bin/System.Web.Helpers.dll">
       <publishTime>09/22/2016 11:23:54</publishTime>
@@ -1069,7 +1069,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>08/14/2017 14:21:49</publishTime>
     </File>
     <File Include="Scripts/app.js">
-      <publishTime>08/17/2017 12:53:36</publishTime>
+      <publishTime>08/29/2017 14:54:00</publishTime>
     </File>
     <File Include="Scripts/bootstrap-datepicker.js">
       <publishTime>09/22/2016 10:54:37</publishTime>
@@ -1087,7 +1087,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/22/2016 10:54:37</publishTime>
     </File>
     <File Include="Scripts/ChargeCalculation.js">
-      <publishTime>08/22/2017 13:59:02</publishTime>
+      <publishTime>08/29/2017 16:30:50</publishTime>
     </File>
     <File Include="Scripts/CheckForDuplicateDocNo.js">
       <publishTime>09/22/2016 10:54:37</publishTime>
@@ -1387,7 +1387,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>08/16/2017 14:39:32</publishTime>
     </File>
     <File Include="Scripts/ProjLibFormatting.js">
-      <publishTime>08/22/2017 18:23:22</publishTime>
+      <publishTime>08/31/2017 15:51:12</publishTime>
     </File>
     <File Include="Scripts/respond.js">
       <publishTime>09/22/2016 10:54:37</publishTime>
@@ -1441,13 +1441,13 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/22/2016 10:54:37</publishTime>
     </File>
     <File Include="Scripts/ui-grid.js">
-      <publishTime>08/16/2017 08:23:04</publishTime>
+      <publishTime>08/25/2017 08:56:24</publishTime>
     </File>
     <File Include="Scripts/ui-grid.min.js">
       <publishTime>08/14/2017 13:41:21</publishTime>
     </File>
     <File Include="Scripts/_references.js">
-      <publishTime>07/14/2017 14:27:31</publishTime>
+      <publishTime>08/24/2017 18:35:44</publishTime>
     </File>
     <File Include="Views/Account/ExternalLoginConfirmation.cshtml">
       <publishTime>09/22/2016 10:54:37</publishTime>
@@ -1489,7 +1489,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/22/2016 10:54:36</publishTime>
     </File>
     <File Include="Views/GridReport/GridReportLayout.cshtml">
-      <publishTime>08/24/2017 12:11:20</publishTime>
+      <publishTime>08/30/2017 10:00:01</publishTime>
     </File>
     <File Include="Views/Home/About.cshtml">
       <publishTime>09/22/2016 10:54:37</publishTime>
@@ -1504,7 +1504,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/03/2017 12:24:29</publishTime>
     </File>
     <File Include="Views/JobInvoiceAmendmentHeader/Create.cshtml">
-      <publishTime>03/03/2017 17:14:18</publishTime>
+      <publishTime>08/29/2017 16:43:14</publishTime>
     </File>
     <File Include="Views/JobInvoiceAmendmentHeader/Detail.cshtml">
       <publishTime>09/22/2016 10:54:37</publishTime>
@@ -1513,7 +1513,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/22/2016 10:54:37</publishTime>
     </File>
     <File Include="Views/JobInvoiceAmendmentHeader/Index.cshtml">
-      <publishTime>03/03/2017 17:14:18</publishTime>
+      <publishTime>08/31/2017 12:15:28</publishTime>
     </File>
     <File Include="Views/JobInvoiceAmendmentHeader/_Reason.cshtml">
       <publishTime>09/22/2016 10:54:37</publishTime>
@@ -1534,7 +1534,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/22/2016 10:54:37</publishTime>
     </File>
     <File Include="Views/JobInvoiceLine/_Create.cshtml">
-      <publishTime>08/16/2017 13:46:08</publishTime>
+      <publishTime>08/30/2017 14:29:07</publishTime>
     </File>
     <File Include="Views/JobInvoiceLine/_Filters.cshtml">
       <publishTime>08/22/2017 12:02:42</publishTime>
@@ -1549,7 +1549,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/26/2017 14:26:00</publishTime>
     </File>
     <File Include="Views/JobInvoiceRateAmendmentLine/_Create.cshtml">
-      <publishTime>03/03/2017 14:27:29</publishTime>
+      <publishTime>08/29/2017 17:30:14</publishTime>
     </File>
     <File Include="Views/JobInvoiceRateAmendmentLine/_Filters.cshtml">
       <publishTime>03/03/2017 14:26:05</publishTime>
@@ -1576,7 +1576,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/22/2016 10:54:37</publishTime>
     </File>
     <File Include="Views/JobInvoiceReceiveHeader/Create.cshtml">
-      <publishTime>08/21/2017 15:53:42</publishTime>
+      <publishTime>08/28/2017 22:07:24</publishTime>
     </File>
     <File Include="Views/JobInvoiceReceiveHeader/Detail.cshtml">
       <publishTime>05/16/2017 11:00:37</publishTime>
@@ -1585,25 +1585,25 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/22/2016 10:54:37</publishTime>
     </File>
     <File Include="Views/JobInvoiceReceiveHeader/Index.cshtml">
-      <publishTime>08/10/2017 15:45:06</publishTime>
+      <publishTime>08/31/2017 18:13:26</publishTime>
     </File>
     <File Include="Views/JobInvoiceReceiveHeader/_Reason.cshtml">
       <publishTime>09/22/2016 10:54:37</publishTime>
     </File>
     <File Include="Views/JobInvoiceReceiveLine/_Create.cshtml">
-      <publishTime>08/24/2017 13:36:54</publishTime>
+      <publishTime>08/30/2017 21:43:44</publishTime>
     </File>
     <File Include="Views/JobInvoiceReceiveLine/_Filters.cshtml">
       <publishTime>08/22/2017 12:17:11</publishTime>
     </File>
     <File Include="Views/JobInvoiceReceiveLine/_OrderFilters.cshtml">
-      <publishTime>08/22/2017 12:16:20</publishTime>
+      <publishTime>08/31/2017 16:11:27</publishTime>
     </File>
     <File Include="Views/JobInvoiceReceiveLine/_OrderResults.cshtml">
-      <publishTime>08/21/2017 10:33:47</publishTime>
+      <publishTime>08/25/2017 14:12:39</publishTime>
     </File>
     <File Include="Views/JobInvoiceReceiveLine/_Results.cshtml">
-      <publishTime>08/22/2017 12:14:50</publishTime>
+      <publishTime>08/25/2017 14:17:40</publishTime>
     </File>
     <File Include="Views/JobInvoiceReturnHeader/Create.cshtml">
       <publishTime>08/22/2017 18:28:05</publishTime>
@@ -1621,7 +1621,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/22/2016 10:54:37</publishTime>
     </File>
     <File Include="Views/JobInvoiceReturnLine/_Create.cshtml">
-      <publishTime>08/22/2017 20:15:09</publishTime>
+      <publishTime>08/28/2017 12:26:02</publishTime>
     </File>
     <File Include="Views/JobInvoiceReturnLine/_Filters.cshtml">
       <publishTime>01/05/2017 14:19:52</publishTime>
@@ -1639,7 +1639,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/18/2017 17:44:12</publishTime>
     </File>
     <File Include="Views/JobInvoiceSettings/CreateInvoiceReceive.cshtml">
-      <publishTime>08/18/2017 09:04:58</publishTime>
+      <publishTime>08/30/2017 08:49:30</publishTime>
     </File>
     <File Include="Views/JobInvoiceSettings/CreateJobInvoiceAmendment.cshtml">
       <publishTime>01/31/2017 10:53:56</publishTime>
@@ -1840,7 +1840,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/31/2017 11:22:33</publishTime>
     </File>
     <File Include="Views/JobOrderLine/_Create.cshtml">
-      <publishTime>08/22/2017 20:24:54</publishTime>
+      <publishTime>08/31/2017 16:05:28</publishTime>
     </File>
     <File Include="Views/JobOrderLine/_CreateForProdOrder.cshtml">
       <publishTime>08/22/2017 16:23:09</publishTime>
@@ -1900,7 +1900,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/31/2017 10:53:19</publishTime>
     </File>
     <File Include="Views/JobReceiveHeader/Create.cshtml">
-      <publishTime>05/19/2017 15:10:08</publishTime>
+      <publishTime>08/31/2017 17:53:00</publishTime>
     </File>
     <File Include="Views/JobReceiveHeader/Detail.cshtml">
       <publishTime>03/03/2017 14:32:38</publishTime>
@@ -1909,7 +1909,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/22/2016 10:54:38</publishTime>
     </File>
     <File Include="Views/JobReceiveHeader/Index.cshtml">
-      <publishTime>08/10/2017 15:45:58</publishTime>
+      <publishTime>08/31/2017 18:15:18</publishTime>
     </File>
     <File Include="Views/JobReceiveHeader/_Reason.cshtml">
       <publishTime>09/22/2016 10:54:38</publishTime>
@@ -1933,16 +1933,16 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/03/2017 09:55:56</publishTime>
     </File>
     <File Include="Views/JobReceiveLine/_Results.cshtml">
-      <publishTime>07/25/2017 17:13:25</publishTime>
+      <publishTime>08/30/2017 16:43:22</publishTime>
     </File>
     <File Include="Views/JobReceiveLine/_ResultsWithLossQty.cshtml">
-      <publishTime>07/25/2017 17:14:14</publishTime>
+      <publishTime>08/30/2017 16:42:53</publishTime>
     </File>
     <File Include="Views/JobReceiveLine/_ResultsWithQty.cshtml">
-      <publishTime>07/25/2017 17:14:33</publishTime>
+      <publishTime>08/30/2017 16:43:01</publishTime>
     </File>
     <File Include="Views/JobReceiveLine/_ResultsWithQtyLotNo.cshtml">
-      <publishTime>07/25/2017 17:14:46</publishTime>
+      <publishTime>08/30/2017 16:43:11</publishTime>
     </File>
     <File Include="Views/JobReceiveLine/_Sequence.cshtml">
       <publishTime>09/22/2016 10:54:38</publishTime>
@@ -2191,7 +2191,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/22/2016 10:54:37</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>08/24/2017 14:14:33</publishTime>
+      <publishTime>09/01/2017 10:07:48</publishTime>
     </File>
   </ItemGroup>
 </Project>

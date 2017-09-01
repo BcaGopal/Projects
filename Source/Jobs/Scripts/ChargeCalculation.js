@@ -259,14 +259,14 @@ function DrawFooterFields(DebugMode) {
 $(document).on('change', '.Calculation', ChargeCalculation);
 
 
-function GetChargeRates(CalculationId, DocumentType, SiteId, DivisionId, ProcessId, ChargeGroupPersonId, ChargeGroupProductId)
+function GetChargeRates(CalculationId, DocumentType, SiteId, DivisionId, ProcessId, ChargeGroupPersonId, ChargeGroupProductId, ProductId)
 {
     $.ajax({
         async: false,
         cache: false,
         type: 'POST',
         url: "/TaxCalculation/GetChargeRates/",
-        data: { CalculationId: CalculationId, DocTypeId: DocumentType, SiteId: SiteId, DivisionId: DivisionId, ProcessId: ProcessId, ChargeGroupPersonId: ChargeGroupPersonId, ChargeGroupProductId: ChargeGroupProductId },
+        data: { CalculationId: CalculationId, DocTypeId: DocumentType, SiteId: SiteId, DivisionId: DivisionId, ProcessId: ProcessId, ChargeGroupPersonId: ChargeGroupPersonId, ChargeGroupProductId: ChargeGroupProductId, ProductId: ProductId },
         success: function (data) {
             ProductCharges = data;
             AssignValuesToChargeRates();

@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Core.Common
 {
-    public enum ChargeTypeConstants
+    public enum TaxTypeConstants
     {
-        SalesTax = 1       
+        SalesTax = 1
     }
 
     public enum ChargeTypesEnum
@@ -36,6 +36,11 @@ namespace Core.Common
     {
         public const string Incentive = "Incentive";
         public const string Penalty = "Penalty";
+    }
+
+    public class ChargeTypeConstants
+    {
+        public const string SalesTaxableAmount = "Sales Taxable Amount";
     }
 
     public enum DivisionEnum
