@@ -127,6 +127,8 @@ namespace Model.Models
 
         public ICollection<PackingLine> PackingLine { get; set; }
 
+        public int? SaleOrderLineId { get; set; }
+
         [MaxLength(50)]
         public string OMSId { get; set; }
     }

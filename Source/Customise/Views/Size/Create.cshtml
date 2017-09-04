@@ -251,30 +251,62 @@
         }
     });
 
-    $('#Length,#LengthFraction,#Width,#WidthFraction,#Height,#HeightFraction').keyup(function(){
+    $('#Length,#LengthFraction,#Width,#WidthFraction,#Height,#HeightFraction,#UnitId').keyup(function(){
         if (IsSizeNameChangedByUser == false)
         {
             //alert("Set Name");
             //alert(IsSizeNameChangedByUser);
+            //alert($('#UnitId').val());
             var SizeName = "";
-            if ($('#Length').val() != "" && $('#Length').val() != 0)
+            if ($('#UnitId').val() == "MET")
             {
-                SizeName = $('#Length').val().toString() + '`';
-            }
-            if ($('#LengthFraction').val() != "" && $('#LengthFraction').val() != 0)
-            {
-                SizeName = SizeName + $('#LengthFraction').val().toString() + '"' ;
-            }
-            SizeName = SizeName + "X";
-            if ($('#Width').val() != "" && $('#Width').val() != 0)
-            {
-                SizeName = SizeName + $('#Width').val().toString() + '`';
-            }
-            if ($('#WidthFraction').val() != "" && $('#WidthFraction').val() != 0)
-            {
-                SizeName = SizeName + $('#WidthFraction').val().toString() + '"' ;
-            }
+                if ($('#Length').val() != "" && $('#Length').val() != 0)
+                {
+                    SizeName = $('#Length').val().toString() + '';
+                }
+                if ($('#LengthFraction').val() != "" && $('#LengthFraction').val() != 0)
+                {
+                    SizeName = SizeName + $('#LengthFraction').val().toString() + '' ;
+                }
+                else
+                {
+                    SizeName = SizeName + '00' ;
+                }
 
+                SizeName = SizeName + "X";
+                if ($('#Width').val() != "" && $('#Width').val() != 0)
+                {
+                    SizeName = SizeName + $('#Width').val().toString() + '';
+                }
+                if ($('#WidthFraction').val() != "" && $('#WidthFraction').val() != 0)
+                {
+                    SizeName = SizeName + $('#WidthFraction').val().toString() + '' ;
+                }
+                else
+                {
+                    SizeName = SizeName + '00' ;
+                }
+            }
+            else
+            {
+                if ($('#Length').val() != "" && $('#Length').val() != 0)
+                {
+                    SizeName = $('#Length').val().toString() + '`';
+                }
+                if ($('#LengthFraction').val() != "" && $('#LengthFraction').val() != 0)
+                {
+                    SizeName = SizeName + $('#LengthFraction').val().toString() + '"' ;
+                }
+                SizeName = SizeName + "X";
+                if ($('#Width').val() != "" && $('#Width').val() != 0)
+                {
+                    SizeName = SizeName + $('#Width').val().toString() + '`';
+                }
+                if ($('#WidthFraction').val() != "" && $('#WidthFraction').val() != 0)
+                {
+                    SizeName = SizeName + $('#WidthFraction').val().toString() + '"' ;
+                }
+            }
 
             $('#SizeName').val(SizeName);
         }

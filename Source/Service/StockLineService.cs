@@ -74,6 +74,8 @@ namespace Service
         IEnumerable<ComboBoxResult> FGetProductUidHelpList(int Id, string term);
         IEnumerable<StockLineViewModel> GetStockInForFilters(StockInFiltersForIssue vm);
         IEnumerable<ComboBoxResult> GetStockProcessBalanceForReceive(int StockHeaderId, string term);
+        IEnumerable<StockIssueForProductsFilterViewModel> GetProductsForFilters(ProductsFiltersForIssue svm);
+        IEnumerable<StockLineViewModel> GetBOMDetailForProducts(ProductsFilterViewModel vm);
 
 
     }
@@ -976,6 +978,8 @@ namespace Service
                         from tab in table.DefaultIfEmpty()
                         join product in db.Product on p.ProductId equals product.ProductId into table2
                         from tab2 in table2.DefaultIfEmpty()
+                        join PG in db.ProductGroups on tab2.ProductGroupId equals PG.ProductGroupId into tablePG
+                        from tabPG in tablePG.DefaultIfEmpty()
                         join t2 in db.RequisitionLine on p.RequisitionLineId equals t2.RequisitionLineId into table3
                         from tab3 in table3.DefaultIfEmpty()
                         where (string.IsNullOrEmpty(vm.ProductId) ? 1 == 1 : ProductIdArr.Contains(p.ProductId.ToString()))
@@ -1001,6 +1005,8 @@ namespace Service
                             Dimension2Id = p.Dimension2Id,
                             Dimension3Id = p.Dimension3Id,
                             Dimension4Id = p.Dimension4Id,
+                            ProductGroupId = tabPG.ProductGroupId,
+                            ProductGroupName = tabPG.ProductGroupName.Replace(" ", "").Replace("/", ""),
                             ProcessId = tab3.ProcessId,
                             Specification = tab3.Specification,
                             RequisitionBalanceQty = p.BalanceQty,
@@ -2823,5 +2829,161 @@ namespace Service
         public void Dispose()
         {
         }
+
+        public IEnumerable<StockIssueForProductsFilterViewModel> GetProductsForFilters(ProductsFiltersForIssue svm)
+        {
+
+            SqlParameter SqlParameterCostCenterId = new SqlParameter("@CostCenterId", svm.CostCenterId);
+
+            IEnumerable<StockIssueForProductsFilterViewModel> StockAvailableForPacking = db.Database.SqlQuery<StockIssueForProductsFilterViewModel>("Web.spGetProductsFromCostCenter @CostCenterId", SqlParameterCostCenterId).ToList();
+
+            var temp2 = (from p in StockAvailableForPacking
+                         select new StockIssueForProductsFilterViewModel
+                         {
+                             JobHeaderDocNo = p.JobHeaderDocNo,
+                             JobOrderHeaderId = p.JobOrderHeaderId,
+                             JobOrderLineId = p.JobOrderLineId,
+                             Qty = p.Qty,
+                             ProductId = p.ProductId,
+                             ProductName = p.ProductName,
+                             CostCenterId = p.CostCenterId,
+                             CostCenterName = p.CostCenterName,
+                             StockHeaderId = svm.StockHeaderId,
+                         }).ToList();
+
+            return temp2;
+        }
+
+
+        public IEnumerable<StockLineViewModel> GetBOMDetailForProducts(ProductsFilterViewModel vm)
+        {
+
+
+            var tempN = (from H in vm.StockIssueForProductsFilterViewModel
+                         join JOB in db.JobOrderBom on H.JobOrderLineId equals JOB.JobOrderLineId into tableJOB
+                         from tabJOB in tableJOB.DefaultIfEmpty()
+                         join JOL in db.JobOrderLine on H.JobOrderLineId equals JOL.JobOrderLineId into tableJOL
+                         from tabJOL in tableJOL.DefaultIfEmpty()
+                         where H.Qty > 0 && tabJOB.Qty > 0
+                         group tabJOB by new { H.StockHeaderId, H.CostCenterId, tabJOB.JobOrderLineId, H.Qty, tabJOB.ProductId, tabJOB.Dimension1Id } into tableG
+                         select new
+                         {
+                             Dimension1Id = tableG.Key.Dimension1Id,
+                             ReqQty = (Decimal)tableG.Sum(m => m.Qty),
+                             ProductId = tableG.Key.ProductId,
+                             Qty = tableG.Key.Qty,
+                             CostCenterId = tableG.Key.CostCenterId,
+                             StockHeaderId = tableG.Key.StockHeaderId,
+                             JobOrderLineId = tableG.Key.JobOrderLineId
+                         }
+            ).ToList();
+
+            var temp1 = (from H in tempN
+                         join JOL in db.JobOrderLine on H.JobOrderLineId equals JOL.JobOrderLineId into tableJOL
+                         from tabJOL in tableJOL.DefaultIfEmpty()
+                         join JOH in db.JobOrderHeader on tabJOL.JobOrderHeaderId equals JOH.JobOrderHeaderId into tableJOH
+                         from tabJOH in tableJOH.DefaultIfEmpty()
+                         select new
+                         {
+
+                             Dimension1Id = H.Dimension1Id,
+                             ProcessId = tabJOH.ProcessId,
+                             RequisitionBalanceQty = H.ReqQty / tabJOL.Qty * H.Qty,
+                             Qty = (decimal)H.ReqQty / (decimal)tabJOL.Qty * (decimal)H.Qty,
+                             ProductId = H.ProductId,
+                             CostCenterId = H.CostCenterId,
+                             StockHeaderId = H.StockHeaderId
+                         }).ToList();
+
+
+            var tempP = (from P in db.Product
+                         join PG in db.ProductGroups on P.ProductGroupId equals PG.ProductGroupId into tablePG
+                         from tabPG in tablePG.DefaultIfEmpty()
+                         join PT in db.ProductTypes on tabPG.ProductTypeId equals PT.ProductTypeId into tablePT
+                         from tabPT in tablePT.DefaultIfEmpty()
+                         join U in db.Units on P.UnitId equals U.UnitId into tableU
+                         from tabU in tableU.DefaultIfEmpty()
+                         where tabPT.ProductTypeName == "YARN" || tabPT.ProductTypeName == "Yarn SKU"
+                         select new
+                         {
+
+                             ProductId = P.ProductId,
+                             ProductGroupId = P.ProductGroupId,
+                             ProductName = P.ProductName,
+                             ProductGroupName = tabPG.ProductGroupName.Replace(" ", "").Replace("/", ""),
+                             UnitId = tabU.UnitId,
+                             UnitName = tabU.UnitName,
+                             UnitDecimalPlaces = tabU.DecimalPlaces,
+                         }).ToList();
+
+
+            var temp3 = (from H in temp1
+                         join P in tempP on H.ProductId equals P.ProductId into tableP
+                         from tabP in tableP.DefaultIfEmpty()
+                         select new
+                         {
+
+                             Dimension1Id = H.Dimension1Id,
+                             ProcessId = H.ProcessId,
+                             RequisitionBalanceQty = H.RequisitionBalanceQty,
+                             Qty = H.Qty,
+                             ProductName = tabP.ProductName,
+                             ProductId = H.ProductId,
+                             ProductGroupName = tabP.ProductGroupName,
+                             ProductGroupId = tabP.ProductGroupId,
+                             CostCenterId = H.CostCenterId,
+                             StockHeaderId = H.StockHeaderId,
+                             UnitId = tabP.UnitId,
+                             UnitName = tabP.UnitName,
+                             UnitDecimalPlaces = tabP.UnitDecimalPlaces,
+                         }
+                        ).ToList();
+
+            var temp4 = (from H in temp3
+                         group H by new { H.StockHeaderId, H.CostCenterId, H.ProcessId, H.ProductId, H.ProductName, H.ProductGroupName, H.Dimension1Id } into tableG
+                         select new
+                         {
+
+                             Dimension1Id = tableG.Key.Dimension1Id,
+                             ProcessId = tableG.Key.ProcessId,
+                             RequisitionBalanceQty = (Decimal)tableG.Sum(m => m.Qty),
+                             Qty = (Decimal)tableG.Sum(m => m.Qty),
+                             ProductName = tableG.Key.ProductName,
+                             ProductId = tableG.Key.ProductId,
+                             ProductGroupName = tableG.Key.ProductGroupName,
+                             CostCenterId = tableG.Key.CostCenterId,
+                             StockHeaderId = tableG.Key.StockHeaderId,
+                             UnitId = tableG.Max(m => m.UnitId),
+                             UnitName = tableG.Max(m => m.UnitName),
+                             UnitDecimalPlaces = tableG.Max(m => m.UnitDecimalPlaces),
+                         }
+                    ).ToList();
+
+
+            var temp = (from H in temp4
+                        join D1 in db.Dimension1 on H.Dimension1Id equals D1.Dimension1Id into tableD1
+                        from tabD1 in tableD1.DefaultIfEmpty()
+                        select new StockLineViewModel
+                        {
+                            Dimension1Name = H.Dimension1Id == null ? null : tabD1.Dimension1Name,
+                            Dimension1Id = H.Dimension1Id,
+                            ProcessId = H.ProcessId,
+                            RequisitionBalanceQty = H.RequisitionBalanceQty,
+                            Qty = H.Qty,
+                            ProductName = H.ProductName,
+                            ProductId = H.ProductId,
+                            ProductGroupName = H.ProductGroupName,
+                            CostCenterId = H.CostCenterId,
+                            StockHeaderId = H.StockHeaderId,
+                            UnitId = H.UnitId,
+                            UnitName = H.UnitName,
+                            UnitDecimalPlaces = H.UnitDecimalPlaces,
+                        }
+        ).ToList();
+
+            return temp;
+        }
+
+
     }
 }

@@ -1563,6 +1563,30 @@ namespace Web
 
             ProductAreaDetail productarea = _PackingLineService.FGetProductArea(ProductId);
 
+            int a = (int)ProductSizeTypeConstants.StandardSize;          
+
+            ProductSize ps = new ProductSizeService(_unitOfWork).FindProductSize(a, ProductId);
+            Size s = new SizeService(_unitOfWork).Find(ps.SizeId);
+
+            decimal AreaFT2=0;
+
+            if (s.UnitId == "MET")
+            {
+                using (SqlConnection sqlConnection = new SqlConnection((string)System.Web.HttpContext.Current.Session["DefaultConnectionString"]))
+                {
+                    sqlConnection.Open();
+
+                    SqlCommand Totalf = new SqlCommand("SELECT * FROM Web.FuncGetSqFeetFromCMSize( " + s.SizeId + ")", sqlConnection);
+
+                    AreaFT2 = Convert.ToDecimal(Totalf.ExecuteScalar() == DBNull.Value ? 0 : Totalf.ExecuteScalar());
+                }
+            }
+
+            if (productarea != null)
+            {
+                productarea.ProductArea = AreaFT2;
+            }
+
             Decimal AreaInDeliveryUnit = 0;
 
             if (productarea != null)

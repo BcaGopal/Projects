@@ -49,6 +49,8 @@ namespace Model.ViewModel
         public int GatePassStatus { get; set; }
         public DateTime ? GatePassDocDate { get; set; }
 
+        public string ProductGroupName { get; set; }
+
         [Display(Name = "Godown")]        
         public int? GodownId { get; set; }
         public string GodownName { get; set; }
@@ -132,6 +134,8 @@ namespace Model.ViewModel
 
         [Display(Name = "Remark")]
         public string Remark { get; set; }
+
+        public string ProductGroupName { get; set; }
 
         [Display(Name = "Request No")]
         public int ? RequisitionLineId { get; set; }
@@ -416,6 +420,32 @@ namespace Model.ViewModel
         public StockHeaderSettingsViewModel StockHeaderSettings { get; set; }
     }
 
+    public class ProductsFilterViewModel
+    {
+        public List<StockIssueForProductsFilterViewModel> StockIssueForProductsFilterViewModel { get; set; }
+       
+    }
+
+    public class ProductsFiltersForIssue
+    {
+        public int StockHeaderId { get; set; }
+        public int PersonId { get; set; }
+        public string CostCenterId { get; set; }
+        public DocumentTypeSettingsViewModel DocumentTypeSettings { get; set; }
+    }
+    public class StockIssueForProductsFilterViewModel
+    {
+        public int StockHeaderId { get; set; }
+        public int JobOrderLineId { get; set; }
+        public int JobOrderHeaderId { get; set; }
+        public string JobHeaderDocNo { get; set; }
+        public int CostCenterId { get; set; }
+        public string CostCenterName { get; set; }
+        public decimal? Qty { get; set; }
+        public int ProductId { get; set; }
+        public string ProductName { get; set; }
+
+    }
 }
 
 

@@ -933,7 +933,7 @@
         <TablixBody>
           <TablixColumns>
             <TablixColumn>
-              <Width>1.22917in</Width>
+              <Width>0.73959in</Width>
             </TablixColumn>
             <TablixColumn>
               <Width>0.85417in</Width>
@@ -1264,7 +1264,7 @@
                 </SortExpression>
               </SortExpressions>
               <TablixHeader>
-                <Size>2.59375in</Size>
+                <Size>2.10118in</Size>
                 <CellContents>
                   <Textbox Name="GroupOnText">
                     <CanGrow>true</CanGrow>
@@ -1302,7 +1302,7 @@
             </TablixMember>
             <TablixMember>
               <TablixHeader>
-                <Size>2.59375in</Size>
+                <Size>2.10118in</Size>
                 <CellContents>
                   <Textbox Name="Textbox24">
                     <CanGrow>true</CanGrow>
@@ -1358,7 +1358,7 @@
         <Top>3.26917in</Top>
         <Left>0.02583in</Left>
         <Height>0.75in</Height>
-        <Width>4.67709in</Width>
+        <Width>3.69493in</Width>
         <ZIndex>3</ZIndex>
         <Style>
           <Border>
@@ -1664,12 +1664,6 @@
           </QueryParameter>
           <QueryParameter Name="@Godown">
             <Value>=Parameters!Godown.Value</Value>
-          </QueryParameter>
-          <QueryParameter Name="@Dimension1">
-            <Value>=Parameters!Dimension1.Value</Value>
-          </QueryParameter>
-          <QueryParameter Name="@Dimension2">
-            <Value>=Parameters!Dimension2.Value</Value>
           </QueryParameter>
         </QueryParameters>
         <CommandType>StoredProcedure</CommandType>

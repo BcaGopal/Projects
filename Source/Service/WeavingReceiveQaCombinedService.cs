@@ -27,7 +27,7 @@ namespace Service
         Task<JobReceiveQAAttribute> FindAsync(int id);
         WeavingReceiveQACombinedViewModel GetJobReceiveDetailForEdit(int JobReceiveHeaderId);//JobReceiveHeaderId
         LastValues GetLastValues(int DocTypeId);
-        IQueryable<ComboBoxResult> GetCustomProduct(int filter, string term);
+        IQueryable<ComboBoxResult> GetCustomProduct(int filter, string term, int? PersonId);
         IQueryable<ComboBoxResult> GetCustomPerson(int Id, string term);
     }
 
@@ -123,11 +123,8 @@ namespace Service
             JobReceiveLine.CreatedBy = UserName;
             JobReceiveLine.ModifiedBy = UserName;
 
-            if (JobReceiveLine.JobOrderLineId != null)
-            {
-                Dictionary<int, decimal> LineStatus = new Dictionary<int, decimal>();
-                LineStatus.Add((int)JobReceiveLine.JobOrderLineId, (JobReceiveLine.Qty + JobReceiveLine.LossQty));
-            }
+            Dictionary<int, decimal> LineStatus = new Dictionary<int, decimal>();
+            LineStatus.Add((int)JobReceiveLine.JobOrderLineId, (JobReceiveLine.Qty + JobReceiveLine.LossQty));
 
             Stock Stock = new Stock();
             Stock.DocDate = JobReceiveHeader.DocDate;
@@ -573,7 +570,7 @@ namespace Service
                                                                          JobReceiveQAHeaderId = JobReceiveQALineTab.JobReceiveQAHeaderId,
                                                                          StockHeaderId = H.StockHeaderId ?? 0,
                                                                          StockId = JobReceiveLineTab.StockId ?? 0,
-                                                                         JobOrderLineId = JobReceiveLineTab.JobOrderLineId,
+                                                                         JobOrderLineId = (int) JobReceiveLineTab.JobOrderLineId,
                                                                          JobOrderHeaderDocNo = JobOrderLineTab.JobOrderHeader.DocNo,
                                                                          GodownId = H.GodownId,
                                                                          JobWorkerId = H.JobWorkerId,
@@ -625,6 +622,110 @@ namespace Service
             return WeavingReceiveQADetail;
         }
 
+        public WeavingReceiveQACombinedViewModel_ByProductUid GetProductUidDetail(int ProductUidId)//ProductUidId
+        {
+
+
+            WeavingReceiveQACombinedViewModel_ByProductUid WeavingReceiveQADetail = (from PU in db.ProductUid
+                                                                                     join H in db.JobReceiveHeader on PU.GenDocId equals H.JobReceiveHeaderId into HTable
+                                                                                     from HTab in HTable.DefaultIfEmpty()
+                                                                                     join L in db.JobReceiveLine on HTab.JobReceiveHeaderId equals L.JobReceiveHeaderId into JobReceiveLineTable
+                                                                        from JobReceiveLineTab in JobReceiveLineTable.DefaultIfEmpty()
+                                                                        join Jrql in db.JobReceiveQALine on JobReceiveLineTab.JobReceiveLineId equals Jrql.JobReceiveLineId into JobReceiveQaLineTable
+                                                                        from JobReceiveQALineTab in JobReceiveQaLineTable.DefaultIfEmpty()
+                                                                        join Jol in db.JobOrderLine on JobReceiveLineTab.JobOrderLineId equals Jol.JobOrderLineId into JobOrderLineTable
+                                                                        from JobOrderLineTab in JobOrderLineTable.DefaultIfEmpty()
+                                                                        join JIL in db.JobInvoiceLine on JobReceiveLineTab.JobReceiveLineId equals JIL.JobReceiveLineId into JILTable
+                                                                        from JILTab in JILTable.DefaultIfEmpty()
+                                                                        join PIL in db.LedgerLine on PU.ProductUIDId equals PIL.ProductUidId into PILTable
+                                                                        from PILTab in PILTable.DefaultIfEmpty()
+                                                                        join SOL in db.SaleOrderLine on PU.SaleOrderLineId equals SOL.SaleOrderLineId into SOLTable
+                                                                        from SOLTab in SOLTable.DefaultIfEmpty()
+                                                                        join PL in db.PackingLine on JobReceiveLineTab.ProductUidId equals PL.ProductUidId into PLTable
+                                                                        from PLTab in PLTable.DefaultIfEmpty()
+                                                                        join SD in db.SaleDispatchLine on PLTab.PackingLineId equals SD.PackingLineId into SDTable
+                                                                        from SDTab in SDTable.DefaultIfEmpty()
+                                                                        join SI in db.SaleInvoiceLine on SDTab.SaleDispatchLineId equals SI.SaleDispatchLineId into SITable
+                                                                        from SITab in SITable.DefaultIfEmpty()
+                                                                        join SIH in db.SaleInvoiceHeader on SITab.SaleInvoiceHeaderId equals SIH.SaleInvoiceHeaderId into SIHTable
+                                                                        from SIHTab in SIHTable.DefaultIfEmpty()
+                                                                        join SIB in db.Persons on SIHTab.SaleToBuyerId equals SIB.PersonID into SIBTable
+                                                                        from SIBTab in SIBTable.DefaultIfEmpty()
+                                                                        join FP in db.FinishedProduct on JobOrderLineTab.ProductId equals FP.ProductId into FinishedProductTable
+                                                                        from FinishedProductTab in FinishedProductTable.DefaultIfEmpty()
+                                                                        join P in db.Product on JobOrderLineTab.ProductId equals P.ProductId into PTable
+                                                                        from PTab in PTable.DefaultIfEmpty()
+                                                                        join Ld in db.JobReceiveQALineExtended on JobReceiveQALineTab.JobReceiveQALineId equals Ld.JobReceiveQALineId into JobReceiveQALineExtendedTable
+                                                                        from JobReceiveQALineExtendedTab in JobReceiveQALineExtendedTable.DefaultIfEmpty()
+                                                                        where PU.ProductUIDId == ProductUidId
+                                                                        select new WeavingReceiveQACombinedViewModel_ByProductUid
+                                                                        {
+                                                                            JobReceiveHeaderId = HTab.JobReceiveHeaderId,
+                                                                            JobReceiveLineId = JobReceiveLineTab.JobReceiveLineId,
+                                                                            JobReceiveQALineId = JobReceiveQALineTab.JobReceiveQALineId,
+                                                                            JobReceiveQAHeaderId = JobReceiveQALineTab.JobReceiveQAHeaderId,
+                                                                            StockHeaderId = HTab.StockHeaderId ?? 0,
+                                                                            StockId = JobReceiveLineTab.StockId ?? 0,
+                                                                            JobOrderLineId = (int) JobReceiveLineTab.JobOrderLineId,
+                                                                            JobOrderHeaderDocNo = JobOrderLineTab.JobOrderHeader.DocNo,
+                                                                            PaymentSlipNo =PILTab.LedgerHeader.DocNo,
+                                                                            GodownId = HTab.GodownId,
+                                                                            JobWorkerId = HTab.JobWorkerId,
+                                                                            ProductUidId = JobReceiveLineTab.ProductUidId,
+                                                                            ProductUidName = JobReceiveLineTab.ProductUid.ProductUidName,
+                                                                            ProductId = JobOrderLineTab.ProductId,
+                                                                            ProductCategoryName= FinishedProductTab.ProductCategory.ProductCategoryName,
+                                                                            ColourName = FinishedProductTab.Colour.ColourName,
+                                                                            ProductGroupName  = PTab.ProductGroup.ProductGroupName,
+                                                                            ProductName = JobOrderLineTab.Product.ProductName,
+                                                                            LotNo = JobReceiveLineTab.LotNo,
+                                                                            SiteName= HTab.Site.SiteName,
+                                                                            PONo= SOLTab.SaleOrderHeader.BuyerOrderNo +"{"+SOLTab.SaleOrderHeader.SaleToBuyer.Code +"}",
+                                                                            InvoiceNo =SITab.SaleInvoiceHeader.DocNo + "  " + SITab.SaleInvoiceHeader.DocDate, 
+                                                                            InvoiceParty = PLTab.SaleOrderLine.SaleOrderHeader.BuyerOrderNo + "{" + SIBTab.Code + "}",
+                                                                            RollNo =PLTab.BaleNo, 
+                                                                            CostcenterName = JobOrderLineTab.JobOrderHeader.CostCenter.CostCenterName,
+                                                                            Qty = JobReceiveLineTab.Qty,
+                                                                            UnitId = JobOrderLineTab.Product.UnitId,
+                                                                            DealUnitId = JobReceiveLineTab.DealUnitId,
+                                                                            UnitConversionMultiplier = JobReceiveQALineTab.UnitConversionMultiplier,
+                                                                            DealQty = JobReceiveQALineTab.DealQty,
+                                                                            Weight = Math.Round(JobReceiveLineTab.Weight,3),
+                                                                            UnitDecimalPlaces = JobOrderLineTab.Product.Unit.DecimalPlaces,
+                                                                            DealUnitDecimalPlaces = JobOrderLineTab.DealUnit.DecimalPlaces,
+                                                                            Rate = Math.Round(JobOrderLineTab.Rate,2),
+                                                                            XRate = JobOrderLineTab.Rate,
+                                                                            Amount = Math.Round(JobReceiveLineTab.DealQty * JobOrderLineTab.Rate,2),
+                                                                            PenaltyRate = JobReceiveLineTab.PenaltyRate,
+                                                                            PenaltyAmt = JobReceiveLineTab.PenaltyAmt,
+                                                                            DivisionId = HTab.DivisionId,
+                                                                            SiteId = HTab.SiteId,
+                                                                            ProcessId = HTab.ProcessId,
+                                                                            DocDate = HTab.DocDate,
+                                                                            DocTypeId = HTab.DocTypeId,
+                                                                            DocNo = HTab.DocNo,
+                                                                            ProductQualityName = FinishedProductTab.ProductQuality.ProductQualityName,
+                                                                            JobReceiveById = JobReceiveLineTab.JobReceiveHeader.JobReceiveById,
+                                                                            Remark = HTab.Remark,
+                                                                            Length = JobReceiveQALineExtendedTab.Length,
+                                                                            OrderLength = JobReceiveQALineExtendedTab.Length,
+                                                                            Width = JobReceiveQALineExtendedTab.Width,
+                                                                            OrderWidth = JobReceiveQALineExtendedTab.Width,
+                                                                            Height = JobReceiveQALineExtendedTab.Height,
+                                                                        }).FirstOrDefault();
+
+            if (WeavingReceiveQADetail != null)
+            {
+                ProductDimensions ProductDimensions = new ProductService(_unitOfWork).GetProductDimensions(WeavingReceiveQADetail.ProductId, WeavingReceiveQADetail.DealUnitId, WeavingReceiveQADetail.DocTypeId);
+                if (ProductDimensions != null)
+                {
+                    WeavingReceiveQADetail.DimensionUnitDecimalPlaces = ProductDimensions.DimensionUnitDecimalPlaces;
+                }
+            }
+
+            return WeavingReceiveQADetail;
+        }
+
         public LastValues GetLastValues(int DocTypeId)
         {
             var DivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
@@ -637,6 +738,7 @@ namespace Service
                         select new LastValues
                         {
                             JobReceiveById = H.JobReceiveById,
+                            JobWorkerId =H.JobWorkerId,
                             DocDate=H.DocDate
                             
                         }).FirstOrDefault();
@@ -812,9 +914,9 @@ namespace Service
         }
 
 
-        public IQueryable<ComboBoxResult> GetCustomProduct(int filter, string term)
+        public IQueryable<ComboBoxResult> GetCustomProduct(int filter, string term, int ? PersonId)
         {
-            var DivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
+            var DivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"]; 
             var SiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
 
             var settings = new JobReceiveSettingsService(_unitOfWork).GetJobReceiveSettingsForDocument(filter, DivisionId, SiteId);
@@ -887,7 +989,9 @@ namespace Service
                         join D2 in db.Dimension2 on p.Dimension2Id equals D2.Dimension2Id into Dimension2Table
                         from Dimension2Tab in Dimension2Table.DefaultIfEmpty()
                         where p.BalanceQty > 0 && JWTab.IsSisterConcern ==false
+                        && (PersonId==null || PersonId ==0  ? 1 == 1 : t.JobWorkerId ==PersonId)
                         && ((string.IsNullOrEmpty(term) ? 1 == 1 : p.JobOrderNo.ToLower().Contains(term.ToLower()))
+                        || (string.IsNullOrEmpty(term) ? 1 == 1 : t.CostCenter.CostCenterName.ToLower().Contains(term.ToLower()))
                         || (string.IsNullOrEmpty(term) ? 1 == 1 : ProductTab.ProductName.ToLower().Contains(term.ToLower()))
                         || (string.IsNullOrEmpty(term) ? 1 == 1 : Dimension1Tab.Dimension1Name.ToLower().Contains(term.ToLower()))
                         || (string.IsNullOrEmpty(term) ? 1 == 1 : Dimension2Tab.Dimension2Name.ToLower().Contains(term.ToLower()))
@@ -902,7 +1006,7 @@ namespace Service
                             text = ProductTab.ProductName,
                             id = p.JobOrderLineId.ToString(),
                             TextProp1 = "Order Product: " + PGTab.ProductGroupName.ToString().Replace("-","")+"-"+ (t2.DealUnitId== "MT2"? SCTab.SizeName.ToString() : RSTab.ManufaturingSizeName.ToString())  + "-" + CTab.ColourName.ToString(),
-                            TextProp2 = "Order No: " + p.JobOrderNo.ToString(),
+                            TextProp2 = "Order No: " + p.JobOrderNo.ToString()+",Costcenter No: " + t.CostCenter.CostCenterName.ToString(),
                             AProp1 = "Job Worker: " + JWTab.Name,
                             AProp2 = settings.isVisibleProductUID==true && settings.SqlProcGenProductUID == null ? "Product UID: " + PUTab.ProductUidName.ToString() : "BalQty: " + p.BalanceQty.ToString(),
                         });
@@ -942,7 +1046,7 @@ namespace Service
                         select new ComboBoxResult
                         {
                             id = Result.Key.PersonID.ToString(),
-                            text = Result.Max(m => m.p.Name + ", " + m.p.Suffix + " [" + m.p.Code + "]"),
+                            text = Result.Max(m => m.p.Name + "|" + m.p.Code),
                         }
               );
 
@@ -975,7 +1079,7 @@ namespace Service
                         ReviewBy = p.ReviewBy,
                         Reviewed = (SqlFunctions.CharIndex(Uname, p.ReviewBy) > 0),
                         TotalQty = p.JobReceiveLines.Sum(m => m.Qty),
-                        ProductUidName = JobReceiveLineTab.ProductUid.ProductUidName,
+                        ProductUidName = JobReceiveLineTab.ProductUid.ProductUidName==null ? JobReceiveLineTab.LotNo : JobReceiveLineTab.ProductUid.ProductUidName,
                         DecimalPlaces = (from o in p.JobReceiveLines
                                          join ol in db.JobOrderLine on o.JobOrderLineId equals ol.JobOrderLineId
                                          join prod in db.Product on ol.ProductId equals prod.ProductId

@@ -1917,14 +1917,14 @@ namespace Web
                                     ProductCategory = productCategory.ProductCategoryName;
                                 }
 
-                                if (ProductCategory == "NEPALI")
-                                {
-                                    Size Size = new SizeService(_unitOfWork).Find(vm.StandardSizeId);
-                                    string message = "Unable to get unit conversion to " + Unit.UnitName + " for size " + Size.SizeName;
-                                    ModelState.AddModelError("", message);
-                                    PrepareViewBag(vm);
-                                    return PartialView("EditSize", vm);
-                                }
+                                //if (ProductCategory == "NEPALI")
+                                //{
+                                //    Size Size = new SizeService(_unitOfWork).Find(vm.StandardSizeId);
+                                //    string message = "Unable to get unit conversion to " + Unit.UnitName + " for size " + Size.SizeName;
+                                //    ModelState.AddModelError("", message);
+                                //    PrepareViewBag(vm);
+                                //    return PartialView("EditSize", vm);
+                                //}
                             }
 
                             if (StandardMode_Settings == "Create")
@@ -1951,14 +1951,14 @@ namespace Web
                                     ProductCategory = productCategory.ProductCategoryName;
                                 }
 
-                                if (ProductCategory == "NEPALI")
-                                {
-                                    Size Size = new SizeService(_unitOfWork).Find(vm.ManufacturingSizeId);
-                                    string message = "Unable to get unit conversion to " + Unit.UnitName + " for size " + Size.SizeName;
-                                    ModelState.AddModelError("", message);
-                                    PrepareViewBag(vm);
-                                    return PartialView("EditSize", vm);
-                                }
+                                //if (ProductCategory == "NEPALI")
+                                //{
+                                //    Size Size = new SizeService(_unitOfWork).Find(vm.ManufacturingSizeId);
+                                //    string message = "Unable to get unit conversion to " + Unit.UnitName + " for size " + Size.SizeName;
+                                //    ModelState.AddModelError("", message);
+                                //    PrepareViewBag(vm);
+                                //    return PartialView("EditSize", vm);
+                                //}
                             }
 
 
@@ -1988,14 +1988,14 @@ namespace Web
                                     ProductCategory = productCategory.ProductCategoryName;
                                 }
 
-                                if (ProductCategory == "NEPALI")
-                                {
-                                    Size Size = new SizeService(_unitOfWork).Find(vm.FinishingSizeId);
-                                    string message = "Unable to get unit conversion to " + Unit.UnitName + " for size " + Size.SizeName;
-                                    ModelState.AddModelError("", message);
-                                    PrepareViewBag(vm);
-                                    return PartialView("EditSize", vm);
-                                }
+                                //if (ProductCategory == "NEPALI")
+                                //{
+                                //    Size Size = new SizeService(_unitOfWork).Find(vm.FinishingSizeId);
+                                //    string message = "Unable to get unit conversion to " + Unit.UnitName + " for size " + Size.SizeName;
+                                //    ModelState.AddModelError("", message);
+                                //    PrepareViewBag(vm);
+                                //    return PartialView("EditSize", vm);
+                                //}
 
                             }
 
@@ -2589,11 +2589,11 @@ namespace Web
                                     ProductCategory = productCategory.ProductCategoryName;
                                 }
 
-                                if (ProductCategory == "NEPALI")
-                                {
-                                    Size Size = new SizeService(_unitOfWork).Find(vm.StandardSizeId);
-                                    ModelState.AddModelError("StandardSizeId", "Unable to get unit conversion to " + Unit.UnitName + " for size " + Size.SizeName);
-                                }
+                                //if (ProductCategory == "NEPALI")
+                                //{
+                                //    Size Size = new SizeService(_unitOfWork).Find(vm.StandardSizeId);
+                                //    ModelState.AddModelError("StandardSizeId", "Unable to get unit conversion to " + Unit.UnitName + " for size " + Size.SizeName);
+                                //}
                             }
 
                             if (StandardMode_Settings == "Create")
@@ -2620,11 +2620,11 @@ namespace Web
                                     ProductCategory = productCategory.ProductCategoryName;
                                 }
 
-                                if (ProductCategory == "NEPALI")
-                                {
-                                    Size Size = new SizeService(_unitOfWork).Find(vm.ManufacturingSizeId);
-                                    ModelState.AddModelError("ManufacturingSizeId", "Unable to get unit conversion to " + Unit.UnitName + " for size " + Size.SizeName);
-                                }
+                                //if (ProductCategory == "NEPALI")
+                                //{
+                                //    Size Size = new SizeService(_unitOfWork).Find(vm.ManufacturingSizeId);
+                                //    ModelState.AddModelError("ManufacturingSizeId", "Unable to get unit conversion to " + Unit.UnitName + " for size " + Size.SizeName);
+                                //}
                             }
 
 
@@ -2652,11 +2652,11 @@ namespace Web
                                     ProductCategory = productCategory.ProductCategoryName;
                                 }
 
-                                if (ProductCategory == "NEPALI")
-                                {
-                                    Size Size = new SizeService(_unitOfWork).Find(vm.FinishingSizeId);
-                                    ModelState.AddModelError("FinishingSizeId", "Unable to get unit conversion to " + Unit.UnitName + " for size " + Size.SizeName);
-                                }
+                                //if (ProductCategory == "NEPALI")
+                                //{
+                                //    Size Size = new SizeService(_unitOfWork).Find(vm.FinishingSizeId);
+                                //    ModelState.AddModelError("FinishingSizeId", "Unable to get unit conversion to " + Unit.UnitName + " for size " + Size.SizeName);
+                                //}
                             }
 
 
@@ -3216,6 +3216,20 @@ namespace Web
         public void CreateUnitConversion(byte UnitConversionFor, int SizeId, int ProductId, string ToUnit, out UnitConversion UnitConvr, out string Mode)
         {
             decimal AreaFT2 = Convert.ToDecimal(new SizeService(_unitOfWork).Find(SizeId).Area);
+
+            Size s = new SizeService(_unitOfWork).Find(SizeId);
+
+            if (s.UnitId == "MET")
+            { 
+            using (SqlConnection sqlConnection = new SqlConnection((string)System.Web.HttpContext.Current.Session["DefaultConnectionString"]))
+            {
+                sqlConnection.Open();
+
+                SqlCommand Totalf = new SqlCommand("SELECT * FROM Web.FuncGetSqFeetFromCMSizes( " + SizeId + ")", sqlConnection);
+
+                AreaFT2 = Convert.ToDecimal(Totalf.ExecuteScalar() == DBNull.Value ? 0 : Totalf.ExecuteScalar());
+            }
+            }
 
             UnitConversion SizeExist = new UnitConversionService(_unitOfWork).GetUnitConversion(ProductId, UnitConversionFor, ToUnit);
 
