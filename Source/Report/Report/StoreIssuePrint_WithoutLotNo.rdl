@@ -1797,7 +1797,7 @@
               <Width>1.3528in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>1.4687in</Width>
+              <Width>1.47594in</Width>
             </TablixColumn>
           </TablixColumns>
           <TablixRows>
@@ -2063,7 +2063,7 @@
                       <ReportItems>
                         <Subreport Name="HalfGatePassPrint">
                           <ReportName>HalfGatePassPrint</ReportName>
-                          <Top>0.04554in</Top>
+                          <Top>0.01639in</Top>
                           <Height>0.20446in</Height>
                           <Width>5.39637in</Width>
                           <Style>
@@ -2113,7 +2113,7 @@
         <Top>2.58792in</Top>
         <Left>5.68475in</Left>
         <Height>0.72292in</Height>
-        <Width>5.39637in</Width>
+        <Width>5.40361in</Width>
         <ZIndex>9</ZIndex>
         <Style>
           <Border>
@@ -4081,7 +4081,7 @@
         </Style>
       </Tablix>
     </ReportItems>
-    <Height>3.35113in</Height>
+    <Height>3.31988in</Height>
     <Style />
   </Body>
   <Width>11.11376in</Width>
@@ -4961,4 +4961,3 @@ PtQeVUENmewh02zjEWZuZuLElNvBS6gDSXQMHP8A5UE5f6lWFPkR2q6ZG8HZI8xgvruK93SMJUsHJ61z
   <rd:ReportUnitType>Inch</rd:ReportUnitType>
   <rd:ReportID>f1b70379-da78-4ea9-bab5-cbb93d10df58</rd:ReportID>
 </Report>
-

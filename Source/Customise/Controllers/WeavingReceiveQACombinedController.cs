@@ -130,6 +130,7 @@ namespace Web
                 if (LastValues.JobReceiveById != null)
                 {
                     vm.JobReceiveById = (int)LastValues.JobReceiveById;
+                    vm.JobWorkerId = (int)LastValues.JobWorkerId;
                     vm.DocDate = LastValues.DocDate;
                 }
             }
@@ -639,6 +640,27 @@ namespace Web
             return PartialView("Consumption", vm);
         }
 
+        public JsonResult GetProductUIDDetailJson(string ProductUIDNo, int JobReceiveHeaderId)
+        {
+            ProductUidDetail productuiddetail = new ProductUidService(_unitOfWork).FGetProductUidDetail(ProductUIDNo);
+
+            List<ProductUidDetail> ProductUidDetailJson = new List<ProductUidDetail>();
+
+            if (productuiddetail != null)
+            {      
+                ProductUidDetailJson.Add(new ProductUidDetail()
+                {
+                    ProductId = productuiddetail.ProductId,
+                    ProductName = productuiddetail.ProductName,
+                    ProductUidId = productuiddetail.ProductUidId,
+                    PrevProcessId = productuiddetail.PrevProcessId,
+                    PrevProcessName = productuiddetail.PrevProcessName,
+                    DivisionId = productuiddetail.DivisionId,
+                });
+            }
+            return Json(ProductUidDetailJson);
+        }
+
         public JsonResult GetProductsForConsumption(string searchTerm, int pageSize, int pageNum, int filter)//filter:PersonId
         {
 
@@ -1127,6 +1149,154 @@ namespace Web
 
 
         [HttpGet]
+        public ActionResult DetailByProductUid(string ProductUidName)
+        {
+            if(ProductUidName==null )
+            { 
+            ProductUidName = "128059";
+            }
+
+            if (ProductUidName != null && ProductUidName != "")
+            {
+                ProductUid PU = new ProductUidService(_unitOfWork).Find(ProductUidName);
+                if (PU != null)
+                {
+                    WeavingReceiveQACombinedViewModel_ByProductUid pt = new WeavingReceiveQACombinedService(db).GetProductUidDetail(PU.ProductUIDId);
+
+                    int id = (int)PU.GenDocId;
+                    
+
+                    if (pt != null)
+                    {
+                        ProductDimensions ProductDimensions = new ProductService(_unitOfWork).GetProductDimensions(pt.ProductId, pt.DealUnitId, pt.DocTypeId);
+                        if (ProductDimensions != null)
+                        {
+                            pt.OrderLength = ProductDimensions.Length;
+                            pt.OrderWidth = ProductDimensions.Width;
+                            pt.DimensionUnitDecimalPlaces = ProductDimensions.DimensionUnitDecimalPlaces;
+                        }
+                    }
+
+                    if (pt == null)
+                    {
+                        return HttpNotFound();
+                    }
+
+
+                    var temp = new JobReceiveQAAttributeService(db).GetJobReceiveQAAttributeForEdit(pt.JobReceiveQALineId);
+                    pt.QAGroupLine = temp;
+
+
+                    var jobreceivesettings = new JobReceiveSettingsService(_unitOfWork).GetJobReceiveSettingsForDocument(pt.DocTypeId, pt.DivisionId, pt.SiteId);
+
+                    if (jobreceivesettings == null && UserRoles.Contains("SysAdmin"))
+                    {
+                        return RedirectToAction("Create", "JobReceiveSettings", new { id = id }).Warning("Please create job Inspection settings");
+                    }
+                    else if (jobreceivesettings == null && !UserRoles.Contains("SysAdmin"))
+                    {
+                        return View("~/Views/Shared/InValidSettings.cshtml");
+                    }
+                    pt.JobReceiveSettings = Mapper.Map<JobReceiveSettings, JobReceiveSettingsViewModel>(jobreceivesettings);
+
+
+
+
+
+                    var jobreceiveqasettings = new JobReceiveQASettingsService(db).GetJobReceiveQASettingsForDocument(pt.DocTypeId, pt.DivisionId, pt.SiteId);
+
+                    if (jobreceiveqasettings == null && UserRoles.Contains("SysAdmin"))
+                    {
+                        return RedirectToAction("Create", "JobReceiveQaSettings", new { id = id }).Warning("Please create job Inspection settings");
+                    }
+                    else if (jobreceiveqasettings == null && !UserRoles.Contains("SysAdmin"))
+                    {
+                        return View("~/Views/Shared/InValidSettings.cshtml");
+                    }
+                    pt.JobReceiveQASettings = Mapper.Map<JobReceiveQASettings, JobReceiveQASettingsViewModel>(jobreceiveqasettings);
+
+
+                    pt.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(pt.DocTypeId);
+
+                    PrepareViewBag(pt.DocTypeId);
+
+
+                    if (ProductUidName == "128059")
+                    {
+                        pt.ProductUidName = "";
+                        pt.JobReceiveHeaderId = 0;
+                        pt.JobReceiveLineId = 0;
+                        pt.JobReceiveQALineId = 0;
+                        pt.JobReceiveQAHeaderId = 0;
+                        pt.StockHeaderId = 0;
+                        pt.StockId = 0;
+                        pt.JobOrderLineId = 0;
+                        pt.JobOrderHeaderDocNo = "";
+                        pt.PaymentSlipNo = "";
+                        pt.GodownId = 0;
+                        pt.JobWorkerId = 0;
+                        pt.ProductUidId = 0;
+                        pt.ProductUidName = "";
+                        pt.ProductId = 0;
+                        pt.ProductCategoryName = "";
+                        pt.ColourName = "";
+                        pt.ProductGroupName = "";
+                        pt.ProductName = "";
+                        pt.LotNo = "";
+                        pt.SiteName = "";
+                        pt.PONo = "";
+                        pt.InvoiceNo = "";
+                        pt.InvoiceParty = "";
+                        pt.RollNo = "";
+                        pt.CostcenterName = "";
+                        pt.Qty = 0;
+                        pt.UnitId = "";
+                        pt.DealUnitId = "";
+                        pt.UnitConversionMultiplier = 0;
+                        pt.DealQty = 0;
+                        pt.Weight = 0;
+                        pt.UnitDecimalPlaces = 0;
+                        pt.DealUnitDecimalPlaces = 0;
+                        pt.Rate = 0;
+                        pt.XRate = 0;
+                        pt.Amount = 0;
+                        pt.PenaltyRate = 0;
+                        pt.PenaltyAmt = 0;
+                        pt.DivisionId = 0;
+                        pt.SiteId = 0;
+                        pt.ProcessId = 0;
+                        pt.DocTypeId = 448;
+                        pt.DocNo = "";
+                        pt.ProductQualityName = "";
+                        pt.JobReceiveById = 0;
+                        pt.Remark = "";
+                        pt.Length = 0;
+                        pt.OrderLength = 0;
+                        pt.Width = 0;
+                        pt.OrderWidth = 0;
+                        pt.Height = 0;
+                    }
+
+                    ViewBag.Mode = "Edit";
+
+                    return View("DetailByProductUid", pt);
+                }
+                else
+                {
+                    ViewBag.Barcode = ProductUidName;
+                    return View("InvalidBarcode");
+                }
+            }
+            else
+            {
+                ViewBag.Barcode = ProductUidName;
+                return View("InvalidBarcode");
+            }
+        }
+
+
+
+        [HttpGet]
         public ActionResult Modify(int id, string IndexType)
         {
             JobReceiveHeader header =  new JobReceiveHeaderService(_unitOfWork).Find(id);
@@ -1163,9 +1333,9 @@ namespace Web
             return QAGroupLineList;
         }
 
-        public ActionResult GetCustomProduct(string searchTerm, int pageSize, int pageNum, int filter)//DocTypeId
+        public ActionResult GetCustomProduct(string searchTerm, int pageSize, int pageNum, int? filter, int ? PersonId)//DocTypeId
         {
-            var Query = new WeavingReceiveQACombinedService(db).GetCustomProduct(filter, searchTerm);
+            var Query = new WeavingReceiveQACombinedService(db).GetCustomProduct((int) filter, searchTerm, PersonId);
             var temp = Query.Skip(pageSize * (pageNum - 1))
                 .Take(pageSize)
                 .ToList();
@@ -1254,6 +1424,111 @@ namespace Web
             {
                 return null;
             }
+        }
+
+
+        public JsonResult GetProductUidDetailJson(string ProductUidName)
+        {
+            ProductUid PUS = new ProductUidService(_unitOfWork).Find(ProductUidName);
+
+            WeavingReceiveQACombinedViewModel_ByProductUid WeavingReceiveQADetail = (from H in db.JobReceiveHeader
+                                                                                     join L in db.JobReceiveLine on H.JobReceiveHeaderId equals L.JobReceiveHeaderId into JobReceiveLineTable
+                                                                                     from JobReceiveLineTab in JobReceiveLineTable.DefaultIfEmpty()
+                                                                                     join Jrql in db.JobReceiveQALine on JobReceiveLineTab.JobReceiveLineId equals Jrql.JobReceiveLineId into JobReceiveQaLineTable
+                                                                                     from JobReceiveQALineTab in JobReceiveQaLineTable.DefaultIfEmpty()
+                                                                                     join Jol in db.JobOrderLine on JobReceiveLineTab.JobOrderLineId equals Jol.JobOrderLineId into JobOrderLineTable
+                                                                                     from JobOrderLineTab in JobOrderLineTable.DefaultIfEmpty()
+                                                                                     join PU in db.ProductUid on JobReceiveLineTab.ProductUidId equals PU.ProductUIDId into PUTable
+                                                                                     from PUTab in PUTable.DefaultIfEmpty()
+                                                                                     join SOL in db.SaleOrderLine on PUTab.SaleOrderLineId equals SOL.SaleOrderLineId into SOLTable
+                                                                                     from SOLTab in SOLTable.DefaultIfEmpty()
+                                                                                     join PL in db.PackingLine on JobReceiveLineTab.ProductUidId equals PL.ProductUidId into PLTable
+                                                                                     from PLTab in PLTable.DefaultIfEmpty()
+                                                                                     join SD in db.SaleDispatchLine on PLTab.PackingLineId equals SD.PackingLineId into SDTable
+                                                                                     from SDTab in SDTable.DefaultIfEmpty()
+                                                                                     join SI in db.SaleInvoiceLine on SDTab.SaleDispatchLineId equals SI.SaleDispatchLineId into SITable
+                                                                                     from SITab in SITable.DefaultIfEmpty()
+                                                                                     join SIH in db.SaleInvoiceHeader on SITab.SaleInvoiceHeaderId equals SIH.SaleInvoiceHeaderId into SIHTable
+                                                                                     from SIHTab in SIHTable.DefaultIfEmpty()
+                                                                                     join SIB in db.Persons on SIHTab.SaleToBuyerId equals SIB.PersonID into SIBTable
+                                                                                     from SIBTab in SIBTable.DefaultIfEmpty()
+                                                                                     join FP in db.FinishedProduct on JobOrderLineTab.ProductId equals FP.ProductId into FinishedProductTable
+                                                                                     from FinishedProductTab in FinishedProductTable.DefaultIfEmpty()
+                                                                                     join P in db.Product on JobOrderLineTab.ProductId equals P.ProductId into PTable
+                                                                                     from PTab in PTable.DefaultIfEmpty()
+                                                                                     join Ld in db.JobReceiveQALineExtended on JobReceiveQALineTab.JobReceiveQALineId equals Ld.JobReceiveQALineId into JobReceiveQALineExtendedTable
+                                                                                     from JobReceiveQALineExtendedTab in JobReceiveQALineExtendedTable.DefaultIfEmpty()
+                                                                                     where JobReceiveLineTab.JobReceiveHeaderId == PUS.GenDocId
+                                                                                     select new WeavingReceiveQACombinedViewModel_ByProductUid
+                                                                                     {
+                                                                                         JobReceiveHeaderId = H.JobReceiveHeaderId,
+                                                                                         JobReceiveLineId = JobReceiveLineTab.JobReceiveLineId,
+                                                                                         JobReceiveQALineId = JobReceiveQALineTab.JobReceiveQALineId,
+                                                                                         JobReceiveQAHeaderId = JobReceiveQALineTab.JobReceiveQAHeaderId,
+                                                                                         StockHeaderId = H.StockHeaderId ?? 0,
+                                                                                         StockId = JobReceiveLineTab.StockId ?? 0,
+                                                                                         JobOrderLineId = (int)JobReceiveLineTab.JobOrderLineId,
+                                                                                         JobOrderHeaderDocNo = JobOrderLineTab.JobOrderHeader.DocNo,
+                                                                                         GodownId = H.GodownId,
+                                                                                         JobWorkerId = H.JobWorkerId,
+                                                                                         ProductUidId = JobReceiveLineTab.ProductUidId,
+                                                                                         ProductUidName = JobReceiveLineTab.ProductUid.ProductUidName,
+                                                                                         ProductId = JobOrderLineTab.ProductId,
+                                                                                         ProductCategoryName = FinishedProductTab.ProductCategory.ProductCategoryName,
+                                                                                         ColourName = FinishedProductTab.Colour.ColourName,
+                                                                                         ProductGroupName = PTab.ProductGroup.ProductGroupName,
+                                                                                         ProductName = JobOrderLineTab.Product.ProductName,
+                                                                                         LotNo = JobReceiveLineTab.LotNo,
+                                                                                         SiteName = H.Site.SiteName,
+                                                                                         PONo = SOLTab.SaleOrderHeader.BuyerOrderNo + "{" + SOLTab.SaleOrderHeader.SaleToBuyer.Code + "}",
+                                                                                         InvoiceNo = SITab.SaleInvoiceHeader.DocNo + "  " + SITab.SaleInvoiceHeader.DocDate,
+                                                                                         InvoiceParty = PLTab.SaleOrderLine.SaleOrderHeader.BuyerOrderNo + "{" + SIBTab.Code + "}",
+                                                                                         RollNo = PLTab.BaleNo,
+                                                                                         CostcenterName = JobOrderLineTab.JobOrderHeader.CostCenter.CostCenterName,
+                                                                                         Qty = JobReceiveLineTab.Qty,
+                                                                                         UnitId = JobOrderLineTab.Product.UnitId,
+                                                                                         DealUnitId = JobReceiveLineTab.DealUnitId,
+                                                                                         UnitConversionMultiplier = JobReceiveQALineTab.UnitConversionMultiplier,
+                                                                                         DealQty = JobReceiveQALineTab.DealQty,
+                                                                                         Weight = JobReceiveLineTab.Weight,
+                                                                                         UnitDecimalPlaces = JobOrderLineTab.Product.Unit.DecimalPlaces,
+                                                                                         DealUnitDecimalPlaces = JobOrderLineTab.DealUnit.DecimalPlaces,
+                                                                                         Rate = JobOrderLineTab.Rate,
+                                                                                         XRate = JobOrderLineTab.Rate,
+                                                                                         Amount = JobReceiveLineTab.DealQty * JobOrderLineTab.Rate,
+                                                                                         PenaltyRate = JobReceiveLineTab.PenaltyRate,
+                                                                                         PenaltyAmt = JobReceiveLineTab.PenaltyAmt,
+                                                                                         DivisionId = H.DivisionId,
+                                                                                         SiteId = H.SiteId,
+                                                                                         ProcessId = H.ProcessId,
+                                                                                         DocDate = H.DocDate,
+                                                                                         DocTypeId = H.DocTypeId,
+                                                                                         DocNo = H.DocNo,
+                                                                                         ProductQualityName = FinishedProductTab.ProductQuality.ProductQualityName,
+                                                                                         JobReceiveById = JobReceiveLineTab.JobReceiveHeader.JobReceiveById,
+                                                                                         Remark = H.Remark,
+                                                                                         Length = JobReceiveQALineExtendedTab.Length,
+                                                                                         OrderLength = JobReceiveQALineExtendedTab.Length,
+                                                                                         Width = JobReceiveQALineExtendedTab.Width,
+                                                                                         OrderWidth = JobReceiveQALineExtendedTab.Width,
+                                                                                         Height = JobReceiveQALineExtendedTab.Height,
+                                                                                     }).FirstOrDefault();
+
+            if (WeavingReceiveQADetail != null)
+            {
+                ProductDimensions ProductDimensions = new ProductService(_unitOfWork).GetProductDimensions(WeavingReceiveQADetail.ProductId, WeavingReceiveQADetail.DealUnitId, WeavingReceiveQADetail.DocTypeId);
+                if (ProductDimensions != null)
+                {
+                    WeavingReceiveQADetail.DimensionUnitDecimalPlaces = ProductDimensions.DimensionUnitDecimalPlaces;
+                }
+                return Json(WeavingReceiveQADetail);
+            }
+            else
+            {
+                return null;
+            }
+
+
         }
 
 
@@ -1443,16 +1718,12 @@ namespace Web
                     vm.StockHeaderId = i;
                     vm.StockId = i;
 
-                    if (vm.JobOrderLineId != null)
+                    JobOrderLine JobOrderLine = new JobOrderLineService(_unitOfWork).Find(vm.JobOrderLineId);
+                    if (JobOrderLine.ProdOrderLineId !=null)
                     {
-                        JobOrderLine JobOrderLine = new JobOrderLineService(_unitOfWork).Find(vm.JobOrderLineId ?? 0);
-                        if (JobOrderLine.ProdOrderLineId != null)
-                        {
-                            ProdOrderLine ProdOrderLine = new ProdOrderLineService(_unitOfWork).Find((int)JobOrderLine.ProdOrderLineId);
-                            vm.JobOrderLineId = (int)ProdOrderLine.ReferenceDocLineId;
-                        }
+                        ProdOrderLine ProdOrderLine = new ProdOrderLineService(_unitOfWork).Find((int)JobOrderLine.ProdOrderLineId);
+                        vm.JobOrderLineId = (int)ProdOrderLine.ReferenceDocLineId;
                     }
-
 
 
 

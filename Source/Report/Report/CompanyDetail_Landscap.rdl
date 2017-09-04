@@ -73,7 +73,7 @@
       </Textbox>
       <Image Name="SuryaLogo">
         <Source>External</Source>
-        <Value>="file:"+ Fields!CompanyLogoPath.Value</Value>
+        <Value>="file:" + Fields!CompanyLogoPath.Value</Value>
         <Sizing>FitProportional</Sizing>
         <Top>0.025in</Top>
         <Left>0.0125in</Left>
@@ -181,6 +181,10 @@
           <DataField>CompanyPhoneNo</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
+        <Field Name="CompanyPinNo">
+          <DataField>CompanyPinNo</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
         <Field Name="CompanyTinNo">
           <DataField>CompanyTinNo</DataField>
           <rd:TypeName>System.String</rd:TypeName>
@@ -199,6 +203,22 @@
         </Field>
         <Field Name="CompanyLogoPath">
           <DataField>CompanyLogoPath</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="ReportHeaderTextRight1">
+          <DataField>ReportHeaderTextRight1</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="ReportHeaderTextRight2">
+          <DataField>ReportHeaderTextRight2</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="ReportHeaderTextRight3">
+          <DataField>ReportHeaderTextRight3</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="ReportHeaderTextRight4">
+          <DataField>ReportHeaderTextRight4</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
       </Fields>
