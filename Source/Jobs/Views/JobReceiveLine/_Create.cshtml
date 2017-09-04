@@ -419,6 +419,12 @@
                         }
                         $('#OrderBalanceQty').val(data.Qty);
                         $("#ProductId").select2('data', { id: data.ProductId, text: data.ProductName});
+
+                        $('#Dimension1Id').val(data.Dimension1Id);
+                        $('#Dimension2Id').val(data.Dimension2Id);
+                        $('#Dimension3Id').val(data.Dimension3Id);
+                        $('#Dimension4Id').val(data.Dimension4Id);
+
                         $('#DocQty').trigger('focusout');
                         $('#ReceiveQty').trigger('keyup');
                         (data.Dimension1Name==null)?(1==1):($("#Dimension1Name").val(data.Dimension1Name))
