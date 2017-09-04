@@ -2006,6 +2006,8 @@ namespace Module
 
             AddFields("JobReceiveHeaders", "JobWorkerDocDate", "DATETIME");
 
+            AddFields("ProductUids", "SaleOrderLineId", "Int","SaleOrderLines");
+
             ReCreateProcedures();
             DataCorrection();
 

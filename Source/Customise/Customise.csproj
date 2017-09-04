@@ -255,6 +255,8 @@
     <Compile Include="Controllers\FeetConversionToCmsController .cs" />
     <Compile Include="Controllers\JobReceiveQaPenaltyController.cs" />
     <Compile Include="Controllers\PackingSettingsController.cs" />
+    <Compile Include="Controllers\StockIssueHeaderController.cs" />
+    <Compile Include="Controllers\StockIssueLineController.cs" />
     <Compile Include="Controllers\WeavingInvoiceController.cs" />
     <Compile Include="Controllers\WeavingReceiveQACombinedController.cs" />
     <Compile Include="Controllers\PackingHeaderWithBuyerDetailController.cs" />
