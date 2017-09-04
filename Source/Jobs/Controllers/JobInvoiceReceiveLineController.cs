@@ -963,11 +963,8 @@ namespace Web
 
             s.LineNature = LineNature;
 
-            if (s.LineNature == LineNatureConstants.AdditionalCharges)
-            {
-                s.PassQty = 0;
-                s.Rate = 0;
-            }
+            s.PassQty = 0;
+            s.Rate = 0;
 
             PrepareViewBag(null);
             ViewBag.DocNo = H.DocNo;
@@ -1018,13 +1015,11 @@ namespace Web
                 }
             }
 
-            if (settings.IsVisibleQty)
-            {
-                if (svm.JobQty <= 0)
-                    ModelState.AddModelError("JobQty", "The Job Qty field is required");
 
+            if ((settings.IsVisibleReceiveQty ?? false) == true && svm.LineNature != LineNatureConstants.AdditionalCharges)
+            {
                 if (svm.ReceiveQty <= 0)
-                    ModelState.AddModelError("ReceiveQty", "The Rec Qty field is required");
+                    ModelState.AddModelError("ReceiveQty", "Receive Qty field is required");
             }
 
 
@@ -1045,9 +1040,9 @@ namespace Web
                         ModelState.AddModelError("", "Sales Tax Group Product is not defined for product, it is required.");
                     }
 
-                    if (svm.SalesTaxGroupProductId != 0 && svm.SalesTaxGroupProductId != null && svm.SalesTaxGroupPersonId != 0 && svm.SalesTaxGroupPersonId != null && svm.JobInvoiceSettings.CalculationId != null)
+                    if (svm.SalesTaxGroupProductId != 0 && svm.SalesTaxGroupProductId != null && svm.SalesTaxGroupPersonId != 0 && svm.SalesTaxGroupPersonId != null && svm.CalculationId != null)
                     {
-                        IEnumerable<ChargeRateSettings> ChargeRateSettingsList = new CalculationProductService(_unitOfWork).GetChargeRateSettingForValidation((int)svm.JobInvoiceSettings.CalculationId, InvoiceHeader.DocTypeId, InvoiceHeader.SiteId, InvoiceHeader.DivisionId, InvoiceHeader.ProcessId, (int)svm.SalesTaxGroupPersonId, (int)svm.SalesTaxGroupProductId);
+                        IEnumerable<ChargeRateSettings> ChargeRateSettingsList = new CalculationProductService(_unitOfWork).GetChargeRateSettingForValidation((int)svm.CalculationId, InvoiceHeader.DocTypeId, InvoiceHeader.SiteId, InvoiceHeader.DivisionId, InvoiceHeader.ProcessId, (int)svm.SalesTaxGroupPersonId, (int)svm.SalesTaxGroupProductId);
 
                         foreach (var item in ChargeRateSettingsList)
                         {

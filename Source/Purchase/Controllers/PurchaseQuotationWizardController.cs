@@ -50,7 +50,7 @@ namespace Web
             ViewBag.ShipMethodList = new ShipMethodService(_unitOfWork).GetShipMethodList().ToList();
             ViewBag.DeliveryTermsList = new DeliveryTermsService(_unitOfWork).GetDeliveryTermsList().ToList();
             ViewBag.CurrencyList = new CurrencyService(_unitOfWork).GetCurrencyList().ToList();
-            ViewBag.SalesTaxGroupList = new ChargeGroupPersonService(_unitOfWork).GetChargeGroupPersonList((int)(ChargeTypeConstants.SalesTax)).ToList();
+            ViewBag.SalesTaxGroupList = new ChargeGroupPersonService(_unitOfWork).GetChargeGroupPersonList((int)(TaxTypeConstants.SalesTax)).ToList();
             ViewBag.UnitConvForList = (from p in db.UnitConversonFor
                                        select p).ToList();
             return View();

@@ -145,8 +145,8 @@ namespace Web
                 sqlDataAapter.Fill(ReportData);
 
                 ReportData.Columns.Add("SysParamType");
-                
-                
+
+
                 DataRow DRowAggregate = ReportData.NewRow();
                 DRowAggregate["SysParamType"] = "Aggregate";
 
@@ -167,9 +167,18 @@ namespace Web
                 ReportData.Rows.Add(DRowAggregate);
             }
 
+
+            
             if (ReportData.Rows.Count > 0)
             {
+                //List<DataRow> Row = ReportData.Rows.Cast<DataRow>().ToList();
+
+                //var temp = ReportData.Select().ToList();
+
                 //var list = new List<dynamic>();
+
+
+
 
                 foreach (DataRow row in ReportData.Rows)
                 {

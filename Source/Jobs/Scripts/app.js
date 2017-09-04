@@ -86,14 +86,17 @@ app.controller('MainCtrl', ['$scope', '$log', '$http', 'uiGridConstants', 'uiGri
                                   $scope.gridOptions.columnDefs.push({
                                       field: columnsIn[j]["Key"], aggregationType: columnsIn[j]["Value"],
                                       cellClass: (columnsIn[j]["Value"] == null ? 'cell-text' : 'text-right cell-text'),
-                                      aggregationHideLabel: true, headerCellClass: (columnsIn[j]["Value"] == null ? 'header-text' : 'text-right header-text'),
+                                      aggregationHideLabel: true,
+                                      headerCellClass: (columnsIn[j]["Value"] == null ? 'header-text' : 'text-right header-text'),
                                       footerCellClass: (columnsIn[j]["Value"] == null ? '' : 'text-right '),
                                       width: ColWidth,
                                       enablePinning: true,
                                   });
                                 }
-                              j++;
                               ColumnCount++;
+                              j++;
+                              
+                              
                           });
 
 
@@ -107,6 +110,7 @@ app.controller('MainCtrl', ['$scope', '$log', '$http', 'uiGridConstants', 'uiGri
                                 {
                                     $.each(columnsIn, function (key, value) {
                                         rowData[columnsIn[j]["Key"]] = columnsIn[j]["Value"];
+                                        //alert(columnsIn[j]["Key"]);
                                         j++;
                                     });
                                 }

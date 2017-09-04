@@ -299,31 +299,36 @@ namespace Service
         public JobReceiveLineViewModel GetJobReceiveLine(int id)
         {
             return (from L in db.JobReceiveLine
-                    join t in db.ViewJobOrderBalance on L.JobOrderLineId equals t.JobOrderLineId into table
-                    join jl in db.JobOrderLine on L.JobOrderLineId equals jl.JobOrderLineId
-                    from tab in table.DefaultIfEmpty()
+                    join VJob in db.ViewJobOrderBalance on L.JobOrderLineId equals VJob.JobOrderLineId into ViewJobOrderBalanceTable
+                    from ViewJobOrderBalanceTab in ViewJobOrderBalanceTable.DefaultIfEmpty()
+                    //join jl in db.JobOrderLine on L.JobOrderLineId equals jl.JobOrderLineId
+                    //from tab in table.DefaultIfEmpty()
                     join Ps in db.ProductSiteDetail on new { A1 = L.JobReceiveHeader.SiteId, A2 = L.JobReceiveHeader.DivisionId, A3 = L.JobReceiveHeader.ProcessId, A4 = L.JobOrderLine.ProductId }
                             equals new { A1 = Ps.SiteId, A2 = Ps.DivisionId, A3 = (Ps.ProcessId ?? 0), A4 = Ps.ProductId } into ProductSiteTable
                     from ProductSiteTab in ProductSiteTable.DefaultIfEmpty()
                     where L.JobReceiveLineId == id
                     select new JobReceiveLineViewModel
                     {
-                        JobOrderHeaderDocNo = jl.JobOrderHeader.DocNo,
+                        JobOrderHeaderDocNo = L.JobOrderLine.JobOrderHeader.DocNo,
                         JobOrderLineId = L.JobOrderLineId,
                         JobReceiveHeaderDocNo = L.JobReceiveHeader.DocNo,
                         JobReceiveHeaderId = L.JobReceiveHeaderId,
                         JobReceiveLineId = L.JobReceiveLineId,
-                        ProductId = jl.ProductId,
-                        Dimension1Name = jl.Dimension1.Dimension1Name,
-                        Dimension2Name = jl.Dimension2.Dimension2Name,
-                        Dimension3Name = jl.Dimension3.Dimension3Name,
-                        Dimension4Name = jl.Dimension4.Dimension4Name,
-                        Specification = jl.Specification,
-                        OrderBalanceQty = (tab == null ? 0 : tab.BalanceQty) + L.Qty + L.LossQty,
-                        UnitDecimalPlaces = jl.Unit.DecimalPlaces,
+                        ProductId = L.ProductId,
+                        Dimension1Id = L.Dimension1Id,
+                        Dimension2Id = L.Dimension2Id,
+                        Dimension3Id = L.Dimension3Id,
+                        Dimension4Id = L.Dimension4Id,
+                        Dimension1Name = L.Dimension1.Dimension1Name,
+                        Dimension2Name = L.Dimension2.Dimension2Name,
+                        Dimension3Name = L.Dimension3.Dimension3Name,
+                        Dimension4Name = L.Dimension4.Dimension4Name,
+                        Specification = L.Specification,
+                        OrderBalanceQty = (ViewJobOrderBalanceTab == null ? 0 : ViewJobOrderBalanceTab.BalanceQty) + L.Qty + L.LossQty,
+                        UnitDecimalPlaces = L.Product.Unit.DecimalPlaces,
                         DealUnitDecimalPlaces = L.DealUnit.DecimalPlaces,
                         UnitConversionMultiplier = L.UnitConversionMultiplier,
-                        UnitId = jl.UnitId,
+                        UnitId = L.JobOrderLine.UnitId ?? L.Product.UnitId,
                         MachineId = L.MachineId,
                         DealUnitId = L.DealUnitId,
                         DealQty = L.DealQty,
@@ -341,7 +346,7 @@ namespace Service
                         Weight = L.Weight,
                         Qty = L.Qty + L.LossQty,
                         Remark = L.Remark,
-                        JobWorkerId = jl.JobOrderHeader.JobWorkerId,
+                        JobWorkerId = L.JobReceiveHeader.JobWorkerId,
                         LockReason = L.LockReason,
                         ExcessReceiveAllowedAgainstOrderQty = L.JobOrderLine.Qty * (ProductSiteTab.ExcessReceiveAllowedAgainstOrderPer ?? 0) / 100 > (ProductSiteTab.ExcessReceiveAllowedAgainstOrderQty ?? 0) ? L.JobOrderLine.Qty * (ProductSiteTab.ExcessReceiveAllowedAgainstOrderPer ?? 0) / 100 : (ProductSiteTab.ExcessReceiveAllowedAgainstOrderQty ?? 0)
                     }).FirstOrDefault();

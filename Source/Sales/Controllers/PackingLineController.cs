@@ -1172,7 +1172,7 @@ namespace Web
 
         public JsonResult GetSaleOrderDetailJson(int SaleOrderLineId)
         {
-            var temp = (from L in db.ViewSaleOrderBalance
+            var temp = (from L in db.ViewSaleOrderBalanceForCancellation
                         join Dl in db.SaleOrderLine on L.SaleOrderLineId equals Dl.SaleOrderLineId into SaleOrderLineTable
                         from SaleOrderLineTab in SaleOrderLineTable.DefaultIfEmpty()
                         join P in db.Product on L.ProductId equals P.ProductId into ProductTable

@@ -824,11 +824,11 @@ namespace Web
                         StockIdList.Add((int)item.StockId);
                     }
                     var Productuid = item.ProductUidId;
-                    new StockLineService(_unitOfWork).Delete(item);
+                    //new StockLineService(_unitOfWork).Delete(item);
 
                     if (Productuid != null && Productuid != 0)
                     {
-                        Service.ProductUidDetail ProductUidDetail = new ProductUidService(_unitOfWork).FGetProductUidLastValues((int)Productuid, "Stock Transfer-" + item.StockHeaderId.ToString());
+                        //Service.ProductUidDetail ProductUidDetail = new ProductUidService(_unitOfWork).FGetProductUidLastValues((int)Productuid, "Stock Transfer-" + item.StockHeaderId.ToString());
 
                         ProductUid ProductUid = ProdUidRecords.Where(m => m.ProductUIDId == Productuid).FirstOrDefault();
 
@@ -853,7 +853,12 @@ namespace Web
 
                         new StockUidService(_unitOfWork).DeleteStockUidForDocLineDB(item.StockHeaderId, StockHeader.DocTypeId, StockHeader.SiteId, StockHeader.DivisionId, ref db);
                     }
+
+                    item.ObjectState = Model.ObjectState.Deleted;
+                    db.StockLine.Remove(item);
                 }
+
+
 
                 foreach (var item in FromStockIdList)
                 {

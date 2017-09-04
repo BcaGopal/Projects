@@ -151,7 +151,7 @@ namespace Web
                     temp.SqlProcProductUidHelpList = pt.SqlProcProductUidHelpList;
                     temp.isVisibleHeaderJobWorker = pt.isVisibleHeaderJobWorker;
                     temp.isPostedInStock = pt.isPostedInStock;
-                    temp.isVisibleLoss = pt.isVisibleLoss;
+                    
                     temp.SqlProcConsumption = pt.SqlProcConsumption;
                     temp.isPostedInStockProcess = pt.isPostedInStockProcess;
                     temp.isPostedInStockVirtual = pt.isPostedInStockVirtual;
@@ -170,9 +170,12 @@ namespace Web
                     temp.isVisibleSalesTaxGroupProduct = pt.isVisibleSalesTaxGroupProduct;
 
 
-                    temp.IsVisibleQty = pt.IsVisibleQty;
+                    temp.IsVisibleDocQty = pt.IsVisibleDocQty;
+                    temp.isVisibleLoss = pt.isVisibleLoss;
+                    temp.IsVisibleReceiveQty = pt.IsVisibleReceiveQty;
                     temp.IsVisiblePassQty = pt.IsVisiblePassQty;
                     temp.IsVisibleRate = pt.IsVisibleRate;
+                    temp.IsVisibleAdditionalCharges = pt.IsVisibleAdditionalCharges;
 
                     temp.isVisibleIncentive = pt.isVisibleIncentive;
                     temp.isVisiblePenalty = pt.isVisiblePenalty;
@@ -383,9 +386,12 @@ namespace Web
                     temp.isVisibleGodown = pt.isVisibleGodown;
                     temp.isVisibleJobReceiveBy = pt.isVisibleJobReceiveBy;
 
-                    temp.IsVisibleQty = pt.IsVisibleQty;
+                    temp.IsVisibleDocQty = pt.IsVisibleDocQty;
+                    temp.isVisibleLoss = pt.isVisibleLoss;
+                    temp.IsVisibleReceiveQty = pt.IsVisibleReceiveQty;
                     temp.IsVisiblePassQty = pt.IsVisiblePassQty;
                     temp.IsVisibleRate = pt.IsVisibleRate;
+                    temp.IsVisibleAdditionalCharges = pt.IsVisibleAdditionalCharges;
 
                     temp.DocumentPrintReportHeaderId = pt.DocumentPrintReportHeaderId;
                     temp.SqlProcDocumentPrint = pt.SqlProcDocumentPrint;
@@ -565,9 +571,12 @@ namespace Web
                     temp.isVisibleGodown = pt.isVisibleGodown;
                     temp.isVisibleJobReceiveBy = pt.isVisibleJobReceiveBy;
 
-                    temp.IsVisibleQty = pt.IsVisibleQty;
+                    temp.IsVisibleDocQty = pt.IsVisibleDocQty;
+                    temp.isVisibleLoss = pt.isVisibleLoss;
+                    temp.IsVisibleReceiveQty = pt.IsVisibleReceiveQty;
                     temp.IsVisiblePassQty = pt.IsVisiblePassQty;
                     temp.IsVisibleRate = pt.IsVisibleRate;
+                    temp.IsVisibleAdditionalCharges = pt.IsVisibleAdditionalCharges;
 
                     temp.SqlProcDocumentPrint = pt.SqlProcDocumentPrint;
                     temp.DocumentPrint = pt.DocumentPrint;
@@ -757,9 +766,12 @@ namespace Web
                     temp.isVisibleGodown = pt.isVisibleGodown;
                     temp.isVisibleJobReceiveBy = pt.isVisibleJobReceiveBy;
 
-                    temp.IsVisibleQty = pt.IsVisibleQty;
+                    temp.IsVisibleDocQty = pt.IsVisibleDocQty;
+                    temp.isVisibleLoss = pt.isVisibleLoss;
+                    temp.IsVisibleReceiveQty = pt.IsVisibleReceiveQty;
                     temp.IsVisiblePassQty = pt.IsVisiblePassQty;
                     temp.IsVisibleRate = pt.IsVisibleRate;
+                    temp.IsVisibleAdditionalCharges = pt.IsVisibleAdditionalCharges;
 
                     temp.SqlProcDocumentPrint = pt.SqlProcDocumentPrint;
                     temp.DocumentPrint = pt.DocumentPrint;

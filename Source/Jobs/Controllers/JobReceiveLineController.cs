@@ -2616,37 +2616,39 @@ namespace Web
                                               select p).FirstOrDefault();
 
 
-                        s.ProductUidLastTransactionDocId = Produid.LastTransactionDocId;
-                        s.ProductUidLastTransactionDocDate = Produid.LastTransactionDocDate;
-                        s.ProductUidLastTransactionDocNo = Produid.LastTransactionDocNo;
-                        s.ProductUidLastTransactionDocTypeId = Produid.LastTransactionDocTypeId;
-                        s.ProductUidLastTransactionPersonId = Produid.LastTransactionPersonId;
-                        s.ProductUidStatus = Produid.Status;
-                        s.ProductUidCurrentProcessId = Produid.CurrenctProcessId;
-                        s.ProductUidCurrentGodownId = Produid.CurrenctGodownId;
+
+                            s.ProductUidLastTransactionDocId = Produid.LastTransactionDocId;
+                            s.ProductUidLastTransactionDocDate = Produid.LastTransactionDocDate;
+                            s.ProductUidLastTransactionDocNo = Produid.LastTransactionDocNo;
+                            s.ProductUidLastTransactionDocTypeId = Produid.LastTransactionDocTypeId;
+                            s.ProductUidLastTransactionPersonId = Produid.LastTransactionPersonId;
+                            s.ProductUidStatus = Produid.Status;
+                            s.ProductUidCurrentProcessId = Produid.CurrenctProcessId;
+                            s.ProductUidCurrentGodownId = Produid.CurrenctGodownId;
 
 
 
-                        Produid.LastTransactionDocId = temp.JobReceiveHeaderId;
-                        Produid.LastTransactionDocNo = temp.DocNo;
-                        Produid.LastTransactionDocTypeId = temp.DocTypeId;
-                        Produid.LastTransactionDocDate = temp.DocDate;
-                        Produid.LastTransactionPersonId = temp.JobWorkerId;
-                        Produid.CurrenctGodownId = temp.GodownId;
-                        Produid.CurrenctProcessId = temp.ProcessId;
-                        Produid.Status = (!string.IsNullOrEmpty(settings.BarcodeStatusUpdate) ? settings.BarcodeStatusUpdate : ProductUidStatusConstants.Receive);
+                            Produid.LastTransactionDocId = temp.JobReceiveHeaderId;
+                            Produid.LastTransactionDocNo = temp.DocNo;
+                            Produid.LastTransactionDocTypeId = temp.DocTypeId;
+                            Produid.LastTransactionDocDate = temp.DocDate;
+                            Produid.LastTransactionPersonId = temp.JobWorkerId;
+                            Produid.CurrenctGodownId = temp.GodownId;
+                            Produid.CurrenctProcessId = temp.ProcessId;
+                            Produid.Status = (!string.IsNullOrEmpty(settings.BarcodeStatusUpdate) ? settings.BarcodeStatusUpdate : ProductUidStatusConstants.Receive);
 
-                        if (Produid.ProcessesDone == null)
-                        {
-                            Produid.ProcessesDone = "|" + temp.ProcessId.ToString() + "|";
-                        }
-                        else
-                        {
-                            Produid.ProcessesDone = Produid.ProcessesDone + ",|" + temp.ProcessId.ToString() + "|";
-                        }
+                            if (Produid.ProcessesDone == null)
+                            {
+                                Produid.ProcessesDone = "|" + temp.ProcessId.ToString() + "|";
+                            }
+                            else
+                            {
+                                Produid.ProcessesDone = Produid.ProcessesDone + ",|" + temp.ProcessId.ToString() + "|";
+                            }
 
-                        Produid.ObjectState = Model.ObjectState.Modified;
-                        db.ProductUid.Add(Produid);
+                            Produid.ObjectState = Model.ObjectState.Modified;
+                            db.ProductUid.Add(Produid);
+                        
                     }
                     s.ObjectState = Model.ObjectState.Added;
                     db.JobReceiveLine.Add(s);

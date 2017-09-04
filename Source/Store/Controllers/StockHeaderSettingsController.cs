@@ -170,6 +170,7 @@ namespace Web
                     temp.isVisibleMaterialRequest = pt.isVisibleMaterialRequest;
                     temp.isMandatoryProductUID = pt.isMandatoryProductUID;
                     temp.PersonFieldHeading = pt.PersonFieldHeading;
+                    temp.ImportMenuId = pt.ImportMenuId;
                     temp.NoOfPrintCopies = pt.NoOfPrintCopies;
                     temp.isVisibleStockIn = pt.isVisibleStockIn;
                     temp.DocumentPrintReportHeaderId = pt.DocumentPrintReportHeaderId;
@@ -339,6 +340,7 @@ namespace Web
                     temp.isVisibleMaterialRequest = pt.isVisibleMaterialRequest;
                     temp.PersonFieldHeading = pt.PersonFieldHeading;
                     temp.NoOfPrintCopies = pt.NoOfPrintCopies;
+                    temp.ImportMenuId = pt.ImportMenuId;
                     temp.isVisibleStockIn = pt.isVisibleStockIn;
                     temp.isMandatoryProductUID = pt.isMandatoryProductUID;
                     temp.DocumentPrintReportHeaderId = pt.DocumentPrintReportHeaderId;
@@ -507,6 +509,7 @@ namespace Web
                     temp.isVisibleMaterialRequest = pt.isVisibleMaterialRequest;
                     temp.PersonFieldHeading = pt.PersonFieldHeading;
                     temp.SqlProcGatePass = pt.SqlProcGatePass;
+                    temp.ImportMenuId = pt.ImportMenuId;
                     temp.isProductHelpFromStockProcess = pt.isProductHelpFromStockProcess;
                     temp.isVisibleStockIn = pt.isVisibleStockIn;
                     temp.isMandatoryProductUID = pt.isMandatoryProductUID;
@@ -676,6 +679,7 @@ namespace Web
                     temp.isVisibleMaterialRequest = pt.isVisibleMaterialRequest;
                     temp.PersonFieldHeading = pt.PersonFieldHeading;
                     temp.SqlProcGatePass = pt.SqlProcGatePass;
+                    temp.ImportMenuId = pt.ImportMenuId;
                     temp.isVisibleStockIn = pt.isVisibleStockIn;
                     temp.isMandatoryProductUID = pt.isMandatoryProductUID;
                     temp.DocumentPrintReportHeaderId = pt.DocumentPrintReportHeaderId;
@@ -846,6 +850,7 @@ namespace Web
                     temp.isVisibleMaterialRequest = pt.isVisibleMaterialRequest;
                     temp.PersonFieldHeading = pt.PersonFieldHeading;
                     temp.NoOfPrintCopies = pt.NoOfPrintCopies;
+                    temp.ImportMenuId = pt.ImportMenuId;
                     temp.isVisibleStockIn = pt.isVisibleStockIn;
                     temp.isMandatoryProductUID = pt.isMandatoryProductUID;
                     temp.DocumentPrintReportHeaderId = pt.DocumentPrintReportHeaderId;
@@ -1014,6 +1019,7 @@ namespace Web
                     temp.SqlProcGatePass = pt.SqlProcGatePass;
                     temp.SqlProcProductUidHelpList = pt.SqlProcProductUidHelpList;
                     temp.PersonFieldHeading = pt.PersonFieldHeading;
+                    temp.ImportMenuId = pt.ImportMenuId;
                     temp.isVisibleStockIn = pt.isVisibleStockIn;
                     temp.isMandatoryProductUID = pt.isMandatoryProductUID;
                     temp.DocumentPrintReportHeaderId = pt.DocumentPrintReportHeaderId;
@@ -1170,6 +1176,7 @@ namespace Web
                     temp.SqlProcProductUidHelpList = pt.SqlProcProductUidHelpList;
                     temp.SqlProcGatePass = pt.SqlProcGatePass;
                     temp.PersonFieldHeading = pt.PersonFieldHeading;
+                    temp.ImportMenuId = pt.ImportMenuId;
                     temp.filterContraProductDivisions = pt.filterContraProductDivisions;
                     temp.isVisibleStockIn = pt.isVisibleStockIn;
                     temp.isMandatoryProductUID = pt.isMandatoryProductUID;
@@ -1343,6 +1350,7 @@ namespace Web
                     temp.isVisibleMaterialRequest = pt.isVisibleMaterialRequest;
                     temp.isVisibleReferenceDocId = pt.isVisibleReferenceDocId;
                     temp.PersonFieldHeading = pt.PersonFieldHeading;
+                    temp.ImportMenuId = pt.ImportMenuId;
                     temp.NoOfPrintCopies = pt.NoOfPrintCopies;
                     temp.isVisibleStockIn = pt.isVisibleStockIn;
                     temp.isMandatoryProductUID = pt.isMandatoryProductUID;

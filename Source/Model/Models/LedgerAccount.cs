@@ -35,6 +35,10 @@ namespace Model.Models
         public int LedgerAccountGroupId { get; set; }
         public virtual LedgerAccountGroup LedgerAccountGroup { get; set; }
 
+        [ForeignKey("Product"), Display(Name = "Product Name")]
+        public int? ProductId { get; set; }
+        public virtual Product Product { get; set; }
+
         [Display(Name = "Is Active ?")]
         public Boolean IsActive { get; set; }
         [Display(Name = "Is System Define ?")]

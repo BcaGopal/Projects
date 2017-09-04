@@ -733,6 +733,7 @@ function InitializePopover(element, ProdUid, IsPostStock, GodwnId, Type) {
         $($page).find('#DocQty').val(1).attr('readonly', 'true');
         $($page).find('#ProductUidId').val(DataArray.ProductUIDId);
 
+
         if (DataArray.Dimension1Id)
             $($page).find('#Dimension1Id').select2("data", { id: DataArray.Dimension1Id, text: DataArray.Dimension1Name }).attr('readonly', 'true');
         else

@@ -94,10 +94,14 @@ namespace Web
             List<HeaderChargeViewModel> HeaderCharges = new List<HeaderChargeViewModel>();
             List<LineChargeViewModel> LineCharges = new List<LineChargeViewModel>();
 
+            List<LineReferenceIds> RefIds = new List<LineReferenceIds>();
+            bool HeaderChargeEdit = false;
+
             int? MaxLineId = new JobInvoiceRateAmendmentLineChargeService(db).GetMaxProductCharge(Header.JobInvoiceAmendmentHeaderId, "Web.JobInvoiceRateAmendmentLines", "JobInvoiceAmendmentHeaderId", "JobInvoiceRateAmendmentLineId");
 
+            int pk = 0;
             int PersonCount = 0;
-            int? CalculationId = Settings.CalculationId;
+            //int? CalculationId = Settings.CalculationId;
             List<LineDetailListViewModel> LineList = new List<LineDetailListViewModel>();
 
             bool BeforeSave = true;
@@ -115,10 +119,23 @@ namespace Web
             if (!BeforeSave)
                 ModelState.AddModelError("", "Validation failed before save");
 
+
+            int? CalculationId = 0;
+
+            int JobInvoiceLineId = vm.JobInvoiceRateAmendmentLineViewModel.FirstOrDefault().JobInvoiceLineId;
+            var SalesTaxGroupPerson = (from L in db.JobInvoiceLine where L.JobInvoiceLineId == JobInvoiceLineId select new { SalesTaxGroupPersonId = (int?)L.JobInvoiceHeader.SalesTaxGroupPerson.ChargeGroupPersonId ?? 0 }).FirstOrDefault();
+            if (SalesTaxGroupPerson != null)
+            {
+                CalculationId = new ChargeGroupPersonCalculationService(_unitOfWork).GetChargeGroupPersonCalculation(Header.DocTypeId, SalesTaxGroupPerson.SalesTaxGroupPersonId, Header.SiteId, Header.DivisionId) ?? 0;
+            }
+            if (CalculationId == 0)
+                CalculationId = Settings.CalculationId ?? 0;
+
             if (ModelState.IsValid && BeforeSave && !EventException)
             {
                 foreach (var item in vm.JobInvoiceRateAmendmentLineViewModel.Where(m => (m.AmendedRate - m.JobInvoiceRate) != 0 && m.AAmended == false))
                 {
+                    
 
                     JobInvoiceRateAmendmentLine line = new JobInvoiceRateAmendmentLine();
 
@@ -131,22 +148,26 @@ namespace Web
                     line.JobInvoiceRate = item.JobInvoiceRate;
                     line.JobWorkerId = item.JobWorkerId;
                     line.Sr = Serial++;
+                    line.JobInvoiceRateAmendmentLineId = pk;
                     line.CreatedDate = DateTime.Now;
                     line.ModifiedDate = DateTime.Now;
                     line.CreatedBy = User.Identity.Name;
                     line.ModifiedBy = User.Identity.Name;
                     line.Remark = item.Remark;
                     LineStatus.Add(line.JobInvoiceLineId, line.Rate);
+                    RefIds.Add(new LineReferenceIds { LineId = line.JobInvoiceRateAmendmentLineId, RefLineId = line.JobInvoiceLineId });
 
                     line.ObjectState = Model.ObjectState.Added;
                     db.JobInvoiceRateAmendmentLine.Add(line);
 
-                    //LineList.Add(new LineDetailListViewModel { Amount = line.Amount, Rate = line.Rate, LineTableId = line.JobInvoiceRateAmendmentLineId, HeaderTableId = item.JobInvoiceAmendmentHeaderId, PersonID = Header.JobWorkerId, DealQty = line.DealQty });
+                    LineList.Add(new LineDetailListViewModel { Amount = line.Amount, Rate = line.Rate, LineTableId = line.JobInvoiceRateAmendmentLineId, HeaderTableId = item.JobInvoiceAmendmentHeaderId, PersonID = Header.JobWorkerId, DealQty = 0 });
                     //_JobInvoiceRateAmendmentLineService.Create(line);
+                    pk++;
                 }
 
                 //Commented No InvoiceLineStatus
                 //new JobInvoiceLineStatusService(_unitOfWork).UpdateJobRateOnAmendmentMultiple(LineStatus, Header.DocDate, ref db);
+
 
                 if (Header.Status != (int)StatusConstants.Drafted && Header.Status != (int)StatusConstants.Import)
                 {
@@ -157,6 +178,81 @@ namespace Web
 
                 Header.ObjectState = Model.ObjectState.Modified;
                 db.JobInvoiceAmendmentHeader.Add(Header);
+
+
+
+
+                int[] RecLineIds = null;
+                RecLineIds = RefIds.Select(m => m.RefLineId).ToArray();
+
+                var Charges = (from p in db.JobInvoiceLine
+                               where RecLineIds.Contains(p.JobInvoiceLineId)
+                               join LineCharge in db.JobInvoiceLineCharge on p.JobInvoiceLineId equals LineCharge.LineTableId
+                               join HeaderCharge in db.JobInvoiceHeaderCharges on p.JobInvoiceHeaderId equals HeaderCharge.HeaderTableId
+                               group new { p, LineCharge, HeaderCharge } by new { p.JobInvoiceLineId } into g
+                               select new
+                               {
+                                   LineId = g.Key.JobInvoiceLineId,
+                                   HeaderCharges = g.Select(m => m.HeaderCharge).ToList(),
+                                   Linecharges = g.Select(m => m.LineCharge).ToList(),
+                               }).ToList();
+
+
+
+                var LineListWithReferences = (from p in LineList
+                                              join t in RefIds on p.LineTableId equals t.LineId
+                                              join t2 in Charges on t.RefLineId equals t2.LineId into table
+                                              from LineLis in table.DefaultIfEmpty()
+                                              orderby p.LineTableId
+                                              select new LineDetailListViewModel
+                                              {
+                                                  Amount = p.Amount,
+                                                  DealQty = p.DealQty,
+                                                  HeaderTableId = p.HeaderTableId,
+                                                  LineTableId = p.LineTableId,
+                                                  PersonID = p.PersonID,
+                                                  Rate = p.Rate,
+                                                  CostCenterId = p.CostCenterId,
+                                                  RLineCharges = (LineLis == null ? null : Mapper.Map<List<LineChargeViewModel>>(LineLis.Linecharges)),
+                                              }).ToList();
+
+
+                if (CalculationId != null)
+                    new ChargesCalculationService(_unitOfWork).CalculateCharges(LineListWithReferences, vm.JobInvoiceRateAmendmentLineViewModel.FirstOrDefault().JobInvoiceAmendmentHeaderId, (int)CalculationId, MaxLineId, out LineCharges, out HeaderChargeEdit, out HeaderCharges, "Web.JobInvoiceAmendmentHeaderCharges", "Web.JobInvoiceRateAmendmentLineCharges", out PersonCount, Header.DocTypeId, Header.SiteId, Header.DivisionId);
+
+                //Saving Charges
+                foreach (var item in LineCharges)
+                {
+
+                    JobInvoiceRateAmendmentLineCharge PoLineCharge = Mapper.Map<LineChargeViewModel, JobInvoiceRateAmendmentLineCharge>(item);
+                    PoLineCharge.ObjectState = Model.ObjectState.Added;
+                    db.JobInvoiceRateAmendmentLineCharge.Add(PoLineCharge);
+                }
+
+
+                //Saving Header charges
+                for (int i = 0; i < HeaderCharges.Count(); i++)
+                {
+
+                    if (!HeaderChargeEdit)
+                    {
+                        JobInvoiceAmendmentHeaderCharge POHeaderCharge = Mapper.Map<HeaderChargeViewModel, JobInvoiceAmendmentHeaderCharge>(HeaderCharges[i]);
+                        POHeaderCharge.HeaderTableId = vm.JobInvoiceRateAmendmentLineViewModel.FirstOrDefault().JobInvoiceAmendmentHeaderId;
+                        POHeaderCharge.PersonID = Header.JobWorkerId;
+                        POHeaderCharge.ObjectState = Model.ObjectState.Added;
+                        db.JobInvoiceAmendmentHeaderCharge.Add(POHeaderCharge);
+                    }
+                    else
+                    {
+                        var footercharge = new JobInvoiceAmendmentHeaderChargeService(db).Find(HeaderCharges[i].Id);
+                        footercharge.Rate = HeaderCharges[i].Rate;
+                        footercharge.Amount = HeaderCharges[i].Amount;
+                        footercharge.ObjectState = Model.ObjectState.Modified;
+                        db.JobInvoiceAmendmentHeaderCharge.Add(footercharge);
+                    }
+
+                }
+
 
                 try
                 {

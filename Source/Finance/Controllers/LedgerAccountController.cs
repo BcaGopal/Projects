@@ -13,6 +13,7 @@ using Core.Common;
 using Model.ViewModel;
 using AutoMapper;
 using System.Xml.Linq;
+using Model.ViewModels;
 
 namespace Web
 {
@@ -57,7 +58,7 @@ namespace Web
         public ActionResult Create()
         {
             PrepareViewBag();
-            LedgerAccount vm = new LedgerAccount();
+            LedgerAccountViewModel vm = new LedgerAccountViewModel();
             vm.IsActive = true;
             return View("Create", vm);
 
@@ -68,19 +69,54 @@ namespace Web
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Post(LedgerAccount vm)
+        public ActionResult Post(LedgerAccountViewModel vm)
         {
-            LedgerAccount pt = vm;
+            LedgerAccount pt = AutoMapper.Mapper.Map<LedgerAccountViewModel, LedgerAccount>(vm);
             if (ModelState.IsValid)
             {
                 if (vm.LedgerAccountId <= 0)
                 {
+                    Product pt1 = new Product();
+                    pt1.ProductName = vm.LedgerAccountName;
+                    pt1.ProductCode = vm.LedgerAccountSuffix;
+                    pt1.ProductDescription = vm.LedgerAccountName;
+                    pt1.ProductGroupId = new ProductGroupService(_unitOfWork).Find(ProductGroupConstants.LedgerAccount).ProductGroupId;
+                    pt1.ProductCategoryId = null;
+                    pt1.ProductSpecification = null;
+                    pt1.StandardCost = 0;
+                    pt1.SaleRate = 0;
+                    pt1.Tags = null;
+                    pt1.UnitId = UnitConstants.Nos;
+                    pt1.SalesTaxGroupProductId = vm.SalesTaxGroupProductId;
+                    pt1.IsActive = vm.IsActive;
+                    pt1.DivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
+                    pt1.ProfitMargin = 0;
+                    pt1.CarryingCost = 0;
+                    pt1.DefaultDimension1Id = null;
+                    pt1.DefaultDimension2Id = null;
+                    pt1.DefaultDimension3Id = null;
+                    pt1.DefaultDimension4Id = null;
+                    pt1.DiscontinueDate = null;
+                    pt1.DiscontinueReason = null;
+                    pt1.SalesTaxProductCodeId = null;
+                    pt1.CreatedDate = DateTime.Now;
+                    pt1.ModifiedDate = DateTime.Now;
+                    pt1.CreatedBy = User.Identity.Name;
+                    pt1.ModifiedBy = User.Identity.Name;
+                    pt1.ObjectState = Model.ObjectState.Added;
+                    new ProductService(_unitOfWork).Create(pt1);
+
+
+                    pt.ProductId = pt1.ProductId;
                     pt.CreatedDate = DateTime.Now;
                     pt.ModifiedDate = DateTime.Now;
                     pt.CreatedBy = User.Identity.Name;
                     pt.ModifiedBy = User.Identity.Name;
                     pt.ObjectState = Model.ObjectState.Added;
                     _LedgerAccountService.Create(pt);
+
+
+
 
                     try
                     {
@@ -120,6 +156,22 @@ namespace Web
                     temp.ObjectState = Model.ObjectState.Modified;
                     _LedgerAccountService.Update(temp);
 
+
+                    if (temp.ProductId != null)
+                    {
+                        Product pt1 = new ProductService(_unitOfWork).Find((int)temp.ProductId);
+                        pt1.ProductName = vm.LedgerAccountName;
+                        pt1.ProductCode = vm.LedgerAccountSuffix;
+                        pt1.ProductDescription = vm.LedgerAccountName;
+                        pt1.SalesTaxGroupProductId = vm.SalesTaxGroupProductId;
+                        pt1.IsActive = vm.IsActive;
+                        pt1.ModifiedDate = DateTime.Now;
+                        pt1.ModifiedBy = User.Identity.Name;
+                        pt1.ObjectState = Model.ObjectState.Modified;
+                        new ProductService(_unitOfWork).Update(pt1);
+                    }
+
+
                     LogList.Add(new LogTypeViewModel
                     {
                         ExObj = ExRec,
@@ -136,7 +188,7 @@ namespace Web
                     {
                         string message = _exception.HandleException(ex);
                         ModelState.AddModelError("", message);
-                        return View("Create", pt);
+                        return View("Create", vm);
                     }
 
                     LogActivity.LogActivityDetail(LogVm.Map(new ActiivtyLogViewModel
@@ -161,7 +213,8 @@ namespace Web
 
         public ActionResult Edit(int id)
         {
-            LedgerAccount pt = _LedgerAccountService.Find(id);
+            //LedgerAccount pt = _LedgerAccountService.Find(id);
+            LedgerAccountViewModel pt = _LedgerAccountService.GetLedgerAccountForEdit(id);
             if (pt == null)
             {
                 return HttpNotFound();

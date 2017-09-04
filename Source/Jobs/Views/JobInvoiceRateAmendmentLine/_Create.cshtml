@@ -38,9 +38,9 @@
                 @Html.HiddenFor(m => m.SiteId)
                 @Html.HiddenFor(m => m.DocTypeId)
 
-                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @Html.ValidationSummary(true, "", new { @class = "alert alert-danger" })
 
-                <div>
+                <div class="row">
                     <div class="col-md-6" style="display:@(Model.JobInvoiceSettings.isVisibleProductUID?"":"none")">
                         @Html.HiddenFor(m => m.JobInvoiceSettings.isVisibleProductUID)
                         <div class="form-group">
@@ -51,7 +51,6 @@
                             </div>
                         </div>
                     </div>
-
                     <div class="col-md-6">
                         <div class="form-group">
                             @Html.LabelFor(model => model.JobInvoiceLineId, "Job Invoice", new { @class = "control-label col-md-4 col-sm-2" })
@@ -68,7 +67,6 @@
                             </div>
                         </div>
                     </div>
-
                     <div class="col-md-6">
                         <div class="form-group">
                             @Html.LabelFor(model => model.ProductId, "Product", new { @class = "control-label col-md-4 col-sm-2 " })
@@ -78,7 +76,6 @@
                             </div>
                         </div>
                     </div>
-
                     <div class="col-md-6">
                         <div class="form-group">
                             @Html.LabelFor(model => model.Specification, "Specification", new { @class = "control-label col-md-4 col-sm-2 " })
@@ -88,7 +85,6 @@
                             </div>
                         </div>
                     </div>
-
                     <div class="col-md-6" style="display:@(!Model.JobInvoiceSettings.isVisibleHeaderJobWorker?"":"none")">
                         @Html.HiddenFor(m => m.JobInvoiceSettings.isVisibleHeaderJobWorker)
                         <div class="form-group">
@@ -99,7 +95,6 @@
                             </div>
                         </div>
                     </div>
-
                     <div class="col-md-6" style="display:@(Model.JobInvoiceSettings.isVisibleLotNo?"":"none")">
                         @Html.HiddenFor(m => m.JobInvoiceSettings.isVisibleLotNo)
                         <div class="form-group">
@@ -110,7 +105,6 @@
                             </div>
                         </div>
                     </div>
-
                     <div class="col-md-6" style="display:@(Model.JobInvoiceSettings.isVisibleDimension1?"":"none")">
                         @Html.HiddenFor(m => m.JobInvoiceSettings.isVisibleDimension1)
                         <div class="form-group">
@@ -131,7 +125,6 @@
                             </div>
                         </div>
                     </div>
-
                     <div class="col-md-6" style="display:@(Model.JobInvoiceSettings.isVisibleDimension3?"":"none")">
                         @Html.HiddenFor(m => m.JobInvoiceSettings.isVisibleDimension3)
                         <div class="form-group">
@@ -142,7 +135,6 @@
                             </div>
                         </div>
                     </div>
-
                     <div class="col-md-6" style="display:@(Model.JobInvoiceSettings.isVisibleDimension4?"":"none")">
                         @Html.HiddenFor(m => m.JobInvoiceSettings.isVisibleDimension4)
                         <div class="form-group">
@@ -153,7 +145,6 @@
                             </div>
                         </div>
                     </div>
-
                     <div class="col-md-6">
                         <div class="form-group">
                             @Html.LabelFor(model => model.Qty, "Qty", new { @class = "control-label col-md-4 col-sm-2" })
@@ -168,7 +159,6 @@
                             </div>
                         </div>
                     </div>
-
                     <div class="col-md-6">
                         <div class="form-group">
                             @Html.LabelFor(model => model.DealUnitName, "Deal Unit", new { @class = "control-label col-md-4 col-sm-2" })
@@ -184,7 +174,6 @@
                         </div>
                     </div>
 
-
                     <div class="col-md-6">
                         <div class="form-group">
                             @Html.LabelFor(model => model.DealQty, "Deal Qty", new { @class = "control-label col-md-4 col-sm-2" })
@@ -194,7 +183,6 @@
                             </div>
                         </div>
                     </div>
-
                     <div class="col-md-6">
                         <div class="form-group">
                             @Html.LabelFor(model => model.JobInvoiceRate, "Invoice Rate", new { @class = "control-label col-md-4 col-sm-2" })
@@ -204,7 +192,6 @@
                             </div>
                         </div>
                     </div>
-
                     <div class="col-md-6">
                         <div class="form-group">
                             @Html.LabelFor(model => model.AmendedRate, "Amend Rate", new { @class = "control-label col-md-4 col-sm-2" })
@@ -214,7 +201,6 @@
                             </div>
                         </div>
                     </div>
-
                     <div class="col-md-6">
                         <div class="form-group">
                             @Html.LabelFor(model => model.Rate, "Rate", new { @class = "control-label col-md-4 col-sm-2" })
@@ -224,7 +210,6 @@
                             </div>
                         </div>
                     </div>
-
                     <div class="col-md-6">
                         <div class="form-group">
                             @Html.LabelFor(model => model.Amount, "Amount", new { @class = "control-label col-md-4 col-sm-2" })
@@ -234,7 +219,6 @@
                             </div>
                         </div>
                     </div>
-
                     <div class="col-md-6">
                         <div class="form-group">
                             @Html.LabelFor(model => model.Remark, "Remark", new { @class = "control-label col-md-4 col-sm-2" })
@@ -258,42 +242,41 @@
         }
     </div>
 </div>
-@if (Model.JobInvoiceSettings.CalculationId.HasValue && Model.JobInvoiceSettings.CalculationId.Value > 0)
+
+@if (Model.JobInvoiceRateAmendmentLineId <= 0)
 {
-    if (Model.JobInvoiceRateAmendmentLineId <= 0)
-    {
-        <script type="text/javascript">
-            $(function () {
+    <script type="text/javascript">
+        $(function () {
 
-                $.ajax({
-                    cache: false,
-                    url: "/TaxCalculation/GetMaxLineId/",
-                    data: { HeaderId: parseInt($('#JobInvoiceAmendmentHeaderId').val()), LineTable: "Web.JobInvoiceRateAmendmentLines", LineKeyField: "JobInvoiceRateAmendmentLineId", HeaderKeyField: "JobInvoiceAmendmentHeaderId" },
-                    success: function (data) {
-                        AddCalculation(data);
-                    },
-                    error: function (xhr, ajaxOptions, thrownError) {
-                        alert('Failed to retrive calculation footer' + thrownError);
-                    },
-                });
+            $.ajax({
+                cache: false,
+                url: "/TaxCalculation/GetMaxLineId/",
+                data: { HeaderId: parseInt($('#JobInvoiceAmendmentHeaderId').val()), LineTable: "Web.JobInvoiceRateAmendmentLines", LineKeyField: "JobInvoiceRateAmendmentLineId", HeaderKeyField: "JobInvoiceAmendmentHeaderId" },
+                success: function (data) {
+                    AddCalculation(data);
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert('Failed to retrive calculation footer' + thrownError);
+                },
+            });
 
 
-                function AddCalculation(MaxLineId) {
-                    AddCalculationFields(parseInt($('#JobInvoiceAmendmentHeaderId').val()), false, '@Model.JobInvoiceSettings.CalculationId', "Web.JobInvoiceAmendmentHeaderCharges", "Web.JobInvoiceRateAmendmentLineCharges", MaxLineId, $('#DocTypeId', '.modal-body').val(), $('#SiteId', '.modal-body').val(), $('#DivisionId', '.modal-body').val());
-                }
+            function AddCalculation(MaxLineId) {
+                AddCalculationFields(parseInt($('#JobInvoiceAmendmentHeaderId').val()), false, '@Model.JobInvoiceSettings.CalculationId', "Web.JobInvoiceAmendmentHeaderCharges", "Web.JobInvoiceRateAmendmentLineCharges", MaxLineId, $('#DocTypeId', '.modal-body').val(), $('#SiteId', '.modal-body').val(), $('#DivisionId', '.modal-body').val());
+            }
 
-            })
-        </script>
-    }
-    else
-    {
-        <script type="text/javascript">
-            $(function () {
-                AddCalculationFieldsEdit(parseInt($('#JobInvoiceAmendmentHeaderId').val()), $('#JobInvoiceRateAmendmentLineId').val(), false, "Web.JobInvoiceAmendmentHeaderCharges", "Web.JobInvoiceRateAmendmentLineCharges");
-            })
-        </script>
-    }
+        })
+    </script>
 }
+else
+{
+    <script type="text/javascript">
+        $(function () {
+            AddCalculationFieldsEdit(parseInt($('#JobInvoiceAmendmentHeaderId').val()), $('#JobInvoiceRateAmendmentLineId').val(), false, "Web.JobInvoiceAmendmentHeaderCharges", "Web.JobInvoiceRateAmendmentLineCharges");
+        })
+    </script>
+}
+
 
 
 @if (Model.JobInvoiceRateAmendmentLineId <= 0)

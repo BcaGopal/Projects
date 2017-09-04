@@ -317,7 +317,7 @@ namespace Web
                             StockViewModel.Remark = Header.Remark;
                             StockViewModel.Status = Header.Status;
                             StockViewModel.ProcessId = item.FromProcessId;
-                            StockViewModel.LotNo = null;
+                            StockViewModel.LotNo = item.LotNo;
                             StockViewModel.CostCenterId = Header.CostCenterId;
                             StockViewModel.Qty_Iss = item.Qty;
                             StockViewModel.Qty_Rec = 0;
@@ -392,7 +392,7 @@ namespace Web
                             StockProcessViewModel.Remark = Header.Remark;
                             StockProcessViewModel.Status = Header.Status;
                             StockProcessViewModel.ProcessId = Header.ProcessId;
-                            StockProcessViewModel.LotNo = null;
+                            StockProcessViewModel.LotNo = item.LotNo;
                             StockProcessViewModel.CostCenterId = Header.CostCenterId;
                             StockProcessViewModel.Qty_Iss = 0;
                             StockProcessViewModel.Qty_Rec = item.Qty;
@@ -454,6 +454,7 @@ namespace Web
                         line.Dimension4Id = item.Dimension4Id;
                         line.Specification = item.Specification;
                         line.FromProcessId= item.FromProcessId;
+                        line.LotNo = item.LotNo;
                         line.Qty = item.Qty;
                         line.UnitId = item.UnitId;
                         line.Sr = Serial++;

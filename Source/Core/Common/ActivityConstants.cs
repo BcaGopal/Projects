@@ -77,6 +77,7 @@ namespace Core.Common
         public const string Bom = "Bom";
         public const string Trace = "Trace";
         public const string Map = "Map";
+        public const string LedgerAccount = "Ledger Account";
     }
 
     public class TitleCaseConstants

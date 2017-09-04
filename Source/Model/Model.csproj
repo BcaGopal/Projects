@@ -233,6 +233,7 @@
     <Compile Include="ViewModels\ChargeGroupPersonCalculationViewModel.cs" />
     <Compile Include="ViewModels\Dimension1.cs" />
     <Compile Include="ViewModels\DocumentCancelViewModel.cs" />
+    <Compile Include="ViewModels\LedgerAccountViewModel.cs" />
     <Compile Include="ViewModels\SmsViewModel.cs" />
     <Compile Include="ViewModels\DocumentTypeAttributeViewModel.cs" />
     <Compile Include="ViewModels\ImportHeaderViewModel.cs" />

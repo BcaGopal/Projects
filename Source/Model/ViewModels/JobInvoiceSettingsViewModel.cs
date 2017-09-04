@@ -31,13 +31,15 @@ namespace Model.ViewModel
 
         public bool isVisibleProcessHeader { get; set; }
 
+        public bool IsVisibleDocQty { get; set; }
+        public bool isVisibleLoss { get; set; }
+        public bool IsVisibleReceiveQty { get; set; }
         public bool IsVisiblePassQty { get; set; }
-        public bool IsVisibleQty { get; set; }
         public bool IsVisibleRate { get; set; }
+        public bool IsVisibleAdditionalCharges { get; set; }
 
         public bool isVisibleLotNo { get; set; }
         public bool isVisibleSpecification { get; set; }
-        public bool isVisibleLoss { get; set; }
         public bool isVisibleDealUnit { get; set; }
         public bool isVisibleWeight { get; set; }
         public bool isVisibleCostCenter { get; set; }

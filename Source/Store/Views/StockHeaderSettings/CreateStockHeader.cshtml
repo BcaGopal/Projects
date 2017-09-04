@@ -449,6 +449,17 @@
 
                             <div class="col-md-6">
                                 <div class="form-group">
+                                    @Html.LabelFor(model => model.ImportMenuId, "SQL func CurrentStock", new { @class = "control-label col-xs-4" })
+                                    <div class="col-xs-6">
+                                        @Html.TextBoxFor(m => m.ImportMenuId, new { @class = "form-control col-xs-6" })
+                                        @Html.ValidationMessageFor(m => m.ImportMenuId, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-6">
+                                <div class="form-group">
                                     @Html.LabelFor(model => model.PersonFieldHeading, "Person Field Heading", new { @class = "control-label col-xs-4" })
                                     <div class="col-xs-6">
                                         @Html.TextBoxFor(m => m.PersonFieldHeading, new { @class = "form-control col-xs-6" })
@@ -489,6 +500,7 @@
         CustomSelectFunction($("#CalculationId"), '/ComboHelpList/GetCalculation', '/ComboHelpList/SetSingleCalculation', ' ', false, 1);
         CustomSelectFunction($("#Perks"), '/ComboHelpList/GetPerk', '/ComboHelpList/SetPerk', ' ', true, 1);
         CustomSelectFunction($("#filterPersonRoles"), '/ComboHelpList/GetPersonRoles', '/ComboHelpList/SetPersonRole', ' ', true, 0);
+        CustomSelectFunction($("#ImportMenuId"), '/ComboHelpList/GetMenu', '/ComboHelpList/SetSingleMenu', ' ', false, 1);
     });
 
 

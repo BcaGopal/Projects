@@ -5512,5 +5512,55 @@ namespace Web
         }
 
 
+        public JsonResult GetSalesTaxGroupProduct(string searchTerm, int pageSize, int pageNum)
+        {
+            var Query = cbl.GetSalesTaxGroupProduct(searchTerm);
+            var temp = Query.Skip(pageSize * (pageNum - 1)).Take(pageSize).ToList();
+
+            var count = Query.Count();
+
+            ComboBoxPagedResult Data = new ComboBoxPagedResult();
+            Data.Results = temp;
+            Data.Total = count;
+
+            return new JsonpResult
+            {
+                Data = Data,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+        public JsonResult SetSingleSalesTaxGroupProduct(int Ids)
+        {
+            ComboBoxResult SalesTaxGroupProductJson = new ComboBoxResult();
+
+            ChargeGroupProduct SalesTaxGroupProduct = (from b in db.ChargeGroupProduct
+                                                       where b.ChargeGroupProductId == Ids
+                                                       select b).FirstOrDefault();
+
+            SalesTaxGroupProductJson.id = SalesTaxGroupProduct.ChargeGroupProductId.ToString();
+            SalesTaxGroupProductJson.text = SalesTaxGroupProduct.ChargeGroupProductName;
+
+            return Json(SalesTaxGroupProductJson);
+        }
+        public JsonResult SetSalesTaxGroupProduct(string Ids)
+        {
+            string[] subStr = Ids.Split(',');
+            List<ComboBoxResult> ProductJson = new List<ComboBoxResult>();
+            for (int i = 0; i < subStr.Length; i++)
+            {
+                int temp = Convert.ToInt32(subStr[i]);
+                IEnumerable<ChargeGroupProduct> prod = from p in db.ChargeGroupProduct
+                                                       where p.ChargeGroupProductId == temp
+                                                       select p;
+                ProductJson.Add(new ComboBoxResult()
+                {
+                    id = prod.FirstOrDefault().ChargeGroupProductId.ToString(),
+                    text = prod.FirstOrDefault().ChargeGroupProductName
+                });
+            }
+            return Json(ProductJson);
+        }
+
+
     }
 }

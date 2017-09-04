@@ -43,6 +43,8 @@ namespace Model.ViewModel
         [Display(Name = "JobWorker Doc. No."), MaxLength(20)]
         public string JobWorkerDocNo { get; set; }
 
+        public DateTime? JobWorkerDocDate { get; set; }
+
         [Display(Name = "Job Receive By"), Range(1, int.MaxValue, ErrorMessage = "Job Receive field is required")]
         public int JobReceiveById { get; set; }
         public string JobReceiveByName { get; set; }
@@ -89,6 +91,7 @@ namespace Model.ViewModel
         public string Remark { get; set; }
         public int Status { get; set; }
         public string JobWorkerDocNo { get; set; }
+        public DateTime? JobWorkerDocDate { get; set; }
         public string JobWorkerName { get; set; }
         public string ModifiedBy { get; set; }
         public int? ReviewCount { get; set; }
@@ -105,6 +108,7 @@ namespace Model.ViewModel
         public int JobReceiveLineId { get; set; }
         public string DocNo { get; set; }
         public string JobWorkerDocNo { get; set; }
+        public DateTime? JobWorkerDocDate { get; set; }
         public string Dimension1Name { get; set; }
         public string Dimension2Name { get; set; }
         public string Dimension3Name { get; set; }

@@ -204,6 +204,12 @@ namespace Web
                         StockViewModel.Remark = Dh.Remark;
                         StockViewModel.Status = Dh.Status;
                         //StockViewModel.ProcessId = Dh.ProcessId;
+
+                        if (Pl != null)
+                        {
+                            StockViewModel.ProcessId = (from L in db.PackingLine where L.PackingLineId == Pl.PackingLineId select new { StockId = L.StockReceiveId }).FirstOrDefault().StockId;
+                        }
+
                         StockViewModel.LotNo = null;
                         //StockViewModel.CostCenterId = Dh.CostCenterId;
                         StockViewModel.Qty_Iss = item.Qty;
@@ -276,6 +282,7 @@ namespace Web
                             Dl.GodownId = (int)LastRecord.GodownId;
 
                         Dl.PackingLineId = Pl.PackingLineId;
+                        Dl.StockInId = Pl.StockReceiveId;
                         Dl.Remark = item.Remark;
                         Dl.SaleDispatchHeaderId = Dh.SaleDispatchHeaderId;
                         Dl.SaleDispatchLineId = DispatchPrimaryKey++;
@@ -330,7 +337,15 @@ namespace Web
 
                         if (Pl.SaleOrderLineId != null)
                         {
-                            LineStatus.Add((int)Pl.SaleOrderLineId, line.Qty);
+                            if (LineStatus.ContainsKey((int)Pl.SaleOrderLineId))
+                            {
+                                var LineStatusRow = LineStatus.Where(i => i.Key == Pl.SaleOrderLineId).FirstOrDefault();
+                                LineStatus[LineStatusRow.Key] = LineStatusRow.Value + line.Qty;
+                            }
+                            else
+                            {
+                                LineStatus.Add((int)Pl.SaleOrderLineId, line.Qty);
+                            }
                         }
 
 

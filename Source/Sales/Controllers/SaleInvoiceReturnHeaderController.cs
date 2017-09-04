@@ -110,7 +110,7 @@ namespace Web
             ViewBag.Name = new DocumentTypeService(_unitOfWork).Find(id).DocumentTypeName;
             ViewBag.id = id;
             ViewBag.CurrencyList = new CurrencyService(_unitOfWork).GetCurrencyList().ToList();
-            ViewBag.SalesTaxGroupList = new ChargeGroupPersonService(_unitOfWork).GetChargeGroupPersonList((int)(ChargeTypeConstants.SalesTax)).ToList();
+            ViewBag.SalesTaxGroupList = new ChargeGroupPersonService(_unitOfWork).GetChargeGroupPersonList((int)(TaxTypeConstants.SalesTax)).ToList();
             ViewBag.ReasonList = new ReasonService(_unitOfWork).GetReasonList().ToList();
 
             var DivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];

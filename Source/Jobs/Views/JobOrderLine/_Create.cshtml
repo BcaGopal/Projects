@@ -642,23 +642,24 @@ else
             }
 
 
-
-
-            if (($("#ProductUidId").val() == 0 || $("#ProductUidId").val() == null || $("#ProductUidId").val() == "") &&
-                    ($("#StockInId").val() == 0 || $("#StockInId").val() == null || $("#StockInId").val() == "")) {
-                $.ajax({
-                    cache: false,
-                    type: "POST",
-                    url: "@(Url.Action("GetProductPrevProcess"))",
-                    data: { ProductId: $("#ProductId").val(), GodownId: $("#GodownId").val(), DocTypeId: $("#DocTypeId").val() },
-                    success: function (data) {
-                        $("#FromProcessId").val(data[0].ProcessId);
-                    },
-                    error: function (xhr, ajaxOptions, thrownError) {
-                        ProcessProgress.hide();
+                if ($("#ProductUidName").val() == null)
+                {
+                    if (($("#ProductUidId").val() == 0 || $("#ProductUidId").val() == null || $("#ProductUidId").val() == "") &&
+                            ($("#StockInId").val() == 0 || $("#StockInId").val() == null || $("#StockInId").val() == "")) {
+                        $.ajax({
+                            cache: false,
+                            type: "POST",
+                            url: "@(Url.Action("GetProductPrevProcess"))",
+                            data: { ProductId: $("#ProductId").val(), GodownId: $("#GodownId").val(), DocTypeId: $("#DocTypeId").val() },
+                            success: function (data) {
+                                $("#FromProcessId").val(data[0].ProcessId);
+                            },
+                            error: function (xhr, ajaxOptions, thrownError) {
+                                ProcessProgress.hide();
+                            }
+                        });
                     }
-                });
-            }
+                }
         }
 
 
