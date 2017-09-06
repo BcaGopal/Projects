@@ -460,9 +460,13 @@ namespace Service
                         && (string.IsNullOrEmpty(settings.filterContraDivisions) ? p.DivisionId == Receipt.DivisionId : ContraDivisions.Contains(p.DivisionId.ToString()))
                     select new JobOrderLineViewModel
                     {
+                        Dimension1Id = Dimension1Tab.Dimension1Id,
                         Dimension1Name = Dimension1Tab.Dimension1Name,
+                        Dimension2Id = Dimension2Tab.Dimension2Id,
                         Dimension2Name = Dimension2Tab.Dimension2Name,
+                        Dimension3Id = Dimension3Tab.Dimension3Id,
                         Dimension3Name = Dimension3Tab.Dimension3Name,
+                        Dimension4Id = Dimension4Tab.Dimension4Id,
                         Dimension4Name = Dimension4Tab.Dimension4Name,
                         LotNo = t1.LotNo,
                         Qty = p.BalanceQty,
