@@ -298,6 +298,12 @@ namespace Customise.App_Start
 
             container.RegisterType<IJobOrderLineExtendedService, JobOrderLineExtendedService>(new PerRequestLifetimeManager());
 
+            container.RegisterType<IRepository<StockLine>, Repository<StockLine>>();
+            container.RegisterType<IStockLineService, StockLineService>(new PerRequestLifetimeManager());
+
+            container.RegisterType<IRepository<StockHeader>, Repository<StockHeader>>();
+            container.RegisterType<IStockHeaderService, StockHeaderService>(new PerRequestLifetimeManager());
+
 
             //Registering Mappers:
 
@@ -610,6 +616,31 @@ namespace Customise.App_Start
             Mapper.CreateMap<DocumentTypeTimeExtension, DocumentTypeTimeExtension>();
             Mapper.CreateMap<ProductProcess, ProductProcess>();
             Mapper.CreateMap<SaleInvoiceSetting, SaleInvoiceSetting>();
+
+            Mapper.CreateMap<StockHeaderSettings, StockHeaderSettingsViewModel>();
+            Mapper.CreateMap<StockHeaderSettingsViewModel, StockHeaderSettings>();
+
+            Mapper.CreateMap<MaterialRequestSettings, MaterialRequestSettingsViewModel>();
+            Mapper.CreateMap<MaterialRequestSettingsViewModel, MaterialRequestSettings>();
+
+            Mapper.CreateMap<Stock, StockViewModel>();
+            Mapper.CreateMap<StockViewModel, Stock>();
+
+            Mapper.CreateMap<StockHeader, StockHeaderViewModel>();
+            Mapper.CreateMap<StockHeaderViewModel, StockHeader>();
+
+            Mapper.CreateMap<StockHeaderViewModel, DocumentUniqueId>();
+            Mapper.CreateMap<StockHeader, DocumentUniqueId>();
+
+            Mapper.CreateMap<StockLine, StockLineViewModel>();
+            Mapper.CreateMap<StockLineViewModel, StockLine>();
+
+            Mapper.CreateMap<RequisitionHeaderViewModel, RequisitionHeader>();
+            Mapper.CreateMap<RequisitionHeader, RequisitionHeaderViewModel>();
+
+            Mapper.CreateMap<RequisitionLineViewModel, RequisitionLine>();
+            Mapper.CreateMap<RequisitionLine, RequisitionLineViewModel>();
+
 
         }
     }

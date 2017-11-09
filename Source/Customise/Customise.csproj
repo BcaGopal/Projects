@@ -253,6 +253,7 @@
     <Compile Include="Controllers\AdminSetupController.cs" />
     <Compile Include="Controllers\CarpetMasterController.cs" />
     <Compile Include="Controllers\FeetConversionToCmsController .cs" />
+    <Compile Include="Controllers\JobRatePenaltyUpdateController.cs" />
     <Compile Include="Controllers\JobReceiveQaPenaltyController.cs" />
     <Compile Include="Controllers\PackingSettingsController.cs" />
     <Compile Include="Controllers\StockIssueHeaderController.cs" />
@@ -1384,6 +1385,36 @@
     <Content Include="Views\SaleInvoiceLine\UpdateRatesDesignWise.cshtml" />
     <Content Include="Views\WeavingReceiveQACombined\Consumption.cshtml" />
     <Content Include="Views\PackingSetting\Create.cshtml" />
+    <Content Include="Views\JobRatePenaltyUpdate\Delete.cshtml" />
+    <Content Include="Views\JobRatePenaltyUpdate\Edit.cshtml" />
+    <Content Include="Views\JobRatePenaltyUpdate\Index.cshtml" />
+    <Content Include="Views\JobRatePenaltyUpdate\JobRatePenaltyUpdate.cshtml" />
+    <Content Include="Views\JobRatePenaltyUpdate\PendingToApprove.cshtml" />
+    <Content Include="Views\JobRatePenaltyUpdate\PendingToSubmit.cshtml" />
+    <Content Include="Views\JobRatePenaltyUpdate\_Filters.cshtml" />
+    <Content Include="Views\StockIssueHeader\Create.cshtml" />
+    <Content Include="Views\StockIssueHeader\Delete.cshtml" />
+    <Content Include="Views\StockIssueHeader\Detail.cshtml" />
+    <Content Include="Views\StockIssueHeader\DocumentTypeList.cshtml" />
+    <Content Include="Views\StockIssueHeader\Edit.cshtml" />
+    <Content Include="Views\StockIssueHeader\Index.cshtml" />
+    <Content Include="Views\StockIssueHeader\PendingToApprove.cshtml" />
+    <Content Include="Views\StockIssueHeader\PendingToSubmit.cshtml" />
+    <Content Include="Views\StockIssueHeader\_Reason.cshtml" />
+    <Content Include="Views\StockIssueLine\Delete.cshtml" />
+    <Content Include="Views\StockIssueLine\Details.cshtml" />
+    <Content Include="Views\StockIssueLine\Edit.cshtml" />
+    <Content Include="Views\StockIssueLine\Index.cshtml" />
+    <Content Include="Views\StockIssueLine\_Create.cshtml" />
+    <Content Include="Views\StockIssueLine\_Filters.cshtml" />
+    <Content Include="Views\StockIssueLine\_FiltersProducts.cshtml" />
+    <Content Include="Views\StockIssueLine\_FiltersStockIn.cshtml" />
+    <Content Include="Views\StockIssueLine\_Results.cshtml" />
+    <Content Include="Views\StockIssueLine\_ResultsProduction.cshtml" />
+    <Content Include="Views\StockIssueLine\_ResultsStockIn.cshtml" />
+    <Content Include="Views\WeavingReceiveQACombined\InvalidBarcode.cshtml" />
+    <Content Include="Views\WeavingReceiveQACombined\ProductUidDetail.cshtml" />
+    <Content Include="Views\WeavingReceiveQACombined\DetailByProductUid.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
