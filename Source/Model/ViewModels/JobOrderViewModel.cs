@@ -194,12 +194,18 @@ namespace Model.ViewModel
 
         public decimal Rate { get; set; }
 
+        [Display(Name = "Discount %")]
+        public Decimal? DiscountPer { get; set; }
+
+        [Display(Name = "Discount Amount")]
+        public Decimal? DiscountAmount { get; set; }
+
         public decimal Amount { get; set; }
 
         [Display(Name = "Remark")]
         public string Remark { get; set; }
         public Decimal UnitConversionMultiplier { get; set; }
-        public bool IsProdOrderBased { get; set; }
+        //public bool IsProdOrderBased { get; set; }
         public JobOrderSettingsViewModel JobOrderSettings { get; set; }
         public DocumentTypeSettingsViewModel DocumentTypeSettings { get; set; }
         public List<JobOrderLineCharge> linecharges { get; set; }
@@ -240,7 +246,7 @@ namespace Model.ViewModel
         public int? SalesTaxGroupProductId { get; set; }
         public string SalesTaxGroupProductName { get; set; }
         public int? SalesTaxGroupPersonId { get; set; }
-
+        public string LineNature { get; set; }
         public Decimal? ExcessReceiveAllowedAgainstOrderQty { get; set; }
     }
 
@@ -256,6 +262,10 @@ namespace Model.ViewModel
         public string Dimension4Name { get; set; }
         public string DocumentTypeName { get; set; }
         public string ProductName { get; set; }
+        public int? ProductUidId { get; set; }
+        public string ProductUidName { get; set; }
+        public string LotNo { get; set; }
+
         public decimal BalanceQty { get; set; }
 
 

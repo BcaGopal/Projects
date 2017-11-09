@@ -230,7 +230,7 @@
                         </div>
                     </div>
 
-                    <div class="col-md-6" style="display:@(Model.JobInvoiceSettings.isVisibleCostCenter ? "" : "none")">
+                    <div class="col-md-6" style="display:@(Model.JobInvoiceSettings.isVisibleCostCenter && Model.LineNature != LineNatureConstants.AdditionalCharges ? "" : "none")">
                         @Html.HiddenFor(m => m.JobInvoiceSettings.isVisibleCostCenter)
                         @Html.HiddenFor(m => m.DocumentTypeSettings.CostCenterCaption)
                         <div class="form-group">
@@ -362,7 +362,7 @@
                     <div class="col-md-6" style="display:@(Model.JobInvoiceSettings.isVisibleRateDiscountPer && Model.LineNature != LineNatureConstants.AdditionalCharges ? "" : "none")">
                         @Html.HiddenFor(m => m.JobInvoiceSettings.isVisibleRateDiscountPer)
                         <div class="form-group">
-                            @Html.LabelFor(model => model.RateDiscountPer, "Rate Disc %", new { @class = "control-label col-md-4 col-sm-2" })
+                            @Html.LabelFor(model => model.RateDiscountPer, "Discount %", new { @class = "control-label col-md-4 col-sm-2" })
                             <div class="col-md-7 col-sm-10" style="padding:0px">
                                 <div class="col-xs-4" style="padding-right:0px;">
                                     @Html.TextBoxFor(model => model.RateDiscountPer, new { @class = "form-control  text-right " })
@@ -1302,6 +1302,7 @@ else
                             
                         $("#UnitId").val(data.UnitId);
                         $("#DealUnitId").val(data.DealUnitId);
+                        $("#DealUnitDecimalPlaces").val(data.DealUnitDecimalPlaces);
                         $('#Specification').val(data.Specification);
                         decimalplaces = data.DealUnitDecimalPlaces;
                         GetUnitConversionMultiplier();
@@ -1367,7 +1368,7 @@ else
     });
 
 
-    $('#DealQty,#PassQty,#Rate,#JobQty,#ReceiveQty,#LossQty,#UnitConversionMultiplier,#Amount').keyup(function(){
+    $('#DealQty,#PassQty,#Rate,#JobQty,#ReceiveQty,#LossQty,#UnitConversionMultiplier,#Amount,#RateDiscountPer,#RateDiscountAmt').keyup(function(){
         Calculation();
     });
 
@@ -1378,7 +1379,6 @@ else
     function Calculation()
     {
         $('#LossQty').val((parseFloat($('#JobQty').val()-$('#ReceiveQty').val())).toFixed($('#UnitDecimalPlaces').val()))
-
         if ($("#UnitId").val() == $("#DealUnitId").val()) {
             $("#UnitConversionMultiplier").val(1);
         }
@@ -1390,7 +1390,7 @@ else
 
         if ($('#RateDiscountPer').val() != 0 && $('#RateDiscountPer').val() != null && $('#RateDiscountPer').val() != '')
         {
-            $('#RateDiscountAmt').val() = $('#Rate').val() * $('#RateDiscountPer').val() / 100
+            $('#RateDiscountAmt').val($('#Rate').val() * $('#RateDiscountPer').val() / 100)
             $('#RateDiscountAmt').attr('readonly', 'true');
         }
         else{
@@ -1400,12 +1400,13 @@ else
 
         if ($('#JobInvoiceSettings_IsVisiblePassQty','.modal-body').val() == "False" || $('#LineNature', '.modal-body').val() == "Additional Charges")
         {
-
+            
         }
         else
         {
             if ($('#RateDiscountAmt').val() != 0 && $('#RateDiscountAmt').val() != null && $('#RateDiscountAmt').val() != '')
             {
+                
                 var NetRate = $('#Rate').val() - $('#RateDiscountAmt').val()
                 $('#Amount').val(($('#DealQty').val() * NetRate).toFixed(2));
             }

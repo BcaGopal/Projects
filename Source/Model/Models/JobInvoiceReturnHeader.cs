@@ -72,10 +72,10 @@ namespace Model.Models
         public int? JobReturnHeaderId { get; set; }
         public virtual JobReturnHeader JobReturnHeader { get; set; }
 
-        //[ForeignKey("SalesTaxGroupPerson")]
-        //[Display(Name = "SalesTaxGroupPerson")]
-        //public int? SalesTaxGroupPersonId { get; set; }
-        //public virtual ChargeGroupPerson SalesTaxGroupPerson { get; set; }
+        [ForeignKey("SalesTaxGroupPerson")]
+        [Display(Name = "SalesTaxGroupPerson")]
+        public int? SalesTaxGroupPersonId { get; set; }
+        public virtual ChargeGroupPerson SalesTaxGroupPerson { get; set; }
 
         [MaxLength(20)]
         public string Nature { get; set; }

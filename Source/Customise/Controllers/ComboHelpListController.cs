@@ -8050,7 +8050,6 @@ namespace Web
             };
         }
 
-
         public JsonResult SetProductRateGroup(string Ids)
         {
             string[] subStr = Ids.Split(',');

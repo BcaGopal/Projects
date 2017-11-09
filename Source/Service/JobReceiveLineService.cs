@@ -51,6 +51,7 @@ namespace Service
         List<ComboBoxResult> SetReason(string Ids);
         IEnumerable<JobReceiveLine> ProductUidsExist(int JobReceiveHeaderId, int? ProductUid);
         IEnumerable<ComboBoxResult> FGetProductUidHelpList(int Id, string term);
+        IEnumerable<ComboBoxResult> GetJobOrderHelpListForProduct(int Id, string term);
     }
 
     public class JobReceiveLineService : IJobReceiveLineService
@@ -126,6 +127,10 @@ namespace Service
             if (!string.IsNullOrEmpty(settings.filterContraDivisions)) { ContraDivisions = settings.filterContraDivisions.Split(",".ToCharArray()); }
             else { ContraDivisions = new string[] { "NA" }; }
 
+            string[] ContraDocTypes = null;
+            if (!string.IsNullOrEmpty(settings.filterContraDocTypes)) { ContraDocTypes = settings.filterContraDocTypes.Split(",".ToCharArray()); }
+            else { ContraDocTypes = new string[] { "NA" }; }
+
             //var TempProductSite = (from Vl in db.ViewJobOrderBalance
             //                       join L in db.JobOrderLine on Vl.JobOrderLineId equals L.JobOrderLineId into JobOrderLineTable
             //                       from JobOrderLineTab in JobOrderLineTable.DefaultIfEmpty()
@@ -150,7 +155,8 @@ namespace Service
                         join Ps in db.ProductSiteDetail on new { A1 = JobOrderHeaderTab.SiteId, A2 = JobOrderHeaderTab.DivisionId, A3 = JobOrderHeaderTab.ProcessId, A4 = JobOrderLineTab.ProductId }
                             equals new { A1 = Ps.SiteId, A2 = Ps.DivisionId, A3 = (Ps.ProcessId ?? 0), A4 = Ps.ProductId } into ProductSiteTable
                             from ProductSiteTab in ProductSiteTable.DefaultIfEmpty()
-                        where (string.IsNullOrEmpty(vm.ProductId) ? 1 == 1 : ProductIdArr.Contains(Vl.ProductId.ToString()))
+                        where JobOrderHeaderTab.ProcessId == JobReceive.ProcessId
+                        && (string.IsNullOrEmpty(vm.ProductId) ? 1 == 1 : ProductIdArr.Contains(Vl.ProductId.ToString()))
                         && (string.IsNullOrEmpty(vm.JobOrderHeaderId) ? 1 == 1 : SaleOrderIdArr.Contains(Vl.JobOrderHeaderId.ToString()))
                         && (string.IsNullOrEmpty(vm.CostCenterId) ? 1 == 1 : CostCenterIdArr.Contains(JobOrderHeaderTab.CostCenterId.ToString()))
                         && (string.IsNullOrEmpty(vm.ProductGroupId) ? 1 == 1 : ProductGroupIdArr.Contains(ProductTab.ProductGroupId.ToString()))
@@ -158,6 +164,7 @@ namespace Service
                         && (string.IsNullOrEmpty(vm.Dimension2Id) ? 1 == 1 : Dimension2.Contains(Vl.Dimension2Id.ToString()))
                         && (string.IsNullOrEmpty(vm.Dimension3Id) ? 1 == 1 : Dimension3.Contains(Vl.Dimension3Id.ToString()))
                         && (string.IsNullOrEmpty(vm.Dimension4Id) ? 1 == 1 : Dimension4.Contains(Vl.Dimension4Id.ToString()))
+                        && (string.IsNullOrEmpty(settings.filterContraDocTypes) ? 1 == 1 : ContraDocTypes.Contains(JobOrderHeaderTab.DocTypeId.ToString()))
                         && (string.IsNullOrEmpty(settings.filterContraSites) ? Vl.SiteId == JobReceive.SiteId : ContraSites.Contains(Vl.SiteId.ToString()))
                         && (string.IsNullOrEmpty(settings.filterContraDivisions) ? Vl.DivisionId == JobReceive.DivisionId : ContraDivisions.Contains(Vl.DivisionId.ToString()))
                         && Vl.BalanceQty > 0 && Vl.JobWorkerId == vm.JobWorkerId && JobOrderHeaderTab.DocDate <= JobReceive.DocDate
@@ -174,6 +181,9 @@ namespace Service
                             DocQty = Vl.BalanceQty,
                             ReceiveQty = Vl.BalanceQty,
                             PassQty = Vl.BalanceQty,
+                            LotNo = JobOrderLineTab.LotNo,
+                            //OrderQty = JobOrderLineTab.Qty,
+                            //OrderDealQty = JobOrderLineTab.DealQty,
                             ProductName = ProductTab.ProductName,
                             ProductId = Vl.ProductId,
                             JobReceiveHeaderId = vm.JobReceiveHeaderId,
@@ -182,6 +192,7 @@ namespace Service
                             JobOrderHeaderDocNo = Vl.JobOrderNo,
                             DealUnitId = ProductTab.UnitId,
                             UnitDecimalPlaces = ProductTab.Unit.DecimalPlaces,
+                            UnitConversionMultiplier = JobOrderLineTab.UnitConversionMultiplier,
                             DealUnitDecimalPlaces = ProductTab.Unit.DecimalPlaces,
                             JobOrderUidHeaderId = JobOrderLineTab.ProductUidHeaderId,
                             ProductUidId = JobOrderLineTab.ProductUidId,
@@ -653,13 +664,16 @@ namespace Service
 
             DateTime Temp;
 
-            if (DateTime.TryParse(searchTerm, out Temp))
+            if (searchTerm != null && searchTerm != "")
             {
-                Query = Query.Where(m => m.Date == Temp);
-            }
-            else
-            {
-                Query = Query.Where(m => m.DocNo.ToLower().Contains(searchTerm.ToLower()));
+                if (DateTime.TryParse(searchTerm, out Temp))
+                {
+                    Query = Query.Where(m => m.Date == Temp);
+                }
+                else
+                {
+                    Query = Query.Where(m => m.DocNo.ToLower().Contains(searchTerm.ToLower()));
+                }
             }
             var GQuery = (from p in Query
                           group p by p.Id into g
@@ -1051,6 +1065,64 @@ namespace Service
                         }).ToList();
 
             return temp;
+        }
+
+
+        public IEnumerable<ComboBoxResult> GetJobOrderHelpListForProduct(int Id, string term)
+        {
+            var JobReceiveHeader = new JobReceiveHeaderService(_unitOfWork).Find(Id);
+
+            var settings = new JobReceiveSettingsService(_unitOfWork).GetJobReceiveSettingsForDocument(JobReceiveHeader.DocTypeId, JobReceiveHeader.DivisionId, JobReceiveHeader.SiteId);
+
+            string[] contraSites = null;
+            if (!string.IsNullOrEmpty(settings.filterContraSites)) { contraSites = settings.filterContraSites.Split(",".ToCharArray()); }
+            else { contraSites = new string[] { "NA" }; }
+
+            string[] contraDivisions = null;
+            if (!string.IsNullOrEmpty(settings.filterContraDivisions)) { contraDivisions = settings.filterContraDivisions.Split(",".ToCharArray()); }
+            else { contraDivisions = new string[] { "NA" }; }
+
+            int CurrentSiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
+            int CurrentDivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
+
+            var OrderBalance = (from VB in db.ViewJobOrderBalance
+                                where VB.JobWorkerId == JobReceiveHeader.JobWorkerId
+                                select new
+                                {
+                                    JobOrderLineId = VB.JobOrderLineId,
+                                    BalanceQty = VB.BalanceQty
+                                });
+
+            return (from VB in OrderBalance
+                    join L in db.JobOrderLine on VB.JobOrderLineId equals L.JobOrderLineId into JobOrderLineTable
+                    from JobOrderLineTab in JobOrderLineTable.DefaultIfEmpty()
+                    where JobOrderLineTab.JobOrderHeader.JobWorkerId == JobReceiveHeader.JobWorkerId
+                    && (string.IsNullOrEmpty(settings.filterContraSites) ? JobOrderLineTab.JobOrderHeader.Site.SiteId == CurrentSiteId : contraSites.Contains(JobOrderLineTab.JobOrderHeader.Site.SiteId.ToString()))
+                    && (string.IsNullOrEmpty(settings.filterContraDivisions) ? JobOrderLineTab.JobOrderHeader.Division.DivisionId == CurrentDivisionId : contraDivisions.Contains(JobOrderLineTab.JobOrderHeader.Division.DivisionId.ToString()))
+                    && (string.IsNullOrEmpty(term) ? 1 == 1 : JobOrderLineTab.JobOrderHeader.DocNo.ToLower().Contains(term.ToLower())
+                        || string.IsNullOrEmpty(term) ? 1 == 1 : JobOrderLineTab.JobOrderHeader.DocType.DocumentTypeShortName.ToLower().Contains(term.ToLower())
+                        || string.IsNullOrEmpty(term) ? 1 == 1 : JobOrderLineTab.Product.ProductName.ToLower().Contains(term.ToLower())
+                        || string.IsNullOrEmpty(term) ? 1 == 1 : JobOrderLineTab.Dimension1.Dimension1Name.ToLower().Contains(term.ToLower())
+                        || string.IsNullOrEmpty(term) ? 1 == 1 : JobOrderLineTab.Dimension2.Dimension2Name.ToLower().Contains(term.ToLower())
+                        || string.IsNullOrEmpty(term) ? 1 == 1 : JobOrderLineTab.Dimension3.Dimension3Name.ToLower().Contains(term.ToLower())
+                        || string.IsNullOrEmpty(term) ? 1 == 1 : JobOrderLineTab.Dimension4.Dimension4Name.ToLower().Contains(term.ToLower())
+                        || string.IsNullOrEmpty(term) ? 1 == 1 : JobOrderLineTab.LotNo.ToLower().Contains(term.ToLower())
+                        || string.IsNullOrEmpty(term) ? 1 == 1 : JobOrderLineTab.ProductUid.ProductUidName.ToLower().Contains(term.ToLower())
+                        )
+                    select new ComboBoxResult
+                    {
+                        id = VB.JobOrderLineId.ToString(),
+                        text = JobOrderLineTab.JobOrderHeader.DocType.DocumentTypeShortName + "-" + JobOrderLineTab.JobOrderHeader.DocNo,
+                        TextProp1 = "Balance :" + VB.BalanceQty,
+                        TextProp2 = "Date :" + JobOrderLineTab.JobOrderHeader.DocDate, 
+                        AProp1 = JobOrderLineTab.Product.ProductName + ((JobOrderLineTab.ProductUid.ProductUidName == null) ? "" : "," + JobOrderLineTab.ProductUid.ProductUidName),
+                        AProp2 = ((JobOrderLineTab.Dimension1.Dimension1Name == null) ? "" : JobOrderLineTab.Dimension1.Dimension1Name) +
+                                    ((JobOrderLineTab.Dimension2.Dimension2Name == null) ? "" : "," + JobOrderLineTab.Dimension2.Dimension2Name) +
+                                    ((JobOrderLineTab.Dimension3.Dimension3Name == null) ? "" : "," + JobOrderLineTab.Dimension3.Dimension3Name) +
+                                    ((JobOrderLineTab.Dimension4.Dimension4Name == null) ? "" : "," + JobOrderLineTab.Dimension4.Dimension4Name) + 
+                                    ((JobOrderLineTab.LotNo == null) ? "" : "," + JobOrderLineTab.LotNo)
+                    });
+
         }
 
 

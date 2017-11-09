@@ -417,7 +417,7 @@ namespace Web
         {
             JobReceiveBomViewModel vm = new JobReceiveBomService(_unitOfWork).GetJobReceiveBom(id);
 
-            JobReceiveHeader H = new JobReceiveHeaderService(_unitOfWork).Find(id);
+            JobReceiveHeader H = new JobReceiveHeaderService(_unitOfWork).Find(vm.JobReceiveHeaderId);
             var settings = new JobReceiveSettingsService(_unitOfWork).GetJobReceiveSettingsForDocument(H.DocTypeId, H.DivisionId, H.SiteId);
             vm.JobReceiveSettings = Mapper.Map<JobReceiveSettings, JobReceiveSettingsViewModel>(settings);
 
@@ -505,7 +505,8 @@ namespace Web
         {
             List<JobReceiveLineViewModel> temp = _JobReceiveLineService.GetJobOrdersForFilters(vm).ToList();
             JobReceiveMasterDetailModel svm = new JobReceiveMasterDetailModel();
-            svm.JobReceiveLineViewModel = temp.Where(m => m.JobOrderUidHeaderId == null && m.ProductUidId == null).ToList();
+            //svm.JobReceiveLineViewModel = temp.Where(m => m.JobOrderUidHeaderId == null && m.ProductUidId == null).ToList();
+            svm.JobReceiveLineViewModel = temp.ToList();
             JobReceiveHeader Header = new JobReceiveHeaderService(_unitOfWork).Find(vm.JobReceiveHeaderId);
             JobReceiveSettings settings = new JobReceiveSettingsService(_unitOfWork).GetJobReceiveSettingsForDocument(Header.DocTypeId, Header.DivisionId, Header.SiteId);
             svm.JobReceiveSettings = Mapper.Map<JobReceiveSettings, JobReceiveSettingsViewModel>(settings);
@@ -779,6 +780,12 @@ namespace Web
                         line.LotNo = item.LotNo;
                         line.UnitConversionMultiplier = JobOrderLine.UnitConversionMultiplier;
                         line.DealQty = (line.UnitConversionMultiplier * line.Qty);
+
+                        //if (item.DealQty != null && item.DealQty != 0)
+                        //    line.DealQty = item.DealQty;
+                        //else
+                        //    line.DealQty = (line.UnitConversionMultiplier * line.Qty);
+
                         line.DealUnitId = JobOrderLine.DealUnitId;
                         line.LotNo = item.LotNo;
                         line.Sr = Serial++;
@@ -2216,10 +2223,10 @@ namespace Web
                 ModelState.AddModelError("MachineId", "The Machine field is required");
             }
 
-            if (svm.OrderBalanceQty < svm.DocQty)
-            {
-                ModelState.AddModelError("DocQty", "DocQty exceeding BalanceQty");
-            }
+            //if (svm.OrderBalanceQty < svm.DocQty)
+            //{
+            //    ModelState.AddModelError("DocQty", "DocQty exceeding BalanceQty");
+            //}
 
             if (svm.ProductUidName != null && svm.ProductUidName != "")
             {
@@ -3583,6 +3590,26 @@ namespace Web
             ProductUidJson.text = ProductUid.FirstOrDefault().text;
 
             return Json(ProductUidJson);
+        }
+
+        public ActionResult GetJobOrderForProduct(string searchTerm, int pageSize, int pageNum, int filter)//SaleInvoiceReturnHeaderId
+        {
+            var Query = _JobReceiveLineService.GetJobOrderHelpListForProduct(filter, searchTerm);
+            var temp = Query.Skip(pageSize * (pageNum - 1))
+                .Take(pageSize)
+                .ToList();
+
+            var count = Query.Count();
+
+            ComboBoxPagedResult Data = new ComboBoxPagedResult();
+            Data.Results = temp;
+            Data.Total = count;
+
+            return new JsonpResult
+            {
+                Data = Data,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
         }
 
 

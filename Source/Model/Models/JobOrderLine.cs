@@ -102,6 +102,12 @@ namespace Model.Models
         [DataType(DataType.Currency)]
         public decimal Amount { get; set; }
 
+        [Display(Name = "Discount %")]
+        public Decimal? DiscountPer { get; set; }
+
+        [Display(Name = "Discount Amount")]
+        public Decimal? DiscountAmount { get; set; }
+
         [Display(Name = "Remark")]
         public string Remark { get; set; }
 

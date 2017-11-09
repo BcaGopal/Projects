@@ -36,6 +36,8 @@ namespace Model.Models
 
         [Display(Name = "Job Worker Doc Date")]
         public DateTime? JobWorkerDocDate { get; set; }
+        [MaxLength(20)]
+        public string GovtInvoiceNo { get; set; }
 
         [Display(Name = "Division"),Required ]
         [ForeignKey("Division")]

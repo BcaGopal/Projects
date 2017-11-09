@@ -174,7 +174,13 @@ namespace Web
             }
 
             vm.DocTypeId = id;
-            vm.ProcessId = settings.ProcessId;
+            //vm.ProcessId = settings.ProcessId;
+
+            if ((settings.isVisibleProcessHeader ?? false) == false)
+            {
+                vm.ProcessId = settings.ProcessId;
+            }
+
             vm.DocDate = DateTime.Now;
             vm.DocNo = new DocumentTypeService(_unitOfWork).FGetNewDocNo("DocNo", ConfigurationManager.AppSettings["DataBaseSchema"] + ".JobInvoiceReturnHeaders", vm.DocTypeId, vm.DocDate, vm.DivisionId, vm.SiteId);
             vm.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(vm.DocTypeId);
@@ -196,6 +202,25 @@ namespace Web
                 if (vm.GodownId <= 0)
                     ModelState.AddModelError("GodownId", "The Godown field is required");
             }
+
+            if (vm.Remark == null || vm.Remark == "")
+                ModelState.AddModelError("Remark", "Remark field is required");
+
+            if (vm.JobWorkerId != null && vm.JobWorkerId != 0)
+            {
+                SiteDivisionSettings SiteDivisionSettings = new SiteDivisionSettingsService(_unitOfWork).GetSiteDivisionSettings(vm.SiteId, vm.DivisionId, vm.DocDate);
+                if (SiteDivisionSettings != null)
+                {
+                    if (SiteDivisionSettings.IsApplicableGST == true)
+                    {
+                        if (vm.SalesTaxGroupPersonId == 0 || vm.SalesTaxGroupPersonId == null)
+                        {
+                            ModelState.AddModelError("", "Sales Tax Group Person is not defined for party, it is required.");
+                        }
+                    }
+                }
+            }
+
 
             #region BeforeSave
             bool BeforeSave = true;
@@ -348,6 +373,7 @@ namespace Web
                     temp.JobWorkerId = pt.JobWorkerId;
                     temp.DocNo = pt.DocNo;
                     temp.ReasonId = pt.ReasonId;
+                    temp.SalesTaxGroupPersonId = pt.SalesTaxGroupPersonId;
                     temp.DocDate = pt.DocDate;
                     temp.ModifiedDate = DateTime.Now;
                     temp.ModifiedBy = User.Identity.Name;
@@ -1388,7 +1414,7 @@ namespace Web
         {
             string query;
             query = SqlProcForPrint;
-            return Redirect((string)System.Configuration.ConfigurationManager.AppSettings["CustomizeDomain"] + "/Report_DocumentPrint/DocumentPrint/?DocumentId=" + id + "&queryString=" + query);
+            return Redirect((string)System.Configuration.ConfigurationManager.AppSettings["JobsDomain"] + "/Report_DocumentPrint/DocumentPrint/?DocumentId=" + id + "&queryString=" + query);
 
         }
 
@@ -1400,8 +1426,11 @@ namespace Web
 
             Dictionary<int, string> DefaultValue = new Dictionary<int, string>();
 
+            //if (!Dt.ReportMenuId.HasValue)
+            //    throw new Exception("Report Menu not configured in document types");
             if (!Dt.ReportMenuId.HasValue)
-                throw new Exception("Report Menu not configured in document types");
+                return Redirect((string)System.Configuration.ConfigurationManager.AppSettings["JobsDomain"] + "/GridReport/GridReportLayout/?MenuName=Job Invoice Return Report&DocTypeId=" + id.ToString());
+
 
             Menu menu = new MenuService(_unitOfWork).Find(Dt.ReportMenuId ?? 0);
 
@@ -1423,7 +1452,7 @@ namespace Web
 
             TempData["ReportLayoutDefaultValues"] = DefaultValue;
 
-            return Redirect((string)System.Configuration.ConfigurationManager.AppSettings["CustomizeDomain"] + "/Report_ReportPrint/ReportPrint/?MenuId=" + Dt.ReportMenuId);
+            return Redirect((string)System.Configuration.ConfigurationManager.AppSettings["JobsDomain"] + "/Report_ReportPrint/ReportPrint/?MenuId=" + Dt.ReportMenuId);
 
         }
 

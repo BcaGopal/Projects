@@ -316,7 +316,7 @@
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.ProductInvoiceGroupId, "Invoice Group", new { @class = "control-label col-md-4 col-sm-2" })
                                     <div class="col-md-7 col-sm-10">
-                                        @Html.TextBoxFor(m => m.ProductInvoiceGroupId, null, new { @class = "form-control col-xs-6 required" })
+                                        @Html.TextBoxFor(m => m.ProductInvoiceGroupId, null, new { @class = "form-control col-xs-6 " })
                                         @Html.ValidationMessageFor(model => model.ProductInvoiceGroupId, null, new { @class = "text-danger" })
                                     </div>
                                 </div>

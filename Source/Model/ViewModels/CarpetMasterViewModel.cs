@@ -83,7 +83,7 @@ namespace Model.ViewModels
         public int? ProductDesignPatternId { get; set; }
         public virtual ProductDesignPattern ProductDesignPattern { get; set; }
         public int StandardSizeId { get; set; }
-
+        public Boolean IsBomCreated { get; set; }
         public int ManufacturingSizeId { get; set; }
 
         public int FinishingSizeId { get; set; }

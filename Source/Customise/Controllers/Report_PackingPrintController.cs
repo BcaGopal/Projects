@@ -11,6 +11,8 @@ using System.Drawing;
 using Reports.Common;
 using Reports.Controllers;
 using ThoughtWorks.QRCode.Codec;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Web
 {
@@ -89,8 +91,9 @@ namespace Web
                     }
                     else
                     {
-                        //RepName = "Packing_LabelPrintNew";
-                        RepName = "Packing_LabelPrintNew_1422017";
+                        //RepName = "Packing_LabelPrintNew";                       
+                        //RepName = "Packing_LabelPrintNew_1422017";
+                        RepName = ReportName(DtTemp);
                         Dt = FGetDataForSCILabelPrint(DtTemp, con);
                     }
                 }
@@ -170,6 +173,46 @@ namespace Web
             }
         }
 
+        public string ReportName(DataTable dt)
+        {
+            string Report = string.Empty;
+            string SaleOrderName = string.Empty;
+            int res = 0;
+            List<string> lst = new List<string> { };
+            if (dt.Rows.Count > 0)
+            {
+                for (int i = 0; i <= dt.Rows.Count - 1; i++)
+                {
+                    lst.Add(dt.Rows[i]["SaleOrder"].ToString().Substring(0, 3));
+                }
+
+                res = (from x in lst select x).Distinct().Count();
+                SaleOrderName = lst.FirstOrDefault();
+            }
+
+            if (res == 1)
+            {
+                if (SaleOrderName == "HOS")
+                {
+                    Report = "Packing_LabelPrintHOS_02112017";
+                }
+                else if (SaleOrderName == "CUS")
+
+                {
+                    Report = "Packing_LabelPrintCUS_02112017";
+                }
+                else
+                {
+                    Report = "Packing_LabelPrintNew_1422017";
+                }
+            }
+            else
+            {
+                Report = "Packing_LabelPrintMultiplePrint";
+            }
+
+            return Report;
+        }
         public DataTable FGetDataForSCILabelPrint(DataTable DtTemp, SqlConnection con)
         {
             QRCodeEncoder QRCodeEncoder;
@@ -353,7 +396,7 @@ namespace Web
                 strQry = " Select H.BarCode, H.UPCCode, H.UPCCodeValue, ISNULL(IB.BuyerSKU,H.CarpetSku) AS CarpetSku, ISNULL(H.SaleOrder,'') AS SaleOrder, H.SaleOrderHeaderId, ISNULL(H.Serial,'') AS Serial, H.ProductId, So.SaleToBuyerId, " +
                         " ISNULL(IB.BuyerSpecification2, PC.ProductCollectionName) As Collection, ISNULL(IB.BuyerSpecification1,PG.ProductGroupName) As Design, " +
                         " S.SizeName + IsNull(Prs.ProductShapeShortName,'') As Size, PCH.ProductContentName AS FaceContents,PCH1.ProductContentName AS Contents, H.PrintSign, NUll AS Construction, " +
-                        " H.BaleNo, H.CarpetNo, ISNULL(H.CarpetNoImg,'') AS CarpetNoImg , ISNULL(H.CarpetSKUImg,'') AS CarpetSKUImg, ISNULL(H.UPCCodeImg,'') AS UPCCodeImg, ISNULL(H.BaleNoCarpetImg,'') AS BaleNoCarpetImg " +
+                        " H.BaleNo, H.CarpetNo, ISNULL(H.CarpetNoImg,'') AS CarpetNoImg , ISNULL(H.CarpetSKUImg,'') AS CarpetSKUImg, ISNULL(H.UPCCodeImg,'') AS UPCCodeImg, ISNULL(H.BaleNoCarpetImg,'') AS BaleNoCarpetImg,isnull(IB.BuyerSpecification,' ') as BuyerSpecification,isnull(PG.ProductGroupName,' ') as GroupName,isnull(IB.BuyerSpecification5,' ') as BuyerSpecification5" + 
                         " From [#" + bTempTable + "] H " +
                         " LEFT JOIN Web.SaleOrderHeaders So On H.SaleOrderHeaderId = So.SaleOrderHeaderId  " +
                         " LEFT JOIN Web.ProductBuyers IB On H.ProductId = IB.ProductId AND So.SaleToBuyerId = IB.BuyerId " +

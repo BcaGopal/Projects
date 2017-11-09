@@ -295,11 +295,13 @@ namespace Web
                 else
                 {
                     bool GodownChanged = false;
+                    bool DocDateChanged = false;
                     List<LogTypeViewModel> LogList = new List<LogTypeViewModel>();
 
                     JobReceiveHeader temp = _JobReceiveHeaderService.Find(vm.JobReceiveHeaderId);
 
                     GodownChanged = (temp.GodownId == vm.GodownId) ? false : true;
+                    DocDateChanged = (temp.DocDate == vm.DocDate) ? false : true;
 
                     JobReceiveHeader ExRec = new JobReceiveHeader();
                     ExRec = Mapper.Map<JobReceiveHeader>(temp);
@@ -343,8 +345,10 @@ namespace Web
                         //new StockHeaderService(_unitOfWork).UpdateStockHeader(S);
                     }
 
-                    if (GodownChanged)
+                    if (GodownChanged || DocDateChanged)
                         new StockService(_unitOfWork).UpdateStockGodownId(temp.StockHeaderId, temp.GodownId, db);
+
+
 
                     if (temp.JobWorkerId != ExRec.JobWorkerId || temp.DocNo != ExRec.DocNo || temp.DocDate != ExRec.DocDate)
                     {
@@ -1228,7 +1232,7 @@ namespace Web
         private ActionResult PrintOut(int id, string SqlProcForPrint)
         {
             String query = SqlProcForPrint;
-            return Redirect((string)System.Configuration.ConfigurationManager.AppSettings["CustomizeDomain"] + "/Report_DocumentPrint/DocumentPrint/?DocumentId=" + id + "&queryString=" + query);
+            return Redirect((string)System.Configuration.ConfigurationManager.AppSettings["JobsDomain"] + "/Report_DocumentPrint/DocumentPrint/?DocumentId=" + id + "&queryString=" + query);
         }
 
         [HttpGet]
@@ -1292,8 +1296,11 @@ namespace Web
 
             Dictionary<int, string> DefaultValue = new Dictionary<int, string>();
 
+            //if (!Dt.ReportMenuId.HasValue)
+            //    throw new Exception("Report Menu not configured in document types");
             if (!Dt.ReportMenuId.HasValue)
-                throw new Exception("Report Menu not configured in document types");
+                return Redirect((string)System.Configuration.ConfigurationManager.AppSettings["JobsDomain"] + "/GridReport/GridReportLayout/?MenuName=Job Receive Report&DocTypeId=" + id.ToString());
+
 
             Model.Models.Menu menu = new MenuService(_unitOfWork).Find(Dt.ReportMenuId ?? 0);
 
@@ -1317,7 +1324,7 @@ namespace Web
 
             TempData["ReportLayoutDefaultValues"] = DefaultValue;
 
-            return Redirect((string)System.Configuration.ConfigurationManager.AppSettings["CustomizeDomain"] + "/Report_ReportPrint/ReportPrint/?MenuId=" + Dt.ReportMenuId);
+            return Redirect((string)System.Configuration.ConfigurationManager.AppSettings["JobsDomain"] + "/Report_ReportPrint/ReportPrint/?MenuId=" + Dt.ReportMenuId);
 
         }
 
@@ -1334,12 +1341,12 @@ namespace Web
 
         public ActionResult GetSummary(int id)
         {
-            return Redirect(System.Configuration.ConfigurationManager.AppSettings["CustomizeDomain"] + "/WeavingReceive/GetSummary/" + id);
+            return Redirect(System.Configuration.ConfigurationManager.AppSettings["JobsDomain"] + "/Rug/WeavingReceive/GetSummary/" + id);
         }
 
         public ActionResult GetBarCodesForIAP(int id)
         {
-            return Redirect(System.Configuration.ConfigurationManager.AppSettings["CustomizeDomain"] + "/WeavingReceive/GetBarCodesForIAP/" + id);
+            return Redirect(System.Configuration.ConfigurationManager.AppSettings["JobsDomain"] + "/Rug/WeavingReceive/GetBarCodesForIAP/" + id);
         }
 
 
@@ -1365,7 +1372,14 @@ namespace Web
                     }
                     else if (!string.IsNullOrEmpty(menuviewmodel.URL))
                     {
-                        return Redirect(System.Configuration.ConfigurationManager.AppSettings[menuviewmodel.URL] + "/" + menuviewmodel.ControllerName + "/" + menuviewmodel.ActionName + "/" + menuviewmodel.RouteId + "?MenuId=" + menuviewmodel.MenuId);
+                        if (menuviewmodel.AreaName != null && menuviewmodel.AreaName != "")
+                        {
+                            return Redirect(System.Configuration.ConfigurationManager.AppSettings[menuviewmodel.URL] + "/" + menuviewmodel.AreaName + "/" + menuviewmodel.ControllerName + "/" + menuviewmodel.ActionName + "/" + id + "?MenuId=" + menuviewmodel.MenuId);
+                        }
+                        else
+                        {
+                            return Redirect(System.Configuration.ConfigurationManager.AppSettings[menuviewmodel.URL] + "/" + menuviewmodel.ControllerName + "/" + menuviewmodel.ActionName + "/" + menuviewmodel.RouteId + "?MenuId=" + menuviewmodel.MenuId);
+                        }
                     }
                     else
                     {
@@ -1398,7 +1412,14 @@ namespace Web
                     }
                     else if (!string.IsNullOrEmpty(menuviewmodel.URL))
                     {
-                        return Redirect(System.Configuration.ConfigurationManager.AppSettings[menuviewmodel.URL] + "/" + menuviewmodel.ControllerName + "/" + menuviewmodel.ActionName + "/" + id + "?MenuId=" + menuviewmodel.MenuId);
+                        if (menuviewmodel.AreaName != null && menuviewmodel.AreaName != "")
+                        {
+                            return Redirect(System.Configuration.ConfigurationManager.AppSettings[menuviewmodel.URL] + "/" + menuviewmodel.AreaName + "/" + menuviewmodel.ControllerName + "/" + menuviewmodel.ActionName + "/" + id + "?MenuId=" + menuviewmodel.MenuId);
+                        }
+                        else
+                        {
+                            return Redirect(System.Configuration.ConfigurationManager.AppSettings[menuviewmodel.URL] + "/" + menuviewmodel.ControllerName + "/" + menuviewmodel.ActionName + "/" + id + "?MenuId=" + menuviewmodel.MenuId);
+                        }
                     }
                     else
                     {

@@ -53,6 +53,7 @@
                 @Html.HiddenFor(m => m.JobOrderSettings.SqlProcConsumption)
                 @Html.HiddenFor(m => m.JobOrderSettings.CalculationId)
                 @Html.HiddenFor(m => m.JobOrderSettings.isPostedInStockProcess)
+                @Html.HiddenFor(m => m.SalesTaxGroupPersonId)
 
                 @Html.ValidationSummary(true, "", new { @class = "alert alert-danger" })
                 <div class="row">
@@ -86,6 +87,17 @@
                             <div class="col-md-7 col-sm-10">
                                 @Html.TextBoxFor(m => m.ProdOrderDocNo, new { @class = "form-control", @readonly = "true" })
                                 @Html.ValidationMessageFor(model => model.ProdOrderDocNo, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6" style="display:@(Model.JobOrderSettings.isVisibleSalesTaxGroupProduct ? "" : "none")">
+                        @Html.HiddenFor(m => m.JobOrderSettings.isVisibleSalesTaxGroupProduct)
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.SalesTaxGroupProductId, "Sales Tax Group Product", new { @class = "control-label col-md-4 col-sm-2" })
+                            <div class="col-md-7 col-sm-10">
+                                @Html.TextBoxFor(model => model.SalesTaxGroupProductId, new { @class = "form-control required" })
+                                @Html.ValidationMessageFor(model => model.SalesTaxGroupProductId, "", new { @class = "text-danger" })
                             </div>
                         </div>
                     </div>
@@ -609,6 +621,7 @@ else
         CustomSelectFunction($("#Dimension3Id"), '/ComboHelpList/GetDimension3', '/ComboHelpList/SetSingleDimension3', ' ', false, 1);
         CustomSelectFunction($("#Dimension4Id"), '/ComboHelpList/GetDimension4', '/ComboHelpList/SetSingleDimension4', ' ', false, 1);
         CustomSelectFunction($("#FromProcessId"), '/ComboHelpList/GetProcess', '/ComboHelpList/SetSingleProcess', 'Enter Process Name', false, 1);
+        CustomSelectFunction($("#SalesTaxGroupProductId"), '/ComboHelpList/GetSalesTaxGroupProduct', '/ComboHelpList/SetSingleSalesTaxGroupProduct', ' ', false, 0);
 
         $('#ProductUidName').on('change',function(e){
             if($(this).val()){
@@ -747,6 +760,17 @@ else
         $("#DealQty,#Rate,#Amount,#Qty,#UnitConversionMultiplier").keyup(Calculation);
         $("#DealUnitId").change(GetUnitConversionMultiplier);
         $("#ProductId").change(GetProductDetail);
+        $('#SalesTaxGroupProductId').change(function(){
+            Validate_SalesTaxGroupProductId();
+        })
+
+        function Validate_SalesTaxGroupProductId()
+        {
+            if ($("#SalesTaxGroupProductId").val() != 0 && $("#SalesTaxGroupProductId").val() != null) {
+                GetChargeRates('@Model.CalculationId',$('#DocTypeId','.modal-body').val(),$('#SiteId','.modal-body').val(),$('#DivisionId','.modal-body').val(),$('#JobOrderSettings_ProcessId','.modal-body').val(),$('#SalesTaxGroupPersonId','.modal-body').val(),$('#SalesTaxGroupProductId','.modal-body').val())
+                Calculation();
+            }
+        }
 
 
         function GetProductDetail() {
@@ -769,6 +793,10 @@ else
 
                         $("#CALL_INCENTRATE").val(data.Incentive).trigger('change');
                         $("#LossQty").val(data.Loss);
+
+                        (data.SalesTaxGroupProductId==null)?(1==1):($("#SalesTaxGroupProductId").select2("data", {id: data.SalesTaxGroupProductId, text: data.SalesTaxGroupProductName}));
+                        GetChargeRates('@Model.CalculationId',$('#DocTypeId','.modal-body').val(),$('#SiteId','.modal-body').val(),$('#DivisionId','.modal-body').val(),$('#JobOrderSettings_ProcessId','.modal-body').val(),$('#SalesTaxGroupPersonId','.modal-body').val(),$('#SalesTaxGroupProductId','.modal-body').val())
+                        ChargeCalculation();
 
                     },
                     error: function (xhr, ajaxOptions, thrownError) {

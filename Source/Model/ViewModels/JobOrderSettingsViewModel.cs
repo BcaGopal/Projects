@@ -32,6 +32,7 @@ namespace Model.ViewModel
 
         public bool isVisibleLoss { get; set; }
         public bool isVisibleDealUnit { get; set; }
+        public bool isVisibleDiscountPer { get; set; }
         public bool isVisibleUncountableQty { get; set; }
         public bool isVisibleFromProdOrder { get; set; }
         public string SqlProcConsumption { get; set; }
@@ -76,6 +77,7 @@ namespace Model.ViewModel
         public bool isVisibleSalesExecutive { get; set; }
         public bool isUniqueCostCenter { get; set; }
         public bool PersonWiseCostCenter { get; set; }
+        public bool CalculateDiscountOnRate { get; set; }
 
         public string filterLedgerAccountGroups { get; set; }
         public string filterLedgerAccounts { get; set; }        

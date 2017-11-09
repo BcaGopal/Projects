@@ -21,7 +21,7 @@
 
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                 <div class="row">
-                    <div class="col-md-6" style="display:@(Model.JobInvoiceSettings.isVisibleJobOrder ? "" : "none")">
+                    <div class="col-md-6" style="display:@((Model.JobInvoiceSettings.isVisibleJobOrder == true && Model.JobInvoiceSettings.isVisibleJobReceive == false)  ? "" : "none")">
                         @Html.HiddenFor(m => m.JobInvoiceSettings.isVisibleJobOrder)
                         <div class="form-group">
                             @Html.LabelFor(model => model.JobOrderHeaderId, "Order No.", new { @class = "control-label col-md-4 col-sm-2" })

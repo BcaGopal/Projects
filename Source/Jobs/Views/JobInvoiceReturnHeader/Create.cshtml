@@ -220,6 +220,17 @@
                         </div>
 
                         <div>
+                            <div class="col-md-6" style="display:@(Model.JobInvoiceSettings.isVisibleSalesTaxGroupPerson  ? "" : "none")">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.SalesTaxGroupPersonId, "Sales Tax Group Person", new { @class = "control-label col-md-4 col-sm-2" })
+                                    @Html.HiddenFor(m => m.JobInvoiceSettings.isVisibleSalesTaxGroupPerson)
+                                    <div class="col-md-7 col-sm-10">
+                                        @Html.TextBoxFor(m => m.SalesTaxGroupPersonId, null, new { @class = "form-control  required" })
+                                        @Html.ValidationMessageFor(m => m.SalesTaxGroupPersonId, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+
                             <div class="col-md-6">
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.ReasonId, "Reason", new { @class = "control-label col-md-4 col-sm-2" })
@@ -245,7 +256,7 @@
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.Remark, "Remark", new { @class = "control-label  col-md-4 col-sm-2" })
                                     <div class="col-md-7 col-sm-10">
-                                        @Html.TextAreaFor(m => m.Remark, new { @class = "form-control" })
+                                        @Html.TextAreaFor(m => m.Remark, new { @class = "form-control required" })
                                         @Html.ValidationMessageFor(m => m.Remark, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
@@ -674,6 +685,7 @@
     CustomSelectFunction($("#OrderById"), '/ComboHelpList/GetEmployeeWithProcess', '/ComboHelpList/SetSingleEmployee', ' ', false, 0, $('#ProcessId').val());
     CustomSelectFunction($("#ReasonId"), '/ComboHelpList/GetReason', '/ComboHelpList/SetSingleReason', ' ', false, 0, $('#DocTypeId').val());
     CustomSelectFunction($("#ProcessId"), '/ComboHelpList/GetProcessWithChildProcess', '/ComboHelpList/SetSingleProcess', ' ', false,0, $('#JobInvoiceSettings_ProcessId').val());
+    CustomSelectFunction($("#SalesTaxGroupPersonId"), '/ComboHelpList/GetSalesTaxGroupPerson', '/ComboHelpList/SetSingleSalesTaxGroupPerson', ' ', false, 0);
 
     $("#DocNo").on("change", function () {
         $(this).DuplicateCheckForCreate({ name: 'JobOrderHeader', value: $(this).val(), doctype: $("#DocTypeId").val() });
@@ -712,6 +724,7 @@
 
 
     function LoadProducts() {
+        var DomainName='@System.Configuration.ConfigurationManager.AppSettings["AdminSetupDomain"]';
         var groupId=@Model.JobInvoiceReturnHeaderId;
         var status='@Model.Status';
         var LineEditUrl;
@@ -750,6 +763,10 @@
                 if(data.length!=0)
                 {
                     $.each(data, function (index, item) {
+                        
+                        var ReceiptUrl=DomainName+"/Redirect/RedirectToDocument?DocTypeId="+item.JobInvoiceDocTypeId+"&DocId="+item.JobInvoiceHeaderId+"&DocLineId="+item.ReceiptLineId;
+                        var BarCodeUrl=DomainName+"/Redirect/BarCodeDetail?BarCode="+item.ProductUidName;
+
                         row += " <div class='row crow grid-body' style='margin-left:0px;margin-right:0px'>"
                             +"      <div class='row-index block'  style='width:5%'><a Detail='' data-modal href='/JobInvoiceReturnLine/_Detail/"+item.JobInvoiceReturnLineId+"'>"+srno+"</a><input type='hidden' class='id' value='"+item.JobInvoiceReturnLineId+"' /></div>"
                             +"          <div class='block'  style='width:90%'>"
@@ -759,10 +776,10 @@
                             +"                          <div>"+(item.Dimension1Name==null?" ":item.Dimension1Name+",")+(item.Dimension2Name==null?" ":item.Dimension2Name)+(item.Dimension3Name==null?" ":item.Dimension3Name)+(item.Dimension4Name==null?" ":item.Dimension4Name)+"</div>"
                             +"                          <div>"+((item.DueDate==null)?" ":"<span title='DueDate' class='label label-danger' style='font-weight:bold'>"+formatDate('d/m/Y',new Date(parseInt(item.DueDate.substr(6))))+"</span>")
                             +"                          </div>"
-                            +"                           <div>"+(item.ProductUidName==null?" ":"Product UID:"+item.ProductUidName)+"</div>"
+                            +"                           <div>"+(item.ProductUidName==null?" ":"Product UID:<a href='"+BarCodeUrl+"' target='_blank'> "+item.ProductUidName+"</a>")+"</div>"
                             +              (item.Remark==null?" ":item.Remark)
                             +"                  </div>"
-                            +"                  <div class='block'  style='width:15%'>"+(item.JobInvoiceHeaderDocNo==null?" ":"<span title='DueDate' class='label label-danger' style='font-weight:bold'>"+item.JobInvoiceHeaderDocNo)+"</span><br />"
+                            +"                  <div class='block'  style='width:15%'>"+(item.JobInvoiceHeaderDocNo==null?" ":"<a href='"+ReceiptUrl+"' style='color:black'><span title='DueDate' class='label label-danger' style='font-weight:bold'>"+item.JobInvoiceHeaderDocNo)+"</span></a><br />"
                             +"                      <div>"+(item.JobReceiveHeaderDocNo==null?" ":item.JobReceiveHeaderDocNo)
                             +"                      </div>"
                             +"                   </div>"

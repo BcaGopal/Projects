@@ -51,7 +51,9 @@ namespace Model.Models
         [Display(Name = "Amount"), Required]
         public Decimal Amount { get; set; }
 
-
+        [ForeignKey("SalesTaxGroupProduct"), Display(Name = "Sales Tax Group Product")]
+        public int? SalesTaxGroupProductId { get; set; }
+        public virtual ChargeGroupProduct SalesTaxGroupProduct { get; set; }
 
 
         [Display(Name = "Remark")]

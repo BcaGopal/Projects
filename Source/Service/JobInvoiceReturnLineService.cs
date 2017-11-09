@@ -635,20 +635,23 @@ namespace Service
                     join L in db.JobInvoiceLine on VB.JobInvoiceLineId equals L.JobInvoiceLineId into JobInvoiceLineTable
                     from JobInvoiceLineTab in JobInvoiceLineTable.DefaultIfEmpty()
                     where JobInvoiceLineTab.JobInvoiceHeader.JobWorkerId == JobInvoiceHeader.JobWorkerId
+                    && JobInvoiceLineTab.JobInvoiceHeader.DocDate <= JobInvoiceHeader.DocDate
                     && (string.IsNullOrEmpty(settings.filterContraSites) ? VB.SiteId == CurrentSiteId : contraSites.Contains(VB.SiteId.ToString()))
                     && (string.IsNullOrEmpty(settings.filterContraDivisions) ? VB.DivisionId == CurrentDivisionId : contraDivisions.Contains(VB.DivisionId.ToString()))
                     && (string.IsNullOrEmpty(term) ? 1 == 1 : JobInvoiceLineTab.JobInvoiceHeader.DocNo.ToLower().Contains(term.ToLower())
                         || string.IsNullOrEmpty(term) ? 1 == 1 : JobInvoiceLineTab.JobInvoiceHeader.DocType.DocumentTypeShortName.ToLower().Contains(term.ToLower())
+                        || string.IsNullOrEmpty(term) ? 1 == 1 : JobInvoiceLineTab.JobReceiveLine.ProductUid.ProductUidName.ToLower().Contains(term.ToLower())
                         || string.IsNullOrEmpty(term) ? 1 == 1 : JobInvoiceLineTab.JobReceiveLine.Product.ProductName.ToLower().Contains(term.ToLower())
                         || string.IsNullOrEmpty(term) ? 1 == 1 : JobInvoiceLineTab.JobReceiveLine.Dimension1.Dimension1Name.ToLower().Contains(term.ToLower())
                         || string.IsNullOrEmpty(term) ? 1 == 1 : JobInvoiceLineTab.JobReceiveLine.Dimension2.Dimension2Name.ToLower().Contains(term.ToLower())
                         || string.IsNullOrEmpty(term) ? 1 == 1 : JobInvoiceLineTab.JobReceiveLine.Dimension3.Dimension3Name.ToLower().Contains(term.ToLower())
                         || string.IsNullOrEmpty(term) ? 1 == 1 : JobInvoiceLineTab.JobReceiveLine.Dimension4.Dimension4Name.ToLower().Contains(term.ToLower())
+                        || string.IsNullOrEmpty(term) ? 1 == 1 : JobInvoiceLineTab.JobInvoiceHeader.DocDate.ToString().ToLower().Contains(term.ToLower())
                         )
                     select new ComboBoxResult
                     {
                         id = VB.JobInvoiceLineId.ToString(),
-                        text = JobInvoiceLineTab.JobReceiveLine.Product.ProductName,
+                        text = JobInvoiceLineTab.JobReceiveLine.ProductUid != null ? (JobInvoiceLineTab.JobReceiveLine.ProductUid.ProductUidName + " : " + JobInvoiceLineTab.JobReceiveLine.Product.ProductName) : JobInvoiceLineTab.JobReceiveLine.Product.ProductName,
                         TextProp1 = "Balance :" + VB.BalanceQty,
                         TextProp2 = "Date :" + JobInvoiceLineTab.JobInvoiceHeader.DocDate,
                         AProp1 = JobInvoiceLineTab.JobInvoiceHeader.DocType.DocumentTypeShortName + "-" + JobInvoiceLineTab.JobInvoiceHeader.DocNo,

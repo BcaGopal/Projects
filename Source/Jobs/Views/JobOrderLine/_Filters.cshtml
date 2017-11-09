@@ -162,68 +162,68 @@
     var URL = '/JobOrderLine/GetPendingProdOrdersHelpList/' + DocID;
 
     $(document).ready(function () {
-        CustomSelectFunction($("#ProductId"), '/JobOrderLine/GetCustomProducts', '/ComboHelpList/SetProducts', ' ', true, 1, DocID);
+        CustomSelectFunction($("#ProductId"), '/JobOrderLine/GetCustomProducts', '/ComboHelpList/SetProducts', ' ', true, 0, DocID);
         //CustomSelectFunction($("#PurchaseIndentHeaderId"), '/ComboHelpList/GetPurchaseIndents', '/ComboHelpList/SetPurchaseIndents', 'Enter Indent Name', true, 1);
-        CustomSelectFunction($("#Dimension1Id"), '/ComboHelpList/GetDimension1', '/ComboHelpList/SetSingleDimension1', ' ', true, 1);
-        CustomSelectFunction($("#Dimension2Id"), '/ComboHelpList/GetDimension2', '/ComboHelpList/SetSingleDimension2', ' ', true, 1);
-        CustomSelectFunction($("#Dimension3Id"), '/ComboHelpList/GetDimension3', '/ComboHelpList/SetSingleDimension3', ' ', true, 1);
-        CustomSelectFunction($("#Dimension4Id"), '/ComboHelpList/GetDimension4', '/ComboHelpList/SetSingleDimension4', ' ', true, 1);
+        CustomSelectFunction($("#Dimension1Id"), '/ComboHelpList/GetDimension1', '/ComboHelpList/SetSingleDimension1', ' ', true, 0);
+        CustomSelectFunction($("#Dimension2Id"), '/ComboHelpList/GetDimension2', '/ComboHelpList/SetSingleDimension2', ' ', true, 0);
+        CustomSelectFunction($("#Dimension3Id"), '/ComboHelpList/GetDimension3', '/ComboHelpList/SetSingleDimension3', ' ', true, 0);
+        CustomSelectFunction($("#Dimension4Id"), '/ComboHelpList/GetDimension4', '/ComboHelpList/SetSingleDimension4', ' ', true, 0);
         //CustomSelectFunction($("#ProductGroupId"), '/ComboHelpList/GetProductGroup', '/ComboHelpList/SetProductGroup', ' ', true, 1);
         CustomSelectFunction($("#ProductGroupId"), '/JobOrderLine/GetCustomProductGroups', '/ComboHelpList/SetProductGroup', ' ', false, 0, DocID);
-        CustomSelectFunction($("#ProdOrderHeaderId"), '/JobOrderLine/GetPendingProdOrdersHelpList', '/ComboHelpList/SetProdOrders', ' ', true, 1,DocID);
+        CustomSelectFunction($("#ProdOrderHeaderId"), '/JobOrderLine/GetPendingProdOrdersHelpList', '/ComboHelpList/SetProdOrders', ' ', true, 0,DocID);
     });  
    
 
-    var DocID = $('#JobOrderHeaderId', '.modal-body').val();
-    var URL = '/JobOrderLine/GetCustomProducts/' + DocID;
-    //var URL = '/ComboHelpList/GetCustomProducts/';
-    $("#ProductId").select2({
-        minimumInputLength: 1,
-        multiple: true,
-        ajax: {
-            url: URL,
-            dataType: 'json',
-            type: "GET",
-            quietMillis: 1000,
-            data: function (term) {
-                return {
-                    term: term,
-                };
-            },
-            results: function (data) {
-                return {
-                    results: $.map(data, function (item) {
-                        return {
-                            text: item.PropFirst,
-                            id: item.Id
-                        }
-                    })
+    //var DocID = $('#JobOrderHeaderId', '.modal-body').val();
+    //var URL = '/JobOrderLine/GetCustomProducts/' + DocID;
+    ////var URL = '/ComboHelpList/GetCustomProducts/';
+    //$("#ProductId").select2({
+    //    minimumInputLength: 1,
+    //    multiple: true,
+    //    ajax: {
+    //        url: URL,
+    //        dataType: 'json',
+    //        type: "GET",
+    //        quietMillis: 1000,
+    //        data: function (term) {
+    //            return {
+    //                term: term,
+    //            };
+    //        },
+    //        results: function (data) {
+    //            return {
+    //                results: $.map(data, function (item) {
+    //                    return {
+    //                        text: item.PropFirst,
+    //                        id: item.Id
+    //                    }
+    //                })
 
-                };
-            }
-        },
-        initSelection: function (element, callback) {
+    //            };
+    //        }
+    //    },
+    //    initSelection: function (element, callback) {
 
-            var xval = element.val();
-            if (xval != 0) {
-                $.ajax({
-                    cache: false,
-                    type: "POST",
-                    url: '/ComboHelpList/SetProducts',
-                    data: { Ids: element.val() },
-                    success: function (data) {
-                        callback(data);
-                    },
-                    error: function (xhr, ajaxOptions, thrownError) {
-                        alert('Failed to Retrive Qty' + thrownError);
-                    }
-                })
-            }
-            //callback([{ id: "1", text: "arpit" }, { id: "2", text: "akash" }]);
-        }
+    //        var xval = element.val();
+    //        if (xval != 0) {
+    //            $.ajax({
+    //                cache: false,
+    //                type: "POST",
+    //                url: '/ComboHelpList/SetProducts',
+    //                data: { Ids: element.val() },
+    //                success: function (data) {
+    //                    callback(data);
+    //                },
+    //                error: function (xhr, ajaxOptions, thrownError) {
+    //                    alert('Failed to Retrive Qty' + thrownError);
+    //                }
+    //            })
+    //        }
+    //        //callback([{ id: "1", text: "arpit" }, { id: "2", text: "akash" }]);
+    //    }
 
 
-    });
+    //});
 
 
 

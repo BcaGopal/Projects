@@ -48,7 +48,7 @@
                 @Html.HiddenFor(m => m.ProductId)
                 @Html.HiddenFor(m => m.Nature)
                 @Html.HiddenFor(m=>m.ProductUidId)
-                @Html.HiddenFor(m => m.JobInvoiceSettings.CalculationId)
+                @Html.HiddenFor(m => m.CalculationId)
                 @Html.HiddenFor(m => m.JobInvoiceSettings.isPostedInStock)
                 @Html.HiddenFor(m => m.JobInvoiceSettings.ProcessId)
 
@@ -326,7 +326,7 @@
 
             function AddCalculation(MaxLineId)
             {
-                AddCalculationFields(parseInt($('#JobInvoiceReturnHeaderId').val()),false,'@Model.JobInvoiceSettings.CalculationId',"Web.JobInvoiceReturnHeaderCharges","Web.JobInvoiceReturnLineCharges",MaxLineId, $('#DocTypeId','.modal-body').val(),$('#SiteId','.modal-body').val(),$('#DivisionId','.modal-body').val());
+                AddCalculationFields(parseInt($('#JobInvoiceReturnHeaderId').val()),false,'@Model.CalculationId',"Web.JobInvoiceReturnHeaderCharges","Web.JobInvoiceReturnLineCharges",MaxLineId, $('#DocTypeId','.modal-body').val(),$('#SiteId','.modal-body').val(),$('#DivisionId','.modal-body').val());
             }
 
         })
@@ -355,6 +355,7 @@ else
         if (Nature != "Return")
         {
             //$('#Qty').attr("readonly","true");
+            $("#Rate").removeAttr('readonly');
             $("#Amount").removeAttr('readonly');
         }
         
@@ -395,6 +396,18 @@ else
             }
         })
     });
+
+    $('#SalesTaxGroupProductId').change(function(){
+        Validate_SalesTaxGroupProductId();
+    })
+
+    function Validate_SalesTaxGroupProductId()
+    {
+        if ($("#SalesTaxGroupProductId").val() != 0 && $("#SalesTaxGroupProductId").val() != null) {
+            GetChargeRates('@Model.CalculationId',$('#DocTypeId','.modal-body').val(),$('#SiteId','.modal-body').val(),$('#DivisionId','.modal-body').val(),$('#JobInvoiceSettings_ProcessId','.modal-body').val(),$('#SalesTaxGroupPersonId','.modal-body').val(),$('#SalesTaxGroupProductId','.modal-body').val(),$('#ProductId','.modal-body').val())
+            Calculation();
+        }
+    }
 
     function LockFields(){
         $("#Dimension1Name").attr('readonly','true');
@@ -594,8 +607,8 @@ else
                         $('#Rate').val(data.Rate).trigger('keyup');
                         (data.SalesTaxGroupProductId==null)?(1==1):($("#SalesTaxGroupProductId").select2("data", {id: data.SalesTaxGroupProductId, text: data.SalesTaxGroupProductName}));
                         $("#SalesTaxGroupPersonId").val(data.SalesTaxGroupPersonId);
-                        //GetChargeRates('@Model.JobInvoiceSettings.CalculationId',$('#DocTypeId','.modal-body').val(),$('#SiteId','.modal-body').val(),$('#DivisionId','.modal-body').val(),$('#JobInvoiceSettings_ProcessId','.modal-body').val(),$('#SalesTaxGroupPersonId','.modal-body').val(),$('#SalesTaxGroupProductId','.modal-body').val())
                         CopyInvoiceCharges(data.RHeaderCharges,data.RLineCharges);
+                        GetChargeRates('@Model.CalculationId',$('#DocTypeId','.modal-body').val(),$('#SiteId','.modal-body').val(),$('#DivisionId','.modal-body').val(),$('#JobInvoiceSettings_ProcessId','.modal-body').val(),$('#SalesTaxGroupPersonId','.modal-body').val(),$('#SalesTaxGroupProductId','.modal-body').val())
                         //LockFields();
                         ChargeCalculation();
                     },
@@ -625,6 +638,8 @@ else
 
             }
         }
+
+
 
 
         function CopyInvoiceCharges(HeaderCharges,LineCharges)

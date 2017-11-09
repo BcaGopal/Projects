@@ -195,6 +195,7 @@ namespace Web
             Dictionary<int, decimal> LineStatus = new Dictionary<int, decimal>();
             Dictionary<int, decimal> LineStatusWeights = new Dictionary<int, decimal>();
             List<LineReferenceIds> RefIds = new List<LineReferenceIds>();
+            List<LineChargeRates> LineChargeRates = new List<LineChargeRates>();
 
             List<JobInvoiceReturnLineViewModel> BarCodeBased = new List<JobInvoiceReturnLineViewModel>();
 
@@ -288,7 +289,7 @@ namespace Web
                         line.DealUnitId = item.DealUnitId;
                         line.UnitConversionMultiplier = item.UnitConversionMultiplier;
                         line.Amount = item.Rate * line.DealQty;
-
+                        line.SalesTaxGroupProductId = item.SalesTaxGroupProductId;
                         line.Remark = item.Remark;
                         line.CreatedDate = DateTime.Now;
                         line.ModifiedDate = DateTime.Now;
@@ -480,7 +481,7 @@ namespace Web
                         }
 
 
-                        if (JobReceiveLine != null)
+                        if (JobReceiveLine != null && GLine.StockId != null)
                         {
                             if (JobReceiveLine.StockId != null && JobReceiveLine.StockId != 0)
                             {
@@ -507,6 +508,13 @@ namespace Web
                         RefIds.Add(new LineReferenceIds { LineId = line.JobInvoiceReturnLineId, RefLineId = line.JobInvoiceLineId });
                         Gpk++;
                         pk++;
+
+                        List<CalculationProductViewModel> ChargeRates = new CalculationProductService(_unitOfWork).GetChargeRates(CalculationId, Header.DocTypeId, Header.SiteId, Header.DivisionId,
+                            Header.ProcessId, item.SalesTaxGroupPersonId, item.SalesTaxGroupProductId).ToList();
+                        if (ChargeRates != null)
+                        {
+                            LineChargeRates.Add(new LineChargeRates { LineId = line.JobInvoiceReturnLineId, ChargeRates = ChargeRates });
+                        }
 
                         Cnt = Cnt + 1;
                     }
@@ -553,6 +561,8 @@ namespace Web
                                               join t in RefIds on p.LineTableId equals t.LineId
                                               join t2 in Charges on t.RefLineId equals t2.LineId into table
                                               from LineLis in table.DefaultIfEmpty()
+                                              join t3 in LineChargeRates on p.LineTableId equals t3.LineId into LineChargeRatesTable
+                                              from LineChargeRatesTab in LineChargeRatesTable.DefaultIfEmpty()
                                               orderby p.LineTableId
                                               select new LineDetailListViewModel
                                               {
@@ -564,6 +574,7 @@ namespace Web
                                                   Rate = p.Rate,
                                                   CostCenterId = p.CostCenterId,
                                                   RLineCharges = (LineLis == null ? null : Mapper.Map<List<LineChargeViewModel>>(LineLis.Linecharges)),
+                                                  ChargeRates = LineChargeRatesTab.ChargeRates,
                                               }).ToList();
 
                 new JobInvoiceLineStatusService(db).UpdateJobInvoiceQtyReturnMultiple(LineStatus, Header.DocDate, ref db, LineStatusWeights);
@@ -1240,6 +1251,13 @@ namespace Web
             s.DocTypeId = H.DocTypeId;
             s.DivisionId = H.DivisionId;
 
+
+            if (H.SalesTaxGroupPersonId != null)
+                s.CalculationId = new ChargeGroupPersonCalculationService(_unitOfWork).GetChargeGroupPersonCalculation(H.DocTypeId, (int)H.SalesTaxGroupPersonId, H.SiteId, H.DivisionId);
+
+            if (s.CalculationId == null)
+                s.CalculationId = settings.CalculationId;
+
             s.SiteId = H.SiteId;
             ViewBag.LineMode = "Create";
             //PrepareViewBag(null);
@@ -1681,8 +1699,9 @@ namespace Web
                 if (ModelState.IsValid)
                 {
                     //line.DiscountPer = svm.DiscountPer;
-                    //line.SalesTaxGroupProductId = svm.SalesTaxGroupProductId;
+                    line.SalesTaxGroupProductId = svm.SalesTaxGroupProductId;
                     line.Remark = svm.Remark;
+                    line.Rate = svm.Rate;
                     line.Qty = svm.Qty;
                     line.DealQty = svm.DealQty;
                     line.Amount = svm.Amount;
@@ -2010,12 +2029,27 @@ namespace Web
             if ((TimePlanValidation || Continue))
                 ViewBag.LineMode = "Edit";
 
+
             JobInvoiceReturnHeader H = new JobInvoiceReturnHeaderService(db).Find(temp.JobInvoiceReturnHeaderId);
+
+            temp.DocTypeId = H.DocTypeId;
+            temp.SiteId = H.SiteId;
+            temp.DivisionId = H.DivisionId;
+            temp.SalesTaxGroupPersonId = H.SalesTaxGroupPersonId;
+
             PrepareViewBag(temp);
             //Getting Settings
             var settings = new JobInvoiceSettingsService(_unitOfWork).GetJobInvoiceSettingsForDocument(H.DocTypeId, H.DivisionId, H.SiteId);
             temp.JobInvoiceSettings = Mapper.Map<JobInvoiceSettings, JobInvoiceSettingsViewModel>(settings);
             temp.DocumentTypeSettings = new DocumentTypeSettingsService(_unitOfWork).GetDocumentTypeSettingsForDocument(H.DocTypeId);
+
+            if (H.SalesTaxGroupPersonId != null)
+                temp.CalculationId = new ChargeGroupPersonCalculationService(_unitOfWork).GetChargeGroupPersonCalculation(H.DocTypeId, (int)H.SalesTaxGroupPersonId, H.SiteId, H.DivisionId);
+
+            if (temp.CalculationId == null)
+                temp.CalculationId = settings.CalculationId;
+
+
 
             return PartialView("_Create", temp);
         }

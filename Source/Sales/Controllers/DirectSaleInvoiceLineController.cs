@@ -207,7 +207,7 @@ namespace Web
 
                         if (Pl != null)
                         {
-                            StockViewModel.ProcessId = (from L in db.PackingLine where L.PackingLineId == Pl.PackingLineId select new { StockId = L.StockReceiveId }).FirstOrDefault().StockId;
+                            //StockViewModel.ProcessId = (from L in db.PackingLine where L.PackingLineId == Pl.PackingLineId select new { StockId = L.StockReceiveId }).FirstOrDefault().ProcessId;
                         }
 
                         StockViewModel.LotNo = null;

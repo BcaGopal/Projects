@@ -45,7 +45,7 @@ namespace Model.Models
         public bool? IsVisiblePassQty { get; set; }
         public bool? isVisibleCostCenter { get; set; }
         public bool? isVisibleConsumptionDetail { get; set; }
-
+        public bool? isVisibleProcessHeader { get; set; }
         public bool? isVisibleByProductDetail { get; set; }
         public bool? isPostedInStock { get; set; }
         public bool? isPostedInStockProcess { get; set; }

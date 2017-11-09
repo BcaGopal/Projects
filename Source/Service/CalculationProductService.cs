@@ -282,6 +282,15 @@ namespace Service
                                       where C.ChargeGroupPersonId == ChargeGroupPersonId && C.ChargeGroupProductId == ChargeGroupProductId && C.ProcessId == ProcessId
                                       select C;
 
+            var PurchaseProcess = new ProcessService(_unitOfWork).Find(ProcessConstants.Purchase);
+
+            if (ChargeGroupSettings.ToList().Count() == 0 && PurchaseProcess != null)
+            {
+                ChargeGroupSettings = from C in db.ChargeGroupSettings
+                                      where C.ChargeGroupPersonId == ChargeGroupPersonId && C.ChargeGroupProductId == ChargeGroupProductId && C.ProcessId == PurchaseProcess.ProcessId
+                                          select C;
+            }
+
             int ChargeLedgerAccountId = new LedgerAccountService(_unitOfWork).Find(LedgerAccountConstants.Charge).LedgerAccountId;
 
             int? ProductLedgerAccountId = null;

@@ -113,7 +113,7 @@ namespace Model.ViewModel
 
         public Decimal RateAfterDiscount { get; set; }
 
-
+        public int? CalculationId { get; set; }
         public int? SalesTaxGroupProductId { get; set; }
         public int? SalesTaxGroupPersonId { get; set; }
 

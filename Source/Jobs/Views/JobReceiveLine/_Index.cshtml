@@ -209,6 +209,10 @@
                                                             {
                                                                 <small>Remark : @item.Remark</small>
                                                             }
+                                                            @if (item.LotNo != null)
+                                                            {
+                                                                <small>LotNo : @item.LotNo</small>
+                                                            }
                                                             @if (item.PenaltyAmt > 0)
                                                             {
                                                                 <div> Penality Amt : @Math.Round(item.PenaltyAmt, 2).ToString()</div>

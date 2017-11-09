@@ -103,6 +103,7 @@ namespace Web
             ViewBag.PendingToReview = PendingToReviewCount(id);
             ViewBag.IndexStatus = "All";
 
+
             ViewBag.id = id;
             return View(p);
         }
@@ -170,7 +171,7 @@ namespace Web
             JobOrderHeader header = _JobOrderHeaderService.Find(id);
             GenDocId = header.DocTypeId.ToString() + '-' + header.DocNo;
             //return RedirectToAction("PrintBarCode", "Report_BarcodePrint", new { GenHeaderId = id });
-            return Redirect((string)System.Configuration.ConfigurationManager.AppSettings["CustomizeDomain"] + "/Report_BarcodePrint/PrintBarCode/?GenHeaderId=" + GenDocId + "&queryString=" + GenDocId);
+            return Redirect((string)System.Configuration.ConfigurationManager.AppSettings["JobsDomain"] + "/Report_BarcodePrint/PrintBarCode/?GenHeaderId=" + GenDocId + "&queryString=" + GenDocId);
 
 
         }
@@ -579,11 +580,15 @@ namespace Web
                 else
                 {
                     bool GodownChanged = false;
+                    bool JobWorkerChanged = false;
+                    bool DocDateChanged = false;
                     List<LogTypeViewModel> LogList = new List<LogTypeViewModel>();
 
                     JobOrderHeader temp = context.JobOrderHeader.Find(s.JobOrderHeaderId);
 
                     GodownChanged = (temp.GodownId == s.GodownId) ? false : true;
+                    JobWorkerChanged = (temp.JobWorkerId == s.JobWorkerId) ? false : true;
+                    DocDateChanged = (temp.DocDate == s.DocDate) ? false : true;
 
                     JobOrderHeader ExRec = Mapper.Map<JobOrderHeader>(temp);
 
@@ -758,7 +763,37 @@ namespace Web
                     }
 
                     if (GodownChanged)
+                    {
                         new StockService(_unitOfWork).UpdateStockGodownId(temp.StockHeaderId, temp.GodownId, context);
+                    }
+                        
+
+                    if (JobWorkerChanged)
+                    {
+                        var JobOrderLineList = (from L in context.JobOrderLine where L.JobOrderHeaderId == temp.JobOrderHeaderId select L).ToList();
+                        foreach(var JobOrderLine in JobOrderLineList)
+                        {
+                            if (JobOrderLine.ProductUidHeaderId != null)
+                            {
+                                ProductUidHeader ProductUidHeader = context.ProductUidHeader.Find(JobOrderLine.ProductUidHeaderId);
+                                ProductUidHeader.GenPersonId = temp.JobWorkerId;
+                                ProductUidHeader.ObjectState = Model.ObjectState.Modified;
+                                context.ProductUidHeader.Add(ProductUidHeader);
+
+                                var ProductUidList = (from L in context.ProductUid where L.ProductUidHeaderId == JobOrderLine.ProductUidHeaderId select L).ToList();
+                                foreach(var ProductUid in ProductUidList)
+                                {
+                                    ProductUid.GenPersonId = temp.JobWorkerId;
+                                    if (ProductUid.LastTransactionDocId == ProductUid.GenDocId && ProductUid.LastTransactionDocTypeId == ProductUid.GenDocTypeId)
+                                    {
+                                        ProductUid.LastTransactionPersonId = temp.JobWorkerId;
+                                    }
+                                    ProductUid.ObjectState = Model.ObjectState.Modified;
+                                    context.ProductUid.Add(ProductUid);
+                                }
+                            }
+                        }
+                    }
 
 
 
@@ -2083,8 +2118,11 @@ namespace Web
 
             Dictionary<int, string> DefaultValue = new Dictionary<int, string>();
 
+            //if (!Dt.ReportMenuId.HasValue)
+            //    throw new Exception("Report Menu not configured in document types");
             if (!Dt.ReportMenuId.HasValue)
-                throw new Exception("Report Menu not configured in document types");
+                return Redirect((string)System.Configuration.ConfigurationManager.AppSettings["JobsDomain"] + "/GridReport/GridReportLayout/?MenuName=Job Order Report&DocTypeId=" + id.ToString());
+
 
             Model.Models.Menu menu = new MenuService(_unitOfWork).Find(Dt.ReportMenuId ?? 0);
 
@@ -2108,7 +2146,7 @@ namespace Web
 
             TempData["ReportLayoutDefaultValues"] = DefaultValue;
 
-            return Redirect((string)System.Configuration.ConfigurationManager.AppSettings["CustomizeDomain"] + "/Report_ReportPrint/ReportPrint/?MenuId=" + Dt.ReportMenuId);
+            return Redirect((string)System.Configuration.ConfigurationManager.AppSettings["JobsDomain"] + "/Report_ReportPrint/ReportPrint/?MenuId=" + Dt.ReportMenuId);
 
         }
 
@@ -2135,7 +2173,14 @@ namespace Web
                     }
                     else if (!string.IsNullOrEmpty(menuviewmodel.URL))
                     {
-                        return Redirect(System.Configuration.ConfigurationManager.AppSettings[menuviewmodel.URL] + "/" + menuviewmodel.ControllerName + "/" + menuviewmodel.ActionName + "/" + id + "?MenuId=" + menuviewmodel.MenuId);
+                        if (menuviewmodel.AreaName != null && menuviewmodel.AreaName != "")
+                        {
+                            return Redirect(System.Configuration.ConfigurationManager.AppSettings[menuviewmodel.URL] + "/" + menuviewmodel.AreaName + "/" + menuviewmodel.ControllerName + "/" + menuviewmodel.ActionName + "/" + id + "?MenuId=" + menuviewmodel.MenuId);
+                        }
+                        else
+                        {
+                            return Redirect(System.Configuration.ConfigurationManager.AppSettings[menuviewmodel.URL] + "/" + menuviewmodel.ControllerName + "/" + menuviewmodel.ActionName + "/" + id + "?MenuId=" + menuviewmodel.MenuId);
+                        }
                     }
                     else
                     {
@@ -2169,7 +2214,14 @@ namespace Web
                     }
                     else if (!string.IsNullOrEmpty(menuviewmodel.URL))
                     {
-                        return Redirect(System.Configuration.ConfigurationManager.AppSettings[menuviewmodel.URL] + "/" + menuviewmodel.ControllerName + "/" + menuviewmodel.ActionName + "/" + id + "?MenuId=" + menuviewmodel.MenuId);
+                        if (menuviewmodel.AreaName != null && menuviewmodel.AreaName != "")
+                        {
+                            return Redirect(System.Configuration.ConfigurationManager.AppSettings[menuviewmodel.URL] + "/" + menuviewmodel.AreaName + "/" + menuviewmodel.ControllerName + "/" + menuviewmodel.ActionName + "/" + id + "?MenuId=" + menuviewmodel.MenuId);
+                        }
+                        else
+                        {
+                            return Redirect(System.Configuration.ConfigurationManager.AppSettings[menuviewmodel.URL] + "/" + menuviewmodel.ControllerName + "/" + menuviewmodel.ActionName + "/" + id + "?MenuId=" + menuviewmodel.MenuId);
+                        }
                     }
                     else
                     {

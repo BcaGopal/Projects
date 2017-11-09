@@ -8,6 +8,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Model.ViewModel
 {
+    [Serializable]
     public class JobReceiveSettingsViewModel
     {
         public int JobReceiveSettingsId { get; set; }        
@@ -47,6 +48,7 @@ namespace Model.ViewModel
         public bool IsVisibleIncentive { get; set; }
         public bool IsVisiblePenalty { get; set; }
         public bool IsVisiblePassQty { get; set; }
+        public bool isVisibleProcessHeader { get; set; }
         public bool isVisibleConsumptionDetail { get; set; }
         public bool isVisibleByProductDetail { get; set; }
         public bool isMandatoryProcessLine { get; set; }

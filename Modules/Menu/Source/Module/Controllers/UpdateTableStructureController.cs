@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Web.Mvc;
 using Service;
-using AdminSetup.Models.Models;
-using ProjLib.ViewModels;
+
+//using ProjLib.ViewModels;
 using System.Data.SqlClient;
 using System.Data;
 using System;
@@ -22,6 +22,8 @@ namespace Module
 
         public ActionResult UpdateTables()
         {
+
+
             try
             {
                 if ((int)ExecuteScaler("SELECT Count(*) AS Cnt FROM INFORMATION_SCHEMA.Tables WHERE TABLE_NAME = 'BinLocations'") == 0)
@@ -57,6 +59,42 @@ namespace Module
             }
 
 
+            try
+            {
+                if ((int)ExecuteScaler("SELECT Count(*) AS Cnt FROM INFORMATION_SCHEMA.Tables WHERE TABLE_NAME = 'PersonProductUids'") == 0)
+                {
+                    mQry = @"CREATE TABLE Web.PersonProductUids 
+	                            (
+	                            PersonProductUidId   INT IDENTITY NOT NULL,
+	                            GenDocId                 INT,								
+								GenDocNo                 NVARCHAR,
+								GenDocTypeId             INT,
+								GenLineId                INT,
+								ProductUidName           NVARCHAR (50) NOT NULL,								
+								ProductUidSpecification            NVARCHAR (Max),
+								SaleOrderLineId          INT,
+	                            CreatedBy       NVARCHAR (max),
+	                            ModifiedBy      NVARCHAR (max),
+	                            CreatedDate     DATETIME NOT NULL,
+	                            ModifiedDate    DATETIME NOT NULL,
+	                            OMSId           NVARCHAR (50),
+	                            CONSTRAINT [PK_Web.PersonProductUid] PRIMARY KEY (PersonProductUidId)
+	                            WITH (FILLFACTOR = 90),
+	                            CONSTRAINT [FK_Web.PersonProductUid_Web.GenDocTypeId_DocumentTypeId] FOREIGN KEY (GenDocTypeId) REFERENCES Web.DocumentTypes (DocumentTypeId),
+	                            CONSTRAINT [FK_Web.PersonProductUid_Web.SaleOrderLines_SaleOrderLineId] FOREIGN KEY (SaleOrderLineId) REFERENCES Web.SaleOrderLines (SaleOrderLineId),
+	                            )
+                            
+                            ";
+                    ExecuteQuery(mQry);
+                }
+            }
+            catch (Exception ex)
+            {
+                RecordError(ex);
+            }
+
+
+
 
             try
             {
@@ -80,6 +118,10 @@ namespace Module
             AddFields("LedgerAccountGroups", "PLNature", "NVARCHAR (20)");
             AddFields("LedgerAccountGroups", "PLSr", "INT");
 
+
+            AddFields("SaleInvoiceHeaderDetail", "FreightRemark", "NVARCHAR (50)");
+            AddFields("SaleInvoiceHeaderDetail", "InsuranceRemark", "NVARCHAR (50)");
+            AddFields("SaleInvoiceHeaderDetail", "Deduction", "Decimal(18,4)");
 
             AddFields("TdsRates", "LedgerAccountId", "INT", "LedgerAccounts");
             AddFields("ProductSiteDetails", "BinLocationId", "INT", "BinLocations");
@@ -115,6 +157,10 @@ namespace Module
 
             AddFields("ProductUids", "ProductUidSpecification", "NVARCHAR(Max)");
 
+            AddFields("SaleEnquiryLineExtendeds", "BuyerSku", "nvarchar(50)");
+            AddFields("SaleEnquiryLineExtendeds", "BuyerUpcCode", "nvarchar(20)");
+            AddFields("PackingLines", "PersonProductUidId", "Int", "PersonProductUids");
+            AddFields("DocumentTypes", "DocumentNatureId", "Int", "DocumentNatures");
 
 
             AddFields("JobInvoiceHeaders", "FinancierId", "INT");
@@ -901,7 +947,7 @@ namespace Module
             }
 
 
-            AddFields("StockHeaderSettings", "IsVisibleReferenceDocId", "Int");
+            AddFields("StockHeaderSettings", "IsVisibleReferenceDocId", "BIT");
             AddFields("StockHeaderSettings", "SqlProcHelpListReferenceDocId", "nvarchar(100)");
 
             AddFields("StockLines", "ReferenceDocTypeId", "Int","DocumentTypes");
@@ -2008,6 +2054,349 @@ namespace Module
 
             AddFields("ProductUids", "SaleOrderLineId", "Int","SaleOrderLines");
 
+            AddFields("Menus", "AreaName", "nvarchar(50)");
+
+
+
+            try
+            {
+                if ((int)ExecuteScaler("SELECT Count(*) AS Cnt FROM INFORMATION_SCHEMA.Tables WHERE TABLE_NAME = 'Projects'") == 0)
+                {
+                    mQry = @"CREATE TABLE Web.Projects
+	                        (
+	                        ProjectId    INT IDENTITY NOT NULL,
+	                        ProjectName  NVARCHAR (50) NOT NULL,
+	                        IsActive     BIT NOT NULL,
+	                        CreatedBy    NVARCHAR (max),
+	                        ModifiedBy   NVARCHAR (max),
+	                        CreatedDate  DATETIME NOT NULL,
+	                        ModifiedDate DATETIME NOT NULL,
+	                        OMSId        NVARCHAR (50),
+	                        CONSTRAINT [PK_Web.Projects] PRIMARY KEY (ProjectId)
+	                        )
+
+
+                        CREATE UNIQUE INDEX IX_Project_ProjectName
+	                        ON Web.Projects (ProjectName)";
+                    ExecuteQuery(mQry);
+                }
+            }
+            catch (Exception ex)
+            {
+                RecordError(ex);
+            }
+
+
+            try
+            {
+                if ((int)ExecuteScaler("SELECT Count(*) AS Cnt FROM INFORMATION_SCHEMA.Tables WHERE TABLE_NAME = 'Tasks'") == 0)
+                {
+                    mQry = @"CREATE TABLE Web.Tasks
+	                            (
+	                            TaskId          INT IDENTITY NOT NULL,
+	                            TaskTitle       NVARCHAR (250) NOT NULL,
+	                            TaskDescription NVARCHAR (max),
+	                            ProjectId       INT,
+	                            Priority        INT,
+	                            Status          NVARCHAR (20),
+	                            ForUser         NVARCHAR (max),
+	                            DueDate         DATETIME,
+	                            IsActive        BIT NOT NULL,
+	                            CreatedBy       NVARCHAR (max),
+	                            ModifiedBy      NVARCHAR (max),
+	                            CreatedDate     DATETIME NOT NULL,
+	                            ModifiedDate    DATETIME NOT NULL,
+	                            OMSId           NVARCHAR (50),
+	                            CONSTRAINT [PK_Web.Tasks] PRIMARY KEY (TaskId),
+	                            CONSTRAINT [FK_Web.Tasks_Web.Projects_ProjectId] FOREIGN KEY (ProjectId) REFERENCES Web.Projects (ProjectId)
+	                            )
+
+
+                            CREATE INDEX IX_ProjectId
+	                            ON Web.Tasks (ProjectId)";
+                    ExecuteQuery(mQry);
+                }
+            }
+            catch (Exception ex)
+            {
+                RecordError(ex);
+            }
+
+
+            try
+            {
+                if ((int)ExecuteScaler("SELECT Count(*) AS Cnt FROM INFORMATION_SCHEMA.Tables WHERE TABLE_NAME = 'DARs'") == 0)
+                {
+                    mQry = @"CREATE TABLE Web.DARs
+	                        (
+	                        DARId        INT IDENTITY NOT NULL,
+	                        DARDate      DATETIME NOT NULL,
+	                        FromTime     DATETIME NOT NULL,
+	                        ToTime       DATETIME NOT NULL,
+	                        WorkHours    DECIMAL (18, 4) NOT NULL,
+	                        TaskId       INT NOT NULL,
+	                        Description  NVARCHAR (max),
+	                        Priority     INT,
+	                        Status       NVARCHAR (20),
+	                        ForUser      NVARCHAR (max),
+	                        DueDate      DATETIME,
+	                        IsActive     BIT NOT NULL,
+	                        CreatedBy    NVARCHAR (max),
+	                        ModifiedBy   NVARCHAR (max),
+	                        CreatedDate  DATETIME NOT NULL,
+	                        ModifiedDate DATETIME NOT NULL,
+	                        OMSId        NVARCHAR (50),
+	                        CONSTRAINT [PK_Web.DARs] PRIMARY KEY (DARId),
+	                        CONSTRAINT [FK_Web.DARs_Web.Tasks_TaskId] FOREIGN KEY (TaskId) REFERENCES Web.Tasks (TaskId)
+	                        )
+
+
+                        CREATE INDEX IX_TaskId
+	                        ON Web.DARs (TaskId)";
+                    ExecuteQuery(mQry);
+                }
+            }
+            catch (Exception ex)
+            {
+                RecordError(ex);
+            }
+
+
+            try
+            {
+                if ((int)ExecuteScaler("SELECT Count(*) AS Cnt FROM INFORMATION_SCHEMA.Tables WHERE TABLE_NAME = 'UserTeams'") == 0)
+                {
+                    mQry = @"CREATE TABLE Web.UserTeams
+	                        (
+	                        UserTeamId   INT IDENTITY NOT NULL,
+	                        Srl          NVARCHAR (5) NOT NULL,
+	                        ProjectId    INT NOT NULL,
+	                        [User]       NVARCHAR (255) NOT NULL,
+	                        TeamUser     NVARCHAR (255) NOT NULL,
+	                        CreatedBy    NVARCHAR (max),
+	                        ModifiedBy   NVARCHAR (max),
+	                        CreatedDate  DATETIME NOT NULL,
+	                        ModifiedDate DATETIME NOT NULL,
+	                        CONSTRAINT [PK_Web.UserTeams] PRIMARY KEY (UserTeamId),
+	                        CONSTRAINT [FK_Web.UserTeams_Web.Projects_ProjectId] FOREIGN KEY (ProjectId) REFERENCES Web.Projects (ProjectId)
+	                        )
+
+
+                        CREATE UNIQUE INDEX IX_UserTeam_TeamName
+	                        ON Web.UserTeams (ProjectId, [User], TeamUser)";
+                    ExecuteQuery(mQry);
+                }
+            }
+            catch (Exception ex)
+            {
+                RecordError(ex);
+            }
+
+
+
+            try
+            {
+                if ((int)ExecuteScaler("SELECT Count(*) AS Cnt FROM INFORMATION_SCHEMA.Tables WHERE TABLE_NAME = 'NotificationSubjects'") == 0)
+                {
+                    mQry = @"CREATE TABLE Web.NotificationSubjects
+	                        (
+	                        NotificationSubjectId   INT IDENTITY NOT NULL,
+	                        NotificationSubjectName NVARCHAR (50) NOT NULL,
+	                        IconName                NVARCHAR (max),
+	                        IsActive                BIT NOT NULL,
+	                        CreatedBy               NVARCHAR (max),
+	                        ModifiedBy              NVARCHAR (max),
+	                        CreatedDate             DATETIME NOT NULL,
+	                        ModifiedDate            DATETIME NOT NULL,
+	                        OMSId                   NVARCHAR (50),
+	                        CONSTRAINT [PK_Web.NotificationSubjects] PRIMARY KEY (NotificationSubjectId)
+	                        )
+
+
+                        CREATE UNIQUE INDEX IX_NotificationSubject_NotificationSubjectName
+	                        ON Web.NotificationSubjects (NotificationSubjectName)";
+                    ExecuteQuery(mQry);
+                }
+            }
+            catch (Exception ex)
+            {
+                RecordError(ex);
+            }
+
+
+            try
+            {
+                if ((int)ExecuteScaler("SELECT Count(*) AS Cnt FROM INFORMATION_SCHEMA.Tables WHERE TABLE_NAME = 'Notifications'") == 0)
+                {
+                    mQry = @"CREATE TABLE Web.Notifications
+	                        (
+	                        NotificationId        INT IDENTITY NOT NULL,
+	                        NotificationSubjectId INT NOT NULL,
+	                        NotificationText      NVARCHAR (max) NOT NULL,
+	                        NotificationUrl       NVARCHAR (max),
+	                        UrlKey                NVARCHAR (max),
+	                        ExpiryDate            DATETIME,
+	                        ReadDate              DATETIME,
+	                        SeenDate              DATETIME,
+	                        IsActive              BIT NOT NULL,
+	                        CreatedBy             NVARCHAR (max),
+	                        ModifiedBy            NVARCHAR (max),
+	                        CreatedDate           DATETIME NOT NULL,
+	                        ModifiedDate          DATETIME NOT NULL,
+	                        OMSId                 NVARCHAR (50),
+	                        CONSTRAINT [PK_Web.Notifications] PRIMARY KEY (NotificationId),
+	                        CONSTRAINT [FK_Web.Notifications_Web.NotificationSubjects_NotificationSubjectId] FOREIGN KEY (NotificationSubjectId) REFERENCES Web.NotificationSubjects (NotificationSubjectId)
+	                        )
+
+
+                        CREATE INDEX IX_NotificationSubjectId
+	                        ON Web.Notifications (NotificationSubjectId)";
+                    ExecuteQuery(mQry);
+                }
+            }
+            catch (Exception ex)
+            {
+                RecordError(ex);
+            }
+
+
+            try
+            {
+                if ((int)ExecuteScaler("SELECT Count(*) AS Cnt FROM INFORMATION_SCHEMA.Tables WHERE TABLE_NAME = 'NotificationUsers'") == 0)
+                {
+                    mQry = @"CREATE TABLE Web.NotificationUsers
+	                            (
+	                            NotificationUserId INT IDENTITY NOT NULL,
+	                            NotificationId     INT NOT NULL,
+	                            UserName           NVARCHAR (128) NOT NULL,
+	                            OMSId              NVARCHAR (50),
+	                            CONSTRAINT [PK_Web.NotificationUsers] PRIMARY KEY (NotificationUserId),
+	                            CONSTRAINT [FK_Web.NotificationUsers_Web.Notifications_NotificationId] FOREIGN KEY (NotificationId) REFERENCES Web.Notifications (NotificationId)
+	                            )
+
+
+                            CREATE INDEX IX_NotificationId
+	                            ON Web.NotificationUsers (NotificationId)";
+                    ExecuteQuery(mQry);
+                }
+            }
+            catch (Exception ex)
+            {
+                RecordError(ex);
+            }
+
+            try
+            {
+                if ((int)ExecuteScaler("SELECT Count(*) AS Cnt FROM INFORMATION_SCHEMA.Tables WHERE TABLE_NAME = 'DocumentNatures'") == 0)
+                {
+                    mQry = @"CREATE TABLE Web.DocumentNatures
+	                        (
+	                        DocumentNatureId   INT IDENTITY NOT NULL,
+	                        DocumentNatureName NVARCHAR (50) NOT NULL,
+	                        IsActive           BIT NOT NULL,
+	                        IsSystemDefine     BIT NOT NULL,
+	                        OMSId              NVARCHAR (50),
+	                        CONSTRAINT PK_Web.DocumentNatures PRIMARY KEY (DocumentNatureId)
+	                        )
+
+                        CREATE UNIQUE INDEX IX_DocumentNature_DocumentNatureName
+	                        ON Web.DocumentNatures (DocumentNatureName)";
+                    ExecuteQuery(mQry);
+                }
+            }
+            catch (Exception ex)
+            {
+                RecordError(ex);
+            }
+
+            AddFields("Sites", "SiteShortCode", "NVARCHAR (2)");
+            AddFields("Divisions", "DivisionShortCode", "NVARCHAR (2)");
+            AddFields("DocumentTypes", "DocumentNatureId", "Int");
+
+
+            AddFields("JobInvoiceLines", "ReferenceDocTypeId", "Int", "DocumentTypes");
+            AddFields("JobInvoiceLines", "ReferenceDocLineId", "Int");
+
+            AddFields("JobInvoiceReturnHeaders", "ReferenceDocTypeId", "Int", "DocumentTypes");
+            AddFields("JobInvoiceReturnHeaders", "ReferenceDocId", "Int");
+
+            AddFields("JobInvoiceReturnLines", "ReferenceDocTypeId", "Int", "DocumentTypes");
+            AddFields("JobInvoiceReturnLines", "ReferenceDocLineId", "Int");
+
+            AddFields("JobReceiveLines", "PenaltyReason", "nvarchar(Max)");
+
+            AddFields("JobOrderLines", "DiscountPer", "Decimal(18,4)");
+
+            AddFields("JobReceiveLines", "BaleNo", "nvarchar(10)");
+
+            AddFields("JobInvoiceReturnHeaderCharges", "IncludedCharges", "NVARCHAR (250)");
+            AddFields("JobInvoiceReturnHeaderCharges", "IncludedChargesCalculation", "NVARCHAR (250)");
+
+            AddFields("JobInvoiceReturnLineCharges", "IncludedCharges", "NVARCHAR (250)");
+            AddFields("JobInvoiceReturnLineCharges", "IncludedChargesCalculation", "NVARCHAR (250)");
+
+
+            AddFields("SaleInvoiceReturnLines", "DiscountAmount", "Decimal(18,4)");
+
+
+            AddFields("JobOrderLines", "DiscountAmount", "Decimal(18,4)");
+            AddFields("JobOrderSettings", "isVisibleDiscountPer", "BIT");
+            AddFields("JobOrderSettings", "isVisibleProdOrder", "BIT");
+
+            AddFields("JobOrderSettings", "CalculateDiscountOnRate", "Bit");
+
+
+            AddFields("Menus", "ControllerName", "nvarchar(100)");
+            AddFields("Menus", "ActionName", "nvarchar(100)");
+
+            AddFields("JobInvoiceHeaders", "GovtInvoiceNo", "nvarchar(20)");
+
+            AddFields("JobInvoiceSettings", "isVisibleGovtInvoiceNo", "BIT");
+
+            AddFields("SaleInvoiceSettings", "isVisiblePacking", "BIT");
+
+
+            AddFields("JobInvoiceReturnHeaders", "SalesTaxGroupPersonId", "Int", "ChargeGroupPersons");
+            AddFields("JobInvoiceReturnLines", "SalesTaxGroupProductId", "Int", "ChargeGroupProducts");
+
+            AddFields("DocumentTypes", "ActionName", "nvarchar(50)");
+
+
+            try
+            {
+                if ((int)ExecuteScaler("SELECT Count(*) AS Cnt FROM INFORMATION_SCHEMA.Tables WHERE TABLE_NAME = 'JobOrderBomMaterialIssues'") == 0)
+                {
+                    mQry = @"CREATE TABLE Web.JobOrderBomMaterialIssues
+	                            (
+	                            JobOrderBomMaterialIssueId INT IDENTITY NOT NULL,
+	                            JobOrderBomId              INT,
+	                            StockLineId                INT NOT NULL,
+	                            IssueForQty                DECIMAL (18, 4) NOT NULL,
+	                            Qty                        DECIMAL (18, 4) NOT NULL,
+	                            CreatedBy                  NVARCHAR (max),
+	                            ModifiedBy                 NVARCHAR (max),
+	                            CreatedDate                DATETIME NOT NULL,
+	                            ModifiedDate               DATETIME NOT NULL,
+	                            OMSId                      NVARCHAR (50),
+	                            CONSTRAINT [PK_Web.JobOrderBomMaterialIssues] PRIMARY KEY (JobOrderBomMaterialIssueId),
+	                            CONSTRAINT [FK_Web.JobOrderBomMaterialIssues_Web.JobOrderBoms_JobOrderBomId] FOREIGN KEY (JobOrderBomId) REFERENCES Web.JobOrderBoms (JobOrderBomId),
+	                            CONSTRAINT [FK_Web.JobOrderBomMaterialIssues_Web.StockLines_StockLineId] FOREIGN KEY (StockLineId) REFERENCES Web.StockLines (StockLineId)
+	                            )
+
+                            CREATE INDEX IX_JobOrderBomId
+	                            ON Web.JobOrderBomMaterialIssues (JobOrderBomId)
+
+                            CREATE INDEX IX_StockLineId
+	                            ON Web.JobOrderBomMaterialIssues (StockLineId)";
+                    ExecuteQuery(mQry);
+                }
+            }
+            catch (Exception ex)
+            {
+                RecordError(ex);
+            }
+
+
             ReCreateProcedures();
             DataCorrection();
 
@@ -2337,6 +2726,33 @@ namespace Module
                 if ((int)ExecuteScaler("SELECT CHARACTER_MAXIMUM_LENGTH  FROM INFORMATION_SCHEMA.Columns WHERE TABLE_NAME = 'Products' AND COLUMN_NAME = 'ProductName'") == 50)
                 {
                     mQry = @"ALTER TABLE Web.Products ALTER COLUMN ProductName NVARCHAR(100) NOT NULL";
+                    ExecuteQuery(mQry);
+                }
+            }
+            catch (Exception ex)
+            {
+                RecordError(ex);
+            }
+
+
+            try
+            {
+                if ((int)ExecuteScaler("SELECT Count(*) FROM INFORMATION_SCHEMA.Columns WHERE TABLE_NAME = 'JobReceiveHeaders' AND COLUMN_NAME = 'JobReceiveById' AND IS_NULLABLE = 'NO'") > 0)
+                {
+                    mQry = @"ALTER TABLE Web.JobReceiveHeaders ALTER COLUMN JobReceiveById INT NULL";
+                    ExecuteQuery(mQry);
+                }
+            }
+            catch (Exception ex)
+            {
+                RecordError(ex);
+            }
+
+            try
+            {
+                if ((int)ExecuteScaler("SELECT Count(*) FROM INFORMATION_SCHEMA.Columns WHERE TABLE_NAME = 'JobReceiveQAHeaders' AND COLUMN_NAME = 'QAById' AND IS_NULLABLE = 'NO'") > 0)
+                {
+                    mQry = @"ALTER TABLE Web.JobReceiveQAHeaders ALTER COLUMN QAById INT NULL";
                     ExecuteQuery(mQry);
                 }
             }

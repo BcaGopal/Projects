@@ -53,11 +53,13 @@
                                                     Order No.
                                                 </div>
 
-
-
-                                                <div class="block text-right" style="width:20%">
+                                                <div class="block text-right" style="width:15%">
                                                     <a href="#" id="ToOrder" style="color:white">Receive Qty</a>
                                                 </div>
+
+                                                @*<div class="block text-right" style="width: 15%">
+                                                    <a href="#" id="ToOrder" style="color:white">Receive Deal Qty</a>
+                                                </div>*@
                                                 
 
 
@@ -108,6 +110,21 @@
                                                 @Html.HiddenFor(m => m.JobReceiveLineViewModel[i].UnitDecimalPlaces, new { @class="UDec"})
 
                                                 @(i + 1)
+
+                                                @*@{
+                                        if (Model.JobReceiveLineViewModel[i].UnitConversionMultiplier != 0)
+                                        {
+                                            Model.JobReceiveLineViewModel[i].DealQty = Model.JobReceiveLineViewModel[i].Qty * Model.JobReceiveLineViewModel[i].UnitConversionMultiplier;
+                                        }
+                                        else if (Model.JobReceiveLineViewModel[i].Qty == Model.JobReceiveLineViewModel[i].OrderQty)
+                                        {
+                                            Model.JobReceiveLineViewModel[i].DealQty = Model.JobReceiveLineViewModel[i].OrderDealQty;
+                                        }
+                                        else
+                                        {
+                                            Model.JobReceiveLineViewModel[i].DealQty = decimal.Round(Model.JobReceiveLineViewModel[i].Qty * (Model.JobReceiveLineViewModel[i].OrderDealQty / Model.JobReceiveLineViewModel[i].OrderQty), Model.JobReceiveLineViewModel[i].DealUnitDecimalPlaces);
+                                        }
+                                                }*@
                                             </div>
                                             <div class='block pull-middle' style='width:94%'>
 
@@ -146,9 +163,24 @@
                                                             @Html.ValidationMessageFor(m => m.JobReceiveLineViewModel[i].DocQty)
                                                         </div>
                                                         
-                                                        <div class='block text-right pull-middle' style='width:20%'>
+                                                        <div class='block text-right pull-middle' style='width:15%'>
                                                             @Html.TextBoxFor(m => Model.JobReceiveLineViewModel[i].ReceiveQty, new { @class = "form-control multiple-modal text-right Quantity ReceiveQty" })
                                                         </div>
+
+                                                        @*<div class='block text-right' style='width: 15%'>
+                                                            @{if (Model.JobReceiveLineViewModel[i].UnitConversionMultiplier <= 0)
+                                                            {
+                                                                @Html.TextBoxFor(m => Model.JobReceiveLineViewModel[i].DealQty, "{" + "0:0.".PadRight(Model.JobReceiveLineViewModel[i].UnitDecimalPlaces + 4, '0') + "}", new { @class = "form-control text-right ReceiptDealQty" })
+                                                            }
+                                                            else
+                                                            {
+                                                                @Html.TextBoxFor(m => Model.JobReceiveLineViewModel[i].DealQty, "{" + "0:0.".PadRight(Model.JobReceiveLineViewModel[i].UnitDecimalPlaces + 4, '0') + "}", new { @class = "form-control text-right ReceiptDealQty", @readonly = true })
+                                                            }
+                                                            }
+                                                            @Html.ValidationMessageFor(m => Model.JobReceiveLineViewModel[i].DealQty, "", new { @class = "text-danger" })
+                                                        </div>*@
+
+
                                                         <div class='block pull-middle' style='width:18%'>
                                                             @Html.TextBoxFor(m => Model.JobReceiveLineViewModel[i].LotNo, new { @class = "form-control multiple-modal LotNo" })
                                                         </div>

@@ -44,6 +44,7 @@ namespace Model.ViewModel
         public bool isVisibleWeight { get; set; }
         public bool isVisibleCostCenter { get; set; }
         public bool isVisibleSalesTaxGroupPerson { get; set; }
+        public bool isVisibleGovtInvoiceNo { get; set; }
         public bool isVisibleSalesTaxGroupProduct { get; set; }
         public bool isVisibleHeaderJobWorker { get; set; }
         public bool isVisibleIncentive { get; set; }

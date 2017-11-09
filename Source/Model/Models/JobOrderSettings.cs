@@ -51,11 +51,13 @@ namespace Model.Models
         public bool? isVisibleProcessLine { get; set; }
         public bool? isVisibleProcessHeader { get; set; }
         public bool? isVisibleJobWorkerLine { get; set; }
+        public bool? isVisibleDiscountPer { get; set; }
         public bool? isUniqueCostCenter { get; set; }
         public bool? PersonWiseCostCenter { get; set; }
         public bool? isPostedInStock { get; set; }
         public bool? isPostedInStockProcess { get; set; }
         public bool? isPostedInStockVirtual { get; set; }
+
 
 
         public bool? isVisibleStockIn { get; set; }
@@ -73,6 +75,8 @@ namespace Model.Models
         public bool? isVisiblePaymentTerms { get; set; }
         public bool? isVisibleFinancier { get; set; }
         public bool? isVisibleSalesExecutive { get; set; }
+
+        public bool? CalculateDiscountOnRate { get; set; }
 
         public int? RetensionCostCenter { get; set; }
         public bool? isVisibleFromProdOrder { get; set; }

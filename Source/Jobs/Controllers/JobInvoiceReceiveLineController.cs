@@ -91,7 +91,7 @@ namespace Web
 
             svm.JobInvoiceSettings = Mapper.Map<JobInvoiceSettings, JobInvoiceSettingsViewModel>(settings);
             svm.JobInvoiceLineViewModel = temp;
-            if (vm.JobReceiveHeaderId != null || vm.ReceiveAsOnDate != null)
+            if ((settings.isVisibleJobReceive ?? false) == true)
             {
                 return PartialView("_Results", svm);
             }
@@ -1172,7 +1172,7 @@ namespace Web
                             ReceiveLine.Sr = _JobReceiveLineService.GetMaxSr(ReceiveLine.JobReceiveHeaderId);
 
                             //Posting in Stock
-                            if (settings.isPostedInStock.HasValue && settings.isPostedInStock == true)
+                            if (settings.isPostedInStock.HasValue && settings.isPostedInStock == true && svm.LineNature != LineNatureConstants.AdditionalCharges)
                             {
                                 StockViewModel.StockHeaderId = ReceiveHeader.StockHeaderId ?? 0;
                                 StockViewModel.DocHeaderId = ReceiveHeader.JobReceiveHeaderId;
@@ -1232,7 +1232,7 @@ namespace Web
 
 
                             //Posting in StockProcess
-                            if (settings.isPostedInStockProcess.HasValue && settings.isPostedInStockProcess == true)
+                            if (settings.isPostedInStockProcess.HasValue && settings.isPostedInStockProcess == true && svm.LineNature != LineNatureConstants.AdditionalCharges)
                             {
                                 if (ReceiveHeader.StockHeaderId != null && ReceiveHeader.StockHeaderId != 0)//If Transaction Header Table Has Stock Header Id Then It will Save Here.
                                 {
@@ -1452,10 +1452,11 @@ namespace Web
                             ReceiveHeader.ObjectState = Model.ObjectState.Modified;
                             db.JobReceiveHeader.Add(ReceiveHeader);
                         }
-                        else
-                        {
-                            ReceiveLine = new JobReceiveLineService(_unitOfWork).Find(svm.JobReceiveLineId);
-                        }
+                    }
+                    else
+                    {
+                        ReceiveLine = new JobReceiveLineService(_unitOfWork).Find(svm.JobReceiveLineId);
+                    }
 
 
                         InvoiceLine.JobReceiveLineId = ReceiveLine.JobReceiveLineId;
@@ -1608,8 +1609,8 @@ namespace Web
                             DocStatus = InvoiceHeader.Status,
                         }));
 
-                        return RedirectToAction("_Create", new { id = InvoiceLine.JobInvoiceHeaderId, JobWorkerId = InvoiceLine.JobWorkerId });
-                    }
+                        return RedirectToAction("_Create", new { id = InvoiceLine.JobInvoiceHeaderId, JobWorkerId = InvoiceLine.JobWorkerId, LineNature = svm.LineNature });
+                    
                 }
                 else
                 {
@@ -2279,6 +2280,14 @@ namespace Web
                 int? StockId = 0;
                 int? StockProcessId = 0;
                 List<LogTypeViewModel> LogList = new List<LogTypeViewModel>();
+
+                if (vm.linecharges != null && vm.footercharges == null)
+                {
+                    ModelState.AddModelError("", "Something went wrong while deletion.Please try again.");
+                    PrepareViewBag(vm);
+                    ViewBag.LineMode = "Delete";
+                    return PartialView("_Create", vm);
+                }
 
 
                 JobInvoiceLine InvoiceLine = db.JobInvoiceLine.Find(vm.JobInvoiceLineId);

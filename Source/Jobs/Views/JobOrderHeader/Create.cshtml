@@ -660,14 +660,14 @@
                         }
                         @if (Model.JobOrderSettings.isVisibleFromProdOrder)
                         {
-                            @Html.ActionLink("For " + (Model.DocumentTypeSettings.ContraDocTypeCaption ?? "Production Order") +"/", Action, "JobOrderLine", new { id = @Model.JobOrderHeaderId, IsProdBased = true }, new { data_modal = "", id = "btnCreate", @class = "toolbar", @title = "Add New", @data_toggle = "tooltip", @data_detailDisabled = "true" })
+                            @Html.ActionLink("For " + (Model.DocumentTypeSettings.ContraDocTypeCaption ?? "Production Order") + "/", Action, "JobOrderLine", new { id = @Model.JobOrderHeaderId, LineNature = LineNatureConstants.ForOrder }, new { data_modal = "", id = "btnCreate", @class = "toolbar", @title = "Add New", @data_toggle = "tooltip", @data_detailDisabled = "true" })
                         }
                         @Html.ActionLink("Add New Row ", Action, "JobOrderLine", new { id = @Model.JobOrderHeaderId, IsProdBased = false }, new { data_modal = "", id = "btnCreatePO", @class = "toolbar", @title = "Add New", @data_toggle = "tooltip", @data_detailDisabled = "true" })
                     </div>
                     <div class="btn-group right" style="padding-right:15px">
                         @if (Model.JobOrderSettings.isVisibleFromProdOrder)
                         {
-                            @Html.ActionLink(" ", "_ForProdOrder", "JobOrderLine", new { id = @Model.JobOrderHeaderId, jid = @Model.JobWorkerId }, new { data_modal = "", id = "btnCreateF", @class = "cbtn btn-circle glyphicon glyphicon-link toolbar right", @title = "For ProductionOrder", @data_toggle = "tooltip", @data_detailDeleted = "true" })
+                            @Html.ActionLink(" ", "_ForProdOrder", "JobOrderLine", new { id = @Model.JobOrderHeaderId, jid = @Model.JobWorkerId, LineNature = LineNatureConstants.ForOrder }, new { data_modal = "", id = "btnCreateF", @class = "cbtn btn-circle glyphicon glyphicon-link toolbar right", @title = "For ProductionOrder", @data_toggle = "tooltip", @data_detailDeleted = "true" })
                         }
                         @if (Model.JobOrderSettings.isVisibleStockIn)
                         {
@@ -1598,7 +1598,11 @@
                 data: { JobWorkerId: $("#JobWorkerId").val() },
             success: function (data) {
                 $("#CreditDays").val(data.CreaditDays);
-                $("#SalesTaxGroupPersonId").select2('data', { id: data.SalesTaxGroupPartyId, text: data.SalesTaxGroupPartyName});
+                if (data.SalesTaxGroupPartyId != null)
+                {
+                    $("#SalesTaxGroupPersonId").select2('data', { id: data.SalesTaxGroupPartyId, text: data.SalesTaxGroupPartyName});
+                }
+                
             },
             error: function (xhr, ajaxOptions, thrownError) {
                 alert('Failed to retrieve product details.' + thrownError);

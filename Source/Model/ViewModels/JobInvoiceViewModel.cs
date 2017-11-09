@@ -27,6 +27,7 @@ namespace Model.ViewModel
 
         public int? SalesTaxGroupPersonId { get; set; }
         public string SalesTaxGroupPersonName { get; set; }
+        public string GovtInvoiceNo { get; set; }
 
         [Display(Name = "Job Worker Doc Date")]
         public DateTime? JobWorkerDocDate { get; set; }

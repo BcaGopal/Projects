@@ -29,6 +29,7 @@ namespace Model.ViewModel
         public string ActionName { get; set; }
 
         public string RouteId { get; set; }
+        public string AreaName { get; set; }
 
         public bool BookMarked { get; set; }
         public bool PermissionAssigned { get; set; }

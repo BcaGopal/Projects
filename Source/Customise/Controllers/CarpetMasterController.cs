@@ -1586,6 +1586,12 @@ namespace Web
             vm.MapScale = temp.MapScale;
             vm.CBM = temp.CBM;
 
+            var bd = new BomDetailService(_unitOfWork).GetConsumptionForIndex(id);
+
+            if (bd.Count() >0)
+                vm.IsBomCreated = true;
+            else
+                vm.IsBomCreated = false ;
 
             int SiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
             CarpetSkuSettings Stng = new CarpetSkuSettingsService(_unitOfWork).GetCarpetSkuSettings(vm.DivisionId, SiteId);
@@ -2263,6 +2269,16 @@ namespace Web
                                         {
                                             ProductRateGroupId = new ProductRateGroupService(_unitOfWork).Find("Tufted").ProductRateGroupId;
                                         }
+                                    }
+                                    else
+                                    {
+                                        var TempProductRateGroup = (from Pp in db.ProductProcess
+                                                                    join Pt in db.Product on Pp.ProductId equals Pt.ProductId into ProductTable
+                                                                    from ProductTab in ProductTable.DefaultIfEmpty()
+                                                                    where Pp.ProcessId == ProcSeqLin.ProcessId && ProductTab.ProductGroupId == pro.ProductGroupId
+                                                                    select new { ProductRateGroupId = Pp.ProductRateGroupId }).FirstOrDefault();
+                                        if (TempProductRateGroup != null)
+                                            ProductRateGroupId = TempProductRateGroup.ProductRateGroupId;
                                     }
                                 }
                             }

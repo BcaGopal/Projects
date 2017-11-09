@@ -107,6 +107,8 @@
                                                 @Html.HiddenFor(m => Model.JobOrderLineViewModel[i].ProdOrderDocNo)
                                                 @Html.HiddenFor(m => Model.JobOrderLineViewModel[i].ProdOrderBalanceQty)
                                                 @Html.HiddenFor(m => Model.JobOrderLineViewModel[i].UnitId)
+                                                @Html.HiddenFor(m => Model.JobOrderLineViewModel[i].SalesTaxGroupProductId)
+                                                @Html.HiddenFor(m => Model.JobOrderLineViewModel[i].SalesTaxGroupPersonId)
                                                 @*@Html.HiddenFor(m => Model.JobOrderLineViewModel[i].UnitConversionMultiplier)*@
                                                 @Html.HiddenFor(m => Model.JobOrderLineViewModel[i].UnitDecimalPlaces, new { @class = "UDec" })
                                                 @Html.HiddenFor(m => Model.JobOrderLineViewModel[i].DealUnitDecimalPlaces, new { @class = "DelUDec" })

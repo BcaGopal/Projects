@@ -200,6 +200,7 @@ namespace Web
             List<LineChargeViewModel> LineCharges = new List<LineChargeViewModel>();
             Dictionary<int, decimal> LineStatus = new Dictionary<int, decimal>();
             List<JobOrderLine> BarCodesPendingToUpdate = new List<JobOrderLine>();
+            List<LineChargeRates> LineChargeRates = new List<LineChargeRates>();
 
             bool BeforeSave = true;
             try
@@ -530,6 +531,14 @@ namespace Web
                         {
                             LineList.Add(new LineDetailListViewModel { Amount = line.Amount, Rate = line.Rate, LineTableId = line.JobOrderLineId, HeaderTableId = item.JobOrderHeaderId, PersonID = Header.JobWorkerId, DealQty = line.DealQty });
                         }
+
+                        List<CalculationProductViewModel> ChargeRates = new CalculationProductService(_unitOfWork).GetChargeRates(CalculationId, Header.DocTypeId, Header.SiteId, Header.DivisionId,
+                            Header.ProcessId, item.SalesTaxGroupPersonId, item.SalesTaxGroupProductId).ToList();
+                        if (ChargeRates != null)
+                        {
+                            LineChargeRates.Add(new LineChargeRates { LineId = line.JobOrderLineId, ChargeRates = ChargeRates });
+                        }
+
                         pk++;
                         Cnt = Cnt + 1;
                     }
@@ -551,7 +560,24 @@ namespace Web
                 {
                     if (Settings.CalculationId.HasValue)
                     {
-                        new ChargesCalculationService(_unitOfWork).CalculateCharges(LineList, vm.JobOrderLineViewModel.FirstOrDefault().JobOrderHeaderId, CalculationId, MaxLineId, out LineCharges, out HeaderChargeEdit, out HeaderCharges, "Web.JobOrderHeaderCharges", "Web.JobOrderLineCharges", out PersonCount, Header.DocTypeId, Header.SiteId, Header.DivisionId);
+                        var LineListWithReferences = (from p in LineList
+                                                      join t3 in LineChargeRates on p.LineTableId equals t3.LineId into LineChargeRatesTable
+                                                      from LineChargeRatesTab in LineChargeRatesTable.DefaultIfEmpty()
+                                                      orderby p.LineTableId
+                                                      select new LineDetailListViewModel
+                                                      {
+                                                          Amount = p.Amount,
+                                                          DealQty = p.DealQty,
+                                                          HeaderTableId = p.HeaderTableId,
+                                                          LineTableId = p.LineTableId,
+                                                          PersonID = p.PersonID,
+                                                          Rate = p.Rate,
+                                                          CostCenterId = p.CostCenterId,
+                                                          ChargeRates = LineChargeRatesTab.ChargeRates,
+                                                      }).ToList();
+
+
+                        new ChargesCalculationService(_unitOfWork).CalculateCharges(LineListWithReferences, vm.JobOrderLineViewModel.FirstOrDefault().JobOrderHeaderId, CalculationId, MaxLineId, out LineCharges, out HeaderChargeEdit, out HeaderCharges, "Web.JobOrderHeaderCharges", "Web.JobOrderLineCharges", out PersonCount, Header.DocTypeId, Header.SiteId, Header.DivisionId);
 
                         //Saving Charges
                         foreach (var item in LineCharges)
@@ -707,24 +733,24 @@ namespace Web
         }
 
         [HttpGet]
-        public ActionResult CreateLine(int id, bool? IsProdBased)
+        public ActionResult CreateLine(int id, string LineNature)
         {
-            return _Create(id, null, IsProdBased);
+            return _Create(id, null, LineNature);
         }
 
         [HttpGet]
-        public ActionResult CreateLineAfter_Submit(int id, bool? IsProdBased)
+        public ActionResult CreateLineAfter_Submit(int id, string LineNature)
         {
-            return _Create(id, null, IsProdBased);
+            return _Create(id, null, LineNature);
         }
 
         [HttpGet]
-        public ActionResult CreateLineAfter_Approve(int id, bool? IsProdBased)
+        public ActionResult CreateLineAfter_Approve(int id, string LineNature)
         {
-            return _Create(id, null, IsProdBased);
+            return _Create(id, null, LineNature);
         }
 
-        public ActionResult _Create(int Id, DateTime? date, bool? IsProdBased) //Id ==>Sale Order Header Id
+        public ActionResult _Create(int Id, DateTime? date, string LineNature) //Id ==>Sale Order Header Id
         {
             JobOrderHeader H = new JobOrderHeaderService(_unitOfWork).Find(Id);
             JobOrderLineViewModel s = new JobOrderLineViewModel();
@@ -760,7 +786,6 @@ namespace Web
             s.AllowRepeatProcess = false;
             s.JobOrderHeaderId = H.JobOrderHeaderId;
             ViewBag.Status = H.Status;
-            s.IsProdOrderBased = IsProdBased ?? true;
             s.DocTypeId = H.DocTypeId;
             s.SiteId = H.SiteId;
             s.DivisionId = H.DivisionId;
@@ -773,15 +798,19 @@ namespace Web
             //    ViewBag.CSEXCL = TempData["CSEXCL"];
             //    TempData["CSEXCL"] = null;
             //}
-            if (IsProdBased == true)
-            {
-                return PartialView("_CreateForProdOrder", s);
 
-            }
-            else
-            {
-                return PartialView("_Create", s);
-            }
+            s.LineNature = LineNature;
+            return PartialView("_Create", s);
+
+            //if (IsProdBased == true)
+            //{
+            //    return PartialView("_CreateForProdOrder", s);
+
+            //}
+            //else
+            //{
+            //    return PartialView("_Create", s);
+            //}
 
         }
 
@@ -1265,7 +1294,7 @@ namespace Web
                         DocStatus=temp.Status,
                     }));
 
-                    return RedirectToAction("_Create", new { id = svm.JobOrderHeaderId, IsProdBased = (s.ProdOrderLineId == null ? false : true) });
+                    return RedirectToAction("_Create", new { id = svm.JobOrderHeaderId, LineNature = svm.LineNature });
 
                 }
 
@@ -1509,6 +1538,8 @@ namespace Web
                     templine.NonCountedQty = s.NonCountedQty;
                     templine.LossQty = s.LossQty;
                     templine.Rate = s.Rate;
+                    templine.DiscountPer = s.DiscountPer;
+                    templine.DiscountAmount = s.DiscountAmount;
                     templine.Amount = s.Amount;
                     templine.Remark = s.Remark;
                     templine.Qty = s.Qty;
@@ -1820,15 +1851,22 @@ namespace Web
             //else
             //    TempData["CSEXCL"] += temp.LockReason;
 
-            if (temp.ProdOrderLineId != null)
-            {
-                return PartialView("_CreateForProdOrder", temp);
+            //if (temp.ProdOrderLineId != null)
+            //{
+            //    return PartialView("_CreateForProdOrder", temp);
 
-            }
+            //}
+            //else
+            //{
+            //    return PartialView("_Create", temp);
+            //}
+
+            if (temp.ProdOrderLineId != null)
+                temp.LineNature = LineNatureConstants.ForOrder;
             else
-            {
-                return PartialView("_Create", temp);
-            }
+                temp.LineNature = LineNatureConstants.Direct;
+
+            return PartialView("_Create", temp);
         }
 
 
@@ -1896,14 +1934,21 @@ namespace Web
             if ((TimePlanValidation || Continue))
                 ViewBag.LineMode = "Delete";
 
+            //if (temp.ProdOrderLineId != null)
+            //{
+            //    return PartialView("_CreateForProdOrder", temp);
+            //}
+            //else
+            //{
+            //    return PartialView("_Create", temp);
+            //}
+
             if (temp.ProdOrderLineId != null)
-            {
-                return PartialView("_CreateForProdOrder", temp);
-            }
+                temp.LineNature = LineNatureConstants.ForOrder;
             else
-            {
-                return PartialView("_Create", temp);
-            }
+                temp.LineNature = LineNatureConstants.Direct;
+
+            return PartialView("_Create", temp);
         }
 
 
@@ -2590,6 +2635,8 @@ namespace Web
                         where p.StockInId == StockInId
                         select new
                         {
+                            ProductUidId = StockTab.ProductUidId,
+                            ProductUidName = StockTab.ProductUid.ProductUidName,
                             ProductId = p.ProductId,
                             ProductName = ProductTab.ProductName,
                             Dimension1Id = p.Dimension1Id,

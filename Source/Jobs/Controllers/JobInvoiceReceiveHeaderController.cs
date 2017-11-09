@@ -175,9 +175,21 @@ namespace Web
                 if (Site != null)
                 {
                     if (Site.DefaultGodownId != null)
-                    {
                         vm.GodownId = (int)Site.DefaultGodownId;
-                    }
+                }
+
+                if (vm.GodownId == null || vm.GodownId == 0)
+                {
+                    var SiteGodownList = (from G in db.Godown where G.SiteId == vm.SiteId select G).FirstOrDefault();
+                    if (SiteGodownList != null)
+                        vm.GodownId = (int)SiteGodownList.GodownId;
+                }
+
+                if (vm.GodownId == null || vm.GodownId == 0)
+                {
+                    var GodownList = db.Godown.FirstOrDefault();
+                    if (GodownList != null)
+                        vm.GodownId = (int)GodownList.GodownId;
                 }
             }
 
@@ -191,14 +203,14 @@ namespace Web
                     vm.JobReceiveById = LastReceive.JobReceiveById;
                 }
             }
-            else
-            {
-                Employee Employee = new EmployeeService(_unitOfWork).GetEmployeeList().FirstOrDefault();
-                if (Employee != null)
-                {
-                    vm.JobReceiveById = Employee.PersonID;
-                }
-            }
+            //else
+            //{
+            //    Employee Employee = new EmployeeService(_unitOfWork).GetEmployeeList().FirstOrDefault();
+            //    if (Employee != null)
+            //    {
+            //        vm.JobReceiveById = Employee.PersonID;
+            //    }
+            //}
 
 
             if (settings != null)
@@ -206,7 +218,33 @@ namespace Web
                 vm.SalesTaxGroupPersonId = settings.SalesTaxGroupPersonId;
             }
 
-            vm.ProcessId = settings.ProcessId;
+
+            if (settings != null)
+            {
+                if (settings.CalculationId != null)
+                {
+                    var CalculationHeaderLedgerAccount = (from H in db.CalculationHeaderLedgerAccount where H.CalculationId == settings.CalculationId && H.DocTypeId == id && H.SiteId == vm.SiteId && H.DivisionId == vm.DivisionId select H).FirstOrDefault();
+                    var CalculationLineLedgerAccount = (from H in db.CalculationLineLedgerAccount where H.CalculationId == settings.CalculationId && H.DocTypeId == id && H.SiteId == vm.SiteId && H.DivisionId == vm.DivisionId select H).FirstOrDefault();
+
+                    if (CalculationHeaderLedgerAccount == null && CalculationLineLedgerAccount == null && UserRoles.Contains("SysAdmin"))
+                    {
+                        return RedirectToAction("Create", "CalculationHeaderLedgerAccount", null).Warning("Ledger posting settings is not defined for current site and division.");
+                    }
+                    else if (CalculationHeaderLedgerAccount == null && CalculationLineLedgerAccount == null && !UserRoles.Contains("SysAdmin"))
+                    {
+                        return View("~/Views/Shared/InValidSettings.cshtml").Warning("Ledger posting settings is not defined for current site and division.");
+                    }
+                }
+            }
+
+
+            //vm.ProcessId = settings.ProcessId;
+
+            if ((settings.isVisibleProcessHeader ?? false) == false)
+            {
+                vm.ProcessId = settings.ProcessId;
+            }
+
             vm.DocDate = DateTime.Now;
             vm.DocTypeId = id;
             vm.DocNo = new DocumentTypeService(_unitOfWork).FGetNewDocNo("DocNo", ConfigurationManager.AppSettings["DataBaseSchema"] + ".JobInvoiceHeaders", vm.DocTypeId, vm.DocDate, vm.DivisionId, vm.SiteId);
@@ -430,6 +468,7 @@ namespace Web
                 else
                 {
                     bool GodownChanged = false;
+                    bool DocDateChanged = false;
                     List<LogTypeViewModel> LogList = new List<LogTypeViewModel>();
 
                     JobInvoiceHeader temp = _JobInvoiceHeaderService.Find(pt.JobInvoiceHeaderId);                    
@@ -441,6 +480,7 @@ namespace Web
                     {
                         JobReceiveHeader temp2 = _JobReceiveHeaderService.Find(temp.JobReceiveHeaderId.Value);
                         GodownChanged = (temp2.GodownId == vm.GodownId) ? false : true;
+                        DocDateChanged = (temp2.DocDate == vm.DocDate) ? false : true;
 
                         JobReceiveHeader ExRecR = new JobReceiveHeader();
                         ExRecR = Mapper.Map<JobReceiveHeader>(temp2);
@@ -507,6 +547,7 @@ namespace Web
                     temp.DocDate = pt.DocDate;
                     temp.JobWorkerId = pt.JobWorkerId;
                     temp.JobWorkerDocNo = pt.JobWorkerDocNo;
+                    temp.GovtInvoiceNo = pt.GovtInvoiceNo;
                     temp.JobWorkerDocDate = pt.JobWorkerDocDate;
                     temp.ProcessId = pt.ProcessId;
                     temp.SalesTaxGroupPersonId = pt.SalesTaxGroupPersonId;
@@ -1508,7 +1549,7 @@ namespace Web
         private ActionResult PrintOut(int id, string SqlProcForPrint)
         {
             String query = SqlProcForPrint;
-            return Redirect((string)System.Configuration.ConfigurationManager.AppSettings["CustomizeDomain"] + "/Report_DocumentPrint/DocumentPrint/?DocumentId=" + id + "&queryString=" + query);
+            return Redirect((string)System.Configuration.ConfigurationManager.AppSettings["JobsDomain"] + "/Report_DocumentPrint/DocumentPrint/?DocumentId=" + id + "&queryString=" + query);
         }
 
         [HttpGet]
@@ -1571,8 +1612,11 @@ namespace Web
 
             Dictionary<int, string> DefaultValue = new Dictionary<int, string>();
 
+            //if (!Dt.ReportMenuId.HasValue)
+            //    throw new Exception("Report Menu not configured in document types");
+
             if (!Dt.ReportMenuId.HasValue)
-                throw new Exception("Report Menu not configured in document types");
+                return Redirect((string)System.Configuration.ConfigurationManager.AppSettings["JobsDomain"] + "/GridReport/GridReportLayout/?MenuName=Job Invoice Report&DocTypeId=" + id.ToString());
 
             Model.Models.Menu menu = new MenuService(_unitOfWork).Find(Dt.ReportMenuId ?? 0);
 
@@ -1596,7 +1640,7 @@ namespace Web
 
             TempData["ReportLayoutDefaultValues"] = DefaultValue;
 
-            return Redirect((string)System.Configuration.ConfigurationManager.AppSettings["CustomizeDomain"] + "/Report_ReportPrint/ReportPrint/?MenuId=" + Dt.ReportMenuId);
+            return Redirect((string)System.Configuration.ConfigurationManager.AppSettings["JobsDomain"] + "/Report_ReportPrint/ReportPrint/?MenuId=" + Dt.ReportMenuId);
 
         }
 
@@ -1633,7 +1677,14 @@ namespace Web
                     }
                     else if (!string.IsNullOrEmpty(menuviewmodel.URL))
                     {
-                        return Redirect(System.Configuration.ConfigurationManager.AppSettings[menuviewmodel.URL] + "/" + menuviewmodel.ControllerName + "/" + menuviewmodel.ActionName + "/" + id + "?MenuId=" + menuviewmodel.MenuId);
+                        if (menuviewmodel.AreaName != null && menuviewmodel.AreaName != "")
+                        {
+                            return Redirect(System.Configuration.ConfigurationManager.AppSettings[menuviewmodel.URL] + "/" + menuviewmodel.AreaName + "/" + menuviewmodel.ControllerName + "/" + menuviewmodel.ActionName + "/" + id + "?MenuId=" + menuviewmodel.MenuId);
+                        }
+                        else
+                        {
+                            return Redirect(System.Configuration.ConfigurationManager.AppSettings[menuviewmodel.URL] + "/" + menuviewmodel.ControllerName + "/" + menuviewmodel.ActionName + "/" + id + "?MenuId=" + menuviewmodel.MenuId);
+                        }
                     }
                     else
                     {
@@ -1733,9 +1784,9 @@ namespace Web
 
         }
 
-        public ActionResult GetCustomPerson(string searchTerm, int pageSize, int pageNum, int filter)//DocTypeId
+        public ActionResult GetCustomPerson(string searchTerm, int pageSize, int pageNum, int filter, int? filter2)//DocTypeId
         {
-            var Query = _JobInvoiceHeaderService.GetCustomPerson(filter, searchTerm);
+            var Query = _JobInvoiceHeaderService.GetCustomPerson(filter, searchTerm, filter2);
             var temp = Query.Skip(pageSize * (pageNum - 1))
                 .Take(pageSize)
                 .ToList();

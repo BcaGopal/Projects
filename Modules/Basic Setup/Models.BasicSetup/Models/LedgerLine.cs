@@ -57,6 +57,8 @@ namespace Models.BasicSetup.Models
         public int ? ReferenceDocId { get; set; }
         public int ? ReferenceDocLineId { get; set; }
         public Decimal Amount { get; set; }
+
+        public Decimal? DiscountAmount { get; set; }
         
         [Display(Name = "Remark")]
         public string Remark { get; set; }

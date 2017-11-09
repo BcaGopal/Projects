@@ -7,6 +7,9 @@ using System.Data.SqlClient;
 using System.Data;
 using Reports.Controllers;
 using Presentation.Helper;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Web
 {
@@ -102,7 +105,10 @@ namespace Web
                 //RepName = "Packing_LabelPrint";
                 //RepName = "Packing_LabelPrintNew";
                 RepName = "Packing_LabelPrintNew_1422017";
+                RepName=P.ReportName(DtTemp);
                 Dt = P.FGetDataForSCILabelPrint(DtTemp, con);
+                
+
             }
             reportdatasource = new ReportDataSource("DsMain", Dt);
            // reportViewer.LocalReport.ReportPath = Request.MapPath(ConfigurationManager.AppSettings["ReportsPath"] + RepName + ".rdlc");
@@ -129,7 +135,7 @@ namespace Web
             return PrintReport(reportViewer, "Excel");
         }
 
-
+       
 
     }
 }
