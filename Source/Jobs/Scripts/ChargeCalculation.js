@@ -504,17 +504,19 @@ function DeletingProductCharges() {
 
 function AssignValuesToChargeRates() {
     for (var i = 0; i < ProductFields.length; i++) {
-        if (ProductFields[i].ChargeTypeId != null)
-        {
+        if (ProductFields[i].ChargeTypeId != null) {
             ProductFields[i].Rate = ProductCharges[i].Rate;
             ProductFields[i].LedgerAccountCrId = ProductCharges[i].LedgerAccountCrId;
             ProductFields[i].LedgerAccountDrId = ProductCharges[i].LedgerAccountDrId;
 
+            var selector = "#CALL_" + ProductFields[i].ChargeCode;
             var selectorRate = "#CALL_" + ProductFields[i].ChargeCode + "RATE";
             var LedgerAccCr = "#CALL_" + ProductFields[i].ChargeCode + "ACCR";
             var LedgerAccDr = "#CALL_" + ProductFields[i].ChargeCode + "ACDR";
 
             $(selectorRate).val(ProductFields[i].Rate);
+            if (ProductFields[i].Rate == null || ProductFields[i].Rate == 0)
+                $(selector).val(0);
             $(LedgerAccCr).val(ProductFields[i].LedgerAccountCrId);
             $(LedgerAccDr).val(ProductFields[i].LedgerAccountDrId);
         }

@@ -282,7 +282,6 @@
     <Compile Include="Controllers\DyeingReceiveExcelImportController.cs" />
     <Compile Include="Controllers\WeavingReceiveWizardController.cs" />
     <Compile Include="Controllers\WeavingOrderWizardHandloomController.cs" />
-    <Compile Include="Controllers\YearClosingController.cs" />
     <Compile Include="Controllers\CustomDetailController.cs" />
     <Compile Include="Controllers\DeliveryTermsController.cs" />
     <Compile Include="Controllers\DescriptionOfGoodsController.cs" />
@@ -1304,10 +1303,6 @@
     <Content Include="Views\DesignProductRateGroupWizard\DocumentTypeList.cshtml" />
     <Content Include="Views\DesignProductRateGroupWizard\RateListHeaderIndex.cshtml" />
     <Content Include="Views\ImageULWizard\Upload.cshtml" />
-    <Content Include="Views\YearClosing\YearClosing.cshtml" />
-    <Content Include="Views\YearClosing\Create.cshtml" />
-    <Content Include="Views\YearClosing\Sucess.cshtml" />
-    <Content Include="Views\YearClosing\Error.cshtml" />
     <Content Include="Views\PhysicalStockTextImport\Error.cshtml" />
     <Content Include="Views\PhysicalStockTextImport\Index.cshtml" />
     <Content Include="Views\PhysicalStockTextImport\Sucess.cshtml" />
