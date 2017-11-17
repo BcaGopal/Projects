@@ -1310,7 +1310,7 @@ namespace Web
                     ModelState.AddModelError("Qty", "Qty Exceeding Invoice Qty");
                 }
 
-                if (svm.Nature != TransactionNatureConstants.Debit)
+                if (svm.Nature != TransactionNatureConstants.Debit && svm.Nature != TransactionNatureConstants.Credit)
                 {
                     if (svm.Qty == 0)
                     {
