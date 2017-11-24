@@ -1571,6 +1571,7 @@ namespace Web
                             item.LineTableId = s.JobInvoiceReturnLineId;
                             item.PersonID = temp.JobWorkerId;
                             item.HeaderTableId = s.JobInvoiceReturnHeaderId;
+                            item.CostCenterId = s.CostCenterId;
                             item.ObjectState = Model.ObjectState.Added;
                             db.JobInvoiceReturnLineCharge.Add(item);
 
@@ -1700,6 +1701,7 @@ namespace Web
                 {
                     //line.DiscountPer = svm.DiscountPer;
                     line.SalesTaxGroupProductId = svm.SalesTaxGroupProductId;
+                    line.CostCenterId = svm.CostCenterId;
                     line.Remark = svm.Remark;
                     line.Rate = svm.Rate;
                     line.Qty = svm.Qty;
@@ -2432,6 +2434,24 @@ namespace Web
             return Json(JobInvoiceJson);
         }
 
+        public ActionResult GetCostCenterForPerson(string searchTerm, int pageSize, int pageNum, int filter)
+        {
+            var Query = _JobInvoiceReturnLineService.GetCostCenterForPerson(filter, searchTerm);
+            var temp = Query.Skip(pageSize * (pageNum - 1))
+                .Take(pageSize)
+                .ToList();
 
+            var count = Query.Count();
+
+            ComboBoxPagedResult Data = new ComboBoxPagedResult();
+            Data.Results = temp;
+            Data.Total = count;
+
+            return new JsonpResult
+            {
+                Data = Data,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
     }
 }

@@ -132,6 +132,7 @@ namespace Model.ViewModel
         public string Dimension3Name { get; set; }
         public string Dimension4Name { get; set; }
         public string Specification { get; set; }
+        public int? CostCenterId { get; set; }
         public string UnitId { get; set; }
         public JobInvoiceSettingsViewModel JobInvoiceSettings { get; set; }
         public DocumentTypeSettingsViewModel DocumentTypeSettings { get; set; }

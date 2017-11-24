@@ -106,6 +106,7 @@ namespace Service
                         GatePassDocDate = JobReturnHeaderTab.GatePassHeader.DocDate,
                         CreatedDate = H.CreatedDate,
                         LockReason = H.LockReason,
+                        SalesTaxGroupPersonId = H.SalesTaxGroupPersonId
                     }).FirstOrDefault();
         }
         public IQueryable<JobInvoiceReturnHeaderViewModel> GetJobInvoiceReturnHeaderList(int id, string Uname)

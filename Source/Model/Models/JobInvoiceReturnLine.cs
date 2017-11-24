@@ -43,6 +43,10 @@ namespace Model.Models
         [Display(Name = "Deal Qty"), Required]
         public Decimal DealQty { get; set; }
 
+        [ForeignKey("CostCenter"), Display(Name = "Cost Center")]
+        public int? CostCenterId { get; set; }
+        public virtual CostCenter CostCenter { get; set; }
+
 
         [Display(Name = "Rate")]
         public Decimal Rate { get; set; }

@@ -169,6 +169,17 @@
                         </div>
                     </div>
 
+                    <div class="col-md-6" style="display:@(Model.JobInvoiceSettings.isVisibleCostCenter?"":"none")">
+                        @Html.HiddenFor(m => m.JobInvoiceSettings.isVisibleCostCenter)
+                        @Html.HiddenFor(m => m.DocumentTypeSettings.CostCenterCaption)
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.CostCenterId, (Model.DocumentTypeSettings.CostCenterCaption ?? "Cost Center"), new { @class = "control-label col-md-4 col-sm-2 " })
+                            <div class="col-md-7 col-sm-10">
+                                @Html.TextBoxFor(model => model.CostCenterId, new { @class = "form-control " })
+                                @Html.ValidationMessageFor(model => model.CostCenterId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
                     <div class="col-md-6" style="display:@(Model.JobInvoiceSettings.isVisibleSalesTaxGroupProduct?"":"none")">
                         @Html.HiddenFor(m => m.JobInvoiceSettings.isVisibleSalesTaxGroupProduct)
                         <div class="form-group">
@@ -350,6 +361,7 @@ else
         CustomSelectFunction($("#JobInvoiceLineId"), '/JobInvoiceReturnLine/GetJobInvoiceForProduct', '/JobInvoiceReturnLine/SetSingleJobInvoiceLine', ' ', false, 0,DocID);
         //CustomSelectFunction($("#ProductId"), '/ComboHelpList/GetProducts', '/ComboHelpList/SetSingleProducts', 'Enter Product', false, 3);
         CustomSelectFunction($("#SalesTaxGroupProductId"), '/ComboHelpList/GetSalesTaxGroupProduct', '/ComboHelpList/SetSingleSalesTaxGroupProduct', ' ', false, 0);
+		CustomSelectFunction($("#CostCenterId"), '/JobInvoiceReturnLine/GetCostCenterForPerson', '/ComboHelpList/SetSingleCostCenter', ' ', false, 0,DocID);
 
         var Nature='@Model.Nature';
         if (Nature != "Return")
@@ -604,6 +616,7 @@ else
                         $("#Dimension4Name").val(data.Dimension4Name)
                         $("#Weight").val(data.Weight)
                         $('#Amount').val(data.Amount);
+						(data.CostCenterId==null)?(1==1):($("#CostCenterId").select2("data", {id: data.CostCenterId, text: data.CostCenterName}));
                         $('#Rate').val(data.Rate).trigger('keyup');
                         (data.SalesTaxGroupProductId==null)?(1==1):($("#SalesTaxGroupProductId").select2("data", {id: data.SalesTaxGroupProductId, text: data.SalesTaxGroupProductName}));
                         $("#SalesTaxGroupPersonId").val(data.SalesTaxGroupPersonId);

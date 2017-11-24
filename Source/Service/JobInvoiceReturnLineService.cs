@@ -39,6 +39,7 @@ namespace Service
         string GetFirstBarCodeForReturn(int[] JobReceiveLineIds);
         List<ComboBoxList> GetPendingBarCodesList(string id, int GodownId);
         IEnumerable<ComboBoxResult> GetJobInvoiceHelpListForProduct(int Id, string term);
+        IEnumerable<ComboBoxResult> GetCostCenterForPerson(int Id, string term);
     }
 
     public class JobInvoiceReturnLineService : IJobInvoiceReturnLineService
@@ -660,6 +661,45 @@ namespace Service
                                     ((JobInvoiceLineTab.JobReceiveLine.Dimension3.Dimension3Name == null) ? "" : "," + JobInvoiceLineTab.JobReceiveLine.Dimension3.Dimension3Name) +
                                     ((JobInvoiceLineTab.JobReceiveLine.Dimension4.Dimension4Name == null) ? "" : "," + JobInvoiceLineTab.JobReceiveLine.Dimension4.Dimension4Name)
                     });
+        }
+
+        public IEnumerable<ComboBoxResult> GetCostCenterForPerson(int Id, string term)
+        {
+            var JobInvoiceReturnHeader = new JobInvoiceReturnHeaderService(db).Find(Id);
+
+            var settings = db.JobInvoiceSettings
+            .Where(m => m.DocTypeId == JobInvoiceReturnHeader.DocTypeId && m.DivisionId == JobInvoiceReturnHeader.DivisionId && m.SiteId == JobInvoiceReturnHeader.SiteId).FirstOrDefault();
+
+            int LedgerAccountId = 0;
+            var LedgerAccount_Temp = (from L in db.LedgerAccount where L.PersonId == JobInvoiceReturnHeader.JobWorkerId select L).FirstOrDefault();
+            if (LedgerAccount_Temp != null)
+                LedgerAccountId = LedgerAccount_Temp.LedgerAccountId;
+
+            string[] contraSites = null;
+            if (!string.IsNullOrEmpty(settings.filterContraSites)) { contraSites = settings.filterContraSites.Split(",".ToCharArray()); }
+            else { contraSites = new string[] { "NA" }; }
+
+            string[] contraDivisions = null;
+            if (!string.IsNullOrEmpty(settings.filterContraDivisions)) { contraDivisions = settings.filterContraDivisions.Split(",".ToCharArray()); }
+            else { contraDivisions = new string[] { "NA" }; }
+
+            int CurrentSiteId = (int)System.Web.HttpContext.Current.Session["SiteId"];
+            int CurrentDivisionId = (int)System.Web.HttpContext.Current.Session["DivisionId"];
+
+            var CostCenterList = (from C in db.CostCenter
+                                  where C.LedgerAccountId == LedgerAccountId
+                                  && (string.IsNullOrEmpty(settings.filterContraSites) ? C.SiteId == CurrentSiteId : contraSites.Contains(C.SiteId.ToString()))
+                                  && (string.IsNullOrEmpty(settings.filterContraDivisions) ? C.DivisionId == CurrentDivisionId : contraDivisions.Contains(C.DivisionId.ToString()))
+                                  && (string.IsNullOrEmpty(term) ? 1 == 1 : C.CostCenterName.ToLower().Contains(term.ToLower()))
+                                  && C.IsActive == true && C.Status != (int)StatusConstants.Closed
+                                  orderby C.CostCenterName
+                                  select new ComboBoxResult
+                                  {
+                                      text = C.CostCenterName + " | " + C.DocType.DocumentTypeShortName,
+                                      id = C.CostCenterId.ToString(),
+                                  });
+
+            return CostCenterList;
         }
 
         public void Dispose()
