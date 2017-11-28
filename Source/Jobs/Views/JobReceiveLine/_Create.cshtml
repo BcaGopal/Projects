@@ -254,11 +254,11 @@
                             @Html.LabelFor(model => model.DealUnitId, "Deal Unit& Multiplier", new { @class = "control-label col-md-4 col-sm-2" })
                             <div class="col-md-7 col-sm-10" style="padding:0px">
                                 <div class="col-xs-7" style="padding-right:0px">
-                                    @Html.DropDownListFor(model => model.DealUnitId, new SelectList(ViewBag.DeliveryUnitList as System.Collections.IEnumerable, "UnitId", "UnitName"), new { @class = "form-control height cusrightnormal required", @readonly = "true" })
+                                    @Html.DropDownListFor(model => model.DealUnitId, new SelectList(ViewBag.DeliveryUnitList as System.Collections.IEnumerable, "UnitId", "UnitName"), new { @class = "form-control height cusrightnormal required" })
                                     @Html.ValidationMessageFor(model => model.DealUnitId, "", new { @class = "text-danger" })
                                 </div>
                                 <div class="col-xs-5" style="padding-left:0px">
-                                    @Html.TextBoxFor(model => model.UnitConversionMultiplier, new { @class = "form-control cusleftnormal required", @readonly = "true" })
+                                    @Html.TextBoxFor(model => model.UnitConversionMultiplier, new { @class = "form-control cusleftnormal required" })
                                     @Html.ValidationMessageFor(model => model.UnitConversionMultiplier, "", new { @class = "text-danger" })
                                 </div>
                             </div>
@@ -407,28 +407,46 @@
 
 
         $("#JobOrderLineId").change(function(){
+            
             Validate_JobOrderLine();
         });
 
         function Validate_JobOrderLine() {
+            
             if($('#JobOrderLineId').val() && $('#JobOrderLineId').val()!=0 )
             {
+
                 $.ajax({
                     cache: false,
                     type: "POST",
                     url: "@(Url.Action("GetOrderDetail"))",
                     data: { OrderId: $("#JobOrderLineId").val(),ReceiveId:$('#JobReceiveHeaderId','.modal-body').val() },
                 success: function (data) {
+
+                      
                     $('#JobOrderHeaderDocNo').val(data.JobOrderHeaderDocNo);
-                    $('#ProductUidId').val(data.ProductUidId);
-                    $('#ProductUidName').val(data.ProductUidName);
+                    //$('#ProductUidId').val(data.ProductUidId);
+                    //$('#ProductUidName').val(data.ProductUidName);
+
+
+                    if ($('#ProductUidId').val() != null && $('#ProductUidId').val() != "")
+                    {
+                        $('#ReceiveQty').val(1);
+                        $('#DocQty').val(1);
+                    }
+                    else{
+                        $('#ReceiveQty').val(data.Qty.toFixed(data.UnitDecimalPlaces));
+                        $('#DocQty').val(data.Qty.toFixed(data.UnitDecimalPlaces));
+                        $('#DealQty').val(data.DealQty.toFixed(data.DealUnitDecimalPlaces));
+                    }
+                    
 
 
                     $('#UnitDecimalPlaces').val(data.UnitDecimalPlaces);
                     $('#DealUnitDecimalPlaces').val(data.DealUnitDecimalPlaces);
 
 
-                    $('#ReceiveQty').val(data.Qty.toFixed(data.UnitDecimalPlaces));
+                    
                     $('#Specification').val(data.Specification);
                     $('#LotNo').val(data.LotNo);
                     $("#UnitId").val(data.UnitId);
@@ -436,13 +454,13 @@
                     $('#UnitConversionMultiplier').val(data.UnitConversionMultiplier);
                     $('#ExcessReceiveAllowedAgainstOrderQty').val(data.ExcessReceiveAllowedAgainstOrderQty);
 
-                    //if(!$('#ProductUidId').val()){
-                        $('#DocQty').val(data.Qty.toFixed(data.UnitDecimalPlaces));
-                        $('#DealQty').val(data.DealQty.toFixed(data.DealUnitDecimalPlaces));
-                    //}
                     $('#OrderBalanceQty').val(data.Qty);
+
+
+
                     //$("#ProductId").select2('data', { id: data.ProductId, text: data.ProductName});
                     $("#ProductId").val(data.ProductId);
+
 
                     $('#Dimension1Id').val(data.Dimension1Id);
                     $('#Dimension2Id').val(data.Dimension2Id);
@@ -684,9 +702,18 @@
         $('#ProductUidName').on('change',function(e){
 
 
+            //var data=InitializePopoverForJobReceive(this,$("#ProductUidName").val(),'@Model.JobReceiveSettings.isPostedInStock',$('#JobReceiveHeaderId').val(),TransactionTypeConstantsEnum.Receive);
 
-            var data=InitializePopoverForJobReceive(this,$("#ProductUidName").val(),'@Model.JobReceiveSettings.isPostedInStock',$('#JobReceiveHeaderId').val(),TransactionTypeConstantsEnum.Receive);
+            //Changed Code because not working for over tuft.
 
+            var ProcessId = '@Model.JobReceiveSettings.ProcessId'
+
+            if (ProcessId == 43) {
+                var data=InitializePopoverForJobReceive(this,$("#ProductUidName").val(),'@Model.JobReceiveSettings.isPostedInStock',$('#JobReceiveHeaderId').val(),TransactionTypeConstantsEnum.Receive);
+            }
+            else {
+                var data=InitializePopoverForWashingReceive(this,$("#ProductUidName").val(),'@Model.JobReceiveSettings.isPostedInStock',$('#JobReceiveHeaderId').val(),TransactionTypeConstantsEnum.Receive,'@Model.JobReceiveSettings.ProcessId');
+            }
 
             if(!data.status)
             {
@@ -707,6 +734,7 @@
                 $('#ProductId').val(data.data.ProductId);
                 $("#JobOrderLineId").select2('data', { id: data.data.LastTransactionDocLineId, text: data.data.ProductName});
                 $('#JobOrderLineId').attr("readonly","true");
+                
                 Validate_JobOrderLine();
             }
             else
@@ -719,9 +747,10 @@
 
                 //$('#JobOrderLineId').val(data.data.GenLineId);
                 //$('#autocompleteorder').val(data.data.GenDocNo).trigger('focusout').attr('disabled', 'disabled');
-
                 $('#ProductId').val(data.data.ProductId);
-                $('#JobOrderLineId').val(data.data.GenLineId);
+                $("#JobOrderLineId").select2('data', { id: data.data.GenLineId, text: data.data.ProductName});
+                //$('#JobOrderLineId').val(data.data.GenLineId);
+                
                 Validate_JobOrderLine();;
             }
 

@@ -270,6 +270,7 @@ function GetChargeRates(CalculationId, DocumentType, SiteId, DivisionId, Process
         success: function (data) {
             ProductCharges = data;
             AssignValuesToChargeRates();
+            
         },
         error: function (xhr, ajaxOptions, thrownError) {
             alert('Failed to retrive calculationproduct' + thrownError);
@@ -502,23 +503,59 @@ function DeletingProductCharges() {
 }
 
 
+//function AssignValuesToChargeRates() {
+//    console.log(ProductCharges);
+//    for (var i = 0; i < ProductFields.length; i++) {
+//        if (ProductFields[i].ChargeTypeId != null) {
+//            ProductFields[i].Rate = ProductCharges[i].Rate;
+//            ProductFields[i].LedgerAccountCrId = ProductCharges[i].LedgerAccountCrId;
+//            ProductFields[i].LedgerAccountDrId = ProductCharges[i].LedgerAccountDrId;
+
+
+//            var selector = "#CALL_" + ProductFields[i].ChargeCode;
+//            var selectorRate = "#CALL_" + ProductFields[i].ChargeCode + "RATE";
+//            var LedgerAccCr = "#CALL_" + ProductFields[i].ChargeCode + "ACCR";
+//            var LedgerAccDr = "#CALL_" + ProductFields[i].ChargeCode + "ACDR";
+
+//            $(selectorRate).val(ProductFields[i].Rate);
+//            if (ProductFields[i].Rate == null || ProductFields[i].Rate == 0)
+//                $(selector).val(0);
+//            $(LedgerAccCr).val(ProductFields[i].LedgerAccountCrId);
+//            $(LedgerAccDr).val(ProductFields[i].LedgerAccountDrId);
+
+//            if (ProductFields[i].ChargeTypeId == 8)
+//            {
+//                alert(selector);
+//                alert("i value : " + i);
+//                alert(ProductCharges[i].Rate);
+//                alert("SGST Rate : " + $('#CALL_SGSTRATE').val());
+//            }
+//        }
+//    }
+//}
+
 function AssignValuesToChargeRates() {
     for (var i = 0; i < ProductFields.length; i++) {
-        if (ProductFields[i].ChargeTypeId != null) {
-            ProductFields[i].Rate = ProductCharges[i].Rate;
-            ProductFields[i].LedgerAccountCrId = ProductCharges[i].LedgerAccountCrId;
-            ProductFields[i].LedgerAccountDrId = ProductCharges[i].LedgerAccountDrId;
+        for (var j = 0; j < ProductCharges.length; j++) {
+            if (ProductCharges[j].ChargeTypeId != null) {
+                if (ProductFields[i].ChargeId == ProductCharges[j].ChargeId)
+                {
+                    ProductFields[i].Rate = ProductCharges[j].Rate;
+                    ProductFields[i].LedgerAccountCrId = ProductCharges[j].LedgerAccountCrId;
+                    ProductFields[i].LedgerAccountDrId = ProductCharges[j].LedgerAccountDrId;
 
-            var selector = "#CALL_" + ProductFields[i].ChargeCode;
-            var selectorRate = "#CALL_" + ProductFields[i].ChargeCode + "RATE";
-            var LedgerAccCr = "#CALL_" + ProductFields[i].ChargeCode + "ACCR";
-            var LedgerAccDr = "#CALL_" + ProductFields[i].ChargeCode + "ACDR";
+                    var selector = "#CALL_" + ProductFields[i].ChargeCode;
+                    var selectorRate = "#CALL_" + ProductFields[i].ChargeCode + "RATE";
+                    var LedgerAccCr = "#CALL_" + ProductFields[i].ChargeCode + "ACCR";
+                    var LedgerAccDr = "#CALL_" + ProductFields[i].ChargeCode + "ACDR";
 
-            $(selectorRate).val(ProductFields[i].Rate);
-            if (ProductFields[i].Rate == null || ProductFields[i].Rate == 0)
-                $(selector).val(0);
-            $(LedgerAccCr).val(ProductFields[i].LedgerAccountCrId);
-            $(LedgerAccDr).val(ProductFields[i].LedgerAccountDrId);
+                    $(selectorRate).val(ProductFields[i].Rate);
+                    if (ProductFields[i].Rate == null || ProductFields[i].Rate == 0)
+                        $(selector).val(0);
+                    $(LedgerAccCr).val(ProductFields[i].LedgerAccountCrId);
+                    $(LedgerAccDr).val(ProductFields[i].LedgerAccountDrId);
+                }
+            }
         }
     }
 }

@@ -455,6 +455,8 @@ namespace Service
                     from Dimension3Tab in Dimension3Table.DefaultIfEmpty()
                     join D4 in db.Dimension4 on t1.Dimension4Id equals D4.Dimension4Id into Dimension4Table
                     from Dimension4Tab in Dimension4Table.DefaultIfEmpty()
+                    join L in db.JobOrderLine on p.JobOrderLineId equals L.JobOrderLineId into JobOrderLineTable
+                    from JobOrderLineTab in JobOrderLineTable.DefaultIfEmpty()
                     where p.JobOrderLineId == id
                       && (string.IsNullOrEmpty(settings.filterContraSites) ? p.SiteId == Receipt.SiteId : ContraSites.Contains(p.SiteId.ToString()))
                         && (string.IsNullOrEmpty(settings.filterContraDivisions) ? p.DivisionId == Receipt.DivisionId : ContraDivisions.Contains(p.DivisionId.ToString()))
@@ -468,6 +470,9 @@ namespace Service
                         Dimension3Name = Dimension3Tab.Dimension3Name,
                         Dimension4Id = Dimension4Tab.Dimension4Id,
                         Dimension4Name = Dimension4Tab.Dimension4Name,
+                        JobOrderHeaderDocNo = p.JobOrderNo,
+                        ProductUidId = JobOrderLineTab.ProductUidId,
+                        ProductUidName = JobOrderLineTab.ProductUid.ProductUidName,
                         LotNo = t1.LotNo,
                         Qty = p.BalanceQty,
                         Specification = t1.Specification,

@@ -1341,12 +1341,12 @@ namespace Web
 
         public ActionResult GetSummary(int id)
         {
-            return Redirect(System.Configuration.ConfigurationManager.AppSettings["JobsDomain"] + "/Rug/WeavingReceive/GetSummary/" + id);
+            return Redirect(System.Configuration.ConfigurationManager.AppSettings["CustomizeDomain"] + "/WeavingReceive/GetSummary/" + id);
         }
 
         public ActionResult GetBarCodesForIAP(int id)
         {
-            return Redirect(System.Configuration.ConfigurationManager.AppSettings["JobsDomain"] + "/Rug/WeavingReceive/GetBarCodesForIAP/" + id);
+            return Redirect(System.Configuration.ConfigurationManager.AppSettings["CustomizeDomain"] + "/WeavingReceive/GetBarCodesForIAP/" + id);
         }
 
 
