@@ -1148,7 +1148,9 @@ namespace Web
 
                     if (ProductUidDetail.DivisionId == (int)DivisionEnum.TUFTED)
                     {
-                        if ((ProductUidDetail.GenDocTypeId ?? 0) == new DocumentTypeService(_unitOfWork).Find(TransactionDoctypeConstants.WeavingOrder).DocumentTypeId)
+                        int CategoryId = new DocumentTypeService(_unitOfWork).Find(ProductUidDetail.GenDocTypeId ?? 0).DocumentCategoryId;
+                        //if ((ProductUidDetail.GenDocTypeId ?? 0) == new DocumentTypeService(_unitOfWork).Find(TransactionDoctypeConstants.WeavingOrder).DocumentTypeId)
+                        if (CategoryId == new DocumentCategoryService(_unitOfWork).FindByName(TransactionDoctypeConstants.WeavingOrder).DocumentCategoryId)
                         {
                             if (new ProductUidService(_unitOfWork).IsProcessDone((int)svm.ProductUidId, new ProcessService(_unitOfWork).Find(ProcessConstants.FullFinishing).ProcessId) == false)
                             {
