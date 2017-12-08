@@ -18,7 +18,7 @@ namespace Model.Models
         public int ProductInvoiceGroupId { get; set; }
 
         [Display(Name = "Product Invoice Group Name")]
-        [MaxLength(50), Required]
+        [MaxLength(100), Required]
         [Index("IX_ProductInvoiceGroup_ProductInvoiceGroupName", IsUnique = true)]
         public string ProductInvoiceGroupName { get; set; }
 

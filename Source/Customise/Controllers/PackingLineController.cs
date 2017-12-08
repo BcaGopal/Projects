@@ -1147,7 +1147,7 @@ namespace Web
 
 
                     if (ProductUidDetail.DivisionId == (int)DivisionEnum.TUFTED)
-                    {
+                    {   
                         int CategoryId = new DocumentTypeService(_unitOfWork).Find(ProductUidDetail.GenDocTypeId ?? 0).DocumentCategoryId;
                         //if ((ProductUidDetail.GenDocTypeId ?? 0) == new DocumentTypeService(_unitOfWork).Find(TransactionDoctypeConstants.WeavingOrder).DocumentTypeId)
                         if (CategoryId == new DocumentCategoryService(_unitOfWork).FindByName(TransactionDoctypeConstants.WeavingOrder).DocumentCategoryId)
