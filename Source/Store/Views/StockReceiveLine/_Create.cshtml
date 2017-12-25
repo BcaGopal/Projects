@@ -552,7 +552,7 @@
                     url: "@(Url.Action("GetProductDetailJson"))",
                     data: { ProductId: $("#ProductId").val(),StockId: $("#StockHeaderId").val() },
                     success: function (data) {      
-                        $("#Qty").val(data.BalQty);
+                        //$("#Qty").val(data.BalQty);
                         $("#Rate").val(data.StandardCost);
                         $("#UnitName").val(data.UnitName);
                         $("#Specification").val(data.Specification);

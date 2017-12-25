@@ -814,6 +814,7 @@ namespace Web
                     LedgerHeaderViewModel.Remark = pd.Remark;
                     LedgerHeaderViewModel.ExchangeRate = pd.ExchangeRate;
                     LedgerHeaderViewModel.CreatedBy = pd.CreatedBy;
+                    LedgerHeaderViewModel.ProcessId = pd.ProcessId;
                     LedgerHeaderViewModel.CreatedDate = DateTime.Now.Date;
                     LedgerHeaderViewModel.ModifiedBy = pd.ModifiedBy;
                     LedgerHeaderViewModel.ModifiedDate = DateTime.Now.Date;

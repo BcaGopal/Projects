@@ -4,7 +4,7 @@
     <NameOfLastUsedPublishProfile>Planning</NameOfLastUsedPublishProfile>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort>44302</IISExpressSSLPort>
-    <ProjectView>ProjectFiles</ProjectView>
+    <ProjectView>ShowAllFiles</ProjectView>
   </PropertyGroup>
   <PropertyGroup>
     <ReferencePath>E:\Gopal Active Project\Projects\3rdPartyLib\;D:\Active Project\Projects\3rdPartyLib\</ReferencePath>

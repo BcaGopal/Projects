@@ -441,7 +441,7 @@ namespace Service
 
 
         public void LedgerPostingDB(ref LedgerHeaderViewModel LedgerHeaderViewModel, IEnumerable<CalculationHeaderCharge> HeaderTable, IEnumerable<CalculationLineCharge> LineTable,ref ApplicationDbContext Context)
-        {
+          {
             int PersonAccountId = 6612;
             int LedgerHeaderId = 0;
 

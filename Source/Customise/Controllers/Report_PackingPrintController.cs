@@ -396,7 +396,7 @@ namespace Web
                 strQry = " Select H.BarCode, H.UPCCode, H.UPCCodeValue, ISNULL(IB.BuyerSKU,H.CarpetSku) AS CarpetSku, ISNULL(H.SaleOrder,'') AS SaleOrder, H.SaleOrderHeaderId, ISNULL(H.Serial,'') AS Serial, H.ProductId, So.SaleToBuyerId, " +
                         " ISNULL(IB.BuyerSpecification2, PC.ProductCollectionName) As Collection, ISNULL(IB.BuyerSpecification1,PG.ProductGroupName) As Design, " +
                         " S.SizeName + IsNull(Prs.ProductShapeShortName,'') As Size, PCH.ProductContentName AS FaceContents,PCH1.ProductContentName AS Contents, H.PrintSign, NUll AS Construction, " +
-                        " H.BaleNo, H.CarpetNo, ISNULL(H.CarpetNoImg,'') AS CarpetNoImg , ISNULL(H.CarpetSKUImg,'') AS CarpetSKUImg, ISNULL(H.UPCCodeImg,'') AS UPCCodeImg, ISNULL(H.BaleNoCarpetImg,'') AS BaleNoCarpetImg,isnull(IB.BuyerSpecification,' ') as BuyerSpecification,isnull(PG.ProductGroupName,' ') as GroupName,isnull(IB.BuyerSpecification5,' ') as BuyerSpecification5" + 
+                        " H.BaleNo, H.CarpetNo, ISNULL(H.CarpetNoImg,'') AS CarpetNoImg , ISNULL(H.CarpetSKUImg,'') AS CarpetSKUImg, ISNULL(H.UPCCodeImg,'') AS UPCCodeImg, ISNULL(H.BaleNoCarpetImg,'') AS BaleNoCarpetImg,isnull(IB.BuyerSpecification1,' ') as BuyerSpecification,isnull(PG.ProductGroupName,' ') as GroupName,isnull(IB.BuyerSpecification5,' ') as BuyerSpecification5" + 
                         " From [#" + bTempTable + "] H " +
                         " LEFT JOIN Web.SaleOrderHeaders So On H.SaleOrderHeaderId = So.SaleOrderHeaderId  " +
                         " LEFT JOIN Web.ProductBuyers IB On H.ProductId = IB.ProductId AND So.SaleToBuyerId = IB.BuyerId " +
