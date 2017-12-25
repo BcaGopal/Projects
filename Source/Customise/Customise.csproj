@@ -367,6 +367,7 @@
     <Compile Include="Controllers\TaxCalculationController.cs" />
     <Compile Include="Controllers\TempUserStoreController.cs" />
     <Compile Include="Controllers\UnitConversionController.cs" />
+    <Compile Include="Controllers\YearClosingController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -1410,6 +1411,14 @@
     <Content Include="Views\WeavingReceiveQACombined\InvalidBarcode.cshtml" />
     <Content Include="Views\WeavingReceiveQACombined\ProductUidDetail.cshtml" />
     <Content Include="Views\WeavingReceiveQACombined\DetailByProductUid.cshtml" />
+    <Content Include="Views\YearClosing\Create.cshtml" />
+    <Content Include="Views\YearClosing\Delete.cshtml" />
+    <Content Include="Views\YearClosing\Edit.cshtml" />
+    <Content Include="Views\YearClosing\Error.cshtml" />
+    <Content Include="Views\YearClosing\PendingToApprove.cshtml" />
+    <Content Include="Views\YearClosing\PendingToSubmit.cshtml" />
+    <Content Include="Views\YearClosing\Sucess.cshtml" />
+    <Content Include="Views\YearClosing\YearClosing.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
