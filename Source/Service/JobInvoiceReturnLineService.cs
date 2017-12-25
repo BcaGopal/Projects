@@ -278,7 +278,8 @@ namespace Service
                         ProductUidId = JobReceiveLineTab.ProductUidId,
                         ProductUidName = JobReceiveLineTab.ProductUid.ProductUidName,
                         SalesTaxGroupPersonId = L.JobInvoiceLine.JobInvoiceHeader.SalesTaxGroupPersonId,
-                        SalesTaxGroupProductId = L.JobInvoiceLine.SalesTaxGroupProductId
+                        SalesTaxGroupProductId = L.JobInvoiceLine.SalesTaxGroupProductId,
+                        CostCenterId=L.CostCenterId
                     }).FirstOrDefault();
         }
 

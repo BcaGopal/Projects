@@ -1203,7 +1203,7 @@ namespace Web
                                 StockViewModel.Dimension3Id = svm.Dimension3Id;
                                 StockViewModel.Dimension4Id = svm.Dimension4Id;
                                 StockViewModel.HeaderRemark = ReceiveHeader.Remark;
-                                StockViewModel.Remark = ReceiveLine.Remark;
+                                StockViewModel.Remark = (!string.IsNullOrEmpty(ReceiveLine.Remark) ? ReceiveLine.Remark : svm.Remark); 
                                 StockViewModel.ProductUidId = ReceiveLine.ProductUidId;
                                 StockViewModel.Status = ReceiveHeader.Status;
                                 StockViewModel.CreatedBy = ReceiveHeader.CreatedBy;
