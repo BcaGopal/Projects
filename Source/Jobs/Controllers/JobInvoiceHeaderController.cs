@@ -27,6 +27,7 @@ namespace Web
     [Authorize]
     public class JobInvoiceHeaderController : System.Web.Mvc.Controller
     {
+
         private ApplicationDbContext db = new ApplicationDbContext();
         List<string> UserRoles = new List<string>();
         ActiivtyLogViewModel LogVm = new ActiivtyLogViewModel();
