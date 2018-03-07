@@ -70,6 +70,15 @@
           <QueryParameter Name="@ProductUId">
             <Value>=Parameters!ProductUId.Value</Value>
           </QueryParameter>
+          <QueryParameter Name="@BranchRecord">
+            <Value>=Parameters!BranchRecord.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@ProductQuality">
+            <Value>=Parameters!ProductQuality.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@ProductCategory">
+            <Value>=Parameters!ProductCategory.Value</Value>
+          </QueryParameter>
         </QueryParameters>
         <CommandType>StoredProcedure</CommandType>
         <CommandText>Web.spRep_WashingPaymentCalculationWithInvoice</CommandText>
@@ -195,6 +204,30 @@
           <DataField>ProcessOn</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
+        <Field Name="CGSTAmt">
+          <DataField>CGSTAmt</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="SGSTAmt">
+          <DataField>SGSTAmt</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="Netamount">
+          <DataField>Netamount</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="CGSTPer">
+          <DataField>CGSTPer</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="SGSTPer">
+          <DataField>SGSTPer</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="SalesTaxProductCodes">
+          <DataField>SalesTaxProductCodes</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
       </Fields>
     </DataSet>
   </DataSets>
@@ -292,7 +325,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>No.</Value>
+                                  <Value>No. </Value>
                                   <Style>
                                     <FontFamily>Tahoma</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -4786,6 +4819,7 @@
                             <PaddingBottom>2pt</PaddingBottom>
                           </Style>
                         </Textbox>
+                        <rd:Selected>true</rd:Selected>
                       </CellContents>
                     </TablixCell>
                   </TablixCells>
@@ -6148,6 +6182,24 @@
       <Nullable>true</Nullable>
       <AllowBlank>true</AllowBlank>
       <Prompt>Product UId</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="BranchRecord">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Branch Record</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="ProductQuality">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Product Quality</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="ProductCategory">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Product Category</Prompt>
     </ReportParameter>
   </ReportParameters>
   <EmbeddedImages>

@@ -5386,14 +5386,9 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>
-                                =formatnumber(iif(Fields!InvoiceAmount.Value &gt; 0,
-                                Fields!InvoiceAmount.Value , Sum(Fields!Amount.Value, "DsMain"))
-                                + Fields!Freight.Value ,0) -
-                                (iif(Fields!InvoiceAmount.Value &gt; 0,
-                                Fields!InvoiceAmount.Value , Sum(Fields!Amount.Value, "DsMain"))
-                                + Fields!Freight.Value) + 0.00
-                              </Value>
+                              <Value>=formatnumber(iif(Fields!InvoiceAmount.Value &gt; 0,Fields!InvoiceAmount.Value , Sum(Fields!Amount.Value, "DsMain"))+ Fields!Freight.Value ,0) -
+                                (iif(Fields!InvoiceAmount.Value &gt; 0,Fields!InvoiceAmount.Value , Sum(Fields!Amount.Value, "DsMain"))
+                                + Fields!Freight.Value) + 0.00</Value>
                               <Style>
                                 <FontFamily>tahoma</FontFamily>
                                 <FontSize>7pt</FontSize>
@@ -6103,7 +6098,7 @@ NET WEIGHT - </Value>
       </BottomBorder>
     </Style>
   </Body>
-  <Width>7.58381in</Width>
+  <Width>7.59314in</Width>
   <Page>
     <PageHeader>
       <Height>1.59687in</Height>
@@ -6129,7 +6124,7 @@ NET WEIGHT - </Value>
                 </Paragraph>
               </Paragraphs>
               <rd:DefaultName>Textbox6</rd:DefaultName>
-              <Top>0.5046in</Top>
+              <Top>0.5921in</Top>
               <Left>0.00292in</Left>
               <Height>0.17708in</Height>
               <Width>3.29437in</Width>
@@ -6161,7 +6156,7 @@ NET WEIGHT - </Value>
                 </Paragraph>
               </Paragraphs>
               <rd:DefaultName>Textbox8</rd:DefaultName>
-              <Top>0.69571in</Top>
+              <Top>0.78321in</Top>
               <Left>0.00292in</Left>
               <Height>0.17708in</Height>
               <Width>3.29437in</Width>
@@ -6194,7 +6189,7 @@ NET WEIGHT - </Value>
                 </Paragraph>
               </Paragraphs>
               <rd:DefaultName>Textbox15</rd:DefaultName>
-              <Top>0.9096in</Top>
+              <Top>0.9971in</Top>
               <Left>0.00292in</Left>
               <Height>0.17708in</Height>
               <Width>1.7202in</Width>
@@ -6228,7 +6223,7 @@ NET WEIGHT - </Value>
                 </Paragraph>
               </Paragraphs>
               <rd:DefaultName>Textbox1</rd:DefaultName>
-              <Top>0.125in</Top>
+              <Top>0.2125in</Top>
               <Left>0.00292in</Left>
               <Height>0.17708in</Height>
               <Width>3.29437in</Width>
@@ -6262,7 +6257,7 @@ NET WEIGHT - </Value>
                 </Paragraph>
               </Paragraphs>
               <rd:DefaultName>Textbox19</rd:DefaultName>
-              <Top>0.125in</Top>
+              <Top>0.2125in</Top>
               <Left>3.53687in</Left>
               <Height>0.17708in</Height>
               <Width>3.75687in</Width>
@@ -6310,7 +6305,7 @@ NET WEIGHT - </Value>
                 </Paragraph>
               </Paragraphs>
               <rd:DefaultName>DocNo</rd:DefaultName>
-              <Top>0.3146in</Top>
+              <Top>0.4021in</Top>
               <Left>3.53687in</Left>
               <Height>0.17708in</Height>
               <Width>3.75687in</Width>
@@ -6344,7 +6339,7 @@ NET WEIGHT - </Value>
                 </Paragraph>
               </Paragraphs>
               <rd:DefaultName>Textbox21</rd:DefaultName>
-              <Top>0.5046in</Top>
+              <Top>0.5921in</Top>
               <Left>3.53687in</Left>
               <Height>0.17708in</Height>
               <Width>3.75687in</Width>
@@ -6392,7 +6387,7 @@ NET WEIGHT - </Value>
                 </Paragraph>
               </Paragraphs>
               <rd:DefaultName>OrderNo</rd:DefaultName>
-              <Top>0.7096in</Top>
+              <Top>0.7971in</Top>
               <Left>3.53687in</Left>
               <Height>0.17708in</Height>
               <Width>3.75687in</Width>
@@ -6426,7 +6421,7 @@ NET WEIGHT - </Value>
                 </Paragraph>
               </Paragraphs>
               <rd:DefaultName>OrderDate</rd:DefaultName>
-              <Top>0.9096in</Top>
+              <Top>0.9971in</Top>
               <Left>3.53687in</Left>
               <Height>0.17708in</Height>
               <Width>3.75687in</Width>
@@ -6441,17 +6436,6 @@ NET WEIGHT - </Value>
                 <PaddingBottom>2pt</PaddingBottom>
               </Style>
             </Textbox>
-            <Line Name="Line1">
-              <Left>3.53437in</Left>
-              <Height>1.32604in</Height>
-              <Width>0in</Width>
-              <ZIndex>9</ZIndex>
-              <Style>
-                <Border>
-                  <Style>Solid</Style>
-                </Border>
-              </Style>
-            </Line>
             <Textbox Name="Textbox125">
               <CanGrow>true</CanGrow>
               <KeepTogether>true</KeepTogether>
@@ -6479,34 +6463,20 @@ NET WEIGHT - </Value>
                 </Paragraph>
               </Paragraphs>
               <rd:DefaultName>Textbox125</rd:DefaultName>
-              <Top>0.91446in</Top>
-              <Left>1.98953in</Left>
+              <Top>0.87904in</Top>
+              <Left>1.76756in</Left>
               <Height>0.22222in</Height>
-              <Width>1.5536in</Width>
-              <ZIndex>10</ZIndex>
+              <Width>1.76307in</Width>
+              <ZIndex>9</ZIndex>
+              <Visibility>
+                <Hidden>=iif(First(Fields!IECNo.Value, "DsMain") &lt;&gt; "",false,true)</Hidden>
+              </Visibility>
               <Style>
                 <Border>
                   <Style>Solid</Style>
                 </Border>
-                <TopBorder>
-                  <Color>Black</Color>
-                  <Style>Solid</Style>
-                  <Width>1pt</Width>
-                </TopBorder>
-                <BottomBorder>
-                  <Color>Black</Color>
-                  <Style>Solid</Style>
-                  <Width>1pt</Width>
-                </BottomBorder>
-                <LeftBorder>
-                  <Color>Black</Color>
-                  <Style>Solid</Style>
-                  <Width>1pt</Width>
-                </LeftBorder>
                 <RightBorder>
-                  <Color>Black</Color>
-                  <Style>Solid</Style>
-                  <Width>1pt</Width>
+                  <Style>None</Style>
                 </RightBorder>
                 <PaddingLeft>2pt</PaddingLeft>
                 <PaddingRight>2pt</PaddingRight>
@@ -6514,6 +6484,18 @@ NET WEIGHT - </Value>
                 <PaddingBottom>2pt</PaddingBottom>
               </Style>
             </Textbox>
+            <Line Name="Line1">
+              <Top>0.18333in</Top>
+              <Left>3.53645in</Left>
+              <Height>1.12049in</Height>
+              <Width>0in</Width>
+              <ZIndex>10</ZIndex>
+              <Style>
+                <Border>
+                  <Style>Solid</Style>
+                </Border>
+              </Style>
+            </Line>
             <Textbox Name="Textbox126">
               <CanGrow>true</CanGrow>
               <KeepTogether>true</KeepTogether>
@@ -6521,7 +6503,7 @@ NET WEIGHT - </Value>
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value> TIN # : </Value>
+                      <Value> GSTIN # : </Value>
                       <Style>
                         <FontFamily>tahoma</FontFamily>
                         <FontSize>8pt</FontSize>
@@ -6529,7 +6511,7 @@ NET WEIGHT - </Value>
                       </Style>
                     </TextRun>
                     <TextRun>
-                      <Value>=First(Fields!TinNo.Value, "DsMain")</Value>
+                      <Value>=First(Fields!GSTN.Value, "DsMain")</Value>
                       <Style>
                         <FontFamily>Tahoma</FontFamily>
                         <FontSize>8pt</FontSize>
@@ -6541,35 +6523,22 @@ NET WEIGHT - </Value>
                 </Paragraph>
               </Paragraphs>
               <rd:DefaultName>Textbox125</rd:DefaultName>
-              <Top>1.10382in</Top>
-              <Left>1.98953in</Left>
-              <Height>0.2in</Height>
-              <Width>1.5536in</Width>
+              <Top>1.07257in</Top>
+              <Left>1.76756in</Left>
+              <Height>0.23125in</Height>
+              <Width>1.76307in</Width>
               <ZIndex>11</ZIndex>
               <Style>
                 <Border>
                   <Style>Solid</Style>
                 </Border>
                 <TopBorder>
-                  <Color>Black</Color>
                   <Style>None</Style>
-                  <Width>1pt</Width>
                 </TopBorder>
                 <BottomBorder>
                   <Color>Black</Color>
-                  <Style>None</Style>
                   <Width>1pt</Width>
                 </BottomBorder>
-                <LeftBorder>
-                  <Color>Black</Color>
-                  <Style>Solid</Style>
-                  <Width>1pt</Width>
-                </LeftBorder>
-                <RightBorder>
-                  <Color>Black</Color>
-                  <Style>Solid</Style>
-                  <Width>1pt</Width>
-                </RightBorder>
                 <PaddingLeft>2pt</PaddingLeft>
                 <PaddingRight>2pt</PaddingRight>
                 <PaddingTop>2pt</PaddingTop>
@@ -6577,7 +6546,7 @@ NET WEIGHT - </Value>
               </Style>
             </Textbox>
             <Line Name="Line2">
-              <Top>0.5046in</Top>
+              <Top>0.5921in</Top>
               <Left>3.53437in</Left>
               <Height>0in</Height>
               <Width>4.0373in</Width>
@@ -6589,10 +6558,10 @@ NET WEIGHT - </Value>
               </Style>
             </Line>
             <Line Name="Line3">
-              <Top>0.91446in</Top>
-              <Left>3.41812in</Left>
+              <Top>1.00196in</Top>
+              <Left>3.53437in</Left>
               <Height>0in</Height>
-              <Width>4.15355in</Width>
+              <Width>4.0373in</Width>
               <ZIndex>13</ZIndex>
               <Style>
                 <Border>
@@ -6618,7 +6587,7 @@ NET WEIGHT - </Value>
                 </Paragraph>
               </Paragraphs>
               <rd:DefaultName>CompanyName</rd:DefaultName>
-              <Top>0.31059in</Top>
+              <Top>0.39809in</Top>
               <Left>0.00292in</Left>
               <Height>0.17708in</Height>
               <Width>3.29437in</Width>
@@ -6628,6 +6597,168 @@ NET WEIGHT - </Value>
                   <Style>None</Style>
                 </Border>
                 <PaddingLeft>4pt</PaddingLeft>
+                <PaddingRight>2pt</PaddingRight>
+                <PaddingTop>2pt</PaddingTop>
+                <PaddingBottom>2pt</PaddingBottom>
+              </Style>
+            </Textbox>
+            <Textbox Name="Textbox127">
+              <CanGrow>true</CanGrow>
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value> PAN# : </Value>
+                      <Style>
+                        <FontFamily>tahoma</FontFamily>
+                        <FontSize>8pt</FontSize>
+                        <FontWeight>Bold</FontWeight>
+                      </Style>
+                    </TextRun>
+                    <TextRun>
+                      <Value>=First(Fields!PanNo.Value, "DsMain")</Value>
+                      <Style>
+                        <FontFamily>Tahoma</FontFamily>
+                        <FontSize>8pt</FontSize>
+                        <FontWeight>Bold</FontWeight>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style />
+                </Paragraph>
+              </Paragraphs>
+              <rd:DefaultName>Textbox125</rd:DefaultName>
+              <Top>0.6776in</Top>
+              <Left>1.76756in</Left>
+              <Height>0.21042in</Height>
+              <Width>1.76307in</Width>
+              <ZIndex>15</ZIndex>
+              <Visibility>
+                <Hidden>=iif(First(Fields!PanNo.Value, "DsMain")&lt;&gt; "",false,true)</Hidden>
+              </Visibility>
+              <Style>
+                <Border>
+                  <Style>Solid</Style>
+                </Border>
+                <RightBorder>
+                  <Style>None</Style>
+                </RightBorder>
+                <PaddingLeft>2pt</PaddingLeft>
+                <PaddingRight>2pt</PaddingRight>
+                <PaddingTop>2pt</PaddingTop>
+                <PaddingBottom>2pt</PaddingBottom>
+              </Style>
+            </Textbox>
+            <Textbox Name="Textbox33">
+              <CanGrow>true</CanGrow>
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>=First(Fields!ExportTitle.Value, "DsMain")</Value>
+                      <Style>
+                        <FontFamily>Courier New</FontFamily>
+                        <FontWeight>Bold</FontWeight>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style>
+                    <TextAlign>Center</TextAlign>
+                  </Style>
+                </Paragraph>
+              </Paragraphs>
+              <rd:DefaultName>Textbox12</rd:DefaultName>
+              <Top>0.00052in</Top>
+              <Left>0.00146in</Left>
+              <Height>0.19184in</Height>
+              <Width>7.56875in</Width>
+              <ZIndex>16</ZIndex>
+              <Visibility>
+                <Hidden>=iif(First(Fields!ExportTitle.Value, "DsMain")&lt;&gt; "",false,true)</Hidden>
+              </Visibility>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+                <BottomBorder>
+                  <Style>Solid</Style>
+                </BottomBorder>
+                <PaddingLeft>2pt</PaddingLeft>
+                <PaddingRight>2pt</PaddingRight>
+                <PaddingTop>2pt</PaddingTop>
+                <PaddingBottom>2pt</PaddingBottom>
+              </Style>
+            </Textbox>
+            <Textbox Name="OrderDate3">
+              <CanGrow>true</CanGrow>
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>=Fields!OtherRefrence.Value</Value>
+                      <Style>
+                        <FontFamily>Tahoma</FontFamily>
+                        <FontSize>8pt</FontSize>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style />
+                </Paragraph>
+              </Paragraphs>
+              <rd:DefaultName>OrderDate</rd:DefaultName>
+              <Top>1.0934in</Top>
+              <Left>4.5324in</Left>
+              <Height>0.20347in</Height>
+              <Width>2.76134in</Width>
+              <ZIndex>17</ZIndex>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+                <PaddingLeft>4pt</PaddingLeft>
+                <PaddingRight>2pt</PaddingRight>
+                <PaddingTop>2pt</PaddingTop>
+                <PaddingBottom>2pt</PaddingBottom>
+              </Style>
+            </Textbox>
+            <Textbox Name="Textbox35">
+              <CanGrow>true</CanGrow>
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>=" "</Value>
+                      <Style>
+                        <FontFamily>Courier New</FontFamily>
+                        <FontWeight>Bold</FontWeight>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style>
+                    <TextAlign>Center</TextAlign>
+                  </Style>
+                </Paragraph>
+              </Paragraphs>
+              <rd:DefaultName>Textbox12</rd:DefaultName>
+              <Left>0.0222in</Left>
+              <Height>0.19184in</Height>
+              <Width>3.51051in</Width>
+              <ZIndex>18</ZIndex>
+              <Visibility>
+                <Hidden>=Microsoft.VisualBasic.Interaction.iif(First(Fields!ExportTitle.Value, "DsMain") &lt;&gt; "", true, false)</Hidden>
+              </Visibility>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+                <RightBorder>
+                  <Style>Solid</Style>
+                </RightBorder>
+                <PaddingLeft>2pt</PaddingLeft>
                 <PaddingRight>2pt</PaddingRight>
                 <PaddingTop>2pt</PaddingTop>
                 <PaddingBottom>2pt</PaddingBottom>
@@ -7458,6 +7589,18 @@ NET WEIGHT - </Value>
         <Field Name="ReportTitle">
           <DataField>ReportTitle</DataField>
           <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="GSTN">
+          <DataField>GSTN</DataField>
+          <rd:UserDefined>true</rd:UserDefined>
+        </Field>
+        <Field Name="PanNo">
+          <DataField>PanNo</DataField>
+          <rd:UserDefined>true</rd:UserDefined>
+        </Field>
+        <Field Name="ExportTitle">
+          <DataField>ExportTitle</DataField>
+          <rd:UserDefined>true</rd:UserDefined>
         </Field>
       </Fields>
     </DataSet>
