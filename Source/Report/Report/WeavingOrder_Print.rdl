@@ -693,7 +693,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>PAN No.</Value>
+                              <Value EvaluationMode="Constant">Contact No</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>9pt</FontSize>
@@ -726,7 +726,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>:</Value>
+                              <Value EvaluationMode="Constant">:</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>9pt</FontSize>
@@ -762,7 +762,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!PanNo.Value</Value>
+                              <Value>=Fields!JobWorkerContactNo.Value</Value>
                               <Style>
                                 <FontFamily>tahoma</FontFamily>
                                 <FontSize>9pt</FontSize>
@@ -905,7 +905,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Contact No</Value>
+                              <Value>=iif(Fields!GST.Value &lt;&gt; "","GSTN",iif(Fields!AADHAR.Value &lt;&gt; "","Aadhar No", ""))</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>9pt</FontSize>
@@ -938,7 +938,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>:</Value>
+                              <Value>=iif(Fields!GST.Value &lt;&gt; "",":",iif(Fields!AADHAR.Value &lt;&gt; "",":", ""))</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>9pt</FontSize>
@@ -974,7 +974,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!JobWorkerContactNo.Value</Value>
+                              <Value>=iif(Fields!GST.Value &lt;&gt; "",fields!GST.Value ,iif(Fields!AADHAR.Value &lt;&gt; "",fields!AADHAR.Value, ""))</Value>
                               <Style>
                                 <FontFamily>tahoma</FontFamily>
                                 <FontSize>9pt</FontSize>
@@ -1450,22 +1450,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Area</Value>
-                              <Style>
-                                <FontFamily>Tahoma</FontFamily>
-                                <FontSize>9pt</FontSize>
-                                <FontWeight>Bold</FontWeight>
-                              </Style>
-                            </TextRun>
-                          </TextRuns>
-                          <Style>
-                            <TextAlign>Right</TextAlign>
-                          </Style>
-                        </Paragraph>
-                        <Paragraph>
-                          <TextRuns>
-                            <TextRun>
-                              <Value>(Sq. Yard)</Value>
+                              <Value>="Area"+ System.Environment.NewLine+" ("+Fields!AUUnitName.Value+")"</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>9pt</FontSize>
@@ -1680,7 +1665,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!ProductQualityName.Value</Value>
+                              <Value>=Fields!ProductQualityName.Value+" "+iif(Fields!SalesTaxProductCodes.Value &lt;&gt; "",fields!SalesTaxProductCodeCaption.Value+" : "+fields!SalesTaxProductCodes.Value, "")</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>9pt</FontSize>
@@ -2016,11 +2001,10 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!BalanceArea.Value</Value>
+                              <Value>=iif(Fields!BalanceArea.Value &lt;&gt; 0, formatnumber(Fields!BalanceArea.Value, fields!AUDecimalPlaces.Value), "-")</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>9pt</FontSize>
-                                <Format>0.0000;(0.0000);'-'</Format>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -2740,12 +2724,11 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Sum(Fields!BalanceArea.Value)</Value>
+                              <Value>=iif(sum(Fields!BalanceArea.Value) &lt;&gt; 0, formatnumber(sum(Fields!BalanceArea.Value),max(fields!AUDecimalPlaces.Value)), "-")</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>9pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
-                                <Format>0.0000;(0.0000);'-'</Format>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -2770,6 +2753,7 @@
                       </Style>
                     </Textbox>
                     <ColSpan>3</ColSpan>
+                    <rd:Selected>true</rd:Selected>
                   </CellContents>
                 </TablixCell>
                 <TablixCell />
@@ -3158,7 +3142,10 @@
         </TablixColumnHierarchy>
         <TablixRowHierarchy>
           <TablixMembers>
-            <TablixMember />
+            <TablixMember>
+              <KeepWithGroup>After</KeepWithGroup>
+              <RepeatOnNewPage>true</RepeatOnNewPage>
+            </TablixMember>
             <TablixMember>
               <Group Name="JobOrderHeaderId">
                 <GroupExpressions>
@@ -3238,7 +3225,7 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>=First(Fields!ReportTitle.Value, "DsMain")+" ("+ "Office Copy" + ")"</Value>
+                <Value>=First(Fields!ReportTitle.Value, "DsMain")</Value>
                 <Style>
                   <FontFamily>Tahoma</FontFamily>
                   <FontSize>14pt</FontSize>
@@ -3281,9 +3268,12 @@
         <ReportName>CompanyDetail</ReportName>
         <Top>0.025in</Top>
         <Left>0.025in</Left>
-        <Height>0.31945in</Height>
+        <Height>0.15278in</Height>
         <Width>7.35645in</Width>
         <ZIndex>3</ZIndex>
+        <Visibility>
+          <Hidden>=IIF(Fields!Status.Value="0",True,False)</Hidden>
+        </Visibility>
         <Style>
           <Border>
             <Style>None</Style>
@@ -3981,7 +3971,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>PAN No.</Value>
+                              <Value EvaluationMode="Constant">Contact No</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>9pt</FontSize>
@@ -4014,7 +4004,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>:</Value>
+                              <Value EvaluationMode="Constant">:</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>9pt</FontSize>
@@ -4050,7 +4040,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!PanNo.Value</Value>
+                              <Value>=Fields!JobWorkerContactNo.Value</Value>
                               <Style>
                                 <FontFamily>tahoma</FontFamily>
                                 <FontSize>9pt</FontSize>
@@ -4193,7 +4183,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Contact No</Value>
+                              <Value>=iif(Fields!GST.Value &lt;&gt; "","GSTN",iif(Fields!AADHAR.Value &lt;&gt; "","Aadhar No", ""))</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>9pt</FontSize>
@@ -4226,7 +4216,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>:</Value>
+                              <Value>=iif(Fields!GST.Value &lt;&gt; "",":",iif(Fields!AADHAR.Value &lt;&gt; "",":", ""))</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>9pt</FontSize>
@@ -4262,7 +4252,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!JobWorkerContactNo.Value</Value>
+                              <Value>=iif(Fields!GST.Value &lt;&gt; "",fields!GST.Value ,iif(Fields!AADHAR.Value &lt;&gt; "",fields!AADHAR.Value, ""))</Value>
                               <Style>
                                 <FontFamily>tahoma</FontFamily>
                                 <FontSize>9pt</FontSize>
@@ -4969,7 +4959,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!ProductQualityName.Value</Value>
+                              <Value>=Fields!ProductQualityName.Value+" "+iif(Fields!SalesTaxProductCodes.Value &lt;&gt; "",fields!SalesTaxProductCodeCaption.Value+" : "+fields!SalesTaxProductCodes.Value, "")</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>9pt</FontSize>
@@ -6412,7 +6402,10 @@
         </TablixColumnHierarchy>
         <TablixRowHierarchy>
           <TablixMembers>
-            <TablixMember />
+            <TablixMember>
+              <KeepWithGroup>After</KeepWithGroup>
+              <RepeatOnNewPage>true</RepeatOnNewPage>
+            </TablixMember>
             <TablixMember>
               <Group Name="JobOrderHeaderId2">
                 <GroupExpressions>
@@ -6492,7 +6485,7 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>=First(Fields!ReportTitle.Value, "DsMain")+" ("+ "Job Worker Copy" + ")"</Value>
+                <Value>=First(Fields!ReportTitle.Value, "DsMain")</Value>
                 <Style>
                   <FontFamily>Tahoma</FontFamily>
                   <FontSize>14pt</FontSize>
@@ -6533,11 +6526,14 @@
       </Textbox>
       <Subreport Name="CompanyDetail2">
         <ReportName>CompanyDetail</ReportName>
-        <Top>7.2823in</Top>
+        <Top>7.2698in</Top>
         <Left>0.04062in</Left>
-        <Height>0.31945in</Height>
+        <Height>0.14237in</Height>
         <Width>7.28573in</Width>
         <ZIndex>7</ZIndex>
+        <Visibility>
+          <Hidden>=IIF(Fields!Status.Value="0",True,False)</Hidden>
+        </Visibility>
         <Style>
           <Border>
             <Style>None</Style>
@@ -6548,7 +6544,7 @@
         <TablixBody>
           <TablixColumns>
             <TablixColumn>
-              <Width>7.05984in</Width>
+              <Width>7.33068in</Width>
             </TablixColumn>
           </TablixColumns>
           <TablixRows>
@@ -6582,9 +6578,9 @@
           </TablixMembers>
         </TablixRowHierarchy>
         <Top>14.39216in</Top>
-        <Left>0.07578in</Left>
+        <Left>0.03828in</Left>
         <Height>0.32292in</Height>
-        <Width>7.05984in</Width>
+        <Width>7.33068in</Width>
         <ZIndex>8</ZIndex>
         <Style>
           <Border>
@@ -8578,11 +8574,43 @@
           </Border>
         </Style>
       </Tablix>
+      <Subreport Name="ProvisionalCompanyDetail">
+        <ReportName>ProvisionalCompanyDetail</ReportName>
+        <Top>7.44816in</Top>
+        <Left>0.0407in</Left>
+        <Height>0.16458in</Height>
+        <Width>7.28565in</Width>
+        <ZIndex>11</ZIndex>
+        <Visibility>
+          <Hidden>=IIF(Fields!Status.Value="1",True,False)</Hidden>
+        </Visibility>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+        </Style>
+      </Subreport>
+      <Subreport Name="ProvisionalCompanyDetail2">
+        <ReportName>ProvisionalCompanyDetail</ReportName>
+        <Top>0.20427in</Top>
+        <Left>0.04212in</Left>
+        <Height>0.1125in</Height>
+        <Width>7.32684in</Width>
+        <ZIndex>12</ZIndex>
+        <Visibility>
+          <Hidden>=Microsoft.VisualBasic.Interaction.IIF(Fields!Status.Value = "1", True, False)</Hidden>
+        </Visibility>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+        </Style>
+      </Subreport>
     </ReportItems>
     <Height>14.74841in</Height>
     <Style />
   </Body>
-  <Width>7.43973in</Width>
+  <Width>7.40848in</Width>
   <Page>
     <PageHeader>
       <Height>0.01042in</Height>
@@ -8771,6 +8799,10 @@
       <Fields>
         <Field Name="SiteId">
           <DataField>SiteId</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="Requisition">
+          <DataField>Requisition</DataField>
           <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
         <Field Name="JobOrderHeaderId">
@@ -8989,6 +9021,34 @@
           <DataField>ApproveDate</DataField>
           <rd:TypeName>System.DateTime</rd:TypeName>
         </Field>
+        <Field Name="Status">
+          <DataField>Status</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="SalesTaxProductCodes">
+          <DataField>SalesTaxProductCodes</DataField>
+          <rd:UserDefined>true</rd:UserDefined>
+        </Field>
+        <Field Name="GST">
+          <DataField>GST</DataField>
+          <rd:UserDefined>true</rd:UserDefined>
+        </Field>
+        <Field Name="AADHAR">
+          <DataField>AADHAR</DataField>
+          <rd:UserDefined>true</rd:UserDefined>
+        </Field>
+        <Field Name="SalesTaxProductCodeCaption">
+          <DataField>SalesTaxProductCodeCaption</DataField>
+          <rd:UserDefined>true</rd:UserDefined>
+        </Field>
+        <Field Name="AUUnitName">
+          <DataField>AUUnitName</DataField>
+          <rd:UserDefined>true</rd:UserDefined>
+        </Field>
+        <Field Name="AUDecimalPlaces">
+          <DataField>AUDecimalPlaces</DataField>
+          <rd:UserDefined>true</rd:UserDefined>
+        </Field>
       </Fields>
       <rd:DataSetInfo>
         <rd:DataSetName>Purchase</rd:DataSetName>
@@ -9074,4 +9134,3 @@ PtQeVUENmewh02zjEWZuZuLElNvBS6gDSXQMHP8A5UE5f6lWFPkR2q6ZG8HZI8xgvruK93SMJUsHJ61z
   <rd:ReportUnitType>Inch</rd:ReportUnitType>
   <rd:ReportID>f1b70379-da78-4ea9-bab5-cbb93d10df58</rd:ReportID>
 </Report>
-

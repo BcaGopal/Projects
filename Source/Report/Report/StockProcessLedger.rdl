@@ -37,6 +37,9 @@
           <QueryParameter Name="@Product">
             <Value>=Parameters!Product.Value</Value>
           </QueryParameter>
+          <QueryParameter Name="@ShowBalance">
+            <Value>=Parameters!ShowBalance.Value</Value>
+          </QueryParameter>
           <QueryParameter Name="@Process">
             <Value>=Parameters!Process.Value</Value>
           </QueryParameter>
@@ -51,6 +54,27 @@
           </QueryParameter>
           <QueryParameter Name="@ProductDivisionId">
             <Value>=Parameters!ProductDivisionId.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@Dimension3">
+            <Value>=Parameters!Dimension3.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@Dimension4">
+            <Value>=Parameters!Dimension4.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@ProductNature">
+            <Value>=Parameters!ProductNature.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@ProductGroup">
+            <Value>=Parameters!ProductGroup.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@ProductCustomGroup">
+            <Value>=Parameters!ProductCustomGroup.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@Lot">
+            <Value>=Parameters!Lot.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@Cost">
+            <Value>=Parameters!Cost.Value</Value>
           </QueryParameter>
         </QueryParameters>
         <CommandType>StoredProcedure</CommandType>
@@ -164,6 +188,14 @@
         <Field Name="ReportName">
           <DataField>ReportName</DataField>
           <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Dimension3Name">
+          <DataField>Dimension3Name</DataField>
+          <rd:UserDefined>true</rd:UserDefined>
+        </Field>
+        <Field Name="Dimension4Name">
+          <DataField>Dimension4Name</DataField>
+          <rd:UserDefined>true</rd:UserDefined>
         </Field>
       </Fields>
     </DataSet>
@@ -623,7 +655,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!Dimension1Name.Value</Value>
+                                  <Value>=iif(Fields!Dimension1Name.Value &lt;&gt; "",Fields!Dimension1Name.Value ,"")+iif(Fields!Dimension2Name.Value &lt;&gt; "",","+Fields!Dimension2Name.Value ,"")</Value>
                                   <Style>
                                     <FontFamily>Tahoma</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -663,7 +695,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!Dimension2Name.Value</Value>
+                                  <Value>=iif(Fields!Dimension3Name.Value &lt;&gt; "",Fields!Dimension3Name.Value ,"")+iif(Fields!Dimension4Name.Value &lt;&gt; "",","+Fields!Dimension4Name.Value ,"")</Value>
                                   <Style>
                                     <FontFamily>Tahoma</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -3316,6 +3348,12 @@
               <Parameter Name="DivisionId">
                 <Value>=First(Fields!DivisionId.Value, "DsMain")</Value>
               </Parameter>
+              <Parameter Name="DatabaseConnectionString">
+                <Value>=Parameters!DatabaseConnectionString.Value</Value>
+              </Parameter>
+              <Parameter Name="PrintedBy">
+                <Value>=Parameters!PrintedBy.Value</Value>
+              </Parameter>
             </Parameters>
             <Top>0.03319in</Top>
             <Left>0.02993in</Left>
@@ -3780,6 +3818,48 @@
       <AllowBlank>true</AllowBlank>
       <Prompt>ReportType</Prompt>
     </ReportParameter>
+    <ReportParameter Name="Dimension3">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Dimension3</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="Dimension4">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Dimension4</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="ProductNature">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Product Nature</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="ProductGroup">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Product Group</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="ProductCustomGroup">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Product Custom Group</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="Lot">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Lot</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="Cost">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Cost</Prompt>
+    </ReportParameter>
   </ReportParameters>
   <EmbeddedImages>
     <EmbeddedImage Name="SuryaLogo">
@@ -3794,4 +3874,3 @@ PtQeVUENmewh02zjEWZuZuLElNvBS6gDSXQMHP8A5UE5f6lWFPkR2q6ZG8HZI8xgvruK93SMJUsHJ61z
   <rd:ReportUnitType>Inch</rd:ReportUnitType>
   <rd:ReportID>f1b70379-da78-4ea9-bab5-cbb93d10df58</rd:ReportID>
 </Report>
-

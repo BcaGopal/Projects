@@ -19,12 +19,12 @@
           <QueryParameter Name="@AsOnDate">
             <Value>=Parameters!AsOnDate.Value</Value>
           </QueryParameter>
-			<QueryParameter Name="@Product">
-				<Value>=Parameters!Product.Value</Value>
-			</QueryParameter>
-			<QueryParameter Name="@ProdOrderHeaderId">
-				<Value>=Parameters!ProdOrderHeaderId.Value</Value>
-			</QueryParameter>
+          <QueryParameter Name="@Product">
+            <Value>=Parameters!Product.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@ProdOrderHeaderId">
+            <Value>=Parameters!ProdOrderHeaderId.Value</Value>
+          </QueryParameter>
           <QueryParameter Name="@FromDate">
             <Value>=Parameters!FromDate.Value</Value>
           </QueryParameter>
@@ -66,6 +66,12 @@
           </QueryParameter>
           <QueryParameter Name="@OverDueDays">
             <Value>=Parameters!OverDueDays.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@ProductGroup">
+            <Value>=Parameters!ProductGroup.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@ProductCustomGroupId">
+            <Value>=Parameters!ProductCustomGroupId.Value</Value>
           </QueryParameter>
         </QueryParameters>
         <CommandType>StoredProcedure</CommandType>
@@ -6685,18 +6691,18 @@
       <AllowBlank>true</AllowBlank>
       <Prompt>As On Date</Prompt>
     </ReportParameter>
-	  <ReportParameter Name="Product">
-		  <DataType>String</DataType>
-		  <Nullable>true</Nullable>
-		  <AllowBlank>true</AllowBlank>
-		  <Prompt>Product</Prompt>
-	  </ReportParameter>
-	  <ReportParameter Name="ProdOrderHeaderId">
-		  <DataType>String</DataType>
-		  <Nullable>true</Nullable>
-		  <AllowBlank>true</AllowBlank>
-		  <Prompt>Prod Order HeaderId</Prompt>
-	  </ReportParameter>
+    <ReportParameter Name="Product">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Product</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="ProdOrderHeaderId">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Prod Order HeaderId</Prompt>
+    </ReportParameter>
     <ReportParameter Name="FromDate">
       <DataType>String</DataType>
       <Nullable>true</Nullable>
@@ -6792,6 +6798,18 @@
       <Nullable>true</Nullable>
       <AllowBlank>true</AllowBlank>
       <Prompt>Over Due Days</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="ProductGroup">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Product Group</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="ProductCustomGroupId">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Product Custom Group Id</Prompt>
     </ReportParameter>
   </ReportParameters>
   <EmbeddedImages>

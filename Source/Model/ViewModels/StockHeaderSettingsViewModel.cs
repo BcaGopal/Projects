@@ -73,6 +73,7 @@ namespace Model.ViewModel
         [MaxLength(25)]
         public string BarcodeStatusUpdate { get; set; }
         public int? NoOfPrintCopies { get; set; }
-        
+        public bool ShowOtherPersonCostcenter { get; set; }
+
     }
 }

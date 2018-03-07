@@ -52,14 +52,26 @@
           <QueryParameter Name="@Product">
             <Value>=Parameters!Product.Value</Value>
           </QueryParameter>
+          <QueryParameter Name="@Dimension3">
+            <Value>=Parameters!Dimension3.Value</Value>
+          </QueryParameter>
           <QueryParameter Name="@Dimension1">
             <Value>=Parameters!Dimension1.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@Dimension4">
+            <Value>=Parameters!Dimension4.Value</Value>
           </QueryParameter>
           <QueryParameter Name="@ProductDivisionId">
             <Value>=Parameters!ProductDivisionId.Value</Value>
           </QueryParameter>
           <QueryParameter Name="@Dimension2">
             <Value>=Parameters!Dimension2.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@PersonId">
+            <Value>=Parameters!PersonId.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@Lot">
+            <Value>=Parameters!Lot.Value</Value>
           </QueryParameter>
         </QueryParameters>
         <CommandType>StoredProcedure</CommandType>
@@ -69,6 +81,10 @@
         <Field Name="UnitName">
           <DataField>UnitName</DataField>
           <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Id">
+          <DataField>Id</DataField>
+          <rd:TypeName>System.Int64</rd:TypeName>
         </Field>
         <Field Name="GroupText1">
           <DataField>GroupText1</DataField>
@@ -110,6 +126,14 @@
           <DataField>GroupTitle3</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
+        <Field Name="GroupText7">
+          <DataField>GroupText7</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="GroupText8">
+          <DataField>GroupText8</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
         <Field Name="GroupTitle4">
           <DataField>GroupTitle4</DataField>
           <rd:TypeName>System.String</rd:TypeName>
@@ -141,6 +165,14 @@
         <Field Name="ProductId">
           <DataField>ProductId</DataField>
           <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="GroupTitle7">
+          <DataField>GroupTitle7</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="GroupTitle8">
+          <DataField>GroupTitle8</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="DivisionName">
           <DataField>DivisionName</DataField>
@@ -233,7 +265,7 @@
             <TablixBody>
               <TablixColumns>
                 <TablixColumn>
-                  <Width>3.11889in</Width>
+                  <Width>2.46264in</Width>
                 </TablixColumn>
                 <TablixColumn>
                   <Width>0.97626in</Width>
@@ -258,6 +290,9 @@
                 </TablixColumn>
                 <TablixColumn>
                   <Width>1.00509in</Width>
+                </TablixColumn>
+                <TablixColumn>
+                  <Width>0.66564in</Width>
                 </TablixColumn>
               </TablixColumns>
               <TablixRows>
@@ -638,6 +673,43 @@
                         </Textbox>
                       </CellContents>
                     </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox1">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>Unit</Value>
+                                  <Style>
+                                    <FontFamily>Tahoma</FontFamily>
+                                    <FontSize>8pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Left</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox1</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>Silver</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <BackgroundColor>LightGrey</BackgroundColor>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
                   </TablixCells>
                 </TablixRow>
                 <TablixRow>
@@ -872,7 +944,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=iif(Fields!RecQty.Value &lt;&gt; 0, formatnumber(Fields!RecQty.Value,3) ,"-")</Value>
+                                  <Value>=iif(Fields!RecQty.Value &lt;&gt; 0, formatnumber(Fields!RecQty.Value,fields!UnitDecimalPlaces.Value) ,"-")</Value>
                                   <Style>
                                     <FontFamily>Tahoma</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -909,7 +981,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=iif(Fields!IssQty.Value &lt;&gt; 0, formatnumber(Fields!IssQty.Value,3) ,"-")</Value>
+                                  <Value>=iif(Fields!IssQty.Value &lt;&gt; 0, formatnumber(Fields!IssQty.Value,fields!UnitDecimalPlaces.Value) ,"-")</Value>
                                   <Style>
                                     <FontFamily>Tahoma</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -946,7 +1018,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=iif(Fields!BalQty.Value &lt;&gt; 0, formatnumber(Fields!BalQty.Value,3) ,"-")</Value>
+                                  <Value>=iif(Fields!BalQty.Value &lt;&gt; 0, formatnumber(Fields!BalQty.Value,fields!UnitDecimalPlaces.Value) ,"-")</Value>
                                   <Style>
                                     <FontFamily>Tahoma</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -959,6 +1031,43 @@
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>BalQty</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>Silver</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <BackgroundColor>=iif(RowNumber(nothing) Mod 2 , "White","WhiteSmoke")</BackgroundColor>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="UnitName">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!UnitName.Value</Value>
+                                  <Style>
+                                    <FontFamily>Tahoma</FontFamily>
+                                    <FontSize>8pt</FontSize>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Left</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>UnitName</rd:DefaultName>
                           <Style>
                             <Border>
                               <Color>Silver</Color>
@@ -1199,7 +1308,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=iif(Sum(Fields!RecQty.Value) &lt;&gt; 0,  formatnumber(Sum(Fields!RecQty.Value),3),"-")</Value>
+                                  <Value>=iif(Sum(Fields!RecQty.Value) &lt;&gt; 0,  formatnumber(Sum(Fields!RecQty.Value),fields!UnitDecimalPlaces.Value),"-")</Value>
                                   <Style>
                                     <FontFamily>Tahoma</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -1244,7 +1353,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=iif(Sum(Fields!BalQty.Value) &lt;&gt; 0,  formatnumber(Sum(Fields!BalQty.Value),3),"-")</Value>
+                                  <Value>=iif(Sum(Fields!BalQty.Value) &lt;&gt; 0,  formatnumber(Sum(Fields!BalQty.Value),fields!UnitDecimalPlaces.Value),"-")</Value>
                                   <Style>
                                     <FontFamily>Tahoma</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -1280,6 +1389,49 @@
                       </CellContents>
                     </TablixCell>
                     <TablixCell />
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox6">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value />
+                                  <Style>
+                                    <FontFamily>Tahoma</FontFamily>
+                                    <FontSize>8pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Right</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox6</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                            </Border>
+                            <TopBorder>
+                              <Color>Black</Color>
+                              <Style>Solid</Style>
+                            </TopBorder>
+                            <BottomBorder>
+                              <Color>Black</Color>
+                            </BottomBorder>
+                            <BackgroundColor>Gainsboro</BackgroundColor>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
                   </TablixCells>
                 </TablixRow>
                 <TablixRow>
@@ -1462,7 +1614,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=iif(Sum(Fields!Opening.Value) &lt;&gt; 0,  formatnumber(Sum(Fields!Opening.Value),3),"-")</Value>
+                                  <Value>=iif(Sum(Fields!Opening.Value) &lt;&gt; 0,  formatnumber(Sum(Fields!Opening.Value),fields!UnitDecimalPlaces.Value),"-")</Value>
                                   <Style>
                                     <FontFamily>Tahoma</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -1503,7 +1655,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=iif(Sum(Fields!IssQty.Value) &lt;&gt; 0,  formatnumber(Sum(Fields!IssQty.Value),3),"-")</Value>
+                                  <Value>=iif(Sum(Fields!IssQty.Value) &lt;&gt; 0,  formatnumber(Sum(Fields!IssQty.Value),fields!UnitDecimalPlaces.Value),"-")</Value>
                                   <Style>
                                     <FontFamily>Tahoma</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -1574,12 +1726,52 @@
                         </Textbox>
                       </CellContents>
                     </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox26">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value />
+                                  <Style>
+                                    <FontFamily>Tahoma</FontFamily>
+                                    <FontSize>8pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Left</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox26</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                            </Border>
+                            <BottomBorder>
+                              <Style>Solid</Style>
+                            </BottomBorder>
+                            <BackgroundColor>Gainsboro</BackgroundColor>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
                   </TablixCells>
                 </TablixRow>
               </TablixRows>
             </TablixBody>
             <TablixColumnHierarchy>
               <TablixMembers>
+                <TablixMember />
                 <TablixMember />
                 <TablixMember />
                 <TablixMember />
@@ -1630,7 +1822,7 @@
             <Top>3.79583in</Top>
             <Left>0.05493in</Left>
             <Height>1.09375in</Height>
-            <Width>10.87601in</Width>
+            <Width>10.8854in</Width>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -2677,7 +2869,7 @@
         <Height>4.91042in</Height>
         <Style />
       </Body>
-      <Width>10.9724in</Width>
+      <Width>10.96219in</Width>
       <Page>
         <PageHeader>
           <Height>0.31125in</Height>
@@ -2883,6 +3075,7 @@
         <PageHeight>8.27in</PageHeight>
         <PageWidth>11.69in</PageWidth>
         <LeftMargin>0.34in</LeftMargin>
+        <TopMargin>0.1in</TopMargin>
         <Style />
       </Page>
     </ReportSection>
@@ -3133,6 +3326,30 @@
       <Nullable>true</Nullable>
       <AllowBlank>true</AllowBlank>
       <Prompt>PersonId</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="Dimension3">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Dimension3</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="Dimension4">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Dimension4</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="ReportType">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Report Type</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="Lot">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Lot</Prompt>
     </ReportParameter>
   </ReportParameters>
   <EmbeddedImages>

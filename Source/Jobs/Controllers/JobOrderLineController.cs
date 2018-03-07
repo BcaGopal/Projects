@@ -766,7 +766,7 @@ namespace Web
             {
                 s.NonCountedQty = _JobOrderLineService.GetJobOrderLineListForIndex(Id).OrderByDescending(m => m.JobOrderLineId).FirstOrDefault().NonCountedQty;
                 s.LossQty = _JobOrderLineService.GetJobOrderLineListForIndex(Id).OrderByDescending(m => m.JobOrderLineId).FirstOrDefault().LossQty;
-                s.DealUnitId = _JobOrderLineService.GetJobOrderLineListForIndex(Id).OrderByDescending(m => m.JobOrderLineId).FirstOrDefault().DealUnitId;
+                s.DealUnitId = _JobOrderLineService.GetJobOrderLineListForIndex(Id).OrderByDescending(m => m.JobOrderLineId).FirstOrDefault().DealUnitId;                
             }
             else
             {
@@ -774,6 +774,7 @@ namespace Web
                 s.LossQty = settings.LossQty;
                 s.DealUnitId = settings.DealUnitId;
             }
+
 
 
             if (H.SalesTaxGroupPersonId != null)

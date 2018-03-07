@@ -150,8 +150,16 @@ namespace Web
                 throw new Exception("Calculation not configured in purchase order settings");
             }
 
-            int CalculationId = Settings.CalculationId ?? 0;
+            //int CalculationId = Settings.CalculationId ?? 0;
+            #region New changes for calculation
+            int CalculationId = 0; 
 
+            if (Header.SalesTaxGroupPersonId != null)
+                CalculationId = new ChargeGroupPersonCalculationService(_unitOfWork).GetChargeGroupPersonCalculation(Header.DocTypeId, (int)Header.SalesTaxGroupPersonId, Header.SiteId, Header.DivisionId) ?? 0;
+
+            if (CalculationId == 0)
+                CalculationId = Settings.CalculationId ?? 0;
+            #endregion 
             List<LineDetailListViewModel> LineList = new List<LineDetailListViewModel>();
 
 

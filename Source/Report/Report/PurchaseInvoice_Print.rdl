@@ -474,7 +474,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Tin No</Value>
+                              <Value>=iif(not isdbnull(Fields!GstNo.Value) or Fields!GstNo.Value &lt;&gt;"", "GST No.", "Aadhar No.")</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>9pt</FontSize>
@@ -543,7 +543,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!TinNo.Value</Value>
+                              <Value>=iif(not isdbnull(Fields!GstNo.Value) or Fields!GstNo.Value &lt;&gt;"", Fields!GstNo.Value, Fields!AadharNo.Value)</Value>
                               <Style>
                                 <FontFamily>tahoma</FontFamily>
                                 <FontSize>9pt</FontSize>
@@ -626,7 +626,7 @@
           </TablixColumns>
           <TablixRows>
             <TablixRow>
-              <Height>0.38542in</Height>
+              <Height>0.23959in</Height>
               <TablixCells>
                 <TablixCell>
                   <CellContents>
@@ -659,6 +659,7 @@
                         <BottomBorder>
                           <Style>Solid</Style>
                         </BottomBorder>
+                        <BackgroundColor>LightGrey</BackgroundColor>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
@@ -698,6 +699,7 @@
                         <BottomBorder>
                           <Style>Solid</Style>
                         </BottomBorder>
+                        <BackgroundColor>LightGrey</BackgroundColor>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
@@ -715,7 +717,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Specification</Value>
+                              <Value>HSN Code</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>8pt</FontSize>
@@ -737,6 +739,7 @@
                         <BottomBorder>
                           <Style>Solid</Style>
                         </BottomBorder>
+                        <BackgroundColor>LightGrey</BackgroundColor>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
@@ -778,6 +781,7 @@
                         <BottomBorder>
                           <Style>Solid</Style>
                         </BottomBorder>
+                        <BackgroundColor>LightGrey</BackgroundColor>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
@@ -819,6 +823,7 @@
                         <BottomBorder>
                           <Style>Solid</Style>
                         </BottomBorder>
+                        <BackgroundColor>LightGrey</BackgroundColor>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
@@ -875,6 +880,7 @@
                         <BottomBorder>
                           <Style>Solid</Style>
                         </BottomBorder>
+                        <BackgroundColor>LightGrey</BackgroundColor>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
@@ -919,6 +925,7 @@
                         <BottomBorder>
                           <Style>Solid</Style>
                         </BottomBorder>
+                        <BackgroundColor>LightGrey</BackgroundColor>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
@@ -930,7 +937,7 @@
               </TablixCells>
             </TablixRow>
             <TablixRow>
-              <Height>0.25in</Height>
+              <Height>0.22917in</Height>
               <TablixCells>
                 <TablixCell>
                   <CellContents>
@@ -954,8 +961,10 @@
                       <rd:DefaultName>IndentNo</rd:DefaultName>
                       <Style>
                         <Border>
-                          <Style>None</Style>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
                         </Border>
+                        <BackgroundColor>=iif(RowNumber(nothing) Mod 2 , "White","WhiteSmoke")</BackgroundColor>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
@@ -973,7 +982,8 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!ProductName.Value</Value>
+                              <Value>=Fields!ProductName.Value + iif(Not isdbnull(Fields!Specification.Value) or  Fields!Specification.Value &lt;&gt;"", system.Environment.NewLine + Fields!Specification.Value,"")
+'=Fields!ProductName.Value + iif(Not isdbnull(Fields!Specification) or  Fields!Specification &lt;&gt;"", system.Environment.NewLine + Fields!Specification,"")</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>8pt</FontSize>
@@ -986,8 +996,10 @@
                       <rd:DefaultName>ProductName1</rd:DefaultName>
                       <Style>
                         <Border>
-                          <Style>None</Style>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
                         </Border>
+                        <BackgroundColor>=iif(RowNumber(nothing) Mod 2 , "White","WhiteSmoke")</BackgroundColor>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
@@ -998,14 +1010,14 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Specification">
+                    <Textbox Name="SaleTaxProductCode">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!Specification.Value</Value>
+                              <Value>=Fields!SaleTaxProductCode.Value</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>8pt</FontSize>
@@ -1015,11 +1027,13 @@
                           <Style />
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Specification</rd:DefaultName>
+                      <rd:DefaultName>SaleTaxProductCode</rd:DefaultName>
                       <Style>
                         <Border>
-                          <Style>None</Style>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
                         </Border>
+                        <BackgroundColor>=iif(RowNumber(nothing) Mod 2 , "White","WhiteSmoke")</BackgroundColor>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
@@ -1037,7 +1051,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=formatnumber(Fields!DealQty.Value,Fields!DecimalPlaces.Value)</Value>
+                              <Value>=iif(Fields!DealQty.Value &lt;&gt; 0,formatnumber(Fields!DealQty.Value, Fields!DecimalPlaces.Value), "-")</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>8pt</FontSize>
@@ -1052,8 +1066,10 @@
                       <rd:DefaultName>Qty</rd:DefaultName>
                       <Style>
                         <Border>
-                          <Style>None</Style>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
                         </Border>
+                        <BackgroundColor>=iif(RowNumber(nothing) Mod 2 , "White","WhiteSmoke")</BackgroundColor>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
@@ -1086,8 +1102,10 @@
                       <rd:DefaultName>Unit</rd:DefaultName>
                       <Style>
                         <Border>
-                          <Style>None</Style>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
                         </Border>
+                        <BackgroundColor>=iif(RowNumber(nothing) Mod 2 , "White","WhiteSmoke")</BackgroundColor>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
@@ -1121,8 +1139,10 @@
                       <rd:DefaultName>Rate</rd:DefaultName>
                       <Style>
                         <Border>
-                          <Style>None</Style>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
                         </Border>
+                        <BackgroundColor>=iif(RowNumber(nothing) Mod 2 , "White","WhiteSmoke")</BackgroundColor>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
@@ -1156,8 +1176,10 @@
                       <rd:DefaultName>OrderAmount</rd:DefaultName>
                       <Style>
                         <Border>
-                          <Style>None</Style>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
                         </Border>
+                        <BackgroundColor>=iif(RowNumber(nothing) Mod 2 , "White","WhiteSmoke")</BackgroundColor>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
@@ -1169,7 +1191,7 @@
               </TablixCells>
             </TablixRow>
             <TablixRow>
-              <Height>0.25in</Height>
+              <Height>0.20833in</Height>
               <TablixCells>
                 <TablixCell>
                   <CellContents>
@@ -1465,9 +1487,9 @@
           </TablixMembers>
         </TablixRowHierarchy>
         <DataSetName>DsMain</DataSetName>
-        <Top>1.99458in</Top>
+        <Top>1.86958in</Top>
         <Left>0.05493in</Left>
-        <Height>0.88542in</Height>
+        <Height>0.67709in</Height>
         <Width>7.4032in</Width>
         <ZIndex>1</ZIndex>
         <Style>
@@ -2403,7 +2425,7 @@
           </TablixMembers>
         </TablixRowHierarchy>
         <DataSetName>DsMain</DataSetName>
-        <Top>4.00152in</Top>
+        <Top>3.60152in</Top>
         <Left>0.05493in</Left>
         <Height>1.16252in</Height>
         <Width>7.4032in</Width>
@@ -2668,7 +2690,7 @@
           </TablixMembers>
         </TablixRowHierarchy>
         <DataSetName>DsMain</DataSetName>
-        <Top>2.95807in</Top>
+        <Top>2.58307in</Top>
         <Left>0.00833in</Left>
         <Height>0.46042in</Height>
         <Width>4.13839in</Width>
@@ -2681,7 +2703,7 @@
       </Tablix>
       <Subreport Name="PurchaseCharges">
         <ReportName>PurchaseCharges</ReportName>
-        <Top>2.95986in</Top>
+        <Top>2.57236in</Top>
         <Left>4.21382in</Left>
         <Height>0.45446in</Height>
         <Width>3.24507in</Width>
@@ -3308,7 +3330,7 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>ReportTitle</rd:DefaultName>
-        <Top>0.43404in</Top>
+        <Top>0.42362in</Top>
         <Left>0.0395in</Left>
         <Height>0.25in</Height>
         <Width>7.41939in</Width>
@@ -3610,7 +3632,7 @@
           </TablixMembers>
         </TablixRowHierarchy>
         <DataSetName>DsMain</DataSetName>
-        <Top>3.47786in</Top>
+        <Top>3.07786in</Top>
         <Left>4.33525in</Left>
         <Height>0.5in</Height>
         <Width>3.07631in</Width>
@@ -3622,7 +3644,7 @@
         </Style>
       </Tablix>
     </ReportItems>
-    <Height>5.20571in</Height>
+    <Height>4.78905in</Height>
     <Style />
   </Body>
   <Width>7.4968in</Width>
@@ -3764,7 +3786,7 @@
       </Style>
     </PageHeader>
     <PageFooter>
-      <Height>0.39847in</Height>
+      <Height>0.31514in</Height>
       <PrintOnFirstPage>true</PrintOnFirstPage>
       <PrintOnLastPage>true</PrintOnLastPage>
       <ReportItems>
@@ -3810,9 +3832,9 @@
           </Paragraphs>
           <rd:DefaultName>Textbox18</rd:DefaultName>
           <Top>0.02778in</Top>
-          <Left>6.43011in</Left>
+          <Left>5.06189in</Left>
           <Height>0.25in</Height>
-          <Width>1.02802in</Width>
+          <Width>2.39624in</Width>
           <Style>
             <Border>
               <Style>None</Style>
@@ -3847,13 +3869,13 @@
                 </TextRun>
               </TextRuns>
               <Style>
-                <TextAlign>Right</TextAlign>
+                <TextAlign>Left</TextAlign>
               </Style>
             </Paragraph>
           </Paragraphs>
           <rd:DefaultName>Textbox19</rd:DefaultName>
           <Top>0.02778in</Top>
-          <Left>4.14496in</Left>
+          <Left>0.025in</Left>
           <Height>0.25in</Height>
           <Width>2.18413in</Width>
           <ZIndex>1</ZIndex>
@@ -3890,11 +3912,13 @@
                       </Style>
                     </TextRun>
                   </TextRuns>
-                  <Style />
+                  <Style>
+                    <TextAlign>Center</TextAlign>
+                  </Style>
                 </Paragraph>
               </Paragraphs>
               <rd:DefaultName>Textbox26</rd:DefaultName>
-              <Height>0.23334in</Height>
+              <Height>0.23195in</Height>
               <Width>3.89142in</Width>
               <Visibility>
                 <Hidden>=iif(Globals!PageNumber=Globals!TotalPages,false,true)</Hidden>
@@ -3911,9 +3935,9 @@
             </Textbox>
           </ReportItems>
           <KeepTogether>true</KeepTogether>
-          <Top>0.05833in</Top>
-          <Left>0.05909in</Left>
-          <Height>0.2568in</Height>
+          <Top>0.04583in</Top>
+          <Left>2.03409in</Left>
+          <Height>0.23195in</Height>
           <Width>3.98133in</Width>
           <ZIndex>2</ZIndex>
           <Style>
@@ -4017,13 +4041,25 @@
           <DataField>ContactPerson</DataField>
           <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
+        <Field Name="GstNo">
+          <DataField>GstNo</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
         <Field Name="ProductTypeName">
           <DataField>ProductTypeName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="AadharNo">
+          <DataField>AadharNo</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="CreditDays">
           <DataField>CreditDays</DataField>
           <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="SaleTaxProductCode">
+          <DataField>SaleTaxProductCode</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="TermsAndConditions">
           <DataField>TermsAndConditions</DataField>
@@ -4436,4 +4472,3 @@ PtQeVUENmewh02zjEWZuZuLElNvBS6gDSXQMHP8A5UE5f6lWFPkR2q6ZG8HZI8xgvruK93SMJUsHJ61z
   <rd:ReportUnitType>Inch</rd:ReportUnitType>
   <rd:ReportID>f1b70379-da78-4ea9-bab5-cbb93d10df58</rd:ReportID>
 </Report>
-

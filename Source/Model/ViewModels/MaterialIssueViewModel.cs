@@ -319,6 +319,7 @@ namespace Model.ViewModel
         [Required]
         public int ToCostCenterId { get; set; }        
         public int ProcessId { get; set; }
+        public bool ShowOtherPersonCostcenter { get; set; } = false;
     }
 
 

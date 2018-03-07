@@ -67,9 +67,9 @@
           <QueryParameter Name="@ProductDivisionId">
             <Value>=Parameters!ProductDivisionId.Value</Value>
           </QueryParameter>
-			<QueryParameter Name="@DocumentCategory">
-				<Value>=Parameters!DocumentCategory.Value</Value>
-			</QueryParameter>
+          <QueryParameter Name="@DocumentCategory">
+            <Value>=Parameters!DocumentCategory.Value</Value>
+          </QueryParameter>
           <QueryParameter Name="@Dimension3">
             <Value>=Parameters!Dimension3.Value</Value>
           </QueryParameter>
@@ -1275,19 +1275,22 @@
             <TablixBody>
               <TablixColumns>
                 <TablixColumn>
-                  <Width>1.08402in</Width>
+                  <Width>1.00069in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.08403in</Width>
+                  <Width>0.97986in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.1257in</Width>
+                  <Width>0.99028in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.07766in</Width>
+                  <Width>1.00474in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.73348in</Width>
+                  <Width>0.69181in</Width>
+                </TablixColumn>
+                <TablixColumn>
+                  <Width>0.53125in</Width>
                 </TablixColumn>
                 <TablixColumn>
                   <Width>0.71265in</Width>
@@ -1296,7 +1299,7 @@
                   <Width>0.6814in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.67098in</Width>
+                  <Width>0.66056in</Width>
                 </TablixColumn>
                 <TablixColumn>
                   <Width>0.64653in</Width>
@@ -1466,7 +1469,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>="Plan" + System.Environment.NewLine+fields!UnitName.Value</Value>
+                                  <Value>="Plan" + System.Environment.NewLine+"Qty"</Value>
                                   <Style>
                                     <FontFamily>Tahoma</FontFamily>
                                     <FontSize>9pt</FontSize>
@@ -1496,6 +1499,43 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
+                        <Textbox Name="Textbox35">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>Unit</Value>
+                                  <Style>
+                                    <FontFamily>Tahoma</FontFamily>
+                                    <FontSize>9pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Left</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox35</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <BackgroundColor>LightGrey</BackgroundColor>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
                         <Textbox Name="OrderQty3">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
@@ -1503,7 +1543,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>="Plan"+ System.Environment.NewLine +"Cancel" + System.Environment.NewLine + Fields!UnitName.Value</Value>
+                                  <Value>="Plan"+ System.Environment.NewLine +"Cancel" + System.Environment.NewLine + "Qty"</Value>
                                   <Style>
                                     <FontFamily>Tahoma</FontFamily>
                                     <FontSize>9pt</FontSize>
@@ -1540,7 +1580,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>="Order" + System.Environment.NewLine + Fields!UnitName.Value</Value>
+                                  <Value>="Order" + System.Environment.NewLine +"Qty"</Value>
                                   <Style>
                                     <FontFamily>Tahoma</FontFamily>
                                     <FontSize>9pt</FontSize>
@@ -1577,7 +1617,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>="Plan"+ System.Environment.NewLine +"Balance" + System.Environment.NewLine + Fields!UnitName.Value</Value>
+                                  <Value>="Plan"+ System.Environment.NewLine +"Balance" + System.Environment.NewLine + "Qty"</Value>
                                   <Style>
                                     <FontFamily>Tahoma</FontFamily>
                                     <FontSize>9pt</FontSize>
@@ -1603,7 +1643,6 @@
                             <PaddingBottom>2pt</PaddingBottom>
                           </Style>
                         </Textbox>
-                        <rd:Selected>true</rd:Selected>
                       </CellContents>
                     </TablixCell>
                     <TablixCell>
@@ -1615,7 +1654,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>="Order" + System.Environment.NewLine +"Receive"+System.Environment.NewLine+ Fields!UnitName.Value</Value>
+                                  <Value>="Order" + System.Environment.NewLine +"Receive"+System.Environment.NewLine+ "Qty"</Value>
                                   <Style>
                                     <FontFamily>Tahoma</FontFamily>
                                     <FontSize>9pt</FontSize>
@@ -1652,7 +1691,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>="Order"+ System.Environment.NewLine +"Balance" + System.Environment.NewLine + Fields!UnitName.Value</Value>
+                                  <Value>="Order"+ System.Environment.NewLine +"Balance" + System.Environment.NewLine + "Qty"</Value>
                                   <Style>
                                     <FontFamily>Tahoma</FontFamily>
                                     <FontSize>9pt</FontSize>
@@ -1852,6 +1891,42 @@
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>Textbox154</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox39">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value />
+                                  <Style>
+                                    <FontFamily>Tahoma</FontFamily>
+                                    <FontSize>9pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Left</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox39</rd:DefaultName>
                           <Style>
                             <Border>
                               <Color>LightGrey</Color>
@@ -2216,6 +2291,42 @@
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>OrderQty</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <BackgroundColor>=iif(RowNumber(nothing) Mod 2 , "White","WhiteSmoke")</BackgroundColor>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox46">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=fields!UnitName.Value</Value>
+                                  <Style>
+                                    <FontFamily>Tahoma</FontFamily>
+                                    <FontSize>7.5pt</FontSize>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Left</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox46</rd:DefaultName>
                           <Style>
                             <Border>
                               <Color>LightGrey</Color>
@@ -2602,6 +2713,43 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
+                        <Textbox Name="Textbox59">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value />
+                                  <Style>
+                                    <FontFamily>Tahoma</FontFamily>
+                                    <FontSize>8pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Right</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox59</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <BackgroundColor>LightGrey</BackgroundColor>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
                         <Textbox Name="Textbox187">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
@@ -2801,6 +2949,7 @@
                 <TablixMember />
                 <TablixMember />
                 <TablixMember />
+                <TablixMember />
               </TablixMembers>
             </TablixColumnHierarchy>
             <TablixRowHierarchy>
@@ -2972,7 +3121,7 @@
                           <TablixMembers>
                             <TablixMember>
                               <TablixHeader>
-                                <Size>1.70223in</Size>
+                                <Size>1.63617in</Size>
                                 <CellContents>
                                   <Textbox Name="Textbox104">
                                     <CanGrow>true</CanGrow>
@@ -3128,7 +3277,7 @@
                           <TablixMembers>
                             <TablixMember>
                               <TablixHeader>
-                                <Size>3.06502in</Size>
+                                <Size>2.99896in</Size>
                                 <CellContents>
                                   <Textbox Name="ProcessName">
                                     <CanGrow>true</CanGrow>
@@ -3323,7 +3472,7 @@
                                           <TablixMembers>
                                             <TablixMember>
                                               <TablixHeader>
-                                                <Size>1.70223in</Size>
+                                                <Size>1.63617in</Size>
                                                 <CellContents>
                                                   <Textbox Name="ProductName">
                                                     <CanGrow>true</CanGrow>
@@ -3502,7 +3651,7 @@
                       <TablixMembers>
                         <TablixMember>
                           <TablixHeader>
-                            <Size>1.70223in</Size>
+                            <Size>1.63617in</Size>
                             <CellContents>
                               <Textbox Name="Textbox180">
                                 <CanGrow>true</CanGrow>
@@ -3596,7 +3745,7 @@
             <Top>3.74583in</Top>
             <Left>0.025in</Left>
             <Height>1.22917in</Height>
-            <Width>13.17205in</Width>
+            <Width>13.18932in</Width>
             <ZIndex>3</ZIndex>
             <Visibility>
               <Hidden>=IIF(max(Fields!DimensionCnt.Value) = "4", False, True)</Hidden>
@@ -3611,28 +3760,31 @@
             <TablixBody>
               <TablixColumns>
                 <TablixColumn>
-                  <Width>1.15936in</Width>
+                  <Width>1.05957in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.15937in</Width>
+                  <Width>1.06319in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.20104in</Width>
+                  <Width>1.09445in</Width>
                 </TablixColumn>
                 <TablixColumn>
                   <Width>0.80882in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.78799in</Width>
+                  <Width>0.66667in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.75674in</Width>
+                  <Width>0.71507in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.74632in</Width>
+                  <Width>0.63174in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.72187in</Width>
+                  <Width>0.64215in</Width>
+                </TablixColumn>
+                <TablixColumn>
+                  <Width>0.65984in</Width>
                 </TablixColumn>
                 <TablixColumn>
                   <Width>0.69062in</Width>
@@ -3762,7 +3914,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>="Plan" + System.Environment.NewLine + Fields!UnitName.Value</Value>
+                                  <Value>="Plan" + System.Environment.NewLine +"Qty"</Value>
                                   <Style>
                                     <FontFamily>Tahoma</FontFamily>
                                     <FontSize>9pt</FontSize>
@@ -3792,6 +3944,43 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
+                        <Textbox Name="Textbox60">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>Unit</Value>
+                                  <Style>
+                                    <FontFamily>Tahoma</FontFamily>
+                                    <FontSize>9pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Left</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox60</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <BackgroundColor>LightGrey</BackgroundColor>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
                         <Textbox Name="OrderQty7">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
@@ -3799,7 +3988,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>="Plan"+System.Environment.NewLine+"Cancel" + System.Environment.NewLine + Fields!UnitName.Value</Value>
+                                  <Value>="Plan"+System.Environment.NewLine+"Cancel" + System.Environment.NewLine + "Qty"</Value>
                                   <Style>
                                     <FontFamily>Tahoma</FontFamily>
                                     <FontSize>9pt</FontSize>
@@ -3836,7 +4025,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>="Order" + System.Environment.NewLine + Fields!UnitName.Value</Value>
+                                  <Value>="Order" + System.Environment.NewLine + "Qty"</Value>
                                   <Style>
                                     <FontFamily>Tahoma</FontFamily>
                                     <FontSize>9pt</FontSize>
@@ -3873,7 +4062,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>="Plan"+System.Environment.NewLine +"Balance" + System.Environment.NewLine + Fields!UnitName.Value</Value>
+                                  <Value>="Plan"+System.Environment.NewLine +"Balance" + System.Environment.NewLine + "Qty"</Value>
                                   <Style>
                                     <FontFamily>Tahoma</FontFamily>
                                     <FontSize>9pt</FontSize>
@@ -3910,7 +4099,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>="Order" + System.Environment.NewLine + "Receive" + System.Environment.NewLine + Fields!UnitName.Value</Value>
+                                  <Value>="Order" + System.Environment.NewLine + "Receive" + System.Environment.NewLine + "Qty"</Value>
                                   <Style>
                                     <FontFamily>Tahoma</FontFamily>
                                     <FontSize>9pt</FontSize>
@@ -3947,7 +4136,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>="Order" + System.Environment.NewLine + "Balance" + System.Environment.NewLine + Fields!UnitName.Value</Value>
+                                  <Value>="Order" + System.Environment.NewLine + "Balance" + System.Environment.NewLine + "Qty"</Value>
                                   <Style>
                                     <FontFamily>Tahoma</FontFamily>
                                     <FontSize>9pt</FontSize>
@@ -4111,6 +4300,42 @@
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>Textbox154</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox61">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value />
+                                  <Style>
+                                    <FontFamily>Tahoma</FontFamily>
+                                    <FontSize>9pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Left</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox61</rd:DefaultName>
                           <Style>
                             <Border>
                               <Color>LightGrey</Color>
@@ -4439,6 +4664,42 @@
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>OrderQty</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <BackgroundColor>=iif(RowNumber(nothing) Mod 2 , "White","WhiteSmoke")</BackgroundColor>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox62">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=fields!UnitName.Value</Value>
+                                  <Style>
+                                    <FontFamily>Tahoma</FontFamily>
+                                    <FontSize>7.5pt</FontSize>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Left</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox62</rd:DefaultName>
                           <Style>
                             <Border>
                               <Color>LightGrey</Color>
@@ -4788,6 +5049,43 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
+                        <Textbox Name="Textbox63">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value />
+                                  <Style>
+                                    <FontFamily>Tahoma</FontFamily>
+                                    <FontSize>8pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Right</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox63</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <BackgroundColor>LightGrey</BackgroundColor>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
                         <Textbox Name="Textbox190">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
@@ -4977,6 +5275,7 @@
             </TablixBody>
             <TablixColumnHierarchy>
               <TablixMembers>
+                <TablixMember />
                 <TablixMember />
                 <TablixMember />
                 <TablixMember />
@@ -5796,7 +6095,7 @@
         <Height>6.27292in</Height>
         <Style />
       </Body>
-      <Width>13.25959in</Width>
+      <Width>13.24917in</Width>
       <Page>
         <PageHeader>
           <Height>0.31125in</Height>
@@ -6244,12 +6543,12 @@
       <AllowBlank>true</AllowBlank>
       <Prompt>Product Division Id</Prompt>
     </ReportParameter>
-	  <ReportParameter Name="DocumentCategory">
-		  <DataType>String</DataType>
-		  <Nullable>true</Nullable>
-		  <AllowBlank>true</AllowBlank>
-		  <Prompt>Document Category</Prompt>
-	  </ReportParameter>
+    <ReportParameter Name="DocumentCategory">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Document Category</Prompt>
+    </ReportParameter>
     <ReportParameter Name="PrintedBy">
       <DataType>String</DataType>
       <Nullable>true</Nullable>

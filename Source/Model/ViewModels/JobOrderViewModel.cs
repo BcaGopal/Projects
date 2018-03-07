@@ -121,6 +121,8 @@ namespace Model.ViewModel
         public Decimal? PayTermOnDueDatePer { get; set; }
         public Decimal? PayTermCashPer { get; set; }
         public Decimal? PayTermBankPer { get; set; }
+        public string sDocDate { get; set; }
+        public decimal? DiscountPer { get; set; }
 
     }
 

@@ -19,6 +19,9 @@
           <QueryParameter Name="@Site">
             <Value>=Parameters!Site.Value</Value>
           </QueryParameter>
+          <QueryParameter Name="@ReportType">
+            <Value>=Parameters!ReportType.Value</Value>
+          </QueryParameter>
           <QueryParameter Name="@FromDate">
             <Value>=Parameters!FromDate.Value</Value>
           </QueryParameter>
@@ -63,6 +66,18 @@
           </QueryParameter>
           <QueryParameter Name="@Dimension2">
             <Value>=Parameters!Dimension2.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@Dimension3">
+            <Value>=Parameters!Dimension3.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@Dimension4">
+            <Value>=Parameters!Dimension4.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@Lot">
+            <Value>=Parameters!Lot.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@Cost">
+            <Value>=Parameters!Cost.Value</Value>
           </QueryParameter>
         </QueryParameters>
         <CommandType>StoredProcedure</CommandType>
@@ -109,8 +124,16 @@
           <DataField>ReportName</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
+        <Field Name="GroupText7">
+          <DataField>GroupText7</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
         <Field Name="GroupTitle3">
           <DataField>GroupTitle3</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="GroupText8">
+          <DataField>GroupText8</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="GroupTitle4">
@@ -141,9 +164,17 @@
           <DataField>SiteName</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
+        <Field Name="GroupTitle7">
+          <DataField>GroupTitle7</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
         <Field Name="PersonId">
           <DataField>PersonId</DataField>
           <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="GroupTitle8">
+          <DataField>GroupTitle8</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="ProductId">
           <DataField>ProductId</DataField>
@@ -535,7 +566,6 @@
                             <PaddingBottom>2pt</PaddingBottom>
                           </Style>
                         </Textbox>
-                        <rd:Selected>true</rd:Selected>
                       </CellContents>
                     </TablixCell>
                     <TablixCell>
@@ -588,7 +618,6 @@
                             <PaddingBottom>2pt</PaddingBottom>
                           </Style>
                         </Textbox>
-                        <rd:Selected>true</rd:Selected>
                       </CellContents>
                     </TablixCell>
                     <TablixCell>
@@ -2612,6 +2641,12 @@
               <Parameter Name="DivisionId">
                 <Value>=First(Fields!DivisionId.Value, "DsMain")</Value>
               </Parameter>
+              <Parameter Name="DatabaseConnectionString">
+                <Value>=Parameters!DatabaseConnectionString.Value</Value>
+              </Parameter>
+              <Parameter Name="PrintedBy">
+                <Value>=Parameters!PrintedBy.Value</Value>
+              </Parameter>
             </Parameters>
             <Top>0.01931in</Top>
             <Left>0.06187in</Left>
@@ -2882,6 +2917,7 @@
         <PageHeight>8.27in</PageHeight>
         <PageWidth>11.69in</PageWidth>
         <LeftMargin>0.34in</LeftMargin>
+        <TopMargin>0.1in</TopMargin>
         <Style />
       </Page>
     </ReportSection>
@@ -3139,6 +3175,30 @@
       <AllowBlank>true</AllowBlank>
       <Prompt>ReportType</Prompt>
     </ReportParameter>
+    <ReportParameter Name="Dimension3">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Dimension3</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="Dimension4">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Dimension4</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="Lot">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Lot</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="Cost">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Cost</Prompt>
+    </ReportParameter>
   </ReportParameters>
   <EmbeddedImages>
     <EmbeddedImage Name="SuryaLogo">
@@ -3153,4 +3213,3 @@ PtQeVUENmewh02zjEWZuZuLElNvBS6gDSXQMHP8A5UE5f6lWFPkR2q6ZG8HZI8xgvruK93SMJUsHJ61z
   <rd:ReportUnitType>Inch</rd:ReportUnitType>
   <rd:ReportID>f1b70379-da78-4ea9-bab5-cbb93d10df58</rd:ReportID>
 </Report>
-

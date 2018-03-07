@@ -76,6 +76,9 @@
           <QueryParameter Name="@SampleRecord">
             <Value>=Parameters!SampleRecord.Value</Value>
           </QueryParameter>
+          <QueryParameter Name="@Size">
+            <Value>=Parameters!Size.Value</Value>
+          </QueryParameter>
         </QueryParameters>
         <CommandType>StoredProcedure</CommandType>
         <CommandText>Web.spRep_WashingOrderBalance</CommandText>
@@ -3541,6 +3544,12 @@
       <Nullable>true</Nullable>
       <AllowBlank>true</AllowBlank>
       <Prompt>Sample Record</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="Size">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Size</Prompt>
     </ReportParameter>
   </ReportParameters>
   <EmbeddedImages>

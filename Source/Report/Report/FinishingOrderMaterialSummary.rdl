@@ -46,6 +46,9 @@
           <QueryParameter Name="@UnitOn">
             <Value>=Parameters!UnitOn.Value</Value>
           </QueryParameter>
+          <QueryParameter Name="@IncludeReturn">
+            <Value>=Parameters!IncludeReturn.Value</Value>
+          </QueryParameter>
         </QueryParameters>
         <CommandType>StoredProcedure</CommandType>
         <CommandText>Web.spRep_FinishingStockIssReceveSummary</CommandText>
@@ -93,7 +96,7 @@
         </Field>
         <Field Name="Area">
           <DataField>Area</DataField>
-          <rd:TypeName>System.Decimal</rd:TypeName>
+          <rd:TypeName>System.Double</rd:TypeName>
         </Field>
         <Field Name="StockQty">
           <DataField>StockQty</DataField>
@@ -125,7 +128,7 @@
         </Field>
         <Field Name="Average">
           <DataField>Average</DataField>
-          <rd:TypeName>System.Decimal</rd:TypeName>
+          <rd:TypeName>System.Double</rd:TypeName>
         </Field>
       </Fields>
     </DataSet>
@@ -354,6 +357,7 @@
                             <PaddingBottom>2pt</PaddingBottom>
                           </Style>
                         </Textbox>
+                        <rd:Selected>true</rd:Selected>
                       </CellContents>
                     </TablixCell>
                   </TablixCells>
@@ -2884,6 +2888,8 @@
     </ReportParameter>
     <ReportParameter Name="Site">
       <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
       <Prompt>Site</Prompt>
     </ReportParameter>
     <ReportParameter Name="Division">
@@ -2939,6 +2945,12 @@
       <Nullable>true</Nullable>
       <AllowBlank>true</AllowBlank>
       <Prompt>Unit On</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="IncludeReturn">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Include Return</Prompt>
     </ReportParameter>
   </ReportParameters>
   <EmbeddedImages>

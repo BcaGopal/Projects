@@ -851,6 +851,7 @@
                                         JO:m.HeaderDocNo,
                                         balqty:m.BalanceQty,
                                         linekey:m.LineId,
+                                        CCName:m.CostCenterName,
                                     };
                                 });
                                 response(cachearray);
@@ -898,8 +899,7 @@
                 (item.dim1==null)?(""):($(" <br /> <span class='small'></span>").text(item.dim1+",").appendTo($a));
                 (item.dim2==null)?(""):($("<span class='small'></span>").text(item.dim2).appendTo($a));
                 (item.JO==null)?(""):($("<br /><span class='small'></span>").text("Order:"+item.JO+",").appendTo($a));
-
-
+                (item.CCName==null)?(""):($("<br /><span class='small'></span>").text("CostCenterName:"+item.CCName+",").appendTo($a));
                 return $("<li></li>").append($a).appendTo(ul);
             }
         });

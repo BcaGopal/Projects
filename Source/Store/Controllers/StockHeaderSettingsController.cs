@@ -854,6 +854,7 @@ namespace Web
                     temp.isVisibleStockIn = pt.isVisibleStockIn;
                     temp.isMandatoryProductUID = pt.isMandatoryProductUID;
                     temp.DocumentPrintReportHeaderId = pt.DocumentPrintReportHeaderId;
+                    temp.ShowOtherPersonCostcenter = pt.ShowOtherPersonCostcenter;
                     temp.ModifiedDate = DateTime.Now;
                     temp.ModifiedBy = User.Identity.Name;
                     temp.ObjectState = Model.ObjectState.Modified;

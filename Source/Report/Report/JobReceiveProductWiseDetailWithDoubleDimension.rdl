@@ -2186,11 +2186,10 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=FORMAT(Fields!DocDate.Value,"dd/MMM/yy")</Value>
+                                  <Value>=Fields!DocDate.Value</Value>
                                   <Style>
                                     <FontFamily>Tahoma</FontFamily>
                                     <FontSize>7pt</FontSize>
-                                    <Format>dd/MMM/yy</Format>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -2212,6 +2211,7 @@
                             <PaddingBottom>2pt</PaddingBottom>
                           </Style>
                         </Textbox>
+                        <rd:Selected>true</rd:Selected>
                       </CellContents>
                     </TablixCell>
                     <TablixCell>

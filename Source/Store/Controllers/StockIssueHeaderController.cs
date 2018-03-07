@@ -169,12 +169,17 @@ namespace Web
             }
             p.StockHeaderSettings = Mapper.Map<StockHeaderSettings, StockHeaderSettingsViewModel>(settings);
 
-            if ((settings.isVisibleProcessHeader ?? false) == false)
+            //if ((settings.isVisibleProcessHeader ?? false) == false)
+            //{
+            //    p.ProcessId = settings.ProcessId;
+            //}
+            if (settings.isVisibleProcessHeader ?? false == false)
             {
                 p.ProcessId = settings.ProcessId;
             }
 
-            if (System.Web.HttpContext.Current.Session["DefaultGodownId"] != null)
+
+                if (System.Web.HttpContext.Current.Session["DefaultGodownId"] != null)
                 p.GodownId = (int)System.Web.HttpContext.Current.Session["DefaultGodownId"];
 
             PrepareViewBag(id);

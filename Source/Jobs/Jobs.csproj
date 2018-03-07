@@ -238,6 +238,7 @@
     <Compile Include="Controllers\DataTables.cs" />
     <Compile Include="Controllers\GetNewDocNoController.cs" />
     <Compile Include="Controllers\GridReportController.cs" />
+    <Compile Include="Controllers\ProductJobHistoryController.cs" />
     <Compile Include="Controllers\SmsController.cs" />
     <Compile Include="Controllers\ProductRateGroupWizardController.cs" />
     <Compile Include="Controllers\DuplicateDocumentCheckController.cs" />
@@ -918,6 +919,7 @@
     <Content Include="Views\Sms\SendSms.cshtml" />
     <Content Include="Views\JobOrderLine\_FiltersStockIn.cshtml" />
     <Content Include="Views\GridReport\GridReportLayout.cshtml" />
+    <Content Include="Views\ProductJobHistory\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

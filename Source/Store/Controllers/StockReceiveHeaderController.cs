@@ -176,6 +176,15 @@ namespace Web
             {
                 p.ProcessId = settings.ProcessId;
             }
+            #region New    
+            else
+            {                       
+                if (new ComboHelpListService().GetProcessWithChildProcessHelpList(settings.ProcessId).Count() == 1)
+                {
+                    p.ProcessId = settings.ProcessId;
+                }               
+            }
+            #endregion
 
             if (System.Web.HttpContext.Current.Session["DefaultGodownId"] != null)
                 p.GodownId = (int)System.Web.HttpContext.Current.Session["DefaultGodownId"];

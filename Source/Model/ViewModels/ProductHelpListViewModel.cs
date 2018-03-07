@@ -23,6 +23,7 @@ namespace Model.ViewModel
         public decimal BalanceQty { get; set; }
         public string HeaderDocNo { get; set; }
         public string HeaderDocNo2 { get; set; }
+        public string CostCenterName { get; set; }
 
     }
 

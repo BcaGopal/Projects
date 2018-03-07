@@ -67,6 +67,12 @@
           <QueryParameter Name="@OverDueDays">
             <Value>=Parameters!OverDueDays.Value</Value>
           </QueryParameter>
+          <QueryParameter Name="@ProductGroup">
+            <Value>=Parameters!ProductGroup.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@ProductCustomGroupId">
+            <Value>=Parameters!ProductCustomGroupId.Value</Value>
+          </QueryParameter>
         </QueryParameters>
         <CommandType>StoredProcedure</CommandType>
         <CommandText>Web.spRep_OrderToBeIssue_NewWithOutAsonDate</CommandText>
@@ -6871,6 +6877,18 @@
       <Nullable>true</Nullable>
       <AllowBlank>true</AllowBlank>
       <Prompt>Over Due Days</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="ProductGroup">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Product Group</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="ProductCustomGroupId">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Product Custom Group Id</Prompt>
     </ReportParameter>
   </ReportParameters>
   <EmbeddedImages>

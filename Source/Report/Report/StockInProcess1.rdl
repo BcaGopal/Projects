@@ -19,6 +19,9 @@
           <QueryParameter Name="@ProductType">
             <Value>=Parameters!ProductType.Value</Value>
           </QueryParameter>
+          <QueryParameter Name="@ReportType">
+            <Value>=Parameters!ReportType.Value</Value>
+          </QueryParameter>
           <QueryParameter Name="@Site">
             <Value>=Parameters!Site.Value</Value>
           </QueryParameter>
@@ -63,6 +66,18 @@
           </QueryParameter>
           <QueryParameter Name="@ProductCustomGroup">
             <Value>=Parameters!ProductCustomGroup.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@Dimension3">
+            <Value>=Parameters!Dimension3.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@Dimension4">
+            <Value>=Parameters!Dimension4.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@Lot">
+            <Value>=Parameters!Lot.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@Cost">
+            <Value>=Parameters!Cost.Value</Value>
           </QueryParameter>
         </QueryParameters>
         <CommandType>StoredProcedure</CommandType>
@@ -109,8 +124,16 @@
           <DataField>GroupTitle1</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
+        <Field Name="GroupText7">
+          <DataField>GroupText7</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
         <Field Name="GroupTitle2">
           <DataField>GroupTitle2</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="GroupText8">
+          <DataField>GroupText8</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="GroupTitle3">
@@ -141,9 +164,17 @@
           <DataField>ProductId</DataField>
           <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
+        <Field Name="GroupTitle7">
+          <DataField>GroupTitle7</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
         <Field Name="PersonId">
           <DataField>PersonId</DataField>
           <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="GroupTitle8">
+          <DataField>GroupTitle8</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="ProcessId">
           <DataField>ProcessId</DataField>
@@ -1999,8 +2030,14 @@
               <Parameter Name="DivisionId">
                 <Value>=First(Fields!DivisionId.Value, "DsMain")</Value>
               </Parameter>
+              <Parameter Name="DatabaseConnectionString">
+                <Value>=Parameters!DatabaseConnectionString.Value</Value>
+              </Parameter>
+              <Parameter Name="PrintedBy">
+                <Value>=Parameters!PrintedBy.Value</Value>
+              </Parameter>
             </Parameters>
-            <Top>0.03319in</Top>
+            <Top>0.01931in</Top>
             <Left>0.03438in</Left>
             <Height>0.35347in</Height>
             <Width>7.46949in</Width>
@@ -2224,6 +2261,7 @@
         <PageHeight>11.69in</PageHeight>
         <PageWidth>8.27in</PageWidth>
         <LeftMargin>0.34in</LeftMargin>
+        <TopMargin>0.1in</TopMargin>
         <Style />
       </Page>
     </ReportSection>
@@ -2480,6 +2518,30 @@
       <Nullable>true</Nullable>
       <AllowBlank>true</AllowBlank>
       <Prompt>ReportType</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="Dimension3">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Dimension3</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="Dimension4">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Dimension4</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="Lot">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Lot</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="Cost">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Cost</Prompt>
     </ReportParameter>
   </ReportParameters>
   <EmbeddedImages>

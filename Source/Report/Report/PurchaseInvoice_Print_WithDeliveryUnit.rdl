@@ -474,7 +474,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Tin No</Value>
+                              <Value>=iif(not isdbnull(Fields!GstNo.Value) or Fields!GstNo.Value &lt;&gt;"", "GST No.", "Aadhar No.")</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>9pt</FontSize>
@@ -543,7 +543,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!TinNo.Value</Value>
+                              <Value>=iif(not isdbnull(Fields!GstNo.Value) or Fields!GstNo.Value &lt;&gt;"", Fields!GstNo.Value, Fields!AadharNo.Value)</Value>
                               <Style>
                                 <FontFamily>tahoma</FontFamily>
                                 <FontSize>9pt</FontSize>
@@ -763,7 +763,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Specification</Value>
+                              <Value>HSN Code</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>8pt</FontSize>
@@ -1172,7 +1172,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!ProductName.Value</Value>
+                              <Value>=Fields!ProductName.Value + iif(Not isdbnull(Fields!Specification.Value) or  Fields!Specification.Value &lt;&gt;"", system.Environment.NewLine + Fields!Specification.Value,"")</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>8pt</FontSize>
@@ -1197,14 +1197,14 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Specification">
+                    <Textbox Name="SaleTaxProductCode">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!Specification.Value</Value>
+                              <Value>=Fields!SaleTaxProductCode.Value</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>8pt</FontSize>
@@ -1216,7 +1216,7 @@
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Specification</rd:DefaultName>
+                      <rd:DefaultName>SaleTaxProductCode</rd:DefaultName>
                       <Style>
                         <Border>
                           <Style>None</Style>
@@ -1329,6 +1329,7 @@
                         <PaddingBottom>2pt</PaddingBottom>
                       </Style>
                     </Textbox>
+                    <rd:Selected>true</rd:Selected>
                   </CellContents>
                 </TablixCell>
                 <TablixCell>
@@ -2122,7 +2123,11 @@
                   </SortExpressions>
                   <TablixMembers>
                     <TablixMember />
-                    <TablixMember />
+                    <TablixMember>
+                      <Visibility>
+                        <Hidden>true</Hidden>
+                      </Visibility>
+                    </TablixMember>
                   </TablixMembers>
                 </TablixMember>
                 <TablixMember>
@@ -4684,13 +4689,25 @@
           <DataField>ContactPerson</DataField>
           <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
+        <Field Name="GstNo">
+          <DataField>GstNo</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
         <Field Name="ProductTypeName">
           <DataField>ProductTypeName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="AadharNo">
+          <DataField>AadharNo</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="CreditDays">
           <DataField>CreditDays</DataField>
           <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="SaleTaxProductCode">
+          <DataField>SaleTaxProductCode</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="TermsAndConditions">
           <DataField>TermsAndConditions</DataField>
@@ -5103,4 +5120,3 @@ PtQeVUENmewh02zjEWZuZuLElNvBS6gDSXQMHP8A5UE5f6lWFPkR2q6ZG8HZI8xgvruK93SMJUsHJ61z
   <rd:ReportUnitType>Inch</rd:ReportUnitType>
   <rd:ReportID>f1b70379-da78-4ea9-bab5-cbb93d10df58</rd:ReportID>
 </Report>
-

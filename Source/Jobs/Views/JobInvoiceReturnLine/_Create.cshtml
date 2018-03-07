@@ -620,7 +620,7 @@ else
                         $('#Rate').val(data.Rate).trigger('keyup');
                         (data.SalesTaxGroupProductId==null)?(1==1):($("#SalesTaxGroupProductId").select2("data", {id: data.SalesTaxGroupProductId, text: data.SalesTaxGroupProductName}));
                         $("#SalesTaxGroupPersonId").val(data.SalesTaxGroupPersonId);
-                        CopyInvoiceCharges(data.RHeaderCharges,data.RLineCharges);
+                        //CopyInvoiceCharges(data.RHeaderCharges,data.RLineCharges);
                         GetChargeRates('@Model.CalculationId',$('#DocTypeId','.modal-body').val(),$('#SiteId','.modal-body').val(),$('#DivisionId','.modal-body').val(),$('#JobInvoiceSettings_ProcessId','.modal-body').val(),$('#SalesTaxGroupPersonId','.modal-body').val(),$('#SalesTaxGroupProductId','.modal-body').val())
                         //LockFields();
                         ChargeCalculation();

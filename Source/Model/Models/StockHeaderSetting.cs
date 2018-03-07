@@ -148,7 +148,6 @@ namespace Model.Models
 
         [Display(Name = "Modified Date")]
         public DateTime ModifiedDate { get; set; }
-
-
+        public bool? ShowOtherPersonCostcenter { get; set; }
     }
 }

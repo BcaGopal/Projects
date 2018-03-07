@@ -275,6 +275,15 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="col-md-6">
+                                <div class="form-group" style="margin-top:15px">
+                                    @Html.LabelFor(model => model.ShowOtherPersonCostcenter, "Show Other Person CostCenter", new { @class = "control-label col-xs-6" })
+                                    <div class="col-xs-4" style="padding-top:4px">
+                                        @Html.CheckBoxFor(m => m.ShowOtherPersonCostcenter, new { @class = "checkbox col-xs-2" })
+                                        @Html.ValidationMessageFor(model => model.ShowOtherPersonCostcenter)
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

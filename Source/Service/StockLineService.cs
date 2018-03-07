@@ -772,6 +772,7 @@ namespace Service
                         || string.IsNullOrEmpty(term) ? 1 == 1 : p.Dimension3.Dimension3Name.ToLower().Contains(term.ToLower())
                         || string.IsNullOrEmpty(term) ? 1 == 1 : p.Dimension4.Dimension4Name.ToLower().Contains(term.ToLower())
                         || string.IsNullOrEmpty(term) ? 1 == 1 : p.RequisitionNo.ToLower().Contains(term.ToLower())
+                        || string.IsNullOrEmpty(term)? 1==1 : p.CostCenter.CostCenterName.ToLower().Contains(term.ToLower())
                         )
                         && (string.IsNullOrEmpty(settings.filterProductTypes) ? 1 == 1 : ProductTypes.Contains(p.Product.ProductGroup.ProductTypeId.ToString()))
                          && (string.IsNullOrEmpty(settings.filterContraSites) ? p.SiteId == SiteId : ContraSites.Contains(t.SiteId.ToString()))
@@ -790,6 +791,7 @@ namespace Service
                             HeaderDocNo = p.RequisitionNo,
                             LineId = p.RequisitionLineId,
                             BalanceQty = p.BalanceQty,
+                            CostCenterName=p.CostCenter.CostCenterName,
                         }
                           ).Take(Limit);
 
@@ -1717,7 +1719,7 @@ namespace Service
             SqlParameter SqlParameterDivisionId = new SqlParameter("@DivisionId", System.Web.HttpContext.Current.Session["DivisionId"]);
             SqlParameter SqlParameterSiteId = new SqlParameter("@SiteId", System.Web.HttpContext.Current.Session["SiteId"]);
 
-            IEnumerable<StockLineViewModel> StockProcessBalance = db.Database.SqlQuery<StockLineViewModel>("" + ConfigurationManager.AppSettings["DataBaseSchema"] + ".spStockProcessBalance  @UptoDate,@SiteId,@DivisionId,@PersonId,@ProcessId,@CostCenterId", SqlParameterUptoDate, SqlParameterSiteId, SqlParameterDivisionId, SqlParameterPersonId, SqlParameterProcessId, SqlParameterCostCenterId).ToList();
+            IEnumerable<StockLineViewModel> StockProcessBalance = db.Database.SqlQuery<StockLineViewModel>("" + ConfigurationManager.AppSettings["DataBaseSchema"] + ".spStockProcessWeavingBalance  @UptoDate,@SiteId,@DivisionId,@PersonId,@ProcessId,@CostCenterId", SqlParameterUptoDate, SqlParameterSiteId, SqlParameterDivisionId, SqlParameterPersonId, SqlParameterProcessId, SqlParameterCostCenterId).ToList();
 
             var temp = from H in StockProcessBalance
                        join Proc in db.Process on H.ProcessId equals Proc.ProcessId into table
@@ -1767,26 +1769,12 @@ namespace Service
             if (!string.IsNullOrEmpty(FilterDocTypes)) { ContraDocTypes = FilterDocTypes.Split(",".ToCharArray()); }
             else { ContraDocTypes = new string[] { "NA" }; }
 
-            //var list = (from p in db.CostCenter
-            //            join t in db.LedgerAccount on p.LedgerAccountId equals t.LedgerAccountId
-            //            where (string.IsNullOrEmpty(term) ? 1 == 1 : p.CostCenterName.ToLower().Contains(term.ToLower()))
-            //              && (string.IsNullOrEmpty(FilterDocTypes) ? 1 == 1 : ContraDocTypes.Contains(p.DocTypeId.ToString()))
-            //              && p.SiteId == SiteId && p.DivisionId == DivisionId 
-            //              && ( PersonId.HasValue ? t.PersonId == PersonId : 1==1 )
-            //              && p.Status != (int)StatusConstants.Closed
-            //            orderby p.CostCenterName
-            //            select new ComboBoxResult
-            //            {
-            //                id = p.CostCenterId.ToString(),
-            //                text = p.CostCenterName,
-            //            }
-            //              );
-
-
             var list = (from p in db.CostCenter
+                        join t in db.LedgerAccount on p.LedgerAccountId equals t.LedgerAccountId
                         where (string.IsNullOrEmpty(term) ? 1 == 1 : p.CostCenterName.ToLower().Contains(term.ToLower()))
                           && (string.IsNullOrEmpty(FilterDocTypes) ? 1 == 1 : ContraDocTypes.Contains(p.DocTypeId.ToString()))
                           && p.SiteId == SiteId && p.DivisionId == DivisionId
+                          && (PersonId.HasValue ? t.PersonId == PersonId : 1 == 1)
                           && p.Status != (int)StatusConstants.Closed
                         orderby p.CostCenterName
                         select new ComboBoxResult
@@ -1794,7 +1782,22 @@ namespace Service
                             id = p.CostCenterId.ToString(),
                             text = p.CostCenterName,
                         }
-              );
+                        );
+
+
+
+            //var list = (from p in db.CostCenter
+            //            where (string.IsNullOrEmpty(term) ? 1 == 1 : p.CostCenterName.ToLower().Contains(term.ToLower()))
+            //              && (string.IsNullOrEmpty(FilterDocTypes) ? 1 == 1 : ContraDocTypes.Contains(p.DocTypeId.ToString()))
+            //              && p.SiteId == SiteId && p.DivisionId == DivisionId
+            //              && p.Status != (int)StatusConstants.Closed
+            //            orderby p.CostCenterName
+            //            select new ComboBoxResult
+            //            {
+            //                id = p.CostCenterId.ToString(),
+            //                text = p.CostCenterName,
+            //            }
+            //  );
 
 
             return list;

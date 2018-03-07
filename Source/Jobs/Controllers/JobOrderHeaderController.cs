@@ -171,7 +171,7 @@ namespace Web
             JobOrderHeader header = _JobOrderHeaderService.Find(id);
             GenDocId = header.DocTypeId.ToString() + '-' + header.DocNo;
             //return RedirectToAction("PrintBarCode", "Report_BarcodePrint", new { GenHeaderId = id });
-            return Redirect((string)System.Configuration.ConfigurationManager.AppSettings["JobsDomain"] + "/Report_BarcodePrint/PrintBarCode/?GenHeaderId=" + GenDocId + "&queryString=" + GenDocId);
+            return Redirect((string)System.Configuration.ConfigurationManager.AppSettings["CustomizeDomain"] + "/Report_BarcodePrint/PrintBarCode/?GenHeaderId=" + GenDocId + "&queryString=" + GenDocId);
 
 
         }

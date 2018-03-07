@@ -980,7 +980,7 @@ namespace Web
                 vm.FromCostCenterId = CostCenterId.Value;
             vm.StockHeaderId = id;
             vm.PersonId = sid;
-            vm.ProcessId = ProcessId;
+            vm.ProcessId = ProcessId;           
             //vm.FromCostCenterId = FromCostCenterId;
             return PartialView("_Filters", vm);
         }
@@ -1282,14 +1282,14 @@ namespace Web
         }
 
 
-        public JsonResult GetCostCentersForDocType(string searchTerm, int pageSize, int pageNum, int filter)//filter:PersonId
+        public JsonResult GetCostCentersForDocType(string searchTerm, int pageSize, int pageNum, int filter, bool filter2)//filter:PersonId
         {
 
             var StockHead = db.StockHeader.Find(filter);
 
             var Settings = new StockHeaderSettingsService(_unitOfWork).GetStockHeaderSettingsForDocument(StockHead.DocTypeId, StockHead.DivisionId, StockHead.SiteId);
-
-            var Query = _StockLineService.GetCostCentersForProcessTransfer(StockHead.SiteId, StockHead.DivisionId, Settings.filterContraDocTypes, searchTerm, StockHead.PersonId);
+                       
+            var Query = _StockLineService.GetCostCentersForProcessTransfer(StockHead.SiteId, StockHead.DivisionId, Settings.filterContraDocTypes, searchTerm, (filter2 == true ? null : StockHead.PersonId));
 
             var temp = Query.Skip(pageSize * (pageNum - 1)).Take(pageSize).ToList();
 

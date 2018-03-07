@@ -70,8 +70,8 @@ function CustomSelectFunction(ElementId, GetAction, SetAction, placehold, IsMult
     //})
 }
 
-function CustomSelectFunctionWithMultipleFilters(ElementId, GetAction, SetAction, placehold, IsMultiple, MinLength, filterid, filter2id) {
-    var geturl = GetAction;
+function CustomSelectFunctionWithMultipleFilters(ElementId, GetAction, SetAction, placehold, IsMultiple, MinLength, filterid, filter2id) {  
+     var geturl = GetAction;
     //The url we will send our get request to
     var attendeeUrl = GetAction;
     var pageSize = 20;
@@ -200,7 +200,7 @@ function CustomTagFunction(ElementId, GetAction, SetAction, placehold, MinLength
 
 
 function CustomSelectFunction2(ElementId, GetAction, SetAction, placehold, IsMultiple, MinLength, SqlProcGetSet, closeOnSel) {
-    var geturl = GetAction;
+     var geturl = GetAction;
     //The url we will send our get request to
     var attendeeUrl = GetAction;
     var pageSize = 10;

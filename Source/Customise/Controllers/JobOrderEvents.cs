@@ -90,8 +90,6 @@ namespace Web.Controllers
                             cmd.ExecuteNonQuery();
                         }
 
-
-
                         //using (SqlCommand cmd = new SqlCommand("" + ConfigurationManager.AppSettings["DataBaseSchema"] + ".Mig_CreateItemUid"))
                         //{
                         //    cmd.CommandType = CommandType.StoredProcedure;

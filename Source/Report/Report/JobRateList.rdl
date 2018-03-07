@@ -1443,6 +1443,9 @@
           <QueryParameter Name="@IsSample">
             <Value>=Parameters!IsSample.Value</Value>
           </QueryParameter>
+          <QueryParameter Name="@ReportOn">
+            <Value>=Parameters!ReportOn.Value</Value>
+          </QueryParameter>
         </QueryParameters>
         <CommandType>StoredProcedure</CommandType>
         <CommandText>Web.spRep_JobRateList</CommandText>
@@ -1639,6 +1642,12 @@
       <Nullable>true</Nullable>
       <AllowBlank>true</AllowBlank>
       <Prompt>Is Sample</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="ReportOn">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Report On</Prompt>
     </ReportParameter>
   </ReportParameters>
   <Code>

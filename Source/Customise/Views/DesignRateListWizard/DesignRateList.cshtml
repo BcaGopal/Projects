@@ -50,7 +50,25 @@
         </div>
     </div>
 </div>
-
+@*new Added*@
+<div id='myModalForImage' class='modal fade in'>
+    <div class="modal-dialog modal-sm" style="max-width:500px;max-height:700px">
+        <div class="modal-content">
+            <div id='myModalContentForImage'>
+                <div class="modal-header">
+                    <button type="button" class="close" style="color:black;"  data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="gridSystemModalLabel">Preview</h4>
+                </div>
+                <div class="modal-body">
+                    <img src="~/Images/DefaultUser.png" style="margin-left:auto;margin-right:auto;display:block;width:100%;height:auto" id="zImage" />
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@*new Added*@
 <div class="panel panel-default">
     <div class="panel-heading">
         <h3>
@@ -199,35 +217,47 @@
             //ForRowSelecting in ServerSideLogic--Commented cuz not needed in this entry point
         });
 
-        var Imgmodal = document.getElementById('myImgModal');
+        //old 20feb18
+        //var Imgmodal = document.getElementById('myImgModal');
 
-        var modalImg = document.getElementById("img01");
+        //var modalImg = document.getElementById("img01");
 
-        $(document).on('click', '#example img', function () {
-            if ($(this).attr('src')) {
+        //$(document).on('click', '#example img', function () {
+        //    if ($(this).attr('src')) {
 
 
-                Imgmodal.style.display = "block";
-                modalImg.src = $(this).attr('src').replace("/Thumbs", "");
-                modalImg.alt = this.alt;
+        //        Imgmodal.style.display = "block";
+        //        modalImg.src = $(this).attr('src').replace("/Thumbs", "");
+        //        modalImg.alt = this.alt;
 
-                //$('#zImage').attr("src", $(this).attr('src').replace("/Thumbs", ""));
+        //        //$('#zImage').attr("src", $(this).attr('src').replace("/Thumbs", ""));
 
-                //$('#myModalForImage').modal();
-            }
-        })
+        //        //$('#myModalForImage').modal();
+        //    }
+        //})
+        //end
+
 
         //// When the user clicks on <span> (x), close the Imgmodal
         //span.onclick = function () {
         //    Imgmodal.style.display = "none";
         //}
 
-        $(document).click(function (e) {
-            if (($('#myModal').has(e.target).length == 0) && ($('td').has(e.target).length == 0)) {
-                Imgmodal.style.display = "none";
+        //old 20feb18
+        //$(document).click(function (e) {
+        //    if (($('#myModal').has(e.target).length == 0) && ($('td').has(e.target).length == 0)) {
+        //        Imgmodal.style.display = "none";
+        //    }
+        //});
+        //end
+        //newadd on 
+        $(document).on('click', '#example img', function () {
+            if ($(this).attr('src')) {
+                $('#zImage').attr("src", $(this).attr('src').replace("/Thumbs", ""));
+                $('#myModalForImage').modal();
             }
-        });
-
+        })
+        //
         $(document).on('change', ' td > input', function () {
 
 
